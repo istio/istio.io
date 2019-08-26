@@ -510,6 +510,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -520,6 +526,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, protocol sniffing will be used on ports whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
@@ -546,10 +558,22 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
+<td><code>PILOT_RESPECT_DNS_TTL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, DNS based clusters will respect the TTL of the DNS, rather than polling at a fixed rate. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
 <td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, this will block inbound traffic from matching outbound listeners, which could result in an infinite loop of traffic. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
 </tr>
 <tr>
 <td><code>PILOT_SCOPE_PUSHES</code></td>
@@ -608,6 +632,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 </thead>
 <tbody>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
 <tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
 <tr><td><code>istio_mcp_reconnections</code></td><td><code>Sum</code></td><td>The number of times the sink has reconnected.</td></tr>

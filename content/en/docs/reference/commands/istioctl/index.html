@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 39
+number_of_entries: 48
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
@@ -36,7 +36,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -77,7 +77,7 @@ A group of commands used to interact with Istio authentication policies.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -124,7 +124,7 @@ and check if TLS settings are compatible between them.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -174,7 +174,7 @@ istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -216,7 +216,7 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -228,7 +228,6 @@ istioctl deregister my-svc 172.17.0.2
 <h2 id="istioctl-experimental-auth">istioctl experimental auth</h2>
 <p>Commands to inspect and interact with the authentication (TLS, JWT) and authorization (RBAC) policies in the mesh
   check - check the TLS/JWT/RBAC settings based on the Envoy config
-  upgrade - upgrade the authorization policy from version v1 to v2
 	validate - check for potential incorrect usage in authorization policy files.
 </p>
 <table class="command-flags">
@@ -258,7 +257,7 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -324,7 +323,7 @@ the cluster results of the client pod and the listener results of the server pod
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -380,7 +379,7 @@ the cluster results of the client pod and the listener results of the server pod
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -428,7 +427,7 @@ the cluster results of the client pod and the listener results of the server pod
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -480,7 +479,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -525,7 +524,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -568,7 +567,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -611,7 +610,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -654,7 +653,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -697,7 +696,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -740,7 +739,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -783,7 +782,7 @@ istioctl experimental d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -834,7 +833,7 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.</p>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -860,6 +859,397 @@ istioctl experimental kube-uninject -f deployment.yaml -o deployment-uninjected.
 kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kubectl apply -f -
 
 </code></pre>
+<h2 id="istioctl-experimental-manifest">istioctl experimental manifest</h2>
+<p>The manifest subcommand is used to generate, apply, diff or migrate Istio manifests.</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-manifest-apply">istioctl experimental manifest apply</h2>
+<p>The apply subcommand is used to generate an Istio install manifest and apply it to a cluster.</p>
+<pre class="language-bash"><code>istioctl experimental manifest apply [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioControlPlane CustomResource.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--readiness-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum time to wait for all Istio resources to be ready.--wait must be set for this flag to apply.  (default `5m0s`)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringSlice&gt;</code></td>
+<td><code>-s</code></td>
+<td>Set a value in IstioControlPlane CustomResource. e.g. --set policy.enabled=true.
+Overrides the corresponding path value in the selected profile or passed through IstioControlPlane CR
+customization file.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+<tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-manifest-diff">istioctl experimental manifest diff</h2>
+<p>The diff-manifest subcommand is used to compare manifest from two files or directories.</p>
+<pre class="language-bash"><code>istioctl experimental manifest diff [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--directory</code></td>
+<td><code>-r</code></td>
+<td>compare directory </td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--ignore &lt;string&gt;</code></td>
+<td></td>
+<td>ignoreResources ignores all listed items during comparison. It uses the same list format as selectResources.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--select &lt;string&gt;</code></td>
+<td></td>
+<td>selectResources constrains the list of resources to compare to only the ones in this list, ignoring all others.
+The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
+e.g.
+    Deployment:istio-system:* - compare all deployments in istio-system namespace
+    Service:*:istio-pilot - compare Services called &#34;istio-pilot&#34; in all namespaces.  (default `::`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-manifest-generate">istioctl experimental manifest generate</h2>
+<p>The generate subcommand is used to generate an Istio install manifest.</p>
+<pre class="language-bash"><code>istioctl experimental manifest generate [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioControlPlane CustomResource.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Manifest output directory path.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringSlice&gt;</code></td>
+<td><code>-s</code></td>
+<td>Set a value in IstioControlPlane CustomResource. e.g. --set policy.enabled=true.
+Overrides the corresponding path value in the selected profile or passed through IstioControlPlane CR
+customization file.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-manifest-migrate">istioctl experimental manifest migrate</h2>
+<p>The migrate subcommand is used to migrate a configuration in Helm values format to IstioControlPlane format.</p>
+<pre class="language-bash"><code>istioctl experimental manifest migrate [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-manifest-versions">istioctl experimental manifest versions</h2>
+<p>List the version of Istio recommended for and supported by this version of the operator binary.</p>
+<pre class="language-bash"><code>istioctl experimental manifest versions [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+<tr>
+<td><code>--versionsURI &lt;string&gt;</code></td>
+<td><code>-u</code></td>
+<td>URI for operator versions to Istio versions map.  (default `https://raw.githubusercontent.com/istio/operator/master/version/versions.yaml`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
@@ -905,7 +1295,7 @@ calculated over a time interval of 1 minute.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -923,6 +1313,239 @@ istioctl experimental metrics productpage-v1
 istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 
 </code></pre>
+<h2 id="istioctl-experimental-profile">istioctl experimental profile</h2>
+<p>The profile subcommand is list, dump or diff Istio configuration profiles.</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-profile-diff">istioctl experimental profile diff</h2>
+<p>The diff subcommand is used to display the difference between two Istio configuration profiles.</p>
+<pre class="language-bash"><code>istioctl experimental profile diff [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-profile-dump">istioctl experimental profile dump</h2>
+<p>The dump subcommand is used to dump the values in an Istio configuration profile.</p>
+<pre class="language-bash"><code>istioctl experimental profile dump [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--config-path &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>The path the root of the configuration subtree to dump e.g. trafficManagement.components.pilot. By default, dump whole tree.   (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioControlPlane CustomResource.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--helm-values</code></td>
+<td></td>
+<td>If set, dumps the Helm values that IstioControlPlaceSpec is translated to before manifests are rendered. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-profile-list">istioctl experimental profile list</h2>
+<p>The list subcommand is used to list available Istio configuration profiles.</p>
+<pre class="language-bash"><code>istioctl experimental profile list [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p></p>
 <p>kube-inject manually injects the Envoy sidecar into Kubernetes
@@ -982,7 +1605,7 @@ kube-inject on deployments to get the most up-to-date changes.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -1063,7 +1686,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1115,7 +1738,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1179,7 +1802,7 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1259,7 +1882,7 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1339,7 +1962,7 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1409,7 +2032,7 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -1475,7 +2098,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1533,7 +2156,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1583,7 +2206,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1657,7 +2280,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1714,7 +2337,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1805,6 +2428,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1815,6 +2444,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, protocol sniffing will be used on ports whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
@@ -1841,10 +2476,22 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
+<td><code>PILOT_RESPECT_DNS_TTL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, DNS based clusters will respect the TTL of the DNS, rather than polling at a fixed rate. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
 <td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, this will block inbound traffic from matching outbound listeners, which could result in an infinite loop of traffic. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
 </tr>
 <tr>
 <td><code>PILOT_SCOPE_PUSHES</code></td>
@@ -1897,6 +2544,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </thead>
 <tbody>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>mixer_config_adapter_info_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the adapter info configuration.</td></tr>
 <tr><td><code>mixer_config_adapter_info_configs_total</code></td><td><code>LastValue</code></td><td>The number of known adapters in the current config.</td></tr>
 <tr><td><code>mixer_config_attributes_total</code></td><td><code>LastValue</code></td><td>The number of known attributes in the current config.</td></tr>
@@ -1956,5 +2604,9 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed Side car injection requests.</td></tr>
+<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of Side car injection requests.</td></tr>
+<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped injection requests.</td></tr>
+<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful Side car injection requests.</td></tr>
 </tbody>
 </table>
