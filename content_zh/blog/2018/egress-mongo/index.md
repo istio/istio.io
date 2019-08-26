@@ -172,7 +172,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
    请注意，protocol 被指定为 `TCP` 而不是 `MONGO`，因为如果 [MongoDB 协议运行在 TLS 之上时](https://docs.mongodb.com/manual/tutorial/configure-ssl/)，流量可以加密。如果加密了流量，该加密的 MongoDB 协议就不能被 Istio 代理解析。
 
-   如果您知道使用的是未加密的 MongoDB 协议，可以指定 protocol 为 `MONGO`，从而使 Istio 代理产生 [MongoDB 相关的统计数据](https://www.envoyproxy.io/docs/envoy/latest/configuration/network_filters/mongo_proxy_filter#statistics)。还要注意，当指定 protocol `TCP` 时，配置不是特定于 MongoDB 的，对于其余使用基于 TCP 协议的数据库同样适用。
+   如果您知道使用的是未加密的 MongoDB 协议，可以指定 protocol 为 `MONGO`，从而使 Istio 代理产生 [MongoDB 相关的统计数据](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/mongo_proxy_filter#statistics)。还要注意，当指定 protocol `TCP` 时，配置不是特定于 MongoDB 的，对于其余使用基于 TCP 协议的数据库同样适用。
 
 1. 刷新应用程序的网页。应用程序现在应该显示评级数据而非错误：
 

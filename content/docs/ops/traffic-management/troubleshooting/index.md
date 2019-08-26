@@ -21,7 +21,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 In the default access log format, Envoy response flags and Mixer policy status are located after the response code,
 if you are using a custom log format, make sure to include `%RESPONSE_FLAGS%` and `%DYNAMIC_METADATA(istio.mixer:status)%`.
 
-Refer to the [Envoy response flags](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-response-flags)
+Refer to the [Envoy response flags](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#config-access-log-format-response-flags)
 for details of response flags.
 
 Common response flags are:
