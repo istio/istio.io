@@ -15,7 +15,7 @@ Follow these instructions to prepare MicroK8s for using Istio.
 Administrative privileges are required to run MicroK8s.
 {{< /warning >}}
 
-1.  Install the latest version of [microK8s](https://microK8s.io) using the command 
+1.  Install the latest version of [MicroK8s](https://microK8s.io) using the command
 
     {{< text bash >}}
     $ sudo snap install microk8s --classic
@@ -28,4 +28,3 @@ Administrative privileges are required to run MicroK8s.
     {{< /text >}}
 
 1.  Choose whether to enforce mutual TLS authentication among sidecars? If you have a mixed deployment with non-Istio and Istio enabled services or you're unsure, choose No. And We're done.
-    
