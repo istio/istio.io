@@ -82,7 +82,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `context.time`          | timestamp | The timestamp of Mixer operation. | |
 | `context.reporter.kind` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
 | `context.reporter.uid`  | string | Platform-specific identifier of the attribute reporter. | `kubernetes://my-svc-234443-5sffe.my-namespace` |
-| `context.proxy_error_code` | string | Additional details about the response or connection from proxy. In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#configuration) for more detail | `UH` |
+| `context.proxy_error_code` | string | Additional details about the response or connection from proxy. In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) for more detail | `UH` |
 | `api.service` | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | `my-svc.com` |
 | `api.version` | string | The API version. | `v1alpha1` |
 | `api.operation` | string | Unique string used to identify the operation. The id is unique among all operations described in a specific &lt;service, version&gt;. | `getPetsById` |

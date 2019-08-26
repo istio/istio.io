@@ -6,7 +6,7 @@ keywords: [telemetry]
 ---
 
 Istio 最简单的日志类型是
-[Envoy 的访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log)。
+[Envoy 的访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log)。
 Envoy 代理打印访问信息到标准输出。
 可以通过 `kubectl logs` 命令来打印 Envoy 容器的标准输出。
 
@@ -25,7 +25,7 @@ configmap "istio" replaced
 
 您也可以通过设置 `accessLogEncoding` 来在 JSON 和 TEXT 两种格式之间切换。
 
-您也许希望通过 `accessLogFormat` 来自定义访问日志[格式](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules)。
+您也许希望通过 `accessLogFormat` 来自定义访问日志[格式](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules)。
 
 {{< tip >}}
 这三个参数也可以通过修改 [helm values](/docs/reference/config/installation-options/) 来进行配置：
@@ -77,7 +77,7 @@ configmap "istio" replaced
     [2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
     {{< /text >}}
 
-请注意，与请求对应的消息分别出现在源（`sleep`）和目标（`httpbin`）的 Istio 代理日志中。您可以在日志中看到 HTTP 动词（`GET`）、HTTP 路径（`/status/418`）、响应编码（`418`）和其他[相关信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules)。
+请注意，与请求对应的消息分别出现在源（`sleep`）和目标（`httpbin`）的 Istio 代理日志中。您可以在日志中看到 HTTP 动词（`GET`）、HTTP 路径（`/status/418`）、响应编码（`418`）和其他[相关信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules)。
 
 ## 清理
 

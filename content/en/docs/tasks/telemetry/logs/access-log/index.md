@@ -8,7 +8,7 @@ aliases:
 ---
 
 The simplest kind of Istio logging is
-[Envoy's access logging](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log).
+[Envoy's access logging](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log).
 Envoy proxies print access information to their standard output.
 The standard output of Envoy's containers can then be printed by the `kubectl logs` command.
 
@@ -28,7 +28,7 @@ configmap "istio" replaced
 You can also choose between JSON and text by setting `accessLogEncoding` to `JSON` or `TEXT`.
 
 You may also want to customize the
-[format](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules) of the access log by editing `accessLogFormat`.
+[format](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules) of the access log by editing `accessLogFormat`.
 
 {{< tip >}}
 All three of these parameters may also be configured via [helm values](/docs/reference/config/installation-options/):
@@ -80,7 +80,7 @@ All three of these parameters may also be configured via [helm values](/docs/ref
     [2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
     {{< /text >}}
 
-Note that the messages corresponding to the request appear in logs of the Istio proxies of both the source and the destination, `sleep` and `httpbin`, respectively. You can see in the log the HTTP verb (`GET`), the HTTP path (`/status/418`), the response code (`418`) and other [request-related information](https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#format-rules).
+Note that the messages corresponding to the request appear in logs of the Istio proxies of both the source and the destination, `sleep` and `httpbin`, respectively. You can see in the log the HTTP verb (`GET`), the HTTP path (`/status/418`), the response code (`418`) and other [request-related information](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules).
 
 ## Cleanup
 

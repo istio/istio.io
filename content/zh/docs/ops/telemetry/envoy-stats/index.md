@@ -14,7 +14,7 @@ Envoy 的统计数据只包含了特定 Envoy 实例中的流量相关的内容�
 $ kubectl exec -it $POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats'
 {{< /text >}}
 
-[Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats)中包含了对于这些数据记录的解释说明。
+[Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)中包含了对于这些数据记录的解释说明。
 
 缺省情况下，Istio 会配置 Envoy，要求其记录最少量的统计信息。默认的收集内容包括：
 
