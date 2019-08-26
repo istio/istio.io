@@ -18,7 +18,7 @@ To see the statistics for a pod:
 $ kubectl exec -it $POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats'
 {{< /text >}}
 
-See [the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats)
+See [the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)
 for an explanation of the data recorded.
 
 By default, Istio configures Envoy to record minimal statistics.  The default collection
