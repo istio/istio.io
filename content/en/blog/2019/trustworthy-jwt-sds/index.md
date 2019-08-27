@@ -17,7 +17,7 @@ from the JWT such as service account name to issue the certificate for the workl
 
 Before Kubernetes 1.12, the JWTs that API server issues have two problems:
 
-1. These tokens do not have important fields, such as `aud` or `exp`. See [Bound Service Tokens](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md) for more info.
+1. These tokens do not have important fields to limit its scope of usage, such as `aud` or `exp`. See [Bound Service Tokens](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md) for more info.
 1. These tokens are mounted onto all the pods. There is no way to opt-out. See [Service Account Token Volumes](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) for motivation.
 
 Starting from Kubernetes 1.12, the `trustworthy` JWTs were introduced (as Beta feature). The `trustworthy` JWTs solves the aforementioned issues. For details, please refer to the [design doc](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) and [the user guide of serviceAccountToken](https://kubernetes.io/docs/concepts/storage/volumes/). 
