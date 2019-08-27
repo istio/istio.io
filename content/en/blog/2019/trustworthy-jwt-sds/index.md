@@ -33,5 +33,5 @@ also want to refer to the api-server page for the most up-to-date flag names.
 - For other environments, check with your providers.
     - As of today, AWS and IBM Cloud do not support trustworthy JWT feature yet, but are actively
     working on this.
-    - If your vendor does not support trustworthy JWTs, you will need to fall back to file mount in
+    - If your vendor does not support trustworthy JWTs, you will need to fall back to the file-mount approach to propagate the workload keys and certificates in
     Istio 1.3.
