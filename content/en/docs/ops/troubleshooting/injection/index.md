@@ -96,7 +96,7 @@ of injected sidecar when it was.
 
     Allowed policy values are `disabled` and `enabled`. The default policy
     only applies if the webhook’s `namespaceSelector` matches the target
-    namespace. Unrecognized policy values default to `disabled`.
+    namespace. Unrecognized policy causes injection to be disabled completely.
 
 1. Check the per-pod override annotation
 
