@@ -61,15 +61,6 @@ service entry defined within the mesh.
 without controlling access to external services.
 You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
 
-{{< warning >}}
-In versions prior to Istio 1.1.4, `ALLOW_ANY` only worked on ports with no HTTP services or
-service entries defined within the mesh.
-External hosts using the same port as any internal HTTP service
-fell back to a blocking-by-default behavior.
-Because some ports, such as port 80, have HTTP services inside Istio by default,
-prior to Istio 1.1.4 you couldn't call external services on any of those ports either.
-{{< /warning >}}
-
 1. To see this approach in action you need to ensure that your Istio installation is configured
     with the `global.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
