@@ -10,7 +10,7 @@ In Istio 1.3, we have made a change to take advantage of improvements in Kuberne
 securely issue certificates for workloads.
 
 When a Citadel Agent (the agent that runs on a node and is responsible for obtaining certificates)
-sends a Certificate Signing Request to Citadel to get a certificate and private key for a workload,
+sends a Certificate Signing Request to Citadel to get a certificate for a workload,
 it includes a JWT issued by the Kubernetes API server. Citadel then sends a `TokenReview` request to
 the API server to verify the JWT. If the JWT is authenticated, Citadel then extracts information
 from the JWT such as service account name to issue the certificate for the workload.
