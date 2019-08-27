@@ -35,6 +35,9 @@ As a result, this field does not need to be configured.
 
 In order for Istio to determine locality, a Service must be associated with the caller.
 
+In order for Envoy to determine when instances are unhealthy, an [Outlier Detection](/docs/reference/config/networking/v1alpha3/destination-rule/#OutlierDetection)
+rule must be defined for each service.
+
 ## Locality-prioritized load balancing
 
 _Locality-prioritized load balancing_ is the default behavior for _locality load balancing_.
@@ -43,6 +46,11 @@ the locality of the Envoy sending the request. When all instances are healthy, t
 remains within the same locality. When instances become unhealthy, traffic spills over to
 instances in the next prioritized locality. This behavior continues until all localities are
 receiving traffic. You can find the exact percentages in the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority).
+
+  {{< tip >}}
+  If there are no Outlier Detection rules, Envoy cannot determine if an instance is healthy, and will
+  route traffic globally even if _locality load balancing_ is enabled.
+  {{< /tip >}}
 
 A typical prioritization for an Envoy with a locality of `us-west/zone2` is as follows:
 
@@ -57,9 +65,6 @@ The hierarchy of prioritization matches in the following order:
 1. Sub-zone
 
 Proxies in the same zone but different regions are not considered local to one another.
-
-In order for Envoy to determine when instances are unhealthy, an [Outlier Detection](/docs/reference/config/networking/v1alpha3/destination-rule/#OutlierDetection)
-rule must be defined for each service.
 
 ### Overriding the Locality Fail-over
 
