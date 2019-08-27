@@ -77,7 +77,8 @@ The following ports and protocols are used by Istio. Ensure that there are no TC
 | 9091 | HTTP | Mixer | Policy/Telemetry |
 | 9093 | HTTP | Citadel | |
 | 15000 | TCP | Envoy | Envoy admin port (commands/diagnostics) |
-| 15001 | TCP | Envoy | Envoy |
+| 15001 | TCP | Envoy | Envoy Outbound |
+| 15006 | TCP | Envoy | Envoy Inbound |
 | 15004 | HTTP | Mixer, Pilot | Policy/Telemetry - `mTLS` |
 | 15010 | HTTP | Pilot | Pilot service - XDS pilot - discovery |
 | 15011 | TCP | Pilot | Pilot service - `mTLS` - Proxy - discovery |
