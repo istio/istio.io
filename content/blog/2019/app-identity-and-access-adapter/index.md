@@ -27,17 +27,17 @@ When [App Identity and Access Adapter](https://github.com/ibm-cloud-security/app
 
 App Identity and Access adapter can be installed using Helm directly from the github.com repository
 
-```
-helm repo add appidentityandaccessadapter https://raw.githubusercontent.com/ibm-cloud-security/app-identity-and-access-adapter/master/helm/appidentityandaccessadapter
-helm install --name appidentityandaccessadapter appidentityandaccessadapter/appidentityandaccessadapter
-```
+{{< text bash >}}
+$ helm repo add appidentityandaccessadapter https://raw.githubusercontent.com/ibm-cloud-security/app-identity-and-access-adapter/master/helm/appidentityandaccessadapter
+$ helm install --name appidentityandaccessadapter appidentityandaccessadapter/appidentityandaccessadapter
+{{< /text >}}
 
 Alternatively, you can clone the repo and install the Helm chart locally
 
-```
-git clone git@github.com:ibm-cloud-security/app-identity-and-access-adapter.git
-helm install ./helm/appidentityandaccessadapter --name appidentityandaccessadapter.
-```
+{{< text bash >}}
+$ git clone git@github.com:ibm-cloud-security/app-identity-and-access-adapter.git
+$ helm install ./helm/appidentityandaccessadapter --name appidentityandaccessadapter.
+{{< /text >}}
 
 ## Protecting web applications
 
