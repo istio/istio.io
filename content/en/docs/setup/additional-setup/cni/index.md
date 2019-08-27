@@ -172,6 +172,8 @@ application pod annotation key.
 
 | Annotation Key | Values | Default | Description |
 |----------------|--------|---------|-------------|
+| `sidecar.istio.io/inject` | `true`, `false` | `true` | Indicates whether the Istio proxy sidecar should be injected. If present and `false`, the Istio CNI plugin doesn't configure the namespace's iptables for the pod. |
+| `sidecar.istio.io/status` | | | Annotation created by Istio's sidecar injection. If missing, the Istio CNI plugin doesn't configure the pod namespace's iptables. |
 | `sidecar.istio.io/interceptionMode`| `REDIRECT`, `TPROXY` | `REDIRECT` | The iptables redirect mode to use. |
 | `traffic.sidecar.istio.io/includeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | `"*"` | Comma separated list of IP ranges in CIDR form to redirect to the sidecar proxy.  The default value of `"*"` redirects all traffic. |
 | `traffic.sidecar.istio.io/excludeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | | Comma separated list of IP ranges in CIDR form to be excluded from redirection.  Only applies when `includeOutboundIPRanges` is `"*"`. |
