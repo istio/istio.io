@@ -470,6 +470,7 @@ Secura
 selinux
 serverless
 serviceaccount
+serviceAccountToken
 ServiceGraph
 servicegraph-example
 ServiceMesher
