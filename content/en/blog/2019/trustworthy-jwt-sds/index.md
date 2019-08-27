@@ -20,15 +20,15 @@ Before Kubernetes 1.12, the JWTs that API server issues have two problems:
 1. These tokens do not have important fields to limit its scope of usage, such as `aud` or `exp`. See [Bound Service Tokens](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md) for more info.
 1. These tokens are mounted onto all the pods. There is no way to opt-out. See [Service Account Token Volumes](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) for motivation.
 
-Starting from Kubernetes 1.12, the `trustworthy` JWTs were introduced (as Beta feature). The `trustworthy` JWTs solves the aforementioned issues. For details, please refer to the [design doc](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) and [the user guide of serviceAccountToken](https://kubernetes.io/docs/concepts/storage/volumes/).
+Starting from Kubernetes 1.12, the `trustworthy` JWTs were introduced (as Beta feature). The `trustworthy` JWTs solves the aforementioned issues. For details, refer to the [design doc](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) and [the user guide of serviceAccountToken](https://kubernetes.io/docs/concepts/storage/volumes/).
 Starting from Istio 1.3, we will only support trustworthy JWTs when SDS
-is enabled. Therefore, before upgrading to Istio 1.3 with SDS, please make sure you're using
+is enabled. Therefore, before upgrading to Istio 1.3 with SDS, make sure you're using
 a supported version of Kubernetes.
 
 If your workloads are running on:
 
 - GKE, simply upgrade your cluster version to at least 1.12.
-- Kubernetes on-prem and GKE on-prem, please add extra configurations to your Kubernetes. You may
+- Kubernetes on-prem and GKE on-prem, add extra configurations to your Kubernetes. You may
 also want to refer to the api-server page for the most up-to-date flag names.
 - For other environments, check with your providers.
     - As of today, AWS and IBM Cloud do not support trustworthy JWT feature yet, but are actively
