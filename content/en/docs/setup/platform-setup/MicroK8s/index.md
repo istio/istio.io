@@ -28,3 +28,9 @@ Administrative privileges are required to run MicroK8s.
     {{< /text >}}
 
 1.  Choose whether to enforce mutual TLS authentication among sidecars? If you have a mixed deployment with non-Istio and Istio enabled services or you're unsure, choose No. And We're done.
+
+Please run the following command to check deployment progress:
+    
+    {{< text bash >}}
+    $ watch microk8s.kubectl get all --all-namespaces
+    {{< /text >}}
