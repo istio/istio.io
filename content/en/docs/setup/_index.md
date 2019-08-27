@@ -104,5 +104,5 @@ services from all other namespaces.
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. You can enable the [auto-completion option](/docs/ops/troubleshooting/istioctl) when working with a bash or ZSH console.
+1. You can enable the [auto-completion option](/docs/ops/troubleshooting/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
 
