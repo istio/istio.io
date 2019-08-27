@@ -10,5 +10,5 @@ keywords: [platform-setup]
 {{< tip >}}
 Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
 
-For Istio {{< istio_version >}} with SDS, please see the [announcement](/blog/2019/trustworthy-jwt-sds).
+For Istio {{< istio_version >}} with SDS enabled, please see the [announcement](/blog/2019/trustworthy-jwt-sds) to verify if your platform supports it.
 {{< /tip >}}
