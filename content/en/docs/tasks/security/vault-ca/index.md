@@ -5,12 +5,19 @@ weight: 10
 keywords: [security,certificate]
 ---
 
+{{< warning >}}
+The following information describes an experimental feature, which is intended
+for evaluation purposes only.
+{{< /warning >}}
+
 This task shows you how to integrate a [Vault Certificate Authority (CA)](https://www.vaultproject.io/) with Istio to issue certificates
 for workloads in the mesh. Istio Vault integration is an experimental feature. This task includes a demo of Istio mutual TLS using certificates issued by a Vault CA.
 
 ## Before you begin
 
 * Create a new Kubernetes cluster to run the example in this tutorial.
+* Istio Vault CA integration uses Kubernetes service account for authentication
+so it only works in Kubernetes environments. This task uses Kubernetes version 1.11.
 
 ## Certificate request flow
 
@@ -103,14 +110,13 @@ certificate signing requests to Vault.
 1.  Since the Vault CA requires the authentication and authorization of Kubernetes service accounts,
     you must edit the `vault-citadel-sa` service account to use the example Kubernetes service account
     that has already been configured on the testing Vault CA for authentication and authorization.
-    Since the testing Vault CA used in this guide has been configured to accept this example Kubernetes service
-    account for the certificate signing requests, you do not need to configure the authentication and authorization.
     When integrating your Vault server with Istio for issuing certificates, you are responsible to
     configure your Vault server's authentication and authorization for Kubernetes service accounts.
+
     To learn more about configuring a Vault CA for Kubernetes authentication and authorization,
     visit the [Vault Kubernetes `auth` method reference documentation](https://www.vaultproject.io/docs/auth/kubernetes.html).
-    A later [section](#configuring-a-basic-vault-server) includes an example to
-    configure a basic Vault server to authenticate and authorize Kubernetes service accounts.
+    See the [configuring a basic Vault server section](#configuring-a-basic-vault-server) for an example on
+    how to authenticate and authorize Kubernetes service accounts.
 
     {{< text bash >}}
     $ export SA_SECRET_NAME=$(kubectl get serviceaccount vault-citadel-sa -o=jsonpath='{.secrets[0].name}')
@@ -171,8 +177,13 @@ signing requests.
 
 The following instructions configure an example basic Vault server to authenticate and authorize a CSR
 based on the Vault Kubernetes auth method.
-**The instructions here are for illustrative purposes only. Please consult with security experts
-to set up the security configuration and certificate issuance policies of your Vault servers.** The instructions are based on the
+
+{{< warning >}}
+The instructions here are for illustrative purposes only. Please consult with security experts
+to set up the security configuration and certificate issuance policies of your Vault servers.
+{{< /warning >}}
+
+The instructions are based on the
 posts [1](https://evalle.xyz/posts/integration-kubernetes-with-vault-auth/) and
 [2](https://github.com/coreos/vault-operator/blob/master/doc/user/kubernetes-auth-backend.md).
 
