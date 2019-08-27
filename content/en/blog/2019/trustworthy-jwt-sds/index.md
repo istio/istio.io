@@ -15,7 +15,7 @@ it includes a JWT issued by the Kubernetes API server. Citadel then sends a `Tok
 the API server to verify the JWT. If the JWT is authenticated, Citadel then extracts information
 from the JWT such as service account name to issue the certificate for the workload.
 
-Before Kubernetes 1.12, the JWT tokens that API server issues have two problems:
+Before Kubernetes 1.12, the JWTs that API server issues have two problems:
 
 1. These tokens do not have important fields, such as `aud` or `exp`. See [Bound Service Tokens](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md) for more info.
 1. These tokens are injected into pods as secrets. See [Service Account Token Volumes](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) for motivation.
