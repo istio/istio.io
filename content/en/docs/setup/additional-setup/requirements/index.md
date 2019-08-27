@@ -75,13 +75,18 @@ The following ports and protocols are used by Istio. Ensure that there are no TC
 | 8060 | HTTP | Citadel | GRPC server |
 | 9090 | HTTP |  Prometheus | Prometheus |
 | 9091 | HTTP | Mixer | Policy/Telemetry |
-| 9093 | HTTP | Citadel | |
+| 9901 | GRPC | Galley| Mesh Configuration Protocol |
 | 15000 | TCP | Envoy | Envoy admin port (commands/diagnostics) |
 | 15001 | TCP | Envoy | Envoy |
 | 15004 | HTTP | Mixer, Pilot | Policy/Telemetry - `mTLS` |
 | 15010 | HTTP | Pilot | Pilot service - XDS pilot - discovery |
 | 15011 | TCP | Pilot | Pilot service - `mTLS` - Proxy - discovery |
-| 15014 | HTTP | Citadel, Mixer, Pilot | Control plane monitoring |
-| 15030 | TCP | Prometheus | Prometheus |
+| 15014 | HTTP | Citadel, Galley, Mixer, Pilot, Sidecar Injector | Control plane monitoring |
+| 15020 | HTTP | Ingress Gateway | Pilot health checks |
+| 15029 | HTTP | Kiali | Kiali User Interface |
+| 15030 | HTTP | Prometheus | Prometheus User Interface |
+| 15031 | HTTP | Grafana | Grafana User Interface |
+| 15032 | HTTP | Tracing | Tracing User Interface |
+| 15443 | TLS | Ingress and Egress Gateways | SNI |
 | 15090 | HTTP | Mixer | Proxy |
 | 42422 | TCP | Mixer | Telemetry - Prometheus |
