@@ -344,6 +344,19 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
+{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set istio_cni.enabled=true | kubectl delete -f -
+{{< /text >}}
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl delete -f -
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< /tabset >}}
 
 * If you installed Istio using Helm and Tiller, uninstall with these commands:
@@ -351,6 +364,7 @@ $ kubectl delete namespace istio-system
     {{< text bash >}}
     $ helm delete --purge istio
     $ helm delete --purge istio-init
+    $ helm delete --purge istio-cni
     {{< /text >}}
 
 ## Deleting CRDs and Istio Configuration
