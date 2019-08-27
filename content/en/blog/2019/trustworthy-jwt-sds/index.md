@@ -21,7 +21,7 @@ Before Kubernetes 1.12, the JWTs that API server issues have two problems:
 1. These tokens are mounted onto all the pods. There is no way to opt-out. See [Service Account Token Volumes](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) for motivation.
 
 Starting from Kubernetes 1.12, the `trustworthy` JWTs were introduced (as Beta feature). The `trustworthy` JWTs solves the aforementioned issues. For details, please refer to the [design doc](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) and [the user guide of serviceAccountToken](https://kubernetes.io/docs/concepts/storage/volumes/). 
-in Kubernetes 1.12 (beta). Starting from Istio 1.3, we will only support trustworthy JWTs when SDS
+Starting from Istio 1.3, we will only support trustworthy JWTs when SDS
 is enabled. Therefore, before upgrading to Istio 1.3 with SDS, please make sure you're using
 a supported version of Kubernetes.
 
