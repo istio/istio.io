@@ -12,7 +12,7 @@ securely issue certificates for workloads.
 When a Citadel Agent (the agent that runs on a node and is responsible for obtaining certificates)
 sends a Certificate Signing Request to Citadel to get a certificate for a workload,
 it piggybacks a JWT issued by the Kubernetes API server representing the service account of the workload.
-the API server to verify the JWT. If the JWT is authenticated, Citadel then extracts information
+If the JWT is authenticated by Citadel, Citadel then extracts information
 from the JWT such as service account name to issue the certificate for the workload.
 
 Before Kubernetes 1.12, the JWTs that API server issues have two problems:
