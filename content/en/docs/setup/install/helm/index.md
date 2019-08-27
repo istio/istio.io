@@ -45,8 +45,8 @@ and then further customize the configuration for your specific needs.
 1. To enable SDS in Istio:
   * Use Kubernetes 1.12 or above.
   * In a non-GKE environments, add add [extra configuration flags](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/?origin_team=T382U9E4U#service-account-token-volume-projection) to the Kubernetes API server. Refer to the [api-server](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) page for up-to-date flag names.
-  * Please use Kubernetes v1.12 or above.
-  * For non-GKE environments, please add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/?origin_team=T382U9E4U#service-account-token-volume-projection) to your Kubernetes. You may
+  * Use Kubernetes v1.12 or above.
+  * For non-GKE environments, add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/?origin_team=T382U9E4U#service-account-token-volume-projection) to your Kubernetes. You may
   also want to refer to the [api-server](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) page for the most up-to-date flag names.
 
 ## Helm chart release repositories
