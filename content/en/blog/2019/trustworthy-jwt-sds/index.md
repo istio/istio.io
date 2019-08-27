@@ -18,7 +18,7 @@ from the JWT such as service account name to issue the certificate for the workl
 Before Kubernetes 1.12, the JWTs that API server issues have two problems:
 
 1. These tokens do not have important fields, such as `aud` or `exp`. See [Bound Service Tokens](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md) for more info.
-1. These tokens are injected into pods as secrets. See [Service Account Token Volumes](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) for motivation.
+1. These tokens are mounted onto all the pods. There is no way to opt-out. See [Service Account Token Volumes](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) for motivation.
 
 Trustworthy JWTs (new JWTs that do not suffer from the two aforementioned problems) were introduced
 in Kubernetes 1.12 (beta). Starting from Istio 1.3, we will only support trustworthy JWTs when SDS
