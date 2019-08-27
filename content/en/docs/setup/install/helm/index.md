@@ -42,12 +42,12 @@ and then further customize the configuration for your specific needs.
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
 
-1. To enable SDS in Istio:
-  * Use Kubernetes 1.12 or above.
-  * In a non-GKE environments, add add [extra configuration flags](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/?origin_team=T382U9E4U#service-account-token-volume-projection) to the Kubernetes API server. Refer to the [api-server](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) page for up-to-date flag names.
-  * Use Kubernetes v1.12 or above.
-  * For non-GKE environments, add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/?origin_team=T382U9E4U#service-account-token-volume-projection) to your Kubernetes. You may
-  also want to refer to the [api-server](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) page for the most up-to-date flag names.
+**Optional:** To enable SDS in Istio, make the following considerations based on your platform of choice:
+
+- **GKE:** Upgrade your cluster version to at least 1.12.
+- **On-prem Kubernetes** and **GKE on-prem:** Add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes. You may
+also want to refer to the [api-server page](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flag names.
+- For other platforms, check with your provider to see if Service Account Token Volume Projection is supported.
 
 ## Helm chart release repositories
 
@@ -298,7 +298,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 ## Uninstall
 
-* If you installed Istio using the `helm template` command, uninstall with these commands:
+- If you installed Istio using the `helm template` command, uninstall with these commands:
 
 {{< tabset cookie-name="helm_profile" >}}
 
@@ -366,7 +366,7 @@ $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=k
 
 {{< /tabset >}}
 
-* If you installed Istio using Helm and Tiller, uninstall with these commands:
+- If you installed Istio using Helm and Tiller, uninstall with these commands:
 
     {{< text bash >}}
     $ helm delete --purge istio

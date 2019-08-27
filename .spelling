@@ -363,7 +363,6 @@ nginx
 NLBs
 nodePorts
 non-sandboxed
-non-GKE
 normalization
 ns
 NUL
@@ -470,7 +469,6 @@ Secura
 selinux
 serverless
 serviceaccount
-serviceAccountToken
 ServiceGraph
 servicegraph-example
 ServiceMesher
