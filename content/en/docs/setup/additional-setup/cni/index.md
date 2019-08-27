@@ -60,6 +60,7 @@ The following table shows all the options that the `istio-cni` Helm chart suppor
 |--------|--------|---------|-------------|
 | `hub` | | | The container registry to pull the `install-cni` image. |
 | `tag` | | | The container tag to use to pull the `install-cni` image. |
+| `pullPolicy` | | `Always` | The image pull policy for the `install-cni` image. |
 | `logLevel` | `panic`, `fatal`, `error`, `warn`, `info`, `debug` | `warn` | Logging level for CNI binary. |
 | `excludeNamespaces` | `[]string` | `[ istio-system ]` | List of namespaces to exclude from Istio pod check. |
 | `cniBinDir` | | `/opt/cni/bin` | Must be the same as the environment's `--cni-bin-dir` setting (`kubelet` parameter). |
