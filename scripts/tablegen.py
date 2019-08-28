@@ -40,7 +40,7 @@ ISTIO_CONFIG_DIR = "istio/install/kubernetes/helm/istio"
 YAML_CONFIG_DIR = ISTIO_CONFIG_DIR + "/charts"
 VALUES_YAML = "values.yaml"
 ISTIO_IO_DIR = os.path.abspath(__file__ + "/../../")
-CONFIG_INDEX_DIR = "content/docs/reference/config/installation-options/index.md"
+CONFIG_INDEX_DIR = "content/en/docs/reference/config/installation-options/index.md"
 
 def endOfTheList(context, lineNum, lastLineNum, totalNum):
     flag = 0
