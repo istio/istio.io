@@ -35,8 +35,8 @@ As a result, this field does not need to be configured.
 
 In order for Istio to determine locality, a Service must be associated with the caller.
 
-To determine when instances are unhealthy, the proxies use the defined [outlier detection](/docs/reference/config/networking/v1alpha3/destination-rule/#OutlierDetection)
-destination rule for each service.
+To determine when instances are unhealthy, the proxies require an [outlier detection](/docs/reference/config/networking/v1alpha3/destination-rule/#OutlierDetection)
+configuration in a destination rule for each service.
 
 ## Locality-prioritized load balancing
 
@@ -48,7 +48,7 @@ instances in the next prioritized locality. This behavior continues until all lo
 receiving traffic. You can find the exact percentages in the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority).
 
   {{< warning >}}
-  If no Outlier Detection destination rules are defined, the proxy can't determine if an instance is healthy, and it
+  If no outlier detection configurations are defined in destination rules, the proxy can't determine if an instance is healthy, and it
   routes traffic globally even if you enabled **locality-prioritized** load balancing.
   {{< /warning >}}
 
