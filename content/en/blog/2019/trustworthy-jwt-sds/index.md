@@ -15,7 +15,7 @@ If Citadel can authenticate the JWT, then it extracts the service account name n
 
 The API server prior to Kubernetes 1.12 issues JWTs that present the following problems:
 
-1. The tokens don't have important fields to limit its scope of usage, such as `aud` or `exp`. See [Bound Service Tokens](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md) for more info.
+1. The tokens don't have important fields to limit their scope of usage, such as `aud` or `exp`. See [Bound Service Tokens](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/auth/bound-service-account-tokens.md) for more info.
 1. The tokens are mounted onto all the pods without a way to opt-out. See [Service Account Token Volumes](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/svcacct-token-volume-source.md) for motivation.
 
 The `trustworthy` JWTs were introduced in Kubernetes v1.12 to solve the aforementioned issues.
