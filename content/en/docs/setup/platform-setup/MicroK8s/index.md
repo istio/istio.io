@@ -31,6 +31,7 @@ Administrative privileges are required to run MicroK8s.
 
 Please run the following command to check deployment progress:
     
+
     {{< text bash >}}
     $ watch microk8s.kubectl get all --all-namespaces
     {{< /text >}}
