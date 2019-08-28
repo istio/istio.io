@@ -1,6 +1,6 @@
 ---
 title: Docker Desktop
-description: Instructions to setup Docker Desktop for use with Istio.
+description: Instructions to setup Docker Desktop for Istio.
 weight: 12
 skip_seealso: true
 aliases:
