@@ -10,11 +10,8 @@ aliases:
 keywords: [platform-setup,kubernetes,docker-desktop]
 ---
 
-1. To run Istio with Docker Desktop, install the edge version version which contains a supported Kubernetes version.
-
-    {{< tip >}}
-    The stable version of Docker Desktop contains Kubernetes 1.10.11 as of Docker Community Edition 2.0.0.2.
-    {{< /tip >}}
+1. To run Istio with Docker Desktop, install a version which contains a supported Kubernetes version
+    ({{< supported_kubernetes_versions >}}).
 
 1. If you want to run Istio under Docker Desktop's built-in Kubernetes, you need to increase Docker's memory limit
     under the *Advanced* pane of Docker Desktop's preferences. Set the resources to 8.0 `GB` of memory and 4 `CPUs`.
