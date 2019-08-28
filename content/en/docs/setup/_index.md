@@ -30,6 +30,43 @@ At a high level, the basic flow is the same regardless of platform:
 1. [Download the Istio release](#downloading-the-release)
 1. [Install Istio on your platform](#installing-istio)
 
+## Downloading the release
+
+Istio is installed in its own `istio-system` namespace and can manage
+services from all other namespaces.
+
+1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to
+    download the installation file corresponding to your OS. On a macOS or
+    Linux system, you can run the following command to download and
+    extract the latest release automatically:
+
+    {{< text bash >}}
+    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
+    {{< /text >}}
+
+1.  Move to the Istio package directory. For example, if the package is
+    `istio-{{< istio_full_version >}}`:
+
+    {{< text bash >}}
+    $ cd istio-{{< istio_full_version >}}
+    {{< /text >}}
+
+    The installation directory contains:
+
+    - Installation YAML files for Kubernetes in `install/kubernetes`
+    - Sample applications in `samples/`
+    - The `istioctl` client binary in the `bin/` directory. `istioctl` is
+      used when manually injecting Envoy as a sidecar proxy.
+
+1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
+    Linux system:
+
+    {{< text bash >}}
+    $ export PATH=$PWD/bin:$PATH
+    {{< /text >}}
+
+1. You can enable the [auto-completion option](/docs/ops/troubleshooting/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+
 ## Installing Istio
 
 Choose one of the following installation options, depending on your intended use:
@@ -68,41 +105,3 @@ your mesh's Kubernetes cluster, follow our [mesh expansion guide](/docs/examples
 - To add services requires a detailed understanding of sidecar injection. Visit our
 [sidecar injection guide](/docs/setup/additional-setup/sidecar-injection/)
 to learn more.
-
-## Downloading the release
-
-Istio is installed in its own `istio-system` namespace and can manage
-services from all other namespaces.
-
-1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to
-    download the installation file corresponding to your OS. On a macOS or
-    Linux system, you can run the following command to download and
-    extract the latest release automatically:
-
-    {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
-    {{< /text >}}
-
-1.  Move to the Istio package directory. For example, if the package is
-    `istio-{{< istio_full_version >}}`:
-
-    {{< text bash >}}
-    $ cd istio-{{< istio_full_version >}}
-    {{< /text >}}
-
-    The installation directory contains:
-
-    - Installation YAML files for Kubernetes in `install/kubernetes`
-    - Sample applications in `samples/`
-    - The `istioctl` client binary in the `bin/` directory. `istioctl` is
-      used when manually injecting Envoy as a sidecar proxy.
-
-1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
-    Linux system:
-
-    {{< text bash >}}
-    $ export PATH=$PWD/bin:$PATH
-    {{< /text >}}
-
-1. You can enable the [auto-completion option](/docs/ops/troubleshooting/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
-
