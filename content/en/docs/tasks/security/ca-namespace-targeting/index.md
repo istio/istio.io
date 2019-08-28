@@ -4,7 +4,7 @@ description: Configure which namespaces Citadel should generate service account 
 weight: 80
 ---
 
-For various reasons, a cluster operator might decide not to generate `Service Account` secrets for some subset of namespaces, or to make `Service Account` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here](/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets).
+A cluster operator might decide not to generate `ServiceAccount` secrets for some subset of namespaces, or to make `ServiceAccount` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here](/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets).
 
 ## Before you begin
 
@@ -16,13 +16,13 @@ To complete this task, you should first take the following actions:
 
 ### Deactivating Service Account secret generation for a single namespace
 
-For this example, let's create a new sample namespace `foo`
+To create a new sample namespace `foo`, run:
 
 {{< text bash >}}
 $ kubectl create ns foo
 {{< /text >}}
 
-Since service account secrets are created as the default behavior, Citadel should have generated a key/cert secret for the default service account in the `foo` namespace. Let's verify this with
+Service account secrets are created following the default behavior. To verify that Citadel has generated a key/cert secret for the default service account in the `foo` namespace, run (note that this may take up to 1 minute):
 
 {{< text bash >}}
 $ kubectl get secrets -n foo | grep istio.io
@@ -30,13 +30,13 @@ NAME                    TYPE                           DATA      AGE
 istio.default           istio.io/key-and-cert          3         13s
 {{< /text >}}
 
-Suppose we'd like to prevent Citadel from creating `ServiceAccount` secrets in target namespace `foo`. This can be done through labeling the namespace with
+To label the namespace to prevent Citadel from creating `ServiceAccount` secrets in target namespace `foo`, run:
 
 {{< text bash >}}
 $ kubectl label ns foo ca.istio.io/override=false
 {{< /text >}}
 
-Now, if we create a new `ServiceAccount` in this namespace with
+To create a new `ServiceAccount` in this namespace, run:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -48,7 +48,7 @@ metadata:
 EOF
 {{< /text >}}
 
-and then check the namespace secrets again
+To check the namespace's secrets again, run:
 
 {{< text bash >}}
 $ kubectl get secrets -n foo | grep istio.io
@@ -56,11 +56,11 @@ NAME                    TYPE                           DATA      AGE
 istio.default           istio.io/key-and-cert          3         11m
 {{< /text >}}
 
-We can observe that no new `istio.io/key-and-cert` secret was generated for the `sample-service-account` service account.
+You can observe that no new `istio.io/key-and-cert` secret was generated for the `sample-service-account` service account.
 
 ### Opt-in Service Account secret generation
 
-Let's suppose that as an operator, we would like to make `ServiceAcount` secret generation opt-in (i.e. don't generate secrets unless otherwise specified). In this case we should set the following in our helm chart configuration
+To make `ServiceAcount` secret generation opt-in (i.e. to disable generating secrets unless otherwise specified)., set the `enableNamespacesByDefault` Helm value to `false`:
 
 {{< text yaml >}}
 ...
@@ -69,20 +69,20 @@ security:
 ...
 {{< /text >}}
 
-Once this mesh configuration is applied, create a namespace `foo`, and check the secrets present in that namespace
+Once this mesh configuration is applied, to create a namespace `foo` and check the secrets present in that namespace, run:
 
 {{< text bash >}}
 $ kubectl create ns foo
 $ kubectl get secrets -n foo | grep istio.io
 {{< /text >}}
 
-There should be no output from `kubectl get secrets -n foo`, as we configured the cluster not to generate `istio.io/key-and-cert` secrets by default. Now, to override this value on the `foo` namespace, label it with
+You can observe that no secrets have been created. To override this value for the `foo` namespace, add a `ca.istio.io/override=true` label in that namespace:
 
 {{< text bash >}}
 $ kubectl label ns foo ca.istio.io/override=true
 {{< /text >}}
 
-and then create a new service account in the `foo` namespace with
+To create a new service account in the `foo` namespace, run:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -94,7 +94,7 @@ metadata:
 EOF
 {{< /text >}}
 
-Now, let's examine the secrets in the `foo` namespace again
+To check the secrets in the `foo` namespace again, run:
 
 {{< text bash >}}
 $ kubectl get secrets -n foo | grep istio.io
@@ -103,9 +103,11 @@ istio.default                        istio.io/key-and-cert                 3    
 istio.sample-service-account         istio.io/key-and-cert                 3      6s
 {{< /text >}}
 
-Notice that despite only having created the `sample-service-account` service account after activating the namespace, there is an `istio.io/key-and-cert` secret for the `default` namespace as well. This is due to the retroactive secret generation feature, which will create secrets for all service accounts in a namespace once it transitions from `inactive` to `active`.
+You can observe that an `istio.io/key-and-cert` secret has been created for the `default` service account in addition to the `sample-service-account`. This is due to the retroactive secret generation feature, which will create secrets for all service accounts in a namespace once it transitions from inactive to active.
 
 ## Cleanup
+
+To delete the `foo` test namespace and all its resources, run:
 
 {{< text bash >}}
 $ kubectl delete ns foo
