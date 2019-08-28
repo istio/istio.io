@@ -38,7 +38,6 @@ In order for Istio to determine locality, a Service must be associated with the 
 To determine when instances are unhealthy, the proxies use the defined [outlier detection](/docs/reference/config/networking/v1alpha3/destination-rule/#OutlierDetection)
 destination rule for each service.
 
-
 ## Locality-prioritized load balancing
 
 _Locality-prioritized load balancing_ is the default behavior for _locality load balancing_.
