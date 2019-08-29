@@ -23,7 +23,7 @@ clean_public:
 clean: clean_public
 	@rm -fr resources .htmlproofer tmp
 
-lint: clean_public gen_nominify
+lint: clean_public gen_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles
 	@scripts/lint_site.sh
 
 serve: build
@@ -54,8 +54,6 @@ netlify_archive:
 
 archive:
 	@scripts/gen_archive_site.sh "$(baseurl)"
-
-prow: lint
 
 update_ref_docs:
 	@scripts/grab_reference_docs.sh
