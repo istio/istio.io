@@ -1,6 +1,6 @@
 ---
 title: Multi-mesh with Bookinfo
-description: An example of a multi-mesh Bookinfo application.
+description: An example of a multi-mesh Bookinfo application
 keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
 This example shows how to connect different services of the [Bookinfo](/docs/examples/bookinfo/) sample application that
