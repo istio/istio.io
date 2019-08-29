@@ -48,7 +48,7 @@ in a YAML file."
 |建议                                   |不建议
 |-------------------------------------|------
 |打开文件 `foo.yaml`。         | 打开文件 foo.yaml。
-|进入 `/content/docs/tasks` 目录。|进入 /content/docs/tasks 目录。
+|进入 `/content/en/docs/tasks` 目录。|进入 /content/en/docs/tasks 目录。
 |打开文件 `/data/args.yaml`。 | 打开文件 /data/args.yaml。
 
 ### 使用 \`code\` 表达行内代码和命令
