@@ -59,7 +59,7 @@ represents. For example:
 |Do                                   | Don't
 |-------------------------------------|------
 |Open the `foo.yaml` file.         | Open the foo.yaml file.
-|Go to the `/content/docs/tasks` directory.  | Go to the /content/docs/tasks directory.
+|Go to the `/content/en/docs/tasks` directory.  | Go to the /content/en/docs/tasks directory.
 |Open the `/data/args.yaml` file. | Open the /data/args.yaml file.
 
 ### Use `code` style for inline code and commands
