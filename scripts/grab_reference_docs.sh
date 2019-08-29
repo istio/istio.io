@@ -1,13 +1,27 @@
 #!/bin/bash
 
+# Copyright Istio Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # This script copies generated .pb.html files, which contain reference docs for protos, and installs
-# them in their targeted location within the content/docs/reference tree of this repo. Each .pb.html file contains a
+# them in their targeted location within the content/en/docs/reference tree of this repo. Each .pb.html file contains a
 # line that indicates the target directory location. The line is of the form:
 #
 #  location: https://istio.io/docs/reference/...
 #
 # Additionally, this script also builds Istio components and runs them to extract their command-line docs which it
-# copies to content/docs/reference/commands.
+# copies to content/en/docs/reference/commands.
 
 # The repos to mine for docs, just add new entries here to pull in more repos.
 REPOS=(
@@ -46,14 +60,6 @@ echo "WORK_DIR =" "${WORK_DIR}"
 
 #####################
 
-pushd () {
-    command pushd "$@" > /dev/null
-}
-
-popd () {
-    command popd > /dev/null
-}
-
 # Given the name of a .pb.html file, extracts the $location marker and then proceeds to
 # copy the file to the corresponding content/en/docs/ hierarchy.
 locate_file() {
@@ -82,8 +88,8 @@ locate_file() {
     REPOX=${REPO_URL/.git/}
     REPOX=${REPOX//\//\\\/}
 
-    sed -i -e 's/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\'$'\n''title: /g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
-    sed -i -e 's/title: /source_repo: '${REPOX}'\'$'\n''title: /g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -i -e 's/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '"${REPOX}"' REPO\'$'\n''title: /g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -i -e 's/title: /source_repo: '"${REPOX}"'\'$'\n''title: /g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
 }
 
 handle_doc_scraping() {
@@ -94,13 +100,13 @@ handle_doc_scraping() {
 
         echo "  INPUT REPO: ${REPO_URL}@${REPO_BRANCH}"
 
-        git clone --depth=1 -q -b ${REPO_BRANCH} ${REPO_URL} ${DEST_DIR}
+        git clone --depth=1 -q -b "${REPO_BRANCH}" "${REPO_URL}" "${DEST_DIR}"
 
         # delete the vendor directory so we don't get .pb.html out of there
         rm -fr "${DEST_DIR}/vendor"
 
-        for f in `find "${DEST_DIR}" -type f -name '*.pb.html'`; do
-            locate_file ${f}
+        for f in $(find "${DEST_DIR}" -type f -name '*.pb.html'); do
+            locate_file "${f}"
         done
 
         rm -fr "${DEST_DIR}"
@@ -119,8 +125,8 @@ handle_components() {
 
         git clone --depth=1 -q -b "${REPO_BRANCH}" "${REPO_URL}"
 
-        pushd "${REPO_NAME}" || exit
-        pushd "${COMP_PATH}" || exit
+        pushd "${REPO_NAME}" >dev/null || exit
+        pushd "${COMP_PATH}" >dev/null || exit
 
         go build -o "${COMP_NAME}"
         mkdir -p "${COMP_OUTPUT_DIR}/${COMP_NAME}"
@@ -131,8 +137,8 @@ handle_components() {
         sed -i -e 's/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE https:\/\/github.com\/istio\/istio REPO\'$'\n''title: /g' "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
         sed -i -e 's/title: /source_repo: https:\/\/github.com\/istio\/istio\'$'\n''title: /g' "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
 
-        popd || exit
-        popd || exit
+        popd >dev/null || exit
+        popd >dev/null || exit
 
         rm -fr "${REPO_NAME}"
     done
@@ -143,7 +149,7 @@ find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xar
 
 # Prepare the work directory
 mkdir -p "${WORK_DIR}"
-pushd "${WORK_DIR}" || exit
+pushd "${WORK_DIR}" >dev/null || exit
 
 #echo "Handling doc scraping"
 handle_doc_scraping
