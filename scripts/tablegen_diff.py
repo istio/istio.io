@@ -44,8 +44,8 @@ ISTIO_CONFIG_DIR = "istio/install/kubernetes/helm/istio"
 YAML_CONFIG_DIR = ISTIO_CONFIG_DIR + "/charts"
 VALUES_YAML = "values.yaml"
 ISTIO_IO_DIR = os.path.abspath(__file__ + "/../../")
-CONFIG_INDEX_DIR = "content/docs/reference/config/installation-options/index.md"
-CONFIG_INDEX_DIFF_DIR = "content/docs/reference/config/installation-options-changes/index.md"
+CONFIG_INDEX_DIR = "content/en/docs/reference/config/installation-options/index.md"
+CONFIG_INDEX_DIFF_DIR = "content/en/docs/reference/config/installation-options-changes/index.md"
 CONFIG_IGNORE_LIST = ["global.hub"]
 
 
@@ -487,7 +487,7 @@ def getPreviousRelease():
 
 
 def getContentFromPreviousRelease(releaseName):
-    istio_url = 'https://raw.githubusercontent.com/istio/istio.io/release-' + releaseName + '/content/docs/reference/config/installation-options/index.md'
+    istio_url = 'https://raw.githubusercontent.com/istio/istio.io/release-' + releaseName + '/content/en/docs/reference/config/installation-options/index.md'
     req = requests.get(istio_url)
     content = req.text
     indexMap = collections.defaultdict(list)
