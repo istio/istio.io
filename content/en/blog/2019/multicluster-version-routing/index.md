@@ -19,8 +19,8 @@ can, more-or-less transparently, be part of a mesh where the services are runnin
 in more than one cluster, i.e., in a
 [multi-cluster deployment](/docs/concepts/deployment-models/#multiple-clusters).
 The simplest way to setup a multi-cluster mesh, because it has no special networking requirements,
-is using a
-[multi-control plane deployment](/docs/concepts/deployment-models/#multiple-control-planes).
+is using a simple
+[control plane model](/docs/concepts/deployment-models/#control-plane-models).
 In this configuration, each Kubernetes cluster contributing to the mesh has its own control plane,
 but each control plane is synchronized and running under a single administrative control.
 
@@ -453,8 +453,8 @@ only see reviews without ratings (`v1`).
 ## Summary
 
 In this article, we've seen how to use Istio route rules to distribute the versions of a service
-across clusters in a multicluster service mesh with a
-[multi-control plane](/docs/concepts/deployment-models/#multiple-control-planes).
+across clusters in a multicluster service mesh with a suitable
+[control plane model](/docs/concepts/deployment-models/#control-plane-models).
 In this example, we manually configured the `.global` service entry and destination rules needed to provide
 connectivity to one remote service, `reviews`. In general, however, if we wanted to enable any service
 to run either locally or remotely, we would need to create `.global` resources for every service.

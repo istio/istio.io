@@ -2,6 +2,7 @@
 title: Multi-Mesh
 ---
 
-A multi-mesh is an Istio deployment model that consists of multiple meshes. To
-setup a multi-mesh deployment you must
-[federate](/docs/reference/glossary/#mesh-federation) two or more meshes.
+Multi-mesh is a deployment model that consists of two or more [service meshes](/docs/reference/glossary/#service-mesh).
+Each mesh has independent administration for naming and identities but you can
+expose services between meshes through [mesh federation](/docs/reference/glossary/#mesh-federation).
+The resulting deployment is a multi-mesh deployment.

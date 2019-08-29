@@ -7,7 +7,7 @@ aliases:
   - /zh/docs/examples/multicluster/gateways/
 ---
 
-这个示例展示了如何在[多控制平面拓扑](/docs/concepts/deployment-models/#multiple-control-planes)的多集群网格中
+这个示例展示了如何在[多控制平面拓扑](/docs/concepts/deployment-models/#control-plane-models)的多集群网格中
 配置和调用远程服务。为了演示跨集群访问，会在一个集群中使用 [Sleep 服务]({{<github_tree>}}/samples/sleep)调用另一个集群中的 [httpbin 服务]({{<github_tree>}}/samples/httpbin)。
 
 ## 开始之前 {#before-you-begin}

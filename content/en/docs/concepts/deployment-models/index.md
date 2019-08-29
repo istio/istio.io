@@ -22,13 +22,15 @@ configure Istio to address them.
 
 ## Cluster models
 
-A {{< gloss >}}cluster{{< /gloss >}} is a group of compute nodes within physical
-proximity that, typically, can reach each other directly. For isolation,
-performance, and high availability, most cloud providers confine clusters to
-availability zones and regions. Production systems, depending on their
-requirements, can run across multiple clusters spanning a number of zones or
-regions, leveraging cloud load balancers to handle things like locality and
-zonal or regional failover.
+A cluster is a set of compute nodes that run containerized applications.
+Typically, the compute nodes comprising a cluster can reach each other directly
+and you can limit external access through rules or policies. For isolation,
+performance, and high availability, you can confine clusters to availability
+zones and regions.
+
+Production systems, depending on their requirements, can run across multiple
+clusters spanning a number of zones or regions, leveraging cloud load balancers
+to handle things like locality and zonal or regional fail over.
 
 In most cases, clusters represent boundaries for configuration and endpoint
 discovery. For example, each Kubernetes cluster has an API Server which manages
@@ -42,11 +44,11 @@ clusters.
 
 ### Single cluster
 
-In the simplest case, you can confine an Istio mesh to a single cluster. A
-single cluster usually operates over a [single network](#single-network), but it
-varies between infrastructure providers. In single cluster and single network
-models, you commonly deploy a single Istio control plane, which results in the
-simplest Istio deployment.
+In the simplest case, you can confine an Istio mesh to a single
+{{< gloss >}}cluster{{< /gloss >}}. A cluster usually operates over a
+[single network](#single-network), but it varies between infrastructure
+providers. A single cluster and single network model includes a control plane,
+which results in the simplest Istio deployment.
 
 {{< image width="50%"
     link="single-cluster.svg"
@@ -55,23 +57,24 @@ simplest Istio deployment.
     caption="A service mesh with a single cluster"
     >}}
 
-Single cluster deployments offer simplicity, but lack other features like fault
-isolation and failover for example. If you need higher availability, you should
-use multiple clusters.
+Single cluster deployments offer simplicity, but lack other features, for
+example, fault isolation and fail over. If you need higher availability, you
+should use multiple clusters.
 
 ### Multiple clusters
 
-You can configure a single mesh to include multiple clusters; such configurations
-are known as **multi-cluster**. Using multiple clusters within a single mesh
-affords the following capabilities beyond that of a single cluster deployment:
+You can configure a single mesh to include
+multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}. Using a
+{{< gloss >}}multi-cluster{{< /gloss >}} deployment within a single mesh affords
+the following capabilities beyond that of a single cluster deployment:
 
-- Fault isolation and failover: `cluster-1` goes down, failover to `cluster-2`.
-- Location-aware routing and failover: Send requests to the nearest service.
+- Fault isolation and fail over: `cluster-1` goes down, fail over to `cluster-2`.
+- Location-aware routing and fail over: Send requests to the nearest service.
 - Various [control plane models](#control-plane-models): Support different
   levels of availability.
 - Team or project isolation: Each team runs its own set of clusters.
 
-{{< image width="50%"
+{{< image width="75%"
     link="multi-cluster.svg"
     alt="A service mesh with multiple clusters"
     title="Multi-cluster"
@@ -143,8 +146,9 @@ network of the consumers.
 
 ## Mesh models
 
-Istio supports having all of your services in a **single mesh**, or connecting
-multiple meshes together, which is also known as **multi-mesh**.
+Istio supports having all of your services in a
+{{< gloss "service mesh" >}}mesh{{< /gloss >}}, or federating multiple meshes
+together, which is also known as {{< gloss >}}multi-mesh{{< /gloss >}}.
 
 ### Single mesh
 
@@ -159,8 +163,7 @@ A single mesh can span [one or more clusters](#cluster-models) and
 
 ### Multiple meshes
 
-You can deploy multiple meshes; such a configuration is known as
-{{< gloss >}}multi-mesh{{< /gloss >}}.
+Multiple mesh deployments result from {{< gloss >}}mesh federation{{< /gloss >}}.
 
 Multiple meshes afford the following capabilities beyond that of a single mesh:
 
@@ -169,11 +172,9 @@ Multiple meshes afford the following capabilities beyond that of a single mesh:
   namespace
 - Stronger isolation: isolating test workloads from production workloads
 
-In the most basic multiple mesh model, each mesh forms a strict
-boundary and there is no communication between meshes. However, you can enable
-inter-mesh communication with {{< gloss >}}mesh federation{{< /gloss >}}. When
-federating, each mesh can expose a set of services and identities, which all
-participating meshes can recognize.
+You can enable inter-mesh communication with {{< gloss >}}mesh federation{{<
+/gloss >}}. When federating, each mesh can expose a set of services and
+identities, which all participating meshes can recognize.
 
 {{< image width="50%"
     link="multi-mesh.svg"
@@ -193,100 +194,68 @@ on [Multiple Trust Domains](#trust-between-meshes) for an overview.
 
 ## Control plane models
 
-In Istio, a control plane is a set of one or more instances that share the
-same configuration source. The control plane configures the mesh or a subset of
-the mesh to manage the communication between workload instances within. For Kubernetes
-environments, each process gets its configuration from the same [API server](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
-residing in the cluster.
+An Istio mesh uses the {{< gloss >}}control plane{{< /gloss >}} to configure all
+communication between workload instances within the mesh. You can replicate the
+control plane, and workload instances connect to any control plane instance to
+get their configuration.
 
-Since the control plane uses a single configuration source, a workload
-instance receives the same configuration when connecting to any instance of
-the control plane.
-
-Depending on your overall system architecture and cloud provider, the following
-Istio control plane models are possible:
-
-- Single control plane
-- Multiple control planes
-- Managed control plane
-
-### Single control plane
-
-In the simplest case, you can run your mesh using a single
-{{< gloss >}}control plane{{< /gloss >}} deployment. In this model, each
-workload instance connects to the same control plane for configuration.
-
-Single cluster deployments typically use a single control plane since
-there is only one configuration source.
+In the simplest case, you can run your mesh with a control plane on a single
+cluster.
 
 {{< image width="50%"
     link="single-cluster.svg"
-    alt="A service mesh with a single logical control plane"
+    alt="A service mesh with a control plane"
     title="Single control plane"
-    caption="A service mesh with a single control plane"
+    caption="A service mesh with a control plane"
     >}}
 
-Multi-cluster deployments can also share a single control plane. In this
-case, the control plane instances can reside in one or more clusters, but they
-all use the same configuration source.
+Multi-cluster deployments can also share control plane instances. In this case,
+the control plane instances can reside in one or more clusters.
 
-{{< image width="50%"
+{{< image width="75%"
     link="shared-control.svg"
     alt="A service mesh with two clusters sharing a control plane"
     title="Shared control plane"
     caption="A service mesh with two clusters sharing a control plane"
     >}}
 
-### Multiple control planes
+For high availability, you should deploy a control plane across multiple
+clusters, zones, or regions.
 
-You can deploy multiple {{< gloss "control plane" >}}control planes{{< /gloss >}}
-if your mesh spans across multiple zones and regions.
-
-{{< image width="50%"
+{{< image width="75%"
     link="multi-control.svg"
-    alt="A service mesh with two clusters each with their control plane"
+    alt="A service mesh with control plane instances for each region"
     title="Multiple control planes"
-    caption="A service mesh with two clusters each with their control plane"
+    caption="A service mesh with control plane instances for each region"
     >}}
 
-Multiple control planes afford the following benefits:
+This model affords the following benefits:
 
-- Improved availability: If a configuration source or control plane becomes
-  unavailable, the scope of the outage is limited to only that control plane.
+- Improved availability: If a control plane becomes unavailable, the scope of
+  the outage is limited to only that control plane.
 
-- Configuration isolation: You can canary configuration changes in one control
-  plane without impacting others.
+- Configuration isolation: You can make configuration changes in one cluster,
+  zone, or region without impacting others.
 
-Istio supports the following deployment models ranked from lowest to highest availability:
-
-- Single control plane per region (**lowest availability**)
-- Multiple control planes per region
-- Single control plane per zone
-- Multiple control planes per zone
-- One control plane per cluster (**highest availability**)
-
-### Managed Control Plane
-
-Many cloud providers offer a {{< gloss >}}control plane{{< /gloss >}}, which
-they manage on behalf of their customers.
+You can improve control plane availability through fail over. When a control
+plane instance becomes unavailable, workload instances can connect to
+another available control plane instance. Fail over can happen across clusters,
+zones, or regions.
 
 {{< image width="50%"
-    link="managed-control.svg"
-    alt="A service mesh with a managed control plane"
-    title="Managed control plane"
-    caption="A service mesh with a managed control plane"
+    link="failover.svg"
+    alt="A service mesh after a control plane instance fails"
+    title="Control plane fail over"
+    caption="A service mesh after a control plane instance fails"
     >}}
 
-Typically, managed control planes guarantee some level of performance and
-availability, which you can assume when building your system. Managed control
-planes afford the following benefits:
+The following list ranks control plane deployment examples by availability:
 
-- Greatly reduce the complexity of user deployments
-- Greatly reduce system administration costs
-- Effectively eliminate the usage costs associated with the control plane:
-    - CPU
-    - Memory
-    - Network
+- One cluster per region (**lowest availability**)
+- Multiple clusters per region
+- One cluster per zone
+- Multiple clusters per zone
+- Each cluster (**highest availability**)
 
 ## Identity and trust models
 
@@ -422,8 +391,8 @@ Since a different team or organization operates each mesh, service naming
 is rarely distinct. For example, the `mysvc` in the `foo` namespace of
 `cluster-1` and the `mysvc` service in the `foo` namespace of
 `cluster-2` do not refer to the same service. The most common example is the
-scenario in Kubernetes where many teams deploy their workloads to the default
+scenario in Kubernetes where many teams deploy their workloads to the `default`
 namespace.
 
-Because each team has their own mesh, cross-mesh communication follows the
+When each team has their own mesh, cross-mesh communication follows the
 concepts described in the [multiple meshes](#multiple-meshes) model.
