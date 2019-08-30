@@ -5,7 +5,14 @@ weight: 50
 keywords: [cassandra]
 ---
 
-The sort answer is yes, Cassandra can run inside an Istio mesh.
+The short answer is yes, Cassandra can run inside an Istio mesh.
+
+By default, Cassandra broadcasts the address it uses for binding
+(accepting connections) to other Cassandra nodes as its address. This
+is usually the pod IP address and works fine without a service
+mesh. However, with a service mesh this configuration does not
+work. Istio and other service meshes require the `localhost`
+(`127.0.0.1`) to be the address for binding.
 
 1. Cassandra Configuration
 
@@ -19,9 +26,10 @@ The `listen_address` parameter should be set to `127.0.0.1` and the
 
 These configuration parameters are defined in `cassandra.yaml` in the
 Cassandra configuration directory (e.g. `/etc/cassandra`).  There are
-various startup scripts (and yaml files) used for starting Cassandra and care
-should be given to how these parameters are set by these scripts. As an example, an
-script used to configure and start Cassandra uses the value of the environment variable
+various startup scripts (and yaml files) used for starting Cassandra
+and care should be given to how these parameters are set by these
+scripts. As an example, an script used to configure and start
+Cassandra uses the value of the environment variable
 `CASSANDRA_LISTEN_ADDRESS` for setting `listen_address`.
 
 1. Service Definition
@@ -29,30 +37,24 @@ script used to configure and start Cassandra uses the value of the environment v
 Another issue to keep in mind is having ports specified in the
 Cassandra's headless service as shown below:
 
-{{< text plain >}}
+{{< text yaml>}}
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: cassandra
   name: cassandra
-  namespace: cassandra-istio
 spec:
   clusterIP: None
   ports:
-  - name: intra-node
-    port: 7000
-  - port: 7001
-    name: tls-intra-node
-  - port: 7199
-    name: jmx
-  - port: 9042
-    name: cql
+    - port: 7000
+      name: intra-node
+    - port: 7001
+      name: intra-node-tls
+    - port: 7199
+      name: jmx
+    - port: 9042
+      name: cql
   selector:
     app: cassandra
 {{< /text >}}
-
-1. Using MTLS
-
-MTLS can be enabled or disabled for Cassandra as it is done for any
-other service in Istio. No special configuration is required.
