@@ -22,11 +22,9 @@ configure Istio to address them.
 
 ## Cluster models
 
-A cluster is a set of compute nodes that run containerized applications.
-Typically, the compute nodes comprising a cluster can reach each other directly
-and you can limit external access through rules or policies. For isolation,
-performance, and high availability, you can confine clusters to availability
-zones and regions.
+The workload instances of your application run in one or more
+{{< gloss "cluster" >}}clusters{{< /gloss >}}. For isolation, performance, and
+high availability, you can confine clusters to availability zones and regions.
 
 Production systems, depending on their requirements, can run across multiple
 clusters spanning a number of zones or regions, leveraging cloud load balancers
@@ -144,54 +142,6 @@ network of the consumers.
     caption="A service mesh with multiple networks"
     >}}
 
-## Mesh models
-
-Istio supports having all of your services in a
-{{< gloss "service mesh" >}}mesh{{< /gloss >}}, or federating multiple meshes
-together, which is also known as {{< gloss >}}multi-mesh{{< /gloss >}}.
-
-### Single mesh
-
-The simplest Istio deployment is a single mesh. Within a mesh, service names are
-unique. For example, only one service can have the name `mysvc` in the `foo/`
-namespace. Additionally, workload instances share a common identity since
-service account names are unique within a namespace, just like service names.
-
-A single mesh can span [one or more clusters](#cluster-models) and
-[one or more networks](#network-models). Within a mesh,
-[namespaces](#namespace-tenancy) are used for [tenancy](#tenancy-models).
-
-### Multiple meshes
-
-Multiple mesh deployments result from {{< gloss >}}mesh federation{{< /gloss >}}.
-
-Multiple meshes afford the following capabilities beyond that of a single mesh:
-
-- Organizational boundaries: lines of business
-- Service name or namespace reuse: multiple distinct uses of the `default`
-  namespace
-- Stronger isolation: isolating test workloads from production workloads
-
-You can enable inter-mesh communication with {{< gloss >}}mesh federation{{<
-/gloss >}}. When federating, each mesh can expose a set of services and
-identities, which all participating meshes can recognize.
-
-{{< image width="50%"
-    link="multi-mesh.svg"
-    alt="Multiple service meshes"
-    title="Multi-mesh"
-    caption="Multiple service meshes"
-    >}}
-
-To avoid service naming collisions, you can give each mesh a globally unique
-**mesh ID**, to ensure that the fully qualified domain
-name (FQDN) for each service is distinct.
-
-When peering two meshes that do not share the same
-{{< gloss >}}trust domain{{< /gloss >}}, {{< gloss >}}identity{{< /gloss >}} and
-**trust bundles** must be federated between them. See the section
-on [Multiple Trust Domains](#trust-between-meshes) for an overview.
-
 ## Control plane models
 
 An Istio mesh uses the {{< gloss >}}control plane{{< /gloss >}} to configure all
@@ -301,6 +251,55 @@ those identities.
     caption="Multiple service meshes with certificate authorities"
     >}}
 
+## Mesh models
+
+Istio supports having all of your services in a
+{{< gloss "service mesh" >}}mesh{{< /gloss >}}, or federating multiple meshes
+together, which is also known as {{< gloss >}}multi-mesh{{< /gloss >}}.
+
+### Single mesh
+
+The simplest Istio deployment is a single mesh. Within a mesh, service names are
+unique. For example, only one service can have the name `mysvc` in the `foo`
+namespace. Additionally, workload instances share a common identity since
+service account names are unique within a namespace, just like service names.
+
+A single mesh can span [one or more clusters](#cluster-models) and
+[one or more networks](#network-models). Within a mesh,
+[namespaces](#namespace-tenancy) are used for [tenancy](#tenancy-models).
+
+### Multiple meshes
+
+Multiple mesh deployments result from {{< gloss >}}mesh federation{{< /gloss >}}.
+
+Multiple meshes afford the following capabilities beyond that of a single mesh:
+
+- Organizational boundaries: lines of business
+- Service name or namespace reuse: multiple distinct uses of the `default`
+  namespace
+- Stronger isolation: isolating test workloads from production workloads
+
+You can enable inter-mesh communication with {{< gloss >}}mesh federation{{<
+/gloss >}}. When federating, each mesh can expose a set of services and
+identities, which all participating meshes can recognize.
+
+{{< image width="50%"
+    link="multi-mesh.svg"
+    alt="Multiple service meshes"
+    title="Multi-mesh"
+    caption="Multiple service meshes"
+    >}}
+
+To avoid service naming collisions, you can give each mesh a globally unique
+**mesh ID**, to ensure that the fully qualified domain
+name (FQDN) for each service is distinct.
+
+When federating two meshes that do not share the same
+{{< gloss >}}trust domain{{< /gloss >}}, you must
+{{< gloss "mesh federation">}}federate{{< /gloss >}}
+{{< gloss >}}identity{{< /gloss >}} and **trust bundles** between them. See the
+section on [Multiple Trust Domains](#trust-between-meshes) for an overview.
+
 ## Tenancy models
 
 In Istio, a **tenant** is a group of users that share
@@ -324,10 +323,9 @@ Istio supports two types of tenancy models:
 
 ### Namespace tenancy
 
-If you use Istio in a Kubernetes environment, a
-[namespace](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-namespace)
-is a unit of tenancy within a single mesh. Istio also works in environments that
-don't implement namespace tenancy. In environments that do, you can grant a team
+Istio uses [namespaces](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-namespace)
+as a unit of tenancy within a mesh. Istio also works in environments that don't
+implement namespace tenancy. In environments that do, you can grant a team
 permission to deploy their workloads only to a given namespace or set of
 namespaces. By default, services from multiple tenant namespaces can communicate
 with each other.
