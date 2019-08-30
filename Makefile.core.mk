@@ -23,7 +23,7 @@ clean_public:
 clean: clean_public
 	@rm -fr resources .htmlproofer tmp
 
-lint: clean_public gen_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles
+lint: clean_public gen_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
 
 serve: build
@@ -59,3 +59,7 @@ update_ref_docs:
 	@scripts/grab_reference_docs.sh
 
 include common/Makefile.common.mk
+
+foo:
+	mdl --help
+

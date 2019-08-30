@@ -18,16 +18,6 @@ set -e
 
 FAILED=0
 
-echo -ne "mdspell "
-mdspell --version
-echo -ne "mdl "
-mdl --version
-htmlproofer --version
-echo -ne "sass-lint "
-sass-lint --version
-echo -ne "tslint "
-tslint  --version
-
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
 # into classic markdown ``` code blocks, so that the linters aren't confused
@@ -43,7 +33,7 @@ check_content() {
     # create a throwaway copy of the content
     cp -R "${DIR}" "${TMP}"
     cp .spelling "${TMP}"
-    cp mdl_style.rb "${TMP}"
+    cp common/config/mdl.rb "${TMP}"
 
     # replace the {{< text >}} shortcodes with ```plain
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
@@ -60,12 +50,12 @@ check_content() {
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
-    if ! mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report $(find content/en -type f -name '*.md'); then
+    if ! find content/en -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
         echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
         FAILED=1
     fi
 
-    if ! mdl --ignore-front-matter --style mdl_style.rb .; then
+    if ! mdl --ignore-front-matter --style mdl.rb .; then
         FAILED=1
     fi
 
@@ -103,7 +93,7 @@ check_content() {
 
 check_content content --en-us
 
-for f in $(find ./content/en -type f \( -name '*.html' -o -name '*.md' \)); do
+find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
     # shellcheck disable=SC1111
     if grep -H -n -e '“' "${f}"; then
         echo "Ensure content only uses standard quotation marks and not “"
@@ -111,8 +101,8 @@ for f in $(find ./content/en -type f \( -name '*.html' -o -name '*.md' \)); do
     fi
 done
 
-for f in $(find ./public -type f -name '*.html'); do
-      if grep -H -n -i -e blockquote "${f}"; then
+find ./public -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
+    if grep -H -n -i -e blockquote "${f}"; then
         echo "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
         FAILED=1
     fi
@@ -122,9 +112,6 @@ for f in $(find ./public -type f -name '*.html'); do
         FAILED=1
     fi
 done
-
-sass-lint -c sass-lint.yml --verbose src/sass/**/*.scss
-tslint src/ts/*.ts
 
 if ! htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/"; then
     FAILED=1
