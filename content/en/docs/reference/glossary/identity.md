@@ -3,7 +3,7 @@ title: Identity
 ---
 
 Identity is a fundamental security infrastructure concept. The Istio identity
-model is based on a first-class service identity. At the beginning of
+model is based on a first-class workload identity. At the beginning of
 service-to-service communication, the two parties exchange credentials with
 their identity information for mutual authentication purposes.
 
