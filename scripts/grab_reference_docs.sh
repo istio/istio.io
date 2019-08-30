@@ -88,8 +88,8 @@ locate_file() {
     REPOX=${REPO_URL/.git/}
     REPOX=${REPOX//\//\\\/}
 
-    sed -i -e 's/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '"${REPOX}"' REPO\'$'\n''title: /g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
-    sed -i -e 's/title: /source_repo: '"${REPOX}"'\'$'\n''title: /g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -i -e "s/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE '${REPOX}' REPO\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -i -e "s/title: /source_repo: ${REPOX}\ntitle: /g" "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
 }
 
 handle_doc_scraping() {
@@ -105,7 +105,7 @@ handle_doc_scraping() {
         # delete the vendor directory so we don't get .pb.html out of there
         rm -fr "${DEST_DIR}/vendor"
 
-        for f in $(find "${DEST_DIR}" -type f -name '*.pb.html'); do
+        find "${DEST_DIR}" -type f -name '*.pb.html' -print0 | while IFS= read -r -d '' f; do
             locate_file "${f}"
         done
 
@@ -125,8 +125,8 @@ handle_components() {
 
         git clone --depth=1 -q -b "${REPO_BRANCH}" "${REPO_URL}"
 
-        pushd "${REPO_NAME}" >dev/null || exit
-        pushd "${COMP_PATH}" >dev/null || exit
+        pushd "${REPO_NAME}" >/dev/null || exit
+        pushd "${COMP_PATH}" >/dev/null || exit
 
         go build -o "${COMP_NAME}"
         mkdir -p "${COMP_OUTPUT_DIR}/${COMP_NAME}"
@@ -134,11 +134,11 @@ handle_components() {
         mv "${COMP_OUTPUT_DIR}/${COMP_NAME}/${COMP_NAME}.html" "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
         rm -fr "${COMP_NAME}"
 
-        sed -i -e 's/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE https:\/\/github.com\/istio\/istio REPO\'$'\n''title: /g' "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
-        sed -i -e 's/title: /source_repo: https:\/\/github.com\/istio\/istio\'$'\n''title: /g' "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
+        sed -i -e "s/title: /WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https:\/\/github.com\/istio\/istio' REPO\ntitle: /g" "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
+        sed -i -e "s/title: /source_repo: https:\/\/github.com\/istio\/istio\ntitle: /g" "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
 
-        popd >dev/null || exit
-        popd >dev/null || exit
+        popd >/dev/null || exit
+        popd >/dev/null || exit
 
         rm -fr "${REPO_NAME}"
     done
@@ -149,7 +149,7 @@ find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xar
 
 # Prepare the work directory
 mkdir -p "${WORK_DIR}"
-pushd "${WORK_DIR}" >dev/null || exit
+pushd "${WORK_DIR}" >/dev/null || exit
 
 #echo "Handling doc scraping"
 handle_doc_scraping

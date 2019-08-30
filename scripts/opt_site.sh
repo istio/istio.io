@@ -18,8 +18,6 @@
 
 set -e
 
-svgo --version
-
 svgo -r -f content/en
 svgo -r -f content/zh
 svgo -r -f src/icons

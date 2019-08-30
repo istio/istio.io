@@ -39,10 +39,22 @@ lint-copyright-banner:
 	 	${XARGS} common/scripts/lint_copyright_banner.sh
 
 lint-go:
-	@golangci-lint run -j 8 -c ./common/config/.golangci.yml
+	@${FINDFILES} -name '*.go' \( ! \( -name '*.gen.go' -o -name '*.pb.go' \) \) -print0 | : | ${XARGS} golangci-lint run -j 8 -c ./common/config/.golangci.yml
 
 lint-python:
 	@${FINDFILES} -name '*.py' -print0 | ${XARGS} autopep8 --max-line-length 160 --exit-code -d
+
+lint-markdown:
+	@${FINDFILES} -name '*.md' -print0 | ${XARGS} mdl --ignore-front-matter --style common/config/mdl.rb
+	@${FINDFILES} -name '*.md' -print0 | ${XARGS} awesome_bot --skip-save-results --allow_ssl --allow-timeout --allow-dupe --allow-redirect
+
+lint-sass:
+	@${FINDFILES} -name '*.scss' -print0 | ${XARGS} sass-lint -c common/config/sass-lint.yml --verbose
+
+lint-typescript:
+	@${FINDFILES} -name '*.ts' -print0 | ${XARGS} tslint -c common/config/tslint.json
+
+lint-all: lint-dockerfiles lint-scripts lint-yaml lint-helm lint-copyright-banner lint-go lint-python lint-markdown lint-sass lint-typescript
 
 format-go:
 	@${FINDFILES} -name '*.go' \( ! \( -name '*.gen.go' -o -name '*.pb.go' \) \) -print0 | ${XARGS} goimports -w -local "istio.io"
@@ -57,4 +69,10 @@ update-common:
 	@cp -r common-files/files/* .
 	@rm -fr common-files
 
-.PHONY: lint-dockerfiles lint-scripts lint-yaml lint-copyright-banner lint-go lint-pyhton lint-helm format-go format-python update-common
+update-common-protos:
+	@git clone --depth 1 --single-branch --branch master https://github.com/istio/common-files
+	@cd common-files ; git rev-parse HEAD > common-protos/.commonfiles.sha
+	@cp -ar common-files/common-protos common-protos
+	@rm -fr common-files
+
+.PHONY: lint-dockerfiles lint-scripts lint-yaml lint-copyright-banner lint-go lint-pyhton lint-helm lint-markdown lint-sass lint-typescript lint-all format-go format-python update-common update-common-protos
