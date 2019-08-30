@@ -70,13 +70,13 @@ To further customize Istio and install addons, you can add one or more `--set <k
 ## Multicluster profiles
 
 Istio provides two additional built-in configuration profiles that are used exclusively for configuring a
-[multicluster service mesh](/docs/concepts/multicluster-deployments/#multicluster-service-mesh):
+[multi-cluster deployment](/docs/concepts/deployment-models/#multiple-clusters):
 
 1. **remote**: used for configuring remote clusters of a
-    multicluster mesh with a [shared control plane topology](/docs/concepts/multicluster-deployments/#shared-control-plane-topology).
+    multicluster mesh with a suitable [control plane model](/docs/concepts/deployment-models/#control-plane-models).
 
 1. **multicluster-gateways**: used for configuring all of the clusters of a
-    multicluster mesh with a [dedicated control plane topology](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology).
+    multicluster mesh with a suitable [control plane model](/docs/concepts/deployment-models/#control-plane-models).
 
 The **remote** profile is configured using the values file `values-istio-remote.yaml`. This profile installs only two
 Istio core components:

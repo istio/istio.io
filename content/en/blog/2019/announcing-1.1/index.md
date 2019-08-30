@@ -36,16 +36,16 @@ We’ve done work around namespace isolation as well. This lets you use
 Kubernetes namespaces to enforce boundaries of control, and ensures that your
 teams cannot interfere with each other.
 
-We have also improved the [multicluster capabilities and usability](/docs/concepts/multicluster-deployments/).
+We have also improved the [multicluster capabilities and usability](/docs/concepts/deployment-models/).
 We listened to the community and improved defaults for traffic control and
 policy. We introduced a new component called
 [Galley](/docs/concepts/what-is-istio/#galley). Galley validates that sweet,
 sweet YAML, reducing the chance of configuration errors. Galley will also be
 instrumental in [multicluster setups](/docs/setup/install/multicluster/),
 gathering service discovery information from each Kubernetes cluster. We are
-also supporting additional multicluster topologies including [shared control plane](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)
-and [dedicated control plane](/docs/concepts/multicluster-deployments/#dedicated-control-plane-topology) topologies
-without requiring a flat network.
+also supporting additional multicluster topologies including different
+[control plane models](/docs/concepts/deployment-models/#control-plane-models)
+topologies without requiring a flat network.
 
 There is lots more -- see the [release notes](/about/notes/1.1/) for complete
 details.
