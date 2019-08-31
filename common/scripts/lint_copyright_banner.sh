@@ -5,9 +5,9 @@
 # The original version of this file is located in the https://github.com/istio/common-files repo.
 # If you're looking at this file in a different repo and want to make a change, please go to the
 # common-files repo, make the change there and check it in. Then come back to this repo and run
-# "make updatecommon".
+# "make update-common".
 
-# Copyright 2019 Istio Authors
+# Copyright Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,18 +23,17 @@
 
 set -e
 
-SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ROOTDIR=$(dirname "${SCRIPTPATH}")
-cd "${ROOTDIR}"
+ec=0
+for fn in "$@"; do
+  if ! grep -L -q -e "Apache License, Version 2" "${fn}"; then
+    echo "Missing license: ${fn}"
+    ec=1
+  fi
 
-if [[ "$1" == "--fix" ]]
-then
-    FIX="--fix"
-fi
+  if ! grep -L -q -e "Copyright" "${fn}"; then
+    echo "Missing copyright: ${fn}"
+    ec=1
+  fi
+done
 
-# if you want to update this version, also change the version number in .golangci.yml
-GOLANGCI_VERSION="v1.16.0"
-curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b "$GOPATH"/bin "$GOLANGCI_VERSION"
-golangci-lint --version
-# For tuning and when switching versions PLEASE REFERENCE: https://github.com/istio/istio/issues/14888
-env GOGC=25 golangci-lint run ${FIX} -j 8 -v ./...
+exit $ec

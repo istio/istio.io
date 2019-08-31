@@ -60,6 +60,7 @@ The following table shows all the options that the `istio-cni` Helm chart suppor
 |--------|--------|---------|-------------|
 | `hub` | | | The container registry to pull the `install-cni` image. |
 | `tag` | | | The container tag to use to pull the `install-cni` image. |
+| `pullPolicy` | | `Always` | The image pull policy for the `install-cni` image. |
 | `logLevel` | `panic`, `fatal`, `error`, `warn`, `info`, `debug` | `warn` | Logging level for CNI binary. |
 | `excludeNamespaces` | `[]string` | `[ istio-system ]` | List of namespaces to exclude from Istio pod check. |
 | `cniBinDir` | | `/opt/cni/bin` | Must be the same as the environment's `--cni-bin-dir` setting (`kubelet` parameter). |
@@ -83,7 +84,7 @@ Use the following command to render and apply Istio CNI components and override 
 `istio-cni` Helm chart's `logLevel` and `excludeNamespaces` parameters:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system \
+$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system \
     --set logLevel=info \
     --set excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"} | kubectl apply -f -
 {{< /text >}}
@@ -116,7 +117,7 @@ The following table shows the required settings for many common Kubernetes envir
     For example, the following `helm install` command sets the `cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=istio-system --set cniBinDir=/home/kubernetes/bin
+    $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system --set cniBinDir=/home/kubernetes/bin
     {{< /text >}}
 
 ## Sidecar injection compatibility
@@ -171,6 +172,8 @@ application pod annotation key.
 
 | Annotation Key | Values | Default | Description |
 |----------------|--------|---------|-------------|
+| `sidecar.istio.io/inject` | `true`, `false` | `true` | Indicates whether the Istio proxy sidecar should be injected. If present and `false`, the Istio CNI plugin doesn't configure the namespace's iptables for the pod. |
+| `sidecar.istio.io/status` | | | Annotation created by Istio's sidecar injection. If missing, the Istio CNI plugin doesn't configure the pod namespace's iptables. |
 | `sidecar.istio.io/interceptionMode`| `REDIRECT`, `TPROXY` | `REDIRECT` | The iptables redirect mode to use. |
 | `traffic.sidecar.istio.io/includeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | `"*"` | Comma separated list of IP ranges in CIDR form to redirect to the sidecar proxy.  The default value of `"*"` redirects all traffic. |
 | `traffic.sidecar.istio.io/excludeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | | Comma separated list of IP ranges in CIDR form to be excluded from redirection.  Only applies when `includeOutboundIPRanges` is `"*"`. |

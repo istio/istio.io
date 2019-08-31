@@ -6,7 +6,7 @@ keywords: [security,auth-sds]
 ---
 
 This task shows how to enable
-[SDS (secret discovery service)](https://www.envoyproxy.io/docs/envoy/latest/configuration/secret#config-secret-discovery-service)
+[SDS (secret discovery service)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)
 for Istio identity provisioning.
 
 Prior to Istio 1.1, the keys and certificates of Istio workloads were generated

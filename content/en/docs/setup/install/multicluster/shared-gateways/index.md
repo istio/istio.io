@@ -9,8 +9,8 @@ aliases:
     - /docs/setup/kubernetes/install/multicluster/shared-gateways/
 ---
 
-Follow this guide to configure a multicluster mesh using a
-[shared control plane topology](/docs/concepts/multicluster-deployments/#shared-control-plane-topology)
+Follow this guide to configure a multicluster mesh using a suitable
+[control plane model](/docs/concepts/deployment-models/#control-plane-models)
 with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
 depending on the location of the request source.
