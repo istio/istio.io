@@ -194,12 +194,11 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     Access the web page of the Bookinfo application and verify that the reviews appear without stars, which means that
     the `v1` version of _reviews_ is used.
 
-1.  Delete the deployments of `reviews v2`, `reviews v3` and `ratings v1`:
+1.  Delete the deployments of `reviews v3` and `ratings v1`:
 
     {{< text bash >}}
-    $ kubectl delete deployment reviews-v2 reviews-v3 ratings-v1 --context=$CTX_CLUSTER1
+    $ kubectl delete deployment reviews-v3 ratings-v1 --context=$CTX_CLUSTER1
     $ kubectl delete service ratings --context=$CTX_CLUSTER1
-    deployment.extensions "reviews-v2" deleted
     deployment.extensions "reviews-v3" deleted
     deployment.extensions "ratings-v1" deleted
     service "ratings" deleted
@@ -214,10 +213,11 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     details-v1-59489d6fb6-m5s5j       2/2     Running   0          4h31m
     productpage-v1-689ff955c6-7qsk6   2/2     Running   0          4h31m
     reviews-v1-657b76fc99-lx46g       2/2     Running   0          4h31m
+    reviews-v2-5d5d57db85-5zdnc       2/2     Running   0          4h31m
     sleep-57f9d6fd6b-px97z            2/2     Running   0          4h31m
     {{< /text >}}
 
-    You should have three pods of the Bookinfo application and a pod for the sleep testing app.
+    You should have four pods of the Bookinfo application and a pod for the sleep testing app.
 
 ### Setup the second cluster
 
@@ -233,21 +233,15 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     namespace/bookinfo labeled
     {{< /text >}}
 
-1.  Deploy `reviews v2`, `reviews v3` and `ratings v1`:
+1.  Deploy `ratings v1`:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $ kubectl apply --context=$CTX_CLUSTER2 -l app=reviews,version=v2 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    $ kubectl apply --context=$CTX_CLUSTER2 -l app=reviews,version=v3 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    $ kubectl apply --context=$CTX_CLUSTER2 -l service=reviews -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     $ kubectl apply --context=$CTX_CLUSTER2 -l app=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     serviceaccount/bookinfo-details created
     serviceaccount/bookinfo-ratings created
     serviceaccount/bookinfo-reviews created
     serviceaccount/bookinfo-productpage created
-    deployment.apps/reviews-v2 created
-    deployment.apps/reviews-v3 created
-    service/reviews created
     service/ratings created
     deployment.apps/ratings-v1 created
     {{< /text >}}
@@ -257,13 +251,11 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     {{< text bash >}}
     $ kubectl get pods -n bookinfo --context=$CTX_CLUSTER2
     ratings-v1-85f65447f4-vk88z   2/2     Running   0          43s
-    reviews-v2-5cfcfb547f-2t6l4   2/2     Running   0          50s
-    reviews-v3-75b4759787-58wpr   2/2     Running   0          48s
     {{< /text >}}
 
-    You should have three pods of the Bookinfo application.
+    You should have a single pod of the `ratings` service.
 
-1.  Create a service for reviews. Call it `myreviews`, to demonstrate that you can use different names for services in
+1.  Create a service for ratings. Call it `myratings`, to demonstrate that you can use different names for services in
     the clusters, there is no requirement for uniform naming.
 
     {{< text bash >}}
@@ -271,52 +263,35 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     apiVersion: v1
     kind: Service
     metadata:
-      name: myreviews
+      name: myratings
       labels:
-        app: reviews
+        app: ratings
     spec:
       ports:
       - port: 9080
         name: http
       selector:
-        app: reviews
+        app: ratings
     EOF
     {{< /text >}}
 
-1.  Delete the `reviews` service (`myreviews` will be used instead):
+1.  Delete the `ratings` service (`myratings` will be used instead):
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -l service=reviews -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    service "reviews" deleted
+    $ kubectl delete --context=$CTX_CLUSTER2 -l service=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    service "ratings" deleted
     {{< /text >}}
 
-1.  Create destination rules for reviews and ratings:
+1.  Create a destination rule for `myratings`:
 
     {{< text bash >}}
     $ kubectl apply -n bookinfo --context=$CTX_CLUSTER2 -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
-      name: reviews
-    spec:
-      host: myreviews
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-      subsets:
-      - name: v2
-        labels:
-          version: v2
-      - name: v3
-        labels:
-          version: v3
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
       name: ratings
     spec:
-      host: ratings
+      host: myratings
       trafficPolicy:
         tls:
           mode: ISTIO_MUTUAL
@@ -327,11 +302,11 @@ and [apply default destination rules](/docs/examples/bookinfo/#apply-default-des
     EOF
     {{< /text >}}
 
-1.  Verify that `myreviews.bookinfo` works as expected:
+1.  Verify that `myratings.bookinfo` works as expected:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER2) -c sleep --context=$CTX_CLUSTER2 -- curl myreviews.bookinfo:9080/reviews/0 -w "\nResponse code: %{http_code}\n"
-    {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER2) -c sleep --context=$CTX_CLUSTER2 -- curl myratings.bookinfo:9080/ratings/0 -w "\nResponse code: %{http_code}\n"
+    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     Response code: 200
     {{< /text >}}
 
@@ -642,7 +617,7 @@ Once you create the private gateways, you can start exposing services in one clu
 cluster. Note that by default no service is exposed, the cluster owners must specify explicitly which service they want
 to expose. They can cancel the exposure at any point if they want.
 
-### Expose reviews v2 in the second cluster
+### Expose ratings in the second cluster
 
 1.  Define an ingress `Gateway`:
 
@@ -670,7 +645,7 @@ to expose. They can cancel the exposure at any point if they want.
     EOF
     {{< /text >}}
 
-1.  Configure routing to `reviews v2`:
+1.  Configure routing to `ratings v1`:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
@@ -686,16 +661,16 @@ to expose. They can cancel the exposure at any point if they want.
       http:
       - match:
         - uri:
-            prefix: /bookinfo/myreviews/v2/
+            prefix: /bookinfo/myratings/v1/
         rewrite:
           uri: /
-          authority: myreviews.bookinfo.svc.cluster.local
+          authority: myratings.bookinfo.svc.cluster.local
         route:
         - destination:
             port:
               number: 9080
-            subset: v2
-            host: myreviews.bookinfo.svc.cluster.local
+            subset: v1
+            host: myratings.bookinfo.svc.cluster.local
     EOF
     {{< /text >}}
 
@@ -725,14 +700,14 @@ to expose. They can cancel the exposure at any point if they want.
     private key of `cluster1`:
 
     {{< text bash >}}
-    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v2/reviews/0 -w "\nResponse code: %{http_code}\n"
-    {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}}]}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     Response code: 200
     {{< /text >}}
 
-### Consume reviews v2 in the first cluster
+### Consume ratings in the first cluster
 
-Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `cluster1`.
+Bind `reviews` exposed from `cluster2` as `reviews.default.svc.cluster.local` in `cluster1`.
 
 1.  Create a Kubernetes service for `c2.example.com` since it is not an existing hostname. In the real life, you
     would use the real hostname of your cluster.
@@ -793,7 +768,7 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
     EOF
     {{< /text >}}
 
-1.  Create an egress `Gateway` for `reviews.default.svc.cluster.local`, port 443, and a destination rule for
+1.  Create an egress `Gateway` for `ratings.default.svc.cluster.local`, port 443, and a destination rule for
     traffic directed to the egress gateway.
 
     {{< text bash >}}
@@ -811,357 +786,12 @@ Bind reviews exposed from `cluster2` as `reviews.default.svc.cluster.local` in `
           name: https
           protocol: HTTPS
         hosts:
-        - reviews.default.svc.cluster.local
-        tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: istio-private-egressgateway-reviews-default
-    spec:
-      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-      subsets:
-      - name: reviews-default
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: reviews.default.svc.cluster.local
-    EOF
-    {{< /text >}}
-
-1.  Define a virtual service to direct traffic from the egress gateway to the external service:
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews.default.svc.cluster.local
-      gateways:
-      - istio-private-egressgateway
-      http:
-      - match:
-          - port: 443
-            uri:
-              prefix: /
-            gateways:
-            - istio-private-egressgateway
-        rewrite:
-          uri: /bookinfo/myreviews/v2/
-          authority: c2.example.com
-        route:
-        - destination:
-            host: c2-example-com.istio-private-gateways.svc.cluster.local
-            port:
-              number: 15443
-          weight: 100
-    EOF
-    {{< /text >}}
-
-1.  Now you can perform a canary release for `reviews v2`.
-    Define a virtual service to direct the traffic from sidecars to the egress gateway for the `jason` user:
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews
-      http:
-      - match:
-        - port: 9080
-          headers:
-            end-user:
-              exact: jason
-        rewrite:
-          authority: reviews.default.svc.cluster.local
-        route:
-        - destination:
-            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-            subset: reviews-default
-            port:
-              number: 443
-      - match:
-        - port: 9080
-        route:
-        - destination:
-            host: reviews
-            subset: v1
-          weight: 100
-    EOF
-    {{< /text >}}
-
-1.  Use the _Sign in_ button in the top right corner to sign in as `jason` (any password would do).
-    You will see that now the ratings with black starts appear which means that the remote version is used.
-
-1.  Sign out and see that for the rest of the users the local version is used.
-
-1.  Perform load balancing 50:50 between your local version of reviews (v1) and the remote version of reviews (v2):
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews
-      http:
-      - match:
-        - port: 9080
-        rewrite:
-          authority: reviews.default.svc.cluster.local
-        route:
-        - destination:
-            host: reviews
-            subset: v1
-            port:
-              number: 9080
-          weight: 50
-        - destination:
-            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-            subset: reviews-default
-            port:
-              number: 443
-          weight: 50
-    EOF
-    {{< /text >}}
-
-1.  Refresh your app webpage and see reviews with black stars appear roughly 50% of the time.
-
-The following diagram shows the state of the clusters after configuring exposing and consuming of the `reviews` service:
-
-{{< image width="100%" link="./MeshFederation3_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
-
-### A single cluster with isolation between namespaces after configuring exposing and consuming the reviews service
-
-In case you perform the instructions in this blog post on a single cluster, your cluster has the following state now:
-
-{{< image width="100%" link="./MeshFederation3b_bookinfo.svg" caption="A single cluster with isolation between namespaces after configuring exposing and consuming the reviews service" >}}
-
-### Deploy reviews v2 locally and retire reviews v1
-
-1.  Deploy `reviews v2` locally:
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -l app=reviews,version=v2 -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    {{< /text >}}
-
-1.  Direct all the traffic to the local version `reviews v2`:
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews
-      http:
-      - match:
-        - port: 9080
-        route:
-        - destination:
-            host: reviews.default.svc.cluster.local
-            subset: v2
-          weight: 100
-    EOF
-    {{< /text >}}
-
-1.  Delete the consumption of the remote service from `cluster2`:
-
-    {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER1 virtualservice reviews -n istio-private-gateways
-    $ kubectl delete --context=$CTX_CLUSTER1 destinationrule istio-private-egressgateway-reviews-default -n istio-private-gateways
-    $ kubectl delete --context=$CTX_CLUSTER1 gateway istio-private-egressgateway -n istio-private-gateways
-    {{< /text >}}
-
-1.  Delete the deployments of `reviews v1`:
-
-    {{< text bash >}}
-    $ kubectl delete deployment reviews-v1 --context=$CTX_CLUSTER1
-    deployment.extensions "reviews-v1" deleted
-    {{< /text >}}
-
-1.  Check the pods:
-
-    {{< text bash >}}
-    $ kubectl get pods --context=$CTX_CLUSTER1
-    details-v1-59489d6fb6-m5s5j       2/2     Running   0          4h31m
-    productpage-v1-689ff955c6-7qsk6   2/2     Running   0          4h31m
-    reviews-v2-5cfcfb547f-fv922       2/2     Running   0          4h51m
-    sleep-57f9d6fd6b-px97z            2/2     Running   0          4h31m
-    {{< /text >}}
-
-    You should have a new pod for `reviews v2` instead of the pod of `reviews v1`.
-
-1.  Access the webpage of the Bookinfo application. Notice the `Error fetching product reviews!` error. This
-    is because the `reviews` service crashes since it cannot find the `ratings` service.
-    The `ratings` service is in a remote cluster and you neither exposed it in `cluster2` nor configured
-    consuming it in `cluster1`. You will do it in the next sections.
-
-    The current deployment of the services in the two clusters is shown below:
-
-    {{< image width="100%" link="./MeshFederation4_bookinfo.svg" caption="Two clusters after deploying reviews v2 in the first cluster" >}}
-
-### Expose ratings and reviews v3
-
-1.  Redefine the `privately-exposed-services` virtual service you created earlier, to perform routing to `reviews v3`
-    and `ratings`, and to stop routing to `reviews v2`
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: privately-exposed-services
-    spec:
-      hosts:
-      - c2.example.com
-      gateways:
-      - istio-private-ingressgateway
-      http:
-      - match:
-        - uri:
-            prefix: /bookinfo/myreviews/v3/
-        rewrite:
-          uri: /
-          authority: myreviews.bookinfo.svc.cluster.local
-        route:
-        - destination:
-            port:
-              number: 9080
-            subset: v3
-            host: myreviews.bookinfo.svc.cluster.local
-      - match:
-        - uri:
-            prefix: /bookinfo/ratings/v1/
-        rewrite:
-          uri: /
-          authority: ratings.bookinfo.svc.cluster.local
-        route:
-        - destination:
-            port:
-              number: 9080
-            subset: v1
-            host: ratings.bookinfo.svc.cluster.local
-    EOF
-    {{< /text >}}
-
-1.  Test your configuration by performing the commands below:
-
-    1.  Access `reviews v3` from your local machine:
-
-        {{< text bash >}}
-        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
-        {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
-        Response code: 200
-        {{< /text >}}
-
-    1.  Access `ratings`:
-
-        {{< text bash >}}
-        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
-        {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
-        Response code: 200
-        {{< /text >}}
-
-    1.  Try to access `reviews v2`, it should not be accessible anymore:
-
-        {{< text bash >}}
-        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v2/reviews/0 -w "\nResponse code: %{http_code}\n"
-        Response code: 404
-        {{< /text >}}
-
-### Consume ratings and reviews v3
-
-Note that in this case the local version of the `reviews` service sends requests to the `ratings` service, which
-does not exist locally. In this case you must handle:
-
-- The DNS should have an entry for `ratings.default.svc.cluster.local`. Otherwise the local `reviews` service will
-  fail at DNS query.
-- Routing to the remote `ratings` service.
-
-Handle DNS and routing by the following steps:
-
-1.  To handle DNS, create a Kubernetes service for `ratings.default.svc.cluster.local`.
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
-    kind: Service
-    apiVersion: v1
-    metadata:
-      name: ratings
-    spec:
-      type: ExternalName
-      externalName: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-      ports:
-      - name: http
-        protocol: TCP
-        port: 9080
-    EOF
-    {{< /text >}}
-
-1.  Create an egress `Gateway` for `ratings.default.svc.cluster.local` and `reviews.default.svc.cluster.local`, port 443,
-    and destination rules for traffic directed to the egress gateway.
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-private-egressgateway
-    spec:
-      selector:
-        istio: private-egressgateway
-      servers:
-      - port:
-          number: 443
-          name: https
-          protocol: HTTPS
-        hosts:
-        - reviews.default.svc.cluster.local
         - ratings.default.svc.cluster.local
         tls:
           mode: MUTUAL
           serverCertificate: /etc/certs/cert-chain.pem
           privateKey: /etc/certs/key.pem
           caCertificates: /etc/certs/root-cert.pem
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: istio-private-egressgateway-reviews-default
-    spec:
-      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-      subsets:
-      - name: reviews-default
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: reviews.default.svc.cluster.local
     ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -1183,7 +813,25 @@ Handle DNS and routing by the following steps:
     EOF
     {{< /text >}}
 
-1.  Define a virtual service to direct traffic from the egress gateway to remote ratings:
+1.  To handle DNS entry for a non-existing service, create a Kubernetes service for `ratings.default.svc.cluster.local`.
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: ratings
+    spec:
+      type: ExternalName
+      externalName: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      ports:
+      - name: http
+        protocol: TCP
+        port: 9080
+    EOF
+    {{< /text >}}
+
+1.  Define a virtual service to direct traffic from the egress gateway to the external service:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
@@ -1204,7 +852,7 @@ Handle DNS and routing by the following steps:
             gateways:
             - istio-private-egressgateway
         rewrite:
-          uri: /bookinfo/ratings/v1/
+          uri: /bookinfo/myratings/v1/
           authority: c2.example.com
         route:
         - destination:
@@ -1215,39 +863,7 @@ Handle DNS and routing by the following steps:
     EOF
     {{< /text >}}
 
-1.  Define a virtual service to direct traffic from the egress gateway to remote reviews v3:
-
-    {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews.default.svc.cluster.local
-      gateways:
-      - istio-private-egressgateway
-      http:
-      - match:
-          - port: 443
-            uri:
-              prefix: /
-            gateways:
-            - istio-private-egressgateway
-        rewrite:
-          uri: /bookinfo/myreviews/v3/
-          authority: c2.example.com
-        route:
-        - destination:
-            host: c2-example-com.istio-private-gateways.svc.cluster.local
-            port:
-              number: 15443
-          weight: 100
-    EOF
-    {{< /text >}}
-
-1.  Direct traffic destined to `ratings`, to the egress gateway:
+1.  Define a virtual service to direct the traffic from sidecars to the egress gateway for the `ratings` service:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
@@ -1269,13 +885,10 @@ Handle DNS and routing by the following steps:
             subset: ratings-default
             port:
               number: 443
-          weight: 100
     EOF
     {{< /text >}}
 
-1.  Access the webpage of your application and verify that the ratings are now displayed correctly, with black stars.
-
-1.  Perform load balancing 50:50 between your local version of reviews (v2) and the remote version of reviews (v3):
+1.  Direct all the traffic to `reviews v2`:
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
@@ -1289,68 +902,46 @@ Handle DNS and routing by the following steps:
       http:
       - match:
         - port: 9080
-        rewrite:
-          authority: reviews.default.svc.cluster.local
         route:
         - destination:
-            host: reviews
+            host: reviews.default.svc.cluster.local
             subset: v2
-            port:
-              number: 9080
-          weight: 50
-        - destination:
-            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
-            subset: reviews-default
-            port:
-              number: 443
-          weight: 50
+          weight: 100
     EOF
     {{< /text >}}
 
-1.  Refresh your app webpage and see reviews with black and red stars appear roughly 50:50.
+1.  Refresh your app webpage and see reviews with black stars.
 
-The following diagram shows the state of the clusters after configuring exposing and consuming of the `reviews v3`
-and `ratings` services:
+1.  Delete the deployment of `reviews v1`:
 
-{{< image width="100%" link="./MeshFederation5_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the ratings and reviews v3 services" >}}
+    {{< text bash >}}
+    $ kubectl delete deployment reviews-v1 --context=$CTX_CLUSTER1
+    deployment.extensions "reviews-v1" deleted
+    {{< /text >}}
+
+The following diagram shows the state of the clusters after configuring exposing and consuming of the `ratings` service:
+
+{{< image width="100%" link="./MeshFederation3_bookinfo.svg" caption="Two clusters after configuring exposing and consuming the reviews service" >}}
+
+### A single cluster with isolation between namespaces after configuring exposing and consuming the ratings service
+
+In case you perform the instructions in this blog post on a single cluster, your cluster has the following state now:
+
+{{< image width="100%" link="./MeshFederation3b_bookinfo.svg" caption="A single cluster with isolation between namespaces after configuring exposing and consuming the ratings service" >}}
 
 ### Cancel exposure of ratings
 
 Consider a scenario where the owners of `cluster2` decide to stop exposure of the `ratings` service. They can do it in
 the following way:
 
-1.  Remove routing to `ratings` in `cluster2` (leave routing to `reviews` only):
+1.  Delete the VirtualService that routes the traffic to `ratings`
 
     {{< text bash >}}
-    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: privately-exposed-services
-    spec:
-      hosts:
-      - c2.example.com
-      gateways:
-      - istio-private-ingressgateway
-      http:
-      - match:
-        - uri:
-            prefix: /bookinfo/myreviews/v3/
-        rewrite:
-          uri: /
-          authority: myreviews.bookinfo.svc.cluster.local
-        route:
-        - destination:
-            port:
-              number: 9080
-            subset: v3
-            host: myreviews.bookinfo.svc.cluster.local
-    EOF
+    $ kubectl delete virtualservice privately-exposed-services --context=$CTX_CLUSTER2 -n istio-private-gateways
     {{< /text >}}
 
 1.  Access the webpage of your application and verify that instead of the black stars appear the
-    `Ratings service is currently unavailable` message. The red stars are displayed correctly, since they are shown by
-    `reviews v3` that runs in `cluster2` and has access to `ratings` locally.
+    `Ratings service is currently unavailable` message.
 
 1.  To expose `ratings` back, run:
 
@@ -1368,29 +959,252 @@ the following way:
       http:
       - match:
         - uri:
-            prefix: /bookinfo/myreviews/v3/
+            prefix: /bookinfo/myratings/v1/
         rewrite:
           uri: /
-          authority: myreviews.bookinfo.svc.cluster.local
-        route:
-        - destination:
-            port:
-              number: 9080
-            subset: v3
-            host: myreviews.bookinfo.svc.cluster.local
-      - match:
-        - uri:
-            prefix: /bookinfo/ratings/v1/
-        rewrite:
-          uri: /
-          authority: ratings.bookinfo.svc.cluster.local
+          authority: myratings.bookinfo.svc.cluster.local
         route:
         - destination:
             port:
               number: 9080
             subset: v1
-            host: ratings.bookinfo.svc.cluster.local
+            host: myratings.bookinfo.svc.cluster.local
     EOF
+    {{< /text >}}
+
+### Expose another service in the second cluster
+
+In this section you deploy to the second cluster another service and configure its exposure. The goal of this section is
+to show exposure and consumption of multiple services. It will also be used later to demonstrate access control.
+
+
+1.  Deploy `httpbin` in `bookinfo`:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n bookinfo --context=$CTX_CLUSTER2
+    {{< /text >}}
+
+1.  Create a destination rule for `httpbin`:
+
+    {{< text bash >}}
+    $ kubectl apply -n bookinfo --context=$CTX_CLUSTER2 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: httpbin
+    spec:
+      host: httpbin
+      trafficPolicy:
+        tls:
+          mode: ISTIO_MUTUAL
+    EOF
+    {{< /text >}}
+
+1.  Configure routing to `httpbin`, update the `privately-exposed-services` virtual service you configured in the
+    previous section:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: privately-exposed-services
+    spec:
+      hosts:
+      - c2.example.com
+      gateways:
+      - istio-private-ingressgateway
+      http:
+      - match:
+        - uri:
+            prefix: /bookinfo/myratings/v1/
+        rewrite:
+          uri: /
+          authority: myratings.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 9080
+            subset: v1
+            host: myratings.bookinfo.svc.cluster.local
+      - match:
+        - uri:
+            prefix: /bookinfo/httpbin/
+        rewrite:
+          uri: /
+          authority: httpbin.bookinfo.svc.cluster.local
+        route:
+        - destination:
+            port:
+              number: 8000
+            host: httpbin.bookinfo.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  Test your configuration by accessing the exposed service. The `curl` command below uses the certificate and the
+    private key of `cluster1`:
+
+    {{< text bash >}}
+    $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/httpbin/status/418 -w "\nResponse code: %{http_code}\n"
+
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+
+    Response code: 418
+    {{< /text >}}
+
+1.  Refresh the webpage of the Bookinfo application and verify that it works as previously.
+
+### Consume `httpbin` in the first cluster
+
+In this section you configure binding of `httpbin` from the second cluster to a local name in the first cluster.
+You bing the service to the `default` namespace and the `9000` port, which are  different from the ones used in the
+second cluster.
+
+1.  Update the egress `Gateway` to handle also `httpbin.default.svc.cluster.local`, port 443, and a destination rule for
+    traffic directed to the egress gateway.
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-private-egressgateway
+    spec:
+      selector:
+        istio: private-egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - ratings.default.svc.cluster.local
+        - httpbin.default.svc.cluster.local
+        tls:
+          mode: MUTUAL
+          serverCertificate: /etc/certs/cert-chain.pem
+          privateKey: /etc/certs/key.pem
+          caCertificates: /etc/certs/root-cert.pem
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: istio-private-egressgateway-httpbin-default
+    spec:
+      host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      subsets:
+      - name: httpbin-default
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: ISTIO_MUTUAL
+              sni: httpbin.default.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+1.  To handle DNS entry for a non-existing service, create a Kubernetes service for `httpbin.default.svc.cluster.local`.
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: httpbin
+    spec:
+      type: ExternalName
+      externalName: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+      ports:
+      - name: http
+        protocol: TCP
+        port: 9000
+    EOF
+    {{< /text >}}
+
+1.  Define a virtual service to direct traffic from the egress gateway to the external service:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -n istio-private-gateways -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - httpbin.default.svc.cluster.local
+      gateways:
+      - istio-private-egressgateway
+      http:
+      - match:
+          - port: 443
+            uri:
+              prefix: /
+            gateways:
+            - istio-private-egressgateway
+        rewrite:
+          uri: /bookinfo/httpbin/
+          authority: c2.example.com
+        route:
+        - destination:
+            host: c2-example-com.istio-private-gateways.svc.cluster.local
+            port:
+              number: 15443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Define a virtual service to direct the traffic from sidecars to the egress gateway for the `httpbin` service:
+
+    {{< text bash >}}
+    $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: httpbin
+    spec:
+      hosts:
+      - httpbin
+      http:
+      - match:
+        - port: 9000
+        rewrite:
+          authority: httpbin.default.svc.cluster.local
+        route:
+        - destination:
+            host: istio-private-egressgateway.istio-private-gateways.svc.cluster.local
+            subset: httpbin-default
+            port:
+              number: 443
+    EOF
+    {{< /text >}}
+
+1.  Verify that `httpbin.bookinfo:8000` from the second cluster is bound to `httpbin.default:9000` in the first cluster.
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}' --context=$CTX_CLUSTER1) -c sleep --context=$CTX_CLUSTER1 -- curl httpbin:9000/status/418 -w "\nResponse code: %{http_code}\n"
+
+    -=[ teapot ]=-
+
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
+
+    Response code: 418
     {{< /text >}}
 
 ## Apply Istio RBAC on the second cluster
@@ -1408,10 +1222,10 @@ Access control is enforced at the entrance to the cluster and also inside the cl
 
 The security is hardened in two phases in the next subsections:
 
-1. You enable Istio RBAC on the `bookinfo` namespace, and declare that only `reviews` is allowed to call `ratings` and
-that only `reviews` and `ratings` are allowed to be accessed from the outside through the private ingress gateway.
+1. You enable Istio RBAC on the `bookinfo` namespace, and declare that only the private ingress gateway is allowed to
+access `ratings` and `httpbin`.
 1. You enable Istio RBAC on the `istio-private-gateways` namespace and declare that only cluster `c1` is allowed to
-access the `reviews` and `ratings` services through the private ingress gateway.
+access the `ratings` and `httpbin` services through the private ingress gateway.
 
 Istio will deny all the unspecified access.
 
@@ -1436,19 +1250,19 @@ for example [JWT](https://jwt.io).
     apiVersion: rbac.istio.io/v1alpha1
     kind: ServiceRole
     metadata:
-      name: reviews-reader
+      name: ratings-reader
     spec:
       rules:
-      - services: ["myreviews.bookinfo.svc.cluster.local"]
+      - services: ["myratings.bookinfo.svc.cluster.local"]
         methods: ["GET"]
     ---
     apiVersion: rbac.istio.io/v1alpha1
     kind: ServiceRole
     metadata:
-      name: ratings-reader
+      name: httpbin-reader
     spec:
       rules:
-      - services: ["ratings.bookinfo.svc.cluster.local"]
+      - services: ["httpbin.bookinfo.svc.cluster.local"]
         methods: ["GET"]
     EOF
     {{< /text >}}
@@ -1462,25 +1276,24 @@ for example [JWT](https://jwt.io).
     apiVersion: rbac.istio.io/v1alpha1
     kind: ServiceRoleBinding
     metadata:
-      name: reviews-reader
-    spec:
-      subjects:
-      - user: "cluster.local/ns/istio-private-gateways/sa/istio-private-ingressgateway-service-account"
-      roleRef:
-        kind: ServiceRole
-        name: reviews-reader
-    ---
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRoleBinding
-    metadata:
       name: ratings-reader
     spec:
       subjects:
-      - user: "cluster.local/ns/bookinfo/sa/bookinfo-reviews"
       - user: "cluster.local/ns/istio-private-gateways/sa/istio-private-ingressgateway-service-account"
       roleRef:
         kind: ServiceRole
         name: ratings-reader
+    ---
+    apiVersion: rbac.istio.io/v1alpha1
+    kind: ServiceRoleBinding
+    metadata:
+      name: httpbin-reader
+    spec:
+      subjects:
+      - user: "cluster.local/ns/istio-private-gateways/sa/istio-private-ingressgateway-service-account"
+      roleRef:
+        kind: ServiceRole
+        name: httpbin-reader
     EOF
     {{< /text >}}
 
@@ -1508,10 +1321,10 @@ for example [JWT](https://jwt.io).
 1.  Access the webpage of the Bookinfo application in `cluster1` and verify that the application continues to work.
     It means that the authorized access is allowed and you configured your policy rules correctly.
 
-1.  Check that unauthorized access is denied. Send a GET request from `ratings` to `reviews`:
+1.  Check that unauthorized access is denied. Send a GET request from `ratings` to `httpbin`:
 
     {{< text bash >}}
-    $  kubectl exec -it $(kubectl get pod -l app=ratings --context=$CTX_CLUSTER2 -n bookinfo -o jsonpath='{.items[0].metadata.name}') --context=$CTX_CLUSTER2 -n bookinfo -c ratings -- curl myreviews:9080/reviews/0 -w "\nResponse code: %{http_code}\n"
+    $  kubectl exec -it $(kubectl get pod -l app=ratings --context=$CTX_CLUSTER2 -n bookinfo -o jsonpath='{.items[0].metadata.name}') --context=$CTX_CLUSTER2 -n bookinfo -c ratings -- curl httpbin:8000/status/418 -w "\nResponse code: %{http_code}\n"
     RBAC: access denied
     Response code: 403
     {{< /text >}}
@@ -1549,7 +1362,7 @@ for example [JWT](https://jwt.io).
                     rules:
                     - header:
                         name: ":path"
-                        prefix_match: "/bookinfo/myreviews/v3/"
+                        prefix_match: "/bookinfo/myratings/v1/"
                     - header:
                         name: ":method"
                         exact_match: "GET"
@@ -1563,63 +1376,7 @@ for example [JWT](https://jwt.io).
                     rules:
                     - header:
                         name: ":path"
-                        prefix_match: "/bookinfo/ratings/v1/"
-                    - header:
-                        name: ":method"
-                        exact_match: "GET"
-                principals:
-                - authenticated:
-                    principal_name:
-                      exact: "spiffe://c1.example.com/istio-private-egressgateway"
-    EOF
-    {{< /text >}}
-
-1.  Refresh the webpage of your application and verify that everything is working as before.
-
-1.  Change the RBAC policy to allow only the `c1` cluster to access `reviews`  and only the `c3` cluster to access
-    `ratings`:
-
-    {{< text bash >}}
-    $ kubectl apply  --context=$CTX_CLUSTER2 -n istio-private-gateways -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-      name: private-ingress-rbac
-    spec:
-      workloadLabels:
-        istio: private-ingressgateway
-      filters:
-      - filterName: envoy.filters.http.rbac
-        filterType: HTTP
-        listenerMatch:
-          portNumber: 15443
-          listenerType: GATEWAY
-          listenerProtocol: HTTP
-        filterConfig:
-          rules:
-            action: ALLOW
-            policies:
-              reviews_v3:
-                permissions:
-                  and_rules:
-                    rules:
-                    - header:
-                        name: ":path"
-                        prefix_match: "/bookinfo/myreviews/v3/"
-                    - header:
-                        name: ":method"
-                        exact_match: "GET"
-                principals:
-                - authenticated:
-                    principal_name:
-                      exact: "spiffe://c1.example.com/istio-private-egressgateway"
-              ratings_v1:
-                permissions:
-                  and_rules:
-                    rules:
-                    - header:
-                        name: ":path"
-                        prefix_match: "/bookinfo/ratings/v1/"
+                        prefix_match: "/bookinfo/httpbin/"
                     - header:
                         name: ":method"
                         exact_match: "GET"
@@ -1630,41 +1387,52 @@ for example [JWT](https://jwt.io).
     EOF
     {{< /text >}}
 
-1.  Refresh the webpage of your application multiple times. Note that the red stars appear as before, roughly 50% of
-    the time. For the other 50% of the time, the `Ratings service is currently unavailable` message is shown.
+    The filter above allows cluster `c1` to access `ratings` and cluster `c3` to access `httpbin`.
+
+1.  Refresh the webpage of your application and verify that everything is working as before.
 
 1.  Perform the following tests by the `curl` command using identities of the `c1` and the `c3` clusters:
 
-    1.  Verify that `reviews` is allowed for the `c1` cluster:
+    1.  Verify that `httpbin` is denied for the `c1` cluster:
 
         {{< text bash >}}
-        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
-        {"id": "0","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "red"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "red"}}]}
-        Response code: 200
-        {{< /text >}}
-
-    1.  Verify that `reviews` is denied for the `c3` cluster:
-
-        {{< text bash >}}
-        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myreviews/v3/reviews/0 -w "\nResponse code: %{http_code}\n"
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/httpbin/status/418 -w "\nResponse code: %{http_code}\n"
         RBAC: access denied
         Response code: 403
         {{< /text >}}
 
-    1.  Verify that `ratings` is denied for the `c1` cluster:
+    1.  Verify that `httpbin` is allowed for the `c3` cluster:
 
         {{< text bash >}}
-        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
-        RBAC: access denied
-        Response code: 403
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/httpbin/status/418 -w "\nResponse code: %{http_code}\n"
+
+        -=[ teapot ]=-
+
+           _...._
+         .'  _ _ `.
+        | ."` ^ `". _,
+        \_;`"---"`|//
+          |       ;/
+          \_     _/
+            `"""`
+
+        Response code: 418
         {{< /text >}}
 
-    1.  Verify that `ratings` is allowed for the `c3` cluster:
+    1.  Verify that `ratings` is allowed for the `c1` cluster:
 
         {{< text bash >}}
-        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/ratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c1.example.com.key --cert c1.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
         {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
         Response code: 200
+        {{< /text >}}
+
+    1.  Verify that `ratings` is denied for the `c3` cluster:
+
+        {{< text bash >}}
+        $ curl -HHost:c2.example.com --resolve c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT:$CLUSTER2_INGRESS_HOST --cacert example.com.crt --key c3.example.com.key --cert c3.example.com.crt https://c2.example.com:$CLUSTER2_SECURE_INGRESS_PORT/bookinfo/myratings/v1/ratings/0 -w "\nResponse code: %{http_code}\n"
+        RBAC: access denied
+        Response code: 403
         {{< /text >}}
 
 ## Troubleshooting
@@ -1699,10 +1467,10 @@ for example [JWT](https://jwt.io).
     $ kubectl logs -l app=productpage -c istio-proxy --context=$CTX_CLUSTER1
     {{< /text >}}
 
-1.  Check the logs of `reviews v2` in `cluster2`:
+1.  Check the logs of `ratings` in `cluster2`:
 
     {{< text bash >}}
-    $ kubectl logs -l app=reviews,version=v2 -n bookinfo -c istio-proxy --context=$CTX_CLUSTER2
+    $ kubectl logs -l app=ratings -n bookinfo -c istio-proxy --context=$CTX_CLUSTER2
     {{< /text >}}
 
 1.  Check the Istio configuration artifacts in `cluster1`:
@@ -1722,11 +1490,12 @@ for example [JWT](https://jwt.io).
 ### Delete consumption of services in the first cluster
 
 {{< text bash >}}
-$ kubectl delete --context=$CTX_CLUSTER1 virtualservice reviews -n istio-private-gateways
-$ kubectl delete --context=$CTX_CLUSTER1 destinationrule istio-private-egressgateway-reviews-default -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 virtualservice ratings httpbin -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 destinationrule istio-private-egressgateway-ratings-default istio-private-egressgateway-httpbin-default c2-example-com -n istio-private-gateways
 $ kubectl delete --context=$CTX_CLUSTER1 gateway istio-private-egressgateway -n istio-private-gateways
-$ kubectl delete --context=$CTX_CLUSTER1 service c2-example-com -n istio-private-gateways
 $ kubectl delete --context=$CTX_CLUSTER1 endpoints c2-example-com -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 service c2-example-com -n istio-private-gateways
+$ kubectl delete --context=$CTX_CLUSTER1 service ratings httpbin
 $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 {{< /text >}}
 
@@ -1799,8 +1568,8 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 1.  Delete the service roles and service role bindings:
 
     {{< text bash >}}
-    $ kubectl delete --context=$CTX_CLUSTER2 -n bookinfo servicerolebinding ratings-reader reviews-reader
-    $ kubectl delete --context=$CTX_CLUSTER2 -n bookinfo servicerole ratings-reader reviews-reader
+    $ kubectl delete --context=$CTX_CLUSTER2 -n bookinfo servicerolebinding ratings-reader httpbin-reader
+    $ kubectl delete --context=$CTX_CLUSTER2 -n bookinfo servicerole ratings-reader httpbin-reader
     {{< /text >}}
 
 ### Delete the Bookinfo services
@@ -1822,17 +1591,15 @@ $ kubectl delete --context=$CTX_CLUSTER2 gateway istio-private-ingressgateway -n
 
     {{< text bash >}}
     $ kubectl delete --context=$CTX_CLUSTER2 -l app!=ratings,app!=reviews,app!=details,app!=productpage -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
-    $  kubectl delete --context=$CTX_CLUSTER2 -l app=reviews,version=v2 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    $  kubectl delete --context=$CTX_CLUSTER2 -l app=reviews,version=v3 -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    $  kubectl delete --context=$CTX_CLUSTER2 -l app=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    serviceaccount "bookinfo-details" deleted
-    serviceaccount "bookinfo-ratings" deleted
-    serviceaccount "bookinfo-reviews" deleted
-    serviceaccount "bookinfo-productpage" deleted
-    deployment.apps "reviews-v2" deleted
-    deployment.apps "reviews-v3" deleted
-    service "ratings" deleted
-    deployment.apps "ratings-v1" deleted
+    $ kubectl delete --context=$CTX_CLUSTER2 -l app=ratings -n bookinfo -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl delete --context=$CTX_CLUSTER2 service myratings -n bookinfo
+    {{< /text >}}
+
+1.  Delete the `httpbin` sample in `cluster2`:
+
+    {{< text bash >}}
+    $ kubectl delete destinationrule httpbin -n bookinfo --context=$CTX_CLUSTER2
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@ -n bookinfo --context=$CTX_CLUSTER2
     {{< /text >}}
 
 1.  Delete the `bookinfo` namespace in `cluster2`:
