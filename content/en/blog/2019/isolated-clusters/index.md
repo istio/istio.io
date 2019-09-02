@@ -977,7 +977,6 @@ the following way:
 In this section you deploy to the second cluster another service and configure its exposure. The goal of this section is
 to show exposure and consumption of multiple services. It will also be used later to demonstrate access control.
 
-
 1.  Deploy `httpbin` in `bookinfo`:
 
     {{< text bash >}}
