@@ -1332,7 +1332,7 @@ for example [JWT](https://jwt.io).
 ### Enable RBAC on the ingress gateway
 
 1.  Currently, the only identities Istio RBAC can handle are the identities of Istio mutual TLS. In this case, you want
-    to control the traffic for non-Istio mutual TLS from external clusters. To do that, you can use Envoy's filter [`envoy.filters.http.rbac`](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/rbac_filter).
+    to control the traffic for non-Istio mutual TLS from external clusters. To do that, you can use Envoy's filter [`envoy.filters.http.rbac`](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/rbac/v2/rbac.proto).
     To instruct Istio to use that filter, create an
     [`EnvoyFilter`](/docs/reference/config/networking/v1alpha3/envoy-filter/):
 
