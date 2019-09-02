@@ -141,7 +141,7 @@ You may want to use a single cluster for easy testing of the instructions of thi
 connect multiple clusters. To better understand isolation between namespaces in a single cluster, take a look at an
 [initial state](#a-single-cluster-with-isolation-between-namespaces-after-initial-setup) of a single cluster
 and the
-[state of the cluster with two namespaces connected](#a-single-cluster-with-isolation-between-namespaces-after-configuring-exposing-and-consuming-the-reviews-service)
+[state of the cluster with two namespaces connected](#a-single-cluster-with-isolation-between-namespaces-after-configuring-exposing-and-consuming-the-ratings-service)
 by Istio, with boundary protection.
 
 ### Prerequisites for two clusters
