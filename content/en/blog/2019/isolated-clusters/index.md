@@ -31,7 +31,8 @@ Istio to connect applications in the meshes with different compliance requiremen
 applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
 
 In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
-mesh federation. Finally, I report the current state of mesh-federation work in Istio.
+{{< gloss >}}multi-mesh{{< /gloss >}} deployments. Finally, I report the current state of
+{{< gloss "mesh federation" >}}mesh-federation{{< /gloss >}} work in Istio.
 
 ## Isolation and boundary protection
 
@@ -122,15 +123,17 @@ is migrated from private to public cloud.
 
 While you can perform {{< gloss >}}mesh federation{{< /gloss >}} using standard Istio configurations already today,
 it would require writing a lot of boiler-plate YAML files and could be error-prone. There is an effort under way to
-automate the mesh-federation process. Before the automation of mesh federation is released, and if you are curious, you
+automate the {{< gloss >}}mesh federation{{< /gloss >}} process.
+Before the automation of {{< gloss >}}mesh federation{{< /gloss >}} is released, and if you are curious, you
 can check [multi-mesh deployment examples](https://github.com/istio-ecosystem/multi-mesh-examples) at the
 [istio-ecosystem](https://github.com/istio-ecosystem) repository.
 
 ## Summary
 
 In this blog post I described the requirements for isolation and boundary protection of sensitive data environments by
-using Istio {{< gloss >}}multi-mesh{{< /gloss >}} deployments. I outlined the principles of Istio multi-mesh deployments
-and reported the current work on {{< gloss >}}mesh federation{{< /gloss >}} in Istio.
+using Istio {{< gloss >}}multi-mesh{{< /gloss >}} deployments. I outlined the principles of Istio
+{{< gloss >}}multi-mesh{{< /gloss >}} deployments and reported the current work on
+{{< gloss >}}mesh federation{{< /gloss >}} in Istio.
 
 I will be happy to hear your opinion about {{< gloss >}}multi-mesh{{< /gloss >}} and
 {{< gloss >}}multi-cluster{{< /gloss >}} at [discuss.istio.io](https://discuss.istio.io).
