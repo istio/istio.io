@@ -1,7 +1,7 @@
 ---
 title: Use Istio multi-mesh deployments for isolation and boundary protection
-subtitle: Deploy environments that require isolation into separate meshes and enable inter-cluster communication by mesh federation
-description: Deploy environments that require isolation into separate meshes and enable inter-cluster communication by mesh federation.
+subtitle: Deploy environments that require isolation into separate meshes and enable inter-mesh communication by mesh federation
+description: Deploy environments that require isolation into separate meshes and enable inter-mesh communication by mesh federation.
 publishdate: 2019-09-03
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
@@ -17,12 +17,13 @@ types of sensitive data they protect appear in the following table:
 |[GDPR](https://gdpr-info.eu)| personal data|
 
 [PCI DSS](https://www.pcisecuritystandards.org/pci_security), for example, recommends putting cardholder data
-environment on a separate network. It also requires using a [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)),
+environment on a network, separate from the rest of the system. It also requires using a [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)),
 and setting firewalls between the public Internet and the DMZ, and between the DMZ and the internal network.
 
-Isolation of sensitive data can reduce the scope of the compliance checks and improve the security of the sensitive
-data. Reducing the scope reduces the risks of failing a compliance check and reduces the costs of compliance since
-there are less components to check and secure, according to compliance requirements.
+Isolation of sensitive data environments from other information systems can reduce the scope of the compliance checks
+and improve the security of the sensitive data. Reducing the scope reduces the risks of failing a compliance check and
+reduces the costs of compliance since there are less components to check and secure, according to compliance
+requirements.
 
 You can achieve isolation of sensitive data environments by deploying the applications that process the sensitive data
 into {{< gloss "multi-mesh" >}}separate service meshes{{< /gloss >}}, preferably on separate networks. Then you can use
@@ -78,6 +79,7 @@ constituent subsystems.
 Boundary protection, in particular, means:
 
 - put an access control mechanism at the boundary (firewall, gateway, etc.)
+- monitor the incoming/outgoing traffic at the boundary
 - all the access control mechanisms must be _deny-all_ by default
 - do not expose private IP addresses from the boundary
 - do not let components from outside the boundary to impact security inside the boundary
@@ -91,27 +93,27 @@ each mesh.
 ## Features of multi-mesh deployments
 
 - **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one mesh might have
-different functionality and API than the `withdraw` services in the `accounts` namespace in other clusters.
+different functionality and API than the `withdraw` services in the `accounts` namespace in other meshes.
 Such situation could happen in an organization where there is no uniform policy on naming of namespaces and services, or
-when the clusters belong to different organizations.
+when the meshes belong to different organizations.
 - **expose-nothing by default**. None of the services in a mesh are exposed by default, the mesh owners must
 explicitly specify which services are exposed.
 - **boundary protection**. The access control of the traffic must be enforced at the ingress gateway, which stops
-forbidden traffic from entering the cluster. This requirement implements
+forbidden traffic from entering the mesh. This requirement implements
 [Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of some compliance
 standards, such as the
 [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
 - **common trust may not exist**. The Istio sidecars in one mesh may not trust the Citadel certificates in other
-meshes, due to some security requirement or due to the fact that the cluster owners did not initially plan to federate
+meshes, due to some security requirement or due to the fact that the mesh owners did not initially plan to federate
 the meshes.
-- **service location transparency**: consuming services send requests to the exposed services in remote clusters using
+- **service location transparency**: consuming services send requests to the exposed services in remote meshes using
 local service names. The consuming services are oblivious to the fact that some of the destinations are in remote
-clusters and some are local services. The access is uniform, using the local service names of Kubernetes, for example
+meshes and some are local services. The access is uniform, using the local service names, for example, in Kubernetes,
 `reviews.default.svc.cluster.local`.
 
 While **expose-nothing by default** and **boundary protection** are required to facilitate compliance and improve
 security, **non-uniform naming** and **common trust may not exist** are required when connecting
-clusters of different organizations, or of an organization that cannot enforce uniform naming or cannot or may not
+meshes of different organizations, or of an organization that cannot enforce uniform naming or cannot or may not
 establish common trust between the meshes. **Service location transparency** is important since you do not want to
 change the code of your applications when the location of the consumed services changes, for example when some service
 is migrated from private to public cloud.
