@@ -76,6 +76,7 @@ constituent subsystems.
 {{< /quote >}}
 
 Boundary protection, in particular, means:
+
 - put an access control mechanism at the boundary (firewall, gateway, etc.)
 - all the access control mechanisms must be _deny-all_ by default
 - do not expose private IP addresses from the boundary
