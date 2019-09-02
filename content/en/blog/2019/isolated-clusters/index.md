@@ -934,7 +934,7 @@ In case you perform the instructions in this blog post on a single cluster, your
 Consider a scenario where the owners of `cluster2` decide to stop exposure of the `ratings` service. They can do it in
 the following way:
 
-1.  Delete the VirtualService that routes the traffic to `ratings`
+1.  Delete the virtual service that routes the traffic to `ratings`
 
     {{< text bash >}}
     $ kubectl delete virtualservice privately-exposed-services --context=$CTX_CLUSTER2 -n istio-private-gateways
@@ -1065,7 +1065,7 @@ to show exposure and consumption of multiple services. It will also be used late
 ### Consume `httpbin` in the first cluster
 
 In this section you configure binding of `httpbin` from the second cluster to a local name in the first cluster.
-You bing the service to the `default` namespace and the `9000` port, which are  different from the ones used in the
+You bind the service to the `default` namespace and the `9000` port, which are  different from the ones used in the
 second cluster.
 
 1.  Update the egress `Gateway` to handle also `httpbin.default.svc.cluster.local`, port 443, and a destination rule for
