@@ -30,8 +30,8 @@ into {{< gloss "multi-mesh" >}}separate service meshes{{< /gloss >}}, preferably
 Istio to connect applications in the meshes with different compliance requirements. The process of connecting inter-mesh
 applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
 
-In this blog post I describe the requirements for isolation and boundary protection, and describe principles of
-mesh federation.
+In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
+mesh federation. Finally, I report the current state of mesh-federation work in Istio.
 
 ## Isolation and boundary protection
 
@@ -129,8 +129,8 @@ can check [multi-mesh deployment examples](https://github.com/istio-ecosystem/mu
 ## Summary
 
 In this blog post I described the requirements for isolation and boundary protection of sensitive data environments by
-using Istio multi-mesh deployments. I explained the principles of Istio multi-mesh deployments and described the current
-work on {{< gloss >}}mesh federation{{< /gloss >}} in Istio.
+using Istio {{< gloss >}}multi-mesh{{< /gloss >}} deployments. I outlined the principles of Istio multi-mesh deployments
+and reported the current work on {{< gloss >}}mesh federation{{< /gloss >}} in Istio.
 
 I will be happy to hear your opinion about {{< gloss >}}multi-mesh{{< /gloss >}} and
 {{< gloss >}}multi-cluster{{< /gloss >}} at [discuss.istio.io](https://discuss.istio.io).
