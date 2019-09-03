@@ -49,14 +49,14 @@ This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
     $ NAMESPACE=$(kubectl get pods -l k8s-app=istio-cni-node --all-namespaces --output='jsonpath={.items[0].metadata.namespace}')
     {{< /text >}}
 
-2. If `istio-cni` is currently installed in a namespace other than `kube-system`
+1. If `istio-cni` is currently installed in a namespace other than `kube-system`
    (for example, `istio-system`), delete `istio-cni`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=$NAMESPACE | kubectl delete -f -
     {{< /text >}}
 
-3. Install or upgrade `istio-cni` in the `kube-system` namespace:
+1. Install or upgrade `istio-cni` in the `kube-system` namespace:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl apply -f -
@@ -153,9 +153,9 @@ the preferred upgrade option is to let Helm take care of the upgrade.
     $ helm upgrade --install --force istio-init install/kubernetes/helm/istio-init --namespace istio-system
     {{< /text >}}
 
-2. {{< boilerplate verify-crds >}}
+1. {{< boilerplate verify-crds >}}
 
-3. Upgrade the `istio` chart:
+1. Upgrade the `istio` chart:
 
     {{< text bash >}}
     $ helm upgrade istio install/kubernetes/helm/istio --namespace istio-system
