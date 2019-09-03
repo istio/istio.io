@@ -31,15 +31,11 @@ the three configuration items. The security rules above cannot be overridden.
 
 | `namespaceSelector` match | default `policy` | Pod override annotation `sidecar.istio.io/inject` | Sidecar injected? |
 |---------------------------|------------------|---------------------------------------------------|-----------|
-| yes                       | enabled          | true                                              | yes       |
+| yes                       | enabled          | true (default)                                    | yes       |
 | yes                       | enabled          | false                                             | no        |
-| yes                       | enabled          |                                                   | yes       |
 | yes                       | disabled         | true                                              | yes       |
-| yes                       | disabled         | false                                             | no        |
-| yes                       | disabled         |                                                   | no        |
+| yes                       | disabled         | false (default)                                   | no        |
 | no                        | enabled          | true                                              | no        |
 | no                        | enabled          | false                                             | no        |
-| no                        | enabled          |                                                   | no        |
 | no                        | disabled         | true                                              | no        |
 | no                        | disabled         | false                                             | no        |
-| no                        | disabled         |                                                   | no        |
