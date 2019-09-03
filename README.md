@@ -98,7 +98,7 @@ name for `istio.git` and `api.git` to point to the release branch. In this case 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
 1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
-of the next Istio release. In this case, you would set the fields to "0.8" and "0.8.0" respectively.
+of the next Istio release, and `previous_version` to be the version of the previous release. In this case, you would set the fields to "0.8", "0.8.0", and "0.7" respectively.
 
 1. In the **master** branch, edit the file `.mergify.yml`. Set the `branches` array to the name of the
 new release branch you just created.
