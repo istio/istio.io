@@ -9,7 +9,7 @@ keywords: [security, PKI, certificate, nodeagent, sds]
 In Istio 1.3, we are taking advantage of improvements in Kubernetes to issue certificates for workload instances more securely.
 
 When a Citadel Agent (the agent that runs on a node and is responsible for obtaining certificates)
-sends a Certificate Signing Request to Citadel to get a certificate for a workload,
+sends a certificate signing request to Citadel to get a certificate for a workload instance,
 it includes the JWT that the Kubernetes API server issued representing the service account of the workload instance.
 If Citadel can authenticate the JWT, then it extracts the service account name needed to issue the certificate for the workload instance.
 

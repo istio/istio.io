@@ -66,6 +66,9 @@ Administrative privileges are required to run minikube.
     Macbook Pro 13" with 16GiB RAM running Istio 1.2 with bookinfo installed.
     {{< /tip >}}
 
+    **Optional:** To enable SDS in Istio, add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes. You may
+    also want to refer to the [api-server page](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flag names.
+
 1.  (Optional, recommended) If you want minikube to provide a load balancer for use
     by Istio, you can use the
     [minikube tunnel](https://minikube.sigs.k8s.io/docs/tasks/loadbalancer/#using-minikube-tunnel) feature.

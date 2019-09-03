@@ -42,14 +42,6 @@ and then further customize the configuration for your specific needs.
 
 1. [Install a Helm client](https://github.com/helm/helm/blob/master/docs/install.md) with a version higher than 2.10.
 
-**Optional:** To enable SDS in Istio, upgrade your Kubernetes cluster to at least 1.13.
-Make the following considerations based on your platform of choice:
-
-- **GKE:** Upgrade your Kubernetes cluster version to at least 1.13.
-- **On-prem Kubernetes** and **GKE on-prem:** Add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes. You may
-also want to refer to the [api-server page](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flag names.
-- For other platforms, check with your provider to see if Service Account Token Volume Projection is supported.
-
 ## Helm chart release repositories
 
 The commands in this guide use the Helm charts that are included in the Istio release image.

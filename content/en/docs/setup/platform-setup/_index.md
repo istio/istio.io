@@ -9,4 +9,4 @@ keywords: [platform-setup]
 
 {{< tip >}}
 Istio {{< istio_version >}} has been tested with these Kubernetes releases: {{< supported_kubernetes_versions >}}.
-{{</ tip >}}
+{{< /tip >}}
