@@ -269,7 +269,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     You should see a line similar to the following:
 
     {{< text plain >}}
-    [2018-06-14T11:46:23.596Z] "GET /politics HTTP/2" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
+    [2019-09-03T20:57:49.103Z] "GET /politics HTTP/2" 301 - "-" "-" 0 0 90 89 "10.244.2.10" "curl/7.64.0" "ea379962-9b5c-4431-ab66-f01994f5a5a5" "edition.cnn.com" "151.101.65.67:80" outbound|80||edition.cnn.com - 10.244.1.5:80 10.244.2.10:50482 edition.cnn.com -
     {{< /text >}}
 
     Note that you only redirected the traffic from port 80 to the egress gateway. The HTTPS traffic to port 443
