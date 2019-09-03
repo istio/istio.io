@@ -539,6 +539,20 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
 
     {{< /text >}}
 
+1. Instead of creating a single secret `httpbin-credential` that holds all the credentials, you can 
+   also create two separate secret, with `httpbin-credential` that holds server key and server
+   certificate, and `httpbin-credential-cacert` that holds the client CA certificate. The second
+   secret should contain `-cacert` suffix.
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete secret httpbin-credential
+    $ kubectl create -n istio-system secret generic httpbin-credential  \
+    --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
+    --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
+    $ kubectl create -n istio-system secret generic httpbin-credential-cacert  \
+    --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
+    {{< /text >}}
+
 ## Troubleshooting
 
 *   Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment
