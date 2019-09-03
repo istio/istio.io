@@ -38,4 +38,4 @@ the three configuration items. The security rules above cannot be overridden.
 | no                        | enabled          | true (default)                                    | no        |
 | no                        | enabled          | false                                             | no        |
 | no                        | disabled         | true                                              | no        |
- | no                        | disabled         | false (default)                                   | no        |
+| no                        | disabled         | false (default)                                   | no        |
