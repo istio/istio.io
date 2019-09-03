@@ -354,8 +354,7 @@ To enable the pod security policy, perform the following steps:
 
 Currently, the SDS identity provision flow has the following caveats:
 
-* You still need secret volume mount for enabling the control plane security.
-  Enabling SDS for the control plane security remains a work in progress.
+* SDS for the control plane security is enabled by default, and it is alpha version.
 
 * Smoothly migrating a cluster from using secret volume mount to using
   SDS is a work in progress.
