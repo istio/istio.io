@@ -12,9 +12,14 @@ keywords: [platform-setup,kubernetes,minikube]
 Follow these instructions to prepare minikube for Istio installation with sufficient
 resources to run Istio and some basic applications.
 
-{{< warning >}}
-Administrative privileges are required to run minikube.
-{{< /warning >}}
+## Prerequisites
+
+- Administrative privileges are required to run minikube.
+
+- To enable SDS in Istio, add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes. You may
+also want to refer to the [api-server page](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flag names.
+
+## Installation steps
 
 1.  Install the latest version of
     [minikube](https://kubernetes.io/docs/setup/minikube/), version **1.1.1 or
@@ -65,9 +70,6 @@ Administrative privileges are required to run minikube.
     machine.  This data was generated with the VMWare Fusion hypervisor on a
     Macbook Pro 13" with 16GiB RAM running Istio 1.2 with bookinfo installed.
     {{< /tip >}}
-
-    **Optional:** To enable SDS in Istio, add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes. You may
-    also want to refer to the [api-server page](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flag names.
 
 1.  (Optional, recommended) If you want minikube to provide a load balancer for use
     by Istio, you can use the
