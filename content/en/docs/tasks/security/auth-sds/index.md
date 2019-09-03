@@ -354,7 +354,7 @@ To enable the pod security policy, perform the following steps:
 
 Currently, the SDS identity provision flow has the following caveats:
 
-* The SDS feature is currently in Alpha phase.
+* SDS support is currently in [Alpha](/about/feature-stages/#security-and-policy-enforcement).
 
 * Smoothly migrating a cluster from using secret volume mount to using
   SDS is a work in progress.
