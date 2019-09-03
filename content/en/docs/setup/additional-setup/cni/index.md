@@ -36,6 +36,7 @@ replaces the functionality provided by the `istio-init` container.
     *  Google Cloud GKE clusters require that the
        [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) feature
        is enabled to have Kubernetes configured with `network-plugin=cni`.
+    *  OpenShift has CNI enabled by default.
 
 1.  Install Kubernetes with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
     *  The Kubernetes documentation highly recommends this for all Kubernetes installations
