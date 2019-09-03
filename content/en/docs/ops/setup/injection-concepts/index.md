@@ -35,7 +35,7 @@ the three configuration items. The security rules above cannot be overridden.
 | yes                       | enabled          | false                                             | no        |
 | yes                       | disabled         | true                                              | yes       |
 | yes                       | disabled         | false (default)                                   | no        |
-| no                        | enabled          | true                                              | no        |
+ | no                        | enabled          | true (default)                                    | no        |
 | no                        | enabled          | false                                             | no        |
 | no                        | disabled         | true                                              | no        |
  | no                        | disabled         | false (default)                                   | no        |
