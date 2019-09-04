@@ -6,10 +6,10 @@ aliases:
     - /help/ops/setup/validation   
 ---
 
-Galley’s configuration validation ensures user authored Istio
+Galley's configuration validation ensures user authored Istio
 configuration is syntactically and semantically valid. It uses a
 Kubernetes `ValidatingWebhook`. The `istio-galley`
-`ValidationWebhookConfiguration` has two webhooks.
+`ValidatingWebhookConfiguration` has two webhooks.
 
 * `pilot.validation.istio.io` - Served on path `/admitpilot` and is
 responsible for validating configuration consumed by Pilot
