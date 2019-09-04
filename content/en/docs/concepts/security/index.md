@@ -169,6 +169,10 @@ The flow goes as follows:
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
+{{< idea >}}
+Use the node agent debug endpoint to view the secrets a node agent is actively serving to its client proxies. Navigate to `/debug/sds/workload` on the agent's port `8080` to dump active workload secrets, or `/debug/sds/gateway` to dump active gateway secrets.
+{{< /idea >}}
+
 ## Best practices
 
 In this section, we provide a few deployment guidelines and discuss a real-world scenario.
