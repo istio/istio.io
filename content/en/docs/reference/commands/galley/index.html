@@ -682,7 +682,6 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
 <tr><td><code>galley_runtime_processor_event_span_duration_milliseconds</code></td><td><code>Distribution</code></td><td>The duration between each incoming event</td></tr>
 <tr><td><code>galley_runtime_processor_events_processed_total</code></td><td><code>Count</code></td><td>The number of events that have been processed</td></tr>
 <tr><td><code>galley_runtime_processor_snapshot_events_total</code></td><td><code>Distribution</code></td><td>The number of events per snapshot</td></tr>
@@ -714,44 +713,5 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <tr><td><code>istio_mcp_request_acks_total</code></td><td><code>Sum</code></td><td>The number of request acks received by the source.</td></tr>
 <tr><td><code>istio_mcp_request_nacks_total</code></td><td><code>Sum</code></td><td>The number of request nacks received by the source.</td></tr>
 <tr><td><code>istio_mcp_send_failures_total</code></td><td><code>Sum</code></td><td>The number of send failures in the source.</td></tr>
-<tr><td><code>mixer_config_adapter_info_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the adapter info configuration.</td></tr>
-<tr><td><code>mixer_config_adapter_info_configs_total</code></td><td><code>LastValue</code></td><td>The number of known adapters in the current config.</td></tr>
-<tr><td><code>mixer_config_attributes_total</code></td><td><code>LastValue</code></td><td>The number of known attributes in the current config.</td></tr>
-<tr><td><code>mixer_config_handler_configs_total</code></td><td><code>LastValue</code></td><td>The number of known handlers in the current config.</td></tr>
-<tr><td><code>mixer_config_handler_validation_error_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered because handler validation returned error.</td></tr>
-<tr><td><code>mixer_config_instance_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the instance configuration.</td></tr>
-<tr><td><code>mixer_config_instance_configs_total</code></td><td><code>LastValue</code></td><td>The number of known instances in the current config.</td></tr>
-<tr><td><code>mixer_config_rule_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the rule configuration.</td></tr>
-<tr><td><code>mixer_config_rule_config_match_error_total</code></td><td><code>LastValue</code></td><td>The number of rule conditions that was not parseable.</td></tr>
-<tr><td><code>mixer_config_rule_configs_total</code></td><td><code>LastValue</code></td><td>The number of known rules in the current config.</td></tr>
-<tr><td><code>mixer_config_template_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the template configuration.</td></tr>
-<tr><td><code>mixer_config_template_configs_total</code></td><td><code>LastValue</code></td><td>The number of known templates in the current config.</td></tr>
-<tr><td><code>mixer_config_unsatisfied_action_handler_total</code></td><td><code>LastValue</code></td><td>The number of actions that failed due to handlers being unavailable.</td></tr>
-<tr><td><code>mixer_dispatcher_destinations_per_request</code></td><td><code>Distribution</code></td><td>Number of handlers dispatched per request by Mixer</td></tr>
-<tr><td><code>mixer_dispatcher_destinations_per_variety_total</code></td><td><code>LastValue</code></td><td>Number of Mixer adapter destinations by template variety type</td></tr>
-<tr><td><code>mixer_dispatcher_instances_per_request</code></td><td><code>Distribution</code></td><td>Number of instances created per request by Mixer</td></tr>
-<tr><td><code>mixer_handler_closed_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were closed during config transition.</td></tr>
-<tr><td><code>mixer_handler_daemons_total</code></td><td><code>LastValue</code></td><td>The current number of active daemon routines in a given adapter environment.</td></tr>
-<tr><td><code>mixer_handler_handler_build_failures_total</code></td><td><code>LastValue</code></td><td>The number of handlers that failed creation during config transition.</td></tr>
-<tr><td><code>mixer_handler_handler_close_failures_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered while closing handlers during config transition.</td></tr>
-<tr><td><code>mixer_handler_new_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were newly created during config transition.</td></tr>
-<tr><td><code>mixer_handler_reused_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were re-used during config transition.</td></tr>
-<tr><td><code>mixer_handler_workers_total</code></td><td><code>LastValue</code></td><td>The current number of active worker routines in a given adapter environment.</td></tr>
-<tr><td><code>mixer_runtime_dispatch_duration_seconds</code></td><td><code>Distribution</code></td><td>Duration in seconds for adapter dispatches handled by Mixer.</td></tr>
-<tr><td><code>mixer_runtime_dispatches_total</code></td><td><code>Count</code></td><td>Total number of adapter dispatches handled by Mixer.</td></tr>
-<tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
-<tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
-<tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
-<tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
-<tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
-<tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
-<tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
-<tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
-<tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
-<tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
-<tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 </tbody>
 </table>
