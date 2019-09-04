@@ -150,7 +150,7 @@ the preferred upgrade option is to let Helm take care of the upgrade.
 1. Upgrade the `istio-init` chart to update all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs).
 
     {{< text bash >}}
-    $ helm upgrade --install --force istio-init install/kubernetes/helm/istio-init --namespace istio-system
+    $ helm upgrade --install istio-init install/kubernetes/helm/istio-init --namespace istio-system
     {{< /text >}}
 
 1. {{< boilerplate verify-crds >}}
