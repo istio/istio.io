@@ -1,44 +1,26 @@
 ---
-title: 1.2 Upgrade Notice
-description: Important changes operators must understand before upgrading to Istio 1.2.
+title: 1.3 Upgrade Notice
+description: Important changes operators must understand before upgrading to Istio 1.3.
 weight: 5
 aliases:
     - /docs/setup/kubernetes/upgrade/notice/
 ---
 
-This page describes changes you need to be aware of when upgrading from
-Istio 1.1 to 1.2.  Here, we detail cases where we intentionally broke backwards
-compatibility.  We also mention cases where backwards compatibility was
-preserved but new behavior was introduced that would be surprising to someone
-familiar with the use and operation of Istio 1.1.
+This page describes changes you need to be aware of when upgrading from Istio 1.2 to 1.3. Here, we
+detail cases where we intentionally broke backwards compatibility.
 
-For an overview of new features introduced with Istio 1.2, please refer
-to the [1.2 release notes](/about/notes/1.2/).
+For an overview of new features introduced with Istio 1.3, please refer to the [1.3 release notes](/about/notes/1.3/).
 
-## Installation and Upgrade
+## Trust Domain Validation
 
-{{< tip >}}
-The configuration model for Mixer has been simplified. Support for
-adapter-specific and template-specific Custom Resources has been
-removed by default in 1.2 and will be removed entirely in 1.3.
-Please move to the new configuration model.
-{{< /tip >}}
+The server proxy will validate the trust domain of the client proxy and only accept the request if the
+client proxy is in the same trust domain as the server proxy when:
 
-Most Mixer CRDs were removed from the system to simplify the configuration
-model, improve performance of Mixer when used with Kubernetes, and improve
-reliability in a variety of Kubernetes environments.
+  *  STRICT mutual TLS mode is used in Authentication Policy
+  *  PERMISSIVE mutual TLS mode is used in Authentication Policy and the client proxy is sending mutual TLS traffic
 
-The following CRDs remain:
+This should be a no-op if you only have trust domain in your mesh. It will reject the traffic if you
+have multiple different trust domains and you enabled mutual TLS with Authentication Policy at the same time.
 
-| Custom Resource Definition name | Purpose |
-| --- | --- |
-| `adapter`| Specification of Istio extension declarations |
-| `attributemanifest` | Specification of Istio extension declarations |
-| `template` | Specification of Istio extension declarations |
-| `handler` | Specification of extension invocations |
-| `rule` | Specification of extension invocations |
-| `instance` | Specification of extension invocations |
-
-In the event you are using the removed mixer configuration schemas, set
-the following Helm flags during upgrade of the main Helm chart:
-`--set mixer.templates.useTemplateCRDs=true --set mixer.adapters.useAdapterCRDs=true`
+To opt-out the trust domain validation, render the helm template with
+`--set pilot.env.PILOT_SKIP_VALIDATE_TRUST_DOMAIN=true` before upgrading to 1.3.

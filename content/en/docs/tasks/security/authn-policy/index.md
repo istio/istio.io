@@ -19,6 +19,11 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [installation steps](/docs/setup/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using
 [Helm](/docs/setup/install/helm/)).
 
+{{< warning >}}
+If multiple different trust domains are used in your mesh, you should turn off the trust domain validation before
+enabling mutual TLS with Authentication Policy otherwise the traffic will be rejected. See [Trust Domain Validation](/docs/setup/upgrade/notice/#trust-domain-validation).
+{{< /warning >}}
+
 ### Setup
 
 Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar proxy. We also use second
