@@ -107,5 +107,10 @@ $ kubectl apply -f $HOME/generated-manifest.yaml
 
 ## Verify a successful installation
 
-You can check if the installation succeeded by following the steps at
-[Verifying the installation](/docs/setup/install/kubernetes/#verifying-the-installation).
+You can check if the Istio installation succeeded using the `verify-install` command.
+This compares the installation on your cluster to a manifest you specify
+and displays the results:
+
+{{< text bash >}}
+$ istioctl verify-install -f $HOME/generated-manifest.yaml
+{{< /text >}}
