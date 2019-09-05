@@ -11,7 +11,7 @@ keywords: [platform-setup,ibm,iks]
 
 Follow these instructions to prepare a cluster for installation
 of Istio using the [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
-To install istio on IBM Cloud Private, refer to
+To install Istio on IBM Cloud Private, refer to
 [Istio on IBM Cloud Private](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/manage_cluster/istio.html)
 instead.
 
