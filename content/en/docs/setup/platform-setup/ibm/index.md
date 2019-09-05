@@ -9,26 +9,43 @@ aliases:
 keywords: [platform-setup,ibm,iks]
 ---
 
-Follow these instructions to prepare an IBM Cloud cluster for Istio. You can install Istio in [IBM Cloud Public](#ibm-cloud-public) or [IBM Cloud Private](#ibm-cloud-private).
+Follow these instructions to prepare a cluster for installation
+of Istio using the [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
+To install istio on IBM Cloud Private, refer to
+[Istio on IBM Cloud Private](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/manage_cluster/istio.html)
+instead.
 
-## IBM Cloud Public
+{{< tip >}}
+IBM offers a {{< gloss >}}managed control plane{{< /gloss >}} add-on for the IBM Cloud Kubernetes Service,
+which you can use instead of installing Istio manually.
+Refer to [Istio on IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-istio)
+for details and instructions.
+{{< /tip >}}
 
-1. [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
+To create a cluster for manual installation of Istio, proceed as follows:
 
-1. Create a standard Kubernetes cluster. Replace `<cluster-name>` with the name of the cluster you want to use in the following instructions.
+1.  [Install the IBM Cloud CLI, the IBM Cloud Kubernetes Service plug-in, and the Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
+
+1.  Create a standard Kubernetes cluster using the following command.
+    Replace `<cluster-name>` with the name you want to use for your cluster and `<zone-name>` with the name of an
+    available zone.
 
     {{< tip >}}
-    To see available zones, run `ibmcloud ks zones`. Zones are isolated from each other, which ensures no shared single point of failure. IBM Cloud Kubernetes Service [Locations](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones) describes available zones and how to specify the zone for your new cluster.
-    {{< /tip >}}
-
-    {{< tip >}}
-    The command below does not contain the `--private-vlan value` and `--public-vlan value` options. To see available VLANs, run `ibmcloud ks vlans --zone <zone-name>`. If you do not have a private and public VLAN yet, they will be automatically created for you. If you already have VLANs, specify them by using the `--private-vlan value` and `--public-vlan value` options.
+    You can display your available zones by running `ibmcloud ks zones`.
+    The IBM Cloud Kubernetes Service [Locations Reference Guide](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones)
+    describes the available zones and how to specify them.
     {{< /tip >}}
 
     {{< text bash >}}
     $ ibmcloud ks cluster-create --zone <zone-name> --machine-type b3c.4x16 \
       --workers 3 --name <cluster-name>
     {{< /text >}}
+
+    {{< tip >}}
+    If you already have a private and a public VLAN, you can specify them in the above command
+    using the `--private-vlan` and `--public-vlan` options. Otherwise, they will be automatically created for you.
+    You can view your available VLANs by running `ibmcloud ks vlans --zone <zone-name>`.
+    {{< /tip >}}
 
 1. Retrieve your credentials for `kubectl`.
 
@@ -39,8 +56,3 @@ Follow these instructions to prepare an IBM Cloud cluster for Istio. You can ins
     {{< warning >}}
     Make sure to use the `kubectl` CLI version that matches the Kubernetes version of your cluster.
     {{< /warning >}}
-
-## IBM Cloud Private
-
-[Configure `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.0/manage_cluster/install_kubectl.html)
-to access the IBM Cloud Private Cluster.
