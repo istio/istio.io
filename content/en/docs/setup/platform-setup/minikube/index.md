@@ -16,8 +16,8 @@ resources to run Istio and some basic applications.
 
 - Administrative privileges are required to run minikube.
 
-- To enable SDS in Istio, add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes. You may
-also want to refer to the [api-server page](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flag names.
+- To enable SDS for your mesh, you must add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes deployment.
+Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flags.
 
 ## Installation steps
 
