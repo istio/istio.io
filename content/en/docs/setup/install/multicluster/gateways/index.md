@@ -11,7 +11,7 @@ keywords: [kubernetes,multi-cluster,gateway]
 ---
 
 Follow this guide to install an Istio
-[multi-cluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
+[multi-cluster deployment](/docs/concepts/deployment-models/#multiple-clusters)
 with replicated [control plane](/docs/concepts/deployment-models/#control-plane-models) instances
 in every cluster and using gateways to connect services across clusters.
 
