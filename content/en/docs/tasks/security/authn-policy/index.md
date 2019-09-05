@@ -20,8 +20,9 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [Helm](/docs/setup/install/helm/)).
 
 {{< warning >}}
-If multiple different trust domains are used in your mesh, you should turn off the trust domain validation before
-enabling mutual TLS with Authentication Policy otherwise the traffic will be rejected. See [Trust Domain Validation](/docs/setup/upgrade/notice/#trust-domain-validation).
+Turn off the trust domain validation if the authentication policy is enabling mutual TLS on a proxy
+that is supposed to receive requests from different trust domains, otherwise the request will be rejected
+due to [Trust Domain Validation](/docs/setup/upgrade/notice/#trust-domain-validation).
 {{< /warning >}}
 
 ### Setup

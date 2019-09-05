@@ -13,14 +13,15 @@ For an overview of new features introduced with Istio 1.3, please refer to the [
 
 ## Trust Domain Validation
 
-The server proxy will validate the trust domain of the client proxy and only accept the request if the
-client proxy is in the same trust domain as the server proxy when:
+When mutual TLS is enabled on a proxy using authentication policy, the proxy will reject a request
+from client if the trust domain extracted from the client certificate is not the same to the trust
+domain extracted from the proxy's own certificate. This is called trust domain validation which is
+new in Istio 1.3.
 
-  *  STRICT mutual TLS mode is used in Authentication Policy
-  *  PERMISSIVE mutual TLS mode is used in Authentication Policy and the client proxy is sending mutual TLS traffic
-
-In other words, the server proxy will reject the traffic if it's from a different trust domain when
-mutual TLS is enabled in the mesh. This should be a no-op if you only have one trust domain in your mesh.
+This should be a no-op if you only have one trust domain or if you are not using mutual TLS from
+authentication policy.
 
 To opt-out the trust domain validation, render the helm template with `--set pilot.env.PILOT_SKIP_VALIDATE_TRUST_DOMAIN=true`
 before upgrading to 1.3.
+
+For more information, see [issue 15631](https://github.com/istio/istio/issues/15631).
