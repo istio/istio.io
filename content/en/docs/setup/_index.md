@@ -78,10 +78,10 @@ Choose one of the following installation options, depending on your intended use
 - [Custom installation with Helm](/docs/setup/install/helm/):
    This option is ideal to install Istio for production use or for performance evaluation.
 
-- [Supported platform installation](/docs/setup/install/platform/):
-   This option is ideal if your platform provides native support for Istio-enabled clusters
+- Cloud provider installation instructions:
+   This option is ideal if your cloud provider has native support for Istio-enabled clusters
    with a [configuration profile](/docs/setup/additional-setup/config-profiles/)
-   corresponding to your intended use.
+   corresponding to your intended use. Refer to your cloud provider's documentation for details.
 
 After choosing an option and installing Istio on your cluster, you can deploy
 your own applications or experiment with some of our [tasks](/docs/tasks/) and [examples](/docs/examples/).
