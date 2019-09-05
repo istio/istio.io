@@ -6,7 +6,7 @@ weight: 1
 sidebar_multicard: true
 icon: docs
 ---
-
+XXX
 In addition to the documentation, we provide the following resources:
 
 - [FAQ](/faq) section

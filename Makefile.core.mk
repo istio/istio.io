@@ -46,6 +46,9 @@ netlify_install:
 		@babel/polyfill@v7.4.4
 
 netlify: netlify_install
+	@echo URL: "$(URL)"
+	@echo DEPLOY_URL: "$(DEPLOY_URL)"
+	@echo CONTEXT: "$(CONTEXT)"
 	@scripts/build_site.sh
 	@scripts/gen_site.sh "$(baseurl)"
 
