@@ -86,11 +86,6 @@ Choose one of the following installation options, depending on your intended use
 After choosing an option and installing Istio on your cluster, you can deploy
 your own applications or experiment with some of our [tasks](/docs/tasks/) and [examples](/docs/examples/).
 
-{{< tip >}}
-If you're running your own applications, make sure to
-check the [requirements for pods and services](/docs/setup/additional-setup/requirements/).
-{{< /tip >}}
-
 When you're ready to consider more advanced Istio use cases, check out the following resources:
 
 - To install using Istio's Container Network Interface
@@ -102,6 +97,6 @@ When you're ready to consider more advanced Istio use cases, check out the follo
 - To expand your existing mesh with additional containers or VMs not running on
 your mesh's Kubernetes cluster, follow our [mesh expansion guide](/docs/examples/mesh-expansion/).
 
-- To add services requires a detailed understanding of sidecar injection. Visit our
+- To add services using sidecar injection, see our
 [sidecar injection guide](/docs/setup/additional-setup/sidecar-injection/)
 to learn more.
