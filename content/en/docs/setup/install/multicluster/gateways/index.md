@@ -1,19 +1,19 @@
 ---
-title: Dedicated control planes
-description: Install an Istio mesh across multiple Kubernetes clusters with individually deployed control planes.
+title: Replicated control planes
+description: Install an Istio mesh across multiple Kubernetes clusters with replicated control plane instances.
 weight: 2
 aliases:
     - /docs/setup/kubernetes/multicluster-install/gateways/
     - /docs/examples/multicluster/gateways/
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
-keywords: [kubernetes,multicluster,gateway]
+keywords: [kubernetes,multi-cluster,gateway]
 ---
 
 Follow this guide to install an Istio
-[multicluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
-with individually deployed Istio control planes in every cluster and using gateways to
-connect services across clusters.
+[multi-cluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
+with replicated [control plane](/docs/concepts/deployment-models/#control-plane-models) instances
+in every cluster and using gateways to connect services across clusters.
 
 Instead of using a shared Istio control plane to manage the mesh,
 in this configuration each cluster has its own Istio control plane
