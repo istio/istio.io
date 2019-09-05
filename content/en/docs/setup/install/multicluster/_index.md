@@ -16,5 +16,5 @@ a combination of the approaches can be used. For example,
 two clusters might share a control plane while a third has its own.
 {{< /tip >}}
 
-Refer to the [multi-cluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
+Refer to the [multi-cluster deployment model](/docs/concepts/deployment-models/#multiple-clusters)
 concept documentation for more information.
