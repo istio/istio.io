@@ -60,7 +60,7 @@ icon: helm
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    53
+    23
     {{< /text >}}
 
 1. 选择一个 [配置文件](/docs/setup/kubernetes/additional-setup/config-profiles/)，接着部署与你选择的配置文件相对应的 Istio 的核心组件，我们建议在生成环境部署中使用 **default** 配置文件:
