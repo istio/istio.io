@@ -19,8 +19,8 @@ client proxy is in the same trust domain as the server proxy when:
   *  STRICT mutual TLS mode is used in Authentication Policy
   *  PERMISSIVE mutual TLS mode is used in Authentication Policy and the client proxy is sending mutual TLS traffic
 
-This should be a no-op if you only have trust domain in your mesh. It will reject the traffic if you
-have multiple different trust domains and you enabled mutual TLS with Authentication Policy at the same time.
+In other words, the server proxy will reject the traffic if it's from a different trust domain when
+mutual TLS is enabled in the mesh. This should be a no-op if you only have one trust domain in your mesh.
 
-To opt-out the trust domain validation, render the helm template with
-`--set pilot.env.PILOT_SKIP_VALIDATE_TRUST_DOMAIN=true` before upgrading to 1.3.
+To opt-out the trust domain validation, render the helm template with `--set pilot.env.PILOT_SKIP_VALIDATE_TRUST_DOMAIN=true`
+before upgrading to 1.3.
