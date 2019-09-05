@@ -9,14 +9,18 @@ aliases:
 keywords: [platform-setup,kubernetes,gke,google]
 ---
 
-Follow these instructions to prepare a GKE cluster for Istio.
-
 {{< tip >}}
 Google offers a {{< gloss >}}managed control plane{{< /gloss >}} add-on for GKE,
 which you can use instead of installing Istio manually.
 Refer to [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview)
 for details and instructions.
 {{< /tip >}}
+
+Follow these instructions to prepare an GKE cluster for Istio.
+
+{{< warning >}}
+To enable SDS in Istio, use Kubernetes 1.13 or above.
+{{< /warning >}}
 
 1. Create a new cluster.
 

@@ -291,7 +291,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 ## Uninstall
 
-* If you installed Istio using the `helm template` command, uninstall with these commands:
+- If you installed Istio using the `helm template` command, uninstall with these commands:
 
 {{< tabset cookie-name="helm_profile" >}}
 
@@ -359,7 +359,7 @@ $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=k
 
 {{< /tabset >}}
 
-* If you installed Istio using Helm and Tiller, uninstall with these commands:
+- If you installed Istio using Helm and Tiller, uninstall with these commands:
 
     {{< text bash >}}
     $ helm delete --purge istio
