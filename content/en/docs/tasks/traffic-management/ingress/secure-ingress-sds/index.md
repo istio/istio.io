@@ -544,7 +544,6 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
    
    - `httpbin-credential` holds the server's key and certificate
    -`httpbin-credential-cacert` holds the client's CA certificate and must have the `-cacert` suffix   
-   the client CA certificate, and it should contain `-cacert` suffix.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
