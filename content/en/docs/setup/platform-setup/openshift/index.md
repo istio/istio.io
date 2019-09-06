@@ -9,6 +9,10 @@ aliases:
 keywords: [platform-setup,openshift]
 ---
 
+{{< warning >}}
+OpenShift 4.1 and above use `nftables`, which is incompatible with the Istio `proxy-init` container. Please use [CNI](/docs/setup/additional-setup/cni/) instead.
+{{< /warning >}}
+
 Follow these instructions to prepare an OpenShift cluster for Istio.
 
 By default, OpenShift doesn't allow containers running with user ID 0.
@@ -39,6 +43,14 @@ constraints as part of sidecar injection:
 
 {{< text bash >}}
 $ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
+{{< /text >}}
+
+Install Istio using the [CNI](/docs/setup/additional-setup/cni/) instructions.
+
+After installation is complete, expose an OpenShift route for the ingress gateway.
+
+{{< text bash >}}
+$ oc expose svc/istio-ingressgateway --port=80
 {{< /text >}}
 
 ## Automatic Injection
@@ -73,4 +85,20 @@ $ cp -p master-config.yaml master-config.yaml.prepatch
 $ oc ex config patch master-config.yaml.prepatch -p "$(cat master-config.patch)" > master-config.yaml
 $ master-restart api
 $ master-restart controllers
+{{< /text >}}
+
+## Bookinfo
+
+The Istio sidecar injected into each pod runs with user ID 1337, which is not allowed by default in OpenShift. To allow this user ID to be used, execute the following commands. Replace `-n bookinfo` with the appropriate namespace.
+
+{{< text bash >}}
+$ oc adm policy add-scc-to-group privileged system:serviceaccounts -n bookinfo
+$ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n bookinfo
+{{< /text >}}
+
+When removing the Bookinfo application, remove the permissions as follows.
+
+{{< text bash >}}
+$ oc adm policy remove-scc-from-group privileged system:serviceaccounts -n bookinfo
+$ oc adm policy remove-scc-from-group anyuid system:serviceaccounts -n bookinfo
 {{< /text >}}
