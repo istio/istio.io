@@ -10,7 +10,7 @@ keywords: [platform-setup,kubernetes,gke,google]
 ---
 
 {{< tip >}}
-Google offers a {{< gloss >}}managed control plane{{< /gloss >}} add-on for GKE,
+Google offers an add-on for GKE,
 which you can use instead of installing Istio manually.
 Refer to [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview)
 for details and instructions.
