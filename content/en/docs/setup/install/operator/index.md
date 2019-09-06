@@ -30,12 +30,11 @@ commands.
 
 ## Prerequisites
 
-Before you begin, you must meet these prerequisites:
+Before you begin, check the following prerequisites:
 
 1. [Download the Istio release](/docs/setup/#downloading-the-release).
-1. Perform any necessary [platform-specific setup](/docs/setup/install/platform/).
-1. Check the [Requirements for Pods and
-   Services](/docs/setup/additional-setup/requirements/).
+1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
+1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
 
 ## Install Istio using the default profile
 

@@ -10,10 +10,17 @@ keywords: [platform-setup,kubernetes,gke,google]
 ---
 
 {{< tip >}}
-To enable SDS in Istio, use Kubernetes 1.13 or above.
+Google offers an add-on for GKE,
+which you can use instead of installing Istio manually.
+To determine if the add-on is right for you, refer to [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview)
+for more information.
 {{< /tip >}}
 
-Follow these instructions to prepare an GKE cluster for Istio.
+Follow these instructions to prepare a GKE cluster for Istio.
+
+{{< warning >}}
+To enable SDS in Istio, use Kubernetes 1.13 or above.
+{{< /warning >}}
 
 1. Create a new cluster.
 
@@ -49,4 +56,3 @@ Follow these instructions to prepare an GKE cluster for Istio.
         --clusterrole=cluster-admin \
         --user=$(gcloud config get-value core/account)
     {{< /text >}}
-
