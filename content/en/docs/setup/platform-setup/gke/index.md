@@ -16,7 +16,7 @@ To determine if the add-on is right for you, refer to [Istio on GKE](https://clo
 for more information.
 {{< /tip >}}
 
-Follow these instructions to prepare an GKE cluster for Istio.
+Follow these instructions to prepare a GKE cluster for Istio.
 
 {{< warning >}}
 To enable SDS in Istio, use Kubernetes 1.13 or above.
