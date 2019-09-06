@@ -252,7 +252,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
 
     {{< text bash >}}
     $ pushd mtls-go-example
-    $ ./generate.sh httpbin.example.com <password>
+    $ ./generate.sh httpbin.example.com password
     $ mkdir ../httpbin.new.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.new.example.com
     $ popd
     $ kubectl create -n istio-system secret generic httpbin-credential \
