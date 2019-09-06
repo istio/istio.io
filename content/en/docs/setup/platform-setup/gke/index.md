@@ -15,7 +15,7 @@ To enable SDS in Istio, use Kubernetes 1.13 or above.
 
 Follow these instructions to prepare an GKE cluster for Istio.
 
-1. Create a new cluster. (If you are doing a demo installation you may remove the `--machine-type` argument or use the smaller `n1-standard-1` machine size; the default installation of mixer requires nodes with >1 vCPU.)
+1. Create a new cluster.
 
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
@@ -26,6 +26,12 @@ Follow these instructions to prepare an GKE cluster for Istio.
       --project <project-id>
     {{< /text >}}
 
+    {{< tip >}}
+    The default installation of mixer requires nodes with >1 vCPU. If you are doing a demo
+    installation you may remove the `--machine-type` argument to use the smaller
+    `n1-standard-1` machine size instead.
+    {{< /tip >}}
+    
     {{< warning >}}
     To use the Istio CNI feature, the
     [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)
