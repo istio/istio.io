@@ -2,23 +2,23 @@
 title: Shared control plane (single-network)
 description: Install an Istio mesh across multiple Kubernetes clusters with a shared control plane and VPN connectivity between clusters.
 weight: 5
-keywords: [kubernetes,multicluster,federation,vpn]
+keywords: [kubernetes,multi-cluster,federation,vpn]
 aliases:
     - /docs/setup/kubernetes/multicluster-install/vpn/
     - /docs/setup/kubernetes/install/multicluster/vpn/
     - /docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
-Follow this guide to install an Istio [multicluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
+Follow this guide to install an Istio [multi-cluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
 where the Kubernetes cluster services and the applications in each cluster
 have the capability to expose their internal Kubernetes network to other
 clusters.
 
-In this configuration, multiple Kubernetes control planes running
-a remote configuration connect to a **single** Istio control plane.
+In this configuration, multiple Kubernetes clusters running
+a remote configuration connect to a shared Istio
+[control plane](/docs/concepts/deployment-models/#control-plane-models).
 Once one or more remote Kubernetes clusters are connected to the
-Istio control plane, Envoy can then communicate with the **single**
-control plane and form a mesh network across multiple clusters.
+Istio control plane, Envoy can then form a mesh network across multiple clusters.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
@@ -33,7 +33,7 @@ control plane and form a mesh network across multiple clusters.
   meeting the following requirements:
 
     * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
-across the multicluster environment and may not overlap.
+across the multi-cluster environment and may not overlap.
 
     * All pod CIDRs in every cluster must be routable to each other.
 
@@ -41,7 +41,7 @@ across the multicluster environment and may not overlap.
 
 * Helm **2.10 or newer**.  The use of Tiller is optional.
 
-This guide describes how to install a multicluster Istio topology using the
+This guide describes how to install a multi-cluster Istio topology using the
 manifests and Helm charts provided within the Istio repository.
 
 ## Deploy the local control plane
@@ -389,7 +389,7 @@ all clusters.
 ## Deployment considerations
 
 The previous procedures provide a simple and step-by-step guide to deploy a
-multicluster environment. A production environment might require additional
+multi-cluster environment. A production environment might require additional
 steps or more complex deployment options. The procedures gather the endpoint
 IPs of the Istio services and use them to invoke Helm. This process creates
 Istio services on the remote clusters. As part of creating those services and
@@ -451,7 +451,7 @@ This method provides two alternatives:
 * Re-use the default Istio ingress gateway installed with the provided
   manifests or Helm charts. You only need to add the correct destination rules.
 
-* Create another Istio ingress gateway specifically for the multicluster.
+* Create another Istio ingress gateway specifically for the multi-cluster.
 
 ## Security
 
