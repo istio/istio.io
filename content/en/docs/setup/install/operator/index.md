@@ -55,15 +55,22 @@ You can view the profile named `default` by using this command:
 $ istioctl experimental profile dump
 {{< /text >}}
 
+To view a subset of the entire configuration, you can pass the `--config-path` flag, which selects only the portion
+of the configuration under the given path:
+
+{{< text bash >}}
+$ istioctl experimental profile dump --config-path trafficManagement.components.pilot
+{{< /text >}}
+
 ## Install a different profile
 
 Other Istio configuration profiles can be installed in a cluster using this command:
 
 {{< text bash >}}
-$ istioctl experimental manifest apply --set profile=default
+$ istioctl experimental manifest apply --set profile=demo
 {{< /text >}}
 
-In the example above, `default` is one of the profile names from the output of
+In the example above, `demo` is one of the profile names from the output of
 the `istioctl profile list` command.
 
 ## Display the profiles list
@@ -75,11 +82,157 @@ accessible to `istioctl` by using this command:
 $ istioctl experimental profile list
 {{< /text >}}
 
-Optionally, you can use the `-s` flag with a install package path to see the
-list of configuration profiles available for other Istio versions:
+## Features and components
+
+The operator groups the Istio control plane components by feature, as follows:
+
+| Feature | Components |
+|---------|------------|
+Base | CRDs
+Traffic Management | Pilot
+Policy | Policy
+Telemetry | Telemetry
+Security | Citadel
+Security | Node agent
+Security | Cert manager
+Configuration management | Galley
+Gateways | Ingress gateway
+Gateways | Egress gateway
+AutoInjection | Sidecar injector
+
+Besides the core Istio items above, some third-party addon features and components are also available:
+
+| Feature | Components |
+|---------|------------|
+Telemetry | Prometheus
+Telemetry | Prometheus Operator
+Telemetry | Grafana
+Telemetry | Kiali
+Telemetry | Tracing
+ThirdParty | CNI
+
+Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
+Namespaces can also be set at the feature level, which installs all of the feature's components into the feature
+namespace.
+
+## Modify a feature or component setting
+
+The operator uses the [IstioControlPlane API](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)
+to specify how the control plane is installed. The API can be used either by setting
+values with the `--set` flag, or creating an overlay file and passing it with the `--filename` flag.
+
+The simplest customization is to turn a feature or component on or off from the configuration profile default. To turn
+off the telemetry feature in a default configuration installation:
 
 {{< text bash >}}
-$ istioctl experimental profile list -s installPackagePath=https://github.com/istio/istio/releases/tags/1.3.3
+$ istioctl experimental manifest apply --set telemetry.enabled=false
+{{< /text >}}
+
+The same thing can be done with a configuration overlay file. Create the following file, and call it telemetry_off.yaml:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  telemetry:
+    enabled: false
+{{< /text >}}
+
+To turn off telemetry feature, run manifest apply with the overlay file:
+
+{{< text bash >}}
+$ istioctl experimental manifest apply -f telemetry_off.yaml
+{{< /text >}}
+
+In general, the `--set` flag works well for customizing a few parameters, while overlay files are better for more
+extensive customization, or tracking configuration changes.
+
+## Customize K8s settings
+
+The IstioControlPlane API allows each component's k8s settings to be customized in a consistent way.
+Each component has a [KubernetesResourceSpec](https://github.com/istio/operator/blob/9f80ecaea0f17dfd8a33d86d72f72da8861e7417/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto#L411),
+which allows the following settings to be changed:
+
+1. [resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
+1. [readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+1. [replica count](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+1. [HoriizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+1. [PodDisruptionBudget](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work)
+1. [pod annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+1. [service annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+1. [ImagePullPolicy](https://kubernetes.io/docs/concepts/containers/images/)
+1. [priority class name](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
+1. [node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
+1. [affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+
+All of these K8s settings use the K8s API definitions, so [K8s documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
+For example, this overlay file ([samples/pilot-k8s.yaml](https://github.com/istio/operator/blob/release-1.3/samples/pilot-k8s.yaml))
+will adjust the resources and HPA scaling settings for Pilot, which is a part of the TrafficManagement feature:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  trafficManagement:
+    components:
+      pilot:
+        k8s:
+          resources:
+            requests:
+              cpu: 1000m # override from default 500m
+              memory: 4096Mi # ... default 2048Mi
+          hpaSpec:
+            maxReplicas: 10 # ... default 5
+            minReplicas: 2  # ... default 1
+{{< /text >}}
+
+## Customize through the Helm API
+
+The [Helm API](https://istio.io/docs/reference/config/installation-options/) is available as part of the operator API.
+It can be accessed as a top level values field in IstioControlPlane
+(for [global settings](https://istio.io/docs/reference/config/installation-options/#global-options))
+and per-component values fields for each Istio component. For example, here's a YAML file that configures some global
+and Pilot settings through the Helm API:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  trafficManagement:
+    components:
+      pilot:
+        values:
+          traceSampling: 0.1 # override from 1.0
+
+  # global Helm settings
+  values:
+    monitoringPort: 15050
+{{< /text >}}
+
+Note that some parameters will temporarily exist in both the Helm and IstioControlPlane APIs - for example, K8s resources,
+namespaces and enablement. However, the Istio community recommends using the IstioControlPlane API as it is more
+consistent, is validated, and will naturally follow the graduation process for APIs while the same parameters in the
+Helm API are planned for deprecation.
+
+## Show differences between profiles or manifests
+
+The `profile diff` and `manifest diff` subcommands can be used to show the differences between profiles or manifests,
+which is useful for checking the effects of customizations before applying changes to a cluster:
+
+### Show differences between the default and demo profiles
+
+{{< text bash >}}
+$ istioctl experimental profile dump default > 1.yaml
+$ istioctl experimental profile dump demo > 2.yaml
+$ istioctl experimental profile diff 1.yaml 2.yaml
+{{< /text >}}
+
+### Show the differences in the generated manifests between the default profile and a customized install
+
+{{< text bash >}}
+$ istioctl experimental manifest generate > 1.yaml
+$ istioctl experimental manifest generate -f samples/pilot-k8s.yaml > 2.yaml
+$ istioctl experimental manifest diff 1.yam1 2.yaml
 {{< /text >}}
 
 ## Inspect/modify a manifest before installation
@@ -113,3 +266,8 @@ and displays the results:
 {{< text bash >}}
 $ istioctl verify-install -f $HOME/generated-manifest.yaml
 {{< /text >}}
+
+## Additional documentation
+
+The Istio operator CLI is still experimental. See the [README](https://github.com/istio/operator/blob/master/README.md)
+for additional documentation and examples.
