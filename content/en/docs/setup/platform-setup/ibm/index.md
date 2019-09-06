@@ -47,10 +47,11 @@ To prepare a cluster before manually installing Istio, proceed as follows:
     You can view your available VLANs by running `ibmcloud ks vlans --zone <zone-name>`.
     {{< /tip >}}
 
-1. Retrieve your credentials for `kubectl`.
+1.  Run the following command to download your cluster configuration for `kubectl` and then
+    set the `KUBECONFIG` environment variable as specified in the command output.
 
     {{< text bash >}}
-    $(ibmcloud ks cluster-config <cluster-name> --export)
+    $ ibmcloud ks cluster-config <cluster-name>
     {{< /text >}}
 
     {{< warning >}}
