@@ -91,6 +91,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 
 | Feature           | Phase
 |-------------------|-------------------
+| [Operator installation](/docs/setup/install/operator/)        | Alpha
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/)        | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
