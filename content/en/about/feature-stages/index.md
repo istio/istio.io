@@ -83,7 +83,6 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
 | [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
-| [Vault integration](/docs/tasks/security/vault-ca) | Alpha
 | [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
 
 The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
@@ -92,6 +91,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 
 | Feature           | Phase
 |-------------------|-------------------
+| [Operator installation](/docs/setup/install/operator/)        | Alpha
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/)        | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
