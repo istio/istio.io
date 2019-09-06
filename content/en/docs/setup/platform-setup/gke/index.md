@@ -12,7 +12,7 @@ keywords: [platform-setup,kubernetes,gke,google]
 {{< tip >}}
 Google offers an add-on for GKE,
 which you can use instead of installing Istio manually.
-Refer to [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview)
+To determine if the add-on is right for you, refer to [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview)
 for details and instructions.
 {{< /tip >}}
 
