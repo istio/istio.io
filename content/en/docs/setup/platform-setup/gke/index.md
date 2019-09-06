@@ -27,9 +27,10 @@ Follow these instructions to prepare an GKE cluster for Istio.
     {{< /text >}}
 
     {{< tip >}}
-    The default installation of mixer requires nodes with >1 vCPU. If you are doing a demo
-    installation you may remove the `--machine-type` argument to use the smaller
-    `n1-standard-1` machine size instead.
+    The default installation of Mixer requires nodes with >1 vCPU. If you are
+    installing with the
+    [demo configuration profile](/docs/setup/kubernetes/additional-setup/config-profiles/)
+     you can remove the `--machine-type` argument to use the smaller `n1-standard-1` machine size instead.
     {{< /tip >}}
     
     {{< warning >}}
