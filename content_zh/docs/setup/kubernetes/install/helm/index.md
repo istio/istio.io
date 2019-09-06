@@ -52,15 +52,15 @@ icon: helm
     $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
-1. 使用如下命令以确保全部 53 个 Istio CRD 被提交到 Kubernetes api-server：
+1. 使用如下命令以确保全部 23 个 Istio CRD 被提交到 Kubernetes api-server：
 
     {{< warning >}}
-    如果你启用了 cert-manager,那么 CRD 的数目为58个。
+    如果你启用了 cert-manager,那么 CRD 的数目为28个。
     {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    53
+    23
     {{< /text >}}
 
 1. 选择一个 [配置文件](/docs/setup/kubernetes/additional-setup/config-profiles/)，接着部署与你选择的配置文件相对应的 Istio 的核心组件，我们建议在生成环境部署中使用 **default** 配置文件:
