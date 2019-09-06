@@ -9,10 +9,18 @@ aliases:
 keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 ---
 
-Follow these instructions to prepare an Alibaba Cloud Kubernetes cluster for Istio.
-
+Follow these instructions to prepare an
+[Alibaba Cloud Kubernetes Container Service](https://www.alibabacloud.com/product/kubernetes)
+cluster for Istio.
 You can deploy a Kubernetes cluster to Alibaba Cloud quickly and easily in the
 `Container Service console`, which fully supports Istio.
+
+{{< tip >}}
+To install and configure an Istio mesh in the Alibaba Cloud Kubernetes Container Service
+using the `Application Catalog` module, follow the
+[Alibaba Application Catalog instructions](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/platform/alicloud/)
+instead.
+{{< /tip >}}
 
 ## Prerequisites
 
