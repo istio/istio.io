@@ -13,7 +13,7 @@ We are pleased to announce the release of Istio 1.3!
 
 The theme of 1.3 is User Experience - improving the experience of new users adopting Istio, debugging problems and supporting more applications out of the box. 
 
-Users are adopting Istio faster than ever before and we’ve been listening to the feedback! We’ve heard that Istio can be complex and challenging to adopt and we've been working hard to make improvements. 
+Users are adopting Istio faster than ever before and we’ve been listening to their feedback! We’ve heard that Istio can be complex and challenging to adopt and we've been working hard to make improvements. 
 
 We started by forming a new User Experience team earlier this year to lead improvements across all components of Istio. Everyone is invited to join the working group meetings and share your thoughts. We’ve begun delivering many notable improvements, some of which are ready for you to use in 1.3 and some in experimental state. 
 
