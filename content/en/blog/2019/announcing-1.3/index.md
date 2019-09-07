@@ -29,7 +29,7 @@ In addition, we have added several new `istioctl` experimental subcommands to im
 
 The Istio team is also constantly working on improving the control plane performance and reducing its footprint. In this release, Pilot performance has been significantly improved resulting in as much as a 90% CPU usage savings!
 
-Locality aware Load Balancing is another feature which graduated from experimental to default in this release. Istio can now take advantage of existing locality information to prioritize load balancing pools and favor sending requests to the closest backends.
+Locality aware load balancing graduated from experimental to default in this release too. Istio can now take advantage of existing locality information to prioritize load balancing pools and favor sending requests to the closest backends.
 
 Control plane monitoring has been greatly enhanced with additional metrics to monitor configuration state, Sidecar Injector webhook, a new Grafana dashboard for Citadel, and improvements to the Pilot dashboard.
 
