@@ -11,7 +11,11 @@ We are pleased to announce the release of Istio 1.3!
 
 {{< relnote linktonote="true" >}}
 
-The theme of 1.3 is User Experience - improving the experience of new users adopting Istio, debugging problems and supporting more applications out of the box. 
+The theme of Istio 1.3 is User Experience: 
+
+- Improve the experience of new users adopting Istio
+- Improve the experience of users debugging problems
+- Support more applications without any additional configuration 
 
 Users are adopting Istio faster than ever before and we’ve been listening to their feedback! We’ve heard that Istio can be complex and challenging to adopt and we've been working hard to make improvements. 
 
