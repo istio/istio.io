@@ -39,4 +39,4 @@ We enhanced control plane monitoring in the following ways:
 - Improved the Pilot dashboard
 
 See the [release notes](/about/notes/1.3) for the complete list of changes. As always, there is a lot happening in the [Community Meeting]https://github.com/istio/community#community-meeting); join us every other Thursday at 11 a.m. Pacific.
-Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md). And if you haven’t yet joined the conversation at [discuss.istio.io](https://discuss.istio.io), head over, log in with your GitHub credentials and join us!
+Join one of our [Work Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us make Istio better. To join the conversation, go to [discuss.istio.io](https://discuss.istio.io), log in with your GitHub credentials and join us!
