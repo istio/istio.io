@@ -33,7 +33,7 @@ aliases:
 1.  为 `nginx.example.com` 生成证书。使用以下命令的任何密码：
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com password
+    $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
     遇见所有的问题请输入 `y` 来回答。

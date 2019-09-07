@@ -287,7 +287,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 1. 为 `nginx.example.com` 生成证书，注意用密码替换下面的 `password`：
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com password
+    $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
     所有提示都输入 `y`。

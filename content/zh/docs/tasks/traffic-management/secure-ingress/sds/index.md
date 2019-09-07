@@ -39,7 +39,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 1. 为 `httpbin.example.com` 生成证书。注意要把下面命令中的 `password` 替换为其它值。
 
     {{< text bash >}}
-    $ ./generate.sh httpbin.example.com password
+    $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
     看到提示后，所有问题都输入 `Y` 即可。这个命令会生成四个目录：`1_root`、`2_intermediate`、`3_application` 以及 `4_client`。这些目录中包含了后续过程所需的客户端和服务端证书。

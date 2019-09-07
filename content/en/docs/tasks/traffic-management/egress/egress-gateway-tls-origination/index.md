@@ -307,7 +307,7 @@ TLS origination.
     Use any password with the following command:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com password
+    $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
     Select `y` for all prompts that appear.
