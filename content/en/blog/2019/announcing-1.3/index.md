@@ -15,7 +15,7 @@ The theme of 1.3 is User Experience - improving the experience of new users adop
 
 Users are adopting Istio faster than ever before and we’ve been listening to their feedback! We’ve heard that Istio can be complex and challenging to adopt and we've been working hard to make improvements. 
 
-We started by forming a new User Experience team earlier this year to lead improvements across all components of Istio. Everyone is invited to join the working group meetings and share your thoughts. We’ve begun delivering many notable improvements, some of which are ready for you to use in 1.3 and some in experimental state. 
+Earlier this year, we formed the new User Experience team to lead improvements across all Istio components. Everyone is welcome to join the working group meetings and share their thoughts. In this release, we start delivering many notable improvements and some are ready for you to use in 1.3 while others are in the experimental phase. 
 
 In past releases, you had to explicitly declare the protocol for service ports. This requirement caused problems for users that didn't name their ports when they added their application to the mesh. By default, Pilot now sniffs the protocol getting rid of this requirement! Similarly, you had to define all the pod ports (`containerPort`) for each container, another obsolete requirement since Istio now captures all inbound ports by default!
 
