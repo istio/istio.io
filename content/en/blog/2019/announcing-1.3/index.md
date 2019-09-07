@@ -17,7 +17,7 @@ Users are adopting Istio faster than ever before and we’ve been listening to t
 
 We started by forming a new User Experience team earlier this year to lead improvements across all components of Istio. Everyone is invited to join the working group meetings and share your thoughts. We’ve begun delivering many notable improvements, some of which are ready for you to use in 1.3 and some in experimental state. 
 
-In the past, we required you to explicitly declare the protocol for service ports. This was a common gotcha as users forgot to name their ports when adding their application to the mesh. By default, Pilot now has protocol sniffing which removes this requirement! Along the same lines, another obsolete requirement is the need to define all the pod ports (`containerPort`) for each container. Istio will now capture all inbound ports by default.
+In past releases, you had to explicitly declare the protocol for service ports. This requirement caused problems for users that didn't name their ports when they added their application to the mesh. By default, Pilot now sniffs the protocol getting rid of this requirement! Similarly, you had to define all the pod ports (`containerPort`) for each container, another obsolete requirement since Istio now captures all inbound ports by default!
 
 If you haven't tried out `istioctl` yet, now is a great time to start! Formerly experimental sub-commands `metrics`, `dashboard` and `convert-ingress` have been promoted and are now supported Istio features. In addition, several new istioctl experimental subcommands have been added to help improve the usability of the system.
 
