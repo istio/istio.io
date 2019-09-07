@@ -31,7 +31,12 @@ The Istio team is also constantly working on improving the control plane perform
 
 Locality aware load balancing graduated from experimental to default in this release too. Istio can now take advantage of existing locality information to prioritize load balancing pools and favor sending requests to the closest backends.
 
-Control plane monitoring has been greatly enhanced with additional metrics to monitor configuration state, Sidecar Injector webhook, a new Grafana dashboard for Citadel, and improvements to the Pilot dashboard.
+We enhanced control plane monitoring in the following ways:
+
+- Added new metrics to monitor configuration state
+- Added metrics for sidecar injector
+- Added a new Grafana dashboard for Citadel
+- Improved the Pilot dashboard
 
 To see a complete list of changes, see the [release notes](/about/notes/1.3). As always, there is a lot happening in the [Community Meeting]https://github.com/istio/community#community-meeting) (every other Thursday at 11 a.m. Pacific) and in the [Working
 Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md). And if you haven’t yet joined the conversation at [discuss.istio.io](https://discuss.istio.io), head over, log in with your GitHub credentials and join us!
