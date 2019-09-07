@@ -1,6 +1,6 @@
 ---
-title: Operator Install [Experimental]
-description: Install and configure Istio using the Istio Operator.
+title: Operator CLI Based Install [Experimental]
+description: Install and configure Istio using the Istio Operator CLI.
 weight: 25
 keywords: [operator,kubernetes,helm]
 ---
@@ -8,22 +8,13 @@ keywords: [operator,kubernetes,helm]
 {{< boilerplate experimental-feature-warning >}}
 
 Follow this guide to install and configure an Istio mesh using an alternate
-installation method: the Istio {{<gloss operator>}}Operator{{</gloss>}}
+installation method: the Istio {{<gloss operator>}}Operator CLI{{</gloss>}}
 installation.
 
-The Istio Operator installation is a shorter process with the option of
+The Istio Operator CLI offers a new installation method with the option of
 installing Istio using a one-line command. It has user input
 validation to help prevent installation errors and customization options to
 override any aspect of the configuration.
-
-It has these additional characteristics:
-
-- Descriptive error messages to spot configuration errors easier.
-
-- Installer capable of waiting for Istio pods and services to be in a
-  ready state.
-
-- Fewer dependencies (doesn’t require Helm).
 
 The Operator install is accessed via [`istioctl`](/docs/reference/commands/istioctl/)
 commands.
@@ -38,7 +29,7 @@ Before you begin, check the following prerequisites:
 
 ## Install Istio using the default profile
 
-The simplest option is to install Istio using a one-line command:
+The simplest option is to install a default Istio configuration using a one-line command:
 
 {{< text bash >}}
 $ istioctl experimental manifest apply
@@ -46,10 +37,10 @@ $ istioctl experimental manifest apply
 
 This command installs a profile named `default` on the cluster defined by your
 Kubernetes configuration. The `default` profile is smaller and more suitable
-for establishing a production environment, unlike the larger profile named
-`demo` that is meant to evaluate a broad set of Istio features.
+for establishing a production environment, unlike the larger `demo` profile that
+is intended for evaluating a broad set of Istio features.
 
-You can view the profile named `default` by using this command:
+You can view the `default` profile configuration settings by using this command:
 
 {{< text bash >}}
 $ istioctl experimental profile dump
@@ -118,7 +109,7 @@ namespace.
 ## Modify a feature or component setting
 
 The operator uses the [IstioControlPlane API](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)
-to specify how the control plane is installed. The API can be used either by setting
+to specify how the Istio control plane is installed. The API can be used either by setting
 values with the `--set` flag, or creating an overlay file and passing it with the `--filename` flag.
 
 The simplest customization is to turn a feature or component on or off from the configuration profile default. To turn
