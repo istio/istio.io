@@ -75,7 +75,7 @@ $ istioctl experimental profile list
 
 ## Features and components
 
-The operator groups the Istio control plane components by feature, as follows:
+The Operator groups the Istio control plane components by feature, as follows:
 
 | Feature | Components |
 |---------|------------|
@@ -108,7 +108,7 @@ namespace.
 
 ## Modify a feature or component setting
 
-The operator uses the [IstioControlPlane API](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)
+The Operator uses the [IstioControlPlane API](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)
 to specify how the Istio control plane is installed. The API can be used either by setting
 values with the `--set` flag, or creating an overlay file and passing it with the `--filename` flag.
 
@@ -144,17 +144,17 @@ The IstioControlPlane API allows each component's k8s settings to be customized 
 Each component has a [KubernetesResourceSpec](https://github.com/istio/operator/blob/9f80ecaea0f17dfd8a33d86d72f72da8861e7417/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto#L411),
 which allows the following settings to be changed:
 
-1. [resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
-1. [readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-1. [replica count](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-1. [HoriizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
+1. [Readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+1. [Replica count](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+1. [HorizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 1. [PodDisruptionBudget](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work)
-1. [pod annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
-1. [service annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+1. [Pod annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+1. [Service annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
 1. [ImagePullPolicy](https://kubernetes.io/docs/concepts/containers/images/)
-1. [priority class name](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
-1. [node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
-1. [affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+1. [Priority class name](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
+1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
+1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
 All of these K8s settings use the K8s API definitions, so [K8s documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
 For example, this overlay file ([samples/pilot-k8s.yaml](https://github.com/istio/operator/blob/release-1.3/samples/pilot-k8s.yaml))
@@ -179,7 +179,7 @@ spec:
 
 ## Customize through the Helm API
 
-The [Helm API](https://istio.io/docs/reference/config/installation-options/) is available as part of the operator API.
+The [Helm API](https://istio.io/docs/reference/config/installation-options/) is available as part of the Operator API.
 It can be accessed as a top level values field in IstioControlPlane
 (for [global settings](https://istio.io/docs/reference/config/installation-options/#global-options))
 and per-component values fields for each Istio component. For example, here's a YAML file that configures some global
@@ -205,7 +205,7 @@ namespaces and enablement. However, the Istio community recommends using the Ist
 consistent, is validated, and will naturally follow the graduation process for APIs while the same parameters in the
 Helm API are planned for deprecation.
 
-## Show differences between profiles or manifests
+## Show differences
 
 The `profile diff` and `manifest diff` subcommands can be used to show the differences between profiles or manifests,
 which is useful for checking the effects of customizations before applying changes to a cluster:
@@ -236,8 +236,8 @@ You can inspect or modify the manifest before installing Istio using these steps
 $ istioctl experimental manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-1. Inspect or modify the manifest as needed.
-1. Then, apply the manifest using this command:
+2. Inspect the manifest as needed.
+3. Then, apply the manifest using this command:
 
 {{< tip >}}
 This command might show transient errors due to resources not being available in
@@ -260,5 +260,5 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 ## Additional documentation
 
-The Istio operator CLI is still experimental. See the [README](https://github.com/istio/operator/blob/master/README.md)
+The Istio Operator CLI is still experimental. See the [README](https://github.com/istio/operator/blob/master/README.md)
 for additional documentation and examples.
