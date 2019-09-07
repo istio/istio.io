@@ -1,5 +1,5 @@
 ---
-title: Operator CLI Based Install [Experimental]
+title: Operator CLI-based Installation [Experimental]
 description: Install and configure Istio using the Istio Operator CLI.
 weight: 25
 keywords: [operator,kubernetes,helm]
@@ -46,7 +46,7 @@ You can view the `default` profile configuration settings by using this command:
 $ istioctl experimental profile dump
 {{< /text >}}
 
-To view a subset of the entire configuration, you can pass the `--config-path` flag, which selects only the portion
+To view a subset of the entire configuration, you can use the `--config-path` flag, which selects only the portion
 of the configuration under the given path:
 
 {{< text bash >}}
@@ -73,9 +73,15 @@ accessible to `istioctl` by using this command:
 $ istioctl experimental profile list
 {{< /text >}}
 
-## Features and components
+## Customize Istio settings using the IstioControlPlane API
 
-The Operator groups the Istio control plane components by feature, as follows:
+You can change a feature or component setting by using the [IstioControlPlane API](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
+
+### Identify the feature or component settings
+
+The Operator groups the Istio control plane components by feature, which determines the required flags to use with `manifest apply` command.
+
+Use this table to determine the name of the configuration settings for a feature or component:
 
 | Feature | Components |
 |---------|------------|
@@ -91,7 +97,7 @@ Gateways | Ingress gateway
 Gateways | Egress gateway
 AutoInjection | Sidecar injector
 
-Besides the core Istio items above, some third-party addon features and components are also available:
+In addition to the core Istio components, third-party addon features and components are also available:
 
 | Feature | Components |
 |---------|------------|
@@ -106,20 +112,26 @@ Features can be enabled or disabled, which enables or disables all of the compon
 Namespaces can also be set at the feature level, which installs all of the feature's components into the feature
 namespace.
 
-## Modify a feature or component setting
+### Configure the feature or component settings
 
-The Operator uses the [IstioControlPlane API](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)
-to specify how the Istio control plane is installed. The API can be used either by setting
-values with the `--set` flag, or creating an overlay file and passing it with the `--filename` flag.
+After you indentify the name of the feature or component from the previous table, you can use the API to set the values using the `--set` flag, or create an overlay file and pass it with the `--filename` flag. In general, the `--set` flag works well for customizing a few parameters, while overlay files are better for more extensive customization, or tracking configuration changes.
 
-The simplest customization is to turn a feature or component on or off from the configuration profile default. To turn
-off the telemetry feature in a default configuration installation:
+For example, to enable Pilot, which is part of the Traffic Management feature, use this command:
+{{< text bash >}}
+$ istioctl experimental manifest apply --set trafficManagment.components.pilot.enabled=true
+{{< /text >}}
+
+The simplest customization is to turn a feature or component on or off from the configuration profile default. 
+
+For example, to disable the telemetry feature in a default configuration installation, use this command:
 
 {{< text bash >}}
 $ istioctl experimental manifest apply --set telemetry.enabled=false
 {{< /text >}}
 
-The same thing can be done with a configuration overlay file. Create the following file, and call it telemetry_off.yaml:
+Alternatively, you can disable the telemetry feature using a configuration overlay file:  
+
+1. Create this file with the name telemetry_off.yaml and these contents:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -129,20 +141,20 @@ spec:
     enabled: false
 {{< /text >}}
 
-To turn off telemetry feature, run manifest apply with the overlay file:
+1. Provide the telemetry_off.yaml overlay file to `manifest apply` command:
 
 {{< text bash >}}
 $ istioctl experimental manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
-In general, the `--set` flag works well for customizing a few parameters, while overlay files are better for more
-extensive customization, or tracking configuration changes.
-
-## Customize K8s settings
+## Customize K8s settings using the IstioControlPlane API
 
 The IstioControlPlane API allows each component's k8s settings to be customized in a consistent way.
+
+### Identify the feature or component settings
+
 Each component has a [KubernetesResourceSpec](https://github.com/istio/operator/blob/9f80ecaea0f17dfd8a33d86d72f72da8861e7417/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto#L411),
-which allows the following settings to be changed:
+which allows the following settings to be changed. Use this list to indentify the setting to customize:
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
 1. [Readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
@@ -156,9 +168,13 @@ which allows the following settings to be changed:
 1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
 1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
-All of these K8s settings use the K8s API definitions, so [K8s documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
-For example, this overlay file ([samples/pilot-k8s.yaml](https://github.com/istio/operator/blob/release-1.3/samples/pilot-k8s.yaml))
-will adjust the resources and HPA scaling settings for Pilot, which is a part of the TrafficManagement feature:
+All of these K8s settings use the K8s API definitions, so [K8s documentation](https://kubernetes.io/docs/concepts/) can be used for reference. 
+
+### Configure the feature or component settings
+After you indentify the name of the feature or component from the previous list, you can use the API to set the values using a configuration overlay file.
+
+For example, use this overlay file ([samples/pilot-k8s.yaml](https://github.com/istio/operator/blob/release-1.3/samples/pilot-k8s.yaml))
+to adjust the resources and HPA scaling settings for Pilot, which is a part of the TrafficManagement feature:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -177,13 +193,14 @@ spec:
             minReplicas: 2  # ... default 1
 {{< /text >}}
 
-## Customize through the Helm API
+## Customize Istio settings using the Helm API
 
 The [Helm API](https://istio.io/docs/reference/config/installation-options/) is available as part of the Operator API.
-It can be accessed as a top level values field in IstioControlPlane
+You can access it as a top level values field in IstioControlPlane
 (for [global settings](https://istio.io/docs/reference/config/installation-options/#global-options))
-and per-component values fields for each Istio component. For example, here's a YAML file that configures some global
-and Pilot settings through the Helm API:
+and per-component values fields for each Istio component. 
+
+For example, here's a YAML file that configures some global and Pilot settings through the Helm API:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -202,15 +219,14 @@ spec:
 
 Note that some parameters will temporarily exist in both the Helm and IstioControlPlane APIs - for example, K8s resources,
 namespaces and enablement. However, the Istio community recommends using the IstioControlPlane API as it is more
-consistent, is validated, and will naturally follow the graduation process for APIs while the same parameters in the
-Helm API are planned for deprecation.
+consistent, is validated, and follows the graduation process for APIs.
 
-## Show differences
+## Show differences in profiles or manifests
 
 The `profile diff` and `manifest diff` subcommands can be used to show the differences between profiles or manifests,
-which is useful for checking the effects of customizations before applying changes to a cluster:
+which is useful for checking the effects of customizations before applying changes to a cluster.
 
-### Show differences between the default and demo profiles
+For example, you can show differences between the default and demo profiles using these commands:
 
 {{< text bash >}}
 $ istioctl experimental profile dump default > 1.yaml
@@ -218,7 +234,7 @@ $ istioctl experimental profile dump demo > 2.yaml
 $ istioctl experimental profile diff 1.yaml 2.yaml
 {{< /text >}}
 
-### Show the differences in the generated manifests between the default profile and a customized install
+In addition, you can show the differences in the generated manifests between the default profile and a customized install using these commands:
 
 {{< text bash >}}
 $ istioctl experimental manifest generate > 1.yaml
@@ -260,5 +276,5 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 ## Additional documentation
 
-The Istio Operator CLI is still experimental. See the [README](https://github.com/istio/operator/blob/master/README.md)
+The Istio Operator CLI is experimental. See the [README](https://github.com/istio/operator/blob/master/README.md)
 for additional documentation and examples.
