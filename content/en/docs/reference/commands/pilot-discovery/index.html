@@ -534,6 +534,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, protocol sniffing will be used on ports whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, protocol sniffing will be used for inbound listeners</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -544,6 +550,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr>
+<td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>1s</code></td>
+<td>Protocol detection timeout for inbound listener</td>
 </tr>
 <tr>
 <td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
@@ -586,6 +598,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
+</tr>
+<tr>
+<td><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
 </tr>
 <tr>
 <td><code>PILOT_TRACE_SAMPLING</code></td>
