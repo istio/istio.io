@@ -19,7 +19,13 @@ We started by forming a new User Experience team earlier this year to lead impro
 
 In past releases, you had to explicitly declare the protocol for service ports. This requirement caused problems for users that didn't name their ports when they added their application to the mesh. By default, Pilot now sniffs the protocol getting rid of this requirement! Similarly, you had to define all the pod ports (`containerPort`) for each container, another obsolete requirement since Istio now captures all inbound ports by default!
 
-If you haven't tried out `istioctl` yet, now is a great time to start! Formerly experimental sub-commands `metrics`, `dashboard` and `convert-ingress` have been promoted and are now supported Istio features. In addition, several new istioctl experimental subcommands have been added to help improve the usability of the system.
+If you haven't tried out `istioctl` yet, now is a great time to start! The following experimental sub-commands are now supported Istio features:
+
+- `metrics`
+- `dashboard`
+- `convert-ingress` 
+
+In addition, we have added several new `istioctl` experimental subcommands to improve usability.
 
 The Istio team is also constantly working on improving the control plane performance and reducing its footprint. In this release, Pilot performance has been significantly improved resulting in as much as a 90% CPU usage savings!
 
