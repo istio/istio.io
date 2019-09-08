@@ -31,7 +31,7 @@ If you haven't tried out `istioctl` yet, now is a great time to start! The follo
 
 In addition, we have added several new `istioctl` [experimental subcommands](/docs/reference/commands/istioctl/#istioctl-experimental) to improve usability.
 
-The Istio team is also constantly working on improving the control plane performance and reducing its footprint. In this release, Pilot performance has been significantly improved resulting in as much as a 90% CPU usage savings!
+The Istio team works constantly on improving the control plane performance and resource footprint. In this release, we have improved Pilot's performance, which can result in significant improvement going as far as a 90% CPU usage savings depending on deployment!
 
 Locality aware load balancing graduated from experimental to default in this release too. Istio can now take advantage of existing locality information to prioritize load balancing pools and favor sending requests to the closest backends.
 
@@ -42,5 +42,11 @@ We enhanced control plane monitoring in the following ways:
 - Added a new Grafana dashboard for Citadel
 - Improved the Pilot dashboard to expose additional key metrics
 
+We've heard how important it is for you to have accurate and up-to-date information in our documentation. The documentation team continuously works to provide with the information you need to be successful. In Istio 1.3, we made many improvements but the following are some highlights:
+
+- Added the new [Istio Deployment Models concept](/docs/concepts/deployment-models/) to help you decide what deployment model suits your needs.
+- Organized the content in of our [Operations Guide](/docs/ops/) and created a [section with all troubleshooting tasks](/docs/ops/troubleshooting) to help you find the information you seek faster. 
+
+Thanks to our community testers, our [documentation](/docs/) is tested for every release including Istio 1.3!
 See the [release notes](/about/notes/1.3) for the complete list of changes. As always, there is a lot happening in the [Community Meeting]https://github.com/istio/community#community-meeting); join us every other Thursday at 11 a.m. Pacific.
 Join one of our [Work Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us make Istio better. To join the conversation, go to [discuss.istio.io](https://discuss.istio.io), log in with your GitHub credentials and join us!
