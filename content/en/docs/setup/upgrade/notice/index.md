@@ -25,10 +25,22 @@ We removed the Mixer CRDs from the system to simplify the configuration
 model, improve Mixer's performance in Kubernetes deployments, and improve
 reliability in various Kubernetes environments.
 
+Istio now captures all ports by default. Thus, services can't bypass the Envoy
+proxies even if they previously did. If your services listen on `127.0.0.1` to
+avoid exposure or to intentionally bypass Envoy to improve performance, you must
+opt out of port capturing with the
+`traffic.sidecar.istio.io/excludeInboundPorts` option.
+
+Protocol sniffing is now enabled by default. Disable port sniffing with the `--set pilot.enableProtocolSniffing=false`
+option when you upgrade to get the previous behavior.
+
+To specify a hostname in multiple namespaces, you must select a single host using
+a [`Sidecar` resource](/docs/reference/config/networking/v1alpha3/sidecar/).
+
 ## Trust domain validation
 
 Trust domain validation is new in Istio 1.3. If you only have one trust domain
-or you don't enable mutal TLS through authentication policies, there is nothing
+or you don't enable mutual TLS through authentication policies, there is nothing
 you must do.
 
 To opt-out the trust domain validation, include the following flag in your Helm
