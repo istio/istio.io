@@ -23,13 +23,13 @@ Earlier this year, we formed the new User Experience team to lead improvements a
 
 In past releases, you had to explicitly declare the protocol for service ports. This requirement caused problems for users that didn't name their ports when they added their application to the mesh. By default, Pilot now sniffs the protocol getting rid of this requirement! Similarly, you had to define all the pod ports (`containerPort`) for each container, another obsolete requirement since Istio now captures all inbound ports by default!
 
-If you haven't tried out `istioctl` yet, now is a great time to start! The following experimental sub-commands are now supported Istio features:
+If you haven't tried out `istioctl` yet, now is a great time to start! The following sub-commands are now supported Istio features:
 
-- `metrics`
-- `dashboard`
-- `convert-ingress` 
+- [metrics](/docs/reference/commands/istioctl/#istioctl-metrics)
+- [dashboard](/docs/reference/commands/istioctl/#istioctl-dashboard)
+- [convert-ingress](/docs/reference/commands/istioctl/#istioctl-convert-ingress)
 
-In addition, we have added several new `istioctl` experimental subcommands to improve usability.
+In addition, we have added several new `istioctl` [experimental subcommands](/docs/reference/commands/istioctl/#istioctl-experimental) to improve usability.
 
 The Istio team is also constantly working on improving the control plane performance and reducing its footprint. In this release, Pilot performance has been significantly improved resulting in as much as a 90% CPU usage savings!
 
@@ -40,7 +40,7 @@ We enhanced control plane monitoring in the following ways:
 - Added new metrics to monitor configuration state
 - Added metrics for sidecar injector
 - Added a new Grafana dashboard for Citadel
-- Improved the Pilot dashboard
+- Improved the Pilot dashboard to expose additional key metrics
 
 See the [release notes](/about/notes/1.3) for the complete list of changes. As always, there is a lot happening in the [Community Meeting]https://github.com/istio/community#community-meeting); join us every other Thursday at 11 a.m. Pacific.
 Join one of our [Work Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us make Istio better. To join the conversation, go to [discuss.istio.io](https://discuss.istio.io), log in with your GitHub credentials and join us!
