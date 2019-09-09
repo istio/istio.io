@@ -25,6 +25,8 @@ We removed the Mixer CRDs from the system to simplify the configuration
 model, improve Mixer's performance in Kubernetes deployments, and improve
 reliability in various Kubernetes environments.
 
+## Traffic management
+
 Istio now captures all ports by default. If your services listen on `127.0.0.1`,
 you probably don't specify container ports due to the following reasons:
 
@@ -34,9 +36,14 @@ you probably don't specify container ports due to the following reasons:
 If that is the case, you must opt out of port capturing with the
 `traffic.sidecar.istio.io/excludeInboundPorts` option.
 
+{{< warning >}}
+This change exposes any applications listening on `127.0.0.1`
+since Envoy connects over `localhost`. Opt out to avoid exposing such applications.
+{{< /warning >}}
+
 Protocol sniffing is now enabled by default. Disable port sniffing with the
 `--set pilot.enableProtocolSniffing=false` option when you upgrade to get the
-previous behavior.
+previous behavior. To learn more see our [protocol selection page](/docs/ops/traffic-management/protocol-selection/).
 
 To specify a hostname in multiple namespaces, you must select a single host using
 a [`Sidecar` resource](/docs/reference/config/networking/v1alpha3/sidecar/).
