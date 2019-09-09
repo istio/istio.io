@@ -13,28 +13,6 @@ keywords: [kubernetes,sidecar,sidecar-injection]
 To be a part of an Istio service mesh, pods and services in a Kubernetes
 cluster must satisfy the following requirements:
 
-- **Named service ports**: Service ports must be named. The port name key/value
-  pairs must have the following syntax: `name: <protocol>[-<suffix>]`. To take
-  advantage of Istio's routing features, replace `<protocol>` with one of the
-  following values:
-
-    - `grpc`
-    - `http`
-    - `http2`
-    - `https`
-    - `mongo`
-    - `mysql`
-    - `redis`
-    - `tcp`
-    - `tls`
-    - `udp`
-
-    For example, `name: http2-foo` or  `name: http` are valid port names, but
-    `name: http2foo` is not. If the port name does not begin with a recognized
-    prefix or if the port is unnamed, traffic on the port is treated as
-    plain TCP traffic unless the port [explicitly](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
-    uses `Protocol: UDP` to signify a UDP port.
-
 - **Service association**: A pod must belong to at least one Kubernetes
   service even if the pod does NOT expose any port.
   If a pod belongs to multiple [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
