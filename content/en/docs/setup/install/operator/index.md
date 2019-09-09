@@ -107,17 +107,15 @@ Telemetry | Tracing
 ThirdParty | CNI
 
 Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
-Namespaces can also be set at the feature level, which installs all of the feature's components into the feature
-namespace.
+Namespaces that components are installed into can be set at the global, feature, or component level, in increasing
+order of override priority.
 
 ### Configure the feature or component settings
 
-After you identify the name of the feature or component from the previous table, you can use the API to set the values using the `--set` flag, or create an overlay file and pass it with the `--filename` flag. In general, the `--set` flag works well for customizing a few parameters, while overlay files are better for more extensive customization, or tracking configuration changes.
-
-For example, to enable Pilot, which is part of the Traffic Management feature, use this command:
-{{< text bash >}}
-$ istioctl experimental manifest apply --set trafficManagment.components.pilot.enabled=true
-{{< /text >}}
+After you identify the name of the feature or component from the previous table, you can use the API to set the values
+using the `--set` flag, or create an overlay file and pass it with the `--filename` flag. In general, the `--set` flag
+works well for customizing a few parameters, while overlay files are better for more extensive customization, or
+tracking configuration changes.
 
 The simplest customization is to turn a feature or component on or off from the configuration profile default. 
 
@@ -144,6 +142,28 @@ spec:
 {{< text bash >}}
 $ istioctl experimental manifest apply -f telemetry_off.yaml
 {{< /text >}}
+
+Another common customization is to select different namespaces for features and components. The following is an example
+of installation namespace customization:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  defaultNamespace: istio-system
+  security:
+    namespace: istio-security
+    components:
+      citadel:
+        namespace: istio-citadel
+{{< /text >}}
+
+Applying this file will cause the default profile to be applied, with components being installed into the following
+namespaces:
+
+- Citadel installed into istio-citadel namespace
+- All other security components installed into istio-security namespace
+- All other Istio components installed into istio-system namespace
 
 ## Customize K8s settings using the IstioControlPlane API
 
