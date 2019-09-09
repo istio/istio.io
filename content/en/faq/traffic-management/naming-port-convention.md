@@ -1,11 +1,8 @@
 ---
-title: What is the naming convention for port name inside my application deployment file?
+title: What protocols does Istio support?
 weight: 50
 ---
 
-Named ports: Service ports must be named.
+Currently, Istio supports TCP based protocols. In additional to this, Istio provides additional functionality, such as routing and metrics, from other protocols such as `http` and `mysql`. Currently, UDP traffic is not supported.
 
-The port names must be of the form `protocol`-`suffix` with `grpc`, `http`, `http2`, `https`, `mongo`, `redis`, `tcp`, `tls` or `udp` as the `protocol` in order to take advantage of Istio’s routing features.
-
-For example, `name: http2-foo` or `name: http` are valid port names, but `name: http2foo` is not. If the port name does not begin with a recognized prefix or if the port is unnamed, traffic on the port will be treated as plain TCP traffic (unless the port explicitly uses Protocol: UDP to signify a UDP port).
-
+For a list of all protocols, and information on how to configure protocols, view the [Protocol Selection](/docs/ops/traffic-management/protocol-selection/) documentation.
