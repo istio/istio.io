@@ -114,7 +114,7 @@ namespace.
 
 ### Configure the feature or component settings
 
-After you indentify the name of the feature or component from the previous table, you can use the API to set the values using the `--set` flag, or create an overlay file and pass it with the `--filename` flag. In general, the `--set` flag works well for customizing a few parameters, while overlay files are better for more extensive customization, or tracking configuration changes.
+After you identify the name of the feature or component from the previous table, you can use the API to set the values using the `--set` flag, or create an overlay file and pass it with the `--filename` flag. In general, the `--set` flag works well for customizing a few parameters, while overlay files are better for more extensive customization, or tracking configuration changes.
 
 For example, to enable Pilot, which is part of the Traffic Management feature, use this command:
 {{< text bash >}}
