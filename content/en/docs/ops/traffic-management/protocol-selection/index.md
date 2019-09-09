@@ -23,18 +23,18 @@ Other protocols must be specified manually by naming the Service port to the pro
 
 The following protocols are supported:
 
-  - `grpc`
-  - `http`
-  - `http2`
-  - `https`
-  - `mongo`
-  - `mysql`\*
-  - `redis`\*
-  - `tcp`
-  - `tls`
-  - `udp`
+- `grpc`
+- `http`
+- `http2`
+- `https`
+- `mongo`
+- `mysql`\*
+- `redis`\*
+- `tcp`
+- `tls`
+- `udp`
 
-\* These protocols are disabled by default to avoid accidentally enabling experimental features. To enable them, Pilot [environment variables](docs/reference/commands/pilot-discovery/#envvars) must be configured
+\* These protocols are disabled by default to avoid accidentally enabling experimental features. To enable them, Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars) must be configured
 
 Below is an example of a Service that defines a `mysql` port and an `http` port:
 
