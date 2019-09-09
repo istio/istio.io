@@ -41,7 +41,7 @@ $ helm install ./helm/appidentityandaccessadapter --name appidentityandaccessada
 
 ## Protecting web applications
 
-Web applications are most commonly protected by the OpenID Connect (OIDC) workflow called `authorization_code`. When an unauthenticated/unauthorized user is detected, they are automatically redirected to the identity service of your choice and presented with the authentication page. When authentication completes, the browser is redirected back to an implicit `/oidc/callback` endpoint intercepted by the adapter. At this point, the adapter obtains access and identity tokens from the identity service and then redirects users back to their originally requiested URL in the web app. 
+Web applications are most commonly protected by the OpenID Connect (OIDC) workflow called `authorization_code`. When an unauthenticated/unauthorized user is detected, they are automatically redirected to the identity service of your choice and presented with the authentication page. When authentication completes, the browser is redirected back to an implicit `/oidc/callback` endpoint intercepted by the adapter. At this point, the adapter obtains access and identity tokens from the identity service and then redirects users back to their originally requiested URL in the web app.
 
 Authentication state and tokens are maintained by the adapter. Each request processed by the adapter will include the Authorization header bearing both access and identity tokens in the following format `Authorization: Bearer <access_token> <id_token>`
 
