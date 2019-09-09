@@ -43,11 +43,10 @@ to the infrastructure backends systems via a pluggable set of adapters. Adapters
 infrastructure backends in use. The exact set of adapters used at runtime is determined through operator configuration and can easily
 be extended to target new or custom infrastructure backends.
 
-Here you utilized these benefits to implement the Knative scale-from-zero logic in a special Mixer
-[out-of-process adapter](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide).
-Prior Istio releases required building the custom adapter along with the istio proxy. The out-of-process adapter 
-allows you to use any programming language and to build and maintain your extension as a stand-alone
-program without the need to build the Istio proxy.
+In order to achieve Knative scale-from-zero, we use a Mixer [out-of-process adapter](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide)
+to call the Autoscaler. Out-of-process adapters for Mixer allow developers to use any
+programming language and to build and maintain your extension as a stand-alone program
+without the need to build the Istio proxy.
 
 The following diagram represents the Knative design using the **Mixer** adapter.
 
@@ -57,26 +56,13 @@ In this design, there is no need to change the routing from/to **Activator** for
 When the Istio proxy represented by the ingress gateway component receives a new request for an idle application, it informs **Mixer**, including all the
 relevant metadata information.
 **Mixer** then calls your adapter which triggers the Knative **Autoscaler** using the original Knative protocol.
+
 {{< idea >}}
 By using this desgin you do not need to deal with buffering, retries and load-balancing because it is already handled by the Istio proxy.
 {{< /idea >}}
 
-Istio's capabilities to extend Mixer makes it very simple to convert a complex networking-based application logic into a few lines
-of code of a Mixer adapter.
-The actual code of the [adapter](https://github.com/zachidan/istio-kactivator) is presented below.
-
-```go
-// Send a StatMessage to the Knative AutoScaler over the WebSocket using the Knative original protocol
-func (s *GrpcAdapter) sendStatMessage(r *authorization.HandleAuthorizationRequest) {
-    namespace := r.Instance.Action.Namespace
-    service := r.Instance.Action.Service
-    sm := autoscaler.StatMessage{Key: fmt.Sprintf("%s/%s", namespace, service)}
-    sm.Stat.PodName = s.podName
-    sm.Stat.AverageConcurrentRequests = 1.0
-    sm.Stat.RequestCount = 1
-    s.statSink.Send(&sm)
-}
-```
+Istio's use of Mixer adapters makes it possible to replace otherwise complex networking-based application logic with a more
+straightforward implementation, as demonstrated in [the kactivator-adapter](https://github.com/zachidan/istio-kactivator).
 
 When the adapter receives a message from **Mixer**, it sends a `StatMessage` directly to **Autoscaler**
 component using the Knative protocol.
