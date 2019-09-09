@@ -15,9 +15,9 @@ With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security
 
 ## Understanding Istio and the adapter
 
-[Istio](https://istio.io/docs/concepts/what-is-istio/) is an open source service mesh that layers transparently onto existing distributed applications that can integrate with Kubernetes. To reduce the complexity of deployments Istio provides behavioral insights and operational control over the service mesh as a whole. [See Istio Architecture for more details.](https://istio.io/docs/concepts/what-is-istio/#architecture)
+[Istio](/docs/concepts/what-is-istio/) is an open source service mesh that layers transparently onto existing distributed applications that can integrate with Kubernetes. To reduce the complexity of deployments Istio provides behavioral insights and operational control over the service mesh as a whole. [See Istio Architecture for more details.](/docs/concepts/what-is-istio/#architecture)
 
-Istio uses a sidecar model with Envoy proxy to mediate all inbound and outbound traffic for all pods in the service mesh. By using the Envoy, Istio extracts information about network traffic, also known as telemetry, that is sent to the Istio component called [Mixer](https://istio.io/docs/concepts/what-is-istio/#mixer), which is responsible for collecting telemetry and enforcing policy decisions.
+Istio uses a sidecar model with Envoy proxy to mediate all inbound and outbound traffic for all pods in the service mesh. By using the Envoy, Istio extracts information about network traffic, also known as telemetry, that is sent to the Istio component called [Mixer](/docs/concepts/what-is-istio/#mixer), which is responsible for collecting telemetry and enforcing policy decisions.
 
 The App Identity and Access adapter extends the Mixer functionality by analyzing the telemetry (attributes) against various access control policies across the service mesh. The access control policies can be linked to a particular Kubernetes services and can be finely tuned to specific service endpoints. For more information about policies and telemetry, see the Istio documentation.
 
