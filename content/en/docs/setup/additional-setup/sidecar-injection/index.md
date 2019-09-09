@@ -43,6 +43,7 @@ Alternatively, inject using local copies of the configuration.
 
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
+$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.values}' > inject-values.yaml
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 {{< /text >}}
 
@@ -52,6 +53,7 @@ Run `kube-inject` over the input file and deploy.
 $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
+    --valuesFile inject-values.yaml \
     --filename @samples/sleep/sleep.yaml@ \
     --output sleep-injected.yaml
 $ kubectl apply -f sleep-injected.yaml
