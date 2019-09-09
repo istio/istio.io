@@ -79,9 +79,7 @@ You can change a feature or component setting by using the [IstioControlPlane AP
 
 ### Identify the feature or component settings
 
-The Operator groups the Istio control plane components by feature, which determines the required flags to use with `manifest apply` command.
-
-Use this table to determine the name of the configuration settings for a feature or component:
+The API groups Istio control plane components by feature, as shown in the table below: 
 
 | Feature | Components |
 |---------|------------|
