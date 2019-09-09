@@ -16,6 +16,7 @@
 
 import collections
 import linecache
+import requests
 import string
 import sys
 import os
@@ -36,11 +37,27 @@ from ruamel import yaml
 # comments are needed in order to decode the commented helm
 # values.yaml file
 #
-ISTIO_CONFIG_DIR = "istio/install/kubernetes/helm/istio"
+ISTIO_CONFIG_DIR = "install/kubernetes/helm/istio"
 YAML_CONFIG_DIR = ISTIO_CONFIG_DIR + "/charts"
 VALUES_YAML = "values.yaml"
-ISTIO_IO_DIR = os.path.abspath(__file__ + "/../../")
 CONFIG_INDEX_DIR = "content/en/docs/reference/config/installation-options/index.md"
+ISTIO_REPO = "https://github.com/istio/istio.git@release-1.3"
+ISTIO_LOCAL_REPO = "istio-repo"
+
+
+def downloadIstioRepo():
+    repoInfo = ISTIO_REPO.split('@')
+    repo_url = repoInfo[0]
+    repo_release = repoInfo[1]
+    curl_command = "git clone --depth=1 -q -b %s %s %s"
+    status = os.system(curl_command % (repo_release, repo_url, ISTIO_LOCAL_REPO))
+    if status != 0:
+        print("An error occured trying to clone Istio repo for release: %s." % releaseName)
+        exit()
+
+
+def deleteIstioRepo():
+    os.system("rm -rf %s" % ISTIO_LOCAL_REPO)
 
 
 def endOfTheList(context, lineNum, lastLineNum, totalNum):
@@ -86,7 +103,7 @@ def decode_helm_yaml(s):
     # configuration option name is the name of the directory that contains values.yaml.
     # This name will be passed in to the the function process_helm_yaml
     #
-    subchart_dir = os.path.join(ISTIO_IO_DIR, YAML_CONFIG_DIR)
+    subchart_dir = os.path.join(ISTIO_LOCAL_REPO, YAML_CONFIG_DIR)
     for cfile in os.listdir(subchart_dir):
         values_yaml_dir = os.path.join(subchart_dir, cfile)
         values_yaml_file = os.path.join(values_yaml_dir, VALUES_YAML)
@@ -97,7 +114,7 @@ def decode_helm_yaml(s):
     # The configuration option names are present in the values.yaml, hence we do not need to
     # pass it to process_helm_yaml.
     #
-    istio_yaml_config_dir = os.path.join(ISTIO_IO_DIR, ISTIO_CONFIG_DIR)
+    istio_yaml_config_dir = os.path.join(ISTIO_LOCAL_REPO, ISTIO_CONFIG_DIR)
     values_yaml_file = os.path.join(istio_yaml_config_dir, VALUES_YAML)
     process_helm_yaml(values_yaml_file, '')
 
@@ -320,34 +337,36 @@ def sanitizeValueStr(value):
     return value
 
 
-with open(os.path.join(ISTIO_IO_DIR, CONFIG_INDEX_DIR), 'r') as f:
-    endReached = False
+downloadIstioRepo()
 
-    data = f.read().split('\n')
-    for d in data:
-        print d
-        if "<!-- AUTO-GENERATED-START -->" in d:
-            break
+# transform values.yaml into a encoded string dictionary
+pyaml = yaml.YAML()
+pyaml.explicit_start = True
+pyaml.dump('', sys.stdout, transform=decode_helm_yaml)
 
-    # transform values.yaml into a encoded string dictionary
-    pyaml = yaml.YAML()
-    pyaml.explicit_start = True
-    pyaml.dump('', sys.stdout, transform=decode_helm_yaml)
+# Order the encoded string dictionary
+od = collections.OrderedDict(sorted(prdict.items(), key=lambda t: t[0]))
+indexFile = open(CONFIG_INDEX_DIR, 'r+')
+meta = ""
+for d in indexFile:
+    meta = meta + d
+    if "<!-- AUTO-GENERATED-START -->" in d:
+        break
 
-    # Order the encoded string dictionary
-    od = collections.OrderedDict(sorted(prdict.items(), key=lambda t: t[0]))
+indexFile.seek(0)
+indexFile.write(meta)
 
-    # Print encoded string dictionary
-    for k, v in od.items():
-        print("## `%s` options\n" % k)
-        print '| Key | Default Value | Description |'
-        print '| --- | --- | --- |'
-        for value in v:
-            print('%s' % (value))
-        print('')
+# Print encoded string dictionary
+for k, v in od.items():
+    indexFile.write("## `%s` options\n" % k)
+    indexFile.write('\n| Key | Default Value | Description |\n')
+    indexFile.write('| --- | --- | --- |\n')
+    for value in v:
+        indexFile.write('%s\n' % (value))
+    indexFile.write('\n')
 
-    for d in data:
-        if "<!-- AUTO-GENERATED-END -->" in d:
-            endReached = True
-        if endReached:
-            print d
+indexFile.write("\n<!-- AUTO-GENERATED-END -->\n")
+indexFile.truncate()
+indexFile.close()
+
+deleteIstioRepo()
