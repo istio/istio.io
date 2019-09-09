@@ -143,6 +143,12 @@ spec:
 $ istioctl experimental manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
+You can also use this approach to set the component-level configuration, such as enabling the node agent:
+
+{{< text bash >}}
+$ istioctl experimental manifest apply --set security.components.nodeAgent.enabled=true
+{{< /text >}}
+
 Another common customization is to select different namespaces for features and components. The following is an example
 of installation namespace customization:
 
