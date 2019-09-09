@@ -25,14 +25,18 @@ We removed the Mixer CRDs from the system to simplify the configuration
 model, improve Mixer's performance in Kubernetes deployments, and improve
 reliability in various Kubernetes environments.
 
-Istio now captures all ports by default. Thus, services can't bypass the Envoy
-proxies even if they previously did. If your services listen on `127.0.0.1` to
-avoid exposure or to intentionally bypass Envoy to improve performance, you must
-opt out of port capturing with the
+Istio now captures all ports by default. If your services listen on `127.0.0.1`,
+you probably don't specify container ports due to the following reasons:
+
+- To avoid exposing your service.
+- To intentionally bypass Envoy.
+
+If that is the case, you must opt out of port capturing with the
 `traffic.sidecar.istio.io/excludeInboundPorts` option.
 
-Protocol sniffing is now enabled by default. Disable port sniffing with the `--set pilot.enableProtocolSniffing=false`
-option when you upgrade to get the previous behavior.
+Protocol sniffing is now enabled by default. Disable port sniffing with the
+`--set pilot.enableProtocolSniffing=false` option when you upgrade to get the
+previous behavior.
 
 To specify a hostname in multiple namespaces, you must select a single host using
 a [`Sidecar` resource](/docs/reference/config/networking/v1alpha3/sidecar/).
