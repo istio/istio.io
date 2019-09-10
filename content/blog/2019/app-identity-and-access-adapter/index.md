@@ -156,6 +156,14 @@ spec:
 
 [Read more about protecting backend applications](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)
 
+## Known limitations
+
+At the time of writing this blog there are two known limitations of the App Identity and Access adapter:
+
+- Due to the way Envoy Proxy was handling HTTP headers it was impossible to return multiple `Set-Cookie` headers from Mixer back to Envoy. Therefore we couldn't set all the cookies required for handling Web Application scenarios. As a result, if you use the App Identity and Access adapter for Web Applications you should not use more than a single replica of the adapter. The issue was recently addressed in Envoy and Mixer and we're planning to address this in future versions of our adapter. **Note that this only affects Web Applications, and doesn't affect Backend Apps and APIs in any way**. 
+
+- The communications channel between Mixer and App Identity and Access adapter currently does not use mTLS. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter). As a general best practice you should always consider using mTLS for any in-cluster communications. 
+
 ## Summary
 
 When a multicloud strategy is in place, security can become complicated as the environment grows and diversifies. While cloud providers supply protocols and tools to ensure their offerings are safe, the development teams are still responsible for the application-level security, such as API access control with OAuth2, defending against man-in-the-middle attacks with traffic encryption, and providing mutual TLS for service access control. However, this becomes complex in a multicloud environment since you might need to define those security details for each service separately. With proper security protocols in place, those external and internal threats can be mitigated.
