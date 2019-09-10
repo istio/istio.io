@@ -36,7 +36,7 @@ This change exposes any applications listening on `127.0.0.1` since Envoy
 connects over localhost. Opt out to avoid exposing such applications.
 {{< /warning >}}
 
-Protocol sniffing is now enabled by default. Disable port sniffing with the
+Protocol sniffing is now enabled by default. Disable protocol sniffing with the
 `--set pilot.enableProtocolSniffing=false` option when you upgrade to get the
 previous behavior. To learn more see our [protocol selection page](/docs/ops/traffic-management/protocol-selection/).
 
