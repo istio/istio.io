@@ -199,8 +199,8 @@ All of these Kubernetes settings use the Kubernetes API definitions, so [Kuberne
 After you identify the name of the feature or component from the previous list, you can use the `IstioControlPlane` API
 to modify the default values using a configuration overlay file.
 
-For example, use this overlay file ([`samples/pilot-k8s.yaml`](https://github.com/istio/operator/blob/release-1.3/samples/pilot-k8s.yaml))
-to adjust the `TrafficManagement` feature's resources and horizontal pod autoscaling settings for Pilot:
+The following example overlay file adjusts the `TrafficManagement` feature's resources and horizontal pod autoscaling
+settings for Pilot:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -217,6 +217,12 @@ spec:
           hpaSpec:
             maxReplicas: 10 # ... default 5
             minReplicas: 2  # ... default 1
+{{< /text >}}
+
+Use `manifest apply` to apply the modified settings to the cluster:
+
+{{< text syntax="bash" repo="operator" >}}
+$ istioctl experimental manifest apply -f @samples/pilot-k8s.yaml@
 {{< /text >}}
 
 ## Customize Istio settings using the Helm API
