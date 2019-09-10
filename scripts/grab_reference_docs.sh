@@ -82,7 +82,7 @@ locate_file() {
 
     LEN=${#WORK_DIR}
 
-    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" ]]; then
+    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" && "${REPO_URL}" != "https://github.com/istio/operator.git" ]]; then
         sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
     fi
 
