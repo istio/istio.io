@@ -249,7 +249,10 @@ spec:
 
 Some parameters will temporarily exist in both the Helm and `IstioControlPlane` APIs, including Kubernetes resources,
 namespaces and enablement settings. The Istio community recommends using the `IstioControlPlane` API as it is more
-consistent, is validated, and follows the graduation process for APIs.
+consistent, is validated, and follows the [community graduation process]
+(https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+
+
 
 ## Show differences in profiles
 
