@@ -80,7 +80,7 @@ You can change a feature or component setting by using the [IstioControlPlane AP
 
 ### Identify the feature or component settings
 
-The API groups Istio control plane components by feature, as shown in the table below: 
+The API groups Istio control plane components by feature, as shown in the table below:
 
 | Feature | Components |
 |---------|------------|
@@ -118,7 +118,7 @@ using the `--set` flag, or create an overlay file and pass it with the `--filena
 works well for customizing a few parameters, while overlay files are better for more extensive customization, or
 tracking configuration changes.
 
-The simplest customization is to turn a feature or component on or off from the configuration profile default. 
+The simplest customization is to turn a feature or component on or off from the configuration profile default.
 
 For example, to disable the telemetry feature in a default configuration installation, use this command:
 
@@ -126,7 +126,7 @@ For example, to disable the telemetry feature in a default configuration install
 $ istioctl experimental manifest apply --set telemetry.enabled=false
 {{< /text >}}
 
-Alternatively, you can disable the telemetry feature using a configuration overlay file:  
+Alternatively, you can disable the telemetry feature using a configuration overlay file:
 
 1. Create this file with the name telemetry_off.yaml and these contents:
 
@@ -193,9 +193,10 @@ which allows the following settings to be changed. Use this list to indentify th
 1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
 1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
-All of these K8s settings use the K8s API definitions, so [K8s documentation](https://kubernetes.io/docs/concepts/) can be used for reference. 
+All of these K8s settings use the K8s API definitions, so [K8s documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
 
 ### Configure the feature or component settings
+
 After you indentify the name of the feature or component from the previous list, you can use the API to set the values using a configuration overlay file.
 
 For example, use this overlay file ([samples/pilot-k8s.yaml](https://github.com/istio/operator/blob/release-1.3/samples/pilot-k8s.yaml))
@@ -223,7 +224,7 @@ spec:
 The [Helm API](/docs/reference/config/installation-options/) is available as part of the Operator API
 through the `values` field in IstioControlPlane
 (for [global settings](/docs/reference/config/installation-options/#global-options))
-and per-component `values` fields for each Istio component. 
+and per-component `values` fields for each Istio component.
 
 For example, the following YAML file configures some global and Pilot settings through the Helm API:
 
@@ -273,14 +274,13 @@ $ istioctl experimental manifest diff 1.yam1 2.yaml
 
 You can inspect or modify the manifest before installing Istio using these steps:
 
-1. Generate the manifest using this command:
+Generate the manifest using this command:
 
 {{< text bash >}}
 $ istioctl experimental manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-2. Inspect the manifest as needed.
-3. Then, apply the manifest using this command:
+Inspect the manifest as needed, then apply the manifest using this command:
 
 {{< tip >}}
 This command might show transient errors due to resources not being available in
