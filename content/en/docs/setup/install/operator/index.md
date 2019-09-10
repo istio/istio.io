@@ -119,7 +119,7 @@ tracking configuration changes.
 
 The simplest customization is to turn a feature or component on or off from the configuration profile default.
 
-For example, to disable the telemetry feature in a default configuration installation, use this command:
+To disable the telemetry feature in a default configuration profile, use this command:
 
 {{< text bash >}}
 $ istioctl experimental manifest apply --set telemetry.enabled=false
@@ -227,8 +227,10 @@ $ istioctl experimental manifest apply -f @samples/pilot-k8s.yaml@
 
 ## Customize Istio settings using the Helm API
 
-The `IstioControlPlane` API includes a pass-through to the [Helm API](/docs/reference/config/installation-options/)
-through the `values` field. The following YAML file configures global and Pilot settings through the Helm API:
+The `IstioControlPlane` API includes a pass-through interface to the [Helm API](/docs/reference/config/installation-options/)
+using the `values` field. 
+
+The following YAML file configures global and Pilot settings through the Helm API:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -305,5 +307,5 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 ## Additional documentation
 
-The Istio Operator CLI is experimental. See the [README](https://github.com/istio/operator/blob/master/README.md)
+The Istio Operator CLI is experimental. See the upstream repository [README](https://github.com/istio/operator/blob/master/README.md)
 for additional documentation and examples.
