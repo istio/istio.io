@@ -366,8 +366,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
 
 1.  Define a gateway with two server sections for port 443. Set the value of
     `credentialName` on each port to `httpbin-credential` and `helloworld-credential`
-    respectively. Set TLS mode to `SIMPLE`. `serverCertificate` and
-    `privateKey` should not be empty.
+    respectively. Set TLS mode to `SIMPLE`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
