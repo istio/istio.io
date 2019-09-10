@@ -59,7 +59,7 @@ The operations guide on [Envoy Statistics](/docs/ops/troubleshooting/proxy-cmd/)
 
 Example proxy-level Metrics:
 
-```json
+{{< text json >}}
 envoy_cluster_internal_upstream_rq{response_code_class="2xx",cluster_name="xds-grpc"} 7163
 
 envoy_cluster_upstream_rq_completed{cluster_name="xds-grpc"} 7164
@@ -69,7 +69,7 @@ envoy_cluster_ssl_connection_error{cluster_name="xds-grpc"} 0
 envoy_cluster_lb_subsets_removed{cluster_name="xds-grpc"} 0
 
 envoy_cluster_internal_upstream_rq{response_code="503",cluster_name="xds-grpc"} 1
-```
+{{< /text >}}
 
 ### Service-level Metrics
 
@@ -88,7 +88,7 @@ needs.
 
 Example service-level metric:
 
-```json
+{{< text json >}}
 istio_requests_total{
   connection_security_policy="mutual_tls",
   destination_app="details",
@@ -109,7 +109,7 @@ istio_requests_total{
   source_workload="productpage-v1",
   source_workload_namespace="default"
 } 214
-```
+{{< /text >}}
 
 ### Control Plane Metrics
 
@@ -155,6 +155,6 @@ More information on access logging is provided in the [Collecting Logs](/docs/ta
 
 Example Istio access log (formatted in JSON):
 
-```json
+{{< text json >}}
 {"level":"info","time":"2019-06-11T20:57:35.424310Z","instance":"accesslog.instance.istio-control","connection_security_policy":"mutual_tls","destinationApp":"productpage","destinationIp":"10.44.2.15","destinationName":"productpage-v1-6db7564db8-pvsnd","destinationNamespace":"default","destinationOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/productpage-v1","destinationPrincipal":"cluster.local/ns/default/sa/default","destinationServiceHost":"productpage.default.svc.cluster.local","destinationWorkload":"productpage-v1","httpAuthority":"35.202.6.119","latency":"35.076236ms","method":"GET","protocol":"http","receivedBytes":917,"referer":"","reporter":"destination","requestId":"e3f7cffb-5642-434d-ae75-233a05b06158","requestSize":0,"requestedServerName":"outbound_.9080_._.productpage.default.svc.cluster.local","responseCode":200,"responseFlags":"-","responseSize":4183,"responseTimestamp":"2019-06-11T20:57:35.459150Z","sentBytes":4328,"sourceApp":"istio-ingressgateway","sourceIp":"10.44.0.8","sourceName":"ingressgateway-7748774cbf-bvf4j","sourceNamespace":"istio-control","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-control/deployments/ingressgateway","sourcePrincipal":"cluster.local/ns/istio-control/sa/default","sourceWorkload":"ingressgateway","url":"/productpage","userAgent":"curl/7.54.0","xForwardedFor":"10.128.0.35"}
-```
+{{< /text >}}

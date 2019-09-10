@@ -38,7 +38,7 @@ The following protocols are supported:
 
 Below is an example of a Service that defines a `mysql` port and an `http` port:
 
-```yaml
+{{< text yaml >}}
 kind: Service
 metadata:
   name: myservice
@@ -48,4 +48,4 @@ spec:
     name: mysql
   - number: 80
     name: http-web
-```
+{{< /text >}}
