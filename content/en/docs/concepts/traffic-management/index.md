@@ -553,57 +553,9 @@ Routing rules are evaluated in a specific order. For details, refer to
 #### Match a condition
 
 You can set routing rules that only apply to requests matching a specific
-condition. For example, you can restrict traffic to specific client workloads
-by using labels.
-
-The following rule only applies to requests coming from instances of the
-`reviews` service:
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-      sourceLabels:
-        app: reviews
-    route:
-    ...
-{{< /text >}}
-
-The value of the `sourceLabels` key depends on the implementation of the
-client workload. In Kubernetes, the value typically corresponds to the same labels you use in the
-pod selector of the corresponding Kubernetes service.
-
-The following example further refines the rule to apply only to requests from
-an instance in the v2 subset:
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
-spec:
-  hosts:
-  - ratings
-  http:
-  - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
-    route:
-    ...
-{{< /text >}}
-
-#### Conditions based on HTTP headers
-
-You can also base conditions on HTTP headers. The following configuration sets
-up a rule that only applies to an incoming request that includes a custom
-`end-user` header containing the exact `jason` string:
+condition. For example, the following configuration sets up a rule that only
+applies to an incoming request that includes a custom `end-user` header
+containing the exact value `jason`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -653,23 +605,22 @@ nesting of the conditions in the routing rule to specify whether AND or OR
 semantics apply. To specify AND semantics, you nest multiple conditions in a
 single section of `match.`
 
-For example, the following rule applies only to requests that come from an
-instance of the `reviews` service in the `v2` subset AND only if the requests
-include the custom `end-user` header that contains the exact `jason` string:
+For example, the following rule applies only to requests for a
+URL that begins with `/api/v1` **and** that include the custom
+`end-user` header that contains the exact value `jason`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: ratings
+  name: productpage
 spec:
   hosts:
-  - ratings
+  - productpage
   http:
   - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
+    - uri:
+        prefix: /api/v1
       headers:
         end-user:
           exact: jason
@@ -679,23 +630,21 @@ spec:
 
 To specify OR conditions, you place multiple conditions in separate sections of
 `match.` Only one of the conditions applies. For example, the following rule
-applies to requests from instances of the `reviews` service in the `v2` subset,
-OR to requests with the custom `end-user` header containing the `jason` exact
-string:
+applies to requests for a URL that begins with `/api/v1` **or** to requests with the
+custom `end-user` header containing the exact value `jason`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: ratings
+  name: productpage
 spec:
   hosts:
-  - ratings
+  - productpage
   http:
   - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
+    - uri:
+        prefix: /api/v1
     - headers:
         end-user:
           exact: jason
@@ -704,11 +653,9 @@ spec:
 {{< /text >}}
 
 {{< warning >}}
-
-In a YAML file, the difference between AND behavior and OR behavior in a
-routing rule is a single dash. The dash indicates two separate matches as
-opposed to one match with multiple conditions.
-
+In the two examples, above, the only difference between AND behavior and OR behavior is
+an extra `-` character in front of the `headers` field. The `-` in the YAML representation,
+indicates two separate matches as opposed to one match with multiple conditions.
 {{< /warning >}}
 
 ### Routing rule precedence {#precedence}
@@ -1333,9 +1280,8 @@ spec:
 ### Combine delay and abort faults
 
 You can use delay and abort faults together. The following configuration
-introduces a delay of 5 seconds for all requests from the `v2` subset of the
-`reviews` service to the `v1` subset of the `ratings` service and an abort for
-10% of them:
+introduces a delay of 5 seconds for all requests to the `v1` subset of the
+`ratings` service and an abort for 10% of them:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -1346,11 +1292,7 @@ spec:
   hosts:
   - ratings
   http:
-  - match:
-    - sourceLabels:
-        app: reviews
-        version: v2
-    fault:
+  - fault:
       delay:
         fixedDelay: 5s
       abort:
