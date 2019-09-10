@@ -630,7 +630,7 @@ spec:
 
 To specify OR conditions, you place multiple conditions in separate sections of
 `match.` Only one of the conditions applies. For example, the following rule
-applies to requests for a URL that begins with `/api/v1` OR to requests with the
+applies to requests for a URL that begins with `/api/v1` **or** to requests with the
 custom `end-user` header containing the exact value `jason`:
 
 {{< text yaml >}}
