@@ -522,6 +522,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods. </td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
