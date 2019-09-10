@@ -606,7 +606,7 @@ semantics apply. To specify AND semantics, you nest multiple conditions in a
 single section of `match.`
 
 For example, the following rule applies only to requests for a
-URL that begins with `/api/v1` AND only if the requests include the custom
+URL that begins with `/api/v1` **and** that include the custom
 `end-user` header that contains the exact value `jason`:
 
 {{< text yaml >}}
