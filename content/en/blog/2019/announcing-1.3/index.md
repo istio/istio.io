@@ -7,7 +7,7 @@ attribution: The Istio Team
 release: 1.3.0
 ---
 
-We are pleased to announce the release of Istio 1.3!
+We are pleased to announce the release of Istio 1.3!  
 
 {{< relnote linktonote="true" >}}
 
@@ -17,21 +17,15 @@ The theme of Istio 1.3 is User Experience:
 - Improve the experience of users debugging problems
 - Support more applications without any additional configuration
 
-Users are adopting Istio faster than ever before and we’ve been listening to their feedback! We’ve heard that Istio can be complex and challenging to adopt and we've been working hard to make improvements.
+Every few releases, the Istio team gets excited as we make dramatic improvements to usability, APIs, and the overall system performance. This release is one of those where the team is excited to roll out some key updates:
 
-Earlier this year, we formed the new User Experience team to lead improvements across all Istio components. Everyone is welcome to join the working group meetings and share their thoughts. In this release, we start delivering many notable improvements and some are ready for you to use in 1.3 while others are in the experimental phase.
+*Intelligent protocol detection*: In past releases, you had to explicitly declare the protocol for service ports by using a special port naming format. This requirement caused problems for users that didn't name their ports when they added their application to the mesh. Starting with 1.3, the protocol on the wire will be automatically detected (as HTTP or TCP), eliminating the need to name ports explicitly. We will be adding support for additional [non-HTTP] protocols in future releases. 
 
-In past releases, you had to explicitly declare the protocol for service ports. This requirement caused problems for users that didn't name their ports when they added their application to the mesh. By default, Pilot now sniffs the protocol getting rid of this requirement! Similarly, you had to define all the pod ports (`containerPort`) for each container, another obsolete requirement since Istio now captures all inbound ports by default!
+*Container ports are not required*: In the past, Istio required that pods explicitly declare the Kubernetes `containerPort` for each container as a security measure against trampolining traffic. Istio 1.3 has secure and simpler way of handling all inbound traffic on any port into a Pod without requiring `containerPort` declarations at all. Along the way, we have completely eliminated infinite loops caused in the IPtables rules when pods send traffic to themselves. 
 
-If you haven't tried out `istioctl` yet, now is a great time to start! The following sub-commands are now supported Istio features:
+*Enhanced EnvoyFilters*: While Istio 1.3 focuses on out of box usability, it also caters to the expert users who would like to use advanced features in Envoy that Istio does note expose via its Networking APIs. We have enhanced the `EnvoyFilter` API to allow users to fully customize the Envoy HTTP route configuration returned by RDS, HTTP/TCP listeners and their filter chains returned by LDS, and the set of clusters returned by CDS. 
 
-- [metrics](/docs/reference/commands/istioctl/#istioctl-metrics)
-- [dashboard](/docs/reference/commands/istioctl/#istioctl-dashboard)
-- [convert-ingress](/docs/reference/commands/istioctl/#istioctl-convert-ingress)
-
-In addition, we have added several new `istioctl` [experimental sub-commands](/docs/reference/commands/istioctl/#istioctl-experimental) to improve usability.
-
-The Istio team works constantly on improving the control plane performance and resource footprint. In this release, we have improved Pilot's performance, which can result in significant improvement going as far as a 90% CPU usage savings depending on deployment!
+*Enhancements to istioctl*: `istioctl` has gained a plethora of debugging features that will highlight various issues in your mesh installation. Checkout the `istioctl` [reference manual](/docs/reference/commands/istioctl/) for the set of all supported features.
 
 Locality aware load balancing graduated from experimental to default in this release too. Istio can now take advantage of existing locality information to prioritize load balancing pools and favor sending requests to the closest backends.
 
