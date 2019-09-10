@@ -401,6 +401,7 @@ The available attributes are:
 |`downloadas`  | The default file name used when the user [downloads the preformatted block](#download-name).
 |`expandlinks` | Whether or not to expand [GitHub file references](#links-to-github-files) in the preformatted block.
 |`snippet`     | The name of the [snippet](#snippets) of content to extract from the preformatted block.
+|`repo`        | The repo to use for [GitHub links](#links-to-github-files) embedded in preformatted blocks.
 
 ### Inline vs. imported content
 
@@ -465,6 +466,21 @@ Which renders as:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
+{{< /text >}}
+
+Normally, links will point to the current release branch of the `istio/istio` repo. If you'd like a link
+that points to a different Istio repo instead, you can use the `repo` attribute:
+
+{{< text markdown >}}
+{{</* text syntax="bash" repo="operator" */>}}
+$ cat @README.md@
+{{</* /text */>}}
+{{< /text >}}
+
+which renders as:
+
+{{< text syntax="bash" repo="operator" >}}
+$ cat @README.md@
 {{< /text >}}
 
 If your preformatted content happens to use @ symbols for something else, you can turn off link expansion using the
