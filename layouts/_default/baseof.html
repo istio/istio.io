@@ -150,12 +150,14 @@
         </div>
 
         {{ if .Site.Data.args.preliminary }}
+            <!--
             <div id="switch-lang-container" aria-hidden="true">
                 {{ $home := .Site.GetPage "home" }}
                 <a id="switch-lang" data-skipendnotes="true" title='{{ i18n "switch_lang"}}'>
                     {{ partial "icon.html" "switch-lang" }}
                 </a>
-            </div>
+            </>div>
+            -->
 
             {{ if .Page.Params.source_repo }}
                 <div id="edit-this-page-container" aria-hidden="true">
