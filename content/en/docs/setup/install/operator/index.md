@@ -107,13 +107,13 @@ Telemetry | Tracing
 ThirdParty | CNI
 
 Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
-Namespaces that components are installed into can be set at the global, feature, or component level, in increasing
-order of override priority.
+Namespaces that components are installed into can be set by component, feature, or globally (see example in next
+section).
 
 ### Configure the feature or component settings
 
 After you identify the name of the feature or component from the previous table, you can use the API to set the values
-using the `--set` flag, or create an overlay file and pass it with the `--filename` flag. In general, the `--set` flag
+using the `--set` flag, or create an overlay file and pass it with the `--filename` flag. The `--set` flag
 works well for customizing a few parameters, while overlay files are better for more extensive customization, or
 tracking configuration changes.
 
@@ -143,8 +143,8 @@ spec:
 $ istioctl experimental manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
-Another common customization is to select different namespaces for features and components. The following is an example
-of installation namespace customization:
+Another customization is to select different namespaces for features and components. The namespace setting precedence is
+component, feature, global, for example:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -161,13 +161,13 @@ spec:
 Applying this file will cause the default profile to be applied, with components being installed into the following
 namespaces:
 
-- Citadel installed into istio-citadel namespace
-- All other security components installed into istio-security namespace
-- All other Istio components installed into istio-system namespace
+- Citadel component installed into istio-citadel namespace
+- All other components in the security feature installed into istio-security namespace
+- Remaining Istio components installed into istio-system namespace
 
 ## Customize K8s settings using the IstioControlPlane API
 
-The IstioControlPlane API allows each component's k8s settings to be customized in a consistent way.
+The IstioControlPlane API allows each component's K8s settings to be customized in a consistent way.
 
 ### Identify the feature or component settings
 
@@ -213,12 +213,12 @@ spec:
 
 ## Customize Istio settings using the Helm API
 
-The [Helm API](https://istio.io/docs/reference/config/installation-options/) is available as part of the Operator API.
-You can access it as a top level values field in IstioControlPlane
-(for [global settings](https://istio.io/docs/reference/config/installation-options/#global-options))
-and per-component values fields for each Istio component. 
+The [Helm API](/docs/reference/config/installation-options/) is available as part of the Operator API
+through the `values` field in IstioControlPlane
+(for [global settings](/docs/reference/config/installation-options/#global-options))
+and per-component `values` fields for each Istio component. 
 
-For example, here's a YAML file that configures some global and Pilot settings through the Helm API:
+For example, the following YAML file configures some global and Pilot settings through the Helm API:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -235,13 +235,13 @@ spec:
     monitoringPort: 15050
 {{< /text >}}
 
-Note that some parameters will temporarily exist in both the Helm and IstioControlPlane APIs - for example, K8s resources,
+Some parameters will temporarily exist in both the Helm and IstioControlPlane APIs - for example, K8s resources,
 namespaces and enablement. However, the Istio community recommends using the IstioControlPlane API as it is more
 consistent, is validated, and follows the graduation process for APIs.
 
-## Show differences in profiles or manifests
+## Show differences in profiles
 
-The `profile diff` and `manifest diff` subcommands can be used to show the differences between profiles or manifests,
+The `profile diff` subcommand can be used to show the differences between profiles,
 which is useful for checking the effects of customizations before applying changes to a cluster.
 
 For example, you can show differences between the default and demo profiles using these commands:
@@ -252,7 +252,9 @@ $ istioctl experimental profile dump demo > 2.yaml
 $ istioctl experimental profile diff 1.yaml 2.yaml
 {{< /text >}}
 
-In addition, you can show the differences in the generated manifests between the default profile and a customized install using these commands:
+## Show differences in manifests
+
+You can show the differences in the generated manifests between the default profile and a customized install using these commands:
 
 {{< text bash >}}
 $ istioctl experimental manifest generate > 1.yaml
