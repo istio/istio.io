@@ -38,11 +38,12 @@ All versions prior to 1.1 are no longer supported and are considered vulnerable.
 ## Vulnerability impact and detection
 
 __ISTIO-SECURITY-2019-003__: To detect if there is any regular expressions used in Istio APIs in your cluster, run the following command which prints either of the following output:
-  * YOU ARE AFFECTED: found regex used in `AuthenticationPolicy` or `VirtualService`
-  * YOU ARE NOT AFFECTED: did not find regex usage
 
-```bash
-cat <<'EOF' | bash -
+* YOU ARE AFFECTED: found regex used in `AuthenticationPolicy` or `VirtualService`
+* YOU ARE NOT AFFECTED: did not find regex usage
+
+{{< text bash >}}
+$ cat <<'EOF' | bash -
 set -e
 set -u
 set -o pipefail
@@ -87,14 +88,15 @@ fi
 
 echo "${green}YOU ARE NOT AFFECTED: did not find regex usage${reset}"
 EOF
-```
+{{< /text >}}
 
 __ISTIO-SECURITY-2019-004__: If Istio terminates externally originated HTTP then it is vulnerable.   If Istio is instead fronted by an intermediary that terminates HTTP (e.g., a HTTP load balancer), then that intermediary would protect Istio, assuming the intermediary is not itself vulnerable to the same HTTP/2 exploits.
 
 ## Mitigations
 
 For both vulnerabilities:
-  * For Istio 1.1.x deployments: update to a minimum version of Istio 1.1.13
-  * For Istio 1.2.x deployments: update to a minimum version of Istio 1.2.4
+
+* For Istio 1.1.x deployments: update to a minimum version of Istio 1.1.13
+* For Istio 1.2.x deployments: update to a minimum version of Istio 1.2.4
 
 We’d like to remind our community to follow the [vulnerability reporting process](/about/security-vulnerabilities/) to report any bug that can result in a security vulnerability.

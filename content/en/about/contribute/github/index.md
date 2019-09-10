@@ -85,11 +85,11 @@ content in detail, follow these steps:
     Use present tense to avoid verb congruence issues and
     to make the text easier to understand:
 
-    ```suggestion
+    &96;&96;&96;suggestion
 
     Pilot maintains an abstract model of the mesh.
 
-    ```
+    &96;&96;&96;
     {{< /text >}}
 
 1.  Publish your review to share your comments and suggestions with us and the

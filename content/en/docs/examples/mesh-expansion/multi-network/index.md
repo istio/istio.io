@@ -425,7 +425,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
     If configured properly, you will see something similar to the output below.
 
-    ```html
+    {{< text html >}}
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
     <title>Directory listing for /</title>
     <body>
@@ -436,7 +436,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     <li><a href=".ssh/">.ssh/</a></li>
     ...
     </body>
-    ```
+    {{< /text >}}
 
 **Congratulations!** You successfully configured a service running in a pod within the cluster to
 send traffic to a service running on a VM outside of the cluster and tested that

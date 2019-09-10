@@ -123,7 +123,7 @@ The configuration changes above (by Helm or by the configuration map) effect all
 
 Rather than install Istio with different Helm option, you can annotate Pod with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`.
 
-```yaml
+{{< text yaml >}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -148,7 +148,7 @@ spec:
             port: 8001
           initialDelaySeconds: 5
           periodSeconds: 5
-```
+{{< /text >}}
 
 This approach allows you to enable the health check prober rewrite gradually on each deployment without reinstalling Istio.
 

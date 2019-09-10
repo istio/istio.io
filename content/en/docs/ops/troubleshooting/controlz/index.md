@@ -32,5 +32,5 @@ locally and connect through your local browser:
 $ kubectl port-forward -n istio-system <podname> 9876:9876
 {{< /text >}}
 
-This will redirect the component's ControlZ page to ```http://localhost:9876``` for remote access.
+This will redirect the component's ControlZ page to `http://localhost:9876` for remote access.
 
