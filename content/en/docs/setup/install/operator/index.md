@@ -143,8 +143,14 @@ spec:
 $ istioctl experimental manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
-Another customization is to select different namespaces for features and components. The namespace setting precedence is
-component, feature, global, for example:
+You can also use this approach to set the component-level configuration, such as enabling the node agent:
+
+{{< text bash >}}
+$ istioctl experimental manifest apply --set security.components.nodeAgent.enabled=true
+{{< /text >}}
+
+Another customization is to select different namespaces for features and components. The following is an example
+of installation namespace customization:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
