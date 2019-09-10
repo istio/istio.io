@@ -652,7 +652,7 @@ spec:
     ...
 {{< /text >}}
 
-{{< tip >}}
+{{< warning >}}
 In the two examples, above, the only difference between AND behavior and OR behavior is
 an extra `-` character in front of the `headers` field. The `-` in the YAML representation,
 indicates two separate matches as opposed to one match with multiple conditions.
