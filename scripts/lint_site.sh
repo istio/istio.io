@@ -27,6 +27,12 @@ check_content() {
     LANG=$2
     TMP=$(mktemp -d)
 
+    # check for use of ```
+    if grep -nr -e "\`\`\`" --include "*.md" "${DIR}"; then
+        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks"
+        FAILED=1
+    fi
+
     # make the tmp dir
     mkdir -p "${TMP}"
 
@@ -50,7 +56,7 @@ check_content() {
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
-    if ! find content/en -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
+    if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
         echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
         FAILED=1
     fi
@@ -91,11 +97,11 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-check_content content --en-us
+check_content content/en --en-us
 
 find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
-    # shellcheck disable=SC1111
     if grep -H -n -e '“' "${f}"; then
+        # shellcheck disable=SC1111
         echo "Ensure content only uses standard quotation marks and not “"
         FAILED=1
     fi
