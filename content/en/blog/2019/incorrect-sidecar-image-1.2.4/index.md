@@ -7,11 +7,12 @@ keywords: [community,blog,security]
 ---
 To the Istio’s user community,
 
-**TL;DR**: For the period between Aug 23rd 2019 09:16PM PST and Sep 6th 2019 09:26AM PST a Docker image shipped as Istio `proxyv2` 1.2.4 (c.f. [https://hub.docker.com/r/istio/proxyv2](https://hub.docker.com/r/istio/proxyv2) ) contained a faulty version of the proxy against the security bugs [ISTIO-SECURITY-2019-003 and ISTIO-SECURITY-2019-004](/blog/2019/istio-security-003-004/).
+For the period between Aug 23rd 2019 09:16PM PST and Sep 6th 2019 09:26AM PST a Docker image shipped as Istio `proxyv2` 1.2.4 (c.f. [https://hub.docker.com/r/istio/proxyv2](https://hub.docker.com/r/istio/proxyv2) ) contained a faulty version of the proxy against the security bugs [ISTIO-SECURITY-2019-003 and ISTIO-SECURITY-2019-004](/blog/2019/istio-security-003-004/).
 
 If you have installed Istio 1.2.4 during that time, please consider upgrading to Istio 1.2.5 that also contains additional security fixes.
 
-**Full**:
+## Detailed explanation
+
 Because of the communication embargo that we have exercised when fixing the recent HTTP2 DoS vulnerabilities, as it is usual for this type of release, we have built, in advance, a fixed image of the sidecar privately. At the moment of the public disclosure, we pushed that image manually on Docker hub.
 
 For any release that isn’t fixing a privately disclosed security vulnerability, this Docker image is usually pushed through our release pipeline job, entirely automatically.
