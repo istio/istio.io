@@ -178,7 +178,7 @@ The IstioControlPlane API allows each component's K8s settings to be customized 
 
 ### Identify the feature or component settings
 
-Each component has a [KubernetesResourceSpec](https://github.com/istio/operator/blob/9f80ecaea0f17dfd8a33d86d72f72da8861e7417/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto#L411),
+Each component has a [KubernetesResourceSpec](/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
 which allows the following settings to be changed. Use this list to indentify the setting to customize:
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
