@@ -21,7 +21,7 @@ Manual injection directly modifies configuration, like deployments, and injects 
 
 Automatic injection injects at pod creation time using an admission controller.
 
-Injection occurs by applying a template defined in the ConfigMap `istio-sidecar-injector`.
+Injection occurs by applying a template defined in the config map `istio-sidecar-injector`.
 
 ### Manual sidecar injection
 
@@ -31,7 +31,7 @@ To manually inject a deployment, use `istioctl`:
 $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 {{< /text >}}
 
-By default, this will use in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
+By default, this will use the in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
 
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
@@ -64,19 +64,19 @@ Sidecars can be automatically added to applicable Kubernetes pods using a
 [mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/) provided by Istio.
 
 {{< tip >}}
-While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
+While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
 {{< /tip >}}
 
-When this is enabled, any new pods that are created will automatically have a sidecar added to them.
+When the injection webhook is enabled, any new pods that are created will automatically have a sidecar added to them.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 #### Disabling or updating the webhook
 
 The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
-use [Helm](/docs/setup/install/helm/) to set option `sidecarInjectorWebhook.enabled` set to `false`.
+use [Helm](/docs/setup/install/helm/) to set option `sidecarInjectorWebhook.enabled` to `false`.
 
-There are also a variety of other options that [can be configured](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options)/
+There are also a [variety of other options](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options) that can be configured.
 
 #### Deploying an app
 
