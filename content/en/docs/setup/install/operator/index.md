@@ -228,7 +228,7 @@ $ istioctl experimental manifest apply -f @samples/pilot-k8s.yaml@
 ## Customize Istio settings using the Helm API
 
 The `IstioControlPlane` API includes a pass-through interface to the [Helm API](/docs/reference/config/installation-options/)
-using the `values` field. 
+using the `values` field.
 
 The following YAML file configures global and Pilot settings through the Helm API:
 
@@ -249,10 +249,7 @@ spec:
 
 Some parameters will temporarily exist in both the Helm and `IstioControlPlane` APIs, including Kubernetes resources,
 namespaces and enablement settings. The Istio community recommends using the `IstioControlPlane` API as it is more
-consistent, is validated, and follows the [community graduation process]
-(https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
-
-
+consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
 
 ## Show differences in profiles
 
