@@ -472,6 +472,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `security.replicaCount` | `1` |  |
 | `security.rollingMaxSurge` | `100%` |  |
 | `security.rollingMaxUnavailable` | `25%` |  |
+| `security.enableNamespacesByDefault` | `true` | `determines whether namespaces without the ca.istio.io/env and ca.istio.io/override labels should be targeted by the Citadel instance for secret creation` |
 | `security.image` | `citadel` |  |
 | `security.selfSigned` | `true` | `indicate if self-signed CA is used.` |
 | `security.createMeshPolicy` | `true` |  |
