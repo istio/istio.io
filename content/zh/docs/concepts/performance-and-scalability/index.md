@@ -25,8 +25,6 @@ keywords: [performance,scalability,scale,benchmarks]
 
 由于这种测试的性质，机器间的延迟数据可能存在很大差异。建议以这种方式捕获的微基准数据仅与同一台机器上先前运行的数据进行比较。
 
-可以使用 [`perfcheck.sh`]({{< github_file >}}/bin/perfcheck.sh) 脚本快速运行子文件夹中的基准测试并将其结果与相同目录下的基线文件进行对比。
-
 ## 测试场景
 
 {{< image width="80%" ratio="75%"
