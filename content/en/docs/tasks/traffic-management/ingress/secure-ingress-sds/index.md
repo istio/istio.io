@@ -543,7 +543,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
    create two separate secrets:
 
     * `httpbin-credential` holds the server's key and certificate
-  - `httpbin-credential-cacert` holds the client's CA certificate and must have the `-cacert` suffix
+    * `httpbin-credential-cacert` holds the client's CA certificate and must have the `-cacert` suffix
 
     Create the two separate secrets with the following commands:
 
