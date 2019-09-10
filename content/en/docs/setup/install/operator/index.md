@@ -75,7 +75,8 @@ $ istioctl experimental profile list
 
 ## Customize Istio settings using the IstioControlPlane API
 
-You can change a feature or component setting by using the [IstioControlPlane API](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
+You can change a feature or component setting by using the [IstioControlPlane API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+([proto](https://github.com/istio/operator/blob/release-1.3/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)).
 
 ### Identify the feature or component settings
 
