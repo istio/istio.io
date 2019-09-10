@@ -195,7 +195,7 @@ which allows the following settings to be changed. Use this list to indentify th
 
 All of these K8s settings use the K8s API definitions, so [K8s documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
 
-### Configure the feature or component settings
+### Configure the feature or component
 
 After you indentify the name of the feature or component from the previous list, you can use the API to set the values using a configuration overlay file.
 
