@@ -85,7 +85,7 @@ To learn more, see our [performance best practices post](/blog/2019/performance-
 - If you are using `istio-telemetry` solely to generate service-level metrics, the 
   `istio-telemetry` deployment can be switched off. This should save ~0.5 vCPU per 1000 rps
   of mesh traffic. This also halves the CPU consumed by Istio while collecting Istio 
-  [standard metrics](https://istio.io/docs/reference/config/policy-and-telemetry/metrics/).
+  [standard metrics](/docs/reference/config/policy-and-telemetry/metrics/).
 
 ## Known limitations
 
