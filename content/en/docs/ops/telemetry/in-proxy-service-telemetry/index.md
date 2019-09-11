@@ -42,7 +42,8 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
         Alternatively, you can comment out `mixerCheckServer` and `mixerReportServer` in your mesh's configuration file.
         {{< /tip >}}
 
-1. Enable the metadata exchange filter
+1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata. 
+   A custom filter handles this exchange. Enable the metadata exchange filter with the following command:
 
     For the generation of service-level metrics, proxies must exchange workload metadata. This exchange
     is handled by a custom filter.
