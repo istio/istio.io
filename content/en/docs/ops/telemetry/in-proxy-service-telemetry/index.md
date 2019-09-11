@@ -32,7 +32,6 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 
 1.  To prevent duplicate telemetry generation, turn off the `istio-telemetry` service to disable calls to `istio-telemetry` in the mesh:
 
-    In order to prevent duplicate telemetry generation, turn off the use of the `istio-telemetry` service
     for telemetry generation.
 
     {{< text bash >}}
