@@ -40,7 +40,7 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 
         {{< tip >}}
         Alternatively, you can comment out `mixerCheckServer` and `mixerReportServer` in your mesh's configuration file.
-    (the `istio` config map).
+        {{< /tip >}}
 
 1. Enable the metadata exchange filter
 
