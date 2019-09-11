@@ -66,6 +66,6 @@ See the [release notes](/about/notes/1.3) for the complete list of changes.
 
 As always, there is a lot happening in the [Community Meeting](https://github.com/istio/community#community-meeting); join us every other Thursday at 11 AM Pacific.
 
-Join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us make Istio better.
+The growth and success of Istio is due to its 400+ contributors from over 300 companies. Join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us make Istio even better.
 
 To join the conversation, go to [discuss.istio.io](https://discuss.istio.io), log in with your GitHub credentials and join us!
