@@ -45,7 +45,6 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata. 
    A custom filter handles this exchange. Enable the metadata exchange filter with the following command:
 
-    is handled by a custom filter.
 
     {{< text bash >}}
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/master/extensions/stats/testdata/istio/metadata-exchange_filter.yaml
