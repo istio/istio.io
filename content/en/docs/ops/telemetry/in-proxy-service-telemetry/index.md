@@ -28,7 +28,7 @@ generates:
 
 ## Enable Service-level Metrics Generation in Envoy
 
-To enable the generation of service-level metrics in Envoy, execute the following steps:
+To generate service-level metrics directly in the Envoy proxies, follow these steps:
 
 1. Disable calls to `istio-telemetry` in the mesh
 
