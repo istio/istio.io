@@ -17,7 +17,7 @@ metrics that Mixer currently generates:
 - `istio_request_duration_seconds`
 - `istio_request_size`
 
-## Enable Service-level Metrics Generation in Envoy
+## Enable service-level metrics generation in Envoy
 
 To generate service-level metrics directly in the Envoy proxies, follow these steps:
 
@@ -84,9 +84,9 @@ Here's what we've measured so far:
   than the Mixer filter.
 - The new filters add ~5ms P90 latency at 1000 rps compared to Envoy proxies
   configured with no telemetry filters.
-- If you are using `istio-telemetry` solely to generate service-level metrics, the
-  `istio-telemetry` deployment can be switched off. This should save ~0.5 vCPU per
-  1000 rps of mesh traffic. This also halves the CPU consumed by Istio while collecting Istio
+- If you only use the `istio-telemetry` service to generate service-level metrics,
+  you can switch off the `istio-telemetry` service. This could save up to ~0.5 vCPU per
+  1000 rps of mesh traffic, and could halve the CPU consumed by Istio while collecting
   [standard metrics](/docs/reference/config/policy-and-telemetry/metrics/).
 
 ## Known limitations
