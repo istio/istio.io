@@ -101,7 +101,7 @@ goals have been realized.
 
 ## Implementation Details
 
-The 1.3.0 implementation uses the WASM sandbox API, but does not run inside a WASM VM. It is
+The implementation in Istio 1.3 uses the `WASM` sandbox API, but it doesn't run inside a `WASM VM`.
 The implementation is natively-compiled in Envoy using `NullVM`. We are working to enable running
 filters in the `V8 WASM VM` in future releases.
 
