@@ -103,7 +103,7 @@ goals have been realized.
 
 The 1.3.0 implementation uses the WASM sandbox API, but does not run inside a WASM VM. It is
 The implementation is natively-compiled in Envoy using `NullVM`. We are working to enable running
-filters in the V8 WASM VM.
+filters in the `V8 WASM VM` in future releases.
 
 Currently you configure the filters using the Istio Envoy filter API. One of our goals for Istio 1.4 is to
 we will introduce new ways of configuring extensions.
