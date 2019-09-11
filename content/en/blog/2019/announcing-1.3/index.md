@@ -19,9 +19,9 @@ The theme of Istio 1.3 is User Experience:
 
 Every few releases, the Istio team delivers dramatic improvements to usability, APIs, and the overall system performance. Istio 1.3 is one such release, and the team is very excited to roll out some key updates.
 
-## Intelligent protocol detection
+## Intelligent protocol detection (experimental)
 
-In past releases, you had to use a special port naming format to explicitly declare the protocol for service ports. This requirement caused problems for users that did not name their ports when they added their applications to the mesh. Starting with 1.3, the protocol is automatically detected as HTTP or TCP. This detection eliminates the need to prefix the port name explicitly. We are adding support for additional [non-HTTP] protocols in future releases.
+In past releases, you had to use a special port naming format to explicitly declare the protocol for service ports. This requirement caused problems for users that did not name their ports when they added their applications to the mesh. Starting with 1.3, the protocol for outbound traffic is automatically detected as HTTP or TCP when the ports are not named according to Istio's conventions. We will be polishing this feature in the upcoming releases with support for protocol sniffing on inbound traffic as well as identifying protocols other than HTTP.
 
 ## Mixer-less telemetry (experimental)
 
@@ -31,7 +31,7 @@ Yes, you read that right! We implemented most of the common security policies di
 
 Previous releases required that pods explicitly declare the Kubernetes `containerPort` for each container as a security measure against trampolining traffic. Istio 1.3 has a secure and simpler way of handling all inbound traffic on any port into a {{< gloss >}}workload instance{{< /gloss >}} without requiring the `containerPort` declarations. We have also completely eliminated the infinite loops caused in the IP tables rules when workload instances send traffic to themselves.
 
-## Customize generated Envoy configuration
+## Fully customize generated Envoy configuration
 
 While Istio 1.3 focuses on usability, expert users can use advanced features in Envoy that are not part of the Istio Networking APIs. We enhanced the `EnvoyFilter` API to allow users to fully customize:
 
