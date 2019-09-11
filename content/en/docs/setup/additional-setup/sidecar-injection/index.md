@@ -21,7 +21,7 @@ Manual injection directly modifies configuration, like deployments, and injects 
 
 Automatic injection injects at pod creation time using an admission controller.
 
-Injection occurs by applying a template defined in the config map `istio-sidecar-injector`.
+Injection occurs by applying a template defined in the `istio-sidecar-injector` ConfigMap.
 
 ### Manual sidecar injection
 
