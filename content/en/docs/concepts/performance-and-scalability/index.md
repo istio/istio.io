@@ -101,12 +101,12 @@ immediately. This process adds to the queue wait time of the next request and af
 average and tail latencies. The actual tail latency depends on the traffic pattern.
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. This two proxies on the data path add about 8ms to the 90th percentile latency at 1000 requests per second.
+proxy. This two proxies on the data path add about 7ms to the 90th percentile latency at 1000 requests per second.
 The server-side proxy alone adds 2ms to the 90th percentile latency.
 
 ### Latency for Istio {{< istio_release_name >}}
 
-The default configuration of Istio 1.1 adds 8ms to the 90th percentile latency of the data plane over the baseline.
+The default configuration of Istio {{< istio_release_name >}} adds 7ms to the 90th percentile latency of the data plane over the baseline.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 
@@ -114,7 +114,7 @@ In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` fu
 This will decrease the amount data flowing through the system, which will in turn reduce the CPU usage and latency.
 
 {{< image width="90%"
-    link="latency.svg"
+    link="latency_p90.svg"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 >}}
