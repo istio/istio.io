@@ -40,6 +40,26 @@ cluster must satisfy the following requirements:
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, visit [Required Pod Capabilities](/docs/ops/setup/required-pod-capabilities/).
 
+- **Optional: Named service ports for non-HTTP traffic**: Istio will automatically detect the protocol being used by a port based on the data plane traffic. Currently, only HTTP protocol detection is supported. Unknown protocols will be treated as opaque TCP traffic. If you would like to obtain telemetry from Envoy for these non-HTTP protocols, name the ports using the following syntax: `name: <protocol>[-<suffix>]`. The following values for `<protocol>` are supported:
+
+    - `grpc`
+    - `http`
+    - `http2`
+    - `https`
+    - `mongo`
+    - `mysql`
+    - `redis`
+    - `tcp`
+    - `tls`
+    - `udp`
+
+    For example, `name: http2-foo` or  `name: http` are valid port names, but
+    `name: http2foo` is not. If the port name does not begin with a recognized
+    prefix or if the port is unnamed, protocol to use on that port will be detected
+    dynamically. Currently Istio supports detection of HTTP protocols. If HTTP protocol 
+    is not detected, the traffic will be treated as plain TCP unless the port [explicitly](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
+    uses `Protocol: UDP` to signify a UDP port.
+
 ## Ports used by Istio
 
 The following ports and protocols are used by Istio. Ensure that there are no TCP headless services using a TCP port used by one of Istio's services.
