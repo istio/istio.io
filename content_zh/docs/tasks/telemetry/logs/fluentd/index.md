@@ -54,7 +54,7 @@ spec:
   - port: 9200
     protocol: TCP
     targetPort: db
-    selector:
+  selector:
     app: elasticsearch
 ---
 # Elasticsearch Deployment
@@ -117,7 +117,7 @@ spec:
     port: 24224
     protocol: UDP
     targetPort: 24224
-    selector:
+  selector:
     app: fluentd-es
 ---
 # Fluentd Deployment
@@ -202,7 +202,7 @@ spec:
   - port: 5601
     protocol: TCP
     targetPort: ui
-    selector:
+  selector:
     app: kibana
 ---
 # Kibana Deployment
