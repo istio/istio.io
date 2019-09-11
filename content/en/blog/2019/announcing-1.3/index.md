@@ -35,8 +35,8 @@ Previous releases required that pods explicitly declare the Kubernetes `containe
 
 While Istio 1.3 focuses on usability, expert users can use advanced features in Envoy that are not part of the Istio Networking APIs. We enhanced the `EnvoyFilter` API to allow users to fully customize:
 
-- The Envoy HTTP route configuration returned by the RDS, HTTP/TCP listeners
-- Their filter chains returned by LDS
+- The HTTP/TCP listeners and their filter chains returned by LDS
+- The Envoy HTTP route configuration returned by the RDS
 - The set of clusters returned by CDS
 
 You get the best of both worlds:
