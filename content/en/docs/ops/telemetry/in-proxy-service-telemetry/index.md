@@ -23,7 +23,6 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 
 1.  To prevent duplicate telemetry generation, disable calls to `istio-telemetry` in the mesh:
 
-
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set mixer.telemetry.enabled=false --set mixer.policy.enabled=false
     {{< /text >}}
@@ -32,9 +31,8 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
     Alternatively, you can comment out `mixerCheckServer` and `mixerReportServer` in your [mesh configuration](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
     {{< /tip >}}
 
-1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata. 
+1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata.
    A custom filter handles this exchange. Enable the metadata exchange filter with the following command:
-
 
     {{< text bash >}}
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/master/extensions/stats/testdata/istio/metadata-exchange_filter.yaml
@@ -42,14 +40,12 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 
 1. To actually generate the service-level metrics, you must apply the custom stats filter.
 
-
     {{< text bash >}}
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/master/extensions/stats/testdata/istio/stats_filter.yaml
     {{< /text >}}
 
 1. Go to the **Istio Mesh** Grafana dashboard. Verify that the dashboard displays the same telemetry as before but without
     any requests flowing through Istio's Mixer.
-
 
 ## Differences with Mixer-based generation
 
@@ -59,7 +55,7 @@ Mixer-based generation.
 
 Until then, please consider these differences:
 
-- The `istio_request_duration_seconds` latency metric has the new name: `istio_request_duration_milliseconds`. 
+- The `istio_request_duration_seconds` latency metric has the new name: `istio_request_duration_milliseconds`.
   The new metric uses milliseconds instead of seconds. We updated the Grafana dashboards to
   account for these changes.
 - The `istio_request_duration_milliseconds` metric uses more granular buckets inside the proxy, providing
@@ -75,7 +71,7 @@ on our initial experimentation, and expect to continue to improve the performanc
 and scalability of this feature as it develops.
 
 We won't consider this feature for promotion to **Beta** or **Stable** [status](/about/feature-stages/#feature-phase-definitions)
-until performance and scalability assessments and improvements have been made. 
+until performance and scalability assessments and improvements have been made.
 
 The performance of your mesh depends on your configuration.
 To learn more, see our [performance best practices post](/blog/2019/performance-best-practices/).
@@ -88,9 +84,9 @@ Here's what we've measured so far:
   than the Mixer filter.
 - The new filters add ~5ms P90 latency at 1000 rps compared to Envoy proxies
   configured with no telemetry filters.
-- If you are using `istio-telemetry` solely to generate service-level metrics, the 
+- If you are using `istio-telemetry` solely to generate service-level metrics, the
   `istio-telemetry` deployment can be switched off. This should save ~0.5 vCPU per
-  1000 rps of mesh traffic. This also halves the CPU consumed by Istio while collecting Istio 
+  1000 rps of mesh traffic. This also halves the CPU consumed by Istio while collecting Istio
   [standard metrics](/docs/reference/config/policy-and-telemetry/metrics/).
 
 ## Known limitations
