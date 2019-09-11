@@ -38,7 +38,8 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set mixer.telemetry.enabled=false --set mixer.policy.enabled=false
     {{< /text >}}
 
-    Alternatively, comment out `mixerCheckServer` and `mixerReportServer` from the mesh config
+        {{< tip >}}
+        Alternatively, you can comment out `mixerCheckServer` and `mixerReportServer` in your mesh's configuration file.
     (the `istio` config map).
 
 1. Enable the metadata exchange filter
