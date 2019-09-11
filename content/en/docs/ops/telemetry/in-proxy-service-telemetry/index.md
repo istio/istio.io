@@ -15,7 +15,7 @@ at this time.
 {{< /warning>}}
 
 Istio 1.3 adds experimental support to generate service-level HTTP metrics
-directly in Envoy. This enables operators to continue to monitor their service meshes using Istio-provided
+directly in the Envoy proxies. This feature lets you continue to monitor your service meshes using the tools Istio provides
 tooling, without requiring the use of Istio's Mixer. This support is the first step towards a new
 extensibility architecture for Istio, which will put Mixer-like functionality directly in the sidecar proxies.
 
