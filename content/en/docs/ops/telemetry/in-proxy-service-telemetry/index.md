@@ -63,44 +63,46 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 
 ## Differences with Mixer-based generation
 
-There are some small differences between the in-proxy generation of the service-level metrics and
-the Mixer-based generation in the 1.3.0 release. Full feature-parity is a requirement before this
-functionality can be considered stable.
+Small differences between the in-proxy generation and Mixer-based generation of service-level metrics
+persist in Istio 1.3. We won't consider the functionality stable until in-proxy generation has full feature-parity with
+Mixer-based generation.
 
-In the meantime, please be aware of these differences:
+Until then, please consider these differences:
 
-1. The latency metric uses a new name and is recorded in different units. The new metric is called
-   `istio_request_duration_milliseconds` (instead of `istio_request_duration_seconds`). The Grafana
-   dashboards are updated to account for the new metric.
-1. The `istio_request_duration_milliseconds` metric uses more granular buckets inside the proxy.
-   This results in lower latency measurements in the histograms than before.
+- The `istio_request_duration_seconds` latency metric has the new name: `istio_request_duration_milliseconds`. 
+  The new metric uses milliseconds instead of seconds. We updated the Grafana dashboards to
+  account for these changes.
+- The `istio_request_duration_milliseconds` metric uses more granular buckets inside the proxy.
+ This change leads to lower latency measurements in the histograms than previously observed.
 
 ## Performance impact
 
 {{< warning >}}
 
-The focus of the initial release of this functionality has not been on performance optimization.
-We have several planned performance-related improvements in the pipeline at this time.
+This release doesn't focus on performance optimization for this functionality.
+We are working on several performance-related improvements for this experimental feature.
 
-This feature will not be considered for promotion to Beta or Stable status until our performance
-goals have been realized.
+We won't consider this feature for promotion to **Beta** or **Stable** [status](/about/feature-stages/#feature-phase-definitions)
+until we realize our performance goals.
+
+The performance of your mesh depends on your configuration. To learn more, see our [performance best practices post](/blog/2019/performance-best-practices/).
 
 {{< /warning >}}
 
 1. The `istio-telemetry` deployment can be switched off. This should save ~0.5 vCPU per 1000 rps
    of mesh traffic. This also halves the CPU consumed by Istio while collecting Istio standard
    metrics.
-1. The new filters together use 10% less CPU for `istio-proxy` containers than the Mixer filter.
+- All new filters together use 10% less CPU resources for the `istio-proxy` containers than the Mixer filter.
 1. The new filters add ~5ms P90 latency (1000 rps) as compared to a generic Envoy in the current
    implementation.
 
 ## Known limitations in 1.3
 
-1. Only Prometheus export of these metrics is supported.
-1. No support for TCP metrics generation is provided.
-1. No proxy-side customization or configuration of the generated metrics is provided.
+- You can only export these metrics to Prometheus.
+- We provide no support to generate TCP metrics.
+- We provide no proxy-side customization or configuration of the generated metrics.
 
-## Implementation Details
+## Implementation details
 
 The implementation in Istio 1.3 uses the `WASM` sandbox API, but it doesn't run inside a `WASM VM`.
 The implementation is natively-compiled in Envoy using `NullVM`. We are working to enable running
