@@ -69,22 +69,28 @@ Until then, please consider these differences:
 
 {{< warning >}}
 
-This release doesn't focus on performance optimization for this functionality.
-We are working on several performance-related improvements for this experimental feature.
+As this work is currently experimental, our primary focus has been on establishing
+the base functionality. We have identified several performance optimizations based
+on our initial experimentation, and expect to continue to improve the performance
+and scalability of this feature as it develops.
 
 We won't consider this feature for promotion to **Beta** or **Stable** [status](/about/feature-stages/#feature-phase-definitions)
-until we realize our performance goals.
+until performance and scalability assessments and improvements have been made. 
 
 The performance of your mesh depends on your configuration.
 To learn more, see our [performance best practices post](/blog/2019/performance-best-practices/).
 
 {{< /warning >}}
 
-- All new filters together use 10% less CPU resources for the `istio-proxy` containers than the Mixer filter.
-- The new filters add ~5ms P90 latency at 1000 rps compared to Envoy proxies configured with no telemetry filters.
+Here's what we've measured so far:
+
+- All new filters together use 10% less CPU resources for the `istio-proxy` containers
+  than the Mixer filter.
+- The new filters add ~5ms P90 latency at 1000 rps compared to Envoy proxies
+  configured with no telemetry filters.
 - If you are using `istio-telemetry` solely to generate service-level metrics, the 
-  `istio-telemetry` deployment can be switched off. This should save ~0.5 vCPU per 1000 rps
-  of mesh traffic. This also halves the CPU consumed by Istio while collecting Istio 
+  `istio-telemetry` deployment can be switched off. This should save ~0.5 vCPU per
+  1000 rps of mesh traffic. This also halves the CPU consumed by Istio while collecting Istio 
   [standard metrics](/docs/reference/config/policy-and-telemetry/metrics/).
 
 ## Known limitations
