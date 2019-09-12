@@ -62,9 +62,9 @@ $ istioctl experimental manifest apply --set profile=demo
 {{< /text >}}
 
 In the example above, `demo` is one of the profile names from the output of
-the `istioctl profile list` command.
+the [`istioctl experimental profile list`](/docs/reference/commands/istioctl/#istioctl-experimental-profile-list) command.
 
-## Display the profiles list
+## Display the profile list
 
 You can display the names of Istio configuration profiles that are
 accessible to `istioctl` by using this command:
