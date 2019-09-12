@@ -34,7 +34,7 @@ cluster must satisfy the following requirements:
     prefix or if the port is unnamed, outbound HTTP or TCP traffic will be automatically detected.  Inbound traffic on the port is treated as
     plain TCP traffic unless the port [explicitly](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)
     uses `Protocol: UDP` to signify a UDP port.
-    
+
 - **Service association**: A pod must belong to at least one Kubernetes
   service even if the pod does NOT expose any port.
   If a pod belongs to multiple [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
