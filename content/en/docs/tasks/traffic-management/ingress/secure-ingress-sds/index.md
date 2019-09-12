@@ -58,11 +58,11 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `httpbin.example.com`. Replace `password` with
+1.  Generate the certificates for `httpbin.example.com`. Replace `<password>` with
     any value in the following command:
 
     {{< text bash >}}
-    $ ./generate.sh httpbin.example.com password
+    $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
     When prompted, answer `y` to all the questions. The command generates
