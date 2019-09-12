@@ -8,7 +8,7 @@ keywords: [platform-setup,azure]
 
 依照本指南对 Azure 集群进行配置以便安装运行 Istio。
 
-可以使用 [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) 或者 [ACS-Engine](https://github.com/azure/acs-engine) 部署 Kubernetes 集群，两种方式都完全能够支持 Istio 的安装和运行。
+可以使用 [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) 或者 [AKS-Engine](https://github.com/azure/aks-engine) 部署 Kubernetes 集群，两种方式都完全能够支持 Istio 的安装和运行。
 
 ## AKS
 
@@ -49,19 +49,19 @@ keywords: [platform-setup,azure]
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
 
-## ACS-Engine
+## AKS-Engine
 
-1. 按照下面的[介绍](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install)，下载和安装 `acs-engine` 的二进制包。
+1. 按照下面的[介绍](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine)，下载和安装 `aks-engine` 的二进制包。
 
-1. 下载支持 Istio 的 `acs-engine` API 模型定义文件：
+1. 下载支持 Istio 的 `aks-engine` API 模型定义文件：
 
     {{< text bash >}}
-    $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
+    $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    注意：使用其他的 API 模型定义也是可以支持 Istio 的。MutatingAdmissionWebhook 以及 ValidatingAdmissionWebhook 两个准入控制标志以及 RBAC 在 1.9 或更新版本的集群中都是缺省开启的。请参看 [acs-engine API 模型的缺省值](https://github.com/Azure/acs-engine/blob/master/docs/clusterdefinition.md)获取更多相关信息。
+    注意：使用其他的 API 模型定义也是可以支持 Istio 的。MutatingAdmissionWebhook 以及 ValidatingAdmissionWebhook 两个准入控制标志以及 RBAC 在 1.9 或更新版本的集群中都是缺省开启的。请参看 [aks-engine API 模型的缺省值](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md)获取更多相关信息。
 
-1. 使用 `istio.json` 模板定义集群。其中的参数可以在[官方文档](https://github.com/Azure/acs-engine/blob/master/docs/kubernetes/deploy.md#step-3-edit-your-cluster-definition)中找到。
+1. 使用 `istio.json` 模板定义集群。其中的参数可以在[官方文档](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition)中找到。
 
     | 参数                                   | 说明               |
     |---------------------------------------|---------------------------|
@@ -70,13 +70,13 @@ keywords: [platform-setup,azure]
     | `location`                            | 集群位置           |
 
     {{< text bash >}}
-    $ acs-engine deploy --subscription-id <subscription_id> \
+    $ aks-engine deploy --subscription-id <subscription_id> \
       --dns-prefix <dns_prefix> --location <location> --auto-suffix \
       --api-model istio.json
     {{< /text >}}
 
     {{< tip >}}
-    几分钟之后，就可以在 Azure 订阅中发现一个资源组，命名方式是 `<dns_prefix>-<id>`。假设 `dns-prefix` 取值为 `myclustername`，会在后面加入一个随机 ID 后缀，生成资源组名，例如 `mycluster-5adfba82`。`acs-engine` 会生成 `kubeconfig` 文件，放置到 `_output` 文件夹中。
+    几分钟之后，就可以在 Azure 订阅中发现一个资源组，命名方式是 `<dns_prefix>-<id>`。假设 `dns-prefix` 取值为 `myclustername`，会在后面加入一个随机 ID 后缀，生成资源组名，例如 `mycluster-5adfba82`。`aks-engine` 会生成 `kubeconfig` 文件，放置到 `_output` 文件夹中。
     {{< /tip >}}
 
 1. 使用 `<dns_prefix>-<id>` 集群 ID，把 `kubeconfig` 从 `_output` 文件夹中复制出来：
