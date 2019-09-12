@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # Copyright Istio Authors
 #
@@ -73,12 +73,17 @@ for rel in "${TOBUILD_JEKYLL[@]}"; do
 
   bundle install
   bundle exec jekyll build --config _config.yml,config_override.yml
+  bundle clean --force
 
   mv _site "${TMP}/archive/${NAME}"
   echo "- name:  \"${NAME}\"" >> "${TMP}/archives.yml"
 
   git clean -f
 done
+
+# delete this pesky command as it overrides the sass version we explicitly installed and want to be using
+# shellcheck disable=SC2230
+rm -fr "$(which sass)"
 
 echo "### Building landing page"
 popd || exit
