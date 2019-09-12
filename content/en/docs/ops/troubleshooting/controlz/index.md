@@ -22,14 +22,11 @@ Here's sample of the ControlZ interface:
 
 {{< image width="80%" link="./ctrlz.png" caption="ControlZ User Interface" >}}
 
-The `--ctrlz_port` and `--ctrlz_address` command-line options can be given when starting a component to control the
-specific address and port where ControlZ should be exposed.
-
 To access the ControlZ page of deployed components (i.e. Mixer, Galley, Pilot), you can port-forward their ControlZ endpoints
 locally and connect through your local browser:
 
 {{< text bash >}}
-$ kubectl port-forward -n istio-system <podname> 9876:9876
+$ istioctl experimental dashboard controlz <podname>
 {{< /text >}}
 
 This will redirect the component's ControlZ page to `http://localhost:9876` for remote access.
