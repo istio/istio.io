@@ -502,16 +502,16 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used on ports whose port protocol is not specified or unsupported</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
 <td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND</code></td>
+<td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used for inbound listeners</td>
+<td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
