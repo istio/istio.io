@@ -2,6 +2,7 @@
 title: "Best Practices: Benchmarking Service Mesh Performance"
 description: "Tools and guidance for evaluating Istio's data plane performance."
 publishdate: 2019-07-09
+last_update: 2019-09-05
 subtitle:
 attribution: Megan O'Keefe (Google), John Howard (Google), Mandar Jog (Google)
 keywords: [performance,scalability,scale,benchmarks]
@@ -13,13 +14,13 @@ Earlier this year, we published a [blog post](/blog/2019/istio1.1_perf/) on Isti
 
 Overall, we found that Istio's [sidecar proxy](/docs/concepts/what-is-istio/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
 
-In the [Istio Tools repository](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
+In the [Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
 
 ## 1. Use a production-ready Istio installation
 
-To accurately measure the performance of a service mesh at scale, it's important to use an [adequately-sized](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/istio-install#istio-setup) Kubernetes cluster. We test using three worker nodes, each with at least 4 vCPUs and 15 GB of memory.
+To accurately measure the performance of a service mesh at scale, it's important to use an [adequately-sized](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install#istio-setup) Kubernetes cluster. We test using three worker nodes, each with at least 4 vCPUs and 15 GB of memory.
 
-Then, it's important to use a production-ready Istio **installation profile** on that cluster. This lets us achieve performance-oriented settings such as control plane pod autoscaling, and ensures that resource limits are appropriate for heavy traffic load. The [default](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio installation is suitable for most benchmarking use cases. For extensive performance benchmarking, with thousands of proxy-injected services, we also provide [a tuned Istio install](https://github.com/istio/tools/blob/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/istio-install/values.yaml) that allocates extra memory and CPU to the Istio control plane.
+Then, it's important to use a production-ready Istio **installation profile** on that cluster. This lets us achieve performance-oriented settings such as control plane pod autoscaling, and ensures that resource limits are appropriate for heavy traffic load. The [default](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio installation is suitable for most benchmarking use cases. For extensive performance benchmarking, with thousands of proxy-injected services, we also provide [a tuned Istio install](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml) that allocates extra memory and CPU to the Istio control plane.
 
 {{< warning_icon >}} Istio's [demo installation](/docs/setup/install/kubernetes/) is not suitable for performance testing, because it is designed to be deployed on a small trial cluster, and has full tracing and access logs enabled to showcase Istio's features.
 
@@ -36,7 +37,7 @@ It is also important to focus on data plane performance for **latency** reasons.
 
 Both of these exceptions will go away in a future Istio release, when [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) moves all policy and telemetry features directly into the proxies.
 
-Next, when testing Istio's data plane performance at scale, it's important to test not only at increasing requests per second, but also against an increasing number of **concurrent** connections. This is because real-world, high-throughput traffic comes from multiple clients. The [provided scripts](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark#run-performance-tests) allow you to perform the same load test with any number of concurrent connections, at increasing RPS.
+Next, when testing Istio's data plane performance at scale, it's important to test not only at increasing requests per second, but also against an increasing number of **concurrent** connections. This is because real-world, high-throughput traffic comes from multiple clients. The [provided scripts](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests) allow you to perform the same load test with any number of concurrent connections, at increasing RPS.
 
 Lastly, our test environment measures requests between two pods, not many. The client pod is [Fortio](http://fortio.org/), which sends traffic to the server pod.
 
@@ -46,13 +47,13 @@ Why test with only two pods? Because scaling up throughput (RPS) and connections
 
 While many Istio features, such as [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication), rely on an Envoy proxy next to an application pod, you can [selectively disable](/docs/setup/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook) sidecar proxy injection for some of your mesh services. As you scale up Istio for production, you may want to incrementally add the sidecar proxy to your workloads.
 
-To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`).
+To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`).
 
 You can also disable [Mixer](/docs/concepts/observability/) to stop Istio's telemetry during the performance tests, which provides results in line with the performance we expect when the Mixer V2 work is completed. Istio also supports [Envoy native telemetry](https://github.com/istio/istio/wiki/Envoy-native-telemetry), which performs similarly to having Istio's telemetry disabled.
 
 ## Istio 1.2 Performance
 
-Let's see how to use this test environment to analyze the data plane performance of Istio 1.2. We also provide instructions to run the [same performance tests for the Linkerd data plane](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark/linkerd). Currently, only latency benchmarking is supported for Linkerd.
+Let's see how to use this test environment to analyze the data plane performance of Istio 1.2. We also provide instructions to run the [same performance tests for the Linkerd data plane](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark/linkerd). Currently, only latency benchmarking is supported for Linkerd.
 
 For measuring Istio's sidecar proxy latency, we look at the 50th, 90th, and 99th percentiles for an increasing number of concurrent connections,keeping request throughput (RPS) constant.
 
@@ -104,7 +105,7 @@ In the process of benchmarking Istio's performance, we learned several key lesso
 For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds just **3 milliseconds** of latency over the baseline, in the 50th percentile.
 
 {{< tip >}}
-Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repo](https://github.com/istio/tools/tree/81cc22348059bb17ad9c2f571018e78780a1bbf5/perf/benchmark).
+Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repo](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark).
 {{< /tip >}}
 
 Also check out the [Istio Performance and Scalability guide](/docs/concepts/performance-and-scalability) for the most up-to-date performance data for current and future releases.
