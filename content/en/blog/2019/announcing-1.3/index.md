@@ -21,7 +21,7 @@ Every few releases, the Istio team delivers dramatic improvements to usability, 
 
 ## Intelligent protocol detection (experimental)
 
-To take advantage of Istio’s routing features, service ports must use a special port naming format to explicitly declare the protocol. This requirement caused problems for users that did not name their ports when they added their applications to the mesh. Starting with 1.3, the protocol for outbound traffic is automatically detected as HTTP or TCP when the ports are not named according to Istio's conventions. We will be polishing this feature in the upcoming releases with support for protocol sniffing on inbound traffic as well as identifying protocols other than HTTP.
+To take advantage of Istio's routing features, service ports must use a special port naming format to explicitly declare the protocol. This requirement can cause problems for users that do not name their ports when they add their applications to the mesh. Starting with 1.3, the protocol for outbound traffic is automatically detected as HTTP or TCP when the ports are not named according to Istio's conventions. We will be polishing this feature in the upcoming releases with support for protocol sniffing on inbound traffic as well as identifying protocols other than HTTP.
 
 ## Mixer-less telemetry (experimental)
 
