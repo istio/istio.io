@@ -1,22 +1,16 @@
 #!/bin/bash
 
-# Copyright Istio Authors
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-set -e
-
 FAILED=0
+
+echo -ne "mdspell "
+mdspell --version
+echo -ne "mdl "
+mdl --version
+htmlproofer --version
+echo -ne "sass-lint "
+npx sass-lint --version
+echo -ne "tslint "
+npx tslint  --version
 
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
@@ -27,103 +21,125 @@ check_content() {
     LANG=$2
     TMP=$(mktemp -d)
 
-    # check for use of ```
-    if grep -nr -e "\`\`\`" --include "*.md" "${DIR}"; then
-        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks"
-        FAILED=1
-    fi
-
     # make the tmp dir
-    mkdir -p "${TMP}"
+    mkdir -p ${TMP}
 
     # create a throwaway copy of the content
-    cp -R "${DIR}" "${TMP}"
-    cp .spelling "${TMP}"
-    cp common/config/mdl.rb "${TMP}"
+    cp -R ${DIR} ${TMP}
+    cp .spelling ${TMP}
+    cp mdl_style.rb ${TMP}
 
     # replace the {{< text >}} shortcodes with ```plain
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
 
     # replace the {{< /text >}} shortcodes with ```
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
 
     # elide url="*"
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/url=\".*\"/URL/g" {} ";"
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/url=\".*\"/URL/g" {} ";"
 
     # elide link="*"
-    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
+    find ${TMP} -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
 
     # switch to the temp dir
-    pushd "${TMP}" >/dev/null
+    pushd ${TMP} >/dev/null
 
-    if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
+    mdspell ${LANG} --ignore-acronyms --ignore-numbers --no-suggestions --report *.md */*.md */*/*.md */*/*/*.md */*/*/*/*.md */*/*/*/*/*.md */*/*/*/*/*/*.md
+    if [[ "$?" != "0" ]]
+    then
         echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
         FAILED=1
     fi
 
-    if ! mdl --ignore-front-matter --style mdl.rb .; then
+    mdl --ignore-front-matter --style mdl_style.rb .
+    if [[ "$?" != "0" ]]
+    then
         FAILED=1
     fi
 
-    if grep -nr -e "(https://istio.io" .; then
+    grep -nr -e "(https://istio.io" .
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure markdown content uses relative references to istio.io"
         FAILED=1
     fi
 
-    if grep -nr -e "(https://preliminary.istio.io" .; then
+    grep -nr -e "(https://preliminary.istio.io" .
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure markdown content doesn't contain references to preliminary.istio.io"
         FAILED=1
     fi
 
-    if grep -nr -e https://github.com/istio/istio/blob/ .; then
+    grep -nr -e "https://github.com/istio/istio/blob/" .
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure markdown content uses {{< github_blob >}}"
         FAILED=1
     fi
 
-    if grep -nr -e https://github.com/istio/istio/tree/ .; then
+    grep -nr -e "https://github.com/istio/istio/tree/" .
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure markdown content uses {{< github_tree >}}"
         FAILED=1
     fi
 
-    if grep -nr -e https://raw.githubusercontent.com/istio/istio/ .; then
+    grep -nr -e "https://raw.githubusercontent.com/istio/istio/" .
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure markdown content uses {{< github_file >}}"
         FAILED=1
     fi
 
     # go back whence we came
-    popd >/dev/null
+    popd  >/dev/null
 
     # cleanup
-    rm -fr "${TMP}"
+    rm -fr ${TMP}
 }
 
-check_content content/en --en-us
+check_content content --en-us
+check_content content_zh --en-us
 
-find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
-    if grep -H -n -e '“' "${f}"; then
-        # shellcheck disable=SC1111
+for f in `find ./content -type f \( -name '*.html' -o -name '*.md' \)`
+do
+    grep -H -n -e "“" ${f}
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure content only uses standard quotation marks and not “"
         FAILED=1
     fi
 done
 
-find ./public -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
-    if grep -H -n -i -e blockquote "${f}"; then
+for f in `find ./public -type f -name '*.html'`
+do
+    grep -H -n -i -e "blockquote" ${f}
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
         FAILED=1
     fi
 
-    if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
+    grep -H -n -e "\"https://github.*#L[0-9]*\"" ${f}
+    if [[ "$?" == "0" ]]
+    then
         echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
         FAILED=1
     fi
 done
 
-if ! htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/"; then
+npx sass-lint -c sass-lint.yml --verbose 'src/sass/**/*.scss'
+npx tslint src/ts/*.ts
+
+htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/"
+if [[ "$?" != "0" ]]
+then
     FAILED=1
 fi
 
-if [[ ${FAILED} -eq 1 ]]; then
+if [[ ${FAILED} -eq 1 ]]
+then
     echo "LINTING FAILED"
     exit 1
 fi

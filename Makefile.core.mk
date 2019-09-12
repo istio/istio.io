@@ -1,21 +1,26 @@
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
+img := gcr.io/istio-testing/website-tools:2019-07-25
+uid := $(shell id -u)
+docker := docker run -e INTERNAL_ONLY=true -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site $(img)
+
+ifeq ($(INTERNAL_ONLY),)
+docker := docker run -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site $(img)
+endif
+
 ifeq ($(CONTEXT),production)
 baseurl := "$(URL)"
 endif
 
 build:
-	@scripts/build_site.sh
+	@$(docker) scripts/build_site.sh
 
 gen: build
-	@scripts/gen_site.sh ""
-
-gen_nominify: build
-	@scripts/gen_site.sh "" -no_minify
+	@$(docker) scripts/gen_site.sh ""
 
 opt:
-	@scripts/opt_site.sh
+	@$(docker) scripts/opt_site.sh
 
 clean_public:
 	@rm -fr public
@@ -23,38 +28,29 @@ clean_public:
 clean: clean_public
 	@rm -fr resources .htmlproofer tmp
 
-lint: clean_public gen_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
-	@scripts/lint_site.sh
+lint: clean_public build gen
+	@$(docker) scripts/lint_site.sh
 
 serve: build
-	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
+	@docker run -t -i --sig-proxy=true --rm --user $(uid) -v /etc/passwd:/etc/passwd:ro -v $(shell pwd):/site -w /site -p 1313:1313 $(img) hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 
-# used by netlify.com when building the site. The tool versions should correspond
-# to what is included in the tools repo in docker/build-tools/Dockerfile.
-netlify_install:
-	@npm init -y
-	@npm install --production --global \
-	    sass@v1.22.10 \
-	    typescript@v3.5.3 \
-	    svgstore-cli@v1.3.1 \
-		@babel/core@v7.5.5 \
-		@babel/cli@v7.5.5 \
-		@babel/preset-env@v7.5.5
-	@npm install --production --save-dev \
-		babel-preset-minify@v0.5.1
-	@npm install --save-dev \
-		@babel/polyfill@v7.4.4
+install:
+	@npm install -g sass sass-lint typescript tslint @babel/cli @babel/core svgstore-cli
+	@npm install babel-preset-minify --save-dev
 
-netlify: netlify_install
+netlify: install
 	@scripts/build_site.sh
 	@scripts/gen_site.sh "$(baseurl)"
 
-netlify_archive: netlify_install archive
-
-archive:
+netlify_archive:
 	@scripts/gen_archive_site.sh "$(baseurl)"
 
-update_ref_docs:
-	@scripts/grab_reference_docs.sh
+archive:
+	@$(docker) scripts/gen_archive_site.sh "$(baseurl)"
 
-include common/Makefile.common.mk
+prow:
+	@scripts/build_site.sh
+	@scripts/gen_site.sh "" -no_minify
+	@scripts/lint_site.sh
+
+include Makefile.common.mk

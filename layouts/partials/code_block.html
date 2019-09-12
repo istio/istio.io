@@ -5,11 +5,6 @@
 {{- $output_is := .Get "outputis" | default (.Get 1) -}}
 {{- $download_as := .Get "downloadas" -}}
 {{- $snippet := .Get "snippet" -}}
-{{- $repo := .Get "repo" -}}
-
-{{- if not $repo  }}
-    {{- $repo = "istio" }}
-{{- end -}}
 
 {{- $expand_links := "true" -}}
 
@@ -83,9 +78,6 @@
 {{- if $output_is -}}
     {{- $attrs = printf "%sdata-outputis='%s' " $attrs $output_is -}}
 {{- end -}}
-{{- if $expand_links -}}
-    {{- $attrs = printf "%sdata-repo='%s' " $attrs $repo -}}
-{{- end -}}
 
 {{- $anchor := "" }}
 {{- if $url -}}
@@ -99,7 +91,7 @@
         {{- range $link := $links -}}
             {{- $target := trim $link "@" -}}
             {{- if gt (len $target) 0 -}}
-                {{- $anchor = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/%s/%s/%s'>Zip</a>%s" $repo $branch $target $anchor -}}
+                {{- $anchor = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/istio/%s/%s'>Zip</a>%s" $branch $target $anchor -}}
             {{- end -}}
         {{- end -}}
     {{- end -}}

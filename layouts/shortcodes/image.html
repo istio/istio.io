@@ -61,18 +61,14 @@ omit this value and it will be computed automatically.
     {{- end -}}
 {{- end -}}
 
-{{- $linkPrefix := "" -}}
-{{- $path := "" -}}
+{{- $path := "" }}
 {{- if eq .Page.Language.Lang "zh" -}}
-    {{- $path = printf "content/zh%s" $link -}}
-    {{- $linkPrefix = "/zh" -}}
-
+    {{- $path = printf "content_zh%s" $link }}
     {{- if not (fileExists $path) -}}
-        {{- $path = printf "content/en%s" $link -}}
-        {{- $linkPrefix = "" -}}
+        {{- $path = printf "content%s" $link }}
     {{- end -}}
 {{- else -}}
-    {{- $path = printf "content/en%s" $link -}}
+    {{- $path = printf "content%s" $link }}
 {{- end -}}
 
 {{- if strings.HasSuffix $link ".svg" -}}
@@ -81,10 +77,10 @@ omit this value and it will be computed automatically.
     {{- end -}}
 
     {{- $file := readFile $path -}}
-    {{- $w := 0.0 -}}
-    {{- $h := 0.0 -}}
+    {{- $w := 0.0 }}
+    {{- $h := 0.0 }}
     {{- $viewBox := findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1 -}}
-    {{- if eq (len $viewBox) 1 -}}
+    {{- if $viewBox }}
         {{- $viewBox = index $viewBox 0 -}}
         {{- $viewBox = index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
         {{- $sizes := split $viewBox " " -}}
@@ -115,8 +111,8 @@ omit this value and it will be computed automatically.
 
 <figure style="width: {{- $width -}}">
     <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}%">
-        <a data-skipendnotes="true" href="{{- $linkPrefix -}}{{- $link -}}" title="{{- $title -}}">
-            <img class="element-to-stretch" src="{{- $linkPrefix -}}{{- $link -}}" alt="{{- $alt -}}" />
+        <a data-skipendnotes="true" href="{{- $link -}}" title="{{- $title -}}">
+            <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" />
         </a>
     </div>
     <figcaption>{{- $caption -}}</figcaption>

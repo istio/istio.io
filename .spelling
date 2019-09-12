@@ -63,7 +63,7 @@ accounts.my
 ack-istio
 ACLs
 Acmeair
-AKS-Engine
+ACS-Engine
 addon
 addons
 admissionregistration
@@ -108,7 +108,6 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
-c.f.
 callouts
 Callouts
 camelCase
@@ -146,15 +145,10 @@ CSRs
 Ctrl
 Customizable
 CVE
-CVE-2019-14993
-CVE-2019-9512
-CVE-2019-9513
-CVE-2019-9514
-CVE-2019-9515
-CVE-2019-9518
+CVEs
+D3.js
 Datadog
 datapath
-CVEs
 dataset
 datastore
 Datawire
@@ -169,7 +163,6 @@ devops
 discuss.istio.io
 distro
 Distroless
-distroless
 Divya
 DNS
 docker-compose's
@@ -188,7 +181,6 @@ env
 etcd
 example.com
 ExecAction
-executables
 Exfiltrating
 ExternalName
 facto
@@ -276,8 +268,6 @@ IPv4
 IPv6
 Istio
 istio.io
-ISTIO-SECURITY-2019-004
-ISTIO-SECURITY-2019-003
 istio.io.
 Istiofied
 IstioMesh
@@ -333,7 +323,6 @@ Mesos
 mesos-dns
 metadata
 methodName
-MicroK8s
 microservice
 microservices
 middleboxes
@@ -360,7 +349,6 @@ natively
 netmask
 networking.istio.io
 nginx
-NLBs
 nodePorts
 non-sandboxed
 normalization
@@ -374,7 +362,6 @@ onboarding
 Onboarding
 onwards
 OP_QUERY
-OpenCensus
 OpenID
 OpenID_Connect
 OpenShift
@@ -539,7 +526,6 @@ unmanaged
 unnormalized
 unsampled
 untrusted
-URIs
 uptime
 url
 user

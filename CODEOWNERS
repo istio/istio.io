@@ -1,4 +1,4 @@
 *                @geeknoid
-/.spelling       @istio/wg-docs-maintainers-english
-/content/en/     @istio/wg-docs-maintainers-english
-/content/zh/     @istio/wg-docs-maintainers-chinese
+/.spelling       @geeknoid @frankbu @rcaballeromx
+/content/        @geeknoid @sdake @frankbu @rcaballeromx
+/content_zh/     @geeknoid @fleeto @gyliu513 @rootsongjc @frankbu @loverto @SataQiu

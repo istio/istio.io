@@ -12,9 +12,9 @@
     .entries {
         .letter {
             @media screen {
-                dt:target::before {
-                    height: calc(#{$headerHeight} + 4.2rem);
-                    margin-top: calc(-#{$headerHeight} - 4.2rem);
+                &:target::before {
+                    height: calc(#{$headerHeight} - 1rem);
+                    margin-top: calc(0 - calc(#{$headerHeight} - 1rem));
                 }
             }
         }
