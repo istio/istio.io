@@ -47,9 +47,9 @@
     --tabsetBorderColor: #777777;
     --tabsetShadowColor: #777777;
     --tabsetUnselectedTabTextColor: #e9ffaa;
-    --tabsetUnselectedTabBackgroundColor: #{$not-so-dark-gray};
+    --tabsetUnselectedTabBackgroundColor: #{$dark-gray};
     --tabsetSelectedTabTextColor: #a7a7a7;
-    --tabsetSelectedTabBackgroundColor: #{$dark-gray};
+    --tabsetSelectedTabBackgroundColor: #{$not-so-dark-gray};
 
     --sidebarRightChevron: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='white' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");
     --sidebarRightChevronHover: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='orange' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");

@@ -11,11 +11,9 @@
             display: inline-block;
             margin: 0 3px;
             border: 1px solid $tabsetBorderColor;
-            border-bottom: 0;
             border-top-left-radius: $border-radius;
             border-top-right-radius: $border-radius;
             padding: 0 1rem;
-            transform: skewX(-20deg);
             transform-origin: left bottom;
             cursor: pointer;
             outline: 0;
@@ -23,7 +21,6 @@
             background-color: $tabsetUnselectedTabBackgroundColor;
 
             span {
-                transform: skewX(6deg);
                 color: $tabsetUnselectedTabTextColor;
                 font-size: 80%;
             }
@@ -38,8 +35,9 @@
                 background-color: $tabsetSelectedTabBackgroundColor;
                 cursor: default;
                 box-shadow: none;
-                border-bottom: solid 2px $mainBrandColor;
-
+                font-weight: bold;
+                border-bottom: solid 2px $tabsetSelectedTabBackgroundColor;
+                border-top: solid 2px var(--mainBrandColor);
                 span {
                     color: $tabsetSelectedTabTextColor;
                 }
@@ -48,7 +46,6 @@
     }
 
     .tab-content {
-        border: 1px solid $tabsetBorderColor;
         border-radius: $border-radius;
         padding: 1rem;
         box-shadow: 3px 3px 8px $tabsetShadowColor;
