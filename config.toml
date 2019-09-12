@@ -15,7 +15,7 @@ ignoreFiles = [ "OWNERS" ]
 staticDir = ["static", "generated"]
 
 # we use Netlify server-side redirects instead of generated aliases
-disableAliases = true
+disableAliases = false
 
 # MARKDOWN
 ## Configuration for BlackFriday markdown parser: https://github.com/russross/blackfriday
