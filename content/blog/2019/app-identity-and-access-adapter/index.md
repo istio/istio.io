@@ -53,53 +53,49 @@ Whenever access token expires, a refresh token is used to automatically acquire 
 
 ### Applying web application protection
 
-There are two steps to apply the protection - define OIDC client and creating a policy.
+Protecting web applications requires creating two types of resources - use `OidcConfig` resources to define various OIDC providers, and `Policy` resources to define the web app protection policies. 
 
-1.  Define OIDC client
+```yaml
+apiVersion: "security.cloud.ibm.com/v1"
+kind: OidcConfig
+metadata:
+	name: my-oidc-provider-config
+	namespace: sample-namespace
+spec:
+	discoveryUrl: <discovery-url-from-oidc-provider>
+	clientId: <client-id-from-oidc-provider>
+	clientSecretRef:
+		name: <kubernetes-secret-name>
+		key: <kubernetes-secret-key>
+```
 
-	```yaml
-	apiVersion: "security.cloud.ibm.com/v1"
-	kind: OidcConfig
-	metadata:
-	    name: my-oidc-provider-config
-	    namespace: sample-namespace
-	spec:
-	    discoveryUrl: <discovery-url-from-oidc-provider>
-	    clientId: <client-id-from-oidc-provider>
-	    clientSecretRef:
-	        name: <kubernetes-secret-name>
-	        key: <kubernetes-secret-key>
-	```
-
-1. Define a policy to protect web application
-
-	```yaml
-	apiVersion: "security.cloud.ibm.com/v1"
-	kind: Policy
-	metadata:
-	  name:      my-sample-web-policy
-	  namespace: sample-namespace
-	spec:
-	  targets:
-	    - serviceName: <kubernetes-service-name-to-protect>
-	      paths:
-	        - prefix: /webapp
-	          method: ALL
-	          policies:
-	            - policyType: oidc
-	              config: my-oidc-provider-config
-	              rules: // optional
-	                - claim: iss
-	                  match: ALL
-	                  source: access_token
-	                  values:
-	                    - <expected-issuer-id>
-	                - claim: scope
-	                  match: ALL
-	                  source: access_token
-	                  values:
-	                    - openid
-	```
+```yaml
+apiVersion: "security.cloud.ibm.com/v1"
+kind: Policy
+metadata:
+	name:      my-sample-web-policy
+	namespace: sample-namespace
+spec:
+	targets:
+	- serviceName: <kubernetes-service-name-to-protect>
+		paths:
+		- prefix: /webapp
+			method: ALL
+			policies:
+			- policyType: oidc
+				config: my-oidc-provider-config
+				rules: // optional
+				- claim: iss
+					match: ALL
+					source: access_token
+					values:
+					- <expected-issuer-id>
+				- claim: scope
+					match: ALL
+					source: access_token
+					values:
+					- openid
+```
 
 [Read more about protecting web applications](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)
 
@@ -109,50 +105,46 @@ Backend applications and APIs are protected using the Bearer Token flow, where a
 
 ### Applying backend application and APIs protection
 
-There are two steps to apply the protection - defining JWT config and creating a policy.
+Protecting backend applications and APIs requires creating two types of resources - use `JwtConfig` resources to define various JWT providers, and `Policy` resources to define the backend app protection policies. 
 
-1. Define JWT config
+```yaml
+apiVersion: "security.cloud.ibm.com/v1"
+kind: JwtConfig
+metadata:
+	name: my-jwt-config
+	namespace: sample-namespace
+spec:
+	jwksUrl: <the-jwks-url>
+```
 
-	```yaml
-	apiVersion: "security.cloud.ibm.com/v1"
-	kind: JwtConfig
-	metadata:
-	    name: my-jwt-config
-	    namespace: sample-namespace
-	spec:
-	    jwksUrl: <the-jwks-url>
-	```
-
-1. Define a policy to protect backend/api application
-
-	```yaml
-	apiVersion: "security.cloud.ibm.com/v1"
-	kind: Policy
-	metadata:
-	  name: my-sample-backend-policy
-	  namespace: sample-namespace
-	spec:
-	  targets:
-	    - serviceName: <kubernetes-service-name-to-protect>
-	      paths:
-	        - prefix: /api/files
-	          method: ALL
-	          policies:
-	            - policyType: jwt
-	              config: my-oidc-provider-config
-	              rules: // optional
-	                - claim: iss
-	                  match: ALL
-	                  source: access_token
-	                  values:
-	                    - <expected-issuer-id>
-	                - claim: scope
-	                  match: ALL
-	                  source: access_token
-	                  values:
-	                    - files.read
-	                    - files.write
-	```
+```yaml
+apiVersion: "security.cloud.ibm.com/v1"
+kind: Policy
+metadata:
+	name: my-sample-backend-policy
+	namespace: sample-namespace
+spec:
+	targets:
+	- serviceName: <kubernetes-service-name-to-protect>
+		paths:
+		- prefix: /api/files
+			method: ALL
+			policies:
+			- policyType: jwt
+				config: my-oidc-provider-config
+				rules: // optional
+				- claim: iss
+					match: ALL
+					source: access_token
+					values:
+					- <expected-issuer-id>
+				- claim: scope
+					match: ALL
+					source: access_token
+					values:
+					- files.read
+					- files.write
+```
 
 [Read more about protecting backend applications](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)
 
