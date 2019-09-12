@@ -1,6 +1,6 @@
 ---
 title: Istio 1.3
-publishdate: 2019-09-10
+publishdate: 2019-09-12
 icon: notes
 release: 1.3.0
 ---
