@@ -395,7 +395,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
 1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the domain names of VM services. To
-    integrate the mapping with your own DNS system, use `istioctl register` and creates a Kubernetes `selector-less`
+    integrate the mapping with your own DNS system, use [`istioctl register`](/docs/reference/commands/istioctl/#istioctl-register) and creates a Kubernetes `selector-less`
     service, for example:
 
     {{< text bash >}}
@@ -403,7 +403,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
     {{< tip >}}
-    Ensure you have added `istioctl` client to your `PATH` environment variable, as described in the [Download page](/docs/setup/#downloading-the-release).
+    Ensure you have added the `istioctl` client to your path, as described in the [download page](/docs/setup/#downloading-the-release).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:

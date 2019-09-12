@@ -32,7 +32,7 @@ keys are:
 - `cluster.xds-grpc`
 
 To see the Envoy settings for statistics data collection use
-`istioctl proxy-config bootstrap` and follow the
+[`istioctl proxy-config bootstrap`](/docs/reference/commands/istioctl/#istioctl-proxy-config-bootstrap) and follow the
 [deep dive into Envoy configuration](/docs/ops/troubleshooting/proxy-cmd/#deep-dive-into-envoy-configuration).
 Envoy only collects statistical data on items matching the `inclusion_list` within
 the `stats_matcher` JSON element.

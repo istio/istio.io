@@ -95,7 +95,7 @@ $ hostname -I
 
 ## Registering the mysql service with the mesh
 
-On a host with access to `istioctl` commands, register the VM and mysql db service
+On a host with access to [`istioctl`](/docs/reference/commands/istioctl) commands, register the VM and mysql db service
 
 {{< text bash >}}
 $ istioctl register -n vm mysqldb <ip-address-of-vm> 3306

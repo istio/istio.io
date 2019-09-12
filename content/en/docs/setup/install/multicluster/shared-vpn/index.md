@@ -326,7 +326,7 @@ $ helm delete --purge istio-remote
 The following example shows how to use the `helm template` command to generate
 the manifest for a remote cluster with the automatic sidecar injection
 disabled. Additionally, the example shows how to use the `configmaps` of the
-remote cluster with the `istioctl kube-inject` command to generate any
+remote cluster with the [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command to generate any
 application manifests for the remote cluster.
 
 Perform the following procedure against the remote cluster.
