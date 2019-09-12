@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 60
+number_of_entries: 59
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
@@ -1141,7 +1141,7 @@ the cluster results of the client pod and the listener results of the server pod
 the configuration objects that affect that pod.</p>
 <p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental describe pod [flags]
+<pre class="language-bash"><code>istioctl experimental describe pod &lt;pod&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1644,9 +1644,23 @@ customization file.  (default `[]`)</td>
 </tbody>
 </table>
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
-<p>(metrics has graduated.  Use `istioctl metrics`)</p>
-<pre class="language-bash"><code>istioctl experimental metrics [flags]
+<p>
+Prints the metrics for the specified service(s) when running in Kubernetes.</p>
+<p>This command finds a Prometheus pod running in the specified istio system 
+namespace. It then executes a series of queries per requested workload to
+find the following top-level workload metrics: total requests per second,
+error rate, and request latency at p50, p90, and p99 percentiles. The 
+query results are printed to the console, organized by workload name.</p>
+<p>All metrics returned are from server-side reports. This means that latencies
+and error rates are from the perspective of the service itself and not of an
+individual client (or aggregate set of clients). Rates and latencies are
+calculated over a time interval of 1 minute.
+</p>
+<pre class="language-bash"><code>istioctl experimental metrics &lt;workload name&gt;...
 </code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl experimental m &lt;workload name&gt;...
+</code></pre></div>
 <table class="command-flags">
 <thead>
 <tr>
@@ -1683,6 +1697,15 @@ customization file.  (default `[]`)</td>
 </tr>
 </tbody>
 </table>
+<h3 id="istioctl-experimental-metrics Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Retrieve workload metrics for productpage-v1 workload
+istioctl experimental metrics productpage-v1
+
+# Retrieve workload metrics for various services in the different namespaces
+istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
+
+</code></pre>
 <h2 id="istioctl-experimental-profile">istioctl experimental profile</h2>
 <p>The profile subcommand is list, dump or diff Istio configuration profiles.</p>
 <table class="command-flags">
@@ -2160,69 +2183,6 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 	--injectConfigFile /tmp/inj-template.tmpl \
 	--meshConfigFile /tmp/mesh.yaml \
 	--valuesFile /tmp/values.json
-
-</code></pre>
-<h2 id="istioctl-metrics">istioctl metrics</h2>
-<p>
-Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system 
-namespace. It then executes a series of queries per requested workload to
-find the following top-level workload metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The 
-query results are printed to the console, organized by workload name.</p>
-<p>All metrics returned are from server-side reports. This means that latencies
-and error rates are from the perspective of the service itself and not of an
-individual client (or aggregate set of clients). Rates and latencies are
-calculated over a time interval of 1 minute.
-</p>
-<pre class="language-bash"><code>istioctl metrics &lt;workload name&gt;...
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl m &lt;workload name&gt;...
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, default, grpcAdapter, kube-converter, mcp, meshconfig, model, name, patch, rbac, tpath, translator, util, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-metrics Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Retrieve workload metrics for productpage-v1 workload
-istioctl experimental metrics productpage-v1
-
-# Retrieve workload metrics for various services in the different namespaces
-istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 
 </code></pre>
 <h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
@@ -3020,16 +2980,16 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used on ports whose port protocol is not specified or unsupported</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
 <td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND</code></td>
+<td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used for inbound listeners</td>
+<td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
