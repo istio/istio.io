@@ -21,8 +21,8 @@
             background-color: $tabsetUnselectedTabBackgroundColor;
 
             span {
-                color: $tabsetUnselectedTabTextColor;
-                font-size: 80%;
+                color: var(--textColor);
+                font-size: 90%;
             }
 
             &:hover, &:focus {
@@ -35,13 +35,9 @@
                 background-color: $tabsetSelectedTabBackgroundColor;
                 cursor: default;
                 box-shadow: none;
-                font-weight: bold;
+                font-weight: 600;
                 border-bottom: solid 2px $tabsetSelectedTabBackgroundColor;
-                border-top: solid 2px var(--mainBrandColor);
-
-                span {
-                    color: $tabsetSelectedTabTextColor;
-                }
+                border-top: solid 2px var(--secondBrandColor);
             }
         }
     }
