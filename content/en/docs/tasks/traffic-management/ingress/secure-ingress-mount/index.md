@@ -50,7 +50,7 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `httpbin.example.com`. Change `password` to any value you like in the following command:
+1.  Generate the certificates for `httpbin.example.com`. Change `<password>` to any value you like in the following command:
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com <password>
@@ -314,7 +314,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `bookinfo.com`. Change `password` to any value you like in the following command:
+1.  Generate the certificates for `bookinfo.com`. Change `<password>` to any value you like in the following command:
 
     {{< text bash >}}
     $ ./generate.sh bookinfo.com <password>
