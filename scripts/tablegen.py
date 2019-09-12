@@ -41,7 +41,7 @@ ISTIO_CONFIG_DIR = "install/kubernetes/helm/istio"
 YAML_CONFIG_DIR = ISTIO_CONFIG_DIR + "/charts"
 VALUES_YAML = "values.yaml"
 CONFIG_INDEX_DIR = "content/en/docs/reference/config/installation-options/index.md"
-ISTIO_REPO = "https://github.com/istio/istio.git@release-1.3"
+ISTIO_REPO = "https://github.com/istio/istio.git@master"
 ISTIO_LOCAL_REPO = "istio-repo"
 
 

@@ -492,7 +492,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods. </td>
 </tr>
 <tr>
@@ -620,12 +620,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Use the Istio JWT filter for JWT token verification.</td>
-</tr>
-<tr>
-<td><code>V2_REFRESH</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td></td>
 </tr>
 </tbody>
 </table>
