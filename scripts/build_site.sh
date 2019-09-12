@@ -18,7 +18,9 @@ set -e
 
 mkdir -p generated/css generated/js generated/img tmp/js
 
-sass src/sass/_all.scss all.css -s compressed --no-source-map
+pwd
+sass --version
+sass src/sass/_all.scss all.css -s compressed
 mv all.css* generated/css
 tsc
 

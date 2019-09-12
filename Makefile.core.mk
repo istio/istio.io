@@ -44,10 +44,16 @@ netlify_install:
 		babel-preset-minify@v0.5.1
 	@npm install --save-dev \
 		@babel/polyfill@v7.4.4
+	sass --version
 
 netlify: netlify_install
+	@pwd
+	@sass --version
 	@scripts/build_site.sh
+	@pwd
+	@sass --version
 	@scripts/gen_site.sh "$(baseurl)"
+	@sass --version
 
 netlify_archive: netlify_install archive
 

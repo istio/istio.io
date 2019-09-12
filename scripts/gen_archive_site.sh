@@ -71,8 +71,16 @@ for rel in "${TOBUILD_JEKYLL[@]}"; do
   git checkout "${TAG}"
   echo "baseurl: ${URL}" > config_override.yml
 
+  echo BEFORE
+  sass --version
+  which sass
+
   bundle install
   bundle exec jekyll build --config _config.yml,config_override.yml
+
+  echo AFTER
+  sass --version
+  which sass
 
   mv _site "${TMP}/archive/${NAME}"
   echo "- name:  \"${NAME}\"" >> "${TMP}/archives.yml"
