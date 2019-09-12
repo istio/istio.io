@@ -54,6 +54,9 @@ for rel in "${TOBUILD[@]}"; do
   echo "### Building '${NAME}' from ${TAG} for ${URL}"
   git checkout "${TAG}"
 
+  if [[ "${TAG}" != "release-0.8" && "${TAG}" != "release-1.0" && "${TAG}" != "release-1.1" ]]; then
+    scripts/build_site.sh
+  fi
   scripts/gen_site.sh "${URL}"
 
   mv public "${TMP}/archive/${NAME}"
