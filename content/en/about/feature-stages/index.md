@@ -51,21 +51,21 @@ Below is our list of existing features and their current phases. This informatio
 
 The `Sidecar` runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
 
-### Telemetry
+### Observability
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Prometheus Integration](/docs/tasks/telemetry/metrics/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/docs/tasks/telemetry/logs/collecting-logs/) | Stable
+| [Prometheus Integration](/docs/tasks/observability/metrics/querying-metrics/) | Stable
+| [Local Logging (STDIO)](/docs/tasks/observability/logs/collecting-logs/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Client and Server Telemetry Reporting](/docs/reference/config/policy-and-telemetry/) | Stable
-| [Service Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
-| [Istio Component Dashboard in Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/) | Stable
-| [Distributed Tracing](/docs/tasks/telemetry/distributed-tracing/) | Stable
+| [Service Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
+| [Istio Component Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
+| [Distributed Tracing](/docs/tasks/observability/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
-| [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/telemetry/distributed-tracing/) | Beta
-| [Logging with Fluentd](/docs/tasks/telemetry/logs/fluentd/) | Beta
-| [Trace Sampling](/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling) | Beta
+| [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
+| [Logging with Fluentd](/docs/tasks/observability/logs/fluentd/) | Beta
+| [Trace Sampling](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
 
 ### Security and Policy Enforcement
 

@@ -75,7 +75,7 @@ Additionally, Istio's egress traffic control provides the following advantages:
 
 -  Define access policies in the same language for ingress, egress, and in-cluster traffic. You
    need to learn a single policy and configuration language for all types of traffic.
--  Out-of-the-Box integration of Istio's egress traffic control with Istio's policy and telemetry adapters.
+-  Out-of-the-Box integration of Istio's egress traffic control with Istio's policy and observability adapters.
 -  Write the adapters to use external monitoring or access control systems with Istio only once and
    apply them for all types of traffic: ingress, egress, and in-cluster.
 -  Use Istio's [traffic management features](/docs/concepts/traffic-management/) for egress traffic:
@@ -143,7 +143,7 @@ Istio is the only solution I'm aware of that lets you:
 In my opinion, secure control of egress traffic is a great choice if you are looking for your first Istio use case.
 In this case, Istio already provides you some benefits even before you start using all other Istio features:
 [traffic management](/docs/tasks/traffic-management/), [security](/docs/tasks/security/),
-[policies](/docs/tasks/policy-enforcement/) and [telemetry](/docs/tasks/telemetry/), applied to traffic between
+[policies](/docs/tasks/policy-enforcement/) and [observability](/docs/tasks/observability/), applied to traffic between
 microservices inside the cluster.
 
 So, if you haven't had the chance to work with Istio yet, [install Istio](/docs/setup/install/) on your cluster
