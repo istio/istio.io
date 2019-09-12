@@ -50,10 +50,10 @@ from the <https://github.com/nicholasjackson/mtls-go-example> repository.
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `httpbin.example.com`. Change `password` to any value you like in the following command:
+1.  Generate the certificates for `httpbin.example.com`. Change `<password>` to any value you like in the following command:
 
     {{< text bash >}}
-    $ ./generate.sh httpbin.example.com password
+    $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
     When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
@@ -314,10 +314,10 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `bookinfo.com`. Change `password` to any value you like in the following command:
+1.  Generate the certificates for `bookinfo.com`. Change `<password>` to any value you like in the following command:
 
     {{< text bash >}}
-    $ ./generate.sh bookinfo.com password
+    $ ./generate.sh bookinfo.com <password>
     {{< /text >}}
 
     When prompted, select `y` for all the questions.
