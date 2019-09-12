@@ -57,4 +57,3 @@ Follow these instructions to prepare an GKE cluster for Istio.
         --clusterrole=cluster-admin \
         --user=$(gcloud config get-value core/account)
     {{< /text >}}
-
