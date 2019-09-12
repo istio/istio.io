@@ -54,6 +54,7 @@ for rel in "${TOBUILD[@]}"; do
   echo "### Building '${NAME}' from ${TAG} for ${URL}"
   git checkout "${TAG}"
 
+  scripts/build_site.sh
   scripts/gen_site.sh "${URL}"
 
   mv public "${TMP}/archive/${NAME}"
