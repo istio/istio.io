@@ -78,7 +78,7 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
     terminal to output diagnostic information about the network:
 
     {{< text bash >}}
-    $ sudo minikube tunnel
+    $ minikube tunnel
     {{< /text >}}
 
     {{< warning >}}
@@ -86,7 +86,7 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
     cleanup:
 
     {{< text bash >}}
-    $ sudo minikube tunnel --cleanup
+    $ minikube tunnel --cleanup
     {{< /text >}}
 
     {{< /warning >}}
