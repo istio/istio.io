@@ -3,7 +3,7 @@ title: How can I check whether mutual TLS is enabled for a service?
 weight: 11
 ---
 
-The `istioctl` tool provides an option for this purpose. You can do:
+The [`istioctl`](/docs/reference/commands/istioctl) command provides an option for this purpose. You can do:
 
 {{< text bash >}}
 $ istioctl authn tls-check $CLIENT_POD httpbin.default.svc.cluster.local

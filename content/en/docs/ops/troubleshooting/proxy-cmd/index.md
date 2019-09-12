@@ -114,7 +114,7 @@ To get a basic summary of clusters, listeners or routes for a given pod use the 
 for listeners or routes when required):
 
 {{< text bash >}}
-$ istioctl proxy-config clusters -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
+$ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
 SERVICE FQDN                                                                     PORT      SUBSET     DIRECTION     TYPE
 BlackHoleCluster                                                                 -         -          -             STATIC
 details.default.svc.cluster.local                                                9080      -          outbound      EDS
@@ -264,7 +264,7 @@ one route that matches on everything. This route tells Envoy to send the request
 `serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
 
     {{< text bash json >}}
-    $ istioctl proxy-config clusters productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
+    $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
     [
         {
             "name": "outbound|9080||reviews.default.svc.cluster.local",

@@ -45,7 +45,7 @@ list of changes in the [release notes](/about/notes/1.2).
 
 We're seeing early results from the usability group. In the release notes,
 you'll find that you can now set log levels for the control plane and the
-data plane globally.  You can use `istioctl` to validate that your Kubernetes
+data plane globally.  You can use [`istioctl`](/docs/reference/commands/istioctl) to validate that your Kubernetes
 installation meets Istio's requirements. And the new
 `traffic.sidecar.istio.io/includeInboundPorts` annotation to eliminate the
 need for service owner to declare `containerPort` in the deployment yaml.

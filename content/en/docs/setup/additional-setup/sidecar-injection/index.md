@@ -14,8 +14,8 @@ aliases:
 In order to take advantage of all of Istio's features, pods in the mesh must be running an Istio sidecar proxy.
 
 The following sections describe two
-ways of injecting the Istio sidecar into a pod: manually using the `istioctl`
-CLI tool or automatically using the Istio sidecar injector.
+ways of injecting the Istio sidecar into a pod: manually using the [`istioctl`](/docs/reference/commands/istioctl)
+command or automatically using the Istio sidecar injector.
 
 Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
 
@@ -25,7 +25,7 @@ Injection occurs by applying a template defined in the `istio-sidecar-injector` 
 
 ### Manual sidecar injection
 
-To manually inject a deployment, use `istioctl`:
+To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
 
 {{< text bash >}}
 $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -

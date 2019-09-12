@@ -132,7 +132,7 @@ The following sidecar injection methods are supported for use with the Istio CNI
 
 1.  [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 1.  Manual sidecar injection with the `istio-sidecar-injector` configmap
-    1.  `istioctl kube-inject` using the configmap directly:
+    1.  [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) using the configmap directly:
 
         {{< text bash >}}
         $ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-sidecar-injector

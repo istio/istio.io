@@ -55,17 +55,17 @@ services from all other namespaces.
 
     - Installation YAML files for Kubernetes in `install/kubernetes`
     - Sample applications in `samples/`
-    - The `istioctl` client binary in the `bin/` directory. `istioctl` is
+    - The [`istioctl`]((/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
 
-1.  Add the `istioctl` client to your `PATH` environment variable, on a macOS or
+1.  Add the `istioctl` client to your path, on a macOS or
     Linux system:
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. You can enable the [auto-completion option](/docs/ops/troubleshooting/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+1. You can optionally enable the [auto-completion option](/docs/ops/troubleshooting/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
 
 ## Installing Istio
 

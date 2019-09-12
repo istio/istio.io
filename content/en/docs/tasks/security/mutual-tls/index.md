@@ -69,7 +69,7 @@ Please check [Istio identity](/docs/concepts/security/#istio-identity) for more 
 
 ## Verify mutual TLS configuration
 
-Use the `istioctl` tool to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
+Use [`istioctl auhtn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
 You can also provide the destination service to filter the status to that service only.
 
 {{< tip >}}
