@@ -498,12 +498,30 @@ can be configured for a single control plane.</p>
 
 </td>
 </tr>
+<tr id="MeshConfig-enable_auto_mtls">
+<td><code>enableAutoMtls</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td>
+<p>This flag is used to enable mutual TLS automatically for service to service communication
+within the mesh, default false.
+If set to true, and a given service does not have a corresponding DestinationRule configured,
+or its DestinationRule does not have TLSSettings specified, Istio configures client side
+TLS configuration appropriately. More specifically,
+If the upstream authentication policy is in STRICT mode, use Istio provisioned certificate
+for mutual TLS to connect to upstream.
+If upstream service is in plain text mode, use plain text.
+If the upstream authentication policy is in PERMISSIVE mode, Istio configures clients to use
+mutual TLS when server sides are capable of accepting mutual TLS traffic.
+If service DestinationRule exists and has TLSSettings specified, that is always used instead.</p>
+
+</td>
+</tr>
 <tr id="MeshConfig-trust_domain">
 <td><code>trustDomain</code></td>
 <td><code>string</code></td>
 <td>
 <p>The trust domain corresponds to the trust root of a system.
-Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain">SPIFEE-ID</a>
+Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain">SPIFFE-ID</a>
 Fallback to old identity format(without trust domain) if not set.</p>
 
 </td>
@@ -634,6 +652,47 @@ defaults of istio::mixerclient::ReportOptions.</p>
 if sidecar is installed on all pods in the mesh, then this should be set to UPGRADE.
 If one or more services or namespaces do not have sidecar(s), then this should be set to DO<em>NOT</em>UPGRADE.
 It can be enabled by destination using the destinationRule.trafficPolicy.connectionPool.http.h2UpgradePolicy override.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-inbound_cluster_stat_name">
+<td><code>inboundClusterStatName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name to be used while emitting statistics for inbound clusters.
+By default, Istio emits statistics with the pattern inbound|&lt;port&gt;|&lt;port-name&gt;|&lt;service-FQDN&gt;.
+For example inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local. This can be used to override that pattern.</p>
+
+<p>A Pattern can be composed of various pre-defined variables. The following variables are supported.
+%SERVICE% - Will be substituted with name of the service.
+%SERVICE<em>FQDN% - Will be substituted with FQDN of the service.
+%SERVICE</em>PORT% - Will be substituted with port of the service.
+%SERVICE<em>PORT</em>NAME% - Will be substituted with port name of the service.</p>
+
+<p>Following are some examples of supported patterns for reviews.
+%SERVICE<em>FQDN%</em>%SERVICE<em>PORT% will use reviews.prod.svc.cluster.local</em>7443 as the stats name.
+%SERVICE% will use reviews.prod as the stats name.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-outbound_cluster_stat_name">
+<td><code>outboundClusterStatName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name to be used while emitting statistics for outbound clusters.
+By default, Istio emits statistics with the pattern outbound|&lt;port&gt;|&lt;subsetname&gt;|&lt;service-FQDN&gt;.
+For example outbound|8080|v2|reviews.prod.svc.cluster.local. This can be used to override that pattern.</p>
+
+<p>A Pattern can be composed of various pre-defined variables. The following variables are supported.
+%SERVICE% - Will be substituted with name of the service.
+%SERVICE<em>FQDN% - Will be substituted with FQDN of the service.
+%SERVICE</em>PORT% - Will be substituted with port of the service.
+%SERVICE<em>PORT</em>NAME% - Will be substituted with port name of the service.
+%SUBSET_NAME% - Will be substituted with subset.</p>
+
+<p>Following are some examples of supported patterns for reviews.
+%SERVICE<em>FQDN%</em>%SERVICE<em>PORT% will use reviews.prod.svc.cluster.local</em>7443 as the stats name.
+%SERVICE% will use reviews.prod as the stats name.</p>
 
 </td>
 </tr>

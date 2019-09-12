@@ -373,11 +373,18 @@ These environment variables affect the behavior of the <code>istio_ca</code> com
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>csr_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when creating the CSR.</td></tr>
-<tr><td><code>csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
+<tr><td><code>citadel_secret_controller_csr_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when creating the CSR.</td></tr>
+<tr><td><code>citadel_secret_controller_csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
+<tr><td><code>citadel_secret_controller_secret_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates recreated due to secret deletion (service account still exists).</td></tr>
+<tr><td><code>citadel_secret_controller_svc_acc_created_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates created due to service account creation.</td></tr>
+<tr><td><code>citadel_secret_controller_svc_acc_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates deleted due to service account deletion.</td></tr>
+<tr><td><code>citadel_server_authentication_failure_count</code></td><td><code>Sum</code></td><td>The number of authentication failures.</td></tr>
+<tr><td><code>citadel_server_csr_count</code></td><td><code>Sum</code></td><td>The number of CSRs received by Citadel server.</td></tr>
+<tr><td><code>citadel_server_csr_parsing_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when parsing the CSR.</td></tr>
+<tr><td><code>citadel_server_csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
+<tr><td><code>citadel_server_id_extraction_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when extracting the ID from CSR.</td></tr>
+<tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel root cert will expire. We set it to negative in case of internal error.</td></tr>
+<tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
-<tr><td><code>secret_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates recreated due to secret deletion (service account still exists).</td></tr>
-<tr><td><code>svc_acc_created_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates created due to service account creation.</td></tr>
-<tr><td><code>svc_acc_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates deleted due to service account deletion.</td></tr>
 </tbody>
 </table>
