@@ -35,7 +35,7 @@ At a high level, the basic flow is the same regardless of platform:
 Istio is installed in its own `istio-system` namespace and can manage
 services from all other namespaces.
 
-1.  Go to the [Istio release](https://github.com/istio/istio/releases) page to
+1.  Go to the [Istio release]({{< istio_release_url >}}) page to
     download the installation file corresponding to your OS. On a macOS or
     Linux system, you can run the following command to download and
     extract the latest release automatically:
