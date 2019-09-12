@@ -2,7 +2,7 @@
 title: Mixer out-of-process adapter for Knative
 subtitle: Demonstrates a Mixer out-of-process adapter which implements the Knative scale-from-zero logic
 description: Demonstrates a Mixer out-of-process adapter which implements the Knative scale-from-zero logic.
-publishdate: 2019-08-27
+publishdate: 2019-09-12
 attribution: Idan Zach (IBM)
 keywords: [mixer,adapter,knative,scale-from-zero]
 ---
