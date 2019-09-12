@@ -25,7 +25,7 @@ Note that default mutual TLS authentication should be **disabled** when installi
 [quick start](/docs/setup/install/kubernetes/#installation-steps).
 
 The demo is also assumed to be running in a namespace where automatic sidecar injection is
-disabled, and Istio sidecars are instead manually injected with `istioctl`.
+disabled, and Istio sidecars are instead manually injected with [`istioctl`](/docs/reference/commands/istioctl).
 
 ### Generate certificates and configmap
 

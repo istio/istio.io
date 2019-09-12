@@ -7,7 +7,7 @@ You can enable [tracing](/docs/tasks/telemetry/distributed-tracing/) to determin
 
 Additionally, you can use the following commands to know more about the state of the mesh:
 
-* `istioctl proxy-config`: Retrieve information about proxy configuration when running in Kubernetes:
+* [`istioctl proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config): Retrieve information about proxy configuration when running in Kubernetes:
 
     {{< text plain >}}
     # Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.

@@ -13,13 +13,11 @@ You can gain insights into what individual components are doing by inspecting th
 or peering inside via [introspection](/docs/ops/troubleshooting/controlz/). If that's insufficient, the steps below explain
 how to get under the hood.
 
-The `istioctl` tool is a configuration command line utility that allows service operators to debug and diagnose their Istio service mesh deployments. The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion for Bash and ZSH. Both of these scripts provide support for the currently available `istioctl` commands.
+The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration command line utility that allows service operators to debug and diagnose their Istio service mesh deployments. The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion for Bash and ZSH. Both of these scripts provide support for the currently available `istioctl` commands.
 
 {{< tip >}}
 `istioctl` only has auto-completion enabled for non-deprecated commands.
 {{< /tip >}}
-
-Documentation for the complete set of supported commands can be found in [`istioctl` reference](/docs/reference/commands/istioctl/).
 
 ### Get an overview of your mesh
 
@@ -35,7 +33,7 @@ Pilot needs to be scaled.
 
 ### Get proxy configuration
 
-`istioctl` allows you to retrieve information about proxy configuration using the `proxy-config` or `pc` command.
+[`istioctl`](/docs/reference/commands/istioctl) allows you to retrieve information about proxy configuration using the `proxy-config` or `pc` command.
 
 For example, to retrieve information about cluster configuration for the Envoy instance in a specific pod:
 
