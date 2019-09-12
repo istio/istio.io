@@ -42,10 +42,9 @@ TOBUILD_JEKYLL=(
 TMP=$(mktemp -d)
 mkdir "${TMP}/archive"
 
-GITDIR=istio.io
-rm -fr ${GITDIR}
-git clone https://github.com/istio/istio.io.git
-cd ${GITDIR}
+pushd "${TMP}" || exit
+git clone -q https://github.com/istio/istio.io.git
+pushd "istio.io" || exit
 
 for rel in "${TOBUILD[@]}"; do
   NAME=$(echo "$rel" | cut -d : -f 1)
@@ -82,7 +81,8 @@ for rel in "${TOBUILD_JEKYLL[@]}"; do
 done
 
 echo "### Building landing page"
-cd ..
+popd || exit
+popd || exit
 
 # Adjust a few things for archive_landing
 rm -fr content/en/about content/en/docs content/en/faq content/en/blog content/zh
@@ -97,7 +97,7 @@ scripts/build_site.sh
 scripts/gen_site.sh "$1"
 
 mv public/* "${TMP}/archive"
-rm -fr "${GITDIR}" public
+rm -fr public
 mv "${TMP}/archive" public
 rm -fr "${TMP}"
 
