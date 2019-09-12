@@ -11,7 +11,7 @@ keywords: [platform-setup,azure]
 
 Follow these instructions to prepare an Azure cluster for Istio.
 
-You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [ACS-Engine](https://github.com/azure/acs-engine) which fully supports Istio.
+You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [AKS-Engine](https://github.com/azure/aks-engine) which fully supports Istio.
 
 ## AKS
 
@@ -52,21 +52,21 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
 
-## ACS-Engine
+## AKS-Engine
 
-1. [Follow the instructions](https://github.com/Azure/acs-engine/blob/master/docs/acsengine.md#install) to get and install the `acs-engine` binary.
+1. [Follow the instructions](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine) to get and install the `aks-engine` binary.
 
-1. Download the `acs-engine` API model definition that supports deploying Istio:
+1. Download the `aks-engine` API model definition that supports deploying Istio:
 
     {{< text bash >}}
-    $ wget https://raw.githubusercontent.com/Azure/acs-engine/master/examples/service-mesh/istio.json
+    $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    Note: It is possible to use other api model definitions which will work with Istio.  The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default. See [acs-engine api model default values](https://github.com/Azure/acs-engine/blob/master/docs/clusterdefinition.md) for further information.
+    Note: It is possible to use other api model definitions which will work with Istio. The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default. See [aks-engine api model default values](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) for further information.
 
 1. Deploy your cluster using the `istio.json` template. You can find references
    to the parameters in the
-   [official docs](https://github.com/Azure/acs-engine/blob/master/docs/kubernetes/deploy.md#step-3-edit-your-cluster-definition).
+   [official docs](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition).
 
     | Parameter                             | Expected value             |
     |---------------------------------------|----------------------------|
@@ -75,7 +75,7 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     | `location`                            | Cluster Location           |
 
     {{< text bash >}}
-    $ acs-engine deploy --subscription-id <subscription_id> \
+    $ aks-engine deploy --subscription-id <subscription_id> \
       --dns-prefix <dns_prefix> --location <location> --auto-suffix \
       --api-model istio.json
     {{< /text >}}
@@ -84,7 +84,7 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     After a few minutes, you can find your cluster on your Azure subscription
     in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
     the value `myclustername`, a valid resource group with a unique cluster
-    ID is `mycluster-5adfba82`. The `acs-engine` generates your `kubeconfig`
+    ID is `mycluster-5adfba82`. The `aks-engine` generates your `kubeconfig`
     file in the `_output` folder.
     {{< /tip >}}
 
