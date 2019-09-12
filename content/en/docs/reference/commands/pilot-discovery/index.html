@@ -1,0 +1,705 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/istio' REPO
+source_repo: https://github.com/istio/istio
+title: pilot-discovery
+description: Istio Pilot.
+generator: pkg-collateral-docs
+number_of_entries: 5
+---
+<p>Istio Pilot provides fleet-wide traffic management capabilities in the Istio Service Mesh.</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveMaxServerConnectionAge &lt;duration&gt;</code></td>
+<td>Maximum duration a connection will be kept open on the server before a graceful close.  (default `2562047h47m16.854775807s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, default, mcp, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery-discovery">pilot-discovery discovery</h2>
+<p>Start Istio proxy discovery service.</p>
+<pre class="language-bash"><code>pilot-discovery discovery [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--appNamespace &lt;string&gt;</code></td>
+<td><code>-a</code></td>
+<td>Restrict the applications namespace the controller manages; if not set, controller watches all namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--clusterRegistriesNamespace &lt;string&gt;</code></td>
+<td></td>
+<td>Namespace for ConfigMap which stores clusters configs  (default ``)</td>
+</tr>
+<tr>
+<td><code>--configDir &lt;string&gt;</code></td>
+<td></td>
+<td>Directory to watch for updates to config yaml files. If specified, the files will be used as the source of config, rather than a CRD client.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--consulserverInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>Interval (in seconds) for polling the Consul service registry  (default `2s`)</td>
+</tr>
+<tr>
+<td><code>--consulserverURL &lt;string&gt;</code></td>
+<td></td>
+<td>URL for the Consul server  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--disable-install-crds</code></td>
+<td></td>
+<td>Disable discovery service from verifying the existence of CRDs at startup and then installing if not detected.  It is recommended to be disable for highly available setups. </td>
+</tr>
+<tr>
+<td><code>--discoveryCache</code></td>
+<td></td>
+<td>Enable caching discovery service responses </td>
+</tr>
+<tr>
+<td><code>--domain &lt;string&gt;</code></td>
+<td></td>
+<td>DNS domain suffix  (default `cluster.local`)</td>
+</tr>
+<tr>
+<td><code>--grpcAddr &lt;string&gt;</code></td>
+<td></td>
+<td>Discovery service grpc address  (default `:15010`)</td>
+</tr>
+<tr>
+<td><code>--httpAddr &lt;string&gt;</code></td>
+<td></td>
+<td>Discovery service HTTP address  (default `:8080`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveMaxServerConnectionAge &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum duration a connection will be kept open on the server before a graceful close.  (default `2562047h47m16.854775807s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td></td>
+<td>Use a Kubernetes configuration file instead of in-cluster configuration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, default, mcp, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--mcpInitialConnWindowSize &lt;int&gt;</code></td>
+<td></td>
+<td>Initial connection window size for MCP&#39;s gRPC connection  (default `1048576`)</td>
+</tr>
+<tr>
+<td><code>--mcpInitialWindowSize &lt;int&gt;</code></td>
+<td></td>
+<td>Initial window size for MCP&#39;s gRPC connection  (default `1048576`)</td>
+</tr>
+<tr>
+<td><code>--mcpMaxMsgSize &lt;int&gt;</code></td>
+<td></td>
+<td>Max message size received by MCP&#39;s grpc client  (default `4194304`)</td>
+</tr>
+<tr>
+<td><code>--meshConfig &lt;string&gt;</code></td>
+<td></td>
+<td>File name for Istio mesh configuration. If not specified, a default mesh will be used.  (default `/etc/istio/config/mesh`)</td>
+</tr>
+<tr>
+<td><code>--monitoringAddr &lt;string&gt;</code></td>
+<td></td>
+<td>HTTP address to use for pilot&#39;s self-monitoring information  (default `:15014`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default ``)</td>
+</tr>
+<tr>
+<td><code>--networksConfig &lt;string&gt;</code></td>
+<td></td>
+<td>File name for Istio mesh networks configuration. If not specified, a default mesh networks will be used.  (default `/etc/istio/config/meshNetworks`)</td>
+</tr>
+<tr>
+<td><code>--plugins &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>comma separated list of networking plugins to enable  (default `[authn,authz,health,mixer]`)</td>
+</tr>
+<tr>
+<td><code>--profile</code></td>
+<td></td>
+<td>Enable profiling via web interface host:port/debug/pprof </td>
+</tr>
+<tr>
+<td><code>--registries &lt;stringSlice&gt;</code></td>
+<td></td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, MCP, Mock})  (default `[Kubernetes]`)</td>
+</tr>
+<tr>
+<td><code>--resync &lt;duration&gt;</code></td>
+<td></td>
+<td>Controller resync interval  (default `1m0s`)</td>
+</tr>
+<tr>
+<td><code>--secureGrpcAddr &lt;string&gt;</code></td>
+<td></td>
+<td>Discovery service grpc address, with https  (default `:15012`)</td>
+</tr>
+<tr>
+<td><code>--trust-domain &lt;string&gt;</code></td>
+<td></td>
+<td>The domain serves to identify the system with spiffe  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery-request">pilot-discovery request</h2>
+<p>Makes an HTTP request to Pilot metrics/debug endpoint</p>
+<pre class="language-bash"><code>pilot-discovery request &lt;method&gt; &lt;path&gt; [&lt;body&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveMaxServerConnectionAge &lt;duration&gt;</code></td>
+<td>Maximum duration a connection will be kept open on the server before a graceful close.  (default `2562047h47m16.854775807s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, default, mcp, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-discovery-version">pilot-discovery version</h2>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>pilot-discovery version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveInterval &lt;duration&gt;</code></td>
+<td></td>
+<td>The time interval if no activity on the connection it pings the peer to see if the transport is alive  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveMaxServerConnectionAge &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum duration a connection will be kept open on the server before a graceful close.  (default `2562047h47m16.854775807s`)</td>
+</tr>
+<tr>
+<td><code>--keepaliveTimeout &lt;duration&gt;</code></td>
+<td></td>
+<td>After having pinged for keepalive check, the client/server waits for a duration of keepaliveTimeout and if no activity is seen even after that the connection is closed.  (default `10s`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, default, mcp, model, rbac]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, default, mcp, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Use --short=false to generate full version information </td>
+</tr>
+</tbody>
+</table>
+<h2 id="envvars">Environment variables</h2>
+These environment variables affect the behavior of the <code>pilot-discovery</code> command.
+<table class="envvars">
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ISTIO_BOOTSTRAP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_BOOTSTRAP_OVERRIDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
+<td>Integer</td>
+<td><code>100000</code></td>
+<td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
+<td><code>K8S_INGRESS_NS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_AFTER</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>The delay added to config/registry events for debouncing. This will delay the push by at least this internal. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_MAX</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods. </td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP10</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr>
+<td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>1s</code></td>
+<td>Protocol detection timeout for inbound listener</td>
+</tr>
+<tr>
+<td><code>PILOT_INITIAL_FETCH_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Specifies the initial_fetch_timeout for config. If this time is reached without a response to the config requested by Envoy, the Envoy will move on with the init phase. This prevents envoy from getting stuck waiting on config during startup.</td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_THROTTLE</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
+</tr>
+<tr>
+<td><code>PILOT_RESPECT_DNS_TTL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, DNS based clusters will respect the TTL of the DNS, rather than polling at a fixed rate. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
+<td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, this will block inbound traffic from matching outbound listeners, which could result in an infinite loop of traffic. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_PUSHES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will attempt to limit unnecessary pushes by determining what proxies a config or endpoint update will impact.</td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
+</tr>
+<tr>
+<td><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
+</tr>
+<tr>
+<td><code>PILOT_TRACE_SAMPLING</code></td>
+<td>Floating-Point</td>
+<td><code>100</code></td>
+<td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
+</tr>
+<tr>
+<td><code>POD_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>POD_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
+<td>Integer</td>
+<td><code>5</code></td>
+<td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
+</tr>
+<tr>
+<td><code>USE_ISTIO_JWT_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Use the Istio JWT filter for JWT token verification.</td>
+</tr>
+<tr>
+<td><code>V2_REFRESH</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="metrics">Exported metrics</h2>
+<table class="metrics">
+<thead>
+<tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
+<tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
+<tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
+<tr><td><code>istio_mcp_reconnections</code></td><td><code>Sum</code></td><td>The number of times the sink has reconnected.</td></tr>
+<tr><td><code>istio_mcp_recv_failures_total</code></td><td><code>Sum</code></td><td>The number of recv failures in the source.</td></tr>
+<tr><td><code>istio_mcp_request_acks_total</code></td><td><code>Sum</code></td><td>The number of request acks received by the source.</td></tr>
+<tr><td><code>istio_mcp_request_nacks_total</code></td><td><code>Sum</code></td><td>The number of request nacks received by the source.</td></tr>
+<tr><td><code>istio_mcp_send_failures_total</code></td><td><code>Sum</code></td><td>The number of send failures in the source.</td></tr>
+<tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
+<tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
+<tr><td><code>pilot_discovery_calls</code></td><td><code>Sum</code></td><td>Individual method calls in Pilot</td></tr>
+<tr><td><code>pilot_discovery_errors</code></td><td><code>Sum</code></td><td>Errors encountered during a given method call within Pilot</td></tr>
+<tr><td><code>pilot_discovery_resources</code></td><td><code>Distribution</code></td><td>Returned resource counts per method by Pilot</td></tr>
+<tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
+<tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
+<tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
+<tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
+<tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
+<tr><td><code>pilot_k8s_object_errors</code></td><td><code>LastValue</code></td><td>Errors converting k8s CRDs</td></tr>
+<tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
+<tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
+<tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay between config change and all proxies converging.</td></tr>
+<tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time a proxy is in the push queue before being dequeued.</td></tr>
+<tr><td><code>pilot_rds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of RDS messages with an expired nonce.</td></tr>
+<tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
+<tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
+<tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
+<tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
+<tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
+<tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
+<tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
+<tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CSD configs.</td></tr>
+<tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster, as of last push. Zero instances is an error.</td></tr>
+<tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
+<tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
+<tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
+<tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
+<tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
+<tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+</tbody>
+</table>

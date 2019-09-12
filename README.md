@@ -1,7 +1,7 @@
 | Site | Status
 |------|-------
 | istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/c98435af-5464-4ac3-93c2-9c98faeec9b6/deploy-status)](https://app.netlify.com/sites/istio/deploys)
-| preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys) [![CircleCI](https://circleci.com/gh/istio/istio.io/tree/master.svg?style=shield)](https://circleci.com/gh/istio/istio.io/tree/master) [![Mergify Status](https://gh.mergify.io/badges/istio/istio.io.png?style=cut)](https://mergify.io)
+| preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys)
 | archive.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/f8c3eecb-3c5c-48d9-b952-54c7ed0ece8f/deploy-status)](https://app.netlify.com/sites/archive-istio/deploys)
 
 ## istio.io
@@ -20,7 +20,7 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
   * [Publishing content immediately](#publishing-content-immediately)
   * [Creating a version](#creating-a-version)
   * [Creating a patch release](#creating-a-patch-release)
-  
+
 ## Editing and building
 
 To learn how to edit and build this repo's content, please refer to
@@ -72,9 +72,9 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
-1. Run `scripts/grab_reference_docs.sh` in order to get the latest reference docs.
+1. Run `make update_ref_docs` in order to get the latest reference docs.
 
-1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version 
+1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version
 (in this case release-0.6) to the `TOBUILD` variable.
 
 1. Edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
@@ -89,7 +89,7 @@ release-0.7. There is one such branch for every release.
 and the `source_branch_name` and `doc_branch_name` fields to the name of the branch, in this case release-0.7.
 
 1. In the **release** branch you created, edit the file `scripts/grab_reference_docs.sh`. Update the branch
-name for `istio.git` and `api.git` to point to the release branch. In this case release-0.7. 
+name for `istio.git` and `api.git` to point to the release branch. In this case release-0.7.
 
 1. Commit the previous edit to your local git repo and push your **release** branch to GitHub.
 
@@ -98,10 +98,7 @@ name for `istio.git` and `api.git` to point to the release branch. In this case 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
 1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
-of the next Istio release. In this case, you would set the fields to "0.8" and "0.8.0" respectively.
-
-1. In the **master** branch, edit the file `.mergify.yml`. Set the `branches` array to the name of the
-new release branch you just created.
+of the next Istio release, and `previous_version` to be the version of the previous release. In this case, you would set the fields to "0.8", "0.8.0", and "0.7" respectively.
 
 1. Commit the previous edits to your local git repo and push the **master** branch to GitHub.
 
@@ -153,19 +150,18 @@ new release branch you just created.
 Creating a new patch release involves modifying a few files:
 
 1. Create the release note boilerplate for the release by adding a markdown file in
-`content/boilarplates/notes/1.X.Y.md`, where 1.X.Y is the name of the release. This is where
+`content/en/boilerplates/notes/1.X.Y.md`, where 1.X.Y is the name of the release. This is where
 you describe the changes in the release.
 
-1. Create a release note page in `content/about/notes/1.X.Y/index.md`, where `1.X.Y` is the name of the
-release. 
+1. Create a release note page in `content/en/about/notes/1.X.Y/index.md`, where `1.X.Y` is the name of the
+release.
 
-1. Create an announcement blog post in `content/blog/YYYY/announcing-1.X.Y/index.md`, where `YYYY` is the current year
+1. Create an announcement blog post in `content/en/blog/YYYY/announcing-1.X.Y/index.md`, where `YYYY` is the current year
 and `1.x.Y` is the name of the release.
 
 1. Edit the `data/args.yml` file and change the `full_version` field to the name of the release.
 
-1. Run `scripts/grab_reference_docs.sh` to get the latest reference docs.
+1. Run `make update_ref_docs` to get the latest reference docs.
 
 For the first three files, please look at existing files in the same locations for example content and
 layout.
-
