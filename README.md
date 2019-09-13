@@ -14,12 +14,12 @@ file to learn about the overall Istio project and how to get in touch with us. T
 contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
-* [Editing and building](#editing-and-building)
-* [Versions and releases](#versions-and-releases)
-  * [How versioning works](#how-versioning-works)
-  * [Publishing content immediately](#publishing-content-immediately)
-  * [Creating a version](#creating-a-version)
-  * [Creating a patch release](#creating-a-patch-release)
+- [Editing and building](#editing-and-building)
+- [Versions and releases](#versions-and-releases)
+    - [How versioning works](#how-versioning-works)
+    - [Publishing content immediately](#publishing-content-immediately)
+    - [Creating a version](#creating-a-version)
+    - [Creating a patch release](#creating-a-patch-release)
 
 ## Editing and building
 
@@ -30,25 +30,25 @@ To learn how to edit and build this repo's content, please refer to
 
 Istio maintains three variations of its public site.
 
-* [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
+- [istio.io](https://istio.io) is the main site, showing documentation for the current release of the product.
 
-* [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
+- [archive.istio.io](https://archive.istio.io) contains snapshots of the documentation for previous releases of the product.
 This is useful for customers still using these older releases.
 
-* [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
+- [preliminary.istio.io](https://preliminary.istio.io) contains the actively updated documentation for the next release of the product.
 
 The user can trivially navigate between the different variations of the site using the gear menu in the top right
 of each page. All three sites are hosted on [Netlify](https://netlify.com).
 
 ### How versioning works
 
-* Documentation changes are primarily committed to the master branch of istio.io. Changes committed to this branch
+- Documentation changes are primarily committed to the master branch of istio.io. Changes committed to this branch
 are automatically reflected on preliminary.istio.io.
 
-* The content of istio.io is taken from the latest release-XXX branch. The specific branch that
+- The content of istio.io is taken from the latest release-XXX branch. The specific branch that
 is used is determined by the istio.io [Netlify](https://netlify.com) project's configuration.
 
-* The content of archive.istio.io is taken from the older release-XXX branches. The set of branches that
+- The content of archive.istio.io is taken from the older release-XXX branches. The set of branches that
 are included on archive.istio.io is determined by the `TOBUILD` variable in this
 [script](https://github.com/istio/istio.io/blob/master/scripts/gen_archive_site.sh).
 
@@ -72,15 +72,13 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
-1. Run `make update_ref_docs` in order to get the latest reference docs.
-
 1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version
 (in this case release-0.6) to the `TOBUILD` variable.
 
 1. Edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
 ("0.8") and the `main` field to the current release ("0.7").
 
-1. Commit the previous edits to your local git repo and push your **master** branch to GitHub.
+1. Commit the previous edits to your local git repo.
 
 1. Create a new release branch off of master, named as release-*major*.*minor*, which in this case would be
 release-0.7. There is one such branch for every release.
@@ -89,16 +87,25 @@ release-0.7. There is one such branch for every release.
 and the `source_branch_name` and `doc_branch_name` fields to the name of the branch, in this case release-0.7.
 
 1. In the **release** branch you created, edit the file `scripts/grab_reference_docs.sh`. Update the branch
-name for `istio.git` and `api.git` to point to the release branch. In this case release-0.7.
+name for `istio.git`, `api.git`, and `operator.git` to point to the release branch. In this case release-0.7.
+
+1. In the **release** branch you created, run `make update_ref_docs` in order to get the latest reference docs.
 
 1. Commit the previous edit to your local git repo and push your **release** branch to GitHub.
 
 #### Updating preliminary.istio.io
 
-1. Switch to the istio/istio.io repo and make sure everything is up to date.
-
 1. In the **master** branch, edit the file `data/args.yml`. Set the `version` and `full_version` fields to have the version
-of the next Istio release, and `previous_version` to be the version of the previous release. In this case, you would set the fields to "0.8", "0.8.0", and "0.7" respectively.
+of the next Istio release, and `previous_version` to be the version of the previous release. In this case, you would set the fields to
+"0.8", "0.8.0", and "0.7" respectively.
+
+1. In the **master** branch, edit the file `data/args.yml`. Set the
+`source_branch_name` and `doc_branch_name` fields to `master`.
+
+1. In the **master** branch, edit the file `scripts/grab_reference_docs.sh`. Ensure the branch
+name for `istio.git`, `api.git`, and `operator.git` points to the master branch.
+
+1. Run `make update_ref_docs` in order to get the latest reference docs.
 
 1. Commit the previous edits to your local git repo and push the **master** branch to GitHub.
 
@@ -137,13 +144,12 @@ of the next Istio release, and `previous_version` to be the version of the previ
 
 1. Commit the previous edits to your local git repo and push the **previous release's** branch to GitHub.
 
-1. Go to the archive.istio.io project on [Netlify](https://netlify.com)
+1. In the **archive** branch, rebase the branch to have all changes from the current release. In this case,
+all changes from the release-0.7 branch.
 
-1. Change the branch that is built from the previous release's branch to the new release branch, in this case release-0.7
+1. Commit the previous edits to your local git repo and push the **archive** branch to GitHub.
 
-1. Select the option to trigger an immediate rebuild and redeployment.
-
-1. Once deployment is done, browse archive.istio.io and make sure everything looks good.
+1. Wait a while (~15 minutes) and browse archive.istio.io to make sure everything looks good.
 
 ### Creating a patch release
 
