@@ -305,6 +305,14 @@ and displays the results:
 $ istioctl verify-install -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
+## Uninstall Istio
+
+To uninstall Istio, run the following command:
+
+{{< text bash >}}
+$ istioctl experimental manifest generate <your original installation options> | kubectl delete -f -
+{{< /text >}}
+
 ## Additional documentation
 
 The Istio Operator CLI is experimental. See the upstream repository [README](https://github.com/istio/operator/blob/master/README.md)
