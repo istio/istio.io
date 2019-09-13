@@ -27,7 +27,7 @@
 REPOS=(
     https://github.com/istio/istio.git@release-1.3
     https://github.com/istio/api.git@release-1.3
-    https://github.com/istio/operator.git@release-1.3
+    https://github.com/istio/operator.git@master
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
