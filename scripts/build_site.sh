@@ -22,7 +22,7 @@ sass src/sass/_all.scss all.css -s compressed --no-source-map
 mv all.css* generated/css
 tsc
 
-babel --source-maps --minified --no-comments --presets minify \
+babel --source-maps --minified --no-comments \
   tmp/js/constants.js \
   tmp/js/utils.js \
   tmp/js/kbdnav.js \
@@ -40,7 +40,7 @@ babel --source-maps --minified --no-comments --presets minify \
   tmp/js/callToAction.js \
   --out-file generated/js/all.min.js
 
-babel --source-maps --minified --no-comments --presets minify \
+babel --source-maps --minified --no-comments \
   tmp/js/themes_init.js \
   --out-file generated/js/themes_init.min.js
 
