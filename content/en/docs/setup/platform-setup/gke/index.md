@@ -32,7 +32,7 @@ Follow these instructions to prepare an GKE cluster for Istio.
     [demo configuration profile](/docs/setup/additional-setup/config-profiles/),
     you can remove the `--machine-type` argument to use the smaller `n1-standard-1` machine size instead.
     {{< /tip >}}
-    
+
     {{< warning >}}
     To use the Istio CNI feature, the
     [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)
