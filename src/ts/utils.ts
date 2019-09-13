@@ -61,9 +61,13 @@ function copyToClipboard(str: string): void {
 // Saves a string to a particular client-side file
 function saveFile(filename: string, text: string): void {
     const element = document.createElement("a");
-    element.setAttribute("href", "data:text/text;charset=utf-8," + encodeURI(text));
+    element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
     element.setAttribute("download", filename);
+
+    element.style.display = "none";
+    document.body.appendChild(element);
     element.click();
+    document.body.removeChild(element);
 }
 
 // Sends a string to the printer
