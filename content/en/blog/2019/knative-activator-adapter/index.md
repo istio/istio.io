@@ -2,12 +2,12 @@
 title: Mixer out-of-process adapter for Knative
 subtitle: Demonstrates a Mixer out-of-process adapter which implements the Knative scale-from-zero logic
 description: Demonstrates a Mixer out-of-process adapter which implements the Knative scale-from-zero logic.
-publishdate: 2019-09-12
+publishdate: 2019-09-15
 attribution: Idan Zach (IBM)
 keywords: [mixer,adapter,knative,scale-from-zero]
 ---
 
-This post demonstrates how you can use [Mixer](https://istio.io/faq/mixer/) to push application logic
+This post demonstrates how you can use [Mixer](/faq/mixer/) to push application logic
 into Istio. It describes a Mixer adapter which implements the [Knative](https://knative.dev/) scale-from-zero logic
 with simple code and similar performance to the original implementation.
 
@@ -33,7 +33,7 @@ Once the application is up and running again, Knative restores the routing from 
 
 ## Mixer adapter
 
-[Mixer](https://istio.io/faq/mixer/) provides a rich intermediation layer between the Istio components and infrastructure backends.
+[Mixer](/faq/mixer/) provides a rich intermediation layer between the Istio components and infrastructure backends.
 It is designed as a stand-alone component, separate from [Envoy](https://www.envoyproxy.io/), and has a simple extensibility model
 to enable Istio to interoperate with a wide breadth of backends. Mixer is inherently easier to extend
 than Envoy is.
@@ -58,11 +58,11 @@ relevant metadata information.
 **Mixer** then calls your adapter which triggers the Knative **Autoscaler** using the original Knative protocol.
 
 {{< idea >}}
-By using this desgin you do not need to deal with buffering, retries and load-balancing because it is already handled by the Istio proxy.
+By using this design you do not need to deal with buffering, retries and load-balancing because it is already handled by the Istio proxy.
 {{< /idea >}}
 
 Istio's use of Mixer adapters makes it possible to replace otherwise complex networking-based application logic with a more
-straightforward implementation, as demonstrated in [the kactivator-adapter](https://github.com/zachidan/istio-kactivator).
+straightforward implementation, as demonstrated in the [Knative adapter](https://github.com/zachidan/istio-kactivator).
 
 When the adapter receives a message from **Mixer**, it sends a `StatMessage` directly to **Autoscaler**
 component using the Knative protocol.
