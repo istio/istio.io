@@ -2,22 +2,22 @@
 title: App Identity and Access Adapter
 subtitle: Using Istio to Secure Multicloud Kubernetes Applications with Zero Code Changes
 description: Using Istio to Secure Multicloud Kubernetes Applications with Zero Code Changes.
-publishdate: 2019-09-01
+publishdate: 2019-10-01
 attribution: Anton Aleksandrov (IBM)
 keywords: [security,oidc,jwt,policies]
 ---
 
-Whether your computing environment uses multiple cloud providers, a single cluster, a combination of on- and off-premise solutions, or multiple containers in one cloud, having a centralized identity management can help you to preserve existing infrastructure and avoid vendor lock-in.
+If you are running your containerized applications on Kubernetes, you can benefit from using the App Identity and Access Adapter for an abstracted level of security with zero code changes or redeploys.
 
-Simply put, if you are running your containerized applications on Kubernetes, you can benefit from using the App Identity and Access Adapter for an abstracted level of security with zero code changes and no redeployments.
+Whether your computing environment is based on a single cloud provider, a combination of multiple cloud providers, or following a hybrid cloud approch, having a centralized identity management can help you to preserve existing infrastructure and avoid vendor lock-in.
 
-With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security/app-identity-and-access-adapter), you can use any OAuth2/OIDC provider, such as IBM Cloud App ID, Auth0, Okta, Ping Identity, AWS Cognito, Azure AD B2C and more. Authentication and control authorization policies can be applied in a streamlined way in all environments — including frontend and backend applications — without any changes to your code or the need to redeploy your application.
+With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security/app-identity-and-access-adapter), you can use any OAuth2/OIDC provider: IBM Cloud App ID, Auth0, Okta, Ping Identity, AWS Cognito, Azure AD B2C and more. Authentication and authorization policies can be applied in a streamlined way in all environments — including frontend and backend applications — all without code changes or redeploys.
 
 ## Understanding Istio and the adapter
 
-[Istio](/docs/concepts/what-is-istio/) is an open source service mesh that layers transparently onto existing distributed applications that can integrate with Kubernetes. To reduce the complexity of deployments Istio provides behavioral insights and operational control over the service mesh as a whole. [See Istio Architecture for more details.](/docs/concepts/what-is-istio/#architecture)
+[Istio](/docs/concepts/what-is-istio/) is an open source service mesh that transparently layers onto distributed applications and seamlessly integrates with Kubernetes. To reduce the complexity of deployments Istio provides behavioral insights and operational control over the service mesh as a whole. [See Istio Architecture for more details.](/docs/concepts/what-is-istio/#architecture)
 
-Istio uses a sidecar model with Envoy proxy to mediate all inbound and outbound traffic for all pods in the service mesh. By using the Envoy, Istio extracts information about network traffic, also known as telemetry, that is sent to the Istio component called [Mixer](/docs/concepts/what-is-istio/#mixer), which is responsible for collecting telemetry and enforcing policy decisions.
+Istio uses [Envoy proxy sidecars](/blog/2019/data-plane-setup/) to mediate inbound and outbound traffic for all pods in the service mesh. Istio extracts telemetry from the Envoy sidecards and sends it to [Mixer](/docs/concepts/what-is-istio/#mixer), the Istio component responsible for collecting telemetry and policy enforcement.
 
 The App Identity and Access adapter extends the Mixer functionality by analyzing the telemetry (attributes) against various access control policies across the service mesh. The access control policies can be linked to a particular Kubernetes services and can be finely tuned to specific service endpoints. For more information about policies and telemetry, see the Istio documentation.
 
@@ -152,9 +152,9 @@ spec:
 
 At the time of writing this blog there are two known limitations of the App Identity and Access adapter:
 
-- Due to the way Envoy Proxy was handling HTTP headers it was impossible to return multiple `Set-Cookie` headers from Mixer back to Envoy. Therefore we couldn't set all the cookies required for handling Web Application scenarios. As a result, if you use the App Identity and Access adapter for Web Applications you should not use more than a single replica of the adapter. The issue was recently addressed in Envoy and Mixer and we're planning to address this in future versions of our adapter. **Note that this only affects Web Applications, and doesn't affect Backend Apps and APIs in any way**. 
+- If you use the App Identity and Access adapter for Web Applications you should not create more than a single replica of the adapter. Due to the way Envoy Proxy was handling HTTP headers it was impossible to return multiple `Set-Cookie` headers from Mixer back to Envoy. Therefore we couldn't set all the cookies required for handling Web Application scenarios. The issue was recently addressed in Envoy and Mixer and we're planning to address this in future versions of our adapter. **Note that this only affects Web Applications, and doesn't affect Backend Apps and APIs in any way**. 
 
-- The communications channel between Mixer and App Identity and Access adapter currently does not use mTLS. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter). As a general best practice you should always consider using mTLS for any in-cluster communications. 
+- As a general best practice you should always consider using mTLS for any in-cluster communications. At the moment the communications channel between Mixer and App Identity and Access adapter currently does not use mTLS. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter). 
 
 ## Summary
 
