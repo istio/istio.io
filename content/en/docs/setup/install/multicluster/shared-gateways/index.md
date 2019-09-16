@@ -1,6 +1,6 @@
 ---
 title: Shared control plane (multi-network)
-description: Install an Istio mesh across multiple Kubernetes clusters using a shared control plane for diconnected cluster networks.
+description: Install an Istio mesh across multiple Kubernetes clusters using a shared control plane for disconnected cluster networks.
 weight: 85
 keywords: [kubernetes,multi-cluster]
 aliases:
