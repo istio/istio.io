@@ -98,6 +98,6 @@ spec:
 1. Using MTLS
 
 If the REST API is accessed by accessing individual pods in the
-StatefulSet, prior to release 1.3 MTLS should be disabled or set to
+`StatefulSet`, prior to release 1.3 MTLS should be disabled or set to
 the `PERMISSIVE` mode.  With release 1.3 this restriction is
 eliminated and both `PERMISSIVE` and `STRICT` mode can be used.
