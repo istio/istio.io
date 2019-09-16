@@ -14,7 +14,7 @@ mesh. However, with a service mesh this configuration does not
 work. Istio and other service meshes require the `localhost`
 (`127.0.0.1`) to be the address for binding.
 
-1. Cassandra Configuration
+## Cassandra Configuration
 
 There are two configuration parameters to pay attention to:
 [`listen_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#listen-address)
@@ -32,7 +32,7 @@ scripts. As an example, an script used to configure and start
 Cassandra uses the value of the environment variable
 `CASSANDRA_LISTEN_ADDRESS` for setting `listen_address`.
 
-1. Service Definition
+## Service Definition
 
 Another issue to keep in mind is having ports specified in the
 Cassandra's headless service as shown below:
