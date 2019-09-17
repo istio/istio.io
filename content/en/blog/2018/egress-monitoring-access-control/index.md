@@ -39,15 +39,15 @@ will prevent any possibility for a malicious application to access the forbidden
 * The [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example
   demonstrates how to allow applications to send HTTP requests to external servers that require HTTPS, while directing
   traffic through egress gateway.
-* The [Collecting Metrics](/docs/tasks/telemetry/metrics/collecting-metrics/) task describes how to configure metrics for services in a mesh.
-* The [Visualizing Metrics with Grafana](/docs/tasks/telemetry/metrics/using-istio-dashboard/)
+* The [Collecting Metrics](/docs/tasks/observability/metrics/collecting-metrics/) task describes how to configure metrics for services in a mesh.
+* The [Visualizing Metrics with Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/)
   describes the Istio Dashboard to monitor mesh traffic.
 * The [Basic Access Control](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to control access to
   in-mesh services.
 * The [Denials and White/Black Listing](/docs/tasks/policy-enforcement/denial-and-list/) task shows how to configure
   access policies using black or white list checkers.
 
-As opposed to the telemetry and security tasks above, this blog post describes Istio's monitoring and access policies
+As opposed to the observability and security tasks above, this blog post describes Istio's monitoring and access policies
 applied exclusively to the egress traffic.
 
 ## Before you begin
