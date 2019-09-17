@@ -75,13 +75,13 @@ envoy_cluster_internal_upstream_rq{response_code="503",cluster_name="xds-grpc"} 
 
 In addition to the proxy-level metrics, Istio provides a set of service-oriented metrics for monitoring service communications. These metrics cover the four
 basic service monitoring needs: latency, traffic, errors, and saturation. Istio ships with a default set of
-[dashboards](/docs/tasks/telemetry/metrics/using-istio-dashboard/) for monitoring service behaviors based on these metrics.
+[dashboards](/docs/tasks/observability/metrics/using-istio-dashboard/) for monitoring service behaviors based on these metrics.
 
 The [default Istio metrics](/docs/reference/config/policy-and-telemetry/metrics/) are defined by a set of configuration artifacts that ship with Istio and are
 exported to [Prometheus](/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default. Operators are free to modify the
 shape and content of these metrics, as well as to change their collection mechanism, to meet their individual monitoring needs.
 
-The [Collecting Metrics](/docs/tasks/telemetry/metrics/collecting-metrics/) task provides more information on customizing Istio metrics generation.
+The [Collecting Metrics](/docs/tasks/observability/metrics/collecting-metrics/) task provides more information on customizing Istio metrics generation.
 
 Use of the service-level metrics is entirely optional. Operators may choose to turn off generation and collection of these metrics to meet their individual
 needs.
@@ -131,8 +131,8 @@ Traces empower mesh operators to understand service dependencies and the sources
 Istio supports distributed tracing through the Envoy proxies. The proxies automatically generate trace spans on behalf of the applications they proxy,
 requiring only that the applications forward the appropriate request context.
 
-Istio supports a number of tracing backends, including [Zipkin](/docs/tasks/telemetry/distributed-tracing/zipkin/),
-[Jaeger](/docs/tasks/telemetry/distributed-tracing/jaeger/), [LightStep](/docs/tasks/telemetry/distributed-tracing/lightstep/), and
+Istio supports a number of tracing backends, including [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/),
+[Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/), and
 [Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/). Operators control the sampling rate for trace generation (that is, the rate at
 which tracing data is generated per request). This allows operators to control the amount and rate of tracing data being produced for their mesh.
 
@@ -140,7 +140,7 @@ More information about Distributed Tracing with Istio is found in our [FAQ on Di
 
 Example Istio-generated distributed trace for a single request:
 
-{{< image link="/docs/tasks/telemetry/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
+{{< image link="/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
 
 ## Access Logs
 
@@ -149,9 +149,9 @@ Access logs provide a way to monitor and understand behavior from the perspectiv
 Istio can generate access logs for service traffic in a configurable set of formats, providing operators with full control of the how, what, when and where of
 logging. Istio exposes a full set of source and destination metadata to the access logging mechanisms, allowing detailed audit of network transactions.
 
-Access logs may be generated locally or exported to custom backends, including [Fluentd](/docs/tasks/telemetry/logs/fluentd/).
+Access logs may be generated locally or exported to custom backends, including [Fluentd](/docs/tasks/observability/logs/fluentd/).
 
-More information on access logging is provided in the [Collecting Logs](/docs/tasks/telemetry/logs/collecting-logs/) and the [Getting Envoy's Access Logs](/docs/tasks/telemetry/logs/access-log/) tasks.
+More information on access logging is provided in the [Collecting Logs](/docs/tasks/observability/logs/collecting-logs/) and the [Getting Envoy's Access Logs](/docs/tasks/observability/logs/access-log/) tasks.
 
 Example Istio access log (formatted in JSON):
 

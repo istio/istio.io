@@ -301,7 +301,7 @@ In the next section you will configure TLS origination for accessing an external
 
 1.  Access the web page of the application and verify that the book details are displayed without errors.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
 
