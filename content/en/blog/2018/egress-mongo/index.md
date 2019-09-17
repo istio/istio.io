@@ -448,7 +448,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of the egress gateway's Envoy and see a line that corresponds to your
     requests to the MongoDB service. If Istio is deployed in the `istio-system` namespace, the command to print the
@@ -1038,7 +1038,7 @@ to hold the configuration of the Nginx SNI proxy:
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command
     to print the log is:
