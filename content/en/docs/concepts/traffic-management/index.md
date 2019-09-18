@@ -26,7 +26,7 @@ aliases:
     Pilot, Istio's core traffic management component and Envoy proxies and how
     they enable service discovery and traffic control for services in the mesh.
 
-Istio’s rules configuration and traffic routing lets you easily control the flow
+Istio’s traffic routing rules let you easily control the flow
 of traffic and API calls between services. Istio simplifies configuration of
 service-level properties like circuit breakers, timeouts, and retries, and makes
 it easy to set up important tasks like A/B testing, canary rollouts, and staged
