@@ -9,7 +9,7 @@ keywords: [security,oidc,jwt,policies]
 
 If you are running your containerized applications on Kubernetes, you can benefit from using the App Identity and Access Adapter for an abstracted level of security with zero code changes or redeploys.
 
-Whether your computing environment is based on a single cloud provider, a combination of multiple cloud providers, or following a hybrid cloud approch, having a centralized identity management can help you to preserve existing infrastructure and avoid vendor lock-in.
+Whether your computing environment is based on a single cloud provider, a combination of multiple cloud providers, or following a hybrid cloud approach, having a centralized identity management can help you to preserve existing infrastructure and avoid vendor lock-in.
 
 With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security/app-identity-and-access-adapter), you can use any OAuth2/OIDC provider: IBM Cloud App ID, Auth0, Okta, Ping Identity, AWS Cognito, Azure AD B2C and more. Authentication and authorization policies can be applied in a streamlined way in all environments — including frontend and backend applications — all without code changes or redeploys.
 
@@ -17,7 +17,7 @@ With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security
 
 [Istio](/docs/concepts/what-is-istio/) is an open source service mesh that transparently layers onto distributed applications and seamlessly integrates with Kubernetes. To reduce the complexity of deployments Istio provides behavioral insights and operational control over the service mesh as a whole. [See Istio Architecture for more details.](/docs/concepts/what-is-istio/#architecture)
 
-Istio uses [Envoy proxy sidecars](/blog/2019/data-plane-setup/) to mediate inbound and outbound traffic for all pods in the service mesh. Istio extracts telemetry from the Envoy sidecards and sends it to [Mixer](/docs/concepts/what-is-istio/#mixer), the Istio component responsible for collecting telemetry and policy enforcement.
+Istio uses [Envoy proxy sidecars](/blog/2019/data-plane-setup/) to mediate inbound and outbound traffic for all pods in the service mesh. Istio extracts telemetry from the Envoy sidecars and sends it to [Mixer](/docs/concepts/what-is-istio/#mixer), the Istio component responsible for collecting telemetry and policy enforcement.
 
 The App Identity and Access adapter extends the Mixer functionality by analyzing the telemetry (attributes) against various access control policies across the service mesh. The access control policies can be linked to a particular Kubernetes services and can be finely tuned to specific service endpoints. For more information about policies and telemetry, see the Istio documentation.
 
@@ -25,7 +25,7 @@ When [App Identity and Access Adapter](https://github.com/ibm-cloud-security/app
 
 ## Installation
 
-App Identity and Access adapter can be installed using Helm directly from the github.com repository
+App Identity and Access adapter can be installed using Helm directly from the `github.com` repository
 
 {{< text bash >}}
 $ helm repo add appidentityandaccessadapter https://raw.githubusercontent.com/ibm-cloud-security/app-identity-and-access-adapter/master/helm/appidentityandaccessadapter
@@ -41,7 +41,7 @@ $ helm install ./helm/appidentityandaccessadapter --name appidentityandaccessada
 
 ## Protecting web applications
 
-Web applications are most commonly protected by the OpenID Connect (OIDC) workflow called `authorization_code`. When an unauthenticated/unauthorized user is detected, they are automatically redirected to the identity service of your choice and presented with the authentication page. When authentication completes, the browser is redirected back to an implicit `/oidc/callback` endpoint intercepted by the adapter. At this point, the adapter obtains access and identity tokens from the identity service and then redirects users back to their originally requiested URL in the web app.
+Web applications are most commonly protected by the OpenID Connect (OIDC) workflow called `authorization_code`. When an unauthenticated/unauthorized user is detected, they are automatically redirected to the identity service of your choice and presented with the authentication page. When authentication completes, the browser is redirected back to an implicit `/oidc/callback` endpoint intercepted by the adapter. At this point, the adapter obtains access and identity tokens from the identity service and then redirects users back to their originally requested URL in the web app.
 
 Authentication state and tokens are maintained by the adapter. Each request processed by the adapter will include the Authorization header bearing both access and identity tokens in the following format `Authorization: Bearer <access_token> <id_token>`
 
@@ -154,7 +154,7 @@ At the time of writing this blog there are two known limitations of the App Iden
 
 - If you use the App Identity and Access adapter for Web Applications you should not create more than a single replica of the adapter. Due to the way Envoy Proxy was handling HTTP headers it was impossible to return multiple `Set-Cookie` headers from Mixer back to Envoy. Therefore we couldn't set all the cookies required for handling Web Application scenarios. The issue was recently addressed in Envoy and Mixer and we're planning to address this in future versions of our adapter. **Note that this only affects Web Applications, and doesn't affect Backend Apps and APIs in any way**.
 
-- As a general best practice you should always consider using mTLS for any in-cluster communications. At the moment the communications channel between Mixer and App Identity and Access adapter currently does not use mTLS. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter).
+- As a general best practice you should always consider using mutual-tls for any in-cluster communications. At the moment the communications channel between Mixer and App Identity and Access adapter currently does not use mutual-tls. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter).
 
 ## Summary
 
