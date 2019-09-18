@@ -84,7 +84,7 @@ and what you can do with them. These resources are:
 -   [Virtual services](#virtual-services)
 -   [Destination rules](#destination-rules)
 -   [Gateways](#gateways)
--   [Service Entries](#service-entries)
+-   [Service entries](#service-entries)
 -   [Sidecars](#sidecars)
 
 This guide also gives an overview of some of the
