@@ -1,7 +1,7 @@
 ---
 title: App Identity and Access Adapter
-subtitle: Using Istio to Secure Multicloud Kubernetes Applications with Zero Code Changes
-description: Using Istio to Secure Multicloud Kubernetes Applications with Zero Code Changes.
+subtitle: Using Istio to secure multi-cloud Kubernetes applications with zero code changes
+description: Using Istio to secure multi-cloud Kubernetes applications with zero code changes
 publishdate: 2019-10-01
 attribution: Anton Aleksandrov (IBM)
 keywords: [security,oidc,jwt,policies]
@@ -53,49 +53,49 @@ Whenever access token expires, a refresh token is used to automatically acquire 
 
 ### Applying web application protection
 
-Protecting web applications requires creating two types of resources - use `OidcConfig` resources to define various OIDC providers, and `Policy` resources to define the web app protection policies. 
+Protecting web applications requires creating two types of resources - use `OidcConfig` resources to define various OIDC providers, and `Policy` resources to define the web app protection policies.
 
-```yaml
+{{< text yaml >}}
 apiVersion: "security.cloud.ibm.com/v1"
 kind: OidcConfig
 metadata:
-	name: my-oidc-provider-config
-	namespace: sample-namespace
+    name: my-oidc-provider-config
+    namespace: sample-namespace
 spec:
-	discoveryUrl: <discovery-url-from-oidc-provider>
-	clientId: <client-id-from-oidc-provider>
-	clientSecretRef:
-		name: <kubernetes-secret-name>
-		key: <kubernetes-secret-key>
-```
+    discoveryUrl: <discovery-url-from-oidc-provider>
+    clientId: <client-id-from-oidc-provider>
+    clientSecretRef:
+        name: <kubernetes-secret-name>
+        key: <kubernetes-secret-key>
+{{< /text >}}
 
-```yaml
+{{< text yaml >}}
 apiVersion: "security.cloud.ibm.com/v1"
 kind: Policy
 metadata:
-	name:      my-sample-web-policy
-	namespace: sample-namespace
+    name: my-sample-web-policy
+    namespace: sample-namespace
 spec:
-	targets:
-	- serviceName: <kubernetes-service-name-to-protect>
-		paths:
-		- prefix: /webapp
-			method: ALL
-			policies:
-			- policyType: oidc
-				config: my-oidc-provider-config
-				rules: // optional
-				- claim: iss
-					match: ALL
-					source: access_token
-					values:
-					- <expected-issuer-id>
-				- claim: scope
-					match: ALL
-					source: access_token
-					values:
-					- openid
-```
+    targets:
+    - serviceName: <kubernetes-service-name-to-protect>
+        paths:
+        - prefix: /webapp
+            method: ALL
+            policies:
+            - policyType: oidc
+                config: my-oidc-provider-config
+                rules: // optional
+                - claim: iss
+                    match: ALL
+                    source: access_token
+                    values:
+                    - <expected-issuer-id>
+                - claim: scope
+                    match: ALL
+                    source: access_token
+                    values:
+                    - openid
+{{< /text >}}
 
 [Read more about protecting web applications](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)
 
@@ -105,46 +105,46 @@ Backend applications and APIs are protected using the Bearer Token flow, where a
 
 ### Applying backend application and APIs protection
 
-Protecting backend applications and APIs requires creating two types of resources - use `JwtConfig` resources to define various JWT providers, and `Policy` resources to define the backend app protection policies. 
+Protecting backend applications and APIs requires creating two types of resources - use `JwtConfig` resources to define various JWT providers, and `Policy` resources to define the backend app protection policies.
 
-```yaml
+{{< text yaml >}}
 apiVersion: "security.cloud.ibm.com/v1"
 kind: JwtConfig
 metadata:
-	name: my-jwt-config
-	namespace: sample-namespace
+    name: my-jwt-config
+    namespace: sample-namespace
 spec:
-	jwksUrl: <the-jwks-url>
-```
+    jwksUrl: <the-jwks-url>
+{{< /text >}}
 
-```yaml
+{{< text yaml >}}
 apiVersion: "security.cloud.ibm.com/v1"
 kind: Policy
 metadata:
-	name: my-sample-backend-policy
-	namespace: sample-namespace
+    name: my-sample-backend-policy
+    namespace: sample-namespace
 spec:
-	targets:
-	- serviceName: <kubernetes-service-name-to-protect>
-		paths:
-		- prefix: /api/files
-			method: ALL
-			policies:
-			- policyType: jwt
-				config: my-oidc-provider-config
-				rules: // optional
-				- claim: iss
-					match: ALL
-					source: access_token
-					values:
-					- <expected-issuer-id>
-				- claim: scope
-					match: ALL
-					source: access_token
-					values:
-					- files.read
-					- files.write
-```
+    targets:
+    - serviceName: <kubernetes-service-name-to-protect>
+        paths:
+        - prefix: /api/files
+            method: ALL
+            policies:
+            - policyType: jwt
+                config: my-oidc-provider-config
+                rules: // optional
+                - claim: iss
+                    match: ALL
+                    source: access_token
+                    values:
+                    - <expected-issuer-id>
+                - claim: scope
+                    match: ALL
+                    source: access_token
+                    values:
+                    - files.read
+                    - files.write
+{{< /text >}}
 
 [Read more about protecting backend applications](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)
 
@@ -152,9 +152,9 @@ spec:
 
 At the time of writing this blog there are two known limitations of the App Identity and Access adapter:
 
-- If you use the App Identity and Access adapter for Web Applications you should not create more than a single replica of the adapter. Due to the way Envoy Proxy was handling HTTP headers it was impossible to return multiple `Set-Cookie` headers from Mixer back to Envoy. Therefore we couldn't set all the cookies required for handling Web Application scenarios. The issue was recently addressed in Envoy and Mixer and we're planning to address this in future versions of our adapter. **Note that this only affects Web Applications, and doesn't affect Backend Apps and APIs in any way**. 
+- If you use the App Identity and Access adapter for Web Applications you should not create more than a single replica of the adapter. Due to the way Envoy Proxy was handling HTTP headers it was impossible to return multiple `Set-Cookie` headers from Mixer back to Envoy. Therefore we couldn't set all the cookies required for handling Web Application scenarios. The issue was recently addressed in Envoy and Mixer and we're planning to address this in future versions of our adapter. **Note that this only affects Web Applications, and doesn't affect Backend Apps and APIs in any way**.
 
-- As a general best practice you should always consider using mTLS for any in-cluster communications. At the moment the communications channel between Mixer and App Identity and Access adapter currently does not use mTLS. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter). 
+- As a general best practice you should always consider using mTLS for any in-cluster communications. At the moment the communications channel between Mixer and App Identity and Access adapter currently does not use mTLS. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter).
 
 ## Summary
 
@@ -164,4 +164,4 @@ Development teams have spent time making their services portable to different cl
 
 Istio and App Identity and Access Adapter allow you to secure your Kubernetes apps with absolutely zero code changes or redeployments regardless of which programming language and which frameworks you use. Following this approach ensures maximum portability of your apps, and ability to easily enforce same security policies across multiple environments.
 
-You can read more about the App Identity and Access Adapter in the [release blog](https://www.ibm.com/cloud/blog/using-istio-to-secure-your-multicloud-kubernetes-applications-with-zero-code-change)
+You can read more about the App Identity and Access Adapter in the [release blog](https://www.ibm.com/cloud/blog/using-istio-to-secure-your-multicloud-kubernetes-applications-with-zero-code-change).
