@@ -9,7 +9,7 @@ aliases:
 The Envoy proxy keeps detailed statistics about network traffic.
 
 Envoy's statistics only cover the traffic for a particular Envoy instance.  See
-[Telemetry](/docs/tasks/telemetry/) for persistent per-service Istio telemetry.  The
+[Observability](/docs/tasks/observability/) for persistent per-service Istio telemetry.  The
 statistics the Envoy proxies record can provide more information about specific pod instances.
 
 To see the statistics for a pod:

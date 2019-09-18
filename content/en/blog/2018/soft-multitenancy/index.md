@@ -76,7 +76,7 @@ istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0
 {{< /text >}}
 
 The Istio [sidecar](/docs/setup/additional-setup/sidecar-injection/)
-and [addons](/docs/tasks/telemetry/), if required, manifests must also be
+and [addons](/docs/tasks/observability/), if required, manifests must also be
 deployed to match the configured `namespace` in use by the tenant's Istio
 control plane.
 
@@ -289,8 +289,8 @@ $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 {{< /text >}}
 
-If the [add-on tools](/docs/tasks/telemetry/), example
-[Prometheus](/docs/tasks/telemetry/metrics/querying-metrics/), are deployed
+If the [add-on tools](/docs/tasks/observability/), example
+[Prometheus](/docs/tasks/observability/metrics/querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.
 

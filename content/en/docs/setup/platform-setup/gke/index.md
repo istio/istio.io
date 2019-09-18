@@ -27,10 +27,18 @@ To enable SDS in Istio, use Kubernetes 1.13 or above.
     {{< text bash >}}
     $ gcloud container clusters create <cluster-name> \
       --cluster-version latest \
+      --machine-type=n1-standard-2 \
       --num-nodes 4 \
       --zone <zone> \
       --project <project-id>
     {{< /text >}}
+
+    {{< tip >}}
+    The default installation of Mixer requires nodes with >1 vCPU. If you are
+    installing with the
+    [demo configuration profile](/docs/setup/additional-setup/config-profiles/),
+    you can remove the `--machine-type` argument to use the smaller `n1-standard-1` machine size instead.
+    {{< /tip >}}
 
     {{< warning >}}
     To use the Istio CNI feature, the

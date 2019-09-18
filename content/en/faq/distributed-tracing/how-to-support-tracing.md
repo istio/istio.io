@@ -19,4 +19,4 @@ If you are using LightStep, you will also need to forward the following headers:
 
 - `x-ot-span-context`
 
-Header propagation may be accomplished through client libraries, such as [Zipkin](https://zipkin.io/pages/tracers_instrumentation.html) or [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation). It may also be accomplished manually, as documented in the [Distributed Tracing Task](/docs/tasks/telemetry/distributed-tracing/overview#trace-context-propagation).
+Header propagation may be accomplished through client libraries, such as [Zipkin](https://zipkin.io/pages/tracers_instrumentation.html) or [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation). It may also be accomplished manually, as documented in the [Distributed Tracing Task](/docs/tasks/observability/distributed-tracing/overview#trace-context-propagation).

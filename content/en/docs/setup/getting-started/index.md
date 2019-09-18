@@ -25,13 +25,13 @@ tasks are a good place to start:
 - [Request routing](/docs/tasks/traffic-management/request-routing/)
 - [Fault injection](/docs/tasks/traffic-management/fault-injection/)
 - [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/docs/tasks/telemetry/metrics/querying-metrics/)
-- [Visualizing metrics](/docs/tasks/telemetry/metrics/using-istio-dashboard/)
-- [Collecting logs](/docs/tasks/telemetry/logs/collecting-logs/)
+- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Collecting logs](/docs/tasks/observability/logs/collecting-logs/)
 - [Rate limiting](/docs/tasks/policy-enforcement/rate-limiting/)
 - [Ingress gateways](/docs/tasks/traffic-management/ingress/ingress-control/)
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/docs/tasks/telemetry/kiali/)
+- [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
 The tasks above provide a good basic understanding of Istio's features but,
 explore more [tasks](/docs/tasks/) depending on what interests you. Before you
