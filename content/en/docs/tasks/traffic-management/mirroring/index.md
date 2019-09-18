@@ -232,9 +232,9 @@ log entries for `v1` and none for `v2`:
     Also, it is important to note that these requests are mirrored as "fire and
     forget", which means that the responses are discarded.
 
-    You can make use of the `mirror_percent` field to mirror only a fraction of the traffic,
-    instead of mirroring 100% of the requests. If this field is absent - for compatibility with
-    older versions - all the traffic will be mirrored.
+    You can use the `mirror_percent` field to mirror a fraction of the traffic,
+    instead of mirroring all requests. If this field is absent, for compatibility with
+    older versions, all traffic will be mirrored.
 1. Send in traffic:
 
     {{< text bash >}}
