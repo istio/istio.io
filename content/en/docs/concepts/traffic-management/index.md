@@ -152,7 +152,7 @@ Virtual services also let you:
     [gateways](/docs/concepts/traffic-management/#gateways) to control ingress
     and egress traffic.
 
-In most cases you also need to configure destination rules to use these
+In some cases you also need to configure destination rules to use these
 features, as these are where you specify your service subsets. Specifying
 service subsets and other destination-specific policies in a separate object
 lets you reuse these cleanly between virtual services. You can find out more
