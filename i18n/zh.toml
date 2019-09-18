@@ -1,5 +1,5 @@
-[download_deac]
-other = "Go download Istio %s now."
+[download_desc]
+other = "立刻下载 Istio %s"
 
 [discuss_istio_io_desc]
 other = "加入 Istio discussion board 参与讨论获取帮助"
@@ -29,10 +29,10 @@ other = "如果您想为 Istio 项目做出贡献，请考虑加入我们的工�
 other = "在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）"
 
 [report_site_bugs]
-other = "报告网站Bug"
+other = "报告网站上的 Bug"
 
 [edit_on_github]
-other = "在GitHub上编辑此页"
+other = "在 GitHub 上编辑此页"
 
 [light_theme]
 other = "亮主题"
@@ -56,13 +56,13 @@ other = "旧版本"
 other = "选项和设置"
 
 [search]
-other = "搜索istio.io"
+other = "搜索 istio.io"
 
 [search_label]
-other = "Search"
+other = "搜索"
 
 [search_cancel]
-other = "Cancel search"
+other = "取消搜索"
 
 [footer_istio]
 other = "Istio"
@@ -107,13 +107,13 @@ other = "%s 变更"
 other = "%s 文档"
 
 [relnote_update_advice]
-other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
+other = "在下载 ％s 之前，您应该知道有一个更新的补丁版本，这个版本修复了已知的 Bug 并且在一定程度上提升了性能。"
 
 [relnote_update_button]
-other = "LEARN ABOUT ISTIO %s"
+other = "了解 Istio %s"
 
 [relnote_update_notice]
-other = "Update Notice"
+other = "更新提示"
 
 [page_attribution]
 other = "作者 "
