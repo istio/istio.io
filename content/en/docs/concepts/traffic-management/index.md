@@ -92,7 +92,7 @@ are built in to the API’s resources.
 ## Virtual services {#virtual-services}
 
 [Virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/),
-along with destination rules, are the key building blocks of Istio’s traffic
+along with [destination rules](#destination-rules), are the key building blocks of Istio’s traffic
 routing functionality. A virtual service lets you configure how requests are
 routed to a service within an Istio service mesh, building on the basic
 connectivity and discovery provided by Istio and your platform. Each virtual
