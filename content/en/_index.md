@@ -108,6 +108,6 @@ description: Connect, secure, control, and observe services.
     <div id="buttons">
         <a title="Install Istio on Kubernetes today." class="btn" href="/docs/setup/getting-started/">GET STARTED</a>
         <a title="Dive deeper to understand what Istio is and how it works." class="btn" href="/docs/concepts/what-is-istio/">LEARN MORE</a>
-        <a title="Download the latest release." class="btn" href="{{< istio_release_url >}}">DOWNLOAD {{< istio_release_name >}}</a>
+        <a title="Download the latest release." class="btn" href="/docs/setup#downloading-the-release">DOWNLOAD {{< istio_release_name >}}</a>
     </div>
 </main>
