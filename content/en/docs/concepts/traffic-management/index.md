@@ -188,7 +188,7 @@ spec:
 
 #### The hosts field {#the-hosts-field}
 
-`hosts` lists the virtual service’s hosts - in other words, the user-addressable
+The `hosts` field lists the virtual service’s hosts - in other words, the user-addressable
 destination or destinations that these routing rules apply to. This is the
 address or addresses the client uses when sending requests to the service.
 
