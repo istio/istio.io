@@ -141,8 +141,5 @@ This requires you have `openssl` installed on your machine.
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-*   To remove the Istio components:
+*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/install/kubernetes/#Uninstall) to remove.
 
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}

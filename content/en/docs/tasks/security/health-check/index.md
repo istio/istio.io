@@ -26,12 +26,7 @@ this feature is not needed if the production setup is not using the
 
 To complete this task, you can install Istio using one of the following paths:
 
-* To setup Istio without using Helm, follow the instructions in the
-  [Kubernetes installation guide](/docs/setup/install/kubernetes/). Remember to enable global mutual TLS with:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}
+* To setup Istio, follow the [installation instructions](/docs/setup/install/kubernetes/#installation-steps) install Istio with the **strict mutual TLS mode** enabled.
 
 * Use [Helm](/docs/setup/install/helm/) to setup Istio and set the `global.mtls.enabled` flag to `true`.
 
@@ -110,14 +105,10 @@ continuously failed health checks.
 
 ## Cleanup
 
-*   To disable health checking on Citadel:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}
+*   To disable health checking on Citadel: follow the [uninstall instructions](/docs/setup/install/kubernetes/#Uninstall) to remove.
 
 *   To remove Citadel:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
+    $ kubectl delete -f citadel-health-check.yaml
     {{< /text >}}

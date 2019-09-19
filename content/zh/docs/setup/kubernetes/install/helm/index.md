@@ -80,15 +80,6 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="demo-auth" cookie-value="demo-auth" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="minimal" cookie-value="minimal" >}}
 
 {{< text bash >}}
@@ -159,15 +150,6 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="demo-auth" cookie-value="demo-auth" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="minimal" cookie-value="minimal" >}}
 
 {{< text bash >}}
@@ -223,16 +205,6 @@ $ kubectl delete namespace istio-system
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl delete -f -
-$ kubectl delete namespace istio-system
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="demo-auth" cookie-value="demo-auth" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml | kubectl delete -f -
 $ kubectl delete namespace istio-system
 {{< /text >}}
 

@@ -161,11 +161,7 @@ $ kubectl get pod -n istio-system
 No resources found.
 {{< /text >}}
 
-Then deploy the Istio control plane with mutual TLS enabled:
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
+Follow the [installation instructions](/docs/setup/install/kubernetes/#installation-steps) install Istio with the **strict mutual TLS mode** enabled.
 
 Make sure everything is up and running:
 
