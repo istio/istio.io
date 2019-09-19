@@ -37,6 +37,8 @@ controlled way.
 
 {{< boilerplate before-you-begin-egress >}}
 
+*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+
 ## Deploy Istio egress gateway
 
 1.  Check if the Istio egress gateway is deployed:
