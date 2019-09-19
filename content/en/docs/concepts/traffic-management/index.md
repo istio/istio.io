@@ -237,7 +237,7 @@ The route section’s destination field specifies the actual destination for
 traffic that matches this condition. Unlike the virtual service’s host(s), the
 destination’s host must be a real destination that exists in Istio’s service
 registry or Envoy won’t know where to send traffic to it. This can be a mesh
-service with proxies or a non-mesh service added using a Service Entry. In this
+service with proxies or a non-mesh service added using a service entry. In this
 case we’re running on Kubernetes and the host name is a Kubernetes service name:
 
 {{< text yaml >}}
