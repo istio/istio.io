@@ -104,7 +104,7 @@ none depending on your use case.
 ### Why use virtual services? {#why-use-virtual-services}
 
 Virtual services play a key role in making Istio’s traffic management flexible
-and powerful. They do this by strongly decoupling where the client sends their
+and powerful. They do this by strongly decoupling where clients send their
 requests from the destination workloads that actually implement them. Virtual
 services also provide a rich way of specifying different traffic routing rules
 for sending traffic to those workloads.
