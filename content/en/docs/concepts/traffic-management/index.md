@@ -609,7 +609,9 @@ for more possible configuration options.
 
 By default, Istio configures every Envoy proxy to accept traffic on all the
 ports of its associated workload, and to reach every workload in the mesh when
-forwarding traffic. You can use a sidecar configuration to do the following:
+forwarding traffic. You can use a
+[sidecar](/docs/reference/config/networking/v1alpha3/sidecar/#Sidecar)
+configuration to do the following:
 
 -   Fine-tune the set of ports and protocols that an Envoy proxy accepts.
 -   Limit the set of services that the Envoy proxy can reach.
