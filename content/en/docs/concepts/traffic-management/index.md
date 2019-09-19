@@ -38,9 +38,7 @@ more reliable, and your network more robust.
 Istio’s traffic management model relies on the Envoy proxies that are deployed
 along with your services. All traffic that your mesh services send and receive
 (data plane traffic) is proxied through Envoy, making it easy to direct and
-control traffic around your mesh without making any changes to your services -
-your workload just needs to specify the destination service, and the Envoy
-proxies do the rest.
+control traffic around your mesh without making any changes to your services.
 
 If you’re interested in the details of how the features described in this guide
 work, you can find out more about Istio’s traffic management architecture in the
@@ -52,7 +50,7 @@ this guide introduces Istio’s traffic management features.
 In order to direct traffic around your mesh, Istio needs to know where all your
 endpoints are, and which services they belong to. To populate its own service
 registry, Istio connects to a service discovery system. For example, if you've
-installed Istio on Kubernetes, then by default Istio knows about all the
+installed Istio on a Kubernetes cluster, then by default Istio knows about all the
 services and endpoints in that cluster.
 
 Using this service registry, the Envoy proxies can then direct traffic to the
@@ -116,38 +114,39 @@ traffic using round-robin load balancing between all service instances, as
 described in the introduction. You can improve this behavior with what you know
 about the workloads: for example, some might represent a different version. This
 can be useful in A/B testing where you might want to configure traffic routes
-based on percentages across different service versions, or you might want to use
-a different load balancing policy for a particular set of instances.
+based on percentages across different service versions, or if you want to direct
+traffic from your internal users to a particular set of instances.
 
-With virtual services, you create a new hostname which directs traffic to
-services of your choice, or overrides traffic behavior for an existing hostname.
-You can then use routing rules in the virtual service that tell Envoy how to
-send the virtual host’s traffic to the appropriate "real" workloads.
+With a virtual service, you can specify traffic behavior for one or more hostnames.
+You use routing rules in the virtual service that tell Envoy how to send the
+virtual service’s traffic to appropriate destinations. Route destinations can
+be versions of the same service or entirely different services.
 
 A typical use case is to send traffic to different versions of a service,
-specified as service subsets. Clients send requests to the virtual service as if
+specified as service subsets. Clients send requests to the virtual service host as if
 it was a single entity, and Envoy then routes the traffic to the different
 versions depending on the virtual service rules (for example "20% of calls go to
-the new version" or "calls from this URI go to version 2"). This allows you to,
+the new version" or "calls from these users go to version 2"). This allows you to,
 for instance, create a canary rollout where you gradually increase the
 percentage of traffic that’s sent to a new service version. The traffic routing
 is completely separate from the instance deployment, meaning that the number of
 instances implementing the new service version can scale up and down based on
 traffic load without referring to traffic routing at all. By contrast, container
-orchestration platforms like Docker or Kubernetes support canary rollouts, but
-they use instance scaling to manage traffic distribution, which quickly becomes
-complex.
+orchestration platforms like Kubernetes only support traffic distribution based
+on instance scaling, which quickly becomes complex. You can read more about how
+virtual services help with canarying in [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 
 Virtual services also let you:
 
 -   Address multiple application services through a single virtual service. If
     your mesh uses Kubernetes, for example, you can configure a virtual service
-    to handle all services in a specific namespace, as you can see in
-    [one of our examples below](#more-about-routing-rules). Mapping a single
+    to handle all services in a specific namespace. Mapping a single
     virtual service to multiple "real" services can be particularly useful in
     facilitating turning a monolithic application into a composite service built
     out of distinct microservices without requiring the consumers of the service
-    to adapt to the transition.
+    to adapt to the transition: your rules can specify "calls to these URIs of
+    `monolith.com` go to `microservice A`", and so on. You can see how this works
+    in [one of our examples below](#more-about-routing-rules).
 -   Configure traffic rules in combination with
     [gateways](/docs/concepts/traffic-management/#gateways) to control ingress
     and egress traffic.
@@ -198,13 +197,13 @@ hosts:
 - reviews
 {{< /text >}}
 
-The virtual service hostname can be a DNS name or an internal mesh service name
-as long as the name resolves, implicitly or explicitly, to one or more fully
-qualified domain names (FQDN). You can also use wildcard ("*") prefixes, letting
-you create a single set of routing rules for all matching services. These hosts
-don't actually have to be part of the service registry, they are simply virtual
-destinations. This lets you model traffic for virtual hosts that don't have
-routable entries inside the mesh.
+The virtual service hostname can be an IP address, a DNS name, or, depending on
+the platform, a short name (such as a Kubernetes service short name) that resolves,
+implicitly or explicitly, to a fully qualified domain name (FQDN). You can also
+use wildcard ("\*") prefixes, letting you create a single set of routing rules for
+all matching services. Virtual service hosts don't actually have to be part of the
+Istio service registry, they are simply virtual destinations. This lets you model
+traffic for virtual hosts that don't have routable entries inside the mesh.
 
 #### Routing rules {#routing-rules}
 
@@ -249,10 +248,13 @@ route:
 {{< /text >}}
 
 {{< tip >}}
-In this and other examples, we use a Kubernetes short name for the
-destination hosts. When this rule is evaluated, Istio adds a domain suffix based
+In this and the other examples on this page, we use a Kubernetes short name for the
+destination hosts for simplicity. When this rule is evaluated, Istio adds a domain suffix based
 on the namespace of the virtual service that contains the routing rule to get
-the fully qualified name for the host. However, this only works if the
+the fully qualified name for the host. Using short names in our examples
+also means that you can copy and try them in any namespace you like.
+
+However, using short names like this only works if the
 destination hosts and the virtual service are actually in the same Kubernetes
 namespace. Because using the Kubernetes short name can result in
 misconfigurations, we recommend that you specify fully qualified host names in
