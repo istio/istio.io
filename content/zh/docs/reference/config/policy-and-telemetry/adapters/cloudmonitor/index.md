@@ -4,7 +4,7 @@ description: CloudMonitor 适配器使 Istio 可以向 AliCloud CloudMonitor 提
 weight: 70
 ---
 
-`cloudmonitor` 适配器让 Istio 可以向 [AliCloud CloudMonitor](https://cloudmonitor.console.aliyun.com/) 提供指标数据。
+`cloudmonitor` 适配器让 Istio 可以向 [AliCloud CloudMonitor](https://www.alibabacloud.com/product/cloud-monitor) 提供指标数据。
 
 The handler configuration must contain the same metrics as the instance configuration. The metrics specified in both instance and handler configurations will be sent to CloudMonitor.
 
