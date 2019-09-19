@@ -452,7 +452,7 @@ subset’s field.
 
 ## Gateways {#gateways}
 
-You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/) to
+You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/#Gateway) to
 manage inbound and outbound traffic for your mesh, letting you specify which
 traffic you want to enter or leave the mesh. Gateway configurations are applied
 to standalone Envoy proxies that are running at the edge of the mesh, rather
