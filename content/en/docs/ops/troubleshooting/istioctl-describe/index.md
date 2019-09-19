@@ -38,11 +38,6 @@ Let's describe a pod:
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
 $ istioctl experimental describe pod $RATINGS_POD
-{{< /text >}}
-
-The output tells us which containers the pod exposes, the Istio protocol for the microservice on port 9080, and the mutual TLS settings for the pod.
-
-{{< text plain >}}
 Pod: ratings-v1-f745cf57b-qrxl2
    Pod Ports: 9080 (ratings), 15090 (istio-proxy)
 --------------------
@@ -50,6 +45,8 @@ Service: ratings
    Port: http 9080/HTTP
 Pilot reports that pod enforces HTTP/mTLS and clients speak HTTP
 {{< /text >}}
+
+The output tells us which containers the pod exposes, the Istio protocol for the microservice on port 9080, and the mutual TLS settings for the pod.
 
 ## Destination Rules
 
@@ -65,11 +62,6 @@ Applying `destination-rule-all-mtls.yaml` created four destination rules: `detai
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
-{{< /text >}}
-
-Now `istioctl x describe` shows additional output:
-
-{{< text plain >}}
 Pod: ratings-v1-f745cf57b-qrxl2
    Pod Ports: 9080 (ratings), 15090 (istio-proxy)
 --------------------
@@ -82,6 +74,8 @@ DestinationRule: ratings for "ratings"
 Pilot reports that pod enforces HTTP/mTLS and clients speak mTLS
 {{< /text >}}
 
+Now `istioctl x describe` shows additional output:
+
 The destination rule now appears in the output.  This tells us that the `ratings` destination rule is present, and that it defines the subset `v1` which matches this pod.
 Clients talking to the ratings microservice will use mutual TLS.
 
@@ -91,21 +85,14 @@ Now I will follow the Bookinfo example to [Request Routing](/docs/tasks/traffic-
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
-{{< /text >}}
-
-After applying this rule I "describe" the _reviews-v1_ pod:
-
-{{< text bash >}}
 $ export REVIEWS_V1_POD=$(kubectl get pod -l app=reviews,version=v1 -o jsonpath='{.items[0].metadata.name}')
 $ istioctl x describe pod $REVIEWS_V1_POD
-{{< /text >}}
-
-The output resembles what we saw before the virtual services were defined, but we now see that they are present:
-
-{{< text plain >}}
 VirtualService: reviews
    1 HTTP route(s)
 {{< /text >}}
+
+After applying this rule I "describe" the _reviews-v1_ pod.  The output resembles
+what we saw before the virtual services were defined, but we now see that they are present.
 
 After applying _virtual-service-all-v1.yaml_ the traffic all goes to version 1.  The "stars disappear".  If this was a real cluster, someone might notice the logs to v2/v3
 are no longer appearing.  Users might notice features and not working.  `describe` will not
@@ -115,16 +102,13 @@ configures a pod, but actually blocks traffic by never routing to the pod's subs
 {{< text bash >}}
 $ export REVIEWS_V2_POD=$(kubectl get pod -l app=reviews,version=v2 -o jsonpath='{.items[0].metadata.name}')
 $ istioctl x describe pod $REVIEWS_V2_POD
-{{< /text >}}
-
-The warning "No destinations match pod subsets" tells us the problem.
-No traffic will arrive due to the virtual service destinations.
-
-{{< text plain >}}
 VirtualService: reviews
    WARNING: No destinations match pod subsets (checked 1 HTTP routes)
       Route to non-matching subset v1 for (everything)
 {{< /text >}}
+
+The warning "No destinations match pod subsets" tells us the problem.
+No traffic will arrive due to the virtual service destinations.
 
 Oh no!  I must revert!  I'll delete the bogus Istio configuration:
 
@@ -138,13 +122,10 @@ panic, I `describe`:
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V2_POD
-{{< /text >}}
-
-{{< text plain >}}
 ...
 VirtualService: reviews
    WARNING: No destinations match pod subsets (checked 1 HTTP routes)
-      Warning: Route to UNKNOWN subset v1.  No DestinationRule.
+      Warning: Route to subset v1 but NO DESTINATION RULE defining subsets!
 {{< /text >}}
 
 At this point I look back and realize I deleted the destination rules, not the virtual service I intended to.  The virtual service is still there, still routing to subset `v1`, but without a destination rule defining `v1` to mean the selector `version:v1`, traffic cannot flow to any pods.
@@ -195,14 +176,11 @@ At this point the browser shows *Ratings service is currently unavailable*.  Why
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
-{{< /text >}}
-
-The output is the same except the final line which now reads
-
-{{< text plain >}}
 WARNING Pilot predicts TLS Conflict on ratings-v1-f745cf57b-qrxl2 port 9080 (pod enforces mTLS, clients speak HTTP)
   Check DestinationRule ratings/default and AuthenticationPolicy ratings-strict/default
 {{< /text >}}
+
+The output is the same except the final line which now reads
 
 Restore correct behavior with `kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml`.
 
@@ -215,6 +193,9 @@ split:
 $ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-90-10.yaml
 sleep 3
 $ istioctl x describe pod $REVIEWS_V1_POD
+...
+VirtualService: reviews
+   Weight 90%
 {{< /text >}}
 
 Let's deploy header-specific routing:
@@ -223,6 +204,11 @@ Let's deploy header-specific routing:
 $ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml
 $ sleep 3
 $ istioctl x describe pod $REVIEWS_V1_POD
+...
+VirtualService: reviews
+   WARNING: No destinations match pod subsets (checked 2 HTTP routes)
+      Route to non-matching subset v2 for (when headers are end-user=jason)
+      Route to non-matching subset v3 for (everything)
 {{< /text >}}
 
 ## Conclusion and cleanup
