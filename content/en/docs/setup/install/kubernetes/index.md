@@ -76,7 +76,7 @@ All newly deployed workloads will have Istio sidecars installed.
 Run the following command to install this variant:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set global.controlPlaneSecurityEnabled=true --set global.mtls.enabled=true | kubectl apply -f -
 {{< /text >}}
 
 {{< /tab >}}
@@ -188,7 +188,7 @@ $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< tab name="strict mutual TLS" cookie-value="strict" >}}
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set global.controlPlaneSecurityEnabled=true --set global.mtls.enabled=true | kubectl delete -f -
 {{< /text >}}
 
 {{< /tab >}}
