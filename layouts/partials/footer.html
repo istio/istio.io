@@ -8,7 +8,7 @@
         {{- end -}}
 
         {{- if not .Site.Data.args.archive_landing -}}
-            <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="{{- $release_url -}}" aria-label="Download Istio">
+            <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="/docs/setup#downloading-the-release" aria-label="Download Istio">
                 <span>download</span>
                 {{ partial "icon.html" "download" }}
             </a>
