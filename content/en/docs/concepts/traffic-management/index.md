@@ -784,7 +784,7 @@ You can inject two types of faults, both configured using a
     Aborts usually manifest in the form of HTTP error codes or TCP connection
     failures.
 
-For example, this virtual service introduces a 5 second delay for 10% of the
+For example, this virtual service introduces a 5 second delay in 1 out of every 1000
 requests to the `ratings` service.
 
 {{< text yaml >}}
