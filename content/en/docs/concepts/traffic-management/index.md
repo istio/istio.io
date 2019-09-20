@@ -371,7 +371,7 @@ To learn more about the actions available, see the
 ## Destination rules {#destination-rules}
 
 Along with [virtual services](#virtual-services),
-[destination rules](/docs/reference/config/networking/v1alpha3/destination-rule/)
+[destination rules](/docs/reference/config/networking/v1alpha3/destination-rule/#DestinationRule)
 are a key part of Istio’s traffic routing functionality. You can think of
 virtual services as how you route your traffic **to** a given destination, and
 then you use destination rules to configure what happens to traffic **for** that
