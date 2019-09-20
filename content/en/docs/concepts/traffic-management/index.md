@@ -366,7 +366,7 @@ example:
 -   Set a [retry policy](#retries) for calls to this destination.
 
 To learn more about the actions available, see the
-[Virtual Service reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
+[HTTPRoute reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
 
 ## Destination rules {#destination-rules}
 
