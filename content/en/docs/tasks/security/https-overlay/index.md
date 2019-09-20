@@ -161,7 +161,13 @@ $ kubectl get pod -n istio-system
 No resources found.
 {{< /text >}}
 
-Follow the [installation instructions](/docs/setup/install/kubernetes/#installation-steps) install Istio with the **strict mutual TLS mode** enabled.
+Follow the [installation instructions](/docs/setup/install/kubernetes/#installation-steps) install CRDs.
+
+Install Istio with the **strict mutual TLS mode** enabled:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set global.controlPlaneSecurityEnabled=true --set global.mtls.enabled=true | kubectl delete -f -
+{{< /text >}}
 
 Make sure everything is up and running:
 
