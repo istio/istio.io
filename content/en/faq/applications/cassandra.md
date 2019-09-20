@@ -5,8 +5,6 @@ weight: 50
 keywords: [cassandra]
 ---
 
-The short answer is yes, Cassandra can run inside an Istio mesh.
-
 By default, Cassandra broadcasts the address it uses for binding
 (accepting connections) to other Cassandra nodes as its address. This
 is usually the pod IP address and works fine without a service
