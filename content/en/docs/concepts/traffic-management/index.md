@@ -18,8 +18,7 @@ of traffic and API calls between services. Istio simplifies configuration of
 service-level properties like circuit breakers, timeouts, and retries, and makes
 it easy to set up important tasks like A/B testing, canary rollouts, and staged
 rollouts with percentage-based traffic splits. It also provides out-of-box
-failure recovery features, which, combined with Istio’s
-[observability](/docs/concepts/observability/) features, helps make your application
+failure recovery features that help make your application
 more robust against failures of dependent services or the network.
 
 Istio’s traffic management model relies on the {{< gloss >}}Envoy{{</ gloss >}}
@@ -35,11 +34,11 @@ this guide introduces Istio’s traffic management features.
 
 ## Introducing Istio Traffic Management
 
-In order to direct traffic around your mesh, Istio needs to know where all your
+In order to direct traffic within your mesh, Istio needs to know where all your
 endpoints are, and which services they belong to. To populate its own
 {{< gloss >}}service registry{{</ gloss >}}, Istio connects to a service
 discovery system. For example, if you've installed Istio on a Kubernetes cluster,
-then by default Istio knows about all the services and endpoints in that cluster.
+then Istio automatically detects the services and endpoints in that cluster.
 
 Using this service registry, the Envoy proxies can then direct traffic to the
 relevant services. Most microservice-based applications have multiple instances
@@ -49,10 +48,10 @@ each service’s load balancing pool using a round-robin model, where requests a
 sent to each pool member in turn, returning to the top of the pool once each
 service instance has received a request.
 
-While this basic service discovery and load balancing gives you a working
+While Istio's basic service discovery and load balancing gives you a working
 service mesh, it’s far from all that Istio can do. In many cases you might want
-more fine-grained control over what happens to your mesh traffic. For example,
-you might want to direct a particular percentage of traffic to a new version of
+more fine-grained control over what happens to your mesh traffic.
+You might want to direct a particular percentage of traffic to a new version of
 a service as part of A/B testing, or apply a different load balancing policy to
 traffic for a particular subset of service instances. You might also want to
 apply special rules to traffic coming into or out of your mesh, or add an
@@ -64,18 +63,18 @@ Like other Istio configuration, the API is specified using Kubernetes custom
 resource definitions ({{< gloss >}}CRDs{{</ gloss >}}), which you can configure
 using YAML, as you’ll see in the examples.
 
-The rest of this guide looks at each of the traffic management API’s resources
+The rest of this guide examines each of the traffic management API resources
 and what you can do with them. These resources are:
 
--   [Virtual services](#virtual-services)
--   [Destination rules](#destination-rules)
--   [Gateways](#gateways)
--   [Service entries](#service-entries)
--   [Sidecars](#sidecars)
+- [Virtual services](#virtual-services)
+- [Destination rules](#destination-rules)
+- [Gateways](#gateways)
+- [Service entries](#service-entries)
+- [Sidecars](#sidecars)
 
 This guide also gives an overview of some of the
 [network resilience and testing features](#network-resilience-and-testing) that
-are built in to the API’s resources.
+are built in to the API resources.
 
 ## Virtual services {#virtual-services}
 
@@ -97,12 +96,12 @@ requests from the destination workloads that actually implement them. Virtual
 services also provide a rich way of specifying different traffic routing rules
 for sending traffic to those workloads.
 
-So why is this so useful? Without virtual services, Envoy just distributes
+Why is this so useful? Without virtual services, Envoy distributes
 traffic using round-robin load balancing between all service instances, as
 described in the introduction. You can improve this behavior with what you know
-about the workloads: for example, some might represent a different version. This
-can be useful in A/B testing where you might want to configure traffic routes
-based on percentages across different service versions, or if you want to direct
+about the workloads. For example, some might represent a different version. This
+can be useful in A/B testing, where you might want to configure traffic routes
+based on percentages across different service versions, or to direct
 traffic from your internal users to a particular set of instances.
 
 With a virtual service, you can specify traffic behavior for one or more hostnames.
@@ -113,8 +112,8 @@ be versions of the same service or entirely different services.
 A typical use case is to send traffic to different versions of a service,
 specified as service subsets. Clients send requests to the virtual service host as if
 it was a single entity, and Envoy then routes the traffic to the different
-versions depending on the virtual service rules (for example "20% of calls go to
-the new version" or "calls from these users go to version 2"). This allows you to,
+versions depending on the virtual service rules: for example, "20% of calls go to
+the new version" or "calls from these users go to version 2". This allows you to,
 for instance, create a canary rollout where you gradually increase the
 percentage of traffic that’s sent to a new service version. The traffic routing
 is completely separate from the instance deployment, meaning that the number of
@@ -122,17 +121,17 @@ instances implementing the new service version can scale up and down based on
 traffic load without referring to traffic routing at all. By contrast, container
 orchestration platforms like Kubernetes only support traffic distribution based
 on instance scaling, which quickly becomes complex. You can read more about how
-virtual services help with canarying in [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+virtual services help with canary deployments in [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 
 Virtual services also let you:
 
 -   Address multiple application services through a single virtual service. If
     your mesh uses Kubernetes, for example, you can configure a virtual service
     to handle all services in a specific namespace. Mapping a single
-    virtual service to multiple "real" services can be particularly useful in
+    virtual service to multiple "real" services is particularly useful in
     facilitating turning a monolithic application into a composite service built
     out of distinct microservices without requiring the consumers of the service
-    to adapt to the transition: your rules can specify "calls to these URIs of
+    to adapt to the transition. Your routing rules can specify "calls to these URIs of
     `monolith.com` go to `microservice A`", and so on. You can see how this works
     in [one of our examples below](#more-about-routing-rules).
 -   Configure traffic rules in combination with
@@ -147,7 +146,7 @@ about destination rules in the next section.
 
 ### Virtual service example {#virtual-service-example}
 
-Here’s a simple virtual service example. The following virtual service routes
+The following virtual service routes
 requests to different versions of a service depending on whether the request
 comes from a particular user.
 
@@ -796,23 +795,24 @@ For detailed instructions on how to configure delays and aborts, see
 
 ### Working with your applications {#working-with-your-applications}
 
--   Istio failure recovery features are completely transparent to the
-    application. Applications don’t know if an Envoy sidecar proxy is handling
-    failures for a called service before returning a response. This means that
-    if you are also setting failure recovery policies in your application code
-    you need to keep in mind that both work independently, and therefore might
-    conflict. For example, suppose you can have two timeouts, one configured in
-    a virtual service and another in the application. The application sets a 2
-    second timeout for an API call to a service. However, you configured a 3
-    second timeout with 1 retry in your virtual service. In this case, the
-    application’s timeout kicks in first, so your Envoy timeout and retry
-    attempt has no effect.
--   While Istio failure recovery features improve the reliability and
-    availability of services in the mesh, applications must handle the failure
-    or errors and take appropriate fallback actions. For example, when all
-    instances in a load balancing pool have failed, Envoy returns an `HTTP 503`
-    code. The application must implement any fallback logic needed to handle the
-    `HTTP 503` error code..
+Istio failure recovery features are completely transparent to the
+application. Applications don’t know if an Envoy sidecar proxy is handling
+failures for a called service before returning a response. This means that
+if you are also setting failure recovery policies in your application code
+you need to keep in mind that both work independently, and therefore might
+conflict. For example, suppose you can have two timeouts, one configured in
+a virtual service and another in the application. The application sets a 2
+second timeout for an API call to a service. However, you configured a 3
+second timeout with 1 retry in your virtual service. In this case, the
+application’s timeout kicks in first, so your Envoy timeout and retry
+attempt has no effect.
+
+While Istio failure recovery features improve the reliability and
+availability of services in the mesh, applications must handle the failure
+or errors and take appropriate fallback actions. For example, when all
+instances in a load balancing pool have failed, Envoy returns an `HTTP 503`
+code. The application must implement any fallback logic needed to handle the
+`HTTP 503` error code..
 
 ## Architecture {#architecture}
 
