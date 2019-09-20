@@ -284,7 +284,7 @@ rule has no match conditions and just directs traffic to the v3 subset.
 
 We recommend providing a default "no condition" or weight-based rule (described
 below) like this as the last rule in each virtual service to ensure that traffic
-to the virtual service always has at least one matching destination.
+to the virtual service always has at least one matching route.
 
 ### More about routing rules {#more-about-routing-rules}
 
