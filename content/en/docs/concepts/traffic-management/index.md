@@ -446,7 +446,7 @@ different versions.
 
 As well as defining subsets, this destination rule has both a default traffic
 policy for all subsets in this destination and a subset-specific policy that
-overrides it for just that subset. The default policy, defined above the subsets
+overrides it for just that subset. The default policy, defined above the `subsets`
 field, sets a simple random load balancer for the `v1` and `v3` subsets. In the
 `v2` policy, a round-robin load balancer is specified in the corresponding
 subset’s field.
