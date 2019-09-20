@@ -366,11 +366,8 @@ destination. Destination rules are applied after virtual service routing rules
 are evaluated, so they apply to the traffic’s "real" destination.
 
 In particular, you use destination rules to specify named service subsets, such
-as grouping all a given service’s instances by version. Defining subsets in
-destination rules lets you cleanly refer to a specific service version across
-different virtual services.
-
-You use service subsets in the routing rules of virtual services to control the
+as grouping all a given service’s instances by version. You can then use these
+service subsets in the routing rules of virtual services to control the
 traffic to different instances of your services.
 
 Destination rules also let you customize Envoy’s traffic policies when calling
