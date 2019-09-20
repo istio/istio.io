@@ -579,7 +579,7 @@ spec:
 {{< /text >}}
 
 You specify the external resource using the `hosts` key. You can qualify it
-fully or use a wildcard domain name.
+fully or use a wildcard prefixed domain name.
 
 You can configure virtual services and destination rules to control traffic to a
 service entry in a more granular way, in the same way you configure traffic for
