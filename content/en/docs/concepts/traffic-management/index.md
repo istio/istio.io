@@ -578,7 +578,7 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-You specify the external resource using the `hosts` key. You can qualify it
+You specify the external resource using the `hosts` field. You can qualify it
 fully or use a wildcard prefixed domain name.
 
 You can configure virtual services and destination rules to control traffic to a
