@@ -323,7 +323,7 @@ You can also have multiple routing rules for any given virtual service. This
 lets you make your routing conditions as complex or simple as you like within a
 single virtual service. A full list of match condition fields and their possible
 values can be found in the
-[HTTPMatchRequest reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPMatchRequest).
+[`HTTPMatchRequest` reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPMatchRequest).
 
 In addition to using match conditions, you can distribute traffic that
 distributes a particular routing by percentage "weight", useful for A/B testing
@@ -353,7 +353,7 @@ example:
 -   Set a [retry policy](#retries) for calls to this destination.
 
 To learn more about the actions available, see the
-[HTTPRoute reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
+[`HTTPRoute` reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
 
 ## Destination rules {#destination-rules}
 
