@@ -869,7 +869,7 @@ service mesh.
 
 Traffic in Istio is categorized as data plane traffic and control plane traffic.
 Data plane traffic refers to the data that the business logic of the workloads
-manipulate. Control plane traffic refers to configuration and control data sent
+send and receive. Control plane traffic refers to configuration and control messages sent
 between Istio components to program the behavior of the mesh. Traffic management
 in Istio refers exclusively to data plane traffic.
 
