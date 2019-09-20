@@ -121,7 +121,7 @@ The configuration changes above (by Helm or by the configuration map) effect all
 
 <!-- Add samples YAML or kubectl patch? -->
 
-Rather than install Istio with different Helm option, you can annotate Pod with `sidecar.istio.io/rewriteAppHTTPProbers: "true"` under `spec.template.metadata.annotations`.  If you annotate under `metadata.annotations`, the annotation is ignored.
+Rather than install Istio with different Helm option, you can annotate the [Pod object](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`.  If you annotate the other [Kubernetes objects](https://kubernetes.io/docs/concepts/#kubernetes-objects), the annotation will be ignored.
 
 {{< text yaml >}}
 apiVersion: extensions/v1beta1
