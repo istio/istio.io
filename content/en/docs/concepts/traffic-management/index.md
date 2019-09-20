@@ -35,10 +35,11 @@ failure recovery features, which, combined with Istio’s
 [observability](/docs/concepts/observability/) features, helps make your calls
 more reliable, and your network more robust.
 
-Istio’s traffic management model relies on the Envoy proxies that are deployed
-along with your services. All traffic that your mesh services send and receive
-(data plane traffic) is proxied through Envoy, making it easy to direct and
-control traffic around your mesh without making any changes to your services.
+Istio’s traffic management model relies on the {{< gloss >}}Envoy{{</ gloss >}}
+proxies that are deployed along with your services. All traffic that your mesh
+services send and receive ({{< gloss >}}data plane{{</ gloss >}} traffic) is proxied through Envoy, making
+it easy to direct and control traffic around your mesh without making any
+changes to your services.
 
 If you’re interested in the details of how the features described in this guide
 work, you can find out more about Istio’s traffic management architecture in the
@@ -48,10 +49,10 @@ this guide introduces Istio’s traffic management features.
 ## Introducing Istio Traffic Management
 
 In order to direct traffic around your mesh, Istio needs to know where all your
-endpoints are, and which services they belong to. To populate its own service
-registry, Istio connects to a service discovery system. For example, if you've
-installed Istio on a Kubernetes cluster, then by default Istio knows about all the
-services and endpoints in that cluster.
+endpoints are, and which services they belong to. To populate its own
+{{< gloss >}}service registry{{</ gloss >}}, Istio connects to a service
+discovery system. For example, if you've installed Istio on a Kubernetes cluster,
+then by default Istio knows about all the services and endpoints in that cluster.
 
 Using this service registry, the Envoy proxies can then direct traffic to the
 relevant services. Most microservice-based applications have multiple instances
@@ -92,7 +93,7 @@ are built in to the API’s resources.
 ## Virtual services {#virtual-services}
 
 [Virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/),
-along with [destination rules](#destination-rules), are the key building blocks of Istio’s traffic
+along with destination rules, are the key building blocks of Istio’s traffic
 routing functionality. A virtual service lets you configure how requests are
 routed to a service within an Istio service mesh, building on the basic
 connectivity and discovery provided by Istio and your platform. Each virtual
@@ -188,7 +189,7 @@ spec:
 
 #### The hosts field {#the-hosts-field}
 
-The `hosts` field lists the virtual service’s hosts - in other words, the user-addressable
+`hosts` lists the virtual service’s hosts - in other words, the user-addressable
 destination or destinations that these routing rules apply to. This is the
 address or addresses the client uses when sending requests to the service.
 
@@ -237,7 +238,7 @@ The route section’s destination field specifies the actual destination for
 traffic that matches this condition. Unlike the virtual service’s host(s), the
 destination’s host must be a real destination that exists in Istio’s service
 registry or Envoy won’t know where to send traffic to it. This can be a mesh
-service with proxies or a non-mesh service added using a service entry. In this
+service with proxies or a non-mesh service added using a Service Entry. In this
 case we’re running on Kubernetes and the host name is a Kubernetes service name:
 
 {{< text yaml >}}
@@ -452,7 +453,7 @@ subset’s field.
 
 ## Gateways {#gateways}
 
-You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/#Gateway) to
+You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/) to
 manage inbound and outbound traffic for your mesh, letting you specify which
 traffic you want to enter or leave the mesh. Gateway configurations are applied
 to standalone Envoy proxies that are running at the edge of the mesh, rather
@@ -609,9 +610,7 @@ for more possible configuration options.
 
 By default, Istio configures every Envoy proxy to accept traffic on all the
 ports of its associated workload, and to reach every workload in the mesh when
-forwarding traffic. You can use a
-[sidecar](/docs/reference/config/networking/v1alpha3/sidecar/#Sidecar)
-configuration to do the following:
+forwarding traffic. You can use a sidecar configuration to do the following:
 
 -   Fine-tune the set of ports and protocols that an Envoy proxy accepts.
 -   Limit the set of services that the Envoy proxy can reach.
