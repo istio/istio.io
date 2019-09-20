@@ -319,7 +319,7 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
-[intercepting](/docs/concepts/traffic-management/#traffic-routing-and-configuration)
+[intercepting](/docs/concepts/traffic-management/)
 external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
 or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
 update the `istio-sidecar-injector` configuration map using the `kubectl apply` command.
