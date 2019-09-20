@@ -234,7 +234,7 @@ the appropriate requests.
 
 ##### Destination {#destination}
 
-The route section’s destination field specifies the actual destination for
+The route section’s `destination` field specifies the actual destination for
 traffic that matches this condition. Unlike the virtual service’s host(s), the
 destination’s host must be a real destination that exists in Istio’s service
 registry or Envoy won’t know where to send traffic to it. This can be a mesh
