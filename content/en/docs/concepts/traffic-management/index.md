@@ -523,7 +523,7 @@ traffic.
 ## Service entries {#service-entries}
 
 You use a
-[service entry](/docs/reference/config/networking/v1alpha3/service-entry) to add
+[service entry](/docs/reference/config/networking/v1alpha3/service-entry/#ServiceEntry) to add
 an entry to the service registry that Istio maintains internally. After you add
 the service entry, the Envoy proxies can send traffic to the service as if it
 was a service in your mesh. Configuring service entries allows you to manage
