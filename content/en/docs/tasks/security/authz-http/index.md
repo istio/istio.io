@@ -84,7 +84,7 @@ the services must have one of the listed `app` labels.
       - services: ["*"]
         methods: ["GET"]
         constraints:
-        - key: "destination.labels[app]"
+        - key: "source.labels[app]"
           values: ["productpage", "details", "reviews", "ratings"]
     {{< /text >}}
 
