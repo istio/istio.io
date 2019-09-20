@@ -60,9 +60,9 @@ external dependency of your mesh to the service registry. You can do all this
 and more by adding your own traffic configuration to Istio using Istio’s traffic
 management API.
 
-Like other Istio configuration, the API is implemented as Kubernetes custom
-resources (CRDs), which you can configure using YAML, as you’ll see in the
-examples.
+Like other Istio configuration, the API is specified using Kubernetes custom
+resource definitions ({{< gloss >}}CRDs{{</ gloss >}}), which you can configure
+using YAML, as you’ll see in the examples.
 
 The rest of this guide looks at each of the traffic management API’s resources
 and what you can do with them. These resources are:
