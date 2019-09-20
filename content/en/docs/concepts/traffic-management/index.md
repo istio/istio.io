@@ -13,27 +13,14 @@ aliases:
     - /docs/concepts/traffic-management/pilot.html
 ---
 
--   [Introducing Istio Traffic Management](/docs/concepts/traffic-management/#introducing-istio-traffic-management):
-    Learn about how Istio helps you control the flow of traffic in your mesh
-    with simple, flexible configuration.
-
--   [Network resilience and testing](/docs/concepts/traffic-management/#network-resilience-and-testing):
-    Learn about Istio's dynamic failure recovery features that you can configure
-    to test and build tolerance for failing nodes, and to prevent cascading
-    failures to other nodes.
-
--   [Architecture](/docs/concepts/traffic-management/#architecture): Learn about
-    Pilot, Istio's core traffic management component and Envoy proxies and how
-    they enable service discovery and traffic control for services in the mesh.
-
 Istio’s traffic routing rules let you easily control the flow
 of traffic and API calls between services. Istio simplifies configuration of
 service-level properties like circuit breakers, timeouts, and retries, and makes
 it easy to set up important tasks like A/B testing, canary rollouts, and staged
 rollouts with percentage-based traffic splits. It also provides out-of-box
 failure recovery features, which, combined with Istio’s
-[observability](/docs/concepts/observability/) features, helps make your calls
-more reliable, and your network more robust.
+[observability](/docs/concepts/observability/) features, helps make your application
+more robust against failures of dependent services or the network.
 
 Istio’s traffic management model relies on the {{< gloss >}}Envoy{{</ gloss >}}
 proxies that are deployed along with your services. All traffic that your mesh
@@ -248,19 +235,19 @@ route:
     subset: v2
 {{< /text >}}
 
-{{< tip >}}
-In this and the other examples on this page, we use a Kubernetes short name for the
+Note in this and the other examples on this page, we use a Kubernetes short name for the
 destination hosts for simplicity. When this rule is evaluated, Istio adds a domain suffix based
 on the namespace of the virtual service that contains the routing rule to get
 the fully qualified name for the host. Using short names in our examples
 also means that you can copy and try them in any namespace you like.
 
-However, using short names like this only works if the
+{{< warning >}}
+Using short names like this only works if the
 destination hosts and the virtual service are actually in the same Kubernetes
 namespace. Because using the Kubernetes short name can result in
 misconfigurations, we recommend that you specify fully qualified host names in
 production environments.
-{{< /tip >}}
+{{< /warning >}}
 
 The destination section also specifies which subset of this Kubernetes service
 you want requests that match this rule’s conditions to go to, in this case the
