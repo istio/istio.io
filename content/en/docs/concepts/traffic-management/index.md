@@ -80,7 +80,7 @@ are built in to the API’s resources.
 ## Virtual services {#virtual-services}
 
 [Virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/#VirtualService),
-along with destination rules, are the key building blocks of Istio’s traffic
+along with [destination rules](#destination-rules), are the key building blocks of Istio’s traffic
 routing functionality. A virtual service lets you configure how requests are
 routed to a service within an Istio service mesh, building on the basic
 connectivity and discovery provided by Istio and your platform. Each virtual
@@ -562,8 +562,8 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-You specify the external resource using the `hosts` key. You can qualify it
-fully or use a wildcard domain name.
+You specify the external resource using the `hosts` field. You can qualify it
+fully or use a wildcard prefixed domain name.
 
 You can configure virtual services and destination rules to control traffic to a
 service entry in a more granular way, in the same way you configure traffic for
@@ -845,14 +845,14 @@ Pilot uses the abstract model to generate appropriate Envoy-specific
 configurations to let Envoy proxies know about one another in the mesh through
 the [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api).
 
-You can use Istio's **Traffic Management API** to instruct Pilot to refine the
+You can use Istio's [Traffic Management API](#introducing-istio-traffic-management) to instruct Pilot to refine the
 Envoy configuration to exercise more granular control over the traffic in your
 service mesh.
 
 ### Envoy proxies
 
 Traffic in Istio is categorized as data plane traffic and control plane traffic.
-Data plane traffic refers to the data that the business logic of the workloads
+Data plane traffic refers to the messages that the business logic of the workloads
 send and receive. Control plane traffic refers to configuration and control messages sent
 between Istio components to program the behavior of the mesh. Traffic management
 in Istio refers exclusively to data plane traffic.
