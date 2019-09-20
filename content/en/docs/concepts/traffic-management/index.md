@@ -504,14 +504,14 @@ spec:
       name: https
       protocol: HTTPS
     hosts:
-    - ext-host
+    - ext-host.example.com
     tls:
       mode: SIMPLE
       serverCertificate: /tmp/tls.crt
       privateKey: /tmp/tls.key
 {{< /text >}}
 
-This gateway configuration lets HTTPS traffic from `ext-host` into the mesh on
+This gateway configuration lets HTTPS traffic from `ext-host.example.com` into the mesh on
 port 443, but doesn’t specify any routing for the traffic.
 
 To specify routing and for the gateway to work as intended, you must also bind
@@ -525,7 +525,7 @@ metadata:
   name: virtual-svc
 spec:
   hosts:
-  - ext-svc
+  - ext-host.example.com
   gateways:
     - ext-host-gwy
 {{< /text >}}
@@ -569,7 +569,7 @@ metadata:
   name: svc-entry
 spec:
   hosts:
-  - ext-resource.com
+  - ext-svc.example.com
   ports:
   - number: 443
     name: https
@@ -578,14 +578,14 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-You specify the external resource using the `hosts` field. You can qualify it
-fully or use a wildcard prefixed domain name.
+You specify the external resource using the `hosts` key. You can qualify it
+fully or use a wildcard domain name.
 
 You can configure virtual services and destination rules to control traffic to a
 service entry in a more granular way, in the same way you configure traffic for
 any other service in the mesh. For example, the following destination rule
 configures the traffic route to use mutual TLS to secure the connection to the
-`ext-resource` external service that we configured using the service entry:
+`ext-svc.example.com` external service that we configured using the service entry:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -593,7 +593,7 @@ kind: DestinationRule
 metadata:
   name: ext-res-dr
 spec:
-  host: ext-resource.com
+  host: ext-svc.example.com
   trafficPolicy:
     tls:
       mode: MUTUAL
@@ -662,7 +662,7 @@ For some applications and services, Istio’s default timeout might not be
 appropriate. For example, a timeout that is too long could result in excessive
 latency from waiting for replies from failing services, while a timeout that is
 too short could result in calls failing unnecessarily while waiting for an
-operation involving multiple services to return. To find your optimal timeout
+operation involving multiple services to return. To find and use your optimal timeout
 settings, Istio lets you easily adjust timeouts dynamically on a per-service
 basis using [virtual services](#virtual-services) without having to edit your
 service code. Here’s a virtual service that specifies a 10 second timeout for
@@ -784,7 +784,7 @@ You can inject two types of faults, both configured using a
     Aborts usually manifest in the form of HTTP error codes or TCP connection
     failures.
 
-For example, this virtual service introduces a 5 second delay in 1 out of every 1000
+For example, this virtual service introduces a 5 second delay for 10% of the
 requests to the `ratings` service.
 
 {{< text yaml >}}
@@ -861,14 +861,14 @@ Pilot uses the abstract model to generate appropriate Envoy-specific
 configurations to let Envoy proxies know about one another in the mesh through
 the **Envoy API.**
 
-You can use Istio's [Traffic Management API](#traffic-routing-and-configuration) to instruct Pilot to refine the
+You can use Istio's **Traffic Management API** to instruct Pilot to refine the
 Envoy configuration to exercise more granular control over the traffic in your
 service mesh.
 
 ### Envoy proxies
 
 Traffic in Istio is categorized as data plane traffic and control plane traffic.
-Data plane traffic refers to the messages that the business logic of the workloads
+Data plane traffic refers to the data that the business logic of the workloads
 manipulate. Control plane traffic refers to configuration and control data sent
 between Istio components to program the behavior of the mesh. Traffic management
 in Istio refers exclusively to data plane traffic.
