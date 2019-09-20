@@ -222,7 +222,7 @@ to go and zero or more match conditions, depending on your use case.
 
 The first routing rule in the example has a condition and so begins with the
 `match` field. In this case you want this routing to apply to all requests from
-the user "jason", so you use the headers, end-user, and exact fields to select
+the user "jason", so you use the `headers`, `end-user`, and `exact` fields to select
 the appropriate requests.
 
 {{< text yaml >}}
