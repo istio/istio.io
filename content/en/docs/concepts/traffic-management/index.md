@@ -859,7 +859,7 @@ translates this data for the abstract model.
 
 Pilot uses the abstract model to generate appropriate Envoy-specific
 configurations to let Envoy proxies know about one another in the mesh through
-the **Envoy API.**
+the [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api).
 
 You can use Istio's **Traffic Management API** to instruct Pilot to refine the
 Envoy configuration to exercise more granular control over the traffic in your
