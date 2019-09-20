@@ -32,8 +32,7 @@ At a high level, the basic flow is the same regardless of platform:
 
 ## Downloading the release
 
-Istio is installed in its own `istio-system` namespace and can manage
-services from all other namespaces.
+Download the Istio release which includes installation files, samples and a command line utility.
 
 1.  Go to the [Istio release]({{< istio_release_url >}}) page to
     download the installation file corresponding to your OS. On a macOS or
@@ -55,7 +54,7 @@ services from all other namespaces.
 
     - Installation YAML files for Kubernetes in `install/kubernetes`
     - Sample applications in `samples/`
-    - The [`istioctl`]((/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
+    - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
 
 1.  Add the `istioctl` client to your path, on a macOS or
@@ -69,7 +68,8 @@ services from all other namespaces.
 
 ## Installing Istio
 
-Choose one of the following installation options, depending on your intended use:
+Istio is installed in its own `istio-system` namespace and can manage
+services from all other namespaces. Choose one of the following installation options, depending on your intended use:
 
 - [Demo installation](/docs/setup/install/kubernetes/):
    This option is ideal if you're new to Istio and just want to try it out.
