@@ -868,7 +868,7 @@ service mesh.
 ### Envoy proxies
 
 Traffic in Istio is categorized as data plane traffic and control plane traffic.
-Data plane traffic refers to the data that the business logic of the workloads
+Data plane traffic refers to the messages that the business logic of the workloads
 manipulate. Control plane traffic refers to configuration and control data sent
 between Istio components to program the behavior of the mesh. Traffic management
 in Istio refers exclusively to data plane traffic.
