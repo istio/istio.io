@@ -264,7 +264,7 @@ running in a second cluster. Before you begin:
     {{< /tip >}}
 
     If the global services have actual VIPs, you can use those, but otherwise we suggest
-    using IPs from the multicast range `224.0.0.0/8` that are not already allocated.
+    using IPs from the multicast range `224.0.0.0/4` that are not already allocated.
     These IPs are not loopback addresses and are non-routable outside of a pod.
     Application traffic for these IPs will be captured by the sidecar and routed to the
     appropriate remote service.
