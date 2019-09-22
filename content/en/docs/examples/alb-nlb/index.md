@@ -47,13 +47,13 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
 
 ##  Initial setting
 
-1.  Create two namespaces for this example, `httptools` and `bookinfo`:
+1.  Create the `httptools` namespace and mark it for Istio sidecar injection:
 
     {{< text bash >}}
     $ kubectl create namespace httptools
-    $ kubectl create namespace bookinfo
+    $ kubectl label --context=$CTX_CLUSTER2 namespace httptools istio-injection=enabled
     namespace/httptools created
-    namespace/bookinfo created
+    namespace/httptools labeled
     {{< /text >}}
 
 1.  Deploy the `httpbin` sample to `httptools`:
@@ -62,161 +62,6 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n httptools
     service/httpbin created
     deployment.apps/httpbin created
-    {{< /text >}}
-
-1.  Deploy the ratings service from [the Bookinfo sample application](/docs/examples/bookinfo/):
-
-    {{< text bash >}}
-    $ kubectl apply -l app!=ratings,app!=reviews,app!=details,app!=productpage -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -n bookinfo
-    $ kubectl apply -l app=ratings -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -n bookinfo
-    serviceaccount/bookinfo-details created
-    serviceaccount/bookinfo-ratings created
-    serviceaccount/bookinfo-reviews created
-    serviceaccount/bookinfo-productpage created
-    service/ratings created
-    deployment.apps/ratings-v1 created
-    {{< /text >}}
-
-1.  Check the deployed pods. Note that since you did not label the namespaces for Istio injection, Istio sidecars were
-    not injected.
-
-    {{< text bash >}}
-    $ kubectl get pod -l app=httpbin -n httptools
-    NAME                       READY   STATUS    RESTARTS   AGE
-    httpbin-58d975cf88-fjt6h   1/1     Running   0          3m
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get pod -l app=ratings -n bookinfo
-    NAME                          READY   STATUS    RESTARTS   AGE
-    ratings-v1-5684b58ddd-26xmc   1/1     Running   0          9s
-    {{< /text >}}
-
-## Configure ALB ingress for your services
-
-1.  Store the name of your cluster in the `CLUSTER_NAME` environment variable:
-
-    {{< text bash >}}
-    $ export CLUSTER_NAME=<your cluster name>
-    {{< /text >}}
-
-    You can print your clusters by the following command:
-
-    {{< text bash >}}
-    $ kubectl config get-clusters
-    {{< /text >}}
-
-1.  Store the domain name of your cluster in the `ALB_INGRESS_DOMAIN` environment variable:
-
-    {{< text bash >}}
-    $ ibmcloud ks cluster get --cluster $CLUSTER_NAME | grep Ingress
-    Ingress Subdomain:              <your ALB ingress domain>   
-    Ingress Secret:                 <your ALB secret>
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ export ALB_INGRESS_DOMAIN=<your ALB ingress domain>
-    $ export ALB_SECRET=<your ALB secret>
-    {{< /text >}}
-
-1.  Configure an Ingress resource for the `httptools` namespace:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
-    kind: Ingress
-    metadata:
-      name: alb-ingress
-      namespace: httptools
-      annotations:
-        ingress.bluemix.net/redirect-to-https: "True"
-    spec:
-      tls:
-      - hosts:
-        - httptools.$ALB_INGRESS_DOMAIN
-        secretName: $ALB_SECRET
-      rules:
-      - host: httptools.$ALB_INGRESS_DOMAIN
-        http:
-          paths:
-          - path: /status
-            backend:
-              serviceName: httpbin
-              servicePort: 8000
-    EOF
-    {{< /text >}}
-
-1.  Test the ALB ingress for `httpbin`:
-
-    {{< text bash >}}
-    $ curl https://httptools.$ALB_INGRESS_DOMAIN/status/418
-
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
-    {{< /text >}}
-
-1.  Configure an Ingress resource for the `bookinfo` namespace:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
-    kind: Ingress
-    metadata:
-      name: alb-ingress
-      namespace: bookinfo
-      annotations:
-        ingress.bluemix.net/redirect-to-https: "True"
-    spec:
-      tls:
-      - hosts:
-        - bookinfo.$ALB_INGRESS_DOMAIN
-        secretName: $ALB_SECRET
-      rules:
-      - host: bookinfo.$ALB_INGRESS_DOMAIN
-        http:
-          paths:
-          - path: /ratings
-            backend:
-              serviceName: ratings
-              servicePort: 9080
-    EOF
-    {{< /text >}}
-
-1.  Test the ALB ingress for `ratings`:
-
-    {{< text bash >}}
-    $ curl https://bookinfo.$ALB_INGRESS_DOMAIN/ratings/0
-    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
-    {{< /text >}}
-
-## Apply sidecar injection to the `httptools` namespace
-
-1.  Label the `httptools` namespace for injection:
-
-    {{< text bash >}}
-    $ kubectl label --context=$CTX_CLUSTER2 namespace httptools istio-injection=enabled
-    namespace/httptools labeled
-    {{< /text >}}
-
-1.  Restart the `httpbin` pod:
-
-    {{< text bash >}}
-    $ kubectl delete pod -l app=httpbin -n httptools
-    {{< /text >}}
-
-1.  Verify that the pod of `httpbin` has two containers now:
-
-    {{< text bash >}}
-    $ kubectl get pod -l app=httpbin -n httptools
-    NAME                       READY   STATUS    RESTARTS   AGE
-    httpbin-58d975cf88-tg27w   2/2     Running   0          13s
     {{< /text >}}
 
 1.  Require {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} for the traffic to the services in
@@ -234,7 +79,8 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
     EOF
     {{< /text >}}
 
-    Add a corresponding destination rule:
+1.  Add a destination rule to instruct the sidecars to perform {{< gloss >}}mutual TLS authentication{{< /gloss >}} when
+    calling the services inside `httptools`:
 
     {{< text bash >}}
     $ kubectl apply -n httptools -f - <<EOF
@@ -250,53 +96,12 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
     EOF
     {{< /text >}}
 
-1.  Disable TLS for the traffic to the services in the `bookinfo` namespace:
+## Create secrets for {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between ALB and Istio ingress gateway
 
-    {{< text bash >}}
-    $ kubectl apply -n bookinfo -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: default
-    spec:
-      host: "*.bookinfo.svc.cluster.local"
-      trafficPolicy:
-        tls:
-          mode: DISABLE
-    EOF
-    {{< /text >}}
+In this section you create secrets to mount certificates and private keys into ALB and Istio ingress gateway pods. You
+extract the certificates and private keys from the secrets that are provided by IBM Cloud Kubernetes Service.
 
-1.  Check the ALB ingress for `httpbin`:
-
-    {{< text bash >}}
-    $ curl https://httptools.$ALB_INGRESS_DOMAIN/status/418
-    <html>
-    <head><title>502 Bad Gateway</title></head>
-    <body>
-    <center><h1>502 Bad Gateway</h1></center>
-    <hr><center>nginx</center>
-    </body>
-    </html>
-    {{< /text >}}
-
-    You get the error since the `httpbin` service requires
-    {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} with an Istio indentity, which the ALB lacks.
-    At this point you have two options:
-    1. Allow [permissive mode](/docs/tasks/security/authz-permissive/) for the traffic to `httpbin` service,
-    so ALB will communicate with the service by sending non-encrypted traffic.
-    1. Direct the traffic to the `httpbin` service through an Istio ingress gateway. An Istio ingress gateway has an
-    Istio identity and is able to communicate with the service using
-    {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}. You configure ALB and the Istio
-    ingress gateway to setup {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between them, so all
-    the traffic is encrypted.
-
-    If the first option is not valid for you since you want all the traffic to be encrypted end-to-end, you must direct
-    the traffic from ALB through an Istio ingress gateway, with
-    {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between them.
-
-## Expose your services with NLB and Istio ingress gateway, for HTTP (non-encrypted) traffic
-
-1.  Create a DNS host name to register the IP of the Istio Ingress Gateway service
+1.  Create a DNS host name to register the IP of the Istio ingress gateway service
 
     {{< text bash >}}
     $ ibmcloud ks nlb-dns-create --cluster $CLUSTER_NAME --ip $INGRESS_HOST
@@ -314,88 +119,6 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
     {{< text bash >}}
     $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep enabled | grep $INGRESS_HOST
     {{< /text >}}
-
-1.  Create an Istio `Gateway`:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: default-ingress-gateway
-    spec:
-      selector:
-        istio: ingressgateway # use Istio default gateway implementation
-      servers:
-      - port:
-          number: 80
-          name: http
-          protocol: HTTP
-        hosts:
-        - "*"
-    EOF
-    {{< /text >}}
-
-1.  Configure routes for traffic entering via the `Gateway`:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: default-ingress
-    spec:
-      hosts:
-      - "*"
-      gateways:
-      - default-ingress-gateway
-      http:
-      - match:
-        - uri:
-            prefix: /status
-        route:
-        - destination:
-            port:
-              number: 8000
-            host: httpbin.httptools.svc.cluster.local
-      - match:
-        - uri:
-            prefix: /ratings
-        route:
-        - destination:
-            port:
-              number: 9080
-            host: ratings.bookinfo.svc.cluster.local
-    EOF
-    {{< /text >}}
-
-1.  Test the Istio ingress gateway with NLB for `httpbin`, HTTP traffic:
-
-    {{< text bash >}}
-    $ curl http://$NLB_INGRESS_DOMAIN/status/418
-
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
-    {{< /text >}}
-
-1.  Test the Istio ingress gateway with NLB for `ratings`, HTTP traffic:
-
-    {{< text bash >}}
-    $ curl http://$NLB_INGRESS_DOMAIN/ratings/0
-    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
-    {{< /text >}}
-
-## Create secrets for {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between ALB and Istio ingress gateway
-
-In this section you create secrets to mount certificates and private keys into ALB and Istio ingress gateway pods. You
-extract the certificates and private keys from the secrets that are provided by IBM Cloud Kubernetes Service.
 
 1.  Learn the name of the secret provided for the NLB. Check the secret name that matches your $INGRESS_HOST IP address:
 
@@ -533,6 +256,31 @@ You use the certificates and the keys provided to you for the NLB and ALB.
 
 ## Configure the ALB ingress to direct traffic through the Istio ingress gateway, over {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}
 
+1.  Store the name of your cluster in the `CLUSTER_NAME` environment variable:
+
+    {{< text bash >}}
+    $ export CLUSTER_NAME=<your cluster name>
+    {{< /text >}}
+
+    You can print your clusters by the following command:
+
+    {{< text bash >}}
+    $ kubectl config get-clusters
+    {{< /text >}}
+
+1.  Store the domain name of your cluster in the `ALB_INGRESS_DOMAIN` environment variable:
+
+    {{< text bash >}}
+    $ ibmcloud ks cluster get --cluster $CLUSTER_NAME | grep Ingress
+    Ingress Subdomain:              <your ALB ingress domain>
+    Ingress Secret:                 <your ALB secret>
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ export ALB_INGRESS_DOMAIN=<your ALB ingress domain>
+    $ export ALB_SECRET=<your ALB secret>
+    {{< /text >}}
+
 1.  Delete the previous version of the Ingress resource for `httpbin`:
 
     {{< text bash >}}
@@ -581,13 +329,6 @@ You use the certificates and the keys provided to you for the NLB and ALB.
       |       ;/
       \_     _/
         `"""`
-    {{< /text >}}
-
-1.  Verify that `ratings` is still accessible:
-
-    {{< text bash >}}
-    $ curl https://bookinfo.$ALB_INGRESS_DOMAIN/ratings/0
-    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
 ## Troubleshooting
@@ -689,11 +430,9 @@ Following the instructions in this section if some of the instructions above do 
     $ kubectl delete ingress alb-ingress -n istio-system
     $ kubectl delete virtualservice default-ingress
     $ kubectl delete gateway default-ingress-gateway
-    $ kubectl delete ingress alb-ingress -n bookinfo
     $ kubectl delete ingress alb-ingress -n httptools --ignore-not-found=true
     $ kubectl delete policy default -n httptools --ignore-not-found=true
     $ kubectl delete destinationrule default -n httptools
-    $ kubectl delete destinationrule default -n bookinfo
     $ kubectl delete secrets istio-ingressgateway-certs istio-ingressgateway-ca-certs alb-certs -n istio-system
     $ rm -rf nlb_certs alb_certs trustid-x3-root.pem trusted.crt
     $ unset CLUSTER_NAME ALB_INGRESS_DOMAIN ALB_SECRET NLB_INGRESS_DOMAIN NLB_SECRET
@@ -705,15 +444,8 @@ Following the instructions in this section if some of the instructions above do 
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@ -n httptools
     {{< /text >}}
 
-1.  Shutdown the `ratings` service:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo.yaml@ --ignore-not-found=true -n bookinfo
-    {{< /text >}}
-
-1.  Delete the namespaces:
+1.  Delete the `httptools` namespace:
 
     {{< text bash >}}
     $ kubectl delete namespace httptools
-    $ kubectl delete namespace bookinfo
     {{< /text >}}
