@@ -1,22 +1,31 @@
 ---
 title: Integrate Istio with IBM Cloud Kubernetes Service ALB and NLB
-description: Use NLB to handle DNS for an Istio ingress gateway. Gradually migrate from ALB to an Istio ingress gateway in a secure way.
+description: Use NLB to handle DNS for an Istio ingress gateway. Direct traffic from ALB to an Istio ingress gateway in a secure way.
 weight: 43
 keywords: [traffic-management,ingress,file-mount-credentials]
 ---
 
 This example shows how you can use [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/kubernetes-service/)
 [ALB](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about) and
-[NLB](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about) with Istio. You start with two services
-without Istio and expose them by ALB. Then you perform sidecar injection on one service and enable Istio
-{{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} on the traffic to the service.
-You configure an Istio ingress gateway with NLB to expose both services (the one with Istio sidecar and the other
-without Istio sidecar).
+[NLB](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about) with Istio.
 
-Finally, you configure ALB to direct traffic to the service with Istio sidecar through the ingress gateway, while using
-{{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between ALB and the gateway.
-The traffic to the service without Istio sidecar continues to flow as previously,
-directly from ALB.
+When you use IBM Cloud Kubernetes Service without Istio, you may control your ingress traffic using ALB. You
+configure the ingress-traffic routing using a Kubernetes
+[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resource with
+[ALB-specific annotations](https://cloud.ibm.com/docs/containers?topic=containers-ingress_annotation).
+
+When you start using Istio on IBM Cloud Kubernetes service, you may want to switch to using
+the [Istio ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/) for controlling ingress traffic.
+Moreover, when you require Istio {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between the services,
+your ALB will not be able to talk to the services inside the mesh, since ALB lacks an Istio
+{{< gloss >}}identity{{< /gloss >}}. In such a case you have no other option but to use the Istio ingress gateway.
+
+You still have an option to use ALB with Istio. To do it, direct the incoming traffic to the Istio ingress gateway and
+let Istio ingress gateway handle further routing and {{< gloss >}}TLS origination{{< /gloss >}} to the services in the mesh.
+
+This example shows how you can configure ALB to direct traffic to the services inside an Istio service mesh through the
+Istio ingress gateway, while using {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between ALB and the
+gateway. The traffic to the services without Istio sidecar can continue to flow as before, directly from ALB.
 
 ## Before you begin
 
