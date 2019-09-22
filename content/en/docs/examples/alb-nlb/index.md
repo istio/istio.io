@@ -51,7 +51,7 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
 
     {{< text bash >}}
     $ kubectl create namespace httptools
-    $ kubectl label --context=$CTX_CLUSTER2 namespace httptools istio-injection=enabled
+    $ kubectl label namespace httptools istio-injection=enabled
     namespace/httptools created
     namespace/httptools labeled
     {{< /text >}}
