@@ -29,8 +29,8 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
 
 ## Before you begin
 
-1.  [Install Istio](https://istio.io/docs/setup/kubernetes/) to your IBM Cloud Kubernetes cluster or use
-    [the managed Istio add-on](https://cloud.ibm.com/docs/containers?topic=containers-istio#istio_tutorial).
+1.  Use [the managed Istio add-on](https://cloud.ibm.com/docs/containers?topic=containers-istio#istio_tutorial) or
+    [Install Istio](https://istio.io/docs/setup/kubernetes/) to your IBM Cloud Kubernetes cluster
 
 1. Perform the steps in the [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports) section, while verifying that you have an external load balancer for the `istio-ingressgateway` service.
 
