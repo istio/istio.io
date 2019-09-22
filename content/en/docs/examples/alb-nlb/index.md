@@ -23,7 +23,7 @@ your ALB will not be able to talk to the services inside the mesh, since ALB lac
 You still have an option to use ALB with Istio. To do it, direct the incoming traffic to the Istio ingress gateway and
 let Istio ingress gateway handle further routing and {{< gloss >}}TLS origination{{< /gloss >}} to the services in the mesh.
 
-This example shows how you can configure ALB to direct traffic to the services inside an Istio service mesh through the
+In this example you configure ALB to direct traffic to the services inside an Istio service mesh through the
 Istio ingress gateway, while using {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between ALB and the
 gateway. The traffic to the services without Istio sidecar can continue to flow as before, directly from ALB.
 
