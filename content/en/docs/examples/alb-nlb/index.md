@@ -96,12 +96,37 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
     EOF
     {{< /text >}}
 
-## Create secrets for {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between ALB and Istio ingress gateway
+## Create secrets for ALB and Istio ingress gateway
 
 In this section you create secrets to mount certificates and private keys into ALB and Istio ingress gateway pods. You
 extract the certificates and private keys from the secrets that are provided by IBM Cloud Kubernetes Service.
 
-1.  Create a DNS host name to register the IP of the Istio ingress gateway service
+1.  Store the name of your cluster in the `CLUSTER_NAME` environment variable:
+
+    {{< text bash >}}
+    $ export CLUSTER_NAME=<your cluster name>
+    {{< /text >}}
+
+    You can print your clusters by the following command:
+
+    {{< text bash >}}
+    $ kubectl config get-clusters
+    {{< /text >}}
+
+1.  Store the domain name of your cluster in the `ALB_INGRESS_DOMAIN` environment variable:
+
+    {{< text bash >}}
+    $ ibmcloud ks cluster get --cluster $CLUSTER_NAME | grep Ingress
+    Ingress Subdomain:              <your ALB ingress domain>
+    Ingress Secret:                 <your ALB secret>
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ export ALB_INGRESS_DOMAIN=<your ALB ingress domain>
+    $ export ALB_SECRET=<your ALB secret>
+    {{< /text >}}
+
+1.  Create a DNS host name to register the IP of the Istio ingress gateway service:
 
     {{< text bash >}}
     $ ibmcloud ks nlb-dns-create --cluster $CLUSTER_NAME --ip $INGRESS_HOST
@@ -114,21 +139,26 @@ extract the certificates and private keys from the secrets that are provided by 
     $ export NLB_INGRESS_DOMAIN=<the domain from the previous command>
     {{< /text >}}
 
-    You can list the NLB domain names matching your Ingress Gateway's IP, any time by the following command:
+1.  List the NLB domain names:
+
+    {{< text bash >}}
+    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME
+    Retrieving host names, certificates, IPs, and health check monitors for network load balancer (NLB) pods in cluster <your cluster>...
+    OK
+    Hostname              IP(s)               Health Monitor   SSL Cert Status   SSL Cert Secret Name
+    <your NLB hostname>   <your ingress IP>   enabled          created           <the matching secret name>
+    ...
+    {{< /text >}}
+
+    Wait until the status of the NLB hostname that matches the IP of the Istio ingress gateway service becomes `enabled`.
+
+1.  To output the enabled NLB hostname that matches the IP of the Istio ingress gateway service, run:
 
     {{< text bash >}}
     $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep enabled | grep $INGRESS_HOST
     {{< /text >}}
 
-1.  Learn the name of the secret provided for the NLB. Check the secret name that matches your $INGRESS_HOST IP address:
-
-    {{< text bash >}}
-    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep enabled | grep $INGRESS_HOST
-    {{< /text >}}
-
-    The value in the last column is the name of the secret.
-
-1.  Store the name of the secret in an environment variable:
+1.  Store the name of the secret that matches the IP of the Istio ingress gateway service:
 
     {{< text bash >}}
     $ export NLB_SECRET=<your NLB secret's name which appears as the last value in the output of the previous command>
@@ -191,13 +221,13 @@ extract the certificates and private keys from the secrets that are provided by 
     secret "alb-certs" created
     {{< /text >}}
 
-## Configure a {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} ingress gateway
+## Configure a mutual TLS ingress gateway
 
 In this section you configure the Istio ingress gateway to perform
 {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between external clients and the gateway.
 You use the certificates and the keys provided to you for the NLB and ALB.
 
-1.  Redefine your previous `Gateway` to allow access on port 443 only, with
+1.  Define a `Gateway` to allow access on port 443 only, with
     {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}:
 
     {{< text bash >}}
@@ -221,6 +251,31 @@ You use the certificates and the keys provided to you for the NLB and ALB.
           caCertificates: /etc/istio/ingressgateway-ca-certs/trustid-x3-root.pem
         hosts:
         - "*"
+    EOF
+    {{< /text >}}
+
+1. Configure routes for traffic entering via the `Gateway`:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: default-ingress
+    spec:
+      hosts:
+      - "*"
+      gateways:
+      - default-ingress-gateway
+      http:
+      - match:
+        - uri:
+            prefix: /status
+        route:
+        - destination:
+            port:
+              number: 8000
+            host: httpbin.httptools.svc.cluster.local
     EOF
     {{< /text >}}
 
@@ -254,40 +309,9 @@ You use the certificates and the keys provided to you for the NLB and ALB.
     $ rm -r nlb_certs alb_certs trustid-x3-root.pem trusted.crt
     {{< /text >}}
 
-## Configure the ALB ingress to direct traffic through the Istio ingress gateway, over {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}
+## Configure ALB
 
-1.  Store the name of your cluster in the `CLUSTER_NAME` environment variable:
-
-    {{< text bash >}}
-    $ export CLUSTER_NAME=<your cluster name>
-    {{< /text >}}
-
-    You can print your clusters by the following command:
-
-    {{< text bash >}}
-    $ kubectl config get-clusters
-    {{< /text >}}
-
-1.  Store the domain name of your cluster in the `ALB_INGRESS_DOMAIN` environment variable:
-
-    {{< text bash >}}
-    $ ibmcloud ks cluster get --cluster $CLUSTER_NAME | grep Ingress
-    Ingress Subdomain:              <your ALB ingress domain>
-    Ingress Secret:                 <your ALB secret>
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ export ALB_INGRESS_DOMAIN=<your ALB ingress domain>
-    $ export ALB_SECRET=<your ALB secret>
-    {{< /text >}}
-
-1.  Delete the previous version of the Ingress resource for `httpbin`:
-
-    {{< text bash >}}
-    $ kubectl delete ingress alb-ingress -n httptools
-    {{< /text >}}
-
-1.  Configure the Ingress resource for ALB. This time you create the Ingress resource in the `istio-system` namespace,
+1.  Configure the `Ingress` resource for ALB. You must create the `Ingress` resource in the `istio-system` namespace,
     since it will forward the traffic to the Istio ingress gateway in the `istio-system` namespace.
 
     {{< text bash >}}
@@ -333,7 +357,8 @@ You use the certificates and the keys provided to you for the NLB and ALB.
 
 ## Troubleshooting
 
-Following the instructions in this section if some of the instructions above do not work for you.
+Perform the instructions in this section to diagnose possible problems if some of the instructions above do not work for
+you.
 
 *   Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment
     variables. Make sure they have valid values, according to the output of the
@@ -349,6 +374,13 @@ Following the instructions in this section if some of the instructions above do 
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
+    total 8
+    drwxrwxrwt 3 root root  120 Sep 22 13:09 .
+    drwxr-xr-x 1 root root 4096 Sep 22 13:09 ..
+    drwxr-xr-x 2 root root   80 Sep 22 13:09 ..2019_09_22_13_09_11.349836699
+    lrwxrwxrwx 1 root root   31 Sep 22 13:09 ..data -> ..2019_09_22_13_09_11.349836699
+    lrwxrwxrwx 1 root root   14 Sep 22 13:09 tls.crt -> ..data/tls.crt
+    lrwxrwxrwx 1 root root   14 Sep 22 13:09 tls.key -> ..data/tls.key
     {{< /text >}}
 
     `tls.crt` and `tls.key` should exist in the directory contents.
@@ -363,7 +395,7 @@ Following the instructions in this section if some of the instructions above do 
 *   Verify that the DNS values of the Alternative Subject Name are correct in the certificate of the ingress gateway:
 
     {{< text bash >}}
-    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'Subject:'
+    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'DNS:'
     DNS: <DNS names>
     {{< /text >}}
 
@@ -371,13 +403,22 @@ Following the instructions in this section if some of the instructions above do 
     output of the previous command:
 
     {{< text bash >}}
-    $ echo $NLB_INGRESS_DOMAIN
+    $ echo $NLB_INGRESS_DOMAIN should appear in the list below
+    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'DNS:' | grep $NLB_INGRESS_DOMAIN
+    <the value of NLB_INGRESS_DOMAIN> should be in the list below
+    DNS: <DNS names>
     {{< /text >}}
 
 *   Verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-ca-certs
+    total 8
+    drwxrwxrwt 3 root root  100 Sep 22 13:09 .
+    drwxr-xr-x 1 root root 4096 Sep 22 13:09 ..
+    drwxr-xr-x 2 root root   60 Sep 22 13:09 ..2019_09_22_13_09_11.177948716
+    lrwxrwxrwx 1 root root   31 Sep 22 13:09 ..data -> ..2019_09_22_13_09_11.177948716
+    lrwxrwxrwx 1 root root   26 Sep 22 13:09 trustid-x3-root.pem -> ..data/trustid-x3-root.pem
     {{< /text >}}
 
     `trustid-x3-root.pem` should exist in the directory contents.
@@ -392,7 +433,7 @@ Following the instructions in this section if some of the instructions above do 
 *   Verify that the proxy of the ingress gateway is aware of the certificates:
 
     {{< text bash >}}
-    $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -- curl  127.0.0.1:15000/certs | grep path | sort | uniq
+    $ kubectl exec -it $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -- curl 127.0.0.1:15000/certs | grep path | sort | uniq
      "path": "/etc/certs/cert-chain.pem",
      "path": "/etc/certs/root-cert.pem",
      "path": "/etc/istio/ingressgateway-ca-certs/trustid-x3-root.pem",
@@ -408,15 +449,16 @@ Following the instructions in this section if some of the instructions above do 
 *   For macOS users, verify that you use `curl` compiled with the [LibreSSL](http://www.libressl.org)
     library, as described in the [Before you begin](#before-you-begin) section.
 
-*  The generated Nginx configuration for the ALB is in  /etc/nginx/conf.d/istio-system-alb-ingress.conf.
-
 *  Check the ALB pods:
 
     {{< text bash >}}
     $ kubectl get pods -n kube-system | grep alb
     {{< /text >}}
 
-*  Check the logs of Nginx:
+    You may want to inspect the generated Nginx configuration for the ALB in
+    `/etc/nginx/conf.d/istio-system-alb-ingress.conf`.
+
+*  Check the logs of Nginx in ALB:
 
     {{< text bash >}}
     $ kubectl logs <alb pod from the command above> -c nginx-ingress -n kube-system
@@ -430,7 +472,6 @@ Following the instructions in this section if some of the instructions above do 
     $ kubectl delete ingress alb-ingress -n istio-system
     $ kubectl delete virtualservice default-ingress
     $ kubectl delete gateway default-ingress-gateway
-    $ kubectl delete ingress alb-ingress -n httptools --ignore-not-found=true
     $ kubectl delete policy default -n httptools --ignore-not-found=true
     $ kubectl delete destinationrule default -n httptools
     $ kubectl delete secrets istio-ingressgateway-certs istio-ingressgateway-ca-certs alb-certs -n istio-system
