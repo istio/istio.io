@@ -37,7 +37,7 @@ If you're editing the values.yml file, don't enable
 sds:
   enabled: false
 {{< /text >}}
-This will enable `mtls` between pods.
+This will enable `mtls` between pods which will cause pods to become unhealthy, if you don't have `mtls` configured.
 {{< /tip >}}
 
 ## Configuring DNS name and gateway
