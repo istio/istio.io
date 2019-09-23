@@ -264,10 +264,8 @@ running in a second cluster. Before you begin:
     {{< /tip >}}
 
     If the global services have actual VIPs, you can use those, but otherwise we suggest
-    using IPs from the loopback range `127.0.0.0/8` that are not already allocated.
-    These IPs are non-routable outside of a pod.
-    In this example we'll use IPs in `127.255.0.0/16` which avoids conflicting with
-    well known IPs such as `127.0.0.1` (`localhost`).
+    using IPs from the multicast range `224.0.0.0/4` that are not already allocated.
+    These IPs are not loopback addresses and are non-routable outside of a pod.
     Application traffic for these IPs will be captured by the sidecar and routed to the
     appropriate remote service.
 
@@ -294,7 +292,7 @@ running in a second cluster. Before you begin:
       # must be unique for each remote service, within a given cluster.
       # This address need not be routable. Traffic for this IP will be captured
       # by the sidecar and routed appropriately.
-      - 127.255.0.2
+      - 224.0.0.2
       endpoints:
       # This is the routable address of the ingress gateway in cluster2 that
       # sits in front of sleep.foo service. Traffic from the sidecar will be
@@ -365,7 +363,7 @@ spec:
     protocol: http
   resolution: STATIC
   addresses:
-  - 127.255.0.2
+  - 224.0.0.2
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     network: external
@@ -399,7 +397,7 @@ spec:
     protocol: http
   resolution: DNS
   addresses:
-  - 127.255.0.2
+  - 224.0.0.2
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     network: external
@@ -459,7 +457,7 @@ spec:
   addresses:
   # the IP address to which httpbin.bar.global will resolve to
   # must be unique for each service.
-  - 127.255.0.2
+  - 224.0.0.2
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     labels:
