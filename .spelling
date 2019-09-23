@@ -383,7 +383,6 @@ OpenShift
 OpenSSL
 openssl
 OpenTracing
-ORIGINAL\_DST\_LB
 OS-level
 Ostrowski
 p50
@@ -475,7 +474,6 @@ Secura
 selinux
 serverless
 serviceaccount
-ServiceEntries
 ServiceGraph
 servicegraph-example
 ServiceMesher
@@ -491,7 +489,6 @@ sinkInfo
 SLOs
 Snell-Feikema
 SNI
-SO_ORIGINAL_DST
 SolarWinds
 SPIFFE
 SPIFFE-compliant

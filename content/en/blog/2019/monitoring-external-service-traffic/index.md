@@ -1,7 +1,7 @@
 ---
 title: "Monitoring blocked and passthrough external service traffic"
 description: "How can you use Istio to monitor blocked and passthrough external traffic."
-publishdate: 2019-09-19
+publishdate: 2019-09-23
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [monitoring,blackhole,passthrough]
 ---
@@ -48,9 +48,8 @@ options, first to block all external service access (enabled  by setting
 `global.outboundTrafficPolicy.mode` to `REGISTRY_ONLY`) and
 second to allow all access to external service (enabled  by setting
 `global.outboundTrafficPolicy.mode` to `ALLOW_ANY`). The default option for this
-setting (as of `release-1.3`) is to allow all external service access. This
-option can be configured via `MeshConfig` as explained
-[here](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode).
+setting (as of Istio 1.3) is to allow all external service access. This
+option can be configured via [mesh configuration](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode).
 
 This is where the BlackHole and Passthrough clusters are used.
 
@@ -59,10 +58,10 @@ This is where the BlackHole and Passthrough clusters are used.
 * **BlackHoleCluster** - The BlackHoleCluster is a virtual cluster created
   in the Envoy configuration when `global.outboundTrafficPolicy.mode` is set to
   `REGISTRY_ONLY`. In this mode, all traffic to external service is blocked unless
-  [ServiceEntries](/docs/reference/config/networking/v1alpha3/service-entry)
+  [service entries](/docs/reference/config/networking/v1alpha3/service-entry)
   are explicitly added for each service. To implement this, the default virtual
   outbound listener at `0.0.0.0:15001` which uses
-  [SO_ORIGINAL_DST](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)
+  [original destination](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)
   is setup as a TCP Proxy with the BlackHoleCluster as the static cluster.
   The configuration for the BlackHoleCluster looks like this:
 
@@ -129,8 +128,8 @@ This is where the BlackHole and Passthrough clusters are used.
     }
   {{< /text >}}
 
-  This cluster uses the [ORIGINAL\_DST\_LB](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)
-  load balancing policy which configures Envoy to send the traffic to the
+  This cluster uses the [original destination load balancing](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)
+  policy which configures Envoy to send the traffic to the
   original destination i.e. passthrough.
 
   Similar to the BlackHoleCluster, for every port/protocol based listener the
@@ -156,7 +155,7 @@ This is where the BlackHole and Passthrough clusters are used.
     }
   {{< /text >}}
 
-Before release 1.3, there were no metrics reported or if metrics were reported
+Prior to Istio 1.3, there were no metrics reported or if metrics were reported
 there were no explicit labels set when traffic hit these clusters, resulting in
 lack of visibility in traffic flowing through the mesh.
 
@@ -372,8 +371,3 @@ labels emitted based on the listener type invoked in Envoy.
 
 Monitoring these metrics can help operators easily understand all the external
 services consumed by the applications in their cluster.
-
-### References
-
-* [Issue #14664](https://github.com/istio/istio/issues/14664)
-* [Issue #7669](https://github.com/istio/istio/issues/7669)
