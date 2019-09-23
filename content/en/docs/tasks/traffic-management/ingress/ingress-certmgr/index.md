@@ -33,7 +33,7 @@ By default `istio-ingressgateway` will be exposed as a `LoadBalancer` service ty
 
 {{< tip >}}
 If you're editing the values.yml file, don't enable
-{{< text bash >}}
+{{< text yaml >}}
 sds:
   enabled: false
 {{< /text >}}
