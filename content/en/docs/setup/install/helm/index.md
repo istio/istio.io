@@ -358,6 +358,7 @@ $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=k
     $ helm delete --purge istio
     $ helm delete --purge istio-init
     $ helm delete --purge istio-cni
+    $ kubectl delete namespace istio-system
     {{< /text >}}
 
 ## Deleting CRDs and Istio Configuration
