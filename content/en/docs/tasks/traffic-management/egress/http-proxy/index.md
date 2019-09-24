@@ -18,6 +18,8 @@ services.
 
 {{< boilerplate before-you-begin-egress >}}
 
+*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+
 ## Deploy an HTTPS proxy
 
 To simulate a legacy proxy and only for this example, you deploy an HTTPS proxy inside your cluster.
