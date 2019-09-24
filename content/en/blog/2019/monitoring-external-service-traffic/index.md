@@ -6,8 +6,6 @@ attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [monitoring,blackhole,passthrough]
 ---
 
-## Monitoring blocked and passthrough external service traffic
-
 Understanding, controlling and securing your external service access is one
 of the key benefits that you get from a service mesh like Istio. From a security
 and operations point of view, it is critical to monitor what external service traffic
