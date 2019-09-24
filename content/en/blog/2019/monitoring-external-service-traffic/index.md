@@ -31,7 +31,7 @@ predefined clusters called BlackHoleCluster and Passthrough which block or
 allow all traffic respectively. To understand these clusters, let's start with
 what external and internal services mean in the context of Istio service mesh.
 
-### External and internal services
+## External and internal services
 
 Internal services are defined as services which are part of your platform
 and are considered to be in the mesh. For internal services, Istio control
@@ -51,7 +51,7 @@ option can be configured via [mesh configuration](/docs/reference/config/istio.m
 
 This is where the BlackHole and Passthrough clusters are used.
 
-### What are BlackHole and Passthrough clusters?
+## What are BlackHole and Passthrough clusters?
 
 * **BlackHoleCluster** - The BlackHoleCluster is a virtual cluster created
   in the Envoy configuration when `global.outboundTrafficPolicy.mode` is set to
@@ -161,7 +161,7 @@ The next section covers how to take advantage of this enhancement as the metrics
 and labels emitted are conditional on whether the virtual outbound or explicit port/protocol
 listener is being hit.
 
-### Using the augmented metrics
+## Using the augmented metrics
 
 To capture all external service traffic in either of the cases (BlackHole or
 Passthrough), you will need to monitor `istio_requests_total` and
@@ -178,7 +178,7 @@ be easily added by augmenting the Istio configuration for attribute generation
 and Prometheus handler. You should be careful about cardinality explosion in
 time series if you have many services with non-stable IP addresses.
 
-#### PassthroughCluster metrics
+### PassthroughCluster metrics
 
 This section explains the metrics and the labels emitted based on the listener
 type invoked in Envoy.
@@ -277,7 +277,7 @@ type invoked in Envoy.
   `istio_tcp_received_bytes_total` and `istio_tcp_sent_bytes_total` are also
   updated.
 
-#### BlackHoleCluster metrics
+### BlackHoleCluster metrics
 
 Similar to the PassthroughCluster, this section explains the metrics and the
 labels emitted based on the listener type invoked in Envoy.
