@@ -849,7 +849,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </code></pre>
 <h2 id="istioctl-experimental-analyze">istioctl experimental analyze</h2>
 <p>Analyze Istio configuration and print validation messages</p>
-<pre class="language-bash"><code>istioctl experimental analyze &lt;file|globpattern&gt;... [flags]
+<pre class="language-bash"><code>istioctl experimental analyze &lt;file&gt;... [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1445,7 +1445,7 @@ kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kube
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioControlPlane CustomResource.  (default ``)</td>
+<td>Path to file containing IstioControlPlane CustomResource  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1475,14 +1475,14 @@ kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kube
 <tr>
 <td><code>--readiness-timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Maximum seconds to wait for all Istio resources to be ready. The --wait flag must be set for this flag to apply.  (default `5m0s`)</td>
+<td>Maximum seconds to wait for all Istio resources to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringSlice&gt;</code></td>
 <td><code>-s</code></td>
 <td>Set a value in IstioControlPlane CustomResource. e.g. --set policy.enabled=true.
 Overrides the corresponding path value in the selected profile or passed through IstioControlPlane CR
-customization file.  (default `[]`)</td>
+customization file  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -1492,13 +1492,18 @@ customization file.  (default `[]`)</td>
 <tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds. </td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds </td>
+</tr>
+<tr>
+<td><code>--yes</code></td>
+<td><code>-y</code></td>
+<td>Do not ask for confirmation </td>
 </tr>
 </tbody>
 </table>
 <h2 id="istioctl-experimental-manifest-diff">istioctl experimental manifest diff</h2>
 <p>The diff subcommand compares manifests from two files or directories.</p>
-<pre class="language-bash"><code>istioctl experimental manifest diff [flags]
+<pre class="language-bash"><code>istioctl experimental manifest diff &lt;file|dir&gt; &lt;file|dir&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1527,7 +1532,7 @@ customization file.  (default `[]`)</td>
 <tr>
 <td><code>--ignore &lt;string&gt;</code></td>
 <td></td>
-<td>ignoreResources ignores all listed items during comparison. It uses the same list format as selectResources.  (default ``)</td>
+<td>ignoreResources ignores all listed items during comparison. It uses the same list format as selectResources  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1561,7 +1566,7 @@ customization file.  (default `[]`)</td>
 The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
 e.g.
     Deployment:istio-system:* - compare all deployments in istio-system namespace
-    Service:*:istio-pilot - compare Services called &#34;istio-pilot&#34; in all namespaces.  (default `::`)</td>
+    Service:*:istio-pilot - compare Services called &#34;istio-pilot&#34; in all namespaces  (default `::`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -1596,7 +1601,7 @@ e.g.
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioControlPlane CustomResource.  (default ``)</td>
+<td>Path to file containing IstioControlPlane CustomResource  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1626,14 +1631,14 @@ e.g.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Manifest output directory path.  (default ``)</td>
+<td>Manifest output directory path  (default ``)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringSlice&gt;</code></td>
 <td><code>-s</code></td>
 <td>Set a value in IstioControlPlane CustomResource. e.g. --set policy.enabled=true.
 Overrides the corresponding path value in the selected profile or passed through IstioControlPlane CR
-customization file.  (default `[]`)</td>
+customization file  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -1644,7 +1649,7 @@ customization file.  (default `[]`)</td>
 </table>
 <h2 id="istioctl-experimental-manifest-migrate">istioctl experimental manifest migrate</h2>
 <p>The migrate subcommand migrates a configuration from Helm values format to IstioControlPlane format.</p>
-<pre class="language-bash"><code>istioctl experimental manifest migrate [flags]
+<pre class="language-bash"><code>istioctl experimental manifest migrate [&lt;filepath&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1698,7 +1703,7 @@ customization file.  (default `[]`)</td>
 </tbody>
 </table>
 <h2 id="istioctl-experimental-manifest-versions">istioctl experimental manifest versions</h2>
-<p>List the version of Istio recommended for and supported by this version of the operator binary.</p>
+<p>List the versions of Istio recommended for and supported by this version of the operator binary.</p>
 <pre class="language-bash"><code>istioctl experimental manifest versions [flags]
 </code></pre>
 <table class="command-flags">
@@ -1753,7 +1758,7 @@ customization file.  (default `[]`)</td>
 <tr>
 <td><code>--versionsURI &lt;string&gt;</code></td>
 <td><code>-u</code></td>
-<td>URI for operator versions to Istio versions map.  (default `https://raw.githubusercontent.com/istio/operator/master/version/versions.yaml`)</td>
+<td>URI for operator versions to Istio versions map  (default `https://raw.githubusercontent.com/istio/operator/master/version/versions.yaml`)</td>
 </tr>
 </tbody>
 </table>
@@ -1875,7 +1880,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </table>
 <h2 id="istioctl-experimental-profile-diff">istioctl experimental profile diff</h2>
 <p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
-<pre class="language-bash"><code>istioctl experimental profile diff [flags]
+<pre class="language-bash"><code>istioctl experimental profile diff &lt;file1.yaml&gt; &lt;file2.yaml&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1930,7 +1935,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </table>
 <h2 id="istioctl-experimental-profile-dump">istioctl experimental profile dump</h2>
 <p>The dump subcommand dumps the values in an Istio configuration profile.</p>
-<pre class="language-bash"><code>istioctl experimental profile dump [flags]
+<pre class="language-bash"><code>istioctl experimental profile dump [&lt;profile&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1944,7 +1949,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--config-path &lt;string&gt;</code></td>
 <td><code>-p</code></td>
-<td>The path the root of the configuration subtree to dump e.g. trafficManagement.components.pilot. By default, dump whole tree.   (default ``)</td>
+<td>The path the root of the configuration subtree to dump e.g. trafficManagement.components.pilot. By default, dump whole tree  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
@@ -1959,12 +1964,12 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioControlPlane CustomResource.  (default ``)</td>
+<td>Path to file containing IstioControlPlane CustomResource  (default ``)</td>
 </tr>
 <tr>
 <td><code>--helm-values</code></td>
 <td></td>
-<td>If set, dumps the Helm values that IstioControlPlaceSpec is translated to before manifests are rendered. </td>
+<td>If set, dumps the Helm values that IstioControlPlaceSpec is translated to before manifests are rendered </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3381,6 +3386,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
 <tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
+<tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in second Pilot takes to push lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
