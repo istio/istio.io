@@ -39,7 +39,7 @@ check_content() {
     # create a throwaway copy of the content
     cp -R "${DIR}" "${TMP}"
     cp .spelling "${TMP}"
-    cp common/config/mdl.rb "${TMP}"
+    cp mdl.rb "${TMP}"
 
     # replace the {{< text >}} shortcodes with ```plain
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
