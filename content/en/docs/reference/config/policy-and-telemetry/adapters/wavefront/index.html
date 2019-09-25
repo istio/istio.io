@@ -15,7 +15,7 @@ helm_chart_link:
 istio_versions: "1.0.3, 1.0.4"
 supported_templates: metric
 logo_link: https://github.com/vmware/wavefront-adapter-for-istio/raw/master/docs/images/logo.png
-number_of_entries: 8
+number_of_entries: 9
 ---
 <p>The <code>wavefront</code> adapter collects metrics and makes them available to
 <a href="https://www.wavefront.com/">Wavefront by VMware</a>.</p>
@@ -80,6 +80,38 @@ number_of_entries: 8
 <td><code><a href="#Params-MetricInfo">Params.MetricInfo[]</a></code></td>
 <td>
 <p>The set of metrics to publish to Wavefront.</p>
+
+</td>
+</tr>
+<tr id="Params-logs">
+<td><code>logs</code></td>
+<td><code><a href="#Params-Logs">Params.Logs</a></code></td>
+<td>
+<p>The log configuration.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Params-Logs">Params.Logs</h2>
+<section>
+<p>Describes the logging configuration.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Params-Logs-level">
+<td><code>level</code></td>
+<td><code>string</code></td>
+<td>
+<p>The log level (one of error, warn, info, debug, or none). Ex: info</p>
 
 </td>
 </tr>
