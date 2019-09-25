@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# WARNING: DO NOT EDIT, THIS FILE IS PROBABLY A COPY
+#
+# The original version of this file is located in the https://github.com/istio/common-files repo.
+# If you're looking at this file in a different repo and want to make a change, please go to the
+# common-files repo, make the change there and check it in. Then come back to this repo and run
+# "make update-common".
+
 # Copyright Istio Authors
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +22,11 @@
 #   limitations under the License.
 
 if BUILD_GIT_REVISION=$(git rev-parse HEAD 2> /dev/null); then
-    if ! git diff-index --quiet HEAD; then
-        BUILD_GIT_REVISION=${BUILD_GIT_REVISION}"-dirty"
-    fi
+  if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
+    BUILD_GIT_REVISION=${BUILD_GIT_REVISION}"-dirty"
+  fi
 else
-    BUILD_GIT_REVISION=unknown
+  BUILD_GIT_REVISION=unknown
 fi
 
 # Check for local changes
@@ -29,26 +36,16 @@ else
   tree_status="Modified"
 fi
 
-# XXX This needs to be updated to accommodate tags added after building, rather than prior to builds
-RELEASE_TAG=$(git describe --match '[0-9]*\.[0-9]*\.[0-9]*' --exact-match 2> /dev/null || echo "")
-
 # security wanted VERSION='unknown'
 VERSION="${BUILD_GIT_REVISION}"
-if [[ -n "${RELEASE_TAG}" ]]; then
-  VERSION="${RELEASE_TAG}"
-elif [[ -n ${ISTIO_VERSION} ]]; then
+if [[ -n ${ISTIO_VERSION} ]]; then
   VERSION="${ISTIO_VERSION}"
 fi
 
-DOCKER_HUB="docker.io/istio"
-if [[ -n ${ISTIO_DOCKER_HUB} ]]; then
-  DOCKER_HUB="${ISTIO_DOCKER_HUB}"
-fi
+GIT_DESCRIBE_TAG=$(git describe --tags)
 
 # used by common/scripts/gobuild.sh
 echo "istio.io/pkg/version.buildVersion=${VERSION}"
 echo "istio.io/pkg/version.buildGitRevision=${BUILD_GIT_REVISION}"
-echo "istio.io/pkg/version.buildUser=$(whoami)"
-echo "istio.io/pkg/version.buildHost=$(hostname -f)"
-echo "istio.io/pkg/version.buildDockerHub=${DOCKER_HUB}"
 echo "istio.io/pkg/version.buildStatus=${tree_status}"
+echo "istio.io/pkg/version.buildTag=${GIT_DESCRIBE_TAG}"
