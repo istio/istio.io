@@ -33,6 +33,7 @@ REPOS=(
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
     https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
+    https://github.com/newrelic/newrelic-istio-adapter.git@master
 )
 
 # The components to build and extract usage docs from.
