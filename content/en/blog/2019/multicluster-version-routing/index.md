@@ -299,7 +299,7 @@ spec:
     protocol: http
   resolution: DNS
   addresses:
-  - 224.0.0.3
+  - 240.0.0.3
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     labels:
@@ -326,9 +326,9 @@ spec:
 EOF
 {{< /text >}}
 
-The address `224.0.0.3` of the service entry can be any arbitrary unallocated IP.
+The address `240.0.0.3` of the service entry can be any arbitrary unallocated IP.
 Note that loopback range `127.0.0.0/8` should not be used, as it will influence outbound traffic.
-Using an IP from the multicast range 224.0.0.0/4 is a good choice.
+Using an IP from the class E addresses range 240.0.0.0/4 is a good choice.
 Check out the
 [gateway-connected multicluster example](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
 for more details.
