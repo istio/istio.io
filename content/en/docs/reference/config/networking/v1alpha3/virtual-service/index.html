@@ -6,7 +6,7 @@ description: Configuration affecting label/content routing, sni routing, etc.
 location: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
-number_of_entries: 22
+number_of_entries: 23
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -864,8 +864,8 @@ number of retries attempted depends on the httpReqTimeout.</p>
 <td>
 <p>Specifies the conditions under which retry takes place.
 One or more policies can be specified using a ‘,’ delimited list.
-See the <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on">supported policies</a>
-and <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on">here</a> for more details.</p>
+See the <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on">retry policies</a>
+and <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on">gRPC retry policies</a> for more details.</p>
 
 </td>
 </tr>
@@ -1032,6 +1032,16 @@ best effort basis where the sidecar/gateway will not wait for the
 mirrored cluster to respond before returning the response from the
 original destination.  Statistics will be generated for the mirrored
 destination.</p>
+
+</td>
+</tr>
+<tr id="HTTPRoute-mirror_percent">
+<td><code>mirrorPercent</code></td>
+<td><code><a href="#google-protobuf-UInt32Value">google.protobuf.UInt32Value</a></code></td>
+<td>
+<p>Percentage of the traffic to be mirrored by the <code>mirror</code> field.
+If this field is absent, all the traffic (100%) will be mirrored.
+Max value is 100.</p>
 
 </td>
 </tr>
@@ -1399,9 +1409,9 @@ matching or selection for final routing.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="PortSelector-number" class="oneof oneof-start">
+<tr id="PortSelector-number">
 <td><code>number</code></td>
-<td><code>uint32 (oneof)</code></td>
+<td><code>uint32</code></td>
 <td>
 <p>Valid port number</p>
 
@@ -1674,6 +1684,8 @@ is matched if any one of the match blocks succeed.</p>
 </section>
 <h2 id="VirtualService">VirtualService</h2>
 <section>
+<p>Configuration affecting traffic routing.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1704,7 +1716,7 @@ for details.</p>
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
 instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
 the short name based on the namespace of the rule, not the service. A
-rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews will be
+rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
 interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
 the actual namespace associated with the reviews service. <em>To avoid
 potential misconfigurations, it is recommended to always use fully
@@ -1791,6 +1803,32 @@ defines an export to all namespaces.</p>
 
 <p>NOTE: in the current release, the <code>exportTo</code> value is restricted to
 &ldquo;.&rdquo; or &ldquo;*&rdquo; (i.e., the current namespace or all namespaces).</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="google-protobuf-UInt32Value">google.protobuf.UInt32Value</h2>
+<section>
+<p>Wrapper message for <code>uint32</code>.</p>
+
+<p>The JSON representation for <code>UInt32Value</code> is JSON number.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="google-protobuf-UInt32Value-value">
+<td><code>value</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>The uint32 value.</p>
 
 </td>
 </tr>
