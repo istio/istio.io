@@ -145,6 +145,11 @@ nexus for policy evaluation and telemetry reporting.</p>
 <td>The location of the key file for mutual TLS  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
+<td><code>--latencyEnforcementThreshold &lt;ratelimit&gt;</code></td>
+<td></td>
+<td>Controls the threshold, in requests per second, above which the average latency threshold will be enforced for load-shedding  (default `100`)</td>
+</tr>
+<tr>
 <td><code>--latencySampleHalflife &lt;duration&gt;</code></td>
 <td></td>
 <td>Decay rate of samples in calculation of average response latency.  (default `1s`)</td>
@@ -396,7 +401,8 @@ These environment variables affect the behavior of the <code>mixs</code> command
 <tr><td><code>mixer_handler_new_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were newly created during config transition.</td></tr>
 <tr><td><code>mixer_handler_reused_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were re-used during config transition.</td></tr>
 <tr><td><code>mixer_handler_workers_total</code></td><td><code>LastValue</code></td><td>The current number of active worker routines in a given adapter environment.</td></tr>
-<tr><td><code>mixer_loadshedding_requests_throttled</code></td><td><code>Count</code></td><td>The number of requests that have been dropped by the loadshedder.</td></tr>
+<tr><td><code>mixer_loadshedding_predicted_cost_shed_total</code></td><td><code>Sum</code></td><td>The total predicted cost of all requests that have been dropped.</td></tr>
+<tr><td><code>mixer_loadshedding_requests_throttled</code></td><td><code>Sum</code></td><td>The number of requests that have been dropped by the loadshedder.</td></tr>
 <tr><td><code>mixer_runtime_dispatch_duration_seconds</code></td><td><code>Distribution</code></td><td>Duration in seconds for adapter dispatches handled by Mixer.</td></tr>
 <tr><td><code>mixer_runtime_dispatches_total</code></td><td><code>Count</code></td><td>Total number of adapter dispatches handled by Mixer.</td></tr>
 </tbody>
