@@ -107,17 +107,19 @@ standards, such as the
 - **common trust may not exist**. The Istio sidecars in one mesh may not trust the Citadel certificates in other
 meshes, due to some security requirement or due to the fact that the mesh owners did not initially plan to federate
 the meshes.
-- **service location transparency**: consuming services send requests to the exposed services in remote meshes using
-local service names. The consuming services are oblivious to the fact that some of the destinations are in remote
-meshes and some are local services. The access is uniform, using the local service names, for example, in Kubernetes,
-`reviews.default.svc.cluster.local`.
 
 While **expose-nothing by default** and **boundary protection** are required to facilitate compliance and improve
 security, **non-uniform naming** and **common trust may not exist** are required when connecting
 meshes of different organizations, or of an organization that cannot enforce uniform naming or cannot or may not
-establish common trust between the meshes. **Service location transparency** is important since you do not want to
-change the code of your applications when the location of the consumed services changes, for example when some service
-is migrated from private to public cloud.
+establish common trust between the meshes.
+
+An optional feature that you may want to use is **service location transparency**: consuming services send requests
+to the exposed services in remote meshes using local service names. The consuming services are oblivious to the fact
+that some of the destinations are in remote meshes and some are local services. The access is uniform, using the local
+service names, for example, in Kubernetes, `reviews.default.svc.cluster.local`.
+**Service location transparency** is important since you may want to be able to change the location of the consumed
+services, for example when some service is migrated from private cloud to public cloud, without changing the code of
+your applications.
 
 ## The current mesh-federation work
 
