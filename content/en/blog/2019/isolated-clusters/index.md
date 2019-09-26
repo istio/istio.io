@@ -25,7 +25,7 @@ and improve the security of the sensitive data. Reducing the scope reduces the r
 reduces the costs of compliance since there are less components to check and secure, according to compliance
 requirements.
 
-You can achieve isolation of sensitive data environments by deploying the applications that process the sensitive data
+You can achieve isolation of sensitive data by separating the parts of the application that process that data
 into {{< gloss "multi-mesh" >}}separate service meshes{{< /gloss >}}, preferably on separate networks. Then you can use
 Istio to connect applications in the meshes with different compliance requirements. The process of connecting inter-mesh
 applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
