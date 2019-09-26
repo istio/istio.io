@@ -117,9 +117,9 @@ An optional feature that you may want to use is **service location transparency*
 to the exposed services in remote meshes using local service names. The consuming services are oblivious to the fact
 that some of the destinations are in remote meshes and some are local services. The access is uniform, using the local
 service names, for example, in Kubernetes, `reviews.default.svc.cluster.local`.
-**Service location transparency** is important since you may want to be able to change the location of the consumed
-services, for example when some service is migrated from private cloud to public cloud, without changing the code of
-your applications.
+**Service location transparency** is useful in the cases when you want to be able to change the location of the
+consumed services, for example when some service is migrated from private cloud to public cloud, without changing the
+code of your applications.
 
 ## The current mesh-federation work
 
