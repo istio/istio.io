@@ -327,7 +327,6 @@ EOF
 {{< /text >}}
 
 The address `240.0.0.3` of the service entry can be any arbitrary unallocated IP.
-Note that loopback range `127.0.0.0/8` should not be used, as it will influence outbound traffic.
 Using an IP from the class E addresses range 240.0.0.0/4 is a good choice.
 Check out the
 [gateway-connected multicluster example](/docs/setup/install/multicluster/gateways/#configure-the-example-services)

@@ -264,13 +264,14 @@ running in a second cluster. Before you begin:
     {{< /tip >}}
 
     If the global services have actual VIPs, you can use those, but otherwise we suggest
-    using IPs from the class E addresses range `240.0.0.0/4` that are preserved.
-    These IPs are not loopback addresses and are non-routable outside of a pod.    
+    using IPs from the class E addresses range `240.0.0.0/4`, because they are preserved.
     Application traffic for these IPs will be captured by the sidecar and routed to the
     appropriate remote service.
-    
-    **Note** Multicast addresses(224.0.0.0 ~ 239.255.255.255) should not be used as there is no route to them by default.
 
+    {{< warning >}}
+    Multicast addresses(224.0.0.0 ~ 239.255.255.255) should not be used as there is no route to them by default.
+    Loopback addresses range `127.0.0.0/8` should also not be used, as the traffic sent to lo may be redirected to inbound listener.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
