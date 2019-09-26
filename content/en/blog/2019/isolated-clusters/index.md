@@ -33,7 +33,7 @@ applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
 
 In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
 {{< gloss >}}multi-mesh{{< /gloss >}} deployments. Finally, I report the current state of
-{{< gloss "mesh federation" >}}mesh-federation{{< /gloss >}} work in Istio.
+mesh-federation support and automation work under way for Istio.
 
 ## Isolation and boundary protection
 
