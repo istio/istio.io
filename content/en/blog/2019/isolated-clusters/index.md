@@ -1,6 +1,6 @@
 ---
 title: Use Istio multi-mesh deployments for isolation and boundary protection
-subtitle: Deploy environments that require isolation into separate meshes and enable inter-mesh communication by mesh federation
+subtitle: Separate applications that require isolation into multiple meshes using mesh federation to enable inter-mesh communication
 description: Deploy environments that require isolation into separate meshes and enable inter-mesh communication by mesh federation.
 publishdate: 2019-09-26
 attribution: Vadim Eisenberg (IBM)
