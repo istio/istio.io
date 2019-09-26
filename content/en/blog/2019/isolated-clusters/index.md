@@ -26,7 +26,8 @@ reduces the costs of compliance since there are less components to check and sec
 requirements.
 
 You can achieve isolation of sensitive data by separating the parts of the application that process that data
-into {{< gloss "multi-mesh" >}}separate service meshes{{< /gloss >}}, preferably on separate networks. Then you can use
+into a separate service mesh, preferably on a separate network, and then connect the meshes with different
+compliance requirements together in a {{< gloss >}}multi-mesh{{< /gloss >}} deployment.
 Istio to connect applications in the meshes with different compliance requirements. The process of connecting inter-mesh
 applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
 
