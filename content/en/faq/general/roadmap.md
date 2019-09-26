@@ -4,4 +4,4 @@ weight: 140
 ---
 
 See our [feature stages page](/about/feature-stages/)
-and [release notes](/about/notes) for more details.
+and [news](/news) for latest happenings.
