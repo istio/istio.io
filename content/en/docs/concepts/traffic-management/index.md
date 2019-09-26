@@ -324,9 +324,8 @@ single virtual service. A full list of match condition fields and their possible
 values can be found in the
 [`HTTPMatchRequest` reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPMatchRequest).
 
-In addition to using match conditions, you can distribute traffic that
-distributes a particular routing by percentage "weight", useful for A/B testing
-and canary rollouts:
+In addition to using match conditions, you can distribute traffic
+by percentage "weight". This is useful for A/B testing and canary rollouts:
 
 {{< text yaml >}}
 spec:
