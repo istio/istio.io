@@ -2,7 +2,7 @@
 title: Use Istio multi-mesh deployments for isolation and boundary protection
 subtitle: Deploy environments that require isolation into separate meshes and enable inter-mesh communication by mesh federation
 description: Deploy environments that require isolation into separate meshes and enable inter-mesh communication by mesh federation.
-publishdate: 2019-09-03
+publishdate: 2019-09-26
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
 ---
