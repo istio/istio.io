@@ -28,7 +28,7 @@ requirements.
 You can achieve isolation of sensitive data by separating the parts of the application that process that data
 into a separate service mesh, preferably on a separate network, and then connect the meshes with different
 compliance requirements together in a {{< gloss >}}multi-mesh{{< /gloss >}} deployment.
-Istio to connect applications in the meshes with different compliance requirements. The process of connecting inter-mesh
+The process of connecting inter-mesh
 applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
 
 In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
