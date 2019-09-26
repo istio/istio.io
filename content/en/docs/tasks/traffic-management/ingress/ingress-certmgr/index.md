@@ -32,11 +32,11 @@ By default `istio-ingressgateway` will be exposed as a `LoadBalancer` service ty
 {{< /tip >}}
 
 {{< tip >}}
-If you're editing the values.yml file, don't enable
+If you're editing the `values.yml` file, don't enable
 {{<text_hack yaml>}}
 sds:
   enabled: false
-{{</text_hack>}}
+{{</text>}}
 This will enable mutual TLS between pods which will cause pods to become unhealthy if you don't have mutual TLS configured.
 {{< /tip >}}
 
