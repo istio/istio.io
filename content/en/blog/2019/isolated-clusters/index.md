@@ -127,8 +127,8 @@ While you can perform {{< gloss >}}mesh federation{{< /gloss >}} using standard 
 it would require writing a lot of boiler-plate YAML files and could be error-prone. There is an effort under way to
 automate the {{< gloss >}}mesh federation{{< /gloss >}} process.
 Before the automation of {{< gloss >}}mesh federation{{< /gloss >}} is released, and if you are curious, you
-can check [multi-mesh deployment examples](https://github.com/istio-ecosystem/multi-mesh-examples) at the
-[istio-ecosystem](https://github.com/istio-ecosystem) repository.
+can check [multi-mesh deployment examples](https://github.com/istio-ecosystem/multi-mesh-examples) in
+[Istio ecosystem](https://github.com/istio-ecosystem).
 
 ## Summary
 
