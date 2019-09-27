@@ -264,7 +264,7 @@ running in a second cluster. Before you begin:
     {{< /tip >}}
 
     If the global services have actual VIPs, you can use those, but otherwise we suggest
-    using IPs from the class E addresses range `240.0.0.0/4`, because they are preserved.
+    using IPs from the class E addresses range `240.0.0.0/4`.
     Application traffic for these IPs will be captured by the sidecar and routed to the
     appropriate remote service.
 
