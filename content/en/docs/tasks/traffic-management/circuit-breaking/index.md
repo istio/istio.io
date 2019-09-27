@@ -230,7 +230,7 @@ one connection and request concurrently, you should see some failures when the
 1. Query the `istio-proxy` stats to see more:
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats' | grep httpbin | grep pending
+    $ kubectl exec $FORTIO_POD -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
     cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_active: 0
     cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_failure_eject: 0
     cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_overflow: 12

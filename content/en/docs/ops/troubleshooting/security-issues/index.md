@@ -195,7 +195,7 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 1. Run the following command to get the proxy configuration dump for the `productpage` service:
 
     {{< text bash >}}
-    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl localhost:15000/config_dump -s
+    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request GET config_dump
     {{< /text >}}
 
 1. Check the log and verify:
@@ -268,7 +268,7 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
 1. Turn on the authorization debug logging in proxy with the following command:
 
     {{< text bash >}}
-    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- curl -X POST localhost:15000/logging?rbac=debug -s
+    $ kubectl exec $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request POST 'logging?rbac=debug'
     {{< /text >}}
 
 1. Verify you see the following output:
