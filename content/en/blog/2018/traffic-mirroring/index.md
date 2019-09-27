@@ -9,7 +9,7 @@ keywords: [traffic-management,mirroring]
 
 Trying to enumerate all the possible combinations of test cases for testing services in non-production/test environments can be daunting. In some cases, you'll find that all of the effort that goes into cataloging these use cases doesn't match up to real production use cases. Ideally, we could use live production use cases and traffic to help illuminate all of the feature areas of the service under test that we might miss in more contrived testing environments.
 
-Istio can help here. With the release of [Istio 0.5.0](/about/notes/older/0.5/), Istio can mirror traffic to help test your services. You can write route rules similar to the following to enable traffic mirroring:
+Istio can help here. With the release of [Istio 0.5.0](/news/2018/announcing-0.5), Istio can mirror traffic to help test your services. You can write route rules similar to the following to enable traffic mirroring:
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
