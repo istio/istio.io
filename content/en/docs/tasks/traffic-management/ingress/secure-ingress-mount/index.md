@@ -521,7 +521,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 *   Verify that the proxy of the ingress gateway is aware of the certificates:
 
     {{< text bash >}}
-    $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -- curl  127.0.0.1:15000/certs
+    $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -- pilot-agent request GET certs
     {
       "ca_cert": "",
       "cert_chain": "Certificate Path: /etc/istio/ingressgateway-certs/tls.crt, Serial Number: 100212, Days until Expiration: 370"

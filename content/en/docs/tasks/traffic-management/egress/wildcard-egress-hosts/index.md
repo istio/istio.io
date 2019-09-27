@@ -208,7 +208,7 @@ the set of domains.
     counter is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/clusters | grep '^outbound|443||www.wikipedia.org.*cx_total:'
+    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- pilot-agent request GET clusters | grep '^outbound|443||www.wikipedia.org.*cx_total:'
     outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
     {{< /text >}}
 
