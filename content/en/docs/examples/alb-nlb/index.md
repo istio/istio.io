@@ -24,11 +24,7 @@ Gateway. The traffic to the services without Istio sidecar can continue to flow 
 1.  Store the External-IP of your `istio-ingressgateway` service in an environment variable.
 
     {{< text bash >}}
-    $ kubectl -n istio-system get service istio-ingressgateway
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ export INGRESS_IP=<external IP from the previous command>
+    $ export INGRESS_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
 1.  Create the `httptools` namespace and enable Istio sidecar injection:
