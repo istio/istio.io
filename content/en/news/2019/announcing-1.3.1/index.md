@@ -24,8 +24,9 @@ This release includes bug fixes to improve robustness. This release note describ
 
 ## Minor enhancements
 
-- **Added** support for `.Values.global.priorityClassName` to the telemetry deployment ([Issue 16204](https://github.com/istio/istio/pull/16204)).
-- **Added** annotations for Datadog tracing that controls extra features in sidecars ([Issue 16594](https://github.com/istio/istio/pull/16594/files)).
-- **Added** the `pilot_xds_push_time` metric to report Pilot xDS push time ([Issue 17011](https://github.com/istio/istio/pull/17011)).
-- **Added** `istioctl experimental analyze` to support multi-resource analysis and validation ([Issue 17280](https://github.com/istio/istio/pull/17280)).
-- **Removed** time diff info in the proxy-status command ([Issue 16477](https://github.com/istio/istio/pull/16920)).
+- **Added** support for `.Values.global.priorityClassName` to the telemetry deployment.
+- **Added** annotations for Datadog tracing that controls extra features in sidecars.
+- **Added** the `pilot_xds_push_time` metric to report Pilot xDS push time.
+- **Added** `istioctl experimental analyze` to support multi-resource analysis and validation.
+- **Added** support for running metadata exchange and stats extensions in a WebAssembly sandbox. Follow [these](https://istio.io/docs/ops/telemetry/in-proxy-service-telemetry/) instructions to try it out.
+- **Removed** time diff info in the proxy-status command.
