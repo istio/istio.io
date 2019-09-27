@@ -270,7 +270,7 @@ running in a second cluster. Before you begin:
 
     {{< warning >}}
     Multicast addresses(224.0.0.0 ~ 239.255.255.255) should not be used as there is no route to them by default.
-    Loopback addresses range `127.0.0.0/8` should also not be used, as the traffic sent to lo may be redirected to inbound listener.
+    Loopback addresses (127.0.0.0/8) should also not be used because traffic sent to them may be redirected to the sidecar inbound listener.
     {{< /warning >}}
 
     {{< text bash >}}
