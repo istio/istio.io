@@ -1,7 +1,7 @@
 ---
 title: Announcing Istio 1.3.1
 description: Istio 1.3.1 release announcement.
-publishdate: 2019-10-27
+publishdate: 2019-09-27
 attribution: The Istio Team
 subtitle: Minor Update
 release: 1.3.1
