@@ -155,19 +155,13 @@ all changes from the release-0.7 branch.
 
 Creating a new patch release involves modifying a few files:
 
-1. Create the release note boilerplate for the release by adding a markdown file in
-`content/en/boilerplates/notes/1.X.Y.md`, where 1.X.Y is the name of the release. This is where
+1. Create the release note for the release by adding a markdown file in
+`content/en/news/<YEAR>/1.X.Y/index.md`, where 1.X.Y is the name of the release. This is where
 you describe the changes in the release.
-
-1. Create a release note page in `content/en/about/notes/1.X.Y/index.md`, where `1.X.Y` is the name of the
-release.
-
-1. Create an announcement blog post in `content/en/blog/YYYY/announcing-1.X.Y/index.md`, where `YYYY` is the current year
-and `1.x.Y` is the name of the release.
 
 1. Edit the `data/args.yml` file and change the `full_version` field to the name of the release.
 
 1. Run `make update_ref_docs` to get the latest reference docs.
 
-For the first three files, please look at existing files in the same locations for example content and
+For the release note file, please look at existing files in the same location for example content and
 layout.
