@@ -248,7 +248,7 @@ one connection and request concurrently, you should see some failures when the
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-2.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:
+1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy
