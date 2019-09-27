@@ -1,3 +1,19 @@
+---
+title: Announcing Istio 1.3.1
+description: Istio 1.3.1 release announcement.
+publishdate: 2019-10-27
+attribution: The Istio Team
+subtitle: Minor Update
+release: 1.3.1
+aliases:
+    - /about/notes/1.3.1
+    - /blog/2019/announcing-1.3.1
+---
+
+This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.3.0 and Istio 1.3.1.
+
+{{< relnote >}}
+
 ## Bug Fixes
 
 - **Fixed** an issue which caused the secret cleanup job to erroneously run during upgrades ([Issue 16873](https://github.com/istio/istio/issues/16873)).
@@ -14,5 +30,5 @@
 - **Added** support for `.Values.global.priorityClassName` to the telemetry deployment ([Issue 16204](https://github.com/istio/istio/pull/16204)).
 - **Added** annotations for Datadog tracing that controls extra features in sidecars ([Issue 16594](https://github.com/istio/istio/pull/16594/files)).
 - **Added** the `pilot_xds_push_time` metric to report Pilot xDS push time ([Issue 17011](https://github.com/istio/istio/pull/17011)).
-- **Removed** time diff info in the proxy-status command ([Issue 16477](https://github.com/istio/istio/pull/16920)).
 - **Added** `istioctl experimental analyze` to support multi-resource analysis and validation ([Issue 17280](https://github.com/istio/istio/pull/17280)).
+- **Removed** time diff info in the proxy-status command ([Issue 16477](https://github.com/istio/istio/pull/16920)).
