@@ -1,7 +1,7 @@
 ---
 title: Build & Release Cadence
 description: How we manage, number, and support Istio releases.
-weight: 6
+weight: 15
 icon: cadence
 ---
 
@@ -24,7 +24,7 @@ offer technical assistance. Separately, 3rd parties and partners may offer longe
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our daily builds on the [daily builds wiki](https://github.com/istio/istio/wiki/Daily-builds).
-You can find high-level releases notes for each LTS release [here](/about/notes).
+You can find high-level releases notes for each LTS release [here](/news).
 
 ## Naming Scheme
 
