@@ -351,14 +351,8 @@ You should receive a response listing the "service-key" and "hosts" for each ser
 To find out the Envoy version used in deployment, you can `exec` into the container and query the `server_info` endpoint:
 
 {{< text bash >}}
-$ kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE /bin/bash
-root@5c7e9d3a4b67:/# curl localhost:15000/server_info
-envoy 0/1.9.0-dev//RELEASE live 57964 57964 0
-{{< /text >}}
-
-In addition, the `Envoy` and `istio-api` repository versions are stored as labels on the image:
-
-{{< text bash >}}
-$ docker inspect -f '{{json .Config.Labels }}' ISTIO-PROXY-IMAGE
-{"envoy-vcs-ref":"b3be5713f2100ab5c40316e73ce34581245bd26a","istio-api-vcs-ref":"825044c7e15f6723d558b7b878855670663c2e1e"}
+$ kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE pilot-agent request GET server_info
+{
+ "version": "48bc83d8f0582fc060ef76d5aa3d75400e739d9e/1.12.0-dev/Clean/RELEASE/BoringSSL"
+}
 {{< /text >}}
