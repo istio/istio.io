@@ -22,7 +22,7 @@ description: Connect, secure, control, and observe services.
         "url": "https://istio.io/",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://istio.io/search.html?q={search_term_string}",
+            "target": "https://istio.io/search?q={search_term_string}",
             "query-input": "required name=search_term_string"
         }
     }

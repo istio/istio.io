@@ -4,6 +4,10 @@
 {{ $latest_post := index $posts 0 }}
 {{ $blog_home := .Site.GetPage "section" "blog" }}
 
+{{ $news := (where .Site.Pages "Section" "news").ByPublishDate.Reverse }}
+{{ $latest_news := index $news 0 }}
+{{ $news_home := .Site.GetPage "section" "news" }}
+
 <header>
     <nav >
         <a id="brand" href="{{ $home.Permalink }}">
@@ -38,6 +42,13 @@
                         <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
                     {{ else }}
                         <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                    {{ end }}
+                {{ end }}
+                {{ with $latest_news }}
+                    {{ if eq $section "news" }}
+                        <span title="{{ $news_home.Description }}">{{ $news_home.LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ $news_home.Description }}" href="{{ .Permalink }}">{{ $news_home.LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
                 {{ with (.Site.GetPage "section" "faq") }}
@@ -134,7 +145,7 @@
             {{ end }}
             <input type="hidden" name="ie" value="utf-8" />
             <input type="hidden" name="hl" value="en" />
-            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search.html" />
+            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search" />
             <input id="search-textbox" class="form-control" name="q" type="search" aria-label='{{ i18n "search" }}'/>
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "cancel-x" }}</button>
         </form>
