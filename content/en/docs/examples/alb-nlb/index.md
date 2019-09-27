@@ -1,53 +1,37 @@
 ---
-title: Integrate Istio with IBM Cloud Kubernetes Service ALB and NLB
-description: Use NLB to handle DNS for an Istio ingress gateway. Direct traffic from ALB to an Istio ingress gateway in a secure way.
+title: Securely direct traffic from IBM Cloud Kubernetes Service Ingress to Istio Ingress Gateway
+description: Configuring the IKS Ingress ALB to direct traffic Istio Ingress gateway with mutual TLS.
 weight: 43
-keywords: [traffic-management,ingress,file-mount-credentials]
+keywords: [traffic-management,ingress,file-mount-credentials,iks]
 ---
 
-This example shows how you can use [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/kubernetes-service/)
-[ALB](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about) and
-[NLB](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about) with Istio.
+This example shows how to configure the [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/kubernetes-service/)
+[Ingress ALB](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about) to direct traffic to the Istio Ingress gateway [NLB](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about) with mutual TLS.
 
-When you use IBM Cloud Kubernetes Service without Istio, you may control your ingress traffic using ALB. You
-configure the ingress-traffic routing using a Kubernetes
+When you use IBM Cloud Kubernetes Service without Istio, you may control your ingress traffic using the provided Application Load Balancer (ALB). This ingress-traffic routing is commonly configured using a Kubernetes
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resource with
 [ALB-specific annotations](https://cloud.ibm.com/docs/containers?topic=containers-ingress_annotation).
 
-When you start using Istio on IBM Cloud Kubernetes service, you may want to switch to using
-the [Istio ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/) for controlling ingress traffic.
-Moreover, when you require Istio {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between the services,
-your ALB will not be able to talk to the services inside the mesh, since ALB lacks an Istio
-{{< gloss >}}identity{{< /gloss >}}. In such a case you have no other option but to use the Istio ingress gateway.
-
-You still have an option to use ALB with Istio. To do it, direct the incoming traffic to the Istio ingress gateway and
-let Istio ingress gateway handle further routing and {{< gloss >}}TLS origination{{< /gloss >}} to the services in the mesh.
-
-In this example you configure ALB to direct traffic to the services inside an Istio service mesh through the
+When you start using Istio in your IKS cluster, instead of using Ingress to route traffic directly to your services, it is recommended that you use the
+ [Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/). One of the main reasons for this is the fact the nginx ALB provided by IKS will not be able to communicate to the services inside the mesh when you enable Istio {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}. While you transition to having only Ingress Gateway as your main entry point, you can have continue to use the traditional Ingress for non-Istio services and the Istio Gateway for services that are part of the mesh. 
+ 
+In this example you will configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh through the
 Istio ingress gateway, while using {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between ALB and the
-gateway. The traffic to the services without Istio sidecar can continue to flow as before, directly from ALB.
+Gateway. The traffic to the services without Istio sidecar can continue to flow as before, directly from ALB.
 
-## Before you begin
+## Initial setting
 
-1.  Use [the managed Istio add-on](https://cloud.ibm.com/docs/containers?topic=containers-istio#istio_tutorial) or
-    [install Istio](https://istio.io/docs/setup/kubernetes/) to your IBM Cloud Kubernetes cluster
-
-1.  Perform the steps in the [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control#determining-the-ingress-ip-and-ports) section, while verifying that you have an external load balancer for the
-    `istio-ingressgateway` service.
-
-1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
+1.  Store the External-IP of your `istio-ingressgateway` service in an environment variable.
 
     {{< text bash >}}
-    $ curl --version | grep LibreSSL
-    curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
+    $ kubectl -n istio-system get service istio-ingressgateway
     {{< /text >}}
 
-    If a version of _LibreSSL_ is printed as in the output above, your _curl_ should work correctly with the
-    instructions in this task. Otherwise, try another installation of _curl_, for example on a Linux machine.
+    {{< text bash >}}
+    $ export INGRESS_IP=<external IP from the previous command>
+    {{< /text >}}
 
-##  Initial setting
-
-1.  Create the `httptools` namespace and mark it for Istio sidecar injection:
+1.  Create the `httptools` namespace and enable Istio sidecar injection:
 
     {{< text bash >}}
     $ kubectl create namespace httptools
@@ -98,19 +82,12 @@ gateway. The traffic to the services without Istio sidecar can continue to flow 
 
 ## Create secrets for ALB and Istio ingress gateway
 
-In this section you create secrets to mount certificates and private keys into ALB and Istio ingress gateway pods. You
-extract the certificates and private keys from the secrets that are provided by IBM Cloud Kubernetes Service.
+IBM Cloud Kubernetes Service generates TLS certificates and stores them as a secret in the default namespace when you request a DNS subdomain for an NLB IP. The Application Load Balancer Ingress subdomain certificates are also stored as a secret in the default namespace. We will need information from both of these credentials [EXPLAIN WHY YOU NEED BOTH HERE] to create new certificates and private keys and mount them into ALB and Istio ingress gateway pods. 
 
 1.  Store the name of your cluster in the `CLUSTER_NAME` environment variable:
 
     {{< text bash >}}
     $ export CLUSTER_NAME=<your cluster name>
-    {{< /text >}}
-
-    You can print your clusters by the following command:
-
-    {{< text bash >}}
-    $ kubectl config get-clusters
     {{< /text >}}
 
 1.  Store the domain name of your cluster in the `ALB_INGRESS_DOMAIN` environment variable:
@@ -126,10 +103,10 @@ extract the certificates and private keys from the secrets that are provided by 
     $ export ALB_SECRET=<your ALB secret>
     {{< /text >}}
 
-1.  Create a DNS host name to register the IP of the Istio ingress gateway service:
+1.  Create a DNS subdomain for the NLB IP of the Istio Ingress Gateway service:
 
     {{< text bash >}}
-    $ ibmcloud ks nlb-dns-create --cluster $CLUSTER_NAME --ip $INGRESS_HOST
+    $ ibmcloud ks nlb-dns-create --cluster $CLUSTER_NAME --ip $INGRESS_IP
     Host name subdomain is created as <some NLB domain>
     {{< /text >}}
 
@@ -142,7 +119,7 @@ extract the certificates and private keys from the secrets that are provided by 
 1.  List the NLB domain names:
 
     {{< text bash >}}
-    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME
+    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep $INGRESS_IP
     Retrieving host names, certificates, IPs, and health check monitors for network load balancer (NLB) pods in cluster <your cluster>...
     OK
     Hostname              IP(s)               Health Monitor   SSL Cert Status   SSL Cert Secret Name
@@ -151,12 +128,6 @@ extract the certificates and private keys from the secrets that are provided by 
     {{< /text >}}
 
     Wait until the status of the NLB hostname that matches the IP of the Istio ingress gateway service becomes `enabled`.
-
-1.  To output the enabled NLB hostname that matches the IP of the Istio ingress gateway service, run:
-
-    {{< text bash >}}
-    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep enabled | grep $INGRESS_HOST
-    {{< /text >}}
 
 1.  Store the name of the secret that matches the IP of the Istio ingress gateway service:
 
@@ -302,8 +273,7 @@ You use the certificates and the keys provided to you for the NLB and ALB.
         `"""`
     {{< /text >}}
 
-1.  Remove the directories with the ALB and NLB certificates and keys. You do not want the keys to be on your disk for a
-    long time.
+1.  Remove the directories with the ALB and NLB certificates and keys. 
 
     {{< text bash >}}
     $ rm -r nlb_certs alb_certs trustid-x3-root.pem trusted.crt
@@ -311,8 +281,9 @@ You use the certificates and the keys provided to you for the NLB and ALB.
 
 ## Configure ALB
 
-1.  Configure the `Ingress` resource for ALB. You must create the `Ingress` resource in the `istio-system` namespace,
-    since it will forward the traffic to the Istio ingress gateway in the `istio-system` namespace.
+You will need to configure your Ingress resource to direct traffic to the Istio Ingrses gateway while using the certificate stored in the `alb-certs` secret
+
+1.  Configure the `Ingress` resource for ALB. You must create the `Ingress` resource in the `istio-system` namespace in order to forward the traffic to the Istio ingress gateway.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -355,18 +326,20 @@ You use the certificates and the keys provided to you for the NLB and ALB.
         `"""`
     {{< /text >}}
 
+Congratalations! You configured the IKS Ingress ALB to securely send traffic to Istio Ingress Gateway.
+
 ## Troubleshooting
 
 Perform the instructions in this section to diagnose possible problems if some of the instructions above do not work for
 you.
 
-*   Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment
+*   Inspect the values of the `INGRESS_IP` and `SECURE_INGRESS_PORT` environment
     variables. Make sure they have valid values, according to the output of the
     following commands:
 
     {{< text bash >}}
     $ kubectl get svc istio-ingressgateway -n istio-system
-    $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
+    $ echo INGRESS_IP=$INGRESS_IP, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     {{< /text >}}
 
 *   Verify that the key and the certificate are successfully loaded in the
