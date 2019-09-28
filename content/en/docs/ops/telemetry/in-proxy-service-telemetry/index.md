@@ -40,7 +40,7 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 
     or
 
-    If you have Istio 1.3.1, you can enable metadata exchange filter with WebAssembly sandbox using the
+    If you have Istio 1.3.x, you can enable metadata exchange filter with WebAssembly sandbox using the
     following command:
 
     {{< text bash >}}
