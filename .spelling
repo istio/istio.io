@@ -99,6 +99,8 @@ backends
 base64
 BigQuery
 bitpipe
+BlackHole
+BlackHoleCluster
 BluePerf
 boilerplates
 Bookinfo
@@ -391,6 +393,8 @@ packageName.serviceName
 Papertrail
 parenthesization
 passthrough
+Passthrough
+PassthroughCluster
 peek
 pem
 PKI
