@@ -38,14 +38,15 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/master/extensions/stats/testdata/istio/metadata-exchange_filter.yaml
     {{< /text >}}
 
-    or
-
-    If you have Istio 1.3.x, you can enable metadata exchange filter with WebAssembly sandbox using the
+    {{< tip >}}
+    Alternatively, if you have Istio 1.3.x, you can enable metadata exchange filter with WebAssembly sandbox using the
     following command:
 
     {{< text bash >}}
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/release-1.3/extensions/stats/testdata/istio/metadata-exchange_with_wasm_filter.yaml
     {{< /text >}}
+
+    {{< /tip >}}
 
 1. To actually generate the service-level metrics, you must apply the custom stats filter.
 
