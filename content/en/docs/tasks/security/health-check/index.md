@@ -105,7 +105,7 @@ continuously failed health checks.
 
 ## Cleanup
 
-*   To disable health checking on Citadel: 
+*   To disable health checking on Citadel:
 
     {{< text bash >}}
     $ kubectl apply -f install/kubernetes/istio-demo.yaml

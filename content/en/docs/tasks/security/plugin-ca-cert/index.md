@@ -134,5 +134,5 @@ This requires you have `openssl` installed on your machine.
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/install/kubernetes/#Uninstall) to remove.
+*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/install/kubernetes/#uninstall) to remove.
 
