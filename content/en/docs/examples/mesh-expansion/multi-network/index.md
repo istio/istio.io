@@ -186,7 +186,7 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [Customized installation of Istio on the Cluster](#Customized-installation-of-Istio-on-the-Cluster) section to learn how to obtain the IP address.
+1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) section to learn how to obtain the IP address.
 The following example updates the `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
@@ -323,7 +323,7 @@ in the cluster.
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the meshexpansion with gateway Istio installation step
-    in the [Customized installation of Istio on the Cluster](#Customized-installation-of-Istio-on-the-Cluster) section. Traffic entering port 15443 will be
+    in the [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) section. Traffic entering port 15443 will be
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in the cluster).
 
