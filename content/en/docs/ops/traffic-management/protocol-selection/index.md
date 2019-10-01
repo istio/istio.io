@@ -22,9 +22,7 @@ This feature can be turned off by providing the Helm value `--set pilot.enablePr
 
 ## Manual Protocol Selection
 
-Other protocols must be specified manually by naming the Service port to the protocol.
-The port name should match either `protocol` or `protocol-suffix`.
-
+Protocols can be specified manually by naming the Service port `name: <protocol>[-<suffix>]`.
 The following protocols are supported:
 
 - `grpc`
