@@ -86,7 +86,7 @@ Boundary protection, in particular, means:
 - do not expose private IP addresses from the boundary
 - do not let components from outside the boundary to impact security inside the boundary
 
-{{< gloss >}}Multi-mesh{{< /gloss >}} deployments facilitate division of a system into subsystems with different
+Multi-mesh deployments facilitate division of a system into subsystems with different
 security and compliance requirements, and facilitate the boundary protection.
 You put each subsystem into a separate service mesh, preferably on a separate network.
 You connect the Istio meshes using gateways. The gateways monitor and control cross-mesh traffic at the boundary of
