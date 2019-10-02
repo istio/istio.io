@@ -138,7 +138,7 @@ can check [multi-mesh deployment examples](https://github.com/istio-ecosystem/mu
 ## Summary
 
 In this blog post I described the requirements for isolation and boundary protection of sensitive data environments by
-using Istio {{< gloss >}}multi-mesh{{< /gloss >}} deployments. I outlined the principles of Istio
+using Istio multi-mesh deployments. I outlined the principles of Istio
 multi-mesh deployments and reported the current work on
 mesh federation in Istio.
 
