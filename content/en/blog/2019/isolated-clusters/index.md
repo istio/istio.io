@@ -36,8 +36,8 @@ Note that using mesh federation to create a multi-mesh deployment is very differ
 applications that require isolation and boundary protection.
 
 In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
-{{< gloss >}}multi-mesh{{< /gloss >}} deployments. Finally, I report the current state of
-mesh-federation support and automation work under way for Istio.
+multi-mesh deployments. Finally, I report the current state of mesh-federation support and automation work under way for
+Istio.
 
 ## Isolation and boundary protection
 
