@@ -29,7 +29,7 @@ You will start with a clean Istio installation, create an example service, expos
     By default `istio-ingressgateway` will be exposed as a `LoadBalancer` service type. You may want to change that by setting the `gateways.istio-ingressgateway.type` installation option to `NodePort` if this is more applicable to your Kubernetes environment.
     {{< /tip >}}
 
-1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html).
+1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
 
 ## Configuring DNS name and gateway
 
