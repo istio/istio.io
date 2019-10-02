@@ -237,6 +237,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l service=ratings
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l service=reviews
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l account=reviews
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l app=reviews,version=v3
     {{< /text >}}
 
