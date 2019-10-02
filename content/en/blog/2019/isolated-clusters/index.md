@@ -140,7 +140,7 @@ can check [multi-mesh deployment examples](https://github.com/istio-ecosystem/mu
 In this blog post I described the requirements for isolation and boundary protection of sensitive data environments by
 using Istio {{< gloss >}}multi-mesh{{< /gloss >}} deployments. I outlined the principles of Istio
 multi-mesh deployments and reported the current work on
-{{< gloss >}}mesh federation{{< /gloss >}} in Istio.
+mesh federation in Istio.
 
 I will be happy to hear your opinion about {{< gloss >}}multi-mesh{{< /gloss >}} and
 {{< gloss >}}multi-cluster{{< /gloss >}} at [discuss.istio.io](https://discuss.istio.io).
