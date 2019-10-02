@@ -128,7 +128,7 @@ code of your applications.
 
 ## The current mesh-federation work
 
-While you can perform {{< gloss >}}mesh federation{{< /gloss >}} using standard Istio configurations already today,
+While you can perform mesh federation using standard Istio configurations already today,
 it would require writing a lot of boiler-plate YAML files and could be error-prone. There is an effort under way to
 automate the {{< gloss >}}mesh federation{{< /gloss >}} process.
 Before the automation of {{< gloss >}}mesh federation{{< /gloss >}} is released, and if you are curious, you
