@@ -31,6 +31,10 @@ compliance requirements together in a {{< gloss >}}multi-mesh{{< /gloss >}} depl
 The process of connecting inter-mesh
 applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
 
+Note that using mesh federation to create a multi-mesh deployment is very different than creating a
+{{< gloss >}}multi-cluster{{< /gloss >}} deployment, which defines a single service mesh composed from services spanning more than one cluster. Unlike multi-mesh, a multi-cluster deployment is not suitable for
+applications that require isolation and boundary protection.
+
 In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
 {{< gloss >}}multi-mesh{{< /gloss >}} deployments. Finally, I report the current state of
 mesh-federation support and automation work under way for Istio.
