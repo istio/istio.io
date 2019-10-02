@@ -154,9 +154,10 @@ CVE-2019-9513
 CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
+CVEs
+cyber
 Datadog
 datapath
-CVEs
 dataset
 datastore
 Datawire
@@ -201,6 +202,7 @@ faq.md
 Fawad
 fcm.googleapis.com
 FDs
+FedRAMP
 filename
 filenames
 fine-grained
@@ -236,6 +238,7 @@ gRPC
 grpc
 helloworld
 Herness
+hoc
 hostIP
 hostname
 hostnames
@@ -506,6 +509,7 @@ subdomain
 subdomains
 subnet
 subnets
+subnetworks
 subresources
 substring
 Superfeet
