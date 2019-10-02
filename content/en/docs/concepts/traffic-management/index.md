@@ -29,7 +29,7 @@ changes to your services.
 
 If you’re interested in the details of how the features described in this guide
 work, you can find out more about Istio’s traffic management architecture in the
-[Architecture](#architecture) section at the end of this document. The rest of
+[architecture overview](/docs/concepts/architecture/). The rest of
 this guide introduces Istio’s traffic management features.
 
 ## Introducing Istio Traffic Management
@@ -812,98 +812,3 @@ or errors and take appropriate fallback actions. For example, when all
 instances in a load balancing pool have failed, Envoy returns an `HTTP 503`
 code. The application must implement any fallback logic needed to handle the
 `HTTP 503` error code..
-
-## Architecture {#architecture}
-
-Istio's traffic management model relies on the following two components:
-
--   {{< gloss >}}Pilot{{</ gloss >}}, the core traffic management component.
--   {{< gloss >}}Envoy{{</ gloss >}} proxies, which enforce configurations and
-    policies set through Pilot.
-
-These components enable the following Istio traffic management features:
-
--   Service discovery
--   Load balancing
--   Traffic routing and control
-
-### Pilot: Core traffic management {#pilot}
-
-The following diagram shows the Pilot architecture:
-
-{{< image width="40%" link="./pilot-arch.svg" caption="Pilot architecture" >}}
-
-As the diagram illustrates, Pilot maintains an **abstract model** of all the
-services in the mesh. **Platform-specific adapters** in Pilot translate the
-abstract model appropriately for your platform. For example, the Kubernetes
-adapter implements controllers to watch the Kubernetes API server for changes to
-pod registration information and service resources. The Kubernetes adapter
-translates this data for the abstract model.
-
-Pilot uses the abstract model to generate appropriate Envoy-specific
-configurations to let Envoy proxies know about one another in the mesh through
-the [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api).
-
-You can use Istio's [Traffic Management API](#introducing-istio-traffic-management) to instruct Pilot to refine the
-Envoy configuration to exercise more granular control over the traffic in your
-service mesh.
-
-### Envoy proxies
-
-Traffic in Istio is categorized as data plane traffic and control plane traffic.
-Data plane traffic refers to the messages that the business logic of the workloads
-send and receive. Control plane traffic refers to configuration and control messages sent
-between Istio components to program the behavior of the mesh. Traffic management
-in Istio refers exclusively to data plane traffic.
-
-Envoy proxies are the only Istio components that interact with data plane
-traffic. Envoy proxies route the data plane traffic across the mesh and enforce
-the configurations and traffic rules without the services having to be aware of
-them. Envoy proxies mediate all inbound and outbound traffic for all services in
-the mesh. Envoy proxies are deployed as sidecars to services, logically
-augmenting the services with traffic management features:
-
--   service discovery and load balancing
--   traffic routing and configuration
--   network resilience and testing
-
-Some of the features and tasks enabled by Envoy proxies include:
-
--   Traffic control features: enforce fine-grained traffic control with rich
-    routing rules for HTTP, gRPC, WebSocket, and TCP traffic.
-
--   Network resiliency features: setup retries, failovers, circuit breakers, and
-    fault injection.
-
--   Security and authentication features: enforce security policies and enforce
-    access control and rate limiting defined through the configuration API.
-
-#### Service discovery and load balancing {#discovery}
-
-Istio service discovery leverages the service discovery features provided by
-platforms like Kubernetes for container-based applications. Service discovery
-works in a similar way regardless of what platform you're using:
-
-1.  The platform starts a new instance of a service which notifies its platform
-    adapter.
-
-1.  The platform adapter registers the instance with the Pilot abstract model.
-
-1.  **Pilot** distributes traffic rules and configurations to the Envoy proxies
-    to account for the change.
-
-The following diagram shows how the platform adapters and Envoy proxies
-interact.
-
-{{< image width="40%" link="./discovery.svg" caption="Service discovery" >}}
-
-Because the service discovery feature is platform-independent, a service mesh
-can include services across multiple platforms.
-
-Using the abstract model, Pilot configures the Envoy proxies to perform load
-balancing for service requests, replacing any underlying platform-specific load
-balancing feature. In the absence of more specific routing rules, Envoy will
-distribute the traffic across the instances in the calling service's load
-balancing pool, according to the Pilot abstract model and load balancer
-configuration.
-
