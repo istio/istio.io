@@ -50,7 +50,7 @@ also supporting additional multicluster topologies including different
 [control plane models](/docs/concepts/deployment-models/#control-plane-models)
 topologies without requiring a flat network.
 
-There is lots more -- see the [release notes](/news/2019/announcing-1.1/) for complete
+There is lots more -- see the [release notes](#release-notes) for complete
 details.
 
 There is more going on in the project as well. We know that Istio has a lot of
