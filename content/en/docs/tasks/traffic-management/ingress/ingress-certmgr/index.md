@@ -13,23 +13,23 @@ You will start with a clean Istio installation, create an example service, expos
 
 ## Before you begin
 
-[Install Istio](/docs/setup/) making sure to enable ingress [gateway](/docs/reference/config/networking/v1alpha3/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) and [cert-manager](https://docs.cert-manager.io/) optional dependency during installation. Here's an example of how to do this for the [helm template](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) installation path:
+1. [Install Istio](/docs/setup/) making sure to enable ingress [gateway](/docs/reference/config/networking/v1alpha3/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Here's an example of how to do this for the [helm template](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) installation path:
 
-{{< text bash >}}
-$ helm template $HOME/istio-fetch/istio \
-  --namespace=istio-system \
-  --set gateways.istio-ingressgateway.sds.enabled=true \
-  --set global.k8sIngress.enabled=true \
-  --set global.k8sIngress.enableHttps=true \
-  --set global.k8sIngress.gatewayName=ingressgateway \
-  --set certmanager.enabled=true \
-  --set certmanager.email=mailbox@donotuseexample.com \
-  > $HOME/istio-fetch/istio.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ helm template $HOME/istio-fetch/istio \
+      --namespace=istio-system \
+      --set gateways.istio-ingressgateway.sds.enabled=true \
+      --set global.k8sIngress.enabled=true \
+      --set global.k8sIngress.enableHttps=true \
+      --set global.k8sIngress.gatewayName=ingressgateway \
+      > $HOME/istio-fetch/istio.yaml
+    {{< /text >}}
 
-{{< tip >}}
-By default `istio-ingressgateway` will be exposed as a `LoadBalancer` service type. You may want to change that by setting the `gateways.istio-ingressgateway.type` installation option to `NodePort` if this is more applicable to your Kubernetes environment.
-{{< /tip >}}
+    {{< tip >}}
+    By default `istio-ingressgateway` will be exposed as a `LoadBalancer` service type. You may want to change that by setting the `gateways.istio-ingressgateway.type` installation option to `NodePort` if this is more applicable to your Kubernetes environment.
+    {{< /tip >}}
+
+1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
 
 ## Configuring DNS name and gateway
 

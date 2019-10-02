@@ -31,6 +31,8 @@ This option covers securing the transport layer *only*. You should also configur
 addons to require authentication when exposing them externally.
 {{< /warning >}}
 
+1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
+
 1. [Install Istio](/docs/setup) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
 the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration).
 
@@ -39,8 +41,6 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     * `--set gateways.enabled=true`
     * `--set gateways.istio-ingressgateway.enabled=true`
     * `--set gateways.istio-ingressgateway.sds.enabled=true`
-    * `--set certmanager.enabled=true`
-    * `--set certmanager.email=mailbox@donotuseexample.com`
 
     To additionally install the telemetry addons, use the following Helm installation options:
 
