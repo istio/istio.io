@@ -231,58 +231,14 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Create the `reviews-v3.yaml` manifest for deployment on the remote:
+1.  Install the `reviews-v3` deployment on the remote cluster.
 
-    {{< text syntax="yaml" downloadas="reviews-v3.yaml" >}}
-    ---
-    ##################################################################################################
-    # Ratings service
-    ##################################################################################################
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: ratings
-      labels:
-        app: ratings
-    spec:
-      ports:
-      - port: 9080
-        name: http
-    ---
-    ##################################################################################################
-    # Reviews service
-    ##################################################################################################
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: reviews
-      labels:
-        app: reviews
-    spec:
-      ports:
-      - port: 9080
-        name: http
-      selector:
-        app: reviews
-    ---
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: reviews-v3
-    spec:
-      replicas: 1
-      template:
-        metadata:
-          labels:
-            app: reviews
-            version: v3
-        spec:
-          containers:
-          - name: reviews
-            image: istio/examples-bookinfo-reviews-v3:1.5.0
-            imagePullPolicy: IfNotPresent
-            ports:
-            - containerPort: 9080
+    {{< text bash >}}
+    $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l service=ratings
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l service=reviews
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l account=reviews
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l app=reviews,version=v3
     {{< /text >}}
 
     _Note:_ The `ratings` service definition is added to the remote cluster because `reviews-v3` is a
@@ -290,13 +246,6 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     `reviews-v3` pod will determine the proper `ratings` endpoint after the DNS lookup is resolved to a
     service address.  This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
     in a federated Kubernetes environment.
-
-1.  Install the `reviews-v3` deployment on the remote.
-
-    {{< text bash >}}
-    $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
-    $ kubectl apply -f $HOME/reviews-v3.yaml
-    {{< /text >}}
 
 1.  Get the `istio-ingressgateway` service's external IP to access the `bookinfo` page to validate that Istio
     is including the remote's `reviews-v3` instance in the load balancing of reviews versions:
