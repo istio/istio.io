@@ -1,66 +1,88 @@
 ---
-title: Understanding your mesh with istioctl describe
-description: Shows you how to use istioctl to determine the traffic management applied to a pod.
+title: Understand Your Mesh with `istioctl describe`
+description: Shows you how to use `istioctl describe` to verify the configurations of a pod in your mesh.
 weight: 90
-keywords: [traffic-management, istioctl, debugging]
+keywords: [traffic-management, istioctl, debugging, kubernetes]
 ---
 
 {{< boilerplate experimental-feature-warning >}}
 
-In Istio 1.3, we included the experimental
-[`describe pod`](/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod)
-sub-command for `istioctl`. We designed this tool to help find and
-understand the configuration that impacts a pod.  This task shows you how
-to use the experimental sub-command to see if a pod is in the mesh and
-view its traffic and security configuration.
+In Istio 1.3, we included the [`istioctl experimental describe pod`](/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod)
+command. This CLI command provides you with the information needed to understand
+the configuration impacting a {{< gloss >}}pod{{< /gloss >}}. This task shows
+you how to use this experimental sub-command to see if a pod is in the mesh and
+verify its configuration.
 
-## Confirm the Pod is in the Service Mesh
+The basic usage of the command is as follows:
 
-`describe pod` warns if the Envoy container is not present or has not
-started.  It will warn if [Istio requirements](/docs/setup/additional-setup/requirements/) are not met.
+{{< text bash >}}
+$ istioctl experimental describe <pod-name>
+{{< /text>}}
 
-For example, `istioctl x describe pod $(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}').kube-system` reports
+The command above includes the `experimental` label, but you can replace it with
+`x` for convenience. The value of `<pod-name>` is the name Kubernetes randomly
+assigns to the pods in the cluster. For convenience in this task, we obtain
+`<pod-name>` via `kubectl` and store it in environmental variables throughout.
 
-{{< text plain >}}
+This task assumes you have deployed the [Bookinfo](/docs/examples/bookinfo/)
+sample in your mesh. If you haven't done so, [start the application's services](/docs/examples/bookinfo/#start-the-application-services)
+and [determine the IP and port of the ingress](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) before continuing.
+
+## Verify the pod is in the mesh
+
+The `describe pod` command returns a warning if the Envoy proxy is not present
+in the pod or if the proxy has not started. Additionally, the command warns if
+the [Istio requirements for pods](/docs/setup/additional-setup/requirements/)
+are not met.
+
+For example, the following command produces a warning indicating the pod is not
+in the service mesh and the lack of a sidecar.
+
+{{< text bash >}}
+$ istioctl x describe pod $(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}').kube-system
 WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; no Istio sidecar
 {{< /text >}}
 
-## `istioctl experimental describe pod` tutorial
+## Verify the `ratings` service is in the mesh
 
-If the pod is part of the mesh `describe` will show the configuration that affects the pod.
+Once Bookinfo is deployed as part of the mesh, `describe pod` can show the
+configuration applied the pod.
 
-First, let us deploy Bookinfo.  Follow the steps to
-[start the application services](/docs/examples/bookinfo/#start-the-application-services) and
-[determine the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) before continuing.
-
-Let's describe a pod:
+To describe the pod running the `ratings` {{< gloss >}}service{{< /gloss >}}, run:
 
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
 $ istioctl experimental describe pod $RATINGS_POD
 Pod: ratings-v1-f745cf57b-qrxl2
-   Pod Ports: 9080 (ratings), 15090 (istio-proxy)
+Pod Ports: 9080 (ratings), 15090 (istio-proxy)
 --------------------
 Service: ratings
    Port: http 9080/HTTP
 Pilot reports that pod enforces HTTP/mTLS and clients speak HTTP
 {{< /text >}}
 
-The output tells us which containers the pod exposes, the Istio protocol for the microservice on port 9080, and the mutual TLS settings for the pod.
+The output shows the following information:
 
-## Destination Rules
+- The containers exposed by the pod.
+- The port of the service in the pod, `9080` for `ratings` in the example.
+- The port of the `istio-proxy` in the pod, `15090` in the example.
+- The protocol used by the service in the pod, `HTTP` over the `9080` port in
+  the example.
+- The mutual TLS settings for the pod.
 
-Next we apply the destination rules suggested by the documentation.  I used mutual TLS,
-so I must apply `destination-rule-all-mtls.yaml`:
+## Verify destination rule configurations
+
+We recommend you use [destination rules](/docs/concepts/traffic-management/#destination-rules)
+to apply certain configurations to services on your mesh.
+
+One common example is enabling mutual TLS.
+For Bookinfo, we have a [mutual TLS configuration file]({{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml)
+that creates four destination rules, one per service in Bookinfo: `details`,
+`productpage`, `ratings`, and `reviews`. Apply the configuration file and
+describe the pod:
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
-$ istioctl x describe pod $RATINGS_POD
-{{< /text >}}
-
-Applying `destination-rule-all-mtls.yaml` created four destination rules: `details`, `productpage`, `ratings`, and `reviews`.
-
-{{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
 Pod: ratings-v1-f745cf57b-qrxl2
    Pod Ports: 9080 (ratings), 15090 (istio-proxy)
@@ -74,14 +96,23 @@ DestinationRule: ratings for "ratings"
 Pilot reports that pod enforces HTTP/mTLS and clients speak mTLS
 {{< /text >}}
 
-Now `istioctl x describe` shows additional output:
+The command now shows additional output:
 
-The destination rule now appears in the output.  This tells us that the `ratings` destination rule is present, and that it defines the subset `v1` which matches this pod.
-Clients talking to the ratings microservice will use mutual TLS.
+- The `ratings` destination rule for `"ratings"`.
+- The `v1` subset the `ratings` destination rule defines.
+- The fact that this pod matches the `v1` subset.
+- The fact that clients talking to the `ratings` service use mutual TLS.
 
-## Virtual Services
+## Verify virtual service configurations
 
-Now I will follow the Bookinfo example to [Request Routing](/docs/tasks/traffic-management/request-routing/) and define some virtual services:
+For traffic management, we recommend you [route your requests](/docs/tasks/traffic-management/request-routing/).
+
+In Istio, you can do this using [virtual services](/docs/concepts/traffic-management/#why-use-virtual-services).
+For Bookinfo, we have a [configuration file]({{< github_file>}}/samples/bookinfo/networking/virtual-service-all-v1.yaml)
+that defines a virtual service to route all traffic to `v1` of the the services.
+
+The following commands set the `REVIEWS_V1_POD` environmental variable to store
+the the pod's name, apply the configuration file and describe the pod.
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
@@ -91,13 +122,18 @@ VirtualService: reviews
    1 HTTP route(s)
 {{< /text >}}
 
-After applying this rule I "describe" the _reviews-v1_ pod.  The output resembles
-what we saw before the virtual services were defined, but we now see that they are present.
+The output contains the same information as before but it also includes the
+defined virtual services.
 
-After applying _virtual-service-all-v1.yaml_ the traffic all goes to version 1.  The "stars disappear".  If this was a real cluster, someone might notice the logs to v2/v3
-are no longer appearing.  Users might notice features and not working.  `describe` will not
-just report the virtual services that configure a pod.  If it seems that a virtual service
-configures a pod, but actually blocks traffic by never routing to the pod's subset, the output will include a warning.
+Routing all traffic to the `v1` subset makes the stars disappear from the
+rating. In a real cluster, you would notice that the logs for the `v2` and `v3`
+versions no longer appear. For users, features appear not to be working.
+
+The command doesn't just show the virtual services impacting the pod. If a
+virtual service appears to configure a pod but no traffic reaches it, the
+command's output includes a warning. This case can occur if the virtual service
+actually blocks traffic because it never routes traffic to the pod's subset. For
+example:
 
 {{< text bash >}}
 $ export REVIEWS_V2_POD=$(kubectl get pod -l app=reviews,version=v2 -o jsonpath='{.items[0].metadata.name}')
@@ -107,18 +143,24 @@ VirtualService: reviews
       Route to non-matching subset v1 for (everything)
 {{< /text >}}
 
-The warning "No destinations match pod subsets" tells us the problem.
-No traffic will arrive due to the virtual service destinations.
+The warning includes the cause of the problem, how many routes were checked, and
+even gives you some information about the other routes in place. In our example,
+no traffic arrives to the pod because the route in the virtual service directs all
+traffic to the `v1` subset and the destination pod is in the `v2` subset of the
+service.
 
-Oh no!  I must revert!  I'll delete the bogus Istio configuration:
+At first, you would think this issue has a simple solution: delete the incorrect
+Istio configuration.
 
 {{< text bash >}}
 $ kubectl delete -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
 {{< /text >}}
 
-If I refresh the browser at this point the stars do not appear.  Instead I see
-*Error fetching product details!* and *Error fetching product reviews!*  Instead of
-panic, I `describe`:
+If you refresh the browser to send a new request to Bookinfo after deleting the
+configuration, you won't see the stars appear. Instead, you see the following
+messages: `Error fetching product details!` and `Error fetching product reviews!`.
+
+Try not to panic, instead use `istioctl describe`:
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V2_POD
@@ -128,20 +170,25 @@ VirtualService: reviews
       Warning: Route to subset v1 but NO DESTINATION RULE defining subsets!
 {{< /text >}}
 
-At this point I look back and realize I deleted the destination rules, not the virtual service I intended to.  The virtual service is still there, still routing to subset `v1`, but without a destination rule defining `v1` to mean the selector `version:v1`, traffic cannot flow to any pods.
+The output shows us that we deleted the destination rules, and not the virtual
+service. The virtual service still routes all traffic to the `v1` subset, but
+there is no destination rule defining the `v1` subset. Thus, traffic with the
+`version:v1` selector can't flow to any pods.
 
-To fix the problem:
+We can fix the problem with the following commands:
 
 {{< text bash >}}
 $ kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 $ kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
 {{< /text >}}
 
-Reloading the browser shows the app has reappeared along with the stars.  `istioctl experimental describe pod $REVIEWS_V2_POD` no longer gives warnings.
+Reloading the browser shows the app working and showing stars for the ratings.
+Running `istioctl experimental describe pod $REVIEWS_V2_POD` no longer produces warnings.
 
-## Mutual TLS
+## Verifying strict mutual TLS
 
-Let's follow the [Mutual TLS Migration](/docs/tasks/security/mtls-migration/) instructions to enable strict mutual TLS, but targeting ratings:
+Following the [mutual TLS migration](/docs/tasks/security/mtls-migration/)
+instructions, we can enable strict mutual TLS, but targeting the `ratings` service:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -158,21 +205,27 @@ spec:
 EOF
 {{< /text >}}
 
-Now `istioctl x describe pod $RATINGS_POD` reports
+We can run the following command to describe the `$RATINGS_POD` pod:
 
-{{< text plain >}}
+{{< text bash >}}
+$ istioctl x describe pod $RATINGS_POD
 Pilot reports that pod enforces mTLS and clients speak mTLS
 {{< /text >}}
 
-That's locked down!
+The output reports that's locked down!
 
-If things break when mutual TLS is made `STRICT` it often means that the destination rule didn't match.  For example, if I _destination-rule-all.yaml_ is used instead of `destination-rule-all-mtls.yaml`:
+When your deployment breaks while switching mutual TLS to `STRICT`, the likely
+culprit is that the destination rule didn't match the new configuration.
+
+For example, could use this [configuration file]({{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml)
+to setup the destination rules:
 
 {{< text bash >}}
-$ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml   # oops wrong filename
+$ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 {{< /text >}}
 
-At this point the browser shows *Ratings service is currently unavailable*.  Why?
+If you open Bookinfo in your browser, you see `Ratings service is currently unavailable`.
+To learn why, run the following command:
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
@@ -180,25 +233,40 @@ WARNING Pilot predicts TLS Conflict on ratings-v1-f745cf57b-qrxl2 port 9080 (pod
   Check DestinationRule ratings/default and AuthenticationPolicy ratings-strict/default
 {{< /text >}}
 
-The output is the same except the final line which now reads
+The output remained unchanged except for the warning describing the conflict
+between the destination rule and the authentication policy.
 
-Restore correct behavior with `kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml`.
+You can restore correct behavior applying a destination rule that contemplates
+strict mutual TLS:
 
-## Summary of traffic rules
+{{< text bash >}}
+$ kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
+{{< text bash >}}
 
-The tool will show a bit about the rules.  For example, let's deploy the 90/10 traffic
-split:
+## Verifying traffic routes
+
+The command shows traffic route information too. For example, we can apply a traffic
+split and then describe the pod:
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-90-10.yaml
 sleep 3
+{{< /text >}}
+
+{{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD
 ...
 VirtualService: reviews
    Weight 90%
 {{< /text >}}
 
-Let's deploy header-specific routing:
+The output shows that the `reviews` virtual service has a weight of 90% for the
+`v1` subset. This information shows that the traffic split we applied routes 90%
+of traffic to the `v1` subset and 10% to the `v2` subset of the the `reviews`
+service.
+
+This function is helpful for other types of routing. For example, we can deploy
+header-specific routing and describe the pod:
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml
@@ -211,13 +279,21 @@ VirtualService: reviews
       Route to non-matching subset v3 for (everything)
 {{< /text >}}
 
+The output produces a warning since we are describing a pod in the `v1` subset.
+However, the virtual service configuration we applied routes traffic to the `v2`
+subset if the header contains `end-user=jason` and to the `v3` subset in all
+other cases.
+
 ## Conclusion and cleanup
 
-I hope `istioctl x describe` helps you to understand the traffic and security rules
-used in your Istio deployment.  If you have ideas for improvements please post on
-[https://discuss.istio.io](https://discuss.istio.io).
+Our goal with the `istioctl x describe` command is to help you understand the
+traffic and security configurations in your Istio mesh.
 
-To remove the book info pods used for this tutorial, follow [these instructions](/docs/examples/bookinfo/#cleanup) or run
+We would love to hear your ideas for improvements!
+Please join us at [https://discuss.istio.io](https://discuss.istio.io).
+
+To remove the bookinfo pods and configurations used in this task, run the
+following commands:
 
 {{< text bash >}}
 $ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
