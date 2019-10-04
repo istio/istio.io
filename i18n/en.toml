@@ -193,5 +193,14 @@ other = "-"
 [syntax_coloring]
 other = "Color Examples"
 
-[announcement_relnotes]
-other = "%s RELEASE NOTES"
+[analysis_name]
+other = "Message Name"
+
+[analysis_code]
+other = "Message Code"
+
+[analysis_description]
+other = "Description"
+
+[analysis_level]
+other = "Level"
