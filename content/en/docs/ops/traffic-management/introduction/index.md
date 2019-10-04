@@ -19,7 +19,7 @@ other content.
 When attempting to understand, monitor or troubleshoot the networking within
 an Istio deployment it is critical to understand the fundamental Istio
 concepts starting with the service mesh.  The service mesh is described
-in [Architecture](/docs/concepts/what-is-istio/#architecture).  As noted
+in [Architecture](/docs/concepts/architecture/).  As noted
 in the architecture section Istio has a distinct control plane and a data
 plane and operationally it will be important to be able to monitor the
 network state of both.  The service mesh is a fully interconnected set of

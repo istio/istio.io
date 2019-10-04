@@ -10,7 +10,7 @@ keywords: [kubernetes,sidecar-injection, traffic-management]
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 
-[From Istio’s documentation:](/docs/concepts/what-is-istio/#architecture)
+[From Istio’s documentation:](/docs/concepts/architecture/)
 
 {{< quote >}}
 An Istio service mesh is logically split into a data plane and a control plane.

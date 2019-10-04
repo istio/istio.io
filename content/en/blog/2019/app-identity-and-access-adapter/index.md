@@ -15,9 +15,9 @@ With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security
 
 ## Understanding Istio and the adapter
 
-[Istio](/docs/concepts/what-is-istio/) is an open source service mesh that transparently layers onto distributed applications and seamlessly integrates with Kubernetes. To reduce the complexity of deployments Istio provides behavioral insights and operational control over the service mesh as a whole. [See Istio Architecture for more details.](/docs/concepts/what-is-istio/#architecture)
+[Istio](/docs/concepts/what-is-istio/) is an open source service mesh that transparently layers onto distributed applications and seamlessly integrates with Kubernetes. To reduce the complexity of deployments Istio provides behavioral insights and operational control over the service mesh as a whole. [See Istio Architecture for more details.](/docs/concepts/architecture/)
 
-Istio uses [Envoy proxy sidecars](/blog/2019/data-plane-setup/) to mediate inbound and outbound traffic for all pods in the service mesh. Istio extracts telemetry from the Envoy sidecars and sends it to [Mixer](/docs/concepts/what-is-istio/#mixer), the Istio component responsible for collecting telemetry and policy enforcement.
+Istio uses [Envoy proxy sidecars](/blog/2019/data-plane-setup/) to mediate inbound and outbound traffic for all pods in the service mesh. Istio extracts telemetry from the Envoy sidecars and sends it to [Mixer](/docs/concepts/architecture/#mixer), the Istio component responsible for collecting telemetry and policy enforcement.
 
 The App Identity and Access adapter extends the Mixer functionality by analyzing the telemetry (attributes) against various access control policies across the service mesh. The access control policies can be linked to a particular Kubernetes services and can be finely tuned to specific service endpoints. For more information about policies and telemetry, see the Istio documentation.
 
