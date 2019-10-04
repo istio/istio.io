@@ -61,6 +61,8 @@ staged rollouts with percentage-based traffic splits.
 With better visibility into your traffic, and out-of-box failure recovery features, you can catch issues before they cause problems, making calls more reliable,
 and your network more robust -- no matter what conditions you face.
 
+Refer to the [Traffic management concepts guide](/docs/concepts/traffic-management/) for more details.
+
 ### Security
 
 Istio’s security capabilities free developers to focus on security at the application level. Istio provides the underlying secure communication channel, and
@@ -69,6 +71,20 @@ letting you enforce policies consistently across diverse protocols and runtimes 
 
 While Istio is platform independent, using it with Kubernetes (or infrastructure) network policies, the benefits are even greater, including the ability to
 secure {{<gloss>}}pod{{</gloss>}}-to-pod or service-to-service communication at the network and application layers.
+
+Refer to the [Security concepts guide](/docs/concepts/security/) for more details.
+
+### Policies
+
+Istio lets you configure custom policies for your application to enforce rules at runtime such as:
+
+- Rate limiting to dynamically limit the traffic to a service
+- Denials, whitelists, and blacklists, to restrict access to services
+- Header rewrites and redirects
+
+Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
+
+Refer to the [Policies concepts guide](/docs/concepts/policies/) for more details.
 
 ### Observability
 
@@ -83,7 +99,9 @@ and infrastructure backends.
 All these features let you more effectively set, monitor, and enforce SLOs on services. Of course, the bottom line is that you can detect and fix issues quickly
 and efficiently.
 
-### Platform support
+Refer to the [Observability concepts guide](/docs/concepts/observability/) for more details.
+
+## Platform support
 
 Istio is platform-independent and designed to run in a variety of environments, including those spanning Cloud, on-premise, Kubernetes, Mesos, and more. You can
  deploy Istio on Kubernetes, or on Nomad with Consul. Istio currently supports:
@@ -94,7 +112,7 @@ Istio is platform-independent and designed to run in a variety of environments, 
 
 * Services running on individual virtual machines
 
-### Integration and customization
+## Integration and customization
 
 The policy enforcement component of Istio can be extended and customized to integrate with existing solutions for ACLs, logging, monitoring, quotas, auditing,
 and more.
