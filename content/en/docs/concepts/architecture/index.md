@@ -67,7 +67,7 @@ information about the behavior of the entire mesh.
 The sidecar proxy model also allows you to add Istio capabilities to an
 existing deployment with no need to rearchitect or rewrite code. You can read
 more about why we chose this approach in our
-[Design Goals](/docs/concepts/what-is-istio/#design-goals).
+[Design Goals](#design-goals).
 
 Some of the Istio features and tasks enabled by Envoy proxies include:
 
@@ -97,7 +97,7 @@ abstracts the Envoy proxy and Istio-managed services from these details.
 
 ### Pilot
 
-[Pilot](/docs/concepts/traffic-management/#pilot) provides
+Pilot provides
 service discovery for the Envoy sidecars, traffic management capabilities
 for intelligent routing (e.g., A/B tests, canary rollouts, etc.),
 and resiliency (timeouts, retries, circuit breakers, etc.).
