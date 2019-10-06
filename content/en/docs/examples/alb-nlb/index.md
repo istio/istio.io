@@ -286,7 +286,7 @@ You use the certificates and the keys provided to you for the NLB and ALB.
 
 ## Configure ALB
 
-You need to configure your Ingress resource to direct traffic to the Istio Ingrses gateway while using the
+You need to configure your Ingress resource to direct traffic to the Istio Ingress gateway while using the
 certificate stored in the `alb-certs` secret.
 
 1.  Configure the `Ingress` resource for ALB. You must create the `Ingress` resource in the `istio-system` namespace in
@@ -333,7 +333,7 @@ certificate stored in the `alb-certs` secret.
         `"""`
     {{< /text >}}
 
-Congratalations! You configured the IKS Ingress ALB to securely send traffic to Istio ingress gateway.
+Congratulations! You configured the IKS Ingress ALB to securely send traffic to Istio ingress gateway.
 
 ## Cleanup
 
