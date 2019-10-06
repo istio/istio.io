@@ -15,7 +15,7 @@ example extends that example to show how to configure SNI monitoring and apply p
 
 *  [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
-*  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
 
 *  Configure traffic to `*.wikipedia.org` by following
    [the steps](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in

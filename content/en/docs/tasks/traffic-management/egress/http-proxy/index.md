@@ -18,7 +18,7 @@ services.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
 
 ## Deploy an HTTPS proxy
 
