@@ -86,7 +86,7 @@ The traffic to the services without Istio sidecar can continue to flow as before
 ## Create secrets for ALB and Istio ingress gateway
 
 IBM Cloud Kubernetes Service generates TLS certificates and private keys and stores them as a secret in the default
-namespace when you request a DNS subdomain for an NLB IP. The Application Load Balancer Ingress subdomain certificates
+namespace when you request a DNS subdomain for an NLB IP. The Application Load Balancer's Ingress subdomain certificates
 and keys are also stored as a secret in the default namespace. You need these credentials to establish the identities
 the ALB and the Istio ingress gateway will present one to another during mutual TLS authentication between them.
 You configure the ALB and the Istio ingress gateway to exchange these certificates signed by their private keys, and you
