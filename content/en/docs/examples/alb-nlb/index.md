@@ -333,7 +333,7 @@ certificate stored in the `alb-certs` secret.
         `"""`
     {{< /text >}}
 
-Congratalations! You configured the IKS Ingress ALB to securely send traffic to Istio Ingress Gateway.
+Congratalations! You configured the IKS Ingress ALB to securely send traffic to Istio ingress gateway.
 
 ## Cleanup
 
