@@ -25,6 +25,8 @@ without the need to specify every language's site separately.
 
 *   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
+*   [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+
 ## Configure direct traffic to a wildcard host
 
 The first, and simplest, way to access a set of hosts within a common domain is by configuring

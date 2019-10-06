@@ -37,6 +37,8 @@ controlled way.
 
 {{< boilerplate before-you-begin-egress >}}
 
+*   [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+
 ## Deploy Istio egress gateway
 
 1.  Check if the Istio egress gateway is deployed:
@@ -310,7 +312,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -482,7 +484,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< /tabset >}}
 
-1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
     The output should be the same as before.
 
     {{< text bash >}}

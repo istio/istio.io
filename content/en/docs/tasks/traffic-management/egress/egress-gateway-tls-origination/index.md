@@ -45,6 +45,8 @@ traffic to external services.
 
 *   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
+*   [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+
 ## Perform TLS origination with an egress gateway
 
 This section describes how to perform the same TLS origination as in the
