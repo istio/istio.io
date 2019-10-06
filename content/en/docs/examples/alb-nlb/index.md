@@ -261,7 +261,7 @@ You use the certificates and the keys provided to you for the NLB and ALB.
     $ kubectl delete pod -l istio=ingressgateway -n istio-system
     {{< /text >}}
 
-1.  Send a request to `httpbin` by _curl_, this time passing as parameters the client certificate
+1.  Send a request to `httpbin` by _curl_, passing as parameters the client certificate
     (additional `--cert` option) and the private key (the `--key` option):
 
     {{< text bash >}}
