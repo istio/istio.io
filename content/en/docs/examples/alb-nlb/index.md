@@ -179,8 +179,7 @@ to trust the certificates one of another.
     $ cat nlb_certs/tls.crt trustid-x3-root.pem > trusted.crt
     {{< /text >}}
 
-1.  Create Kubernetes secrets to be used by Istio ingress gateway and ALB to establish
-    {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between them. Note
+1.  Create Kubernetes secrets to be used by Istio ingress gateway and ALB to establish mutual TLS between them. Note
     that the name of the secrets for the Istio ingress gateway must be exactly as in the commands.
 
     {{< warning >}}
