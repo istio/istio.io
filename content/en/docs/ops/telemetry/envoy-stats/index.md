@@ -15,7 +15,7 @@ statistics the Envoy proxies record can provide more information about specific 
 To see the statistics for a pod:
 
 {{< text bash >}}
-$ kubectl exec -it $POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats'
+$ kubectl exec $POD -c istio-proxy -- pilot-agent request GET stats
 {{< /text >}}
 
 See [the Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)

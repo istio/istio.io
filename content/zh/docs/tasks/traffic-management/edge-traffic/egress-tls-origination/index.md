@@ -120,8 +120,8 @@ $ kubectl delete serviceentry cnn
         name: http-port
         protocol: HTTP
       - number: 443
-        name: http-port-for-tls-origination
-        protocol: HTTP
+        name: https-port-for-tls-origination
+        protocol: HTTPS
       resolution: DNS
     ---
     apiVersion: networking.istio.io/v1alpha3

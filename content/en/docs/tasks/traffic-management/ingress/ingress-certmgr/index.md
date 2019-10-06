@@ -31,6 +31,15 @@ $ helm template $HOME/istio-fetch/istio \
 By default `istio-ingressgateway` will be exposed as a `LoadBalancer` service type. You may want to change that by setting the `gateways.istio-ingressgateway.type` installation option to `NodePort` if this is more applicable to your Kubernetes environment.
 {{< /tip >}}
 
+{{< tip >}}
+If you're editing the `values.yml` file, don't enable
+{{<text_hack yaml>}}
+sds:
+  enabled: false
+{{</text>}}
+This will enable mutual TLS between pods which will cause pods to become unhealthy if you don't have mutual TLS configured.
+{{< /tip >}}
+
 ## Configuring DNS name and gateway
 
 Take a note of the external IP address of the `istio-ingressgateway` service:

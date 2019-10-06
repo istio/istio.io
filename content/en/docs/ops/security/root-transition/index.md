@@ -130,7 +130,7 @@ please follow the procedure and check whether you will be affected.
     The following command shows an example to check the Envoy’s certificate for pod _foo_ running in namespace _bar_.
 
     {{< text bash>}}
-    $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/certs | head -c 1000
+    $ kubectl exec -foo -c istio-proxy -n bar -- pilot-agent request GET certs | head -c 1000
     {
      "certificates": [
       {

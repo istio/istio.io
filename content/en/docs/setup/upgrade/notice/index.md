@@ -12,8 +12,8 @@ compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.2.
 
-For an overview of new features introduced with Istio 1.2, please refer
-to the [1.3 release notes](/about/notes/1.3/).
+For an overview of new features introduced with Istio 1.3, please refer
+to the [1.3 release notes](/news/2019/announcing-1.3/).
 
 ## Installation and upgrade
 
