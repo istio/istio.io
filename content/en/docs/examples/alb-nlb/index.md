@@ -262,7 +262,7 @@ You use the certificates and the keys provided to you for the NLB and ALB.
     {{< /text >}}
 
 1.  Send a request to `httpbin` by _curl_, passing as parameters the client certificate
-    (additional `--cert` option) and the private key (the `--key` option):
+    (the `--cert` option) and the private key (the `--key` option):
 
     {{< text bash >}}
     $ curl https://$NLB_INGRESS_DOMAIN/status/418 --cert alb_certs/client.crt  --key alb_certs/client.key
