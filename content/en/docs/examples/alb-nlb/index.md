@@ -7,25 +7,25 @@ keywords: [traffic-management,ingress,file-mount-credentials,iks]
 
 This example shows how to configure the [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/kubernetes-service/)
 [Ingress ALB](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about) to direct traffic to the Istio
-Ingress gateway [NLB](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about) with mutual TLS.
+ingress gateway with [NLB](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about), while securing
+the traffic between them using {{< gloss  >}}mutual TLS authentication{{< /gloss >}}.
 
 When you use IBM Cloud Kubernetes Service without Istio, you may control your ingress traffic using the provided
-Application Load Balancer (ALB). This ingress-traffic routing is commonly configured using a Kubernetes
+Application Load Balancer (ALB). This ingress-traffic routing is configured using a Kubernetes
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resource with
 [ALB-specific annotations](https://cloud.ibm.com/docs/containers?topic=containers-ingress_annotation).
 
-When you start using Istio in your IKS cluster, instead of using Ingress to route traffic directly to your services,
-it is recommended that you use the
-[Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/). One of the main reasons for this is
-the fact the ALB provided by IKS will not be able to communicate to the services inside the mesh when you enable
-Istio {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}. While you transition to having only Ingress
-Gateway as your main entry point, you can have continue to use the traditional Ingress for non-Istio services and the
-Istio Gateway for services that are part of the mesh.
+When you start using Istio in your IKS cluster, it is recommended that you use the
+[Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) instead of using Kubernetes Ingress
+resource. One of the main reasons to use Istio ingress gateway is the fact the ALB provided by IKS will not be able to
+communicate with the services inside the mesh when you enable Istio
+{{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}. While you transition to having only Istio
+ingress gateway as your main entry point, you can continue to use the traditional Ingress for non-Istio services
+and the Istio ingress gateway for services that are part of the mesh.
 
 In this example you will configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh
-through the Istio ingress gateway, while using {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between
-ALB and the Gateway. The traffic to the services without Istio sidecar can continue to flow as before, directly from
-ALB.
+through the Istio ingress gateway, while using mutual TLS between ALB and the gateway.
+The traffic to the services without Istio sidecar can continue to flow as before, directly from ALB.
 
 ## Initial setting
 
