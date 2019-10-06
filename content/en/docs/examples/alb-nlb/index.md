@@ -18,9 +18,8 @@ Application Load Balancer (ALB). This ingress-traffic routing is configured usin
 When you start using Istio in your IKS cluster, it is recommended that you use the
 [Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) instead of using Kubernetes Ingress
 resource. One of the main reasons to use Istio ingress gateway is the fact the ALB provided by IKS will not be able to
-communicate with the services inside the mesh when you enable Istio
-{{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}. While you transition to having only Istio
-ingress gateway as your main entry point, you can continue to use the traditional Ingress for non-Istio services
+communicate with the services inside the mesh when you enable Istio mutual TLS. While you transition to having only
+Istio ingress gateway as your main entry point, you can continue to use the traditional Ingress for non-Istio services
 and the Istio ingress gateway for services that are part of the mesh.
 
 In this example you will configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh
@@ -52,7 +51,7 @@ The traffic to the services without Istio sidecar can continue to flow as before
     deployment.apps/httpbin created
     {{< /text >}}
 
-1.  Require {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} for the traffic to the services in
+1.  Require mutual TLS for the traffic to the services in
     `httptools`:
 
     {{< text bash >}}
@@ -67,7 +66,7 @@ The traffic to the services without Istio sidecar can continue to flow as before
     EOF
     {{< /text >}}
 
-1.  Add a destination rule to instruct the sidecars to perform {{< gloss >}}mutual TLS authentication{{< /gloss >}} when
+1.  Add a destination rule to instruct the sidecars to perform mutual TLS authentication when
     calling the services inside `httptools`:
 
     {{< text bash >}}
@@ -203,12 +202,10 @@ configure the ALB and the Istio ingress gateway to trust the certificates one of
 
 ## Configure a mutual TLS ingress gateway
 
-In this section you configure the Istio ingress gateway to perform
-{{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}} between external clients and the gateway.
+In this section you configure the Istio ingress gateway to perform mutual TLS between external clients and the gateway.
 You use the certificates and the keys provided to you for the NLB and ALB.
 
-1.  Define a `Gateway` to allow access on port 443 only, with
-    {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}:
+1.  Define a `Gateway` to allow access on port 443 only, with mutual TLS:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
