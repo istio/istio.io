@@ -28,7 +28,7 @@ The traffic to the services without Istio sidecar can continue to flow as before
 
 ## Initial setting
 
-1.  Store the External-IP of your `istio-ingressgateway` service in an environment variable.
+1.  Store the external IP of your `istio-ingressgateway` service in an environment variable.
 
     {{< text bash >}}
     $ export INGRESS_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
