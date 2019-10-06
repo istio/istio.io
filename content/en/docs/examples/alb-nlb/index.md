@@ -17,7 +17,7 @@ Application Load Balancer (ALB). This ingress-traffic routing is commonly config
 When you start using Istio in your IKS cluster, instead of using Ingress to route traffic directly to your services,
 it is recommended that you use the
 [Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/). One of the main reasons for this is
-the fact the Nginx ALB provided by IKS will not be able to communicate to the services inside the mesh when you enable
+the fact the ALB provided by IKS will not be able to communicate to the services inside the mesh when you enable
 Istio {{< gloss "mutual TLS authentication" >}}mutual TLS{{< /gloss >}}. While you transition to having only Ingress
 Gateway as your main entry point, you can have continue to use the traditional Ingress for non-Istio services and the
 Istio Gateway for services that are part of the mesh.
