@@ -241,7 +241,7 @@ strict mutual TLS:
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
-{{< text bash >}}
+{{< /text >}}
 
 ## Verifying traffic routes
 
