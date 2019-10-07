@@ -1,6 +1,6 @@
 ---
 title: Istio 1.2.4 sidecar image vulnerability
-description: An erroneus 1.2.4 sidecar image was available due to a faulty release operation.
+description: An erroneous 1.2.4 sidecar image was available due to a faulty release operation.
 publishdate: 2019-09-10
 attribution: The Istio Team
 keywords: [community,blog,security]
