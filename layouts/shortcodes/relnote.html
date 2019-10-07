@@ -1,10 +1,25 @@
-{{ $link_to_note := .Get "linktonote" }}
 {{ $full_version := .Page.Params.release }}
 
 {{ $parts := split $full_version "." }}
 {{ $version := printf "%s.%s" (index $parts 0) (index $parts 1) }}
 {{ $patch := int (index $parts 2) }}
 {{ $release_name := strings.TrimSuffix ".0" $full_version }}
+
+{{ $page_version := int (index $parts 0) }}
+{{ $page_revision := int (index $parts 1) }}
+{{ $page_patch := int (index $parts 2) }}
+
+{{ $site_parts := split .Site.Data.args.full_version "." }}
+{{ $site_version := int (index $site_parts 0) }}
+{{ $site_revision := int (index $site_parts 1) }}
+{{ $site_patch := int (index $site_parts 2) }}
+
+{{ $site_normalized_version := add (add (mul $site_version 1000000) (mul $site_revision 1000)) $site_patch }}
+{{ $page_normalized_version := add (add (mul $page_version 1000000) (mul $page_revision 1000)) $page_patch }}
+
+{{ if gt $page_normalized_version $site_normalized_version }}
+    {{ errorf "Can't have a release note with a greater version then the site's version (%s vs %s)" $full_version $.Site.Data.args.full_version }}
+{{ end }}
 
 {{ $home := .Site.GetPage "home" }}
 {{ $lang := $home.Lang }}
@@ -16,17 +31,18 @@
 
 {{/* establish latest corresponding patch release */}}
 {{ $latest_patch := 0 }}
+{{ $latest_patch_url := "" }}
+
 {{ range $page := .Site.RegularPages }}
-    {{ if hasPrefix $page.Dir "about/notes" }}
-        {{ $release := $page.Params.release }}
-        {{ if $release }}
-            {{ $parts := split $release "." }}
-            {{ $v := printf "%s.%s" (index $parts 0) (index $parts 1) }}
-            {{ $p := int (index $parts 2) }}
-            {{ if eq $version $v }}
-                {{ if gt $p $latest_patch }}
-                    {{ $latest_patch = $p }}
-                {{ end }}
+    {{ $release := $page.Params.release }}
+    {{ if $release }}
+        {{ $parts := split $release "." }}
+        {{ $v := printf "%s.%s" (index $parts 0) (index $parts 1) }}
+        {{ $p := int (index $parts 2) }}
+        {{ if eq $version $v }}
+            {{ if gt $p $latest_patch }}
+                {{ $latest_patch = $p }}
+                {{ $latest_patch_url = $page.Permalink }}
             {{ end }}
         {{ end }}
     {{ end }}
@@ -42,7 +58,7 @@
 {{ end }}
 
 <div class="call-to-action">
-    {{ if eq $release_location "prelim" }}
+    {{ if eq $release_location "preliminary" }}
         <span class="btn">{{ printf (i18n "relnote_download") $release_name }}</span>
         <span class="btn">{{ printf (i18n "relnote_docs") $release_name }}</span>
 
@@ -57,7 +73,7 @@
                     data-downloadhref="https://github.com/istio/istio/releases/tag/{{ $full_version }}"
                     data-updateadvice='{{ printf (i18n "relnote_update_advice") $release_name }}'
                     data-updatebutton='{{ printf (i18n "relnote_update_button") $latest_full_version }}'
-                    data-updatehref="{{ $lang }}/about/notes/{{ $latest_full_version }}">
+                    data-updatehref="{{ $latest_patch_url }}">
                 {{ printf (i18n "relnote_download") $release_name }}
             </button>
         {{ else }}
@@ -75,20 +91,4 @@
             <a class="btn" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $release_name }}</a>
         {{ end }}
     {{ end }}
-
-    {{ if $link_to_note }}
-        <a class="btn" href="{{ $lang }}/about/notes/{{ $release_name }}/">{{ printf (i18n "announcement_relnotes") $release_name }}</a>
-    {{ end }}
 </div>
-
-{{ if not $link_to_note }}
-    {{ $bundle := .Page.GetPage "/boilerplates" }}
-    {{ with $bundle }}
-        {{ $name := printf "notes/%s.md" $release_name }}
-        {{ $pattern := printf "%s*" $name }}
-        {{ $resource := $bundle.Resources.GetMatch $pattern }}
-        {{ with $resource }}
-            {{ .Content | markdownify }}
-        {{ end }}
-    {{ end }}
-{{ end }}

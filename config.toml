@@ -11,7 +11,6 @@ anchor = "smart"
 enableGitInfo = true
 enableEmoji = false
 buildFuture = true
-ignoreFiles = [ "OWNERS" ]
 staticDir = ["static", "generated"]
 
 # we use Netlify server-side redirects instead of generated aliases
@@ -29,7 +28,7 @@ disableAliases = true
 
 [outputs]
   home = ["HTML", "RSS", "REDIR"]
-  section = ["HTML"]
+  section = ["HTML", "RSS"]
 
 [mediaTypes]
     [mediaTypes."text/netlify"]
@@ -64,7 +63,7 @@ disableAliases = true
 
 # internationalization
 [languages]
-    [languages.zh]
-        contentDir = "content_zh"
+#    [languages.zh]
+#        contentDir = "content/zh"
     [languages.en]
-        contentDir = "content"
+        contentDir = "content/en"

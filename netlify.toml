@@ -1,6 +1,7 @@
 [build]
     publish = "public"
-    command = "make netlify"
 
 [build.environment]
-    HUGO_VERSION = "0.54.0"
+    HUGO_VERSION = "0.58.2"
+    NODE_VERSION = "12.8.0"
+    BUILD_WITH_CONTAINER = "0"

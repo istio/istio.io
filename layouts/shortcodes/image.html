@@ -54,25 +54,37 @@ omit this value and it will be computed automatically.
     {{- if (ne $prefix "https://") -}}
         {{- $prefix := slicestr $link 0 3 -}}
         {{- if (eq $prefix "../") -}}
-            {{- $link = printf "/%s%s" .Page.Dir (slicestr $link 3) -}}
+            {{- $link = printf "/%s%s" .Page.File.Dir (slicestr $link 3) -}}
         {{- else -}}
-            {{- $link = printf "/%s%s" .Page.Dir $link -}}
+            {{- $link = printf "/%s%s" .Page.File.Dir $link -}}
         {{- end -}}
     {{- end -}}
 {{- end -}}
 
-{{- $path := printf "content/%s" $link }}
+{{- $linkPrefix := "" -}}
+{{- $path := "" -}}
+{{- if eq .Page.Language.Lang "zh" -}}
+    {{- $path = printf "content/zh%s" $link -}}
+    {{- $linkPrefix = "/zh" -}}
+
+    {{- if not (fileExists $path) -}}
+        {{- $path = printf "content/en%s" $link -}}
+        {{- $linkPrefix = "" -}}
+    {{- end -}}
+{{- else -}}
+    {{- $path = printf "content/en%s" $link -}}
+{{- end -}}
 
 {{- if strings.HasSuffix $link ".svg" -}}
     {{- if not (fileExists $path) -}}
-        {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
+       {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
     {{- end -}}
 
     {{- $file := readFile $path -}}
-    {{- $w := 0.0 }}
-    {{- $h := 0.0 }}
+    {{- $w := 0.0 -}}
+    {{- $h := 0.0 -}}
     {{- $viewBox := findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1 -}}
-    {{- if $viewBox }}
+    {{- if eq (len $viewBox) 1 -}}
         {{- $viewBox = index $viewBox 0 -}}
         {{- $viewBox = index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
         {{- $sizes := split $viewBox " " -}}
@@ -103,8 +115,8 @@ omit this value and it will be computed automatically.
 
 <figure style="width: {{- $width -}}">
     <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}%">
-        <a data-skipendnotes="true" href="{{- $link -}}" title="{{- $title -}}">
-            <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" />
+        <a data-skipendnotes="true" href="{{- $linkPrefix -}}{{- $link -}}" title="{{- $title -}}">
+            <img class="element-to-stretch" src="{{- $linkPrefix -}}{{- $link -}}" alt="{{- $alt -}}" />
         </a>
     </div>
     <figcaption>{{- $caption -}}</figcaption>

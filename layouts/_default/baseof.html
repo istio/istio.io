@@ -48,7 +48,9 @@
         {{ end }}
 
         {{ $analytics_id := .Site.Data.args.main_analytics_id }}
-        {{ if .Site.Data.args.archive }}
+        {{ if .Site.Data.args.archive_landing }}
+            <title>istio.io Archives</title>
+        {{ else if .Site.Data.args.archive }}
             {{ if eq .Title "Istio" }}
                 <title>Istioldie {{ .Site.Data.args.version }}</title>
             {{ else }}
@@ -81,7 +83,9 @@
         <!-- End Google Analytics -->
 
         <!-- RSS -->
-        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/feed.xml">
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog" href="/blog/feed.xml">
+        <link rel="alternate" type="application/rss+xml" title="Istio News" href="/news/feed.xml">
+        <link rel="alternate" type="application/rss+xml" title="Istio Blog and News" href="/feed.xml">
 
         <!-- Favicons: generated from img/istio-whitelogo-bluebackground-framed.svg by http://cthedot.de/icongen -->
         <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -103,19 +107,19 @@
         <!-- style sheets -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400|Chivo:400|Work+Sans:500,300,600,300italic,400italic,500italic,600italic|Chivo:500,300,600,300italic,400italic,500italic,600italic">
         <link rel="stylesheet" href="/css/all.css">
+
+        <!-- set the color theme -->
+        <script src="/js/themes_init.min.js"></script>
     </head>
 
     {{ $site_mode := ""}}
-    {{ if .Site.Data.args.archive }}
+    {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
         {{ $site_mode = "archive-site" }}
     {{ else if .Site.Data.args.preliminary }}
         {{ $site_mode = "preliminary-site" }}
     {{ end }}
 
     <body class="language-unknown {{ $site_mode}}">
-        <!-- set the color theme as soon as possible -->
-        <script src="/js/themes_init.min.js"></script>
-
         <!-- inject some build-time constants into JavaScript-land -->
         <script>
             const branchName = "{{ .Site.Data.args.source_branch_name }}";
@@ -148,12 +152,14 @@
         </div>
 
         {{ if .Site.Data.args.preliminary }}
+            <!--
             <div id="switch-lang-container" aria-hidden="true">
                 {{ $home := .Site.GetPage "home" }}
                 <a id="switch-lang" data-skipendnotes="true" title='{{ i18n "switch_lang"}}'>
                     {{ partial "icon.html" "switch-lang" }}
                 </a>
-            </div>
+            </>div>
+            -->
 
             {{ if .Page.Params.source_repo }}
                 <div id="edit-this-page-container" aria-hidden="true">
@@ -166,7 +172,7 @@
                 </div>
             {{ else }}
                 <div id="edit-this-page-container" aria-hidden="true">
-                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}" title='{{ i18n "edit_on_github"}}'>
+                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .Path }}" title='{{ i18n "edit_on_github"}}'>
                         {{ partial "icon.html" "pencil" }}
                     </a>
                 </div>

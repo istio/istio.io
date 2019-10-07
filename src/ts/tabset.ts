@@ -12,42 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function handleTabs(): void {
+function selectTabsets(cookieName: string, cookieValue: string): void {
+    document.querySelectorAll(".tabset").forEach(tabset => {
+        tabset.querySelectorAll(".tab-strip").forEach(o => {
+            const strip = o as HTMLElement;
+            if (strip.dataset.cookieName === cookieName) {
+                strip.querySelectorAll<HTMLElement>("[role=tab]").forEach(tab => {
+                    const attr = tab.getAttribute(ariaControls);
+                    if (!attr) {
+                        return;
+                    }
 
-    function updateLikeTabsets(cookieName: string, cookieValue: string): void {
-        document.querySelectorAll(".tabset").forEach(tabset => {
-            tabset.querySelectorAll(".tab-strip").forEach(o => {
-                const strip = o as HTMLElement;
-                if (strip.dataset.cookieName === cookieName) {
-                    strip.querySelectorAll<HTMLElement>("[role=tab]").forEach(tab => {
-                        const attr = tab.getAttribute(ariaControls);
-                        if (!attr) {
-                            return;
-                        }
+                    const panel = getById(attr);
+                    if (!panel) {
+                        return;
+                    }
 
-                        const panel = getById(attr);
-                        if (!panel) {
-                            return;
-                        }
-
-                        if (tab.dataset.cookieValue === cookieValue) {
-                            tab.setAttribute(ariaSelected, "true");
-                            tab.removeAttribute(tabIndex);
-                            panel.removeAttribute("hidden");
-                        } else {
-                            tab.removeAttribute(ariaSelected);
-                            tab.setAttribute(tabIndex, "-1");
-                            panel.setAttribute("hidden", "");
-                        }
-                    });
-                }
-            });
+                    if (tab.dataset.cookieValue === cookieValue) {
+                        tab.setAttribute(ariaSelected, "true");
+                        tab.removeAttribute(tabIndex);
+                        panel.removeAttribute("hidden");
+                    } else {
+                        tab.removeAttribute(ariaSelected);
+                        tab.setAttribute(tabIndex, "-1");
+                        panel.setAttribute("hidden", "");
+                    }
+                });
+            }
         });
-    }
+    });
+}
+
+function handleTabs(): void {
 
     document.querySelectorAll(".tabset").forEach(tabset => {
         const strip = tabset.querySelector<HTMLElement>(".tab-strip");
-        if (strip === null) {
+        if (!strip) {
             return;
         }
 
@@ -89,7 +89,7 @@ function handleTabs(): void {
         if (cookieName) {
             const cookieValue = readCookie(cookieName);
             if (cookieValue) {
-                updateLikeTabsets(cookieName, cookieValue);
+                selectTabsets(cookieName, cookieValue);
             }
         }
 
@@ -103,7 +103,7 @@ function handleTabs(): void {
                     const cookieValue = tab.dataset.cookieValue;
                     if (cookieValue) {
                         createCookie(cookieName, cookieValue);
-                        updateLikeTabsets(cookieName, cookieValue);
+                        selectTabsets(cookieName, cookieValue);
                     }
                 }
             });
@@ -115,7 +115,7 @@ function handleTabs(): void {
                     const cookieValue = tab.dataset.cookieValue;
                     if (cookieValue) {
                         createCookie(cookieName, cookieValue);
-                        updateLikeTabsets(cookieName, cookieValue);
+                        selectTabsets(cookieName, cookieValue);
                     }
                 }
             });

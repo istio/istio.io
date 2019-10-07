@@ -1,8 +1,11 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.2"
+version: "1.4"
 
 # The full Istio version identifier the docs describe
-full_version: "1.2.0"
+full_version: "1.4.0"
+
+# The previous Istio version identifier the docs describe, used for upgrade documentation
+previous_version: "1.3"
 
 # The year to display in copyright notices
 copyright_year: 2019
@@ -12,8 +15,10 @@ copyright_year: 2019
 # when preliminary=false and archive=false, we're building for istio.io
 # When preliminary=true, we're building for preliminary.istio.io
 # when archive=true, we're building for archive.istio.io
+# when archive_landing=true, we're building the landing page for archive.istio.io
 preliminary: true
 archive: false
+archive_landing: false
 
 # When archive=true above, these values must be filled in
 archive_date: YYYY-MM-DD
@@ -24,7 +29,7 @@ source_branch_name: master
 doc_branch_name: master
 
 # The list of supported versions described by the docs
-supported_kubernetes_versions: ["1.11", "1.12", "1.13"]
+supported_kubernetes_versions: ["1.13", "1.14", "1.15"]
 
 ####### Static values
 

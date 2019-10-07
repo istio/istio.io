@@ -6,22 +6,26 @@
 
 # Redirect golang vanity imports for istio.io
 /istio/* go-get=1 /golang/istio.html 200
-/fortio/* go-get=1 /golang/fortio.html 200
+/pkg/* go-get=1 /golang/pkg.html 200
 /api/* go-get=1 /golang/api.html 200
 /gogo-genproto/* go-get=1 /golang/gogo-genproto.html 200
-/extensions/* go-get=1 /golang/extensions.html 200
-/contrib/* go-get=1 /golang/contrib.html 200
 /test-infra/* go-get=1 /golang/test-infra.html 200
 /tools/* go-get=1 /golang/tools.html 200
+/operator/* go-get=1 /golang/operator.html 200
+/client-go/* go-get=1 /golang/client-go.html 200
+/release-builder/* go-get=1 /golang/release-builder.html 200
 
 # Redirect default Netlify subdomain to primary domain
 https://istio.netlify.com/* https://istio.io/:splat 301!
 
 # Redirect to translated sites
-/  /zh   302  Language=zh
+# /  /zh   302  Language=zh
 
 # Redirect for the helm charts
-/charts/ https://gcsweb.istio.io/gcs/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301
+/charts/ https://storage.googleapis.com/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301
+
+# Misc redirects
+/latest.sh https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCandidate.sh
 
 # Redirects for all aliases
 {{- range $p := .Site.Pages -}}

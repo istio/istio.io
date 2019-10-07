@@ -1,25 +1,42 @@
 {{ define "main" }}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('panel1').style.opacity = "1";
+{{ if .Site.Data.args.archive_landing }}
+    <main class="primary notoc">
+        <div id="sidebar-container" class="sidebar-container sidebar-offcanvas">
+        </div>
+        <div class="article-container">
+            <h1>istio.io Archives</h1>
+            <p>Snapshots of the <a href="https://istio.io">istio.io</a> website for each release.</p>
 
-        window.setTimeout(function() {
-            document.getElementById('panel2').style.opacity = "1";
-        }, 375);
+            <ul>
+                {{ range $archive := .Site.Data.archives }}
+                    <li><a href="./{{ $archive.name }}">{{ $archive.name }}</a></li>
+                {{ end }}
+            </ul>
+        </div>
+    </main>
+{{ else }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('panel1').style.opacity = "1";
 
-        window.setTimeout(function() {
-            document.getElementById('panel3').style.opacity = "1";
-        }, 750);
+            window.setTimeout(function() {
+                document.getElementById('panel2').style.opacity = "1";
+            }, 375);
 
-        window.setTimeout(function() {
-            document.getElementById('panel4').style.opacity = "1";
-        }, 1125);
+            window.setTimeout(function() {
+                document.getElementById('panel3').style.opacity = "1";
+            }, 750);
 
-        window.setTimeout(function() {
-            document.getElementById('buttons').style.opacity = "1";
-        }, 1500);
-    });
-</script>
+            window.setTimeout(function() {
+                document.getElementById('panel4').style.opacity = "1";
+            }, 1125);
 
-{{ .Content }}
+            window.setTimeout(function() {
+                document.getElementById('buttons').style.opacity = "1";
+            }, 1500);
+        });
+    </script>
+
+    {{ .Content }}
+{{ end }}
 {{ end }}

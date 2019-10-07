@@ -14,11 +14,11 @@
                 <td><a title="{{ .Description }}" href="{{ .Permalink }}">{{- .Title -}}</a></td>
 
                 <td>
-                    {{ $current_template := path.Base .Dir }}
+                    {{ $current_template := path.Base .File.Dir }}
 
                     {{ $adapters := "" }}
                     {{ range $a := $adapterPages }}
-                        {{ $adapter_name := path.Base $a.Dir }}
+                        {{ $adapter_name := path.Base $a.File.Dir }}
 
                         {{ $templates := split .Params.supported_templates "," }}
                         {{ $templates = sort $templates }}

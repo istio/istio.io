@@ -55,7 +55,7 @@ function handleLinks(): void {
     // Create the set of endnotes that expand URLs when printing
     function createEndnotes(): void {
         const notes = getById("endnotes");
-        if (notes === null) {
+        if (!notes) {
             return;
         }
 

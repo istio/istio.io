@@ -72,7 +72,7 @@ function handleCodeBlocks() {
 
                 const text = getToolbarDivText(div);
                 let downloadas = code.dataset.downloadas;
-                if (downloadas === undefined || downloadas === null || downloadas === "") {
+                if (!downloadas || downloadas === "") {
                     let lang = "";
                     for (const cl of code.classList) {
                         if (!cl) {
@@ -253,12 +253,13 @@ function handleCodeBlocks() {
                     cmd += "$ " + Prism.highlight(tmp, Prism.languages.bash, "bash") + "\n";
                 } else {
                     cmd += "$ " + tmp + "\n";
+                    cmd = cmd.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 }
             }
 
             if (cmd !== "") {
                 if (code.dataset.expandlinks === "true") {
-                    cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
+                    cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/" + code.dataset.repo + "/" + branchName + "/$1'>$1</a>");
                 }
 
                 let html = "<div class='command'>" + cmd + "</div>";
