@@ -183,6 +183,14 @@ to manage the lifecycle of Istio.
     {{< text bash >}}
     $ helm init --service-account tiller
     {{< /text >}}
+    
+    
+1. Create a namespace for the `istio-system` components:
+
+    {{< text bash >}}
+    $ kubectl create namespace istio-system
+    {{< /text >}}
+
 
 1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
 
