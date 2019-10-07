@@ -15,7 +15,7 @@ not to applications inside the mesh. This way Istio as a whole can serve just as
 observability, traffic management and policy enforcement.
 
 The example shows configuring access to an HTTP and an HTTPS external service, namely `httpbin.org` and
-`www.google.com`.
+`edition.cnn.com`.
 
 ## Configure an ingress gateway
 
@@ -46,11 +46,11 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
         tls:
           mode: PASSTHROUGH
         hosts:
-        - www.google.com
+        - edition.cnn.com
     EOF
     {{< /text >}}
 
-1.  Create service entries for the `httpbin.org` and `www.google.com` services to make them accessible from the ingress
+1.  Create service entries for the `httpbin.org` and `edition.cnn.com` services to make them accessible from the ingress
     gateway:
 
     {{< text bash >}}
@@ -72,10 +72,10 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
-      name: google
+      name: cnn
     spec:
       hosts:
-      - www.google.com
+      - edition.cnn.com
       ports:
       - number: 443
         name: tls
@@ -168,10 +168,10 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
-      name: google
+      name: cnn
     spec:
       hosts:
-      - www.google.com
+      - edition.cnn.com
       gateways:
       - proxy
       - mesh
@@ -181,10 +181,10 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
           - proxy
           port: 443
           sni_hosts:
-          - www.google.com
+          - edition.cnn.com
         route:
         - destination:
-            host: www.google.com
+            host: edition.cnn.com
             port:
               number: 443
       - match:
@@ -192,7 +192,7 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
           - mesh
           port: 443
           sni_hosts:
-          - www.google.com
+          - edition.cnn.com
         route:
         - destination:
             host: localhost.local
@@ -238,23 +238,23 @@ The example shows configuring access to an HTTP and an HTTPS external service, n
     [2019-01-31T14:40:18.645Z] "GET /status/418 HTTP/1.1" 418 - 0 135 187 186 "10.127.220.75" "curl/7.54.0" "28255618-6ca5-9d91-9634-c562694a3625" "httpbin.org" "34.232.181.106:80" outbound|80||httpbin.org - 172.30.230.33:80 10.127.220.75:52077 -
     {{< /text >}}
 
-1.  Access the `www.google.com` service through your ingress gateway:
+1.  Access the `edition.cnn.com` service through your ingress gateway:
 
     {{< text bash >}}
-    $ curl -s --resolve www.google.com:$SECURE_INGRESS_PORT:$INGRESS_HOST https://www.google.com:$SECURE_INGRESS_PORT | grep -o "<title>.*</title>"
-    <title>Google</title>
+    $ curl -s --resolve edition.cnn.com:$SECURE_INGRESS_PORT:$INGRESS_HOST https://edition.cnn.com:$SECURE_INGRESS_PORT | grep -o "<title>.*</title>"
+    <title>CNN International - Breaking News, US News, World News and Video</title>
     {{< /text >}}
 
 1. If the Istio ingress gateway is deployed in the `istio-system` namespace, print the gateway's log with the following command:
 
     {{< text bash >}}
-    $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'www.google.com'
+    $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'edition.cnn.com'
     {{< /text >}}
 
 1. Search the log for an entry similar to:
 
     {{< text plain >}}
-    [2019-01-31T13:40:11.076Z] "- - -" 0 - 589 17798 1644 - "-" "-" "-" "-" "172.217.31.132:443" outbound|443||www.google.com 172.30.230.33:54508 172.30.230.33:443 10.127.220.75:49467 www.google.com
+    [2019-01-31T13:40:11.076Z] "- - -" 0 - 589 17798 1644 - "-" "-" "-" "-" "172.217.31.132:443" outbound|443||edition.cnn.com 172.30.230.33:54508 172.30.230.33:443 10.127.220.75:49467 edition.cnn.com
     {{< /text >}}
 
 ## Cleanup
@@ -263,7 +263,7 @@ Remove the gateway, the virtual services and the service entries:
 
 {{< text bash >}}
 $ kubectl delete gateway proxy
-$ kubectl delete virtualservice google httpbin
-$ kubectl delete serviceentry google httpbin-ext localhost
+$ kubectl delete virtualservice cnn httpbin
+$ kubectl delete serviceentry cnn httpbin-ext localhost
 $ kubectl delete destinationrule localhost
 {{< /text >}}
