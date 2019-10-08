@@ -1,0 +1,29 @@
+{{ define "main" }}
+
+    {{ .Scratch.Set "skipSeeAlso" true }}
+
+    {{ partial "primary_top.html" . }}
+
+    {{ .Content }}
+
+    {{ $current := . }}
+    <div class="section-index">
+
+        {{ range $msg := .Site.Data.analysis.messages }}
+            <div class="entry">
+                {{ $page_title := printf "%s/index.md" (lower $msg.code) }}
+                {{ $page := $current.GetPage $page_title }}
+
+                {{ if $page }}
+                    <h5><a href="{{ $page.Permalink }}">{{- $msg.code -}}: {{ $msg.name }}</a></h5>
+                {{ else }}
+                    <h5>{{- $msg.code -}}: {{ $msg.name }}</h5>
+                {{ end }}
+                <p>{{ $msg.description }}</p>
+            </div>
+        {{ end }}
+    </div>
+
+    {{ partial "primary_bottom.html" . }}
+
+{{ end }}
