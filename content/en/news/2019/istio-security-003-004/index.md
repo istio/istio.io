@@ -1,5 +1,5 @@
 ---
-title: Security Update - ISTIO-SECURITY-003 and ISTIO-SECURITY-004
+title: Security Update - ISTIO-SECURITY-2019-003 and ISTIO-SECURITY-2019-004
 description: Security vulnerability disclosure for multiple CVEs.
 publishdate: 2019-08-13
 attribution: The Istio Team
