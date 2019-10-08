@@ -15,7 +15,7 @@ Follow these instructions to prepare MicroK8s for using Istio.
 Administrative privileges are required to run MicroK8s.
 {{< /warning >}}
 
-1.  Install the latest version of [MicroK8s](https://microK8s.io) using the command
+1.  Install the latest version of [MicroK8s](https://microk8s.io) using the command
 
     {{< text bash >}}
     $ sudo snap install microk8s --classic
