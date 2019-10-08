@@ -26,7 +26,7 @@ In this module you prepare your local computer for the tutorial.
 1.  Verify that the configuration took effect by printing the current namespace:
 
     {{< text bash >}}
-    $ kubectl config view -o jsonpath="{.contexts == \"$(kubectl config current-context)\")].context.namespace}"
+    $ kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}"
     tutorial
     {{< /text >}}
 
