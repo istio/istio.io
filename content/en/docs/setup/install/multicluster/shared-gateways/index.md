@@ -2,14 +2,14 @@
 title: Shared control plane (multi-network)
 description: Install an Istio mesh across multiple Kubernetes clusters using a shared control plane for disconnected cluster networks.
 weight: 85
-keywords: [kubernetes,multi-cluster]
+keywords: [kubernetes,multicluster]
 aliases:
     - /docs/examples/multicluster/split-horizon-eds/
     - /docs/tasks/multicluster/split-horizon-eds/
     - /docs/setup/kubernetes/install/multicluster/shared-gateways/
 ---
 
-Follow this guide to configure a multi-cluster mesh using a shared
+Follow this guide to configure a multicluster mesh using a shared
 [control plane](/docs/concepts/deployment-models/#control-plane-models)
 with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
@@ -39,7 +39,7 @@ No VPN connectivity nor direct network access between workloads in different clu
 
 {{< boilerplate kubectl-multicluster-contexts >}}
 
-## Setup the multi-cluster mesh
+## Setup the multicluster mesh
 
 In this configuration you install Istio with mutual TLS enabled for both the control plane and application pods.
 For the shared root CA, you create a `cacerts` secret on both `cluster1` and `cluster2` clusters using the same Istio
@@ -54,7 +54,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Use Helm to create the Istio deployment YAML for `cluster1`:
 
     {{< warning >}}
-    When you enable the additional components necessary for multi-cluster operation, the resource footprint
+    When you enable the additional components necessary for multicluster operation, the resource footprint
     of the Istio control plane may increase beyond the capacity of the default Kubernetes cluster you created when
     completing the [Platform setup](/docs/setup/platform-setup/) steps.
     If the Istio services aren't getting scheduled due to insufficient CPU or memory, consider

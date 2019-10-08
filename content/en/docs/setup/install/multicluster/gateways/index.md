@@ -7,11 +7,11 @@ aliases:
     - /docs/examples/multicluster/gateways/
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
-keywords: [kubernetes,multi-cluster,gateway]
+keywords: [kubernetes,multicluster,gateway]
 ---
 
 Follow this guide to install an Istio
-[multi-cluster deployment](/docs/concepts/deployment-models/#multiple-clusters)
+[multicluster deployment](/docs/concepts/deployment-models/#multiple-clusters)
 with replicated [control plane](/docs/concepts/deployment-models/#control-plane-models) instances
 in every cluster and using gateways to connect services across clusters.
 
