@@ -131,7 +131,7 @@ including configurations generated using
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio \
-      --namespace istio-system | kubectl apply -f -
+      --namespace istio-system | kubectl apply -f - --prune -l release=istio
     {{< /text >}}
 
     You must pass the same settings as when you first [installed Istio](/docs/setup/install/helm).
