@@ -49,6 +49,9 @@ COMPONENTS=(
     https://github.com/istio/operator.git@master@cmd/manager@operator
 )
 
+# The repo to fetch config analysis message data from
+CONFIG_ANALYSIS_MESSAGE_REPO="https://github.com/istio/istio.git@master@galley/pkg/config/analysis/msg/messages.yaml"
+
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOTDIR=$(dirname "${SCRIPTPATH}")
 
@@ -146,6 +149,21 @@ handle_components() {
     done
 }
 
+handle_config_analysis_messages() {
+    REPO_URL=$(echo "${CONFIG_ANALYSIS_MESSAGE_REPO}" | cut -d @ -f 1)
+    REPO_BRANCH=$(echo "${CONFIG_ANALYSIS_MESSAGE_REPO}" | cut -d @ -f 2)
+    REPO_NAME=$(echo "${REPO_URL}" | cut -d / -f 5 | cut -d . -f 1)
+    FILE_PATH=$(echo "${CONFIG_ANALYSIS_MESSAGE_REPO}" | cut -d @ -f 3)
+
+    git clone --depth=1 -q -b "${REPO_BRANCH}" "${REPO_URL}"
+
+    pushd "${REPO_NAME}" >/dev/null || exit
+    cp "${FILE_PATH}" "${ROOTDIR}/data/analysis.yaml"
+    popd >/dev/null || exit
+
+    rm -fr "${REPO_NAME}"
+}
+
 # delete all the existing generated files so that any stale files are removed
 find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xargs -0 rm 2>/dev/null
 
@@ -153,8 +171,11 @@ find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xar
 mkdir -p "${WORK_DIR}"
 pushd "${WORK_DIR}" >/dev/null || exit
 
-#echo "Handling doc scraping"
+echo "Handling doc scraping"
 handle_doc_scraping
 
 echo "Handling component docs"
 handle_components
+
+echo "Fetching config analysis data"
+handle_config_analysis_messages
