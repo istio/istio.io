@@ -2,14 +2,14 @@
 title: Shared control plane (single-network)
 description: Install an Istio mesh across multiple Kubernetes clusters with a shared control plane and VPN connectivity between clusters.
 weight: 5
-keywords: [kubernetes,multi-cluster,federation,vpn]
+keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
     - /docs/setup/kubernetes/multicluster-install/vpn/
     - /docs/setup/kubernetes/install/multicluster/vpn/
     - /docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
-Follow this guide to install an Istio [multi-cluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
+Follow this guide to install an Istio [multicluster service mesh](/docs/concepts/deployment-models/#multiple-clusters)
 where the Kubernetes cluster services and the applications in each cluster
 have the capability to expose their internal Kubernetes network to other
 clusters.
@@ -33,7 +33,7 @@ Istio control plane, Envoy can then form a mesh network across multiple clusters
   meeting the following requirements:
 
     * Individual cluster Pod CIDR ranges and service CIDR ranges must be unique
-across the multi-cluster environment and may not overlap.
+across the multicluster environment and may not overlap.
 
     * All pod CIDRs in every cluster must be routable to each other.
 
@@ -41,7 +41,7 @@ across the multi-cluster environment and may not overlap.
 
 * Helm **2.10 or newer**.  The use of Tiller is optional.
 
-This guide describes how to install a multi-cluster Istio topology using the
+This guide describes how to install a multicluster Istio topology using the
 manifests and Helm charts provided within the Istio repository.
 
 ## Deploy the local control plane
@@ -389,7 +389,7 @@ all clusters.
 ## Deployment considerations
 
 The previous procedures provide a simple and step-by-step guide to deploy a
-multi-cluster environment. A production environment might require additional
+multicluster environment. A production environment might require additional
 steps or more complex deployment options. The procedures gather the endpoint
 IPs of the Istio services and use them to invoke Helm. This process creates
 Istio services on the remote clusters. As part of creating those services and
@@ -451,7 +451,7 @@ This method provides two alternatives:
 * Re-use the default Istio ingress gateway installed with the provided
   manifests or Helm charts. You only need to add the correct destination rules.
 
-* Create another Istio ingress gateway specifically for the multi-cluster.
+* Create another Istio ingress gateway specifically for the multicluster.
 
 ## Security
 

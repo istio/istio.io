@@ -63,7 +63,7 @@ should use multiple clusters.
 
 You can configure a single mesh to include
 multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}. Using a
-{{< gloss >}}multi-cluster{{< /gloss >}} deployment within a single mesh affords
+{{< gloss >}}multicluster{{< /gloss >}} deployment within a single mesh affords
 the following capabilities beyond that of a single cluster deployment:
 
 - Fault isolation and fail over: `cluster-1` goes down, fail over to `cluster-2`.
@@ -75,11 +75,11 @@ the following capabilities beyond that of a single cluster deployment:
 {{< image width="75%"
     link="multi-cluster.svg"
     alt="A service mesh with multiple clusters"
-    title="Multi-cluster"
+    title="Multicluster"
     caption="A service mesh with multiple clusters"
     >}}
 
-Multi-cluster deployments give you a greater degree of isolation and
+Multicluster deployments give you a greater degree of isolation and
 availability but increase complexity. If your systems have high availability
 requirements, you likely need clusters across multiple zones and regions. You
 can canary configuration changes or new binary releases in a single cluster,
@@ -159,7 +159,7 @@ cluster.
     caption="A service mesh with a control plane"
     >}}
 
-Multi-cluster deployments can also share control plane instances. In this case,
+Multicluster deployments can also share control plane instances. In this case,
 the control plane instances can reside in one or more clusters.
 
 {{< image width="75%"
@@ -357,7 +357,7 @@ endpoints for service discovery and load balancing.
 {{< image width="50%"
     link="cluster-ns.svg"
     alt="A service mesh with two clusters with the same namespace"
-    title="Multi-cluster namespaces"
+    title="Multicluster namespaces"
     caption="A service mesh with clusters with the same namespace"
     >}}
 

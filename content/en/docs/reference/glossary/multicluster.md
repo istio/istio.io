@@ -1,7 +1,7 @@
 ---
-title: Multi-Cluster
+title: Multicluster
 ---
 
-Multi-cluster is a deployment model that consists of a
+Multicluster is a deployment model that consists of a
 [mesh](/docs/reference/glossary/#service-mesh) with multiple
 [clusters](/docs/reference/glossary/#cluster).

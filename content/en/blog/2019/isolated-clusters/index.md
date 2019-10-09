@@ -32,7 +32,7 @@ The process of connecting inter-mesh
 applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
 
 Note that using mesh federation to create a multi-mesh deployment is very different than creating a
-{{< gloss >}}multi-cluster{{< /gloss >}} deployment, which defines a single service mesh composed from services spanning more than one cluster. Unlike multi-mesh, a multi-cluster deployment is not suitable for
+{{< gloss >}}multicluster{{< /gloss >}} deployment, which defines a single service mesh composed from services spanning more than one cluster. Unlike multi-mesh, a multicluster deployment is not suitable for
 applications that require isolation and boundary protection.
 
 In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
@@ -143,4 +143,4 @@ multi-mesh deployments and reported the current work on
 mesh federation in Istio.
 
 I will be happy to hear your opinion about {{< gloss >}}multi-mesh{{< /gloss >}} and
-{{< gloss >}}multi-cluster{{< /gloss >}} at [discuss.istio.io](https://discuss.istio.io).
+{{< gloss >}}multicluster{{< /gloss >}} at [discuss.istio.io](https://discuss.istio.io).
