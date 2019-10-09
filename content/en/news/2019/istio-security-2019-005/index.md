@@ -20,7 +20,7 @@ The following Istio releases are vulnerable:
 
 ## Impact Score
 
-Overall CVSS score: 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
+Overall CVSS score: 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
 
 ## Vulnerability impact and Detection
 
@@ -29,8 +29,8 @@ Both Istio gateways and sidecars are vulnerable to this issue. If you are runnin
 ## Mitigation
 
 * For Istio 1.1.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/steps/#sidecar-upgrade) to a minimum version of [Istio 1.1.16](/news/2019/announcing-1.1.16).
-* For Istio 1.2.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/steps/#sidecar-upgrade) to a minimum version of (/news/2019/announcing-1.2.7).
-* For Istio 1.3.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/steps/#sidecar-upgrade) to a minimum version of (/news/2019/announcing-1.3.2).
+* For Istio 1.2.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/steps/#sidecar-upgrade) to a minimum version of [Istio 1.2.7](/news/2019/announcing-1.2.7).
+* For Istio 1.3.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/steps/#sidecar-upgrade) to a minimum version of [Istio 1.3.2](/news/2019/announcing-1.3.2).
 
 We'd like to remind our community to follow the [vulnerability reporting process](/about/security-vulnerabilities/) to report any bug that can result in a security vulnerability.
 
