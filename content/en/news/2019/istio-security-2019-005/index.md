@@ -20,7 +20,7 @@ The following Istio releases are vulnerable:
 
 ## Impact Score
 
-Overall CVSS score: 7.5.  Refer to [Envoy announcement](https://groups.google.com/forum/#!topic/envoy-announce/Zo3ZEFuPWec) for details.
+Overall CVSS score: 7.5. Refer to [Envoy announcement](https://groups.google.com/forum/#!topic/envoy-announce/Zo3ZEFuPWec) for details.
 
 ## Vulnerability impact and Detection
 
