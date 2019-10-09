@@ -17,8 +17,8 @@ wondering if all these things will be just as simple in your real production env
 Fortunately, Istio provides several ways to configure a service mesh so that applications
 can, more-or-less transparently, be part of a mesh where the services are running
 in more than one cluster, i.e., in a
-[multi-cluster deployment](/docs/concepts/deployment-models/#multiple-clusters).
-The simplest way to setup a multi-cluster mesh, because it has no special networking requirements,
+[multicluster deployment](/docs/concepts/deployment-models/#multiple-clusters).
+The simplest way to setup a multicluster mesh, because it has no special networking requirements,
 is using a replicated
 [control plane model](/docs/concepts/deployment-models/#control-plane-models).
 In this configuration, each Kubernetes cluster contributing to the mesh has its own control plane,

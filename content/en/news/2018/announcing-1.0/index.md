@@ -28,7 +28,7 @@ and [Styra](https://styra.com/) built extensions to our policy enforcement and n
 Since the 0.8 release we’ve added some important new features and more importantly marked many of our existing features as Beta signaling that they’re ready for production use.
 Here are some highlights:
 
-- Multiple Kubernetes clusters can now be [added to a single mesh](/docs/setup/install/multicluster/) and enabling cross-cluster communication and consistent policy enforcement. Multi-cluster support is now Beta.
+- Multiple Kubernetes clusters can now be [added to a single mesh](/docs/setup/install/multicluster/) and enabling cross-cluster communication and consistent policy enforcement. Multicluster support is now Beta.
 
 - Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
 
