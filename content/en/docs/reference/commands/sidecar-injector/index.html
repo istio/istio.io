@@ -47,11 +47,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authn, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authn, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -71,7 +71,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authn, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -88,6 +88,10 @@ number_of_entries: 4
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
 <td>Webhook port  (default `443`)</td>
+</tr>
+<tr>
+<td><code>--reconcileWebhookConfig</code></td>
+<td>Enable managing webhook configuration. </td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
@@ -153,11 +157,11 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authn, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authn, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -177,7 +181,7 @@ number_of_entries: 4
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authn, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -198,6 +202,10 @@ number_of_entries: 4
 <tr>
 <td><code>--probe-path &lt;string&gt;</code></td>
 <td>Path of the file for checking the availability.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--reconcileWebhookConfig</code></td>
+<td>Enable managing webhook configuration. </td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
@@ -268,12 +276,12 @@ number_of_entries: 4
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authn, default, model, rbac]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authn, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -298,7 +306,7 @@ number_of_entries: 4
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authn, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -324,6 +332,11 @@ number_of_entries: 4
 <td><code>--port &lt;int&gt;</code></td>
 <td></td>
 <td>Webhook port  (default `443`)</td>
+</tr>
+<tr>
+<td><code>--reconcileWebhookConfig</code></td>
+<td></td>
+<td>Enable managing webhook configuration. </td>
 </tr>
 <tr>
 <td><code>--short</code></td>
@@ -371,6 +384,12 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>Sets the maximum number of concurrent grpc streams.</td>
 </tr>
 <tr>
+<td><code>PILOT_BLOCK_HTTP_ON_443</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, any HTTP services will be blocked on HTTPS port (443). If this is disabled, any HTTP service on port 443 could block all external traffic</td>
+</tr>
+<tr>
 <td><code>PILOT_CERT_DIR</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -416,7 +435,7 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods. </td>
+<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
@@ -532,13 +551,13 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_http_over_https</code></td><td><code>LastValue</code></td><td>Number of conflicting HTTP listeners with well known HTTPS ports</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
-<tr><td><code>pilot_invalid_out_listeners</code></td><td><code>LastValue</code></td><td>Number of invalid outbound listeners.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>

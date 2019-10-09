@@ -199,7 +199,7 @@ number_of_entries: 5
 <tr>
 <td><code>--disableResourceReadyCheck</code></td>
 <td></td>
-<td>Disable resource readiness checks. This allows Galley to start if not all resource types are supported </td>
+<td>(DEPRECATED) Disable resource readiness checks. This allows Galley to start if not all resource types are supported </td>
 </tr>
 <tr>
 <td><code>--domain &lt;string&gt;</code></td>
@@ -222,6 +222,11 @@ number_of_entries: 5
 <td>Run galley validation mode </td>
 </tr>
 <tr>
+<td><code>--enableAnalysis</code></td>
+<td></td>
+<td>Enable config analysis service </td>
+</tr>
+<tr>
 <td><code>--enableProfiling</code></td>
 <td></td>
 <td>Enable profiling for Galley </td>
@@ -234,7 +239,7 @@ number_of_entries: 5
 <tr>
 <td><code>--excludedResourceKinds &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Comma-separated list of resource kinds that should not generate source events  (default `[Endpoints,Namespace,Node,Pod,Service]`)</td>
+<td>(DEPRECATED) Comma-separated list of resource kinds that should not generate source events  (default `[Endpoints,Namespace,Node,Pod,Service]`)</td>
 </tr>
 <tr>
 <td><code>--insecure</code></td>
