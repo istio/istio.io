@@ -313,6 +313,7 @@ Kuat
 Kube
 Kubecon
 kubeconfig
+kubectl
 Kubelet
 kubelet
 Kubernetes
@@ -370,6 +371,7 @@ netmask
 networking.istio.io
 nginx
 NLBs
+Node.js
 nodePorts
 non-sandboxed
 normalization
@@ -599,6 +601,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+Wget
 workgroup
 www.google.com
 x-envoy-upstream-rq-timeout-ms
