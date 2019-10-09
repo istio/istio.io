@@ -6,7 +6,7 @@ description: Configuration affecting the service mesh as a whole.
 location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
-number_of_entries: 25
+number_of_entries: 26
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -44,6 +44,54 @@ Mesh policy cannot be INHERIT.</p>
 <td>
 <p>Use the policy defined by the parent scope. Should not be used for mesh
 policy.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Certificate">Certificate</h2>
+<section>
+<p>Certificate configures the provision of a certificate and its key.
+Example 1: key and cert stored in a secret
+&lbrace; secretName: galley-cert
+  secretNamespace: istio-system
+  dnsNames:
+    - galley.istio-system.svc
+    - galley.mydomain.com
+}
+Example 2: key and cert stored in a directory
+&lbrace; dnsNames:
+    - pilot.istio-system
+    - pilot.istio-system.svc
+    - pilot.mydomain.com
+}</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Certificate-secret_name">
+<td><code>secretName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name of the secret the certificate and its key will be stored into.
+If it is empty, it will not be stored into a secret.
+Instead, the certificate and its key will be stored into a hard-coded directory.</p>
+
+</td>
+</tr>
+<tr id="Certificate-dns_names">
+<td><code>dnsNames</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The DNS names for the certificate. A certificate may contain
+multiple DNS names.</p>
 
 </td>
 </tr>
@@ -529,8 +577,23 @@ If service DestinationRule exists and has TLSSettings specified, that is always 
 <td><code>string</code></td>
 <td>
 <p>The trust domain corresponds to the trust root of a system.
-Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain">SPIFFE-ID</a>
-Fallback to old identity format(without trust domain) if not set.</p>
+Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain">SPIFFE-ID</a></p>
+
+</td>
+</tr>
+<tr id="MeshConfig-trust_domain_aliases">
+<td><code>trustDomainAliases</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The trust domain aliases represent the aliases of <code>trust_domain</code>.
+For example, if we have</p>
+
+<pre><code class="language-yaml">trustDomain: td1
+trustDomainAliases: [“td2”, &quot;td3&quot;]
+</code></pre>
+
+<p>Any service with the identity <code>td1/ns/foo/sa/a-service-account</code>, <code>td2/ns/foo/sa/a-service-account</code>,
+or <code>td3/ns/foo/sa/a-service-account</code> will be treated the same in the Istio mesh.</p>
 
 </td>
 </tr>
@@ -668,7 +731,7 @@ It can be enabled by destination using the destinationRule.trafficPolicy.connect
 <td><code>string</code></td>
 <td>
 <p>Name to be used while emitting statistics for inbound clusters.
-By default, Istio emits statistics with the pattern inbound|&lt;port&gt;|&lt;port-name&gt;|&lt;service-FQDN&gt;.
+By default, Istio emits statistics with the pattern inbound|<port>|<port-name>|<service-FQDN>.
 For example inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local. This can be used to override that pattern.</p>
 
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.
@@ -688,7 +751,7 @@ For example inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local. This can b
 <td><code>string</code></td>
 <td>
 <p>Name to be used while emitting statistics for outbound clusters.
-By default, Istio emits statistics with the pattern outbound|&lt;port&gt;|&lt;subsetname&gt;|&lt;service-FQDN&gt;.
+By default, Istio emits statistics with the pattern outbound|<port>|<subsetname>|<service-FQDN>.
 For example outbound|8080|v2|reviews.prod.svc.cluster.local. This can be used to override that pattern.</p>
 
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.
@@ -701,6 +764,14 @@ For example outbound|8080|v2|reviews.prod.svc.cluster.local. This can be used to
 <p>Following are some examples of supported patterns for reviews.
 %SERVICE<em>FQDN%</em>%SERVICE<em>PORT% will use reviews.prod.svc.cluster.local</em>7443 as the stats name.
 %SERVICE% will use reviews.prod as the stats name.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-certificates">
+<td><code>certificates</code></td>
+<td><code><a href="#Certificate">Certificate[]</a></code></td>
+<td>
+<p>Configure the provision of certificates.</p>
 
 </td>
 </tr>
