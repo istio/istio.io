@@ -709,6 +709,17 @@ in these cases it is not required to explicitly select the port.</p>
 
 </td>
 </tr>
+<tr id="HTTPMatchRequest-source_labels">
+<td><code>sourceLabels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>One or more labels that constrain the applicability of a rule to
+workloads with the given labels. If the VirtualService has a list of
+gateways specified at the top, it must include the reserved gateway
+<code>mesh</code> for this field to be applicable.</p>
+
+</td>
+</tr>
 <tr id="HTTPMatchRequest-query_params">
 <td><code>queryParams</code></td>
 <td><code>map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</code></td>
