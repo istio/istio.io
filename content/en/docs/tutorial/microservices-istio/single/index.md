@@ -124,7 +124,6 @@ Since you run the `ratings` service locally, you can also access it via the
 
 1. Use `Ctrl-C` in the terminal running the service to stop it.
 
-Success! You can now build, test, and run a service on a local machine. Go to
-the next module to learn how to package the service into a container. Once you
-package the service, you can deploy it into a test, staging or production
-environment.
+Congratulations, you can now build, test, and run a service on your local computer!
+
+You are ready to learn how to package the service into a container.

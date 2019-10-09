@@ -7,8 +7,8 @@ simple_list: true
 content_above: true
 ---
 
-It is intended for a self-guided user or an instructor who trains
-others. It begins by walking the user through the steps to set up a cluster to
+It is intended for self-guided users or instructors who train
+others. It begins with the steps to set up a cluster to
 control an example microservice running on a local computer, and culminates into
 demonstrating several crucial microservice management tasks using Istio.
 

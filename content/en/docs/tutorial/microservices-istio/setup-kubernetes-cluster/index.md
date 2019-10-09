@@ -6,20 +6,21 @@ weight: 2
 
 {{< boilerplate work-in-progress >}}
 
-Complete this module to set up a Kubernetes cluster that has Istio installed and a namespace for you to use throughout the tutorial.
+In this module, you set up a Kubernetes cluster that has Istio installed and a
+namespace to use throughout the tutorial.
 
 {{< warning >}}
-If you are participating in a workshop and the instructors provide a cluster for you,
+If you are in a workshop and the instructors provide a cluster for you,
 go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-local-computer).
 {{</ warning >}}
 
 1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
-    You can try using the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
+    You can use the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
     [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
 1.  Connect to your cluster and create an environment variable to store the name
     of a namespace that you will use when you run the tutorial commands.
-    You can use any name, for example `tutorial`, but `coolstuff` would do as well.
+    You can use any name, for example `tutorial`.
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
@@ -32,23 +33,27 @@ go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-
     {{< /text >}}
 
     {{< tip >}}
-    If you run the tutorial for multiple participants (e.g. you are an instructor), you should allocate a separate namespace per each
-    participant. The tutorial supports work in multiple namespaces simultaneously by multiple participants.
+    If you are an instructor, you should allocate a separate namespace per each
+    participant. The tutorial supports work in multiple namespaces
+    simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  Install Istio with strict mutual TLS enabled and select the `strict mutual TLS` tab when you follow
-    [the Kubernetes installation steps](/docs/setup/install/kubernetes/#installation-steps).
+1.  Install Istio with strict mutual TLS enabled and select the `strict mutual
+    TLS` tab when you follow [the Kubernetes installation steps](/docs/setup/install/kubernetes/#installation-steps).
 
 1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
-1.  This step creates a Kubernetes Ingress resource for the following common Istio services:
+1.  Create a Kubernetes Ingress resource for these common Istio services using
+    the `kubectl` command shown. It is not necessary to be familiar with each of
+    these services at this point in the tutorial.
 
     - [Grafana](https://grafana.com/docs/guides/getting_started/)
     - [Jaeger](https://www.jaegertracing.io/docs/1.13/getting-started/)
     - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
     - [Kiali](https://www.kiali.io/documentation/getting-started/)
 
-    Have no clue what are the services above? Worry not! This tutorial has modules teaching you about each of them.
+    The `kubectl` command can accept an in-line configuration to create the
+    Ingress resources for each service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -90,8 +95,9 @@ go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-
     EOF
     {{< /text >}}
 
-1.  Create a role to provide read access to the `istio-system` namespace. This role is required to limit permissions of
-    the participants in the steps below.
+1.  Create a role to provide read access to the `istio-system` namespace. This
+    role is required to limit permissions of the participants in the steps
+    below.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -107,7 +113,7 @@ go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-
     EOF
     {{< /text >}}
 
-1.  Each participant needs a service account to represent their identity. Create a service account for each participant:
+1.  Create a service account for each participant:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -119,13 +125,15 @@ go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-
     EOF
     {{< /text >}}
 
-1.  Limit each participant's permissions. During the tutorial, participants only need to create resources in their
-    namespace and to read resources from `istio-system` namespace.
-    It is a good practice even if using your own cluster to prevent your learning from interfering with other
-    namespaces in your cluster.
+1.  Limit each participant's permissions. During the tutorial, participants only
+    need to create resources in their namespace and to read resources from
+    `istio-system` namespace. It is a good practice, even if using your own
+    cluster, to avoid interfering with other namespaces in
+    your cluster.
 
-    Create a role to allow read-write access to each participant's namespace. Bind the participant's service account
-    to this role and to the role for reading resources from `istio-system`:
+    Create a role to allow read-write access to each participant's namespace.
+    Bind the participant's service account to this role and to the role for
+    reading resources from `istio-system`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -206,9 +214,15 @@ go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-
     EOF
     {{< /text >}}
 
-1.  If you are an instructor, send the generated configuration files to each participant. If you are setting up the
-    cluster for yourself, use the configuration file as described in the
-    [local computer setup module](/docs/tutorial/microservices-istio/setup-local-computer) for more details.
+1.  If you are setting up the cluster for yourself, copy the
+    `${NAMESPACE}-user-config.yaml` file mentioned in the previous steps to your
+    local computer, where `${NAMESPACE}` is the name of the namespace you
+    provided in the previous steps. For example, `tutorial-user-config.yaml`.
+    You will need this file later in the tutorial.
 
-You completed the setup of your cluster and can start the [setup of your local computer](/docs/tutorial/microservices-istio/setup-local-computer).
-Once your local computer is set, you can [run your first service](/docs/tutorial/microservices-istio/single/)!
+    If you are an instructor, send the generated configuration files to each
+    participant who should copy it to their local computer.
+
+Congratulations, you created your cluster!
+
+You are ready to [setup a local computer](/docs/tutorial/microservices-istio/setup-local-computer).
