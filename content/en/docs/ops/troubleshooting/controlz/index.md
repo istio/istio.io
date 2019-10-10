@@ -26,7 +26,7 @@ To access the ControlZ page of deployed components (i.e. Mixer, Galley, Pilot), 
 locally and connect through your local browser:
 
 {{< text bash >}}
-$ istioctl experimental dashboard controlz <podname>
+$ istioctl dashboard controlz <podname>
 {{< /text >}}
 
 This will redirect the component's ControlZ page to `http://localhost:9876` for remote access.
