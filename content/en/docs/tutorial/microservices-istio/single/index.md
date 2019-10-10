@@ -94,7 +94,7 @@ and run it locally:
 {{< tip >}}
 The `ratings` service is a web app and you can communicate with it as you would
 with any other web app. You can use a browser or a command line web client like
-[cURL](https://curl.haxx.se) or [Wget](https://www.gnu.org/software/wget/).
+[`curl`](https://curl.haxx.se) or [`Wget`](https://www.gnu.org/software/wget/).
 Since you run the `ratings` service locally, you can also access it via the
 `localhost` hostname.
 {{< /tip >}}
