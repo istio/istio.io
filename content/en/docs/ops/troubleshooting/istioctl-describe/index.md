@@ -17,7 +17,7 @@ The basic usage of the command is as follows:
 
 {{< text bash >}}
 $ istioctl experimental describe <pod-name>[.<namespace>]
-{{< /text>}}
+{{< /text >}}
 
 You can replace `experimental` with `x` for convenience and you can use the `istioctl`
 `-n` option to specify a non-default namespace as an alternative to apending the namespace
