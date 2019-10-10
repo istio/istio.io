@@ -151,7 +151,7 @@ If you now delete the Bookinfo destination rules:
 $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 {{< /text >}}
 
-You'll see another useful feature of `istioctl describe`:
+You can see another useful feature of `istioctl describe`:
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD
@@ -164,10 +164,10 @@ VirtualService: reviews
 The output shows you that you deleted the destination rule but not the virtual
 service that depends on it. The virtual service routes traffic to the `v1`
 subset, but there is no destination rule defining the `v1` subset.
-Thus, traffic with the `version:v1` selector can't flow to the pod.
+Thus, traffic destined for version `v1` can't flow to the pod.
 
 If you refresh the browser to send a new request to Bookinfo at this
-point, you would see the following message: `Error fetching product reviews!`.
+point, you would see the following message: `Error fetching product reviews`.
 To fix the problem, reapply the destination rule:
 
 {{< text bash >}}
@@ -175,7 +175,7 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 {{< /text >}}
 
 Reloading the browser shows the app working again and
-running `istioctl experimental describe pod $REVIEWS_V2_POD` no longer produces
+running `istioctl experimental describe pod $REVIEWS_V1_POD` no longer produces
 warnings.
 
 ## Verifying traffic routes
