@@ -20,7 +20,7 @@ $ istioctl experimental describe <pod-name>[.<namespace>]
 {{< /text >}}
 
 You can replace `experimental` with `x` for convenience and you can use the `istioctl`
-`-n` option to specify a non-default namespace as an alternative to apending the namespace
+`-n` option to specify a non-default namespace as an alternative to appending the namespace
 to the pod name.
 
 This guide assumes you have deployed the [Bookinfo](/docs/examples/bookinfo/)
@@ -46,7 +46,7 @@ WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; 
 {{< /text >}}
 
 The command will not produce such a warning for a pod that is part of the mesh,
-the Bookinfo `ratings` service for example, but instead will output the Istio confiugration applied to the pod:
+the Bookinfo `ratings` service for example, but instead will output the Istio configuration applied to the pod:
 
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
@@ -77,7 +77,7 @@ to a pod. For example, apply the Bookinfo
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 {{< /text >}}
 
-Now dscribe the `ratings` pod again:
+Now describe the `ratings` pod again:
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
@@ -289,7 +289,7 @@ traffic and security configurations in your Istio mesh.
 We would love to hear your ideas for improvements!
 Please join us at [https://discuss.istio.io](https://discuss.istio.io).
 
-To remove the bookinfo pods and configurations used in this guide, run the
+To remove the Bookinfo pods and configurations used in this guide, run the
 following commands:
 
 {{< text bash >}}
