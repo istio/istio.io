@@ -18,3 +18,4 @@ This release includes bug fixes to improve robustness. This release note describ
 - **Fixed** a bug where long-lived connections were getting dropped by the Envoy proxy as the listeners were getting reconfigured without any user configuration changes. ([Issue 17383](https://github.com/istio/istio/issues/17383), [Issue 17139](https://github.com/istio/istio/issues/17139))
 - **Fixed** a crash in `istioctl x analyze` command. ([Issue 17449](https://github.com/istio/istio/issues/17449))
 - **Fixed** `istioctl x manifest diff` to diff text blocks in ConfigMaps. ([Issue 16828](https://github.com/istio/istio/issues/16828))
+- **Fixed** a segmentation fault crash in the Envoy proxy. ([Issue 17699](https://github.com/istio/istio/issues/17699))
