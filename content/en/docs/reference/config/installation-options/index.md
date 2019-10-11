@@ -172,8 +172,8 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `global.hub` | `gcr.io/istio-release` | `Default hub for Istio images. Releases are published to docker hub under 'istio' project. Daily builds from prow are on gcr.io` |
-| `global.tag` | `release-1.3-latest-daily` | `Default tag for Istio images.` |
+| `global.hub` | `` | `Default hub for Istio images. Releases are published to docker hub under 'istio' project. Daily builds from prow are on gcr.io` |
+| `global.tag` | `` | `Default tag for Istio images.` |
 | `global.logging.level` | `"default:info"` |  |
 | `global.monitoringPort` | `15014` | `monitoring port used by mixer, pilot, galley and sidecar injector` |
 | `global.k8sIngress.enabled` | `false` |  |
