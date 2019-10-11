@@ -319,6 +319,7 @@ service registry.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -341,6 +342,9 @@ and no endpoints are specified, the host field will be used as the DNS name
 of the endpoint to route traffic to.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-addresses">
 <td><code>addresses</code></td>
@@ -362,6 +366,9 @@ the specified destination endpoint IP/host. Unix domain socket
 addresses are not supported in this field.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-ports">
 <td><code>ports</code></td>
@@ -372,6 +379,9 @@ Endpoints are Unix domain socket addresses, there must be exactly one
 port.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-location">
 <td><code>location</code></td>
@@ -380,6 +390,9 @@ port.</p>
 <p>Specify whether the service should be considered external to the mesh
 or part of the mesh.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ServiceEntry-resolution">
@@ -392,6 +405,9 @@ accompanying IP addresses. In such cases, traffic to any IP on
 said port will be allowed (i.e. 0.0.0.0:<port>).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-endpoints">
 <td><code>endpoints</code></td>
@@ -399,6 +415,9 @@ said port will be allowed (i.e. 0.0.0.0:<port>).</p>
 <td>
 <p>One or more endpoints associated with the service.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ServiceEntry-export_to">
@@ -426,6 +445,9 @@ of namespace names.</p>
 &ldquo;.&rdquo; or &ldquo;*&rdquo; (i.e., the current namespace or all namespaces).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-subject_alt_names">
 <td><code>subjectAltNames</code></td>
@@ -437,6 +459,9 @@ implement this service. This information is used to enforce
 If specified, the proxy will verify that the server
 certificate&rsquo;s subject alternate name matches one of the specified values.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -453,6 +478,7 @@ the mesh service.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -466,6 +492,9 @@ to DNS, and must be fully-qualified without wildcards. Use the form
 unix:///absolute/path/to/socket for Unix domain socket endpoints.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-Endpoint-ports">
 <td><code>ports</code></td>
@@ -476,6 +505,9 @@ associated with a port name that was declared as part of the
 service. Do not use for <code>unix://</code> addresses.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-Endpoint-labels">
 <td><code>labels</code></td>
@@ -483,6 +515,9 @@ service. Do not use for <code>unix://</code> addresses.</p>
 <td>
 <p>One or more labels associated with the endpoint.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ServiceEntry-Endpoint-network">
@@ -498,6 +533,9 @@ AUTO_PASSTHROUGH mode in a Gateway Server). This is
 an advanced configuration used typically for spanning an Istio mesh
 over multiple clusters.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ServiceEntry-Endpoint-locality">
@@ -523,6 +561,9 @@ locality. Endpoint e2 could be the IP associated with a gateway
 standard service endpoint.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceEntry-Endpoint-weight">
 <td><code>weight</code></td>
@@ -531,6 +572,9 @@ standard service endpoint.</p>
 <p>The load balancing weight associated with the endpoint. Endpoints
 with higher weights will receive proportionally higher traffic.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

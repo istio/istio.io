@@ -24,6 +24,7 @@ for a general overview of API keys as defined by OpenAPI.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -41,6 +42,9 @@ following request:</p>
 </code></pre>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="APIKey-header" class="oneof">
 <td><code>header</code></td>
@@ -56,6 +60,9 @@ following request:</p>
 X-API-Key: abcdef12345
 </code></pre>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="APIKey-cookie" class="oneof">
@@ -73,6 +80,9 @@ Cookie: X-API-KEY=abcdef12345
 </code></pre>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 </tbody>
 </table>
@@ -87,6 +97,7 @@ Cookie: X-API-KEY=abcdef12345
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -105,6 +116,9 @@ Each map element specifies one condition to match.</p>
     request.http</em>method:
       exact: POST</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -173,6 +187,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -185,6 +200,9 @@ patterns match. This list typically includes the &ldquo;api.service&rdquo;
 and &ldquo;api.version&rdquo; attributes.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPAPISpec-patterns">
 <td><code>patterns</code></td>
@@ -192,6 +210,9 @@ and &ldquo;api.version&rdquo; attributes.</p>
 <td>
 <p>List of HTTP patterns to match.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPAPISpec-api_keys">
@@ -208,6 +229,9 @@ i.e. &lsquo;OR&rsquo; semantics.</p>
 <pre><code>`query: key, `query: api_key`, and then `header: x-api-key`
 </code></pre>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -239,6 +263,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -249,6 +274,9 @@ spec:
 <p>REQUIRED. One or more services to map the listed HTTPAPISpec onto.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPAPISpecBinding-api_specs">
 <td><code>apiSpecs</code></td>
@@ -258,6 +286,9 @@ spec:
 the specified service(s). The aggregate collection of match
 conditions defined in the HTTPAPISpecs should not overlap.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -284,6 +315,7 @@ generated.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -296,6 +328,9 @@ the specified http<em>method and uri</em>template. This typically
 includes the &ldquo;api.operation&rdquo; attribute.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPAPISpecPattern-http_method">
 <td><code>httpMethod</code></td>
@@ -305,6 +340,9 @@ includes the &ldquo;api.operation&rdquo; attribute.</p>
 <a href="https://tools.ietf.org/html/rfc7231#page-21">rfc7231</a>. For
 example: GET, HEAD, POST, PUT, DELETE.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPAPISpecPattern-uri_template" class="oneof oneof-start">
@@ -322,6 +360,9 @@ following are valid URI templates:</p>
 </code></pre>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="HTTPAPISpecPattern-regex" class="oneof">
 <td><code>regex</code></td>
@@ -336,6 +377,9 @@ example,</p>
 <pre><code>&quot;^/pets/(.*?)?&quot;
 </code></pre>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -358,6 +402,7 @@ HTTPAPISpecReference for service <code>foo</code> in namespace <code>bar</code>.
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -369,6 +414,9 @@ HTTPAPISpecReference for service <code>foo</code> in namespace <code>bar</code>.
 name defined by the metadata name field.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPAPISpecReference-namespace">
 <td><code>namespace</code></td>
@@ -377,6 +425,9 @@ name defined by the metadata name field.</p>
 <p>Optional namespace of the HTTPAPISpec. Defaults to the encompassing
 HTTPAPISpecBinding&rsquo;s metadata namespace field.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -392,6 +443,7 @@ HTTPAPISpecBinding&rsquo;s metadata namespace field.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -401,6 +453,9 @@ HTTPAPISpecBinding&rsquo;s metadata namespace field.</p>
 <td>
 <p>The transport config.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HttpClientConfig-service_configs">
@@ -412,6 +467,9 @@ is used to support per-service configuration for cases where a
 mixerclient serves multiple services.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HttpClientConfig-default_destination_service">
 <td><code>defaultDestinationService</code></td>
@@ -420,6 +478,9 @@ mixerclient serves multiple services.</p>
 <p>Default destination service name if none was specified in the
 client request.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HttpClientConfig-mixer_attributes">
@@ -431,6 +492,9 @@ Report. This typically includes &ldquo;destination.ip&rdquo; and
 &ldquo;destination.uid&rdquo; attributes.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HttpClientConfig-forward_attributes">
 <td><code>forwardAttributes</code></td>
@@ -439,6 +503,9 @@ Report. This typically includes &ldquo;destination.ip&rdquo; and
 <p>Default attributes to forward to upstream. This typically
 includes the &ldquo;source.ip&rdquo; and &ldquo;source.uid&rdquo; attributes.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HttpClientConfig-ignore_forwarded_attributes">
@@ -450,6 +517,9 @@ create the attribute bag to send to mixer. For intra-mesh traffic,
 this should be set to &ldquo;false&rdquo;. For ingress/egress gateways, this
 should be set to &ldquo;true&rdquo;.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -467,6 +537,7 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -477,6 +548,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <p>The short name of the service such as &ldquo;foo&rdquo;.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="IstioService-namespace">
 <td><code>namespace</code></td>
@@ -484,6 +558,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <td>
 <p>Optional namespace of the service. Defaults to value of metadata namespace field.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="IstioService-domain">
@@ -493,6 +570,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <p>Domain suffix used to construct the service FQDN in implementations that support such specification.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="IstioService-service">
 <td><code>service</code></td>
@@ -500,6 +580,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <td>
 <p>The service FQDN.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="IstioService-labels">
@@ -510,6 +593,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 
 <p><em>Note:</em> When used for a VirtualService destination, labels MUST be empty.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -525,6 +611,7 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -535,6 +622,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <p>Specifies the behavior when the client is unable to connect to Mixer.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="NetworkFailPolicy-max_retry">
 <td><code>maxRetry</code></td>
@@ -542,6 +632,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 <td>
 <p>Max retries on transport error.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="NetworkFailPolicy-base_retry_wait">
@@ -552,6 +645,9 @@ The FQDN of the service is composed from the name, namespace, and implementation
 backoff and jitter.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="NetworkFailPolicy-max_retry_wait">
 <td><code>maxRetryWait</code></td>
@@ -559,6 +655,9 @@ backoff and jitter.</p>
 <td>
 <p>Max time to wait between retries.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -604,6 +703,7 @@ service.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -614,6 +714,9 @@ service.</p>
 <p>The quota name to charge</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Quota-charge">
 <td><code>charge</code></td>
@@ -621,6 +724,9 @@ service.</p>
 <td>
 <p>The quota amount to charge</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -637,6 +743,7 @@ If any clause matched, the list of quotas will be used.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -648,6 +755,9 @@ If any clause matched, the list of quotas will be used.</p>
 If any of match is true, it is matched.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="QuotaRule-quotas">
 <td><code>quotas</code></td>
@@ -655,6 +765,9 @@ If any of match is true, it is matched.</p>
 <td>
 <p>The list of quotas to charge.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -670,6 +783,7 @@ If any of match is true, it is matched.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -679,6 +793,9 @@ If any of match is true, it is matched.</p>
 <td>
 <p>A list of Quota rules.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -695,6 +812,7 @@ IstioService.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -705,6 +823,9 @@ IstioService.</p>
 <p>REQUIRED. One or more services to map the listed QuotaSpec onto.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="QuotaSpecBinding-quota_specs">
 <td><code>quotaSpecs</code></td>
@@ -714,6 +835,9 @@ IstioService.</p>
 the specified service(s). The aggregate collection of match
 conditions defined in the QuotaSpecs should not overlap.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -730,6 +854,7 @@ Binding.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -741,6 +866,9 @@ Binding.</p>
 name defined by the metadata name field.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="QuotaSpecBinding-QuotaSpecReference-namespace">
 <td><code>namespace</code></td>
@@ -749,6 +877,9 @@ name defined by the metadata name field.</p>
 <p>Optional namespace of the QuotaSpec. Defaults to the value of the
 metadata namespace field.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -764,6 +895,7 @@ metadata namespace field.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -774,6 +906,9 @@ metadata namespace field.</p>
 <p>If true, do not call Mixer Check.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceConfig-disable_report_calls">
 <td><code>disableReportCalls</code></td>
@@ -781,6 +916,9 @@ metadata namespace field.</p>
 <td>
 <p>If true, do not call Mixer Report.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ServiceConfig-mixer_attributes">
@@ -793,6 +931,9 @@ In case of a per-route override, per-route attributes take precedence
 over the attributes supplied in the client configuration.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceConfig-http_api_spec">
 <td><code>httpApiSpec</code></td>
@@ -801,6 +942,9 @@ over the attributes supplied in the client configuration.</p>
 <p>HTTP API specifications to generate API attributes.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceConfig-quota_spec">
 <td><code>quotaSpec</code></td>
@@ -808,6 +952,9 @@ over the attributes supplied in the client configuration.</p>
 <td>
 <p>Quota specifications to generate quota requirements.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ServiceConfig-network_fail_policy">
@@ -819,6 +966,9 @@ This is the service-level policy. It overrides
 [mesh-level
 policy][istio.mixer.v1.config.client.TransportConfig.network<em>fail</em>policy].</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ServiceConfig-forward_attributes">
@@ -842,6 +992,9 @@ attributes. Gateways, for instance, should never use forwarded attributes.</p>
 5. derived attributes from the request metadata.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 </tbody>
 </table>
@@ -857,6 +1010,7 @@ case-sensitive.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -867,6 +1021,9 @@ case-sensitive.</p>
 <p>exact string match</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="StringMatch-prefix" class="oneof">
 <td><code>prefix</code></td>
@@ -875,6 +1032,9 @@ case-sensitive.</p>
 <p>prefix-based match</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="StringMatch-regex" class="oneof">
 <td><code>regex</code></td>
@@ -882,6 +1042,9 @@ case-sensitive.</p>
 <td>
 <p>ECMAscript style regex-based match</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -897,6 +1060,7 @@ case-sensitive.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -906,6 +1070,9 @@ case-sensitive.</p>
 <td>
 <p>The transport config.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TcpClientConfig-mixer_attributes">
@@ -917,6 +1084,9 @@ Report. This typically includes &ldquo;destination.ip&rdquo; and
 &ldquo;destination.uid&rdquo; attributes.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TcpClientConfig-disable_check_calls">
 <td><code>disableCheckCalls</code></td>
@@ -925,6 +1095,9 @@ Report. This typically includes &ldquo;destination.ip&rdquo; and
 <p>If set to true, disables Mixer check calls.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TcpClientConfig-disable_report_calls">
 <td><code>disableReportCalls</code></td>
@@ -932,6 +1105,9 @@ Report. This typically includes &ldquo;destination.ip&rdquo; and
 <td>
 <p>If set to true, disables Mixer check calls.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TcpClientConfig-connection_quota_spec">
@@ -942,6 +1118,9 @@ Report. This typically includes &ldquo;destination.ip&rdquo; and
 It applies on the new TCP connections.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TcpClientConfig-report_interval">
 <td><code>reportInterval</code></td>
@@ -951,6 +1130,9 @@ It applies on the new TCP connections.</p>
 connections. If not specified, the interval is 10 seconds. This interval
 should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -966,6 +1148,7 @@ should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -976,6 +1159,9 @@ should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 <p>The flag to disable check cache.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TransportConfig-disable_quota_cache">
 <td><code>disableQuotaCache</code></td>
@@ -984,6 +1170,9 @@ should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 <p>The flag to disable quota cache.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TransportConfig-disable_report_batch">
 <td><code>disableReportBatch</code></td>
@@ -991,6 +1180,9 @@ should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 <td>
 <p>The flag to disable report batch.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TransportConfig-network_fail_policy">
@@ -1001,6 +1193,9 @@ should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 This is the mesh level policy. The default value for policy is FAIL_OPEN.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TransportConfig-stats_update_interval">
 <td><code>statsUpdateInterval</code></td>
@@ -1009,6 +1204,9 @@ This is the mesh level policy. The default value for policy is FAIL_OPEN.</p>
 <p>Specify refresh interval to write Mixer client statistics to Envoy share
 memory. If not specified, the interval is 10 seconds.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TransportConfig-check_cluster">
@@ -1025,6 +1223,9 @@ handle report calls.</p>
 Istio Grafana dashboards to be reconfigured to use the new name.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TransportConfig-report_cluster">
 <td><code>reportCluster</code></td>
@@ -1040,6 +1241,9 @@ handle report calls.</p>
 Istio Grafana dashboards to be reconfigured to use the new name.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TransportConfig-attributes_for_mixer_proxy">
 <td><code>attributesForMixerProxy</code></td>
@@ -1049,6 +1253,9 @@ Istio Grafana dashboards to be reconfigured to use the new name.</p>
 includes the &ldquo;source.ip&rdquo; and &ldquo;source.uid&rdquo; attributes. These
 attributes are consumed by the proxy in front of mixer.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TransportConfig-report_batch_max_entries">
@@ -1061,6 +1268,9 @@ of report<em>batch</em>max_entries == 0 will use the hardcoded defaults of
 istio::mixerclient::ReportOptions.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TransportConfig-report_batch_max_time">
 <td><code>reportBatchMaxTime</code></td>
@@ -1071,6 +1281,9 @@ time a batched report will be sent after a user request is processed. If left
 unspecified, the default report<em>batch</em>max_time == 0 will use the hardcoded
 defaults of istio::mixerclient::ReportOptions.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1119,6 +1332,7 @@ Following places may use this message:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1128,6 +1342,9 @@ Following places may use this message:
 <td>
 <p>A map of attribute name to its value.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

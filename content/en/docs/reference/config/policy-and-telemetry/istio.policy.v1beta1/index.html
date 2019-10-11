@@ -28,6 +28,7 @@ constructed using the instance &lsquo;RequestCountByService&rsquo;.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -38,6 +39,9 @@ constructed using the instance &lsquo;RequestCountByService&rsquo;.</p>
 <p>Required. Fully qualified name of the handler to invoke.
 Must match the <code>name</code> of a <a href="#Handler-name">Handler</a>.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Action-instances">
@@ -50,6 +54,9 @@ Referenced instances are evaluated by resolving the attributes/literals for all 
 The constructed objects are then passed to the <code>handler</code> referenced within this action.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Action-name">
 <td><code>name</code></td>
@@ -57,6 +64,9 @@ The constructed objects are then passed to the <code>handler</code> referenced w
 <td>
 <p>Optional. A handle to refer to the results of the action.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -73,6 +83,7 @@ of an Istio deployment.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -83,6 +94,9 @@ of an Istio deployment.</p>
 <p>Optional. The revision of this document. Assigned by server.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="AttributeManifest-name">
 <td><code>name</code></td>
@@ -92,6 +106,9 @@ of an Istio deployment.</p>
 the proxy (with the canonical name <code>istio-proxy</code>) or the name of an
 <code>attributes</code> kind adapter in Mixer.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="AttributeManifest-attributes">
@@ -113,6 +130,9 @@ attributes are described at <a href="/docs/reference/config/policy-and-telemetry
 Attributes not in that list should be named with a component-specific suffix such as
 <code>request.count-my.component</code>.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -168,6 +188,7 @@ encoding scheme will be decided later.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -178,6 +199,9 @@ encoding scheme will be decided later.</p>
 <p>Optional. A human-readable description of the attribute&rsquo;s purpose.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="AttributeManifest-AttributeInfo-value_type">
 <td><code>valueType</code></td>
@@ -185,6 +209,9 @@ encoding scheme will be decided later.</p>
 <td>
 <p>Required. The type of data carried by this attribute.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -201,6 +228,7 @@ connections to out-of-process infrastructure backend.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -212,6 +240,9 @@ connections to out-of-process infrastructure backend.</p>
 in each call for client authentication.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Authentication-mutual" class="oneof">
 <td><code>mutual</code></td>
@@ -220,6 +251,9 @@ in each call for client authentication.</p>
 <p>Secure connections to the adapter using mutual TLS by presenting
 client certificates for authentication.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -236,6 +270,7 @@ Connection is part of the handler custom resource and is specified alongside ada
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -246,6 +281,9 @@ Connection is part of the handler custom resource and is specified alongside ada
 <p>The address of the backend.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Connection-timeout">
 <td><code>timeout</code></td>
@@ -253,6 +291,9 @@ Connection is part of the handler custom resource and is specified alongside ada
 <td>
 <p>Timeout for remote calls to the backend.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Connection-authentication">
@@ -262,6 +303,9 @@ Connection is part of the handler custom resource and is specified alongside ada
 <p>Auth config for the connection to the backend. If omitted, plain text will
 be used.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -281,6 +325,7 @@ type DNSName</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -290,6 +335,9 @@ type DNSName</p>
 <td>
 <p>DNSName encoded as string.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -306,6 +354,7 @@ to an RPC error.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -316,6 +365,9 @@ to an RPC error.</p>
 <p>Optional HTTP status code. If not set, RPC error code is used.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="DirectHttpResponse-body">
 <td><code>body</code></td>
@@ -324,6 +376,9 @@ to an RPC error.</p>
 <p>HTTP response body.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="DirectHttpResponse-headers">
 <td><code>headers</code></td>
@@ -331,6 +386,9 @@ to an RPC error.</p>
 <td>
 <p>Optional HTTP response headers.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -350,6 +408,7 @@ type Duration</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -359,6 +418,9 @@ type Duration</p>
 <td>
 <p>Duration encoded as google.protobuf.Duration.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -379,6 +441,7 @@ type EmailAddress</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -388,6 +451,9 @@ type EmailAddress</p>
 <td>
 <p>EmailAddress encoded as string.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -489,6 +555,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -499,6 +566,9 @@ spec:
 <p>Required. Must be unique in the entire Mixer configuration. Used by <a href="#Action-handler">Actions</a>
 to refer to this handler.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Handler-compiled_adapter">
@@ -512,6 +582,9 @@ adapters, use the <code>adapter</code> field instead.</p>
 constant in its code.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Handler-adapter">
 <td><code>adapter</code></td>
@@ -523,6 +596,9 @@ adapters, use the <code>compiled_adapter</code> field instead.</p>
 <p>An adapter&rsquo;s implementation name is typically a constant in its code.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Handler-params">
 <td><code>params</code></td>
@@ -532,6 +608,9 @@ adapters, use the <code>compiled_adapter</code> field instead.</p>
 proto defined by the adapter implementation; this varies depending on the value of field <code>adapter</code>.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Handler-connection">
 <td><code>connection</code></td>
@@ -540,6 +619,9 @@ proto defined by the adapter implementation; this varies depending on the value 
 <p>Optional. Information on how to connect to the out-of-process adapter.
 This is used if the adapter is not compiled into Mixer binary and is running as a separate process.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -863,6 +945,7 @@ type IPAddress</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -872,6 +955,9 @@ type IPAddress</p>
 <td>
 <p>IPAddress encoded as bytes.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -905,6 +991,7 @@ Instances produced with this instance can be referenced by <a href="#Action">Act
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -918,6 +1005,9 @@ Instances produced with this instance can be referenced by <a href="#Action">Act
 to an instance produced by this instance.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Instance-compiled_template">
 <td><code>compiledTemplate</code></td>
@@ -928,6 +1018,9 @@ templates, use the <code>template</code> field instead.</p>
 
 <p>The value must match the name of the available template Mixer is built with.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Instance-template">
@@ -940,6 +1033,9 @@ templates, use the <code>compiled_template</code> field instead.</p>
 <p>The value must match the name of the available template in scope.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Instance-params">
 <td><code>params</code></td>
@@ -948,6 +1044,9 @@ templates, use the <code>compiled_template</code> field instead.</p>
 <p>Required. Depends on referenced template. Struct representation of a
 proto defined by the template; this varies depending on the value of field <code>template</code>.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Instance-attribute_bindings">
@@ -968,6 +1067,9 @@ attribute_bindings:
 </code></pre>
 
 </td>
+<td>
+No
+</td>
 </tr>
 </tbody>
 </table>
@@ -983,6 +1085,7 @@ secure connection to adapter backend.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -994,6 +1097,9 @@ secure connection to adapter backend.</p>
 default Mixer private key will be used.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Mutual-client_certificate">
 <td><code>clientCertificate</code></td>
@@ -1002,6 +1108,9 @@ default Mixer private key will be used.</p>
 <p>The path to the file holding client certificate for mutual TLS. If omitted, the
 default Mixer certificates will be used.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Mutual-ca_certificates">
@@ -1013,6 +1122,9 @@ verify the presented adapter certificates. By default Mixer should already
 include Istio CA certificates and system certificates in cert pool.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Mutual-server_name">
 <td><code>serverName</code></td>
@@ -1022,6 +1134,9 @@ include Istio CA certificates and system certificates in cert pool.</p>
 It is not used to verify the hostname of the peer certificate, since
 Istio verifies whitelisted SAN fields in mutual TLS.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1038,6 +1153,7 @@ TLS for connection to the backend.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1048,6 +1164,9 @@ TLS for connection to the backend.</p>
 <p>REQUIRED. OAuth client id for mixer.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="OAuth-client_secret">
 <td><code>clientSecret</code></td>
@@ -1055,6 +1174,9 @@ TLS for connection to the backend.</p>
 <td>
 <p>REQUIRED. The path to the file holding the client secret for oauth.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="OAuth-token_url">
@@ -1064,6 +1186,9 @@ TLS for connection to the backend.</p>
 <p>REQUIRED. The Resource server&rsquo;s token endpoint URL.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="OAuth-scopes">
 <td><code>scopes</code></td>
@@ -1072,6 +1197,9 @@ TLS for connection to the backend.</p>
 <p>List of requested permissions.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="OAuth-endpoint_params">
 <td><code>endpointParams</code></td>
@@ -1079,6 +1207,9 @@ TLS for connection to the backend.</p>
 <td>
 <p>Additional parameters for requests to the token endpoint.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1105,6 +1236,7 @@ instance constructed using the &lsquo;RequestCountByService&rsquo; instance.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1127,6 +1259,9 @@ name starts with &ldquo;ratings&rdquo;</li>
 </ul>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Rule-actions">
 <td><code>actions</code></td>
@@ -1134,6 +1269,9 @@ name starts with &ldquo;ratings&rdquo;</li>
 <td>
 <p>Optional. The actions that will be executed when match evaluates to <code>true</code>.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Rule-request_header_operations">
@@ -1144,6 +1282,9 @@ name starts with &ldquo;ratings&rdquo;</li>
 rule actions. Require the check action result to be OK.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Rule-response_header_operations">
 <td><code>responseHeaderOperations</code></td>
@@ -1152,6 +1293,9 @@ rule actions. Require the check action result to be OK.</p>
 <p>Optional. Templatized operations on the response headers using values produced by the
 rule actions. Require the check action result to be OK.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1180,6 +1324,7 @@ adapter to optionally modify the headers.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1190,6 +1335,9 @@ adapter to optionally modify the headers.</p>
 <p>Required. Header name literal value.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Rule-HeaderOperationTemplate-values">
 <td><code>values</code></td>
@@ -1198,6 +1346,9 @@ adapter to optionally modify the headers.</p>
 <p>Optional. Header value expressions.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Rule-HeaderOperationTemplate-operation">
 <td><code>operation</code></td>
@@ -1205,6 +1356,9 @@ adapter to optionally modify the headers.</p>
 <td>
 <p>Optional. Header operation type. Default operation is to replace the value of the header by name.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1260,6 +1414,7 @@ type StringMap</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1269,6 +1424,9 @@ type StringMap</p>
 <td>
 <p>StringMap encoded as a map of strings</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1288,6 +1446,7 @@ type TimeStamp</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1297,6 +1456,9 @@ type TimeStamp</p>
 <td>
 <p>TimeStamp encoded as google.protobuf.Timestamp.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1313,6 +1475,7 @@ connection to the backend.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1324,6 +1487,9 @@ connection to the backend.</p>
 public certs.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Tls-token_path" class="oneof oneof-start">
 <td><code>tokenPath</code></td>
@@ -1333,6 +1499,9 @@ public certs.</p>
 key, etc).</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Tls-oauth" class="oneof">
 <td><code>oauth</code></td>
@@ -1341,6 +1510,9 @@ key, etc).</p>
 <p>Oauth config to fetch access token from auth provider.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Tls-auth_header" class="oneof oneof-start">
 <td><code>authHeader</code></td>
@@ -1348,6 +1520,9 @@ key, etc).</p>
 <td>
 <p>Access token is passed as authorization header.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Tls-custom_header" class="oneof">
@@ -1358,6 +1533,9 @@ key, etc).</p>
 passed as what it is.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Tls-server_name">
 <td><code>serverName</code></td>
@@ -1366,6 +1544,9 @@ passed as what it is.</p>
 <p>Used to configure mixer TLS client to verify the hostname on the returned
 certificates. It is also included in the client&rsquo;s handshake to support SNI.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1417,6 +1598,7 @@ type Uri</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1426,6 +1608,9 @@ type Uri</p>
 <td>
 <p>Uri encoded as string.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1449,6 +1634,7 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1459,6 +1645,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <p>Used for values of type STRING</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Value-int64_value" class="oneof">
 <td><code>int64Value</code></td>
@@ -1466,6 +1655,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <td>
 <p>Used for values of type INT64</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Value-double_value" class="oneof">
@@ -1475,6 +1667,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <p>Used for values of type DOUBLE</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Value-bool_value" class="oneof">
 <td><code>boolValue</code></td>
@@ -1482,6 +1677,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <td>
 <p>Used for values of type BOOL</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Value-ip_address_value" class="oneof">
@@ -1491,6 +1689,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <p>Used for values of type IPAddress</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Value-timestamp_value" class="oneof">
 <td><code>timestampValue</code></td>
@@ -1498,6 +1699,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <td>
 <p>Used for values of type TIMESTAMP</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Value-duration_value" class="oneof">
@@ -1507,6 +1711,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <p>Used for values of type DURATION</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Value-email_address_value" class="oneof">
 <td><code>emailAddressValue</code></td>
@@ -1514,6 +1721,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <td>
 <p>Used for values of type EmailAddress</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Value-dns_name_value" class="oneof">
@@ -1523,6 +1733,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <p>Used for values of type DNSName</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Value-uri_value" class="oneof">
 <td><code>uriValue</code></td>
@@ -1531,6 +1744,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <p>Used for values of type Uri</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Value-string_map_value" class="oneof">
 <td><code>stringMapValue</code></td>
@@ -1538,6 +1754,9 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 <td>
 <p>Used for values of type STRING_MAP</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
