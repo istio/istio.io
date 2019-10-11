@@ -12,9 +12,9 @@ support_link: https://apigee.com/about/support/portal
 source_link: https://github.com/apigee/istio-mixer-adapter
 latest_release_link: https://github.com/apigee/istio-mixer-adapter/releases
 helm_chart_link:
-istio_versions: "1.0.x, 1.1.x"
+istio_versions: "1.1.x, 1.2.x, 1.3.x"
 supported_templates: authorization, analytics
-number_of_entries: 3
+number_of_entries: 4
 ---
 <p>The Apigee Mixer adapter provides Apigee&rsquo;s distributed authentication and quota policy checks
 as well as the ingestion of Istio telemetry for analysis and reporting.</p>
@@ -39,17 +39,19 @@ spec:
   customer_base: https://myorg-test.apigee.net/istio-auth
   org_name: myorg
   env_name: test
-  key: 5f1132b7ff037fa187463c324d029ca26de28b7279df0ea161
-  secret: fa147e8afc35219b7e1db688c609196923f663b5e835975
+  key: mykey
+  secret: mysecret
   temp_dir: &quot;/tmp/apigee-istio&quot;
   client_timeout: 30s
+  allowUnverifiedSSLCert: false
   products:
     refresh_rate: 2m
   analytics:
     legacy_endpoint: false
     file_limit: 1024
-  api_key_claim:
-  allowUnverifiedSSLCert: false
+  auth:
+    api_key_claim:
+    api_key_cache_duration: 30m
 </code></pre>
 
 <h2 id="Params">Params</h2>
@@ -141,15 +143,6 @@ Optional. Default: &ldquo;30s&rdquo; (30 seconds).</p>
 
 </td>
 </tr>
-<tr id="Params-api_key_claim">
-<td><code>apiKeyClaim</code></td>
-<td><code>string</code></td>
-<td>
-<p>The name of a JWT claim from which to look for an api_key.
-Optional. Default: none.</p>
-
-</td>
-</tr>
 <tr id="Params-allowUnverifiedSSLCert">
 <td><code>allowUnverifiedSSLCert</code></td>
 <td><code>bool</code></td>
@@ -172,6 +165,14 @@ Optional. Default: false.</p>
 <td><code><a href="#Params-analytics_options">Params.analytics_options</a></code></td>
 <td>
 <p>Options specific to to analytics handling.</p>
+
+</td>
+</tr>
+<tr id="Params-auth">
+<td><code>auth</code></td>
+<td><code><a href="#Params-auth_options">Params.auth_options</a></code></td>
+<td>
+<p>Options specific to to products handling.</p>
 
 </td>
 </tr>
@@ -215,6 +216,40 @@ Optional. Default: 1024.</p>
 <td>
 <p>The size of the channel used to buffer record sends in memory.
 Optional. Default: 10.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Params-auth_options">Params.auth_options</h2>
+<section>
+<p>Options specific to to auth handling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Params-auth_options-api_key_cache_duration">
+<td><code>apiKeyCacheDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td>
+<p>The length of time API Keys are valid in the cache.
+Optional. Default: &ldquo;30m&rdquo; (30 minutes).</p>
+
+</td>
+</tr>
+<tr id="Params-auth_options-api_key_claim">
+<td><code>apiKeyClaim</code></td>
+<td><code>string</code></td>
+<td>
+<p>The name of a JWT claim from which to look for an api_key.
+Optional. Default: none.</p>
 
 </td>
 </tr>

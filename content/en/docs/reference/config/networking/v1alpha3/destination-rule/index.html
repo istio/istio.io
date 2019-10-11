@@ -109,6 +109,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -119,6 +120,9 @@ spec:
 <p>Settings common to both HTTP and TCP upstream connections.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-http">
 <td><code>http</code></td>
@@ -126,6 +130,9 @@ spec:
 <td>
 <p>HTTP connection pool settings.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -141,6 +148,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -151,6 +159,9 @@ spec:
 <p>Maximum number of pending HTTP requests to a destination. Default 1024.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-http2_max_requests">
 <td><code>http2MaxRequests</code></td>
@@ -158,6 +169,9 @@ spec:
 <td>
 <p>Maximum number of requests to a backend. Default 1024.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-max_requests_per_connection">
@@ -169,6 +183,9 @@ parameter to 1 disables keep alive. Default 0, meaning &ldquo;unlimited&rdquo;,
 up to 2^29.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-max_retries">
 <td><code>maxRetries</code></td>
@@ -177,6 +194,9 @@ up to 2^29.</p>
 <p>Maximum number of retries that can be outstanding to all hosts in a
 cluster at a given time. Defaults to 1024.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-idle_timeout">
@@ -188,6 +208,9 @@ If not set, there is no idle timeout. When the idle timeout is reached the conne
 Note that request based timeouts mean that HTTP/2 PINGs will not keep the connection alive. Applies to both HTTP1.1 and HTTP2 connections.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-h2_upgrade_policy">
 <td><code>h2UpgradePolicy</code></td>
@@ -195,6 +218,9 @@ Note that request based timeouts mean that HTTP/2 PINGs will not keep the connec
 <td>
 <p>Specify if http1.1 connection should be upgraded to http2 for the associated destination.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -248,6 +274,7 @@ This opt-in option overrides the default.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -258,6 +285,9 @@ This opt-in option overrides the default.</p>
 <p>Maximum number of HTTP1 /TCP connections to a destination host. Default 1024.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-connect_timeout">
 <td><code>connectTimeout</code></td>
@@ -266,6 +296,9 @@ This opt-in option overrides the default.</p>
 <p>TCP connection timeout.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-tcp_keepalive">
 <td><code>tcpKeepalive</code></td>
@@ -273,6 +306,9 @@ This opt-in option overrides the default.</p>
 <td>
 <p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -288,6 +324,7 @@ This opt-in option overrides the default.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -300,6 +337,9 @@ deciding the connection is dead. Default is to use the OS level configuration
 (unless overridden, Linux defaults to 9.)</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-TcpKeepalive-time">
 <td><code>time</code></td>
@@ -310,6 +350,9 @@ probes start being sent. Default is to use the OS level configuration
 (unless overridden, Linux defaults to 7200s (ie 2 hours.)</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-TcpKeepalive-interval">
 <td><code>interval</code></td>
@@ -319,6 +362,9 @@ probes start being sent. Default is to use the OS level configuration
 Default is to use the OS level configuration
 (unless overridden, Linux defaults to 75s.)</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -335,6 +381,7 @@ after routing has occurred.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -360,6 +407,9 @@ qualified domain names over short names.</em></p>
 <p>Note that the host field applies to both HTTP and TCP services.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="DestinationRule-traffic_policy">
 <td><code>trafficPolicy</code></td>
@@ -369,6 +419,9 @@ qualified domain names over short names.</em></p>
 sizes, outlier detection).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="DestinationRule-subsets">
 <td><code>subsets</code></td>
@@ -377,6 +430,9 @@ sizes, outlier detection).</p>
 <p>One or more named sets that represent individual versions of a
 service. Traffic policies can be overridden at subset level.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="DestinationRule-export_to">
@@ -401,6 +457,9 @@ defines an export to all namespaces.</p>
 <p>NOTE: in the current release, the <code>exportTo</code> value is restricted to
 &ldquo;.&rdquo; or &ldquo;*&rdquo; (i.e., the current namespace or all namespaces).</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -451,6 +510,7 @@ the User cookie as the hash key.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -459,11 +519,17 @@ the User cookie as the hash key.</p>
 <td><code><a href="#LoadBalancerSettings-SimpleLB">LoadBalancerSettings.SimpleLB (oneof)</a></code></td>
 <td>
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="LoadBalancerSettings-consistent_hash" class="oneof">
 <td><code>consistentHash</code></td>
 <td><code><a href="#LoadBalancerSettings-ConsistentHashLB">LoadBalancerSettings.ConsistentHashLB (oneof)</a></code></td>
 <td>
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -484,6 +550,7 @@ service.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -494,6 +561,9 @@ service.</p>
 <p>Hash based on a specific HTTP header.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-http_cookie" class="oneof">
 <td><code>httpCookie</code></td>
@@ -502,6 +572,9 @@ service.</p>
 <p>Hash based on HTTP cookie.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-use_source_ip" class="oneof">
 <td><code>useSourceIp</code></td>
@@ -509,6 +582,9 @@ service.</p>
 <td>
 <p>Hash based on the source IP address.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-minimum_ring_size">
@@ -521,6 +597,9 @@ load distributions. If the number of hosts in the load balancing
 pool is larger than the ring size, each host will be assigned a
 single virtual node.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -538,6 +617,7 @@ be generated.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -548,6 +628,9 @@ be generated.</p>
 <p>REQUIRED. Name of the cookie.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-path">
 <td><code>path</code></td>
@@ -556,6 +639,9 @@ be generated.</p>
 <p>Path to set for the cookie.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-ttl">
 <td><code>ttl</code></td>
@@ -563,6 +649,9 @@ be generated.</p>
 <td>
 <p>REQUIRED. Lifetime of the cookie.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -662,6 +751,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -676,6 +766,9 @@ is accessed over an opaque TCP connection, connect timeouts and
 connection error/failure events qualify as an error.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="OutlierDetection-interval">
 <td><code>interval</code></td>
@@ -684,6 +777,9 @@ connection error/failure events qualify as an error.</p>
 <p>Time interval between ejection sweep analysis. format:
 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="OutlierDetection-base_ejection_time">
@@ -697,6 +793,9 @@ automatically increase the ejection period for unhealthy upstream
 servers. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="OutlierDetection-max_ejection_percent">
 <td><code>maxEjectionPercent</code></td>
@@ -705,6 +804,9 @@ servers. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</p>
 <p>Maximum % of hosts in the load balancing pool for the upstream
 service that can be ejected. Defaults to 10%.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="OutlierDetection-min_health_percent">
@@ -719,6 +821,9 @@ across all hosts in the pool (healthy and unhealthy). The threshold can be
 disabled by setting it to 0%. The default is 0% as it&rsquo;s not typically
 applicable in k8s environments with few pods per service.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -768,6 +873,7 @@ can be used to identify a specific SNI host corresponding to the named subset.</
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -779,6 +885,9 @@ can be used to identify a specific SNI host corresponding to the named subset.</
 be used for traffic splitting in a route rule.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Subset-labels">
 <td><code>labels</code></td>
@@ -787,6 +896,9 @@ be used for traffic splitting in a route rule.</p>
 <p>Labels apply a filter over the endpoints of a service in the
 service registry. See route rules for examples of usage.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Subset-traffic_policy">
@@ -798,6 +910,9 @@ traffic policies specified at the DestinationRule level. Settings
 specified at the subset level will override the corresponding settings
 specified at the DestinationRule level.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -860,6 +975,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -871,6 +987,9 @@ spec:
 using TLS. The value of this field determines how TLS is enforced.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TLSSettings-client_certificate">
 <td><code>clientCertificate</code></td>
@@ -880,6 +999,9 @@ using TLS. The value of this field determines how TLS is enforced.</p>
 client-side TLS certificate to use.
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TLSSettings-private_key">
@@ -891,6 +1013,9 @@ client&rsquo;s private key.
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TLSSettings-ca_certificates">
 <td><code>caCertificates</code></td>
@@ -901,6 +1026,9 @@ certificates to use in verifying a presented server certificate. If
 omitted, the proxy will not verify the server&rsquo;s certificate.
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TLSSettings-subject_alt_names">
@@ -914,6 +1042,9 @@ If specified, this list overrides the value of subject<em>alt</em>names
 from the ServiceEntry.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TLSSettings-sni">
 <td><code>sni</code></td>
@@ -921,6 +1052,9 @@ from the ServiceEntry.</p>
 <td>
 <p>SNI string to present to the server during TLS handshake.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -985,6 +1119,7 @@ destination ports. See DestinationRule for examples.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -995,6 +1130,9 @@ destination ports. See DestinationRule for examples.</p>
 <p>Settings controlling the load balancer algorithms.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TrafficPolicy-connection_pool">
 <td><code>connectionPool</code></td>
@@ -1002,6 +1140,9 @@ destination ports. See DestinationRule for examples.</p>
 <td>
 <p>Settings controlling the volume of connections to an upstream service</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TrafficPolicy-outlier_detection">
@@ -1011,6 +1152,9 @@ destination ports. See DestinationRule for examples.</p>
 <p>Settings controlling eviction of unhealthy hosts from the load balancing pool</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TrafficPolicy-tls">
 <td><code>tls</code></td>
@@ -1018,6 +1162,9 @@ destination ports. See DestinationRule for examples.</p>
 <td>
 <p>TLS related settings for connections to the upstream service.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TrafficPolicy-port_level_settings">
@@ -1030,6 +1177,9 @@ settings specified at the destination-level will not be inherited when
 overridden by port-level settings, i.e. default values will be applied
 to fields omitted in port-level traffic policies.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1045,6 +1195,7 @@ to fields omitted in port-level traffic policies.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1056,6 +1207,9 @@ to fields omitted in port-level traffic policies.</p>
 on which this policy is being applied.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-load_balancer">
 <td><code>loadBalancer</code></td>
@@ -1063,6 +1217,9 @@ on which this policy is being applied.</p>
 <td>
 <p>Settings controlling the load balancer algorithms.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-connection_pool">
@@ -1072,6 +1229,9 @@ on which this policy is being applied.</p>
 <p>Settings controlling the volume of connections to an upstream service</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-outlier_detection">
 <td><code>outlierDetection</code></td>
@@ -1080,6 +1240,9 @@ on which this policy is being applied.</p>
 <p>Settings controlling eviction of unhealthy hosts from the load balancing pool</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-tls">
 <td><code>tls</code></td>
@@ -1087,6 +1250,9 @@ on which this policy is being applied.</p>
 <td>
 <p>TLS related settings for connections to the upstream service.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

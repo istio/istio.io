@@ -186,6 +186,7 @@ receiving incoming or outgoing HTTP/TCP connections.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -195,6 +196,9 @@ receiving incoming or outgoing HTTP/TCP connections.</p>
 <td>
 <p>REQUIRED: A list of server specifications.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Gateway-selector">
@@ -207,6 +211,9 @@ label search is restricted to the configuration namespace in which the
 the resource is present. In other words, the Gateway resource must
 reside in the same namespace as the gateway workload instance.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -222,6 +229,7 @@ reside in the same namespace as the gateway workload instance.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -231,6 +239,9 @@ reside in the same namespace as the gateway workload instance.</p>
 <td>
 <p>REQUIRED: A valid non-negative integer port number.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Port-protocol">
@@ -243,6 +254,9 @@ TLS implies the connection will be routed based on the SNI header to
 the destination without terminating the TLS connection.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Port-name">
 <td><code>name</code></td>
@@ -250,6 +264,9 @@ the destination without terminating the TLS connection.</p>
 <td>
 <p>Label assigned to the port.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -322,6 +339,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -332,6 +350,9 @@ spec:
 <p>REQUIRED: The Port on which the proxy should listen for incoming
 connections.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Server-hosts">
@@ -369,6 +390,9 @@ available. Refer to the <code>exportTo</code> setting in <code>VirtualService</c
 <code>DestinationRule</code>, and <code>ServiceEntry</code> configurations for details.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-tls">
 <td><code>tls</code></td>
@@ -379,6 +403,9 @@ these options to control if all http requests should be redirected to
 https, and the TLS modes to use.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-default_endpoint">
 <td><code>defaultEndpoint</code></td>
@@ -388,6 +415,9 @@ https, and the TLS modes to use.</p>
 be forwarded to by default. Format should be <code>127.0.0.1:PORT</code> or
 <code>unix:///path/to/socket</code> or <code>unix://@foobar</code> (Linux abstract namespace).</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -401,6 +431,7 @@ be forwarded to by default. Format should be <code>127.0.0.1:PORT</code> or
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -412,6 +443,9 @@ be forwarded to by default. Format should be <code>127.0.0.1:PORT</code> or
 http connections, asking the clients to use HTTPS.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-TLSOptions-mode">
 <td><code>mode</code></td>
@@ -422,6 +456,9 @@ secured using TLS. The value of this field determines how TLS is
 enforced.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-TLSOptions-server_certificate">
 <td><code>serverCertificate</code></td>
@@ -430,6 +467,9 @@ enforced.</p>
 <p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
 holding the server-side TLS certificate to use.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Server-TLSOptions-private_key">
@@ -440,6 +480,9 @@ holding the server-side TLS certificate to use.</p>
 holding the server&rsquo;s private key.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-TLSOptions-ca_certificates">
 <td><code>caCertificates</code></td>
@@ -449,6 +492,9 @@ holding the server&rsquo;s private key.</p>
 certificate authority certificates to use in verifying a presented
 client side certificate.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Server-TLSOptions-credential_name">
@@ -473,6 +519,9 @@ key, and the CA certificate (if using mutual TLS). Set the
 enable the dynamic credential fetching feature.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-TLSOptions-subject_alt_names">
 <td><code>subjectAltNames</code></td>
@@ -481,6 +530,9 @@ enable the dynamic credential fetching feature.</p>
 <p>A list of alternate names to verify the subject identity in the
 certificate presented by the client.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Server-TLSOptions-verify_certificate_spki">
@@ -493,6 +545,9 @@ Note: When both verify<em>certificate</em>hash and verify<em>certificate</em>spk
 are specified, a hash matching either value will result in the
 certificate being accepted.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Server-TLSOptions-verify_certificate_hash">
@@ -507,6 +562,9 @@ are specified, a hash matching either value will result in the
 certificate being accepted.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-TLSOptions-min_protocol_version">
 <td><code>minProtocolVersion</code></td>
@@ -514,6 +572,9 @@ certificate being accepted.</p>
 <td>
 <p>Optional: Minimum TLS protocol version.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Server-TLSOptions-max_protocol_version">
@@ -523,6 +584,9 @@ certificate being accepted.</p>
 <p>Optional: Maximum TLS protocol version.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Server-TLSOptions-cipher_suites">
 <td><code>cipherSuites</code></td>
@@ -531,6 +595,9 @@ certificate being accepted.</p>
 <p>Optional: If specified, only support the specified cipher list.
 Otherwise default to the default cipher list supported by Envoy.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
