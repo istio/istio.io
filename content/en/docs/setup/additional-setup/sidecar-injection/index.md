@@ -67,16 +67,9 @@ Sidecars can be automatically added to applicable Kubernetes pods using a
 While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
 {{< /tip >}}
 
-When the injection webhook is enabled, any new pods that are created will automatically have a sidecar added to them.
+When the injection webhook is enabled, and the namespace is labeled with `istio-injection=enabled`, any new pods that are created will automatically have a sidecar added to them.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
-
-#### Disabling or updating the webhook
-
-The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
-use [Helm](/docs/setup/install/helm/) to set option `sidecarInjectorWebhook.enabled` to `false`.
-
-There are also a [variety of other options](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options) that can be configured.
 
 #### Deploying an app
 
@@ -297,6 +290,13 @@ It's worth noting that annotations in the pods have higher precedence than the l
 
 `Pod Annotations → NeverInjectSelector → AlwaysInjectSelector → Default Policy`
 {{< /tip >}}
+
+#### Disabling or updating the webhook
+
+The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
+use [Helm](/docs/setup/install/helm/) to set option `sidecarInjectorWebhook.enabled` to `false`.
+
+There are also a [variety of other options](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options) that can be configured.
 
 #### Uninstalling the automatic sidecar injector
 
