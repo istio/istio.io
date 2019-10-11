@@ -47,4 +47,4 @@ In this module you prepare your local computer for the tutorial.
 
 Congratulations, you configured your local computer!
 
-You are ready to [run a single service locally](/docs/tutorial/microservices-istio/single/).
+You are ready to [run a single service locally](/docs/examples/microservices-istio/single/).

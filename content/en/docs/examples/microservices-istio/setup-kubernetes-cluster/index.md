@@ -11,7 +11,7 @@ namespace to use throughout the tutorial.
 
 {{< warning >}}
 If you are in a workshop and the instructors provide a cluster for you,
-go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-local-computer).
+go to [setting up your local computer](/docs/examples/microservices-istio/setup-local-computer).
 {{</ warning >}}
 
 1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
@@ -225,4 +225,4 @@ go to [setting up your local computer](/docs/tutorial/microservices-istio/setup-
 
 Congratulations, you created your cluster!
 
-You are ready to [setup a local computer](/docs/tutorial/microservices-istio/setup-local-computer).
+You are ready to [setup a local computer](/docs/examples/microservices-istio/setup-local-computer).
