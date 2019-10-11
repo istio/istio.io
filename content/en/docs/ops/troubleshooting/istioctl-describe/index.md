@@ -19,9 +19,13 @@ The basic usage of the command is as follows:
 $ istioctl experimental describe <pod-name>[.<namespace>]
 {{< /text >}}
 
-You can replace `experimental` with `x` for convenience and you can use the `istioctl`
-`-n` option to specify a non-default namespace as an alternative to appending the namespace
-to the pod name.
+Appending a namespace to the pod name has the same affect as using the `-n` option
+of `istioctl` to specify a non-default namespace.
+
+{{< tip >}}
+Just like all other `istioctl` commands, you can replace `experimental`
+with `x` for convenience.
+{{< /tip >}}
 
 This guide assumes you have deployed the [Bookinfo](/docs/examples/bookinfo/)
 sample in your mesh. If you haven't already done so,
