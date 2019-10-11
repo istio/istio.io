@@ -73,6 +73,7 @@ Example 2: key and cert stored in a directory
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -85,6 +86,9 @@ If it is empty, it will not be stored into a secret.
 Instead, the certificate and its key will be stored into a hard-coded directory.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Certificate-dns_names">
 <td><code>dnsNames</code></td>
@@ -93,6 +97,9 @@ Instead, the certificate and its key will be stored into a hard-coded directory.
 <p>The DNS names for the certificate. A certificate may contain
 multiple DNS names.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -110,6 +117,7 @@ sources.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -122,6 +130,9 @@ protocol (MCP). Can be IP address or a fully qualified DNS name.
 Use fs:/// to specify a file-based backend with absolute path to the directory.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConfigSource-tls_settings">
 <td><code>tlsSettings</code></td>
@@ -132,6 +143,9 @@ uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
 mode as ISTIO</em>MUTUAL.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ConfigSource-subscribed_resources">
 <td><code>subscribedResources</code></td>
@@ -139,6 +153,9 @@ mode as ISTIO</em>MUTUAL.</p>
 <td>
 <p>Describes the source of configuration, if nothing is specified default is MCP</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -199,6 +216,7 @@ and similarly us-west should failover to us-east.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -212,6 +230,9 @@ Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overvie
 If empty, the locality weight is set according to the endpoints number within it.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-failover">
 <td><code>failover</code></td>
@@ -222,6 +243,9 @@ Explicitly specify the region traffic will land on when endpoints in local regio
 Should be used together with OutlierDetection to detect unhealthy endpoints.
 Note: if no OutlierDetection specified, this will not take effect.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -243,6 +267,7 @@ us-west/zone-1/* - all sub-zones within us-west/zone-1</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -253,6 +278,9 @@ us-west/zone-1/* - all sub-zones within us-west/zone-1</p>
 <p>Originating locality, &lsquo;/&rsquo; separated, e.g. &lsquo;region/zone/sub_zone&rsquo;.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-Distribute-to">
 <td><code>to</code></td>
@@ -262,6 +290,9 @@ us-west/zone-1/* - all sub-zones within us-west/zone-1</p>
 all weights should be == 100. Any locality not assigned a weight will
 receive no traffic.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -283,6 +314,7 @@ like regulatory controls.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -293,6 +325,9 @@ like regulatory controls.</p>
 <p>Originating region.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-Failover-to">
 <td><code>to</code></td>
@@ -301,6 +336,9 @@ like regulatory controls.</p>
 <p>Destination region the traffic will fail over to when endpoints in
 the &lsquo;from&rsquo; region becomes unhealthy.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -324,6 +362,7 @@ tracing configuration).</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -341,6 +380,9 @@ calls.</p>
 equivalent to setting disablePolicyChecks to true.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-mixer_report_server">
 <td><code>mixerReportServer</code></td>
@@ -350,6 +392,9 @@ equivalent to setting disablePolicyChecks to true.</p>
 calls.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-disable_policy_checks">
 <td><code>disablePolicyChecks</code></td>
@@ -358,6 +403,9 @@ calls.</p>
 <p>Disable policy checks by the Mixer service. Default
 is false, i.e. Mixer policy check is enabled by default.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-policy_check_fail_open">
@@ -369,6 +417,9 @@ Default is false which means the traffic is denied when the client is unable
 to connect to Mixer.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-sidecar_to_telemetry_session_affinity">
 <td><code>sidecarToTelemetrySessionAffinity</code></td>
@@ -377,6 +428,9 @@ to connect to Mixer.</p>
 <p>Enable session affinity for Envoy Mixer reports so that calls from a proxy will
 always target the same Mixer instance.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-proxy_listen_port">
@@ -387,6 +441,9 @@ always target the same Mixer instance.</p>
 other services.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-proxy_http_port">
 <td><code>proxyHttpPort</code></td>
@@ -395,6 +452,9 @@ other services.</p>
 <p>Port on which Envoy should listen for HTTP PROXY requests if set.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-connect_timeout">
 <td><code>connectTimeout</code></td>
@@ -402,6 +462,9 @@ other services.</p>
 <td>
 <p>Connection timeout used by Envoy. (MUST BE &gt;=1ms)</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-protocol_detection_timeout">
@@ -419,6 +482,9 @@ traffic. Set this field to tweak the period that Envoy will wait
 for the client to send the first bits of data. (MUST BE &gt;=1ms)</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-tcp_keepalive">
 <td><code>tcpKeepalive</code></td>
@@ -426,6 +492,9 @@ for the client to send the first bits of data. (MUST BE &gt;=1ms)</p>
 <td>
 <p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-ingress_class">
@@ -437,6 +506,9 @@ controller. This corresponds to the value of
 &ldquo;kubernetes.io/ingress.class&rdquo; annotation.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-ingress_service">
 <td><code>ingressService</code></td>
@@ -445,6 +517,9 @@ controller. This corresponds to the value of
 <p>Name of theKubernetes service used for the istio ingress controller.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-ingress_controller_mode">
 <td><code>ingressControllerMode</code></td>
@@ -452,6 +527,9 @@ controller. This corresponds to the value of
 <td>
 <p>Defines whether to use Istio ingress controller for annotated or all ingress resources.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-enable_tracing">
@@ -462,6 +540,9 @@ controller. This corresponds to the value of
 Requires a trace span collector defined in the proxy configuration.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-access_log_file">
 <td><code>accessLogFile</code></td>
@@ -470,6 +551,9 @@ Requires a trace span collector defined in the proxy configuration.</p>
 <p>File address for the proxy access log (e.g. /dev/stdout).
 Empty value disables access logging.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-access_log_format">
@@ -480,6 +564,9 @@ Empty value disables access logging.</p>
 Empty value results in proxy&rsquo;s default access log format</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-access_log_encoding">
 <td><code>accessLogEncoding</code></td>
@@ -488,6 +575,9 @@ Empty value results in proxy&rsquo;s default access log format</p>
 <p>Encoding for the proxy access log (text or json).
 Default value is text.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-enable_envoy_access_log_service">
@@ -498,6 +588,9 @@ Default value is text.</p>
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log Service</a>
 for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-default_config">
@@ -510,6 +603,9 @@ In case of Kubernetes, the proxy config is applied once during the injection pro
 and remain constant for the duration of the pod. The rest of the mesh config can be changed
 at runtime and config gets distributed dynamically.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-outbound_traffic_policy">
@@ -526,6 +622,9 @@ dependencies, instead of using allow</em>any, so that traffic to these
 services can be monitored.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-enable_client_side_policy_check">
 <td><code>enableClientSidePolicyCheck</code></td>
@@ -533,6 +632,9 @@ services can be monitored.</p>
 <td>
 <p>Enables client side policy checks.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-sds_uds_path">
@@ -543,6 +645,9 @@ services can be monitored.</p>
 Use secret-mount files instead of SDS if set to empty.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-config_sources">
 <td><code>configSources</code></td>
@@ -552,6 +657,9 @@ Use secret-mount files instead of SDS if set to empty.</p>
 rules, and other Istio configuration artifacts. Multiple data sources
 can be configured for a single control plane.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-enable_auto_mtls">
@@ -571,6 +679,9 @@ mutual TLS when server sides are capable of accepting mutual TLS traffic.
 If service DestinationRule exists and has TLSSettings specified, that is always used instead.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-trust_domain">
 <td><code>trustDomain</code></td>
@@ -579,6 +690,9 @@ If service DestinationRule exists and has TLSSettings specified, that is always 
 <p>The trust domain corresponds to the trust root of a system.
 Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain">SPIFFE-ID</a></p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-trust_domain_aliases">
@@ -589,12 +703,15 @@ Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-
 For example, if we have</p>
 
 <pre><code class="language-yaml">trustDomain: td1
-trustDomainAliases: [“td2”, &quot;td3&quot;]
+trustDomainAliases: [&quot;td2&quot;, &quot;td3&quot;]
 </code></pre>
 
 <p>Any service with the identity <code>td1/ns/foo/sa/a-service-account</code>, <code>td2/ns/foo/sa/a-service-account</code>,
 or <code>td3/ns/foo/sa/a-service-account</code> will be treated the same in the Istio mesh.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-default_service_export_to">
@@ -629,6 +746,9 @@ namespace.</p>
 Sidecar, and Gateway.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-default_virtual_service_export_to">
 <td><code>defaultVirtualServiceExportTo</code></td>
@@ -641,6 +761,9 @@ syntax as &lsquo;default</em>service<em>export</em>to&rsquo;.</p>
 virtual services are exported to all namespaces</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-default_destination_rule_export_to">
 <td><code>defaultDestinationRuleExportTo</code></td>
@@ -652,6 +775,9 @@ syntax as &lsquo;default</em>service<em>export</em>to&rsquo;.</p>
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 destination rules are exported to all namespaces</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-root_namespace">
@@ -668,6 +794,9 @@ namespace is processed as if it were declared in the leaf namespace.</p>
 type.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-locality_lb_setting">
 <td><code>localityLbSetting</code></td>
@@ -675,6 +804,9 @@ type.</p>
 <td>
 <p>Locality based load balancing distribution or failover settings.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-dns_refresh_rate">
@@ -684,6 +816,9 @@ type.</p>
 <p>Configures DNS refresh rate for Envoy clusters of type STRICT_DNS</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-disable_report_batch">
 <td><code>disableReportBatch</code></td>
@@ -691,6 +826,9 @@ type.</p>
 <td>
 <p>The flag to disable report batch.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-report_batch_max_entries">
@@ -703,6 +841,9 @@ of report<em>batch</em>max_entries == 0 will use the hardcoded defaults of
 istio::mixerclient::ReportOptions.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-report_batch_max_time">
 <td><code>reportBatchMaxTime</code></td>
@@ -714,6 +855,9 @@ unspecified, the default report<em>batch</em>max_time == 0 will use the hardcode
 defaults of istio::mixerclient::ReportOptions.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-h2_upgrade_policy">
 <td><code>h2UpgradePolicy</code></td>
@@ -724,6 +868,9 @@ if sidecar is installed on all pods in the mesh, then this should be set to UPGR
 If one or more services or namespaces do not have sidecar(s), then this should be set to DO<em>NOT</em>UPGRADE.
 It can be enabled by destination using the destinationRule.trafficPolicy.connectionPool.http.h2UpgradePolicy override.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-inbound_cluster_stat_name">
@@ -744,6 +891,9 @@ For example inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local. This can b
 %SERVICE<em>FQDN%</em>%SERVICE<em>PORT% will use reviews.prod.svc.cluster.local</em>7443 as the stats name.
 %SERVICE% will use reviews.prod as the stats name.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="MeshConfig-outbound_cluster_stat_name">
@@ -766,6 +916,9 @@ For example outbound|8080|v2|reviews.prod.svc.cluster.local. This can be used to
 %SERVICE% will use reviews.prod as the stats name.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="MeshConfig-certificates">
 <td><code>certificates</code></td>
@@ -773,6 +926,9 @@ For example outbound|8080|v2|reviews.prod.svc.cluster.local. This can be used to
 <td>
 <p>Configure the provision of certificates.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -880,6 +1036,7 @@ cloud-provided ingress controller).</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -887,6 +1044,9 @@ cloud-provided ingress controller).</p>
 <td><code>mode</code></td>
 <td><code><a href="#MeshConfig-OutboundTrafficPolicy-Mode">MeshConfig.OutboundTrafficPolicy.Mode</a></code></td>
 <td>
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -948,6 +1108,7 @@ inside a mesh and how to route to endpoints in each network. For example</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -959,6 +1120,9 @@ inside a mesh and how to route to endpoints in each network. For example</p>
 have a unique name and information about how to infer the endpoints in
 the network as well as the gateways associated with the network.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -978,6 +1142,7 @@ registry.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -990,6 +1155,9 @@ constituent service registries or from CIDR ranges). All endpoints in
 the network are directly accessible to one another.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Network-gateways">
 <td><code>gateways</code></td>
@@ -997,6 +1165,9 @@ the network are directly accessible to one another.</p>
 <td>
 <p>REQUIRED: Set of gateways associated with the network.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1014,6 +1185,7 @@ use mTLS.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1030,6 +1202,9 @@ platform for the registry. e.g., this could be
 istio-ingressgateway.istio-system.svc.cluster.local.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Network-IstioNetworkGateway-address" class="oneof">
 <td><code>address</code></td>
@@ -1037,6 +1212,9 @@ istio-ingressgateway.istio-system.svc.cluster.local.</p>
 <td>
 <p>IP address or externally resolvable DNS address associated with the gateway.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Network-IstioNetworkGateway-port">
@@ -1046,6 +1224,9 @@ istio-ingressgateway.istio-system.svc.cluster.local.</p>
 <p>REQUIRED: The port associated with the gateway.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Network-IstioNetworkGateway-locality">
 <td><code>locality</code></td>
@@ -1053,6 +1234,9 @@ istio-ingressgateway.istio-system.svc.cluster.local.</p>
 <td>
 <p>The locality associated with an explicitly specified gateway (i.e. ip)</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1089,6 +1273,7 @@ adding the <code>ISTIO_META_NETWORK</code> environment variable to the sidecar.<
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1100,6 +1285,9 @@ adding the <code>ISTIO_META_NETWORK</code> environment variable to the sidecar.<
 ranges for endpoints from different networks must not overlap.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Network-NetworkEndpoints-from_registry" class="oneof">
 <td><code>fromRegistry</code></td>
@@ -1110,6 +1298,9 @@ The names of the registries should correspond to the kubeconfig file name
 inside the secret that was used to configure the registry (Kubernetes
 multicluster) or supplied by MCP server.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -1125,6 +1316,7 @@ multicluster) or supplied by MCP server.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1136,6 +1328,9 @@ multicluster) or supplied by MCP server.</p>
 Proxy agent generates the actual configuration and stores it in this directory.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-binary_path">
 <td><code>binaryPath</code></td>
@@ -1143,6 +1338,9 @@ Proxy agent generates the actual configuration and stores it in this directory.<
 <td>
 <p>Path to the proxy binary</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ProxyConfig-service_cluster">
@@ -1164,6 +1362,9 @@ flag to compute routes that are relative to the service instances
 located at that IP address.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-drain_duration">
 <td><code>drainDuration</code></td>
@@ -1172,6 +1373,9 @@ located at that IP address.</p>
 <p>The time in seconds that Envoy will drain connections during a hot
 restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ProxyConfig-parent_shutdown_duration">
@@ -1183,6 +1387,9 @@ parent process during a hot restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>).
 MUST BE greater than <em>drain</em>duration_ parameter.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-discovery_address">
 <td><code>discoveryAddress</code></td>
@@ -1191,14 +1398,8 @@ MUST BE greater than <em>drain</em>duration_ parameter.</p>
 <p>Address of the discovery service exposing xDS with mTLS connection.</p>
 
 </td>
-</tr>
-<tr id="ProxyConfig-zipkin_address" class="deprecated ">
-<td><code>zipkinAddress</code></td>
-<td><code>string</code></td>
 <td>
-<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).
-DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
-
+No
 </td>
 </tr>
 <tr id="ProxyConfig-connect_timeout">
@@ -1208,6 +1409,9 @@ DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
 <p>Connection timeout used by Envoy for supporting services. (MUST BE &gt;=1ms)</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-statsd_udp_address">
 <td><code>statsdUdpAddress</code></td>
@@ -1216,6 +1420,9 @@ DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
 <p>IP Address and Port of a statsd UDP listener (e.g. <em>10.75.241.127:9125</em>).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-proxy_admin_port">
 <td><code>proxyAdminPort</code></td>
@@ -1223,6 +1430,9 @@ DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
 <td>
 <p>Port on which Envoy should listen for administrative commands.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ProxyConfig-control_plane_auth_policy">
@@ -1233,6 +1443,9 @@ DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
 for Envoy-to-Envoy communication for istio components Mixer and Pilot.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-custom_config_file">
 <td><code>customConfigFile</code></td>
@@ -1241,6 +1454,9 @@ for Envoy-to-Envoy communication for istio components Mixer and Pilot.</p>
 <p>File path of custom proxy configuration, currently used by proxies
 in front of Mixer and Pilot.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ProxyConfig-stat_name_length">
@@ -1254,6 +1470,9 @@ Envoy&rsquo;s internal metrics take up 67 characters, for a total of 256 charact
 Increase the value of this field if you find that the metrics from Envoys are truncated.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-concurrency">
 <td><code>concurrency</code></td>
@@ -1261,6 +1480,9 @@ Increase the value of this field if you find that the metrics from Envoys are tr
 <td>
 <p>The number of worker threads to run. Default value is number of cores on the machine.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ProxyConfig-proxy_bootstrap_template_path">
@@ -1270,6 +1492,9 @@ Increase the value of this field if you find that the metrics from Envoys are tr
 <p>Path to the proxy bootstrap template file</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-interception_mode">
 <td><code>interceptionMode</code></td>
@@ -1277,6 +1502,9 @@ Increase the value of this field if you find that the metrics from Envoys are tr
 <td>
 <p>The mode used to redirect inbound traffic to Envoy.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ProxyConfig-tracing">
@@ -1286,6 +1514,9 @@ Increase the value of this field if you find that the metrics from Envoys are tr
 <p>Tracing configuration to be used by the proxy.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-sds">
 <td><code>sds</code></td>
@@ -1293,6 +1524,9 @@ Increase the value of this field if you find that the metrics from Envoys are tr
 <td>
 <p>secret discovery service(SDS) configuration to be used by the proxy.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="ProxyConfig-envoy_access_log_service">
@@ -1305,6 +1539,9 @@ Service</a>
 for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ProxyConfig-envoy_metrics_service">
 <td><code>envoyMetricsService</code></td>
@@ -1314,6 +1551,21 @@ for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto">Metric Service</a>
 for details about Envoy&rsquo;s Metrics Service API.</p>
 
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-zipkin_address" class="deprecated ">
+<td><code>zipkinAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).
+DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
+
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1362,6 +1614,7 @@ CAP<em>NET</em>ADMIN capability, which is required to use TPROXY.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1374,6 +1627,9 @@ receiver, metrics receiver, etc.). Can be IP address or a fully
 qualified DNS name.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RemoteService-tls_settings">
 <td><code>tlsSettings</code></td>
@@ -1384,6 +1640,9 @@ uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RemoteService-tcp_keepalive">
 <td><code>tcpKeepalive</code></td>
@@ -1391,6 +1650,9 @@ mode as <code>ISTIO_MUTUAL</code>.</p>
 <td>
 <p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1432,6 +1694,7 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1442,6 +1705,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <p>True if SDS is enabled.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="SDS-k8s_sa_jwt_path">
 <td><code>k8sSaJwtPath</code></td>
@@ -1449,6 +1715,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <td>
 <p>Path of k8s service account JWT path.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1464,6 +1733,7 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1474,6 +1744,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <p>Use a Zipkin tracer.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Tracing-lightstep" class="oneof">
 <td><code>lightstep</code></td>
@@ -1481,6 +1754,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <td>
 <p>Use a LightStep tracer.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Tracing-datadog" class="oneof">
@@ -1490,6 +1766,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <p>Use a Datadog tracer.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Tracing-stackdriver" class="oneof">
 <td><code>stackdriver</code></td>
@@ -1497,6 +1776,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <td>
 <p>Use a Stackdriver tracer.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -1512,6 +1794,7 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1521,6 +1804,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <td>
 <p>Address of the Datadog Agent.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1536,6 +1822,7 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1546,6 +1833,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <p>Address of the LightStep Satellite pool.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Tracing-Lightstep-access_token">
 <td><code>accessToken</code></td>
@@ -1553,6 +1843,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <td>
 <p>The LightStep access token.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Tracing-Lightstep-secure">
@@ -1562,6 +1855,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <p>True if a secure connection should be used when communicating with the pool.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Tracing-Lightstep-cacert_path">
 <td><code>cacertPath</code></td>
@@ -1569,6 +1865,9 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 <td>
 <p>Path to the trusted cacert used to authenticate the pool.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1585,6 +1884,7 @@ See <a href="https://github.com/census-instrumentation/opencensus-proto/blob/mas
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1601,6 +1901,7 @@ See <a href="https://github.com/census-instrumentation/opencensus-proto/blob/mas
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1610,6 +1911,9 @@ See <a href="https://github.com/census-instrumentation/opencensus-proto/blob/mas
 <td>
 <p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

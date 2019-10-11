@@ -87,6 +87,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -98,6 +99,9 @@ spec:
 will NOT be shipped to AppOptics</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-appoptics_batch_size">
 <td><code>appopticsBatchSize</code></td>
@@ -108,6 +112,9 @@ AppOptics does not allow batch size greater than 1000.
 If this is unspecified or given a value 0 explicitly, a default batch size of 1000 will be used.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-papertrail_url">
 <td><code>papertrailUrl</code></td>
@@ -116,6 +123,9 @@ If this is unspecified or given a value 0 explicitly, a default batch size of 10
 <p>Papertrail url to ship logs to. If no papertrail url is given then the logs will NOT be shipped but rather
 dropped.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-papertrail_local_retention_duration">
@@ -126,6 +136,9 @@ dropped.</p>
 of a network failure. Default value is 1 hour.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-metrics">
 <td><code>metrics</code></td>
@@ -134,6 +147,9 @@ of a network failure. Default value is 1 hour.</p>
 <p>A map of Istio metric name to solarwinds metric info.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-logs">
 <td><code>logs</code></td>
@@ -141,6 +157,9 @@ of a network failure. Default value is 1 hour.</p>
 <td>
 <p>A map of Istio logentry name to solarwinds log info.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -156,6 +175,7 @@ of a network failure. Default value is 1 hour.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -174,6 +194,9 @@ It will be given the full set of variables for the log to use to construct its r
 If it is not provided, a default template in place will be used.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 </tbody>
 </table>
@@ -188,6 +211,7 @@ If it is not provided, a default template in place will be used.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -197,6 +221,9 @@ If it is not provided, a default template in place will be used.</p>
 <td>
 <p>The names of labels to use: these need to match the dimensions of the Istio metric.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
