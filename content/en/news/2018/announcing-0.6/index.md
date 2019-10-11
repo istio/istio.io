@@ -3,7 +3,7 @@ title: Announcing Istio 0.6
 description: Istio 0.6 announcement.
 publishdate: 2018-03-08
 attribution: The Istio Team
-release: 0.6
+release: 0.6.0
 aliases:
     - /about/notes/older/0.6
     - /about/notes/0.6/index.html

@@ -27,23 +27,4 @@
             text-decoration: underline;
         }
     }
-
-    span.btn {
-        cursor: not-allowed;
-
-        &:hover {
-            background-color: $secondBrandColor;
-            color: $textBrandColor;
-        }
-
-        &:active {
-            background-color: $secondBrandColor;
-            color: $textBrandColor;
-        }
-
-        &:focus {
-            background-color: $secondBrandColor;
-            color: $textBrandColor;
-        }
-    }
 }

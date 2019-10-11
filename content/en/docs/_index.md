@@ -7,10 +7,8 @@ sidebar_multicard: true
 icon: docs
 ---
 
-In addition to the documentation, we provide the following resources:
+In addition to the above documentation links, please consider the following resources:
 
-- [FAQ](/faq) section
-- [Glossary](/docs/reference/glossary).
-
-Are you looking for past versions of the documentation? We keep an
-[archive of the documentation for prior releases](https://archive.istio.io/).
+- [Frequently Asked Questions](/faq)
+- [Glossary](/docs/reference/glossary)
+- [Documentation Archive](https://archive.istio.io/), which contains snapshots of the documentation for prior releases.

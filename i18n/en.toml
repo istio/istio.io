@@ -98,13 +98,13 @@ other = "%d words"
 other = "%v minute read"
 
 [relnote_download]
-other = "DOWNLOAD %s"
+other = "Download Istio %s"
 
 [relnote_changes]
-other = "CHANGES IN %s"
+other = "See what's changed in the source code for Istio %s"
 
 [relnote_docs]
-other = "%s DOCS"
+other = "Visit the %s documentation"
 
 [relnote_update_advice]
 other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."

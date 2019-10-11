@@ -3,6 +3,7 @@ version: "1.4"
 
 # The full Istio version identifier the docs describe
 full_version: "1.4.0"
+full_version_release_year: 2019
 
 # The previous Istio version identifier the docs describe, used for upgrade documentation
 previous_version: "1.3"

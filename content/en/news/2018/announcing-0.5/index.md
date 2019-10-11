@@ -3,7 +3,7 @@ title: Announcing Istio 0.5
 description: Istio 0.5 announcement.
 publishdate: 2018-02-02
 attribution: The Istio Team
-release: 0.5
+release: 0.5.0
 aliases:
     - /about/notes/older/0.5
     - /about/notes/0.5/index.html

@@ -4,41 +4,51 @@
 
 {{ partial "primary_top.html" . }}
 
-<p>{{ .Description }}</p>
-
-{{ if .Params.content_above }}
-{{ .Content }}
+{{ if not .Params.skip_list }}
+    <p>{{ .Description }}</p>
 {{ end }}
 
-<div class="section-index">
-    {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
-    {{ $parent := .Page }}
+{{ if .Params.list_below }}
+    {{ .Content }}
+{{ end }}
 
-    {{ if $parent.Params.simple_list }}
-        <ul>
+{{ if not .Params.skip_list }}
+    <div class="section-index">
+        {{ $pages := (where .Site.Pages "Section" .Section) }}
+
+        {{ if .Params.list_by_publishdate }}
+            {{ $pages = sort $pages ".Params.publishdate" "desc" }}
+        {{ end }}
+
+        {{ $parent := .Page }}
+
+        {{ if $parent.Params.simple_list }}
+            <ul>
+                {{ range $pages }}
+                    {{ if eq .Parent $parent }}
+                        <li><a href="{{ .Permalink }}">{{- .Title -}}</a></li>
+                    {{ end }}
+                {{ end }}
+            </ul>
+        {{ else }}
             {{ range $pages }}
                 {{ if eq .Parent $parent }}
-                    <li><a href="{{ .Permalink }}">{{- .Title -}}</a></li>
+                    <div class="entry">
+                        <h5>
+                            <a href="{{ .Permalink }}">
+                                {{- if .Params.icon -}}<i class="page-icon">{{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}
+                            </a>
+                        </h5>
+                        <p>{{ .Description }}</p>
+                    </div>
                 {{ end }}
             {{ end }}
-        </ul>
-    {{ else }}
-        {{ range $pages }}
-            {{ if eq .Parent $parent }}
-                <div class="entry">
-                    <h5>
-                        <a href="{{ .Permalink }}">{{- if .Params.icon -}}<i class="page-icon">
-                                {{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}</a>
-                    </h5>
-                    <p>{{ .Description }}</p>
-                </div>
-            {{ end }}
         {{ end }}
-    {{ end }}
-</div>
+    </div>
+{{ end }}
 
-{{ if not .Params.content_above }}
-{{ .Content }}
+{{ if not .Params.list_below }}
+    {{ .Content }}
 {{ end }}
 
 {{ partial "primary_bottom.html" . }}
