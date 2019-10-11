@@ -89,16 +89,16 @@ $ master-restart controllers
 
 ## Privileged security context constraints for sidecars
 
-The Istio sidecar injected into each pod runs with user ID 1337, which is not allowed by default in OpenShift. To allow this user ID to be used, execute the following commands. Replace `-n bookinfo` with the appropriate namespace.
+The Istio sidecar injected into each pod runs with user ID 1337, which is not allowed by default in OpenShift. To allow this user ID to be used, execute the following commands. Replace `<target-namespace>` with the appropriate namespace.
 
 {{< text bash >}}
-$ oc adm policy add-scc-to-group privileged system:serviceaccounts -n bookinfo
-$ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n bookinfo
+$ oc adm policy add-scc-to-group privileged system:serviceaccounts -n <target-namespace>
+$ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n <target-namespace>
 {{< /text >}}
 
 When removing your application, remove the permissions as follows.
 
 {{< text bash >}}
-$ oc adm policy remove-scc-from-group privileged system:serviceaccounts -n bookinfo
-$ oc adm policy remove-scc-from-group anyuid system:serviceaccounts -n bookinfo
+$ oc adm policy remove-scc-from-group privileged system:serviceaccounts -n <target-namespace>
+$ oc adm policy remove-scc-from-group anyuid system:serviceaccounts -n <target-namespace>
 {{< /text >}}
