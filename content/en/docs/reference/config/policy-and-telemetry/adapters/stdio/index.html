@@ -31,6 +31,7 @@ and the <a href="/docs/reference/config/policy-and-telemetry/templates/metric/">
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -41,6 +42,9 @@ and the <a href="/docs/reference/config/policy-and-telemetry/templates/metric/">
 <p>Selects which standard stream to write to for log entries.
 STDERR is the default Stream.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-severity_levels">
@@ -67,6 +71,9 @@ the set of levels supported by this adapter. This defaults to a map of</p>
 </code></pre>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-metric_level">
 <td><code>metricLevel</code></td>
@@ -74,6 +81,9 @@ the set of levels supported by this adapter. This defaults to a map of</p>
 <td>
 <p>The level to assign to metrics being output. Defaults to INFO.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-output_as_json">
@@ -83,6 +93,9 @@ the set of levels supported by this adapter. This defaults to a map of</p>
 <p>Whether to output a console-friendly or json-friendly format. Defaults to true.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-output_level">
 <td><code>outputLevel</code></td>
@@ -90,6 +103,9 @@ the set of levels supported by this adapter. This defaults to a map of</p>
 <td>
 <p>The minimum level to output, anything less than this level is ignored. Defaults to INFO (everything).</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-output_path">
@@ -104,6 +120,9 @@ or too old, then the file is renamed by appending a timestamp to the name. Such 
 files are called backups. Once a backup has been created, output resumes to this path.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-max_megabytes_before_rotation">
 <td><code>maxMegabytesBeforeRotation</code></td>
@@ -112,6 +131,9 @@ files are called backups. Once a backup has been created, output resumes to this
 <p>The maximum size in megabytes of a log file before it gets
 rotated. It defaults to 100 megabytes.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-max_days_before_rotation">
@@ -125,6 +147,9 @@ savings, leap seconds, etc. The default is to remove log files
 older than 30 days. 0 indicates no limit.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-max_rotated_files">
 <td><code>maxRotatedFiles</code></td>
@@ -133,6 +158,9 @@ older than 30 days. 0 indicates no limit.</p>
 <p>The maximum number of old rotated log files to retain.  The default
 is to retain at most 1000 logs. 0 indicates no limit.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

@@ -28,6 +28,7 @@ and the <a href="/docs/reference/config/policy-and-telemetry/templates/tracespan
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -39,6 +40,9 @@ and the <a href="/docs/reference/config/policy-and-telemetry/templates/tracespan
 StackDriver SDK&rsquo;s default value (monitoring.googleapis.com).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-project_id">
 <td><code>projectId</code></td>
@@ -46,6 +50,9 @@ StackDriver SDK&rsquo;s default value (monitoring.googleapis.com).</p>
 <td>
 <p>GCP Project to attach metrics to.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-push_interval">
@@ -55,6 +62,9 @@ StackDriver SDK&rsquo;s default value (monitoring.googleapis.com).</p>
 <p>This adapter batches the data it sends to Stackdriver; we will push to stackdriver every push_interval.
 If no value is provided we default to once per minute.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-app_credentials" class="oneof oneof-start">
@@ -67,6 +77,9 @@ by the StackDriver SDK.</p>
 <p><a href="https://developers.google.com/identity/protocols/application-default-credentials">See Google&rsquo;s documentation</a>.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Params-api_key" class="oneof">
 <td><code>apiKey</code></td>
@@ -74,6 +87,9 @@ by the StackDriver SDK.</p>
 <td>
 <p>The API Key to be used for auth. API Key is no longer supported, use service account instead.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Params-service_account_path" class="oneof">
@@ -85,6 +101,9 @@ the Mixer. E.g. <code>/etc/opt/mixer/gcp-serviceaccount-creds.json</code>
 or <code>./testdata/my-test-account-creds.json</code>.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Params-metric_info">
 <td><code>metricInfo</code></td>
@@ -92,6 +111,9 @@ or <code>./testdata/my-test-account-creds.json</code>.</p>
 <td>
 <p>A map of Istio metric name to Stackdriver metric info.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-log_info">
@@ -101,6 +123,9 @@ or <code>./testdata/my-test-account-creds.json</code>.</p>
 <p>A map of Istio LogEntry name to Stackdriver log info.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-trace">
 <td><code>trace</code></td>
@@ -108,6 +133,9 @@ or <code>./testdata/my-test-account-creds.json</code>.</p>
 <td>
 <p>Stackdriver Trace configuration.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -123,6 +151,7 @@ or <code>./testdata/my-test-account-creds.json</code>.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -134,6 +163,9 @@ or <code>./testdata/my-test-account-creds.json</code>.</p>
 form Stackdriver labels for the log entry.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-payload_template">
 <td><code>payloadTemplate</code></td>
@@ -142,6 +174,9 @@ form Stackdriver labels for the log entry.</p>
 <p>A golang text/template template that will be executed to construct the payload for this log entry.
 It will be given the full set of variables for the log to use to construct its result.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-LogInfo-http_mapping">
@@ -152,6 +187,9 @@ It will be given the full set of variables for the log to use to construct its r
 variables named in the mapping to populate the fields of the request struct from the instance&rsquo;s variables.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-sink_info">
 <td><code>sinkInfo</code></td>
@@ -159,6 +197,9 @@ variables named in the mapping to populate the fields of the request struct from
 <td>
 <p>If SinkInfo is provided, Stackriver logs would be exported to that sink.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -175,6 +216,7 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -185,6 +227,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <p>template variable name to map into HTTPRequest.Status</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-request_size">
 <td><code>requestSize</code></td>
@@ -192,6 +237,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <td>
 <p>template variable name to map into HTTPRequest.RequestSize</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-response_size">
@@ -201,6 +249,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <p>template variable name to map into HTTPRequest.ResponseSize</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-latency">
 <td><code>latency</code></td>
@@ -208,6 +259,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <td>
 <p>template variable name to map into HTTPRequest.Latency</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-local_ip">
@@ -217,6 +271,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <p>template variable name to map into HTTPRequest.LocalIP</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-remote_ip">
 <td><code>remoteIp</code></td>
@@ -224,6 +281,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <td>
 <p>template variable name to map into HTTPRequest.RemoteIP</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-url">
@@ -233,6 +293,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <p>template variable name to map into HTTPRequest.Request.Url</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-method">
 <td><code>method</code></td>
@@ -240,6 +303,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <td>
 <p>template variable name to map into HTTPRequest.RequestMethod</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-user_agent">
@@ -249,6 +315,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <p>template variable name to map into HTTPRequest.UserAgent</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-HttpRequestMapping-referer">
 <td><code>referer</code></td>
@@ -256,6 +325,9 @@ See https://godoc.org/cloud.google.com/go/logging#HTTPRequest</p>
 <td>
 <p>template variable name to map into HTTPRequest.Referer</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -280,6 +352,7 @@ filter: 'severity &gt;= Default'
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -290,6 +363,9 @@ filter: 'severity &gt;= Default'
 <p>Client assigned sink identifier.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-SinkInfo-destination">
 <td><code>destination</code></td>
@@ -298,6 +374,9 @@ filter: 'severity &gt;= Default'
 <p>Export Destination.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-SinkInfo-filter">
 <td><code>filter</code></td>
@@ -305,6 +384,9 @@ filter: 'severity &gt;= Default'
 <td>
 <p>Filter that specifies any filtering to be done on logs.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-LogInfo-SinkInfo-UniqueWriterIdentity">
@@ -323,6 +405,9 @@ resource such as an organization, then the value of WriterIdentity will
 be a unique service account used only for exports from the new sink.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-SinkInfo-UpdateDestination">
 <td><code>UpdateDestination</code></td>
@@ -333,6 +418,9 @@ is updated if and only if the Update field is true.
 Upate sink destination.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-SinkInfo-UpdateFilter">
 <td><code>UpdateFilter</code></td>
@@ -341,6 +429,9 @@ Upate sink destination.</p>
 <p>Update sink filter.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-LogInfo-SinkInfo-UpdateIncludeChildren">
 <td><code>UpdateIncludeChildren</code></td>
@@ -348,6 +439,9 @@ Upate sink destination.</p>
 <td>
 <p>Update includes children.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -364,6 +458,7 @@ See https://github.com/googleapis/googleapis/blob/master/google/api/metric.proto
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -374,6 +469,9 @@ See https://github.com/googleapis/googleapis/blob/master/google/api/metric.proto
 <p>The kind of measurement for a metric, which describes how the data is reported. Ex: Gauge.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-MetricInfo-value">
 <td><code>value</code></td>
@@ -381,6 +479,9 @@ See https://github.com/googleapis/googleapis/blob/master/google/api/metric.proto
 <td>
 <p>The type of the metric&rsquo;s value. Ex: Distribution.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-MetricInfo-buckets">
@@ -393,6 +494,9 @@ This field must be provided for metrics declared to be of type DISTRIBUTION.
 This field will be ignored for non-distribution metric kinds.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-MetricInfo-metric_type">
 <td><code>metricType</code></td>
@@ -403,6 +507,9 @@ istio.io/service/server/request_count. If this is not provided, a
 concantenation of custom metric prefix (custom.googleapis.com/) and
 Istio metric name will be used.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -420,6 +527,7 @@ dependencies it doesn&rsquo;t actually use.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -430,6 +538,9 @@ dependencies it doesn&rsquo;t actually use.</p>
 <p>The linear buckets.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Params-MetricInfo-BucketsDefinition-exponential_buckets" class="oneof">
 <td><code>exponentialBuckets</code></td>
@@ -438,6 +549,9 @@ dependencies it doesn&rsquo;t actually use.</p>
 <p>The exponential buckets.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="Params-MetricInfo-BucketsDefinition-explicit_buckets" class="oneof">
 <td><code>explicitBuckets</code></td>
@@ -445,6 +559,9 @@ dependencies it doesn&rsquo;t actually use.</p>
 <td>
 <p>The explicit buckets.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -472,6 +589,7 @@ element is the common boundary of the overflow and underflow buckets.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -481,6 +599,9 @@ element is the common boundary of the overflow and underflow buckets.</p>
 <td>
 <p>The values must be monotonically increasing.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -508,6 +629,7 @@ buckets are the underflow and overflow buckets.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -518,6 +640,9 @@ buckets are the underflow and overflow buckets.</p>
 <p>Must be greater than 0.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-MetricInfo-BucketsDefinition-Exponential-growth_factor">
 <td><code>growthFactor</code></td>
@@ -526,6 +651,9 @@ buckets are the underflow and overflow buckets.</p>
 <p>Must be greater than 1.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-MetricInfo-BucketsDefinition-Exponential-scale">
 <td><code>scale</code></td>
@@ -533,6 +661,9 @@ buckets are the underflow and overflow buckets.</p>
 <td>
 <p>Must be greater than 0.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -560,6 +691,7 @@ buckets are the underflow and overflow buckets.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -570,6 +702,9 @@ buckets are the underflow and overflow buckets.</p>
 <p>Must be greater than 0.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-MetricInfo-BucketsDefinition-Linear-width">
 <td><code>width</code></td>
@@ -578,6 +713,9 @@ buckets are the underflow and overflow buckets.</p>
 <p>Must be greater than 0.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-MetricInfo-BucketsDefinition-Linear-offset">
 <td><code>offset</code></td>
@@ -585,6 +723,9 @@ buckets are the underflow and overflow buckets.</p>
 <td>
 <p>Lower bound of the first bucket.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -600,6 +741,7 @@ buckets are the underflow and overflow buckets.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -609,6 +751,9 @@ buckets are the underflow and overflow buckets.</p>
 <td>
 <p>Proability that a particular trace ID will be sampled.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

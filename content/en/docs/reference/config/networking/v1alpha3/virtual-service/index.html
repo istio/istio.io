@@ -136,6 +136,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -148,6 +149,9 @@ content will be serialized into the Access-Control-Allow-Origin
 header. Wildcard * will allow all origins.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="CorsPolicy-allow_methods">
 <td><code>allowMethods</code></td>
@@ -156,6 +160,9 @@ header. Wildcard * will allow all origins.</p>
 <p>List of HTTP methods allowed to access the resource. The content will
 be serialized into the Access-Control-Allow-Methods header.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="CorsPolicy-allow_headers">
@@ -166,6 +173,9 @@ be serialized into the Access-Control-Allow-Methods header.</p>
 resource. Serialized to Access-Control-Allow-Headers header.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="CorsPolicy-expose_headers">
 <td><code>exposeHeaders</code></td>
@@ -174,6 +184,9 @@ resource. Serialized to Access-Control-Allow-Headers header.</p>
 <p>A white list of HTTP headers that the browsers are allowed to
 access. Serialized into Access-Control-Expose-Headers header.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="CorsPolicy-max_age">
@@ -184,6 +197,9 @@ access. Serialized into Access-Control-Expose-Headers header.</p>
 cached. Translates to the <code>Access-Control-Max-Age</code> header.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="CorsPolicy-allow_credentials">
 <td><code>allowCredentials</code></td>
@@ -193,6 +209,9 @@ cached. Translates to the <code>Access-Control-Max-Age</code> header.</p>
 (not the preflight) using credentials. Translates to
 <code>Access-Control-Allow-Credentials</code> header.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -330,6 +349,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -353,6 +373,9 @@ potential misconfigurations, it is recommended to always use fully
 qualified domain names over short names.</em></p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Destination-subset">
 <td><code>subset</code></td>
@@ -363,6 +386,9 @@ within the mesh. The subset must be defined in a corresponding
 DestinationRule.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Destination-port">
 <td><code>port</code></td>
@@ -372,6 +398,9 @@ DestinationRule.</p>
 exposes only a single port it is not required to explicitly select the
 port.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -394,6 +423,7 @@ both are specified simultaneously.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -405,6 +435,9 @@ both are specified simultaneously.</p>
 network issues, overloaded upstream service, etc.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPFaultInjection-abort">
 <td><code>abort</code></td>
@@ -413,6 +446,9 @@ network issues, overloaded upstream service, etc.</p>
 <p>Abort Http request attempts and return error codes back to downstream
 service, giving the impression that the upstream service is faulty.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -454,9 +490,32 @@ aborted.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
+<tr id="HTTPFaultInjection-Abort-http_status" class="oneof oneof-start">
+<td><code>httpStatus</code></td>
+<td><code>int32 (oneof)</code></td>
+<td>
+<p>REQUIRED. HTTP status code to use to abort the Http request.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="HTTPFaultInjection-Abort-percentage">
+<td><code>percentage</code></td>
+<td><code><a href="#Percent">Percent</a></code></td>
+<td>
+<p>Percentage of requests to be aborted with the error code provided.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="HTTPFaultInjection-Abort-percent" class="deprecated ">
 <td><code>percent</code></td>
 <td><code>int32</code></td>
@@ -466,21 +525,8 @@ Use of integer <code>percent</code> value is deprecated. Use the double <code>pe
 field instead.</p>
 
 </td>
-</tr>
-<tr id="HTTPFaultInjection-Abort-http_status" class="oneof oneof-start">
-<td><code>httpStatus</code></td>
-<td><code>int32 (oneof)</code></td>
 <td>
-<p>REQUIRED. HTTP status code to use to abort the Http request.</p>
-
-</td>
-</tr>
-<tr id="HTTPFaultInjection-Abort-percentage">
-<td><code>percentage</code></td>
-<td><code><a href="#Percent">Percent</a></code></td>
-<td>
-<p>Percentage of requests to be aborted with the error code provided.</p>
-
+No
 </td>
 </tr>
 </tbody>
@@ -525,9 +571,33 @@ percentage of requests. If left unspecified, all request will be delayed.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
+<tr id="HTTPFaultInjection-Delay-fixed_delay" class="oneof oneof-start">
+<td><code>fixedDelay</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration (oneof)</a></code></td>
+<td>
+<p>REQUIRED. Add a fixed delay before forwarding the request. Format:
+1h/1m/1s/1ms. MUST be &gt;=1ms.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="HTTPFaultInjection-Delay-percentage">
+<td><code>percentage</code></td>
+<td><code><a href="#Percent">Percent</a></code></td>
+<td>
+<p>Percentage of requests on which the delay will be injected.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="HTTPFaultInjection-Delay-percent" class="deprecated ">
 <td><code>percent</code></td>
 <td><code>int32</code></td>
@@ -537,22 +607,8 @@ Use of integer <code>percent</code> value is deprecated. Use the double <code>pe
 field instead.</p>
 
 </td>
-</tr>
-<tr id="HTTPFaultInjection-Delay-fixed_delay" class="oneof oneof-start">
-<td><code>fixedDelay</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration (oneof)</a></code></td>
 <td>
-<p>REQUIRED. Add a fixed delay before forwarding the request. Format:
-1h/1m/1s/1ms. MUST be &gt;=1ms.</p>
-
-</td>
-</tr>
-<tr id="HTTPFaultInjection-Delay-percentage">
-<td><code>percentage</code></td>
-<td><code><a href="#Percent">Percent</a></code></td>
-<td>
-<p>Percentage of requests on which the delay will be injected.</p>
-
+No
 </td>
 </tr>
 </tbody>
@@ -594,6 +650,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -605,6 +662,9 @@ spec:
 concatenated with the parent route&rsquo;s name and will be logged in
 the access logs for requests matching this route.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPMatchRequest-uri">
@@ -626,6 +686,9 @@ values are case-sensitive and formatted as follows:</p>
 <code>ignore_uri_case</code> flag.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPMatchRequest-scheme">
 <td><code>scheme</code></td>
@@ -642,6 +705,9 @@ values are case-sensitive and formatted as follows:</p>
 <li><p><code>regex: &quot;value&quot;</code> for ECMAscript style regex-based match</p></li>
 </ul>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPMatchRequest-method">
@@ -660,6 +726,9 @@ values are case-sensitive and formatted as follows:</p>
 </ul>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPMatchRequest-authority">
 <td><code>authority</code></td>
@@ -676,6 +745,9 @@ values are case-sensitive and formatted as follows:</p>
 <li><p><code>regex: &quot;value&quot;</code> for ECMAscript style regex-based match</p></li>
 </ul>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPMatchRequest-headers">
@@ -698,6 +770,9 @@ e.g. <em>x-request-id</em>.</p>
 <p><strong>Note:</strong> The keys <code>uri</code>, <code>scheme</code>, <code>method</code>, and <code>authority</code> will be ignored.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPMatchRequest-port">
 <td><code>port</code></td>
@@ -707,6 +782,9 @@ e.g. <em>x-request-id</em>.</p>
 only expose a single port or label ports with the protocols they support,
 in these cases it is not required to explicitly select the port.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPMatchRequest-source_labels">
@@ -718,6 +796,9 @@ workloads with the given labels. If the VirtualService has a list of
 gateways specified at the top, it must include the reserved gateway
 <code>mesh</code> for this field to be applicable.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPMatchRequest-query_params">
@@ -738,6 +819,9 @@ gateways specified at the top, it must include the reserved gateway
 <p><strong>Note:</strong> <code>prefix</code> matching is currently not supported.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPMatchRequest-ignore_uri_case">
 <td><code>ignoreUriCase</code></td>
@@ -748,6 +832,9 @@ gateways specified at the top, it must include the reserved gateway
 <p><strong>Note:</strong> The case will be ignored only in the case of <code>exact</code> and <code>prefix</code>
 URI matches.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -784,6 +871,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -796,6 +884,9 @@ value. Note that the entire path will be replaced, irrespective of the
 request URI being matched as an exact path or prefix.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRedirect-authority">
 <td><code>authority</code></td>
@@ -805,6 +896,9 @@ request URI being matched as an exact path or prefix.</p>
 this value.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRedirect-redirect_code">
 <td><code>redirectCode</code></td>
@@ -813,6 +907,9 @@ this value.</p>
 <p>On a redirect, Specifies the HTTP status code to use in the redirect
 response. The default response code is MOVED_PERMANENTLY (301).</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -848,6 +945,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -860,6 +958,9 @@ between retries will be determined automatically (25ms+). Actual
 number of retries attempted depends on the httpReqTimeout.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRetry-per_try_timeout">
 <td><code>perTryTimeout</code></td>
@@ -867,6 +968,9 @@ number of retries attempted depends on the httpReqTimeout.</p>
 <td>
 <p>Timeout per retry attempt for a given request. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRetry-retry_on">
@@ -878,6 +982,9 @@ One or more policies can be specified using a ‘,’ delimited list.
 See the <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on">retry policies</a>
 and <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on">gRPC retry policies</a> for more details.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -916,6 +1023,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -928,6 +1036,9 @@ value. If the original URI was matched based on prefix, the value
 provided in this field will replace the corresponding matched prefix.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRewrite-authority">
 <td><code>authority</code></td>
@@ -935,6 +1046,9 @@ provided in this field will replace the corresponding matched prefix.</p>
 <td>
 <p>rewrite the Authority/Host header with this value.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -951,6 +1065,7 @@ gRPC traffic. See VirtualService for usage examples.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -964,6 +1079,9 @@ be logged in the access logs for requests matching this
 route/match.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRoute-match">
 <td><code>match</code></td>
@@ -974,6 +1092,9 @@ activated. All conditions inside a single match block have AND
 semantics, while the list of match blocks have OR semantics. The rule
 is matched if any one of the match blocks succeed.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRoute-route">
@@ -986,6 +1107,9 @@ glossary in beginning of document). Weights associated with the
 service version determine the proportion of traffic it receives.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRoute-redirect">
 <td><code>redirect</code></td>
@@ -997,6 +1121,9 @@ route/redirect will be ignored. The redirect primitive can be used to
 send a HTTP 301 redirect to a different URI or Authority.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRoute-rewrite">
 <td><code>rewrite</code></td>
@@ -1006,6 +1133,9 @@ send a HTTP 301 redirect to a different URI or Authority.</p>
 Redirect primitive. Rewrite will be performed before forwarding.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRoute-timeout">
 <td><code>timeout</code></td>
@@ -1014,6 +1144,9 @@ Redirect primitive. Rewrite will be performed before forwarding.</p>
 <p>Timeout for HTTP requests.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRoute-retries">
 <td><code>retries</code></td>
@@ -1021,6 +1154,9 @@ Redirect primitive. Rewrite will be performed before forwarding.</p>
 <td>
 <p>Retry policy for HTTP requests.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRoute-fault">
@@ -1031,6 +1167,9 @@ Redirect primitive. Rewrite will be performed before forwarding.</p>
 Note that timeouts or retries will not be enabled when faults are
 enabled on the client side.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRoute-mirror">
@@ -1045,6 +1184,9 @@ original destination.  Statistics will be generated for the mirrored
 destination.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRoute-mirror_percent">
 <td><code>mirrorPercent</code></td>
@@ -1054,6 +1196,9 @@ destination.</p>
 If this field is absent, all the traffic (100%) will be mirrored.
 Max value is 100.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRoute-cors_policy">
@@ -1065,6 +1210,9 @@ Max value is 100.</p>
 for further details about cross origin resource sharing.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRoute-headers">
 <td><code>headers</code></td>
@@ -1072,6 +1220,9 @@ for further details about cross origin resource sharing.</p>
 <td>
 <p>Header manipulation rules</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1149,6 +1300,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1159,6 +1311,9 @@ spec:
 <p>REQUIRED. Destination uniquely identifies the instances of a service
 to which the request/connection should be forwarded to.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRouteDestination-weight">
@@ -1171,6 +1326,20 @@ If there is only one destination in a rule, the weight value is assumed to
 be 100.</p>
 
 </td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRouteDestination-headers">
+<td><code>headers</code></td>
+<td><code><a href="#Headers">Headers</a></code></td>
+<td>
+<p>Header manipulation rules</p>
+
+</td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRouteDestination-remove_response_headers" class="deprecated ">
 <td><code>removeResponseHeaders</code></td>
@@ -1179,6 +1348,9 @@ be 100.</p>
 <p>Use of <code>remove_response_header</code> is deprecated. Use the <code>headers</code>
 field instead.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRouteDestination-append_response_headers" class="deprecated ">
@@ -1189,6 +1361,9 @@ field instead.</p>
 field instead.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="HTTPRouteDestination-remove_request_headers" class="deprecated ">
 <td><code>removeRequestHeaders</code></td>
@@ -1197,6 +1372,9 @@ field instead.</p>
 <p>Use of <code>remove_request_headers</code> is deprecated. Use the <code>headers</code>
 field instead.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="HTTPRouteDestination-append_request_headers" class="deprecated ">
@@ -1207,13 +1385,8 @@ field instead.</p>
 field instead.</p>
 
 </td>
-</tr>
-<tr id="HTTPRouteDestination-headers">
-<td><code>headers</code></td>
-<td><code><a href="#Headers">Headers</a></code></td>
 <td>
-<p>Header manipulation rules</p>
-
+No
 </td>
 </tr>
 </tbody>
@@ -1262,6 +1435,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1273,6 +1447,9 @@ spec:
 to the destination service</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Headers-response">
 <td><code>response</code></td>
@@ -1281,6 +1458,9 @@ to the destination service</p>
 <p>Header manipulation rules to apply before returning a response
 to the caller</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1296,6 +1476,7 @@ to the caller</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1306,6 +1487,9 @@ to the caller</p>
 <p>Overwrite the headers specified by key with the given values</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Headers-HeaderOperations-add">
 <td><code>add</code></td>
@@ -1315,6 +1499,9 @@ to the caller</p>
 (will create a comma-separated list of values)</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Headers-HeaderOperations-remove">
 <td><code>remove</code></td>
@@ -1322,6 +1509,9 @@ to the caller</p>
 <td>
 <p>Remove a the specified headers</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1338,6 +1528,7 @@ is incomplete.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1349,6 +1540,9 @@ is incomplete.</p>
 a.b.c.d/xx form or just a.b.c.d.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="L4MatchAttributes-port">
 <td><code>port</code></td>
@@ -1358,6 +1552,9 @@ a.b.c.d/xx form or just a.b.c.d.</p>
 only expose a single port or label ports with the protocols they support,
 in these cases it is not required to explicitly select the port.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="L4MatchAttributes-source_labels">
@@ -1370,6 +1567,9 @@ gateways specified at the top, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="L4MatchAttributes-gateways">
 <td><code>gateways</code></td>
@@ -1379,6 +1579,9 @@ gateways specified at the top, it should include the reserved gateway
 at the top of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1394,6 +1597,7 @@ match is independent of sourceLabels.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1401,6 +1605,9 @@ match is independent of sourceLabels.</p>
 <td><code>value</code></td>
 <td><code>double</code></td>
 <td>
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1417,6 +1624,7 @@ matching or selection for final routing.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1426,6 +1634,9 @@ matching or selection for final routing.</p>
 <td>
 <p>Valid port number</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1441,6 +1652,7 @@ matching or selection for final routing.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1452,6 +1664,9 @@ matching or selection for final routing.</p>
 to which the request/connection should be forwarded to.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RouteDestination-weight">
 <td><code>weight</code></td>
@@ -1461,6 +1676,9 @@ to which the request/connection should be forwarded to.</p>
 version. If there is only one destination in a rule, all traffic will be
 routed to it irrespective of the weight.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1477,6 +1695,7 @@ case-sensitive.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1487,6 +1706,9 @@ case-sensitive.</p>
 <p>exact string match</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="StringMatch-prefix" class="oneof">
 <td><code>prefix</code></td>
@@ -1495,6 +1717,9 @@ case-sensitive.</p>
 <p>prefix-based match</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 <tr id="StringMatch-regex" class="oneof">
 <td><code>regex</code></td>
@@ -1502,6 +1727,9 @@ case-sensitive.</p>
 <td>
 <p>ECMAscript style regex-based match</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -1536,6 +1764,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1549,6 +1778,9 @@ semantics, while the list of match blocks have OR semantics. The rule
 is matched if any one of the match blocks succeed.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TCPRoute-route">
 <td><code>route</code></td>
@@ -1556,6 +1788,9 @@ is matched if any one of the match blocks succeed.</p>
 <td>
 <p>The destination to which the connection should be forwarded to.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1571,6 +1806,7 @@ is matched if any one of the match blocks succeed.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1584,6 +1820,9 @@ as well as example.com. An SNI value must be a subset (i.e., fall
 within the domain) of the corresponding virtual serivce&rsquo;s hosts.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TLSMatchAttributes-destination_subnets">
 <td><code>destinationSubnets</code></td>
@@ -1592,6 +1831,9 @@ within the domain) of the corresponding virtual serivce&rsquo;s hosts.</p>
 <p>IPv4 or IPv6 ip addresses of destination with optional subnet.  E.g.,
 a.b.c.d/xx form or just a.b.c.d.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="TLSMatchAttributes-port">
@@ -1604,6 +1846,9 @@ support, in these cases it is not required to explicitly select the
 port.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TLSMatchAttributes-source_labels">
 <td><code>sourceLabels</code></td>
@@ -1615,6 +1860,9 @@ gateways specified at the top, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TLSMatchAttributes-gateways">
 <td><code>gateways</code></td>
@@ -1624,6 +1872,9 @@ gateways specified at the top, it should include the reserved gateway
 at the top of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1668,6 +1919,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1681,6 +1933,9 @@ semantics, while the list of match blocks have OR semantics. The rule
 is matched if any one of the match blocks succeed.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="TLSRoute-route">
 <td><code>route</code></td>
@@ -1688,6 +1943,9 @@ is matched if any one of the match blocks succeed.</p>
 <td>
 <p>The destination to which the connection should be forwarded to.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1703,6 +1961,7 @@ is matched if any one of the match blocks succeed.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1739,6 +1998,9 @@ referred to using their alphanumeric names. IP addresses are allowed
 only for services defined via the Gateway.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="VirtualService-gateways">
 <td><code>gateways</code></td>
@@ -1756,6 +2018,9 @@ rules will apply only to the gateways. To apply the rules to both
 gateways and sidecars, specify <code>mesh</code> as one of the gateway names.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="VirtualService-http">
 <td><code>http</code></td>
@@ -1767,6 +2032,9 @@ ports with protocol HTTP/HTTP2/GRPC/ TLS-terminated-HTTPS and service
 entry ports using HTTP/HTTP2/GRPC protocols.  The first rule matching
 an incoming request is used.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="VirtualService-tls">
@@ -1784,6 +2052,9 @@ without associated virtual service will be treated as opaque TCP
 traffic.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="VirtualService-tcp">
 <td><code>tcp</code></td>
@@ -1793,6 +2064,9 @@ traffic.</p>
 be applied to any port that is not a HTTP or TLS port. The first rule
 matching an incoming request is used.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="VirtualService-export_to">
@@ -1816,6 +2090,9 @@ defines an export to all namespaces.</p>
 &ldquo;.&rdquo; or &ldquo;*&rdquo; (i.e., the current namespace or all namespaces).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 </tbody>
 </table>
@@ -1832,6 +2109,7 @@ defines an export to all namespaces.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -1841,6 +2119,9 @@ defines an export to all namespaces.</p>
 <td>
 <p>The uint32 value.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

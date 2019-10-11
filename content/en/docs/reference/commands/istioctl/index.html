@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 63
+number_of_entries: 69
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
@@ -1571,6 +1571,13 @@ customization file  (default `[]`)</td>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--rename &lt;string&gt;</code></td>
+<td></td>
+<td>renameResources identifies renamed resources before comparison.
+The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
+e.g. Service:*:istio-pilot-&gt;Service:*:istio-control - rename istio-pilot service into istio-control  (default ``)</td>
+</tr>
+<tr>
 <td><code>--select &lt;string&gt;</code></td>
 <td></td>
 <td>selectResources constrains the list of resources to compare to only the ones in this list, ignoring all others.
@@ -1834,6 +1841,323 @@ istioctl experimental metrics productpage-v1
 
 # Retrieve workload metrics for various services in the different namespaces
 istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
+
+</code></pre>
+<h2 id="istioctl-experimental-post-install">istioctl experimental post-install</h2>
+<p>Commands related to post-install</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-post-install-webhook">istioctl experimental post-install webhook</h2>
+<p>webhook command to manage webhook configurations</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-post-install-webhook-disable">istioctl experimental post-install webhook disable</h2>
+<p>Disable webhook configurations</p>
+<pre class="language-bash"><code>istioctl experimental post-install webhook disable [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--injection</code></td>
+<td></td>
+<td>Disable mutating webhook (default true). </td>
+</tr>
+<tr>
+<td><code>--injection-config &lt;string&gt;</code></td>
+<td></td>
+<td>The mutating webhook configuration to disable.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--validation</code></td>
+<td></td>
+<td>Disable validating webhook (default true). </td>
+</tr>
+<tr>
+<td><code>--validation-config &lt;string&gt;</code></td>
+<td></td>
+<td>The validating webhook configuration to disable.  (default `istio-galley`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-post-install-webhook-disable Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Disable all webhooks
+istioctl experimental post-install webhook disable
+
+# Disable all webhooks except injection
+istioctl experimental post-install webhook disable --injection=false
+
+</code></pre>
+<h2 id="istioctl-experimental-post-install-webhook-enable">istioctl experimental post-install webhook enable</h2>
+<p>This command is used to enable webhook configurations after installing Istio.
+For previous Istio versions (e.g., 1.2, 1.3, etc), this command is not needed
+because in previous versions webhooks manage their own configurations.</p>
+<pre class="language-bash"><code>istioctl experimental post-install webhook enable [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ca-bundle-file &lt;string&gt;</code></td>
+<td></td>
+<td>PEM encoded CA bundle which will be used to validate the webhook&#39;s server certificates. If this is empty, the kube-apisever&#39;s root CA is used if it can be confirmed to have signed the webhook&#39;s certificates. This condition is sometimes true but is not guaranteed (see https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--injection</code></td>
+<td></td>
+<td>Enable injection webhook (default true). </td>
+</tr>
+<tr>
+<td><code>--injection-path &lt;string&gt;</code></td>
+<td></td>
+<td>The file path of the injection webhook configuration.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--injection-service &lt;string&gt;</code></td>
+<td></td>
+<td>The service name of the injection webhook to manage.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--read-cert-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>	Max time for waiting the webhook certificate to be readable.  (default `1m0s`)</td>
+</tr>
+<tr>
+<td><code>--timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>	Max time for checking the validating webhook server. If the validating webhook server is not readyin the given time, exit. Otherwise, apply the webhook configuration.  (default `1m0s`)</td>
+</tr>
+<tr>
+<td><code>--validation</code></td>
+<td></td>
+<td>Enable validatation webhook (default true). </td>
+</tr>
+<tr>
+<td><code>--validation-path &lt;string&gt;</code></td>
+<td></td>
+<td>The file path of the validation webhook configuration.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--validation-service &lt;string&gt;</code></td>
+<td></td>
+<td>The service name of the validation webhook to manage.  (default `istio-galley`)</td>
+</tr>
+<tr>
+<td><code>--webhook-secret &lt;string&gt;</code></td>
+<td></td>
+<td>The name of an existing Kubernetes secret of a webhook. istioctl will verify that the webhook certificate is issued by the CA certificate.  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-post-install-webhook-enable Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Enable the webhook configuration of Galley with the given webhook configuration
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
+    --namespace istio-system --validation-path validatingwebhookconfiguration.yaml
+
+# Enable the webhook configuration of Galley with the given webhook configuration and CA certificate
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
+    --namespace istio-system --validation-path validatingwebhookconfiguration.yaml --ca-bundle-file ./k8s-ca-cert.pem
+
+</code></pre>
+<h2 id="istioctl-experimental-post-install-webhook-status">istioctl experimental post-install webhook status</h2>
+<p>Get webhook configurations</p>
+<pre class="language-bash"><code>istioctl experimental post-install webhook status [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--injection</code></td>
+<td></td>
+<td>Display the injection webhook configuration. </td>
+</tr>
+<tr>
+<td><code>--injection-config &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the MutatingWebhookConfiguration to display.  (default `istio-sidecar-injector`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--validation</code></td>
+<td></td>
+<td>Display the validating webhook configuration. </td>
+</tr>
+<tr>
+<td><code>--validation-config &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the ValidatingWebhookConfiguration to display.  (default `istio-galley`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-post-install-webhook-status Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Display the webhook configuration of Galley
+istioctl experimental post-install webhook status --validation --validation-config istio-galley
+# Display the webhook configuration of Galley and Sidecar Injector
+istioctl experimental post-install webhook status --validation --validation-config istio-galley 
+  --injection --injection-config istio-sidecar-injector
 
 </code></pre>
 <h2 id="istioctl-experimental-profile">istioctl experimental profile</h2>

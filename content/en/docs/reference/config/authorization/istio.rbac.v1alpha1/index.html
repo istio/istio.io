@@ -87,6 +87,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -101,6 +102,9 @@ For example, the service name &ldquo;bookstore.mtv.cluster.local&rdquo; matches
 or &ldquo;*.mtv.cluster.local&rdquo; (suffix match).
 If set to [&rdquo;*&rdquo;], it refers to all services in the namespace.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="AccessRule-paths">
@@ -117,6 +121,9 @@ If not specified, it matches to any path.
 This field should not be set for TCP services. The policy will be ignored.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="AccessRule-methods">
 <td><code>methods</code></td>
@@ -128,6 +135,9 @@ This field should not be set for TCP services. The policy will be ignored.
 For gRPC services, only <code>POST</code> is allowed; other methods will result in denying services.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="AccessRule-constraints">
 <td><code>constraints</code></td>
@@ -135,6 +145,9 @@ For gRPC services, only <code>POST</code> is allowed; other methods will result 
 <td>
 <p>Optional. Extra constraints in the ServiceRole specification.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -150,6 +163,7 @@ For gRPC services, only <code>POST</code> is allowed; other methods will result 
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -159,6 +173,9 @@ For gRPC services, only <code>POST</code> is allowed; other methods will result 
 <td>
 <p>Key of the constraint.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="AccessRule-Constraint-values">
@@ -171,14 +188,17 @@ For example, the value &ldquo;v1alpha2&rdquo; matches &ldquo;v1alpha2&rdquo; (ex
 or &ldquo;v1*&rdquo; (prefix match), or &ldquo;*alpha2&rdquo; (suffix match).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 </tbody>
 </table>
 </section>
 <h2 id="RbacConfig">RbacConfig</h2>
 <section>
-<p>RbacConfig implements the ClusterRbaConfig Custom Resource Definition for controlling Istio RBAC behavior.
-The ClusterRbaConfig Custom Resource is a singleton where only one ClusterRbaConfig should be created
+<p>RbacConfig implements the ClusterRbacConfig Custom Resource Definition for controlling Istio RBAC behavior.
+The ClusterRbacConfig Custom Resource is a singleton where only one ClusterRbacConfig should be created
 globally in the mesh and the namespace should be the same to other Istio components, which usually is <code>istio-system</code>.</p>
 
 <p>Below is an example of an <code>ClusterRbacConfig</code> resource called <code>istio-rbac-config</code> which enables Istio RBAC for all
@@ -201,6 +221,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -211,6 +232,9 @@ spec:
 <p>Istio RBAC mode.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RbacConfig-inclusion">
 <td><code>inclusion</code></td>
@@ -220,6 +244,9 @@ spec:
 effect only when mode is ON<em>WITH</em>INCLUSION and will be ignored for any other modes.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RbacConfig-exclusion">
 <td><code>exclusion</code></td>
@@ -228,6 +255,9 @@ effect only when mode is ON<em>WITH</em>INCLUSION and will be ignored for any ot
 <p>A list of services or namespaces that should not be enforced by Istio RBAC policies. Note: This field have
 effect only when mode is ON<em>WITH</em>EXCLUSION and will be ignored for any other modes.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -287,6 +317,7 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -297,6 +328,9 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <p>A list of services.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RbacConfig-Target-namespaces">
 <td><code>namespaces</code></td>
@@ -304,6 +338,9 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <td>
 <p>A list of namespaces.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -319,6 +356,7 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -330,6 +368,9 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 Currently, &ldquo;ServiceRole&rdquo; is the only supported value for &ldquo;kind&rdquo;.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RoleRef-name">
 <td><code>name</code></td>
@@ -338,6 +379,9 @@ Currently, &ldquo;ServiceRole&rdquo; is the only supported value for &ldquo;kind
 <p>Required. The name of the ServiceRole object being referenced.
 The ServiceRole object must be in the same namespace as the ServiceRoleBinding object.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -353,6 +397,7 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -362,6 +407,9 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <td>
 <p>Required. The set of access rules (permissions) that the role has.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -377,6 +425,7 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -387,6 +436,9 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <p>Required. List of subjects that are assigned the ServiceRole object.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="ServiceRoleBinding-roleRef">
 <td><code>roleRef</code></td>
@@ -394,6 +446,9 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <td>
 <p>Required. Reference to the ServiceRole object.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -410,6 +465,7 @@ The supported keys in <code>properties</code> are listed in &ldquo;constraint an
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -420,6 +476,9 @@ The supported keys in <code>properties</code> are listed in &ldquo;constraint an
 <p>Optional. The user name/ID that the subject represents.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Subject-properties">
 <td><code>properties</code></td>
@@ -427,6 +486,9 @@ The supported keys in <code>properties</code> are listed in &ldquo;constraint an
 <td>
 <p>Optional. The set of properties that identify the subject.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

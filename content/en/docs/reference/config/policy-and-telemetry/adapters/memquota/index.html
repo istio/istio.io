@@ -31,6 +31,7 @@ be lost.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -41,6 +42,9 @@ be lost.</p>
 <p>The set of known quotas.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-min_deduplication_duration">
 <td><code>minDeduplicationDuration</code></td>
@@ -48,6 +52,9 @@ be lost.</p>
 <td>
 <p>Minimum number of seconds that deduplication is possible for a given operation.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -64,6 +71,7 @@ a particular quota request, the default for the quota is used.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -75,6 +83,9 @@ a particular quota request, the default for the quota is used.</p>
 String representation of instance dimensions is used to check against configured dimensions.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-Override-max_amount">
 <td><code>maxAmount</code></td>
@@ -82,6 +93,9 @@ String representation of instance dimensions is used to check against configured
 <td>
 <p>The upper limit for this quota.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-Override-valid_duration">
@@ -92,6 +106,9 @@ String representation of instance dimensions is used to check against configured
 automatically released. This is only meaningful for rate limit
 quotas, otherwise the value must be zero.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -107,6 +124,7 @@ quotas, otherwise the value must be zero.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -117,6 +135,9 @@ quotas, otherwise the value must be zero.</p>
 <p>The name of the quota</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-Quota-max_amount">
 <td><code>maxAmount</code></td>
@@ -124,6 +145,9 @@ quotas, otherwise the value must be zero.</p>
 <td>
 <p>The upper limit for this quota.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Params-Quota-valid_duration">
@@ -135,6 +159,9 @@ automatically released. This is only meaningful for rate limit
 quotas, otherwise the value must be zero.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Params-Quota-overrides">
 <td><code>overrides</code></td>
@@ -143,6 +170,9 @@ quotas, otherwise the value must be zero.</p>
 <p>Overrides associated with this quota.
 The first matching override is applied.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
