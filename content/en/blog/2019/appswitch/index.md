@@ -5,6 +5,7 @@ publishdate: 2019-01-14
 subtitle:
 attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
 keywords: [appswitch,performance]
+target_release: 1.0
 ---
 
 We are going through an interesting cycle of application decomposition and recomposition.  While the microservice paradigm is driving monolithic applications to be broken into separate individual services, the service mesh approach is helping them to be connected back together into well-structured applications.  As such, microservices are logically separate but not independent.  They are usually closely interdependent and taking them apart introduces many new concerns such as need for mutual authentication between services.  Istio directly addresses most of those issues.

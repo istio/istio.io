@@ -6,6 +6,7 @@ last_update: 2019-04-18
 subtitle: Istio Egress Control Options for MongoDB traffic
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,tcp,mongo]
+target_release: 1.1
 ---
 
 In the [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post, I described how external services

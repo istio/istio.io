@@ -4,6 +4,7 @@ subtitle:
 description: Istio hosting an all day Twitch stream to celebrate the 1.0 release.
 publishdate: 2018-08-03
 attribution: Spencer Krum, IBM
+target_release: 1.0
 ---
 
 To celebrate the 1.0 release and to promote the software to a wider audience, the Istio community is hosting an all day live stream on Twitch on August 17th.

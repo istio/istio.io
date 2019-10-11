@@ -5,6 +5,7 @@ description: Using Istio to secure multi-cloud Kubernetes applications with zero
 publishdate: 2019-09-18
 attribution: Anton Aleksandrov (IBM)
 keywords: [security,oidc,jwt,policies]
+target_release: 1.3
 ---
 
 If you are running your containerized applications on Kubernetes, you can benefit from using the App Identity and Access Adapter for an abstracted level of security with zero code changes or redeploys.

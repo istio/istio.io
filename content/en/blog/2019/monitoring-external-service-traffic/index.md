@@ -4,6 +4,7 @@ description: "How can you use Istio to monitor blocked and passthrough external 
 publishdate: 2019-09-28
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [monitoring,blackhole,passthrough]
+target_release: 1.3
 ---
 
 Understanding, controlling and securing your external service access is one

@@ -5,6 +5,7 @@ publishdate: 2018-07-20
 subtitle:
 attribution: Limin Wang
 keywords: [authorization,rbac,security]
+target_release: 0.8
 ---
 
 Micro-segmentation is a security technique that creates secure zones in cloud deployments and allows organizations to

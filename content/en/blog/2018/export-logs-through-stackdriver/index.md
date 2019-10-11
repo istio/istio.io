@@ -4,6 +4,7 @@ description: How to export Istio Access Logs to different sinks like BigQuery, G
 publishdate: 2018-07-09
 subtitle:
 attribution: Nupur Garg and Douglas Reid
+target_release: 0.8
 ---
 
 This post shows how to direct Istio logs to [Stackdriver](https://cloud.google.com/stackdriver/)

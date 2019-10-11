@@ -8,6 +8,7 @@ keywords: [adapters,mixer,policies,telemetry,availability,latency]
 aliases:
     - /blog/posts/2017/mixer-spof-myth.html
     - /blog/mixer-spof-myth.html
+target_release: 0.3
 ---
 
 As [Mixer](/docs/reference/config/policy-and-telemetry/) is in the request path, it is natural to question how it impacts

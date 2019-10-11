@@ -4,6 +4,7 @@ description: Learn how to extend the lifetime of Istio self-signed root certific
 publishdate: 2019-06-07
 attribution: Oliver Liu
 keywords: [security, PKI, certificate, Citadel]
+target_release: 1.1
 ---
 
 Istio self-signed certificates have historically had a 1 year default lifetime.

@@ -7,6 +7,7 @@ attribution: Martin Taillefer
 keywords: [adapters,mixer,policies,telemetry]
 aliases:
     - /blog/mixer-adapter-model.html
+target_release: 0.2
 ---
 
 Istio 0.2 introduced a new Mixer adapter model which is intended to increase Mixer’s flexibility to address a varied set of infrastructure backends. This post intends to put the adapter model in context and explain how it works.

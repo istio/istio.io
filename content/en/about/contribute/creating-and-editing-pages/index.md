@@ -141,12 +141,13 @@ The available front matter fields are:
 
 There are a few more front matter fields available specifically for blog posts:
 
-|Field          | Description
-|---------------|------------
-|`publishdate`  | Date of the post's original publication
-|`last_update`  | Date when the post last received a major revision
-|`attribution`  | Optional name of the post's author
-|`twitter`      | Optional Twitter handle of the post's author
+|Field           | Description
+|----------------|------------
+|`publishdate`   | Date of the post's original publication
+|`last_update`   | Date when the post last received a major revision
+|`attribution`   | Optional name of the post's author
+|`twitter`       | Optional Twitter handle of the post's author
+|`target_release`| Release this blog is written with in mind (this is normally the current major Istio release at the time the blog is authored or updated)
 
 ## Adding images
 
