@@ -66,7 +66,8 @@ still expect the end-to-end flow to continue without any errors.
       - fault:
           delay:
             fixedDelay: 7s
-            percent: 100
+            percentage:
+              value: 100
         match:
         - headers:
             end-user:
@@ -172,7 +173,8 @@ service is currently unavailable` message.
       - fault:
           abort:
             httpStatus: 500
-            percent: 100
+            percentage:
+              value: 100
         match:
         - headers:
             end-user:
