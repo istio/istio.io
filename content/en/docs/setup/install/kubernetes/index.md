@@ -1,29 +1,18 @@
 ---
-title: Quick Start Evaluation Install
+title: Operator Quick Start Evaluation Install
 description: Instructions to install Istio in a Kubernetes cluster for evaluation.
-weight: 10
-keywords: [kubernetes]
+weight: 9
+keywords: [kubernetes, operator]
 aliases:
-    - /docs/setup/kubernetes/quick-start/
-    - /docs/setup/kubernetes/install/kubernetes/
 ---
 
-This guide installs Istio's built-in **demo** [configuration profile](/docs/setup/additional-setup/config-profiles/)
-using basic Kubernetes commands without needing to download or install
-[Helm](https://github.com/helm/helm). This installation lets you quickly
-evaluate Istio in a Kubernetes cluster on any platform.
+This guide installs Istio using the standalone Istio Operator. The only dependencies
+required are a supported Kubernetes cluster and the `kubectl` command. This
+installation method lets you quickly evaluate Istio in a Kubernetes cluster on
+any platform.
 
-{{< warning >}}
-The demo configuration profile is not suitable for performance evaluation. It
-is designed to showcase Istio functionality with high levels of tracing and
-access logging.
-{{< /warning >}}
-
-To install Istio for production use, we recommend using the
-[Helm Installation guide](/docs/setup/install/helm/)
-instead, which provides many more options for selecting and managing the Istio
-configuration. This permits customization of Istio to operator specific
-requirements.
+To install Istio for production use, we recommend using the [Helm Installation guide](/docs/setup/install/helm/)
+instead, which is a stable feature.
 
 ## Prerequisites
 
@@ -35,15 +24,13 @@ requirements.
 
 ## Installation steps
 
-1. Install all the Istio
-    [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-    (CRDs) using `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
+1. Install the Istio Operator using the default profile:
 
     {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+    $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-1. Install one of the following variants of the **demo** profile:
+1. (Optionally) change profiles from the default profile to one of the following profiles:
 
 {{< tabset cookie-name="profile" >}}
 
@@ -52,38 +39,70 @@ When using the [permissive mutual TLS mode](/docs/concepts/security/#permissive-
 mutual TLS traffic. Clients send plaintext traffic unless configured for
 [mutual TLS migration](/docs/tasks/security/mtls-migration/).
 
-Choose this variant for:
+Choose this profile for:
 
 * Clusters with existing applications, or
 * Applications where services with an Istio sidecar need to be able to
   communicate with other non-Istio Kubernetes services
 
-Run the following command to install this variant:
+Run the following command to switch to this profile:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo.yaml
+$ kubectl apply -f https://preliminary.istio.io/operator-profile-demo.yaml
 {{< /text >}}
 
 {{< /tab >}}
 
 {{< tab name="strict mutual TLS" cookie-value="strict" >}}
-This variant will enforce
+This profile will enforce
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between all clients and servers.
 
-Use this variant only on a fresh Kubernetes cluster where all workloads will be Istio-enabled.
+Use this profile only on a fresh Kubernetes cluster where all workloads will be Istio-enabled.
 All newly deployed workloads will have Istio sidecars installed.
 
-Run the following command to install this variant:
+Run the following command to switch to this profile:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ kubectl apply -f https://preliminary.istio.io/operator-profile-demo-auth.yaml
 {{< /text >}}
 
 {{< /tab >}}
 
+{{< tab name="SDS" cookie-value="sds" >}}
+This profile enables
+[Secret Discovery Service](/docs/tasks/security/auth-sds) between all clients and servers.
+
+Use this profile to enhance startup performance of services in the Kubernetes cluster. Additionally
+improve security as Kubernetes secrets that contain known
+[risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks) are not used.
+
+Run the following command to switch to this profile:
+
+{{< text bash >}}
+$ kubectl apply -f https://preliminary.istio.io/operator-profile-sds.yaml
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="default" cookie-value="default" >}}
+This profile enables Istio's default settings. This profile is installed during the first step.
+
+Run the following command to switch to this profile:
+
+{{< text bash >}}
+$ kubectl apply -f https://preliminary.istio.io/operator-profile-default.yaml
+{{< /text >}}
+
+{{< /tab >}}
 {{< /tabset >}}
 
 ## Verifying the installation
+
+{{< warning >}}
+This document is a work in progress. Expect verification steps for each of the profiles to
+vary from these verification steps. Inconsistencies will be resolved prior to the publishing of
+Istio 1.4. Until that time, these verification steps only apply to the `profile-istio-demo.yaml` profile.
+{{< /warning >}}
 
 1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
 
@@ -169,34 +188,13 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 
 ## Uninstall
 
-The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
-all resources hierarchically under it. It is safe to ignore errors for
-non-existent resources because they may have been deleted hierarchically.
-
-* Uninstall the **demo** profile corresponding to the mutual TLS mode you enabled:
-
-{{< tabset cookie-name="profile" >}}
-
-{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
+Delete the Istio Operator and Istio deployment:
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
+$ kubectl -n istio-operator get IstioControlPlane evaluation-istiocontrolplane -o=json | jq '.metadata.finalizers = null' | kubectl apply -f -
+$ kubectl delete ns istio-operator --grace-period=0 --force
+$ kubectl delete ns istio-system --grace-period=0 --force
 {{< /text >}}
 
-{{< /tab >}}
-
-{{< tab name="strict mutual TLS" cookie-value="strict" >}}
-
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-* If desired, delete the Istio CRDs:
-
-    {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
-    {{< /text >}}
+Please be aware that Istio's CRDs are leaked into the Kubernetes environment. This is intentional as to not
+cause data loss of the user's Istio configuration.
