@@ -72,15 +72,17 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-demo-auth.yaml
 This profile enables
 [Secret Discovery Service](/docs/tasks/security/auth-sds) between all clients and servers.
 
-Use this variant to enhance startup performance of services in the Kubernetes cluster. Additionally
+Use this profile to enhance startup performance of services in the Kubernetes cluster. Additionally
 improve security as Kubernetes secrets that contain known
-[risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks) are not used in this profile.
+[risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks) are not used.
 
 Run the following command to switch to this profile:
 
 {{< text bash >}}
 $ kubectl apply -f https://preliminary.istio.io/operator-profile-sds.yaml
 {{< /text >}}
+
+{{< /tab >}}
 
 {{< tab name="default" cookie-value="default" >}}
 This profile enables Istio's default settings. This profile is installed during the first step.
