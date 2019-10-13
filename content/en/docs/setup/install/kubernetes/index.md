@@ -97,7 +97,7 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-default.yaml
 
 {{< /tab >}}
 
-{{< tab name="default" cookie-value="minimal" >}}
+{{< tab name="minimal" cookie-value="minimal" >}}
 This profile deploys a Istio's minimum components to function.
 
 Run the following command to switch to this profile:
