@@ -1,15 +1,17 @@
 ---
-title: Operator Quick Start Evaluation Install
+title: Quick Start Evaluation Install
 description: Instructions to install Istio in a Kubernetes cluster for evaluation.
-weight: 9
+weight: 10
 keywords: [kubernetes, operator]
 aliases:
+    - /docs/setup/kubernetes/quick-start/
+    - /docs/setup/kubernetes/install/kubernetes/
 ---
 
-This guide installs Istio using the standalone Istio Operator. The only dependencies
+This guide installs Istio using the standalone Istio operator. The only dependencies
 required are a supported Kubernetes cluster and the `kubectl` command. This
 installation method lets you quickly evaluate Istio in a Kubernetes cluster on
-any platform.
+any platform using a variety of profiles.
 
 To install Istio for production use, we recommend using the [Helm Installation guide](/docs/setup/install/helm/)
 instead, which is a stable feature.
@@ -24,7 +26,7 @@ instead, which is a stable feature.
 
 ## Installation steps
 
-1. Install the Istio Operator using the default profile:
+1. Install Istio using the operator with the default profile:
 
     {{< text bash >}}
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
@@ -94,6 +96,18 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-default.yaml
 {{< /text >}}
 
 {{< /tab >}}
+
+{{< tab name="default" cookie-value="minimal" >}}
+This profile deploys a Istio's minimum components to function.
+
+Run the following command to switch to this profile:
+
+{{< text bash >}}
+$ kubectl apply -f https://preliminary.istio.io/operator-profile-minimal.yaml
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< /tabset >}}
 
 ## Verifying the installation
@@ -191,7 +205,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 Delete the Istio Operator and Istio deployment:
 
 {{< text bash >}}
-$ kubectl -n istio-operator get IstioControlPlane evaluation-istiocontrolplane -o=json | jq '.metadata.finalizers = null' | kubectl apply -f -
+$ kubectl -n istio-operator get IstioControlPlane example-istiocontrolplane -o=json | jq '.metadata.finalizers = null' | kubectl apply -f -
 $ kubectl delete ns istio-operator --grace-period=0 --force
 $ kubectl delete ns istio-system --grace-period=0 --force
 {{< /text >}}

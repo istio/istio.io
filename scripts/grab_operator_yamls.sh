@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This scripts obtains proto files used by the Istio project from upstream
-# locations. The proto file's repository is pinned. The pinned protos
-# are then copied into a directory called "protos".
+# This scripts obtains the operator's yaml files and constructs them into
+# one manifest. Additionally IstioControlPlane custom resources are generated
+# for each of the profiles for easy switching between deployment modes.
 
 # Find the output directory
 scriptpath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -26,7 +26,9 @@ output_dir="${rootdir}/static"
 # Temporary directories securely created
 tempdir_operator="$(mktemp -d)"
 
-# Upstream GIT tags or branches used for protobufs by repo
+# Upstream GIT tags or branches used for the operator repo. The operator is
+# currently only available as a master version. This will change when
+# 1.4 is tagged.
 operator_tag="master"
 
 # Great care should be taken when modifying the ordering of this list. This
@@ -43,9 +45,10 @@ rm -f "${output_dir}"/operator.yaml
 touch "${output_dir}"/operator.yaml
 echo "operator/*"
 pushd "${tempdir_operator}" >/dev/null || exit
-git clone -q --single-branch --branch master https://github.com/istio/operator.git
+git clone -q --single-branch --branch "${operator_tag}" https://github.com/istio/operator.git
 pushd operator >/dev/null || exit
 git checkout -q "${operator_tag}"
+
 # Generate the main manifest
 for manifest_file in "${operator_manifest_files[@]}"
 do
