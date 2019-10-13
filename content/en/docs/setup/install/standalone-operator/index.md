@@ -92,15 +92,16 @@ Run the following command to switch to this profile:
 {{< text bash >}}
 $ kubectl apply -f https://preliminary.istio.io/operator-profile-default.yaml
 {{< /text >}}
+
 {{< /tab >}}
 {{< /tabset >}}
 
 ## Verifying the installation
 
 {{< warning >}}
-This document is a work in progress. As such, expect verificaiton steps for each of the profiles to
-vary from the below verification steps. This will be resolved prior to Istio 1.4 being published.
-Until that time, these verification steps only apply to the `profile-istio-demo.yaml` profile.
+This document is a work in progress. Expect verification steps for each of the profiles to
+vary from these verification steps. Inconsistencies will be resolved prior to the publishing of
+stio 1.4. Until that time, these verification steps only apply to the `profile-istio-demo.yaml` profile.
 {{< /warning >}}
 
 1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
