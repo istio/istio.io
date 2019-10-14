@@ -20,7 +20,7 @@ complete set of analyzers):
 
 {{< tabset cookie-name="platform" >}}
 
-{{< tab name="macOS" cookie-value="macos" >}}
+{{< tab name="Mac" cookie-value="macos" >}}
 
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
@@ -46,17 +46,17 @@ $ ./istioctl x analyze -k
 
 And that’s it! It’ll give you any recommendations that apply.
 
-For example, if you forgot to enable Istio injection (very common issue), you would get the following warning:
+For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
 
 {{< text plain >}}
 Warn [IST0102](Namespace/default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
-Note that ‘x’ in the command is because this is currently an experimental feature.
+Note that `x` in the command is because this is currently an experimental feature.
 
 ## Analyzing live clusters, local files, or both
 
-The scenario in the ‘getting started’ section is doing analysis on live cluster. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
+The scenario in the ‘getting started’ section is doing analysis on live clusters. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
 
 Analyze a specific set of local files:
 
