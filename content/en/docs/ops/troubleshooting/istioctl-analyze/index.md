@@ -1,5 +1,5 @@
 ---
-title: Analyze your cluster and local configuration with istioctl analyze
+title: Diagnose your configuration with istioctl analyze
 description: Shows you how to use istioctl analyze to identify potential issues with your configuration.
 weight: 90
 keywords: [istioctl, debugging, kubernetes]
@@ -96,22 +96,22 @@ the kind of information you should provide.
 
 ## Q&A
 
-### What Istio release does this tool target?
+- **What Istio release does this tool target?**
 
-Analysis works with any version of Istio, and doesn’t require anything to be installed in the cluster. You just need to get a recent version of `istioctl`.
+      Analysis works with any version of Istio, and doesn’t require anything to be installed in the cluster. You just need to get a recent version of `istioctl`.
 
-In some cases, some of the analyzers will not apply if they are not meaningful with your Istio release. But the analysis will still happen with all analyzers that do apply.
+      In some cases, some of the analyzers will not apply if they are not meaningful with your Istio release. But the analysis will still happen with all analyzers that do apply.
 
-Note that while the `analyze` command works across Istio releases, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest release of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio release to run other commands.
+      Note that while the `analyze` command works across Istio releases, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest release of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio release to run other commands.
 
-### What analyzers are supported today?
+- **What analyzers are supported today?**
 
-We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
+      We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
 
-### Can analysis do anything harmful to my cluster?
+- **Can analysis do anything harmful to my cluster?**
 
-Analysis never changes configuration state. It is a completely read-only operation and so will never alter the state of a cluster.
+      Analysis never changes configuration state. It is a completely read-only operation and so will never alter the state of a cluster.
 
-### What about analysis that goes beyond configuration?
+- **What about analysis that goes beyond configuration?**
 
-Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
+      Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
