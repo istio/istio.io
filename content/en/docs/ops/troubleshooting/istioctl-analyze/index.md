@@ -15,25 +15,28 @@ apply changes to a cluster.
 ## Getting started in under a minute
 
 Getting started is very simple. First, download the latest `istioctl` into the current folder
-using one bash command (downloding the latest version ensure that it will have the most
+using one bash command (downloading the latest version ensure that it will have the most
 complete set of analyzers):
 
 {{< tabset cookie-name="platform" >}}
 
 {{< tab name="macOS" cookie-value="macos" >}}
+
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
 {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="Linux" cookie-value="linux" >}}
+
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
 {{< /text >}}
+
 {{< /tab >}}
 
 {{< /tabset >}}
-
 
 Then, run it against your current Kubernetes cluster:
 
