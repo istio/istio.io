@@ -397,6 +397,21 @@ number_of_entries: 5
 <td>File that contains k8s validatingwebhookconfiguration yaml. Required if enable-validation is true.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--validation.tls.caCertificates &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the caBundle that signed the cert/key specified by --validation.tls.clientCertificate and --validation.tls.privateKey.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--validation.tls.clientCertificate &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 Certificate for HTTPS validation.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--validation.tls.privateKey &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 private key matching --validation.tls.clientCertificate.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>
 <td></td>
 <td>Name of the k8s validatingwebhookconfiguration  (default `istio-galley`)</td>

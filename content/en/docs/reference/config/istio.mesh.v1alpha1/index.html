@@ -1116,13 +1116,13 @@ inside a mesh and how to route to endpoints in each network. For example</p>
 <td><code>networks</code></td>
 <td><code>map&lt;string,&nbsp;<a href="#Network">Network</a>&gt;</code></td>
 <td>
-<p>REQUIRED: The set of networks inside this mesh. Each network should
+<p>The set of networks inside this mesh. Each network should
 have a unique name and information about how to infer the endpoints in
 the network as well as the gateways associated with the network.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -1150,24 +1150,24 @@ registry.</p>
 <td><code>endpoints</code></td>
 <td><code><a href="#Network-NetworkEndpoints">Network.NetworkEndpoints[]</a></code></td>
 <td>
-<p>REQUIRED: The list of endpoints in the network (obtained through the
+<p>The list of endpoints in the network (obtained through the
 constituent service registries or from CIDR ranges). All endpoints in
 the network are directly accessible to one another.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Network-gateways">
 <td><code>gateways</code></td>
 <td><code><a href="#Network-IstioNetworkGateway">Network.IstioNetworkGateway[]</a></code></td>
 <td>
-<p>REQUIRED: Set of gateways associated with the network.</p>
+<p>Set of gateways associated with the network.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -1221,11 +1221,11 @@ Yes
 <td><code>port</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>REQUIRED: The port associated with the gateway.</p>
+<p>The port associated with the gateway.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Network-IstioNetworkGateway-locality">

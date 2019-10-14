@@ -357,7 +357,7 @@ spec:
 <td><code>host</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. The name of a service from the service registry. Service
+<p>The name of a service from the service registry. Service
 names are looked up from the platform&rsquo;s service registry (e.g.,
 Kubernetes services, Consul services, etc.) and from the hosts
 declared by <a href="/docs/reference/config/networking/v1alpha3/service-entry/#ServiceEntry">ServiceEntry</a>. Traffic forwarded to
@@ -374,7 +374,7 @@ qualified domain names over short names.</em></p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Destination-subset">
@@ -498,7 +498,7 @@ aborted.</p>
 <td><code>httpStatus</code></td>
 <td><code>int32 (oneof)</code></td>
 <td>
-<p>REQUIRED. HTTP status code to use to abort the Http request.</p>
+<p>HTTP status code to use to abort the Http request.</p>
 
 </td>
 <td>
@@ -579,7 +579,7 @@ percentage of requests. If left unspecified, all request will be delayed.</p>
 <td><code>fixedDelay</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration (oneof)</a></code></td>
 <td>
-<p>REQUIRED. Add a fixed delay before forwarding the request. Format:
+<p>Add a fixed delay before forwarding the request. Format:
 1h/1m/1s/1ms. MUST be &gt;=1ms.</p>
 
 </td>
@@ -953,13 +953,13 @@ spec:
 <td><code>attempts</code></td>
 <td><code>int32</code></td>
 <td>
-<p>REQUIRED. Number of retries for a given request. The interval
+<p>Number of retries for a given request. The interval
 between retries will be determined automatically (25ms+). Actual
 number of retries attempted depends on the httpReqTimeout.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="HTTPRetry-per_try_timeout">
@@ -1308,19 +1308,19 @@ spec:
 <td><code>destination</code></td>
 <td><code><a href="#Destination">Destination</a></code></td>
 <td>
-<p>REQUIRED. Destination uniquely identifies the instances of a service
+<p>Destination uniquely identifies the instances of a service
 to which the request/connection should be forwarded to.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="HTTPRouteDestination-weight">
 <td><code>weight</code></td>
 <td><code>int32</code></td>
 <td>
-<p>REQUIRED. The proportion of traffic to be forwarded to the service
+<p>The proportion of traffic to be forwarded to the service
 version. (0-100). Sum of weights across destinations SHOULD BE == 100.
 If there is only one destination in a rule, the weight value is assumed to
 be 100.</p>
@@ -1660,19 +1660,19 @@ No
 <td><code>destination</code></td>
 <td><code><a href="#Destination">Destination</a></code></td>
 <td>
-<p>REQUIRED. Destination uniquely identifies the instances of a service
+<p>Destination uniquely identifies the instances of a service
 to which the request/connection should be forwarded to.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="RouteDestination-weight">
 <td><code>weight</code></td>
 <td><code>int32</code></td>
 <td>
-<p>REQUIRED. The proportion of traffic to be forwarded to the service
+<p>The proportion of traffic to be forwarded to the service
 version. If there is only one destination in a rule, all traffic will be
 routed to it irrespective of the weight.</p>
 
@@ -1814,14 +1814,14 @@ No
 <td><code>sniHosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED. SNI (server name indicator) to match on. Wildcard prefixes
+<p>SNI (server name indicator) to match on. Wildcard prefixes
 can be used in the SNI value, e.g., *.com will match foo.example.com
 as well as example.com. An SNI value must be a subset (i.e., fall
 within the domain) of the corresponding virtual serivce&rsquo;s hosts.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="TLSMatchAttributes-destination_subnets">
@@ -1927,14 +1927,14 @@ spec:
 <td><code>match</code></td>
 <td><code><a href="#TLSMatchAttributes">TLSMatchAttributes[]</a></code></td>
 <td>
-<p>REQUIRED. Match conditions to be satisfied for the rule to be
+<p>Match conditions to be satisfied for the rule to be
 activated. All conditions inside a single match block have AND
 semantics, while the list of match blocks have OR semantics. The rule
 is matched if any one of the match blocks succeed.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="TLSRoute-route">
@@ -1969,7 +1969,7 @@ No
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED. The destination hosts to which traffic is being sent. Could
+<p>The destination hosts to which traffic is being sent. Could
 be a DNS name with wildcard prefix or an IP address.  Depending on the
 platform, short-names can also be used instead of a FQDN (i.e. has no
 dots in the name). In such a scenario, the FQDN of the host would be
@@ -1999,7 +1999,7 @@ only for services defined via the Gateway.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="VirtualService-gateways">

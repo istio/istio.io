@@ -95,7 +95,7 @@ spec:
 <td><code>services</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Required. A list of service names.
+<p>A list of service names.
 Exact match, prefix match, and suffix match are supported for service names.
 For example, the service name &ldquo;bookstore.mtv.cluster.local&rdquo; matches
 &ldquo;bookstore.mtv.cluster.local&rdquo; (exact match), or &ldquo;bookstore*&rdquo; (prefix match),
@@ -104,7 +104,7 @@ If set to [&rdquo;*&rdquo;], it refers to all services in the namespace.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="AccessRule-paths">
@@ -364,24 +364,24 @@ No
 <td><code>kind</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The type of the role being referenced.
+<p>The type of the role being referenced.
 Currently, &ldquo;ServiceRole&rdquo; is the only supported value for &ldquo;kind&rdquo;.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="RoleRef-name">
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of the ServiceRole object being referenced.
+<p>The name of the ServiceRole object being referenced.
 The ServiceRole object must be in the same namespace as the ServiceRoleBinding object.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -405,11 +405,11 @@ No
 <td><code>rules</code></td>
 <td><code><a href="#AccessRule">AccessRule[]</a></code></td>
 <td>
-<p>Required. The set of access rules (permissions) that the role has.</p>
+<p>The set of access rules (permissions) that the role has.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -433,22 +433,22 @@ No
 <td><code>subjects</code></td>
 <td><code><a href="#Subject">Subject[]</a></code></td>
 <td>
-<p>Required. List of subjects that are assigned the ServiceRole object.</p>
+<p>List of subjects that are assigned the ServiceRole object.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="ServiceRoleBinding-roleRef">
 <td><code>roleRef</code></td>
 <td><code><a href="#RoleRef">RoleRef</a></code></td>
 <td>
-<p>Required. Reference to the ServiceRole object.</p>
+<p>Reference to the ServiceRole object.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>

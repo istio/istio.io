@@ -36,33 +36,33 @@ constructed using the instance &lsquo;RequestCountByService&rsquo;.</p>
 <td><code>handler</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. Fully qualified name of the handler to invoke.
+<p>Fully qualified name of the handler to invoke.
 Must match the <code>name</code> of a <a href="#Handler-name">Handler</a>.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Action-instances">
 <td><code>instances</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Required. Each value must match the fully qualified name of the
+<p>Each value must match the fully qualified name of the
 <a href="#Instance-name">Instance</a>s.
 Referenced instances are evaluated by resolving the attributes/literals for all the fields.
 The constructed objects are then passed to the <code>handler</code> referenced within this action.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Action-name">
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Optional. A handle to refer to the results of the action.</p>
+<p>A handle to refer to the results of the action.</p>
 
 </td>
 <td>
@@ -91,7 +91,7 @@ of an Istio deployment.</p>
 <td><code>revision</code></td>
 <td><code>string</code></td>
 <td>
-<p>Optional. The revision of this document. Assigned by server.</p>
+<p>The revision of this document. Assigned by server.</p>
 
 </td>
 <td>
@@ -102,13 +102,13 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. Name of the component producing these attributes. This can be
+<p>Name of the component producing these attributes. This can be
 the proxy (with the canonical name <code>istio-proxy</code>) or the name of an
 <code>attributes</code> kind adapter in Mixer.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="AttributeManifest-attributes">
@@ -196,7 +196,7 @@ encoding scheme will be decided later.</p>
 <td><code>description</code></td>
 <td><code>string</code></td>
 <td>
-<p>Optional. A human-readable description of the attribute&rsquo;s purpose.</p>
+<p>A human-readable description of the attribute&rsquo;s purpose.</p>
 
 </td>
 <td>
@@ -207,11 +207,11 @@ No
 <td><code>valueType</code></td>
 <td><code><a href="#ValueType">ValueType</a></code></td>
 <td>
-<p>Required. The type of data carried by this attribute.</p>
+<p>The type of data carried by this attribute.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -362,7 +362,7 @@ to an RPC error.</p>
 <td><code>code</code></td>
 <td><code><a href="#HttpStatusCode">HttpStatusCode</a></code></td>
 <td>
-<p>Optional HTTP status code. If not set, RPC error code is used.</p>
+<p>HTTP status code. If not set, RPC error code is used.</p>
 
 </td>
 <td>
@@ -384,7 +384,7 @@ No
 <td><code>headers</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>Optional HTTP response headers.</p>
+<p>HTTP response headers.</p>
 
 </td>
 <td>
@@ -563,19 +563,19 @@ spec:
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. Must be unique in the entire Mixer configuration. Used by <a href="#Action-handler">Actions</a>
+<p>Must be unique in the entire Mixer configuration. Used by <a href="#Action-handler">Actions</a>
 to refer to this handler.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Handler-compiled_adapter">
 <td><code>compiledAdapter</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of the compiled in adapter this handler instantiates. For referencing non compiled-in
+<p>The name of the compiled in adapter this handler instantiates. For referencing non compiled-in
 adapters, use the <code>adapter</code> field instead.</p>
 
 <p>The value must match the name of the available adapter Mixer is built with. An adapter&rsquo;s name is typically a
@@ -583,14 +583,14 @@ constant in its code.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Handler-adapter">
 <td><code>adapter</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of a specific adapter implementation. For referencing compiled-in
+<p>The name of a specific adapter implementation. For referencing compiled-in
 adapters, use the <code>compiled_adapter</code> field instead.</p>
 
 <p>An adapter&rsquo;s implementation name is typically a constant in its code.</p>
@@ -604,7 +604,7 @@ No
 <td><code>params</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">google.protobuf.Struct</a></code></td>
 <td>
-<p>Optional. Depends on adapter implementation. Struct representation of a
+<p>Depends on adapter implementation. Struct representation of a
 proto defined by the adapter implementation; this varies depending on the value of field <code>adapter</code>.</p>
 
 </td>
@@ -616,7 +616,7 @@ No
 <td><code>connection</code></td>
 <td><code><a href="#Connection">Connection</a></code></td>
 <td>
-<p>Optional. Information on how to connect to the out-of-process adapter.
+<p>Information on how to connect to the out-of-process adapter.
 This is used if the adapter is not compiled into Mixer binary and is running as a separate process.</p>
 
 </td>
@@ -999,35 +999,35 @@ Instances produced with this instance can be referenced by <a href="#Action">Act
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of this instance</p>
+<p>The name of this instance</p>
 
 <p>Must be unique amongst other Instances in scope. Used by <a href="#Action">Action</a> to refer
 to an instance produced by this instance.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Instance-compiled_template">
 <td><code>compiledTemplate</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of the compiled in template this instance creates instances for. For referencing non compiled-in
+<p>The name of the compiled in template this instance creates instances for. For referencing non compiled-in
 templates, use the <code>template</code> field instead.</p>
 
 <p>The value must match the name of the available template Mixer is built with.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Instance-template">
 <td><code>template</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of the template this instance creates instances for. For referencing compiled-in
+<p>The name of the template this instance creates instances for. For referencing compiled-in
 templates, use the <code>compiled_template</code> field instead.</p>
 
 <p>The value must match the name of the available template in scope.</p>
@@ -1041,19 +1041,19 @@ No
 <td><code>params</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">google.protobuf.Struct</a></code></td>
 <td>
-<p>Required. Depends on referenced template. Struct representation of a
+<p>Depends on referenced template. Struct representation of a
 proto defined by the template; this varies depending on the value of field <code>template</code>.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Instance-attribute_bindings">
 <td><code>attributeBindings</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>Optional. Defines attribute bindings to map the output of attribute-producing adapters back into
+<p>Defines attribute bindings to map the output of attribute-producing adapters back into
 the attribute space. The variable <code>output</code> refers to the output template instance produced
 by the adapter.
 The following example derives <code>source.namespace</code> from <code>source.uid</code> in the context of Kubernetes:</p>
@@ -1161,33 +1161,33 @@ TLS for connection to the backend.</p>
 <td><code>clientId</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. OAuth client id for mixer.</p>
+<p>OAuth client id for mixer.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="OAuth-client_secret">
 <td><code>clientSecret</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. The path to the file holding the client secret for oauth.</p>
+<p>The path to the file holding the client secret for oauth.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="OAuth-token_url">
 <td><code>tokenUrl</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. The Resource server&rsquo;s token endpoint URL.</p>
+<p>The Resource server&rsquo;s token endpoint URL.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="OAuth-scopes">
@@ -1244,7 +1244,7 @@ instance constructed using the &lsquo;RequestCountByService&rsquo; instance.</p>
 <td><code>match</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. Match is an attribute based predicate. When Mixer receives a
+<p>Match is an attribute based predicate. When Mixer receives a
 request it evaluates the match expression and executes all the associated <code>actions</code>
 if the match evaluates to true.</p>
 
@@ -1267,7 +1267,7 @@ No
 <td><code>actions</code></td>
 <td><code><a href="#Action">Action[]</a></code></td>
 <td>
-<p>Optional. The actions that will be executed when match evaluates to <code>true</code>.</p>
+<p>The actions that will be executed when match evaluates to <code>true</code>.</p>
 
 </td>
 <td>
@@ -1278,7 +1278,7 @@ No
 <td><code>requestHeaderOperations</code></td>
 <td><code><a href="#Rule-HeaderOperationTemplate">Rule.HeaderOperationTemplate[]</a></code></td>
 <td>
-<p>Optional. Templatized operations on the request headers using values produced by the
+<p>Templatized operations on the request headers using values produced by the
 rule actions. Require the check action result to be OK.</p>
 
 </td>
@@ -1290,7 +1290,7 @@ No
 <td><code>responseHeaderOperations</code></td>
 <td><code><a href="#Rule-HeaderOperationTemplate">Rule.HeaderOperationTemplate[]</a></code></td>
 <td>
-<p>Optional. Templatized operations on the response headers using values produced by the
+<p>Templatized operations on the response headers using values produced by the
 rule actions. Require the check action result to be OK.</p>
 
 </td>
@@ -1332,18 +1332,18 @@ adapter to optionally modify the headers.</p>
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. Header name literal value.</p>
+<p>Header name literal value.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Rule-HeaderOperationTemplate-values">
 <td><code>values</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. Header value expressions.</p>
+<p>Header value expressions.</p>
 
 </td>
 <td>
@@ -1354,7 +1354,7 @@ No
 <td><code>operation</code></td>
 <td><code><a href="#Rule-HeaderOperationTemplate-Operation">Rule.HeaderOperationTemplate.Operation</a></code></td>
 <td>
-<p>Optional. Header operation type. Default operation is to replace the value of the header by name.</p>
+<p>Header operation type. Default operation is to replace the value of the header by name.</p>
 
 </td>
 <td>
