@@ -25,23 +25,18 @@ Injection occurs by applying a template defined in the `istio-sidecar-injector` 
 
 ### Manual sidecar injection
 
-To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
+To manually inject a deployment using the in-cluster configuration, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
 
 {{< text bash >}}
 $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 {{< /text >}}
 
-By default, this will use the in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
+Alternatively, injection can be done using local copies of the configuration.
 
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.values}' > inject-values.yaml
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
-{{< /text >}}
-
-Run `kube-inject` over the input file and deploy.
-
-{{< text bash >}}
 $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
@@ -67,89 +62,85 @@ Sidecars can be automatically added to applicable Kubernetes pods using a
 While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
 {{< /tip >}}
 
-When the injection webhook is enabled, and the namespace is labeled with `istio-injection=enabled`, any new pods that are created will automatically have a sidecar added to them.
+The injection webhook will automatically add a sidecar to all pods in namespaces that are labeled with `istio-injection=enabled`.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 #### Deploying an app
 
-Deploy sleep app. Verify both deployment and pod have a single container.
+1. Deploy sleep app. Verify both deployment and pod have a single container.
 
-{{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
-$ kubectl get deployment -o wide
-NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
-sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl get deployment -o wide
+    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES       SELECTOR
+    sleep     1         1         1            1           12m       sleep        tutum/curl   app=sleep
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl get pod
-NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get pod
+    NAME                     READY     STATUS        RESTARTS   AGE
+    sleep-776b7bcdcd-7hpnk   1/1       Running       0          4
+    {{< /text >}}
 
-Label the `default` namespace with `istio-injection=enabled`
+2. Label the `default` namespace with `istio-injection=enabled`
 
-{{< text bash >}}
-$ kubectl label namespace default istio-injection=enabled
-$ kubectl get namespace -L istio-injection
-NAME           STATUS    AGE       ISTIO-INJECTION
-default        Active    1h        enabled
-istio-system   Active    1h
-kube-public    Active    1h
-kube-system    Active    1h
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection=enabled
+    $ kubectl get namespace -L istio-injection
+    NAME           STATUS    AGE       ISTIO-INJECTION
+    default        Active    1h        enabled
+    istio-system   Active    1h
+    kube-public    Active    1h
+    kube-system    Active    1h
+    {{< /text >}}
 
-Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
+3. Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has 1&#47;1 READY containers and the pod with injected sidecar has 2&#47;2 READY containers.
 
-{{< text bash >}}
-$ kubectl delete pod -l app=sleep
-$ kubectl get pod -l app=sleep
-NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
-sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete pod -l app=sleep
+    $ kubectl get pod -l app=sleep
+    NAME                     READY     STATUS        RESTARTS   AGE
+    sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
+    sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
+    {{< /text >}}
 
-View detailed state of the injected pod. You should see the injected `istio-proxy` container and corresponding volumes. Be sure to substitute the correct name for the `Running` pod below.
+4. Disable injection for the `default` namespace and verify new pods are created without the sidecar.
 
-{{< text bash >}}
-$ kubectl describe pod -l app=sleep
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection-
+    $ kubectl delete pod -l app=sleep
+    $ kubectl get pod
+    NAME                     READY     STATUS        RESTARTS   AGE
+    sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
+    sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
+    {{< /text >}}
 
-Disable injection for the `default` namespace and verify new pods are created without the sidecar.
-
-{{< text bash >}}
-$ kubectl label namespace default istio-injection-
-$ kubectl delete pod -l app=sleep
-$ kubectl get pod
-NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
-sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
-{{< /text >}}
-
-#### Understanding what happened
+#### Configuring the webhook
 
 When Kubernetes invokes the webhook, the [admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 configuration is applied. The default configuration injects the sidecar into
-pods in any namespace with the `istio-injection=enabled label`. The
-`istio-sidecar-injector` configuration map specifies the configuration for the
-injected sidecar. To change how namespaces are selected for injection, you can
+pods in any namespace with the `istio-injection=enabled label`.  To change how namespaces are selected for injection, you can
 edit the `MutatingWebhookConfiguration` with the following command:
 
 {{< text bash >}}
 $ kubectl edit mutatingwebhookconfiguration istio-sidecar-injector
 {{< /text >}}
 
-{{< warning >}}
-You should restart the sidecar injector pod(s) after modifying
-the `MutatingWebhookConfiguration`.
-{{< /warning >}}
-
 For example, you can modify the `MutatingWebhookConfiguration` to always inject
 the sidecar into every namespace, unless a label is set. Editing this
 configuration is an advanced operation. Refer to the Kubernetes documentation
 for the [`MutatingWebhookConfiguration` API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 for more information.
+
+#### Configuring the sidecar injector
+The `istio-sidecar-injector` configuration map specifies the configuration for the
+injected sidecar. You can modify the `istio-sidecar-injector` ConfigMap to get greater control over which pods to automatically inject. You can
+edit the `ConfigMap` with the following command
+
+{{< text bash >}}
+$ kubectl edit cm istio-sidecar-injector -n istio-system
+{{< /text >}}
 
 ##### _**policy**_
 
@@ -253,7 +244,7 @@ containers:
 
 when applied over a pod defined by the pod template spec in [`samples/sleep/sleep.yaml`]({{< github_tree >}}/samples/sleep/sleep.yaml)
 
-#### More control: adding exceptions
+#### Adding exceptions
 
 There are cases where users do not have control of the pod creation, for instance, when they are created by someone else. Therefore they are unable to add the annotation `sidecar.istio.io/inject` in the pod, to explicitly instruct Istio whether to install the sidecar or not.
 
