@@ -14,11 +14,13 @@ keywords: [istioctl, debugging, kubernetes]
 First, download the latest istioctl into the current folder using one bash command:
 
 Mac:
+
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
 {{< /text >}}
 
 Linux:
+
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
 {{< /text >}}
@@ -67,7 +69,7 @@ There are two ways you can help us.
 
 ### The easy way: just describe the scenario to us
 
-Just open an issue on https://github.com/istio/istio describing your scenario. E.g. something like:
+Just open an issue [on the Istio repo](https://github.com/istio/istio/issues) describing your scenario. E.g. something like:
 
 - Look at all the virtual services
 - For each, look at their list of gateways
@@ -79,7 +81,7 @@ We already have an analyzer for this specific scenario, so this is just an examp
 
 You should still start with a GitHub issue as above, but then you can look into writing the new analyzer yourself!
 
-Please head over to https://github.com/istio/istio/tree/master/galley/pkg/config/analysis to get started.
+Please head over to [this page](https://github.com/istio/istio/blob/master/galley/pkg/config/analysis/README.md) to get started.
 
 ## Q&A
 
