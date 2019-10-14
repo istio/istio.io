@@ -9,9 +9,9 @@ keywords: [istioctl, debugging, kubernetes]
 
 ## Getting started in under a minute
 
-‘Istioctl analyze’ is a powerful Istio diagnostic command that you can get started with in no time, and on any cluster.
+`Istioctl analyze` is a powerful Istio diagnostic command that you can get started with in no time, and on any cluster.
 
-First, download the latest istioctl into the current folder using one bash command:
+First, download the latest `istioctl` into the current folder using one bash command:
 
 Mac:
 
@@ -43,7 +43,7 @@ Notes: the ‘x’ in the command is because it’s currently ‘eXperimental’
 
 ## Analyzing live clusters, local files, or both
 
-The scenario in the ‘getting started’ section is doing analysis on live cluster. But the tool also supports performing analysis of a set of local yaml config files, or on a combination of local files and a live cluster.
+The scenario in the ‘getting started’ section is doing analysis on live cluster. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
 
 {{< text bash >}}
 $
@@ -91,7 +91,7 @@ One great thing about it is that it works with any version of Istio, and doesn�
 
 In some cases, some of the analyzers will not apply if they are not meaningful with your Istio version. But the analysis will still happen with all analyzers that do apply.
 
-Note that while the analyze command works across Istio versions, that is not the case for all other istioctl commands. So it is suggested that you download the latest version of istioctl in a separate folder for analysis purpose, while you use the one that came with your specific Istio version to run other commands.
+Note that while the analyze command works across Istio versions, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest version of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio version to run other commands.
 
 ### What analyzers are supported today?
 
@@ -99,8 +99,8 @@ We need to better document the list, but until then you can see all the analyzer
 
 ### Can it do anything bad to my cluster?
 
-The tool only retrieves the Istio/Kubernetes configuration, so it is completely readonly and will never affect the state of a cluster.
+The tool only retrieves the Istio/Kubernetes configuration, so it is completely read-only and will never affect the state of a cluster.
 
-### What about analysis that goes beyond config?
+### What about analysis that goes beyond configuration?
 
-Today, the analysis is purely based on k8s configuration. In the future, we’d like to expand beyond that. E.g. We could allow analyzers to also look at logs to generate recommendations.
+Today, the analysis is purely based on Kubernetes configuration. In the future, we’d like to expand beyond that. E.g. We could allow analyzers to also look at logs to generate recommendations.
