@@ -313,7 +313,7 @@ No
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED: One or more service hosts exposed by the listener
+<p>One or more service hosts exposed by the listener
 in <code>namespace/dnsName</code> format. Services in the specified namespace
 matching <code>dnsName</code> will be exposed.
 The corresponding service can be a service in the service registry
@@ -352,7 +352,7 @@ in a future Istio release.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -377,11 +377,11 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <td><code>port</code></td>
 <td><code><a href="/docs/reference/config/networking/v1alpha3/gateway.html#Port">Port</a></code></td>
 <td>
-<p>REQUIRED. The port associated with the listener.</p>
+<p>The port associated with the listener.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="IstioIngressListener-bind">
@@ -416,7 +416,7 @@ No
 <td><code>defaultEndpoint</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED: The loopback IP endpoint or Unix domain socket to which
+<p>The loopback IP endpoint or Unix domain socket to which
 traffic should be forwarded to. This configuration can be used to
 redirect traffic arriving at the bind IP:Port on the sidecar to a localhost:port
 or Unix domain socket where the application workload instance is listening for
@@ -424,7 +424,7 @@ connections. Format should be 127.0.0.1:PORT or <code>unix:///path/to/socket</co
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -542,13 +542,13 @@ No
 <td><code>egress</code></td>
 <td><code><a href="#IstioEgressListener">IstioEgressListener[]</a></code></td>
 <td>
-<p>REQUIRED. Egress specifies the configuration of the sidecar for processing
+<p>Egress specifies the configuration of the sidecar for processing
 outbound traffic from the attached workload instance to other services in the
 mesh.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Sidecar-outbound_traffic_policy">
@@ -593,14 +593,14 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <td><code>labels</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>REQUIRED: One or more labels that indicate a specific set of pods/VMs
+<p>One or more labels that indicate a specific set of pods/VMs
 on which this sidecar configuration should be applied. The scope of
 label search is restricted to the configuration namespace in which the
 the resource is present.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>

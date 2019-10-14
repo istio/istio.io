@@ -327,7 +327,7 @@ service registry.</p>
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED. The hosts associated with the ServiceEntry. Could be a DNS
+<p>The hosts associated with the ServiceEntry. Could be a DNS
 name with wildcard prefix.</p>
 
 <ol>
@@ -343,7 +343,7 @@ of the endpoint to route traffic to.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="ServiceEntry-addresses">
@@ -374,13 +374,13 @@ No
 <td><code>ports</code></td>
 <td><code><a href="/docs/reference/config/networking/v1alpha3/gateway.html#Port">Port[]</a></code></td>
 <td>
-<p>REQUIRED. The ports associated with the external service. If the
+<p>The ports associated with the external service. If the
 Endpoints are Unix domain socket addresses, there must be exactly one
 port.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="ServiceEntry-location">
@@ -399,14 +399,14 @@ No
 <td><code>resolution</code></td>
 <td><code><a href="#ServiceEntry-Resolution">ServiceEntry.Resolution</a></code></td>
 <td>
-<p>REQUIRED: Service discovery mode for the hosts. Care must be taken
+<p>Service discovery mode for the hosts. Care must be taken
 when setting the resolution mode to NONE for a TCP port without
 accompanying IP addresses. In such cases, traffic to any IP on
 said port will be allowed (i.e. 0.0.0.0:<port>).</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="ServiceEntry-endpoints">
@@ -486,14 +486,14 @@ the mesh service.</p>
 <td><code>address</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED: Address associated with the network endpoint without the
+<p>Address associated with the network endpoint without the
 port.  Domain names can be used if and only if the resolution is set
 to DNS, and must be fully-qualified without wildcards. Use the form
 unix:///absolute/path/to/socket for Unix domain socket endpoints.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="ServiceEntry-Endpoint-ports">

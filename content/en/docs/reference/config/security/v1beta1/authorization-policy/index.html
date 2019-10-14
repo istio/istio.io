@@ -191,23 +191,23 @@ No
 <td><code>key</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of an Istio attribute.
+<p>The name of an Istio attribute.
 See the <a href="/docs/reference/config/">full list of supported attributes</a>.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Condition-values">
 <td><code>values</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Required. The allowed values for the attribute.</p>
+<p>The allowed values for the attribute.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -499,13 +499,13 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <td><code>matchLabels</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>REQUIRED: One or more labels that indicate a specific set of pods/VMs
+<p>One or more labels that indicate a specific set of pods/VMs
 on which a policy should be applied. The scope of label search is restricted to
 the configuration namespace in which the resource is present.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
