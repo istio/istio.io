@@ -57,4 +57,7 @@ archive:
 update_ref_docs:
 	@scripts/grab_reference_docs.sh
 
+update_operator_yamls:
+	@scripts/grab_operator_yamls.sh
+
 include common/Makefile.common.mk
