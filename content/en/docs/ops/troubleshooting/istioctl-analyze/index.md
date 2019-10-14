@@ -15,7 +15,7 @@ apply changes to a cluster.
 ## Getting started in under a minute
 
 Getting started is very simple. First, download the latest `istioctl` into the current folder
-using one bash command (downloading the latest version ensure that it will have the most
+using one bash command (downloading the latest release ensure that it will have the most
 complete set of analyzers):
 
 {{< tabset cookie-name="platform" >}}
@@ -58,53 +58,51 @@ Note that ‘x’ in the command is because this is currently an experimental fe
 
 The scenario in the ‘getting started’ section is doing analysis on live cluster. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
 
+Analyze a specific set of local files:
+
 {{< text bash >}}
-$
-# Analyze a specific set of local files
 $ ./istioctl x analyze a.yaml b.yaml
+{{< /text >}}
 
-# Analyze all yaml files in the current folder
+Analyze all yaml files in the current folder:
+
+{{< text bash >}}
 $ ./istioctl x analyze *.yaml
+{{< /text >}}
 
-# Analyze the current live cluster, simulating the effect of applying additional yaml files
-$ ./istioctl x analyze -k a.yaml b.yaml
+Analyze all yaml files in the current folder:
+
+{{< text bash >}}
+$ ./istioctl x analyze *.yaml
 {{< /text >}}
 
 You can run `./istioctl x analyze --help` to see the full set of options.
 
-## Helping us make improve this tool
+## Helping us improve this tool
 
-This tool works by running a set of analyzers that can each detect a certain set of problems. While we’re working hard to expand the list of analyzers, we don’t necessarily have awareness of all the areas of Istio that can benefit from it.
+We're constantly adding more analysis capability and we'd love your help in identifying more use cases.
+If you've discovered some Istio configuration "gotcha", some tricky situation that caused you some
+problems, open an issue and let us know. We might be able to automatically flag this problem so that
+others can discover and avoid the problem in the first place.
 
-This is where you come in! If you know of a scenario that could be automatically detected by looking at the cluster configuration, we should write an analyzer for it.
-
-There are two ways you can help us.
-
-### The easy way: just describe the scenario to us
-
-Just open an issue [on the Istio repo](https://github.com/istio/istio/issues) describing your scenario. E.g. something like:
+To do this, [open an issue](https://github.com/istio/istio/issues) describing your scenario. For example:
 
 - Look at all the virtual services
 - For each, look at their list of gateways
 - If some of the gateways don’t exist, produce an error
 
-We already have an analyzer for this specific scenario, so this is just an example to illustrate what we’re looking at.
-
-### The harder (but more rewarding!) way: send a PR for a new analyzer
-
-You should still start with a GitHub issue as above, but then you can look into writing the new analyzer yourself!
-
-Please head over to [this page]({{<github_blob>}}/galley/pkg/config/analysis/README.md) to get started.
+We already have an analyzer for this specific scenario, so this is just an example to illustrate what
+the kind of information you should provide.
 
 ## Q&A
 
-### What Istio version does this tool target?
+### What Istio release does this tool target?
 
-One great thing about it is that it works with any version of Istio, and doesn’t require anything to be installed in the cluster.
+Analysis works with any version of Istio, and doesn’t require anything to be installed in the cluster. You just need to get a recent version of `istioctl`.
 
-In some cases, some of the analyzers will not apply if they are not meaningful with your Istio version. But the analysis will still happen with all analyzers that do apply.
+In some cases, some of the analyzers will not apply if they are not meaningful with your Istio release. But the analysis will still happen with all analyzers that do apply.
 
-Note that while the `analyze` command works across Istio versions, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest version of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio version to run other commands.
+Note that while the `analyze` command works across Istio releases, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest release of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio release to run other commands.
 
 ### What analyzers are supported today?
 
