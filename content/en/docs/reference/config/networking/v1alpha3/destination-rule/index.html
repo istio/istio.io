@@ -389,7 +389,7 @@ after routing has occurred.</p>
 <td><code>host</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. The name of a service from the service registry. Service
+<p>The name of a service from the service registry. Service
 names are looked up from the platform&rsquo;s service registry (e.g.,
 Kubernetes services, Consul services, etc.) and from the hosts
 declared by <a href="/docs/reference/config/networking/v1alpha3/service-entry/#ServiceEntry">ServiceEntries</a>. Rules defined for
@@ -408,7 +408,7 @@ qualified domain names over short names.</em></p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="DestinationRule-traffic_policy">
@@ -625,11 +625,11 @@ be generated.</p>
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. Name of the cookie.</p>
+<p>Name of the cookie.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-path">
@@ -647,11 +647,11 @@ No
 <td><code>ttl</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
 <td>
-<p>REQUIRED. Lifetime of the cookie.</p>
+<p>Lifetime of the cookie.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -881,12 +881,12 @@ can be used to identify a specific SNI host corresponding to the named subset.</
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. Name of the subset. The service name and the subset name can
+<p>Name of the subset. The service name and the subset name can
 be used for traffic splitting in a route rule.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Subset-labels">
@@ -983,12 +983,12 @@ spec:
 <td><code>mode</code></td>
 <td><code><a href="#TLSSettings-TLSmode">TLSSettings.TLSmode</a></code></td>
 <td>
-<p>REQUIRED: Indicates whether connections to this port should be secured
+<p>Indicates whether connections to this port should be secured
 using TLS. The value of this field determines how TLS is enforced.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="TLSSettings-client_certificate">

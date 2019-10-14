@@ -271,24 +271,24 @@ spec:
 <td><code>services</code></td>
 <td><code><a href="#IstioService">IstioService[]</a></code></td>
 <td>
-<p>REQUIRED. One or more services to map the listed HTTPAPISpec onto.</p>
+<p>One or more services to map the listed HTTPAPISpec onto.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="HTTPAPISpecBinding-api_specs">
 <td><code>apiSpecs</code></td>
 <td><code><a href="#HTTPAPISpecReference">HTTPAPISpecReference[]</a></code></td>
 <td>
-<p>REQUIRED. One or more HTTPAPISpec references that should be mapped to
+<p>One or more HTTPAPISpec references that should be mapped to
 the specified service(s). The aggregate collection of match
 conditions defined in the HTTPAPISpecs should not overlap.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -410,12 +410,12 @@ HTTPAPISpecReference for service <code>foo</code> in namespace <code>bar</code>.
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. The short name of the HTTPAPISpec. This is the resource
+<p>The short name of the HTTPAPISpec. This is the resource
 name defined by the metadata name field.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="HTTPAPISpecReference-namespace">
@@ -820,24 +820,24 @@ IstioService.</p>
 <td><code>services</code></td>
 <td><code><a href="#IstioService">IstioService[]</a></code></td>
 <td>
-<p>REQUIRED. One or more services to map the listed QuotaSpec onto.</p>
+<p>One or more services to map the listed QuotaSpec onto.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="QuotaSpecBinding-quota_specs">
 <td><code>quotaSpecs</code></td>
 <td><code><a href="#QuotaSpecBinding-QuotaSpecReference">QuotaSpecBinding.QuotaSpecReference[]</a></code></td>
 <td>
-<p>REQUIRED. One or more QuotaSpec references that should be mapped to
+<p>One or more QuotaSpec references that should be mapped to
 the specified service(s). The aggregate collection of match
 conditions defined in the QuotaSpecs should not overlap.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -862,12 +862,12 @@ Binding.</p>
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED. The short name of the QuotaSpec. This is the resource
+<p>The short name of the QuotaSpec. This is the resource
 name defined by the metadata name field.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="QuotaSpecBinding-QuotaSpecReference-namespace">

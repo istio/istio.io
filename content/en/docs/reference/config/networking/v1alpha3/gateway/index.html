@@ -194,18 +194,18 @@ receiving incoming or outgoing HTTP/TCP connections.</p>
 <td><code>servers</code></td>
 <td><code><a href="#Server">Server[]</a></code></td>
 <td>
-<p>REQUIRED: A list of server specifications.</p>
+<p>A list of server specifications.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Gateway-selector">
 <td><code>selector</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>REQUIRED: One or more labels that indicate a specific set of pods/VMs
+<p>One or more labels that indicate a specific set of pods/VMs
 on which this gateway configuration should be applied. The scope of
 label search is restricted to the configuration namespace in which the
 the resource is present. In other words, the Gateway resource must
@@ -213,7 +213,7 @@ reside in the same namespace as the gateway workload instance.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -237,25 +237,25 @@ No
 <td><code>number</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>REQUIRED: A valid non-negative integer port number.</p>
+<p>A valid non-negative integer port number.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Port-protocol">
 <td><code>protocol</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED: The protocol exposed on the port.
+<p>The protocol exposed on the port.
 MUST BE one of HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS.
 TLS implies the connection will be routed based on the SNI header to
 the destination without terminating the TLS connection.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Port-name">
@@ -347,19 +347,19 @@ spec:
 <td><code>port</code></td>
 <td><code><a href="#Port">Port</a></code></td>
 <td>
-<p>REQUIRED: The Port on which the proxy should listen for incoming
+<p>The Port on which the proxy should listen for incoming
 connections.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Server-hosts">
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED. One or more hosts exposed by this gateway.
+<p>One or more hosts exposed by this gateway.
 While typically applicable to
 HTTP services, it can also be used for TCP services using TLS with SNI.
 A host is specified as a <code>dnsName</code> with an optional <code>namespace/</code> prefix.
@@ -391,7 +391,7 @@ available. Refer to the <code>exportTo</code> setting in <code>VirtualService</c
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Server-tls">
