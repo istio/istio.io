@@ -7,23 +7,33 @@ keywords: [istioctl, debugging, kubernetes]
 
 {{< boilerplate experimental-feature-warning >}}
 
+`istioctl analyze` is a powerful Istio diagnostic tool that can detect potential issues with your
+Istio configuration. It can run against a live cluster or a set of local configuration files.
+It can also run against a combination of the two, allowing you to catch problems before you
+apply changes to a cluster.
+
 ## Getting started in under a minute
 
-`Istioctl analyze` is a powerful Istio diagnostic command that you can get started with in no time, and on any cluster.
+Getting started is very simple. First, download the latest `istioctl` into the current folder
+using one bash command (downloding the latest version ensure that it will have the most
+complete set of analyzers):
 
-First, download the latest `istioctl` into the current folder using one bash command:
+{{< tabset cookie-name="platform" >}}
 
-Mac:
-
+{{< tab name="macOS" cookie-value="macos" >}}
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
 {{< /text >}}
+{{< /tab >}}
 
-Linux:
-
+{{< tab name="Linux" cookie-value="linux" >}}
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
 {{< /text >}}
+{{< /tab >}}
+
+{{< /tabset >}}
+
 
 Then, run it against your current Kubernetes cluster:
 
@@ -39,7 +49,7 @@ For example, if you forgot to enable Istio injection (very common issue), you wo
 Warn [IST0102](Namespace/default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
-Notes: the ‘x’ in the command is because it’s currently ‘eXperimental’. It will eventually just be `istioctl analyze`.
+Note that ‘x’ in the command is because this is currently an experimental feature.
 
 ## Analyzing live clusters, local files, or both
 
@@ -91,16 +101,16 @@ One great thing about it is that it works with any version of Istio, and doesn�
 
 In some cases, some of the analyzers will not apply if they are not meaningful with your Istio version. But the analysis will still happen with all analyzers that do apply.
 
-Note that while the analyze command works across Istio versions, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest version of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio version to run other commands.
+Note that while the `analyze` command works across Istio versions, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest version of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio version to run other commands.
 
 ### What analyzers are supported today?
 
-We need to better document the list, but until then you can see all the analyzers in the Istio sources.
+We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
 
-### Can it do anything bad to my cluster?
+### Can analysis do anything harmful to my cluster?
 
-The tool only retrieves the Istio/Kubernetes configuration, so it is completely read-only and will never affect the state of a cluster.
+Analysis never changes configuration state. It is a completely read-only operation and so will never alter the state of a cluster.
 
 ### What about analysis that goes beyond configuration?
 
-Today, the analysis is purely based on Kubernetes configuration. In the future, we’d like to expand beyond that. E.g. We could allow analyzers to also look at logs to generate recommendations.
+Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
