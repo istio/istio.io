@@ -15,7 +15,7 @@ apply changes to a cluster.
 ## Getting started in under a minute
 
 Getting started is very simple. First, download the latest `istioctl` into the current folder
-using one bash command (downloading the latest release ensure that it will have the most
+using one command (downloading the latest release ensure that it will have the most
 complete set of analyzers):
 
 {{< tabset cookie-name="platform" >}}
