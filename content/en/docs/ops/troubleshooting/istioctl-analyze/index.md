@@ -81,7 +81,7 @@ We already have an analyzer for this specific scenario, so this is just an examp
 
 You should still start with a GitHub issue as above, but then you can look into writing the new analyzer yourself!
 
-Please head over to [this page](https://github.com/istio/istio/blob/master/galley/pkg/config/analysis/README.md) to get started.
+Please head over to [this page]({{<github_blob>}}/galley/pkg/config/analysis/README.md) to get started.
 
 ## Q&A
 
