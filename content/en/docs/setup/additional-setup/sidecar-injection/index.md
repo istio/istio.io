@@ -171,7 +171,7 @@ value `false` to the pod template spec to override the default and disable injec
 The following example uses the `sidecar.istio.io/inject` annotation to disable sidecar injection.
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored
