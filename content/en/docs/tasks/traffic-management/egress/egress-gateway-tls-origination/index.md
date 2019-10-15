@@ -537,7 +537,7 @@ to hold the configuration of the NGINX server:
       selector:
         app: sleep
     ---
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: sleep
