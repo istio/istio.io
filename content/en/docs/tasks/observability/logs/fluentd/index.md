@@ -94,7 +94,7 @@ spec:
     app: elasticsearch
 ---
 # Elasticsearch Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch
@@ -157,7 +157,7 @@ spec:
     app: fluentd-es
 ---
 # Fluentd Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fluentd-es
@@ -242,7 +242,7 @@ spec:
     app: kibana
 ---
 # Kibana Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana

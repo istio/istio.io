@@ -124,7 +124,7 @@ The configuration changes above (by Helm or by the configuration map) effect all
 Rather than install Istio with different Helm option, you can annotate Pod with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`.
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: liveness-http
