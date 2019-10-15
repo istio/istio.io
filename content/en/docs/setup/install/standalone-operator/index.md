@@ -1,5 +1,5 @@
 ---
-title: Standalone Operator Quick Start Evaluation Install
+title: Standalone Operator Quick Start Evaluation Install [Experimental]
 description: Instructions to install Istio in a Kubernetes cluster for evaluation.
 weight: 11
 keywords: [kubernetes, operator]
