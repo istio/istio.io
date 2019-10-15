@@ -1,9 +1,10 @@
 ---
-title: 1.3 Upgrade Notice
+title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.3.
-weight: 5
+weight: 20
 aliases:
     - /docs/setup/kubernetes/upgrade/notice/
+    - /docs/setup/upgrade/notice
 ---
 
 This page describes changes you need to be aware of when upgrading from
@@ -11,9 +12,6 @@ Istio 1.2 to 1.3.  Here, we detail cases where we intentionally broke backwards
 compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.2.
-
-For an overview of new features introduced with Istio 1.3, please refer
-to the [1.3 release notes](/news/2019/announcing-1.3/).
 
 ## Installation and upgrade
 

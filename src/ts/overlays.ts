@@ -144,7 +144,8 @@ function handleOverlays(): void {
         body.innerHTML =
             "<p>" + downloadButton.dataset.updateadvice + "</p>" +
             "<a class='btn wide' href='" + downloadButton.dataset.updatehref + "'>" + downloadButton.dataset.updatebutton + "</a>" +
-            "<a class='btn wide' target='_blank' rel='noopener' href='" + downloadButton.dataset.downloadhref + "'>" + downloadButton.innerText + "</a>";
+            "<a class='btn wide' target='_blank' rel='noopener' href='" + downloadButton.dataset.downloadhref + "'>" +
+            downloadButton.dataset.downloadbuttontext + "</a>";
 
         const arrow = document.createElement("div");
         arrow.className = "arrow";
