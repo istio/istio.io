@@ -1,7 +1,7 @@
 ---
 title: Component Introspection
 description: Describes how to use ControlZ to get insight into individual running components.
-weight: 98
+weight: 60
 keywords: [ops]
 aliases:
     - /help/ops/controlz

@@ -1,7 +1,7 @@
 ---
-title: Missing Metrics
+title: Diagnose Missing Metrics
 description: Diagnose problems where metrics are not being collected.
-weight: 29
+weight: 50
 aliases:
     - /help/ops/telemetry/missing-metrics
     - /help/ops/troubleshooting/missing-metrics

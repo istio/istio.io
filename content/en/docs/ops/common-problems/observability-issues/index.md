@@ -1,10 +1,12 @@
 ---
-title: Missing Zipkin Traces
-description: Fix missing traces in Zipkin.
-weight: 90
+title: Observability Problems 
+description: Dealing with telemetry collection issues.
+weight: 30
 aliases:
-    - /help/ops/troubleshooting/missing-traces
+    - /ops/troubleshooting/grafana
+    - /ops/troubleshooting/missing-traces
 ---
+
 ## No traces appearing in Zipkin when running Istio locally on Mac
 
 Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
@@ -27,3 +29,15 @@ Thu Jun 15 02:25:42 UTC 2017
 {{< /text >}}
 
 To fix the problem, you'll need to shutdown and then restart Docker before reinstalling Istio.
+
+## Missing Grafana Output
+
+If you're unable to get Grafana output when connecting from a local web client to Istio remotely hosted, you
+should validate the client and server date and time match.
+
+The time of the web client (e.g. Chrome) affects the output from Grafana. A simple solution
+to this problem is to verify a time synchronization service is running correctly within the
+Kubernetes cluster and the web client machine also is correctly using a time synchronization
+service. Some common time synchronization systems are NTP and Chrony. This is especially
+problematic in engineering labs with firewalls. In these scenarios, NTP may not be configured
+properly to point at the lab-based NTP services.

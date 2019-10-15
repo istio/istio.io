@@ -1,10 +1,6 @@
 ---
 title: Troubleshooting
-description: Describes how to identify and resolve common problems in Istio.
-weight: 50
+description: Tools and techniques to help troubleshoot an Istio mesh.
+weight: 20
 keywords: [ops]
-aliases:
-    - /help/ops/troubleshooting
-    - /help/ops/traffic-management/troubleshooting
-    - /help/ops/setup
 ---

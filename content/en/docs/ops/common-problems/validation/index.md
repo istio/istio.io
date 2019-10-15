@@ -1,7 +1,7 @@
 ---
 title: Galley Configuration Problems
 description: Describes how to resolve Galley configuration problems.
-weight: 20
+weight: 50
 aliases:
     - /help/ops/setup/validation
     - /help/ops/troubleshooting/validation

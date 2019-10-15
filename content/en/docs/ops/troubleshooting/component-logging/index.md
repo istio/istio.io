@@ -1,7 +1,7 @@
 ---
 title: Component Logging
 description: Describes how to use component-level logging to get insights into a running component's behavior.
-weight: 97
+weight: 70
 keywords: [ops]
 aliases:
     - /help/ops/component-logging

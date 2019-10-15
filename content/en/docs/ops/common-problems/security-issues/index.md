@@ -1,7 +1,12 @@
 ---
 title: Security Problems 
 description: Tools and techniques to address common Istio authentication, authorization, and general security-related problems.
-weight: 5
+weight: 20
+keywords: [security,citadel]
+aliases:
+    - /help/ops/security/repairing-citadel
+    - /help/ops/troubleshooting/repairing-citadel
+    - /ops/troubleshooting/repairing-citadel
 ---
 
 ## End-user Authentication Fails
@@ -524,3 +529,53 @@ If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](
 second ensure that [keys and certificates are being delivered](/docs/ops/troubleshooting/security-issues/) to sidecars properly.
 
 If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authn-policy/) is applied and the right destination rules are in place.
+
+## Citadel is not behaving properly
+
+{{< warning >}}
+Citadel does not support multiple instances. Running multiple Citadel instances
+may introduce race conditions and lead to system outages.
+{{< /warning >}}
+
+{{< warning >}}
+Workloads with new Kubernetes service accounts can not be started when Citadel is
+disabled for maintenance since they can't get their certificates generated.
+{{< /warning >}}
+
+Citadel is not a critical data plane component. The default workload certificate lifetime is 3
+months. Certificates will be rotated by Citadel before they expire. If Citadel is disabled for
+short maintenance periods, existing mutual TLS traffic will not be affected.
+
+If you suspect Citadel isn't working properly, verify the status of the `istio-citadel` pod:
+
+{{< text bash >}}
+$ kubectl get pod -l istio=citadel -n istio-system
+NAME                                     READY     STATUS   RESTARTS   AGE
+istio-citadel-ff5696f6f-ht4gq            1/1       Running  0          25d
+{{< /text >}}
+
+If the `istio-citadel` pod doesn't exist, try to re-deploy the pod.
+
+If the `istio-citadel` pod is present but its status is not `Running`, run the commands below to get more
+debugging information and check if there are any errors:
+
+{{< text bash >}}
+$ kubectl logs -l istio=citadel -n istio-system
+$ kubectl describe pod -l istio=citadel -n istio-system
+{{< /text >}}
+
+If you want to check a workload (with `default` service account and `default` namespace)
+certificate's lifetime:
+
+{{< text bash >}}
+$ kubectl get secret -o json istio.default -n default | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -noout -text | grep "Not After" -C 1
+  Not Before: Jun  1 18:23:30 2019 GMT
+  Not After : Aug 30 18:23:30 2019 GMT
+Subject:
+{{< /text >}}
+
+{{< tip >}}
+Remember to replace `istio.default` and `-n default` with `istio.YourServiceAccount` and
+`-n YourNamespace` for other workloads. If the certificate is expired, Citadel did not
+update the secret properly. Check Citadel logs for more information.
+{{< /tip >}}

@@ -1,7 +1,7 @@
 ---
 title: Health Checking of Istio Services
 description: Shows how to do health checking for Istio services.
-weight: 11
+weight: 60
 aliases:
   - /docs/tasks/traffic-management/app-health-check/
   - /docs/ops/security/health-checks-and-mtls/
@@ -17,7 +17,7 @@ offer three different options:
 1. TCP request
 1. HTTP request
 
-This task shows how to use these approaches in Istio with mutual TLS is enabled.
+This guide shows how to use these approaches in Istio with mutual TLS enabled.
 
 Command and TCP type probes work with Istio regardless of whether or not mutual TLS is enabled. The HTTP request approach requires different Istio configuration with
 mutual TLS enabled.

@@ -1,7 +1,7 @@
 ---
-title: Using the istioctl command-line tool
+title: Using the Istioctl Command-line Tool
 description: Istio includes a supplemental tool that provides debugging and diagnosis for Istio service mesh deployments.
-weight: 1
+weight: 10
 keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
     - /help/ops/component-debugging
