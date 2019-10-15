@@ -3,7 +3,7 @@ title: Announcing Istio 0.4
 description: Istio 0.4 announcement.
 publishdate: 2017-12-18
 attribution: The Istio Team
-release: 0.3
+release: 0.4.0
 aliases:
     - /about/notes/older/0.4
     - /docs/welcome/notes/0.4.html

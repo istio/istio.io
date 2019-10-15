@@ -80,7 +80,7 @@ spec:
   selector:
     app: helloworld
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld
@@ -100,7 +100,7 @@ spec:
         ports:
         - containerPort: 5000
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:

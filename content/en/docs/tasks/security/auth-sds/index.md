@@ -104,7 +104,7 @@ To enable the pod security policy, perform the following steps:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: policy/v1beta1
     kind: PodSecurityPolicy
     metadata:
       name: istio-nodeagent
@@ -164,7 +164,7 @@ To enable the pod security policy, perform the following steps:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: policy/v1beta1
     kind: PodSecurityPolicy
     metadata:
       name: istio-sds-uds
@@ -249,7 +249,7 @@ To enable the pod security policy, perform the following steps:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: normal
@@ -281,7 +281,7 @@ To enable the pod security policy, perform the following steps:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: malicious

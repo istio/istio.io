@@ -29,7 +29,7 @@ metadata:
     app: istio-galley
   name: istio-galley
   ownerReferences:
-  - apiVersion: extensions/v1beta1
+  - apiVersion: apps/v1
     blockOwnerDeletion: true
     controller: true
     kind: Deployment

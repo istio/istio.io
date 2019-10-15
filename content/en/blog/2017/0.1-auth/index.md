@@ -7,6 +7,7 @@ attribution: The Istio Team
 aliases:
     - /blog/0.1-auth.html
     - /blog/istio-auth-for-microservices.html
+target_release: 0.1
 ---
 
 Conventional network security approaches fail to address security threats to distributed applications deployed in dynamic production environments. Today, we describe how Istio Auth enables enterprises to transform their security posture from just protecting the edge to consistently securing all inter-service communications deep within their applications. With Istio Auth, developers and operators can protect services with sensitive data against unauthorized insider access and they can achieve this without any changes to the application code!

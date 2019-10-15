@@ -5,6 +5,7 @@ subtitle: Custom ingress gateway
 publishdate: 2019-01-10
 keywords: [ingress,traffic-management]
 attribution: Julien Senon
+target_release: 1.0
 ---
 
 This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/networking/v1alpha3/gateway/) with automatic provisioning of certificates based on cert-manager.

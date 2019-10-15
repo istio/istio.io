@@ -5,6 +5,12 @@
 {{ $top := .top }}
 {{ $labelledby := .labelledby }}
 
+{{ if $parent.Params.list_by_publishdate }}
+    {{ $pages = sort $pages ".Params.publishdate" "desc" }}
+{{ else }}
+    {{ $pages = sort $pages ".Params.weight" "asc" }}
+{{ end }}
+
 {{ $leafSection := true }}
 {{ range $pages }}
     {{ if eq .Parent $parent }}

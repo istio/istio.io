@@ -64,7 +64,7 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: squid

@@ -5,6 +5,7 @@ publishdate: 2018-07-30
 subtitle:
 attribution: Dinesh Subhraveti (AppOrbit and Columbia University)
 keywords: [appswitch,performance]
+target_release: 1.0
 ---
 
 {{< quote >}}

@@ -1,97 +1,28 @@
 ---
-title: Announcing Istio 1.1
-subtitle: Major Update
-description: Istio 1.1 release announcement.
-publishdate: 2019-03-19
-attribution: The Istio Team
-release: 1.1.0
+title: Change Notes
+description: Istio 1.1 release notes.
+weight: 10
 aliases:
     - /about/notes/1.1
-    - /blog/2019/announcing-1.1
 ---
 
-We are pleased to announce the release of Istio 1.1!
-
-{{< relnote >}}
-
-Since we released 1.0 back in July, we’ve done a lot of work to help people get
-into production. Not surprisingly, we had to do some [patch releases](/news)
-(6 so far!), but we’ve also been hard at work adding new features to the
-product.
-
-The theme for 1.1 is Enterprise Ready. We’ve been very pleased to see more and
-more companies using Istio in production, but as some larger companies tried to
-adopt Istio they hit some limits.
-
-One of our prime areas of focus has been [performance and scalability](/docs/concepts/performance-and-scalability/).
-As people moved into production with larger clusters running more services at
-higher volume, they hit some scaling and performance issues. The
-[sidecars](/docs/concepts/traffic-management/#sidecars) took too many resources
-and added too much latency. The control plane (especially
-[Pilot](/docs/concepts/architecture/#pilot)) was overly
-resource hungry.
-
-We’ve done a lot of work to make both the data plane and the control plane more
-efficient. You can find the details of our 1.1 performance testing and the
-results in our updated [performance ans scalability concept](/docs/concepts/performance-and-scalability/).
-
-We’ve done work around namespace isolation as well. This lets you use
-Kubernetes namespaces to enforce boundaries of control, and ensures that your
-teams cannot interfere with each other.
-
-We have also improved the [multicluster capabilities and usability](/docs/concepts/deployment-models/).
-We listened to the community and improved defaults for traffic control and
-policy. We introduced a new component called
-[Galley](/docs/concepts/architecture/#galley). Galley validates that sweet,
-sweet YAML, reducing the chance of configuration errors. Galley will also be
-instrumental in [multicluster setups](/docs/setup/install/multicluster/),
-gathering service discovery information from each Kubernetes cluster. We are
-also supporting additional multicluster topologies including different
-[control plane models](/docs/concepts/deployment-models/#control-plane-models)
-topologies without requiring a flat network.
-
-There is lots more -- see the [release notes](#release-notes) for complete
-details.
-
-There is more going on in the project as well. We know that Istio has a lot of
-moving parts and can be a lot to take on. To help address that, we recently
-formed a [Usability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings)
-(feel free to join). There is also a lot happening in the [Community
-Meeting](https://github.com/istio/community#community-meeting) (Thursdays at
-`11 a.m.`) and in the [Working
-Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md). And
-if you haven’t yet joined the conversation at
-[discuss.istio.io](https://discuss.istio.io), head over, log in with your
-GitHub credentials and join us!
-
-We are grateful to everyone who has worked hard on Istio over the last few
-months -- patching 1.0, adding features to 1.1, and, lately, doing tons of
-testing on 1.1. Thanks especially to those companies and users who worked with
-us installing and upgrading to the early builds and helping us catch problems
-before the release.
-
-So: now’s the time! Grab 1.1, check out [the updated documentation](/docs/),
-[install it](/docs/setup/) and...happy meshing!
-
-## Release notes
-
-### Incompatible changes from 1.0
+## Incompatible changes from 1.0
 
 In addition to the new features and improvements listed below, Istio 1.1 has introduced
 a number of significant changes from 1.0 that can alter the behavior of applications.
-A concise list of these changes can be found in the [upgrade notice](/docs/setup/upgrade/notice).
+A concise list of these changes can be found in the [upgrade notice](/news/2019/announcing-1.1/upgrade-notes).
 
-### Upgrades
+## Upgrades
 
 We recommend a manual upgrade of the control plane and data plane to 1.1. See
 the [upgrades documents](/docs/setup/upgrade/) for more information.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/docs/setup/upgrade/notice) for a
+Be sure to check out the [upgrade notice](/news/2019/announcing-1.1/upgrade-notes) for a
 concise list of things you should know before upgrading your deployment to Istio 1.1.
 {{< /warning >}}
 
-### Installation
+## Installation
 
 - **CRD Install Separated from Istio Install**.  Placed Istio’s Custom Resource
   Definitions (CRDs) into the `istio-init` Helm chart. Placing the CRDs in
@@ -110,7 +41,7 @@ concise list of things you should know before upgrading your deployment to Istio
   [multicluster split horizon](/docs/setup/install/multicluster/shared-gateways/) remote cluster installation
   into the Istio Helm chart simplifying the operational experience.
 
-### Traffic management
+## Traffic management
 
 - **New `Sidecar` Resource**. The new [sidecar](/docs/concepts/traffic-management/#sidecars) resource
   enables more fine-grained control over the behavior of the sidecar proxies attached to workloads within a namespace.
@@ -193,7 +124,7 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Customized (non `cluster.local`) Trust Domains**. Added support for
   organization- or cluster-specific trust domains in the identities.
 
-### Policies and telemetry
+## Policies and telemetry
 
 - **Policy Checks Off By Default**. Changed policy checks to be turned off by
   default to improve performance for most customer scenarios. [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/)
@@ -262,7 +193,7 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Monitoring Port**. Changed Galley's default monitoring port from 9093 to
   15014.
 
-### `istioctl` and `kubectl`
+## `istioctl` and `kubectl`
 
 - **Validate Command**. Added the [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate)
   command for offline validation of Istio Kubernetes resources.

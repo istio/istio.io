@@ -5,6 +5,7 @@ publishdate: 2019-03-19
 subtitle: An overview of Istio 1.1 performance improvements
 attribution: Surya V Duggirala (IBM), Mandar Jog (Google), Jose Nativio (IBM)
 keywords: [performance,scalability,scale,benchmarks]
+target_release: 1.1
 ---
 
 Hyper-scale, microservice-based cloud environments have been exciting to build but challenging to manage. Along came Kubernetes (container orchestration) in 2014, followed by Istio (container service management) in 2017. Both open-source projects enable developers to scale container-based applications without spending too much time on administration tasks.
