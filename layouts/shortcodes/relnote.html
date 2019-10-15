@@ -57,38 +57,87 @@
     {{ $release_location = "main" }}
 {{ end }}
 
-<div class="call-to-action">
-    {{ if eq $release_location "preliminary" }}
-        <span class="btn">{{ printf (i18n "relnote_download") $release_name }}</span>
-        <span class="btn">{{ printf (i18n "relnote_docs") $release_name }}</span>
+<div class="relnote-actions call-to-action">
+    {{ $change_notes := .Page.GetPage "./change-notes" }}
+    {{ if $change_notes }}
+        <a class="entry" href="./change-notes">
+            <h5>CHANGE NOTES</h5>
+            <p>Get a detailed list of what's changed.</p>
+        </a>
+    {{ end }}
 
-        {{ if $patch }}
-            <span class="btn">{{ printf (i18n "relnote_changes") $release_name }}</span>
+    {{ $upgrade_notes := .Page.GetPage "./upgrade-notes" }}
+    {{ if not $upgrade_notes }}
+        {{ $base_version := printf "%v.%v.0" $page_version $page_revision }}
+        {{ range $page := .Site.Pages }}
+            {{ $release := $page.Params.release }}
+            {{ if eq $release $base_version }}
+                {{ $path := printf "/%supgrade-notes" $page.Dir }}
+                {{ $upgrade_notes = .Page.GetPage $path }}
+            {{ end }}
         {{ end }}
+    {{ end }}
+
+    {{ if $upgrade_notes }}
+        <a class="entry" href="{{ $upgrade_notes.Permalink }}">
+            <h5>BEFORE YOU UPGRADE</h5>
+            <p>Things to know and prepare before upgrading.</p>
+        </a>
+    {{ end }}
+
+    {{ if eq $release_location "preliminary" }}
+        <div class="entry">
+            <h5>DOWNLOAD</h5>
+            <p>Download and install this release.</p>
+        </div>
     {{ else }}
         {{ if ne $latest_full_version $full_version }}
             {{ .Page.Scratch.Set "needPopper" true }}
-            <button class="btn update-notice"
-                    data-title='{{ i18n "relnote_update_notice" }}'
-                    data-downloadhref="https://github.com/istio/istio/releases/tag/{{ $full_version }}"
-                    data-updateadvice='{{ printf (i18n "relnote_update_advice") $release_name }}'
-                    data-updatebutton='{{ printf (i18n "relnote_update_button") $latest_full_version }}'
-                    data-updatehref="{{ $latest_patch_url }}">
-                {{ printf (i18n "relnote_download") $release_name }}
-            </button>
+            <a class="update-notice entry"
+                data-title='{{ i18n "relnote_update_notice" }}'
+                data-downloadhref="https://github.com/istio/istio/releases/tag/{{ $full_version }}"
+                data-downloadbuttontext="DOWNLOAD {{ $full_version }}"
+                data-updateadvice='{{ printf (i18n "relnote_update_advice") $release_name }}'
+                data-updatebutton='{{ printf (i18n "relnote_update_button") $latest_full_version }}'
+                data-updatehref="{{ $latest_patch_url }}">
+                <h5>DOWNLOAD</h5>
+                <p>Download and install this release.</p>
+            </a>
         {{ else }}
-            <a class="btn" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">{{ printf (i18n "relnote_download") $release_name }}</a>
+            <a class="entry" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">
+                <h5>DOWNLOAD</h5>
+                <p>Download and install this release.</p>
+            </a>
         {{ end }}
+    {{ end }}
 
-        {{ if eq $release_location "archive" }}
-            <a class="btn" href="https://archive.istio.io/v{{ $version }}">{{ printf (i18n "relnote_docs") $release_name }}</a>
-        {{ else }}
-            <a class="btn" href="https://istio.io{{ $lang }}/docs">{{ printf (i18n "relnote_docs") $release_name }}</a>
-        {{ end }}
+    {{ $doc_link := printf "https://istio.io%s/docs" $lang }}
+    {{ if eq $release_location "archive" }}
+        {{ $doc_link = printf "https://archive.istio.io/v%s" $version }}
+    {{ else if eq $release_location "preliminary" }}
+        {{ $doc_link := printf "https://preliminry.istio.io%s/docs" $lang }}
+    {{ end }}
 
-        {{ if $patch }}
-            {{ $old_full_version := printf "%v.%d" $version (sub $patch 1) }}
-            <a class="btn" href="https://github.com/istio/istio/compare/{{ $old_full_version }}...{{ $full_version }}">{{ printf (i18n "relnote_changes") $release_name }}</a>
-        {{ end }}
+    <a class="entry" href="{{ $doc_link }}">
+        <h5>DOCS</h5>
+        <p>Visit the documentation for this release.</p>
+    </a>
+
+    {{ $helm_changes := .Page.GetPage "./helm-changes" }}
+    {{ if $helm_changes }}
+        <a class="entry" href="./helm-changes">
+            <h5>HELM CHANGES</h5>
+            <p>Learn about changes in our Helm installation options.</p>
+        </a>
+    {{ end }}
+
+    {{ if $patch }}
+        {{ $old_full_version := printf "%v.%d" $version (sub $patch 1) }}
+        {{ $delta_link := printf "https://github.com/istio/istio/compare/%s...%s" $old_full_version $full_version }}
+
+        <a class="entry" href="{{ $delta_link }}">
+            <h5>SOURCE CHANGES</h5>
+            <p>Inspect the full set of source code changes.</p>
+        </a>
     {{ end }}
 </div>

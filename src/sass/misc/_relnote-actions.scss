@@ -1,0 +1,75 @@
+.relnote-actions {
+    display: grid;
+    grid-template-columns: [entry] 1fr;
+
+    @media (min-width: $bp-sm) {
+        grid-template-columns: [entry] 1fr [entry] 1fr;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    @media (min-width: $bp-xl) {
+        grid-template-columns: [entry] 1fr [entry] 1fr [entry] 1fr;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    a {
+        color: $textColor;
+        text-decoration: none;
+
+        &:hover {
+            color: $textColor;
+            text-decoration: none;
+        }
+    }
+
+    .entry {
+        padding: 1rem;
+        border: $tabsetBorderColor 1px dashed;
+        display: block;
+
+        @media (min-width: $bp-md) {
+            padding: 1rem 4rem;
+        }
+
+        &:hover {
+            background-color: $mainBrandColor;
+            cursor: pointer;
+        }
+
+        &:active {
+            background-color: $buttonActiveColor;
+        }
+
+        &:focus {
+            background-color: $textBrandColor;
+        }
+    }
+
+    div.entry {
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: $backgroundColor;
+            cursor: not-allowed;
+        }
+
+        &:active {
+            background-color: $backgroundColor;
+        }
+
+        &:focus {
+            background-color: $backgroundColor;
+        }
+    }
+
+    h5 {
+        margin-bottom: 0;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
