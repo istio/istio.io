@@ -143,7 +143,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
       selector:
         app: httpbin
     ---
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: httpbin
@@ -328,7 +328,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
       selector:
         app: helloworld-v1
     ---
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: helloworld-v1
