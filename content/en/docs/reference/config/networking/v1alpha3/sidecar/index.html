@@ -256,6 +256,7 @@ listener on the sidecar proxy attached to a workload instance.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -274,6 +275,9 @@ listener port will be based on the listener with the most specific
 port.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="IstioEgressListener-bind">
 <td><code>bind</code></td>
@@ -288,6 +292,9 @@ the captureMode. If captureMode is NONE, bind will default to
 127.0.0.1.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="IstioEgressListener-capture_mode">
 <td><code>captureMode</code></td>
@@ -298,12 +305,15 @@ how traffic to the listener is expected to be captured (or not).
 captureMode must be DEFAULT or NONE for Unix domain socket binds.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="IstioEgressListener-hosts">
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>REQUIRED: One or more service hosts exposed by the listener
+<p>One or more service hosts exposed by the listener
 in <code>namespace/dnsName</code> format. Services in the specified namespace
 matching <code>dnsName</code> will be exposed.
 The corresponding service can be a service in the service registry
@@ -341,6 +351,9 @@ policy is enabled, or add <code>istio-system/*</code> to allow all services in t
 in a future Istio release.</p>
 
 </td>
+<td>
+Yes
+</td>
 </tr>
 </tbody>
 </table>
@@ -356,6 +369,7 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -363,8 +377,11 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <td><code>port</code></td>
 <td><code><a href="/docs/reference/config/networking/v1alpha3/gateway.html#Port">Port</a></code></td>
 <td>
-<p>REQUIRED. The port associated with the listener.</p>
+<p>The port associated with the listener.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="IstioIngressListener-bind">
@@ -379,6 +396,9 @@ and the workload instances to which this configuration is applied
 to.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="IstioIngressListener-capture_mode">
 <td><code>captureMode</code></td>
@@ -388,17 +408,23 @@ to.</p>
 expected to be captured (or not).</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="IstioIngressListener-default_endpoint">
 <td><code>defaultEndpoint</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED: The loopback IP endpoint or Unix domain socket to which
+<p>The loopback IP endpoint or Unix domain socket to which
 traffic should be forwarded to. This configuration can be used to
 redirect traffic arriving at the bind IP:Port on the sidecar to a localhost:port
 or Unix domain socket where the application workload instance is listening for
 connections. Format should be 127.0.0.1:PORT or <code>unix:///path/to/socket</code></p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -422,6 +448,7 @@ services can be monitored.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -429,6 +456,9 @@ services can be monitored.</p>
 <td><code>mode</code></td>
 <td><code><a href="#OutboundTrafficPolicy-Mode">OutboundTrafficPolicy.Mode</a></code></td>
 <td>
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -475,6 +505,7 @@ attached.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -486,6 +517,9 @@ attached.</p>
 sidecar configuration should be applied. If omitted, the sidecar
 configuration will be applied to all workload instances in the same namespace.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Sidecar-ingress">
@@ -500,15 +534,21 @@ etc.). If specified, inbound ports are configured if and only if the
 workload instance is associated with a service.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Sidecar-egress">
 <td><code>egress</code></td>
 <td><code><a href="#IstioEgressListener">IstioEgressListener[]</a></code></td>
 <td>
-<p>REQUIRED. Egress specifies the configuration of the sidecar for processing
+<p>Egress specifies the configuration of the sidecar for processing
 outbound traffic from the attached workload instance to other services in the
 mesh.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="Sidecar-outbound_traffic_policy">
@@ -521,6 +561,9 @@ services that are not known apriori, setting the policy to ALLOW_ANY
 will cause the sidecars to route any unknown traffic originating from
 the application to its requested destination.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -542,6 +585,7 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -549,11 +593,14 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <td><code>labels</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>REQUIRED: One or more labels that indicate a specific set of pods/VMs
+<p>One or more labels that indicate a specific set of pods/VMs
 on which this sidecar configuration should be applied. The scope of
 label search is restricted to the configuration namespace in which the
 the resource is present.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
