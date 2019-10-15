@@ -3,8 +3,8 @@ title: Observability Problems
 description: Dealing with telemetry collection issues.
 weight: 30
 aliases:
-    - /ops/troubleshooting/grafana
-    - /ops/troubleshooting/missing-traces
+    - /docs/ops/troubleshooting/grafana
+    - /docs/ops/troubleshooting/missing-traces
 ---
 
 ## No traces appearing in Zipkin when running Istio locally on Mac

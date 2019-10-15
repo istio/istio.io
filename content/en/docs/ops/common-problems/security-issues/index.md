@@ -1,12 +1,12 @@
 ---
 title: Security Problems 
-description: Tools and techniques to address common Istio authentication, authorization, and general security-related problems.
+description: Techniques to address common Istio authentication, authorization, and general security-related problems.
 weight: 20
 keywords: [security,citadel]
 aliases:
     - /help/ops/security/repairing-citadel
     - /help/ops/troubleshooting/repairing-citadel
-    - /ops/troubleshooting/repairing-citadel
+    - /docs/ops/troubleshooting/repairing-citadel
 ---
 
 ## End-user Authentication Fails
@@ -75,7 +75,7 @@ for TCP services. Otherwise, Istio ignores the policies as if they didn't exist.
 `default` namespace (`metadata/namespace` line should be `default`). For non-Kubernetes environments, all `ServiceRoles` and `ServiceRoleBindings`
 for a mesh should be in the same namespace.
 
-1. Visit [Ensure Authorization is Enabled Correctly](/docs/ops/troubleshooting/security-issues/#ensure-authorization-is-enabled-correctly)
+1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
    to find out the exact cause.
 
 ## Authorization is Too Permissive
@@ -98,7 +98,7 @@ successfully. To verify, follow these steps:
    You can disable Pilot's authorization plug-in if there is an error pushing
    authorization policy to Envoy.
 
-1. Visit [Ensure Authorization is Enabled Correctly](/docs/ops/troubleshooting/security-issues/#ensure-authorization-is-enabled-correctly)
+1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
    to find out the exact cause.
 
 ## Ensure Authorization is Enabled Correctly
@@ -350,7 +350,7 @@ The `shadow denied` has no effect and you can ignore it safely.
 ## Keys and Certificates errors
 
 If you suspect that some of the keys and/or certificates used by Istio aren't correct, the
-first step is to ensure that [Citadel is healthy](/docs/ops/troubleshooting/repairing-citadel/).
+first step is to ensure that [Citadel is healthy](#repairing-citadel).
 
 You can then verify that Citadel is actually generating keys and certificates:
 
@@ -525,12 +525,13 @@ Certificate:
 
 ## Mutual TLS errors
 
-If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](/docs/ops/troubleshooting/repairing-citadel/), and
-second ensure that [keys and certificates are being delivered](/docs/ops/troubleshooting/security-issues/) to sidecars properly.
+If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](#repairing-citadel), and
+second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
 
-If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authn-policy/) is applied and the right destination rules are in place.
+If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authn-policy/)
+is applied and the right destination rules are in place.
 
-## Citadel is not behaving properly
+## Citadel is not behaving properly {#repairing-citadel}
 
 {{< warning >}}
 Citadel does not support multiple instances. Running multiple Citadel instances

@@ -192,7 +192,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     you can add the special value `mesh` to the list of `gateways`. Since the internal hostname for the
     service is probabaly different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
     you will also need to add it to the `hosts` list. Refer to the
-    [troubleshooting guide](/docs/ops/troubleshooting/network-issues)
+    [operations guide](/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)
     for more details.
     {{< /warning >}}
 

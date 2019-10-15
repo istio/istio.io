@@ -7,6 +7,7 @@ aliases:
   - /docs/ops/security/health-checks-and-mtls/
   - /help/ops/setup/app-health-check
   - /help/ops/app-health-check
+  - /docs/ops/app-health-check
 keywords: [security,health-check]
 ---
 

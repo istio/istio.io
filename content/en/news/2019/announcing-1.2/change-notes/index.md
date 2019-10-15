@@ -23,7 +23,7 @@ aliases:
 ## Security
 
 - **Improved** extend the default lifetime of self-signed Citadel root certificates to 10 years.
-- **Added** Kubernetes health check prober rewrite per deployment via `sidecar.istio.io/rewriteAppHTTPProbers: "true"` in the `PodSpec` [annotation](/docs/ops/app-health-check/#use-annotations-on-pod).
+- **Added** Kubernetes health check prober rewrite per deployment via `sidecar.istio.io/rewriteAppHTTPProbers: "true"` in the `PodSpec` [annotation](/docs/ops/setup/app-health-check/#use-annotations-on-pod).
 - **Added** support for configuring the secret paths for Istio mutual TLS certificates. Refer [here](https://github.com/istio/istio/issues/11984) for more details.
 - **Added** support for [PKCS 8](https://en.wikipedia.org/wiki/PKCS_8) private keys for workloads, enabled by the flag `pkcs8-keys` on Citadel.
 - **Improved** JWT public key fetching logic to be more resilient to network failure.
