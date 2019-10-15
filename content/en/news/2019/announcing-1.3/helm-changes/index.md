@@ -1,11 +1,13 @@
 ---
-title: Installation Options Changes
-description: Details the Helm chart installation options differences between release-1.2 and release-1.3.
+title: Helm Changes
+description: Details the Helm chart installation options differences between Istio 1.2 and Istio 1.3.
 weight: 30
 keywords: [kubernetes, helm, install, options]
+aliases:
+    - /docs/reference/config/installation-options-changes
 ---
 
-The tables below show changes made to the installation options used to customize Istio install using Helm between release 1.2 and release 1.3. The tables are grouped in to three different categories:
+The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.2 and Istio 1.3. The tables are grouped in to three different categories:
 
 - The installation options already in the previous release but whose values have been modified in the new release.
 - The new installation options added in the new release.

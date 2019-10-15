@@ -68,7 +68,7 @@ please follow the procedure and check whether you will be affected.
     Because the Pilot has issue using the old root certificate to verify the new workload certificates.
     This may cause disconnection between Pilot and Envoy.
     Please see the [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check.
-    The [Istio upgrade guide](/docs/setup/upgrade/steps/)
+    The [Istio upgrade guide](/docs/setup/upgrade/)
     by default installs Pilot with Envoy sidecar.
     {{< /warning >}}
 
@@ -122,7 +122,7 @@ please follow the procedure and check whether you will be affected.
     {{< /warning >}}
 
     Upgrade your control plane and `istio-proxy` sidecars to 1.0.8, 1.1.8 or later.
-    Please follow the Istio [upgrade procedure](/docs/setup/upgrade/steps/).
+    Please follow the Istio [upgrade procedure](/docs/setup/upgrade/).
 
 1. Verify the new workload certificates are loaded by Envoy:
 

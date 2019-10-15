@@ -1,9 +1,10 @@
 ---
-title: Upgrade Steps
+title: Upgrade
 description: Upgrade the Istio control plane and data plane independently.
 weight: 25
 aliases:
     - /docs/setup/kubernetes/upgrade/steps/
+    - /docs/setup/upgrade/steps
 keywords: [kubernetes,upgrading]
 ---
 
@@ -15,12 +16,12 @@ please ensure your Istio control plane components and your applications are
 highly available with multiple replicas.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/docs/setup/upgrade/notice)
+Be sure to check out the [upgrade notes](/news/{{< istio_full_version_release_year >}}/announcing-{{< istio_version >}}/upgrade-notes)
 for a concise list of things you should know before upgrading your deployment to Istio {{< istio_version >}}.
 {{< /warning >}}
 
 {{< tip >}}
-Istio does **NOT** support skip level upgrades.  Only upgrades from {{< istio_previous_version >}} to {{< istio_version >}}
+Istio does **NOT** support skip level upgrades. Only upgrades from {{< istio_previous_version >}} to {{< istio_version >}}
 are supported. If you are on an older version, please upgrade to {{< istio_previous_version >}} first.
 {{< /tip >}}
 
