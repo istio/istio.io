@@ -5,6 +5,7 @@ description: Demonstrates a Mixer out-of-process adapter which implements the Kn
 publishdate: 2019-09-18
 attribution: Idan Zach (IBM)
 keywords: [mixer,adapter,knative,scale-from-zero]
+target_release: 1.3
 ---
 
 This post demonstrates how you can use [Mixer](/faq/mixer/) to push application logic

@@ -204,3 +204,6 @@ other = "Description"
 
 [analysis_level]
 other = "Level"
+
+[target_release]
+other = "This blog post was written a while ago and assumed Istio %v. Be aware that there have been many improvements to Isito since then and so some of this content may now be outdated."

@@ -5,6 +5,7 @@ publishdate: 2019-02-05
 last_update: 2019-09-27
 attribution: Rigs Caballero, Google
 keywords: [community,blog,contribution,guide,guideline,event]
+target_release: 1.3
 ---
 
 Welcome to the Istio blog!
