@@ -21,7 +21,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
     a) a demo/test environment by setting the `--set tracing.enabled=true`  Helm install option to enable tracing "out of the box"
 
-    b) a production environment by referencing an existing Jaeger instance, e.g. created with the [operator](https://github.com/jaegertracing/jaeger-operator), and then setting the `--set global.tracer.zipkin.address=<jaeger-collector-service>.<jaeger-collector-namespace>:16686` Helm install option.
+    b) a production environment by referencing an existing Jaeger instance, e.g. created with the [operator](https://github.com/jaegertracing/jaeger-operator), and then setting the `--set global.tracer.zipkin.address=<jaeger-collector-service>.<jaeger-collector-namespace>:9411` Helm install option.
 
     {{< warning >}}
     When you enable tracing, you can set the sampling rate that Istio uses for tracing.
