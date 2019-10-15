@@ -11,9 +11,9 @@ deployed and ran the whole application as one large chunk of software. To test a
 small change in their module not merely by unit testing, the developers had to
 build the whole application. Therefore the builds took large amount of time.
 After the build, the developers deployed their version of the application into a
-test server. The server either ran on a remote machine, or on the local computer
-where developers had to install and operate a rather complex environment on
-their local computer.
+test server. The developers ran the server either on a remote machine, or on their
+local computer. In the latter case, the developers had to install and operate a
+rather complex environment on their local computer.
 
 In the era of microservice architecture, the developers write, build, test and
 run small software services. Builds are fast. With modern frameworks like
@@ -33,7 +33,7 @@ actions to those of other web apps:
 
 - Listen to the port it receives as a parameter.
 - Expect `HTTP GET` requests on the `/ratings/{productID}` path and return the
-  ratings of the product matching the value you specify for `productID`.
+  ratings of the product matching the value the client specifies for `productID`.
 - Expect `HTTP POST` requests on the `/ratings/{productID}` path and update the
   ratings of the product matching the value you specify for `productID`.
 

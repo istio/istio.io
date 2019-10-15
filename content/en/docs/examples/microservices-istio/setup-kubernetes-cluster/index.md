@@ -11,7 +11,7 @@ namespace to use throughout the tutorial.
 
 {{< warning >}}
 If you are in a workshop and the instructors provide a cluster for you,
-go to [setting up your local computer](/docs/examples/microservices-istio/setup-local-computer).
+proceed to [setting up your local computer](/docs/examples/microservices-istio/setup-local-computer).
 {{</ warning >}}
 
 1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
@@ -38,7 +38,7 @@ go to [setting up your local computer](/docs/examples/microservices-istio/setup-
     simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  Install Istio with strict mutual TLS enabled and select the `strict mutual
+1.  Install Istio with strict mutual TLS enabled by selecting the `strict mutual
     TLS` tab when you follow [the Kubernetes installation steps](/docs/setup/install/kubernetes/#installation-steps).
 
 1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
@@ -223,6 +223,6 @@ go to [setting up your local computer](/docs/examples/microservices-istio/setup-
     If you are an instructor, send the generated configuration files to each
     participant who should copy it to their local computer.
 
-Congratulations, you created your cluster!
+Congratulations, you configured your cluster for the tutorials!
 
 You are ready to [setup a local computer](/docs/examples/microservices-istio/setup-local-computer).
