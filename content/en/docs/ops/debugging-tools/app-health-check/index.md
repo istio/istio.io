@@ -1,7 +1,7 @@
 ---
 title: Health Checking of Istio Services
 description: Shows how to do health checking for Istio services.
-weight: 1
+weight: 11
 aliases:
   - /docs/tasks/traffic-management/app-health-check/
   - /docs/ops/security/health-checks-and-mtls/
