@@ -12,11 +12,11 @@ The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) and the
 how to configure an ingress gateway to expose services inside the mesh to external traffic. The services can be HTTP or
 HTTPS. In the case of HTTPS, the gateway passes the traffic through, without terminating TLS.
 
-This example describes how to use the same ingress gateway mechanism of Istio to enable access to external services and
+This blog post describes how to use the same ingress gateway mechanism of Istio to enable access to external services and
 not to applications inside the mesh. This way Istio as a whole can serve just as a proxy server, with the added value of
 observability, traffic management and policy enforcement.
 
-The example shows configuring access to an HTTP and an HTTPS external service, namely `httpbin.org` and
+The blog post shows configuring access to an HTTP and an HTTPS external service, namely `httpbin.org` and
 `edition.cnn.com`.
 
 ## Configure an ingress gateway
