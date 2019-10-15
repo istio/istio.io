@@ -1,0 +1,328 @@
+---
+title: Istio Webhook Management
+description: Shows how to manage webhooks in Istio through istioctl.
+weight: 10
+keywords: [security,webhook]
+---
+
+{{< warning >}}
+The following information describes an experimental feature, which is intended
+for evaluation purposes only.
+{{< /warning >}}
+
+This task shows how to how to manage webhooks in Istio through `istioctl`.
+
+## Before you begin
+
+* Create a new Kubernetes cluster to run the example in this tutorial.
+
+## Webhook management
+
+Istio has two webhooks (Galley and Sidecar Injector). In current Istio implementation,
+Galley and Sidecar Injector manage their own webhook configurations.
+This task uses `istioctl`, instead of Galley and Sidecar Injector, to manage the webhook configurations
+of Galley and Sidecar Injector.
+
+## Install Istio
+
+1.  The yaml file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
+    contains an example configuration for provisioning the DNS certificates used in webhook configurations.
+    Install Istio with [DNS certificate configured](/docs/tasks/security/dns-cert) using [Helm](/docs/setup/install/helm/#prerequisites):
+
+    {{< text bash >}}
+    $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
+    $ kubectl create namespace istio-system
+    $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+    $ helm template \
+        --name=istio \
+        --namespace=istio-system \
+        --set global.operatorManageWebhooks=true \
+        --values install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml \
+        install/kubernetes/helm/istio > istio-webhook-management.yaml
+    $ kubectl apply -f istio-webhook-management.yaml
+    {{< /text >}}
+
+## Check webhook certificates
+
+The webhook certificates generated are stored in the secrets specified in the configuration.
+
+1.  Check that webhook certificates have been generated:
+
+    {{< text bash >}}
+    $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+    $ kubectl get secret dns.istio-sidecar-injector-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+    {{< /text >}}
+
+    The output from the above commands should include the DNS names of Galley and Sidecar Injector, respectively:
+
+    {{< text plain >}}
+    X509v3 Subject Alternative Name:
+      DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
+    {{< /text >}}
+
+    {{< text plain >}}
+    X509v3 Subject Alternative Name:
+      DNS:istio-sidecar-injector.istio-system.svc, DNS:istio-sidecar-injector.istio-system
+    {{< /text >}}
+
+## `istioctl` enables webhook configurations
+
+1.  From `istio-webhook-management.yaml`, search `'kind: MutatingWebhookConfiguration'` and save
+the `MutatingWebhookConfiguration` of Sidecar Injector to `sidecar-injector-webhook.yaml`. The following
+is a `MutatingWebhookConfiguration` in an example `istio-webhook-management.yaml`.
+
+    {{< text yaml >}}
+    apiVersion: admissionregistration.k8s.io/v1beta1
+    kind: MutatingWebhookConfiguration
+    metadata:
+      name: istio-sidecar-injector
+      labels:
+        app: sidecarInjectorWebhook
+        chart: sidecarInjectorWebhook
+        heritage: Tiller
+        release: istio
+    webhooks:
+      - name: sidecar-injector.istio.io
+        clientConfig:
+          service:
+            name: istio-sidecar-injector
+            namespace: istio-system
+            path: "/inject"
+          caBundle: ""
+        rules:
+          - operations: [ "CREATE" ]
+            apiGroups: [""]
+            apiVersions: ["v1"]
+            resources: ["pods"]
+        failurePolicy: Fail
+        namespaceSelector:
+          matchLabels:
+            istio-injection: enabled
+    {{< /text >}}
+
+1.  From `istio-webhook-management.yaml`, search `'kind: ValidatingWebhookConfiguration'` and save
+the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
+is a `ValidatingWebhookConfiguration` in an example `istio-webhook-management.yaml`.
+
+    {{< text yaml >}}
+    apiVersion: admissionregistration.k8s.io/v1beta1
+    kind: ValidatingWebhookConfiguration
+    metadata:
+      name: istio-galley
+      labels:
+        app: galley
+        chart: galley
+        heritage: Tiller
+        release: istio
+        istio: galley
+    webhooks:
+      - name: pilot.validation.istio.io
+        clientConfig:
+          service:
+            name: istio-galley
+            namespace: istio-system
+            path: "/admitpilot"
+          caBundle: ""
+        rules:
+          - operations:
+            - CREATE
+            - UPDATE
+            apiGroups:
+            - config.istio.io
+            apiVersions:
+            - v1alpha2
+            resources:
+            - httpapispecs
+            - httpapispecbindings
+            - quotaspecs
+            - quotaspecbindings
+          - operations:
+            - CREATE
+            - UPDATE
+            apiGroups:
+            - rbac.istio.io
+            apiVersions:
+            - "*"
+            resources:
+            - "*"
+          - operations:
+            - CREATE
+            - UPDATE
+            apiGroups:
+            - security.istio.io
+            apiVersions:
+            - "*"
+            resources:
+            - "*"
+          - operations:
+            - CREATE
+            - UPDATE
+            apiGroups:
+            - authentication.istio.io
+            apiVersions:
+            - "*"
+            resources:
+            - "*"
+          - operations:
+            - CREATE
+            - UPDATE
+            apiGroups:
+            - networking.istio.io
+            apiVersions:
+            - "*"
+            resources:
+            - destinationrules
+            - envoyfilters
+            - gateways
+            - serviceentries
+            - sidecars
+            - virtualservices
+        failurePolicy: Fail
+        sideEffects: None
+      - name: mixer.validation.istio.io
+        clientConfig:
+          service:
+            name: istio-galley
+            namespace: istio-system
+            path: "/admitmixer"
+          caBundle: ""
+        rules:
+          - operations:
+            - CREATE
+            - UPDATE
+            apiGroups:
+            - config.istio.io
+            apiVersions:
+            - v1alpha2
+            resources:
+            - rules
+            - attributemanifests
+            - circonuses
+            - deniers
+            - fluentds
+            - kubernetesenvs
+            - listcheckers
+            - memquotas
+            - noops
+            - opas
+            - prometheuses
+            - rbacs
+            - solarwindses
+            - stackdrivers
+            - cloudwatches
+            - dogstatsds
+            - statsds
+            - stdios
+            - apikeys
+            - authorizations
+            - checknothings
+            # - kuberneteses
+            - listentries
+            - logentries
+            - metrics
+            - quotas
+            - reportnothings
+            - tracespans
+            - adapters
+            - handlers
+            - instances
+            - templates
+            - zipkins
+        failurePolicy: Fail
+        sideEffects: None
+    {{< /text >}}
+
+1.  Enable webhook configurations through `istioctl`:
+
+    {{< text bash >}}
+    $ istioctl experimental post-install webhook enable --validation --webhook-secret dns.istio-galley-service-account \
+        --namespace istio-system --validation-path galley-webhook.yaml \
+        --injection-path sidecar-injector-webhook.yaml
+    {{< /text >}}
+
+1.  Check the Sidecar Injector webhook is working:
+
+    {{< text bash >}}
+    $ kubectl create namespace test-injection; kubectl label namespaces test-injection istio-injection=enabled
+    $ kubectl run --generator=run-pod/v1 --image=nginx nginx-app --port=80 -n test-injection
+    $ kubectl get pod -n test-injection
+    {{< /text >}}
+
+    The output from the `get pod` command should show the following output (`2/2` means that
+    the Sidecar Injector webhook injects a sidecar to the example pod):
+
+    {{< text plain >}}
+    NAME    READY   STATUS    RESTARTS   AGE
+    nginx-app   2/2     Running   0          10s
+    {{< /text >}}
+
+1.  Check the validation webhook is working:
+
+    {{< text bash >}}
+    $ cat <<EOF > ./invalid-gateway.yaml
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: invalid-gateway
+    spec:
+      selector:
+        # DO NOT CHANGE THESE LABELS
+        # The ingressgateway is defined in install/kubernetes/helm/istio/values.yaml
+        # with these labels
+        istio: ingressgateway
+    EOF
+    $ kubectl create namespace test-validation
+    $ kubectl apply -f invalid-gateway.yaml -n test-validation
+    {{< /text >}}
+
+    The output from the gateway creation command should show the following output (the error
+    in the output indicates that the validation webhook checked the gateway yaml file):
+
+    {{< text plain >}}
+    Error from server: error when creating "invalid-gateway.yaml": admission webhook "pilot.validation.istio.io" denied the request: configuration is invalid: gateway must have at least one server
+    {{< /text >}}
+
+## `istioctl` shows webhook configurations
+
+1.  Show the configurations of Galley and Sidecar Injector with their default webhook configuration names:
+
+    {{< text bash >}}
+    $ istioctl experimental post-install webhook status
+    {{< /text >}}
+
+1.  Show the configuration of Sidecar Injector with the webhook configuration name being `istio-sidecar-injector`:
+
+    {{< text bash >}}
+    $ istioctl experimental post-install webhook status --validation=false --injection-config=istio-sidecar-injector
+    {{< /text >}}
+
+1.  Show the configuration of Galley with the webhook configuration name being `istio-galley`:
+
+    {{< text bash >}}
+    $ istioctl experimental post-install webhook status --injection=false --validation-config=istio-galley
+    {{< /text >}}
+
+## `istioctl` disables webhook configurations
+
+1.  Disable the configurations of Galley and Sidecar Injector with their default webhook configuration names:
+
+    {{< text bash >}}
+    $ istioctl experimental post-install webhook disable
+    {{< /text >}}
+
+1.  Disable the configuration of Sidecar Injector with the webhook configuration name being `istio-sidecar-injector`:
+
+    {{< text bash >}}
+    $ istioctl experimental post-install webhook disable --validation=false --injection-config=istio-sidecar-injector
+    {{< /text >}}
+
+1.  Disable the configuration of Galley with the webhook configuration name being `istio-galley`:
+
+    {{< text bash >}}
+    $ istioctl experimental post-install webhook disable --injection=false --validation-config=istio-galley
+    {{< /text >}}
+
+## Cleanup
+
+After completing this tutorial, you may delete the testing cluster created
+at the beginning of this tutorial.
