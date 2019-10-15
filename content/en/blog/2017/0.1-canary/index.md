@@ -7,6 +7,7 @@ attribution: Frank Budinsky
 keywords: [traffic-management,canary]
 aliases:
     - /blog/canary-deployments-using-istio.html
+target_release: 0.7
 ---
 
 {{< tip >}}
