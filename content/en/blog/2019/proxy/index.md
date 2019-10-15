@@ -1,7 +1,9 @@
 ---
 title: Istio as a Proxy for External Services
-description: Describes how to configure ingress gateway as a proxy for external services.
-weight: 9
+subtitle: Configure Istio ingress gateway to act as a proxy for external services
+description: Configure Istio ingress gateway to act as a proxy for external services.
+publishdate: 2019-10-15
+attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,ingress,https,http]
 ---
 
