@@ -1,17 +1,17 @@
 ---
 title: Securely direct traffic from IBM Cloud Kubernetes Service Ingress to Istio Ingress Gateway
-description: Configuring the IKS Ingress ALB to direct traffic Istio Ingress gateway with mutual TLS.
+description: Configuring the IBM Cloud Kubernetes Service Application Load Balancer to direct traffic Istio Ingress gateway with mutual TLS.
 weight: 43
 keywords: [traffic-management,ingress,file-mount-credentials,iks]
 ---
 
-This example shows how to configure the [IBM Cloud Kubernetes Service](https://www.ibm.com/cloud/kubernetes-service/)
-[Ingress ALB](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about) to direct traffic to the Istio
-ingress gateway with [NLB](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about), while securing
+This example shows how to configure the [Ingress Application Load Balancer (ALB)](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about)
+on [IBM Cloud Kubernetes Service (IKS)](https://www.ibm.com/cloud/kubernetes-service/) to direct traffic to the Istio
+ingress gateway with [Network Load Balancer (NLB)](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer-about), while securing
 the traffic between them using {{< gloss  >}}mutual TLS authentication{{< /gloss >}}.
 
-When you use IBM Cloud Kubernetes Service without Istio, you may control your ingress traffic using the provided
-Application Load Balancer (ALB). This ingress-traffic routing is configured using a Kubernetes
+When you use IKS without Istio, you may control your ingress traffic using the provided
+ALB. This ingress-traffic routing is configured using a Kubernetes
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resource with
 [ALB-specific annotations](https://cloud.ibm.com/docs/containers?topic=containers-ingress_annotation).
 
@@ -85,7 +85,7 @@ The traffic to the services without Istio sidecar can continue to flow as before
 
 ## Create secrets for ALB and Istio ingress gateway
 
-IBM Cloud Kubernetes Service generates TLS certificates and private keys and stores them as a secret in the default
+IKS generates TLS certificates and private keys and stores them as a secret in the default
 namespace when you request a DNS subdomain for an NLB IP. The Application Load Balancer's Ingress subdomain certificates
 and keys are also stored as a secret in the default namespace. You need these credentials to establish the identities
 the ALB and the Istio ingress gateway will present one to another during mutual TLS authentication between them.
@@ -166,7 +166,7 @@ to trust the certificates one of another.
     {{< /text >}}
 
 1.  Download the issuer certificate of the [Let's Encrypt](https://letsencrypt.org) certificate, which is the
-    issuer of the certificates provided by IBM Cloud Kubernetes Service.
+    issuer of the certificates provided by IKS.
 
     {{< text bash >}}
     $ curl https://letsencrypt.org/certs/trustid-x3-root.pem --output trustid-x3-root.pem
@@ -183,10 +183,10 @@ to trust the certificates one of another.
     that the name of the secrets for the Istio ingress gateway must be exactly as in the commands.
 
     {{< warning >}}
-    The certificates provided by IBM Cloud Kubernetes Service expire every 90 days and are automatically renewed by
-    IBM Cloud Kubernetes Service 37 days before they expire.
+    The certificates provided by IKS expire every 90 days and are automatically renewed by
+    IKS 37 days before they expire.
     You will have to recreate the secrets by rerunning the instructions of this section every time the secrets provided
-    by IBM Cloud Kubernetes Service are updated. You may want to use scripts or operators to automate this and keep the
+    by IKS are updated. You may want to use scripts or operators to automate this and keep the
     secrets in sync.
     {{< /warning >}}
 
