@@ -111,3 +111,28 @@
                     </div>
                 </nav>
             {{ end }}
+
+            {{ if .Page.Params.target_release }}
+                {{ $page_parts := split .Page.Params.target_release "." }}
+                {{ $page_version := int (index $page_parts 0) }}
+                {{ $page_revision := int (index $page_parts 1) }}
+                {{ $page_normalized_version := add (add (mul $page_version 1000000) (mul $page_revision 1000)) 0 }}
+
+                {{ $site_parts := split .Site.Data.args.version "." }}
+                {{ $site_version := int (index $site_parts 0) }}
+                {{ $site_revision := int (index $site_parts 1) }}
+                {{ $site_normalized_version := add (add (mul $site_version 1000000) (mul $site_revision 1000)) 0 }}
+
+                {{ if gt $site_normalized_version $page_normalized_version }}
+                    <div>
+                        <aside class="callout warning">
+                            <div class="type">
+                                {{- partial "large_icon.html" "callout-warning" -}}
+                            </div>
+                            <div class="content">
+                                {{ printf (i18n "target_release") .Page.Params.target_release }}
+                            </div>
+                        </aside>
+                    </div>
+                {{ end }}
+            {{ end }}

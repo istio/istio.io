@@ -6,6 +6,7 @@ subtitle:
 attribution: Sandeep Parikh
 twitter: crcsmnky
 keywords: [traffic-management,gateway]
+target_release: 1.0
 ---
 
 Traffic management is one of the critical benefits provided by Istio. At the heart of Istio’s traffic management is the ability to decouple traffic flow and infrastructure scaling. This lets you control your traffic in ways that aren’t possible without a service mesh like Istio.
