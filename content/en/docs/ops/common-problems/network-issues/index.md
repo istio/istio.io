@@ -1,10 +1,12 @@
 ---
-title: Network Problems 
-description: Tools and techniques to address common Istio traffic management and network problems.
-weight: 4
+title: Networking Problems
+description: Techniques to address common Istio traffic management and network problems.
+force_inline_toc: true
+weight: 10
 aliases:
-    - /help/ops/traffic-management/troubleshooting
-    - /help/ops/troubleshooting/network-issues
+  - /help/ops/traffic-management/troubleshooting
+  - /help/ops/troubleshooting/network-issues
+  - /docs/ops/troubleshooting/network-issues
 ---
 
 ## Requests are rejected by Envoy

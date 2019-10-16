@@ -64,7 +64,7 @@ Download the Istio release which includes installation files, samples and a comm
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. You can optionally enable the [auto-completion option](/docs/ops/troubleshooting/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+1. You can optionally enable the [auto-completion option](/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
 
 ## Installing Istio
 

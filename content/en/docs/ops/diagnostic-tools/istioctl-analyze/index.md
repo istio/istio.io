@@ -1,7 +1,7 @@
 ---
-title: Diagnose your configuration with istioctl analyze
+title: Diagnose your Configuration with Istioctl Analyze
 description: Shows you how to use istioctl analyze to identify potential issues with your configuration.
-weight: 90
+weight: 40
 keywords: [istioctl, debugging, kubernetes]
 ---
 

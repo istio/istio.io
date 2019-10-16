@@ -23,7 +23,7 @@ aliases:
 ## Security
 
 - **Improved** extend the default lifetime of self-signed Citadel root certificates to 10 years.
-- **Added** Kubernetes health check prober rewrite per deployment via `sidecar.istio.io/rewriteAppHTTPProbers: "true"` in the `PodSpec` [annotation](/docs/ops/app-health-check/#use-annotations-on-pod).
+- **Added** Kubernetes health check prober rewrite per deployment via `sidecar.istio.io/rewriteAppHTTPProbers: "true"` in the `PodSpec` [annotation](/docs/ops/setup/app-health-check/#use-annotations-on-pod).
 - **Added** support for configuring the secret paths for Istio mutual TLS certificates. Refer [here](https://github.com/istio/istio/issues/11984) for more details.
 - **Added** support for [PKCS 8](https://en.wikipedia.org/wiki/PKCS_8) private keys for workloads, enabled by the flag `pkcs8-keys` on Citadel.
 - **Improved** JWT public key fetching logic to be more resilient to network failure.
@@ -76,7 +76,7 @@ Refer to the [installation option change page](/news/2019/announcing-1.2/helm-ch
 - **Added** a new experimental ['a-la-carte' Istio installer](https://github.com/istio/installer/wiki) to enable users to install and upgrade Istio with desired isolation and security.
 - **Added** the [DNS-discovery](https://github.com/istio-ecosystem/dns-discovery) and [iter8](https://github.com/istio-ecosystem/iter8) in [Istio ecosystem](https://github.com/istio-ecosystem).
 - **Added** [environment variable and configuration file support](https://docs.google.com/document/d/1M-qqBMNbhbAxl3S_8qQfaeOLAiRqSBpSgfWebFBRuu8/edit) for configuring Galley, in addition to command-line flags.
-- **Added** [ControlZ](/docs/ops/troubleshooting/controlz/) support to visualize the state of the MCP Server in Galley.
+- **Added** [ControlZ](/docs/ops/diagnostic-tools/controlz/) support to visualize the state of the MCP Server in Galley.
 - **Added** the [`enableServiceDiscovery` command-line flag](/docs/reference/commands/galley/#galley-server) to control the service discovery module in Galley.
 - **Added** `InitialWindowSize` and `InitialConnWindowSize` parameters to Galley and Pilot to allow fine-tuning of MCP (gRPC) connection settings.
 - **Graduated** configuration processing with Galley from Alpha to Beta.

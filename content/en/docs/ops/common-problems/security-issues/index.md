@@ -1,10 +1,16 @@
 ---
 title: Security Problems 
-description: Tools and techniques to address common Istio authentication, authorization, and general security-related problems.
-weight: 5
+description: Techniques to address common Istio authentication, authorization, and general security-related problems.
+force_inline_toc: true
+weight: 20
+keywords: [security,citadel]
+aliases:
+    - /help/ops/security/repairing-citadel
+    - /help/ops/troubleshooting/repairing-citadel
+    - /docs/ops/troubleshooting/repairing-citadel
 ---
 
-## End-user Authentication Fails
+## End-user authentication fails
 
 With Istio, you can enable authentication for end users. Currently, the end user credential supported by the Istio authentication policy is JWT. The following is a guide for troubleshooting the end user JWT authentication.
 
@@ -51,7 +57,7 @@ With Istio, you can enable authentication for end users. Currently, the end user
     [2018-07-04T19:13:40.463Z] "GET /ip HTTP/1.1" 401 - 0 29 0 - "-" "curl/7.35.0" "9badd659-fa0e-9ca9-b4c0-9ac225571929" "httpbin.foo:8000" "-"
     {{< /text >}}
 
-## Authorization is Too Restrictive
+## Authorization is too restrictive
 
 When you first enable authorization for a service, all requests are denied by default. After you add one or more authorization policies, then
 matching requests should flow through. If all requests continue to be denied, you can try the following:
@@ -70,10 +76,10 @@ for TCP services. Otherwise, Istio ignores the policies as if they didn't exist.
 `default` namespace (`metadata/namespace` line should be `default`). For non-Kubernetes environments, all `ServiceRoles` and `ServiceRoleBindings`
 for a mesh should be in the same namespace.
 
-1. Visit [Ensure Authorization is Enabled Correctly](/docs/ops/troubleshooting/security-issues/#ensure-authorization-is-enabled-correctly)
+1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
    to find out the exact cause.
 
-## Authorization is Too Permissive
+## Authorization is too permissive
 
 If authorization checks are enabled for a service and yet requests to the
 service aren't being blocked, then authorization was likely not enabled
@@ -93,10 +99,10 @@ successfully. To verify, follow these steps:
    You can disable Pilot's authorization plug-in if there is an error pushing
    authorization policy to Envoy.
 
-1. Visit [Ensure Authorization is Enabled Correctly](/docs/ops/troubleshooting/security-issues/#ensure-authorization-is-enabled-correctly)
+1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
    to find out the exact cause.
 
-## Ensure Authorization is Enabled Correctly
+## Ensure authorization is enabled correctly
 
 The `ClusterRbacConfig` default cluster level singleton custom resource controls the authorization functionality globally.
 
@@ -117,7 +123,7 @@ authorization functionality and ignores all policies.
 1. If there is more than one `ClusterRbacConfig` instance, remove any additional `ClusterRbacConfig` instances and
 ensure **only one** instance is named `default`.
 
-## Ensure Pilot Accepts the Policies
+## Ensure Pilot accepts the policies
 
 Pilot converts and distributes your authorization policies to the proxies. The following steps help
 you ensure Pilot is working as expected:
@@ -182,7 +188,7 @@ you ensure Pilot is working as expected:
     - An config for `productpage.default.svc.cluster.local` and Istio will allow anyone to access it
       with GET method.
 
-## Ensure Pilot Distributes Policies to Proxies Correctly
+## Ensure Pilot distributes policies to proxies correctly
 
 Pilot distributes the authorization policies to proxies. The following steps help you ensure Pilot
 is working as expected:
@@ -255,7 +261,7 @@ with rules that allows anyone to access it via `GET` method. The `shadow_rules` 
     },
     {{< /text >}}
 
-## Ensure Proxies Enforce Policies Correctly
+## Ensure proxies enforce policies correctly
 
 Proxies eventually enforce the authorization policies. The following steps help you ensure the proxy
 is working as expected:
@@ -342,10 +348,10 @@ The `shadow denied` has no effect and you can ignore it safely.
     ...
     {{< /text >}}
 
-## Keys and Certificates errors
+## Keys and certificates errors
 
 If you suspect that some of the keys and/or certificates used by Istio aren't correct, the
-first step is to ensure that [Citadel is healthy](/docs/ops/troubleshooting/repairing-citadel/).
+first step is to ensure that [Citadel is healthy](#repairing-citadel).
 
 You can then verify that Citadel is actually generating keys and certificates:
 
@@ -520,7 +526,58 @@ Certificate:
 
 ## Mutual TLS errors
 
-If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](/docs/ops/troubleshooting/repairing-citadel/), and
-second ensure that [keys and certificates are being delivered](/docs/ops/troubleshooting/security-issues/) to sidecars properly.
+If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](#repairing-citadel), and
+second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
 
-If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authn-policy/) is applied and the right destination rules are in place.
+If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authn-policy/)
+is applied and the right destination rules are in place.
+
+## Citadel is not behaving properly {#repairing-citadel}
+
+{{< warning >}}
+Citadel does not support multiple instances. Running multiple Citadel instances
+may introduce race conditions and lead to system outages.
+{{< /warning >}}
+
+{{< warning >}}
+Workloads with new Kubernetes service accounts can not be started when Citadel is
+disabled for maintenance since they can't get their certificates generated.
+{{< /warning >}}
+
+Citadel is not a critical data plane component. The default workload certificate lifetime is 3
+months. Certificates will be rotated by Citadel before they expire. If Citadel is disabled for
+short maintenance periods, existing mutual TLS traffic will not be affected.
+
+If you suspect Citadel isn't working properly, verify the status of the `istio-citadel` pod:
+
+{{< text bash >}}
+$ kubectl get pod -l istio=citadel -n istio-system
+NAME                                     READY     STATUS   RESTARTS   AGE
+istio-citadel-ff5696f6f-ht4gq            1/1       Running  0          25d
+{{< /text >}}
+
+If the `istio-citadel` pod doesn't exist, try to re-deploy the pod.
+
+If the `istio-citadel` pod is present but its status is not `Running`, run the commands below to get more
+debugging information and check if there are any errors:
+
+{{< text bash >}}
+$ kubectl logs -l istio=citadel -n istio-system
+$ kubectl describe pod -l istio=citadel -n istio-system
+{{< /text >}}
+
+If you want to check a workload (with `default` service account and `default` namespace)
+certificate's lifetime:
+
+{{< text bash >}}
+$ kubectl get secret -o json istio.default -n default | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -noout -text | grep "Not After" -C 1
+  Not Before: Jun  1 18:23:30 2019 GMT
+  Not After : Aug 30 18:23:30 2019 GMT
+Subject:
+{{< /text >}}
+
+{{< tip >}}
+Remember to replace `istio.default` and `-n default` with `istio.YourServiceAccount` and
+`-n YourNamespace` for other workloads. If the certificate is expired, Citadel did not
+update the secret properly. Check Citadel logs for more information.
+{{< /tip >}}
