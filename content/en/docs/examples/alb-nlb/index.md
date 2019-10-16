@@ -114,7 +114,7 @@ and to trust the certificates one of another.
     $ export CLUSTER_NAME=<your cluster name>
     {{< /text >}}
 
-1.  Store the domain name of your cluster in the `ALB_INGRESS_DOMAIN` environment variable:
+1.  Store the domain name of your ALB in the `ALB_INGRESS_DOMAIN` environment variable:
 
     {{< text bash >}}
     $ ibmcloud ks cluster get --cluster $CLUSTER_NAME | grep Ingress
