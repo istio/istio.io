@@ -165,7 +165,7 @@ and to trust the certificates one of another.
 1.  Store the name of the secret that matches the IP of the Istio ingress gateway service:
 
     {{< text bash >}}
-    $ export INGRESS_GATEWAY_SECRET=<the secret's name that appears as the last value in the output of the previous command>
+    $ export INGRESS_GATEWAY_SECRET=<the secret's name that appears as the last value in the line that matches the IP of the gateway>
     {{< /text >}}
 
 1.  Extract the certificate and the key from the secret provided for the ingress gateway:
