@@ -127,7 +127,8 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1.  Create a default route rule to route all traffic to `v1` of the service:
 
     {{< warning >}}
-    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/docs/ops/troubleshooting/network-issues/#503-errors-after-setting-destination-rule).
+    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it.
+    Otherwise requests will [generate 503 errors](/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
     {{< /warning >}}
 
     {{< text bash >}}

@@ -12,4 +12,4 @@ weight: 50
 
 1. 在你的 Kubernetes 环境中，检查所有命名空间下的部署，确保没有可能导致 Istio 错误的遗留的部署。如果发现在向 Envoy 推送授权策略的时候发生错误，你可以禁用 Pilot 的授权插件。
 
-1. 根据[调试授权文档](/docs/ops/troubleshooting/security-issues/)找到确切的原因。
+1. 根据[调试授权文档](/docs/ops/diagnostic-tools/security-issues/)找到确切的原因。

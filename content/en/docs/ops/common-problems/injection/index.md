@@ -1,7 +1,10 @@
 ---
 title: Sidecar Injection Problems
 description: Resolve common problems with Istio's use of Kubernetes webhooks for automatic sidecar injection.
-weight: 5
+force_inline_toc: true
+weight: 40
+aliases:
+  - /docs/ops/troubleshooting/injection
 ---
 
 ## The result of sidecar injection was not what I expected
@@ -219,3 +222,10 @@ One workaround is to remove the proxy settings from the `kube-apiserver` manifes
 
 An [issue](https://github.com/kubernetes/kubeadm/issues/666) was filed with Kubernetes related to this and has since been closed.
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
+
+## Limitations for using Tcpdump in pods
+
+Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the
+network namespace is shared. `iptables` will also see the pod-wide configuration.
+
+Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.

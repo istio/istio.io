@@ -15,7 +15,7 @@ We're pleased to announce the availability of Istio 1.0.3. Please see below for 
 
 ## Behavior changes
 
-- [Validating webhook](/docs/ops/troubleshooting/validation) is now mandatory. Disabling it may result in Pilot crashes.
+- [Validating webhook](/docs/ops/common-problems/validation) is now mandatory. Disabling it may result in Pilot crashes.
 
 - [Service entry](/docs/reference/config/networking/v1alpha3/service-entry/) validation now rejects the wildcard hostname (`*`) when configuring DNS resolution. The API has never allowed this, however `ServiceEntry` was erroneously excluded from validation in the previous release. Use of wildcards as part of a hostname, e.g. `*.bar.com`, remains unchanged.
 

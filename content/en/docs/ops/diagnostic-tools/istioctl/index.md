@@ -1,16 +1,17 @@
 ---
-title: Using the istioctl command-line tool
+title: Using the Istioctl Command-line Tool
 description: Istio includes a supplemental tool that provides debugging and diagnosis for Istio service mesh deployments.
-weight: 1
+weight: 10
 keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
-    - /help/ops/component-debugging
+  - /help/ops/component-debugging
+  - /docs/ops/troubleshooting/istioctl
 ---
 
 ## Overview
 
-You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/troubleshooting/component-logging/)
-or peering inside via [introspection](/docs/ops/troubleshooting/controlz/). If that's insufficient, the steps below explain
+You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/diagnostic-tools/component-logging/)
+or peering inside via [introspection](/docs/ops/diagnostic-tools/controlz/). If that's insufficient, the steps below explain
 how to get under the hood.
 
 The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration command line utility that allows service operators to debug and diagnose their Istio service mesh deployments. The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion for Bash and ZSH. Both of these scripts provide support for the currently available `istioctl` commands.
@@ -65,7 +66,7 @@ To retrieve information about endpoint configuration for the Envoy instance in a
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-See [Debugging Envoy and Pilot](/docs/ops/troubleshooting/proxy-cmd/) for more advice on interpreting this information.
+See [Debugging Envoy and Pilot](/docs/ops/diagnostic-tools/proxy-cmd/) for more advice on interpreting this information.
 
 ## `istioctl` auto-completion
 
