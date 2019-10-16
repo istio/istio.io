@@ -106,6 +106,6 @@ continuously failed health checks.
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     -x charts/security/templates/deployment.yaml \
-    --set global.mtls.enabled=true | kubectl apply -f - 
+    --set global.mtls.enabled=true | kubectl apply -f -
     {{< /text >}}
 
