@@ -46,7 +46,7 @@ $ mixs server --log_output_level attributes=debug,adapters=warning
 {{< /text >}}
 
 In addition to controlling the output level from the command-line, you can also control the output level of a running component
-by using its [ControlZ](/docs/ops/troubleshooting/controlz) interface.
+by using its [ControlZ](/docs/ops/diagnostic-tools/controlz) interface.
 
 ## Controlling output
 
