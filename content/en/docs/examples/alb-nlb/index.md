@@ -50,12 +50,6 @@ ingress gateway.
 
 ## Initial setting
 
-1.  Store the external IP of your `istio-ingressgateway` service in an environment variable.
-
-    {{< text bash >}}
-    $ export INGRESS_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    {{< /text >}}
-
 1.  Create the `httptools` namespace and enable Istio sidecar injection:
 
     {{< text bash >}}
@@ -131,6 +125,12 @@ to trust the certificates one of another.
     {{< text bash >}}
     $ export ALB_INGRESS_DOMAIN=<your ALB ingress domain>
     $ export ALB_SECRET=<your ALB secret>
+    {{< /text >}}
+
+1.  Store the external IP of your `istio-ingressgateway` service in an environment variable.
+
+    {{< text bash >}}
+    $ export INGRESS_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
 1.  Create a DNS subdomain for the NLB IP of the Istio Ingress Gateway service:
