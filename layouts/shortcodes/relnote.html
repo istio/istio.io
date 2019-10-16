@@ -72,7 +72,7 @@
         {{ range $page := .Site.Pages }}
             {{ $release := $page.Params.release }}
             {{ if eq $release $base_version }}
-                {{ $path := printf "/%supgrade-notes" $page.Dir }}
+                {{ $path := printf "/%supgrade-notes" $page.File.Dir }}
                 {{ $upgrade_notes = .Page.GetPage $path }}
             {{ end }}
         {{ end }}
