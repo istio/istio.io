@@ -133,6 +133,7 @@ and to trust the certificates one of another.
 
     {{< text bash >}}
     $ export INGRESS_GATEWAY_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ echo INGRESS_GATEWAY_IP = $INGRESS_GATEWAY_IP
     {{< /text >}}
 
 1.  Create a DNS domain for the IP of the Istio Ingress Gateway service:
