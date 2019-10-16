@@ -6,7 +6,6 @@ last_update: 2019-09-05
 subtitle:
 attribution: Megan O'Keefe (Google), John Howard (Google), Mandar Jog (Google)
 keywords: [performance,scalability,scale,benchmarks]
-target_release: 1.2
 ---
 
 Service meshes add a lot of functionality to application deployments, including [traffic policies](/docs/concepts/what-is-istio/#traffic-management), [observability](/docs/concepts/what-is-istio/#observability), and [secure communication](/docs/concepts/what-is-istio/#security). But adding a service mesh to your environment comes at a cost, whether that's time (added latency) or resources (CPU cycles). To make an informed decision on whether a service mesh is right for your use case, it's important to evaluate how your application performs when deployed with a service mesh.
