@@ -11,18 +11,22 @@
     {{ $pages = sort $pages ".Params.weight" "asc" }}
 {{ end }}
 
+{{ $parentDir := (path.Dir $parent.File.Dir) }}
+
 {{ $leafSection := true }}
 {{ range $pages }}
-    {{ if eq .Parent $parent }}
-            {{ if not .IsPage }}
-                {{ $leafSection = false }}
-            {{ end }}
+    {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+    {{ if eq $parentDir $pageLocation }}
+        {{ if not .IsPage }}
+            {{ $leafSection = false }}
+        {{ end }}
     {{ end }}
 {{ end }}
 
 <ul role="{{ if $top }}tree{{ else }}group{{ end }}" aria-expanded="{{ if $collapse }}false{{ else }}true{{ end }}"{{ if $leafSection }} class="leaf-section"{{ end }} {{ if $labelledby}}aria-labelledby="{{ $labelledby }}"{{ end }}>
     {{ range $pages }}
-        {{ if eq .Parent $parent }}
+        {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+        {{ if eq $parentDir $pageLocation }}
             {{ if not .IsPage }}
                 <li role="treeitem" aria-label="{{ .LinkTitle}}">
                     {{ $collapse := not (.IsAncestor $current) }}

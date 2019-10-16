@@ -21,18 +21,21 @@
         {{ end }}
 
         {{ $parent := .Page }}
+        {{ $parentDir := (path.Dir .Page.File.Dir) }}
 
         {{ if $parent.Params.simple_list }}
             <ul>
                 {{ range $pages }}
-                    {{ if eq .Parent $parent }}
+                    {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+                    {{ if eq $parentDir $pageLocation }}
                         <li><a href="{{ .Permalink }}">{{- .Title -}}</a></li>
                     {{ end }}
                 {{ end }}
             </ul>
         {{ else }}
             {{ range $pages }}
-                {{ if eq .Parent $parent }}
+                {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+                {{ if eq $parentDir $pageLocation }}
                     <div class="entry">
                         <h5>
                             <a href="{{ .Permalink }}">
