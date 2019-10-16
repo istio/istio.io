@@ -130,48 +130,48 @@ and to trust the certificates one of another.
 1.  Store the external IP of your `istio-ingressgateway` service in an environment variable.
 
     {{< text bash >}}
-    $ export INGRESS_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export INGRESS_GATEWAY_IP=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
-1.  Create a DNS subdomain for the NLB IP of the Istio Ingress Gateway service:
+1.  Create a DNS domain for the IP of the Istio Ingress Gateway service:
 
     {{< text bash >}}
-    $ ibmcloud ks nlb-dns-create --cluster $CLUSTER_NAME --ip $INGRESS_IP
-    Host name subdomain is created as <some NLB domain>
+    $ ibmcloud ks nlb-dns-create --cluster $CLUSTER_NAME --ip $INGRESS_GATEWAY_IP
+    Host name subdomain is created as <some domain>
     {{< /text >}}
 
 1.  Store the domain name from the previous command in an environment variable:
 
     {{< text bash >}}
-    $ export NLB_INGRESS_DOMAIN=<the domain from the previous command>
+    $ export INGRESS_GATEWAY_DOMAIN=<the domain from the previous command>
     {{< /text >}}
 
-1.  List the NLB domain names:
+1.  List the registered domain names:
 
     {{< text bash >}}
-    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep $INGRESS_IP
+    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep $INGRESS_GATEWAY_IP
     Retrieving host names, certificates, IPs, and health check monitors for network load balancer (NLB) pods in cluster <your cluster>...
     OK
     Hostname              IP(s)               Health Monitor   SSL Cert Status   SSL Cert Secret Name
-    <your NLB hostname>   <your ingress IP>   enabled          created           <the matching secret name>
+    <your ingress gateway hostname>   <your ingress gateway IP>   enabled          created           <the matching secret name>
     ...
     {{< /text >}}
 
-    Wait until the status of the NLB hostname that matches the IP of the Istio ingress gateway service becomes `enabled`.
+    Wait until the status of the hostname that matches the IP of the Istio ingress gateway service becomes `enabled`.
 
 1.  Store the name of the secret that matches the IP of the Istio ingress gateway service:
 
     {{< text bash >}}
-    $ export NLB_SECRET=<your NLB secret's name which appears as the last value in the output of the previous command>
+    $ export INGRESS_GATEWAY_SECRET=<the secret's name that appears as the last value in the output of the previous command>
     {{< /text >}}
 
-1.  Extract the certificate and the key from the secret provided for NLB:
+1.  Extract the certificate and the key from the secret provided for the ingress gateway:
 
     {{< text bash >}}
-    $ mkdir nlb_certs
-    $ kubectl get secret $NLB_SECRET --namespace=default -o yaml | grep 'tls.key:' | cut -f2 -d: | base64 --decode > nlb_certs/tls.key
-    $ kubectl get secret $NLB_SECRET --namespace=default -o yaml | grep 'tls.crt:' | cut -f2 -d: | base64 --decode > nlb_certs/tls.crt
-    $ ls -al nlb_certs
+    $ mkdir ingress_gateway_certs
+    $ kubectl get secret $INGRESS_GATEWAY_SECRET --namespace=default -o yaml | grep 'tls.key:' | cut -f2 -d: | base64 --decode > ingress_gateway_certs/tls.key
+    $ kubectl get secret $INGRESS_GATEWAY_SECRET --namespace=default -o yaml | grep 'tls.crt:' | cut -f2 -d: | base64 --decode > ingress_gateway_certs/tls.crt
+    $ ls -al ingress_gateway_certs
     -rw-r--r--   1 user  staff  1679 Sep 11 07:55 tls.key
     -rw-r--r--   1 user  staff  3921 Sep 11 07:55 trusted.crt
     {{< /text >}}
@@ -194,11 +194,11 @@ and to trust the certificates one of another.
     $ curl https://letsencrypt.org/certs/trustid-x3-root.pem --output trustid-x3-root.pem
     {{< /text >}}
 
-1.  Append the issuer certificate of [Let's Encrypt](https://letsencrypt.org) to the certificate of NLB
+1.  Append the issuer certificate of [Let's Encrypt](https://letsencrypt.org) to the certificate of ingress gateway
     (currently required for ALB):
 
     {{< text bash >}}
-    $ cat nlb_certs/tls.crt trustid-x3-root.pem > trusted.crt
+    $ cat ingress_gateway_certs/tls.crt trustid-x3-root.pem > trusted.crt
     {{< /text >}}
 
 1.  Create Kubernetes secrets to be used by Istio ingress gateway and ALB to establish mutual TLS between them. Note
@@ -213,7 +213,7 @@ and to trust the certificates one of another.
     {{< /warning >}}
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key nlb_certs/tls.key --cert trusted.crt
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key ingress_gateway_certs/tls.key --cert trusted.crt
     $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=trustid-x3-root.pem
     $ kubectl create secret generic alb-certs -n istio-system --from-file=trusted.crt --from-file=alb_certs/client.crt --from-file=alb_certs/client.key
     secret "istio-ingressgateway-certs" created
@@ -224,7 +224,7 @@ and to trust the certificates one of another.
 ## Configure a mutual TLS ingress gateway
 
 In this section you configure the Istio ingress gateway to perform mutual TLS between external clients and the gateway.
-You use the certificates and the keys provided to you for the NLB and ALB.
+You use the certificates and the keys provided to you for the ingress gateway and ALB.
 
 1.  Define a `Gateway` to allow access on port 443 only, with mutual TLS:
 
@@ -287,7 +287,7 @@ You use the certificates and the keys provided to you for the NLB and ALB.
     (the `--cert` option) and the private key (the `--key` option):
 
     {{< text bash >}}
-    $ curl https://$NLB_INGRESS_DOMAIN/status/418 --cert alb_certs/client.crt  --key alb_certs/client.key
+    $ curl https://$INGRESS_GATEWAY_DOMAIN/status/418 --cert alb_certs/client.crt  --key alb_certs/client.key
 
     -=[ teapot ]=-
 
@@ -300,10 +300,10 @@ You use the certificates and the keys provided to you for the NLB and ALB.
         `"""`
     {{< /text >}}
 
-1.  Remove the directories with the ALB and NLB certificates and keys.
+1.  Remove the directories with the ALB and ingress gateway certificates and keys.
 
     {{< text bash >}}
-    $ rm -r nlb_certs alb_certs trustid-x3-root.pem trusted.crt
+    $ rm -r ingress_gateway_certs alb_certs trustid-x3-root.pem trusted.crt
     {{< /text >}}
 
 ## Configure ALB
@@ -368,8 +368,8 @@ Congratulations! You configured the IKS Ingress ALB to securely send traffic to 
     $ kubectl delete policy default -n httptools --ignore-not-found=true
     $ kubectl delete destinationrule default -n httptools
     $ kubectl delete secrets istio-ingressgateway-certs istio-ingressgateway-ca-certs alb-certs -n istio-system
-    $ rm -rf nlb_certs alb_certs trustid-x3-root.pem trusted.crt
-    $ unset CLUSTER_NAME ALB_INGRESS_DOMAIN ALB_SECRET NLB_INGRESS_DOMAIN NLB_SECRET
+    $ rm -rf ingress_gateway_certs alb_certs trustid-x3-root.pem trusted.crt
+    $ unset CLUSTER_NAME ALB_INGRESS_DOMAIN ALB_SECRET INGRESS_GATEWAY_DOMAIN INGRESS_GATEWAY_SECRET
     {{< /text >}}
 
 1.  Shutdown the `httpbin` service:
