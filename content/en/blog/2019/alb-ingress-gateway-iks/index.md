@@ -155,12 +155,13 @@ and to trust the certificates one of another.
     $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME
     Retrieving host names, certificates, IPs, and health check monitors for network load balancer (NLB) pods in cluster <your cluster>...
     OK
-    Hostname              IP(s)               Health Monitor   SSL Cert Status   SSL Cert Secret Name
-    <your ingress gateway hostname>   <your ingress gateway IP>   enabled          created           <the matching secret name>
+    Hostname                          IP(s)                       Health Monitor   SSL Cert Status   SSL Cert Secret Name
+    <your ingress gateway hostname>   <your ingress gateway IP>   None             created           <the matching secret name>
     ...
     {{< /text >}}
 
-    Wait until the status of the hostname that matches the IP of the Istio ingress gateway service becomes `enabled`.
+    Wait until the status of the certificate (the third field) in the line that matches the IP of the Istio ingress
+    gateway service becomes `enabled` (initially it is `pending`).
 
 1.  Store the name of the secret that matches the IP of the Istio ingress gateway service:
 
