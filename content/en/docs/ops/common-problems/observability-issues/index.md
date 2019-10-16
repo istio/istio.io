@@ -195,7 +195,6 @@ in processing the most recent configuration as supplied.
     - targets: ['istio-mixer.istio-system:42422']</td>
     {{< /text >}}
 
-
 ## No traces appearing in Zipkin when running Istio locally on Mac
 
 Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
