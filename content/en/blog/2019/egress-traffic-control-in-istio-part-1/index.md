@@ -5,7 +5,6 @@ description: Attacks involving egress traffic and requirements for egress traffi
 publishdate: 2019-05-22
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress,security]
-target_release: 1.1
 ---
 
 This is part 1 in a new series about secure control of egress traffic in Istio that I am going to publish.
