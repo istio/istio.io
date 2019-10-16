@@ -7,7 +7,7 @@ attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,ingress,file-mount-credentials,iks]
 ---
 
-This example shows how to configure the [Ingress Application Load Balancer (ALB)](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about)
+In this blog post I show how to configure the [Ingress Application Load Balancer (ALB)](https://cloud.ibm.com/docs/containers?topic=containers-ingress-about)
 on [IBM Cloud Kubernetes Service (IKS)](https://www.ibm.com/cloud/kubernetes-service/) to direct traffic to the Istio
 ingress gateway, while securing the traffic between them using {{< gloss  >}}mutual TLS authentication{{< /gloss >}}.
 
@@ -33,7 +33,7 @@ IKS provides a convenient way for clients to access Istio ingress gateway by let
 IP with an IKS command. The domain is in the following [format](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname#loadbalancer_hostname_format): `<cluster_name>-<globally_unique_account_HASH>-0001.<region>.containers.appdomain.cloud`, for example `mycluster-a1b2cdef345678g9hi012j3kl4567890-0001.us-south.containers.appdomain.cloud`. In the same way as for the ALB domain, IKS provides a certificate and a private key,
 storing them in another Kubernetes secret.
 
-In this example you configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh
+In this blog post you configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh
 through the Istio ingress gateway, while using mutual TLS authentication between ALB and the gateway. For the mutual TLS authentication, you configure ALB and the Istio ingress gateway to use the certificates and the keys provided by IKS.
 Using IKS-provided certificates saves you the burden of managing your own certificates for the connection between ALB and
 the Istio ingress gateway.
