@@ -152,7 +152,7 @@ and to trust the certificates one of another.
 1.  List the registered domain names:
 
     {{< text bash >}}
-    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME | grep $INGRESS_GATEWAY_IP
+    $ ibmcloud ks nlb-dnss --cluster $CLUSTER_NAME
     Retrieving host names, certificates, IPs, and health check monitors for network load balancer (NLB) pods in cluster <your cluster>...
     OK
     Hostname              IP(s)               Health Monitor   SSL Cert Status   SSL Cert Secret Name
