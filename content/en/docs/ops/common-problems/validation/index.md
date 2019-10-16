@@ -1,6 +1,7 @@
 ---
 title: Galley Configuration Problems
 description: Describes how to resolve Galley configuration problems.
+force_inline_toc: true
 weight: 50
 aliases:
     - /help/ops/setup/validation

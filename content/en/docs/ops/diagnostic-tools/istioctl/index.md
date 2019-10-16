@@ -4,7 +4,8 @@ description: Istio includes a supplemental tool that provides debugging and diag
 weight: 10
 keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
-    - /help/ops/component-debugging
+  - /help/ops/component-debugging
+  - /docs/ops/troubleshooting/istioctl
 ---
 
 ## Overview

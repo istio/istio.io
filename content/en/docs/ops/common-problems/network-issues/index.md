@@ -1,6 +1,7 @@
 ---
 title: Networking Problems
 description: Techniques to address common Istio traffic management and network problems.
+force_inline_toc: true
 weight: 10
 aliases:
   - /help/ops/traffic-management/troubleshooting

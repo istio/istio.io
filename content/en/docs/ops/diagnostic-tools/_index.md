@@ -1,6 +1,6 @@
 ---
-title: Troubleshooting
+title: Diagnostic Tools
 description: Tools and techniques to help troubleshoot an Istio mesh.
-weight: 20
+weight: 80
 keywords: [ops]
 ---
