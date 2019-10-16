@@ -22,6 +22,6 @@ using your normal rollout strategy. For a Kubernetes deployment:
 
 * If you're using Kubernetes version 1.15 or above, you can run `kubectl rollout
   restart <my-deployment>` to trigger a new rollout.
-* Alternatively, you can modify the deployments `template` field to force a new
+* Alternatively, you can modify the deployment's `template` field to force a new
   rollout. This is often done by adding a label like `force-redeploy=<current
   timestamp>` to the pod definition in the template.
