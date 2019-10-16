@@ -1,10 +1,11 @@
 ---
 title: Component Logging
 description: Describes how to use component-level logging to get insights into a running component's behavior.
-weight: 97
+weight: 70
 keywords: [ops]
 aliases:
-    - /help/ops/component-logging
+  - /help/ops/component-logging
+  - /docs/ops/troubleshooting/component-logging
 ---
 
 Istio components are built with a flexible logging framework which provides a number of features and controls to
@@ -45,7 +46,7 @@ $ mixs server --log_output_level attributes=debug,adapters=warning
 {{< /text >}}
 
 In addition to controlling the output level from the command-line, you can also control the output level of a running component
-by using its [ControlZ](/docs/ops/troubleshooting/controlz) interface.
+by using its [ControlZ](/docs/ops/diagnostic-tools/controlz) interface.
 
 ## Controlling output
 

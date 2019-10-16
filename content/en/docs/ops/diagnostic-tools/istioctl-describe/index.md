@@ -1,8 +1,10 @@
 ---
-title: Understand your Mesh with istioctl describe
+title: Understand your Mesh with Istioctl Describe
 description: Shows you how to use istioctl describe to verify the configurations of a pod in your mesh.
-weight: 90
+weight: 30
 keywords: [traffic-management, istioctl, debugging, kubernetes]
+aliases:
+  - /docs/ops/troubleshooting/istioctl-describe
 ---
 
 {{< boilerplate experimental-feature-warning >}}
