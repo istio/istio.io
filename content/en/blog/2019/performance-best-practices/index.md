@@ -41,7 +41,7 @@ Next, when testing Istio's data plane performance at scale, it's important to te
 
 Lastly, our test environment measures requests between two pods, not many. The client pod is [Fortio](http://fortio.org/), which sends traffic to the server pod.
 
-Why test with only two pods? Because scaling up throughput (RPS) and connections (threads) has a greater effect on Envoy's performance than increasing the total size of the service registry — or, the total number of pods and services in the Kubernetes cluster. When the size of the service registry grows, Envoy does have to keep track of more endpoints, and lookup time per request does increase, but by a tiny constant. If you have many services, and this constant becomes a latency concern, Istio provides a [Sidecar resource](/docs/reference/config/networking/v1alpha3/sidecar/), which allows you to limit which services each Envoy knows about.
+Why test with only two pods? Because scaling up throughput (RPS) and connections (threads) has a greater effect on Envoy's performance than increasing the total size of the service registry — or, the total number of pods and services in the Kubernetes cluster. When the size of the service registry grows, Envoy does have to keep track of more endpoints, and lookup time per request does increase, but by a tiny constant. If you have many services, and this constant becomes a latency concern, Istio provides a [Sidecar resource](/docs/reference/config/networking/sidecar/), which allows you to limit which services each Envoy knows about.
 
 ## 3. Measure with and without proxies
 

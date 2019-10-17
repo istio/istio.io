@@ -389,7 +389,7 @@ work. As you'll remember from the [Architecture section](/docs/concepts/security
 authentication policies apply to requests that a service **receives**. To
 specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
-[TLS settings reference docs](/docs/reference/config/networking/v1alpha3/destination-rule/#TLSSettings).
+[TLS settings reference docs](/docs/reference/config/networking/destination-rule/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
 `.yaml` files. You deploy policies using `kubectl`.
 
