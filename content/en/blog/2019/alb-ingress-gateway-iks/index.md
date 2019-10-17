@@ -35,7 +35,7 @@ storing them in another Kubernetes secret.
 
 In this blog post you configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh
 through the Istio ingress gateway, while using mutual TLS authentication between ALB and the gateway. For the mutual TLS authentication, you configure ALB and the Istio ingress gateway to use the certificates and the keys provided by IKS.
-Using certificates provided by IKS saves you the burden of managing your own certificates for the connection between ALB and
+Using certificates provided by IKS saves you the overhead of managing your own certificates for the connection between ALB and
 the Istio ingress gateway.
 
 The traffic to the services without Istio sidecar can continue to flow as before, directly from ALB.
