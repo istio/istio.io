@@ -15,7 +15,7 @@ security vulnerability if an application is attempting to communicate with a
 service that it should not be allowed to. Similarly, if you currently have a
 policy of allowing any external service access, it is beneficial to monitor
 the traffic so you can incrementally add explicit Istio configuration to allow
-access and better security your cluster. In either case, having visibility into this
+access and better secure your cluster. In either case, having visibility into this
 traffic via telemetry is quite helpful as it enables you to create alerts and
 dashboards, and better reason about your security posture. This was a highly
 requested feature by production users of Istio and we are excited that the
