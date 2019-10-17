@@ -1,6 +1,1 @@
-<svg viewBox="0 0 300 300">
-<circle cx="150" cy="150" r="146" stroke-width="2" />
-<polygon points="65,240 225,240 125,270"/>
-<polygon points="65,230 125,220 125,110"/>
-<polygon points="135,220 225,230 135,30"/>
-</svg>
+<svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="146" stroke-width="2"/><polygon points="65 240 225 240 125 270"/><polygon points="65 230 125 220 125 110"/><polygon points="135 220 225 230 135 30"/></svg>
