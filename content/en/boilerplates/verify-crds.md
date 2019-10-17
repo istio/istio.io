@@ -1,6 +1,5 @@
-Verify that all `23` Istio CRDs were committed to the Kubernetes api-server using the following command:
+Wait for all Istio CRDs to be created:
 
 {{< text bash >}}
-$ kubectl get crds | grep 'istio.io' | wc -l
-23
+$ kubectl -n istio-system wait --for=condition=complete job --all
 {{< /text >}}
