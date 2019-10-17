@@ -67,9 +67,20 @@ The webhook certificates generated are stored in the secrets specified in the co
 
 ## `istioctl` enables webhook configurations
 
-1.  From `istio-webhook-management.yaml`, search `'kind: MutatingWebhookConfiguration'` and save
+1.  Generate `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` by running the following
+command:
+
+    {{< text bash >}}
+    $ helm template \
+        --name=istio \
+        --namespace=istio-system \
+        --values install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml \
+        install/kubernetes/helm/istio > istio-webhook-config.yaml
+    {{< /text >}}
+
+1.  From `istio-webhook-config.yaml`, search `'kind: MutatingWebhookConfiguration'` and save
 the `MutatingWebhookConfiguration` of Sidecar Injector to `sidecar-injector-webhook.yaml`. The following
-is a `MutatingWebhookConfiguration` in an example `istio-webhook-management.yaml`.
+is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
 
     {{< text yaml >}}
     apiVersion: admissionregistration.k8s.io/v1beta1
@@ -100,9 +111,9 @@ is a `MutatingWebhookConfiguration` in an example `istio-webhook-management.yaml
             istio-injection: enabled
     {{< /text >}}
 
-1.  From `istio-webhook-management.yaml`, search `'kind: ValidatingWebhookConfiguration'` and save
+1.  From `istio-webhook-config.yaml`, search `'kind: ValidatingWebhookConfiguration'` and save
 the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
-is a `ValidatingWebhookConfiguration` in an example `istio-webhook-management.yaml`.
+is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
 
     {{< text yaml >}}
     apiVersion: admissionregistration.k8s.io/v1beta1
