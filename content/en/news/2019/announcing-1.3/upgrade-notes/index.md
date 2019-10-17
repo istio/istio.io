@@ -34,7 +34,7 @@ Protocol sniffing is now enabled by default. Disable protocol sniffing with the
 previous behavior. To learn more see our [protocol selection page](/docs/ops/traffic-management/protocol-selection/).
 
 To specify a hostname in multiple namespaces, you must select a single host using
-a [`Sidecar` resource](/docs/reference/config/networking/v1alpha3/sidecar/).
+a [`Sidecar` resource](/docs/reference/config/networking/sidecar/).
 
 ## Trust domain validation
 

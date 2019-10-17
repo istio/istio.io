@@ -57,7 +57,7 @@ This is where the BlackHole and Passthrough clusters are used.
 * **BlackHoleCluster** - The BlackHoleCluster is a virtual cluster created
   in the Envoy configuration when `global.outboundTrafficPolicy.mode` is set to
   `REGISTRY_ONLY`. In this mode, all traffic to external service is blocked unless
-  [service entries](/docs/reference/config/networking/v1alpha3/service-entry)
+  [service entries](/docs/reference/config/networking/service-entry)
   are explicitly added for each service. To implement this, the default virtual
   outbound listener at `0.0.0.0:15001` which uses
   [original destination](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)

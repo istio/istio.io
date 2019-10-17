@@ -78,7 +78,7 @@ are built in to the API resources.
 
 ## Virtual services {#virtual-services}
 
-[Virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/#VirtualService),
+[Virtual services](/docs/reference/config/networking/virtual-service/#VirtualService),
 along with [destination rules](#destination-rules), are the key building blocks of Istio’s traffic
 routing functionality. A virtual service lets you configure how requests are
 routed to a service within an Istio service mesh, building on the basic
@@ -198,9 +198,9 @@ The `http` section contains the virtual service’s routing rules, describing
 match conditions and actions for routing HTTP/1.1, HTTP2, and gRPC traffic sent
 to the destination(s) specified in the hosts field (you can also use `tcp` and
 `tls` sections to configure routing rules for
-[TCP](/docs/reference/config/networking/v1alpha3/virtual-service/#TCPRoute) and
+[TCP](/docs/reference/config/networking/virtual-service/#TCPRoute) and
 unterminated
-[TLS](/docs/reference/config/networking/v1alpha3/virtual-service/#TLSRoute)
+[TLS](/docs/reference/config/networking/virtual-service/#TLSRoute)
 traffic). A routing rule consists of the destination where you want the traffic
 to go and zero or more match conditions, depending on your use case.
 
@@ -322,7 +322,7 @@ You can also have multiple routing rules for any given virtual service. This
 lets you make your routing conditions as complex or simple as you like within a
 single virtual service. A full list of match condition fields and their possible
 values can be found in the
-[`HTTPMatchRequest` reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPMatchRequest).
+[`HTTPMatchRequest` reference](/docs/reference/config/networking/virtual-service/#HTTPMatchRequest).
 
 In addition to using match conditions, you can distribute traffic
 by percentage "weight". This is useful for A/B testing and canary rollouts:
@@ -351,12 +351,12 @@ example:
 -   Set a [retry policy](#retries) for calls to this destination.
 
 To learn more about the actions available, see the
-[`HTTPRoute` reference](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
+[`HTTPRoute` reference](/docs/reference/config/networking/virtual-service/#HTTPRoute).
 
 ## Destination rules {#destination-rules}
 
 Along with [virtual services](#virtual-services),
-[destination rules](/docs/reference/config/networking/v1alpha3/destination-rule/#DestinationRule)
+[destination rules](/docs/reference/config/networking/destination-rule/#DestinationRule)
 are a key part of Istio’s traffic routing functionality. You can think of
 virtual services as how you route your traffic **to** a given destination, and
 then you use destination rules to configure what happens to traffic **for** that
@@ -372,7 +372,7 @@ Destination rules also let you customize Envoy’s traffic policies when calling
 the entire destination service or a particular service subset, such as your
 preferred load balancing model, TLS security mode, or circuit breaker settings.
 You can see a complete list of destination rule options in the
-[Destination Rule reference](/docs/reference/config/networking/v1alpha3/destination-rule/).
+[Destination Rule reference](/docs/reference/config/networking/destination-rule/).
 
 ### Load balancing options
 
@@ -435,7 +435,7 @@ subset’s field.
 
 ## Gateways {#gateways}
 
-You use a [gateway](/docs/reference/config/networking/v1alpha3/gateway/#Gateway) to
+You use a [gateway](/docs/reference/config/networking/gateway/#Gateway) to
 manage inbound and outbound traffic for your mesh, letting you specify which
 traffic you want to enter or leave the mesh. Gateway configurations are applied
 to standalone Envoy proxies that are running at the edge of the mesh, rather
@@ -518,7 +518,7 @@ traffic.
 ## Service entries {#service-entries}
 
 You use a
-[service entry](/docs/reference/config/networking/v1alpha3/service-entry/#ServiceEntry) to add
+[service entry](/docs/reference/config/networking/service-entry/#ServiceEntry) to add
 an entry to the service registry that Istio maintains internally. After you add
 the service entry, the Envoy proxies can send traffic to the service as if it
 was a service in your mesh. Configuring service entries allows you to manage
@@ -585,14 +585,14 @@ spec:
 {{< /text >}}
 
 See the
-[Service Entry reference](/docs/reference/config/networking/v1alpha3/service-entry)
+[Service Entry reference](/docs/reference/config/networking/service-entry)
 for more possible configuration options.
 
 ## Sidecars {#sidecars}
 
 By default, Istio configures every Envoy proxy to accept traffic on all the
 ports of its associated workload, and to reach every workload in the mesh when
-forwarding traffic. You can use a [sidecar](/docs/reference/config/networking/v1alpha3/sidecar/#Sidecar) configuration to do the following:
+forwarding traffic. You can use a [sidecar](/docs/reference/config/networking/sidecar/#Sidecar) configuration to do the following:
 
 -   Fine-tune the set of ports and protocols that an Envoy proxy accepts.
 -   Limit the set of services that the Envoy proxy can reach.
@@ -621,7 +621,7 @@ spec:
     - "istio-system/*"
 {{< /text >}}
 
-See the [Sidecar reference](/docs/reference/config/networking/v1alpha3/sidecar/)
+See the [Sidecar reference](/docs/reference/config/networking/sidecar/)
 for more details.
 
 ## Network resilience and testing {#network-resilience-and-testing}

@@ -41,7 +41,7 @@ memory or IP ports over time ([Issue 13355](https://github.com/istio/istio/issue
 
 - Added missing validation to prevent gateway names from containing dots ([Issue 13211](https://github.com/istio/istio/issues/13211)).
 
-- Fixed bug where [`ConsistentHashLB.minimumRingSize`](/docs/reference/config/networking/v1alpha3/destination-rule/#LoadBalancerSettings-ConsistentHashLB)
+- Fixed bug where [`ConsistentHashLB.minimumRingSize`](/docs/reference/config/networking/destination-rule/#LoadBalancerSettings-ConsistentHashLB)
 was defaulting to 0 instead of the documented 1024 ([Issue 13261](https://github.com/istio/istio/issues/13261)).
 
 ## Small enhancements
