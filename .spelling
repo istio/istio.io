@@ -148,6 +148,7 @@ CRDs
 CSRs
 Ctrl
 Customizable
+CustomResourceDefinitions
 CVE
 CVE-2019-14993
 CVE-2019-9512
@@ -385,6 +386,7 @@ onboarding
 Onboarding
 onwards
 OP_QUERY
+OpenAPI
 OpenCensus
 OpenID
 OpenID_Connect
