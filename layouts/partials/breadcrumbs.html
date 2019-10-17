@@ -1,15 +1,18 @@
 {{ $url := replace .Permalink ( printf "%s" .Site.BaseURL) "" }}
 {{ $page := .Page }}
+{{ $done := false }}
 {{ range $index := split $url "/" }}
     {{ if $page }}
-        {{ $.Scratch.Add "urls" (slice $page.Permalink) }}
-        {{ $.Scratch.Add "titles" (slice $page.LinkTitle) }}
-        {{ $.Scratch.Add "descriptions" (slice $page.Description) }}
+        {{ if not $done }}
+            {{ $.Scratch.Add "urls" (slice $page.Permalink) }}
+            {{ $.Scratch.Add "titles" (slice $page.LinkTitle) }}
+            {{ $.Scratch.Add "descriptions" (slice $page.Description) }}
 
-        {{ $old := $page }}
-        {{ $page = $page.GetPage (path.Dir (path.Dir $page.File.Path)) }}
-        {{ if eq $old $page }}
-            {{ $page = $page.Site.GetPage "home" }}
+            {{ $old := $page }}
+            {{ $page = $page.GetPage (path.Dir (path.Dir $page.File.Path)) }}
+            {{ if eq $old $page }}
+                {{ $done = true }}
+            {{ end }}
         {{ end }}
     {{ end }}
 {{ end }}
