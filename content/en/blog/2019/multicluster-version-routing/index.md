@@ -19,7 +19,7 @@ Fortunately, Istio provides several ways to configure a service mesh so that app
 can, more-or-less transparently, be part of a mesh where the services are running
 in more than one cluster, i.e., in a
 [multicluster deployment](/docs/concepts/deployment-models/#multiple-clusters).
-The simplest way to setup a multicluster mesh, because it has no special networking requirements,
+The simplest way to set up a multicluster mesh, because it has no special networking requirements,
 is using a replicated
 [control plane model](/docs/concepts/deployment-models/#control-plane-models).
 In this configuration, each Kubernetes cluster contributing to the mesh has its own control plane,
@@ -32,7 +32,7 @@ We'll show how to configure Istio route rules to call remote services in a multi
 by deploying the [Bookinfo sample]({{<github_tree>}}/samples/bookinfo) with version `v1` of the `reviews` service
 running in one cluster, versions `v2` and `v3` running in a second cluster.
 
-## Setup clusters
+## Set up clusters
 
 To start, you'll need two Kubernetes clusters, both running a slightly customized configuration of Istio.
 
