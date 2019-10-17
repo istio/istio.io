@@ -344,10 +344,10 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     {{< /text >}}
 
 1.  To include a volume mounted from the new created secret, update the `istio-ingressgateway` deployment.
-    To patch the `istio-ingressgateway` deployment, create the following `patch.json` file:
+    To patch the `istio-ingressgateway` deployment, create the following `gateway-patch.json` file:
 
     {{< text bash >}}
-    $ cat > patch.json <<EOF
+    $ cat > gateway-patch.json <<EOF
     [{
       "op": "add",
       "path": "/spec/template/spec/containers/0/volumeMounts/0",
@@ -374,7 +374,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 1.  Apply `istio-ingressgateway` deployment patch with the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system patch --type=json deploy istio-ingressgateway -p "$(cat patch.json)"
+    $ kubectl -n istio-system patch --type=json deploy istio-ingressgateway -p "$(cat gateway-patch.json)"
     {{< /text >}}
 
 1.  Verify that the key and certificate have been successfully loaded in the `istio-ingressgateway` pod:
@@ -581,10 +581,10 @@ In addition to the steps in the previous section, perform the following:
     $ rm -rf httpbin.example.com bookinfo.com mtls-go-example
     {{< /text >}}
 
-1.  Remove the file you used for redeployment of `istio-ingressgateway`:
+1.  Remove the patch file you used for redeployment of `istio-ingressgateway`:
 
     {{< text bash >}}
-    $ rm -f $HOME/istio-ingressgateway.yaml
+    $ rm -f gateway-patch.json
     {{< /text >}}
 
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
