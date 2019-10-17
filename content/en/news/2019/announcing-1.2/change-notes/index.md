@@ -16,9 +16,9 @@ aliases:
 - **Improved** [locality based routing](/docs/ops/traffic-management/locality-load-balancing/) in multicluster environments.
 - **Improved** outbound traffic policy in [`ALLOW_ANY` mode](/docs/reference/config/installation-options/#global-options). Traffic for unknown HTTP/HTTPS hosts on an existing port will be [forwarded as is](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services). Unknown traffic will be logged in Envoy access logs.
 - **Added** support for setting HTTP idle timeouts to upstream services.
-- **Improved** Sidecar support for [NONE mode](/docs/reference/config/networking/v1alpha3/sidecar/#CaptureMode) (without iptables) .
+- **Improved** Sidecar support for [NONE mode](/docs/reference/config/networking/sidecar/#CaptureMode) (without iptables) .
 - **Added** ability to configure the [DNS refresh rate](/docs/reference/config/installation-options/#global-options) for sidecar Envoys, to reduce the load on the DNS servers.
-- **Graduated** [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) from Alpha to Alpha API and Beta runtime.
+- **Graduated** [Sidecar API](/docs/reference/config/networking/sidecar/) from Alpha to Alpha API and Beta runtime.
 
 ## Security
 
@@ -29,7 +29,7 @@ aliases:
 - **Improved** JWT public key fetching logic to be more resilient to network failure.
 - **Fixed** [SAN](https://tools.ietf.org/html/rfc5280#section-4.2.1.6) field in workload certificates is set as `critical`. This fixes the issue that some custom certificate verifiers cannot verify Istio certificates.
 - **Fixed** mutual TLS probe rewrite for HTTPS probes.
-- **Graduated** [SNI with multiple certificates support at ingress gateway](/docs/reference/config/networking/v1alpha3/gateway/) from Alpha to Stable.
+- **Graduated** [SNI with multiple certificates support at ingress gateway](/docs/reference/config/networking/gateway/) from Alpha to Stable.
 - **Graduated** [certification management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds/) from Alpha to Beta.
 
 ## Telemetry
