@@ -22,7 +22,7 @@ aliases:
 - **Improved** load balancing to direct traffic to the [same region and zone](/faq/traffic-management/#controlling-inbound-ports) by default.
 - **Improved** Pilot by reducing CPU utilization. The reduction approaches 90% depending on the specific deployment.
 - **Improved** the `ServiceEntry` API to allow for the same hostname in different namespaces.
-- **Improved** the [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/#OutboundTrafficPolicy) to customize the `OutboundTrafficPolicy` policy.
+- **Improved** the [Sidecar API](/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy) to customize the `OutboundTrafficPolicy` policy.
 
 ## Security
 

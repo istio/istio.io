@@ -3,9 +3,10 @@ WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL
 source_repo: https://github.com/istio/api
 title: Destination Rule
 description: Configuration affecting load balancing, outlier detection, etc.
-location: https://istio.io/docs/reference/config/networking/v1alpha3/destination-rule.html
+location: https://istio.io/docs/reference/config/networking/destination-rule.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
+aliases: [/docs/reference/config/networking/v1alpha3/destination-rule.html]
 number_of_entries: 16
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
@@ -392,7 +393,7 @@ after routing has occurred.</p>
 <p>The name of a service from the service registry. Service
 names are looked up from the platform&rsquo;s service registry (e.g.,
 Kubernetes services, Consul services, etc.) and from the hosts
-declared by <a href="/docs/reference/config/networking/v1alpha3/service-entry/#ServiceEntry">ServiceEntries</a>. Rules defined for
+declared by <a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntries</a>. Rules defined for
 services that do not exist in the service registry will be ignored.</p>
 
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
@@ -833,7 +834,7 @@ No
 <section>
 <p>A subset of endpoints of a service. Subsets can be used for scenarios
 like A/B testing, or routing to a specific version of a service. Refer
-to <a href="/docs/reference/config/networking/v1alpha3/virtual-service/#VirtualService">VirtualService</a> documentation for examples of using
+to <a href="/docs/reference/config/networking/virtual-service/#VirtualService">VirtualService</a> documentation for examples of using
 subsets in these scenarios. In addition, traffic policies defined at the
 service-level can be overridden at a subset-level. The following rule
 uses a round robin load balancing policy for all traffic going to a
@@ -1201,7 +1202,7 @@ No
 <tbody>
 <tr id="TrafficPolicy-PortTrafficPolicy-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/v1alpha3/virtual-service.html#PortSelector">PortSelector</a></code></td>
+<td><code><a href="/docs/reference/config/networking/virtual-service.html#PortSelector">PortSelector</a></code></td>
 <td>
 <p>Specifies the number of a port on the destination service
 on which this policy is being applied.</p>

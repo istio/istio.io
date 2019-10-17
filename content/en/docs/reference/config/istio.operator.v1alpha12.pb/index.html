@@ -128,7 +128,7 @@ components:
   galley:
     k8s:
       overlays:
-      - apiVersion: apps/v1
+      - apiVersion: extensions/v1beta1
         kind: Deployment
         name: istio-galley
         patches:
@@ -1009,6 +1009,18 @@ No
 <td><code>apiVersion</code></td>
 <td><code>string</code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioControlPlane-placeholder">
+<td><code>placeholder</code></td>
+<td><code>string</code></td>
+<td>
+<p>GOFIELD:v11.ObjectMeta <code>json:&quot;metadata,omitempty&quot; protobuf:&quot;bytes,7,opt,name=metadata&quot;</code>
+GOFIELD:v11.TypeMeta <code>json:&quot;,inline&quot;</code></p>
+
 </td>
 <td>
 No

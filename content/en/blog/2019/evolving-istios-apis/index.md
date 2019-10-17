@@ -40,7 +40,7 @@ higher-level APIs. [Knative Serving](https://knative.dev/docs/serving/), a compo
 serving serverless applications and functions, provides an opinionated workflow for application developers to manage routes and revisions of their services.
 Thanks to that opinionated approach, Knative Serving exposes a subset of Istio’s networking APIs that are most relevant to application developers via a simplified
 [Routes](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) object that supports revisions and traffic routing,
-abstracting Istio’s [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) and [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
+abstracting Istio’s [`VirtualService`](/docs/reference/config/networking/virtual-service/) and [`DestinationRule`](/docs/reference/config/networking/destination-rule/)
 resources.
 
 As Istio has matured, we’ve also seen production users develop workload- and organization-specific abstractions on top of Istio’s infrastructure APIs.

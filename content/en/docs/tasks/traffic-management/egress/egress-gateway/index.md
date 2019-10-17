@@ -17,7 +17,7 @@ There, the external services are called directly from the client sidecar.
 This example also shows how to configure Istio to call external services, although this time
 indirectly via a dedicated _egress gateway_ service.
 
-Istio uses [ingress and egress gateways](/docs/reference/config/networking/v1alpha3/gateway/)
+Istio uses [ingress and egress gateways](/docs/reference/config/networking/gateway/)
 to configure load balancers executing at the edge of a service mesh.
 An ingress gateway allows you to define entry points into the mesh that all incoming traffic flows through.
 Egress gateway is a symmetrical concept; it defines exit points from the mesh. Egress gateways allow

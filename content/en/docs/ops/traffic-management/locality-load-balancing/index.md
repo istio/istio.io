@@ -35,7 +35,7 @@ As a result, this field does not need to be configured.
 
 In order for Istio to determine locality, a Service must be associated with the caller.
 
-To determine when instances are unhealthy, the proxies require an [outlier detection](/docs/reference/config/networking/v1alpha3/destination-rule/#OutlierDetection)
+To determine when instances are unhealthy, the proxies require an [outlier detection](/docs/reference/config/networking/destination-rule/#OutlierDetection)
 configuration in a destination rule for each service.
 
 ## Locality-prioritized load balancing
