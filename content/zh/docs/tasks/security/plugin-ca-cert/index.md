@@ -121,4 +121,4 @@ keywords: [security,certificates]
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-* 移除 Istio 组件: 详细参照 [删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除) 
+* 移除 Istio 组件: 详细参照[删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除) 
