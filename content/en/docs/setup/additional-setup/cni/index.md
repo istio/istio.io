@@ -25,7 +25,7 @@ Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
 setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/additional-setup/requirements/)
-for users deploying pods into the Istio mesh.  The [Istio CNI plugin](https://github.com/istio/cni)
+for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
 ## Prerequisites
