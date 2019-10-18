@@ -10,18 +10,17 @@ The following information describes an experimental feature, which is intended
 for evaluation purposes only.
 {{< /warning >}}
 
-This task shows how to how to manage webhooks in Istio through `istioctl`.
+Istio has two webhooks (Galley and Sidecar Injector). In current Istio implementation,
+Galley and Sidecar Injector manage their own webhook configurations, which from
+security perspective is not recommended because a compromised webhook may conduct
+privilege escalation attacks.
+
+This task shows how to use `istioctl`, instead of Galley and Sidecar Injector, to
+manage the webhook configurations of Galley and Sidecar Injector.
 
 ## Before you begin
 
 * Create a new Kubernetes cluster to run the example in this tutorial.
-
-## Webhook management
-
-Istio has two webhooks (Galley and Sidecar Injector). In current Istio implementation,
-Galley and Sidecar Injector manage their own webhook configurations.
-This task uses `istioctl`, instead of Galley and Sidecar Injector, to manage the webhook configurations
-of Galley and Sidecar Injector.
 
 ## Install Istio
 
@@ -36,6 +35,7 @@ of Galley and Sidecar Injector.
     $ helm template \
         --name=istio \
         --namespace=istio-system \
+        --set global.imagePullPolicy=Always \
         --set global.operatorManageWebhooks=true \
         --values install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml \
         install/kubernetes/helm/istio > istio-webhook-management.yaml
@@ -78,6 +78,7 @@ command:
         install/kubernetes/helm/istio > istio-webhook-config.yaml
     {{< /text >}}
 
+<!-- TODO (lei-tang): improve the UX for obtain MutatingWebhookConfiguration -->
 1.  From `istio-webhook-config.yaml`, search `'kind: MutatingWebhookConfiguration'` and save
 the `MutatingWebhookConfiguration` of Sidecar Injector to `sidecar-injector-webhook.yaml`. The following
 is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
@@ -111,6 +112,7 @@ is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
             istio-injection: enabled
     {{< /text >}}
 
+<!-- TODO (lei-tang): improve the UX for obtain ValidatingWebhookConfiguration -->
 1.  From `istio-webhook-config.yaml`, search `'kind: ValidatingWebhookConfiguration'` and save
 the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
 is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
@@ -140,105 +142,7 @@ is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
             - UPDATE
             apiGroups:
             - config.istio.io
-            apiVersions:
-            - v1alpha2
-            resources:
-            - httpapispecs
-            - httpapispecbindings
-            - quotaspecs
-            - quotaspecbindings
-          - operations:
-            - CREATE
-            - UPDATE
-            apiGroups:
-            - rbac.istio.io
-            apiVersions:
-            - "*"
-            resources:
-            - "*"
-          - operations:
-            - CREATE
-            - UPDATE
-            apiGroups:
-            - security.istio.io
-            apiVersions:
-            - "*"
-            resources:
-            - "*"
-          - operations:
-            - CREATE
-            - UPDATE
-            apiGroups:
-            - authentication.istio.io
-            apiVersions:
-            - "*"
-            resources:
-            - "*"
-          - operations:
-            - CREATE
-            - UPDATE
-            apiGroups:
-            - networking.istio.io
-            apiVersions:
-            - "*"
-            resources:
-            - destinationrules
-            - envoyfilters
-            - gateways
-            - serviceentries
-            - sidecars
-            - virtualservices
-        failurePolicy: Fail
-        sideEffects: None
-      - name: mixer.validation.istio.io
-        clientConfig:
-          service:
-            name: istio-galley
-            namespace: istio-system
-            path: "/admitmixer"
-          caBundle: ""
-        rules:
-          - operations:
-            - CREATE
-            - UPDATE
-            apiGroups:
-            - config.istio.io
-            apiVersions:
-            - v1alpha2
-            resources:
-            - rules
-            - attributemanifests
-            - circonuses
-            - deniers
-            - fluentds
-            - kubernetesenvs
-            - listcheckers
-            - memquotas
-            - noops
-            - opas
-            - prometheuses
-            - rbacs
-            - solarwindses
-            - stackdrivers
-            - cloudwatches
-            - dogstatsds
-            - statsds
-            - stdios
-            - apikeys
-            - authorizations
-            - checknothings
-            # - kuberneteses
-            - listentries
-            - logentries
-            - metrics
-            - quotas
-            - reportnothings
-            - tracespans
-            - adapters
-            - handlers
-            - instances
-            - templates
-            - zipkins
+            ... SKIPPED
         failurePolicy: Fail
         sideEffects: None
     {{< /text >}}
