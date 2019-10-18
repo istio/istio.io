@@ -7,6 +7,7 @@ release: 1.1.14
 aliases:
     - /about/notes/1.1.14
     - /blog/2019/announcing-1.1.14
+    - /news/announcing-1.1.14
 ---
 
 We're pleased to announce the availability of Istio 1.1.14. Please see below for what's changed.
