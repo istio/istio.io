@@ -102,6 +102,10 @@ metadata:
   labels:
     app: elasticsearch
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
   template:
     metadata:
       labels:
@@ -165,6 +169,10 @@ metadata:
   labels:
     app: fluentd-es
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fluentd-es
   template:
     metadata:
       labels:
@@ -250,6 +258,10 @@ metadata:
   labels:
     app: kibana
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
   template:
     metadata:
       labels:
