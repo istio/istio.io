@@ -5,6 +5,8 @@ publishdate: 2019-09-27
 attribution: The Istio Team
 subtitle: Minor Update
 release: 1.3.1
+aliases:
+    - /news/announcing-1.3.1
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.3.0 and Istio 1.3.1.

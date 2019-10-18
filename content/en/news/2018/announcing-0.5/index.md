@@ -7,6 +7,7 @@ release: 0.5.0
 aliases:
     - /about/notes/older/0.5
     - /about/notes/0.5/index.html
+    - /news/announcing-0.5
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or
