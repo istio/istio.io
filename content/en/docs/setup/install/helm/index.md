@@ -116,15 +116,6 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="demo-auth" cookie-value="demo-auth" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="minimal" cookie-value="minimal" >}}
 
 {{< text bash >}}
