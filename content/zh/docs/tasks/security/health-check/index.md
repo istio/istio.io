@@ -110,7 +110,7 @@ livenessProbe:
 
 ## 清理
 
-* 在 Citadel 上禁用健康检查：详细参照 [删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除) 
+* 在 Citadel 上禁用健康检查：详细参照[删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除)
 
 * 移除 Citadel：
 
