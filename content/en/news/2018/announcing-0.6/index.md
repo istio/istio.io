@@ -7,6 +7,7 @@ release: 0.6.0
 aliases:
     - /about/notes/older/0.6
     - /about/notes/0.6/index.html
+    - /news/announcing-0.6
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or
