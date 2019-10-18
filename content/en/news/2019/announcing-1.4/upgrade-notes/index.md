@@ -10,7 +10,7 @@ compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.3.
 
-## Traffic Management
+## Traffic management
 
 Services of type `http` are no longer allowed on port 443. This change was made to prevent protocol conflicts with external HTTPS services.
 
@@ -22,7 +22,7 @@ If you depend on this behavior, there are a few options:
 
 See [Protocol Selection](/docs/ops/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
 
-## Configuration Management
+## Configuration management
 
 We introduced OpenAPI v3 schemas in the Kubernetes [Custom Resource Definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) of Istio resources. The schemas describe the Istio resources and help ensure the Istio resources you create and modify are structurally correct.
 
