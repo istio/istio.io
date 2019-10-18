@@ -13,14 +13,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 ## Before you begin
 
-* Set up Istio by following the instructions in the
-[quick start](/docs/setup/install/kubernetes/) with global mutual TLS enabled:
-
-  Follow the [installation instructions](/docs/setup/install/kubernetes/#installation-steps) install Istio with the **strict mutual TLS mode** enabled.
-
-  _**OR**_
-
-  Using [Helm](/docs/setup/install/helm/) with mutual TLS enabled.
+* Set up Istio by following the instructions in the [quick start](/docs/setup/install/kubernetes/):
 
 {{< tip >}}
 You can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authn-policy/)
@@ -141,8 +134,5 @@ This requires you have `openssl` installed on your machine.
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-*   To remove the Istio components:
+*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/install/kubernetes/#uninstall) to remove.
 
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}

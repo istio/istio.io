@@ -120,7 +120,9 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml | kubectl apply -f -
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true | kubectl apply -f -
 {{< /text >}}
 
 {{< /tab >}}
@@ -224,7 +226,9 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true
 {{< /text >}}
 
 {{< /tab >}}
@@ -311,7 +315,9 @@ $ kubectl delete namespace istio-system
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo-auth.yaml | kubectl delete -f -
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true | kubectl delete -f -
 $ kubectl delete namespace istio-system
 {{< /text >}}
 

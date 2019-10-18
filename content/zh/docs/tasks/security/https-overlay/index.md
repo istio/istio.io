@@ -147,10 +147,12 @@ $ kubectl get pod -n istio-system
 No resources found.
 {{< /text >}}
 
-然后，部署启用了双向 TLS 的 Istio 控制平面：
+根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装自定义资源定义。
+
+然后，安装并启用双向 TLS 部署 Istio 控制平面:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set global.controlPlaneSecurityEnabled=true --set global.mtls.enabled=true | kubectl apply -f -
 {{< /text >}}
 
 确保一切正常运转：
