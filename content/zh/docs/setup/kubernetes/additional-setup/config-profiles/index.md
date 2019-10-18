@@ -46,11 +46,11 @@ keywords: [profiles,install,helm]
 
 有些配置文件会有一个带有认证功能的变体，文件名会加入 `-auth`，这种配置会加入以下几个功能：
 
-| | default | demo | minimal | sds |
-| --- | :---: | :---: | :---: | :---: |
-| Control Plane Security | | X | | |
-| Strict Mutual TLS | | X | | X |
-| SDS | | | | X |
+| | default | minimal | sds |
+| --- | :---: | :---: | :---: |
+| Control Plane Security | | | |
+| Strict Mutual TLS |  | | X |
+| SDS | | | X |
 
 要进一步的对 Istio 进行定制或添加插件，可以在 `helm template` 或者 `helm install` 命令中加入一个或多个的 `--set <key>=<value>`，[安装选项说明](/zh/docs/reference/config/installation-options/)中介绍了安装过程中可用的完整的键值对。
 

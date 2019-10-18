@@ -13,9 +13,7 @@ keywords: [security,certificates]
 
 * 根据 [quick start](/zh/docs/setup/kubernetes/install/kubernetes/) 内容，安装 Istio 并启用双向 TLS：
 
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}
+    根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio 并启用双向 TLS。
 
     _**或者**_
 
@@ -123,8 +121,4 @@ keywords: [security,certificates]
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-* 移除 Istio 组件:
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}
+* 移除 Istio 组件: 详细参照[删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除) 

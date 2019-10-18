@@ -43,45 +43,11 @@ requirements.
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
-1. Install one of the following variants of the **demo** profile:
-
-{{< tabset cookie-name="profile" >}}
-
-{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
-When using the [permissive mutual TLS mode](/docs/concepts/security/#permissive-mode), all services accept both plaintext and
-mutual TLS traffic. Clients send plaintext traffic unless configured for
-[mutual TLS migration](/docs/tasks/security/mtls-migration/).
-
-Choose this variant for:
-
-* Clusters with existing applications, or
-* Applications where services with an Istio sidecar need to be able to
-  communicate with other non-Istio Kubernetes services
-
-Run the following command to install this variant:
+1. Install the **demo** profile:
 
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="strict mutual TLS" cookie-value="strict" >}}
-This variant will enforce
-[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between all clients and servers.
-
-Use this variant only on a fresh Kubernetes cluster where all workloads will be Istio-enabled.
-All newly deployed workloads will have Istio sidecars installed.
-
-Run the following command to install this variant:
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 ## Verifying the installation
 
@@ -173,27 +139,11 @@ The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
 all resources hierarchically under it. It is safe to ignore errors for
 non-existent resources because they may have been deleted hierarchically.
 
-* Uninstall the **demo** profile corresponding to the mutual TLS mode you enabled:
-
-{{< tabset cookie-name="profile" >}}
-
-{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
+* Uninstall the **demo** profile:
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="strict mutual TLS" cookie-value="strict" >}}
-
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 * If desired, delete the Istio CRDs:
 
