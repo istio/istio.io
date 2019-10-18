@@ -147,7 +147,7 @@ $ kubectl get pod -n istio-system
 No resources found.
 {{< /text >}}
 
-使用 [安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤) 安装自定义资源定义。
+根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装自定义资源定义。
 
 然后，安装并启用双向 TLS 部署 Istio 控制平面:
 
