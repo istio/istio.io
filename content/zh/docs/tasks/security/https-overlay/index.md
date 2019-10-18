@@ -152,7 +152,7 @@ No resources found.
 然后，安装并启用双向 TLS 部署 Istio 控制平面:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set global.controlPlaneSecurityEnabled=true --set global.mtls.enabled=true | kubectl delete -f -
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set global.controlPlaneSecurityEnabled=true --set global.mtls.enabled=true | kubectl apply -f -
 {{< /text >}}
 
 确保一切正常运转：
