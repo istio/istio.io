@@ -335,7 +335,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `kiali.enabled` | `false` | `Note that if using the demo or demo-auth yaml when installing via Helm, this default will be true.` |
+| `kiali.enabled` | `false` | `Note that if using the demo yaml when installing via Helm, this default will be true.` |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `quay.io/kiali` |  |
 | `kiali.image` | `kiali` |  |

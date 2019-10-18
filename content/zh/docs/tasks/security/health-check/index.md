@@ -17,9 +17,7 @@ Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状
 
 * 根据[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)的指引部署 Istio 并启用全局双向 TLS 支持。
 
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    {{< /text >}}
+    根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio 并启用双向 TLS。
 
     _**或者**_
 
@@ -112,12 +110,7 @@ livenessProbe:
 
 ## 清理
 
-* 在 Citadel 上禁用健康检查：
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-    $ kubectl delete svc istio-citadel -n istio-system
-    {{< /text >}}
+* 在 Citadel 上禁用健康检查：详细参照[删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除)
 
 * 移除 Citadel：
 
