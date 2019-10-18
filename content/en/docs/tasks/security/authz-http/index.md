@@ -31,7 +31,7 @@ the product page, you can see the following sections:
 When you refresh the page, the app shows different versions of reviews in the product page.
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
 
-## Enforcing Mesh-level access control
+## Enforcing mesh-level access control
 
 Using Istio authorization, you can easily setup mesh-level access control for all workloads in the mesh.
 
@@ -60,7 +60,7 @@ workloads in the default namespace.
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### Cleanup Mesh-level access control
+### Cleanup mesh-level access control
 
 Remove the following configuration before you proceed to the next task:
 
@@ -68,7 +68,7 @@ Remove the following configuration before you proceed to the next task:
 $ kubectl delete authorizationpolicy.security.istio.io/deny-all -n istio-system
 {{< /text >}}
 
-## Enforcing Namespace-level access control
+## Enforcing namespace-level access control
 
 Using Istio authorization, you can easily setup namespace-level access control by specifying all (or a collection of) workloads
 in a namespace are accessible by workloads from another namespace.
@@ -114,7 +114,7 @@ with the "Book Details" section in the lower left part and the "Book Reviews" se
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### Cleanup Namespace-level access control
+### Cleanup namespace-level access control
 
 Remove the following configuration before you proceed to the next task:
 
@@ -122,7 +122,7 @@ Remove the following configuration before you proceed to the next task:
 $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-viewer
 {{< /text >}}
 
-## Enforcing Workload-level access control
+## Enforcing workload-level access control
 
 This task shows you how to set up workload-level access control using Istio authorization.
 
@@ -291,7 +291,7 @@ the "black" and "red" ratings in the "Book Reviews" section.
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### Cleanup Workload-level access control
+### Cleanup workload-level access control
 
 *   Remove Istio authorization policy configurations:
 
