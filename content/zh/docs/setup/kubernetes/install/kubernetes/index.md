@@ -27,7 +27,7 @@ keywords: [kubernetes]
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
-1. 从下列的几个**演示配置**中选择一个进行安装。
+ 1. 安装**演示配置**。
 
 如果使用 mutual TLS 的宽容模式，所有的服务会同时允许明文和双向 TLS 的流量。在没有明确[配置客户端进行双向 TLS 通信](/zh/docs/tasks/security/mtls-migration/#配置客户端进行双向-tls-通信)的情况下，客户端会发送明文流量。可以进一步阅读了解[双向 TLS 中的宽容模式](/docs/concepts/security/#permissive-mode)的相关内容。
 
