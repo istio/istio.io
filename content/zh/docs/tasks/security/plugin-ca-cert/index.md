@@ -13,7 +13,7 @@ keywords: [security,certificates]
 
 * 根据 [quick start](/zh/docs/setup/kubernetes/install/kubernetes/) 内容，安装 Istio 并启用双向 TLS：
 
-    使用 [安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤) 安装Istio 并启用双向 TLS
+    根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio 并启用双向 TLS。
 
     _**或者**_
 
