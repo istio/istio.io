@@ -93,7 +93,7 @@ spec:
     app: elasticsearch
 ---
 # Elasticsearch Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch
@@ -101,6 +101,10 @@ metadata:
   labels:
     app: elasticsearch
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
   template:
     metadata:
       labels:
@@ -156,7 +160,7 @@ spec:
     app: fluentd-es
 ---
 # Fluentd Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fluentd-es
@@ -164,6 +168,10 @@ metadata:
   labels:
     app: fluentd-es
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fluentd-es
   template:
     metadata:
       labels:
@@ -241,7 +249,7 @@ spec:
     app: kibana
 ---
 # Kibana Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana
@@ -249,6 +257,10 @@ metadata:
   labels:
     app: kibana
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
   template:
     metadata:
       labels:
