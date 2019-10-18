@@ -7,6 +7,7 @@ attribution: The Istio Team
 release: 1.3.0
 aliases:
     - /blog/2019/announcing-1.3
+    - /news/announcing-1.3
 skip_list: true
 ---
 
