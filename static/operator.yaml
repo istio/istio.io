@@ -47,7 +47,7 @@ metadata:
   namespace: istio-operator
   name: example-istiocontrolplane
 spec:
-  profile: default
+  profile: demo
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -210,7 +210,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
-              value: ""
+              value: "istio-operator"
             - name: LEADER_ELECTION_NAMESPACE
               valueFrom:
                 fieldRef:
