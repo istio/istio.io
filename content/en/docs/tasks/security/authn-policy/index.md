@@ -252,7 +252,6 @@ command terminated with exit code 56
 If we have more services in namespace `bar`, we should see traffic to them won't be affected. Instead of adding more services to demonstrate this behavior,
 we edit the policy slightly to apply on a specific port:
 
-
 <!-- What's this part for? I don't think we have a port 1234 for httpbin service. -->
 
 {{< text bash >}}
