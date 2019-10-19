@@ -1,11 +1,9 @@
 ---
-title: Operator CLI-based Installation [Experimental]
+title: Operator CLI-based Installation
 description: Install and configure Istio using the Istio Operator CLI.
 weight: 25
 keywords: [operator,kubernetes,helm]
 ---
-
-{{< boilerplate experimental-feature-warning >}}
 
 Follow this guide to install and configure an Istio mesh using an alternate
 installation method: the Istio {{<gloss operator>}}Operator CLI{{</gloss>}}
@@ -32,7 +30,7 @@ Before you begin, check the following prerequisites:
 The simplest option is to install a default Istio configuration using a one-line command:
 
 {{< text bash >}}
-$ istioctl experimental manifest apply
+$ istioctl manifest apply
 {{< /text >}}
 
 This command installs a profile named `default` on the cluster defined by your
@@ -43,14 +41,14 @@ is intended for evaluating a broad set of Istio features.
 You can view the `default` profile configuration settings by using this command:
 
 {{< text bash >}}
-$ istioctl experimental profile dump
+$ istioctl profile dump
 {{< /text >}}
 
 To view a subset of the entire configuration, you can use the `--config-path` flag, which selects only the portion
 of the configuration under the given path:
 
 {{< text bash >}}
-$ istioctl experimental profile dump --config-path trafficManagement.components.pilot
+$ istioctl profile dump --config-path trafficManagement.components.pilot
 {{< /text >}}
 
 ## Install a different profile
@@ -58,11 +56,11 @@ $ istioctl experimental profile dump --config-path trafficManagement.components.
 Other Istio configuration profiles can be installed in a cluster using this command:
 
 {{< text bash >}}
-$ istioctl experimental manifest apply --set profile=demo
+$ istioctl manifest apply --set profile=demo
 {{< /text >}}
 
 In the example above, `demo` is one of the profile names from the output of
-the [`istioctl experimental profile list`](/docs/reference/commands/istioctl/#istioctl-experimental-profile-list) command.
+the [`istioctl profile list`](/docs/reference/commands/istioctl/#istioctl-experimental-profile-list) command.
 
 ## Display the profile list
 
@@ -70,7 +68,7 @@ You can display the names of Istio configuration profiles that are
 accessible to `istioctl` by using this command:
 
 {{< text bash >}}
-$ istioctl experimental profile list
+$ istioctl profile list
 {{< /text >}}
 
 ## Customize Istio settings using the `IstioControlPlane` API
@@ -121,7 +119,7 @@ The simplest customization is to turn a feature or component on or off from the 
 To disable the telemetry feature in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl experimental manifest apply --set telemetry.enabled=false
+$ istioctl manifest apply --set telemetry.enabled=false
 {{< /text >}}
 
 Alternatively, you can disable the telemetry feature using a configuration overlay file:
@@ -139,13 +137,13 @@ spec:
 1. Use the `telemetry_off.yaml` overlay file with the `manifest apply` command:
 
 {{< text bash >}}
-$ istioctl experimental manifest apply -f telemetry_off.yaml
+$ istioctl manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
 You can also use this approach to set the component-level configuration, such as enabling the node agent:
 
 {{< text bash >}}
-$ istioctl experimental manifest apply --set security.components.nodeAgent.enabled=true
+$ istioctl manifest apply --set security.components.nodeAgent.enabled=true
 {{< /text >}}
 
 Another customization is to select different namespaces for features and components. The following is an example
@@ -221,7 +219,7 @@ spec:
 Use `manifest apply` to apply the modified settings to the cluster:
 
 {{< text syntax="bash" repo="operator" >}}
-$ istioctl experimental manifest apply -f @samples/pilot-k8s.yaml@
+$ istioctl manifest apply -f @samples/pilot-k8s.yaml@
 {{< /text >}}
 
 ## Customize Istio settings using the Helm API
@@ -258,9 +256,9 @@ which is useful for checking the effects of customizations before applying chang
 You can show differences between the default and demo profiles using these commands:
 
 {{< text bash >}}
-$ istioctl experimental profile dump default > 1.yaml
-$ istioctl experimental profile dump demo > 2.yaml
-$ istioctl experimental profile diff 1.yaml 2.yaml
+$ istioctl profile dump default > 1.yaml
+$ istioctl profile dump demo > 2.yaml
+$ istioctl profile diff 1.yaml 2.yaml
 {{< /text >}}
 
 ## Show differences in manifests
@@ -268,9 +266,9 @@ $ istioctl experimental profile diff 1.yaml 2.yaml
 You can show the differences in the generated manifests between the default profile and a customized install using these commands:
 
 {{< text bash >}}
-$ istioctl experimental manifest generate > 1.yaml
-$ istioctl experimental manifest generate -f samples/pilot-k8s.yaml > 2.yaml
-$ istioctl experimental manifest diff 1.yam1 2.yaml
+$ istioctl manifest generate > 1.yaml
+$ istioctl manifest generate -f samples/pilot-k8s.yaml > 2.yaml
+$ istioctl manifest diff 1.yam1 2.yaml
 {{< /text >}}
 
 ## Inspect/modify a manifest before installation
@@ -280,7 +278,7 @@ You can inspect or modify the manifest before installing Istio using these steps
 Generate the manifest using this command:
 
 {{< text bash >}}
-$ istioctl experimental manifest generate > $HOME/generated-manifest.yaml
+$ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
 Inspect the manifest as needed, then apply the manifest using this command:
@@ -309,10 +307,6 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 To uninstall Istio, run the following command:
 
 {{< text bash >}}
-$ istioctl experimental manifest generate <your original installation options> | kubectl delete -f -
+$ istioctl manifest generate <your original installation options> | kubectl delete -f -
 {{< /text >}}
 
-## Additional documentation
-
-The Istio Operator CLI is experimental. See the upstream repository [README](https://github.com/istio/operator/blob/{{< source_branch_name >}}/README.md)
-for additional documentation and examples.
