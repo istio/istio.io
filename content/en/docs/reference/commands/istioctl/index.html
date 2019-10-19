@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 70
+number_of_entries: 77
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
@@ -1135,6 +1135,21 @@ the cluster results of the client pod and the listener results of the server pod
 </thead>
 <tbody>
 <tr>
+<td><code>--auth-plugin-config &lt;stringToString&gt;</code></td>
+<td></td>
+<td>authenticator plug-in configuration. --auth-type=plugin must be set with this option  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--auth-plugin-name &lt;string&gt;</code></td>
+<td></td>
+<td>authenticator plug-in name. --auth-type=plugin must be set with this option  (default ``)</td>
+</tr>
+<tr>
+<td><code>--auth-type &lt;RemoteSecretAuthType&gt;</code></td>
+<td></td>
+<td>type of authentication to use. supported values = [bearer-token plugin]  (default `bearer-token`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -1162,19 +1177,79 @@ the cluster results of the client pod and the listener results of the server pod
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td></td>
-<td>create a secret with this service account&#39;s credentials.  (default `istio-pilot-service-account`)</td>
+<td>create a secret with this service account&#39;s credentials.  (default `istio-multi`)</td>
 </tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-create-remote-secret Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
-istioctl --kubeconfig=c0.yaml x create-remote-secret c0 \
-    | kubectl -n istio-system --kubeconfig=c1.yaml apply -f -
+istioctl --Kubeconfig=c0.yaml x create-remote-secret \
+    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
 
 # Delete a secret that was previously installed in c1
-istioctl --kubeconfig=c0.yaml x create-remote-secret c1 \
-    | kubectl -n istio-system --kubeconfig=c1.yaml delete -f -
+istioctl --Kubeconfig=c0.yaml x create-remote-secret \
+    | kubectl -n istio-system --Kubeconfig=c1.yaml delete -f -
+
+# Create a secret  access a remote cluster with an auth plugin
+istioctl --Kubeconfig=c0.yaml x create-remote-secret --auth-type=plugin --auth-plugin-name=gcp \
+    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
+
+</code></pre>
+<h2 id="istioctl-experimental-create-trust-anchor">istioctl experimental create-trust-anchor</h2>
+<p>Establish trust between two or more clustersByContext by appending each 
+cluster&#39;s public root CA cert to other cluster&#39;s list of trusted roots. This is 
+useful when form a multi-cluster mesh from existing clustersByContext with their own unique 
+CAs.</p>
+<p>
+</p>
+<pre class="language-bash"><code>istioctl experimental create-trust-anchor [&lt;cluster-name&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-create-trust-anchor Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Create a trust anchor configmap with c0&#39;s root CA cert and install it in cluster c1.
+istioctl --Kubeconfig=c0.yaml x create-trust-anchor c0 \
+    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
+
+# Delete a trust anchor configmap that was previously installed in c1
+istioctl --Kubeconfig=c0.yaml x create-trust-anchor c1 \
+    | kubectl -n istio-system --Kubeconfig=c1.yaml delete -f -
 
 
 </code></pre>
@@ -1731,7 +1806,7 @@ customization file  (default `[]`)</td>
 </tbody>
 </table>
 <h2 id="istioctl-experimental-manifest-versions">istioctl experimental manifest versions</h2>
-<p>List the versions of Istio recommended for and supported by this version of the operator binary.</p>
+<p>List the versions of Istio recommended for use or supported for upgrade by this version of the operator binary.</p>
 <pre class="language-bash"><code>istioctl experimental manifest versions [flags]
 </code></pre>
 <table class="command-flags">
@@ -1786,7 +1861,7 @@ customization file  (default `[]`)</td>
 <tr>
 <td><code>--versionsURI &lt;string&gt;</code></td>
 <td><code>-u</code></td>
-<td>URI for operator versions to Istio versions map  (default `https://raw.githubusercontent.com/istio/operator/master/version/versions.yaml`)</td>
+<td>URI for operator versions to Istio versions map  (default `https://raw.githubusercontent.com/istio/operator/master/data/versions.yaml`)</td>
 </tr>
 </tbody>
 </table>
@@ -1853,6 +1928,232 @@ istioctl experimental metrics productpage-v1
 istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 
 </code></pre>
+<h2 id="istioctl-experimental-multicluster">istioctl experimental multicluster</h2>
+<p>Commands to assist in managing a multi-cluster mesh</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-multicluster-describe">istioctl experimental multicluster describe</h2>
+<p>Describe status of the multi-cluster mesh&#39;s control plane&#39; </p>
+<pre class="language-bash"><code>istioctl experimental multicluster describe -f &lt;mesh.yaml&gt; [--all] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--all</code></td>
+<td></td>
+<td>describe the status of all clustersByContext in the mesh </td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>filename of the multicluster mesh description  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-multicluster-generate">istioctl experimental multicluster generate</h2>
+<p>generate configuration for setting up a multi-cluster mesh</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-multicluster-generate-values">istioctl experimental multicluster generate values</h2>
+<p>generate a cluster-specific values.yaml file based on the mesh description and runtime state </p>
+<pre class="language-bash"><code>istioctl experimental multicluster generate values -f &lt;mesh.yaml&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>filename of the multicluster mesh description  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-experimental-multicluster-join">istioctl experimental multicluster join</h2>
+<p>Join multiple clustersByContext into a single multi-cluster mesh</p>
+<pre class="language-bash"><code>istioctl experimental multicluster join  -f &lt;mesh.yaml&gt; [--discovery] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--all</code></td>
+<td></td>
+<td>join all clustersByContext together in the mesh </td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--discovery</code></td>
+<td></td>
+<td>link Istio service discovery with the clustersByContext service registriesS </td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>filename of the multicluster mesh description  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-experimental-post-install">istioctl experimental post-install</h2>
 <p>Commands related to post-install</p>
 <table class="command-flags">
@@ -2537,6 +2838,89 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </table>
 <h3 id="istioctl-experimental-remove-from-mesh-service Examples">Examples</h3>
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh service productpage
+</code></pre>
+<h2 id="istioctl-experimental-upgrade">istioctl experimental upgrade</h2>
+<p>The mesh upgrade command checks for upgrade version eligibility and, if eligible, upgrades the Istio control plane components in-place. Warning: traffic may be disrupted during upgrade. Please ensure PodDisruptionBudgets are defined to maintain service continuity.</p>
+<pre class="language-bash"><code>istioctl experimental upgrade [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioControlPlane CustomResource  (default ``)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td>Apply the upgrade without eligibility checks and testing for changes in profile default values </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+<tr>
+<td><code>--versionsURI &lt;string&gt;</code></td>
+<td><code>-u</code></td>
+<td>URI for operator versions to Istio versions map  (default `https://raw.githubusercontent.com/istio/operator/master/data/versions.yaml`)</td>
+</tr>
+<tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of 10m0s </td>
+</tr>
+<tr>
+<td><code>--yes</code></td>
+<td><code>-y</code></td>
+<td>If yes, skips the prompting confirmation for value changes in this upgrade </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-upgrade Examples">Examples</h3>
+<pre class="language-bash"><code>mesh upgrade
 </code></pre>
 <h2 id="istioctl-experimental-wait">istioctl experimental wait</h2>
 <p>Waits for the specified condition to be true of an Istio resource.  For example:</p>
