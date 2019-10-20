@@ -75,7 +75,7 @@ Consequently, Istio only applies the policies you define for specific subsets if
 you explicitly routed traffic to the corresponding subset.
 
 For example, consider the following destination rule as the one and only configuration defined for the
-*reviews* service, that is, there are no route rules in a corresponding virtual service definition:
+*reviews* service, that is, there are no route rules in a corresponding `VirtualService` definition:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -119,7 +119,7 @@ You can fix the above example in one of two ways:
           version: v1
     {{< /text >}}
 
-1. Define proper route rules for the service using a virtual service.
+1. Define proper route rules for the service using a `VirtualService`.
     For example, add a simple route rule for the `v1` subset of the `reviews` service:
 
     {{< text yaml >}}
