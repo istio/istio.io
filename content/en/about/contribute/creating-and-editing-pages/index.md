@@ -525,6 +525,13 @@ which renders as:
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
+Within a text file, snippets can indicate the syntax of the snippet content and, for bash syntax, can
+include the syntax of the output. For example:
+
+{{< text plain >}}
+$snippet MySnippetFile.txt syntax="bash" outputis="json"
+{{< /text >}}
+
 ## Glossary terms
 
 When first introducing a specialized Istio term in a page, it is desirable to annotate the term as being in the glossary. This
