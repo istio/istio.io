@@ -60,4 +60,7 @@ update_ref_docs:
 update_operator_yamls:
 	@scripts/grab_operator_yamls.sh
 
+update_examples:
+	@scripts/grab_examples.sh
+
 include common/Makefile.common.mk
