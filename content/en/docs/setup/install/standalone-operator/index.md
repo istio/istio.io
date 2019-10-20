@@ -30,14 +30,14 @@ instead, which is a stable feature.
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-1. (Optionally) change profiles from the default profile to one of the following profiles:
+1. (Optionally) change profiles from the demo profile to one of the following profiles:
 
 {{< tabset cookie-name="profile" >}}
 
-{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
+{{< tab name="demo" cookie-value="permissive" >}}
 When using the [permissive mutual TLS mode](/docs/concepts/security/#permissive-mode), all services accept both plaintext and
 mutual TLS traffic. Clients send plaintext traffic unless configured for
-[mutual TLS migration](/docs/tasks/security/mtls-migration/).
+[mutual TLS migration](/docs/tasks/security/mtls-migration/). This profile is installed during the first step.
 
 Choose this profile for:
 
@@ -53,7 +53,7 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-demo.yaml
 
 {{< /tab >}}
 
-{{< tab name="strict mutual TLS" cookie-value="strict" >}}
+{{< tab name="demo-auth" cookie-value="strict" >}}
 This profile will enforce
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between all clients and servers.
 
@@ -85,9 +85,7 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-sds.yaml
 {{< /tab >}}
 
 {{< tab name="default" cookie-value="default" >}}
-This profile enables Istio's default settings. This profile is installed during the first step.
-
-Run the following command to switch to this profile:
+This profile enables Istio's default settings. Run the following command to switch to this profile:
 
 {{< text bash >}}
 $ kubectl apply -f https://preliminary.istio.io/operator-profile-default.yaml
