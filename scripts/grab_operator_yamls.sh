@@ -29,12 +29,7 @@ tempdir_operator="$(mktemp -d)"
 # Upstream GIT tags or branches used for the operator repo. The operator is
 # currently only available as a master version. This will change when
 # 1.4 is tagged.
-operator_tag="master"
-
-# Great care should be taken when modifying the ordering of this list. This
-# script cats these files together in order with a yaml separator.
-
-operator_manifest_files=( "deploy/namespace.yaml" "deploy/crds/istio_v1alpha2_istiocontrolplane_crd.yaml" "deploy/crds/istio_v1alpha2_istiocontrolplane_cr.yaml" "deploy/service_account.yaml" "deploy/clusterrole.yaml" "deploy/clusterrole_binding.yaml" "deploy/service.yaml" "deploy/operator.yaml" )
+operator_tag="release-1.4"
 
 # Add profiles here to have them automatically added to the website.
 # It is important to also document these files, which is not done automatically.
@@ -49,13 +44,6 @@ git clone -q --single-branch --branch "${operator_tag}" https://github.com/istio
 pushd operator >/dev/null || exit
 git checkout -q "${operator_tag}"
 
-# Generate the main manifest
-for manifest_file in "${operator_manifest_files[@]}"
-do
-	cat "${manifest_file}" >> "${output_dir}"/operator.yaml
-	echo "---" >> "${output_dir}"/operator.yaml
-done
-
 # Generate the profiles
 for profile in "${operator_profiles[@]}"
 do
@@ -63,6 +51,20 @@ do
 	echo "---" >> "${output_dir}"/operator-profile-"${profile}".yaml
 	sed -i "s/profile: default/profile: ${profile}/g" "${output_dir}"/operator-profile-"${profile}".yaml 
 done
+
+# Great care should be taken when modifying the ordering of this list. This
+# script cats these files together in order with a yaml separator.
+
+operator_manifest_files=( "deploy/namespace.yaml" "deploy/crds/istio_v1alpha2_istiocontrolplane_crd.yaml" "${output_dir}/operator-profile-demo.yaml" "deploy/service_account.yaml" "deploy/clusterrole.yaml" "deploy/clusterrole_binding.yaml" "deploy/service.yaml" "deploy/operator.yaml" )
+
+# Generate the main manifest
+for manifest_file in "${operator_manifest_files[@]}"
+do
+	echo "manifest_file is $manifest_file"
+	cat "${manifest_file}" >> "${output_dir}"/operator.yaml
+	echo "---" >> "${output_dir}"/operator.yaml
+done
+
 
 popd >/dev/null || exit
 rm -rf "${tempdir_operator}" > /dev/null 2>&1
