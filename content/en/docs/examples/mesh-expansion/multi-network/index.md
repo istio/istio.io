@@ -248,7 +248,7 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 
 ## Expose service running on cluster to VMs
 
-Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form <name>.<namespace>.global where name and namespace correspond to the service’s name and namespace respectively.
+Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form `<name>.<namespace>.global` where name and namespace correspond to the service’s name and namespace respectively.
 
 To demonstrate access from VM to  cluster services, configure the
 the [httpbin service]({{<github_tree>}}/samples/httpbin)
