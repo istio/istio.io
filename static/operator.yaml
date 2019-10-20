@@ -14,6 +14,8 @@ spec:
     listKind: IstioControlPlaneList
     plural: istiocontrolplanes
     singular: istiocontrolplane
+    shortNames:
+    - icp
   scope: Namespaced
   subresources:
     status: {}
@@ -47,7 +49,8 @@ metadata:
   namespace: istio-operator
   name: example-istiocontrolplane
 spec:
-  profile: default
+  profile: demo
+---
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -61,6 +64,25 @@ metadata:
   creationTimestamp: null
   name: istio-operator
 rules:
+# istio groups
+- apiGroups:
+  - authentication.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - config.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - install.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
 - apiGroups:
   - networking.istio.io
   resources:
@@ -74,57 +96,17 @@ rules:
   verbs:
   - '*'
 - apiGroups:
-  - config.istio.io
+  - security.istio.io
   resources:
   - '*'
   verbs:
   - '*'
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - clusterrolebindings
-  - clusterroles
-  verbs:
-  - '*'
-- apiGroups:
-  - policy
-  resources:
-  - poddisruptionbudgets
-  verbs:
-  - '*'
+# k8s groups
 - apiGroups:
   - admissionregistration.k8s.io
   resources:
   - mutatingwebhookconfigurations
-  verbs:
-  - '*'
-- apiGroups:
-  - autoscaling
-  resources:
-  - horizontalpodautoscalers
-  verbs:
-  - '*'
-- apiGroups:
-  - ""
-  resources:
-  - serviceaccounts
-  - pods
-  - services
-  - endpoints
-  - persistentvolumeclaims
-  - events
-  - configmaps
-  - secrets
-  - namespaces
-  verbs:
-  - '*'
-- apiGroups:
-  - apps
-  resources:
-  - deployments
-  - daemonsets
-  - replicasets
-  - statefulsets
+  - validatingwebhookconfigurations
   verbs:
   - '*'
 - apiGroups:
@@ -135,6 +117,24 @@ rules:
   verbs:
   - '*'
 - apiGroups:
+  - apps
+  - extensions
+  resources:
+  - daemonsets
+  - deployments
+  - deployments/finalizers
+  - ingresses
+  - replicasets
+  - statefulsets
+  verbs:
+  - '*'
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - '*'
+- apiGroups:
   - monitoring.coreos.com
   resources:
   - servicemonitors
@@ -142,18 +142,32 @@ rules:
   - get
   - create
 - apiGroups:
-  - apps
-  resourceNames:
-  - istio-operator
+  - policy
   resources:
-  - deployments/finalizers
+  - poddisruptionbudgets
   verbs:
-  - update
-- apiGroups:
-  - install.istio.io
-  resources:
   - '*'
-  - istiocontrolplanes
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  - clusterroles
+  - roles
+  - rolebindings
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - events
+  - namespaces
+  - pods
+  - persistentvolumeclaims
+  - secrets
+  - services
+  - serviceaccounts
   verbs:
   - '*'
 ---
@@ -203,14 +217,14 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: gcr.io/istio-testing/operator:master-latest-daily
+          image: gcr.io/istio-testing/operator:1.4-dev
           command:
           - istio-operator
           - server
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
-              value: ""
+              value: "istio-operator"
             - name: LEADER_ELECTION_NAMESPACE
               valueFrom:
                 fieldRef:
