@@ -19,7 +19,7 @@ This task demonstrates how to use a policy adapter to manipulate request headers
 
 * Follow the set-up instructions in the [ingress task](/docs/tasks/traffic-management/ingress/) to configure an ingress using a gateway.
 
-* Customize the [virtual service](/docs/reference/config/networking/v1alpha3/virtual-service/)
+* Customize the [virtual service](/docs/reference/config/networking/virtual-service/)
   configuration for the `httpbin` service containing two route rules that allow traffic for paths `/headers` and
   `/status`:
 

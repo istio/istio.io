@@ -248,7 +248,7 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 
 ## Expose service running on cluster to VMs
 
-Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form <name>.<namespace>.global where name and namespace correspond to the service’s name and namespace respectively.
+Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form `<name>.<namespace>.global` where name and namespace correspond to the service’s name and namespace respectively.
 
 To demonstrate access from VM to  cluster services, configure the
 the [httpbin service]({{<github_tree>}}/samples/httpbin)
@@ -365,7 +365,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 1. Determine the VM instance's IP address.
 
 1. Configure a service entry to enable service discovery for the VM. You can add VM services to the mesh using a
-    [service entry](/docs/reference/config/networking/v1alpha3/service-entry/). Service entries let you manually add
+    [service entry](/docs/reference/config/networking/service-entry/). Service entries let you manually add
     additional services to Pilot's abstract model of the mesh. Once VM services are part of the mesh's abstract model,
     other services can find and direct traffic to them. Each service entry configuration contains the IP addresses, ports,
     and appropriate labels of all VMs exposing a particular service, for example:

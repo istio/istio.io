@@ -10,6 +10,7 @@
 1.0.x
 1.1.x
 1.2.x
+1.3.x
 1.x
 10ms
 10s
@@ -312,6 +313,7 @@ Kuat
 Kube
 Kubecon
 kubeconfig
+kubectl
 Kubelet
 kubelet
 Kubernetes
@@ -369,6 +371,7 @@ netmask
 networking.istio.io
 nginx
 NLBs
+Node.js
 nodePorts
 non-sandboxed
 normalization
@@ -382,6 +385,7 @@ onboarding
 Onboarding
 onwards
 OP_QUERY
+OpenAPI
 OpenCensus
 OpenID
 OpenID_Connect

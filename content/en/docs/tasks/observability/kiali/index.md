@@ -26,7 +26,7 @@ To install Kiali without using Helm, follow the [Kiali installation instructions
 ### Create a secret
 
 {{< idea >}}
-If you plan on installing Kiali using the `istio-demo.yaml` or `istio-demo-auth.yaml` file as described in the [Istio Quick Start Installation Steps](/docs/setup/install/kubernetes/#installation-steps) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
+If you plan on installing Kiali using the `istio-demo.yaml` file as described in the [Istio Quick Start Installation Steps](/docs/setup/install/kubernetes/#installation-steps) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
 {{< /idea >}}
 
 Create a secret in your Istio namespace with the credentials that you use to
@@ -143,7 +143,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
     {{< /text >}}
 
-1.  Visit <http://localhost:20001/kiali/console> in your web browser.
+1.  Visit <https://localhost:20001/kiali/console> in your web browser.
 
 1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 

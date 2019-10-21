@@ -3,11 +3,12 @@ title: Announcing Istio 0.3
 description: Istio 0.3 announcement.
 publishdate: 2017-11-29
 attribution: The Istio Team
-release: 0.3
+release: 0.3.0
 aliases:
     - /about/notes/older/0.3
     - /docs/welcome/notes/0.3.html
     - /about/notes/0.3/index.html
+    - /news/announcing-0.3
 ---
 
 We're pleased to announce the availability of Istio 0.3. Please see below for what's changed.

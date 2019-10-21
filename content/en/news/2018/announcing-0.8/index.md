@@ -3,10 +3,11 @@ title: Announcing Istio 0.8
 description: Istio 0.8 announcement.
 publishdate: 2018-06-01
 attribution: The Istio Team
-release: 0.8
+release: 0.8.0
 aliases:
     - /about/notes/0.8
     - /about/notes/0.8/index.html
+    - /news/announcing-0.8
 ---
 
 This is a major release for Istio on the road to 1.0. There are a great many new features and architectural improvements in addition to the usual pile of bug fixes and performance improvements.

@@ -47,7 +47,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
-| [Sidecar API](/docs/reference/config/networking/v1alpha3/sidecar/) | Beta
+| [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
 
 ### Observability
 
@@ -89,10 +89,11 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Operator installation](/docs/setup/install/operator/)        | Alpha
-| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/)        | Stable
+| [Operator installation](/docs/setup/install/operator/) | Alpha
+| [Standalone Operator](/docs/setup/install/operator/) | Alpha
+| [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/) | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
-| [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/)        | Stable
+| [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
 | Mixer Out-of-Process Adapter Authoring Model | Beta
 | [Helm](/docs/setup/install/helm/) | Beta
 | [Multicluster Mesh over VPN](/docs/setup/install/multicluster/) | Alpha

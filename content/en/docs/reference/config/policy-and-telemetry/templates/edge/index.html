@@ -53,6 +53,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -63,6 +64,9 @@ spec:
 <p>Timestamp of the edge</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Template-source_workload_namespace">
 <td><code>sourceWorkloadNamespace</code></td>
@@ -70,6 +74,9 @@ spec:
 <td>
 <p>Namespace of the source workload</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Template-source_workload_name">
@@ -79,6 +86,9 @@ spec:
 <p>Name of the source workload</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Template-source_owner">
 <td><code>sourceOwner</code></td>
@@ -86,6 +96,9 @@ spec:
 <td>
 <p>Owner of the source workload (often k8s deployment)</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Template-source_uid">
@@ -95,6 +108,9 @@ spec:
 <p>UID of the source workload</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Template-destination_workload_namespace">
 <td><code>destinationWorkloadNamespace</code></td>
@@ -102,6 +118,9 @@ spec:
 <td>
 <p>Namespace of the destination workload</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Template-destination_workload_name">
@@ -111,6 +130,9 @@ spec:
 <p>Name of the destination workload</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Template-destination_owner">
 <td><code>destinationOwner</code></td>
@@ -118,6 +140,9 @@ spec:
 <td>
 <p>Owner of the destination workload (often k8s deployment)</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Template-destination_uid">
@@ -127,6 +152,9 @@ spec:
 <p>UID of the destination workload</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Template-destination_service_namespace">
 <td><code>destinationServiceNamespace</code></td>
@@ -134,6 +162,9 @@ spec:
 <td>
 <p>Namespace of the destination Service</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="Template-destination_service_name">
@@ -143,6 +174,9 @@ spec:
 <p>Name of the destination Service</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Template-context_protocol">
 <td><code>contextProtocol</code></td>
@@ -151,6 +185,9 @@ spec:
 <p>Protocol used for communication (http, tcp)</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Template-api_protocol">
 <td><code>apiProtocol</code></td>
@@ -158,6 +195,9 @@ spec:
 <td>
 <p>The protocol type of the API call (http, https, grpc)</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

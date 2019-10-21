@@ -17,7 +17,7 @@ stricter control is usually preferable.
 This task shows you how to access external services in three different ways:
 
 1. Allow the Envoy proxy to pass requests through to services that are not configured inside the mesh.
-1. Configure [service entries](/docs/reference/config/networking/v1alpha3/service-entry/) to provide controlled access to external services.
+1. Configure [service entries](/docs/reference/config/networking/service-entry/) to provide controlled access to external services.
 1. Completely bypass the Envoy proxy for a specific range of IPs.
 
 ## Before you begin

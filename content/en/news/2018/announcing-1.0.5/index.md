@@ -7,6 +7,7 @@ release: 1.0.5
 aliases:
     - /about/notes/1.0.5
     - /blog/2018/announcing-1.0.5
+    - /news/announcing-1.0.5
 ---
 
 We're pleased to announce the availability of Istio 1.0.5. Please see below for what's changed.

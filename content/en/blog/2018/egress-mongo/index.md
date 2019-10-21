@@ -6,6 +6,7 @@ last_update: 2019-04-18
 subtitle: Istio Egress Control Options for MongoDB traffic
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,tcp,mongo]
+target_release: 1.1
 ---
 
 In the [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post, I described how external services
@@ -123,7 +124,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
+    [virtual services](/docs/reference/config/networking/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the

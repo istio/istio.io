@@ -27,11 +27,7 @@ keywords: [kubernetes]
     $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
     {{< /text >}}
 
-1. 从下列的几个**演示配置**中选择一个进行安装。
-
-{{< tabset cookie-name="profile" >}}
-
-{{< tab name="宽容模式的 mutual TLS" cookie-value="permissive" >}}
+ 1. 安装**演示配置**。
 
 如果使用 mutual TLS 的宽容模式，所有的服务会同时允许明文和双向 TLS 的流量。在没有明确[配置客户端进行双向 TLS 通信](/zh/docs/tasks/security/mtls-migration/#配置客户端进行双向-tls-通信)的情况下，客户端会发送明文流量。可以进一步阅读了解[双向 TLS 中的宽容模式](/docs/concepts/security/#permissive-mode)的相关内容。
 
@@ -48,24 +44,6 @@ keywords: [kubernetes]
 {{< text bash >}}
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="严格模式的 mutual TLS" cookie-value="strict" >}}
-这种方案会在所有的客户端和服务器之间使用
-[双向 TLS](/zh/docs/concepts/security/#双向-tls-认证)。
-
-这种方式只适合所有工作负载都受 Istio 管理的 Kubernetes 集群。所有新部署的工作负载都会注入 Istio sidecar。
-
-运行下面的命令可以安装这种方案。
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 ## 确认部署结果
 
@@ -145,27 +123,11 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 
 删除 RBAC 权限、`istio-system` 命名空间及其所有资源。因为有些资源会被级联删除，因此会出现一些无法找到资源的提示，可以忽略。
 
-* 根据启用的 mutual TLS 模式进行删除：
-
-{{< tabset cookie-name="profile" >}}
-
-{{< tab name="宽容模式的 mutual TLS" cookie-value="permissive" >}}
+* 删除 Istio：
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="严格模式的 mutual TLS" cookie-value="strict" >}}
-
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 * 也可以根据需要删除 CRD：
 

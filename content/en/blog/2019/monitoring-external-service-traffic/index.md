@@ -4,6 +4,7 @@ description: "How can you use Istio to monitor blocked and passthrough external 
 publishdate: 2019-09-28
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [monitoring,blackhole,passthrough]
+target_release: 1.3
 ---
 
 Understanding, controlling and securing your external service access is one
@@ -14,7 +15,7 @@ security vulnerability if an application is attempting to communicate with a
 service that it should not be allowed to. Similarly, if you currently have a
 policy of allowing any external service access, it is beneficial to monitor
 the traffic so you can incrementally add explicit Istio configuration to allow
-access and better security your cluster. In either case, having visibility into this
+access and better secure your cluster. In either case, having visibility into this
 traffic via telemetry is quite helpful as it enables you to create alerts and
 dashboards, and better reason about your security posture. This was a highly
 requested feature by production users of Istio and we are excited that the
@@ -56,7 +57,7 @@ This is where the BlackHole and Passthrough clusters are used.
 * **BlackHoleCluster** - The BlackHoleCluster is a virtual cluster created
   in the Envoy configuration when `global.outboundTrafficPolicy.mode` is set to
   `REGISTRY_ONLY`. In this mode, all traffic to external service is blocked unless
-  [service entries](/docs/reference/config/networking/v1alpha3/service-entry)
+  [service entries](/docs/reference/config/networking/service-entry)
   are explicitly added for each service. To implement this, the default virtual
   outbound listener at `0.0.0.0:15001` which uses
   [original destination](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)

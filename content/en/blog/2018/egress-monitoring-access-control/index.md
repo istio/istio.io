@@ -5,6 +5,7 @@ publishdate: 2018-06-22
 last_update: 2019-03-04
 attribution: Vadim Eisenberg and Ronen Schaffer (IBM)
 keywords: [egress,traffic-management,access-control,monitoring]
+target_release: 1.1
 ---
 
 While Istio's main focus is management of traffic between microservices inside a service mesh, Istio can also manage

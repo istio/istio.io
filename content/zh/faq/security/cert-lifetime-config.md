@@ -7,7 +7,7 @@ weight: 70
 
 Citadel 使用标志 `max-workload-cert-ttl` 对 Istio 签发给工作负载的证书的有效期进行控制。缺省值是 90 天。如果 Citadel 或者 Node agent 中的 `workload-cert-ttl` 大于 `max-workload-cert-ttl`，Citadel 的证书签发就会失败。
 
-可以对文件 `istio-demo-auth.yaml` 进行修改，从而对 Citadel 配置进行定制。下面的修改过程，让 Istio 为 Kubernetes 工作负载签发有效期为一小时的证书。并且 Istio 签发证书的最长有效期被设置为 48 小时。
+可以对文件 `istio-demo.yaml` 进行修改，从而对 Citadel 配置进行定制。下面的修改过程，让 Istio 为 Kubernetes 工作负载签发有效期为一小时的证书。并且 Istio 签发证书的最长有效期被设置为 48 小时。
 
 {{< text plain >}}
 ...

@@ -93,7 +93,7 @@ across heterogeneous environments.
 
 Istio and SPIFFE share the same identity document: [SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) (SPIFFE Verifiable Identity Document).
 For example, in Kubernetes, the X.509 certificate has the URI field in the format of
-`spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>`.
+`spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`.
 This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
 
 Istio security and [SPIRE](https://spiffe.io/spire/), which is the implementation of SPIFFE, differ in the PKI implementation details.
@@ -389,7 +389,7 @@ work. As you'll remember from the [Architecture section](/docs/concepts/security
 authentication policies apply to requests that a service **receives**. To
 specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
-[TLS settings reference docs](/docs/reference/config/networking/v1alpha3/destination-rule/#TLSSettings).
+[TLS settings reference docs](/docs/reference/config/networking/destination-rule/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
 `.yaml` files. You deploy policies using `kubectl`.
 

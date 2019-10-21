@@ -4,6 +4,7 @@ description: "The design principles behind Istio's APIs and how those APIs are e
 publishdate: 2019-08-05
 attribution: Louis Ryan (Google), Sandeep Parikh (Google)
 keywords: [apis,composability,evolution]
+target_release: 1.2
 ---
 
 One of Istio’s main goals has always been, and continues to be, enabling teams to develop abstractions that work best for their specific organization and workloads. Istio provides robust and powerful building blocks for service-to-service networking. Since [Istio 0.1](/news/2017/announcing-0.1), the Istio team has been learning from production users about how they map their own architectures, workloads, and constraints to Istio’s capabilities, and we’ve been evolving Istio’s APIs to make them work better for you.
@@ -39,7 +40,7 @@ higher-level APIs. [Knative Serving](https://knative.dev/docs/serving/), a compo
 serving serverless applications and functions, provides an opinionated workflow for application developers to manage routes and revisions of their services.
 Thanks to that opinionated approach, Knative Serving exposes a subset of Istio’s networking APIs that are most relevant to application developers via a simplified
 [Routes](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) object that supports revisions and traffic routing,
-abstracting Istio’s [`VirtualService`](/docs/reference/config/networking/v1alpha3/virtual-service/) and [`DestinationRule`](/docs/reference/config/networking/v1alpha3/destination-rule/)
+abstracting Istio’s [`VirtualService`](/docs/reference/config/networking/virtual-service/) and [`DestinationRule`](/docs/reference/config/networking/destination-rule/)
 resources.
 
 As Istio has matured, we’ve also seen production users develop workload- and organization-specific abstractions on top of Istio’s infrastructure APIs.

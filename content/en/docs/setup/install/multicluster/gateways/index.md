@@ -102,7 +102,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
     * Install all the Istio
     [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-    (CRDs) using `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
+    (CRDs) using `kubectl apply`:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
