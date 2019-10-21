@@ -5,10 +5,7 @@ weight: 10
 keywords: [security,certificate]
 ---
 
-{{< warning >}}
-The following information describes an experimental feature, which is intended
-for evaluation purposes only.
-{{< /warning >}}
+{{< boilerplate experimental-feature-warning >}}
 
 In existing Istio implementation, the DNS certificates of Galley and Sidecar
 Injector are provisioned and managed by Citadel, which is a large component
