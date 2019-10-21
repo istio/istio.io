@@ -1,8 +1,14 @@
 ---
-title: Multi-network Mesh Expansion
-description: Integrate VMs and bare metal hosts into an Istio mesh deployed on Kubernetes with gateways.
+title: Virtual Machines in Multi-network Meshes
+description: Work with virtual machines and bare metal hosts within your Istio mesh deployed across multiple networks on Kubernetes.
 weight: 30
-keywords: [kubernetes,vms,gateways]
+keywords:
+- kubernetes
+- virtual-machines
+- gateways
+- vms
+aliases:
+- /docs/examples/mesh-expansion/multi-network
 ---
 
 This example provides instructions to integrate VMs and bare metal hosts into
@@ -13,9 +19,10 @@ VMs, bare metals and clusters is required.
 
 * One or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Mesh expansion machines must have IP connectivity to the Ingress gateways in the mesh.
+* Virtual machines (VMs) must have IP connectivity to the Ingress gateways in the mesh.
 
-* Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to enable mesh expansion.
+* Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
+  add VMs to your mesh.
 
 ## Installation steps
 
@@ -23,9 +30,11 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 ### Customized installation of Istio on the cluster
 
-The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself, and
-generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
-cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
+The first step when adding non-Kubernetes services to an Istio mesh is to
+configure the Istio installation itself, and generate the configuration files
+that let VMs connect to the mesh. To prepare the cluster for mesh
+expansion, run the following commands on a machine with cluster admin
+privileges:
 
 1. Generate a `meshexpansion-gateways` Istio configuration file using `helm`:
 
@@ -74,7 +83,14 @@ cluster for mesh expansion, run the following commands on a machine with cluster
           -o jsonpath='{.data.cert-chain\.pem}' | base64 --decode > cert-chain.pem
     {{< /text >}}
 
+<<<<<<< HEAD:content/en/docs/examples/mesh-expansion/multi-network/index.md
 1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/ops/architecture/#pilot) and workloads on cluster through this IP address.
+=======
+1. Determine and store the IP address of the Istio ingress gateway since the
+   VMs access [Citadel](/docs/concepts/security/) and
+   [Pilot](/docs/concepts/architecture/#pilot) and workloads on cluster through
+   this IP address.
+>>>>>>> Replace "Mesh Expansion" with "VM Support" and related edits.:content/en/docs/tasks/virtual-machines/multi-network/index.md
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -229,7 +245,9 @@ The following example updates the `/etc/hosts` file with the Istio gateway addre
 
 ## Added Istio resources
 
-Below Istio resources are added to support Mesh Expansion with gateways. This released the flat network requirement between the VM and  cluster.
+The Istio resources below are added to support adding VMs to the mesh with
+gateways. These resources released the flat network requirement between the VM and
+cluster.
 
 | Resource Kind| Resource Name | Function |
 | ----------------------------       |---------------------------       | -----------------                          |
@@ -335,11 +353,13 @@ in the cluster.
 
 After setup, the machine can access services running in the Kubernetes cluster.
 
-The following example shows accessing a service running in the Kubernetes cluster from a mesh expansion VM using
-`/etc/hosts/`, in this case using a service from the [httpbin]({{< github_tree >}}/samples/httpbin) service.
+The following example shows accessing a service running in the Kubernetes
+cluster from a VM using `/etc/hosts/`, in this case using a
+service from the [httpbin service]({{<github_tree>}}/samples/httpbin).
 
-1.  On the mesh expansion machine, add the service name and address to its `/etc/hosts` file. You can then connect to
-    the cluster service from the VM, as in the example below:
+1.  On the added VM, add the service name and address to its `/etc/hosts` file.
+    You can then connect to the cluster service from the VM, as in the example
+    below:
 
     {{< text bash >}}
 $ echo "127.255.0.3 httpbin.bar.global" | sudo tee -a /etc/hosts
@@ -354,7 +374,7 @@ $ curl -v httpbin.bar.global:8000
 
 The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
-## Running services on a mesh expansion machine
+## Running services on the added VM
 
 1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8888:
 

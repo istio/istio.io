@@ -1,10 +1,14 @@
 ---
-title: Single-network Mesh Expansion
-description: Integrate VMs and bare metal hosts into an Istio mesh deployed on Kubernetes.
+title: Virtual Machines in Single-network Meshes
+description: Work with virtual machines and bare metal hosts within your Istio mesh deployed across a single network on Kubernetes.
 weight: 20
-keywords: [kubernetes,vms]
+keywords:
+- kubernetes
+- vms
+- virtual-machines
 aliases:
-    - /docs/setup/kubernetes/additional-setup/mesh-expansion/
+- /docs/setup/kubernetes/additional-setup/mesh-expansion/
+- /docs/examples/mesh-expansion/single-network
 ---
 
 This example provides instructions to integrate VMs and bare metal hosts into
@@ -14,16 +18,17 @@ an Istio mesh deployed on Kubernetes.
 
 * You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/install/kubernetes/).
 
-* Mesh expansion machines must have IP connectivity to the endpoints in the mesh. This
+* Virtual machines (VMs) must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that
 provides direct (without NAT or firewall deny) routing to the endpoints. The machine
 is not required to have access to the cluster IP addresses assigned by Kubernetes.
 
-* Mesh expansion VMs must have access to a DNS server that resolves names to cluster IP addresses. Options
+* VMs must have access to a DNS server that resolves names to cluster IP addresses. Options
 include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
 server, or configuring the IPs in any other DNS server accessible from the VM.
 
-* Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to enable mesh expansion.
+* Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
+  support adding VMs to your mesh.
 
 The following instructions:
 
@@ -36,14 +41,16 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 ### Preparing the Kubernetes cluster for expansion
 
-The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself, and
-generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
-cluster for mesh expansion, run the following commands on a machine with cluster admin privileges:
+The first step when adding non-Kubernetes services to an Istio mesh is to
+configure the Istio installation itself, and generate the configuration files
+that let VMs connect to the mesh. To prepare the cluster for mesh
+expansion, run the following commands on a machine with cluster admin
+privileges:
 
-1.  Ensure that mesh expansion is enabled for the cluster. If you didn't use
-    the `--set global.meshExpansion.enabled=true` flag when installing Helm,
-    you can use one of the following two options depending on how you originally installed
-    Istio on the cluster:
+1.  Ensure that the `mesh expansion` option is enabled for the cluster. If you
+    didn't use the `--set global.meshExpansion.enabled=true` flag when
+    installing Helm, you can use one of the following two options depending on
+    how you originally installed Istio on the cluster:
 
     *   If you installed Istio with Helm and Tiller, run `helm upgrade` with the new option:
 
@@ -78,7 +85,13 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     $ export SERVICE_NAMESPACE="default"
     {{< /text >}}
 
+<<<<<<< HEAD:content/en/docs/examples/mesh-expansion/single-network/index.md
 1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/ops/architecture/#pilot) through this IP address.
+=======
+1. Determine and store the IP address of the Istio ingress gateway since the VMs
+   access [Citadel](/docs/concepts/security/) and
+   [Pilot](/docs/concepts/architecture/#pilot) through this IP address.
+>>>>>>> Replace "Mesh Expansion" with "VM Support" and related edits.:content/en/docs/tasks/virtual-machines/single-network/index.md
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -185,9 +198,9 @@ The following example updates the `/etc/hosts` file with the Istio gateway addre
 ## Send requests from VM workloads to Kubernetes services
 
 After setup, the machine can access services running in the Kubernetes cluster
-or on other mesh expansion machines.
+or on other VMs.
 
-The following example shows accessing a service running in the Kubernetes cluster from a mesh expansion VM using
+The following example shows accessing a service running in the Kubernetes cluster from a VM using
 `/etc/hosts/`, in this case using a service from the [Bookinfo example](/docs/examples/bookinfo/).
 
 1.  First, on the cluster admin machine get the virtual IP address (`clusterIP`) for the service:
@@ -197,8 +210,9 @@ The following example shows accessing a service running in the Kubernetes cluste
     10.55.246.247
     {{< /text >}}
 
-1.  Then on the mesh expansion machine, add the service name and address to its `etc/hosts` file. You can then connect to
-    the cluster service from the VM, as in the example below:
+1.  Then on the added VM, add the service name and address to its `etc/hosts`
+    file. You can then connect to the cluster service from the VM, as in the
+    example below:
 
     {{< text bash >}}
 $ echo "10.55.246.247 productpage.default.svc.cluster.local" | sudo tee -a /etc/hosts
@@ -212,7 +226,7 @@ $ curl -v productpage.default.svc.cluster.local:9080
 
 The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
-## Running services on a mesh expansion machine
+## Running services on the added VM
 
 1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8080:
 
@@ -321,7 +335,7 @@ serviceentry.networking.istio.io "vmhttp" deleted
 
 ## Troubleshooting
 
-The following are some basic troubleshooting steps for common mesh expansion issues.
+The following are some basic troubleshooting steps for common VM-related issues.
 
 *    When making requests from a VM to the cluster, ensure you don't run the requests as `root` or
     `istio-proxy` user. By default, Istio excludes both users from interception.

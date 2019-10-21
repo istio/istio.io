@@ -1,14 +1,16 @@
 ---
-title: Bookinfo with Mesh Expansion
-description: Illustrates how to expand the Bookinfo application's mesh with a raw VM service.
+title: Bookinfo on Virtual Machines
+description: Run the Bookinfo application on virtual machines within your mesh.
 weight: 60
-keywords: [vms]
+keywords:
+- virtual-machine, vms
 aliases:
-    - /docs/examples/integrating-vms/
+- /docs/examples/integrating-vms/
+- /docs/examples/mesh-expansion/bookinfo-expanded
 ---
 
 This example deploys the Bookinfo services across Kubernetes and a set of
-Virtual Machines, and illustrates how to use Istio service mesh to control
+virtual machines (VMs), and illustrates how to use Istio service mesh to control
 this infrastructure as a single mesh.
 
 {{< warning >}}
@@ -19,7 +21,7 @@ VMs cannot initiate any direct communication to Kubernetes Pods even when using 
 
 ## Overview
 
-{{< image width="80%" link="./mesh-expansion.svg" caption="Bookinfo Application with Istio Mesh Expansion" >}}
+{{< image width="80%" link="./vm-bookinfo.svg" caption="Bookinfo running on VMs" >}}
 
 <!-- source of the drawing
 https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/edit
@@ -32,7 +34,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/examples/mesh-expansion/single-network/).
+* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh]/docs/tasks/virtual-machines/single-network/).
 
 ## Running MySQL on the VM
 
