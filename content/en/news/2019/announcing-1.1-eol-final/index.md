@@ -1,7 +1,7 @@
 ---
 title: Support for Istio 1.1 has ended
 description: Istio 1.1 end of life announcement.
-publishdate: 2019-10-18
+publishdate: 2019-10-21
 attribution: The Istio Team
 aliases:
 ---

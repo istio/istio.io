@@ -1,9 +1,11 @@
 ---
 title: Announcing Istio 1.1.17
 description: Istio 1.1.17 patch release.
-publishdate: 2019-10-18
+publishdate: 2019-10-21
 attribution: The Istio Team
 release: 1.1.17
+aliases:
+    - /news/announcing-1.1.7
 ---
 
 We're pleased to announce the availability of Istio 1.1.17.  This will be the last 1.1.x patch release.  Please see below for what's changed.
