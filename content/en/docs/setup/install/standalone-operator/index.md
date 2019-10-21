@@ -16,19 +16,21 @@ instead, which is a stable feature.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
-
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
 1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
 
 ## Installation steps
 
-1. Install Istio using the operator with the default profile:
+1. Install Istio using the operator with the demo profile:
 
     {{< text bash >}}
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
+
+{{< warning >}}
+This profile is only for demo usage and should not be used in production.
+{{< /warning >}}
 
 1. (Optionally) change profiles from the demo profile to one of the following profiles:
 
@@ -85,7 +87,8 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-sds.yaml
 {{< /tab >}}
 
 {{< tab name="default" cookie-value="default" >}}
-This profile enables Istio's default settings. Run the following command to switch to this profile:
+This profile enables Istio's default settings which contains recommended
+production settings. Run the following command to switch to this profile:
 
 {{< text bash >}}
 $ kubectl apply -f https://preliminary.istio.io/operator-profile-default.yaml
