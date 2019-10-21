@@ -1,14 +1,11 @@
 ---
-title: Istio Webhook Management
+title: Istio Webhook Management [Experimental]
 description: Shows how to manage webhooks in Istio through istioctl.
 weight: 10
 keywords: [security,webhook]
 ---
 
-{{< warning >}}
-The following information describes an experimental feature, which is intended
-for evaluation purposes only.
-{{< /warning >}}
+{{< boilerplate experimental-feature-warning >}}
 
 Istio has two webhooks (Galley and Sidecar Injector). In current Istio implementation,
 Galley and Sidecar Injector manage their own webhook configurations, which from
