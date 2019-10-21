@@ -162,13 +162,13 @@ status:
 To enable this feature with `helm template`:
 
 {{< text bash >}}
-helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --set galley.enableAnalysis=true | kubectl apply -f -
 {{< /text >}}
 
 Or with `helm install`:
 
 {{< text bash >}}
-helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
+$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --set galley.enableAnalysis=true
 {{< /text >}}
