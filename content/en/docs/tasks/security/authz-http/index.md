@@ -126,7 +126,7 @@ $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-viewer
 
 This task shows you how to set up workload-level access control using Istio authorization.
 
-### Step 1. applying a default `deny-all` policy
+### applying a default `deny-all` policy
 
 In this step, we will create a default policy that denies all requests to workload in the default namespace.
 
@@ -153,7 +153,7 @@ workloads in the default namespace.
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### Step 2. allowing access to the `productpage` workload
+### allowing access to the `productpage` workload
 
 We will create a policy that allows external requests to access the `productpage` workload.
 
@@ -188,7 +188,7 @@ in the following steps.
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### Step 3. allowing access to the `details` and `reviews` workloads
+### allowing access to the `details` and `reviews` workloads
 
 We will create a policy to allow the `productpage` workload to access the `details` and `reviews` workloads. Note that in the
 [setup step](#before-you-begin), we created the `bookinfo-productpage` service account for the `productpage` service. This
@@ -252,7 +252,7 @@ We will show how to do that in the next step.
 There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### Step 4. allowing access to the `ratings` workload
+### allowing access to the `ratings` workload
 
 We will create a policy to allow the `reviews` workload to access the `ratings` workload. Note that in the
 [setup step](#before-you-begin), we created a `bookinfo-reviews` service account for the `reviews` workload. This
