@@ -49,7 +49,7 @@ And that’s it! It’ll give you any recommendations that apply.
 For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
 
 {{< text plain >}}
-Warn [IST0102](Namespace/default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
+Warn [IST0102](Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
 Note that `x` in the command is because this is currently an experimental feature.
@@ -115,3 +115,56 @@ the kind of information you should provide.
 - **What about analysis that goes beyond configuration?**
 
       Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
+
+## Enabling Validation Messages for Resource Status
+
+*Note that this feature is experimental.*
+
+Starting with Istio 1.4, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for. Validation messages from the analysis are written to the status subresource of the affected Istio resource. This lets you find many configuration errors in your mesh without needing to run a separate command. This analysis uses the same logic and error messages as when using `istioctl analyze`.
+
+e.g. if you have a misconfigured gateway on your "ratings" VirtualService, running `kubectl get virtualservice ratings` would give you something like:
+
+{{< text plain >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.istio.io/v1alpha3","kind":"VirtualService","metadata":{"annotations":{},"name":"ratings","namespace":"default"},"spec":{"hosts":["ratings"],"http":[{"route":[{"destination":{"host":"ratings","subset":"v1"}}]}]}}
+  creationTimestamp: "2019-09-04T17:31:46Z"
+  generation: 11
+  name: ratings
+  namespace: default
+  resourceVersion: "12760039"
+  selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices/ratings
+  uid: dec86702-cf39-11e9-b803-42010a8a014a
+spec:
+  gateways:
+  - bogus-gateway
+  hosts:
+  - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
+status:
+  validationMessages:
+  - code: IST0101
+    level: Error
+    message: 'Referenced gateway not found: "bogus-gateway"'
+{{< /text >}}
+
+To enable this feature with `helm template`:
+
+{{< text bash >}}
+helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set galley.enableAnalysis=true | kubectl apply -f -
+{{< /text >}}
+
+Or with `helm install`:
+
+{{< text bash >}}
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --set galley.enableAnalysis=true
+{{< /text >}}
