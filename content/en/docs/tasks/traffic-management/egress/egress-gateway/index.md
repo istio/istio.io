@@ -657,7 +657,7 @@ external service.
 1.  Check that the deployed pod has two containers, including the Istio sidecar proxy (`istio-proxy`):
 
     {{< text bash >}}
-    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath={.spec.containers[*].name}
+    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath='{.spec.containers[*].name}'
     sleep istio-proxy
     {{< /text >}}
 
