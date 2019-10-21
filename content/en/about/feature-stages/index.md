@@ -47,9 +47,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
-| [Sidecar API](/docs/reference/config/networking/sidecar/) | Alpha
-
-The `Sidecar` runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
+| [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
 
 ### Observability
 
