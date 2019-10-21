@@ -22,7 +22,7 @@ instead, which is a stable feature.
 
 ## Installation steps
 
-1. Install Istio using the operator with the default profile:
+1. Install Istio using the operator with the demo profile:
 
     {{< text bash >}}
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
