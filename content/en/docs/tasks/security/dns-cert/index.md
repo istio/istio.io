@@ -10,7 +10,12 @@ The following information describes an experimental feature, which is intended
 for evaluation purposes only.
 {{< /warning >}}
 
-This task shows how to provision and manage DNS certificates in Istio.
+In existing Istio implementation, the DNS certificates of Galley and Sidecar
+Injector are provisioned and managed by Citadel, which is a large component
+that manages its own signing key and also acts as a CA for Istio.
+This task shows how to provision and manage DNS certificates in Istio through
+a lightweight component (called Chiron) linked in Pilot that provisions and manages
+DNS certificates through APIs of Kubernetes CA.
 
 ## Before you begin
 
