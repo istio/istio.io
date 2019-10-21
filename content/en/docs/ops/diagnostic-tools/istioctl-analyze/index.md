@@ -116,6 +116,10 @@ the kind of information you should provide.
 
       Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
 
+- **Where can I find out how to fix the errors I'm getting?**
+
+      Reference for configuration analysis messages can be found [here](/docs/reference/config/analysis/).
+
 ## Enabling Validation Messages for Resource Status
 
 *Note that this feature is experimental.*
