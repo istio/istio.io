@@ -118,18 +118,18 @@ the kind of information you should provide.
 
 - **Where can I find out how to fix the errors I'm getting?**
 
-      The set of [configuration analysis messages](/docs/reference/config/analysis/) contain descriptions of each message along with suggested fixes.
+      The set of [configuration analysis messages](/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
 
 ## Enabling validation messages for resource status
 
-*Note that this feature is experimental.*
+{{< boilerplate experimental-feature-warning >}}
 
 Starting with Istio 1.4, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for, via the `galley.enableAnalysis` flag.
 This analysis uses the same logic and error messages as when using `istioctl analyze`. Validation messages from the analysis are written to the status subresource of the affected Istio resource.
 
-e.g. if you have a misconfigured gateway on your "ratings" virtual service, running `kubectl get virtualservice ratings` would give you something like:
+For example. if you have a misconfigured gateway on your "ratings" virtual service, running `kubectl get virtualservice ratings` would give you something like:
 
-{{< text plain >}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -162,18 +162,18 @@ status:
 
 `enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
 
-- Not all resources have a custom status field (e.g. Kubernetes *namespace* resources), so messages attached to those resources won't show validation messages.
-- `enableAnalysis` only works on Istio versions starting with 1.4, while `istioctl analyze` can be used on older cluster versions.
+- Not all resources have a custom status field (e.g. Kubernetes `namespace` resources), so messages attached to those resources won't show validation messages.
+- `enableAnalysis` only works on Istio versions starting with 1.4, while `istioctl analyze` can be used with older versions.
 - While it makes it easy to see what's wrong with a particular resource, it's harder to get a holistic view of validation status in the mesh.
 
-To enable this feature with `helm template`:
+You can enable this feature with:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --set galley.enableAnalysis=true | kubectl apply -f -
 {{< /text >}}
 
-Or with `helm install`:
+Or with:
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
