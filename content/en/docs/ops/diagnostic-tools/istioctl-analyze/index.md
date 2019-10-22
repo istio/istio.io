@@ -124,7 +124,8 @@ the kind of information you should provide.
 
 *Note that this feature is experimental.*
 
-Starting with Istio 1.4, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for. Validation messages from the analysis are written to the status subresource of the affected Istio resource. This lets you find many configuration errors in your mesh without needing to run a separate command. This analysis uses the same logic and error messages as when using `istioctl analyze`.
+Starting with Istio 1.4, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for, via the `galley.enableAnalysis` flag.
+This analysis uses the same logic and error messages as when using `istioctl analyze`. Validation messages from the analysis are written to the status subresource of the affected Istio resource.
 
 e.g. if you have a misconfigured gateway on your "ratings" VirtualService, running `kubectl get virtualservice ratings` would give you something like:
 
@@ -158,6 +159,12 @@ status:
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
 {{< /text >}}
+
+`enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this can't replace the utility of `istioctl analyze`:
+
+- Not all resources have a custom status field (e.g. Kubernetes *namespace* resources), so messages attached to those resources won't show validation messages.
+- `enableAnalysis` only works on Istio versions starting with 1.4, while `istioctl analyze` can be used on older cluster versions.
+- While it makes it easy to see what's wrong with a particular resource, it's harder to get a holistic view of validation status in the mesh.
 
 To enable this feature with `helm template`:
 
