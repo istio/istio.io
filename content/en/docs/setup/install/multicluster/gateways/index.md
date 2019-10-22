@@ -147,6 +147,7 @@ cluster that will be calling services in remote clusters
 
 {{< tabset cookie-name="platform" >}}
 {{< tab name="KubeDNS" cookie-value="kube-dns" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: v1
@@ -159,9 +160,11 @@ data:
     {"global": ["$(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})"]}
 EOF
 {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="CoreDNS (< 1.4.0)" cookie-value="coredns-prev-1.4.0" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: v1
@@ -193,9 +196,11 @@ data:
     }
 EOF
 {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: v1
@@ -227,6 +232,7 @@ data:
     }
 EOF
 {{< /text >}}
+
 {{< /tab >}}
 {{< /tabset >}}
 
