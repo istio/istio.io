@@ -18,9 +18,8 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
-    This is the same configuration that is installed with the [Quick Start](/docs/setup/install/kubernetes/) instructions, only using helm has the advantage
-    that you can more easily enable additional features if you later wish to explore more advanced tasks.
-    This profile comes in two variants, either with or without authentication enabled.
+    This is the same configuration that is installed with the [Quick Start](/docs/setup/install/kubernetes/) instructions, but uses Helm, allowing you
+    to more easily enable additional features if you later wish to explore more advanced tasks.
 
     {{< warning >}}
     This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
@@ -29,7 +28,7 @@ your specific needs. The following built-in configuration profiles are currently
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
 1. **sds-auth**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
-    This profile comes with additional authentication features enabled by default.
+    This profile comes with additional authentication features enabled by default (Strict Mutual TLS).
 
 The components marked as **X** are installed within each profile:
 
@@ -51,19 +50,6 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` | | X | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`kiali` | | X | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`prometheus` | X | X | | X |
-
-Some profiles have an authentication variant, with `-auth` appended to the name, which adds the following
-security features to the profile:
-
-{{< tip >}}
-Control plane security with SDS is planned for an upcoming release.
-{{< /tip >}}
-
-| Security feature | demo-auth | sds-auth |
-| --- | --- | --- |
-| Control Plane Security | X | |
-| Strict Mutual TLS | X | X |
-| SDS | | X |
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the `helm template` or `helm install` command that you use when installing Istio. The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported installation key and value pairs.
 
