@@ -127,7 +127,7 @@ the kind of information you should provide.
 Starting with Istio 1.4, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for, via the `galley.enableAnalysis` flag.
 This analysis uses the same logic and error messages as when using `istioctl analyze`. Validation messages from the analysis are written to the status subresource of the affected Istio resource.
 
-e.g. if you have a misconfigured gateway on your "ratings" VirtualService, running `kubectl get virtualservice ratings` would give you something like:
+e.g. if you have a misconfigured gateway on your "ratings" virtual service, running `kubectl get virtualservice ratings` would give you something like:
 
 {{< text plain >}}
 apiVersion: networking.istio.io/v1alpha3
