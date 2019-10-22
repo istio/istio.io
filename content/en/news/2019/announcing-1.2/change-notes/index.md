@@ -74,7 +74,6 @@ Refer to the [installation option change page](/news/2019/announcing-1.2/helm-ch
 
 - **Added** [Istio CNI support](/docs/setup/additional-setup/cni/) to setup sidecar network redirection and remove the use of `istio-init` containers requiring `NET_ADMIN` capability.
 - **Added** a new experimental ['a-la-carte' Istio installer](https://github.com/istio/installer/wiki) to enable users to install and upgrade Istio with desired isolation and security.
-- **Added** the [DNS-discovery](https://github.com/istio-ecosystem/dns-discovery) and [iter8](https://github.com/istio-ecosystem/iter8) in [Istio ecosystem](https://github.com/istio-ecosystem).
 - **Added** [environment variable and configuration file support](https://docs.google.com/document/d/1M-qqBMNbhbAxl3S_8qQfaeOLAiRqSBpSgfWebFBRuu8/edit) for configuring Galley, in addition to command-line flags.
 - **Added** [ControlZ](/docs/ops/diagnostic-tools/controlz/) support to visualize the state of the MCP Server in Galley.
 - **Added** the [`enableServiceDiscovery` command-line flag](/docs/reference/commands/galley/#galley-server) to control the service discovery module in Galley.
