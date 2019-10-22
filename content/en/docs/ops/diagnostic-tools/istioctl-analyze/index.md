@@ -160,7 +160,7 @@ status:
     message: 'Referenced gateway not found: "bogus-gateway"'
 {{< /text >}}
 
-`enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this can't replace the utility of `istioctl analyze`:
+`enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
 
 - Not all resources have a custom status field (e.g. Kubernetes *namespace* resources), so messages attached to those resources won't show validation messages.
 - `enableAnalysis` only works on Istio versions starting with 1.4, while `istioctl analyze` can be used on older cluster versions.
