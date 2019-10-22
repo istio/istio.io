@@ -46,7 +46,6 @@ and then further customize the configuration for your specific needs.
     Helm versions `2.15.x` have a [known critical defect](https://github.com/helm/helm/issues/6708).
     This defect makes Helm 2.15 unsuitable for use with Istio.
     {{< /warning >}}
-versions `2.15.z` have a [known critical defect](https://github.com/helm/helm/issues/6708). This defect
 makes Helm 2.15 unsuitable for use with Istio.
 
 ## Helm chart release repositories
