@@ -18,7 +18,7 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
-    This is the same configuration that is installed with the [Quick Start](/docs/setup/install/kubernetes/) instructions, but uses Helm, allowing you 
+    This is the same configuration that is installed with the [Quick Start](/docs/setup/install/kubernetes/) instructions, but uses Helm, allowing you
     to more easily enable additional features if you later wish to explore more advanced tasks.
 
     {{< warning >}}
