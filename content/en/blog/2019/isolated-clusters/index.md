@@ -131,9 +131,10 @@ code of your applications.
 ## The current mesh-federation work
 
 While you can perform mesh federation using standard Istio configurations already today,
-it requires writing a lot of boilerplate YAML files and is error-prone. There is an experimental effort
-under way to [automate the mesh federation process](https://github.com/istio-ecosystem/multi-mesh-examples).
-If this experiment pans out, it may be folded into Istio proper at some point.
+it requires writing a lot of boilerplate YAML files and is error-prone. There is an effort under way to automate
+the mesh federation process. In the meantime, you can look at these
+[multi-mesh deployment examples](https://github.com/istio-ecosystem/multi-mesh-examples)
+to get an idea of what a generated federation might include.
 
 ## Summary
 
