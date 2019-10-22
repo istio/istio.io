@@ -1,6 +1,6 @@
 ---
 title: Virtual Machines in Single-network Meshes
-description: Work with virtual machines and bare metal hosts within your Istio mesh deployed across a single network on Kubernetes.
+description: Learn how to add a service running on a virtual machine in the same network as your mesh.
 weight: 20
 keywords:
 - kubernetes
@@ -39,7 +39,7 @@ The following instructions:
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-### Preparing the Kubernetes cluster for expansion
+### Preparing the Kubernetes cluster for VMs
 
 The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
@@ -154,7 +154,7 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-expansion) section to learn how to obtain the IP address.
+1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
 The following example updates the `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}

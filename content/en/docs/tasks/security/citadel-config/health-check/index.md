@@ -20,9 +20,11 @@ Otherwise, it does nothing. Citadel relies on a
 with command line to check the _modification time_ of the _health status file_ on the pod.
 If the file is not updated for a period, Kubelet will restart the Citadel container.
 
-Note: because Citadel health checking currently only monitors the health status of CSR service API,
-this feature is not needed if the production setup is not using the
-[SDS](/docs/tasks/security/auth-sds/) or [Mesh Expansion]/docs/tasks/virtual-machines/).
+{{< tip >}}
+Since Citadel health checking currently only monitors the health status of CSR service API,
+this feature is not needed if the production setup is not using
+[SDS](/docs/tasks/security/auth-sds/) or [adding virtual machines]/docs/tasks/virtual-machines/).
+{{< /tip >}}
 
 ## Before you begin
 

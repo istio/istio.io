@@ -1,6 +1,6 @@
 ---
-title: Bookinfo on Virtual Machines
-description: Run the Bookinfo application on virtual machines within your mesh.
+title: Bookinfo with Virtual Machines
+description: Run the Bookinfo application with a MySQL service running in a virtual machine within your mesh.
 weight: 60
 keywords:
 - virtual-machine, vms
@@ -9,8 +9,8 @@ aliases:
 - /docs/examples/mesh-expansion/bookinfo-expanded
 ---
 
-This example deploys the Bookinfo services across Kubernetes and a set of
-virtual machines (VMs), and illustrates how to use Istio service mesh to control
+This example deploys the Bookinfo services across Kubernetes with one
+virtual machine (VM), and illustrates how to use Istio service mesh to control
 this infrastructure as a single mesh.
 
 {{< warning >}}

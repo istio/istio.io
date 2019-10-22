@@ -1,6 +1,6 @@
 ---
 title: Virtual Machines in Multi-network Meshes
-description: Work with virtual machines and bare metal hosts within your Istio mesh deployed across multiple networks on Kubernetes.
+description: Learn how to add a service running on a virtual machine in a different network than that of your mesh.
 weight: 30
 keywords:
 - kubernetes
