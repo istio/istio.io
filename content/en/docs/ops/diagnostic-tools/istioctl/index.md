@@ -89,7 +89,9 @@ $ brew install bash-completion
 
 Once the `bash-completion package` has been installed on your macOS system, add the following line to your `~/.bash_profile` file:
 
-`[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"`
+{{< text plain >}}
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -99,7 +101,9 @@ If you are using a Linux-based operating system, you can install the Bash comple
 
 Once the `bash-completion` package has been installed on your Linux system, add the following line to your `~/.bash_profile` file:
 
-`[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"`
+{{< text plain >}}
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+{{< /text >}}
 
 {{< /tab >}}
 
