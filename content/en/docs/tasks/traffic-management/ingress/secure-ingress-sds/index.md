@@ -149,6 +149,10 @@ need to create secrets for multiple hosts and update the gateway definitions.
       name: httpbin
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v1
       template:
         metadata:
           labels:
@@ -334,10 +338,15 @@ retrieves unique credentials corresponding to a specific `credentialName`.
       name: helloworld-v1
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: helloworld-v1
+          version: v1
       template:
         metadata:
           labels:
             app: helloworld-v1
+            version: v1
         spec:
           containers:
           - name: helloworld
@@ -500,19 +509,18 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
     --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
     https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
-    * TLSv1.2 (OUT), TLS header, Certificate Status (22):
-    * TLSv1.2 (OUT), TLS handshake, Client hello (1):
-    * TLSv1.2 (IN), TLS handshake, Server hello (2):
-    * TLSv1.2 (IN), TLS handshake, Certificate (11):
-    * TLSv1.2 (IN), TLS handshake, Server key exchange (12):
-    * TLSv1.2 (IN), TLS handshake, Request CERT (13):
-    * TLSv1.2 (IN), TLS handshake, Server finished (14):
-    * TLSv1.2 (OUT), TLS handshake, Certificate (11):
-    * TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
-    * TLSv1.2 (OUT), TLS change cipher, Client hello (1):
-    * TLSv1.2 (OUT), TLS handshake, Finished (20):
-    * TLSv1.2 (IN), TLS alert, Server hello (2):
-    * error:14094410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure
+    * TLSv1.3 (OUT), TLS handshake, Client hello (1):
+    * TLSv1.3 (IN), TLS handshake, Server hello (2):
+    * TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+    * TLSv1.3 (IN), TLS handshake, Request CERT (13):
+    * TLSv1.3 (IN), TLS handshake, Certificate (11):
+    * TLSv1.3 (IN), TLS handshake, CERT verify (15):
+    * TLSv1.3 (IN), TLS handshake, Finished (20):
+    * TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+    * TLSv1.3 (OUT), TLS handshake, Certificate (11):
+    * TLSv1.3 (OUT), TLS handshake, Finished (20):
+    * TLSv1.3 (IN), TLS alert, unknown (628):
+    * OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
     {{< /text >}}
 
 1. Pass a client certificate and private key to `curl` and resend the request.
