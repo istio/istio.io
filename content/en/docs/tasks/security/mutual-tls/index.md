@@ -92,7 +92,7 @@ In the following example output you can see that:
 
 {{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /default            default/istio-system
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /default            istio-system/default
 {{< /text >}}
 
 The output shows:
