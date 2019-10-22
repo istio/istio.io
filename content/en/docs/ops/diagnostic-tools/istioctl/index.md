@@ -93,7 +93,6 @@ Once the `bash-completion package` has been installed on your macOS system, add 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 {{< /text >}}
 
-
 {{< /tab >}}
 
 {{< tab name="Linux" cookie-value="linux" >}}
