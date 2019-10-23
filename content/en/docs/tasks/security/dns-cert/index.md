@@ -11,12 +11,12 @@ In existing Istio implementation, the DNS certificates of Galley and Sidecar
 Injector are provisioned and managed by Citadel, which is a large component
 that manages its own signing key and also acts as a CA for Istio.
 This task shows how to provision and manage DNS certificates in Istio through
-a lightweight component (called Chiron) linked in Pilot that provisions and manages
+a lightweight component (called Chiron) that provisions and manages
 DNS certificates through APIs of Kubernetes CA.
 
 ## Before you begin
 
-* Create a new Kubernetes cluster to run the example in this tutorial.
+Create a new Kubernetes cluster to run the example in this tutorial.
 The DNS certificates in this task are signed by Kubernetes CA so it requires
 a Kubernetes cluster.
 
@@ -30,8 +30,8 @@ also manages the lifecycle of the DNS certificates (e.g., rotation and regenerat
 ## Configure DNS certificates and install Istio
 
 1.  The yaml file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
-    contains an example DNS certificate configuration. Install Istio with the DNS certificate configuration
-    using [Helm](/docs/setup/install/helm/#prerequisites):
+contains an example DNS certificate configuration. Install Istio with the DNS certificate configuration
+using [Helm](/docs/setup/install/helm/#prerequisites):
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
