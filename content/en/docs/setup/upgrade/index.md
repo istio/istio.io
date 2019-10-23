@@ -177,7 +177,7 @@ by doing a rolling update for all the pods, so that the new version of the
 sidecar will be automatically re-injected.
 
 {{< warning >}}
-Your `kubectl` version must be >= 1.15 to run the following command. Upgade if necessary.
+Your `kubectl` version must be >= 1.15 to run the following command. Upgrade if necessary.
 {{< /warning >}}
 
 {{< text bash >}}
