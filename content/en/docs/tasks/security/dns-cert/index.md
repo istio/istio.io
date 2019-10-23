@@ -16,9 +16,11 @@ DNS certificates through APIs of Kubernetes CA.
 
 ## Before you begin
 
-Create a new Kubernetes cluster to run the example in this tutorial.
+* Create a new Kubernetes cluster to run the example in this tutorial.
 The DNS certificates in this task are signed by Kubernetes CA so it requires
 a Kubernetes cluster.
+
+* Install [`jq`](https://stedolan.github.io/jq/) for json parsing.
 
 ## DNS certificate provision and management
 
