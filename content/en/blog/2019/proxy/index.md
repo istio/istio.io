@@ -7,7 +7,7 @@ attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,ingress,https,http]
 ---
 
-The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) and the
+The [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control/) and the
 [Ingress Gateway without TLS Termination](/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/) tasks describe
 how to configure an ingress gateway to expose services inside the mesh to external traffic. The services can be HTTP or
 HTTPS. In the case of HTTPS, the gateway passes the traffic through, without terminating TLS.
