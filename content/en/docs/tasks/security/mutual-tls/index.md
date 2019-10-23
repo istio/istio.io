@@ -92,7 +92,7 @@ In the following example output you can see that:
 
 {{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       default/            default/istio-system
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /default            istio-system/default
 {{< /text >}}
 
 The output shows:
@@ -103,9 +103,9 @@ The output shows:
 
 * `CLIENT`: the mode used on the client or clients.
 
-* `AUTHN POLICY`: the name and namespace of the authentication policy. If the policy is the mesh-wide policy, namespace is blank, as in this case: `default/`
+* `AUTHN POLICY`: the namespace and name of the authentication policy. If the policy is the mesh-wide policy, namespace is blank, as in this case: `/default`
 
-* `DESTINATION RULE`: the name and namespace of the destination rule used.
+* `DESTINATION RULE`: the namespace and name of the destination rule used.
 
 To illustrate the case when there are conflicts, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
@@ -129,7 +129,7 @@ Run the same `istioctl` command as above, you now see the status is `CONFLICT`, 
 {{< text bash >}}
 $ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/            bad-rule/default
+httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       /default            default/bad-rule
 {{< /text >}}
 
 You can also confirm that requests from `sleep` to `httpbin` are now failing:
