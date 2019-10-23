@@ -19,6 +19,8 @@ manage the webhook configurations of Galley and Sidecar Injector.
 
 * Create a new Kubernetes cluster to run the example in this tutorial.
 
+* Install [`jq`](https://stedolan.github.io/jq/) for json parsing.
+
 ## Install Istio
 
 1.  The yaml file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
