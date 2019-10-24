@@ -1,7 +1,9 @@
 ---
 title: Architecture
 description: Describes Istio's high-level architecture and design goals.
-weight: 70
+weight: 20
+aliases:
+- /docs/concepts/architecture
 ---
 
 An Istio service mesh is logically split into a **data plane** and a **control

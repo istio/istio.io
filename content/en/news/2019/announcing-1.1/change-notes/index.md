@@ -85,7 +85,7 @@ concise list of things you should know before upgrading your deployment to Istio
   [gateways](/docs/concepts/traffic-management/#gateways).
 
 - **Performance and Scalability Improvements**. Tuned the performance and
-  scalability of Istio and Envoy. Read more about [Performance and Scalability](/docs/concepts/performance-and-scalability/)
+  scalability of Istio and Envoy. Read more about [Performance and Scalability]/docs/ops/performance-and-scalability/)
   enhancements.
 
 - **Access Logging Off by Default**. Disabled the access logs for all Envoy
@@ -183,7 +183,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ### Configuration management
 
-- **Galley**. Added [Galley](/docs/concepts/architecture/#galley) as the
+- **Galley**. Added [Galley]/docs/ops/architecture/#galley) as the
   primary configuration ingestion and distribution mechanism within Istio. It
   provides a robust model to validate, transform, and distribute configuration
   states to Istio components insulating the Istio components from Kubernetes
