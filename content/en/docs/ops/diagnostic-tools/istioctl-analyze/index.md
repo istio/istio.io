@@ -70,10 +70,10 @@ Analyze all yaml files in the current folder:
 $ ./istioctl x analyze *.yaml
 {{< /text >}}
 
-Analyze all yaml files in the current folder:
+Simulate applying the files in the current folder to the current cluster:
 
 {{< text bash >}}
-$ ./istioctl x analyze *.yaml
+$ ./istioctl x analyze -k *.yaml
 {{< /text >}}
 
 You can run `./istioctl x analyze --help` to see the full set of options.
