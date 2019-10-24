@@ -31,9 +31,7 @@ If one or more fields in your configurations are unknown or have wrong types, th
 To help with your upgrade, here are some steps you could take:
 
 * After upgrading Istio, run your Istio configurations with `kubectl apply --dry-run` so that you are able to know if the configurations can be accepted by the API server as well as any possible unknown and/or invalid fields to the API server. (`DryRun` feature is on by default for Kubernetes 1.13+ clusters.)
-* Use the [reference documentation](/docs/reference/config/) and/or `kubectl explain` (more details below) to confirm and correct the field names and data types.
+* Use the [reference documentation](/docs/reference/config/) to confirm and correct the field names and data types.
 * In addition to structural validation, you can also use `istioctl x analyze` to help you detect other potential issues with your Istio configurations. Refer to [here](/docs/ops/diagnostic-tools/istioctl-analyze/) for more details.
 
 If you choose to ignore the validation errors, add `--validate=false` to your `kubectl` command when you create or modify Istio resources. We strongly discourage doing so however, since it is willingly introducing incorrect configuration.
-
-`kubectl explain` shows the structure of a resource in Kubernetes. For example, you can use `kubectl explain virtualservices.networking.istio.io` to see the top-level fields in `VirtualService`. To get all the fields, you can add a `--recursive` flag. In Kubernetes 1.15+, `kubectl explain` is able to work with CRDs by default.
