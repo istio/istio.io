@@ -24,7 +24,7 @@ The theme for 1.1 is Enterprise Ready. We’ve been very pleased to see more and
 more companies using Istio in production, but as some larger companies tried to
 adopt Istio they hit some limits.
 
-One of our prime areas of focus has been [performance and scalability](/docs/concepts/performance-and-scalability/).
+One of our prime areas of focus has been [performance and scalability]/docs/ops/performance-and-scalability/).
 As people moved into production with larger clusters running more services at
 higher volume, they hit some scaling and performance issues. The
 [sidecars](/docs/concepts/traffic-management/#sidecars) took too many resources
@@ -34,7 +34,7 @@ resource hungry.
 
 We’ve done a lot of work to make both the data plane and the control plane more
 efficient. You can find the details of our 1.1 performance testing and the
-results in our updated [performance ans scalability concept](/docs/concepts/performance-and-scalability/).
+results in our updated [performance ans scalability concept]/docs/ops/performance-and-scalability/).
 
 We’ve done work around namespace isolation as well. This lets you use
 Kubernetes namespaces to enforce boundaries of control, and ensures that your
