@@ -1,16 +1,21 @@
 ---
 title: Performance and Scalability
 description: Introduces performance and scalability for Istio.
-weight: 50
+weight: 25
 aliases:
-    - /docs/performance-and-scalability/overview
-    - /docs/performance-and-scalability/microbenchmarks
-    - /docs/performance-and-scalability/performance-testing-automation
-    - /docs/performance-and-scalability/realistic-app-benchmark
-    - /docs/performance-and-scalability/scalability
-    - /docs/performance-and-scalability/scenarios
-    - /docs/performance-and-scalability/synthetic-benchmarks
-keywords: [performance,scalability,scale,benchmarks]
+- /docs/performance-and-scalability/overview
+- /docs/performance-and-scalability/microbenchmarks
+- /docs/performance-and-scalability/performance-testing-automation
+- /docs/performance-and-scalability/realistic-app-benchmark
+- /docs/performance-and-scalability/scalability
+- /docs/performance-and-scalability/scenarios
+- /docs/performance-and-scalability/synthetic-benchmarks
+- /docs/concepts/performance-and-scalability
+keywords:
+- performance
+- scalability
+- scale
+- benchmarks
 ---
 
 Istio makes it easy to create a network of deployed services with rich routing,
