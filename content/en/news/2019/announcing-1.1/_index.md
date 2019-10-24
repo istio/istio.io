@@ -29,7 +29,7 @@ As people moved into production with larger clusters running more services at
 higher volume, they hit some scaling and performance issues. The
 [sidecars](/docs/concepts/traffic-management/#sidecars) took too many resources
 and added too much latency. The control plane (especially
-[Pilot](/docs/concepts/architecture/#pilot)) was overly
+[Pilot]/docs/ops/architecture/#pilot)) was overly
 resource hungry.
 
 We’ve done a lot of work to make both the data plane and the control plane more
@@ -43,7 +43,7 @@ teams cannot interfere with each other.
 We have also improved the [multicluster capabilities and usability]/docs/setup/deployment-models/).
 We listened to the community and improved defaults for traffic control and
 policy. We introduced a new component called
-[Galley](/docs/concepts/architecture/#galley). Galley validates that sweet,
+[Galley]/docs/ops/architecture/#galley). Galley validates that sweet,
 sweet YAML, reducing the chance of configuration errors. Galley will also be
 instrumental in [multicluster setups](/docs/setup/install/multicluster/),
 gathering service discovery information from each Kubernetes cluster. We are

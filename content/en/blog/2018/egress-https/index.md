@@ -190,7 +190,7 @@ in this case `www.googleapis.com`.
 To allow Istio to perform monitoring and policy enforcement of egress requests based on HTTP details, the microservices
 must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code
 of the microservices must be written differently or configured differently, according to whether the microservice runs
-inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/concepts/architecture/#design-goals). Sometimes you need to compromise...
+inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency]/docs/ops/architecture/#design-goals). Sometimes you need to compromise...
 
 The diagram below shows two options for sending HTTPS traffic to external services. On the top, a microservice sends
 regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice sends unencrypted HTTP requests

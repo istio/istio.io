@@ -29,7 +29,7 @@ changes to your services.
 
 If you’re interested in the details of how the features described in this guide
 work, you can find out more about Istio’s traffic management implementation in the
-[architecture overview](/docs/concepts/architecture/). The rest of
+[architecture overview]/docs/ops/architecture/). The rest of
 this guide introduces Istio’s traffic management features.
 
 ## Introducing Istio Traffic Management
