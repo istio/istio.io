@@ -63,7 +63,10 @@ lint-licenses:
 
 lint-all: lint-dockerfiles lint-scripts lint-yaml lint-helm lint-copyright-banner lint-go lint-python lint-markdown lint-sass lint-typescript lint-protos lint-licenses
 
-format-go:
+tidy-go:
+	@go mod tidy
+
+format-go: tidy-go
 	@${FINDFILES} -name '*.go' \( ! \( -name '*.gen.go' -o -name '*.pb.go' \) \) -print0 | ${XARGS} goimports -w -local "istio.io"
 
 format-python:
