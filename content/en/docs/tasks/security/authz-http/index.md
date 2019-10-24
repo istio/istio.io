@@ -40,8 +40,11 @@ as there may be some delays due to caching and other propagation overhead.
 Using Istio, you can easily setup mesh-level access control for all workloads in your mesh.
 
 Run the following command to create a mesh-level access control policy `deny-all` policy
-with no workload selector in the root namespace `istio-system`, the policy will select all
-workloads in the mesh:
+in the root namespace, A policy in the root namespace will select all workloads in the mesh.
+
+The root namespace is configurable in the [`MeshConfig`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)
+and has the default value of `istio-system`. If you have changed it to a different value from the
+default `istio-system`, Please update the value accordingly in the following examples.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -55,12 +58,14 @@ spec:
 EOF
 {{< /text >}}
 
+The `{}` in the policy means `deny-all`, you can also set other mesh-level policy for your own needs.
+
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
 Now you should see `"RBAC: access denied"`. The error shows that the configured `deny-all`
 policy is working as intended, and Istio doesn't have any rules that allow any access to
 workloads in the mesh.
 
-### Disable mesh-level access control
+### Clean up mesh-level access control
 
 Disable the configured access control with the following command before continuing:
 
@@ -70,8 +75,8 @@ $ kubectl delete authorizationpolicy.security.istio.io/deny-all -n istio-system
 
 ## Enforce namespace-level access control
 
-With Istio, you can easily setup namespace-level access control. You can configure whether
-workloads from a namespace can access all or a collection of workloads in another namespace.
+With Istio, you can easily setup namespace-level access control. You can configure
+how could workloads from a namespace access workloads in another namespace.
 
 The Bookinfo sample deploys the `productpage`, `reviews`, `details`, `ratings` {{< gloss "workload" >}}workloads{{< /gloss >}}
 in the `default` namespace. Istio deploys its components, for example `istio-ingressgateway`,
@@ -108,7 +113,7 @@ Now if you point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/
 You should see the "Bookinfo Sample" page, with the "Book Details" section in the lower left part
 and the "Book Reviews" section in the lower right part.
 
-### Disable namespace-level access control
+### Clean up namespace-level access control
 
 Disable the configured access control with the following command before continuing:
 
@@ -119,6 +124,8 @@ $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-viewer
 ## Enforce workload-level access control
 
 This task shows you how to set up workload-level access control using Istio authorization.
+You will start with a simple `deny-all` policy that rejects all requests to the workload, and then
+grant the permission gradually and incrementally to allow more access to the workload.
 
 1. Apply a default `deny-all` policy for workloads in the default namespace
 
@@ -259,7 +266,7 @@ This task shows you how to set up workload-level access control using Istio auth
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
     the "black" and "red" ratings in the "Book Reviews" section.
 
-### Disable workload-level access control
+### Clean up workload-level access control
 
 *   Remove all authorization policies from your configuration:
 
