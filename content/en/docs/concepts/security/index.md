@@ -601,8 +601,9 @@ peers:
 Istio's authorization feature provides mesh-level, namespace-level, and workload-level
 access control on workloads in an Istio Mesh. It features:
 
-- **Single API**, which is easy to use and maintain.
-- **Flexible semantic**, extra conditions are supported for finer grained access control.
+- **Workload-to-workload and end-user-to-workload authorization**.
+- **Simple API**, it includes a single Authorization Policy CRD, which is easy to use and maintain.
+- **Flexible semantic**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
 
@@ -616,6 +617,10 @@ access control on workloads in an Istio Mesh. It features:
 The above diagram shows the basic Istio authorization architecture. Operators
 specify Istio authorization policies using `.yaml` files.
 
+Galley watches for changes to Istio authorization policies. It fetches the
+updated authorization policies if it sees any changes and pushes to Pilot. Pilot
+converts the authorization policies to Envoy filter configuration and distributes the filter
+to the Envoy proxies that are co-located with the workloads.
 Pilot watches for changes to Istio authorization policies. It fetches the
 updated authorization policies if it sees any changes. Pilot distributes Istio
 authorization policies to the Envoy proxies that are colocated with the
@@ -629,12 +634,36 @@ authorization result, `ALLOW` or `DENY`.
 ### Enabling authorization
 
 You enable Istio Authorization on **workloads** by applying the `AuthorizationPolicy`
-custom resource that selects the workloads. Currently `AuthorizationPolicy` only
-supports "ALLOW" action. This means that if multiple authorization policies apply
-to the same workload, the effect is additive.
+custom resource that selects the workloads.
 
-The following authorization policy enables access control on workloads with labels
-`app: httpbin` and `version: v1` in namespace foo.
+Currently `AuthorizationPolicy` only supports "ALLOW" action. This means that if
+multiple authorization policies apply to the same workload, the effect is additive.
+
+### Authorization policy
+
+To configure an Istio authorization policy, you specify the [Authorization Policy](https://github.com/istio/api/blob/bfa91e88abf1af16d248917ebd3ab62036f7ca12/security/v1beta1/authorization.proto)
+configuration object. Like other Istio configuration objects, it is defined as Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+object.
+
+An `AuthorizationPolicy` includes a `selector` and a list of `rules`, the `selector`
+specifies the **target** that the policy applies to and the `rules` specify **who**
+is allowed to do **what** under which **conditions**. Specifically:
+
+- **target** refers to the `selector` section in the `AuthorizationPolicy`.
+- **who** refers to the `from` section in the `rule` of the `AuthorizationPolicy`.
+- **what** refers to the `to` section in the `rule` of the `AuthorizationPolicy`.
+- **conditions** refers to the `when` section in the `rule` of the `AuthorizationPolicy`.
+
+Each rule has the following standard fields:
+
+- **`from`**: A list of sources.
+- **`to`**: A list of operations.
+- **`when`**: A list of custom conditions.
+
+The following example shows an `AuthorizationPolicy` that allows two sources
+(service account `cluster.local/ns/default/sa/sleep` and namespace `dev`) to access the
+workloads with labels `app: httpbin` and `version: v1` in namespace foo when the request
+is sent with a valid JWT token.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -651,6 +680,8 @@ spec:
  - from:
    - source:
        principals: ["cluster.local/ns/default/sa/sleep"]
+   - source:
+       namespaces: ["dev"]
    to:
    - operation:
        methods: ["GET"]
@@ -659,52 +690,22 @@ spec:
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
-### Authorization policy
+#### Scope and workload selector
 
-To configure an Istio authorization policy, you specify the [Authorization Policy](https://github.com/istio/api/blob/bfa91e88abf1af16d248917ebd3ab62036f7ca12/security/v1beta1/authorization.proto)
-configuration object. Like other Istio configuration objects, it is defined as Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-object.
+Policy scope (target) is determined by `metadata/namespace` and an optional `selector`.
 
-An `AuthorizationPolicy` includes a `selector` and a list of `rules`, the `selector` specifies
-**where** to apply the policy and the `rules` specify **who** is allowed to do **what** under which **conditions**.
-Specifically:
+The `metadata/namespace` tells which namespace the policy applies. If set to the
+root namespace, the policy applies to all namespaces in a mesh. The value of
+root namespace is configurable, and the default is `istio-config`. If set to a
+normal namespace, the policy will only apply to the specified namespace.
 
-- **where** refers to the `selector` section in the `AuthorizationPolicy`.
-- **who** refers to the `from` section in the `rule` of the `AuthorizationPolicy`.
-- **what** refers to the `to` section in the `rule` of the `AuthorizationPolicy`.
-- **conditions** refers to the `when` section in the `rule` of the `AuthorizationPolicy`.
-
-Workload selector decides where to apply the authorization policy. If not set,
-the authorization policy will be applied to all workloads in the same namespace
+A workload `selector` can be used to further restrict where a policy applies.
+The `selector` uses pod labels to select the target workload. The workload
+selector contains a list of `{key: value}` pairs, where the `key` is the name of the label.
+If not set, the authorization policy will be applied to all workloads in the same namespace
 as the authorization policy.
 
-Each rule has the following standard fields:
-
-- **`from`**: A list of sources for specifying the identities.
-
-- **`to`**: A list of operations for specifying the operations.
-
-- **`when`**: A list of conditions for specifying extra conditions.
-
-An `AuthorizationPolicy` specification only applies to the namespace specified in the
-`metadata` section. All fields in the rule are optional. If you do not specify a field
-or if you set its value to `*`, Istio applies the field to all instances.
-
-The example below shows a simple policy `allow-all` which allows full access to all
-workloads in the `default` namespace.
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: allow-all
-  namespace: default
-spec:
-  rules:
-  - {}
-{{< /text >}}
-
-Here is another policy `allow-read` which allows `"GET"` and `"HEAD"` access to
+The following example policy `allow-read` which allows `"GET"` and `"HEAD"` access to
 the workload with label `app: products` in the `default` namespace.
 
 {{< text yaml >}}
@@ -723,9 +724,18 @@ spec:
          methods: ["GET", "HEAD"]
 {{< /text >}}
 
-In addition, we support prefix matching and suffix matching for all the fields
-in a rule. For example, the following policy allows allows access at paths with
-prefix `"/test/"` or suffix `"/info"`.
+#### Value matching
+
+Exact match, prefix match, suffix match, and presence match are supported for most
+of the field with a few exceptions (e.g., "when/key" only supports exact match).
+
+- **Exact match**. i.e., exact string match.
+- **Prefix match**. A string with an ending `"*"`. For example, `"test.abc.*"` matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
+- **Suffix match**. A string with a starting `"*"`. For example, `"*.abc.com"` matches `"eng.abc.com"`, `"test.eng.abc.com"`, etc.
+- **Presence match**. `*` is used to specify anything but not empty. You can specify a field must be present using the format `fieldname: ["*"]`.
+This means that the field can match any value, but it cannot be empty. Note that it is different from leaving a field unspecified, which means anything including empty.
+
+The following example policy allows allows access at paths with prefix `"/test/"` or suffix `"/info"`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -743,8 +753,41 @@ spec:
         paths: ["/test/*", "*/info"]
 {{< /text >}}
 
-You can also use the `when` section to specify additional constraints, for example, the following
-`AuthorizationPolicy` definition includes a constraint that `request.headers[version]` is either `"v1"` or `"v2"`.
+#### Allow-all and deny-all
+
+The example below shows a simple policy `allow-all` which allows full access to all
+workloads in the `default` namespace.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all
+  namespace: default
+spec:
+  rules:
+  - {}
+{{< /text >}}
+
+The example below shows a simple policy `deny-all` which denies access to all workloads
+in the `admin` namespace.
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+  namespace: admin
+spec:
+  {}
+{{< /text >}}
+
+#### Custom conditions
+
+You can also use the `when` section to specify additional conditions, for example, the following
+`AuthorizationPolicy` definition includes a condition that `request.headers[version]` is either `"v1"` or `"v2"`.
+In the case that the attribute is a `map`, for example `request.headers`, the `key`
+is an entry in the map, for example `request.headers[version]`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -769,13 +812,14 @@ spec:
      values: ["v1", "v2"]
 {{< /text >}}
 
-In the case that the attribute is a `map`, for example `request.headers`, the
-`key` is an entry in the map, for example `request.headers[version]`. The supported `key` values
-of a constraint are listed in the [conditions page](/docs/reference/config/authorization/conditions/).
+The supported `key` values of a condition are listed in the
+[conditions page](/docs/reference/config/authorization/conditions/).
 
-You can specify flexible source identities in the authorization policy. The following example
-shows an `AuthorizationPolicy` that allows two sources (service account `cluster.local/ns/default/sa/sleep`
-and namespace `dev`) to access the httpbin workload:
+#### Authenticated and unauthenticated identity
+
+In case you want to make a workload publicly accessible, you need to leave the
+`source` section empty. This allows sources from **all (both authenticated and
+unauthenticated)** users and workloads, for example:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -789,19 +833,12 @@ spec:
      app: httpbin
      version: v1
  rules:
- - from:
-   - source:
-       principals: ["cluster.local/ns/default/sa/sleep"]
-   - source:
-       namespaces: ["dev"]
-   to:
+ - to:
    - operation:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-In case you want to make a workload publicly accessible, you can set the
-`principals` to `principals: ["*"]`. This value allows sources from **all (both authenticated and
-unauthenticated)** users and services, for example:
+To allow only **authenticated** users, set `principal` to `"*"` instead, for example:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -823,31 +860,6 @@ spec:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-To allow only **authenticated** users, use `source.principal: "*"` instead, for example:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: httpbin
- namespace: foo
-spec:
- selector:
-   matchLabels:
-     app: httpbin
-     version: v1
- rules:
- - from:
-   - source:
-       principals: ["cluster.local/ns/default/sa/sleep"]
-   to:
-   - operation:
-       methods: ["GET", "POST"]
-   when:
-   - key: source.principal
-     values: ["*"]
-{{< /text >}}
-
 ### Using Istio authorization on plain TCP protocols
 
 Istio authorization supports workloads using any plain TCP protocols, such as MongoDB. In this case,
@@ -855,9 +867,9 @@ you configure the authorization policy in the same way you did for the HTTP work
 The difference is that certain fields and conditions are only applicable to HTTP workloads.
 These fields include:
 
-- The `request_principals` fields in the source section of the authorization policy object
+- The `request_principals` field in the source section of the authorization policy object
 - The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
-- The supported conditions are listed in the [constraints page](/docs/reference/config/authorization/conditions/).
+- The supported conditions are listed in the [conditions page](/docs/reference/config/authorization/conditions/).
 
 If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
 authorization policy.
