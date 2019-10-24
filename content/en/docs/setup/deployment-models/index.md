@@ -1,7 +1,7 @@
 ---
 title: Deployment Models
 description: Describes the system models that impact your overall Istio depolyment.
-weight: 60
+weight: 6
 keywords:
 - single-cluster
 - multiple-clusters
@@ -14,6 +14,7 @@ keywords:
 - multiple-meshes
 aliases:
 - /docs/concepts/multicluster-deployments/
+- /docs/concepts/deployment-models
 ---
 
 Important system models impact your overall Istio deployment model. This page

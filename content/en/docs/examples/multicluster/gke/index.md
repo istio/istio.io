@@ -8,7 +8,7 @@ aliases:
 ---
 
 This example shows how to configure a multicluster mesh with a
-[single-network deployment](/docs/concepts/deployment-models/#single-network)
+[single-network deployment]/docs/setup/deployment-models/#single-network)
 over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
 
 ## Before you begin
