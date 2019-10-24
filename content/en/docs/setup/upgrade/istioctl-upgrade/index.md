@@ -1,5 +1,5 @@
 ---
-title: Upgrade and downgrade Istio using istioctl [Experimental]
+title: Upgrade Istio using istioctl [Experimental]
 description: Upgrade or downgrade Istio using the istioctl upgrade command.
 weight: 25
 aliases:
@@ -38,10 +38,13 @@ that at least two replicas of each component (except Citadel) are running. Also,
 are configured with a minimum availability of 1.
 {{< /warning >}}
 
+The commands in this section should be run using the new version of istioctl which
+can be found in the `bin/` subdirectory of the downloaded package.
+
 1. [Download the new Istio release](/docs/setup/#downloading-the-release)
    and change directory to the new release directory.
 
-1. Verify that `istoctl` supports upgrading to your intended target Istio version by
+1. Verify that `istoctl` supports upgrading from your current Istio version by
    viewing the supported versions list:
 
     {{< text bash >}}
@@ -59,6 +62,9 @@ are configured with a minimum availability of 1.
     {{< text bash >}}
     $ istioctl experimental upgrade -f `<your-custom-configuration-file>`
     {{< /text >}}
+
+    `<your-custom-configuration-file>` is the file you used to install the
+    currently-running version of Istio.
 
     After performing several checks, `istioctl` will ask you to confirm whether to proceed.
 
@@ -102,6 +108,9 @@ before you ran `istioctl experimental upgrade`.
     {{< text bash >}}
     $ istioctl experimental upgrade -f `<your-custom-configuration-file>`
     {{< /text >}}
+
+    `<your-custom-configuration-file>` is the file you used to install the
+    currently-running version of Istio.
 
     After performing several checks, `istioctl` will ask you to confirm whether to proceed.
 
