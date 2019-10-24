@@ -45,9 +45,9 @@ requirements.
 
 1. Install the **demo** profile:
 
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f install/kubernetes/istio-demo.yaml
+    {{< /text >}}
 
 ## Verifying the installation
 
@@ -141,9 +141,9 @@ non-existent resources because they may have been deleted hierarchically.
 
 * Uninstall the **demo** profile:
 
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f install/kubernetes/istio-demo.yaml
+    {{< /text >}}
 
 * If desired, delete the Istio CRDs:
 
