@@ -255,6 +255,9 @@ To enable the pod security policy, perform the following steps:
       name: normal
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: normal
       template:
         metadata:
           labels:
@@ -287,6 +290,9 @@ To enable the pod security policy, perform the following steps:
       name: malicious
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: malicious
       template:
         metadata:
           labels:
