@@ -34,7 +34,7 @@ operator_tag="release-1.4"
 # Add profiles here to have them automatically added to the website.
 # It is important to also document these files, which is not done automatically.
 
-operator_profiles=( "default" "demo" "demo-auth" "sds" "minimal" )
+operator_profiles=( "default" "demo" "sds" "minimal" )
 
 rm -f "${output_dir}"/operator.yaml
 touch "${output_dir}"/operator.yaml
@@ -49,7 +49,7 @@ for profile in "${operator_profiles[@]}"
 do
 	cp deploy/crds/istio_v1alpha2_istiocontrolplane_cr.yaml "${output_dir}"/operator-profile-"${profile}".yaml
 	echo "---" >> "${output_dir}"/operator-profile-"${profile}".yaml
-	sed -i "s/profile: default/profile: ${profile}/g" "${output_dir}"/operator-profile-"${profile}".yaml 
+	sed -i "s/profile: default/profile: ${profile}/g" "${output_dir}"/operator-profile-"${profile}".yaml
 done
 
 # Great care should be taken when modifying the ordering of this list. This
