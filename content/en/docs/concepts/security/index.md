@@ -633,8 +633,18 @@ authorization result, `ALLOW` or `DENY`.
 
 ### Enabling authorization
 
-You enable authorization on **workloads** by applying the `AuthorizationPolicy`
-custom resource that selects the workloads.
+There is no need to explicitly enable Istio authorization feature, you just apply
+the `AuthorizationPolicy` on **workloads** to enforce the access control.
+
+If no `AuthorizationPolicy` applies to a workload, no access control will be enforced,
+in other words, all requests will be allowed.
+
+If any `AuthorizationPolicy` applies to a workload, the request will be allowed
+only if it matches the `AuthorizationPolicy`, in other words, the request will be
+denied if it doesn't match any of the `AuthorizationPolicy`, i.e. deny by default.
+
+This is the same behavior as how [Kubernetes network policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+works today.
 
 Currently `AuthorizationPolicy` only supports "ALLOW" action. This means that if
 multiple authorization policies apply to the same workload, the effect is additive.
