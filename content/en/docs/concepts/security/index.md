@@ -602,7 +602,7 @@ Istio's authorization feature provides mesh-level, namespace-level, and workload
 access control on workloads in an Istio Mesh. It features:
 
 - **Workload-to-workload and end-user-to-workload authorization**.
-- **Simple API**, it includes a single Authorization Policy CRD, which is easy to use and maintain.
+- **Simple API**, it includes a single `AuthorizationPolicy` CRD, which is easy to use and maintain.
 - **Flexible semantic**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
@@ -633,7 +633,7 @@ authorization result, `ALLOW` or `DENY`.
 
 ### Enabling authorization
 
-You enable Istio Authorization on **workloads** by applying the `AuthorizationPolicy`
+You enable authorization on **workloads** by applying the `AuthorizationPolicy`
 custom resource that selects the workloads.
 
 Currently `AuthorizationPolicy` only supports "ALLOW" action. This means that if
@@ -641,12 +641,12 @@ multiple authorization policies apply to the same workload, the effect is additi
 
 ### Authorization policy
 
-To configure an Istio authorization policy, you specify the [Authorization Policy](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto)
+To configure an Istio authorization policy, you specify the [`AuthorizationPolicy`](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto)
 configuration object. Like other Istio configuration objects, it is defined as Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 object.
 
 An `AuthorizationPolicy` includes a `selector` and a list of `rules`, the `selector`
-specifies the **target** that the policy applies to and the `rules` specify **who**
+specifies the **target** that the policy applies to. The `rules` specify **who**
 is allowed to do **what** under which **conditions**. Specifically:
 
 - **target** refers to the `selector` section in the `AuthorizationPolicy`.
@@ -690,13 +690,13 @@ spec:
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
-#### Scope and workload selector
+#### Policy Target
 
 Policy scope (target) is determined by `metadata/namespace` and an optional `selector`.
 
 The `metadata/namespace` tells which namespace the policy applies. If set to the
 root namespace, the policy applies to all namespaces in a mesh. The value of
-root namespace is configurable, and the default is `istio-config`. If set to a
+root namespace is configurable, and the default is `istio-system`. If set to a
 normal namespace, the policy will only apply to the specified namespace.
 
 A workload `selector` can be used to further restrict where a policy applies.
@@ -727,7 +727,8 @@ spec:
 #### Value matching
 
 Exact match, prefix match, suffix match, and presence match are supported for most
-of the field with a few exceptions (e.g., "when/key" only supports exact match).
+of the field with a few exceptions (e.g., the `key` field under `when` section,
+the `ipBlocks` under `source` section and the `ports` field under `to` section only supports exact match).
 
 - **Exact match**. i.e., exact string match.
 - **Prefix match**. A string with an ending `"*"`. For example, `"test.abc.*"` matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
@@ -786,8 +787,8 @@ spec:
 
 You can also use the `when` section to specify additional conditions, for example, the following
 `AuthorizationPolicy` definition includes a condition that `request.headers[version]` is either `"v1"` or `"v2"`.
-In the case that the attribute is a `map`, for example `request.headers`, the `key`
-is an entry in the map, for example `request.headers[version]`.
+In this case, the key is `request.headers[version]`, which is an entry in the Istio attribute `request.headers`,
+which is `map` data type.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
