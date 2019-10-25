@@ -17,29 +17,12 @@ manage the webhook configurations of Galley and Sidecar Injector.
 
 ## Before you begin
 
-* Create a new Kubernetes cluster to run the example in this tutorial.
+* Create a Kubernetes cluster with Istio installed. In the installation,
+[`global.operatorManageWebhooks`]({{< github_file >}}/install/kubernetes/helm/istio/values.yaml) should
+be set as true, and [DNS certificates should be configured](/docs/tasks/security/dns-cert).
+Istio installation guides can be found [here](/docs/setup/install).
 
 * Install [`jq`](https://stedolan.github.io/jq/) for json parsing.
-
-## Install Istio
-
-1.  The yaml file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
-    contains an example configuration for provisioning the DNS certificates used in webhook configurations.
-    Install Istio with [DNS certificate configured](/docs/tasks/security/dns-cert) using [Helm](/docs/setup/install/helm/#prerequisites):
-
-    {{< text bash >}}
-    $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
-    $ kubectl create namespace istio-system
-    $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-    $ helm template \
-        --name=istio \
-        --namespace=istio-system \
-        --set global.imagePullPolicy=Always \
-        --set global.operatorManageWebhooks=true \
-        --values install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml \
-        install/kubernetes/helm/istio > istio-webhook-management.yaml
-    $ kubectl apply -f istio-webhook-management.yaml
-    {{< /text >}}
 
 ## Check webhook certificates
 
