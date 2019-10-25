@@ -55,21 +55,6 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-demo.yaml
 
 {{< /tab >}}
 
-{{< tab name="demo-auth" cookie-value="strict" >}}
-This profile will enforce
-[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between all clients and servers.
-
-Use this profile only on a fresh Kubernetes cluster where all workloads will be Istio-enabled.
-All newly deployed workloads will have Istio sidecars installed.
-
-Run the following command to switch to this profile:
-
-{{< text bash >}}
-$ kubectl apply -f https://preliminary.istio.io/operator-profile-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="SDS" cookie-value="sds" >}}
 This profile enables
 [Secret Discovery Service](/docs/tasks/security/auth-sds) between all clients and servers.
