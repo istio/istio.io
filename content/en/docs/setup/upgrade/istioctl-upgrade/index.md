@@ -38,7 +38,7 @@ that at least two replicas of each component (except Citadel) are running. Also,
 are configured with a minimum availability of 1.
 {{< /warning >}}
 
-The commands in this section should be run using the new version of istioctl which
+The commands in this section should be run using the new version of `istioctl` which
 can be found in the `bin/` subdirectory of the downloaded package.
 
 1. [Download the new Istio release](/docs/setup/#downloading-the-release)
@@ -63,8 +63,17 @@ can be found in the `bin/` subdirectory of the downloaded package.
     $ istioctl experimental upgrade -f `<your-custom-configuration-file>`
     {{< /text >}}
 
-    `<your-custom-configuration-file>` is the file you used to install the
-    currently-running version of Istio.
+    `<your-custom-configuration-file>` is the
+    [IstioControlPlane API Custom Resource Definition](/docs/setup/install/operator/#configure-the-feature-or-component-settings)
+    file you used to customize the installation of the currently-running version of Istio.
+
+    {{< warning >}}
+    If you installed Istio without a custom resource definition file, for
+    example using `istioctl manifest apply --set profile=demo`, the `-f` flag is
+    optional. However, you must provide the `istioctl upgrade` command with the
+    same flags you originally used with `instioctl manifest apply` to install
+    Istio.
+    {{< /warning >}}
 
     After performing several checks, `istioctl` will ask you to confirm whether to proceed.
 
@@ -89,40 +98,13 @@ Ensure you meet these requirements before starting the downgrade process:
 
 * Downgrade must be done using the `istioctl` binary version that
 corresponds to the Istio version that you intend to downgrade to.
-For example, if you upgraded from Istio 1.3.3 to a higher version, you should
-use `istioctl` version 1.3.3 to perform the downgrade.
+For example, if you are downgrading from Istio 1.4 to 1.3.3, use `istioctl`
+version 1.3.3.
 
 ## Downgrade to Istio 1.4 and higher versions steps
 
-The downgrade process can restore Istio back to the Istio version that was installed
+The downgrade process steps are identical to the upgrade process mentioned in the previous section. When completed, the process will restore Istio back to the Istio version that was installed
 before you ran `istioctl experimental upgrade`.
-
-1. Ensure that your Kubernetes configuration points to the cluster to upgrade:
-
-    {{< text bash >}}
-    $ kubectl config view
-    {{< /text >}}
-
-1. Begin the downgrade by running this command:
-
-    {{< text bash >}}
-    $ istioctl experimental upgrade -f `<your-custom-configuration-file>`
-    {{< /text >}}
-
-    `<your-custom-configuration-file>` is the file you used to install the
-    currently-running version of Istio.
-
-    After performing several checks, `istioctl` will ask you to confirm whether to proceed.
-
-1. The tool will install the previous version of Istio control plane and indicate the
-   completion status.
-
-1. After `istioctl` completes the downgrade, you must manually update the Istio data plane
-   by restarting any pods with Istio sidecars:
-
-    {{< text bash >}}
-    $ kubectl rollout restart deployment
-    {{< /text >}}
 
 ### Downgrade to Istio 1.3.3 and lower versions steps
 
