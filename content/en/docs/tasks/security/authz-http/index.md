@@ -58,7 +58,7 @@ spec:
 EOF
 {{< /text >}}
 
-The `{}` in the policy means `deny-all`, you can also set other mesh-level policy for your own needs.
+This policy has no rule so it cannot grant permission for any traffic. In other words, it denies all.
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
 Now you should see `"RBAC: access denied"`. The error shows that the configured `deny-all`
