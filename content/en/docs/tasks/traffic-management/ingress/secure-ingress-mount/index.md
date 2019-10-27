@@ -33,7 +33,7 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     If a version of _LibreSSL_ is printed as in the output above, your _curl_ should work correctly with the
     instructions in this task. Otherwise, try another installation of _curl_, for example on a Linux machine.
 
-## Generate client and server certificates and keys
+## Generate server certificate and private key
 
 For this task you can use your favorite tool to generate certificates and keys. The commands below use
 [openssl](https://man.openbsd.org/openssl.1)
@@ -291,43 +291,19 @@ Unlike the previous sections, the Istio default ingress gateway will not work ou
 preconfigured to support one secure host. You'll need to first configure and redeploy the ingress gateway
 server with another secret, before you can use it to handle a second host.
 
-### Generate client and server certificates and keys for `bookinfo.com`
+### Generate a server certificate and private key for `bookinfo.com`
 
-Perform the same steps as in [Generate client and server certificates and keys](/docs/tasks/traffic-management/ingress/secure-ingress-mount/#generate-client-and-server-certificates-and-keys),
-only this time for host `bookinfo.com` instead of `httpbin.example.com`.
+{{< text bash >}}
+$ openssl req -out bookinfo.com.csr -newkey rsa:2048 -nodes -keyout bookinfo.com.key -subj "/CN=bookinfo.com/O=bookinfo organization"
+$ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in bookinfo.com.csr -out bookinfo.com.crt
+{{< /text >}}
 
-1.  Change directory to the cloned repository:
-
-    {{< text bash >}}
-    $ pushd mtls-go-example
-    {{< /text >}}
-
-1.  Generate the certificates for `bookinfo.com`. Change `<password>` to any value you like in the following command:
-
-    {{< text bash >}}
-    $ ./generate.sh bookinfo.com <password>
-    {{< /text >}}
-
-    When prompted, select `y` for all the questions.
-
-1.  Move the certificates into a directory named `bookinfo.com`:
-
-    {{< text bash >}}
-    $ mkdir ../bookinfo.com && mv 1_root 2_intermediate 3_application 4_client ../bookinfo.com
-    {{< /text >}}
-
-1.  Go back to your previous directory:
-
-    {{< text bash >}}
-    $ popd
-    {{< /text >}}
-
-### Redeploy `istio-ingressgateway` with the new certificates
+### Redeploy `istio-ingressgateway` with the new certificate
 
 1. Create a new secret to hold the certificate for `bookinfo.com`:
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com/3_application/private/bookinfo.com.key.pem --cert bookinfo.com/3_application/certs/bookinfo.com.cert.pem
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com.key --cert bookinfo.com.crt
     secret "istio-ingressgateway-bookinfo-certs" created
     {{< /text >}}
 
@@ -441,14 +417,14 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
 1.  Send a request to the _Bookinfo_ `productpage`:
 
     {{< text bash >}}
-    $ curl -o /dev/null -s -v -w "%{http_code}\n" -HHost:bookinfo.com --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert bookinfo.com/2_intermediate/certs/ca-chain.cert.pem -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
+    $ curl -o /dev/null -s -v -w "%{http_code}\n" -HHost:bookinfo.com --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
     ...
     Server certificate:
-      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=bookinfo.com
-      start date: Aug 12 13:50:05 2018 GMT
-      expire date: Aug 22 13:50:05 2019 GMT
+      subject: CN=bookinfo.com; O=bookinfo organization
+      start date: Oct 27 20:08:32 2019 GMT
+      expire date: Oct 26 20:08:32 2020 GMT
       common name: bookinfo.com (matched)
-      issuer: C=US; ST=Denial; O=Dis; CN=bookinfo.com
+      issuer: O=example Inc.; CN=example.com
     SSL certificate verify ok.
     ...
     200
@@ -458,7 +434,7 @@ only this time for host `bookinfo.com` instead of `httpbin.example.com`.
     should already love:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt --cert httpbin-client.example.com.crt --key httpbin-client.example.com.key https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     -=[ teapot ]=-
 
@@ -566,7 +542,7 @@ In addition to the steps in the previous section, perform the following:
 1.  Delete the directories of the certificates and the repository used to generate them:
 
     {{< text bash >}}
-    $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr httpbin-client.example.com.crt httpbin-client.example.com.key httpbin-client.example.com.csr bookinfo.com
+    $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr httpbin-client.example.com.crt httpbin-client.example.com.key httpbin-client.example.com.csr bookinfo.com.crt bookinfo.com.key bookinfo.com.csr
     {{< /text >}}
 
 1.  Remove the patch file you used for redeployment of `istio-ingressgateway`:
