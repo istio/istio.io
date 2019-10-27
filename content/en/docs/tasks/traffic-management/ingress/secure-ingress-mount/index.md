@@ -35,41 +35,20 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 ## Generate client and server certificates and keys
 
-For this task you can use your favorite tool to generate certificates and keys. This example uses [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
-from the <https://github.com/nicholasjackson/mtls-go-example> repository.
+For this task you can use your favorite tool to generate certificates and keys. The commands below use
+[openssl](https://man.openbsd.org/openssl.1)
 
-1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
+1.  Create a root certificate and private key to sign the certificate for your services:
 
     {{< text bash >}}
-    $ git clone https://github.com/nicholasjackson/mtls-go-example
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
     {{< /text >}}
 
-1.  Change directory to the cloned repository:
+1.  Create a certificates and a private key for `httpbin.example.com`:
 
     {{< text bash >}}
-    $ pushd mtls-go-example
-    {{< /text >}}
-
-1.  Generate the certificates for `httpbin.example.com`. Change `<password>` to any value you like in the following command:
-
-    {{< text bash >}}
-    $ ./generate.sh httpbin.example.com <password>
-    {{< /text >}}
-
-    When prompted, select `y` for all the questions. The command will generate four directories: `1_root`,
-   `2_intermediate`, `3_application`, and `4_client` containing the client and server certificates you use in the
-    procedures below.
-
-1.  Move the certificates into a directory named `httpbin.example.com`:
-
-    {{< text bash >}}
-    $ mkdir ../httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.example.com
-    {{< /text >}}
-
-1.  Go back to your previous directory:
-
-    {{< text bash >}}
-    $ popd
+    $ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
     {{< /text >}}
 
 ## Configure a TLS ingress gateway with a file mount-based approach
@@ -89,7 +68,7 @@ create a gateway definition that configures a server on port 443.
     {{< /warning >}}
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key httpbin.example.com/3_application/private/httpbin.example.com.key.pem --cert httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
+    $ kubectl create -n istio-system secret tls istio-ingressgateway-certs --key httpbin.example.com.key --cert httpbin.example.com.crt
     secret "istio-ingressgateway-certs" created
     {{< /text >}}
 
@@ -175,14 +154,15 @@ create a gateway definition that configures a server on port 443.
     [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     Server certificate:
-      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=httpbin.example.com
-      start date: Jun 24 18:45:18 2018 GMT
-      expire date: Jul  4 18:45:18 2019 GMT
+      subject: CN=httpbin.example.com; O=httpbin organization
+      start date: Oct 27 19:32:48 2019 GMT
+      expire date: Oct 26 19:32:48 2020 GMT
       common name: httpbin.example.com (matched)
-      issuer: C=US; ST=Denial; O=Dis; CN=httpbin.example.com
+      issuer: O=example Inc.; CN=example.com
+      SSL certificate verify ok.
     SSL certificate verify ok.
     ...
     HTTP/2 418
@@ -578,7 +558,7 @@ In addition to the steps in the previous section, perform the following:
 1.  Delete the directories of the certificates and the repository used to generate them:
 
     {{< text bash >}}
-    $ rm -rf httpbin.example.com bookinfo.com mtls-go-example
+    $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr bookinfo.com
     {{< /text >}}
 
 1.  Remove the patch file you used for redeployment of `istio-ingressgateway`:
