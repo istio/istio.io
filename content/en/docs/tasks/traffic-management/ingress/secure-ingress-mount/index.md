@@ -479,7 +479,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'Subject:'
-        Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
+        Subject: CN=httpbin.example.com, O=httpbin organization
     {{< /text >}}
 
 *   Verify that the proxy of the ingress gateway is aware of the certificates:
@@ -511,7 +511,7 @@ In addition to the steps in the previous section, perform the following:
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-ca-certs
     {{< /text >}}
 
-    `ca-chain.cert.pem` should exist in the directory contents.
+    `example.com.crt` should exist in the directory contents.
 
 *   If you created the `istio-ingressgateway-ca-certs` secret, but the CA
     certificate is not loaded, delete the ingress gateway pod and force it to
@@ -524,8 +524,8 @@ In addition to the steps in the previous section, perform the following:
 *   Verify that the `Subject` is correct in the CA certificate of the ingress gateway:
 
     {{< text bash >}}
-    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem | openssl x509 -text -noout | grep 'Subject:'
-    Subject: C=US, ST=Denial, L=Springfield, O=Dis, CN=httpbin.example.com
+    $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/example.com.crt | openssl x509 -text -noout | grep 'Subject:'
+    Subject: O=example Inc., CN=example.com
     {{< /text >}}
 
 ## Cleanup
