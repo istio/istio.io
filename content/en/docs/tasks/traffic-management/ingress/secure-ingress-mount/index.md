@@ -204,7 +204,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     {{< /warning >}}
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
+    $ kubectl create -n istio-system secret generic istio-ingressgateway-ca-certs --from-file=example.com.crt
     secret "istio-ingressgateway-ca-certs" created
     {{< /text >}}
 
@@ -213,7 +213,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     {{< warning >}}
     The location of the certificate **must** be `/etc/istio/ingressgateway-ca-certs`, or the gateway
     will fail to load them. The file (short) name of the certificate must be identical to the one you created the secret
-    from, in this case `ca-chain.cert.pem`.
+    from, in this case `example.com.crt`.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -234,7 +234,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
           mode: MUTUAL
           serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
           privateKey: /etc/istio/ingressgateway-certs/tls.key
-          caCertificates: /etc/istio/ingressgateway-ca-certs/ca-chain.cert.pem
+          caCertificates: /etc/istio/ingressgateway-ca-certs/example.com.crt
         hosts:
         - "httpbin.example.com"
     EOF
@@ -243,7 +243,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
 1.  Access the `httpbin` service by HTTPS as in the previous section:
 
     {{< text bash >}}
-    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     curl: (35) error:14094410:SSL routines:SSL3_READ_BYTES:sslv3 alert handshake failure
     {{< /text >}}
 
@@ -255,11 +255,19 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     This time you will get an error since the server refuses to accept unauthenticated requests. You need to pass _curl_
     a client certificate and your private key for signing the request.
 
+1.  Generate a client certificate for the `httpbin.example.com` service. You can designate the client by the
+    `httpbin-client.example.com` URI, or use any other URI.
+
+    {{< text bash >}}
+    $ openssl req -out httpbin-client.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin-client.example.com.key -subj "/CN=httpbin-client.example.com/O=httpbin's client organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin-client.example.com.csr -out httpbin-client.example.com.crt
+    {{< /text >}}
+
 1.  Resend the previous request by _curl_, this time passing as parameters your client certificate (additional `--cert` option)
  and your private key (the `--key` option):
 
     {{< text bash >}}
-    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt --cert httpbin-client.example.com.crt --key httpbin-client.example.com.key https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
 
     -=[ teapot ]=-
 
@@ -558,7 +566,7 @@ In addition to the steps in the previous section, perform the following:
 1.  Delete the directories of the certificates and the repository used to generate them:
 
     {{< text bash >}}
-    $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr bookinfo.com
+    $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr httpbin-client.example.com.crt httpbin-client.example.com.key httpbin-client.example.com.csr bookinfo.com
     {{< /text >}}
 
 1.  Remove the patch file you used for redeployment of `istio-ingressgateway`:
