@@ -39,7 +39,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     {{< /tip >}}
 
 1.  Install Istio with strict mutual TLS enabled by selecting the `strict mutual
-    TLS` tab when you follow [the Kubernetes installation steps](/docs/setup/install/kubernetes/#installation-steps).
+    TLS` tab when you follow [the Kubernetes installation steps](/docs/setup/install/kubernetes/).
 
 1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
