@@ -12,13 +12,13 @@ In this module you prepare your local computer for the tutorial.
     created earlier in the tutorial, where `${NAMESPACE}` is the name of your
     namespace. For example `tutorial-user-config.yaml`.
 
-1.  Install [curl](https://curl.haxx.se/download.html).
+1.  Install [`curl`](https://curl.haxx.se/download.html).
 
 1.  Install [Node.js](https://nodejs.org/en/download/).
 
 1.  Install [Docker](https://docs.docker.com/install/).
 
-1.  Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+1.  Install [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
 1.  Set the `KUBECONFIG` environment variable for the `${NAMESPACE}-user-config.yaml`
     configuration file:
