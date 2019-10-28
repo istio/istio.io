@@ -110,7 +110,7 @@ which talks to a MongoDB backend using TCP.
 
 1. Verify that the **Book Reviews** section shows the reviews.
 
-## Applying a default `deny-all` policy
+## Applying a default `deny-all` policy on the workload
 
 Run the following command to apply a default `deny-all` policy for the MongoDB workload, the
 command creates a `deny-all` policy that denies all requests to the MongoDB workload:
