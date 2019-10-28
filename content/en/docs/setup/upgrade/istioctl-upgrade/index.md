@@ -68,12 +68,17 @@ can be found in the `bin/` subdirectory of the downloaded package.
     file you used to customize the installation of the currently-running version of Istio.
 
     {{< warning >}}
-    If you installed Istio without a custom resource definition file, for
-    example using `istioctl manifest apply --set profile=demo`, the `-f` flag is
-    optional. However, you must provide the `istioctl upgrade` command with the
-    same flags you originally used with `instioctl manifest apply` to install
-    Istio.
+    If you installed Istio using the `-f` flag, for example
+    `istioctl manifest apply -f <IstioControlPlane-custom-resource-definition-file>`,
+    then you must provide the same `-f` flag to the `istioctl upgrade` command.
     {{< /warning >}}
+
+    `istioctl upgrade` does not support the `--set` flag. Therefore, if you
+    installed Istio using the `--set` command, create a configuration file with
+    the equivalent configuration options and pass it to the `istioctl upgrade`
+    command using the `-f` flag instead.
+
+    If you omit the `-f` flag, Istio upgrades using the default profile.
 
     After performing several checks, `istioctl` will ask you to confirm whether to proceed.
 
