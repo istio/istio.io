@@ -44,7 +44,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
     {{< /text >}}
 
-1.  Create a certificates and a private key for `httpbin.example.com`:
+1.  Create a certificate and a private key for `httpbin.example.com`:
 
     {{< text bash >}}
     $ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
@@ -255,7 +255,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     This time you will get an error since the server refuses to accept unauthenticated requests. You need to pass _curl_
     a client certificate and your private key for signing the request.
 
-1.  Generate a client certificate for the `httpbin.example.com` service. You can designate the client by the
+1.  Create a client certificate for the `httpbin.example.com` service. You can designate the client by the
     `httpbin-client.example.com` URI, or use any other URI.
 
     {{< text bash >}}
@@ -291,7 +291,7 @@ Unlike the previous sections, the Istio default ingress gateway will not work ou
 preconfigured to support one secure host. You'll need to first configure and redeploy the ingress gateway
 server with another secret, before you can use it to handle a second host.
 
-### Generate a server certificate and private key for `bookinfo.com`
+### Create a server certificate and private key for `bookinfo.com`
 
 {{< text bash >}}
 $ openssl req -out bookinfo.com.csr -newkey rsa:2048 -nodes -keyout bookinfo.com.key -subj "/CN=bookinfo.com/O=bookinfo organization"
