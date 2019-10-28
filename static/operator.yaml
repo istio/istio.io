@@ -3,6 +3,7 @@ kind: Namespace
 metadata:
   name: istio-operator
 ---
+---
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -25,23 +26,34 @@ spec:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+            internal value, and may reject unrecognized values.
+            More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
           description: 'Kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase.
+            More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
+          description: 'Metadata about the istio control plane resource.
+            More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#metadata'
           type: object
         spec:
+          description: 'Specification of the desired state of the istio control plane resource.
+            More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status'
           type: object
         status:
+          description: 'Status describes each of istio control plane component status at the current time.
+            0 means NONE, 1 means UPDATING, 2 means HEALTHY, 3 means ERROR, 4 means RECONCILING.
+            More info: https://github.com/istio/operator/blob/master/pkg/apis/istio/v1alpha2/v1alpha2.pb.html &
+            https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status'
           type: object
   versions:
   - name: v1alpha2
     served: true
     storage: true
+---
 ---
 apiVersion: install.istio.io/v1alpha2
 kind: IstioControlPlane
@@ -52,11 +64,13 @@ spec:
   profile: demo
 ---
 ---
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: istio-operator
   name: istio-operator
+---
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -159,7 +173,7 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - configmaps
+  - configmaps  
   - endpoints
   - events
   - namespaces
@@ -167,9 +181,10 @@ rules:
   - persistentvolumeclaims
   - secrets
   - services
-  - serviceaccounts
+  - serviceaccounts  
   verbs:
   - '*'
+---
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -183,6 +198,7 @@ roleRef:
   kind: ClusterRole
   name: istio-operator
   apiGroup: rbac.authorization.k8s.io
+---
 ---
 apiVersion: v1
 kind: Service
@@ -198,6 +214,7 @@ spec:
     targetPort: 8383
   selector:
     name: istio-operator
+---
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -222,9 +239,16 @@ spec:
           - istio-operator
           - server
           imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
           env:
             - name: WATCH_NAMESPACE
-              value: "istio-operator"
+              value: ""
             - name: LEADER_ELECTION_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -235,4 +259,5 @@ spec:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
               value: "istio-operator"
+---
 ---

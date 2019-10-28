@@ -217,7 +217,7 @@ No
 </tr>
 <tr id="EnvoyFilter-config_patches">
 <td><code>configPatches</code></td>
-<td><code><a href="#EnvoyFilter-EnvoyConfigObjectPatch">EnvoyFilter.EnvoyConfigObjectPatch[]</a></code></td>
+<td><code><a href="#EnvoyFilter-EnvoyConfigObjectPatch">EnvoyConfigObjectPatch[]</a></code></td>
 <td>
 <p>One or more patches with match conditions.</p>
 
@@ -475,7 +475,7 @@ to the generated configuration for a given proxy.</p>
 <tbody>
 <tr id="EnvoyFilter-EnvoyConfigObjectMatch-context">
 <td><code>context</code></td>
-<td><code><a href="#EnvoyFilter-PatchContext">EnvoyFilter.PatchContext</a></code></td>
+<td><code><a href="#EnvoyFilter-PatchContext">PatchContext</a></code></td>
 <td>
 <p>The specific config generation context to match on. Istio Pilot
 generates envoy configuration in the context of a gateway,
@@ -488,7 +488,7 @@ No
 </tr>
 <tr id="EnvoyFilter-EnvoyConfigObjectMatch-proxy">
 <td><code>proxy</code></td>
-<td><code><a href="#EnvoyFilter-ProxyMatch">EnvoyFilter.ProxyMatch</a></code></td>
+<td><code><a href="#EnvoyFilter-ProxyMatch">ProxyMatch</a></code></td>
 <td>
 <p>Match on properties associated with a proxy.</p>
 
@@ -499,7 +499,7 @@ No
 </tr>
 <tr id="EnvoyFilter-EnvoyConfigObjectMatch-listener" class="oneof oneof-start">
 <td><code>listener</code></td>
-<td><code><a href="#EnvoyFilter-ListenerMatch">EnvoyFilter.ListenerMatch (oneof)</a></code></td>
+<td><code><a href="#EnvoyFilter-ListenerMatch">ListenerMatch (oneof)</a></code></td>
 <td>
 <p>Match on envoy listener attributes.</p>
 
@@ -510,7 +510,7 @@ Yes
 </tr>
 <tr id="EnvoyFilter-EnvoyConfigObjectMatch-route_configuration" class="oneof">
 <td><code>routeConfiguration</code></td>
-<td><code><a href="#EnvoyFilter-RouteConfigurationMatch">EnvoyFilter.RouteConfigurationMatch (oneof)</a></code></td>
+<td><code><a href="#EnvoyFilter-RouteConfigurationMatch">RouteConfigurationMatch (oneof)</a></code></td>
 <td>
 <p>Match on envoy HTTP route configuration attributes.</p>
 
@@ -521,7 +521,7 @@ Yes
 </tr>
 <tr id="EnvoyFilter-EnvoyConfigObjectMatch-cluster" class="oneof">
 <td><code>cluster</code></td>
-<td><code><a href="#EnvoyFilter-ClusterMatch">EnvoyFilter.ClusterMatch (oneof)</a></code></td>
+<td><code><a href="#EnvoyFilter-ClusterMatch">ClusterMatch (oneof)</a></code></td>
 <td>
 <p>Match on envoy cluster attributes.</p>
 
@@ -549,7 +549,7 @@ Yes
 <tbody>
 <tr id="EnvoyFilter-EnvoyConfigObjectPatch-apply_to">
 <td><code>applyTo</code></td>
-<td><code><a href="#EnvoyFilter-ApplyTo">EnvoyFilter.ApplyTo</a></code></td>
+<td><code><a href="#EnvoyFilter-ApplyTo">ApplyTo</a></code></td>
 <td>
 <p>Specifies where in the Envoy configuration, the patch should be
 applied.  The match is expected to select the appropriate
@@ -568,7 +568,7 @@ No
 </tr>
 <tr id="EnvoyFilter-EnvoyConfigObjectPatch-match">
 <td><code>match</code></td>
-<td><code><a href="#EnvoyFilter-EnvoyConfigObjectMatch">EnvoyFilter.EnvoyConfigObjectMatch</a></code></td>
+<td><code><a href="#EnvoyFilter-EnvoyConfigObjectMatch">EnvoyConfigObjectMatch</a></code></td>
 <td>
 <p>Match on listener/route configuration/cluster.</p>
 
@@ -579,7 +579,7 @@ No
 </tr>
 <tr id="EnvoyFilter-EnvoyConfigObjectPatch-patch">
 <td><code>patch</code></td>
-<td><code><a href="#EnvoyFilter-Patch">EnvoyFilter.Patch</a></code></td>
+<td><code><a href="#EnvoyFilter-Patch">Patch</a></code></td>
 <td>
 <p>The patch to apply along with the operation.</p>
 
@@ -700,7 +700,7 @@ No
 </tr>
 <tr id="EnvoyFilter-ListenerMatch-filter_chain">
 <td><code>filterChain</code></td>
-<td><code><a href="#EnvoyFilter-ListenerMatch-FilterChainMatch">EnvoyFilter.ListenerMatch.FilterChainMatch</a></code></td>
+<td><code><a href="#EnvoyFilter-ListenerMatch-FilterChainMatch">FilterChainMatch</a></code></td>
 <td>
 <p>Match a specific filter chain in a listener. If specified, the
 patch will be applied to the filter chain (and a specific
@@ -809,7 +809,7 @@ No
 </tr>
 <tr id="EnvoyFilter-ListenerMatch-FilterChainMatch-filter">
 <td><code>filter</code></td>
-<td><code><a href="#EnvoyFilter-ListenerMatch-FilterMatch">EnvoyFilter.ListenerMatch.FilterMatch</a></code></td>
+<td><code><a href="#EnvoyFilter-ListenerMatch-FilterMatch">FilterMatch</a></code></td>
 <td>
 <p>The name of a specific filter to apply the patch to. Set this
 to envoy.http<em>connection</em>manager to add a filter or apply a
@@ -850,7 +850,7 @@ No
 </tr>
 <tr id="EnvoyFilter-ListenerMatch-FilterMatch-sub_filter">
 <td><code>subFilter</code></td>
-<td><code><a href="#EnvoyFilter-ListenerMatch-SubFilterMatch">EnvoyFilter.ListenerMatch.SubFilterMatch</a></code></td>
+<td><code><a href="#EnvoyFilter-ListenerMatch-SubFilterMatch">SubFilterMatch</a></code></td>
 <td>
 <p>The next level filter within this filter to match
 upon. Typically used for HTTP Connection Manager filters and
@@ -911,7 +911,7 @@ No
 <tbody>
 <tr id="EnvoyFilter-Patch-operation">
 <td><code>operation</code></td>
-<td><code><a href="#EnvoyFilter-Patch-Operation">EnvoyFilter.Patch.Operation</a></code></td>
+<td><code><a href="#EnvoyFilter-Patch-Operation">Operation</a></code></td>
 <td>
 <p>Determines how the patch should be applied.</p>
 
@@ -922,7 +922,7 @@ No
 </tr>
 <tr id="EnvoyFilter-Patch-value">
 <td><code>value</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">google.protobuf.Struct</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>The JSON config of the object being patched. This will be merged using
 json merge semantics with the existing proto in the path.</p>
@@ -1165,7 +1165,7 @@ No
 </tr>
 <tr id="EnvoyFilter-RouteConfigurationMatch-vhost">
 <td><code>vhost</code></td>
-<td><code><a href="#EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch">EnvoyFilter.RouteConfigurationMatch.VirtualHostMatch</a></code></td>
+<td><code><a href="#EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch">VirtualHostMatch</a></code></td>
 <td>
 <p>Match a specific virtual host in a route configuration and
 apply the patch to the virtual host.</p>
@@ -1221,7 +1221,7 @@ No
 </tr>
 <tr id="EnvoyFilter-RouteConfigurationMatch-RouteMatch-action">
 <td><code>action</code></td>
-<td><code><a href="#EnvoyFilter-RouteConfigurationMatch-RouteMatch-Action">EnvoyFilter.RouteConfigurationMatch.RouteMatch.Action</a></code></td>
+<td><code><a href="#EnvoyFilter-RouteConfigurationMatch-RouteMatch-Action">Action</a></code></td>
 <td>
 <p>Match a route with specific action type.</p>
 
@@ -1306,7 +1306,7 @@ No
 </tr>
 <tr id="EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch-route">
 <td><code>route</code></td>
-<td><code><a href="#EnvoyFilter-RouteConfigurationMatch-RouteMatch">EnvoyFilter.RouteConfigurationMatch.RouteMatch</a></code></td>
+<td><code><a href="#EnvoyFilter-RouteConfigurationMatch-RouteMatch">RouteMatch</a></code></td>
 <td>
 <p>Match a specific route within the virtual host.</p>
 

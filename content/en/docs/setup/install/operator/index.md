@@ -60,7 +60,7 @@ $ istioctl manifest apply --set profile=demo
 {{< /text >}}
 
 In the example above, `demo` is one of the profile names from the output of
-the [`istioctl profile list`](/docs/reference/commands/istioctl/#istioctl-experimental-profile-list) command.
+the [`istioctl profile list`](/docs/reference/commands/istioctl/#istioctl-profile-list) command.
 
 ## Display the profile list
 
