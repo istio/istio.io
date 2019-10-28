@@ -179,6 +179,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `global.k8sIngress.enabled` | `false` |  |
 | `global.k8sIngress.gatewayName` | `ingressgateway` | `Gateway used for k8s Ingress resources. By default it is using 'istio:ingressgateway' that will be installed by setting 'gateways.enabled' and 'gateways.istio-ingressgateway.enabled' flags to true.` |
 | `global.k8sIngress.enableHttps` | `false` | `enableHttps will add port 443 on the ingress. It REQUIRES that the certificates are installed  in the expected secrets - enabling this option without certificates will result in LDS rejection and the ingress will not work.` |
+| `global.podDNSSearchNamespaces` | `[]` | `Custom DNS config for the pod to resolve names of services in other clusters. Use this to add additional search domains, and other settings.` |
 | `global.proxy.init.resources.limits.cpu` | `100m` |  |
 | `global.proxy.init.resources.limits.memory` | `50Mi` |  |
 | `global.proxy.init.resources.requests.cpu` | `10m` |  |
