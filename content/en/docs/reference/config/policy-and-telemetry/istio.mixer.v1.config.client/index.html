@@ -193,7 +193,7 @@ spec:
 <tbody>
 <tr id="HTTPAPISpec-attributes">
 <td><code>attributes</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>List of attributes that are generated when <em>any</em> of the HTTP
 patterns match. This list typically includes the &ldquo;api.service&rdquo;
@@ -321,7 +321,7 @@ generated.</p>
 <tbody>
 <tr id="HTTPAPISpecPattern-attributes">
 <td><code>attributes</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>List of attributes that are generated if the HTTP request matches
 the specified http<em>method and uri</em>template. This typically
@@ -485,7 +485,7 @@ No
 </tr>
 <tr id="HttpClientConfig-mixer_attributes">
 <td><code>mixerAttributes</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>Default attributes to send to Mixer in both Check and
 Report. This typically includes &ldquo;destination.ip&rdquo; and
@@ -498,7 +498,7 @@ No
 </tr>
 <tr id="HttpClientConfig-forward_attributes">
 <td><code>forwardAttributes</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>Default attributes to forward to upstream. This typically
 includes the &ldquo;source.ip&rdquo; and &ldquo;source.uid&rdquo; attributes.</p>
@@ -617,7 +617,7 @@ No
 <tbody>
 <tr id="NetworkFailPolicy-policy">
 <td><code>policy</code></td>
-<td><code><a href="#NetworkFailPolicy-FailPolicy">NetworkFailPolicy.FailPolicy</a></code></td>
+<td><code><a href="#NetworkFailPolicy-FailPolicy">FailPolicy</a></code></td>
 <td>
 <p>Specifies the behavior when the client is unable to connect to Mixer.</p>
 
@@ -639,7 +639,7 @@ No
 </tr>
 <tr id="NetworkFailPolicy-base_retry_wait">
 <td><code>baseRetryWait</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Base time to wait between retries.  Will be adjusted by exponential
 backoff and jitter.</p>
@@ -651,7 +651,7 @@ No
 </tr>
 <tr id="NetworkFailPolicy-max_retry_wait">
 <td><code>maxRetryWait</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Max time to wait between retries.</p>
 
@@ -829,7 +829,7 @@ Yes
 </tr>
 <tr id="QuotaSpecBinding-quota_specs">
 <td><code>quotaSpecs</code></td>
-<td><code><a href="#QuotaSpecBinding-QuotaSpecReference">QuotaSpecBinding.QuotaSpecReference[]</a></code></td>
+<td><code><a href="#QuotaSpecBinding-QuotaSpecReference">QuotaSpecReference[]</a></code></td>
 <td>
 <p>One or more QuotaSpec references that should be mapped to
 the specified service(s). The aggregate collection of match
@@ -923,7 +923,7 @@ No
 </tr>
 <tr id="ServiceConfig-mixer_attributes">
 <td><code>mixerAttributes</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>Send these attributes to Mixer in both Check and Report. This
 typically includes the &ldquo;destination.service&rdquo; attribute.
@@ -973,7 +973,7 @@ No
 </tr>
 <tr id="ServiceConfig-forward_attributes">
 <td><code>forwardAttributes</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>Default attributes to forward to upstream. This typically
 includes the &ldquo;source.ip&rdquo; and &ldquo;source.uid&rdquo; attributes.
@@ -1077,7 +1077,7 @@ No
 </tr>
 <tr id="TcpClientConfig-mixer_attributes">
 <td><code>mixerAttributes</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>Default attributes to send to Mixer in both Check and
 Report. This typically includes &ldquo;destination.ip&rdquo; and
@@ -1124,7 +1124,7 @@ No
 </tr>
 <tr id="TcpClientConfig-report_interval">
 <td><code>reportInterval</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Specify report interval to send periodical reports for long TCP
 connections. If not specified, the interval is 10 seconds. This interval
@@ -1199,7 +1199,7 @@ No
 </tr>
 <tr id="TransportConfig-stats_update_interval">
 <td><code>statsUpdateInterval</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Specify refresh interval to write Mixer client statistics to Envoy share
 memory. If not specified, the interval is 10 seconds.</p>
@@ -1247,7 +1247,7 @@ No
 </tr>
 <tr id="TransportConfig-attributes_for_mixer_proxy">
 <td><code>attributesForMixerProxy</code></td>
-<td><code><a href="#istio-mixer-v1-Attributes">istio.mixer.v1.Attributes</a></code></td>
+<td><code><a href="#istio-mixer-v1-Attributes">Attributes</a></code></td>
 <td>
 <p>Default attributes to forward to Mixer upstream. This typically
 includes the &ldquo;source.ip&rdquo; and &ldquo;source.uid&rdquo; attributes. These
@@ -1274,7 +1274,7 @@ No
 </tr>
 <tr id="TransportConfig-report_batch_max_time">
 <td><code>reportBatchMaxTime</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>When disable<em>report</em>batch is false, this value specifies the maximum elapsed
 time a batched report will be sent after a user request is processed. If left
@@ -1338,7 +1338,7 @@ Following places may use this message:
 <tbody>
 <tr id="istio-mixer-v1-Attributes-attributes">
 <td><code>attributes</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#istio-mixer-v1-Attributes-AttributeValue">istio.mixer.v1.Attributes.AttributeValue</a>&gt;</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#istio-mixer-v1-Attributes-AttributeValue">AttributeValue</a>&gt;</code></td>
 <td>
 <p>A map of attribute name to its value.</p>
 

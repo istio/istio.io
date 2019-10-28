@@ -67,8 +67,8 @@ aliases:
 
 ## `istioctl`
 
-- **Added** [`istioctl experimental manifest`](/docs/reference/commands/istioctl/#istioctl-experimental-manifest) to manage the new experimental install manifests.
-- **Added** [`istioctl experimental profile`](/docs/reference/commands/istioctl/#istioctl-experimental-profile) to manage the new experimental install profiles.
+- **Added** [`istioctl experimental manifest`](/docs/reference/commands/istioctl/#istioctl-manifest) to manage the new experimental install manifests.
+- **Added** [`istioctl experimental profile`](/docs/reference/commands/istioctl/#istioctl-profile) to manage the new experimental install profiles.
 - **Added** [`istioctl experimental metrics`](/docs/reference/commands/istioctl/#istioctl-experimental-metrics)
 - **Added** [`istioctl experimental describe pod`](/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod) to describe an Istio pod's configuration.
 - **Added** [`istioctl experimental add-to-mesh`](/docs/reference/commands/istioctl/#istioctl-experimental-add-to-mesh) to add Kubernetes services or virtual machines to an existing Istio service mesh.

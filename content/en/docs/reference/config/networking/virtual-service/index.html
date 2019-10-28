@@ -192,7 +192,7 @@ No
 </tr>
 <tr id="CorsPolicy-max_age">
 <td><code>maxAge</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Specifies how long the results of a preflight request can be
 cached. Translates to the <code>Access-Control-Max-Age</code> header.</p>
@@ -204,7 +204,7 @@ No
 </tr>
 <tr id="CorsPolicy-allow_credentials">
 <td><code>allowCredentials</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Indicates whether the caller is allowed to send the actual request
 (not the preflight) using credentials. Translates to
@@ -430,7 +430,7 @@ both are specified simultaneously.</p>
 <tbody>
 <tr id="HTTPFaultInjection-delay">
 <td><code>delay</code></td>
-<td><code><a href="#HTTPFaultInjection-Delay">HTTPFaultInjection.Delay</a></code></td>
+<td><code><a href="#HTTPFaultInjection-Delay">Delay</a></code></td>
 <td>
 <p>Delay requests before forwarding, emulating various failures such as
 network issues, overloaded upstream service, etc.</p>
@@ -442,7 +442,7 @@ No
 </tr>
 <tr id="HTTPFaultInjection-abort">
 <td><code>abort</code></td>
-<td><code><a href="#HTTPFaultInjection-Abort">HTTPFaultInjection.Abort</a></code></td>
+<td><code><a href="#HTTPFaultInjection-Abort">Abort</a></code></td>
 <td>
 <p>Abort Http request attempts and return error codes back to downstream
 service, giving the impression that the upstream service is faulty.</p>
@@ -578,7 +578,7 @@ percentage of requests. If left unspecified, all request will be delayed.</p>
 <tbody>
 <tr id="HTTPFaultInjection-Delay-fixed_delay" class="oneof oneof-start">
 <td><code>fixedDelay</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration (oneof)</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration (oneof)</a></code></td>
 <td>
 <p>Add a fixed delay before forwarding the request. Format:
 1h/1m/1s/1ms. MUST be &gt;=1ms.</p>
@@ -965,7 +965,7 @@ Yes
 </tr>
 <tr id="HTTPRetry-per_try_timeout">
 <td><code>perTryTimeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Timeout per retry attempt for a given request. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.</p>
 
@@ -1140,7 +1140,7 @@ No
 </tr>
 <tr id="HTTPRoute-timeout">
 <td><code>timeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Timeout for HTTP requests.</p>
 
@@ -1191,7 +1191,7 @@ No
 </tr>
 <tr id="HTTPRoute-mirror_percent">
 <td><code>mirrorPercent</code></td>
-<td><code><a href="#google-protobuf-UInt32Value">google.protobuf.UInt32Value</a></code></td>
+<td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
 <p>Percentage of the traffic to be mirrored by the <code>mirror</code> field.
 If this field is absent, all the traffic (100%) will be mirrored.
@@ -1442,7 +1442,7 @@ spec:
 <tbody>
 <tr id="Headers-request">
 <td><code>request</code></td>
-<td><code><a href="#Headers-HeaderOperations">Headers.HeaderOperations</a></code></td>
+<td><code><a href="#Headers-HeaderOperations">HeaderOperations</a></code></td>
 <td>
 <p>Header manipulation rules to apply before forwarding a request
 to the destination service</p>
@@ -1454,7 +1454,7 @@ No
 </tr>
 <tr id="Headers-response">
 <td><code>response</code></td>
-<td><code><a href="#Headers-HeaderOperations">Headers.HeaderOperations</a></code></td>
+<td><code><a href="#Headers-HeaderOperations">HeaderOperations</a></code></td>
 <td>
 <p>Header manipulation rules to apply before returning a response
 to the caller</p>
