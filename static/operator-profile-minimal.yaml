@@ -4,5 +4,6 @@ metadata:
   namespace: istio-operator
   name: example-istiocontrolplane
 spec:
-  profile: minimal
+  profile: demo
+---
 ---

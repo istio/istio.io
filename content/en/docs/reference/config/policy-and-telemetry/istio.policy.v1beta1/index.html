@@ -113,7 +113,7 @@ Yes
 </tr>
 <tr id="AttributeManifest-attributes">
 <td><code>attributes</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#AttributeManifest-AttributeInfo">AttributeManifest.AttributeInfo</a>&gt;</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#AttributeManifest-AttributeInfo">AttributeInfo</a>&gt;</code></td>
 <td>
 <p>The set of attributes this Istio component will be responsible for producing at runtime.
 We map from attribute name to the attribute&rsquo;s specification. The name of an attribute,
@@ -287,7 +287,7 @@ No
 </tr>
 <tr id="Connection-timeout">
 <td><code>timeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Timeout for remote calls to the backend.</p>
 
@@ -414,7 +414,7 @@ type Duration</p>
 <tbody>
 <tr id="Duration-value">
 <td><code>value</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Duration encoded as google.protobuf.Duration.</p>
 
@@ -602,7 +602,7 @@ No
 </tr>
 <tr id="Handler-params">
 <td><code>params</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">google.protobuf.Struct</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Depends on adapter implementation. Struct representation of a
 proto defined by the adapter implementation; this varies depending on the value of field <code>adapter</code>.</p>
@@ -1039,7 +1039,7 @@ No
 </tr>
 <tr id="Instance-params">
 <td><code>params</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">google.protobuf.Struct</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Depends on referenced template. Struct representation of a
 proto defined by the template; this varies depending on the value of field <code>template</code>.</p>
@@ -1276,7 +1276,7 @@ No
 </tr>
 <tr id="Rule-request_header_operations">
 <td><code>requestHeaderOperations</code></td>
-<td><code><a href="#Rule-HeaderOperationTemplate">Rule.HeaderOperationTemplate[]</a></code></td>
+<td><code><a href="#Rule-HeaderOperationTemplate">HeaderOperationTemplate[]</a></code></td>
 <td>
 <p>Templatized operations on the request headers using values produced by the
 rule actions. Require the check action result to be OK.</p>
@@ -1288,7 +1288,7 @@ No
 </tr>
 <tr id="Rule-response_header_operations">
 <td><code>responseHeaderOperations</code></td>
-<td><code><a href="#Rule-HeaderOperationTemplate">Rule.HeaderOperationTemplate[]</a></code></td>
+<td><code><a href="#Rule-HeaderOperationTemplate">HeaderOperationTemplate[]</a></code></td>
 <td>
 <p>Templatized operations on the response headers using values produced by the
 rule actions. Require the check action result to be OK.</p>
@@ -1352,7 +1352,7 @@ No
 </tr>
 <tr id="Rule-HeaderOperationTemplate-operation">
 <td><code>operation</code></td>
-<td><code><a href="#Rule-HeaderOperationTemplate-Operation">Rule.HeaderOperationTemplate.Operation</a></code></td>
+<td><code><a href="#Rule-HeaderOperationTemplate-Operation">Operation</a></code></td>
 <td>
 <p>Header operation type. Default operation is to replace the value of the header by name.</p>
 
@@ -1452,7 +1452,7 @@ type TimeStamp</p>
 <tbody>
 <tr id="TimeStamp-value">
 <td><code>value</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">google.protobuf.Timestamp</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">Timestamp</a></code></td>
 <td>
 <p>TimeStamp encoded as google.protobuf.Timestamp.</p>
 
@@ -1516,7 +1516,7 @@ Yes
 </tr>
 <tr id="Tls-auth_header" class="oneof oneof-start">
 <td><code>authHeader</code></td>
-<td><code><a href="#Tls-AuthHeader">Tls.AuthHeader (oneof)</a></code></td>
+<td><code><a href="#Tls-AuthHeader">AuthHeader (oneof)</a></code></td>
 <td>
 <p>Access token is passed as authorization header.</p>
 

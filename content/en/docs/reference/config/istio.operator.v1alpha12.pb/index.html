@@ -6,7 +6,7 @@ description: Configuration for Istio control plane installation through the Oper
 location: https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
-number_of_entries: 55
+number_of_entries: 56
 ---
 <p>IstioControlPlane is a schema for both defining and customizing Istio control plane installations.
 Running the operator with an empty user defined InstallSpec results in an control plane with default values, using the
@@ -47,95 +47,94 @@ customization at the lowest level and eliminates the need to create ad-hoc templ
 <ol>
 <li><p>Default Istio install</p>
 
-<pre><code class="language-yaml">spec:
-</code></pre>
-<ol>
+<pre><code>spec:
+</code></pre></li>
+
 <li><p>Default minimal profile install</p>
 
 <pre><code>spec:
-profile: minimal
+  profile: minimal
 </code></pre></li>
 
 <li><p>Default install with telemetry disabled</p>
 
 <pre><code>spec:
-telemetry:
-enabled: false
+  telemetry:
+    enabled: false
 </code></pre></li>
 
 <li><p>Default install with each feature installed to different namespace and security components in separate namespaces</p>
 
 <pre><code>spec:
-traffic_management:
-components:
-  namespace: istio-traffic-management
-policy:
-components:
-  namespace: istio-policy
-telemetry:
-components:
-  namespace: istio-telemetry
-config_management:
-components:
-  namespace: istio-config-management
-security:
-components:
-  citadel:
-    namespace: istio-citadel
-  cert_manager:
-    namespace: istio-cert-manager
-  node_agent:
-    namespace: istio-node-agent
+  traffic_management:
+    components:
+      namespace: istio-traffic-management
+  policy:
+    components:
+      namespace: istio-policy
+  telemetry:
+    components:
+      namespace: istio-telemetry
+  config_management:
+    components:
+      namespace: istio-config-management
+  security:
+    components:
+      citadel:
+        namespace: istio-citadel
+      cert_manager:
+        namespace: istio-cert-manager
+      node_agent:
+        namespace: istio-node-agent
 </code></pre></li>
 
 <li><p>Default install with specialized k8s settings for pilot</p>
 
 <pre><code>spec:
-traffic_management:
-components:
-  pilot:
-    k8s:
-      resources:
-        limits:
-          cpu: 444m
-          memory: 333Mi
-        requests:
-          cpu: 222m
-          memory: 111Mi
-      readinessProbe:
-        failureThreshold: 44
-        initialDelaySeconds: 11
-        periodSeconds: 22
-        successThreshold: 33
+  traffic_management:
+    components:
+      pilot:
+        k8s:
+          resources:
+            limits:
+              cpu: 444m
+              memory: 333Mi
+            requests:
+              cpu: 222m
+              memory: 111Mi
+          readinessProbe:
+            failureThreshold: 44
+            initialDelaySeconds: 11
+            periodSeconds: 22
+            successThreshold: 33
 </code></pre></li>
 
 <li><p>Default install with values.yaml customizations for proxy</p>
 
 <pre><code>spec:
-traffic_management:
-components:
-  proxy:
-    values:
-    - global.proxy.enableCoreDump: true
-    - global.proxy.dnsRefreshRate: 10s
+  traffic_management:
+    components:
+      proxy:
+        values:
+        - global.proxy.enableCoreDump: true
+        - global.proxy.dnsRefreshRate: 10s
 </code></pre></li>
 
 <li><p>Default install with modification to container flag in galley</p>
 
 <pre><code>spec:
-configuration_management:
-components:
-  galley:
-    k8s:
-      overlays:
-      - apiVersion: extensions/v1beta1
-        kind: Deployment
-        name: istio-galley
-        patches:
-        - path: spec.template.spec.containers.[name:galley].command.[--livenessProbeInterval]
-          value: --livenessProbeInterval=123s
+  configuration_management:
+    components:
+      galley:
+        k8s:
+          overlays:
+          - apiVersion: extensions/v1beta1
+            kind: Deployment
+            name: istio-galley
+            patches:
+            - path: spec.template.spec.containers.[name:galley].command.[--livenessProbeInterval]
+              value: --livenessProbeInterval=123s
 </code></pre></li>
-</ol></li>
 </ol>
 
 <h2 id="AutoInjectionFeatureSpec">AutoInjectionFeatureSpec</h2>
@@ -154,7 +153,7 @@ components:
 <tbody>
 <tr id="AutoInjectionFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether auto injection feature is installed. Must be set for any sub-component to be installed.</p>
 
@@ -165,7 +164,7 @@ No
 </tr>
 <tr id="AutoInjectionFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#AutoInjectionFeatureSpec-Components">AutoInjectionFeatureSpec.Components</a></code></td>
+<td><code><a href="#AutoInjectionFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -226,7 +225,7 @@ No
 <tbody>
 <tr id="CNIComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -270,7 +269,7 @@ No
 <tbody>
 <tr id="CNIFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether gateway feature is installed. Must be set for any sub-component to be installed.</p>
 
@@ -281,7 +280,7 @@ No
 </tr>
 <tr id="CNIFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#CNIFeatureSpec-Components">CNIFeatureSpec.Components</a></code></td>
+<td><code><a href="#CNIFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -342,7 +341,7 @@ No
 <tbody>
 <tr id="CertManagerComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -386,7 +385,7 @@ No
 <tbody>
 <tr id="CitadelComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -430,7 +429,7 @@ No
 <tbody>
 <tr id="ConfigManagementFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether config management feature is installed. Must be set for any sub-component to be installed.</p>
 
@@ -441,7 +440,7 @@ No
 </tr>
 <tr id="ConfigManagementFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#ConfigManagementFeatureSpec-Components">ConfigManagementFeatureSpec.Components</a></code></td>
+<td><code><a href="#ConfigManagementFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -537,7 +536,7 @@ No
 <tbody>
 <tr id="EgressGatewayComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -607,7 +606,7 @@ No
 <tbody>
 <tr id="GalleyComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -651,7 +650,7 @@ No
 <tbody>
 <tr id="GatewayFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether gateway feature is installed. Must be set for any sub-component to be installed.</p>
 
@@ -662,7 +661,7 @@ No
 </tr>
 <tr id="GatewayFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#GatewayFeatureSpec-Components">GatewayFeatureSpec.Components</a></code></td>
+<td><code><a href="#GatewayFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -831,7 +830,7 @@ No
 <tbody>
 <tr id="IngressGatewayComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -875,7 +874,7 @@ No
 <tbody>
 <tr id="InstallStatus-status">
 <td><code>status</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#InstallStatus-VersionStatus">InstallStatus.VersionStatus</a>&gt;</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#InstallStatus-VersionStatus">VersionStatus</a>&gt;</code></td>
 <td>
 </td>
 <td>
@@ -946,7 +945,16 @@ No
 </tr>
 <tr id="InstallStatus-VersionStatus-status">
 <td><code>status</code></td>
-<td><code><a href="#InstallStatus-Status">InstallStatus.Status</a></code></td>
+<td><code><a href="#InstallStatus-Status">Status</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-VersionStatus-statusString">
+<td><code>statusString</code></td>
+<td><code>string</code></td>
 <td>
 </td>
 <td>
@@ -1228,7 +1236,7 @@ No
 <tbody>
 <tr id="KubernetesResourcesSpec-affinity">
 <td><code>affinity</code></td>
-<td><code><a href="#k8s-io-api-core-v1-Affinity">k8s.io.api.core.v1.Affinity</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-Affinity">Affinity</a></code></td>
 <td>
 <p>k8s affinity.
 https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity</p>
@@ -1240,7 +1248,7 @@ No
 </tr>
 <tr id="KubernetesResourcesSpec-env">
 <td><code>env</code></td>
-<td><code><a href="#k8s-io-api-core-v1-EnvVar">k8s.io.api.core.v1.EnvVar[]</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-EnvVar">EnvVar[]</a></code></td>
 <td>
 <p>Deployment environment variables.
 https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/</p>
@@ -1252,7 +1260,7 @@ No
 </tr>
 <tr id="KubernetesResourcesSpec-hpa_spec">
 <td><code>hpaSpec</code></td>
-<td><code><a href="#k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec">k8s.io.api.autoscaling.v2beta1.HorizontalPodAutoscalerSpec</a></code></td>
+<td><code><a href="#k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</a></code></td>
 <td>
 <p>k8s HorizontalPodAutoscaler settings.
 https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/</p>
@@ -1361,7 +1369,7 @@ No
 </tr>
 <tr id="KubernetesResourcesSpec-service">
 <td><code>service</code></td>
-<td><code><a href="#k8s-io-api-core-v1-ServiceSpec">k8s.io.api.core.v1.ServiceSpec</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-ServiceSpec">ServiceSpec</a></code></td>
 <td>
 <p>k8s Service settings.
 https://kubernetes.io/docs/concepts/services-networking/service/</p>
@@ -1385,7 +1393,7 @@ No
 </tr>
 <tr id="KubernetesResourcesSpec-tolerations">
 <td><code>tolerations</code></td>
-<td><code><a href="#k8s-io-api-core-v1-Toleration">k8s.io.api.core.v1.Toleration[]</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-Toleration">Toleration[]</a></code></td>
 <td>
 <p>k8s toleration
 https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/</p>
@@ -1425,7 +1433,7 @@ No
 <tbody>
 <tr id="NodeAgentComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1504,7 +1512,7 @@ No
 <tbody>
 <tr id="PilotComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1557,7 +1565,7 @@ No
 </tr>
 <tr id="PodDisruptionBudgetSpec-selector">
 <td><code>selector</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</a></code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
 <td>
 </td>
 <td>
@@ -1592,7 +1600,7 @@ No
 <tbody>
 <tr id="PolicyComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1636,7 +1644,7 @@ No
 <tbody>
 <tr id="PolicyFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether policy is installed.
 Must be enabled to enable any sub-component.</p>
@@ -1648,7 +1656,7 @@ No
 </tr>
 <tr id="PolicyFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#PolicyFeatureSpec-Components">PolicyFeatureSpec.Components</a></code></td>
+<td><code><a href="#PolicyFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -1711,7 +1719,7 @@ No
 <tbody>
 <tr id="ProxyComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -1914,7 +1922,7 @@ No
 <tbody>
 <tr id="SecurityFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether security feature is installed. Must be set for any sub-component to be installed.</p>
 
@@ -1925,7 +1933,7 @@ No
 </tr>
 <tr id="SecurityFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#SecurityFeatureSpec-Components">SecurityFeatureSpec.Components</a></code></td>
+<td><code><a href="#SecurityFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -2004,7 +2012,7 @@ No
 <tbody>
 <tr id="SidecarInjectorComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2083,7 +2091,7 @@ No
 <tbody>
 <tr id="TelemetryComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 </td>
 <td>
@@ -2127,7 +2135,7 @@ No
 <tbody>
 <tr id="TelemetryFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether telemetry is installed.
 Must be enabled to enable any sub-component.</p>
@@ -2139,7 +2147,7 @@ No
 </tr>
 <tr id="TelemetryFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#TelemetryFeatureSpec-Components">TelemetryFeatureSpec.Components</a></code></td>
+<td><code><a href="#TelemetryFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -2202,7 +2210,7 @@ No
 <tbody>
 <tr id="TrafficManagementFeatureSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">google.protobuf.BoolValue</a></code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
 <p>Selects whether traffic management is installed.
 Must be enabled to enable any sub-component.</p>
@@ -2214,7 +2222,7 @@ No
 </tr>
 <tr id="TrafficManagementFeatureSpec-components">
 <td><code>components</code></td>
-<td><code><a href="#TrafficManagementFeatureSpec-Components">TrafficManagementFeatureSpec.Components</a></code></td>
+<td><code><a href="#TrafficManagementFeatureSpec-Components">Components</a></code></td>
 <td>
 </td>
 <td>
@@ -2270,6 +2278,11 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="TypeBoolValueForPB">TypeBoolValueForPB</h2>
+<section>
+<p>GOTYPE: *BoolValueForPB</p>
+
+</section>
 <h2 id="TypeIntOrStringForPB">TypeIntOrStringForPB</h2>
 <section>
 <p>GOTYPE: *IntOrStringForPB</p>
@@ -2301,7 +2314,7 @@ No
 <tbody>
 <tr id="k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec-scaleTargetRef">
 <td><code>scaleTargetRef</code></td>
-<td><code><a href="#k8s-io-api-autoscaling-v2beta1-CrossVersionObjectReference">k8s.io.api.autoscaling.v2beta1.CrossVersionObjectReference</a></code></td>
+<td><code><a href="#k8s-io-api-autoscaling-v2beta1-CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
 <td>
 <p>scaleTargetRef points to the target resource to scale, and is used to the pods for which metrics
 should be collected, as well as to actually change the replica count.</p>
@@ -2341,7 +2354,7 @@ No
 </tr>
 <tr id="k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec-metrics">
 <td><code>metrics</code></td>
-<td><code><a href="#k8s-io-api-autoscaling-v2beta1-MetricSpec">k8s.io.api.autoscaling.v2beta1.MetricSpec[]</a></code></td>
+<td><code><a href="#k8s-io-api-autoscaling-v2beta1-MetricSpec">MetricSpec[]</a></code></td>
 <td>
 <p>metrics contains the specifications for which to use to calculate the
 desired replica count (the maximum replica count across all metrics will
@@ -2376,7 +2389,7 @@ No
 <tbody>
 <tr id="k8s-io-api-core-v1-Affinity-nodeAffinity">
 <td><code>nodeAffinity</code></td>
-<td><code><a href="#k8s-io-api-core-v1-NodeAffinity">k8s.io.api.core.v1.NodeAffinity</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-NodeAffinity">NodeAffinity</a></code></td>
 <td>
 <p>Describes node affinity scheduling rules for the pod.
 +optional</p>
@@ -2388,7 +2401,7 @@ No
 </tr>
 <tr id="k8s-io-api-core-v1-Affinity-podAffinity">
 <td><code>podAffinity</code></td>
-<td><code><a href="#k8s-io-api-core-v1-PodAffinity">k8s.io.api.core.v1.PodAffinity</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-PodAffinity">PodAffinity</a></code></td>
 <td>
 <p>Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
 +optional</p>
@@ -2400,7 +2413,7 @@ No
 </tr>
 <tr id="k8s-io-api-core-v1-Affinity-podAntiAffinity">
 <td><code>podAntiAffinity</code></td>
-<td><code><a href="#k8s-io-api-core-v1-PodAntiAffinity">k8s.io.api.core.v1.PodAntiAffinity</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-PodAntiAffinity">PodAntiAffinity</a></code></td>
 <td>
 <p>Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
 +optional</p>
@@ -2459,7 +2472,7 @@ No
 </tr>
 <tr id="k8s-io-api-core-v1-EnvVar-valueFrom">
 <td><code>valueFrom</code></td>
-<td><code><a href="#k8s-io-api-core-v1-EnvVarSource">k8s.io.api.core.v1.EnvVarSource</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-EnvVarSource">EnvVarSource</a></code></td>
 <td>
 <p>Source for the environment variable&rsquo;s value. Cannot be used if value is not empty.
 +optional</p>
@@ -2488,7 +2501,7 @@ No
 <tbody>
 <tr id="k8s-io-api-core-v1-ServiceSpec-ports">
 <td><code>ports</code></td>
-<td><code><a href="#k8s-io-api-core-v1-ServicePort">k8s.io.api.core.v1.ServicePort[]</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-ServicePort">ServicePort[]</a></code></td>
 <td>
 <p>The list of ports that are exposed by this service.
 More info: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
@@ -2695,7 +2708,7 @@ No
 </tr>
 <tr id="k8s-io-api-core-v1-ServiceSpec-sessionAffinityConfig">
 <td><code>sessionAffinityConfig</code></td>
-<td><code><a href="#k8s-io-api-core-v1-SessionAffinityConfig">k8s.io.api.core.v1.SessionAffinityConfig</a></code></td>
+<td><code><a href="#k8s-io-api-core-v1-SessionAffinityConfig">SessionAffinityConfig</a></code></td>
 <td>
 <p>sessionAffinityConfig contains the configurations of session affinity.
 +optional</p>
@@ -2845,7 +2858,7 @@ No
 </tr>
 <tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchExpressions">
 <td><code>matchExpressions</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelectorRequirement[]</a></code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
 <td>
 <p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
 +optional</p>
@@ -2908,7 +2921,7 @@ No
 </tr>
 <tr id="k8sObjectOverlay-patches">
 <td><code>patches</code></td>
-<td><code><a href="#k8sObjectOverlay-PathValue">k8sObjectOverlay.PathValue[]</a></code></td>
+<td><code><a href="#k8sObjectOverlay-PathValue">PathValue[]</a></code></td>
 <td>
 <p>List of patches to apply to resource.</p>
 
