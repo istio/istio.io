@@ -28,7 +28,8 @@ down once the migration is done.
 
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use `install/kubernetes/istio-demo.yaml` as described in [installation steps](/docs/setup/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/install/helm/)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in
+[installation steps](/docs/setup/install/kubernetes), or set the `global.mtls.enabled` installation option to false).
 
 * For demo
     * Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them.

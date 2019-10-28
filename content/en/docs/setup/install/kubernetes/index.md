@@ -1,17 +1,15 @@
 ---
 title: Quick Start Evaluation Install
 description: Instructions to install Istio in a Kubernetes cluster for evaluation.
-weight: 10
+weight: 5
 keywords: [kubernetes]
 aliases:
     - /docs/setup/kubernetes/quick-start/
     - /docs/setup/kubernetes/install/kubernetes/
 ---
 
-This guide installs Istio's built-in **demo** [configuration profile](/docs/setup/additional-setup/config-profiles/)
-using basic Kubernetes commands without needing to download or install
-[Helm](https://github.com/helm/helm). This installation lets you quickly
-evaluate Istio in a Kubernetes cluster on any platform.
+This guide installs Istio's built-in **demo** [configuration profile](/docs/setup/additional-setup/config-profiles/).
+This installation lets you quickly evaluate Istio in a Kubernetes cluster on any platform.
 
 {{< warning >}}
 The demo configuration profile is not suitable for performance evaluation. It
@@ -20,7 +18,7 @@ access logging.
 {{< /warning >}}
 
 To install Istio for production use, we recommend using the
-[Helm Installation guide](/docs/setup/install/helm/)
+[Installing with {{< istioctl >}} guide](/docs/setup/install/operator/)
 instead, which provides many more options for selecting and managing the Istio
 configuration. This permits customization of Istio to operator specific
 requirements.
@@ -33,21 +31,11 @@ requirements.
 
 1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
 
-## Installation steps
+## Install the demo profile
 
-1. Install all the Istio
-    [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-    (CRDs) using `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
-
-    {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
-    {{< /text >}}
-
-1. Install the **demo** profile:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/istio-demo.yaml
-    {{< /text >}}
+{{< text bash >}}
+$ istioctl manifest apply --set profile=demo
+{{< /text >}}
 
 ## Verifying the installation
 
@@ -139,14 +127,6 @@ The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
 all resources hierarchically under it. It is safe to ignore errors for
 non-existent resources because they may have been deleted hierarchically.
 
-* Uninstall the **demo** profile:
-
-    {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-demo.yaml
-    {{< /text >}}
-
-* If desired, delete the Istio CRDs:
-
-    {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
-    {{< /text >}}
+{{< text bash >}}
+$ istioctl manifest generate --set profile=demo | kubectl delete -f -
+{{< /text >}}

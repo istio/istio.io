@@ -1,7 +1,7 @@
 ---
-title: Operator CLI-based Installation
+title: Installing with Istioctl
 description: Install and configure Istio using the Istio Operator CLI.
-weight: 25
+weight: 10
 keywords: [operator,kubernetes,helm]
 ---
 

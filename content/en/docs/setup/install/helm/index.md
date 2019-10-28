@@ -19,6 +19,11 @@ window.onload = function(){
 }
 </script>
 
+{{< warning >}}
+The Helm installation approach has been deprecated.
+Please use [Installing with {{< istioctl >}}](/docs/setup/install/operator/), instead.
+{{< /warning >}}
+
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
 
 This installation guide uses [Helm](https://github.com/helm/helm) charts that provide rich
