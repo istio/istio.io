@@ -495,7 +495,6 @@ Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 $ kubectl delete -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
-
 ### Set the `global.outboundTrafficPolicy.mode` to your desired mode:
 
 1.  Check the current value:
