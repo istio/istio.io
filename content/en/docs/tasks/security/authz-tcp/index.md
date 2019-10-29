@@ -112,7 +112,7 @@ which talks to a MongoDB backend using TCP:
 
 1. Apply a default `deny-all` policy for the MongoDB workload:
 
-    With the MongoDB workload deployed and before we configure authentication to only allow authorized requests,
+    With the MongoDB workload deployed and before we configure authorization to only allow authorized requests,
     we need to apply a default `deny-all` policy for the workload to ensure that all requests to the MongoDB
     workload are denied by default.
 
@@ -167,14 +167,14 @@ spec:
 EOF
 {{< /text >}}
 
-**Congratulations!** When you point your browser at the Bookinfo `productpage`
-(`http://$GATEWAY_URL/productpage`), you should see now the following sections working as intended:
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`),
+you should see now the following sections working as intended:
 
 * **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
 * **Book Reviews** on the lower right side, which includes: red stars.
 
-You successfully deployed a workload communicating over TCP traffic and applied
-both a mesh-level and a workload-level authentication policy to enforce access control for the requests.
+**Congratulations!** You successfully deployed a workload communicating over TCP traffic and applied
+both a mesh-level and a workload-level authorization policy to enforce access control for the requests.
 
 ## Cleanup
 
