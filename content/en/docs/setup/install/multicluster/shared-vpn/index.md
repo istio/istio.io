@@ -109,7 +109,7 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
 Normally, automatic sidecar injection on the remote clusters is enabled. To
 perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
 
-### Istioctl configuration parameters
+### Installation configuration parameters
 
 You must configure the remote cluster's sidecars interaction with the Istio
 control plane including the following endpoints in the `istio-remote` profile:
