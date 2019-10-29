@@ -47,15 +47,15 @@ replaces the functionality provided by the `istio-init` container.
 1.  Determine the Kubernetes environment's CNI plugin `--cni-bin-dir` and `--cni-conf-dir` settings.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
-1.  Install Istio CNI and Istio using Helm.
-    Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#cni) instructions and the
-    **Istio CNI enabled** profile.
-    Pass `--set cniBinDir=...` and/or `--set cniConfDir=...` options when installing `istio-cni` if non-default,
+1.  Install Istio CNI and Istio using `istioctl`.
+    Refer to the [Istio install](/docs/setup/install/kubernetes/) instructions and pass `--set cni.enabled=true`
+    and `--set cni.components.cni.enabled=true` options.
+    Pass `--set values.cni.cniBinDir=...` and/or `--set values.cni.cniConfDir=...` options when installing `istio-cni` if non-default,
     as determined in the previous step.
 
 ### Helm chart parameters
 
-The following table shows all the options that the `istio-cni` Helm chart supports:
+The following table shows all the options that the `istio-cni` configuration supports:
 
 | Option | Values | Default | Description |
 |--------|--------|---------|-------------|
@@ -68,6 +68,9 @@ The following table shows all the options that the `istio-cni` Helm chart suppor
 | `cniConfDir` | | `/etc/cni/net.d` | Must be the same as the environment's `--cni-conf-dir` setting (`kubelet` parameter). |
 | `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
 | `psp_cluster_role` | | | This value refers to a `ClusterRole` and can be used to create a `RoleBinding` in the namespace of `istio-cni`. This is useful if you use [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy) and want to allow `istio-cni` to run as `priviliged` Pods. |
+
+These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
+or the corresponding path in a custom overlay file.
 
 ### Excluding specific Kubernetes namespaces
 
@@ -83,12 +86,15 @@ This example uses Helm to perform the following tasks:
 Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#cni) for complete instructions.
 
 Use the following command to render and apply Istio CNI components and override the default configuration of the
-`istio-cni` Helm chart's `logLevel` and `excludeNamespaces` parameters:
+`logLevel` and `excludeNamespaces` parameters for `istio-cni`:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system \
-    --set logLevel=info \
-    --set excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"} | kubectl apply -f -
+$ istioctl manifest apply \
+    --set <flags you used to install Istio>
+    --set cni.enabled=true \
+    --set cni.components.cni.enabled=true \
+    --set values.cni.logLevel=info \
+    --set values.cni.excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"}
 {{< /text >}}
 
 ### Hosted Kubernetes settings
