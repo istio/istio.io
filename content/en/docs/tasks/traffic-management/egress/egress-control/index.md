@@ -493,3 +493,39 @@ Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@
 {{< /text >}}
+
+### Set the outbound traffic policy mode to your desired value
+
+1.  Check the current value:
+
+    {{< text bash >}}
+    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
+    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: REGISTRY_ONLY" | uniq
+    mode: ALLOW_ANY
+    {{< /text >}}
+
+    The output will be either `mode: ALLOW_ANY` or `mode: REGISTRY_ONLY`.
+
+1.  If you want to change the mode, perform the following commands:
+
+    {{< tabset cookie-name="outbound_traffic_policy_mode" >}}
+
+    {{< tab name="change from ALLOW_ANY to REGISTRY_ONLY" cookie-value="REGISTRY_ONLY" >}}
+
+    {{< text bash >}}
+    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
+    configmap/istio replaced
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="change from REGISTRY_ONLY to ALLOW_ANY" cookie-value="ALLOW_ANY" >}}
+
+    {{< text bash >}}
+    $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+    configmap/istio replaced
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
