@@ -16,23 +16,23 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/helm)
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/operator)
     and then configure:
 
-    a) a demo/test environment by setting the `--set tracing.enabled=true`  Helm install option to enable tracing "out of the box"
+    a) a demo/test environment by setting the `--set values.tracing.enabled=true` install option to enable tracing "out of the box"
 
-    b) a production environment by referencing an existing Jaeger instance, e.g. created with the [operator](https://github.com/jaegertracing/jaeger-operator), and then setting the `--set global.tracer.zipkin.address=<jaeger-collector-service>.<jaeger-collector-namespace>:9411` Helm install option.
+    b) a production environment by referencing an existing Jaeger instance, e.g. created with the [operator](https://github.com/jaegertracing/jaeger-operator), and then setting the `--set values.global.tracer.zipkin.address=<jaeger-collector-service>.<jaeger-collector-namespace>:9411` install option.
 
     {{< warning >}}
     When you enable tracing, you can set the sampling rate that Istio uses for tracing.
-    Use the `pilot.traceSampling` option to set the sampling rate. The default sampling rate is 1%.
+    Use the `values.pilot.traceSampling` option to set the sampling rate. The default sampling rate is 1%.
     {{< /warning >}}
 
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Accessing the dashboard
 
-[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio       addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the Helm chart option `--set tracing.ingress.enabled=true` during install.
+[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the option `--set values.tracing.ingress.enabled=true` during install.
 
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Jaeger to the `istio-system` namespace:
 

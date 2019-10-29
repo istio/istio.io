@@ -13,16 +13,14 @@ You will start with a clean Istio installation, create an example service, expos
 
 ## Before you begin
 
-1. [Install Istio](/docs/setup/) making sure to enable ingress [gateway](/docs/reference/config/networking/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Here's an example of how to do this for the [helm template](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) installation path:
+1. [Install Istio](/docs/setup/) making sure to enable ingress [gateway](/docs/reference/config/networking/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Here's an example of how to do it:
 
     {{< text bash >}}
-    $ helm template $HOME/istio-fetch/istio \
-      --namespace=istio-system \
-      --set gateways.istio-ingressgateway.sds.enabled=true \
-      --set global.k8sIngress.enabled=true \
-      --set global.k8sIngress.enableHttps=true \
-      --set global.k8sIngress.gatewayName=ingressgateway \
-      > $HOME/istio-fetch/istio.yaml
+    $ istioctl manifest apply \
+      --set values.gateways.istio-ingressgateway.sds.enabled=true \
+      --set values.global.k8sIngress.enabled=true \
+      --set values.global.k8sIngress.enableHttps=true \
+      --set values.global.k8sIngress.gatewayName=ingressgateway
     {{< /text >}}
 
     {{< tip >}}

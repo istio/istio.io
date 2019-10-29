@@ -169,13 +169,5 @@ status:
 You can enable this feature with:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set galley.enableAnalysis=true | kubectl apply -f -
-{{< /text >}}
-
-Or with:
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set galley.enableAnalysis=true
+$ istioctl manifest apply --set values.galley.enableAnalysis=true
 {{< /text >}}

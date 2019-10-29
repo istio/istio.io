@@ -24,7 +24,7 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 1.  To prevent duplicate telemetry generation, disable calls to `istio-telemetry` in the mesh:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set mixer.telemetry.enabled=false --set mixer.policy.enabled=false
+    $ istioctl manifest apply --set values.mixer.telemetry.enabled=false,values.mixer.policy.enabled=false
     {{< /text >}}
 
     {{< tip >}}

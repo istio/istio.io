@@ -93,9 +93,9 @@ dashboard. This sampling rate is suitable for a test or low traffic
 mesh. For a high traffic mesh you can lower the trace sampling
 percentage in one of two ways:
 
-* During the mesh setup, use the Helm option `pilot.traceSampling` to
+* During the mesh setup, use the option `values.pilot.traceSampling` to
   set the percentage of trace sampling. See the
-  [Helm Install](/docs/setup/install/helm/) documentation for
+  [Installing with {{< istioctl >}}](/docs/setup/install/operator/) documentation for
   details on setting options.
 * In a running mesh, edit the `istio-pilot` deployment and
   change the environment variable with the following steps:
