@@ -31,8 +31,8 @@ When you refresh the page, the app shows different versions of reviews in the pr
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
 
 {{< tip >}}
-If you don't see the expected output in the browser, retry in a few more seconds
-as there may be some delays due to caching and other propagation overhead.
+If you don't see the expected output in the browser as you follow the task, retry in a few more seconds
+because some delay is possible due to caching and other propagation overhead.
 {{< /tip >}}
 
 ## Enforce mesh-level access control
@@ -46,6 +46,8 @@ The root namespace is configurable in the [`MeshConfig`](/docs/reference/config/
 and has the default value of `istio-system`. If you have changed it to a different value from the
 default `istio-system`, Please update the value accordingly in the following examples.
 
+This following policy has no rule so it cannot grant permission for any traffic. In other words, it denies all.
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -58,16 +60,17 @@ spec:
 EOF
 {{< /text >}}
 
-This policy has no rule so it cannot grant permission for any traffic. In other words, it denies all.
-
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
-Now you should see `"RBAC: access denied"`. The error shows that the configured `deny-all`
-policy is working as intended, and Istio doesn't have any rules that allow any access to
+You should see `"RBAC: access denied"`. The error shows that the configured `deny-all` policy
+is working as intended, and Istio doesn't have any rules that allow any access to
 workloads in the mesh.
+
+**Congratulations!** You successfully deployed applied a mesh-level authorization policy
+to enforce access control for the requests.
 
 ### Clean up mesh-level access control
 
-Disable the configured access control with the following command before continuing:
+Remove the authorization policy with the following command before continuing:
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy.security.istio.io/deny-all -n istio-system
@@ -109,13 +112,16 @@ You can expect to see output similar to the following:
 authorizationpolicy.security.istio.io/bookinfo-viewer created
 {{< /text >}}
 
-Now if you point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/productpage`).
+Point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/productpage`).
 You should see the "Bookinfo Sample" page, with the "Book Details" section in the lower left part
 and the "Book Reviews" section in the lower right part.
 
+**Congratulations!** You successfully deployed applied a namespace-level authorization policy
+to enforce access control for the requests.
+
 ### Clean up namespace-level access control
 
-Disable the configured access control with the following command before continuing:
+Remove the authorization policy with the following command before continuing:
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-viewer
@@ -263,8 +269,11 @@ grant the permission gradually and incrementally to allow more access to the wor
     EOF
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
-    the "black" and "red" ratings in the "Book Reviews" section.
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
+    You should see the "black" and "red" ratings in the "Book Reviews" section.
+
+    **Congratulations!** You successfully deployed applied both a mesh-level and a workload-level authorization policy
+    to enforce access control for the requests.
 
 ### Clean up workload-level access control
 
