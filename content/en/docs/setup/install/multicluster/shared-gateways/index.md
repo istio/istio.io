@@ -189,11 +189,6 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 1. Deploy Istio to `cluster2`:
 
     {{< text bash >}}
-    {{< /text >}}
-
-1. 
-
-    {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER2 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
     $ istioctl manifest apply --context=$CTX_CLUSTER2 \
