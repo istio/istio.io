@@ -1,7 +1,7 @@
 ---
 title: Istio Webhook Management [Experimental]
 description: Shows how to manage webhooks in Istio through istioctl.
-weight: 10
+weight: 100
 keywords: [security,webhook]
 ---
 
