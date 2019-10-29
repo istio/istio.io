@@ -1,10 +1,11 @@
 ---
-title: Upgrade
-description: Upgrade the Istio control plane and data plane independently.
-weight: 25
+title: Upgrade using Helm
+description: Upgrade the Istio control plane, and optionally, the CNI plug-in using Helm.
+weight: 30
 aliases:
     - /docs/setup/kubernetes/upgrade/steps/
     - /docs/setup/upgrade/steps
+    - /docs/setup/upgrade
 keywords: [kubernetes,upgrading]
 ---
 
