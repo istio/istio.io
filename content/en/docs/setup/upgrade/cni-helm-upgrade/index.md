@@ -1,6 +1,6 @@
 ---
 title: Upgrade using Helm
-description: Upgrade the Istio control plane and data plane independently using the CNI plug-in or Helm.
+description: Upgrade the Istio control plane, and optionally, the CNI plug-in using Helm.
 weight: 30
 aliases:
     - /docs/setup/kubernetes/upgrade/steps/
