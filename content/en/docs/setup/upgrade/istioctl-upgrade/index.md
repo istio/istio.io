@@ -70,7 +70,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
     {{< warning >}}
     If you installed Istio using the `-f` flag, for example
     `istioctl manifest apply -f <IstioControlPlane-custom-resource-definition-file>`,
-    then you must provide the same `-f` flag to the `istioctl upgrade` command.
+    then you must provide the same `-f` flag value to the `istioctl upgrade` command.
     {{< /warning >}}
 
     `istioctl upgrade` does not support the `--set` flag. Therefore, if you
@@ -108,8 +108,11 @@ version 1.3.3.
 
 ## Downgrade to Istio 1.4 and higher versions steps
 
-The downgrade process steps are identical to the upgrade process mentioned in the previous section. When completed, the process will restore Istio back to the Istio version that was installed
-before you ran `istioctl experimental upgrade`.
+You can also use `istioctl upgrade` to downgrade versions. The process steps are
+identical to the upgrade process mentioned in the previous section, only use the
+`istioctl` binary corresponding to the lower version. When completed, the
+process will restore Istio back to the Istio version that was installed before
+you ran `istioctl experimental upgrade`.
 
 ### Downgrade to Istio 1.3.3 and lower versions steps
 
