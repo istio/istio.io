@@ -214,14 +214,6 @@ Then run the following `verify-install` command to see if the installation was s
 $ istioctl verify-install -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
-## Uninstall Istio
-
-To uninstall Istio, run the following command:
-
-{{< text bash >}}
-$ istioctl manifest generate <your original installation options> | kubectl delete -f -
-{{< /text >}}
-
 ## Customizing the configuration
 
 In addition to installing any of Istio's built-in
@@ -409,3 +401,11 @@ spec:
 Some parameters will temporarily exist in both the Helm and `IstioControlPlane` APIs, including Kubernetes resources,
 namespaces and enablement settings. The Istio community recommends using the `IstioControlPlane` API as it is more
 consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+
+## Uninstall Istio
+
+To uninstall Istio, run the following command:
+
+{{< text bash >}}
+$ istioctl manifest generate <your original installation options> | kubectl delete -f -
+{{< /text >}}
