@@ -27,7 +27,7 @@ Ensure you meet these requirements before starting the upgrade process:
 * Istio version 1.3.3 or higher is installed.
 
 * Your Istio installation was installed using the
-   [operator CLI command](/docs/setup/install/operator/).
+   [{{< istioctl >}}](/docs/setup/install/operator/).
 
 ## Upgrade steps
 
@@ -99,7 +99,7 @@ Ensure you meet these requirements before starting the downgrade process:
 * Istio version 1.4 or higher is installed.
 
 * Your Istio installation was installed using the
-   [operator CLI command](/docs/setup/install/operator/).
+   [{{< istioctl >}}](/docs/setup/install/operator/).
 
 * Downgrade must be done using the `istioctl` binary version that
 corresponds to the Istio version that you intend to downgrade to.
