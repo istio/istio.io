@@ -7,8 +7,8 @@ keywords: [security,webhook]
 
 {{< boilerplate experimental-feature-warning >}}
 
-Istio has two webhooks (Galley and Sidecar Injector). In current Istio implementation,
-Galley and Sidecar Injector manage their own webhook configurations, which from
+Istio has two webhooks: Galley and Sidecar Injector. By default,
+Galley and Sidecar Injector manage their own webhook configurations, which from the
 security perspective is not recommended because a compromised webhook may conduct
 privilege escalation attacks.
 
@@ -19,38 +19,37 @@ manage the webhook configurations of Galley and Sidecar Injector.
 
 * Create a Kubernetes cluster with Istio installed. In the installation,
 [`global.operatorManageWebhooks`]({{< github_file >}}/install/kubernetes/helm/istio/values.yaml) should
-be set as true, and [DNS certificates should be configured](/docs/tasks/security/dns-cert).
+be set to `true`, and [DNS certificates should be configured](/docs/tasks/security/dns-cert).
 Istio installation guides can be found [here](/docs/setup/install).
 
-* Install [`jq`](https://stedolan.github.io/jq/) for json parsing.
+* Install [`jq`](https://stedolan.github.io/jq/) for JSON parsing.
 
 ## Check webhook certificates
 
-The webhook certificates generated are stored in the secrets specified in the configuration.
+To display the DNS names in the webhook certificates of Galley and Sidecar Injector, run the following commands:
 
-1.  Check that webhook certificates have been generated:
+{{< text bash >}}
+$ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+$ kubectl get secret dns.istio-sidecar-injector-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+{{< /text >}}
 
-    {{< text bash >}}
-    $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
-    $ kubectl get secret dns.istio-sidecar-injector-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
-    {{< /text >}}
+The output from the above commands should include the DNS names of Galley and Sidecar Injector, respectively:
 
-    The output from the above commands should include the DNS names of Galley and Sidecar Injector, respectively:
+{{< text plain >}}
+X509v3 Subject Alternative Name:
+  DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
+{{< /text >}}
 
-    {{< text plain >}}
-    X509v3 Subject Alternative Name:
-      DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
-    {{< /text >}}
-
-    {{< text plain >}}
-    X509v3 Subject Alternative Name:
-      DNS:istio-sidecar-injector.istio-system.svc, DNS:istio-sidecar-injector.istio-system
-    {{< /text >}}
+{{< text plain >}}
+X509v3 Subject Alternative Name:
+  DNS:istio-sidecar-injector.istio-system.svc, DNS:istio-sidecar-injector.istio-system
+{{< /text >}}
 
 ## `istioctl` enables webhook configurations
 
 1.  Generate `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` by running the following
-command:
+command. The YAML file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
+contains an example DNS certificate configuration (details in [the certificate guide](/docs/tasks/security/dns-cert)).
 
     {{< text bash >}}
     $ helm template \
@@ -97,7 +96,8 @@ is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
 <!-- TODO (lei-tang): improve the UX for obtain ValidatingWebhookConfiguration -->
 1.  From `istio-webhook-config.yaml`, search `'kind: ValidatingWebhookConfiguration'` and save
 the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
-is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
+is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml` (only
+a part of the configuration is shown to save space).
 
     {{< text yaml >}}
     apiVersion: admissionregistration.k8s.io/v1beta1
@@ -137,7 +137,8 @@ is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
         --injection-path sidecar-injector-webhook.yaml
     {{< /text >}}
 
-1.  Check the Sidecar Injector webhook is working:
+1.  Check the Sidecar Injector webhook is working by verifying that Sidecar Injector injects a
+sidecar container into an example pod:
 
     {{< text bash >}}
     $ kubectl create namespace test-injection; kubectl label namespaces test-injection istio-injection=enabled
@@ -146,17 +147,18 @@ is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
     {{< /text >}}
 
     The output from the `get pod` command should show the following output (`2/2` means that
-    the Sidecar Injector webhook injects a sidecar to the example pod):
+    the Sidecar Injector webhook injected a sidecar into the example pod):
 
     {{< text plain >}}
     NAME    READY   STATUS    RESTARTS   AGE
     nginx-app   2/2     Running   0          10s
     {{< /text >}}
 
-1.  Check the validation webhook is working:
+1.  Check that the validation webhook is working:
 
     {{< text bash >}}
-    $ cat <<EOF > ./invalid-gateway.yaml
+    $ kubectl create namespace test-validation
+    $ kubectl apply -n test-validation -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -168,12 +170,10 @@ is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
         # with these labels
         istio: ingressgateway
     EOF
-    $ kubectl create namespace test-validation
-    $ kubectl apply -f invalid-gateway.yaml -n test-validation
     {{< /text >}}
 
     The output from the gateway creation command should show the following output (the error
-    in the output indicates that the validation webhook checked the gateway yaml file):
+    in the output indicates that the validation webhook checked the gateway YAML file):
 
     {{< text plain >}}
     Error from server: error when creating "invalid-gateway.yaml": admission webhook "pilot.validation.istio.io" denied the request: configuration is invalid: gateway must have at least one server
