@@ -34,12 +34,12 @@ If you don't see the expected output in the browser as you follow the task, retr
 because some delay is possible due to caching and other propagation overhead.
 {{< /tip >}}
 
-## Installing and configuring a TCP workload
+## Configure access control for a TCP workload
 
 By default, the [Bookinfo](/docs/examples/bookinfo/) example application only uses the HTTP protocol.
 To showcase the authorization of TCP traffic, you must update the application to use TCP.
 The following steps deploy the Bookinfo application and update its `ratings` workload to the `v2` version,
-which talks to a MongoDB backend using TCP:
+which talks to a MongoDB backend using TCP, and then apply the authorization policy to the MongoDB workload.
 
 1. Install `v2` of the `ratings` workload with the `bookinfo-ratings-v2` service account:
 
@@ -110,11 +110,11 @@ which talks to a MongoDB backend using TCP:
 
 1. Verify that the **Book Reviews** section shows the reviews.
 
-1. Apply a default `deny-all` policy for the MongoDB workload:
-
     With the MongoDB workload deployed and before we configure authorization to only allow authorized requests,
     we need to apply a default `deny-all` policy for the workload to ensure that all requests to the MongoDB
     workload are denied by default.
+
+1. Apply a default `deny-all` policy for the MongoDB workload:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -129,63 +129,60 @@ which talks to a MongoDB backend using TCP:
     EOF
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
 
-* The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
-* The **Book Reviews** section on the lower right of the page includes an error message **"Ratings service is
-  currently unavailable"**.
+    * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
+    * The **Book Reviews** section on the lower right of the page includes an error message **"Ratings service is
+      currently unavailable"**.
 
-## Enforce workload-level access control for TCP traffic
+    After configuring all requests be denied by default, we need to create a `bookinfo-ratings-v2`
+    policy that lets requests coming from the `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account
+    through to the MongoDB workload at port `27017`. We grant access to the service account, because
+    requests coming from the `ratings-v2` workload are issued using the `cluster.local/ns/default/sa/bookinfo-ratings-v2`
+    service account.
 
-After configuring all requests be denied by default, we need to create a `bookinfo-ratings-v2`
-policy that lets requests coming from the `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account
-through to the MongoDB workload at port `27017`.
-
-We grant access to the service account, because requests coming from the `ratings-v2`
-workload are issued using the `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account.
-
-Enforce workload-level access control for TCP traffic coming from the
+1. Enforce workload-level access control for TCP traffic coming from the
 `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account:
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: bookinfo-ratings-v2
-spec:
-  selector:
-    matchLabels:
-      app: mongodb
-  rules:
-  - from:
-    - source:
-        principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
-    to:
-    - operation:
-        ports: ["27017"]
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: bookinfo-ratings-v2
+    spec:
+      selector:
+        matchLabels:
+          app: mongodb
+      rules:
+      - from:
+        - source:
+            principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
+        to:
+        - operation:
+            ports: ["27017"]
+    EOF
+    {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`),
-you should see now the following sections working as intended:
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`),
+    you should see now the following sections working as intended:
 
-* **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
-* **Book Reviews** on the lower right side, which includes: red stars.
+    * **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
+    * **Book Reviews** on the lower right side, which includes: red stars.
 
-**Congratulations!** You successfully deployed a workload communicating over TCP traffic and applied
-both a mesh-level and a workload-level authorization policy to enforce access control for the requests.
+    **Congratulations!** You successfully deployed a workload communicating over TCP traffic and applied
+    both a mesh-level and a workload-level authorization policy to enforce access control for the requests.
 
 ## Cleanup
 
-* Remove Istio authorization policy configuration:
+1. Remove Istio authorization policy configuration:
 
     {{< text bash >}}
     $ kubectl delete authorizationpolicy.security.istio.io/deny-all
     $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-ratings-v2
     {{< /text >}}
 
-* Remove `v2` of the ratings workload and the MongoDB deployment:
+1. Remove `v2` of the ratings workload and the MongoDB deployment:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
