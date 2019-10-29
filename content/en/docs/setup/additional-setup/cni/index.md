@@ -86,7 +86,7 @@ This example uses Helm to perform the following tasks:
 Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#cni) for complete instructions.
 
 Use the following command to render and apply Istio CNI components and override the default configuration of the
-`istio-cni` istioctl's `logLevel` and `excludeNamespaces` parameters:
+`logLevel` and `excludeNamespaces` parameters for `istio-cni`:
 
 {{< text bash >}}
 $ istioctl manifest apply \
