@@ -50,6 +50,8 @@ X509v3 Subject Alternative Name:
 1.  Generate `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` by running the following
 command. The YAML file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
 contains an example DNS certificate configuration (details in [the certificate guide](/docs/tasks/security/dns-cert)).
+The following command uses the default Istio configuration plus the DNS certificate configuration in `values-istio-dns-cert.yaml`.
+The document of the helm template command can be found in the [link](https://helm.sh/docs/helm/#helm-template).
 
     {{< text bash >}}
     $ helm template \
@@ -222,4 +224,9 @@ sidecar container into an example pod:
 ## Cleanup
 
 After completing this tutorial, you may delete the testing cluster created
-at the beginning of this tutorial.
+at the beginning of this tutorial. You may also run the following command to delete
+the resources created.
+
+{{< text bash >}}
+$ kubectl delete ns test-injection test-validation
+{{< /text >}}
