@@ -500,9 +500,8 @@ $ kubectl delete -f @samples/sleep/sleep.yaml@
 1.  Check the current value:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: REGISTRY_ONLY"
-    mode: ALLOW_ANY
+    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
+    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: REGISTRY_ONLY" | uniq
     mode: ALLOW_ANY
     {{< /text >}}
 
