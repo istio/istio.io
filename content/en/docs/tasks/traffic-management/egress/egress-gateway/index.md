@@ -49,15 +49,12 @@ controlled way.
 
     If no pods are returned, deploy the Istio egress gateway by performing the next step.
 
-1.  Use `helm template` (or `helm install` with the corresponding flags):
+1.  Run the following command:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio-egressgateway --namespace istio-system \
-        -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml \
-        -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml \
-        -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml \
-        --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false \
-        --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
+    $ istioctl manifest apply --set values.global.istioNamespace=istio-system \
+        --set values.gateways.istio-ingressgateway.enabled=false \
+        --set values.gateways.istio-egressgateway.enabled=true
     {{< /text >}}
 
 {{< warning >}}

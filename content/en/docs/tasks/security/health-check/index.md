@@ -24,7 +24,7 @@ this feature is not needed if the production setup is not using the
 
 ## Before you begin
 
-To complete this task, you can install Istio using [Helm](/docs/setup/install/helm/) to setup Istio by setting the `global.mtls.enabled` flag to `true`.
+To complete this task, you can [install Istio](/docs/setup/install/operator/) with the `global.mtls.enabled` option set to `true`.
 
 {{< tip >}}
 Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
@@ -34,12 +34,10 @@ See the [authentication policy task](/docs/tasks/security/authn-policy/) for det
 
 ## Deploying Citadel with health checking
 
-To enable health checking, redeploy Citadel with helm:
+To enable health checking, redeploy Citadel:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
--x charts/security/templates/deployment.yaml \
---set global.mtls.enabled=true --set security.citadelHealthCheck=true > citadel-health-check.yaml
+$ istioctl manifest generate --set values.global.mtls.enabled=true,values.security.citadelHealthCheck=true > citadel-health-check.yaml
 $ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
@@ -104,8 +102,6 @@ continuously failed health checks.
 *   To disable health checking on Citadel:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    -x charts/security/templates/deployment.yaml \
-    --set global.mtls.enabled=true | kubectl apply -f -
+    $ istioctl manifest apply --set values.global.mtls.enabled=true
     {{< /text >}}
 

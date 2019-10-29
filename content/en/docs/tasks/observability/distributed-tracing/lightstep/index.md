@@ -39,21 +39,17 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     - `global.tracer.lightstep.secure=true`
     - `global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem"`
 
-    If you are installing via `helm template` you can set these parameters using the `--set key=value` syntax
-    when you run the `helm` command. For example:
+    You can set these parameters using the `--set key=value` syntax
+    when you run the install command. For example:
 
     {{< text bash >}}
-    $ helm template \
-        --set pilot.traceSampling=100 \
-        --set global.proxy.tracer="lightstep" \
-        --set global.tracer.lightstep.address="<satellite-address>" \
-        --set global.tracer.lightstep.accessToken="<access-token>" \
-        --set global.tracer.lightstep.secure=true \
-        --set global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem" \
-        install/kubernetes/helm/istio \
-        --name istio --namespace istio-system > $HOME/istio.yaml
-    $ kubectl create namespace istio-system
-    $ kubectl apply -f $HOME/istio.yaml
+    $ istioctl manifest apply \
+        --set values.pilot.traceSampling=100 \
+        --set values.global.proxy.tracer="lightstep" \
+        --set values.global.tracer.lightstep.address="<satellite-address>" \
+        --set values.global.tracer.lightstep.accessToken="<access-token>" \
+        --set values.global.tracer.lightstep.secure=true \
+        --set values.global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem"
     {{< /text >}}
 
 1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.

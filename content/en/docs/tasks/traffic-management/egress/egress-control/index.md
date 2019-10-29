@@ -404,12 +404,11 @@ Update your `istio-sidecar-injector` configuration map using the IP ranges speci
 For example, if the range is 10.0.0.1&#47;24, use the following command:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> --set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
+$ istioctl manifest apply <the flags you used to install Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
 {{< /text >}}
 
-Use the same Helm command that you used to [install Istio](/docs/setup/install/helm),
-specifically, ensure you use the same value for the `--namespace` flag and
-add these flags: `--set global.proxy.includeIPRanges="10.0.0.1/24" -x templates/sidecar-injector-configmap.yaml`.
+Use the same command that you used to [install Istio](/docs/setup/install/operator) and
+add `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`.
 
 ### Access the external services
 
@@ -444,7 +443,7 @@ Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect
 proxies:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio <the flags you used to install Istio> -x templates/sidecar-injector-configmap.yaml | kubectl apply -f -
+$ istioctl manifest apply <the flags you used to install Istio>
 {{< /text >}}
 
 ## Understanding what happened

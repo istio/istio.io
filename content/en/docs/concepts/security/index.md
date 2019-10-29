@@ -220,7 +220,7 @@ From these three values, the decision process mirrors that of the [`Sidecar Inje
 
 - Otherwise, if a `ca.istio.io/env: "ns-foo"` label is defined in the service account's namespace, the Citadel instance in namespace `ns-foo` will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
 
-- Otherwise, follow the `enableNamespacesByDefault` Helm flag. If it is `true`, the default Citadel instance will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
+- Otherwise, set `enableNamespacesByDefault` to `true` during installation. If it is `true`, the default Citadel instance will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
 
 - Otherwise, no secrets are created for the `ServiceAccount`'s namespace.
 
