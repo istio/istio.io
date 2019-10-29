@@ -57,7 +57,6 @@ done
 operator_manifest_files=( "deploy/namespace.yaml" "deploy/crds/istio_v1alpha2_istiocontrolplane_crd.yaml" "deploy/service_account.yaml" "deploy/clusterrole.yaml" "deploy/clusterrole_binding.yaml" "deploy/service.yaml" "deploy/operator.yaml" "${output_dir}/operator-profile-demo.yaml" )
 
 # Generate the main manifest
-rm -f ${output_dir}"/operator.yaml
 cat "${operator_manifest_files[@]}" >> "${output_dir}"/operator.yaml
 
 popd >/dev/null || exit
