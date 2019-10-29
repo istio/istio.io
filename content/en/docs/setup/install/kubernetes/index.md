@@ -8,7 +8,7 @@ aliases:
     - /docs/setup/kubernetes/install/kubernetes/
 ---
 
-This guide installs Istio's built-in **demo** [configuration profile](/docs/setup/additional-setup/config-profiles/).
+This guide installs Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
 This installation lets you quickly evaluate Istio in a Kubernetes cluster on any platform.
 
 {{< warning >}}
