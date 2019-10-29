@@ -164,7 +164,7 @@ No resources found.
 Install Istio with the **strict mutual TLS mode** enabled:
 
 {{< text bash >}}
-$ istioctl manifest --set profile=demo --set values.global.controlPlaneSecurityEnabled=true --set values.global.mtls.enabled=true | kubectl delete -f -
+$ istioctl manifest apply --set profile=demo,values.global.controlPlaneSecurityEnabled=true,values.global.mtls.enabled=true
 {{< /text >}}
 
 Make sure everything is up and running:

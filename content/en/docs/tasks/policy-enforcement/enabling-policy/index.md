@@ -31,7 +31,7 @@ which enables policy checks by default.
     Execute the following command from the root Istio directory:
 
     {{< text bash >}}
-    $ istioctl manifest --set values.global.disablePolicyChecks=false
+    $ istioctl manifest apply --set values.global.disablePolicyChecks=false
     configmap "istio" replaced
     {{< /text >}}
 

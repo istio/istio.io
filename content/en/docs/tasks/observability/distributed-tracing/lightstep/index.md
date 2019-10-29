@@ -43,7 +43,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     when you run the install command. For example:
 
     {{< text bash >}}
-    $ istioctl manifest \
+    $ istioctl manifest apply \
         --set values.pilot.traceSampling=100 \
         --set values.global.proxy.tracer="lightstep" \
         --set values.global.tracer.lightstep.address="<satellite-address>" \

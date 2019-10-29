@@ -97,6 +97,6 @@ $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 Edit the `istio` configuration map and set `accessLogFile` to `""`.
 
 {{< text bash >}}
-$ istioctl manifest
+$ istioctl manifest apply
 configmap "istio" replaced
 {{< /text >}}

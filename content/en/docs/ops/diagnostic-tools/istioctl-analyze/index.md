@@ -169,5 +169,5 @@ status:
 You can enable this feature with:
 
 {{< text bash >}}
-$ istioctl manifest --set values.galley.enableAnalysis=true
+$ istioctl manifest apply --set values.galley.enableAnalysis=true
 {{< /text >}}

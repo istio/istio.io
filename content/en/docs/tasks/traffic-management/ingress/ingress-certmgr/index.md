@@ -16,7 +16,7 @@ You will start with a clean Istio installation, create an example service, expos
 1. [Install Istio](/docs/setup/) making sure to enable ingress [gateway](/docs/reference/config/networking/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Here's an example of how to do it:
 
     {{< text bash >}}
-    $ istioctl manifest \
+    $ istioctl manifest apply \
       --set values.gateways.istio-ingressgateway.sds.enabled=true \
       --set values.global.k8sIngress.enabled=true \
       --set values.global.k8sIngress.enableHttps=true \

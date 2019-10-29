@@ -101,8 +101,7 @@ You have two ways to enable Istio to rewrite the liveness HTTP probes.
 
 #### Enable globally via install option
 
-[Install Istio](/docs/setup/install/operator/) with the `values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`
-[installation option](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
+[Install Istio](/docs/setup/install/operator/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 
 **Alternatively**, update the configuration map of Istio sidecar injection:
 

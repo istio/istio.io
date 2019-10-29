@@ -22,7 +22,7 @@ For ease of the installation, they are available with a `-distroless` suffix.
 ## Install distroless images
 
 Follow the [Installation Steps](/docs/setup/install/operator/) to setup Istio.
-Add the option `--set values.global.tag={{< istio_full_version >}}-distroless` to use the *distroless images*.
+Add the option `--set tag={{< istio_full_version >}}-distroless` to use the *distroless images*.
 
 ## Benefits
 

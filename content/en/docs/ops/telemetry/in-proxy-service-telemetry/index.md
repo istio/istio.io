@@ -24,7 +24,7 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 1.  To prevent duplicate telemetry generation, disable calls to `istio-telemetry` in the mesh:
 
     {{< text bash >}}
-    $ istioctl manifest --set values.mixer.telemetry.enabled=false --set values.mixer.policy.enabled=false
+    $ istioctl manifest apply --set values.mixer.telemetry.enabled=false,values.mixer.policy.enabled=false
     {{< /text >}}
 
     {{< tip >}}

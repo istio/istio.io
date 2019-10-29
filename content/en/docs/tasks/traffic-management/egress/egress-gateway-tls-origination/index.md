@@ -635,7 +635,7 @@ to hold the configuration of the NGINX server:
     you used for generating your `istio.yaml`:
 
     {{< text bash >}}
-    $ istioctl manifest template --set values.gateways.istio-ingressgateway.enabled=false \
+    $ istioctl manifest generate --set values.gateways.istio-ingressgateway.enabled=false \
     --set values.gateways.istio-egressgateway.enabled=true \
     --set 'values.gateways.istio-egressgateway.secretVolumes[0].name'=egressgateway-certs \
     --set 'values.gateways.istio-egressgateway.secretVolumes[0].secretName'=istio-egressgateway-certs \
