@@ -4,5 +4,5 @@ description: Multicluster service mesh examples for Istio that you can experimen
 weight: 100
 keywords: [multicluster]
 ---
-Refer to the [multicluster service mesh]/docs/setup/deployment-models/) concept documentation
+Refer to the [multicluster service mesh](/docs/setup/deployment-models/) concept documentation
 for more information.
