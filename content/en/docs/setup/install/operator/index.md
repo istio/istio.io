@@ -1,21 +1,20 @@
 ---
 title: Installing with Istioctl
-description: Install and configure Istio using the Istio Operator CLI.
+description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
 weight: 10
 keywords: [operator,kubernetes,helm]
 ---
 
-Follow this guide to install and configure an Istio mesh using an alternate
-installation method: the Istio {{<gloss operator>}}Operator CLI{{</gloss>}}
-installation.
+Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
 
-The Istio Operator CLI offers a new installation method with the option of
-installing Istio using a one-line command. It has user input
-validation to help prevent installation errors and customization options to
+This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
+tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
+It has user input validation to help prevent installation errors and customization options to
 override any aspect of the configuration.
 
-The Operator install is accessed via [`istioctl`](/docs/reference/commands/istioctl/)
-commands.
+Using these instructions, you can select any one of Istio's built-in
+[configuration profiles](/docs/setup/additional-setup/config-profiles/)
+and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
@@ -27,21 +26,81 @@ Before you begin, check the following prerequisites:
 
 ## Install Istio using the default profile
 
-The simplest option is to install a default Istio configuration using a one-line command:
+The simplest option is to install the `default` Istio
+[configuration profile](/docs/setup/additional-setup/config-profiles/)
+using the following command:
 
 {{< text bash >}}
 $ istioctl manifest apply
 {{< /text >}}
 
-This command installs a profile named `default` on the cluster defined by your
-Kubernetes configuration. The `default` profile is smaller and more suitable
+This command installs the `default` profile on the cluster defined by your
+Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-You can view the `default` profile configuration settings by using this command:
+## Install a different profile
+
+Other Istio configuration profiles can be installed in a cluster by passing the
+profile name on the command line. For example, the following command can be used
+to install the `demo` profile:
+
+{{< text bash >}}
+$ istioctl manifest apply --set profile=demo
+{{< /text >}}
+
+## Display the list of available profiles
+
+You can display the names of Istio configuration profiles that are
+accessible to `istioctl` by using this command:
+
+{{< text bash >}}
+$ istioctl profile list
+    minimal
+    demo
+    sds
+    default
+{{< /text >}}
+
+## Display the configuration of a profile
+
+You can view the configuration settings of a profile. For example, to view the setting for the `default` profile
+run the following command:
 
 {{< text bash >}}
 $ istioctl profile dump
+autoInjection:
+  components:
+    injector:
+      enabled: true
+      k8s:
+        replicaCount: 1
+  enabled: true
+configManagement:
+  components:
+    galley:
+      enabled: true
+      k8s:
+        replicaCount: 1
+        resources:
+          requests:
+            cpu: 100m
+  enabled: true
+defaultNamespace: istio-system
+gateways:
+  components:
+    egressGateway:
+      enabled: false
+      k8s:
+        hpaSpec:
+          maxReplicas: 5
+          metrics:
+          - resource:
+              name: cpu
+              targetAverageUtilization: 80
+            type: Resource
+          minReplicas: 1
+...
 {{< /text >}}
 
 To view a subset of the entire configuration, you can use the `--config-path` flag, which selects only the portion
@@ -49,35 +108,137 @@ of the configuration under the given path:
 
 {{< text bash >}}
 $ istioctl profile dump --config-path trafficManagement.components.pilot
+enabled: true
+k8s:
+  env:
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.name
+  - name: POD_NAMESPACE
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.namespace
+  - name: GODEBUG
+    value: gctrace=1
+  - name: PILOT_TRACE_SAMPLING
+    value: "1"
+  - name: CONFIG_NAMESPACE
+    value: istio-config
+  hpaSpec:
+    maxReplicas: 5
+    metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+    minReplicas: 1
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: istio-pilot
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 30
+    timeoutSeconds: 5
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2048Mi
 {{< /text >}}
 
-## Install a different profile
+## Show differences in profiles
 
-Other Istio configuration profiles can be installed in a cluster using this command:
+The `profile diff` sub-command can be used to show the differences between profiles,
+which is useful for checking the effects of customizations before applying changes to a cluster.
+
+You can show differences between the default and demo profiles using these commands:
 
 {{< text bash >}}
-$ istioctl manifest apply --set profile=demo
+$ istioctl profile dump default > 1.yaml
+$ istioctl profile dump demo > 2.yaml
+$ istioctl profile diff 1.yaml 2.yaml
 {{< /text >}}
 
-In the example above, `demo` is one of the profile names from the output of
-the [`istioctl profile list`](/docs/reference/commands/istioctl/#istioctl-profile-list) command.
+## Generate a manifest before installation
 
-## Display the profile list
-
-You can display the names of Istio configuration profiles that are
-accessible to `istioctl` by using this command:
+You can generate the manifest before installing Istio using the `manifest generate`
+sub-command, instead of `manifest apply`.
+For example, use the following command to generate a manifest for the `default` profile:
 
 {{< text bash >}}
-$ istioctl profile list
+$ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-## Customize Istio settings using the `IstioControlPlane` API
+Inspect the manifest as needed, then apply the manifest using this command:
 
-You can change a feature or component setting by using the [`IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/).
+{{< text bash >}}
+$ kubectl apply -f $HOME/generated-manifest.yaml
+{{< /text >}}
 
-### Identify the feature or component
+{{< tip >}}
+This command might show transient errors due to resources not being available in
+the cluster in the correct order.
+{{< /tip >}}
 
-The API groups Istio control plane components by feature, as shown in the table below:
+## Show differences in manifests
+
+You can show the differences in the generated manifests between the default profile and a customized install using these commands:
+
+{{< text bash >}}
+$ istioctl manifest generate > 1.yaml
+$ istioctl manifest generate -f samples/pilot-k8s.yaml > 2.yaml
+$ istioctl manifest diff 1.yam1 2.yaml
+{{< /text >}}
+
+## Verify a successful installation
+
+You can check if the Istio installation succeeded using the `verify-install` command
+which compares the installation on your cluster to a manifest you specify.
+
+If you didn't generate your manifest prior to deployment, run the following command to
+generate it now:
+
+{{< text bash >}}
+$ istioctl manifest generate <your original installation options> > $HOME/generated-manifest.yaml
+{{< /text >}}
+
+Then run the following `verify-install` command to see if the installation was successful:
+
+{{< text bash >}}
+$ istioctl verify-install -f $HOME/generated-manifest.yaml
+{{< /text >}}
+
+## Customizing the configuration
+
+In addition to installing any of Istio's built-in
+[configuration profiles](/docs/setup/additional-setup/config-profiles/),
+`istioctl manifest` provides a complete API for customizing the configuration.
+
+- [The `IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+
+The configuration parameters in this API can be set individually using `--set` options on the command
+line. For example, to disable the telemetry feature in a default configuration profile, use this command:
+
+{{< text bash >}}
+$ istioctl manifest apply --set telemetry.enabled=false
+{{< /text >}}
+
+Alternatively, a complete configuration can be specified in a YAML file and passed to
+`istioctl` using the `-f` option:
+
+{{< text bash >}}
+$ istioctl manifest apply -f samples/pilot-k8s.yaml
+{{< /text >}}
+
+### Identify an Istio feature or component
+
+The `IstioControlPlane` API groups control plane components by feature, as shown in the table below:
 
 | Feature | Components |
 |---------|------------|
@@ -168,11 +329,9 @@ namespaces:
 - All other components in the security feature installed into `istio-security` namespace
 - Remaining Istio components installed into istio-system namespace
 
-## Customize Kubernetes settings using the `IstioControlPlane` API
+### Customize Kubernetes settings
 
 The `IstioControlPlane` API allows each component's Kubernetes settings to be customized in a consistent way.
-
-### Identify the feature or component settings
 
 Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
 which allows the following settings to be changed. Use this list to identify the setting to customize:
@@ -190,11 +349,6 @@ which allows the following settings to be changed. Use this list to identify the
 1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
 All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
-
-### Configure the feature or component
-
-After you identify the name of the feature or component from the previous list, you can use the `IstioControlPlane` API
-to modify the default values using a configuration overlay file.
 
 The following example overlay file adjusts the `TrafficManagement` feature's resources and horizontal pod autoscaling
 settings for Pilot:
@@ -222,7 +376,7 @@ Use `manifest apply` to apply the modified settings to the cluster:
 $ istioctl manifest apply -f @samples/pilot-k8s.yaml@
 {{< /text >}}
 
-## Customize Istio settings using the Helm API
+### Customize Istio settings using the Helm API
 
 The `IstioControlPlane` API includes a pass-through interface to the [Helm API](/docs/reference/config/installation-options/)
 using the `values` field.
@@ -248,60 +402,6 @@ Some parameters will temporarily exist in both the Helm and `IstioControlPlane` 
 namespaces and enablement settings. The Istio community recommends using the `IstioControlPlane` API as it is more
 consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
 
-## Show differences in profiles
-
-The `profile diff` sub-command can be used to show the differences between profiles,
-which is useful for checking the effects of customizations before applying changes to a cluster.
-
-You can show differences between the default and demo profiles using these commands:
-
-{{< text bash >}}
-$ istioctl profile dump default > 1.yaml
-$ istioctl profile dump demo > 2.yaml
-$ istioctl profile diff 1.yaml 2.yaml
-{{< /text >}}
-
-## Show differences in manifests
-
-You can show the differences in the generated manifests between the default profile and a customized install using these commands:
-
-{{< text bash >}}
-$ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/pilot-k8s.yaml > 2.yaml
-$ istioctl manifest diff 1.yam1 2.yaml
-{{< /text >}}
-
-## Inspect/modify a manifest before installation
-
-You can inspect or modify the manifest before installing Istio using these steps:
-
-Generate the manifest using this command:
-
-{{< text bash >}}
-$ istioctl manifest generate > $HOME/generated-manifest.yaml
-{{< /text >}}
-
-Inspect the manifest as needed, then apply the manifest using this command:
-
-{{< tip >}}
-This command might show transient errors due to resources not being available in
-the cluster in the correct order.
-{{< /tip >}}
-
-{{< text bash >}}
-$ kubectl apply -f $HOME/generated-manifest.yaml
-{{< /text >}}
-
-## Verify a successful installation
-
-You can check if the Istio installation succeeded using the `verify-install` command.
-This compares the installation on your cluster to a manifest you specify
-and displays the results:
-
-{{< text bash >}}
-$ istioctl verify-install -f $HOME/generated-manifest.yaml
-{{< /text >}}
-
 ## Uninstall Istio
 
 To uninstall Istio, run the following command:
@@ -309,4 +409,3 @@ To uninstall Istio, run the following command:
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -
 {{< /text >}}
-
