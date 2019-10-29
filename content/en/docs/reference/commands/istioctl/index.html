@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 78
+number_of_entries: 76
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -714,7 +714,7 @@ istioctl deregister my-svc 172.17.0.2
 </tbody>
 </table>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and\
+<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and\ 
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.
 THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
@@ -1189,7 +1189,7 @@ the cluster results of the client pod and the listener results of the server pod
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td></td>
-<td>create a secret with this service account&#39;s credentials.  (default `istio-multi`)</td>
+<td>create a secret with this service account&#39;s credentials.  (default `istio-pilot`)</td>
 </tr>
 </tbody>
 </table>
@@ -1206,63 +1206,6 @@ istioctl --Kubeconfig=c0.yaml x create-remote-secret \
 # Create a secret  access a remote cluster with an auth plugin
 istioctl --Kubeconfig=c0.yaml x create-remote-secret --auth-type=plugin --auth-plugin-name=gcp \
     | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
-
-</code></pre>
-<h2 id="istioctl-experimental-create-trust-anchor">istioctl experimental create-trust-anchor</h2>
-<p>Establish trust between two or more clustersByContext by appending each
-cluster&#39;s public root CA cert to other cluster&#39;s list of trusted roots. This is
-useful when form a multi-cluster mesh from existing clustersByContext with their own unique
-CAs.</p>
-<p>
-</p>
-<pre class="language-bash"><code>istioctl experimental create-trust-anchor [&lt;cluster-name&gt;] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-create-trust-anchor Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Create a trust anchor configmap with c0&#39;s root CA cert and install it in cluster c1.
-istioctl --Kubeconfig=c0.yaml x create-trust-anchor c0 \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
-
-# Delete a trust anchor configmap that was previously installed in c1
-istioctl --Kubeconfig=c0.yaml x create-trust-anchor c1 \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml delete -f -
-
 
 </code></pre>
 <h2 id="istioctl-experimental-dashboard">istioctl experimental dashboard</h2>
@@ -1521,10 +1464,10 @@ kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kube
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system
+<p>This command finds a Prometheus pod running in the specified istio system 
 namespace. It then executes a series of queries per requested workload to
 find the following top-level workload metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The
+error rate, and request latency at p50, p90, and p99 percentiles. The 
 query results are printed to the console, organized by workload name.</p>
 <p>All metrics returned are from server-side reports. This means that latencies
 and error rates are from the perspective of the service itself and not of an
@@ -1619,6 +1562,51 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-experimental-multicluster-apply">istioctl experimental multicluster apply</h2>
+<p>Update clusters in a multi-cluster mesh based on mesh topology</p>
+<pre class="language-bash"><code>istioctl experimental multicluster apply  -f &lt;mesh.yaml&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--filename &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>filename of the multicluster mesh description  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-experimental-multicluster-describe">istioctl experimental multicluster describe</h2>
 <p>Describe status of the multi-cluster mesh&#39;s control plane&#39; </p>
 <pre class="language-bash"><code>istioctl experimental multicluster describe -f &lt;mesh.yaml&gt; [--all] [flags]
@@ -1670,46 +1658,8 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </tbody>
 </table>
 <h2 id="istioctl-experimental-multicluster-generate">istioctl experimental multicluster generate</h2>
-<p>generate configuration for setting up a multi-cluster mesh</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-experimental-multicluster-generate-values">istioctl experimental multicluster generate values</h2>
-<p>generate a cluster-specific values.yaml file based on the mesh description and runtime state </p>
-<pre class="language-bash"><code>istioctl experimental multicluster generate values -f &lt;mesh.yaml&gt; [flags]
+<p>generate a cluster-specific control plane configuration based on the mesh description and runtime state</p>
+<pre class="language-bash"><code>istioctl experimental multicluster generate -f &lt;mesh.yaml&gt; [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1731,59 +1681,9 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td>filename of the multicluster mesh description  (default ``)</td>
 </tr>
 <tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
+<td><code>--from &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-experimental-multicluster-join">istioctl experimental multicluster join</h2>
-<p>Join multiple clustersByContext into a single multi-cluster mesh</p>
-<pre class="language-bash"><code>istioctl experimental multicluster join  -f &lt;mesh.yaml&gt; [--discovery] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--all</code></td>
-<td></td>
-<td>join all clustersByContext together in the mesh </td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--discovery</code></td>
-<td></td>
-<td>link Istio service discovery with the clustersByContext service registriesS </td>
-</tr>
-<tr>
-<td><code>--filename &lt;string&gt;</code></td>
-<td><code>-f</code></td>
-<td>filename of the multicluster mesh description  (default ``)</td>
+<td>optional source configuration to generate multicluster aware configuration from  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1804,6 +1704,11 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--wait-for-gateways</code></td>
+<td></td>
+<td>wait for all cluster&#39;s istio-ingressgateway IPs to be ready before generating configuration. </td>
 </tr>
 </tbody>
 </table>
@@ -2047,11 +1952,11 @@ because in previous versions webhooks manage their own configurations.</p>
 <h3 id="istioctl-experimental-post-install-webhook-enable Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Enable the webhook configuration of Galley with the given webhook configuration
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml
 
 # Enable the webhook configuration of Galley with the given webhook configuration and CA certificate
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml --ca-bundle-file ./k8s-ca-cert.pem
 
 </code></pre>
@@ -2120,7 +2025,7 @@ istioctl experimental post-install webhook enable --validation --webhook-secret 
 # Display the webhook configuration of Galley
 istioctl experimental post-install webhook status --validation --validation-config istio-galley
 # Display the webhook configuration of Galley and Sidecar Injector
-istioctl experimental post-install webhook status --validation --validation-config istio-galley
+istioctl experimental post-install webhook status --validation --validation-config istio-galley 
   --injection --injection-config istio-sidecar-injector
 
 </code></pre>
@@ -2168,7 +2073,7 @@ istioctl experimental post-install webhook status --validation --validation-conf
 </tbody>
 </table>
 <h2 id="istioctl-experimental-remove-from-mesh-external-service">istioctl experimental remove-from-mesh external-service</h2>
-<p>istioctl experimental remove-from-mesh external-service remove the ServiceEntry and\
+<p>istioctl experimental remove-from-mesh external-service remove the ServiceEntry and\ 
 the kubernetes Service for the specified external service(eg:services running on VM) from Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.
 THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
@@ -2642,7 +2547,7 @@ customization file  (default `[]`)</td>
 <tr>
 <td><code>--skip-confirmation</code></td>
 <td></td>
-<td>skipConfirmation determines whether the user is prompted for confirmation.
+<td>skipConfirmation determines whether the user is prompted for confirmation. 
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
@@ -3864,7 +3769,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Validate bookinfo-gateway.yaml
 		istioctl validate -f bookinfo-gateway.yaml
-
+		
 		# Validate current deployments under &#39;default&#39; namespace within the cluster
 		kubectl get deployments -o yaml |istioctl validate -f -
 
@@ -3938,10 +3843,10 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Verify that Istio can be freshly installed
 		istioctl verify-install
-
+		
 		# Verify that the deployment matches the istio-demo profile
 		istioctl verify-install -f istio-demo.yaml
-
+		
 		# Verify the deployment matches a custom Istio deployment configuration
 		istioctl verify-install -f $HOME/istio.yaml
 
