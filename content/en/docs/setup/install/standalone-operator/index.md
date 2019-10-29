@@ -189,10 +189,8 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 Delete the Istio Operator and Istio deployment:
 
 {{< text bash >}}
-$ kubectl -n istio-operator get IstioControlPlane example-istiocontrolplane -o=json | jq '.metadata.finalizers = null' | kubectl apply -f -
+$ kubectl -n istio-operator get IstioControlPlane example-istiocontrolplane -o=json | jq '.metadata.finalizers = null' | kubectl delete -f -
 $ kubectl delete ns istio-operator --grace-period=0 --force
 $ kubectl delete ns istio-system --grace-period=0 --force
 {{< /text >}}
 
-Please be aware that Istio's CRDs are leaked into the Kubernetes environment. This is intentional as to not
-cause data loss of the user's Istio configuration.
