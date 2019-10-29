@@ -30,22 +30,22 @@ When you refresh the page, the app shows different versions of reviews in the pr
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
 
 {{< tip >}}
-If you don't see the expected output in the browser following the task, retry in a few seconds
-as there may be some delays due to caching and other propagation overhead.
+If you don't see the expected output in the browser as you follow the task, retry in a few seconds
+because some delay is possible due to caching and other propagation overhead.
 {{< /tip >}}
 
 ## Installing and configuring a TCP workload
 
 By default, the [Bookinfo](/docs/examples/bookinfo/) example application only uses the HTTP protocol.
 To showcase the authorization of TCP traffic, you must update the application to use TCP.
-Follow these steps to deploy Bookinfo and update the `ratings` workload to the `v2` version,
-which talks to a MongoDB backend using TCP.
+The following steps deploy the Bookinfo application and update its `ratings` workload to the `v2` version,
+which talks to a MongoDB backend using TCP:
 
-1. Install `v2` of the `ratings` workload with service account `bookinfo-ratings-v2`:
+1. Install `v2` of the `ratings` workload with the `bookinfo-ratings-v2` service account:
 
     {{< tabset cookie-name="sidecar" >}}
 
-    {{< tab name="Automatic sidecar injection enabled" cookie-value="auto" >}}
+    {{< tab name="With automatic sidecar injection" cookie-value="auto" >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
@@ -53,7 +53,7 @@ which talks to a MongoDB backend using TCP.
 
     {{< /tab >}}
 
-    {{< tab name="Manual sidecar injection" cookie-value="manual" >}}
+    {{< tab name="With manual sidecar injection" cookie-value="manual" >}}
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
@@ -82,13 +82,13 @@ which talks to a MongoDB backend using TCP.
 
     On the product page, you can see an error message on the **Book Reviews** section.
     The message reads: **"Ratings service is currently unavailable."**. The message appears because we
-    switched to use the `v2` subset of the `ratings` workload without deploying the MongoDB workload.
+    now use the `v2` subset of the `ratings` workload but we haven't deployed the MongoDB workload.
 
 1. Deploy the MongoDB workload:
 
     {{< tabset cookie-name="sidecar" >}}
 
-    {{< tab name="Automatic sidecar injection enabled" cookie-value="auto" >}}
+    {{< tab name="With automatic sidecar injection" cookie-value="auto" >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
@@ -96,7 +96,7 @@ which talks to a MongoDB backend using TCP.
 
     {{< /tab >}}
 
-    {{< tab name="Manual sidecar injection" cookie-value="manual" >}}
+    {{< tab name="With manual sidecar injection" cookie-value="manual" >}}
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
@@ -110,23 +110,24 @@ which talks to a MongoDB backend using TCP.
 
 1. Verify that the **Book Reviews** section shows the reviews.
 
-## Applying a default `deny-all` policy on the workload
+1. Apply a default `deny-all` policy for the MongoDB workload:
 
-Run the following command to apply a default `deny-all` policy for the MongoDB workload, the
-command creates a `deny-all` policy that denies all requests to the MongoDB workload:
+    With the MongoDB workload deployed and before we configure authentication to only allow authorized requests,
+    we need to apply a default `deny-all` policy for the workload to ensure that all requests to the MongoDB
+    workload are denied by default.
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: deny-all
-spec:
-  selector:
-    matchLabels:
-      app: mongodb
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: deny-all
+    spec:
+      selector:
+        matchLabels:
+          app: mongodb
+    EOF
+    {{< /text >}}
 
 Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
 
@@ -136,9 +137,15 @@ Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpa
 
 ## Enforce workload-level access control for TCP traffic
 
-The command creates a `bookinfo-ratings-v2` policy that grants the access to the MongoDB workload
-at port 27017 for `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account
-that represents the `ratings-v2` workload:
+After configuring all requests be denied by default, we need to create a `bookinfo-ratings-v2`
+policy that lets requests coming from the `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account
+through to the MongoDB workload at port `27017`.
+
+We grant access to the service account, because requests coming from the `ratings-v2`
+workload are issued using the `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account.
+
+Enforce workload-level access control for TCP traffic coming from the
+`cluster.local/ns/default/sa/bookinfo-ratings-v2` service account:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -160,16 +167,29 @@ spec:
 EOF
 {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see the following sections:
+**Congratulations!** When you point your browser at the Bookinfo `productpage`
+(`http://$GATEWAY_URL/productpage`), you should see now the following sections working as intended:
 
 * **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
 * **Book Reviews** on the lower right side, which includes: red stars.
 
+You successfully deployed a workload communicating over TCP traffic and applied
+both a mesh-level and a workload-level authentication policy to enforce access control for the requests.
+
 ## Cleanup
 
-*   Remove Istio authorization policy configuration:
+* Remove Istio authorization policy configuration:
 
     {{< text bash >}}
     $ kubectl delete authorizationpolicy.security.istio.io/deny-all
     $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-ratings-v2
+    {{< /text >}}
+
+* Remove `v2` of the ratings workload and the MongoDB deployment:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
+    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
     {{< /text >}}
