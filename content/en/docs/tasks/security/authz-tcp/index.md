@@ -135,7 +135,7 @@ which talks to a MongoDB backend using TCP, and then apply the authorization pol
     * The **Book Reviews** section on the lower right of the page includes an error message **"Ratings service is
       currently unavailable"**.
 
-    After configuring all requests be denied by default, we need to create a `bookinfo-ratings-v2`
+    After configuring that all requests be denied by default, we need to create a `bookinfo-ratings-v2`
     policy that lets requests coming from the `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account
     through to the MongoDB workload at port `27017`. We grant access to the service account, because
     requests coming from the `ratings-v2` workload are issued using the `cluster.local/ns/default/sa/bookinfo-ratings-v2`
