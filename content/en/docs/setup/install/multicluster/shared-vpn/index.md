@@ -117,7 +117,7 @@ control plane including the following endpoints in the `istio-remote` profile:
 enables automatic sidecar injection in the remote cluster by default. You can
 disable the automatic sidecar injection via a separate setting.
 
-The following table shows the istioctl configuration values for remote clusters:
+The following table shows the `istioctl` configuration values for remote clusters:
 
 | Istioctl setting | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
