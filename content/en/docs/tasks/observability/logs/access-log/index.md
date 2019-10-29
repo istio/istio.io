@@ -22,7 +22,7 @@ The standard output of Envoy's containers can then be printed by the `kubectl lo
 Edit the `istio` configuration map:
 
 {{< text bash >}}
-$ istioctl manfiest --set values.global.proxy.accessLogFile="/dev/stdout"
+$ istioctl manifest apply --set values.global.proxy.accessLogFile="/dev/stdout"
 configmap "istio" replaced
 {{< /text >}}
 
