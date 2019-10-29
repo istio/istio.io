@@ -1,7 +1,7 @@
 ---
 title: Istio DNS Certificate Management
 description: Shows how to provision and manage DNS certificates in Istio.
-weight: 10
+weight: 90
 keywords: [security,certificate]
 ---
 
@@ -56,8 +56,10 @@ The output from the above command should include:
 
 ## Check DNS certificate regeneration
 
-Istio not only provisions a DNS certificate but also manages the lifecycle of the certificate,
-e.g., regenerating a certificate mistakenly deleted.
+Istio not only provisions DNS certificates but also manages the lifecycles of the certificates generated,
+e.g., regenerating a certificate that is mistakenly deleted.
+In this section, we check that after the certificate for Galley is deleted,
+it can be automatically regenerated.
 
 1.  Delete a DNS certificate in the example configuration:
 
