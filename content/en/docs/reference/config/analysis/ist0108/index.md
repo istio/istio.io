@@ -3,7 +3,7 @@ title: UnknownAnnotation
 layout: analysis-message
 ---
 
-This message occurs when you attach an annotation to a namespace, but Istio does not recognize the annotation. 
+This message occurs when you attach an annotation to a namespace, but Istio does not recognize the annotation.
 
 Istio expects certain annotation key names using an internal whitelist.
 

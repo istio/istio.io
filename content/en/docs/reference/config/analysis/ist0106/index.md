@@ -6,12 +6,15 @@ layout: analysis-message
 This message occurs when your Configuration Resource Definition (CRD) file does
 not successfully pass schema validation.
 
-For example, you receieve this error:
-`Error [IST0106] (VirtualService ratings-bogus-weight-default.default) Schema validation error: percentage 888 is not in range 0..100`
+For example, you receive this error:
+
+{{< text plain >}}
+Error [IST0106] (VirtualService ratings-bogus-weight-default.default) Schema validation error: percentage 888 is not in range 0..100
+{{< /text >}}
 
 and your CRD contains these values:
 
-{{< text bash >}}
+{{< text plain >}}
 apiVersion: networking.istio.io/v1alpha3
 
 kind: VirtualService
@@ -40,4 +43,4 @@ To resolve this problem, refer to the detailed error message to determine which
 element or value does not adhere to the schema, correct the error and try again.
 
 For more a reference to valid keys and values, see the
-[schema for HTTPRouteDestination](/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRouteDestination).
+[schema for `HTTPRouteDestination`](/docs/reference/config/networking/virtual-service/).
