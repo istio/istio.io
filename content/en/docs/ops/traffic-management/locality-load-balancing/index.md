@@ -72,7 +72,7 @@ Sometimes, you need to constrain the traffic fail-over to avoid sending traffic 
 endpoints across the globe when there are not enough healthy endpoints in the
 same region. This behavior is useful when sending fail-over traffic across regions
 would not improve service health or many other reasons including regulatory controls.
-To constrain traffic to a region, configure the `localityLbSetting` option using Helm. See the
+To constrain traffic to a region, configure the `values.localityLbSetting` option during install. See the
 [Locality load balancing reference guide](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting)
 for options.
 

@@ -28,7 +28,7 @@ mutual TLS enabled.
 * Understand [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), Istio
 [authentication policy](/docs/concepts/security/#authentication-policies) and [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (meaning use `istio.yaml` as described in [installation steps](/docs/setup/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using [Helm](/docs/setup/install/helm/)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled.
 
 ## Liveness and readiness probes with command option
 
@@ -99,10 +99,9 @@ request to application, and strips the response body only returning the response
 
 You have two ways to enable Istio to rewrite the liveness HTTP probes.
 
-#### Enable via Helm Option Globally
+#### Enable globally via install option
 
-[Install Istio](/docs/setup/install/helm/) with the `sidecarInjectorWebhook.rewriteAppHTTPProbe=true`
-[Helm installation option](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options).
+[Install Istio](/docs/setup/install/operator/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 
 **Alternatively**, update the configuration map of Istio sidecar injection:
 
@@ -115,14 +114,14 @@ rewrite the Kubernetes pod's spec, so health checks are able to work under mutua
 spec by yourself.
 
 {{< warning >}}
-The configuration changes above (by Helm or by the configuration map) effect all Istio app deployments.
+The configuration changes above (by install or by the configuration map) effect all Istio app deployments.
 {{< /warning >}}
 
-#### Use Annotations on Pod
+#### Use annotations on pod
 
 <!-- Add samples YAML or kubectl patch? -->
 
-Rather than install Istio with different Helm options, you can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
+Rather than install Istio with different options, you can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -155,7 +154,7 @@ This approach allows you to enable the health check prober rewrite gradually on 
 
 #### Re-deploy the liveness health check app
 
-Instructions below assume you turn on the feature via Helm flag globally.
+Instructions below assume you turn on the feature globally via install option.
 Annotations works the same.
 
 {{< text bash >}}

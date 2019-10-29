@@ -22,7 +22,7 @@ The standard output of Envoy's containers can then be printed by the `kubectl lo
 Edit the `istio` configuration map:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml --set global.proxy.accessLogFile="/dev/stdout" | kubectl replace -f -
+$ istioctl manifest apply --set values.global.proxy.accessLogFile="/dev/stdout"
 configmap "istio" replaced
 {{< /text >}}
 
@@ -32,7 +32,7 @@ You may also want to customize the
 [format](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules) of the access log by editing `accessLogFormat`.
 
 {{< tip >}}
-All three of these parameters may also be configured via [helm values](/docs/reference/config/installation-options/):
+All three of these parameters may also be configured via [install options](/docs/reference/config/installation-options/):
 {{< /tip >}}
 
 * `global.proxy.accessLogFile`
@@ -97,6 +97,6 @@ $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 Edit the `istio` configuration map and set `accessLogFile` to `""`.
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --namespace=istio-system -x templates/configmap.yaml | kubectl replace -f -
+$ istioctl manifest apply
 configmap "istio" replaced
 {{< /text >}}

@@ -177,11 +177,9 @@ webhooks:
       (... snip ...)
 {{< /text >}}
 
-If the webhook array in `istio-galley-configuration` is empty and
-you're using `helm template` or `helm install`, verify `--set
-galley.enabled` and `--set global.configValidation=true` options are
-set. If you're not using helm, you'll need to find a generate
-YAML that includes the populated webhook array.
+If the webhook array in `istio-galley-configuration` is empty, verify
+the `galley.enabled` and `global.configValidation` installation options are
+set.
 
 The `istio-galley` validation configuration is fail-close. If
 configuration exists and is scoped properly, the webhook will be

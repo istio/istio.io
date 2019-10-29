@@ -60,7 +60,7 @@ You can observe that no new `istio.io/key-and-cert` secret was generated for the
 
 ### Opt-in Service Account secret generation
 
-To make `ServiceAcount` secret generation opt-in (i.e. to disable generating secrets unless otherwise specified)., set the `enableNamespacesByDefault` Helm value to `false`:
+Set the `enableNamespacesByDefault` installation option to `false` to make `ServiceAcount` secret generation opt-in (i.e., to disable generating secrets unless otherwise specified):
 
 {{< text yaml >}}
 ...

@@ -21,19 +21,8 @@ For ease of the installation, they are available with a `-distroless` suffix.
 
 ## Install distroless images
 
-You should follow the [Installation Steps](/docs/setup/install/helm/) to setup Istio. You can pass the following parameter to `helm` to use the *distroless images*
-
-For [Option 1](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) use
-
-{{< text bash >}}
-$ helm template [...] --set global.tag={{< istio_full_version >}}-distroless
-{{< /text >}}
-
-For [Option 2](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install)
-
-{{< text bash >}} use
-$ helm install [...] --set global.tag={{< istio_full_version >}}-distroless
-{{< /text >}}
+Follow the [Installation Steps](/docs/setup/install/operator/) to setup Istio.
+Add the option `--set tag={{< istio_full_version >}}-distroless` to use the *distroless images*.
 
 ## Benefits
 

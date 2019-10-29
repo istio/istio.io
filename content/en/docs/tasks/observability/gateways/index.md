@@ -33,21 +33,21 @@ addons to require authentication when exposing them externally.
 
 1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
 
-1. [Install Istio](/docs/setup) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
+1. [Install Istio](/docs/setup/install/operator) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
 the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration).
 
-    To install Istio accordingly, use the following Helm installation options:
+    To install Istio accordingly, use the following installation options:
 
-    * `--set gateways.enabled=true`
-    * `--set gateways.istio-ingressgateway.enabled=true`
-    * `--set gateways.istio-ingressgateway.sds.enabled=true`
+    * `--set values.gateways.enabled=true`
+    * `--set values.gateways.istio-ingressgateway.enabled=true`
+    * `--set values.gateways.istio-ingressgateway.sds.enabled=true`
 
-    To additionally install the telemetry addons, use the following Helm installation options:
+    To additionally install the telemetry addons, use the following installation options:
 
-    * Grafana: `--set grafana.enabled=true`
-    * Kiali: `--set kiali.enabled=true`
-    * Prometheus: `--set prometheus.enabled=true`
-    * Tracing: `--set tracing.enabled=true`
+    * Grafana: `--set values.grafana.enabled=true`
+    * Kiali: `--set values.kiali.enabled=true`
+    * Prometheus: `--set values.prometheus.enabled=true`
+    * Tracing: `--set values.tracing.enabled=true`
 
 1. Configure the DNS records for your domain.
 
@@ -370,14 +370,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 ### Option 2: Insecure access (HTTP)
 
-1. [Install Istio](/docs/setup/) in your cluster with your desired telemetry addons.
+1. [Install Istio](/docs/setup/install/operator) in your cluster with your desired telemetry addons.
 
-    To additionally install the telemetry addons, use the following Helm installation options:
+    To additionally install the telemetry addons, use the following installation options:
 
-    * Grafana: `--set grafana.enabled=true`
-    * Kiali: `--set kiali.enabled=true`
-    * Prometheus: `--set prometheus.enabled=true`
-    * Tracing: `--set tracing.enabled=true`
+    * Grafana: `--set values.grafana.enabled=true`
+    * Kiali: `--set values.kiali.enabled=true`
+    * Prometheus: `--set values.prometheus.enabled=true`
+    * Tracing: `--set values.tracing.enabled=true`
 
 1. Apply networking configuration for the telemetry addons.
 

@@ -46,7 +46,7 @@ manifests and Helm charts provided within the Istio repository.
 
 ## Deploy the local control plane
 
-Install the [Istio control plane](/docs/setup/install/kubernetes/#installation-steps)
+Install the [Istio control plane](/docs/setup/install/kubernetes/)
 on **one** Kubernetes cluster.
 
 ## Install the Istio remote
