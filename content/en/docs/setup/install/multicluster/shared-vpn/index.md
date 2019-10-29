@@ -58,23 +58,15 @@ cluster. You can install the component in one of two ways:
 
 {{< tab name="Helm+kubectl" cookie-value="Helm+kubectl" >}}
 
-1.  Use the following `helm template` command on the remote cluster to specify
+1.  Use the following command on the remote cluster to install
     the Istio control plane service endpoints:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --namespace istio-system \
-    --name istio-remote \
-    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
-    --set global.remotePilotAddress=${PILOT_POD_IP} \
-    --set global.remotePolicyAddress=${POLICY_POD_IP} \
-    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > $HOME/istio-remote.yaml
-    {{< /text >}}
-
-1.  Create an `istio-system` namespace for remote Istio with the following
-    command:
-
-    {{< text bash >}}
-    $ kubectl create ns istio-system
+    $ istioctl manifest apply \
+    --set profile=remote \
+    --set values.global.remotePilotAddress=${PILOT_POD_IP} \
+    --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP}
     {{< /text >}}
 
     {{< tip >}}
@@ -83,13 +75,6 @@ cluster. You can install the component in one of two ways:
     cluster as long as the namespace is the same for all Istio components in
     all clusters.
     {{< /tip >}}
-
-1.  Instantiate the remote cluster's connection to the Istio control plane with
-    the following command:
-
-    {{< text bash >}}
-    $ kubectl apply -f $HOME/istio-remote.yaml
-    {{< /text >}}
 
 1.  The following command example labels the `default` namespace. Use similar
     commands to label all the remote cluster's namespaces requiring automatic
@@ -104,38 +89,6 @@ cluster. You can install the component in one of two ways:
 
 {{< /tab >}}
 
-{{< tab name="Helm+Tiller" cookie-value="Helm+Tiller" >}}
-
-{{< boilerplate helm-security-warning >}}
-
-1. If you haven't installed a service account for Helm, install one with the
-   following command:
-
-    {{< text bash >}}
-    $ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
-    {{< /text >}}
-
-1. Initialize Helm with the following command:
-
-    {{< text bash >}}
-    $ helm init --service-account tiller
-    {{< /text >}}
-
-1. Install the Helm chart for the `istio-remote` with the following command:
-
-    {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio \
-    --name istio-remote --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
-    --set global.remotePilotAddress=${PILOT_POD_IP} \
-    --set global.remotePolicyAddress=${POLICY_POD_IP} \
-    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP}
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
 ### Set environment variables {#environment-var}
 
 Wait for the Istio control plane to finish initializing before following the
@@ -144,10 +97,6 @@ steps in this section.
 You must run these operations on the Istio control plane cluster to capture the
 Istio control plane service endpoints, for example, the Pilot and Policy Pod IP
 endpoints.
-
-If you use Helm with Tiller on each remote, you must copy the environment
-variables to each node before using Helm to connect the remote
-cluster to the Istio control plane.
 
 Set the environment variables with the following commands:
 
@@ -160,35 +109,29 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
 Normally, automatic sidecar injection on the remote clusters is enabled. To
 perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
 
-### Helm chart configuration parameters
+### Installation configuration parameters
 
 You must configure the remote cluster's sidecars interaction with the Istio
-control plane including the following endpoints in the `istio-remote` Helm
-chart: `pilot`, `policy`, `telemetry` and tracing service.  The chart
+control plane including the following endpoints in the `istio-remote` profile:
+`pilot`, `policy`, `telemetry` and tracing service.  The profile
 enables automatic sidecar injection in the remote cluster by default. You can
-disable the automatic sidecar injection via a chart variable.
+disable the automatic sidecar injection via a separate setting.
 
-The following table shows the accepted `istio-remote` Helm chart's
-configuration values:
+The following table shows the `istioctl` configuration values for remote clusters:
 
-| Helm Variable | Accepted Values | Default | Purpose of Value |
+| Install setting | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
-| `global.remotePilotAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's pilot Pod IP address or remote cluster DNS resolvable hostname |
-| `global.remotePolicyAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's policy Pod IP address or remote cluster DNS resolvable hostname |
-| `global.remoteTelemetryAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's telemetry Pod IP address or remote cluster DNS resolvable hostname |
-| `sidecarInjectorWebhook.enabled` | true, false | true | Specifies whether to enable automatic sidecar injection on the remote cluster |
-| `global.remotePilotCreateSvcEndpoint` | true, false | false | If set, a selector-less service and endpoint for `istio-pilot` are created with the `remotePilotAddress` IP, which ensures the `istio-pilot.<namespace>` is DNS resolvable in the remote cluster. |
+| `values.global.remotePilotAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's pilot Pod IP address or remote cluster DNS resolvable hostname |
+| `values.global.remotePolicyAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's policy Pod IP address or remote cluster DNS resolvable hostname |
+| `values.global.remoteTelemetryAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's telemetry Pod IP address or remote cluster DNS resolvable hostname |
+| `values.sidecarInjectorWebhook.enabled` | true, false | true | Specifies whether to enable automatic sidecar injection on the remote cluster |
+| `values.global.remotePilotCreateSvcEndpoint` | true, false | false | If set, a selector-less service and endpoint for `istio-pilot` are created with the `remotePilotAddress` IP, which ensures the `istio-pilot.<namespace>` is DNS resolvable in the remote cluster. |
 
 ## Generate configuration files for remote clusters {#kubeconfig}
 
 The Istio control plane requires access to all clusters in the mesh to
 discover services, endpoints, and pod attributes. The following steps
 describe how to generate a `kubeconfig` configuration file for the Istio control plane to use a remote cluster.
-
-The `istio-remote` Helm chart creates a Kubernetes service account named
-`istio-multi` in the remote cluster with the minimal required RBAC access. This
-procedure generates the remote cluster's `kubeconfig` file using
-the credentials of said `istio-multi` service account.
 
 Perform this procedure on each remote cluster to add the cluster to the service
 mesh. This procedure requires the `cluster-admin` user access permission to
@@ -292,34 +235,15 @@ filename simply by changing the filename to conform with the format.
 
 ## Uninstalling the remote cluster
 
-You must uninstall remote clusters using the same method you used to install
-them. Use either `kubectl and Helm` or `Tiller and Helm` as appropriate.
-
-{{< tabset cookie-name="install-istio-remote" >}}
-
-{{< tab name="kubectl" cookie-value="Helm+kubectl" >}}
-
-To uninstall the cluster, you must remove the configuration made with the
-`istio-remote` .YAML file. To uninstall the cluster run the following command:
+To uninstall the cluster run the following command:
 
 {{< text bash >}}
-$ kubectl delete -f $HOME/istio-remote.yaml
+    $ istioctl manifest apply \
+    --set profile=remote \
+    --set values.global.remotePilotAddress=${PILOT_POD_IP} \
+    --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} | kubectl delete -f -
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Tiller" cookie-value="Helm+Tiller" >}}
-
-To uninstall the cluster, you must remove the configuration made with the
-`istio-remote` .YAML file. To uninstall the cluster run the following command:
-
-{{< text bash >}}
-$ helm delete --purge istio-remote
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 ## Manual sidecar injection example {#manual-sidecar}
 
@@ -334,29 +258,15 @@ Perform the following procedure against the remote cluster.
 Before you begin, set the endpoint IP environment variables as described in the
 [set the environment variables section](#environment-var)
 
-1. Use the `helm template` command on the remote cluster to specify the Istio
-   control plane service endpoints:
+1. Install the Istio remote profile:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio \
-    --namespace istio-system --name istio-remote \
-    --values install/kubernetes/helm/istio/values-istio-remote.yaml \
-    --set global.remotePilotAddress=${PILOT_POD_IP} \
-    --set global.remotePolicyAddress=${POLICY_POD_IP} \
-    --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-    --set sidecarInjectorWebhook.enabled=false > $HOME/istio-remote_noautoinj.yaml
-    {{< /text >}}
-
-1. Create the `istio-system` namespace for remote Istio:
-
-    {{< text bash >}}
-    $ kubectl create ns istio-system
-    {{< /text >}}
-
-1. Instantiate the remote cluster's connection to the Istio control plane:
-
-    {{< text bash >}}
-    $ kubectl apply -f $HOME/istio-remote_noautoinj.yaml
+    $ istioctl manifest apply \
+    --set profile=remote \
+    --set values.global.remotePilotAddress=${PILOT_POD_IP} \
+    --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
+    --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
+    --set values.sidecarInjectorWebhook.enabled=false
     {{< /text >}}
 
 1. [Generate](#kubeconfig) the `kubeconfig` configuration file for each remote
@@ -540,13 +450,10 @@ and endpoint to allow the remote sidecars to resolve the
    and the application pod:
 
     {{< text bash >}}
-    $ helm template --namespace=istio-system \
-      --values install/kubernetes/helm/istio/values.yaml \
-      --set global.mtls.enabled=true \
-      --set security.selfSigned=false \
-      --set global.controlPlaneSecurityEnabled=true \
-      install/kubernetes/helm/istio > ${HOME}/istio-auth.yaml
-    $ kubectl apply -f ${HOME}/istio-auth.yaml
+    $ istioctl manifest apply
+      --set values.global.mtls.enabled=true \
+      --set values.security.selfSigned=false \
+      --set values.global.controlPlaneSecurityEnabled=true
     {{< /text >}}
 
 #### Remote Cluster: Deploy Istio components
@@ -568,18 +475,15 @@ and endpoint to allow the remote sidecars to resolve the
    DNS entry in the remote cluster.
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio \
-      --name istio-remote \
-      --namespace istio-system \
-      --values install/kubernetes/helm/istio/values-istio-remote.yaml \
-      --set global.mtls.enabled=true \
-      --set security.selfSigned=false \
-      --set global.controlPlaneSecurityEnabled=true \
-      --set global.remotePilotCreateSvcEndpoint=true \
-      --set global.remotePilotAddress=${PILOT_POD_IP} \
-      --set global.remotePolicyAddress=${POLICY_POD_IP} \
-      --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > ${HOME}/istio-remote-auth.yaml
-    $ kubectl apply -f ${HOME}/istio-remote-auth.yaml
+    $ istioctl manifest apply \
+      --set profile=remote \
+      --set values.global.mtls.enabled=true \
+      --set values.security.selfSigned=false \
+      --set values.global.controlPlaneSecurityEnabled=true \
+      --set values.global.remotePilotCreateSvcEndpoint=true \
+      --set values.global.remotePilotAddress=${PILOT_POD_IP} \
+      --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
+      --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP}
     {{< /text >}}
 
 1. To generate the `kubeconfig` configuration file for the remote cluster,
