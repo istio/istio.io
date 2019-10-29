@@ -132,10 +132,15 @@ The available front matter fields are:
 |`keywords`         | An array of keywords describing the page, used to create the web of See Also links
 |`draft`            | When true, prevents the page from showing up in any navigation area
 |`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
-|`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
 |`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
-|`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+
+A few fields control the auto-generated table of contents present on most pages:
+
+|`skip_toc`          | Set this to true to prevent the page from having a table of contents generated for it
+|`force_inline_toc`  | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+|`max_toc_level`     | Set to 2, 3, 4, 5, or 6 to indicate the maximum heading level to show in the table of contents
+|`remove_toc_prefix` | Set this to a string that will be removed from the start of every entry in the table of contents if present
 
 A few front-matter fields are specific to section pages (i.e. for files names `_index.md`):
 
