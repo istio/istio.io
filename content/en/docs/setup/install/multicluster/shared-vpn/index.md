@@ -119,7 +119,7 @@ disable the automatic sidecar injection via a separate setting.
 
 The following table shows the `istioctl` configuration values for remote clusters:
 
-| Istioctl setting | Accepted Values | Default | Purpose of Value |
+| Install setting | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
 | `values.global.remotePilotAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's pilot Pod IP address or remote cluster DNS resolvable hostname |
 | `values.global.remotePolicyAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's policy Pod IP address or remote cluster DNS resolvable hostname |
