@@ -62,7 +62,7 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
     - Added a new Grafana dashboard for Citadel
     - Improved the Pilot dashboard to expose additional key metrics
 
-- Added the new [Istio Deployment Models concept]/docs/setup/deployment-models/) to help you decide what deployment model suits your needs.
+- Added the new [Istio Deployment Models concept](/docs/setup/deployment-models/) to help you decide what deployment model suits your needs.
 
 - Organized the content in of our [Operations Guide](/docs/ops/) and created a [section with all troubleshooting tasks](/docs/ops/common-problems) to help you find the information you seek faster.
 
