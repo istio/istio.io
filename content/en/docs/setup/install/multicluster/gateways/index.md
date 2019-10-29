@@ -31,7 +31,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to deploy the [Istio control plane using Helm](/docs/setup/install/helm/)
+* Authority to [deploy the Istio control plane](/docs/setup/install/operator/)
   on **each** Kubernetes cluster.
 
 * The IP address of the `istio-ingressgateway` service in each cluster must be accessible
@@ -59,16 +59,6 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
     from the Istio samples directory for both clusters. In real world deployments,
     you would likely use a different CA certificate for each cluster, all signed
     by a common root CA.
-
-1. Generate a multicluster-gateways Istio configuration file using `helm`:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
-    {{< /text >}}
-
-    For further details and customization options, refer to the
-    [Installation with Helm](/docs/setup/install/helm/) instructions.
 
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
     configuration in all of them.
@@ -100,21 +90,15 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-    * Install all the Istio
-    [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-    (CRDs) using `kubectl apply`:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-    {{< /text >}}
-
-    * {{< boilerplate verify-crds >}}
-
-    * Use the Istio installation yaml file generated in a previous step to install Istio:
+    * Install Istio:
 
         {{< text bash >}}
-        $ kubectl apply -f $HOME/istio.yaml
+        $ istioctl manifest apply \
+            -f install/kubernetes/operator/examples/multicluster/istio-gateway.yaml
         {{< /text >}}
+
+    For further details and customization options, refer to the
+    [Installation with Istioctl](/docs/setup/install/kubernetes/) instructions.
 
 ## Setup DNS
 
