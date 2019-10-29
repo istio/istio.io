@@ -18,8 +18,9 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
-    This is the same configuration that is installed with the [Quick Start](/docs/setup/install/kubernetes/) instructions, but uses Helm, allowing you
-    to more easily enable additional features if you later wish to explore more advanced tasks.
+    This is the configuration that is installed with the [quick start](/docs/setup/install/kubernetes/) instructions,
+    but you can later [customize the configuration](/docs/setup/install/operator/#customizing-the-configuration)
+    to enable additional features if you wish to explore more advanced tasks.
 
     {{< warning >}}
     This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
@@ -58,13 +59,13 @@ installation key and value pairs.
 ## Multicluster profiles
 
 Istio provides two additional built-in configuration profiles that are used exclusively for configuring a
-[multicluster deployment]/docs/setup/deployment-models/#multiple-clusters):
+[multicluster deployment](/docs/setup/deployment-models/#multiple-clusters):
 
 1. **remote**: used for configuring remote clusters of a
-    multicluster mesh with a shared [control plane]/docs/setup/deployment-models/#control-plane-models).
+    multicluster mesh with a [shared control plane](/docs/setup/install/multicluster/shared-vpn/).
 
 1. **multicluster-gateways**: used for configuring clusters of a
-    multicluster mesh with replicated [control planes]/docs/setup/deployment-models/#control-plane-models).
+    multicluster mesh with [replicated control planes](/docs/setup/install/multicluster/gateways/).
 
 The **remote** profile installs only two Istio core components:
 
