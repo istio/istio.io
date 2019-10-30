@@ -37,10 +37,8 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Jaeger to the `istio-system` namespace:
 
 {{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 15032:16686
+$ istioctl dashboard jaeger
 {{< /text >}}
-
-Open your browser to [http://localhost:15032](http://localhost:15032).
 
 ## Generating traces using the Bookinfo sample
 

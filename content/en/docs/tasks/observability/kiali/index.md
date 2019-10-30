@@ -140,10 +140,8 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 1.  To open the Kiali UI, execute the following command in your Kubernetes environment:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
+    $ istioctl dashboard kiali
     {{< /text >}}
-
-1.  Visit <https://localhost:20001/kiali/console> in your web browser.
 
 1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
