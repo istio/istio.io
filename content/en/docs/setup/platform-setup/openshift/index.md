@@ -24,7 +24,6 @@ deploying Istio in another namespace:
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n istio-system
 {{< /text >}}
 
-
 Now you can install Istio using the [CNI](/docs/setup/additional-setup/cni/) instructions.
 
 After installation is complete, expose an OpenShift route for the ingress gateway.
@@ -34,6 +33,7 @@ $ oc -n istio-system expose svc/istio-ingressgateway --port=80
 {{< /text >}}
 
 ## Automatic sidecar injection
+
 {{< tip >}}
 This setup is not necessary if you are running OpenShift 4.1 or higher. If this is the case, skip to the next section.
 {{< /tip >}}
