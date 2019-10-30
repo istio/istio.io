@@ -65,19 +65,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ kubectl create --context=$CTX_CLUSTER1 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER1 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
     $ istioctl manifest apply --context=$CTX_CLUSTER1 \
-      --set values.global.mtls.enabled=true \
-      --set security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
-      --set values.global.proxy.accessLogFile="/dev/stdout" \
-      --set values.global.meshExpansion.enabled=true \
-      --set 'values.global.meshNetworks.network1.endpoints[0].fromRegistry'=Kubernetes \
-      --set 'values.global.meshNetworks.network1.gateways[0].address'=0.0.0.0 \
-      --set 'values.global.meshNetworks.network1.gateways[0].port'=443 \
-      --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network1" \
-      --set values.global.network="network1" \
-      --set 'values.global.meshNetworks.network2.endpoints[0].fromRegistry'=n2-k8s-config \
-      --set 'values.global.meshNetworks.network2.gateways[0].address'=0.0.0.0 \
-      --set 'values.global.meshNetworks.network2.gateways[0].port'=443
+      -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-primary.yaml
     {{< /text >}}
 
     {{< warning >}}
