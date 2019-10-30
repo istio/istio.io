@@ -5,12 +5,11 @@ weight: 30
 aliases:
     - /docs/setup/kubernetes/upgrade/steps/
     - /docs/setup/upgrade/steps
-    - /docs/setup/upgrade
 keywords: [kubernetes,upgrading]
 ---
 
-Follow this flow to upgrade an existing Istio deployment, including both the
-control plane and the sidecar proxies, to a new release of Istio. The upgrade
+Follow this guide to upgrade the Istio control plane and sidecar proxies of an
+existing Istio deployment that was previously installed using Helm. The upgrade
 process may install new binaries and may change configuration and API schemas.
 The upgrade process may result in service downtime. To minimize downtime,
 please ensure your Istio control plane components and your applications are
