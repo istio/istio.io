@@ -10,50 +10,33 @@ keywords: [platform-setup,openshift]
 ---
 
 {{< warning >}}
-OpenShift 4.1 and above use `nftables`, which is incompatible with the Istio `proxy-init` container. Please use [CNI](/docs/setup/additional-setup/cni/) instead.
+OpenShift 4.1 and above use `nftables`, which is incompatible with the Istio `proxy-init` container. Make sure to use [CNI](/docs/setup/additional-setup/cni/) instead.
 {{< /warning >}}
 
 Follow these instructions to prepare an OpenShift cluster for Istio.
 
 By default, OpenShift doesn't allow containers running with user ID 0.
-You must enable containers running with UID 0 for Istio's service accounts:
+You must enable containers running with UID 0 for Istio's service accounts
+by running the command below. Make sure to replace `istio-system` if you are
+deploying Istio in another namespace:
 
 {{< text bash >}}
-$ oc adm policy add-scc-to-user anyuid -z istio-ingress-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z default -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z prometheus -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-egressgateway-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-citadel-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-ingressgateway-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-cleanup-old-ca-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-mixer-post-install-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-mixer-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-pilot-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-sidecar-injector-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-galley-service-account -n istio-system
-$ oc adm policy add-scc-to-user anyuid -z istio-security-post-install-account -n istio-system
+$ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n istio-system
 {{< /text >}}
 
-The list above accounts for the default Istio service accounts. If you enabled
-other Istio services, like _Grafana_ for example, you need to enable its
-service account with a similar command.
-
-A service account that runs application pods needs privileged security context
-constraints as part of sidecar injection:
-
-{{< text bash >}}
-$ oc adm policy add-scc-to-user privileged -z default -n <target-namespace>
-{{< /text >}}
-
-Install Istio using the [CNI](/docs/setup/additional-setup/cni/) instructions.
+Now you can install Istio using the [CNI](/docs/setup/additional-setup/cni/) instructions.
 
 After installation is complete, expose an OpenShift route for the ingress gateway.
 
 {{< text bash >}}
-$ oc expose svc/istio-ingressgateway --port=80
+$ oc -n istio-system expose svc/istio-ingressgateway --port=80
 {{< /text >}}
 
 ## Automatic sidecar injection
+
+{{< tip >}}
+This setup is not necessary if you are running OpenShift 4.1 or higher. If this is the case, skip to the next section.
+{{< /tip >}}
 
 Webhook and certificate signing requests support must be enabled for [automatic injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) to work. Modify the master configuration file on the master node for the cluster as follows.
 
@@ -87,9 +70,9 @@ $ master-restart api
 $ master-restart controllers
 {{< /text >}}
 
-## Privileged security context constraints for sidecars
+## Privileged security context constraints for application sidecars
 
-The Istio sidecar injected into each pod runs with user ID 1337, which is not allowed by default in OpenShift. To allow this user ID to be used, execute the following commands. Replace `<target-namespace>` with the appropriate namespace.
+The Istio sidecar injected into each application pod runs with user ID 1337, which is not allowed by default in OpenShift. To allow this user ID to be used, execute the following commands. Replace `<target-namespace>` with the appropriate namespace.
 
 {{< text bash >}}
 $ oc adm policy add-scc-to-group privileged system:serviceaccounts -n <target-namespace>
