@@ -7,7 +7,7 @@ force_inline_toc: true
 ---
 
 {{< warning >}}
-Installing Istio with Helm has been deprecated, however, you can still use these Helm configuration options when 
+Installing Istio with Helm has been deprecated, however, you can still use these Helm configuration options when
 [installing Istio with {{< istioctl >}}](/docs/setup/install/operator/) by prepending the string "`values.`"
 to the option name.
 Refer to [customizing the configuration](/docs/setup/install/operator/#customizing-the-configuration) for details.
