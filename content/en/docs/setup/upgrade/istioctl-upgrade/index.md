@@ -2,9 +2,6 @@
 title: Upgrade Istio using istioctl [Experimental]
 description: Upgrade or downgrade Istio using the istioctl upgrade command.
 weight: 25
-aliases:
-    - /docs/setup/kubernetes/upgrade/steps/
-    - /docs/setup/upgrade/steps
 keywords: [kubernetes,upgrading]
 ---
 
@@ -26,8 +23,7 @@ Ensure you meet these requirements before starting the upgrade process:
 
 * Istio version 1.3.3 or higher is installed.
 
-* Your Istio installation was installed using
-   [{{< istioctl >}}](/docs/setup/install/operator/).
+* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/operator/).
 
 ## Upgrade steps
 
@@ -98,8 +94,7 @@ Ensure you meet these requirements before starting the downgrade process:
 
 * Istio version 1.4 or higher is installed.
 
-* Your Istio installation was installed using
-   [{{< istioctl >}}](/docs/setup/install/operator/).
+* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/operator/).
 
 * Downgrade must be done using the `istioctl` binary version that
 corresponds to the Istio version that you intend to downgrade to.
