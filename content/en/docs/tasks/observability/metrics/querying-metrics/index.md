@@ -52,7 +52,7 @@ application.
     $ istioctl dashboard prometheus
     {{< /text >}}
 
-    Click "Graph" in Prometheus.
+    Click **Graph** in Prometheus.
 
 1.  Execute a Prometheus query.
 

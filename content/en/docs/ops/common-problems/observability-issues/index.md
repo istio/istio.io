@@ -177,7 +177,7 @@ in processing the most recent configuration as supplied.
     $ istioctl dashboard prometheus &
     {{< /text >}}
 
-1. In the Prometheus browser window, select Status then Targets
+1. In the Prometheus browser window, select **Status** then **Targets**.
 
 1. Confirm the target `istio-mesh` has a status of UP.
 
