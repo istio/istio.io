@@ -39,11 +39,11 @@ because some delay is possible due to caching and other propagation overhead.
 
 Using Istio, you can easily setup access control for {{< gloss "workload" >}}workloads{{< /gloss >}}
 in your mesh. This task shows you how to set up access control using Istio authorization.
-You will start with a simple `deny-all` policy that rejects all requests to the workload,
+First, you configure a simple `deny-all` policy that rejects all requests to the workload,
 and then grant more access to the workload gradually and incrementally.
 
-1. Run the following command to create a policy `deny-all`, the policy has no rule so it
-   cannot grant permission for any traffic. In other words, it denies all:
+1. Run the following command to create a `deny-all` policy. The `spec:` field of the policy has the
+   empty value `{}`. That value means that no traffic is permitted, effectively denying all requests.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -62,11 +62,12 @@ and then grant more access to the workload gradually and incrementally.
     is working as intended, and Istio doesn't have any rules that allow any access to
     workloads in the mesh.
 
-    With Istio, you can easily configure namespace-level access control. You can configure how could workloads
-    from a namespace access workloads in another namespace.
+    With Istio, you can easily configure namespace-level access control.
+    This approach enables you to configure access control for workloads in a
+    namespace to access workloads in another namespace.
 
 1. Run the following command to create a `bookinfo-viewer` policy that allows workloads in the `default`
-   and `istio-system` namespaces to access workloads in the `default` namespace with `GET` method:
+   and `istio-system` namespaces to access workloads in the `default` namespace with the `GET` method:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -96,8 +97,10 @@ and then grant more access to the workload gradually and incrementally.
     $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-viewer
     {{< /text >}}
 
-1. Run the following command to create a `productpage-viewer` policy which allows
-   access to the `productpage` workload with `GET` method for all users and workloads:
+1. Run the following command to create a `productpage-viewer` policy to allow access
+   with `GET` method to the `productpage` workload. The policy does not set the `from`
+   field in the `rules` which means all sources are allowed, effectively allowing
+   all users and workloads:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -122,12 +125,12 @@ and then grant more access to the workload gradually and incrementally.
     and `Error fetching product reviews` on the page.
 
     These errors are expected because we have not granted the `productpage`
-    workload access to the `details` and `reviews` workloads. We will fix the
-    errors in the following steps.
+    workload access to the `details` and `reviews` workloads. Next, you need to
+    configure a policy to grant access to those workloads.
 
-1. Run the following command to create a policy `details-viewer` to allow the `productpage`
-   workload (represented by `principals: ["cluster.local/ns/default/sa/bookinfo-productpage"]`)
-   to access the `details` workload through `GET` methods:
+1. Run the following command to create the `details-viewer` policy to allow the `productpage`
+   workload, which issues requests using the `cluster.local/ns/default/sa/bookinfo-productpage`
+   service account, to access the `details` workload through `GET` methods:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -150,9 +153,9 @@ and then grant more access to the workload gradually and incrementally.
     EOF
     {{< /text >}}
 
-1. Run the following command to create a policy `reviews-viewer` to allow the `productpage` workload
-   (represented by `principals: ["cluster.local/ns/default/sa/bookinfo-productpage"]`) to access the
-   `reviews` workload through `GET` methods:
+1. Run the following command to create a policy `reviews-viewer` to allow the `productpage` workload,
+   which issues requests using the `cluster.local/ns/default/sa/bookinfo-productpage` service account,
+   to access the `reviews` workload through `GET` methods:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -175,17 +178,17 @@ and then grant more access to the workload gradually and incrementally.
     EOF
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see the "Bookinfo Sample"
+    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now, you should see the "Bookinfo Sample"
     page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in the "Book Reviews" section,
     there is an error `Ratings service currently unavailable`.
 
-    This is because "reviews" workload does not have permission to access `ratings` workload.
+    This is because the `reviews` workload doesn't have permission to access the `ratings` workload.
     To fix this issue, you need to grant the `reviews` workload access to the `ratings` workload.
-    We will show how to do that in the next step.
+    Next, we configure a policy to grant the `reviews` workload that access.
 
-1. Run the following command to create a policy `ratings-viewer` to allow the `reviews` workload
-   (represented by `principals: ["cluster.local/ns/default/sa/bookinfo-reviews"]`) to access the
-   `ratings` workload through `GET` methods:
+1. Run the following command to create the `ratings-viewer` policy to allow the `reviews` workload,
+   which issues requests using the `cluster.local/ns/default/sa/bookinfo-reviews` service account,
+   to access the `ratings` workload through `GET` methods:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
