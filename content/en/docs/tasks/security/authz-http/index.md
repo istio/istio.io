@@ -42,8 +42,10 @@ in your mesh. This task shows you how to set up access control using Istio autho
 First, you configure a simple `deny-all` policy that rejects all requests to the workload,
 and then grant more access to the workload gradually and incrementally.
 
-1. Run the following command to create a `deny-all` policy. The `spec:` field of the policy has the
-   empty value `{}`. That value means that no traffic is permitted, effectively denying all requests.
+1. Run the following command to create a `deny-all` policy in the `default` namespace.
+   The policy doesn't have `selector` which means it applies to every workload in the
+   `default` namespace. The `spec:` field of the policy has the empty value `{}`.
+   That value means that no traffic is permitted, effectively denying all requests.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -61,41 +63,6 @@ and then grant more access to the workload gradually and incrementally.
     You should see `"RBAC: access denied"`. The error shows that the configured `deny-all` policy
     is working as intended, and Istio doesn't have any rules that allow any access to
     workloads in the mesh.
-
-    With Istio, you can easily configure namespace-level access control.
-    This approach enables you to configure access control for workloads in a
-    namespace to access workloads in another namespace.
-
-1. Run the following command to create a `bookinfo-viewer` policy that allows workloads in the `default`
-   and `istio-system` namespaces to access workloads in the `default` namespace with the `GET` method:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
-    metadata:
-      name: "bookinfo-viewer"
-      namespace: default
-    spec:
-      rules:
-      - from:
-        - source:
-            namespaces: ["default", "istio-system"]
-        to:
-        - operation:
-            methods: ["GET"]
-    EOF
-    {{< /text >}}
-
-    Point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/productpage`).
-    You should see the "Bookinfo Sample" page, with the "Book Details" section in the lower left part
-    and the "Book Reviews" section in the lower right part.
-
-1. Remove the policy with the following command before continuing:
-
-    {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-viewer
-    {{< /text >}}
 
 1. Run the following command to create a `productpage-viewer` policy to allow access
    with `GET` method to the `productpage` workload. The policy does not set the `from`
