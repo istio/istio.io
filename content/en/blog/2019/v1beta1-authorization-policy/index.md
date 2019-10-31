@@ -211,12 +211,13 @@ the new `v1beta1` authorization policy.
 
 | Feature | `v1alpha1` RBAC policy | `v1beta1` Authorization Policy |
 |---------|------------------------|--------------------------------|
+| API stability | `alpha`: **No** backward compatible | `beta`: backward compatible **guaranteed** |
 | Number of CRDs | Three: `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding` | Only One: `AuthorizationPolicy` |
 | Mechanism to specify where to apply the policy | Specify by **service** | Specify by **workload** |
 | Deny-by-default behavior | Enabled **explicitly** by configuring `ClusterRbacConfig` | Enabled **implicitly** with `AuthorizationPolicy` |
-| API stability | `alpha`: **No** backward compatible | `beta`: backward compatible **guaranteed** |
-| `"*"` in policy | Match all contents (empty and non-empty) | Match non-empty contents only |
 | Ingress/Egress gateway support | Not supported | Supported |
+| The `"*"` value in policy | Match all contents (empty and non-empty) | Match non-empty contents only |
+| The `destination.user` constraint | Supported | Not supported |
 
 Beyond all the differences, the `v1beta1` policy is enforced by the same engine in Envoy
 and supports the same authenticated identity (mutual TLS or JWT), condition and other
@@ -259,14 +260,13 @@ forget any `v1alpha1` policies:
 1. Continue the process for the next workload until all `v1alpha1` policies are converted
 1. Now you can remove all your `v1alpha1` policies
 
-To help ease the migration, Istio provides the command `istioctl x auth migrate` to automate the
+To help ease the migration, Istio provides the command `istioctl x authz convert` to automate the
 conversion from `v1alpha1` to `v1beta1`. The command fetches all the `v1alpha1` policies currently
 applied in the mesh and converts them to the `v1beta1` policy. The tool finds out the service-workload
 mapping by looking at the current services applied in the mesh.
 
-The command does the conversion at its best effort but may not be able to handle some
-corner cases. In this case, the tool will return an error and you will need to manually convert
-the policies.
+The command does the conversion at its best effort and may not be able to handle some corner cases.
+You should always review the converted policies manually before applying them into your cluster.
 
 ## Summary
 
