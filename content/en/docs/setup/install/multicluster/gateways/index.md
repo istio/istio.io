@@ -98,7 +98,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
         {{< /text >}}
 
     For further details and customization options, refer to the
-    [Installation with Istioctl](/docs/setup/install/kubernetes/) instructions.
+    [installation instructions](/docs/setup/install/operator/).
 
 ## Setup DNS
 
