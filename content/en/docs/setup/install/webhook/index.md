@@ -62,7 +62,7 @@ The document of the helm template command can be found in the [link](https://hel
     {{< /text >}}
 
 <!-- TODO (lei-tang): improve the UX for obtain MutatingWebhookConfiguration -->
-1.  From `istio-webhook-config.yaml`, search `'kind: MutatingWebhookConfiguration'` and save
+1.  Open the `istio-webhook-config.yaml` configuration file, search `'kind: MutatingWebhookConfiguration'` and save
 the `MutatingWebhookConfiguration` of Sidecar Injector to `sidecar-injector-webhook.yaml`. The following
 is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
 
@@ -96,7 +96,7 @@ is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
     {{< /text >}}
 
 <!-- TODO (lei-tang): improve the UX for obtain ValidatingWebhookConfiguration -->
-1.  From `istio-webhook-config.yaml`, search `'kind: ValidatingWebhookConfiguration'` and save
+1.  Open the `istio-webhook-config.yaml` configuration file, search `'kind: ValidatingWebhookConfiguration'` and save
 the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
 is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml` (only
 a part of the configuration is shown to save space).
