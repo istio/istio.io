@@ -78,10 +78,10 @@ $ istioctl manifest apply --set profile=demo
     istio-egressgateway-78569df5c4-zwtb5                           1/1     Running     0          1m
     istio-galley-74d5f764fc-q7nrk                                  1/1     Running     0          1m
     istio-ingressgateway-7ddcfd665c-dmtqz                          1/1     Running     0          1m
-    istio-pilot-f479bbf5c-qwr28                                    2/2     Running     0          1m
-    istio-policy-6fccc5c868-xhblv                                  2/2     Running     2          1m
+    istio-pilot-f479bbf5c-qwr28                                    1/1     Running     0          1m
+    istio-policy-6fccc5c868-xhblv                                  1/1     Running     2          1m
     istio-sidecar-injector-78499d85b8-x44m6                        1/1     Running     0          1m
-    istio-telemetry-78b96c6cb6-ldm9q                               2/2     Running     2          1m
+    istio-telemetry-78b96c6cb6-ldm9q                               1/1     Running     2          1m
     istio-tracing-69b5f778b7-s2zvw                                 1/1     Running     0          1m
     kiali-99f7467dc-6rvwp                                          1/1     Running     0          1m
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
