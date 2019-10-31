@@ -19,13 +19,6 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [installation steps](/docs/setup/install/kubernetes/#installation-steps), or set `global.mtls.enabled` to false using
 [Helm](/docs/setup/install/helm/)).
 
-{{< warning >}}
-This tutorial assume you're using Istio 1.4 with auto mutual TLS turned on via Helm flag
-`global.mtls.auto` to true.
-If you're using Istio 1.3 or previous releases, or disable the auto mutual TLS, please refer to previous docs
-[release doc](https://archive.istio.io/v1.2/docs/tasks/security/authn-policy/).
-{{< /warning >}}
-
 ### Setup
 
 Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar proxy. We also use second
@@ -91,6 +84,11 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
     host: istio-telemetry.istio-system.svc.cluster.local
 {{< /text >}}
 
+{{< tip >}}
+Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`,
+`bar` and `legacy` namespace, nor is the match-all wildcard `*`
+{{< /tip >}}
+
 ## Globally enabling Istio mutual TLS
 
 To set a mesh-wide authentication policy that enables mutual TLS, submit *mesh authentication policy* like below:
@@ -117,6 +115,47 @@ This policy specifies that all workloads in the mesh will only accept encrypted 
 
 At this point, only the receiving side is configured to use mutual TLS. If you run the `curl` command between *Istio services* (i.e those with sidecars), all
  requests will fail with a 503 error code as the client side is still using plain-text.
+
+{{< text bash >}}
+$ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+sleep.foo to httpbin.foo: 503
+sleep.foo to httpbin.bar: 503
+sleep.bar to httpbin.foo: 503
+sleep.bar to httpbin.bar: 503
+{{< /text >}}
+
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#destination-rules) to use mutual TLS. It's possible to use
+multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with the `*` wildcard to match all
+services so that it is on par with the mesh-wide authentication policy.
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "default"
+  namespace: "istio-system"
+spec:
+  host: "*.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+{{< /text >}}
+
+{{< tip >}}
+* Starting with Istio 1.1, only destination rules in the client namespace, server namespace and `global` namespace (default is `istio-system`) will be considered for a service, in that order.
+* Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or
+namespace for destination rule.
+* With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to
+its internal implementation.
+{{< /tip >}}
+
+Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service
+requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with
+`ISTIO_MUTUAL` mode, as otherwise it will override the mesh- or namespace-wide TLS settings and disable TLS.
+
+Re-running the testing command as above, you will see all requests between Istio-services are now completed successfully:
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -147,19 +186,71 @@ This works as intended, and unfortunately, there is no solution for this without
 
 ### Request from Istio services to non-Istio services
 
-Try to send requests to `httpbin.legacy` from `sleep.foo` (or `sleep.bar`). Istio automatically configures
-client sidecars to send plain-text traffic for legacy workloads without sidecar.
+Try to send requests to `httpbin.legacy` from `sleep.foo` (or `sleep.bar`). You will see requests fail as Istio configures clients as instructed in our
+destination rule to use mutual TLS, but `httpbin.legacy` does not have a sidecar so it's unable to handle it.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.legacy: 200
+sleep.foo to httpbin.legacy: 503
+sleep.bar to httpbin.legacy: 503
 {{< /text >}}
 
-This applies to Kubernetes API server as well, which doesn't have a sidecar. Istio automatically configure
-clients to send plain-text traffic to Kubernetes API server.
+To fix this issue, we can add a destination rule to overwrite the TLS setting for `httpbin.legacy`. For example:
 
-Run the testing command above to confirm that it returns 200.
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: "httpbin-legacy"
+ namespace: "legacy"
+spec:
+ host: "httpbin.legacy.svc.cluster.local"
+ trafficPolicy:
+   tls:
+     mode: DISABLE
+EOF
+{{< /text >}}
+
+{{< tip >}}
+This destination rule is in the namespace of the server (`httpbin.legacy`), so it will be preferred over the global destination rule defined in `istio-system`
+{{< /tip >}}
+
+### Request from Istio services to Kubernetes API server
+
+The Kubernetes API server doesn't have a sidecar, thus request from Istio services such as `sleep.foo` will fail due to the same problem as when sending
+requests to any non-Istio service.
+
+{{< text bash >}}
+$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default-token | cut -f1 -d ' ' | head -1) | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
+$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl https://kubernetes.default/api --header "Authorization: Bearer $TOKEN" --insecure -s -o /dev/null -w "%{http_code}\n"
+000
+command terminated with exit code 35
+{{< /text >}}
+
+Again, we can correct this by overriding the destination rule for the API server (`kubernetes.default`)
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+ name: "api-server"
+ namespace: istio-system
+spec:
+ host: "kubernetes.default.svc.cluster.local"
+ trafficPolicy:
+   tls:
+     mode: DISABLE
+EOF
+{{< /text >}}
+
+{{< tip >}}
+This rule, along with the global authentication policy and destination rule, above,
+is automatically injected into the system when you install Istio with mutual TLS enabled.
+{{< /tip >}}
+
+Re-run the testing command above to confirm that it returns 200 after the rule is added:
 
 {{< text bash >}}
 $ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default-token | cut -f1 -d ' ' | head -1) | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
@@ -169,10 +260,13 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 ### Cleanup part 1
 
-Remove global authentication policy:
+Remove global authentication policy and destination rules added in the session:
 
 {{< text bash >}}
 $ kubectl delete meshpolicy default
+$ kubectl delete destinationrules httpbin-legacy -n legacy
+$ kubectl delete destinationrules api-server -n istio-system
+$ kubectl delete destinationrules default -n istio-system
 {{< /text >}}
 
 ## Enable mutual TLS per namespace or service
@@ -202,7 +296,28 @@ EOF
 Similar to *mesh-wide policy*, namespace-wide policy must be named `default`, and doesn't restrict any specific service (no `targets` section)
 {{< /tip >}}
 
-As these policy in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
+Add corresponding destination rule:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "default"
+  namespace: "foo"
+spec:
+  host: "*.foo.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+{{< /text >}}
+
+{{< tip >}}
+Host `*.foo.svc.cluster.local` limits the matches to services in `foo` namespace only.
+{{< /tip >}}
+
+As these policy and destination rule are applied on services in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -220,7 +335,7 @@ sleep.legacy to httpbin.legacy: 200
 
 ### Service-specific policy
 
-You can also set authentication policy for a specific service. Run this command to set another policy only for `httpbin.bar` service.
+You can also set authentication policy and destination rule for a specific service. Run this command to set another policy only for `httpbin.bar` service.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -236,9 +351,25 @@ spec:
 EOF
 {{< /text >}}
 
+And a destination rule:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n bar -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "httpbin"
+spec:
+  host: "httpbin.bar.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+{{< /text >}}
+
 {{< tip >}}
 * In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`), which has an identical effect.
-* There is no restriction on the authentication policy name. This example uses the name of the service itself for simplicity.
+* There is no restriction on the authentication policy and destination rule name. This example uses the name of the service itself for simplicity.
 {{< /tip >}}
 
 Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
@@ -251,8 +382,6 @@ command terminated with exit code 56
 
 If we have more services in namespace `bar`, we should see traffic to them won't be affected. Instead of adding more services to demonstrate this behavior,
 we edit the policy slightly to apply on a specific port:
-
-<!-- What's this part for? I don't think we have a port 1234 for httpbin service. -->
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -267,6 +396,27 @@ spec:
     - number: 1234
   peers:
   - mtls: {}
+EOF
+{{< /text >}}
+
+And a corresponding change to the destination rule:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n bar -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "httpbin"
+spec:
+  host: httpbin.bar.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+    portLevelSettings:
+    - port:
+        number: 1234
+      tls:
+        mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
@@ -296,6 +446,22 @@ spec:
 EOF
 {{< /text >}}
 
+and destination rule:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "overwrite-example"
+spec:
+  host: httpbin.foo.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+EOF
+{{< /text >}}
+
 Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
@@ -305,11 +471,13 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ### Cleanup part 2
 
-Remove policies created in the above steps:
+Remove policies and destination rules created in the above steps:
 
 {{< text bash >}}
 $ kubectl delete policy default overwrite-example -n foo
 $ kubectl delete policy httpbin -n bar
+$ kubectl delete destinationrules default overwrite-example -n foo
+$ kubectl delete destinationrules httpbin -n bar
 {{< /text >}}
 
 ## End-user authentication
@@ -567,8 +735,26 @@ spec:
 EOF
 {{< /text >}}
 
+And add a destination rule:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "httpbin"
+  namespace: "foo"
+spec:
+  host: "httpbin.foo.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+{{< /text >}}
+
 {{< tip >}}
-If you already enable mutual TLS mesh-wide or namespace-wide, you still need to add the `mtls` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
+If you already enable mutual TLS mesh-wide or namespace-wide, the host `httpbin.foo` is already covered by the other destination rule.
+Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mtls` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
 {{< /tip >}}
 
 After these changes, traffic from Istio services, including ingress gateway, to `httpbin.foo` will use mutual TLS. The test command above will still work. Requests from Istio services directly to `httpbin.foo` also work, given the correct token:
@@ -593,6 +779,12 @@ command terminated with exit code 56
 
     {{< text bash >}}
     $ kubectl -n foo delete policy jwt-example
+    {{< /text >}}
+
+1. Remove destination rule:
+
+    {{< text bash >}}
+    $ kubectl -n foo delete destinationrule httpbin
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
