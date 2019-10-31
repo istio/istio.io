@@ -14,18 +14,18 @@ With this API, users have been able to enforce access control in mesh-level, nam
 service-level. Like any other RBAC policy, Istio RBAC uses the same concept of role and binding for granting
 permissions to identities.
 
-While this functionality has proven to be working for many customers, we have also recognised
-some shortcomings in its design that is causing many confusions and preventing its further adoption.
+While this functionality has proven to be working for many customers, we have also realized there are many
+things that could be improved in the alpha policy.
 
 For example, some users have had the wrong impression that the enforcement happens in service-level because
 `ServiceRole` uses service to specify where to apply the policy, however, the policy is actually applied
 in workload-level, the service is only used to find the corresponding workload. This has some big impact, especially
 when multiple services are referring to the same workload. A `ServiceRole` for service A will also affect
-service B if the two services are referring to the same workload, this surprises customers and could even cause
-security vulnerability.
+service B if the two services are referring to the same workload, this surprises customers and could cause
+misconfiguration.
 
-The other example is it's a little bit hard to maintain and manage the Istio RBAC configurations because three
-are three different customer resource definitions in Istio RBAC. Istio has already had an issue that there
+The other example is it's a little bit hard to maintain and manage the Istio RBAC configurations because user
+needs to learn and mange three different resources in Istio RBAC. Istio has already had an issue that there
 are too much CRDs to learn and manage, and the learning and maintenance burden of having three different configurations
 in Istio RBAC turned out to be greater than its benefit.
 
@@ -41,16 +41,15 @@ and the migration from the `v1alpha1` RBAC policy.
 
 A few key design principles played a role in the `v1beta1` authorization policy:
 
-* Align with [Istio Configuration Model](https://goo.gl/x3STjD). The configuration model
-provides a unified way for configuration hierarchy, resolution, target selection and etc.
+* Align with [Istio Configuration Model](https://goo.gl/x3STjD) for better clarity on the policy target.
+The configuration model provides a unified way for configuration hierarchy, resolution, target selection and etc.
 
 * Improve user experience by simplifying the API. It's much easier to manage one custom resource
 definition (CRD) that includes all access control specification instead of looking at multiple
 different CRDs.
 
-* Make policy semantics more flexible without introducing much complexity. For example, it's
-very useful to apply the policy to the edge (ingress/egress gateway) to enforce access control
-for all traffic entering/exiting the mesh.
+* Make policy semantics more flexible without introducing much complexity. For example, allow the policy
+to be applied on Ingress/Egress gateway to enforce access control for traffic entering/exiting the mesh.
 
 ## Authorization Policy
 
@@ -226,10 +225,19 @@ primitives (e.g. IP, port and etc.) as the `v1alpha1` policy.
 See [authorization concept page](/docs/concepts/security/#authorization) for a detailed
 in-depth explanation of the `AuthorizationPolicy`.
 
-## Migration
+## Future of the `v1alpha1` policy
 
-Istio 1.4 supports both `v1alpha` and `v1beta1` policies at the same time. The `v1beta1` policy
-overrides the `v1alpha1` policy if they are both applied to the same workload:
+With new `v1beta1` authorization policy, the `v1alpha1` RBAC policy (`ClusterRbacConfig`,
+`ServiceRole`, and `ServiceRoleBinding`) is deprecated and will not be supported from Istio 1.6 onwards.
+
+Istio 1.4 and 1.5 will continue to support the `v1alpha1` RBAC policy to give you enough
+time to move away from the alpha policies.
+
+## Migration to the `v1beta1` policy
+
+Before `v1alpha1` policy is fully removed, Istio will support both `v1alpha` and `v1beta1`
+policies at the same time. However, the `v1beta1` policy overrides the `v1alpha1` policy if
+they are both applied to the same workload:
 
 1. If any `v1beta1` policies apply to the workload, the `v1beta1` policy is used and
    the `v1alpha1` policies on the same workload will all be ignored
