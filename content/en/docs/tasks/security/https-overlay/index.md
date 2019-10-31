@@ -151,7 +151,7 @@ control plane with mutual TLS disabled installed, please delete it. For example,
 you followed the quick start:
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
+$ istioctl manifest generate --set profile=demo | kubectl delete -f -
 {{< /text >}}
 
 And wait for everything to have been deleted, i.e., there is no pod in the control plane namespace (`istio-system`):
