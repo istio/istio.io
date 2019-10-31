@@ -23,6 +23,7 @@ more lightweight than Citadel.
 as there is no waiting for Citadel to generate and distribute its CA cert.
 
 The following diagram shows the architecture of provisioning and managing DNS certificates in Istio.
+Chiron is the component provisioning and managing DNS certificates in Istio.
 
 {{< image width="50%"
     link="./architecture.png"
