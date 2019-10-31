@@ -8,7 +8,7 @@ port that the Kubernetes service workload selected by the gateway does not.
 
 For example, your Istio configuration contains these values:
 
-{{< text plain >}}
+{{< text yaml >}}
 # Gateway with bogus port
 
 apiVersion: networking.istio.io/v1alpha3

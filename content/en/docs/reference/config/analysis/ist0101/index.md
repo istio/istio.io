@@ -9,7 +9,7 @@ resource but cannot find it.
 
 For example, you receive this error:
 
-{{< text plain >}}
+{{< text yaml >}}
 Error [IST0101] (VirtualService httpbin.default) Referenced gateway not found: "httpbin-gateway-bogus"
 {{< /text >}}
 
