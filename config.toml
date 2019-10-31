@@ -63,7 +63,7 @@ disableAliases = true
 
 # internationalization
 [languages]
-#    [languages.zh]
-#        contentDir = "content/zh"
+    [languages.zh]
+        contentDir = "content/zh"
     [languages.en]
         contentDir = "content/en"

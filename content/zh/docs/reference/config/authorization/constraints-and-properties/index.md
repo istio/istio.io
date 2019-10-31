@@ -1,50 +1,54 @@
 ---
-title: 约束和属性
-description: 描述所支持的约束和属性。
+title: Constraints and Properties
+description: Describes the supported constraints and properties.
 weight: 10
 ---
 
-本节包含支持的键和值，你可用作服务角色和服务角色绑定配置对象中的约束和属性。约束和属性是可以作为配置对象中的字段添加的额外条件，其`kind`:值为`ServiceRole`和`ServiceRoleBinding`指定详细的访问控制要求。
+This section contains the supported keys and value formats you can use as constraints and properties
+in the service roles and service role bindings configuration objects.
+Constraints and properties are extra conditions you can add as fields in configuration objects with
+a `kind:` value of `ServiceRole` and `ServiceRoleBinding` to specify detailed access control requirements.
 
-具体而言，你可以使用约束在服务角色的访问规则字段中指定额外条件。你可以使用属性在服务角色绑定的主题字段中指定其他条件。Istio支持此页面上列出的HTTP协议的所有密钥，但仅支持普通TCP协议的一些密钥。
-
-{{< warning >}}
-不支持的键和值将会被默默忽略。
-{{< /warning >}}
-
-了解更多信息，请参阅[授权的概念页面](/zh/docs/concepts/security/#认证)。
-
-## 支持的约束
-
-下表列举了`约束`中当前支持的键值：
-
-| 名称 | 描述 | 是否支持TCP服务| 键值示例 | 值示例 |
-|------|-------------|--------------|-------------|----------------|
-| `destination.ip` | 目标工作负载实例 IP 地址，支持单 IP 或 CIDR | 是 | `destination.ip` |  `["10.1.2.3", "10.2.0.0/16"]` |
-| `destination.port` | 服务器 IP 地址的接收者端口，必须是 0 到 65535 中的随机数 | 是 |`destination.port` | `["80", "443"]` |
-| `destination.labels` | 链接到服务器实例的键值对的映射 | 是 | `destination.labels[version]` | `["v1", "v2"]` |
-| `destination.name` | 目标工作负载实例名 | 是 | `destination.name` |`["productpage*", "*-test"]` |
-| `destination.namespace` | 目标工作负载实例命名空间 | 是 | `destination.namespace` | `["default"]` |
-| `destination.user` | 目标工作负载实例的标识 | 是 | `destination.user` | `["bookinfo-productpage"]` |
-| `experimental.envoy.filters.*` | 过滤器实验性元数据匹配，在 `[]` 封装值作为匹配列表 | 是 | `experimental.envoy.filters.network.mysql_proxy[db.table]` | `["[update]"]` |
-| `request.headers` | HTTP 请求头, 实际的请求头名称包含在括号中 | 否 | `request.headers[X-Custom-Token]` | `["abc123"]` |
+Specifically, you can use constraints to specify extra conditions in the access rule field of a service
+role. You can use properties to specify extra conditions in the subject field of a service role binding.
+Istio supports all keys listed on this page for the HTTP protocol but supports only some for the plain TCP protocol.
 
 {{< warning >}}
-请注意，类似 `experimental.*` 命名的键值没有保证向后兼容。
-它们可能随时被移除，建议用户自行承担使用风险。
+Unsupported keys and values will be ignored silently.
 {{< /warning >}}
 
-## 支持的属性
+For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
 
-下表列举了`属性`中当前支持的键值：
+## Supported Constraints
 
-| 名称 | 描述 | 是否支持TCP服务 | 键值示例 | 值示例 |
-|------|-------------|-----------|-------------|---------------|
-| `source.ip`  | 源工作负载实例 IP 地址，支持单 IP 或 CIDR | 是 | `source.ip` | `"10.1.2.3"` |
-| `source.namespace`  | 源工作负载实例命名空间 | 是 | `source.namespace` | `"default"` |
-| `source.principal` | 源工作负载实例标识 | 是 | `source.principal` | `"cluster.local/ns/default/sa/productpage"` |
-| `request.headers` | HTTP 请求头, 实际的请求头名称包含在括号中 | 否 | `request.headers[User-Agent]` | `"Mozilla/*"` |
-| `request.auth.principal` | 请求中最重要的认证 | 否 | `request.auth.principal` | `"accounts.my-svc.com/104958560606"` |
-| `request.auth.audiences` | 认证信息的预期受众 | 否 | `request.auth.audiences` | `"my-svc.com"` |
-| `request.auth.presenter` | 被授权的授权人 | 否 | `request.auth.presenter` | `"123456789012.my-svc.com"` |
-| `request.auth.claims` | 原始 JWT 断言。实际的断言名称包含在括号中 | 否 | `request.auth.claims[iss]` | `"*@foo.com"` |
+The following table lists the currently supported keys for the `constraints` field:
+
+| Name | Description | Supported for TCP services | Key Example | Values Example |
+|------|-------------|----------------------------|-------------|----------------|
+| `destination.ip` | Destination workload instance IP address, supports single IP or CIDR | YES | `destination.ip` |  `["10.1.2.3", "10.2.0.0/16"]` |
+| `destination.port` | The recipient port on the server IP address, must be in the range [0, 65535] | YES | `destination.port` | `["80", "443"]` |
+| `destination.labels` | A map of key-value pairs attached to the server instance | YES | `destination.labels[version]` | `["v1", "v2"]` |
+| `destination.namespace` | Destination workload instance namespace | YES | `destination.namespace` | `["default"]` |
+| `destination.user` | The identity of the destination workload | YES | `destination.user` | `["bookinfo-productpage"]` |
+| `experimental.envoy.filters.*` | Experimental metadata matching for filters, values wrapped in `[]` are matched as a list | YES | `experimental.envoy.filters.network.mysql_proxy[db.table]` | `["[update]"]` |
+| `request.headers` | HTTP request headers, The actual header name is surrounded by brackets | NO | `request.headers[X-Custom-Token]` | `["abc123"]` |
+
+{{< warning >}}
+Note that no backward compatibility is guaranteed for the `experimental.*` keys. They may be removed
+at any time, and customers are advised to use them at their own risk.
+{{< /warning >}}
+
+## Supported Properties
+
+The following table lists the currently supported keys for the `properties` field:
+
+| Name | Description | Supported for TCP services | Key Example | Value Example |
+|------|-------------|----------------------------|-------------|---------------|
+| `source.ip`  | Source workload instance IP address, supports single IP or CIDR | YES | `source.ip` | `"10.1.2.3"` |
+| `source.namespace`  | Source workload instance namespace | YES | `source.namespace` | `"default"` |
+| `source.principal` | The identity of the source workload | YES | `source.principal` | `"cluster.local/ns/default/sa/productpage"` |
+| `request.headers` | HTTP request headers. The actual header name is surrounded by brackets | NO | `request.headers[User-Agent]` | `"Mozilla/*"` |
+| `request.auth.principal` | The authenticated principal of the request. | NO | `request.auth.principal` | `"accounts.my-svc.com/104958560606"` |
+| `request.auth.audiences` | The intended audience(s) for this authentication information | NO | `request.auth.audiences` | `"my-svc.com"` |
+| `request.auth.presenter` | The authorized presenter of the credential | NO | `request.auth.presenter` | `"123456789012.my-svc.com"` |
+| `request.auth.claims` | Claims from the origin JWT. The actual claim name is surrounded by brackets | NO | `request.auth.claims[iss]` | `"*@foo.com"` |

@@ -1,12 +1,11 @@
 ---
-title: 如何控制被 sidecar 报告的数据？
+title: How can I control the data being reported by the sidecar?
 weight: 20
 ---
 
-有时将对特定 URL 的访问排除在报告之外是有用的。
-例如，您可能希望排除一些健康检查 URL。
-您可以使用遥测配置的 `match` 子句将其排除，以跳过特定于某些 URL 的遥测报告。
-例如：
+It is sometimes useful to exclude access to specific URLs from being reported. For example, you might wish to exclude some health-checking
+URLs. You can skip telemetry reports specific to certain URLs by excluding them using a `match` clause of the telemetry configuration
+such as:
 
 {{< text yaml >}}
 match: source.name != "health"

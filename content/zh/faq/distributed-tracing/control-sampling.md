@@ -1,7 +1,7 @@
 ---
-title: 如何控制追踪数量？
+title: How can I control the volume of traces?
 weight: 40
 ---
-Istio 通过 Envoy，目前支持基于百分比的采样策略来生成追踪信息。
 
-有关如何设置此采样率的更多信息，请参阅[本节](/zh/docs/tasks/telemetry/distributed-tracing/overview/#trace-sampling)。
+Istio, via Envoy, currently supports a percentage-based sampling strategy for trace generation.
+Please see [this section](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) for more information on how to set this sampling rate.

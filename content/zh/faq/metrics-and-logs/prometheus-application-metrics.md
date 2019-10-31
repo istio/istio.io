@@ -1,20 +1,22 @@
 ---
-title: 我能在 Istio 中使用 Prometheus 抓取应用指标么？
+title: Can I use Prometheus to scrape application metrics with Istio?
 weight: 90
 ---
 
-可以。Istio 发行包中带有 [Prometheus 配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/prometheus/templates/configmap.yaml)，不论是否启用了双向 TLS，都可以借此配置来收集应用的指标数据。
+Yes. Istio ships with [configuration for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/prometheus/templates/configmap.yaml)
+that enables collection of application metrics when mutual TLS is enabled or disabled.
 
-在没有启用双向 TLS 的环境中，`kubernetes-pods` 任务会从 Pod 中收集应用的指标数据。如果 Istio 启用了双向 TLS，就由 `kubernetes-pods-istio-secure` 任务完成应用指标数据的收集工作。
+The `kubernetes-pods` job collects application metrics from pods in environments without mutual TLS. The `kubernetes-pods-istio-secure` job collects metrics
+from application pods when mutual TLS is enabled for Istio.
 
-两个 Job 都需要在欲抓取指标的应用 Pod 中加入如下注解：
+Both jobs require that the following annotations are added to any deployments from which application metric collection is desired:
 
 - `prometheus.io/scrape: "true"`
 - `prometheus.io/path: "<metrics path>"`
 - `prometheus.io/port: "<metrics port>"`
 
-一点说明：
+A few notes:
 
-- 如果在 Citadel Pod 能够生成必要证书并分发给 Prometheus 之前启动了 Prometheus Pod，为了能够在双向 TLS 环境下抓取应用指标，必须重启 Prometheus Pod。
-
-- 如果你的应用在一个单独的端口上开放 Prometheus 指标接口，这个端口需要加入 Service 和 Deployment 清单之中。
+- If the Prometheus pod started before the Istio Citadel pod could generate the required certificates and distribute them to Prometheus, the Prometheus pod will need to
+be restarted in order to collect from mutual TLS-protected targets.
+- If your application exposes Prometheus metrics on a dedicated port, that port should be added to the service and deployment specifications.

@@ -1,6 +1,7 @@
 ---
-title: 同一集群中是否可以仅对部分服务启用双向 TLS ？
+title: Can I enable mutual TLS for some services while leaving it disabled for other services in the same cluster?
 weight: 20
 ---
 
-[认证策略](/zh/docs/concepts/security/#认证策略)可以是网格范围的（对网格中的所有服务都有效）、命名空间范围的（对同一命名空间中的所有服务都有效）或者是针对特定服务的。在集群中可以用任何需要的方式来为服务设置双向 TLS 策略。
+[Authentication policy](/docs/concepts/security/#authentication-policies) can be mesh-wide (which affects all services in the mesh), namespace-wide
+(all services in the same namespace) or service specific. You can have policy or policies to setup mutual TLS for services in a cluster in any way as you want.

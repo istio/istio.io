@@ -1,21 +1,19 @@
 ---
-title: 基于 Mixer 的追踪是如何工作的？
+title: How does Mixer-based tracing work?
 weight: 12
 ---
 
-对于基于 Mixer 的追踪，由 Mixer (通过 `istio-telemetry` 服务)提供与追踪后端的集成支持。
-Mixer 追踪允许对分布式追踪进行额外级别的操作控制，包括对追踪 span 中包含数据的细粒度选择。
-它还提供了将追踪数据发送到不被 Envoy 直接支持的后端的能力。
+For Mixer-based tracing integrations, Mixer (addressed through the `istio-telemetry` service) provides the integration with tracing backends. The Mixer integration allows additional levels of operator control of the distributed tracing, including fine-grained selection of the data included in trace spans. It also provides the ability to send traces to backends not supported by Envoy directly.
 
-对于基于 Mixer 的追踪集成，Envoy：
+For Mixer-based integrations, Envoy:
 
-- 当请求通过代理时生成请求 ID 和 追踪 header（例如，`X-B3-TraceId`）
-- 调用 Mixer 异步进行遥测数据汇报
-- 将追踪 header 转发给被代理的应用程序
+- generates request IDs and trace headers (i.e. `X-B3-TraceId`) for requests as they flow through the proxy
+- calls Mixer for general asynchronous telemetry reporting
+- forwards the trace headers to the proxied application
 
-Mixer：
+Mixer:
 
-- 基于 *operator-supplied* 配置为每个请求生成追踪 span
-- 发送生成的追踪 span 到 *operator-designated* 追踪后端
+- generates trace spans for each request based on *operator-supplied* configuration
+- sends the generated trace spans to the *operator-designated* tracing backends
 
-[Stackdriver 与 Istio 的追踪集成](https://cloud.google.com/istio/docs/istio-on-gke/installing#tracing_and_logging)是通过 Mixer 进行追踪集成的一个例子。
+The [Stackdriver tracing integration](https://cloud.google.com/istio/docs/istio-on-gke/installing#tracing_and_logging) with Istio is one example of a tracing integration via Mixer.

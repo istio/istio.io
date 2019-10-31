@@ -1,29 +1,37 @@
 ---
-title: 设置请求超时
-description: 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
-weight: 28
+title: Request Timeouts
+description: This task shows you how to setup request timeouts in Envoy using Istio.
+weight: 40
+aliases:
+    - /docs/tasks/request-timeouts.html
 keywords: [traffic-management,timeouts]
 ---
 
-本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
+This task shows you how to setup request timeouts in Envoy using Istio.
 
-## 开始之前
+## Before you begin
 
-* 跟随[安装指南](/zh/docs/setup)设置 Istio。
+* Setup Istio by following the instructions in the
+  [Installation guide](/docs/setup/).
 
-* 部署的示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)包含[应用缺省目标规则](/zh/docs/examples/bookinfo/#应用缺省目标规则)。
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application including the
+  [default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
-* 使用下面的命令初始化应用的版本路由：
+*   Initialize the application version routing by running the following command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-## 请求超时
+## Request timeouts
 
-可以在[路由规则](/zh/docs/reference/config/istio.networking.v1alpha3/#httproute)的 `timeout` 字段中来给 http 请求设置请求超时。缺省情况下，超时被设置为 15 秒钟，本文任务中，会把 `reviews` 服务的超时设置为一秒钟。为了能观察设置的效果，还需要在对 `ratings` 服务的调用中加入两秒钟的延迟。
+A timeout for http requests can be specified using the *timeout* field of the [route rule](/docs/reference/config/networking/virtual-service/#HTTPRoute).
+By default, the timeout is disabled, but in this task you override the `reviews` service
+timeout to 1 second.
+To see its effect, however, you also introduce an artificial 2 second delay in calls
+to the `ratings` service.
 
-1. 到 `reviews:v2` 服务的路由定义：
+1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -42,7 +50,7 @@ keywords: [traffic-management,timeouts]
     EOF
     {{< /text >}}
 
-1. 在对 `ratings` 服务的调用中加入两秒钟的延迟：
+1.  Add a 2 second delay to calls to the `ratings` service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -65,11 +73,12 @@ keywords: [traffic-management,timeouts]
     EOF
     {{< /text >}}
 
-1. 用浏览器打开网址 `http://$GATEWAY_URL/productpage`，浏览 Bookinfo 应用。
+1.  Open the Bookinfo URL `http://$GATEWAY_URL/productpage` in your browser.
 
-    这时应该能看到 Bookinfo 应用在正常运行（显示了评级的星形符号），但是每次刷新页面，都会出现两秒钟的延迟。
+    You should see the Bookinfo application working normally (with ratings stars displayed),
+    but there is a 2 second delay whenever you refresh the page.
 
-1. 接下来在目的为 `reviews:v2` 服务的请求加入一秒钟的请求超时：
+1.  Now add a half second request timeout for calls to the `reviews` service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -89,30 +98,48 @@ keywords: [traffic-management,timeouts]
     EOF
     {{< /text >}}
 
-1. 刷新 Bookinfo 的 Web 页面。
+1.  Refresh the Bookinfo web page.
 
-    这时候应该看到一秒钟就会返回，而不是之前的两秒钟，但 `reviews` 的显示已经不见了。
+    You should now see that it returns in about 1 second, instead of 2, and the reviews are unavailable.
 
     {{< tip >}}
-    即使超时配置为半秒，响应需要 1 秒的原因是因为 `productpage` 页面服务中存在硬编码重试，因此它在返回之前调用 `reviews` 服务超时两次。
+    The reason that the response takes 1 second, even though the timeout is configured at half a second, is
+    because there is a hard-coded retry in the `productpage` service, so it calls the timing out `reviews` service
+    twice before returning.
     {{< /tip >}}
 
-## 理解原理
+## Understanding what happened
 
-上面的任务中，使用 Istio 为调用 `reviews` 微服务的请求中加入了一秒钟的超时控制，覆盖了缺省的 15 秒钟设置。页面刷新时，`reviews` 服务后面会调用 `ratings` 服务，使用 Istio 在对 `ratings` 的调用中注入了两秒钟的延迟，这样就让 `reviews` 服务要花费超过一秒钟的时间来调用 `ratings` 服务，从而触发了我们加入的超时控制。
+In this task, you used Istio to set the request timeout for calls to the `reviews`
+microservice to half a second. By default the request timeout is disabled.
+Since the `reviews` service subsequently calls the `ratings` service when handling requests,
+you used Istio to inject a 2 second delay in calls to `ratings` to cause the
+`reviews` service to take longer than half a second to complete and consequently you could see the timeout in action.
 
-这样就会看到 Bookinfo 的页面（ 页面由 `reviews` 服务生成）上没有出现 `reviews` 服务的显示内容，取而代之的是错误信息：**Sorry, product reviews are currently unavailable for this book** ，出现这一信息的原因就是因为来自 `reviews` 服务的超时错误。
+You observed that instead of displaying reviews, the Bookinfo product page (which calls the `reviews` service to populate the page) displayed
+the message: Sorry, product reviews are currently unavailable for this book.
+This was the result of it receiving the timeout error from the `reviews` service.
 
-如果测试了[故障注入任务](/zh/docs/tasks/traffic-management/fault-injection/)，会发现 `productpage` 微服务在调用 `reviews` 微服务时，还有自己的应用级超时设置（三秒钟）。注意这里我们用路由规则设置了一秒钟的超时。如果把超时设置为超过三秒钟（例如四秒钟）会毫无效果，这是因为内部的服务中设置了更为严格的超时要求。更多细节可以参见[故障处理 FAQ](/zh/docs/concepts/traffic-management/#faq) 的相关内容。
+If you examine the [fault injection task](/docs/tasks/traffic-management/fault-injection/), you'll find out that the `productpage`
+microservice also has its own application-level timeout (3 seconds) for calls to the `reviews` microservice.
+Notice that in this task you used an Istio route rule to set the timeout to half a second.
+Had you instead set the timeout to something greater than 3 seconds (such as 4 seconds) the timeout
+would have had no effect since the more restrictive of the two takes precedence.
+More details can be found [here](/docs/concepts/traffic-management/#network-resilience-and-testing).
 
-还有一点关于 Istio 中超时控制方面的补充说明，除了像本文一样在路由规则中进行超时设置之外，还可以进行请求一级的设置，只需在应用的外发流量中加入 `x-envoy-upstream-rq-timeout-ms` Header 即可。在这个 Header 中的超时设置单位是毫秒而不是秒。
+One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
+as you did in this task, they can also be overridden on a per-request basis if the application adds
+an `x-envoy-upstream-rq-timeout-ms` header on outbound requests. In the header,
+the timeout is specified in milliseconds instead of seconds.
 
-## 清理
+## Cleanup
 
-* 移除应用的路由规则：
+*   Remove the application routing rules:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-* 如果不准备继续探索后续任务，根据 [Bookinfo 清理](/zh/docs/examples/bookinfo/#清理)内容来关停示例应用。
+* If you are not planning to explore any follow-on tasks, see the
+  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  to shutdown the application.

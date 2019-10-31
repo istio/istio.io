@@ -1,6 +1,6 @@
 ---
-title: 概念
-description: 一些概念，理解它们有助于您更好地了解 Istio 系统的不同部分及其使用的抽象。
+title: Concepts
+description: Learn about the different parts of the Istio system and the abstractions it uses.
 weight: 10
 icon: concepts
 ---

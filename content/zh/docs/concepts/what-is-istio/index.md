@@ -1,137 +1,118 @@
 ---
-title: Istio 是什么?
-description: 介绍 Istio 及其要解决的问题、顶层架构和设计目标。
+title: What is Istio?
+description: Introduces Istio, the problems it solves, its high-level architecture, and its design goals.
 weight: 15
+aliases:
+    - /docs/concepts/what-is-istio/overview
+    - /docs/concepts/what-is-istio/goals
+    - /about/intro
 ---
 
-使用云平台可以为组织提供丰富的好处。然而，不可否认的是，采用云可能会给 DevOps 团队带来压力。开发人员必须使用微服务以满足应用的可移植性，同时运营商管理了极其庞大的混合和多云部署。Istio 允许您连接、保护、控制和观测服务。
+Cloud platforms provide a wealth of benefits for the organizations that use them. However, there’s no denying that adopting the cloud can put strains on DevOps teams. Developers must use microservices to architect for portability, meanwhile operators are managing extremely large hybrid and multi-cloud deployments.
+Istio lets you connect, secure, control, and observe services.
 
-在较高的层次上，Istio 有助于降低这些部署的复杂性，并减轻开发团队的压力。它是一个完全开源的服务网格，可以透明地分层到现有的分布式应用程序上。它也是一个平台，包括允许它集成到任何日志记录平台、遥测或策略系统的 API。Istio 的多样化功能集使您能够成功高效地运行分布式微服务架构，并提供保护、连接和监控微服务的统一方法。
+At a high level, Istio helps reduce the complexity of these deployments, and eases the strain on your development teams. It is a completely open source service
+mesh that layers transparently onto existing distributed applications. It is also a platform, including APIs that let it integrate into any logging platform, or
+telemetry or policy system. Istio’s diverse feature set lets you successfully, and efficiently, run a distributed microservice architecture, and provides a
+uniform way to secure, connect, and monitor microservices.
 
-## 什么是服务网格？
+## What is a service mesh?
 
-在从单体应用程序向分布式微服务架构的转型过程中，开发人员和运维人员面临诸多挑战，使用 Istio 可以解决这些问题。
+Istio addresses the challenges developers and operators face as monolithic applications transition towards a distributed microservice architecture. To see how,
+it helps to take a more detailed look at Istio’s service mesh.
 
-服务网格（Service Mesh）这个术语通常用于描述构成这些应用程序的微服务网络以及应用之间的交互。随着规模和复杂性的增长，服务网格越来越难以理解和管理。它的需求包括服务发现、负载均衡、故障恢复、指标收集和监控以及通常更加复杂的运维需求，例如 A/B 测试、金丝雀发布、限流、访问控制和端到端认证等。
+The term service mesh is used to describe the network of microservices that make up such applications and the interactions between them. As a service mesh grows
+ in size and complexity, it can become harder to understand and manage. Its requirements can include discovery, load balancing, failure recovery, metrics, and
+ monitoring. A service mesh also often has more complex operational requirements, like A/B testing, canary rollouts, rate limiting, access control, and
+ end-to-end authentication.
 
-Istio 提供了一个完整的解决方案，通过为整个服务网格提供行为洞察和操作控制来满足微服务应用程序的多样化需求。
+Istio provides behavioral insights and operational control over the service mesh as a whole, offering a complete solution to satisfy the diverse requirements of
+ microservice applications.
 
-## 为什么要使用 Istio？
+## Why use Istio?
 
-Istio 提供一种简单的方式来为已部署的服务建立网络，该网络具有负载均衡、服务间认证、监控等功能，只需要对服务的代码进行[一点](/zh/docs/tasks/telemetry/distributed-tracing/overview/#trace-context-propagation)或不需要做任何改动。想要让服务支持 Istio，只需要在您的环境中部署一个特殊的 sidecar 代理，使用 Istio 控制平面功能配置和管理代理，拦截微服务之间的所有网络通信：
+Istio makes it easy to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more, with [few](/docs/tasks/observability/distributed-tracing/overview/#trace-context-propagation) or no code changes
+in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment that intercepts all network communication
+between microservices, then configure and manage Istio using its control plane functionality, which includes:
 
-* HTTP、gRPC、WebSocket 和 TCP 流量的自动负载均衡。
+* Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic.
 
-* 通过丰富的路由规则、重试、故障转移和故障注入，可以对流量行为进行细粒度控制。
+* Fine-grained control of traffic behavior with rich routing rules, retries, failovers, and fault injection.
 
-* 可插入的策略层和配置 API，支持访问控制、速率限制和配额。
+* A pluggable policy layer and configuration API supporting access controls, rate limits and quotas.
 
-* 对出入集群入口和出口中所有流量的自动度量指标、日志记录和追踪。
+* Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress.
 
-* 通过强大的基于身份的验证和授权，在集群中实现安全的服务间通信。
+* Secure service-to-service communication in a cluster with strong identity-based authentication and authorization.
 
-Istio 旨在实现可扩展性，满足各种部署需求。
+Istio is designed for extensibility and meets diverse deployment needs.
 
-## 核心功能
+## Core features
 
-Istio 在服务网络中统一提供了许多关键功能：
+Istio provides a number of key capabilities uniformly across a network of
+services:
 
-### 流量管理
+### Traffic management
 
-通过简单的规则配置和流量路由，您可以控制服务之间的流量和 API 调用。Istio 简化了断路器、超时和重试等服务级别属性的配置，并且可以轻松设置 A/B测试、金丝雀部署和基于百分比的流量分割的分阶段部署等重要任务。
+Istio’s easy rules configuration and traffic routing lets you control the flow of traffic and API calls between services. Istio simplifies configuration of
+service-level properties like circuit breakers, timeouts, and retries, and makes it a breeze to set up important tasks like A/B testing, canary rollouts, and
+staged rollouts with percentage-based traffic splits.
 
-通过更好地了解您的流量和开箱即用的故障恢复功能，您可以在问题出现之前先发现问题，使调用更可靠，并且使您的网络更加强大——无论您面临什么条件。
+With better visibility into your traffic, and out-of-box failure recovery features, you can catch issues before they cause problems, making calls more reliable,
+and your network more robust -- no matter what conditions you face.
 
-### 安全
+Refer to the [Traffic management concepts guide](/docs/concepts/traffic-management/) for more details.
 
-Istio 的安全功能使开发人员可以专注于应用程序级别的安全性。Istio 提供底层安全通信信道，并大规模管理服务通信的认证、授权和加密。使用Istio，服务通信在默认情况下是安全的，它允许您跨多种协议和运行时一致地实施策略——所有这些都很少或根本不需要应用程序更改。
+### Security
 
-虽然 Istio 与平台无关，但将其与 Kubernetes（或基础架构）网络策略结合使用，其优势会更大，包括在网络和应用层保护 pod 间或服务间通信的能力。
+Istio’s security capabilities free developers to focus on security at the application level. Istio provides the underlying secure communication channel, and
+manages authentication, authorization, and encryption of service communication at scale. With Istio, service communications are secured by default,
+letting you enforce policies consistently across diverse protocols and runtimes -- all with little or no application changes.
 
-### 可观察性
+While Istio is platform independent, using it with Kubernetes (or infrastructure) network policies, the benefits are even greater, including the ability to
+secure {{<gloss>}}pod{{</gloss>}}-to-pod or service-to-service communication at the network and application layers.
 
-Istio 强大的追踪、监控和日志记录可让您深入了解服务网格部署。通过 Istio 的监控功能，可以真正了解服务性能如何影响上游和下游的功能，而其自定义仪表板可以提供对所有服务性能的可视性，并让您了解该性能如何影响您的其他进程。
+Refer to the [Security concepts guide](/docs/concepts/security/) for more details.
 
-Istio 的 Mixer 组件负责策略控制和遥测收集。它提供后端抽象和中介，将 Istio 的其余部分与各个基础架构后端的实现细节隔离开来，并为运维提供对网格和基础架构后端之间所有交互的细粒度控制。
+### Policies
 
-所有这些功能可以让您可以更有效地设置、监控和实施服务上的 SLO。当然，最重要的是，您可以快速有效地检测和修复问题。
+Istio lets you configure custom policies for your application to enforce rules at runtime such as:
 
-### 平台支持
+* Rate limiting to dynamically limit the traffic to a service
+* Denials, whitelists, and blacklists, to restrict access to services
+* Header rewrites and redirects
 
-Istio 是独立于平台的，旨在运行在各种环境中，包括跨云、内部部署、Kubernetes、Mesos 等。您可以在 Kubernetes 上部署 Istio 或具有 Consul 的 Nomad 上部署。Istio 目前支持：
+Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
 
-* 在 Kubernetes 上部署的服务
+Refer to the [Policies concepts guide](/docs/concepts/policies/) for more details.
 
-* 使用 Consul 注册的服务
+### Observability
 
-* 在虚拟机上部署的服务
+Istio’s robust tracing, monitoring, and logging features give you deep insights into your service mesh deployment. Gain a real understanding of how service performance
+impacts things upstream and downstream with Istio’s monitoring features, while its custom dashboards provide visibility into the performance of all your
+services and let you see how that performance is affecting your other processes.
 
-### 集成和定制
+Istio’s Mixer component is responsible for policy controls and telemetry collection. It provides backend abstraction and intermediation, insulating the rest of
+Istio from the implementation details of individual infrastructure backends, and giving operators fine-grained control over all interactions between the mesh
+and infrastructure backends.
 
-策略执行组件可以扩展和定制，以便与现有的 ACL、日志、监控、配额、审计等方案集成。
+All these features let you more effectively set, monitor, and enforce SLOs on services. Of course, the bottom line is that you can detect and fix issues quickly
+and efficiently.
 
-## 架构
+Refer to the [Observability concepts guide](/docs/concepts/observability/) for more details.
 
-Istio 服务网格逻辑上分为**数据平面**和**控制平面**。
+## Platform support
 
-* **数据平面**由一组以 sidecar 方式部署的智能代理（[Envoy](https://www.envoyproxy.io/)）组成。这些代理可以调节和控制微服务及 [Mixer](/zh/docs/concepts/policies-and-telemetry/) 之间所有的网络通信。
+Istio is platform-independent and designed to run in a variety of environments, including those spanning Cloud, on-premise, Kubernetes, Mesos, and more. You can
+ deploy Istio on Kubernetes, or on Nomad with Consul. Istio currently supports:
 
-* **控制平面**负责管理和配置代理来路由流量。此外控制平面配置 Mixer 以实施策略和收集遥测数据。
+* Service deployment on Kubernetes
 
-下图显示了构成每个面板的不同组件：
+* Services registered with Consul
 
-{{< image width="80%"
-    link="arch.svg"
-    alt="基于 Istio 的应用程序架构概览"
-    caption="Istio 架构"
-    >}}
+* Services running on individual virtual machines
 
-### Envoy
+## Integration and customization
 
-Istio 使用 [Envoy](https://www.envoyproxy.io/) 代理的扩展版本，Envoy 是以 C++ 开发的高性能代理，用于调解服务网格中所有服务的所有入站和出站流量。Envoy 的许多内置功能被 Istio 发扬光大，例如：
-
-* 动态服务发现
-* 负载均衡
-* TLS 终止
-* HTTP/2 & gRPC 代理
-* 熔断器
-* 健康检查、基于百分比流量拆分的灰度发布
-* 故障注入
-* 丰富的度量指标
-
-Envoy 被部署为 **sidecar**，和对应服务在同一个 Kubernetes pod 中。这允许 Istio 将大量关于流量行为的信号作为[属性](/zh/docs/concepts/policies-and-telemetry/#属性)提取出来，而这些属性又可以在 [Mixer](/zh/docs/concepts/policies-and-telemetry/) 中用于执行策略决策，并发送给监控系统，以提供整个网格行为的信息。
-
-Sidecar 代理模型还可以将 Istio 的功能添加到现有部署中，而无需重新构建或重写代码。可以阅读更多来了解为什么我们在[设计目标](/zh/docs/concepts/what-is-istio/#设计目标)中选择这种方式。
-
-### Mixer
-
-[Mixer](/zh/docs/concepts/policies-and-telemetry/) 是一个独立于平台的组件，负责在服务网格上执行访问控制和使用策略，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级[属性](/zh/docs/concepts/policies-and-telemetry/#属性)，发送到 Mixer 进行评估。有关属性提取和策略评估的更多信息，请参见 [Mixer 配置](/zh/docs/concepts/policies-and-telemetry/#配置模型)。
-
-Mixer 中包括一个灵活的插件模型，使其能够接入到各种主机环境和基础设施后端，从这些细节中抽象出 Envoy 代理和 Istio 管理的服务。
-
-### Pilot
-
-[Pilot](/zh/docs/concepts/traffic-management/#pilot-和-envoy) 为 Envoy sidecar 提供服务发现功能，为智能路由（例如 A/B 测试、金丝雀部署等）和弹性（超时、重试、熔断器等）提供流量管理功能。它将控制流量行为的高级路由规则转换为特定于 Envoy 的配置，并在运行时将它们传播到 sidecar。
-
-Pilot 将平台特定的服务发现机制抽象化并将其合成为符合 [Envoy 数据平面 API](https://github.com/envoyproxy/data-plane-api) 的任何 sidecar 都可以使用的标准格式。这种松散耦合使得 Istio 能够在多种环境下运行（例如，Kubernetes、Consul、Nomad），同时保持用于流量管理的相同操作界面。
-
-### Citadel
-
-[Citadel](/zh/docs/concepts/security/) 通过内置身份和凭证管理赋能强大的服务间和最终用户身份验证。可用于升级服务网格中未加密的流量，并为运维人员提供基于服务标识而不是网络控制的强制执行策略的能力。从 0.5 版本开始，Istio 支持[基于角色的访问控制](/zh/docs/concepts/security/#认证)，以控制谁可以访问您的服务，而不是基于不稳定的三层或四层网络标识。
-
-### Galley
-
-Galley 代表其他的 Istio 控制平面组件，用来验证用户编写的 Istio API 配置。随着时间的推移，Galley 将接管 Istio 获取配置、
-处理和分配组件的顶级责任。它将负责将其他的 Istio 组件与从底层平台（例如 Kubernetes）获取用户配置的细节中隔离开来。
-
-## 设计目标
-
-Istio 的架构设计中有几个关键目标，这些目标对于使系统能够应对大规模流量和高性能地服务处理至关重要。
-
-* **最大化透明度**：若想 Istio 被采纳，应该让运维和开发人员只需付出很少的代价就可以从中受益。为此，Istio 将自身自动注入到服务间所有的网络路径中。Istio 使用 sidecar 代理来捕获流量，并且在尽可能的地方自动编程网络层，以路由流量通过这些代理，而无需对已部署的应用程序代码进行任何改动。在 Kubernetes中，代理被注入到 pod 中，通过编写 iptables 规则来捕获流量。注入 sidecar 代理到 pod 中并且修改路由规则后，Istio 就能够调解所有流量。这个原则也适用于性能。当将 Istio 应用于部署时，运维人员可以发现，为提供这些功能而增加的资源开销是很小的。所有组件和 API 在设计时都必须考虑性能和规模。
-
-* **可扩展性**：随着运维人员和开发人员越来越依赖 Istio 提供的功能，系统必然和他们的需求一起成长。虽然我们期望继续自己添加新功能，但是我们预计最大的需求是扩展策略系统，集成其他策略和控制来源，并将网格行为信号传播到其他系统进行分析。策略运行时支持标准扩展机制以便插入到其他服务中。此外，它允许扩展词汇表，以允许基于网格生成的新信号来执行策略。
-
-* **可移植性**：使用 Istio 的生态系统将在很多维度上有差异。Istio 必须能够以最少的代价运行在任何云或预置环境中。将基于 Istio 的服务移植到新环境应该是轻而易举的，而使用 Istio 将一个服务同时部署到多个环境中也是可行的（例如，在多个云上进行冗余部署）。
-
-* **策略一致性**：在服务间的 API 调用中，策略的应用使得可以对网格间行为进行全面的控制，但对于无需在 API 级别表达的资源来说，对资源应用策略也同样重要。例如，将配额应用到 ML 训练任务消耗的 CPU 数量上，比将配额应用到启动这个工作的调用上更为有用。因此，策略系统作为独特的服务来维护，具有自己的 API，而不是将其放到代理/sidecar 中，这容许服务根据需要直接与其集成。
+The policy enforcement component of Istio can be extended and customized to integrate with existing solutions for ACLs, logging, monitoring, quotas, auditing,
+and more.

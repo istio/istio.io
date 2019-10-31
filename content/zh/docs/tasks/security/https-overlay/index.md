@@ -1,27 +1,38 @@
 ---
-title: 通过 HTTPS 进行双向 TLS
-description: 展示如何在 HTTPS 服务上启用双向 TLS。
+title: Mutual TLS over HTTPS
+description: Shows how to enable mutual TLS on HTTPS services.
 weight: 80
 keywords: [security,mutual-tls,https]
 ---
 
-这个任务展示了 Istio 双向 TLS 是如何与 HTTPS 服务一起工作的。它包括:
+This task shows how mutual TLS works with HTTPS services. It includes:
 
-* 在没有 Istio sidecar 的情况下部署 HTTPS 服务
+* Deploying an HTTPS service without Istio sidecar
 
-* 关闭 Istio 双向 TLS 认证情况下部署 HTTPS 服务
+* Deploying an HTTPS service with Istio with mutual TLS disabled
 
-* 部署一个启动双向 TLS 的 HTTPS 服务。对于每个部署，请连接到此服务并验证其是否有效。
+* Deploying an HTTPS service with mutual TLS enabled. For each deployment, connect to this service and verify it works.
 
-当 Istio sidecar 使用 HTTPS 服务部署时，代理将自动从 L7 降至 L4（无论是否启用了双向 TLS），这就意味着它不会终止原来的 HTTPS 通信。这就是为什么 Istio 可以在 HTTPS 服务上工作。
+When the Istio sidecar is deployed with an HTTPS service, the proxy automatically downgrades
+from L7 to L4 (no matter mutual TLS is enabled or not), which means it does not terminate the
+original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 
-## 开始之前
+## Before you begin
 
-按照下面的[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)设置 Istio。注意，在[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)第5步中，身份验证应该被**禁用**。
+Set up Istio by following the instructions in the
+[quick start](/docs/setup/install/kubernetes/).
+Note that default mutual TLS authentication should be **disabled** when installing Istio; e.g. option 1 in the
+[quick start](/docs/setup/install/kubernetes/).
 
-### 生成证书和 configmap
+The demo is also assumed to be running in a namespace where automatic sidecar injection is
+disabled, and Istio sidecars are instead manually injected with [`istioctl`](/docs/reference/commands/istioctl).
 
-您需要安装 openssl 来运行以下命令：
+### Generate certificates and configmap
+
+The following examples consider an NGINX service pod which can encrypt traffic using HTTPS.
+Before beginning, generate the TLS certificate and key that this service will use.
+
+You need to have openssl installed to run these commands:
 
 {{< text bash >}}
 $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/nginx.key -out /tmp/nginx.crt -subj "/CN=my-nginx/O=my-nginx"
@@ -29,16 +40,16 @@ $ kubectl create secret tls nginxsecret --key /tmp/nginx.key --cert /tmp/nginx.c
 secret "nginxsecret" created
 {{< /text >}}
 
-创建用于 HTTPS 服务的 configmap
+Create a configmap used for the HTTPS service
 
 {{< text bash >}}
 $ kubectl create configmap nginxconfigmap --from-file=samples/https/default.conf
 configmap "nginxconfigmap" created
 {{< /text >}}
 
-## 在没有 Istio sidecar 的情况下部署 HTTPS 服务
+## Deploy an HTTPS service without the Istio sidecar
 
-本节将创建一个基于 nginx 的 HTTPS 服务。
+This section creates a NGINX-based HTTPS service.
 
 {{< text bash >}}
 $ kubectl apply -f @samples/https/nginx-app.yaml@
@@ -46,13 +57,13 @@ service "my-nginx" created
 replicationcontroller "my-nginx" created
 {{< /text >}}
 
-然后，创建另一个 pod 来调用这个服务。
+Then, create another pod to call this service.
 
 {{< text bash >}}
 $ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
 {{< /text >}}
 
-获取 pods
+Get the pods
 
 {{< text bash >}}
 $ kubectl get pod
@@ -61,13 +72,13 @@ my-nginx-jwwck                    1/1       Running   0          1h
 sleep-847544bbfc-d27jg            2/2       Running   0          18h
 {{< /text >}}
 
-SSH 进入包含 sleep pod 的 `istio-proxy` 容器。
+Ssh into the `istio-proxy` container of sleep pod.
 
 {{< text bash >}}
 $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy /bin/bash
 {{< /text >}}
 
-调用 my-nginx
+Call my-nginx
 
 {{< text bash >}}
 $ curl https://my-nginx -k
@@ -76,7 +87,7 @@ $ curl https://my-nginx -k
 ...
 {{< /text >}}
 
-你可以把上面的三个命令合并成一个：
+You can actually combine the above three command into one:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
@@ -85,23 +96,24 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-### 使用 Istio sidecar 和禁用双向 TLS 创建 HTTPS 服务
+### Create an HTTPS service with the Istio sidecar and mutual TLS disabled
 
-在"开始之前”部分中，Istio 控制平面被部署在双向 TLS 禁用的情况下。所以您只需要使用 sidecar 重新部署 NGINX HTTPS 服务。
+In "Before you begin" section, the Istio control plane is deployed with mutual TLS
+disabled. So you only need to redeploy the NGINX HTTPS service with sidecar.
 
-删除这个 HTTPS 服务
+Delete the HTTPS service.
 
 {{< text bash >}}
 $ kubectl delete -f @samples/https/nginx-app.yaml@
 {{< /text >}}
 
-用一个 sidecar 来部署它
+Deploy it with a sidecar
 
 {{< text bash >}}
 $ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 {{< /text >}}
 
-确保这个 pod 已经启动并运行
+Make sure the pod is up and running
 
 {{< text bash >}}
 $ kubectl get pod
@@ -110,7 +122,7 @@ my-nginx-6svcc                    2/2       Running   0          1h
 sleep-847544bbfc-d27jg            2/2       Running   0          18h
 {{< /text >}}
 
-运行
+And run
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://my-nginx -k
@@ -119,7 +131,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-如果从 `istio-proxy` 容器运行，它也应该正常运行
+If you run from the `istio-proxy` container, it should work as well:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
@@ -129,33 +141,33 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 {{< /text >}}
 
 {{< tip >}}
-这个例子是从 [Kubernetes 的例子](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md)中引用的。
+This example is borrowed from [Kubernetes examples](https://github.com/kubernetes/examples/blob/master/staging/https-nginx/README.md).
 {{< /tip >}}
 
-### 用 Istio sidecar 创建一个 HTTPS 服务，并使用双向 TLS
+### Create an HTTPS service with Istio sidecar with mutual TLS enabled
 
-您需要使用启用了双向 TLS 的 Istio 控制平面。如果您已经安装了 Istio 控制平面，并安装了双向 TLS，请删除它：
+You need to deploy Istio control plane with mutual TLS enabled. If you have the Istio
+control plane with mutual TLS disabled installed, please delete it. For example, if
+you followed the quick start:
 
 {{< text bash >}}
 $ kubectl delete -f install/kubernetes/istio-demo.yaml
 {{< /text >}}
 
-等待一切都完成了，也就是说在控制平面名称空间（`istio-system`）中没有 pod。
+And wait for everything to have been deleted, i.e., there is no pod in the control plane namespace (`istio-system`):
 
 {{< text bash >}}
 $ kubectl get pod -n istio-system
 No resources found.
 {{< /text >}}
 
-根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装自定义资源定义。
-
-然后，安装并启用双向 TLS 部署 Istio 控制平面:
+Install Istio with the **strict mutual TLS mode** enabled:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set global.controlPlaneSecurityEnabled=true --set global.mtls.enabled=true | kubectl apply -f -
+$ istioctl manifest apply --set profile=demo,values.global.controlPlaneSecurityEnabled=true,values.global.mtls.enabled=true
 {{< /text >}}
 
-确保一切正常运转：
+Make sure everything is up and running:
 
 {{< text bash >}}
 $ kubectl get po -n istio-system
@@ -175,7 +187,7 @@ istio-tracing-754cdfd695-wqwr4             1/1       Running     0          23h
 prometheus-86cb6dd77c-ntw88                1/1       Running     0          23h
 {{< /text >}}
 
-然后重新部署 HTTPS 服务和 sleep 服务
+Then redeploy the HTTPS service and sleep service
 
 {{< text bash >}}
 $ kubectl delete -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
@@ -184,7 +196,7 @@ $ kubectl delete -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@
 $ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 {{< /text >}}
 
-确保 pod 已启动并正在运行
+Make sure the pod is up and running
 
 {{< text bash >}}
 $ kubectl get pod
@@ -193,7 +205,7 @@ my-nginx-9dvet                    2/2       Running   0          1h
 sleep-77f457bfdd-hdknx            2/2       Running   0          18h
 {{< /text >}}
 
-运行
+And run
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl https://my-nginx -k
@@ -202,9 +214,11 @@ $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name
 ...
 {{< /text >}}
 
-因为工作流"sleep --> sleep-proxy --> nginx-proxy --> nginx”，整个过程是7层流量，在 sleep-proxy 和 nginx-proxy 之间有一个 L4 双向 TLS 加密。在这种情况下，一切都很好。
+The reason is that for the workflow "sleep -> `sleep-proxy` -> `nginx-proxy` -> nginx",
+the whole flow is L7 traffic, and there is a L4 mutual TLS encryption between `sleep-proxy`
+and `nginx-proxy`. In this case, everything works fine.
 
-但是，如果您从 `istio-proxy` 容器运行这个命令，它将无法工作。
+However, if you run this command from the `istio-proxy` container, it will not work:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://my-nginx -k
@@ -212,9 +226,13 @@ curl: (35) gnutls_handshake() failed: Handshake failed
 command terminated with exit code 35
 {{< /text >}}
 
-原因是对于工作流"sleep-proxy --> nginx-proxy --> nginx”，nginx-proxy 可以从 sleep-proxy 中获得双向的 TLS 流量。在上面的命令中，sleep-proxy 不提供客户端证书，因此它不会起作用。此外，即使是 sleep-proxy 可以在上面的命令中提供客户端证书，它也不会工作，因为流量会从 nginx-proxy 降级到 nginx。
+The reason is that for the workflow "sleep-proxy -> nginx-proxy -> nginx",
+nginx-proxy is expected mutual TLS traffic from sleep-proxy. In the command above,
+sleep-proxy does not provide client cert. As a result, it won't work. Moreover,
+even sleep-proxy provides client cert in above command, it won't work either
+since the traffic will be downgraded to http from nginx-proxy to nginx.
 
-## 清除
+## Cleanup
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@

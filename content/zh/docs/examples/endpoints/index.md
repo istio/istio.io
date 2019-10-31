@@ -1,106 +1,101 @@
 ---
-title: 在谷歌云 Endpoints 服务中安装 Istio
-description: 说明如何在谷歌云 Endpoints 服务中手动整合 Istio。
+title: Install Istio for Google Cloud Endpoints Services
+description: Explains how to manually integrate Google Cloud Endpoints services with Istio.
 weight: 42
+aliases:
+    - /docs/guides/endpoints/index.html
 ---
 
-这篇文档展示了如何手动整合 Istio 和现有的谷歌云 Endpoints 服务。
+This document shows how to manually integrate Istio with existing
+Google Cloud Endpoints services.
 
-## 开始之前
+## Before you begin
 
-如果你没有一个端点服务，但是想尝试它，你可以按照这个[指令](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine)在 GKE 中创建一个 Endpoints 服务。你可以用下面的命令测试服务。
+If you don't have an Endpoints service and want to try it out, you can follow
+the [instructions](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine)
+to setup an Endpoints service on GKE.
+After setup, you should be able to get an API key and store it in `ENDPOINTS_KEY` environment variable and the external IP address `EXTERNAL_IP`.
+You may test the service using the following command:
 
 {{< text bash >}}
-$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}:80/echo?key=${ENDPOINTS_KEY}"
+$ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-在 GKE 中安装 Istio，参考[在 Google Kubernetes Engine 中快速开始](/zh/docs/setup/kubernetes/prepare/platform-setup/gke)。
+To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/platform-setup/gke).
 
-## HTTP Endpoints 服务
+## HTTP Endpoints service
 
-1.  使用 `--includeIPRanges` 将服务注入到网格中，通过该[指令](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)允许出口直接调用外部服务。否则，ESP 将无法接受谷歌云的控制。
+1.  Inject the service and the deployment into the mesh using `--includeIPRanges` by following the
+[instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
+so that Egress is allowed to call external services directly.
+Otherwise, ESP will not be able to access Google cloud service control.
 
-1.  注入后，发出上面提到的测试命令确保调用 ESP 继续工作。
+1.  After injection, issue the same test command as above to ensure that calling ESP continues to work.
 
-1.  如果你想通过 Ingress 访问服务，以下是创建 Ingress 的定义：
+1.  If you want to access the service through Istio ingress, create the following networking definitions:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
-    kind: Ingress
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
     metadata:
-      name: simple-ingress
-      annotations:
-        kubernetes.io/ingress.class: istio
+      name: echo-gateway
     spec:
-      rules:
-      - http:
-          paths:
-          - path: /echo
-            backend:
-              serviceName: esp-echo
-              servicePort: 80
+      selector:
+        istio: ingressgateway # use Istio default gateway implementation
+      servers:
+      - port:
+          number: 80
+          name: http
+          protocol: HTTP
+        hosts:
+        - "*"
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: echo
+    spec:
+      hosts:
+      - "*"
+      gateways:
+      - echo-gateway
+      http:
+      - match:
+        - uri:
+            prefix: /echo
+        route:
+        - destination:
+            port:
+              number: 80
+            host: esp-echo
+    ---
     EOF
     {{< /text >}}
 
-1.  通过[指令](/zh/docs/tasks/traffic-management/ingress/#确定入口-ip-和端口)获取 Ingress IP 和端口。你可以通过 Ingress 验证 Endpoints 服务:
+1.  Get the ingress gateway IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
+You can verify accessing the Endpoints service through Istio ingress:
 
     {{< text bash >}}
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"i
+    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"
     {{< /text >}}
 
-## 使用安全的 Ingress HTTPS Endpoints 服务
+## HTTPS Endpoints service using secured Ingress
 
-安全地访问一个网格 Endpoints 服务推荐的方式是通过配置了双向 TLS 认证的 ingress。
+The recommended way to securely access a mesh Endpoints service is through an ingress configured with TLS.
 
-1.  在你的网格服务中导出 HTTP 端口。在 ESP 部署参数中添加 `"--http_port=8081"` 导出 HTTP 端口：
-
-    {{< text yaml >}}
-    - port: 80
-      targetPort: 8081
-      protocol: TCP
-      name: http
-    {{< /text >}}
-
-1.  通过下面的命令在 Istio 中打开 TLS 双向认证：
+1.  Install Istio with strict mutual TLS enabled. Confirm that the following command outputs either `STRICT` or empty:
 
     {{< text bash >}}
-    $ kubectl edit cm istio -n istio-system
+    $ kubectl get meshpolicy default -n istio-system -o=jsonpath='{.spec.peers[0].mtls.mode}'
     {{< /text >}}
 
-    并且取消注释：
+1.  Re-inject the service and the deployment into the mesh using `--includeIPRanges` by following the
+[instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
+so that Egress is allowed to call external services directly.
+Otherwise, ESP will not be able to access Google cloud service control.
 
-    {{< text yaml >}}
-    authPolicy: MUTUAL_TLS
-    {{< /text >}}
+1.  After this, you will find access to `ENDPOINTS_IP` no longer works because the Istio proxy only accepts secure mesh connections.
+Accessing through Istio ingress should continue to work since the ingress proxy initiates mutual TLS connections within the mesh.
 
-1. 在此之后，你会发现访问 `EXTERNAL_IP` 不再生效， 因为 Istio 代理仅接受安全网格链接。通过 Ingress 访问有效是因为 Ingress 使 HTTP 终止。
-
-1. 安全访问 Ingress，查看相关[说明](/zh/docs/tasks/traffic-management/secure-ingress/)。
-
-1. 你可以通过安全的 Ingress 访问 Endpoints 服务来验证：
-
-    {{< text bash >}}
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${INGRESS_HOST}/echo?key=${ENDPOINTS_KEY}" -k
-    {{< /text >}}
-
-## 在 HTTPS Endpoints 服务中使用 `LoadBalancer EXTERNAL_IP`
-
-这个方案使用 Istio 代理绕过 TCP。通过 ESP 的流量是安全的。这不是推荐的方法。
-
-1. 将 HTTP port 的名字更新为 `tcp`
-
-    {{< text yaml >}}
-    - port: 80
-      targetPort: 8081
-      protocol: TCP
-      name: tcp
-    {{< /text >}}
-
-1. 更新网格服务部署。请参阅 [Pods 和 Services 要求](/zh/docs/setup/kubernetes/additional-setup/requirements)中端口命名的规则。
-
-1. 你可以通过安全的 Ingress 访问 Endpoints 服务来验证：
-
-    {{< text bash >}}
-    $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "https://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}" -k
-    {{< /text >}}
+1.  To secure the access at the ingress, follow the [instructions](/docs/tasks/traffic-management/ingress/secure-ingress-mount/).

@@ -1,58 +1,61 @@
 ---
-title: 面向性能而架构的 Istio 1.1
-description: Istio 1.1 性能概览.
-publishdate: 2019-03-18
-subtitle: Istio 1.1 性能改进概览
+title: Architecting Istio 1.1 for Performance
+description: An overview of Istio 1.1 performance.
+publishdate: 2019-03-19
+subtitle: An overview of Istio 1.1 performance improvements
 attribution: Surya V Duggirala (IBM), Mandar Jog (Google), Jose Nativio (IBM)
 keywords: [performance,scalability,scale,benchmarks]
+target_release: 1.1
 ---
 
-构建一个超大规模的基于微服务的云环境一直令人非常兴奋，但却难于管理。自从 2014 年出现 Kubernetes (容器编排引擎)，随后在 2017 年出现 Istio (容器服务管理)，这两个开源项目让开发者无需在管理上耗费太多时间即可扩展基于容器的应用程序。
+Hyper-scale, microservice-based cloud environments have been exciting to build but challenging to manage. Along came Kubernetes (container orchestration) in 2014, followed by Istio (container service management) in 2017. Both open-source projects enable developers to scale container-based applications without spending too much time on administration tasks.
 
-现在，Istio 1.1 新的增强功能带来了改进的应用性能和服务管理效率。相比于 Istio 1.0，使用我们的示例商业航班预订程序的模拟显示出了如下改进。
+Now, new enhancements in Istio 1.1 deliver scale-up with improved application performance and service management efficiency.
+Simulations using our sample commercial airline reservation application show the following improvements, compared to Istio 1.0.
 
-我们看到大量的应用程序性能提升:
+We've seen substantial application performance gains:
 
-* 应用程序平均延迟降低 30％
-* 在大型网格中服务启动时间快 40％
+* up to 30% reduction in application average latency
+* up to 40% faster service startup times in a large mesh
 
-同样还有服务管理效率的显著提升:
+As well as impressive improvements in service management efficiency:
 
-* 在大型网格中，Pilot 的 CPU 使用率降低了 90％
-* 在大型网格中，Pilot 的内存使用率降低了 50％
+* up to 90% reduction in Pilot CPU usage in a large mesh
+* up to 50% reduction in Pilot memory usage in a large mesh
 
-使用 Istio 1.1，企业会对一致性和可控的应用程序扩展能力更加自信 —— 即使在超大规模的云环境中也无所畏惧。
+With Istio 1.1, organizations can be more confident in their ability to scale applications with consistency and control -- even in hyper-scale cloud environments.
 
-祝贺那些来自世界各地的为此次版本发布做出贡献的 Istio 专家。我们对这些结果无比高兴。
+Congratulations to the Istio experts around the world who contributed to this release. We could not be more pleased with these results.
 
-## Istio 1.1 性能增强
+## Istio 1.1 performance enhancements
 
-作为 Istio Performance and Scalability （性能和可伸缩）工作组的成员，我们进行了广泛的性能评估。我们与其他 Istio 贡献者合作，为 Istio 1.1 引入了许多旨在提高性能的新特性。1.1 中一些显著的性能增强包括:
+As members of the Istio Performance and Scalability workgroup, we have done extensive performance evaluations. We introduced many performance design features for Istio 1.1, in collaboration with other Istio contributors.
+Some of the most visible performance enhancements in 1.1 include:
 
-* Envoy 生成统计数据的默认集合显著减少
-* 为 Mixer 工作负载添加了减载特性
-* 改进了 Envoy 和 Mixer 之间的协议
-* 隔离命名空间以减少操作开销
-* 可配置的并发工作线程，可以提高整体吞吐量
-* 为限制遥测数据的可配置过滤器
-* 解除同步瓶颈
+* Significant reduction in default collection of Envoy-generated statistics
+* Added load-shedding functionality to Mixer workloads
+* Improved the protocol between Envoy and Mixer
+* Namespace isolation, to reduce operational overhead
+* Configurable concurrent worker threads, which can improve overall throughput
+* Configurable filters that limit telemetry data
+* Removal of synchronization bottlenecks
 
-## 持续的代码质量和性能验证
+## Continuous code quality and performance verification
 
-回归巡检促进了 Istio 性能和质量的不断提高，在幕后帮助 Istio 开发者识别并修正代码错误。每天的构建都会经过以客户为中心的性能基准 [BluePerf](https://github.com/blueperf/) 的性能检测。测试结果会展示在 [Istio 社区门户网站](https://ibmcloud-perf.istio.io/regpatrol/)。评估了各种应用配置以帮助洞悉 Istio 组件的性能。
+Regression Patrol drives continuous improvement in Istio performance and quality. Behind the scenes, the Regression Patrol helps Istio developers to identify and fix code issues. Daily builds are checked using a customer-centric benchmark, [BluePerf](https://github.com/blueperf/). The results are published to the [Istio community web portal](https://ibmcloud-perf.istio.io/regpatrol/). Various application configurations are evaluated to help provide insights on Istio component performance.
 
-另一个用于评估 Istio 构建性能的工具是 [Fortio](https://fortio.org/)，它提供了一个综合的端到端的压力测试基准。
+Another tool that is used to evaluate the performance of Istio’s builds is [Fortio](https://fortio.org/), which provides a synthetic end to end load testing benchmark.
 
-## 概要
+## Summary
 
-Istio 1.1 旨在提高性能和可扩展性。Istio Performance and Scalability （性能和可扩展性）工作组实现了自 1.0 以来显著的性能改进。
-Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工作负载的支撑能力。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。
+Istio 1.1 was designed for performance and scalability. The Istio Performance and Scalability workgroup measured significant performance improvements over 1.0.
+Istio 1.1 introduces new features and optimizations to help harden the service mesh for enterprise microservice workloads. The Istio 1.1 Performance and Tuning Guide documents performance simulations, provides sizing and capacity planning guidance, and includes best practices for tuning custom use cases.
 
-## 有用的链接
+## Useful links
 
-* [Istio 服务网格性能 (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 Kubecon Europe 2018
-* [Istio 性能和可扩展性讨论专题](https://discuss.istio.io/c/performance-and-scalability)
+* [Istio Service Mesh Performance (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), by Surya Duggirala, Laurent Demailly and Fawad Khaliq at Kubecon Europe 2018
+* [Istio Performance and Scalability discussion forum](https://discuss.istio.io/c/performance-and-scalability)
 
-## 免责声明
+## Disclaimer
 
-这里展示的性能数据是在一个可控的隔离环境中产生的。在其他环境中获得的实际结果可能存在较大差异。无法保证在其他地方获得相同或类似的结果。
+The performance data contained herein was obtained in a controlled, isolated environment.  Actual results that may be obtained in other operating environments may vary significantly.  There is no guarantee that the same or similar results will be obtained elsewhere.

@@ -1,6 +1,8 @@
 ---
-title: Mixer 支持的全部属性表达式有哪些？
+title: What is the full set of attribute expressions Mixer supports?
 weight: 20
 ---
 
-Mixer 支持的全部属性表达式参见[表达式语言参考](/zh/docs/reference/config/policy-and-telemetry/expression-language/)。
+Please see the [Expression Language
+Reference](/docs/reference/config/policy-and-telemetry/expression-language/) for
+the full set of supported attribute expressions.
