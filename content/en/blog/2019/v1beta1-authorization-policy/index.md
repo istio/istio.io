@@ -25,7 +25,7 @@ service B if the two services are referring to the same workload, this surprises
 misconfiguration.
 
 The other example is it's a little bit hard to maintain and manage the Istio RBAC configurations because user
-needs to learn and mange three different resources in Istio RBAC. Istio has already had an issue that there
+needs to learn and manage three different resources in Istio RBAC. Istio has already had an issue that there
 are too much CRDs to learn and manage, and the learning and maintenance burden of having three different configurations
 in Istio RBAC turned out to be greater than its benefit.
 
@@ -34,8 +34,8 @@ completely replace the previous `v1alpha1` RBAC policy going forward. The `v1bet
 more features but is not backward compatible and will require manual conversion from the old API (we
 will provide tool to help automate the conversion).
 
-In this article, we will introduce the new `v1beta1` authorization policy, talk about its design principle
-and the migration from the `v1alpha1` RBAC policy.
+In this article, we will introduce the new `v1beta1` authorization policy, talk about its design principles
+and the migration from `v1alpha1` RBAC policy.
 
 ## Design principles
 
@@ -51,7 +51,7 @@ different CRDs.
 * Make policy semantics more flexible without introducing much complexity. For example, allow the policy
 to be applied on Ingress/Egress gateway to enforce access control for traffic entering/exiting the mesh.
 
-## Authorization Policy
+## `AuthorizationPolicy`
 
 An `AuthorizationPolicy` enables access control on workloads. This section gives
 a high level overview of the new changes in the `v1beta1` authorization policy.
@@ -183,7 +183,7 @@ spec:
 
 ### Ingress/Egress Gateway support
 
-The `v1beta1` authorization policy also supports to be applied on ingress/egress
+The `v1beta1` authorization policy can also be applied on ingress/egress
 gateway to enforce access control on traffic entering/leaving the mesh, you just
 need to change the `selector` to make the policy to select the ingress/egress workload.
 
@@ -204,7 +204,7 @@ spec:
  # omitted
 {{< /text >}}
 
-### Comparision
+### Comparison
 
 The following table highlights the key differences between the old `v1alpha1` RBAC policies and
 the new `v1beta1` authorization policy.
@@ -213,7 +213,7 @@ the new `v1beta1` authorization policy.
 |---------|------------------------|--------------------------------|
 | API stability | `alpha`: **No** backward compatible | `beta`: backward compatible **guaranteed** |
 | Number of CRDs | Three: `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding` | Only One: `AuthorizationPolicy` |
-| Mechanism to specify where to apply the policy | Specify by **service** | Specify by **workload** |
+| Policy target | **service** | **workload** |
 | Deny-by-default behavior | Enabled **explicitly** by configuring `ClusterRbacConfig` | Enabled **implicitly** with `AuthorizationPolicy` |
 | Ingress/Egress gateway support | Not supported | Supported |
 | The `"*"` value in policy | Match all contents (empty and non-empty) | Match non-empty contents only |
@@ -228,8 +228,8 @@ in-depth explanation of the `AuthorizationPolicy`.
 
 ## Future of the `v1alpha1` policy
 
-With new `v1beta1` authorization policy, the `v1alpha1` RBAC policy (`ClusterRbacConfig`,
-`ServiceRole`, and `ServiceRoleBinding`) is deprecated and will not be supported from Istio 1.6 onwards.
+The `v1alpha1` RBAC policy (`ClusterRbacConfig`, `ServiceRole`, and `ServiceRoleBinding`) is
+deprecated by the `v1beta1` authorization policy and will not be supported from Istio 1.6 onwards.
 
 Istio 1.4 and 1.5 will continue to support the `v1alpha1` RBAC policy to give you enough
 time to move away from the alpha policies.
@@ -270,22 +270,13 @@ You should always review the converted policies manually before applying them in
 
 ## Summary
 
-The Istio `v1beta1` authorization policy is a major update to the current `v1alpha1` RBAC policy
+The Istio `v1beta1` authorization policy is a major update to the previous `v1alpha1` RBAC policy
 with the design principle of aligning with Istio configuration model, improving user
 experience by simplifying the API and making policy semantics more flexible without
 introducing much complexity.
 
-The `v1beta1` policy is not backward compatible and requires a one time manual conversion. A tool
+The `v1beta1` policy is not backward compatible and requires a one time conversion. A tool
 is provided to automate this process.
 
 The previous configuration resources `ClusterRbacConfig`, `ServiceRole`, and `ServiceRoleBinding`
 will not be supported from Istio 1.6 onwards.
-
-## Acknowledgements
-
-Credit for the policy redesign and implementation work goes to the following people
-(in alphabetical order):
-
-* Limin Wang (Google)
-* Phillip Le (Google)
-* Yangmin Zhu (Google)
