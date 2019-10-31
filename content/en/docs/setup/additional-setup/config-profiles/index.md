@@ -16,6 +16,7 @@ your specific needs. The following built-in configuration profiles are currently
 1. **default**: enables components according to the default settings of the
     [`IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
     (recommend for production deployments).
+    You can display the default setting by running the command `istioctl profile dump`.
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
