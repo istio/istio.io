@@ -12,17 +12,15 @@ are by default managed by Citadel, which is a large component, maintains its own
 signing key, and also acts as a CA.
 
 In Istio 1.4, we introduce a new feature to securely provision and manage DNS certificates
-for Istio control plane components. This feature is implemented through a component called
-Chiron, which is linked with Pilot.
+signed by Kubernetes CA in Istio, which has the following advantages.
 
-* Compared with Citadel, Chiron is lightweight and removes the dependency on Citadel for control plane DNS
-certificates.
+* This feature removes the dependency on Citadel for DNS certificates and is
+more lightweight than Citadel.
 
-* Unlike Citadel, Chiron does not need to maintain a private signing key and signs certificates at
-Kubernetes CA, which enhances security.
+* Unlike Citadel, this feature doesn't require maintaining a private signing key, which enhances security.
 
-* With Chiron, it is much easier to distribute certificate trust anchor to pods
-for TLS connections as there is no waiting for Citadel to generate and distribute its CA cert.
+* This feature simplifies root certificate distribution to TLS clients
+as there is no waiting for Citadel to generate and distribute its CA cert.
 
 The following diagram shows the architecture of provisioning and managing DNS certificates in Istio.
 
