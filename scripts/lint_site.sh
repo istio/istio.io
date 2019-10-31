@@ -119,7 +119,7 @@ find ./public -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
     fi
 done
 
-if ! htmlproofer ./public --assume-extension --http-status-ignore "0" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/"; then
+if ! htmlproofer ./public --assume-extension --http-status-ignore "0" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/"; then
     FAILED=1
 fi
 
