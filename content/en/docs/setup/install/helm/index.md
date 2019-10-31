@@ -19,6 +19,14 @@ window.onload = function(){
 }
 </script>
 
+<script id="dnscerts" defer>
+window.onload = function(){
+  if (window.location.hash == '#dnscerts') {
+    selectTabsets('helm_profile', 'dnscerts');
+  }
+}
+</script>
+
 {{< warning >}}
 The Helm installation approach has been deprecated.
 Please use [Installing with {{< istioctl >}}](/docs/setup/install/operator/), instead.
@@ -157,6 +165,20 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
+{{< tab name="DNS certificates" cookie-value="dnscerts" >}}
+
+Install Istio with two example DNS certificates signed by Kubernetes CA:
+
+{{< text bash >}}
+$ helm template \
+    --name=istio \
+    --namespace=istio-system \
+    --values install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml \
+    install/kubernetes/helm/istio | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< /tabset >}}
 
 ### Option 2: Install with Helm and Tiller via `helm install`
@@ -247,6 +269,19 @@ For example, to configure the **default** profile:
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="DNS certificates" cookie-value="dnscerts" >}}
+
+Install Istio with two example DNS certificates signed by Kubernetes CA:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio \
+    --name=istio \
+    --namespace=istio-system \
+    --values install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml
 {{< /text >}}
 
 {{< /tab >}}

@@ -18,7 +18,7 @@ using Kubernetes CA APIs without maintaining its own private key.
 
 * Create a Kubernetes cluster with Istio installed and the DNS certificate configuration
 in [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml).
-Istio installation guides can be found [here](/docs/setup/install).
+Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#dnscerts) for complete instructions.
 
 * Install [`jq`](https://stedolan.github.io/jq/) for JSON parsing.
 
@@ -56,7 +56,7 @@ The output from the above command should include:
 
 ## Check DNS certificate regeneration
 
-Istio not only provisions DNS certificates but also manages the lifecycles of the certificates generated,
+Istio not only provisions DNS certificates but also manages the lifecycle of the certificates generated,
 e.g., regenerating a certificate that is mistakenly deleted.
 In this section, we check that after the certificate for Galley is deleted,
 it can be automatically regenerated.
