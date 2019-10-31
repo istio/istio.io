@@ -7,13 +7,13 @@ keywords: [security,webhook]
 
 {{< boilerplate experimental-feature-warning >}}
 
-Istio has two webhooks: Galley and Sidecar Injector. By default,
-Galley and Sidecar Injector manage their own webhook configurations, which from the
-security perspective is not recommended because a compromised webhook may conduct
+Istio has two webhooks: Galley and the sidecar injector. By default,
+these webhooks manage their own configurations. From a
+security perspective, this default behavior is not recommended because a compromised webhook could then conduct
 privilege escalation attacks.
 
-This task shows how to use `istioctl`, instead of Galley and Sidecar Injector, to
-manage the webhook configurations of Galley and Sidecar Injector.
+This task shows how to use `istioctl`, instead of the webhooks, to
+manage their configurations.
 
 ## Before you begin
 
@@ -26,14 +26,14 @@ Istio installation guides can be found [here](/docs/setup/install).
 
 ## Check webhook certificates
 
-To display the DNS names in the webhook certificates of Galley and Sidecar Injector, run the following commands:
+To display the DNS names in the webhook certificates of Galley and the sidecar injector, run the following commands:
 
 {{< text bash >}}
 $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
 $ kubectl get secret dns.istio-sidecar-injector-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
 {{< /text >}}
 
-The output from the above commands should include the DNS names of Galley and Sidecar Injector, respectively:
+The output from the above commands should include the DNS names of Galley and the sidecar injector, respectively:
 
 {{< text plain >}}
 X509v3 Subject Alternative Name:
@@ -47,11 +47,15 @@ X509v3 Subject Alternative Name:
 
 ## Enable webhook configurations
 
-1.  Generate `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` by running the following
-command. The YAML file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
-contains an example DNS certificate configuration (details in [the certificate guide](/docs/tasks/security/dns-cert)).
-The following command uses the default Istio configuration plus the DNS certificate configuration in `values-istio-dns-cert.yaml`.
-The document of the helm template command can be found in the [link](https://helm.sh/docs/helm/#helm-template).
+1.  To generate the `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` configuration files, run the following
+command. The [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml) YAML file
+contains an example DNS certificate configuration. Learn more in [the certificate guide](/docs/tasks/security/dns-cert).
+The following command uses the following configurations:
+
+    * The default Istio configuration.
+    * The DNS certificate configuration in `values-istio-dns-cert.yaml`.
+
+You can find more information in the `helm template` command [documentation](https://helm.sh/docs/helm/#helm-template).
 
     {{< text bash >}}
     $ helm template \
@@ -63,7 +67,7 @@ The document of the helm template command can be found in the [link](https://hel
 
 <!-- TODO (lei-tang): improve the UX for obtain MutatingWebhookConfiguration -->
 1.  Open the `istio-webhook-config.yaml` configuration file, search `'kind: MutatingWebhookConfiguration'` and save
-the `MutatingWebhookConfiguration` of Sidecar Injector to `sidecar-injector-webhook.yaml`. The following
+the `MutatingWebhookConfiguration` of the sidecar injector to `sidecar-injector-webhook.yaml`. The following
 is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
 
     {{< text yaml >}}
@@ -131,7 +135,7 @@ a part of the configuration is shown to save space).
         sideEffects: None
     {{< /text >}}
 
-1.  Enable webhook configurations through `istioctl`:
+1.  Use `istioctl` to enable the webhook configurations:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook enable --validation --webhook-secret dns.istio-galley-service-account \
@@ -139,8 +143,8 @@ a part of the configuration is shown to save space).
         --injection-path sidecar-injector-webhook.yaml
     {{< /text >}}
 
-1.  Check the Sidecar Injector webhook is working by verifying that Sidecar Injector injects a
-sidecar container into an example pod:
+1.  To check that the sidecar injector webhook is working, verify that the webhook injects a
+sidecar container into an example pod with the following commands:
 
     {{< text bash >}}
     $ kubectl create namespace test-injection; kubectl label namespaces test-injection istio-injection=enabled
@@ -148,8 +152,8 @@ sidecar container into an example pod:
     $ kubectl get pod -n test-injection
     {{< /text >}}
 
-    The output from the `get pod` command should show the following output (`2/2` means that
-    the Sidecar Injector webhook injected a sidecar into the example pod):
+    The output from the `get pod` command should show the following output. The `2/2` value means that
+    the webhook injected a sidecar into the example pod:
 
     {{< text plain >}}
     NAME    READY   STATUS    RESTARTS   AGE
@@ -174,8 +178,8 @@ sidecar container into an example pod:
     EOF
     {{< /text >}}
 
-    The output from the gateway creation command should show the following output (the error
-    in the output indicates that the validation webhook checked the gateway YAML file):
+    The output from the gateway creation command should show the following output. The error
+    in the output indicates that the validation webhook checked the gateway's configuration YAML file:
 
     {{< text plain >}}
     Error from server: error when creating "invalid-gateway.yaml": admission webhook "pilot.validation.istio.io" denied the request: configuration is invalid: gateway must have at least one server
@@ -183,19 +187,19 @@ sidecar container into an example pod:
 
 ## Show webhook configurations
 
-1.  Show the configurations of Galley and Sidecar Injector with their default webhook configuration names:
+1.  Show the configurations of Galley and the sidecar injector with their default configuration names:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook status
     {{< /text >}}
 
-1.  Show the configuration of Sidecar Injector with the webhook configuration name being `istio-sidecar-injector`:
+1.  Show the configuration of the sidecar injector if the webhook's configuration name is `istio-sidecar-injector`:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook status --validation=false --injection-config=istio-sidecar-injector
     {{< /text >}}
 
-1.  Show the configuration of Galley with the webhook configuration name being `istio-galley`:
+1.  Show the configuration of Galley if the webhook's configuration name is `istio-galley`:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook status --injection=false --validation-config=istio-galley
@@ -203,19 +207,19 @@ sidecar container into an example pod:
 
 ## Disable webhook configurations
 
-1.  Disable the configurations of Galley and Sidecar Injector with their default webhook configuration names:
+1.  Disable Galley and the sidecar injector when using their default webhook configuration names:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook disable
     {{< /text >}}
 
-1.  Disable the configuration of Sidecar Injector with the webhook configuration name being `istio-sidecar-injector`:
+1.  Disable the sidecar injector if the webhook's configuration name is `istio-sidecar-injector`:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook disable --validation=false --injection-config=istio-sidecar-injector
     {{< /text >}}
 
-1.  Disable the configuration of Galley with the webhook configuration name being `istio-galley`:
+1.  Disable the configuration of Galley if the webhook's configuration name is `istio-galley`:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook disable --injection=false --validation-config=istio-galley
