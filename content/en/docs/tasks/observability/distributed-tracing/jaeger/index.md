@@ -63,10 +63,10 @@ $ istioctl dashboard jaeger
 
 ## Cleanup
 
-1.  Remove any `kubectl port-forward` processes that may still be running:
+1.  Remove any `istioctl dashboard` processes that may still be running:
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the

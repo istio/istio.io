@@ -108,10 +108,10 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
--   Remove any `kubectl port-forward` processes that may still be running:
+-   Remove any `istioctl dashboard` processes that may still be running:
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
 -   If you are not planning to explore any follow-on tasks, refer to the
