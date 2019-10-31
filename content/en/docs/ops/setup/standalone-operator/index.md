@@ -99,7 +99,7 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-minimal.yaml
 {{< warning >}}
 This document is a work in progress. Expect verification steps for each of the profiles to
 vary from these verification steps. Inconsistencies will be resolved prior to the publishing of
-Istio 1.4. Until that time, these verification steps only apply to the `profile-istio-demo.yaml` profile.
+Istio 1.4. Until that time, these verification steps only apply to the `demo` profile.
 {{< /warning >}}
 
 1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
