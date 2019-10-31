@@ -27,7 +27,7 @@ description: 用于连接、保护、控制和观测服务。
                 </div>
             </a>
         </div>
-    
+
         <div id="panel2" class="panel">
             <a href="/zh/docs/concepts/security/">
                 <div class="panel-img-top">
@@ -43,7 +43,7 @@ description: 用于连接、保护、控制和观测服务。
                 </div>
             </a>
         </div>
-    
+
         <div id="panel3" class="panel">
             <a href="/zh/docs/reference/config/policy-and-telemetry/">
                 <div class="panel-img-top">
@@ -59,7 +59,7 @@ description: 用于连接、保护、控制和观测服务。
                 </div>
             </a>
         </div>
-    
+
         <div id="panel4" class="panel">
             <a href="/zh/docs/reference/config/policy-and-telemetry/">
                 <div class="panel-img-top">
@@ -76,7 +76,7 @@ description: 用于连接、保护、控制和观测服务。
             </a>
         </div>
     </div>
-    
+
     <div id="buttons">
         <a title="在 Kubernetes 上安装 Istio。" class="btn" href="/zh/docs/setup/getting-started/">开始吧</a>
         <a title="深入了解 Istio 是什么以及它是如何工作的。" class="btn" href="/zh/docs/concepts/what-is-istio/">了解更多</a>
