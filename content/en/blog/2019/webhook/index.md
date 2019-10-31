@@ -7,7 +7,7 @@ keywords: [security, kubernetes, webhook]
 target_release: 1.4
 ---
 
-Istio has two webhooks: Galley and Sidecar Injector. Both of them are critical to Istio,
+Istio has two webhooks: Galley and Sidecar Injector. Both of them are crucial for Istio,
 with Galley validating Kubernetes resources and Sidecar Injector injecting Istio
 sidecar containers.
 
@@ -24,7 +24,8 @@ a service owned by the attacker).
     caption="An example attack"
     >}}
 
-In Istio 1.4, we introduce a new feature that uses `istioctl` to securely manage webhooks, with which:
+To protect against this kind of attack, Istio 1.4 introduces a new feature to securely manage
+webhooks using `istioctl`:
 
 1. `istioctl`, instead of Galley and Sidecar Injector, manage the webhook configurations.
 Galley and Sidecar Injector are de-privileged such that even if they are compromised, they
