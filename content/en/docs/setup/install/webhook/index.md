@@ -45,7 +45,7 @@ X509v3 Subject Alternative Name:
   DNS:istio-sidecar-injector.istio-system.svc, DNS:istio-sidecar-injector.istio-system
 {{< /text >}}
 
-## `istioctl` enables webhook configurations
+## Enable webhook configurations
 
 1.  Generate `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` by running the following
 command. The YAML file [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml)
@@ -181,7 +181,7 @@ sidecar container into an example pod:
     Error from server: error when creating "invalid-gateway.yaml": admission webhook "pilot.validation.istio.io" denied the request: configuration is invalid: gateway must have at least one server
     {{< /text >}}
 
-## `istioctl` shows webhook configurations
+## Show webhook configurations
 
 1.  Show the configurations of Galley and Sidecar Injector with their default webhook configuration names:
 
@@ -201,7 +201,7 @@ sidecar container into an example pod:
     $ istioctl experimental post-install webhook status --injection=false --validation-config=istio-galley
     {{< /text >}}
 
-## `istioctl` disables webhook configurations
+## Disable webhook configurations
 
 1.  Disable the configurations of Galley and Sidecar Injector with their default webhook configuration names:
 
