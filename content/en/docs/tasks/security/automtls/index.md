@@ -200,7 +200,7 @@ spec:
 EOF
 {{< /text >}}
 
-In this case, since the service is in plain text mode. Isti automatically configure clients
+In this case, since the service is in plain text mode. Istio automatically configure clients
 to send plain text traffic to avoid breakage. Confirm all the traffic still succeed.
 
 {{< text bash >}}
@@ -217,10 +217,9 @@ sleep.legacy to httpbin.mixed: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-
 ### Destination rule overrides
 
-For backward compatability, you can still use destination rule to override the TLS configuration as
+For backward compatibility, you can still use destination rule to override the TLS configuration as
 before. For example, you can explicitly configure destination rule for `httpbin.foo` to enable
 mutual TLS explicitly
 
@@ -266,7 +265,7 @@ $ kubectl delete ns foo mixed legacy
 Automatic mutual TLS configures the client sidecar to send TLS traffic by default between sidecars.
 This means corresponding TLS overhead.
 
-As aforementioned, automatical mutual TLS is a mesh wide Helm installation option. You have to
+As aforementioned, automatic mutual TLS is a mesh wide Helm installation option. You have to
 re-deploy Istio to enable or disable the feature. When disabling the feature, if you already rely
 on it to automatically encrypt the traffic, then traffic can **fall back to plain text**, which
 can affect your **security posture or break the traffic**, if the service is already configured as
@@ -274,4 +273,4 @@ can affect your **security posture or break the traffic**, if the service is alr
 
 Currently, automatic mutual TLS is an Alpha stage feature, please be aware of the risk.
 We're considering to make this feature the default enabled. Please consider to send your feedback
-or encountered issues when trying auto mutual TLS via [Github](https://github.com/istio/istio/issues/18548).
+or encountered issues when trying auto mutual TLS via [Git Hub](https://github.com/istio/istio/issues/18548).
