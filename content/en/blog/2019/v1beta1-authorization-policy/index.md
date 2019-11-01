@@ -21,8 +21,8 @@ For example, some users have had the wrong impression that the enforcement happe
 `ServiceRole` uses service to specify where to apply the policy, however, the policy is actually applied
 in workload-level, the service is only used to find the corresponding workload. This has some big impact, especially
 when multiple services are referring to the same workload. A `ServiceRole` for service A will also affect
-service B if the two services are referring to the same workload, this surprises customers and could cause
-misconfiguration.
+service B if the two services are referring to the same workload, this surprises customers and could result in
+misconfigurations.
 
 The other example is it's a little bit hard to maintain and manage the Istio RBAC configurations because user
 needs to learn and manage three different resources in Istio RBAC. Istio has already had an issue that there
@@ -209,6 +209,8 @@ spec:
 The following table highlights the key differences between the old `v1alpha1` RBAC policies and
 the new `v1beta1` authorization policy.
 
+#### Feature
+
 | Feature | `v1alpha1` RBAC policy | `v1beta1` Authorization Policy |
 |---------|------------------------|--------------------------------|
 | API stability | `alpha`: **No** backward compatible | `beta`: backward compatible **guaranteed** |
@@ -217,7 +219,47 @@ the new `v1beta1` authorization policy.
 | Deny-by-default behavior | Enabled **explicitly** by configuring `ClusterRbacConfig` | Enabled **implicitly** with `AuthorizationPolicy` |
 | Ingress/Egress gateway support | Not supported | Supported |
 | The `"*"` value in policy | Match all contents (empty and non-empty) | Match non-empty contents only |
-| The `destination.user` constraint | Supported | Not supported |
+
+The following tables show the relationship between the `v1alpha1` and `v1beta1` API.
+
+#### `ClusterRbacConfig`
+
+| `ClusterRbacConfig.Mode` | `AuthorizationPolicy` |
+|---------------------|-----------------------|
+| `OFF` | No policy applied |
+| `ON` | A deny-all policy applied in root namespace |
+| `ON_WITH_INCLUSION` | policies should be applied to namespaces or workloads included by `ClusterRbacConfig` |
+| `ON_WITH_EXCLUSION` | policies should be applied to namespaces or workloads excluded by `ClusterRbacConfig` |
+
+#### `ServiceRole`
+
+| `ServiceRole` | `AuthorizationPolicy` |
+|---------------|-----------------------|
+| `services` | `selector` |
+| `paths` | `paths` in `to` |
+| `methods` | `methods` in `to` |
+| `destination.ip` in constraint | Not supported |
+| `destination.port` in constraint | `ports` in `to` |
+| `destination.labels` in constraint | `selector` |
+| `destination.namespace` in constraint | Replaced by the namespace of the policy, i.e. the `namespace` in metadata |
+| `destination.user` in constraint | Not supported |
+| `experimental.envoy.filters` in constraint | `experimental.envoy.filters` in `when` |
+| `request.headers` in constraint | `request.headers` in `when` |
+
+#### `ServiceRoleBinding`
+
+| `ServiceRoleBinding` | `AuthorizationPolicy` |
+|----------------------|-----------------------|
+| `user`  | `principals` in `from` |
+| `group` | `paths` in `to` |
+| `source.ip` in property | `ipBlocks` in `from` |
+| `source.namespace` in property | `namespaces` in `from` |
+| `source.principal` in property | `principals` in `from` |
+| `request.headers` in property | `request.headers` in `when` |
+| `request.auth.principal` in property | `requestPrincipals` in `from` or `request.auth.principal` in `when` |
+| `request.auth.audiences` in property | `request.auth.audiences` in `when` |
+| `request.auth.presenter` in property | `request.auth.presenter` in `when` |
+| `request.auth.claims` in property | `request.auth.claims` in `when` |
 
 Beyond all the differences, the `v1beta1` policy is enforced by the same engine in Envoy
 and supports the same authenticated identity (mutual TLS or JWT), condition and other
