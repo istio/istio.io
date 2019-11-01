@@ -111,6 +111,7 @@ The following table shows the required settings for many common Kubernetes envir
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
+| Red Hat OpenShift 4.2+ | `cniBinDir=/var/lib/cni/bin cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
 
 ### GKE setup
 
