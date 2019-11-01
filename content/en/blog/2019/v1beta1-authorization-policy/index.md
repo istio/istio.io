@@ -48,7 +48,7 @@ The configuration model provides a unified way for configuration hierarchy, reso
 definition (CRD) that includes all access control specification instead of looking at multiple
 different CRDs.
 
-* Make policy semantics more flexible without introducing much complexity. For example, allow the policy
+* Support more use cases without introducing much complexity. For example, allow the policy
 to be applied on Ingress/Egress gateway to enforce access control for traffic entering/exiting the mesh.
 
 ## `AuthorizationPolicy`
@@ -314,8 +314,8 @@ You should always review the converted policies manually before applying them in
 
 The Istio `v1beta1` authorization policy is a major update to the previous `v1alpha1` RBAC policy
 with the design principle of aligning with Istio configuration model, improving user
-experience by simplifying the API and making policy semantics more flexible without
-introducing much complexity.
+experience by simplifying the API and supporting more use cases (e.g. Ingress/Egress gateway support)
+without introducing much complexity.
 
 The `v1beta1` policy is not backward compatible and requires a one time conversion. A tool
 is provided to automate this process.
