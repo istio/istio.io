@@ -100,8 +100,8 @@
                 data-updateadvice='{{ printf (i18n "relnote_update_advice") $release_name }}'
                 data-updatebutton='{{ printf (i18n "relnote_update_button") $latest_full_version }}'
                 data-updatehref="{{ $latest_patch_url }}">
-                <h5>DOWNLOAD</h5>
-                <p>Download and install this release.</p>
+                <h5>{{ i18n "relnote_download_title" }}</h5>
+                <p>{{ i18n "relnote_download_detail" }}</p>
             </a>
         {{ else }}
             <a class="entry" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">
@@ -115,7 +115,7 @@
     {{ if eq $release_location "archive" }}
         {{ $doc_link = printf "https://archive.istio.io/v%s/docs" $version }}
     {{ else if eq $release_location "preliminary" }}
-        {{ $doc_link := printf "https://preliminry.istio.io%s/docs" $lang }}
+        {{ $doc_link = printf "https://preliminry.istio.io%s/docs" $lang }}
     {{ else if .Site.Data.args.preliminary }}
         {{ $doc_link = "https://istio.io/docs" }}
     {{ end }}
