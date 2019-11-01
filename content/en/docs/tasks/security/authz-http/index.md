@@ -43,7 +43,7 @@ First, you configure a simple `deny-all` policy that rejects all requests to the
 and then grant more access to the workload gradually and incrementally.
 
 1. Run the following command to create a `deny-all` policy in the `default` namespace.
-   The policy doesn't have `selector` which means it applies to every workload in the
+   The policy doesn't have a `selector` field, which applies the policy to every workload in the
    `default` namespace. The `spec:` field of the policy has the empty value `{}`.
    That value means that no traffic is permitted, effectively denying all requests.
 
@@ -88,8 +88,11 @@ and then grant more access to the workload gradually and incrementally.
     {{< /text >}}
 
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
-    Now you should see the "Bookinfo Sample" page. But there are errors `Error fetching product details`
-    and `Error fetching product reviews` on the page.
+    Now you should see the "Bookinfo Sample" page. Now you should see the "Bookinfo Sample" page.
+    However, you can see the following errors on the page:
+
+    * `Error fetching product details`
+    * `Error fetching product reviews` on the page.
 
     These errors are expected because we have not granted the `productpage`
     workload access to the `details` and `reviews` workloads. Next, you need to
