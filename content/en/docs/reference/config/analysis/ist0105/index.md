@@ -20,7 +20,7 @@ injected.
 To resolve this problem, update the sidecar version by redeploying your application
 using your normal rollout strategy. For a Kubernetes deployment:
 
-* If you're using Kubernetes version 1.15 or above, you can run
+* If you're using Kubernetes 1.15 or higher, you can run
   `kubectl rollout restart <my-deployment>` to trigger a new rollout.
 * Alternatively, you can modify the deployment's `template` field to force a new
   rollout. This is often done by adding a label like

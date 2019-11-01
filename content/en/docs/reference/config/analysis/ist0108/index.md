@@ -3,8 +3,7 @@ title: UnknownAnnotation
 layout: analysis-message
 ---
 
-This message occurs when you attach an annotation to a namespace, but Istio does
-not recognize the annotation.
+This message occurs when you attach an unrecognized annotation in the format `*istio.io[/*]` to a namespace.
 
 Istio only recognizes certain [annotation names](/docs/reference/config/annotations/).
 

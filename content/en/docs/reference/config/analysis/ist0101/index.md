@@ -9,13 +9,13 @@ resource but cannot find it.
 
 For example, you receive this error:
 
-{{< text yaml >}}
+{{< text plain >}}
 Error [IST0101] (VirtualService httpbin.default) Referenced gateway not found: "httpbin-gateway-bogus"
 {{< /text >}}
 
 In this example, the `VirtualService` refers to a gateway that does not exist:
 
-{{< text plain >}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
