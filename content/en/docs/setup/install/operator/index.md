@@ -229,12 +229,25 @@ line. For example, to disable the telemetry feature in a default configuration p
 $ istioctl manifest apply --set telemetry.enabled=false
 {{< /text >}}
 
-Alternatively, a complete configuration can be specified in a YAML file and passed to
+Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
 `istioctl` using the `-f` option:
 
 {{< text bash >}}
 $ istioctl manifest apply -f samples/pilot-k8s.yaml
 {{< /text >}}
+
+{{< tip >}}
+For backwards compatibility, the previous [Helm installation options](/docs/reference/config/installation-options/)
+are also fully supported. To set them on the command line, prepend the option name with "`values.`".
+For example, the following command overrides the `pilot.traceSampling` Helm configuration option:
+
+{{< text bash >}}
+$ istioctl manifest apply --set values.pilot.traceSampling=0.1
+{{< /text >}}
+
+Helm values can also be set in an `IstioControlPlane` definition as described in
+[Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api), below.
+{{< /tip >}}
 
 ### Identify an Istio feature or component
 

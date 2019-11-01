@@ -6,12 +6,28 @@ keywords: [kubernetes,helm]
 force_inline_toc: true
 ---
 
+{{< warning >}}
+Installing Istio with Helm has been deprecated, however, you can still use these Helm configuration options when
+[installing Istio with {{< istioctl >}}](/docs/setup/install/operator/) by prepending the string "`values.`"
+to the option name. For example, instead of this `helm` command:
+
+{{< text bash >}}
+$ helm template ... --set global.mtls.enabled=true
+{{< /text >}}
+
+You can use this `istioctl` command:
+
+{{< text bash >}}
+$ istioctl manifest generate ... --set values.global.mtls.enabled=true
+{{< /text >}}
+
+Refer to [customizing the configuration](/docs/setup/install/operator/#customizing-the-configuration) for details.
+{{< /warning >}}
+
 {{< tip >}}
 Refer to [Installation Options Changes](/news/2019/announcing-1.3/helm-changes/)
 for a detailed summary of the option changes between release 1.2 and release 1.3.
 {{< /tip >}}
-
-To customize Istio install using Helm, use the `--set <key>=<value>` option in Helm command to override one or more values. The set of supported keys is shown in the table below.
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 
