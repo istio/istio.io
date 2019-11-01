@@ -88,7 +88,7 @@ and then grant more access to the workload gradually and incrementally.
     {{< /text >}}
 
     Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
-    Now you should see the "Bookinfo Sample" page. Now you should see the "Bookinfo Sample" page.
+    Now you should see the "Bookinfo Sample" page.
     However, you can see the following errors on the page:
 
     * `Error fetching product details`
