@@ -61,8 +61,8 @@
     {{ $change_notes := .Page.GetPage "./change-notes" }}
     {{ if $change_notes }}
         <a class="entry" href="./change-notes">
-            <h5>CHANGE NOTES</h5>
-            <p>Get a detailed list of what's changed.</p>
+            <h5>{{ i18n "relnote_change_notes_title" }}</h5>
+            <p>{{ i18n "relnote_change_notes_detail" }}</p>
         </a>
     {{ end }}
 
@@ -80,15 +80,15 @@
 
     {{ if $upgrade_notes }}
         <a class="entry" href="{{ $upgrade_notes.Permalink }}">
-            <h5>BEFORE YOU UPGRADE</h5>
-            <p>Things to know and prepare before upgrading.</p>
+            <h5>{{ i18n "relnote_before_you_upgrade_title" }}</h5>
+            <p>{{ i18n "relnote_before_you_upgrade_detail" }}</p>
         </a>
     {{ end }}
 
     {{ if eq $release_location "preliminary" }}
         <div class="entry">
-            <h5>DOWNLOAD</h5>
-            <p>Download and install this release.</p>
+            <h5>{{ i18n "relnote_download_title" }}</h5>
+            <p>{{ i18n "relnote_download_detail" }}</p>
         </div>
     {{ else }}
         {{ if ne $latest_full_version $full_version }}
@@ -105,29 +105,31 @@
             </a>
         {{ else }}
             <a class="entry" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">
-                <h5>DOWNLOAD</h5>
-                <p>Download and install this release.</p>
+                <h5>{{ i18n "relnote_download_title" }}</h5>
+                <p>{{ i18n "relnote_download_detail" }}</p>
             </a>
         {{ end }}
     {{ end }}
 
     {{ $doc_link := printf "https://istio.io%s/docs" $lang }}
     {{ if eq $release_location "archive" }}
-        {{ $doc_link = printf "https://archive.istio.io/v%s" $version }}
+        {{ $doc_link = printf "https://archive.istio.io/v%s/docs" $version }}
     {{ else if eq $release_location "preliminary" }}
         {{ $doc_link := printf "https://preliminry.istio.io%s/docs" $lang }}
+    {{ else if .Site.Data.args.preliminary }}
+        {{ $doc_link = "https://istio.io/docs" }}
     {{ end }}
 
     <a class="entry" href="{{ $doc_link }}">
-        <h5>DOCS</h5>
-        <p>Visit the documentation for this release.</p>
+        <h5>{{ i18n "relnote_docs_title" }}</h5>
+        <p>{{ i18n "relnote_docs_detail" }}</p>
     </a>
 
     {{ $helm_changes := .Page.GetPage "./helm-changes" }}
     {{ if $helm_changes }}
         <a class="entry" href="./helm-changes">
-            <h5>HELM CHANGES</h5>
-            <p>Learn about changes in our Helm installation options.</p>
+            <h5>{{ i18n "relnote_helm_changes_title" }}</h5>
+            <p>{{ i18n "relnote_helm_changes_detail" }}</p>
         </a>
     {{ end }}
 
@@ -136,8 +138,8 @@
         {{ $delta_link := printf "https://github.com/istio/istio/compare/%s...%s" $old_full_version $full_version }}
 
         <a class="entry" href="{{ $delta_link }}">
-            <h5>SOURCE CHANGES</h5>
-            <p>Inspect the full set of source code changes.</p>
+            <h5>{{ i18n "relnote_source_changes_title" }}</h5>
+            <p>{{ i18n "relnote_source_changes_detail" }}</p>
         </a>
     {{ end }}
 </div>
