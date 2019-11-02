@@ -14,7 +14,7 @@ would require are already documented in other sections of the Istio
 documentation so this section will rely heavily on pointers to that
 other content.
 
-## Key Istio Concepts
+## Key Istio concepts
 
 When attempting to understand, monitor or troubleshoot the networking within
 an Istio deployment it is critical to understand the fundamental Istio
@@ -41,7 +41,7 @@ in the mesh access external services. This is described with a
 configuration example here:
 [Istio Gateways](/docs/concepts/traffic-management/#gateways)
 
-## Network Layers Beneath the Mesh
+## Network layers beneath the mesh
 
 Istio's service mesh runs on top of the networking provided by the
 infrastructure environment (e.g. Kubernetes) on which the Istio mesh

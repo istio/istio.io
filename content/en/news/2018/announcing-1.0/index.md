@@ -48,7 +48,7 @@ their performance and reliability.
 
 While this is a significant milestone for the project there’s lots more to do. In working with adopters we’ve gotten a lot of great feedback about what to focus next. We’ve heard consistent themes around support for hybrid-cloud, install modularity, richer networking features and scalability for massive deployments. We’ve already taken some of this feedback into account in the 1.0 release and we’ll continue to aggressively tackle this work in the coming months.
 
-## Getting Started
+## Getting started
 
 If you’re new to Istio and looking to use it for your deployment we’d love to hear from you. Take a look at [our docs](/docs/) or stop by our
 [chat forum](https://discuss.istio.io). If you’d like
@@ -74,7 +74,7 @@ has been removed.
 
 - **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use [gateways](/docs/concepts/traffic-management/#gateways) instead.
 
-### Policy and Telemetry
+### Policy and telemetry
 
 - **Updated Attributes**. The set of [attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
 destination of traffic have been completely revamped in order to be more

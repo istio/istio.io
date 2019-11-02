@@ -40,7 +40,7 @@ metrics on their own internal behaviors to provide insight on the health and fun
 Istio metrics collection is driven by operator configuration. Operators select how and when to collect metrics, as well as how detailed the metrics themselves
 should be. This enables operators to flexibly tune metrics collection to meet their individual needs.
 
-### Proxy-level Metrics
+### Proxy-level metrics
 
 Istio metrics collection begins with the sidecar proxies (Envoy). Each proxy generates a rich set of metrics about all traffic passing through the proxy (both
 inbound and outbound). The proxies also provide detailed statistics about the administrative functions of the proxy itself, including configuration and health
@@ -71,7 +71,7 @@ envoy_cluster_lb_subsets_removed{cluster_name="xds-grpc"} 0
 envoy_cluster_internal_upstream_rq{response_code="503",cluster_name="xds-grpc"} 1
 {{< /text >}}
 
-### Service-level Metrics
+### Service-level metrics
 
 In addition to the proxy-level metrics, Istio provides a set of service-oriented metrics for monitoring service communications. These metrics cover the four
 basic service monitoring needs: latency, traffic, errors, and saturation. Istio ships with a default set of
@@ -111,7 +111,7 @@ istio_requests_total{
 } 214
 {{< /text >}}
 
-### Control Plane Metrics
+### Control plane metrics
 
 Each Istio component (Pilot, Galley, Mixer) also provides a collection of self-monitoring metrics. These metrics allow monitoring of the behavior
 of Istio itself (as distinct from that of the services within the mesh).
@@ -123,7 +123,7 @@ For more information on which metrics are maintained, please refer to the refere
 - [Mixer](/docs/reference/commands/mixs/#metrics)
 - [Citadel](/docs/reference/commands/istio_ca/#metrics)
 
-## Distributed Traces
+## Distributed traces
 
 Distributed tracing provides a way to monitor and understand behavior by monitoring individual requests as they flow through a mesh.
 Traces empower mesh operators to understand service dependencies and the sources of latency within their service mesh.
@@ -142,7 +142,7 @@ Example Istio-generated distributed trace for a single request:
 
 {{< image link="/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
 
-## Access Logs
+## Access logs
 
 Access logs provide a way to monitor and understand behavior from the perspective of an individual workload instance.
 
