@@ -1,6 +1,6 @@
 ---
-title: Kubernetes - 我可以将已安装的 Istio 0.1.x 迁移到 0.2.x 吗？
+title: Kubernetes - Can I migrate an existing installation from Istio 0.1.x to 0.2.x?
 weight: 30
 ---
 
-不支持从 Istio 0.1.x 升级到 0.2.x 。您必须完整卸载 Istio 0.1 ，_包括所有的 pods 和其 Istio sidecar_，并全新安装 Istio 0.2 之后再重新开始。
+Upgrading from Istio 0.1.x to 0.2.x is not supported. You must uninstall Istio 0.1, _including pods with Istio sidecars_ and start with a fresh install of Istio 0.2.

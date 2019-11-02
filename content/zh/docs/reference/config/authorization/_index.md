@@ -1,5 +1,5 @@
 ---
-title: 授权
-description: 关于如何配置Istio授权特性的描述。
+title: Authorization
+description: Describes how to configure Istio's authorization features.
 weight: 30
 ---

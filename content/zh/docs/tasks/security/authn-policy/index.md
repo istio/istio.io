@@ -1,26 +1,28 @@
 ---
-title: 基础认证策略
-description: 介绍如何使用 Istio 认证策略设置双向 TLS 和基本的终端用户认证。
+title: Authentication Policy
+description: Shows you how to use Istio authentication policy to setup mutual TLS and basic end-user authentication.
 weight: 10
 keywords: [security,authentication]
+aliases:
+    - /docs/tasks/security/istio-auth.html
 ---
 
-此任务涵盖启用、配置和使用 Istio 身份验证策略时可能需要执行的主要活动。[认证概述](/zh/docs/concepts/security/#认证)中可以了解更多相关的基本概念。
+This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about
+the underlying concepts in the [authentication overview](/docs/concepts/security/#authentication).
 
-## 开始之前
+## Before you begin
 
-* 理解 Istio [认证策略](/zh/docs/concepts/security/#认证策略)和相关的
-[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)概念。
+* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related
+[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* 拥有一个安装好 Istio 的 Kubernetes 集群，并且禁用全局双向 TLS（可使用[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中提供的示例配置
- `install/kubernetes/istio.yaml`，或者使用 [Helm](/zh/docs/setup/kubernetes/install/helm/)
- 设置 `global.mtls.enabled` 为 false）。
+* Install Istio on a Kubernetes cluster with global mutual TLS disabled (e.g, use the demo configuration profile, as described in
+[installation steps](/docs/setup/install/kubernetes), or set the `global.mtls.enabled` installation option to false).
 
-### 安装
+### Setup
 
-为了演示，需要创建两个命名空间 `foo` 和 `bar`，并且在两个空间中都部署带有 sidecar 的
- [httpbin]({{< github_tree >}}/samples/httpbin) 应用和 [sleep]({{< github_tree >}}/samples/sleep) 应用。同时运行另外一份不带有 Sidecar 的 httpbin 和 sleep 应用（为了保证独立性，
- 在 `legacy` 命名空间中运行它们）。如果您在尝试任务时想要使用相同的示例，运行以下内容：
+Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar proxy. We also use second
+instances of `httpbin` and `sleep` running without the sidecar  in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
+run the following:
 
 {{< text bash >}}
 $ kubectl create ns foo
@@ -34,16 +36,17 @@ $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n legacy
 $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
 {{< /text >}}
 
-通过从任意客户端（例如 `sleep.foo`、`sleep.bar` 和 `sleep.legacy`）向任意服务端（`httpbin.foo` 、`httpbin.bar` 或 `httpbin.legacy`）发送 HTTP 请求（可以使用 curl 命令）来验证以上设置。所有请求都应该成功进行并且返回的 HTTP 状态码为 200。
+You can verify setup by sending an HTTP request with `curl` from any `sleep` pod in the namespace `foo`, `bar` or `legacy` to either `httpbin.foo`,
+`httpbin.bar` or `httpbin.legacy`. All requests should succeed with HTTP code 200.
 
-以下是一个从 `sleep.bar` 到 `httpbin.foo` 可达性的检查命令示例：
+For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name}) -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-以下单行命令可以方便对所有客户端和服务端的组合进行检查：
+This one-liner command conveniently iterates through all reachability combinations:
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -58,7 +61,7 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-重要的是，验证系统目前没有认证策略：
+You should also verify that there is a default mesh authentication policy in the system, which you can do as follows:
 
 {{< text bash >}}
 $ kubectl get policies.authentication.istio.io --all-namespaces
@@ -67,10 +70,12 @@ No resources found.
 
 {{< text bash >}}
 $ kubectl get meshpolicies.authentication.istio.io
-No resources found.
+NAME      AGE
+default   3m
 {{< /text >}}
 
-最后要进行的验证是，确保没有为示例服务定义匹配的目标规则。一个验证方法是：获取现存目标规则，查看 `host:` 字段值是否匹配示例服务的 FQDN。例如：
+Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
+ existing destination rules and make sure they do not match. For example:
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
@@ -79,12 +84,13 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 {{< /text >}}
 
 {{< tip >}}
-你可能看到一些策略和/或由 Istio 安装时自动添加的目的地规则，具体取决于所选的安装模式。但是在 `foo`、`bar` 和 `legacy` 命名空间中没有任何的策略或规则。
+Depending on the version of Istio, you may see destination rules for hosts other then those shown. However, there should be none with hosts in the `foo`,
+`bar` and `legacy` namespace, nor is the match-all wildcard `*`
 {{< /tip >}}
 
-## 为网格中的所有服务启用双向 TLS 认证
+## Globally enabling Istio mutual TLS
 
-你可以提交如下**网格范围的认证策略（`MeshPolicy`）**和目的地规则为网格中所有服务启用双向 TLS 认证：
+To set a mesh-wide authentication policy that enables mutual TLS, submit *mesh authentication policy* like below:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -98,10 +104,16 @@ spec:
 EOF
 {{< /text >}}
 
-此策略指定网格中的所有工作负荷仅接受使用 TLS 的加密请求。如您所见，此身份验证策略的类型是
-`MeshPolicy`，这种策略的生效范围是整个网格内的所有服务，因此名称必须是 `default`，另外也不包含 `targets` 字段。
+{{< tip >}}
+The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/istio.authentication.v1alpha1/)
+ it is defined in the cluster-scoped `MeshPolicy` CRD.
+ {{< /tip >}}
 
-此时，只有接收方被配置为使用双向 TLS。如果在 Istio 服务（即那些带有 Sidecar 的服务）之间运行 `curl` 命令，所有请求都将失败并显示 503 错误代码，原因是客户端仍在使用明文请求。
+This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy has the kind:
+ `MeshPolicy`. The name of the policy must be `default`, and it contains no `targets` specification (as it is intended to apply to all services in the mesh).
+
+At this point, only the receiving side is configured to use mutual TLS. If you run the `curl` command between *Istio services* (i.e those with sidecars), all
+ requests will fail with a 503 error code as the client side is still using plain-text.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -111,7 +123,9 @@ sleep.bar to httpbin.foo: 503
 sleep.bar to httpbin.bar: 503
 {{< /text >}}
 
-要配置客户端也使用双向 TLS，就需要设置[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。可以使用多个目标规则，一个一个的为每个适用的服务（或命名空间）进行配置；然而在规则中使用 `*` 符号来匹配所有服务会更方便，这样也就跟网格范围的认证策略一致了。
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#destination-rules) to use mutual TLS. It's possible to use
+multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with the `*` wildcard to match all
+services so that it is on par with the mesh-wide authentication policy.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -119,7 +133,7 @@ apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "default"
-  namespace: "default"
+  namespace: "istio-system"
 spec:
   host: "*.local"
   trafficPolicy:
@@ -129,13 +143,18 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-* 主机值 `*.local` 仅限于与集群中的服务匹配，而不是外部服务。另请注意，目标规则中没有针对名称或命名空间的限制。
-* 在 `ISTIO_MUTUAL` TLS 模式中，Istio 将根据其内部实现设置密钥和证书（例如客户端证书、私钥和 CA 证书）的路径。
+* Starting with Istio 1.1, only destination rules in the client namespace, server namespace and `global` namespace (default is `istio-system`) will be considered for a service, in that order.
+* Host value `*.local` to limit matches only to services in cluster, as opposed to external services. Also note, there is no restriction on the name or
+namespace for destination rule.
+* With `ISTIO_MUTUAL` TLS mode, Istio will set the path for key and certificates (e.g client certificate, private key and CA certificates) according to
+its internal implementation.
 {{< /tip >}}
 
-除了认证场合之外，目标规则还有其它方面的应用，例如金丝雀部署。但是所有的目标规则都适用相同的优先顺序。因此，如果一个服务需要配置其它目标规则（例如配置负载均衡），那么新规则定义中必须包含类似的 TLS 块来定义 `ISTIO_MUTUAL` 模式，否则它将覆盖网格或命名空间范围的 TLS 设置并禁用 TLS。
+Don’t forget that destination rules are also used for non-auth reasons such as setting up canarying, but the same order of precedence applies. So if a service
+requires a specific destination rule for any reason - for example, for a configuration load balancer -  the rule must contain a similar TLS block with
+`ISTIO_MUTUAL` mode, as otherwise it will override the mesh- or namespace-wide TLS settings and disable TLS.
 
-如上所述重新运行测试命令，您将看到 Istio 服务之间的所有请求现已成功完成：
+Re-running the testing command as above, you will see all requests between Istio-services are now completed successfully:
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -145,9 +164,10 @@ sleep.bar to httpbin.foo: 200
 sleep.bar to httpbin.bar: 200
 {{< /text >}}
 
-### 从非 Istio 服务请求到 Istio 服务
+### Request from non-Istio services to Istio services
 
-非 Istio 服务，例如 `sleep.legacy` 没有 Sidecar，因此它无法启动与 Istio 服务通信所需的 TLS 连接。因此从 `sleep.legacy` 到 `httpbin.foo` 或 `httpbin.bar` 的请求将失败：
+The non-Istio service, e.g `sleep.legacy` doesn't have a sidecar, so it cannot initiate the required TLS connection to Istio services. As a result,
+requests from `sleep.legacy` to `httpbin.foo` or `httpbin.bar` will fail:
 
 {{< text bash >}}
 $ for from in "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -155,18 +175,18 @@ sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 {{< tip >}}
-在这种情况下，由于 Envoy 拒绝了明文请求，因此 `curl` 会以错误代码 56（接收网络数据失败）退出。
+Due to the way Envoy rejects plain-text requests, you will see `curl` exit code 56 (failure with receiving network data) in this case.
 {{< /tip >}}
 
-这一结果是符合预期的，但遗憾的是，如果不降低这些服务的身份验证要求，就无法完成这种访问。
+This works as intended, and unfortunately, there is no solution for this without reducing authentication requirements for these services.
 
-### 从 Istio 服务请求非 Istio 服务
+### Request from Istio services to non-Istio services
 
-如果从 `sleep.foo`（或 `sleep.bar`）向 `httpbin.legacy` 发送请求，也会看到请求失败，因为 Istio 按照我们的指示配置客户端目标规则使用双向 TLS，但 `httpbin.legacy` 没有 Sidecar，所以它无法处理它。
+Try to send requests to `httpbin.legacy` from `sleep.foo` (or `sleep.bar`). You will see requests fail as Istio configures clients as instructed in our
+destination rule to use mutual TLS, but `httpbin.legacy` does not have a sidecar so it's unable to handle it.
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -174,7 +194,7 @@ sleep.foo to httpbin.legacy: 503
 sleep.bar to httpbin.legacy: 503
 {{< /text >}}
 
-要解决此问题，我们可以添加目标规则来覆盖 `httpbin.legacy` 的 TLS 设置。例如：
+To fix this issue, we can add a destination rule to overwrite the TLS setting for `httpbin.legacy`. For example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -182,6 +202,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
  name: "httpbin-legacy"
+ namespace: "legacy"
 spec:
  host: "httpbin.legacy.svc.cluster.local"
  trafficPolicy:
@@ -190,18 +211,23 @@ spec:
 EOF
 {{< /text >}}
 
-### 从 Istio 服务请求到 Kubernetes API Server
+{{< tip >}}
+This destination rule is in the namespace of the server (`httpbin.legacy`), so it will be preferred over the global destination rule defined in `istio-system`
+{{< /tip >}}
 
-Kubernetes API Server 没有 Sidecar，因此来自 `sleep.foo` 等 Istio 服务的请求会失败，出现像请求非 Istio 服务时同样的问题而失败。
+### Request from Istio services to Kubernetes API server
+
+The Kubernetes API server doesn't have a sidecar, thus request from Istio services such as `sleep.foo` will fail due to the same problem as when sending
+requests to any non-Istio service.
 
 {{< text bash >}}
-$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
-kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl https://kubernetes.default/api --header "Authorization: Bearer $TOKEN" --insecure -s -o /dev/null -w "%{http_code}\n"
+$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default-token | cut -f1 -d ' ' | head -1) | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
+$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl https://kubernetes.default/api --header "Authorization: Bearer $TOKEN" --insecure -s -o /dev/null -w "%{http_code}\n"
 000
 command terminated with exit code 35
 {{< /text >}}
 
-同样，我们可以通过覆盖 API 服务器的目标规则来更正此问题（ `kubernetes.default` ）
+Again, we can correct this by overriding the destination rule for the API server (`kubernetes.default`)
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -209,6 +235,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
  name: "api-server"
+ namespace: istio-system
 spec:
  host: "kubernetes.default.svc.cluster.local"
  trafficPolicy:
@@ -218,34 +245,38 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-如果使用[默认双向 TLS 选项](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio，此规则与上述全局身份验证策略和目标规则一起将在安装过程中注入系统。
+This rule, along with the global authentication policy and destination rule, above,
+is automatically injected into the system when you install Istio with mutual TLS enabled.
 {{< /tip >}}
 
-重新运行上面的测试命令，确认在添加规则后能够成功返回 200：
+Re-run the testing command above to confirm that it returns 200 after the rule is added:
 
 {{< text bash >}}
-$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
+$ TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default-token | cut -f1 -d ' ' | head -1) | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl https://kubernetes.default/api --header "Authorization: Bearer $TOKEN" --insecure -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-### 清理第 1 部分
+### Cleanup part 1
 
-删除在上述步骤中创建的策略和目标规则：
+Remove global authentication policy and destination rules added in the session:
 
 {{< text bash >}}
 $ kubectl delete meshpolicy default
-$ kubectl delete destinationrules default httpbin-legacy api-server
+$ kubectl delete destinationrules httpbin-legacy -n legacy
+$ kubectl delete destinationrules api-server -n istio-system
+$ kubectl delete destinationrules default -n istio-system
 {{< /text >}}
 
-## 为每个命名空间或服务启用双向 TLS
+## Enable mutual TLS per namespace or service
 
-除了为整个网格指定身份验证策略之外，Istio 还允许您为特定命名空间或服务指定策略。一个
-命名空间范围的策略优先于网格范围的策略，而特定于服务的策略仍具有更高的优先级。
+In addition to specifying an authentication policy for your entire mesh, Istio also lets you specify policies for particular namespaces or services. A
+namespace-wide policy takes precedence over the mesh-wide policy, while a service-specific policy has higher precedence still.
 
-### 命名空间范围的策略
+### Namespace-wide policy
 
-下面的示例显示了为命名空间 `foo` 中的所有服务启用双向 TLS 的策略。正如你所看到的，它使用的类别是 `Policy` 而不是 `MeshPolicy`，并指定了一个命名空间，在本例中为 `foo`。如果未指定命名空间值，则策略将应用于默认命名空间。
+The example below shows the policy to enable mutual TLS for all services in namespace `foo`. As you can see, it uses kind: "Policy” rather than "MeshPolicy”,
+and specifies a namespace, in this case, `foo`. If you don’t specify a namespace value the policy will apply to the default namespace.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -261,10 +292,10 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-类似于**网格范围的策略**，命名空间范围的策略必须命名为 `default`，并且不限定任何特定的服务（没有 `targets` 字段）。
+Similar to *mesh-wide policy*, namespace-wide policy must be named `default`, and doesn't restrict any specific service (no `targets` section)
 {{< /tip >}}
 
-添加相应的目的地规则：
+Add corresponding destination rule:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -282,10 +313,10 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-主机名称 `*.foo.svc.cluster.local` 限制了只能匹配命名空间 `foo` 中的服务。
+Host `*.foo.svc.cluster.local` limits the matches to services in `foo` namespace only.
 {{< /tip >}}
 
-由于这些策略和目的地规则只对命名空间 `foo` 中的服务有效，你应该看到只有从不带 Sidecar 的客户端（`sleep.legacy`）到 `httpbin.foo` 的请求会出现失败。
+As these policy and destination rule are applied on services in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -301,9 +332,9 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-## 特定于服务的策略
+### Service-specific policy
 
-也可以为某个特定的服务设置认证策略和目的地规则。执行以下命令，只为 `httpbin.bar` 服务新增一项策略。
+You can also set authentication policy and destination rule for a specific service. Run this command to set another policy only for `httpbin.bar` service.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -319,7 +350,7 @@ spec:
 EOF
 {{< /text >}}
 
-同时增加目的地规则：
+And a destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -336,11 +367,11 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-* 在这个例子中，我们**不**在 metadata 中指定命名空间而是放在命令行（`-n bar`）中。它们的效果是一样的。
-* 对于认证策略和目的地规则的名称并没有任何限定。在本例中为了简单，使用服务本身的名称为策略和规则命名。
+* In this example, we do **not** specify namespace in metadata but put it in the command line (`-n bar`), which has an identical effect.
+* There is no restriction on the authentication policy and destination rule name. This example uses the name of the service itself for simplicity.
 {{< /tip >}}
 
-同样地，运行上文中提供的测试命令。和预期一致，从 `sleep.legacy` 到 `httpbin.bar` 的请求因为同样的原因开始出现失败。
+Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
 
 {{< text plain >}}
 ...
@@ -348,7 +379,8 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-如果在命名空间 `bar` 中还存在其他服务，我们会发现目标为这些服务的流量不会受到影响。验证这一行为有两种方法：一种是加入更多服务；另一种是把这一策略限制到某个端口。这里我们展示第二种方法：
+If we have more services in namespace `bar`, we should see traffic to them won't be affected. Instead of adding more services to demonstrate this behavior,
+we edit the policy slightly to apply on a specific port:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -366,7 +398,7 @@ spec:
 EOF
 {{< /text >}}
 
-同时对目的地规则做出相应的改变：
+And a corresponding change to the destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -387,16 +419,19 @@ spec:
 EOF
 {{< /text >}}
 
-新的策略只作用于 `httpbin` 服务的 `1234` 端口上。结果是，双向 TLS 在端口 `8000` 上（又）被禁用并且从 `sleep.legacy` 发出的请求会恢复工作。
+This new policy will apply only to the `httpbin` service on port `1234`. As a result, mutual TLS is disabled (again) on port `8000` and requests from
+`sleep.legacy` will resume working.
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.bar:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-## 策略优先级
+### Policy precedence
 
-服务级策略是优先于命名空间级策略的，为了证实这一行为，可以新建一条策略，禁止 `httpbin.foo` 的双向 TLS 设置；而此时网格中已经创建了一个命名空间级的策略，该策略为 `foo` 命名空间中的所有服务启用了双向 TLS，下面就来观察一下从 `sleep.legacy` 到 `httpbin.foo` 的请求是如何失败的：
+To illustrate how a service-specific policy takes precedence over namespace-wide policy, you can add a policy to disable mutual TLS for `httpbin.foo` as below.
+Note that you've already created a namespace-wide policy that enables mutual TLS for all services in namespace `foo` and observe that requests from
+`sleep.legacy` to `httpbin.foo` are failing (see above).
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -410,7 +445,7 @@ spec:
 EOF
 {{< /text >}}
 
-另外添加对应的目的地规则：
+and destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -426,16 +461,16 @@ spec:
 EOF
 {{< /text >}}
 
-重新从 `sleep.legacy` 发送请求，我们应当看到请求成功返回的状态码（`200`），表明服务级的策略覆盖了命名空间层级的策略。
+Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-### 清理第 2 部分
+### Cleanup part 2
 
-删除在上述步骤中创建的策略和目标规则：
+Remove policies and destination rules created in the above steps:
 
 {{< text bash >}}
 $ kubectl delete policy default overwrite-example -n foo
@@ -444,12 +479,13 @@ $ kubectl delete destinationrules default overwrite-example -n foo
 $ kubectl delete destinationrules httpbin -n bar
 {{< /text >}}
 
-## 设置终端用户认证
+## End-user authentication
 
-要验证这一功能，首先要有一个有效的 JWT。JWT 必须与本例中的 JWKS 端点相匹配。本例中我们使用 Istio 代码库中的 [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) 以及
-[JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) 进行演示。
+To experiment with this feature, you need a valid JWT. The JWT must correspond to the JWKS endpoint you want to use for the demo. In
+this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and this
+[JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
-另外为了方便起见，我们使用 `ingressgateway` 开放了 `httpbin.foo` 服务（这部分内容可以参看[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/)任务中的介绍）。
+Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -492,20 +528,21 @@ spec:
 EOF
 {{< /text >}}
 
-获取入口 IP：
+Get ingress IP
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
-并且运行查询测试：
+And run a test query
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-现在添加一条策略，强制 `httpbin.org` 使用终端用户 JWT。下一个命令假设没有为 `httpbin.org` 指定服务级策略（也就是说成功运行了上面[清理第 2 部分](#清理第-2-部分)的内容）。可以用命令 `kubectl get policies.authentication.istio.io -n foo` 来验证这一假设：
+Now, add a policy that requires end-user JWT for `httpbin.foo`. The next command assumes there is no service-specific policy for `httpbin.foo` (which should
+be the case if you run [cleanup](#cleanup-part-2) as described). You can run `kubectl get policies.authentication.istio.io -n foo` to confirm.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -524,25 +561,45 @@ spec:
 EOF
 {{< /text >}}
 
-使用上面小节中同样的 curl 命令进行测试时会返回 401 错误状态码，这是因为服务端需要 JWT 进行认证但请求端并没有提供：
+The same `curl` command from before will return with 401 error code, as a result of server is expecting JWT but none was provided:
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 401
 {{< /text >}}
 
-用下面的 `curl` 命令生成 Token 并附加在请求中，然后执行请求就会返回成功信息：
+Attaching the valid token generated above returns success:
 
-{{< text bash>}}
+{{< text bash >}}
 $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-要观察 JWT 验证的其他方面，请使用脚本 [`gen-jwt.py`]({{<github_tree>}}/security/tools/jwt/samples/gen-jwt.py) 生成新的令牌以测试不同的发行者、受众和到期日期等。例如下面的命令创建一个 5 秒后到期的 Token。Istio 首先成功通过该令牌的验证请求，但在 5 秒后就会拒绝这一 Token 了：
+To observe other aspects of JWT validation, use the script [`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) to
+generate new tokens to test with different issuer, audiences, expiry date, etc. The script can be downloaded from the Istio repository:
 
 {{< text bash >}}
-$ TOKEN=$(@security/tools/jwt/samples/gen-jwt.py@ @security/tools/jwt/samples/key.pem@ --expire 5)
+$ wget {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
+$ chmod +x gen-jwt.py
+{{< /text >}}
+
+You also need the `key.pem` file:
+
+{{< text bash >}}
+$ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
+{{< /text >}}
+
+{{< tip >}}
+Download the [jwcrypto](https://pypi.org/project/jwcrypto) library,
+if you haven't installed it on your system.
+{{< /tip >}}
+
+For example, the command below creates a token that
+expires in 5 seconds. As you see, Istio authenticates requests using that token successfully at first but rejects them after 5 seconds:
+
+{{< text bash >}}
+$ TOKEN=$(./gen-jwt.py ./key.pem --expire 5)
 $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"; sleep 1; done
 200
 200
@@ -556,9 +613,107 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 401
 {{< /text >}}
 
-### 使用双向 TLS 进行最终用户身份验证
+You can also add a JWT policy to an ingress gateway (e.g., service `istio-ingressgateway.istio-system.svc.cluster.local`).
+This is often used to define a JWT policy for all services bound to the gateway, instead of for individual services.
 
-最终用户身份验证和双向 TLS 可以一起使用。修改上面的策略以定义双向 TLS 和最终用户 JWT 身份验证：
+### End-user authentication with per-path requirements
+
+End-user authentication can be enabled or disabled based on request path. This is useful if you want to
+disable authentication for some paths, for example, the path used for health check or status report.
+You can also specify different JWT requirements on different paths.
+
+{{< warning >}}
+The end-user authentication with per-path requirements is an experimental feature in Istio 1.1 and
+is **NOT** recommended for production use.
+{{< /warning >}}
+
+#### Disable End-user authentication for specific paths
+
+Modify the `jwt-example` policy to disable End-user authentication for path `/user-agent`:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - excluded_paths:
+        - exact: /user-agent
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+Confirm it's allowed to access the path `/user-agent` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+Confirm it's denied to access paths other than `/user-agent` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+#### Enable End-user authentication for specific paths
+
+Modify the `jwt-example` policy to enable End-user authentication only for path `/ip`:
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -n foo -f -
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+spec:
+  targets:
+  - name: httpbin
+  origins:
+  - jwt:
+      issuer: "testing@secure.istio.io"
+      jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+      trigger_rules:
+      - included_paths:
+        - exact: /ip
+  principalBinding: USE_ORIGIN
+EOF
+{{< /text >}}
+
+Confirm it's allowed to access paths other than `/ip` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+Confirm it's denied to access the path `/ip` without JWT tokens:
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+401
+{{< /text >}}
+
+Confirm it's allowed to access the path `/ip` with a valid JWT token:
+
+{{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
+$ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
+### End-user authentication with mutual TLS
+
+End-user authentication and mutual TLS can be used together. Modify the policy above to define both mutual TLS and end-user JWT authentication:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -579,11 +734,7 @@ spec:
 EOF
 {{< /text >}}
 
-{{< tip >}}
-如果尚未提交 `jwt-example` 策略，请使用 `istio create`。
-{{< /tip >}}
-
-并添加目标规则：
+And add a destination rule:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -601,38 +752,41 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-如果已经在网格级或者命名空间级的策略中启用了双向 TLS，则主机 `httpbin.foo` 已被其它目标规则覆盖。因此就不需要添加此目标规则了。另一方面，仍然需要将 `mtls` 节添加到身份验证策略，因为服务级的策略将完全覆盖网格级（或命名空间级）的策略。
+If you already enable mutual TLS mesh-wide or namespace-wide, the host `httpbin.foo` is already covered by the other destination rule.
+Therefore, you do not need adding this destination rule. On the other hand, you still need to add the `mtls` stanza to the authentication policy as the service-specific policy will override the mesh-wide (or namespace-wide) policy completely.
 {{< /tip >}}
 
-在这些更改之后，来自 Istio 服务（包括 ingress gateway）到 `httpbin.foo` 的流量将使用双向 TLS。上面的测试命令仍然有效。在使用正确的令牌的情况下，Istio 服务直接向 `httpbin.foo` 发出的请求也可以正常工作：
+After these changes, traffic from Istio services, including ingress gateway, to `httpbin.foo` will use mutual TLS. The test command above will still work. Requests from Istio services directly to `httpbin.foo` also work, given the correct token:
 
 {{< text bash >}}
+$ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
 200
 {{< /text >}}
 
-但是，来自非 Istio 服务的明文请求将失败：
+However, requests from non-Istio services, which use plain-text will fail:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
-401
+000
+command terminated with exit code 56
 {{< /text >}}
 
-### 清理第 3 部分
+### Cleanup part 3
 
-1. 删除身份验证策略：
-
-    {{< text bash >}}
-    $ kubectl delete policy jwt-example
-    {{< /text >}}
-
-1. 删除目标规则：
+1. Remove authentication policy:
 
     {{< text bash >}}
-    $ kubectl delete policy httpbin
+    $ kubectl -n foo delete policy jwt-example
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，则只需删除测试命名空间即可删除所有资源：
+1. Remove destination rule:
+
+    {{< text bash >}}
+    $ kubectl -n foo delete destinationrule httpbin
+    {{< /text >}}
+
+1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
 
     {{< text bash >}}
     $ kubectl delete ns foo bar legacy

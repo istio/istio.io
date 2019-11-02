@@ -1,8 +1,12 @@
 ---
-title: 属性
+title: Attribute
 ---
 
-属性控制着在网格里面运行的服务的运行时行为。属性是一堆有名字的、有类型的元数据，它们描述着入口和出口流量，以及这些流量存在的环境。一个 Istio 属性承载着一些特点的信息，比如 API 请求的错误码，或者一个 API 请求的耗时，又或者一个 TCP 连接的源 IP 地址，如下：
+Attributes control the runtime behavior of services running in the mesh.
+Attributes are named and typed pieces of metadata describing ingress and egress traffic and the
+environment this traffic occurs in. An Istio attribute carries a specific piece
+of information such as the error code of an API request, the latency of an API request, or the
+original IP address of a TCP connection. For example:
 
 {{< text yaml >}}
 request.path: xyz/abc
@@ -12,4 +16,4 @@ source.ip: 192.168.0.1
 destination.workload.name: example
 {{< /text >}}
 
-属性在 Istio 的 [策略与遥测](/zh/docs/concepts/policies-and-telemetry/)特性里面会用到。
+Attributes are used by Istio's [policy and telemetry](/docs/reference/config/policy-and-telemetry/) features.

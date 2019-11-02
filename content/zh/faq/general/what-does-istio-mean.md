@@ -1,6 +1,6 @@
 ---
-title: Istio 这个单词的意思是什么?
+title: What does the word 'Istio' mean?
 weight: 160
 ---
 
-它的意思是希腊语中的 "帆"。
+It's the Greek word for 'sail'.

@@ -1,8 +1,9 @@
 ---
-title: Istio 博客
-description: 关于使用 Istio 的博客文章。
-linktitle: 博客
+title: Istio Blog
+description: Posts about using Istio.
+linktitle: Blog
 sidebar_multicard: true
 icon: blog
+aliases:
+    - /blog/posts/index.html
 ---
-

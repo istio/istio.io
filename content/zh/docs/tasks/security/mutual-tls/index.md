@@ -1,28 +1,27 @@
 ---
-title: 深入了解双向 TLS
-description: 对 Istio 的自动双向 TLS 认证功能进行体验和测试。
+title: Mutual TLS Deep-Dive
+description: Shows you how to verify and test Istio's automatic mutual TLS authentication.
 weight: 10
 keywords: [security,mutual-tls]
 ---
 
-通过此任务，您可以仔细查看双向 TLS 并了解其设置。
-此任务假定：
+Through this task, you can have closer look at mutual TLS and learn its settings. This task assumes:
 
-* 您已完成[基础验证策略](/zh/docs/tasks/security/authn-policy/)任务。
-* 您熟悉使用基础验证策略来启用双向 TLS。
-* Istio 在 Kubernetes 上运行，启用全局双向 TLS。您可以按照我们的[安装 Istio 的说明](/zh/docs/setup/kubernetes/)。
-如果您已经安装了 Istio，则可以添加或修改基础验证策略和目标规则以启用双向 TLS，如 [网格中的所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#为网格中的所有服务启用双向-tls-认证) 中所述。
-* 您已经在 `default` 命名空间中使用 Envoy sidecar 部署了 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)。例如，下面是使用 [手工注入 Sidecar](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#手工注入-sidecar)部署这些服务的命令：
+* You have completed the [authentication policy](/docs/tasks/security/authn-policy/) task.
+* You are familiar with using authentication policy to enable mutual TLS.
+* Istio runs on Kubernetes with global mutual TLS enabled. You can follow our [instructions to install Istio](/docs/setup/).
+If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls).
+* You have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar in the `default` namespace. For example, below is the command to deploy those services with [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection):
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-## 检查 Citadel 是否运行正常
+## Verify Citadel runs properly
 
-[Citadel](/zh/docs/concepts/security/#pki) 是 Istio 的密钥管理服务。Citadel 必须正常运行才能使双向 TLS 正常工作。
-使用以下命令验证 Citadel 在集群中是否正确运行：
+[Citadel](/docs/concepts/security/#pki) is Istio's key management service. Citadel must run properly for mutual TLS to work correctly. Verify the
+cluster-level Citadel runs properly with the following command:
 
 {{< text bash >}}
 $ kubectl get deploy -l istio=citadel -n istio-system
@@ -30,11 +29,11 @@ NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 istio-citadel   1         1         1            1           1m
 {{< /text >}}
 
-如果 "AVAILABLE" 列值为 1，则说明 Citadel 已经成功运行。
+Citadel is up if the "AVAILABLE" column is 1.
 
-## 校验密钥和证书的安装情况
+## Verify keys and certificates installation
 
-Istio 会为所有开启双向 TLS 的 sidecar 容器自动安装身份验证所必要的密钥和证书。运行以下命令确认 `/etc/certs` 下存在密钥和证书文件：
+Istio automatically installs necessary keys and certificates for mutual TLS authentication in all sidecar containers. Run command below to confirm key and certificate files exist under `/etc/certs`:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- ls /etc/certs
@@ -44,10 +43,12 @@ root-cert.pem
 {{< /text >}}
 
 {{< tip >}}
-`cert-chain.pem` 是 Envoy 的证书，会在需要的时候提供给对端。而 `key.pem` 就是 Envoy 的私钥，和 `cert-chain.pem` 中的证书相匹配。`root-cert.pem` 是用于证书校验的根证书。这个例子中，我们集群中只部署了一个 Citadel，所以所有的 Envoy 共用同一个 `root-cert.pem`。
+`cert-chain.pem` is Envoy's cert that needs to be presented to the other side. `key.pem` is Envoy's private key
+paired with Envoy's cert in `cert-chain.pem`. `root-cert.pem` is the root cert to verify the peer's cert.
+In this example, we only have one Citadel in a cluster, so all Envoys have the same `root-cert.pem`.
 {{< /tip >}}
 
-使用 `openssl` 工具来检查证书的有效性（当前时间应该处于 `Not Before` 和 `Not After` 之间）
+Use the `openssl` tool to check if certificate is valid (current time should be in between `Not Before` and `Not After`)
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep Validity -A 2
@@ -56,7 +57,7 @@ Validity
         Not After : Aug 15 23:02:11 2018 GMT
 {{< /text >}}
 
-还可以查看一下客户端证书的 SAN（Subject Alternative Name）
+You can also check the _identity_ of the client certificate:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name}) -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
@@ -64,48 +65,57 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-请参阅 [Istio 认证](/zh/docs/concepts/security/#认证) 一节，可以了解更多**服务认证**方面的内容。
+Please check [Istio identity](/docs/concepts/security/#istio-identity) for more information about  _service identity_ in Istio.
 
-## 检查 `istio` 双向 TLS 认证的配置
+## Verify mutual TLS configuration
 
-您可以使用 `istioctl` 工具检查有效的双向 TLS 设置。标识用于的身份验证策略和目标规则
-`httpbin.default.svc.cluster.local` 配置和使用的模式，使用以下命令：
+Use [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
+You can also provide the destination service to filter the status to that service only.
+
+{{< tip >}}
+This tool only checks the consistency of the static TLS settings between destination rules and authentication policies. It doesn't take into account whether or not the
+corresponding workloads have sidecars or not. When they don't, the policy and destination rules are not enforced, so note that status `CONFLICT` doesn't always mean that traffic is broken.
+{{< /tip >}}
+
+The following commands identify the authentication policy for the `httpbin.default.svc.cluster.local` service and identify the destination rules for the service as seen from the same pod of the `sleep` app:
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 {{< /text >}}
 
-在以下示例输出中，您可以看到：
+In the following example output you can see that:
 
-* 在 8080 端口上始终为 `httpbin.default.svc.cluster.local` 设置双向 TLS。
-* Istio 使用网格范围的 `default` 身份验证策略。
-* Istio 在 `default` 命名空间中有 `default` 目的地规则。
+* Mutual TLS is consistently setup for `httpbin.default.svc.cluster.local` on port 8000.
+* Istio uses the mesh-wide `default` authentication policy.
+* Istio has the `default` destination rule in the `istio-system` namespace.
 
 {{< text plain >}}
 HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8080     OK         mTLS       mTLS       default/            default/default
+httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /default            istio-system/default
 {{< /text >}}
 
-输出显示：
+The output shows:
 
-* `STATUS`：服务器，本例中的 `httpbin` 服务和调用 `httpbin` 的客户端之间的 TLS 设置是否一致。
+* `STATUS`: whether the TLS settings are consistent between the server, the `httpbin` service in this case, and the client or clients making calls to `httpbin`.
 
-* `SERVER`：服务器上使用的模式。
+* `SERVER`: the mode used on the server.
 
-* `CLIENT`：客户端或客户端使用的模式。
+* `CLIENT`: the mode used on the client or clients.
 
-* `AUTHN POLICY`：身份验证策略的名称和命名空间。如果策略是网格范围的策略，则命名空间为空，如本例所示：`default/`
+* `AUTHN POLICY`: the namespace and name of the authentication policy. If the policy is the mesh-wide policy, namespace is blank, as in this case: `/default`
 
-* `DESTINATION RULE`：使用的目标规则的名称和名称空间。
+* `DESTINATION RULE`: the namespace and name of the destination rule used.
 
-为了说明存在冲突的情况，请为具有错误 TLS 模式的 `httpbin` 添加特定于服务的目标规则：
+To illustrate the case when there are conflicts, add a service-specific destination rule for `httpbin` with incorrect TLS mode:
 
 {{< text bash >}}
-$ cat <<EOF | istioctl create -n bar -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "bad-rule"
+  namespace: "default"
 spec:
   host: "httpbin.default.svc.cluster.local"
   trafficPolicy:
@@ -114,39 +124,38 @@ spec:
 EOF
 {{< /text >}}
 
-运行与上面相同的 `istioctl` 命令，您现在看到状态为 `CONFLICT` ，因为客户端处于 `HTTP` 模式，而服务器处于 `mTLS` 。
+Run the same `istioctl` command as above, you now see the status is `CONFLICT`, as client is in `HTTP` mode while server is in `mTLS`.
 
 {{< text bash >}}
-$ istioctl authn tls-check httpbin.default.svc.cluster.local
+$ istioctl authn tls-check ${SLEEP_POD} httpbin.default.svc.cluster.local
 HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8080     CONFLICT     mTLS       HTTP       default/            bad-rule/default
+httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       /default            default/bad-rule
 {{< /text >}}
 
-您还可以确认从 `sleep` 到 `httpbin` 的请求现在已失败：
+You can also confirm that requests from `sleep` to `httpbin` are now failing:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
-000
-command terminated with exit code 56
+503
 {{< /text >}}
 
-在继续之前，请使用以下命令删除错误的目标规则以使双向 TLS 再次起作用：
+Before you continue, remove the bad destination rule to make mutual TLS work again with the following command:
 
 {{< text bash >}}
-$ kubectl delete --ignore-not-found=true bad-rule
+$ kubectl delete destinationrule --ignore-not-found=true bad-rule
 {{< /text >}}
 
-## 验证请求
+## Verify requests
 
-此任务显示具有双向 TLS 的服务器如何启用对以下请求的响应：
+This task shows how a server with mutual TLS enabled responses to requests that are:
 
-* 使用明文请求中（即 HTTP 请求）
-* 使用 TLS 但没有客户端证书
-* 使用 TLS 和客户端证书
+* In plain-text
+* With TLS but without client certificate
+* With TLS with a client certificate
 
-要执行此任务，您需要绕过客户端代理。最简单的方法是从 `istio-proxy` 容器发出请求。
+To perform this task, you want to by-pass client proxy. A simplest way to do so is to issue request from `istio-proxy` container.
 
-1. 确认明文请求请求失败，因为需要 TLS 使用以下命令与 `httpbin` 对话：
+1. Confirm that plain-text requests fail as TLS is required to talk to `httpbin` with the following command:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl http://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n'
@@ -155,10 +164,10 @@ $ kubectl delete --ignore-not-found=true bad-rule
     {{< /text >}}
 
     {{< tip >}}
-    请注意，退出代码为 56，代表无法接收网络数据。
+    Note that the exit code is 56. The code translates to a failure to receive network data.
     {{< /tip >}}
 
-1. 确认没有客户端证书的 TLS 请求也会失败：
+1. Confirm TLS requests without client certificate also fail:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' -k
@@ -167,10 +176,10 @@ $ kubectl delete --ignore-not-found=true bad-rule
     {{< /text >}}
 
     {{< tip >}}
-    这次，退出代码为 35，这对应于 SSL/TLS 握手中某处发生的问题。
+    This time the exit code is 35, which corresponds to a problem occurring somewhere in the SSL/TLS handshake.
     {{< /tip >}}
 
-1. 使用客户端证书确认 TLS 请求成功：
+1. Confirm TLS request with client certificate succeed:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl https://httpbin:8000/headers -o /dev/null -s -w '%{http_code}\n' --key /etc/certs/key.pem --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem -k
@@ -178,13 +187,14 @@ $ kubectl delete --ignore-not-found=true bad-rule
     {{< /text >}}
 
 {{< tip >}}
-Istio 使用 [Kubernetes Service Account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 作为服务标识，
-提供比服务名称更强的安全性（有关更多详细信息，请参阅 [Istio 身份](/zh/docs/concepts/security/#istio-身份)）。因此，Istio 使用的证书没有注明服务名称，
-但是 `curl` 需要利用这些信息验证服务器的身份。为了防止 `curl` 客户端报错，我们使用 `curl` 的 `-k` 参数。该参数可跳过客户端对服务器名称的验证，
-例如，`httpbin.default.svc.cluster.local` 服务器提供的证书。
+Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which
+offers stronger security than service name (for more details, see [Istio identity](/docs/concepts/security/#istio-identity)). Thus, the certificates Istio uses do
+not have service names, which is the information that `curl` needs to verify server identity. To prevent the `curl` client from aborting, we use `curl`
+with the `-k` option. The option prevents the client from verifying and looking for the server name, for example, `httpbin.default.svc.cluster.local` in the
+certificate provided by the server.
 {{< /tip >}}
 
-## 清理
+## Cleanup
 
 {{< text bash >}}
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@

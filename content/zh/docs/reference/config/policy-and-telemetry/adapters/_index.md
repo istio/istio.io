@@ -1,15 +1,19 @@
 ---
-title: 适配器
-description: Mixer 适配器能够让 Istio 连接各种基础设施后端以完成类似指标和日志这样的功能。
+title: Adapters
+description: Mixer adapters allow Istio to interface to a variety of infrastructure backends for such things as metrics and logs.
 weight: 40
+aliases:
+    - /docs/reference/config/mixer/adapters/index.html
+    - /docs/reference/config/adapters/
 ---
 
 {{< idea >}}
- 要实现一个新的 Mixer 适配器，请参考[适配器开发者指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide)。
+To implement a new adapter for Mixer, please refer to the
+[Adapter Developer's Guide](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide).
 {{< /idea >}}
 
-## 模板
+## Templates
 
-下表显示了由每个支持的适配器实现的[模板](/docs/reference/config/policy-and-telemetry/templates)。
+The table below shows the set of [templates](/docs/reference/config/policy-and-telemetry/templates) that are implemented by each supported adapter.
 
 {{< adapter_table >}}

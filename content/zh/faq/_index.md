@@ -1,9 +1,13 @@
 ---
 title: FAQ
-description: 关于Istio的常见问题。
-weight: 20
+description: Frequently Asked Questions about Istio.
+weight: 1
 layout: faq-landing
+aliases:
+  - /docs/welcome/faq.html
+  - /docs/reference/faq.html
+  - /help/faq/
 icon: faq
 ---
 
-你遇到问题了吗？我们有答案！
+You've got questions? We've got answers!

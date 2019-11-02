@@ -1,102 +1,126 @@
 ---
-title: Mixer 和 SPOF 神话
-description: 提高可用，降低延迟。
-subtitle: 提高可用，降低延迟
+title: Mixer and the SPOF Myth
+description: Improving availability and reducing latency.
 publishdate: 2017-12-07
+subtitle: Improving availability and reducing latency
 attribution: Martin Taillefer
+keywords: [adapters,mixer,policies,telemetry,availability,latency]
+aliases:
+    - /blog/posts/2017/mixer-spof-myth.html
+    - /blog/mixer-spof-myth.html
+target_release: 0.3
 ---
-Mixer 出现在请求路径上，很自然的会引发一个疑问：他对系统可用性和延迟会产生什么样的影响？第一次看到 Istio 架构图时，人们最常见的问题就是："这不就是一个单点失败的典型案例么？”
 
-本文中我们会深入挖掘和阐述 Mixer 的设计原则，在这些设计原则的支持下 Mixer 能够令人惊奇的提高网格内的系统可用性，降低平均请求延时。
+As [Mixer](/docs/reference/config/policy-and-telemetry/) is in the request path, it is natural to question how it impacts
+overall system availability and latency. A common refrain we hear when people first glance at Istio architecture diagrams is
+"Isn't this just introducing a single point of failure?"
 
-Istio 的 Mixer 对系统总体可用性和延迟有两个主要的好处：
+In this post, we’ll dig deeper and cover the design principles that underpin Mixer and the surprising fact Mixer actually
+increases overall mesh availability and reduces average request latency.
 
-- **提高 SLO**：Mixer 把 Proxy 和服务从基础设施后端的故障中隔离出来，提供了高级、高效的网格可用性保障。作为一个整体来说，在同基础设施后端的交互中，有了 Mixer 的帮助，会有更低的故障率。
+Istio's use of Mixer has two main benefits in terms of overall system availability and latency:
 
-- **降低延迟**：通过对各个层次的分片缓存的积极使用和共享，Mixer 能够降低平均延迟。
+* **Increased SLO**. Mixer insulates proxies and services from infrastructure backend failures, enabling higher effective mesh availability. The mesh as a whole tends to experience a lower rate of failure when interacting with the infrastructure backends than if Mixer were not present.
 
-接下来会对上面的内容进行一下解释。
+* **Reduced Latency**. Through aggressive use of shared multi-level caches and sharding, Mixer reduces average observed latencies across the mesh.
 
-## Istio 是怎么来的
+We'll explain this in more detail below.
 
-Google 在多年中都在使用一个内部的 API 和服务管理系统，用于处理 Google 提供的众多 API。这一系统支持了最大的服务群（Google Maps、YouTube 以及 Gmail 等），承受上百万 QPS 峰值的冲击。这套系统运行的虽然很好，但是仍然无法跟上 Google 快速增长的脚步，很显然，要有新的架构来降低飞涨的运维成本。
+## How we got here
 
-2014 年，我们开始了一个草案，准备替换这一系统，进行更好的伸缩。这一决定最后证明是非常正确的，在 Google 进行整体部署之后，每月降低了上百万美元的运维成本。
+For many years at Google, we’ve been using an internal API & service management system to handle the many APIs exposed by Google. This system has been fronting the world’s biggest services (Google Maps, YouTube, Gmail, etc) and sustains a peak rate of hundreds of millions of QPS. Although this system has served us well, it had problems keeping up with Google’s rapid growth, and it became clear that a new architecture was needed in order to tamp down ballooning operational costs.
 
-过去，流量在进入具体的服务之前，首先会进入一个较重的代理，旧系统就是以这个代理为中心构建的。新的架构摒弃了共享代理的设计，用轻量高效的 Sidecar 代理取而代之，这一代理和服务实例并行，共享一个控制平面。
+In 2014, we started an initiative to create a replacement architecture that would scale better. The result has proven extremely successful and has been gradually deployed throughout Google, saving in the process millions of dollars a month in ops costs.
+
+The older system was built around a centralized fleet of fairly heavy proxies into which all incoming traffic would flow, before being forwarded to the services where the real work was done. The newer architecture jettisons the shared proxy design and instead consists of a very lean and efficient distributed sidecar proxy sitting next to service instances, along with a shared fleet of sharded control plane intermediaries:
 
 {{< image width="75%"
     link="./mixer-spof-myth-1.svg"
-    title="Google 系统拓扑"
-    caption="Google 的 API 和 服务管理系统"
+    title="Google System Topology"
+    caption="Google's API & Service Management System"
     >}}
 
-看起来很面熟吧？是的，跟 Istio 很像。Istio 就是作为这一分布式代理架构的继任者进行构思的。我们从内部系统中获取了核心的灵感，在同合作伙伴的协同工作中产生了很多概念，这些导致了 Istio 的诞生。
+Look familiar? Of course: it’s just like Istio! Istio was conceived as a second generation of this distributed proxy architecture. We took the core lessons from this internal system, generalized many of the concepts by working with our partners, and created Istio.
 
-## 架构总结
+## Architecture recap
 
-下图中，Mixer 在 Mesh 和基础设施之间：
+As shown in the diagram below, Mixer sits between the mesh and the infrastructure backends that support it:
 
-{{< image width="75%" link="./mixer-spof-myth-2.svg" caption="Istio 拓扑" >}}
+{{< image width="75%" link="./mixer-spof-myth-2.svg" caption="Istio Topology" >}}
 
-逻辑上，Envoy Sidecar 会在每次请求之前调用 Mixer，进行前置检查，每次请求之后又要进行指标报告。Sidecar 中包含本地缓存，一大部分的前置检查可以通过缓存来进行。另外，Sidecar 会把待发送的指标数据进行缓冲，这样可能在几千次请求之后才调用一次 Mixer。前置检查和请求处理是同步的，指标数据上送是使用 fire-and-forget 模式异步完成的。
+The Envoy sidecar logically calls Mixer before each request to perform precondition checks, and after each request to report telemetry.
+The sidecar has local caching such that a relatively large percentage of precondition checks can be performed from cache. Additionally, the
+sidecar buffers outgoing telemetry such that it only actually needs to call Mixer once for every several thousands requests. Whereas precondition
+checks are synchronous to request processing, telemetry reports are done asynchronously with a fire-and-forget pattern.
 
-抽象一点说，Mixer 提供：
+At a high level, Mixer provides:
 
-- **后端抽象**：Mixer 把 Istio 组件和网格中的服务从基础设施细节中隔离开来。
+* **Backend Abstraction**. Mixer insulates the Istio components and services within the mesh from the implementation details of individual infrastructure backends.
 
-- **中间人**：Mixer 让运维人员能够对所有网格和基础设施后端之间的交互进行控制。
+* **Intermediation**. Mixer allows operators to have fine-grained control over all interactions between the mesh and the infrastructure backends.
 
-除了这些纯功能方面，Mixer 还有一些其他特点，为系统提供更多益处。
+However, even beyond these purely functional aspects, Mixer has other characteristics that provide the system with additional benefits.
 
-### Mixer：SLO 助推器
+## Mixer: SLO booster
 
-有人说 Mixer 是一个 SPOF，会导致 Mesh 的崩溃，而我们认为 Mixer 增加了 Mesh 的可用性。这是如何做到的？下面是三个理由：
+Contrary to the claim that Mixer is a SPOF and can therefore lead to mesh outages, we believe it in fact improves the effective availability of a mesh. How can that be? There are three basic characteristics at play:
 
-- **无状态**：Mixer 没有状态，他不管理任何自己的持久存储。
+* **Statelessness**. Mixer is stateless in that it doesn’t manage any persistent storage of its own.
 
-- **稳固**：Mixer 是一个高可靠性的组件，设计要求所有 Mixer 实例都要有超过 99.999% 的可靠性。
+* **Hardening**. Mixer proper is designed to be a highly reliable component. The design intent is to achieve > 99.999% uptime for any individual Mixer instance.
 
-- **缓存和缓冲**：Mixer 能够积累大量的短期状态数据。
+* **Caching and Buffering**. Mixer is designed to accumulate a large amount of transient ephemeral state.
 
-Sidecar 代理伴随每个服务实例而运行，必须节约使用内存，这样就限制了本地缓存和缓冲的数量。但是 Mixer 是独立运行的，能使用更大的缓存和缓冲。因此 Mixer 为 Sidecar 提供了高伸缩性高可用的二级缓存服务。
+The sidecar proxies that sit next to each service instance in the mesh must necessarily be frugal in terms of memory consumption, which constrains the possible amount of local caching and buffering. Mixer, however, lives independently and can use considerably larger caches and output buffers. Mixer thus acts as a highly-scaled and highly-available second-level cache for the sidecars.
 
-Mixer 的预期可用性明显高于多数后端（多数是 99.9%）。他的本地缓存和缓冲区能够在后端无法响应的时候继续运行，因此有助于对基础设施故障的屏蔽，降低影响。
+Mixer’s expected availability is considerably higher than most infrastructure backends (those often have availability of perhaps 99.9%). Its local caches and buffers help mask infrastructure backend failures by being able to continue operating even when a backend has become unresponsive.
 
-### Mixer：延迟削减器
+## Mixer: Latency slasher
 
-上面我们解释过，Istio Sidecar 具备有效的一级缓存，在为流量服务的时候多数时间都可以使用缓存来完成。Mixer 提供了更大的共享池作为二级缓存，这也帮助了 Mixer 降低平均请求的延迟。
+As we explained above, the Istio sidecars generally have fairly effective first-level caching. They can serve the majority of their traffic from cache. Mixer provides a much greater shared pool of second-level cache, which helps Mixer contribute to a lower average per-request latency.
 
-不只是降低延迟，Mixer 还降低了 Mesh 到底层的请求数量，这样就能显著降低到基础设施后端的 QPS，如果你要付款给这些后端，那么这一优点就会节省更多成本。
+While it’s busy cutting down latency, Mixer is also inherently cutting down the number of calls your mesh makes to infrastructure backends. Depending on how you’re paying for these backends, this might end up saving you some cash by cutting down the effective QPS to the backends.
 
-## 下一步
+## Work ahead
 
-我们还有机会对系统做出更多改进。
+We have opportunities ahead to continue improving the system in many ways.
 
-### 以金丝雀部署的方式进行配置发布
+### Configuration canaries
 
-Mixer 具备高度的伸缩性，所以他通常不会故障。然而如果部署了错误的配置，还是会引发 Mixer 进程的崩溃。为了防止这种情况的出现，可以用金丝雀部署的方式来发布配置，首先为一小部分 Mixer 进行部署，然后扩大部署范围。
+Mixer is highly scaled so it is generally resistant to individual instance failures. However, Mixer is still susceptible to cascading
+failures in the case when a poison configuration is deployed which causes all Mixer instances to crash basically at the same time
+(yeah, that would be a bad day). To prevent this from happening, configuration changes can be canaried to a small set of Mixer instances,
+and then more broadly rolled out.
 
-目前的 Mixer 并未具备这样的能力，我们期待这一功能成为 Istio 可靠性配置工作的一部分最终得以发布。
+Mixer doesn’t yet do canarying of configuration changes, but we expect this to come online as part of Istio’s ongoing work on reliable
+configuration distribution.
 
-### 缓存调优
+### Cache tuning
 
-我们的 Sidecar 和 Mixer 缓存还需要更好的调整，这部分的工作会着眼于资源消耗的降低和性能的提高。
+We have yet to fine-tune the sizes of the sidecar and Mixer caches. This work will focus on achieving the highest performance possible using the least amount of resources.
 
-### 缓存共享
+### Cache sharing
 
-现在 Mixer 的实例之间是各自独立的。一个请求在被某个 Mixer 实例处理之后，并不会把过程中产生的缓存传递给其他 Mixer 实例。我们最终会试验使用 Memcached 或者 Redis 这样的分布式缓存，以期提供一个网格范围内的共享缓存，更好的降低对后端基础设施的调用频率。
+At the moment, each Mixer instance operates independently of all other instances. A request handled by one Mixer instance will not leverage data cached in a different instance. We will eventually experiment with a distributed cache such as memcached or Redis in order to provide a much larger mesh-wide shared cache, and further reduce the number of calls to infrastructure backends.
 
-### 分片
+### Sharding
 
-在大规模的网格中，Mixer 的负载可能很重。我们可以使用大量的 Mixer 实例，每个实例都为各自承担的流量维护各自的缓存。我们希望引入智能分片能力，这样 Mixer 实例就能针对特定的数据流提供特定的服务，从而提高缓存命中率；换句话说，分片可以利用把相似的流量分配给同一个 Mixer 实例的方式来提高缓存效率，而不是把请求交给随机选择出来的 Mixer 实例进行处理。
+In very large meshes, the load on Mixer can be great. There can be a large number of Mixer instances, each straining to keep caches primed to
+satisfy incoming traffic. We expect to eventually introduce intelligent sharding such that Mixer instances become slightly specialized in
+handling particular data streams in order to increase the likelihood of cache hits. In other words, sharding helps improve cache
+efficiency by routing related traffic to the same Mixer instance over time, rather than randomly dispatching to
+any available Mixer instance.
 
-## 结语
+## Conclusion
 
-Google 的实际经验展示了轻代理、大缓存控制平面结合的好处：提供更好的可用性和延迟。过去的经验帮助 Istio 构建了更精确更有效的缓存、预抓取以及缓冲策略等功能。我们还优化了通讯协议，用于降低缓存无法命中的时候，对性能产生的影响。
+Practical experience at Google showed that the model of a slim sidecar proxy and a large shared caching control plane intermediary hits a sweet
+spot, delivering excellent perceived availability and latency. We’ve taken the lessons learned there and applied them to create more sophisticated and
+effective caching, prefetching, and buffering strategies in Istio. We’ve also optimized the communication protocols to reduce overhead when a cache miss does occur.
 
-Mixer 还很年轻。在 Istio 0.3 中，Mixer 并没有性能方面的重要改进。这意味着如果一个请求没有被 Sidecar 缓存命中，Mixer 就会花费更多时间。未来的几个月中我们会做很多工作来优化同步的前置检查过程中的这种情况。
+Mixer is still young. As of Istio 0.3, we haven’t really done significant performance work within Mixer itself. This means when a request misses the sidecar
+cache, we spend more time in Mixer to respond to requests than we should. We’re doing a lot of work to improve this in coming months to reduce the overhead
+that Mixer imparts in the synchronous precondition check case.
 
-我们希望本文能够让读者能够意识到 Mixer 对 Istio 的益处。
+We hope this post makes you appreciate the inherent benefits that Mixer brings to Istio.
+Don’t hesitate to post comments or questions to [istio-policies-and-telemetry@](https://groups.google.com/forum/#!forum/istio-policies-and-telemetry).
 
-如果有说明或者问题，无需犹豫，
