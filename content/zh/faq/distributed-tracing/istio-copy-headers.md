@@ -1,9 +1,9 @@
 ---
-title: 为什么 Istio 不能取代应用程序来传播 header？
+title: Why can't Istio propagate headers instead of the application?
 weight: 20
 ---
 
-尽管 Istio sidecar 将处理与之关联的应用程序实例的入站和出站请求，但它并不能隐式地将出站请求和与该出站请求对应的入站请求建立联系。
-实现这种相关性的唯一方法是应用程序[传递从入站请求到出站请求的关联信息](/zh/docs/tasks/telemetry/distributed-tracing/overview/#trace-context-propagation)（比如，header）。
-header 的传播可以通过客户端库或手动完成。
-[使用 Istio 进行分布式追踪需要什么？](/zh/faq/distributed-tracing/#how-to-support-tracing)提供了进一步的讨论。
+Although an Istio sidecar will process both inbound and outbound requests for an associated application instance, it has no implicit way of correlating
+the outbound requests to the inbound request that caused them. The only way this correlation can be achieved is if the application
+propagates relevant information (i.e. headers) from the inbound request to the outbound requests. Header propagation may be accomplished through client
+libraries or manually. Further discussion is provided in [What is required for distributed tracing with Istio?](/faq/distributed-tracing/#how-to-support-tracing).

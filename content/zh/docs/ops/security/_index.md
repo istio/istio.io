@@ -1,6 +1,8 @@
 ---
-title: 安全
-description: 帮助你管理运行中的网格的安全性方面问题。
-weight: 40
+title: Security
+description: Helps you manage the security aspects of a running mesh.
+weight: 50
 keywords: [ops,security]
+aliases:
+    - /help/ops/security
 ---

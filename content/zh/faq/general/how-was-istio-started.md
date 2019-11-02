@@ -1,6 +1,7 @@
 ---
-title: Istio 是如何开始的?
+title: How was Istio started?
 weight: 50
 ---
 
-Istio 项目由 Google 和 IBM 的团队与 Lyft 的 Envoy 团队合作启动。它已经完全在 GitHub 上公开开发。
+The Istio project was started by teams from Google and IBM in partnership with the Envoy team from Lyft. It's been
+developed fully in the open on GitHub.

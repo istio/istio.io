@@ -1,5 +1,8 @@
 ---
-title: 流量管理
-description: 描述如何配置 HTTP/TCP 路由功能。
+title: Traffic Management
+description: Describes how to configure HTTP/TCP routing features.
 weight: 11
+aliases:
+    - /docs/reference/config/istio.routing.v1alpha1/
+    - /docs/reference/config/networking/
 ---

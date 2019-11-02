@@ -1,6 +1,6 @@
 ---
-title: 参考
-description: 参考部分包含详细的权威参考资料，如命令行选项、配置选项和 API 调用参数。
+title: Reference
+description: Detailed authoritative reference material such as command-line options, configuration options, and API calling parameters.
 weight: 60
 icon: reference
 ---

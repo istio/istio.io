@@ -1,26 +1,32 @@
 ---
-title: Mixer 是否提供内部监控？
+title: Does Mixer provide any self-monitoring?
 weight: 30
 ---
 
-Mixer 提供了监控端点（默认端口：`10514`）。Mixer 提供的性能和审计功能的服务路径如下：
+Mixer exposes a monitoring endpoint (default port: `10514`). There are a few
+useful paths to investigate Mixer performance and audit
+function:
 
-- `/metrics` 提供有关 Mixer 处理的 Prometheus 指标、 API 调用相关的 gRPC 指标和 adapter 调度指标。
-- `/debug/pprof` 提供了性能剖析相关的数据，格式为 [pprof](https://golang.org/pkg/net/http/pprof/)。
-- `/debug/vars` 提供了服务器指标，数据为 JSON 格式。
+- `/metrics` provides Prometheus metrics on the Mixer process as well as gRPC
+  metrics related to API calls and metrics on adapter dispatch.
+- `/debug/pprof` provides an endpoint for profiling data in [pprof
+  format](https://golang.org/pkg/net/http/pprof/).
+- `/debug/vars` provides an endpoint exposing server metrics in JSON format.
 
-可通过 `kubectl logs` 命令访问 Mixer 的日志，如下所示：
+Mixer logs can be accessed via a `kubectl logs` command, as follows:
 
-- 关于 `istio-policy` 服务：
-
-{{< text bash >}}
-$ kubectl -n istio-system logs -lapp=policy -c mixer
-{{< /text >}}
-
-- 关于 `istio-telemetry` 服务：
+- For the `istio-policy` service:
 
 {{< text bash >}}
-$ kubectl -n istio-system logs -lapp=telemetry -c mixer
+$ kubectl -n istio-system logs -l app=policy -c mixer
 {{< /text >}}
 
-Mixer 追踪功能由以下命令行参数控制：`trace_zipkin_url`、`trace_jaeger_url` 和 `trace_log_spans`。如果设置了以上参数中的任何一个，则追踪数据将上报至配置的相关服务地址。如果未提供追踪相关设置参数，则 Mixer 将不会产生应用程序级别的追踪信息。
+- For the `istio-telemetry` service:
+
+{{< text bash >}}
+$ kubectl -n istio-system logs -l app=telemetry -c mixer
+{{< /text >}}
+
+Mixer trace generation is controlled by command-line flags: `trace_zipkin_url`, `trace_jaeger_url`, and `trace_log_spans`. If
+any of those flag values are set, trace data will be written directly to those locations. If no tracing options are provided, Mixer
+will not generate any application-level trace information.

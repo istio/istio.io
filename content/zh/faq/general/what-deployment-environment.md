@@ -1,6 +1,9 @@
 ---
-title: 支持哪些部署环境？
+title: What deployment environments are supported?
 weight: 60
 ---
 
-Istio 的设计和构建与平台无关。对于我们 {{< istio_version >}} 发布，Istio 支持运行容器编排平台环境，如 Kubernetes（v1.9 或更高版本）和 Nomad（使用 Consul）。
+Istio is designed and built to be platform-independent. For our
+{{< istio_version >}} release, Istio supports environments running
+container orchestration platforms such as Kubernetes ({{< supported_kubernetes_versions >}})
+and Nomad with Consul.
