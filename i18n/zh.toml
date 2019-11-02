@@ -97,15 +97,6 @@ other = "%d 字"
 [page_reading_time]
 other = "阅读大约需要 %v 分钟"
 
-[relnote_download]
-other = "%s 下载"
-
-[relnote_changes]
-other = "%s 变更"
-
-[relnote_docs]
-other = "%s 文档"
-
 [relnote_update_advice]
 other = "在下载 ％s 之前，您应该知道有一个更新的补丁版本，这个版本修复了已知的 Bug 并且在一定程度上提升了性能。"
 
@@ -114,6 +105,42 @@ other = "了解 Istio %s"
 
 [relnote_update_notice]
 other = "更新提示"
+
+[relnote_change_notes_title]
+other = "更新记录"
+
+[relnote_change_notes_detail]
+other = "获取变更详细列表。"
+
+[relnote_before_you_upgrade_title]
+other = "升级之前"
+
+[relnote_before_you_upgrade_detail]
+other = "升级前须知。"
+
+[relnote_download_title]
+other = "下载"
+
+[relnote_download_detail]
+other = "下载安装该发行版。"
+
+[relnote_docs_title]
+other = "文档"
+
+[relnote_docs_detail]
+other = " 访问该发行版的文档。"
+
+[relnote_helm_changes_title]
+other = "Helm 变更"
+
+[relnote_helm_changes_detail]
+other = "了解 Helm 安装选项中的变更。"
+
+[relnote_source_changes_title]
+other = "代码变更"
+
+[relnote_source_changes_detail]
+other = "查看源码变更的详细信息。"
 
 [page_attribution]
 other = "作者 "

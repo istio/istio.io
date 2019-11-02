@@ -1,8 +1,10 @@
 ---
-title: 常见问题
-linktitle: 常见问题
-description: 常见问题。
+title: General FAQ
+linktitle: General
+description: General Q & A.
 weight: 10
 layout: faq
 icon: faq
+aliases:
+  - /help/faq/general
 ---

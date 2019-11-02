@@ -1,27 +1,29 @@
 ---
 ---
-## 开始之前
+## Before you begin
 
-*   按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
+*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-*   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，以获取发送请求的测试源。
-
-    如果您启用了
-    [自动 sidecar 注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入)，请执行
+*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+    If you have
+    [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-    否则，在部署 `sleep` 应用程序前，您必须手动注入 sidecar：
+    Otherwise, manually inject the sidecar before deploying the `sleep` application with the following command:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    您可以使用任何安装了 `curl` 的 pod 作为测试源。
+    {{< tip >}}
+    You can use any pod with `curl` installed as a test source.
+    {{< /tip >}}
 
-*   为了发送请求，您需要创建 `SOURCE_POD` 环境变量来存储源 pod 的名称：
+*   Set the `SOURCE_POD` environment variable to the name of your source pod:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})

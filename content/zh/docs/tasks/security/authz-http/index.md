@@ -1,286 +1,209 @@
 ---
-title: HTTP 服务的访问控制
-description: 展示为 HTTP 服务设置基于角色的访问控制方法。
+title: Authorization for HTTP Services
+description: Shows how to set up role-based access control for HTTP services.
 weight: 10
 keywords: [security,access-control,rbac,authorization]
+aliases:
+    - /docs/tasks/security/role-based-access-control.html
 ---
 
-Istio 采用基于角色的访问控制方式，本文内容涵盖了为 HTTP 设置访问控制的各个环节。在[认证概念](/zh/docs/concepts/security/)一文中提供了 Istio 安全方面的入门教程。
+This task covers the activities you might need to perform to set up Istio authorization, also known
+as Istio Role Based Access Control (RBAC), for HTTP services in an Istio mesh. You can read more in
+[authorization](/docs/concepts/security/#authorization) and get started with
+a basic tutorial in Istio Security Basics.
 
-## 开始之前
+## Before you begin
 
-本任务中涉及的活动，需要具备以下条件：
+The activities in this task assume that you:
 
-* 理解[访问控制](/zh/docs/concepts/security/#授权)概念。
+* Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* 按照[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)的步骤，在 Kubernetes 上安装了 Istio 并**启用认证功能**，本教程依赖双向 TLS 功能，在[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)中介绍了启用双向 TLS 的方法。
+* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
 
-* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
-* 用浏览器打开 Bookinfo 的 `productpage`（`http://$GATEWAY_URL/productpage`）应该会看到：
+After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
+the product page, you can see the following sections:
 
-    * 页面左下方的 “Book Details” 中包含了类型、页数、出版商等信息。
-    * “Book Reviews” 应该显示在页面右下方。
+* **Book Details** on the lower left side, which includes: book type, number of
+  pages, publisher, etc.
+* **Book Reviews** on the lower right of the page.
 
-    多次刷新该页面，可能会看到页面中显示了 “Book Reviews” 的不同版本，红星、黑星和无星三个版本会轮换展示。
+When you refresh the page, the app shows different versions of reviews in the product page.
+The app presents the reviews in a round robin style: red stars, black stars, or no stars.
 
-## 启用 Istio 访问控制 {#enable-Istio-access-control}
+## Enabling Istio authorization
 
-运行下面的命令，在 `default` 命名空间中启用 Istio 访问控制：
+Run the following command to enable Istio authorization for the `default` namespace:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
-{{< /text >}}
+{{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enabling_istio_authorization.sh" >}}
 
-用浏览器打开 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`）。应该会看到 `"RBAC: access denied"`，原因是 Istio 访问控制缺省采用拒绝策略，这就要求必须显式的声明访问控制策略才能成功的访问到服务。
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
+`"RBAC: access denied"`. This is because Istio authorization is "deny by default", which means that you need to
+explicitly define access control policy to grant access to any service.
 
 {{< tip >}}
-缓存或者其它传播开销可能会造成生效延迟。
+There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-## 命名空间级别的访问控制
+## Enforcing Namespace-level access control
 
-使用 Istio 能够轻松的在命名空间一级设置访问控制，只要设置命名空间中所有（或部分）服务可以被其它命名空间的服务访问即可。
+Using Istio authorization, you can easily setup namespace-level access control by specifying all (or a collection of) services
+in a namespace are accessible by services from another namespace.
 
-Bookinfo 案例中，`productpage`、`reviews`、`details` 和 `ratings` 服务都部署在 `default` 命名空间之内。而 `istio-ingressgateway` 这样的 Istio 组件是部署在 `istio-system` 命名空间内的。可以定义一个策略，`default` 命名空间内的服务如果它的 `app` 标签值属于 `productpage`、`reviews`、`details` 和 `ratings` 其中的一个，就可以被同一命名空间（`default`）内的服务访问。
+In our Bookinfo sample, the `productpage`, `reviews`, `details`, `ratings` services are deployed in the `default` namespace.
+The Istio components like `istio-ingressgateway` service are deployed in the `istio-system` namespace. We can define a policy that
+any service in the `default` namespace that has the `app` label set to one of the values of
+`productpage`, `details`, `reviews`, or `ratings`
+is accessible by services in the same namespace (i.e., `default`) and services in the `istio-system` namespace.
 
-运行下面的命令，来创建命名空间级的访问控制策略：
+Run the following command to create a namespace-level access control policy:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
-{{< /text >}}
+{{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_namespace_level_access_control_apply.sh" >}}
 
-这条策略包括：
+Once applied, the policy has the following effects:
 
-* 创建一个名为 `service-viewer` 的 `ServiceRole`，该角色允许对于 `default` 命名空间内，并且 `app` 标签值在 `productpage`、`reviews`、`details` 和 `ratings` 范围内的服务发起读取访问。
+*   Creates a `ServiceRole` `service-viewer` which allows read access to any service in the `default` namespace that has
+the `app` label
+set to one of the values `productpage`, `details`, `reviews`, or `ratings`. Note that there is a
+constraint specifying that
+the services must have one of the listed `app` labels.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRole
-    metadata:
-      name: service-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["*"]
-        methods: ["GET"]
-        constraints:
-        - key: "destination.labels[app]"
-          values: ["productpage", "details", "reviews", "ratings"]
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_namespace_level_access_control_service_viewer.yaml" >}}
 
-* 创建一个 `ServiceRoleBinding`，给所有 `istio-system` 和 `default` 命名空间内的服务分配一个 `service-viewer` 角色。
+*   Creates a `ServiceRoleBinding` that assigns the `service-viewer` role to all services in the `istio-system` and `default` namespaces.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-service-viewer
-      namespace: default
-    spec:
-      subjects:
-      - properties:
-          source.namespace: "istio-system"
-      - properties:
-          source.namespace: "default"
-      roleRef:
-        kind: ServiceRole
-        name: "service-viewer"
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_namespace_level_access_control_bind_service_viewer.yaml" >}}
 
-应该会看到如下输出：
+You can expect to see output similar to the following:
 
 {{< text plain >}}
 servicerole "service-viewer" created
 servicerolebinding "bind-service-viewer" created
 {{< /text >}}
 
-如果用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），应该会看到 “Bookinfo Sample” 页面，左下角是 “Book Details”，右下角是 “Book Reviews”。
+Now if you point your browser at Bookinfo's `productpage` (`http://$GATEWAY_URL/productpage`). You should see the "Bookinfo Sample" page,
+with the "Book Details" section in the lower left part and the "Book Reviews" section in the lower right part.
 
 {{< tip >}}
-缓存或者其它传播开销可能会造成生效延迟。
+There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### 清理命名空间级别的访问控制
+### Cleanup namespace-level access control
 
-进入下一任务之前，首先删除下列配置：
+Remove the following configuration before you proceed to the next task:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
 {{< /text >}}
 
-## 服务级访问控制
+## Enforcing Service-level access control
 
-接下来展示的是如何使用 Istio 在服务一级进行访问控制。开始之前，首先确认两个前提条件：
+This task shows you how to set up service-level access control using Istio authorization. Before you start, please make sure that:
 
-* 已经[启用 Istio 访问控制](#enable-Istio-access-control)。
-* 已经[清理命名空间级别的访问控制](#清理命名空间级别的访问控制)。
+* You have [enabled Istio authorization](#enabling-istio-authorization).
+* You have [removed namespace-level authorization policy](#cleanup-namespace-level-access-control).
 
-用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），会看到 `"RBAC: access denied"`。我们将会逐步在 Bookinfo 中加入访问权限。
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see `"RBAC: access denied"`.
+We will incrementally add access permission to the services in the Bookinfo sample.
 
-### 第一步：开放到 `productpage` 服务的访问
+### Step 1. allowing access to the `productpage` service
 
-在这一步骤中，我们会创建一条策略，允许外部请求通过 Ingress 访问 `productpage` 服务。
+In this step, we will create a policy that allows external requests to access the `productpage` service via Ingress.
 
-运行下列命令：
+Run the following command:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
-{{< /text >}}
+{{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step1_apply.sh" >}}
 
-这条策略完成了如下工作：
+Once applied, the policy has the following effects:
 
-* 创建一个名为 `productpage-viewer` 的 `ServiceRole`，允许对 `productpage` 服务进行读取访问。
+*   Creates a `ServiceRole` `productpage-viewer` which allows read access to the `productpage` service.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRole
-    metadata:
-      name: productpage-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["productpage.default.svc.cluster.local"]
-        methods: ["GET"]
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step1_productpage_viewer.yaml" >}}
 
-* 创建一个 `ServiceRoleBinding`，命名为 `bind-productpager-viewer`，将 `productpage-viewer` 角色授予所有用户和服务。
+*   Creates a `ServiceRoleBinding` `bind-productpage-viewer` which assigns the `productpage-viewer` role to all
+users and services.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-productpage-viewer
-      namespace: default
-    spec:
-      subjects:
-      - user: "*"
-      roleRef:
-        kind: ServiceRole
-        name: "productpage-viewer"
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step1_bind_productpage_viewer.yaml" >}}
 
-用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），现在应该就能看到 “Bookinfo Sample” 页面了，但是页面上会显示 `Error fetching product details` and `Error fetching product reviews` 的错误信息。这些错误信息是正常的，原因是 `productpage` 还无权访问 `details` 和 `reviews` 服务。下面我们会尝试解决这一问题。
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see the "Bookinfo Sample"
+page. But there are errors `Error fetching product details` and `Error fetching product reviews` on the page. These errors
+are expected because we have not granted the `productpage` service access to the `details` and `reviews` services. We will fix the errors
+in the following steps.
 
 {{< tip >}}
-缓存或者其它传播开销可能会造成生效延迟。
+There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### 第二步：开放到 details 和 reviews 服务的访问
+### Step 2. allowing access to the `details` and `reviews` services
 
-创建一条策略，允许 `productpage` 访问 details 和 reviews 服务。注意在[开始之前](#开始之前)步骤中已经创建了 `bookinfo-productpage`，这个 Service Account 被用于运行 `productpage` 服务，换句话说 `bookinfo-productpage` 就是 `productpage` 服务的身份标识。
+We will create a policy to allow the `productpage` service to access the `details` and `reviews` services. Note that in the
+[setup step](#before-you-begin), we created the `bookinfo-productpage` service account for the `productpage` service. This
+`bookinfo-productpage` service account is the authenticated identify for the `productpage` service.
 
-运行如下命令：
+Run the following command:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
-{{< /text >}}
+{{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step2_apply.sh" >}}
 
-这一策略中包含了如下操作。
+Once applied, the policy has the following effects:
 
-* 新建名为 `details-reviews-viewer` 的 `ServiceRole`，该角色允许对 `details` 和 `reviews` 服务的访问。
+*   Creates a `ServiceRole` `details-reviews-viewer` which allows access to the `details` and `reviews` services.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRole
-    metadata:
-      name: details-reviews-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["details.default.svc.cluster.local", "reviews.default.svc.cluster.local"]
-        methods: ["GET"]
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step2_details_reviews_viewer.yaml" >}}
 
-* 创建 `ServiceRoleBinding` 对象，命名为 `bind-details-reviews`，将 `details-reviews-viewer` 角色授予 `cluster.local/ns/default/sa/bookinfo-productpage`（也就是 `productpage` 服务）。
+*   Creates a `ServiceRoleBinding` `bind-details-reviews` which assigns the `details-reviews-viewer` role to the
+`cluster.local/ns/default/sa/bookinfo-productpage` service account (representing the `productpage` service).
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-details-reviews
-      namespace: default
-    spec:
-      subjects:
-      - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-      roleRef:
-        kind: ServiceRole
-        name: "details-reviews-viewer"
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step2_bind_details_reviews.yaml" >}}
 
-浏览器打开 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`），现在应该就能看到 “Bookinfo Sample” 页面中，在左下方显示了 “Book Details”，在右下方显示了 “Book Reviews”。然而 “Book Reviews” 部分显示了一个错误信息：`Ratings service currently unavailable`，错误的原因是 `reviews` 服务无权访问 `ratings` 服务。要解决这一问题，就需要授权给 `reviews` 服务，允许它访问 `ratings` 服务。
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see the "Bookinfo Sample"
+page with "Book Details" on the lower left part, and "Book Reviews" on the lower right part. However, in the "Book Reviews" section,
+there is an error `Ratings service currently unavailable`. This is because "reviews" service does not have permission to access
+"ratings" service. To fix this issue, you need to grant the `reviews` service access to the `ratings` service.
+We will show how to do that in the next step.
 
 {{< tip >}}
-缓存或者其它传播开销可能会造成生效延迟。
+There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-### 第三步：开放访问 `ratings` 服务
+### Step 3. allowing access to the `ratings` service
 
-这里来创建一条策略，允许 `reviews` 服务访问 `ratings` 服务。注意在[开始之前](#开始之前)，我们已经为 `reviews` 服务创建了一个叫做 `bookinfo-reviews` 的 Service Account，它就是 `reviews` 服务的身份标识。
+We will create a policy to allow the `reviews` service to access the `ratings` service. Note that in the
+[setup step](#before-you-begin), we created a `bookinfo-reviews` service account for the `reviews` service. This
+service account is the authenticated identify for the `reviews` service.
 
-运行下面的命令，创建允许 `reviews` 服务访问 `ratings` 服务的策略：
+Run the following command to create a policy that allows the `reviews` service to access the `ratings` service.
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
-{{< /text >}}
+{{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step3_apply.sh" >}}
 
-这条策略包含以下动作：
+Once applied, the policy has the following effects:
 
-* 创建一个名为 `ratings-viewer` 的 `ServiceRole`，并允许其访问 `ratings` 服务。
+*   Creates a `ServiceRole` `ratings-viewer` which allows access to the `ratings` service.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRole
-    metadata:
-      name: ratings-viewer
-      namespace: default
-    spec:
-      rules:
-      - services: ["ratings.default.svc.cluster.local"]
-        methods: ["GET"]
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step3_ratings_viewer.yaml" >}}
 
-* 创建一个 `ServiceRoleBinding` 对象，命名为 `bind-ratings`，把 `ratings-viewer` 角色授予给 `cluster.local/ns/default/sa/bookinfo-reviews`（也就是 `reviews` 服务）。
+*   Creates a `ServiceRoleBinding` `bind-ratings` which assigns `ratings-viewer` role to the
+`cluster.local/ns/default/sa/bookinfo-reviews` service account, which represents the `reviews` service.
 
-    {{< text yaml >}}
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-ratings
-      namespace: default
-    spec:
-      subjects:
-      - user: "cluster.local/ns/default/sa/bookinfo-reviews"
-      roleRef:
-        kind: ServiceRole
-        name: "ratings-viewer"
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="enforcing_service_level_access_control_step3_bind_ratings.yaml" >}}
 
-用浏览器访问 Bookinfo `productpage`（`http://$GATEWAY_URL/productpage`）。现在应该能在  “Book Reviews” 中看到黑色或红色的星级图标。
+Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). Now you should see
+the "black" and "red" ratings in the "Book Reviews" section.
 
 {{< tip >}}
-缓存或者其它传播开销可能会造成生效延迟。
+There may be some delays due to caching and other propagation overhead.
 {{< /tip >}}
 
-## 清理
+## Cleanup
 
-* 移除 Istio 访问控制策略：
+*   Remove Istio authorization policy configuration:
 
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="remove_istio_authorization_policy.sh" >}}
 
-    也可以选择使用下面的命令删除所有 `ServiceRole` 和 `ServiceRoleBinding`：
+    Alternatively, you can delete all `ServiceRole` and `ServiceRoleBinding` resources by running the following commands:
 
-    {{< text bash >}}
-    $ kubectl delete servicerole --all
-    $ kubectl delete servicerolebinding --all
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="remove_istio_authorization_policy_alternative.sh" >}}
 
-* 禁用 Istio 访问控制：
+*   Disable Istio authorization:
 
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
-    {{< /text >}}
+    {{< text_import file="examples/TestAuthorizationForHTTPServices.txt" snippet="disabling_istio_authorization.sh" >}}

@@ -1,24 +1,40 @@
 ---
-title: 动态准入 Webhook 概述
-description: 概述了 Istio 使用 Kubernetes Webhook 及可能出现的相关问题。
+title: Dynamic Admission Webhooks Overview
+description: Provides a general overview of Istio's use of Kubernetes webhooks and the related issues that can arise.
 weight: 10
+aliases:
+    - /help/ops/setup/webhook
 ---
 
-来自 [Kubernetes 准入控制机制](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)：
+From [Kubernetes mutating and validating webhook mechanisms](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/):
 
 {{< tip >}}
-准入 Webhook 是 HTTP 方式的回调，接收准入请求并对其进行相关操作。可定义两种类型的准入 Webhook，Validating 准入 Webhook 和 Mutating 准入 Webhook。 使用 Validating Webhook，可以通过自定义的准入策略来拒绝请求；使用 Mutating Webhook，可以通过自定义默认值来修改请求。
+Admission webhooks are HTTP callbacks that receive admission requests
+and do something with them. You can define two types of admission
+webhooks, validating admission webhook and mutating admission
+webhook. With validating admission webhooks, you may reject requests
+to enforce custom admission policies. With mutating admission
+webhooks, you may change requests to enforce custom defaults.
 {{< /tip >}}
 
-Istio 使用 `ValidatingAdmissionWebhooks` 验证 Istio 配置，使用 `MutatingAdmissionWebhooks` 自动将 Sidecar 代理注入至用户 Pod。
+Istio uses `ValidatingAdmissionWebhooks` for validating Istio
+configuration and `MutatingAdmissionWebhooks` for automatically
+injecting the sidecar proxy into user pods.
 
-Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识。有关 Validating 和 Mutating Webhook 配置的详细文档，请参考 [Kubernetes API](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/)。
+The webhook setup guides assuming general familiarity with Kubernetes
+Dynamic Admission Webhooks. Consult the [Kubernetes API references](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/) for
+detailed documentation of the mutating and validating webhook configuration.
 
-## 验证动态准入 Webhook 前置条件
+## Verify dynamic admission webhook prerequisites
 
-请参阅 Kubernetes 快速入门中的[前置条件章节](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)。如果群集配置错误，Webhook 将无法正常工作。如集群配置后，动态 Webhook 和依赖的相关功能无法正常工作，可以通过以下步骤进行检查。
+See the [quick start prerequisites](/docs/setup/install/kubernetes/#prerequisites)
+for Kubernetes provider specific setup instructions. Webhooks will not
+function properly if the cluster is misconfigured. You can follow
+these steps once the cluster has been configured and dynamic
+webhooks and dependent features are not functioning properly.
 
-1. 验证 `kubectl` 是否是[最新版本](https://kubernetes.io/docs/tasks/tools/install-kubectl/)（>= 1.10），并且 Kubernetes 服务器版本 >= 1.9。
+1. Verify you’re using a supported version ({{< supported_kubernetes_versions >}}) of
+   [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and of the Kubernetes server:
 
     {{< text bash >}}
     $ kubectl version --short
@@ -26,13 +42,19 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
     Server Version: v1.10.4-gke.0
     {{< /text >}}
 
-1. `admissionregistration.k8s.io/v1beta1` 应是启用状态
+1. `admissionregistration.k8s.io/v1beta1` should be enabled
 
     {{< text bash >}}
     $ kubectl api-versions | grep admissionregistration.k8s.io/v1beta1
     admissionregistration.k8s.io/v1beta1
     {{< /text >}}
 
-1. 验证 `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook` 在`kube-apiserver --enable-admission-plugins` 配置中是否被启用。通过[特定提供者](/zh/docs/setup/kubernetes/install/kubernetes/#前置条件)提供的步骤来检查此标志。
+1. Verify `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` plugins are
+   listed in the `kube-apiserver --enable-admission-plugins`. Access
+   to this flag is [provider specific](/docs/setup/install/kubernetes/#prerequisites).
 
-1. 验证 Kubernetes api-server 与 Webhook 所在 Pod 的网络连通是否正常。例如不正确的 `http_proxy` 设置可能会使  api-server 操作无法正常完成（有关详细信息，请参阅[这里](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)和[这里](https://github.com/kubernetes/kubeadm/issues/666)的相关问题)。
+1. Verify the Kubernetes api-server has network connectivity to the
+   webhook pod. e.g. incorrect `http_proxy` settings can interfere
+   api-server operation (see related issues
+   [here](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
+   and [here](https://github.com/kubernetes/kubeadm/issues/666) for more information).

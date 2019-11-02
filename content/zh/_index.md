@@ -1,12 +1,13 @@
 ---
 title: Istio
+description: 用于连接、保护、控制和观测服务。
 ---
 <main class="landing">
     <div id="banner">
         {{< inline_image "landing/istio-logo.svg" >}}
         <div id="hero-text">
             <h1 id="hero-label">Istio</h1>
-            <h1 id="hero-lead">用于连接、保护、控制和观测服务。
+            <h1 id="hero-lead">连接、保护、控制和观测服务。
         </div>
     </div>
 
@@ -44,7 +45,7 @@ title: Istio
         </div>
 
         <div id="panel3" class="panel">
-            <a href="/zh/docs/concepts/policies-and-telemetry/">
+            <a href="/zh/docs/reference/config/policy-and-telemetry/">
                 <div class="panel-img-top">
                     {{< inline_image "landing/policy-enforcement.svg" >}}
                 </div>
@@ -60,7 +61,7 @@ title: Istio
         </div>
 
         <div id="panel4" class="panel">
-            <a href="/zh/docs/concepts/policies-and-telemetry/">
+            <a href="/zh/docs/reference/config/policy-and-telemetry/">
                 <div class="panel-img-top">
                     {{< inline_image "landing/telemetry-and-reporting.svg" >}}
                 </div>
@@ -77,8 +78,9 @@ title: Istio
     </div>
 
     <div id="buttons">
-        <a title="在 Kubernetes 上安装 Istio。" class="btn" href="/zh/docs/setup/kubernetes/install/kubernetes">开始吧</a>
+        <a title="在 Kubernetes 上安装 Istio。" class="btn" href="/zh/docs/setup/getting-started/">开始吧</a>
         <a title="深入了解 Istio 是什么以及它是如何工作的。" class="btn" href="/zh/docs/concepts/what-is-istio/">了解更多</a>
-        <a title="下载最新版本。" class="btn" href="{{< istio_release_url >}}">下载 {{< istio_release_name >}}</a>
+        <a title="下载最新版本。" class="btn" href="/docs/setup#downloading-the-release">下载 {{< istio_release_name >}}</a>
     </div>
 </main>
+

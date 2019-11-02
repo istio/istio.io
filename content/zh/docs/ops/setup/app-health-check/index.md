@@ -1,54 +1,43 @@
 ---
-title: Istio Service 健康检查
-description: 展示如何对 Istio service 进行健康检查。
-weight: 65
+title: Health Checking of Istio Services
+description: Shows how to do health checking for Istio services.
+weight: 60
+aliases:
+  - /docs/tasks/traffic-management/app-health-check/
+  - /docs/ops/security/health-checks-and-mtls/
+  - /help/ops/setup/app-health-check
+  - /help/ops/app-health-check
+  - /docs/ops/app-health-check
 keywords: [security,health-check]
 ---
 
-此任务展示了如何使用 [Kubernetes liveness 和 readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/) 在 Istio Service 上进行健康检查。
+[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+offer three different options:
 
-在 Kubernetes 中存在三种 liveness 和 readiness 探针：
+1. Command
+1. TCP request
+1. HTTP request
 
-1. 命令
-1. http 请求
-1. tcp 请求
+This guide shows how to use these approaches in Istio with mutual TLS enabled.
 
-此任务分别提供在启用和禁用 Istio 双向 TLS 认证时，前两个选项的示例。
+Command and TCP type probes work with Istio regardless of whether or not mutual TLS is enabled. The HTTP request approach requires different Istio configuration with
+mutual TLS enabled.
 
-## 开始之前
+## Before you begin
 
-* 了解 [Kubernetes liveness 和 readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio [认证策略](/zh/docs/concepts/security/#认证策略)和[双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)的概念。
+* Understand [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), Istio
+[authentication policy](/docs/concepts/security/#authentication-policies) and [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* 具有一个安装了 Istio 的 Kubernetes 集群，但没有启用全局双向 TLS（例如按照 [安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤) 中的描述使用 `istio-demo.yaml`，或者在使用 [Helm](/zh/docs/setup/kubernetes/install/helm/) 时将 `global.mtls.enabled` 设置为 false）。
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled.
 
-## 使用命令选项的 liveness 和 readiness 探针
+## Liveness and readiness probes with command option
 
-在本节中，我们将展示如何在禁用双向 TLS 时配置健康检查，然后再展示在启用双向 TLS 时它的工作情况。
+First, you need to configure health checking with mutual TLS enabled.
 
-### 禁用双向 TLS
+To enable mutual TLS for services in the default namespace, you must configure an authentication policy and a destination rule.
+Follow these steps to complete the configuration:
 
-运行此命令以在默认 namespace 中部署 [liveness]({{< github_file >}}/samples/health-check/liveness-command.yaml)：
-
-{{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
-{{< /text >}}
-
-等待一分钟，然后检查 pod 状态
-
-{{< text bash >}}
-$ kubectl get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-6857c8775f-zdv9r        2/2       Running   0           1m
-{{< /text >}}
-
-'RESTARTS' 列中的数字 '0' 表示 liveness 探针工作正常。Readiness 探针的工作方式相同，您可以相应地修改 liveness-command.yaml 以自行尝试。
-
-### 启用双向 TLS
-
-要在默认命名空间中为服务启用双向 TLS，您必须配置身份验证策略和目标规则。
-请按照以下步骤完成配置：
-
-1. 要配置身份验证策略，请运行：
+1. To configure the authentication policy, run:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -63,7 +52,7 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           1m
     EOF
     {{< /text >}}
 
-1. 要配置目标规则，请运行：
+1. To configure the destination rule, run:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -80,14 +69,13 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           1m
     EOF
     {{< /text >}}
 
-运行此命令重新部署该 service：
+Run the following command to deploy the service:
 
 {{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
-并重复上一小节中的相同步骤以验证 liveness 探针是否工作正常。
+Repeat the check status command to verify that the liveness probes work:
 
 {{< text bash >}}
 $ kubectl get pod
@@ -95,35 +83,84 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
 
-### 清理
+## Liveness and readiness probes with HTTP request option
 
-删除上述步骤中添加的相互TLS策略和相应的目标规则：
+This section shows how to configure health checking with the HTTP request option when mutual TLS is enabled.
 
-1. 要删除双向 TLS 策略，请运行：
+Kubernetes HTTP health check request is sent from Kubelet, which does not have Istio issued certificate to the `liveness-http` service. So when mutual TLS is enabled, the health check request will fail.
 
-    {{< text bash >}}
-    $ kubectl delete policies default
-    {{< /text >}}
+We have two options to solve the problem: probe rewrites and separate ports.
 
-1. 要删除相应的目标规则，请运行：
+### Probe rewrite
 
-    {{< text bash >}}
-    $ kubectl delete destinationrules default
-    {{< /text >}}
+This approach rewrites the application `PodSpec` readiness/liveness probe, such that the probe request will be sent to
+[Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
+request to application, and strips the response body only returning the response code.
 
-## 使用 http 请求选项的 liveness 和 readiness 探针
+You have two ways to enable Istio to rewrite the liveness HTTP probes.
 
-本节介绍了如何使用 HTTP 请求选项配置健康检查。
+#### Enable globally via install option
 
-### 禁用双向 TLS 策略
+[Install Istio](/docs/setup/install/operator/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 
-运行此命令以在默认 namespace 中部署 [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml)：
+**Alternatively**, update the configuration map of Istio sidecar injection:
 
 {{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe":false/"rewriteAppHTTPProbe":true/' | kubectl apply -f -
 {{< /text >}}
 
-等待一分钟，然后检查 pod 状态，查看 'RESTARTS' 列为 '0' 以确保 liveness 工作正常。
+The above installation option and configuration map, each instruct the sidecar injection process to automatically
+rewrite the Kubernetes pod's spec, so health checks are able to work under mutual TLS. No need to update your app or pod
+spec by yourself.
+
+{{< warning >}}
+The configuration changes above (by install or by the configuration map) effect all Istio app deployments.
+{{< /warning >}}
+
+#### Use annotations on pod
+
+<!-- Add samples YAML or kubectl patch? -->
+
+Rather than install Istio with different options, you can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
+
+{{< text yaml >}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-http
+spec:
+  template:
+    metadata:
+      labels:
+        app: liveness-http
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      containers:
+      - name: liveness-http
+        image: docker.io/istio/health:example
+        ports:
+        - containerPort: 8001
+        livenessProbe:
+          httpGet:
+            path: /foo
+            port: 8001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+{{< /text >}}
+
+This approach allows you to enable the health check prober rewrite gradually on each deployment without reinstalling Istio.
+
+#### Re-deploy the liveness health check app
+
+Instructions below assume you turn on the feature globally via install option.
+Annotations works the same.
+
+{{< text bash >}}
+$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
+{{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
@@ -131,87 +168,21 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
-### 启用双向 TLS 策略
+This feature is not currently turned on by default. We'd like to [hear your feedback](https://github.com/istio/istio/issues/10357)
+on whether we should change this to default behavior for Istio installation.
 
-启用双向 TLS 后，我们有两个选项来支持 HTTP 探针：重写探针和单独的端口。
+### Separate port
 
-#### Probe rewrite
+Another alternative is to use separate port for health checking and regular traffic.
 
-这种方法重写了应用程序 `PodSpec` liveness 探针, 这样探测请求将被发送给 [Pilot 代理](/docs/reference/commands/pilot-agent/). 然后，Pilot 代理将请求重定向到应用程序，并丢掉响应主体，仅返回响应代码。
-
-要使用这种方法, 你安装 Istio 需要 Helm 的 `sidecarInjectorWebhook.rewriteAppHTTPProbe=true` 选项。
-请注意，这是一个全局标志。 **打开它意味着所有 Istio 应用程序部署都将受到影响**。
-请注意风险。
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set global.mtls.enabled=true --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
-    -f install/kubernetes/helm/istio/values.yaml > $HOME/istio.yaml
-$ kubectl apply -f $HOME/istio.yaml
-{{< /text >}}
-
-重新部署 liveness 健康检查应用程序。
-
-上面的 Helm 配置使得 sidecar 注入自动重写 Kubernetes pod YAML,
-这样健康检查可以在双向 TLS 下工作。无需自行更新您的应用程序或 Pod YAML。
-
-{{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
-{{< /text >}}
-
-默认情况下，此功能目前尚未启用。 我们想[听听您的反馈意见](https://github.com/istio/istio/issues/10357)，我们是否应将其更改为 Istio 安装的默认行为。
-
-#### Separate port
-
-同样，通过添加命名空间范围的身份验证策略和目标规则，为默认命名空间中的服务启用双向 TLS：
-
-1. 要配置身份验证策略，请运行：
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
-    metadata:
-      name: "default"
-      namespace: "default"
-    spec:
-      peers:
-      - mtls: {}
-    EOF
-    {{< /text >}}
-
-1. 要配置目标规则，请运行：
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "networking.istio.io/v1alpha3"
-    kind: "DestinationRule"
-    metadata:
-      name: "default"
-      namespace: "default"
-    spec:
-      host: "*.default.svc.cluster.local"
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-    EOF
-    {{< /text >}}
-
-运行这些命令重新部署该 service：
+Run these commands to re-deploy the service:
 
 {{< text bash >}}
 $ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
 $ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
 {{< /text >}}
 
-等待一分钟，然后检查 pod 状态，查看 'RESTARTS' 列为 '0' 以确保 liveness 工作正常。
+Wait for a minute and check the pod status to make sure the liveness probes work with '0' in the 'RESTARTS' column.
 
 {{< text bash >}}
 $ kubectl get pod
@@ -219,4 +190,13 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< /text >}}
 
-请注意， [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) 中的镜像公开了两个端口：8001 和 8002 ([源代码]({{< github_file >}}/samples/health-check/server.go))。在这个 deployment 中，端口 8001 提供常规通信，而端口 8002 用于 liveness 探针。由于 Istio 代理仅会拦截在 `containerPort` 字段中显式声明的端口，因此，无论 Istio 的双向 TLS 是否启用，到 8002 端口的流量都将绕过 Istio 代理。但是，如果我们将端口 8001 同时用于常规流量和 liveness 探针，在启用双向 TLS 时，由于 http 请求是从 Kubelet 发送的，所以不会将客户端证书发送到 `liveness-http` service，因此健康检查将会失效。
+Note that the image in [liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) exposes two ports: 8001 and 8002 ([source code]({{< github_file >}}/samples/health-check/server.go)). In this deployment, port 8001 serves the regular traffic while port 8002 is used for liveness probes.
+
+### Cleanup
+
+Remove the mutual TLS policy and corresponding destination rule added in the steps above:
+
+{{< text bash >}}
+$ kubectl delete policies default
+$ kubectl delete destinationrules default
+{{< /text >}}

@@ -1,20 +1,20 @@
 ---
-title: 如何禁用追踪？
+title: How do I disable tracing?
 weight: 50
 ---
 
-如果您已经安装了启用追踪功能的 Istio，可以通过执行如下步骤禁用它：
+If you already have installed Istio with tracing enabled, you can disable it as follows:
 
 {{< text plain >}}
-# 用您的 Istio mesh 命名空间名填充下述命令中的 <istio namespace>。例如：istio-system
+# Fill <istio namespace> with the namespace of your istio mesh.Ex: istio-system
 TRACING_POD=`kubectl get po -n <istio namespace> | grep istio-tracing | awk '{print $1}'`
 $ kubectl delete pod $TRACING_POD -n <istio namespace>
 $ kubectl delete services tracing zipkin   -n <istio namespace>
-# 从 Mixer Deployment 中移除对 zipkin url 的引用
+# Remove reference of zipkin url from mixer deployment
 $ kubectl -n istio-system edit deployment istio-telemetry
-# 现在，手动从文件中移除 trace_zipkin_url 的实例，保存文件
+# Now, manually remove instances of trace_zipkin_url from the file and save it.
 {{< /text >}}
 
-然后遵循[分布式追踪任务的清理部分](/zh/docs/tasks/telemetry/distributed-tracing/zipkin/#清理)的步骤进行后续操作。
+Then follow the steps of the [cleanup section of the Distributed Tracing task](/docs/tasks/observability/distributed-tracing/zipkin/#cleanup).
 
-如果您根本不想要追踪功能，那么就在安装 Istio 时[禁用追踪](/zh/docs/tasks/telemetry/distributed-tracing/zipkin/#开始之前)。
+If you don’t want tracing functionality at all, then [disable tracing](/docs/tasks/observability/distributed-tracing/zipkin/#before-you-begin) when installing Istio.

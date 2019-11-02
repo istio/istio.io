@@ -1,5 +1,8 @@
 ---
-title: 如果全局启用了双向 TLS，非 Istio 服务可以访问 Istio 服务吗？
+title: If mutual TLS is globally enabled, can non-Istio services access Istio services?
 weight: 30
 ---
-非 Istio 服务无法与 Istio 服务进行通信，除非它们可以提供有效证书，而这种证书也很难提供。这正是*双向 TLS* 功能的目的。但是，你可以覆盖特定命名空间或服务的全局标志 (global flag)。有关详细信息，请参阅[任务](/zh/docs/tasks/security/authn-policy)。
+Non-Istio services cannot communicate to Istio services unless they can present a valid certificate, which is less likely to happen.
+This is the expected behavior for *mutual TLS*. However, you can override the
+global flag for specific namespaces or services. See
+[task](/docs/tasks/security/authn-policy) for more details.

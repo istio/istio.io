@@ -1,190 +1,220 @@
 ---
-title: 样式指南
-description: 编写 Istio 文档时候的“要”和“不要”。
-weight: 70
+title: Style Guide
+description: Explains the dos and donts of writing Istio documentation.
+weight: 20
+aliases:
+    - /docs/welcome/contribute/style-guide.html
+    - /docs/reference/contribute/style-guide.html
 keywords: [contribute]
 ---
 
-本文为 Istio 文档提供内容指南。这是建议，不是规范，所以作者应自行做出最佳判断，也可以随时对本文以 PR 的形式提出变更建议。
+This page provides the content guidelines for the Istio documentation. These
+guidelines do not supersede your best judgment and enhancements to this
+document in a pull request are welcome.
 
-## 格式标准
+## Formatting standards
 
-### 一致的大写方式
+### Use consistent capitalization
 
-不建议使用大写的方式来表达强调。
+Don't use capitalization for emphasis.
 
-在引用代码或配置文件中的名称的时候，应该以 \`\` 包围，不应该拆分为单词，并且要遵循原文的大小写方式，例如 `IstioRoleBinding`，不要改写为 `Istio Role Binding` 或者 `istio role binding`。
+Follow the original capitalization employed in the code or configuration files
+when referencing those values directly. Use back-ticks \`\` around the
+referenced content to make the connection explicit. For example, use
+`IstioRoleBinding`, not `Istio Role Binding` or `istio role binding`.
 
-如果不是直接引用代码或配置内容，应该使用正常的大写方式，例如 "The Istio role binding configuration takes place
+If you are not referencing values or code directly, use normal sentence
+capitalization, for example, "The Istio role binding configuration takes place
 in a YAML file."
 
-### 用尖括号标识占位符
+### Use angle brackets for placeholders
 
-使用下面的尖括号形式，告知读者占位符中想要表达的内容
+Use angle brackets for placeholders. Tell the reader what the placeholder
+represents. For example:
 
-1. 显示 Pod 的信息：
+1.  Display information about a pod:
 
     {{< text bash >}}
     $ kubectl describe pod <pod-name>
     {{< /text >}}
 
-    这里的 `<pod-name>` 就是 Pod 的名称。
+    Where `<pod-name>` is the name of one of your pods.
 
-### 使用 `**加粗显示**` 表达用户界面元素
+### Use **bold** for user interface elements
 
-|建议               |不建议
+|Do               |Don't
 |-----------------|------
-|点击**Fork**。  |点击 "Fork"。
-|选择**Other**。|选择 'Other'。
+|Click **Fork**.  |Click "Fork".
+|Select **Other**.|Select 'Other'.
 
-### 使用 `**加粗显示**` 定义或引入新词汇
+### Use _italics_ to define or introduce new terms
 
-|建议                                         |不建议
+|Do                                         |Don't
 |-------------------------------------------|---
-|**集群**是一组节点 ...          | "集群"是一组节点 ...
+|A _cluster_ is a set of nodes ...          |A "cluster" is a set of nodes ...
+|These components form the _control plane_. |These components form the **control plane**.
 
-### 使用 \`code\` 样式来表达文件名、目录名以及路径
+### Use `code` style for filenames, directories, and paths
 
-|建议                                   |不建议
+|Do                                   | Don't
 |-------------------------------------|------
-|打开文件 `foo.yaml`。         | 打开文件 foo.yaml。
-|进入 `/content/en/docs/tasks` 目录。|进入 /content/en/docs/tasks 目录。
-|打开文件 `/data/args.yaml`。 | 打开文件 /data/args.yaml。
+|Open the `foo.yaml` file.         | Open the foo.yaml file.
+|Go to the `/content/en/docs/tasks` directory.  | Go to the /content/en/docs/tasks directory.
+|Open the `/data/args.yaml` file. | Open the /data/args.yaml file.
 
-### 使用 \`code\` 表达行内代码和命令
+### Use `code` style for inline code and commands
 
-|建议                                   |不建议
+|Do                          | Don't
 |----------------------------|------
-| `foo run` 命令会创建一个 `Deployment`。|"foo run" 命令会创建一个 `Deployment`。
-|声明式的管理，可以使用 `foo apply`。|声明式的管理，可以使用 "foo apply"。
+|The `foo run` command creates a `Deployment`.|The "foo run" command creates a `Deployment`.
+|For declarative management, use `foo apply`.|For declarative management, use "foo apply".
 
-### 使用 \`code\` 表示对象的字段名称
+### Use `code` style for object field names
 
-|建议                                   |不建议
+|Do                                                               | Don't
 |-----------------------------------------------------------------|------
-|在配置文件中设置 `ports` 字段的值。 |在配置文件中设置 "ports" 字段的值。
-|`rule` 字段的值是一个 `Rule` 对象。           | "rule" 字段的值是一个 `Rule` 对象。
+|Set the value of the `ports` field in the configuration file. | Set the value of the "ports" field in the configuration file.
+|The value of the `rule` field is a `Rule` object.           | The value of the "rule" field is a `Rule` object.
 
-### Front-matter 中的 title 字段应该使用标题方式的大写
+### Use title capitalization for `title:` front-matter
 
-Front matter 中的 `title:` 应该使用标题格式：除了连词和介词之外，每个单词的首字母都大写。
+The text for the `title:` front-matter must use title case:
+Capitalize the first letter of every word except conjunctions and prepositions.
+This is unlike headings within the document, as described below.
 
-这一点和将要提到的文章内的多级标题是不一样的。
+### Only capitalize the first letter of headings
 
-### 各级标题中只对头一个单词进行首字母大写
+For any headings use sentence case: only capitalize the first word of the
+heading, except for proper nouns or acronyms. Note that the
+`title:` annotation in markdown uses title case.
 
-任何级别的标题，只对第一个字母进行首字母大写，除非涉及到缩写和专有名词。
-
-|建议  |不建议
+|Do                      | Don't
 |------------------------|-----
 |Configuring rate limits | Configuring Rate Limits
 |Using Envoy for ingress | Using envoy for ingress
 |Using HTTPS             | Using https
 
-## 术语标准
+## Terminology standards
 
-为清晰起见，我们希望在文档中始终如一地使用一些标准术语。
+We want to use the standard terms in this section consistently within the
+documentation for clarity.
 
 ### Envoy
 
-推荐使用 "Envoy"，这一称呼相对于 "proxy" 来说更加具体，在文档中更加容易呼应。
+We prefer to use "Envoy” as it’s a more concrete term than "proxy" and
+resonates if used consistently throughout the docs.
 
-同义词：
+Synonyms:
 
-- "Envoy sidecar” -- 可以。
-- "Envoy proxy” -- 可以。
-- "Istio proxy” -- 最好避免，除非要谈论的是使用其他代理的高级场景。
-- "Sidecar”  -- 绝大多数时间只会在概念性文档中使用。
-- "Proxy" -- 只在上下文非常清晰的时候使用。
+- "Envoy sidecar” - ok
+- "Envoy proxy” - ok
+- "The Istio proxy” -- best to avoid unless you’re talking about advanced scenarios where another proxy might be used.
+- "Sidecar”  -- mostly restricted to conceptual docs
+- "Proxy" -- only if context is obvious
 
-相关词汇：
+Related Terms:
 
-- Proxy agent：这是一个重要的基础设施组件，只会出现在底层细节的文档之中。这一称呼并非专有名词。
+- Proxy agent  - This is a minor infrastructural component and should only show
+  up in low-level detail documentation. It is not a proper noun.
 
-### 杂项
+### Miscellaneous
 
-|建议              |不建议
+|Do              | Don't
 |----------------|------
 | load balancing | `load-balancing`
 | multicluster   | `multi-cluster`
-| add-on         | `add-on`
+| addon          | `add-on`
 | service mesh   | `Service Mesh`
 | sidecar        | `side-car`, `Sidecar`
 | Kubernetes     | `kubernetes`, `k8s`
 | Bookinfo       | `BookInfo`, `bookinfo`
 | Mixer          | `mixer`
+| certificate    | `cert`
+| configuration  | `config`
 | delete         | `kill`
 
-## 最佳实践
+## Best practices
 
-### 使用现在时
+### Use present tense
 
-|建议              |不建议
+|Do                           | Don't
 |-----------------------------|------
 |This command starts a proxy. | This command will start a proxy.
 
-例外：在必要的时候还是要使用将来时或过去时的。
+Exception: Use future or past tense if it is required to convey the correct
+meaning. This exception is extremely rare and should be avoided.
 
-### 使用主动语态
+### Use active voice
 
-|建议              |不建议
+|Do                                         | Don't
 |-------------------------------------------|------
 |You can explore the API using a browser.   | The API can be explored using a browser.
 |The YAML file specifies the replica count. | The replica count is specified in the YAML file.
 
-例外: 在主动语态可能引起误会时，还是应该使用被动语态。
+### Use simple and direct language
 
-### 简单直接的表达方式
+Use simple and direct language. Avoid using unnecessary phrases, such as saying
+"please."
 
-简单直接的陈述，避免使用不必要的文字，例如“请”。
-
-|建议              |不建议
+|Do                          | Don't
 |----------------------------|------
 |To create a `ReplicaSet`, ... | In order to create a `ReplicaSet`, ...
 |See the configuration file. | Please see the configuration file.
 |View the Pods.              | With this next command, we'll view the Pods.
 
-### 称读者为“你”
+### Address the reader as "you"
 
-|建议              |不建议
+|Do                                     | Don't
 |---------------------------------------|------
-|你可以创建一个 `Deployment` ...     | 我们来创建一个 `Deployment` ...
-|在后续输出中，你会发现 ...| 在后续输出中，我们会看到 ...
+|You can create a `Deployment` by ...     | We'll create a `Deployment` by ...
+|In the preceding output, you can see...| In the preceding output, we can see ...
 
-### 使用有用的链接
+### Create useful links
 
-链接有好坏。**这里**或者**点击这里**都是坏链接的例子。建议阅读下面链接中的文章，其中讲述了如何更好的使用超链接的问题，在创建或审核内容时，尝试遵循其中的建议。
+There are good hyperlinks, and bad hyperlinks. The common practice of calling
+links *here*  or *click here* are examples of bad hyperlinks. Check out [this
+excellent article](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021)
+explaining what makes a good hyperlink and try to keep these guidelines in
+mind when creating or reviewing site content.
 
-[Why "click here” is a terrible link, and what to write instead](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021).
+### Avoid using "we"
 
-### 避免使用“我们”
+Using "we" in a sentence can be confusing, because the reader might not know
+whether they're part of the "we" you're describing.
 
-在句子中使用“我们”会让人迷惑，读者不易分辨自己是否“我们”之中的一员。
-
-|建议              |不建议
+|Do                                        | Don't
 |------------------------------------------|------
-|1.4 版中包括 ...                  | 在 1.4 版中，我们加入了 ...
-|Istio 提供了新的功能 ... | 我们提供了新的功能 ...
-|本文将教会你如何使用 Pod。    | 本文中，我们将学习 Pod 的相关知识。
+|Version 1.4 includes ...                  | In version 1.4, we have added ...
+|Istio provides a new feature for ... | We provide a new feature ...
+|This page teaches you how to use pods.    | In this page, we are going to learn about pods.
 
-### 避免使用行话和习语
+### Avoid jargon and idioms
 
-英文是部分读者的第二语言，为了让更多读者更方便的理解内容，应避免使用行话和习语
+Some readers speak English as a second language. Avoid jargon and idioms to help make their understanding easier.
 
-|建议              |不建议
+|Do                    | Don't
 |----------------------|------
 |Internally, ...       | Under the hood, ...
 |Create a new cluster. | Turn up a new cluster.
 
-### 避免预言
+### Avoid statements about the future
 
-避免预言或承诺未来。如果需要进行关于 Alpha 特性的讨论，请在标题下方用文字清晰的声明 Alpha 的相关信息。
+Avoid making promises or giving hints about the future. If you need to talk
+about an alpha feature, put the text under a heading that identifies it as
+alpha information.
 
-### 避免使用快速过时的描述
+### Avoid statements that will soon be out of date
 
-避免“当前”或者“新的”这样的用词。今天的新功能可能几个月后就不新了。
+Avoid words like "currently" and "new". A feature that is new today might not
+be considered new in a few months.
 
-|建议              |不建议
+|Do                                  | Don't
 |------------------------------------|------
-|1.4 版， ...                 | 当前版本，...
-|联邦功能提供了 ... | 新的联邦功能提供了 ...
+|In version 1.4, ...                 | In the current version, ...
+|The Federation feature provides ... | The new Federation feature provides ...
+
+### Minimize use of callouts
+
+[Callouts](/about/contribute/creating-and-editing-pages/#callouts) let you highlight some particular content in your pages, but
+they need to be used sparingly. Callouts are intended for special notes to the user and over-using them
+throughout the site neutralizes their special attention-grabbing nature.
