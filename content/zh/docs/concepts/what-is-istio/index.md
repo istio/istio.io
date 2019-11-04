@@ -8,8 +8,8 @@ aliases:
     - /about/intro
 ---
 
-Cloud platforms provide a wealth of benefits for the organizations that use them. However, there’s no denying that adopting the cloud can put strains on DevOps teams. Developers must use microservices to architect for portability, meanwhile operators are managing extremely large hybrid and multi-cloud deployments.
-Istio lets you connect, secure, control, and observe services.
+云平台令使用它们的组织受益匪浅。然而不可否认的是，上云会给DevOps团队带来压力。为了可移植性，开发人员必须使用微服务来构建应用，同时运维人员也正在管理着极端庞大的混合云和多云的部署环境。
+Istio允许您连接、保护、控制和观察服务。
 
 At a high level, Istio helps reduce the complexity of these deployments, and eases the strain on your development teams. It is a completely open source service
 mesh that layers transparently onto existing distributed applications. It is also a platform, including APIs that let it integrate into any logging platform, or
