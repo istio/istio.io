@@ -7,7 +7,7 @@ weight: 10
 ## Traffic management
 
 - **Added** support for fractional [request mirroring](/docs/tasks/traffic-management/mirroring/).
-- **Improved** the Envoy sidecar to exit upon crashing, giving better visibility of health.
+- **Improved** the Envoy sidecar. The Envoy sidecar now exits when it crashes. This change makes it easier to see whether or not the Envoy sidecar is healthy.
 - **Improved** Pilot to skip sending redundant configuration to Envoy when no changes are required.
 
 ## Security
