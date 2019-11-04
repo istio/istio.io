@@ -6,5 +6,5 @@ weight: 20
 layout: faq
 icon: faq
 aliases:
-  - /help/faq/setup
+  - /zh/help/faq/setup
 ---
