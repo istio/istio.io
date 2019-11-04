@@ -408,7 +408,8 @@ spec:
 
   # global Helm settings
   values:
-    monitoringPort: 15050
+    global:
+      monitoringPort: 15050
 {{< /text >}}
 
 Some parameters will temporarily exist in both the Helm and `IstioControlPlane` APIs, including Kubernetes resources,
