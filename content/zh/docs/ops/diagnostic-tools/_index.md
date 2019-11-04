@@ -1,8 +1,8 @@
 ---
-title: Diagnostic Tools
-description: Tools and techniques to help troubleshoot an Istio mesh.
+title: 诊断工具
+description: 帮助解决 Istio 网格问题的工具和技术。
 weight: 80
 keywords: [ops]
 aliases:
-  - /docs/ops/troubleshooting/proxy-cmd
+  - /zh/docs/ops/troubleshooting/proxy-cmd
 ---
