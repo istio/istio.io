@@ -1,7 +1,7 @@
 ---
 title: Virtual Machines in Multi-network Meshes
-description: Learn how to add a service running on a virtual machine to your
-multi-network Istio mesh.
+description: Learn how to add a service running on a virtual machine to your multi-network
+  Istio mesh.
 weight: 30
 keywords:
 - kubernetes
@@ -10,6 +10,7 @@ keywords:
 - vms
 aliases:
 - /docs/examples/mesh-expansion/multi-network
+- /docs/tasks/virtual-machines/multi-network
 ---
 
 This example provides instructions to integrate a VM or a bare metal host into a

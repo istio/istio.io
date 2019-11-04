@@ -1,12 +1,14 @@
 ---
 title: Bookinfo with Virtual Machines
-description: Run the Bookinfo application with a MySQL service running in a virtual machine within your mesh.
+description: Run the Bookinfo application with a MySQL service running in a virtual
+  machine within your mesh.
 weight: 60
 keywords:
 - virtual-machine, vms
 aliases:
 - /docs/examples/integrating-vms/
 - /docs/examples/mesh-expansion/bookinfo-expanded
+- /docs/examples/vm-bookinfo
 ---
 
 This example deploys the Bookinfo services across Kubernetes with one

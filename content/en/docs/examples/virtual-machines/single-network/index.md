@@ -1,7 +1,7 @@
 ---
 title: Virtual Machines in Single-network Meshes
-description: Learn how to add a service running on a virtual machine or on bare
-metal to your single network Istio mesh.
+description: Learn how to add a service running on a virtual machine or on bare metal
+  to your single network Istio mesh.
 weight: 20
 keywords:
 - kubernetes
@@ -10,6 +10,7 @@ keywords:
 aliases:
 - /docs/setup/kubernetes/additional-setup/mesh-expansion/
 - /docs/examples/mesh-expansion/single-network
+- /docs/tasks/virtual-machines/single-network
 ---
 
 This page shows how to integrate a VM or a bare metal host into an single-network
