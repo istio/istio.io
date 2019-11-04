@@ -1,5 +1,5 @@
 ---
-title: Bookinfo with Virtual Machines
+title: Bookinfo with a Virtual Machine
 description: Run the Bookinfo application with a MySQL service running in a virtual
   machine within your mesh.
 weight: 60
