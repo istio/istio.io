@@ -18,7 +18,7 @@ example `*.wikipedia.org`, instead of configuring each and every host separately
 Suppose you want to enable egress traffic in Istio for the `wikipedia.org` sites in all languages.
 Each version of `wikipedia.org` in a particular language has its own hostname, e.g., `en.wikipedia.org` and
 `de.wikipedia.org` in the English and the German languages, respectively.
-You want to enable egress traffic by common configuration items for all the _wikipedia_ sites,
+You want to enable egress traffic by common configuration items for all the Wikipedia sites,
 without the need to specify every language's site separately.
 
 {{< boilerplate before-you-begin-egress >}}

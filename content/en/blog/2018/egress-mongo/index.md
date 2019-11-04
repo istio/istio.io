@@ -724,7 +724,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
 1. [Verify that the traffic is directed though the egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
 
-#### Cleanup directing TLS Egress traffic through an egress gateway
+#### Cleanup directing TLS egress traffic through an egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo

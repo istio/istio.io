@@ -19,7 +19,7 @@ Unsupported keys and values will be ignored silently.
 
 For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
 
-## Supported Constraints
+## Supported constraints
 
 The following table lists the currently supported keys for the `constraints` field:
 
@@ -38,7 +38,7 @@ Note that no backward compatibility is guaranteed for the `experimental.*` keys.
 at any time, and customers are advised to use them at their own risk.
 {{< /warning >}}
 
-## Supported Properties
+## Supported properties
 
 The following table lists the currently supported keys for the `properties` field:
 

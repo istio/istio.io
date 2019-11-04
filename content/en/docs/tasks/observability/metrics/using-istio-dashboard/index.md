@@ -20,7 +20,7 @@ the example application throughout this task.
 * [Install Istio](/docs/setup) in your cluster. If not enabled in your chosen configuration profile, enable the Grafana add-on `--set values.grafana.enabled=true` [option](/docs/reference/config/installation-options/).
 * Deploy [Bookinfo](/docs/examples/bookinfo/) application.
 
-## Viewing the Istio Dashboard
+## Viewing the Istio dashboard
 
 1.  Verify that the `prometheus` service is running in your cluster.
 

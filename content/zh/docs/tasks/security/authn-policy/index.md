@@ -275,7 +275,7 @@ namespace-wide policy takes precedence over the mesh-wide policy, while a servic
 
 ### Namespace-wide policy
 
-The example below shows the policy to enable mutual TLS for all services in namespace `foo`. As you can see, it uses kind: "Policy” rather than "MeshPolicy”,
+The example below shows the policy to enable mutual TLS for all services in namespace `foo`. As you can see, it uses kind: `Policy` rather than `MeshPolicy`,
 and specifies a namespace, in this case, `foo`. If you don’t specify a namespace value the policy will apply to the default namespace.
 
 {{< text bash >}}

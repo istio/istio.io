@@ -36,7 +36,7 @@ We're pleased to announce the availability of Istio 1.0.1. Please see below for 
 
 - Fixed a variety of issues around mesh expansion.
 
-## Policy and Telemetry
+## Policy and telemetry
 
 - Added an experimental metrics expiration configuration to the Mixer Prometheus adapter.
 
