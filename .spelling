@@ -1,5 +1,5 @@
 # markdown-spellcheck spelling configuration file
-# Format - lines beginning # are comments
+# Format - lines beginning with # are comments
 # global dictionary is at the start, file overrides afterwards
 # one word per line, to define a file override use ' - filename'
 # followed by file specific exceptions, one per line
@@ -15,45 +15,40 @@
 10ms
 10s
 123456789012.my
+12ms
 14.60
 15.30
 18x
+1ms
 1qps
+2.5s
+20ms
 22.99
 24.13
+25ms
+2ms
 2s
 2x
-2.5s
 3.99ms
+3ms
 3s
 404s
+4ms
 4s
 5000qps
 50Mb
-1ms
-2ms
-3ms
-4ms
 5ms
 6ms
-7ms
-8ms
-9ms
-12ms
-20ms
-25ms
 6s
 72.96ms
 7Mb
+7ms
 7s
+8ms
 8x
-_blog
+9ms
 _CA_
 _data
-_docs
-_help
-_OK_
-_proxy
 _V2_
 _v2_
 _v3_
@@ -64,13 +59,11 @@ accounts.my
 ack-istio
 ACLs
 Acmeair
-AKS-Engine
 addon
 addons
-admissionregistration
-admissionregistration.k8s.io
 AES-NI
 AKS
+AKS-Engine
 Alibaba
 alt
 analytics
@@ -117,7 +110,6 @@ Callouts
 camelCase
 canaried
 canarying
-CAP_NET_ADMIN
 CAs
 CDNs
 Chrony
@@ -129,10 +121,13 @@ cli
 CloudWatch
 CNI
 cnn.com
+Cognito
+colocate
 colocated
-composable
+colocating
 Composability
 composability
+composable
 ConfigMap
 configmap
 configmap
@@ -143,19 +138,18 @@ CoreDNS
 coreos
 Costin
 CRD
-CRD
 CRDs
 CSRs
 Ctrl
 Customizable
 CVE
 CVE-2019-14993
+CVE-2019-15226
 CVE-2019-9512
 CVE-2019-9513
 CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
-CVE-2019-15226
 CVEs
 cyber
 Datadog
@@ -169,6 +163,7 @@ Delayering
 Demailly
 deployment
 dev
+devirtualization
 Devirtualization
 devops
 discuss.istio.io
@@ -227,12 +222,8 @@ GKE-Istio
 GKE-Workloads
 GlueCon
 Gmail
-golang
 googleapis.com
 googlegroups.com
-goroutine
-goroutines
-goto
 Grafana
 grafana-istio-dashboard
 Graphviz
@@ -241,7 +232,6 @@ grpc
 helloworld
 Herness
 hoc
-hostIP
 hostname
 hostnames
 hotspots
@@ -263,7 +253,6 @@ i.e.
 ILBs
 Incrementality
 initializer
-Initializers
 initializers
 injector
 InkScape
@@ -278,20 +267,19 @@ intrahost
 ip_address
 IPs
 iptables
-iptables
 IPv4
 IPv6
 Istio
-istio.io
-ISTIO-SECURITY-2019-005
-ISTIO-SECURITY-2019-004
+istio-identity
+istio-mixer
 ISTIO-SECURITY-2019-003
+ISTIO-SECURITY-2019-004
+ISTIO-SECURITY-2019-005
+istio-system
+istio.io
 istio.io.
 Istiofied
 IstioMesh
-istio-identity
-istio-mixer
-istio-system
 iter8
 jason
 Jog
@@ -327,20 +315,16 @@ Linkerd
 linter
 linters
 liveness
-logInfo
 loopback
 Lyft
-machineSetup
 macOS
 Mandar
 Manolache
 memcached
 memcached-2's
-MeshPolicy
 Mesos
 mesos-dns
 metadata
-methodName
 MicroK8s
 microservice
 microservices
@@ -371,7 +355,6 @@ networking.istio.io
 nginx
 NLBs
 Node.js
-nodePorts
 non-sandboxed
 normalization
 ns
@@ -380,10 +363,10 @@ NULs
 OAuth2
 oc
 ok
+Okta
 onboarding
 Onboarding
 onwards
-OP_QUERY
 OpenAPI
 OpenCensus
 OpenID
@@ -397,7 +380,6 @@ Ostrowski
 p50
 p99
 PaaS
-packageName.serviceName
 Papertrail
 parenthesization
 passthrough
@@ -445,10 +427,11 @@ RawVM
 rbac
 re-applied
 re-patch
-RedHat
 reachability
 rearchitect
 recomposition
+redeployments
+RedHat
 Redis
 redis
 Redis-based
@@ -458,7 +441,6 @@ registrator
 reimplement
 reimplemented
 reinject
-repo
 repurposed
 rethink
 Reviewer1
@@ -466,7 +448,6 @@ Reviewer2
 roadmap
 roadmaps
 RocketChat
-roleRef
 rollout
 rollouts
 routable
@@ -480,7 +461,6 @@ sayin
 schemas
 SDKs
 sds
-secretName
 Secura
 selinux
 serverless
@@ -556,8 +536,8 @@ unmanaged
 unnormalized
 unsampled
 untrusted
-URIs
 uptime
+URIs
 url
 user
 user1
@@ -589,7 +569,6 @@ VMware
 VPN
 VPNs
 Warman
-WBoilerplates
 WeaveWorks
 WebAssembly
 webhook
@@ -600,7 +579,7 @@ Websockets
 WebSphere
 whitelist
 whitelists
-wikipedia
+Wikipedia
 wikipedia.org
 wildcard
 wildcarded
@@ -620,9 +599,6 @@ Yessenov
 yournamespace
 Zack
 Zipkin
-Okta
-Cognito
-redeployments
 
  - search.md
 searchresults

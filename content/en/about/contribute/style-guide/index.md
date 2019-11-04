@@ -121,17 +121,19 @@ Related Terms:
 
 |Do              | Don't
 |----------------|------
-| load balancing | `load-balancing`
-| multicluster   | `multi-cluster`
 | addon          | `add-on`
-| service mesh   | `Service Mesh`
-| sidecar        | `side-car`, `Sidecar`
-| Kubernetes     | `kubernetes`, `k8s`
 | Bookinfo       | `BookInfo`, `bookinfo`
-| Mixer          | `mixer`
 | certificate    | `cert`
+| colocate       | `co-locate`
 | configuration  | `config`
 | delete         | `kill`
+| Kubernetes     | `kubernetes`, `k8s`
+| load balancing | `load-balancing`
+| Mixer          | `mixer`
+| multicluster   | `multi-cluster`
+| mutual TLS     | `mtls`
+| service mesh   | `Service Mesh`
+| sidecar        | `side-car`, `Sidecar`
 
 ## Best practices
 

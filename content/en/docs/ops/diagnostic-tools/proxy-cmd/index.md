@@ -295,7 +295,7 @@ one route that matches on everything. This route tells Envoy to send the request
     172.17.0.5:9080      HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
-## Inspecting Bootstrap configuration
+## Inspecting bootstrap configuration
 
 So far we have looked at configuration retrieved (mostly) from Pilot, however Envoy requires some bootstrap configuration that
 includes information like where Pilot can be found. To view this use the following command:
