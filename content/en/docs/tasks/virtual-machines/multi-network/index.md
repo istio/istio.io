@@ -1,6 +1,7 @@
 ---
 title: Virtual Machines in Multi-network Meshes
-description: Learn how to add a service running on a virtual machine in a different network than that of your mesh.
+description: Learn how to add a service running on a virtual machine to your
+multi-network Istio mesh.
 weight: 30
 keywords:
 - kubernetes
@@ -11,17 +12,18 @@ aliases:
 - /docs/examples/mesh-expansion/multi-network
 ---
 
-This example provides instructions to integrate VMs and bare metal hosts into
-an Istio mesh deployed on Kubernetes with gateways. No VPN connectivity nor direct network access between workloads in
-VMs, bare metals and clusters is required.
+This example provides instructions to integrate a VM or a bare metal host into a
+multi-network Istio mesh deployed on Kubernetes using gateways. This approach
+doesn't require VPN connectivity or direct network access between the VM, the
+bare metal and the clusters.
 
 ## Prerequisites
 
-* One or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
+- One or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Virtual machines (VMs) must have IP connectivity to the Ingress gateways in the mesh.
+- Virtual machines (VMs) must have IP connectivity to the Ingress gateways in the mesh.
 
-* Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
+- Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
   add VMs to your mesh.
 
 ## Installation steps
@@ -143,7 +145,7 @@ cluster that will be calling services in remote clusters
 For clusters that use `kube-dns`:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+$ kubectl apply -f * <<EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -158,7 +160,7 @@ EOF
 For clusters that use CoreDNS:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+$ kubectl apply -f * <<EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -303,7 +305,7 @@ in the cluster.
     appropriate remote service.
 
     {{< text bash >}}
-    $ kubectl apply  -n bar -f - <<EOF
+    $ kubectl apply  -n bar -f * <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -391,7 +393,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     and appropriate labels of all VMs exposing a particular service, for example:
 
     {{< text bash yaml >}}
-    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
+    $ kubectl -n ${SERVICE_NAMESPACE} apply -f * <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:

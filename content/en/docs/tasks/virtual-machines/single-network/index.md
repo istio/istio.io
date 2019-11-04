@@ -1,6 +1,7 @@
 ---
 title: Virtual Machines in Single-network Meshes
-description: Learn how to add a service running on a virtual machine in the same network as your mesh.
+description: Learn how to add a service running on a virtual machine or on bare
+metal to your single network Istio mesh.
 weight: 20
 keywords:
 - kubernetes
@@ -11,29 +12,32 @@ aliases:
 - /docs/examples/mesh-expansion/single-network
 ---
 
-This example provides instructions to integrate VMs and bare metal hosts into
-an Istio mesh deployed on Kubernetes.
+This page shows how to integrate a VM or a bare metal host into an single-network
+Istio mesh deployed on Kubernetes.
 
 ## Prerequisites
 
-* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/install/kubernetes/).
+- You have already set up Istio on Kubernetes. If you haven't done so, you can
+  find out how in the [Installation guide](/docs/setup/install/kubernetes/).
 
-* Virtual machines (VMs) must have IP connectivity to the endpoints in the mesh. This
-typically requires a VPC or a VPN, as well as a container network that
-provides direct (without NAT or firewall deny) routing to the endpoints. The machine
-is not required to have access to the cluster IP addresses assigned by Kubernetes.
+- Virtual machines (VMs) must have IP connectivity to the endpoints in the mesh.
+  This typically requires a VPC or a VPN, as well as a container network that
+  provides direct (without NAT or firewall deny) routing to the endpoints. The
+  machine is not required to have access to the cluster IP addresses assigned by
+  Kubernetes.
 
-* VMs must have access to a DNS server that resolves names to cluster IP addresses. Options
-include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
-server, or configuring the IPs in any other DNS server accessible from the VM.
+- VMs must have access to a DNS server that resolves names to cluster IP
+  addresses. Options include exposing the Kubernetes DNS server through an
+  internal load balancer, using a Core DNS server, or configuring the IPs in any
+  other DNS server accessible from the VM.
 
-* Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
+- Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
   support adding VMs to your mesh.
 
 The following instructions:
 
-* Assume the expansion VM is running on GCE.
-* Use Google platform-specific commands for some steps.
+- Assume the expansion VM is running on GCE.
+- Use Google platform-specific commands for some steps.
 
 ## Installation steps
 
@@ -52,7 +56,7 @@ privileges:
     installing Helm, you can use one of the following two options depending on
     how you originally installed Istio on the cluster:
 
-    *   If you installed Istio with Helm and Tiller, run `helm upgrade` with the new option:
+    -   If you installed Istio with Helm and Tiller, run `helm upgrade` with the new option:
 
     {{< text bash >}}
     $ cd install/kubernetes/helm/istio
@@ -60,7 +64,7 @@ privileges:
     $ cd -
     {{< /text >}}
 
-    *   If you installed Istio without Helm and Tiller, use `helm template` to update your configuration with the option and reapply with `kubectl`:
+    -   If you installed Istio without Helm and Tiller, use `helm template` to update your configuration with the option and reapply with `kubectl`:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -250,7 +254,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     and appropriate labels of all VMs exposing a particular service, for example:
 
     {{< text bash yaml >}}
-    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
+    $ kubectl -n ${SERVICE_NAMESPACE} apply -f * <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -337,10 +341,10 @@ serviceentry.networking.istio.io "vmhttp" deleted
 
 The following are some basic troubleshooting steps for common VM-related issues.
 
-*    When making requests from a VM to the cluster, ensure you don't run the requests as `root` or
+-    When making requests from a VM to the cluster, ensure you don't run the requests as `root` or
     `istio-proxy` user. By default, Istio excludes both users from interception.
 
-*    Verify the machine can reach the IP of the all workloads running in the cluster. For example:
+-    Verify the machine can reach the IP of the all workloads running in the cluster. For example:
 
     {{< text bash >}}
     $ kubectl get endpoints productpage -o jsonpath='{.subsets[0].addresses[0].ip}'
@@ -352,14 +356,14 @@ The following are some basic troubleshooting steps for common VM-related issues.
     html output
     {{< /text >}}
 
-*    Check the status of the node agent and sidecar:
+-    Check the status of the node agent and sidecar:
 
     {{< text bash >}}
     $ sudo systemctl status istio-auth-node-agent
     $ sudo systemctl status istio
     {{< /text >}}
 
-*    Check that the processes are running. The following is an example of the processes you should see on the VM if you run
+-    Check that the processes are running. The following is an example of the processes you should see on the VM if you run
      `ps`, filtered for `istio`:
 
     {{< text bash >}}
@@ -370,7 +374,7 @@ The following are some basic troubleshooting steps for common VM-related issues.
     istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
     {{< /text >}}
 
-*    Check the Envoy access and error logs:
+-    Check the Envoy access and error logs:
 
     {{< text bash >}}
     $ tail /var/log/istio/istio.log
