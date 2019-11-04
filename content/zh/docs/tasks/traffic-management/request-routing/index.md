@@ -1,55 +1,49 @@
 ---
-title: Request Routing
-description: This task shows you how to configure dynamic request routing to multiple versions of a microservice.
+title: 配置请求路由
+description: 此任务将展示如何将请求动态路由到微服务的多个版本。
 weight: 10
 aliases:
-    - /docs/tasks/request-routing.html
+    - /zh/docs/tasks/request-routing.html
 keywords: [traffic-management,routing]
 ---
 
-This task shows you how to route requests dynamically to multiple versions of a
-microservice.
+此任务将展示如何将请求动态路由到微服务的多个版本。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-* Setup Istio by following the instructions in the
-[Installation guide](/docs/setup/).
+* 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
 
-* Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc. Before attempting this task, you should be familiar with important terms such as *destination rule*, *virtual service*, and *subset*.
+* 查看[流量管理](/zh/docs/concepts/traffic-management)的概念文档。在尝试此任务之前，您应该熟悉一些重要的术语，例如 *destination rule* 、*virtual service* 和 *subset* 。
 
-## About this task
+## 关于这个任务{#about-this-task}
 
-The Istio [Bookinfo](/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions.
-Three different versions of one of the microservices, `reviews`, have been deployed and are running concurrently.
-To illustrate the problem this causes, access the Bookinfo app's `/productpage` in a browser and refresh several times.
-You’ll notice that sometimes the book review output contains star ratings and other times it does not.
-This is because without an explicit default service version to route to, Istio routes requests to all available versions
-in a round robin fashion.
+Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服务，每个微服务都有多个版本。
+其中一个微服务 `reviews` 的三个不同版本已经部署并同时运行。
+为了说明这导致的问题，在浏览器中访问 Bookinfo 应用程序的 `/productpage` 并刷新几次。
+您会注意到，有时书评的输出包含星级评分，有时则不包含。
+这是因为没有明确的默认服务版本路由，Istio 将以循环方式请求路由到所有可用版本。
 
-The initial goal of this task is to apply rules that route all traffic to `v1` (version 1) of the microservices. Later, you
-will apply a rule to route traffic based on the value of an HTTP request header.
+此任务的最初目标是应用将所有流量路由到微服务的 `v1` （版本 1）的规则。稍后，您将应用规则根据 HTTP 请求 header 的值路由流量。
 
-## Apply a virtual service
+## 应用 virtual service{#apply-a-virtual-service}
 
-To route to one version only, you apply virtual services that set the default version for the microservices.
-In this case, the virtual services will route all traffic to `v1` of each microservice.
+要仅路由到一个版本，请应用为微服务设置默认版本的 virtual service。在这种情况下，virtual service 将所有流量路由到每个微服务的 `v1` 版本。
 
 {{< warning >}}
-If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+如果您还没有应用 destination rule，请先[应用默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)。
 {{< /warning >}}
 
-1.  Run the following command to apply the virtual services:
+1. 运行以下命令以应用 virtual services:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-    Because configuration propagation is eventually consistent, wait a few seconds
-    for the virtual services to take effect.
+    由于配置传播是最终一致的，因此请等待几秒钟以使 virtual services 生效。
 
-1. Display the defined routes with the following command:
+1. 使用以下命令显示已定义的路由：
 
     {{< text bash yaml >}}
     $ kubectl get virtualservices -o yaml
@@ -114,51 +108,40 @@ If you haven't already applied destination rules, follow the instructions in [Ap
     ---
     {{< /text >}}
 
-1. You can also display the corresponding `subset` definitions with the following command:
+1. 您还可以使用以下命令显示相应的 `subset` 定义:
 
     {{< text bash >}}
     $ kubectl get destinationrules -o yaml
     {{< /text >}}
 
-You have configured Istio to route to the `v1` version of the Bookinfo microservices,
-most importantly the `reviews` service version 1.
+您已将 Istio 配置为路由到 Bookinfo 微服务的 `v1` 版本，最重要的是 `reviews` 服务的版本 1。
 
-## Test the new routing configuration
+## 测试新的路由配置{#test-the-new-routing-configuration}
 
-You can easily test the new configuration by once again refreshing the `/productpage`
-of the Bookinfo app.
+您可以通过再次刷新 Bookinfo 应用程序的 `/productpage` 轻松测试新配置。
 
-1.  Open the Bookinfo site in your browser. The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+1. 在浏览器中打开 Bookinfo 站点。 网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是外部的入口 IP 地址，如 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) 文档中所述。
 
-    Notice that the reviews part of the page displays with no rating stars, no
-    matter how many times you refresh. This is because you configured Istio to route
-    all traffic for the reviews service to the version `reviews:v1` and this
-    version of the service does not access the star ratings service.
+    请注意，无论您刷新多少次，页面的评论部分都不会显示评级星标。这是因为您将 Istio 配置为
+    将评论服务的所有流量路由到版本 `reviews:v1`，而此版本的服务不访问星级评分服务。
 
-You have successfully accomplished the first part of this task: route traffic to one
-version of a service.
+您已成功完成此任务的第一部分：将流量路由到服务的某一个版本。
 
-## Route based on user identity
+## 基于用户身份的路由{#route-based-on-user-identity}
 
-Next, you will change the route configuration so that all traffic from a specific user
-is routed to a specific service version. In this case, all traffic from a user
-named Jason will be routed to the service `reviews:v2`.
+接下来，您将更改路由配置，以便将来自特定用户的所有流量路由到特定服务版本。在这，来自名为 Jason 的用户的所有流量将被路由到服务 `reviews:v2`。
 
-Note that Istio doesn't have any special, built-in understanding of user
-identity. This example is enabled by the fact that the `productpage` service
-adds a custom `end-user` header to all outbound HTTP requests to the reviews
-service.
+请注意，Istio 对用户身份没有任何特殊的内置机制。事实上， `productpage` 服务在所有到 `reviews` 服务的 HTTP 请求中都增加了一个自定义的 `end-user` 请求头，从而达到了本例子的效果。
 
-Remember, `reviews:v2` is the version that includes the star ratings feature.
+请记住，`reviews:v2` 是包含星级评分功能的版本。
 
-1. Run the following command to enable user-based routing:
+1. 运行以下命令以启用基于用户的路由：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
-1. Confirm the rule is created:
+1. 确认规则已创建：
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice reviews -o yaml
@@ -185,41 +168,32 @@ Remember, `reviews:v2` is the version that includes the star ratings feature.
             subset: v1
     {{< /text >}}
 
-1.  On the `/productpage` of the Bookinfo app, log in as user `jason`.
+1. 在 Bookinfo 应用程序的 `/productpage` 上，以用户 `jason` 身份登录。
 
-    Refresh the browser. What do you see? The star ratings appear next to each
-    review.
+    刷新浏览器。你看到了什么？星级评分显示在每个评论旁边。
 
-1. Log in as another user (pick any name you wish).
+1. 以其他用户身份登录（选择您想要的任何名称）。
 
-    Refresh the browser. Now the stars are gone. This is because traffic is routed
-    to `reviews:v1` for all users except Jason.
+    刷新浏览器。现在星星消失了。这是因为除了 Jason 之外，所有用户的流量都被路由到 `reviews:v1`。
 
-You have successfully configured Istio to route traffic based on user identity.
+您已成功配置 Istio 以根据用户身份路由流量。
 
-## Understanding what happened
+## 理解原理{#understanding-what-happened}
 
-In this task, you used Istio to send 100% of the traffic to the `v1` version
-of each of the Bookinfo services. You then set a rule to selectively send traffic
-to version `v2` of the `reviews` service based on a custom `end-user` header added
-to the request by the `productpage` service.
+在此任务中，您首先使用 Istio 将 100% 的请求流量都路由到了 Bookinfo 服务的 v1 版本。
+然后设置了一条路由规则，它根据 `productpage` 服务发起的请求中的 `end-user` 自定义请求头内容，选择性地将特定的流量路由到了 `reviews` 服务的 `v2` 版本。
 
-Note that Kubernetes services, like the Bookinfo ones used in this task, must
-adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/) for details.
+请注意，Kubernetes 中的服务，如本任务中使用的 Bookinfo 服务，必须遵守某些特定限制，才能利用到 Istio 的 L7 路由特性优势。
+参考 [Pods 和 Services 需求](/zh/docs/setup/additional-setup/requirements)了解详情。
 
-In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
-will follow the same basic pattern you learned here to configure route rules to
-gradually send traffic from one version of a service to another.
+在[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting)任务中，您将按照在此处学习到的相同的基本模式来配置路由规则，以逐步将流量从服务的一个版本迁移到另一个版本。
 
-## Cleanup
+## 清除{#cleanup}
 
-1. Remove the application virtual services:
+1. 删除应用程序的 virtual service：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
