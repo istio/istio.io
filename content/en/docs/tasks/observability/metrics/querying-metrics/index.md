@@ -19,7 +19,7 @@ the example application throughout this task.
 [Install Istio](/docs/setup/) in your cluster and deploy an
 application.
 
-## Querying Istio Metrics
+## Querying Istio metrics
 
 1.  Verify that the `prometheus` service is running in your cluster.
 

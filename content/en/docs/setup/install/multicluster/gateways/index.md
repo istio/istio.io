@@ -228,8 +228,8 @@ The host used in the service entry should be of the form `<name>.<namespace>.glo
 where name and namespace correspond to the service's name and namespace respectively.
 
 To demonstrate cross cluster access, configure the
-[sleep service]({{<github_tree>}}/samples/sleep)
-running in one cluster to call the [httpbin service]({{<github_tree>}}/samples/httpbin)
+[sleep service]({{< github_tree >}}/samples/sleep)
+running in one cluster to call the [httpbin]({{< github_tree >}}/samples/httpbin) service
 running in a second cluster. Before you begin:
 
 * Choose two of your Istio clusters, to be referred to as `cluster1` and `cluster2`.

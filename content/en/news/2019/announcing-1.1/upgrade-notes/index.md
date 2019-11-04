@@ -35,7 +35,7 @@ Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/t
 `--set global.k8sIngress.enabled=true` flag.  Check out [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/)
 to learn how to secure your Kubernetes ingress resources.
 
-## Traffic Management
+## Traffic management
 
 - Outbound traffic policy now defaults to `ALLOW_ANY`.  Traffic to unknown ports will be forwarded as-is. Traffic to known ports (e.g., port 80) will be matched
 with one of the services in the system and forwarded accordingly.
@@ -50,7 +50,7 @@ to gateway resources in virtual services, use the namespace/name format instead 
 If you need to control and secure your outbound traffic through the egress gateway, you will need to enable `gateways.istio-egressgateway.enabled=true` manually
 in any of the non-demo profiles.
 
-## Policy & Telemetry
+## Policy & telemetry
 
 - `istio-policy` check is now disabled by default.  It is enabled in the demo profile for users to explore but disabled in all other profiles.  This change is
 only for `istio-policy` and not for `istio-telemetry`.  In order to re-enable policy checking, run `helm template` with `--set global.disablePolicyChecks=false`

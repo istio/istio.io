@@ -85,7 +85,7 @@ Note that the messages corresponding to the request appear in logs of the Istio 
 
 ## Cleanup
 
-Shutdown the [sleep]({{<github_tree>}}/samples/sleep) and [httpbin]({{<github_tree>}}/samples/httpbin) services:
+Shutdown the [sleep]({{< github_tree >}}/samples/sleep) and [httpbin]({{< github_tree >}}/samples/httpbin) services:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@

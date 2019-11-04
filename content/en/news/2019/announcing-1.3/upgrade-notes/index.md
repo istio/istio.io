@@ -46,7 +46,7 @@ To opt-out the trust domain validation, include the following flag in your Helm
 template before upgrading to Istio 1.3:
 `--set pilot.env.PILOT_SKIP_VALIDATE_TRUST_DOMAIN=true`
 
-## Secret Discovery Service
+## Secret discovery service
 
 In Istio 1.3, we are taking advantage of improvements in Kubernetes to issue
 certificates for workload instances more securely.

@@ -13,7 +13,7 @@ familiar with the use and operation of Istio 1.1.
 For an overview of new features introduced with Istio 1.2, please refer
 to the [1.2 release notes](/news/2019/announcing-1.2/change-notes).
 
-## Installation and Upgrade
+## Installation and upgrade
 
 {{< tip >}}
 The configuration model for Mixer has been simplified. Support for

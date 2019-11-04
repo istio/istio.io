@@ -202,7 +202,7 @@ In this setup, Kubernetes can isolate the operator privileges on managing the se
 Istio manages certificates and keys in all namespaces
 and enforces different access control rules to the services.
 
-### How Citadel determines whether to create Service Account secrets
+### How Citadel determines whether to create service account secrets
 
 When a Citadel instance notices that a `ServiceAccount` is created in a namespace, it must decide whether it should generate an `istio.io/key-and-cert` secret for that `ServiceAccount`. In order to make that decision, Citadel considers three inputs (note: there can be multiple Citadel instances deployed in a single cluster, and the following targeting rules are applied to each instance):
 
@@ -413,7 +413,7 @@ spec:
 Istio can store authentication policies in namespace-scope or mesh-scope
 storage:
 
-- Mesh-scope policy is specified with a value of `"MeshPolicy"` for the `kind`
+- Mesh-scope policy is specified with a value of `MeshPolicy` for the `kind`
   field and the name `"default"`. For example:
 
     {{< text yaml >}}
@@ -622,7 +622,7 @@ saves the policies in the `Istio Config Store`.
 
 Pilot watches for changes to Istio authorization policies. It fetches the
 updated authorization policies if it sees any changes. Pilot distributes Istio
-authorization policies to the Envoy proxies that are co-located with the
+authorization policies to the Envoy proxies that are colocated with the
 service instances.
 
 Each Envoy proxy runs an authorization engine that authorizes requests at
