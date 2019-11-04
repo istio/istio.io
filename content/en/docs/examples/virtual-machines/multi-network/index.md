@@ -91,7 +91,7 @@ privileges:
 =======
 1. Determine and store the IP address of the Istio ingress gateway since the
    VMs access [Citadel](/docs/concepts/security/) and
-   [Pilot](/docs/concepts/architecture/#pilot) and workloads on cluster through
+   [Pilot](/docs/ops/architecture/#pilot) and workloads on cluster through
    this IP address.
 >>>>>>> Replace "Mesh Expansion" with "VM Support" and related edits.:content/en/docs/tasks/virtual-machines/multi-network/index.md
 
@@ -146,7 +146,7 @@ cluster that will be calling services in remote clusters
 For clusters that use `kube-dns`:
 
 {{< text bash >}}
-$ kubectl apply -f * <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -161,7 +161,7 @@ EOF
 For clusters that use CoreDNS:
 
 {{< text bash >}}
-$ kubectl apply -f * <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -306,7 +306,7 @@ in the cluster.
     appropriate remote service.
 
     {{< text bash >}}
-    $ kubectl apply  -n bar -f * <<EOF
+    $ kubectl apply  -n bar -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
@@ -394,7 +394,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     and appropriate labels of all VMs exposing a particular service, for example:
 
     {{< text bash yaml >}}
-    $ kubectl -n ${SERVICE_NAMESPACE} apply -f * <<EOF
+    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:

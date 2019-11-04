@@ -95,7 +95,7 @@ When you're ready to consider more advanced Istio use cases, check out the follo
 [multicluster installation documents](/docs/setup/install/multicluster/).
 
 - To add VMs or additional containers not running on your mesh's cluster to your
-  existing mesh, see our [VM-related tasks]/docs/examples/virtual-machines/).
+  existing mesh, see our [VM-related tasks](/docs/examples/virtual-machines/).
 
 - To add services using sidecar injection, see our
 [sidecar injection guide](/docs/setup/additional-setup/sidecar-injection/)

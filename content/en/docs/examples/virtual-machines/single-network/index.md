@@ -95,8 +95,12 @@ privileges:
 =======
 1. Determine and store the IP address of the Istio ingress gateway since the VMs
    access [Citadel](/docs/concepts/security/) and
+<<<<<<< HEAD
    [Pilot](/docs/concepts/architecture/#pilot) through this IP address.
 >>>>>>> Replace "Mesh Expansion" with "VM Support" and related edits.:content/en/docs/tasks/virtual-machines/single-network/index.md
+=======
+   [Pilot](/docs/ops/architecture/#pilot) through this IP address.
+>>>>>>> Fix broken links.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -255,7 +259,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     and appropriate labels of all VMs exposing a particular service, for example:
 
     {{< text bash yaml >}}
-    $ kubectl -n ${SERVICE_NAMESPACE} apply -f * <<EOF
+    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: ServiceEntry
     metadata:
