@@ -12,30 +12,30 @@ weight: 10
 
 ## Security
 
-- **Added** support for Citadel to periodically check and rotate expiry root certificate when Citadel is running in self-sign CA mode.
+- **Improved**Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
 
 ## Telemetry
 
-- **Added** support for configuring [stat patterns](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for Envoy stats.
-- **Added** prefix to Envoy HTTP stats to specify traffic direction (`inbound` or `outbound`).
+- **Added** the option to configure [stat patterns](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for Envoy stats.
+- **Added** the `inbound` and `outbound` prefixes to the Envoy HTTP stats to specify traffic direction.
 
 ## Configuration management
 
-- **Added** many additional validation checks to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
-- **Added** experimental support for validation message in Istio [resource statuses](/docs/ops/diagnostic-tools/istioctl-analyze/#enabling-validation-messages-for-resource-status).
-- **Added** OpenAPI v3 schema validation to CRDs. Please see the [Upgrade Notes](/news/2019/announcing-1.4/upgrade-notes) for details.
+- **Added** multiple validation checks to the [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) sub-command.
+- **Added** the experimental option to enable validation messages for Istio [resource statuses](/docs/ops/diagnostic-tools/istioctl-analyze/#enabling-validation-messages-for-resource-status).
+- **Added** OpenAPI v3 schema validation of Custom Resource Definitions (CRDs). Please see the [Upgrade Notes](/news/2019/announcing-1.4/upgrade-notes) for details.
 
 ## Installation
 
-- **Remove** the `proxy_init` docker image. Instead, the `istio-init` container will reuse the `proxyv2` image
-- **Update** the base image to `ubunutu:bionic`.
+- **Removed** the `proxy_init` Docker image. Instead, the `istio-init` container reuses the `proxyv2` image.
+- **Updated** the base image to `ubunutu:bionic`.
 
 ## `istioctl`
 
-- **Added** [`istioctl experimental wait`](/docs/reference/commands/istioctl/#istioctl-experimental-wait) to wait until an Istio configuration has been pushed to all Envoy sidecars.
-- **Added** [`istioctl experimental mulitcluster`](/docs/reference/commands/istioctl/#istioctl-experimental-multicluster) to help manage Istio across multiple clusters.
-- **Added** [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) to manage webhook configuration.
-- **Improved** [`istioctl version`](/docs/reference/commands/istioctl/#istioctl-version) to show Envoy proxy versions.
+- **Added** the experimental sub-command [`istioctl experimental wait`](/docs/reference/commands/istioctl/#istioctl-experimental-wait) to have Istio wait until it has pushed a configuration to all Envoy sidecars.
+- **Added** the experimental [`istioctl experimental mulitcluster`](/docs/reference/commands/istioctl/#istioctl-experimental-multicluster) sub-command to help manage Istio across multiple clusters.
+- **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to manage webhook configuration.
+- **Improved** the [`istioctl version`](/docs/reference/commands/istioctl/#istioctl-version) sub-command. It now shows the Envoy proxy versions.
 
 ## Miscellaneous
 
