@@ -63,8 +63,11 @@ update_operator_yamls:
 update_examples:
 	@scripts/grab_examples.sh $(SOURCE_BRANCH_NAME)
 
-update_all: update_ref_docs update_operator_yamls update_examples
+update_helm_table:
+	@python3 scripts/tablegen.py
+
+update_all: update_ref_docs update_operator_yamls update_examples update_helm_table
 
 include common/Makefile.common.mk
 
-.PHONY: gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all
+.PHONY: gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_helm_tables update_all
