@@ -2,6 +2,4 @@
 title: Mixer Instance
 ---
 
-An instance represents a chunk of Mixer data that is produced by inspecting a set of request [attributes](#attribute) and applying the operator-supplied configuration.
-Instances are delivered to individual [handlers](#mixer-handler), on their way to
-infrastructure backends.
+Mixer Instance 表示通过检查一组请求[属性](#attribute) ，并结合使用者提供的配置而生成的数据块。Mixer Instance 在随请求到达各种基础后端设施的途中，会被传递给各个[处理程序](#mixer-handler)
