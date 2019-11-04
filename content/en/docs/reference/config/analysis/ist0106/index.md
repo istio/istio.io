@@ -39,8 +39,10 @@ spec:
 In this example, the error message indicates that the `weight` element has an
 invalid value when checked against the schema.
 
-To resolve this problem, refer to the detailed error message to determine which
-element or value does not adhere to the schema, correct the error and try again.
+To resolve this problem, refer to the
+[message details](/docs/reference/config/analysis/message-format/) field to determine
+which element or value does not adhere to the schema, correct the error and try
+again.
 
 For details about the expected schema for Istio resources, see the
 [configuration reference](/docs/reference/config/).

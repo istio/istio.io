@@ -6,7 +6,7 @@ layout: analysis-message
 This message occurs regarding a pod when:
 
 * Automatic sidecar injection is enabled (default enabled unless explicitly
-  disabled via the helm template variable `sidecarInjectorWebhook.enabled`)
+  disabled during installation.)
 * The pod is running in a namespace where sidecar injection is enabled (the
   namespace has the label `istio-injection=enabled`)
 * The proxy version running on the sidecar does not match the version used by
