@@ -429,7 +429,8 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `pilot.image` | `pilot` |  |
 | `pilot.sidecar` | `true` |  |
 | `pilot.traceSampling` | `1.0` |  |
-| `pilot.enableProtocolSniffing` | `false` | `if protocol sniffing is enabled. Default to false.` |
+| `pilot.enableProtocolSniffingForOutbound` | `true` | `if protocol sniffing is enabled for outbound` |
+| `pilot.enableProtocolSniffingForInbound` | `false` | `if protocol sniffing is enabled for inbound` |
 | `pilot.resources.requests.cpu` | `500m` |  |
 | `pilot.resources.requests.memory` | `2048Mi` |  |
 | `pilot.env.PILOT_PUSH_THROTTLE` | `100` |  |
