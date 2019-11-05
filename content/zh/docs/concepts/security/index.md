@@ -44,7 +44,7 @@ Istio 中的安全性涉及多个组件：
 
 - **Sidecar 和周边代理** 实现客户端和服务器之间的安全通信
 
-- **Pilot** 将[授权策略](/zh/docs/concepts/security/#授权策略)和[安全命名信息](/zh/docs/concepts/security/#安全命名)分发给代理
+- **Pilot** 将[授权策略](/zh/docs/concepts/security/#authorization-policy)和[安全命名信息](/zh/docs/concepts/security/#secure-naming)分发给代理
 
 - **Mixer** 管理授权和审计
 
@@ -55,8 +55,8 @@ Istio 中的安全性涉及多个组件：
 ## Istio 身份{#istio-identity}
 
 身份是任何安全基础架构的基本概念。在服务到服务通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。
-在客户端，根据[安全命名](/zh/docs/concepts/security/#安全命名)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
-在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#授权策略)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
+在客户端，根据[安全命名](/zh/docs/concepts/security/#secure-naming)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
+在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#authorization-policy)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
 
 在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。
 这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。
@@ -105,7 +105,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 1. Citadel 监视每个证书的生命周期，并通过重写 Kubernetes 秘密自动轮换证书。
 
-1. Pilot 生成[安全命名](/zh/docs/concepts/security/#安全命名)信息，该信息定义了哪些 Service Account 可以运行哪些服务。Pilot 然后将安全命名信息传递给 envoy sidecar。
+1. Pilot 生成[安全命名](/zh/docs/concepts/security/#secure-naming)信息，该信息定义了哪些 Service Account 可以运行哪些服务。Pilot 然后将安全命名信息传递给 envoy sidecar。
 
 ### 本地机器方案{#on-premises-machines-scenario}
 
@@ -167,13 +167,13 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
 
-1. `ca.istio.io/env` 命名空间标签：包含所需 Citadel 实例的名称空间的*字符串值*标签 
+1. `ca.istio.io/env` 命名空间标签：包含所需 Citadel 实例的名称空间的*字符串值*标签
 
 1. `ca.istio.io/override` 命名空间标签：*布尔值*标签，它将覆盖所有其他配置，并强制所有 Citadel 实例定位或忽略命名空间
 
 1. [`enableNamespacesByDefault` 安全配置](/zh/docs/reference/config/installation-options/#security-options)：如果在 ServiceAccount 的命名空间上未找到标签，则为默认行为
 
-从这三个值中，过程详细的反映的策略行为是：[Sidecar 注入 Webhook](https://istio.io/docs/ops/setup/injection-concepts/)
+从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/setup/injection-concepts/)
 
 - 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书机密。
 - 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书机密。
@@ -258,11 +258,11 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 `Istio Config Store`。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#目标规则)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
 {{< image width="60%" link="./auth.svg" caption="认证架构" >}}
 
-Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#授权)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
+Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#authorization)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
 
 ### 认证策略{#authentication policies}
 
@@ -311,7 +311,7 @@ Istio 可以在命名空间范围或网络范围存储中存储身份认证策�
       - mtls: {}
     {{< /text >}}
 
-命名空间范围存储中的策略只能影响同一命名空间中的服务。网格范围内的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets:` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#目标选择器)中找到更多信息。
+命名空间范围存储中的策略只能影响同一命名空间中的服务。网格范围内的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets:` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#target-selectors)中找到更多信息。
 
 #### 目标选择器{#target-selectors}
 
@@ -649,7 +649,7 @@ spec:
 
 您可以在全局授权配置和单个独立策略中启用授权宽容模式。如果在全局授权配置中设置，所有策略都将切换至授权宽容模式，不管其本身的模式。如果您设置全局授权模式为 ENFORCED，单个策略设置的强制模式将起作用。如果您没有设置任何模式，全局授权配置和单个策略都将默认被设置为 ENFORCED。
 
-要全局启用宽容模式，请将全局 Istio RBAC 授权配置中的 enforcement_mode：设置为 PERMISSIVE，如下面的示例所示。
+要全局启用宽容模式，请将全局 Istio RBAC 授权配置中的 `enforcement_mode：` 设置为 PERMISSIVE，如下面的示例所示。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -683,4 +683,4 @@ spec:
 ### 使用其他授权机制{#using-other-authorization-mechanisms}
 
 虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。
-要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/concepts/policies-and-telemetry/#适配器)。
+要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/concepts/policies-and-telemetry/#adapter)。
