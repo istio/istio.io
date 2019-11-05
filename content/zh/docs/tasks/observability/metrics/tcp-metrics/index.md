@@ -1,5 +1,5 @@
 ---
-title: 获取 TCP 服务指标
+title: 收集 TCP 服务指标
 description: 本任务展示了如何配置 Istio 进行 TCP 服务的指标收集。
 weight: 20
 keywords: [telemetry,metrics,tcp]
@@ -70,8 +70,7 @@ aliases:
         deployment "mongodb-v1" configured
         {{< /text >}}
 
-    3.  Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则
-        定义每个版本对应的服务子集，以及每个子集的负载均衡策略。
+    3.  Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则定义每个版本对应的服务子集，以及每个子集的负载均衡策略。
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
@@ -124,7 +123,7 @@ aliases:
     istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
     {{< /text >}}
 
-## 理解 TCP 遥控数据的收集过程{#understanding-tcp-telemetry-collection}
+## 理解 TCP 遥测数据的收集过程{#understanding-tcp-telemetry-collection}
 
 这一任务中，我们加入了一段 Istio 配置，对于所有目标为网格内 TCP 服务的流量，Mixer 自动为其生成并报告新的指标。
 
@@ -141,7 +140,7 @@ TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是�
     caption="TCP 属性流程"
     >}}
 
-## 清理{#cleanup}
+## 清除{#cleanup}
 
 *   删除新的遥测配置：
 
@@ -161,4 +160,4 @@ TCP 相关的属性是 Istio 中 TCP 策略和控制的基础。这些属性是�
     $ killall kubectl
     {{< /text >}}
 
-* 如果不准备进一步探索其他任务，请参照 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)，关闭示例应用。
+* 如果不准备进一步探索其他任务，请参照 [Bookinfo 清除](/zh/docs/examples/bookinfo/#cleanup)，关闭示例应用。
