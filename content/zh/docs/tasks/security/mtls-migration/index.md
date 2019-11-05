@@ -65,7 +65,7 @@ keywords: [security,authentication,migration]
     istio-system   istio-telemetry   25m
     {{< /text >}}
 
-## 配置客户端来发送双向 TLS 流量{#configure-clients-to-send-mutual-tls-traffic}
+## 配置客户端发送双向 TLS 流量{#configure-clients-to-send-mutual-tls-traffic}
 
 通过设置`DestinationRule`来配置 Istio 服务以发送双向 TLS 流量。
 
