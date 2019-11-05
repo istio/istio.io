@@ -786,7 +786,7 @@ external service.
 
 ## Cleanup
 
-Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@

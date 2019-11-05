@@ -23,7 +23,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
 
 To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/platform-setup/gke).
 
-## HTTP Endpoints service
+## HTTP endpoints service
 
 1.  Inject the service and the deployment into the mesh using `--includeIPRanges` by following the
 [instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
@@ -80,7 +80,7 @@ You can verify accessing the Endpoints service through Istio ingress:
     $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"
     {{< /text >}}
 
-## HTTPS Endpoints service using secured Ingress
+## HTTPS endpoints service using secured Ingress
 
 The recommended way to securely access a mesh Endpoints service is through an ingress configured with TLS.
 

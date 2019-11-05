@@ -26,7 +26,7 @@ Inconsistent attempts at solving these challenges, cobbled together from librari
 One solution is to standardize implementations on a common RPC library like [gRPC](https://grpc.io), but this can be costly for organizations to adopt wholesale
 and leaves out brownfield applications which may be practically impossible to change. Operators need a flexible toolkit to make their microservices secure, compliant, trackable and highly available, and developers need the ability to experiment with different features in production, or deploy canary releases, without impacting the system as a whole.
 
-## Solution: Service Mesh
+## Solution: service mesh
 
 Imagine if we could transparently inject a layer of infrastructure between a service and the network that gives operators the controls they need while freeing developers from having to bake solutions to distributed system problems into their code. This uniform layer of infrastructure combined with service deployments is commonly referred to as a **_service mesh_**. Just as microservices help to decouple feature teams from each other, a service mesh helps to decouple operators from application feature development and release processes. Istio turns disparate microservices into an integrated service mesh by systemically injecting a proxy into the network paths among them.
 

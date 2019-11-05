@@ -36,7 +36,7 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
 {{< tip >}}
 If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/ingress/secure-ingress-mount),
-and you want to migrate your ingress gateway to use the SDS approach. There are no
+and you want to migrate your ingress gateway to use the SDS approach, there are no
 extra steps required.
 {{< /tip >}}
 
