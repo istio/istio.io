@@ -1,26 +1,21 @@
 ---
-title: Mirroring
-description: This task demonstrates the traffic mirroring/shadowing capabilities of Istio.
+title: 镜像
+description: 此任务演示了 Istio 的流量镜像/影子功能。
 weight: 60
 keywords: [traffic-management,mirroring]
 ---
 
-This task demonstrates the traffic mirroring capabilities of Istio.
+此任务演示了 Istio 的流量镜像功能。
 
-Traffic mirroring, also called shadowing, is a powerful concept that allows
-feature teams to bring changes to production with as little risk as possible.
-Mirroring sends a copy of live traffic to a mirrored service. The mirrored
-traffic happens out of band of the critical request path for the primary service.
+流量镜像，也称为影子流量，是一个以尽可能低的风险为生产带来变化的强大的功能。镜像会将实时流量的副本发送到镜像服务。镜像流量发生在主服务的关键请求路径之外。
 
-In this task, you will first force all traffic to `v1` of a test service. Then,
-you will apply a rule to mirror a portion of traffic to `v2`.
+在此任务中，首先把流量全部路由到 `v1` 版本的测试服务。然后，执行规则将一部分流量镜像到 `v2` 版本。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-* Set up Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+* 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio。
 
-*   Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
+*   首先部署两个版本的 [httpbin]({{< github_tree >}}/samples/httpbin) 服务，[httpbin]({{< github_tree >}}/samples/httpbin) 服务已开启访问日志：
 
     **httpbin-v1:**
 
@@ -94,7 +89,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
     EOF
     {{< /text >}}
 
-*   Start the `sleep` service so you can use `curl` to provide load:
+*   启动 `sleep` 服务，这样就可以使用 `curl` 来提供负载了：
 
     **sleep service:**
 
@@ -119,16 +114,14 @@ you will apply a rule to mirror a portion of traffic to `v2`.
     EOF
     {{< /text >}}
 
-## Creating a default routing policy
+## 创建一个默认路由策略{#creating-a-default-routing-policy}
 
-By default Kubernetes load balances across both versions of the `httpbin` service.
-In this step, you will change that behavior so that all traffic goes to `v1`.
+默认情况下，Kubernetes 在 `httpbin` 服务的两个版本之间进行负载均衡。在此步骤中会更改该行为，把所有流量都路由到 `v1`。
 
-1.  Create a default route rule to route all traffic to `v1` of the service:
+1.  创建一个默认路由规则，将所有流量路由到服务的 `v1`：
 
     {{< warning >}}
-    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it.
-    Otherwise requests will [generate 503 errors](/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
+    如果安装/配置 Istio 的时候开启了 TLS 认证，在应用 `DestinationRule` 之前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，如[设置目标规则后出现 503 错误](/zh/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule)所述。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -163,9 +156,9 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     EOF
     {{< /text >}}
 
-    Now all traffic goes to the `httpbin:v1` service.
+    现在所有流量都转到`httpbin:v1`服务。
 
-1. Send some traffic to the service:
+1. 向服务发送一下流量：
 
     {{< text bash json >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -184,8 +177,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     }
     {{< /text >}}
 
-1. Check the logs for `v1` and `v2` of the `httpbin` pods. You should see access
-log entries for `v1` and none for `v2`:
+1. 分别查看 `httpbin` 服务 `v1` 和 `v2` 两个 pods 的日志，您可以看到访问日志进入 `v1`，而 `v2` 中没有日志，显示为 `<none>`：
 
     {{< text bash >}}
     $ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
@@ -199,9 +191,9 @@ log entries for `v1` and none for `v2`:
     <none>
     {{< /text >}}
 
-## Mirroring traffic to v2
+## 镜像流量到 v2{#mirroring-traffic-to-v2}
 
-1.  Change the route rule to mirror traffic to v2:
+1.  改变流量规则将流量镜像到 v2：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -225,25 +217,18 @@ log entries for `v1` and none for `v2`:
     EOF
     {{< /text >}}
 
-    This route rule sends 100% of the traffic to `v1`. The last stanza specifies
-    that you want to mirror to the `httpbin:v2` service. When traffic gets mirrored,
-    the requests are sent to the mirrored service with their Host/Authority headers
-    appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
+    这个路由规则发送 100% 流量到 `v1`。最后一段表示你将镜像流量到 `httpbin:v2` 服务。当流量被镜像时，请求将发送到镜像服务中，并在 `headers` 中的 `Host/Authority` 属性值上追加 `-shadow`。例如 `cluster-1` 变为 `cluster-1-shadow`。
 
-    Also, it is important to note that these requests are mirrored as "fire and
-    forget", which means that the responses are discarded.
+    此外，重点注意这些被镜像的流量是『即发即弃』的，就是说镜像请求的响应会被丢弃。
 
-    You can use the `mirror_percent` field to mirror a fraction of the traffic,
-    instead of mirroring all requests. If this field is absent, for compatibility with
-    older versions, all traffic will be mirrored.
-1. Send in traffic:
+    您可以使用 `mirror_percent` 属性来设置镜像流量的百分比，而不是镜像全部请求。为了兼容老版本，如果这个属性不存在，将镜像所有流量。
+1. 发送流量：
 
     {{< text bash >}}
     $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {{< /text >}}
 
-    Now, you should see access logging for both `v1` and `v2`. The access logs
-    created in `v2` are the mirrored requests that are actually going to `v1`.
+    现在就可以看到 `v1` 和 `v2` 中都有了访问日志。v2 中的访问日志就是由镜像流量产生的，这些请求的实际目标是 v1。
 
     {{< text bash >}}
     $ kubectl logs -f $V1_POD -c httpbin
@@ -256,7 +241,7 @@ log entries for `v1` and none for `v2`:
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
     {{< /text >}}
 
-1. If you want to examine traffic internals, run the following commands on another console:
+1. 如果要检查流量内部，请在另一个控制台上运行以下命令：
 
     {{< text bash >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -366,18 +351,18 @@ log entries for `v1` and none for `v2`:
     ..t...|.
     {{< /text >}}
 
-    You can see request and response contents of the traffic.
+    您可以看到流量​​的请求和响应内容。
 
-## Cleaning up
+## 清理{#cleaning-up}
 
-1.  Remove the rules:
+1.  删除规则：
 
     {{< text bash >}}
     $ kubectl delete virtualservice httpbin
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:
+1.  关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
