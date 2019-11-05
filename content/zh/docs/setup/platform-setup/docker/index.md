@@ -1,6 +1,6 @@
 ---
 title: Docker Desktop
-description: 在 Docker Desktop 运行 Istio 的指南。
+description: 在 Docker Desktop 中运行 Istio 的设置说明。
 weight: 12
 skip_seealso: true
 aliases:
