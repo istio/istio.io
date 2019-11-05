@@ -746,7 +746,7 @@ $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 This will build the site and start a web server hosting the site. You can then connect to the web server
 at `http://192.168.7.105:1313`.
 
-All English content for the site is located in the `content/en` directory, as well as in sibling translated
+All English content for the site is located in the `content/en` directory, and translated content is in sibling
 directories such as `content/zh`.
 
 ### Linting

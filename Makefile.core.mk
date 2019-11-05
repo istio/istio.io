@@ -5,28 +5,28 @@ ifeq ($(CONTEXT),production)
 baseurl := "$(URL)"
 endif
 
-build:
-	@scripts/build_site.sh
+# Which branch of the Istio source code do we fetch stuff from
+SOURCE_BRANCH_NAME ?= release-1.4
 
-gen: build
-	@scripts/gen_site.sh ""
+gen:
+	@scripts/gen_site.sh
 
-gen_nominify: build
-	@scripts/gen_site.sh "" -no_minify
+build: gen
+	@scripts/build_site.sh ""
+
+build_nominify: gen
+	@scripts/build_site.sh "" -no_minify
 
 opt:
 	@scripts/opt_site.sh
 
-clean_public:
-	@rm -fr public
+clean:
+	@rm -fr resources .htmlproofer tmp generated public
 
-clean: clean_public
-	@rm -fr resources .htmlproofer tmp
-
-lint: clean_public gen_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
+lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
 
-serve: build
+serve: gen
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 
 # used by netlify.com when building the site. The tool versions should correspond
@@ -46,21 +46,25 @@ netlify_install:
 		@babel/polyfill@v7.4.4
 
 netlify: netlify_install
-	@scripts/build_site.sh
-	@scripts/gen_site.sh "$(baseurl)"
+	@scripts/gen_site.sh
+	@scripts/build_site.sh "$(baseurl)"
 
 netlify_archive: netlify_install archive
 
 archive:
-	@scripts/gen_archive_site.sh "$(baseurl)"
+	@scripts/build_archive_site.sh "$(baseurl)"
 
 update_ref_docs:
-	@scripts/grab_reference_docs.sh
+	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
 
 update_operator_yamls:
-	@scripts/grab_operator_yamls.sh
+	@scripts/grab_operator_yamls.sh $(SOURCE_BRANCH_NAME)
 
 update_examples:
-	@scripts/grab_examples.sh
+	@scripts/grab_examples.sh $(SOURCE_BRANCH_NAME)
+
+update_all: update_ref_docs update_operator_yaml update_examples
 
 include common/Makefile.common.mk
+
+.PHONY: gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all
