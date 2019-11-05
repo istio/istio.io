@@ -14,9 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This scripts obtains the operator's yaml files and constructs them into
+# This script obtains the operator's yaml files and constructs them into
 # one manifest. Additionally IstioControlPlane custom resources are generated
 # for each of the profiles for easy switching between deployment modes.
+
+if [[ "$1" != "" ]]; then
+  SOURCE_BRANCH_NAME="$1"
+else
+  SOURCE_BRANCH_NAME="master"
+fi
 
 # Find the output directory
 scriptpath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -26,10 +32,8 @@ output_dir="${rootdir}/static"
 # Temporary directories securely created
 tempdir_operator="$(mktemp -d)"
 
-# Upstream GIT tags or branches used for the operator repo. The operator is
-# currently only available as a master version. This will change when
-# 1.4 is tagged.
-operator_tag="release-1.4"
+# Upstream GIT tags or branches used for the operator repo.
+operator_tag="${SOURCE_BRANCH_NAME}"
 
 # Add profiles here to have them automatically added to the website.
 # It is important to also document these files, which is not done automatically.
