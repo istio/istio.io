@@ -24,6 +24,9 @@ else
   SOURCE_BRANCH_NAME="master"
 fi
 
+# TODO: for the 1.4 timeframe, we need to grab the bits from master
+SOURCE_BRANCH_NAME=master
+
 SNIPPET_REPO=https://github.com/istio/istio
 
 rm -fr examples/*.snippets.txt
