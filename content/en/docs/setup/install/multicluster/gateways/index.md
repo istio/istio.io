@@ -31,7 +31,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to [deploy the Istio control plane](/docs/setup/install/operator/)
+* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
   on **each** Kubernetes cluster.
 
 * The IP address of the `istio-ingressgateway` service in each cluster must be accessible
@@ -98,7 +98,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
         {{< /text >}}
 
     For further details and customization options, refer to the
-    [installation instructions](/docs/setup/install/operator/).
+    [installation instructions](/docs/setup/install/istioctl/).
 
 ## Setup DNS
 
