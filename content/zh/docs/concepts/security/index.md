@@ -2,7 +2,7 @@
 title: 安全
 description: 描述 Istio 的授权与鉴权功能。
 weight: 25
-keywords: [security,authentication,authorization,rbac,access-control]
+keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
 aliases:
     - /zh/docs/concepts/network-and-auth/auth.html
     - /zh/docs/concepts/security/authn-policy/
