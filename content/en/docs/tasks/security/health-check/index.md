@@ -24,7 +24,7 @@ this feature is not needed if the production setup is not using the
 
 ## Before you begin
 
-To complete this task, you can [install Istio](/docs/setup/install/operator/) with the `global.mtls.enabled` option set to `true`.
+To complete this task, you can [install Istio](/docs/setup/install/istioctl/) with the `global.mtls.enabled` option set to `true`.
 
 {{< tip >}}
 Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
