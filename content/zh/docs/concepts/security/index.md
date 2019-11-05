@@ -258,7 +258,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 `Istio Config Store`。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#双向-tls-认证)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
 {{< image width="60%" link="./auth.svg" caption="认证架构" >}}
 
@@ -266,7 +266,7 @@ Istio 将两种类型的身份验证以及凭证中的其他声明（如果适�
 
 ### 认证策略{#authentication policies}
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security#认证架构)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/docs/reference/config/networking/v1alpha3/destination-rule/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
+本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/networking/destination-rule/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
 下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
 
@@ -683,4 +683,4 @@ spec:
 ### 使用其他授权机制{#using-other-authorization-mechanisms}
 
 虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。
-要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/concepts/policies-and-telemetry/#adapter)。
+要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/reference/config/policy-and-telemetry/adapters)。
