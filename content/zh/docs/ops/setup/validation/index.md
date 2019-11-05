@@ -1,6 +1,6 @@
 ---
 title: Configuration Validation Webhook
-description: 描述 Istio 使用 Kubernetes webhooks 来进行服务端配置
+description: 描述 Istio 使用 Kubernetes webhooks 来进行服务端配置。
 weight: 20
 aliases:
     - /help/ops/setup/validation   
