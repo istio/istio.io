@@ -73,7 +73,6 @@ spec:
 ## Installing with {{< istioctl >}}
 
 The recommended way to use the Istio operator API is through a new set of `istioctl` commands.
-
 For example, to install Istio into a cluster:
 
 {{< text bash >}}
@@ -130,14 +129,12 @@ To upgrade to a new version of Istio, run:
 $ kubectl apply -f https://<repo URL>/<new version>/operator-profile-default.yaml
 {{< /text >}}
 
-Both the operator controller and `istioctl` commands share the same code to validate configuration schemas
-and perform a range of checks for installation change or upgrade.
-
-The same code is executed when using the API with or without the controller,
-the main difference being the execution context.
+Both the operator controller and `istioctl` commands share the same code.
+The main difference is the execution context.
 In the `istioctl` case, the operation runs in the admin user’s command execution and
 security context, while in the controller case, a pod in the cluster runs the code in its security context.
-In both cases, the API is schematized and validated.
+In both cases, they validate configuration schemas and perform the same range of checks for installation
+change or upgrade.
 
 ## Migration from Helm
 
