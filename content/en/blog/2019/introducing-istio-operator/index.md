@@ -133,7 +133,6 @@ $ kubectl apply -f https://<repo URL>/<new version>/operator-profile-default.yam
 Both the operator controller and `istioctl` commands share the same code to validate configuration schemas
 and perform a range of checks for installation change or upgrade.
 
-
 The same code is executed when using the API with or without the controller,
 the main difference being the execution context.
 In the `istioctl` case, the operation runs in the admin user’s command execution and
@@ -162,7 +161,7 @@ You can also set Helm configuration values in an `IstioControlPlane` configurati
 See [Customize Istio settings using Helm](/docs/setup/install/operator/#customize-istio-settings-using-the-helm-api)
 ￼for details.
 
-Another feature to help with the transition from Helm is the alpha 
+Another feature to help with the transition from Helm is the alpha
 [{{< istioctl >}} manifest migrate](/docs/reference/commands/istioctl/#istioctl-manifest-migrate) command.
 This command can be used to automatically convert a Helm `values.yaml` file to a corresponding `IstioControlPlane`
 configuration.
@@ -188,8 +187,8 @@ The new `istioctl` commands and operator controller both validate configuration 
 checks for installation change or upgrade. These checks are tightly integrated with the tools to prevent
 common errors and simplify troubleshooting.
 
-Going forward, we hope that this new approach will improve the user experience during Istio istallation
-and upgrade, better stabalize the installation API, and help users better manage and monitor their
+Going forward, we hope that this new approach will improve the user experience during Istio installation
+and upgrade, better stabilize the installation API, and help users better manage and monitor their
 Istio installations. Future work includes:
 
 - `istioctl` and the controller will support canary based upgrades.
