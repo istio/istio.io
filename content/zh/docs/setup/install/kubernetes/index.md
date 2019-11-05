@@ -1,6 +1,6 @@
 ---
-title: Quick Start Evaluation Install
-description: Instructions to install Istio in a Kubernetes cluster for evaluation.
+title: 快速开始评估环境安装
+description: 在 Kubernetes 集群中安装评估使用的 Istio 的安装指南。
 weight: 5
 keywords: [kubernetes]
 aliases:
@@ -8,36 +8,31 @@ aliases:
     - /docs/setup/kubernetes/install/kubernetes/
 ---
 
-This guide installs Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
-This installation lets you quickly evaluate Istio in a Kubernetes cluster on any platform.
+本指南安装使用 Istio 内置的 `demo` [配置文件](/docs/setup/additional-setup/config-profiles/)。
+通过本安装可以让你快速在任意平台的 Kubernetes 集群中使用 Istio 进行评估。
 
 {{< warning >}}
-The demo configuration profile is not suitable for performance evaluation. It
-is designed to showcase Istio functionality with high levels of tracing and
-access logging.
+`demo` 的配置方案通过配置高级别的跟踪和访问日志，用于展示 Istio 的功能，不适用于高性能评估使用。
 {{< /warning >}}
 
-To install Istio for production use, we recommend using the
-[Installing with {{< istioctl >}} guide](/docs/setup/install/operator/)
-instead, which provides many more options for selecting and managing the Istio
-configuration. This permits customization of Istio to operator specific
-requirements.
+要正式在生产环境上安装 Istio，我们推荐 [使用 {{< istioctl >}} 安装](/docs/setup/install/operator/)，
+它提供了更多选项，可以对 Istio 的配置进行选择和管理，满足特定的使用需求。
 
-## Prerequisites
+## 前提条件
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [下载 Istio 的发布包](/docs/setup/#downloading-the-release)。
 
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
+1. 执行必须的[平台特定设置](/docs/setup/platform-setup/)。
 
-## Install the demo profile
+## 安装 demo 配置
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=demo
 {{< /text >}}
 
-## Verifying the installation
+## 验证安装结果
 
-1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
+1.  确认下面 Kubernetes 服务已经部署且除了 `jaeger-agent` 外都具有合适的 `CLUSTER-IP`：
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
@@ -61,14 +56,11 @@ $ istioctl manifest apply --set profile=demo
     {{< /text >}}
 
     {{< tip >}}
-    If your cluster is running in an environment that does not
-    support an external load balancer (e.g., minikube), the
-    `EXTERNAL-IP` of `istio-ingressgateway` will say
-    `<pending>`. To access the gateway, use the service's
-    `NodePort`, or use port-forwarding instead.
+    如果你的集群运行在不支持外部负载均衡器的环境中（例如 minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 会是 `<pending>`。
+    只能使用服务的 `NodePort` 或端口转发访问这个网关。
     {{< /tip >}}
 
-1.  Ensure corresponding Kubernetes pods are deployed and have a `STATUS` of `Running`:
+1.  确认 Kubernetes 的 Pod 已经部署并且 `STATUS` 是 `Running`：
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -90,40 +82,32 @@ $ istioctl manifest apply --set profile=demo
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## Deploy your application
+## 部署你的应用
 
-You can now deploy your own application or one of the sample applications
-provided with the installation like [Bookinfo](/docs/examples/bookinfo/).
+现在你可以部署你的应用或使用 Istio 的发布包中的示例应用（如 [Bookinfo](/docs/examples/bookinfo/)）进行部署。
 
 {{< warning >}}
-The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
-traffic; HTTP/1.0 is not supported.
+部署的应用必须使用 HTTP/1.1 或 HTTP/2.0 协议，Istio 不支持 HTTP/1.0 协议。
 {{< /warning >}}
 
-When you deploy your application using `kubectl apply`,
-the [Istio sidecar injector](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-will automatically inject Envoy containers into your
-application pods if they are started in namespaces labeled with `istio-injection=enabled`:
+当你使用 `kubectl apply` 部署应用时，如果目标命名空间已经打上了 `istio-injection=enabled` 标签，[Istio sidecar injector](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+会自动把 Envoy 容器注入到应用 Pod 中：
 
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
 $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-In namespaces without the `istio-injection` label, you can use
-[`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
-to manually inject Envoy containers in your application pods before deploying
-them:
+如果目标命名空间没有 `istio-injection` 标签，你可以在部署之前使用 [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
+命令手动把 Envoy 容器注入到应用 Pod 中：
 
 {{< text bash >}}
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-## Uninstall
+## 卸载
 
-The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
-all resources hierarchically under it. It is safe to ignore errors for
-non-existent resources because they may have been deleted hierarchically.
+卸载操作会删除 RBAC 权限、`istio-system` 命名空间和其下的所有资源。由于资源可能被级联删除了，所以操作时出现一些资源不存在的提示可以忽略。
 
 {{< text bash >}}
 $ istioctl manifest generate --set profile=demo | kubectl delete -f -
