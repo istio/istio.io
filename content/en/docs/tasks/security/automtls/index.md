@@ -33,12 +33,13 @@ $ istioctl manifest apply --set profile=demo \
 Our examples deploy `httpbin` service into three namespaces, `full`, `partial`, and `legacy`.
 Each represents different phase of Istio migration.
 
-`full` namespace contains allserver workloads finishing the Istio migration. All deployments have
+`full` namespace contains all server workloads finishing the Istio migration. All deployments have
 sidecar injected.
 
 {{< text bash >}}
 $ kubectl create ns full
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n full
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n full
 {{< /text >}}
 
 `partial` namespace contains server workloads partially migrated to Istio. Only migrated one has
@@ -51,7 +52,7 @@ $ cat <<EOF | kubectl apply -n partial -f -
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: httpbin
+  name: httpbin-nosidecar
 spec:
   replicas: 1
   template:
@@ -117,20 +118,26 @@ Last but not least, verify that there are no destination rules that apply on the
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
+    host: kubernetes.default.svc.cluster.local
+    host: '*.local'
+    host: grafana.istio-system
+    host: '*.global'
     host: istio-policy.istio-system.svc.cluster.local
     host: istio-telemetry.istio-system.svc.cluster.local
+    host: prometheus.istio-system.svc.cluster.local
+    host: prometheus.istio-system
 {{< /text >}}
 
 You can verify setup by sending an HTTP request with `curl` from any `sleep` pod in the namespace `full`, `partial` or `legacy` to either `httpbin.full`, `httpbin.partial` or `httpbin.legacy`. All requests should succeed with HTTP code 200.
 
-For example, here is a command to check `sleep.partial` to `httpbin.full` reachability:
+For example, here is a command to check `sleep.legacy` to `httpbin.full` reachability:
 
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n partial -o jsonpath={.items..metadata.name}) -c sleep -n partial -- curl http://httpbin.full:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.full:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-### Auto mTLS PERMISSIVE
+### Start from PERMISSIVE mode
 
 In the setup, we start with `PERMISSIVE` for all services in the mesh.
 
@@ -155,11 +162,11 @@ sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 Without automatic mutual TLS feature, you have to track the sidecar migration finishes, and then
-explictly configure the destination rule to make client send mutual TLS traffic to `httpbin.full`.
+explicitly configure the destination rule to make client send mutual TLS traffic to `httpbin.full`.
 
 ### Lock down mutual TLS to STRICT
 
-Imagine now you need to lockdown the `httpbin.full` service to only accept mutual TLS traffic. You
+Imagine now you need to lock down the `httpbin.full` service to only accept mutual TLS traffic. You
 can configure authentication policy to `STRICT`.
 
 {{< text bash >}}
@@ -182,7 +189,7 @@ mutual TLS traffic.
 Now the requests from the `sleep.legacy` starts to fail, since it can't send mutual TLS traffic.
 
 {{< text bash >}}
-$ for from in "full" "partial" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.full to httpbin.full: 200
 sleep.full to httpbin.partial: 200
 sleep.full to httpbin.legacy: 200
@@ -213,7 +220,7 @@ In this case, since the service is in plain text mode. Istio automatically confi
 to send plain text traffic to avoid breakage.
 
 {{< text bash >}}
-$ for from in "full" "partial" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.full to httpbin.full: 200
 sleep.full to httpbin.partial: 200
 sleep.full to httpbin.legacy: 200
@@ -225,7 +232,7 @@ sleep.legacy to httpbin.legacy: 200
 ### Destination rule overrides
 
 For backward compatibility, you can still use destination rule to override the TLS configuration as
-before. When destination rule has an explict TLS configuration, that overrides the client sidecars'
+before. When destination rule has an explicit TLS configuration, that overrides the client sidecars'
 TLS configuration.
 
 For example, you can explicitly configure destination rule for `httpbin.full` to enable or
