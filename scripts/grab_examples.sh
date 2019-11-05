@@ -18,16 +18,21 @@
 # These snippets are put into the examples directory and referenced from markdown files
 # throughout the site.
 
+if [[ "$1" != "" ]]; then
+  SOURCE_BRANCH_NAME="$1"
+else
+  SOURCE_BRANCH_NAME="master"
+fi
+
 SNIPPET_REPO=https://github.com/istio/istio
-SNIPPET_BRANCH=master
 
 rm -fr examples/*.snippets.txt
 
-echo Cloning ${SNIPPET_REPO}@${SNIPPET_BRANCH}
+echo Cloning "${SNIPPET_REPO}@${SOURCE_BRANCH_NAME}"
 
 WORK_DIR="$(mktemp -d)"
 mkdir -p "${WORK_DIR}"
-git clone -q -b "${SNIPPET_BRANCH}" "${SNIPPET_REPO}" "${WORK_DIR}"
+git clone -q -b """${SOURCE_BRANCH_NAME}""" "${SNIPPET_REPO}" "${WORK_DIR}"
 COMMITS=$(git --git-dir="${WORK_DIR}/.git" log --oneline --no-abbrev-commit | cut -d " " -f 1)
 rm -fr "${WORK_DIR}"
 
