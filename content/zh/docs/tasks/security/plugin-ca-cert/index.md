@@ -52,7 +52,7 @@ keywords: [security,certificates]
 本节中，我们要校验新的工作负载证书以及根证书是否正确传播。需要在本机安装 `openssl`。
 
 1. 根据[部署文档](/zh/docs/examples/bookinfo/)安装 Bookinfo 应用。
-
+    
 1. 获取已加载的证书。
     下面我们使用 ratings pod 作为例子，检查这个 Pod 上加载的证书。
 
