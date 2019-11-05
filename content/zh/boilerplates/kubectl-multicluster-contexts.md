@@ -1,6 +1,5 @@
 ---
 ---
-
 *   你可以使用 `kubectl` 命令带上 `--context` 参数去访问集群 `cluster1` 和 `cluster2`，
     例如 `kubectl get pods --context cluster1`。
     使用如下命令列出你的上下文:
@@ -8,7 +7,6 @@
     {{< text bash >}}
     $ kubectl config get-contexts
     CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
-
     *         cluster1   cluster1   user@foo.com   default
               cluster2   cluster2   user@foo.com   default
     {{< /text >}}
