@@ -1,7 +1,7 @@
 ---
-title: Traffic Management
-description: Tasks that demonstrate Istio's traffic routing features.
+title: 流量管理
+description: 演示 Istio 的流量路由功能的任务。
 weight: 15
 aliases:
-    - /docs/examples/intelligent-routing/
+    - /zh/docs/examples/intelligent-routing/
 ---

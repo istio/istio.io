@@ -1,10 +1,8 @@
 ---
-title: Configuration Analysis Messages
-description: Documents the individual error and warning messages produced during configurarion analysis.
+title: 配置分析消息
+description: 记录配置分析期间产生的各个错误和警告消息。
 weight: 40
 layout: analysis-landing
 ---
 
-[`istioctl`](/docs/reference/commands/istioctl/#istioctl-experimental-analyze) provides rich analysis of Istio configuration state in
-order to identity invalid or suboptimal configurations. Here's is a list of the distinct possible
-error or warning messages produced by this analysis.
+[`istioctl`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-analyze)  提供了对 Istio 配置状态的丰富分析，以便标识无效或次优的配置。这是此分析可能产生的错误或警告消息的列表。

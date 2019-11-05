@@ -1,14 +1,14 @@
 ---
-title: Docs
-linktitle: Docs
-description: Learn how to deploy, use, and operate Istio.
+title: 文档
+linktitle: 文档
+description: 了解如何部署、使用和运维 Istio。
 weight: 1
 sidebar_multicard: true
 icon: docs
 ---
 
-In addition to the above documentation links, please consider the following resources:
+另外，除了上面的文档链接，我们还提供了以下资源：
 
-- [Frequently Asked Questions](/faq)
-- [Glossary](/docs/reference/glossary)
-- [Documentation Archive](https://archive.istio.io/), which contains snapshots of the documentation for prior releases.
+- [FAQ](/zh/faq)
+- [词汇表](/zh/docs/reference/glossary)。
+- [文档归档](https://archive.istio.io/)中包括了历史版本的快照。
