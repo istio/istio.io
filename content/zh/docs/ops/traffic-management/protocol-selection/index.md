@@ -1,16 +1,16 @@
 ---
-title: Protocol Selection
-description: Information on how to specify protocols.
+title: 协议选择
+description: 关于怎么声明协议的信息。
 weight: 98
-keywords: [protocol,protocol sniffing,protocol selection,protocol detection]
+keywords: [协议,协议嗅探,协议选择,协议探测]
 aliases:
     - /help/ops/traffic-management/protocol-selection
     - /help/ops/protocol-selection
     - /help/tasks/traffic-management/protocol-selection
 ---
 
-Istio supports proxying all TCP traffic by default, but in order to provide additional capabilities,
-such as routing and rich metrics, the protocol must be determined.
+Istio 默认支持代理所有 TCP 流量， 但为了提供附加的能力，
+比如路由和丰富的指标， 使用什么传输协议必须被检测出来。
 This can be done automatically or explicitly specified.
 
 ## Manual protocol selection
