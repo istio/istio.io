@@ -187,6 +187,8 @@ All `httpbin.full` workloads and the workload with sidecar for `httpbin.partial`
 mutual TLS traffic.
 
 Now the requests from the `sleep.legacy` starts to fail, since it can't send mutual TLS traffic.
+But the client `sleep.full` is automatically configured with auto mutual TLS, to send mutual TLS 
+request, returning 200.
 
 {{< text bash >}}
 $ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
