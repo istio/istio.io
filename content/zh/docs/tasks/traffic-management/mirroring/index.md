@@ -1,6 +1,6 @@
 ---
 title: 镜像
-description: 此任务演示了Istio的流量镜像/影子功能。
+description: 此任务演示了 Istio 的流量镜像/影子功能。
 weight: 60
 keywords: [traffic-management,mirroring]
 ---
@@ -9,9 +9,9 @@ keywords: [traffic-management,mirroring]
 
 流量镜像，也称为影子流量，是一个以尽可能低的风险为生产带来变化的强大的功能。镜像会将实时流量的副本发送到镜像服务。镜像流量发生在主服务的关键请求路径之外。
 
-在此任务中，首先把流量全部路由到`v1`版本的测试服务。然后，执行规则将一部分流量镜像到`v2`版本。
+在此任务中，首先把流量全部路由到 `v1` 版本的测试服务。然后，执行规则将一部分流量镜像到 `v2` 版本。
 
-## 开始之前
+## 开始之前{#before-you-begin}
 
 * 按照[安装指南](/docs/setup/)中的说明设置 Istio。
 
@@ -114,7 +114,7 @@ keywords: [traffic-management,mirroring]
     EOF
     {{< /text >}}
 
-## 创建一个默认路由策略
+## 创建一个默认路由策略{#creating-a-default-routing-policy}
 
 默认情况下，Kubernetes 在 `httpbin` 服务的两个版本之间进行负载均衡。在此步骤中会更改该行为，把所有流量都路由到 `v1`。
 
@@ -191,7 +191,7 @@ keywords: [traffic-management,mirroring]
     <none>
     {{< /text >}}
 
-## 镜像流量到 v2
+## 镜像流量到 v2{#mirroring-traffic-to-v2}
 
 1.  改变流量规则将流量镜像到 v2：
 
@@ -353,7 +353,7 @@ keywords: [traffic-management,mirroring]
 
     您可以看到流量​​的请求和响应内容。
 
-## 清理
+## 清理{#cleaning-up}
 
 1.  删除规则：
 
