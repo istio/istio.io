@@ -1,120 +1,107 @@
 ---
-title: Citadel 的健康检查
-description:  如何在 Kubernetes 中启用 Citadel 的健康检查。
+title: Citadel Health Checking
+description: Shows how to enable Citadel health checking with Kubernetes.
 weight: 70
 keywords: [security,health-check]
 ---
 
-本文中的任务展示了如何在 Kubernetes 中为 Citadel 启动健康检查，注意，这一功能仍处于 Alpha 阶段。
+You can enable Citadel's health checking feature
+to detect the failures of the Citadel CSR (Certificate Signing Request) service.
+When a failure is detected, Kubelet automatically restarts the Citadel container.
 
-从 Istio 0.6 开始，Citadel 具备了一个可选的健康检查功能。缺省情况下的 Istio 部署过程没有启用这一特性。目前健康检查功能通过周期性的向 API 发送 CSR 的方式，来检测 Citadel CSR 签署服务的故障。很快会实现更多的健康检查方法。
+When the health checking feature is enabled,
+the **prober client** module in Citadel periodically checks the health status of Citadel's CSR gRPC server.
+It does this by sending CSRs to the gRPC server and verifies the responses.
+If Citadel is healthy, the _prober client_ updates the _modification time_ of the _health status file_.
+Otherwise, it does nothing. Citadel relies on a
+[Kubernetes liveness and readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+with command line to check the _modification time_ of the _health status file_ on the pod.
+If the file is not updated for a period, Kubelet will restart the Citadel container.
 
-Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状态（目前只是 gRPC 服务器的健康情况）。如果 Citadel 是健康的，检测器客户端会更新健康状态文件（文件内容始终为空）的更新时间。否则就什么都不做。Citadel 依赖 [Kubernetes 的健康和就绪检测](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)功能，会周期性的使用命令行检查健康状态文件的更新时间。如果这个文件有一段时间不更新了，Citadel 容器就会被 Kubelet 的重新启动。
+Note: because Citadel health checking currently only monitors the health status of CSR service API,
+this feature is not needed if the production setup is not using the
+[SDS](/docs/tasks/security/auth-sds/) or [Mesh Expansion](/docs/examples/mesh-expansion/).
 
-注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [Istio Mesh Expansion](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/) （这个特性需要 CSR 服务接口的支持）就没有必要使用这个功能了。
+## Before you begin
 
-## 开始之前
-
-* 根据[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)的指引部署 Istio 并启用全局双向 TLS 支持。
-
-    根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio 并启用双向 TLS。
-
-    _**或者**_
-
-    用 [Helm](/zh/docs/setup/kubernetes/install/helm/) 进行部署，设置 `global.mtls.enabled` 为 `true`。
+To complete this task, you can [install Istio](/docs/setup/install/operator/) with the `global.mtls.enabled` option set to `true`.
 
 {{< tip >}}
-Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)为命名空间内的部分或者全部服务配置双向 TLS 支持（在所有命名空间重复一遍就算是全局配置了）。请参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
+all or only selected services in a namespace. You must repeat the policy for all namespaces to configure the setting globally.
+See the [authentication policy task](/docs/tasks/security/authn-policy/) for details.
 {{< /tip >}}
 
-## 部署启用健康检查的 Citadel
+## Deploying Citadel with health checking
 
-下面的命令用来部署启用健康检查的 Citadel：
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
-{{< /text >}}
-
-部署 `istio-citadel` 服务，这样健康检查器才能找到 CSR 服务.
+To enable health checking, redeploy Citadel:
 
 {{< text bash >}}
-$ kubectl create -f - <<EOF
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-citadel
-  namespace: istio-system
-  labels:
-    istio: citadel
-spec:
-  ports:
-    - port: 8060
-  selector:
-    istio: citadel
-EOF
+$ istioctl manifest generate --set values.global.mtls.enabled=true,values.security.citadelHealthCheck=true > citadel-health-check.yaml
+$ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
-## 确认健康检查器的是否工作
+## Verify that health checking works
 
-Citadel 会记录健康检查的结果，运行下面的命令行：
+Citadel will log the health checking results. Run the following in command line:
 
 {{< text bash >}}
-$ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{print $1}'` -n istio-system
+$ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{print $1}'` -n istio-system | grep "CSR signing service"
 {{< /text >}}
 
-会看到类似下面这样的输出：
+You will see the output similar to:
+
+{{< text plain >}}
+... CSR signing service is healthy (logged every 100 times).
+{{< /text >}}
+
+The log above indicates the periodic health checking is working.
+The default health checking interval is 15 seconds and is logged once every 100 checks.
+
+## (Optional) Configuring the health checking
+
+This section talks about how to modify the health checking configuration. Open the file
+`citadel-health-check.yaml`, and locate the following lines.
 
 {{< text plain >}}
 ...
-2018-02-27T04:29:56.128081Z     info    CSR successfully signed.
-...
-2018-02-27T04:30:11.081791Z     info    CSR successfully signed.
-...
-2018-02-27T04:30:25.485315Z     info    CSR successfully signed.
-...
-{{< /text >}}
-
-上面的日志表明周期性的健康检查已经启动。可以看到，缺省的健康检查的时间周期是 15 秒。
-
-## (可选) 健康检查的配置
-
-还可以根据需要调整健康检查的配置。打开文件 `install/kubernetes/istio-citadel-with-health-check.yaml`，找到下面的内容（注释已汉化，非原文）：
-
-{{< text plain >}}
-...
-  - --liveness-probe-path=/tmp/ca.liveness # 健康检查状态文件的路径
-  - --liveness-probe-interval=60s # 健康状态文件的更新周期
-  - --probe-check-interval=15s    # 健康检查的周期
-  - --logtostderr
-  - --stderrthreshold
-  - INFO
+  - --liveness-probe-path=/tmp/ca.liveness # path to the liveness health checking status file
+  - --liveness-probe-interval=60s # interval for health checking file update
+  - --probe-check-interval=15s    # interval for health status check
 livenessProbe:
   exec:
     command:
     - /usr/local/bin/istio_ca
     - probe
-    - --probe-path=/tmp/ca.liveness # 健康状态文件的路径
-    - --interval=125s               # 文件修改时间和当前系统时钟的最大时间差
+    - --probe-path=/tmp/ca.liveness # path to the liveness health checking status file
+    - --interval=125s               # the maximum time gap allowed between the file mtime and the current sys clock.
   initialDelaySeconds: 60
   periodSeconds: 60
 ...
 {{< /text >}}
 
-* `liveness-probe-path` 和 `probe-path`：到健康状态文件的路径，在 Citadel 以及检测器上进行配置；
-* `liveness-probe-interval`：是更新健康状态文件的周期；
-* `probe-check-interval`：是 Citadel 健康检查的周期；
-* `interval`：从上次更新健康状态文件至今的时间，也就是检测器认为 Citadel 健康的时间段；
-* `initialDelaySeconds` 以及 `periodSeconds`：初始化延迟以及检测运行周期；
+The paths to the health status files are `liveness-probe-path` and `probe-path`.
+You should update the paths in Citadel and in the `livenessProbe` at the same time.
+If Citadel is healthy, the value of the `liveness-probe-interval` entry determines the interval used to update the
+health status file.
+The Citadel health checking controller uses the value of the `probe-check-interval` entry to determine the interval to
+call the Citadel CSR service.
+The `interval` is the maximum time elapsed since the last update of the health status file, for the prober to consider
+Citadel as healthy.
+The values in the `initialDelaySeconds` and `periodSeconds`entries determine the initial delay and the interval between
+each activation of the `livenessProbe`.
 
-延长 `probe-check-interval` 会减少健康检查的开销，但是一旦遇到故障情况，健康监测器也会更晚的得到故障信息。为了避免检测器因为临时故障重启 Citadel，检测器的 `interval` 应该设置为 `liveness-probe-interval` 的 `N` 倍，这样就让检测器能够容忍持续 `N-1` 次的检查失败。
+Prolonging `probe-check-interval` will reduce the health checking overhead, but there will be a greater lagging for the
+prober to get notified on the unhealthy status.
+To avoid the prober restarting Citadel due to temporary unavailability, the `interval` on the prober can be
+configured to be more than `N` times of the `liveness-probe-interval`. This will allow the prober to tolerate `N-1`
+continuously failed health checks.
 
-## 清理
+## Cleanup
 
-* 在 Citadel 上禁用健康检查：详细参照[删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除)
-
-* 移除 Citadel：
+*   To disable health checking on Citadel:
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
-    $ kubectl delete svc istio-citadel -n istio-system
+    $ istioctl manifest apply --set values.global.mtls.enabled=true
     {{< /text >}}
+

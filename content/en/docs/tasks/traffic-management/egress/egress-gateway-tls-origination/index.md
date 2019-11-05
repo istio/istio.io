@@ -37,7 +37,7 @@ traffic to external services.
     Note that any pod that you can `exec` and `curl` from would do.
 
 *   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
+    If you used the [sleep]({{< github_tree >}}/samples/sleep) sample, run:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -621,7 +621,7 @@ to hold the configuration of the NGINX server:
     </html>
     {{< /text >}}
 
-### Redeploy the Egress Gateway with the client certificates
+### Redeploy the egress gateway with the client certificates
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.

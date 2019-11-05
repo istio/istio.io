@@ -1,35 +1,45 @@
 ---
-title: 使用AWS NLB 配置 Istio Ingress
-description: 描述如何在AWS上使用网络负载均衡器配置 Istio Ingress。
+title: Configuring Istio Ingress with AWS NLB
+description: Describes how to configure Istio ingress with a network load balancer on AWS.
 publishdate: 2018-04-20
-subtitle: Ingress AWS 网络负载均衡器
+last_update: 2019-01-16
+subtitle: Ingress AWS Network Load Balancer
 attribution: Julien SENON
 keywords: [ingress,traffic-management,aws]
+target_release: 1.0
 ---
 
-本文提供了使用 [AWS 网络负载均衡器](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) 配置 ingress Istio 的说明。
+{{< tip >}}
+This post was updated on January 16, 2019 to include some usage warnings.
+{{< /tip >}}
 
-可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。 你可以查看不同的 AWS `负载均衡器` 之间的 [比较](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons)以获取更多的解释。
+This post provides instructions to use and configure ingress Istio with [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html).
 
-## 先行条件
+Network load balancer (NLB) could be used instead of classical load balancer. You can see the [comparison](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons) between different AWS `loadbalancer` for more explanation.
 
-以下说明需要 Kubernetes **1.9.0 或更高版本** 的集群。
+## Prerequisites
 
-{{< warning_icon >}} AWS `nlb` 在 Kubernetes 上的使用是一项 Alpha 功能 ，不建议用于生产环境的集群。
+The following instructions require a Kubernetes **1.9.0 or newer** cluster.
 
-## IAM 策略
+{{< warning >}}
+Usage of AWS `nlb` on Kubernetes is an Alpha feature and not recommended for production clusters.
 
-你需要在主角色上应用策略， 以便能够配置网络负载均衡器。
+Usage of AWS `nlb` does not support the creation of two or more Kubernetes clusters running Istio in the same zone as a result of [Kubernetes Bug #69264](https://github.com/kubernetes/kubernetes/issues/69264).
+{{< /warning >}}
 
-1. 在 AWS  `iam`  控制台中，点击策略并单击“创建新策略”：
+## IAM Policy
 
-    {{< image width="80%" link="./createpolicystart.png" caption="创建一个新的策略" >}}
+You need to apply policy on the master role in order to be able to provision network load balancer.
 
-1. 选择  `json`:
+1. In AWS `iam` console click on policies and click on create a new one:
 
-    {{< image width="80%" link="./createpolicyjson.png" caption="选择 json" >}}
+    {{< image width="80%" link="./createpolicystart.png" caption="Create a new policy" >}}
 
-1. 拷贝以下内容：
+1. Select `json`:
+
+    {{< image width="80%" link="./createpolicyjson.png" caption="Select json" >}}
+
+1. Copy/paste text below:
 
     {{< text json >}}
     {
@@ -70,42 +80,33 @@ keywords: [ingress,traffic-management,aws]
     }
     {{< /text >}}
 
-1. 点击审核策略，填写所有字段，接着点击创建策略：
+1. Click review policy, fill all fields and click create policy:
 
-    {{< image width="80%" link="./create_policy.png" caption="验证策略" >}}
+    {{< image width="80%" link="./create_policy.png" caption="Validate policy" >}}
 
-1. 点击角色，选择你的主角色节点，然后点击附加策略：
+1. Click on roles, select you master role nodes, and click attach policy:
 
-    {{< image link="./roles_summary.png" caption="附加策略" >}}
+    {{< image link="./roles_summary.png" caption="Attach policy" >}}
 
-1. 现在，你的策略就已经附加到了主节点。
+1. Your policy is now attach to your master node.
 
-## 重写 Istio Ingress 服务
+## Generate the Istio manifest
 
-你需要使用以下内容来重写 `istio-ingress` 服务：
+To use an AWS `nlb` load balancer, it is necessary to add an AWS specific
+annotation to the Istio installation.  These instructions explain how to
+add the annotation.
+
+Save this as the file `override.yaml`:
 
 {{< text yaml >}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-ingress
-  namespace: istio-system
-  labels:
-    istio: ingress
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-spec:
-  externalTrafficPolicy: Local
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: http
-  - port: 443
-    protocol: TCP
-    targetPort: 443
-    name: https
-    selector:
-    istio: ingress
-    type: LoadBalancer
+gateways:
+  istio-ingressgateway:
+    serviceAnnotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+{{< /text >}}
+
+Generate a manifest with Helm:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --namespace istio -f override.yaml > $HOME/istio.yaml
 {{< /text >}}

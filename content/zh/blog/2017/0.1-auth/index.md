@@ -1,83 +1,93 @@
 ---
-title: 使用 Istio 增强端到端安全
-description: Istio Auth 0.1 公告。
+title: Using Istio to Improve End-to-End Security
+description: Istio Auth 0.1 announcement.
 publishdate: 2017-05-25
-subtitle: 默认保护服务间通信
+subtitle: Secure by default service to service communications
 attribution: The Istio Team
+aliases:
+    - /blog/0.1-auth.html
+    - /blog/istio-auth-for-microservices.html
+target_release: 0.1
 ---
 
-传统的网络安全方式无法解决部署在动态变化环境下分布式应用的安全威胁。这里，我们将描述 `Istio Auth` 如何帮助企业将其安全从边界保护转变为内部所有服务间通信保护。 使用 `Istio Auth` 开发人员和运维人员可以在不改动程序的情况下，对于敏感数据进行保护，防止未经授权的内部人员访问。
+Conventional network security approaches fail to address security threats to distributed applications deployed in dynamic production environments. Today, we describe how Istio Auth enables enterprises to transform their security posture from just protecting the edge to consistently securing all inter-service communications deep within their applications. With Istio Auth, developers and operators can protect services with sensitive data against unauthorized insider access and they can achieve this without any changes to the application code!
 
-`Istio Auth` 是更广泛的 [Istio 平台](/zh)的安全组件。它结合了 Google 生产环境中保护数百万微服务安全的经验。
+Istio Auth is the security component of the broader [Istio platform](/). It incorporates the learnings of securing millions of microservice
+endpoints in Google’s production environment.
 
-## 背景知识
+## Background
 
-现代应用程序体系结构越来越多地基于共享服务，共享服务部署在云平台上，可被方便地进行动态部署和扩容。 传统的网络边界安全性（例如防火墙）控制力度太粗，会导致部分非预期的客户端访问。使用盗取合法客户端的认证令牌进行重放攻击，就是一种常见的安全风险。对于持有敏感数据公司而言，内部威胁是一个需要关注的主要风险。其他网络安全方法（如 IP 白名单）通过静态方式定义，难以大规模管理，不适合动态变化的生产环境。
+Modern application architectures are increasingly based on shared services that are deployed and scaled dynamically on cloud platforms. Traditional network edge security (e.g. firewall) is too coarse-grained and allows access from unintended clients. An example of a security risk is stolen authentication tokens that can be replayed from another client. This is a major risk for companies with sensitive data that are concerned about insider threats. Other network security approaches like IP whitelists have to be statically defined, are hard to manage at scale, and are unsuitable for dynamic production environments.
 
-因此，安全管理员需要一种工具，其可以能够默认开启并且始终保护生产环境中服务间的所有通信。
+Thus, security administrators need a tool that enables them to consistently, and by default, secure all communication between services across diverse production environments.
 
-## 解决方案：增强的服务身份和验证
+## Solution: strong service identity and authentication
 
-多年来，Google 通过研发架构和技术，帮助其生产环境中数百万个微服务抵御了外部攻击和内部威胁。 关键安全原则包括信任端而不是网络，基于服务身份和级别授权的双向强身份验证。`Istio Auth` 基于相同的原则。
+Google has, over the years, developed architecture and technology to uniformly secure millions of microservice endpoints in its production environment against
+external
+attacks and insider threats. Key security principles include trusting the endpoints and not the network, strong mutual authentication based on service identity and service level authorization. Istio Auth is based on the same principles.
 
-`Istio Auth` 服务 0.1 版本在 Kubernetes 上运行，并提供以下功能：
+The version 0.1 release of Istio Auth runs on Kubernetes and provides the following features:
 
-* 服务间强身份认证
+* Strong identity assertion between services
 
-* 访问控制以限制可以访问服务（及其数据）的身份
+* Access control to limit the identities that can access a service (and its data)
 
-* 传输中的数据自动加密
+* Automatic encryption of data in transit
 
-* 密钥和证书的大规模管理
+* Management of keys and certificates at scale
 
-`Istio Auth` 基于双向 TLS 和 X.509 等行业标准。 此外，Google 还积极参与一个开放的，社区驱动的 [SPIFFE](https://spiffe.io/) 服务安全框架。 随着 [SPIFFE](https://spiffe.io/) 规范的成熟，我们打算让 `Istio Auth` 参考并实现。
+Istio Auth is based on industry standards like mutual TLS and X.509. Furthermore, Google is actively contributing to an open, community-driven service security framework called [SPIFFE](https://spiffe.io/). As the [SPIFFE](https://spiffe.io/) specifications mature, we intend for Istio Auth to become a reference implementation of the same.
 
-下图概述了 Kubernetes 上的 `Istio Auth` 服务认证体系结构。
+The diagram below provides an overview of the Istio Auth service authentication architecture on Kubernetes.
 
-{{< image link="istio_auth_overview.svg" caption="`Istio Auth` 概览" >}}
+{{< image link="./istio_auth_overview.svg" caption="Istio Auth Overview" >}}
 
-上图说明了三个关键的安全功能：
+The above diagram illustrates three key security features:
 
-### 强身份认证
+### Strong identity
 
-`Istio Auth` 使用 [Kubernetes 服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 来识别服务运行的身份。 身份用于建立信任和定义服务级别访问策略。 身份在服务部署时分配，并在 X.509 证书的 SAN（主题备用名称）字段中进行编码。 使用服务帐户作为身份具有以下优点：
+Istio Auth uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) to identify who the service runs as. The identity is used to establish trust and define service level access policies. The identity is assigned at service deployment time and encoded in the SAN (Subject Alternative Name) field of an X.509 certificate. Using a service account as the identity has the following advantages:
 
-* 管理员可以使用 Kubernetes 1.6 中引入的 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) 功能配置谁有权访问服务帐户
+* Administrators can configure who has access to a Service Account by using the [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) feature introduced in Kubernetes 1.6
 
-* 灵活地识别人类用户，服务或一组服务
+* Flexibility to identify a human user, a service, or a group of services
 
-* 稳定地支持服务身份的动态配置和工作负载自动扩展
+* Stability of the service identity for dynamically placed and auto-scaled workloads
 
-### 通信安全
+### Communication security
 
-服务间通信基于高性能客户端和服务器端 [Envoy](https://envoyproxy.github.io/envoy/) 代理的传输隧道。 代理之间的通信使用双向 TLS 来进行保护。 使用双向 TLS 的好处是服务身份不会被替换为从源窃取或重放攻击的令牌。 `Istio Auth` 还引入了安全命名的概念，以防止服务器欺骗攻击 - 客户端代理验证允许验证特定服务的授权的服务帐户。
+Service-to-service communication is tunneled through high performance client side and server side [Envoy](https://envoyproxy.github.io/envoy/) proxies. The communication between the proxies is secured using mutual TLS. The benefit of using mutual TLS is that the service identity is not expressed as a bearer token that can be stolen or replayed from another source. Istio Auth also introduces the concept of Secure Naming to protect from a server spoofing attacks - the client side proxy verifies that the authenticated server's service account is allowed to run the named service.
 
-### 密钥管理和分配
+### Key management and distribution
 
-`Istio Auth` 为每个集群提供 CA（证书颁发机构），并可对密钥和证书自动管理。 这种情况下，`Istio Auth` 具备以下功能 ：
+Istio Auth provides a per-cluster CA (Certificate Authority) and automated key & certificate management. In this context, Istio Auth:
 
-* 为每个服务帐户生成密钥和证书对。
+* Generates a key and certificate pair for each service account.
 
-* 使用 [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) 将密钥和证书分发到相应的 pod。
+* Distributes keys and certificates to the appropriate pods using [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-* 定期轮换密钥和证书。
+* Rotates keys and certificates periodically.
 
-* 必要时（未来）撤销特定密钥和证书对。
+* Revokes a specific key and certificate pair when necessary (future).
 
-下图说明了 Kubernetes 上的端到端 `Istio Auth` 身份验证工作流程：
+The following diagram explains the end to end Istio Auth authentication workflow on Kubernetes:
 
-{{< image link="istio_auth_workflow.svg" caption="`Istio Auth` 工作流程" >}}
+{{< image link="./istio_auth_workflow.svg" caption="Istio Auth Workflow" >}}
 
-`Istio Auth` 是更广泛的容器安全中的一部分。 Red Hat 是 Kubernetes 开发的合作伙伴，定义了 [10 层](https://www.redhat.com/en/resources/container-security-openshift-cloud-devops-whitepaper) 容器安全。 Istio 和 `Istio Auth` 解决了其中两个层：”网络隔离” 和 “API 和服务端点管理”。 随着集群联邦在 Kubernetes 和其他平台上的发展，我们的目的是让 Istio 对跨越多个联邦集群的服务间通信提供保护。
+Istio Auth is part of the broader security story for containers. Red Hat, a partner on the development of Kubernetes, has identified [10 Layers](https://www.redhat.com/en/resources/container-security-openshift-cloud-devops-whitepaper) of container security. Istio and Istio Auth addresses two of these layers: "Network Isolation" and "API and Service Endpoint Management". As cluster federation evolves on Kubernetes and other platforms, our intent is for Istio to secure communications across services spanning multiple federated clusters.
 
-## `Istio Auth` 优点
+## Benefits of Istio Auth
 
-**深度防御**：当与 Kubernetes（或基础架构）网络策略结合使用时，用户可以获得更多的安全信心，因为他们知道 Pod 或服务间的通信在网络层和应用层上都得到保护。
+**Defense in depth**: When used in conjunction with Kubernetes (or infrastructure) network policies, users achieve higher levels of confidence, knowing that pod-to-pod or service-to-service communication is secured both at network and application layers.
 
-**默认安全**：当与 Istio 的代理和集中策略引擎一起使用时，可在极少或不更改应用的情况下部署并配置 `Istio Auth`。 因此，管理员和操作员可以确保默认开启服务通信保护，并且可以跨协议和运行时一致地实施这些策略。
+**Secure by default**: When used with Istio’s proxy and centralized policy engine, Istio Auth can be configured during deployment with minimal or no application change. Administrators and operators can thus ensure that service communications are secured by default and that they can enforce these policies consistently across diverse protocols and runtimes.
 
-**强大的服务认证**：`Istio Auth` 使用双向 TLS 保护服务通信，以确保服务身份不会是其他来源窃取或重放攻击的令牌。 这可确保只能从经过严格身份验证和授权的客户端才能够访问具有敏感数据的服务。
+**Strong service authentication**: Istio Auth secures service communication using mutual TLS to ensure that the service identity is not expressed as a bearer token that can be stolen or replayed from another source. This ensures that services with sensitive data can only be accessed from strongly authenticated and authorized clients.
 
-## 加入我们
+## Join us in this journey
 
-`Istio Auth` 是提供完整安全功能的第一步，安全功能可以用于抵御外部攻击和内部威胁，保护服务的敏感数据。 虽然初始版本仅在 Kubernetes 上运行，但我们的目标是使其能够在不同的生产环境中保护服务通信。 我们鼓励更多的社区[加入我们]({{< github_tree >}}/security)，为不同的应用技术栈和运行平台上轻松地提供强大的服务安全保障。
+Istio Auth is the first step towards providing a full stack of capabilities to protect services with sensitive data from external attacks and insider
+threats. While the initial version runs on Kubernetes, our goal is to enable Istio Auth to secure services across diverse production environments. We encourage the
+community to [join us]({{< github_tree >}}/security) in making robust service security easy and ubiquitous across different application
+stacks and runtime platforms.

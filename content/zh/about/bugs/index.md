@@ -1,61 +1,72 @@
 ---
-title: 报告 Bug
-description: 发现 Bug 怎么办。
+title: Reporting Bugs
+description: What to do if you find a bug.
 weight: 34
+aliases:
+    - /bugs.html
+    - /bugs/index.html
+    - /help/bugs/
 icon: bugs
 ---
 
-哦不！你发现了 Bug？我们很乐于倾听。
+Oh no! You found a bug? We'd love to hear about it.
 
-## 产品 Bug
+## Product bugs
 
-在我们的 [Issue 数据库](https://github.com/istio/istio/issues/)中搜索，看看这一 Bug 是不是一个已知问题，以及我们打算在什么时候修复它。如果你没有在数据库中找到，请提交一个[新 Issue](https://github.com/istio/istio/issues/new/choose)告诉我们发生了什么。
+Search our [issue database](https://github.com/istio/istio/issues/) to see if
+we already know about your problem and learn about when we think we can fix
+it. If you don't find your problem in the database, please open a [new
+issue](https://github.com/istio/istio/issues/new/choose) and let us know
+what's going on.
 
-如果你认为这是一个安全漏洞，请访问[报告安全漏洞](/about/security-vulnerabilities/)页面以了解其报告步骤。
+If you think a bug is in fact a security vulnerability, please visit [Reporting Security Vulnerabilities](/about/security-vulnerabilities/)
+to learn what to do.
 
-## 生成集群状态归档文件
+### Kubernetes cluster state archives
 
-如果你在 Kubernetes 上运行，考虑将集群状态归档文件附加在你的 Bug 报告中。
+If you're running on Kubernetes, consider including a cluster state
+archive with your bug report.
+For convenience, you can run a dump script to produce an archive containing
+all of the relevant state from your Kubernetes cluster:
 
-为了方便起见，你可以执行一个拷贝脚本来生成包含 Kubernetes 集群所有需要状态：
-
-* 通过 `curl` 执行:
+* Run via `curl`:
 
     {{< text bash >}}
     $ curl {{< github_file >}}/tools/dump_kubernetes.sh | sh -s -- -z
     {{< /text >}}
 
-* 在本地执行，从发布目录的根目录：
+* Run locally, from the release directory's root:
 
     {{< text bash >}}
     $ @tools/dump_kubernetes.sh@ -z
     {{< /text >}}
 
-然后在你的问题报告中加上生成的 `istio-dump.tar.gz` 文件。
+Then attach the produced `istio-dump.tar.gz` with your reported problem.
 
-如果你不能使用上面的脚本，请附上如下信息：
+If you are unable to use the dump script, please attach your own archive
+containing:
 
-* 所有命名空间下的 Pod、Service、Deployment 和 Endpoint：
+* Pods, services, deployments, and endpoints across all namespaces:
 
     {{< text bash >}}
     $ kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml
     {{< /text >}}
 
-* `istio-system` 中的 Secret 的名字：
+* Secret names in `istio-system`:
 
     {{< text bash >}}
     $ kubectl --namespace istio-system get secrets
     {{< /text >}}
 
-* `istio-system` 命名空间下的 Configmap：
+* configmaps in the `istio-system` namespace:
 
     {{< text bash >}}
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* Istio 组件和 Sidecar 中的日志
+* Current and previous logs from all Istio components and sidecar
 
-* Mixer 日志：
+* Mixer logs:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=mixer -c mixer
@@ -63,19 +74,23 @@ icon: bugs
     $ kubectl logs -n istio-system -l istio=telemetry -c mixer
     {{< /text >}}
 
-* Pilot 日志:
+* Pilot logs:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=pilot -c discovery
     $ kubectl logs -n istio-system -l istio=pilot -c istio-proxy
     {{< /text >}}
 
-* 所有的 Istio 组件配置：
+* All Istio configuration artifacts:
 
     {{< text bash >}}
     $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
     {{< /text >}}
 
-## 文档 Bug
+## Documentation bugs
 
-在我们的[文档 Issue 数据库](https://github.com/istio/istio.io/issues/)中搜索，看看是不是现存问题，以及我们预期的修复时间。如果没有找到你要提出的问题，请浏览有问题的页面，点击页面右上角的齿轮菜单，选择**报告网站 Bug**。
+Search our [documentation issue database](https://github.com/istio/istio.io/issues/) to see if
+we already know about your problem and learn about when we think we can fix
+it. If you don't find your problem in the database, please navigate to the page
+with the problem, then select the gear menu at the
+top right of this page, and finally chose *Report a Site Bug*.

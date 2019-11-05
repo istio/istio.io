@@ -1,30 +1,64 @@
 ---
-title: 网络运维介绍
-description: 介绍 Istio 网络操作方面知识。
-weight: 10
+title: Introduction to Network Operations
+description: An introduction to Istio networking operational aspects.
+weight: 1
+aliases:
+    - /help/ops/traffic-management/introduction
+    - /help/ops/introduction
 ---
+This section is intended as a guide to operators of an Istio based
+deployment.  It will provide information an operator of a Istio deployment
+would need to manage the networking aspects of an Istio service mesh.  Much
+of the information and many of the procedures that an Istio operator
+would require are already documented in other sections of the Istio
+documentation so this section will rely heavily on pointers to that
+other content.
 
-本节旨在为运维人员提供 Istio 基础部署指南。本节将为 Istio 部署的运维人员提供服务网格管理中网络相关的信息。许多相关的 Istio 文档中已经记录了 Istio 运维人员所需要的步骤和过程，因此本节将在很大程度上依赖这些相关文档。
+## Key Istio Concepts
 
-## Istio 核心概念
+When attempting to understand, monitor or troubleshoot the networking within
+an Istio deployment it is critical to understand the fundamental Istio
+concepts starting with the service mesh.  The service mesh is described
+in [Architecture]/docs/ops/architecture/).  As noted
+in the architecture section Istio has a distinct control plane and a data
+plane and operationally it will be important to be able to monitor the
+network state of both.  The service mesh is a fully interconnected set of
+proxies that are utilized in both the control and data plane to provide
+the Istio features.
 
-在尝试理解，监控或排除 Istio 部署中的网络问题时，从服务网格层面理解基础 Istio 概念是至关重要。服务网格在[架构](/zh/docs/concepts/what-is-istio/#架构)章节中有相关描述。正如架构章节所述，Istio 具有独特的控制平面和数据平面，监控两者的网络状态在运维层面非常重要。服务网格是互相连通代理的集合，代理集合在控制和数据平面中被用来提供 Istio 功能特征。
+Another key concept to understand is how Istio performs traffic management.
+This is described in [Traffic Management Explained](/docs/concepts/traffic-management).
+Traffic management allows fine grained control with respect to what external
+traffic can enter or exit the mesh and how those requests are routed.  The
+traffic management configuration also dictates how requests between
+microservices within the mesh are handled.  Full details on how to
+configure the traffic management is available
+here: [Traffic Management Configuration](/docs/tasks/traffic-management).
 
-另一个关键概念是 Istio 如何执行流量管理的。这点在[流量管理介绍](/zh/docs/concepts/traffic-management)章节中有所描述。流量管理功能对外部流入或流出网格以及路由请求提供了细粒度控制。流量管理配置展示了如何处理网格中的微服务之间的请求。有关如何配置流量管理的完整详细介绍，请参见：[流量管理配置](/zh/docs/tasks/traffic-management)。
+The final concept that is essential for the operator to understand is how
+Istio uses gateways to allow traffic into the mesh or control how requests originating
+in the mesh access external services. This is described with a
+configuration example here:
+[Istio Gateways](/docs/concepts/traffic-management/#gateways)
 
-对于运维人员来讲，最重要的概念是理解 Istio 如何使用网关控制外部流量进入网格或网格内请求访问外部服务。相关配置示例参见：[Istio 网关](/zh/docs/concepts/traffic-management/#gateway)。
+## Network Layers Beneath the Mesh
 
-## 网格的底层网络
+Istio's service mesh runs on top of the networking provided by the
+infrastructure environment (e.g. Kubernetes) on which the Istio mesh
+is deployed.  Istio has certain requirements of this networking layer.
+This guide will not attempt to provide any operational insight to this
+networking layer as many options exist.  In the case of Kubernetes a
+good reference to understand the container networking layer is
+[Kubernetes Cluster Operator](https://kubernetes.io/docs/user-journeys/users/cluster-operator/foundational/).
+Istio has the following requirements of the networking infrastructure
+underneath it:
 
-Istio 的服务网格运行在基础设施环境（例如 Kubernetes）网络之上。Istio 对底层网络有一定的要求。由于网络运维存在太多的操作，本指南不会涉及网络层运维细节。 对于 Kubernetes 而言，[Kubernetes Cluster Operator](https://kubernetes.io/docs/user-journeys/users/cluster-operator/foundational/) 是理解容器网络层的一个很好的参考。
-Istio 对基础设施底层的网络有以下几点要求：
+* The mapping of a service name to workload IP is discoverable by Pilot (this is more a service discovery requirement than a networking requirement)
 
-* Pilot 可发现服务名称到工作负载 IP 的映射（这更像是服务发现要求而不是网络要求）。
+* The Pilot discovery process can reach the environment specific API server for service discovery.
 
-* Pilot 服务发现过程可以通过环境中的 API Server 进行。
+* Service endpoints have L3 reachability to all endpoints for services in the Istio mesh.
 
-* 服务端点对 Istio 网格中的所有服务的全部端点 L3 层可达。
+* Any firewall or ACL rules at the infrastructure networking layer don't conflict with any of the Istio layer 3-7 traffic management rules
 
-* 基础设施的底层网络的防火墙或 ACL 规则不能与任何 Istio 3-7 层流量管理规则冲突。
-
-* 基础设施的底层网络任何防火墙或 ACL 规则都不能与 Istio 控制流量的端口冲突。
+* Any firewall or ACL rules at the infrastructure networking layer don't conflict with any of the ports used for Istio control traffic

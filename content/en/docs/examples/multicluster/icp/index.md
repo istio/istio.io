@@ -12,7 +12,7 @@ This example demonstrates how to setup network connectivity between two
 and then compose them into a multicluster mesh using a
 [single-network deployment](/docs/setup/deployment-models/#single-network).
 
-## Create the IBM Cloud Private Clusters
+## Create the IBM Cloud Private clusters
 
 1.  [Install two IBM Cloud Private clusters](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.2.0/installing/install.html).
 
@@ -47,7 +47,7 @@ and then compose them into a multicluster mesh using a
 
     1.  Repeat above two steps to validate `cluster-2`.
 
-## Configure Pod Communication Across IBM Cloud Private Clusters
+## Configure pod communication across IBM Cloud Private clusters
 
 IBM Cloud Private uses Calico Node-to-Node Mesh by default to manage container networks. The BGP client
 on each node distributes the IP router information to all nodes.

@@ -33,7 +33,7 @@ within the project, not to the project as a whole. Here is a high level descript
 
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
-### Traffic Management
+### Traffic management
 
 | Feature           | Phase
 |-------------------|-------------------
@@ -65,7 +65,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Logging with Fluentd](/docs/tasks/observability/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
 
-### Security and Policy Enforcement
+### Security and policy enforcement
 
 | Feature           | Phase
 |-------------------|-------------------
