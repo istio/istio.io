@@ -22,7 +22,7 @@ This approach worked well but had some disadvantages:
 1. Upgrades sometimes require Istio specific hooks that have been difficult to implement and maintain with Helm.
 
 Starting with Istio 1.4, the [Helm installation](/docs/setup/install/helm/) approach has been deprecated
-in favor of a new [installation using {{< istioctl >}}](/docs/setup/install/operator/) approach.
+in favor of a new [installation using {{< istioctl >}}](/docs/setup/install/istioctl/) approach.
 Upgrading from Istio 1.4 onward (that is, versions not initially installed with Helm)
 will also be done using a new [{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
 
@@ -98,7 +98,7 @@ $ istioctl manifest apply --set telemetry.enabled=false
 There are also a number of other `istioctl` commands that, for example,
 help you list, display, and compare configuration profiles and manifests.
 
-Refer to the Istio [install instructions](/docs/setup/install/operator) for more details.
+Refer to the Istio [install instructions](/docs/setup/install/istioctl) for more details.
 
 ## Istio Controller (alpha)
 
@@ -155,7 +155,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /text >}}
 
 You can also set Helm configuration values in an `IstioControlPlane` configuration resource.
-See [Customize Istio settings using Helm](/docs/setup/install/operator/#customize-istio-settings-using-the-helm-api)
+See [Customize Istio settings using Helm](/docs/setup/install/istioctl/#customize-istio-settings-using-the-helm-api)
 for details.
 
 Another feature to help with the transition from Helm is the alpha
