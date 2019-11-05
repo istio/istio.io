@@ -159,7 +159,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 
 You can also set Helm configuration values in an `IstioControlPlane` configuration resource.
 See [Customize Istio settings using Helm](/docs/setup/install/operator/#customize-istio-settings-using-the-helm-api)
-￼for details.
+for details.
 
 Another feature to help with the transition from Helm is the alpha
 [{{< istioctl >}} manifest migrate](/docs/reference/commands/istioctl/#istioctl-manifest-migrate) command.
