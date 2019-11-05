@@ -288,16 +288,19 @@ they are both applied to the same workload:
    there is any
 
 {{< warning >}}
-This means when migrating to the `v1beta1`, you need to make sure the converted
-`v1beta1` policy covers all the `v1alpha1` policies applied to the same workload. The
-`v1alpha1` policies applied for the workload will be ignored after you applied the `v1beta1` policies.
+When migrating to the `v1beta1` for a given workload, you must make sure to migrate
+all the `v1alpha1` policies currently applied to the workload at the same time.
+The `v1alpha1` policies applied to the workload will be ignored after you applied any
+`v1beta1` policies to the workload.
 {{< /warning >}}
 
 It's recommended to migrate the `v1alpha1` policy workload-by-workload to make sure you don't
-forget any `v1alpha1` policies:
+forget any `v1alpha1` policies for a given workload:
 
-1. For a given workload, find out all the `v1alpha1` policies applied to it
-1. Convert all the `v1alpha1` policies to `v1beta1` for the workload
+1. For a given workload, find out all the `v1alpha1` policies applied to it. This includes both
+`ClusterRbacConfig` and `ServiceRole`. You may need to refer to the service definition
+to find out the relationship between workload and service
+1. Convert all the `v1alpha1` policies to `v1beta1` for the given workload
 1. Apply the `v1beta1` policy and monitor the traffic to make sure the new policy is working as expected
 1. Continue the process for the next workload until all `v1alpha1` policies are converted
 1. Now you can remove all your `v1alpha1` policies
