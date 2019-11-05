@@ -106,12 +106,12 @@ The following table shows the required settings for many common Kubernetes envir
 
 | Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `--set values.cni.cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
 | IKS (IBM cloud) | _(none)_ | _(none)_ |
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
-| Red Hat OpenShift 4.2+ | `cniBinDir=/var/lib/cni/bin cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
+| Red Hat OpenShift 4.2+ | `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
 
 ### GKE setup
 
