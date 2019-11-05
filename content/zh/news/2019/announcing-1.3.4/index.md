@@ -1,12 +1,10 @@
 ---
-title: Announcing Istio 1.3.4
-description: Istio 1.3.4 release announcement.
+title: 宣布 Istio 1.3.4 发布
+description: Istio 1.3.4 发布声明。
 publishdate: 2019-11-1
 attribution: The Istio Team
 subtitle: 次要更新
 release: 1.3.4
-aliases:
-    - /news/announcing-1.3.4
 ---
 
 此版本包含 bug 修复以提高健壮性。此 release 说明包含 Istio 1.3.3 版本与 1.3.4 版本的区别。
