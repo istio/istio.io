@@ -163,7 +163,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
-### Citadel 如何确定是否创建了服务帐户机密（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
+### Citadel 如何确定是否创建了服务帐户密钥（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
 
 当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
 
