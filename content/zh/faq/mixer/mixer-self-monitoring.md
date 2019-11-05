@@ -14,13 +14,13 @@ Mixer 提供了监控端点（默认端口：`10514`）。Mixer 提供的性能�
 - 关于 `istio-policy` 服务：
 
 {{< text bash >}}
-$ kubectl -n istio-system logs -lapp=policy -c mixer
+$ kubectl -n istio-system logs -l app=policy -c mixer
 {{< /text >}}
 
 - 关于 `istio-telemetry` 服务：
 
 {{< text bash >}}
-$ kubectl -n istio-system logs -lapp=telemetry -c mixer
+$ kubectl -n istio-system logs -l app=telemetry -c mixer
 {{< /text >}}
 
 Mixer 追踪功能由以下命令行参数控制：`trace_zipkin_url`、`trace_jaeger_url` 和 `trace_log_spans`。如果设置了以上参数中的任何一个，则追踪数据将上报至配置的相关服务地址。如果未提供追踪相关设置参数，则 Mixer 将不会产生应用程序级别的追踪信息。
