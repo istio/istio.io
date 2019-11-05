@@ -3,7 +3,7 @@ title: Configuration Validation Webhook
 description: 描述 Istio 使用 Kubernetes webhooks 来进行服务端配置。
 weight: 20
 aliases:
-    - /help/ops/setup/validation   
+    - /zh/docs/ops/setup/validation   
 ---
 
 Galley 的配置验证可确保用户编写的 Istio 配置在语法和语义上均有效。它使用了 Kubernetes 的 `ValidatingWebhook`。`istio-galley` 的 `ValidatingWebhookConfiguration` 配置有两个 webhooks 。
