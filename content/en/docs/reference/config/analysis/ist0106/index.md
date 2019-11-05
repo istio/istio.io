@@ -16,7 +16,6 @@ and your Istio configuration contains these values:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
-
 kind: VirtualService
 metadata:
   name: ratings-bogus-weight-default
