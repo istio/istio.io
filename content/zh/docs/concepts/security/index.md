@@ -599,7 +599,7 @@ spec:
     name: "products-viewer"
 {{< /text >}}
 
-### 在普通 TCP 协议上使用 Istio 认证{#using-istio-authorization-on-plain-tcp-protocols}
+### 在普通 TCP 协议上使用 Istio 认证{#using-Istio-authorization-on-plain-TCP-protocols}
 
 [Service role](#service-role) 和 [Service role binding](#service-role-binding) 中的例子展示了在使用 HTTP 协议的 service 上使用 Istio 认证的典型方法。在那些例子中，service role 和 service role binding 里的所有字段都可以支持。
 
