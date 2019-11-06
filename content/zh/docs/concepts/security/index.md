@@ -264,7 +264,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#authorization)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
 
-### 认证策略{#authentication policies}
+### 认证策略{#authentication-policies}
 
 本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/networking/destination-rule/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
 
