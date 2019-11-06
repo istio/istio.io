@@ -2,7 +2,7 @@
 title: Citadel 的健康检查
 description:  如何在 Kubernetes 中启用 Citadel 的健康检查。
 weight: 70
-keywords: [安全,健康检查]
+keywords: [security,health-check]
 ---
 
 你可以启用 Citadel 的健康检查功能去检测 Citadel CSR (证书签名请求) 服务是否有故障。当检测到服务发生故障，Kubelet 将自动重启 Citadel 容器。
