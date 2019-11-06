@@ -359,9 +359,9 @@ certificate stored in the `alb-certs` secret.
         `"""`
     {{< /text >}}
 
-Congratulations! You configured IKS Ingress ALB to securely send traffic to Istio ingress gateway. As a server
-certificate of Istio ingress gateway you used the certificate provided by IKS for a domain of the Istio ingress
-gateway. As the client certificate of ALB you used the certificate provided by IKS for ALB. You used the
+Congratulations! You configured IKS Ingress ALB to securely send traffic to Istio ingress gateway. You allocated a host
+name and certificate for your Istio ingress gateway and used that certificate as the server certificate for Istio
+ingress gateway. As the client certificate of ALB you used the certificate provided by IKS for ALB. You used the
 [Let's Encrypt](https://letsencrypt.org) certificate as the root for both client and server certificates. Once you had
 the certificates deployed as Kubernetes secrets, you directed the ingress traffic from ALB to Istio ingress gateway for
 some specific paths and used the certificates for mutual TLS authentication between ALB and Istio ingress gateway.
