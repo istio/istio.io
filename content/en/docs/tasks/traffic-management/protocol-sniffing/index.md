@@ -5,9 +5,8 @@ weight: 30
 keywords: [traffic-management,protocol-sniffing]
 ---
 
-This task shows you how to define the new service without specifying the port protocol. For example, you 
-can define service port as `foo` instead of `http-foo` and the protocol will be detected at runtime by sniffing packets. Using protocol 
-sniffing will simplify the configuration of services.
+This task shows you how to define the new service without specifying the port protocol. For example, you
+can define service port as `foo` instead of `http-foo` and the protocol will be detected at runtime by sniffing packets. Using protocol sniffing will simplify the configuration of services.
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -53,7 +52,7 @@ sniffing will simplify the configuration of services.
     }
     {{< /text >}}
 
-1. Lock down to mutual TLS and apply destination rule to use strict mTLS between client and server
+1. Lock down to mutual TLS and apply destination rule to use strict mutual TLS between client and server
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -78,7 +77,7 @@ sniffing will simplify the configuration of services.
       trafficPolicy:
         tls:
           mode: ISTIO_MUTUAL
-    EOF 
+    EOF
     {{< /text >}}
 
 1. Send some traffic to the service.
@@ -99,7 +98,6 @@ sniffing will simplify the configuration of services.
         }
     }
     {{< /text >}}
-
 
 ## Cleanup
 
