@@ -19,17 +19,29 @@ aliases:
 $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
+<<<<<<< HEAD
 在默认的访问日志输出格式中， Envoy 响应标志和 Mixer 策略状态位于响应状态码之后，
 如果你使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%` 和 `%DYNAMIC_METADATA(istio.mixer:status)%`。
 
 参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#config-access-log-format-response-flags)
 查看更多有关响应标志的细节。
+=======
+在默认的访问日志输出格式中, Envoy 响应标志和 Mixer 策略状态位于响应状态码之后，
+如果你使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%` 和 `%DYNAMIC_METADATA(istio.mixer:status)%`.
+
+参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#config-access-log-format-response-flags)
+查看更多有关响应标志的细节.
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 
 通用响应标志如下:
 
 - `NR`: 没有配置路由， 请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`: 上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
+<<<<<<< HEAD
 - `UF`: 未能连接到上游，如果你正在使用 Istio 认证，请检查
+=======
+- `UF`: 未能连接到上游，如果你正在使用 Istio 认证, 请检查
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 [mutual TLS 配置冲突](#503-errors-after-setting-destination-rule)。
 
 如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
@@ -47,7 +59,11 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 在当前版本的 Envoy sidecar 实现中，加权版本分发被观测到至少需要100个请求。
 
 如果路由规则在 [Bookinfo](/docs/examples/bookinfo/) 这个例子中完美地运行，
+<<<<<<< HEAD
 但在你自己的应用中相似版本的路由规则却没有生效，可能因为
+=======
+但在你自己的应用中相似版本的路由规则却没有生效, 可能因为
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 你的 Kubernetes service 需要被稍微地修改。
 为了利用 Istio 的七层路由特性 Kubernetes service 必须严格遵守某些限制。
 参考 [Pods 和 Services 的要求](/docs/setup/additional-setup/requirements/)
@@ -97,7 +113,11 @@ spec:
 你可以通过下面两种方式之一来使上面的例子生效:
 
 1. 将 destination rule 中的流量策略上移一级以使策略
+<<<<<<< HEAD
     应用到任意 subset，例如:
+=======
+    应用到任意 subset, 例如:
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
@@ -159,7 +179,11 @@ trafficPolicy:
 而不是 TLS 加密了的请求。 因此，请求和服务端代理冲突，因为服务端代理期望的是
 加密了的请求。
 
+<<<<<<< HEAD
 为了确认是否存在冲突，请检查你的服务 [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中的 `STATUS` 字段
+=======
+为了确认是否存在冲突, 请检查你的服务 [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中的 `STATUS` 字段
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 是否被设置为 `CONFLICT`。举个例子，一个和如下命令类似的命令可以用来为 `httpbin` 服务
 检查冲突:
 
@@ -305,18 +329,30 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 ## Envoy 在负载下崩溃
 
+<<<<<<< HEAD
 检查你的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件的 descriptor 的限制，它将导致 Envoy 断言失败并崩溃:
+=======
+检查你的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件的 descriptor 的限制， 它将导致 Envoy 断言失败并崩溃:
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 
 {{< text plain >}}
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
 {{< /text >}}
 
+<<<<<<< HEAD
 请确保增大你的 ulimit。例如: `ulimit -n 16384`
+=======
+请确保增大你的 ulimit。 例如: `ulimit -n 16384`
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 
 ## Envoy 不能连接到 HTTP/1.0 服务
 
 Envoy 要求 `HTTP/1.1` 或者 `HTTP/2` 协议的流量作为上游服务。举个例子，当在 Envoy 之后使用 [NGINX](https://www.nginx.com/) 来代理你的流量，你
+<<<<<<< HEAD
 将需要在你的 NGINX 配置里直接设置 [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) 为 "1.1"，因为 NGINX 默认的设置是 1.0。
+=======
+将需要在你的 NGINX 配置里直接设置 [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) 为 "1.1"，因为 NGINX 默认的设置是 1.0.
+>>>>>>> zh-translation:/docs/ops/common-problems/network-issues/index.md
 
 例如配置为:
 
