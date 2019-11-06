@@ -8,6 +8,7 @@ aliases:
     - /about/notes/older/0.4
     - /docs/welcome/notes/0.4.html
     - /about/notes/0.4/index.html
+    - /news/announcing-0.4
 ---
 
 This release has only got a few weeks' worth of changes, as we stabilize our monthly release process.

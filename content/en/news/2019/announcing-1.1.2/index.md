@@ -8,6 +8,7 @@ release: 1.1.2
 aliases:
     - /about/notes/1.1.2
     - /blog/2019/announcing-1.1.2
+    - /news/announcing-1.1.2
 ---
 
 We're announcing immediate availability of Istio 1.1.2 which contains some important security updates. Please see below for details.
