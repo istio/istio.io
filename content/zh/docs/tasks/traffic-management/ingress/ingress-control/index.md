@@ -8,9 +8,9 @@ aliases:
     - /zh/docs/tasks/ingress
 ---
 
-在 Kubernetes 环境中，[Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/)用于指明需要暴露到集群外的服务。在 Istio 服务网格中，一个更好的办法（同样适用于 Kubernetes 及其他环境）是使用一个不同的配置模型，名为 [Istio Gateway](/docs/reference/config/networking/gateway/)。`Gateway` 允许利用诸如监控和路由规则等 Istio 特性管理进入集群的流量。
+Kubernetes 环境中，使用 [Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/)来标识需要暴露到集群外的服务。在 Istio 服务网格中，有一个更好的办法（同样适用于 Kubernetes 及其他环境），使用一个新的模式进行配置，名为 [Istio Gateway](/docs/reference/config/networking/gateway/)。`Gateway` 可以使用一些诸如监控和路由规则的 Istio 特性来管理进入集群的流量。
 
-本任务描述如何配置 Istio，使用一个 Istio `Gateway` 对外提供服务网格服务。
+本任务描述了如何配置 Istio，使用一个 Istio `Gateway` 对外提供服务网格服务。
 
 ## 开始之前
 
