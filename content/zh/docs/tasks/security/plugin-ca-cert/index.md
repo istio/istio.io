@@ -14,7 +14,7 @@ keywords: [security,certificates]
 * 按照 [quick start](/zh/docs/setup/install/kubernetes/) 中的说明安装 Istio：
 
 {{< tip >}}
-从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#authentication policy)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
 {{< /tip >}}
 
 ## 插入现有密钥和证书{#Plugging in the existing certificate and key}
@@ -52,7 +52,7 @@ keywords: [security,certificates]
 本节中，我们要校验新的工作负载证书以及根证书是否正确传播。需要在本机安装 `openssl`。
 
 1. 根据[部署文档](/zh/docs/examples/bookinfo/)安装 Bookinfo 应用。
-    
+
 1. 获取已加载的证书。
     下面我们使用 ratings pod 作为例子，检查这个 Pod 上加载的证书。
 
