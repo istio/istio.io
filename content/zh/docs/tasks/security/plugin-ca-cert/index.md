@@ -109,6 +109,7 @@ keywords: [security,certificates]
 
 * 移除 secret `cacerts`：
 ****
+
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
