@@ -2,7 +2,7 @@
 title: 安全
 description: 描述 Istio 的授权与鉴权功能。
 weight: 25
-keywords: [security,authentication,authorization,rbac,access-control]
+keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
 aliases:
     - /zh/docs/concepts/network-and-auth/auth.html
     - /zh/docs/concepts/security/authn-policy/
@@ -159,11 +159,11 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend` 服务可以访问 `photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
 
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
+在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](https://github.com/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
 
 在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
-### Citadel 如何确定是否创建了服务帐户机密（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
+### Citadel 如何确定是否创建了服务帐户 secrets（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
 
 当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
 
@@ -175,10 +175,10 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/setup/injection-concepts/)
 
-- 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书机密。
-- 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书机密。
-- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的名称空间中定义了标签，则名称空间中的 Citadel 实例 ns-foo 将用于为名称空间中的工作负载生成密钥/证书机密ServiceAccount。
-- 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为true，则默认Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书机密。
+- 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书 secrets。
+- 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。
+- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的名称空间中定义了标签，则名称空间中的 Citadel 实例 ns-foo 将用于为名称空间中的工作负载生成密钥/证书 secrets ServiceAccount。
+- 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为true，则默认Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书 secrets。
 - 否则，不会为 ServiceAccount 的名称空间创建任何秘密。
 
 以下表格捕获了此逻辑：
