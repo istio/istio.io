@@ -1,58 +1,50 @@
 ---
-title: Installing with Istioctl
-description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
+title: 使用 Istioctl 安装
+description: 安装和自定义任何 Istio 配置文件以进行深入评估或用于生产。
 weight: 10
 keywords: [operator,kubernetes,helm]
 ---
 
-Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
+请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
 
-This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
-tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
-It has user input validation to help prevent installation errors and customization options to
-override any aspect of the configuration.
+本指南使用可以高度自定义 Istio 控制平面和数据平面的 [`istioctl`](/zh/docs/reference/commands/istioctl/) 命令行工具。
+该命令行工具具有用户输入校验，可以防止错误的安装和自定义选项。
 
-Using these instructions, you can select any one of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/)
-and then further customize the configuration for your specific needs.
+使用这些说明，您可以选择 Istio 的任何内置组件
+[配置文件](/zh/docs/setup/additional-setup/config-profiles/) 然后根据您的特定需求进一步自定义配置。
 
-## Prerequisites
+## 先决条件
 
-Before you begin, check the following prerequisites:
+开始之前，请检查以下先决条件：
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
+1. [下载 Istio 发行版本](/zh/docs/setup/#downloading-the-release)。
+1. 执行任何必要的 [特定于平台的设置](/zh/docs/setup/platform-setup/)。
+1. 检查 [Pods 和 Services 的要求](/zh/docs/setup/additional-setup/requirements/)。
 
-## Install Istio using the default profile
+## 使用默认配置文件安装 Istio
 
-The simplest option is to install the `default` Istio
-[configuration profile](/docs/setup/additional-setup/config-profiles/)
-using the following command:
+最简单的选择是安装 `default` Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 使用以下命令：
 
 {{< text bash >}}
 $ istioctl manifest apply
 {{< /text >}}
 
-This command installs the `default` profile on the cluster defined by your
-Kubernetes configuration. The `default` profile is a good starting point
-for establishing a production environment, unlike the larger `demo` profile that
-is intended for evaluating a broad set of Istio features.
+此命令在您定义的集群上安装 `default` 配置文件 Kubernetes 配置。
+默认配置文件是一个很好的开始，用于建立生产环境，这与较大的 `demo` 配置文件不同，
+用于评估广泛的 Istio 功能。
 
-## Install a different profile
+## 安装其他配置文件
 
-Other Istio configuration profiles can be installed in a cluster by passing the
-profile name on the command line. For example, the following command can be used
-to install the `demo` profile:
+可以通过在命令行上设置配置文件名称安装其他 Istio 配置文件到群集中。
+例如，可以使用以下命令，安装 `demo` 配置文件：
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=demo
 {{< /text >}}
 
-## Display the list of available profiles
+## 显示可用配置文件的列表
 
-You can display the names of Istio configuration profiles that are
-accessible to `istioctl` by using this command:
+您可以使用以下 `istioctl` 命令来列出 Istio 配置文件名称：
 
 {{< text bash >}}
 $ istioctl profile list
@@ -62,10 +54,9 @@ $ istioctl profile list
     default
 {{< /text >}}
 
-## Display the configuration of a profile
+## 显示配置文件的配置
 
-You can view the configuration settings of a profile. For example, to view the setting for the `default` profile
-run the following command:
+您可以查看配置文件的配置设置。 例如，通过以下命令查看 `default` 配置文件的设置：
 
 {{< text bash >}}
 $ istioctl profile dump
@@ -103,8 +94,7 @@ gateways:
 ...
 {{< /text >}}
 
-To view a subset of the entire configuration, you can use the `--config-path` flag, which selects only the portion
-of the configuration under the given path:
+要查看整个配置的子集，可以使用 `--config-path` 标志，该标志仅选择部分给定路径下的配置：
 
 {{< text bash >}}
 $ istioctl profile dump --config-path trafficManagement.components.pilot
@@ -152,12 +142,11 @@ k8s:
       memory: 2048Mi
 {{< /text >}}
 
-## Show differences in profiles
+## 显示配置文件中的差异
 
-The `profile diff` sub-command can be used to show the differences between profiles,
-which is useful for checking the effects of customizations before applying changes to a cluster.
+`profile diff` 子命令可用于显示配置文件之间的差异，在将更改应用于集群之前，这对于检查自定义的效果很有用。
 
-You can show differences between the default and demo profiles using these commands:
+您可以使用以下命令显示默认配置文件和演示配置文件之间的差异：
 
 {{< text bash >}}
 $ istioctl profile dump default > 1.yaml
@@ -165,30 +154,28 @@ $ istioctl profile dump demo > 2.yaml
 $ istioctl profile diff 1.yaml 2.yaml
 {{< /text >}}
 
-## Generate a manifest before installation
+## 安装前生成清单
 
-You can generate the manifest before installing Istio using the `manifest generate`
-sub-command, instead of `manifest apply`.
-For example, use the following command to generate a manifest for the `default` profile:
+您可以在安装 Istio 之前使用 `manifest generate` 子命令生成清单，而不是 `manifest apply`。
+例如，使用以下命令为 `default` 配置文件生成清单：
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-Inspect the manifest as needed, then apply the manifest using this command:
+根据需要检查清单，然后使用以下命令应用清单：
 
 {{< text bash >}}
 $ kubectl apply -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
 {{< tip >}}
-This command might show transient errors due to resources not being available in
-the cluster in the correct order.
+由于集群中的资源不可用，此命令可能显示暂时错误。
 {{< /tip >}}
 
-## Show differences in manifests
+## 显示清单差异
 
-You can show the differences in the generated manifests between the default profile and a customized install using these commands:
+您可以使用以下命令显示默认配置文件和自定义安装之间生成的清单中的差异：
 
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
@@ -196,51 +183,46 @@ $ istioctl manifest generate -f samples/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yam1 2.yaml
 {{< /text >}}
 
-## Verify a successful installation
+## 验证安装成功
 
-You can check if the Istio installation succeeded using the `verify-install` command
-which compares the installation on your cluster to a manifest you specify.
+您可以使用 `verify-install` 命令检查 Istio 安装是否成功，它将集群上的安装与您指定的清单进行比较。
 
-If you didn't generate your manifest prior to deployment, run the following command to
-generate it now:
+如果未在部署之前生成清单，请运行以下命令以现在生成它：
 
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-Then run the following `verify-install` command to see if the installation was successful:
+然后运行以下 `verify-install` 命令以查看安装是否成功：
 
 {{< text bash >}}
 $ istioctl verify-install -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
-## Customizing the configuration
+## 定制配置
 
-In addition to installing any of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/),
-`istioctl manifest` provides a complete API for customizing the configuration.
+除了安装 Istio 的任何内置组件 [配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
+`istioctl manifest` 提供了用于自定义配置的完整API。
 
-- [The `IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+- [`IstioControlPlane` API](/zh/docs/reference/config/istio.operator.v1alpha12.pb/)
 
-The configuration parameters in this API can be set individually using `--set` options on the command
-line. For example, to disable the telemetry feature in a default configuration profile, use this command:
+可以使用命令上的 `--set` 选项分别设置此API中的配置参数。 例如，要在默认配置文件中禁用遥测功能，请使用以下命令：
 
 {{< text bash >}}
 $ istioctl manifest apply --set telemetry.enabled=false
 {{< /text >}}
 
-Alternatively, a complete configuration can be specified in a YAML file and passed to
-`istioctl` using the `-f` option:
+或者，可以使用 `istioctl` 的 `-f` 选项来指定具有完整配置的YAML文件：
 
 {{< text bash >}}
 $ istioctl manifest apply -f samples/pilot-k8s.yaml
 {{< /text >}}
 
-### Identify an Istio feature or component
+### 识别 Istio 功能或组件
 
-The `IstioControlPlane` API groups control plane components by feature, as shown in the table below:
+`IstioControlPlane` API 按功能对控制平面组件进行分组，如下表所示：
 
-| Feature | Components |
+| 功能 | 组件 |
 |---------|------------|
 `Base` | CRDs
 `Traffic Management` | Pilot
@@ -254,9 +236,9 @@ The `IstioControlPlane` API groups control plane components by feature, as shown
 `Gateways` | Egress gateway
 `AutoInjection` | Sidecar injector
 
-In addition to the core Istio components, third-party addon features and components are also available:
+除了核心的 Istio 组件之外，还提供了第三方附加功能和组件：
 
-| Feature | Components |
+| 功能 | 组件 |
 |---------|------------|
 `Telemetry` | Prometheus
 `Telemetry` | Prometheus Operator
@@ -265,27 +247,27 @@ In addition to the core Istio components, third-party addon features and compone
 `Telemetry` | Tracing
 `ThirdParty` | CNI
 
-Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
-Namespaces that components are installed into can be set by component, feature, or globally.
+可以启用或禁用功能，这可以启用或禁用作为功能一部分的所有组件。
+可以通过组件，功能部件或全局设置组件安装到的名字空间。
 
-### Configure the feature or component settings
+### 配置功能或组件设置
 
-After you identify the name of the feature or component from the previous table, you can use the API to set the values
-using the `--set` flag, or create an overlay file and use the `--filename` flag. The `--set` flag
-works well for customizing a few parameters. Overlay files are designed for more extensive customization, or
-tracking configuration changes.
+从上表中识别功能部件或组件的名称后，可以使用 API 设置值
+使用 `--set` 标志，或创建一个覆盖文件并使用 `--filename` 标志。
+`--set` 标志自定义一些参数的效果很好。
+覆盖文件旨在进行更广泛的自定义，或者跟踪配置更改。
 
-The simplest customization is to turn a feature or component on or off from the configuration profile default.
+最简单的自定义是从配置配置文件默认值打开或关闭功能或组件。
 
-To disable the telemetry feature in a default configuration profile, use this command:
+要在默认配置配置文件中禁用遥测功能，请使用以下命令：
 
 {{< text bash >}}
 $ istioctl manifest apply --set telemetry.enabled=false
 {{< /text >}}
 
-Alternatively, you can disable the telemetry feature using a configuration overlay file:
+或者，您可以使用配置覆盖文件禁用遥测功能：
 
-1. Create this file with the name `telemetry_off.yaml` and these contents:
+1. 创建一个文件 `telemetry_off.yaml` 文件并且写入以下内容：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -295,20 +277,20 @@ spec:
     enabled: false
 {{< /text >}}
 
-1. Use the `telemetry_off.yaml` overlay file with the `manifest apply` command:
+1. 将 `telemetry_off.yaml` 覆盖文件与 `manifest apply` 命令一起使用：
 
 {{< text bash >}}
 $ istioctl manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
-You can also use this approach to set the component-level configuration, such as enabling the node agent:
+您还可以使用这种方法来设置组件级配置，例如启用节点代理：
 
 {{< text bash >}}
 $ istioctl manifest apply --set security.components.nodeAgent.enabled=true
 {{< /text >}}
 
-Another customization is to select different namespaces for features and components. The following is an example
-of installation namespace customization:
+另一个定制是为功能部件和组件选择不同的命名空间。
+以下是一个定制命名空间的例子：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -322,19 +304,17 @@ spec:
         namespace: istio-citadel
 {{< /text >}}
 
-Applying this file will cause the default profile to be applied, with components being installed into the following
-namespaces:
+安装此文件将应用默认配置文件，并将组件安装到以下命名空间中：
 
-- The Citadel component is installed into `istio-citadel` namespace
-- All other components in the security feature installed into `istio-security` namespace
-- Remaining Istio components installed into istio-system namespace
+- Citadel 组件 将被安装到 `istio-citadel` 命名空间
+- 所有其他安全相关的组件将被安装到 `istio-security` 命名空间
+- 剩余的 Istio 组件安装到 istio-system 命名空间
 
-### Customize Kubernetes settings
+### 自定义 Kubernetes 设置
 
-The `IstioControlPlane` API allows each component's Kubernetes settings to be customized in a consistent way.
+`IstioControlPlane` API 允许以一致的方式自定义每个组件的 Kubernetes 设置。
 
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
-which allows the following settings to be changed. Use this list to identify the setting to customize:
+每一个组件都有一个允许修改配置的 [`KubernetesResourceSpec`](/zh/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec)。使用此列表来标识要自定义的设置：
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
 1. [Readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
@@ -348,10 +328,9 @@ which allows the following settings to be changed. Use this list to identify the
 1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
 1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
-All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
+所有这些 Kubernetes 设置都使用 Kubernetes API 定义，因此 [Kubernetes文档](https://kubernetes.io/docs/concepts/) 可以用作参考。
 
-The following example overlay file adjusts the `TrafficManagement` feature's resources and horizontal pod autoscaling
-settings for Pilot:
+以下示例覆盖文件可调整 `TrafficManagement` 功能的资源和 pod 的自动水平缩放的 Pilot 设置：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -370,18 +349,17 @@ spec:
             minReplicas: 2  # ... default 1
 {{< /text >}}
 
-Use `manifest apply` to apply the modified settings to the cluster:
+使用 `manifest apply` 将修改后的设置应用于集群：
 
 {{< text syntax="bash" repo="operator" >}}
 $ istioctl manifest apply -f @samples/pilot-k8s.yaml@
 {{< /text >}}
 
-### Customize Istio settings using the Helm API
+### 使用 Helm API 自定义 Istio 设置
 
-The `IstioControlPlane` API includes a pass-through interface to the [Helm API](/docs/reference/config/installation-options/)
-using the `values` field.
+`IstioControlPlane` API 使用 `values` 字段直接调用 [Helm API](/zh/docs/reference/config/installation-options/) 的接口对于字段进行设值。
 
-The following YAML file configures global and Pilot settings through the Helm API:
+下面的 YAML 文件可以通过 Helm API 配置全局和 Pilot 配置：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -398,13 +376,12 @@ spec:
     monitoringPort: 15050
 {{< /text >}}
 
-Some parameters will temporarily exist in both the Helm and `IstioControlPlane` APIs, including Kubernetes resources,
-namespaces and enablement settings. The Istio community recommends using the `IstioControlPlane` API as it is more
-consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+一些参数将在 Helm 和 `IstioControlPlane` API 中暂时存在，包括 Kubernetes 资源，
+命名空间和启用设置。 Istio 社区建议使用 `IstioControlPlane` API，因为它更专一，经过验证并遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist)。
 
-## Uninstall Istio
+## 卸载 Istio
 
-To uninstall Istio, run the following command:
+可以使用以下命令来卸载 Istio
 
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -
