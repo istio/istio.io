@@ -8,6 +8,7 @@ release: 1.2.0
 aliases:
     - /about/notes/1.2
     - /blog/2019/announcing-1.2
+    - /news/announcing-1.2
 ---
 
 We are pleased to announce the release of Istio 1.2!
