@@ -4,8 +4,8 @@ description: 在 Kubernetes 集群中安装评估使用的 Istio 的安装指南
 weight: 5
 keywords: [kubernetes]
 aliases:
-    - /docs/setup/kubernetes/quick-start/
-    - /docs/setup/kubernetes/install/kubernetes/
+    - /zh/docs/setup/kubernetes/quick-start/
+    - /zh/docs/setup/kubernetes/install/kubernetes/
 ---
 
 本指南安装使用 Istio 内置的 `demo` [配置文件](/docs/setup/additional-setup/config-profiles/)。
@@ -18,19 +18,19 @@ aliases:
 要正式在生产环境上安装 Istio，我们推荐 [使用 {{< istioctl >}} 安装](/docs/setup/install/istioctl/)，
 它提供了更多选项，可以对 Istio 的配置进行选择和管理，满足特定的使用需求。
 
-## 前提条件
+## 前提条件{#prerequisites}
 
 1. [下载 Istio 的发布包](/docs/setup/#downloading-the-release)。
 
 1. 执行必须的[平台特定设置](/docs/setup/platform-setup/)。
 
-## 安装 demo 配置
+## 安装 demo 配置{#install-the-demo-profile}
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=demo
 {{< /text >}}
 
-## 验证安装结果
+## 验证安装结果{#verifying-the-installation}
 
 1.  确认下面 Kubernetes 服务已经部署且除了 `jaeger-agent` 外都具有合适的 `CLUSTER-IP`：
 
@@ -82,7 +82,7 @@ $ istioctl manifest apply --set profile=demo
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## 部署你的应用
+## 部署你的应用{#deploy-your-application}
 
 现在你可以部署你的应用或使用 Istio 的发布包中的示例应用（如 [Bookinfo](/docs/examples/bookinfo/)）进行部署。
 
@@ -105,7 +105,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-## 卸载
+## 卸载{#uninstall}
 
 卸载操作会删除 RBAC 权限、`istio-system` 命名空间和其下的所有资源。由于资源可能被级联删除了，所以操作时出现一些资源不存在的提示可以忽略。
 
