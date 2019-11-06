@@ -192,7 +192,7 @@ You can show the differences in the generated manifests between the default prof
 
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/pilot-k8s.yaml > 2.yaml
+$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yam1 2.yaml
 {{< /text >}}
 
@@ -233,7 +233,7 @@ Alternatively, the `IstioControlPlane` configuration can be specified in a YAML 
 `istioctl` using the `-f` option:
 
 {{< text bash >}}
-$ istioctl manifest apply -f samples/pilot-k8s.yaml
+$ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
@@ -381,12 +381,20 @@ spec:
           hpaSpec:
             maxReplicas: 10 # ... default 5
             minReplicas: 2  # ... default 1
+          nodeSelector:
+            master: "true"
+          tolerations:
+          - key: dedicated
+            operator: Exists
+            effect: NoSchedule
+          - key: CriticalAddonsOnly
+            operator: Exists
 {{< /text >}}
 
 Use `manifest apply` to apply the modified settings to the cluster:
 
 {{< text syntax="bash" repo="operator" >}}
-$ istioctl manifest apply -f @samples/pilot-k8s.yaml@
+$ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 ### Customize Istio settings using the Helm API
