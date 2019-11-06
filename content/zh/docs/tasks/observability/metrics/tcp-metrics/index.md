@@ -10,9 +10,7 @@ aliases:
 
 本文任务展示了如何对 Istio 进行配置，从而自动收集网格中 TCP 服务的遥测数据。在任务最后，会为网格中的一个 TCP 服务启用一个新的指标。
 
-
 在本例中会使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为示例应用。
-
 
 ## 开始之前{#before-you-begin}
 
@@ -37,7 +35,7 @@ aliases:
 
     {{< /warning >}}
 
-2.  设置 Bookinfo 使用 Mongodb。
+1.  设置 Bookinfo 使用 Mongodb。
 
     1.  安装 `ratings` 服务的 `v2` 版本。
 
@@ -54,7 +52,7 @@ aliases:
         deployment "ratings-v2" configured
         {{< /text >}}
 
-    2. 安装 `mongodb` 服务：
+    1. 安装 `mongodb` 服务：
 
         如果使用的是启用了 Sidecar 自动注入的集群，可以简单使用 `kubectl` 进行服务部署：
 
@@ -70,7 +68,7 @@ aliases:
         deployment "mongodb-v1" configured
         {{< /text >}}
 
-    3.  Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则定义每个版本对应的服务子集，以及每个子集的负载均衡策略。
+    1.  Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则定义每个版本对应的服务子集，以及每个子集的负载均衡策略。
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
@@ -91,7 +89,7 @@ aliases:
         由于虚拟服务中的子集引用依赖于目标规则，
         在添加引用这些子集的虚拟服务之前，请等待几秒钟以使目标规则传播。
 
-    4. 创建 `ratings` 以及 `reviews` 两个虚拟服务：
+    1. 创建 `ratings` 以及 `reviews` 两个虚拟服务：
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
@@ -99,7 +97,7 @@ aliases:
         Created config virtual-service/default/ratings at revision 3004
         {{< /text >}}
 
-3. 向应用发送流量。
+1. 向应用发送流量。
 
     对于 Bookinfo 应用来说，在浏览器中浏览 `http://$GATEWAY_URL/productpage`，或者使用下面的命令：
 
@@ -107,7 +105,7 @@ aliases:
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-4. 检查是否已经生成并收集了新的指标。
+1. 检查是否已经生成并收集了新的指标。
 
     在 Kubernetes 环境中，使用下面的命令为 Prometheus 设置端口转发：
 
