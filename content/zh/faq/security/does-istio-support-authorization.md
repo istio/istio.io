@@ -6,6 +6,7 @@ weight: 110
 支持。 Istio 对网格中的 HTTP 服务和普通 TCP 服务提供授权特性支持
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 [了解更多](/docs/concepts/security/#authorization)。
 =======
 [Learn more](/docs/concepts/security/#authorization).
@@ -13,3 +14,6 @@ weight: 110
 =======
 [了解更多](/docs/concepts/security/#authorization)。
 >>>>>>> Update does-istio-support-authorization.md
+=======
+[了解更多](/docs/concepts/security/#authorization)。
+>>>>>>> a59b11edd281997f54b1cfb216b88efcdf528703
