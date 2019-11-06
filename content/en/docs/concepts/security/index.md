@@ -602,7 +602,7 @@ Istio's authorization feature provides mesh-level, namespace-level, and workload
 access control on workloads in an Istio Mesh. It features:
 
 - **Workload-to-workload and end-user-to-workload authorization**.
-- **Simple API**, it includes a single `AuthorizationPolicy` CRD, which is easy to use and maintain.
+- **Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/authorization/authorization-policy/), which is easy to use and maintain.
 - **Flexible semantic**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
@@ -647,8 +647,9 @@ multiple authorization policies apply to the same workload, the effect is additi
 
 ### Authorization policy
 
-To configure an Istio authorization policy, you specify the [`AuthorizationPolicy`](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto)
-configuration object. Like other Istio configuration objects, it is defined as Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+To configure an Istio authorization policy, you specify the [`AuthorizationPolicy` configuration object](
+/docs/reference/config/authorization/authorization-policy/). Like other Istio configuration objects, it
+is defined as Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 object.
 
 An `AuthorizationPolicy` includes a `selector` and a list of `rules`, the `selector`
