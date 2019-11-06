@@ -23,7 +23,7 @@ Ensure you meet these requirements before starting the upgrade process:
 
 * Istio version 1.3.3 or higher is installed.
 
-* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/operator/).
+* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
 ## Upgrade steps
 
@@ -60,7 +60,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
     {{< /text >}}
 
     `<your-custom-configuration-file>` is the
-    [IstioControlPlane API Custom Resource Definition](/docs/setup/install/operator/#configure-the-feature-or-component-settings)
+    [IstioControlPlane API Custom Resource Definition](/docs/setup/install/istioctl/#configure-the-feature-or-component-settings)
     file you used to customize the installation of the currently-running version of Istio.
 
     {{< warning >}}
@@ -94,7 +94,7 @@ Ensure you meet these requirements before starting the downgrade process:
 
 * Istio version 1.4 or higher is installed.
 
-* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/operator/).
+* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
 * Downgrade must be done using the `istioctl` binary version that
 corresponds to the Istio version that you intend to downgrade to.
