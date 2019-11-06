@@ -26,7 +26,7 @@ Helm 的安装方法已被弃用。
 
 请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
 
-这种安装方式使用 [Helm](https://github.com/helm/helm) charts 自定义 Istio 控制平面和 Istio 数据平面的 sidecar 。
+这种安装方式使用 [Helm](https://github.com/helm/helm) charts 自定义 Istio 控制平面和 Istio 数据平面的 sidecar。
 你只需使用 `helm template` 生成配置并使用 `kubectl apply` 命令安装它, 或者你可以选择使用 `helm install` 让
 [Tiller](https://helm.sh/docs/architecture/#components)
  来完全管理安装。
@@ -71,7 +71,7 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 在你的集群没有按照 [Tiller](https://helm.sh/docs/architecture/#components)
  而且你也不想安装它的情况下，选择此方案安装。
 
-1. 为 Istio 组件创建命名空间 `istio-system` ：
+1. 为 Istio 组件创建命名空间 `istio-system`：
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -252,7 +252,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
     $ kubectl get svc -n istio-system
     {{< /text >}}
 
-1. 确保相应的 Kubernetes Pod 已部署并且 `STATUS` 是 `Running` ：
+1. 确保相应的 Kubernetes Pod 已部署并且 `STATUS` 是 `Running`：
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -260,7 +260,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 ## 卸载
 
-- 如果你使用 `helm template` 命令安装的 Istio，使用如下命令卸载 :
+- 如果你使用 `helm template` 命令安装的 Istio，使用如下命令卸载：
 
 {{< tabset cookie-name="helm_profile" >}}
 
