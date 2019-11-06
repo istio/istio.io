@@ -270,6 +270,7 @@ iptables
 IPv4
 IPv6
 Istio
+istio
 istio-identity
 istio-mixer
 ISTIO-SECURITY-2019-003
@@ -305,6 +306,7 @@ kubeconfig
 Kubelet
 kubelet
 Kubernetes
+kubernetes
 kubernetes.default
 L3-4
 L4-L6
@@ -389,6 +391,7 @@ PassthroughCluster
 peek
 pem
 PKI
+pki
 PKIs
 plaintext
 platform-specific
@@ -469,6 +472,8 @@ serviceaccount
 ServiceGraph
 servicegraph-example
 ServiceMesher
+servicerole
+servicerolebinding
 sha256
 sharded
 Sharding
@@ -483,6 +488,7 @@ Snell-Feikema
 SNI
 SolarWinds
 SPIFFE
+spiffe
 SPIFFE-compliant
 SREs
 Stackdriver
@@ -521,6 +527,7 @@ Tigera
 timeframe
 timestamp
 TLS
+tls
 TLS-secured
 touchpoints
 Trulia
@@ -569,6 +576,7 @@ VMs
 VMware
 VPN
 VPNs
+vs
 Warman
 WeaveWorks
 WebAssembly
