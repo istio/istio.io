@@ -5,11 +5,11 @@ weight: 10
 keywords: [security,mtls,ux]
 ---
 
-This tasks shows a simplified workflow for mutual TLS adoption[authentication overview](/docs/concepts/security/#authentication).
+This tasks shows a simplified workflow for mutual TLS adoption.
 
-With Istio auto mutual TLS feature, you can adopt mutual TLS by only configuring Authentication Policy without worrying about destination rule.
+With Istio auto mutual TLS feature, you can adopt mutual TLS by only configuring authentication policy without worrying about destination rule.
 
-Istio tracks the server workloads are migrated to Istio sidecar, and configure client sidecar to send mutual TLS traffic to those workloads automatically, and send plain text traffic to workloads
+Istio tracks the server workloads migrated to Istio sidecar, and configures client sidecar to send mutual TLS traffic to those workloads automatically, and send plain text traffic to workloads
 without sidecars. This allows you to adopt Istio mutual TLS incrementally with minimal manual configuration.
 
 ## Before you begin
@@ -18,7 +18,7 @@ without sidecars. This allows you to adopt Istio mutual TLS incrementally with m
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed (e.g use `install/kubernetes/istio-demo.yaml` as described in
-[installation steps](/docs/setup/install/kubernetes/#install-the-demo-profile), set `global.mtls.enabled` to false  and `global.mtls.auto` to true using [Helm](/docs/setup/install/helm/)). For example,
+[installation steps](/docs/setup/install/kubernetes/#install-the-demo-profile), set `global.mtls.enabled` to false and `global.mtls.auto` to true using [Helm](/docs/setup/install/helm/)). For example,
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=demo \
@@ -106,11 +106,10 @@ You should also verify that there is a default mesh authentication policy in the
 
 {{< text bash >}}
 $ kubectl get policies.authentication.istio.io --all-namespaces
+$ kubectl get meshpolicies -o yaml | grep ' mode'
 NAMESPACE      NAME                          AGE
-istio-system   grafana-ports-mtls-disabled   5m
-$ kubectl get meshpolicies.authentication.istio.io
-NAME      AGE
-default   3m
+istio-system   grafana-ports-mtls-disabled   2h
+        mode: PERMISSIVE
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
@@ -118,24 +117,22 @@ Last but not least, verify that there are no destination rules that apply on the
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
-    host: kubernetes.default.svc.cluster.local
-    host: '*.local'
-    host: grafana.istio-system
-    host: '*.global'
     host: istio-policy.istio-system.svc.cluster.local
     host: istio-telemetry.istio-system.svc.cluster.local
-    host: prometheus.istio-system.svc.cluster.local
-    host: prometheus.istio-system
 {{< /text >}}
 
 You can verify setup by sending an HTTP request with `curl` from any `sleep` pod in the namespace `full`, `partial` or `legacy` to either `httpbin.full`, `httpbin.partial` or `httpbin.legacy`. All requests should succeed with HTTP code 200.
 
-For example, here is a command to check `sleep.legacy` to `httpbin.full` reachability:
+For example, here is a command to check `sleep.full` to `httpbin.full` reachability:
 
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name}) -c sleep -n legacy -- curl http://httpbin.full:8000/ip -s -o /dev/null -w "%{http_code}\n"
-200
+$ kubectl exec $(kubectl get pod -l app=sleep -n full -o jsonpath={.items..metadata.name}) -c sleep -n full -- curl http://httpbin.full:8000/headers  -s  -w "response %{http_code}\n" | egrep 'Client-Cert.*sa.default|response.*$' -o
+Client-Cert": "By=spiffe://cluster.local/ns/full/sa/default
+response 200
 {{< /text >}}
+
+"Client-Cert" outputs the underlying X509 certificate identity, which indicates the traffic is sent
+in mutual TLS. If the traffic is in plain text, no client certificate will be displayed.
 
 ### Start from PERMISSIVE mode
 
@@ -152,13 +149,61 @@ workloads and plain text to the second type.
 You can verify the reachability as:
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.full to httpbin.full: 200
-sleep.full to httpbin.partial: 200
-sleep.full to httpbin.legacy: 200
-sleep.legacy to httpbin.full: 200
-sleep.legacy to httpbin.partial: 200
-sleep.legacy to httpbin.legacy: 200
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+sleep.full to httpbin.full
+Client-Cert": "By=spiffe://cluster.local/ns/full/sa/default
+response code: 200
+
+sleep.full to httpbin.partial
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+sleep.full to httpbin.legacy
+response code: 200
+
+sleep.legacy to httpbin.full
+response code: 200
+
+sleep.legacy to httpbin.partial
+response code: 200
+
+sleep.legacy to httpbin.legacy
+response code: 200
+
+{{< /text >}}
+
+### Working with Sidecar Migration
+
+The request to `httpbin.partial` can reach to server workloads with or without sidecar. Istio
+automatically configures the `sleep.full` client to initiates mutual TLS connection to workload
+with sidecar.
+
+{{< text bash >}}
+$ for i in `seq 1 10`; do kubectl exec $(kubectl get pod -l app=sleep -n full -o jsonpath={.items..metadata.name}) -c sleep -nfull  -- curl http://httpbin.partial:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+response code: 200
+
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+response code: 200
+
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+response code: 200
+
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+response code: 200
+
+response code: 200
 {{< /text >}}
 
 Without automatic mutual TLS feature, you have to track the sidecar migration finishes, and then
@@ -187,24 +232,37 @@ All `httpbin.full` workloads and the workload with sidecar for `httpbin.partial`
 mutual TLS traffic.
 
 Now the requests from the `sleep.legacy` starts to fail, since it can't send mutual TLS traffic.
-But the client `sleep.full` is automatically configured with auto mutual TLS, to send mutual TLS 
+But the client `sleep.full` is automatically configured with auto mutual TLS, to send mutual TLS
 request, returning 200.
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.full to httpbin.full: 200
-sleep.full to httpbin.partial: 200
-sleep.full to httpbin.legacy: 200
-sleep.legacy to httpbin.full: 000
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+sleep.full to httpbin.full
+Client-Cert": "By=spiffe://cluster.local/ns/full/sa/default
+response code: 200
+
+sleep.full to httpbin.partial
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+sleep.full to httpbin.legacy
+response code: 200
+
+sleep.legacy to httpbin.full
+response code: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.partial: 200
-sleep.legacy to httpbin.legacy: 200
+
+sleep.legacy to httpbin.partial
+response code: 200
+
+sleep.legacy to httpbin.legacy
+response code: 200
+
 {{< /text >}}
 
 ### Disable mutual TLS to plain text
 
-If for some reason, you want service to be in plain text mode explicitly, we can configure authentication
-policy as plain text.
+If for some reason, you want service to be in plain text mode explicitly, we can configure authentication policy as plain text.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n full -f -
@@ -222,14 +280,27 @@ In this case, since the service is in plain text mode. Istio automatically confi
 to send plain text traffic to avoid breakage.
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.full to httpbin.full: 200
-sleep.full to httpbin.partial: 200
-sleep.full to httpbin.legacy: 200
-sleep.legacy to httpbin.full: 200
-sleep.legacy to httpbin.partial: 200
-sleep.legacy to httpbin.legacy: 200
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+sleep.full to httpbin.full
+response code: 200
+
+sleep.full to httpbin.partial
+response code: 200
+
+sleep.full to httpbin.legacy
+response code: 200
+
+sleep.legacy to httpbin.full
+response code: 200
+
+sleep.legacy to httpbin.partial
+response code: 200
+
+sleep.legacy to httpbin.legacy
+response code: 200
 {{< /text >}}
+
+All traffic are now in plain text.
 
 ### Destination rule overrides
 
@@ -258,13 +329,26 @@ Since in previous steps, we already disable the authentication policy for `httpb
 mutual TLS, we should see the traffic from `sleep.full` starting to fail.
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.full to httpbin.full: 503
-sleep.full to httpbin.partial: 200
-sleep.full to httpbin.legacy: 200
-sleep.legacy to httpbin.full: 200
-sleep.legacy to httpbin.partial: 200
-sleep.legacy to httpbin.legacy: 200
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+sleep.full to httpbin.full
+response code: 503
+
+sleep.full to httpbin.partial
+Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+response code: 200
+
+sleep.full to httpbin.legacy
+response code: 200
+
+sleep.legacy to httpbin.full
+response code: 200
+
+sleep.legacy to httpbin.partial
+response code: 200
+
+sleep.legacy to httpbin.legacy
+response code: 200
+
 {{< /text >}}
 
 ### Cleanup
@@ -276,7 +360,7 @@ $ kubectl delete ns full partial legacy
 ## Summary
 
 Automatic mutual TLS configures the client sidecar to send TLS traffic by default between sidecars.
-This means corresponding TLS overhead.
+You only need to configure authentication policy.
 
 As aforementioned, automatic mutual TLS is a mesh wide Helm installation option. You have to
 re-deploy Istio to enable or disable the feature. When disabling the feature, if you already rely
@@ -284,6 +368,8 @@ on it to automatically encrypt the traffic, then traffic can **fall back to plai
 can affect your **security posture or break the traffic**, if the service is already configured as
 `STRICT` to only accept mutual TLS traffic.
 
-Currently, automatic mutual TLS is an Alpha stage feature, please be aware of the risk.
+Currently, automatic mutual TLS is an Alpha stage feature, please be aware of the risk, and the
+additional CPU cost for TLS encryption.
+
 We're considering to make this feature the default enabled. Please consider to send your feedback
 or encountered issues when trying auto mutual TLS via [Git Hub](https://github.com/istio/istio/issues/18548).
