@@ -167,7 +167,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
 
-1. `ca.istio.io/env` 命名空间标签：包含所需 Citadel 实例的名称空间的*字符串值*标签
+1. `ca.istio.io/env` 命名空间标签：包含所需 Citadel 实例的命名空间的*字符串值*标签
 
 1. `ca.istio.io/override` 命名空间标签：*布尔值*标签，它将覆盖所有其他配置，并强制所有 Citadel 实例定位或忽略命名空间
 
@@ -177,9 +177,9 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 - 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书 secrets。
 - 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的名称空间中定义了标签，则名称空间中的 Citadel 实例 ns-foo 将用于为名称空间中的工作负载生成密钥/证书 secrets ServiceAccount。
+- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的命名空间中定义了标签，则命名空间中的 Citadel 实例 ns-foo 将用于为命名空间中的工作负载生成密钥/证书 secrets ServiceAccount。
 - 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为true，则默认Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书 secrets。
-- 否则，不会为 ServiceAccount 的名称空间创建任何 secret。
+- 否则，不会为 ServiceAccount 的命名空间创建任何 secret。
 
 以下表格捕获了此逻辑：
 
