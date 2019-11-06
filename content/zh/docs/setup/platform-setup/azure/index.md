@@ -25,7 +25,7 @@ keywords: [platform-setup,azure]
     $ az provider list --query "[?namespace=='Microsoft.ContainerService'].resourceTypes[] | [?resourceType=='managedClusters'].locations[]" -o tsv
     {{< /text >}}
 
-2. 证实对于期望的 region 有支持的 Kubernetes 版本
+1. 证实对于期望的 region 有支持的 Kubernetes 版本
 
     使用从上面步骤中期望的region值替换 `my location` ，然后执行：
 
@@ -35,7 +35,7 @@ keywords: [platform-setup,azure]
 
     确保最小值 `1.10.5` 被列出。
 
-3. 创建 resource group 和部署 AKS 集群
+1. 创建 resource group 和部署 AKS 集群
 
     使用期望的名字替换 `myResourceGroup` 和 `myAKSCluster` ，使用第一步中的名字替换`my location` ，替换 `1.10.5` 如果其在 region 中不被支持，然后执行：
 
@@ -44,7 +44,7 @@ keywords: [platform-setup,azure]
     $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.10.5 --generate-ssh-keys
     {{< /text >}}
 
-4. 取得 AKS `kubeconfig` 证书
+1. 取得 AKS `kubeconfig` 证书
 
     使用从之前步骤中获得的名字替换 `myResourceGroup` 和 `myAKSCluster` 并且执行：
 
@@ -56,7 +56,7 @@ keywords: [platform-setup,azure]
 
 1. [跟随这些命令](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine) 来获取和安装 `aks-engine` 的二进制版本。
 
-2. 下载支持部署 Istio 的 `aks-engine` API 模型定义：
+1. 下载支持部署 Istio 的 `aks-engine` API 模型定义：
 
     {{< text bash >}}
     $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
@@ -64,7 +64,7 @@ keywords: [platform-setup,azure]
 
     注意： 可能使用其他可以和Istio一起工作的api模型定义。 MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook 准入控制标识和 RBAC 被默认打开。 从 [aks-engine api 模型默认值](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) 获取更多信息。
 
-3. 使用 `istio.json` 模板来部署你的集群。 你能发现对于参数的参考在
+1. 使用 `istio.json` 模板来部署你的集群。 你能发现对于参数的参考在
    [官方文档](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition) 中。
 
     | 参数                             | 期望值             |
@@ -85,7 +85,7 @@ keywords: [platform-setup,azure]
     文件。
     {{< /tip >}}
 
-4. 使用 `<dns_prefix>-<id>` 集群ID，为了从 `_output` 文件夹复制你的 `kubeconfig` 到你的机器:
+1. 使用 `<dns_prefix>-<id>` 集群ID，为了从 `_output` 文件夹复制你的 `kubeconfig` 到你的机器:
 
     {{< text bash >}}
     $ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
