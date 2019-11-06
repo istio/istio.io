@@ -7,6 +7,7 @@ weight: 110
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 [了解更多](/docs/concepts/security/#authorization)。
 =======
 [Learn more](/docs/concepts/security/#authorization).
@@ -17,3 +18,6 @@ weight: 110
 =======
 [了解更多](/docs/concepts/security/#authorization)。
 >>>>>>> a59b11edd281997f54b1cfb216b88efcdf528703
+=======
+[了解更多](/zh/docs/concepts/security/#authorization)。
+>>>>>>> zh-trans-1423
