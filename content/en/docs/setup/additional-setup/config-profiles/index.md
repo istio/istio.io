@@ -8,7 +8,7 @@ keywords: [profiles,install,helm]
 ---
 
 This page describes the built-in configuration profiles that can be used when
-[installing Istio](/docs/setup/install/operator/).
+[installing Istio](/docs/setup/install/istioctl/).
 The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can start with one of Istio’s built-in configuration profiles and then further customize the configuration for
 your specific needs. The following built-in configuration profiles are currently available:
@@ -21,7 +21,7 @@ your specific needs. The following built-in configuration profiles are currently
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
     This is the configuration that is installed with the [quick start](/docs/setup/install/kubernetes/) instructions,
-    but you can later [customize the configuration](/docs/setup/install/operator/#customizing-the-configuration)
+    but you can later [customize the configuration](/docs/setup/install/istioctl/#customizing-the-configuration)
     to enable additional features if you wish to explore more advanced tasks.
 
     {{< warning >}}
@@ -59,4 +59,4 @@ The components marked as **X** are installed within each profile:
 
 To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the
 `istioctl manifest` command that you use when installing Istio.
-Refer to [customizing the configuration](/docs/setup/install/operator/#customizing-the-configuration) for details.
+Refer to [customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration) for details.
