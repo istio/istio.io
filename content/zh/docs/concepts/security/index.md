@@ -34,7 +34,7 @@ Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密
 - **零信任网络**： 在不受信任的网络上构建安全解决方案
 
 请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/mtls-migration/)相关文章，开始在部署的服务中使用 Istio 安全功能。
-请访问我们的[安全任务](/zh/docs/tasks/security/)，有关使用安全功能的详细说明。
+请访问我们的[安全任务](/zh/docs/tasks/security/)，以获取有关使用安全功能的详细说明。
 
 ## 高级架构{#high-level-architecture}
 
