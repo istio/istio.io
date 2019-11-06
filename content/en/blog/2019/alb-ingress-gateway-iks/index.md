@@ -69,7 +69,7 @@ ingress gateway.
     deployment.apps/httpbin created
     {{< /text >}}
 
-1.  Require mutual TLS for the traffic to the services in
+1.  Enforce mutual TLS for the traffic to the services in
     `httptools`:
 
     {{< text bash >}}
