@@ -18,7 +18,7 @@ without sidecars. This allows you to adopt Istio mutual TLS incrementally with m
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed (e.g use `install/kubernetes/istio-demo.yaml` as described in
-[installation steps](/docs/setup/install/kubernetes/#install-the-demo-profile), set `global.mtls.enabled` to false and `global.mtls.auto` to true using [Helm](/docs/setup/install/helm/)). For example,
+[installation steps](/docs/setup/install/kubernetes/#install-the-demo-profile), set `global.mtls.enabled` to false and `global.mtls.auto` to true. For example,
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=demo \
