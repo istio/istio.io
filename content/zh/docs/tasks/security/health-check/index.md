@@ -5,7 +5,7 @@ weight: 70
 keywords: [security,health-check]
 ---
 
-你可以启用 Citadel 的健康检查功能去检测 Citadel CSR (证书签名请求) 服务是否有故障。当检测到服务发生故障，Kubelet 将自动重启 Citadel 容器。
+你可以启用 Citadel 的健康检查功能去检测 Citadel CSR（证书签名请求）服务是否有故障。当检测到服务发生故障，Kubelet 将自动重启 Citadel 容器。
 
 当健康检查功能被开启，Citadel 中的 **检测器** 模块会定期向 Citadel 的 CSR gRPC 服务发送 CSRs 并校验响应信息以此判断服务的健康状况。如果 Citadel 服务是健康状态，_检测器_ 会更新 _健康状态文件_ 的 _更新时间_ ，否则什么都不做。Citadel 依赖 [Kubernetes 的健康和就绪检测](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)功能，使用命令行检查 pod 中 _健康状态文件_ 的 _更新时间_ 。如果这个文件有一段时间不更新了，Kubelet 将会重启 Citadel 容器。
 
@@ -13,10 +13,10 @@ keywords: [security,health-check]
 
 ## 开始之前
 
-为了完成这个任务，你可以 [安装 Istio](/zh/docs/setup/install/operator/)，并设置 `global.mtls.enabled` 为 `true`。
+为了完成这个任务，你可以[安装 Istio](/zh/docs/setup/install/operator/)，并设置 `global.mtls.enabled` 为 `true`。
 
 {{< tip >}}
-使用 [认证策略](/zh/docs/concepts/security/#authentication-policies) 为命名空间内的部分或者全部服务配置双向 TLS 支持。在进行全局设置配置时必须对所有命名空间重复一遍。细节可参考 [认证策略任务](/zh/docs/tasks/security/authn-policy/)。
+使用[认证策略](/zh/docs/concepts/security/#认证策略)为命名空间内的部分或者全部服务配置双向 TLS 支持。在进行全局设置配置时必须对所有命名空间重复一遍。细节可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)。
 {{< /tip >}}
 
 ## 部署启用健康检查的 Citadel
@@ -28,7 +28,7 @@ $ istioctl manifest generate --set values.global.mtls.enabled=true,values.securi
 $ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
-## 确认健康检查器的是否工作
+## 确认健康检查器是否工作
 
 Citadel 会记录健康检查的结果，运行下面的命令行：
 
@@ -50,8 +50,8 @@ $ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{prin
 
 {{< text plain >}}
 ...
-  - --liveness-probe-path=/tmp/ca.liveness # 健康检查状态文件的路径
-  - --liveness-probe-interval=60s # 健康状态文件的更新周期
+  - --liveness-probe-path=/tmp/ca.liveness # 存活健康检查状态文件的路径
+  - --liveness-probe-interval=60s # 存活健康状态文件的更新周期
   - --probe-check-interval=15s    # 健康检查的周期
 livenessProbe:
   exec:
