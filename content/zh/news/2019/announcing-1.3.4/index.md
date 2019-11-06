@@ -18,7 +18,7 @@ release: 1.3.4
 - **修复** 入站侦听器重载间隔调整为 5 分钟。([Issue #18138](https://github.com/istio/istio/issues/18088))
 - **修复** 密钥验证和证书轮换。([Issue #17718](https://github.com/istio/istio/issues/17718))
 - **修复** 内部资源垃圾回收无效问题。([Issue #16818](https://github.com/istio/istio/issues/16818))
-- **修复** 了当失败时 webhook 更新失败的问题。([Pull Request #17820](https://github.com/istio/istio/pull/17820)
+- **修复** 了当故障时 webhook 更新失败的问题。([Pull Request #17820](https://github.com/istio/istio/pull/17820)
 - **改进** OpenCensus 跟踪适配器的性能。([Issue #18042](https://github.com/istio/istio/issues/18042))
 
 ## 小幅改善
