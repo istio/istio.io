@@ -623,15 +623,6 @@ Zipkin
 Okta
 Cognito
 redeployments
-spiffe
-vs
-tls
-servicerole
-servicerolebinding
-istio 
-pki
-kubernetes
-bookinfo
 
  - search.md
 searchresults
