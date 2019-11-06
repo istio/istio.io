@@ -33,7 +33,7 @@ $ helm repo add appidentityandaccessadapter https://raw.githubusercontent.com/ib
 $ helm install --name appidentityandaccessadapter appidentityandaccessadapter/appidentityandaccessadapter
 {{< /text >}}
 
-Alternatively, you can clone the repo and install the Helm chart locally
+Alternatively, you can clone the repository and install the Helm chart locally
 
 {{< text bash >}}
 $ git clone git@github.com:ibm-cloud-security/app-identity-and-access-adapter.git

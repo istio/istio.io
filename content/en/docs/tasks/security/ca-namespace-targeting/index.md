@@ -14,7 +14,7 @@ To complete this task, you should first take the following actions:
 
 * Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
 
-### Deactivating Service Account secret generation for a single namespace
+### Deactivating service account secret generation for a single namespace
 
 To create a new sample namespace `foo`, run:
 
@@ -58,7 +58,7 @@ istio.default           istio.io/key-and-cert          3         11m
 
 You can observe that no new `istio.io/key-and-cert` secret was generated for the `sample-service-account` service account.
 
-### Opt-in Service Account secret generation
+### Opt-in service account secret generation
 
 Set the `enableNamespacesByDefault` installation option to `false` to make `ServiceAcount` secret generation opt-in (i.e., to disable generating secrets unless otherwise specified):
 

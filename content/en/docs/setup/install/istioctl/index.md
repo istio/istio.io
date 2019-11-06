@@ -1,8 +1,8 @@
 ---
-title: Installing with Istioctl
+title: Customizable Install with Istioctl
 description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
 weight: 10
-keywords: [operator,kubernetes,helm]
+keywords: [istioctl,kubernetes]
 ---
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
@@ -408,7 +408,8 @@ spec:
 
   # global Helm settings
   values:
-    monitoringPort: 15050
+    global:
+      monitoringPort: 15050
 {{< /text >}}
 
 Some parameters will temporarily exist in both the Helm and `IstioControlPlane` APIs, including Kubernetes resources,

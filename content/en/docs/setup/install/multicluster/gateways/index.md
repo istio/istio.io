@@ -31,7 +31,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to [deploy the Istio control plane](/docs/setup/install/operator/)
+* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
   on **each** Kubernetes cluster.
 
 * The IP address of the `istio-ingressgateway` service in each cluster must be accessible
@@ -98,7 +98,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
         {{< /text >}}
 
     For further details and customization options, refer to the
-    [installation instructions](/docs/setup/install/operator/).
+    [installation instructions](/docs/setup/install/istioctl/).
 
 ## Setup DNS
 
@@ -228,8 +228,8 @@ The host used in the service entry should be of the form `<name>.<namespace>.glo
 where name and namespace correspond to the service's name and namespace respectively.
 
 To demonstrate cross cluster access, configure the
-[sleep service]({{<github_tree>}}/samples/sleep)
-running in one cluster to call the [httpbin service]({{<github_tree>}}/samples/httpbin)
+[sleep service]({{< github_tree >}}/samples/sleep)
+running in one cluster to call the [httpbin]({{< github_tree >}}/samples/httpbin) service
 running in a second cluster. Before you begin:
 
 * Choose two of your Istio clusters, to be referred to as `cluster1` and `cluster2`.

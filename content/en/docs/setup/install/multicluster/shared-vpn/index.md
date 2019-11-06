@@ -26,7 +26,7 @@ Istio control plane, Envoy can then form a mesh network across multiple clusters
 
 * Two or more clusters running a supported Kubernetes version ({{< supported_kubernetes_versions >}}).
 
-* The ability to [deploy the Istio control plane](/docs/setup/install/operator/)
+* The ability to [deploy the Istio control plane](/docs/setup/install/istioctl/)
   on **one** of the clusters.
 
 * A RFC1918 network, VPN, or an alternative more advanced network technique
@@ -46,7 +46,7 @@ manifests and Helm charts provided within the Istio repository.
 
 ## Deploy the local control plane
 
-[Install the Istio control plane](/docs/setup/install/operator/)
+[Install the Istio control plane](/docs/setup/install/istioctl/)
 on **one** Kubernetes cluster.
 
 ## Install the Istio remote
@@ -436,7 +436,7 @@ cluster with a selector-less service and endpoint. Istio Pilot uses the service
 and endpoint to allow the remote sidecars to resolve the
 `istio-pilot.istio-system` hostname via Istio's local Kubernetes DNS.
 
-#### Primary Cluster: Deploy the control plane cluster
+#### Primary cluster: deploy the control plane cluster
 
 1. Create the `cacerts` secret using the Istio certificate samples in the
    `istio-system` namespace:
@@ -456,7 +456,7 @@ and endpoint to allow the remote sidecars to resolve the
       --set values.global.controlPlaneSecurityEnabled=true
     {{< /text >}}
 
-#### Remote Cluster: Deploy Istio components
+#### Remote cluster: deploy Istio components
 
 1. Create the `cacerts` secret using the Istio certificate samples in the
    `istio-system` namespace:
@@ -489,7 +489,7 @@ and endpoint to allow the remote sidecars to resolve the
 1. To generate the `kubeconfig` configuration file for the remote cluster,
    follow the steps in the [Kubernetes configuration section](#kubeconfig)
 
-### Primary Cluster: Instantiate credentials
+### Primary cluster: instantiate credentials
 
 You must instantiate credentials for each remote cluster. Follow the
 [instantiate credentials procedure](#credentials)

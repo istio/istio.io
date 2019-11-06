@@ -216,7 +216,7 @@ With these settings, Sidecar injection fails. The only related failure log can b
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
 {{< /text >}}
 
-Make sure both pod and service CIDRs are not proxied according to *_proxy variables.  Check the `kube-apiserver` files and logs to verify the configuration and whether any requests are being proxied.
+Make sure both pod and service CIDRs are not proxied according to `*_proxy` variables.  Check the `kube-apiserver` files and logs to verify the configuration and whether any requests are being proxied.
 
 One workaround is to remove the proxy settings from the `kube-apiserver` manifest, another workaround is to include `istio-sidecar-injector.istio-system.svc` or `.svc` in the `no_proxy` value. Make sure that `kube-apiserver` is restarted after each workaround.
 

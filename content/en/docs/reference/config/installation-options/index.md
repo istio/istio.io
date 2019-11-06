@@ -8,7 +8,7 @@ force_inline_toc: true
 
 {{< warning >}}
 Installing Istio with Helm has been deprecated, however, you can still use these Helm configuration options when
-[installing Istio with {{< istioctl >}}](/docs/setup/install/operator/) by prepending the string "`values.`"
+[installing Istio with {{< istioctl >}}](/docs/setup/install/istioctl/) by prepending the string "`values.`"
 to the option name. For example, instead of this `helm` command:
 
 {{< text bash >}}
@@ -21,7 +21,7 @@ You can use this `istioctl` command:
 $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /text >}}
 
-Refer to [customizing the configuration](/docs/setup/install/operator/#customizing-the-configuration) for details.
+Refer to [customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration) for details.
 {{< /warning >}}
 
 {{< tip >}}

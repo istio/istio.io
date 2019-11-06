@@ -431,7 +431,7 @@ policy by allowing the applications with a special
 1.  Start the [sleep]({{< github_tree >}}/samples/sleep) sample with the `politics` service account.
 
     {{< text bash >}}
-    $  sed 's/: sleep/: politics/g' samples/sleep/sleep.yaml | kubectl create -f -
+    $  sed 's/: sleep/: politics/g' @samples/sleep/sleep.yaml@ | kubectl create -f -
     serviceaccount "politics" created
     service "politics" created
     deployment "politics" created
@@ -611,7 +611,7 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
 1.  Delete the _politics_ source pod:
 
     {{< text bash >}}
-    $ sed 's/: sleep/: politics/g' samples/sleep/sleep.yaml | kubectl delete -f -
+    $ sed 's/: sleep/: politics/g' @samples/sleep/sleep.yaml@ | kubectl delete -f -
     serviceaccount "politics" deleted
     service "politics" deleted
     deployment "politics" deleted

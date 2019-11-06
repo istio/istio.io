@@ -420,7 +420,7 @@ The available attributes are:
 |`downloadas`  | The default file name used when the user [downloads the preformatted block](#download-name).
 |`expandlinks` | Whether or not to expand [GitHub file references](#links-to-github-files) in the preformatted block.
 |`snippet`     | The name of the [snippet](#snippets) of content to extract from the preformatted block.
-|`repo`        | The repo to use for [GitHub links](#links-to-github-files) embedded in preformatted blocks.
+|`repo`        | The repository to use for [GitHub links](#links-to-github-files) embedded in preformatted blocks.
 
 ### Inline vs. imported content
 
@@ -487,8 +487,8 @@ Which renders as:
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
-Normally, links will point to the current release branch of the `istio/istio` repo. If you'd like a link
-that points to a different Istio repo instead, you can use the `repo` attribute:
+Normally, links will point to the current release branch of the `istio/istio` repository. If you'd like a link
+that points to a different Istio repository instead, you can use the `repo` attribute:
 
 {{< text markdown >}}
 {{</* text syntax="bash" repo="operator" */>}}
@@ -746,7 +746,7 @@ $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 This will build the site and start a web server hosting the site. You can then connect to the web server
 at `http://192.168.7.105:1313`.
 
-All English content for the site is located in the `content/en` directory, as well as in sibling translated
+All English content for the site is located in the `content/en` directory, and translated content is in sibling
 directories such as `content/zh`.
 
 ### Linting
@@ -772,7 +772,7 @@ If you get spelling errors, you have three choices to address each:
 
 - It's a command/field/symbol name, so stick some `backticks` around it.
 
-- It's really valid, so go add the word to the `.spelling` file which is at the root of the repo.
+- It's really valid, so go add the word to the `.spelling` file which is at the root of the repository.
 
 If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
 `INTERNAL_ONLY` to prevent the linter from checking external links:

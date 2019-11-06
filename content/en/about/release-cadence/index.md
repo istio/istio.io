@@ -26,7 +26,7 @@ You can find available releases on the [releases page](https://github.com/istio/
 and if you're the adventurous type, you can learn about our daily builds on the [daily builds wiki](https://github.com/istio/istio/wiki/Daily-builds).
 You can find high-level releases notes for each LTS release [here](/news).
 
-## Naming Scheme
+## Naming scheme
 
 Prior to Istio 0.8, we increased the product's version number on a monthly basis. Effective with 0.8,
 we will increase the product's version number only for LTS releases.

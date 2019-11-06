@@ -157,7 +157,7 @@ Yes, you can. You can upgrade to 1.0.8, 1.1.8 or later as normal.
 After that, follow the root transition steps and in Step 4,
 manually restart Galley, Pilot and sidecar-injector to ensure they load the new root certificates.
 
-### Why my workloads do not pick up the new certificates (in Step 5)?
+### Why my workloads do not pick up the new certificates (in step 5)?
 
 Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 4.
 
