@@ -257,11 +257,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 ## 卸载
 
-<<<<<<< HEAD
 - 如果你使用 `helm template` 命令安装的 Istio，使用如下命令卸载：
-=======
-- 如果您使用 `helm template` 命令安装的 Istio，使用如下命令卸载 :
->>>>>>> 69655a99ef42545212e85e5d88f7b5e24c36788c
 
 {{< tabset cookie-name="helm_profile" >}}
 
