@@ -1,7 +1,5 @@
 ---
-title: Source
+title: 源服务
 ---
-The downstream client of the [Envoy](#envoy) proxy.
-Within the [service mesh](#service-mesh) a source is typically a
-[workload](#workload), but the source for ingress traffic may include other clients such as a
-browser or mobile app.
+源服务 (source) 是 [Envoy](#envoy) 代理的下游客户端。
+在[服务网格](#service-mesh)里，一个源服务通常是一个[工作负载](#workload)，但是入口流量的源服务有可能包含其他客户端，例如浏览器，或者一个移动应用。
