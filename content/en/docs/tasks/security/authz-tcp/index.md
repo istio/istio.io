@@ -1,7 +1,7 @@
 ---
 title: Authorization for TCP traffic
 description: Shows how to set up access control for TCP traffic.
-weight: 10
+weight: 3
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
@@ -15,7 +15,7 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
+* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio with mutual TLS enabled.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
