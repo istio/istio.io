@@ -159,7 +159,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend` 服务可以访问 `photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
 
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](https://github.com/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
+在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
 
 在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
