@@ -2,7 +2,7 @@
 title: 安全
 description: 描述 Istio 的授权与鉴权功能。
 weight: 25
-keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
+keywords: [security,authentication,authorization,rbac,access-control]
 aliases:
     - /zh/docs/concepts/network-and-auth/auth.html
     - /zh/docs/concepts/security/authn-policy/
@@ -76,7 +76,7 @@ Istio 中的安全性涉及多个组件：
 
 自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 
-### Istio 安全与 SPIFFE{#istio-security-vs-spiffe}
+### Istio 安全与 SPIFFE{#Istio-security-SPIFFE}
 
 [SPIFFE](https://spiffe.io/) 标准提供了一个框架规范，该框架能够跨异构环境引导和向服务发布身份。
 
@@ -88,7 +88,7 @@ Istio 安全性和 [SPIRE](https://spiffe.io/spire/)，它是 SPIFFE 的实现�
 
 Istio 提供更全面的安全解决方案，包括身份验证、授权和审计。
 
-## PKI{#pki}
+## PKI{#PKI}
 
 Istio PKI 建立在 Istio Citadel 之上，可为每个工作负载安全地提供强大的工作负载标识。
 Istio 使用 X.509 证书来携带 [SPIFFE](https://spiffe.io/) 格式的身份。
@@ -97,7 +97,7 @@ PKI 还可以大规模自动化密钥和证书轮换。
 Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 目前，我们为每个方案使用不同的证书密钥配置机制。
 
-### Kubernetes 方案{#kubernetes-scenario}
+### Kubernetes 方案{#Kubernetes-scenario}
 
 1. Citadel 监视 Kubernetes `apiserver`，为每个现有和新的服务帐户创建 SPIFFE 证书和密钥对。Citadel 将证书和密钥对存储为 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/)。
 
@@ -119,7 +119,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 1. 上述 CSR 过程会定期重复进行证书和密钥轮换。
 
-### Kubernetes 中的代理节点{#node-agent-in-kubernetes}
+### Kubernetes 中的代理节点{#node-agent-in-Kubernetes}
 
 Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配的选项，如下图所示。请注意，本地计算机的标识提供流程是相同的，因此我们仅描述 Kubernetes 方案。
 
@@ -159,11 +159,11 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend` 服务可以访问 `photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
 
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](https://github.com/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
+在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/concepts/policies-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
 
 在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
 
-### Citadel 如何确定是否创建了服务帐户密钥（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
+### Citadel 如何确定是否创建了服务帐户机密（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
 
 当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
 
@@ -175,9 +175,9 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/setup/injection-concepts/)
 
-- 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的名称空间中定义了标签，则名称空间中的 Citadel 实例 ns-foo 将用于为名称空间中的工作负载生成密钥/证书 secrets ServiceAccount。
+- 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书机密。
+- 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书机密。
+- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的名称空间中定义了标签，则名称空间中的 Citadel 实例 ns-foo 将用于为名称空间中的工作负载生成密钥/证书机密ServiceAccount。
 - 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为true，则默认Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书机密。
 - 否则，不会为 ServiceAccount 的名称空间创建任何秘密。
 
@@ -224,7 +224,7 @@ Istio 提供两种类型的身份验证：
 
 在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在宽容模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
-### 双向 TLS 认证{#mutual-tls-authentication}
+### 双向 TLS 认证{#mutual-TLS-authentication}
 
 Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代理](https://envoyproxy.github.io/envoy/)。为了使客户端通过双向 TLS 调用服务端，请遵循以下步骤：
 
@@ -256,7 +256,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 ### 认证架构{#authentication-architecture}
 
-您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 `Istio Config Store`。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
+您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 `Istio Config Store`。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#PKI)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
 发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
@@ -457,7 +457,7 @@ spec:
 - **做什么**指的是 `ServiceRole` 中的 `permissions` 部分。
 - **哪些条件**指的是你可以在 `ServiceRole` 或 `ServiceRoleBinding` 中使用 [Istio 属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)指定的 `conditions` 部分。
 
-#### `ServiceRole`{#servicerole}
+#### `ServiceRole`{#service-role}
 
 `ServiceRole` 规范包括`规则`、所谓的权限列表。每条规则都有以下标准字段：
 
@@ -535,7 +535,7 @@ spec:
       values: ["v1", "v2"]
 {{< /text >}}
 
-#### `ServiceRoleBinding`{#servicerolebinding}
+#### `ServiceRoleBinding`{#service-role-binding}
 
 `ServiceRoleBinding` 规范包括两部分：
 
@@ -601,7 +601,7 @@ spec:
 
 ### 在普通 TCP 协议上使用 Istio 认证{#using-istio-authorization-on-plain-tcp-protocols}
 
-[Service role](#servicerole) 和 [Service role binding](#servicerolebinding) 中的例子展示了在使用 HTTP 协议的 service 上使用 Istio 认证的典型方法。在那些例子中，service role 和 service role binding 里的所有字段都可以支持。
+[Service role](#service-role) 和 [Service role binding](#service-role-binding) 中的例子展示了在使用 HTTP 协议的 service 上使用 Istio 认证的典型方法。在那些例子中，service role 和 service role binding 里的所有字段都可以支持。
 
 Istio 授权支持使用任何普通 TCP 协议的 service，例如 MongoDB。在这种情况下，您可以像配置 HTTP 服务一样配置 service role 和 service role binding。不同之处在于某些字段，约束和属性仅适用于 HTTP 服务。这些字段包括：
 
