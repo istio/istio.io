@@ -15,7 +15,7 @@ Istio 默认支持代理所有 TCP 流量， 但为了提供附加的能力，
 
 ## 手动协议选择
 
-通过声明一个 Service 端口，协议可以被手动指定 `name: <protocol>[-<suffix>]`.
+通过声明一个 Service 端口，协议可以被手动指定 `name: <protocol>[-<suffix>]`。
 下列协议是被支持的:
 
 - `grpc`
@@ -30,7 +30,7 @@ Istio 默认支持代理所有 TCP 流量， 但为了提供附加的能力，
 - `udp`
 
 \* 这些协议默认被禁用以阻止偶然地产生试验性的特性。
-要启用他们, 请配置相应的 Pilot [环境变量](/docs/reference/commands/pilot-discovery/#envvars).
+要启用他们, 请配置相应的 Pilot [环境变量](/docs/reference/commands/pilot-discovery/#envvars)。
 
 下面是一个 Service 例子，它定义了一个 `mysql` 端口 和一个 `http` 端口:
 
@@ -50,5 +50,5 @@ spec:
 
 Istio 可以自动检测出 HTTP 和 HTTP/2 流量。 如果协议可以被自动确定过，流量将会被当作普通 TCP 流量对待。
 
-这个特性是试验性的并且默认被关闭。 通过设置这些安装选项可以将其打开 `--set values.pilot.enableProtocolSniffingForOutbound=true --set values.pilot.enableProtocolSniffingForInbound=true`.
+这个特性是试验性的并且默认被关闭。 通过设置这些安装选项可以将其打开 `--set values.pilot.enableProtocolSniffingForOutbound=true --set values.pilot.enableProtocolSniffingForInbound=true`。
 
