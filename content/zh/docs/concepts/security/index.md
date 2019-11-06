@@ -103,7 +103,7 @@ Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
 
 1. 创建 pod 时，Kubernetes 会根据其服务帐户通过 [Kubernetes secret volume](https://kubernetes.io/docs/concepts/storage/volumes/#secret) 将证书和密钥对挂载到 pod。
 
-1. Citadel 监视每个证书的生命周期，并通过重写 Kubernetes 秘密自动轮换证书。
+1. Citadel 监视每个证书的生命周期，并通过重写 Kubernetes secret 自动轮换证书。
 
 1. Pilot 生成[安全命名](/zh/docs/concepts/security/#secure-naming)信息，该信息定义了哪些 Service Account 可以运行哪些服务。Pilot 然后将安全命名信息传递给 envoy sidecar。
 
@@ -179,7 +179,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 - 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。
 - 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的名称空间中定义了标签，则名称空间中的 Citadel 实例 ns-foo 将用于为名称空间中的工作负载生成密钥/证书 secrets ServiceAccount。
 - 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为true，则默认Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书 secrets。
-- 否则，不会为 ServiceAccount 的名称空间创建任何秘密。
+- 否则，不会为 ServiceAccount 的名称空间创建任何 secret。
 
 以下表格捕获了此逻辑：
 
