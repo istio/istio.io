@@ -15,7 +15,7 @@ aliases:
 `demo` 的配置方案通过配置高级别的跟踪和访问日志，用于展示 Istio 的功能，不适用于高性能评估使用。
 {{< /warning >}}
 
-要正式在生产环境上安装 Istio，我们推荐 [使用 {{< istioctl >}} 安装](/docs/setup/install/operator/)，
+要正式在生产环境上安装 Istio，我们推荐 [使用 {{< istioctl >}} 安装](/docs/setup/install/istioctl/)，
 它提供了更多选项，可以对 Istio 的配置进行选择和管理，满足特定的使用需求。
 
 ## 前提条件
