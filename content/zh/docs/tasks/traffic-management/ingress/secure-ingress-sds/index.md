@@ -1,109 +1,83 @@
 ---
-title: Secure Gateways (SDS)
-description: Expose a service outside of the service mesh over TLS or mTLS using the secret discovery service (SDS).
+title: 使用 SDS 为 Gateway 提供 HTTPS 加密支持
+description: 使用 Secret 发现服务（SDS) 通过 TLS 或者 mTLS 把服务暴露给服务网格外部。
 weight: 21
 aliases:
-    - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
+    - /zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
-The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
-describes how to configure an ingress gateway to expose an HTTP
-service to external traffic. This task shows how to expose a secure HTTPS
-service using either simple or mutual TLS.
+[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress) 中描述了如何进行配置，
+通过 Ingress Gateway 把服务的 HTTP 端点暴露给外部。
+这里更进一步，使用单向或者双向 TLS 来完成开放服务的任务。
 
-The TLS required private key, server certificate, and root certificate, are configured
-using the Secret Discovery Service (SDS).
+双向 TLS 所需的私钥、服务器证书以及根证书都由 Secret 发现服务（SDS）完成配置。
 
-## Before you begin
+## 开始之前 {#before-you-begin}
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
-and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control) task. After performing
-those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
-and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
+1. 首先执行 [Ingress 任务的初始化步骤](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)，然后执行[Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)部分中[获取 Ingress 的地址和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)，在完成这些步骤之后，也就是完成了 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin) 的部署，并设置了 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 两个环境变量的值。
 
-1.  For macOS users, verify that you use `curl` compiled with the [LibreSSL](http://www.libressl.org) library:
+1. macOS 用户应该检查一下本机的 `curl` 是否是使用 [LibreSSL](http://www.libressl.org) 库进行编译的：
 
     {{< text bash >}}
     $ curl --version | grep LibreSSL
     curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
     {{< /text >}}
 
-    If the previous command outputs a version of LibreSSL  as shown, your `curl` command
-    should work correctly with the instructions in this task. Otherwise, try
-    a different implementation of `curl`, for example on a Linux machine.
+    如果上面的命令输出了一段 LibreSSL 的版本信息，就说明你的 `curl` 命令可以完成本任务的内容。否则就要想办法换一个不同的 `curl` 了，例如可以换用一台运行 Linux 的工作站。
 
 {{< tip >}}
-If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/ingress/secure-ingress-mount),
-and you want to migrate your ingress gateway to use the SDS approach. There are no
-extra steps required.
+如果使用[基于文件安装的方法](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount)配置了 ingress gateway ，并且想要迁移 ingress gateway 使用SDS方法。 无需其他步骤。
 {{< /tip >}}
 
-## Generate client and server certificates and keys
+## 为服务器和客户端生成证书 {#generate-client-and-server-certificates-and-keys}
 
-For this task you can use your favorite tool to generate certificates and keys.
-This example uses [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
-from the <https://github.com/nicholasjackson/mtls-go-example> repository.
+可以使用各种常用工具来生成证书和私钥。这个例子中用了一个来自 <https://github.com/nicholasjackson/mtls-go-example> 的[脚本](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)来完成工作。
 
-1.  Clone the [example's repository](https://github.com/nicholasjackson/mtls-go-example):
+1. 克隆[示例代码库](https://github.com/nicholasjackson/mtls-go-example)：
 
     {{< text bash >}}
     $ git clone https://github.com/nicholasjackson/mtls-go-example
     {{< /text >}}
 
-1.  Go to the cloned repository:
+1. 进入代码库文件夹：
 
     {{< text bash >}}
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `httpbin.example.com`. Replace `<password>` with
-    any value in the following command:
+1. 为 `httpbin.example.com` 生成证书。注意要把下面命令中的 `password` 替换为其它值。
 
     {{< text bash >}}
     $ ./generate.sh httpbin.example.com <password>
     {{< /text >}}
 
-    When prompted, answer `y` to all the questions. The command generates
-    four directories: `1_root`, `2_intermediate`, `3_application`, and
-    `4_client` containing the client and server certificates to use in the
-    procedures below.
+    看到提示后，所有问题都输入 `Y` 即可。这个命令会生成四个目录：`1_root`、`2_intermediate`、`3_application` 以及 `4_client`。这些目录中包含了后续过程所需的客户端和服务端证书。
 
-1.  Move the certificates into a directory named `httpbin.example.com`:
+1. 把证书移动到 `httpbin.example.com` 目录之中：
 
     {{< text bash >}}
     $ mkdir ../httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.example.com
     {{< /text >}}
 
-1.  Go back to your previous directory:
+1. 返回之前的目录：
 
     {{< text bash >}}
     $ popd
     {{< /text >}}
 
-## Configure a TLS ingress gateway using SDS
+## 使用 SDS 配置 TLS Ingress Gateway {#configure-a-TLS-ingress-gateway-using-SDS}
 
-You can configure a TLS ingress gateway to fetch credentials
- from the ingress gateway agent via secret discovery service (SDS). The ingress
- gateway agent runs in the same pod as the ingress gateway and watches the
- credentials created in the same namespace as the ingress gateway. Enabling SDS
- at ingress gateway brings the following benefits.
+可以配置 TLS Ingress Gateway ，让它从 Ingress Gateway 代理通过 SDS 获取凭据。Ingress Gateway 代理和 Ingress Gateway 在同一个 Pod 中运行，监视 Ingress Gateway 所在命名空间中新建的 `Secret`。在 Ingress Gateway 中启用 SDS 具有如下好处：
 
-* The ingress gateway can dynamically add, delete, or update its
-key/certificate pairs and its root certificate. You do not have to restart the ingress
-gateway.
+* Ingress Gateway 无需重启，就可以动态的新增、删除或者更新密钥/证书对以及根证书。
 
-* No secret volume mount is needed. Once you create a `kubernetes`
-secret, that secret is captured by the gateway agent and sent to ingress gateway
- as key/certificate or root certificate.
+* 无需加载 `Secret` 卷。创建了 `kubernetes` `Secret` 之后，这个 `Secret` 就会被 Gateway 代理捕获，并以密钥/证书对和根证书的形式发送给 Ingress Gateway 。
 
-* The gateway agent can watch multiple key/certificate pairs. You only
-need to create secrets for multiple hosts and update the gateway definitions.
+* Gateway 代理能够监视多个密钥/证书对。只需要为每个主机名创建 `Secret` 并更新 Gateway 定义就可以了。
 
-1.  Enable SDS at ingress gateway and deploy the ingress gateway agent.
-    Since this feature is disabled by default, you need to enable the
-    `istio-ingressgateway.sds.enabled` installation option and generate the `istio-ingressgateway.yaml` file:
+1. 在 Ingress Gateway 上启用 SDS，并部署 Ingress Gateway 代理。
+    这个功能缺省是禁用的，因此需要在 Helm 中打开 [`istio-ingressgateway.sds.enabled` 开关]({{<github_blob>}}/install/kubernetes/helm/istio/charts/gateways/values.yaml)，然后生成 `istio-ingressgateway.yaml` 文件：
 
     {{< text bash >}}
     $ istioctl manifest generate \
@@ -113,7 +87,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     $ kubectl apply -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
-1.  Set the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
+1. 设置两个环境变量：`INGRESS_HOST` 和 `SECURE_INGRESS_PORT`：
 
     {{< text bash >}}
     $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system \
@@ -122,9 +96,9 @@ need to create secrets for multiple hosts and update the gateway definitions.
     get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
-### Configure a TLS ingress gateway for a single host
+### 为单一主机配置 TLS Ingress Gateway  {#configure-a-TLS-ingress-gateway-for-a-single-host}
 
-1.  Start the `httpbin` sample:
+1. 启动 `httpbin` 样例：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -166,7 +140,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     EOF
     {{< /text >}}
 
-1.  Create a secret for the ingress gateway:
+1. 为 Ingress Gateway 创建 `Secret：`
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret generic httpbin-credential \
@@ -175,13 +149,10 @@ need to create secrets for multiple hosts and update the gateway definitions.
     {{< /text >}}
 
     {{< warning >}}
-    The secret name **should not** begin with `istio` or `prometheus`, and
-    the secret **should not** contain a `token` field.
+    secret name **不能** 以 `istio` 或者 `prometheus`为开头, 且 secret **不能** 包含 `token` 字段。
     {{< /warning >}}
 
-1.  Define a gateway with a `servers:` section for port 443, and specify values for
-    `credentialName` to be `httpbin-credential`. The values are the same as the
-    secret's name. The TLS mode should have the value of `SIMPLE`.
+1. 创建一个 Gateway ，其 `servers:` 字段的端口为 443，设置 `credentialName` 的值为  `httpbin-credential`。这个值就是 `Secret` 的名字。TLS 模式设置为 `SIMPLE`。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -205,8 +176,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     EOF
     {{< /text >}}
 
-1.  Configure the gateway's ingress traffic routes. Define the corresponding
-    virtual service.
+1. 配置 Gateway 的 Ingress 流量路由，并配置对应的 `VirtualService`：：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -233,7 +203,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     EOF
     {{< /text >}}
 
-1.  Send an HTTPS request to access the `httpbin` service through HTTPS:
+1. 用 HTTPS 协议访问 `httpbin` 服务：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -242,11 +212,9 @@ need to create secrets for multiple hosts and update the gateway definitions.
     https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     {{< /text >}}
 
-    The `httpbin` service will return the
-    [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
+    `httpbin` 服务会返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3)。
 
-1.  Delete the gateway's secret and create a new one to change the ingress
-    gateway's credentials.
+1. 删除 Gateway 的 `Secret`，并新建另外一个，然后修改 Ingress Gateway 的凭据：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -262,7 +230,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
     --from-file=cert=httpbin.new.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
-1.  Access the `httpbin` service using `curl`
+1. 使用 `curl` 访问 `httpbin` 服务：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -283,7 +251,7 @@ need to create secrets for multiple hosts and update the gateway definitions.
         `"""`
     {{< /text >}}
 
-1. If you try to access `httpbin` with the previous certificate chain, the attempt now fails.
+1. 如果尝试使用之前的证书链来再次访问 `httpbin`，就会得到失败的结果：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -298,13 +266,11 @@ need to create secrets for multiple hosts and update the gateway definitions.
     * SSL certificate problem: unable to get local issuer certificate
     {{< /text >}}
 
-### Configure a TLS ingress gateway for multiple hosts
+### 为 TLS Ingress Gateway 配置多个主机名 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
-You can configure an ingress gateway for multiple hosts,
-`httpbin.example.com` and `helloworld-v1.example.com`, for example. The ingress gateway
-retrieves unique credentials corresponding to a specific `credentialName`.
+可以把多个主机名配置到同一个 Ingress Gateway 上，例如 `httpbin.example.com` 和 `helloworld-v1.example.com`。Ingress Gateway 会为每个 `credentialName` 获取一个唯一的凭据。
 
-1.  To restore the credentials for `httpbin`, delete its secret and create it again.
+1. 要恢复 “httpbin” 的凭据，请删除对应的 secret 并重新创建。
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -313,7 +279,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
     {{< /text >}}
 
-1.  Start the `helloworld-v1` sample
+1. 启动 `hellowworld-v1` 示例：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -358,8 +324,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     EOF
     {{< /text >}}
 
-1.  Create a secret for the ingress gateway. If you created the `httpbin-credential`
-    secret already, you can now create the `helloworld-credential` secret.
+1. 为 Ingress Gateway 创建一个 Secret。如果已经创建了  `httpbin-credential`，就可以创建 `helloworld-credential` Secret 了。
 
     {{< text bash >}}
     $ pushd mtls-go-example
@@ -371,9 +336,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     --from-file=cert=helloworld-v1.example.com/3_application/certs/helloworld-v1.example.com.cert.pem
     {{< /text >}}
 
-1.  Define a gateway with two server sections for port 443. Set the value of
-    `credentialName` on each port to `httpbin-credential` and `helloworld-credential`
-    respectively. Set TLS mode to `SIMPLE`.
+1. 定义一个 Gateway ，其中包含了两个 `server`，都开放了 443 端口。两个 `credentialName` 字段分别赋值为 `httpbin-credential` 和 `helloworld-credential`。设置 TLS 的 mode 为 `SIMPLE` 。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -406,8 +369,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     EOF
     {{< /text >}}
 
-1.  Configure the gateway's traffic routes. Define the corresponding
-    virtual service.
+1. 配置 Gateway 的流量路由，配置 `VirtualService`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -432,7 +394,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     EOF
     {{< /text >}}
 
-1. Send an HTTPS request to `helloworld-v1.example.com`:
+1. 向 `helloworld-v1.example.com` 发送 HTTPS 请求：
 
     {{< text bash >}}
     $ curl -v -HHost:helloworld-v1.example.com \
@@ -442,7 +404,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     HTTP/2 200
     {{< /text >}}
 
-1. Send an HTTPS request to `httpbin.example.com` and still get a teapot in return:
+1. 发送 HTTPS 请求到 `httpbin.example.com`，还是会看到茶壶：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -460,13 +422,9 @@ retrieves unique credentials corresponding to a specific `credentialName`.
             `"""`
     {{< /text >}}
 
-### Configure a mutual TLS ingress gateway
+### 配置双向 TLS Ingress Gateway  {#configure-a-mutual-TLS-ingress-gateway}
 
-You can extend your gateway's definition to support
-[mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication). Change
-the credentials of the ingress gateway by deleting its secret and creating a new one.
-The server uses the CA certificate to verify
-its clients, and we must use the name `cacert` to hold the CA certificate.
+可以对 Gateway 的定义进行扩展，加入[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 的支持。要修改 Ingress Gateway 的凭据，就要删除并重建对应的 `Secret`。服务器会使用 CA 证书对客户端进行校验，因此需要使用 `cacert` 字段来保存 CA 证书：
 
 {{< text bash >}}
 $ kubectl -n istio-system delete secret httpbin-credential
@@ -476,7 +434,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
 --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
 {{< /text >}}
 
-1. Change the gateway's definition to set the TLS mode to `MUTUAL`.
+1. 修改 Gateway 定义，设置 TLS 的模式为 `MUTUAL`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -500,7 +458,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     EOF
     {{< /text >}}
 
-1. Attempt to send an HTTPS request using the prior approach and see how it fails:
+1. 使用前面的方式尝试发出 HTTPS 请求，会看到失败的过程：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -521,9 +479,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     * OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
     {{< /text >}}
 
-1. Pass a client certificate and private key to `curl` and resend the request.
-   Pass your client's certificate with the `--cert` flag and your private key
-   with the `--key` flag to `curl`.
+1. 在 `curl` 命令中加入客户端证书和私钥的参数，重新发送请求。（客户端证书参数为 `--cert`，私钥参数为 `--key`）
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com \
@@ -544,13 +500,12 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
 
     {{< /text >}}
 
-1. Instead of creating a `httpbin-credential` secret to hold all the credentials, you can
-   create two separate secrets:
+1. 如果不想用 `httpbin-credential` secret 来存储所有的凭据, 可以创建两个单独的 secret :
 
-    * `httpbin-credential` holds the server's key and certificate
-    * `httpbin-credential-cacert` holds the client's CA certificate and must have the `-cacert` suffix
+    * `httpbin-credential` 用来存储服务器的秘钥和证书
+    * `httpbin-credential-cacert` 用来存储客户端的 CA 证书且一定要有 `-cacert` 后缀
 
-    Create the two separate secrets with the following commands:
+    使用以下命令创建两个单独的 secret :
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -561,57 +516,44 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
-## Troubleshooting
+## 故障排查 {#troubleshooting}
 
-*   Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment
-    variables. Make sure they have valid values, according to the output of the
-    following commands:
+* 查看 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量。根据下面的输出内容，确认其中是否包含了有效的值：
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     {{< /text >}}
 
-*   Check the log of the `istio-ingressgateway` controller for error messages:
+* 检查 `istio-ingressgateway` 控制器的日志，搜寻其中的错误信息：
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
     -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
     {{< /text >}}
 
-*   If using macOS, verify you are using `curl` compiled with the [LibreSSL](http://www.libressl.org)
-    library, as described in the [Before you begin](#before-you-begin) section.
+* 如果使用的是 macOS，检查其编译信息，确认其中包含 [LibreSSL](http://www.libressl.org)，具体步骤在[开始之前](#before-you-begin)一节中有具体描述。
 
-*   Verify that the secrets are successfully created in the `istio-system`
-    namespace:
+* 校验在 `istio-system` 命名空间中是否成功创建了 `Secret`：
 
     {{< text bash >}}
     $ kubectl -n istio-system get secrets
     {{< /text >}}
 
-    `httpbin-credential` and `helloworld-credential` should show in the secrets
-    list.
+    `httpbin-credential` 和 `helloworld-credential` 都应该出现在列表之中。
 
-*   Check the logs to verify that the ingress gateway agent has pushed the
-    key/certificate pair to the ingress gateway.
+* 检查日志，看 Ingress Gateway 代理是否已经成功的把密钥和证书对推送给了 Ingress Gateway ：
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
     -n istio-system -o jsonpath='{.items[0].metadata.name}') -c ingress-sds
     {{< /text >}}
 
-    The log should show that the `httpbin-credential` secret was added. If using mutual
-    TLS, then the `httpbin-credential-cacert` secret should also appear.
-    Verify the log shows that the gateway agent receives SDS requests from the
-    ingress gateway, that the resource's name is `httpbin-credential`, and that the ingress gateway
-    obtained the key/certificate pair. If using mutual TLS, the log should show
-    key/certificate was sent to the ingress gateway,
-    that the gateway agent received the SDS request with the `httpbin-credential-cacert`
-    resource name,   and that the ingress gateway obtained the root certificate.
+    正常情况下，日志中应该显示 `httpbin-credential` 已经成功创建。如果使用的是双向 TLS，还应该看到 `httpbin-credential-cacert`。通过对日志的查看，能够验证 Ingress Gateway 代理从 Ingress Gateway 收到了 SDS 请求，资源名称是  `httpbin-credential`，Ingress Gateway 最后得到了应有的密钥/证书对。如果使用的是双向 TLS，日志会显示出密钥/证书对已经发送给 Ingress Gateway ， Gateway 代理接收到了资源名为 `httpbin-credential-cacert` 的 SDS 请求，Ingress Gateway 用这种方式获取根证书。
 
-## Cleanup
+## 清理 {#cleanup}
 
-1.  Delete the gateway configuration, the virtual service definition, and the secrets:
+1. 删除 Gateway 配置、`VirtualService` 以及 `Secret`：
 
     {{< text bash >}}
     $ kubectl delete gateway mygateway
@@ -621,19 +563,19 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     $ kubectl delete --ignore-not-found=true virtualservice helloworld-v1
     {{< /text >}}
 
-1.  Delete the directories of the certificates and the repository used to generate them:
+1. 删除证书目录以及用于生成证书的代码库：
 
     {{< text bash >}}
     $ rm -rf httpbin.example.com helloworld-v1.example.com mtls-go-example
     {{< /text >}}
 
-1.  Remove the file you used for redeployment of the ingress gateway.
+1. 删除用于重新部署 Ingress Gateway 的文件：
 
     {{< text bash >}}
     $ rm -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
-1. Shutdown the `httpbin` and `helloworld-v1` services:
+1. 关闭 `httpbin` 和 `helloworld-v1` 服务：
 
     {{< text bash >}}
     $ kubectl delete service --ignore-not-found=true helloworld-v1

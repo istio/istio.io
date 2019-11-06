@@ -21,28 +21,25 @@ window.onload = function(){
 
 {{< warning >}}
 Helm 的安装方法已被弃用。
-请改用 [使用 {{< istioctl >}} 安装](/zh/docs/setup/install/operator/)。
+请改[用 {{< istioctl >}} 安装](/zh/docs/setup/install/operator/)。
 {{< /warning >}}
 
 请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
 
-这种安装方式使用 [Helm](https://github.com/helm/helm) charts 自定义 Istio 控制平面和 Istio 数据平面的 sidecar 。
-你只需使用 `helm template` 生成配置并使用 `kubectl apply` 命令安装它, 或者你可以选择使用 `helm install` 让
+这种安装方式使用 [Helm](https://github.com/helm/helm) chart 自定义 Istio 控制平面和 Istio 数据平面的 sidecar 。
+您只需使用 `helm template` 生成配置并使用 `kubectl apply` 命令安装它, 或者您可以选择使用 `helm install` 让
 [Tiller](https://helm.sh/docs/architecture/#components)
  来完全管理安装。
 
-通过这些说明, 你可以选择 Istio 内置的任何一个
+通过这些说明, 您可以选择 Istio 内置的任何一个
 [配置文件](/zh/docs/setup/additional-setup/config-profiles/)
 并根据的特定的需求进行进一步的自定义配置。
 
 ## 先决条件
 
 1. [下载 Istio 发行版](/zh/docs/setup/#downloading-the-release)。
-
 1. 完成必要的 [Kubernetes 平台设置](/zh/docs/setup/platform-setup/)。
-
 1. 检查 [Pod 和服务的要求](/zh/docs/setup/additional-setup/requirements/)。
-
 1. [安装高于 2.10 版本的 Helm 客户端](https://github.com/helm/helm#install)。
 
 ## 添加 Helm chart 仓库
@@ -58,8 +55,8 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 
 将目录切换到 Istio 发行版的根目录，然后在以下两个**互斥**选项选择一种安装：
 
-1. 如果你不使用 Tiller 部署 Istio，请查看 [方案 1](/zh/docs/setup/install/helm/#方案-1-使用-helm-template-命令安装)。
-1. 如果你使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发行版, 请查看 [方案 2](/zh/docs/setup/install/helm/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令安装)。
+1. 如果您不使用 Tiller 部署 Istio，请查看 [方案 1](/zh/docs/setup/install/helm/#方案-1-使用-helm-template-命令安装)。
+1. 如果您使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发行版, 请查看 [方案 2](/zh/docs/setup/install/helm/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令安装)。
 
 {{< tip >}}
 默认情况下，Istio 使用 `LoadBalancer` 服务类型。 而有些平台是不支持 `LoadBalancer`
@@ -68,8 +65,8 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 
 ### 方案 1: 使用 `helm template` 命令安装
 
-在你的集群没有按照 [Tiller](https://helm.sh/docs/architecture/#components)
- 而且你也不想安装它的情况下，选择此方案安装。
+在您的集群没有按照 [Tiller](https://helm.sh/docs/architecture/#components)
+ 而且您也不想安装它的情况下，选择此方案安装。
 
 1. 为 Istio 组件创建命名空间 `istio-system` ：
 
@@ -88,11 +85,11 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 1. {{< boilerplate verify-crds >}}
 
 1. 选择一个 [配置文件](/zh/docs/setup/additional-setup/config-profiles/)
-    接着部署与你选择的配置文件相对应的 Istio 核心组件。
+    接着部署与您选择的配置文件相对应的 Istio 核心组件。
     我们建议在生产环境使用**默认**的配置文件：
 
     {{< tip >}}
-    你可以添加一个或多个 `--set <key>=<value>` 来进一步自定义 helm 命令的 [安装选项](/zh/docs/reference/config/installation-options/) 。
+    您可以添加一个或多个 `--set <key>=<value>` 来进一步自定义 helm 命令的 [安装选项](/zh/docs/reference/config/installation-options/) 。
     {{< /tip >}}
 
 {{< tabset cookie-name="helm_profile" >}}
@@ -158,7 +155,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< boilerplate helm-security-warning >}}
 
-1. 请确保你的集群的 Tiller 设置了 `cluster-admin` 角色的 Service Account。
+1. 请确保您的集群的 Tiller 设置了 `cluster-admin` 角色的 Service Account。
    如果还没有定义，请执行下面命令创建：
 
     {{< text bash >}}
@@ -180,11 +177,11 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 1. {{< boilerplate verify-crds >}}
 
 1. 选择一个 [配置文件](/zh/docs/setup/additional-setup/config-profiles/)
-    接着部署与你选择的配置文件相对应的 `istio` 的核心组件。
+    接着部署与您选择的配置文件相对应的 `istio` 的核心组件。
     我们建议在生成环境部署中使用**默认**配置文件:
 
     {{< tip >}}
-    你可以添加一个或多个 `--set <key>=<value>` 来进一步定义 Helm 命令的
+    您可以添加一个或多个 `--set <key>=<value>` 来进一步定义 Helm 命令的
     [安装选项](/zh/docs/reference/config/installation-options/)。
     {{< /tip >}}
 
@@ -260,7 +257,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 ## 卸载
 
-- 如果你使用 `helm template` 命令安装的 Istio，使用如下命令卸载 :
+- 如果您使用 `helm template` 命令安装的 Istio，使用如下命令卸载 :
 
 {{< tabset cookie-name="helm_profile" >}}
 
@@ -318,7 +315,7 @@ $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=k
 
 {{< /tabset >}}
 
-- 如果你使用的Helm 和 Tiller 安装的 Istio,使用如下命令卸载：
+- 如果您使用的Helm 和 Tiller 安装的 Istio,使用如下命令卸载：
 
     {{< text bash >}}
     $ helm delete --purge istio
