@@ -1,7 +1,8 @@
 ---
-title: 如何加入 Istio Slack 工作空间？
+title: How can I join the Istio Slack workspace?
 weight: 180
 ---
 
-目前我们提供了一个加入 [Istio Slack workspace](https://istio.slack.com) 的正式流程。当前的流程规定下，首先需要已加入成员的邀请，才能加入 Workspace。可以在[论坛](https://discuss.istio.io/c/contributors)上尝试联系现有成员，以便发起邀请。
-
+We're working on a formal procedure to join the [Istio Slack workspace](https://istio.slack.com). For the time being, to join the workspace you need to be
+invited by someone that's already a member. If you don't know anyone, try asking in [this forum](https://discuss.istio.io/c/contributors) and someone
+will send you an invitation.

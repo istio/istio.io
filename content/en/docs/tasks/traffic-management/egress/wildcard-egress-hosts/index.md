@@ -18,7 +18,7 @@ example `*.wikipedia.org`, instead of configuring each and every host separately
 Suppose you want to enable egress traffic in Istio for the `wikipedia.org` sites in all languages.
 Each version of `wikipedia.org` in a particular language has its own hostname, e.g., `en.wikipedia.org` and
 `de.wikipedia.org` in the English and the German languages, respectively.
-You want to enable egress traffic by common configuration items for all the _wikipedia_ sites,
+You want to enable egress traffic by common configuration items for all the Wikipedia sites,
 without the need to specify every language's site separately.
 
 {{< boilerplate before-you-begin-egress >}}
@@ -299,7 +299,7 @@ The SNI proxy will forward the traffic to port `443`.
 1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` which you can optionally edit and then deploy.
 
     {{< text bash >}}
-    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
+    $ cat <<EOF | istioctl manifest generate --set values.global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
     gateways:
       enabled: true
       istio-ingressgateway:
@@ -689,7 +689,7 @@ The SNI proxy will forward the traffic to port `443`.
 
 ## Cleanup
 
-Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@

@@ -94,7 +94,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and
 [change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
@@ -724,7 +724,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
 1. [Verify that the traffic is directed though the egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
 
-#### Cleanup directing TLS Egress traffic through an egress gateway
+#### Cleanup directing TLS egress traffic through an egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo

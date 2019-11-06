@@ -27,7 +27,7 @@ Usage of AWS `nlb` on Kubernetes is an Alpha feature and not recommended for pro
 Usage of AWS `nlb` does not support the creation of two or more Kubernetes clusters running Istio in the same zone as a result of [Kubernetes Bug #69264](https://github.com/kubernetes/kubernetes/issues/69264).
 {{< /warning >}}
 
-## IAM Policy
+## IAM policy
 
 You need to apply policy on the master role in order to be able to provision network load balancer.
 

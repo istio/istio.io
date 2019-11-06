@@ -1,5 +1,6 @@
 ---
-title: 微分段
+title: Micro-Segmentation
 ---
-微分段是一种安全性技术，它通过在云部署里面创建安全区，使组织之间可以将工作负载彼此隔离，保证组织之间的安全性。
+Micro-segmentation is a security technique that creates secure zones in cloud deployments and allows organizations to
+isolate workloads from one another and secure them individually.
 

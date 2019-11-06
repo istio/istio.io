@@ -15,8 +15,19 @@
     {{ $page.Scratch.Set "seeAlso" false }}
 {{ end }}
 
+{{ $hdr_types := "23456" }}
+{{ if eq $page.Params.max_toc_level 2 }}
+    {{ $hdr_types = "2" }}
+{{ else if eq $page.Params.max_toc_level 3 }}
+    {{ $hdr_types = "23" }}
+{{ else if eq $page.Params.max_toc_level 4 }}
+    {{ $hdr_types = "234" }}
+{{ else if eq $page.Params.max_toc_level 5 }}
+    {{ $hdr_types = "2334" }}
+{{ end }}
+
 {{ if not $page.Params.skip_toc }}
-    {{ $headers := findRE "<h[23456].*?id=\".*?\".*?>.*?</h[23456]>" $page.Content }}
+    {{ $headers := findRE (printf "<h[%s].*?id=\".*?\".*?>.*?</h[%s]>" $hdr_types $hdr_types) $page.Content }}
     {{ $len := len $headers }}
 
     {{ if or (gt $len 0) ($page.Scratch.Get "seeAlso") }}
@@ -25,8 +36,8 @@
             {{ $page.Scratch.Set "level" 50 }}
             {{ range $h := $headers }}
                 {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
-                {{ $id := replaceRE "<h[23456].*?id=\"(.*?)\".*?>.*?</h[23456]>" "$1" $h }}
-                {{ $title := replaceRE "<h[23456].*?>(.*?)</h[23456]>" "$1" $h }}
+                {{ $id := replaceRE (printf "<h[%s].*?id=\"(.*?)\".*?>.*?</h[%s]>" $hdr_types $hdr_types) "$1" $h }}
+                {{ $title := replaceRE (printf "<h[%s].*?>(.*?)</h[%s]>" $hdr_types $hdr_types) "$1" $h }}
                 {{ $current := $page.Scratch.Get "level" | int }}
 
                 {{ if gt $level $current }}
@@ -42,7 +53,12 @@
                     {{ end }}
                 {{ end }}
 
-                <li role="none" aria-label="{{ $title | safeHTML }}"><a href="#{{ $id }}">{{ $title | safeHTML }}</a>
+                {{ $short_title := $title }}
+                {{ if $page.Params.remove_toc_prefix }}
+                    {{ $short_title = strings.TrimPrefix $page.Params.remove_toc_prefix $title }}
+                {{ end }}
+
+                <li role="none" aria-label="{{ $title | safeHTML }}"><a href="#{{ $id }}">{{ $short_title | safeHTML }}</a>
 
                 {{ $page.Scratch.Set "level" $level }}
             {{ end }}

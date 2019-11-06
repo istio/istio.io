@@ -1,9 +1,11 @@
 ---
-title: 如何使用 Istio 的服务访问非 Istio 服务？
+title: How can services that use Istio access non-Istio services?
 weight: 40
 ---
 
-当全局启用双向 TLS 时，全局目标规则 (*global* destination rule) 匹配群集中的所有服务，无论这些服务是否具有 Istio sidecar。 这包括 Kubernetes API 服务器，以及集群中的任何非 Istio 服务。 要让这些非 Istio 服务与有 Istio sidecar 的服务进行通信，你需要设置目标规则以免除服务。 例如：
+When mutual TLS is globally enabled, the *global* destination rule matches all services in the cluster, whether or not these services have an Istio sidecar.
+This includes the Kubernetes API server, as well as any non-Istio services in the cluster. To communicate with such services from services that have an Istio
+sidecar, you need to set a destination rule to exempt the service. For example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -20,7 +22,8 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-这个目标规则已作为 Istio 安装的一部分添加到系统中，并具有默认的双向 TLS
+This destination rule is already added to the system when
+Istio is installed with mutual TLS enabled.
 {{< /tip >}}
 
-同样，您可以为其他非 Istio 服务添加目标规则。 有关更多示例，请参阅[任务](/docs/tasks/security/authn-policy/#request-from-istio-services-to-non-istio-services)。
+Similarly, you can add destination rules for other non-Istio services. For more examples, see [task](/docs/tasks/security/authn-policy/#request-from-istio-services-to-non-istio-services).

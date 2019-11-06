@@ -1,44 +1,56 @@
 ---
-title: 构建 & 发布节奏
-description: 管理、编号和支持 Istio 发布的方式。
-weight: 6
+title: Build & Release Cadence
+description: How we manage, number, and support Istio releases.
+weight: 15
 icon: cadence
 ---
 
-我们每天都在构建发布 Istio。大约每个月我们会将其中一个日常构建版本通过一系列额外的质量测试后，将其构建标记为 Snapshot 版本。大约每个季度左右，我们会选择其中一个 Snapshot 版本运行更多测试并将构建标记为长期支持（LTS）版本。最后，如果发现 LTS 版本有问题，我们会发布补丁。
+We produce new builds of Istio on a daily basis. Around once a month or so, we take one of these daily
+builds and run it through a number of additional qualification tests and tag the build as a Snapshot release.
+Around once a quarter or so, we take one of these Snapshot releases, run through a bunch more tests
+and tag the build as a Long Term Support (LTS) release. Finally, if we find something wrong with an
+LTS release, we issue patches.
 
-不同类型（每日、Snapshot、LTS）代表不同的产品质量水平和 Istio 团队对其的不同支持水平。在这种情况下，*支持* 意味着我们将为关键问题打补丁并提供技术支持。另外，第三方和合作伙伴可以提供长期支持解决方案。
+The different types (Daily, Snapshot, LTS) represent different product quality levels and different levels of support
+from the Istio team. In this context, *support* means that we will produce patch releases for critical issues and
+offer technical assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
 
-|类型             | 支持级别                                            | 质量和推荐使用
+|Type             | Support Level                                            | Quality and Recommended Use
 |-----------------|----------------------------------------------------------|----------------------------
-|每日构建      | 不支持                           | 危险，不完全可靠。可以用于测试。
-|Snapshot 版本 | 仅支持最新的 snapshot 版本 | 预计相当稳定，但生产中的使用应限制在必要的基础上。通常只由前沿用户或寻求特定功能的用户采用。
-|LTS 版本      | 在下一个 LTS 之后的 3 个月内提供支持 | 安全地部署在生产中。建议用户尽快升级到这些版本。
-|补丁          | 与相应的 Snapshot/LTS 版本相同 | 鼓励用户在给定版本可用时立即采用补丁版本。
+|Daily Build      | No support                                               | Dangerous, may not be fully reliable. Useful to experiment with.
+|Snapshot Release | Support is provided for the latest snapshot release only | Expected to be quite stable, but use in production should be limited to an as-needed basis. Usually only adopted by bleeding edge users, or users seeking specific features.
+|LTS Release      | Support is provided until 3 months after the next LTS    | Safe to deploy in production. Users are encouraged to upgrade to these releases as soon as possible.
+|Patches          | Same as the corresponding Snapshot/LTS release           | Users are encouraged to adopt patch releases as soon as they are available for a given release.
 
-您可以在[发布页面](https://github.com/istio/istio/releases)上找到可用的版本，如果您是冒险类型，您可以在[每日构建 wiki](https://github.com/istio/istio/wiki/Daily-builds) 上了解我们的每日构建。您可以在[此处](/zh/about/notes)找到每个 LTS 版本的高级发行说明。
+You can find available releases on the [releases page](https://github.com/istio/istio/releases),
+and if you're the adventurous type, you can learn about our daily builds on the [daily builds wiki](https://github.com/istio/istio/wiki/Daily-builds).
+You can find high-level releases notes for each LTS release [here](/news).
 
-## 命名模式
+## Naming Scheme
 
-在 Istio 0.8 之前，我们每月都会增加产品的版本号。从 0.8 开始，我们将仅为 LTS 版本增加产品的版本号。
+Prior to Istio 0.8, we increased the product's version number on a monthly basis. Effective with 0.8,
+we will increase the product's version number only for LTS releases.
 
-LTS 版本的命名模式为：
+Our naming scheme for LTS releases is:
 
 {{< text plain >}}
 <major>.<minor>.<LTS patch level>
 {{< /text >}}
 
-其中 <minor> 针对每个 LTS 版本增加，<LTS patch level> 为当前 LTS 版本的补丁总数。补丁通常是相对于 LTS 的小变更。
+where `<minor>` is increased for every LTS release, and `<LTS patch level>` counts the number of patches for the
+current LTS release. A patch is usually a small change relative to the LTS.
 
-对于 snapshot 版本，命名模式为：
+For snapshot releases, our naming scheme is:
 
 {{< text plain >}}
 <major>.<minor>.0-snapshot.<snapshot count>
 {{< /text >}}
 
-其中 `<major>.<minor>.0` 表示下一个 LTS，`<snapshot count>` 从 0 开始，并且每个快照都会增加，直到下一个 LTS。
+where `<major>.<minor>.0` represent the next LTS, and
+`<snapshot count>` starts at 0 and increases for every snapshot leading up to the
+next LTS.
 
-在极少的情况下我们需要向快照发补丁，编号为：
+In the unlikely event we need to issue a patch to a snapshot, it is numbered as:
 
 {{< text plain >}}
 <major>.<minor>.0-snapshot.<snapshot count>.<snapshot patch level>

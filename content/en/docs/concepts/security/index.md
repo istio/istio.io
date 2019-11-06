@@ -93,7 +93,7 @@ across heterogeneous environments.
 
 Istio and SPIFFE share the same identity document: [SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) (SPIFFE Verifiable Identity Document).
 For example, in Kubernetes, the X.509 certificate has the URI field in the format of
-`spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>`.
+`spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`.
 This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
 
 Istio security and [SPIRE](https://spiffe.io/spire/), which is the implementation of SPIFFE, differ in the PKI implementation details.
@@ -202,7 +202,7 @@ In this setup, Kubernetes can isolate the operator privileges on managing the se
 Istio manages certificates and keys in all namespaces
 and enforces different access control rules to the services.
 
-### How Citadel determines whether to create Service Account secrets
+### How Citadel determines whether to create service account secrets
 
 When a Citadel instance notices that a `ServiceAccount` is created in a namespace, it must decide whether it should generate an `istio.io/key-and-cert` secret for that `ServiceAccount`. In order to make that decision, Citadel considers three inputs (note: there can be multiple Citadel instances deployed in a single cluster, and the following targeting rules are applied to each instance):
 
@@ -220,7 +220,7 @@ From these three values, the decision process mirrors that of the [`Sidecar Inje
 
 - Otherwise, if a `ca.istio.io/env: "ns-foo"` label is defined in the service account's namespace, the Citadel instance in namespace `ns-foo` will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
 
-- Otherwise, follow the `enableNamespacesByDefault` Helm flag. If it is `true`, the default Citadel instance will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
+- Otherwise, set `enableNamespacesByDefault` to `true` during installation. If it is `true`, the default Citadel instance will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
 
 - Otherwise, no secrets are created for the `ServiceAccount`'s namespace.
 
@@ -413,7 +413,7 @@ spec:
 Istio can store authentication policies in namespace-scope or mesh-scope
 storage:
 
-- Mesh-scope policy is specified with a value of `"MeshPolicy"` for the `kind`
+- Mesh-scope policy is specified with a value of `MeshPolicy` for the `kind`
   field and the name `"default"`. For example:
 
     {{< text yaml >}}
@@ -622,7 +622,7 @@ saves the policies in the `Istio Config Store`.
 
 Pilot watches for changes to Istio authorization policies. It fetches the
 updated authorization policies if it sees any changes. Pilot distributes Istio
-authorization policies to the Envoy proxies that are co-located with the
+authorization policies to the Envoy proxies that are colocated with the
 service instances.
 
 Each Envoy proxy runs an authorization engine that authorizes requests at

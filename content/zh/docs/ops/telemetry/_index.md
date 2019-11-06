@@ -1,6 +1,8 @@
 ---
-title: 遥测
-description: 帮助您在一个运行的服务网格中管理遥测数据的采集和可视化。
-weight: 50
+title: 可观测性
+description: 帮助您管理正在运行的网格中的遥测收集和可视化。
+weight: 60
 keywords: [ops,telemetry]
+aliases:
+    - /zh/help/ops/telemetry
 ---

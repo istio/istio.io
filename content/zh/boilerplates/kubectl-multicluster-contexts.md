@@ -1,7 +1,8 @@
 ---
 ---
-* `kubectl` 能通过 `--context` 参数切换上下文，以支持对不同集群 `cluster1` 和 `cluster2` 的访问。
-  使用如下命令列出现存的上下文：
+*   你可以使用 `kubectl` 命令带上 `--context` 参数去访问集群 `cluster1` 和 `cluster2`，
+    例如 `kubectl get pods --context cluster1`。
+    使用如下命令列出你的上下文:
 
     {{< text bash >}}
     $ kubectl config get-contexts
@@ -10,9 +11,15 @@
               cluster2   cluster2   user@foo.com   default
     {{< /text >}}
 
-* 使用配置的上下文名称导出以下环境变量：
+*   保存集群的上下文到环境变量:
 
     {{< text bash >}}
-    $ export CTX_CLUSTER1=<KUBECONFIG_CONTEXT_NAME_FOR_CLUSTER_1>
-    $ export CTX_CLUSTER2=<KUBECONFIG_CONTEXT_NAME_FOR_CLUSTER_2>
+    $ export CTX_CLUSTER1=$(kubectl config view -o jsonpath='{.contexts[0].name}')
+    $ export CTX_CLUSTER2=$(kubectl config view -o jsonpath='{.contexts[1].name}')
+    $ echo CTX_CLUSTER1 = ${CTX_CLUSTER1}, CTX_CLUSTER2 = ${CTX_CLUSTER2}
+    CTX_CLUSTER1 = cluster1, CTX_CLUSTER2 = cluster2
     {{< /text >}}
+
+    {{< tip >}}
+    如果你有超过两个集群的上下文并且你想要使用前两个以外的集群配置你的网格，你需要手动将环境变量设置为你需要的上下文名称。
+    {{< /tip >}}

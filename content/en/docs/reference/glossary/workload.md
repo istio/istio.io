@@ -8,5 +8,5 @@ using the following [attributes](#attribute):
 * `destination.workload.name`, `destination.workload.namespace`, `destination.workload.uid`
 
 In Kubernetes, a workload typically corresponds to a Kubernetes deployment,
-while a [workload instance](#workload-instance) corresponds to an individual pod managed
+while a [workload instance](#workload-instance) corresponds to an individual [pod](#pod) managed
 by the deployment.

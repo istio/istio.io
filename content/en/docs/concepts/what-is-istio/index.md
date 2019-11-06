@@ -1,6 +1,6 @@
 ---
 title: What is Istio?
-description: Introduces Istio, the problems it solves, its high-level architecture and design goals.
+description: Introduces Istio, the problems it solves, its high-level architecture, and its design goals.
 weight: 15
 aliases:
     - /docs/concepts/what-is-istio/overview

@@ -49,15 +49,12 @@ controlled way.
 
     If no pods are returned, deploy the Istio egress gateway by performing the next step.
 
-1.  Use `helm template` (or `helm install` with the corresponding flags):
+1.  Run the following command:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio-egressgateway --namespace istio-system \
-        -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml \
-        -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml \
-        -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml \
-        --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false \
-        --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
+    $ istioctl manifest apply --set values.global.istioNamespace=istio-system \
+        --set values.gateways.istio-ingressgateway.enabled=false \
+        --set values.gateways.istio-egressgateway.enabled=true
     {{< /text >}}
 
 {{< warning >}}
@@ -657,7 +654,7 @@ external service.
 1.  Check that the deployed pod has two containers, including the Istio sidecar proxy (`istio-proxy`):
 
     {{< text bash >}}
-    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath={.spec.containers[*].name}
+    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath='{.spec.containers[*].name}'
     sleep istio-proxy
     {{< /text >}}
 
@@ -789,7 +786,7 @@ external service.
 
 ## Cleanup
 
-Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@

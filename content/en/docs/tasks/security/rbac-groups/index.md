@@ -22,7 +22,7 @@ concepts.
 
 * Create a Kubernetes cluster with Istio installed and mutual TLS enabled.
 To fulfill this prerequisite you can follow the Kubernetes
-[installation instructions](/docs/setup/install/kubernetes/#installation-steps).
+[installation instructions](/docs/setup/install/kubernetes/).
 
 ## Setup the required namespace and services
 

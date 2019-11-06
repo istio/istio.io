@@ -1,4 +1,5 @@
 ---
 title: Mixer Instance
 ---
-一个 mixer instance 代表一组 mixer 数据，这些数据通过检查一组请求的[属性](#%E5%B1%9E%E6%80%A7)和应用操作者提供的配置产生。Mixer instance 会被发送到对应的 [mixer handler](#mixer-handler)，并随之发送到基础设施后端服务。
+
+Mixer Instance 表示通过检查一组请求[属性](#attribute) ，并结合使用者提供的配置而生成的数据块。Mixer Instance 在随请求到达各种基础后端设施的途中，会被传递给各个[处理程序](#mixer-handler)

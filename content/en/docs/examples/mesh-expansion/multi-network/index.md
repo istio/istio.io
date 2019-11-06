@@ -21,7 +21,7 @@ VMs, bare metals and clusters is required.
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-### Customized installation of Istio on the Cluster
+### Customized installation of Istio on the cluster
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself, and
 generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
@@ -74,7 +74,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
           -o jsonpath='{.data.cert-chain\.pem}' | base64 --decode > cert-chain.pem
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/architecture/#pilot) and workloads on cluster through this IP address.
+1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot]/docs/ops/architecture/#pilot) and workloads on cluster through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -248,10 +248,10 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 
 ## Expose service running on cluster to VMs
 
-Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form <name>.<namespace>.global where name and namespace correspond to the service’s name and namespace respectively.
+Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form `<name>.<namespace>.global` where name and namespace correspond to the service’s name and namespace respectively.
 
 To demonstrate access from VM to  cluster services, configure the
-the [httpbin service]({{<github_tree>}}/samples/httpbin)
+the [httpbin service]({{< github_tree >}}/samples/httpbin)
 in the cluster.
 
 1. Deploy the `httpbin` service in the cluster
@@ -336,7 +336,7 @@ in the cluster.
 After setup, the machine can access services running in the Kubernetes cluster.
 
 The following example shows accessing a service running in the Kubernetes cluster from a mesh expansion VM using
-`/etc/hosts/`, in this case using a service from the [httpbin service]({{<github_tree>}}/samples/httpbin).
+`/etc/hosts/`, in this case using a service from the [httpbin]({{< github_tree >}}/samples/httpbin) service.
 
 1.  On the mesh expansion machine, add the service name and address to its `/etc/hosts` file. You can then connect to
     the cluster service from the VM, as in the example below:

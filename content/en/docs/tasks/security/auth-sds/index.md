@@ -47,9 +47,8 @@ This approach has the following benefits:
 
 ## Before you begin
 
-* Set up Istio by following the instructions using
-  [Helm](/docs/setup/install/helm/) with SDS setup and global mutual
-  TLS enabled.
+* Follow the [install instructions](/docs/setup/install/istioctl/)
+  to set up Istio with SDS and global mutual TLS enabled.
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
 
@@ -255,6 +254,9 @@ To enable the pod security policy, perform the following steps:
       name: normal
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: normal
       template:
         metadata:
           labels:
@@ -287,6 +289,9 @@ To enable the pod security policy, perform the following steps:
       name: malicious
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: malicious
       template:
         metadata:
           labels:

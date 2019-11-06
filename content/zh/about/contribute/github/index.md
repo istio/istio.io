@@ -1,83 +1,128 @@
 ---
-title: 使用 GitHub
-description: 向您展示如何使用 GitHub 处理 Istio 文档。
-weight: 20
+title: Working with GitHub
+description: Shows you how to use GitHub to work on Istio documentation.
+weight: 30
+aliases:
+    - /docs/welcome/contribute/creating-a-pull-request.html
+    - /docs/welcome/contribute/staging-your-changes.html
+    - /docs/welcome/contribute/editing.html
+    - /about/contribute/creating-a-pull-request
+    - /about/contribute/editing
+    - /about/contribute/staging-your-changes
 keywords: [contribute,community,github,pr]
 ---
 
-很高兴您有兴趣为改进和扩展我们的文档做出贡献！在开始之前，请花点时间熟悉下程序。
+We're excited that you're interested in contributing to improve and expand
+our docs! Please take a few moments to get familiar with our procedures before
+you get started.
 
-要处理 Istio 文档，您需要：
+To work on Istio documentation, you need to:
 
-1. 创建一个 [GitHub 账号](https://github.com)。
+1. Create a [GitHub account](https://github.com).
 
-1. 签署[贡献者证书协议](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements)。
+1. Sign the [Contributor License
+   Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements).
 
-该文档是在 [Apache 2.0](https://github.com/istio/istio.io/blob/master/LICENSE) 许可下发布的。
+The documentation is published under the [Apache
+2.0](https://github.com/istio/istio.io/blob/master/LICENSE) license.
 
-## 如何贡献
+## How to contribute
 
-为 Istio 贡献文档有三种方式：
+There are three ways you can contribute to the Istio documentation:
 
-* 如果要编辑现有页面，可以在浏览器中打开页面，然后从每页右上角的齿轮菜单中选择**在 GitHub 上编辑此页面**选项。这将带您到 GitHub 上对页面进行编辑，并可以提交更改。
+* If you want to edit an existing page, you can open up the page in your
+  browser and select the **Edit This Page on GitHub** option from the gear menu
+  at the top right of each page. This takes you to GitHub to edit and
+  submit the changes.
 
-* 还有更为通用的方式来对站点进行修改，具体步骤在[如何创建新内容](#add)一节中有更多介绍。
+* If you want to work on the site in general, follow the steps in our
+  [How to add content section](#add).
 
-* 如果想要对现有的 Pull Request（PR）进行评审，请参看[内容评审](#review)的相关内容。
+* If you want to review an existing pull request (PR), follow the steps in our
+  [How to review content section](#review)
 
-变更请求被合并之后，会马上在 `preliminary.istio.io` 进行呈现。然而 `istio.io` 上的内容不会立即变更，这个站点的内容仅在有新版本发布的时候才会更新，通常是一个季度一次。
+Once your changes are merged, they show up immediately on
+`preliminary.istio.io`. However, the changes only
+show up on `istio.io` the next time we produce a new
+release, which happens around once a quarter.
 
-## 如何创建新内容 {#add}
+### How to add content {#add}
 
-要加入新内容，首先要 Fork 文档版本仓库，然后从你的 Fork 中创建一个 PR 到文档版本库之中。具体步骤如下：
+To add content you must create a fork of the repository and a PR from
+your fork to the docs main repository. The following steps describe the
+process:
 
 <a class="btn"
 href="https://github.com/istio/istio.io/">Browse this site's source
 code</a>
 
-1. 点击上面的按钮，浏览 GitHub 仓库。
+1.  Click the button above to visit the GitHub repository.
 
-1. 点击右上角的 **Fork** 按钮，在自己的 GitHub 账号下复制一个文档版本库的副本。
+1.  Click the **Fork** button in the upper-right corner of the screen to
+    create a copy of our repository in your GitHub account.
 
-1. 在本地克隆这个新副本，进行编辑。
+1.  Create a clone of your fork and make any changes you want.
+1.  When you are ready to send those changes to us, push the changes to your
+    fork.
+1.  Go to the index page for your fork, and click **New Pull Request** to let
+    us know about it.
 
-1. 完成变更之后，将变更内容推送到前面 Fork 产生的版本库之中。
+### How to review content {#review}
 
-1. 前往 Fork 版本库的首页，点击 **New Pull Request**，通知项目成员。
+If your review is small, simply comment on the PR directly. If you review the
+content in detail, follow these steps:
 
-## 如何评审内容 {#review}
+1.  Leave a comment on the PR with the text `/hold`. This command prevents the
+    PR from being merged before you are able to complete your review.
 
-如果你的评审意见很少，只要简单的给 PR 加上说明就可以了。如果你的评审比较详细，请按以下步骤执行：
+1.  Perform your detailed review. When possible leave specific comments
+    directly on the files and lines affected.
 
-1. 在 PR 中加入回复 `/hold`。这个命令会阻止该 PR 的合并，直到完成评审完成为止。
-
-1. 开始评审。可以在文件的指定行上直接写入意见。
-
-1. 可以为 PR 的所有者提出一些建议，例如：
+1.  Provide suggestions to the PR owner in your comments when appropriate. For
+    example:
 
     {{< text markdown >}}
     Use present tense to avoid verb congruence issues and
     to make the text easier to understand:
 
-    ```suggestion
+    &96;&96;&96;suggestion
 
     Pilot maintains an abstract model of the mesh.
 
-    ```
+    &96;&96;&96;
     {{< /text >}}
 
-1. 发表评审结果之后，在 PR 中加入回复 `/hold cancel`，将会解锁 PR，允许合并。
+1.  Publish your review to share your comments and suggestions with us and the
+    PR owner. Request changes as the review warrants.
 
-## 预览您的成果
+    {{< warning >}}
+    If you don't publish your review, the PR owner and
+    the community cannot see your comments.
+    {{< /warning >}}
 
-当您提交 Pull request 时，GitHub 上的 PR 页面会显示一个链接，指向您的 PR 自动构建的临时站点。这有助于您查看面向最终用户的页面。审核您 Pull request 的人也使用此临时站点，当一切看起来没有问题时才准许合并。
+1.  Once you publish your review, leave a comment with the text:
+    `/hold cancel`. That command unblocks the PR from being merged.
 
-如果您创建了存储库的分支，则可以在本地预览更改。有关说明，请参阅 [README](https://github.com/istio/istio.io/blob/master/README.md)。
+## Previewing your work
 
-## Istio 社区的角色
+When you submit a pull request, your PR page on GitHub shows a link to a
+staging site built automatically for your PR. This is useful for you to see
+what the final page looks like to end-users. Folks reviewing your
+pull request also use this staging site to make sure everything looks good.
 
-根据每个人的职责和贡献，社区中存在多种角色。
+If you created a fork of the repository, you can preview your changes locally.
+See this
+[README](https://github.com/istio/istio.io/blob/master/README.md) for
+instructions.
 
-[角色概览页面](https://github.com/istio/community/blob/master/ROLES.md#role-summary)中介绍了各种角色的要求和责任，及其所具备的权限。
+## Istio community roles
 
-[社区页面](https://github.com/istio/community)中对 Istio 社区进行了简单的介绍。
+Depending on your contributions and responsibilities, there are several roles
+you can assume.
+
+Visit our [role summary page](https://github.com/istio/community/blob/master/ROLES.md#role-summary)
+to learn about the roles, the related requirements and responsibilities, and
+the privileges associated with the roles.
+
+Visit our [community page](https://github.com/istio/community) to learn more
+about the Istio community in general.

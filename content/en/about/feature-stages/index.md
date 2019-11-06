@@ -33,7 +33,7 @@ within the project, not to the project as a whole. Here is a high level descript
 
 Below is our list of existing features and their current phases. This information will be updated after every monthly release.
 
-### Traffic Management
+### Traffic management
 
 | Feature           | Phase
 |-------------------|-------------------
@@ -47,9 +47,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
-| [Sidecar API](/docs/reference/config/networking/sidecar/) | Alpha
-
-The `Sidecar` runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
+| [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
 
 ### Observability
 
@@ -67,7 +65,7 @@ The `Sidecar` runtime is considered Beta.  However, its API is still subject to 
 | [Logging with Fluentd](/docs/tasks/observability/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
 
-### Security and Policy Enforcement
+### Security and policy enforcement
 
 | Feature           | Phase
 |-------------------|-------------------
@@ -91,8 +89,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Operator installation](/docs/setup/install/operator/) | Alpha
-| [Standalone Operator](/docs/setup/install/operator/) | Alpha
+| [Standalone Operator](/docs/ops/setup/standalone-operator/) | Alpha
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/) | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/) | Stable

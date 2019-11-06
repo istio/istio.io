@@ -1,6 +1,8 @@
 ---
-title: Consul - 如何取消最后由 kubectl 更改的上下文？
+title: Consul - 怎么取消 kubectl 对上下文的修改？
 weight: 50
 ---
 
-使用 `kubectl use-context istio` 命令后，你的 `kubectl` 被切换为 Istio 上下文。您可以使用 `kubectl config get-contexts` 来获取上下文列表，然后使用 `kubectl config use-context {desired-context}` 切换到你想要使用的上下文。
+执行命令 `kubectl use-context istio` 后，你的 `kubectl` 会切换至 Istio 上下文。
+你可以使用 `kubectl config get-contexts` 获取上下文列表，
+并通过 `kubectl config use-context {desired-context}` 切换至你想要的上下文。

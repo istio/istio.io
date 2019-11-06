@@ -1,132 +1,164 @@
 ---
-title: 默认监控指标
-description: 通过 Mixer 从 Istio 导出的默认监控指标。
+title: Default Metrics
+description: Default Metrics exported from Istio through Mixer.
 weight: 50
 ---
 
-此页面展示使用初始配置时，Istio 收集的监控指标（metrics）的详细信息。您可以随时通过更改配置来添加和删除指标。您可以在[这个文件]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)的 "kind: metric” 小节中找到它们。它使用了 [metric 模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)来定义指标。
+This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this
+is the built-in set. They can be found [here]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)
+under the section with "kind: metric”. It uses [metric
+template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 
-我们将首先描述监控指标，然后描述每个指标的标签。
+We will describe metrics first and then the labels for each metric.
 
-## 监控指标
+## Metrics
 
-* **Request Count**：这是一个 `COUNTER`，随 Istio 代理处理的每个请求递增。
+For HTTP, HTTP/2, and GRPC traffic, Istio generates the following metrics:
 
-* **Request Duration**：这是一个 `DISTRIBUTION`，它测量请求的持续时间。
+*   **Request Count** (`istio_requests_total`): This is a `COUNTER` incremented for every request handled by an Istio proxy.
 
-* **Request Size**：这是一个 `DISTRIBUTION`，它测量 HTTP 请求的 body 大小。
+*   **Request Duration** (`istio_request_duration_seconds`): This is a `DISTRIBUTION` which measures the duration of requests.
 
-* **Response Size**：这是一个 `DISTRIBUTION`，它测量 HTTP 响应 body 的大小。
+*   **Request Size** (`istio_request_bytes`): This is a `DISTRIBUTION` which measures HTTP request body sizes.
 
-* **Tcp Byte Sent**：这是一个 `COUNTER`，它测量在 TCP 连接场景下响应期间发送的总字节数，由服务端代理测量。
+*   **Response Size** (`istio_response_bytes`): This is a `DISTRIBUTION` which measures HTTP response body sizes.
 
-* **Tcp Byte Received**：这是一个 `COUNTER`，它测量在 TCP 连接场景下请求期间接收的总字节数，由服务端代理测量。
+For TCP traffic, Istio generates the following metrics:
 
-## 标签（Label）
+*   **Tcp Byte Sent** (`istio_tcp_sent_bytes_total`): This is a `COUNTER` which measures the size of total bytes sent during response in case of a TCP
+    connection.
 
-* **Reporter**：这是请求报告者的标识符。报告从服务端 Istio 代理而来时设置为 `destination`，从客户端 Istio 代理而来时设置为 `source`。
+*   **Tcp Byte Received** (`istio_tcp_received_bytes_total`): This is a `COUNTER` which measures the size of total
+    bytes received during request in case of a TCP connection.
+
+*   **Tcp Connections Opened** (`istio_tcp_connections_opened_total`): This is a `COUNTER` incremented for every opened connection.
+
+*   **Tcp Connections Closed** (`istio_tcp_connections_closed_total`): This is a `COUNTER` incremented for every closed connection.
+
+## Labels
+
+*   **Reporter**: This identifies the reporter of the request. It is set to `destination`
+    if report is from a server Istio proxy and `source` if report is from a client
+    Istio proxy.
 
     {{< text yaml >}}
     reporter: conditional((context.reporter.kind | "inbound") == "outbound", "source", "destination")
     {{< /text >}}
 
-* **Source Workload**：源工作负载所属控制器的名称。
+*   **Source Workload**: This identifies the name of source workload which
+    controls the source.
 
     {{< text yaml >}}
     source_workload: source.workload.name | "unknown"
     {{< /text >}}
 
-* **Source Workload Namespace**：源工作负载所在的命名空间。
+*   **Source Workload Namespace**: This identifies the namespace of the source
+    workload.
 
     {{< text yaml >}}
     source_workload_namespace: source.workload.namespace | "unknown"
     {{< /text >}}
 
-* **Source Principal**：在使用 Peer 身份验证的情况下，流量来源的认证主体。
+*   **Source Principal**: This identifies the peer principal of the traffic source.
+    It is set when peer authentication is used.
 
     {{< text yaml >}}
     source_principal: source.principal | "unknown"
     {{< /text >}}
 
-* **Source App**：源工作负载的 `app` 标签。
+*   **Source App**: This identifies the source app based on `app` label of the
+    source workload.
 
     {{< text yaml >}}
     source_app: source.labels["app"] | "unknown"
     {{< /text >}}
 
-* **Source Version**：标识了源工作负载的版本。
+*   **Source Version**: This identifies the version of the source workload.
 
     {{< text yaml >}}
     source_version: source.labels["version"] | "unknown"
     {{< /text >}}
 
-* **Destination Workload**：标识了目的工作负载的名称。
+*   **Destination Workload**: This identifies the name of destination workload.
 
     {{< text yaml >}}
     destination_workload: destination.workload.name | "unknown"
     {{< /text >}}
 
-* **Destination Workload Namespace**：标识了目的工作负载所在的命名空间。
+*   **Destination Workload Namespace**: This identifies the namespace of the destination
+    workload.
 
     {{< text yaml >}}
     destination_workload_namespace: destination.workload.namespace | "unknown"
     {{< /text >}}
 
-* **Destination Principal**：在使用 Peer 身份验证的情况下，流量目标的认证主体。
+*   **Destination Principal**: This identifies the peer principal of the traffic destination.
+    It is set when peer authentication is used.
 
     {{< text yaml >}}
     destination_principal: destination.principal | "unknown"
     {{< /text >}}
 
-* **Destination App**：标识了目的应用（基于目的工作负载的 `app` 标签）。
+*   **Destination App**: This identifies the destination app based on `app` label of the
+    destination workload.
 
     {{< text yaml >}}
     destination_app: destination.labels["app"] | "unknown"
     {{< /text >}}
 
-* **Destination Version**：标识了目的工作负载的版本。
+*   **Destination Version**: This identifies the version of the destination workload.
 
     {{< text yaml >}}
     destination_version: destination.labels["version"] | "unknown"
     {{< /text >}}
 
-* **Destination Service**：标识了负责处理传入请求的目标服务。例如：`details.default.svc.cluster.local`。
+*   **Destination Service**: This identifies destination service host responsible
+    for an incoming request. Ex: `details.default.svc.cluster.local`.
 
     {{< text yaml >}}
     destination_service: destination.service.host | "unknown"
     {{< /text >}}
 
-* **Destination Service Name**：标识了目标服务的名称。例如：“details”。
+*   **Destination Service Name**: This identifies the destination service name.
+    Ex: "details".
 
     {{< text yaml >}}
     destination_service_name: destination.service.name | "unknown"
     {{< /text >}}
 
-* **Destination Service Namespace**：标识了目标服务所在的命名空间。
+*   **Destination Service Namespace**: This identifies the namespace of
+    destination service.
 
     {{< text yaml >}}
     destination_service_namespace: destination.service.namespace | "unknown"
     {{< /text >}}
 
-* **Request Protocol**：标识了请求协议。当提供了 API 协议时设置为该值，否则设置为请求或连接协议。
+*   **Request Protocol**: This identifies the protocol of the request. It is set
+    to API protocol if provided, otherwise request or connection protocol.
 
     {{< text yaml >}}
     request_protocol: api.protocol | context.protocol | "unknown"
     {{< /text >}}
 
-* **Response Code**：标识了请求的响应码。该标签仅在 HTTP 指标中存在。
+*   **Response Code**: This identifies the response code of the request. This
+    label is present only on HTTP metrics.
 
     {{< text yaml >}}
     response_code: response.code | 200
     {{< /text >}}
 
-* **Connection Security Policy**：这标识了请求的服务身份验证策略。当 Istio 启用通信安全功能，并且报告来自目的地时，它被设置为 `mutual_tls`。如果报告来自源时，因为无法判断安全策略，这个指标的值会被设置为 `unknown`。
+*   **Connection Security Policy**: This identifies the service authentication policy of
+    the request. It is set to `mutual_tls` when Istio is used to make communication
+    secure and report is from destination. It is set to `unknown` when report is from
+    source since security policy cannot be properly populated.
 
     {{< text yaml >}}
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}
 
-* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) 中的  `%RESPONSE_FLAGS%` 相关说明。
+*   **Response Flags**: Additional details about the response or connection from proxy.
+    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)
+    for more detail.
 
     {{< text yaml >}}
     response_flags: context.proxy_error_code | "-"
