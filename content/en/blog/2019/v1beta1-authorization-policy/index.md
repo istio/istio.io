@@ -1,7 +1,7 @@
 ---
 title: Introducing the Istio v1beta1 Authorization Policy
 description: Introduction, motivation and design principles for the Istio v1beta1 Authorization Policy.
-publishdate: 2019-11-11
+publishdate: 2019-11-12
 subtitle:
 attribution: Yangmin Zhu (Google)
 keywords: [security, RBAC, access control, authorization]
@@ -29,8 +29,8 @@ needs to learn and manage three different resources in Istio RBAC. Istio has alr
 are too much CRDs to learn and manage, and the learning and maintenance burden of having three different configurations
 in Istio RBAC turned out to be greater than its benefit.
 
-To address these, and other issues, Istio 1.4 introduces the `v1beta1` authorization policy which will
-completely replace the previous `v1alpha1` RBAC policy going forward. The `v1beta1` policy provides
+To address these, and other issues, Istio 1.4 introduces the [`v1beta1` authorization policy](/docs/reference/config/authorization/authorization-policy/)
+which will completely replace the previous `v1alpha1` RBAC policy going forward. The `v1beta1` policy provides
 more features but is not backward compatible and will require manual conversion from the old API (we
 will provide tool to help automate the conversion).
 
@@ -53,8 +53,9 @@ to be applied on Ingress/Egress gateway to enforce access control for traffic en
 
 ## `AuthorizationPolicy`
 
-An `AuthorizationPolicy` enables access control on workloads. This section gives
-a high level overview of the new changes in the `v1beta1` authorization policy.
+An [`AuthorizationPolicy` custom resource](/docs/reference/config/authorization/authorization-policy/)
+enables access control on workloads. This section gives a high level overview of the
+new changes in the `v1beta1` authorization policy.
 
 An `AuthorizationPolicy` includes a `selector` and a list of `rule`. The `selector`
 is used to decide where to apply the policy, the `rule` is used to decide **who**
