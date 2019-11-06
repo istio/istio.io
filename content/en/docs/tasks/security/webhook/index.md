@@ -137,7 +137,7 @@ a part of the configuration is shown to save space).
 1.  Use `istioctl` to enable the webhook configurations:
 
     {{< text bash >}}
-    $ istioctl experimental post-install webhook enable --validation --webhook-secret dns.istio-galley-service-account \
+    $ istioctl experimental post-install webhook enable --webhook-secret dns.istio-galley-service-account \
         --namespace istio-system --validation-path galley-webhook.yaml \
         --injection-path sidecar-injector-webhook.yaml
     {{< /text >}}
