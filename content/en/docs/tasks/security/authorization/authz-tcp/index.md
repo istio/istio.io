@@ -1,8 +1,10 @@
 ---
 title: Authorization for TCP traffic
 description: Shows how to set up access control for TCP traffic.
-weight: 3
+weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
+aliases:
+    - /docs/tasks/security/authz-tcp/
 ---
 
 This task shows you how to set up Istio authorization for TCP traffic in an Istio mesh.

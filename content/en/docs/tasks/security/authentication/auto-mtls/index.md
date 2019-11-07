@@ -1,7 +1,7 @@
 ---
 title: Automatic mutual TLS
 description: A simplified workflow to adopt mutual TLS with minimal configuration overhead.
-weight: 10
+weight: 50
 keywords: [security,mtls,ux]
 ---
 
