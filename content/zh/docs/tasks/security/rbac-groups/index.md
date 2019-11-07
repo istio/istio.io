@@ -53,7 +53,7 @@ keywords: [security,authorization]
 
     当命令成功时，它返回 HTTP 状态码为 200。
 
-## 使用双向 TLS 配置 JSON Web 令牌（JWT）认证{#configure-json-web-token-jwt-authentication-with-mutual-tls}
+## 使用双向 TLS 配置 JSON Web 令牌（JWT）认证{#configure-json-web-token-JWT-authentication-with-mutual-TLS}
 
 您接下来应用的认证策略强制要求访问 `httpbin` 服务需要有效的 JWT。
 策略中定义的 JSON Web 密钥集（ JWKS ）端点必须对 JWT 进行签名。
