@@ -14,14 +14,9 @@ This installation lets you quickly evaluate Istio in a Kubernetes cluster on any
 {{< warning >}}
 The demo configuration profile is not suitable for performance evaluation. It
 is designed to showcase Istio functionality with high levels of tracing and
-access logging.
+access logging. To install Istio for production use, we recommend using the
+[Installing with {{< istioctl >}} guide](/docs/setup/install/istioctl/) instead.
 {{< /warning >}}
-
-To install Istio for production use, we recommend using the
-[Installing with {{< istioctl >}} guide](/docs/setup/install/istioctl/)
-instead, which provides many more options for selecting and managing the Istio
-configuration. This permits customization of Istio to operator specific
-requirements.
 
 ## Prerequisites
 
