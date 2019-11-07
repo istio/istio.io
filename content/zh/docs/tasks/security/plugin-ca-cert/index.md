@@ -14,7 +14,7 @@ keywords: [security,certificates]
 * 按照 [quick start](/zh/docs/setup/install/kubernetes/) 中的说明安装 Istio：
 
 {{< tip >}}
-从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#authentication policy)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#authentication-policies)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
 {{< /tip >}}
 
 ## 插入现有密钥和证书{#Plugging in the existing certificate and key}
