@@ -27,7 +27,7 @@ instead, which is a stable feature.
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-    This command creates the operator custom resource definition and controller deployment.
+    This command creates the operator custom resource definition and deploys the controller.
 
 ## Install
 
@@ -91,7 +91,9 @@ prometheus-67cdb66cbb-9w2hm                                    1/1     Running  
 
 Now, with the controller running, you can change the Istio configuration by editing or replacing
 the `IstioControlPlane` resource. The controller will detect the change and respond by updating
-the Istio installation correspondingly. For example, you can switch the installation to the `default`
+the Istio installation correspondingly.
+
+For example, you can switch the installation to the `default`
 profile with the following command:
 
 {{< text bash >}}
