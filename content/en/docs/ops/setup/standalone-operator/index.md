@@ -21,19 +21,21 @@ instead, which is a stable feature.
 
 1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
 
+1. Deploy the operator:
+
+    {{< text bash >}}
+    $ kubectl apply -f https://preliminary.istio.io/operator.yaml
+    {{< /text >}}
+
+    This command creates the operator custom resource definition and controller deployment.
+
 ## Install
 
 To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
 using the operator, run the following command:
 
 {{< text bash >}}
-$ kubectl apply -f https://preliminary.istio.io/operator.yaml
-{{< /text >}}
-
-This command deploys the operator controller and applies an `IstioControlPlane` custom resource
-that selects the Istio `demo` profile.
-
-{{< text yaml >}}
+$ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha2
 kind: IstioControlPlane
 metadata:
@@ -41,11 +43,11 @@ metadata:
   name: example-istiocontrolplane
 spec:
   profile: demo
+EOF
 {{< /text >}}
 
-The controller, once initialized, will detect the
-`IstioControlPlane` resource and then install the Istio components corresponding
-to the specified (`demo`) configuration.
+The controller will detect the `IstioControlPlane` resource and then install the Istio
+components corresponding to the specified (`demo`) configuration.
 
 You can confirm the Istio control plane services have been deployed with the following commands:
 
@@ -87,8 +89,9 @@ kiali-99f7467dc-6rvwp                                          1/1     Running  
 prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
 {{< /text >}}
 
-Now that the controller is running, you can change the Istio configuration by editing or replacing
-the `IstioControlPlane` resource. For example, you can switch the installation to the `default`
+Now, with the controller running, you can change the Istio configuration by editing or replacing
+the `IstioControlPlane` resource. The controller will detect the change and respond by updating
+the Istio installation correspondingly. For example, you can switch the installation to the `default`
 profile with the following command:
 
 {{< text bash >}}
@@ -104,7 +107,7 @@ EOF
 {{< /text >}}
 
 You can also enable or disable specific features or components.
-For example, to disable the telemetry feature change:
+For example, to disable the telemetry feature:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -121,7 +124,7 @@ EOF
 {{< /text >}}
 
 Refer to the [`IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
-for the complete set of configuration options.
+for the complete set of configuration settings.
 
 ## Uninstall
 

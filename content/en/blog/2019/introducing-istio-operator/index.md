@@ -114,7 +114,8 @@ For example, to install the controller and a default version of Istio into your 
 run the following command:
 
 {{< text bash >}}
-$ kubectl apply -f https://<repo URL>/<version>/operator-profile-default.yaml
+$ kubectl apply -f https://<repo URL>/operator.yaml
+$ kubectl apply -f https://<repo URL>/<version>/default-cr.yaml
 {{< /text >}}
 
 You can then make changes to the Istio installation configuration:
@@ -126,7 +127,7 @@ $ kubectl edit istiocontrolplane example-istiocontrolplane -n istio-system
 To upgrade to a new version of Istio, run:
 
 {{< text bash >}}
-$ kubectl apply -f https://<repo URL>/<new version>/operator-profile-default.yaml
+$ kubectl apply -f https://<repo URL>/<new version>/default-cr.yaml
 {{< /text >}}
 
 Both the operator controller and `istioctl` commands share the same code.
