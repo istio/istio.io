@@ -32,7 +32,7 @@ keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 
 1. 输入集群名称。集群名称可以是长度为 1–63 个字符，可以包含数字、中文字符、英文字母和连字符 (-) 。
 
-1. 选择集群所在到 **地区** 和 **区域**。
+1. 选择集群所在到 **region** 和 **zone**。
 
 1. 设置集群网络类型。Kubernetes 集群现在只支持 VPC 的网络类型。
 
