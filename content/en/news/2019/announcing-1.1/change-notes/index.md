@@ -108,7 +108,7 @@ concise list of things you should know before upgrading your deployment to Istio
   for more information.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
-  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/autorization/authz-tcp)
+  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authorization/authz-tcp)
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`

@@ -104,7 +104,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Identity Provisioning Through SDS**. Added SDS support to provide stronger
   security with on-node key generation and dynamic certificate rotation without
-  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/auth-sds)
+  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/citadel-config/auth-sds)
   for more information.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
