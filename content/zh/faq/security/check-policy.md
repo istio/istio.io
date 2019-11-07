@@ -11,6 +11,6 @@ HOST:PORT                                  STATUS     SERVER     CLIENT     AUTH
 httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /default            istio-system/default
 {{< /text >}}
 
-其中 `$CLIENT_POD` 是作为客户端服务运行的 Pod 中的任意一个的 ID。
+其中 `$CLIENT_POD` 是作为客户端服务运行的 pod 中的任意一个的 ID。
 
 请参见[验证双向 TLS 配置](/zh/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration)以获取更多细节。
