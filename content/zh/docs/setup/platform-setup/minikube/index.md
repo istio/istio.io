@@ -20,9 +20,7 @@ keywords: [platform-setup,kubernetes,minikube]
 
 ## 安装步骤{#installation-steps}
 
-1.  安装最新的
-    [minikube](https://kubernetes.io/docs/setup/minikube/)，版本 **1.1.1 或
-    更高**，以及
+1.  安装最新的 [minikube](https://kubernetes.io/docs/setup/minikube/)，版本 **1.1.1 或更高**，以及
     [minikube 虚拟机驱动](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)。
 
 1.  如果你没有使用默认的驱动，需要配置 minikube 虚拟机驱动。
