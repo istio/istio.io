@@ -141,7 +141,7 @@ spec:
 因此，我们考虑从一开始就为每个服务
 基于最佳实践设置一个默认的路由规则。
 
-## 设置 destination rule 之后出现503异常{#503-errors-after-setting-destination-rule}
+## 设置 destination rule 之后出现503异常{#errors-after-setting-destination-rule}
 
 如果在你应用了一个 `DestinationRule` 之后请求一个服务立即产生了一个503异常
 并且这个异常持续产生直到你移除了这个 `DestinationRule`，那么这个 `DestinationRule` 大概
@@ -339,7 +339,7 @@ server {
 }
 {{< /text >}}
 
-## 当为多个 gateway 配置了相同的 TLS 证书导致404异常{#404-errors-occur-when-multiple-gateways-configured-with-same-tls-certificate}
+## 当为多个 gateway 配置了相同的 TLS 证书导致404异常{#errors-occur-when-multiple-gateways-configured-with-same-TLS-certificate}
 
 使用相同的 TLS 证书配置到超过一个 gateway，当浏览器与另一个主机建立了
 连接访问第二个主机时会导致浏览器快取 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)
