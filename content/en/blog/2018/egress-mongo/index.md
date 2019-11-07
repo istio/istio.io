@@ -111,12 +111,19 @@ As a reminder, here is the end-to-end architecture of the application from the
 
 ### Use the external database in Bookinfo application
 
-1.  Deploy the spec of the _ratings_ microservice that uses a MongoDB database (_ratings v2_), while setting
-    `MONGO_DB_URL` environment variable of the spec:
+1.  Deploy the spec of the _ratings_ microservice that uses a MongoDB database (_ratings v2_):
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - "MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&ssl=true" -o yaml | kubectl apply -f -
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+    serviceaccount "bookinfo-ratings-v2" created
     deployment "ratings-v2" created
+    {{< /text >}}
+
+1.  Update the `MONGO_DB_URL` environment variable to the value of your MongoDB:
+
+    {{< text bash >}}
+    $ kubectl set env deployment/ratings-v2 "MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&ssl=true"
+    deployment.extensions/ratings-v2 env updated
     {{< /text >}}
 
 1.  Route all the traffic destined to the _reviews_ service to its _v3_ version. You do this to ensure that the
