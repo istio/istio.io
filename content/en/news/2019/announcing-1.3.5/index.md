@@ -13,7 +13,7 @@ This release contains fixes for the security vulnerability described in [our Nov
 
 {{< relnote >}}
 
-## Security Update
+## Security update
 
 - **ISTIO-SECURITY-2019-006** A DoS vulnerability has been discovered in Envoy.
 
