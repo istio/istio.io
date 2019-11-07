@@ -48,6 +48,6 @@ spec:
 
 ## 自动协议选择 (试验性的)
 
-Istio 可以自动检测出 HTTP 和 HTTP/2 流量。如果协议可以被自动确定过，流量将会被当作普通 TCP 流量对待。
+Istio 可以自动检测出 HTTP 和 HTTP/2 流量。如果协议可以被自动确定，流量将会被当作普通 TCP 流量对待。
 
 这个特性是试验性的并且默认被关闭。通过设置这些安装选项可以将其打开 `--set values.pilot.enableProtocolSniffingForOutbound=true --set values.pilot.enableProtocolSniffingForInbound=true`。
