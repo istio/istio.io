@@ -21,6 +21,8 @@ window.onload = function(){
 }
 </script>
 
+<div id="dnscerts"></div>
+
 {{< warning >}}
 The Helm installation approach has been deprecated.
 Please use [Installing with {{< istioctl >}}](/docs/setup/install/operator/), instead.
