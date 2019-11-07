@@ -48,12 +48,32 @@ please follow the procedure and check whether you will be affected.
     {{< text bash>}}
     $ wget https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh
     $ chmod +x root-transition.sh
-    $ ./root-transition.sh check
+    $ ./root-transition.sh check-root
     ...
     ===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRES!=====
     {{< /text >}}
 
     Execute the remainder of the steps prior to root certificate expiration to avoid system outages.
+
+1. Upgrade to Istio 1.0.8, 1.1.8 or later:
+
+    {{< warning >}}
+    To ensure the control plane components and Envoy sidecars all load the new certificates and keys, this step is mandatory.
+    {{< /warning >}}
+
+    Upgrade your control plane and `istio-proxy` sidecars to 1.0.8, 1.1.8 or later.
+    Please follow the Istio [upgrade procedure](/docs/setup/upgrade/).
+
+1. Verify the `istio-proxy` sidecars are 1.0.8, 1.1.8 or later.
+
+    {{< text bash>}}
+    $ ./root-transition.sh check-version
+    ...
+    Checking namespace: default
+    Checking namespace: istio-system
+    Istio proxy version: 1.2.7
+    ...
+    {{< /text >}}
 
 1. Execute a root certificate transition:
 
@@ -73,7 +93,7 @@ please follow the procedure and check whether you will be affected.
     {{< /warning >}}
 
     {{< text bash>}}
-    $ ./root-transition.sh transition
+    $ ./root-transition.sh root-transition
     Create new ca cert, with trust domain as cluster.local
     Wed Jun  5 19:11:15 PDT 2019 delete old ca secret
     secret "istio-ca-secret" deleted
@@ -99,7 +119,7 @@ please follow the procedure and check whether you will be affected.
 1. Verify the new workload certificates are generated:
 
     {{< text bash>}}
-    $ ./root-transition.sh verify
+    $ ./root-transition.sh verify-certs
     ...
     Checking the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.
     Root cert MD5 is 8fa8229ab89122edba73706e49a55e4c
@@ -114,15 +134,6 @@ please follow the procedure and check whether you will be affected.
 
     If this command fails, wait a minute and run the command again.
     It takes some time for Citadel to propagate the certificates.
-
-1. Upgrade to Istio 1.0.8, 1.1.8 or later:
-
-    {{< warning >}}
-    To ensure the control plane components and Envoy sidecars all load the new certificates and keys, this step is mandatory.
-    {{< /warning >}}
-
-    Upgrade your control plane and `istio-proxy` sidecars to 1.0.8, 1.1.8 or later.
-    Please follow the Istio [upgrade procedure](/docs/setup/upgrade/).
 
 1. Verify the new workload certificates are loaded by Envoy:
 
@@ -157,9 +168,9 @@ Yes, you can. You can upgrade to 1.0.8, 1.1.8 or later as normal.
 After that, follow the root transition steps and in Step 4,
 manually restart Galley, Pilot and sidecar-injector to ensure they load the new root certificates.
 
-### Why my workloads do not pick up the new certificates (in step 5)?
+### Why my workloads do not pick up the new certificates (in step 6)?
 
-Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 4.
+Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 2.
 
 {{< warning >}}
 If you are using Istio releases 1.1.3 - 1.1.7, the Envoy may not be hot-restarted
