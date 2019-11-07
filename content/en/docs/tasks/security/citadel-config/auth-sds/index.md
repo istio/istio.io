@@ -1,8 +1,10 @@
 ---
 title: Provisioning Identity through SDS
 description: Shows how to enable SDS (secret discovery service) for Istio identity provisioning.
-weight: 70
+weight: 30
 keywords: [security,auth-sds]
+aliases:
+    - /docs/tasks/security/auth-sds/
 ---
 
 This task shows how to enable
@@ -52,7 +54,7 @@ This approach has the following benefits:
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
 
-Follow the [authentication policy task](/docs/tasks/security/authn-policy/) to
+Follow the [authentication policy task](/docs/tasks/security/authentication/authn-policy/) to
 setup test services.
 
 {{< text bash >}}
