@@ -18,7 +18,7 @@ Sidecar 是否会被自动注入取决于下面 3 条配置和 2 条安全规则
 配置：
 
 - webhooks `namespaceSelector`
-- 默认的注入策略
+- 默认策略
 - pod 级别的覆盖注解
 
 安全规则:
