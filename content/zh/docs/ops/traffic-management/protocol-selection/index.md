@@ -9,14 +9,12 @@ aliases:
     - /zh/help/tasks/traffic-management/protocol-selection
 ---
 
-Istio 默认支持代理所有 TCP 流量，但为了提供附加的能力，
-比如路由和丰富的指标，使用什么协议必须被确定。
-协议可以被自动检测或者明确的声明确定。
+Istio 默认支持代理所有 TCP 流量，但为了提供附加的能力，比如路由和丰富的指标，使用什么协议必须被确定。协议可以被自动检测或者明确的声明确定。
 
 ## 手动协议选择{#manual-protocol-selection}
 
 通过声明一个 Service 端口，协议可以被手动指定 `name: <protocol>[-<suffix>]`。
-下列协议是被支持的:
+下列协议是被支持的：
 
 - `grpc`
 - `http`
@@ -32,7 +30,7 @@ Istio 默认支持代理所有 TCP 流量，但为了提供附加的能力，
 \* 这些协议默认被禁用以阻止偶然地产生试验性的特性。
 要启用他们，请配置相应的 Pilot [环境变量](/zh/docs/reference/commands/pilot-discovery/#envvars)。
 
-下面是一个 Service 例子，它定义了一个 `mysql` 端口 和一个 `http` 端口:
+下面是一个 Service 例子，它定义了一个 `mysql` 端口 和一个 `http` 端口：
 
 {{< text yaml >}}
 kind: Service
@@ -46,7 +44,7 @@ spec:
     name: http-web
 {{< /text >}}
 
-## 自动协议选择 (试验性的){#automatic-protocol-selection-(experimental)}
+## 自动协议选择（试验性的）{#automatic-protocol-selection-(experimental)}
 
 Istio 可以自动检测出 HTTP 和 HTTP/2 流量。如果协议可以被自动确定，流量将会被当作普通 TCP 流量对待。
 
