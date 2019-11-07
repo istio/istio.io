@@ -249,7 +249,11 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 1.  If you did not perform the steps in [the previous section](#control-tcp-egress-traffic-without-a-gateway), perform them now.
 
-1.  Proceed to the following section.
+1.  You may want to enable {{< gloss >}}mutual TLS Authentication{{< /gloss >}} between the sidecar proxies of
+your MongoDB clients and the egress gateway to let the egress gateway monitor the identity of the source pods and to
+enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also encrypt the traffic.
+If you do not want to enable mutual TLS, proceed to the [Mutual TLS between the sidecar proxies and the egress gateway](http://localhost:1313/blog/2018/egress-mongo/#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway) section.
+Otherwise, proceed to the following section.
 
 #### Configure TCP traffic from sidecars to the egress gateway
 
@@ -352,11 +356,7 @@ connections from the MongoDB client to the egress gateway, by matching the IP of
 
 #### Mutual TLS between the sidecar proxies and the egress gateway
 
-You may want to enable [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the sidecar proxies of
-your MongoDB clients and the egress gateway to let the egress gateway monitor the identity of the source pods and to
-enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also encrypt the traffic.
-
-1.  Delete the configuration from the previous section:
+1.  If you ran the commands from the previous section, delete the previous configuration:
 
     {{< text bash >}}
     $ kubectl delete gateway istio-egressgateway --ignore-not-found=true
