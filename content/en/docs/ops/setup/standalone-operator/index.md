@@ -89,6 +89,8 @@ kiali-99f7467dc-6rvwp                                          1/1     Running  
 prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
 {{< /text >}}
 
+## Update
+
 Now, with the controller running, you can change the Istio configuration by editing or replacing
 the `IstioControlPlane` resource. The controller will detect the change and respond by updating
 the Istio installation correspondingly.
