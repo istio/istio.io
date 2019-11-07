@@ -15,7 +15,7 @@ aliases:
 
 下面的章节描述了向 pod 中注入 Istio sidecar 的两种方法：使用 [`istioctl`](/zh/reference/commands/istioctl) 手动注入或使用 Istio sidecar 注入器自动注入。
 
-手动注入直接修改配置，如 deployment ，并将代理配置注入其中。
+手动注入直接修改配置，如 deployment，并将代理配置注入其中。
 
 使用准入控制器在 pod 创建时自动注入。
 
@@ -23,7 +23,7 @@ aliases:
 
 ### 手动注入 sidecar{#manual-sidecar-injection}
 
-要手动注入 deployment ，请使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)：
+要手动注入 deployment，请使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)：
 
 {{< text bash >}}
 $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
@@ -58,7 +58,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 
 ### 自动注入 sidecar{#automatic-sidecar-injection}
 
-使用 Istio 提供的[准入控制器变更 webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) ，可以将 sidecar 自动添加到可用的 Kubernetes pod 中。
+使用 Istio 提供的[准入控制器变更 webhook](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)，可以将 sidecar 自动添加到可用的 Kubernetes pod 中。
 
 {{< tip >}}
 虽然准入控制器默认情况下是启动的，但一些 Kubernetes 发行版会禁用他们。如果出现这种情况，根据说明来[启用准入控制器](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller)。
@@ -70,7 +70,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 
 #### 禁用或更新注入 webhook{#disabling-or-updating-the-webhook}
 
-Sidecar 注入 webhook 是默认启用的。如果你希望禁用 webhook ，可以使用 [Helm](/zh/docs/setup/install/helm/) 将 `sidecarInjectorWebhook.enabled` 设置为 `false`。
+Sidecar 注入 webhook 是默认启用的。如果你希望禁用 webhook，可以使用 [Helm](/zh/docs/setup/install/helm/) 将 `sidecarInjectorWebhook.enabled` 设置为 `false`。
 
 还有很多[其他选项](/zh/docs/reference/config/installation-options/#sidecarinjectorwebhook-options)可以配置。
 
@@ -171,7 +171,7 @@ spec:
 
 ##### _**模版**_{#template}
 
-Sidecar 注入模板使用 [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template) ，当解析和执行时，将解码成下面的结构体，包含需要注入到 pod 中的容器和卷。
+Sidecar 注入模板使用 [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template)，当解析和执行时，将解码成下面的结构体，包含需要注入到 pod 中的容器和卷。
 
 {{< text go >}}
 type SidecarInjectionSpec struct {
@@ -240,9 +240,9 @@ containers:
 
 有些情况下用户无法控制 pod 的创建，例如，这些用户是被其他人创建的。因此他们无法在 pod 中添加 `sidecar.istio.io/inject` 注解，来明确是否安装 sidecar。
 
-考虑在部署应用程序时创建辅助 pod 作为中间步骤。例如 [OpenShift Builds](https://docs.okd.io/latest/dev_guide/builds/index.html)，创建这样的 pod 用于构建应用程序的源代码。构建二进制工件后，应用程序 pod 就可以运行了，而用于辅助的 pod 则被丢弃。这些中间 pod 不应该有 Istio sidecar，即使策略被设置为 `enabled` ，并且名称空间被正确标记为自动注入。
+考虑在部署应用程序时创建辅助 pod 作为中间步骤。例如 [OpenShift Builds](https://docs.okd.io/latest/dev_guide/builds/index.html)，创建这样的 pod 用于构建应用程序的源代码。构建二进制工件后，应用程序 pod 就可以运行了，而用于辅助的 pod 则被丢弃。这些中间 pod 不应该有 Istio sidecar，即使策略被设置为 `enabled`，并且名称空间被正确标记为自动注入。
 
-对于这种情况，你可以根据 pod 上的标签，指示 Istio **不要**在那些 pod 中注入 sidecar。可以通过编辑 `istio-sidecar-injector` 的 ConfigMap 并添加 `neverInjectSelector` 条目来实现。它是一个 Kubernetes 标签选择器数组，使用 `OR'd` ，在第一次匹配成功后则停止。看一个例子：
+对于这种情况，你可以根据 pod 上的标签，指示 Istio **不要**在那些 pod 中注入 sidecar。可以通过编辑 `istio-sidecar-injector` 的 ConfigMap 并添加 `neverInjectSelector` 条目来实现。它是一个 Kubernetes 标签选择器数组，使用 `OR'd`，在第一次匹配成功后则停止。看一个例子：
 
 {{< text yaml >}}
 apiVersion: v1
@@ -285,7 +285,7 @@ $ kubectl delete clusterrole istio-sidecar-injector-istio-system
 $ kubectl delete clusterrolebinding istio-sidecar-injector-admin-role-binding-istio-system
 {{< /text >}}
 
-上面的命令不会从 pod 中移除注入的 sidecar。需要进行滚动更新或者直接删除 pod ，并强制 deployment 创建它们。
+上面的命令不会从 pod 中移除注入的 sidecar。需要进行滚动更新或者直接删除 pod，并强制 deployment 创建它们。
 
 此外，还可以清理在此任务中修改过的其他资源。
 
