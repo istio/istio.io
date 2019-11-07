@@ -16,7 +16,7 @@ keywords: [security,health-check]
 为了完成这个任务，你可以[安装 Istio](/zh/docs/setup/install/operator/)，并设置 `global.mtls.enabled` 为 `true`。
 
 {{< tip >}}
-使用[认证策略](/zh/docs/concepts/security/#认证策略)为命名空间内的部分或者全部服务配置双向 TLS 支持。在进行全局设置配置时必须对所有命名空间重复一遍。细节可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)。
+使用[认证策略](/zh/docs/concepts/security/#authentication-policies)为命名空间内的部分或者全部服务配置双向 TLS 支持。在进行全局设置配置时必须对所有命名空间重复一遍。细节可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)。
 {{< /tip >}}
 
 ## 部署启用健康检查的 Citadel
@@ -42,9 +42,9 @@ $ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{prin
 ... CSR signing service is healthy (logged every 100 times).
 {{< /text >}}
 
-上面的日志表明周期性的健康检查已经启动。默认的健康检查间隔为15秒，每100个检查记录一次。
+上面的日志表明周期性的健康检查已经启动。默认的健康检查间隔为 15 秒，每 100 个检查记录一次。
 
-## (可选) 健康检查的配置
+##（可选）健康检查的配置
 
 这部分的讨论关于如何修改健康检查的配置。打开 `citadel-health-check.yaml` 文件，并定位到下面的内容：
 
@@ -65,12 +65,7 @@ livenessProbe:
 ...
 {{< /text >}}
 
-* 健康状态文件的路径为 `liveness-probe-path` 和 `probe-path`；
-* 你应该同时更新在 Citadel 和 `livenessProbe` 中的路径；
-* 如果 Citadel 是健康的，`liveness-probe-interval` 的值用于更新健康状态文件的周期；
-* Citadel 的健康检查控制器使用 `probe-check-interval` 的值作为请求 Citadel CSR 服务的周期；
-* `interval` 是自上次更新健康状况文件至今的最长时间，供检测器判断 Citadel 是否健康；
-* `initialDelaySeconds` 和 `periodSeconds` 的值确定初始化延迟以及每次激活 `livenessProbe` 的时间间隔；
+健康状态文件的路径为 `liveness-probe-path` 和 `probe-path`。你应该同时更新在 Citadel 和 `livenessProbe` 中的路径。如果 Citadel 是健康的，`liveness-probe-interval` 的值用于更新健康状态文件的周期。Citadel 的健康检查控制器使用 `probe-check-interval` 的值作为请求 Citadel CSR 服务的周期。`interval` 是自上次更新健康状况文件至今的最长时间，供检测器判断 Citadel 是否健康。`initialDelaySeconds` 和 `periodSeconds` 的值确定初始化延迟以及每次激活 `livenessProbe` 的时间间隔。
 
 延长 `probe-check-interval` 会减少健康检查的开销，但是一旦遇到故障情况，健康监测器也会更晚的得到故障信息。为了避免检测器因为临时故障重启 Citadel，检测器的 `interval` 应该设置为 `liveness-probe-interval` 的 `N` 倍，这样就让检测器能够容忍持续 `N-1` 次的检查失败。
 
