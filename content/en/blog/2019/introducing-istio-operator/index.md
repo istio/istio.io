@@ -9,9 +9,9 @@ target_release: 1.4
 ---
 
 Kubernetes [operators](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) provide
-a pattern for encoding human operationinal knowledge in software and are a popular way to simplify
+a pattern for encoding human operational knowledge in software and are a popular way to simplify
 the administration of software infrastructure components. Istio is aa natural candidate for an automated
-operator as it is challenging to adminster.
+operator as it is challenging to administer.
 
 [Helm](https://github.com/helm/helm) has been the primary tool to install and upgrade Istio. This approach
 worked well but had some disadvantages:
@@ -23,7 +23,7 @@ worked well but had some disadvantages:
 
 Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/docs/setup/install/istioctl/).The
 [Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
-1.4 with a version not initially instaalled with Helm is done using the
+1.4 with a version not initially installed with Helm is done using the
 [{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
 
 The `istioctl` operator commands use a
@@ -102,8 +102,8 @@ Refer to the Istio [install instructions](/docs/setup/install/istioctl) for more
 ## Istio Controller (alpha)
 
 Operator implementations use a Kubernetes controller to continuously monitor their custom resource objects
-and apply the corresponding configuration changes.  The istio controller monitors and implments changes
-in an `IstioControlPlane` resource for a cluster by updating the Istio installation configuration.
+and apply the corresponding configuration changes.  The Istio controller monitors an `IstioControlPlane`
+resource and implments changes for a cluster by updating the Istio installation configuration.
 
 In the 1.4 release, the Istio controller is in the alpha phase of development and not fully
 integrated with `istioctl`. It is, however,
