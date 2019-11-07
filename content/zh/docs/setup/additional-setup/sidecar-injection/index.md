@@ -266,7 +266,7 @@ data:
 
 完整起见，您还可以使用一个名为 `alwaysInjectSelector` 的字段，它具有类似的语法，总是将 sidecar 注入匹配标签选择器的 pod 中，而忽略全局策略。
 
-使用标签选择器的方法在表达这些例外时提供了很大的灵活性。查看[这些文档](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) 看看可以用它们来做什么！
+使用标签选择器的方法在表达这些例外时提供了很大的灵活性。查看[这些文档](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements)看看可以用它们来做什么！
 
 {{< tip >}}
 值得注意的是，pod 中的注解具有比标签选择器更高的优先级。如果一个 pod 有 `sidecar.istio.io/inject: "true/false"` 的标记那么它将先被履行。因此，优先级的顺序为:
