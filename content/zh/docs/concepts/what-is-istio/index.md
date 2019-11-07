@@ -51,54 +51,44 @@ Istio简单的规则配置和流量路由允许您控制服务之间的流量和
 
 ### 安全{#security}
 
-Istio’s security capabilities free developers to focus on security at the application level. Istio provides the underlying secure communication channel, and
-manages authentication, authorization, and encryption of service communication at scale. With Istio, service communications are secured by default,
-letting you enforce policies consistently across diverse protocols and runtimes -- all with little or no application changes.
+Istio的安全特性解放了开发人员，使其只需要专注于应用程序级别的安全。Istio提供了底层的安全通信通道，并为大规模的服务通信管理认证、授权和加密。有了Istio，服务通信在默认情况下就是受保护的，可以让您在跨不同协议和运行时的情况下实施一致的策略——而所有这些都只需要很少甚至不需要修改应用程序。
 
-While Istio is platform independent, using it with Kubernetes (or infrastructure) network policies, the benefits are even greater, including the ability to
-secure {{<gloss>}}pod{{</gloss>}}-to-pod or service-to-service communication at the network and application layers.
+Istio是独立于平台的，可以与Kubernetes（或基础设施）的网络策略一起使用。但它的好处更大，能够在网络和应用层面保护{{<gloss>}}pod{{</gloss>}}到pod或者服务到服务之间的通信。
 
-Refer to the [Security concepts guide](/docs/concepts/security/) for more details.
+请参考 [安全概念手册](/docs/concepts/security/) 获取更多细节。
 
 ### 策略{#policies}
 
-Istio lets you configure custom policies for your application to enforce rules at runtime such as:
+Istio允许您为应用程序配置自定义的策略并在运行时执行规则，例如：
 
-* Rate limiting to dynamically limit the traffic to a service
-* Denials, whitelists, and blacklists, to restrict access to services
-* Header rewrites and redirects
+* 速率限制能动态的限制访问服务的流量
+* Denials、白名单和黑名单用来限制服务访问
+* Header的重写和重定向
 
-Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
+Istio还容许你创建自己的[策略适配器](/docs/tasks/policy-enforcement/control-headers) 来添加诸如自定义的授权行为。
 
-Refer to the [Policies concepts guide](/docs/concepts/policies/) for more details.
+请参考 [策略概念手册](/docs/concepts/policies/) 获取更多细节。
 
 ### 可观察性{#observability}
 
-Istio’s robust tracing, monitoring, and logging features give you deep insights into your service mesh deployment. Gain a real understanding of how service performance
-impacts things upstream and downstream with Istio’s monitoring features, while its custom dashboards provide visibility into the performance of all your
-services and let you see how that performance is affecting your other processes.
+Istio健壮的追踪、监控和日志特性让您能够深入的了解服务网格部署。通过Istio的监控能力，可以真正的了解到服务的性能是如何影响上游和下游的；而它的定制仪表板提供了对所有服务性能的可视化能力，并让您看到它如何影响其他进程。
 
-Istio’s Mixer component is responsible for policy controls and telemetry collection. It provides backend abstraction and intermediation, insulating the rest of
-Istio from the implementation details of individual infrastructure backends, and giving operators fine-grained control over all interactions between the mesh
-and infrastructure backends.
+Istio的Mixer组件负责策略控制和遥测数据收集。它提供了后端抽象和中介，将一部分Istio与后端的基础设施实现细节隔离开来，并为运维人员提供了对网格与后端基础实施之间交互的细粒度控制。
 
-All these features let you more effectively set, monitor, and enforce SLOs on services. Of course, the bottom line is that you can detect and fix issues quickly
-and efficiently.
+所有这些特性都使您能够更有效地设置、监控和加强服务的SLO。当然，底线是您可以快速有效地检测到并修复出现的问题。
 
-Refer to the [Observability concepts guide](/docs/concepts/observability/) for more details.
+请参考 [可观察性概念手册](/docs/concepts/observability/) 获取更多细节。
 
 ## 平台支持{#platform-support}
 
-Istio is platform-independent and designed to run in a variety of environments, including those spanning Cloud, on-premise, Kubernetes, Mesos, and more. You can
- deploy Istio on Kubernetes, or on Nomad with Consul. Istio currently supports:
+Istio独立于平台，被设计为可以在各种环境中运行，包括跨云、内部环境、Kubernetes、Mesos等等。您可以在Kubernetes或是装有Consul的Nomad环境上部署Istio。Istio目前支持：
 
-* Service deployment on Kubernetes
+* Kubernetes上的服务部署
 
-* Services registered with Consul
+* 基于Consul的服务注册
 
-* Services running on individual virtual machines
+* 服务运行在独立的虚拟机上
 
 ## 整合和定制{#integration-and-customization}
 
-The policy enforcement component of Istio can be extended and customized to integrate with existing solutions for ACLs, logging, monitoring, quotas, auditing,
-and more.
+Istio的策略实施组件可以扩展和定制，与现有的ACL、日志、监控、配额、审查等解决方案集成。
