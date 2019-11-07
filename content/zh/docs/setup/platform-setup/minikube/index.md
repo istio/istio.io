@@ -59,8 +59,8 @@ keywords: [platform-setup,kubernetes,minikube]
     GiB Mem : 12.4/15.7
     {{< /text >}}
 
-    这里显示虚拟机内全部的 15.7G 内存已占用了 12.4G。这个数据是在一个 16G 内存的 Macbook Pro 13" 中运行着 Istio 1.2 和 
-    bookinfo 的 VMWare Fusion 虚拟机中生成的。
+    这里显示虚拟机内全部的 15.7G 内存已占用了 12.4G。这个数据是在一个 16G 内存的 Macbook Pro 13" 中运行着 Istio 1.2 和
+     bookinfo 的 VMWare Fusion 虚拟机中生成的。
     {{< /tip >}}
 
 1.  （可选，推荐）如果你希望 minikube 提供一个负载均衡给 Istio，你可以使用
