@@ -44,7 +44,7 @@ $ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{prin
 
 上面的日志表明周期性的健康检查已经启动。默认的健康检查间隔为 15 秒，每 100 个检查记录一次。
 
-##（可选）健康检查的配置
+## （可选）健康检查的配置
 
 这部分的讨论关于如何修改健康检查的配置。打开 `citadel-health-check.yaml` 文件，并定位到下面的内容：
 
