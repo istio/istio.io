@@ -66,7 +66,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 
 当注入 webhook 被启用后，任何新的 pod 都有将在创建时自动添加 sidecar。
 
-请注意，区别于手动注入，自动注入发生在 pod 层面。你将看不到 deployment 本身有任何更改。取而代之，需要检查单独的 pod（使用 `kubectl describe` ）来查询被注入的代理。
+请注意，区别于手动注入，自动注入发生在 pod 层面。你将看不到 deployment 本身有任何更改。取而代之，需要检查单独的 pod（使用 `kubectl describe`）来查询被注入的代理。
 
 #### 禁用或更新注入 webhook{#disabling-or-updating-the-webhook}
 
@@ -132,7 +132,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### 理解原理{#understanding-what-happened}
 
-当 Kubernetes 调用 webhook 时， [`admissionregistration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io) 配置被应用。默认配置将 sidecar 注入到所有拥有 `istio-injection=enabled` 标签的 namespace 下的 pod 中。 `istio-sidecar-injector` 配置字典指定了注入 sidecar 的配置。如需更改指定哪些 namespace 被注入，你可以使用以下命令编辑 `MutatingWebhookConfiguration` ：
+当 Kubernetes 调用 webhook 时，[`admissionregistration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io) 配置被应用。默认配置将 sidecar 注入到所有拥有 `istio-injection=enabled` 标签的 namespace 下的 pod 中。 `istio-sidecar-injector` 配置字典指定了注入 sidecar 的配置。如需更改指定哪些 namespace 被注入，你可以使用以下命令编辑 `MutatingWebhookConfiguration`：
 
 {{< text bash >}}
 $ kubectl edit mutatingwebhookconfiguration istio-sidecar-injector
@@ -266,7 +266,7 @@ data:
 
 完整起见，您还可以使用一个名为 `alwaysInjectSelector` 的字段，它具有类似的语法，总是将 sidecar 注入匹配标签选择器的 pod 中，而忽略全局策略。
 
-使用标签选择器的方法在表达这些例外时提供了很大的灵活性。查看 [这些文档](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) 看看可以用它们来做什么！
+使用标签选择器的方法在表达这些例外时提供了很大的灵活性。查看[这些文档](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements) 看看可以用它们来做什么！
 
 {{< tip >}}
 值得注意的是，pod 中的注解具有比标签选择器更高的优先级。如果一个 pod 有 `sidecar.istio.io/inject: "true/false"` 的标记那么它将先被履行。因此，优先级的顺序为:
