@@ -16,9 +16,22 @@ using Kubernetes CA APIs without maintaining its own private key.
 
 ## Before you begin
 
-* Create a Kubernetes cluster with Istio installed and the DNS certificate configuration
-in [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml).
-Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#dnscerts) for complete instructions.
+* Install Istio through `istioctl` with DNS certificates configured.
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl manifest apply -f -
+    apiVersion: install.istio.io/v1alpha2
+    kind: IstioControlPlane
+    spec:
+      values:
+        global:
+          certificates:
+            - secretName: dns.istio-galley-service-account
+              dnsNames: [istio-galley.istio-system.svc, istio-galley.istio-system]
+            - secretName: dns.istio-sidecar-injector-service-account
+              dnsNames: [istio-sidecar-injector.istio-system.svc, istio-sidecar-injector.istio-system]
+    EOF
+    {{< /text >}}
 
 * Install [`jq`](https://stedolan.github.io/jq/) for JSON parsing.
 
