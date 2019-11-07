@@ -262,7 +262,7 @@ data:
 ...
 {{< /text >}}
 
-上面声明的意思是：永远不要注入带有 `openshift.io/build.name` **或者** `openshift.io/deployer-pod-for.name` 标签的 pod —— 标签的值无关紧要，我们只检查键睡否存在。添加了这个规则之后，就涵盖了上面所说的 OpenShift 的构建用例，也就是说辅助 pod 不会被注入 sidecar（因为 source-to-image 工具产生的辅助 pod **明确**包含这些标签）。
+上面声明的意思是：永远不要注入带有 `openshift.io/build.name` **或者** `openshift.io/deployer-pod-for.name` 标签的 pod —— 标签的值无关紧要，我们只检查键是否存在。添加了这个规则之后，就涵盖了上面所说的 OpenShift 的构建用例，也就是说辅助 pod 不会被注入 sidecar（因为 source-to-image 工具产生的辅助 pod **明确**包含这些标签）。
 
 完整起见，您还可以使用一个名为 `alwaysInjectSelector` 的字段，它具有类似的语法，总是将 sidecar 注入匹配标签选择器的 pod 中，而忽略全局策略。
 
