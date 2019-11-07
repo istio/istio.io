@@ -13,7 +13,7 @@ aliases:
 
 为了充分利用 Istio 的所有特性，网格中的 pod 必须运行一个 Istio sidecar 代理。
 
-下面的章节描述了向 pod 中注入 Istio sidecar 的两种方法：使用 [`istioctl`](/zh/reference/commands/istioctl) 手动注入或使用 Istio sidecar 注入器自动注入。
+下面的章节描述了向 pod 中注入 Istio sidecar 的两种方法：使用 [`istioctl`](/reference/commands/istioctl) 手动注入或使用 Istio sidecar 注入器自动注入。
 
 手动注入直接修改配置，如 deployment，并将代理配置注入其中。
 
