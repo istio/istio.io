@@ -1,46 +1,43 @@
 ---
 title: LightStep
-description: How to configure the proxies to send tracing requests to LightStep.
+description: 如何配置代理以将跟踪请求发送到 LightStep。
 weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
- - /docs/tasks/telemetry/distributed-tracing/lightstep/
+ - /zh/docs/tasks/telemetry/distributed-tracing/lightstep/
 ---
 
-This task shows you how to configure Istio to collect trace spans and send them to [LightStep Tracing](https://lightstep.com/products/) or [LightStep [𝑥]PM](https://lightstep.com/products/).
-LightStep lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
-distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
-At the end of this task, Istio sends trace spans from the proxies to a LightStep Satellite pool making them
-available to the web UI.
+此任务向您展示如何配置 Istio 以收集 trace spans 并将其发送到 [LightStep Tracing](https://lightstep.com/products/) 或 [LightStep [𝑥]PM](https://lightstep.com/products/)。
+LightStep 使您可以分析来自大规模生产级软件的 100% 未采样的交易数据，以产生有意义的分布式跟踪和指标，其有助于解释性能行为并加速分析根本原因。
+在此任务的结尾，Istio 将 trace spans 从代理发送到 LightStep Satellite 池，以使它们可以从 web UI 获取。
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an example.
+此任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 样例代码作为示例。 
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-1.  Ensure you have a LightStep account. [Sign up](https://lightstep.com/products/tracing/) for a free trial of LightStep Tracing, or [Contact LightStep](https://lightstep.com/contact/) to create an enterprise-level LightStep [𝑥]PM account.
+1. 确保您有 LightStep 账户。[注册](https://lightstep.com/products/tracing/)以便免费试用 LightStep Tracing，或者[联系 LightStep](https://lightstep.com/contact/) 创建企业级 LightStep [𝑥]PM 账户。
 
-1.  For [𝑥]PM users, ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
-    [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup) for details about setting up satellites.
+1. 对于 [𝑥]PM 用户，确保您已为 satellite 池配置了 TLS 证书和一个安全的 GRPC 端口。
+   参考[配置 LightStep Satellite](https://docs.lightstep.com/docs/satellite-setup) 来获取有关配置 satellite 的详细信息。
+   
+   对于 LightStep Tracing 的用户，您的 satellites 已经配置完毕。
 
-    For LightStep Tracing users, your satellites are already configured.
+1.  确保您有 LightStep 的[访问令牌](https://docs.lightstep.com/docs/project-access-tokens)。
 
-1.  Ensure sure you have a LightStep [access token](https://docs.lightstep.com/docs/project-access-tokens).
+1.  您需要使用您的 satellite 地址来部署 Istio。
+    对于 [𝑥]PM 用户，确保您可以使用 `<Host>:<Port>` 格式的地址访问 satellite 池，例如 `lightstep-satellite.lightstep:9292`。
 
-1.  You'll need to deploy Istio with your satellite address.
-    For [𝑥]PM users, ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
+    对于 LightStep Tracing 的用户，使用地址 `collector-grpc.lightstep.com:443`。
 
-    For LightStep Tracing users, use the address `collector-grpc.lightstep.com:443`.
-
-1.  Deploy Istio with the following configuration parameters specified:
+1.  使用以下指定的配置参数部署 Istio：
     - `pilot.traceSampling=100`
     - `global.proxy.tracer="lightstep"`
     - `global.tracer.lightstep.address="<satellite-address>"`
     - `global.tracer.lightstep.accessToken="<access-token>"`
     - `global.tracer.lightstep.secure=true`
     - `global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem"`
-
-    You can set these parameters using the `--set key=value` syntax
-    when you run the install command. For example:
+    
+    当您执行安装命令时，您可以使用 `--set key=value` 语法来配置这些参数，例如：
 
     {{< text bash >}}
     $ istioctl manifest apply \
@@ -52,9 +49,9 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
         --set values.global.tracer.lightstep.cacertPath="/etc/lightstep/cacert.pem"
     {{< /text >}}
 
-1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
-    For LightStep Tracing users, download and use [this certificate](https://docs.lightstep.com/docs/use-istio-as-your-service-mesh-with-lightstep).
-    If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
+1.  在 default namespace 下，存储您的 satellite 池的证书颁发机构证书作为一个 secret。
+    对于 LightStep Tracing 用户，下载并使用[这个证书](https://docs.lightstep.com/docs/use-istio-as-your-service-mesh-with-lightstep)。
+    如果您在其他的 namespace 下部署 Bookinfo 应用程序，请改为在对应 namespace 下创建 secret。
 
     {{< text bash >}}
     $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
@@ -76,66 +73,66 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     EOF
     {{< /text >}}
 
-1.   Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
+1.   遵循[部署 Bookinfo 示例应用程序指南](/zh/docs/examples/bookinfo/#deploying-the-application)。
 
-## Visualize trace data
+## 可视化跟踪数据{#visualize-trace-data}
 
-1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+1.  遵循[为 Bookinfo 应用程序创建 ingress 网关指南](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)。
 
-1.  To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
+1.  为了验证上一步是否成功，请确认您在 shell 中设置了 `GATEWAY_URL` 环境变量。
 
-1.  Send traffic to the sample application.
+1.  发送流量到示例应用程序。
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Load the LightStep [web UI](https://app.lightstep.com/).
+1.  加载 LightStep [web UI](https://app.lightstep.com/)。
 
-1.  Navigate to Explorer.
+1.  导航到 Explorer。
 
-1.  Find the query bar at the top. The query bar allows you to interactively filter results by a **Service**, **Operation**, and **Tag** values.
+1.  在顶部找到查询栏。使用查询栏，您可以通过 **Service**、**Operation**、**Tag** 的值交互式地过滤结果。
 
-1.  Select `productpage.default` from the **Service** drop-down list.
+1.  从 **Service** 下拉菜单中选择 `productpage.default`。
 
-1.  Click **Run**. You see something similar to the following:
+1.  点击 **Run**。您可以看到如下类似的内容：
 
     {{< image link="./istio-tracing-list-lightstep.png" caption="Explorer" >}}
 
-1.  Click on the first row in the table of example traces below the latency histogram to see the details
-    corresponding to your refresh of the `/productpage`. The page then looks similar to:
+1.  点击延迟直方图下方的示例 traces 表格的第一行以查看详细信息，对应于您刷新 `/productpage`。该页面看起来类似于：
 
     {{< image link="./istio-tracing-details-lightstep.png" caption="Detailed Trace View" >}}
 
-The screenshot shows that the trace is comprised of a set of spans. Each span corresponds to a Bookinfo service invoked
-during the execution of a `/productpage` request.
+屏幕截图显示了该跟踪由一组 span 组成。每一个 span 对应 `/productpage` 请求执行中调用的 Bookinfo 服务。
 
-Two spans in the trace represent every RPC. For example, the call from `productpage` to `reviews` starts
-with the span labeled with the `reviews.default.svc.cluster.local:9080/*` operation and the
-`productpage.default: proxy client` service. This service represents the client-side span of the call. The screenshot shows
-that the call took 15.30 ms. The second span is labeled with the `reviews.default.svc.cluster.local:9080/*` operation
-and the `reviews.default: proxy server` service. The second span is a child of the first span and represents the
-server-side span of the call. The screenshot shows that the call took 14.60 ms.
+Trace 中的两个 spans 代表每次 RPC。
+例如，从 `productpage` 到 `reviews` 的调用，以标记有 `reviews.default.svc.cluster.local:9080/*` 操作的 span 和 `productpage.default: proxy client` 服务开始。
+该服务代表调用客户端的 span。
+屏幕截图显示此次调用耗时 15.30 毫秒。
+第二个 span 标记有`reviews.default.svc.cluster.local:9080/*` 操作和 `reviews.default: proxy server` 服务。
+第二个 span 是第一个 span 的子级，代表调用的服务端的 span。
+屏幕截图显示此次调用耗时 14.60 毫秒。
 
 {{< warning >}}
-The LightStep integration does not currently capture spans generated by Istio's internal operation components such as Mixer.
+LightStep 集成在当前无法捕获由 Istio 的内部操作组件（如 Mixer ）生成的 span。
 {{< /warning >}}
 
-## Trace sampling
+## 跟踪采样{#trace-sampling}
 
-Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
-visit the [Distributed Tracing trace sampling section](../overview/#trace-sampling).
-When using LightStep, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh,
-consider scaling up the size of your satellite pool.
+Istio 以可配置的跟踪采样百分比来捕获 trace。
+要了解如何修改跟踪采样百分比，请访问[分布式跟踪跟踪采样部分](../overview/#trace-sampling)。
 
-## Cleanup
+使用 LightStep 时，我们不建议将跟踪采样的百分比降低到 100% 以下。
+要处理高流量的网格，请考虑扩大您的 satellite 池的大小。
 
-If you are not planning any follow-up tasks, remove the Bookinfo sample application and any LightStep secrets
-from your cluster.
+## 清除{#cleanup}
 
-1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
+如果您不计划任何后续任务，可以从您的集群中删除 Bookinfo 示例应用程序和所有的 LightStep secrets。 
 
-1. Remove the secret generated for LightStep:
+
+1. 要删除 Bookinfo 应用程序，请参阅[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup) 说明。
+
+1. 删除 LightStep 生成的 secret：
 
 {{< text bash >}}
 $ kubectl delete secret lightstep.cacert
