@@ -1,10 +1,11 @@
 ---
 title: Authentication Policy
 description: Shows you how to use Istio authentication policy to setup mutual TLS and basic end-user authentication.
-weight: 1
+weight: 10
 keywords: [security,authentication]
 aliases:
     - /docs/tasks/security/istio-auth.html
+    - /docs/tasks/security/authn-policy/
 ---
 
 This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about

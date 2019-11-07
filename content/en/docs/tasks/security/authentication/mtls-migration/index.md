@@ -1,8 +1,10 @@
 ---
 title: Mutual TLS Migration
 description: Shows you how to incrementally migrate your Istio services to mutual TLS.
-weight: 80
+weight: 40
 keywords: [security,authentication,migration]
+aliases:
+    - /docs/tasks/security/mtls-migration/
 ---
 
 This task shows how to migrate your existing Istio services' traffic from plain
@@ -140,7 +142,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
-We recommend you use [Istio Authorization](/docs/tasks/security/authz-http/) to configure different paths with different authorization policies.
+We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
 ## Cleanup
 

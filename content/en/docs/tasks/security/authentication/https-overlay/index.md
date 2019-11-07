@@ -1,8 +1,10 @@
 ---
 title: Mutual TLS over HTTPS
 description: Shows how to enable mutual TLS on HTTPS services.
-weight: 80
+weight: 30
 keywords: [security,mutual-tls,https]
+aliases:
+    - /docs/tasks/security/https-overlay/
 ---
 
 This task shows how mutual TLS works with HTTPS services. It includes:

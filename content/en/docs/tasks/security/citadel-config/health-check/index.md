@@ -1,8 +1,10 @@
 ---
 title: Citadel Health Checking
 description: Shows how to enable Citadel health checking with Kubernetes.
-weight: 70
+weight: 20
 keywords: [security,health-check]
+aliases:
+    - /docs/tasks/security/health-check/
 ---
 
 You can enable Citadel's health checking feature
@@ -20,7 +22,7 @@ If the file is not updated for a period, Kubelet will restart the Citadel contai
 
 Note: because Citadel health checking currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using the
-[SDS](/docs/tasks/security/auth-sds/) or [Mesh Expansion](/docs/examples/mesh-expansion/).
+[SDS](/docs/tasks/security/citadel-config/auth-sds/) or [Mesh Expansion](/docs/examples/mesh-expansion/).
 
 ## Before you begin
 
@@ -29,7 +31,7 @@ To complete this task, you can [install Istio](/docs/setup/install/istioctl/) wi
 {{< tip >}}
 Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
 all or only selected services in a namespace. You must repeat the policy for all namespaces to configure the setting globally.
-See the [authentication policy task](/docs/tasks/security/authn-policy/) for details.
+See the [authentication policy task](/docs/tasks/security/authentication/authn-policy/) for details.
 {{< /tip >}}
 
 ## Deploying Citadel with health checking
