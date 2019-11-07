@@ -27,7 +27,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 通用响应标志如下:
 
-- `NR`: 没有配置路由， 请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
+- `NR`: 没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`: 上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
 - `UF`: 未能连接到上游，如果你正在使用 Istio 认证，请检查
 [mutual TLS 配置冲突](#503-errors-after-setting-destination-rule)。
