@@ -8,21 +8,21 @@ aliases:
     - /zh/docs/setup/kubernetes/install/kubernetes/
 ---
 
-本指南安装使用 Istio 内置的 `demo` [配置文件](/docs/setup/additional-setup/config-profiles/)。
+本指南安装使用 Istio 内置的 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)。
 通过本安装可以让你快速在任意平台的 Kubernetes 集群中使用 Istio 进行评估。
 
 {{< warning >}}
 `demo` 的配置方案通过配置高级别的跟踪和访问日志，用于展示 Istio 的功能，不适用于高性能评估使用。
 {{< /warning >}}
 
-要正式在生产环境上安装 Istio，我们推荐 [使用 {{< istioctl >}} 安装](/docs/setup/install/istioctl/)，
+要正式在生产环境上安装 Istio，我们推荐 [使用 {{< istioctl >}} 安装](/zh/docs/setup/install/istioctl/)，
 它提供了更多选项，可以对 Istio 的配置进行选择和管理，满足特定的使用需求。
 
 ## 前提条件{#prerequisites}
 
-1. [下载 Istio 的发布包](/docs/setup/#downloading-the-release)。
+1. [下载 Istio 的发布包](/zh/docs/setup/#downloading-the-release)。
 
-1. 执行必须的[平台特定设置](/docs/setup/platform-setup/)。
+1. 执行必须的[平台特定设置](/zh/docs/setup/platform-setup/)。
 
 ## 安装 demo 配置{#install-the-demo-profile}
 
@@ -84,13 +84,13 @@ $ istioctl manifest apply --set profile=demo
 
 ## 部署你的应用{#deploy-your-application}
 
-现在你可以部署你的应用或使用 Istio 的发布包中的示例应用（如 [Bookinfo](/docs/examples/bookinfo/)）进行部署。
+现在你可以部署你的应用或使用 Istio 的发布包中的示例应用（如 [Bookinfo](/zh/docs/examples/bookinfo/)）进行部署。
 
 {{< warning >}}
 部署的应用必须使用 HTTP/1.1 或 HTTP/2.0 协议，Istio 不支持 HTTP/1.0 协议。
 {{< /warning >}}
 
-当你使用 `kubectl apply` 部署应用时，如果目标命名空间已经打上了 `istio-injection=enabled` 标签，[Istio sidecar injector](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+当你使用 `kubectl apply` 部署应用时，如果目标命名空间已经打上了 `istio-injection=enabled` 标签，[Istio sidecar injector](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 会自动把 Envoy 容器注入到应用 Pod 中：
 
 {{< text bash >}}
@@ -98,7 +98,7 @@ $ kubectl label namespace <namespace> istio-injection=enabled
 $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-如果目标命名空间没有 `istio-injection` 标签，你可以在部署之前使用 [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
+如果目标命名空间没有 `istio-injection` 标签，你可以在部署之前使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)
 命令手动把 Envoy 容器注入到应用 Pod 中：
 
 {{< text bash >}}
