@@ -72,10 +72,10 @@ spec:
 
 如果某些情况下 Istio 默认采用 round-robin 策略来访问 "v1" 实例，可能最终 "v1" 实例是唯一运行的版本，那么上面的流量策略将永远不会被使用到。
 
-你可以通过下面两种方式之一来使上面的例子生效:
+你可以通过下面两种方式之一来使上面的例子生效：
 
 1. 将 destination rule 中的流量策略上移一级以使策略
-    应用到任意 subset，例如:
+    应用到任意 subset，例如：
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
@@ -115,8 +115,7 @@ spec:
 
 ## 设置 destination rule 之后出现 503 异常{#errors-after-setting-destination-rule}
 
-如果在你应用了一个 `DestinationRule` 之后请求一个服务立即产生了一个 503 异常，并且这个异常持续产生直到你移除了这个 `DestinationRule`，那么这个 `DestinationRule` 大概
-为这个服务引起了一个 TLS 冲突。
+如果在你应用了一个 `DestinationRule` 之后请求一个服务立即产生了一个 503 异常，并且这个异常持续产生直到你移除了这个 `DestinationRule`，那么这个 `DestinationRule` 大概为这个服务引起了一个 TLS 冲突。
 
 举个例子，如果在你的集群里配置了全局的 mutual TLS，这个 `DestinationRule` 肯定包含下列的 `trafficPolicy`：
 
