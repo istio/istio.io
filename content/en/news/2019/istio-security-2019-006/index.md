@@ -6,7 +6,7 @@ attribution: The Istio Team
 ---
 
 __ISTIO-SECURITY-2019-006__: Envoy, and subsequently Istio, are vulnerable to the following DoS attack:
-* __[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__: An infinite loop can be triggered in Envoy’s code if the option `continue_on_listener_filters_timeout` is set to `True`. This is the case for Istio since the introduction of Protocol Detection feature.
+* __[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__: An infinite loop can be triggered in Envoy’s code if the option `continue_on_listener_filters_timeout` is set to `True`. This has been the case for Istio since the introduction of Protocol Detection feature.
 A remote attacker may trivially trigger that vulnerability, effectively exhausting Envoy’s CPU resources and causing a denial-of-service attack
 
 ## Affected Istio releases
@@ -26,12 +26,12 @@ Both Istio gateways and sidecars are vulnerable to this issue. If you are runnin
 ## Mitigation
 
 * Workaround:
-  The exploitation of that vulnerability can be prevented by customizing Istio install (as described in [installation options](/docs/reference/config/installation-options/#pilot-options) ), using Helm to override the following options:
+  The exploitation of that vulnerability can be prevented by customizing Istio installation (as described in [installation options](/docs/reference/config/installation-options/#pilot-options) ), using Helm to override the following options:
 
 {{< text plain >}}
 --set pilot.env.PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT=0s --set global.proxy.protocolDetectionTimeout=0s
 {{< /text >}}
 
-* We are going to release a fixed version of Istio very soon to address this vulnerability.
+* We are going to release a fixed version of Istio as soon as possible to address this vulnerability.
 
 We'd like to remind our community to follow the [vulnerability reporting process](/about/security-vulnerabilities/) to report any bug that can result in a security vulnerability.
