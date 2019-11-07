@@ -21,7 +21,7 @@ keywords: [platform-setup,kubernetes,oke,oci,oracle]
         ..
     {{< /text >}}
 
-2. 使用 OCI cli 为您的 `kubectl` 获取凭据:
+1. 使用 OCI cli 为您的 `kubectl` 获取凭据:
 
     {{< text bash >}}
     $ oci ce cluster create-kubeconfig \
@@ -29,7 +29,7 @@ keywords: [platform-setup,kubernetes,oke,oci,oracle]
         --cluster-id <cluster-ocid>
     {{< /text >}}
 
-3. 向当前用户授予集群管理员（admin）权限。要为 Istio 创建必要的 RBAC 规则，当前用户需要拥有管理员权限。
+1. 向当前用户授予集群管理员（admin）权限。要为 Istio 创建必要的 RBAC 规则，当前用户需要拥有管理员权限。
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding \
