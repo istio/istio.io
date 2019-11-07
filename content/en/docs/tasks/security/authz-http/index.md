@@ -1,7 +1,7 @@
 ---
 title: Authorization for HTTP traffic
 description: Shows how to set up role-based access control for HTTP traffic.
-weight: 10
+weight: 2
 keywords: [security,access-control,rbac,authorization]
 aliases:
     - /docs/tasks/security/role-based-access-control.html
@@ -16,7 +16,7 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
+* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio with mutual TLS enabled.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
