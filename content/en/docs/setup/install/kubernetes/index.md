@@ -32,27 +32,26 @@ $ istioctl manifest apply --set profile=demo
 
 ## Verifying the installation
 
-1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
+1.  Ensure the following Kubernetes services are deployed and verify they all have an appropriate `CLUSTER-IP`:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                                                                      AGE
-    grafana                  ClusterIP      172.21.211.123   <none>          3000/TCP                                                                                                                                     2m
-    istio-citadel            ClusterIP      172.21.177.222   <none>          8060/TCP,15014/TCP                                                                                                                           2m
-    istio-egressgateway      ClusterIP      172.21.113.24    <none>          80/TCP,443/TCP,15443/TCP                                                                                                                     2m
-    istio-galley             ClusterIP      172.21.132.247   <none>          443/TCP,15014/TCP,9901/TCP                                                                                                                   2m
-    istio-ingressgateway     LoadBalancer   172.21.144.254   52.116.22.242   15020:31831/TCP,80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:30318/TCP,15030:32645/TCP,15031:31933/TCP,15032:31188/TCP,15443:30838/TCP   2m
-    istio-pilot              ClusterIP      172.21.105.205   <none>          15010/TCP,15011/TCP,8080/TCP,15014/TCP                                                                                                       2m
-    istio-policy             ClusterIP      172.21.14.236    <none>          9091/TCP,15004/TCP,15014/TCP                                                                                                                 2m
-    istio-sidecar-injector   ClusterIP      172.21.155.47    <none>          443/TCP,15014/TCP                                                                                                                            2m
-    istio-telemetry          ClusterIP      172.21.196.79    <none>          9091/TCP,15004/TCP,15014/TCP,42422/TCP                                                                                                       2m
-    jaeger-agent             ClusterIP      None             <none>          5775/UDP,6831/UDP,6832/UDP                                                                                                                   2m
-    jaeger-collector         ClusterIP      172.21.135.51    <none>          14267/TCP,14268/TCP                                                                                                                          2m
-    jaeger-query             ClusterIP      172.21.26.187    <none>          16686/TCP                                                                                                                                    2m
-    kiali                    ClusterIP      172.21.155.201   <none>          20001/TCP                                                                                                                                    2m
-    prometheus               ClusterIP      172.21.63.159    <none>          9090/TCP                                                                                                                                     2m
-    tracing                  ClusterIP      172.21.2.245     <none>          80/TCP                                                                                                                                       2m
-    zipkin                   ClusterIP      172.21.182.245   <none>          9411/TCP                                                                                                                                     2m
+    NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                                                                                                                      AGE
+    grafana                  ClusterIP      172.21.225.124   <none>           3000/TCP                                                                                                                     11m
+    istio-citadel            ClusterIP      172.21.245.143   <none>           8060/TCP,15014/TCP                                                                                                           11m
+    istio-egressgateway      ClusterIP      172.21.220.216   <none>           80/TCP,443/TCP,15443/TCP                                                                                                     11m
+    istio-galley             ClusterIP      172.21.38.66     <none>           443/TCP,15014/TCP,9901/TCP,15019/TCP                                                                                         11m
+    istio-ingressgateway     LoadBalancer   172.21.57.24     169.63.141.134   15020:32716/TCP,80:30983/TCP,443:32755/TCP,15029:32209/TCP,15030:32018/TCP,15031:31484/TCP,15032:32151/TCP,15443:31958/TCP   11m
+    istio-pilot              ClusterIP      172.21.67.234    <none>           15010/TCP,15011/TCP,8080/TCP,15014/TCP                                                                                       11m
+    istio-policy             ClusterIP      172.21.83.196    <none>           9091/TCP,15004/TCP,15014/TCP                                                                                                 11m
+    istio-sidecar-injector   ClusterIP      172.21.172.14    <none>           443/TCP                                                                                                                      11m
+    istio-telemetry          ClusterIP      172.21.68.4      <none>           9091/TCP,15004/TCP,15014/TCP,42422/TCP                                                                                       11m
+    jaeger-collector         ClusterIP      172.21.247.191   <none>           14267/TCP,14268/TCP,14250/TCP                                                                                                11m
+    jaeger-query             ClusterIP      172.21.178.229   <none>           16686/TCP                                                                                                                    11m
+    kiali                    ClusterIP      172.21.140.220   <none>           20001/TCP                                                                                                                    11m
+    prometheus               ClusterIP      172.21.122.131   <none>           9090/TCP                                                                                                                     11m
+    tracing                  ClusterIP      172.21.135.38    <none>           9411/TCP                                                                                                                     11m
+    zipkin                   ClusterIP      172.21.165.252   <none>           9411/TCP                                                                                                                     11m
     {{< /text >}}
 
     {{< tip >}}
