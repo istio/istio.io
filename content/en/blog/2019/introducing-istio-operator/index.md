@@ -23,7 +23,7 @@ worked well but had some disadvantages:
 
 Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/docs/setup/install/istioctl/).The
 [Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
-1.4 with aa version not initially instaalled with Helm is done using the
+1.4 with a version not initially instaalled with Helm is done using the
 [{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
 
 The `istioctl` operator commands use a
@@ -78,7 +78,7 @@ For example, to install Istio into a cluster:
 $ istioctl manifest apply -f <your-istiocontrolplane-customresource>
 {{< /text >}}
 
-Make changes to the installation configuration by editing the configuration file and calling
+Make changes to the installation configuration by editing the configuration file and executing
 `istioctl manifest apply` again.
 
 To upgrade to a new version of Istio:
@@ -102,7 +102,7 @@ Refer to the Istio [install instructions](/docs/setup/install/istioctl) for more
 ## Istio Controller (alpha)
 
 Operator implementations use a Kubernetes controller to continuously monitor their custom resource objects
-and apply the corresponding configuration changes.  The istio controller monitors and implmeents changes
+and apply the corresponding configuration changes.  The istio controller monitors and implments changes
 in an `IstioControlPlane` resource for a cluster by updating the Istio installation configuration.
 
 In the 1.4 release, the Istio controller is in the alpha phase of development and not fully
@@ -130,8 +130,8 @@ $ kubectl apply -f https://<repo URL>/<new version>/operator-profile-default.yam
 Both the operator controller and `istioctl` commands share the same implementation.  The significant
 difference is the execution context. In the `istioctl` case, the operation runs in the admin user’s
 command execution and security context.  In the controller case, a pod in the cluster runs the code
-in its security context. In both cases, configuration is validated against a schema and aand perform the
-same range of checks for installation change or upgrade.
+in its security context. In both cases, configuration is validated against a schema and the same correctness
+checks are performed.
 
 ## Migration from Helm
 
