@@ -3,6 +3,8 @@ title: Authorization for groups and list claims
 description: Tutorial on how to configure the groups-base authorization and configure the authorization of list-typed claims in Istio.
 weight: 4
 keywords: [security,authorization]
+aliases:
+    - /docs/tasks/security/rbac-groups/
 ---
 
 This tutorial walks you through examples to configure the groups-base

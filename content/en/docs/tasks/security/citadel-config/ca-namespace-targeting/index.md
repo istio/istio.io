@@ -1,7 +1,9 @@
 ---
 title: Configure Citadel Service Account Secret Generation
 description: Configure which namespaces Citadel should generate service account secrets for.
-weight: 80
+weight: 40
+aliases:
+    - /docs/tasks/security/ca-namespace-targeting/
 ---
 
 A cluster operator might decide not to generate `ServiceAccount` secrets for some subset of namespaces, or to make `ServiceAccount` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here](/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets).

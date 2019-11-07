@@ -1,8 +1,10 @@
 ---
 title: Citadel Health Checking
 description: Shows how to enable Citadel health checking with Kubernetes.
-weight: 70
+weight: 20
 keywords: [security,health-check]
+aliases:
+    - /docs/tasks/security/health-check/
 ---
 
 You can enable Citadel's health checking feature

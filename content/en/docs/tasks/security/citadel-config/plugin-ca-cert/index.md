@@ -1,8 +1,10 @@
 ---
 title: Plugging in External CA Key and Certificate
 description: Shows how operators can configure Citadel with existing root certificate, signing certificate and key.
-weight: 60
+weight: 10
 keywords: [security,certificates]
+aliases:
+    - /docs/tasks/security/plugin-ca-cert/
 ---
 
 This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.

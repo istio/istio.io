@@ -1,8 +1,10 @@
 ---
 title: Mutual TLS Deep-Dive
 description: Shows you how to verify and test Istio's automatic mutual TLS authentication.
-weight: 10
+weight: 20
 keywords: [security,mutual-tls]
+aliases:
+    - /docs/tasks/security/mutual-tls/
 ---
 
 Through this task, you can have closer look at mutual TLS and learn its settings. This task assumes:

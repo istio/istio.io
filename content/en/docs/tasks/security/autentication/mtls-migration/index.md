@@ -1,8 +1,10 @@
 ---
 title: Mutual TLS Migration
 description: Shows you how to incrementally migrate your Istio services to mutual TLS.
-weight: 80
+weight: 40
 keywords: [security,authentication,migration]
+aliases:
+    - /docs/tasks/security/mtls-migration/
 ---
 
 This task shows how to migrate your existing Istio services' traffic from plain
