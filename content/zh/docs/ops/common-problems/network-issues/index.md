@@ -4,9 +4,9 @@ description: 定位 Istio 流量管理和网络问题的技术。
 force_inline_toc: true
 weight: 10
 aliases:
-  - /help/ops/traffic-management/troubleshooting
-  - /help/ops/troubleshooting/network-issues
-  - /docs/ops/troubleshooting/network-issues
+  - /zh/help/ops/traffic-management/troubleshooting
+  - /zh/help/ops/troubleshooting/network-issues
+  - /zh/docs/ops/troubleshooting/network-issues
 ---
 
 ## 请求被 Envoy 拒绝
@@ -46,11 +46,11 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 在当前版本的 Envoy sidecar 实现中，加权版本分发被观测到至少需要100个请求。
 
-如果路由规则在 [Bookinfo](/docs/examples/bookinfo/) 这个例子中完美地运行，
+如果路由规则在 [Bookinfo](/zh/docs/examples/bookinfo/) 这个例子中完美地运行，
 但在你自己的应用中相似版本的路由规则却没有生效，可能因为
 你的 Kubernetes service 需要被稍微地修改。
 为了利用 Istio 的七层路由特性 Kubernetes service 必须严格遵守某些限制。
-参考 [Pods 和 Services 的要求](/docs/setup/additional-setup/requirements/)
+参考 [Pods 和 Services 的要求](/zh/docs/setup/additional-setup/requirements/)
 查看详细信息。
 
 另一个潜在的问题是路由规则可能只是生效比较慢。
@@ -159,7 +159,7 @@ trafficPolicy:
 而不是 TLS 加密了的请求。 因此，请求和服务端代理冲突，因为服务端代理期望的是
 加密了的请求。
 
-为了确认是否存在冲突，请检查你的服务 [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中的 `STATUS` 字段
+为了确认是否存在冲突，请检查你的服务 [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中的 `STATUS` 字段
 是否被设置为 `CONFLICT`。举个例子，一个和如下命令类似的命令可以用来为 `httpbin` 服务
 检查冲突:
 
