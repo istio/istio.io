@@ -130,7 +130,18 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="mTLS enabled" cookie-value="mtls" >}}
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="mTLS (SDS) enabled" cookie-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -225,7 +236,18 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="mTLS enabled" cookie-value="mtls" >}}
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="mTLS (SDS) enabled" cookie-value="sds" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -304,7 +326,18 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="mTLS enabled" cookie-value="mtls" >}}
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="mTLS (SDS) enabled" cookie-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
