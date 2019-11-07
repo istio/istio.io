@@ -7,7 +7,7 @@ keywords: [security,authorization]
 
 本教程将向您介绍在 Istio 中配置基于组的授权和列表类型声明的授权的示例。
 
-## 开始之前
+## 开始之前{#before-you-begin}
 
 * 阅读[授权](/zh/docs/concepts/security/#authorization)概念并阅读有关如何[配置 Istio 授权](/zh/docs/tasks/security/authz-http)的指南。
 
@@ -15,7 +15,7 @@ keywords: [security,authorization]
 
 * 创建一个安装了 Istio 并启用了双向 TLS 的 Kubernetes 集群。要满足此先决条件，您可以按照 Kubernetes [安装说明](/zh/docs/setup/install/kubernetes/)进行操作。
 
-## 设置所需的命名空间和服务
+## 设置所需的命名空间和服务{#setup-the-required-namespace-and-services}
 
 本教程在一个名为 `rbac-groups-test-ns` 的新命名空间中运行，该命名空间有两个服务，`httpbin` 和 `sleep`，两者都运行在 Envoy sidecar 代理上。以下命令设置环境变量以存储命名空间的名称，创建命名空间，并启动这两个服务。
 在运行以下命令之前，需要输入包含 Istio 安装文件的目录。
@@ -53,7 +53,7 @@ keywords: [security,authorization]
 
     当命令成功时，它返回 HTTP 状态码为 200。
 
-## 使用双向 TLS 配置 JSON Web 令牌（JWT）认证
+## 使用双向 TLS 配置 JSON Web 令牌（JWT）认证{#configure-json-web-token-jwt-authentication-with-mutual-tls}
 
 您接下来应用的认证策略强制要求访问 `httpbin` 服务需要有效的 JWT。
 策略中定义的 JSON Web 密钥集（ JWKS ）端点必须对 JWT 进行签名。
@@ -120,7 +120,7 @@ JWT 声明值可以是字符串或字符串列表；两种类型都支持。
 
     当没有附加有效的 JWT 时，它返回 HTTP 状态码为 401。
 
-## 配置基于组的授权
+## 配置基于组的授权{#configure-groups-based-authorization}
 
 本节创建一个策略授权来自特定组的请求访问 `httpbin` 服务。
 由于缓存和其他传播开销可能会有一些延迟，因此请等待新定义的 RBAC 策略生效。
@@ -213,7 +213,7 @@ JWT 声明值可以是字符串或字符串列表；两种类型都支持。
 
     HTTP Header 包括一个有效的 JWT，其 `groups` 声明值为[`"group1"`，`"group2"`]，因为它包含 `group1`，所以返回 HTTP 状态码为 200。
 
-## 配置列表类型声明的授权
+## 配置列表类型声明的授权{#configure-the-authorization-of-list-typed-claims}
 
 Istio RBAC 支持配置列表类型声明的授权。
 示例中的 JWT 包含一个带有 `scope` 声明键和[`"scope1"`，`"scope2"`]作为声明值的字符串列表的 JWT 声明。
@@ -249,7 +249,7 @@ Istio RBAC 支持配置列表类型声明的授权。
 
     HTTP Header 包括一个有效的 JWT，`scope` 的声明值为[`"scope1"`，`"scope2"`]，因为它包含 `scope1`， 所以返回 HTTP 状态码为 200。
 
-## 清理
+## 清理{#cleanup}
 
 完成本教程后，运行以下命令删除在命名空间中创建的所有资源。
 
