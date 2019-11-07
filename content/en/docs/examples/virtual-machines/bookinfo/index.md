@@ -1,18 +1,19 @@
 ---
 title: Bookinfo with a Virtual Machine
-description: Run the Bookinfo application with a MySQL service running in a virtual
+description: Run the Bookinfo application with a MySQL service running on a virtual
   machine within your mesh.
 weight: 60
 keywords:
-- virtual-machine, vms
+- virtual-machine
+- vms
 aliases:
 - /docs/examples/integrating-vms/
 - /docs/examples/mesh-expansion/bookinfo-expanded
 - /docs/examples/vm-bookinfo
 ---
 
-This example deploys the Bookinfo services across Kubernetes with one
-virtual machine (VM), and illustrates how to use Istio service mesh to control
+This example deploys the Bookinfo application across Kubernetes with one
+service running on a virtual machine (VM), and illustrates how to control
 this infrastructure as a single mesh.
 
 {{< warning >}}
@@ -36,7 +37,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 - Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-- Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh]/docs/tasks/virtual-machines/single-network/).
+- Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/examples/virtual-machines/single-network/).
 
 ## Running MySQL on the VM
 

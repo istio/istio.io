@@ -1,6 +1,6 @@
 ---
 title: Virtual Machines
-description: Learn how to add workloads running on a virtual machine or bare metal
+description: Learn how to add workloads running on virtual machines or bare metal
   to your Istio mesh.
 weight: 90
 aliases:
@@ -9,6 +9,7 @@ aliases:
 - /docs/tasks/virtual-machines
 keywords:
 - kubernetes
-- mesh expansion
+- vms
+- virtual-machine
 ---
 

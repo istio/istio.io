@@ -1,11 +1,11 @@
 ---
-title: Virtual Machines in Multi-network Meshes
+title: Virtual Machines in Multi-Network Meshes
 description: Learn how to add a service running on a virtual machine to your multi-network
   Istio mesh.
 weight: 30
 keywords:
 - kubernetes
-- virtual-machines
+- virtual-machine
 - gateways
 - vms
 aliases:
@@ -35,9 +35,8 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
-that let VMs connect to the mesh. To prepare the cluster for mesh
-expansion, run the following commands on a machine with cluster admin
-privileges:
+that let VMs connect to the mesh. Prepare the cluster for the VM with the
+following commands on a machine with cluster admin privileges:
 
 1. Generate a `meshexpansion-gateways` Istio configuration file using `helm`:
 
@@ -249,7 +248,7 @@ The following example updates the `/etc/hosts` file with the Istio gateway addre
 ## Added Istio resources
 
 The Istio resources below are added to support adding VMs to the mesh with
-gateways. These resources released the flat network requirement between the VM and
+gateways. These resources remove the flat network requirement between the VM and
 cluster.
 
 | Resource Kind| Resource Name | Function |

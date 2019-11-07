@@ -1,6 +1,6 @@
 ---
-title: Virtual Machines in Single-network Meshes
-description: Learn how to add a service running on a virtual machine or on bare metal
+title: Virtual Machines in Single-Network Meshes
+description: Learn how to add a service running on a virtual machine
   to your single network Istio mesh.
 weight: 20
 keywords:
@@ -13,7 +13,7 @@ aliases:
 - /docs/tasks/virtual-machines/single-network
 ---
 
-This page shows how to integrate a VM or a bare metal host into an single-network
+This example shows how to integrate a VM or a bare metal host into a single-network
 Istio mesh deployed on Kubernetes.
 
 ## Prerequisites
@@ -29,8 +29,8 @@ Istio mesh deployed on Kubernetes.
 
 - VMs must have access to a DNS server that resolves names to cluster IP
   addresses. Options include exposing the Kubernetes DNS server through an
-  internal load balancer, using a Core DNS server, or configuring the IPs in any
-  other DNS server accessible from the VM.
+  internal load balancer, using a [Core DNS](https://coredns.io/) server, or
+  configuring the IPs in any other DNS server accessible from the VM.
 
 - Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
   support adding VMs to your mesh.
@@ -48,9 +48,8 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
-that let VMs connect to the mesh. To prepare the cluster for mesh
-expansion, run the following commands on a machine with cluster admin
-privileges:
+that let VMs connect to the mesh. Prepare the cluster for the VM with the
+following commands on a machine with cluster admin privileges:
 
 1.  Ensure that the `mesh expansion` option is enabled for the cluster. If you
     didn't use the `--set global.meshExpansion.enabled=true` flag when
