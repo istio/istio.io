@@ -47,27 +47,16 @@ X509v3 Subject Alternative Name:
 ## Enable webhook configurations
 
 1.  To generate the `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` configuration files, run the following
-command. The [`values-istio-dns-cert.yaml`]({{< github_file >}}/install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml) YAML file
-contains an example DNS certificate configuration. Learn more in [the certificate guide](/docs/tasks/security/dns-cert).
-The following command uses the following configurations:
-
-    * The default Istio configuration.
-    * The DNS certificate configuration in `values-istio-dns-cert.yaml`.
-
-You can find more information in the `helm template` command [documentation](https://helm.sh/docs/helm/#helm-template).
+command.
 
     {{< text bash >}}
-    $ helm template \
-        --name=istio \
-        --namespace=istio-system \
-        --values install/kubernetes/helm/istio/example-values/values-istio-dns-cert.yaml \
-        install/kubernetes/helm/istio > istio-webhook-config.yaml
+    $ istioctl manifest generate > istio.yaml
     {{< /text >}}
 
 <!-- TODO (lei-tang): improve the UX for obtain MutatingWebhookConfiguration -->
-1.  Open the `istio-webhook-config.yaml` configuration file, search `'kind: MutatingWebhookConfiguration'` and save
+1.  Open the `istio.yaml` configuration file, search `'kind: MutatingWebhookConfiguration'` and save
 the `MutatingWebhookConfiguration` of the sidecar injector to `sidecar-injector-webhook.yaml`. The following
-is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
+is a `MutatingWebhookConfiguration` in an example `istio.yaml`.
 
     {{< text yaml >}}
     apiVersion: admissionregistration.k8s.io/v1beta1
@@ -76,8 +65,6 @@ is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
       name: istio-sidecar-injector
       labels:
         app: sidecarInjectorWebhook
-        chart: sidecarInjectorWebhook
-        heritage: Tiller
         release: istio
     webhooks:
       - name: sidecar-injector.istio.io
@@ -99,9 +86,9 @@ is a `MutatingWebhookConfiguration` in an example `istio-webhook-config.yaml`.
     {{< /text >}}
 
 <!-- TODO (lei-tang): improve the UX for obtain ValidatingWebhookConfiguration -->
-1.  Open the `istio-webhook-config.yaml` configuration file, search `'kind: ValidatingWebhookConfiguration'` and save
+1.  Open the `istio.yaml` configuration file, search `'kind: ValidatingWebhookConfiguration'` and save
 the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
-is a `ValidatingWebhookConfiguration` in an example `istio-webhook-config.yaml` (only
+is a `ValidatingWebhookConfiguration` in an example `istio.yaml` (only
 a part of the configuration is shown to save space).
 
     {{< text yaml >}}
@@ -111,8 +98,6 @@ a part of the configuration is shown to save space).
       name: istio-galley
       labels:
         app: galley
-        chart: galley
-        heritage: Tiller
         release: istio
         istio: galley
     webhooks:
@@ -132,6 +117,15 @@ a part of the configuration is shown to save space).
             ... SKIPPED
         failurePolicy: Fail
         sideEffects: None
+    {{< /text >}}
+
+1.  Verify that there are no existing webhook configurations for Galley and the sidecar injector:
+
+    {{< text bash >}}
+    $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector
+    Error from server (NotFound): mutatingwebhookconfigurations.admissionregistration.k8s.io "istio-sidecar-injector" not found
+    ~$ kubectl get validatingwebhookconfiguration istio-galley
+    Error from server (NotFound): validatingwebhookconfigurations.admissionregistration.k8s.io "istio-galley" not found
     {{< /text >}}
 
 1.  Use `istioctl` to enable the webhook configurations:
