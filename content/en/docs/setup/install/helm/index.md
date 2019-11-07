@@ -15,13 +15,7 @@ icon: helm
 window.onload = function(){
   if (window.location.hash == '#cni') {
     selectTabsets('helm_profile', 'cni');
-  }
-}
-</script>
-
-<script id="dnscerts" defer>
-window.onload = function(){
-  if (window.location.hash == '#dnscerts') {
+  } else if (window.location.hash == '#dnscerts') {
     selectTabsets('helm_profile', 'dnscerts');
   }
 }
