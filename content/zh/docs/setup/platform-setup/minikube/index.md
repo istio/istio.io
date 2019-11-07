@@ -31,7 +31,7 @@ keywords: [platform-setup,kubernetes,minikube]
     $ minikube config set vm-driver kvm2
     {{< /text >}}
 
-1.  以 16384 `MB` 内存和 4 `CPUs` 启动 minikube。 这个例子使用了 Kubernetes **1.14.2**。
+1.  以 16384 `MB` 内存和 4 `CPUs` 启动 minikube。这个例子使用了 Kubernetes **1.14.2**。
     你可以设置 `--kubernetes-version` 的值以指定任意 Istio 支持的 Kubernetes 版本：
 
     {{< text bash >}}
@@ -73,6 +73,7 @@ keywords: [platform-setup,kubernetes,minikube]
 
     {{< warning >}}
     有时 minikube 不会正确清理 tunnel network。强制清理使用如下命令：
+
     {{< text bash >}}
     $ minikube tunnel --cleanup
     {{< /text >}}
