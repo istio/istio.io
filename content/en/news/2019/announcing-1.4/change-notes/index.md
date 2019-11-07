@@ -36,7 +36,3 @@ weight: 10
 - **Added** the experimental [`istioctl experimental mulitcluster`](/docs/reference/commands/istioctl/#istioctl-experimental-multicluster) sub-command to help manage Istio across multiple clusters.
 - **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to manage webhook configuration.
 - **Improved** the [`istioctl version`](/docs/reference/commands/istioctl/#istioctl-version) sub-command. It now shows the Envoy proxy versions.
-
-## Miscellaneous
-
-- **Replaced** daily builds of Istio with builds for [each commit](https://github.com/istio/istio/wiki/Dev%20Builds).
