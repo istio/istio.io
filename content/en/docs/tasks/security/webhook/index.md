@@ -1,6 +1,6 @@
 ---
 title: Istio Webhook Management [Experimental]
-description: Shows how to manage webhooks in Istio through istioctl.
+description: How to manage webhooks in Istio through istioctl.
 weight: 100
 keywords: [security,webhook]
 ---
@@ -12,19 +12,35 @@ these webhooks manage their own configurations. From a
 security perspective, this default behavior is not recommended because a compromised webhook could then conduct
 privilege escalation attacks.
 
-This task shows how to use `istioctl`, instead of the webhooks, to
+This task shows how to use `istioctl`, instead of webhooks, to
 manage their configurations.
 
-## Before you begin
+## Getting started
 
 * Install Istio with [DNS certificates configured](/docs/tasks/security/dns-cert) and
-[`global.operatorManageWebhooks`]({{< github_file >}}/install/kubernetes/helm/istio/values.yaml) set to `true`.
+`global.operatorManageWebhooks` set to `true`.
+
+    {{< text bash >}}
+    $ cat <<EOF | istioctl manifest apply -f -
+    apiVersion: install.istio.io/v1alpha2
+    kind: IstioControlPlane
+    spec:
+      values:
+        global:
+          operatorManageWebhooks: true
+          certificates:
+            - secretName: dns.istio-galley-service-account
+              dnsNames: [istio-galley.istio-system.svc, istio-galley.istio-system]
+            - secretName: dns.istio-sidecar-injector-service-account
+              dnsNames: [istio-sidecar-injector.istio-system.svc, istio-sidecar-injector.istio-system]
+    EOF
+    {{< /text >}}
 
 * Install [`jq`](https://stedolan.github.io/jq/) for JSON parsing.
 
 ## Check webhook certificates
 
-To display the DNS names in the webhook certificates of Galley and the sidecar injector, we get the secret
+To display the DNS names in the webhook certificates of Galley and the sidecar injector, you need to get the secret
 from Kubernetes, parse it, decode it, and view the text output with the following commands:
 
 {{< text bash >}}
@@ -145,7 +161,7 @@ sidecar container into an example pod with the following commands:
     $ kubectl get pod -n test-injection
     {{< /text >}}
 
-    The output from the `get pod` command should show the following output. The `2/2` value means that
+    The output from the `get pod` command should show the following. The `2/2` value means that
     the webhook injected a sidecar into the example pod:
 
     {{< text plain >}}
@@ -214,7 +230,7 @@ disable the webhook with the following command:
     $ istioctl experimental post-install webhook disable --validation=false --injection-config=istio-sidecar-injector
     {{< /text >}}
 
-1.  If you name Galleys's configuration `istio-galley`, disable the webhook with the following command:
+1.  If you named Galleys's configuration `istio-galley`, disable the webhook with the following command:
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook disable --injection=false --validation-config=istio-galley
@@ -222,9 +238,7 @@ disable the webhook with the following command:
 
 ## Cleanup
 
-After completing this tutorial, you may delete the testing cluster created
-at the beginning of this tutorial. You may also run the following command to delete
-the resources created.
+You can run the following command to delete the resources created in this tutorial.
 
 {{< text bash >}}
 $ kubectl delete ns test-injection test-validation
