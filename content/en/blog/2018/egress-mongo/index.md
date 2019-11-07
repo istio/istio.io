@@ -280,6 +280,21 @@ Otherwise, proceed to the following section.
     istio-egressgateway   ClusterIP   172.21.202.204   <none>        80/TCP,443/TCP,7777/TCP   34d
     {{< /text >}}
 
+1.  Disable mutual TLS authentication for the `istio-egressgateway` service:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: authentication.istio.io/v1alpha1
+    kind: Policy
+    metadata:
+      name: istio-egressgateway
+      namespace: istio-system
+    spec:
+      targets:
+      - name: istio-egressgateway
+    EOF
+    {{< /text >}}
+
 1.  Create an egress `Gateway` for your MongoDB service, and destination rules and a virtual service to direct the
     traffic through the egress gateway and from the egress gateway to the external service.
 
@@ -362,6 +377,24 @@ Otherwise, proceed to the following section.
     $ kubectl delete gateway istio-egressgateway --ignore-not-found=true
     $ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
     $ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
+    $ kubectl delete policy istio-egressgateway -n istio-system --ignore-not-found=true
+    {{< /text >}}
+
+1.  Enforce mutual TLS authentication for the `istio-egressgateway` service:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: authentication.istio.io/v1alpha1
+    kind: Policy
+    metadata:
+      name: istio-egressgateway
+      namespace: istio-system
+    spec:
+      targets:
+      - name: istio-egressgateway
+      peers:
+      - mtls: {}
+    EOF
     {{< /text >}}
 
 1.  Create an egress `Gateway` for your MongoDB service, and destination rules and a virtual service
@@ -474,6 +507,7 @@ $ kubectl delete serviceentry mongo
 $ kubectl delete gateway istio-egressgateway --ignore-not-found=true
 $ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
 $ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
+$ kubectl delete policy istio-egressgateway -n istio-system --ignore-not-found=true
 {{< /text >}}
 
 ## Egress control for TLS
