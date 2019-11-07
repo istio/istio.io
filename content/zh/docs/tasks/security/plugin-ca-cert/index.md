@@ -11,7 +11,7 @@ keywords: [security,certificates]
 
 ## 开始之前{#Before you begin}
 
-* 按照 [quick start](/zh/docs/setup/install/kubernetes/) 中的说明安装 Istio：
+* 按照 [快速启动](/zh/docs/setup/install/kubernetes/) 中的说明安装 Istio：
 
 {{< tip >}}
 从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#authentication-policies)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
@@ -113,4 +113,4 @@ keywords: [security,certificates]
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-* 移除 Istio 组件：按照 [uninstall instructions](/zh/docs/setup/install/kubernetes/#uninstall) 进行删除。
+* 移除 Istio 组件：按照 [卸载说明](/zh/docs/setup/install/kubernetes/#uninstall) 进行删除。
