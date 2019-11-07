@@ -9,7 +9,7 @@ aliases:
   - /zh/docs/ops/troubleshooting/network-issues
 ---
 
-## 请求被 Envoy 拒绝
+## 请求被 Envoy 拒绝{#requests-are-rejected-by-envoy}
 
 请求被拒绝有许多原因。 弄明白为什么请求被拒绝的最好方式是
 通过检查 Envoy 的访问日志。 默认情况下，访问日志被输出到容器的标准输出中。
@@ -42,7 +42,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 - `RESOURCE_EXHAUSTED`: 请求被 Mixer 指标组件拒绝。
 - `INTERNAL`: 因为 Mixer 内部错误请求被拒绝。
 
-## 路由规则似乎没有对流量生效
+## 路由规则似乎没有对流量生效{#route-rules-don't-seem-to-affect-traffic-flow}
 
 在当前版本的 Envoy sidecar 实现中，加权版本分发被观测到至少需要100个请求。
 
@@ -60,7 +60,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 来传播到所有的 sidecar。在大型的集群部署中
 传播将会耗时更长并且可能有几秒钟的延迟时间。
 
-## Destination rule 策略未生效
+## Destination rule 策略未生效{#destination-rule-policy-not-activated}
 
 尽管 destination rule 和特定的目标主机关联，
 subset-specific 策略的激活最终依赖于路由规则。
@@ -141,7 +141,7 @@ spec:
 因此，我们考虑从一开始就为每个服务
 基于最佳实践设置一个默认的路由规则。
 
-## 设置 destination rule 之后出现503异常
+## 设置 destination rule 之后出现503异常{#503-errors-after-setting-destination-rule}
 
 如果在你应用了一个 `DestinationRule` 之后请求一个服务立即产生了一个503异常
 并且这个异常持续产生直到你移除了这个 `DestinationRule`，那么这个 `DestinationRule` 大概
@@ -171,7 +171,7 @@ httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       de
 
 任何时候你应用一个 `DestinationRule`，请确保 `trafficPolicy` TLS mode 和全局的配置一致。
 
-## 路由规则没有对 ingress gateway 请求生效
+## 路由规则没有对 ingress gateway 请求生效{#route-rules-have-no-effect-on-ingress-gateway-requests}
 
 让我们假设你正在使用一个 ingress `Gateway` 和相应的 `VirtualService` 来访问一个内部的服务。
 举个例子，你的 `VirtualService` 配置可能和如下配置类似:
@@ -279,7 +279,7 @@ spec:
         subset: v1
 {{< /text >}}
 
-## Headless TCP 服务失去连接
+## Headless TCP 服务失去连接{#headless-tcp-services-losing-connection}
 
 如果部署了 `istio-citadel`，Envoy 每45天会重启一次来使证书刷新。
 这会导致 TCP 数据流失去连接或者服务之间的长连接。
@@ -303,7 +303,7 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 这将会使 Istio 停止重启 Envoy 并且不再产生失去 TCP 连接的异常。
 
-## Envoy 在负载下崩溃
+## Envoy 在负载下崩溃{#envoy-is-crashing-under-load}
 
 检查你的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件的 descriptor 的限制，它将导致 Envoy 断言失败并崩溃:
 
@@ -313,7 +313,7 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 请确保增大你的 ulimit。例如: `ulimit -n 16384`
 
-## Envoy 不能连接到 HTTP/1.0 服务
+## Envoy 不能连接到 HTTP/1.0 服务{#envoy-won't-connect-to-my-http/1.0-service}
 
 Envoy 要求 `HTTP/1.1` 或者 `HTTP/2` 协议的流量作为上游服务。举个例子，当在 Envoy 之后使用 [NGINX](https://www.nginx.com/) 来代理你的流量，你
 将需要在你的 NGINX 配置里直接设置 [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) 为 "1.1"，因为 NGINX 默认的设置是 1.0。
@@ -339,7 +339,7 @@ server {
 }
 {{< /text >}}
 
-## 当为多个 gateway 配置了相同的 TLS 证书导致404异常
+## 当为多个 gateway 配置了相同的 TLS 证书导致404异常{#404-errors-occur-when-multiple-gateways-configured-with-same-tls-certificate}
 
 使用相同的 TLS 证书配置到超过一个 gateway，当浏览器与另一个主机建立了
 连接访问第二个主机时会导致浏览器快取 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)
