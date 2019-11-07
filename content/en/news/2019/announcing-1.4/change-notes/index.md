@@ -12,7 +12,7 @@ weight: 10
 
 ## Security
 
-- **Improved**Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
+- **Improved** Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
 
 ## Telemetry
 
