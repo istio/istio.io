@@ -41,7 +41,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
   --set prometheus.enabled=false
 {{< /text >}}
 
-在 Kubernetes 中确认 `istio-pilot-*` and `istio-citadel-*`  pods 被部署并且它们的容器成功运行起来:
+在 Kubernetes 中确认 `istio-pilot-*` 和 `istio-citadel-*`  pod 被部署并且它们的容器成功运行起来:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
