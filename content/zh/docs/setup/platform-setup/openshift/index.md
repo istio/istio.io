@@ -10,7 +10,7 @@ keywords: [platform-setup,openshift]
 ---
 
 {{< warning >}}
-OpenShift 4.1 及以上版本使用的 `nftables` 与 Istio 的 `proxy-init` 容器不兼容。请使用 [CNI](/docs/setup/additional-setup/cni/) 插件代替。
+OpenShift 4.1 及以上版本使用的 `nftables` 与 Istio 的 `proxy-init` 容器不兼容。请使用 [CNI](/zh/docs/setup/additional-setup/cni/) 插件代替。
 {{< /warning >}}
 
 依照本指南对 OpenShift 集群进行配置以便安装运行 Istio。
@@ -22,7 +22,7 @@ OpenShift 4.1 及以上版本使用的 `nftables` 与 Istio 的 `proxy-init` 容
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n istio-system
 {{< /text >}}
 
-现在你可以按照 [CNI](/docs/setup/additional-setup/cni/) 的操作来安装 Istio。
+现在你可以按照 [CNI](/zh/docs/setup/additional-setup/cni/) 的操作来安装 Istio。
 
 安装完成后，为 ingress 网关暴露一个 OpenShift 路由。
 
@@ -36,7 +36,7 @@ $ oc -n istio-system expose svc/istio-ingressgateway --port=80
 如果你使用的是 OpenShift 4.1 或更高的版本，以下配置不是必须的，可以跳到下一章节。
 {{< /tip >}}
 
-要使[自动注入](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)能正常工作必须启用 Webhook 和证书签名请求（CSR）的支持。
+要使[自动注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)能正常工作必须启用 Webhook 和证书签名请求（CSR）的支持。
 请按以下说明在集群 master 节点修改 master 配置文件。
 
 {{< tip >}}
