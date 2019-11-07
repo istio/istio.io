@@ -25,7 +25,7 @@ keywords: [platform-setup,azure]
     $ az provider list --query "[?namespace=='Microsoft.ContainerService'].resourceTypes[] | [?resourceType=='managedClusters'].locations[]" -o tsv
     {{< /text >}}
 
-2. 证实对于期望的 region 有支持的 Kubernetes 版本
+1. 证实对于期望的 region 有支持的 Kubernetes 版本
 
     使用从上面步骤中期望的region值替换 `my location` ，然后执行：
 
@@ -35,7 +35,7 @@ keywords: [platform-setup,azure]
 
     确保最小值 `1.10.5` 被列出。
 
-3. 创建 resource group 和部署 AKS 集群
+1. 创建 resource group 和部署 AKS 集群
 
     使用期望的名字替换 `myResourceGroup` 和 `myAKSCluster` ，使用第一步中的名字替换`my location` ，替换 `1.10.5` 如果其在 region 中不被支持，然后执行：
 
@@ -44,7 +44,7 @@ keywords: [platform-setup,azure]
     $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.10.5 --generate-ssh-keys
     {{< /text >}}
 
-4. 取得 AKS `kubeconfig` 证书
+1. 取得 AKS `kubeconfig` 证书
 
     使用从之前步骤中获得的名字替换 `myResourceGroup` 和 `myAKSCluster` 并且执行：
 
