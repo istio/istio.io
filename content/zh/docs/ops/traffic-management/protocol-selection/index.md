@@ -2,7 +2,7 @@
 title: 协议选择
 description: 关于怎么声明协议的信息。
 weight: 98
-keywords: [协议,协议嗅探,协议选择,协议检测]
+keywords: [protocol,protocol sniffing,protocol selection,protocol detection]
 aliases:
     - /zh/help/ops/traffic-management/protocol-selection
     - /zh/help/ops/protocol-selection
