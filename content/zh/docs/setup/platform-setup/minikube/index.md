@@ -75,7 +75,6 @@ keywords: [platform-setup,kubernetes,minikube]
 
     {{< warning >}}
     有时 minikube 不会正确清理 tunnel network。强制清理使用如下命令：
-    
     {{< text bash >}}
     $ minikube tunnel --cleanup
     {{< /text >}}
