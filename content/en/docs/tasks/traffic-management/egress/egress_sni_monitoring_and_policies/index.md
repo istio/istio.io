@@ -15,6 +15,8 @@ example extends that example to show how to configure SNI monitoring and apply p
 
 *  [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
+*  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+
 *  Configure traffic to `*.wikipedia.org` by following
    [the steps](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in
    [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example,
@@ -90,7 +92,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 
 ## Monitor the SNI and the source identity, and enforce access policies based on them
 
-Since you enabled mutual TLS between the sidecar proxies and the egress gateway, you can monitor the [service identity](/docs/concepts/what-is-istio/#citadel) of the applications that access external services, and enforce policies
+Since you enabled mutual TLS between the sidecar proxies and the egress gateway, you can monitor the [service identity]/docs/ops/architecture/#citadel) of the applications that access external services, and enforce policies
 based on the identities of the traffic source.
 In Istio on Kubernetes, the identities are based on
 [Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
@@ -197,7 +199,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
     from [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)
     example.
 
-1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

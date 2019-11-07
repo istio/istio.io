@@ -1,15 +1,15 @@
 ---
-title: 基于 Envoy 的追踪是如何工作的？
+title: How does Envoy-based tracing work?
 weight: 11
 ---
 
-对于基于 Envoy 的追踪，Envoy（sidecar 代理）直接将追踪信息发送给代表被代理应用程序的追踪后端。
+For Envoy-based tracing integrations, Envoy (the sidecar proxy) sends tracing information directly to tracing backends on behalf of the applications being proxied.
 
-Envoy：
+Envoy:
 
-- 当请求通过代理时生成请求 ID 和 追踪 header（例如，`X-B3-TraceId`）
-- 基于请求和响应元数据信息（例如，响应时间）为每个请求生成追踪 span
-- 发送生成的追踪 span 到追踪后端
-- 将追踪 header 转发给被代理的应用程序
+- generates request IDs and trace headers (i.e. `X-B3-TraceId`) for requests as they flow through the proxy
+- generates trace spans for each request based on request and response metadata (i.e. response time)
+- sends the generated trace spans to the tracing backends
+- forwards the trace headers to the proxied application
 
-Istio 支持与基于 Envoy 的[LightStep](/zh/docs/tasks/telemetry/distributed-tracing/lightstep/)、[Zipkin](/zh/docs/tasks/telemetry/distributed-tracing/zipkin/) 进行追踪集成，也支持与所有 Zipkin API 兼容后端集成，包括 [Jaeger](/zh/docs/tasks/telemetry/distributed-tracing/jaeger/)。
+Istio supports the Envoy-based integrations of [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/) and [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), as well as all Zipkin API-compatible backends, including [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/).

@@ -220,7 +220,7 @@ spec:
 The downside of this kind of configuration is that other configuration (e.g., route rules) for any of the
 underlying microservices, will need to also be included in this single configuration file, instead of
 in separate resources associated with, and potentially owned by, the individual service teams.
-See [Route rules have no effect on ingress gateway requests](/docs/ops/troubleshooting/network-issues)
+See [Route rules have no effect on ingress gateway requests](/docs/ops/common-problems/network-issues/#route-rules-have-no-effect-on-ingress-gateway-requests)
 for details.
 
 To avoid this problem, it may be preferable to break up the configuration of `myapp.com` into several

@@ -9,12 +9,14 @@
 @import "base/reset";
 @import "base/base";
 
+@import "misc/analysis-message";
 @import "misc/blog";
 @import "misc/breadcrumbs";
 @import "misc/button";
 @import "misc/callout";
 @import "misc/call-to-action";
 @import "misc/code-blocks";
+@import "misc/command-flags";
 @import "misc/community";
 @import "misc/endnotes";
 @import "misc/faq";
@@ -34,6 +36,7 @@
 @import "misc/popover";
 @import "misc/primary";
 @import "misc/promotion";
+@import "misc/relnote-actions";
 @import "misc/search-results";
 @import "misc/section-index";
 @import "misc/see-also";

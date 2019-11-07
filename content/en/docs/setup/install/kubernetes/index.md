@@ -1,17 +1,15 @@
 ---
 title: Quick Start Evaluation Install
 description: Instructions to install Istio in a Kubernetes cluster for evaluation.
-weight: 10
+weight: 5
 keywords: [kubernetes]
 aliases:
     - /docs/setup/kubernetes/quick-start/
     - /docs/setup/kubernetes/install/kubernetes/
 ---
 
-This guide installs Istio's built-in **demo** [configuration profile](/docs/setup/additional-setup/config-profiles/)
-using basic Kubernetes commands without needing to download or install
-[Helm](https://github.com/helm/helm). This installation lets you quickly
-evaluate Istio in a Kubernetes cluster on any platform.
+This guide installs Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
+This installation lets you quickly evaluate Istio in a Kubernetes cluster on any platform.
 
 {{< warning >}}
 The demo configuration profile is not suitable for performance evaluation. It
@@ -20,7 +18,7 @@ access logging.
 {{< /warning >}}
 
 To install Istio for production use, we recommend using the
-[Helm Installation guide](/docs/setup/install/helm/)
+[Installing with {{< istioctl >}} guide](/docs/setup/install/istioctl/)
 instead, which provides many more options for selecting and managing the Istio
 configuration. This permits customization of Istio to operator specific
 requirements.
@@ -29,66 +27,13 @@ requirements.
 
 1. [Download the Istio release](/docs/setup/#downloading-the-release).
 
-    {{< warning >}}
-    These quick-start instructions will not work with a downloaded [istio repository](https://github.com/istio/istio)
-    because the pregenerated yaml files, `istio-demo.yaml` and `istio-demo-auth.yaml`, are only available in
-    [release images](https://github.com/istio/istio/releases). If you want to work with the latest Istio codebase,
-    refer to the [developer wiki](https://github.com/istio/istio/wiki) for instructions.
-    {{< /warning >}}
-
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
-
-## Installation steps
-
-1. Install all the Istio
-    [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-    (CRDs) using `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
-
-    {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
-    {{< /text >}}
-
-1. Install one of the following variants of the **demo** profile:
-
-{{< tabset cookie-name="profile" >}}
-
-{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
-When using the [permissive mutual TLS mode](/docs/concepts/security/#permissive-mode), all services accept both plaintext and
-mutual TLS traffic. Clients send plaintext traffic unless configured for
-[mutual TLS migration](/docs/tasks/security/mtls-migration/).
-
-Choose this variant for:
-
-* Clusters with existing applications, or
-* Applications where services with an Istio sidecar need to be able to
-  communicate with other non-Istio Kubernetes services
-
-Run the following command to install this variant:
+## Install the demo profile
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo.yaml
+$ istioctl manifest apply --set profile=demo
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="strict mutual TLS" cookie-value="strict" >}}
-This variant will enforce
-[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) between all clients and servers.
-
-Use this variant only on a fresh Kubernetes cluster where all workloads will be Istio-enabled.
-All newly deployed workloads will have Istio sidecars installed.
-
-Run the following command to install this variant:
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 ## Verifying the installation
 
@@ -130,16 +75,13 @@ $ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
     NAME                                                           READY   STATUS      RESTARTS   AGE
     grafana-f8467cc6-rbjlg                                         1/1     Running     0          1m
     istio-citadel-78df5b548f-g5cpw                                 1/1     Running     0          1m
-    istio-cleanup-secrets-release-1.1-20190308-09-16-8s2mp         0/1     Completed   0          2m
     istio-egressgateway-78569df5c4-zwtb5                           1/1     Running     0          1m
     istio-galley-74d5f764fc-q7nrk                                  1/1     Running     0          1m
-    istio-grafana-post-install-release-1.1-20190308-09-16-2p7m5    0/1     Completed   0          2m
     istio-ingressgateway-7ddcfd665c-dmtqz                          1/1     Running     0          1m
-    istio-pilot-f479bbf5c-qwr28                                    2/2     Running     0          1m
-    istio-policy-6fccc5c868-xhblv                                  2/2     Running     2          1m
-    istio-security-post-install-release-1.1-20190308-09-16-bmfs4   0/1     Completed   0          2m
+    istio-pilot-f479bbf5c-qwr28                                    1/1     Running     0          1m
+    istio-policy-6fccc5c868-xhblv                                  1/1     Running     2          1m
     istio-sidecar-injector-78499d85b8-x44m6                        1/1     Running     0          1m
-    istio-telemetry-78b96c6cb6-ldm9q                               2/2     Running     2          1m
+    istio-telemetry-78b96c6cb6-ldm9q                               1/1     Running     2          1m
     istio-tracing-69b5f778b7-s2zvw                                 1/1     Running     0          1m
     kiali-99f7467dc-6rvwp                                          1/1     Running     0          1m
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
@@ -180,30 +122,6 @@ The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
 all resources hierarchically under it. It is safe to ignore errors for
 non-existent resources because they may have been deleted hierarchically.
 
-* Uninstall the **demo** profile corresponding to the mutual TLS mode you enabled:
-
-{{< tabset cookie-name="profile" >}}
-
-{{< tab name="permissive mutual TLS" cookie-value="permissive" >}}
-
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
+$ istioctl manifest generate --set profile=demo | kubectl delete -f -
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="strict mutual TLS" cookie-value="strict" >}}
-
-{{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-* If desired, delete the Istio CRDs:
-
-    {{< text bash >}}
-    $ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete -f $i; done
-    {{< /text >}}

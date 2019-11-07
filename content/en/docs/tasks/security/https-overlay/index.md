@@ -22,10 +22,10 @@ original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 Set up Istio by following the instructions in the
 [quick start](/docs/setup/install/kubernetes/).
 Note that default mutual TLS authentication should be **disabled** when installing Istio; e.g. option 1 in the
-[quick start](/docs/setup/install/kubernetes/#installation-steps).
+[quick start](/docs/setup/install/kubernetes/).
 
 The demo is also assumed to be running in a namespace where automatic sidecar injection is
-disabled, and Istio sidecars are instead manually injected with `istioctl`.
+disabled, and Istio sidecars are instead manually injected with [`istioctl`](/docs/reference/commands/istioctl).
 
 ### Generate certificates and configmap
 
@@ -151,7 +151,7 @@ control plane with mutual TLS disabled installed, please delete it. For example,
 you followed the quick start:
 
 {{< text bash >}}
-$ kubectl delete -f install/kubernetes/istio-demo.yaml
+$ istioctl manifest generate --set profile=demo | kubectl delete -f -
 {{< /text >}}
 
 And wait for everything to have been deleted, i.e., there is no pod in the control plane namespace (`istio-system`):
@@ -161,10 +161,10 @@ $ kubectl get pod -n istio-system
 No resources found.
 {{< /text >}}
 
-Then deploy the Istio control plane with mutual TLS enabled:
+Install Istio with the **strict mutual TLS mode** enabled:
 
 {{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+$ istioctl manifest apply --set profile=demo,values.global.controlPlaneSecurityEnabled=true,values.global.mtls.enabled=true
 {{< /text >}}
 
 Make sure everything is up and running:

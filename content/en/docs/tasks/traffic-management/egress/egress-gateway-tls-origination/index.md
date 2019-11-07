@@ -37,13 +37,15 @@ traffic to external services.
     Note that any pod that you can `exec` and `curl` from would do.
 
 *   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
+    If you used the [sleep]({{< github_tree >}}/samples/sleep) sample, run:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 *   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+
+*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 ## Perform TLS origination with an egress gateway
 
@@ -307,7 +309,7 @@ TLS origination.
     Use any password with the following command:
 
     {{< text bash >}}
-    $ ./generate.sh nginx.example.com password
+    $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
     Select `y` for all prompts that appear.
@@ -535,7 +537,7 @@ to hold the configuration of the NGINX server:
       selector:
         app: sleep
     ---
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: sleep
@@ -619,7 +621,7 @@ to hold the configuration of the NGINX server:
     </html>
     {{< /text >}}
 
-### Redeploy the Egress Gateway with the client certificates
+### Redeploy the egress gateway with the client certificates
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.
@@ -633,20 +635,20 @@ to hold the configuration of the NGINX server:
     you used for generating your `istio.yaml`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio/ --name istio --namespace istio-system -x charts/gateways/templates/deployment.yaml --set gateways.istio-ingressgateway.enabled=false \
-    --set gateways.istio-egressgateway.enabled=true \
-    --set 'gateways.istio-egressgateway.secretVolumes[0].name'=egressgateway-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[0].secretName'=istio-egressgateway-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[0].mountPath'=/etc/istio/egressgateway-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[1].name'=egressgateway-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[1].secretName'=istio-egressgateway-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[1].mountPath'=/etc/istio/egressgateway-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[2].name'=nginx-client-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[2].secretName'=nginx-client-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[2].mountPath'=/etc/nginx-client-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[3].name'=nginx-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[3].secretName'=nginx-ca-certs \
-    --set 'gateways.istio-egressgateway.secretVolumes[3].mountPath'=/etc/nginx-ca-certs > \
+    $ istioctl manifest generate --set values.gateways.istio-ingressgateway.enabled=false \
+    --set values.gateways.istio-egressgateway.enabled=true \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[0].name'=egressgateway-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[0].secretName'=istio-egressgateway-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[0].mountPath'=/etc/istio/egressgateway-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[1].name'=egressgateway-ca-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[1].secretName'=istio-egressgateway-ca-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[1].mountPath'=/etc/istio/egressgateway-ca-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[2].name'=nginx-client-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[2].secretName'=nginx-client-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[2].mountPath'=/etc/nginx-client-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[3].name'=nginx-ca-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[3].secretName'=nginx-ca-certs \
+    --set 'values.gateways.istio-egressgateway.secretVolumes[3].mountPath'=/etc/nginx-ca-certs > \
     ./istio-egressgateway.yaml
     {{< /text >}}
 

@@ -6,6 +6,7 @@ last_update: 2019-04-18
 subtitle: Istio Egress Control Options for MongoDB traffic
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,tcp,mongo]
+target_release: 1.1
 ---
 
 In the [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post, I described how external services
@@ -93,7 +94,7 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and
 [change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
@@ -123,7 +124,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
+    [virtual services](/docs/reference/config/networking/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
@@ -448,7 +449,7 @@ enable Mixer policy enforcement based on that identity. By enabling mutual TLS y
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of the egress gateway's Envoy and see a line that corresponds to your
     requests to the MongoDB service. If Istio is deployed in the `istio-system` namespace, the command to print the
@@ -723,7 +724,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
 1. [Verify that the traffic is directed though the egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
 
-#### Cleanup directing TLS Egress traffic through an egress gateway
+#### Cleanup directing TLS egress traffic through an egress gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
@@ -1038,7 +1039,7 @@ to hold the configuration of the Nginx SNI proxy:
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command
     to print the log is:

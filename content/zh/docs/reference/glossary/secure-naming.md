@@ -1,4 +1,5 @@
 ---
-title: 安全命名
+title: Secure Naming
 ---
-安全命名提供一个[服务名](#%E6%9C%8D%E5%8A%A1%E5%90%8D)到[工作负载实例主体](#%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E5%AE%9E%E4%BE%8B%E4%B8%BB%E4%BD%93)的映射，这个工作负载实例被授权运行一个[工作负载实例](#%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E5%AE%9E%E4%BE%8B)，实现一个[服务](#%E6%9C%8D%E5%8A%A1)。
+Provides a mapping between a [service name](#service-name) and the [workload instance principals](#workload-instance-principal) that are authorized to
+run the [workload instances](#workload-instance) implementing a [service](#service).

@@ -35,8 +35,8 @@ weighted routing feature.
         $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
         {{< /text >}}
 
-        The `istioctl kube-inject` command is used to manually modify the `tcp-echo-services.yaml`
-        file before creating the deployments as documented [here](/docs/reference/commands/istioctl/#istioctl-kube-inject).
+        The [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command is used to manually modify the `tcp-echo-services.yaml`
+        file before creating the deployments.
 
     *   If you are using a cluster with
         [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)

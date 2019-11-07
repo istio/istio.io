@@ -2,7 +2,7 @@
 
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Istio Blog</title>
+    <title>Istio Blog and News</title>
     <description>Connect, secure, control, and observe services.</description>
     {{ if not .Date.IsZero }}
         <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
@@ -14,7 +14,7 @@
     </image>
     <category>Service mesh</category>
 
-    {{ $pages := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
+    {{ $pages := (where .Site.Pages "Section" "news").ByPublishDate.Reverse }}
 
     {{ range $post := $pages }}
       {{ if and (not $post.Draft) $post.IsPage }}
@@ -31,6 +31,25 @@
           {{ end }}
         </item>
       {{ end }}
+    {{ end }}
+
+    {{ $pages := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
+
+    {{ range $post := $pages }}
+    {{ if and (not $post.Draft) $post.IsPage }}
+    <item>
+      <title>{{ $post.Title }}</title>
+      <description>{{ $post.Content | html }}</description>
+      <pubDate>{{ $post.PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <link>{{ $post.Permalink }}</link>
+      <author>{{ $post.Params.attribution }}</author>
+      <guid isPermaLink="true">{{ $post.Permalink }}</guid>
+
+      {{ range $kw := $post.Keywords }}
+      <category>{{ $kw }}</category>
+      {{ end }}
+    </item>
+    {{ end }}
     {{ end }}
   </channel>
 </rss>

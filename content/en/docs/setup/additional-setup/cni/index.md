@@ -25,7 +25,7 @@ Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
 setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/additional-setup/requirements/)
-for users deploying pods into the Istio mesh.  The [Istio CNI plugin](https://github.com/istio/cni)
+for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
 ## Prerequisites
@@ -47,15 +47,15 @@ replaces the functionality provided by the `istio-init` container.
 1.  Determine the Kubernetes environment's CNI plugin `--cni-bin-dir` and `--cni-conf-dir` settings.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
-1.  Install Istio CNI and Istio using Helm.
-    Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#cni) instructions and the
-    **Istio CNI enabled** profile.
-    Pass `--set cniBinDir=...` and/or `--set cniConfDir=...` options when installing `istio-cni` if non-default,
+1.  Install Istio CNI and Istio using `istioctl`.
+    Refer to the [Istio install](/docs/setup/install/kubernetes/) instructions and pass `--set cni.enabled=true`
+    and `--set cni.components.cni.enabled=true` options.
+    Pass `--set values.cni.cniBinDir=...` and/or `--set values.cni.cniConfDir=...` options when installing `istio-cni` if non-default,
     as determined in the previous step.
 
 ### Helm chart parameters
 
-The following table shows all the options that the `istio-cni` Helm chart supports:
+The following table shows all the options that the `istio-cni` configuration supports:
 
 | Option | Values | Default | Description |
 |--------|--------|---------|-------------|
@@ -67,6 +67,10 @@ The following table shows all the options that the `istio-cni` Helm chart suppor
 | `cniBinDir` | | `/opt/cni/bin` | Must be the same as the environment's `--cni-bin-dir` setting (`kubelet` parameter). |
 | `cniConfDir` | | `/etc/cni/net.d` | Must be the same as the environment's `--cni-conf-dir` setting (`kubelet` parameter). |
 | `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
+| `psp_cluster_role` | | | This value refers to a `ClusterRole` and can be used to create a `RoleBinding` in the namespace of `istio-cni`. This is useful if you use [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy) and want to allow `istio-cni` to run as `priviliged` Pods. |
+
+These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
+or the corresponding path in a custom overlay file.
 
 ### Excluding specific Kubernetes namespaces
 
@@ -82,12 +86,15 @@ This example uses Helm to perform the following tasks:
 Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#cni) for complete instructions.
 
 Use the following command to render and apply Istio CNI components and override the default configuration of the
-`istio-cni` Helm chart's `logLevel` and `excludeNamespaces` parameters:
+`logLevel` and `excludeNamespaces` parameters for `istio-cni`:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system \
-    --set logLevel=info \
-    --set excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"} | kubectl apply -f -
+$ istioctl manifest apply \
+    --set <flags you used to install Istio>
+    --set cni.enabled=true \
+    --set cni.components.cni.enabled=true \
+    --set values.cni.logLevel=info \
+    --set values.cni.excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"}
 {{< /text >}}
 
 ### Hosted Kubernetes settings
@@ -99,11 +106,12 @@ The following table shows the required settings for many common Kubernetes envir
 
 | Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `--set values.cni.cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
 | IKS (IBM cloud) | _(none)_ | _(none)_ |
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
+| Red Hat OpenShift 4.2+ | `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
 
 ### GKE setup
 
@@ -132,7 +140,7 @@ The following sidecar injection methods are supported for use with the Istio CNI
 
 1.  [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 1.  Manual sidecar injection with the `istio-sidecar-injector` configmap
-    1.  `istioctl kube-inject` using the configmap directly:
+    1.  [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) using the configmap directly:
 
         {{< text bash >}}
         $ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-sidecar-injector

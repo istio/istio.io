@@ -6,12 +6,28 @@ keywords: [kubernetes,helm]
 force_inline_toc: true
 ---
 
+{{< warning >}}
+Installing Istio with Helm has been deprecated, however, you can still use these Helm configuration options when
+[installing Istio with {{< istioctl >}}](/docs/setup/install/istioctl/) by prepending the string "`values.`"
+to the option name. For example, instead of this `helm` command:
+
+{{< text bash >}}
+$ helm template ... --set global.mtls.enabled=true
+{{< /text >}}
+
+You can use this `istioctl` command:
+
+{{< text bash >}}
+$ istioctl manifest generate ... --set values.global.mtls.enabled=true
+{{< /text >}}
+
+Refer to [customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration) for details.
+{{< /warning >}}
+
 {{< tip >}}
-Refer to [Installation Options Changes](/docs/reference/config/installation-options-changes/)
+Refer to [Installation Options Changes](/news/2019/announcing-1.3/helm-changes/)
 for a detailed summary of the option changes between release 1.2 and release 1.3.
 {{< /tip >}}
-
-To customize Istio install using Helm, use the `--set <key>=<value>` option in Helm command to override one or more values. The set of supported keys is shown in the table below.
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 
@@ -172,8 +188,8 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `global.hub` | `gcr.io/istio-release` | `Default hub for Istio images. Releases are published to docker hub under 'istio' project. Daily builds from prow are on gcr.io` |
-| `global.tag` | `release-1.3-latest-daily` | `Default tag for Istio images.` |
+| `global.hub` | `` | `Default hub for Istio images. Releases are published to docker hub under 'istio' project. Daily builds from prow are on gcr.io` |
+| `global.tag` | `` | `Default tag for Istio images.` |
 | `global.logging.level` | `"default:info"` |  |
 | `global.monitoringPort` | `15014` | `monitoring port used by mixer, pilot, galley and sidecar injector` |
 | `global.k8sIngress.enabled` | `false` |  |
@@ -335,7 +351,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `kiali.enabled` | `false` | `Note that if using the demo or demo-auth yaml when installing via Helm, this default will be true.` |
+| `kiali.enabled` | `false` | `Note that if using the demo yaml when installing via Helm, this default will be true.` |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `quay.io/kiali` |  |
 | `kiali.image` | `kiali` |  |
@@ -472,6 +488,7 @@ To customize Istio install using Helm, use the `--set <key>=<value>` option in H
 | `security.replicaCount` | `1` |  |
 | `security.rollingMaxSurge` | `100%` |  |
 | `security.rollingMaxUnavailable` | `25%` |  |
+| `security.enableNamespacesByDefault` | `true` | `determines whether namespaces without the ca.istio.io/env and ca.istio.io/override labels should be targeted by the Citadel instance for secret creation` |
 | `security.image` | `citadel` |  |
 | `security.selfSigned` | `true` | `indicate if self-signed CA is used.` |
 | `security.createMeshPolicy` | `true` |  |

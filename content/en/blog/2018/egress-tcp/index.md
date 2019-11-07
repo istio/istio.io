@@ -8,6 +8,7 @@ attribution: Vadim Eisenberg
 aliases:
   - /docs/tasks/traffic-management/egress-tcp/
 keywords: [traffic-management,egress,tcp]
+target_release: 1.0
 ---
 
 {{< tip >}}
@@ -20,7 +21,7 @@ In my previous blog post, [Consuming External Web Services](/blog/2018/egress-ht
  over TCP. You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
   ratings data is persisted in a MySQL database. You deploy this database outside the cluster and configure the
   _ratings_ microservice to use it. You define a
- [Service Entry](/docs/reference/config/networking/v1alpha3/service-entry/) to allow the in-mesh applications to
+ [Service Entry](/docs/reference/config/networking/service-entry/) to allow the in-mesh applications to
  access the external database.
 
 ## Bookinfo sample application with external ratings database
@@ -149,7 +150,7 @@ Now you are ready to deploy a version of the Bookinfo application that will use 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/#installation-steps). Then you deploy the
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/). Then you deploy the
 [Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and [change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
 This application uses the `ratings` microservice to fetch
@@ -203,7 +204,7 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2-mysql_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/networking/v1alpha3/virtual-service/). These virtual services are
+    [virtual services](/docs/reference/config/networking/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release archive.
     ***Important:*** make sure you
     [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the

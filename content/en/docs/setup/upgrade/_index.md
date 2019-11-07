@@ -1,9 +1,6 @@
 ---
 title: Upgrade
-description: Information on upgrading Istio.
+description: Choose the upgrade guide that corresponds to the approach you previously used to install Istio.
 weight: 25
-aliases:
-    - /docs/setup/kubernetes/upgrading-istio/
-    - /docs/setup/kubernetes/upgrade/
 keywords: [kubernetes,upgrading]
 ---

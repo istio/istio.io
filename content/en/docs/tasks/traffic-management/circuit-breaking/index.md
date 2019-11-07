@@ -25,11 +25,12 @@ The `httpbin` application serves as the backend service for this task.
 
 ## Configuring the circuit breaker
 
-1.  Create a [destination rule](/docs/reference/config/networking/v1alpha3/destination-rule/) to apply circuit breaking settings
+1.  Create a [destination rule](/docs/reference/config/networking/destination-rule/) to apply circuit breaking settings
 when calling the `httpbin` service:
 
     {{< warning >}}
-    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/docs/ops/troubleshooting/network-issues/#503-errors-after-setting-destination-rule).
+    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it.
+    Otherwise requests will generate 503 errors as described [here](/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
     {{< /warning >}}
 
     {{< text bash >}}
@@ -230,7 +231,7 @@ one connection and request concurrently, you should see some failures when the
 1. Query the `istio-proxy` stats to see more:
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c istio-proxy  -- sh -c 'curl localhost:15000/stats' | grep httpbin | grep pending
+    $ kubectl exec $FORTIO_POD -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
     cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_active: 0
     cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_failure_eject: 0
     cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_overflow: 12

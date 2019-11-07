@@ -1,7 +1,7 @@
 ---
-title: Policies and Security
+title: Security
 description: Describes Istio's authorization and authentication functionality.
-weight: 30
+weight: 25
 keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
 aliases:
     - /docs/concepts/network-and-auth/auth.html
@@ -39,18 +39,6 @@ and audit (AAA) tools to protect your services and data. The goals of Istio secu
 
 Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
 Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
-
-## Policies
-
-Istio lets you configure custom policies for your application to enforce rules at runtime such as:
-
-- Rate limiting to dynamically limit the traffic to a service
-- Denials, whitelists, and blacklists, to restrict access to services
-- Header rewrites and redirects
-
-Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
-
-You must enable policy enforcement for your mesh to use this feature.
 
 ## High-level architecture
 
@@ -105,7 +93,7 @@ across heterogeneous environments.
 
 Istio and SPIFFE share the same identity document: [SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) (SPIFFE Verifiable Identity Document).
 For example, in Kubernetes, the X.509 certificate has the URI field in the format of
-`spiffe://\<domain\>/ns/\<namespace\>/sa/\<serviceaccount\>`.
+`spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`.
 This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
 
 Istio security and [SPIRE](https://spiffe.io/spire/), which is the implementation of SPIFFE, differ in the PKI implementation details.
@@ -169,6 +157,10 @@ The flow goes as follows:
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
+{{< idea >}}
+Use the node agent debug endpoint to view the secrets a node agent is actively serving to its client proxies. Navigate to `/debug/sds/workload` on the agent's port `8080` to dump active workload secrets, or `/debug/sds/gateway` to dump active gateway secrets.
+{{< /idea >}}
+
 ## Best practices
 
 In this section, we provide a few deployment guidelines and discuss a real-world scenario.
@@ -209,6 +201,55 @@ control in [Istio Mixer](/docs/reference/config/policy-and-telemetry/) such that
 In this setup, Kubernetes can isolate the operator privileges on managing the services.
 Istio manages certificates and keys in all namespaces
 and enforces different access control rules to the services.
+
+### How Citadel determines whether to create service account secrets
+
+When a Citadel instance notices that a `ServiceAccount` is created in a namespace, it must decide whether it should generate an `istio.io/key-and-cert` secret for that `ServiceAccount`. In order to make that decision, Citadel considers three inputs (note: there can be multiple Citadel instances deployed in a single cluster, and the following targeting rules are applied to each instance):
+
+1. `ca.istio.io/env` namespace label: *string valued* label containing the namespace of the desired Citadel instance
+
+1. `ca.istio.io/override` namespace label: *boolean valued* label which overrides all other configurations and forces all Citadel instances either to target or ignore a namespace
+
+1. [`enableNamespacesByDefault` security configuration](/docs/reference/config/installation-options/#security-options): default behavior if no labels are found on the `ServiceAccount`'s namespace
+
+From these three values, the decision process mirrors that of the [`Sidecar Injection Webhook`](/docs/ops/setup/injection-concepts/). The detailed behavior is that:
+
+- If `ca.istio.io/override` exists and is `true`, generate key/cert secrets for workloads.
+
+- Otherwise, if `ca.istio.io/override` exists and is `false`, don't generate key/cert secrets for workloads.
+
+- Otherwise, if a `ca.istio.io/env: "ns-foo"` label is defined in the service account's namespace, the Citadel instance in namespace `ns-foo` will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
+
+- Otherwise, set `enableNamespacesByDefault` to `true` during installation. If it is `true`, the default Citadel instance will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
+
+- Otherwise, no secrets are created for the `ServiceAccount`'s namespace.
+
+This logic is captured in the truth table below:
+
+| `ca.istio.io/override` value | `ca.istio.io/env` match | `enableNamespacesByDefault` configuration | Workload secret created |
+|------------------------------|-------------------------|-------------------------------------------|-------------------------|
+|`true`|yes|`true`|yes|
+|`true`|yes|`false`|yes|
+|`true`|no|`true`|yes|
+|`true`|no|`false`|yes|
+|`true`|unset|`true`|yes|
+|`true`|unset|`false`|yes|
+|`false`|yes|`true`|no|
+|`false`|yes|`false`|no|
+|`false`|no|`true`|no|
+|`false`|no|`false`|no|
+|`false`|unset|`true`|no|
+|`false`|unset|`false`|no|
+|unset|yes|`true`|yes|
+|unset|yes|`false`|yes|
+|unset|no|`true`|no|
+|unset|no|`false`|no|
+|unset|unset|`true`|yes|
+|unset|unset|`false`|no|
+
+{{< idea >}}
+When a namespace transitions from _disabled_ to _enabled_, Citadel will retroactively generate secrets for all `ServiceAccounts` in that namespace. When transitioning from _enabled_ to _disabled_, however, Citadel will not delete the namespace's generated secrets until the root certificate is renewed.
+{{< /idea >}}
 
 ## Authentication
 
@@ -348,7 +389,7 @@ work. As you'll remember from the [Architecture section](/docs/concepts/security
 authentication policies apply to requests that a service **receives**. To
 specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
-[TLS settings reference docs](/docs/reference/config/networking/v1alpha3/destination-rule/#TLSSettings).
+[TLS settings reference docs](/docs/reference/config/networking/destination-rule/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
 `.yaml` files. You deploy policies using `kubectl`.
 
@@ -372,7 +413,7 @@ spec:
 Istio can store authentication policies in namespace-scope or mesh-scope
 storage:
 
-- Mesh-scope policy is specified with a value of `"MeshPolicy"` for the `kind`
+- Mesh-scope policy is specified with a value of `MeshPolicy` for the `kind`
   field and the name `"default"`. For example:
 
     {{< text yaml >}}
@@ -581,7 +622,7 @@ saves the policies in the `Istio Config Store`.
 
 Pilot watches for changes to Istio authorization policies. It fetches the
 updated authorization policies if it sees any changes. Pilot distributes Istio
-authorization policies to the Envoy proxies that are co-located with the
+authorization policies to the Envoy proxies that are colocated with the
 service instances.
 
 Each Envoy proxy runs an authorization engine that authorizes requests at

@@ -62,13 +62,19 @@ is the best fit for your content:
   <tr>
     <td>Blog Post</td>
     <td>
-      A blog post is a timely article on Istio or products and technologies related to it. Typically, posts fall in one of the following four categories:
+      A blog post is an article on Istio or products and technologies related to it. Typically, posts fall in one of the following three categories:
       <ul>
       <li>Posts detailing the author’s experience using and configuring Istio, especially those that articulate a novel experience or perspective.</li>
-      <li>Posts highlighting or announcing Istio features.</li>
-      <li>Posts announcing an Istio-related event.</li>
+      <li>Posts highlighting Istio features.</li>
       <li>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</li>
       </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>News Entry</td>
+    <td>
+      A news entry post is a timely article on Istio and events related to it. News entries typically announce new releases or upcoming events.
     </td>
   </tr>
 
@@ -126,21 +132,34 @@ The available front matter fields are:
 |`keywords`         | An array of keywords describing the page, used to create the web of See Also links
 |`draft`            | When true, prevents the page from showing up in any navigation area
 |`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
-|`skip_toc`         | Set this to true to prevent the page from having a table of contents generated for it
 |`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
 |`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
-|`force_inline_toc` | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
-|`simple_list`      | Set this to true to force a generated section page to use a simple list layout rather that a gallery layout
-|`content_above`    | Set this to true to force the content portion of a section index to be rendered above the auto-generated part
+
+A few fields control the auto-generated table of contents present on most pages:
+
+|`skip_toc`          | Set this to true to prevent the page from having a table of contents generated for it
+|`force_inline_toc`  | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
+|`max_toc_level`     | Set to 2, 3, 4, 5, or 6 to indicate the maximum heading level to show in the table of contents
+|`remove_toc_prefix` | Set this to a string that will be removed from the start of every entry in the table of contents if present
+
+A few front-matter fields are specific to section pages (i.e. for files names `_index.md`):
+
+|Field                 | Description
+|----------------------|------------
+|`skip_list`           | Set this to true to prevent the auto-generated content on a section page
+|`simple_list`         | Set this to true to use a simple list layout rather than gallery layout for the auto-generated content of a section page
+|`list_below`          | Set this to true to insert the auto-generated content on a section page below the manually-written content
+|`list_by_publishdate` | Set this to true to sort the generated content on the page in order in publication date, rather than by page weight
 
 There are a few more front matter fields available specifically for blog posts:
 
-|Field          | Description
-|---------------|------------
-|`publishdate`  | Date of the post's original publication
-|`last_update`  | Date when the post last received a major revision
-|`attribution`  | Optional name of the post's author
-|`twitter`      | Optional Twitter handle of the post's author
+|Field           | Description
+|----------------|------------
+|`publishdate`   | Date of the post's original publication
+|`last_update`   | Date when the post last received a major revision
+|`attribution`   | Optional name of the post's author
+|`twitter`       | Optional Twitter handle of the post's author
+|`target_release`| Release this blog is written with in mind (this is normally the current major Istio release at the time the blog is authored or updated)
 
 ## Adding images
 
@@ -401,6 +420,7 @@ The available attributes are:
 |`downloadas`  | The default file name used when the user [downloads the preformatted block](#download-name).
 |`expandlinks` | Whether or not to expand [GitHub file references](#links-to-github-files) in the preformatted block.
 |`snippet`     | The name of the [snippet](#snippets) of content to extract from the preformatted block.
+|`repo`        | The repository to use for [GitHub links](#links-to-github-files) embedded in preformatted blocks.
 
 ### Inline vs. imported content
 
@@ -467,6 +487,21 @@ Which renders as:
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
+Normally, links will point to the current release branch of the `istio/istio` repository. If you'd like a link
+that points to a different Istio repository instead, you can use the `repo` attribute:
+
+{{< text markdown >}}
+{{</* text syntax="bash" repo="operator" */>}}
+$ cat @README.md@
+{{</* /text */>}}
+{{< /text >}}
+
+which renders as:
+
+{{< text syntax="bash" repo="operator" >}}
+$ cat @README.md@
+{{< /text >}}
+
 If your preformatted content happens to use @ symbols for something else, you can turn off link expansion using the
 `expandlinks` attribute:
 
@@ -495,9 +530,16 @@ which renders as:
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
+Within a text file, snippets can indicate the syntax of the snippet content and, for bash syntax, can
+include the syntax of the output. For example:
+
+{{< text plain >}}
+$snippet MySnippetFile.txt syntax="bash" outputis="json"
+{{< /text >}}
+
 ## Glossary terms
 
-When first introducing a specialized Istio term in a page, it is desirable to annotate the terms as being in the glossary. This
+When first introducing a specialized Istio term in a page, it is desirable to annotate the term as being in the glossary. This
 will produce special rendering inviting the user to click on the term in order to get a pop-up with the definition.
 
 {{< text markdown >}}
@@ -730,7 +772,7 @@ If you get spelling errors, you have three choices to address each:
 
 - It's a command/field/symbol name, so stick some `backticks` around it.
 
-- It's really valid, so go add the word to the `.spelling` file which is at the root of the repo.
+- It's really valid, so go add the word to the `.spelling` file which is at the root of the repository.
 
 If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
 `INTERNAL_ONLY` to prevent the linter from checking external links:

@@ -7,12 +7,12 @@ aliases:
     - /docs/examples/multicluster/gateways/
     - /docs/tasks/multicluster/gateways/
     - /docs/setup/kubernetes/install/multicluster/gateways/
-keywords: [kubernetes,multi-cluster,gateway]
+keywords: [kubernetes,multicluster,gateway]
 ---
 
 Follow this guide to install an Istio
-[multi-cluster deployment](/docs/concepts/deployment-models/#multiple-clusters)
-with replicated [control plane](/docs/concepts/deployment-models/#control-plane-models) instances
+[multicluster deployment](/docs/setup/deployment-models/#multiple-clusters)
+with replicated [control plane](/docs/setup/deployment-models/#control-plane-models) instances
 in every cluster and using gateways to connect services across clusters.
 
 Instead of using a shared Istio control plane to manage the mesh,
@@ -31,7 +31,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to deploy the [Istio control plane using Helm](/docs/setup/install/helm/)
+* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
   on **each** Kubernetes cluster.
 
 * The IP address of the `istio-ingressgateway` service in each cluster must be accessible
@@ -59,16 +59,6 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
     from the Istio samples directory for both clusters. In real world deployments,
     you would likely use a different CA certificate for each cluster, all signed
     by a common root CA.
-
-1. Generate a multicluster-gateways Istio configuration file using `helm`:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f @install/kubernetes/helm/istio/example-values/values-istio-multicluster-gateways.yaml@ > $HOME/istio.yaml
-    {{< /text >}}
-
-    For further details and customization options, refer to the
-    [Installation with Helm](/docs/setup/install/helm/) instructions.
 
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
     configuration in all of them.
@@ -100,21 +90,15 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
             --from-file=@samples/certs/cert-chain.pem@
         {{< /text >}}
 
-    * Install all the Istio
-    [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-    (CRDs) using `kubectl apply`, and wait a few seconds for the CRDs to be committed in the Kubernetes API-server:
-
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-    {{< /text >}}
-
-    * {{< boilerplate verify-crds >}}
-
-    * Use the Istio installation yaml file generated in a previous step to install Istio:
+    * Install Istio:
 
         {{< text bash >}}
-        $ kubectl apply -f $HOME/istio.yaml
+        $ istioctl manifest apply \
+            -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml
         {{< /text >}}
+
+    For further details and customization options, refer to the
+    [installation instructions](/docs/setup/install/istioctl/).
 
 ## Setup DNS
 
@@ -145,7 +129,8 @@ Create one of the following ConfigMaps, or update an existing one, in each
 cluster that will be calling services in remote clusters
 (every cluster in the general case):
 
-For clusters that use `kube-dns`:
+{{< tabset cookie-name="platform" >}}
+{{< tab name="KubeDNS" cookie-value="kube-dns" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -160,7 +145,9 @@ data:
 EOF
 {{< /text >}}
 
-For clusters that use CoreDNS:
+{{< /tab >}}
+
+{{< tab name="CoreDNS (< 1.4.0)" cookie-value="coredns-prev-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -194,6 +181,45 @@ data:
 EOF
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           upstream
+           fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
+    global:53 {
+        errors
+        cache 30
+        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})
+    }
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+{{< /tabset >}}
+
 ## Configure application services
 
 Every service in a given cluster that needs to be accessed from a different remote
@@ -202,8 +228,8 @@ The host used in the service entry should be of the form `<name>.<namespace>.glo
 where name and namespace correspond to the service's name and namespace respectively.
 
 To demonstrate cross cluster access, configure the
-[sleep service]({{<github_tree>}}/samples/sleep)
-running in one cluster to call the [httpbin service]({{<github_tree>}}/samples/httpbin)
+[sleep service]({{< github_tree >}}/samples/sleep)
+running in one cluster to call the [httpbin]({{< github_tree >}}/samples/httpbin) service
 running in a second cluster. Before you begin:
 
 * Choose two of your Istio clusters, to be referred to as `cluster1` and `cluster2`.
@@ -264,12 +290,14 @@ running in a second cluster. Before you begin:
     {{< /tip >}}
 
     If the global services have actual VIPs, you can use those, but otherwise we suggest
-    using IPs from the loopback range `127.0.0.0/8` that are not already allocated.
-    These IPs are non-routable outside of a pod.
-    In this example we'll use IPs in `127.255.0.0/16` which avoids conflicting with
-    well known IPs such as `127.0.0.1` (`localhost`).
+    using IPs from the class E addresses range `240.0.0.0/4`.
     Application traffic for these IPs will be captured by the sidecar and routed to the
     appropriate remote service.
+
+    {{< warning >}}
+    Multicast addresses (224.0.0.0 ~ 239.255.255.255) should not be used because there is no route to them by default.
+    Loopback addresses (127.0.0.0/8) should also not be used because traffic sent to them may be redirected to the sidecar inbound listener.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
@@ -294,7 +322,7 @@ running in a second cluster. Before you begin:
       # must be unique for each remote service, within a given cluster.
       # This address need not be routable. Traffic for this IP will be captured
       # by the sidecar and routed appropriately.
-      - 127.255.0.2
+      - 240.0.0.2
       endpoints:
       # This is the routable address of the ingress gateway in cluster2 that
       # sits in front of sleep.foo service. Traffic from the sidecar will be
@@ -365,7 +393,7 @@ spec:
     protocol: http
   resolution: STATIC
   addresses:
-  - 127.255.0.2
+  - 240.0.0.2
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     network: external
@@ -399,7 +427,7 @@ spec:
     protocol: http
   resolution: DNS
   addresses:
-  - 127.255.0.2
+  - 240.0.0.2
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     network: external
@@ -459,7 +487,7 @@ spec:
   addresses:
   # the IP address to which httpbin.bar.global will resolve to
   # must be unique for each service.
-  - 127.255.0.2
+  - 240.0.0.2
   endpoints:
   - address: ${CLUSTER2_GW_ADDR}
     labels:

@@ -26,7 +26,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: httpbin-v1
@@ -52,7 +52,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: httpbin-v2
@@ -100,7 +100,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: sleep
@@ -127,7 +127,8 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1.  Create a default route rule to route all traffic to `v1` of the service:
 
     {{< warning >}}
-    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it. Otherwise requests will generate 503 errors as described [here](/docs/ops/troubleshooting/network-issues/#503-errors-after-setting-destination-rule).
+    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it.
+    Otherwise requests will [generate 503 errors](/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
     {{< /warning >}}
 
     {{< text bash >}}
@@ -220,6 +221,7 @@ log entries for `v1` and none for `v2`:
         mirror:
           host: httpbin
           subset: v2
+        mirror_percent: 100
     EOF
     {{< /text >}}
 
@@ -231,6 +233,9 @@ log entries for `v1` and none for `v2`:
     Also, it is important to note that these requests are mirrored as "fire and
     forget", which means that the responses are discarded.
 
+    You can use the `mirror_percent` field to mirror a fraction of the traffic,
+    instead of mirroring all requests. If this field is absent, for compatibility with
+    older versions, all traffic will be mirrored.
 1. Send in traffic:
 
     {{< text bash >}}

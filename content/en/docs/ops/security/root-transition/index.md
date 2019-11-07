@@ -42,11 +42,11 @@ please follow the procedure and check whether you will be affected.
 
 1. Check when the root certificate expires:
 
-    Download this [script](https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh)
+    Download this [script](https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh)
     on a machine that has `kubectl` access to the cluster.
 
     {{< text bash>}}
-    $ wget https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh
+    $ wget https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh
     $ chmod +x root-transition.sh
     $ ./root-transition.sh check
     ...
@@ -68,7 +68,7 @@ please follow the procedure and check whether you will be affected.
     Because the Pilot has issue using the old root certificate to verify the new workload certificates.
     This may cause disconnection between Pilot and Envoy.
     Please see the [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check.
-    The [Istio upgrade guide](/docs/setup/upgrade/steps/)
+    The [Istio upgrade guide](/docs/setup/upgrade/)
     by default installs Pilot with Envoy sidecar.
     {{< /warning >}}
 
@@ -122,7 +122,7 @@ please follow the procedure and check whether you will be affected.
     {{< /warning >}}
 
     Upgrade your control plane and `istio-proxy` sidecars to 1.0.8, 1.1.8 or later.
-    Please follow the Istio [upgrade procedure](/docs/setup/upgrade/steps/).
+    Please follow the Istio [upgrade procedure](/docs/setup/upgrade/).
 
 1. Verify the new workload certificates are loaded by Envoy:
 
@@ -130,7 +130,7 @@ please follow the procedure and check whether you will be affected.
     The following command shows an example to check the Envoy’s certificate for pod _foo_ running in namespace _bar_.
 
     {{< text bash>}}
-    $ kubectl exec -it foo -c istio-proxy -n bar -- curl http://localhost:15000/certs | head -c 1000
+    $ kubectl exec -foo -c istio-proxy -n bar -- pilot-agent request GET certs | head -c 1000
     {
      "certificates": [
       {
@@ -157,7 +157,7 @@ Yes, you can. You can upgrade to 1.0.8, 1.1.8 or later as normal.
 After that, follow the root transition steps and in Step 4,
 manually restart Galley, Pilot and sidecar-injector to ensure they load the new root certificates.
 
-### Why my workloads do not pick up the new certificates (in Step 5)?
+### Why my workloads do not pick up the new certificates (in step 5)?
 
 Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 4.
 

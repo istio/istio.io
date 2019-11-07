@@ -11,38 +11,31 @@ aliases:
 
 ## Injection
 
-Each pod in the mesh must be running an Istio compatible sidecar.
+In order to take advantage of all of Istio's features, pods in the mesh must be running an Istio sidecar proxy.
 
 The following sections describe two
-ways of injecting the Istio sidecar into a pod: manually using the `istioctl`
-CLI tool or automatically using the Istio sidecar injector.
+ways of injecting the Istio sidecar into a pod: manually using the [`istioctl`](/docs/reference/commands/istioctl)
+command or automatically using the Istio sidecar injector.
 
-Manual injection modifies the controller configuration, e.g. deployment. It
-does this by modifying the pod template spec such that *all* pods for that
-deployment are created with the injected sidecar. Adding/Updating/Removing
-the sidecar requires modifying the entire deployment.
+Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
 
-Automatic injection injects at pod creation time. The controller resource is
-unmodified. Sidecars can be updated selectively by manually deleting a pods or
-systematically with a deployment rolling update.
+Automatic injection injects at pod creation time using an admission controller.
 
-Manual and automatic injection both use the configuration from the
-`istio-sidecar-injector` and `istio` ConfigMaps in the `istio-system`
-namespace.  Manual injection can also optionally load configuration
-from local files.
+Injection occurs by applying a template defined in the `istio-sidecar-injector` ConfigMap.
 
 ### Manual sidecar injection
 
-Inject the sidecar into the deployment using the in-cluster configuration.
+To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
 
 {{< text bash >}}
 $ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
 {{< /text >}}
 
-Alternatively, inject using local copies of the configuration.
+By default, this will use the in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
 
 {{< text bash >}}
 $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
+$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.values}' > inject-values.yaml
 $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
 {{< /text >}}
 
@@ -52,9 +45,9 @@ Run `kube-inject` over the input file and deploy.
 $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
+    --valuesFile inject-values.yaml \
     --filename @samples/sleep/sleep.yaml@ \
-    --output sleep-injected.yaml
-$ kubectl apply -f sleep-injected.yaml
+    | kubectl apply -f -
 {{< /text >}}
 
 Verify that the sidecar has been injected into the sleep pod with `2/2` under the READY column.
@@ -68,31 +61,22 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 ### Automatic sidecar injection
 
 Sidecars can be automatically added to applicable Kubernetes pods using a
-[mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/).
-Verify that the `kube-apiserver` process has the `admission-control` flag set with the `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers added and listed in the correct order and the admissionregistration API is enabled.
+[mutating webhook admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) provided by Istio.
 
-{{< text bash >}}
-$ kubectl api-versions | grep admissionregistration
-admissionregistration.k8s.io/v1alpha1
-admissionregistration.k8s.io/v1beta1
-{{< /text >}}
+{{< tip >}}
+While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
+{{< /tip >}}
+
+When the injection webhook is enabled, any new pods that are created will automatically have a sidecar added to them.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
 #### Disabling or updating the webhook
 
 The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
-use [Helm](/docs/setup/install/helm/) to generate an updated `istio.yaml`
-with the option `sidecarInjectorWebhook.enabled` set to `false`. E.g.
+use [Helm](/docs/setup/install/helm/) to set option `sidecarInjectorWebhook.enabled` to `false`.
 
-{{< text bash >}}
-$ helm template --namespace=istio-system --set sidecarInjectorWebhook.enabled=false install/kubernetes/helm/istio > istio.yaml
-$ kubectl create ns istio-system
-$ kubectl apply -f istio.yaml
-{{< /text >}}
-
-In addition, there are some other configuration parameters defined for the sidecar injector webhook
-service in `values.yaml`. You can override the default values to customize the installation.
+There are also a [variety of other options](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options) that can be configured.
 
 #### Deploying an app
 
@@ -152,7 +136,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-When Kubernetes invokes the webhook, the [admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 configuration is applied. The default configuration injects the sidecar into
 pods in any namespace with the `istio-injection=enabled label`. The
 `istio-sidecar-injector` configuration map specifies the configuration for the
@@ -187,7 +171,7 @@ value `false` to the pod template spec to override the default and disable injec
 The following example uses the `sidecar.istio.io/inject` annotation to disable sidecar injection.
 
 {{< text yaml >}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ignored
@@ -205,7 +189,7 @@ spec:
 
 ##### _**template**_
 
-The sidecar injection template uses [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template) which,
+The sidecar injection template uses <https://golang.org/pkg/text/template> which,
 when parsed and executed, is decoded to the following
 struct containing the list of containers and volumes to inject into the pod.
 

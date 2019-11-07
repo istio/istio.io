@@ -1,5 +1,8 @@
 ---
 title: 安全
-description: 演示对服务网格进行安全加固的方法。
+description: 演示如何保护网格。
 weight: 19
+aliases:
+    - /zh/docs/tasks/istio-auth.html
+    - /zh/docs/tasks/security/authz-permissive
 ---

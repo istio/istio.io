@@ -17,7 +17,7 @@ There, the external services are called directly from the client sidecar.
 This example also shows how to configure Istio to call external services, although this time
 indirectly via a dedicated _egress gateway_ service.
 
-Istio uses [ingress and egress gateways](/docs/reference/config/networking/v1alpha3/gateway/)
+Istio uses [ingress and egress gateways](/docs/reference/config/networking/gateway/)
 to configure load balancers executing at the edge of a service mesh.
 An ingress gateway allows you to define entry points into the mesh that all incoming traffic flows through.
 Egress gateway is a symmetrical concept; it defines exit points from the mesh. Egress gateways allow
@@ -37,6 +37,8 @@ controlled way.
 
 {{< boilerplate before-you-begin-egress >}}
 
+*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+
 ## Deploy Istio egress gateway
 
 1.  Check if the Istio egress gateway is deployed:
@@ -47,15 +49,12 @@ controlled way.
 
     If no pods are returned, deploy the Istio egress gateway by performing the next step.
 
-1.  Use `helm template` (or `helm install` with the corresponding flags):
+1.  Run the following command:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio-egressgateway --namespace istio-system \
-        -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml \
-        -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml \
-        -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml \
-        --set global.istioNamespace=istio-system --set gateways.istio-ingressgateway.enabled=false \
-        --set gateways.istio-egressgateway.enabled=true | kubectl apply -f -
+    $ istioctl manifest apply --set values.global.istioNamespace=istio-system \
+        --set values.gateways.istio-ingressgateway.enabled=false \
+        --set values.gateways.istio-egressgateway.enabled=true
     {{< /text >}}
 
 {{< warning >}}
@@ -269,7 +268,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     You should see a line similar to the following:
 
     {{< text plain >}}
-    [2018-06-14T11:46:23.596Z] "GET /politics HTTP/2" 301 - 0 0 3 1 "172.30.146.87" "curl/7.35.0" "ab7be694-e367-94c5-83d1-086eca996dae" "edition.cnn.com" "151.101.193.67:80"
+    [2019-09-03T20:57:49.103Z] "GET /politics HTTP/2" 301 - "-" "-" 0 0 90 89 "10.244.2.10" "curl/7.64.0" "ea379962-9b5c-4431-ab66-f01994f5a5a5" "edition.cnn.com" "151.101.65.67:80" outbound|80||edition.cnn.com - 10.244.1.5:80 10.244.2.10:50482 edition.cnn.com -
     {{< /text >}}
 
     Note that you only redirected the traffic from port 80 to the egress gateway. The HTTPS traffic to port 443
@@ -310,7 +309,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     EOF
     {{< /text >}}
 
-1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -482,7 +481,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< /tabset >}}
 
-1.  Send an HTTPS request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
     The output should be the same as before.
 
     {{< text bash >}}
@@ -655,7 +654,7 @@ external service.
 1.  Check that the deployed pod has two containers, including the Istio sidecar proxy (`istio-proxy`):
 
     {{< text bash >}}
-    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath={.spec.containers[*].name}
+    $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath='{.spec.containers[*].name}'
     sleep istio-proxy
     {{< /text >}}
 
@@ -725,7 +724,7 @@ external service.
     counter is:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
+    $ kubectl exec $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
@@ -781,13 +780,13 @@ external service.
     If you get the certificate as in the output above, your traffic is routed correctly. Check the statistics of the egress gateway's proxy and see a counter that corresponds to your requests (sent by _openssl_ and _curl_) to _edition.cnn.com_.
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- curl -s localhost:15000/stats | grep edition.cnn.com.upstream_cx_total
+    $ kubectl exec $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
 ## Cleanup
 
-Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@

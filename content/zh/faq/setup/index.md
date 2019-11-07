@@ -1,8 +1,10 @@
 ---
-title: 安装FAQ
+title: 安装常见问题
 linktitle: 安装
-description: 安装 Q & A。
+description: 安装相关问答。
 weight: 20
 layout: faq
 icon: faq
+aliases:
+  - /zh/help/faq/setup
 ---

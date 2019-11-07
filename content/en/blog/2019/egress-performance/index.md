@@ -5,6 +5,7 @@ publishdate: 2019-01-31
 subtitle: An Istio Egress Gateway performance assessment
 attribution: Jose Nativio, IBM
 keywords: [performance,traffic-management,egress,mongo]
+target_release: 1.0
 ---
 
 The main objective of this investigation was to determine the impact on performance and resource utilization when an egress gateway is added in the service mesh to access an external service (MongoDB, in this case). The steps to configure an egress gateway for an external MongoDB are described in the blog [Consuming External MongoDB Services](/blog/2018/egress-mongo/).

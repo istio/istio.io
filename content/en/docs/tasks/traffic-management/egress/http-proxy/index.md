@@ -18,6 +18,8 @@ services.
 
 {{< boilerplate before-you-begin-egress >}}
 
+*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+
 ## Deploy an HTTPS proxy
 
 To simulate a legacy proxy and only for this example, you deploy an HTTPS proxy inside your cluster.
@@ -62,7 +64,7 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: squid
@@ -190,13 +192,13 @@ not aware of the fact that the external proxy forwards the requests further.
 
 ## Cleanup
 
-1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service in the `external` namespace:
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service in the `external` namespace:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external

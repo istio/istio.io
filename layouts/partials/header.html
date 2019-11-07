@@ -4,6 +4,10 @@
 {{ $latest_post := index $posts 0 }}
 {{ $blog_home := .Site.GetPage "section" "blog" }}
 
+{{ $news := (where .Site.Pages "Section" "news").ByPublishDate.Reverse }}
+{{ $latest_news := index $news 0 }}
+{{ $news_home := .Site.GetPage "section" "news" }}
+
 <header>
     <nav >
         <a id="brand" href="{{ $home.Permalink }}">
@@ -40,6 +44,13 @@
                         <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
+                {{ with $latest_news }}
+                    {{ if eq $section "news" }}
+                        <span title="{{ $news_home.Description }}">{{ $news_home.LinkTitle }}</span>
+                    {{ else }}
+                        <a title="{{ $news_home.Description }}" href="{{ .Permalink }}">{{ $news_home.LinkTitle }}</a>
+                    {{ end }}
+                {{ end }}
                 {{ with (.Site.GetPage "section" "faq") }}
                     {{ if eq $section "faq" }}
                         <span title="{{ .Description }}">{{ .LinkTitle }}</span>
@@ -63,10 +74,12 @@
                 </button>
 
                 <div id="gearDropdownContent" class="menu-content" aria-labelledby="gearDropdownButton" role="menu">
+                    <!--
                     <a tabindex="-1" role="menuitem" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
                     <a tabindex="-1" role="menuitem" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
 
                     <div role="separator"></div>
+                    -->
 
                     <a tabindex="-1" role="menuitem" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
                     <a tabindex="-1" role="menuitem" id="dark-theme-item">{{ i18n "dark_theme" }}</a>
@@ -132,7 +145,7 @@
             {{ end }}
             <input type="hidden" name="ie" value="utf-8" />
             <input type="hidden" name="hl" value="en" />
-            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search.html" />
+            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search" />
             <input id="search-textbox" class="form-control" name="q" type="search" aria-label='{{ i18n "search" }}'/>
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "cancel-x" }}</button>
         </form>

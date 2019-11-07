@@ -15,6 +15,6 @@ $ kubectl -n istio-system edit deployment istio-telemetry
 # Now, manually remove instances of trace_zipkin_url from the file and save it.
 {{< /text >}}
 
-Then follow the steps of the [cleanup section of the Distributed Tracing task](/docs/tasks/telemetry/distributed-tracing/zipkin/#cleanup).
+Then follow the steps of the [cleanup section of the Distributed Tracing task](/docs/tasks/observability/distributed-tracing/zipkin/#cleanup).
 
-If you don’t want tracing functionality at all, then [disable tracing](/docs/tasks/telemetry/distributed-tracing/zipkin/#before-you-begin) when installing Istio.
+If you don’t want tracing functionality at all, then [disable tracing](/docs/tasks/observability/distributed-tracing/zipkin/#before-you-begin) when installing Istio.

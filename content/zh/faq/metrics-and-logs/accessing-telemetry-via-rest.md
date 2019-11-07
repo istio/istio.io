@@ -1,7 +1,7 @@
 ---
-title: 可以通过 REST 方式访问 Istio 度量数据吗？
+title: Can Istio metrics be accessed through REST?
 weight: 0
 ---
 
-您可以使用 [Prometheus](/zh/docs/tasks/telemetry/metrics/querying-metrics/) 收集有关 Istio 的遥测数据，然后使用
-[Prometheus 的 HTTP API](https://prometheus.io/docs/prometheus/latest/querying/api/) 来查询该度量数据。
+You can collect telemetry data about Istio using [Prometheus](/docs/tasks/observability/metrics/querying-metrics/). And then use
+[Prometheus’s HTTP API](https://prometheus.io/docs/prometheus/latest/querying/api/) to query that data.

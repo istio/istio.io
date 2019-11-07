@@ -23,30 +23,40 @@
 # Additionally, this script also builds Istio components and runs them to extract their command-line docs which it
 # copies to content/en/docs/reference/commands.
 
+if [[ "$1" != "" ]]; then
+  SOURCE_BRANCH_NAME="$1"
+else
+  SOURCE_BRANCH_NAME="master"
+fi
+
 # The repos to mine for docs, just add new entries here to pull in more repos.
 REPOS=(
-    https://github.com/istio/istio.git@release-1.3
-    https://github.com/istio/api.git@release-1.3
-    https://github.com/istio/operator.git@release-1.3
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"
+    https://github.com/istio/api.git@"${SOURCE_BRANCH_NAME}"
+    https://github.com/istio/operator.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
     https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
+    https://github.com/newrelic/newrelic-istio-adapter.git@master
 )
 
 # The components to build and extract usage docs from.
 COMPONENTS=(
-    https://github.com/istio/istio.git@release-1.3@mixer/cmd/mixs@mixs
-    https://github.com/istio/istio.git@release-1.3@istioctl/cmd/istioctl@istioctl
-    https://github.com/istio/istio.git@release-1.3@pilot/cmd/pilot-agent@pilot-agent
-    https://github.com/istio/istio.git@release-1.3@pilot/cmd/pilot-discovery@pilot-discovery
-    https://github.com/istio/istio.git@release-1.3@pilot/cmd/sidecar-injector@sidecar-injector
-    https://github.com/istio/istio.git@release-1.3@security/cmd/istio_ca@istio_ca
-    https://github.com/istio/istio.git@release-1.3@security/cmd/node_agent@node_agent
-    https://github.com/istio/istio.git@release-1.3@galley/cmd/galley@galley
-    https://github.com/istio/operator.git@release-1.3@cmd/manager@operator
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@mixer/cmd/mixs@mixs
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@istioctl/cmd/istioctl@istioctl
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-agent@pilot-agent
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-discovery@pilot-discovery
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@sidecar-injector/cmd/sidecar-injector@sidecar-injector
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/istio_ca@istio_ca
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/node_agent@node_agent
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@galley/cmd/galley@galley
+    https://github.com/istio/operator.git@"${SOURCE_BRANCH_NAME}"@cmd/manager@operator
 )
+
+# The repo to fetch config analysis message data from
+CONFIG_ANALYSIS_MESSAGE_REPO="https://github.com/istio/istio.git@${SOURCE_BRANCH_NAME}@galley/pkg/config/analysis/msg/messages.yaml"
 
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOTDIR=$(dirname "${SCRIPTPATH}")
@@ -82,7 +92,7 @@ locate_file() {
 
     LEN=${#WORK_DIR}
 
-    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" ]]; then
+    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" && "${REPO_URL}" != "https://github.com/istio/operator.git" ]]; then
         sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
     fi
 
@@ -145,6 +155,21 @@ handle_components() {
     done
 }
 
+handle_config_analysis_messages() {
+    REPO_URL=$(echo "${CONFIG_ANALYSIS_MESSAGE_REPO}" | cut -d @ -f 1)
+    REPO_BRANCH=$(echo "${CONFIG_ANALYSIS_MESSAGE_REPO}" | cut -d @ -f 2)
+    REPO_NAME=$(echo "${REPO_URL}" | cut -d / -f 5 | cut -d . -f 1)
+    FILE_PATH=$(echo "${CONFIG_ANALYSIS_MESSAGE_REPO}" | cut -d @ -f 3)
+
+    git clone --depth=1 -q -b "${REPO_BRANCH}" "${REPO_URL}"
+
+    pushd "${REPO_NAME}" >/dev/null || exit
+    cp "${FILE_PATH}" "${ROOTDIR}/data/analysis.yaml"
+    popd >/dev/null || exit
+
+    rm -fr "${REPO_NAME}"
+}
+
 # delete all the existing generated files so that any stale files are removed
 find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xargs -0 rm 2>/dev/null
 
@@ -152,8 +177,11 @@ find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xar
 mkdir -p "${WORK_DIR}"
 pushd "${WORK_DIR}" >/dev/null || exit
 
-#echo "Handling doc scraping"
+echo "Handling doc scraping"
 handle_doc_scraping
 
 echo "Handling component docs"
 handle_components
+
+echo "Fetching config analysis data"
+handle_config_analysis_messages

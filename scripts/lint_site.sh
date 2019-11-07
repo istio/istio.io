@@ -27,13 +27,19 @@ check_content() {
     LANG=$2
     TMP=$(mktemp -d)
 
+    # check for use of ```
+    if grep -nr -e "\`\`\`" --include "*.md" "${DIR}"; then
+        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks"
+        FAILED=1
+    fi
+
     # make the tmp dir
     mkdir -p "${TMP}"
 
     # create a throwaway copy of the content
     cp -R "${DIR}" "${TMP}"
     cp .spelling "${TMP}"
-    cp common/config/mdl.rb "${TMP}"
+    cp mdl.rb "${TMP}"
 
     # replace the {{< text >}} shortcodes with ```plain
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
@@ -50,7 +56,7 @@ check_content() {
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
-    if ! find content/en -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
+    if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
         echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/creating-and-editing-pages/#linting"
         FAILED=1
     fi
@@ -91,11 +97,13 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-check_content content --en-us
+check_content content/en --en-us
+# only check English words in Chinese docs
+check_content content/zh --en-us
 
 find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
-    # shellcheck disable=SC1111
     if grep -H -n -e '“' "${f}"; then
+        # shellcheck disable=SC1111
         echo "Ensure content only uses standard quotation marks and not “"
         FAILED=1
     fi
@@ -113,7 +121,7 @@ find ./public -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
     fi
 done
 
-if ! htmlproofer ./public --assume-extension --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/"; then
+if ! htmlproofer ./public --assume-extension --http-status-ignore "0" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/"; then
     FAILED=1
 fi
 

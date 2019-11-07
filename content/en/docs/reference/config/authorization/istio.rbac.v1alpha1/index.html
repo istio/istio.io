@@ -1,13 +1,16 @@
 ---
 WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
 source_repo: https://github.com/istio/api
-title: RBAC
+title: RBAC (deprecated)
 description: Configuration for Role Based Access Control.
 location: https://istio.io/docs/reference/config/authorization/istio.rbac.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 number_of_entries: 9
 ---
+<p>Note: The v1alpha1 RBAC policy is deprecated by the v1beta1 Authorization policy.
+This page is kept for migration purpose and will be removed in Istio 1.6.</p>
+
 <p>Istio RBAC (Role Based Access Control) defines ServiceRole and ServiceRoleBinding
 objects.</p>
 
@@ -16,7 +19,7 @@ the following standard fields:</p>
 
 <ul>
 <li>services: a list of services.</li>
-<li>methods: A list of HTTP methods. You can set the value to <code>*</code> to include all HTTP methods.
+<li>methods: A list of HTTP methods. You can set the value to <code>\*</code> to include all HTTP methods.
          This field should not be set for TCP services. The policy will be ignored.
          For gRPC services, only <code>POST</code> is allowed; other methods will result in denying services.</li>
 <li>paths: HTTP paths or gRPC methods. Note that gRPC methods should be
@@ -87,6 +90,7 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -94,13 +98,16 @@ spec:
 <td><code>services</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Required. A list of service names.
+<p>A list of service names.
 Exact match, prefix match, and suffix match are supported for service names.
 For example, the service name &ldquo;bookstore.mtv.cluster.local&rdquo; matches
-&ldquo;bookstore.mtv.cluster.local&rdquo; (exact match), or &ldquo;bookstore<em>&rdquo; (prefix match),
-or &ldquo;</em>.mtv.cluster.local&rdquo; (suffix match).
-If set to [&ldquo;*&rdquo;], it refers to all services in the namespace.</p>
+&ldquo;bookstore.mtv.cluster.local&rdquo; (exact match), or &ldquo;bookstore*&rdquo; (prefix match),
+or &ldquo;*.mtv.cluster.local&rdquo; (suffix match).
+If set to [&rdquo;*&rdquo;], it refers to all services in the namespace.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="AccessRule-paths">
@@ -112,10 +119,13 @@ gRPC methods must be presented as fully-qualified name in the form of
 &ldquo;/packageName.serviceName/methodName&rdquo; and are case sensitive.
 Exact match, prefix match, and suffix match are supported. For example,
 the path &ldquo;/books/review&rdquo; matches &ldquo;/books/review&rdquo; (exact match),
-or &ldquo;/books/<em>&rdquo; (prefix match), or &ldquo;</em>/review&rdquo; (suffix match).
+or &ldquo;/books/*&rdquo; (prefix match), or &ldquo;*/review&rdquo; (suffix match).
 If not specified, it matches to any path.
 This field should not be set for TCP services. The policy will be ignored.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 <tr id="AccessRule-methods">
@@ -128,13 +138,19 @@ This field should not be set for TCP services. The policy will be ignored.
 For gRPC services, only <code>POST</code> is allowed; other methods will result in denying services.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="AccessRule-constraints">
 <td><code>constraints</code></td>
-<td><code><a href="#AccessRule-Constraint">AccessRule.Constraint[]</a></code></td>
+<td><code><a href="#AccessRule-Constraint">Constraint[]</a></code></td>
 <td>
 <p>Optional. Extra constraints in the ServiceRole specification.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -150,6 +166,7 @@ For gRPC services, only <code>POST</code> is allowed; other methods will result 
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -160,6 +177,9 @@ For gRPC services, only <code>POST</code> is allowed; other methods will result 
 <p>Key of the constraint.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="AccessRule-Constraint-values">
 <td><code>values</code></td>
@@ -168,8 +188,11 @@ For gRPC services, only <code>POST</code> is allowed; other methods will result 
 <p>List of valid values for the constraint.
 Exact match, prefix match, and suffix match are supported.
 For example, the value &ldquo;v1alpha2&rdquo; matches &ldquo;v1alpha2&rdquo; (exact match),
-or &ldquo;v1<em>&rdquo; (prefix match), or &ldquo;</em>alpha2&rdquo; (suffix match).</p>
+or &ldquo;v1*&rdquo; (prefix match), or &ldquo;*alpha2&rdquo; (suffix match).</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -177,8 +200,8 @@ or &ldquo;v1<em>&rdquo; (prefix match), or &ldquo;</em>alpha2&rdquo; (suffix mat
 </section>
 <h2 id="RbacConfig">RbacConfig</h2>
 <section>
-<p>RbacConfig implements the ClusterRbaConfig Custom Resource Definition for controlling Istio RBAC behavior.
-The ClusterRbaConfig Custom Resource is a singleton where only one ClusterRbaConfig should be created
+<p>RbacConfig implements the ClusterRbacConfig Custom Resource Definition for controlling Istio RBAC behavior.
+The ClusterRbacConfig Custom Resource is a singleton where only one ClusterRbacConfig should be created
 globally in the mesh and the namespace should be the same to other Istio components, which usually is <code>istio-system</code>.</p>
 
 <p>Below is an example of an <code>ClusterRbacConfig</code> resource called <code>istio-rbac-config</code> which enables Istio RBAC for all
@@ -201,33 +224,43 @@ spec:
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="RbacConfig-mode">
 <td><code>mode</code></td>
-<td><code><a href="#RbacConfig-Mode">RbacConfig.Mode</a></code></td>
+<td><code><a href="#RbacConfig-Mode">Mode</a></code></td>
 <td>
 <p>Istio RBAC mode.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RbacConfig-inclusion">
 <td><code>inclusion</code></td>
-<td><code><a href="#RbacConfig-Target">RbacConfig.Target</a></code></td>
+<td><code><a href="#RbacConfig-Target">Target</a></code></td>
 <td>
 <p>A list of services or namespaces that should be enforced by Istio RBAC policies. Note: This field have
 effect only when mode is ON<em>WITH</em>INCLUSION and will be ignored for any other modes.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RbacConfig-exclusion">
 <td><code>exclusion</code></td>
-<td><code><a href="#RbacConfig-Target">RbacConfig.Target</a></code></td>
+<td><code><a href="#RbacConfig-Target">Target</a></code></td>
 <td>
 <p>A list of services or namespaces that should not be enforced by Istio RBAC policies. Note: This field have
 effect only when mode is ON<em>WITH</em>EXCLUSION and will be ignored for any other modes.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -287,6 +320,7 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -297,6 +331,9 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <p>A list of services.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="RbacConfig-Target-namespaces">
 <td><code>namespaces</code></td>
@@ -304,6 +341,9 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <td>
 <p>A list of namespaces.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -319,6 +359,7 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -326,18 +367,24 @@ services and namespaces not in the exclusion field will be enforced by Istio RBA
 <td><code>kind</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The type of the role being referenced.
+<p>The type of the role being referenced.
 Currently, &ldquo;ServiceRole&rdquo; is the only supported value for &ldquo;kind&rdquo;.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="RoleRef-name">
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. The name of the ServiceRole object being referenced.
+<p>The name of the ServiceRole object being referenced.
 The ServiceRole object must be in the same namespace as the ServiceRoleBinding object.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -353,6 +400,7 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -360,8 +408,11 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <td><code>rules</code></td>
 <td><code><a href="#AccessRule">AccessRule[]</a></code></td>
 <td>
-<p>Required. The set of access rules (permissions) that the role has.</p>
+<p>The set of access rules (permissions) that the role has.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -377,6 +428,7 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -384,16 +436,22 @@ The ServiceRole object must be in the same namespace as the ServiceRoleBinding o
 <td><code>subjects</code></td>
 <td><code><a href="#Subject">Subject[]</a></code></td>
 <td>
-<p>Required. List of subjects that are assigned the ServiceRole object.</p>
+<p>List of subjects that are assigned the ServiceRole object.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 <tr id="ServiceRoleBinding-roleRef">
 <td><code>roleRef</code></td>
 <td><code><a href="#RoleRef">RoleRef</a></code></td>
 <td>
-<p>Required. Reference to the ServiceRole object.</p>
+<p>Reference to the ServiceRole object.</p>
 
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -410,6 +468,7 @@ The supported keys in <code>properties</code> are listed in &ldquo;constraint an
 <th>Field</th>
 <th>Type</th>
 <th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -420,6 +479,9 @@ The supported keys in <code>properties</code> are listed in &ldquo;constraint an
 <p>Optional. The user name/ID that the subject represents.</p>
 
 </td>
+<td>
+No
+</td>
 </tr>
 <tr id="Subject-properties">
 <td><code>properties</code></td>
@@ -427,6 +489,9 @@ The supported keys in <code>properties</code> are listed in &ldquo;constraint an
 <td>
 <p>Optional. The set of properties that identify the subject.</p>
 
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>

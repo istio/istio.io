@@ -6,6 +6,7 @@ last_update: 2019-04-11
 subtitle: Mesh-external service entries for egress HTTPS traffic
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
+target_release: 1.1
 ---
 
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the
@@ -20,7 +21,7 @@ HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/#installation-steps). Then I deploy
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/). Then I deploy
 [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
 book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
 details without consulting any external service.
@@ -89,7 +90,7 @@ So what might have gone wrong? Ah... The answer is that I forgot to tell you to 
 an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
 ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable
 such traffic, you must define a
-[mesh-external service entry](/docs/reference/config/networking/v1alpha3/service-entry/).
+[mesh-external service entry](/docs/reference/config/networking/service-entry/).
 
 ### Enable HTTPS access to a Google Books web service
 
@@ -189,7 +190,7 @@ in this case `www.googleapis.com`.
 To allow Istio to perform monitoring and policy enforcement of egress requests based on HTTP details, the microservices
 must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code
 of the microservices must be written differently or configured differently, according to whether the microservice runs
-inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/concepts/what-is-istio/#design-goals). Sometimes you need to compromise...
+inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency]/docs/ops/architecture/#design-goals). Sometimes you need to compromise...
 
 The diagram below shows two options for sending HTTPS traffic to external services. On the top, a microservice sends
 regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice sends unencrypted HTTP requests
@@ -301,7 +302,7 @@ In the next section you will configure TLS origination for accessing an external
 
 1.  Access the web page of the application and verify that the book details are displayed without errors.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/telemetry/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
 

@@ -21,7 +21,7 @@ VMs, bare metals and clusters is required.
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
 
-### Customized installation of Istio on the Cluster
+### Customized installation of Istio on the cluster
 
 The first step when adding non-Kubernetes services to an Istio mesh is to configure the Istio installation itself, and
 generate the configuration files that let mesh expansion VMs connect to the mesh. To prepare the
@@ -74,7 +74,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
           -o jsonpath='{.data.cert-chain\.pem}' | base64 --decode > cert-chain.pem
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/concepts/traffic-management/#pilot) and workloads on cluster through this IP address.
+1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot]/docs/ops/architecture/#pilot) and workloads on cluster through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -186,7 +186,7 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [Customized installation of Istio on the Cluster](#Customized-installation-of-Istio-on-the-Cluster) section to learn how to obtain the IP address.
+1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) section to learn how to obtain the IP address.
 The following example updates the `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
@@ -248,10 +248,10 @@ Below Istio resources are added to support Mesh Expansion with gateways. This re
 
 ## Expose service running on cluster to VMs
 
-Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form <name>.<namespace>.global where name and namespace correspond to the service’s name and namespace respectively.
+Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form `<name>.<namespace>.global` where name and namespace correspond to the service’s name and namespace respectively.
 
 To demonstrate access from VM to  cluster services, configure the
-the [httpbin service]({{<github_tree>}}/samples/httpbin)
+the [httpbin service]({{< github_tree >}}/samples/httpbin)
 in the cluster.
 
 1. Deploy the `httpbin` service in the cluster
@@ -323,7 +323,7 @@ in the cluster.
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed as part of the meshexpansion with gateway Istio installation step
-    in the [Customized installation of Istio on the Cluster](#Customized-installation-of-Istio-on-the-Cluster) section. Traffic entering port 15443 will be
+    in the [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) section. Traffic entering port 15443 will be
     load balanced among pods of the appropriate internal service of the target
     cluster (in this case, `httpbin.bar` in the cluster).
 
@@ -336,7 +336,7 @@ in the cluster.
 After setup, the machine can access services running in the Kubernetes cluster.
 
 The following example shows accessing a service running in the Kubernetes cluster from a mesh expansion VM using
-`/etc/hosts/`, in this case using a service from the [httpbin service]({{<github_tree>}}/samples/httpbin).
+`/etc/hosts/`, in this case using a service from the [httpbin]({{< github_tree >}}/samples/httpbin) service.
 
 1.  On the mesh expansion machine, add the service name and address to its `/etc/hosts` file. You can then connect to
     the cluster service from the VM, as in the example below:
@@ -365,7 +365,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 1. Determine the VM instance's IP address.
 
 1. Configure a service entry to enable service discovery for the VM. You can add VM services to the mesh using a
-    [service entry](/docs/reference/config/networking/v1alpha3/service-entry/). Service entries let you manually add
+    [service entry](/docs/reference/config/networking/service-entry/). Service entries let you manually add
     additional services to Pilot's abstract model of the mesh. Once VM services are part of the mesh's abstract model,
     other services can find and direct traffic to them. Each service entry configuration contains the IP addresses, ports,
     and appropriate labels of all VMs exposing a particular service, for example:
@@ -395,7 +395,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
 1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the domain names of VM services. To
-    integrate the mapping with your own DNS system, use `istioctl register` and creates a Kubernetes `selector-less`
+    integrate the mapping with your own DNS system, use [`istioctl register`](/docs/reference/commands/istioctl/#istioctl-register) and creates a Kubernetes `selector-less`
     service, for example:
 
     {{< text bash >}}
@@ -403,7 +403,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
     {{< tip >}}
-    Ensure you have added `istioctl` client to your `PATH` environment variable, as described in the [Download page](/docs/setup/#downloading-the-release).
+    Ensure you have added the `istioctl` client to your path, as described in the [download page](/docs/setup/#downloading-the-release).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
@@ -425,7 +425,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
     If configured properly, you will see something similar to the output below.
 
-    ```html
+    {{< text html >}}
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
     <title>Directory listing for /</title>
     <body>
@@ -436,7 +436,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     <li><a href=".ssh/">.ssh/</a></li>
     ...
     </body>
-    ```
+    {{< /text >}}
 
 **Congratulations!** You successfully configured a service running in a pod within the cluster to
 send traffic to a service running on a VM outside of the cluster and tested that

@@ -7,6 +7,7 @@ attribution: Martin Taillefer
 keywords: [adapters,mixer,policies,telemetry]
 aliases:
     - /blog/mixer-adapter-model.html
+target_release: 0.2
 ---
 
 Istio 0.2 introduced a new Mixer adapter model which is intended to increase Mixer’s flexibility to address a varied set of infrastructure backends. This post intends to put the adapter model in context and explain how it works.
@@ -61,7 +62,7 @@ by the proxy into individual bundles of data that can be routed to different ada
 Creating instances generally requires using [attribute expressions](/docs/reference/config/policy-and-telemetry/expression-language/). The point of these expressions is to use any attribute or literal value in order to produce a result that can be assigned to an instance’s field.
 
 Every instance field has a type, as defined in the template, every attribute has a
-[type](https://github.com/istio/api/blob/master/policy/v1beta1/value_type.proto), and every attribute expression has a type.
+[type](https://github.com/istio/api/blob/{{< source_branch_name >}}/policy/v1beta1/value_type.proto), and every attribute expression has a type.
 You can only assign type-compatible expressions to any given instance fields. For example, you can’t assign an integer expression
 to a string field.  This kind of strong typing is designed to minimize the risk of creating bogus configurations.
 

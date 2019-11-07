@@ -1,6 +1,7 @@
 ---
-title: 同一集群中是否可以仅对部分服务启用双向 TLS ？
+title: 在同一集群中，我可以为部分服务开启 TLS 双向认证，并为其它服务关闭 TLS 双向认证吗？
 weight: 20
 ---
 
-[认证策略](/zh/docs/concepts/security/#认证策略)可以是网格范围的（对网格中的所有服务都有效）、命名空间范围的（对同一命名空间中的所有服务都有效）或者是针对特定服务的。在集群中可以用任何需要的方式来为服务设置双向 TLS 策略。
+[认证策略](/zh/docs/concepts/security/#authentication-policies) 可以配置为 mesh-wide（影响网络中的所有服务）、namespace-wide（namespace 中的所有服务）或某个特定服务。
+您可以根据需要对集群中的服务配置一种或多种 TLS 双向认证策略。
