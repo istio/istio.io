@@ -25,7 +25,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 - `NR`: 没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`: 上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
-- `UF`: 未能连接到上游，如果你正在使用 Istio 认证，请检查[mutual TLS 配置冲突](#503-errors-after-setting-destination-rule)。
+- `UF`: 未能连接到上游，如果你正在使用 Istio 认证，请检查[mutual-tls 配置冲突](#503-errors-after-setting-destination-rule)。
 
 如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
 
