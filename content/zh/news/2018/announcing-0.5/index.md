@@ -47,7 +47,7 @@ of controls.
 ## Security
 
 - **Bring Your Own CA**. There have been many enhancements to the 'bring your own CA' feature.
-[Learn more](/docs/tasks/security/plugin-ca-cert/)
+[Learn more](/docs/tasks/security/citadel-config/plugin-ca-cert/)
 
 - **PKCS8**. Add support for PKCS8 keys to Istio PKI.
 

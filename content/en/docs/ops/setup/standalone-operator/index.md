@@ -39,7 +39,7 @@ This profile is only for demo usage and should not be used in production.
 {{< tab name="demo" cookie-value="permissive" >}}
 When using the [permissive mutual TLS mode](/docs/concepts/security/#permissive-mode), all services accept both plaintext and
 mutual TLS traffic. Clients send plaintext traffic unless configured for
-[mutual TLS migration](/docs/tasks/security/mtls-migration/). This profile is installed during the first step.
+[mutual TLS migration](/docs/tasks/security/authentication/mtls-migration/). This profile is installed during the first step.
 
 Choose this profile for:
 
@@ -57,7 +57,7 @@ $ kubectl apply -f https://preliminary.istio.io/operator-profile-demo.yaml
 
 {{< tab name="SDS" cookie-value="sds" >}}
 This profile enables
-[Secret Discovery Service](/docs/tasks/security/auth-sds) between all clients and servers.
+[Secret Discovery Service](/docs/tasks/security/citadel-config/auth-sds) between all clients and servers.
 
 Use this profile to enhance startup performance of services in the Kubernetes cluster. Additionally
 improve security as Kubernetes secrets that contain known

@@ -108,11 +108,11 @@ concise list of things you should know before upgrading your deployment to Istio
   for more information.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
-  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authz-tcp)
+  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authorization/authz-tcp)
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/rbac-groups/)
+  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/authorization/rbac-groups/)
   for more information.
 
 - **External Certificate Management on Ingress Gateway Controller**.
