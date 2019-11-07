@@ -4,9 +4,9 @@ description: 关于怎么声明协议的信息。
 weight: 98
 keywords: [协议,协议嗅探,协议选择,协议检测]
 aliases:
-    - /help/ops/traffic-management/protocol-selection
-    - /help/ops/protocol-selection
-    - /help/tasks/traffic-management/protocol-selection
+    - /zh/help/ops/traffic-management/protocol-selection
+    - /zh/help/ops/protocol-selection
+    - /zh/help/tasks/traffic-management/protocol-selection
 ---
 
 Istio 默认支持代理所有 TCP 流量， 但为了提供附加的能力，
@@ -30,7 +30,7 @@ Istio 默认支持代理所有 TCP 流量， 但为了提供附加的能力，
 - `udp`
 
 \* 这些协议默认被禁用以阻止偶然地产生试验性的特性。
-要启用他们，请配置相应的 Pilot [环境变量](/docs/reference/commands/pilot-discovery/#envvars)。
+要启用他们，请配置相应的 Pilot [环境变量](/zh/docs/reference/commands/pilot-discovery/#envvars)。
 
 下面是一个 Service 例子，它定义了一个 `mysql` 端口 和一个 `http` 端口:
 
