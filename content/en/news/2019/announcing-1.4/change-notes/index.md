@@ -19,7 +19,6 @@ weight: 10
 - **Added** experimental [in-proxy](/docs/ops/telemetry/in-proxy-service-telemetry/) telemetry reporting to Stackdriver.
 - **Added** experimental support for generating TCP service metrics [in-proxy](/docs/ops/telemetry/in-proxy-service-telemetry/).
 - **Improved** support for [in-proxy](/docs/ops/telemetry/in-proxy-service-telemetry/) Prometheus generation of HTTP service metrics (from experimental to alpha).
-- **Improved** stability for proxy metadata exchange (from experimental to alpha).
 - **Improved** egress gateway telemetry.
 - **Improved** telemetry collection for [blocked and passthrough external service traffic](/blog/2019/monitoring-external-service-traffic/).
 - **Added** the option to configure [stat patterns](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for Envoy stats.
