@@ -12,8 +12,8 @@ these webhooks manage their own configurations. From a
 security perspective, this default behavior is not recommended because a compromised webhook could then conduct
 privilege escalation attacks.
 
-This task shows how to use `istioctl`, instead of webhooks, to
-manage their configurations.
+This task shows how to use the new [{{< istioctl >}} x post-install webhook](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) command to
+securely manage the configurations of the webhooks.
 
 ## Getting started
 
