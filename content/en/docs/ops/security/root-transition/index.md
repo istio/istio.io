@@ -3,21 +3,20 @@ title: Extending Self-Signed Certificate Lifetime
 description: Learn how to extend the lifetime of the Istio self-signed root certificate.
 weight: 90
 keywords: [security, PKI, certificate, Citadel]
+aliases:
+    - /help/ops/security/root-transition
 ---
 
 Istio self-signed certificates have historically had a 1 year default lifetime.
 If you are using Istio self-signed certificates,
-you need to schedule regular root transitions before they expire.
+you need to be mindful about the expiration date of the root certificate.
 The expiration of a root certificate may lead to an unexpected cluster-wide outage.
-
-{{< tip >}}
-We strongly recommend you rotate root keys and root certificates annually as a security best practice.
-{{< /tip >}}
 
 To evaluate the lifetime remaining for your root certificate, please refer to the first step in the
 [procedure below](#root-transition-procedure).
 
-We provide the following procedure for you to do the root transition.
+We provide the following procedure for you to do the root certificate transition.
+After the root transition, the new root certificate will have 10 year lifetime.
 Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
 For details about the impacts and how Envoy hot restart works, please refer to
 [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart) and
