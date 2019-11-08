@@ -137,6 +137,8 @@ The available front matter fields are:
 
 A few fields control the auto-generated table of contents present on most pages:
 
+|Field               | Description
+|--------------------|------------
 |`skip_toc`          | Set this to true to prevent the page from having a table of contents generated for it
 |`force_inline_toc`  | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`max_toc_level`     | Set to 2, 3, 4, 5, or 6 to indicate the maximum heading level to show in the table of contents
