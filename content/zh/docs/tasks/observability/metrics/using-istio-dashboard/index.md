@@ -8,13 +8,13 @@ aliases:
     - /zh/docs/tasks/telemetry/metrics/using-istio-dashboard/
 ---
 
-此任务展示了如何设置和使用 Istio Dashboard 监控网格流量。作为此任务的一部分，会使用 Grafana 的 Istio 插件和基于 Web 的界面来查看服务网格流量数据。
+此任务展示了如何设置和使用 Istio Dashboard 监控网格流量。作为此任务的一部分，您将使用 Grafana 的 Istio 附加组件和基于 Web 的界面来查看服务网格流量数据。
 
 [Bookinfo](/zh/docs/examples/bookinfo/) 应用被用作贯穿此任务始终的示例应用程序。
 
 ## 在开始之前{#before-you-begin}
 
-* 在集群中[安装 Istio](/zh/docs/setup)。如果未在选择的配置文件中启用，启用 Grafana 插件 `--set values.grafana.enabled=true` [选项](/zh/docs/reference/config/installation-options/)。
+* 在集群中[安装 Istio](/zh/docs/setup)。如果在您选择的配置文件中未启用 Grafana 附加组件，您可以通过 `--set values.grafana.enabled=true` [选项](/zh/docs/reference/config/installation-options/) 启用。
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用。
 
 ## 查看 Istio Dashboard{#viewing-the-istio-dashboard}
@@ -71,7 +71,7 @@ aliases:
 
     {{< image link="./dashboard-with-traffic.png" caption="Istio 流量仪表盘" >}}
 
-    这提供了网格、网格中的服务及工作负载的全局视图。可以通过导航到特定的仪表盘来获取更多关于服务和工作负载的详细信息，如下所述。
+    这提供了网格以及网格中的服务和工作负载的全局视图。可以通过导航到特定的仪表盘来获取更多关于服务和工作负载的详细信息，如下所述。
 
 1.  可视化服务仪表盘。
 
@@ -82,7 +82,7 @@ aliases:
 
     {{< image link="./istio-service-dashboard.png" caption="Istio Service Dashboard" >}}
 
-    这里给出了服务的详细指标，以及客户端工作负载（调用该服务的工作负载）和服务工作负载（提供该服务的工作负载）。
+    这里给出了服务，以及更进一步的服务的客户端工作负载（调用该服务的工作负载）和服务工作负载（提供该服务的工作负载）的详细指标。
 
 1.  可视化工作负载仪表盘。
 
@@ -93,11 +93,11 @@ aliases:
 
     {{< image link="./istio-workload-dashboard.png" caption="Istio Workload Dashboard" >}}
 
-    这里给出了每一个工作负载的详细指标，以及入站工作负载（将请求发送到该工作负载的工作负载）和出站服务（此工作负载向其发送请求的服务）。
+    这里给出了每一个工作负载，以及更进一步的该工作负载的入站工作负载（将请求发送到该工作负载的工作负载）和出站服务（此工作负载向其发送请求的服务）的详细指标。
 
 ### 关于 Grafana 插件{#about-the-grafana-add-on}
 
-Grafana 插件其实是一个 Grafana 的预配置实例。基础镜像 ([`grafana/grafana:5.2.3`](https://hub.docker.com/r/grafana/grafana/)) 已被修改为安装了 Prometheus 数据源和 Istio Dashboard。Istio 和 Mixer 的安装文件随附了全局（用于每个服务的）指标的默认配置。Istio Dashboard 旨在与默认的 Istio 指标配置和 Prometheus 后端结合使用。
+Grafana 插件其实是一个 Grafana 的预配置实例。基础镜像 ([`grafana/grafana:5.2.3`](https://hub.docker.com/r/grafana/grafana/)) 已被修改为同时启动已安装的 Prometheus 数据源和 Istio Dashboard。Istio（特别是 Mixer）的基本安装文件附带了全局（用于每个服务的）指标的默认配置。Istio Dashboard 旨在与默认的 Istio 指标配置和 Prometheus 后端结合使用。
 
 Istio Dashboard 包括三个主要部分：
 
@@ -112,7 +112,7 @@ Istio Dashboard 包括三个主要部分：
 
 ## 清除{#cleanup}
 
-*   移除任何可能在运行的 `kubectl port-forward` 进程：
+*   移除任何可能正在运行的 `kubectl port-forward` 进程：
 
     {{< text bash >}}
     $ killall kubectl
