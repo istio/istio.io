@@ -70,7 +70,7 @@ command.
     {{< /text >}}
 
 <!-- TODO (lei-tang): improve the UX for obtain MutatingWebhookConfiguration -->
-1.  Open the `istio.yaml` configuration file, search `'kind: MutatingWebhookConfiguration'` and save
+1.  Open the `istio.yaml` configuration file, search for `kind: MutatingWebhookConfiguration` and save
 the `MutatingWebhookConfiguration` of the sidecar injector to `sidecar-injector-webhook.yaml`. The following
 is a `MutatingWebhookConfiguration` in an example `istio.yaml`.
 
@@ -102,7 +102,7 @@ is a `MutatingWebhookConfiguration` in an example `istio.yaml`.
     {{< /text >}}
 
 <!-- TODO (lei-tang): improve the UX for obtain ValidatingWebhookConfiguration -->
-1.  Open the `istio.yaml` configuration file, search `'kind: ValidatingWebhookConfiguration'` and save
+1.  Open the `istio.yaml` configuration file, search for `kind: ValidatingWebhookConfiguration` and save
 the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
 is a `ValidatingWebhookConfiguration` in an example `istio.yaml` (only
 a part of the configuration is shown to save space).
@@ -156,7 +156,8 @@ a part of the configuration is shown to save space).
 sidecar container into an example pod with the following commands:
 
     {{< text bash >}}
-    $ kubectl create namespace test-injection; kubectl label namespaces test-injection istio-injection=enabled
+    $ kubectl create namespace test-injection
+    $ kubectl label namespaces test-injection istio-injection=enabled
     $ kubectl run --generator=run-pod/v1 --image=nginx nginx-app --port=80 -n test-injection
     $ kubectl get pod -n test-injection
     {{< /text >}}
@@ -165,7 +166,7 @@ sidecar container into an example pod with the following commands:
     the webhook injected a sidecar into the example pod:
 
     {{< text plain >}}
-    NAME    READY   STATUS    RESTARTS   AGE
+    NAME        READY   STATUS    RESTARTS   AGE
     nginx-app   2/2     Running   0          10s
     {{< /text >}}
 
