@@ -11,7 +11,7 @@ keywords: [security,authorization]
 
 * 阅读[授权](/zh/docs/concepts/security/#authorization)概念并阅读有关如何[配置 Istio 授权](/zh/docs/tasks/security/authz-http)的指南。
 
-* 阅读 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication)概念。
+* 阅读 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)概念。
 
 * 创建一个安装了 Istio 并启用了双向 TLS 的 Kubernetes 集群。要满足此先决条件，您可以按照 Kubernetes [安装说明](/zh/docs/setup/install/kubernetes/)进行操作。
 
