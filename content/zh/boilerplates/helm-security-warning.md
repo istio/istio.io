@@ -1,7 +1,6 @@
 ---
 ---
 {{< warning >}}
-The instructions for using Helm with Tiller do not use secure defaults.
-See the [Securing your Helm Installation](https://helm.sh/docs/securing_installation/)
-for further steps to secure a Tiller-based installation.
+本文档中介绍如何使用带 Tiller 的 Helm 不使用安全默认值。
+有关基于 Tiller 安全安装的进一步步骤请参考[安全安装 Helm](https://helm.sh/docs/securing_installation/)。
 {{< /warning >}}
