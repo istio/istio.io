@@ -33,7 +33,7 @@ Here are some highlights:
 
 - Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
 
-- Mutual TLS can now be [rolled out incrementally](/docs/tasks/security/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
+- Mutual TLS can now be [rolled out incrementally](/docs/tasks/security/authentication/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
 
 - Mixer now has support for [developing out-of-process adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide). This will become the default way to extend Mixer over the coming releases and makes building adapters much simpler.
 
@@ -110,8 +110,8 @@ release to add new features and improve performance.
 RPC-level authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
 - **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
-[incrementally turn on mutual TLS](/docs/tasks/security/mtls-migration/) for your services.
-We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authn-policy/),
+[incrementally turn on mutual TLS](/docs/tasks/security/authentication/mtls-migration/) for your services.
+We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authentication/authn-policy/),
 coupled with client-side [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 - **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can

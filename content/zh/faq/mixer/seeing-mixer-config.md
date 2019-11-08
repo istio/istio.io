@@ -1,16 +1,13 @@
 ---
-title: How do I see all Mixer's configuration?
+title: 如何查看 Mixer 配置？
 weight: 10
 ---
 
-Configuration for *instances*, *handlers*, and *rules* is stored as Kubernetes
-[Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
-Configuration may be accessed by using `kubectl` to query the Kubernetes
-API server for the resources.
+*instances*、*handlers* 和 *rules* 的相关配置以 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 的方式进行存储。其配置可以使用 `kubectl` 访问 Kubernetes API server 获得。
 
 ## Rules
 
-To see the list of all rules, execute the following:
+查看所有的 `rule` 列表，执行以下命令：
 
 {{< text bash >}}
 $ kubectl get rules --all-namespaces
@@ -23,7 +20,7 @@ istio-system   stdiotcp                 20h
 istio-system   tcpkubeattrgenrulerule   20h
 {{< /text >}}
 
-To see an individual rule configuration, execute the following:
+查看单个 `rule` 配置，执行以下命令：
 
 {{< text bash >}}
 $ kubectl -n <namespace> get rules <name> -o yaml
@@ -31,11 +28,9 @@ $ kubectl -n <namespace> get rules <name> -o yaml
 
 ## Handlers
 
-Handlers are defined based on Kubernetes [Custom Resource
-Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-for adapters.
+`Handlers` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 中的 `adapters` 资源进行定义。
 
-First, identify the list of adapter kinds:
+首先，查看所有的 `adapter` 列表，执行以下命令：
 
 {{< text bash >}}
 $ kubectl get crd -listio=mixer-adapter
@@ -60,20 +55,20 @@ statsds.config.istio.io           20h
 stdios.config.istio.io            20h
 {{< /text >}}
 
-Then, for each adapter kind in that list, issue the following command:
+然后，对列表中的每个 `adapter` 执行以下命令：
 
 {{< text bash >}}
 $ kubectl get <adapter kind name> --all-namespaces
 {{< /text >}}
 
-Output for `stdios` will be similar to:
+`stdios` 将输出以下类似内容：
 
 {{< text plain >}}
 NAMESPACE      NAME      AGE
 istio-system   handler   20h
 {{< /text >}}
 
-To see an individual handler configuration, execute the following:
+查看单个 `handler` 配置，执行以下命令：
 
 {{< text bash >}}
 $ kubectl -n <namespace> get <adapter kind name> <name> -o yaml
@@ -81,11 +76,9 @@ $ kubectl -n <namespace> get <adapter kind name> <name> -o yaml
 
 ## Instances
 
-Instances are defined according to Kubernetes [Custom Resource
-Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-for instances.
+`Instances` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 中的 `instances` 资源进行定义。
 
-First, identify the list of instance kinds:
+首先，查看所有的 `instance` 列表，执行以下命令：
 
 {{< text bash >}}
 $ kubectl get crd -listio=mixer-instance
@@ -105,13 +98,13 @@ servicecontrolreports.config.istio.io   20h
 tracespans.config.istio.io              20h
 {{< /text >}}
 
-Then, for each instance kind in that list, issue the following command:
+然后，对列表中的每个 `instance` 执行以下命令：
 
 {{< text bash >}}
 $ kubectl get <instance kind name> --all-namespaces
 {{< /text >}}
 
-Output for `metrics` will be similar to:
+`metrics` 将输出以下类似内容：
 
 {{< text plain >}}
 NAMESPACE      NAME              AGE
@@ -123,7 +116,7 @@ istio-system   tcpbytereceived   20h
 istio-system   tcpbytesent       20h
 {{< /text >}}
 
-To see an individual instance configuration, execute the following:
+查看单个 `instance` 配置，执行以下命令：
 
 {{< text bash >}}
 $ kubectl -n <namespace> get <instance kind name> <name> -o yaml
