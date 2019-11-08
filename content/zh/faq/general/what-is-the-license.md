@@ -1,5 +1,5 @@
 ---
-title:ISTIO 的许可证是什么？
+title: ISTIO 的许可证是什么？
 weight: 40
 ---
 
