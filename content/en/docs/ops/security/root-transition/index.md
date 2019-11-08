@@ -160,7 +160,7 @@ please follow the procedure and check whether you will be affected.
 
 ## Troubleshooting
 
-### Why aren't workloads pickng up the new certificates (in Step 5)?
+### Why aren't workloads picking up the new certificates (in Step 5)?
 
 Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 2.
 
