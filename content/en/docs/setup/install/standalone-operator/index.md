@@ -1,19 +1,19 @@
 ---
 title: Standalone Operator Install [Experimental]
 description: Instructions to install Istio in a Kubernetes cluster using the Istio operator.
-weight: 11
+weight: 25
 keywords: [kubernetes, operator]
 aliases:
 ---
+
+{{< boilerplate experimental-feature-warning >}}
 
 This guide installs Istio using the standalone Istio
 [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
 The only dependencies required are a supported Kubernetes cluster and the `kubectl` command.
 
-{{< warning >}}
 To install Istio for production use, we recommend [installing with {{< istioctl >}}](/docs/setup/install/istioctl/)
-instead, which is a stable feature.
-{{< /warning >}}
+instead.
 
 ## Prerequisites
 
@@ -21,13 +21,18 @@ instead, which is a stable feature.
 
 1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
 
-1. Deploy the operator:
+1. Deploy the Istio operator:
 
     {{< text bash >}}
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-    This command creates the operator custom resource definition and deploys the controller.
+    This command runs the operator by creating the following resources in the `istio-operator` namespace:
+
+    - The operator custom resource definition
+    - The operator controller deployment
+    - A service to access operator metrics
+    - Necessary Istio operator RBAC rules
 
 ## Install
 
