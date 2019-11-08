@@ -7,7 +7,7 @@ aliases:
 
 ---
 
-一个 Istio 服务网格从逻辑上分为数据平面和控制平面。
+Istio 服务网格从逻辑上分为数据平面和控制平面。
 
 - **数据平面**由一组智能代理（[Envoy](https://www.envoyproxy.io/)）组成，被部署为 sidecar。这些代理通过一个通用的策略和遥测中心（[Mixer](/docs/reference/config/policy-and-telemetry/)）传递和控制微服务之间的所有网络通信。
 - **控制平面**管理并配置代理来进行流量路由。此外，控制平面配置 Mixer 来执行策略和收集遥测数据。
