@@ -2,38 +2,12 @@
 title: Istio
 description: 用于连接、保护、控制和观测服务。
 ---
-<!-- these script blocks are only for the primary English home page -->
-<script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "Organization",
-        "url": "https://istio.io",
-        "logo": "https://istio.io/img/logo.png",
-        "sameAs": [
-            "https://twitter.com/IstioMesh",
-            "https://discuss.istio.io/"
-        ]
-    }
-</script>
-<script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "WebSite",
-        "url": "https://istio.io/",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://istio.io/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-</script>
-
 <main class="landing">
     <div id="banner">
         {{< inline_image "landing/istio-logo.svg" >}}
         <div id="hero-text">
             <h1 id="hero-label">Istio</h1>
-            <h1 id="hero-lead">连接、保护、控制和观测服务。
+            <h1 id="hero-lead">连接、安全、控制和监测服务。
         </div>
     </div>
 
@@ -61,7 +35,7 @@ description: 用于连接、保护、控制和观测服务。
                 </div>
                 <div class="panel-body">
                     <hr class="panel-line">
-                    <h5 class="panel-title">保护</h5>
+                    <h5 class="panel-title">安全</h5>
                     <hr class="panel-line">
                     <p class="panel-text">
                         通过托管身份验证、授权和服务之间通信加密自动保护您的服务。
@@ -80,7 +54,7 @@ description: 用于连接、保护、控制和观测服务。
                     <h5 class="panel-title">控制</h5>
                     <hr class="panel-line">
                     <p class="panel-text">
-                        应用策略并确保其执行使得资源在消费者之间公平分配。
+                        应用策略并确保其执行，使得资源在消费者之间公平分配。
                     </p>
                 </div>
             </a>
@@ -96,7 +70,7 @@ description: 用于连接、保护、控制和观测服务。
                     <h5 class="panel-title">观测</h5>
                     <hr class="panel-line">
                     <p class="panel-text">
-                        通过丰富的自动追踪、监控和记录所有服务，了解正在发生的情况。
+                        对您的一切服务进行多样化、自动化的追踪、监控以及记录日志，以便实时了解正在发生的事情。
                    </p>
                 </div>
             </a>
