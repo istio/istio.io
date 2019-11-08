@@ -529,7 +529,7 @@ Certificate:
 If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](#repairing-citadel), and
 second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
 
-If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authn-policy/)
+If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)
 is applied and the right destination rules are in place.
 
 ## Citadel is not behaving properly {#repairing-citadel}

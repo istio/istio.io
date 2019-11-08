@@ -52,7 +52,7 @@ This approach has the following benefits:
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
 
-Follow the [authentication policy task](/docs/tasks/security/authn-policy/) to
+Follow the [authentication policy task](/docs/tasks/security/authentication/authn-policy/) to
 setup test services.
 
 {{< text bash >}}
