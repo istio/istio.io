@@ -54,6 +54,7 @@ Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 | `cniConfDir` | | `/etc/cni/net.d` | 必须与集群中的 `--cni-conf-dir`（`kubelet` 参数）值一样。 |
 | `cniConfFileName` | | | 不设置会自动选择 `cni-conf-dir` 目录的第一个文件（与 `kubelet` 一致）。主要用来测试 `install-cni` 的插件配置。如果设置了，`install-cni` 将会把插件配置注入到 `cni-conf-dir` 目录的该文件。 |
 | `psp_cluster_role` | | | 该值指代一个 `ClusterRole` 并被用于在 `istio-cni` 的命名空间中创建一个 `RoleBinding`。当您使用 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy)并且希望让 `istio-cni` 作为 `priviliged` Pods 运行时，这会非常有用。 |
+| `podAnnotations` | | `{}` | pod 级别自定义的附加注解。 |
 
 这些选项可以在 `istioctl manifest` 命令中通过 `values.cni.<option-name>` 访问，要么作为 `--set` 参数，要么作为自定义覆盖文件中的相应路径。
 
@@ -89,11 +90,12 @@ Istio CNI 方案并非普遍应用的。一些平台，特别是托管 Kubernete
 
 | 集群托管类型 | 必需的 Istio CNI 设置覆盖 | 必需的 Platform 设置覆盖 |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (详情见下面的 [GKE 设置](#google-Kubernetes-engine-setup))| `cniBinDir=/home/kubernetes/bin` | 启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| GKE 1.9+ (详情见下面的 [GKE 设置](#google-Kubernetes-engine-setup))| `--set values.cni.cniBinDir=/home/kubernetes/bin` | 启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
 | IKS (IBM cloud) | _(无)_ | _(无)_ |
 | EKS (AWS) | _(无)_ | _(无)_ |
 | AKS (Azure) | _(无)_ | _(无)_ |
 | Red Hat OpenShift 3.10+ | _(无)_ | _(无)_ |
+| Red Hat OpenShift 4.2+ | `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(无)_ |
 
 ### GKE 设置{#google-Kubernetes-engine-setup}
 
