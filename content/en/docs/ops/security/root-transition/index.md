@@ -15,10 +15,10 @@ The expiration of a root certificate may lead to an unexpected cluster-wide outa
 To evaluate the lifetime remaining for your root certificate, please refer to the first step in the
 [procedure below](#root-transition-procedure).
 
-We provide the following procedure for you to do the root certificate transition.
-After the root transition, the new root certificate will have the lifetime of 10 years.
+The steps below show you how to transition to a new root certificate.
+After the transition, the new root certificate will have a 10 year lifetime.
 Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
-For details about the impacts and how Envoy hot restart works, please refer to
+For details about the impact and how Envoy hot restart works, please refer to
 [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart) and
 [here](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5).
 
@@ -27,8 +27,8 @@ For details about the impacts and how Envoy hot restart works, please refer to
 If you are not currently using the mutual TLS feature in Istio and will not use it in the future,
 you are not affected and no action is required.
 
-If you may use mutual TLS feature in the future,
-you are recommended to follow the procedure listed below to do the root transition.
+If you may use the mutual TLS feature in the future, you should
+follow the procedure below to perform a root certificate transition.
 
 If you are currently using the mutual TLS feature in Istio with self-signed certificates,
 please follow the procedure and check whether you will be affected.
@@ -79,12 +79,13 @@ please follow the procedure and check whether you will be affected.
     blog post for more details.
 
     {{< warning >}}
-    If your Pilot does not have an Envoy sidecar, consider installing Envoy sidecar for your Pilot.
-    Because the Pilot has issue using the old root certificate to verify the new workload certificates.
-    This may cause disconnection between Pilot and Envoy.
-    Please see the [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check.
+    If your Pilot does not have an Envoy sidecar, consider installing one.
+    Pilot has issues using the old root certificate to verify the new workload certificates, 2hidh
+    may cause disconnection between Pilot and Envoy.
+    Please see [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check for this
+    condition.
     The [Istio upgrade guide](/docs/setup/upgrade/)
-    by default installs Pilot with Envoy sidecar.
+    by default installs Pilot with a sidecar.
     {{< /warning >}}
 
     {{< text bash>}}
@@ -159,7 +160,7 @@ please follow the procedure and check whether you will be affected.
 
 ## Troubleshooting
 
-### Why my workloads do not pick up the new certificates (in Step 5)?
+### Why aren't workloads pickng up the new certificates (in Step 5)?
 
 Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 2.
 
@@ -168,9 +169,9 @@ If you are using Istio releases 1.1.3 - 1.1.7, the Envoy may not be hot-restarte
 after the new certificates are generated.
 {{< /warning >}}
 
-### Why my Pilot does not work and logs "handshake error"?
+### Why does Pilot not work and log "handshake error"?
 
-This may because the Pilot is
+This may because Pilot is
 [not using an Envoy sidecar](#how-to-check-if-pilot-has-an-envoy-sidecar),
 while the `controlPlaneSecurity` is enabled.
 In this case, restart both Galley and Pilot to ensure they load the new certificates.
@@ -181,7 +182,7 @@ $ kubectl delete po <galley-pod> -n istio-system
 $ kubectl delete po <pilot-pod> -n istio-system
 {{< /text >}}
 
-### How to check if Pilot has an Envoy sidecar
+### How can I check if Pilot has a sidecar?
 
 If the following command shows `1/1`, that means your Pilot does not have an Envoy sidecar,
 otherwise, if it is showing `2/2`, your Pilot is using an Envoy sidecar.
@@ -191,7 +192,7 @@ $ kubectl get po -l istio=pilot -n istio-system
 istio-pilot-569bc6d9c-tfwjr   1/1     Running   0          11m
 {{< /text >}}
 
-### I can't deploy new workloads with the sidecar-injector
+### Why can't I deploy new workloads with the sidecar-injector?
 
 This may happen if you did not upgrade to 1.0.8, 1.1.8 or later.
 Try to restart the sidecar injector.
