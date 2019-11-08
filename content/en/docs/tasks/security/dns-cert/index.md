@@ -10,8 +10,8 @@ keywords: [security,certificate]
 By default, the DNS certificates used by the webhooks of Galley and the sidecar
 injector are provisioned and managed by Citadel, which is a large component
 that maintains its own signing key and also acts as a CA for Istio.
-This task shows how to provision and manage DNS certificates in Istio through
-Chiron: a lightweight component that signs certificates
+This task shows how to provision and manage DNS certificates for Istio control
+plane components through Chiron: a lightweight component that signs certificates
 using Kubernetes CA APIs without maintaining its own private key.
 Using this feature has the following advantages:
 
