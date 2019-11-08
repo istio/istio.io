@@ -599,11 +599,11 @@ peers:
 ## Authorization
 
 Istio's authorization feature provides mesh-level, namespace-level, and workload-level
-access control on workloads in an Istio Mesh. It features:
+access control on workloads in an Istio Mesh. It provides:
 
 - **Workload-to-workload and end-user-to-workload authorization**.
-- **Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/authorization/authorization-policy/), which is easy to use and maintain.
-- **Flexible semantic**, operators can define custom conditions on Istio attributes.
+- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/authorization/authorization-policy/), which is easy to use and maintain.
+- **Flexible semantics**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
 
@@ -617,14 +617,10 @@ access control on workloads in an Istio Mesh. It features:
 The above diagram shows the basic Istio authorization architecture. Operators
 specify Istio authorization policies using `.yaml` files.
 
-Galley watches for changes to Istio authorization policies. It fetches the
-updated authorization policies if it sees any changes and pushes to Pilot. Pilot
+Galley watches for changes to Istio authorization policies and fetches the
+updated authorization policies if it sees changes and pushes to Pilot. Pilot
 converts the authorization policies to Envoy filter configuration and distributes the filter
 to the Envoy proxies that are co-located with the workloads.
-Pilot watches for changes to Istio authorization policies. It fetches the
-updated authorization policies if it sees any changes. Pilot distributes Istio
-authorization policies to the Envoy proxies that are colocated with the
-service instances.
 
 Each Envoy proxy runs an authorization engine that authorizes requests at
 runtime. When a request comes to the proxy, the authorization engine evaluates
@@ -633,8 +629,8 @@ authorization result, `ALLOW` or `DENY`.
 
 ### Implicit Enablement
 
-There is no need to explicitly enable Istio authorization feature, you just apply
-the `AuthorizationPolicy` on **workloads** to enforce the access control.
+There is no need to explicitly enable Istio's authorization feature, you just apply
+the `AuthorizationPolicy` on **workloads** to enforce access control.
 
 If no `AuthorizationPolicy` applies to a workload, no access control will be enforced,
 In other words, all requests will be allowed.
@@ -649,10 +645,10 @@ multiple authorization policies apply to the same workload, the effect is additi
 
 To configure an Istio authorization policy, you specify the [`AuthorizationPolicy` configuration object](
 /docs/reference/config/authorization/authorization-policy/). Like other Istio configuration objects, it
-is defined as Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+is defined as a Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 object.
 
-An `AuthorizationPolicy` includes a `selector` and a list of `rules`, the `selector`
+An `AuthorizationPolicy` includes a `selector` and a list of `rules`. The `selector`
 specifies the **target** that the policy applies to. The `rules` specify **who**
 is allowed to do **what** under which **conditions**. Specifically:
 
@@ -701,7 +697,7 @@ spec:
 
 Policy scope (target) is determined by `metadata/namespace` and an optional `selector`.
 
-The `metadata/namespace` tells which namespace the policy applies. If set to the
+The `metadata/namespace` tells which namespace the policy applies to. If set to the
 root namespace, the policy applies to all namespaces in a mesh. The value of
 root namespace is configurable, and the default is `istio-system`. If set to a
 normal namespace, the policy will only apply to the specified namespace.
@@ -712,7 +708,7 @@ selector contains a list of `{key: value}` pairs, where the `key` is the name of
 If not set, the authorization policy will be applied to all workloads in the same namespace
 as the authorization policy.
 
-The following example policy `allow-read` which allows `"GET"` and `"HEAD"` access to
+The following example policy `allow-read` allows `"GET"` and `"HEAD"` access to
 the workload with label `app: products` in the `default` namespace.
 
 {{< text yaml >}}
@@ -735,7 +731,7 @@ spec:
 
 Exact match, prefix match, suffix match, and presence match are supported for most
 of the field with a few exceptions (e.g., the `key` field under `when` section,
-the `ipBlocks` under `source` section and the `ports` field under `to` section only supports exact match).
+the `ipBlocks` under `source` section and the `ports` field under `to` section only support exact match).
 
 - **Exact match**. i.e., exact string match.
 - **Prefix match**. A string with an ending `"*"`. For example, `"test.abc.*"` matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
@@ -792,7 +788,7 @@ spec:
 
 #### Custom conditions
 
-You can also use the `when` section to specify additional conditions, for example, the following
+You can also use the `when` section to specify additional conditions. For example, the following
 `AuthorizationPolicy` definition includes a condition that `request.headers[version]` is either `"v1"` or `"v2"`.
 In this case, the key is `request.headers[version]`, which is an entry in the Istio attribute `request.headers`,
 which is `map` data type.
@@ -825,7 +821,7 @@ The supported `key` values of a condition are listed in the
 
 #### Authenticated and unauthenticated identity
 
-In case you want to make a workload publicly accessible, you need to leave the
+If you want to make a workload publicly accessible, you need to leave the
 `source` section empty. This allows sources from **all (both authenticated and
 unauthenticated)** users and workloads, for example:
 
@@ -877,13 +873,14 @@ These fields include:
 
 - The `request_principals` field in the source section of the authorization policy object
 - The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
-- The supported conditions are listed in the [conditions page](/docs/reference/config/authorization/conditions/).
+
+The supported conditions are listed in the [conditions page](/docs/reference/config/authorization/conditions/).
 
 If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
 authorization policy.
 
 Assuming you have a MongoDB service on port 27017, the following example configures an authorization
-policy to only allow the `bookinfo-ratings-v2` in the Istio mesh to access the MongoDB workload.
+policy to only allow the `bookinfo-ratings-v2` service in the Istio mesh to access the MongoDB workload.
 
 {{< text yaml >}}
 apiVersion: "security.istio.io/v1beta1"
