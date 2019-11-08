@@ -6,7 +6,7 @@ attribution: The Istio Team
 ---
 
 __ISTIO-SECURITY-2019-006__: Envoy, and subsequently Istio, are vulnerable to the following DoS attack:
-* __[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__: An infinite loop can be triggered in Envoy if the option `continue_on_listener_filters_timeout` is set to `True`. This has been the case for Istio since the introduction of the Protocol Detection feature.
+* __[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__: An infinite loop can be triggered in Envoy if the option `continue_on_listener_filters_timeout` is set to `True`. This has been the case for Istio since the introduction of the Protocol Detection feature in Istio 1.3
 A remote attacker may trivially trigger that vulnerability, effectively exhausting Envoy’s CPU resources and causing a denial-of-service attack.
 
 ## Affected Istio releases
