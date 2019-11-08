@@ -39,6 +39,13 @@ Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
+If you want to enable security on top of the `default` profile, you can set the
+security related configuration parameters:
+
+{{< text bash >}}
+$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+{{< /text >}}
+
 ## Install a different profile
 
 Other Istio configuration profiles can be installed in a cluster by passing the
@@ -226,10 +233,10 @@ In addition to installing any of Istio's built-in
 - [The `IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
-line. For example, to disable the telemetry feature in a default configuration profile, use this command:
+line. For example, to enable the security feature in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl manifest apply --set telemetry.enabled=false
+$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
 Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
