@@ -11,7 +11,7 @@ Sidecar 自动注入机制将 sidecar 代理添加到用户创建的 pod。
 
 它使用 `MutatingWebhook` 机制在 pod 创建的时候将 sidecar 的容器和卷添加到每个 pod 的模版里。
 
-用户可以通过 webhooks `namespaceSelector` 机制来限定需要启动自动注入的范围，也可以通过注解的方式针对每个 pod 来单独启用和禁用自动注入功能。 
+用户可以通过 webhooks `namespaceSelector` 机制来限定需要启动自动注入的范围，也可以通过注解的方式针对每个 pod 来单独启用和禁用自动注入功能。
 
 Sidecar 是否会被自动注入取决于下面 3 条配置和 2 条安全规则：
 
