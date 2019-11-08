@@ -35,6 +35,6 @@ will not be able to alter the webhook configurations.
 
 1. Before configuring a webhook, `istioctl` will verify the webhook server is up
 and that the certificate chain used by the webhook server is valid. This reduces the errors
-that can occur before a server is ready or has invalid certificates.
+that can occur before a server is ready or if a server has invalid certificates.
 
 To try this new feature, refer to the [Istio webhook management task](/docs/setup/security/webhook).
