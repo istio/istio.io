@@ -9,12 +9,12 @@ aliases:
 
 Istio 服务网格从逻辑上分为数据平面和控制平面。
 
-- **数据平面**由一组智能代理（[Envoy](https://www.envoyproxy.io/)）组成，被部署为 sidecar。这些代理通过一个通用的策略和遥测中心（[Mixer](/docs/reference/config/policy-and-telemetry/)）传递和控制微服务之间的所有网络通信。
+- **数据平面**由一组智能代理（[Envoy](https://www.envoyproxy.io/)）组成，被部署为 sidecar。这些代理通过一个通用的策略和遥测中心（[Mixer](/zh/docs/reference/config/policy-and-telemetry/)）传递和控制微服务之间的所有网络通信。
 - **控制平面**管理并配置代理来进行流量路由。此外，控制平面配置 Mixer 来执行策略和收集遥测数据。
 
 下图展示了组成每个平面的不同组件：
 
-{{< image width="80%" link="./arch.svg" alt="The overall architecture of an Istio-based application." caption="Istio Architecture" >}}
+{{< image width="80%" link="./arch.svg" alt="Istio 应用的整体架构。" caption="Istio 架构" >}}
 
 Istio 中的流量分为数据平面流量和控制平面流量。数据平面流量是指工作负载的业务逻辑发送和接收的消息。控制平面流量是指在 Istio 组件之间发送的配置和控制消息用来编排网格的行为。Istio 中的流量管理特指数据平面流量。
 
@@ -38,7 +38,7 @@ Envoy 代理被部署为服务的 sidecar，在逻辑上为服务增加了 Envoy
 - 故障注入
 - 丰富的指标
 
-这种 sidecar 部署允许 Istio 提取大量关于流量行为的信号作为[属性](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)。反之，Istio 可以在 [Mixer](/docs/reference/config/policy-and-telemetry/) 中使用这些属性来执行决策，并将它们发送到监控系统，以提供整个网格的行为信息。
+这种 sidecar 部署允许 Istio 提取大量关于流量行为的信号作为[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)。反之，Istio 可以在 [Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中使用这些属性来执行决策，并将它们发送到监控系统，以提供整个网格的行为信息。
 
 sidecar 代理模型还允许您向现有的部署添加 Istio 功能，而不需要重新设计架构或重写代码。您可以在[设计目标](#design-goals)中读到更多关于为什么我们选择这种方法的信息。
 
@@ -50,7 +50,7 @@ sidecar 代理模型还允许您向现有的部署添加 Istio 功能，而不�
 
 ### Mixer{#mixer}
 
-[Mixer](/docs/reference/config/policy-and-telemetry/) 是一个平台无关的组件。Mixer 在整个服务网格中执行访问控制和策略使用，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级别[属性](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)，并将其发送到 Mixer 进行评估。您可以在我们的 [Mixer 配置文档](/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model)中找到更多关于属性提取和策略评估的信息。
+[Mixer](/zh/docs/reference/config/policy-and-telemetry/) 是一个平台无关的组件。Mixer 在整个服务网格中执行访问控制和策略使用，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级别[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)，并将其发送到 Mixer 进行评估。您可以在我们的 [Mixer 配置文档](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model)中找到更多关于属性提取和策略评估的信息。
 
 Mixer 包括一个灵活的插件模型。该模型使 Istio 能够与各种主机环境和后端基础设施进行交互。因此，Istio 从这些细节中抽象出 Envoy 代理和 Istio 管理的服务。
 
@@ -70,11 +70,11 @@ Pilot 将控制流量行为的高级路由规则转换为特定于环境的配�
 
 这种松耦合允许 Istio 在 Kubernetes、Consul 或 Nomad 等多种环境中运行，同时维护相同的 operator 接口来进行流量管理。
 
-您可以使用 Istio 的[流量管理 API](/docs/concepts/traffic-management/#introducing-istio-traffic-management) 来指示 Pilot 优化 Envoy 配置，以便对服务网格中的流量进行更细粒度地控制。
+您可以使用 Istio 的[流量管理 API](/zh/docs/concepts/traffic-management/#introducing-istio-traffic-management) 来指示 Pilot 优化 Envoy 配置，以便对服务网格中的流量进行更细粒度地控制。
 
 ### Citadel{#citadel}
 
-[Citadel](/docs/concepts/security/) 通过内置的身份和证书管理，可以支持强大的服务到服务以及最终用户的身份验证。您可以使用 Citadel 来升级服务网格中的未加密流量。使用Citadel，operator 可以执行基于服务身份的策略，而不是相对不稳定的3层或4层网络标识。从0.5版开始，您可以使用 [Istio 的授权特性](/docs/concepts/security/#authorization)来控制谁可以访问您的服务。
+[Citadel](/zh/docs/concepts/security/) 通过内置的身份和证书管理，可以支持强大的服务到服务以及最终用户的身份验证。您可以使用 Citadel 来升级服务网格中的未加密流量。使用Citadel，operator 可以执行基于服务身份的策略，而不是相对不稳定的3层或4层网络标识。从0.5版开始，您可以使用 [Istio 的授权特性](/zh/docs/concepts/security/#authorization)来控制谁可以访问您的服务。
 
 ### Galley{#galley}
 
