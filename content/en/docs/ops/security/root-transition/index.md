@@ -37,11 +37,11 @@ please follow the procedure and check whether you will be affected.
 
 1. Check when the root certificate expires:
 
-    Download this [script](https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh)
+    Download this [script](https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh)
     on a machine that has `kubectl` access to the cluster.
 
     {{< text bash>}}
-    $ wget https://raw.githubusercontent.com/istio/tools/master/bin/root-transition.sh
+    $ wget https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh
     $ chmod +x root-transition.sh
     $ ./root-transition.sh check-root
     ...
@@ -52,19 +52,23 @@ please follow the procedure and check whether you will be affected.
 
 1. Check the version of your sidecars and upgrade if needed:
 
+    Some early versions of Istio sidecar could not automatically reload the new root certificate.
+    Please run the following command to check the version of your Istio sidecars.
+
     {{< text bash>}}
     $ ./root-transition.sh check-version
     Checking namespace: default
+    Istio proxy version: 1.3.5
     Checking namespace: istio-system
-    Istio proxy version: 1.1.16
-    Istio proxy version: 1.1.16
+    Istio proxy version: 1.3.5
+    Istio proxy version: 1.3.5
     ...
     {{< /text >}}
 
-    If any sidecar is not using versions equal to or greater than 1.0.8 and 1.1.8,
-    please update your control plane and `istio-proxy` sidecars to 1.0.8, 1.1.8 or later.
-    Please follow the Istio [upgrade procedure](/docs/setup/kubernetes/upgrade/steps/)
-    or follow the procedure provided by your cloud service provider.
+    If your sidecars are using versions lower than 1.0.8 and 1.1.8,
+    please upgrade the Istio control plane and sidecars to versions no lower than 1.0.8 and 1.1.8.
+    To upgrade, follow the Istio [upgrade procedure](/docs/setup/upgrade/)
+    or the procedure provided by your cloud service provider.
 
 1. Execute a root certificate transition:
 
@@ -134,7 +138,7 @@ please follow the procedure and check whether you will be affected.
     The following command shows an example to check the Envoy’s certificate for a pod.
 
     {{< text bash>}}
-    $ kubectl exec -it [YOUR_POD] -c istio-proxy -n [YOUR_NAMESPACE] -- curl http://localhost:15000/certs | head -c 1000
+    $ kubectl exec [YOUR_POD] -c istio-proxy -n [YOUR_NAMESPACE] -- curl http://localhost:15000/certs | head -c 1000
     {
      "certificates": [
       {
