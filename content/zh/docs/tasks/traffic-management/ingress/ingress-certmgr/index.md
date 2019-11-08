@@ -132,8 +132,7 @@ Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 
 ## 使用 cert-manager 获取 Let's Encrypt 证书{#getting-a-let-s-encrypt-certificate-issued-using-cert-manager}
 
-At this point your Istio installation should have cert-manager up and running with two `ClusterIssuer` resources configured (for production and staging ACME-endpoints provided by [Let's Encrypt](https://letsencrypt.org/)). You will be using staging endpoint for this example (feel free to try swapping `letsencrypt-staging` for `letsencrypt` to get a browser-trusted certificate issued).
-目前，您的 Istio 中应该已经启动了 cert-manager，并带有两个 ClusterIssuer 对象（分别对应 [Let's Encrypt](https://letsencrypt.org/) 的生产和测试 ACME-endpoints）。这个例子中可以使用测试 endpoint（将 `letsencrypt-staging` 替换为 `letsencrypt` 就能获得浏览器信任的证书），
+目前，您的 Istio 中应该已经启动了 cert-manager，并带有两个 `ClusterIssuer` 对象（分别对应 [Let's Encrypt](https://letsencrypt.org/) 的生产和测试 ACME-endpoints）。这个例子中可以使用测试 endpoint（将 `letsencrypt-staging` 替换为 `letsencrypt` 就能获得浏览器信任的证书），
 
 为了用 cert-manager 进行证书的签发和管理，需要创建一个 Certificate 对象：
 
@@ -162,7 +161,6 @@ spec:
 EOF
 {{< /text >}}
 
-Notice that the `secretName` matches the `credentialName` attribute value that you previously used while configuring the [gateway](/docs/reference/config/networking/gateway) resource. The `Certificate` resource will be processed by cert-manager and a new certificate will eventually be issued. Consult the status of the `Certificate` resource to check the progress:
 注意这里的 `secretName` 要匹配前面配置 [gateway](/zh/docs/reference/config/networking/gateway) 时的 `credentialName` 字段值。`Certificate` 会被 cert-manager 处理，最终会签发新证书。为了看到整个过程我们可以查询 `Certificate` 对象的状态：
 
 {{< text bash >}}
