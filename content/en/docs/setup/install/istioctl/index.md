@@ -258,23 +258,23 @@ The `IstioControlPlane` API groups control plane components by feature, as shown
 
 | Feature | Components |
 |---------|------------|
-`base` | CRDs
-`trafficManagement` | pilot
-`policy` | policy
-`telemetry` | telemetry
-`security` | citadel, nodeAgent, certManager
-`configManagement` | galley
-`gateways` | ingressGateway, egressGateway
-`autoInjection` | injector
-`coreDNS` | coreDNS
-`thirdParty` | cni
+`base` | `CRDs`
+`trafficManagement` | `pilot`
+`policy` | `policy`
+`telemetry` | `telemetry`
+`security` | `citadel`, `nodeAgent`, `certManager`
+`configManagement` | `galley`
+`gateways` | `ingressGateway`, `egressGateway`
+`autoInjection` | `injector`
+`coreDNS` | `coreDNS`
+`thirdParty` | `cni`
 
 In addition to the core Istio components, third-party addon features and components are also available. These can only
 be enabled and configured through the Helm pass-through API:
 
 | Feature | Components |
 |---------|------------|
-`telemetry` | prometheus, prometheusOperator, grafana, kiali, tracing
+`telemetry` | `prometheus`, `prometheusOperator`, `grafana`, `kiali`, `tracing`
 
 Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
 Namespaces that components are installed into can be set by component, feature, or globally.
