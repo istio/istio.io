@@ -21,7 +21,7 @@ Istio 解决了开发人员和运维人员所面临的从单体应用向分布�
 
 Istio 提供了对整个服务网格的行为洞察和操作控制的能力，以及一个完整的满足微服务应用各种需求的解决方案。
 
-## 为什么使用 Istio？{#why-use-istio}
+## 为什么使用 Istio？{#why-use-Istio}
 
 通过负载均衡、服务到服务的身份验证、监控等方法，Istio 可以轻松地创建一个已经部署了服务的网络，而服务的代码更改[很少](/zh/docs/tasks/observability/distributed-tracing/overview/#trace-context-propagation) 甚至无需更改。通过在整个环境中部署一个特殊的 sidecar 代理为服务添加 Istio 的支持，而代理会拦截微服务之间的所有网络通信，然后使用其控制平面的功能来配置和管理 Istio，这包括：
 
