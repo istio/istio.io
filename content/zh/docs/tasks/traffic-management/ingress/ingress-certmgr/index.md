@@ -7,9 +7,9 @@ aliases:
   - /zh/docs/examples/advanced-gateways/ingress-certmgr/
 ---
 
-此示例演示了如何使用 Istio 作为具有安全的 Kubernetes Ingress 控制器，该控制器具有 [Let's Encrypt](https://letsencrypt.org/) 颁发的TLS证书。Istio 提供了更强大的功能，例如 [gateway](/zh/docs/reference/config/networking/gateway) 和 [virtual service](/docs/reference/config/networking/virtual-service)，它们用于更高级的流量管理功能，也可以支持 Kubernetes Ingress，可以用于降低将传统解决方案和第三方解决方案集成到服务网格中的难度，并且使其受益于 Istio 提供的遥测和跟踪功能。
+这个例子演示了在 Istio 中使用 [Let's Encrypt](https://letsencrypt.org/) 签发 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。Istio 提供了更强大的功能，例如 [gateway](/zh/docs/reference/config/networking/gateway) 和 [virtual service](/zh/docs/reference/config/networking/virtual-service)，它们用于更高级的流量管理功能，也可以支持 Kubernetes Ingress，可以用于降低将传统解决方案和第三方解决方案集成到服务网格中的难度，并且使其受益于 Istio 提供的遥测和跟踪功能。
 
-您将从全新的 Istio 安装开始，创建示例服务，使用 Kubernetes Ingress 把它开放出去，并使用 cert-manager（与 Istio 捆绑在一起）管理 TLS 证书的签发和续订来确保它的安全，这个证书之后会给 Istio ingress [gateway](/docs/reference/config/networking/gateway) 使用，并根据需要通过 [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 提供 hot-swapped 功能。
+您将从全新的 Istio 安装开始，创建示例服务，使用 Kubernetes Ingress 把它开放出去，并使用 cert-manager（与 Istio 捆绑在一起）管理 TLS 证书的签发和续订来确保它的安全，这个证书之后会给 Istio ingress [gateway](/zh/docs/reference/config/networking/gateway) 使用，并根据需要通过 [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 提供 hot-swapped 功能。
 
 ## 开始之前{#before-you-begin}
 
@@ -29,21 +29,21 @@ aliases:
 
 1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以便实现证书的自动管理。
 
-## 配置 DNS 域名和 gateway{#configuring-dns-name-and-gateway}
+## 配置 DNS 域名和 gateway{#configuring-DNS-name-and-gateway}
 
-记录一下 `istio-ingressgateway` 服务的外部 IP 地址：
+记录一下 `istio-ingressgateway` 服务的外部 IP：
 
 {{< text bash >}}
 $ kubectl -n istio-system get service istio-ingressgateway
 {{< /text >}}
 
-对您的 DNS 进行设置，给 `istio-ingressgateway` 服务的外部 IP 地址分配一个合适的域名。为了能让例子正常执行，您需要一个真正的域名，用于签署 TLS 证书。让我们把域名保存为环境变量，便于后面的使用：
+对您的 DNS 进行设置，给 `istio-ingressgateway` 服务的外部 IP 分配一个合适的域名。为了能让例子正常执行，您需要一个真正的域名，用于获取 TLS 证书。让我们把域名保存为环境变量，以便于后面的使用：
 
 {{< text bash >}}
 $ INGRESS_DOMAIN=mysubdomain.mydomain.edu
 {{< /text >}}
 
-Istio 安装中包含了一个自动生成的 [gateway](/zh/docs/reference/config/networking/gateway) ，用于给 Kubernetes `Ingress` 提供路由服务。缺省情况下，它不会使用 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret)，所以您需要对其进行修改，使其能通过 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 来为 `istio-ingressgateway` 发行 TLS 证书：
+Istio 安装中包含了一个自动生成的 [gateway](/zh/docs/reference/config/networking/gateway) ，用于给 Kubernetes `Ingress` 提供路由服务。缺省情况下，它不会使用 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret)，所以您需要对其进行修改，使其能通过 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 来为 `istio-ingressgateway` 签发 TLS 证书：
 
 {{< text bash >}}
 $ kubectl -n istio-system edit gateway
@@ -130,9 +130,9 @@ Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 
 因为没有配置任何的 TLS 证书，所以现在还不能使用 HTTPS 访问，下面就开始进行配置。
 
-## 使用 cert-manager 获取 Let's Encrypt 证书{#getting-a-let-s-encrypt-certificate-issued-using-cert-manager}
+## 使用 cert-manager 获取 Let's Encrypt 签发的证书{#getting-a-let-s-encrypt-certificate-issued-using-cert-manager}
 
-目前，您的 Istio 中应该已经启动了 cert-manager，并带有两个 `ClusterIssuer` 对象（分别对应 [Let's Encrypt](https://letsencrypt.org/) 的生产和测试 ACME-endpoints）。这个例子中可以使用测试 endpoint（将 `letsencrypt-staging` 替换为 `letsencrypt` 就能获得浏览器信任的证书），
+目前，您的 Istio 中应该已经启动了 cert-manager，并带有两个 `ClusterIssuer` 对象（分别对应 [Let's Encrypt](https://letsencrypt.org/) 的生产和测试 ACME-endpoints）。这个例子中使用测试 ACME-endpoint（将 `letsencrypt-staging` 替换为 `letsencrypt` 就能获得浏览器信任的证书）。
 
 为了用 cert-manager 进行证书的签发和管理，需要创建一个 Certificate 对象：
 
@@ -161,7 +161,7 @@ spec:
 EOF
 {{< /text >}}
 
-注意这里的 `secretName` 要匹配前面配置 [gateway](/zh/docs/reference/config/networking/gateway) 时的 `credentialName` 字段值。`Certificate` 会被 cert-manager 处理，最终会签发新证书。为了看到整个过程我们可以查询 `Certificate` 对象的状态：
+注意这里的 `secretName` 要匹配前面配置 [gateway](/zh/docs/reference/config/networking/gateway) 时的 `credentialName` 字段值。`Certificate` 对象会被 cert-manager 处理，最终会签发新证书。为了看到这个过程我们可以查询 `Certificate` 对象的状态：
 
 {{< text bash >}}
 $ kubectl -n istio-system describe certificate ingress-cert
@@ -175,11 +175,11 @@ $ curl --insecure https://$INGRESS_DOMAIN/hello
 Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 {{< /text >}}
 
-注意，你需要是用 `--insecure` 参数，因为测试 ACME-endpoints 签发的证书不受信任。
+注意，您需要是用 `--insecure` 参数，因为测试 ACME-endpoints 签发的证书不受信任。
 
 ## 从测试到生产{#moving-to-production-from-staging}
 
-现在用生产 `letsencrypt` 签发证书。首先，我们重新申请一下证书。
+现在换成生产 `letsencrypt`。首先，我们重新申请一下证书。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -210,13 +210,13 @@ EOF
 certificate.certmanager.k8s.io/ingress-cert configured
 {{< /text >}}
 
-现在删除 secret 来强制 cert-manager 从生产签发处请求新证书：
+现在删除 secret 来强制 cert-manager 从生产 ACME-endpoints 请求新证书：
 
 {{< text bash >}}
 $ kubectl delete secret -n istio-system ingress-cert
 {{< /text >}}
 
-等等看证书是否能成功签发:
+等等看证书是否成功签发了:
 
 {{< text bash >}}
 $ watch -n1 kubectl describe cert ingress-cert -n istio-system
