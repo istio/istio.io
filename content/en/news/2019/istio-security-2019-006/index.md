@@ -1,6 +1,6 @@
 ---
 title: Security Update - ISTIO-SECURITY-2019-006
-description: Security vulnerability disclosure for CVE-2019-XXXXX.
+description: Security vulnerability disclosure for CVE-2019-18817.
 publishdate: 2019-11-07
 attribution: The Istio Team
 ---
