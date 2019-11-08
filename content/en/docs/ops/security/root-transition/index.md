@@ -16,7 +16,7 @@ To evaluate the lifetime remaining for your root certificate, please refer to th
 [procedure below](#root-transition-procedure).
 
 We provide the following procedure for you to do the root certificate transition.
-After the root transition, the new root certificate will have 10 year lifetime.
+After the root transition, the new root certificate will have a 10-year lifetime.
 Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
 For details about the impacts and how Envoy hot restart works, please refer to
 [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart) and
@@ -83,7 +83,7 @@ please follow the procedure and check whether you will be affected.
     Because the Pilot has issue using the old root certificate to verify the new workload certificates.
     This may cause disconnection between Pilot and Envoy.
     Please see the [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check.
-    The [Istio upgrade guide](/docs/setup/kubernetes/upgrade/steps/)
+    The [Istio upgrade guide](/docs/setup/upgrade/)
     by default installs Pilot with Envoy sidecar.
     {{< /warning >}}
 
@@ -154,14 +154,14 @@ please follow the procedure and check whether you will be affected.
     {{< /text >}}
 
     Please inspect the `valid\_from` value of the `ca\_cert`.
-    If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
+    If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 3,
     your Envoy has loaded the new root certificate.
 
 ## Troubleshooting
 
 ### Why my workloads do not pick up the new certificates (in Step 5)?
 
-Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 4.
+Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 2.
 
 {{< warning >}}
 If you are using Istio releases 1.1.3 - 1.1.7, the Envoy may not be hot-restarted
