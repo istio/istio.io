@@ -103,7 +103,7 @@ Refer to the Istio [install instructions](/docs/setup/install/istioctl) for more
 
 Operator implementations use a Kubernetes controller to continuously monitor their custom resource objects
 and apply the corresponding configuration changes.  The Istio controller monitors an `IstioControlPlane`
-resource and implements changes intened for a cluster by updating the Istio installation configuration.
+resource and implements cluster changes updating the Istio installation configuration.
 
 In the 1.4 release, the Istio controller is in the alpha phase of development and not fully
 integrated with `istioctl`. It is, however,
