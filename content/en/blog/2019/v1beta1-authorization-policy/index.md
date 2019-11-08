@@ -9,7 +9,7 @@ target_release: 1.4
 ---
 
 Up until now, Istio has provided the role based access control (RBAC) policy for enforcing access control
-on services using three configuration resources: `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`.
+on {{< gloss "service" >}}services{{< /gloss >}} using three configuration resources: `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`.
 With this API, users have been able to enforce access control in mesh-level, namespace-level and
 service-level. Like any other RBAC policy, Istio RBAC uses the same concept of role and binding for granting
 permissions to identities.
@@ -19,7 +19,7 @@ things that could be improved in the alpha policy.
 
 For example, some users have had the wrong impression that the enforcement happens in service-level because
 `ServiceRole` uses service to specify where to apply the policy, however, the policy is actually applied
-in workload-level, the service is only used to find the corresponding workload. This has some big impact, especially
+in workload-level, the service is only used to find the corresponding {{< gloss "workload" >}}workload{{< /gloss >}}. This has some big impact, especially
 when multiple services are referring to the same workload. A `ServiceRole` for service A will also affect
 service B if the two services are referring to the same workload, this surprises customers and could result in
 misconfigurations.
@@ -58,17 +58,25 @@ enables access control on workloads. This section gives a high level overview of
 new changes in the `v1beta1` authorization policy.
 
 An `AuthorizationPolicy` includes a `selector` and a list of `rule`. The `selector`
-is used to decide where to apply the policy, the `rule` is used to decide **who**
-could do **what** under which **conditions**.
+specifies which workload to apply the policy and the list of `rule` specifies the
+detail access control rule for the workload.
+
+The `rule` is additive which means a request is allowed if any of the `rule` allows
+the request. Each `rule` includes a list of `from`, `to` and `when` which specifies **who**
+is allowed to do **what** under which **conditions**.
 
 The `selector` replaces the functionality provided by `ClusterRbacConfig`
-and the `services` field in `ServiceRole`. The `rule` includes `from`, `to` and
-`when` which replaces the other fields in `ServiceRole` and `ServiceRoleBinding`.
+and the `services` field in `ServiceRole`. The `rule` replaces the other fields
+in the `ServiceRole` and `ServiceRoleBinding`.
+
+This blog gives a high level overview of the `v1beta1` authorization policy, see
+[authorization concept page](/docs/concepts/security/#authorization) for a detailed
+in-depth explanation of the `v1beta1` authorization policy.
 
 ### Example
 
-The following authorization policy applies to workloads with label `app: httpbin`
-and `version: v1` in namespace `foo`:
+The following authorization policy applies to workloads with `app: httpbin` and
+`version: v1` label in the `foo` namespace:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -97,8 +105,23 @@ The policy allows principal `cluster.local/ns/default/sa/sleep` to access the wo
 using `GET` method when the request includes a `version` header of value `v1` or `v2`.
 Any requests not matched with the policy will be denied by default.
 
-That's all you need to enable access control for a workload, compared to the `v1alpha1`
-RBAC policy, you would need to configure three resources to achieve the same result:
+Assuming the `httpbin` service is defined like the following:
+
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    app: httpbin
+    version: v1
+  ports:
+    # omitted
+{{< /text >}}
+
+You would need to configure three resources to achieve the same result in `v1alpha1`:
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -167,9 +190,9 @@ The root namespace is configurable in the [`MeshConfig`](/docs/reference/config/
 and has the default value of `istio-system`.
 
 For example, you installed Istio in `istio-system` namespace and deployed workloads in
-`default` and `bookinfo` namespace. The root namespace is configured to `istio-config`.
-The following policy will apply to workloads in every namespace including `default`,
-`bookinfo` and also the `istio-system`.
+`default` and `bookinfo` namespace. The root namespace is changed to `istio-config` from
+the default value. The following policy will apply to workloads in every namespace
+including `default`, `bookinfo` and the `istio-system`:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -186,10 +209,9 @@ spec:
 
 The `v1beta1` authorization policy can also be applied on ingress/egress
 gateway to enforce access control on traffic entering/leaving the mesh, you just
-need to change the `selector` to make the policy to select the ingress/egress workload.
+need to change the `selector` to make select the ingress/egress workload.
 
-The following policy applies to the workload with label `app: istio-ingressgateway` in
-`istio-system` namespace:
+The following policy applies to workloads with the `app: istio-ingressgateway` label:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -204,6 +226,15 @@ spec:
  rules:
  # omitted
 {{< /text >}}
+
+Remember the authorization policy only applies to workloads in the same namespace as the
+policy unless the policy is applied in the root namespace:
+
+* If you don't change the default root namespace value (i.e. `istio-system`), the above policy
+  will apply to workloads with the `app: istio-ingressgateway` label in **every** namespace.
+
+* If you have changed the root namespace to a different value, the above policy will only
+  apply to workloads with the `app: istio-ingressgateway` label only in the `istio-system` namespace.
 
 ### Comparison
 
@@ -266,9 +297,6 @@ Beyond all the differences, the `v1beta1` policy is enforced by the same engine 
 and supports the same authenticated identity (mutual TLS or JWT), condition and other
 primitives (e.g. IP, port and etc.) as the `v1alpha1` policy.
 
-See [authorization concept page](/docs/concepts/security/#authorization) for a detailed
-in-depth explanation of the `AuthorizationPolicy`.
-
 ## Future of the `v1alpha1` policy
 
 The `v1alpha1` RBAC policy (`ClusterRbacConfig`, `ServiceRole`, and `ServiceRoleBinding`) is
@@ -277,42 +305,150 @@ deprecated by the `v1beta1` authorization policy and will not be supported from 
 Istio 1.4 and 1.5 will continue to support the `v1alpha1` RBAC policy to give you enough
 time to move away from the alpha policies.
 
-## Migration to the `v1beta1` policy
+## Migration from the `v1alpha1` policy
 
-Before `v1alpha1` policy is fully removed, Istio will support both `v1alpha` and `v1beta1`
-policies at the same time. However, the `v1beta1` policy overrides the `v1alpha1` policy if
-they are both applied to the same workload:
+Istio only supports one of the two versions for a given workload:
 
-1. If any `v1beta1` policies apply to the workload, the `v1beta1` policy is used and
-   the `v1alpha1` policies on the same workload will all be ignored
-1. If no `v1beta1` policy applies to the workload, the `v1alpha1` policy is used if
-   there is any
+* If there is only `v1beta1` policy for a workload, the `v1beta1` policy will be used.
+* If there is only `v1alpha1` policy for a workload, the `v1alpha1` policy will be used.
+* If there are both `v1beta1` and `v1alpha1` policies for a workload, only the `v1beta1` policy will
+be used and the the `v1alpha1` policy will be ignored.
+
+### General Guideline
 
 {{< warning >}}
-When migrating to the `v1beta1` for a given workload, you must make sure to migrate
-all the `v1alpha1` policies currently applied to the workload at the same time.
-The `v1alpha1` policies applied to the workload will be ignored after you applied any
-`v1beta1` policies to the workload.
+When migrating to use `v1beta1` policy for a given workload, make sure the new `v1beta1` policy
+covers all the existing `v1alpha1` policies applied for the workload because the `v1alpha1`
+policies applied for the workload will be ignored after you applied the `v1beta1` policies.
 {{< /warning >}}
 
-It's recommended to migrate the `v1alpha1` policy workload-by-workload to make sure you don't
-forget any `v1alpha1` policies for a given workload:
+The typical flow of migrating to `v1beta1` policy is to start by checking the
+`ClusterRbacConfig` to decide which namespace or service is enabled with RBAC.
 
-1. For a given workload, find out all the `v1alpha1` policies applied to it. This includes both
-`ClusterRbacConfig` and `ServiceRole`. You may need to refer to the service definition
-to find out the relationship between workload and service
-1. Convert all the `v1alpha1` policies to `v1beta1` for the given workload
-1. Apply the `v1beta1` policy and monitor the traffic to make sure the new policy is working as expected
-1. Continue the process for the next workload until all `v1alpha1` policies are converted
-1. Now you can remove all your `v1alpha1` policies
+For each service enabled with RBAC:
 
-To help ease the migration, Istio provides the command `istioctl x authz convert` to automate the
-conversion from `v1alpha1` to `v1beta1`. The command fetches all the `v1alpha1` policies currently
-applied in the mesh and converts them to the `v1beta1` policy. The tool finds out the service-workload
-mapping by looking at the current services applied in the mesh.
+1. Get the workload selector from the service definition.
+1. Create a `v1beta1` policy with the workload selector.
+1. Update the `v1beta1` policy for each `ServiceRole` and `ServiceRoleBinding` applied to the service.
+1. Apply the `v1beta1` policy and monitor the traffic to make sure the policy is working as expected.
+1. Repeat the process for the next service enabled with RBAC.
 
-The command does the conversion at its best effort and may not be able to handle some corner cases.
-You should always review the converted policies manually before applying them into your cluster.
+For each namespace enabled with RBAC:
+
+1. Apply a `v1beta1` policy that denies all traffic to the given namespace.
+
+### Migration Example
+
+Assume you have the following `v1alpha1` policies for the `httpbin` service in the `foo` namespace:
+
+{{< text yaml >}}
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ClusterRbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_INCLUSION'
+  inclusion:
+    namespaces: ["foo"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  rules:
+  - services: ["httpbin.foo.svc.cluster.local"]
+    methods: ["GET"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  subjects:
+  - user: "cluster.local/ns/default/sa/sleep"
+  roleRef:
+    kind: ServiceRole
+    name: "httpbin"
+{{< /text >}}
+
+You migrate the above policies to `v1beta1` in the following ways:
+
+1. Assume the `httpbin` service has the following workload selector:
+
+    {{< text yaml >}}
+    selector:
+      app: httpbin
+      version: v1
+    {{< /text >}}
+
+1. Create a `v1beta1` policy with the workload selector:
+
+    {{< text yaml >}}
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+     name: httpbin
+     namespace: foo
+    spec:
+     selector:
+       matchLabels:
+         app: httpbin
+         version: v1
+    {{< /text >}}
+
+1. Update the `v1beta1` policy with each `ServiceRole` and `ServiceRoleBinding`
+applied to the service:
+
+    {{< text yaml >}}
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+     name: httpbin
+     namespace: foo
+    spec:
+     selector:
+       matchLabels:
+         app: httpbin
+         version: v1
+     rules:
+     - from:
+       - source:
+           principals: ["cluster.local/ns/default/sa/sleep"]
+       to:
+       - operation:
+           methods: ["GET"]
+    {{< /text >}}
+
+1. Apply the `v1beta1` policy and monitor the traffic to make sure it works as expected
+
+1. Apply the following `v1beta1` policy that denies all traffic to the `foo` namespace
+because the `foo` namespace is enabled with RBAC:
+
+    {{< text yaml >}}
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+     name: deny-all
+     namespace: foo
+    spec:
+     {}
+    {{< /text >}}
+
+Make sure the `v1beta1` policy is working as expected and then you can delete the `v1alpha1` policies
+from the cluster.
+
+### Automation of the Migration
+
+To help ease the migration, we're working on a tool `istioctl x authz convert` to automate the
+conversion. The tool is still under active development and doesn't support all `v1alpha1` semantics
+so we recommend to do the migration manually in Istio 1.4.
+
+The tool will be ready for use in Istio 1.5 and will be able to fetch all the
+`v1alpha1` policies in the cluster and convert them to the `v1beta1` policy
+automatically.
 
 ## Summary
 
