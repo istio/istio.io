@@ -1,7 +1,7 @@
 ---
 title: Istio DNS certificate management
 description: Provision and manage DNS certificates in Istio.
-publishdate: 2019-10-29
+publishdate: 2019-11-08
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, certificates, DNS]
 target_release: 1.4
@@ -13,10 +13,9 @@ Citadel is a large component that maintains its own private signing key, and act
 New in Istio 1.4, we introduce a feature to securely provision and manage DNS certificates
 signed by the Kubernetes CA, which has the following advantages.
 
-* No dependency on Citadel for DNS certificates and is
-more lightweight than Citadel.
+* Lighter weight DNS certificate management with no dependency on Citidel.
 
-* Unlike Citadel, this feature doesn't require maintaining a private signing key, which enhances security.
+* Unlike Citadel, this feature doesn't maintain a private signing key, which enhances security.
 
 * Simplified root certificate distribution to TLS clients.
 Clients no longer need to wait for Citadel to generate and distribute its CA certificate.
@@ -29,4 +28,4 @@ Chiron is the component provisioning and managing DNS certificates in Istio.
     caption="The architecture of provisioning and managing DNS certificates in Istio"
     >}}
 
-To try this new feature, please follow its [user guide](/docs/tasks/security/dns-cert).
+To try this new feature, refer to the [DNS certificate management task](/docs/tasks/security/dns-cert).
