@@ -15,11 +15,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 ## Before you begin
 
-* Set up Istio by following the instructions in the [quick start](/docs/setup/install/kubernetes/):
-
-{{< tip >}}
-You can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authentication/authn-policy/)
-{{< /tip >}}
+Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ## Plugging in the existing certificate and key
 
