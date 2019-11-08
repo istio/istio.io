@@ -23,19 +23,19 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 通用响应标志如下：
 
-- `NR`: 没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
-- `UO`: 上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
-- `UF`: 未能连接到上游，如果你正在使用 Istio 认证，请检查 [mutual-tls 配置冲突](#503-errors-after-setting-destination-rule)。
+- `NR`：没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
+- `UO`：上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
+- `UF`：未能连接到上游，如果你正在使用 Istio 认证，请检查 [mutual-tls 配置冲突](#503-errors-after-setting-destination-rule)。
 
 如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
 
 通用 Mixer 策略状态如下：
 
-- `UNAVAILABLE`: Envoy 不能连接到 Mixer 并且策略被配置为失败自动关闭。
-- `UNAUTHENTICATED`: 请求被 Mixer 认证组件拒绝。
-- `PERMISSION_DENIED`: 请求被 Mixer 认证组件拒绝。
-- `RESOURCE_EXHAUSTED`: 请求被 Mixer 指标组件拒绝。
-- `INTERNAL`: 因为 Mixer 内部错误请求被拒绝。
+- `UNAVAILABLE`：Envoy 不能连接到 Mixer 并且策略被配置为失败自动关闭。
+- `UNAUTHENTICATED`：请求被 Mixer 认证组件拒绝。
+- `PERMISSION_DENIED`：请求被 Mixer 认证组件拒绝。
+- `RESOURCE_EXHAUSTED`：请求被 Mixer 指标组件拒绝。
+- `INTERNAL`：因为 Mixer 内部错误请求被拒绝。
 
 ## 路由规则似乎没有对流量生效{#route-rules-don't-seem-to-affect-traffic-flow}
 
