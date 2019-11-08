@@ -25,7 +25,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 - `NR`: 没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`: 上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
-- `UF`: 未能连接到上游，如果你正在使用 Istio 认证，请检查[mutual-tls 配置冲突](#503-errors-after-setting-destination-rule)。
+- `UF`: 未能连接到上游，如果你正在使用 Istio 认证，请检查 [mutual-tls 配置冲突](#503-errors-after-setting-destination-rule)。
 
 如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
 
@@ -74,8 +74,7 @@ spec:
 
 你可以通过下面两种方式之一来使上面的例子生效：
 
-1. 将 destination rule 中的流量策略上移一级以使策略
-    应用到任意 subset，例如：
+1. 将 destination rule 中的流量策略上移一级以使策略应用到任意 subset，例如：
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
@@ -111,7 +110,7 @@ spec:
             subset: v1
     {{< /text >}}
 
-默认地 Istio 可以方便地将流量从任意源传输到目标服务的任意版本而不需要设置任何规则。因为你需要区分一个服务的不同版本，所以你需要定义不同的路由规则。因此，我们考虑从一开始就为每个服务基于最佳实践设置一个默认的路由规则。
+Istio 默认可以方便地将流量从任意源传输到目标服务的任意版本而不需要设置任何规则。因为你需要区分一个服务的不同版本，所以你需要定义不同的路由规则。因此，我们考虑从一开始就为每个服务基于最佳实践设置一个默认的路由规则。
 
 ## 设置 destination rule 之后出现 503 异常{#503-errors-after-setting-destination-rule}
 
@@ -125,9 +124,9 @@ trafficPolicy:
     mode: ISTIO_MUTUAL
 {{< /text >}}
 
-否则，这个 TLS mode 默认被设置成 `DISABLE` 会使客户端 sidecar 代理发起普通的 HTTP 请求而不是 TLS 加密了的请求。 因此，请求和服务端代理冲突，因为服务端代理期望的是加密了的请求。
+否则，这个 TLS mode 默认被设置成 `DISABLE` 会使客户端 sidecar 代理发起普通的 HTTP 请求而不是 TLS 加密了的请求。因此，请求和服务端代理冲突，因为服务端代理期望的是加密了的请求。
 
-为了确认是否存在冲突，请检查你的服务 [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中的 `STATUS` 字段是否被设置为 `CONFLICT`。举个例子，一个和如下命令类似的命令可以用来为 `httpbin` 服务检查冲突:
+为了确认是否存在冲突，请检查你的服务 [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中的 `STATUS` 字段是否被设置为 `CONFLICT`。举个例子，一个和如下命令类似的命令可以用来为 `httpbin` 服务检查冲突：
 
 {{< text bash >}}
 $ istioctl authn tls-check istio-ingressgateway-db454d49b-lmtg8.istio-system httpbin.default.svc.cluster.local
@@ -148,7 +147,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者，你正在测试 ingress-gateway IP 而不是 DNS 也可以配置成 "*"（例如，http://1.2.3.4/hello）
+  - "myapp.com" # 或者，你正在测试 ingress-gateway IP 而不是 DNS 也可以配置成“*”（例如，http://1.2.3.4/hello）
   gateways:
   - myapp-gateway
   http:
@@ -162,7 +161,7 @@ spec:
     ...
 {{< /text >}}
 
-并且你有一个路由 helloworld 服务到一个普通 subset 的 `VirtualService` 配置:
+并且你有一个路由 helloworld 服务到一个普通 subset 的 `VirtualService` 配置：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -192,7 +191,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者，你正在测试 ingress-gateway IP 而不是 DNS 也可以配置成 "*"（例如，http://1.2.3.4/hello）
+  - "myapp.com" # 或者，你正在测试 ingress-gateway IP 而不是 DNS 也可以配置成”*“（例如，http://1.2.3.4/hello）
   gateways:
   - myapp-gateway
   http:
@@ -216,7 +215,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - myapp.com # 这里不能使用 "*"，因为这是与网格服务结合在一起的。
+  - myapp.com # 这里不能使用“*”，因为这是与网格服务结合在一起的。
   - helloworld.default.svc.cluster.local
   gateways:
   - mesh # 内部和外部都可以应用
@@ -226,7 +225,7 @@ spec:
     - uri:
         prefix: /hello
       gateways:
-      - myapp-gateway #只对 ingress gateway 严格应用这条规则
+      - myapp-gateway # 只对 ingress gateway 严格应用这条规则
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
@@ -246,14 +245,14 @@ spec:
 
 你应该在你的应用中为这种失去连接异常构建快速恢复的能力，但你仍然想阻止这种失去连接异常的发生，你应该禁用 mutual TLS 配置并且禁止 `istio-citadel` 部署。
 
-首先，编辑你的 `istio` 配置来禁用 mutual TLS:
+首先，编辑你的 `istio` 配置来禁用 mutual TLS：
 
 {{< text bash >}}
 $ kubectl edit configmap -n istio-system istio
 $ kubectl delete pods -n istio-system -l istio=pilot
 {{< /text >}}
 
-然后，逐一下线 `istio-citadel` 部署来禁止 Envoy 重启:
+然后，逐一下线 `istio-citadel` 部署来禁止 Envoy 重启：
 
 {{< text bash >}}
 $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
@@ -298,9 +297,9 @@ server {
 
 ## 当为多个 gateway 配置了相同的 TLS 证书导致 404 异常{#404-errors-occur-when-multiple-gateways-configured-with-same-tls-certificate}
 
-使用相同的 TLS 证书配置到超过一个 gateway，当浏览器与另一个主机建立了连接访问第二个主机时会导致浏览器快取 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)（例如，大部分浏览器）从而导致 404 异常产生。
+多个网关配置同一 TLS 证书会导致浏览器在与第一台主机建立连接之后访问第二台主机时利用 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)（例如，大部分浏览器）从而导致 404 异常产生。
 
-举个例子，假如你有2个主机共用相同的TLS证书，如下所示：
+举个例子，假如你有 2 个主机共用相同的TLS证书，如下所示：
 
 - 通配证书 `*.test.com` 被安装到 `istio-ingressgateway`
 - `Gateway` 配置 `gw1` 到主机 `service1.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
