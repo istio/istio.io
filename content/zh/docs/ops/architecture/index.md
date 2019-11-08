@@ -65,8 +65,8 @@ Pilot 将控制流量行为的高级路由规则转换为特定于环境的配�
 {{< image width="40%" link="./discovery.svg" caption="Service discovery" >}}
 
 1. 平台启动一个服务的新实例，该实例通知其平台适配器。
-2. 平台适配器使用 Pilot 抽象模型注册实例。
-3. **Pilot** 将流量规则和配置派发给 Envoy 代理，来传达此次更改。
+1. 平台适配器使用 Pilot 抽象模型注册实例。
+1. **Pilot** 将流量规则和配置派发给 Envoy 代理，来传达此次更改。
 
 这种松耦合允许 Istio 在 Kubernetes、Consul 或 Nomad 等多种环境中运行，同时维护相同的 operator 接口来进行流量管理。
 
