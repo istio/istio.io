@@ -131,7 +131,7 @@ URI=spiffe://cluster.local/ns/full/sa/sleep
 response 200
 {{< /text >}}
 
-"URI=spiffe://cluster.local/ns/full/sa/sleep" is the underlying X509 client certificate, which
+The SPIFFE URI shows the client identity from X509 certificate, which
 indicates the traffic is sent in mutual TLS. If the traffic is in plain text, no client certificate
 will be displayed.
 
