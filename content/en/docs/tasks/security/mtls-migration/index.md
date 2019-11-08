@@ -75,7 +75,7 @@ down once the migration is done.
 
 ## Configure clients to send mutual TLS traffic
 
-Configure Istio services to send mutual TLS traffic by setting `Policy`, whose mode is PERMISSIVE.
+Configure Istio services to send mutual TLS traffic by setting `Policy`, whose mode is `PERMISSIVE`.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
