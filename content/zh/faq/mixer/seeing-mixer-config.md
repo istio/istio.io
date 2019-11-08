@@ -3,9 +3,7 @@ title: 如何查看 Mixer 配置？
 weight: 10
 ---
 
-*instances*、*handlers* 和 *rules* 的相关配置以 Kubernetes
-[CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)  的方式进行存储。其配置可以使用 `kubectl` 访问 Kubernetes
-API server 获得。
+*instances*、*handlers* 和 *rules* 的相关配置以 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 的方式进行存储。其配置可以使用 `kubectl` 访问 Kubernetes API server 获得。
 
 ## Rules
 
@@ -30,8 +28,7 @@ $ kubectl -n <namespace> get rules <name> -o yaml
 
 ## Handlers
 
-`Handlers` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-中的 `adapters` 资源进行定义。
+`Handlers` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 中的 `adapters` 资源进行定义。
 
 首先，查看所有的 `adapter` 列表，执行以下命令：
 
@@ -79,8 +76,7 @@ $ kubectl -n <namespace> get <adapter kind name> <name> -o yaml
 
 ## Instances
 
-`Instances` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-中的 `instances` 资源进行定义。
+`Instances` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 中的 `instances` 资源进行定义。
 
 首先，查看所有的 `instance` 列表，执行以下命令：
 
