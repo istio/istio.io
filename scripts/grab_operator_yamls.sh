@@ -58,7 +58,7 @@ done
 # Great care should be taken when modifying the ordering of this list. This
 # script cats these files together in order with a yaml separator.
 
-operator_manifest_files=( "deploy/namespace.yaml" "deploy/crds/istio_v1alpha2_istiocontrolplane_crd.yaml" "deploy/service_account.yaml" "deploy/clusterrole.yaml" "deploy/clusterrole_binding.yaml" "deploy/service.yaml" "deploy/operator.yaml" "${output_dir}/operator-profile-demo.yaml" )
+operator_manifest_files=( "deploy/namespace.yaml" "deploy/crds/istio_v1alpha2_istiocontrolplane_crd.yaml" "deploy/service_account.yaml" "deploy/clusterrole.yaml" "deploy/clusterrole_binding.yaml" "deploy/service.yaml" "deploy/operator.yaml" )
 
 # Generate the main manifest
 cat "${operator_manifest_files[@]}" >> "${output_dir}"/operator.yaml
