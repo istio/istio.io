@@ -56,26 +56,36 @@ accessible to `istioctl` by using this command:
 
 {{< text bash >}}
 $ istioctl profile list
-    minimal
-    demo
-    sds
     default
+    demo-auth
+    demo
+    minimal
+    sds
 {{< /text >}}
 
 ## Display the configuration of a profile
 
-You can view the configuration settings of a profile. For example, to view the setting for the `default` profile
+You can view the configuration settings of a profile. For example, to view the setting for the `demo` profile
 run the following command:
 
 {{< text bash >}}
-$ istioctl profile dump
+$ istioctl profile dump demo
 autoInjection:
   components:
     injector:
       enabled: true
       k8s:
         replicaCount: 1
+        strategy:
+          rollingUpdate:
+            maxSurge: 100%
+            maxUnavailable: 25%
   enabled: true
+cni:
+  components:
+    cni:
+      enabled: false
+  enabled: false
 configManagement:
   components:
     galley:
@@ -85,21 +95,14 @@ configManagement:
         resources:
           requests:
             cpu: 100m
+        strategy:
+          rollingUpdate:
+            maxSurge: 100%
+            maxUnavailable: 25%
   enabled: true
 defaultNamespace: istio-system
 gateways:
   components:
-    egressGateway:
-      enabled: false
-      k8s:
-        hpaSpec:
-          maxReplicas: 5
-          metrics:
-          - resource:
-              name: cpu
-              targetAverageUtilization: 80
-            type: Resource
-          minReplicas: 1
 ...
 {{< /text >}}
 
@@ -107,7 +110,7 @@ To view a subset of the entire configuration, you can use the `--config-path` fl
 of the configuration under the given path:
 
 {{< text bash >}}
-$ istioctl profile dump --config-path trafficManagement.components.pilot
+$ istioctl profile dump --config-path trafficManagement.components.pilot demo
 enabled: true
 k8s:
   env:
@@ -124,7 +127,7 @@ k8s:
   - name: GODEBUG
     value: gctrace=1
   - name: PILOT_TRACE_SAMPLING
-    value: "1"
+    value: "100"
   - name: CONFIG_NAMESPACE
     value: istio-config
   hpaSpec:
@@ -148,8 +151,12 @@ k8s:
     timeoutSeconds: 5
   resources:
     requests:
-      cpu: 500m
-      memory: 2048Mi
+      cpu: 10m
+      memory: 100Mi
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 25%
 {{< /text >}}
 
 ## Show differences in profiles
@@ -163,6 +170,19 @@ You can show differences between the default and demo profiles using these comma
 $ istioctl profile dump default > 1.yaml
 $ istioctl profile dump demo > 2.yaml
 $ istioctl profile diff 1.yaml 2.yaml
+ gateways:
+   components:
+     egressGateway:
+-      enabled: false
++      enabled: true
+...
+           requests:
+-            cpu: 100m
+-            memory: 128Mi
++            cpu: 10m
++            memory: 40Mi
+         strategy:
+...
 {{< /text >}}
 
 ## Generate a manifest before installation
@@ -188,12 +208,36 @@ the cluster in the correct order.
 
 ## Show differences in manifests
 
-You can show the differences in the generated manifests between the default profile and a customized install using these commands:
+You can show the differences in the generated manifests in a YAML style diff between the default profile and a
+customized install using these commands:
 
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
 $ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
 $ istioctl manifest diff 1.yam1 2.yaml
+Differences of manifests are:
+
+Object Deployment:istio-system:istio-pilot has diffs:
+
+spec:
+  template:
+    spec:
+      containers:
+        '[0]':
+          resources:
+            requests:
+              cpu: 500m -> 1000m
+              memory: 2048Mi -> 4096Mi
+      nodeSelector: -> map[master:true]
+      tolerations: -> [map[effect:NoSchedule key:dedicated operator:Exists] map[key:CriticalAddonsOnly
+        operator:Exists]]
+
+
+Object HorizontalPodAutoscaler:istio-system:istio-pilot has diffs:
+
+spec:
+  maxReplicas: 5 -> 10
+  minReplicas: 1 -> 2
 {{< /text >}}
 
 ## Verify a successful installation
@@ -266,6 +310,7 @@ The `IstioControlPlane` API groups control plane components by feature, as shown
 `Gateways` | Ingress gateway
 `Gateways` | Egress gateway
 `AutoInjection` | Sidecar injector
+`CoreDNS` | CoreDNS
 
 In addition to the core Istio components, third-party addon features and components are also available:
 
