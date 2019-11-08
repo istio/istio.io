@@ -18,14 +18,12 @@ Perform testing of your microservice, in production!
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
     {{< /text >}}
 
-**Exercise:** test other microservices. For that, check in the
-[source code]({{< github_tree >}}/samples/bookinfo/src) of the Bookinfo application how other microservices are called.
-
 ## Chaos testing
 
-Perform some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/) in production and see how
-your application reacts. After each chaos operation, access the application's webpage and see if anything was
-changed. Also check the pods' status with `kubectl get pods`.
+Perform some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/)
+in production and see how your application reacts. After each chaos operation,
+access the application's webpage and see if anything was changed. Also check
+the pods' status with `kubectl get pods`.
 
 1.  Terminate the `details` service in one pod.
 
@@ -90,13 +88,13 @@ changed. Also check the pods' status with `kubectl get pods`.
     sleep-88ddbcfdd-l9zq4           1/1     Running   0          48m
     {{< /text >}}
 
-    Note that the first pod was restarted twice and two other `details` pods were restarted once. You may experience
-    the `Error` and the `CrashLoopBackOff` statuses until the pods will start having `Running` status.
+    Note that the first pod was restarted twice and two other `details` pods
+    were restarted once. You may experience the `Error` and the
+    `CrashLoopBackOff` statuses until the pods reach `Running` status.
 
-Note that in both cases the application did not crash. The crash in the `details` microservice did not cause other
-microservices to fail. It means you did not have a _cascading failure_ in this situation. On the contrary,
-you had _gradual service degradation_: despite one microservice being crashed, the application still provided useful
-functionality: displayed the reviews and the basic info about the book.
-
-**Exercise**: terminate some other microservice. For that, get a shell into a container of a microservice and kill the
-process of the microservice. Access the application home page and see how it is affected by microservice termination.
+Note that in both cases the application did not crash. The crash in the
+`details` microservice did not cause other microservices to fail. It means you
+did not have a _cascading failure_ in this situation. On the contrary, you had
+_gradual service degradation_: despite one microservice being crashed, the
+application still provided useful functionality: displayed the reviews and the
+basic information about the book.

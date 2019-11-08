@@ -10,13 +10,13 @@ weight: 20
 
 This module shows how you create a [Docker](https://www.docker.com) image and run it locally.
 
-1.  Download a [Dockerfile](https://docs.docker.com/engine/reference/builder/) for the `ratings` microservice.
+1.  Download a [`Dockerfile`](https://docs.docker.com/engine/reference/builder/) for the `ratings` microservice.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/Dockerfile -o Dockerfile
     {{< /text >}}
 
-1.  Observe the Dockerfile.
+1.  Observe the `Dockerfile`.
 
     {{< text bash >}}
     $ cat Dockerfile
@@ -68,3 +68,5 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     {{< text bash >}}
     $ docker stop <the container ID from the output of docker ps>
     {{< /text >}}
+
+You are ready to [deploy the application](/docs/examples/microservices-istio/run-bookinfo-with-kubernetes).
