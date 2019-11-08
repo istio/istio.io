@@ -109,7 +109,7 @@ In Istio's case, the controller monitors and reacts to changes in an
 
 In the 1.4 release, the Istio controller is in the alpha phase of development and not fully
 integrated with `istioctl`. It is, however,
-[available for experimentation](/docs/setup/standalone-operator/) using `kubectl` commands.
+[available for experimentation](/docs/setup/install/standalone-operator/) using `kubectl` commands.
 For example, to install the controller and a default version of Istio into your cluster,
 run the following command:
 
