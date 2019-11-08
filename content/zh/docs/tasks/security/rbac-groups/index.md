@@ -17,8 +17,8 @@ keywords: [security,authorization]
 
 ## 设置所需的命名空间和服务{#setup-the-required-namespace-and-services}
 
-本教程在一个名为 `rbac-groups-test-ns` 的新命名空间中运行，该命名空间有两个服务，`httpbin` 和 `sleep`，两者都运行在 Envoy sidecar 代理上。以下命令设置环境变量以存储命名空间的名称，创建命名空间，并启动这两个服务。
-在运行以下命令之前，需要输入包含 Istio 安装文件的目录。
+本教程在一个名为 `rbac-groups-test-ns` 的新命名空间中运行，该命名空间有两个服务，`httpbin` 和 `sleep`，两者都各自附带一个 Envoy sidecar 代理。使用以下命令来设置环境变量以存储命名空间的名称，创建命名空间，并启动这两个服务。
+在运行以下命令之前，您需要输入包含 Istio 安装文件的目录。
 
 1.  将 `NS` 环境变量的值设置为 `rbac-listclaim-test-ns`：
 
@@ -26,13 +26,13 @@ keywords: [security,authorization]
     $ export NS=rbac-groups-test-ns
     {{< /text >}}
 
-1.  确保 `NS` 环境变量指向一个仅测试命名空间。运行以下命令删除 `NS` 环境变量指向的命名空间中的所有资源。
+1.  确保 `NS` 环境变量指向一个完全用于测试的命名空间。运行以下命令删除 `NS` 环境变量指向的命名空间中的所有资源。
 
     {{< text bash >}}
     $ kubectl delete namespace $NS
     {{< /text >}}
 
-1.  为本教程创建名称空间：
+1.  为本教程创建命名空间：
 
     {{< text bash >}}
     $ kubectl create ns $NS
@@ -55,10 +55,10 @@ keywords: [security,authorization]
 
 ## 使用双向 TLS 配置 JSON Web 令牌（JWT）认证{#configure-json-web-token-JWT-authentication-with-mutual-TLS}
 
-您接下来应用的认证策略强制要求访问 `httpbin` 服务需要有效的 JWT。
+您接下来应用的认证策略会强制要求访问 `httpbin` 服务需要具备有效的 JWT。
 策略中定义的 JSON Web 密钥集（ JWKS ）端点必须对 JWT 进行签名。
 本教程使用 Istio 代码库中的 [JWKS 端点]({{< github_file >}}/security/tools/jwt/samples/jwks.json)并使用[此示例 JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt)。
-示例 JWT 包含一个带有 `groups` 声明键和一个字符串列表的 JWT 声明，[`"group1"`，`"group2"`]作为声明值。
+示例 JWT 包含一个标识为 `groups` 的声明键和一个 [`"group1"`，`"group2"`] 字符串列表的声明值。
 JWT 声明值可以是字符串或字符串列表；两种类型都支持。
 
 1.  应用认证策略同时需要双向 TLS 和 `httpbin` 服务的 JWT 认证。
@@ -211,16 +211,16 @@ JWT 声明值可以是字符串或字符串列表；两种类型都支持。
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    HTTP Header 包括一个有效的 JWT，其 `groups` 声明值为[`"group1"`，`"group2"`]，因为它包含 `group1`，所以返回 HTTP 状态码为 200。
+    HTTP Header 包含一个有效的 JWT，其 `groups` 声明值为[`"group1"`，`"group2"`]，因为它包含 `group1`，所以返回 HTTP 状态码为 200。
 
 ## 配置列表类型声明的授权{#configure-the-authorization-of-list-typed-claims}
 
 Istio RBAC 支持配置列表类型声明的授权。
-示例中的 JWT 包含一个带有 `scope` 声明键和[`"scope1"`，`"scope2"`]作为声明值的字符串列表的 JWT 声明。
+示例中的 JWT 包含一个带有标识为 `scope` 的声明键和一个 [`"scope1"`，`"scope2"`] 字符串列表作为其声明值。
 您可以使用 `gen-jwt` [python 脚本]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py)生成带有其他列表类型声明的 JWT 进行测试。
 按照 `gen-jwt` 脚本中的说明使用 `gen-jwt.py` 文件。
 
-1.  要将 `httpbin-viewer` 角色分配给具有 JWT 的请求，该请求包含值为 `scope1` 的列表类型 `scope` 声明，请创建名为 `bind-httpbin-viewer` 的服务角色绑定：
+1.  要将 `httpbin-viewer` 角色分配给一个附加 JWT 其中包含值为 `scope1` 的列表类型 `scope` 声明的请求，请创建名为 `bind-httpbin-viewer` 的服务角色进行绑定：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
@@ -247,7 +247,7 @@ Istio RBAC 支持配置列表类型声明的授权。
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    HTTP Header 包括一个有效的 JWT，`scope` 的声明值为[`"scope1"`，`"scope2"`]，因为它包含 `scope1`， 所以返回 HTTP 状态码为 200。
+    HTTP Header 包含一个有效的 JWT，`scope` 的声明值为[`"scope1"`，`"scope2"`]，因为它包含 `scope1`， 所以返回 HTTP 状态码为 200。
 
 ## 清理{#cleanup}
 
