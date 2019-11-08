@@ -10,12 +10,17 @@ keywords: [security,certificate]
 By default, the DNS certificates used by the webhooks of Galley and the sidecar
 injector are provisioned and managed by Citadel, which is a large component
 that maintains its own signing key and also acts as a CA for Istio.
-This task shows how to provision and manage DNS certificates for Istio control
-plane components through Chiron: a lightweight component that signs certificates
-using Kubernetes CA APIs without maintaining its own private key.
-Using this feature has the following advantages:
 
-* No dependency on Citadel for DNS certificates and is more lightweight than Citadel.
+In certain deployments, you may want to use your own certificate authority
+instead of Citadel. In those cases, Citadel ends up being used strictly for
+its DNS certificate provisioning functionality. Rather than having to deploy
+Citadel at all in this case, you can instead leverage Chiron, a lightweight
+component that signs certificates using the Kubernetes CA APIs without maintaining its own private key.
+
+This task shows how to provision and manage DNS certificates for Istio control
+plane components through Chiron. Using this feature has the following advantages:
+
+* More lightweight than Citadel.
 
 * Unlike Citadel, this feature doesn't require maintaining a private signing key, which enhances security.
 
@@ -23,8 +28,8 @@ Using this feature has the following advantages:
 
 ## Before you begin
 
-* Install Istio through `istioctl` with DNS certificates configured. This feature requires Istio 1.4+ and
-the configuration is read when Pilot starts.
+* Install Istio through `istioctl` with DNS certificates configured.
+The configuration is read when Pilot starts.
 
 {{< text bash >}}
 $ cat <<EOF | istioctl manifest apply -f -
@@ -45,7 +50,7 @@ EOF
 
 ## DNS certificate provisioning and management
 
-Istio can provision the DNS names and secret names for the DNS certificates based on a configuration you provide.
+Istio provisions the DNS names and secret names for the DNS certificates based on configuration you provide.
 The DNS certificates provisioned are signed by the Kubernetes CA and stored in the secrets following your configuration.
 Istio also manages the lifecycle of the DNS certificates, including their rotations and regenerations.
 
@@ -56,13 +61,13 @@ YAML file contains an example DNS certificate configuration. Within, the `dnsNam
 names in a certificate and the `secretName` field specifies the name of the Kubernetes secret used to
 store the certificate and the key.
 
-## Check the provision of DNS certificates
+## Check the provisioning of DNS certificates
 
-After configuring Istio to generate DNS certificates and store them in secrets
-of our choosing, we verify that the certificates were provisioned and work properly.
+After configuring Istio to generate DNS certificates and storing them in secrets
+of your choosing, you can verify that the certificates were provisioned and work properly.
 
 To check that Istio generated the `dns.istio-galley-service-account` DNS certificate as configured in the example,
-and that the certificate contains the configured DNS names, we need to get the secret from Kubernetes, parse it,
+and that the certificate contains the configured DNS names, you need to get the secret from Kubernetes, parse it,
 decode it, and view its text output with the following command:
 
 {{< text bash >}}
@@ -76,7 +81,7 @@ X509v3 Subject Alternative Name:
   DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
 {{< /text >}}
 
-## Regenerate a DNS certificate
+## Regenerating a DNS certificate
 
 Istio can also regenerate DNS certificates that were mistakenly deleted. Next,
 we show how you can delete a recently configured certificate and verify Istio regenerates it automatically.
