@@ -16,7 +16,7 @@ To evaluate the lifetime remaining for your root certificate, please refer to th
 [procedure below](#root-transition-procedure).
 
 We provide the following procedure for you to do the root certificate transition.
-After the root transition, the new root certificate will have a 10-year lifetime.
+After the root transition, the new root certificate will have the lifetime of 10 years.
 Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
 For details about the impacts and how Envoy hot restart works, please refer to
 [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart) and
