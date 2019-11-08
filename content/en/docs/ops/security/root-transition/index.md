@@ -82,7 +82,7 @@ please follow the procedure and check whether you will be affected.
     If your Pilot does not have an Envoy sidecar, consider installing one.
     Pilot has issues using the old root certificate to verify the new workload certificates, which
     may cause disconnection between Pilot and Envoy.
-    Please see [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check for this
+    Please see [here](#how-can-i-check-if-pilot-has-a-sidecar) for how to check for this
     condition.
     The [Istio upgrade guide](/docs/setup/upgrade/)
     by default installs Pilot with a sidecar.
