@@ -13,7 +13,7 @@ Citadel is a large component that maintains its own private signing key, and act
 New in Istio 1.4, we introduce a feature to securely provision and manage DNS certificates
 signed by the Kubernetes CA, which has the following advantages.
 
-* Lighter weight DNS certificate management with no dependency on Citidel.
+* Lighter weight DNS certificate management with no dependency on Citadel.
 
 * Unlike Citadel, this feature doesn't maintain a private signing key, which enhances security.
 
