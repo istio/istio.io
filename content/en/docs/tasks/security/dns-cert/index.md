@@ -13,27 +13,35 @@ that maintains its own signing key and also acts as a CA for Istio.
 This task shows how to provision and manage DNS certificates in Istio through
 Chiron: a lightweight component that signs certificates
 using Kubernetes CA APIs without maintaining its own private key.
+Using this feature has the following advantages:
+
+* No dependency on Citadel for DNS certificates and is more lightweight than Citadel.
+
+* Unlike Citadel, this feature doesn't require maintaining a private signing key, which enhances security.
+
+* Simplified root certificate distribution to TLS clients. Clients no longer need to wait for Citadel to generate and distribute its CA certificate.
 
 ## Before you begin
 
-* Install Istio through `istioctl` with DNS certificates configured.
+* Install Istio through `istioctl` with DNS certificates configured. This feature requires Istio 1.4+ and
+the configuration is read when Pilot starts.
 
-    {{< text bash >}}
-    $ cat <<EOF | istioctl manifest apply -f -
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
-    spec:
-      values:
-        global:
-          certificates:
-            - secretName: dns.istio-galley-service-account
-              dnsNames: [istio-galley.istio-system.svc, istio-galley.istio-system]
-            - secretName: dns.istio-sidecar-injector-service-account
-              dnsNames: [istio-sidecar-injector.istio-system.svc, istio-sidecar-injector.istio-system]
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF | istioctl manifest apply -f -
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  values:
+    global:
+      certificates:
+        - secretName: dns.istio-galley-service-account
+          dnsNames: [istio-galley.istio-system.svc, istio-galley.istio-system]
+        - secretName: dns.istio-sidecar-injector-service-account
+          dnsNames: [istio-sidecar-injector.istio-system.svc, istio-sidecar-injector.istio-system]
+EOF
+{{< /text >}}
 
-* Install [`jq`](https://stedolan.github.io/jq/) for JSON parsing.
+* Install [`jq`](https://stedolan.github.io/jq/) for validating the results from running the task.
 
 ## DNS certificate provisioning and management
 
@@ -50,37 +58,37 @@ store the certificate and the key.
 
 ## Check the provision of DNS certificates
 
-Previously, we learned how to configure Istio to generate DNS certificates and store them in secrets
-of our choosing. Next, we have to verify that the certificates were provisioned and work properly.
+After configuring Istio to generate DNS certificates and store them in secrets
+of our choosing, we verify that the certificates were provisioned and work properly.
 
 To check that Istio generated the `dns.istio-galley-service-account` DNS certificate as configured in the example,
 and that the certificate contains the configured DNS names, we need to get the secret from Kubernetes, parse it,
 decode it, and view its text output with the following command:
 
-    {{< text bash >}}
-    $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+{{< /text >}}
 
 The text output should include:
 
-    {{< text plain >}}
-    X509v3 Subject Alternative Name:
-      DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
-    {{< /text >}}
+{{< text plain >}}
+X509v3 Subject Alternative Name:
+  DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
+{{< /text >}}
 
 ## Regenerate a DNS certificate
 
 Istio can also regenerate DNS certificates that were mistakenly deleted. Next,
-we delete a certificate we recently configured and verify that Istio regenerates it automatically.
+we show how you can delete a recently configured certificate and verify Istio regenerates it automatically.
 
-1.  Delete the secret storing the DNS certificate configured earlier:
+1. Delete the secret storing the DNS certificate configured earlier:
 
     {{< text bash >}}
     $ kubectl delete secret dns.istio-galley-service-account -n istio-system
     {{< /text >}}
 
-1.  To check that Istio regenerated the deleted DNS certificate, and that the certificate
-contains the configured DNS names, we need to get the secret from Kubernetes, parse it, decode it,
+1. To check that Istio regenerated the deleted DNS certificate, and that the certificate
+contains the configured DNS names, you need to get the secret from Kubernetes, parse it, decode it,
 and view its text output with the following command:
 
     {{< text bash >}}
@@ -89,16 +97,7 @@ and view its text output with the following command:
 
 The output should include:
 
-    {{< text plain >}}
-    X509v3 Subject Alternative Name:
-      DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
-    {{< /text >}}
-
-## Congratulations
-
-You successfully configured Istio to manage DNS certificates.
-
-## Cleanup
-
-After completing this tutorial, you may delete the testing cluster created
-at the beginning of this tutorial.
+{{< text plain >}}
+X509v3 Subject Alternative Name:
+  DNS:istio-galley.istio-system.svc, DNS:istio-galley.istio-system
+{{< /text >}}
