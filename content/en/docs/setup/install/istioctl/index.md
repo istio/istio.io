@@ -57,7 +57,6 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
     default
-    demo-auth
     demo
     minimal
     sds
@@ -86,23 +85,6 @@ cni:
     cni:
       enabled: false
   enabled: false
-configManagement:
-  components:
-    galley:
-      enabled: true
-      k8s:
-        replicaCount: 1
-        resources:
-          requests:
-            cpu: 100m
-        strategy:
-          rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 25%
-  enabled: true
-defaultNamespace: istio-system
-gateways:
-  components:
 ...
 {{< /text >}}
 
@@ -133,30 +115,7 @@ k8s:
   hpaSpec:
     maxReplicas: 5
     metrics:
-    - resource:
-        name: cpu
-        targetAverageUtilization: 80
-      type: Resource
-    minReplicas: 1
-    scaleTargetRef:
-      apiVersion: apps/v1
-      kind: Deployment
-      name: istio-pilot
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: 8080
-    initialDelaySeconds: 5
-    periodSeconds: 30
-    timeoutSeconds: 5
-  resources:
-    requests:
-      cpu: 10m
-      memory: 100Mi
-  strategy:
-    rollingUpdate:
-      maxSurge: 100%
-      maxUnavailable: 25%
+...
 {{< /text >}}
 
 ## Show differences in profiles
@@ -299,29 +258,23 @@ The `IstioControlPlane` API groups control plane components by feature, as shown
 
 | Feature | Components |
 |---------|------------|
-`Base` | CRDs
-`Traffic Management` | Pilot
-`Policy` | Policy
-`Telemetry` | Telemetry
-`Security` | Citadel
-`Security` | Node agent
-`Security` | Cert manager
-`Configuration management` | Galley
-`Gateways` | Ingress gateway
-`Gateways` | Egress gateway
-`AutoInjection` | Sidecar injector
-`CoreDNS` | CoreDNS
+`base` | `CRDs`
+`trafficManagement` | `pilot`
+`policy` | `policy`
+`telemetry` | `telemetry`
+`security` | `citadel`, `nodeAgent`, `certManager`
+`configManagement` | `galley`
+`gateways` | `ingressGateway`, `egressGateway`
+`autoInjection` | `injector`
+`coreDNS` | `coreDNS`
+`thirdParty` | `cni`
 
-In addition to the core Istio components, third-party addon features and components are also available:
+In addition to the core Istio components, third-party addon features and components are also available. These can only
+be enabled and configured through the Helm pass-through API:
 
 | Feature | Components |
 |---------|------------|
-`Telemetry` | Prometheus
-`Telemetry` | Prometheus Operator
-`Telemetry` | Grafana
-`Telemetry` | Kiali
-`Telemetry` | Tracing
-`ThirdParty` | CNI
+`telemetry` | `prometheus`, `prometheusOperator`, `grafana`, `kiali`, `tracing`
 
 Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
 Namespaces that components are installed into can be set by component, feature, or globally.
