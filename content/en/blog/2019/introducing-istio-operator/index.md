@@ -115,7 +115,7 @@ run the following command:
 
 {{< text bash >}}
 $ kubectl apply -f https://<repo URL>/operator.yaml
-$ kubectl apply -f https://<repo URL>/<version>/default-cr.yaml
+$ kubectl apply -f https://<repo URL>/default-cr.yaml
 {{< /text >}}
 
 You can then make changes to the Istio installation configuration:
@@ -124,11 +124,8 @@ You can then make changes to the Istio installation configuration:
 $ kubectl edit istiocontrolplane example-istiocontrolplane -n istio-system
 {{< /text >}}
 
-To upgrade to a new version of Istio, run:
-
-{{< text bash >}}
-$ kubectl apply -f https://<repo URL>/<new version>/default-cr.yaml
-{{< /text >}}
+As soon as the resource is updated, the controller will detect the changes and respond by updating
+the Istio installation correspondingly.
 
 Both the operator controller and `istioctl` commands share the same code.
 The main difference is the execution context.
