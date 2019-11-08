@@ -1,7 +1,7 @@
 ---
 title: Secure webhook management
 description: A more secure way to manage Istio webhooks.
-publishdate: 2019-10-29
+publishdate: 2019-11-08
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, webhook]
 target_release: 1.4
@@ -14,7 +14,9 @@ containers into Istio.
 By default, Galley and the sidecar injector manage their own webhook configurations.
 This can pose a security risk if they are compromised, for example, through buffer overflow attacks.
 Configuring a webhook is a highly privileged operation as a webhook may monitor and mutate all
-Kubernetes resources. In the following example, the attacker compromises
+Kubernetes resources.
+
+In the following example, the attacker compromises
 Galley and modifies the webhook configuration of Galley to eavesdrop on all Kubernetes secrets
 (the `clientConfig` is modified by the attacker to direct the `secrets` resources to
 a service owned by the attacker).
@@ -32,7 +34,7 @@ Galley and the sidecar injector are de-privileged so even if they are compromise
 will not be able to alter the webhook configurations.
 
 1. Before configuring a webhook, `istioctl` will verify the webhook server is up
-and that the certificate chain used by the webhook server is valid, which reduces the errors
-caused by an unready server and by invalid certificates.
+and that the certificate chain used by the webhook server is valid. This reduces the errors
+that can occur before a server is ready or has invalid certificates.
 
-To try this new feature, please follow its [user guide](/docs/setup/security/webhook).
+To try this new feature, refer to the [Istio webhook management task](/docs/setup/security/webhook).
