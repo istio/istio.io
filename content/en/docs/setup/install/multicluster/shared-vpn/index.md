@@ -379,7 +379,7 @@ To enable control plane security follow these general steps:
     * The `citadel` certificate self signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
+      [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
 
 1.  Deploy the Istio remote clusters with:
 
@@ -388,7 +388,7 @@ To enable control plane security follow these general steps:
     * The `citadel` certificate self signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
+      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
       The Certificate Authority (CA) of the main cluster or a root CA must sign
       the CA certificate for the remote clusters too.
 
@@ -410,7 +410,7 @@ To enable mutual TLS for all application pods, follow these general steps:
     * The Citadel certificate self-signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
 
 1.  Deploy the Istio remote clusters with:
 
@@ -419,7 +419,7 @@ To enable mutual TLS for all application pods, follow these general steps:
     * The Citadel certificate self-signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
       The CA of the main cluster or a root CA must sign the CA certificate for
       the remote clusters too.
 
