@@ -69,7 +69,6 @@ command.
     $ istioctl manifest generate > istio.yaml
     {{< /text >}}
 
-<!-- TODO (lei-tang): improve the UX for obtain MutatingWebhookConfiguration -->
 1.  Open the `istio.yaml` configuration file, search for `kind: MutatingWebhookConfiguration` and save
 the `MutatingWebhookConfiguration` of the sidecar injector to `sidecar-injector-webhook.yaml`. The following
 is a `MutatingWebhookConfiguration` in an example `istio.yaml`.
@@ -101,7 +100,6 @@ is a `MutatingWebhookConfiguration` in an example `istio.yaml`.
             istio-injection: enabled
     {{< /text >}}
 
-<!-- TODO (lei-tang): improve the UX for obtain ValidatingWebhookConfiguration -->
 1.  Open the `istio.yaml` configuration file, search for `kind: ValidatingWebhookConfiguration` and save
 the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
 is a `ValidatingWebhookConfiguration` in an example `istio.yaml` (only
