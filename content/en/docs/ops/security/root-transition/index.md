@@ -16,7 +16,7 @@ To evaluate the lifetime remaining for your root certificate, please refer to th
 [procedure below](#root-transition-procedure).
 
 The steps below show you how to transition to a new root certificate.
-After the transition, the new root certificate will have a 10 year lifetime.
+After the transition, the new root certificate has a 10 year lifetime.
 Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
 For details about the impact and how Envoy hot restart works, please refer to
 [here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart) and
@@ -80,7 +80,7 @@ please follow the procedure and check whether you will be affected.
 
     {{< warning >}}
     If your Pilot does not have an Envoy sidecar, consider installing one.
-    Pilot has issues using the old root certificate to verify the new workload certificates, 2hidh
+    Pilot has issues using the old root certificate to verify the new workload certificates, which
     may cause disconnection between Pilot and Envoy.
     Please see [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check for this
     condition.
