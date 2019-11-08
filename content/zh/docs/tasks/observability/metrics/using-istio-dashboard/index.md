@@ -17,7 +17,7 @@ aliases:
 * 在集群中[安装 Istio](/zh/docs/setup)。如果在您选择的配置文件中未启用 Grafana 附加组件，您可以通过 `--set values.grafana.enabled=true` [选项](/zh/docs/reference/config/installation-options/) 启用。
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用。
 
-## 查看 Istio Dashboard{#viewing-the-istio-dashboard}
+## 查看 Istio Dashboard{#viewing-the-Istio-dashboard}
 
 1.  验证 `prometheus` 服务正在集群中运行。
 
@@ -95,7 +95,7 @@ aliases:
 
     这里给出了每一个工作负载，以及更进一步的该工作负载的入站工作负载（将请求发送到该工作负载的工作负载）和出站服务（此工作负载向其发送请求的服务）的详细指标。
 
-### 关于 Grafana 插件{#about-the-grafana-add-on}
+### 关于 Grafana 插件{#about-the-Grafana-add-on}
 
 Grafana 插件其实是一个 Grafana 的预配置实例。基础镜像 ([`grafana/grafana:5.2.3`](https://hub.docker.com/r/grafana/grafana/)) 已被修改为同时启动已安装的 Prometheus 数据源和 Istio Dashboard。Istio（特别是 Mixer）的基本安装文件附带了全局（用于每个服务的）指标的默认配置。Istio Dashboard 旨在与默认的 Istio 指标配置和 Prometheus 后端结合使用。
 
