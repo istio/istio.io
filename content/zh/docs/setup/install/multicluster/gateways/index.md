@@ -31,7 +31,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to [deploy the Istio control plane](/docs/setup/install/operator/)
+* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
   on **each** Kubernetes cluster.
 
 * The IP address of the `istio-ingressgateway` service in each cluster must be accessible
@@ -73,7 +73,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
     {{< /tip >}}
 
-    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
         {{< warning >}}
         The root and intermediate certificate from the samples directory are widely

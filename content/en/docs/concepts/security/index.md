@@ -37,7 +37,7 @@ and audit (AAA) tools to protect your services and data. The goals of Istio secu
 
 - **Zero-trust network**: build security solutions on untrusted networks
 
-Visit our [Mutual TLS Migration docs](/docs/tasks/security/mtls-migration/) to start using Istio security features with your deployed services.
+Visit our [Mutual TLS Migration docs](/docs/tasks/security/authentication/mtls-migration/) to start using Istio security features with your deployed services.
 Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
 
 ## High-level architecture
@@ -320,7 +320,7 @@ result, the operator can gradually install and configure the client's
 Istio sidecars to send mutual TLS traffic. Once the configuration of the
 clients is complete, the operator can configure the server to mutual TLS
 only mode. For more information, visit the
-[Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
+[Mutual TLS Migration tutorial](/docs/tasks/security/authentication/mtls-migration).
 
 #### Secure naming
 
@@ -583,7 +583,7 @@ recommendations to avoid disruption when updating your authentication policies:
   types of traffic: plaintext and TLS. Thus, no request is dropped. Once all
   clients switch to the expected protocol, with or without mutual TLS, you can
   replace the `PERMISSIVE` policy with the final policy. For more information,
-  visit the [Mutual TLS Migration tutorial](/docs/tasks/security/mtls-migration).
+  visit the [Mutual TLS Migration tutorial](/docs/tasks/security/authentication/mtls-migration).
 
 {{< text yaml >}}
 peers:

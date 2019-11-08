@@ -8,7 +8,7 @@ keywords: [profiles,install,helm]
 ---
 
 This page describes the built-in configuration profiles that can be used when
-[installing Istio](/docs/setup/install/operator/).
+[installing Istio](/docs/setup/install/istioctl/).
 The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can start with one of Istio’s built-in configuration profiles and then further customize the configuration for
 your specific needs. The following built-in configuration profiles are currently available:
@@ -19,7 +19,7 @@ your specific needs. The following built-in configuration profiles are currently
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
     This is the configuration that is installed with the [quick start](/docs/setup/install/kubernetes/) instructions,
-    but you can later [customize the configuration](/docs/setup/install/operator/#customizing-the-configuration)
+    but you can later [customize the configuration](/docs/setup/install/istioctl/#customizing-the-configuration)
     to enable additional features if you wish to explore more advanced tasks.
 
     {{< warning >}}
@@ -28,7 +28,7 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
-1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
+1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/citadel-config/auth-sds).
     This profile comes with additional authentication features enabled by default (Strict Mutual TLS).
 
 The components marked as **X** are installed within each profile:

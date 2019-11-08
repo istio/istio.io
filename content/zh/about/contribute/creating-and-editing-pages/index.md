@@ -1,92 +1,113 @@
 ---
-title: 创建和编辑页面
-description: 介绍创建和维护文档页面的机制。
+title: Creating and Editing Pages
+description: Explains the mechanics of creating and maintaining documentation pages.
 weight: 10
 aliases:
-    - /zh/docs/welcome/contribute/writing-a-new-topic.html
-    - /zh/docs/reference/contribute/writing-a-new-topic.html
-    - /zh/about/contribute/writing-a-new-topic.html
-    - /zh/create
+    - /docs/welcome/contribute/writing-a-new-topic.html
+    - /docs/reference/contribute/writing-a-new-topic.html
+    - /about/contribute/writing-a-new-topic.html
+    - /create
 keywords: [contribute]
 ---
 
-此页面介绍了如何创建，测试和维护 Istio 文档主题。
+This page shows how to create, test, and maintain Istio documentation topics.
 
 ## Before you begin
 
-在开始编写 Istio 文档之前，首先需要创建一个 Istio 文档存储库的分支正如[使用 GitHub 工作](/zh/about/contribute/github/)中所述。
+Before you can work on Istio documentation, you first need to create a fork of the Istio documentation repository as described in
+[Working with GitHub](/about/contribute/github/).
 
-## 选择页面类型
+## Choosing a page type
 
-在准备编写一个新主题时，请考虑您的内容最适合以下哪种页面类型：
+As you prepare to write a new topic, think about which of these page types
+is the best fit for your content:
 
 <table>
   <tr>
-    <td>概念</td>
-    <td>概念页面解释了 Istio 的一些重要概念。例如，概念页面可能会描述 Mixer 的配置模型并解释其中的一些细微之处。通常，概念页面不包括具体的操作步骤，而是提供指向任务的链接。</td>
+    <td>Concept</td>
+    <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the
+    Mixer's configuration model and explain some of its subtleties.
+    Typically, concept pages don't include sequences of steps, but instead provide links to
+    tasks that do.</td>
   </tr>
 
   <tr>
-    <td>参考</td>
-    <td>参考页面提供了诸如 API 参数、命令行选项、配置设置和过程之类的详尽列表。</td>
+    <td>Reference</td>
+    <td>A reference page provides exhaustive lists of things like API parameters,
+     command-line options, configuration settings, and procedures.
+    </td>
   </tr>
 
   <tr>
-    <td>示例</td>
-    <td>示例页面描述了一个完整工作的独立示例，突出显示了一组特定功能。示例必须具有易于遵循的设置和使用说明，以便用户可以自己快速运行示例并尝试更改示例以探索系统。测试和维护示例以获得技术准确性。</td>
+    <td>Examples</td>
+    <td>An example page describes a fully working stand-alone example highlighting a particular set of features. Examples
+    must have easy to follow setup and usage instructions so users can quickly run the sample
+    themselves and experiment with changing the example to explore the system. Examples are tested and maintained for technical accuracy.
+    </td>
   </tr>
 
   <tr>
-    <td>任务</td>
-    <td>任务页面显示如何执行单个操作，通常通过提供一系列简短的步骤。任务页面具有最少的解释，但通常提供指向提供相关背景和知识的概念主题的链接。测试和维护任务以确保技术准确性。</td>
+    <td>Task</td>
+    <td>A task page shows how to do a single thing, typically by giving a short sequence of steps. Task pages have minimal
+    explanation, but often provide links to conceptual topics that provide related background and knowledge. Tasks are tested and maintained for technical accuracy.</td>
   </tr>
 
   <tr>
-    <td>安装</td>
-    <td>安装页面类似于任务页面，但它侧重于安装活动。测试和维护安装页面以确保技术准确性。</td>
+    <td>Setup</td>
+    <td>A setup page is similar to a task page, except that it is focused on installation
+    activities. Setup pages are tested and maintained for technical accuracy.
+    </td>
   </tr>
 
   <tr>
-    <td>博客文章</td>
+    <td>Blog Post</td>
     <td>
-      博客文章是关于 Istio 或与之相关的产品和技术的文章。通常，博客属于以下 3 个类别之一： 
+      A blog post is an article on Istio or products and technologies related to it. Typically, posts fall in one of the following three categories:
       <ul>
-      <li>详细介绍了作者使用和配置 Istio 的经验，特别是能够表达新颖体验或观点的那些博客。</li>
-      <li>突出显示了 Istio 功能的博客。</li>
-      <li>详细介绍如何使用 Istio 完成任务或实现特定用例的文章。与任务和示例不同，博客文章的技术准确性在发布后不会得到维护和测试。</li>
+      <li>Posts detailing the author’s experience using and configuring Istio, especially those that articulate a novel experience or perspective.</li>
+      <li>Posts highlighting Istio features.</li>
+      <li>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</li>
       </ul>
     </td>
   </tr>
 
   <tr>
-    <td>新闻条目</td>
+    <td>News Entry</td>
     <td>
-      新闻条目是有关 Istio 及其相关事件的及时文章。新闻条目通常会宣布新版本或即将发生的事件。
+      A news entry post is a timely article on Istio and events related to it. News entries typically announce new releases or upcoming events.
     </td>
   </tr>
 
   <tr>
     <td>FAQ</td>
     <td>
-      FAQ 条目用于快速解答常见的客户问题。答案通常不会引入任何新概念，而是仅侧重于一些实用的建议或见解，并提供了供用户了解更多信息的指向主文档的链接。
+      A FAQ entry is for quick answers to common customer questions. An answer doesn't normally introduce any new
+      concept and is instead narrowly focused on some practical bit of advice or insight, with links back into the
+      main documentation for the user to learn more.
     </td>
   </tr>
 
   <tr>
-    <td>运维指南</td>
+    <td>Ops Guide</td>
     <td>
-      有关解决在实际环境中运行 Istio 时遇到的特定问题的实用解决方案。
+      For practical solutions to address specific problems encountered while running Istio in a real-world setting.
     </td>
   </tr>
 </table>
 
-## 命名主题
+## Naming a topic
 
-为您的主题选择一个具有您希望搜索引擎查找的关键字的标题。为你的主题创建一个使用标题中的单词、并用连字符分隔而且所有字母均小写的文件名。
+Choose a title for your topic that has the keywords you want search engines to find.
+Create a filename for your topic that uses the words in your title, separated by hyphens,
+all in lower case.
 
-## 设置文档的元数据信息
+## Updating front matter
 
-每个文档文件都需要从头开始写[元数据信息](https://gohugo.io/content-management/front-matter/)。元数据信息是介于两个 YAML 块之间通过 3 个“-”分割的信息。下面就是你需要填写的元数据信息:
+Every documentation file needs to start with
+[front matter](https://gohugo.io/content-management/front-matter/).
+The front matter is a block of YAML that is between
+triple-dashed lines at the top of each file. Here's the
+chunk of front matter you should start with:
 
 {{< text yaml >}}
 ---
@@ -97,23 +118,24 @@ keywords: [keyword1,keyword2,...]
 ---
 {{< /text >}}
 
-在新的 markdown 文件的开头复制上面的内容并更新信息字段。可用的字段如下：
+Copy the above at the start of your new markdown file and update the information fields.
+The available front matter fields are:
 
-|字段               | 描述
+|Field              | Description
 |-------------------|------------
-|`title`            | 页面短标题
-|`linktitle`        | 页面的备用标题（通常较短），在侧栏中用于引用页面
-|`subtitle`         | 可选子标题，显示在主标题下方
-|`description`      | 关于页面内容的单行描述
-|`icon`             | 图像文件的可选路径，该路径显示在主标题旁边
-|`weight`           | 一个整数，用于确定此页面相对于同一目录中其他页面的排序顺序
-|`keywords`         | 描述页面的关键字数组，用于创建“另请参见”链接的网络
-|`draft`            | 如果为 true，则阻止页面显示在任何导航区域中
-|`aliases`          | 有关此项目的详细信息，请参见下面的[重命名，移动或删除页面](#renaming-moving-or-deleting-pages)。
-|`skip_byline`      | 将此属性设置为 true 可以防止页面在主标题下带有下划线
-|`skip_seealso`     | 将此设置为 true 可以防止页面为其生成“另请参见”部分
+|`title`            | The short title of the page
+|`linktitle`        | An alternate, typically shorter, title for the page which is used in the side bar to reference the page
+|`subtitle`         | An optional subtitle which gets displayed below the main title
+|`description`      | A one-line description of what the page is about
+|`icon`             | An optional path to an image file which gets displayed next to the main title
+|`weight`           | An integer used to determine the sort order of this page relative to other pages in the same directory
+|`keywords`         | An array of keywords describing the page, used to create the web of See Also links
+|`draft`            | When true, prevents the page from showing up in any navigation area
+|`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
+|`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
+|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
 
-一些字段控制大多数页面上自动生成的目录：
+A few fields control the auto-generated table of contents present on most pages:
 
 |Field               | Description
 |--------------------|------------
