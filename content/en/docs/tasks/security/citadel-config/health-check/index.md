@@ -26,13 +26,7 @@ this feature is not needed if the production setup is not using the
 
 ## Before you begin
 
-To complete this task, you can [install Istio](/docs/setup/install/istioctl/) with the `global.mtls.enabled` option set to `true`.
-
-{{< tip >}}
-Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
-all or only selected services in a namespace. You must repeat the policy for all namespaces to configure the setting globally.
-See the [authentication policy task](/docs/tasks/security/authentication/authn-policy/) for details.
-{{< /tip >}}
+Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ## Deploying Citadel with health checking
 

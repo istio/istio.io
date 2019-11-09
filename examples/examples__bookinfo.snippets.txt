@@ -14,11 +14,11 @@ $endsnippet
 
 $snippet verify_service.sh_output.txt syntax="text"
 NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-details       ClusterIP   10.101.120.116   <none>        9080/TCP   1s
-kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP    8m48s
-productpage   ClusterIP   10.109.229.155   <none>        9080/TCP   0s
-ratings       ClusterIP   10.105.61.20     <none>        9080/TCP   1s
-reviews       ClusterIP   10.104.30.214    <none>        9080/TCP   0s
+details       ClusterIP   10.104.210.169   <none>        9080/TCP   1s
+kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP    9m27s
+productpage   ClusterIP   10.104.178.50    <none>        9080/TCP   0s
+ratings       ClusterIP   10.97.49.198     <none>        9080/TCP   0s
+reviews       ClusterIP   10.103.202.170   <none>        9080/TCP   0s
 
 $endsnippet
 
@@ -28,12 +28,12 @@ $endsnippet
 
 $snippet verify_pods.sh_output.txt syntax="text"
 NAME                              READY   STATUS    RESTARTS   AGE
-details-v1-74f858558f-sp2zc       2/2     Running   0          39s
-productpage-v1-76589d9fdc-krrxc   2/2     Running   0          38s
-ratings-v1-7855f5bcb9-c6vjp       2/2     Running   0          39s
-reviews-v1-64bc5454b9-qsfww       2/2     Running   0          39s
-reviews-v2-76c64d4bdf-95h6m       2/2     Running   0          39s
-reviews-v3-5545c7c78f-9ptfw       2/2     Running   0          39s
+details-v1-74f858558f-fxjvw       2/2     Running   0          41s
+productpage-v1-76589d9fdc-bmbrs   2/2     Running   0          41s
+ratings-v1-7855f5bcb9-tc8d7       2/2     Running   0          40s
+reviews-v1-64bc5454b9-mbrgq       2/2     Running   0          40s
+reviews-v2-76c64d4bdf-5rrkj       2/2     Running   0          41s
+reviews-v3-5545c7c78f-fwjs6       2/2     Running   0          41s
 
 $endsnippet
 

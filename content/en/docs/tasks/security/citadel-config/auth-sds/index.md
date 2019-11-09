@@ -49,8 +49,7 @@ This approach has the following benefits:
 
 ## Before you begin
 
-* Follow the [install instructions](/docs/setup/install/istioctl/)
-  to set up Istio with SDS and global mutual TLS enabled.
+Follow the [Istio installation guide](/docs/setup/install/helm/) to set up Istio with SDS and global mutual TLS enabled.
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
 
