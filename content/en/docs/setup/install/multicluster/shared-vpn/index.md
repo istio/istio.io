@@ -138,7 +138,7 @@ mesh. This procedure requires the `cluster-admin` user access permission to
 the remote cluster.
 
 1.  Set the environment variables needed to build the `kubeconfig` file for the
-    `istio-multi` service account with the following commands:
+    `istio-reader-service-account` service account with the following commands:
 
     {{< text bash >}}
     $ export WORK_DIR=$(pwd)
@@ -146,7 +146,7 @@ the remote cluster.
     $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
     $ SERVER=$(kubectl config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
     $ NAMESPACE=istio-system
-    $ SERVICE_ACCOUNT=istio-multi
+    $ SERVICE_ACCOUNT=istio-reader-service-account
     $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
     $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['ca\.crt']}")
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['token']}" | base64 --decode)
@@ -157,7 +157,7 @@ the remote cluster.
     {{< /tip >}}
 
 1. Create a `kubeconfig` file in the working directory for the
-    `istio-multi` service account with the following command:
+    `istio-reader-service-account` service account with the following command:
 
     {{< text bash >}}
     $ cat <<EOF > ${KUBECFG_FILE}
