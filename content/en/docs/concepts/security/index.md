@@ -649,7 +649,7 @@ is defined as a Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes
 object.
 
 An `AuthorizationPolicy` includes a `selector` and a list of `rules`. The `selector`
-specifies the **target** that the policy applies to. The `rules` specify **who**
+specifies the **target** that the policy applies to, while the rules specify **who**
 is allowed to do **what** under which **conditions**. Specifically:
 
 - **target** refers to the `selector` section in the `AuthorizationPolicy`.
