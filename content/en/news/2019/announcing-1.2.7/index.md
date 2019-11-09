@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.2.7
+subtitle: Patch Release
 description: Istio 1.2.7 patch release.
 publishdate: 2019-10-08
-attribution: The Istio Team
 release: 1.2.7
 aliases:
     - /news/announcing-1.2.7

@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.0.8
+subtitle: Patch Release
 description: Istio 1.0.8 patch release.
 publishdate: 2019-06-07
-attribution: The Istio Team
 release: 1.0.8
 aliases:
     - /about/notes/1.0.8
