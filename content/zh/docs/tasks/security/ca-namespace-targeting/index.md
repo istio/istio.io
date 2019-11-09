@@ -1,28 +1,28 @@
 ---
-title: Configure Citadel Service Account Secret Generation
-description: Configure which namespaces Citadel should generate service account secrets for.
+title: 配置 Citadel 的 Service Account Secret 生成
+description: 配置 Citadel 应该为哪一个命名空间生成 service account secrets。
 weight: 80
 ---
 
-A cluster operator might decide not to generate `ServiceAccount` secrets for some subset of namespaces, or to make `ServiceAccount` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here](/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets).
+集群操作者可以决定不为命名空间的一些子空间生成 `ServiceAccount` secrets，或者使 `ServiceAccount` secret 生成器加入每一个命名空间。此任务描述了操作者如何针对这些情况配置集群。有关 Citadel 命名空间定位机制的完整文档可参考[此处](/zh/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets)。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-To complete this task, you should first take the following actions:
+为了完成此任务，您首先应该执行以下操作：
 
-* Read the [security concept](/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets).
+* 阅读[安全概念](/zh/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets)。
 
-* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
+* 按照 [Kubernetes 快速入门](/zh/docs/setup/install/kubernetes/)安装 Istio。
 
-### Deactivating Service Account secret generation for a single namespace
+### 停用单个命名空间的 Service Account secret 生成器{#deactivating-service-account-secret-generation-for-a-single-namespace}
 
-To create a new sample namespace `foo`, run:
+要创建一个新的示例命名空间 `foo`，请运行：
 
 {{< text bash >}}
 $ kubectl create ns foo
 {{< /text >}}
 
-Service account secrets are created following the default behavior. To verify that Citadel has generated a key/cert secret for the default service account in the `foo` namespace, run (note that this may take up to 1 minute):
+Service account secrets 按照默认行为创建。为了校验 Citadel 在 `foo` 命名空间中为默认的 service account 生成了一个 key/cert secret，请运行（注意，本操作可能长达 1 分钟）：
 
 {{< text bash >}}
 $ kubectl get secrets -n foo | grep istio.io
@@ -30,13 +30,13 @@ NAME                    TYPE                           DATA      AGE
 istio.default           istio.io/key-and-cert          3         13s
 {{< /text >}}
 
-To label the namespace to prevent Citadel from creating `ServiceAccount` secrets in target namespace `foo`, run:
+为了防止 Citadel 在命名空间 `foo` 中创建 `ServiceAccount` secrets，需要标识命名空间，请运行：
 
 {{< text bash >}}
 $ kubectl label ns foo ca.istio.io/override=false
 {{< /text >}}
 
-To create a new `ServiceAccount` in this namespace, run:
+在命名空间创建一个新的 `ServiceAccount`，请运行：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -48,7 +48,7 @@ metadata:
 EOF
 {{< /text >}}
 
-To check the namespace's secrets again, run:
+再次检查命名空间的 secrets，请运行：
 
 {{< text bash >}}
 $ kubectl get secrets -n foo | grep istio.io
@@ -56,11 +56,11 @@ NAME                    TYPE                           DATA      AGE
 istio.default           istio.io/key-and-cert          3         11m
 {{< /text >}}
 
-You can observe that no new `istio.io/key-and-cert` secret was generated for the `sample-service-account` service account.
+您可以观察到在 `sample-service-account` service account 中没有新的 `istio.io/key-and-cert` secret 生成。
 
-### Opt-in Service Account secret generation
+### 加入 Service Account secret 生成器{#opt-in-service-account-secret-generation}
 
-Set the `enableNamespacesByDefault` installation option to `false` to make `ServiceAcount` secret generation opt-in (i.e., to disable generating secrets unless otherwise specified):
+设置 `enableNamespacesByDefault` 的安装选项为 `false` 使 `ServiceAcount` secret 生成器加入（即，除非另有说明，否则禁止生成 secrets）：
 
 {{< text yaml >}}
 ...
@@ -69,20 +69,20 @@ security:
 ...
 {{< /text >}}
 
-Once this mesh configuration is applied, to create a namespace `foo` and check the secrets present in that namespace, run:
+一旦应用此网格配置，创建一个新的 `foo` 命名空间并检查当前命名空间的 secrets，请运行：
 
 {{< text bash >}}
 $ kubectl create ns foo
 $ kubectl get secrets -n foo | grep istio.io
 {{< /text >}}
 
-You can observe that no secrets have been created. To override this value for the `foo` namespace, add a `ca.istio.io/override=true` label in that namespace:
+您可以观察到没有 secrets 被创建。为了覆盖 `foo` 命名空间中的值，在命名空间中添加一个 `ca.istio.io/override=true` 的标识：
 
 {{< text bash >}}
 $ kubectl label ns foo ca.istio.io/override=true
 {{< /text >}}
 
-To create a new service account in the `foo` namespace, run:
+在 `foo` 命名空间中创建一个新的 service account，请运行：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -94,7 +94,7 @@ metadata:
 EOF
 {{< /text >}}
 
-To check the secrets in the `foo` namespace again, run:
+再次检查命名空间的 secrets，请运行：
 
 {{< text bash >}}
 $ kubectl get secrets -n foo | grep istio.io
@@ -103,11 +103,11 @@ istio.default                        istio.io/key-and-cert                 3    
 istio.sample-service-account         istio.io/key-and-cert                 3      6s
 {{< /text >}}
 
-You can observe that an `istio.io/key-and-cert` secret has been created for the `default` service account in addition to the `sample-service-account`. This is due to the retroactive secret generation feature, which will create secrets for all service accounts in a namespace once it transitions from inactive to active.
+您可以观察到，除 `sample-service-account` 外的 `default` service account 也创建了一个 `istio.io/key-and-cert` secret。这是由于追溯 secret 生成功能所致，一旦从非活跃状态转换为活跃状态，它将为命名空间中的所有 service accounts 创建 secrets。
 
-## Cleanup
+## 清理{#cleanup}
 
-To delete the `foo` test namespace and all its resources, run:
+删除 `foo` 测试命名空间及其中的所有资源，请运行：
 
 {{< text bash >}}
 $ kubectl delete ns foo
