@@ -172,7 +172,7 @@ after the new certificates are generated.
 ### Why does Pilot not work and log "handshake error"?
 
 This may because Pilot is
-[not using an Envoy sidecar](#how-to-check-if-pilot-has-an-envoy-sidecar),
+[not using an Envoy sidecar](#how-can-i-check-if-pilot-has-a-sidecar),
 while the `controlPlaneSecurity` is enabled.
 In this case, restart both Galley and Pilot to ensure they load the new certificates.
 As an example, the following commands redeploy a pod for Galley / Pilot by removing a pod.
