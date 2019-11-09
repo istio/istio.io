@@ -8,7 +8,7 @@ This page describes the supported keys and value formats you can use as conditio
 in the `when` field of the authorization policy objects.
 
 {{< warning >}}
-Unsupported keys and values will be ignored silently.
+Unsupported keys and values are silently ignored.
 {{< /warning >}}
 
 For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
