@@ -9,11 +9,11 @@ aliases:
 
 分布式追踪使用户可以通过跨多个服务的网格方式来追踪请求。进而可以通过可视化更深入地了解请求延迟，序列化和并行性。
 
-Istio 利用 [Envoy 的分布式追踪特性](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing)提供了开箱即用的追踪集成功能。具体来说，Istio 提供了安装不同的 tracing backend，并且通过配置代理的方式向 tracing backend 自动发送追踪的 spans 信息。
+Istio 利用 [Envoy 的分布式追踪特性](https://www.envoyproxy.io/zh/docs/envoy/v1.10.0/intro/arch_overview/tracing)提供了开箱即用的追踪集成功能。具体来说，Istio 提供了安装不同的 tracing backend，并且通过配置代理的方式向 tracing backend 自动发送追踪的 spans 信息。
 
-详情请参考 [Zipkin](../zipkin/)，[Jaeger](../jaeger/) 和 [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/) 任务文档来了解 Istio 如何与这些分布式追踪系统协作的。
+详情请参考 [Zipkin](../zipkin/)，[Jaeger](../jaeger/) 和 [LightStep](zh/docs/tasks/observability/distributed-tracing/lightstep/) 任务文档来了解 Istio 如何与这些分布式追踪系统协作的。
 
-## 追踪上下文传递{#Trace-context-propagation}
+## 追踪上下文传递{#trace-context-propagation}
 
 尽管 Istio 代理能够自动发送 spans，但是他们需要一些附加信息才能将整个追踪链路关联起来。
 
@@ -80,7 +80,7 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 
 当你在应用中调用下游服务时，确保包含这些请求头信息。
 
-## 追踪采样{#Trace-sampling}
+## 追踪采样{#trace-sampling}
 
 默认情况下，使用演示中的配置文件安装时，Istio 捕获每一个请求的链路追踪信息。
 例如，当使用上面提到的 Bookinfo 示例应用时，每次你访问 /productpage 接口时，你能够在 dashboard 中看到一条对应的 trace。这种情况下的采样率适合测试环境或者低流量的网格中。对于高流量的网格你可以通过以下两种方式任何一种来降低采样率：
