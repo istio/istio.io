@@ -731,7 +731,7 @@ spec:
 
 Exact match, prefix match, suffix match, and presence match are supported for most
 of the field with a few exceptions (e.g., the `key` field under the `when` section,
-the `ipBlocks` under `source` section and the `ports` field under `to` section only support exact match).
+the `ipBlocks` under the `source` section and the `ports` field under the `to` section only support exact match).
 
 - **Exact match**. i.e., exact string match.
 - **Prefix match**. A string with an ending `"*"`. For example, `"test.abc.*"` matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
