@@ -11,15 +11,15 @@ keywords: [platform-setup,azure]
 
 跟随这些指令来为 Istio 准备一个 Azure 集群。
 
-你可以通过完全支持 Istio 的 [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) 或者 [AKS-Engine](https://github.com/azure/aks-engine)，部署一个Kubernetes集群到Azure上。
+你可以通过完全支持 Istio 的 [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) 或者 [AKS-Engine](https://github.com/azure/aks-engine)，部署一个 Kubernetes 集群到 Azure 上。
 
 ## AKS
 
-你可以通过 [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) 或者 [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal) 创建一个AKS集群。
+你可以通过 [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) 或者 [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal) 创建一个 AKS 集群。
 
-对于 `az` cli的选项，完成 `az login` 认证或者使用cloud shell，然后运行下面的命令。
+对于 `az` cli 的选项，完成 `az login` 认证或者使用 cloud shell，然后运行下面的命令。
 
-1. 确定支持AKS的期望region名
+1. 确定支持 AKS 的期望 region 名
 
     {{< text bash >}}
     $ az provider list --query "[?namespace=='Microsoft.ContainerService'].resourceTypes[] | [?resourceType=='managedClusters'].locations[]" -o tsv
@@ -27,7 +27,7 @@ keywords: [platform-setup,azure]
 
 1. 证实对于期望的 region 有支持的 Kubernetes 版本
 
-    使用从上面步骤中期望的region值替换 `my location` ，然后执行：
+    使用从上面步骤中期望的 region 值替换 `my location`，然后执行：
 
     {{< text bash >}}
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
@@ -37,7 +37,7 @@ keywords: [platform-setup,azure]
 
 1. 创建 resource group 和部署 AKS 集群
 
-    使用期望的名字替换 `myResourceGroup` 和 `myAKSCluster` ，使用第一步中的名字替换`my location` ，替换 `1.10.5` 如果其在 region 中不被支持，然后执行：
+    使用期望的名字替换 `myResourceGroup` 和 `myAKSCluster`，使用第一步中的名字替换 `mylocation`，替换 `1.10.5` 如果其在 region 中不被支持，然后执行：
 
     {{< text bash >}}
     $ az group create --name myResourceGroup --location "my location"
@@ -62,9 +62,9 @@ keywords: [platform-setup,azure]
     $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    注意： 可能使用其他可以和Istio一起工作的api模型定义。 MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook 准入控制标识和 RBAC 被默认打开。 从 [aks-engine api 模型默认值](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) 获取更多信息。
+    注意：可能使用其他可以和 Istio 一起工作的 api 模型定义。MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook 准入控制标识和 RBAC 被默认打开。从 [aks-engine api 模型默认值](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) 获取更多信息。
 
-1. 使用 `istio.json` 模板来部署你的集群。 你能发现对于参数的参考在
+1. 使用 `istio.json` 模板来部署你的集群。你能发现对于参数的参考在
    [官方文档](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition) 中。
 
     | 参数                             | 期望值             |
@@ -80,12 +80,12 @@ keywords: [platform-setup,azure]
     {{< /text >}}
 
     {{< tip >}}
-    几分钟之后, 你能发现你的集群在你的Azure subscription上的
-    resource group里被叫做 `<dns_prefix>-<id>`。 假设 `dns_prefix` 有这样的值 `myclustername`，一个带着唯一集群ID `mycluster-5adfba82` 的有效的resource group。 `aks-engine` 在 `_output` 文件夹中生成你的 `kubeconfig`
+    几分钟之后，你能发现你的集群在你的 Azure subscription 上的
+    resource group 里被叫做 `<dns_prefix>-<id>`。假设 `dns_prefix` 有这样的值 `myclustername`，一个带着唯一集群 ID `mycluster-5adfba82` 的有效的 resource group。`aks-engine` 在 `_output` 文件夹中生成你的 `kubeconfig`
     文件。
     {{< /tip >}}
 
-1. 使用 `<dns_prefix>-<id>` 集群ID，为了从 `_output` 文件夹复制你的 `kubeconfig` 到你的机器:
+1. 使用 `<dns_prefix>-<id>` 集群 ID，为了从 `_output` 文件夹复制你的 `kubeconfig` 到你的机器：
 
     {{< text bash >}}
     $ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
