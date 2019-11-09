@@ -617,11 +617,6 @@ access control on workloads in an Istio Mesh. It provides:
 The above diagram shows the basic Istio authorization architecture. Operators
 specify Istio authorization policies using `.yaml` files.
 
-Galley watches for changes to Istio authorization policies and fetches the
-updated authorization policies if it sees changes and pushes to Pilot. Pilot
-converts the authorization policies to Envoy filter configuration and distributes the filter
-to the Envoy proxies that are co-located with the workloads.
-
 Each Envoy proxy runs an authorization engine that authorizes requests at
 runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
@@ -643,10 +638,8 @@ multiple authorization policies apply to the same workload, the effect is additi
 
 ### Authorization policy
 
-To configure an Istio authorization policy, you create an [`AuthorizationPolicy` resource](
-/docs/reference/config/authorization/authorization-policy/). Like other Istio configuration objects, it
-is defined as a Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-object.
+To configure an Istio authorization policy, you create an
+[`AuthorizationPolicy` resource](/docs/reference/config/authorization/authorization-policy/).
 
 An authorization policy includes a selector and a list of rules. The selector
 specifies the **target** that the policy applies to, while the rules specify **who**

@@ -5,7 +5,7 @@ weight: 10
 ---
 
 This page describes the supported keys and value formats you can use as conditions
-in the `when` field of the authorization policy objects.
+in the `when` field of [authorization policy resources](/docs/reference/config/authorization/authorization-policy/).
 
 {{< warning >}}
 Unsupported keys and values are silently ignored.
