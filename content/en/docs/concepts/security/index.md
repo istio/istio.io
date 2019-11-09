@@ -648,7 +648,7 @@ To configure an Istio authorization policy, you specify the [`AuthorizationPolic
 is defined as a Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 object.
 
-An `AuthorizationPolicy` includes a `selector` and a list of `rules`. The `selector`
+An authorization policy includes a selector and a list of rules. The selector
 specifies the **target** that the policy applies to, while the rules specify **who**
 is allowed to do **what** under which **conditions**. Specifically:
 
