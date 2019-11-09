@@ -627,7 +627,7 @@ runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
 authorization result, `ALLOW` or `DENY`.
 
-### Implicit Enablement
+### Implicit enablement
 
 There is no need to explicitly enable Istio's authorization feature, you just apply
 the `AuthorizationPolicy` on **workloads** to enforce access control.
