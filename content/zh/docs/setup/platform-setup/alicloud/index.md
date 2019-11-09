@@ -20,6 +20,7 @@ keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 在阿里云 Kubernetes 容器服务中使用 **应用目录** 服务来安装配置 Istio。
 {{< /tip >}}
 
+
 ## 前置条件{#prerequisites}
 
 1. [按照阿里云说明](https://www.alibabacloud.com/help/doc-detail/53752.htm)启用以下服务：容器服务、资源编排服务（ROS）和 RAM。
