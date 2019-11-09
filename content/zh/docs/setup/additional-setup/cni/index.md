@@ -33,7 +33,7 @@ Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 ## 安装{#installation}
 
 1. 确认 Kubernetes 环境的 CNI 插件的 `--cni-bin-dir` 和 `--cni-conf-dir` 设置。
-    任何非默认设置都需要参考[托管 Kubernetes 设置](#hosted-kubernetes-settings)。
+    任何非默认设置都需要参考[托管 Kubernetes 设置](#hosted-Kubernetes-settings)。
 
 1. 使用 `istioctl` 安装 Istio CNI 和 Istio。
     参考 [Istio 安装](/zh/docs/setup/install/kubernetes/)的说明，并设置 `--set cni.enabled=true` 和 `--set cni.components.cni.enabled=true` 选项。
