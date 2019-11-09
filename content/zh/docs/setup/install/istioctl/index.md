@@ -21,7 +21,7 @@ keywords: [operator,kubernetes,helm]
 1. 执行任何必要的 [特定于平台的设置](/zh/docs/setup/platform-setup/)。
 1. 检查 [Pods 和 Services 的要求](/zh/docs/setup/additional-setup/requirements/)。
 
-## 使用默认配置文件安装 Istio{#install-istio-using-the-default-profile}
+## 使用默认配置文件安装 Istio{#install-Istio-using-the-default-profile}
 
 最简单的选择是安装 `default` Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 使用以下命令：
 
@@ -218,7 +218,7 @@ $ istioctl manifest apply --set telemetry.enabled=false
 $ istioctl manifest apply -f samples/pilot-k8s.yaml
 {{< /text >}}
 
-### 识别 Istio 功能或组件{#identify-an-istio-feature-or-component}
+### 识别 Istio 功能或组件{#identify-an-Istio-feature-or-component}
 
 `IstioControlPlane` API 按功能对控制平面组件进行分组，如下表所示：
 
@@ -310,7 +310,7 @@ spec:
 - 所有其他安全相关的组件将被安装到 `istio-security` 命名空间
 - 剩余的 Istio 组件安装到 istio-system 命名空间
 
-### 自定义 Kubernetes 设置{#customize-kubernetes-settings}
+### 自定义 Kubernetes 设置{#customize-Kubernetes-settings}
 
 `IstioControlPlane` API 允许以一致的方式自定义每个组件的 Kubernetes 设置。
 
@@ -355,7 +355,7 @@ spec:
 $ istioctl manifest apply -f @samples/pilot-k8s.yaml@
 {{< /text >}}
 
-### 使用 Helm API 自定义 Istio 设置{#customize-istio-settings-using-the-helm-api}
+### 使用 Helm API 自定义 Istio 设置{#customize-Istio-settings-using-the-helm-API}
 
 `IstioControlPlane` API 使用 `values` 字段直接调用 [Helm API](/zh/docs/reference/config/installation-options/) 的接口对于字段进行设值。
 
@@ -379,7 +379,7 @@ spec:
 一些参数将在 Helm 和 `IstioControlPlane` API 中暂时存在，包括 Kubernetes 资源，
 命名空间和启用设置。 Istio 社区建议使用 `IstioControlPlane` API，因为它更专一，经过验证并遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist)。
 
-## 卸载 Istio{#uninstall-istio}
+## 卸载 Istio{#uninstall-Istio}
 
 可以使用以下命令来卸载 Istio：
 

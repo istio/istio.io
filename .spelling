@@ -70,7 +70,6 @@ analytics
 ANDed
 Ansible
 API
-api
 api-server
 Apigee
 APIs
@@ -272,7 +271,6 @@ iptables
 IPv4
 IPv6
 Istio
-istio
 istio-identity
 istio-mixer
 ISTIO-SECURITY-2019-003
@@ -309,7 +307,6 @@ kubeconfig
 Kubelet
 kubelet
 Kubernetes
-kubernetes
 kubernetes.default
 L3-4
 L4-L6
