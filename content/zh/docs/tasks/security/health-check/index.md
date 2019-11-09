@@ -11,7 +11,7 @@ keywords: [security,health-check]
 
 注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [SDS](/zh/docs/tasks/security/auth-sds/) 或者 [Mesh Expansion](/zh/docs/examples/mesh-expansion/) 就没有必要使用这个功能。
 
-## 开始之前
+## 开始之前{#before-you-begin}
 
 为了完成这个任务，你可以[安装 Istio](/zh/docs/setup/install/operator/)，并设置 `global.mtls.enabled` 为 `true`。
 
@@ -19,7 +19,7 @@ keywords: [security,health-check]
 使用[认证策略](/zh/docs/concepts/security/#authentication-policies)为命名空间内的部分或者全部服务配置双向 TLS 支持。在进行全局设置配置时必须对所有命名空间重复一遍。细节可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)。
 {{< /tip >}}
 
-## 部署启用健康检查的 Citadel
+## 部署启用健康检查的 Citadel{#deploying-citadel-with-health-checking}
 
 重新部署 Citadel 启用健康检查：
 
@@ -28,7 +28,7 @@ $ istioctl manifest generate --set values.global.mtls.enabled=true,values.securi
 $ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
-## 确认健康检查器是否工作
+## 确认健康检查器是否工作{#verify-that-health-checking-works}
 
 Citadel 会记录健康检查的结果，运行下面的命令行：
 
@@ -44,7 +44,7 @@ $ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{prin
 
 上面的日志表明周期性的健康检查已经启动。默认的健康检查间隔为 15 秒，每 100 个检查记录一次。
 
-## （可选）健康检查的配置
+## （可选）健康检查的配置{#optional-configuring-the-health-checking}
 
 这部分的讨论关于如何修改健康检查的配置。打开 `citadel-health-check.yaml` 文件，并定位到下面的内容：
 
@@ -69,7 +69,7 @@ livenessProbe:
 
 延长 `probe-check-interval` 会减少健康检查的开销，但是一旦遇到故障情况，健康监测器也会更晚的得到故障信息。为了避免检测器因为临时故障重启 Citadel，检测器的 `interval` 应该设置为 `liveness-probe-interval` 的 `N` 倍，这样就让检测器能够容忍持续 `N-1` 次的检查失败。
 
-## 清理
+## 清理{#cleanup}
 
 * 在 Citadel 上禁用健康检查：
 
