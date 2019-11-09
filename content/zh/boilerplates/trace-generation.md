@@ -1,9 +1,8 @@
 ---
 ---
-To see trace data, you must send requests to your service. The number of requests depends on Istio's sampling rate.
-You set this rate when you install Istio. The default sampling rate is 1%. You need to send at least 100 requests before the first trace is visible.
-To send a 100 requests to the `productpage` service, use the following command:
-
+要查看跟踪数据，必须将请求发送到服务。请求数量取决于Istio的采样率。
+这个采用率在安装 Istio 时进行设置。 默认值为1％，即需要发送100个请求，才能显示第一条跟踪数据。
+以下命令示例了如何将100个请求发送到`productpage`服务：
 {{< text bash >}}
 $ for i in `seq 1 100`; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
 {{< /text >}}
