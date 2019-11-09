@@ -442,13 +442,14 @@ from the cluster.
 
 ### Automation of the Migration
 
-To help ease the migration, we're working on a tool `istioctl x authz convert` to automate the
-conversion. The tool is still under active development and doesn't support all `v1alpha1` semantics
-so we recommend to do the migration manually in Istio 1.4.
+To help ease the migration, the `istioctl experimental authz convert` command is provided
+to automatically convert the `v1alpha1` policies to the `v1beta1` policy.
 
-The tool will be ready for use in Istio 1.5 and will be able to fetch all the
-`v1alpha1` policies in the cluster and convert them to the `v1beta1` policy
-automatically.
+You can evaluate the command but please be noted it's still experimental in Istio 1.4 and currently
+doesn't support the full `v1alpha1` semantics.
+
+We are actively working on the command to support the full `v1alpha1` semantics which should
+be available in the following Istio 1.4 patch releases.
 
 ## Summary
 
