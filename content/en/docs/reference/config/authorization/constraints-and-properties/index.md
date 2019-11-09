@@ -6,7 +6,7 @@ weight: 10
 
 {{< warning >}}
 The constraints and properties in the RBAC policy are deprecated by the conditions in
-the `AuthorizationPolicy`. Please use the conditions in the `AuthorizationPolicy`,
+the `AuthorizationPolicy`. Please use the conditions in `AuthorizationPolicy` resources,
 this page is for reference only and will be removed in the future.
 {{< /warning >}}
 
