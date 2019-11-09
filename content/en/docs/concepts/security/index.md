@@ -643,7 +643,7 @@ multiple authorization policies apply to the same workload, the effect is additi
 
 ### Authorization policy
 
-To configure an Istio authorization policy, you specify the [`AuthorizationPolicy` configuration object](
+To configure an Istio authorization policy, you create an [`AuthorizationPolicy` resource](
 /docs/reference/config/authorization/authorization-policy/). Like other Istio configuration objects, it
 is defined as a Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 object.
