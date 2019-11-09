@@ -275,7 +275,7 @@ running in a second cluster. Before you begin:
     (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
     {{< /tip >}}
 
-1. Create a service entry for the `httpbin` service in `cluster2`.
+1. Create a service entry for the `httpbin` service in `cluster1`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
     a service entry for it. The host name of the service entry should be of the form
