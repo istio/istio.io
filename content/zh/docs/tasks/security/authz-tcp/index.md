@@ -11,11 +11,11 @@ keywords: [security,access-control,rbac,tcp,authorization]
 
 本文任务假设，你已经：
 
-* Read the [Istio 中的授权和鉴权](/docs/concepts/security/#authorization).
+* Read the [Istio 中的授权和鉴权](/zh/docs/concepts/security/#authorization).
 
 * 按照 [快速开始](/zh/docs/setup/install/kubernetes/) 的指导，在 Kubernetes 中安装完成 Istio。
 
-* 部署完成 [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) 应用示例。
+* 部署完成 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 应用示例。
 
 部署完成 Bookinfo 应用后，打开 `http://$GATEWAY_URL/productpage` 连接进入到 Bookinfo 图书页面。在该页面中，可以看到一下几个模块：
 
