@@ -1,6 +1,6 @@
 ---
 title: Conditions
-description: Describes the supported conditions in authorization policy.
+description: Describes the supported conditions in authorization policies.
 weight: 10
 ---
 
