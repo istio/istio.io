@@ -1,5 +1,5 @@
 ---
-title: 为什么 Istio 需要 Mixer?{#Why-does-Istio-need-Mixer?}
+title: 为什么 Istio 需要 Mixer?
 weight: 1
 ---
 
