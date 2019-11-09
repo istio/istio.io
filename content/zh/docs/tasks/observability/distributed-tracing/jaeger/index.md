@@ -16,7 +16,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-1. 要设置 Istio，按照[安装指南](/zh/docs/setup/install/operator)中的说明进行操作。
+1. 要设置 Istio，按照[安装指南](/zh/docs/setup/install/istioctl)中的说明进行操作。
 
     a) 通过设置 `--set values.tracing.enabled = true` 安装选项以启用 tracing 的“开箱即用”的演示/测试环境
 
