@@ -16,7 +16,7 @@ weight: 10
 
 ## Telemetry
 
-- **Added** experimental [in-proxy](/docs/ops/telemetry/in-proxy-service-telemetry/) telemetry reporting to Stackdriver.
+- **Added** experimental in-proxy telemetry reporting to [Stackdriver](https://github.com/istio/istio/wiki/Mixerless-Stackdriver-HTTP-Telemetry).
 - **Added** experimental support for generating TCP service metrics [in-proxy](/docs/ops/telemetry/in-proxy-service-telemetry/).
 - **Improved** support for [in-proxy](/docs/ops/telemetry/in-proxy-service-telemetry/) Prometheus generation of HTTP service metrics (from experimental to alpha).
 - **Improved** telemetry collection for [blocked and passthrough external service traffic](/blog/2019/monitoring-external-service-traffic/).
