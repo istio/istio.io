@@ -21,7 +21,7 @@ window.onload = function(){
 
 {{< warning >}}
 Helm 的安装方法已被弃用。
-请改用 [使用 {{< istioctl >}} 安装](/zh/docs/setup/install/operator/)。
+请改用 [使用 {{< istioctl >}} 安装](/zh/docs/setup/install/istioctl/)。
 {{< /warning >}}
 
 请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
