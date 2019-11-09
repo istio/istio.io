@@ -4,7 +4,7 @@ description: Describes the supported conditions in authorization policies.
 weight: 10
 ---
 
-This section describes the supported keys and value formats you can use as conditions
+This page describes the supported keys and value formats you can use as conditions
 in the `when` field of the authorization policy objects.
 
 {{< warning >}}
