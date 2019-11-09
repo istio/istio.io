@@ -739,7 +739,7 @@ the `ipBlocks` under the `source` section and the `ports` field under the `to` s
 - **Presence match**. `*` is used to specify anything but not empty. You can specify a field must be present using the format `fieldname: ["*"]`.
 This means that the field can match any value, but it cannot be empty. Note that it is different from leaving a field unspecified, which means anything including empty.
 
-The following example policy allows allows access at paths with prefix `"/test/"` or suffix `"/info"`.
+The following example policy allows access at paths with prefix `"/test/"` or suffix `"/info"`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
