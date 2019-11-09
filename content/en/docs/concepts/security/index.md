@@ -791,7 +791,7 @@ spec:
 You can also use the `when` section to specify additional conditions. For example, the following
 `AuthorizationPolicy` definition includes a condition that `request.headers[version]` is either `"v1"` or `"v2"`.
 In this case, the key is `request.headers[version]`, which is an entry in the Istio attribute `request.headers`,
-which is `map` data type.
+which is a map.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
