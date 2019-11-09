@@ -730,7 +730,7 @@ spec:
 #### Value matching
 
 Exact match, prefix match, suffix match, and presence match are supported for most
-of the field with a few exceptions (e.g., the `key` field under `when` section,
+of the field with a few exceptions (e.g., the `key` field under the `when` section,
 the `ipBlocks` under `source` section and the `ports` field under `to` section only support exact match).
 
 - **Exact match**. i.e., exact string match.
