@@ -49,6 +49,26 @@ manifests and Helm charts provided within the Istio repository.
 [Install the Istio control plane](/docs/setup/install/istioctl/)
 on **one** Kubernetes cluster.
 
+### Set environment variables {#environment-var}
+
+Wait for the Istio control plane to finish initializing before following the
+steps in this section.
+
+You must run these operations on the Istio control plane cluster to capture the
+Istio control plane service endpoints, for example, the Pilot and Policy Pod IP
+endpoints.
+
+Set the environment variables with the following commands:
+
+{{< text bash >}}
+$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
+$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
+$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
+{{< /text >}}
+
+Normally, automatic sidecar injection on the remote clusters is enabled. To
+perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
+
 ## Install the Istio remote
 
 You must deploy the `istio-remote` component to each remote Kubernetes
@@ -89,25 +109,7 @@ cluster. You can install the component in one of two ways:
 
 {{< /tab >}}
 
-### Set environment variables {#environment-var}
-
-Wait for the Istio control plane to finish initializing before following the
-steps in this section.
-
-You must run these operations on the Istio control plane cluster to capture the
-Istio control plane service endpoints, for example, the Pilot and Policy Pod IP
-endpoints.
-
-Set the environment variables with the following commands:
-
-{{< text bash >}}
-$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
-$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
-$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
-{{< /text >}}
-
-Normally, automatic sidecar injection on the remote clusters is enabled. To
-perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
+{{< /tabset >}}
 
 ### Installation configuration parameters
 
