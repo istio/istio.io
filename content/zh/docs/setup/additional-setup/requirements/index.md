@@ -1,6 +1,6 @@
 ---
 title: Pod 和 Service
-description:  在启用了 Istio 的集群中运行 Kubernetes 的 Pod 和 Service 需要做些准备。
+description:  在启用了 Istio 的集群中运行 Kubernetes 的 Pod 和 Service，您需要做些准备。
 weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/spec-requirements/
@@ -26,8 +26,8 @@ keywords: [kubernetes,sidecar,sidecar-injection]
 
 - **应用 UID**: 确保你的 Pod 不会以用户 ID（UID）为 1337 的用户运行应用。
 
-- **`NET_ADMIN` capability**: 如果你的集群执行 Pod 安全策略，必须给 Pod 配置 `NET_ADMIN` capability。如果你使用 [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)
-  可以不配置。要了解更多 `NET_ADMIN` capability 的知识，请查看[需要的 Pod Capabilities](/zh/docs/ops/setup/required-pod-capabilities/)。
+- **`NET_ADMIN` 功能**: 如果你的集群执行 Pod 安全策略，必须给 Pod 配置 `NET_ADMIN` 功能。如果你使用 [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)
+  可以不配置。要了解更多 `NET_ADMIN` 功能的知识，请查看[需要的 Pod Capabilities](/zh/docs/ops/setup/required-pod-capabilities/)。
 
 ## Istio 使用的端口{#ports-used-by-Istio}
 
