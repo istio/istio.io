@@ -1,9 +1,8 @@
 ---
 title: Announcing Istio 1.1.2 with Important Security Update
-subtitle: Important Security Update
+subtitle: Patch Release
 description: Istio 1.1.2 patch release.
 publishdate: 2019-04-05
-attribution: The Istio Team
 release: 1.1.2
 aliases:
     - /about/notes/1.1.2

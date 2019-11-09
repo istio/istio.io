@@ -11,14 +11,6 @@ aliases:
 icon: helm
 ---
 
-<script id="cni" defer>
-window.onload = function(){
-  if (window.location.hash == '#cni') {
-    selectTabsets('helm_profile', 'cni');
-  }
-}
-</script>
-
 {{< warning >}}
 The Helm installation approach will be deprecated in the future.
 We recommend [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/), instead.

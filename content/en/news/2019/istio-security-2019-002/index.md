@@ -1,11 +1,12 @@
 ---
-title: Security Update - CVE-2019-12995
+title: ISTIO-SECURITY-2019-002
+subtitle: Security Bulletin
 description: Security vulnerability disclosure for CVE-2019-12995.
 publishdate: 2019-06-28
-attribution: The Istio Team
 keywords: [CVE]
 aliases:
     - /blog/2019/cve-2019-12995
+    - /news/2019/cve-2019-12995
 ---
 
 A bug in Istio’s JWT validation filter causes Envoy to crash in certain cases when the request contains a malformed JWT token. The bug was discovered and reported by a user [on GitHub](https://github.com/istio/istio/issues/15084) on June 23, 2019.

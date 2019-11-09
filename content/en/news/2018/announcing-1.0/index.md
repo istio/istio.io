@@ -3,7 +3,6 @@ title: Announcing Istio 1.0
 subtitle: The production ready service mesh
 description: Istio is ready for production use with its 1.0 release.
 publishdate: 2018-07-31
-attribution: The Istio Team
 release: 1.0.0
 aliases:
     - /about/notes/1.0

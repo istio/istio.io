@@ -11,14 +11,6 @@ aliases:
 icon: helm
 ---
 
-<script id="cni" defer>
-window.onload = function(){
-  if (window.location.hash == '#cni') {
-    selectTabsets('helm_profile', 'cni');
-  }
-}
-</script>
-
 {{< warning >}}
 Helm 的安装方法已被弃用。
 请改用 [使用 {{< istioctl >}} 安装](/zh/docs/setup/install/istioctl/)。
