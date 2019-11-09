@@ -35,7 +35,7 @@ description: 用于连接、保护、控制和观测服务。
                 </div>
                 <div class="panel-body">
                     <hr class="panel-line">
-                    <h5 class="panel-title">安全</h5>
+                    <h5 class="panel-title">保护</h5>
                     <hr class="panel-line">
                     <p class="panel-text">
                         通过托管身份验证、授权和服务之间通信加密自动保护您的服务。
