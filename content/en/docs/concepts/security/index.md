@@ -638,7 +638,7 @@ In other words, all requests will be allowed.
 If any `AuthorizationPolicy` applies to a workload, access to that workload is
 denied by default, unless explicitly allowed by a rule declared in the policy.
 
-Currently `AuthorizationPolicy` only supports "ALLOW" action. This means that if
+Currently `AuthorizationPolicy` only supports `ALLOW` action. This means that if
 multiple authorization policies apply to the same workload, the effect is additive.
 
 ### Authorization policy
