@@ -13,13 +13,13 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
 
 ## 开始之前
 
-*  为没有Istio控件的源pod创建一个命名空间:
+*  为没有Istio控件的源pod创建一个 namespace:
 
     {{< text bash >}}
     $ kubectl create namespace without-istio
     {{< /text >}}
 
-*  启动[sleep]({{< github_tree >}}/samples/sleep)在命名空间`without-istio`中的事例。
+*  启动[sleep]({{< github_tree >}}/samples/sleep)在namespace`without-istio`中的事例。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n without-istio
@@ -224,13 +224,13 @@ $ kubectl delete service my-wikipedia
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  停止命名空间`without-istio`中的服务 [sleep]({{< github_tree >}}/samples/sleep):
+1.  停止 namespace `without-istio`中的服务 [sleep]({{< github_tree >}}/samples/sleep):
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n without-istio
     {{< /text >}}
 
-1.  删除命名空间`without-istio`:
+1.  删除 namespace `without-istio`:
 
     {{< text bash >}}
     $ kubectl delete namespace without-istio
