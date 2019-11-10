@@ -1,10 +1,12 @@
 ---
-title: Security Update - CVE-2019-12243
+title: ISTIO-SECURITY-2019-001
+subtitle: Security Bulletin
 description: Security vulnerability disclosure for CVE-2019-12243.
 publishdate: 2019-05-28
-attribution: The Istio Team
+keywords: [CVE]
 aliases:
     - /blog/2019/cve-2019-12243
+    - /news/2019/cve-2019-12243
 ---
 
 During review of the [Istio 1.1.7](/news/2019/announcing-1.1.7) release notes, we realized that [issue 13868](https://github.com/istio/istio/issues/13868),

@@ -1,8 +1,9 @@
 ---
-title: Security Update - ISTIO-SECURITY-2019-006
+title: ISTIO-SECURITY-2019-006
+subtitle: Security Bulletin
 description: Security vulnerability disclosure for CVE-2019-18817.
 publishdate: 2019-11-07
-attribution: The Istio Team
+keywords: [CVE]
 ---
 
 __ISTIO-SECURITY-2019-006__: Envoy, and subsequently Istio, are vulnerable to the following DoS attack:

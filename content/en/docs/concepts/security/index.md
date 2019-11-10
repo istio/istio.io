@@ -598,14 +598,12 @@ peers:
 
 ## Authorization
 
-Istio's authorization feature - also known as Role-based Access Control (RBAC)
-- provides namespace-level, service-level, and method-level access control for
-services in an Istio Mesh. It features:
+Istio's authorization feature provides mesh-level, namespace-level, and workload-level
+access control on workloads in an Istio Mesh. It provides:
 
-- **Role-Based semantics**, which are simple and easy to use.
-- **Service-to-service and end-user-to-service authorization**.
-- **Flexibility through custom properties support**, for example conditions,
-  in roles and role-bindings.
+- **Workload-to-workload and end-user-to-workload authorization**.
+- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/authorization/authorization-policy/), which is easy to use and maintain.
+- **Flexible semantics**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
 
@@ -617,346 +615,283 @@ services in an Istio Mesh. It features:
     >}}
 
 The above diagram shows the basic Istio authorization architecture. Operators
-specify Istio authorization policies using `.yaml` files. Once deployed, Istio
-saves the policies in the `Istio Config Store`.
-
-Pilot watches for changes to Istio authorization policies. It fetches the
-updated authorization policies if it sees any changes. Pilot distributes Istio
-authorization policies to the Envoy proxies that are colocated with the
-service instances.
+specify Istio authorization policies using `.yaml` files.
 
 Each Envoy proxy runs an authorization engine that authorizes requests at
 runtime. When a request comes to the proxy, the authorization engine evaluates
 the request context against the current authorization policies, and returns the
 authorization result, `ALLOW` or `DENY`.
 
-### Enabling authorization
+### Implicit enablement
 
-You enable Istio Authorization using a `ClusterRbacConfig` object. The `ClusterRbacConfig`
-object is a cluster-scoped singleton with a fixed name value of `default`. You can
-only use one `ClusterRbacConfig` instance in the mesh. Like other Istio configuration
-objects, `ClusterRbacConfig` is defined as a
-Kubernetes `CustomResourceDefinition`
-[(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) object.
+There is no need to explicitly enable Istio's authorization feature, you just apply
+the `AuthorizationPolicy` on **workloads** to enforce access control.
 
-In the `ClusterRbacConfig` object, the operator can specify a `mode` value, which can
-be:
+If no `AuthorizationPolicy` applies to a workload, no access control will be enforced,
+In other words, all requests will be allowed.
 
-- **`OFF`**: Istio authorization is disabled.
-- **`ON`**: Istio authorization is enabled for all services in the mesh.
-- **`ON_WITH_INCLUSION`**: Istio authorization is enabled only for services and
-  namespaces specified in the `inclusion` field.
-- **`ON_WITH_EXCLUSION`**: Istio authorization is enabled for all services in
-  the mesh except the services and namespaces specified in the `exclusion`
-  field.
+If any `AuthorizationPolicy` applies to a workload, access to that workload is
+denied by default, unless explicitly allowed by a rule declared in the policy.
 
-In the following example, Istio authorization is enabled for the `default`
-namespace.
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ClusterRbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-{{< /text >}}
+Currently `AuthorizationPolicy` only supports `ALLOW` action. This means that if
+multiple authorization policies apply to the same workload, the effect is additive.
 
 ### Authorization policy
 
-To configure an Istio authorization policy, you specify a `ServiceRole` and
-`ServiceRoleBinding`. Like other Istio configuration objects, they are
-defined as
-Kubernetes `CustomResourceDefinition` [(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) objects.
+To configure an Istio authorization policy, you create an
+[`AuthorizationPolicy` resource](/docs/reference/config/authorization/authorization-policy/).
 
-- **`ServiceRole`** defines a group of permissions to access services.
-- **`ServiceRoleBinding`** grants a `ServiceRole` to particular subjects, such
-  as a user, a group, or a service.
+An authorization policy includes a selector and a list of rules. The selector
+specifies the **target** that the policy applies to, while the rules specify **who**
+is allowed to do **what** under which **conditions**. Specifically:
 
-The combination of `ServiceRole` and `ServiceRoleBinding` specifies: **who** is
-allowed to do **what** under **which conditions**. Specifically:
+- **target** refers to the `selector` section in the `AuthorizationPolicy`.
+- **who** refers to the `from` section in the `rule` of the `AuthorizationPolicy`.
+- **what** refers to the `to` section in the `rule` of the `AuthorizationPolicy`.
+- **conditions** refers to the `when` section in the `rule` of the `AuthorizationPolicy`.
 
-- **who** refers to the `subjects` section in `ServiceRoleBinding`.
-- **what** refers to the `permissions` section in `ServiceRole`.
-- **which conditions** refers to the `conditions` section you can specify with
-  the [Istio attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)
-  in either `ServiceRole` or `ServiceRoleBinding`.
-
-#### `ServiceRole`
-
-A `ServiceRole` specification includes a list of `rules`, AKA permissions.
 Each rule has the following standard fields:
 
-- **`services`**: A list of service names. You can set the value to `*` to
-  include all services in the specified namespace.
+- **`from`**: A list of sources.
+- **`to`**: A list of operations.
+- **`when`**: A list of custom conditions.
 
-- **`methods`**: A list of HTTP methods. You can set the value to `*` to include all
-  HTTP methods. This field should not be set for TCP and gRPC services.
-
-- **`paths`**: HTTP paths or gRPC methods. The gRPC methods must be in the
-   form of `/packageName.serviceName/methodName` and are case sensitive.
-
-A `ServiceRole` specification only applies to the namespace specified in the
-`metadata` section. A rule requires the `services` field and the other fields are optional.
-If you do not specify a field or if you set its value to `*`, Istio applies the field to all instances.
-
-The example below shows a simple role: `service-admin`, which has full access
-to all services in the `default` namespace.
+The following example shows an `AuthorizationPolicy` that allows two sources
+(service account `cluster.local/ns/default/sa/sleep` and namespace `dev`) to access the
+workloads with labels `app: httpbin` and `version: v1` in namespace foo when the request
+is sent with a valid JWT token.
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: service-admin
-  namespace: default
+ name: httpbin
+ namespace: foo
 spec:
-  rules:
-  - services: ["*"]
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/sleep"]
+   - source:
+       namespaces: ["dev"]
+   to:
+   - operation:
+       methods: ["GET"]
+   when:
+   - key: request.auth.claims[iss]
+     values: ["https://accounts.google.com"]
 {{< /text >}}
 
-Here is another role: `products-viewer`, which has read, `"GET"` and `"HEAD"`,
-access to the service `products.default.svc.cluster.local` in the `default`
-namespace.
+#### Policy Target
+
+Policy scope (target) is determined by `metadata/namespace` and an optional `selector`.
+
+The `metadata/namespace` tells which namespace the policy applies to. If set to the
+root namespace, the policy applies to all namespaces in a mesh. The value of
+root namespace is configurable, and the default is `istio-system`. If set to a
+normal namespace, the policy will only apply to the specified namespace.
+
+A workload `selector` can be used to further restrict where a policy applies.
+The `selector` uses pod labels to select the target workload. The workload
+selector contains a list of `{key: value}` pairs, where the `key` is the name of the label.
+If not set, the authorization policy will be applied to all workloads in the same namespace
+as the authorization policy.
+
+The following example policy `allow-read` allows `"GET"` and `"HEAD"` access to
+the workload with label `app: products` in the `default` namespace.
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: products-viewer
+  name: allow-read
   namespace: default
 spec:
+  selector:
+    matchLabels:
+      app: products
   rules:
-  - services: ["products.default.svc.cluster.local"]
-    methods: ["GET", "HEAD"]
+  - to:
+    - operation:
+         methods: ["GET", "HEAD"]
 {{< /text >}}
 
-In addition, we support prefix matching and suffix matching for all the fields
-in a rule. For example, you can define a `tester` role with the following
-permissions in the `default` namespace:
+#### Value matching
 
-- Full access to all services with prefix `"test-*"`, for example:
-   `test-bookstore`, `test-performance`, `test-api.default.svc.cluster.local`.
-- Read (`"GET"`) access to all paths with `"*/reviews"` suffix, for example:
-   `/books/reviews`, `/events/booksale/reviews`, `/reviews` in service
-   `bookstore.default.svc.cluster.local`.
+Exact match, prefix match, suffix match, and presence match are supported for most
+of the field with a few exceptions (e.g., the `key` field under the `when` section,
+the `ipBlocks` under the `source` section and the `ports` field under the `to` section only support exact match).
+
+- **Exact match**. i.e., exact string match.
+- **Prefix match**. A string with an ending `"*"`. For example, `"test.abc.*"` matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
+- **Suffix match**. A string with a starting `"*"`. For example, `"*.abc.com"` matches `"eng.abc.com"`, `"test.eng.abc.com"`, etc.
+- **Presence match**. `*` is used to specify anything but not empty. You can specify a field must be present using the format `fieldname: ["*"]`.
+This means that the field can match any value, but it cannot be empty. Note that it is different from leaving a field unspecified, which means anything including empty.
+
+The following example policy allows access at paths with prefix `"/test/"` or suffix `"/info"`.
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: tester
   namespace: default
 spec:
+  selector:
+    matchLabels:
+      app: products
   rules:
-  - services: ["test-*"]
-    methods: ["*"]
-  - services: ["bookstore.default.svc.cluster.local"]
-    paths: ["*/reviews"]
-    methods: ["GET"]
+  - to:
+    - operation:
+        paths: ["/test/*", "*/info"]
 {{< /text >}}
 
-In a `ServiceRole`, the combination of `namespace` + `services` + `paths` +
-`methods` defines **how a service or services are accessed**. In some
-situations, you may need to specify additional conditions for your rules. For
-example, a rule may only apply to a certain **version** of a service, or only
-apply to services with a specific **label**, like `"foo"`. You can easily
-specify these conditions using `constraints`.
+#### Allow-all and deny-all
 
-For example, the following `ServiceRole` definition adds a constraint that
-`request.headers[version]` is either `"v1"` or `"v2"` extending the previous
-`products-viewer` role. The supported `key` values of a constraint are listed
-in the [constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
-In the case that the attribute is a `map`, for example `request.headers`, the
-`key` is an entry in the map, for example `request.headers[version]`.
+The example below shows a simple policy `allow-all` which allows full access to all
+workloads in the `default` namespace.
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: products-viewer-version
+  name: allow-all
   namespace: default
 spec:
   rules:
-  - services: ["products.default.svc.cluster.local"]
-    methods: ["GET", "HEAD"]
-    constraints:
-    - key: request.headers[version]
-      values: ["v1", "v2"]
+  - {}
 {{< /text >}}
 
-#### `ServiceRoleBinding`
-
-A `ServiceRoleBinding` specification includes two parts:
-
--  **`roleRef`** refers to a `ServiceRole` resource in the same namespace.
--  A list of **`subjects`** that are assigned to the role.
-
-You can either explicitly specify a *subject* with a `user` or with a set of
-`properties`.  A *property* in a `ServiceRoleBinding` *subject* is similar to
-a *constraint* in a `ServiceRole` specification. A *property* also lets you use
-conditions to specify a set of accounts assigned to this role. It contains a
-`key` and its allowed *values*. The supported `key` values of a constraint
-are listed in the
-[constraints and properties page](/docs/reference/config/authorization/constraints-and-properties/).
-
-The following example shows a `ServiceRoleBinding` named
-`test-binding-products`, which binds two subjects to the `ServiceRole` named
-`"product-viewer"` and has the following `subjects`
-
-- A service account representing service **a**, `"service-account-a"`.
-- A service account representing the Ingress service
-  `"istio-ingress-service-account"` **and** where the JWT `email` claim is
-  `"a@foo.com"`.
+The example below shows a simple policy `deny-all` which denies access to all workloads
+in the `admin` namespace.
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: test-binding-products
-  namespace: default
+  name: deny-all
+  namespace: admin
 spec:
-  subjects:
-  - user: "service-account-a"
-  - user: "istio-ingress-service-account"
-    properties:
-      request.auth.claims[email]: "a@foo.com"
-  roleRef:
-    kind: ServiceRole
-    name: "products-viewer"
+  {}
 {{< /text >}}
 
-In case you want to make a service publicly accessible, you can set the
-`subject` to `user: "*"`. This value assigns the `ServiceRole` to **all (both authenticated and
-unauthenticated)** users and services, for example:
+#### Custom conditions
+
+You can also use the `when` section to specify additional conditions. For example, the following
+`AuthorizationPolicy` definition includes a condition that `request.headers[version]` is either `"v1"` or `"v2"`.
+In this case, the key is `request.headers[version]`, which is an entry in the Istio attribute `request.headers`,
+which is a map.
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: binding-products-allusers
-  namespace: default
+ name: httpbin
+ namespace: foo
 spec:
-  subjects:
-  - user: "*"
-  roleRef:
-    kind: ServiceRole
-    name: "products-viewer"
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/sleep"]
+   to:
+   - operation:
+       methods: ["GET"]
+   when:
+   - key: request.headers[version]
+     values: ["v1", "v2"]
 {{< /text >}}
 
-To assign the `ServiceRole` to only **authenticated** users and services, use `source.principal: "*"`
-instead, for example:
+The supported `key` values of a condition are listed in the
+[conditions page](/docs/reference/config/authorization/conditions/).
+
+#### Authenticated and unauthenticated identity
+
+If you want to make a workload publicly accessible, you need to leave the
+`source` section empty. This allows sources from **all (both authenticated and
+unauthenticated)** users and workloads, for example:
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: binding-products-all-authenticated-users
-  namespace: default
+ name: httpbin
+ namespace: foo
 spec:
-  subjects:
-  - properties:
-      source.principal: "*"
-  roleRef:
-    kind: ServiceRole
-    name: "products-viewer"
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - to:
+   - operation:
+       methods: ["GET", "POST"]
+{{< /text >}}
+
+To allow only **authenticated** users, set `principal` to `"*"` instead, for example:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["*"]
+   to:
+   - operation:
+       methods: ["GET", "POST"]
 {{< /text >}}
 
 ### Using Istio authorization on plain TCP protocols
 
-The examples in [Service role](#servicerole) and [Service role binding](#servicerolebinding) show the
-typical way to use Istio authorization on services using the HTTP protocol. In those examples, all fields
-in a service role and service role binding are supported.
-
-Istio authorization supports services using any plain TCP protocols, such as MongoDB. In this case,
-you configure the service roles and service role bindings in the same way you did for the HTTP service.
-The difference is that certain fields, constraints and properties are only applicable to HTTP services.
+Istio authorization supports workloads using any plain TCP protocols, such as MongoDB. In this case,
+you configure the authorization policy in the same way you did for the HTTP workloads.
+The difference is that certain fields and conditions are only applicable to HTTP workloads.
 These fields include:
 
-- The `paths` and `methods` fields in the service role configuration object.
-- The `group` field in the service role binding configuration object.
+- The `request_principals` field in the source section of the authorization policy object
+- The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
 
-The supported constraints and properties are listed in the [constraints and properties page](
-/docs/reference/config/authorization/constraints-and-properties/).
+The supported conditions are listed in the [conditions page](/docs/reference/config/authorization/conditions/).
 
-If you use any HTTP only fields for a TCP service, Istio ignores the service role or service role
-binding custom resources and the policies set within completely.
+If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
+authorization policy.
 
-Assuming you have a MongoDB service on port 27017, the following example configures a service role and
-a service role binding to only allow the `bookinfo-ratings-v2` in the Istio mesh to access the
-MongoDB service.
+Assuming you have a MongoDB service on port 27017, the following example configures an authorization
+policy to only allow the `bookinfo-ratings-v2` service in the Istio mesh to access the MongoDB workload.
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
 metadata:
-  name: mongodb-viewer
+  name: mongodb-policy
   namespace: default
 spec:
-  rules:
-  - services: ["mongodb.default.svc.cluster.local"]
-    constraints:
-    - key: "destination.port"
-      values: ["27017"]
----
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-mongodb-viewer
-  namespace: default
-spec:
-  subjects:
-  - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
-  roleRef:
-    kind: ServiceRole
-    name: "mongodb-viewer"
-{{< /text >}}
-
-### Authorization permissive mode
-
-The authorization permissive mode is an experimental feature in Istio's 1.1 release. Its interface can change in future releases.
-
-The authorization permissive mode allows you to verify authorization policies
-before applying them in a production environment.
-
-You can enable the authorization permissive mode on a global authorization
-configuration and on individual policies. If you set the permissive mode on a global
-authorization configuration, all policies switch to the permissive mode regardless
-of their own set mode. If you set the global authorization mode to
-`ENFORCED`, the enforcement mode set by the individual policies takes effect.
-If you do not set a mode, both the global authorization configuration and the individual
-policies are set to the `ENFORCED` mode by default.
-
-To enable the permissive mode globally, set the value of the `enforcement_mode:` key in the global Istio RBAC authorization configuration to `PERMISSIVE` as shown in the following example.
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ClusterRbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-  enforcement_mode: PERMISSIVE
-{{< /text >}}
-
-To enable the permissive mode for a specific policy, set the value of the `mode:` key to `PERMISSIVE` in the policy configuration file as shown in the following example.
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-details-reviews
-  namespace: default
-spec:
-  subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-  roleRef:
-    kind: ServiceRole
-    name: "details-reviews-viewer"
-  mode: PERMISSIVE
+ selector:
+   matchLabels:
+     app: mongodb
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
+   to:
+   - operation:
+       ports: ["27017"]
 {{< /text >}}
 
 ### Using other authorization mechanisms

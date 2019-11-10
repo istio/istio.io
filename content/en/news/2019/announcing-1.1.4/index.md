@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.1.4
+subtitle: Patch Release
 description: Istio 1.1.4 patch release.
 publishdate: 2019-04-24
-attribution: The Istio Team
 release: 1.1.4
 aliases:
     - /about/notes/1.1.4
