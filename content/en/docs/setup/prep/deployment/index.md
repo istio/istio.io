@@ -1,7 +1,7 @@
 ---
 title: Deployment Best Practices
 description: General best practices for your Istio deployments.
-weight: 1
+weight: 2
 icon: best-practices
 ---
 
@@ -10,7 +10,7 @@ of your Istio deployments.
 
 ## Prefer simpler deployment models
 
-When choosing a [deployment model](/docs/concepts/deployment-models),
+When choosing a [deployment model](/docs/setup/prep/deployment-models),
 prefer the **simplest** deployment possible. Keeping the complexity of your
 deployment to a minimum makes the task of managing your deployment easier.
 
@@ -23,7 +23,7 @@ proximity to end-users**. The proximity helps your deployment have low latency.
 
 Include clusters in your deployment **across multiple availability regions
 and zones** within each geographic region. This approach limits the size of the
-{{< gloss "failure-domain" >}}failure domains{{< gloss >}} of your deployment,
+{{< gloss "failure domain" >}}failure domains{{< /gloss >}} of your deployment,
 and helps you avoid global failures.
 
 An Istio deployment running on Kubernetes satisfies the best practices
