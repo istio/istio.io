@@ -22,7 +22,7 @@ weight: 10
 - **Improved** telemetry collection for [blocked and passthrough external service traffic](/blog/2019/monitoring-external-service-traffic/).
 - **Added** the option to configure [stat patterns](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for Envoy stats.
 - **Added** the `inbound` and `outbound` prefixes to the Envoy HTTP stats to specify traffic direction.
-- **Improved** reporting of telemetry for traffic that goes through an egress gateway. 
+- **Improved** reporting of telemetry for traffic that goes through an egress gateway.
 
 ## Configuration management
 
