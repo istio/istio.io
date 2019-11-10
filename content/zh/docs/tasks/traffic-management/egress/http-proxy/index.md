@@ -18,7 +18,7 @@ aliases:
 
 本例中为了模拟传统代理，请在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，您将通过代理的IP地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是[squid](http://www.squid-cache.org) ，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
 
-1.为 HTTPS 代理创建一个名称空间，而不标记为用于 SideCar 注入。如果没有标签，则在新名称空间中 SideCar 注入是不可用的，因此 Istio 将无法控制那里的流量。您需要在集群之外通过这种行为来模拟代理。
+1.为 HTTPS 代理创建一个namespace，而不标记为用于 SideCar 注入。如果没有标签，则在新namespace中 SideCar 注入是不可用的，因此 Istio 将无法控制那里的流量。您需要在集群之外通过这种行为来模拟代理。
 
     {{< text bash >}}
     $ kubectl create namespace external
@@ -79,7 +79,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  在 external 名称空间中部署 [sleep]({{<github_tree>}}/samples/sleep) 示例，以测试到代理的通信量，而不进行ISIO流量控制。
+1.  在 external namespace中部署 [sleep]({{<github_tree>}}/samples/sleep) 示例，以测试到代理的通信量，而不进行ISIO流量控制。
 
     {{< text bash >}}
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
@@ -97,7 +97,7 @@ aliases:
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1.  从 external 命名空间中的 sleep  pod 通过代理向外部服务发送请求:
+1.  从 external namespace中的 sleep  pod 通过代理向外部服务发送请求:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
@@ -141,7 +141,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  从 default 命名空间中的 sleep pod发送请求。因为 sleep  pod有 sidecar，Istio 控制着它的流量。
+1.  从 default namespace中的 sleep pod发送请求。因为 sleep  pod有 sidecar，Istio 控制着它的流量。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
@@ -179,7 +179,7 @@ aliases:
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  关闭 external 命名空间中的 [sleep]({{< github_tree >}}/samples/sleep) 服务:
+1.  关闭 external namespace中的 [sleep]({{< github_tree >}}/samples/sleep) 服务:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
@@ -193,7 +193,7 @@ aliases:
     $ rm ./proxy.conf
     {{< /text >}}
 
-1.  删除 external 命名空间:
+1.  删除 external namespace:
 
     {{< text bash >}}
     $ kubectl delete namespace external
