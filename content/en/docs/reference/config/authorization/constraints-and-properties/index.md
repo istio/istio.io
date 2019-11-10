@@ -1,8 +1,14 @@
 ---
-title: Constraints and Properties
+title: Constraints and Properties (deprecated)
 description: Describes the supported constraints and properties.
 weight: 10
 ---
+
+{{< warning >}}
+The constraints and properties in the RBAC policy are deprecated by the conditions in
+the `AuthorizationPolicy`. Please use the conditions in `AuthorizationPolicy` resources,
+this page is for reference only and will be removed in the future.
+{{< /warning >}}
 
 This section contains the supported keys and value formats you can use as constraints and properties
 in the service roles and service role bindings configuration objects.

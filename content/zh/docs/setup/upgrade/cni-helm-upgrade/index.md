@@ -18,11 +18,11 @@ keywords: [kubernetes,upgrading]
 Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}} 版本升级到 {{< istio_version >}} 版本。如果您使用的是旧版本，请先升级到 {{< istio_previous_version >}} 版本。
 {{< /tip >}}
 
-## 升级步骤
+## 升级步骤 {#Upgrade steps}
 
 [下载新版本 Istio](/docs/setup/#downloading-the-release)，并切换目录到新版本的目录下。
 
-### 升级 Istio CNI
+### Istio CNI 升级 {#Istio CNI upgrade}
 
 如果您已经安装或计划安装 [Istio CNI](/docs/setup/additional-setup/cni/)，请选择以下 **互斥** 选项之一，检查 Istio CNI 是否已经安装并进行升级：
 
@@ -92,7 +92,7 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 {{< /tab >}}
 {{< /tabset >}}
 
-### 升级控制平面
+### 控制平面升级 {#Control plane upgrade}
 
 Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
 选择下列 **互斥** 选项中的一种升级控制平面：
@@ -148,7 +148,7 @@ Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
 {{< /tab >}}
 {{< /tabset >}}
 
-### Sidecar 升级
+### Sidecar 升级 {#Sidecar upgrade}
 
 在升级控制平面后，已运行 Istio 的应用仍将使用旧的 sidecar。要升级 sidecar，您需要重新注入它。
 

@@ -13,7 +13,7 @@ keywords: [security,health-check]
 
 ## 开始之前{#before-you-begin}
 
-为了完成这个任务，你可以[安装 Istio](/zh/docs/setup/install/operator/)，并设置 `global.mtls.enabled` 为 `true`。
+为了完成这个任务，你可以[安装 Istio](/zh/docs/setup/install/istioctl/)，并设置 `global.mtls.enabled` 为 `true`。
 
 {{< tip >}}
 使用[认证策略](/zh/docs/concepts/security/#authentication-policies)为命名空间内的部分或者全部服务配置双向 TLS 支持。在进行全局设置配置时必须对所有命名空间重复一遍。细节可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)。
