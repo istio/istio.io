@@ -73,7 +73,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
     {{< /tip >}}
 
-    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
         {{< warning >}}
         The root and intermediate certificate from the samples directory are widely
@@ -275,7 +275,7 @@ running in a second cluster. Before you begin:
     (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
     {{< /tip >}}
 
-1. Create a service entry for the `httpbin` service in `cluster2`.
+1. Create a service entry for the `httpbin` service in `cluster1`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
     a service entry for it. The host name of the service entry should be of the form

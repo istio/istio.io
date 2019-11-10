@@ -28,7 +28,7 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
-1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/auth-sds).
+1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/citadel-config/auth-sds).
     This profile comes with additional authentication features enabled by default (Strict Mutual TLS).
 
 The components marked as **X** are installed within each profile:

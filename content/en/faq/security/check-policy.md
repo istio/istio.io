@@ -13,4 +13,4 @@ httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /def
 
 Where `$CLIENT_POD` is the ID of one of the client service's pods.
 
-Refer to [Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration) for more information.
+Refer to [Verify mutual TLS configuration](/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration) for more information.

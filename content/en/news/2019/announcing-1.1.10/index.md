@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.1.10
+subtitle: Patch Release
 description: Istio 1.1.10 patch release.
 publishdate: 2019-06-28
-attribution: The Istio Team
 release: 1.1.10
 aliases:
     - /about/notes/1.1.10
