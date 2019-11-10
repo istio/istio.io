@@ -1,6 +1,6 @@
 ---
 title: 使用 istioctl 命令升级 Istio [实验中]
-description: 使用 istioctl 命令来升级或降级 Istio
+description: 使用 istioctl 命令来升级或降级 Istio。
 weight: 25
 keywords: [kubernetes,upgrading]
 ---
