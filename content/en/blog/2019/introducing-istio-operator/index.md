@@ -13,13 +13,14 @@ a pattern for encoding human operational knowledge in software and are a popular
 the administration of software infrastructure components. Istio is aa natural candidate for an automated
 operator as it is challenging to administer.
 
-[Helm](https://github.com/helm/helm) has been the primary tool to install and upgrade Istio. This approach
-worked well but had some disadvantages:
+[Helm](https://github.com/helm/helm) has been the primary tool to install and upgrade Istio.
+The new installation mechanism builds on the strengths of Helm with the addition of the
+following characteristics:
 
-- Users need to install another tool.
-- Supporting Istio's many small specializations cause Helm templates to become unwieldy.
-- Helm configurations are difficult to validate using Istio's proto-based APIs.
-- Upgrades occasionally require Istio specific hooks that have been difficult to implement and maintain with Helm.
+- Users install only one tool: `istioctl`
+- All API fields are validated
+- Small customizations not in the API do not require chart or API changes
+- Version specific upgrade hooks can be easily and robustly implemented
 
 Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/docs/setup/install/istioctl/).The
 [Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
@@ -33,7 +34,7 @@ and complex configuration changes for Istio. Validation and checking for install
 is tightly integrated with the tools to prevent
 common errors and simplify troubleshooting.
 
-## Istio Control Plane API
+## The `IstioControlPlane` API
 
 Every operator implementation requires a
 [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
