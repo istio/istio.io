@@ -7,7 +7,7 @@ weight: 60
 
 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname)服务和带[Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors)的Kubernetes服务使你可以创建一个外部服的的本地DNS别名 。这个DNS别名与本地服务的DNS条目具有相同的形式，即`<service name>.<namespace name>.svc.cluster.local`。DNS别名为您的工作负载提供“位置透明性”：工作负载可以以相同的方式调用本地和外部服务。如果您决定在某个时间在集群内部部署外部服务，您只需更新其Kubernetes服务以引用本地版本即可。工作负载将继续运行，而不会有任何变化。
 
-该任务表明，这些用于访问外部服务的Kubernetes机制继续与Istio一起使用。您必须执行的唯一配置步骤是使用Istio以外的TLS模式而不是Istio的[双向TLS](/zh/docs/concepts/security/#mutual-tls-authentication)。外部服务不是Istio服务网格的一部分，因此他们无法执行Istio的双向TLS。您必须根据外部服务的TLS要求设置TLS模式。外部服务，并遵从您的工作负载访问外部服务的方式。如果您的工作负载发起HTTP请求而外部服务需要TLS，您可能希望由Istio发起TLS。如果你的工作负载已经使用TLS，流量已被加密，您可以禁用Istio的双向TLS。
+该任务表明，这些用于访问外部服务的Kubernetes机制继续与Istio一起使用。您必须执行的唯一配置步骤是使用Istio以外的TLS模式而不是Istio的[双向TLS](/zh/docs/concepts/security/#双向TLS认证?{#Mutual-TLS-authentication})。外部服务不是Istio服务网格的一部分，因此他们无法执行Istio的双向TLS。您必须根据外部服务的TLS要求设置TLS模式。外部服务，并遵从您的工作负载访问外部服务的方式。如果您的工作负载发起HTTP请求而外部服务需要TLS，您可能希望由Istio发起TLS。如果你的工作负载已经使用TLS，流量已被加密，您可以禁用Istio的双向TLS。
 
 尽管此任务中的示例使用HTTP协议，用于出口流量的Kubernetes服务也可以与其他协议一起使用。
 
