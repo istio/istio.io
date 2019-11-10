@@ -163,6 +163,8 @@ decapsulated
 Delayering
 Demailly
 deployment
+deserialize
+deserializing
 dev
 devirtualization
 Devirtualization
@@ -323,6 +325,7 @@ Lyft
 macOS
 Mandar
 Manolache
+Marshalers
 memcached
 memcached-2's
 Mesos
@@ -411,6 +414,7 @@ prober
 programmatically
 proto
 protobuf
+protoc
 protos
 proxied
 proxy_http_version
@@ -536,6 +540,8 @@ uncommented
 Undeploy
 unencrypted
 unmanaged
+Unmarshalers
+Unmarshaling
 unnormalized
 unsampled
 untrusted
