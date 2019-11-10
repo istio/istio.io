@@ -14,7 +14,7 @@ aliases:
 
 *   [启用Envoy的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-## 部署 HTTPS 代理
+## 部署 HTTPS 代理{#Deploy-an-HTTPS-proxy}
 
 本例中为了模拟传统代理，请在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，您将通过代理的IP地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是[squid](http://www.squid-cache.org) ，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
 
@@ -118,7 +118,7 @@ aliases:
 
 下一步，您必须配置来自 Istio-enabled 的 pods 的流量以使用 HTTPS 代理。
 
-## 配置流量到外部 HTTPS 代理
+## 配置流量到外部 HTTPS 代理{#Configure-traffic-to-external-HTTPS-proxy}
 
 1.  为 HTTPS 代理定义 TCP（不是 HTTP ！）服务实体。尽管应用程序使用 HTTP CONNECT 方法与 HTTPS 代理建立连接，但必须为 TCP 通信而不是 HTTP 通信配置代理。一旦建立了连接，代理就简单地充当 TCP 隧道。
 
@@ -162,7 +162,7 @@ aliases:
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
-## 理解原理
+## 理解原理{#Understanding-what-happened}
 
 在本例中，您采取了以下步骤:
 
@@ -171,7 +171,7 @@ aliases:
 
 请注意，您不能为通过外部代理访问的外部服务创建服务实体，例如 wikipedia.org 。这是因为从 Istio 的角度来看，请求只发送到外部代理；Istio 并不知道外部代理进一步转发请求。
 
-## 清除
+## 清除{#Cleanup}
 
 1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
 
