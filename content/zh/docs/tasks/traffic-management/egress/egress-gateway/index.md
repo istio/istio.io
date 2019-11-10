@@ -16,7 +16,7 @@ aliases:
 Istio使用[Ingress and Egress gateways](/zh/docs/reference/config/networking/gateway/)配置在服务网格边缘执行的负载均衡器。
 ingress gateway使您可以定义所有输入流量流经的网格的入口点。Egress gateway是一个对称的概念, 它定义了网格的出口点。 Egress gateway允许您可以将Istio功能（例如，监视和路由规则）应用于退出网格的流量。
 
-## 用例
+## 用例{#Use-case}
 
 设想一个具有严格安全要求的组织。根据这些要求，服务网格的所有外发流量必须流经一组专用节点。这些节点和运行其他应用分别在不同的节点上运行。这些专用的节点将用于 Egress 流量的策略实施，并且将比其余节点进行更详细地监控。
 
@@ -26,7 +26,7 @@ ingress gateway使您可以定义所有输入流量流经的网格的入口点�
 
 *   [启用Envoy访问日志](/zh/docs/tasks/observability/logs/access-log/#启用Envoy访问日志)
 
-## 部署 Istio Egress gateway
+## 部署 Istio Egress gateway{#Deploy-Istio-egress-gateway}
 
 1.  检查Istio Egress gateway是否已布署:
 
@@ -50,9 +50,9 @@ ingress gateway使您可以定义所有输入流量流经的网格的入口点�
 
 {{< /warning >}}
 
-## 定义 Egress gateway 并引导 HTTP 流量通过这一网关
+## 定义 Egress gateway 并引导 HTTP 流量{#Egress-gateway-for-HTTP-traffic}
 
-首先创建一个`ServiceEntry`引导流和到一个外部服务。
+首先创建一个`ServiceEntry`引导流和到一个外部服务。
 
 1.  为 `edition.cnn.com` 定义一个 `ServiceEntry`:
 
@@ -252,7 +252,7 @@ ingress gateway使您可以定义所有输入流量流经的网格的入口点�
     Note that you only redirected the traffic from port 80 to the egress gateway. The HTTPS traffic to port 443
     went directly to _edition.cnn.com_.
 
-### 清除 HTTP gateway
+### 清除 HTTP gateway{#Cleanup-HTTP-gateway}
 
 在继续下一步之前删除先前的定义：
 
@@ -263,9 +263,9 @@ $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
-## 用 Egress gateway 发起 HTTPS请求
+## 用 Egress gateway 发起 HTTPS请求{#Egress-gateway-for-HTTPS-traffic}
 
-接下来尝试使用 Egress Gateway 发起 HTTPS请求(TLS由应用程序发起)。您需要在相应的`ServiceEntry`中使用`TLS`协议指定的端口443、egress `Gateway` 、`VirtualService`。
+接下来尝试使用 Egress Gateway 发起 HTTPS请求(TLS由应用程序发起)。您需要在相应的`ServiceEntry`中使用`TLS`协议指定的端口443、egress `Gateway` 、`VirtualService`。
 
 1.  为 `edition.cnn.com` 定义 `ServiceEntry`:
 
@@ -479,7 +479,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     [2019-01-02T11:46:46.981Z] "- - -" 0 - 627 1879689 44 - "-" "-" "-" "-" "151.101.129.67:443" outbound|443||edition.cnn.com 172.30.109.80:41122 172.30.109.80:443 172.30.109.112:59970 edition.cnn.com
     {{< /text >}}
 
-### 清除 HTTPS gateway
+### 清除 HTTPS gateway{#Cleanup-HTTPS-gateway}
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
@@ -488,7 +488,7 @@ $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
-## 其他安全注意事项
+## 其他安全注意事项{#Additional-security-considerations}
 
 在 Istio 中定义的 Egress gateway，本身并不会对运行 Egress gateway 服务的节点进行任何特殊处理。集群管理员或云提供商可以在专用节点上部署 Egress gateway ，并引入额外的安全措施，使这些节点比网格的其余部分更安全。
 
@@ -498,7 +498,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 * [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从 Egress gateway 发起的 Egress 流量（[#下一节](#应用-kubernetes-网络策略)中举出了这样的例子）。
 * 管理员或者云供应商还可以对网络进行限制，让运行应用的节点只能通过 Gateway 来访问外部网络。要完成这一限制，可以只给 Gateway Pod 分配公网 IP，或者可以配置 NAT 设备，丢弃来自 Egress gateway 以外 Pod 的流量。
 
-## 应用 Kubernetes 网络策略
+## 应用 Kubernetes 网络策略{#Apply-Kubernetes-network-policies}
 
 本节中会创建 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)，阻止绕过 Egress gateway 的外发流量。要完成这一示例，首先创建一个 `test-egress` namespace，并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用。
 
@@ -672,7 +672,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
-### 清理网络策略
+### 清理网络策略{#Cleanup-network-policies}
 
 1.  删除本节中建立的资源：
 
@@ -687,7 +687,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1.  执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#通过-egress-gateway-进行-https-流量透传)一节中的[清理工作](#清除-https-流量的-egress-gateway)。
 
-## 故障排除
+## 故障排除{#Troubleshooting}
 
 1.  检查是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/mutual-tls/#检查-istio-双向-tls-认证的配置)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注**如果您在 Istio 中启用了双向 TLS 认证，则必须创建...**）。
 
@@ -723,7 +723,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
-## 清理
+## 清理{#Cleanup}
 
 关闭 [sleep]({{<github_tree>}}/samples/sleep) 服务:
 
