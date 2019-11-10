@@ -36,9 +36,9 @@ distributed (and upgraded!) in a container.
 Network Policy data plane is typically implemented in kernel space (e.g. using iptables, eBPF filters, or even custom kernel modules). Being in kernel space
 allows them to be extremely fast, but not as flexible as the Envoy proxy.
 
-## Enforcement Point
+## Enforcement point
 
-Policy enforcement using the Envoy proxy is implemented inside the pod, as a sidecar container in the same network namespace. This allows a simple deployment model. Some containers are given permission to reconfigure the networking inside their pod (CAP_NET_ADMIN).  If such a service instance is compromised, or misbehaves (as in a malicious tenant) the proxy can be bypassed.
+Policy enforcement using the Envoy proxy is implemented inside the pod, as a sidecar container in the same network namespace. This allows a simple deployment model. Some containers are given permission to reconfigure the networking inside their pod (`CAP_NET_ADMIN`).  If such a service instance is compromised, or misbehaves (as in a malicious tenant) the proxy can be bypassed.
 
 While this won’t let an attacker access other Istio-enabled pods, so long as they are correctly configured, it opens several attack vectors:
 

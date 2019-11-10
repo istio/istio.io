@@ -1,7 +1,6 @@
 ---
-title: Does Istio support authorization?
+title: Istio 是否支持授权？
 weight: 110
 ---
 
-Yes. Istio provides authorization features for both HTTP and plain TCP services in the mesh.
-[Learn more](/docs/concepts/security/#authorization).
+支持。Istio 对网格中的 HTTP 服务和普通 TCP 服务提供授权特性支持[了解更多](/zh/docs/concepts/security/#authorization)。

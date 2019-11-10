@@ -199,7 +199,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
     from [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)
     example.
 
-1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

@@ -1,5 +1,5 @@
 ---
-title: Policies
-description: Demonstrates policy enforcement features.
+title: 策略
+description: 演示策略执行功能。
 weight: 20
 ---

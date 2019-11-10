@@ -1,8 +1,8 @@
 ---
-title: Security
-description: Demonstrates how to secure the mesh.
+title: 安全
+description: 演示如何保护网格。
 weight: 19
 aliases:
-    - /docs/tasks/istio-auth.html
-    - /docs/tasks/security/authz-permissive
+    - /zh/docs/tasks/istio-auth.html
+    - /zh/docs/tasks/security/authz-permissive
 ---

@@ -1,7 +1,7 @@
 ---
-title: Logs
-description: Demonstrates the configuration, collection, and processing of Istio mesh logs.
+title: 日志
+description: 演示 Istio 网格日志的配置、收集和处理。
 weight: 20
 aliases:
- - /docs/tasks/telemetry/logs/
+    - /zh/docs/tasks/telemetry/logs/
 ---
