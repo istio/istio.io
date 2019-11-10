@@ -23,7 +23,7 @@ If the file is not updated for a period, Kubelet will restart the Citadel contai
 {{< tip >}}
 Since Citadel health checking currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using
-[SDS](/docs/tasks/security/auth-sds/) or [adding virtual machines](/docs/examples/virtual-machines/).
+[SDS](/docs/tasks/security/citadel-config/auth-sds/) or [adding virtual machines](/docs/examples/virtual-machines/).
 {{< /tip >}}
 
 ## Before you begin
