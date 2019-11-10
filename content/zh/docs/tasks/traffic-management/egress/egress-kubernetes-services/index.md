@@ -39,7 +39,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
     {{< /text >}}
 
-## Kubernetes ExternalName服务访问外部服务
+## Kubernetes ExternalName服务访问外部服务{#Kubernetes-ExternalName-service-to-access-an-external-service}
 
 1.  为`httpbin.org`创建一个Kubernetes[ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname)服务:
 
@@ -115,14 +115,14 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     }
     {{< /text >}}
 
-### 清理Kubernetes ExternalName服务
+### 清理Kubernetes ExternalName服务{#Cleanup-of-Kubernetes-ExternalName-service}
 
 {{< text bash >}}
 $ kubectl delete destinationrule my-httpbin
 $ kubectl delete service my-httpbin
 {{< /text >}}
 
-## 使用带endpoints的Kubernetes服务来访问外部服务
+## 使用带endpoints的Kubernetes服务来访问外部服务{#Use-a-Kubernetes-service-with-endpoints-to-access-an-external-service}
 
 1.  为Wikipedia创建没有selector的Kubernetes服务:
 
@@ -208,7 +208,7 @@ $ kubectl delete service my-httpbin
     ...
     {{< /text >}}
 
-### 清理没有endpoints的Kubernetes服务
+### 清理没有endpoints的Kubernetes服务{#Cleanup-of-Kubernetes-service-with-endpoints}
 
 {{< text bash >}}
 $ kubectl delete destinationrule my-wikipedia
@@ -216,7 +216,7 @@ $ kubectl delete endpoints my-wikipedia
 $ kubectl delete service my-wikipedia
 {{< /text >}}
 
-## 清理
+## 清理{#Cleanup}
 
 1.  停止服务 [sleep]({{< github_tree >}}/samples/sleep):
 
