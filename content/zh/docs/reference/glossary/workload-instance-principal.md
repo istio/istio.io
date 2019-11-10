@@ -6,4 +6,4 @@ Istio's service-to-service authentication is used to produce the workload princi
 By default workload principals are compliant with the SPIFFE ID format.
 
 Workload instance principals are available in policy and telemetry configuration
-using the `source.principal` and `destination.principal` [attributes](#%E5%B1%9E%E6%80%A7).
+using the `source.principal` and `destination.principal` [attributes](#attribute).
