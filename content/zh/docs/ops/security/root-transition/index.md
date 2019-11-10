@@ -142,7 +142,7 @@ Istio 自签名证书历来具有 1 年的默认寿命。
 
 ## 问题排查{#troubleshooting}
 
-### 为何工作负载无法获得新的证书？{#why-arent-workloads-picking-up-the-new-certificates-in-step-5}
+### 为何工作负载无法获得新的证书？{#why-are-not-workloads-picking-up-the-new-certificates-in-step-5}
 
 请确定您已经在步骤 2 中将 `istio-proxy` sidecars 更新至 1.0.8，1.1.8 或更新版本。
 
