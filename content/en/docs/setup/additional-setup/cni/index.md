@@ -8,7 +8,7 @@ aliases:
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
 
-Follow this flow to install, configure, and use an Istio mesh using the Istio Container Network Interface
+Follow this guide to install, configure, and use an Istio mesh using the Istio Container Network Interface
 ([CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface))
 plugin.
 
