@@ -24,6 +24,7 @@ weight: 10
 - **Added** multiple validation checks to the [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) sub-command.
 - **Added** the experimental option to enable validation messages for Istio [resource statuses](/docs/ops/diagnostic-tools/istioctl-analyze/#enabling-validation-messages-for-resource-status).
 - **Added** OpenAPI v3 schema validation of Custom Resource Definitions (CRDs). Please see the [Upgrade Notes](/news/2019/announcing-1.4/upgrade-notes) for details.
+- **Added** [client-go](https://github.com/istio/client-go) libraries to access Istio APIs.
 
 ## Installation
 
