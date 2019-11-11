@@ -2,7 +2,5 @@
 title: Managed Control Plane
 ---
 
-A managed control plane is a [control plane](/docs/reference/glossary/#control-plane)
-that cloud providers manage for their customers.
-Managed control planes reduce the complexity of user deployments
-and typically guarantee some level of performance and availability.
+托管控制平面是一个为客户提供管理的 [控制平面](/zh/docs/reference/glossary/#control-plane)。
+托管控制平面降低了用户部署的复杂性，并通常保证一定水平的性能和可用性。
