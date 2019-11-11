@@ -10,7 +10,7 @@ target_release: 1.4
 
 Kubernetes [operators](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) provide
 a pattern for encoding human operational knowledge in software and are a popular way to simplify
-the administration of software infrastructure components. Istio is aa natural candidate for an automated
+the administration of software infrastructure components. Istio is a natural candidate for an automated
 operator as it is challenging to administer.
 
 [Helm](https://github.com/helm/helm) has been the primary tool to install and upgrade Istio.
@@ -22,8 +22,8 @@ following characteristics:
 - Small customizations not in the API do not require chart or API changes
 - Version specific upgrade hooks can be easily and robustly implemented
 
-Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/docs/setup/install/istioctl/).The
-[Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
+Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/docs/setup/install/istioctl/).
+The [Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
 1.4 with a version not initially installed with Helm is done using the
 [{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
 
@@ -103,7 +103,7 @@ Refer to the Istio [install instructions](/docs/setup/install/istioctl) for more
 ## Istio Controller (alpha)
 
 Operator implementations use a Kubernetes controller to continuously monitor their custom resource objects
-and apply the corresponding configuration changes.  The Istio controller monitors an `IstioControlPlane`
+and apply the corresponding configuration changes. The Istio controller monitors an `IstioControlPlane`
 resource and implements cluster changes updating the Istio installation configuration.
 
 In the 1.4 release, the Istio controller is in the alpha phase of development and not fully
@@ -128,7 +128,7 @@ the Istio installation correspondingly.
 
 Both the operator controller and `istioctl` commands share the same implementation.  The significant
 difference is the execution context. In the `istioctl` case, the operation runs in the admin user’s
-command execution and security context.  In the controller case, a pod in the cluster runs the code
+command execution and security context. In the controller case, a pod in the cluster runs the code
 in its security context. In both cases, configuration is validated against a schema and the same correctness
 checks are performed.
 
