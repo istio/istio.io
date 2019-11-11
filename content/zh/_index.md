@@ -7,7 +7,7 @@ description: 用于连接、保护、控制和观测服务。
         {{< inline_image "landing/istio-logo.svg" >}}
         <div id="hero-text">
             <h1 id="hero-label">Istio</h1>
-            <h1 id="hero-lead">连接、安全、控制和监测服务。
+            <h1 id="hero-lead">连接、保护、控制和监测服务。
         </div>
     </div>
 
