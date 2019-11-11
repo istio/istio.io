@@ -83,23 +83,17 @@ following commands on a machine with cluster admin privileges:
     more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
     {{< /tip >}}
 
-1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE` environment variable to store the namespace. The value of this variable must match the namespace you use in the configuration files later on.
+1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
+   environment variable to store the namespace. The value of this variable must
+   match the namespace you use in the configuration files later on.
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="default"
     {{< /text >}}
 
-<<<<<<< HEAD:content/en/docs/examples/mesh-expansion/single-network/index.md
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/ops/architecture/#pilot) through this IP address.
-=======
 1. Determine and store the IP address of the Istio ingress gateway since the VMs
    access [Citadel](/docs/concepts/security/) and
-<<<<<<< HEAD
-   [Pilot](/docs/concepts/architecture/#pilot) through this IP address.
->>>>>>> Replace "Mesh Expansion" with "VM Support" and related edits.:content/en/docs/tasks/virtual-machines/single-network/index.md
-=======
    [Pilot](/docs/ops/architecture/#pilot) through this IP address.
->>>>>>> Fix broken links.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')

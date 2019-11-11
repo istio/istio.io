@@ -85,14 +85,10 @@ following commands on a machine with cluster admin privileges:
           -o jsonpath='{.data.cert-chain\.pem}' | base64 --decode > cert-chain.pem
     {{< /text >}}
 
-<<<<<<< HEAD:content/en/docs/examples/mesh-expansion/multi-network/index.md
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/ops/architecture/#pilot) and workloads on cluster through this IP address.
-=======
 1. Determine and store the IP address of the Istio ingress gateway since the
    VMs access [Citadel](/docs/concepts/security/) and
    [Pilot](/docs/ops/architecture/#pilot) and workloads on cluster through
    this IP address.
->>>>>>> Replace "Mesh Expansion" with "VM Support" and related edits.:content/en/docs/tasks/virtual-machines/multi-network/index.md
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
