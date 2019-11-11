@@ -9,9 +9,13 @@ weight: 10
 - **Added** support for [mirroring](/docs/tasks/traffic-management/mirroring/) a percentage of traffic.
 - **Improved** the Envoy sidecar. The Envoy sidecar now exits when it crashes. This change makes it easier to see whether or not the Envoy sidecar is healthy.
 - **Improved** Pilot to skip sending redundant configuration to Envoy when no changes are required.
+- **Improved** headless services to avoid conflicts with different services on the same port.
+- **Disabled** default [circuit breakers](/docs/tasks/traffic-management/circuit-breaking/).
+- **Updated** the default regex engine to `re2`. Please see the [Upgrade Notes](/news/2019/announcing-1.4/upgrade-notes) for details.
 
 ## Security
 
+- **Added** the [`v1beta1` authorization policy model](/docs/concepts/security#authorization) for enforcing access control. This will eventually replace the [`v1alpha1` RBAC policy](/docs/reference/config/authorization/istio.rbac.v1alpha1/).
 - **Improved** Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
 
 ## Telemetry
@@ -34,6 +38,8 @@ weight: 10
 
 ## `istioctl`
 
+- **Added** the [`istioctl proxy-config logs`](/docs/reference/commands/istioctl/#istioctl-proxy-config-log) sub-command retrieve and update Envoy logging levels.
+- **Updated** the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) sub-command to display which policy is in use.
 - **Added** the experimental [`istioctl experimental wait`](/docs/reference/commands/istioctl/#istioctl-experimental-wait) sub-command to have Istio wait until it has pushed a configuration to all Envoy sidecars.
 - **Added** the experimental [`istioctl experimental mulitcluster`](/docs/reference/commands/istioctl/#istioctl-experimental-multicluster) sub-command to help manage Istio across multiple clusters.
 - **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to manage webhook configuration.
