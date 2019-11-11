@@ -83,7 +83,7 @@ the kind of information you should provide.
 
       For the time being, analysis is generally backwards compatible, so that you can e.g. run the 1.4 version of `istioctl analyze` against a cluster running Istio 1.1 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
 
-      If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, it is suggested that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
+      If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, we suggest that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
 
 - **What analyzers are supported today?**
 
@@ -109,7 +109,7 @@ the kind of information you should provide.
 ### Getting the latest version of `istioctl analyze`
 
 Although `istioctl analyze` is included in versions of Istio 1.4 and beyond, you can also directly download the very
-latest version to use on your cluster. This version is unstable, but will have the most complete and up to date set
+latest version to use on your cluster. This version may be unstable, but will have the most complete and up to date set
 of analyzers and may find issues that older versions miss.
 
 You can download the latest `istioctl` into the current folder using the following command:
