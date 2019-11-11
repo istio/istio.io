@@ -1,7 +1,7 @@
 ---
-title: Installation Options
-description: Describes the options available when installing Istio using the included Helm chart.
-weight: 30
+title: Installation Options (Helm)
+description: Describes the options available when installing Istio using Helm charts.
+weight: 15
 keywords: [kubernetes,helm]
 force_inline_toc: true
 ---
