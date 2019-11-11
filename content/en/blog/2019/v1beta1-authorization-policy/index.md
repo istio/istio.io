@@ -50,7 +50,7 @@ to apply the policy, however, the policy is actually applied on
 find the corresponding workload. This nuance is significant when multiple
 services are referring to the same workload. A `ServiceRole` for service A
 will also affect service B if the two services are referring to the same
-workload, which can cause confusion and misconfiguration.
+workload, which can cause confusion and incorrect configuration.
 
 An other example is that it's proven difficult for users to maintain and
 manage the Istio RBAC configurations because of the need to deeply understand
