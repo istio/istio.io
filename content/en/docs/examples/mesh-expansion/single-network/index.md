@@ -78,7 +78,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     $ export SERVICE_NAMESPACE="default"
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot]/docs/ops/architecture/#pilot) through this IP address.
+1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/ops/architecture/#pilot) through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
