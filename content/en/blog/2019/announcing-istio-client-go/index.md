@@ -1,7 +1,7 @@
 ---
 title: Announcing Istio client-go
 description: Getting programmatic access to Istio resources.
-publishdate: 2019-11-12
+publishdate: 2019-11-14
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [client-go,tools,crd]
 target_release: 1.4
