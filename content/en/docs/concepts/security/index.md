@@ -518,7 +518,7 @@ peers:
 
 The mutual TLS setting has an optional `mode` parameter that defines the
 strictness of the peer transport authentication. These modes are documented
-in the [Authentication Policy reference document](/docs/reference/config/istio.authentication.v1alpha1/#MutualTls-Mode).
+in the [Authentication Policy reference document](/docs/reference/config/security/istio.authentication.v1alpha1/#MutualTls-Mode).
 
 The default mutual TLS mode is `STRICT`. Therefore, `mode: STRICT` is equivalent to all of the following:
 
@@ -602,7 +602,7 @@ Istio's authorization feature provides mesh-level, namespace-level, and workload
 access control on workloads in an Istio Mesh. It provides:
 
 - **Workload-to-workload and end-user-to-workload authorization**.
-- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/authorization/authorization-policy/), which is easy to use and maintain.
+- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/), which is easy to use and maintain.
 - **Flexible semantics**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
@@ -639,7 +639,7 @@ multiple authorization policies apply to the same workload, the effect is additi
 ### Authorization policy
 
 To configure an Istio authorization policy, you create an
-[`AuthorizationPolicy` resource](/docs/reference/config/authorization/authorization-policy/).
+[`AuthorizationPolicy` resource](/docs/reference/config/security/authorization-policy/).
 
 An authorization policy includes a selector and a list of rules. The selector
 specifies the **target** that the policy applies to, while the rules specify **who**
@@ -810,7 +810,7 @@ spec:
 {{< /text >}}
 
 The supported `key` values of a condition are listed in the
-[conditions page](/docs/reference/config/authorization/conditions/).
+[conditions page](/docs/reference/config/security/conditions/).
 
 #### Authenticated and unauthenticated identity
 
@@ -867,7 +867,7 @@ These fields include:
 - The `request_principals` field in the source section of the authorization policy object
 - The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
 
-The supported conditions are listed in the [conditions page](/docs/reference/config/authorization/conditions/).
+The supported conditions are listed in the [conditions page](/docs/reference/config/security/conditions/).
 
 If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
 authorization policy.
