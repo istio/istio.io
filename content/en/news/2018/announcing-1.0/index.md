@@ -3,7 +3,6 @@ title: Announcing Istio 1.0
 subtitle: The production ready service mesh
 description: Istio is ready for production use with its 1.0 release.
 publishdate: 2018-07-31
-attribution: The Istio Team
 release: 1.0.0
 aliases:
     - /about/notes/1.0
@@ -99,7 +98,7 @@ in addition to the server-side telemetry.
 
 #### Adapters
 
-- **SignalFX**. There is a new [`signalfx`](/docs/reference/config/policy-and-telemetry/adapters/signalfx/) adapter.
+- **SignalFX**. There is a new `signalfx` adapter.
 
 - **Stackdriver**. The [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
 release to add new features and improve performance.
