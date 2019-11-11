@@ -17,11 +17,12 @@
 import collections
 from collections import deque
 import requests
-import string
 import os
-from ruamel.yaml import YAML
-import ruamel.yaml.events as events
+import string
+
 from jinja2 import Template
+from ruamel.yaml import YAML
+from ruamel.yaml import events
 
 # Reads a documented Helm values.yaml file and produces a
 # MD formatted table.  pip install ruamel to obtain the proper
@@ -133,22 +134,20 @@ def read_helm_value_file(file, cfile):
                         prdict[cfile].append(dict_item)
                 except:
                     pass
-                key_queue.pop()
+                if len(key_queue):
+                    key_queue.pop()
                 key = True
             elif key == True:
                 key = False
         if isinstance(node, events.SequenceEndEvent):
             key = True
-            try:
+            if len(key_queue):
                 key_queue.pop()
-            except:
                 pass
         if isinstance(node, events.MappingEndEvent):
             key = True
-            try:
+            if len(key_queue):
                 key_queue.pop()
-            except:
-                pass
 
 
 # Read all helm values.yaml files
