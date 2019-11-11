@@ -108,7 +108,7 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
--   Remove any `istioctl` processes that may still be running:
+-   Remove any `istioctl` processes that may still be running using control-C or:
 
     {{< text bash >}}
     $ killall istioctl
