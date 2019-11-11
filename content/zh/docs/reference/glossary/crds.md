@@ -1,5 +1,5 @@
 ---
-title: CRD
+title: CRDs
 ---
 
 [自定义资源定义 (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
