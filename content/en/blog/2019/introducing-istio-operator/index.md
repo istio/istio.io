@@ -9,39 +9,39 @@ target_release: 1.4
 ---
 
 Kubernetes [operators](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) provide
-a pattern for encoding human operations knowledge in software and are a popular way to simplify
-the administration of software infrastructure components.
-Because Istio is complex to administer, it's a natural candidate for an operator.
+a pattern for encoding human operational knowledge in software and are a popular way to simplify
+the administration of software infrastructure components. Istio is aa natural candidate for an automated
+operator as it is challenging to administer.
 
-Up until now, [Helm](https://github.com/helm/helm) has been the primary tool to install and upgrade Istio.
-This approach worked well but had some disadvantages:
+[Helm](https://github.com/helm/helm) has been the primary tool to install and upgrade Istio.
+The new installation mechanism builds on the strengths of Helm with the addition of the
+following characteristics:
 
-1. Users need to install another tool.
-1. Supporting Istio's many small specializations cause Helm templates to become unwieldy.
-1. Helm configurations are difficult to validate using Istio's proto-based APIs.
-1. Upgrades sometimes require Istio specific hooks that have been difficult to implement and maintain with Helm.
+- Users install only one tool: `istioctl`
+- All API fields are validated
+- Small customizations not in the API do not require chart or API changes
+- Version specific upgrade hooks can be easily and robustly implemented
 
-Starting with Istio 1.4, the [Helm installation](/docs/setup/install/helm/) approach has been deprecated
-in favor of a new [installation using {{< istioctl >}}](/docs/setup/install/istioctl/) approach.
-Upgrading from Istio 1.4 onward (that is, versions not initially installed with Helm)
-will also be done using a new [{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
+Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/docs/setup/install/istioctl/).The
+[Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
+1.4 with a version not initially installed with Helm is done using the
+[{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
 
-The new `istioctl` commands use a
-[Custom Resource Definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-to configure the installation.
-The CRD is part of a new Istio operator implementation intended to simplify the common administrative tasks of
-installation, upgrade, and complex configuration changes for Istio.
-Validation and checking for installation and upgrade is tightly integrated with the tools to prevent
+The `istioctl` operator commands use a
+[Custom Resource (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) to configure the installation. The CRD is part of a new Istio operator
+implementation intended to simplify the common administrative tasks of installation, upgrade,
+and complex configuration changes for Istio. Validation and checking for installation and upgrade
+is tightly integrated with the tools to prevent
 common errors and simplify troubleshooting.
 
-## Istio Control Plane API
+## The `IstioControlPlane` API
 
 Every operator implementation requires a
 [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 to define its API. Istio's operator API is defined by the
 [`IstioControlPlane` CRD](/docs/reference/config/istio.operator.v1alpha12.pb/),
 which is generated from
-[this proto](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
+[the `IstioControlPlane` proto](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
 The API supports all of Istio's current [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 using a single field to select the profile. For example, the following `IstioControlPlane` resource
 configures Istio using the `demo` profile:
@@ -76,11 +76,11 @@ The recommended way to use the Istio operator API is through a new set of `istio
 For example, to install Istio into a cluster:
 
 {{< text bash >}}
-$ istioctl manifest apply -f <your-istiocontrolplane-config>
+$ istioctl manifest apply -f <your-istiocontrolplane-customresource>
 {{< /text >}}
 
-Make changes to the installation configuration by editing the configuration
-file and calling `istioctl manifest apply` again.
+Make changes to the installation configuration by editing the configuration file and executing
+`istioctl manifest apply` again.
 
 To upgrade to a new version of Istio:
 
@@ -95,17 +95,16 @@ the `istioctl` commands can also be passed individual settings using a `--set` f
 $ istioctl manifest apply --set telemetry.enabled=false
 {{< /text >}}
 
-There are also a number of other `istioctl` commands that, for example,
-help you list, display, and compare configuration profiles and manifests.
+There are also a number of other `istioctl` commands that, for example, help you list, display,
+and compare configuration profiles and manifests.
 
 Refer to the Istio [install instructions](/docs/setup/install/istioctl) for more details.
 
 ## Istio Controller (alpha)
 
-Operator implementations use a Kubernetes controller to continuously monitor their
-API resource and apply the corresponding configuration changes.
-In Istio's case, the controller monitors and reacts to changes in an
-`IstioControlPlane` resource for a cluster by updating the Istio installation configuration.
+Operator implementations use a Kubernetes controller to continuously monitor their custom resource objects
+and apply the corresponding configuration changes.  The Istio controller monitors an `IstioControlPlane`
+resource and implements cluster changes updating the Istio installation configuration.
 
 In the 1.4 release, the Istio controller is in the alpha phase of development and not fully
 integrated with `istioctl`. It is, however,
@@ -127,12 +126,11 @@ $ kubectl edit istiocontrolplane example-istiocontrolplane -n istio-system
 As soon as the resource is updated, the controller will detect the changes and respond by updating
 the Istio installation correspondingly.
 
-Both the operator controller and `istioctl` commands share the same code.
-The main difference is the execution context.
-In the `istioctl` case, the operation runs in the admin user’s command execution and
-security context, while in the controller case, a pod in the cluster runs the code in its security context.
-In both cases, they validate configuration schemas and perform the same range of checks for installation
-change or upgrade.
+Both the operator controller and `istioctl` commands share the same implementation.  The significant
+difference is the execution context. In the `istioctl` case, the operation runs in the admin user’s
+command execution and security context.  In the controller case, a pod in the cluster runs the code
+in its security context. In both cases, configuration is validated against a schema and the same correctness
+checks are performed.
 
 ## Migration from Helm
 
@@ -152,22 +150,22 @@ You can use this `istioctl` command:
 $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /text >}}
 
-You can also set Helm configuration values in an `IstioControlPlane` configuration resource.
+You can also set Helm configuration values in an `IstioControlPlane` custom resource.
 See [Customize Istio settings using Helm](/docs/setup/install/istioctl/#customize-istio-settings-using-the-helm-api)
 for details.
 
 Another feature to help with the transition from Helm is the alpha
 [{{< istioctl >}} manifest migrate](/docs/reference/commands/istioctl/#istioctl-manifest-migrate) command.
-This command can be used to automatically convert a Helm `values.yaml` file to a corresponding `IstioControlPlane`
-configuration.
+This command can be used to automatically convert a Helm `values.yaml` file to a corresponding
+`IstioControlPlane` configuration.
 
 ## Implementation
 
-Several frameworks have been created to help implement operators by generating stubs
-for some or all of the components. The Istio operator was created with the help of a combination of
-[kubebuilder](https://github.com/kubernetes-sigs/kubebuilder)
-and [operator framework](https://github.com/operator-framework),
-but follows the Istio convention of using a proto to represent the API.
+Several frameworks have been created to help implement operators by generating stubs for some or all of
+the components. The Istio operator was created with the help of a combination of
+[kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) and
+[operator framework](https://github.com/operator-framework). Istio's installation now uses a proto to
+describe the API such that runtime validation can be executed against a schema.
 
 More information about the implementation can be found in the README and ARCHITECTURE documents
 in the [Istio operator repository](https://github.com/istio/operator).
@@ -182,14 +180,8 @@ The new `istioctl` commands and operator controller both validate configuration 
 checks for installation change or upgrade. These checks are tightly integrated with the tools to prevent
 common errors and simplify troubleshooting.
 
-Going forward, we hope that this new approach will improve the user experience during Istio installation
-and upgrade, better stabilize the installation API, and help users better manage and monitor their
-Istio installations. Future work includes:
-
-- `istioctl` and the controller will support canary based upgrades.
-- the controller will continuously monitor and report on the health of Istio components
-  and `istioctl` will report health whenever manifest commands are run.
-- `istioctl manifest apply` option to read the `IstioControlPlane` resource from the cluster.
-- `istioctl operator init` and `istioctl operator remove` commands to install and remove the controller.
+The Istio maintainers expect that this new approach will improve the user experience during Istio
+installation and upgrade, better stabilize the installation API, and help users better manage and
+monitor their Istio installations.
 
 We welcome your feedback about the new installation approach at [discuss.istio.io](https://discuss.istio.io/).
