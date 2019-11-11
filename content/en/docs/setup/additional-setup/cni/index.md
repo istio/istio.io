@@ -48,7 +48,7 @@ replaces the functionality provided by the `istio-init` container.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
 1.  Install Istio CNI and Istio using `istioctl`.
-    Refer to the [Istio install](/docs/setup/install/kubernetes/) instructions and pass `--set cni.enabled=true` option.
+    Refer to the [Istio install](/docs/setup/install/istioctl/) instructions and pass `--set cni.enabled=true` option.
     Pass `--set values.cni.cniBinDir=...` and/or `--set values.cni.cniConfDir=...` options when installing `istio-cni` if non-default,
     as determined in the previous step.
 
