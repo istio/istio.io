@@ -11,11 +11,14 @@ aliases:
 
 We are pleased to announce the release of Istio 1.4!
 
-Version 1.4 continues our efforts at improving the user experience in Istio,
+{{< relnote >}}
+
+Istio 1.4 continues our efforts at improving the user experience in Istio,
 with a focus on simplification. We've also continued to add features that
 improve the performance and experience of running Istio.
 
 ## Mixer-less telemetry
+
 Our implementation of telemetry without Mixer will simplify installation and
 operation of meshes, all while vastly improving performance. The in-proxy
 generation of HTTP metrics has graduated from experimental to alpha. Users
@@ -24,20 +27,26 @@ ready. We've also added new experimental features that don't require Mixer:
 TCP metrics and Stackdriver metrics.
 
 ## Improved troubleshooting
-The `istioctl analyze` command continues to get new functionality for
-improved troubleshooting of your service mesh. Check for problems with
+
+We're introducing the
+[`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) command to
+improve troubleshooting of your mesh. Check for problems with
 configuration in your mesh, and even validate new configuration prior to
 submitting it to the mesh.
 
 ## Better sidecar
+
 We've been doing tons of work to improve Envoy, its feature set, and the
-epxerience of using it. Envoy now exits more gracefully on crashes, supports
+experience of using it. Envoy now exits more gracefully on crashes, supports
 more metrics, and can mirror traffic to a percentage of traffic. It reports
 the direction of traffic and has better configurability for stat patterns.
-Finally, there is a new experimental command that can tell you when
+Finally, there is a new 
+[experimental command](/docs/reference/commands/istioctl/#istioctl-experimental-wait)
+that can tell you when config
 has been pushed to all proxies in the mesh.
 
 ## Other enhancements
+
 - Citadel will now periodically check for and rotate expired root certificates
 - We've added support for OpenAPI v3 schema validation
 - Experimental multi-cluster setup has been added to `istioctl`
@@ -47,7 +56,7 @@ As always, there is a lot happening in the
 [Community Meeting](https://github.com/istio/community#community-meeting);
 join us every other Thursday at 11 AM Pacific.
 
-We were very proud to be called out as one of the 
+We were very proud to be called out as one of th
 [fastest growing](https://octoverse.github.com/#top-and-trending-projects)
 open source projects in all of Github. Want to get involved? Join one of our
 [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)
@@ -55,5 +64,3 @@ and help us make Istio even better.
 
 To join the conversation, go to [discuss.istio.io](https://discuss.istio.io),
 log in with your GitHub credentials and join us!
-
-{{< relnote >}}
