@@ -2,6 +2,8 @@
 title: Authorization Policy Conditions
 description: Describes the supported conditions in authorization policies.
 weight: 30
+aliases:
+    - /docs/reference/config/authorization/conditions/
 ---
 
 This page describes the supported keys and value formats you can use as conditions
