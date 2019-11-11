@@ -8,7 +8,7 @@ aliases:
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
 
-Follow this flow to install, configure, and use an Istio mesh using the Istio Container Network Interface
+Follow this guide to install, configure, and use an Istio mesh using the Istio Container Network Interface
 ([CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface))
 plugin.
 
@@ -48,8 +48,7 @@ replaces the functionality provided by the `istio-init` container.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
 1.  Install Istio CNI and Istio using `istioctl`.
-    Refer to the [Istio install](/docs/setup/install/kubernetes/) instructions and pass `--set cni.enabled=true`
-    and `--set cni.components.cni.enabled=true` options.
+    Refer to the [Istio install](/docs/setup/install/istioctl/) instructions and pass `--set cni.enabled=true` option.
     Pass `--set values.cni.cniBinDir=...` and/or `--set values.cni.cniConfDir=...` options when installing `istio-cni` if non-default,
     as determined in the previous step.
 
@@ -93,7 +92,6 @@ Use the following command to render and apply Istio CNI components and override 
 $ istioctl manifest apply \
     --set <flags you used to install Istio>
     --set cni.enabled=true \
-    --set cni.components.cni.enabled=true \
     --set values.cni.logLevel=info \
     --set values.cni.excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"}
 {{< /text >}}
@@ -133,8 +131,8 @@ The following table shows the required settings for many common Kubernetes envir
 ## Sidecar injection compatibility
 
 The use of the Istio CNI plugin requires Kubernetes pods to be deployed with a sidecar injection method
-that uses the `istio-sidecar-injector` configmap created from the Helm installation with the
-`istio_cni.enabled=true`.  Refer to [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/)
+that uses the `istio-sidecar-injector` configmap created from the installation with the
+`--set cni.enabled=true` option.  Refer to [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/)
 for details about Istio sidecar injection methods.
 
 The following sidecar injection methods are supported for use with the Istio CNI plugin:
