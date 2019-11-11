@@ -2,7 +2,7 @@
 title: 连接到外部 HTTPS 代理
 description: 描述如何配置 Istio 以允许应用程序使用外部 HTTPS 代理。
 weight: 60
-keywords: [traffic-management,egress]
+keywords: [traffic-management, egress]
 aliases:
   - /docs/examples/advanced-gateways/http-proxy/
 ---
@@ -42,13 +42,13 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  创建 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)以保存代理的配置:
+1.  创建 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)以保存代理的配置：
 
     {{< text bash >}}
     $ kubectl create configmap proxy-configmap -n external --from-file=squid.conf=./proxy.conf
     {{< /text >}}
 
-1.  使用 Squid 部署容器:
+1.  使用 Squid 部署容器：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -85,7 +85,7 @@ aliases:
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  获取代理 pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它:
+1.  获取代理 pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它：
 
     {{< text bash >}}
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
@@ -97,21 +97,21 @@ aliases:
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1.  从 external namespace中的 sleep  pod 通过代理向外部服务发送请求:
+1.  从 external namespace中的 sleep  pod 通过代理向外部服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  检查您请求的代理的访问日志:
+1.  检查您请求的代理的访问日志：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
-现在，您在没有 Istio的情况下完成了以下任务:
+现在，您在没有 Istio的情况下完成了以下任务：
 
 * 您部署了 HTTPS 代理。
 * 您使用 curl 通过代理访问 wikipedia.org 外部服务。
@@ -148,14 +148,14 @@ aliases:
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  查看您的请求的 Istio sidecar 代理的日志:
+1.  查看您的请求的 Istio sidecar 代理的日志：
 
     {{< text bash >}}
     $ kubectl logs $SOURCE_POD -c istio-proxy
     [2018-12-07T10:38:02.841Z] "- - -" 0 - 702 87599 92 - "-" "-" "-" "-" "172.30.109.95:3128" outbound|3128||my-company-proxy.com 172.30.230.52:44478 172.30.109.95:3128 172.30.230.52:44476 -
     {{< /text >}}
 
-1.  查看您请求的代理的访问日志:
+1.  查看您请求的代理的访问日志：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
@@ -164,7 +164,7 @@ aliases:
 
 ## 理解原理{#Understanding-what-happened}
 
-在本例中，您采取了以下步骤:
+在本例中，您采取了以下步骤：
 
 1. 部署了一个 HTTPS 代理来模拟外部代理。
 1. 创建了一个 TCP 服务实体，以启用到外部代理的 Istio 控制流量。
@@ -173,19 +173,19 @@ aliases:
 
 ## 清除{#Cleanup}
 
-1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
+1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  关闭 external namespace中的 [sleep]({{< github_tree >}}/samples/sleep) 服务:
+1.  关闭 external namespace中的 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
     {{< /text >}}
 
-1.  关闭 Squid 代理，删除 ConfigMap 和配置文件:
+1.  关闭 Squid 代理，删除 ConfigMap 和配置文件：
 
     {{< text bash >}}
     $ kubectl delete -n external deployment squid
@@ -193,13 +193,13 @@ aliases:
     $ rm ./proxy.conf
     {{< /text >}}
 
-1.  删除 external namespace:
+1.  删除 external namespace：
 
     {{< text bash >}}
     $ kubectl delete namespace external
     {{< /text >}}
 
-1.  删除 Service Entry:
+1.  删除 Service Entry：
 
     {{< text bash >}}
     $ kubectl delete serviceentry proxy
