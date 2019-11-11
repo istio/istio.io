@@ -15,7 +15,7 @@ weight: 10
 
 ## Security
 
-- **Added** the [`v1beta1` authorization policy model](/docs/concepts/security#authorization) for enforcing access control. This will eventually replace the [`v1alpha1` RBAC policy](/docs/reference/config/security/istio.rbac.v1alpha1/).
+- **Added** the [`v1beta1` authorization policy model](/blog/2019/v1beta1-authorization-policy/) for enforcing access control. This will eventually replace the [`v1alpha1` RBAC policy](/docs/reference/config/security/istio.rbac.v1alpha1/).
 - **Improved** Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
 
 ## Telemetry
