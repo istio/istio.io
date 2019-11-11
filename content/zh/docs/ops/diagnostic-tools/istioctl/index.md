@@ -26,7 +26,7 @@ aliases:
 $ istioctl proxy-status
 {{< /text >}}
 
-如果一个代理从输出列表中缺少某个代理则意味着它当前未连接到 Polit 实例，所以它无法接收到任何配置。此外，如果它被标记为 stale，则意味着存在网络问题或者需要扩展 Pilot。
+如果输出列表中缺少某个代理则意味着它当前未连接到 Polit 实例，所以它无法接收到任何配置。此外，如果它被标记为 stale，则意味着存在网络问题或者需要扩展 Pilot。
 
 ### 代理配置 {#get-proxy-configuration}
 
@@ -93,7 +93,7 @@ $ brew install bash-completion
 
 {{< tab name="Linux" cookie-value="linux" >}}
 
-如果您使用基于 Linux 的操作系统，以两种最常见的情况举例，您可以使用 `apt-get install bash-completion` 命令安装基于 Debian 的 Linux 发行版的 base-completion 包，或者使用 `yum install bash-completion` 安装基于 RPM 的 Linux 发行版。
+如果您使用基于 Linux 的操作系统，以两种最常见的情况举例，您可以使用 `apt-get install bash-completion` 命令安装基于 Debian 的 Linux 发行版的 base-completion 包，或者使用 `yum install bash-completion` 安装基于 RPM 的 Linux 发行版的包。
 
 当 `bash-completion` 包被安装到您的 Linux 系统以后，添加下行内容到您的 `~/.bash_profile` 中：
 
@@ -115,7 +115,7 @@ $ brew install bash-completion
 
 安装 bash 自动补全文件
 
-如果您使用 bash，`istioctl` 自动补全的文件位于 `tools` 目录。通过复制 `istioctl.bash` 文件到您的家目录，然后添加下行内容到您的 `.bashrc` 文件执行 `istioctl` tab补全文件：
+如果您使用 bash，`istioctl` 自动补全的文件位于 `tools` 目录。通过复制 `istioctl.bash` 文件到您的 home 目录，然后添加下行内容到您的 `.bashrc` 文件执行 `istioctl` tab补全文件：
 
 {{< text bash >}}
 $ source ~/istioctl.bash
@@ -125,9 +125,9 @@ $ source ~/istioctl.bash
 
 {{< tab name="ZSH" cookie-value="zsh" >}}
 
-安装ZSH自动补全文件
+安装 ZSH 自动补全文件
 
-对于 ZSH 用户，`istioctl` 自动补全文件位于 `tools` 目录。复制 `_istioctl` 文件到你的家目录或者你选择的任何目录(同时更新下面脚本目录)，并且在您的 `.zshrc` 文件添加以下命令执行 `istioctl` 自动补全文件：
+对于 ZSH 用户，`istioctl` 自动补全文件位于 `tools` 目录。复制 `_istioctl` 文件到你的 home 目录或者你选择的任何目录(同时更新下面脚本目录)，并且在您的 `.zshrc` 文件添加以下命令执行 `istioctl` 自动补全文件：
 
 {{< text zsh >}}
 source ~/_istioctl
@@ -137,14 +137,14 @@ source ~/_istioctl
 
 {{< tip >}}
 
-如果您遇到类似 `complete:13: command not found: compdef` 错误，可以添加以下内容到您的 `~/.zshrc` 文件：
+如果您遇到类似 `complete:13: command not found: compdef` 错误，可以添加以下内容到您的 `~/.zshrc` 文件开头：
 
 {{< text bash >}}
 $ autoload -Uz compinit
 $ compinit
 {{< /text >}}
 
-如果您的自动补全没有生效，在重启您的终端后再试。如果自动补全还是没有生效，试着使用上述命令在您的终端重置完成缓存。
+如果您的自动补全没有生效，在重启您的终端后再试。如果自动补全还是没有生效，试着在您的终端运行上述命令重置自动补全的缓存。
 
 {{< /tip >}}
 
