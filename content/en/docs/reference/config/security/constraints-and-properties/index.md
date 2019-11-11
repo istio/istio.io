@@ -3,7 +3,7 @@ title: RBAC Constraints and Properties (deprecated)
 description: Describes the supported constraints and properties.
 weight: 50
 aliases:
-    - /docs/reference/config/authorization/constraints-and-properties/
+    - /docs/reference/config/security/constraints-and-properties/
 ---
 
 {{< warning >}}

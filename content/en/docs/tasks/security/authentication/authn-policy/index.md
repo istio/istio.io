@@ -106,7 +106,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/istio.authentication.v1alpha1/)
+The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/security/istio.authentication.v1alpha1/)
  it is defined in the cluster-scoped `MeshPolicy` CRD.
  {{< /tip >}}
 
