@@ -33,7 +33,7 @@ As the generated client sets are functionally equivalent, switching the imported
 client libraries should be sufficient in order to consume the newly
 generated library.
 
-## How to use the Istio client repository
+## How to use client-go
 
 The Istio [client go](https://github.com/istio/client-go) repository follows the
 same branching strategy as the [Istio API](https://github.com/istio/api)

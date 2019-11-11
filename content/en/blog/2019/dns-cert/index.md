@@ -1,5 +1,5 @@
 ---
-title: Istio DNS certificate management
+title: DNS Certificate Management
 description: Provision and manage DNS certificates in Istio.
 publishdate: 2019-11-14
 attribution: Lei Tang (Google)
