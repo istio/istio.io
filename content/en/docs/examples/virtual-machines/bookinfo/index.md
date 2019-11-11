@@ -1,14 +1,19 @@
 ---
-title: Bookinfo with Mesh Expansion
-description: Illustrates how to expand the Bookinfo application's mesh with a raw VM service.
+title: Bookinfo with a Virtual Machine
+description: Run the Bookinfo application with a MySQL service running on a virtual
+  machine within your mesh.
 weight: 60
-keywords: [vms]
+keywords:
+- virtual-machine
+- vms
 aliases:
-    - /docs/examples/integrating-vms/
+- /docs/examples/integrating-vms/
+- /docs/examples/mesh-expansion/bookinfo-expanded
+- /docs/examples/vm-bookinfo
 ---
 
-This example deploys the Bookinfo services across Kubernetes and a set of
-Virtual Machines, and illustrates how to use Istio service mesh to control
+This example deploys the Bookinfo application across Kubernetes with one
+service running on a virtual machine (VM), and illustrates how to control
 this infrastructure as a single mesh.
 
 {{< warning >}}
@@ -19,7 +24,7 @@ VMs cannot initiate any direct communication to Kubernetes Pods even when using 
 
 ## Overview
 
-{{< image width="80%" link="./mesh-expansion.svg" caption="Bookinfo Application with Istio Mesh Expansion" >}}
+{{< image width="80%" link="./vm-bookinfo.svg" caption="Bookinfo running on VMs" >}}
 
 <!-- source of the drawing
 https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/edit
@@ -27,12 +32,12 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the
+- Setup Istio by following the instructions in the
   [Installation guide](/docs/setup/install/kubernetes/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
+- Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-* Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/examples/mesh-expansion/single-network/).
+- Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/examples/virtual-machines/single-network/).
 
 ## Running MySQL on the VM
 
@@ -64,7 +69,7 @@ To make it easy to visually inspect the difference in the output of the Bookinfo
 following commands to inspect the ratings:
 
 {{< text bash >}}
-$ mysql -u root -ppassword test -e "select * from ratings;"
+$ mysql -u root -password test -e "select * from ratings;"
 +----------+--------+
 | ReviewID | Rating |
 +----------+--------+

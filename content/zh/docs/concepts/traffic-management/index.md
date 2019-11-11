@@ -529,7 +529,7 @@ traffic for services running outside of the mesh, including the following tasks:
 -   Define [retry](#retries), [timeout](#timeouts), and
     [fault injection](#fault-injection) policies for external destinations.
 -   Add a service running in a Virtual Machine (VM) to the mesh to
-    [expand your mesh](/docs/examples/mesh-expansion/single-network/#running-services-on-a-mesh-expansion-machine).
+    [expand your mesh](/docs/examples/virtual-machines/single-network/#running-services-on-the-added-vm).
 -   Logically add services from a different cluster to the mesh to configure a
     [multicluster Istio mesh](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
     on Kubernetes.
