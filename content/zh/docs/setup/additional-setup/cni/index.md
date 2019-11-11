@@ -105,7 +105,7 @@ Istio CNI 方案并非普遍应用的。一些平台，特别是托管 Kubernete
     如果是现存集群，该操作将会重新部署所有节点。
     {{< /warning >}}
 
-2. 使用 Helm 并设置 `--set cniBinDir=/home/kubernetes/bin` 选项安装 Istio CNI 插件。
+1. 使用 Helm 并设置 `--set cniBinDir=/home/kubernetes/bin` 选项安装 Istio CNI 插件。
     例如，下面的 `helm install` 命令将为 GKE 集群设置 `cniBinDir` 参数：
 
     {{< text bash >}}
