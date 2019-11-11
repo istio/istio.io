@@ -23,7 +23,7 @@ In addition to the prerequisites for installing Istio the following setup is req
 
 * Install and initialize the [Google Cloud SDK](https://cloud.google.com/sdk/install)
 
-## Create the GKE Clusters
+## Create the GKE clusters
 
 1.  Set the default project for `gcloud` to perform actions on:
 
@@ -220,7 +220,7 @@ $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n $
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
 
-## Deploy Bookinfo Example Across Clusters
+## Deploy the Bookinfo example across clusters
 
 1.  Install Bookinfo on the first cluster.  Remove the `reviews-v3` deployment to deploy on remote:
 

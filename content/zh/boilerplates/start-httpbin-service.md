@@ -1,14 +1,14 @@
 ---
 ---
-*   启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样例程序。
+*   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample.
 
-    如果您启用了 [sidecar 自动注入](/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入), 通过以下命令部署 `httpbin` 服务：
+    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `httpbin` service:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-    否则，您必须在部署 `httpbin` 应用程序前进行手动注入，部署命令如下：
+    Otherwise, you have to manually inject the sidecar before deploying the `httpbin` application:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)

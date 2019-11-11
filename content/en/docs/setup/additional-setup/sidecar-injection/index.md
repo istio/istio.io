@@ -61,7 +61,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 ### Automatic sidecar injection
 
 Sidecars can be automatically added to applicable Kubernetes pods using a
-[mutating webhook admission controller](https://kubernetes.io/docs/admin/admission-controllers/) provided by Istio.
+[mutating webhook admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) provided by Istio.
 
 {{< tip >}}
 While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
@@ -136,7 +136,7 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 #### Understanding what happened
 
-When Kubernetes invokes the webhook, the [admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
+When Kubernetes invokes the webhook, the [`admissionregistration.k8s.io/v1beta1#MutatingWebhookConfiguration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io)
 configuration is applied. The default configuration injects the sidecar into
 pods in any namespace with the `istio-injection=enabled label`. The
 `istio-sidecar-injector` configuration map specifies the configuration for the
@@ -189,7 +189,7 @@ spec:
 
 ##### _**template**_
 
-The sidecar injection template uses [https://golang.org/pkg/text/template](https://golang.org/pkg/text/template) which,
+The sidecar injection template uses <https://golang.org/pkg/text/template> which,
 when parsed and executed, is decoded to the following
 struct containing the list of containers and volumes to inject into the pod.
 

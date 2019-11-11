@@ -3,7 +3,6 @@ title: Announcing Istio 1.0
 subtitle: The production ready service mesh
 description: Istio is ready for production use with its 1.0 release.
 publishdate: 2018-07-31
-attribution: The Istio Team
 release: 1.0.0
 aliases:
     - /about/notes/1.0
@@ -33,7 +32,7 @@ Here are some highlights:
 
 - Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
 
-- Mutual TLS can now be [rolled out incrementally](/docs/tasks/security/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
+- Mutual TLS can now be [rolled out incrementally](/docs/tasks/security/authentication/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
 
 - Mixer now has support for [developing out-of-process adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide). This will become the default way to extend Mixer over the coming releases and makes building adapters much simpler.
 
@@ -48,7 +47,7 @@ their performance and reliability.
 
 While this is a significant milestone for the project there’s lots more to do. In working with adopters we’ve gotten a lot of great feedback about what to focus next. We’ve heard consistent themes around support for hybrid-cloud, install modularity, richer networking features and scalability for massive deployments. We’ve already taken some of this feedback into account in the 1.0 release and we’ll continue to aggressively tackle this work in the coming months.
 
-## Getting Started
+## Getting started
 
 If you’re new to Istio and looking to use it for your deployment we’d love to hear from you. Take a look at [our docs](/docs/) or stop by our
 [chat forum](https://discuss.istio.io). If you’d like
@@ -74,7 +73,7 @@ has been removed.
 
 - **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use [gateways](/docs/concepts/traffic-management/#gateways) instead.
 
-### Policy and Telemetry
+### Policy and telemetry
 
 - **Updated Attributes**. The set of [attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
 destination of traffic have been completely revamped in order to be more
@@ -99,7 +98,7 @@ in addition to the server-side telemetry.
 
 #### Adapters
 
-- **SignalFX**. There is a new [`signalfx`](/docs/reference/config/policy-and-telemetry/adapters/signalfx/) adapter.
+- **SignalFX**. There is a new `signalfx` adapter.
 
 - **Stackdriver**. The [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
 release to add new features and improve performance.
@@ -110,8 +109,8 @@ release to add new features and improve performance.
 RPC-level authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
 - **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
-[incrementally turn on mutual TLS](/docs/tasks/security/mtls-migration/) for your services.
-We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authn-policy/),
+[incrementally turn on mutual TLS](/docs/tasks/security/authentication/mtls-migration/) for your services.
+We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authentication/authn-policy/),
 coupled with client-side [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 - **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can

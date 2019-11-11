@@ -14,14 +14,9 @@ This installation lets you quickly evaluate Istio in a Kubernetes cluster on any
 {{< warning >}}
 The demo configuration profile is not suitable for performance evaluation. It
 is designed to showcase Istio functionality with high levels of tracing and
-access logging.
+access logging. To install Istio for production use, we recommend using the
+[Installing with {{< istioctl >}} guide](/docs/setup/install/istioctl/) instead.
 {{< /warning >}}
-
-To install Istio for production use, we recommend using the
-[Installing with {{< istioctl >}} guide](/docs/setup/install/operator/)
-instead, which provides many more options for selecting and managing the Istio
-configuration. This permits customization of Istio to operator specific
-requirements.
 
 ## Prerequisites
 
@@ -75,16 +70,13 @@ $ istioctl manifest apply --set profile=demo
     NAME                                                           READY   STATUS      RESTARTS   AGE
     grafana-f8467cc6-rbjlg                                         1/1     Running     0          1m
     istio-citadel-78df5b548f-g5cpw                                 1/1     Running     0          1m
-    istio-cleanup-secrets-release-1.1-20190308-09-16-8s2mp         0/1     Completed   0          2m
     istio-egressgateway-78569df5c4-zwtb5                           1/1     Running     0          1m
     istio-galley-74d5f764fc-q7nrk                                  1/1     Running     0          1m
-    istio-grafana-post-install-release-1.1-20190308-09-16-2p7m5    0/1     Completed   0          2m
     istio-ingressgateway-7ddcfd665c-dmtqz                          1/1     Running     0          1m
-    istio-pilot-f479bbf5c-qwr28                                    2/2     Running     0          1m
-    istio-policy-6fccc5c868-xhblv                                  2/2     Running     2          1m
-    istio-security-post-install-release-1.1-20190308-09-16-bmfs4   0/1     Completed   0          2m
+    istio-pilot-f479bbf5c-qwr28                                    1/1     Running     0          1m
+    istio-policy-6fccc5c868-xhblv                                  1/1     Running     2          1m
     istio-sidecar-injector-78499d85b8-x44m6                        1/1     Running     0          1m
-    istio-telemetry-78b96c6cb6-ldm9q                               2/2     Running     2          1m
+    istio-telemetry-78b96c6cb6-ldm9q                               1/1     Running     2          1m
     istio-tracing-69b5f778b7-s2zvw                                 1/1     Running     0          1m
     kiali-99f7467dc-6rvwp                                          1/1     Running     0          1m
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m

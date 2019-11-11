@@ -9,21 +9,15 @@ keywords: [security,certificates]
 
 缺省情况下 Citadel 生成自签署的根证书和密钥，用于给工作负载签署证书。Citadel 还可以使用运维人员指定的根证书、证书和密钥进行工作负载的证书颁发。该任务所演示了向 Citadel 插入外部证书和密钥的方法。
 
-## 开始之前
+## 开始之前{#before-you-begin}
 
-* 根据 [quick start](/zh/docs/setup/kubernetes/install/kubernetes/) 内容，安装 Istio 并启用双向 TLS：
-
-    根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio 并启用双向 TLS。
-
-    _**或者**_
-
-    使用 [Helm](/zh/docs/setup/kubernetes/install/helm/) 并设置 `global.mtls.enabled` 为 `true`.
+* 按照 [快速启动](/zh/docs/setup/install/kubernetes/) 中的说明安装 Istio：
 
 {{< tip >}}
-从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#authentication-policies)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
 {{< /tip >}}
 
-## 插入现有密钥和证书
+## 插入现有密钥和证书{#plugging-in-the-existing-certificate-and-key}
 
 假设我们想让 Citadel 使用现有的 `ca-cert.pem` 证书和 `ca-key.pem`，其中 `ca-cert.pem` 是由 `root-cert.pem` 根证书签发的，我们也准备使用 `root-cert.pem` 作为 Istio 工作负载的根证书。
 
@@ -41,12 +35,10 @@ keywords: [security,certificates]
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1. 使用 Helm 重新部署 Citadel，其中 `global.mtls.enabled` 设置为 `true`，`security.selfSigned` 设置为 `false` 。Citadel 将从 secret-mount 文件中读取证书和密钥。
+1. `global.mtls.enabled` 设置为 `true`，`security.selfSigned` 设置为 `false`，重新部署 Citadel。
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system -x charts/security/templates/deployment.yaml \
-    --set global.mtls.enabled=true --set security.selfSigned=false > $HOME/citadel-plugin-cert.yaml
-    $ kubectl apply -f $HOME/citadel-plugin-cert.yaml
+    $ istioctl manifest apply --set values.global.mtls.enabled=true,values.security.selfSigned=false
     {{< /text >}}
 
 1. 为了确定工作负载获取了正确的证书，删除 Citadel 生成的 Secret（命名为 `istio.\*`）。在本例中就是 `istio.default`。Citadel 会签发新的证书给工作负载。
@@ -55,7 +47,7 @@ keywords: [security,certificates]
     $ kubectl delete secret istio.default
     {{< /text >}}
 
-## 检查新证书
+## 检查新证书{#verifying-the-new-certificates}
 
 本节中，我们要校验新的工作负载证书以及根证书是否正确传播。需要在本机安装 `openssl`。
 
@@ -113,12 +105,12 @@ keywords: [security,certificates]
     /tmp/pod-cert-chain-workload.pem: OK
     {{< /text >}}
 
-## 清理
+## 清理{#cleanup}
 
-* 移除 secret `cacerts`:
+* 移除 secret `cacerts`：
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-* 移除 Istio 组件: 详细参照[删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除) 
+* 移除 Istio 组件：按照 [卸载说明](/zh/docs/setup/install/kubernetes/#uninstall) 进行删除。

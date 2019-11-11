@@ -18,7 +18,7 @@ example `*.wikipedia.org`, instead of configuring each and every host separately
 Suppose you want to enable egress traffic in Istio for the `wikipedia.org` sites in all languages.
 Each version of `wikipedia.org` in a particular language has its own hostname, e.g., `en.wikipedia.org` and
 `de.wikipedia.org` in the English and the German languages, respectively.
-You want to enable egress traffic by common configuration items for all the _wikipedia_ sites,
+You want to enable egress traffic by common configuration items for all the Wikipedia sites,
 without the need to specify every language's site separately.
 
 {{< boilerplate before-you-begin-egress >}}
@@ -419,7 +419,7 @@ The SNI proxy will forward the traffic to port `443`.
     traffic destined for _*.wikipedia.org_ through the gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS to let the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that identity.
@@ -689,7 +689,7 @@ The SNI proxy will forward the traffic to port `443`.
 
 ## Cleanup
 
-Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@

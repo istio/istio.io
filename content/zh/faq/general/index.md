@@ -5,4 +5,6 @@ description: 常见问题。
 weight: 10
 layout: faq
 icon: faq
+aliases:
+  - /zh/help/faq/general
 ---

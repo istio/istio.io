@@ -30,7 +30,7 @@ the data plane. The data plane and control plane have distinct performance conce
 
 ## Performance summary for Istio {{< istio_release_name >}}
 
-The [Istio load tests](https://github.com/istio/tools/tree/master/perf/load) mesh consists
+The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load) mesh consists
 of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
 After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
@@ -112,7 +112,7 @@ The server-side proxy alone adds 2ms to the 90th percentile latency.
 ### Latency for Istio {{< istio_release_name >}}
 
 The default configuration of Istio {{< istio_release_name >}} adds 7ms to the 90th percentile latency of the data plane over the baseline.
-We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
+We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 
 In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `MixerV2`.
@@ -136,4 +136,4 @@ Istio uses the following tools for benchmarking
 
 - [`fortio.org`](https://fortio.org/) - a constant throughput load testing tool.
 - [`blueperf`](https://github.com/blueperf/) - a realistic cloud native application.
-- [`isotope`](https://github.com/istio/tools/tree/master/isotope) - a synthetic application with configurable topology.
+- [`isotope`](https://github.com/istio/tools/tree/{{< source_branch_name >}}/isotope) - a synthetic application with configurable topology.

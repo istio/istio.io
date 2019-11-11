@@ -1,61 +1,64 @@
 ---
-title: 报告 Bug
-description: 发现 Bug 怎么办。
+title: 报告错误
+description: 如果发现错误该怎么办。
 weight: 34
+aliases:
+    - /zh/bugs.html
+    - /zh/bugs/index.html
+    - /zh/help/bugs/
 icon: bugs
 ---
 
-哦不！你发现了 Bug？我们很乐于倾听。
+不好！您发现了一个错误？我们希望知道这一点。
 
-## 产品 Bug
+## 产品错误{#product-bugs}
 
-在我们的 [Issue 数据库](https://github.com/istio/istio/issues/)中搜索，看看这一 Bug 是不是一个已知问题，以及我们打算在什么时候修复它。如果你没有在数据库中找到，请提交一个[新 Issue](https://github.com/istio/istio/issues/new/choose)告诉我们发生了什么。
+搜索我们的 [问题数据库](https://github.com/istio/istio/issues/) 来查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中没有找到你的问题，请打开一个 [新问题](https://github.com/istio/istio/issues/new/choose) 让我们知道出现了什么错误。
 
-如果你认为这是一个安全漏洞，请访问[报告安全漏洞](/about/security-vulnerabilities/)页面以了解其报告步骤。
+如果您认为错误实际上是一个安全漏洞，请访问 [报告安全漏洞](/about/security-vulnerabilities/) 了解如何处理。
 
-## 生成集群状态归档文件
+### Kubernetes 集群状态档案{#Kubernetes-cluster-state-archives}
 
-如果你在 Kubernetes 上运行，考虑将集群状态归档文件附加在你的 Bug 报告中。
+如果您正在运行 Kubernetes，请考虑使用错误报告将集群状态存档。为了方便起见，您可以运行转储脚本生成一个档案，该档案包含 Kubernetes 集群中所有相关的状态：
 
-为了方便起见，你可以执行一个拷贝脚本来生成包含 Kubernetes 集群所有需要状态：
-
-* 通过 `curl` 执行:
+* 运行 `curl`：
 
     {{< text bash >}}
     $ curl {{< github_file >}}/tools/dump_kubernetes.sh | sh -s -- -z
     {{< /text >}}
 
-* 在本地执行，从发布目录的根目录：
+* 在发布版本目录的根目录本地运行：
 
     {{< text bash >}}
     $ @tools/dump_kubernetes.sh@ -z
     {{< /text >}}
 
-然后在你的问题报告中加上生成的 `istio-dump.tar.gz` 文件。
+然后，将产生的 `istio-dump.tar.gz` 与您的报告问题连接。
 
-如果你不能使用上面的脚本，请附上如下信息：
+如果您无法使用转储脚本，请附加自己的存档
+包含：
 
-* 所有命名空间下的 Pod、Service、Deployment 和 Endpoint：
+* 在所有命名空间中的 pods、services、deployments 和 endpoints：
 
     {{< text bash >}}
     $ kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml
     {{< /text >}}
 
-* `istio-system` 中的 Secret 的名字：
+* 在 `istio-system` 中的密名：
 
     {{< text bash >}}
     $ kubectl --namespace istio-system get secrets
     {{< /text >}}
 
-* `istio-system` 命名空间下的 Configmap：
+* 在 `istio-system` 命名空间的 configmap：
 
     {{< text bash >}}
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* Istio 组件和 Sidecar 中的日志
+* 所有 Istio 组件和 sidecar 的当前和以前的日志
 
-* Mixer 日志：
+* Mixer logs:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=mixer -c mixer
@@ -63,19 +66,19 @@ icon: bugs
     $ kubectl logs -n istio-system -l istio=telemetry -c mixer
     {{< /text >}}
 
-* Pilot 日志:
+* Pilot logs:
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=pilot -c discovery
     $ kubectl logs -n istio-system -l istio=pilot -c istio-proxy
     {{< /text >}}
 
-* 所有的 Istio 组件配置：
+* 所有 Istio 配置工件：
 
     {{< text bash >}}
     $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
     {{< /text >}}
 
-## 文档 Bug
+## 文档错误{#documentation-bugs}
 
-在我们的[文档 Issue 数据库](https://github.com/istio/istio.io/issues/)中搜索，看看是不是现存问题，以及我们预期的修复时间。如果没有找到你要提出的问题，请浏览有问题的页面，点击页面右上角的齿轮菜单，选择**报告网站 Bug**。
+搜索我们的 [文档问题数据库](https://github.com/istio/istio.io/issues/) 以查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中找不到问题，请导航到这个问题的页面，然后在页面的右上角选择齿轮菜单，最后选择 *Report a Site Bug*。

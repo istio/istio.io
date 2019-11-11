@@ -16,7 +16,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/operator)
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/istioctl)
     and then configure:
 
     a) a demo/test environment by setting the `--set values.tracing.enabled=true` install option to enable tracing "out of the box"

@@ -14,12 +14,12 @@ would require are already documented in other sections of the Istio
 documentation so this section will rely heavily on pointers to that
 other content.
 
-## Key Istio Concepts
+## Key Istio concepts
 
 When attempting to understand, monitor or troubleshoot the networking within
 an Istio deployment it is critical to understand the fundamental Istio
 concepts starting with the service mesh.  The service mesh is described
-in [Architecture]/docs/ops/architecture/).  As noted
+in [Architecture](/docs/ops/architecture/).  As noted
 in the architecture section Istio has a distinct control plane and a data
 plane and operationally it will be important to be able to monitor the
 network state of both.  The service mesh is a fully interconnected set of
@@ -41,7 +41,7 @@ in the mesh access external services. This is described with a
 configuration example here:
 [Istio Gateways](/docs/concepts/traffic-management/#gateways)
 
-## Network Layers Beneath the Mesh
+## Network layers beneath the mesh
 
 Istio's service mesh runs on top of the networking provided by the
 infrastructure environment (e.g. Kubernetes) on which the Istio mesh

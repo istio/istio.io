@@ -97,15 +97,6 @@ other = "%d words"
 [page_reading_time]
 other = "%v minute read"
 
-[relnote_download]
-other = "Download Istio %s"
-
-[relnote_changes]
-other = "See what's changed in the source code for Istio %s"
-
-[relnote_docs]
-other = "Visit the %s documentation"
-
 [relnote_update_advice]
 other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
 
@@ -114,6 +105,42 @@ other = "LEARN ABOUT ISTIO %s"
 
 [relnote_update_notice]
 other = "Update Notice"
+
+[relnote_change_notes_title]
+other = "CHANGE NOTES"
+
+[relnote_change_notes_detail]
+other = "Get a detailed list of what's changed."
+
+[relnote_before_you_upgrade_title]
+other = "BEFORE YOU UPGRADE"
+
+[relnote_before_you_upgrade_detail]
+other = "Things to know and prepare before upgrading."
+
+[relnote_download_title]
+other = "DOWNLOAD"
+
+[relnote_download_detail]
+other = "Download and install this release."
+
+[relnote_docs_title]
+other = "DOCS"
+
+[relnote_docs_detail]
+other = "Visit the documentation for this release."
+
+[relnote_helm_changes_title]
+other = "HELM CHANGES"
+
+[relnote_helm_changes_detail]
+other = "Learn about changes in our Helm installation options."
+
+[relnote_source_changes_title]
+other = "SOURCE CHANGES"
+
+[relnote_source_changes_detail]
+other = "Inspect the full set of source code changes."
 
 [page_attribution]
 other = "By "

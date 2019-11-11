@@ -3,11 +3,11 @@ title: 如何查看 Mixer 配置？
 weight: 10
 ---
 
-*instances、* *handlers* 和 *rules* 的相关配置以 Kubernetes [Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 的方式进行存储。相关配置可以通过 `kubectl` 命令从 Kubernetes API server 查询获取。
+*instances*、*handlers* 和 *rules* 的相关配置以 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 的方式进行存储。其配置可以使用 `kubectl` 访问 Kubernetes API server 获得。
 
 ## Rules
 
-查看所有 `rule` 的列表，执行以下命令：
+查看所有的 `rule` 列表，执行以下命令：
 
 {{< text bash >}}
 $ kubectl get rules --all-namespaces
@@ -28,9 +28,9 @@ $ kubectl -n <namespace> get rules <name> -o yaml
 
 ## Handlers
 
-`Handlers` 是基于 `adapter` 的 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 定义的。
+`Handlers` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 中的 `adapters` 资源进行定义。
 
-首先，查看 `adapter` 类型列表：
+首先，查看所有的 `adapter` 列表，执行以下命令：
 
 {{< text bash >}}
 $ kubectl get crd -listio=mixer-adapter
@@ -55,13 +55,13 @@ statsds.config.istio.io           20h
 stdios.config.istio.io            20h
 {{< /text >}}
 
-然后，对列表中的每个 `adapter` 类型，执行以下命令：
+然后，对列表中的每个 `adapter` 执行以下命令：
 
 {{< text bash >}}
 $ kubectl get <adapter kind name> --all-namespaces
 {{< /text >}}
 
-`stdios` 的输出类似于：
+`stdios` 将输出以下类似内容：
 
 {{< text plain >}}
 NAMESPACE      NAME      AGE
@@ -76,9 +76,9 @@ $ kubectl -n <namespace> get <adapter kind name> <name> -o yaml
 
 ## Instances
 
-`Instances` 是基于 `instance` 的 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 定义的。
+`Instances` 基于 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 中的 `instances` 资源进行定义。
 
-首先，查看 `instance` 类型列表：
+首先，查看所有的 `instance` 列表，执行以下命令：
 
 {{< text bash >}}
 $ kubectl get crd -listio=mixer-instance
@@ -98,13 +98,13 @@ servicecontrolreports.config.istio.io   20h
 tracespans.config.istio.io              20h
 {{< /text >}}
 
-然后，对列表中的每个 instance 类型，执行以下命令：
+然后，对列表中的每个 `instance` 执行以下命令：
 
 {{< text bash >}}
 $ kubectl get <instance kind name> --all-namespaces
 {{< /text >}}
 
-`metrics` 的输出类似于：
+`metrics` 将输出以下类似内容：
 
 {{< text plain >}}
 NAMESPACE      NAME              AGE

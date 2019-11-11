@@ -1,8 +1,10 @@
 ---
-title: 我应该如何开始使用 Istio ？
+title: How do I get started using Istio?
 weight: 30
 ---
 
-我们建议从 [指南](/zh/docs/examples/) 开始，它以教程的样式介绍了 Istio 中不同的核心概念。这个指南展示了智能路由、策略增强、安全、遥测等案例。
+We recommend starting with the [Guides](/docs/examples/), which walks
+through different core Istio concepts in a tutorial style. The guides show
+case intelligent routing, policy enforcement, security, telemetry, etc.
 
-要在现有的 Kubernetes 或 Consul 部署中开始使用 Istio，请参阅我们的[安装说明](/zh/docs/setup/)。
+To start using Istio on your existing Kubernetes or Consul deployment, please refer to our [Installation instructions](/docs/setup/).

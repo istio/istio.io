@@ -1,5 +1,5 @@
 ---
-title: Istio 是如何开始的?
+title: Istio 是如何诞生的?
 weight: 50
 ---
 

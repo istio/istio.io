@@ -1,66 +1,90 @@
 ---
-title: 使用外部 TCP 服务
-description: 描述基于 Istio 的 Bookinfo 示例的简单场景。
+title: Consuming External TCP Services
+description: Describes a simple scenario based on Istio's Bookinfo example.
 publishdate: 2018-02-06
-subtitle: 网格外部 TCP 流量的服务入口
+last_update: 2019-02-10
+subtitle: Mesh-external Service Entries for TCP traffic
 attribution: Vadim Eisenberg
+aliases:
+  - /docs/tasks/traffic-management/egress-tcp/
 keywords: [traffic-management,egress,tcp]
+target_release: 1.0
 ---
 
-这篇博客在2018年7月23日有修改，修改的内容使用了新的 [v1alpha3 流量管理 API](/zh/blog/2018/v1alpha3-routing/)。如果你想使用旧版本 API，请参考[这个文档](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html)。
+{{< tip >}}
+This blog post was updated on July 23, 2018 to use the new
+[v1alpha3 traffic management API](/blog/2018/v1alpha3-routing/). If you need to use the old version, follow these [docs](https://archive.istio.io/v0.7/blog/2018/egress-tcp.html).
+{{< /tip >}}
 
-在我之前的博客文章[使用外部Web服务](/zh/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网格 Istio 应用程序中使用外部服务，在这篇文章中，我演示了通过 TCP 使用外部服务。你会用到[Istio Bookinfo示例应用程序](/zh/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本。你会在集群外部署此数据库并配置 _ratings_ 服务以使用它，你还会定义[出口规则](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#EgressRule)以允许网内应用程序访问外部数据库。
+In my previous blog post, [Consuming External Web Services](/blog/2018/egress-https/), I described how external services
+ can be consumed by in-mesh Istio applications via HTTPS. In this post, I demonstrate consuming external services
+ over TCP. You will use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
+  ratings data is persisted in a MySQL database. You deploy this database outside the cluster and configure the
+  _ratings_ microservice to use it. You define a
+ [Service Entry](/docs/reference/config/networking/service-entry/) to allow the in-mesh applications to
+ access the external database.
 
-## Bookinfo 示例应用程序与外部评级数据库
+## Bookinfo sample application with external ratings database
 
-首先，在 Kubernetes 集群之外设置了一个 MySQL 数据库实例来保存 Bookinfo 评级数据，然后修改 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)以使用这个数据库。
+First, you set up a MySQL database instance to hold book ratings data outside of your Kubernetes cluster. Then you
+modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your database.
 
-### 为评级数据设置数据库
+### Setting up the database for ratings data
 
-为此，你设置了 [MySQL](https://www.mysql.com) 的实例，你可以使用任何 MySQL 实例; 我使用 [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql)，我使用`mysqlsh`（[MySQL Shell](https://dev.mysql.com/doc/mysql-shell/en/)）作为 MySQL 客户端来提供评级数据。
+For this task you set up an instance of [MySQL](https://www.mysql.com). You can use any MySQL instance; I used
+[Compose for MySQL](https://www.ibm.com/cloud/compose/mysql). I used `mysqlsh`
+([MySQL Shell](https://dev.mysql.com/doc/mysql-shell/en/)) as a MySQL client to feed the ratings data.
 
-1. 设置 `MYSQL_DB_HOST` 和 `MYSQL_DB_PORT` 环境变量。
+1.  Set the `MYSQL_DB_HOST` and `MYSQL_DB_PORT` environment variables:
 
     {{< text bash >}}
-    $ export MYSQL_DB_HOST=<你的 MySQL host>
-    $ export MYSQL_DB_PORT=<你的 MySQL port>
+    $ export MYSQL_DB_HOST=<your MySQL database host>
+    $ export MYSQL_DB_PORT=<your MySQL database port>
     {{< /text >}}
 
-    如果你使用的是本地数据库，使用的是默认 MYSQL port，那 `host` 和 `port` 分别是 `localhost` 和 `3306`。
+    In case of a local MySQL database with the default port, the values are `localhost` and `3306`, respectively.
 
-1. 初始化数据库时，如果出现提示，执行下面的命令输入密码。这个命令通过 `admin` 数据库用户凭证来执行。这个 `admin` 用户是通过 [Compose for Mysql](https://www.ibm.com/cloud/compose/mysql) 创建数据库时默认存在的。
+1.  To initialize the database, run the following command entering the password when prompted. The command is
+performed with the credentials of the  `admin` user, created by default by
+[Compose for MySQL](https://www.ibm.com/cloud/compose/mysql).
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT
     {{< /text >}}
 
-    _**或者**_
+    _**OR**_
 
-    使用`mysql`客户端和本地MySQL数据库时，运行：
+    When using the `mysql` client and a local MySQL database, run:
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/mysql/mysqldb-init.sql | mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT
     {{< /text >}}
 
-1. 创建一个名为 `bookinfo` 的用户，并在 `test.ratings` 表上授予它 _SELECT_ 权限：
+1.  Create a user with the name `bookinfo` and grant it _SELECT_ privilege on the `test.ratings` table:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
-    _**或者**_
+    _**OR**_
 
-    对于 `mysql` 和本地数据库，命令是：
+    For `mysql` and the local database, the command is:
 
     {{< text bash >}}
     $ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
-    在这里，你会应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege)，这意味着不在 Bookinfo 应用程序中使用 `admin` 用户。相反，你为应用程序 Bookinfo 创建了一个最小权限的特殊用户 `bookinfo`， 在这种情况下，`bookinfo` 用户只对单个表具有 `SELECT` 特权。
+    Here you apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). This
+    means that you do not use your `admin` user in the Bookinfo application. Instead, you create a special user for the
+    Bookinfo application , `bookinfo`, with minimal privileges. In this case, the _bookinfo_ user only has the `SELECT`
+    privilege on a single table.
 
-    在运行命令创建用户之后，你可能会想通过检查最后一个命令的编号并运行 `history -d <创建用户的命令编号>` 来清理我的 bash 历史记录。你可能不希望新用户的密码存储在 bash 历史记录中，如果你使用了 `mysql` 命令行工具，记得要删除 `~/.mysql_history` 文件中的最后一个命令。在 [MySQL 文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html)中阅读有关新创建用户的密码保护的更多信息。
+    After running the command to create the user, you may want to clean your bash history by checking the number of the last
+    command and running `history -d <the number of the command that created the user>`. You don't want the password of the
+     new user to be stored in the bash history. If you're using `mysql`, remove the last command from
+     `~/.mysql_history` file as well. Read more about password protection of the newly created user in [MySQL documentation](https://dev.mysql.com/doc/refman/5.5/en/create-user.html).
 
-1. 检查创建的评级，看看一切都按预期工作：
+1.  Inspect the created ratings to see that everything worked as expected:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u bookinfo -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "select * from test.ratings;"
@@ -73,9 +97,9 @@ keywords: [traffic-management,egress,tcp]
     +----------+--------+
     {{< /text >}}
 
-    _**或者**_
+    _**OR**_
 
-    对于 `mysql` 和本地数据库：
+    For `mysql` and the local database:
 
     {{< text bash >}}
     $ mysql -u bookinfo -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "select * from test.ratings;"
@@ -88,7 +112,8 @@ keywords: [traffic-management,egress,tcp]
     +----------+--------+
     {{< /text >}}
 
-1. 暂时将评级设置为`1`，以便在 Bookinfo _ratings_ 服务使用我们的数据库时提供可视线索：
+1.  Set the ratings temporarily to `1` to provide a visual clue when our database is used by the Bookinfo _ratings_
+service:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "update test.ratings set rating=1; select * from test.ratings;"
@@ -103,9 +128,9 @@ keywords: [traffic-management,egress,tcp]
     +----------+--------+
     {{< /text >}}
 
-    _**或**_
+    _**OR**_
 
-    对于`mysql`和本地数据库：
+    For `mysql` and the local database:
 
     {{< text bash >}}
     $ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "update test.ratings set rating=1; select * from test.ratings;"
@@ -118,28 +143,37 @@ keywords: [traffic-management,egress,tcp]
     +----------+--------+
     {{< /text >}}
 
-    在最后一个命令中使用了 `admin` 用户（和 `root` 用于本地数据库），因为 `bookinfo` 用户在 `test.ratings` 表上没有 `UPDATE` 权限。
+    You used the `admin` user (and `root` for the local database) in the last command since the `bookinfo` user does not
+    have the `UPDATE` privilege on the `test.ratings` table.
 
-现在你已经可以去部署使用外部数据库的 Bookinfo 应用程序版本了。
+Now you are ready to deploy a version of the Bookinfo application that will use your database.
 
-### Bookinfo 应用程序的初始设置
+### Initial setting of Bookinfo application
 
-为了演示使用外部数据库的场景，你首先使用安装了 [Istio](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤) 的 Kubernetes 集群，然后部署了 [Istio Bookinfo示例应用程序](/zh/docs/examples/bookinfo/)，还[应用了默认的 destination rule](/docs/examples/bookinfo/#apply-default-destination-rules)。
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/). Then you deploy the
+[Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and [change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
-此应用程序使用 `ratings` 微服务来获取书籍评级，评分在1到5之间。评级显示为每个评论的星号，有几个版本的 `ratings` 微服务。有些人使用 [MongoDB](https://www.mongodb.com)，有些使用 [MySQL](https://www.mysql.com) 作为他们的数据库。
+This application uses the `ratings` microservice to fetch
+ book ratings, a number between 1 and 5. The ratings are displayed as stars for each review. There are several versions
+ of the `ratings` microservice. Some use [MongoDB](https://www.mongodb.com), others use [MySQL](https://www.mysql.com)
+ as their database.
 
-这篇博客例子里的命令是以 Istio 0.8 以上版本为基础的，无论启用或不启用[双向 TLS](/zh/docs/concepts/security/#双向-tls-认证)。
+The example commands in this blog post work with Istio 0.8+, with or without
+[mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled.
 
-提醒一下，这是 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)中应用程序的原始整体架构图。
+As a reminder, here is the end-to-end architecture of the application from the
+[Bookinfo sample application](/docs/examples/bookinfo/).
 
 {{< image width="80%"
     link="/docs/examples/bookinfo/withistio.svg"
-    caption="原始的 Bookinfo 应用程序"
+    caption="The original Bookinfo application"
     >}}
 
-### 将数据库用于 Bookinfo 应用程序中的评级数据
+### Use the database for ratings data in Bookinfo application
 
-1. 修改使用 MySQL 数据库的 _ratings_ 服务版本的 `deployment spec`，以使用你的数据库实例。该 `spec` 位于 Istio 发行档案的[`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)中。编辑以下几行：
+1.  Modify the deployment spec of a version of the _ratings_ microservice that uses a MySQL database, to use your
+database instance. The spec is in [`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)
+of an Istio release archive. Edit the following lines:
 
     {{< text yaml >}}
     - name: MYSQL_DB_HOST
@@ -152,58 +186,78 @@ keywords: [traffic-management,egress,tcp]
       value: password
     {{< /text >}}
 
-    替换上面代码段中的值，指定数据库主机，端口，用户和密码，请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是[使用 secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables)，仅对于此示例任务，你可能会在 deployment spec 中直接配置明文的密码， **切记！不要在真实环境中这样做**！我想你们应该也知道，`"password"` 这个值也不应该用作密码。
+    Replace the values in the snippet above, specifying the database host, port, user, and password. Note that the
+    correct way to work with passwords in container's environment variables in Kubernetes is [to use secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables). For this
+     example task only, you may want to write the password directly in the deployment spec.  **Do not do it** in a real
+     environment! I also assume everyone realizes that `"password"` should not be used as a password...
 
-1. 应用修改后的 `spec` 来部署使用外部数据库的 _ratings_ 服务，_v2-mysql_ 的版本。
+1.  Apply the modified spec to deploy the version of the _ratings_ microservice, _v2-mysql_, that will use your
+    database.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@
     deployment "ratings-v2-mysql" created
     {{< /text >}}
 
-1. 将发往 _reviews_ 服务的所有流量路由到 _v3_ 版本，这样做是为了确保 _reviews_ 服务始终调用 _ratings_ 服务，此外，将发往 _ratings_ 服务的所有流量路由到使用外部数据库的 _ratings v2-mysql_。
+1.  Route all the traffic destined to the _reviews_ service to its _v3_ version. You do this to ensure that the
+_reviews_ service always calls the _ratings_ service. In addition, route all the traffic destined to the _ratings_
+service to _ratings v2-mysql_ that uses your database.
 
-    通过添加两个[虚拟服务(virtual service)](/zh/docs/reference/config/istio.networking.v1alpha3/#VirtualService)，可以为上述两种服务指定路由。这些虚拟服务在 Istio 发行档案的 `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` 中指定。
-    ***注意：***确保你在完成了[添加默认目标路由](/docs/examples/bookinfo/#apply-default-destination-rules)才执行下面的命令。
+    Specify the routing for both services above by adding two
+    [virtual services](/docs/reference/config/networking/virtual-service/). These virtual services are
+    specified in `samples/bookinfo/networking/virtual-service-ratings-mysql.yaml` of an Istio release archive.
+    ***Important:*** make sure you
+    [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
+     following command.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
     {{< /text >}}
 
-更新的架构如下所示，请注意，网格内的蓝色箭头标记根据我们添加的虚拟服务配置的流量，根据虚拟服务的定义，流量将发送到 _reviews v3_ 和 _ratings v2-mysql_ 。
+The updated architecture appears below. Note that the blue arrows inside the mesh mark the traffic configured according
+ to the virtual services we added. According to the virtual services, the traffic is sent to _reviews v3_ and
+ _ratings v2-mysql_.
 
 {{< image width="80%"
-    link="bookinfo-ratings-v2-mysql-external.svg"
-    caption="Bookinfo 应用程序，其评级为 v2-mysql，外部为 MySQL 数据库"
+    link="./bookinfo-ratings-v2-mysql-external.svg"
+    caption="The Bookinfo application with ratings v2-mysql and an external MySQL database"
     >}}
 
-请注意，MySQL 数据库位于 Istio 服务网格之外，或者更准确地说是在 Kubernetes 集群之外，服务网格的边界由虚线标记。
+Note that the MySQL database is outside the Istio service mesh, or more precisely outside the Kubernetes cluster. The
+ boundary of the service mesh is marked by a dashed line.
 
-### 访问网页
+### Access the webpage
 
-在[确定入口 IP 和端口](/zh/docs/examples/bookinfo/#确定-ingress-的-ip-和端口)之后，访问应用程序的网页。
+Access the webpage of the application, after
+[determining the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
-你会发现问题，在每次审核下方都会显示消息 _"Ratings service is currently unavailable”_  而不是评级星标。
+You have a problem... Instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
+ displayed below each review:
 
-{{< image width="80%" link="errorFetchingBookRating.png" caption="Ratings 服务的错误信息" >}}
+{{< image width="80%" link="./errorFetchingBookRating.png" caption="The Ratings service error messages" >}}
 
-与[使用外部Web服务](/zh/blog/2018/egress-https/)一样，你会体验到**优雅的服务降级**，这很好，虽然 _ratings_ 服务中有错误，但是应用程序并没有因此而崩溃，应用程序的网页正确显示了书籍信息，详细信息和评论，只是没有评级星。
+As in [Consuming External Web Services](/blog/2018/egress-https/), you experience **graceful service degradation**,
+which is good. The application did not crash due to the error in the _ratings_ microservice. The webpage of the
+application correctly displayed the book information, the details, and the reviews, just without the rating stars.
 
-你遇到的问题与[使用外部Web服务](/zh/blog/2018/egress-https/)中的问题相同，即 Kubernetes 集群外的所有流量（TCP和HTTP）都被 sidecar 代理默认阻止，要为 TCP 启用此类流量，必须定义 TCP 的网格外部服务入口。
+You have the same problem as in [Consuming External Web Services](/blog/2018/egress-https/), namely all the traffic
+outside the Kubernetes cluster, both TCP and HTTP, is blocked by default by the sidecar proxies. To enable such traffic
+ for TCP, a mesh-external service entry for TCP must be defined.
 
-### 外部 MySQL 实例的网格外部服务入口
+### Mesh-external service entry for an external MySQL instance
 
-"TCP 网格外部服务入口"功能可以解决上面的问题。
+TCP mesh-external service entries come to our rescue.
 
-1. 获取你的 MySQL 数据库事例的 IP 地址，作为参考，你可以通过 [host](https://linux.die.net/man/1/host) 命令实现：
+1.  Get the IP address of your MySQL database instance. As an option, you can use the
+    [host](https://linux.die.net/man/1/host) command:
 
     {{< text bash >}}
     $ export MYSQL_DB_IP=$(host $MYSQL_DB_HOST | grep " has address " | cut -d" " -f4)
     {{< /text >}}
 
-    如果是本地数据库，设置 `MYSQL_DB_IP` 环境变量为你的本机IP，保证这个环境变量能被集群访问到。
+    For a local database, set `MYSQL_DB_IP` to contain the IP of your machine, accessible from your cluster.
 
-1. 定义一个网格外部服务入口：
+1.  Define a TCP mesh-external service entry:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -224,7 +278,7 @@ keywords: [traffic-management,egress,tcp]
     EOF
     {{< /text >}}
 
-1. 检查你刚刚新增的服务入口，确保它的值是正确的
+1.  Review the service entry you just created and check that it contains the correct values:
 
     {{< text bash >}}
     $ kubectl get serviceentry mysql-external -o yaml
@@ -234,60 +288,93 @@ keywords: [traffic-management,egress,tcp]
     ...
     {{< /text >}}
 
-请注意，对于 TCP 服务入口，将 `tcp` 指定为入口 "port" 的 "protocol" 的值，另请注意，要在 "addresses" 列表里面指定外部服务的 IP 地址，作为一个 `32` 为后缀的 [CIDR](https://tools.ietf.org/html/rfc2317) 块。
+Note that for a TCP service entry, you specify `tcp` as the protocol of a port of the entry. Also note that you have to
+specify the IP of the external service in the list of addresses, as a [CIDR](https://tools.ietf.org/html/rfc2317) block
+with suffix `32`.
 
-[下面](#tcp-流量的服务入口)我将详细讨论 TCP 服务入口。现在先来验证我们添加的出口规则是否解决了问题。访问网页看看评星是否回来了。
+I will talk more about TCP service entries
+[below](#service-entries-for-tcp-traffic). For now, verify that the service entry we added fixed the problem. Access the
+webpage and see if the stars are back.
 
-有效！ 访问应用程序的网页会显示评级而不会出现错误：
+It worked! Accessing the web page of the application displays the ratings without error:
 
-{{< image width="80%" link="externalMySQLRatings.png" caption="Book Ratings 显示正常" >}}
+{{< image width="80%" link="./externalMySQLRatings.png" caption="Book Ratings Displayed Correctly" >}}
 
-请注意，正如预期的那样，你会看到两个显示评论的一星评级。将评级更改为一颗星，为我们提供了一个视觉线索，确实使用了我们的外部数据库。
+Note that you see a one-star rating for both displayed reviews, as expected. You changed the ratings to be one star to
+provide us with a visual clue that our external database is indeed being used.
 
-与 HTTP/HTTPS 的服务入口一样，你可以动态地使用 `kubectl` 删除和创建 TCP 的服务入口。
+As with service entries for HTTP/HTTPS, you can delete and create service entries for TCP using `kubectl`, dynamically.
 
-## 出口 TCP 流量控制的动机
+## Motivation for egress TCP traffic control
 
-一些网内 Istio 应用程序必须访问外部服务，例如遗留系统，在许多情况下，不通过 HTTP 或 HTTPS 协议执行访问，使用其他 TCP 协议，例如 [MongoDB wire 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)和 [MySQL客户端/服务器协议](https://dev.mysql.com/doc/internals/en/client-server-protocol.html)等特定于数据库的协议，与外部数据库通信。
+Some in-mesh Istio applications must access external services, for example legacy systems. In many cases, the access is
+not performed over HTTP or HTTPS protocols. Other TCP protocols are used, such as database-specific protocols like
+[MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) and [MySQL Client/Server Protocol](https://dev.mysql.com/doc/internals/en/client-server-protocol.html) to communicate with external databases.
 
-接下来我会再说说 TCP 流量的服务入口。
+Next let me provide more details about the service entries for TCP traffic.
 
-## TCP 流量的服务入口
+## Service entries for TCP traffic
 
-启用到特定端口的 TCP 流量的服务入口必须指定 `TCP` 作为端口的协议，此外，对于 [MongoDB wire协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为 `MONGO`，而不是 `TCP`。
+The service entries for enabling TCP traffic to a specific port must specify `TCP` as the protocol of the port.
+Additionally, for the [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/), the
+protocol can be specified as `MONGO`, instead of `TCP`.
 
-对于服务入口配置的 `addresses` 字段，必须使用 [CIDR](https://tools.ietf.org/html/rfc2317)表示法中的 IP 块。注意在 TCP 服务入口配置中，`host` 字段会被忽略。
+For the `addresses` field of the entry, a block of IPs in [CIDR](https://tools.ietf.org/html/rfc2317)
+notation must be used. Note that the `hosts` field is ignored for TCP service entries.
 
-要通过其主机名启用到外部服务的 TCP 流量，必须指定主机名的所有 IP，每个 IP 必须由 CIDR 块指定。
+To enable TCP traffic to an external service by its hostname, all the IPs of the hostname must be specified. Each IP
+must be specified by a CIDR block.
 
-请注意，外部服务的所有 IP 并不总是已知。要往外发送 TCP 流量，只能配置为被应用程序使用的 IP。
+Note that all the IPs of an external service are not always known. To enable egress TCP traffic, only the IPs that are
+used by the applications must be specified.
 
-另请注意，外部服务的 IP 并不总是静态的，例如在 [CDNs](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下，有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化。在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围。如果不知道可能的IP的范围，则不能使用 TCP 服务入口，并且[必须直接调用外部服务](/zh/docs/tasks/traffic-management/egress/#直接调用外部服务)，绕过 sidecar 代理。
+Also note that the IPs of an external service are not always static, for example in the case of
+[CDNs](https://en.wikipedia.org/wiki/Content_delivery_network). Sometimes the IPs are static most of the time, but can
+be changed from time to time, for example due to infrastructure changes. In these cases, if the range of the possible
+IPs is known, you should specify the range by CIDR blocks. If the range of the possible IPs is not known, service
+entries for TCP cannot be used and
+[the external services must be called directly](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services),
+bypassing the sidecar proxies.
 
-## 与网格扩展的关系
+## Relation to mesh expansion
 
-请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/mesh-expansion/shared-vpn/integrating-vms/)示例中描述的网格扩展场景不同。 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或VM）上运行 ，MySQL 服务成为网格的一等公民，具有 Istio 的所有有益功能，除此之外，服务可以通过本地集群域名寻址，例如通过 `mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#双向-tls-认证)保护与它的通信，无需创建服务入口来访问此服务; 但是，该服务必须在 Istio 注侧，要启用此类集成，必须在计算机上安装 Istio 组件（ _Envoy proxy_ ，_node-agent_ ，`_istio-agent_` ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_Citadel_ ）。有关详细信息，请参阅 [Istio Mesh Expansion](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/) 说明。
+Note that the scenario described in this post is different from the mesh expansion scenario, described in the
+[Bookinfo with Mesh Expansion](/docs/examples/mesh-expansion/bookinfo-expanded/) example. In that scenario, a MySQL instance runs on an
+external
+(outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes
+a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service
+becomes addressable by a local cluster domain name, for example by `mysqldb.vm.svc.cluster.local`, and the communication
+ to it can be secured by
+[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication). There is no need to create a service
+entry to access this service; however, the service must be registered with Istio. To enable such integration, Istio
+components (_Envoy proxy_, _node-agent_, `_istio-agent_`) must be installed on the machine and the Istio control plane
+(_Pilot_, _Mixer_, _Citadel_) must be accessible from it. See the
+[Istio Mesh Expansion](/docs/examples/mesh-expansion/) instructions for more details.
 
-在我们的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置，无需集成机器
-与 Istio ，无需从机器访问 Istio 控制平面，在 MySQL 作为服务的情况下，MySQL 运行的机器可能无法访问并在其上安装所需的组件可能是不可能的，在我们的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的，当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。
+In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is
+no requirement to integrate the machine with Istio. The Istio control plane does not have to be accessible from the
+machine. In the case of MySQL as a service, the machine which MySQL runs on may be not accessible and installing on it
+the required components may be impossible. In our case, the MySQL instance is addressable by its global domain name,
+which could be beneficial if the consuming applications expect to use that domain name. This is especially relevant when
+ that expected domain name cannot be changed in the deployment configuration of the consuming applications.
 
-## 清理
+## Cleanup
 
-1. 删除 `test` 数据库和 `bookinfo` 用户：
+1.  Drop the `test` database and the `bookinfo` user:
 
     {{< text bash >}}
     $ mysqlsh --sql --ssl-mode=REQUIRED -u admin -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "drop database test; drop user bookinfo;"
     {{< /text >}}
 
-    _**或者**_
+    _**OR**_
 
-    对于`mysql`和本地数据库：
+    For `mysql` and the local database:
 
     {{< text bash >}}
     $ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "drop database test; drop user bookinfo;"
     {{< /text >}}
 
-1. 删除虚拟服务：
+1.  Remove the virtual services:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-mysql.yaml@
@@ -295,20 +382,22 @@ keywords: [traffic-management,egress,tcp]
     Deleted config: virtual-service/default/ratings
     {{< /text >}}
 
-1. 取消部署 _ratings v2-mysql_ ：
+1.  Undeploy _ratings v2-mysql_:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml@
     deployment "ratings-v2-mysql" deleted
     {{< /text >}}
 
-1. 删除服务入口：
+1.  Delete the service entry:
 
     {{< text bash >}}
     $ kubectl delete serviceentry mysql-external -n default
     Deleted config: serviceentry mysql-external
     {{< /text >}}
 
-## 结论
+## Conclusion
 
-在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 TCP 使用外部服务，默认情况下，Istio 会阻止所有流量（TCP 和 HTTP）到集群外的主机， 要为 TCP 启用此类流量，必须为服务网格创建 TCP 网格外部服务入口。
+In this blog post, I demonstrated how the microservices in an Istio service mesh can consume external services via TCP.
+By default, Istio blocks all the traffic, TCP and HTTP, to the hosts outside the cluster. To enable such traffic for
+TCP, TCP mesh-external service entries must be created for the service mesh.

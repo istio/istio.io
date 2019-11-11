@@ -1,8 +1,8 @@
 ---
-title: Security Update - ISTIO-SECURITY-2019-003 and ISTIO-SECURITY-2019-004
+title: ISTIO-SECURITY-2019-003 and ISTIO-SECURITY-2019-004
+subtitle: Security Bulletin
 description: Security vulnerability disclosure for multiple CVEs.
 publishdate: 2019-08-13
-attribution: The Istio Team
 keywords: [CVE]
 aliases:
     - /blog/2019/istio-security-003-004

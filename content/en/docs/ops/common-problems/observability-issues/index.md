@@ -27,7 +27,7 @@ The Mixer default installations include a Prometheus adapter and the configurati
 
 If the Istio Dashboard or the Prometheus queries don’t show the expected metrics, any step of the flow above may present an issue. The following sections provide instructions to troubleshoot each step.
 
-### Verify Mixer is receiving Report calls
+### Verify Mixer is receiving report calls
 
 Mixer generates metrics to monitor its own behavior. The first step is to check these metrics:
 

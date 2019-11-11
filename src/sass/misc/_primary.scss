@@ -28,6 +28,12 @@
         display: none;
     }
 
+    .article-container {
+        article {
+            overflow-x: scroll;
+        }
+    }
+
     @media screen AND (min-width: $bp-xl) {
         grid-template-columns: [sidebar] 16% [article] calc(68% - 2rem) [toc] 16%;
 

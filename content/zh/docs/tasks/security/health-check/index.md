@@ -5,89 +5,54 @@ weight: 70
 keywords: [security,health-check]
 ---
 
-本文中的任务展示了如何在 Kubernetes 中为 Citadel 启动健康检查，注意，这一功能仍处于 Alpha 阶段。
+你可以启用 Citadel 的健康检查功能去检测 Citadel CSR（证书签名请求）服务是否有故障。当检测到服务发生故障，Kubelet 将自动重启 Citadel 容器。
 
-从 Istio 0.6 开始，Citadel 具备了一个可选的健康检查功能。缺省情况下的 Istio 部署过程没有启用这一特性。目前健康检查功能通过周期性的向 API 发送 CSR 的方式，来检测 Citadel CSR 签署服务的故障。很快会实现更多的健康检查方法。
+当健康检查功能被开启，Citadel 中的 **检测器** 模块会定期向 Citadel 的 CSR gRPC 服务发送 CSRs 并校验响应信息以此判断服务的健康状况。如果 Citadel 服务是健康状态，_检测器_ 会更新 _健康状态文件_ 的 _更新时间_ ，否则什么都不做。Citadel 依赖 [Kubernetes 的健康和就绪检测](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)功能，使用命令行检查 pod 中 _健康状态文件_ 的 _更新时间_ 。如果这个文件有一段时间不更新了，Kubelet 将会重启 Citadel 容器。
 
-Citadel 包含了一个检测器模块，它会周期性的检查 Citadel 的状态（目前只是 gRPC 服务器的健康情况）。如果 Citadel 是健康的，检测器客户端会更新健康状态文件（文件内容始终为空）的更新时间。否则就什么都不做。Citadel 依赖 [Kubernetes 的健康和就绪检测](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)功能，会周期性的使用命令行检查健康状态文件的更新时间。如果这个文件有一段时间不更新了，Citadel 容器就会被 Kubelet 的重新启动。
+注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [SDS](/zh/docs/tasks/security/auth-sds/) 或者 [Mesh Expansion](/zh/docs/examples/mesh-expansion/) 就没有必要使用这个功能。
 
-注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [Istio Mesh Expansion](/zh/docs/setup/kubernetes/additional-setup/mesh-expansion/) （这个特性需要 CSR 服务接口的支持）就没有必要使用这个功能了。
+## 开始之前{#before-you-begin}
 
-## 开始之前
-
-* 根据[快速开始](/zh/docs/setup/kubernetes/install/kubernetes/)的指引部署 Istio 并启用全局双向 TLS 支持。
-
-    根据[安装步骤](/zh/docs/setup/kubernetes/install/kubernetes/#安装步骤)安装 Istio 并启用双向 TLS。
-
-    _**或者**_
-
-    用 [Helm](/zh/docs/setup/kubernetes/install/helm/) 进行部署，设置 `global.mtls.enabled` 为 `true`。
+为了完成这个任务，你可以[安装 Istio](/zh/docs/setup/install/istioctl/)，并设置 `global.mtls.enabled` 为 `true`。
 
 {{< tip >}}
-Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#认证策略)为命名空间内的部分或者全部服务配置双向 TLS 支持（在所有命名空间重复一遍就算是全局配置了）。请参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
+使用[认证策略](/zh/docs/concepts/security/#authentication-policies)为命名空间内的部分或者全部服务配置双向 TLS 支持。在进行全局设置配置时必须对所有命名空间重复一遍。细节可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)。
 {{< /tip >}}
 
-## 部署启用健康检查的 Citadel
+## 部署启用健康检查的 Citadel{#deploying-citadel-with-health-checking}
 
-下面的命令用来部署启用健康检查的 Citadel：
-
-{{< text bash >}}
-$ kubectl apply -f install/kubernetes/istio-citadel-with-health-check.yaml
-{{< /text >}}
-
-部署 `istio-citadel` 服务，这样健康检查器才能找到 CSR 服务.
+重新部署 Citadel 启用健康检查：
 
 {{< text bash >}}
-$ kubectl create -f - <<EOF
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-citadel
-  namespace: istio-system
-  labels:
-    istio: citadel
-spec:
-  ports:
-    - port: 8060
-  selector:
-    istio: citadel
-EOF
+$ istioctl manifest generate --set values.global.mtls.enabled=true,values.security.citadelHealthCheck=true > citadel-health-check.yaml
+$ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
-## 确认健康检查器的是否工作
+## 确认健康检查器是否工作{#verify-that-health-checking-works}
 
 Citadel 会记录健康检查的结果，运行下面的命令行：
 
 {{< text bash >}}
-$ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{print $1}'` -n istio-system
+$ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{print $1}'` -n istio-system | grep "CSR signing service"
 {{< /text >}}
 
 会看到类似下面这样的输出：
 
 {{< text plain >}}
-...
-2018-02-27T04:29:56.128081Z     info    CSR successfully signed.
-...
-2018-02-27T04:30:11.081791Z     info    CSR successfully signed.
-...
-2018-02-27T04:30:25.485315Z     info    CSR successfully signed.
-...
+... CSR signing service is healthy (logged every 100 times).
 {{< /text >}}
 
-上面的日志表明周期性的健康检查已经启动。可以看到，缺省的健康检查的时间周期是 15 秒。
+上面的日志表明周期性的健康检查已经启动。默认的健康检查间隔为 15 秒，每 100 个检查记录一次。
 
-## (可选) 健康检查的配置
+## （可选）健康检查的配置{#optional-configuring-the-health-checking}
 
-还可以根据需要调整健康检查的配置。打开文件 `install/kubernetes/istio-citadel-with-health-check.yaml`，找到下面的内容（注释已汉化，非原文）：
+这部分的讨论关于如何修改健康检查的配置。打开 `citadel-health-check.yaml` 文件，并定位到下面的内容：
 
 {{< text plain >}}
 ...
-  - --liveness-probe-path=/tmp/ca.liveness # 健康检查状态文件的路径
-  - --liveness-probe-interval=60s # 健康状态文件的更新周期
+  - --liveness-probe-path=/tmp/ca.liveness # 存活健康检查状态文件的路径
+  - --liveness-probe-interval=60s # 存活健康状态文件的更新周期
   - --probe-check-interval=15s    # 健康检查的周期
-  - --logtostderr
-  - --stderrthreshold
-  - INFO
 livenessProbe:
   exec:
     command:
@@ -100,21 +65,15 @@ livenessProbe:
 ...
 {{< /text >}}
 
-* `liveness-probe-path` 和 `probe-path`：到健康状态文件的路径，在 Citadel 以及检测器上进行配置；
-* `liveness-probe-interval`：是更新健康状态文件的周期；
-* `probe-check-interval`：是 Citadel 健康检查的周期；
-* `interval`：从上次更新健康状态文件至今的时间，也就是检测器认为 Citadel 健康的时间段；
-* `initialDelaySeconds` 以及 `periodSeconds`：初始化延迟以及检测运行周期；
+健康状态文件的路径为 `liveness-probe-path` 和 `probe-path`。你应该同时更新在 Citadel 和 `livenessProbe` 中的路径。如果 Citadel 是健康的，`liveness-probe-interval` 的值用于更新健康状态文件的周期。Citadel 的健康检查控制器使用 `probe-check-interval` 的值作为请求 Citadel CSR 服务的周期。`interval` 是自上次更新健康状况文件至今的最长时间，供检测器判断 Citadel 是否健康。`initialDelaySeconds` 和 `periodSeconds` 的值确定初始化延迟以及每次激活 `livenessProbe` 的时间间隔。
 
 延长 `probe-check-interval` 会减少健康检查的开销，但是一旦遇到故障情况，健康监测器也会更晚的得到故障信息。为了避免检测器因为临时故障重启 Citadel，检测器的 `interval` 应该设置为 `liveness-probe-interval` 的 `N` 倍，这样就让检测器能够容忍持续 `N-1` 次的检查失败。
 
-## 清理
+## 清理{#cleanup}
 
-* 在 Citadel 上禁用健康检查：详细参照[删除步骤](/zh/docs/setup/kubernetes/install/kubernetes/#删除)
-
-* 移除 Citadel：
+* 在 Citadel 上禁用健康检查：
 
     {{< text bash >}}
-    $ kubectl delete -f install/kubernetes/istio-citadel-with-health-check.yaml
-    $ kubectl delete svc istio-citadel -n istio-system
+    $ istioctl manifest apply --set values.global.mtls.enabled=true
     {{< /text >}}
+

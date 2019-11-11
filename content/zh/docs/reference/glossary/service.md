@@ -1,5 +1,7 @@
 ---
-title: 服务
+title: Service
 ---
-服务是在[服务网格](#%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC)里划定的一个行为相似的组。服务通过[服务名](#%E6%9C%8D%E5%8A%A1%E5%90%8D)进行标识，而且服务名在 Istio 的策略里（如负载均衡、路由等）会应用到。
-一个服务通常有一个或多个[服务 endpoint](#%E6%9C%8D%E5%8A%A1-endpoint) 实现，且会存在多个[服务版本](#%E6%9C%8D%E5%8A%A1%E7%89%88%E6%9C%AC)。
+使用 [服务名称](#service-name)标识一组具有关联行为的服务 [服务网格](#service-mesh)，
+并使用这些名称应用 Istio 策略（例如负载均衡和路由）。
+服务通常由一个或多个 [服务 Endpoint](#service-endpoint)实现，并且或许包含多个
+[服务版本](#service-version)。

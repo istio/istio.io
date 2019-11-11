@@ -1,6 +1,8 @@
 ---
-title: 安装和设置
-description: 帮助诊断和修复 Isto 安装问题。
-weight: 80
+title: 安装和配置
+description: 安装和配置 Istio 的要求、概念和注意事项。
+weight: 30
 keywords: [ops,setup]
+aliases:
+    - /zh/help/ops/setup
 ---

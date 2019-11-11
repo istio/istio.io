@@ -1,4 +1,5 @@
 ---
-title: 服务操作者
+title: Service Operator
 ---
-服务操作者是在[服务网格](#%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC)里管理[服务](#%E6%9C%8D%E5%8A%A1)的代理，它们通过操纵配置状态并通过各种仪表板监视服务的运行状况来管理这些服务。
+The agent that manages a [service](#service) within a [service mesh](#service-mesh) by manipulating configuration state
+and monitoring the service's health via a variety of dashboards.

@@ -1,6 +1,6 @@
 ---
-title: 分布式追踪所需的最小 Istio 配置是什么？
+title: What is the minimal Istio configuration required for distributed tracing?
 weight: 13
 ---
 
-启用了追踪功能的 Istio [最小配置文件](/zh/docs/setup/kubernetes/install/helm/)是 Istio 与 Zipkin 兼容后端集成所需的全部内容。
+The [Istio minimal profile](/docs/setup/install/helm/) with tracing enabled is all that is required for Istio to integrate with Zipkin-compatible backends.
