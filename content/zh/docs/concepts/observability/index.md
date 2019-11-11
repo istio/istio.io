@@ -12,7 +12,7 @@ aliases:
     - /zh/docs/concepts/policies-and-telemetry/
 ---
 
-Istio为网格内的所有服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的“可观察性”，使运营商能够排除故障、维护和优化其应用程序，而不会给服务开发人员带来任何额外的负担。通过Istio，操作人员可以全面了解受监控的服务如何与其他服务以及与Istio组件本身进行交互。
+Istio为网格内所有的服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的**可观察性**，使运营商能够排除故障、维护和优化其应用程序，而不会给服务开发人员带来任何额外的负担。通过Istio，操作人员可以全面了解受监控的服务如何与其他服务以及与Istio组件本身进行交互。
 
 Istio generates detailed telemetry for all service communications within a mesh. This telemetry provides *observability* of service behavior, empowering operators to troubleshoot, maintain, and optimize their applications -- without imposing any additional burdens on service developers. Through Istio, operators gain a thorough understanding of how monitored services are interacting, both with other services and with the Istio components themselves.
 
