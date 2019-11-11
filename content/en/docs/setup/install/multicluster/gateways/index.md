@@ -94,7 +94,8 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
         {{< text bash >}}
         $ istioctl manifest apply \
-            -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml
+            -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml \
+            --set coreDNS.enabled=true --set gateways.components.egressGateway.enabled=true --force
         {{< /text >}}
 
     For further details and customization options, refer to the
@@ -508,8 +509,10 @@ for a complete example.
 Uninstall Istio by running the following commands on **every cluster**:
 
 {{< text bash >}}
-$ kubectl delete -f $HOME/istio.yaml
-$ kubectl delete ns istio-system
+$ istioctl manifest generate \
+    -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml \
+    --set coreDNS.enabled=true --set gateways.components.egressGateway.enabled=true --force \
+    | kubectl delete -f -
 {{< /text >}}
 
 ## Summary
