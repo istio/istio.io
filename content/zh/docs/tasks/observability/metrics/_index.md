@@ -1,7 +1,7 @@
 ---
-title: Metrics
-description: Demonstrates the configuration, collection, and processing of Istio mesh metrics.
+title: 指标度量
+description: 演示 Istio 网格指标度量的配置、收集和处理。
 weight: 1
 aliases:
- - /docs/tasks/telemetry/metrics/
+    - /zh/docs/tasks/telemetry/metrics/
 ---

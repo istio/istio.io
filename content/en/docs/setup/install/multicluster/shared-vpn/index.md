@@ -26,7 +26,7 @@ Istio control plane, Envoy can then form a mesh network across multiple clusters
 
 * Two or more clusters running a supported Kubernetes version ({{< supported_kubernetes_versions >}}).
 
-* The ability to [deploy the Istio control plane](/docs/setup/install/operator/)
+* The ability to [deploy the Istio control plane](/docs/setup/install/istioctl/)
   on **one** of the clusters.
 
 * A RFC1918 network, VPN, or an alternative more advanced network technique
@@ -46,8 +46,28 @@ manifests and Helm charts provided within the Istio repository.
 
 ## Deploy the local control plane
 
-[Install the Istio control plane](/docs/setup/install/operator/)
+[Install the Istio control plane](/docs/setup/install/istioctl/)
 on **one** Kubernetes cluster.
+
+### Set environment variables {#environment-var}
+
+Wait for the Istio control plane to finish initializing before following the
+steps in this section.
+
+You must run these operations on the Istio control plane cluster to capture the
+Istio control plane service endpoints, for example, the Pilot and Policy Pod IP
+endpoints.
+
+Set the environment variables with the following commands:
+
+{{< text bash >}}
+$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
+$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
+$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
+{{< /text >}}
+
+Normally, automatic sidecar injection on the remote clusters is enabled. To
+perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
 
 ## Install the Istio remote
 
@@ -89,25 +109,7 @@ cluster. You can install the component in one of two ways:
 
 {{< /tab >}}
 
-### Set environment variables {#environment-var}
-
-Wait for the Istio control plane to finish initializing before following the
-steps in this section.
-
-You must run these operations on the Istio control plane cluster to capture the
-Istio control plane service endpoints, for example, the Pilot and Policy Pod IP
-endpoints.
-
-Set the environment variables with the following commands:
-
-{{< text bash >}}
-$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
-$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
-$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
-{{< /text >}}
-
-Normally, automatic sidecar injection on the remote clusters is enabled. To
-perform a manual sidecar injection refer to the [manual sidecar example](#manual-sidecar)
+{{< /tabset >}}
 
 ### Installation configuration parameters
 
@@ -138,7 +140,7 @@ mesh. This procedure requires the `cluster-admin` user access permission to
 the remote cluster.
 
 1.  Set the environment variables needed to build the `kubeconfig` file for the
-    `istio-multi` service account with the following commands:
+    `istio-reader-service-account` service account with the following commands:
 
     {{< text bash >}}
     $ export WORK_DIR=$(pwd)
@@ -146,7 +148,7 @@ the remote cluster.
     $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
     $ SERVER=$(kubectl config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
     $ NAMESPACE=istio-system
-    $ SERVICE_ACCOUNT=istio-multi
+    $ SERVICE_ACCOUNT=istio-reader-service-account
     $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
     $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['ca\.crt']}")
     $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['token']}" | base64 --decode)
@@ -157,7 +159,7 @@ the remote cluster.
     {{< /tip >}}
 
 1. Create a `kubeconfig` file in the working directory for the
-    `istio-multi` service account with the following command:
+    `istio-reader-service-account` service account with the following command:
 
     {{< text bash >}}
     $ cat <<EOF > ${KUBECFG_FILE}
@@ -247,7 +249,7 @@ To uninstall the cluster run the following command:
 
 ## Manual sidecar injection example {#manual-sidecar}
 
-The following example shows how to use the `helm template` command to generate
+The following example shows how to use the `istioctl manifest` command to generate
 the manifest for a remote cluster with the automatic sidecar injection
 disabled. Additionally, the example shows how to use the `configmaps` of the
 remote cluster with the [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command to generate any
@@ -379,7 +381,7 @@ To enable control plane security follow these general steps:
     * The `citadel` certificate self signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
+      [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
 
 1.  Deploy the Istio remote clusters with:
 
@@ -388,7 +390,7 @@ To enable control plane security follow these general steps:
     * The `citadel` certificate self signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
+      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
       The Certificate Authority (CA) of the main cluster or a root CA must sign
       the CA certificate for the remote clusters too.
 
@@ -410,7 +412,7 @@ To enable mutual TLS for all application pods, follow these general steps:
     * The Citadel certificate self-signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
 
 1.  Deploy the Istio remote clusters with:
 
@@ -419,7 +421,7 @@ To enable mutual TLS for all application pods, follow these general steps:
     * The Citadel certificate self-signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
       The CA of the main cluster or a root CA must sign the CA certificate for
       the remote clusters too.
 
@@ -436,7 +438,7 @@ cluster with a selector-less service and endpoint. Istio Pilot uses the service
 and endpoint to allow the remote sidecars to resolve the
 `istio-pilot.istio-system` hostname via Istio's local Kubernetes DNS.
 
-#### Primary Cluster: Deploy the control plane cluster
+#### Primary cluster: deploy the control plane cluster
 
 1. Create the `cacerts` secret using the Istio certificate samples in the
    `istio-system` namespace:
@@ -456,7 +458,7 @@ and endpoint to allow the remote sidecars to resolve the
       --set values.global.controlPlaneSecurityEnabled=true
     {{< /text >}}
 
-#### Remote Cluster: Deploy Istio components
+#### Remote cluster: deploy Istio components
 
 1. Create the `cacerts` secret using the Istio certificate samples in the
    `istio-system` namespace:
@@ -489,7 +491,7 @@ and endpoint to allow the remote sidecars to resolve the
 1. To generate the `kubeconfig` configuration file for the remote cluster,
    follow the steps in the [Kubernetes configuration section](#kubeconfig)
 
-### Primary Cluster: Instantiate credentials
+### Primary cluster: instantiate credentials
 
 You must instantiate credentials for each remote cluster. Follow the
 [instantiate credentials procedure](#credentials)

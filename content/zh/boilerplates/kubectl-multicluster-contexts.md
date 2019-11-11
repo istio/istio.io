@@ -1,8 +1,8 @@
 ---
 ---
-*   You can use the `kubectl` command to access both the `cluster1` and `cluster2` clusters with the `--context` flag,
-    for example `kubectl get pods --context cluster1`.
-    Use the following command to list your contexts:
+*   你可以使用 `kubectl` 命令带上 `--context` 参数去访问集群 `cluster1` 和 `cluster2`，
+    例如 `kubectl get pods --context cluster1`。
+    使用如下命令列出你的上下文:
 
     {{< text bash >}}
     $ kubectl config get-contexts
@@ -11,7 +11,7 @@
               cluster2   cluster2   user@foo.com   default
     {{< /text >}}
 
-*   Store the context names of your clusters in environment variables:
+*   保存集群的上下文到环境变量:
 
     {{< text bash >}}
     $ export CTX_CLUSTER1=$(kubectl config view -o jsonpath='{.contexts[0].name}')
@@ -21,6 +21,5 @@
     {{< /text >}}
 
     {{< tip >}}
-    If you have more than two clusters in the context list and you want to configure your mesh using clusters other than
-    the first two, you will need to manually set the environment variables to the appropriate context names.
+    如果你有超过两个集群的上下文并且你想要使用前两个以外的集群配置你的网格，你需要手动将环境变量设置为你需要的上下文名称。
     {{< /tip >}}

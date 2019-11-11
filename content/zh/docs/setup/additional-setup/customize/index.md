@@ -1,43 +1,34 @@
 ---
-title: Advanced Install Options
-description: Customize the Istio installation.
+title: 高级安装选项
+description: 自定义 Istio 安装。
 weight: 35
 aliases:
-    - /docs/setup/kubernetes/additional-setup/customize/
+    - /zh/docs/setup/kubernetes/additional-setup/customize/
 keywords: [kubernetes]
 draft: true
 ---
 
-This page provides options for piecemeal installation of Istio
-components.
+本页面介绍了一些 Istio 组件的碎片式安装的选项。
 
-## Ingress controller only
+## 仅安装 Ingress 控制器{#ingress-controller-only}
 
-It is possible to use Istio as an Ingress controller, leveraging advanced
-L7 routing capabilities such as version-aware routing, header based
-routing, gRPC/HTTP2 proxying, tracing, etc. Deploy Istio Pilot only and
-disable other components. Do not deploy the Istio initializer.
+可以使用 Istio 作为 Ingress 控制器, 利用它的高级七层路由功能，例如基于版本的路由、基于 Header 的路由、gRPC/HTTP2 代理、追踪等。仅部署 Istio Pilot，并禁用其他组件。不要部署 Istio 的初始化程序。
 
-## Ingress controller with policies and telemetry
+## Ingress 控制器，并提供策略和遥测支持{#ingress-controller-with-policies-and-telemetry}
 
-By deploying Istio Pilot and Mixer, the Ingress controller configuration
-described above can be enhanced to provide in-depth telemetry and policy
-enforcement capabilities such as rate limits, access controls, etc.
+通过部署 Istio Pilot 和 Mixer，上面提到的 Ingress 控制器配置就能够得到增强，从而进一步提供深入遥测和策略实施能力，例如速率控制、访问控制等功能。
 
-## Intelligent routing and telemetry
+## 智能路由和遥测{#intelligent-routing-and-telemetry}
 
-If you wish to take advantage of Istio's L7 traffic management
-capabilities, in addition to obtaining in-depth telemetry and performing
-distributed request tracing, deploy Istio Pilot and Mixer. In addition,
-disable policy enforcement at the Mixer.
+除了获得深度遥测和分布式请求追踪之外，如果您还希望充分利用 Istio 的七层路由管理功能, 就需要部署 Istio Pilot 和 Mixer。此外还可以在 Mixer 上禁用策略支持。
 
-## Customization example: traffic management and minimal security set
+## 定制示例：流量管理和最小安全集合{#customization-example-traffic-management-and-minimal-security-set}
 
-Istio has a rich feature set, but you may only want to use a subset of these. For instance, you might be only interested in installing the minimum necessary services to support traffic management and security functionality.
+Istio 拥有丰富的功能集, 但是您可能只想要使用其中的一个子集。例如，您可能只对安装最少的必要服务来支持流量管理和安全功能感兴趣。
 
-This example shows how to install the minimal set of components necessary to use [traffic management](/docs/tasks/traffic-management/) features.
+这个例子展示了如何只安装用于[流量管理](/zh/docs/tasks/traffic-management/)功能的最小化组件集合。
 
-Execute the following command to install the Pilot and Citadel:
+执行下列命令安装 Pilot 和 Citadel:
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -50,7 +41,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
   --set prometheus.enabled=false
 {{< /text >}}
 
-Ensure the `istio-pilot-*` and `istio-citadel-*` Kubernetes pods are deployed and their containers are up and running:
+在 Kubernetes 中确认 `istio-pilot-*` 和 `istio-citadel-*`  pod 被部署并且它们的容器成功运行起来:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -59,6 +50,6 @@ istio-citadel-b48446f79-wd4tk            1/1       Running   0          1m
 istio-pilot-58c65f74bc-2f5xn             2/2       Running   0          1m
 {{< /text >}}
 
-With this minimal set you can install your own application and [configure request routing](/docs/tasks/traffic-management/request-routing/). You will need to [manually inject the sidecar](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection).
+在这个最小组件集的支持下，您可以安装自己的应用并为其[配置请求路由](/zh/docs/tasks/traffic-management/request-routing/)。 您将需要[手动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)。
 
-[Installation Options](/docs/reference/config/installation-options/) has the full list of options allowing you to tailor the Istio installation to your needs. Before you override the default value with `--set` in `helm install`, please check the configurations for the option in `install/kubernetes/helm/istio/values.yaml` and uncomment the commented context if needed.
+[安装选项](/zh/docs/reference/config/installation-options/) 中提供完整的选项列表，可以让您根据需要定制 Istio 安装。 当您在 `helm install` 中使用 `--set` 覆盖默认值之前，请检查 `install/kubernetes/helm/istio/values.yaml` 中各选项的配置，并根据需要去掉其中的注释。

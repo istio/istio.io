@@ -205,7 +205,7 @@ exported. In detail as follows:
       namespace: <your defined namespace>
     {{< /text >}}
 
-1.  Added logInfo in spec
+1.  Added `logInfo` in spec
 
     {{< text yaml >}}
     spec:
