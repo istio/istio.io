@@ -174,14 +174,14 @@ in processing the most recent configuration as supplied.
 1. In Kubernetes environments, setup port-forwarding with:
 
     {{< text bash >}}
-    $ istioctl dashboard prometheus &
+    $ istioctl dashboard prometheus
     {{< /text >}}
 
 1. In the Prometheus browser window, select **Status** then **Targets**.
 
 1. Confirm the target `istio-mesh` has a status of UP.
 
-1. Visit `http://localhost:9090/config`
+1. In the Prometheus browser window, select **Status** then **Configuration**.
 
 1. Confirm an entry exists similar to:
 

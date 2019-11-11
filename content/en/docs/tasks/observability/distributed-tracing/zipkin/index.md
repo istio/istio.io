@@ -63,7 +63,7 @@ $ istioctl dashboard zipkin
 
 ## Cleanup
 
-1.  Remove any `istioctl dashboard` processes that may still be running:
+1.  Remove any `istioctl` processes that may still be running:
 
     {{< text bash >}}
     $ killall istioctl

@@ -108,7 +108,7 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
--   Remove any `istioctl dashboard` processes that may still be running:
+-   Remove any `istioctl` processes that may still be running:
 
     {{< text bash >}}
     $ killall istioctl
