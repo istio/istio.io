@@ -24,13 +24,13 @@ Istio 为 HTTP、HTTP/2 和 GRPC 流量创建了下列指标：
 
 * **Tcp Byte Sent**（`istio_tcp_sent_bytes_total`）：这是一个 `COUNTER`，它测量了一条 TCP 连接响应期间发送的总字节数，由服务端代理测量。
 
-* **Tcp Byte Received**（`istio_tcp_received_bytes_total`）：这是一个 `COUNTER`，它测量了一条 TCP 连接场景下请求期间接收的总字节数，由服务端代理测量。
+* **Tcp Byte Received**（`istio_tcp_received_bytes_total`）：这是一个 `COUNTER`，它测量了一条 TCP 连接请求期间接收的总字节数，由服务端代理测量。
 
 * **Tcp Connections Opened**（`istio_tcp_connections_opened_total`）：这是一个 `COUNTER`，它测量已经打开的 TCP 连接总数。
 
 * **Tcp Connections Closed**（`istio_tcp_connections_closed_total`）：这是一个 `COUNTER`，它测量已经关闭的 TCP 连接总数。
 
-## 标签{#label}
+## 标签{#labels}
 
 * **Reporter**：这是请求报告者的标识符。报告从服务端 Istio 代理而来时设置为 `destination`，从客户端 Istio 代理而来时设置为 `source`。
 
