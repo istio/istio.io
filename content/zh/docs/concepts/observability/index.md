@@ -16,9 +16,9 @@ Istio 为网格内所有的服务通信生成详细的遥测数据。这种遥�
 
 Istio 生成以下类型的遥测数据，以提供对整个服务网格的可观察性：
 
-- [**指标**](#metrics)。 Istio 基于 4 个监控的黄金标识（延迟、流量、错误、饱和）生成了一系列服务指标。Istio 还为 [网格控制平面](/zh/docs/ops/architecture/)提供了更详细的指标。除此以外还提供了一组默认的基于这些指标的网格监控仪表板。
-- [**分布式追踪**](#distributed-traces)。 Istio 为每个服务生成分布式追踪 span，运维人员可以理解网格内服务的依赖和调用流程。
-- [**访问日志**](#access-logs)。 当流量流入网格中的服务时，Istio 可以生成每个请求的完整记录，包括源和目标的元数据。此信息使操作人员能够将服务行为的审查控制到单个 [工作负载实例](/zh/docs/reference/glossary/#workload-instance) 的级别。
+- [**指标**](#metrics)。Istio 基于 4 个监控的黄金标识（延迟、流量、错误、饱和）生成了一系列服务指标。Istio 还为 [网格控制平面](/zh/docs/ops/architecture/)提供了更详细的指标。除此以外还提供了一组默认的基于这些指标的网格监控仪表板。
+- [**分布式追踪**](#distributed-traces)。Istio 为每个服务生成分布式追踪 span，运维人员可以理解网格内服务的依赖和调用流程。
+- [**访问日志**](#access-logs)。当流量流入网格中的服务时，Istio 可以生成每个请求的完整记录，包括源和目标的元数据。此信息使操作人员能够将服务行为的审查控制到单个 [工作负载实例](/zh/docs/reference/glossary/#workload-instance) 的级别。
 
 ## 指标 {#metrics}
 
@@ -57,9 +57,9 @@ envoy_cluster_internal_upstream_rq{response_code="503",cluster_name="xds-grpc"} 
 
 ### 服务级别指标 {#service-level-metrics}
 
-除了代理级别指标之外，Istio 还提供了一组用于监控服务通信的面向服务的指标。这些指标涵盖了四个基本的服务监控需求：延迟、流量、错误和饱和情况。Istio 带有一组默认的[仪表板](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) ，用于监控基于这些指标的服务行为。
+除了代理级别指标之外，Istio 还提供了一组用于监控服务通信的面向服务的指标。这些指标涵盖了四个基本的服务监控需求：延迟、流量、错误和饱和情况。Istio 带有一组默认的[仪表板](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)，用于监控基于这些指标的服务行为。
 
-[默认的 Istio 指标](/zh/docs/reference/config/policy-and-telemetry/metrics/) 由 Istio 提供的配置集定义并默认导出到 [Prometheus](/zh/docs/reference/config/policy-and-telemetry/adapters/prometheus/) 。操作人员可以自由地修改这些指标的形态和内容，更改它们的收集机制，以满足各自的监控需求。
+[默认的 Istio 指标](/zh/docs/reference/config/policy-and-telemetry/metrics/) 由 Istio 提供的配置集定义并默认导出到 [Prometheus](/zh/docs/reference/config/policy-and-telemetry/adapters/prometheus/)。操作人员可以自由地修改这些指标的形态和内容，更改它们的收集机制，以满足各自的监控需求。
 
 [收集指标](/zh/docs/tasks/observability/metrics/collecting-metrics/) 任务为定制 Istio 指标生成提供了更详细的信息。
 
@@ -107,7 +107,7 @@ istio_requests_total{
 
 Istio 支持通过 Envoy 代理进行分布式追踪。代理自动为其应用程序生成追踪 span，只需要应用程序转发适当的请求上下文即可。
 
-Istio 支持很多追踪系统，包括 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)、[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)、[LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)、[Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/)。 操作人员控制生成追踪的采样率（每个请求生成跟踪数据的速率）这允许操作人员控制网格生成追踪数据的数量和速率。
+Istio 支持很多追踪系统，包括 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)、[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)、[LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)、[Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/)。操作人员控制生成追踪的采样率（每个请求生成跟踪数据的速率）这允许操作人员控制网格生成追踪数据的数量和速率。
 
 更多关于 Istio 分布式追踪的信息可以在 [分布式追踪 FAQ](/zh/faq/distributed-tracing/) 中找到。
 
@@ -125,7 +125,7 @@ Istio 可以以一组可配置的格式集生成服务流量的访问日志，�
 
 更多关于访问日志的内容在[收集日志](/zh/docs/tasks/observability/logs/collecting-logs/) 和 [获取 Envoy 服务日志](/zh/docs/tasks/observability/logs/access-log/) 任务中提供。
 
-Istio 访问日志例子（ JSON 格式）：
+Istio 访问日志例子（JSON 格式）：
 
 {{< text json >}}
 {"level":"info","time":"2019-06-11T20:57:35.424310Z","instance":"accesslog.instance.istio-control","connection_security_policy":"mutual_tls","destinationApp":"productpage","destinationIp":"10.44.2.15","destinationName":"productpage-v1-6db7564db8-pvsnd","destinationNamespace":"default","destinationOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/productpage-v1","destinationPrincipal":"cluster.local/ns/default/sa/default","destinationServiceHost":"productpage.default.svc.cluster.local","destinationWorkload":"productpage-v1","httpAuthority":"35.202.6.119","latency":"35.076236ms","method":"GET","protocol":"http","receivedBytes":917,"referer":"","reporter":"destination","requestId":"e3f7cffb-5642-434d-ae75-233a05b06158","requestSize":0,"requestedServerName":"outbound_.9080_._.productpage.default.svc.cluster.local","responseCode":200,"responseFlags":"-","responseSize":4183,"responseTimestamp":"2019-06-11T20:57:35.459150Z","sentBytes":4328,"sourceApp":"istio-ingressgateway","sourceIp":"10.44.0.8","sourceName":"ingressgateway-7748774cbf-bvf4j","sourceNamespace":"istio-control","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-control/deployments/ingressgateway","sourcePrincipal":"cluster.local/ns/istio-control/sa/default","sourceWorkload":"ingressgateway","url":"/productpage","userAgent":"curl/7.54.0","xForwardedFor":"10.128.0.35"}
