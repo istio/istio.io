@@ -502,7 +502,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 本节中会创建 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)，阻止绕过 Egress gateway 的外发流量。要完成这一示例，首先创建一个 `test-egress` namespace，并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用。
 
-1.  重复执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#egress-gateway-for-https-traffic)一节的内容。
+1.  重复执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#Egress-gateway-for-HTTP-traffic)一节的内容。
 
 1.  创建`test-egress` namespace:
 
@@ -685,7 +685,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl delete namespace test-egress
     {{< /text >}}
 
-1.  执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#egress-gateway-for-https-traffic)一节中的[清理工作](#cleanup-https-gateway)。
+1.  执行[“通过 Egress gateway 进行 HTTPS 流量透传”](#Egress-gateway-for-HTTP-traffic)一节中的[清理工作](#cleanup-https-gateway)。
 
 ## 故障排除{#Troubleshooting}
 
