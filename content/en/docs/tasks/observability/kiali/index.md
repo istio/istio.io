@@ -18,16 +18,16 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as th
 
 ## Before you begin
 
-{{< idea >}}
-The following instructions assume you have installed Helm and use it to install Kiali.
-To install Kiali without using Helm, follow the [Kiali installation instructions](https://www.kiali.io/gettingstarted/).
-{{< /idea >}}
+{{< tip >}}
+The following instructions assume you have installed `istioctl` and will use it to install Kiali.
+To install Kiali without `istioctl`, follow the [Kiali installation instructions](https://www.kiali.io/documentation/getting-started/).
+{{< /tip >}}
 
 ### Create a secret
 
-{{< idea >}}
+{{< tip >}}
 If you plan on installing Kiali using the Istio demo profile as described in the [Istio Quick Start Installation Steps](/docs/setup/install/kubernetes/) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
-{{< /idea >}}
+{{< /tip >}}
 
 Create a secret in your Istio namespace with the credentials that you use to
 authenticate to Kiali.
@@ -69,31 +69,27 @@ data:
 EOF
 {{< /text >}}
 
-### Install Via Helm
+### Install Via `Istioctl`
 
 Once you create the Kiali secret, follow
-[the Helm install instructions](/docs/setup/install/helm/) to install Kiali via Helm.
-You must use the `--set kiali.enabled=true` option when you run the `helm` command, for example:
+[the install instructions](/docs/setup/install/istioctl/) to install Kiali via `istioctl`.
+For example:
 
 {{< text bash >}}
-$ helm template --set kiali.enabled=true install/kubernetes/helm/istio --name istio --namespace istio-system > $HOME/istio.yaml
-$ kubectl apply -f $HOME/istio.yaml
+$ istioctl manifest apply --set values.kiali.enabled=true
 {{< /text >}}
 
 {{< idea >}}
 This task does not discuss Jaeger and Grafana. If
 you already installed them in your cluster and you want to see how Kiali
 integrates with them, you must pass additional arguments to the
-`helm` command, for example:
+`istioctl` command, for example:
 
 {{< text bash >}}
-$ helm template \
-    --set kiali.enabled=true \
-    --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
-    --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
-    install/kubernetes/helm/istio \
-    --name istio --namespace istio-system > $HOME/istio.yaml
-$ kubectl apply -f $HOME/istio.yaml
+$ istioctl manifest apply \
+    --set values.kiali.enabled=true \
+    --set "values.kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
+    --set "values.kiali.dashboard.grafanaURL=http://grafana:3000"
 {{< /text >}}
 
 {{< /idea >}}
@@ -140,12 +136,10 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 1.  To open the Kiali UI, execute the following command in your Kubernetes environment:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
+    $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  Visit <https://localhost:20001/kiali/console> in your web browser.
-
-1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
+1.  To log into the Kiali UI, enter the username and passphrase stored in the Kiali secret (`admin/admin` if you are using the demo profile).
 
 1.  View the overview of your mesh in the **Overview** page that appears immediately after you log in.
     The **Overview** page displays all the namespaces that have services in your mesh.
@@ -220,5 +214,5 @@ If you are not planning any follow-up tasks, remove the Bookinfo sample applicat
 1. To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
 
 {{< text bash >}}
-$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,virtualservices,destinationrules,customresourcedefinitions --selector=app=kiali -n istio-system
+$ kubectl delete all,secrets,sa,configmaps,deployments,ingresses,clusterroles,clusterrolebindings,customresourcedefinitions --selector=app=kiali -n istio-system
 {{< /text >}}
