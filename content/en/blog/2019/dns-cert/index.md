@@ -1,7 +1,7 @@
 ---
 title: Istio DNS certificate management
 description: Provision and manage DNS certificates in Istio.
-publishdate: 2019-11-08
+publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, certificates, DNS]
 target_release: 1.4
