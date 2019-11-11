@@ -1,6 +1,6 @@
 ---
 title: 动态准入 Webhook 概述
-description: 简要描述 Istio 对 Kubernetes webhooks 的使用以及可能出现的相关问题。
+description: 简要描述 Istio 对 Kubernetes webhook 的使用以及可能出现的相关问题。
 weight: 10
 aliases:
     - /zh/help/ops/setup/webhook
