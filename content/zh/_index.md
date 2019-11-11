@@ -78,7 +78,7 @@ description: 用于连接、保护、控制和观测服务。
     </div>
 
     <div id="buttons">
-        <a title="在 Kubernetes 上安装 Istio。" class="btn" href="/zh/docs/setup/kubernetes/getting-started/">开始吧</a>
+        <a title="在 Kubernetes 上安装 Istio。" class="btn" href="/zh/docs/setup/getting-started/">开始吧</a>
         <a title="深入了解 Istio 是什么以及它是如何工作的。" class="btn" href="/zh/docs/concepts/what-is-istio/">了解更多</a>
         <a title="下载最新版本。" class="btn" href="/docs/setup#downloading-the-release">下载 {{< istio_release_name >}}</a>
     </div>
