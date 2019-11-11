@@ -241,3 +241,4 @@ $ kubectl delete service my-wikipedia
     {{< text bash >}}
     $ unset SOURCE_POD SOURCE_POD_WITHOUT_ISTIO
     {{< /text >}}
+
