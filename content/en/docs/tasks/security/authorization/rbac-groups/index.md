@@ -22,9 +22,8 @@ and the related
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication)
 concepts.
 
-* Create a Kubernetes cluster with Istio installed and mutual TLS enabled.
-To fulfill this prerequisite you can follow the Kubernetes
-[installation instructions](/docs/setup/install/kubernetes/).
+* Follow the [Istio installation guide](/docs/setup/install/istioctl/)
+to install Istio with mutual TLS enabled.
 
 ## Setup the required namespace and workloads
 
