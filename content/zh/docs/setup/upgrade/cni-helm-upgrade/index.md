@@ -58,7 +58,6 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 
 1. 检查 `istio-cni` 是否已安装，并检查安装在哪个命名空间：
 
-
     {{< text bash >}}
     $ helm status istio-cni
     {{< /text >}}
