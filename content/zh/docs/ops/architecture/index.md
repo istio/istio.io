@@ -1,197 +1,90 @@
 ---
-title: Architecture
-description: Describes Istio's high-level architecture and design goals.
+title: 架构
+description: 描述 Istio 的整体架构与设计目标。
 weight: 20
 aliases:
-- /docs/concepts/architecture
+- /zh/docs/concepts/architecture
+
 ---
 
-An Istio service mesh is logically split into a **data plane** and a **control
-plane**.
+Istio 服务网格从逻辑上分为数据平面和控制平面。
 
-* The **data plane** is composed of a set of intelligent proxies
-  ([Envoy](https://www.envoyproxy.io/)) deployed as sidecars. These proxies
-  mediate and control all network communication between microservices along
-  with [Mixer](/docs/reference/config/policy-and-telemetry/), a general-purpose
-  policy and telemetry hub.
+- **数据平面**由一组智能代理（[Envoy](https://www.envoyproxy.io/)）组成，被部署为 sidecar。这些代理通过一个通用的策略和遥测中心（[Mixer](/zh/docs/reference/config/policy-and-telemetry/)）传递和控制微服务之间的所有网络通信。
+- **控制平面**管理并配置代理来进行流量路由。此外，控制平面配置 Mixer 来执行策略和收集遥测数据。
 
-* The **control plane** manages and configures the proxies to route traffic.
-  Additionally, the control plane configures Mixers to enforce policies and
-  collect telemetry.
+下图展示了组成每个平面的不同组件：
 
-The following diagram shows the different components that make up each plane:
+{{< image width="80%" link="./arch.svg" alt="Istio 应用的整体架构。" caption="Istio 架构" >}}
 
-{{< image width="80%"
-    link="./arch.svg"
-    alt="The overall architecture of an Istio-based application."
-    caption="Istio Architecture"
-    >}}
+Istio 中的流量分为数据平面流量和控制平面流量。数据平面流量是指工作负载的业务逻辑发送和接收的消息。控制平面流量是指在 Istio 组件之间发送的配置和控制消息用来编排网格的行为。Istio 中的流量管理特指数据平面流量。
 
-Traffic in Istio is categorized as data plane traffic and control plane traffic.
-Data plane traffic refers to the messages that the business logic of the workloads
-send and receive. Control plane traffic refers to configuration and control messages sent
-between Istio components to program the behavior of the mesh. Traffic management
-in Istio refers exclusively to data plane traffic.
+## 组件{#components}
 
-## Components
+以下各节概述了 Istio 的每个核心组件。
 
-The following sections provide a brief overview of each of Istio's core components.
+### Envoy{#envoy}
 
-### Envoy
+Istio 使用 [Envoy](https://envoyproxy.github.io/envoy/) 代理的扩展版本。Envoy 是用 C++ 开发的高性能代理，用于协调服务网格中所有服务的入站和出站流量。Envoy 代理是唯一与数据平面流量交互的 Istio 组件。
 
-Istio uses an extended version of the
-[Envoy](https://envoyproxy.github.io/envoy/) proxy. Envoy is a high-performance
-proxy developed in C++ to mediate all inbound and outbound traffic for all
-services in the service mesh.
-Envoy proxies are the only Istio components that interact with data plane
-traffic.
+Envoy 代理被部署为服务的 sidecar，在逻辑上为服务增加了 Envoy 的许多内置特性，例如:
 
-Envoy proxies are deployed as sidecars to services, logically
-augmenting the services with Envoy’s many built-in features,
-for example:
+- 动态服务发现
+- 负载均衡
+- TLS 终端
+- HTTP/2 与 gRPC 代理
+- 熔断器
+- 健康检查
+- 基于百分比流量分割的分阶段发布
+- 故障注入
+- 丰富的指标
 
-* Dynamic service discovery
-* Load balancing
-* TLS termination
-* HTTP/2 and gRPC proxies
-* Circuit breakers
-* Health checks
-* Staged rollouts with %-based traffic split
-* Fault injection
-* Rich metrics
+这种 sidecar 部署允许 Istio 提取大量关于流量行为的信号作为[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)。反之，Istio 可以在 [Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中使用这些属性来执行决策，并将它们发送到监控系统，以提供整个网格的行为信息。
 
-This sidecar deployment allows Istio to extract a wealth of signals about traffic behavior as
-[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
-Istio can, in turn, use these attributes in [Mixer](/docs/reference/config/policy-and-telemetry/)
-to enforce policy decisions, and send them to monitoring systems to provide
-information about the behavior of the entire mesh.
+sidecar 代理模型还允许您向现有的部署添加 Istio 功能，而不需要重新设计架构或重写代码。您可以在[设计目标](#design-goals)中读到更多关于为什么我们选择这种方法的信息。
 
-The sidecar proxy model also allows you to add Istio capabilities to an
-existing deployment with no need to rearchitect or rewrite code. You can read
-more about why we chose this approach in our
-[Design Goals](#design-goals).
+由 Envoy 代理启用的一些 Istio 的功能和任务包括:
 
-Some of the Istio features and tasks enabled by Envoy proxies include:
+- 流量控制功能：通过丰富的 HTTP、gRPC、WebSocket 和 TCP 流量路由规则来执行细粒度的流量控制。
+- 网络弹性特性：重试设置、故障转移、熔断器和故障注入。
+- 安全性和身份验证特性：执行安全性策略以及通过配置API定义的访问控制和速率限制。
 
-* Traffic control features: enforce fine-grained traffic control with rich
-  routing rules for HTTP, gRPC, WebSocket, and TCP traffic.
+### Mixer{#mixer}
 
-* Network resiliency features: setup retries, failovers, circuit breakers, and
-  fault injection.
+[Mixer](/zh/docs/reference/config/policy-and-telemetry/) 是一个平台无关的组件。Mixer 在整个服务网格中执行访问控制和策略使用，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级别[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)，并将其发送到 Mixer 进行评估。您可以在我们的 [Mixer 配置文档](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model)中找到更多关于属性提取和策略评估的信息。
 
-* Security and authentication features: enforce security policies and enforce
-  access control and rate limiting defined through the configuration API.
+Mixer 包括一个灵活的插件模型。该模型使 Istio 能够与各种主机环境和后端基础设施进行交互。因此，Istio 从这些细节中抽象出 Envoy 代理和 Istio 管理的服务。
 
-### Mixer
+### Pilot{#pilot}
 
-[Mixer](/docs/reference/config/policy-and-telemetry/) is a platform-independent
-component. Mixer enforces access control and usage policies across the service
-mesh, and collects telemetry data from the Envoy proxy and other services. The
-proxy extracts request level
-[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes), and sends them
-to Mixer for evaluation. You can find more information on this attribute
-extraction and policy evaluation in our [Mixer Configuration
-documentation](/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model).
+Pilot 为 Envoy sidecar 提供服务发现、用于智能路由的流量管理功能（例如，A/B 测试、金丝雀发布等）以及弹性功能（超时、重试、熔断器等）。
 
-Mixer includes a flexible plugin model. This model enables Istio to interface
-with a variety of host environments and infrastructure backends. Thus, Istio
-abstracts the Envoy proxy and Istio-managed services from these details.
+Pilot 将控制流量行为的高级路由规则转换为特定于环境的配置，并在运行时将它们传播到 sidecar。Pilot 将特定于平台的服务发现机制抽象出来，并将它们合成为任何符合 [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api) 的 sidecar 都可以使用的标准格式。
 
-### Pilot
-
-Pilot provides
-service discovery for the Envoy sidecars, traffic management capabilities
-for intelligent routing (e.g., A/B tests, canary rollouts, etc.),
-and resiliency (timeouts, retries, circuit breakers, etc.).
-
-Pilot converts high level routing rules that control traffic behavior into
-Envoy-specific configurations, and propagates them to the sidecars at runtime.
-Pilot abstracts platform-specific service discovery mechanisms and synthesizes
-them into a standard format that any sidecar conforming with the
-[Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api) can consume.
-
-The following diagram shows how the platform adapters and Envoy proxies
-interact.
+下图展示了平台适配器和 Envoy 代理如何交互。
 
 {{< image width="40%" link="./discovery.svg" caption="Service discovery" >}}
 
-1.  The platform starts a new instance of a service which notifies its platform
-    adapter.
+1. 平台启动一个服务的新实例，该实例通知其平台适配器。
+1. 平台适配器使用 Pilot 抽象模型注册实例。
+1. **Pilot** 将流量规则和配置派发给 Envoy 代理，来传达此次更改。
 
-1.  The platform adapter registers the instance with the Pilot abstract model.
+这种松耦合允许 Istio 在 Kubernetes、Consul 或 Nomad 等多种环境中运行，同时维护相同的 operator 接口来进行流量管理。
 
-1.  **Pilot** distributes traffic rules and configurations to the Envoy proxies
-    to account for the change.
+您可以使用 Istio 的[流量管理 API](/zh/docs/concepts/traffic-management/#introducing-istio-traffic-management) 来指示 Pilot 优化 Envoy 配置，以便对服务网格中的流量进行更细粒度地控制。
 
-This loose coupling allows Istio to run on multiple environments such as Kubernetes,
-Consul, or Nomad, while maintaining the same operator interface for traffic
-management.
+### Citadel{#citadel}
 
-You can use Istio's
-[Traffic Management API](/docs/concepts/traffic-management/#introducing-istio-traffic-management)
-to instruct Pilot to refine the Envoy configuration to exercise more granular control
-over the traffic in your service mesh.
+[Citadel](/zh/docs/concepts/security/) 通过内置的身份和证书管理，可以支持强大的服务到服务以及最终用户的身份验证。您可以使用 Citadel 来升级服务网格中的未加密流量。使用Citadel，operator 可以执行基于服务身份的策略，而不是相对不稳定的3层或4层网络标识。从0.5版开始，您可以使用 [Istio 的授权特性](/zh/docs/concepts/security/#authorization)来控制谁可以访问您的服务。
 
-### Citadel
+### Galley{#galley}
 
-[Citadel](/docs/concepts/security/) enables strong service-to-service and
-end-user authentication with built-in identity and credential management. You
-can use Citadel to upgrade unencrypted traffic in the service mesh. Using
-Citadel, operators can enforce policies based on service identity rather than
-on relatively unstable layer 3 or layer 4 network identifiers. Starting from
-release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
-to control who can access your services.
+Galley 是 Istio 的配置验证、提取、处理和分发组件。它负责将其余的 Istio 组件与从底层平台（例如 Kubernetes）获取用户配置的细节隔离开来。
 
-### Galley
+## 设计目标{#design-goals}
 
-Galley is Istio's configuration validation, ingestion, processing and
-distribution component. It is responsible for insulating
-the rest of the Istio components from the details of obtaining user
-configuration from the underlying platform (e.g. Kubernetes).
+几个关键的设计目标形成了 Istio 的架构。这些目标对于使系统能够大规模和高性能地处理服务是至关重要的。
 
-## Design goals
-
-A few key design goals informed Istio’s architecture. These goals are essential
-to making the system capable of dealing with services at scale and with high
-performance.
-
-* **Maximize Transparency**: To adopt Istio, an operator or developer is
-  required to do the minimum amount of work possible to get real value from the
-  system. To this end, Istio can automatically inject itself into all the
-  network paths between services. Istio uses sidecar proxies to capture traffic
-  and, where possible, automatically program the networking layer to route
-  traffic through those proxies without any changes to the deployed application
-  code. In Kubernetes, the proxies are injected into {{<gloss pod>}}pods{{</gloss>}} and traffic is
-  captured by programming ``iptables`` rules. Once the sidecar proxies are
-  injected and traffic routing is programmed, Istio can mediate all traffic.
-  This principle also applies to performance. When applying Istio to a
-  deployment, operators see a minimal increase in resource costs for the
-  functionality being provided. Components and APIs must all be designed with
-  performance and scale in mind.
-
-* **Extensibility**: As operators and developers become more dependent on the
-  functionality that Istio provides, the system must grow with their needs.
-  While we continue to add new features, the greatest need is the ability to
-  extend the policy system, to integrate with other sources of policy and
-  control, and to propagate signals about mesh behavior to other systems for
-  analysis. The policy runtime supports a standard extension mechanism for
-  plugging in other services. In addition, it allows for the extension of its
-  vocabulary to allow policies to be enforced based on new signals that the
-  mesh produces.
-
-* **Portability**: The ecosystem in which Istio is used varies along many
-  dimensions. Istio must run on any cloud or on-premises environment with
-  minimal effort. The task of porting Istio-based services to new environments
-  must be trivial. Using Istio, you are able to operate a single service
-  deployed into multiple environments. For example, you can deploy on multiple
-  clouds for redundancy.
-
-* **Policy Uniformity**: The application of policy to API calls between
-  services provides a great deal of control over mesh behavior. However, it can
-  be equally important to apply policies to resources which are not necessarily
-  expressed at the API level. For example, applying a quota to the amount of
-  CPU consumed by an ML training task is more useful than applying a quota to
-  the call which initiated the work. To this end, Istio maintains the policy
-  system as a distinct service with its own API rather than the policy system
-  being baked into the proxy sidecar, allowing services to directly integrate
-  with it as needed.
+- **透明度最大化**：为了采用 Istio，运维人员或开发人员需要做尽可能少的工作，才能从系统中获得真正的价值。为此，Istio 可以自动将自己注入到服务之间的所有网络路径中。Istio 使用 sidecar 代理来捕获流量，并在可能的情况下，在不更改已部署的应用程序代码的情况下，自动对网络层进行配置，以实现通过这些代理来路由流量。在 Kubernetes 中，代理被注入到{{<gloss pod>}}pods{{</gloss>}}中，通过编写‘iptables’规则来捕获流量。一旦 sidecar 代理被注入以及流量路由被编程，Istio 就可以协调所有的流量。这个原则也适用于性能。当将 Istio 应用于部署时，运维人员会看到所提供功能的资源成本增加地最小。组件和 API 的设计必须考虑到性能和可伸缩性。
+- **可扩展性**：随着运维人员和开发人员越来越依赖于 Istio 提供的功能，系统必须随着他们的需求而增长。当我们继续添加新特性时，最大的需求是扩展策略系统的能力，与其他策略和控制源的集成，以及将关于网格行为的信号传播到其他系统进行分析的能力。策略运行时支持用于接入其他服务的标准扩展机制。此外，它允许扩展其词汇表，允许根据网格生成的新信号执行策略。
+- **可移植性**：使用 Istio 的生态系统在许多方面都有所不同。Istio 必须在任何云环境或本地环境中通过最小的努力就能运行起来。将基于 Istio 的服务移植到新环境的任务必须是容易实现的。使用 Istio，您可以操作部署到多个环境中的单个服务。例如，可以在多个云上部署来实现冗余。
+- **策略一致性**：将策略应用于服务之间的API调用提供了对网格行为的大量控制。然而，将策略应用在区别于 API 层上的资源也同样重要。例如，在机器学习训练任务消耗的 CPU 数量上应用配额比在发起任务的请求调用上应用配额更有用。为此，Istio 使用自己的 API 将策略系统维护为一个独立的服务，而不是将策略系统集成到 sidecar 代理中，从而允许服务根据需要直接与之集成。

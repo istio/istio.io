@@ -3,7 +3,6 @@ title: Announcing Istio 1.1
 subtitle: Major Update
 description: Istio 1.1 release announcement.
 publishdate: 2019-03-19
-attribution: The Istio Team
 release: 1.1.0
 aliases:
     - /blog/2019/announcing-1.1

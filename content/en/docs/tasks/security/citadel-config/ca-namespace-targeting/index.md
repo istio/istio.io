@@ -14,7 +14,7 @@ To complete this task, you should first take the following actions:
 
 * Read the [security concept](/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets).
 
-* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
+* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ### Deactivating service account secret generation for a single namespace
 
