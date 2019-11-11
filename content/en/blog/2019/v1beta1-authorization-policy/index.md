@@ -28,6 +28,9 @@ design goals and the migration from `v1alpha1` RBAC policies. See the
 [authorization concept page](/docs/concepts/security/#authorization)
 for a detailed in-depth explanation of the `v1beta1` authorization policy.
 
+We welcome your feedback about the `v1beta1` authorization policy at
+[discuss.istio.io](https://discuss.istio.io/c/security).
+
 ## Background
 
 To date, Istio provided RBAC policies to enforce access control on
@@ -37,7 +40,7 @@ With this API, users have been able to enforce control access at mesh-level,
 namespace-level and service-level. Like other RBAC policies, Istio RBAC uses
 the same concept of role and binding for granting permissions to identities.
 
-Although Iatio RBAC has been working reliably, we've found that many
+Although Istio RBAC has been working reliably, we've found that many
 improvements were possible.
 
 For example, users have mistakenly assumed that access control enforcement
