@@ -4,13 +4,13 @@ description: 描述如何配置 Istio 以允许应用程序使用外部 HTTPS �
 weight: 60
 keywords: [traffic-management,egress]
 aliases:
-  - /zh/docs/examples/advanced-gateways/http-proxy/
+  - /docs/examples/advanced-gateways/http-proxy/
 ---
-[配置 Egress Gateway]（/docs/examples/advanced gateways/egress-gateway/）示例显示如何通过名为 Egress Gateway 的 Istio 组件将流量从网格引导到外部服务。但是，有些情况下需要一个外部的传统（非ISTIO）HTTPS 代理来访问外部服务。例如，您的公司可能已经有了这样的代理，并且可能需要所有应用程序通过代理来引导其流量。
+[配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例显示如何通过名为 Egress Gateway 的 Istio 组件将流量从网格引导到外部服务。但是，有些情况下需要一个外部的传统（非ISTIO）HTTPS 代理来访问外部服务。例如，您的公司可能已经有了这样的代理，并且可能需要所有应用程序通过代理来引导其流量。
 
-此示例演示如何启用对外部HTTPS代理的访问。由于应用程序使用 http[connect](https://tools.ietf.org/html/rfc7231#section-4.3.6)方法与 https 代理建立连接，因此配置流量到外部HTTPS代理不同于将流量配置为外部 HTTP 和 HTTPS 服务。 
+此示例演示如何启用对外部HTTPS代理的访问。由于应用程序使用 http[connect](https://tools.ietf.org/html/rfc7231#section-4.3.6)方法与https 代理建立连接，因此配置流量到外部HTTPS代理不同于将流量配置为外部 HTTP 和 HTTPS 服务。 
 
-{{< boilerplate before-you-begin-egress >}}
+## 开始之前
 
 *   [启用Envoy的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
@@ -79,7 +79,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  在 external namespace中部署 [sleep]({{<github_tree>}}/samples/sleep) 示例，以测试到代理的通信量，而不进行ISIO流量控制。
+1.  在 external namespace中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，而不进行ISIO流量控制。
 
     {{< text bash >}}
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
