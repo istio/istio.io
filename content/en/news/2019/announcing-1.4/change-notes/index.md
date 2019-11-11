@@ -9,6 +9,9 @@ weight: 10
 - **Added** support for [mirroring](/docs/tasks/traffic-management/mirroring/) a percentage of traffic.
 - **Improved** the Envoy sidecar. The Envoy sidecar now exits when it crashes. This change makes it easier to see whether or not the Envoy sidecar is healthy.
 - **Improved** Pilot to skip sending redundant configuration to Envoy when no changes are required.
+- **Improved** headless services to avoid conflicts with different services on the same port.
+- **Disabled** default [circuit breakers](/docs/tasks/traffic-management/circuit-breaking/).
+- **Updated** the default regex engine to `re2`. Please see the [Upgrade Notes](/news/2019/announcing-1.4/upgrade-notes) for details.
 
 ## Security
 
