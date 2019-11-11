@@ -4,13 +4,15 @@ description: 通过 Mixer 从 Istio 导出的默认监控指标。
 weight: 50
 ---
 
-此页面展示使用初始配置时，Istio 收集的监控指标（metrics）的详细信息。您可以随时通过更改配置来添加和删除指标。您可以在[这个文件]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)的 "kind: metric” 小节中找到它们。它使用了 [metric 模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)来定义指标。
+此页面展示使用初始配置时，Istio 收集的监控指标（metrics）的详细信息。这些指标是内置的，但您可以随时通过更改配置来添加和删除它们。您可以在[这个文件]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)的 "kind: metric” 小节中找到它们。它使用了 [metric 模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)来定义指标。
 
 我们将首先描述监控指标，然后描述每个指标的标签。
 
-## 监控指标
+## 监控指标{#metrics}
 
-* **Request Count** （`istio_requests_total`）：这是一个 `COUNTER`，随 Istio 代理处理的每个请求递增。
+Istio 为 HTTP、HTTP/2 和 GRPC 流量创建了下列指标：
+
+* **Request Count** （`istio_requests_total`）：这是一个 `COUNTER`，随着 Istio 代理处理的每个请求递增。
 
 * **Request Duration** （`istio_request_duration_seconds`）：这是一个 `DISTRIBUTION`，它测量请求的持续时间。
 
@@ -18,15 +20,17 @@ weight: 50
 
 * **Response Size**（`istio_response_bytes`）：这是一个 `DISTRIBUTION`，它测量 HTTP 响应 body 的大小。
 
-* **Tcp Byte Sent**（`istio_tcp_sent_bytes_total`）：这是一个 `COUNTER`，它测量在 TCP 连接场景下响应期间发送的总字节数，由服务端代理测量。
+对于 TCP 流量，Istio 创建了下列指标：
 
-* **Tcp Byte Received**（`istio_tcp_received_bytes_total`）：这是一个 `COUNTER`，它测量在 TCP 连接场景下请求期间接收的总字节数，由服务端代理测量。
+* **Tcp Byte Sent**（`istio_tcp_sent_bytes_total`）：这是一个 `COUNTER`，它测量了一条 TCP 连接响应期间发送的总字节数，由服务端代理测量。
+
+* **Tcp Byte Received**（`istio_tcp_received_bytes_total`）：这是一个 `COUNTER`，它测量了一条 TCP 连接场景下请求期间接收的总字节数，由服务端代理测量。
 
 * **Tcp Connections Opened**（`istio_tcp_connections_opened_total`）：这是一个 `COUNTER`，它测量已经打开的 TCP 连接总数。
 
 * **Tcp Connections Closed**（`istio_tcp_connections_closed_total`）：这是一个 `COUNTER`，它测量已经关闭的 TCP 连接总数。
 
-## 标签（Label）
+## 标签{#label}
 
 * **Reporter**：这是请求报告者的标识符。报告从服务端 Istio 代理而来时设置为 `destination`，从客户端 Istio 代理而来时设置为 `source`。
 
@@ -130,7 +134,7 @@ weight: 50
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}
 
-* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) 中的  `%RESPONSE_FLAGS%` 相关说明。
+* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) 中的  `%RESPONSE_FLAGS%` 相关说明。
 
     {{< text yaml >}}
     response_flags: context.proxy_error_code | "-"
