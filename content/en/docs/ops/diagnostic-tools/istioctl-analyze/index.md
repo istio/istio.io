@@ -16,7 +16,7 @@ apply changes to a cluster.
 
 If you've downloaded Istio version 1.4 or greater, your version of `istioctl` already includes `analyze`.
 
-You can also download the latest version directly, as described [here](#Getting-the-latest-version-of-istioctl-analyze),
+You can also download the latest version directly, as described [here](#getting-the-latest-version-of-istioctl-analyze),
 even if you're running an older version of Istio.
 
 Once you have a supported version of `istioctl`, you can analyze your current Kubernetes cluster by running:
