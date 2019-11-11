@@ -1,7 +1,7 @@
 ---
 title: Secure webhook management
 description: A more secure way to manage Istio webhooks.
-publishdate: 2019-11-08
+publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, webhook]
 target_release: 1.4

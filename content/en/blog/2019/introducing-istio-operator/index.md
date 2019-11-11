@@ -1,7 +1,7 @@
 ---
 title: Introducing the Istio Operator
 description: Introduction to Istio's new operator-based installation and control plane management feature.
-publishdate: 2019-11-12
+publishdate: 2019-11-14
 subtitle:
 attribution: Martin Ostrowski (Google), Frank Budinsky (IBM)
 keywords: [install,configuration,istioctl,operator]
