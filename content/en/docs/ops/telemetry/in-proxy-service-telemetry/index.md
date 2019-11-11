@@ -41,7 +41,7 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
 1. To actually generate the service-level metrics, you must apply the custom stats filter.
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/istio/{{< source_branch_name >}}/tests/integration/telemetry/stats/prometheus/testdata/stats_filter.yaml
+    $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/stats_filter.yaml@
     {{< /text >}}
 
 1. Go to the **Istio Mesh** Grafana dashboard. Verify that the dashboard displays the same telemetry as before but without
