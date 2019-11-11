@@ -518,7 +518,7 @@ spec:
 
 在 `ServiceRole` 中，`namespace` + `services` + `paths` + `methods` 的组合定义了**如何访问服务**。在某些情况下，您可能需要为规则指定其他条件。例如，规则可能仅适用于服务的某个**版本**，或仅适用于具有特定**标签**的服务，如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
 
-例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2`。在[约束和属性页面](/zh/docs/reference/config/security/constraints-and-properties/)中列出了约束支持的 `key` 值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
+例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2`。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的 `key` 值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -542,7 +542,7 @@ spec:
 - **`roleRef`** 指的是同一命名空间中的 `ServiceRole` 资源。
 - **`subjects`** 分配给角色的列表。
 
-您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding` *subject* 中的 *property* 类似于 `ServiceRole` 规范中的 *constraint*。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/security/constraints-and-properties/)中。
+您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding` *subject* 中的 *property* 类似于 `ServiceRole` 规范中的 *constraint*。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
 
 下面的例子显示了一个名为 `test-binding-products` 的 `ServiceRoleBinding`，它将两个 `subject` 绑定到名为 `product-viewer` 的 `ServiceRole` 并具有以下 `subject`
 
@@ -609,7 +609,7 @@ Istio 授权支持使用任何普通 TCP 协议的 service，例如 MongoDB。�
 - service role binding 配置对象中的 `group` 字段。
 
 支持的约束和属性在[约束和属性页面](
-/zh/docs/reference/config/security/constraints-and-properties/)中列出。
+/zh/docs/reference/config/authorization/constraints-and-properties/)中列出。
 
 如果您在 TCP service 中使用了任意 HTTP 独有的字段，Istio 将会完全忽略 service role 或 service role binding 自定义资源，以及里面设置的策略。
 
