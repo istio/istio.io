@@ -25,7 +25,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n without-istio
     {{< /text >}}
 
-*  发送请求，创建环境变量`SOURCE_POD_WITHOUT_ISTIO`来保存源pod的名称:
+*  发送请求, 创建环境变量 `SOURCE_POD_WITHOUT_ISTIO` 来保存源pod的名称:
 
     {{< text bash >}}
     $ export SOURCE_POD_WITHOUT_ISTIO=$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})
@@ -97,7 +97,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     EOF
     {{< /text >}}
 
-1.  通过带有Istio sidecar的源pod通过Kubernetes服务的主机名访问`httpbin.org`。注意Istio sidecar添加的headers，例如，`X-Istio-Attributes`和`X-Envoy-Decorator-Operation`。另请注意`Host`header等于您的服务的主机名。
+1.  通过带有Istio sidecar的源pod通过Kubernetes服务的主机名访问`httpbin.org`。注意Istio sidecar添加的headers，例如，`X-Istio-Attributes`和`X-Envoy-Decorator-Operation`。另请注意`Host`header等于您的服务的主机名。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
