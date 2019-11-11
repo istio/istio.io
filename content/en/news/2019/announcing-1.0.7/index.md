@@ -1,9 +1,8 @@
 ---
 title: Announcing Istio 1.0.7 with Important Security Update
-subtitle: Important Security Update
-description: Istio 1.0.7 patch releases.
+subtitle: Patch Release
+description: Istio 1.0.7 patch release.
 publishdate: 2019-04-05
-attribution: The Istio Team
 release: 1.0.7
 aliases:
     - /about/notes/1.0.7

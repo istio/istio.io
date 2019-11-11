@@ -29,7 +29,7 @@ No VPN connectivity nor direct network access between workloads in different clu
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to [deploy the Istio control plane](/docs/setup/install/operator/)
+* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
 
 * Two Kubernetes clusters (referred to as `cluster1` and `cluster2`).
 

@@ -29,7 +29,7 @@ In this article we'll look at how one of the features of Istio,
 [traffic management](/docs/concepts/traffic-management/), works in a multicluster mesh with
 a dedicated control plane topology.
 We'll show how to configure Istio route rules to call remote services in a multicluster service mesh
-by deploying the [Bookinfo sample]({{<github_tree>}}/samples/bookinfo) with version `v1` of the `reviews` service
+by deploying the [Bookinfo sample]({{< github_tree >}}/samples/bookinfo) with version `v1` of the `reviews` service
 running in one cluster, versions `v2` and `v3` running in a second cluster.
 
 ## Set up clusters

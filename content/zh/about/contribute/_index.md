@@ -1,8 +1,9 @@
 ---
-title: Contributing to the Docs
-description: Learn how to contribute to improve and expand the Istio documentation.
+title: 贡献文档
+description: 了解如何为提高和改善 Istio 的文档做贡献。
 weight: 100
+icon: contribute
 aliases:
-    - /docs/welcome/contribute/index.html
+    - /zh/docs/welcome/contribute/index.html
 icon: contribute
 ---

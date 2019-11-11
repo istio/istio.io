@@ -38,7 +38,7 @@ It is important to note that no data is forwarded between AppSwitch client and d
 
 Now that we have an idea about what AppSwitch does, let’s look at the layers that it optimizes away from a standard service mesh.
 
-### Network Devirtualization
+### Network devirtualization
 
 Kubernetes offers simple and well-defined network constructs to the microservice applications it runs.  In order to support them however, it imposes specific [requirements](https://kubernetes.io/docs/concepts/cluster-administration/networking/) on the underlying network.  Meeting those requirements is often not easy.  The go-to solution of adding another layer is typically adopted to satisfy the requirements.  In most cases the additional layer consists of a network overlay that sits between Kubernetes and underlying network.  Traffic produced by the applications is encapsulated at the source and decapsulated at the target, which not only costs network resources but also takes up compute cores.
 
@@ -46,7 +46,7 @@ Because AppSwitch arbitrates what the application sees through its touchpoints w
 
 AppSwitch can be injected into a standard Kubernetes manifest (similar to Istio injection) such that the application’s network is directly handled by AppSwitch bypassing any network overlay underneath.  More details to follow in just a bit.
 
-### Artifacts of Container Networking
+### Artifacts of container networking
 
 Extending network connectivity from host into the container has been a [major challenge](https://kubernetes.io/blog/2016/01/why-kubernetes-doesnt-use-libnetwork/).  New layers of network plumbing were invented explicitly for that purpose.  As such, an application running in a container is simply a process on the host.  However due to a [fundamental misalignment](http://appswitch.io/blog/kubernetes_istio_and_network_function_devirtualization_with_appswitch/) between the network abstraction expected by the application and the abstraction exposed by container network namespace, the process cannot directly access the host network.  Applications think of networking in terms of sockets or sessions whereas network namespaces expose a device abstraction.  Once placed in a network namespace, the process suddenly loses all connectivity.  The notion of veth-pair and corresponding tooling were invented just to close that gap.  The data would now have to go from a host interface into a virtual switch and then through a veth-pair to the virtual network interface of the container network namespace.
 
@@ -58,7 +58,7 @@ TCP/IP is the universal protocol medium over which pretty much all communication
 
 For each listening socket of an application, AppSwitch maintains two listening sockets, one each for TCP and Unix.  When a client tries to connect to a server that happens to be colocated, AppSwitch daemon would choose to connect to the Unix listening socket of the server.  The resulting Unix sockets on each end are passed into respective applications.  Once a fully connected FD is returned, the application would simply treat it as a bit pipe.  The protocol doesn’t really matter.  The application may occasionally make protocol specific calls such as `getsockname(2)` and AppSwitch would handle them in kind.  It would present consistent responses such that the application would continue to run on.
 
-### Data Pushing Proxy
+### Data pushing proxy
 
 As we continue to look for layers to remove, let us also reconsider the requirement of the proxy layer itself.  There are times when the role of the proxy may degenerate into a plain data pusher:
 
@@ -80,7 +80,7 @@ If we look at the data flow in this setup, the Python app makes a connection to 
 
 Now let us imagine that the app is somehow made to connect directly to memcached, then the two intermediate proxies could be skipped.  The data would flow directly between the app and memcached without any intermediate hops.  AppSwitch can arrange for that by transparently tweaking the target address passed by the Python app when it makes the `connect(2)` system call.
 
-### Proxyless Protocol Decoding
+### Proxyless protocol decoding
 
 Things are going to get a bit strange here.  We have seen that the proxy can be bypassed for cases that don’t involve looking into application traffic.  But is there anything we can do even for those other cases?  It turns out, yes.
 
@@ -88,7 +88,7 @@ In a typical communication between microservices, much of the interesting inform
 
 Even though AppSwitch is not a proxy, it _does_ arbitrate connections between application endpoints and it _does_ have access to corresponding socket FDs.  Normally, AppSwitch simply passes those FDs to the application.  But it can also peek into the initial message received on the connection using the `MSG_PEEK` option of the `recvfrom(2)` system call on the socket.  It allows AppSwitch to examine application traffic without actually removing it from the socket buffers.  When AppSwitch returns the FD to the application and steps out of the datapath, the application would do an actual read on the connection.  AppSwitch uses this technique to perform deeper analysis of application-level traffic and implement sophisticated network functions as discussed in the next section, all without getting into the datapath.
 
-### Zero-Cost Load Balancer, Firewall and Network Analyzer
+### Zero-cost load balancer, firewall and network analyzer
 
 Typical implementations of network functions such as load balancers and firewalls require an intermediate layer that needs to tap into data/packet stream.  Kubernetes' implementation of load balancer (`kube-proxy`) for example introduces a probe into the packet stream through iptables and Istio implements the same at the proxy layer.  But if all that is required is to redirect or drop connections based on policy, it is not really necessary to stay in the datapath during the entire course of the connection.  AppSwitch can take care of that much more efficiently by simply manipulating the control path at the API level.  Given its intimate proximity to the application, AppSwitch also has easy access to various pieces of application level metrics such as dynamics of stack and heap usage, precisely when a service comes alive, attributes of active connections etc., all of which could potentially form a rich signal for monitoring and analytics.
 
@@ -96,7 +96,7 @@ To go a step further, AppSwitch can also perform L7 load balancing and firewall 
 
 There is some more black-magic possible that would actually allow modifying the application data stream without getting into the datapath but I am going to save that for a later post.  Current implementation of AppSwitch uses a proxy if the use case requires application protocol traffic to be modified.  For those cases, AppSwitch provides a highly optimal mechanism to attract traffic to the proxy as discussed in the next section.
 
-### Traffic Redirection
+### Traffic redirection
 
 Before the sidecar proxy can look into application protocol traffic, it needs to first receive the connections.  Redirection of connections coming into and going out of the application is currently done by a layer of packet filtering that rewrites packets such that they go to respective sidecars.  Creating potentially large number of rules required to represent the redirection policy is tedious.  And the process of applying the rules and updating them, as the target subnets to be captured by the sidecar change, is expensive.
 
@@ -104,7 +104,7 @@ While some of the performance concerns are being addressed by the Linux communit
 
 AppSwitch provides a way to redirect application connections without root privilege.  As such, an unprivileged application is already able to connect to any host (modulo firewall rules etc.) and the owner of the application should be allowed to change the host address passed by its application via `connect(2)` without requiring additional privilege.
 
-#### Socket Delegation
+#### Socket delegation
 
 Let's see how AppSwitch could help redirect connections without using iptables.  Imagine that the application somehow voluntarily passes the socket FDs that it uses for its communication to the sidecar, then there would be no need for iptables.  AppSwitch provides a feature called *socket delegation* that does exactly that.  It allows the sidecar to transparently gain access to copies of socket FDs that the application uses for its communication without any changes to the application itself.
 
@@ -134,7 +134,7 @@ For completeness, here are the sequence of steps that would occur on the server 
 1. Sidecar would extract the two socket FDs -- a Unix socket FD connected to the application and a TCP socket FD connected to the remote client
 1. Sidecar would read the metadata supplied by the daemon about the remote client and perform its usual operations
 
-#### "Sidecar-Aware" Applications
+#### "Sidecar-aware" applications
 
 Socket delegation feature can be very useful for applications that are explicitly aware of the sidecar and wish to take advantage of its features.  They can voluntarily delegate their network interactions by passing their sockets to the sidecar using the same feature.  In a way, AppSwitch transparently turns every application into a sidecar-aware application.
 
@@ -144,7 +144,7 @@ Just to step back, Istio offloads common connectivity concerns from applications
 
 In the rest of this section, I outline how AppSwitch may be integrated with Istio based on a very cursory initial implementation.  This is not intended to be anything like a design doc -- not every possible way of integration is explored and not every detail is worked out.  The intent is to discuss high-level aspects of the implementation to present a rough idea of how the two systems may come together.  The key is that AppSwitch would act as a cushion between Istio and a real proxy.  It would serve as the "fast-path" for cases that can be performed more efficiently without invoking the sidecar proxy.  And for the cases where the proxy is used, it would shorten the datapath by cutting through unnecessary layers.  Look at this [blog](http://appswitch.io/blog/kubernetes_istio_and_network_function_devirtualization_with_appswitch/) for a more detailed walk through of the integration.
 
-### AppSwitch Client Injection
+### AppSwitch client injection
 
 Similar to Istio sidecar-injector, a simple tool called `ax-injector` injects AppSwitch client into a standard Kubernetes manifest.  Injected client transparently monitors the application and intimates AppSwitch daemon of the control path network API events that the application produces.
 
@@ -158,7 +158,7 @@ AppSwitch daemon can be configured to run as a `DaemonSet` or as an extension to
 
 This is the component that conveys policy and configuration dictated by Istio to AppSwitch.  It implements xDS API to listen from Pilot and calls appropriate AppSwitch APIs to program the daemon.  For example, it allows the load balancing strategy, as specified by `istioctl`, to be translated into equivalent AppSwitch capability.
 
-### Platform Adapter for AppSwitch "Auto-Curated" Service Registry
+### Platform adapter for AppSwitch "Auto-Curated" service registry
 
 Given that AppSwitch is in the control path of applications’ network APIs, it has ready access to the topology of services across the cluster.  AppSwitch exposes that information in the form of a service registry that is automatically and (almost) synchronously updated as applications and their services come and go.  A new platform adapter for AppSwitch alongside Kubernetes, Eureka etc. would provide the details of upstream services to Istio.  This is not strictly necessary but it does make it easier to correlate service endpoints received from Pilot by AppSwitch agent above.
 

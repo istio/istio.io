@@ -1,7 +1,7 @@
 ---
 ---
-This is some boilerplate *markdown* _text_.
+这是 *markdown* 文本样板。
 
 {{< text plain >}}
-A sample nested text block.
+嵌套的文本块样本。
 {{< /text >}}

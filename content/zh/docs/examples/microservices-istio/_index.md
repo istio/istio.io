@@ -1,17 +1,14 @@
 ---
-title: Learn Microservices using Kubernetes and Istio 
-description: This modular tutorial provides new users with hands-on experience using Istio for common microservices scenarios, one step at a time.   
+title: 使用 Kubernetes 和 Istio 学习微服务
+description: 该模块化教程为新用户提供了一步步将 Istio 应用于常见微服务场景的动手经验。
 weight: 40
 icon: classroom
 simple_list: true
 content_above: true
 ---
 
-It is intended for self-guided users or instructors who train
-others. It begins with the steps to set up a cluster to
-control an example microservice running on a local computer, and culminates into
-demonstrating several crucial microservice management tasks using Istio.
+适用于培训他人的自学用户或讲师。从设置集群以控制在本地计算机上运行的示例微服务的步骤开始，并最终展示了使用 Istio 的一些关键的微服务管理任务。
 
-For the best experience, follow the modules in the order provided.
+为了获得最佳体验，请按照提供的顺序执行以下模块。
 
 {{< boilerplate work-in-progress >}}

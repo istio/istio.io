@@ -1,8 +1,7 @@
 ---
-title: Multicluster Service Mesh
-description: Multicluster service mesh examples for Istio that you can experiment with.
+title: 多集群服务网格
+description: 您可以尝试的 Istio 的多集群服务网格示例。
 weight: 100
 keywords: [multicluster]
 ---
-Refer to the [multicluster service mesh](/docs/setup/deployment-models/) concept documentation
-for more information.
+有关更多信息，请参阅[多集群服务网格](/zh/docs/setup/deployment-models/)概念文档。

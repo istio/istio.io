@@ -231,7 +231,7 @@ other cases.
 
 ## Verifying strict mutual TLS
 
-Following the [mutual TLS migration](/docs/tasks/security/mtls-migration/)
+Following the [mutual TLS migration](/docs/tasks/security/authentication/mtls-migration/)
 instructions, you can enable strict mutual TLS for the `ratings` service:
 
 {{< text bash >}}

@@ -8,7 +8,7 @@ aliases:
 
 ## Installation
 
-- **Added** experimental [manifest and profile commands](/docs/setup/install/operator/) to install and manage the Istio control plane for evaluation.
+- **Added** experimental [manifest and profile commands](/docs/setup/install/istioctl/) to install and manage the Istio control plane for evaluation.
 
 ## Traffic management
 

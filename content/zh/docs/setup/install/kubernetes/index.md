@@ -18,7 +18,7 @@ access logging.
 {{< /warning >}}
 
 To install Istio for production use, we recommend using the
-[Installing with {{< istioctl >}} guide](/docs/setup/install/operator/)
+[Installing with {{< istioctl >}} guide](/docs/setup/install/istioctl/)
 instead, which provides many more options for selecting and managing the Istio
 configuration. This permits customization of Istio to operator specific
 requirements.

@@ -68,6 +68,7 @@ The following table shows all the options that the `istio-cni` configuration sup
 | `cniConfDir` | | `/etc/cni/net.d` | Must be the same as the environment's `--cni-conf-dir` setting (`kubelet` parameter). |
 | `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
 | `psp_cluster_role` | | | This value refers to a `ClusterRole` and can be used to create a `RoleBinding` in the namespace of `istio-cni`. This is useful if you use [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy) and want to allow `istio-cni` to run as `priviliged` Pods. |
+| `podAnnotations` | | `{}` | Additional custom annotations to be set on pod level. |
 
 These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
 or the corresponding path in a custom overlay file.
@@ -83,7 +84,7 @@ This example uses Helm to perform the following tasks:
     * `foo_ns`
     * `bar_ns`
 
-Refer to the [Customizable Install with Helm](/docs/setup/install/helm/#cni) for complete instructions.
+Refer to the [Customizable Install with Helm](/docs/setup/install/helm) for complete instructions.
 
 Use the following command to render and apply Istio CNI components and override the default configuration of the
 `logLevel` and `excludeNamespaces` parameters for `istio-cni`:
@@ -106,11 +107,12 @@ The following table shows the required settings for many common Kubernetes envir
 
 | Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `--set values.cni.cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
 | IKS (IBM cloud) | _(none)_ | _(none)_ |
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
+| Red Hat OpenShift 4.2+ | `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
 
 ### GKE setup
 
