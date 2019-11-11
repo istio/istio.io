@@ -1,11 +1,13 @@
 ---
-title: Conditions
+title: Authorization Policy Conditions
 description: Describes the supported conditions in authorization policies.
-weight: 10
+weight: 30
+aliases:
+    - /docs/reference/config/security/conditions/
 ---
 
 This page describes the supported keys and value formats you can use as conditions
-in the `when` field of [authorization policy resources](/docs/reference/config/authorization/authorization-policy/).
+in the `when` field of [authorization policy resources](/docs/reference/config/security/authorization-policy/).
 
 {{< warning >}}
 Unsupported keys and values are silently ignored.

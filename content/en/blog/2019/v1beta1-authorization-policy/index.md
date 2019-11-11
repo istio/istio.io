@@ -9,7 +9,7 @@ target_release: 1.4
 ---
 
 Istio 1.4 introduces the
-[`v1beta1` authorization policy](/docs/reference/config/authorization/authorization-policy/),
+[`v1beta1` authorization policy](/docs/reference/config/security/authorization-policy/),
 which is a major update to the previous `v1alpha1` role-based access control
 (RBAC) policy. The new policy provides these improvements:
 
@@ -74,7 +74,7 @@ The new `v1beta1` authorization policy had several design goals:
 
 ## `AuthorizationPolicy`
 
-An [`AuthorizationPolicy` custom resource](/docs/reference/config/authorization/authorization-policy/)
+An [`AuthorizationPolicy` custom resource](/docs/reference/config/security/authorization-policy/)
 enables access control on workloads. This section gives an overview of the
 changes in the `v1beta1` authorization policy.
 
