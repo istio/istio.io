@@ -64,7 +64,7 @@ $ istioctl proxy-config endpoints <pod-name> [flags]
 
 有关上述命令描述的更多信息，请参考[调试 Envoy 和 Pilot](/zh/docs/ops/diagnostic-tools/proxy-cmd/).
 
-## `Istioctl` 自动补全 {#istioctl-auto-completion}
+## `Istioctl` 自动补全 {#auto-completion}
 
 {{< tabset cookie-name="prereqs" >}}
 
