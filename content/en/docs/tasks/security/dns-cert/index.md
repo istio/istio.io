@@ -15,7 +15,7 @@ In certain deployments, you may want to use your own certificate authority
 instead of Citadel. In those cases, Citadel ends up being used strictly for
 its DNS certificate provisioning functionality. Rather than having to deploy
 Citadel at all in this case, you can instead leverage Chiron, a lightweight
-component that signs certificates using the Kubernetes CA APIs without maintaining its own private key.
+component linked with Pilot that signs certificates using the Kubernetes CA APIs without maintaining its own private key.
 
 This task shows how to provision and manage DNS certificates for Istio control
 plane components through Chiron. Using this feature has the following advantages:
