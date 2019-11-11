@@ -1,7 +1,7 @@
 ---
 title: Introducing the Istio v1beta1 Authorization Policy
 description: Introduction, motivation and design principles for the Istio v1beta1 Authorization Policy.
-publishdate: 2019-11-12
+publishdate: 2019-11-14
 subtitle:
 attribution: Yangmin Zhu (Google)
 keywords: [security, RBAC, access control, authorization]
