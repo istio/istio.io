@@ -12,6 +12,10 @@ weight: 10
 
 ## Security
 
+- **Added** the new [Authorization Policy](/blog/2019/v1beta1-authorization-policy/)
+- **Added** experimental support for [automatic mutual TLS](docs/tasks/security/authentication/auto-mtls/).
+- **Added** experimental [DNS Certificate Management](/blog/2019/dns-cert/)
+- **Added** support for [trust domain migration](/docs/tasks/security/authorization/authz-td-migration/)
 - **Improved** Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
 
 ## Telemetry
