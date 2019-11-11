@@ -9,11 +9,9 @@ keywords: [kubernetes,upgrading]
 
 `istioctl experimental upgrade` 命令可为 Istio 进行升级。在进行升级之前，升级命令首先检查已安装的 Istio 是否符合升级要求。此外，如果升级命令检测到 Istio 版本间，配置中有任何默认值发生变化，都将及时提醒用户。
 
-
 升级命令也可为 Istio 降级。
 
 查看 [`istioctl` 升级参考](/docs/reference/commands/istioctl/#istioctl-experimental-upgrade) 来获取 `istioctl experimental upgrade` 命令的更多功能。
-
 
 ## 升级前置条件{#Upgrade prerequisites}
 
@@ -64,7 +62,6 @@ keywords: [kubernetes,upgrading]
     如果省略了 `-f` 选项，Istio 将使用默认配置升级。
 
     在执行多个步骤的检查后，`istioctl` 将要求您确认是否继续。
- 
 
 1. `istioctl` 将安装新版本的 Istio 控制平面，并显示完成状态。
 
