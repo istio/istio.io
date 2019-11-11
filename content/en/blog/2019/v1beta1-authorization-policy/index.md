@@ -8,34 +8,33 @@ keywords: [security, RBAC, access control, authorization]
 target_release: 1.4
 ---
 
-Up until now, Istio has provided the role based access control (RBAC) policy for enforcing access control
+To date, Istio has provided role based access control (RBAC) policies to enforce access control
 on {{< gloss "service" >}}services{{< /gloss >}} using three configuration resources: `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`.
-With this API, users have been able to enforce access control in mesh-level, namespace-level and
-service-level. Like any other RBAC policy, Istio RBAC uses the same concept of role and binding for granting
+With this API, users have been able to enforce control access at mesh-level, namespace-level and
+service-level. Like other RBAC policies, Istio RBAC uses the same concept of role and binding for granting
 permissions to identities.
 
-While this functionality has proven to be working for many customers, we have also realized there are many
-things that could be improved in the alpha policy.
+Although Iatio RBAC has been working reliably, we've found that many improvements were possible to improve both
+usability and capability.
 
-For example, some users have had the wrong impression that the enforcement happens in service-level because
+For example, users have mistakenly assumed that access control enforcement happens at service-level because
 `ServiceRole` uses service to specify where to apply the policy, however, the policy is actually applied
-in workload-level, the service is only used to find the corresponding {{< gloss "workload" >}}workload{{< /gloss >}}. This has some big impact, especially
+on {{< gloss "workload" >}}workloads{{< /gloss >}}, the service is only used to find the corresponding workload.
+This nuance is significant
 when multiple services are referring to the same workload. A `ServiceRole` for service A will also affect
 service B if the two services are referring to the same workload, this surprises customers and could result in
 misconfigurations.
 
-The other example is it's a little bit hard to maintain and manage the Istio RBAC configurations because user
-needs to learn and manage three different resources in Istio RBAC. Istio has already had an issue that there
-are too much CRDs to learn and manage, and the learning and maintenance burden of having three different configurations
-in Istio RBAC turned out to be greater than its benefit.
+An other example is that it's proven difficult for users to maintain and manage the Istio RBAC configurations because of the 
+need to deeply understand three related resources.
 
 To address these, and other issues, Istio 1.4 introduces the [`v1beta1` authorization policy](/docs/reference/config/authorization/authorization-policy/)
-which will completely replace the previous `v1alpha1` RBAC policy going forward. The `v1beta1` policy provides
+which completely replaces the previous `v1alpha1` RBAC policies going forward. The `v1beta1` policy model provides
 more features but is not backward compatible and will require manual conversion from the old API (we
-will provide tool to help automate the conversion).
+will provide a tool to help automate the conversion).
 
-In this article, we will introduce the new `v1beta1` authorization policy, talk about its design principles
-and the migration from `v1alpha1` RBAC policy.
+In this post, we introduce the new `v1beta1` authorization policy model, talk about its design principles
+and the migration from `v1alpha1` RBAC policies.
 
 ## Design principles
 
