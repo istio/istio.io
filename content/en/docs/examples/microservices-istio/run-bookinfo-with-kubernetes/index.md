@@ -19,6 +19,24 @@ In the next modules, you will evolve the application.
 
 ## Deploy the application and a testing pod
 
+1.  Before you begin, set your namespace:
+
+    {{< text bash >}}
+    $ export NAMESPACE=tutorial
+    {{< /text >}}
+
+1.  Set your configuraton to the file you downloaded in previous steps:
+
+    {{< text bash >}}
+    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    {{< /text >}}
+
+1.  Set `MYHOST` variable to hold the URL of the application:
+
+    {{< text bash >}}
+    $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
+    {{< /text >}}
+
 1.  Skim [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml).
     This is the Kubernetes deployment spec of the app. Notice the services and the deployments.
 
@@ -47,7 +65,7 @@ In the next modules, you will evolve the application.
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
-1.  Scale the deployments: let each version of each microservice run in three pods.
+1.  After the four services achieve the `Running` status, scale the deployments: let each version of each microservice run in three pods.
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 3
@@ -98,12 +116,6 @@ Once your application is running, enable external (by clients from outside of th
 configure the steps below successfully, you will be able to access the application by browser from your laptop.
 
 ### Configure Ingress and access your application's webpage
-
-1.  Set `MYHOST` variable to hold the URL of the application:
-
-    {{< text bash >}}
-    $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
-    {{< /text >}}
 
 1.  Create Kubernetes Ingress:
 

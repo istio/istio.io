@@ -107,7 +107,7 @@ Since you run the `ratings` service locally, you can also access it via the
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
-1. Use the `POST` method of the `curl` command to set the ratings for the
+1. Open a different terminal session and use the `POST` method of the `curl` command to set the ratings for the
     product to `1`:
 
     {{< text bash >}}
