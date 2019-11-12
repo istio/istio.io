@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Download, install, and try out Istio.
+description: Download, install, and learn how to evaluate and try Istio’s basic features quickly.
 weight: 5
 aliases:
     - /docs/setup/kubernetes/getting-started/
@@ -84,7 +84,7 @@ access logging.
     $ istioctl manifest apply --set profile=demo
     {{< /text >}}
 
-1. Verifying the installation by ensuring the following Kubernetes services are deployed and verify they all
+1. Verify the installation by ensuring the following Kubernetes services are deployed and verify they all
     have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
 
     {{< text bash >}}
