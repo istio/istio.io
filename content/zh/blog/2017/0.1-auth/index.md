@@ -1,6 +1,6 @@
 ---
 title: 使用 Istio 增强端到端安全
-description: Istio 身份验证 0.1 公告。
+description: Istio Auth 0.1 公告。
 publishdate: 2017-05-25
 subtitle: 默认保护服务间通信
 attribution: The Istio Team
