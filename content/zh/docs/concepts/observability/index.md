@@ -12,12 +12,12 @@ aliases:
     - /zh/docs/concepts/policies-and-telemetry/
 ---
 
-Istio 为网格内所有的服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的**可观察性**，使运维人员能够排查故障、维护和优化应用程序，而不会给服务的开发人员带来任何额外的负担。通过 Istio，运维人员可以全面了解到受监控的服务如何与其他服务以及 Istio 组件进行交互。
+Istio 为网格内所有的服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的**可观察性**，使操作人员能够排查故障、维护和优化应用程序，而不会给服务的开发人员带来任何额外的负担。通过 Istio，操作人员可以全面了解到受监控的服务如何与其他服务以及 Istio 组件进行交互。
 
 Istio 生成以下类型的遥测数据，以提供对整个服务网格的可观察性：
 
 - [**指标**](#metrics)。Istio 基于 4 个监控的黄金标识（延迟、流量、错误、饱和）生成了一系列服务指标。Istio 还为[网格控制平面](/zh/docs/ops/architecture/)提供了更详细的指标。除此以外还提供了一组默认的基于这些指标的网格监控仪表板。
-- [**分布式追踪**](#distributed-traces)。Istio 为每个服务生成分布式追踪 span，运维人员可以理解网格内服务的依赖和调用流程。
+- [**分布式追踪**](#distributed-traces)。Istio 为每个服务生成分布式追踪 span，操作人员可以理解网格内服务的依赖和调用流程。
 - [**访问日志**](#access-logs)。当流量流入网格中的服务时，Istio 可以生成每个请求的完整记录，包括源和目标的元数据。此信息使操作人员能够将服务行为的审查控制到单个[工作负载实例](/zh/docs/reference/glossary/#workload-instance) 的级别。
 
 ## 指标 {#metrics}
@@ -28,7 +28,7 @@ Istio 生成以下类型的遥测数据，以提供对整个服务网格的可�
 
 除了监控网格中服务的行为外，监控网格本身的行为也很重要。Istio 组件可以导出自身内部行为的指标，以提供对网格控制平面的功能和健康情况的洞察能力。
 
-Istio 指标收集由操作符配置来驱动。操作符决定如何以及何时收集指标，以及指标本身的详细程度。这使得它能够灵活地调整指标收集来满足个性化需求。
+Istio 指标收集由操作人员配置来驱动。操作符决定如何以及何时收集指标，以及指标本身的详细程度。这使得它能够灵活地调整指标收集来满足个性化需求。
 
 ### 代理级别指标 {#proxy-level-metrics}
 
@@ -36,7 +36,7 @@ Istio 指标收集从 sidecar 代理（Envoy）开始。每个代理为通过它
 
 Envoy 生成的指标提供了资源（例如监听器和集群）粒度上的网格监控。因此，为了监控 Envoy 指标，需要了解网格服务和 Envoy 资源之间的连接。
 
-Istio 允许操作人员在每个工作负载实例上选择生成和收集哪个 Envoy 指标。默认情况下，Istio 只支持 Envoy 生成的统计数据的一小部分，以避免依赖过多的后端服务，还可以减少与指标收集相关的 CPU 开销。然而，操作符可以在需要时轻松地扩展收集到的代理指标集。这支持有针对性地调试网络行为，同时降低了跨网格监控的总体成本。
+Istio 允许操作人员在每个工作负载实例上选择生成和收集哪个 Envoy 指标。默认情况下，Istio 只支持 Envoy 生成的统计数据的一小部分，以避免依赖过多的后端服务，还可以减少与指标收集相关的 CPU 开销。然而，操作人员可以在需要时轻松地扩展收集到的代理指标集。这支持有针对性地调试网络行为，同时降低了跨网格监控的总体成本。
 
 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/)包括了 [Envoy 统计信息收集](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/statistics.html?highlight=statistics)的详细说明。
 [Envoy 统计](/zh/docs/ops/diagnostic-tools/proxy-cmd/)里的操作手册提供了有关控制代理级别指标生成的更多信息。
@@ -107,7 +107,7 @@ istio_requests_total{
 
 Istio 支持通过 Envoy 代理进行分布式追踪。代理自动为其应用程序生成追踪 span，只需要应用程序转发适当的请求上下文即可。
 
-Istio 支持很多追踪系统，包括 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)、[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)、[LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)、[Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/)。操作人员控制生成追踪的采样率（每个请求生成跟踪数据的速率）这允许操作人员控制网格生成追踪数据的数量和速率。
+Istio 支持很多追踪系统，包括 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)、[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)、[LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)、[Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/)。操作人员控制生成追踪的采样率（每个请求生成跟踪数据的速率）。这允许操作人员控制网格生成追踪数据的数量和速率。
 
 更多关于 Istio 分布式追踪的信息可以在[分布式追踪 FAQ](/zh/faq/distributed-tracing/) 中找到。
 
