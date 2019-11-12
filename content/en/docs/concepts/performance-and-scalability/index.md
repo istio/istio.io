@@ -32,7 +32,7 @@ After running the tests using Istio {{< istio_release_name >}}, we get the follo
 - The Envoy proxy uses **0.6 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
 - The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second.
 - Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 8ms to the 90th percentile latency.
+- The Envoy proxy adds 7ms to the 90th percentile latency.
 
 ## Control plane performance
 
