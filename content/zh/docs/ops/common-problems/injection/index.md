@@ -1,19 +1,17 @@
 ---
-title: Sidecar Injection Problems
-description: Resolve common problems with Istio's use of Kubernetes webhooks for automatic sidecar injection.
+title: Sidecar 自动注入问题
+description: 解决 Istio 使用 Kubernetes Webhooks 进行 sidecar 自动注入的常见问题。
 force_inline_toc: true
 weight: 40
 aliases:
-  - /docs/ops/troubleshooting/injection
+  - /zh/docs/ops/troubleshooting/injection
 ---
 
-## The result of sidecar injection was not what I expected
+## 注入的结果和预期不一致{#the-result-of-sidecar-injection-was-not-what-i-expected}
 
-This includes an injected sidecar when it wasn't expected and a lack
-of injected sidecar when it was.
+不一致包括 sidecar 的非预期注入和未预期注入。
 
-1. Ensure your pod is not in the `kube-system` or `kube-public` namespace.
-   Automatic sidecar injection will be ignored for pods in these namespaces.
+1. 确保您的 Pod 不在 `kube-system` 或`kube-public` 名称空间中。这些命名空间中的 Pod 将忽略 Sidecar 自动注入。
 
 1. Ensure your pod does not have `hostNetwork: true` in its pod spec.
    Automatic sidecar injection will be ignored for pods that are on the host network.
@@ -22,10 +20,16 @@ of injected sidecar when it was.
     traffic are within the pod. For pods on the host network this assumption is violated,
     and this can lead to routing failures at the host level.
 
+确保您的 Pod 在其 Pod 定义中没有 `hostNetwork：true`。`hostNetwork：true` 的 Pod 将忽略 Sidecar 自动注入。
+     sidecar 模型假定 iptables 发生变化，使 Envoy 能够拦截
+     在 pod 内的流量。 对于 `hostNetwork：true` 的 Pod 此假设已被违反，
+     这会导致主机级别的路由失败。
+
 1. Check the webhook's `namespaceSelector` to determine whether the
    webhook is scoped to opt-in or opt-out for the target namespace.
+   通过检查 webhook 的 `namespaceSelector` 以确定目标命名空间是否包含或者排除在 webhook 范围内。
 
-    The `namespaceSelector` for opt-in will look like the following:
+    包含在范围内的 `namespaceSelector` 如下所示：
 
     {{< text bash yaml >}}
     $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
@@ -39,6 +43,7 @@ of injected sidecar when it was.
 
     The injection webhook will be invoked for pods created
     in namespaces with the `istio-injection=enabled` label.
+    在标记 `istio-injection=enabled` 标签的命名空间中创建的 pod，则注入 webhook 会被调用。
 
     {{< text bash >}}
     $ kubectl get namespace -L istio-injection
@@ -50,6 +55,7 @@ of injected sidecar when it was.
     {{< /text >}}
 
     The `namespaceSelector` for opt-out will look like the following:
+    不包含在注入范围的 `namespaceSelector` 如下所示：
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
@@ -66,6 +72,7 @@ of injected sidecar when it was.
 
     The injection webhook will be invoked for pods created in namespaces
     without the `istio-injection=disabled` label.
+    在没有标记 `istio-injection=disabled` 标签的命名空间中创建的 pod，则注入 webhook 会被调用。
 
     {{< text bash >}}
     $ kubectl get namespace -L istio-injection
@@ -77,12 +84,14 @@ of injected sidecar when it was.
     {{< /text >}}
 
     Verify the application pod's namespace is labeled properly and (re) label accordingly, e.g.
+    验证应用程序 pod 的命名空间是否已相应地被正确（重新）标记，例如：
 
     {{< text bash >}}
     $ kubectl label namespace istio-system istio-injection=disabled --overwrite
     {{< /text >}}
 
     (repeat for all namespaces in which the injection webhook should be invoked for new pods)
+    （重复 pod 创建时调用注入 webhook 的所有命名空间）
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled --overwrite
@@ -122,13 +131,11 @@ of injected sidecar when it was.
           app: sleep
     {{< /text >}}
 
-## Pods cannot be created at all
+## Pods 不能创建{#pods-cannot-be-created-at-all}
 
-Run `kubectl describe -n namespace deployment name` on the failing
-pod's deployment. Failure to invoke the injection webhook will
-typically be captured in the event log.
+在失败的 pod 的 deployment 上运行 `kubectl describe -n namespace deployment name`。通常能在事件中看到调用注入 webhook 失败的原因。
 
-### x509 certificate related errors
+### x509 证书相关的错误{#x509-certificate-related-errors}
 
 {{< text plain >}}
 Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: Internal error occurred: \
@@ -159,10 +166,9 @@ $ kubectl -n istio-system patch deployment istio-sidecar-injector \
 deployment.extensions "istio-sidecar-injector" patched
 {{< /text >}}
 
-### `no such hosts` or `no endpoints available` errors in deployment status
+### deployment 状态中出现 `no such hosts` 或 `no endpoints available`{#no-such-hosts-or-no-endpoints-available-errors-in-deployment-status}
 
-Injection is fail-close. If the `istio-sidecar-injector` pod is not ready, pods
-cannot be created. In such cases you’ll see an error about `no endpoints available`.
+注入是失效关闭的（fail-close）。如果 `istio-sidecar-injector` pod 尚未准备就绪，则无法创建 pod。在这种情况下，则会出现 `no endpoints available`。
 
 {{< text plain >}}
 Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \
@@ -182,9 +188,7 @@ NAME           ENDPOINTS                          AGE
 istio-sidecar-injector   10.48.6.108:10514,10.48.6.108:443   3d
 {{< /text >}}
 
-If the pods or endpoints aren't ready, check the pod logs and status
-for any indication about why the webhook pod is failing to start and
-serve traffic.
+如果 pod 或 endpoint 尚未准备就绪，可以通过检查 pod 日志和状态查找有关 webhook pod 无法启动的原因。
 
 {{< text bash >}}
 $ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o jsonpath='{.items[*].metadata.name}'); do \
@@ -196,7 +200,7 @@ $ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o name)
 done
 {{< /text >}}
 
-## Automatic sidecar injection fails if the Kubernetes API server has proxy settings
+## Automatic sidecar injection fails if the Kubernetes API server has proxy settings{#automatic-sidecar-injection-fails-if-the-kubernetes-api-server-has-proxy-settings}
 
 When the Kubernetes API server includes proxy settings such as:
 
@@ -223,7 +227,7 @@ One workaround is to remove the proxy settings from the `kube-apiserver` manifes
 An [issue](https://github.com/kubernetes/kubeadm/issues/666) was filed with Kubernetes related to this and has since been closed.
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
 
-## Limitations for using Tcpdump in pods
+## 在 pods 中使用 Tcpdump 的限制{#limitations-for-using-tcpdump-in-pods}
 
 Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the
 network namespace is shared. `iptables` will also see the pod-wide configuration.
