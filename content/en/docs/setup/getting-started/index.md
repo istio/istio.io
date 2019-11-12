@@ -182,10 +182,19 @@ The following tasks are a good place for beginners to start:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
-The next step is to customize Istio and deploy your own applications.
-Before you install and customize Istio to fit your platform and intended use, check out
-our [deployment models](/docs/setup/deployment-models/) and [general installation](/docs/setup/)
-documents.
+The tasks above provide a good basic understanding of Istio's features but,
+explore more [tasks](/docs/tasks/) depending on what interests you.
+
+Before you install and customize Istio to fit your platform and intended use,
+check out the following resources:
+
+- [Deployment models](/docs/setup/prep/deployment-models/)
+- [Deployment best practices](/docs/setup/prep/deployment/)
+- [Pod requirements](/docs/setup/prep/requirements/)
+- [General installation instructions](/docs/setup/)
+
+Once you have a deployment that suits your needs, the next step is to deploy
+your own applications.
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
 you to our [community](/about/community/join/).
