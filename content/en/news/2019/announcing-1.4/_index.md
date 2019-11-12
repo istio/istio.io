@@ -39,7 +39,7 @@ submitting it to the mesh.
 We've been doing tons of work to improve Envoy, its feature set, and the
 experience of using it. Envoy now exits more gracefully on crashes, supports
 more metrics, and can mirror traffic to a percentage of traffic. It reports
-the direction of traffic and has better configurability for stat patterns.
+the direction of traffic and has better configurability for `stat patterns`.
 Finally, there is a new
 [experimental command](/docs/reference/commands/istioctl/#istioctl-experimental-wait)
 that can tell you when configuration
@@ -56,7 +56,7 @@ As always, there is a lot happening in the
 [Community Meeting](https://github.com/istio/community#community-meeting);
 join us every other Thursday at 11 AM Pacific.
 
-We were very proud to be called out as one of the
+We were very proud to be called out as one of the top five
 [fastest growing](https://octoverse.github.com/#top-and-trending-projects)
 open source projects in all of Github. Want to get involved? Join one of our
 [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)
