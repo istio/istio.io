@@ -41,7 +41,7 @@ Every operator implementation requires a
 to define its API. Istio's operator API is defined by the
 [`IstioControlPlane` CRD](/docs/reference/config/istio.operator.v1alpha12.pb/),
 which is generated from
-[the `IstioControlPlane` proto](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
+[the `IstioControlPlane` proto](https://github.com/istio/operator/blob/{{< source_branch_name >}}/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
 The API supports all of Istio's current [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 using a single field to select the profile. For example, the following `IstioControlPlane` resource
 configures Istio using the `demo` profile:
