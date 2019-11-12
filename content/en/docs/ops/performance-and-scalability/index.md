@@ -34,7 +34,7 @@ The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_nam
 of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
 After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
-- The Envoy proxy uses **0.5 vCPU** and **33 MB memory** per 1000 requests per second going through the proxy.
+- The Envoy proxy uses **0.5 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
 - The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second.
 - Pilot uses **1 vCPU** and 1.5 GB of memory.
 - The Envoy proxy adds 6.3 ms to the 90th percentile latency.
@@ -127,8 +127,10 @@ This will decrease the amount data flowing through the system, which will in tur
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `server-sidecar` Only server sidecar is present.
 - `both-sidecars` Client and server sidecars are present. This is a default case inside the mesh.
-- `nomixer-both` Same as **both-sidecars** without Mixer. `TelemetryV2` latency profile will be similar.
-- `nomixer-server` Same as **server-sidecar** without Mixer. `TelemetryV2` latency profile will be similar.
+- `nomixer-both` Same as **both-sidecars** without Mixer.
+- `nomixer-server` Same as **server-sidecar** without Mixer.
+- `telemetryv2-nullvm_both` Same as **both-sidecars** but with telemetry v2. This is targeted to perform the same as "No Mixer" in the future.
+- `telemetryv2-nullvm_serveronly` Same as **server-sidecar** but with telemetry v2. This is targeted to perform the same as "No Mixer" in the future.
 
 ### Benchmarking tools
 
