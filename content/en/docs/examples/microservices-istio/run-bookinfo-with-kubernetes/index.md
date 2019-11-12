@@ -25,7 +25,7 @@ In the next modules, you will evolve the application.
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
-1.  Set your configuraton to the file you downloaded in previous steps:
+1.  Set your configuration to the file you downloaded in previous steps:
 
     {{< text bash >}}
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
