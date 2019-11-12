@@ -212,6 +212,14 @@ spec:
 EOF
 {{< /text >}}
 
+Test it again after you add the destination rule to ensure it passes:
+
+{{< text bash >}}
+$ for from in "foo" "bar"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+sleep.foo to httpbin.legacy: 200
+sleep.bar to httpbin.legacy: 200
+{{< /text >}}
+
 {{< tip >}}
 This destination rule is in the namespace of the server (`httpbin.legacy`), so it will be preferred over the global destination rule defined in `istio-system`
 {{< /tip >}}
