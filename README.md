@@ -20,6 +20,7 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
     - [Publishing content immediately](#publishing-content-immediately)
     - [Creating a version](#creating-a-version)
     - [Creating a patch release](#creating-a-patch-release)
+- [Regular maintenance](#regular-maintenance)
 
 ## Editing and building
 
@@ -165,3 +166,27 @@ you describe the changes in the release.
 
 For the release note file, please look at existing files in the same location for example content and
 layout.
+
+## Regular maintenance
+
+We have a number of checks in place to ensure a number of invariants are maintained in order to
+help the site's overall quality. For example, we disallow checking in broken links and we do spell
+checking. There are some things which are hard to systematically check through automation and instead
+require a human to review on in a while to ensure everything's doing well. 
+
+It's a good idea to run through this list before every major release of the site:
+
+- Ensure that references to the Istio repos on GitHub don't hardcode branch names. Search for any uses of `/release-1` or `/master`
+throughout all the markdown files and replace those with {{< source_branch_name >}} instead, which produces a version-appropriate
+branch name.
+
+- Review the .spelling file for words thst shouldn't be in there. Type names in particular tend to creep in here. Type names should
+not be in the dictionary and should instead be shown with `backticks`. Remove the entries from the dictionary and fix any spell
+checking errors that emerge.
+
+- Ensure proper capitalization. Document titles need to be fully capitalized (e.g. "This is a Valid Title"),
+while section headings should use first letter capitalization only (e.g. "This is a valid heading").
+
+- Ensure that preformatted text blocks that reference files from the Istio GitHub repos use the @@ syntax
+to produce links to the content. See [here](https://istio.io/about/contribute/creating-and-editing-pages/#links-to-github-files)
+for context.
