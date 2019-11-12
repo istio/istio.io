@@ -15,7 +15,7 @@ weight: 10
 
 ## Security
 
-- **Added** the [`v1beta1` authorization policy model](/docs/concepts/security#authorization) for enforcing access control. This will eventually replace the [`v1alpha1` RBAC policy](/docs/reference/config/authorization/istio.rbac.v1alpha1/).
+- **Added** the [`v1beta1` authorization policy model](/blog/2019/v1beta1-authorization-policy/) for enforcing access control. This will eventually replace the [`v1alpha1` RBAC policy](/docs/reference/config/security/istio.rbac.v1alpha1/).
 - **Added** experimental support for [automatic mutual TLS](docs/tasks/security/authentication/auto-mtls/).
 - **Added** experimental [DNS Certificate Management](/blog/2019/dns-cert/)
 - **Added** support for [trust domain migration](/docs/tasks/security/authorization/authz-td-migration/)

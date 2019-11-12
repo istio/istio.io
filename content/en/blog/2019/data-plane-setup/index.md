@@ -10,7 +10,7 @@ target_release: 1.0
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 
-From [Istio’s documentation](/docs/ops/architecture/)
+[From Istio’s documentation:](/docs/ops/architecture/)
 
 {{< quote >}}
 An Istio service mesh is logically split into a data plane and a control plane.
