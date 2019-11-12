@@ -16,6 +16,7 @@ weight: 10
 ## Security
 
 - **Added** the [`v1beta1` authorization policy model](/blog/2019/v1beta1-authorization-policy/) for enforcing access control. This will eventually replace the [`v1alpha1` RBAC policy](/docs/reference/config/security/istio.rbac.v1alpha1/).
+- **Added** experimental [DNS certificate management](/blog/2019/dns-cert/) to securely provision and manage DNS certificates signed by the Kubernetes CA.
 - **Improved** Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
 
 ## Telemetry
@@ -46,6 +47,6 @@ weight: 10
 - **Updated** the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) sub-command to display which policy is in use.
 - **Added** the experimental [`istioctl experimental wait`](/docs/reference/commands/istioctl/#istioctl-experimental-wait) sub-command to have Istio wait until it has pushed a configuration to all Envoy sidecars.
 - **Added** the experimental [`istioctl experimental mulitcluster`](/docs/reference/commands/istioctl/#istioctl-experimental-multicluster) sub-command to help manage Istio across multiple clusters.
-- **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to manage webhook configuration.
+- **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to [securely manage webhook configurations](/blog/2019/webhook/).
 - **Added** the experimental [`istioctl experimental upgrade`](/docs/setup/upgrade/istioctl-upgrade/) sub-command to perform upgrades of Istio.
 - **Improved** the [`istioctl version`](/docs/reference/commands/istioctl/#istioctl-version) sub-command. It now shows the Envoy proxy versions.
