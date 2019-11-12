@@ -7,7 +7,8 @@ aliases:
   - /zh/docs/examples/advanced-gateways/ingress-certmgr/
 ---
 
-这个例子演示了在 Istio 中使用 [Let's Encrypt](https://letsencrypt.org/) 签发 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。Istio 提供了更强大的功能，例如 [gateway](/zh/docs/reference/config/networking/gateway) 和 [virtual service](/zh/docs/reference/config/networking/virtual-service)，它们用于更高级的流量管理功能，也可以支持 Kubernetes Ingress，可以用于降低将传统解决方案和第三方解决方案集成到服务网格中的难度，并且使其受益于 Istio 提供的遥测和跟踪功能。
+这个例子演示了在 Istio 中使用 [Let's Encrypt](https://letsencrypt.org/) 签发 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。Istio 中的 [gateway](/zh/docs/reference/config/networking/gateway) 和 [virtual service](/zh/docs/reference/config/networking/virtual-service) 提供了高级的流量管理功能，虽然他们的功能很强大，但是 Istio 本身也对 Kubernetes Ingress 提供支持，这样就可以降低将传统解决方案和第三方解决方案集成到服务网格中的难度，并且使其受益于 Istio 提供的遥测和跟踪功能。
+
 
 您将从全新的 Istio 安装开始，创建示例服务，使用 Kubernetes Ingress 把它开放出去，并使用 cert-manager（与 Istio 捆绑在一起）管理 TLS 证书的签发和续订来确保它的安全，这个证书之后会给 Istio ingress [gateway](/zh/docs/reference/config/networking/gateway) 使用，并根据需要通过 [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 提供 hot-swapped 功能。
 
@@ -24,7 +25,7 @@ aliases:
     {{< /text >}}
 
     {{< tip >}}
-    缺省情况下， `istio-ingressgateway` 会以 `LoadBalancer` 的服务类型开放出来。您可以根据自己的 Kubernetes 环境把 `gateways.istio-ingressgateway.type` 设置为 `NodePort`。
+    默认情况下， `istio-ingressgateway` 会以 `LoadBalancer` 的服务类型开放出来。您可以根据自己的 Kubernetes 环境把 `gateways.istio-ingressgateway.type` 设置为 `NodePort`。
     {{< /tip >}}
 
 1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以便实现证书的自动管理。
@@ -43,7 +44,7 @@ $ kubectl -n istio-system get service istio-ingressgateway
 $ INGRESS_DOMAIN=mysubdomain.mydomain.edu
 {{< /text >}}
 
-Istio 安装中包含了一个自动生成的 [gateway](/zh/docs/reference/config/networking/gateway) ，用于给 Kubernetes `Ingress` 提供路由服务。缺省情况下，它不会使用 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret)，所以您需要对其进行修改，使其能通过 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 来为 `istio-ingressgateway` 签发 TLS 证书：
+Istio 安装中包含了一个自动生成的 [gateway](/zh/docs/reference/config/networking/gateway) ，用于提供 Kubernetes `Ingress` 定义的路由服务。默认情况下，它不会使用 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret)，所以您需要对其进行修改，使其能通过 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 来为 `istio-ingressgateway` 签发 TLS 证书：
 
 {{< text bash >}}
 $ kubectl -n istio-system edit gateway
@@ -175,7 +176,7 @@ $ curl --insecure https://$INGRESS_DOMAIN/hello
 Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 {{< /text >}}
 
-注意，您需要是用 `--insecure` 参数，因为测试 ACME-endpoints 签发的证书不受信任。
+注意，您需要使用 `--insecure` 参数，因为测试 ACME-endpoints 签发的证书不受信任。
 
 ## 从测试到生产{#moving-to-production-from-staging}
 
@@ -216,7 +217,7 @@ certificate.certmanager.k8s.io/ingress-cert configured
 $ kubectl delete secret -n istio-system ingress-cert
 {{< /text >}}
 
-等等看证书是否成功签发了:
+等等看证书是否成功签发了：
 
 {{< text bash >}}
 $ watch -n1 kubectl describe cert ingress-cert -n istio-system
