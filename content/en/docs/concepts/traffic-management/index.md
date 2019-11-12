@@ -29,7 +29,7 @@ changes to your services.
 
 If you’re interested in the details of how the features described in this guide
 work, you can find out more about Istio’s traffic management implementation in the
-[architecture overview]/docs/ops/architecture/). The rest of
+[architecture overview](/docs/ops/architecture/). The rest of
 this guide introduces Istio’s traffic management features.
 
 ## Introducing Istio traffic management
@@ -528,8 +528,8 @@ traffic for services running outside of the mesh, including the following tasks:
     consumed from the web, or traffic to services in legacy infrastructure.
 -   Define [retry](#retries), [timeout](#timeouts), and
     [fault injection](#fault-injection) policies for external destinations.
--   Add a service running in a Virtual Machine (VM) to the mesh to
-    [expand your mesh](/docs/examples/mesh-expansion/single-network/#running-services-on-a-mesh-expansion-machine).
+-   Add a service running in a Virtual Machine (VM) to the mesh by
+    [adding VMs your mesh](/docs/examples/virtual-machines/single-network/#running-services-on-the-added-vm).
 -   Logically add services from a different cluster to the mesh to configure a
     [multicluster Istio mesh](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
     on Kubernetes.
