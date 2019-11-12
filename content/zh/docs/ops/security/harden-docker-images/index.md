@@ -1,38 +1,38 @@
 ---
-title: Harden Docker Container Images
-description: Use hardened container images to reduce Istio's attack surface.
+title: 加固 Docker 容器镜像
+description: 使用加固的容器镜像来减小 Istio 的攻击面。
 weight: 80
 aliases:
-    - /help/ops/security/harden-docker-images
+    - /zh/help/ops/security/harden-docker-images
 ---
-To ease the process of hardening docker images, Istio provides a set of images based on  [distroless images](https://github.com/GoogleContainerTools/distroless)
+为了简化加固 docker 镜像的过程，Istio 提供了一系列基于[非发行版镜像](https://github.com/GoogleContainerTools/distroless)的镜像
 
 {{< warning >}}
-The *distroless images* are work-in-progress.
-The following images haven't been updated to support *distroless*:
+*非发行版镜像*的工作还在进行中。
+下列镜像尚未支持*非发行版*：
 
 - `proxyproxy`
 - `proxy_debug`
 - `kubectl`
 - `app_sidecar`
 
-For ease of the installation, they are available with a `-distroless` suffix.
+为了简化安装，它们可通过带上 `-distroless` 后缀来使用。
 {{< /warning >}}
 
-## Install distroless images
+## 安装非发行版镜像{#install-distroless-images}
 
-Follow the [Installation Steps](/docs/setup/install/istioctl/) to setup Istio.
-Add the option `--set tag={{< istio_full_version >}}-distroless` to use the *distroless images*.
+按照[安装步骤](/zh/docs/setup/install/istioctl/)来设置 Istio。
+添加 `--set tag={{< istio_full_version >}}-distroless` 选项以使用*非发行版镜像*。
 
-## Benefits
+## 效果{#benefits}
 
-Non-essential executables and libraries are no longer part of the images when using the distroless variant.
+非发行版镜像已经不再包含非必需的可执行文件和库。
 
-- The attack surface is reduced. Include the smallest possible set of vulnerabilities.
-- The images are smaller, which allows faster start-up.
+- 攻击面减小了。包括尽可能少的漏洞。
+- 镜像更小了，启动更快。
 
-See also the [Why should I use distroless images?](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images) section in the official distroless README.
+请参考官方非发行版 README 的[为何我选择非发行版镜像？](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images)章节。
 
 {{< warning >}}
-Be aware that common debugging tools such as `bash`, `curl`, `netcat`, `tcpdump`, etc. are not available on distroless images.
+请注意，通常的调试工具如 `bash`、`curl`、`netcat`、`tcpdump` 等在非发行版镜像中是不可用的。
 {{< /warning >}}

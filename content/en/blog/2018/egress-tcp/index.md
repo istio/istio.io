@@ -336,10 +336,10 @@ entries for TCP cannot be used and
 [the external services must be called directly](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services),
 bypassing the sidecar proxies.
 
-## Relation to mesh expansion
+## Relation to virtual machines support
 
-Note that the scenario described in this post is different from the mesh expansion scenario, described in the
-[Bookinfo with Mesh Expansion](/docs/examples/mesh-expansion/bookinfo-expanded/) example. In that scenario, a MySQL instance runs on an
+Note that the scenario described in this post is different from the
+[Bookinfo with Virtual Machines](/docs/examples/virtual-machines/bookinfo/) example. In that scenario, a MySQL instance runs on an
 external
 (outside the cluster) machine (a bare metal or a VM), integrated with the Istio service mesh. The MySQL service becomes
 a first-class citizen of the mesh with all the beneficial features of Istio applicable. Among other things, the service
@@ -349,7 +349,7 @@ becomes addressable by a local cluster domain name, for example by `mysqldb.vm.s
 entry to access this service; however, the service must be registered with Istio. To enable such integration, Istio
 components (_Envoy proxy_, _node-agent_, `_istio-agent_`) must be installed on the machine and the Istio control plane
 (_Pilot_, _Mixer_, _Citadel_) must be accessible from it. See the
-[Istio Mesh Expansion](/docs/examples/mesh-expansion/) instructions for more details.
+[Istio VM-related](/docs/examples/virtual-machines/) tasks for more details.
 
 In our case, the MySQL instance can run on any machine or can be provisioned as a service by a cloud provider. There is
 no requirement to integrate the machine with Istio. The Istio control plane does not have to be accessible from the

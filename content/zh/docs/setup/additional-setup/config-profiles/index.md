@@ -1,41 +1,36 @@
 ---
-title: Installation Configuration Profiles
-description: Describes the built-in Istio installation configuration profiles.
+title: 安装配置
+description: 描述 Istio 内置的安装配置文件。
 weight: 35
 aliases:
-    - /docs/setup/kubernetes/additional-setup/config-profiles/
+    - /zh/docs/setup/kubernetes/additional-setup/config-profiles/
 keywords: [profiles,install,helm]
 ---
 
-This page describes the built-in configuration profiles that can be used when
-[installing Istio](/docs/setup/install/istioctl/).
-The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
-You can start with one of Istio’s built-in configuration profiles and then further customize the configuration for
-your specific needs. The following built-in configuration profiles are currently available:
+本页面描述了在[安装 Istio](/zh/docs/setup/install/istioctl/) 时所能够使用的内置配置文件。这些配置文件提供了对 Istio 控制平面和 Istio 数据平面 sidecar 的定制内容。
+您可以从 Istio 内置配置文件的其中一个开始入手，然后根据您的特定需求进一步自定义配置文件。当前提供以下几种内置配置文件:
 
-1. **default**: enables components according to the default [Installation Options](/docs/reference/config/installation-options/)
-    (recommend for production deployments).
+1. **default**: 根据默认的[安装选项](/zh/docs/reference/config/installation-options/)启用组件
+    (建议用于生产部署)。
 
-1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
-    It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
-    This is the configuration that is installed with the [quick start](/docs/setup/install/kubernetes/) instructions,
-    but you can later [customize the configuration](/docs/setup/install/istioctl/#customizing-the-configuration)
-    to enable additional features if you wish to explore more advanced tasks.
+1. **demo**: 这一配置具有适度的资源需求，旨在展示 Istio 的功能。它适合运行 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序和相关任务。
+    这是通过[快速开始](/zh/docs/setup/install/kubernetes/)指导安装的配置，但是您以后可以通过[自定义配置](/zh/docs/setup/install/istioctl/#customizing-the-configuration)
+    启用其他功能来探索更高级的任务。
 
     {{< warning >}}
-    This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
+    此配置文件启用了高级别的追踪和访问日志，因此不适合进行性能测试。
     {{< /warning >}}
 
-1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
+1. **minimal**: 使用 Istio 的[流量管理](/zh/docs/tasks/traffic-management/)功能所需的最少组件集。
 
-1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/citadel-config/auth-sds).
-    This profile comes with additional authentication features enabled by default (Strict Mutual TLS).
+1. **sds**: 和 **default** 配置类似，但是启用了 Istio 的 [SDS (secret discovery service)](/zh/docs/tasks/security/auth-sds) 功能。
+    这个配置文件默认启用了附带的认证功能 (Strict Mutual TLS)。
 
-The components marked as **X** are installed within each profile:
+下表中标记为 **X** 的组件就是包含在配置文件里的内容:
 
 |     | default | demo | minimal | sds |
 | --- | --- | --- | --- | --- |
-| Core components | | | | | |
+| 核心组件 | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-citadel` | X | X | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | X | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-galley` | X | X | | X |
@@ -45,39 +40,33 @@ The components marked as **X** are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-policy` | X | X | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-sidecar-injector` | X | X | | X |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-telemetry` | X | X | | X |
-| Addons | | | | | |
+| 插件 | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`grafana` | | X | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-tracing` | | X | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`kiali` | | X | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`prometheus` | X | X | | X |
 
-To further customize Istio and install addons, you can add one or more `--set <key>=<value>` options in the
-`istioctl manifest` command that you use when installing Istio.
-The [Installation Options](/docs/reference/config/installation-options/) lists the complete set of supported
-installation key and value pairs.
+为了进一步自定义 Istio 和安装插件，您可以在安装 Istio 时所使用的 `istioctl manifest` 命令中添加一个或多个 `--set <key>=<value>` 选项。
+[安装选项](/zh/docs/reference/config/installation-options/)中列出了完整的当前所支持的安装键值对集合。
 
-## Multicluster profiles
+## 多集群配置{#multicluster-profiles}
 
-Istio provides two additional built-in configuration profiles that are used exclusively for configuring a
-[multicluster deployment](/docs/setup/deployment-models/#multiple-clusters):
+Istio 提供了两个附加的内置配置文件，被专门用于配置[多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters):
 
-1. **remote**: used for configuring remote clusters of a
-    multicluster mesh with a [shared control plane](/docs/setup/install/multicluster/shared-vpn/).
+1. **remote**: 用于配置通过[共享控制平面](/zh/docs/setup/install/multicluster/shared-vpn/)搭建的多集群网格里的远程集群。
 
-1. **multicluster-gateways**: used for configuring clusters of a
-    multicluster mesh with [replicated control planes](/docs/setup/install/multicluster/gateways/).
+1. **multicluster-gateways**: 用于配置通过[多控制平面](/zh/docs/setup/install/multicluster/gateways/)搭建的多集群网格里的集群。
 
-The **remote** profile installs only two Istio core components:
+ **remote** 配置文件仅安装两个 Istio 核心组件:
 
 1. `istio-citadel`
 
 1. `istio-sidecar-injector`
 
-The **multicluster-gateways** profile installs the same components as the Istio **default** configuration
-profile plus two additional components:
+ **multicluster-gateways** 配置文件除了安装和 **default** 配置文件相同的组件外，还增加了两个额外组件:
 
-1. The `istio-egressgateway` core component.
+1. `istio-egressgateway` 核心组件。
 
-1. The `coredns` addon.
+1. `coredns` 插件。
 
-Refer to the [multicluster installation instructions](/docs/setup/install/multicluster/) for more details.
+参考[多集群安装说明](/zh/docs/setup/install/multicluster/)获取更多详细信息。
