@@ -1,5 +1,5 @@
 ---
-title: attribute
+title: Attribute
 ---
 
 属性控制着网格中服务运行时的行为，是一堆有名字的、有类型的元数据，它们描述了 ingress 和 egress 流量，以及这些流量所在的环境。
@@ -13,4 +13,4 @@ source.ip: 192.168.0.1
 destination.workload.name: example
 {{< /text >}}
 
-属性被 Istio 的 [策略和遥测](/docs/reference/config/policy-and-telemetry/) 功能所使用。
+属性被 Istio 的 [策略和遥测](/zh/docs/reference/config/policy-and-telemetry/) 功能所使用。
