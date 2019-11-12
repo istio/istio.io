@@ -1,6 +1,6 @@
 ---
 title: 使用 Istio 增强端到端安全
-description: Istio Auth 0.1 公告。
+description: Istio 身份验证 0.1 公告。
 publishdate: 2017-05-25
 subtitle: 默认保护服务间通信
 attribution: The Istio Team
@@ -10,7 +10,7 @@ aliases:
 target_release: 0.1
 ---
 
-传统的网络安全方式无法解决部署在动态变化环境下分布式应用的安全威胁。这里，我们将描述 Istio 身份验证如何帮助企业将其安全从边界保护转变为内部所有服务间通信保护。 使用 `Istio Auth` 开发人员和运维人员可以在不改动程序代码的情况下，对于敏感数据进行保护，防止未经授权的内部人员访问。
+传统的网络安全方式无法解决部署在动态变化环境下分布式应用的安全威胁。这里，我们将描述 Istio 身份验证如何帮助企业将其安全从边界保护转变为内部所有服务间通信保护。 使用 Istio 身份验证开发人员和运维人员可以在不改动程序代码的情况下，对于敏感数据进行保护，防止未经授权的内部人员访问。
 
 Istio 身份验证是更广泛的 Istio 平台的安全组件。它结合了 Google 生产环境中保护数百万微服务安全的经验。
 
@@ -22,7 +22,7 @@ Istio 身份验证是更广泛的 Istio 平台的安全组件。它结合了 Goo
 
 ## 解决方案：增强的服务身份和验证{#solution-strong-service-identity-and-authentication}
 
-多年来，Google 通过研发架构和技术，帮助其生产环境中数百万个微服务抵御了外部攻击和内部威胁。 关键安全原则包括信任端而不是网络，基于服务身份和级别授权的双向强身份验证。`Istio Auth` 基于相同的原则。
+多年来，Google 通过研发架构和技术，帮助其生产环境中数百万个微服务抵御了外部攻击和内部威胁。 关键安全原则包括信任端而不是网络，基于服务身份和级别授权的双向强身份验证。Istio 身份验证基于相同的原则。
 
 Istio 身份验证服务 0.1 版本在 Kubernetes 上运行，并提供以下功能：
 
@@ -38,7 +38,7 @@ Istio 身份验证基于双向 TLS 和 X.509 等行业标准。 此外，Google 
 
 下图描述了 Kubernetes 上 Istio 身份验证服务的体系结构。
 
-{{< image link="istio_auth_overview.svg" caption="`Istio Auth` 概览" >}}
+{{< image link="istio_auth_overview.svg" caption="Istio 身份验证概览" >}}
 
 上图说明了三个关键的安全功能：
 
@@ -54,7 +54,7 @@ Istio 身份验证使用了 [Kubernetes 服务帐户](https://kubernetes.io/docs
 
 ### 通信安全{#communication-security}
 
-服务间通信基于高性能客户端和服务器端 [Envoy](https://envoyproxy.github.io/envoy/) 代理的传输隧道。 代理之间的通信使用双向 TLS 来进行保护。 使用双向 TLS 的好处是服务身份不会被替换为从源窃取或重放攻击的令牌。 `Istio Auth` 还引入了安全命名的概念，以防止服务器欺骗攻击 - 客户端代理验证允许验证特定服务的授权的服务帐户。
+服务间通信基于高性能客户端和服务器端 [Envoy](https://envoyproxy.github.io/envoy/) 代理的传输隧道。 代理之间的通信使用双向 TLS 来进行保护。 使用双向 TLS 的好处是服务身份不会被替换为从源窃取或重放攻击的令牌。 Istio 身份验证还引入了安全命名的概念，以防止服务器欺骗攻击 - 客户端代理验证允许验证特定服务的授权的服务帐户。
 
 ### 密钥管理和分配{#key-management-and-distribution}
 
