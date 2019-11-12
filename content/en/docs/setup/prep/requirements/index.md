@@ -14,6 +14,9 @@ keywords:
 - kubernetes
 - sidecar
 - sidecar-injection
+- deployment-models
+- pods
+- setup
 ---
 
 To be a part of an Istio service mesh, pods and services in a Kubernetes
