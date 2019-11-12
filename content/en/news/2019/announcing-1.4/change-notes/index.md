@@ -32,7 +32,7 @@ weight: 10
 
 ## Installation
 
-- **Added** Added the [operator controller](/docs/setup/install/standalone-operator/) for dynamic updates to an Istio installation.
+- **Added** the experimental [operator controller](/docs/setup/install/standalone-operator/) for dynamic updates to an Istio installation.
 - **Removed** the `proxy_init` Docker image. Instead, the `istio-init` container reuses the `proxyv2` image.
 - **Updated** the base image to `ubunutu:bionic`.
 
