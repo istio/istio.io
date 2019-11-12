@@ -212,7 +212,7 @@ spec:
 EOF
 {{< /text >}}
 
-Test it again after you add destination rule, it is pass.
+Test it again after you add the destination rule to ensure it passes:
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
