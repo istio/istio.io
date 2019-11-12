@@ -13,7 +13,7 @@ We are pleased to announce the release of Istio 1.4!
 
 {{< relnote >}}
 
-Istio 1.4 continues our efforts at improving the user experience in Istio,
+Istio 1.4 continues our efforts at improving the Istio user experience,
 with a focus on simplification. We've also continued to add features that
 improve the performance and experience of running Istio.
 
@@ -56,7 +56,7 @@ As always, there is a lot happening in the
 [Community Meeting](https://github.com/istio/community#community-meeting);
 join us every other Thursday at 11 AM Pacific.
 
-We were very proud to be called out as one of th
+We were very proud to be called out as one of the
 [fastest growing](https://octoverse.github.com/#top-and-trending-projects)
 open source projects in all of Github. Want to get involved? Join one of our
 [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)
