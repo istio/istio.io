@@ -15,14 +15,13 @@
 # limitations under the License.
 
 import collections
-from collections import deque
 import requests
 import os
 import string
+import sys
 
 from jinja2 import Template
 from ruamel.yaml import YAML
-from ruamel.yaml import events
 
 # Reads a documented Helm values.yaml file and produces a
 # MD formatted table.  pip install ruamel to obtain the proper
@@ -40,7 +39,8 @@ CONFIG_INDEX_DIR = "content/en/docs/reference/config/installation-options/index.
 ISTIO_REPO = "https://github.com/istio/istio.git@release-1.4"
 ISTIO_LOCAL_REPO = "istio-repo"
 
-prdict = dict()
+
+prdict = collections.defaultdict(list)
 
 
 def downloadIstioRepo():
@@ -58,96 +58,44 @@ def deleteIstioRepo():
     os.system("rm -rf %s" % ISTIO_LOCAL_REPO)
 
 
-prdict = collections.defaultdict(list)
-
-
-# Turn a comment blob into a string
-def sanitize_comment(comment):
-    for cmt in comment:
-        if cmt is None:
-            continue
-        # multiline comment
-        if isinstance(cmt, list):
-            return_string = ''
-            for cmt2 in cmt:
-                return_string = return_string + cmt2.value.lstrip('#')
-            return(return_string)
-        # single line comment
+def flatten(d, sep="."):
+    obj = collections.OrderedDict()
+    def recurse(t, parent_key=""):
+        if isinstance(t,list):
+            for i in range(len(t)):
+                recurse(t[i], parent_key + '[' + str(i) + ']'  if parent_key else str(i))
+        elif isinstance(t,dict):
+            for k,v in t.items():
+                recurse(v, parent_key + sep + k if parent_key else k)
         else:
-            return(cmt.value.lstrip('#'))
+            obj[parent_key] = t
+
+    recurse(d)
+
+    return obj
 
 
 # Read one helm values.yaml value
 def read_helm_value_file(file, cfile):
-    comment = deque(list())
-    key_queue = deque(list())
-    cmt = ''
-
     print("%s" % file)
     f = open(file, 'r')
 
     # Store key for this section
     if len(cfile):
-        key_queue.append(cfile)
+        dictkey = cfile
+        cfile = cfile + '.'
+    else:
+        dictkey = 'global.'
 
     # Iterate list of YAML parse event nodes converting to a queue of KV pairs with comments
     # intact. For every KV pair, I push the key and the value.  When I am ready to ouput, the
     # key and value pair are popped together and then stored in a string.
     yaml = YAML(typ='rt')
-    nodes = yaml.parse(f)
+    data = yaml.load(f)
 
-    key = True
-    # The ordering of this loop is critical. Don't muck with it without understanding how
-    # events are produced by ruamel's parser.
-    for node in nodes:
-        print(node)
-        if hasattr(node, 'comment'):
-            if node.comment is None:
-                pass
-            else:
-                cmt = sanitize_comment(node.comment)
-                if cmt is None:
-                    pass
-                else:
-                    cmt.replace('{{', '{{ \'{{\' }}')
-                    cmt.replace('}}', '{{ \'}}\' }}')
-                    comment.append(cmt)
-        if isinstance(node, events.SequenceStartEvent):
-            key = True
-        if isinstance(node, events.MappingStartEvent):
-            key = True
-        if isinstance(node, events.ScalarEvent):
-            if hasattr(node, 'value'):
-                key_queue.append(node.value)
-            if key == False:
-                value = key_queue.pop()
-                try:
-                    cmt = comment.popleft()
-                except:
-                    cmt = ''
-                try:
-                    dict_item = {'Key': '.'.join(key_queue), 'Default': value, 'Description': cmt}
-                    print(dict_item)
-                    if cfile=='':
-                        prdict['global'].append(dict_item)
-                    else:
-                        prdict[cfile].append(dict_item)
-                except:
-                    pass
-                if len(key_queue):
-                    key_queue.pop()
-                key = True
-            elif key == True:
-                key = False
-        if isinstance(node, events.SequenceEndEvent):
-            key = True
-            if len(key_queue):
-                key_queue.pop()
-                pass
-        if isinstance(node, events.MappingEndEvent):
-            key = True
-            if len(key_queue):
-                key_queue.pop()
+    res = flatten(data)
+    for k, v in res.items():
+        prdict[dictkey].append({'key': cfile + k, 'default': v})
 
 
 # Read all helm values.yaml files
@@ -172,7 +120,6 @@ def read_helm_value_files():
     istio_yaml_config_dir = os.path.join(ISTIO_LOCAL_REPO, ISTIO_CONFIG_DIR)
     values_yaml_file = os.path.join(istio_yaml_config_dir, VALUES_YAML)
     read_helm_value_file(values_yaml_file, '')
-#'istio-repo/install/kubernetes/helm/istio/charts/galley', 'galley')
 
 
 # Jinja2 template
@@ -188,9 +135,9 @@ html = '''
     <tbody>
 {% for output in values %}
             <tr>
-                <td>{{ output["Key"] }}</td>
-                <td>{{ output["Default"] }}</td>
-                <td>{{ output["Description"] }}</td>
+                <td>{{ output["key"] }}</td>
+                <td>{{ output["default"] }}</td>
+                <td>{{ output["description"] }}</td>
             </tr>
 {% endfor %}
     </tbody>
@@ -204,7 +151,6 @@ def main():
     template = Template(html)
 
     downloadIstioRepo()
-#    read_helm_value_file('istio-repo/install/kubernetes/helm/istio/charts/galley/values.yaml', 'galley')
 
     read_helm_value_files()
 
