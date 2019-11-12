@@ -40,9 +40,9 @@ We've been doing tons of work to improve Envoy, its feature set, and the
 experience of using it. Envoy now exits more gracefully on crashes, supports
 more metrics, and can mirror traffic to a percentage of traffic. It reports
 the direction of traffic and has better configurability for stat patterns.
-Finally, there is a new 
+Finally, there is a new
 [experimental command](/docs/reference/commands/istioctl/#istioctl-experimental-wait)
-that can tell you when config
+that can tell you when configuration
 has been pushed to all proxies in the mesh.
 
 ## Other enhancements
