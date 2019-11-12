@@ -20,19 +20,15 @@ Otherwise, it does nothing. Citadel relies on a
 with command line to check the _modification time_ of the _health status file_ on the pod.
 If the file is not updated for a period, Kubelet will restart the Citadel container.
 
-Note: because Citadel health checking currently only monitors the health status of CSR service API,
-this feature is not needed if the production setup is not using the
-[SDS](/docs/tasks/security/citadel-config/auth-sds/) or [Mesh Expansion](/docs/examples/mesh-expansion/).
+{{< tip >}}
+Since Citadel health checking currently only monitors the health status of CSR service API,
+this feature is not needed if the production setup is not using
+[SDS](/docs/tasks/security/citadel-config/auth-sds/) or [adding virtual machines](/docs/examples/virtual-machines/).
+{{< /tip >}}
 
 ## Before you begin
 
-To complete this task, you can [install Istio](/docs/setup/install/istioctl/) with the `global.mtls.enabled` option set to `true`.
-
-{{< tip >}}
-Use an [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for
-all or only selected services in a namespace. You must repeat the policy for all namespaces to configure the setting globally.
-See the [authentication policy task](/docs/tasks/security/authentication/authn-policy/) for details.
-{{< /tip >}}
+Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ## Deploying Citadel with health checking
 

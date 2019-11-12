@@ -15,11 +15,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 ## Before you begin
 
-* Set up Istio by following the instructions in the [quick start](/docs/setup/install/kubernetes/):
-
-{{< tip >}}
-You can use [authentication policy](/docs/concepts/security/#authentication-policies) to configure mutual TLS for all/selected services in a namespace (repeated for all namespaces to get global setting). See [authentication policy task](/docs/tasks/security/authentication/authn-policy/)
-{{< /tip >}}
+Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ## Plugging in the existing certificate and key
 
@@ -110,7 +106,7 @@ This requires you have `openssl` installed on your machine.
 1.  Verify the CA certificate is the same as the one specified by operator:
 
     {{< text bash >}}
-    $ tail -n 23 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
+    $ sed '0,/^-----END CERTIFICATE-----/d' /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
     $ openssl x509 -in @samples/certs/ca-cert.pem@ -text -noout > /tmp/ca-cert.crt.txt
     $ openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
     $ diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
@@ -128,10 +124,11 @@ This requires you have `openssl` installed on your machine.
 
 ## Cleanup
 
-*   To remove the secret `cacerts`:
+*   To remove the secret `cacerts` and redeploy Citadel with self-signed root certificate:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
+    $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
     {{< /text >}}
 
 *   To remove the Istio components: follow the [uninstall instructions](/docs/setup/install/kubernetes/#uninstall) to remove.

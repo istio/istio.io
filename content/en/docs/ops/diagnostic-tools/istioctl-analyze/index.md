@@ -14,31 +14,12 @@ apply changes to a cluster.
 
 ## Getting started in under a minute
 
-Getting started is very simple. First, download the latest `istioctl` into the current folder
-using one command (downloading the latest release ensure that it will have the most
-complete set of analyzers):
+If you've downloaded Istio version 1.4 or greater, your version of `istioctl` already includes `analyze`.
 
-{{< tabset cookie-name="platform" >}}
+You can also download the latest version directly, as described [here](#getting-the-latest-version-of-istioctl-analyze),
+even if you're running an older version of Istio.
 
-{{< tab name="Mac" cookie-value="macos" >}}
-
-{{< text bash >}}
-$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Linux" cookie-value="linux" >}}
-
-{{< text bash >}}
-$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-Then, run it against your current Kubernetes cluster:
+Once you have a supported version of `istioctl`, you can analyze your current Kubernetes cluster by running:
 
 {{< text bash >}}
 $ ./istioctl x analyze -k
@@ -98,15 +79,18 @@ the kind of information you should provide.
 
 - **What Istio release does this tool target?**
 
-      Analysis works with any version of Istio, and doesn’t require anything to be installed in the cluster. You just need to get a recent version of `istioctl`.
+      Like other `istioctl` tools, we generally recommend using a downloaded version that matches the version deployed in your cluster.
 
-      In some cases, some of the analyzers will not apply if they are not meaningful with your Istio release. But the analysis will still happen with all analyzers that do apply.
+      For the time being, analysis is generally backwards compatible, so that you can e.g. run the 1.4 version of `istioctl analyze` against a cluster running Istio 1.1 and expect to get useful feedback. Analysis rules that are not meaningful with an older Istio release will be skipped.
 
-      Note that while the `analyze` command works across Istio releases, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest release of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio release to run other commands.
+      If you decide to use the latest `istioctl` for analysis purposes on a cluster running an older Istio version, we suggest that you keep it in a separate folder from the version of the binary used to manage your deployed Istio release.
 
 - **What analyzers are supported today?**
 
       We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
+
+      You can also see what [configuration analysis messages](/docs/reference/config/analysis/)
+      are supported to get an idea of what is currently covered.
 
 - **Can analysis do anything harmful to my cluster?**
 
@@ -120,7 +104,37 @@ the kind of information you should provide.
 
       The set of [configuration analysis messages](/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
 
-## Enabling validation messages for resource status
+## Advanced
+
+### Getting the latest version of `istioctl analyze`
+
+Although `istioctl analyze` is included in versions of Istio 1.4 and beyond, you can also directly download the very
+latest version to use on your cluster. This version may be unstable, but will have the most complete and up to date set
+of analyzers and may find issues that older versions miss.
+
+You can download the latest `istioctl` into the current folder using the following command:
+
+{{< tabset cookie-name="platform" >}}
+
+{{< tab name="Mac" cookie-value="macos" >}}
+
+{{< text bash >}}
+$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Linux" cookie-value="linux" >}}
+
+{{< text bash >}}
+$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+### Enabling validation messages for resource status
 
 {{< boilerplate experimental-feature-warning >}}
 

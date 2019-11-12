@@ -93,8 +93,8 @@ In the following example output you can see that:
 * Istio has the `default` destination rule in the `istio-system` namespace.
 
 {{< text plain >}}
-HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /default            istio-system/default
+HOST:PORT                                  STATUS     SERVER     CLIENT           AUTHN POLICY     DESTINATION RULE
+httpbin.default.svc.cluster.local:8000     OK         STRICT     ISTIO_MUTUAL     /default         istio-system/default
 {{< /text >}}
 
 The output shows:
