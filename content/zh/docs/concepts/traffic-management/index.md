@@ -13,32 +13,11 @@ aliases:
     - /zh/docs/concepts/traffic-management/pilot.html
 ---
 
-Istio的流量路由规则让您可以轻松地控制服务之间的流量和API调用流。Istio简化了
-服务级别属性(如断路器、超时和重试)使设置重要任务(如A/B测试、canary推出和分段)变得容易
-以百分比为基础的流量分割的推出。它还提供开箱即用的故障恢复功能，帮助您的应用程序更健壮地应对依赖服务或网络的故障。
+Istio 的流量路由规则可以让您很容易的控制服务之间的流量和 API 调用。Istio 简化了服务级别属性的配置，比如熔断器、超时和重试，并且能力轻松的设置重要的任务，如 A/B 测试、金丝雀发布、基于百分比流量切分的分段发布等。它还提供开箱即用的故障恢复特性，帮助您的应用程序更好的应对依赖服务或网络的故障。
 
-Istio的流量管理模型依赖于与您的服务一起部署的特使代理。您的mesh服务发送和接收的所有流量(数据飞机流量)都是通过Envoy代理的，这使得在您的mesh周围指挥和控制流量变得很容易，而不需要对您的服务做任何更改。
+Istio的流量管理模型基于和服务一起部署的 {{< gloss >}}Envoy{{</ gloss >}} 代理。网格内的服务发送和接收的所有流量（{{< gloss >}}数据平面{{</ gloss >}}流量 ）都由 Envoy 代理，这使控制网格内的流量变得异常简单，而且不需要对服务做任何的更改。
 
-如果您对本指南中描述的功能如何工作的细节感兴趣，您可以在[体系结构概述]中找到关于Istio的流量管理实现的更多信息。本指南的其余部分将介绍Istio的流量管理特性。
-
-Istio’s traffic routing rules let you easily control the flow
-of traffic and API calls between services. Istio simplifies configuration of
-service-level properties like circuit breakers, timeouts, and retries, and makes
-it easy to set up important tasks like A/B testing, canary rollouts, and staged
-rollouts with percentage-based traffic splits. It also provides out-of-box
-failure recovery features that help make your application
-more robust against failures of dependent services or the network.
-
-Istio’s traffic management model relies on the {{< gloss >}}Envoy{{</ gloss >}}
-proxies that are deployed along with your services. All traffic that your mesh
-services send and receive ({{< gloss >}}data plane{{</ gloss >}} traffic) is proxied through Envoy, making
-it easy to direct and control traffic around your mesh without making any
-changes to your services.
-
-If you’re interested in the details of how the features described in this guide
-work, you can find out more about Istio’s traffic management implementation in the
-[architecture overview](/zh/docs/ops/architecture/). The rest of
-this guide introduces Istio’s traffic management features.
+如果您对本节中描述的功能特性是如何工作的感兴趣的话，可以在[架构概述](/zh/docs/ops/architecture/)中找到关于 Istio 的流量管理实现的更多信息。这部分只介绍 Istio 的流量管理特性。
 
 ## Istio 流量管理介绍 {#introducing-istio-traffic-management}
 
@@ -216,7 +195,7 @@ metadata:
 spec:
   hosts:
   - reviews
-  http:
+    http:
   - match:
     - headers:
         end-user:
@@ -443,7 +422,7 @@ by percentage "weight". This is useful for A/B testing and canary rollouts:
 spec:
   hosts:
   - reviews
-  http:
+    http:
   - route:
     - destination:
         host: reviews
@@ -680,7 +659,7 @@ metadata:
 spec:
   hosts:
   - ext-host.example.com
-  gateways:
+    gateways:
     - ext-host-gwy
 {{< /text >}}
 
@@ -734,12 +713,12 @@ metadata:
 spec:
   hosts:
   - ext-svc.example.com
-  ports:
+    ports:
   - number: 443
     name: https
     protocol: HTTPS
-  location: MESH_EXTERNAL
-  resolution: DNS
+    location: MESH_EXTERNAL
+    resolution: DNS
 {{< /text >}}
 
 You specify the external resource using the `hosts` field. You can qualify it
@@ -875,7 +854,7 @@ metadata:
 spec:
   hosts:
   - ratings
-  http:
+    http:
   - route:
     - destination:
         host: ratings
@@ -930,7 +909,7 @@ metadata:
 spec:
   hosts:
   - ratings
-  http:
+    http:
   - route:
     - destination:
         host: ratings
@@ -1038,7 +1017,7 @@ metadata:
 spec:
   hosts:
   - ratings
-  http:
+    http:
   - fault:
       delay:
         percentage:
