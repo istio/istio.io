@@ -1,6 +1,6 @@
 ---
 title: 入门
-description: 下载，安装并试用 Istio
+description: 下载，安装并试用 Istio 。
 weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/getting-started/
