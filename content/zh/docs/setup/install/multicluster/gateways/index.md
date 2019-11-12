@@ -1,6 +1,6 @@
 ---
-title: 可复制的控制平面
-description: 通过可复制的控制平面实例，在多个 Kubernetes 集群上安装 Istio mesh。
+title: 控制平面副本集
+description: 通过控制平面副本集实例，在多个 Kubernetes 集群上安装 Istio 网格。
 weight: 2
 aliases:
     - /zh/docs/setup/kubernetes/multicluster-install/gateways/
@@ -10,17 +10,15 @@ aliases:
 keywords: [kubernetes,multicluster,gateway]
 ---
 
-通过本教程，您可以在每一个使用 gateway 提供跨集群连接服务的集群中，
-通过可复制的 [数据平面](/zh/docs/setup/deployment-models/#control-plane-models) 实例，
-完成 Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters) 的安装。
+请参照本指南安装具有副本集 [控制平面](/zh/docs/setup/deployment-models/#control-plane-models) 实例的
+Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，并在每个群集中使用 gateway 来提供跨集群连接服务。
 
-在此配置中，每个集群都使用它自己的 Istio 数据平面来完成安装，并管理自己的 endpoint，
-而不是使用 shared Istio 数据平面来管理网格。 
-出于策略实施和安全的目的，所有集群都由 shared administrative 控制。
+在此配置中，每个集群都使用它自己的 Istio 控制平面来完成安装，并管理自己的 endpoint，
+而不是使用共享的 Istio 控制平面来管理网格。
+出于以下目的，所有群集都在共同的管理控制下，执行策略与安全行为
 
-通过复制 shared service 及其 namespaces 并在所有集群中使用公共的根 CA，可以在集群中实现一个单 Istio 服务网格。
+通过共享服务副本及命名空间，并在所有群集中使用公共的根证书，可以在群集中实现一个 Istio 服务网格。
 跨集群通信基于各个集群的 Istio gateway。
- 
 
 {{< image width="80%" link="./multicluster-with-gateways.svg" caption="使用 Istio Gateway 跨越多个基于 Kubernetes 集群的 Istio 网格并最终到达远端 pod" >}}
 
@@ -29,20 +27,19 @@ keywords: [kubernetes,multicluster,gateway]
 * 两个以上 Kubernetes 集群，且版本为：{{< supported_kubernetes_versions >}}。
 
 * 有权限在 **每个** Kubernetes 集群上，[部署 Istio 控制平面](/zh/docs/setup/install/istioctl/)。
-  
 
 * 每个集群 `istio-ingressgateway` 服务的 IP 地址，必须允许其它集群访问，最好使用 4 层负载均衡（NLB）。
   有些云服务商不支持负载均衡或者需要特别注明才能使用。所以，请查阅您的云服务商的文档，为负载均衡类型的服务对象启用 NLB。
-  在不支持负载均衡的平台上部署时，可能需要修改健康检查，使得负载均衡对象可以注册为 ingress gateway。  
+  在不支持负载均衡的平台上部署时，可能需要修改健康检查，使得负载均衡对象可以注册为 ingress gateway。
 
-* 一个 **根 CA**。 跨集群的服务通信必须使用双向 TLS 连接。
-  为了在集群之间使用双向 TLS 通信，每个集群的 Citadel 都将由 shared 根 CA 生成中间 CA 凭据。
+* 一个 **根 CA**。跨集群的服务通信必须使用双向 TLS 连接。
+  为了在集群之间使用双向 TLS 通信，每个集群的 Citadel 都将由共享的根 CA 生成中间 CA 凭据。
   为方便演示，您在安装 Istio 时，可以使用 `samples/certs` 目录下的一个根 CA 证书样本。
 
 ## 在每个集群中部署 Istio 控制平面{#deploy-the-Istio-control-plane-in-each-cluster}
 
 1. 从组织的根 CA 为每个集群的 Citadel 生成中间 CA 证书。
-   shared 根 CA 支持跨集群的双向 TLS 通信。 
+   共享的根 CA 支持跨集群的双向 TLS 通信。
 
     为方便演示，后面两个集群的演示都将使用 Istio 样本目录下的证书。
     在实际部署中，一般会使用一个公共根 CA 为每个集群签发不同的 CA 证书。
@@ -96,11 +93,11 @@ Istio 还附带了一个名为 CoreDNS 的服务，它可以为这些服务提�
 {{< warning >}}
 一些云提供商的 Kubernetes 服务可能有不同的、特殊的 `DNS domain stub` 程序和功能。
 请参考云提供商的文档，以确定如何为不同环境的 `stub DNS domains`。
-这个 bash 的目的是为 `53` 端口上的 `.global` 存根域引用或代理 Istio 的 service namespace 中的 `istiocoredns` 服务。 
+这个 bash 的目的是为 `53` 端口上的 `.global` 存根域引用或代理 Istio 的 service namespace 中的 `istiocoredns` 服务。
 {{< /warning >}}
 
 在每个要调用远端集群中服务的集群中（通常是所有集群），
-选择并创建下面这些 ConfigMaps 中的一个，或直接使用现有的做修改。 
+选择并创建下面这些 ConfigMaps 中的一个，或直接使用现有的做修改。
 
 {{< tabset cookie-name="platform" >}}
 {{< tab name="KubeDNS" cookie-value="kube-dns" >}}
@@ -241,16 +238,16 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
     有关获取使用 IP 的说明，请参见教程：[Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)。
     在后面的步骤中，您还需要将 service entry 的 endpoint 的端口从 15443 修改为其对应的 nodePort
     （例如，`kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`）。
-    
+
     {{< /tip >}}
 
-1. 为 `cluster2` 中的 `httpbin` 服务创建一个 service entry。
+1. 在 `cluster1` 中为 `httpbin` 服务创建一个 service entry。
 
-    为了让 `cluster1` 中的 `sleep` 访问 `cluster2` 中的 `httpbin`，我们需要为 `sleep` 创建一个 service entry。
+    为了让 `cluster1` 中的 `sleep` 访问 `cluster2` 中的 `httpbin`，我们需要在 `cluster1` 中为 `httpbin` 服务创建一个 service entry。
     service entry 的 host 命名应采用 `<name>.<namespace>.global` 的格式。
     其中 name 和 namespace 分别与远端服务的 name 和 namespace 对应。
 
-    为了让 DNS 解析 `*.global` 域下的服务，您需要给这些服务分配一个 IP 地址。 
+    为了让 DNS 解析 `*.global` 域下的服务，您需要给这些服务分配一个 IP 地址。
 
     {{< tip >}}
     每个（`.global` 域下的）服务都必须有一个在其所属集群内唯一的 IP 地址。
@@ -261,7 +258,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 
     {{< warning >}}
     组播地址 (224.0.0.0 ~ 239.255.255.255) 不应该被使用，因为这些地址默认不会被路由。
-    环路地址 (127.0.0.0/8) 不应该被使用，因为 sidecar 可能会将其重定向至 sidecar 的某个监听端口
+    环路地址 (127.0.0.0/8) 不应该被使用，因为 sidecar 可能会将其重定向至 sidecar 的某个监听端口。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -298,7 +295,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
     EOF
     {{< /text >}}
 
-    上面的配置会基于双向 TLS 连接，将 `cluster1` 中对 `httpbin.bar.global` 的 *任意端口* 的访问，路由至 `<IPofCluster2IngressGateway>:15443` endpoint  
+    上面的配置会基于双向 TLS 连接，将 `cluster1` 中对 `httpbin.bar.global` 的 *任意端口* 的访问，路由至 `<IPofCluster2IngressGateway>:15443` endpoint。
 
     gateway 的 15443 端口是一个特殊的 SNI-aware Envoy，当您在集群中部署 Istio 控制平面时，它会自动安装。
     进入 15443 端口的流量会为目标集群内适当的服务的 pods 提供负载均衡（在这个例子中是，`cluster2` 集群中的 `httpbin.bar` 服务）。
@@ -369,7 +366,6 @@ EOF
 
 {{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
 如果 `${CLUSTER2_GW_ADDR}` 是域名，您也可以使用 `resolution: DNS` 实现 endpoint 解析。
-
 
 {{< text bash >}}
 $ kubectl apply --context=$CTX_CLUSTER1 -n foo -f - <<EOF
@@ -460,7 +456,6 @@ EOF
 这些指令与路由到本地服务使用的指令相同。
 完整的例子，请参考 [multicluster version routing](/zh/blog/2019/multicluster-version-routing/)。
 
-
 ## 卸载{#uninstalling}
 
 若要卸载 Istio，请在 **每个集群** 上执行下面的命令：
@@ -472,6 +467,6 @@ $ kubectl delete ns istio-system
 
 ## 总结{#summary}
 
-使用 Istio gateway、公共的根 CA 和 service entry，您可以配置一个跨多个 Kubernetes 集群的单 Istio 服务网格。 
+使用 Istio gateway、公共的根 CA 和 service entry，您可以配置一个跨多个 Kubernetes 集群的单 Istio 服务网格。
 经过这种方式配置后，应用无需任何修改，即可将流量路由到远端的集群内。
 尽管此方法需要手动配置一些访问远端服务的选项，但 service entry 的创建过程可以自动化。
