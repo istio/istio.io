@@ -34,10 +34,10 @@ The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_nam
 of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
 After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
-- The Envoy proxy uses **0.6 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
+- The Envoy proxy uses **0.5 vCPU** and **33 MB memory** per 1000 requests per second going through the proxy.
 - The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second.
 - Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 8ms to the 90th percentile latency.
+- The Envoy proxy adds 6.3 ms to the 90th percentile latency.
 
 ## Control plane performance
 
@@ -115,7 +115,7 @@ The default configuration of Istio {{< istio_release_name >}} adds 6.3 ms to the
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 
-In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `MixerV2`.
+In upcoming Istio releases we are moving `istio-policy` and `istio-telemetry` functionality into the proxy as `TelemetryV2`.
 This will decrease the amount data flowing through the system, which will in turn reduce the CPU usage and latency.
 
 {{< image width="90%"
@@ -127,8 +127,8 @@ This will decrease the amount data flowing through the system, which will in tur
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `server-sidecar` Only server sidecar is present.
 - `both-sidecars` Client and server sidecars are present. This is a default case inside the mesh.
-- `nomixer-both` Same as **both-sidecars** without Mixer. `MixerV2` latency profile will be similar.
-- `nomixer-server` Same as **server-sidecar** without Mixer. `MixerV2` latency profile will be similar.
+- `nomixer-both` Same as **both-sidecars** without Mixer. `TelemetryV2` latency profile will be similar.
+- `nomixer-server` Same as **server-sidecar** without Mixer. `TelemetryV2` latency profile will be similar.
 
 ### Benchmarking tools
 
