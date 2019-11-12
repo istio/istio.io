@@ -37,7 +37,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 - Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-- Create a VM named 'vm-1' in the same project as Istio cluster, and [Join the Mesh](/docs/examples/virtual-machines/single-network/).
+- Create a VM named 'vm-1' in the same project as the Istio cluster, and [join the mesh](/docs/examples/virtual-machines/single-network/).
 
 ## Running MySQL on the VM
 
