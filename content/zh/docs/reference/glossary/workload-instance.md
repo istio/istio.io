@@ -1,8 +1,8 @@
 ---
-title: 工作负载实例
+title: Workload Instance
 ---
-[工作负载](#workload) 二进制文件的一个单实例.
-一个工作负载实例可以暴露零个或多个 [服务端点](#service-endpoint),
+A single instantiation of a [workload's](#workload) binary.
+A workload instance can expose zero or more [service endpoints](#service-endpoint),
 and can consume zero or more [services](#service).
 
 Workload instances have a number of properties:
