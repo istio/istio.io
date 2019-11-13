@@ -40,7 +40,7 @@ across the multicluster environment and may not overlap.
     * All Kubernetes control plane API servers must be routable to each other.
 
 This guide describes how to install a multicluster Istio topology using the
-manifests provided within the Istio repository.
+remote configuration profile provided by Istio.
 
 ## Deploy the local control plane
 
@@ -304,7 +304,7 @@ all clusters.
 The previous procedures provide a simple and step-by-step guide to deploy a
 multicluster environment. A production environment might require additional
 steps or more complex deployment options. The procedures gather the endpoint
-IPs of the Istio services and use them to invoke istioctl. This process creates
+IPs of the Istio services and use them to invoke `istioctl`. This process creates
 Istio services on the remote clusters. As part of creating those services and
 endpoints in the remote cluster, Kubernetes adds DNS entries to the `kube-dns`
 configuration object.
@@ -327,8 +327,8 @@ section provides a high level overview of these options:
 
 Upon any failure or restart of the local Istio control plane, `kube-dns` on the remote clusters must be
 updated with the correct endpoint mappings for the Istio services.  There
-are a number of ways this can be done. The most obvious is to rerun the 
-istioctl in the remote cluster after the Istio services on the control plane
+are a number of ways this can be done. The most obvious is to rerun the
+`istioctl` command in the remote cluster after the Istio services on the control plane
 cluster have restarted.
 
 ### Use load balance service type
