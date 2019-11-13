@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import collections
+from collections import deque
 import requests
 import os
 import string
@@ -58,27 +59,45 @@ def deleteIstioRepo():
     os.system("rm -rf %s" % ISTIO_LOCAL_REPO)
 
 
+
 def flatten(d, sep="."):
     obj = collections.OrderedDict()
+    global global_lc
+    global_lc = 0
+
     def recurse(t, parent_key=""):
-        if isinstance(t,list):
-            for i in range(len(t)):
-                recurse(t[i], parent_key + '[' + str(i) + ']'  if parent_key else str(i))
-        elif isinstance(t,dict):
+#        if hasattr(t, 'lc'):
+#            lc = int(t.lc.line)
+        lc = global_lc
+
+        if isinstance(t, list):
+            for idx, k in enumerate(t):
+                global_lc += 1
+                recurse(k, parent_key=(parent_key + '[' + str(idx) + ']') if parent_key else str(idx))
+        elif isinstance(t, dict):
             for k,v in t.items():
+                global_lc += 1
                 recurse(v, parent_key + sep + k if parent_key else k)
         else:
-            obj[parent_key] = t
+            obj[parent_key] = { 'value': t, 'line': lc }
 
     recurse(d)
 
     return obj
 
 
+inp = """\
+# example
+name:
+  # details
+  family: Smith   # very common
+  given: Alice    # one of the siblings
+"""
+
+
 # Read one helm values.yaml value
 def read_helm_value_file(file, cfile):
     print("%s" % file)
-    f = open(file, 'r')
 
     # Store key for this section
     if len(cfile):
@@ -87,15 +106,32 @@ def read_helm_value_file(file, cfile):
     else:
         dictkey = 'global.'
 
+
     # Iterate list of YAML parse event nodes converting to a queue of KV pairs with comments
     # intact. For every KV pair, I push the key and the value.  When I am ready to ouput, the
     # key and value pair are popped together and then stored in a string.
     yaml = YAML(typ='rt')
-    data = yaml.load(f)
+    with open(file, "r+") as f:
+        new_f = f.readlines()
+        f.seek(0)
+        for line in new_f:
+            if '#E' not in line:
+                f.write(line)
+        f.truncate()
 
+    f = open(file, 'r')
+    data = f.read()
+    data = data.replace("[]", "")
+    data = data.replace("{}", "")
+
+    data = yaml.load(data)
     res = flatten(data)
     for k, v in res.items():
-        prdict[dictkey].append({'key': cfile + k, 'default': v})
+#        description = v['description']
+        description = v['line']
+        prdict[dictkey].append({'key': cfile + k, 'default': v['value'], 'description': description})
+        print('{} {} {}'.format(cfile + k, v['value'], description))
+    return
 
 
 # Read all helm values.yaml files
@@ -150,9 +186,11 @@ def main():
     # HTML template
     template = Template(html)
 
-    downloadIstioRepo()
+#    downloadIstioRepo()
 
-    read_helm_value_files()
+#    read_helm_value_files()
+
+    read_helm_value_file('istio-repo/install/kubernetes/helm/istio/charts/gateways/values.yaml', 'gateways')
 
     od = collections.OrderedDict(sorted(prdict.items(), key=lambda t: t[0]))
 
@@ -178,7 +216,7 @@ def main():
     index_file.truncate()
     index_file.close()
 
-    deleteIstioRepo()
+#    deleteIstioRepo()
 
 
 if __name__ == "__main__":
