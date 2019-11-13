@@ -16,7 +16,7 @@ aliases:
 
 ## 部署 HTTPS 代理{#Deploy-an-HTTPS-proxy}
 
-本例中为了模拟传统代理，请在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，请通过代理的IP地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是 [squid](http://www.squid-cache.org)，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
+本例中为了模拟传统代理，请在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，请通过代理的IP地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是 [squid](http://www.squid-cache.org) ，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
 
 1. 为 HTTPS 代理创建一个 namespace，而不标记为用于 SideCar 注入。如果没有标签，则在新 namespace 中 SideCar 注入是不可用的，因此 Istio 将无法控制那里的流量。您需要在集群之外通过这种行为来模拟代理。
 
@@ -97,7 +97,7 @@ aliases:
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1.  从 `external` namespace中的 `sleep` pod 通过代理向外部服务发送请求：
+1.  从 `external` namespace 中的 `sleep` pod 通过代理向外部服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
@@ -171,7 +171,7 @@ aliases:
 
 请注意，您不能为通过外部代理访问的外部服务创建服务入口，例如 `wikipedia.org` 。这是因为从 Istio 的角度来看，请求只发送到外部代理；Istio 并不知道外部代理进一步转发请求。
 
-## 清除{#Cleanup}
+## 清理{#Cleanup}
 
 1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
