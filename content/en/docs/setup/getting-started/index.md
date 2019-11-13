@@ -29,7 +29,8 @@ Refer to your platform service provider for further details and instructions.
 
 ## Download the Istio release {#download}
 
-Download the Istio release which includes installation files, samples and a command line utility.
+Download the Istio release which includes installation files, samples, and the
+[{{< istioctl >}}](/docs/reference/commands/istioctl/) command line utility.
 
 1.  Go to the [Istio release]({{< istio_release_url >}}) page to
     download the installation file corresponding to your OS. Alternatively, on a macOS or
