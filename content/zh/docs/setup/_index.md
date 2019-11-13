@@ -71,7 +71,7 @@ Download the Istio release which includes installation files, samples and a comm
 Istio is installed in its own `istio-system` namespace and can manage
 services from all other namespaces. Choose one of the following installation options, depending on your intended use:
 
-- [Demo installation](/docs/setup/install/kubernetes/):
+- [Demo installation](/docs/setup/getting-started/):
    This option is ideal if you're new to Istio and just want to try it out.
    It allows you to experiment with many Istio features with modest resource requirements.
 

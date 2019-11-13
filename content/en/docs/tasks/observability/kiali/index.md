@@ -26,7 +26,7 @@ To install Kiali without `istioctl`, follow the [Kiali installation instructions
 ### Create a secret
 
 {{< tip >}}
-If you plan on installing Kiali using the Istio demo profile as described in the [Istio Quick Start Installation Steps](/docs/setup/install/kubernetes/) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
+If you plan on installing Kiali using the Istio demo profile as described in the [Istio Quick Start Installation Steps](/docs/setup/getting-started/) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
 {{< /tip >}}
 
 Create a secret in your Istio namespace with the credentials that you use to
