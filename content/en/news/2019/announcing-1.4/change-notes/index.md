@@ -17,14 +17,18 @@ weight: 10
 
 - **Added** the [`v1beta1` authorization policy model](/blog/2019/v1beta1-authorization-policy/) for enforcing access control. This will eventually replace the [`v1alpha1` RBAC policy](/docs/reference/config/security/istio.rbac.v1alpha1/).
 - **Added** experimental support for [automatic mutual TLS](docs/tasks/security/authentication/auto-mtls/) to enable mutual TLS without destination rule configuration.
-- **Added** experimental [DNS Certificate Management](docs/tasks/security/dns-cert/).
 - **Added** experimental support for [trust domain migration](/docs/tasks/security/authorization/authz-td-migration/).
+- **Added** experimental [DNS certificate management](/blog/2019/dns-cert/) to securely provision and manage DNS certificates signed by the Kubernetes CA.
 - **Improved** Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
 
 ## Telemetry
 
+- **Added** experimental in-proxy telemetry reporting to [Stackdriver](https://github.com/istio/proxy/blob/{{< source_branch_name >}}/extensions/stackdriver/README.md).
+- **Improved** support for [in-proxy](/docs/ops/telemetry/in-proxy-service-telemetry/) Prometheus generation of HTTP service metrics (from experimental to alpha).
+- **Improved** telemetry collection for [blocked and passthrough external service traffic](/blog/2019/monitoring-external-service-traffic/).
 - **Added** the option to configure [stat patterns](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for Envoy stats.
 - **Added** the `inbound` and `outbound` prefixes to the Envoy HTTP stats to specify traffic direction.
+- **Improved** reporting of telemetry for traffic that goes through an egress gateway.
 
 ## Configuration management
 
@@ -35,7 +39,7 @@ weight: 10
 
 ## Installation
 
-- **Added** Added the [operator controller](/docs/setup/install/standalone-operator/) for dynamic updates to an Istio installation.
+- **Added** the experimental [operator controller](/docs/setup/install/standalone-operator/) for dynamic updates to an Istio installation.
 - **Removed** the `proxy_init` Docker image. Instead, the `istio-init` container reuses the `proxyv2` image.
 - **Updated** the base image to `ubunutu:bionic`.
 
@@ -45,6 +49,6 @@ weight: 10
 - **Updated** the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) sub-command to display which policy is in use.
 - **Added** the experimental [`istioctl experimental wait`](/docs/reference/commands/istioctl/#istioctl-experimental-wait) sub-command to have Istio wait until it has pushed a configuration to all Envoy sidecars.
 - **Added** the experimental [`istioctl experimental mulitcluster`](/docs/reference/commands/istioctl/#istioctl-experimental-multicluster) sub-command to help manage Istio across multiple clusters.
-- **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to manage webhook configuration.
+- **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to [securely manage webhook configurations](/blog/2019/webhook/).
 - **Added** the experimental [`istioctl experimental upgrade`](/docs/setup/upgrade/istioctl-upgrade/) sub-command to perform upgrades of Istio.
 - **Improved** the [`istioctl version`](/docs/reference/commands/istioctl/#istioctl-version) sub-command. It now shows the Envoy proxy versions.

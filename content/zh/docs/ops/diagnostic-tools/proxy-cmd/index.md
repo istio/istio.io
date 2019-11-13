@@ -18,7 +18,7 @@ to inspect Envoy configuration and diagnose the issue.
 If you want to try the commands described below, you can either:
 
 * Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
-[installation steps](/docs/setup/install/kubernetes/) and
+[installation steps](/docs/setup/getting-started/) and
 [Bookinfo installation steps](/docs/examples/bookinfo/#deploying-the-application)).
 
 OR
@@ -120,7 +120,7 @@ BlackHoleCluster                                                                
 details.default.svc.cluster.local                                                9080      -          outbound      EDS
 heapster.kube-system.svc.cluster.local                                           80        -          outbound      EDS
 istio-citadel.istio-system.svc.cluster.local                                     8060      -          outbound      EDS
-istio-citadel.istio-system.svc.cluster.local                                     10514     -          outbound      EDS
+istio-citadel.istio-system.svc.cluster.local                                     15014     -          outbound      EDS
 istio-egressgateway.istio-system.svc.cluster.local                               80        -          outbound      EDS
 ...
 {{< /text >}}
@@ -160,7 +160,7 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
     0.0.0.0            15010     HTTP   |
     0.0.0.0            15003     HTTP   |
     0.0.0.0            15004     HTTP   |
-    0.0.0.0            10514     HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
+    0.0.0.0            15014     HTTP   |   Receives outbound HTTP traffic for relevant port from listener `0.0.0.0_15001`
     0.0.0.0            15007     HTTP   |
     0.0.0.0            8080      HTTP   |
     0.0.0.0            9091      HTTP   |

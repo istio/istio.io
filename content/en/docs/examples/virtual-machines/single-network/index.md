@@ -19,7 +19,7 @@ Istio mesh deployed on Kubernetes.
 ## Prerequisites
 
 - You have already set up Istio on Kubernetes. If you haven't done so, you can
-  find out how in the [Installation guide](/docs/setup/install/kubernetes/).
+  find out how in the [Installation guide](/docs/setup/getting-started/).
 
 - Virtual machines (VMs) must have IP connectivity to the endpoints in the mesh.
   This typically requires a VPC or a VPN, as well as a container network that
@@ -80,7 +80,7 @@ following commands on a machine with cluster admin privileges:
     it to a `.yaml` values file and pass it to
     the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
     can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
-    more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
+    more about customizing Helm charts in the [Helm documentation](https://helm.sh/docs/intro/using_helm/).
     {{< /tip >}}
 
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
@@ -284,7 +284,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
     {{< tip >}}
-    Make sure you have already added the [`istioctl`](/docs/reference/commands/istioctl) client to your path, as described in the [download page](/docs/setup/#downloading-the-release).
+    Make sure you have already added the [`istioctl`](/docs/reference/commands/istioctl) client to your path, as described in the [download page](/docs/setup/getting-started/#download).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:

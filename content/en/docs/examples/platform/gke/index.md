@@ -5,6 +5,7 @@ weight: 65
 keywords: [kubernetes,multicluster]
 aliases:
   - /docs/tasks/multicluster/gke/
+  - /docs/examples/multicluster/gke/
 ---
 
 This example shows how to configure a multicluster mesh with a
