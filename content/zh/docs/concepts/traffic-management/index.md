@@ -21,172 +21,50 @@ Istio的流量管理模型基于和服务一起部署的 {{< gloss >}}Envoy{{</ 
 
 ## Istio 流量管理介绍 {#introducing-istio-traffic-management}
 
-为了在你的网格中引导流量，Istio需要知道你所有的端点在哪里，它们属于哪个服务。来填充它自己的
-服务注册表，Istio连接到服务发现系统。例如，如果您在Kubernetes集群上安装了Istio，那么Istio将自动检测该集群中的服务和端点。
-In order to direct traffic within your mesh, Istio needs to know where all your
-endpoints are, and which services they belong to. To populate its own
-{{< gloss >}}service registry{{</ gloss >}}, Istio connects to a service
-discovery system. For example, if you've installed Istio on a Kubernetes cluster,
-then Istio automatically detects the services and endpoints in that cluster.
+为了在网格中导流，Istio 需要知道所有的 endpoint 在哪里，它们属于哪个服务。为了定位到{{< gloss >}}服务注册{{</ gloss >}}中，Istio 会连接到一个服务发现系统。例如，如果您在 Kubernetes 集群上安装了 Istio，那么它将自动检测该集群中的服务和 endpoint。
 
-使用此服务注册中心，特使代理可以将流量定向到相关服务。大多数基于微服务的应用程序都有多个实例
-处理服务流量的每个服务工作负载，有时称为负载平衡池。默认情况下，特使代理将通信分发到各个地方
-每个服务的负载平衡池使用循环模型，其中请求依次发送给每个池成员，在每个服务实例收到请求后返回到池的顶部。
-Using this service registry, the Envoy proxies can then direct traffic to the
-relevant services. Most microservice-based applications have multiple instances
-of each service workload to handle service traffic, sometimes referred to as a
-load balancing pool. By default, the Envoy proxies distribute traffic across
-each service’s load balancing pool using a round-robin model, where requests are
-sent to each pool member in turn, returning to the top of the pool once each
-service instance has received a request.
+使用此服务注册中心，Envoy 代理可以将流量定向到相关服务。大多数基于微服务的应用程序，每个服务的工作负载都有多个实例来处理流量，有时称为负载均衡池。默认情况下，Envoy 代理使用轮询方式将请求分发到每个服务的负载平衡池，请求被依次发送给每个池子，服务实例收到请求后返回到池的顶部。
 
-虽然Istio的基本服务发现和负载平衡为您提供了一个工作服务网格，但这远远不是Istio所能做的。在许多情况下，您可能希望对网格流量的变化进行更细粒度的控制。作为a /B测试的一部分，您可能希望将特定的流量百分比定向到服务的新版本，或者为特定的服务实例子集应用不同的负载平衡策略来处理流量。您可能还希望对进出网格的流量应用特殊的规则，或者将网格的外部依赖项添加到服务注册中心。通过使用Istio的流量管理API将您自己的流量配置添加到Istio，您可以完成所有这些工作。
-While Istio's basic service discovery and load balancing gives you a working
-service mesh, it’s far from all that Istio can do. In many cases you might want
-more fine-grained control over what happens to your mesh traffic.
-You might want to direct a particular percentage of traffic to a new version of
-a service as part of A/B testing, or apply a different load balancing policy to
-traffic for a particular subset of service instances. You might also want to
-apply special rules to traffic coming into or out of your mesh, or add an
-external dependency of your mesh to the service registry. You can do all this
-and more by adding your own traffic configuration to Istio using Istio’s traffic
-management API.
+Istio 基本的服务发现和负载均衡能力为您提供了一个可用的服务网格，但 Istio 能做到的远比这多的多。在许多情况下，您可能希望对网格的流量情况进行更细粒度的控制。作为 A/B 测试的一部分，您可能希望将特定百分比的流量定向到新版本的服务，或者为特定的服务实例子集应用不同的负载均衡策略。您可能还希望对进出网格的流量应用特殊的规则，或者将网格的外部依赖项添加到服务注册中心。通过使用 Istio 的流量管理 API 将流量配置添加到 Istio，您就可以完成所有这些甚至更多的工作。
 
-Like other Istio configuration, the API is specified using Kubernetes custom
-resource definitions ({{< gloss >}}CRDs{{</ gloss >}}), which you can configure
-using YAML, as you’ll see in the examples.
+和其他 Istio 配置一样，这些 API 也使用 Kubernetes 的自定义资源定义（{{< gloss >}}CRDs{{</ gloss >}}）来声明，你可以像示例中看到的那样使用 YAML 进行配置。
 
-The rest of this guide examines each of the traffic management API resources
-and what you can do with them. These resources are:
+本章节的其余部分将分别介绍每个流量管理 API 以及如何使用它们。这些资源包括：
 
-- [Virtual services](#virtual-services)
-- [Destination rules](#destination-rules)
-- [Gateways](#gateways)
-- [Service entries](#service-entries)
-- [Sidecars](#sidecars)
+- [虚拟服务](#virtual-services)
+- [目标规则](#destination-rules)
+- [网关](#gateways)
+- [服务入口](#service-entries)
+- [Sidecar](#sidecars)
 
-This guide also gives an overview of some of the
-[network resilience and testing features](#network-resilience-and-testing) that
-are built in to the API resources.
+指南也对构建在 API 资源内的[网络弹性和测试](#network-resilience-and-testing)做了概述。 
 
 ## 虚拟服务 {#virtual-services}
 
-[虚拟服务]和[目标规则](#目的地规则)是Istio流量路由功能的关键构件。虚拟服务允许您配置如何在Istio服务网格内将请求路由到服务，这是基于Istio和您的平台提供的基本连接和发现。每个虚拟服务由一组按顺序计算的路由规则组成，让Istio将每个给定的虚拟服务请求匹配到网格中的特定实际目的地。您的mesh可以需要多个虚拟服务，也可以不需要，这取决于您的用例。
-[Virtual services](/zh/docs/reference/config/networking/virtual-service/#VirtualService),
-along with [destination rules](#destination-rules), are the key building blocks of Istio’s traffic
-routing functionality. A virtual service lets you configure how requests are
-routed to a service within an Istio service mesh, building on the basic
-connectivity and discovery provided by Istio and your platform. Each virtual
-service consists of a set of routing rules that are evaluated in order, letting
-Istio match each given request to the virtual service to a specific real
-destination within the mesh. Your mesh can require multiple virtual services or
-none depending on your use case.
+[虚拟服务](/zh/docs/reference/config/networking/virtual-service/#VirtualService)和[目标规则](#destination-rules)是 Istio 流量路由功能的关键拼图。虚拟服务让您配置如何在服务网格内将请求路由到服务，这基于 Istio 和平台提供的基本的连通性和服务发现能力。每个虚拟服务由一组按顺序执行的路由规则组成，Istio 将每个给定的请求匹配到虚拟服务指定的实际目标地址。您的网格可以有多个虚拟服务，也可以没有，取决于您的使用场景。
 
 ### 为什么使用虚拟服务？ {#why-use-virtual-services}
 
-虚拟服务在Istio的流量管理中起着关键的作用
-和强大的。它们通过对客户端发送它们的位置进行强解耦来做到这一点
-来自实际实现它们的目标工作负载的请求。虚拟
-服务还提供了一种丰富的方式来指定不同的流量路由规则
-用于向这些工作负载发送流量。
-Virtual services play a key role in making Istio’s traffic management flexible
-and powerful. They do this by strongly decoupling where clients send their
-requests from the destination workloads that actually implement them. Virtual
-services also provide a rich way of specifying different traffic routing rules
-for sending traffic to those workloads.
+Istio 的流量管理变得灵活且强大，虚拟服务发挥了关键作用。通过把客户端发送请求和实际的目标工作负载完全的解耦来做到的这一点。虚拟服务还提供了丰富的方式来指定不同的流量路由规则，用于向这些工作负载发送流量。
 
-为什么这么有用呢?没有虚拟服务，Envoy进行分发
-在所有服务实例之间使用循环负载平衡的流量
-在引言中有描述。你可以用你所知道的来改善这种行为
-工作负载。例如，有些可能代表不同的版本。这
-在A/B测试中可能有用，您可能希望在其中配置流量路由
-基于不同服务版本的百分比，或直接
-从内部用户到特定实例集的流量。
-Why is this so useful? Without virtual services, Envoy distributes
-traffic using round-robin load balancing between all service instances, as
-described in the introduction. You can improve this behavior with what you know
-about the workloads. For example, some might represent a different version. This
-can be useful in A/B testing, where you might want to configure traffic routes
-based on percentages across different service versions, or to direct
-traffic from your internal users to a particular set of instances.
+为什么这如此有用？没有虚拟服务，就像在介绍中所说，Envoy 在所有的服务实例中使用轮询的负载均衡进行请求分发。你可以用你对工作负载的了解来改善这种行为。例如，有些可能代表不同的版本。这在 A/B 测试中可能有用，您可能希望在其中配置基于不同服务版本的百分比流量路由，或指引从内部用户到特定实例集的流量。
 
-使用虚拟服务，您可以为一个或多个主机名指定流量行为。
-在虚拟服务中使用路由规则，该规则告诉Envoy如何发送
-虚拟服务到适当目的地的流量。路线的目的地可以
-可以是相同服务的版本，也可以是完全不同的服务。
-With a virtual service, you can specify traffic behavior for one or more hostnames.
-You use routing rules in the virtual service that tell Envoy how to send the
-virtual service’s traffic to appropriate destinations. Route destinations can
-be versions of the same service or entirely different services.
+使用虚拟服务，您可以为一个或多个主机名指定流量行为。在虚拟服务中使用路由规则，告诉 Envoy 如何发送
+虚拟服务的流量到适当的目标。路由目标地址可以是相同服务的版本，也可以是完全不同的服务。
 
-一个典型的用例是将流量发送到服务的不同版本，
-指定为服务子集。客户端将请求发送到虚拟服务主机
-这是一个单一的实体，然后特使路线交通到不同的
-版本取决于虚拟服务规则:例如，“20%的调用转到
-新版本”或“来自这些用户的呼叫转到版本2”。这允许你，
-例如，创建一个canary rollout，逐步增加
-发送到新服务版本的流量的百分比。交通路由
-是完全独立于实例部署的，这意味着
-实现新服务版本的实例可以根据
-完全不涉及流量路由的流量负载。相比之下,容器
-像Kubernetes这样的业务编排平台只支持基于流量分布的业务
-对于实例缩放，它很快变得复杂。你可以阅读更多关于如何
-虚拟服务帮助canary部署[使用Istio的canary部署]
-A typical use case is to send traffic to different versions of a service,
-specified as service subsets. Clients send requests to the virtual service host as if
-it was a single entity, and Envoy then routes the traffic to the different
-versions depending on the virtual service rules: for example, "20% of calls go to
-the new version" or "calls from these users go to version 2". This allows you to,
-for instance, create a canary rollout where you gradually increase the
-percentage of traffic that’s sent to a new service version. The traffic routing
-is completely separate from the instance deployment, meaning that the number of
-instances implementing the new service version can scale up and down based on
-traffic load without referring to traffic routing at all. By contrast, container
-orchestration platforms like Kubernetes only support traffic distribution based
-on instance scaling, which quickly becomes complex. You can read more about how
-virtual services help with canary deployments in [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+一个典型的用例是将流量发送到服务的不同版本，指定为服务子集。客户端将请求发送到虚拟服务主机好像这是一个单一的实体，然后 Envoy 根据虚拟服务规则把流量路由到不同的版本。例如，“20%的调用转到
+新版本”或“这些用户的调用转到版本 2”。这允许你创建一个金丝雀发布，逐步增加发送到新服务版本的流量百分比。流量路由完全独立于实例部署，这意味着实现新服务版本的实例可以根据流量的负载来伸缩，完全不影响流量路由。相比之下，像 Kubernetes 这样的容器编排平台只支持基于实例缩放的流量分发，这会很快变得复杂。你可以在[使用  Istio 进行金丝雀部署](/zh/blog/2017/0.1-canary/)的文章里阅读到更多用虚拟服务实现金丝雀部署的内容。
 
-Virtual services also let you:
+虚拟服务可以让你：
 
--   通过单个虚拟服务处理多个应用程序服务。如果
-您的mesh使用Kubernetes，例如，您可以配置一个虚拟服务
-处理特定名称空间中的所有服务。映射一个
-虚拟服务对多个“真实”服务特别有用
-便于将单片应用程序转换为构建的复合服务
-在不需要服务消费者的情况下使用不同的微服务
-以适应这种转变。您的路由规则可以指定“对这些uri的调用”
-“monolith.com”转到“微服务A”，等等。你可以看到它是如何工作的
-在[我们下面的一个例子]中(#更多关于惯例的规则)。
--   Address multiple application services through a single virtual service. If
-    your mesh uses Kubernetes, for example, you can configure a virtual service
-    to handle all services in a specific namespace. Mapping a single
-    virtual service to multiple "real" services is particularly useful in
-    facilitating turning a monolithic application into a composite service built
-    out of distinct microservices without requiring the consumers of the service
-    to adapt to the transition. Your routing rules can specify "calls to these URIs of
-    `monolith.com` go to `microservice A`", and so on. You can see how this works
-    in [one of our examples below](#more-about-routing-rules).
--   Configure traffic rules in combination with
-    [gateways](/zh/docs/concepts/traffic-management/#gateways) to control ingress
-    and egress traffic.
+-   通过单个虚拟服务处理多个应用程序服务。如果您的网格使用 Kubernetes，可以配置一个虚拟服务处理特定namespace中的所有服务。映射单一的虚拟服务到多个“真实”服务特别有用，可以在不需要客户适应转换的情况下，将单体应用转换为微服务构建的复合应用系统。您的路由规则可以指定为“对这些 `monolith.com` 的 URI 调用转到`microservice A`”等等。你可以[下面的一个示例](#more-about-routing-rules)看到它是如何工作的。
+-   配置流量规则和[网关](/zh/docs/concepts/traffic-management/#gateways)整合来控制出入流量。
 
-在某些情况下，您还需要配置目标规则来使用这些规则
-特性，因为这些特性是您指定服务子集的地方。指定
-在单独的对象中包含服务子集和其他特定于目的地的策略
-允许您在虚拟服务之间干净地重用这些服务。你可以找到更多
-关于下一节中的目标规则。
-In some cases you also need to configure destination rules to use these
-features, as these are where you specify your service subsets. Specifying
-service subsets and other destination-specific policies in a separate object
-lets you reuse these cleanly between virtual services. You can find out more
-about destination rules in the next section.
+在某些情况下，您还需要配置目标规则来使用这些规则特性，因为这是指定服务子集的地方。指定的服务子集和其他特定目标策略彼此独立，这让您可以在虚拟服务间重用它们。在下一章节你可以找到更多关于目标规则的内容。
 
 ### 虚拟服务示例 {#virtual-service-example}
 
-The following virtual service routes
-requests to different versions of a service depending on whether the request
-comes from a particular user.
-
+下面的虚拟服务根据请求是否来自特定的用户，把它们路由到服务的不同版本。
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
