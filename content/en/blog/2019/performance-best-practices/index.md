@@ -22,7 +22,7 @@ To accurately measure the performance of a service mesh at scale, it's important
 
 Then, it's important to use a production-ready Istio **installation profile** on that cluster. This lets us achieve performance-oriented settings such as control plane pod autoscaling, and ensures that resource limits are appropriate for heavy traffic load. The [default](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio installation is suitable for most benchmarking use cases. For extensive performance benchmarking, with thousands of proxy-injected services, we also provide [a tuned Istio install](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml) that allocates extra memory and CPU to the Istio control plane.
 
-{{< warning_icon >}} Istio's [demo installation](/docs/setup/install/kubernetes/) is not suitable for performance testing, because it is designed to be deployed on a small trial cluster, and has full tracing and access logs enabled to showcase Istio's features.
+{{< warning_icon >}} Istio's [demo installation](/docs/setup/getting-started/) is not suitable for performance testing, because it is designed to be deployed on a small trial cluster, and has full tracing and access logs enabled to showcase Istio's features.
 
 ## 2. Focus on the data plane
 

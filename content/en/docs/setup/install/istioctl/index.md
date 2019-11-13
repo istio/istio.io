@@ -6,6 +6,8 @@ keywords: [istioctl,kubernetes]
 ---
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
+If you are new to Istio, and just want to try it out, follow the
+[quick start instructions](/docs/setup/getting-started) instead.
 
 This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
 tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
@@ -20,7 +22,7 @@ and then further customize the configuration for your specific needs.
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
 
