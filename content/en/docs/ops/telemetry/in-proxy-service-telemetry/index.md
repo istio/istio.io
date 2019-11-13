@@ -19,17 +19,30 @@ metrics that Mixer currently generates:
 
 To generate service-level metrics directly in the Envoy proxies, follow these steps:
 
-Option1:
+Option 1:
     {{< text bash >}}
     $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v2.enabled=true
     {{< /text >}}
 
-Option2:
+Option 2:
 
-you can follow these steps manually:
+Follow these steps manually:
 
-1. To disable mixer http reporting, set `disableMixerHttpReports` to true in your [mesh configuration](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+1. To disable Mixer http reporting, set `disableMixerHttpReports` to true in your mesh config.
 
+   Check the existing status.
+    {{< text bash >}}
+    $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | grep disableMixerHttpReports
+    disableMixerHttpReports: true
+    {{< /text >}}
+
+   If disableMixerHttpReports is set to false, replace your mesh config
+    {{< text bash >}}
+    $ kubectl -n istio-system get cm istio -o yaml | sed -e 's/disableMixerHttpReports: false/disableMixerHttpReports: true/g' | kubectl replace -f -
+    {{< /text >}}
+
+   or if disableMixerHttpReports is not set, add `disableMixerHttpReports: true` manually to the mesh config.
+   
 1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata.
    A custom filter handles this exchange. Enable the metadata exchange filter with the following command:
 
