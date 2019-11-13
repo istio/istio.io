@@ -199,10 +199,10 @@ This allows you to route a specific percentage of request traffic to your indivi
 
 1.  View the `Versioned app graph` of the `bookinfo` graph.
 
-    *   Make sure you have selected `Requests percentage` in the `Edge Labels` dropdown menu
+    *   Make sure you have selected `Requests percentage` in the `Edge Labels` drop down menu
         to see the percentage of traffic routed to each workload.
 
-    *   Make sure you have selected the `Service Nodes` checkbox in the `Display` dropdown menu
+    *   Make sure you have selected the `Service Nodes` check box in the `Display` drop down menu
         to view the service nodes in the graph.
 
     {{< image width="80%" link="./kiali-wiz0-graph-options.png" caption="Bookinfo Graph Options" >}}
@@ -215,7 +215,7 @@ This allows you to route a specific percentage of request traffic to your indivi
 
 1.  Click the `ratings` link found in the side panel to go to the service view for the `ratings` service.
 
-1.  Select `Create Weighted Routing` from the `Action` dropdown menu to popup the Weighted Routing Wizard.
+1.  Select `Create Weighted Routing` from the `Action` drop down menu to pop up the Weighted Routing Wizard.
 
     {{< image width="80%" link="./kiali-wiz2-ratings-service-action-menu.png" caption="Service Action Menu" >}}
 
