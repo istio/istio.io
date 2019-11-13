@@ -22,9 +22,10 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-* 根据[安装指南](/zh/docs/setup/)中的说明部署 Istio。
+*   根据[安装指南](/zh/docs/setup/)中的说明部署 Istio。
 
 *   如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行：
+
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
@@ -175,8 +176,8 @@ aliases:
     EOF
     {{< /text >}}
 
-    如您所见 `VirtualService` 将80端口的请求重定向到443端口，并在相应的 `DestinationRule` 执行 TSL 源。
-    请注意，与上一节中的 `ServiceEntry` 不同，这次443端口上的协议是 HTTP，而不是 HTTPS。
+    如您所见 `VirtualService` 将 80 端口的请求重定向到 443 端口，并在相应的 `DestinationRule` 执行 TSL 源。
+    请注意，与上一节中的 `ServiceEntry` 不同，这次 443 端口上的协议是 HTTP，而不是 HTTPS。
     这是因为客户端仅发送 HTTP 请求，而 Istio 会将连接升级到 HTTPS。
 
 1. 如上一节所述，向 `http://edition.cnn.com/politics` 发送 HTTP 请求：
