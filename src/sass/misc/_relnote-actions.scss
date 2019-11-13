@@ -1,18 +1,9 @@
 .relnote-actions {
-    display: grid;
-    grid-template-columns: [entry] 1fr;
-
-    @media (min-width: $bp-sm) {
-        grid-template-columns: [entry] 1fr [entry] 1fr;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    @media (min-width: $bp-xl) {
-        grid-template-columns: [entry] 1fr [entry] 1fr [entry] 1fr;
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    justify-content: center;
 
     a {
         color: $textColor;
@@ -25,6 +16,7 @@
     }
 
     .entry {
+        flex-basis: 400px;
         padding: 1rem;
         border: $tabsetBorderColor 1px dashed;
         display: block;
@@ -66,6 +58,7 @@
 
     h5 {
         margin-bottom: 0;
+        color: $linkColor;
     }
 
     p {

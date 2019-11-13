@@ -11,14 +11,6 @@ aliases:
 icon: helm
 ---
 
-<script id="cni" defer>
-window.onload = function(){
-  if (window.location.hash == '#cni') {
-    selectTabsets('helm_profile', 'cni');
-  }
-}
-</script>
-
 {{< warning >}}
 The Helm installation approach will be deprecated in the future.
 We recommend [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/), instead.
@@ -39,7 +31,7 @@ and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
