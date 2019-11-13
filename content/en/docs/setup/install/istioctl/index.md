@@ -68,7 +68,6 @@ $ istioctl profile list
     default
     demo
     minimal
-    sds
 {{< /text >}}
 
 ## Display the configuration of a profile
