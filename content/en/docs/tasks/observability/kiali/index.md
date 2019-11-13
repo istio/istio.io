@@ -139,7 +139,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
     $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  To log into the Kiali UI, enter the username and passphrase stored in the Kiali secret (`admin/admin` if you are using the demo profile).
+1.  To log into the Kiali UI, go to the Kiali login screen and enter the username and passphrase stored in the Kiali secret.
 
 1.  View the overview of your mesh in the **Overview** page that appears immediately after you log in.
     The **Overview** page displays all the namespaces that have services in your mesh.
