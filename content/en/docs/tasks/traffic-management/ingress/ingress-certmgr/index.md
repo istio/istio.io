@@ -7,7 +7,7 @@ aliases:
   - /docs/examples/advanced-gateways/ingress-certmgr/
 ---
 
-This example demonstrates the use of Istio as a secure Kubernetes Ingress controller with TLS certificates issued by [Let's Encrypt](https://letsencrypt.org/). 
+This example demonstrates the use of Istio as a secure Kubernetes Ingress controller with TLS certificates issued by [Let's Encrypt](https://letsencrypt.org/).
 
 You will start with a clean Istio installation, create an example service, expose it using the Kubernetes `Ingress` resource and get it secured by instructing cert-manager (bundled with Istio) to manage issuance and renewal of TLS certificates that will be further delivered to the Istio ingress [gateway](/docs/reference/config/networking/gateway) and hot-swapped as necessary via the means of [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret).
 
