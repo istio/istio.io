@@ -184,11 +184,54 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
         {{< image width="70%" link="./kiali-service-graph.png" caption="Example Service Graph" >}}
 
-1. To examine the details about the Istio configuration, click on the
-   **Applications**, **Workloads**, and **Services** menu icons on the left menu
-   bar. The following screenshot shows the Bookinfo applications information:
+## Examining Istio configuration
 
-   {{< image width="80%" link="./kiali-services.png" caption="Example Details" >}}
+1.  To examine the details about the Istio configuration, click on the
+    **Applications**, **Workloads**, and **Services** menu icons on the left menu
+    bar. The following screenshot shows the Bookinfo applications information:
+
+    {{< image width="80%" link="./kiali-services.png" caption="Example Details" >}}
+
+## Creating weighted routes
+
+Create a weighted route using the Kiali weighted route wizard.
+This allows you to route a specific percentage of request traffic to your individual workloads.
+
+1.  View the `Versioned app graph` of the `bookinfo` graph.
+
+    *   Make sure you have selected `Requests percentage` in the `Edge Labels` dropdown menu
+        to see the percentage of traffic routed to each workload.
+
+    *   Make sure you have selected the `Service Nodes` checkbox in the `Display` dropdown menu
+        to view the service nodes in the graph.
+
+    {{< image width="80%" link="./kiali-wiz0-graph-options.png" caption="Bookinfo Graph Options" >}}
+
+1.  Focus on the `ratings` service within the `bookinfo` graph by clicking on the `ratings` service (triangle) node.
+    Notice the `ratings` service traffic is evenly distributed to the two `ratings` workloads `v1` and `v2`
+    (i.e. 50% of requests are routed to each workload).
+
+    {{< image width="80%" link="./kiali-wiz1-graph-ratings-percent.png" caption="Graph Showing Percentage of Traffic" >}}
+
+1.  Click the `ratings` link found in the side panel to go to the service view for the `ratings` service.
+
+1.  Select `Create Weighted Routing` from the `Action` dropdown menu to popup the Weighted Routing Wizard.
+
+    {{< image width="80%" link="./kiali-wiz2-ratings-service-action-menu.png" caption="Service Action Menu" >}}
+
+1.  Drag the sliders to change the traffic weights. For `ratings-v1`, set it to 10%; for `ratings-v2` set it to 90%.
+
+    {{< image width="80%" link="./kiali-wiz3-weighted-routing-wizard.png" caption="Weighted Routing Wizard" >}}
+
+1.  Click the `Create` button to begin routing 90% of all `ratings` service traffic to `ratings-v2`.
+
+1.  Go back to the `bookinfo` graph.
+
+1.  After a few minutes you will notice that the traffic percentage will reflect the new traffic route,
+    thus confirming the fact that your new traffic route is successfully routing 90% of all traffic
+    requests to `ratings-v2`.
+
+    {{< image width="80%" link="./kiali-wiz4-ratings-weighted-route-90-10.png" caption="90% Ratings Traffic Routed to ratings-v2" >}}
 
 ## About the Kiali Public API
 
