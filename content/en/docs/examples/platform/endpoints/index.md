@@ -1,9 +1,10 @@
 ---
 title: Install Istio for Google Cloud Endpoints Services
 description: Explains how to manually integrate Google Cloud Endpoints services with Istio.
-weight: 42
+weight: 10
 aliases:
     - /docs/guides/endpoints/index.html
+    - /docs/examples/endpoints/
 ---
 
 This document shows how to manually integrate Istio with existing
