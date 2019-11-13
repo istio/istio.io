@@ -6,7 +6,7 @@ keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/http-proxy/
 ---
-[配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例显示如何通过名为 Egress Gateway 的 Istio 组件将流量从网格引导到外部服务。但是，有些情况下需要一个外部的传统（非 Istio）HTTPS 代理来访问外部服务。例如，您的公司可能已经有了这样的代理，并且可能需要所有应用程序通过代理来引导其流量。
+[配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例展示如何通过名为 Egress Gateway 的 Istio 组件将流量从网格引导到外部服务。但是，有些情况下需要一个外部的传统（非 Istio）HTTPS 代理来访问外部服务。例如，您的公司可能已经有了这样的代理，并且可能需要所有应用程序通过代理来引导其流量。
 
 此示例演示如何启用对外部 HTTPS 代理的访问。由于应用程序使用 HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) 方法与 HTTPS 代理建立连接，因此配置流量到外部 HTTPS 代理不同于将流量配置为外部 HTTP 和 HTTPS 服务。
 
