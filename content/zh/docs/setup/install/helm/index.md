@@ -20,7 +20,7 @@ Helm 的安装方法已被弃用。
 
 这种安装方式使用 [Helm](https://github.com/helm/helm) charts 自定义 Istio 控制平面和 Istio 数据平面的 sidecar。
 你只需使用 `helm template` 生成配置并使用 `kubectl apply` 命令安装它, 或者你可以选择使用 `helm install` 让
-[Tiller](https://helm.sh/docs/architecture/#components)
+[Tiller](https://helm.sh/docs/topics/architecture/#components)
  来完全管理安装。
 
 通过这些说明, 您可以选择 Istio 内置的任何一个
@@ -57,7 +57,7 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 
 ### 方案 1: 使用 `helm template` 命令安装
 
-在您的集群没有按照 [Tiller](https://helm.sh/docs/architecture/#components)
+在您的集群没有按照 [Tiller](https://helm.sh/docs/topics/architecture/#components)
  而且您也不想安装它的情况下，选择此方案安装。
 
 1. 为 Istio 组件创建命名空间 `istio-system`：
@@ -143,7 +143,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 ### 方案 2: 在 Helm 和 Tiller 的环境中使用 `helm install` 命令安装
 
-这个方案使用 Helm 和 [Tiller](https://helm.sh/docs/architecture/#components) 来对 Istio 的生命周期进行管理。
+这个方案使用 Helm 和 [Tiller](https://helm.sh/docs/topics/architecture/#components) 来对 Istio 的生命周期进行管理。
 
 {{< boilerplate helm-security-warning >}}
 
