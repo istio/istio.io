@@ -71,7 +71,7 @@ install Istio's built-in `demo` [configuration profile](/docs/setup/additional-s
 This installation lets you quickly get started evaluating Istio.
 If you are already familiar with Istio or interested in installing other configuration profiles
 or a more advanced [deployment model](/docs/setup/deployment-models/),
-follow the [installing with istioctl instructions](/docs/setup/install/istioctl) instead.
+follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
 
 {{< warning >}}
 The demo configuration profile is not suitable for performance evaluation. It
