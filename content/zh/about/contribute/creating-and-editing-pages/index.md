@@ -137,6 +137,8 @@ The available front matter fields are:
 
 A few fields control the auto-generated table of contents present on most pages:
 
+|Field               | Description
+|--------------------|------------
 |`skip_toc`          | Set this to true to prevent the page from having a table of contents generated for it
 |`force_inline_toc`  | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`max_toc_level`     | Set to 2, 3, 4, 5, or 6 to indicate the maximum heading level to show in the table of contents
@@ -746,7 +748,7 @@ $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 This will build the site and start a web server hosting the site. You can then connect to the web server
 at `http://192.168.7.105:1313`.
 
-All English content for the site is located in the `content/en` directory, and translated content is in sibling
+All English content for the site is located in the `content/en` directory, as well as in sibling translated
 directories such as `content/zh`.
 
 ### Linting

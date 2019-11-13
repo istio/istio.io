@@ -1,9 +1,8 @@
 ---
 title: Announcing Istio 1.3.4
-description: Istio 1.3.4 release announcement.
+subtitle: Patch Release
+description: Istio 1.3.4 patch release.
 publishdate: 2019-11-01
-attribution: The Istio Team
-subtitle: Minor Update
 release: 1.3.4
 aliases:
     - /news/announcing-1.3.4

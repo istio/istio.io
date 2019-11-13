@@ -20,7 +20,7 @@ aliases:
 
 ## 前提条件{#prerequisites}
 
-1. [下载 Istio 的发布包](/zh/docs/setup/#downloading-the-release)。
+1. [下载 Istio 的发布包](/zh/docs/setup/getting-started/#download)。
 
 1. 执行必须的[平台特定设置](/zh/docs/setup/platform-setup/)。
 

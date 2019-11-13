@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.2.3
+subtitle: Patch Release
 description: Istio 1.2.3 patch release.
 publishdate: 2019-08-02
-attribution: The Istio Team
 release: 1.2.3
 aliases:
     - /about/notes/1.2.3

@@ -85,7 +85,7 @@ concise list of things you should know before upgrading your deployment to Istio
   [gateways](/docs/concepts/traffic-management/#gateways).
 
 - **Performance and Scalability Improvements**. Tuned the performance and
-  scalability of Istio and Envoy. Read more about [Performance and Scalability]/docs/ops/performance-and-scalability/)
+  scalability of Istio and Envoy. Read more about [Performance and Scalability](/docs/ops/performance-and-scalability/)
   enhancements.
 
 - **Access Logging Off by Default**. Disabled the access logs for all Envoy
@@ -104,15 +104,15 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Identity Provisioning Through SDS**. Added SDS support to provide stronger
   security with on-node key generation and dynamic certificate rotation without
-  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/auth-sds)
+  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/citadel-config/auth-sds)
   for more information.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
-  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authz-tcp)
+  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authorization/authz-tcp)
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/rbac-groups/)
+  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/authorization/rbac-groups/)
   for more information.
 
 - **External Certificate Management on Ingress Gateway Controller**.
@@ -183,11 +183,11 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ### Configuration management
 
-- **Galley**. Added [Galley]/docs/ops/architecture/#galley) as the
+- **Galley**. Added [Galley](/docs/ops/architecture/#galley) as the
   primary configuration ingestion and distribution mechanism within Istio. It
   provides a robust model to validate, transform, and distribute configuration
   states to Istio components insulating the Istio components from Kubernetes
-  details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp)
+  details. Galley uses the [Mesh Configuration Protocol](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp)
   to interact with components.
 
 - **Monitoring Port**. Changed Galley's default monitoring port from 9093 to

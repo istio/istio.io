@@ -34,7 +34,7 @@ as well as serving a certificate based on the server name presented by the clien
 
 - **Multicluster Support**. We support per-cluster Citadel in multicluster deployments such that all Citadels share the same root certificate and workloads can authenticate each other across the mesh.
 
-- **Authentication Policy**. We've created a unified API for [authentication policy](/docs/tasks/security/authn-policy/) that controls whether service-to-service communication uses mutual TLS as well as end user authentication. This is now the recommended way to control these behaviors.
+- **Authentication Policy**. We've created a unified API for [authentication policy](/docs/tasks/security/authentication/authn-policy/) that controls whether service-to-service communication uses mutual TLS as well as end user authentication. This is now the recommended way to control these behaviors.
 
 ## Telemetry
 
