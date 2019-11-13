@@ -8,12 +8,10 @@ keywords: [debugging,istioctl,configuration]
 target_release: 1.4
 ---
 
-{{< boilerplate experimental-feature-warning >}}
+Istio 1.4 introduces an experimental new tool to help you analyze and debug your clusters running Istio.
 
-Istio 1.4 introduces a powerful new tool to help you analyze and debug your clusters running Istio.
-
-`istioctl analyze` is a powerful Istio diagnostic tool that can detect potential issues with your
-Istio configuration, as well as give general insights on improving your configuration.
+[`istioctl analyze`](/docs/reference/commands/istioctl/#istioctl-experimental-analyze) is a diagnostic tool that detects potential issues with your
+Istio configuration, as well as gives general insights to improve your configuration.
 It can run against a live cluster or a set of local configuration files.
 It can also run against a combination of the two, allowing you to catch problems before you
 apply changes to a cluster.
@@ -28,7 +26,7 @@ This is achieved by making the command useful without having to pass any require
 In practice, here are some of the scenarios that it goes after:
 
 - *"There is some problem with my cluster, but I have no idea where to start"*
-- *"Things are generally working, but I'm wondering is there is anything I could improve"*
+- *"Things are generally working, but I'm wondering if there is anything I could improve"*
 
 In that sense, it is very different from some of the more advanced diagnostic tools, which go
 after scenarios along the lines of (taking `istioctl proxy-config` as an example):
