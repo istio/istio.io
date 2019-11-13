@@ -80,7 +80,7 @@ following commands on a machine with cluster admin privileges:
     it to a `.yaml` values file and pass it to
     the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
     can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
-    more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
+    more about customizing Helm charts in the [Helm documentation](https://helm.sh/docs/intro/using_helm/).
     {{< /tip >}}
 
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
