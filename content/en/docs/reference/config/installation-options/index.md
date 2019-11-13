@@ -24,10 +24,10 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 Refer to [customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration) for details.
 {{< /warning >}}
 
-{{< tip >}}
-Refer to [Installation Options Changes](/news/2019/announcing-1.3/helm-changes/)
-for a detailed summary of the option changes between release 1.2 and release 1.3.
-{{< /tip >}}
+{{< warning >}}
+This document is unfortunately out of date with the latest changes in the set of supported options.
+To get the exact set of supported options, please see the [Helm charts]({{< github_tree >}}/install/kubernetes/helm/istio).
+{{< /warning >}}
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 
