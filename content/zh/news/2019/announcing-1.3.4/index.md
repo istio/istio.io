@@ -1,7 +1,7 @@
 ---
 title: 宣布 Istio 1.3.4 发布
 description: Istio 1.3.4 发布声明。
-publishdate: 2019-11-1
+publishdate: 2019-11-01
 attribution: The Istio Team
 subtitle: 次要更新
 release: 1.3.4

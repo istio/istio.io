@@ -12,7 +12,7 @@ Service meshes add a lot of functionality to application deployments, including 
 
 Earlier this year, we published a [blog post](/blog/2019/istio1.1_perf/) on Istio's performance improvements in version 1.1. Following the release of [Istio 1.2](/news/2019/announcing-1.2), we want to provide guidance and tools to help you benchmark Istio's data plane performance in a production-ready Kubernetes environment.
 
-Overall, we found that Istio's [sidecar proxy]/docs/ops/architecture/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
+Overall, we found that Istio's [sidecar proxy](/docs/ops/architecture/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
 
 In the [Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
 
@@ -33,7 +33,7 @@ Say you run 2,000 Envoy-injected pods, each handling 1,000 requests per second. 
 It is also important to focus on data plane performance for **latency** reasons. This is because most application requests move through the Istio data plane, not the control plane. There are two exceptions:
 
 1.  **Telemetry reporting:** Each proxy sends raw telemetry data to {{<gloss>}}Mixer{{</gloss>}}, which Mixer processes into metrics, traces, and other telemetry. The raw telemetry data is similar to access logs, and therefore comes at a cost. Access log processing consumes CPU and keeps a worker thread from picking up the next unit of work. At higher throughput, it is more likely that the next unit of work is waiting in the queue to be picked up by the worker. This can lead to long-tail (99th percentile) latency for Envoy.
-1.  **Custom policy checks:** When using [custom Istio policy adapters](/docs/concepts/observability/), policy checks are on the request path. This means that request headers and metadata on the data path will be sent to the control plane (Mixer), resulting in higher request latency. **Note:** These policy checks are [disabled by default](/docs/reference/config/installation-options/#global-options), as the most common policy use case ([RBAC](/docs/reference/config/authorization/istio.rbac.v1alpha1)) is performed entirely by the Envoy proxies.
+1.  **Custom policy checks:** When using [custom Istio policy adapters](/docs/concepts/observability/), policy checks are on the request path. This means that request headers and metadata on the data path will be sent to the control plane (Mixer), resulting in higher request latency. **Note:** These policy checks are [disabled by default](/docs/reference/config/installation-options/#global-options), as the most common policy use case ([RBAC](/docs/reference/config/security/istio.rbac.v1alpha1)) is performed entirely by the Envoy proxies.
 
 Both of these exceptions will go away in a future Istio release, when [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) moves all policy and telemetry features directly into the proxies.
 
@@ -108,6 +108,6 @@ For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds just **3 millisec
 Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark).
 {{< /tip >}}
 
-Also check out the [Istio Performance and Scalability guide]/docs/ops/performance-and-scalability) for the most up-to-date performance data for current and future releases.
+Also check out the [Istio Performance and Scalability guide](/docs/ops/performance-and-scalability) for the most up-to-date performance data.
 
 Thank you for reading, and happy benchmarking!

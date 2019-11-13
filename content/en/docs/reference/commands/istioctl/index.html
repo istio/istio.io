@@ -4,53 +4,13 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 76
+number_of_entries: 75
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
 <p>Istio configuration command line utility for service operators to
 debug and diagnose their Istio mesh.
 </p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-auth">istioctl auth</h2>
-<p>(auth is experimental.  Use `istioctl experimental auth`)</p>
-<pre class="language-bash"><code>istioctl auth [flags]
-</code></pre>
 <table class="command-flags">
 <thead>
 <tr>
@@ -185,6 +145,46 @@ service &#34;bar&#34; :
 istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
 
 </code></pre>
+<h2 id="istioctl-authz">istioctl authz</h2>
+<p>(authz is experimental.  Use `istioctl experimental authz`)</p>
+<pre class="language-bash"><code>istioctl authz [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-convert-ingress">istioctl convert-ingress</h2>
 <p>Converts Ingresses into VirtualService configuration on a best effort basis. The output should be considered a starting point for your Istio configuration and probably require some minor modification. Warnings will be generated where configs cannot be converted perfectly. The input must be a Kubernetes Ingress. The conversion of v1alpha1 Istio rules has been removed from istioctl.</p>
 <pre class="language-bash"><code>istioctl convert-ingress [flags]
@@ -878,6 +878,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>&#39;true&#39; to enable service discovery, &#39;false&#39; to disable it. Defaults to true if --use-kube is set, false otherwise. Analyzers requiring resources made available by enabling service discovery will be skipped.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--failure-threshold &lt;Level&gt;</code></td>
+<td></td>
+<td>The severity level of analysis at which to set a non-zero exit code. Valid values: [Info Warn Error]  (default `Warn`)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -896,6 +901,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output-threshold &lt;Level&gt;</code></td>
+<td></td>
+<td>The severity level of analysis at which to display messages. Valid values: [Info Warn Error]  (default `Info`)</td>
 </tr>
 <tr>
 <td><code>--use-kube</code></td>
@@ -927,11 +937,10 @@ istioctl experimental analyze -d true a.yaml b.yaml services.yaml
 istioctl experimental analyze -k -d false
 
 </code></pre>
-<h2 id="istioctl-experimental-auth">istioctl experimental auth</h2>
-<p>Commands to inspect and interact with the authentication (TLS, JWT) and authorization (RBAC) policies in the mesh
-  check - check the TLS/JWT/RBAC settings based on the Envoy config
+<h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
+<p>Commands to inspect and interact with the authorization policies
+  check - check Envoy config dump for authorization configuration
   convert - convert v1alpha1 RBAC policies to v1beta1 authorization policies
-	validate - check for potential incorrect usage in authorization policy files.
 </p>
 <table class="command-flags">
 <thead>
@@ -969,29 +978,23 @@ istioctl experimental analyze -k -d false
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-auth Examples">Examples</h3>
-<pre class="language-bash"><code>  # Check the TLS/JWT/RBAC settings for pod httpbin-88ddbcfdd-nt5jb:
-  istioctl experimental auth check httpbin-88ddbcfdd-nt5jb
+<h3 id="istioctl-experimental-authz Examples">Examples</h3>
+<pre class="language-bash"><code>  # Check Envoy authorization configuration for pod httpbin-88ddbcfdd-nt5jb:
+  istioctl x authz check httpbin-88ddbcfdd-nt5jb
 
-  # Convert the v1alpha1 RBAC policies currently applied in the cluster to v1beta1 authorization policies:
-  istioctl experimental auth convert &gt; v1beta1-authz.yaml
+  # Convert the v1alpha1 RBAC policies in the current cluster to v1beta1 authorization policies:
+  istioctl x authz convert &gt; v1beta1-authz.yaml
 
 </code></pre>
-<h2 id="istioctl-experimental-auth-check">istioctl experimental auth check</h2>
-<p>Check analyzes the TLS/JWT/RBAC settings directly based on the Envoy config. The Envoy config could
-be provided either by pod name or from a config dump file (the whole output of http://localhost:15000/config_dump
-of an Envoy instance).</p>
-<p>Currently only the listeners with node IP and clusters on outbound direction are analyzed:
-- listeners with node IP generally tell how should other pods talk to the Envoy instance which include
-  the server side TLS/JWT/RBAC settings.</p>
-<p>- clusters on outbound direction generally tell how should the Envoy instance talk to other pods which
-  include the client side TLS settings.</p>
-<p>To check the TLS setting, you could run &#39;check&#39; on both of the client and server pods and compare
-the cluster results of the client pod and the listener results of the server pod.</p>
-<p>To check the JWT/RBAC setting, you could run &#39;check&#39; only on your server pods and check the listener results.</p>
+<h2 id="istioctl-experimental-authz-check">istioctl experimental authz check</h2>
+<p>Check reads the Envoy config dump and checks the filter configuration
+related to authorization. For example, it shows whether or not the Envoy is configured
+with authorization and the rules used in the authorization.</p>
+<p>The Envoy config dump could be provided either by pod name or from a config dump file
+(the whole output of http://localhost:15000/config_dump of an Envoy instance).</p>
 <p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental auth check &lt;pod-name&gt;[.&lt;pod-namespace&gt;] [flags]
+<pre class="language-bash"><code>istioctl experimental authz check &lt;pod-name&gt;[.&lt;pod-namespace&gt;] [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1015,7 +1018,7 @@ the cluster results of the client pod and the listener results of the server pod
 <tr>
 <td><code>--file &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Check the TLS/JWT/RBAC setting from the config dump file  (default ``)</td>
+<td>Check the Envoy config dump from a file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -1039,17 +1042,17 @@ the cluster results of the client pod and the listener results of the server pod
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-auth-check Examples">Examples</h3>
-<pre class="language-bash"><code>  # Check the TLS/JWT/RBAC policy status for pod httpbin-88ddbcfdd-nt5jb in namespace foo:
-  istioctl experimental auth check httpbin-88ddbcfdd-nt5jb.foo
+<h3 id="istioctl-experimental-authz-check Examples">Examples</h3>
+<pre class="language-bash"><code>  # Check Envoy authorization configuration for pod httpbin-88ddbcfdd-nt5jb:
+  istioctl x authz check httpbin-88ddbcfdd-nt5jb
 
-  # Check the TLS/JWT/RBAC policy status from a config dump file:
-  istioctl experimental auth check -f httpbin_config_dump.txt
+  # Check Envoy authorization configuration from a config dump file:
+  istioctl x authz check -f httpbin_config_dump.json
 </code></pre>
-<h2 id="istioctl-experimental-auth-convert">istioctl experimental auth convert</h2>
-<p>Convert converts Istio v1alpha1 RBAC policy to v1beta1 authorization policy. The command talks to Kubernetes
-API server to get all the information needed to complete the conversion, including the currently applied v1alpha1
-RBAC policies, the Istio config-map for root namespace configuration and the k8s Service translating the
+<h2 id="istioctl-experimental-authz-convert">istioctl experimental authz convert</h2>
+<p>Convert Istio v1alpha1 RBAC policy to v1beta1 authorization policy. The command talks to Kubernetes
+API server to get all the information needed to complete the conversion, including the v1alpha1 RBAC policies in the current
+cluster, the Istio config-map for root namespace configuration and the k8s Service translating the
 service name to workload selector.</p>
 <p>The tool can also be used in offline mode without talking to the Kubernetes API server. In this mode,
 all needed information is provided through the command line.</p>
@@ -1061,7 +1064,7 @@ to workload selector).</p>
 <p>Please always review the converted policies before applying them.</p>
 <p>THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </p>
-<pre class="language-bash"><code>istioctl experimental auth convert [flags]
+<pre class="language-bash"><code>istioctl experimental authz convert [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1119,66 +1122,14 @@ to workload selector).</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-auth-convert Examples">Examples</h3>
-<pre class="language-bash"><code>  # Convert the v1alpha1 RBAC policy currently applied in the cluster:
-  istioctl experimental auth convert &gt; v1beta1-authz.yaml
+<h3 id="istioctl-experimental-authz-convert Examples">Examples</h3>
+<pre class="language-bash"><code>  # Convert the v1alpha1 RBAC policy in the current cluster:
+  istioctl x authz convert &gt; v1beta1-authz.yaml
 
   # Convert the v1alpha1 RBAC policy provided through command line: 
-  istioctl experimental auth convert -f v1alpha1-policy-1.yaml,v1alpha1-policy-2.yaml
+  istioctl x authz convert -f v1alpha1-policy-1.yaml,v1alpha1-policy-2.yaml
   --service services.yaml --meshConfigFile meshConfig.yaml &gt; v1beta1-authz.yaml
 
-</code></pre>
-<h2 id="istioctl-experimental-auth-validate">istioctl experimental auth validate</h2>
-<p>This command goes through all authorization policy files and finds potential issues such as:
-						* ServiceRoleBinding refers to a non existing ServiceRole.
-						* ServiceRole not used.
-           It does not require access to the cluster as the validation is against local files.
-					</p>
-<pre class="language-bash"><code>istioctl experimental auth validate &lt;policy-file1,policy-file2,...&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--file &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Authorization policy file  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, name, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-auth-validate Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl experimental auth validate -f policy1.yaml,policy2.yaml
 </code></pre>
 <h2 id="istioctl-experimental-convert-ingress">istioctl experimental convert-ingress</h2>
 <p>(convert-ingress has graduated.  Use `istioctl convert-ingress`)</p>
@@ -1276,7 +1227,7 @@ to workload selector).</p>
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td></td>
-<td>create a secret with this service account&#39;s credentials.  (default `istio-pilot-service-account`)</td>
+<td>create a secret with this service account&#39;s credentials.  (default `istio-reader-service-account`)</td>
 </tr>
 </tbody>
 </table>
