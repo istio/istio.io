@@ -1,15 +1,15 @@
 ---
-title: Installation Options
-description: Describes the options available when installing Istio using the included Helm chart.
-weight: 30
+title: Installation Options (Helm)
+description: Describes the options available when installing Istio using Helm charts.
+weight: 15
 keywords: [kubernetes,helm]
 force_inline_toc: true
 ---
 
 {{< warning >}}
-Installing Istio with Helm has been deprecated, however, you can still use these Helm configuration options when
-[installing Istio with {{< istioctl >}}](/docs/setup/install/operator/) by prepending the string "`values.`"
-to the option name. For example, instead of this `helm` command:
+Installing Istio with Helm is in the process of deprecation, however, you can use these Helm
+configuration options when [installing Istio with {{< istioctl >}}](/docs/setup/install/istioctl/)
+by prepending the string "`values.`" to the option name. For example, instead of this `helm` command:
 
 {{< text bash >}}
 $ helm template ... --set global.mtls.enabled=true
@@ -21,7 +21,7 @@ You can use this `istioctl` command:
 $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /text >}}
 
-Refer to [customizing the configuration](/docs/setup/install/operator/#customizing-the-configuration) for details.
+Refer to [customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration) for details.
 {{< /warning >}}
 
 {{< tip >}}

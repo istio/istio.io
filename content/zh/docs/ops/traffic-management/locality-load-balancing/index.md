@@ -1,82 +1,73 @@
 ---
-title: Locality Load Balancing
-description: Information on how to enable and understand Locality Load Balancing.
+title: 地域负载均衡
+description: 有关如何启用和理解地域负载平衡。
 weight: 98
 keywords: [locality,load balancing,priority,prioritized]
 aliases:
-    - /help/ops/traffic-management/locality-load-balancing
-    - /help/ops/locality-load-balancing
-    - /help/tasks/traffic-management/locality-load-balancing
+    - /zh/help/ops/traffic-management/locality-load-balancing
+    - /zh/help/ops/locality-load-balancing
+    - /zh/help/tasks/traffic-management/locality-load-balancing
 ---
 
-A locality defines a geographic location within your mesh using the following triplet:
+地域由如下三元组在网格中定义了地理位置：
 
 - Region
 - Zone
 - Sub-zone
 
-The geographic location typically represents a data center. Istio uses
-this information to prioritize load balancing pools to control
-the geographic location where requests are sent.
+地理位置通常代表数据中心。Istio 使用该信息来优化负载均衡池，用以控制请求发送到的地理位置。
 
-## Configuring Locality Load Balancing
+## 配置地域负载均衡{#configuring-locality-load-balancing}
 
-This feature is enabled by default. To disable locality load balancing,
-pass the `--set global.localityLbSetting.enabled=false` flag when installing Istio.
+该特性默认开启。要禁用地域负载均衡，在安装 Istio 时通过配置 `--set global.localityLbSetting.enabled=false` 即可。
 
-## Requirements
+## 需求{#requirements}
 
-Currently, the service discovery platform populates the locality automatically.
-In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region)
-on the node it is deployed. If you are using a hosted Kubernetes service your cloud provider
-should configure this for you. If you are running your own Kubernetes cluster you will need
-to add these labels to your nodes. The sub-zone concept doesn't exist in Kubernetes.
-As a result, this field does not need to be configured.
+目前，服务发现平台会自动填充地域。
 
-In order for Istio to determine locality, a Service must be associated with the caller.
+在 Kubernetes 中，Pod 的地域是通过在已部署的节点上的 [Region 和 Zone 的标签](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region)决定的。
+如果您正在使用托管的 Kubernetes 服务，那么云供应商会进行配置。
+如果您正在运行自己的 Kubernetes 集群，那么需要将这些标签添加到您的节点中。
+Kubernetes 中不存在 sub-zone 的概念。因此，该字段不需要配置。
 
-To determine when instances are unhealthy, the proxies require an [outlier detection](/docs/reference/config/networking/destination-rule/#OutlierDetection)
-configuration in a destination rule for each service.
+为了让 Istio 确定地域，服务必须与调用方进行关联。
 
-## Locality-prioritized load balancing
+为了确定实例何时异常，对于每个服务的代理，在 destination rule 中需要配置一份[异常检测](/zh/docs/reference/config/networking/destination-rule/#OutlierDetection)。
 
-_Locality-prioritized load balancing_ is the default behavior for _locality load balancing_.
-In this mode, Istio tells Envoy to prioritize traffic to the workload instances most closely matching
-the locality of the Envoy sending the request. When all instances are healthy, the requests
-remains within the same locality. When instances become unhealthy, traffic spills over to
-instances in the next prioritized locality. This behavior continues until all localities are
-receiving traffic. You can find the exact percentages in the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority).
+## 地域优先负载均衡{#locality-prioritized-load-balancing}
+
+_地域优先负载均衡_ 是 _地域负载均衡_ 的默认行为。
+在该模式下，Istio 告知 Envoy 对最近匹配 Envoy 发送请求地域的负载实例进行流量优化。
+当所有实例都正常时，请求将保持在同一地点。当实例变得异常时，流量会分发到下一优先地域的实例。
+该行为会持续到所有地域都接收到流量。
+您可以在 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority)中找到精确的百分比。
 
   {{< warning >}}
-  If no outlier detection configurations are defined in destination rules, the proxy can't determine if an instance is healthy, and it
-  routes traffic globally even if you enabled **locality-prioritized** load balancing.
+  如果 destination rules 中未定义异常检测配置，那么代理将无法确定实例是否正常，并且即使您启用了**地域优先**负载均衡，代理也可以全局路由流量。
   {{< /warning >}}
 
-A typical prioritization for an Envoy with a locality of `us-west/zone2` is as follows:
+`us-west/zone2` 地域的 Envoy 典型优先级如下：
 
-- Priority 0: `us-west/zone2`
-- Priority 1: `us-west/zone1`, `us-west/zone3`
-- Priority 2: `us-east/zone1`, `us-east/zone2`, `eu-west/zone1`
+- 优先级 0: `us-west/zone2`
+- 优先级 1: `us-west/zone1`, `us-west/zone3`
+- 优先级 2: `us-east/zone1`, `us-east/zone2`, `eu-west/zone1`
 
-The hierarchy of prioritization matches in the following order:
+优先级的层次结构按如下顺序匹配：
 
 1. Region
 1. Zone
 1. Sub-zone
 
-Proxies in the same zone but different regions are not considered local to one another.
+同一 zone 但不同 region 的代理不被认为同一地域的代理。
 
-### Overriding the Locality Fail-over
+### 废除地域故障转移{#overriding-the-locality-fail-over}
 
-Sometimes, you need to constrain the traffic fail-over to avoid sending traffic to
-endpoints across the globe when there are not enough healthy endpoints in the
-same region. This behavior is useful when sending fail-over traffic across regions
-would not improve service health or many other reasons including regulatory controls.
-To constrain traffic to a region, configure the `values.localityLbSetting` option during install. See the
-[Locality load balancing reference guide](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting)
-for options.
+有时，当同一 region 中没有足够正常的 endpoints 时，您需要限制流量故障转移来避免跨全局的流量转发。
+当跨 region 的发送故障转移流量而不能改善服务运行状况或其他诸如监管政策等原因时，该行为是很有用的。
+为了将流量限制到某一个 region，请在安装时配置 `values.localityLbSetting` 选项。
+参考[地域负载均衡参考指南](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting)来获取更多选项。
 
-An example configuration:
+配置示例：
 
 {{< text yaml >}}
 global:
@@ -89,11 +80,11 @@ global:
       to: us-east
 {{< /text >}}
 
-## Locality-weighted load balancing
+## 地域加权负载均衡{#locality-weighted-load-balancing}
 
-Locality-weighted load balancing distributes user-defined percentages of traffic to certain localities.
+地域加权负载均衡将用户定义的一定百分比的流量分发到某些地域。
 
-For example, if we want to keep 80% of traffic within our region, and send 20% of traffic out of region:
+例如：如果我们想保留发送 80% 的流量到我们所处的 region，另外 20% 的流量发送到外部 region：
 
 {{< text yaml >}}
 global:

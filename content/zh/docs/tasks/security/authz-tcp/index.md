@@ -1,131 +1,115 @@
 ---
-title: Authorization for TCP Services
-description: Shows how to set up role-based access control for TCP services.
+title: TCP 服务的权限控制
+description: 展示如何为 TCP 服务设置基于角色的权限控制。
 weight: 10
 keywords: [security,access-control,rbac,tcp,authorization]
 ---
 
-This task covers the activities you might need to perform to set up Istio authorization, also known
-as Istio Role Based Access Control (RBAC), for TCP services in an Istio mesh. You can learn more about
-the Istio authorization in the [authorization concept page](/docs/concepts/security/#authorization).
+本任务涵盖了在服务网格中为 TCP 服务设置 Istio RBAC 所需的操作。可以阅读[权限控制概念文档](/zh/docs/concepts/security/#authorization).中的相关内容。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-The activities in this task assume that you:
+本文任务假设，你已经：
 
-* Read the [authorization concept](/docs/concepts/security/#authorization).
+* Read the [Istio 中的授权和鉴权](/zh/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
+* 按照 [快速开始](/zh/docs/setup/install/kubernetes/) 的指导，在 Kubernetes 中安装完成 Istio。
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+* 部署完成 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 应用示例。
 
-After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
-the product page, you can see the following sections:
+部署完成 Bookinfo 应用后，打开 `http://$GATEWAY_URL/productpage` 连接进入到 Bookinfo 图书页面。在该页面中，可以看到一下几个模块：
 
-* **Book Details** on the lower left side, which includes: book type, number of
-  pages, publisher, etc.
-* **Book Reviews** on the lower right of the page.
+* 在页面的左下方是图书详情 (**Book Detail**) 模块，内容包括：图书类型、页数、出版社等信息。
+* 在页面的右下方是图书评价（**Book Reviews**) 模块。
 
-When you refresh the page, the app shows different versions of reviews in the product page.
-The app presents the reviews in a round robin style: red stars, black stars, or no stars.
+每次刷新页面后，图书页面的书评模块会有不同的版本样式，在三种版本（红色星级、黑色星级、没有星级）之间轮换。
 
-## Installing and configuring a TCP service
+## 部署并配置 TCP 服务{#installing-and-configuring-a-tcp-service}
 
-By default, the [Bookinfo](/docs/examples/bookinfo/) example application only includes HTTP services.
-To show how Istio handles the authorization of TCP services, we must update the application to use a
-TCP service. Follow this procedure to deploy the Bookinfo example app and update its `ratings` service
-to the `v2` version, which talks to a MongoDB backend using TCP.
+默认情况下，[Bookinfo](/zh/docs/examples/bookinfo/) 应用示例只调用 HTTP 服务。为了演示 Istio 如何配置 TCP 服务的权限控制，我们首先需要将应用更新到 TCP 调用的版本。按照下面的步骤，部署 Bookinfo 应用示例，并且将 `ratings` 服务升级到 `v2` 版本，在该版本中会使用 TCP 调用后端 MongoDB 服务。
 
-1. Install `v2` of the `ratings` service with service account `bookinfo-ratings-v2`:
+1. 部署 `v2` 版本的 `ratings` 服务，服务的 `ServiceAccount` 命名为 `bookinfo-ratings-v2`，有以下两种方式：
 
-    * To create the service account and configure the new version of the service for a cluster
-      **with** automatic sidecar injection enabled:
+    * 如果集群已开启 sidecar 自动注入，使用以下命令创建 `ServiceAccount` 并且配置新版的 `ratings` 服务:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
         {{< /text >}}
 
-    * To create the service account and configure the new version of the service for a cluster
-      **without** automatic sidecar injection enabled:
+    * 集群未开启 sidecar 自动注入场景下，需要执行以下命令手动完成 sidecar 注入，并创建新版本 `ratings` 服务和`ServiceAccount`:
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
         {{< /text >}}
 
-1. Create the appropriate destination rules:
+1. 创建 `DestinationRule` 配置:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
     {{< /text >}}
 
-    Since the subset referenced in the virtual service rules relies on the destination rules,
-    wait a few seconds for the destination rules to propagate before adding the virtual service rules.
+    因为 `VirtualService` 的配置中 `subset` 项依赖 `DestinationRule` 配置，所以在 `DestinationRule` 完全生效前需要等待几秒钟再添加 `VirtualService` 。
 
-1. After the destination rules propagate, update the `reviews` service to only use the `v2` of the `ratings` service:
+1. 在 `DestinationRule` 完全生效后，更新 `reviews` 服务只使用 `v2` 版本的 `ratings` 服务:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
     {{< /text >}}
 
-1. Go to the Bookinfo product page at (`http://$GATEWAY_URL/productpage`).
+1. 浏览位于 `http://$GATEWAY_URL/productpage` 的产品页面：
 
-    On the product page, you can see an error message on the **Book Reviews** section.
-    The message reads: **"Ratings service is currently unavailable."**. The message appears because we
-    switched to use the `v2` subset of the `ratings` service without deploying the MongoDB service.
+    在这一页面中会看到 **Book Reviews** 中出现的错误信息：**"Ratings service is currently unavailable."**。因为 `ratings` 服务的 `v2` 版本所依赖的 MongoDB 服务尚未部署。
 
-1. Deploy the MongoDB service:
+1. 部署 MongoDB 服务：
 
-    * To deploy MongoDB in a cluster **with** automatic sidecar injection enabled:
+    * 在**启用自动注入**的网格中部署 MongoDB 服务：
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
         {{< /text >}}
 
-    * To deploy MongoDB in a cluster **without** automatic sidecar injection enabled:
+    * 在**没有启用自动注入**的网格中部署 MongoDB 服务：
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
         {{< /text >}}
 
-1. Go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`.
+1. 再次浏览位于 `http://$GATEWAY_URL/productpage` 的产品页面。
 
-1. Verify that the **Book Reviews** section shows the reviews.
+1. 检查页面中的 **Book Reviews** 内容。
 
-## Enabling Istio authorization
+## 启用 Istio 的权限控制 {#enabling-Istio-authorization}
 
-Run the following command to enable Istio authorization for the MongoDB service:
+执行以下命令，为 MongoDB 服务启用权限控制：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.yaml@
 {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
+打开 Bookinfo `productpage` 页面 (`http://$GATEWAY_URL/productpage`)， 可以看到：
 
-* The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
-* The **Book Reviews** section on the lower right of the page includes an error message **"Ratings service is
-  currently unavailable"**.
+* 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
+* 页面右下角的 **Book Reviews** 显示了错误信息：**"Ratings service is currently unavailable"**。
 
-This is because Istio authorization is "deny by default", which means that you need to explicitly
-define access control policies to grant access to the MongoDB service.
+因为 Istio 授权是`默认拒绝`的，所以需要配置合适的权限之后才能访问 MongoDB 服务。
 
 {{< tip >}}
-There may be some delays due to caching and other propagation overhead.
+因为缓存和传播的关系，可能会有一些延迟。
 {{< /tip >}}
 
-## Enforcing access control on TCP service
+## 增强 TCP 服务的访问控制 {#enforcing-access-control-on-tcp-service}
 
-Now let's set up service-level access control using Istio authorization to allow `v2` of `ratings`
-to access the MongoDB service.
+接下来配置服务级别访问控制，使用 Istio 授权机制允许 `ragings` v2 服务访问 MongoDB 服务。
 
-Run the following command to apply the authorization policy:
+执行以下命令，完成授权策略：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
 {{< /text >}}
 
-Once applied, the policy has the following effects:
+配置完成后，策略会有以下效果：
 
-* Creates the following `mongodb-viewer` service role, which allows access to the MongoDB service on port 27017.
+* 创建一个命名为 `mongodb-viewer` 的角色，这个角色有权访问 MongoDB 服务的 `27017` 端口。
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -141,8 +125,7 @@ Once applied, the policy has the following effects:
           values: ["27017"]
     {{< /text >}}
 
-* Creates the following `bind-mongodb-viewer` service role binding, which assigns the `mongodb-viewer` role
-to the `bookinfo-ratings-v2` service.
+* 创建一个命名为 `bind-mongodb-viewer` 角色绑定 `ServiceRoleBinding`，将 `mongodb-viewer` 角色分配给 `bookinfo-ratings-v2`.
 
     {{< text yaml >}}
     apiVersion: "rbac.istio.io/v1alpha1"
@@ -158,31 +141,31 @@ to the `bookinfo-ratings-v2` service.
         name: "mongodb-viewer"
     {{< /text >}}
 
-Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`). You should see the following sections:
+用浏览器打开产品页面（`http://$GATEWAY_URL/productpage`）会看到：
 
-* **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
-* **Book Reviews** on the lower right side, which includes: red stars.
+* 页面左下角的 **Book Details** 中包含了书籍类型、页数以及出版商等信息。
+* 页面右下角的 **Book Reviews** 显示了红色星星。
 
 {{< tip >}}
-There may be some delays due to caching and other propagation overhead.
+由于缓存和传播开销可能会造成一定延迟。
 {{< /tip >}}
 
-## Cleanup
+## 清理 {#cleanup}
 
-*   Remove Istio authorization policy configuration:
+*   删除 Istio 权限策略配置：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/mongodb-policy.yaml@
     {{< /text >}}
 
-    Alternatively, you can delete all service role and service role binding resources by running the following commands:
+    还可以删除所有的 `ServiceRole` 和 `ServiceRoleBinding` 对象：
 
     {{< text bash >}}
     $ kubectl delete servicerole --all
     $ kubectl delete servicerolebinding --all
     {{< /text >}}
 
-*   Disable Istio authorization:
+*   禁用 Istio 权限控制：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-on-mongodb.yaml@

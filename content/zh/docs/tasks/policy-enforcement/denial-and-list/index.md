@@ -1,73 +1,69 @@
 ---
-title: Denials and White/Black Listing
-description: Shows how to control access to a service using simple denials or white/black listing.
+title: Denials 和黑白名单
+description: 描述如何使用简单的 denials 或黑白名单来控制对服务的访问。
 weight: 20
 keywords: [policies,denial,whitelist,blacklist]
 aliases:
-    - /docs/tasks/basic-access-control.html
-    - /docs/tasks/security/basic-access-control/index.html
-    - /docs/tasks/security/secure-access-control/index.html
+    - /zh/docs/tasks/basic-access-control.html
+    - /zh/docs/tasks/security/basic-access-control/index.html
+    - /zh/docs/tasks/security/secure-access-control/index.html
 ---
 
-This task shows how to control access to a service using simple denials, attribute-based white or black listing, or IP-based white or black listing.
+此任务说明了如何使用简单的 denials、基于属性的黑白名单、基于 IP 的黑白名单来控制对服务的访问。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-* Set up Istio on Kubernetes by following the instructions in the
-  [Installation guide](/docs/setup/).
+* 请按照此[安装指南](/zh/docs/setup/)中的说明，在 Kubernetes 上安装 Istio。
 
     {{< warning >}}
-    Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
-    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    对于此任务，您 **必须** 在集群中启用强制策略。
+    参考[启用强制策略](/zh/docs/tasks/policy-enforcement/enabling-policy/)文档来该策略是启用的。
     {{< /warning >}}
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 样例应用。
 
-* Initialize the application version routing to direct `reviews` service
-  requests from test user "jason" to version v2 and requests from any other
-  user to v3.
+* 初始化直接访问 `reviews` 服务的应用程序的版本路由请求，对于测试用户 "jason" 的请求直接指定到 v2 版本，其他用户的请求指定到 v3 版本。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-    and then run the following command:
+    然后执行以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
     {{< tip >}}
-    If you are using a namespace other than `default`,
-    use `kubectl -n namespace ...` to specify the namespace.
+    如果您使用的 namespace 不是 `default`，使用 `kubectl -n namespace ...` 来指明该 namespace。
     {{< /tip >}}
 
-## Simple _denials_
+## 简单的 _denials_{#simple-denials}
 
-Using Istio you can control access to a service based on any attributes that are available within Mixer.
-This simple form of access control is based on conditionally denying requests using Mixer selectors.
+通过 Istio 您可以根据 Mixer 中可用的任意属性来控制对服务的访问。
+这种简单形式的访问控制是基于 Mixer 选择器的条件拒绝请求功能实现的。
 
-Consider the [Bookinfo](/docs/examples/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
-of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
+考虑 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用，其中 `ratings` 服务可通过 `reviews` 服务的多个版本进行访问。
+我们想切断对 `reviews` 服务 `v3` 版本的访问。
 
-1.  Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
+1.  将浏览器定位到 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。
 
-    If you log in as user "jason", you should see black rating stars with each review,
-    indicating that the `ratings` service is being called by the "v2" version of the `reviews` service.
+    如果您以 "jason" 用户身份登录，则每个评论都应看到黑色的星标，
+    它表示 `ratings` 服务是通过 "v2" 版本 `reviews` 服务访问到的。
 
-    If you log in as any other user (or logout) you should see red rating stars with each review,
-    indicating that the `ratings` service is being called by the "v3" version of the `reviews` service.
+    如果您以其他任何用户身份登录（或登出），则每个评论都应看到红色的星标，
+    它表示 `ratings` 服务是通过 "v3" 版本 `reviews` 服务访问到的。
 
-1.  Explicitly deny access to version `v3` of the `reviews` service.
+1.  要想明确地拒绝对 `v3` 版本 `reviews` 服务的访问。
 
-    Run the following command to set up the deny rule along with a handler and an instance.
+    连同处理程序和实例，执行以下命令来配置拒绝规则。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
     {{< warning >}}
-    If you use Istio 1.1.2 or prior, please use the following configuration instead:
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下配置：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
@@ -75,57 +71,52 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
     {{< /warning >}}
 
-    Notice the following in the `denyreviewsv3` rule:
+    注意 `denyreviewsv3` 规则的以下部分：
 
     {{< text plain >}}
     match: destination.labels["app"] == "ratings" && source.labels["app"]=="reviews" && source.labels["version"] == "v3"
     {{< /text >}}
 
-    It matches requests coming from the workload `reviews` with label `v3` to the workload `ratings`.
+    它将带有 `v3` 标签的 `reviews` 工作负载请求与 `ratings` 工作负载进行匹配。
 
-    This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
-    The adapter always denies requests with a preconfigured status code and message.
-    The status code and the message is specified in the [denier](/docs/reference/config/policy-and-telemetry/adapters/denier/)
-    adapter configuration.
+    该规则通过使用 `denier` 适配器来拒绝 `v3` 版本 reviews 服务的请求。
+    适配器始终拒绝带有预配置状态码和消息的请求。
+    状态码和消息在 [denier](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器配置中指定。
 
-1.  Refresh the `productpage` in your browser.
+1.  在浏览器里刷新 `productpage`。
 
-    If you are logged out or logged in as any user other than "jason" you will no longer see red ratings stars because
-    the `reviews:v3` service has been denied access to the `ratings` service.
-    In contrast, if you log in as user "jason" (the `reviews:v2` user) you continue to see
-    the black ratings stars.
+    如果您已登出或以非 "json" 用户登录，因为`v3 reviews` 服务已经被拒绝访问 `ratings` 服务，所以您不会再看到红色星标。
+    相反，如果您以 "json" 用户（`v2 reviews 服务` 用户）登录，可以一直看到黑色星标。
 
-## Attribute-based _whitelists_ or _blacklists_
+## 基于属性的 _白名单_ 或 _黑名单_{#attribute-based-whitelists-or-blacklists}
 
-Istio supports attribute-based whitelists and blacklists. The following
-whitelist configuration is equivalent to the `denier` configuration in the
-previous section. The rule effectively rejects requests from version `v3` of
-the `reviews` service.
+Istio 支持基于属性的白名单和黑名单。
+以下白名单配置等同于上一节的 `denier` 配置。
+此规则能有效地拒绝 `v3` 版本 `reviews` 服务的请求。
 
-1.  Remove the denier configuration that you added in the previous section.
+1.  移除上一节 denier 配置。
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
-    If you are using Istio 1.1.2 or prior:
+    如果您正在使用 Istio 1.1.2 或更早版本：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
     {{< /text >}}
 
-1.  Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see red stars.
-    After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
+1.  当您不登录去访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) 时进行验证，会看到红星。
+    再执行以下步骤之后，除非您以 "json" 用户登录，否则不会看到星标。
 
-1.  Apply configuration for the [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/)
-    adapter that white-lists versions `v1, v2`:
+1.  将配置应用于 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器以让 `v1， v2` 版本位于白名单中；
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist.yaml@
     {{< /text >}}
 
     {{< warning >}}
-    If you use Istio 1.1.2 or prior, please use the following configuration instead:
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
@@ -133,28 +124,25 @@ the `reviews` service.
 
     {{< /warning >}}
 
-1.  Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see **no** stars.
-Verify that after logging in as "jason" you see black stars.
+1. 当您不登录去访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) 时进行验证，**不会**看到星标。
+以 "jason" 用户登录后验证，您会看到黑色星标。
 
-## IP-based _whitelists_ or _blacklists_
+## 基于 IP 的 _白名单_ 或 _黑名单_
 
-Istio supports _whitelists_ and _blacklists_ based on IP address. You can
-configure Istio to accept or reject requests from a specific IP address or a
-subnet.
+Istio 支持基于 IP 地址的 _白名单_ 和 _黑名单_ 。
+您可以配置 Istio 接受或拒绝从一个 IP 地址或一个子网发出的请求。
 
-1. Verify you can access the Bookinfo `productpage` found at
-   `http://$GATEWAY_URL/productpage`. You won't be able to access it once you
-   apply the rules below.
+1. 您可以访问位于 `http://$GATEWAY_URL/productpage` 的 Bookinfo `productpage` 来进行验证。
+   一旦应用以下规则，您将无法访问它。
 
-1.  Apply configuration for the [list](/docs/reference/config/policy-and-telemetry/adapters/list/)
-    adapter that white-lists subnet `"10.57.0.0\16"` at the ingress gateway:
+1.  将配置应用于 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器以添加 ingress 网关中的子网 `"10.57.0.0\16"` 到白名单中：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip.yaml@
     {{< /text >}}
 
     {{< warning >}}
-    If you use Istio 1.1.2 or prior, please use the following configuration instead:
+    如果您使用 Istio 1.1.2 或更早版本，请使用以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@
@@ -162,50 +150,46 @@ subnet.
 
     {{< /warning >}}
 
-1.  Try to access the Bookinfo `productpage` at
-    `http://$GATEWAY_URL/productpage` and verify that you get an error similar
-    to: `PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is
-    not whitelisted`
+1.  尝试访问位于 `http://$GATEWAY_URL/productpage` 的 Bookinfo `productpage` 进行验证，
+    您会获得一个类似的错误：`PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is not whitelisted`
 
-## Cleanup
+## 清除{#cleanup}
 
-* Remove the Mixer configuration for simple denials:
+* 对于简单的 denials，移除 Mixer 配置：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
     {{< /text >}}
 
-* Remove the Mixer configuration for attribute-based white- and blacklisting:
+* 对于基于属性的黑白名单，移除 Mixer 配置：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-whitelist.yaml@
     {{< /text >}}
 
-    If you are using Istio 1.1.2 or prior:
+    如果您使用 Istio 1.1.2 或更早版本：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-whitelist-crd.yaml@
     {{< /text >}}
 
-* Remove the Mixer configuration for IP-based white- and blacklisting:
+* 对于基于 IP 的白黑名单，移除 Mixer 配置：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-ip.yaml@
     {{< /text >}}
 
-    If you are using Istio 1.1.2 or prior:
+    如果您使用 Istio 1.1.2 或更早版本：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-ip-crd.yaml@
     {{< /text >}}
 
-* Remove the application routing rules:
+* 移除应用程序路由规则：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
     {{< /text >}}
 
-* If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+* 如果您不打算探索任何后续任务，请参考[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup) 指南来关闭应用程序。
