@@ -5,14 +5,13 @@ weight: 5
 aliases:
     - /docs/setup/kubernetes/getting-started/
     - /docs/setup/kubernetes/
-skip_toc: true
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
 To get started with Istio, just follow these three steps:
 
 1. [Set up your platform](#platform)
-1. [Download the Istio release](#download)
+1. [Download the release](#download)
 1. [Install Istio](#install)
 
 ## Set up your platform {#platform}
@@ -27,7 +26,7 @@ installing Istio manually. If this is the case with your selected platform, and 
 you will be finished installing Istio after creating the cluster, so you can skip the following instructions.
 Refer to your platform service provider for further details and instructions.
 
-## Download the Istio release {#download}
+## Download the release {#download}
 
 Download the Istio release which includes installation files, samples, and the
 [{{< istioctl >}}](/docs/reference/commands/istioctl/) command line utility.
@@ -183,12 +182,10 @@ The following tasks are a good place for beginners to start:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
-The tasks above provide a good basic understanding of Istio's features but,
-explore more [tasks](/docs/tasks/) depending on what interests you. Before you
-install and customize Istio to fit your platform and intended use, check out
-our [general installation instructions](/docs/setup/) for details.
-
-The next step is to deploy your own applications.
+The next step is to customize Istio and deploy your own applications.
+Before you install and customize Istio to fit your platform and intended use, check out
+our [deployment models](/docs/setup/deployment-models/) and [general installation](/docs/setup/)
+documents.
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
 you to our [community](/about/community/join/).
