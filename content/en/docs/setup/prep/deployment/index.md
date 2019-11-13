@@ -16,7 +16,7 @@ When choosing a [deployment model](/docs/setup/prep/deployment-models),
 prefer the **simplest** deployment possible. Keeping the complexity of your
 deployment to a minimum makes the task of managing your deployment easier.
 
-## Deploy less clusters
+## Deploy fewer clusters
 
 Deploy Istio across a small number of large clusters, rather than a large number
 of small clusters. Instead of adding clusters to your deployment, the best

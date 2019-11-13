@@ -19,8 +19,8 @@ keywords:
 - setup
 ---
 
-To be a part of an Istio service mesh, pods and services in a Kubernetes
-cluster must satisfy the following requirements:
+To be part of a mesh, Kubernetes pods and services must satisfy the following
+requirements:
 
 - **Named service ports**: Service ports must be named. The port name key/value
   pairs must have the following syntax: `name: <protocol>[-<suffix>]`. See
