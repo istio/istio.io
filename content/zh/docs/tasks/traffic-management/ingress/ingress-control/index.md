@@ -8,7 +8,7 @@ aliases:
     - /zh/docs/tasks/ingress
 ---
 
-在 Kubernetes 环境中，使用 [Kubernetes Ingress 资源](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/)来指定需要暴露到集群外的服务。在 Istio 服务网格中，一个更好的选择（同样适用于 Kubernetes 及其他环境）是使用一种新的配置模型，名为 [Istio Gateway](/zh/docs/reference/config/networking/gateway/)。`Gateway` 允许应用一些诸如监控和路由规则的 Istio 特性来管理进入集群的流量。
+在 Kubernetes 环境中，使用 [Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/)来指定需要暴露到集群外的服务。在 Istio 服务网格中，一个更好的选择（同样适用于 Kubernetes 及其他环境）是使用一种新的配置模型，名为 [Istio Gateway](/zh/docs/reference/config/networking/gateway/)。`Gateway` 允许应用一些诸如监控和路由规则的 Istio 特性来管理进入集群的流量。
 
 本任务描述了如何配置 Istio，以使用 Istio `Gateway` 来将服务暴露至服务网格之外。
 
@@ -34,7 +34,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 如果 `EXTERNAL-IP` 值已设置，说明环境正在使用一个外部负载均衡，可以用其为 ingress gateway 提供服务。
 如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`）， 说明环境没有提供外部负载均衡，无法使用 ingress gateway。
-在这种情况下，你可以使用服务的 [node port](https://kubernetes.io/zh/docs/concepts/services-networking/service/#nodeport) 访问网关。
+在这种情况下，你可以使用服务的 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 访问网关。
 
 选择符合自身环境的指令执行：
 
@@ -104,7 +104,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-4  其他环境（如：IBM Cloud Private 等）：_
+4  其他环境（如：IBM Cloud Private 等）：
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
@@ -118,7 +118,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 一个 ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述一个运行在网格边界的负载均衡器，负责接收入口 HTTP/TCP 连接。
 其中配置了对外暴露的端口、协议等。
-但是，不像 [Kubernetes Ingress 资源](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/)，ingress Gateway 不包含任何流量路由配置。Ingress 流量的路由使用 Istio 路由规则来配置，和内部服务请求完全一样。
+但是，不像 [Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/)，ingress Gateway 不包含任何流量路由配置。Ingress 流量的路由使用 Istio 路由规则来配置，和内部服务请求完全一样。
 
 让我们一起来看如何为 HTTP 流量在80端口上配置一个 `Gateway`。
 
