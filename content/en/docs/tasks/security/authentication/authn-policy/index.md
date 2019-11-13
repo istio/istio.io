@@ -17,7 +17,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Install Istio on a Kubernetes cluster with global mutual TLS disabled (e.g, use the demo configuration profile, as described in
-[installation steps](/docs/setup/install/kubernetes), or set the `global.mtls.enabled` installation option to false).
+[installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
 ### Setup
 
