@@ -42,7 +42,7 @@ aliases:
 | `destination.service.uid` | string | 目标服务特定于平台的唯一标识符。 | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name` | string | 目标服务的名称。 | `istio-telemetry` |
 | `destination.service.namespace` | string | 目标服务的命名空间。 | `istio-system` |
-| `origin.ip` | ip_address | 代理客户端的 ip 地址, e.g. ingress 代理的来源。 | `127.0.0.1` |
+| `origin.ip` | ip_address | 代理客户端的 IP 地址, e.g. ingress 代理的来源。 | `127.0.0.1` |
 | `request.headers` | map[string, string] | HTTP 请求头, key 使用小写，或者是 gRPC 的元数据。 | |
 | `request.id` | string | 从统计角度上拥有低碰撞概率的请求 ID。 | |
 | `request.path` | string | 包括 query string 的 HTTP URL 路径。 | |
