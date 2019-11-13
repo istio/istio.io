@@ -39,10 +39,8 @@ across the multicluster environment and may not overlap.
 
     * All Kubernetes control plane API servers must be routable to each other.
 
-* Helm **2.10 or newer**.  The use of Tiller is optional.
-
 This guide describes how to install a multicluster Istio topology using the
-manifests and Helm charts provided within the Istio repository.
+manifests provided within the Istio repository.
 
 ## Deploy the local control plane
 
@@ -73,10 +71,6 @@ perform a manual sidecar injection refer to the [manual sidecar example](#manual
 
 You must deploy the `istio-remote` component to each remote Kubernetes
 cluster. You can install the component in one of two ways:
-
-{{< tabset cookie-name="install-istio-remote" >}}
-
-{{< tab name="Helm+kubectl" cookie-value="Helm+kubectl" >}}
 
 1.  Use the following command on the remote cluster to install
     the Istio control plane service endpoints:
@@ -110,10 +104,6 @@ cluster. You can install the component in one of two ways:
 
     Repeat for all Kubernetes namespaces that need to setup automatic sidecar
     injection.
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 ### Installation configuration parameters
 
@@ -314,7 +304,7 @@ all clusters.
 The previous procedures provide a simple and step-by-step guide to deploy a
 multicluster environment. A production environment might require additional
 steps or more complex deployment options. The procedures gather the endpoint
-IPs of the Istio services and use them to invoke Helm. This process creates
+IPs of the Istio services and use them to invoke istioctl. This process creates
 Istio services on the remote clusters. As part of creating those services and
 endpoints in the remote cluster, Kubernetes adds DNS entries to the `kube-dns`
 configuration object.
@@ -337,8 +327,8 @@ section provides a high level overview of these options:
 
 Upon any failure or restart of the local Istio control plane, `kube-dns` on the remote clusters must be
 updated with the correct endpoint mappings for the Istio services.  There
-are a number of ways this can be done. The most obvious is to rerun the Helm
-install in the remote cluster after the Istio services on the control plane
+are a number of ways this can be done. The most obvious is to rerun the 
+istioctl in the remote cluster after the Istio services on the control plane
 cluster have restarted.
 
 ### Use load balance service type
@@ -358,7 +348,7 @@ balancer IPs for these Istio services:
 
 Currently, the Istio installation doesn't provide an option to specify service
 types for the Istio services. You can manually specify the service types in the
-Istio Helm charts or the Istio manifests.
+Istio manifests.
 
 ### Expose the Istio services via a gateway
 
@@ -372,7 +362,7 @@ the main cluster in the ingress gateway.
 This method provides two alternatives:
 
 * Re-use the default Istio ingress gateway installed with the provided
-  manifests or Helm charts. You only need to add the correct destination rules.
+  manifests. You only need to add the correct destination rules.
 
 * Create another Istio ingress gateway specifically for the multicluster.
 
