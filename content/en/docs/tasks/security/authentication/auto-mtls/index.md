@@ -1,7 +1,7 @@
 ---
 title: Automatic mutual TLS
 description: A simplified workflow to adopt mutual TLS with minimal configuration overhead.
-weight: 50
+weight: 10
 keywords: [security,mtls,ux]
 ---
 
@@ -126,13 +126,14 @@ You can verify setup by sending an HTTP request with `curl` from any `sleep` pod
 For example, here is a command to check `sleep.full` to `httpbin.full` reachability:
 
 {{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n full -o jsonpath={.items..metadata.name}) -c sleep -n full -- curl http://httpbin.full:8000/headers  -s  -w "response %{http_code}\n" | egrep 'Client-Cert.*sa.default|response.*$' -o
-Client-Cert": "By=spiffe://cluster.local/ns/full/sa/default
+$ kubectl exec $(kubectl get pod -l app=sleep -n full -o jsonpath={.items..metadata.name}) -c sleep -n full -- curl http://httpbin.full:8000/headers  -s  -w "response %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$'
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response 200
 {{< /text >}}
 
-"Client-Cert" outputs the underlying X509 certificate identity, which indicates the traffic is sent
-in mutual TLS. If the traffic is in plain text, no client certificate will be displayed.
+The SPIFFE URI shows the client identity from X509 certificate, which
+indicates the traffic is sent in mutual TLS. If the traffic is in plain text, no client certificate
+will be displayed.
 
 ### Start from PERMISSIVE mode
 
@@ -149,13 +150,13 @@ workloads and plain text to the second type.
 You can verify the reachability as:
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$';  echo -n "\n"; done; done
 sleep.full to httpbin.full
-Client-Cert": "By=spiffe://cluster.local/ns/full/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 sleep.full to httpbin.partial
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 sleep.full to httpbin.legacy
@@ -179,26 +180,26 @@ automatically configures the `sleep.full` client to initiates mutual TLS connect
 with sidecar.
 
 {{< text bash >}}
-$ for i in `seq 1 10`; do kubectl exec $(kubectl get pod -l app=sleep -n full -o jsonpath={.items..metadata.name}) -c sleep -nfull  -- curl http://httpbin.partial:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+$ for i in `seq 1 10`; do kubectl exec $(kubectl get pod -l app=sleep -n full -o jsonpath={.items..metadata.name}) -c sleep -nfull  -- curl http://httpbin.partial:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$';  echo -n "\n"; done
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 response code: 200
 
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 response code: 200
 
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 response code: 200
 
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 response code: 200
@@ -236,13 +237,13 @@ But the client `sleep.full` is automatically configured with auto mutual TLS, to
 request, returning 200.
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$';  echo -n "\n"; done; done
 sleep.full to httpbin.full
-Client-Cert": "By=spiffe://cluster.local/ns/full/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 sleep.full to httpbin.partial
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 sleep.full to httpbin.legacy
@@ -280,7 +281,7 @@ In this case, since the service is in plain text mode. Istio automatically confi
 to send plain text traffic to avoid breakage.
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$';  echo -n "\n"; done; done
 sleep.full to httpbin.full
 response code: 200
 
@@ -329,12 +330,12 @@ Since in previous steps, we already disable the authentication policy for `httpb
 mutual TLS, we should see the traffic from `sleep.full` starting to fail.
 
 {{< text bash >}}
-$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'response code.*$|Client-Cert.*sa.default';  echo -n "\n"; done; done
+$ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$';  echo -n "\n"; done; done
 sleep.full to httpbin.full
 response code: 503
 
 sleep.full to httpbin.partial
-Client-Cert": "By=spiffe://cluster.local/ns/partial/sa/default
+URI=spiffe://cluster.local/ns/full/sa/sleep
 response code: 200
 
 sleep.full to httpbin.legacy

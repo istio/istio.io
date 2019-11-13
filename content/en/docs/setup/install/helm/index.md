@@ -11,17 +11,9 @@ aliases:
 icon: helm
 ---
 
-<script id="cni" defer>
-window.onload = function(){
-  if (window.location.hash == '#cni') {
-    selectTabsets('helm_profile', 'cni');
-  }
-}
-</script>
-
 {{< warning >}}
-The Helm installation approach has been deprecated.
-Please use [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/), instead.
+The Helm installation approach will be deprecated in the future.
+We recommend [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/), instead.
 {{< /warning >}}
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
@@ -39,7 +31,7 @@ and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
@@ -139,6 +131,23 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
+{{< tab name="Mutual TLS enabled" cookie-value="mtls" >}}
+
+Enable mutual TLS in Istio by setting options `global.controlPlaneSecurityEnabled=true`
+and `global.mtls.enabled=true`, in addition to the specifying the Helm values file
+corresponding to your chosen profile.
+
+For example, to configure the `demo` profile with mutual TLS enabled:
+
+{{< text bash >}}
+$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< tab name="Istio CNI enabled" cookie-value="cni" >}}
 
 Install the [Istio CNI](/docs/setup/additional-setup/cni/) components:
@@ -234,6 +243,23 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
+{{< tab name="Mutual TLS enabled" cookie-value="mtls" >}}
+
+Enable mutual TLS in Istio by setting options `global.controlPlaneSecurityEnabled=true`
+and `global.mtls.enabled=true`, in addition to the specifying the Helm values file
+corresponding to your chosen profile.
+
+For example, to configure the **demo** profile with mutual TLS enabled:
+
+{{< text bash >}}
+$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+    --set global.controlPlaneSecurityEnabled=true \
+    --set global.mtls.enabled=true | kubectl apply -f -
+{{< /text >}}
+
+{{< /tab >}}
+
 {{< tab name="Istio CNI enabled" cookie-value="cni" >}}
 
 Install the [Istio CNI](/docs/setup/additional-setup/cni/) chart:
@@ -314,12 +340,16 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
+{{< tab name="Mutual TLS enabled" cookie-value="mtls" >}}
+
+Follow the instructions corresponding to your selected configuration profile.
+
+{{< /tab >}}
+
 {{< tab name="Istio CNI enabled" cookie-value="cni" >}}
 
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --set istio_cni.enabled=true | kubectl delete -f -
-{{< /text >}}
+Follow the instructions corresponding to your selected configuration profile
+and then execute the following command to uninstall the CNI plug-in:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl delete -f -

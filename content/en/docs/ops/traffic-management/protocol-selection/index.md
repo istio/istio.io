@@ -19,6 +19,7 @@ Protocols can be specified manually by naming the Service port `name: <protocol>
 The following protocols are supported:
 
 - `grpc`
+- `grpc-web`
 - `http`
 - `http2`
 - `https`

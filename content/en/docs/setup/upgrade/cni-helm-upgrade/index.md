@@ -27,7 +27,7 @@ are supported. If you are on an older version, please upgrade to {{< istio_previ
 
 ## Upgrade steps
 
-[Download the new Istio release](/docs/setup/#downloading-the-release)
+[Download the new Istio release](/docs/setup/getting-started/#download)
 and change directory to the new release directory.
 
 ### Istio CNI upgrade

@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.2.1
+subtitle: Patch Release
 description: Istio 1.2.1 patch release.
 publishdate: 2019-06-27
-attribution: The Istio Team
 release: 1.2.1
 aliases:
     - /about/notes/1.2.1
