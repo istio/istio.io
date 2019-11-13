@@ -1,5 +1,5 @@
 ---
-title: 工作负载
+title: workload
 ---
 一个在 Istio 环境中被 [operators](#operator) 部署的可以运行一些函数的二进制文件。工作负载有自己的名称，命名空间，和唯一的 id。这些属性可以通过下面的 [特性](#attribute) 被策略配置和遥测配置使用：
 

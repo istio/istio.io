@@ -28,7 +28,7 @@ Istio 1.3 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
     或者，你可以在你的 [网格配置](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) 中注释掉 `mixerCheckServer` 和 `mixerReportServer`。
     {{< /tip >}}
 
-1. 为了生成服务级别的指标，代理必须交换 {{< gloss >}}工作负载{{< /gloss >}} 元数据。有一个自定义的过滤器可以来处理元数据交换。请使用如下命令来启用元数据交换过滤器：
+1. 为了生成服务级别的指标，代理必须交换 {{< gloss >}}workload{{< /gloss >}} 元数据。有一个自定义的过滤器可以来处理元数据交换。请使用如下命令来启用元数据交换过滤器：
 
     {{< text bash >}}
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/{{< source_branch_name >}}/extensions/stats/testdata/istio/metadata-exchange_filter.yaml
