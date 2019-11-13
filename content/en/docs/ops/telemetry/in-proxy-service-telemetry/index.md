@@ -1,12 +1,10 @@
 ---
-title: Generate Istio Metrics Without Mixer [Experimental]
+title: Generate Istio Metrics Without Mixer [Alpha]
 description: How to enable in-proxy generation of HTTP service-level metrics.
 weight: 70
 ---
 
-{{< boilerplate experimental-feature-warning >}}
-
-Istio 1.3 adds experimental support to generate service-level HTTP metrics
+Istio 1.4 adds alpha support to generate service-level HTTP metrics
 directly in the Envoy proxies. This feature lets you continue to monitor your
 service meshes using the tools Istio provides without needing Mixer.
 
@@ -21,15 +19,16 @@ metrics that Mixer currently generates:
 
 To generate service-level metrics directly in the Envoy proxies, follow these steps:
 
-1.  To prevent duplicate telemetry generation, disable calls to `istio-telemetry` in the mesh:
-
+Option1:
     {{< text bash >}}
-    $ istioctl manifest apply --set values.mixer.telemetry.enabled=false,values.mixer.policy.enabled=false
+    $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v2.enabled=true
     {{< /text >}}
 
-    {{< tip >}}
-    Alternatively, you can comment out `mixerCheckServer` and `mixerReportServer` in your [mesh configuration](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
-    {{< /tip >}}
+Option2:
+
+you can follow these steps manually:
+
+1. To disable mixer http reporting, set `disableMixerHttpReports` to true in your [mesh configuration](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
 
 1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata.
    A custom filter handles this exchange. Enable the metadata exchange filter with the following command:
@@ -44,7 +43,8 @@ To generate service-level metrics directly in the Envoy proxies, follow these st
     $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/stats_filter.yaml@
     {{< /text >}}
 
-1. Go to the **Istio Mesh** Grafana dashboard. Verify that the dashboard displays the same telemetry as before but without
+
+Go to the **Istio Mesh** Grafana dashboard. Verify that the dashboard displays the same telemetry as before but without
     any requests flowing through Istio's Mixer.
 
 ## Differences with Mixer-based generation
