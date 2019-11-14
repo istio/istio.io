@@ -221,7 +221,7 @@ Envoy 将流量路由到预定义的主机、预定义的 IP 地址或请求的�
 
 以下部分介绍如何使用 SNI 代理重新部署 egress gateway，然后配置 Istio 通过 gateway 将 HTTPS 流量路由到任意通配符域名。
 
-#### 使用 SNI 代理配置 egress gateway{#setup-egress-gateway-with-sni-proxy}
+#### 使用 SNI 代理配置 egress gateway{#setup-egress-gateway-with-server-name-indication-proxy}
 
 在本节中，您部署的 egress gateway 在标准的 Istio Envoy 代理之外，还会部署一个 SNI 代理。此示例使用 [Nginx](http://nginx.org) 作为 SNI
 代理，但是，任何能够根据任意的、非提前配置的 SNI 值路由流量的 SNI 代理都可以使用。SNI 代理将会监听 `8443` 端口，您也可以使用任何端口，但需与指定给
@@ -360,7 +360,7 @@ SNI 代理会将流量转发到 `443` 端口。
     EOF
     {{< /text >}}
 
-#### 通过具有 SNI 代理的 egress gateway 配置流量{#configure-traffic-through-egress-gateway-with-sni-proxy}
+#### 通过具有 SNI 代理的 egress gateway 配置流量{#configure-traffic-through-egress-gateway-with-server-name-indication-proxy}
 
 1.  为 `*.wikipedia.org` 定义一个 `ServiceEntry`：
 
