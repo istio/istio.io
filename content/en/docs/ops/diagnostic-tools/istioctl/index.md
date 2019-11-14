@@ -45,7 +45,7 @@ Install the `istioctl` binary with `curl`:
     $ export PATH=$PATH:$HOME/.istioctl/bin 
     {{< /text >}}
 
-1. You can optionally enable the [auto-completion option](l#enabling-auto-completion) when working with a bash or ZSH console.
+1. You can optionally enable the [auto-completion option](#enabling-auto-completion) when working with a bash or ZSH console.
 
 ### Get an overview of your mesh
 
