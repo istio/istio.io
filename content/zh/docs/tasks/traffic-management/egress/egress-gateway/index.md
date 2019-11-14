@@ -116,7 +116,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     traffic directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
     {{< tabset cookie-name="mtls" >}}
 
@@ -324,7 +324,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
     {{< tabset cookie-name="mtls" >}}
 
@@ -661,7 +661,7 @@ external service.
 1.  Create the same destination rule as for the `sleep` pod in the `default` namespace to direct the traffic through the egress gateway:
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
     {{< tabset cookie-name="mtls" >}}
 
@@ -745,12 +745,12 @@ external service.
 
 ## Troubleshooting
 
-1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
-    steps in [Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration).
+1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio, following the
+    steps in [Verify mutual TLS configuration](/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration).
     If mutual TLS is enabled, make sure you create the configuration
     items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 
-1.  If [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) is enabled, verify the correct certificate of the
+1.  If [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) is enabled, verify the correct certificate of the
     egress gateway:
 
     {{< text bash >}}
