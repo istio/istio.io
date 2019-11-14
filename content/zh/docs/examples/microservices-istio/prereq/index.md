@@ -1,6 +1,6 @@
 ---
 title: 前提条件
-overview: 检查本教程的前提条件.
+overview: 检查本教程的前提条件。
 weight: 1
 ---
 
