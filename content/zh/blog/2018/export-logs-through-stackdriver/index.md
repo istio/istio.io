@@ -28,7 +28,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 所有接收器的通用设置：
 
 1. 为项目启用 [`Stackdriver Monitoring API`](https://cloud.google.com/monitoring/api/enable-api) 。
-1. 确保配置的接收器的 `principalEmail` 具有对项目写入权限和日志管理员角色的权限。
+1. 确保配置的接收器的 `principalEmail` 具有对项目写入的权限和日志管理员角色的权限。
 1. 确保已设置 `GOOGLE_APPLICATION_CREDENTIALS` 环境变量。请按照[`此处`](https://cloud.google.com/docs/authentication/getting-started)的说明进行设置。
 
 #### BigQuery{#big-query}
@@ -69,7 +69,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
       # pushInterval: 1m
       # 必须设置 Stacldriver 适配器 project_id 的值。
       project_id: "<project_id>"
-      # apiCredentials 和 apiKey 必须设置之一; 首选方法是`appCredentials`，它对应于 Google 应用程序默认凭据。
+      # apiCredentials 和 apiKey 必须设置之一； 首选方法是`appCredentials`，它对应于 Google 应用程序默认凭据。
       # 如果没有提供，我们使用默认应用凭据。
       # appCredentials:
       # apiKey:
@@ -154,16 +154,16 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 
 1. 验证日志是否正在通过 Stackdriver 流向配置的接收器。
 
-* Stackdriver：导航到项目的 [`Stackdriver Logs Viewer`](https://pantheon.corp.google.com/logs/viewer),查看 “GKE Container” -> “Cluster Name” -> “Namespace Id” , 查看 Istio 访问日志。
+* Stackdriver：导航到项目的 [`Stackdriver Logs Viewer`](https://pantheon.corp.google.com/logs/viewer)，查看 “GKE Container” -> “Cluster Name” -> “Namespace Id”， 查看 Istio 访问日志。
 * BigQuery：导航到项目的 [`BigQuery Interface`](https://bigquery.cloud.google.com/)，在接收器的数据集中找到一个前缀为 `accesslog_logentry_istio` 的表。
 * GCS：导航到项目的 [`Storage Brower`](https://pantheon.corp.google.com/storage/browser/)，在接收器的桶中找到一个名为 `accesslog.logentry.istio-system` 的桶。
-* Pub/Sub：导航到项目的 [`Pub/Sub 主题列表`](https://pantheon.corp.google.com/cloudpubsub/topicList), 在接收器的主题中找到 `accesslog` 主题。
+* Pub/Sub：导航到项目的 [`Pub/Sub 主题列表`](https://pantheon.corp.google.com/cloudpubsub/topicList)， 在接收器的主题中找到 `accesslog` 主题。
 
 ## 了解发生了什么{#understanding-what-happened}
 
 上面的 `Stackdriver.yaml` 文件配置了 Istio 将访问日志发送到 Stackdriver，然后添加了一个接收器配置，将日志导出。具体如下：
 
-1. 添加一个 `stackdriver` 类型的处理程序:
+1. 添加一个 `stackdriver` 类型的处理程序：
 
     {{< text yaml >}}
     apiVersion: "config.istio.io/v1alpha2"
@@ -218,4 +218,4 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 
 ## 日志导出的可用性{#availability-of-logs-in-export-sinks}
 
-导出到 BigQuery 只需几分钟（可以认为几乎是瞬间的），GCS 要延迟 2 至 12 小时，Pub/Sub 几乎立即的。
+导出到 BigQuery 只需几分钟（可以认为是瞬间完成的），不过GCS要延迟2 至 12 小时，而Pub/Sub 则几乎没有延迟。
