@@ -192,9 +192,9 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
 ## Examining Istio configuration
 
-1.  To examine the details about the Istio configuration, click on the
+1.  To view detailed information about Istio configuration, click on the
     **Applications**, **Workloads**, and **Services** menu icons on the left menu
-    bar. The following screenshot shows the Bookinfo applications information:
+    bar. The following screenshot shows information for the Bookinfo application:
 
     {{< image width="80%" link="./kiali-services.png" caption="Example Details" >}}
 
