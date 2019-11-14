@@ -18,7 +18,7 @@ The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration comm
 `istioctl` only has auto-completion enabled for non-deprecated commands.
 {{< /tip >}}
 
-### Before you begin
+## Before you begin
 
 We recommend you use an `istioctl` version that is the same version as your Istio control plane. Using matching versions helps avoid unforeseen issues.
 
@@ -27,25 +27,25 @@ If you have already [downloaded the Istio release](/docs/setup/getting-started/#
 already have `istioctl` and do not need to install it again.
 {{< /tip >}}
 
-### Install {{< istioctl >}}
+## Install {{< istioctl >}}
 
 Install the `istioctl` binary with `curl`:
 
 1. Download the latest release with the command:
 
     {{< text bash >}}
-    $ curl -sL https://raw.githubusercontent.com/istio/istio/release-{{< istio_version >}}/release/downloadIstioCtl.sh | sh - 
+    $ curl -sL https://raw.githubusercontent.com/istio/istio/release-{{< istio_version >}}/release/downloadIstioCtl.sh | sh -
     {{< /text >}}
 
 1. Add the `istioctl` client to your path, on a macOS or Linux system:
 
     {{< text bash >}}
-    $ export PATH=$PATH:$HOME/.istioctl/bin 
+    $ export PATH=$PATH:$HOME/.istioctl/bin
     {{< /text >}}
 
 1. You can optionally enable the [auto-completion option](#enabling-auto-completion) when working with a bash or ZSH console.
 
-### Get an overview of your mesh
+## Get an overview of your mesh
 
 You can get an overview of your mesh using the `proxy-status` command:
 
@@ -57,7 +57,7 @@ If a proxy is missing from the output list it means that it is not currently con
 will not receive any configuration. Additionally, if it is marked stale, it likely means there are networking issues or
 Pilot needs to be scaled.
 
-### Get proxy configuration
+## Get proxy configuration
 
 [`istioctl`](/docs/reference/commands/istioctl) allows you to retrieve information about proxy configuration using the `proxy-config` or `pc` command.
 
