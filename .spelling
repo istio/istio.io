@@ -4,7 +4,7 @@
 # one word per line, to define a file override use ' - filename'
 # followed by file specific exceptions, one per line
 # filename is relative to this configuration file
-id
+ip
 istio
 ingress
 0.1.x
