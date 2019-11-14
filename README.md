@@ -137,7 +137,8 @@ and the the `doc_branch_name` field to the name of the release branch (in this c
     facet item created above (V1.3 in this case).
 
 1. In the **previous release's** branch (in this case `release-1.3`), edit the file `data/args.yml`. Set the
-`archive` field to true and the `archive_date` field to the current date.
+`archive` field to true and the `archive_date` field to the current date, and the `rchive_search_refinement`
+to the previous release version (in this case `V1.3`).
 
 1. In the **previous release's** branch (in this case `release-1.3`), edit the file `config.toml`. Set the
 `disableAliases` field to `false`.
