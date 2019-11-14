@@ -10,7 +10,7 @@ aliases:
 
 此示例演示如何启用对外部 HTTPS 代理的访问。由于应用程序使用 HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) 方法与 HTTPS 代理建立连接，因此配置流量到外部 HTTPS 代理不同于将流量配置为外部 HTTP 和 HTTPS 服务。
 
-## 开始之前
+{{< boilerplate before-you-begin-egress >}}
 
 *   [启用 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
@@ -18,7 +18,7 @@ aliases:
 
 本例中为了模拟传统代理，在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，通过代理的 IP 地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是 [squid](http://www.squid-cache.org)，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
 
-1. 为 HTTPS 代理创建一个 namespace，而不标记为用于 SideCar 注入。如果没有标签，则在新 namespace 中 SideCar 注入是不可用的，因此 Istio 将无法控制那里的流量。您需要在集群之外通过这种行为来模拟代理。
+1. 为 HTTPS 代理创建一个命名空间，而不标记为用于 SideCar 注入。如果没有标签，则在新命名空间中 SideCar 注入是不可用的，因此 Istio 将无法控制那里的流量。您需要在集群之外通过这种行为来模拟代理。
 
     {{< text bash >}}
     $ kubectl create namespace external
@@ -79,7 +79,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  在 external namespace 中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，而不进行 Istio 流量控制。
+1.  在 `external` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，而不进行 Istio 流量控制。
 
     {{< text bash >}}
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
@@ -91,13 +91,13 @@ aliases:
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
     {{< /text >}}
 
-1.  定义 `PROXY_PORT` 环境变量以存储代理的端口。本例中，Squid 使用 3128 端口。
+1.  定义 `PROXY_PORT` 环境变量以存储代理的端口。本例子中 Squid 使用 3128 端口。
 
     {{< text bash >}}
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1.  从 external namespace 中的 sleep pod 通过代理向外部服务发送请求：
+1.  从 `external` 命名空间中的 sleep pod 通过代理向外部服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
@@ -116,7 +116,7 @@ aliases:
 * 您部署了 HTTPS 代理。
 * 您使用 curl 通过代理访问 wikipedia.org 外部服务。
 
-下一步，您必须配置 Istio-enabled 的 pod 的流量到 HTTPS 代理。
+下一步，您必须配置 Istio 启用的 pod 的流量到 HTTPS 代理。
 
 ## 配置流量到外部 HTTPS 代理{#configure-traffic-to-external-https-proxy}
 
@@ -141,7 +141,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  从 default namespace 中的 sleep pod 发送请求。因为 sleep pod 有 Sidecar，可以让 Istio 控制其流量。
+1.  从 `external` 命名空间中的 sleep pod 发送请求。因为 sleep pod 有 Sidecar，可以让 Istio 控制其流量。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
@@ -179,7 +179,7 @@ aliases:
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  关闭 external namespace 中的 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+1.  关闭 `external` 命名空间中的 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
@@ -193,7 +193,7 @@ aliases:
     $ rm ./proxy.conf
     {{< /text >}}
 
-1.  删除 external namespace：
+1.  删除 `external` 命名空间：
 
     {{< text bash >}}
     $ kubectl delete namespace external
