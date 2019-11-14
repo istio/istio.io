@@ -31,7 +31,7 @@ already have `istioctl` and do not need to install it again.
 
 ### Install {{< istioctl >}}
 
-Install the istioctl binary with curl:
+Install the `istioctl` binary with `curl`:
 
 1. Download the latest release with the command:
 
