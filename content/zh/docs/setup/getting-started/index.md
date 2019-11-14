@@ -1,6 +1,6 @@
 ---
 title: 入门
-description: 下载，安装并试用 Istio 。
+description: 下载，安装并试用 Istio。
 weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/getting-started/
@@ -27,8 +27,8 @@ keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 - [网格可视化](/zh/docs/tasks/observability/kiali/)
 
 以上任务将引导您对 Istio 的特性做一个基本了解， 您也可以根据您的兴趣来探索更多的
- [任务](/zh/docs/tasks/) 。在您开始自定义 Istio 来适配您的平台或者其他用途之前，请查看 [常规安装说明](/zh/docs/setup/) ，获取更多的细节。
+ [任务](/zh/docs/tasks/)。在您开始自定义 Istio 来适配您的平台或者其他用途之前，请查看 [常规安装说明](/zh/docs/setup/) ，获取更多的细节。
 
 如果您觉得对 Istio 已经基本掌握了，下一步，就可以开始部署您的应用程序了。
 
-使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/) 。
+使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/)。
