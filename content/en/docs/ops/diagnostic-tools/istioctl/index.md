@@ -20,6 +20,27 @@ The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration comm
 `istioctl` only has auto-completion enabled for non-deprecated commands.
 {{< /tip >}}
 
+### Before you begin
+
+We recommend you to use a istioctl version that is the same version of your Istio control plane. Using the matching version of istioctl helps avoid unforeseen issues.
+
+### Install istioctl
+
+Install the istioctl binary with curl:
+
+1. Download the latest release with the command:
+
+{{< text bash >}}
+$ export RELEASE_VERSION="release-1.4"
+$ curl -sL https://raw.githubusercontent.com/istio/istio/$RELEASE_VERSION/release/downloadIstioCtl.sh | sh - 
+{{< /text >}}
+
+2. Add the istioctl client to your path, on a macOS or Linux system:
+
+{{< text bash >}}
+$ export PATH=$PATH:$HOME/.istioctl/bin 
+{{< /text >}}
+
 ### Get an overview of your mesh
 
 You can get an overview of your mesh using the `proxy-status` command:
