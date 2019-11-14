@@ -8,11 +8,11 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-To get started with Istio, just follow these three steps:
+To get started with Istio, just follow these steps:
 
-1. [Set up your platform](#platform)
-1. [Download the release](#download)
-1. [Install Istio](#install)
+- [Set up your platform](#platform)
+- [Download the Istio release](#download)
+- [Install Istio](#install)
 
 ## Set up your platform {#platform}
 
@@ -69,7 +69,7 @@ These instructions assume you are new to Istio, providing streamlined instructio
 install Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
 This installation lets you quickly get started evaluating Istio.
 If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/docs/setup/deployment-models/),
+or a more advanced [deployment model](/docs/ops/prep/deployment-models/),
 follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
 
 {{< warning >}}
@@ -135,7 +135,7 @@ access logging.
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## What's next
+## Next steps
 
 With Istio installed, you can now deploy your own application or one of the sample applications
 provided with the installation.
@@ -182,10 +182,16 @@ The following tasks are a good place for beginners to start:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
-The next step is to customize Istio and deploy your own applications.
-Before you install and customize Istio to fit your platform and intended use, check out
-our [deployment models](/docs/setup/deployment-models/) and [general installation](/docs/setup/)
-documents.
+Before you install and customize Istio to fit your platform and intended use,
+check out the following resources:
+
+- [Deployment models](/docs/ops/prep/deployment-models/)
+- [Deployment best practices](/docs/ops/prep/deployment/)
+- [Pod requirements](/docs/ops/prep/requirements/)
+- [General installation instructions](/docs/setup/)
+
+Once you have a deployment that suits your needs, the next step is to deploy
+your own applications.
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
 you to our [community](/about/community/join/).
