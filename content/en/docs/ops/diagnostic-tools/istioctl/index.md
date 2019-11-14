@@ -8,8 +8,6 @@ aliases:
   - /docs/ops/troubleshooting/istioctl
 ---
 
-## Overview
-
 You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/diagnostic-tools/component-logging/)
 or peering inside via [introspection](/docs/ops/diagnostic-tools/controlz/). If that's insufficient, the steps below explain
 how to get under the hood.
@@ -20,7 +18,34 @@ The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration comm
 `istioctl` only has auto-completion enabled for non-deprecated commands.
 {{< /tip >}}
 
-### Get an overview of your mesh
+## Before you begin
+
+We recommend you use an `istioctl` version that is the same version as your Istio control plane. Using matching versions helps avoid unforeseen issues.
+
+{{< tip >}}
+If you have already [downloaded the Istio release](/docs/setup/getting-started/#download), you should
+already have `istioctl` and do not need to install it again.
+{{< /tip >}}
+
+## Install {{< istioctl >}}
+
+Install the `istioctl` binary with `curl`:
+
+1. Download the latest release with the command:
+
+    {{< text bash >}}
+    $ curl -sL https://istio.io/downloadIstioctl.sh | sh -
+    {{< /text >}}
+
+1. Add the `istioctl` client to your path, on a macOS or Linux system:
+
+    {{< text bash >}}
+    $ export PATH=$PATH:$HOME/.istioctl/bin
+    {{< /text >}}
+
+1. You can optionally enable the [auto-completion option](#enabling-auto-completion) when working with a bash or ZSH console.
+
+## Get an overview of your mesh
 
 You can get an overview of your mesh using the `proxy-status` command:
 
@@ -32,7 +57,7 @@ If a proxy is missing from the output list it means that it is not currently con
 will not receive any configuration. Additionally, if it is marked stale, it likely means there are networking issues or
 Pilot needs to be scaled.
 
-### Get proxy configuration
+## Get proxy configuration
 
 [`istioctl`](/docs/reference/commands/istioctl) allows you to retrieve information about proxy configuration using the `proxy-config` or `pc` command.
 
