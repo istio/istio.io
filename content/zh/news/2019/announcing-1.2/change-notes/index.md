@@ -42,7 +42,7 @@ aliases:
 ## Policy
 
 - **Fixed** [Mixer based](https://github.com/istio/istio/issues/13868)TCP Policy enforcement.
-- **Graduated** [Authorization (RBAC)](/docs/reference/config/authorization/istio.rbac.v1alpha1/) from Alpha to Alpha API and Beta runtime.
+- **Graduated** [Authorization (RBAC)](/docs/reference/config/security/istio.rbac.v1alpha1/) from Alpha to Alpha API and Beta runtime.
 
 ## Configuration management
 

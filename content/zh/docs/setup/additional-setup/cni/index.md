@@ -1,92 +1,77 @@
 ---
-title: Install Istio with the Istio CNI plugin
-description: Install and use Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
+title: 安装 Istio CNI 插件
+description: 安装并使用 Istio CNI 插件，可以让运维人员用更低的权限来部署服务。
 weight: 70
 aliases:
-    - /docs/setup/kubernetes/install/cni
-    - /docs/setup/kubernetes/additional-setup/cni
+    - /zh/docs/setup/kubernetes/install/cni
+    - /zh/docs/setup/kubernetes/additional-setup/cni
 keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 ---
 
-Follow this flow to install, configure, and use an Istio mesh using the Istio Container Network Interface
-([CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface))
-plugin.
+按照此流程利用 Istio 容器网络接口（[CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface)）来安装、配置和使用 Istio 网格。
 
-By default Istio injects an `initContainer`, `istio-init`, in pods deployed in
-the mesh.  The `istio-init` container sets up the pod network traffic
-redirection to/from the Istio sidecar proxy.  This requires the user or
-service-account deploying pods to the mesh to have sufficient Kubernetes RBAC
-permissions to deploy [`NET_ADMIN` containers](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
-Requiring Istio users to have elevated Kubernetes RBAC permissions is
-problematic for some organizations' security compliance.  The Istio CNI plugin
-is a replacement for the `istio-init` container that performs the same
-networking functionality but without requiring Istio users to enable elevated
-Kubernetes RBAC permissions.
+默认情况下，Istio 会在网格中部署的 pods 上注入一个 `initContainer`：`istio-init`。
+`istio-init` 容器会将 pod 的网络流量劫持到 Istio sidecar 代理上。
+这需要用户或部署 pods 的 Service Account 具有足够的部署
+[`NET_ADMIN` 容器](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)的 Kubernetes RBAC 权限。
+Istio 用户权限的提升，对于某些组织的安全政策来说，可能是难以接受的。
+Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的网络功能但却不需要 Istio 用户申请额外的 Kubernetes RBAC 授权的方案。
 
-The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/setup/additional-setup/requirements/)
-for users deploying pods into the Istio mesh.  The Istio CNI plugin
-replaces the functionality provided by the `istio-init` container.
+Istio CNI 插件会在 Kubernetes pod 生命周期的网络设置阶段完成 Istio 网格的 pod 流量转发设置工作，因此用户在部署 pods 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/setup/additional-setup/requirements/)了。
+Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
-## Prerequisites
+## 前提条件{#prerequisites}
 
-1.  Install Kubernetes with the container runtime supporting CNI and `kubelet` configured
-    with the main [CNI](https://github.com/containernetworking/cni) plugin enabled via `--network-plugin=cni`.
-    *  AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
-    *  Google Cloud GKE clusters require that the
-       [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) feature
-       is enabled to have Kubernetes configured with `network-plugin=cni`.
-    *  OpenShift has CNI enabled by default.
+1. 安装支持 CNI 的 Kubernetes 集群，并且 `kubelet` 使用 `--network-plugin=cni` 参数启用 [CNI](https://github.com/containernetworking/cni) 插件。
+    * AWS EKS、Azure AKS 和 IBM Cloud IKS 集群具备这一功能。
+    * Google Cloud GKE 集群需要启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)功能，以让 Kubernetes 配置为 `network-plugin=cni`。
+    * OpenShift 默认启用了 CNI。
 
-1.  Install Kubernetes with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
-    *  The Kubernetes documentation highly recommends this for all Kubernetes installations
-       where `ServiceAccounts` are utilized.
+1. Kubernetes 需要启用 [ServiceAccount 准入控制器](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount)。
+    * Kubernetes 文档中强烈建议所有使用 `ServiceAccounts` 的 Kubernetes 安装实例都启用该控制器。
 
-## Installation
+## 安装{#installation}
 
-1.  Determine the Kubernetes environment's CNI plugin `--cni-bin-dir` and `--cni-conf-dir` settings.
-    Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
+1. 确认 Kubernetes 环境的 CNI 插件的 `--cni-bin-dir` 和 `--cni-conf-dir` 设置。
+    任何非默认设置都需要参考[托管 Kubernetes 设置](#hosted-Kubernetes-settings)。
 
-1.  Install Istio CNI and Istio using `istioctl`.
-    Refer to the [Istio install](/docs/setup/install/kubernetes/) instructions and pass `--set cni.enabled=true`
-    and `--set cni.components.cni.enabled=true` options.
-    Pass `--set values.cni.cniBinDir=...` and/or `--set values.cni.cniConfDir=...` options when installing `istio-cni` if non-default,
-    as determined in the previous step.
+1. 使用 `istioctl` 安装 Istio CNI 和 Istio。
+    参考 [Istio 安装](/zh/docs/setup/install/kubernetes/)的说明，并设置 `--set cni.enabled=true` 和 `--set cni.components.cni.enabled=true` 选项。
+    在上一步中，如果 `istio-cni` 不是按照默认设置安装的，还需要设置 `--set values.cni.cniBinDir=...` 和 `--set values.cni.cniConfDir=...` 选项。
 
-### Helm chart parameters
+### Helm chart 参数{#helm-chart-parameters}
 
-The following table shows all the options that the `istio-cni` configuration supports:
+下表列出了 `istio-cni` 支持的所有配置项：
 
-| Option | Values | Default | Description |
+| 选项 | 取值 | 默认值 | 描述 |
 |--------|--------|---------|-------------|
-| `hub` | | | The container registry to pull the `install-cni` image. |
-| `tag` | | | The container tag to use to pull the `install-cni` image. |
-| `pullPolicy` | | `Always` | The image pull policy for the `install-cni` image. |
-| `logLevel` | `panic`, `fatal`, `error`, `warn`, `info`, `debug` | `warn` | Logging level for CNI binary. |
-| `excludeNamespaces` | `[]string` | `[ istio-system ]` | List of namespaces to exclude from Istio pod check. |
-| `cniBinDir` | | `/opt/cni/bin` | Must be the same as the environment's `--cni-bin-dir` setting (`kubelet` parameter). |
-| `cniConfDir` | | `/etc/cni/net.d` | Must be the same as the environment's `--cni-conf-dir` setting (`kubelet` parameter). |
-| `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
-| `psp_cluster_role` | | | This value refers to a `ClusterRole` and can be used to create a `RoleBinding` in the namespace of `istio-cni`. This is useful if you use [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy) and want to allow `istio-cni` to run as `priviliged` Pods. |
+| `hub` | | | 用于拉取 `install-cni` 镜像的仓库地址。 |
+| `tag` | | | 用于拉取 `install-cni` 镜像的标签。 |
+| `pullPolicy` | | `Always` | `install-cni` 镜像的拉取策略。 |
+| `logLevel` | `panic`, `fatal`, `error`, `warn`, `info`, `debug` | `warn` | CNI 程序的日志级别。 |
+| `excludeNamespaces` | `[]string` | `[ istio-system ]` | 排除 Istio pod 检查的命名空间列表。 |
+| `cniBinDir` | | `/opt/cni/bin` | 必须与集群中的 `--cni-bin-dir`（`kubelet` 参数）值一样。 |
+| `cniConfDir` | | `/etc/cni/net.d` | 必须与集群中的 `--cni-conf-dir`（`kubelet` 参数）值一样。 |
+| `cniConfFileName` | | | 不设置会自动查找 `cni-conf-dir` 目录的第一个文件（与 `kubelet` 一致）。主要用来测试 `install-cni` 的插件配置。如果设置了，`install-cni` 将会把插件配置注入到 `cni-conf-dir` 目录的该文件里面。 |
+| `psp_cluster_role` | | | 该值指的是一个 `ClusterRole` 并被用于在 `istio-cni` 的命名空间中创建一个 `RoleBinding`。当您使用 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy)并且希望让 `istio-cni` 作为 `priviliged` Pods 运行时，这会非常有用。 |
+| `podAnnotations` | | `{}` | pod 级别自定义的附加注解。 |
 
-These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
-or the corresponding path in a custom overlay file.
+这些选项可以在 `istioctl manifest` 命令中通过 `values.cni.<option-name>` 来访问，可以作为 `--set` 的参数，或者作为自定义覆盖文件中的相应路径。
 
-### Excluding specific Kubernetes namespaces
+### 排除特定的 Kubernetes 命名空间{#excluding-specific-Kubernetes-namespaces}
 
-This example uses Helm to perform the following tasks:
+本例使用 Helm 来执行以下任务：
 
-* Install the Istio CNI plugin.
-* Configure its log level.
-* Ignore the pods in the following namespaces:
+* 安装 Istio CNI 插件。
+* 配置其日志级别。
+* 忽略以下命名空间中的 pods：
     * `istio-system`
     * `foo_ns`
     * `bar_ns`
 
-Refer to the [Customizable Install with Helm](/docs/setup/install/helm) for complete instructions.
+参考[使用 Helm 进行自定义安装](/zh/docs/setup/install/helm/)中的完整说明。
 
-Use the following command to render and apply Istio CNI components and override the default configuration of the
-`logLevel` and `excludeNamespaces` parameters for `istio-cni`:
+使用以下命令来渲染并应用 Istio CNI 组件，并覆盖 `istio-cni` 的 `logLevel` 和 `excludeNamespaces` 参数的默认配置：
 
 {{< text bash >}}
 $ istioctl manifest apply \
@@ -97,56 +82,52 @@ $ istioctl manifest apply \
     --set values.cni.excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"}
 {{< /text >}}
 
-### Hosted Kubernetes settings
+### 托管 Kubernetes 设置{#hosted-Kubernetes-settings}
 
-The Istio CNI solution is not ubiquitous. Some platforms, especially hosted Kubernetes environments, do not enable the
-CNI plugin in the `kubelet` configuration.
-The `istio-cni` plugin is expected to work with any hosted Kubernetes leveraging CNI plugins.
-The following table shows the required settings for many common Kubernetes environments.
+Istio CNI 方案并非普遍应用的。一些平台，尤其是托管 Kubernetes 环境，并不会在 `kubelet` 配置中启用 CNI 插件。
+`istio-cni` 插件应该可用于任何支持 CNI 插件的托管 Kubernetes 集群。
+下表列出了一些常见的 Kubernetes 环境中的所需要的设置。
 
-| Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
+| 集群托管类型 | 所需要的 Istio CNI 设置覆盖 | 所需要的 Platform 设置覆盖 |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
-| IKS (IBM cloud) | _(none)_ | _(none)_ |
-| EKS (AWS) | _(none)_ | _(none)_ |
-| AKS (Azure) | _(none)_ | _(none)_ |
-| Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
+| GKE 1.9+ (详情见下面的 [GKE 设置](#google-Kubernetes-engine-setup))| `--set values.cni.cniBinDir=/home/kubernetes/bin` | 启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| IKS (IBM cloud) | _(无)_ | _(无)_ |
+| EKS (AWS) | _(无)_ | _(无)_ |
+| AKS (Azure) | _(无)_ | _(无)_ |
+| Red Hat OpenShift 3.10+ | _(无)_ | _(无)_ |
+| Red Hat OpenShift 4.2+ | `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(无)_ |
 
-### GKE setup
+### GKE 设置{#google-Kubernetes-engine-setup}
 
-1.  Refer to the procedure to [prepare a GKE cluster for Istio](/docs/setup/platform-setup/gke/) and
-    enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) in your cluster.
+1. 参考[为 Istio 准备 GKE 集群](/zh/docs/setup/platform-setup/gke/)的内容，并在集群中启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)。
 
     {{< warning >}}
-    For existing clusters, this redeploys all nodes.
+    如果是现有集群，该操作将会重新部署所有节点。
     {{< /warning >}}
 
-1.  Install Istio CNI via Helm including the `--set cniBinDir=/home/kubernetes/bin` option.
-    For example, the following `helm install` command sets the `cniBinDir` value for a GKE cluster:
+1. 使用 Helm 并设置 `--set cniBinDir=/home/kubernetes/bin` 选项安装 Istio CNI 插件。
+    例如，下面的 `helm install` 命令将为 GKE 集群设置 `cniBinDir` 参数：
 
     {{< text bash >}}
     $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system --set cniBinDir=/home/kubernetes/bin
     {{< /text >}}
 
-## Sidecar injection compatibility
+## Sidecar 注入的兼容性{#sidecar-injection-compatibility}
 
-The use of the Istio CNI plugin requires Kubernetes pods to be deployed with a sidecar injection method
-that uses the `istio-sidecar-injector` configmap created from the Helm installation with the
-`istio_cni.enabled=true`.  Refer to [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/)
-for details about Istio sidecar injection methods.
+在 Helm 安装过程中需要用 `istio_cni.enabled=true` 生成 `istio-sidecar-injector` Configmap，使用这一配置对 Kubernetes Pod 进行 Istio 注入才能够使用 Istio CNI 插件。想了解更多 Sidecar 注入方面的详细内容请参考 [Istio Sidecar 注入文档](/zh/docs/setup/additional-setup/sidecar-injection/)。
 
-The following sidecar injection methods are supported for use with the Istio CNI plugin:
+下列注入方式都是可以支持 Istio CNI 插件的：
 
-1.  [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-1.  Manual sidecar injection with the `istio-sidecar-injector` configmap
-    1.  [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) using the configmap directly:
+1. [自动 sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+1. 使用 `istio-sidecar-injector` configmap 进行手动注入
+    1. 执行 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 直接使用 configmap：
 
         {{< text bash >}}
         $ istioctl kube-inject -f deployment.yaml -o deployment-injected.yaml --injectConfigMapName istio-sidecar-injector
         $ kubectl apply -f deployment-injected.yaml
         {{< /text >}}
 
-    1.  `istioctl kube-inject` using a file created from the configmap:
+    1. 用 configmap 创建文件，用于执行 `istioctl kube-inject`：
 
         {{< text bash >}}
         $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
@@ -154,77 +135,66 @@ The following sidecar injection methods are supported for use with the Istio CNI
         $ kubectl apply -f deployment-injected.yaml
         {{< /text >}}
 
-## Operational details
+## 操作细节{#operational-details}
 
-The Istio CNI plugin handles Kubernetes pod create and delete events and does the following:
+Istio CNI 插件会处理 Kubernetes Pod 的创建和删除事件，并作出如下动作：
 
-1.  Identify Istio user application pods with Istio sidecars requiring traffic redirection
-1.  Perform pod network namespace configuration to redirect traffic to/from the Istio sidecar
+1. 通过 Istio sidecars 识别 Istio 用户应用 pods 是否需要流量重定向
+1. 对 pod 网络命名空间进行配置，将流量转向 Istio sidecar
 
-### Identifying pods requiring traffic redirection
+### 识别 Pod 是否需要流量重定向{#identifying-pods-requiring-traffic-redirection}
 
-The Istio CNI plugin identifies pods requiring traffic redirection to/from the
-accompanying Istio proxy sidecar by checking that the pod meets all of the following conditions:
+Istio CNI 插件会通过检查 Pod 是否符合下列要求来判断是否需要把业务 Pod 的流量交由 Sidecar 处理：
 
-1.  The pod is NOT in a Kubernetes namespace in the configured `exclude_namespaces` list.
-1.  The pod has a container named `istio-proxy`.
-1.  The pod has more than 1 container.
-1.  The pod has no annotation with key `sidecar.istio.io/inject` OR the value of the annotation is `true`.
+1. Pod 所在 Kubernetes 命名空间没在 `exclude_namespaces` 配置中列出。
+1. Pod 中有一个名为 `istio-proxy` 的容器。
+1. Pod 中的容器不止一个。
+1. Pod 的注解不包含 `sidecar.istio.io/inject` 或其值为 `true`。
 
-### Traffic redirection parameters
+### 流量重定向参数{#traffic-redirection-parameters}
 
-To redirect traffic in the application pod's network namespace to/from the Istio proxy sidecar, the Istio
-CNI plugin configures the namespace's iptables.  The following table describes the parameters to the
-redirect functionality.  To override the default values for the parameters, set the corresponding
-application pod annotation key.
+为了将应用 pod 的网络命名空间中的流量重定向至 Istio sidecar，Istio CNI 插件配置了命名空间的 iptables。
+下表描述了重定向功能的参数。通过设置应用 pod 的注解来覆盖相应的参数的默认值。
 
-| Annotation Key | Values | Default | Description |
+| 注解名 | 取值 | 默认值 | 描述 |
 |----------------|--------|---------|-------------|
-| `sidecar.istio.io/inject` | `true`, `false` | `true` | Indicates whether the Istio proxy sidecar should be injected. If present and `false`, the Istio CNI plugin doesn't configure the namespace's iptables for the pod. |
-| `sidecar.istio.io/status` | | | Annotation created by Istio's sidecar injection. If missing, the Istio CNI plugin doesn't configure the pod namespace's iptables. |
-| `sidecar.istio.io/interceptionMode`| `REDIRECT`, `TPROXY` | `REDIRECT` | The iptables redirect mode to use. |
-| `traffic.sidecar.istio.io/includeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | `"*"` | Comma separated list of IP ranges in CIDR form to redirect to the sidecar proxy.  The default value of `"*"` redirects all traffic. |
-| `traffic.sidecar.istio.io/excludeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | | Comma separated list of IP ranges in CIDR form to be excluded from redirection.  Only applies when `includeOutboundIPRanges` is `"*"`. |
-| `traffic.sidecar.istio.io/includeInboundPorts` | `<port1>,<port2>,...` | Pod's list of `containerPorts` | Comma separated list of inbound ports for which traffic is to be redirected to the Istio proxy sidecar.  The value of `"*"` redirects all ports. |
-| `traffic.sidecar.istio.io/excludeInboundPorts` | `<port1>,<port2>,...` | | Comma separated list of inbound ports to be excluded from redirection to the Istio sidecar proxy.  Only valid when `includeInboundPorts` is `"*"`. |
-| `traffic.sidecar.istio.io/excludeOutboundPorts` | `<port1>,<port2>,...` | | Comma separated list of outbound ports to be excluded from redirection to Envoy. |
-| `traffic.sidecar.istio.io/kubevirtInterfaces` | `<ethX>,<ethY>,...` | | Comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound. |
+| `sidecar.istio.io/inject` | `true`, `false` | `true` | 表示是否要注入 Istio sidecar。如果设置为 `false`，Istio CNI 插件将不会为这个 pod 配置命名空间的 iptables。 |
+| `sidecar.istio.io/status` | | | 由 Istio 的 sidecar 注入所创建的注解。如果没有，Istio CNI 插件将不会配置该 pod 命名空间的 iptables。 |
+| `sidecar.istio.io/interceptionMode`| `REDIRECT`, `TPROXY` | `REDIRECT` | 所用的 iptables 重定向模式。 |
+| `traffic.sidecar.istio.io/includeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | `"*"` | 逗号分隔的 CIDR 列表，列表范围内的 IP 地址才会发生重定向。默认值为 `"*"`，会对所有流量进行重定向。 |
+| `traffic.sidecar.istio.io/excludeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | | 逗号分隔的 CIDR 列表，范围内的 IP 不会进行重定向。该选项仅在 `includeOutboundIPRanges` 取值为 `"*"` 时生效。 |
+| `traffic.sidecar.istio.io/includeInboundPorts` | `<port1>,<port2>,...` | Pod 的 `containerPorts` 列表 | 逗号分隔的入站端口列表，这些流量会被重定向到 Sidecar，取值为 `"*"` 时会重定向所有端口。 |
+| `traffic.sidecar.istio.io/excludeInboundPorts` | `<port1>,<port2>,...` | | 逗号分隔的入站端口列表，列表中的端口不会被重定向到 Istio Sidecar 中。仅在 `includeInboundPorts` 取值为 `"*"` 时生效。 |
+| `traffic.sidecar.istio.io/excludeOutboundPorts` | `<port1>,<port2>,...` | | 逗号分隔的出站端口列表，列表中的端口流量不会重定向到 Envoy 中。 |
+| `traffic.sidecar.istio.io/kubevirtInterfaces` | `<ethX>,<ethY>,...` | | 逗号分隔的虚拟接口列表，列表中的虚拟接口的入站流量（来自 VM）将被当作出站流量。 |
 
-### Logging
+### 日志{#logging}
 
-The Istio CNI plugin runs in the container runtime process space.
-Due to this, the `kubelet` process writes the plugin's log entries into its log.
+Istio CNI 插件在容器运行时的进程空间内运行。因此 `kubelet` 进程会将插件的日志记到它的日志中。
 
-### Compatibility with application init containers
+### 和应用的初始化容器的兼容性{#compatibility-with-application-init-containers}
 
-The Istio CNI plugin may cause networking connectivity problems for any application `initContainers`. When using Istio CNI, `kubelet`
-starts an injected pod with the following steps:
+Istio CNI 插件可能会导致与应用 `initContainers` 的网络连通性。
+使用 Istio CNI 时，`kubelet` 会通过以下步骤启动一个注入的 pod：
 
-1. The Istio CNI plugin sets up traffic redirection to the Istio sidecar proxy within the pod.
-1. All init containers execute and complete successfully.
-1. The Istio sidecar proxy starts in the pod along with the pod's other containers.
+1. Istio CNI 插件在 pod 内设置流量重定向到 Istio sidecar。
+1. 等待所有的初始化容器成功执行完毕。
+1. Istio sidecar 跟随 pod 的其它容器一起启动。
 
-Init containers execute before the sidecar proxy starts, which can result in traffic loss during their execution.
-Avoid this traffic loss with one or both of the following settings:
+初始化容器在 sidecar 启动之前执行，这会导致在它们执行期间会有流量丢失。
+可以用以下的一种或所有设置来防止流量丢失：
 
-* Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
-  CIDRs the init containers communicate with.
-* Set the `traffic.sidecar.istio.io/excludeOutboundPorts` annotation to disable redirecting traffic to the
-  specific outbound ports the init containers use.
+* 设置 `traffic.sidecar.istio.io/excludeOutboundIPRanges` 注解来禁止重定向流量到任何与初始化容器有通信的 CIDRs。
+* 设置 `traffic.sidecar.istio.io/excludeOutboundPorts` 注解来禁止重定向流量到初始化容器所用到的出站端口。
 
-### Compatibility with other CNI plugins
+### 和其它 CNI 插件的兼容性{#compatibility-with-other-CNI-plugins}
 
-The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current `NET_ADMIN`
-`istio-init` container.
+Istio CNI 插件维护着和当前的 `NET_ADMIN` `istio-init` 容器同样的兼容性。
 
-The Istio CNI plugin operates as a chained CNI plugin.  This means its configuration is added to the existing
-CNI plugins configuration as a new configuration list element.  See the
-[CNI specification reference](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists) for further details.
-When a pod is created or deleted, the container runtime invokes each plugin in the list in order.  The Istio
-CNI plugin only performs actions to setup the application pod's traffic redirection to the injected Istio proxy
-sidecar (using `iptables` in the pod's network namespace).
+Istio CNI 插件作为一个链式 CNI 插件存在。也就是说它的配置会作为一个新的配置列表元素被加入到现存 CNI 插件配置中。
+参考 [CNI 规范参考](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists)中的更多细节。
+当 Pod 被创建或删除时，容器运行时会按照列表顺序调用每个插件。Istio CNI 插件只会把应用 Pod 的流量重定向到 Sidecar 中（通过在 Pod 的网络命名空间中使用 `iptables` 完成）。
 
 {{< warning >}}
-The Istio CNI plugin should not interfere with the operations of the base CNI plugin that configures the pod's
-networking setup, although not all CNI plugins have been validated.
+Istio CNI 插件应该不会与设置 Pod 网络的基本 CNI 插件有冲突，但并不是所有的 CNI 插件都经过了验证。
 {{< /warning >}}

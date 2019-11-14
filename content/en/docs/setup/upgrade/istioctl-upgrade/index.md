@@ -37,7 +37,7 @@ are configured with a minimum availability of 1.
 The commands in this section should be run using the new version of `istioctl` which
 can be found in the `bin/` subdirectory of the downloaded package.
 
-1. [Download the new Istio release](/docs/setup/#downloading-the-release)
+1. [Download the new Istio release](/docs/setup/getting-started/#download)
    and change directory to the new release directory.
 
 1. Verify that `istoctl` supports upgrading from your current Istio version by

@@ -25,7 +25,7 @@ requirements.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
