@@ -25,7 +25,7 @@ Istio offers multiple installation flows
 depending on your platform and whether or not you intend to use Istio in production.
 At a high level, the basic flow is the same regardless of platform:
 
-1. [Review the pod requirements](/docs/setup/additional-setup/requirements/)
+1. [Review the pod requirements]/docs/ops/prep/requirements/)
 1. [Prepare your platform for Istio](/docs/setup/platform-setup/)
 1. [Download the Istio release](#downloading-the-release)
 1. [Install Istio on your platform](#installing-istio)
