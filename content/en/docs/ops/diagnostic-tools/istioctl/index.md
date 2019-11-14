@@ -40,6 +40,7 @@ $ curl -sL https://raw.githubusercontent.com/istio/istio/release-{{< istio_versi
 $ export PATH=$PATH:$HOME/.istioctl/bin 
 {{< /text >}}
 
+1. You can optionally enable the [auto-completion option](l#enabling-auto-completion) when working with a bash or ZSH console.
 ### Get an overview of your mesh
 
 You can get an overview of your mesh using the `proxy-status` command:
