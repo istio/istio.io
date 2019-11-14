@@ -249,7 +249,11 @@ request traffic to route to two or more workloads.
 
 ## Validating Istio configuration
 
-Kiali can validate your Istio resources to ensure they follow proper convention and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](http://kiali.io/documentation/validations/) for the list of all validation checks Kiali performs.
+Kiali can validate your Istio resources to ensure they follow proper conventions and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](http://kiali.io/documentation/validations/) for the list of all validation checks Kiali performs.
+
+{{< idea >}}
+Istio 1.4 introduces `istioctl analyze` which lets you perform similar analysis in a way that can be used in a CI pipeline.
+{{< /idea >}}
 
 Force an invalid configuration of a service port name to see how Kiali reports a validation error.
 
