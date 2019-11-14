@@ -10,12 +10,6 @@ We have identified the following general principles to help you get the most
 out of your Istio deployments. These best practices aim to limit the impact of
 bad configuration changes and make managing your deployments easier.
 
-## Prefer simpler deployment models
-
-When choosing a [deployment model](/docs/ops/prep/deployment-models),
-prefer the **simplest** deployment possible. Keeping the complexity of your
-deployment to a minimum makes the task of managing your deployment easier.
-
 ## Deploy fewer clusters
 
 Deploy Istio across a small number of large clusters, rather than a large number

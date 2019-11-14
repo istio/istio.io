@@ -13,8 +13,6 @@ To get started with Istio, just follow these steps:
 - [Set up your platform](#platform)
 - [Download the Istio release](#download)
 - [Install Istio](#install)
-- [What's next](#next-steps)
-- [Uninstall](#uninstall)
 
 ## Set up your platform {#platform}
 
@@ -183,9 +181,6 @@ The following tasks are a good place for beginners to start:
 - [Ingress gateways](/docs/tasks/traffic-management/ingress/ingress-control/)
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
-
-The tasks above provide a good basic understanding of Istio's features but,
-explore more [tasks](/docs/tasks/) depending on what interests you.
 
 Before you install and customize Istio to fit your platform and intended use,
 check out the following resources:
