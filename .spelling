@@ -6,6 +6,7 @@
 # filename is relative to this configuration file
 id
 istio
+ingress
 0.1.x
 0.2.x
 0.8.x
