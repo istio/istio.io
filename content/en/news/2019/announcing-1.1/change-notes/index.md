@@ -69,7 +69,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Locality-Aware Routing**. Added full support for routing to services in the
   same locality before picking services in other localities.
-  See [Locality Load Balancer Settings](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting)
+  See [Locality Load Balancer Settings](/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
 
 - **Refined Multicluster Routing**. Simplified the multicluster setup and
   enabled additional deployment modes. You can now connect multiple clusters
