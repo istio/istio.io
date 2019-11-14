@@ -1,73 +1,66 @@
 ---
-title: Enabling Rate Limits
-description: This task shows you how to use Istio to dynamically limit the traffic to a service.
+title: 启用速率限制
+description: 这部分内容将向您展示如何使用 Istio 去动态限制服务间的流量。
 weight: 10
 keywords: [policies,quotas]
 aliases:
-    - /docs/tasks/rate-limiting.html
+    - /zh/docs/tasks/rate-limiting.html
 ---
 
-This task shows you how to use Istio to dynamically limit the traffic to a
-service.
+这部分内容将向您展示如何使用 Istio 去动态限制服务间的流量。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-1. Setup Istio in a Kubernetes cluster by following the instructions in the
-   [Installation Guide](/docs/setup/getting-started/).
+1. 依照[安装指引](/zh/docs/setup/install/kubernetes/)在 Kubernetes 中 安装 Istio。
 
     {{< warning >}}
-    Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
-    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    Policy enforcement **必须**开启。依照
+    [启用 Policy Enforcement](/zh/docs/tasks/policy-enforcement/enabling-policy/) 确定 policy enforcement 已经开启。
     {{< /warning >}}
 
-1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用。
 
-    The Bookinfo sample deploys 3 versions of the `reviews` service:
+    Bookinfo 部署了 3 个版本的 `reviews` 服务：
 
-    * Version v1 doesn’t call the `ratings` service.
-    * Version v2 calls the `ratings` service, and displays each rating as 1 to 5 black stars.
-    * Version v3 calls the `ratings` service, and displays each rating as 1 to 5 red stars.
+    * 版本 v1 不会调用 `ratings` 服务。
+    * 版本 v2 调用 `ratings` 服务，且为每个评价显示 1 到 5 颗黑色星星。
+    * 版本 v3 调用 `ratings` 服务，且为每个评价显示 1 到 5 颗红色星星。
 
-    You need to set a default route to one of the versions. Otherwise, when you send requests to the `reviews` service, Istio routes requests to all available versions randomly, and sometimes the output contains star ratings and sometimes it doesn't.
+    您需要指定其中一个版本为默认路由。否则，当您向 `reviews` 服务发送请求时，Istio 会随机路由到其中一个服务上，表现为有时显示星星，有时不会。
 
-1. Set the default version for all services to v1.
+1.  将所有服务的默认版本设置为 v1。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-## Rate limits
+## 速率限制{#rate-limits}
 
-In this task, you configure Istio to rate limit traffic to `productpage` based on the IP address
-of the originating client. You will use `X-Forwarded-For` request header as the client
-IP address. You will also use a conditional rate limit that exempts logged in users.
+在这部分，Istio 将以客户端的 IP 地址限制 `productpage` 的流量。
+您将会使用 `X-Forwarded-For` 请求头作为客户端 IP 地址。也将会针对已登录的用户应用有条件的速率限制。
 
-For convenience, you configure the
-[memory quota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
-(`memquota`) adapter to enable rate limiting. On a production system, however,
-you need [Redis](http://redis.io/), and you configure the [Redis
-quota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
-(`redisquota`) adapter. Both the `memquota` and `redisquota` adapters support
-the [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/),
-so the configuration to enable rate limiting on both adapters is the same.
+方便起见，配置 [memory quota](/zh/docs/reference/config/policy-and-telemetry/adapters/memquota/)(`memquota`) 适配器用以启用速率限制。
+如果在生产系统使用的是 [Redis](http://redis.io/)，那么启用 [Redis quota](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+(`redisquota`) 适配器。`memquota` 与 `redisquota` 适配器都支持 [quota template](/zh/docs/reference/config/policy-and-telemetry/templates/quota/)，
+所以他们的配置是一样的。
 
-1. Rate limit configuration is split into 2 parts.
-    * Client Side
-        * `QuotaSpec` defines quota name and amount that the client should request.
-        * `QuotaSpecBinding` conditionally associates `QuotaSpec` with one or more services.
-    * Mixer Side
-        * `quota instance` defines how quota is dimensioned by Mixer.
-        * `memquota handler` defines `memquota` adapter configuration.
-        * `quota rule` defines when quota instance is dispatched to the `memquota` adapter.
+1. 速率限制的配置分为两部分。
+    * 客户端
+        * `QuotaSpec` 定义 quota 名称与客户端请求的数量。
+        * `QuotaSpecBinding` 条件化的关联 `QuotaSpec` 到一个或多个服务。
+    * Mixer 端
+        * `quota instance` 定义 quota 的维度。
+        * `memquota handler` 定义 `memquota` 适配器的配置。
+        * `quota rule` 定义 quota 实例何时分发到 `memquota` 适配器。
 
-    Run the following command to enable rate limits using `memquota`:
+    执行如下命令使用 `memquota` 开启速率限制：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
     {{< warning >}}
-    If you use Istio 1.1.2 or prior, please use the following configuration instead:
+    如果您使用 Istio 1.1.2 或更低版本，使用如下命令代替：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit-crd.yaml@
@@ -75,100 +68,84 @@ so the configuration to enable rate limiting on both adapters is the same.
 
     {{< /warning >}}
 
-    The `memquota` handler defines 4 different rate limit schemes. The default,
-    if no overrides match, is `500` requests per one second (`1s`). Two
-    overrides are also defined:
+    `memquota` 处理器定义了 4 个不同的速率限制规则。默认如果没有匹配到优先规则，是 `500` 个请求量每秒 (`1s`)。
+    我们也定义了两个优先规则：
 
-    * The first is `1` request (the `maxAmount` field) every `5s` (the
-    `validDuration` field), if the `destination` is `reviews`.
-    * The second is `500` requests every `1s`, if the destination is `productpage`
-     and source is `10.28.11.20`
-    * The third is `2` requests every `5s`, if the `destination` is `productpage`.
+    * 第一种是 `1` 个请求量 (`maxAmount` 字段) 每 `5s` (`validDuration` 字段)，如果`目标服务`是 `reviews`。
+    * 第二种是 `500` 个请求量每 `1s`，如果`目标服务`是 `productpage` 且来源于 `10.28.11.20`。
+    * 第三种是 `2` 个请求量每 `5s`，如果`目标服务`是 `productpage`。
 
-    When a request is processed, the first matching override is picked (reading from top to bottom).
+    当一个请求被处理时，第一个被匹配到的优先规则会被触发(从上到下)。
 
-    Or
+    或者
 
-    Run the following command to enable rate limits using `redisquota`:
+    执行如下命令使用 `redisquota` 开启流量限制：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-redis-quota-rolling-window.yaml@
     {{< /text >}}
 
-    _Note:_ Replace [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm),
-    [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) with values for your configuration.
+    _注意:_ 替换您的配置中 [rate_limit_algorithm](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
+    [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) 的值.
 
-    The `redisquota` handler defines 4 different rate limit schemes. The default,
-    if no overrides match, is `500` requests per one second (`1s`). It is using `ROLLING_WINDOW`
-    algorithm for quota check and thus define `bucketDuration` of 500ms for `ROLLING_WINDOW`
-    algorithm. Three overrides are also defined:
+    `redisquota` 处理器定义了 4 个不同的速率限制规则。默认如果没有匹配到优先规则，是 `500` 个请求量每秒 (`1s`)。
+    使用了 `ROLLING_WINDOW` 算法作为 quota 检查且为之定义了 500ms 的 `bucketDuration`。我们也定义了三个优先规则：
 
-    * The first is `1` request (the `maxAmount` field), if the `destination` is `reviews`.
-    * The second is `500`, if the destination is `productpage` and source
-      is `10.28.11.20`
-    * The third is `2`, if the `destination` is `productpage`.
+    * 第一种是 `1` 个请求量 (`maxAmount` 字段)，如果`目标服务`是 `reviews`。
+    * 第二种是 `500`，如果`目标服务`是 `productpage` 且来源于 `10.28.11.20`。
+    * 第三种是 `2`，如果`目标服务`是 `productpage`。
 
-    When a request is processed, the first matching override is picked (reading from top to bottom).
+    当一个请求被处理时，第一个被匹配到的优先规则会被触发(从上到下)。
 
-1. Confirm the `quota instance` was created:
+1. 确认 `quota 实例`已被创建：
 
     {{< text bash >}}
     $ kubectl -n istio-system get instance requestcountquota -o yaml
     {{< /text >}}
 
-    The `quota` template defines three dimensions that are used by `memquota` or `redisquota`
-    to set overrides on requests that match certain attributes. The
-    `destination` will be set to the first non-empty value in
-    `destination.labels["app"]`, `destination.service.host`, or `"unknown"`. For
-     more information on expressions, see [Expression
-    Language](/docs/reference/config/policy-and-telemetry/expression-language/).
+    `quota` 模板通过 `memquota` 或 `redisquota` 定义了三个维度以匹配特定的属性的方式设置优先规则。
+    `目标服务`会被设置为 `destination.labels["app"]`，`destination.service.host`，或 `"unknown"` 中的第一个非空值。
+     表达式的更多信息，见 [Expression Language](/zh/docs/reference/config/policy-and-telemetry/expression-language/)。
 
-1. Confirm the `quota rule` was created:
+1. 确认 `quota rule` 已被创建：
 
     {{< text bash >}}
     $ kubectl -n istio-system get rule quota -o yaml
     {{< /text >}}
 
-    The `rule` tells Mixer to invoke the `memquota` or `redisquota` handler (created
-    above) and pass it the object constructed using the instance
-    `requestcountquota` (also created above). This maps the
-    dimensions from the `quota` template to `memquota` or `redisquota` handler.
+    `rule` 告诉 Mixer 去调用 `memquota` 或 `redisquota` 处理器（上面创建的）且传递 `requestcountquota` 构造的对象（也是上面创建的）。
+    这里将 `quota` 模板与 `memquota` 或 `redisquota` 处理器的维度一一对应。
 
-1. Confirm the `QuotaSpec` was created:
+1. 确认 `QuotaSpec` 已被创建：
 
     {{< text bash >}}
     $ kubectl -n istio-system get QuotaSpec request-count -o yaml
     {{< /text >}}
 
-    This `QuotaSpec` defines the `requestcountquota` you created above with a
-    charge of `1`.
+    `QuotaSpec` 用值 `1` 定义了您上面创建的 `requestcountquota`。
 
-1. Confirm the `QuotaSpecBinding` was created:
+1. 确认 `QuotaSpecBinding` 已被创建：
 
     {{< text bash >}}
     $ kubectl -n istio-system get QuotaSpecBinding request-count -o yaml
     {{< /text >}}
 
-    This `QuotaSpecBinding` binds the `QuotaSpec` you created above to the
-    services you want to apply it to. `productpage` is explicitly bound to `request-count`, note
-    that you must define the namespace since it differs from the namespace of the `QuotaSpecBinding`.
-    If the last line is uncommented, `service: '*'` binds all services to the `QuotaSpec`
-    making the first entry redundant.
+    `QuotaSpecBinding` 绑定了您上面创建的 `QuotaSpec` 与您想要生效的服务。`productpage` 显式的绑定了 `request-count`，
+    注意您必须定义与 `QuotaSpecBinding` 不同的命名空间。
+    如果最后一行注释被打开， `service: '*'` 将绑定所有服务到 `QuotaSpec` 使得首个 entry 是冗余的。
 
-1. Refresh the product page in your browser.
+1. 在浏览器上刷新 product 页面。
 
-    `request-count` quota applies to `productpage` and it permits 2 requests
-    every 5 seconds. If you keep refreshing the page you should see
-    `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`.
+    `request-count` quota 应用于 `productpage` 且只允许 2 个请求量每 5 秒。如果您持续刷新页面将会看到
+    `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`。
 
-## Conditional rate limits
+## 条件化的速率限制{#conditional-rate-limits}
 
-In the above example we have effectively rate limited `productpage` at `2 rps` per client IP.
-Consider a scenario where you would like to exempt clients from this rate limit if a user is logged in.
-In the `bookinfo` example, we use cookie `session=<sessionid>` to denote a logged in user.
-In a realistic scenario you may use a `jwt` token for this purpose.
+在上面的例子我们为每个客户端 IP 地址的 `productpage` 限制了 `2 rps`。
+考虑这样一个场景，如果您想要对已登录的用户放开速率限制。在 `bookinfo` 的例子中，我们用 cookie `session=<sessionid>` 去指代一个已登录用户。
+在现实场景中您可能会用 `jwt` token 去实现这个目的。
 
-You can update the `quota rule` by adding a match condition based on the `cookie`.
+您可以添加基于 `cookie` 的匹配条件更新 `quota rule`。
 
 {{< text bash >}}
 $ kubectl -n istio-system edit rules quota
@@ -183,79 +160,67 @@ spec:
 {{< /text >}}
 
 {{< warning >}}
-Don't enable [chrome preload](https://support.google.com/chrome/answer/114836?hl=en&co=GENIE.Platform=Desktop) as it can
-preload cookies and fail this task.
-
+不要启用 [chrome preload](https://support.google.com/chrome/answer/114836?hl=en&co=GENIE.Platform=Desktop)，
+它会预加载 cookies 从而导致此任务失败。
 {{< /warning >}}
 
-`memquota` or `redisquota` adapter is now dispatched only if `session=<sessionid>` cookie is absent from the request.
-This ensures that a logged in user is not subject to this quota.
+`memquota` 或 `redisquota` 适配器现在只有请求中存在 `session=<sessionid>` cookie 才会被分发。
+这可以确保已登录的用户不会受限于这个 quota。
 
-1.  Verify that rate limit does not apply to a logged in user.
+1.  确认速率限制没有生效于已登录的用户。
 
-    Log in as `jason` and repeatedly refresh the `productpage`. Now you should be able to do this without a problem.
+    以 `jason` 身份登录且反复刷新 `productpage` 页面。现在这样做不会出现任何问题。
 
-1.  Verify that rate limit *does* apply when not logged in.
+1.  确认速率限制 *生效* 于未登录的用户。
 
-    Logout as `jason` and repeatedly refresh the `productpage`.
-    You should again see `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`.
+    退出登录且反复刷新 `productpage` 页面。
+    您将会再次看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`。
 
-## Understanding rate limits
+## 理解原理{#understanding-rate-limits}
 
-In the preceding examples you saw how Mixer applies rate limits to requests
-that match certain conditions.
+在先前的例子中你已经看到了 Mixer 是怎么通过匹配特定的条件对请求应用速率限制的。
 
-Every named quota instance like `requestcount` represents a set of counters.
-The set is defined by a Cartesian product of all quota dimensions. If the
-number of requests in the last `expiration` duration exceed `maxAmount`,
-Mixer returns a `RESOURCE_EXHAUSTED` message to the Envoy proxy, and Envoy
-returns status `HTTP 429` to the caller.
+每个具名的 quota 实例比如 `requestcount` 会提供一组计数器。
+这组计数器用所有 quota 维度的笛卡尔积来定义。如果最后一个`有效期`内的请求数超出 `maxAmount`,
+Mixer 返回一个 `RESOURCE_EXHAUSTED` 消息给 Envoy 代理，然后 Envoy 返回状态码 `HTTP 429` 给调用者。
 
-The `memquota` adapter uses a sliding window of sub-second resolution to
-enforce rate limits.
+`memquota` 适配器使用一个亚秒级的滑动窗口来执行速率限制。
 
-The `redisquota` adapter can be configured to use either the [`ROLLING_WINDOW` or `FIXED_WINDOW`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
-algorithms to enforce rate limits.
+`redisquota` 适配器可以配置使用[`ROLLING_WINDOW` 或 `FIXED_WINDOW`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
+算法之一来执行速率限制。
 
-The `maxAmount` in the adapter configuration sets the default limit for all
-counters associated with a quota instance. This default limit applies if a quota
-override does not match the request. The `memquota/redisquota` adapter selects the first
-override that matches a request. An override need not specify all quota
-dimensions. In the example, the 0.2 qps override is selected by matching only
-three out of four quota dimensions.
+适配器配置内的 `maxAmount` 为所有关联到 quota 实例的计数器设置了默认限制。这个默认限制应用在其他优先规则没有被匹配到的时候。
+`memquota/redisquota` 适配器会选择第一个与请求相匹配的优先规则。一个优先规则不能指明所有的 quota 维度。
+在这个例子里，0.2 qps 的规则被选择到通过只匹配了四分之三的 quota 维度。
 
-If you want the policies enforced for a given namespace instead of the entire
-Istio mesh, you can replace all occurrences of `istio-system` with the given
-namespace.
+如果您想要策略在给定的命名空间上执行而非整个 Istio 网格，可以把前面所有出现的 `istio-system` 替换为您想要的命名空间。
 
-## Cleanup
+## 清理{#cleanup}
 
-1. If using `memquota`, remove the `memquota` rate limit configuration:
+1. 如果使用 `memquota`，移除 `memquota` 速率限制配置：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit.yaml@
     {{< /text >}}
 
-    If you are using Istio 1.1.2 or prior:
+    如果您使用 Istio 1.1.2 或更低：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-ratelimit-crd.yaml@
     {{< /text >}}
 
-    Or
+    或
 
-    If using `redisquota`, remove the `redisquota` rate limit configuration:
+    如果使用 `redisquota`，移除 `redisquota` 速率限制配置：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-productpage-redis-quota-rolling-window.yaml@
     {{< /text >}}
 
-1. Remove the application routing rules:
+1. 移除应用路由规则：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. If you are not planning to explore any follow-on tasks, refer to the
-   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
-   to shutdown the application.
+1. 如果您不准备探索更多的任务，参考 [Bookinfo cleanup](/zh/docs/examples/bookinfo/#cleanup) 关闭整个应用。
