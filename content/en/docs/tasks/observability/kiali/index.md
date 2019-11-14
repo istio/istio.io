@@ -249,9 +249,9 @@ request traffic to route to two or more workloads.
 
 ## Validating Istio configuration
 
-Kiali can validate your Istio resources to ensure they follow proper convention and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the misconfiguration. See the [Kiali validations page](http://kiali.io/documentation/validations/) for the list of all validation checks Kiali performs.
+Kiali can validate your Istio resources to ensure they follow proper convention and semantics. Any problems detected in the configuration of your Istio resources can be flagged as errors or warnings depending on the severity of the incorrect configuration. See the [Kiali validations page](http://kiali.io/documentation/validations/) for the list of all validation checks Kiali performs.
 
-Force a misconfiguration of a service port name to see how Kiali reports a validation error.
+Force an invalid configuration of a service port name to see how Kiali reports a validation error.
 
 1.  Change the port name of the `details` service from `http` to `foo`:
 
@@ -265,15 +265,15 @@ Force a misconfiguration of a service port name to see how Kiali reports a valid
 
 1.  Notice the error icon displayed in the **Configuration** column of the `details` row.
 
-    {{< image width="80%" link="./kiali-validate1-list.png" caption="Services List Showing a Misconfiguration" >}}
+    {{< image width="80%" link="./kiali-validate1-list.png" caption="Services List Showing Invalid Configuration" >}}
 
 1.  Click the `details` link in the **Name** column to navigate to the service details view.
 
-1.  Hover over the error icon to display a tooltip describing the error.
+1.  Hover over the error icon to display a tool tip describing the error.
 
-    {{< image width="80%" link="./kiali-validate2-errormsg.png" caption="Service Details Describing the Misconfiguration" >}}
+    {{< image width="80%" link="./kiali-validate2-errormsg.png" caption="Service Details Describing the Invalid Configuration" >}}
 
-1.  Change the port name back to `http` to correct the misconfiguration and return `bookinfo` back to its normal state.
+1.  Change the port name back to `http` to correct the configuration and return `bookinfo` back to its normal state.
 
     {{< text bash >}}
     $ kubectl patch service details -n bookinfo --type json -p '[{"op":"replace","path":"/spec/ports/0/name", "value":"http"}]'
