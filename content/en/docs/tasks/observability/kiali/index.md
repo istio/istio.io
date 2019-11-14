@@ -75,7 +75,7 @@ data:
 EOF
 {{< /text >}}
 
-### Install Via `Istioctl`
+### Install via `istioctl`
 
 Once you create the Kiali secret, follow
 [the install instructions](/docs/setup/install/istioctl/) to install Kiali via `istioctl`.
@@ -232,7 +232,7 @@ request traffic to route to two or more workloads.
 
 1.  Click the **Create** button to create the new routing.
 
-1.  Click **Graph** in the navigation to return to the `bookinfo` graph.
+1.  Click **Graph** in the left hand navigation bar to return to the `bookinfo` graph.
 
 1.  Send requests to the `bookinfo` application. For example, to send one request per second,
     you can execute this command if you have `watch` installed on your system:
@@ -271,7 +271,7 @@ Force an invalid configuration of a service port name to see how Kiali reports a
 
     {{< image width="80%" link="./kiali-validate1-list.png" caption="Services List Showing Invalid Configuration" >}}
 
-1.  Click the `details` link in the **Name** column to navigate to the service details view.
+1.  Click the **details** link in the **Name** column to navigate to the service details view.
 
 1.  Hover over the error icon to display a tool tip describing the error.
 
@@ -284,6 +284,59 @@ Force an invalid configuration of a service port name to see how Kiali reports a
     {{< /text >}}
 
     {{< image width="80%" link="./kiali-validate3-ok.png" caption="Service Details Showing Valid Configuration" >}}
+
+## Viewing and editing Istio configuration YAML
+
+Kiali provides a YAML editor for viewing and editing Istio configuration resources. The YAML editor will also provide validation messages
+when it detects incorrect configurations.
+
+1.  Create Bookinfo destination rules:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
+    {{< /text >}}
+
+1.  Click `Istio Config` on the left hand navigation bar to navigate to the Istio configuration list.
+
+1.  Select `bookinfo` from the **Namespace** drop down menu if it is not already selected.
+
+1.  Notice the error messages and the error and warning icons that alert you to several configuration problems.
+
+    {{< image width="80%" link="./kiali-istioconfig0-errormsgs.png" caption="Istio Config List Incorrect Configuration Messages" >}}
+
+1.  Hover over the error icon in the **Configuration** column of the `details` row to see additional messages.
+
+    {{< image width="80%" link="./kiali-istioconfig1-tooltip.png" caption="Istio Config List Incorrect Configuration Tool Tips" >}}
+
+1.  Click the **details** link in the **Name** column to navigate to the `details` destination rule view.
+
+1.  Notice the messages and icons that alert you to several validation rules that failed.
+
+    {{< image width="80%" link="./kiali-istioconfig2-details-errormsgs.png" caption="Istio Configuration Details View Showing Errors" >}}
+
+1.  Click the **YAML** tab to view the YAML for this Istio destination rule resource.
+
+1.  Notice the color highlights and icons on the rows that have failed validation checks.
+
+    {{< image width="80%" link="./kiali-istioconfig3-details-yaml1.png" caption="YAML Editor Showing Validation Errors and Warnings" >}}
+
+1.  Hover over the yellow icon to view the tool tip message that informs you of the validation check that triggered the warning.
+    For more details on the cause of the warning and how to resolve it, look up the validation warning message on the
+    [Kiali Validations page](http://kiali.io/documentation/validations/).
+
+    {{< image width="80%" link="./kiali-istioconfig3-details-yaml2.png" caption="YAML Editor Showing Warning Tool Tip" >}}
+
+1.  Hover over the red icon to view the tool tip message that informs you of the validation check that triggered the error.
+    For more details on the cause of the error and how to resolve it, look up the validation error message on the
+    [Kiali Validations page](http://kiali.io/documentation/validations/).
+
+    {{< image width="80%" link="./kiali-istioconfig3-details-yaml3.png" caption="YAML Editor Showing Error Tool Tip" >}}
+
+1.  Delete the destination rules to return `bookinfo` back to its original state.
+
+    {{< text bash >}}
+    $ kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
+    {{< /text >}}
 
 ## About the Kiali Public API
 
