@@ -8,8 +8,6 @@ aliases:
   - /docs/ops/troubleshooting/istioctl
 ---
 
-## Overview
-
 You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/diagnostic-tools/component-logging/)
 or peering inside via [introspection](/docs/ops/diagnostic-tools/controlz/). If that's insufficient, the steps below explain
 how to get under the hood.
@@ -22,7 +20,7 @@ The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration comm
 
 ### Before you begin
 
-We recommend you to use a istioctl version that is the same version of your Istio control plane. Using the matching version of istioctl helps avoid unforeseen issues.
+We recommend you use an `istioctl` version that is the same version as your Istio control plane. Using matching versions helps avoid unforeseen issues.
 
 {{< tip >}}
 If you have already [downloaded the Istio release](/docs/setup/getting-started/#download), you should
