@@ -20,7 +20,7 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
-    This is the configuration that is installed with the [quick start](/docs/setup/install/kubernetes/) instructions,
+    This is the configuration that is installed with the [quick start](/docs/setup/getting-started/) instructions,
     but you can later [customize the configuration](/docs/setup/install/istioctl/#customizing-the-configuration)
     to enable additional features if you wish to explore more advanced tasks.
 

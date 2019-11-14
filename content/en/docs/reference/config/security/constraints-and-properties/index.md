@@ -1,7 +1,9 @@
 ---
-title: Constraints and Properties (deprecated)
+title: RBAC Constraints and Properties (deprecated)
 description: Describes the supported constraints and properties.
-weight: 10
+weight: 50
+aliases:
+    - /docs/reference/config/security/constraints-and-properties/
 ---
 
 {{< warning >}}
