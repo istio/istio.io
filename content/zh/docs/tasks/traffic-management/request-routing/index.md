@@ -120,7 +120,7 @@ Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服�
 
 您可以通过再次刷新 Bookinfo 应用程序的 `/productpage` 轻松测试新配置。
 
-1. 在浏览器中打开 Bookinfo 站点。 网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是外部的入口 IP 地址，如 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) 文档中所述。
+1. 在浏览器中打开 Bookinfo 站点。 网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是外部的入口 IP 地址，如 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port) 文档中所述。
 
     请注意，无论您刷新多少次，页面的评论部分都不会显示评级星标。这是因为您将 Istio 配置为
     将评论服务的所有流量路由到版本 `reviews:v1`，而此版本的服务不访问星级评分服务。
