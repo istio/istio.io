@@ -75,7 +75,7 @@ data:
 EOF
 {{< /text >}}
 
-### Install Via `Istioctl`
+### Install via `istioctl`
 
 Once you create the Kiali secret, follow
 [the install instructions](/docs/setup/install/istioctl/) to install Kiali via `istioctl`.
@@ -232,7 +232,7 @@ request traffic to route to two or more workloads.
 
 1.  Click the **Create** button to create the new routing.
 
-1.  Click **Graph** in the navigation to return to the `bookinfo` graph.
+1.  Click **Graph** in the left hand navigation bar to return to the `bookinfo` graph.
 
 1.  Send requests to the `bookinfo` application. For example, to send one request per second,
     you can execute this command if you have `watch` installed on your system:
@@ -293,7 +293,7 @@ when it detects incorrect configurations.
 1.  Create Bookinfo destination rules:
 
     {{< text bash >}}
-    $ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
 1.  Click `Istio Config` on the left hand navigation bar to navigate to the Istio configuration list.
