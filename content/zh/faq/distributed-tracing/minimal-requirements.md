@@ -1,5 +1,5 @@
 ---
-title: 分布式追踪所需的最小 Istio 配置是什么？
+title: 分布式追踪所需的 Istio 最低配置是什么？
 weight: 13
 ---
 
