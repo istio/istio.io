@@ -296,7 +296,7 @@ when it detects incorrect configurations.
     $ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
-1.  Click **Istio Config** on the left hand navigation bar to navigate to the Istio configuration list.
+1.  Click `Istio Config` on the left hand navigation bar to navigate to the Istio configuration list.
 
 1.  Select `bookinfo` from the **Namespace** drop down menu if it is not already selected.
 
