@@ -26,6 +26,13 @@ are very excited about this improvement and we are working hard to get it
 ready. We've also added new experimental features that don't require Mixer:
 TCP metrics and Stackdriver metrics.
 
+## Authorization policy model in `beta`
+
+The authorization policy model is now in Beta with the introduction of the
+[`v1beta1` authorization policy](/blog/2019/v1beta1-authorization-policy/) that
+focuses on simplification and flexibility. This will also replace the old
+[`v1alpha1` RBAC policy](/docs/reference/config/security/istio.rbac.v1alpha1/).
+
 ## Improved troubleshooting
 
 We're introducing the
