@@ -9,3 +9,5 @@ instances captured by Istio will be reported to the tracing backend. The samplin
 
 If you still do not see any trace data, please confirm that your ports conform to the Istio [port naming conventions](/faq/traffic-management/#naming-port-convention) and that the appropriate container port is exposed (via pod spec, for example) to enable
 traffic capture by the sidecar proxy (Envoy).
+
+If you only see trace data associated with the egress proxy, but not the ingress proxy, it may still be related to the Istio [port naming conventions](/faq/traffic-management/#naming-port-convention). Starting with [Istio 1.3](/news/2019/announcing-1.3/#intelligent-protocol-detection-experimental) the protocol for **outbound** traffic is automatically detected.
