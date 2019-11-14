@@ -31,7 +31,6 @@ Install the istioctl binary with curl:
 1. Download the latest release with the command:
 
 {{< text bash >}}
-$ export RELEASE_VERSION="release-1.4"
 $ curl -sL https://raw.githubusercontent.com/istio/istio/$RELEASE_VERSION/release/downloadIstioCtl.sh | sh - 
 {{< /text >}}
 
