@@ -61,7 +61,7 @@ aliases:
     EOF
     {{< /text >}}
 
-2.  向
+1.  向
     [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org) 发送 HTTP 请求：
 
     {{< text bash >}}
@@ -159,7 +159,7 @@ $ kubectl delete virtualservice wikipedia
     EOF
     {{< /text >}}
 
-2.  为目标服务创建 `ServiceEntry`，即 _www.wikipedia.org_。
+1.  为目标服务创建 `ServiceEntry`，即 _www.wikipedia.org_。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -178,7 +178,7 @@ $ kubectl delete virtualservice wikipedia
     EOF
     {{< /text >}}
 
-3.  发送 HTTP 请求到
+1.  发送 HTTP 请求到
     [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)：
 
     {{< text bash >}}
@@ -187,7 +187,7 @@ $ kubectl delete virtualservice wikipedia
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-4.  检查 egress gateway 代理的统计数据，找到对应于到 _*.wikipedia.org_ 的请求的 counter。如果 Istio 部署在 `istio-system`
+1.  检查 egress gateway 代理的统计数据，找到对应于到 _*.wikipedia.org_ 的请求的 counter。如果 Istio 部署在 `istio-system`
    namespace 中，打印 counter 的命令为：
 
     {{< text bash >}}
@@ -256,14 +256,14 @@ SNI 代理会将流量转发到 `443` 端口。
     EOF
     {{< /text >}}
 
-2.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+1.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
     来保存 Nginx SNI 的配置：
 
     {{< text bash >}}
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
-3.  以下命令将生成 `istio-egressgateway-with-sni-proxy.yaml` 文件，您可以选择性编辑并部署。
+1.  以下命令将生成 `istio-egressgateway-with-sni-proxy.yaml` 文件，您可以选择性编辑并部署。
 
     {{< text bash >}}
     $ cat <<EOF | istioctl manifest generate --set values.global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
@@ -308,7 +308,7 @@ SNI 代理会将流量转发到 `443` 端口。
     EOF
     {{< /text >}}
 
-4.  部署新的 egress gateway：
+1.  部署新的 egress gateway：
 
     {{< text bash >}}
     $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
@@ -320,7 +320,7 @@ SNI 代理会将流量转发到 `443` 端口。
     horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
     {{< /text >}}
 
-5.  验证新的 egress gateway 工作正常。请注意，pod 包含两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。
+1.  验证新的 egress gateway 工作正常。请注意，pod 包含两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。
 
     {{< text bash >}}
     $ kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system
@@ -328,7 +328,7 @@ SNI 代理会将流量转发到 `443` 端口。
     istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
     {{< /text >}}
 
-6.  创建一个 service entry，指定静态地址为 127.0.0.1（`localhost`），并对定向到新 service entry 的流量禁用双向 TLS
+1.  创建一个 service entry，指定静态地址为 127.0.0.1（`localhost`），并对定向到新 service entry 的流量禁用双向 TLS
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -380,7 +380,7 @@ SNI 代理会将流量转发到 `443` 端口。
     EOF
     {{< /text >}}
 
-2.   为 _*.wikipedia.org_ 创建一个端口 443，协议为 TLS 的 egress `Gateway`，和一个 virtual service 以将目的为 _*.wikipedia.org_ 的流量定向到 gateway。
+1.   为 _*.wikipedia.org_ 创建一个端口 443，协议为 TLS 的 egress `Gateway`，和一个 virtual service 以将目的为 _*.wikipedia.org_ 的流量定向到 gateway。
 
     选择与您是否要在源 pod 和 egress gateway 之间启用[双向 TLS 认证](/docs/tasks/security/authentication/mutual-tls/)的相应指示。
 
@@ -575,7 +575,7 @@ SNI 代理会将流量转发到 `443` 端口。
 
     {{< /tabset >}}
 
-3.  发送 HTTPS 请求到
+1.  发送 HTTPS 请求到
     [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)：
 
     {{< text bash >}}
@@ -584,7 +584,7 @@ SNI 代理会将流量转发到 `443` 端口。
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-4.  检查egress gateway 的 Envoy proxy 的日志。如果 Istio 是被部署到  `istio-system` namespace 中，打印日志的命令是：
+1.  检查egress gateway 的 Envoy proxy 的日志。如果 Istio 是被部署到  `istio-system` namespace 中，打印日志的命令是：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
@@ -597,7 +597,7 @@ SNI 代理会将流量转发到 `443` 端口。
     [2019-01-02T16:34:24.079Z] "- - -" 0 - 586 65770 638 - "-" "-" "-" "-" "127.0.0.1:8443" outbound|8443||sni-proxy.local 127.0.0.1:55034 172.30.109.84:443 172.30.109.112:45362 de.wikipedia.org
     {{< /text >}}
 
-5.  检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
+1.  检查 SNI 代理的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
@@ -605,7 +605,7 @@ SNI 代理会将流量转发到 `443` 端口。
     127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
     {{< /text >}}
 
-6.  检查 mixer 日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
+1.  检查 mixer 日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的命令为：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'
@@ -626,7 +626,7 @@ SNI 代理会将流量转发到 `443` 端口。
     $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
-2.  删除 `egressgateway-with-sni-proxy` `Deployment` 的配置项：
+1.  删除 `egressgateway-with-sni-proxy` `Deployment` 的配置项：
 
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy
@@ -635,7 +635,7 @@ SNI 代理会将流量转发到 `443` 端口。
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     {{< /text >}}
 
-3.  删除您创建的配置文件：
+1.  删除您创建的配置文件：
 
     {{< text bash >}}
     $ rm ./istio-egressgateway-with-sni-proxy.yaml
