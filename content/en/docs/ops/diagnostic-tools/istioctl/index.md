@@ -26,7 +26,7 @@ We recommend you to use a istioctl version that is the same version of your Isti
 
 {{< tip >}}
 If you have already [download the Istio release](/docs/setup/getting-started/#download), you should
-already have `istioctl` and do not need to install `istioctl` again.
+already have `istioctl` and do not need to install it again.
 {{< /tip >}}
 
 ### Install istioctl
