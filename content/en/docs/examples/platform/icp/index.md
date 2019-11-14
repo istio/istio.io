@@ -5,6 +5,7 @@ weight: 70
 keywords: [kubernetes,multicluster]
 aliases:
     - /docs/tasks/multicluster/icp/
+    - /docs/examples/multicluster/icp/
 ---
 
 This example demonstrates how to setup network connectivity between two

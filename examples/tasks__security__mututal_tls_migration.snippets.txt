@@ -21,7 +21,7 @@ $endsnippet
 $snippet verify_initial_policies.sh syntax="bash" outputis="text"
 $ kubectl get policies.authentication.istio.io --all-namespaces
 NAMESPACE      NAME                          AGE
-istio-system   grafana-ports-mtls-disabled   89s
+istio-system   grafana-ports-mtls-disabled   2m8s
 $endsnippet
 
 $snippet configure_mtls_destinationrule.sh syntax="bash"
