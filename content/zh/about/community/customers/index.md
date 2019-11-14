@@ -1,13 +1,13 @@
 ---
 title: Istio in Action
-description: 使用 Istio 的用户。
+description: Who's using Istio out there.
 weight: 30
 icon: customers
 keywords: [community]
 skip_seealso: true
 ---
 
-以下是 Istio 的用户。也许你也应该试试？
+Tons of people are using Istio. Maybe you should too?
 
 <div class="logo-gallery">
     {{< company_logo link="https://www.autodesk.com" logo="./autodesk.png" alt="Autodesk" >}}
@@ -33,4 +33,4 @@ skip_seealso: true
     {{< company_logo link="https://ygrene.com" logo="./ygrene.jpeg" alt="Ygrene Energy Fund" >}}
 </div>
 
-想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.io/pulls)。
+Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).
