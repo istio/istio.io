@@ -903,6 +903,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
+</tr>
+<tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
 <td></td>
 <td>The severity level of analysis at which to display messages. Valid values: [Info Warn Error]  (default `Info`)</td>
@@ -3152,10 +3157,10 @@ customization file  (default `[]`)</td>
 </code></pre>
 <h2 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h2>
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config bootstrap [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config b &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config b [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -3170,6 +3175,11 @@ customization file  (default `[]`)</td>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3202,14 +3212,18 @@ customization file  (default `[]`)</td>
 <pre class="language-bash"><code>  # Retrieve full bootstrap configuration for a given pod from Envoy.
   istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt;
 
+  # Retrieve full bootstrap without using Kubernetes API
+  ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
+  istioctl proxy-config bootstrap --file envoy-config.json
+
 </code></pre>
 <h2 id="istioctl-proxy-config-cluster">istioctl proxy-config cluster</h2>
 <p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config cluster &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config cluster [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; [flags]
-istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config clusters [&lt;pod-name[.namespace]&gt;] [flags]
+istioctl proxy-config c [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -3229,6 +3243,11 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
 <td><code>--direction &lt;string&gt;</code></td>
 <td></td>
 <td>Filter clusters by Direction field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--fqdn &lt;string&gt;</code></td>
@@ -3282,14 +3301,18 @@ istioctl proxy-config c &lt;pod-name[.namespace]&gt; [flags]
   # Retrieve full cluster dump for clusters that are inbound with a FQDN of details.default.svc.cluster.local.
   istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; --fqdn details.default.svc.cluster.local --direction inbound -o json
 
+  # Retrieve cluster summary without using Kubernetes API
+  ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
+  istioctl proxy-config clusters --file envoy-config.json
+
 </code></pre>
 <h2 id="istioctl-proxy-config-endpoint">istioctl proxy-config endpoint</h2>
 <p>Retrieve information about endpoint configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config endpoint [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config endpoints &lt;pod-name[.namespace]&gt; [flags]
-istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config endpoints [&lt;pod-name[.namespace]&gt;] [flags]
+istioctl proxy-config ep [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -3314,6 +3337,11 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3367,14 +3395,18 @@ istioctl proxy-config ep &lt;pod-name[.namespace]&gt; [flags]
   # Retrieve full endpoint with the status (healthy).
   istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; --status healthy -ojson
 
+  # Retrieve endpoint summary without using Kubernetes API
+  ssh &lt;user@hostname&gt; &#39;curl localhost:15000/clusters?format=json&#39; &gt; envoy-clusters.json
+  istioctl proxy-config endpoints --file envoy-clusters.json
+
 </code></pre>
 <h2 id="istioctl-proxy-config-listener">istioctl proxy-config listener</h2>
 <p>Retrieve information about listener configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config listener &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config listener [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; [flags]
-istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config listeners [&lt;pod-name[.namespace]&gt;] [flags]
+istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -3394,6 +3426,11 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3442,6 +3479,10 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
   # Retrieve full listener dump for HTTP listeners with a wildcard address (0.0.0.0).
   istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; --type HTTP --address 0.0.0.0 -o json
 
+  # Retrieve listener summary without using Kubernetes API
+  ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
+  istioctl proxy-config listeners --file envoy-config.json
+
 </code></pre>
 <h2 id="istioctl-proxy-config-log">istioctl proxy-config log</h2>
 <p>(experimental) Retrieve information about logging levels of the Envoy instance in the specified pod, and update optionally</p>
@@ -3477,7 +3518,7 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <tr>
 <td><code>--level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-logger level of messages to output, in the form of &lt;logger&gt;:&lt;level&gt;,&lt;logger&gt;:&lt;level&gt;,... where logger can be one of admin, all, aws, assert, backtrace, client, config, connection, dubbo, file, filter, forward_proxy, grpc, hc, health_checker, http, http2, hystrix, init, io, jwt, kafka, lua, main, misc, mongo, quic, pool, rbac, redis, router, runtime, stats, secret, tap, testing, thrift, tracing, upstream, udp, wasm and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
+<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... where logger can be one of admin, aws, assert, backtrace, client, config, connection, conn_handler, dubbo, file, filter, forward_proxy, grpc, hc, health_checker, http, http2, hystrix, init, io, jwt, kafka, lua, main, misc, mongo, quic, pool, rbac, redis, router, runtime, stats, secret, tap, testing, thrift, tracing, upstream, udp, wasm and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
@@ -3497,7 +3538,7 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <tr>
 <td><code>--reset</code></td>
 <td><code>-r</code></td>
-<td>Specify if the reset log level to default value (warning). </td>
+<td>Reset levels to default value (warning). </td>
 </tr>
 </tbody>
 </table>
@@ -3505,20 +3546,23 @@ istioctl proxy-config l &lt;pod-name[.namespace]&gt; [flags]
 <pre class="language-bash"><code>  # Retrieve information about logging levels for a given pod from Envoy.
   istioctl proxy-config log &lt;pod-name[.namespace]&gt;
 
-  # Update levels of the specified loggers and retrieve all the information about logging levels.
-  istioctl proxy-config log &lt;pod-name[.namespace]&gt; --level all:warning,http:debug,redis:debug
+  # Update levels of the all loggers
+  istioctl proxy-config log &lt;pod-name[.namespace]&gt; --level none
 
-  # Reset levels of all the loggers to default value (warning) and retrieve all the information about logging levels.
+  # Update levels of the specified loggers.
+  istioctl proxy-config log &lt;pod-name[.namespace]&gt; --level http:debug,redis:debug
+
+  # Reset levels of all the loggers to default value (warning).
   istioctl proxy-config log &lt;pod-name[.namespace]&gt; -r
 
 </code></pre>
 <h2 id="istioctl-proxy-config-route">istioctl proxy-config route</h2>
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config route &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config route [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config routes &lt;pod-name[.namespace]&gt; [flags]
-istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config routes [&lt;pod-name[.namespace]&gt;] [flags]
+istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -3533,6 +3577,11 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3576,13 +3625,17 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
   # Retrieve full route dump for route 9080
   istioctl proxy-config route &lt;pod-name[.namespace]&gt; --name 9080 -o json
 
+  # Retrieve route summary without using Kubernetes API
+  ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
+  istioctl proxy-config routes --file envoy-config.json
+
 </code></pre>
 <h2 id="istioctl-proxy-config-secret">istioctl proxy-config secret</h2>
 <p>(experimental) Retrieve information about secret configuration for the Envoy instance in the specified pod.</p>
-<pre class="language-bash"><code>istioctl proxy-config secret &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config secret [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl proxy-config s &lt;pod-name[.namespace]&gt; [flags]
+<pre class="language-bash"><code>istioctl proxy-config s [&lt;pod-name[.namespace]&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -3597,6 +3650,11 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3628,6 +3686,10 @@ istioctl proxy-config r &lt;pod-name[.namespace]&gt; [flags]
 <h3 id="istioctl-proxy-config-secret Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve full secret configuration for a given pod from Envoy.
   istioctl proxy-config secret &lt;pod-name[.namespace]&gt;
+
+  # Retrieve full bootstrap without using Kubernetes API
+  ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
+  istioctl proxy-config secret --file envoy-config.json
 
 THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 
@@ -3811,6 +3873,9 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 		# Validate current services under &#39;default&#39; namespace within the cluster
 		kubectl get services -o yaml |istioctl validate -f -
 
+		# Also see the related experimental command &#39;istioctl x analyze&#39;
+		istioctl x analyze samples/bookinfo/networking/bookinfo-gateway.yaml
+
 </code></pre>
 <h2 id="istioctl-verify-install">istioctl verify-install</h2>
 <p>
@@ -3878,9 +3943,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Verify that Istio can be freshly installed
 		istioctl verify-install
-		
-		# Verify that the deployment matches the istio-demo profile
-		istioctl verify-install -f istio-demo.yaml
 		
 		# Verify the deployment matches a custom Istio deployment configuration
 		istioctl verify-install -f $HOME/istio.yaml
@@ -4076,7 +4138,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
@@ -4281,7 +4343,8 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CSD configs.</td></tr>
-<tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster, as of last push. Zero instances is an error.</td></tr>
+<tr><td><code>pilot_xds_eds_all_locality_endpoints</code></td><td><code>LastValue</code></td><td>Network endpoints for each cluster(across all localities), as of last push. Zero endpoints is an error.</td></tr>
+<tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster(grouped by locality), as of last push. Zero instances is an error.</td></tr>
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
 <tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>

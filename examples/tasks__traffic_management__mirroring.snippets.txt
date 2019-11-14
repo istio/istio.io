@@ -138,20 +138,20 @@ $endsnippet
 $snippet check_logs_v1_1.sh syntax="bash" outputis="text"
 $ export V1_POD=$(kubectl -n istio-io-mirror get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
 $ kubectl -n istio-io-mirror logs ${V1_POD} -c httpbin
-[2019-11-13 20:30:20 +0000] [1] [INFO] Starting gunicorn 19.9.0
-[2019-11-13 20:30:20 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
-[2019-11-13 20:30:20 +0000] [1] [INFO] Using worker: sync
-[2019-11-13 20:30:20 +0000] [9] [INFO] Booting worker with pid: 9
-127.0.0.1 - - [13/Nov/2019:20:30:37 +0000] "GET /ISTIO_IO_MIRROR_TEST_1 HTTP/1.1" 404 233 "-" "curl/7.35.0"
+[2019-11-14 14:32:22 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[2019-11-14 14:32:22 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
+[2019-11-14 14:32:22 +0000] [1] [INFO] Using worker: sync
+[2019-11-14 14:32:22 +0000] [9] [INFO] Booting worker with pid: 9
+127.0.0.1 - - [14/Nov/2019:14:32:49 +0000] "GET /ISTIO_IO_MIRROR_TEST_1 HTTP/1.1" 404 233 "-" "curl/7.35.0"
 $endsnippet
 
 $snippet check_logs_v2_1.sh syntax="bash" outputis="text"
 $ export V2_POD=$(kubectl -n istio-io-mirror get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
 $ kubectl -n istio-io-mirror logs ${V2_POD} -c httpbin
-[2019-11-13 20:30:20 +0000] [1] [INFO] Starting gunicorn 19.9.0
-[2019-11-13 20:30:20 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
-[2019-11-13 20:30:20 +0000] [1] [INFO] Using worker: sync
-[2019-11-13 20:30:20 +0000] [8] [INFO] Booting worker with pid: 8
+[2019-11-14 14:32:22 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[2019-11-14 14:32:22 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
+[2019-11-14 14:32:22 +0000] [1] [INFO] Using worker: sync
+[2019-11-14 14:32:22 +0000] [8] [INFO] Booting worker with pid: 8
 $endsnippet
 
 $snippet mirror_vs.sh syntax="bash"
@@ -184,22 +184,22 @@ $endsnippet
 $snippet check_logs_v1_2.sh syntax="bash" outputis="text"
 $ export V1_POD=$(kubectl -n istio-io-mirror get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
 $ kubectl -n istio-io-mirror logs ${V1_POD} -c httpbin
-[2019-11-13 20:30:20 +0000] [1] [INFO] Starting gunicorn 19.9.0
-[2019-11-13 20:30:20 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
-[2019-11-13 20:30:20 +0000] [1] [INFO] Using worker: sync
-[2019-11-13 20:30:20 +0000] [9] [INFO] Booting worker with pid: 9
-127.0.0.1 - - [13/Nov/2019:20:30:37 +0000] "GET /ISTIO_IO_MIRROR_TEST_1 HTTP/1.1" 404 233 "-" "curl/7.35.0"
-127.0.0.1 - - [13/Nov/2019:20:30:48 +0000] "GET /ISTIO_IO_MIRROR_TEST_2 HTTP/1.1" 404 233 "-" "curl/7.35.0"
+[2019-11-14 14:32:22 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[2019-11-14 14:32:22 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
+[2019-11-14 14:32:22 +0000] [1] [INFO] Using worker: sync
+[2019-11-14 14:32:22 +0000] [9] [INFO] Booting worker with pid: 9
+127.0.0.1 - - [14/Nov/2019:14:32:49 +0000] "GET /ISTIO_IO_MIRROR_TEST_1 HTTP/1.1" 404 233 "-" "curl/7.35.0"
+127.0.0.1 - - [14/Nov/2019:14:33:00 +0000] "GET /ISTIO_IO_MIRROR_TEST_2 HTTP/1.1" 404 233 "-" "curl/7.35.0"
 $endsnippet
 
 $snippet check_logs_v2_2.sh syntax="bash" outputis="text"
 $ export V2_POD=$(kubectl -n istio-io-mirror get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
 $ kubectl -n istio-io-mirror logs ${V2_POD} -c httpbin
-[2019-11-13 20:30:20 +0000] [1] [INFO] Starting gunicorn 19.9.0
-[2019-11-13 20:30:20 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
-[2019-11-13 20:30:20 +0000] [1] [INFO] Using worker: sync
-[2019-11-13 20:30:20 +0000] [8] [INFO] Booting worker with pid: 8
-127.0.0.1 - - [13/Nov/2019:20:30:48 +0000] "GET /ISTIO_IO_MIRROR_TEST_2 HTTP/1.1" 404 233 "-" "curl/7.35.0"
+[2019-11-14 14:32:22 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[2019-11-14 14:32:22 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
+[2019-11-14 14:32:22 +0000] [1] [INFO] Using worker: sync
+[2019-11-14 14:32:22 +0000] [8] [INFO] Booting worker with pid: 8
+127.0.0.1 - - [14/Nov/2019:14:33:00 +0000] "GET /ISTIO_IO_MIRROR_TEST_2 HTTP/1.1" 404 233 "-" "curl/7.35.0"
 $endsnippet
 
 $snippet remove_rules.sh syntax="bash"

@@ -7,6 +7,7 @@ release: 1.1.0
 aliases:
     - /blog/2019/announcing-1.1
     - /news/announcing-1.1
+    - /news/announcing-1.1.0
 skip_list: true
 ---
 
