@@ -1,8 +1,8 @@
 ---
 ---
-*   启动[httpbin]\({{< github_tree >}}/samples/httpbin) 样例程序。
+*   启动 [httpbin]\({{< github_tree >}}/samples/httpbin) 样例程序。
 
-   如果您启用了 [sidecar 自动注入](https://github.com/istio/istio.io/blob/release-1.2/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/#sidecar-的自动注入), 通过以下命令部署 `httpbin` 服务：
+    如果您启用了 [sidecar 自动注入](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，通过以下命令部署 `httpbin` 服务：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
