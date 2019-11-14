@@ -160,7 +160,7 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - configmaps  
+  - configmaps
   - endpoints
   - events
   - namespaces
@@ -168,7 +168,7 @@ rules:
   - persistentvolumeclaims
   - secrets
   - services
-  - serviceaccounts  
+  - serviceaccounts
   verbs:
   - '*'
 ...
@@ -221,11 +221,11 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: gcr.io/istio-testing/operator:1.4-dev
+          image: gcr.io/istio-testing/operator:1.5-dev
           command:
           - istio-operator
           - server
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               cpu: 200m
@@ -235,7 +235,7 @@ spec:
               memory: 128Mi
           env:
             - name: WATCH_NAMESPACE
-              value: ""
+              value: "istio-operator"
             - name: LEADER_ELECTION_NAMESPACE
               valueFrom:
                 fieldRef:
