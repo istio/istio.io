@@ -17,7 +17,7 @@ This release contains fixes for the security vulnerability described in [our Nov
 
 - **ISTIO-SECURITY-2019-006** A DoS vulnerability has been discovered in Envoy.
 
-__[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__: An infinite loop can be triggered in Envoy if the option `continue_on_listener_filters_timeout` is set to True, which is the case in Istio. This vulnerability could be leveraged for a DoS attack.
+__[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__: An infinite loop can be triggered in Envoy if the option `continue_on_listener_filters_timeout` is set to True, which is the case in Istio. This vulnerability could be leveraged for a DoS attack. If you applied the mitigation mentioned in [our November 11, 2019 news post](/news/2019/istio-security-2019-006), you can remove the mitigation once you upgrade to Istio 1.3.5 or newer.
 
 ## Bug fixes
 
