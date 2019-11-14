@@ -24,6 +24,11 @@ The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration comm
 
 We recommend you to use a istioctl version that is the same version of your Istio control plane. Using the matching version of istioctl helps avoid unforeseen issues.
 
+{{< tip >}}
+If you have already [download the Istio release](/docs/setup/getting-started/#download), you should
+already have `istioctl` and do not need to install `istioctl` again.
+{{< /tip >}}
+
 ### Install istioctl
 
 Install the istioctl binary with curl:
