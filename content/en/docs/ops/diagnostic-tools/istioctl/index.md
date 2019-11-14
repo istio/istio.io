@@ -29,7 +29,7 @@ If you have already [download the Istio release](/docs/setup/getting-started/#do
 already have `istioctl` and do not need to install it again.
 {{< /tip >}}
 
-### Install istioctl
+### Install {{< istioctl >}}
 
 Install the istioctl binary with curl:
 
