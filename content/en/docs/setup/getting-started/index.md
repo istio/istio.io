@@ -8,11 +8,11 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-To get started with Istio, just follow these steps:
+To get started with Istio, just follow these three steps:
 
-- [Set up your platform](#platform)
-- [Download the Istio release](#download)
-- [Install Istio](#install)
+1. [Set up your platform](#platform)
+1. [Download the release](#download)
+1. [Install Istio](#install)
 
 ## Set up your platform {#platform}
 
@@ -182,6 +182,7 @@ The following tasks are a good place for beginners to start:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
+The next step is to customize Istio and deploy your own applications.
 Before you install and customize Istio to fit your platform and intended use,
 check out the following resources:
 
@@ -189,9 +190,6 @@ check out the following resources:
 - [Deployment best practices](/docs/ops/prep/deployment/)
 - [Pod requirements](/docs/ops/prep/requirements/)
 - [General installation instructions](/docs/setup/)
-
-Once you have a deployment that suits your needs, the next step is to deploy
-your own applications.
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
 you to our [community](/about/community/join/).
