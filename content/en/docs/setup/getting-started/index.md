@@ -10,10 +10,10 @@ keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 
 To get started with Istio, just follow these steps:
 
-- [Set up your platform {#platform}](#set-up-your-platform-platform)
-- [Download the Istio release {#download}](#download-the-istio-release-download)
-- [Install Istio {#install}](#install-istio-install)
-- [What's next](#whats-next)
+- [Set up your platform](#platform)
+- [Download the Istio release](#download)
+- [Install Istio](#install)
+- [What's next](#next-steps)
 - [Uninstall](#uninstall)
 
 ## Set up your platform {#platform}
@@ -42,7 +42,7 @@ Download the Istio release which includes installation files, samples, and the
     $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
     {{< /text >}}
 
-2.  Move to the Istio package directory. For example, if the package is
+1.  Move to the Istio package directory. For example, if the package is
     `istio-{{< istio_full_version >}}`:
 
     {{< text bash >}}
@@ -56,14 +56,14 @@ Download the Istio release which includes installation files, samples, and the
     - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
 
-3.  Add the `istioctl` client to your path, on a macOS or
+1.  Add the `istioctl` client to your path, on a macOS or
     Linux system:
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-4. You can optionally enable the [auto-completion option](/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+1. You can optionally enable the [auto-completion option](/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
 
 ## Install Istio {#install}
 
@@ -71,7 +71,7 @@ These instructions assume you are new to Istio, providing streamlined instructio
 install Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
 This installation lets you quickly get started evaluating Istio.
 If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/docs/setup/prep/deployment-models/),
+or a more advanced [deployment model](/docs/ops/prep/deployment-models/),
 follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
 
 {{< warning >}}
@@ -137,7 +137,7 @@ access logging.
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## What's next
+## Next steps
 
 With Istio installed, you can now deploy your own application or one of the sample applications
 provided with the installation.
@@ -190,9 +190,9 @@ explore more [tasks](/docs/tasks/) depending on what interests you.
 Before you install and customize Istio to fit your platform and intended use,
 check out the following resources:
 
-- [Deployment models](/docs/setup/prep/deployment-models/)
-- [Deployment best practices](/docs/setup/prep/deployment/)
-- [Pod requirements](/docs/setup/prep/requirements/)
+- [Deployment models](/docs/ops/prep/deployment-models/)
+- [Deployment best practices](/docs/ops/prep/deployment/)
+- [Pod requirements](/docs/ops/prep/requirements/)
 - [General installation instructions](/docs/setup/)
 
 Once you have a deployment that suits your needs, the next step is to deploy

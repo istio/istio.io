@@ -22,7 +22,7 @@ Before you begin, check the following prerequisites:
 
 1. [Download the Istio release](/docs/setup/#downloading-the-release).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services]/docs/setup/prep/requirements/).
+1. Check the [Requirements for Pods and Services]/docs/ops/prep/requirements/).
 
 ## Install Istio using the default profile
 
