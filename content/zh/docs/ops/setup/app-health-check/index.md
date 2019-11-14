@@ -23,7 +23,7 @@ keywords: [security,health-check]
 
 ## 在学习本节之前
 
-* 理解 Kubernetes 的 [ Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio 的 [认证策略](/zh/docs/concepts/security/#authentication-policies) 和 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication) 概念。
+* 理解 Kubernetes 的 [ Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio 的 [认证策略](/docs/concepts/security/#authentication-policies) 和 [双向 TLS 认证](/docs/concepts/security/#mutual-tls-authentication) 概念。
 
 * 有一个安装了 Istio 的 Kubernetes 集群，并且未开启全局双向 TLS 认证。
 
