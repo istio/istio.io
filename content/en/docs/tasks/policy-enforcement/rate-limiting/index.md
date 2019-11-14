@@ -13,7 +13,7 @@ service.
 ## Before you begin
 
 1. Setup Istio in a Kubernetes cluster by following the instructions in the
-   [Installation Guide](/docs/setup/install/kubernetes/).
+   [Installation Guide](/docs/setup/getting-started/).
 
     {{< warning >}}
     Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in

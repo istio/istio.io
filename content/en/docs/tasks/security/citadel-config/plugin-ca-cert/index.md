@@ -131,5 +131,5 @@ This requires you have `openssl` installed on your machine.
     $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
     {{< /text >}}
 
-*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/install/kubernetes/#uninstall) to remove.
+*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.
 

@@ -26,7 +26,7 @@ Istio control plane, Envoy can then form a mesh network across multiple clusters
 
 * Two or more clusters running a supported Kubernetes version ({{< supported_kubernetes_versions >}}).
 
-* The ability to deploy the [Istio control plane](/docs/setup/install/kubernetes/)
+* The ability to deploy the [Istio control plane](/docs/setup/getting-started/)
   on **one** of the clusters.
 
 * A RFC1918 network, VPN, or an alternative more advanced network technique
@@ -46,7 +46,7 @@ manifests and Helm charts provided within the Istio repository.
 
 ## Deploy the local control plane
 
-Install the [Istio control plane](/docs/setup/install/kubernetes/)
+Install the [Istio control plane](/docs/setup/getting-started/)
 on **one** Kubernetes cluster.
 
 ## Install the Istio remote
