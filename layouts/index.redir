@@ -32,5 +32,5 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 {{- end }}
 
 # Download scripts
-/downloadIstio https://raw.githubusercontent.com/istio/istio/release-{{< istio_version >}}/release/downloadIstioCandidate.sh
-/downloadIstioctl https://raw.githubusercontent.com/istio/istio/release-{{< istio_version >}}/release/downloadIstioCtl.sh
+/downloadIstio https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCandidate.sh
+/downloadIstioctl https://raw.githubusercontent.com/istio/istio/release-{{ .Site.Data.args.version }}/release/downloadIstioCtl.sh
