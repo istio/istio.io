@@ -73,7 +73,7 @@ version of Istio is 0.6 and you wish to introduce 0.7 which has been under devel
 
 1. Switch to the istio/istio.io repo and make sure everything is up to date.
 
-1. Edit the file `scripts/gen_archive_site.sh` and add the new archive version
+1. Edit the file `scripts/build_archive_site.sh` and add the new archive version
 (in this case release-0.6) to the `TOBUILD` variable.
 
 1. Edit the file `data/versions.yml`. Set the `preliminary` field to the next Istio release
