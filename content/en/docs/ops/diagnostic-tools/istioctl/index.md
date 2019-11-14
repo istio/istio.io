@@ -31,7 +31,7 @@ Install the istioctl binary with curl:
 1. Download the latest release with the command:
 
 {{< text bash >}}
-$ curl -sL https://raw.githubusercontent.com/istio/istio/$RELEASE_VERSION/release/downloadIstioCtl.sh | sh - 
+$ curl -sL https://raw.githubusercontent.com/istio/istio/release-{{< istio_version >}}/release/downloadIstioCtl.sh | sh - 
 {{< /text >}}
 
 2. Add the istioctl client to your path, on a macOS or Linux system:
