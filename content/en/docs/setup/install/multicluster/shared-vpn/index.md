@@ -453,7 +453,7 @@ and endpoint to allow the remote sidecars to resolve the
    and the application pod:
 
     {{< text bash >}}
-    $ istioctl manifest apply
+    $ istioctl manifest apply \
       --set values.global.mtls.enabled=true \
       --set values.security.selfSigned=false \
       --set values.global.controlPlaneSecurityEnabled=true
