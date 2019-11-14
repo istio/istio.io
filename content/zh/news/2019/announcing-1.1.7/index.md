@@ -16,7 +16,7 @@ We're pleased to announce the availability of Istio 1.1.7. Please see below for 
 
 ## Security update
 
-This release fixes [CVE 2019-12243](/news/2019/cve-2019-12243).
+This release fixes [CVE 2019-12243](/news/2019/istio-security-2019-001).
 
 ## Bug fixes
 

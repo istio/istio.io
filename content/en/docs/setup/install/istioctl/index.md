@@ -6,6 +6,8 @@ keywords: [istioctl,kubernetes]
 ---
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
+If you are new to Istio, and just want to try it out, follow the
+[quick start instructions](/docs/setup/getting-started) instead.
 
 This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
 tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
@@ -20,7 +22,7 @@ and then further customize the configuration for your specific needs.
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
 
@@ -38,6 +40,13 @@ This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
+
+If you want to enable security on top of the `default` profile, you can set the
+security related configuration parameters:
+
+{{< text bash >}}
+$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+{{< /text >}}
 
 ## Install a different profile
 
@@ -57,10 +66,8 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
     default
-    demo-auth
     demo
     minimal
-    sds
 {{< /text >}}
 
 ## Display the configuration of a profile
@@ -86,23 +93,6 @@ cni:
     cni:
       enabled: false
   enabled: false
-configManagement:
-  components:
-    galley:
-      enabled: true
-      k8s:
-        replicaCount: 1
-        resources:
-          requests:
-            cpu: 100m
-        strategy:
-          rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 25%
-  enabled: true
-defaultNamespace: istio-system
-gateways:
-  components:
 ...
 {{< /text >}}
 
@@ -133,30 +123,7 @@ k8s:
   hpaSpec:
     maxReplicas: 5
     metrics:
-    - resource:
-        name: cpu
-        targetAverageUtilization: 80
-      type: Resource
-    minReplicas: 1
-    scaleTargetRef:
-      apiVersion: apps/v1
-      kind: Deployment
-      name: istio-pilot
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: 8080
-    initialDelaySeconds: 5
-    periodSeconds: 30
-    timeoutSeconds: 5
-  resources:
-    requests:
-      cpu: 10m
-      memory: 100Mi
-  strategy:
-    rollingUpdate:
-      maxSurge: 100%
-      maxUnavailable: 25%
+...
 {{< /text >}}
 
 ## Show differences in profiles
@@ -267,10 +234,10 @@ In addition to installing any of Istio's built-in
 - [The `IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
-line. For example, to disable the telemetry feature in a default configuration profile, use this command:
+line. For example, to enable the security feature in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl manifest apply --set telemetry.enabled=false
+$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
 Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
@@ -299,29 +266,23 @@ The `IstioControlPlane` API groups control plane components by feature, as shown
 
 | Feature | Components |
 |---------|------------|
-`Base` | CRDs
-`Traffic Management` | Pilot
-`Policy` | Policy
-`Telemetry` | Telemetry
-`Security` | Citadel
-`Security` | Node agent
-`Security` | Cert manager
-`Configuration management` | Galley
-`Gateways` | Ingress gateway
-`Gateways` | Egress gateway
-`AutoInjection` | Sidecar injector
-`CoreDNS` | CoreDNS
+`base` | `CRDs`
+`trafficManagement` | `pilot`
+`policy` | `policy`
+`telemetry` | `telemetry`
+`security` | `citadel`, `nodeAgent`, `certManager`
+`configManagement` | `galley`
+`gateways` | `ingressGateway`, `egressGateway`
+`autoInjection` | `injector`
+`coreDNS` | `coreDNS`
+`thirdParty` | `cni`
 
-In addition to the core Istio components, third-party addon features and components are also available:
+In addition to the core Istio components, third-party addon features and components are also available. These can only
+be enabled and configured through the Helm pass-through API:
 
 | Feature | Components |
 |---------|------------|
-`Telemetry` | Prometheus
-`Telemetry` | Prometheus Operator
-`Telemetry` | Grafana
-`Telemetry` | Kiali
-`Telemetry` | Tracing
-`ThirdParty` | CNI
+`telemetry` | `prometheus`, `prometheusOperator`, `grafana`, `kiali`, `tracing`
 
 Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
 Namespaces that components are installed into can be set by component, feature, or globally.

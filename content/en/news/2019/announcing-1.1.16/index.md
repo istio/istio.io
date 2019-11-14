@@ -1,8 +1,8 @@
 ---
 title: Announcing Istio 1.1.16
+subtitle: Patch Release
 description: Istio 1.1.16 patch release.
 publishdate: 2019-10-08
-attribution: The Istio Team
 release: 1.1.16
 aliases:
     - /news/announcing-1.1.16

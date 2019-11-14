@@ -12,6 +12,8 @@ familiar with the use and operation of Istio 1.3.
 
 ## Traffic management
 
+### HTTP services on port 443
+
 Services of type `http` are no longer allowed on port 443. This change was made to prevent protocol conflicts with external HTTPS services.
 
 If you depend on this behavior, there are a few options:
@@ -21,6 +23,12 @@ If you depend on this behavior, there are a few options:
 * Specify the environment variable `PILOT_BLOCK_HTTP_ON_443=false` to the Pilot deployment. Note: this may be removed in future releases.
 
 See [Protocol Selection](/docs/ops/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
+
+### Regex Engine Changes
+
+To prevent excessive resource consumption from large regular expressions, Envoy has moved to a new regular expression engine based on [`re2`](https://github.com/google/re2). Previously, `std::regex` was used. These two engines may have slightly different syntax; in particular, the regex fields are now limited to 100 bytes.
+
+If you depend on specific behavior of the old regex engine, you can opt out of this change by adding the environment variable `PILOT_ENABLE_UNSAFE_REGEX=true` to the Pilot deployment. Note: this will be removed in future releases.
 
 ## Configuration management
 
