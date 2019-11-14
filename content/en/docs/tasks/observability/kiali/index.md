@@ -14,6 +14,12 @@ and use the web-based graphical user interface to view service graphs of
 the mesh and your Istio configuration objects. Lastly, you use the Kiali
 Public API to generate graph data in the form of consumable JSON.
 
+{{< idea >}}
+This task does not cover all of the features provided by Kiali.
+To learn about the full set of features it supports,
+see the [Kiali website](http://kiali.io/documentation/features/).
+{{< /idea >}}
+
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
 
 ## Before you begin
