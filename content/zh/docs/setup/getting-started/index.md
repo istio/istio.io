@@ -40,3 +40,7 @@ The next step is to deploy your own applications.
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
 you to our [community](/about/community/join/).
+
+## Download
+
+Placeholder
