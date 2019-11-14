@@ -94,7 +94,7 @@ popd || exit
 popd || exit
 
 # Adjust a few things for archive_landing
-rm -fr content/en/about content/en/docs content/en/faq content/en/blog content/zh
+rm -fr content/en/about content/en/docs content/en/faq content/en/blog content/en/news content/zh
 rm -fr static/talks
 sed -i 's/preliminary: true/preliminary: false/g' data/args.yml
 sed -i 's/archive_landing: false/archive_landing: true/g' data/args.yml
