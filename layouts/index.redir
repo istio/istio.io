@@ -30,3 +30,7 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 {{ . | printf "%-35s" }}	{{ $p.RelPermalink }}
 {{- end -}}
 {{- end }}
+
+# Download scripts
+/downloadIstio https://raw.githubusercontent.com/istio/istio/release-{{< istio_version >}}/release/downloadIstioCandidate.sh
+/downloadIstioctl https://raw.githubusercontent.com/istio/istio/release-{{< istio_version >}}/release/downloadIstioCtl.sh
