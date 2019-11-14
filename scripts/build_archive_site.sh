@@ -102,8 +102,8 @@ sed -i 's/archive_landing: false/archive_landing: true/g' data/args.yml
 # Grab the state
 cp "${TMP}/archives.yml" data
 
-scripts/build_site.sh
-scripts/gen_site.sh "$1"
+scripts/gen_site.sh
+scripts/build_site.sh "$1"
 
 mv public/* "${TMP}/archive"
 rm -fr public
