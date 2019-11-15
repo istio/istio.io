@@ -16,7 +16,7 @@ aliases:
 
 在自身集群中 [安装 Istio](/zh/docs/setup/) 并部署一个应用。
 
-## 查询 Istio 度量指标{#query-istio-metrics}
+## 查询 Istio 度量指标{#query-mesh-metrics}
 
 1.  验证自身集群中运行着 `prometheus` 服务。
 
@@ -81,7 +81,7 @@ aliases:
     rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
     {{< /text >}}
 
-### 关于 Prometheus 插件{#about-the-prometheus-add-on}
+### 关于 Prometheus 插件{#about-the-monitor-add-on}
 
 Mixer 自带一个内嵌的 [Prometheus](https://prometheus.io) 适配器，对外暴露一个端点，负责提供度量指标值服务。 Prometheus 插件是一个提前配置好的 Prometheus 服务器，旨在通过 Mixer 端点收集对外暴露的度量指标。插件提供了持久化存储和 Istio 度量指标查询机制。
 
