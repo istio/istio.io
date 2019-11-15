@@ -39,7 +39,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
     {{< /text >}}
 
-## Kubernetes ExternalName 服务访问外部服务{#Kubernetes-ExternalName-service-to-access-an-external-service}
+## Kubernetes ExternalName 服务访问外部服务{#kubs-external-name-service-to-access-an-external-service}
 
 1.  为 `httpbin.org` 创建一个 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务：
 
@@ -115,14 +115,14 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     }
     {{< /text >}}
 
-### 清理 Kubernetes ExternalName 服务{#cleanup-of-Kubernetes-ExternalName-service}
+### 清理 Kubernetes ExternalName 服务{#cleanup-of-kubs-external-name-service}
 
 {{< text bash >}}
 $ kubectl delete destinationrule my-httpbin
 $ kubectl delete service my-httpbin
 {{< /text >}}
 
-## 使用带 endpoints 的 Kubernetes 服务来访问外部服务{#use-a-Kubernetes-service-with-endpoints-to-access-an-external-service}
+## 使用带 endpoints 的 Kubernetes 服务来访问外部服务{#use-a-kubs-service-with-endpoints-to-access-an-external-service}
 
 1.  为 Wikipedia 创建没有 selector 的 Kubernetes 服务：
 
@@ -208,7 +208,7 @@ $ kubectl delete service my-httpbin
     ...
     {{< /text >}}
 
-### 清理没有 endpoints 的 Kubernetes 服务{#cleanup-of-Kubernetes-service-with-endpoints}
+### 清理没有 endpoints 的 Kubernetes 服务{#cleanup-of-kubs-service-with-endpoints}
 
 {{< text bash >}}
 $ kubectl delete destinationrule my-wikipedia
