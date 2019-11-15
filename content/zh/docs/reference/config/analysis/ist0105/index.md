@@ -3,25 +3,15 @@ title: IstioProxyVersionMismatch
 layout: analysis-message
 ---
 
-This message is emitted regarding a pod when:
+以下情况，会关于pod出现这条消息：
 
-* Automatic sidecar injection is enabled (default enabled unless explicitly
-  disabled via the helm template variable `sidecarInjectorWebhook.enabled`)
-* The pod is running in a namespace where sidecar injection is enabled (the
-  namespace has the label `istio-injection=enabled`)
-* The proxy version running on the sidecar does not match the version used by
-  the auto-injector
+* 启用了sidecar自动注入（除非在安装过程中明确禁用，否则默认启用。）
+* pod在启用了sidecar注入的名称空间中运行（命名空间带有标签`istio-injection=enabled`）
+* sidecar上运行的代理版本与自动进注入使用的版本不匹配
 
-This often results after upgrading the Istio control plane; after upgrading
-Istio (which includes the sidecar injector), all running workloads with an Istio
-sidecar must be recreated to allow the new version of the sidecar to be
-injected.
+升级Istio控制平面后，通常会出现这种情况；升级Istio（包括sidecar注入）后，必须重新创建Istio sidecar的所有正在运行的工作负载，以允许注入新版本的sidecar。
 
-The easiest way to update the sidecar version is to redeploy your application
-using your normal rollout strategy. For a Kubernetes deployment:
+解决这个问题，通过使用常规的部署策略重新部署应用来更新sidecar版本。对于Kubernetes deployment：
 
-* If you're using Kubernetes version 1.15 or above, you can run `kubectl rollout
-  restart <my-deployment>` to trigger a new rollout.
-* Alternatively, you can modify the deployment's `template` field to force a new
-  rollout. This is often done by adding a label like `force-redeploy=<current
-  timestamp>` to the pod definition in the template.
+* 如果您使用的是Kubernetes 1.15或更高版本，则可以运行 `kubectl rollout restart <my-deployment>`来重新部署。
+* 或者，您可以修改deployment的`template`字段来强制进行新的部署。通常是通过在pod模板定义中添加一个类似`force-redeploy=<current-timestamp>`的标签来完成的 。
