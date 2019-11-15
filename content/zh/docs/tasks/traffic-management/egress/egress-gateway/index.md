@@ -22,7 +22,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 另一个用例是应用程序节点没有公共 IP 的集群，因此在其上运行的网格内服务无法访问 Internet。定义 Egress gateway，通过它引导所有出口流量并将公共 IP 分配给 Egress gateway 节点，允许应用节点以受控的方式访问外部服务。
 
-## 开始之前
+{{< boilerplate before-you-begin-egress >}}
 
 *   [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
@@ -36,7 +36,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     如果没有 pod 返回，通过接下来的步骤来部署 Istio Egress gateway。
 
-1.  跑以下命令：
+1.  执行以下命令：
 
     {{< text bash >}}
     $ istioctl manifest apply --set values.global.istioNamespace=istio-system \
@@ -45,7 +45,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
     {{< /text >}}
 
 {{< warning >}}
-以下说明在`default` 命名空间中为 Egress gateway 创建 destination rule 并假设客户端 `SOURCE_POD` 也在 `default` 命名空间中运行。
+以下说明在 `default` 命名空间中为 Egress gateway 创建 destination rule 并假设客户端 `SOURCE_POD` 也在 `default` 命名空间中运行。
 如果没有，则 destination rule 将不会在 [destination rule 查找路径](/zh/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)，客户端请求将失败。
 
 {{< /warning >}}
