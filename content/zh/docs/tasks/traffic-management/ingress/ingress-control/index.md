@@ -24,7 +24,7 @@ aliases:
 
 *   根据下文描述，确定 ingress IP 和端口。
 
-### 确定 ingress IP 和端口{#determining-the-ingress-ip-and-ports}
+### 确定 ingress IP 和端口{#determining-the-ingress-internet-protocol-and-ports}
 
 执行如下指令，明确自身 Kubernetes 集群环境支持外部负载均衡：
 
@@ -116,7 +116,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 {{< /tabset >}}
 
-## 使用一个 Istio Gateway 配置 ingress{#configuring-ingress-using-an-istio-gateway}
+## 使用一个 Istio Gateway 配置 ingress{#configuring-ingress-using-an-mesh-gateway}
 
 一个 ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述一个运行在网格边界的负载均衡器，负责接收入口 HTTP/TCP 连接。
 其中配置了对外暴露的端口、协议等。
