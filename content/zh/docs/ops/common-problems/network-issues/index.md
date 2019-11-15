@@ -25,7 +25,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 - `NR`：没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`：上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
-- `UF`：未能连接到上游，如果你正在使用 Istio 认证，请检查 [mutual-tls 配置冲突](#503-errors-after-setting-destination-rule)。
+- `UF`：未能连接到上游，如果你正在使用 Istio 认证，请检查 [mutual-tls 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
 
 如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
 
@@ -112,7 +112,7 @@ spec:
 
 Istio 默认可以方便地将流量从任意源传输到目标服务的任意版本而不需要设置任何规则。因为你需要区分一个服务的不同版本，所以你需要定义不同的路由规则。因此，我们考虑从一开始就为每个服务基于最佳实践设置一个默认的路由规则。
 
-## 设置 destination rule 之后出现 503 异常{#503-errors-after-setting-destination-rule}
+## 设置 destination rule 之后出现 503 异常{#service-unavailable-errors-after-setting-destination-rule}
 
 如果在你应用了一个 `DestinationRule` 之后请求一个服务立即产生了一个 503 异常，并且这个异常持续产生直到你移除了这个 `DestinationRule`，那么这个 `DestinationRule` 大概为这个服务引起了一个 TLS 冲突。
 
@@ -295,7 +295,7 @@ server {
 }
 {{< /text >}}
 
-## 当为多个 gateway 配置了相同的 TLS 证书导致 404 异常{#404-errors-occur-when-multiple-gateways-configured-with-same-tls-certificate}
+## 当为多个 gateway 配置了相同的 TLS 证书导致 404 异常{#not-found-errors-occur-when-multiple-gateways-configured-with-same-TLS-certificate}
 
 多个网关配置同一 TLS 证书会导致浏览器在与第一台主机建立连接之后访问第二台主机时利用 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)（例如，大部分浏览器）从而导致 404 异常产生。
 
