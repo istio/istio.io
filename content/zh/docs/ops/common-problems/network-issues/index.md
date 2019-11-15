@@ -39,7 +39,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 ## 路由规则似乎没有对流量生效{#route-rules-don't-seem-to-affect-traffic-flow}
 
-在当前版本的 Envoy sidecar 实现中，加权版本分发被观测到至少需要100个请求。
+在当前版本的 Envoy sidecar 实现中，加权版本分发被观测到至少需要 100 个请求。
 
 如果路由规则在 [Bookinfo](/zh/docs/examples/bookinfo/) 这个例子中完美地运行，但在你自己的应用中相似版本的路由规则却没有生效，可能因为你的 Kubernetes service 需要被稍微地修改。为了利用 Istio 的七层路由特性 Kubernetes service 必须严格遵守某些限制。参考 [Pods 和 Services 的要求](/zh/docs/setup/additional-setup/requirements/)查看详细信息。
 
@@ -49,7 +49,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 尽管 destination rule 和特定的目标主机关联，subset-specific 策略的激活最终依赖于路由规则。
 
-当路由一个请求，Envoy 首先会评估 virtual service 中的 route rule 来决定是否路由到一个特性的 subset。如此，它才会激活任意与 subset 相对应的 destination rule 策略。所以，如果你希望流量路由到正确的 subset，只有你定义明确的 subset 策略 Istio 才会应用。
+当路由一个请求，Envoy 首先会评估 virtual service 中的 route rule 来决定是否路由到一个特定的 subset。如此，它才会激活任意与 subset 相对应的 destination rule 策略。所以，如果你希望流量路由到正确的 subset，只有你定义明确的 subset 策略 Istio 才会应用。
 
 举个例子，假设下面是为 *reviews* 服务定义的唯一的 destination rule，因此，这里没有与 `VirtualService` 定义相对应的路由规则：
 
@@ -299,7 +299,7 @@ server {
 
 多个网关配置同一 TLS 证书会导致浏览器在与第一台主机建立连接之后访问第二台主机时利用 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)（例如，大部分浏览器）从而导致 404 异常产生。
 
-举个例子，假如你有 2 个主机共用相同的TLS证书，如下所示：
+举个例子，假如你有 2 个主机共用相同的 TLS 证书，如下所示：
 
 - 通配证书 `*.test.com` 被安装到 `istio-ingressgateway`
 - `Gateway` 配置 `gw1` 到主机 `service1.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
