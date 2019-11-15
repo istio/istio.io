@@ -44,7 +44,7 @@
                         <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
-                {{ with $latest_news }}
+                {{ with (.Site.GetPage "section" "news")  }}
                     {{ if eq $section "news" }}
                         <span title="{{ $news_home.Description }}">{{ $news_home.LinkTitle }}</span>
                     {{ else }}
