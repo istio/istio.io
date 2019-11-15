@@ -17,4 +17,4 @@ $ kubectl -n istio-system edit deployment istio-telemetry
 
 然后遵循[分布式追踪任务的清理部分](/zh/docs/tasks/observability/distributed-tracing/zipkin/#cleanup)的步骤进行后续操作。
 
-如果您根本不想要追踪功能，那么就在安装 Istio 时[禁用追踪](/zh/docs/tasks/observability/distributed-tracing/zipkin/#before-you-begin)。
+如果您不想要追踪功能，那么就在安装 Istio 时[禁用追踪](/zh/docs/tasks/observability/distributed-tracing/zipkin/#before-you-begin)。
