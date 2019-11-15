@@ -25,7 +25,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n without-istio
     {{< /text >}}
 
-*  发送请求, 创建环境变量 `SOURCE_POD_WITHOUT_ISTIO` 来保存源 pod 的名称：
+*  发送请求，创建环境变量 `SOURCE_POD_WITHOUT_ISTIO` 来保存源 pod 的名称：
 
     {{< text bash >}}
     $ export SOURCE_POD_WITHOUT_ISTIO=$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})
@@ -81,7 +81,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     {{< /text >}}
 
 1.  在这个例子中，未加密的 HTTP 请求被发送到 `httpbin.org`。仅出于示例目的，您禁用 TLS 模式，并允许外部服务的未加密流量。在现实生活中，我们建议
-    由 Istio 执行[Egress TLS 起源](/zh/docs/tasks/traffic-management/egress/egress-tls-origination)。
+    由 Istio 执行 [Egress TLS 起源](/zh/docs/tasks/traffic-management/egress/egress-tls-origination)。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -124,7 +124,7 @@ $ kubectl delete service my-httpbin
 
 ## 使用带 endpoints 的 Kubernetes 服务来访问外部服务{#use-a-Kubernetes-service-with-endpoints-to-access-an-external-service}
 
-1.  为 Wikipedia 创建没有 selector 的 Kubernetes 服务:
+1.  为 Wikipedia 创建没有 selector 的 Kubernetes 服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
