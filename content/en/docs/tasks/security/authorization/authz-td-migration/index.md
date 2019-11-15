@@ -1,5 +1,5 @@
 ---
-title: Trust domain migration for authorization policy.
+title: Authorization Policy Trust Domain Migration
 description: Shows how to migrate from one trust domain to another without changing authorization policy.
 weight: 40
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
@@ -34,10 +34,17 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
     $ istioctl manifest apply --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
-1. Follow [Deploy httpbin and sleep](/docs/examples/httpbin-sleep) and:
+1. Deploy the [httpbin]({{< github_tree >}}/samples/httpbin) sample in the `default` namespace
+ and the [sleep]({{< github_tree >}}/samples/sleep) sample in the `default` and `sleep-allow` namespaces:
 
-    * Deploy `httpbin` and `sleep` in the `default` namespace.
-    * Deploy `sleep` in the `sleep-allow` namespace.
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection=enabled
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl create namespace sleep-allow
+    $ kubectl label namespace sleep-allow istio-injection=enabled
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sleep-allow
+    {{< /text >}}
 
 1. Apply the authorization policy below to deny all requests to `httpbin` except from `sleep` in the `sleep-allow` namespace.
 
