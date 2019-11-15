@@ -20,7 +20,7 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 
 ## 升级步骤 {#Upgrade steps}
 
-[下载新版本 Istio](/docs/setup/#downloading-the-release)，并切换目录到新版本的目录下。
+[下载新版本 Istio](/docs/setup/getting-started/#download)，并切换目录到新版本的目录下。
 
 ### Istio CNI 升级 {#Istio CNI upgrade}
 
