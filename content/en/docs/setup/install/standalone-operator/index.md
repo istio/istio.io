@@ -56,7 +56,7 @@ components corresponding to the specified (`demo`) configuration.
 
 {{< tip >}}
 The Istio operator controller begins the process of installing Istio within 90 seconds of
-the creation of the IstioControlPlane resource. The Istio installation completes within 120
+the creation of the `IstioControlPlane` resource. The Istio installation completes within 120
 seconds.
 {{< /tip >}}
 
