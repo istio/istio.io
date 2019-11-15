@@ -14,7 +14,7 @@ aliases:
 [控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务显示了如何配置 Istio 允许从网格内部的应用程序访问外部 HTTP 和 HTTPS 服务，实际上是 Sidecar 直接调用外部服务。此示例还显示了如何配置 Istio 通过专用的 _Egress gateway_ 服务间接调用外部服务。
 
 Istio 使用 [Ingress and Egress gateways](/zh/docs/reference/config/networking/gateway/) 配置在服务网格边缘执行的负载均衡器。
-ingress gateway 使您可以定义所有输入流量流经的网格的入口点。Egress gateway 是一个对称的概念，它定义了网格的出口点。Egress gateway 允许您可以将 Istio 功能（例如，监视和路由规则）应用于离开网格的流量。
+Ingress gateway 使您可以定义所有输入流量流经的网格的入口点。Egress gateway 是一个对称的概念，它定义了网格的出口点。Egress gateway 允许您可以将 Istio 功能（例如，监视和路由规则）应用于离开网格的流量。
 
 ## 用例{#use-case}
 
@@ -26,7 +26,7 @@ ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 *   [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-## 部署 Istio Egress gateway{#deploy-istio-egress-gateway}
+## 部署 Istio Egress gateway{#deploy-i-s-t-i-o-egress-gateway}
 
 1.  检查 Istio Egress gateway 是否已布署：
 
@@ -286,7 +286,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     EOF
     {{< /text >}}
 
-1.  验证您的 `ServiceEntry` 是否已正确生效。发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。
+1.  发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，验证您的 `ServiceEntry` 是否已正确生效。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -516,7 +516,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  检查生成的 Pod，其中应该只有一个容器，也就是说没有注入 Istio sidecar：
+1.  检查生成的 Pod，其中应该只有一个容器，也就是说没有注入 Istio Sidecar：
 
     {{< text bash >}}
     $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress
