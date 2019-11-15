@@ -15,26 +15,22 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
 
 ## Before you begin
 
-The activities in this task assume that you:
+1. Read the [authorization concept guide](/docs/concepts/security/#authorization).
 
-1. Read the [authorization concept](/docs/concepts/security/#authorization).
-
-1. Create a trust domain profile.
+1. Install Istio with a custom trust domain and mutual TLS enabled.
 
     {{< text bash >}}
-    $ echo "apiVersion: install.istio.io/v1alpha2
-      kind: IstioControlPlane
-      spec:
-        values:
-          global:
-            mtls:
-              enabled: true
-            trustDomain: old-td" > td-installation.yaml
-    {{< /text >}}
-
-1. Install Istio with the newly created file.
-
-    {{< text bash >}}
+    $ cat <<EOF > ./td-installation.yaml
+    apiVersion: install.istio.io/v1alpha2
+    kind: IstioControlPlane
+    spec:
+      values:
+        global:
+          controlPlaneSecurityEnabled: false
+          mtls:
+            enabled: true
+          trustDomain: old-td
+    EOF
     $ istioctl manifest apply --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
@@ -89,22 +85,20 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 
 ## Migrate trust domain without trust domain aliases
 
-1. Change the value of `trustDomain` in `td-installation.yaml` to `new-td`.
+1. Install Istio with a new trust domain.
 
     {{< text bash >}}
-    $ echo "apiVersion: install.istio.io/v1alpha2
-      kind: IstioControlPlane
-      spec:
-        values:
-          global:
-            mtls:
-              enabled: true
-            trustDomain: new-td" > td-installation.yaml
-    {{< /text >}}
-
-1. Install Istio with the custom file.
-
-    {{< text bash >}}
+    $ cat <<EOF > ./td-installation.yaml
+    apiVersion: install.istio.io/v1alpha2
+    kind: IstioControlPlane
+    spec:
+      values:
+        global:
+          controlPlaneSecurityEnabled: false
+          mtls:
+            enabled: true
+          trustDomain: new-td
+    EOF
     $ istioctl manifest apply --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
@@ -152,24 +146,25 @@ you don't need to follow this step. Learn more about [Provisioning Identity thro
 
 ## Migrate trust domain with trust domain aliases
 
-1. Prepare trust domain aliases for the Istio mesh.
+1. Install Istio with a new trust domain and trust domain aliases.
 
     {{< text bash >}}
-    $ echo "apiVersion: install.istio.io/v1alpha2
-      kind: IstioControlPlane
-      spec:
-        values:
-          global:
-            mtls:
-              enabled: true
-            trustDomain: new-td
-            trustDomainAliases:
-              - old-td" > td-installation.yaml
+    $ cat <<EOF > ./td-installation.yaml
+    apiVersion: install.istio.io/v1alpha2
+    kind: IstioControlPlane
+    spec:
+      values:
+        global:
+          controlPlaneSecurityEnabled: false
+          mtls:
+            enabled: true
+          trustDomain: new-td
+          trustDomainAliases:
+            - old-td
+    EOF
+    $ istioctl manifest apply --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
-1. Repeat step 2-4 from [Migrate trust domain without trust domain aliases](/docs/tasks/security/authorization/authz-td-migration/#migrate-trust-domain-without-trust-domain-aliases).
-   Istio mesh is now running with the new trust domain `new-td` as before. However, it recognizes that `old-td` used to be an equivalent trust domain. Therefore,
-   it will treat `old-td` the same as `new-td`.
 1. Without changing the authorization policy, verify that requests to `httpbin` from:
 
     * `sleep` in the `default` namespace are denied.
@@ -198,5 +193,9 @@ as the old trust domain without you having to include the aliases.
 ## Clean up
 
 {{< text bash >}}
+$ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
+$ kubectl delete deploy httpbin; k delete service httpbin; k delete serviceaccount httpbin
+$ kubectl delete deploy sleep; k delete service sleep; k delete serviceaccount sleep
+$ kubectl delete namespace sleep-allow
 $ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete -f -
 {{< /text >}}
