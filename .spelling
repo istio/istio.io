@@ -4,6 +4,8 @@
 # one word per line, to define a file override use ' - filename'
 # followed by file specific exceptions, one per line
 # filename is relative to this configuration file
+istio
+prometheus
 0.1.x
 0.2.x
 0.8.x
