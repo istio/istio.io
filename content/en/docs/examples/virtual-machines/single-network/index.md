@@ -32,9 +32,6 @@ Istio mesh deployed on Kubernetes.
   internal load balancer, using a [Core DNS](https://coredns.io/) server, or
   configuring the IPs in any other DNS server accessible from the VM.
 
-- Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
-  support adding VMs to your mesh.
-
 The following instructions:
 
 - Assume the expansion VM is running on GCE.
@@ -51,37 +48,32 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-1.  Ensure that the `mesh expansion` option is enabled for the cluster. If you
-    didn't use the `--set global.meshExpansion.enabled=true` flag when
-    installing Helm, you can use one of the following two options depending on
-    how you originally installed Istio on the cluster:
+1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
-    -   If you installed Istio with Helm and Tiller, run `helm upgrade` with the new option:
-
-    {{< text bash >}}
-    $ cd install/kubernetes/helm/istio
-    $ helm upgrade --set global.meshExpansion.enabled=true istio .
-    $ cd -
-    {{< /text >}}
-
-    -   If you installed Istio without Helm and Tiller, use `helm template` to update your configuration with the option and reapply with `kubectl`:
+    {{< warning >}}
+    The root and intermediate certificate from the samples directory are widely
+    distributed and known.  Do **not** use these certificates in production as
+    your clusters would then be open to security vulnerabilities and compromise.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ helm template  install/kubernetes/helm/istio-init --name istio-init --namespace istio-system  | kubectl apply -f -
-    $ cd install/kubernetes/helm/istio
-    $ helm template --set global.meshExpansion.enabled=true --namespace istio-system . > istio.yaml
-    $ kubectl apply -f istio.yaml
-    $ cd -
+    $ kubectl create secret generic cacerts -n istio-system \
+        --from-file=@samples/certs/ca-cert.pem@ \
+        --from-file=@samples/certs/ca-key.pem@ \
+        --from-file=@samples/certs/root-cert.pem@ \
+        --from-file=@samples/certs/cert-chain.pem@
     {{< /text >}}
 
-    {{< tip >}}
-    When updating configuration with Helm, you can either set the option on the command line, as in our examples, or add
-    it to a `.yaml` values file and pass it to
-    the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
-    can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
-    more about customizing Helm charts in the [Helm documentation](https://helm.sh/docs/intro/using_helm/).
-    {{< /tip >}}
+1. Deploy Istio control plane into the cluster
+
+        {{< text bash >}}
+        $ istioctl manifest apply \
+            -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
+        {{< /text >}}
+
+    For further details and customization options, refer to the
+    [installation instructions](/docs/setup/install/istioctl/).
 
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
@@ -245,46 +237,14 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ echo ${GCE_IP}
     {{< /text >}}
 
-1. Configure a service entry to enable service discovery for the VM. You can add VM services to the mesh using a
-    [service entry](/docs/reference/config/networking/service-entry/). Service entries let you manually add
-    additional services to Pilot's abstract model of the mesh. Once VM services are part of the mesh's abstract model,
-    other services can find and direct traffic to them. Each service entry configuration contains the IP addresses, ports,
-    and appropriate labels of all VMs exposing a particular service, for example:
-
-    {{< text bash yaml >}}
-    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: vmhttp
-    spec:
-      hosts:
-      - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
-      ports:
-      - number: 8080
-        name: http
-        protocol: HTTP
-      resolution: STATIC
-      endpoints:
-      - address: ${GCE_IP}
-        ports:
-          http: 8080
-        labels:
-          app: vmhttp
-          version: "v1"
-    EOF
-    {{< /text >}}
-
-1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the domain names of VM services. To
-    integrate the mapping with your own DNS system, use [`istioctl register`](/docs/reference/commands/istioctl#istioctl-register) and creates a Kubernetes `selector-less`
-    service, for example:
+1. Add VM services to the mesh
 
     {{< text bash >}}
-    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP} 8080
+    $ istioctl experimental add-to-mesh external-service vmhttp ${VM_IP} http:8080 -n ${SERVICE_NAMESPACE}
     {{< /text >}}
 
     {{< tip >}}
-    Make sure you have already added the [`istioctl`](/docs/reference/commands/istioctl) client to your path, as described in the [download page](/docs/setup/getting-started/#download).
+    Ensure you have added the `istioctl` client to your path, as described in the [download page](/docs/setup/getting-started/#download).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
@@ -293,7 +253,6 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ kubectl apply -f @samples/sleep/sleep.yaml@
     $ kubectl get pod
     NAME                             READY     STATUS    RESTARTS   AGE
-    productpage-v1-8fcdcb496-xgkwg   2/2       Running   0          1d
     sleep-88ddbcfdd-rm42k            2/2       Running   0          1s
     ...
     {{< /text >}}
@@ -329,10 +288,9 @@ Run the following commands to remove the expansion VM from the mesh's abstract
 model.
 
 {{< text bash >}}
-$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${GCE_IP}
-2019-02-21T22:12:22.023775Z     info    Deregistered service successfull
-$ kubectl delete ServiceEntry vmhttp -n ${SERVICE_NAMESPACE}
-serviceentry.networking.istio.io "vmhttp" deleted
+$ istioctl experimental remove-from-mesh -n ${SERVICE_NAMESPACE} vmhttp
+Kubernetes Service "vmhttp.vm" has been deleted for external service "vmhttp"
+Service Entry "mesh-expansion-vmhttp" has been deleted for external service "vmhttp"
 {{< /text >}}
 
 ## Troubleshooting
