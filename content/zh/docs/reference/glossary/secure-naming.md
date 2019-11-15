@@ -1,5 +1,4 @@
 ---
 title: Secure Naming
 ---
-Provides a mapping between a [service name](#service-name) and the [workload instance principals](#workload-instance-principal) that are authorized to
-run the [workload instances](#workload-instance) implementing a [service](#service).
+Secure Naming 提供一个 [service name](#service-name) 到 [workload instance principals](#workload-instance-principal) 的映射，这个工作负载实例被授权运行一个 [workload instances](#workload-instance)，实现一个 [service](#service)。

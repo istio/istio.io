@@ -1,52 +1,37 @@
 ---
-title: Kubernetes Services for Egress Traffic
-description: Shows how to configure Istio  Kubernetes External Services.
+title: Kubernetes Egress流量服务
+description: 展示如何配置 Istio Kubernetes 外部服务。
 keywords: [traffic-management,egress]
 weight: 60
 ---
 
-Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname)
-services and Kubernetes services with
-[Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors)
-let you create a local DNS _alias_ to an external service.
-This DNS alias has the same form as the DNS entries for local services, namely
-`<service name>.<namespace name>.svc.cluster.local`. DNS aliases provide _location transparency_ for your workloads:
-the workloads can call local and external services in the same way. If at some point in time you decide to deploy the
-external service inside your cluster, you can just update its Kubernetes service to reference the local version. The workloads will continue to operate without any change.
+Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务和带 [Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors) 的 Kubernetes 服务使你可以创建一个外部服务的本地 DNS 别名。这个 DNS 别名与本地服务的 DNS 条目具有相同的形式，即 `<service name>.<namespace name>.svc.cluster.local`。DNS 别名为您的工作负载提供“位置透明性”：工作负载可以以相同的方式调用本地和外部服务。如果您决定在某个时间在集群内部部署外部服务，您只需更新其 Kubernetes 服务以引用本地版本即可。工作负载将继续运行，而不会有任何变化。
 
-This task shows that these Kubernetes mechanisms for accessing external services continue to work with Istio.
-The only configuration step you must perform is to use a TLS mode other than Istio's
-[mutual TLS](/docs/concepts/security/#mutual-tls-authentication). The external services are not part of an Istio service
-mesh so they cannot perform the mutual TLS of Istio. You must set the TLS mode according to the TLS requirements of the
-external service and according to the way your workload accesses the external service. If your workload issues plain
-HTTP requests and the external service requires TLS, you may want to perform TLS origination by Istio. If your workload
-already uses TLS, the traffic is already encrypted and you can just disable Istio's mutual TLS.
+这部分内容表明这些访问外部服务的 Kubernetes 机制在 Istio 中依然有效。您只需要配置使用 TLS 模式即可，并不需要 Istio 的[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)。因为外部服务不是 Istio 服务网格的一部分，所以它们无法执行 Istio 的双向 TLS。您在配置TLS 模式时，一要按照外部服务的 TLS 模式的要求、二要遵从您的工作负载访问外部服务的方式。当您的工作负载发起的是 HTTP 请求但是外部服务需要 TLS，你可以通过 Istio 发起 TLS。当您的工作负载已经使用 TLS 来加密流量，您可以禁用 Istio 的双向 TLS。
 
-While the examples in this task use HTTP protocols,
-Kubernetes Services for egress traffic work with other protocols as well.
+虽然此部分的示例使用 HTTP 协议，但是用于引导出口流量的 Kubernetes 服务也可以与其他协议一起使用。
 
 {{< boilerplate before-you-begin-egress >}}
 
-*  Create a namespace for a source pod without Istio control:
+*  为没有 Istio 控制的源 pod 创建一个命名空间：
 
     {{< text bash >}}
     $ kubectl create namespace without-istio
     {{< /text >}}
 
-*  Start the [sleep]({{< github_tree >}}/samples/sleep) sample in the `without-istio` namespace.
+*  启动 [sleep]({{< github_tree >}}/samples/sleep) 在命名空间 `without-istio` 中的事例。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n without-istio
     {{< /text >}}
 
-*   To send requests, create the `SOURCE_POD_WITHOUT_ISTIO` environment variable to store the name of the source
-    pod:
+*  发送请求，创建环境变量 `SOURCE_POD_WITHOUT_ISTIO` 来保存源 pod 的名称：
 
     {{< text bash >}}
     $ export SOURCE_POD_WITHOUT_ISTIO=$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-*   Verify that the Istio sidecar was not injected, that is the pod has one container:
+*   验证是否未注入 Istio Sidecar，即 pod 中有一个容器：
 
     {{< text bash >}}
     $ kubectl get pod $SOURCE_POD_WITHOUT_ISTIO -n without-istio
@@ -54,11 +39,9 @@ Kubernetes Services for egress traffic work with other protocols as well.
     sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
     {{< /text >}}
 
-## Kubernetes ExternalName service to access an external service
+## Kubernetes ExternalName 服务访问外部服务{#ks-external-name-service-to-access-an-external-service}
 
-1.  Create a Kubernetes
-    [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) service
-    for `httpbin.org`:
+1.  为 `httpbin.org` 创建一个 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -76,7 +59,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     EOF
     {{< /text >}}
 
-1.  Observe your service. Note that it does not have a cluster IP.
+1.  观察您的服务。注意它没有集群 IP。
 
     {{< text bash >}}
     $ kubectl get svc my-httpbin
@@ -84,7 +67,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     my-httpbin   ExternalName   <none>       httpbin.org   80/TCP    4s
     {{< /text >}}
 
-1.  Access `httpbin.org` via the Kubernetes service's hostname from the source pod without Istio sidecar:
+1.  从没有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
@@ -97,9 +80,8 @@ Kubernetes Services for egress traffic work with other protocols as well.
     }
     {{< /text >}}
 
-1.  In this example, unencrypted HTTP requests are sent to `httpbin.org`. For the sake of the example only, you disable
-    the TLS mode and allow the unencrypted traffic to the external service. In the real life scenarios, we recommend
-    to perform [Egress TLS origination](/docs/tasks/traffic-management/egress/egress-tls-origination/) by Istio.
+1.  在这个例子中，未加密的 HTTP 请求被发送到 `httpbin.org`。仅出于示例目的，您禁用 TLS 模式，并允许外部服务的未加密流量。在现实生活中，我们建议
+    由 Istio 执行 [Egress TLS 起源](/zh/docs/tasks/traffic-management/egress/egress-tls-origination)。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -115,9 +97,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     EOF
     {{< /text >}}
 
-1.  Access `httpbin.org` via the Kubernetes service's hostname from the source pod with Istio sidecar. Notice the
-    headers added by Istio sidecar, for example, `X-Istio-Attributes` and `X-Envoy-Decorator-Operation`. Also note that
-    the `Host` header equals to your service's hostname.
+1.  通过带有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。注意 Istio Sidecar 添加的 headers，例如， `X-Istio-Attributes` 和 `X-Envoy-Decorator-Operation`。另请注意 `Host` header 等于您的服务的主机名。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
@@ -135,16 +115,16 @@ Kubernetes Services for egress traffic work with other protocols as well.
     }
     {{< /text >}}
 
-### Cleanup of Kubernetes ExternalName service
+### 清理 Kubernetes ExternalName 服务{#cleanup-of-ks-external-name-service}
 
 {{< text bash >}}
 $ kubectl delete destinationrule my-httpbin
 $ kubectl delete service my-httpbin
 {{< /text >}}
 
-## Use a Kubernetes service with endpoints to access an external service
+## 使用带 endpoints 的 Kubernetes 服务来访问外部服务{#use-a-ks-service-with-endpoints-to-access-an-external-service}
 
-1.  Create a Kubernetes service without selector for Wikipedia:
+1.  为 Wikipedia 创建没有 selector 的 Kubernetes 服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -160,7 +140,7 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1.  Create endpoints for your service. Pick a couple of IPs from the [Wikipedia ranges list](https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses).
+1.  为您的服务创建 endpoints。从 [Wikipedia 范围列表](https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses)中选择几个 IP。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -178,7 +158,7 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1.  Observe your service. Note that it has a cluster IP which you can use to access `wikipedia.org`.
+1.  观察您的服务。请注意，它具有一个群集 IP，您可以使用它访问 `wikipedia.org`。
 
     {{< text bash >}}
     $ kubectl get svc my-wikipedia
@@ -186,17 +166,14 @@ $ kubectl delete service my-httpbin
     my-wikipedia   ClusterIP   172.21.156.230   <none>        443/TCP   21h
     {{< /text >}}
 
-1.  Send HTTPS requests to `wikipedia.org` by your Kubernetes service's cluster IP from the source pod without Istio
-    sidecar.
-    Use the `--resolve` option of `curl` to access `wikipedia.org` by the cluster IP:
+1.  从没有 Istio sidecar 的源 Pod 通过您的向您的 Kubernetes 服务集群 IP 来发送 HTTPS 请求到 `wikipedia.org`。使用 `curl` 的 `--resolve` 选项通过集群 IP 访问 `wikipedia.org`：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl -s --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  In this case, the workload send HTTPS requests (open TLS connection) to the `wikipedia.org`. The traffic is already
-    encrypted by the workload so you can safely disable Istio's mutual TLS:
+1.  在这种情况下，工作负载将 HTTPS 请求（开放 TLS 连接）发送到 `wikipedia.org`。流量已经通过工作负载加密，因此您可以安全地禁用 Istio 的双向 TLS：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -212,16 +189,14 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1.  Access `wikipedia.org` by your Kubernetes service's cluster IP from the source pod with Istio sidecar:
+1.  使用 Istio Sidecar 从源 Pod 中通过 Kubernetes 服务的群集 IP 访问 `wikipedia.org`：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  Check that the access is indeed performed by the cluster IP. Notice the sentence
-    `Connected to en.wikipedia.org   (172.21.156.230)` in the output of `curl -v`, it mentions the IP that was printed
-    in the output of your service as the cluster IP.
+1.  检查访问是否确实由群集 IP 完成。在 `curl -v` 的输出中注意这句话 `Connected to en.wikipedia.org   (172.21.156.230)`，其中提到了在您的服务输出中作为群集 IP 打印的 IP。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page -o /dev/null
@@ -233,7 +208,7 @@ $ kubectl delete service my-httpbin
     ...
     {{< /text >}}
 
-### Cleanup of Kubernetes service with endpoints
+### 清理没有 endpoints 的 Kubernetes 服务{#cleanup-of-ks-service-with-endpoints}
 
 {{< text bash >}}
 $ kubectl delete destinationrule my-wikipedia
@@ -241,28 +216,29 @@ $ kubectl delete endpoints my-wikipedia
 $ kubectl delete service my-wikipedia
 {{< /text >}}
 
-## Cleanup
+## 清理{#cleanup}
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+1.  停止服务 [sleep]({{< github_tree >}}/samples/sleep)：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service in the `without-istio` namespace:
+1.  停止命名空间 `without-istio` 中的服务 [sleep]({{< github_tree >}}/samples/sleep)：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n without-istio
     {{< /text >}}
 
-1.  Delete `without-istio` namespace:
+1.  删除命名空间 `without-istio`：
 
     {{< text bash >}}
     $ kubectl delete namespace without-istio
     {{< /text >}}
 
-1. Unset the environment variables:
+1. 注销环境变量：
 
     {{< text bash >}}
     $ unset SOURCE_POD SOURCE_POD_WITHOUT_ISTIO
     {{< /text >}}
+

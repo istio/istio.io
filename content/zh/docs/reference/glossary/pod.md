@@ -1,7 +1,6 @@
 ---
 title: Pod
 ---
-A Pod is a group of one or more containers (such as [Docker](https://www.docker.com/) containers),
-with shared storage and network, and a specification for how to run the containers.
-Pods are the [workload instances](#workload-instance) in a
-[Kubernetes](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) deployment of Istio.
+Pod 中包含了一个或多个共享存储和网络的容器 （例如 [Docker](https://www.docker.com/) 容器），
+以及如何运行容器的规范。
+Pod 是 Istio 的 [Kubernetes](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) 部署中的一个 [工作负载实例](#workload-instance)。
