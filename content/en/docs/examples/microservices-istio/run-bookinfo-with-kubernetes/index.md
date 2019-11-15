@@ -25,7 +25,7 @@ In the next modules, you will evolve the application.
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
-1.  Set your configuration to the file you downloaded in previous steps:
+1.  Set your configuration to the file you created in the previous tutorial steps:
 
     {{< text bash >}}
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
@@ -114,6 +114,18 @@ In the next modules, you will evolve the application.
 
 Once your application is running, enable external (by clients from outside of the cluster) access to it. Once you
 configure the steps below successfully, you will be able to access the application by browser from your laptop.
+
+{{< warning >}}
+If your cluster runs on GKE, change the `productpage` service configuration to `type: NodePort` before you create your Kubernetes ingress, as shown in this example:
+
+    {{< text yaml >}}
+    selector:
+      app: productpage
+    sessionAffinity: None
+    type: LoadBalancer
+    {{< /text >}}
+
+{{< /warning >}}
 
 ### Configure Ingress and access your application's webpage
 

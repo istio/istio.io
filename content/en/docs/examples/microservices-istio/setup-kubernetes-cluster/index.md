@@ -213,6 +213,22 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     EOF
     {{< /text >}}
 
+1.  Set the `KUBECONFIG` environment variable for the `${NAMESPACE}-user-config.yaml`
+    configuration file:
+
+    {{< text bash >}}
+    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    {{< /text >}}
+
+1.  Verify that the configuration took effect by printing the current namespace:
+
+    {{< text bash >}}
+    $ kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}"
+    tutorial
+    {{< /text >}}
+
+    You should see the name of your namespace in the output.
+
 1.  If you are setting up the cluster for yourself, copy the
     `${NAMESPACE}-user-config.yaml` file mentioned in the previous steps to your
     local computer, where `${NAMESPACE}` is the name of the namespace you
