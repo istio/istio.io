@@ -9,7 +9,7 @@ weight: 2
 在这个模块，您将设置一个安装了 Istio 的 Kubernetes 集群，和一个整个教程要用到的命名空间。
 
 {{< warning >}}
-如果您在培训班且讲师已准备好了集群，直接前往[配置您自己的机器](/zh/docs/examples/microservices-istio/setup-local-computer)。
+如果您在培训班且讲师已准备好了集群，直接前往[设置本地机器](/zh/docs/examples/microservices-istio/setup-local-computer)。
 {{</ warning >}}
 
 1.  确保您有 [Kubernetes 集群](https://kubernetes.io/docs/tutorials/kubernetes-basics/)的访问权限。
@@ -35,7 +35,7 @@ weight: 2
 
 1.  安装 Istio 且启用双向 TLS。 TODO: 为讲师准备命令或要点。
 
-1.  [启用 Envoy 访问日志](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
+1.  [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
 
 1.  使用 `kubectl` 命令为这些通用 Istio 服务创建一个 Kubernetes Ingress 资源。在教程目前这个阶段要熟悉这些服务并不是必须的。
 
@@ -204,4 +204,4 @@ weight: 2
 
 恭喜, 您为您的教程设置好了集群！
 
-您已经准备好[设置本地机器了](/docs/examples/microservices-istio/setup-local-computer)。
+您已经准备好[设置本地机器](/zh/docs/examples/microservices-istio/setup-local-computer)了。
