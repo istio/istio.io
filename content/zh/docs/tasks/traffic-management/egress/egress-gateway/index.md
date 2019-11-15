@@ -495,7 +495,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 另外要注意的是，实际上 Istio 本身无法安全地强制将所有 Egress 流量流经 Egress gateway，Istio 仅通过其 Sidecar 代理启用此类流量。攻击者只要绕过 Sidecar 代理，就可以不经 Egress gateway 直接与网格外面的服务进行通信，从而避免了 Istio 的控制和监控。集群管理员或云供应商必须确保所有外发流量都从 Egress gateway 途径发起。需要用 Istio 之外的机制来满足这一需求，例如以下几种做法：
 
 * 使用防火墙拒绝所有来自 Egress gateway 以外的流量。
-* [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从 Egress gateway 发起的 Egress 流量（[下一节](#Apply-Kubernetes-network-policies)中举出了这样的例子）。
+* [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从 Egress gateway 发起的 Egress 流量（[下一节](#apply-ks-network-policies)中举出了这样的例子）。
 * 管理员或者云供应商还可以对网络进行限制，让运行应用的节点只能通过 Gateway 来访问外部网络。要完成这一限制，可以只给 Gateway Pod 分配公网 IP，或者可以配置 NAT 设备，丢弃来自 Egress gateway 以外 Pod 的流量。
 
 ## 应用 Kubernetes 网络策略{#apply-ks-network-policies}
