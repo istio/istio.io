@@ -11,7 +11,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
 
 虽然此部分的示例使用 HTTP 协议，但是用于引导出口流量的 Kubernetes 服务也可以与其他协议一起使用。
 
-## 开始之前
+{{< boilerplate before-you-begin-egress >}}
 
 *  为没有 Istio 控制的源 pod 创建一个命名空间：
 
