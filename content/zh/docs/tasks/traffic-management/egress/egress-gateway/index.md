@@ -18,15 +18,15 @@ ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 ## 用例{#use-case}
 
-设想一个具有严格安全要求的组织。根据这些要求，服务网格的所有外发流量必须流经一组专用节点。这些节点和运行其他应用分别在不同的节点上运行。这些专用的节点将用于 Egress 流量的策略实施，并且将比其余节点进行更详细地监控。
+设想一个对安全有严格要求的组织。要求服务网格的所有出口流量必须流经一组专用节点。这些节点将在专用机器上运行，并与在集群中运行应用程序的其余节点分隔开。这些专用的节点将用于 Egress 流量的策略实施，并且将受到比其余节点更详细地监控。
 
-另一个用例是应用程序节点没有公共 IP 的集群，因此在其上运行的网格内服务无法访问 Internet。定义 Egress gateway，通过它引导所有出口流量并将公共 IP 分配给 Egress gateway 节点，允许应用节点以受控方式访问外部服务。
+另一个用例是应用程序节点没有公共 IP 的集群，因此在其上运行的网格内服务无法访问 Internet。定义 Egress gateway，通过它引导所有出口流量并将公共 IP 分配给 Egress gateway 节点，允许应用节点以受控的方式访问外部服务。
 
 ## 开始之前
 
 *   [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-## 部署 Istio Egress gateway{#deploy-Istio-egress-gateway}
+## 部署 Istio Egress gateway{#deploy-istio-egress-gateway}
 
 1.  检查 Istio Egress gateway 是否已布署：
 
@@ -76,10 +76,10 @@ ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
     EOF
     {{< /text >}}
 
-1.  验证 `ServiceEntry` 是否已正确应用。发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。
+1.  发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，验证 `ServiceEntry` 是否已正确应用。
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - httsp://edition.cnn.com/politics
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -92,7 +92,7 @@ ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
     ...
     {{< /text >}}
 
-    输出应与 [Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 任务中的输出相同，不带 TLS。
+    不带 TLS 的输出应与 [Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 任务中的输出相同。
 
 1.  为 `edition.cnn.com` 端口 80 创建 Egress gateway。除此之外还要创建一个 destination rule 来引导流量通过 Egress gateway 与外部服务通信。
 
@@ -543,7 +543,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl label ns kube-system kube-system=true
     {{< /text >}}
 
-1.  创建一个 `NetworkPolicy`，来自 `test-egress` 命名空间的流量，只允许目标为 `kube-system` 的 DNS（端口 53）请求，以及目标为 `istio-system` 命名空间的所有请求：
+1.  创建一个 `NetworkPolicy`，来限制 `test-egress` 命名空间的流量，只允许目标为 `kube-system` 的 DNS（端口 53）请求，以及目标为 `istio-system` 命名空间的所有请求：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n test-egress -f -
