@@ -85,7 +85,7 @@ If authorization checks are enabled for a service and yet requests to the
 service aren't being blocked, then authorization was likely not enabled
 successfully. To verify, follow these steps:
 
-1. Check the [enable authorization docs](/docs/concepts/security/#enabling-authorization)
+1. Check the [authorization docs](/docs/concepts/security/#authorization)
    to correctly enable Istio authorization.
 
 1. Avoid enabling authorization for Istio Control Planes Components, including

@@ -125,10 +125,9 @@ will generate and collect automatically.
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
     {{< /text >}}
 
-    View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
-
-    The provided link opens the Prometheus UI and executes a query for values of
-    the `istio_mongo_received_bytes` metric. The table displayed in the
+    View values for the new metric in the Prometheus browser window.  Select **Graph**.
+    Enter the `istio_mongo_received_bytes` metric and select **Execute**.
+    The table displayed in the
     **Console** tab includes entries similar to:
 
     {{< text plain >}}

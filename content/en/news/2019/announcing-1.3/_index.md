@@ -3,11 +3,11 @@ title: Announcing Istio 1.3
 subtitle: Major Update
 description: Istio 1.3 release announcement.
 publishdate: 2019-09-12
-attribution: The Istio Team
 release: 1.3.0
 aliases:
     - /blog/2019/announcing-1.3
     - /news/announcing-1.3
+    - /news/announcing-1.3.0
 skip_list: true
 ---
 
@@ -62,7 +62,7 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
     - Added a new Grafana dashboard for Citadel
     - Improved the Pilot dashboard to expose additional key metrics
 
-- Added the new [Istio Deployment Models concept](/docs/setup/deployment-models/) to help you decide what deployment model suits your needs.
+- Added the new [Istio Deployment Models concept](/docs/ops/prep/deployment-models/) to help you decide what deployment model suits your needs.
 
 - Organized the content in of our [Operations Guide](/docs/ops/) and created a [section with all troubleshooting tasks](/docs/ops/common-problems) to help you find the information you seek faster.
 

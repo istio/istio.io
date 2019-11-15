@@ -29,7 +29,7 @@ keywords: [kubernetes,upgrading]
 
 本节中的命令应该使用新版本的 `istioctl` 命令运行，可以在下载包的 `bin/` 目录中找到该命令。
 
-1. [下载新版本 Istio](/docs/setup/#downloading-the-release) 并切换目录为新版本目录。
+1. [下载新版本 Istio](/docs/setup/getting-started/#download) 并切换目录为新版本目录。
 
 1. 查看支持的版本列表，验证 `istoctl` 命令是否支持从当前版本升级
 

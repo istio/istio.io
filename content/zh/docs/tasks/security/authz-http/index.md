@@ -18,7 +18,7 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
+* Follow the [Kubernetes quick start](/docs/setup/getting-started/) to install Istio.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 

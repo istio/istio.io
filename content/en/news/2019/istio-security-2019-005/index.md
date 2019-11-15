@@ -1,8 +1,9 @@
 ---
-title: Security Update - ISTIO-SECURITY-2019-005
+title: ISTIO-SECURITY-2019-005
+subtitle: Security Bulletin
 description: Security vulnerability disclosure for CVE-2019-15226.
 publishdate: 2019-10-08
-attribution: The Istio Team
+keywords: [CVE]
 ---
 
 Today we are releasing three new Istio versions: 1.1.16, 1.2.7, and 1.3.2. These new Istio versions address vulnerabilities that can be used to mount Denial of Service (DoS) attacks against services using Istio.
