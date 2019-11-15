@@ -20,7 +20,7 @@
             {{ else if .Site.Data.args.preliminary }}
                 <span class="name">Istio Prelim {{ .Site.Data.args.version }}</span>
             {{ else }}
-                <span class="name">Istio</span>
+                <span class="name">Istio {{ .Site.Data.args.version }}</span>
             {{ end }}
         </a>
 
