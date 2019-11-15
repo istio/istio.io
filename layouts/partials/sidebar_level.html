@@ -30,6 +30,9 @@
             {{ if not .IsPage }}
                 <li role="treeitem" aria-label="{{ .LinkTitle}}">
                     {{ $collapse := not (.IsAncestor $current) }}
+                    {{ if eq . $current }}
+                        {{ $collapse = true }}
+                    {{ end }}
 
                     <button{{ if not $collapse }} class="show"{{ end }} aria-hidden="true"></button><a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
 
