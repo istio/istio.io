@@ -63,7 +63,7 @@ update_operator_yamls:
 update_examples:
 	@scripts/grab_examples.sh $(SOURCE_BRANCH_NAME)
 
-update_all: update_ref_docs update_operator_yamls update_examples
+update_all: update_ref_docs update_examples
 
 include common/Makefile.common.mk
 
