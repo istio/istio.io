@@ -12,7 +12,7 @@ This guide lets you try out Istio quickly and it's the ideal starting
 point if you are new to the project. To get started, download and install
 Istio's built-in **demo** configuration:
 
-- [Follow the quick-start installation instructions](/docs/setup/install/kubernetes)
+- [Follow the quick-start installation instructions](/docs/setup/getting-started)
 
 With Istio installed, you can [deploy the Bookinfo sample](/docs/examples/bookinfo/#deploying-the-application)
 and evaluate Istio's features for traffic routing, fault injection, rate
