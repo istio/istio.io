@@ -90,57 +90,22 @@ spec:
 
 #### hosts 字段 {#the-hosts-field}
 
-The `hosts` field lists the virtual service’s hosts - in other words, the user-addressable
-destination or destinations that these routing rules apply to. This is the
-address or addresses the client uses when sending requests to the service.
+`hosts`字段列出了虚拟服务的主机——换言之，用户指定的目标或是路由规则设定的目标。这是客户端向服务发送请求时使用的一个或多个地址。
 
 {{< text yaml >}}
 hosts:
 - reviews
 {{< /text >}}
 
-虚拟服务主机名可以是IP地址、DNS名称，也可以取决于
-平台，一个短名称(例如Kubernetes服务的短名称)，
-隐式或显式地发送到完全限定域名(FQDN)。你也可以
-使用通配符(“\*”)前缀，让您创建一组路由规则
-所有匹配的服务。虚拟服务主机实际上不必是
-Istio服务注册表，它们只是虚拟目的地。这让你可以建模
-网格内没有可路由项的虚拟主机的流量。
-The virtual service hostname can be an IP address, a DNS name, or, depending on
-the platform, a short name (such as a Kubernetes service short name) that resolves,
-implicitly or explicitly, to a fully qualified domain name (FQDN). You can also
-use wildcard ("\*") prefixes, letting you create a single set of routing rules for
-all matching services. Virtual service hosts don't actually have to be part of the
-Istio service registry, they are simply virtual destinations. This lets you model
-traffic for virtual hosts that don't have routable entries inside the mesh.
+虚拟服务主机名可以是IP地址、DNS名称，或者依赖于平台的一个简称（例如 Kubernetes 服务的短名称），隐式或显式地指向一个完全限定域名（FQDN）。你也可以使用通配符（”*“）前缀，让您创建一组匹配所有服务的路由规则。虚拟服务的`hosts`字段实际上不必是 Istio 服务注册的一部分，它只是虚拟的目标地址。这让您可以为没有路由到网格内部的虚拟主机建模。
 
 #### 路由规则 {#routing-rules}
 
-`http`部分包含虚拟服务的路由规则
-匹配发送的HTTP/1.1、HTTP2和gRPC流量的路由条件和操作
-到在hosts字段中指定的目的地(也可以使用“tcp”和
-' tls '节，为[TCP]和未终止的[tls]流量配置路由规则)。路由规则由您希望流量到达的目的地组成
-根据您的用例，执行零个或多个匹配条件。
-The `http` section contains the virtual service’s routing rules, describing
-match conditions and actions for routing HTTP/1.1, HTTP2, and gRPC traffic sent
-to the destination(s) specified in the hosts field (you can also use `tcp` and
-`tls` sections to configure routing rules for
-[TCP](/zh/docs/reference/config/networking/virtual-service/#TCPRoute) and
-unterminated
-[TLS](/zh/docs/reference/config/networking/virtual-service/#TLSRoute)
-traffic). A routing rule consists of the destination where you want the traffic
-to go and zero or more match conditions, depending on your use case.
+`http`部分包含了虚拟服务的路由规则，用来描述匹配条件和路由行为，它们把 HTTP/1.1、HTTP2 和 gRPC等流量发送到 hosts字段指定的目标（你也可以用`tcp`和`tls`片段为 [TCP](/zh/docs/reference/config/networking/virtual-service/#TCPRoute) 和为关闭的 [TLS](/zh/docs/reference/config/networking/virtual-service/#TLSRoute) 流量设置路由规则）。一个路由规则包含了你指定请求要流向哪的目标地址，0 个或多个匹配条件，取决于你的使用场景。
 
 ##### 匹配条件 {#match-condition}
 
-示例中的第一个路由规则有一个条件，因此以
-“匹配”。在本例中，您希望此路由应用于来自的所有请求
-用户“jason”，所以您使用“header”、“终端用户”和“精确”字段进行选择
-适当的请求。
-The first routing rule in the example has a condition and so begins with the
-`match` field. In this case you want this routing to apply to all requests from
-the user "jason", so you use the `headers`, `end-user`, and `exact` fields to select
-the appropriate requests.
+示例中的第一个路由规则有一个条件，因此以`match`字段开始。在本例中，您希望此路由应用于来自于用户”jason“的所有请求，所以使用`headers`、`end-user` 和 `exact` 字段选择适当的请求。
 
 {{< text yaml >}}
 - match:
@@ -151,18 +116,8 @@ the appropriate requests.
 
 ##### Destination {#destination}
 
-route部分的“destination”字段指定了实际的目的地
-符合此条件的流量。与虚拟服务的主机不同
-目的地的主机必须是存在于Istio服务中的实际目的地
-注册表或特使将不知道将流量发送到哪里。这可以是一个网格
-使用服务条目添加代理或非网格服务的服务。在这个
-如果我们在Kubernetes上运行，主机名是Kubernetes服务名:
-The route section’s `destination` field specifies the actual destination for
-traffic that matches this condition. Unlike the virtual service’s host(s), the
-destination’s host must be a real destination that exists in Istio’s service
-registry or Envoy won’t know where to send traffic to it. This can be a mesh
-service with proxies or a non-mesh service added using a service entry. In this
-case we’re running on Kubernetes and the host name is a Kubernetes service name:
+route 部分的`destination`字段指定了符合此条件的流量的实际目标地址。与虚拟服务的 host 不同，
+destination 的 host 必须是存在于Istio服务注册中的实际目标地址，否则 Envoy 不知道将请求发送到哪里。这可以是一个有代理的服务网格，或者是一个通过服务入口被添加进来的非网格服务。在这个例子中，运行在 Kubernetes 上的主机名是它的服务名：
 
 {{< text yaml >}}
 route:
@@ -171,51 +126,18 @@ route:
     subset: v2
 {{< /text >}}
 
-请注意，在本文和本页上的其他示例中，我们使用Kubernetes的短名称表示
-目的主机的简单性。在计算此规则时，Istio添加一个基于域后缀的规则
-包含要获取的路由规则的虚拟服务的名称空间
-主机的完全限定名。在我们的示例中使用简短的名称
-也意味着您可以复制并在任何您喜欢的名称空间中尝试它们。
-Note in this and the other examples on this page, we use a Kubernetes short name for the
-destination hosts for simplicity. When this rule is evaluated, Istio adds a domain suffix based
-on the namespace of the virtual service that contains the routing rule to get
-the fully qualified name for the host. Using short names in our examples
-also means that you can copy and try them in any namespace you like.
+请注意，在本文和本页上的其他示例中，为了简单，我们使用 Kubernetes 的短名称设置destination的host。在评估此规则时，Istio会添加一个基于虚拟服务命名空间的域后缀，这个虚拟服务包含要获取主机的完全限定名的路由规则。在我们的示例中使用短名称也意味着您可以复制并在任何喜欢的命名空间中尝试它们。
 
 {{< warning >}}
-只有在。时才可以使用这样的短名称
-目标主机和虚拟服务实际上位于相同的Kubernetes中
-名称空间。因为使用Kubernetes的短名称会导致
-错误配置，我们建议您指定完全限定的主机名
-生产环境中。
-Using short names like this only works if the
-destination hosts and the virtual service are actually in the same Kubernetes
-namespace. Because using the Kubernetes short name can result in
-misconfigurations, we recommend that you specify fully qualified host names in
-production environments.
+只有在目标主机和虚拟服务位于相同的 Kubernetes 命名空间时才可以使用这样的短名称。因为使用 Kubernetes的短名称容易导致配置出错，我们建议您在生产环境中指定完全限定的主机名。
 {{< /warning >}}
 
-目的地部分还指定Kubernetes服务的哪个子集
-要将符合此规则条件的请求转到，在本例中为
-名叫v2子集。您将在有关的部分中看到如何定义服务子集
-(目的地规则)(# destination-rules)。
-The destination section also specifies which subset of this Kubernetes service
-you want requests that match this rule’s conditions to go to, in this case the
-subset named v2. You’ll see how you define a service subset in the section on
-[destination rules](#destination-rules) below.
+destination 片段还指定了 Kubernetes 服务的子集，将符合此规则条件的请求转入其中。在本例中子集名称是 v2。您可以在 [目标规则](#destination-rules) 章节中看到如何定义服务子集。
 
 #### 路由规则优先级 {#routing-rule-precedence}
 
-属性按从上到下的顺序**计算路由规则
-虚拟服务定义中的第一条规则被赋予最高优先级。在
-在这种情况下，您希望任何与第一个路由规则不匹配的内容都转到a
-默认目的地，在第二条规则中指定。因为这个，第二个
-rule没有匹配条件，只是将流量导向v3子集。
-Routing rules are **evaluated in sequential order from top to bottom**, with the
-first rule in the virtual service definition being given highest priority. In
-this case you want anything that doesn't match the first routing rule to go to a
-default destination, specified in the second rule. Because of this, the second
-rule has no match conditions and just directs traffic to the v3 subset.
+**路由规则**按从上到下的顺序选择，虚拟服务定义中的第一条规则有最高优先级。在
+在这种情况下，您希望任何与第一个路由规则不匹配的内容都转到一个默认目标的话，就得在第二条规则中指定。因为第二个规则没有匹配条件，只是将流量导向v3子集。
 
 {{< text yaml >}}
 - route:
@@ -224,26 +146,11 @@ rule has no match conditions and just directs traffic to the v3 subset.
       subset: v3
 {{< /text >}}
 
-We recommend providing a default "no condition" or weight-based rule (described
-below) like this as the last rule in each virtual service to ensure that traffic
-to the virtual service always has at least one matching route.
+我们推荐提供一个默认的”无条件“规则或是基于权重的规则（下面会介绍），就好像每个虚拟服务的最终规则，能保证请求至少能有一个匹配的路由。
 
 ### 路由规则的更多内容 {#more-about-routing-rules}
 
-正如上面所看到的，路由规则是路由特定内容的强大工具
-特定目的地流量的子集。您可以设置匹配条件
-流量端口、头字段、uri等等。例如，这个虚拟服务
-让用户发送流量到两个独立的服务，评级和评论，就好像
-它们是http://bookinfo.com/这个更大的虚拟服务的一部分
-虚拟服务规则根据请求uri和直接请求匹配流量
-适当的服务。
-As you saw above, routing rules are a powerful tool for routing particular
-subsets of traffic to particular destinations. You can set match conditions on
-traffic ports, header fields, URIs, and more. For example, this virtual service
-lets users send traffic to two separate services, ratings and reviews, as if
-they were part of a bigger virtual service at `http://bookinfo.com/.` The
-virtual service rules match traffic based on request URIs and direct requests to
-the appropriate service.
+正如上面所看到的，路由规则是将特定流量子集路由到指定目标地址的强大工具。您可以在流量端口、header 字段、URI 等内容上设置匹配条件。例如，这个虚拟服务让用户发送请求到两个独立的服务：ratings 和 reviews，就好像它们是 `http://bookinfo.com/`这个更大的虚拟服务的一部分。虚拟服务规则根据请求的 URI 和指向适当服务的请求匹配流量。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -276,25 +183,12 @@ spec:
 ...
 {{< /text >}}
 
-For some match conditions, you can also choose to select them using the exact
-value, a prefix, or a regex.
+对一些匹配条件，你可以使用精确的值，如前缀或正则。
 
-您可以将多个匹配条件添加到同一个“匹配”块中
-条件，或将多个匹配块添加到同一规则或您的条件中。
-对于任何给定的虚拟服务，也可以有多个路由规则。这
-允许您使您的路由条件复杂或简单，因为您喜欢在一个
-单一的虚拟服务。匹配条件字段及其可能值的完整列表
-值可以在引用中找到
-You can add multiple match conditions to the same `match` block to AND your
-conditions, or add multiple match blocks to the same rule to OR your conditions.
-You can also have multiple routing rules for any given virtual service. This
-lets you make your routing conditions as complex or simple as you like within a
-single virtual service. A full list of match condition fields and their possible
-values can be found in the
-[`HTTPMatchRequest` reference](/zh/docs/reference/config/networking/virtual-service/#HTTPMatchRequest).
+您可以使用 AND 向同一个`match`块添加多个匹配条件，或者使用 OR 向同一个规则添加多个`match`块。对于任何给定的虚拟服务也可以有多个路由规则。这可以在单个虚拟服务中使路由条件变得随你所愿的复杂或简单。匹配条件字段和备选值的完整列表可以在[`HTTPMatchRequest` 参考](/zh/docs/reference/config/networking/virtual-service/#HTTPMatchRequest)中找到。
 
-In addition to using match conditions, you can distribute traffic
-by percentage "weight". This is useful for A/B testing and canary rollouts:
+
+额外的使用匹配条件，你可以按百分比”权重“分发请求。这在A/B测试和金丝雀发布中非常有用：
 
 {{< text yaml >}}
 spec:
@@ -312,15 +206,13 @@ spec:
       weight: 25
 {{< /text >}}
 
-You can also use routing rules to perform some actions on the traffic, for
-example:
+你也可以使用路由规则在流量上执行一些操作，例如：
 
--   Append or remove headers.
--   Rewrite the URL.
--   Set a [retry policy](#retries) for calls to this destination.
+-   添加或删除header。
+-   重写 URL。
+-   为调用这一目标地址的请求设置[重试策略](#retries) 。
 
-To learn more about the actions available, see the
-[`HTTPRoute` reference](/zh/docs/reference/config/networking/virtual-service/#HTTPRoute).
+想了解如何利用这些，查看 [`HTTPRoute` 参考](/zh/docs/reference/config/networking/virtual-service/#HTTPRoute)。
 
 ## 目标规则 {#destination-rules}
 
