@@ -1,5 +1,4 @@
 ---
-title: Service Version
+title: 服务版本
 ---
-Distinct variants of a [service](#service), typically backed by different versions of a [workload](#workload) binary.
-Common scenarios where multiple service versions may be used include A/B testing and canary rollouts.
+服务版本区分[服务](#service)的不同变形，通常由一个[工作负载](#workload)的不同版本支持。多个服务版本使用的场景通常有 A/B 测试和金丝雀滚动发布。
