@@ -1,19 +1,19 @@
 ---
-title: Kubernetes Ingress with Cert-Manager
-description: Demonstrates how to obtain Let's Encrypt TLS certificates for Kubernetes Ingress automatically using Cert-Manager.
+title: 使用 Cert-Manager 加密 Kubernetes Ingress
+description: 演示如何使用 Cert-Manager 为 Kubernetes Ingress 自动获取 Let's Encrypt TLS 证书。
 weight: 40
 keywords: [traffic-management,ingress,https,cert-manager,acme,sds]
 aliases:
-  - /docs/examples/advanced-gateways/ingress-certmgr/
+  - /zh/docs/examples/advanced-gateways/ingress-certmgr/
 ---
 
-This example demonstrates the use of Istio as a secure Kubernetes Ingress controller with TLS certificates issued by [Let's Encrypt](https://letsencrypt.org/). While more powerful Istio concepts such as [gateway](/docs/reference/config/networking/gateway) and [virtual service](/docs/reference/config/networking/virtual-service) should be used for advanced traffic management, optional support of the Kubernetes Ingress is also available and can be used to simplify integration of legacy and third-party solutions into a service mesh and benefit from extensive telemetry and tracing capabilities that Istio provides.
+这个例子演示了在 Istio 中使用 [Let's Encrypt](https://letsencrypt.org/) 签发 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。Istio 中的 [gateway](/zh/docs/reference/config/networking/gateway) 和 [virtual service](/zh/docs/reference/config/networking/virtual-service) 提供了高级的流量管理功能，虽然他们的功能很强大，但是 Istio 本身也对 Kubernetes Ingress 提供支持，这样就可以降低将传统解决方案和第三方解决方案集成到服务网格中的难度，并且使其受益于 Istio 提供的遥测和跟踪功能。
 
-You will start with a clean Istio installation, create an example service, expose it using the Kubernetes `Ingress` resource and get it secured by instructing cert-manager (bundled with Istio) to manage issuance and renewal of TLS certificates that will be further delivered to the Istio ingress [gateway](/docs/reference/config/networking/gateway) and hot-swapped as necessary via the means of [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret).
+您将从全新的 Istio 安装开始，创建示例服务，使用 Kubernetes Ingress 把它开放出去，并使用 cert-manager（与 Istio 捆绑在一起）管理 TLS 证书的签发和续订来确保它的安全，这个证书之后会给 Istio ingress [gateway](/zh/docs/reference/config/networking/gateway) 使用，并根据需要通过 [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 提供 hot-swapped 功能。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-1. [Install Istio](/docs/setup/) making sure to enable ingress [gateway](/docs/reference/config/networking/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Here's an example of how to do it:
+1. [安装 Istio](/zh/docs/setup/) 并确认已经启用支持 Kubernetes Ingress 和 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 的 ingress [gateway](/zh/docs/reference/config/networking/gateway)。下面是例子:
 
     {{< text bash >}}
     $ istioctl manifest apply \
@@ -24,32 +24,32 @@ You will start with a clean Istio installation, create an example service, expos
     {{< /text >}}
 
     {{< tip >}}
-    By default `istio-ingressgateway` will be exposed as a `LoadBalancer` service type. You may want to change that by setting the `gateways.istio-ingressgateway.type` installation option to `NodePort` if this is more applicable to your Kubernetes environment.
+    默认情况下， `istio-ingressgateway` 会以 `LoadBalancer` 的服务类型开放出来。您可以根据自己的 Kubernetes 环境把 `gateways.istio-ingressgateway.type` 设置为 `NodePort`。
     {{< /tip >}}
 
-1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
+1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以便实现证书的自动管理。
 
-## Configuring DNS name and gateway
+## 配置 DNS 域名和 gateway{#configuring-DNS-name-and-gateway}
 
-Take a note of the external IP address of the `istio-ingressgateway` service:
+记录一下 `istio-ingressgateway` 服务的外部 IP：
 
 {{< text bash >}}
 $ kubectl -n istio-system get service istio-ingressgateway
 {{< /text >}}
 
-Configure your DNS zone so that the domain you'd like to use for this example is resolving to the external IP address of `istio-ingressgateway` service that you've captured in the previous step. You will need a real domain name for this example in order to get a TLS certificate issued. Let's store the configured domain name into an environment variable for further use:
+对您的 DNS 进行设置，给 `istio-ingressgateway` 服务的外部 IP 分配一个合适的域名。为了能让例子正常执行，您需要一个真正的域名，用于获取 TLS 证书。让我们把域名保存为环境变量，以便于后面的使用：
 
 {{< text bash >}}
 $ INGRESS_DOMAIN=mysubdomain.mydomain.edu
 {{< /text >}}
 
-Your Istio installation contains an automatically generated [gateway](/docs/reference/config/networking/gateway) resource configured to serve the routes defined by the Kubernetes `Ingress` resources. By default it does not use [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret), so you need to modify it in order to enable the delivery of the TLS certificates to the `istio-ingressgateway` via [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret):
+Istio 安装中包含了一个自动生成的 [gateway](/zh/docs/reference/config/networking/gateway) ，用于提供 Kubernetes `Ingress` 定义的路由服务。默认情况下，它不会使用 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret)，所以您需要对其进行修改，使其能通过 [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 来为 `istio-ingressgateway` 签发 TLS 证书：
 
 {{< text bash >}}
 $ kubectl -n istio-system edit gateway
 {{< /text >}}
 
-...and modify the `tls` section corresponding to the `https-default` port as follows:
+然后修改 `https-default` 端口对应的 `tls` 内容：
 
 {{< text bash >}}
 $ kubectl -n istio-system \
@@ -57,11 +57,11 @@ $ kubectl -n istio-system \
   -p='[{"op": "replace", "path": "/spec/servers/1/tls", "value": {"credentialName": "ingress-cert", "mode": "SIMPLE", "privateKey": "sds", "serverCertificate": "sds"}}]'
 {{< /text >}}
 
-Now it's time to setup a demo application.
+现在就可以部署一个演示应用了。
 
-## Setting up a demo application
+## 部署演示应用{#setting-up-a-demo-application}
 
-You will be using a simple `helloworld` application for this example. The following command will spin up the `Deployment` and `Service` for the demo application and expose the service using an `Ingress` resource that will be handled by `istio-ingressgateway`.
+接下来使用一个简单的 `helloworld` 应用来进行演示。下面的命令会为示例应用创建 `Deployment` 和 `Service`，并使用 Istio Ingress 开放服务。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -118,23 +118,23 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-Notice use of the `INGRESS_DOMAIN` variable you defined earlier
+注意，这里用了前面定义的 `INGRESS_DOMAIN` 变量。
 {{< /tip >}}
 
-Now you should be able to access your demo application via HTTP:
+现在，您应该能够通过 HTTP 访问演示应用：
 
 {{< text bash >}}
 $ curl http://$INGRESS_DOMAIN/hello
 Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 {{< /text >}}
 
-HTTPS access still won't work as you don't have any TLS certificates. Let's fix that.
+因为没有配置任何的 TLS 证书，所以现在还不能使用 HTTPS 访问，下面就开始进行配置。
 
-## Getting a Let's Encrypt certificate issued using cert-manager
+## 使用 cert-manager 获取 Let's Encrypt 签发的证书{#getting-a-let-s-encrypt-certificate-issued-using-cert-manager}
 
-At this point your Istio installation should have cert-manager up and running with two `ClusterIssuer` resources configured (for production and staging ACME-endpoints provided by [Let's Encrypt](https://letsencrypt.org/)). You will be using staging endpoint for this example (feel free to try swapping `letsencrypt-staging` for `letsencrypt` to get a browser-trusted certificate issued).
+目前，您的 Istio 中应该已经启动了 cert-manager，并带有两个 `ClusterIssuer` 对象（分别对应 [Let's Encrypt](https://letsencrypt.org/) 的生产和测试 ACME-endpoints）。这个例子中使用测试 ACME-endpoint（将 `letsencrypt-staging` 替换为 `letsencrypt` 就能获得浏览器信任的证书）。
 
-In order to have a certificate issued and managed by cert-manager you need to create a `Certificate` resource:
+为了用 cert-manager 进行证书的签发和管理，需要创建一个 Certificate 对象：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -161,25 +161,25 @@ spec:
 EOF
 {{< /text >}}
 
-Notice that the `secretName` matches the `credentialName` attribute value that you previously used while configuring the [gateway](/docs/reference/config/networking/gateway) resource. The `Certificate` resource will be processed by cert-manager and a new certificate will eventually be issued. Consult the status of the `Certificate` resource to check the progress:
+注意这里的 `secretName` 要匹配前面配置 [gateway](/zh/docs/reference/config/networking/gateway) 时的 `credentialName` 字段值。`Certificate` 对象会被 cert-manager 处理，最终会签发新证书。为了看到这个过程我们可以查询 `Certificate` 对象的状态：
 
 {{< text bash >}}
 $ kubectl -n istio-system describe certificate ingress-cert
--> status should eventually flip to 'Certificate issued successfully'
+-> 状态最终会切换为 'Certificate issued successfully'
 {{< /text >}}
 
-At this point the service should become available over HTTPS as well:
+这样一来，该服务也应通过 HTTPS 访问了：
 
 {{< text bash >}}
 $ curl --insecure https://$INGRESS_DOMAIN/hello
 Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 {{< /text >}}
 
-Note that you have to use the `--insecure` flag as certificates issued by the "staging" ACME-endpoints aren't trusted.
+注意，您需要使用 `--insecure` 参数，因为测试 ACME-endpoints 签发的证书不受信任。
 
-## Moving to production from staging
+## 从测试到生产{#moving-to-production-from-staging}
 
-Now to switch to the production `letsencrypt` issuer.  First we'll reapply the certificate.
+现在换成生产 `letsencrypt`。首先，我们重新申请一下证书。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -210,19 +210,19 @@ EOF
 certificate.certmanager.k8s.io/ingress-cert configured
 {{< /text >}}
 
-Now delete the secret to force cert-manager to request a new certificate from the production issuer:
+现在删除 secret 来强制 cert-manager 从生产 ACME-endpoints 请求新证书：
 
 {{< text bash >}}
 $ kubectl delete secret -n istio-system ingress-cert
 {{< /text >}}
 
-And watch that cert for a successful issuance:
+等等看证书是否成功签发了：
 
 {{< text bash >}}
 $ watch -n1 kubectl describe cert ingress-cert -n istio-system
 {{< /text >}}
 
-you should see something like:
+您应该能看到如下显示：
 
 {{< text plain>}}
 Normal  CertIssued     13m   cert-manager  Certificate issued successfully
