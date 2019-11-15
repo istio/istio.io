@@ -3,28 +3,28 @@ title: 使用 Helm 升级
 description: 升级 Istio 控制平面，可以选择使用 Helm 升级 CNI 插件。
 weight: 30
 aliases:
-    - /docs/setup/kubernetes/upgrade/steps/
-    - /docs/setup/upgrade/steps
+    - /zh/docs/setup/kubernetes/upgrade/steps/
+    - /zh/docs/setup/upgrade/steps
 keywords: [kubernetes,upgrading]
 ---
 
 请参阅本指南，以升级使用 Helm 安装的 Istio 控制平面和 sidecar 代理。升级过程可能会安装新的二级制文件，并可能修改配置和 API schema。升级过程可能导致服务停机。为了减少停机时间，请确保 Istio 控制平面组件和应用程序是多副本高可用的。
 
 {{< warning >}}
-在将 Istio 版本升级到 {{< istio_version >}} 之前，请务必查看[升级说明](/news/{{< istio_full_version_release_year >}}/announcing-{{< istio_version >}}/upgrade-notes)。
+在将 Istio 版本升级到 {{< istio_version >}} 之前，请务必查看[升级说明](/zh/news/{{< istio_full_version_release_year >}}/announcing-{{< istio_version >}}/upgrade-notes)。
 {{< /warning >}}
 
 {{< tip >}}
 Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}} 版本升级到 {{< istio_version >}} 版本。如果您使用的是旧版本，请先升级到 {{< istio_previous_version >}} 版本。
 {{< /tip >}}
 
-## 升级步骤 {#Upgrade steps}
+## 升级步骤{#upgrade-steps}
 
-[下载新版本 Istio](/docs/setup/getting-started/#download)，并切换目录到新版本的目录下。
+[下载新版本 Istio](/zh/docs/setup/getting-started/#download)，并切换目录到新版本的目录下。
 
-### Istio CNI 升级 {#Istio CNI upgrade}
+### Istio CNI 升级{#istio-cni-upgrade}
 
-如果您已经安装或计划安装 [Istio CNI](/docs/setup/additional-setup/cni/)，请选择以下 **互斥** 选项之一，检查 Istio CNI 是否已经安装并进行升级：
+如果您已经安装或计划安装 [Istio CNI](/zh/docs/setup/additional-setup/cni/)，请选择以下 **互斥** 选项之一，检查 Istio CNI 是否已经安装并进行升级：
 
 {{< tabset cookie-name="controlplaneupdate" >}}
 {{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
@@ -54,7 +54,7 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 
 {{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
 
-如果您已使用 [Helm and Tiller](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装 Istio CNI，请优先使用 Helm 升级 Istio CNI。
+如果您已使用 [Helm and Tiller](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装 Istio CNI，请优先使用 Helm 升级 Istio CNI。
 
 1. 检查 `istio-cni` 是否已安装，并检查安装在哪个命名空间：
 
@@ -91,7 +91,7 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 {{< /tab >}}
 {{< /tabset >}}
 
-### 控制平面升级 {#Control plane upgrade}
+### 控制平面升级{#control-plane-upgrade}
 
 Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
 选择下列 **互斥** 选项中的一种升级控制平面：
@@ -99,7 +99,7 @@ Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
 {{< tabset cookie-name="controlplaneupdate" >}}
 {{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
 
-您可以使用 Kubernetes 的滚动升级机制来升级控制平面组件。这适用于使用 `kubectl apply` 部署 Istio 组件的情况，包括使用 [Helm template](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) 生成的配置。
+您可以使用 Kubernetes 的滚动升级机制来升级控制平面组件。这适用于使用 `kubectl apply` 部署 Istio 组件的情况，包括使用 [Helm template](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) 生成的配置。
 
 1. 使用 `kubectl apply` 命令升级所有 Istio 的 CRD。等待 Kubernetes API 服务器提交升级的 CRD：
 
@@ -116,7 +116,7 @@ Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
       --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
-    您必须使用与首次 [安装 Istio](/docs/setup/install/helm) 相同的配置。
+    您必须使用与首次 [安装 Istio](/zh/docs/setup/install/helm) 相同的配置。
 
 滚动更新进程会将所有的部署组件和 configmap 升级到新版本。当此进程执行完毕后，您的 Istio 控制平面将会升级到新版本。
 
@@ -126,7 +126,7 @@ Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
 
 {{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
 
-如果您使用 [Helm and Tiller](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装 Istio，推荐的方式是使用 Helm 来进行升级。
+如果您使用 [Helm and Tiller](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装 Istio，推荐的方式是使用 Helm 来进行升级。
 
 1. 升级 `istio-init` chart 来更新所有 Istio [用户资源定义](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)（CRD）。
 
@@ -147,7 +147,7 @@ Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
 {{< /tab >}}
 {{< /tabset >}}
 
-### Sidecar 升级 {#Sidecar upgrade}
+### Sidecar 升级{#sidecar-upgrade}
 
 在升级控制平面后，已运行 Istio 的应用仍将使用旧的 sidecar。要升级 sidecar，您需要重新注入它。
 
