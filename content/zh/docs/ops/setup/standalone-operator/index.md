@@ -18,7 +18,7 @@ instead, which is a stable feature.
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
+1. Check the [Requirements for Pods and Services]/docs/ops/prep/requirements/).
 
 ## Installation steps
 
