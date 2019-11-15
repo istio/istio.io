@@ -1,5 +1,5 @@
 ---
-title: 使用 Istion 进行分布式追踪需要什么？
+title: 使用 Istio 进行分布式追踪需要什么？
 weight: 10
 ---
 
