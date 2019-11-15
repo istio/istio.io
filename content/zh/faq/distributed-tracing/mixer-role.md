@@ -1,10 +1,10 @@
 ---
-title: What role does Mixer play in the Istio tracing story?
+title: Mixer 在 Istio 跟踪踪故事中扮演的什么角色？
 weight: 90
 ---
 
-By default, Mixer participates in tracing by generating its own spans for requests that are already selected for tracing by Envoy proxies. This enables operators to observe the participation of the mixer-based policy enforcement mechanisms within the mesh. If the `istio-policy` configuration is disabled mesh-wide, Mixer does not participate in tracing in this way.
+默认情况下，Mixer 通过为 Envoy 代理已经选择的要跟踪请求生成自己的跨度来参与跟踪。这使操作员可以观察到网格中基于 Mixer 策略的执行机制的参与。如果在网格范围内禁用 `istio-策略` 配置，则 Mixer 不会以这种方式参与跟踪。
 
-Mixer, operating as the `istio-telemetry` service, can also be used to generate trace spans for data plane traffic. Mixer’s Stackdriver adapter is an example of an adapter that supports this capability.
+Mixer 作为 `istio-telemetry` 服务，也可用于生成数据平面流量的跟踪范围。Mixer 的 Stackdriver 适配器就是支持此功能的一个示例。
 
-For Mixer-generated traces, Istio still relies on Envoy to generate trace context and to forward it to the applications that must propagate the context. Instead of Envoy itself sending trace information directly to a tracing backend, Mixer distills client and server spans from the regular Envoy reporting for each request based on operator-supplied configuration. In this way, operators can precisely control when and how trace data is generated and perhaps remove certain services entirely from a trace or provide more detailed information for certain namespaces.
+对于由 Mixer 生成的跟踪，Istio 仍然依靠 Envoy 生成跟踪上下文并将其转发到必须传播上下文的应用程序中。Envoy 它自己没有直接地发送追踪信息到追踪后端，而是 Mixer 根据操作员提供的配置从常规的 Envoy 报告中提取客户端和服务器范围。用这种方式，操作员可以精确地控制何时以及如何生成跟踪数据，并可以从跟踪中完全删除某些服务，或者为某些命名空间提供更详细的信息。
