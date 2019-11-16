@@ -3,9 +3,9 @@ title: Bookinfo 应用
 description: 部署一个用于演示多种 Istio 特性的应用，由四个单独的微服务构成。
 weight: 10
 aliases:
-    - /docs/samples/bookinfo.html
-    - /docs/guides/bookinfo/index.html
-    - /docs/guides/bookinfo.html
+    - /zh/docs/samples/bookinfo.html
+    - /zh/docs/guides/bookinfo/index.html
+    - /zh/docs/guides/bookinfo.html
 ---
 
 这个示例部署了一个用于演示多种 Istio 特性的应用，该应用由四个单独的微服务构成。
@@ -116,7 +116,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
 ### 确定 Ingress 的 IP 和端口{#determine-the-ingress-i-p-and-port}
 
-现在 Bookinfo 服务启动并运行中，您需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。一个 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 应用到了目标中。
+现在 Bookinfo 服务启动并运行中，您需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。可以用 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 来实现这个目标。
 
 1.  为应用程序定义 Ingress 网关：
 
@@ -151,19 +151,19 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 
 还可以用浏览器打开网址 `http://$GATEWAY_URL/productpage`，来浏览应用的 Web 页面。如果刷新几次应用的页面，就会看到 `productpage` 页面中会随机展示 `reviews` 服务的不同版本的效果（红色、黑色的星形或者没有显示）。`reviews` 服务出现这种情况是因为我们还没有使用 Istio 来控制版本的路由。
 
-## 应用缺省目标规则{#apply-default-destination-rules}
+## 应用默认目标规则{#apply-default-destination-rules}
 
 在使用 Istio 控制 Bookinfo 版本路由之前，您需要在[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)中定义好可用的版本，命名为 *subsets* 。
 
 运行以下命令为 Bookinfo 服务创建的默认的目标规则：
 
-* 如果**不需要**启用双向TLS，请执行以下命令：
+* 如果**没有**启用双向TLS，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
-* 如果**需要**启用双向 TLS，请执行以下命令：
+* 如果**启用了**双向 TLS，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
@@ -177,10 +177,10 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 $ kubectl get destinationrules -o yaml
 {{< /text >}}
 
-## 下一步{#what's-next}
+## 下一步{#what-s-next}
 
 现在就可以使用这一应用来体验 Istio 的特性了，其中包括了流量的路由、错误注入、速率限制等。
-接下来可以个人爱好去阅读和演练 [Istio 实例](/zh/docs/tasks)。这里为新手推荐[智能路由](/zh/docs/tasks/traffic-management/request-routing/)功能作为起步课程。
+接下来可以根据个人爱好去阅读和演练 [Istio 实例](/zh/docs/tasks)。这里为新手推荐[智能路由](/zh/docs/tasks/traffic-management/request-routing/)功能作为起步课程。
 
 ## 清理{#cleanup}
 
