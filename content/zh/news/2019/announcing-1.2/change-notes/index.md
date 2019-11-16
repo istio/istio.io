@@ -58,7 +58,7 @@ aliases:
 - **Added** support to configure the Datadog location via [`global.tracer.datadog.address`](/docs/reference/config/installation-options/#global-options).
 - **Removed** Previously [deprecated]( https://discuss.istio.io/t/deprecation-notice-custom-mixer-adapter-crds/2055) Adapter and Template CRDs are disabled by default. Use  `mixer.templates.useTemplateCRDs=true` and `mixer.adapters.useAdapterCRDs=true` install options to re-enable them.
 
-Refer to the [installation option change page](/news/2019/announcing-1.2/helm-changes/) to view the complete list of changes.
+Refer to the [installation option change page](/news/releases/1.2.x/announcing-1.2/helm-changes/) to view the complete list of changes.
 
 ## `istioctl` and `kubectl`
 

@@ -8,7 +8,7 @@ aliases:
     - /zh/blog/2019/istio-security-003-004
 ---
 
-Today we are releasing two new versions of Istio. Istio [1.1.13](/news/2019/announcing-1.1.13/) and [1.2.4](/news/2019/announcing-1.2.4/) address vulnerabilities that can be used to mount a Denial of Service (DoS) attack against services using Istio.
+Today we are releasing two new versions of Istio. Istio [1.1.13](/news/releases/1.1.x/announcing-1.1.13/) and [1.2.4](/news/releases/1.2.x/announcing-1.2.4/) address vulnerabilities that can be used to mount a Denial of Service (DoS) attack against services using Istio.
 
 __ISTIO-SECURITY-2019-003__: An Envoy user reported publicly an issue (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) about regular expressions (or regex) matching that crashes Envoy with very large URIs.
   * __[CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)__: After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio, if users are employing regular expressions in some of the Istio APIs: `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.
