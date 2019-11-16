@@ -14,7 +14,7 @@ target_release: 1.3
 
 这次更新的目标是对内容进行更方便的分享和搜索。
 
-我们希望更简单的共享 Istio 方面的最新信息，[Istio 博客](/zh/blog)是一个好的出发点。
+我们希望更简单地共享 Istio 方面的最新信息，[Istio 博客](/zh/blog)是一个好的出发点。
 
 如果你认为你的内容符合下面三个分类中的一个，我们非常欢迎将其提交到 Istio 博客之中。
 
@@ -22,6 +22,6 @@ target_release: 1.3
 -  文章中着重介绍了 Istio 的功能。
 -  文章中详细讲解了使用 Istio 完成一个任务或者满足特定用例需求的相关内容。
 
-仅需[提交一个 PR](/zh/about/contribute/github/#how-to-contribute)，如果需要，可以[申请评审](/zh/about/contribute/github/#review).
+仅需[提交一个 PR](/zh/about/contribute/github/#how-to-contribute) 就可以发表您的博客，如果需要，可以[申请评审](/zh/about/contribute/github/#review).
 
-我们期待能够很快就看到你的 Istio 体验！
+我们期待能够很快就能在博客上看到你的 Istio 体验！
