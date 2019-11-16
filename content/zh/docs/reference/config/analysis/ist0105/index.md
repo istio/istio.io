@@ -3,9 +3,9 @@ title: IstioProxyVersionMismatch
 layout: analysis-message
 ---
 
-在以下情况，会触发有关 pod 的信息：
+在以下情况，会触发有关 pod 的这条信息：
 
-* 启用 sidecar 自动注入功能（默认启用，除非在设置中明确禁用。）
+* 启用 sidecar 自动注入功能（默认启用，除非通过 helm 模版变量 `sidecarInjectorWebhook.enabled` 明确禁用。）
 * pod 在启用了 sidecar 注入的命名空间中运行（命名空间带有标签 `istio-injection=enabled`）
 * sidecar 上运行的代理版本与自动注入使用的版本不匹配
 
