@@ -4,9 +4,9 @@ description: Techniques to address common Istio traffic management and network p
 force_inline_toc: true
 weight: 10
 aliases:
-  - /help/ops/traffic-management/troubleshooting
-  - /help/ops/troubleshooting/network-issues
-  - /docs/ops/troubleshooting/network-issues
+  - /zh/help/ops/traffic-management/troubleshooting
+  - /zh/help/ops/troubleshooting/network-issues
+  - /zh/docs/ops/troubleshooting/network-issues
 ---
 
 ## Requests are rejected by Envoy

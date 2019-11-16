@@ -3,7 +3,7 @@ title: Getting Started
 description: Download, install, and try out Istio.
 weight: 5
 aliases:
-    - /docs/setup/kubernetes/getting-started/
+    - /zh/docs/setup/kubernetes/getting-started/
 skip_toc: true
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---

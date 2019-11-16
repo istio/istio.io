@@ -5,7 +5,7 @@ publishdate: 2019-09-10
 attribution: The Istio Team
 keywords: [community,blog,security]
 aliases:
-    - /blog/2019/incorrect-sidecar-image-1.2.4
+    - /zh/blog/2019/incorrect-sidecar-image-1.2.4
 ---
 To the Istio’s user community,
 

@@ -3,9 +3,9 @@ title: Creating and Editing Pages
 description: Explains the mechanics of creating and maintaining documentation pages.
 weight: 10
 aliases:
-    - /docs/welcome/contribute/writing-a-new-topic.html
-    - /docs/reference/contribute/writing-a-new-topic.html
-    - /about/contribute/writing-a-new-topic.html
+    - /zh/docs/welcome/contribute/writing-a-new-topic.html
+    - /zh/docs/reference/contribute/writing-a-new-topic.html
+    - /zh/about/contribute/writing-a-new-topic.html
     - /create
 keywords: [contribute]
 ---
@@ -704,7 +704,7 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /help/faq
+    - /zh/help/faq
 ---
 {{< /text >}}
 
@@ -719,9 +719,9 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /faq
-    - /faq2
-    - /faq3
+    - /zh/faq
+    - /zh/faq2
+    - /zh/faq3
 ---
 {{< /text >}}
 

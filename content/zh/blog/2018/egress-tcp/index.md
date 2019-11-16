@@ -6,7 +6,7 @@ last_update: 2019-02-10
 subtitle: Mesh-external Service Entries for TCP traffic
 attribution: Vadim Eisenberg
 aliases:
-  - /docs/tasks/traffic-management/egress-tcp/
+  - /zh/docs/tasks/traffic-management/egress-tcp/
 keywords: [traffic-management,egress,tcp]
 target_release: 1.0
 ---

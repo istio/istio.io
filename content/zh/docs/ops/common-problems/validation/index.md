@@ -4,9 +4,9 @@ description: Describes how to resolve Galley configuration problems.
 force_inline_toc: true
 weight: 50
 aliases:
-    - /help/ops/setup/validation
-    - /help/ops/troubleshooting/validation
-    - /docs/ops/troubleshooting/validation
+    - /zh/help/ops/setup/validation
+    - /zh/help/ops/troubleshooting/validation
+    - /zh/docs/ops/troubleshooting/validation
 ---
 
 ## Seemingly valid configuration is rejected
