@@ -3,7 +3,7 @@ title: Change Notes
 description: Istio 1.2 release notes.
 weight: 10
 aliases:
-    - /about/notes/1.2
+    - /zh/about/notes/1.2
 ---
 
 ## General
