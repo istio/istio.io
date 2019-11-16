@@ -10,7 +10,7 @@ aliases:
 {{< boilerplate experimental-feature-warning >}}
 
 在 Istio 1.3 中，我们新增了 [`istioctl experimental describe`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod) 命令。
-这个命令行工具为您提供了理解影响一个 {{< gloss >}}pod{{< /gloss >}} 的配置所需要的信息。
+一些配置可以影响 {{< gloss >}}pod{{< /gloss >}}，要理解这些配置，您可以利用这个命令行工具得到一些必要的信息。
 这份指南向您展示如何使用这个实验性子命令来查看一个 pod 是否在网格中并验证它的配置。
 
 该命令的基本用法如下：
@@ -19,21 +19,21 @@ aliases:
 $ istioctl experimental describe <pod-name>[.<namespace>]
 {{< /text >}}
 
-向 pod 名字后面加上一个命名空间跟使用 `istioctl` 的 `-n` 参数来指定一个非默认的命名空间效果一样。
+向 pod 名字后面加上一个命名空间与使用 `istioctl` 的 `-n` 参数来指定一个非默认的命名空间效果一样。
 
 {{< tip >}}
-跟所有其它 `istioctl` 命令一样，您可以更方便地用 `x` 来代替 `experimental`。
+和所有其它 `istioctl` 命令一样，您可以更方便地用 `x` 来代替 `experimental`。
 {{< /tip >}}
 
 该指南假定您已经在您的网格中部署了 [Bookinfo](/zh/docs/examples/bookinfo/) 示例。
-如果您还没部署，先参考[启动应用服务](/zh/docs/examples/bookinfo/#start-the-application-services)和[确定 ingress 的 IP 和端口](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)。
+如果您还没部署，先参考[启动应用服务](/zh/docs/examples/bookinfo/#start-the-application-services)和[确定 ingress 的 IP 和端口](/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port)。
 
 ## 验证 pod 是否在网格中{#verify-a-pod-is-in-the-mesh}
 
 如果 pod 里没有 {{< gloss >}}Envoy{{< /gloss >}} 代理或者代理没启动，`istioctl describe` 命令会返回一个警告。
 另外，如果 [pods 的 Istio 需求](/zh/docs/setup/additional-setup/requirements/)未完全满足，该命令也会警告。
 
-例如，下面的命令报的警告表示一个 `kubernetes-dashboard` pod 不被包含在服务网格内，因为它没有 sidecar：
+例如，下面的命令发出的警告表示一个 `kubernetes-dashboard` pod 不被包含在服务网格内，因为它没有 sidecar：
 
 {{< text bash >}}
 $ export DASHBOARD_POD=$(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
@@ -41,7 +41,7 @@ $ istioctl x describe pod -n kube-system $DASHBOARD_POD
 WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; no Istio sidecar
 {{< /text >}}
 
-对于服务网格内的 pod，如 Bookinfo 的 `ratings` 服务，该命令就不会报警，而是输出该 pod 的 Istio 配置：
+但对于服务网格内的 pod，如 Bookinfo 的 `ratings` 服务，该命令就不会报警，而是输出该 pod 的 Istio 配置：
 
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
@@ -150,7 +150,7 @@ Virtual service 想将流量路由到 `v1` 子集，但是没有 destination rul
 因此，要去 `v1` 的流量就无法流向该 pod。
 
 如果您现在刷新浏览器来向 Bookinfo 发送一个新的请求，您将会看到这条消息：`Error fetching product reviews`。
-要修复这个问题，重新应用 destination rule：
+要修复这个问题，请重新应用 destination rule：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
@@ -235,7 +235,7 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
 {{< /text >}}
 
 如果您在浏览器中打开 Bookinfo，您会看到 `Ratings service is currently unavailable`。
-想知道原因，运行以下命令：
+想知道原因，请运行以下命令：
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
@@ -246,7 +246,7 @@ WARNING Pilot predicts TLS Conflict on ratings-v1-f745cf57b-qrxl2 port 9080 (pod
 
 该输出包含了一个警告，描述了 destination rule 和认证策略之间的冲突。
 
-您可以通过应用一个使用双向 TLS 的 destination rule 来恢复正常：
+您可以通过应用一个使用双向 TLS 的 destination rule 来修复问题：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
