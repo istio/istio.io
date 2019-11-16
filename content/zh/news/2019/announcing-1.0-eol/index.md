@@ -4,7 +4,7 @@ description: Upcoming Istio 1.0 end of life announcement.
 publishdate: 2019-05-23
 attribution: The Istio Team
 aliases:
-    - /blog/2019/announcing-1.0-eol
+    - /zh/blog/2019/announcing-1.0-eol
 ---
 
 According to Istio's [support policy](/about/release-cadence/), LTS releases like 1.0 are supported for three months after the next LTS release.   Since [1.1 was released on March 19th](/news/2019/announcing-1.1/), support for 1.0 will end on June 19th, 2019.

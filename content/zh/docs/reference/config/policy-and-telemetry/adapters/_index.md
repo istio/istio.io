@@ -3,8 +3,8 @@ title: 适配器
 description: Mixer 适配器能够让 Istio 连接各种基础设施后端以完成类似指标和日志这样的功能。
 weight: 40
 aliases:
-    - /docs/reference/config/mixer/adapters/index.html
-    - /docs/reference/config/adapters/
+    - /zh/docs/reference/config/mixer/adapters/index.html
+    - /zh/docs/reference/config/adapters/
 ---
 
 {{< idea >}}

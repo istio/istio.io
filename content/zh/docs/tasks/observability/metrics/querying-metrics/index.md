@@ -4,8 +4,8 @@ description: This task shows you how to query for Istio Metrics using Prometheus
 weight: 30
 keywords: [telemetry,metrics]
 aliases:
-    - /docs/tasks/telemetry/querying-metrics/
-    - /docs/tasks/telemetry/metrics/querying-metrics/
+    - /zh/docs/tasks/telemetry/querying-metrics/
+    - /zh/docs/tasks/telemetry/metrics/querying-metrics/
 ---
 
 This task shows you how to query for Istio Metrics using Prometheus. As part of

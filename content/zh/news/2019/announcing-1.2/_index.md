@@ -6,8 +6,8 @@ publishdate: 2019-06-18
 attribution: The Istio Team
 release: 1.2.0
 aliases:
-    - /blog/2019/announcing-1.2
-    - /news/announcing-1.2
+    - /zh/blog/2019/announcing-1.2
+    - /zh/news/announcing-1.2
 skip_list: true
 ---
 

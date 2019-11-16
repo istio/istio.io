@@ -5,9 +5,9 @@ publishdate: 2018-03-28
 attribution: The Istio Team
 release: 0.7.0
 aliases:
-    - /about/notes/0.7
-    - /about/notes/0.7/index.html
-    - /news/announcing-0.7
+    - /zh/about/notes/0.7
+    - /zh/about/notes/0.7/index.html
+    - /zh/news/announcing-0.7
 ---
 
 For this release, we focused on improving our build and test infrastructures and increasing the

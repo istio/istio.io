@@ -4,7 +4,7 @@ description: This task shows you how to configure external access to the set of 
 weight: 99
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
- - /docs/tasks/telemetry/gateways/
+ - /zh/docs/tasks/telemetry/gateways/
 ---
 
 This task shows how to configure Istio to expose and access the telemetry addons outside of

@@ -4,7 +4,7 @@ description: How to configure the proxies to send tracing requests to LightStep.
 weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
- - /docs/tasks/telemetry/distributed-tracing/lightstep/
+ - /zh/docs/tasks/telemetry/distributed-tracing/lightstep/
 ---
 
 This task shows you how to configure Istio to collect trace spans and send them to [LightStep Tracing](https://lightstep.com/products/) or [LightStep [𝑥]PM](https://lightstep.com/products/).

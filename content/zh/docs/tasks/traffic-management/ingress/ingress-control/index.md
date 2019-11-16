@@ -4,8 +4,8 @@ description: Describes how to configure an Istio gateway to expose a service out
 weight: 10
 keywords: [traffic-management,ingress]
 aliases:
-    - /docs/tasks/ingress.html
-    - /docs/tasks/ingress
+    - /zh/docs/tasks/ingress.html
+    - /zh/docs/tasks/ingress
 ---
 
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)

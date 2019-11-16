@@ -4,7 +4,7 @@ description: Describes how to configure Istio to perform TLS origination for tra
 keywords: [traffic-management,egress]
 weight: 20
 aliases:
-  - /docs/examples/advanced-gateways/egress-tls-origination/
+  - /zh/docs/examples/advanced-gateways/egress-tls-origination/
 ---
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, i.e., outside of the

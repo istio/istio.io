@@ -5,9 +5,9 @@ force_inline_toc: true
 weight: 20
 keywords: [security,citadel]
 aliases:
-    - /help/ops/security/repairing-citadel
-    - /help/ops/troubleshooting/repairing-citadel
-    - /docs/ops/troubleshooting/repairing-citadel
+    - /zh/help/ops/security/repairing-citadel
+    - /zh/help/ops/troubleshooting/repairing-citadel
+    - /zh/docs/ops/troubleshooting/repairing-citadel
 ---
 
 ## End-user authentication fails
