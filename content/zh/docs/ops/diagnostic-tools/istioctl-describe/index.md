@@ -4,7 +4,7 @@ description: Shows you how to use istioctl describe to verify the configurations
 weight: 30
 keywords: [traffic-management, istioctl, debugging, kubernetes]
 aliases:
-  - /docs/ops/troubleshooting/istioctl-describe
+  - /zh/docs/ops/troubleshooting/istioctl-describe
 ---
 
 {{< boilerplate experimental-feature-warning >}}

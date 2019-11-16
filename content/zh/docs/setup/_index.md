@@ -4,12 +4,12 @@ description: Instructions for installing the Istio control plane on Kubernetes a
 weight: 15
 icon: setup
 aliases:
-    - /docs/tasks/installing-istio.html
-    - /docs/setup/install-kubernetes.html
-    - /docs/setup/kubernetes/quick-start.html
-    - /docs/setup/kubernetes/download-release/
-    - /docs/setup/kubernetes/download/
-    - /docs/setup/kubernetes/
+    - /zh/docs/tasks/installing-istio.html
+    - /zh/docs/setup/install-kubernetes.html
+    - /zh/docs/setup/kubernetes/quick-start.html
+    - /zh/docs/setup/kubernetes/download-release/
+    - /zh/docs/setup/kubernetes/download/
+    - /zh/docs/setup/kubernetes/
 keywords: [kubernetes,install,quick-start,setup,installation]
 list_below: true
 ---

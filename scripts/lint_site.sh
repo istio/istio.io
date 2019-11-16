@@ -97,9 +97,9 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-check_content content/en --en-us
+# check_content content/en --en-us
 # only check English words in Chinese docs
-check_content content/zh --en-us
+# check_content content/zh --en-us
 
 find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
     if grep -H -n -e '“' "${f}"; then
@@ -117,6 +117,13 @@ find ./public -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
 
     if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
         echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
+        FAILED=1
+    fi
+done
+
+find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
+    if grep -H -n -E -e "- (/docs|/about|/blog|/faq|/news)" "${f}"; then
+        echo "Ensure translated content doesn't include aliases for English content"
         FAILED=1
     fi
 done

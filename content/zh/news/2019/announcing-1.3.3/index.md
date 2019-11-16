@@ -6,7 +6,7 @@ attribution: The Istio Team
 subtitle: Minor Update
 release: 1.3.3
 aliases:
-    - /news/announcing-1.3.3
+    - /zh/news/announcing-1.3.3
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what's different between Istio 1.3.2 and Istio 1.3.3.

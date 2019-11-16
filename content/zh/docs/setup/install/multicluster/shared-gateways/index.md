@@ -4,9 +4,9 @@ description: Install an Istio mesh across multiple Kubernetes clusters using a s
 weight: 85
 keywords: [kubernetes,multicluster]
 aliases:
-    - /docs/examples/multicluster/split-horizon-eds/
-    - /docs/tasks/multicluster/split-horizon-eds/
-    - /docs/setup/kubernetes/install/multicluster/shared-gateways/
+    - /zh/docs/examples/multicluster/split-horizon-eds/
+    - /zh/docs/tasks/multicluster/split-horizon-eds/
+    - /zh/docs/setup/kubernetes/install/multicluster/shared-gateways/
 ---
 
 Follow this guide to configure a multicluster mesh using a shared

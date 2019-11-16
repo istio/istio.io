@@ -5,7 +5,7 @@ publishdate: 2019-08-13
 attribution: The Istio Team
 keywords: [CVE]
 aliases:
-    - /blog/2019/istio-security-003-004
+    - /zh/blog/2019/istio-security-003-004
 ---
 
 Today we are releasing two new versions of Istio. Istio [1.1.13](/news/2019/announcing-1.1.13/) and [1.2.4](/news/2019/announcing-1.2.4/) address vulnerabilities that can be used to mount a Denial of Service (DoS) attack against services using Istio.

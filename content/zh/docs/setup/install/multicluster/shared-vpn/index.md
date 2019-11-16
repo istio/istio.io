@@ -4,9 +4,9 @@ description: Install an Istio mesh across multiple Kubernetes clusters with a sh
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
-    - /docs/setup/kubernetes/multicluster-install/vpn/
-    - /docs/setup/kubernetes/install/multicluster/vpn/
-    - /docs/setup/kubernetes/install/multicluster/shared-vpn/
+    - /zh/docs/setup/kubernetes/multicluster-install/vpn/
+    - /zh/docs/setup/kubernetes/install/multicluster/vpn/
+    - /zh/docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
 Follow this guide to install an Istio [multicluster service mesh](/docs/ops/prep/deployment-models/#multiple-clusters)

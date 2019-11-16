@@ -3,7 +3,7 @@ title: Secure Gateways (File Mount)
 description: Expose a service outside of the service mesh over TLS or mTLS using file-mounted certificates.
 weight: 20
 aliases:
-    - /docs/tasks/traffic-management/secure-ingress/mount/
+    - /zh/docs/tasks/traffic-management/secure-ingress/mount/
 keywords: [traffic-management,ingress,file-mount-credentials]
 ---
 

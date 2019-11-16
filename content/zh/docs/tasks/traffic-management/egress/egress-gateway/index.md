@@ -4,7 +4,7 @@ description: Describes how to configure Istio to direct traffic to external serv
 weight: 30
 keywords: [traffic-management,egress]
 aliases:
-  - /docs/examples/advanced-gateways/egress-gateway/
+  - /zh/docs/examples/advanced-gateways/egress-gateway/
 ---
 
 {{<warning>}}

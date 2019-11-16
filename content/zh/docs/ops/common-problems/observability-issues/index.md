@@ -4,8 +4,8 @@ description: Dealing with telemetry collection issues.
 force_inline_toc: true
 weight: 30
 aliases:
-    - /docs/ops/troubleshooting/grafana
-    - /docs/ops/troubleshooting/missing-traces
+    - /zh/docs/ops/troubleshooting/grafana
+    - /zh/docs/ops/troubleshooting/missing-traces
 ---
 
 ## Expected metrics are not being collected
