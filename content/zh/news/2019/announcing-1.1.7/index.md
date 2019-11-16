@@ -5,9 +5,9 @@ publishdate: 2019-05-17
 attribution: The Istio Team
 release: 1.1.7
 aliases:
-    - /about/notes/1.1.7
-    - /blog/2019/announcing-1.1.7
-    - /news/announcing-1.1.7
+    - /zh/about/notes/1.1.7
+    - /zh/blog/2019/announcing-1.1.7
+    - /zh/news/announcing-1.1.7
 ---
 
 We're pleased to announce the availability of Istio 1.1.7. Please see below for what's changed.

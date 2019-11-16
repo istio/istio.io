@@ -4,8 +4,8 @@ description: Describes how to use component-level logging to get insights into a
 weight: 70
 keywords: [ops]
 aliases:
-  - /help/ops/component-logging
-  - /docs/ops/troubleshooting/component-logging
+  - /zh/help/ops/component-logging
+  - /zh/docs/ops/troubleshooting/component-logging
 ---
 
 Istio components are built with a flexible logging framework which provides a number of features and controls to
