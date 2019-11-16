@@ -51,7 +51,7 @@ is used is determined by the istio.io [Netlify](https://netlify.com) project's c
 
 - The content of archive.istio.io is taken from the older release-XXX branches. The set of branches that
 are included on archive.istio.io is determined by the `TOBUILD` variable in this
-[script](https://github.com/istio/istio.io/blob/master/scripts/gen_archive_site.sh).
+[script](https://github.com/istio/istio.io/blob/master/scripts/build_archive_site.sh).
 
 ### Publishing content immediately
 
