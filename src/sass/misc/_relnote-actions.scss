@@ -9,9 +9,18 @@
         color: $textColor;
         text-decoration: none;
 
+        h5 {
+            margin-bottom: 0;
+            color: $linkColor;
+        }
+
         &:hover {
-            color: $textColor;
+            color: $textBrandColor;
             text-decoration: none;
+
+            h5 {
+                color: $textBrandColor;
+            }
         }
     }
 
@@ -20,6 +29,8 @@
         padding: 1rem;
         border: $tabsetBorderColor 1px dashed;
         display: block;
+        cursor: pointer;
+        text-decoration: none;
 
         @media (min-width: $bp-md) {
             padding: 1rem 4rem;
@@ -27,15 +38,17 @@
 
         &:hover {
             background-color: $mainBrandColor;
-            cursor: pointer;
+            color: $textBrandColor;
+        }
+
+        &:focus {
+            color: $textBrandColor;
+            background-color: $mainBrandColor;
         }
 
         &:active {
             background-color: $buttonActiveColor;
-        }
-
-        &:focus {
-            background-color: $textBrandColor;
+            color: $textBrandColor;
         }
     }
 
@@ -54,11 +67,6 @@
         &:focus {
             background-color: $backgroundColor;
         }
-    }
-
-    h5 {
-        margin-bottom: 0;
-        color: $linkColor;
     }
 
     p {

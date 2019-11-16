@@ -4,7 +4,7 @@ description: Resolve common problems with Istio's use of Kubernetes webhooks for
 force_inline_toc: true
 weight: 40
 aliases:
-  - /docs/ops/troubleshooting/injection
+  - /zh/docs/ops/troubleshooting/injection
 ---
 
 ## The result of sidecar injection was not what I expected

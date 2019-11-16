@@ -4,7 +4,7 @@ description: This task shows you how to visualize your services within an Istio 
 weight: 49
 keywords: [telemetry,visualization]
 aliases:
- - /docs/tasks/telemetry/kiali/
+ - /zh/docs/tasks/telemetry/kiali/
 ---
 
 This task shows you how to visualize different aspects of your Istio mesh.

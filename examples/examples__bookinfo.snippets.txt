@@ -14,11 +14,11 @@ $endsnippet
 
 $snippet verify_service.sh_output.txt syntax="text"
 NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-details       ClusterIP   10.108.228.154   <none>        9080/TCP   0s
-kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP    7m31s
-productpage   ClusterIP   10.96.165.189    <none>        9080/TCP   0s
-ratings       ClusterIP   10.103.106.29    <none>        9080/TCP   0s
-reviews       ClusterIP   10.108.13.215    <none>        9080/TCP   0s
+details       ClusterIP   10.96.60.64      <none>        9080/TCP   0s
+kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP    7m50s
+productpage   ClusterIP   10.111.146.105   <none>        9080/TCP   0s
+ratings       ClusterIP   10.104.124.247   <none>        9080/TCP   0s
+reviews       ClusterIP   10.105.106.39    <none>        9080/TCP   0s
 
 $endsnippet
 
@@ -28,12 +28,12 @@ $endsnippet
 
 $snippet verify_pods.sh_output.txt syntax="text"
 NAME                              READY   STATUS    RESTARTS   AGE
-details-v1-74f858558f-k97x8       2/2     Running   0          39s
-productpage-v1-76589d9fdc-bwt5m   2/2     Running   0          38s
-ratings-v1-7855f5bcb9-xdhkc       2/2     Running   0          38s
-reviews-v1-64bc5454b9-vln2c       2/2     Running   0          39s
-reviews-v2-76c64d4bdf-ns97z       2/2     Running   0          39s
-reviews-v3-5545c7c78f-6d489       2/2     Running   0          39s
+details-v1-74f858558f-2ttbx       2/2     Running   0          39s
+productpage-v1-76589d9fdc-gvvmf   2/2     Running   0          38s
+ratings-v1-7855f5bcb9-lss29       2/2     Running   0          39s
+reviews-v1-64bc5454b9-6rzvb       2/2     Running   0          39s
+reviews-v2-76c64d4bdf-kbgqd       2/2     Running   0          39s
+reviews-v3-5545c7c78f-q8zf9       2/2     Running   0          39s
 
 $endsnippet
 

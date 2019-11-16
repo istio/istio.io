@@ -37,7 +37,7 @@ Download the Istio release which includes installation files, samples, and the
     extract the latest release automatically:
 
     {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
+    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
     {{< /text >}}
 
 1.  Move to the Istio package directory. For example, if the package is
@@ -69,7 +69,7 @@ These instructions assume you are new to Istio, providing streamlined instructio
 install Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
 This installation lets you quickly get started evaluating Istio.
 If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/docs/setup/deployment-models/),
+or a more advanced [deployment model](/docs/ops/prep/deployment-models/),
 follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
 
 {{< warning >}}
@@ -135,7 +135,7 @@ access logging.
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## What's next
+## Next steps
 
 With Istio installed, you can now deploy your own application or one of the sample applications
 provided with the installation.
@@ -183,9 +183,13 @@ The following tasks are a good place for beginners to start:
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
 The next step is to customize Istio and deploy your own applications.
-Before you install and customize Istio to fit your platform and intended use, check out
-our [deployment models](/docs/setup/deployment-models/) and [general installation](/docs/setup/)
-documents.
+Before you install and customize Istio to fit your platform and intended use,
+check out the following resources:
+
+- [Deployment models](/docs/ops/prep/deployment-models/)
+- [Deployment best practices](/docs/ops/prep/deployment/)
+- [Pod requirements](/docs/ops/prep/requirements/)
+- [General installation instructions](/docs/setup/)
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
 you to our [community](/about/community/join/).
