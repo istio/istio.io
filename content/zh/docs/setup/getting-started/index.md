@@ -1,6 +1,6 @@
 ---
-title: Getting Started
-description: Download, install, and try out Istio.
+title: 入门
+description: 下载，安装并试用 Istio。
 weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/getting-started/
@@ -8,39 +8,27 @@ skip_toc: true
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-This guide lets you try out Istio quickly and it's the ideal starting
-point if you are new to the project. To get started, download and install
-Istio's built-in **demo** configuration:
+本指南可以让您快速尝鲜 Istio ，这对初学者来说是一个理想的起点。首先，下载并安装 Istio 的内建 **demo** 配置：
 
-- [Follow the quick-start installation instructions](/docs/setup/getting-started)
+- [请遵循快速入门安装说明](/zh/docs/setup/install/kubernetes)
 
-With Istio installed, you can [deploy the Bookinfo sample](/docs/examples/bookinfo/#deploying-the-application)
-and evaluate Istio's features for traffic routing, fault injection, rate
-limiting, etc. Explore the various [Istio tasks](/docs/tasks/), and try out the
-tasks that interest you. If you are not sure where to begin, the following
-tasks are a good place to start:
+安装 Istio 之后，您就可以 [部署 Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application) 来感受它在路由、故障注入，流量控制等方面的功能。探索各种
+ [Istio 任务](/zh/docs/tasks/)，并且尝试您感兴趣的任务。如果您不知道如何入手，下面是一个不错的任务指南：
 
-- [Request routing](/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Collecting logs](/docs/tasks/observability/logs/collecting-logs/)
-- [Rate limiting](/docs/tasks/policy-enforcement/rate-limiting/)
-- [Ingress gateways](/docs/tasks/traffic-management/ingress/ingress-control/)
-- [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/docs/tasks/observability/kiali/)
+- [请求路由](/zh/docs/tasks/traffic-management/request-routing/)
+- [故障注入](/zh/docs/tasks/traffic-management/fault-injection/)
+- [流量迁移](/zh/docs/tasks/traffic-management/traffic-shifting/)
+- [查询度量](/zh/docs/tasks/observability/metrics/querying-metrics/)
+- [可视化指标](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [日志收集](/zh/docs/tasks/observability/logs/collecting-logs/)
+- [流量控制](/zh/docs/tasks/policy-enforcement/rate-limiting/)
+- [入口网关](/zh/docs/tasks/traffic-management/ingress/ingress-control/)
+- [外部服务访问](/zh/docs/tasks/traffic-management/egress/egress-control/)
+- [网格可视化](/zh/docs/tasks/observability/kiali/)
 
-The tasks above provide a good basic understanding of Istio's features but,
-explore more [tasks](/docs/tasks/) depending on what interests you. Before you
-install and customize Istio to fit your platform and intended use, check out
-our [general installation instructions](/docs/setup/) for details.
+以上任务将引导您对 Istio 的特性做一个基本了解， 您也可以根据您的兴趣来探索更多的
+ [任务](/zh/docs/tasks/)。在您开始自定义 Istio 来适配您的平台或者其他用途之前，请查看 [常规安装说明](/zh/docs/setup/) ，获取更多的细节。
 
-The next step is to deploy your own applications.
+如果您觉得对 Istio 已经基本掌握了，下一步，就可以开始部署您的应用程序了。
 
-As you continue to use Istio, we look forward to hearing from you and welcoming
-you to our [community](/about/community/join/).
-
-## Download
-
-Placeholder
+使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/)。
