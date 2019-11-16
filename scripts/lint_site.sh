@@ -97,9 +97,9 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-# check_content content/en --en-us
+check_content content/en --en-us
 # only check English words in Chinese docs
-# check_content content/zh --en-us
+check_content content/zh --en-us
 
 find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
     if grep -H -n -e '“' "${f}"; then
