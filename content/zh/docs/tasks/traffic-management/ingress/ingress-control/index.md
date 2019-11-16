@@ -1,6 +1,6 @@
 ---
 title: Ingress Gateways
-description: 描述如何配置一个 Istio gateway，对外提供服务网格服务。
+description: 描述如何配置一个 Istio gateway，以将服务暴露至服务网格之外。
 weight: 10
 keywords: [traffic-management,ingress]
 aliases:
@@ -24,7 +24,7 @@ aliases:
 
 *   根据下文描述，确定 ingress IP 和端口。
 
-### 确定 ingress IP 和端口{#determining-the-ingress-internet-protocol-and-ports}
+### 确定 ingress IP 和端口{#determining-the-ingress-i-p-and-ports}
 
 执行如下指令，明确自身 Kubernetes 集群环境支持外部负载均衡：
 
@@ -80,33 +80,33 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 基于集群供应商，设置 ingress IP：
 
-1.  _GKE:_
+1.  _GKE：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=<workerNodeAddress>
     {{< /text >}}
 
-    需要创建防火墙规则，允许TCP流量通过 _ingressgateway_ 服务的端口。
-    执行下面的命令，设置允许流量通过 HTTP 端口、HTTPS安全端口，或均可：
+    需要创建防火墙规则，允许 TCP 流量通过 _ingressgateway_ 服务的端口。
+    执行下面的命令，设置允许流量通过 HTTP 端口、HTTPS 安全端口，或均可：
 
     {{< text bash >}}
     $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
     $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
     {{< /text >}}
 
-1.  _Minikube:_
+1.  _Minikube：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(minikube ip)
     {{< /text >}}
 
-1.  _Docker For Desktop:_
+1.  _Docker For Desktop：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-1.  其他环境（如：IBM Cloud Private 等）：
+1.  _其他环境（如：IBM Cloud Private 等）：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
@@ -284,7 +284,7 @@ EOF
     $ kubectl get ingress --all-namespaces
     {{< /text >}}
 
-1.  如果使用了外部负载均衡器，该外部负载均衡器无法正常工作，尝试[通过 node port 访问 gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-internet-protocol-and-ports)。
+1.  如果使用了外部负载均衡器，该外部负载均衡器无法正常工作，尝试[通过 node port 访问 gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)。
 
 ## 清除{#cleanup}
 
