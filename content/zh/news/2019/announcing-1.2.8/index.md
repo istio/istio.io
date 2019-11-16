@@ -5,7 +5,7 @@ publishdate: 2019-10-23
 attribution: The Istio Team
 release: 1.2.8
 aliases:
-    - /news/announcing-1.2.8
+    - /zh/news/announcing-1.2.8
 ---
 
 We're pleased to announce the availability of Istio 1.2.8. Please see below for what's changed.

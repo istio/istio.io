@@ -3,9 +3,9 @@ title: What is Istio?
 description: Introduces Istio, the problems it solves, its high-level architecture, and its design goals.
 weight: 15
 aliases:
-    - /docs/concepts/what-is-istio/overview
-    - /docs/concepts/what-is-istio/goals
-    - /about/intro
+    - /zh/docs/concepts/what-is-istio/overview
+    - /zh/docs/concepts/what-is-istio/goals
+    - /zh/about/intro
 ---
 
 Cloud platforms provide a wealth of benefits for the organizations that use them. However, there’s no denying that adopting the cloud can put strains on DevOps teams. Developers must use microservices to architect for portability, meanwhile operators are managing extremely large hybrid and multi-cloud deployments.

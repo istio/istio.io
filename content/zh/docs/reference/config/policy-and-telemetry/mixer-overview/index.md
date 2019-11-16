@@ -4,11 +4,11 @@ description: Describes the configuration model for Istio's policy enforcement an
 weight: 5
 keywords: [policies,telemetry,control,config]
 aliases:
-    - /docs/concepts/policy-and-control/mixer.html
-    - /docs/concepts/policy-and-control/mixer-config.html
-    - /docs/concepts/policy-and-control/attributes.html
-    - /docs/concepts/policies-and-telemetry/overview/
-    - /docs/concepts/policies-and-telemetry/config/
+    - /zh/docs/concepts/policy-and-control/mixer.html
+    - /zh/docs/concepts/policy-and-control/mixer-config.html
+    - /zh/docs/concepts/policy-and-control/attributes.html
+    - /zh/docs/concepts/policies-and-telemetry/overview/
+    - /zh/docs/concepts/policies-and-telemetry/config/
 ---
 
 Istio provides a flexible model to enforce authorization policies and collect telemetry for the

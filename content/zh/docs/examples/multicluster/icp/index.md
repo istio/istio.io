@@ -4,7 +4,7 @@ description: Example multicluster mesh over two IBM Cloud Private clusters.
 weight: 70
 keywords: [kubernetes,multicluster]
 aliases:
-    - /docs/tasks/multicluster/icp/
+    - /zh/docs/tasks/multicluster/icp/
 ---
 
 This example demonstrates how to setup network connectivity between two

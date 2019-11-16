@@ -6,8 +6,8 @@ subtitle: Improving availability and reducing latency
 attribution: Martin Taillefer
 keywords: [adapters,mixer,policies,telemetry,availability,latency]
 aliases:
-    - /blog/posts/2017/mixer-spof-myth.html
-    - /blog/mixer-spof-myth.html
+    - /zh/blog/posts/2017/mixer-spof-myth.html
+    - /zh/blog/mixer-spof-myth.html
 target_release: 0.3
 ---
 

@@ -3,8 +3,8 @@ title: Avoiding Traffic Management Issues
 description: Provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
 weight: 2
 aliases:
-    - /help/ops/traffic-management/deploy-guidelines
-    - /help/ops/deploy-guidelines
+    - /zh/help/ops/traffic-management/deploy-guidelines
+    - /zh/help/ops/deploy-guidelines
 ---
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
