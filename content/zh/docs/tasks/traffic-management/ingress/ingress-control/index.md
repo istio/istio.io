@@ -100,7 +100,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
     $ export INGRESS_HOST=$(minikube ip)
     {{< /text >}}
 
-1.  _Docker for Desktop:_
+1.  _Docker For Desktop:_
 
     {{< text bash >}}
     $ export INGRESS_HOST=127.0.0.1
