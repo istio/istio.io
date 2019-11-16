@@ -4,7 +4,7 @@ description: Illustrates how to expand the Bookinfo application's mesh with a ra
 weight: 60
 keywords: [vms]
 aliases:
-    - /docs/examples/integrating-vms/
+    - /zh/docs/examples/integrating-vms/
 ---
 
 This example deploys the Bookinfo services across Kubernetes and a set of

@@ -3,9 +3,9 @@ title: Bookinfo Application
 description: Deploys a sample application composed of four separate microservices used to demonstrate various Istio features.
 weight: 10
 aliases:
-    - /docs/samples/bookinfo.html
-    - /docs/guides/bookinfo/index.html
-    - /docs/guides/bookinfo.html
+    - /zh/docs/samples/bookinfo.html
+    - /zh/docs/guides/bookinfo/index.html
+    - /zh/docs/guides/bookinfo.html
 ---
 
 This example deploys a sample application composed of four separate microservices used
