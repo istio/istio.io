@@ -1,10 +1,10 @@
 ---
-title: Egress Gateways
+title: Egress Gateway
 description: 描述如何配置 Istio 通过专用网关服务将流量定向到外部服务。
 weight: 30
 keywords: [traffic-management,egress]
 aliases:
-  - /docs/examples/advanced-gateways/egress-gateway/
+  - /zh/docs/examples/advanced-gateways/egress-gateway/
 ---
 
 {{<warning>}}
