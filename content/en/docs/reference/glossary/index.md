@@ -6,7 +6,6 @@ layout: glossary
 aliases:
   - /glossary
   - /docs/welcome/glossary.html
-  - /docs/reference/glossary.html
   - /help/glossary
 icon: glossary
 ---
