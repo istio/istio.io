@@ -24,7 +24,9 @@ aliases:
 
 *   根据[安装指南](/zh/docs/setup/)中的说明部署 Istio。
 
-*   如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行：
+*   启动 [sleep]({{< github_tree >}}/samples/sleep) 示例，该示例将用作外部调用的测试源。
+
+    如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -39,7 +41,7 @@ aliases:
     实际上任何可以 `exec` 和 `curl` 的 Pod 都可以用来完成这一任务。
 
 *   创建一个环境变量来保存用于将请求发送到外部服务的 pod 的名称。
-    在本任务中，我们将 `SOURCE_POD` 环境变量设置为已部署的 [sleep]({{< github_tree >}}/samples/sleep) pod：
+    如果您使用 [sleep]({{< github_tree >}}/samples/sleep) 示例，请运行：
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
