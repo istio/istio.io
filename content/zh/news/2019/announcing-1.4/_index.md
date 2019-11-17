@@ -9,11 +9,11 @@ aliases:
     - /zh/news/announcing-1.4
 ---
 
-我们很高兴的宣布，Istio 1.4 发布！
+我们很高兴地宣布，Istio 1.4 发布！
 
 {{< relnote >}}
 
-Istio 1.4 继续努力改善 Istio 的用户体验，着重于简化。
+Istio 1.4 着重于简化，以继续努力改善 Istio 的用户体验。
 同时我们也持续添加功能，以改善运行 Istio 的性能和体验。
 
 ## 无 Mixer 遥测{#mixer-less-telemetry}
@@ -35,8 +35,8 @@ HTTP指标的代理内生成已从实验性过渡到 Alpha。
 
 ## 更好的 sidecar{#better-sidecar}
 
-我们一直在做大量工作来改进Envoy，包括其功能集和使用体验。
-现在，Envoy在崩溃时可以更优雅地退出，支持更多指标，并且可以镜像一定比例的流量。
+我们一直在做大量工作来改进 Envoy，包括其功能集和使用体验。
+现在，Envoy 在崩溃时可以更优雅地退出，支持更多指标，并且可以镜像一定比例的流量。
 它报告流量的方向，并具有更好的 `stat patterns` 配置。
 最后，有一个新的[实验命令](/zh/docs/reference/commands/istioctl/#istioctl-experimental-wait)可以告诉您配置是何时被推送到网格中的所有代理的。
 
