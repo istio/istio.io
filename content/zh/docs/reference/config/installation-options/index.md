@@ -7,7 +7,7 @@ force_inline_toc: true
 ---
 
 {{< tip >}}
-Refer to [Installation Options Changes](/news/2019/announcing-1.3/helm-changes/)
+Refer to [Installation Options Changes](/news/releases/1.3.x/announcing-1.3/helm-changes/)
 for a detailed summary of the option changes between release 1.2 and release 1.3.
 {{< /tip >}}
 

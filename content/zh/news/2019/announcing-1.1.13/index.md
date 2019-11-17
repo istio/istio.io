@@ -16,7 +16,7 @@ We're pleased to announce the availability of Istio 1.1.13. Please see below for
 
 ## Security update
 
-This release contains fixes for the security vulnerabilities described in [our August 13th, 2019 news post](/news/2019/istio-security-003-004/).  Specifically:
+This release contains fixes for the security vulnerabilities described in [our August 13th, 2019 news post](/news/security/istio-security-2019-003-004/).  Specifically:
 
 __ISTIO-SECURITY-2019-003__: An Envoy user reported publicly an issue (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) about regular expressions matching that crashes Envoy with very large URIs.
   * __[CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)__: After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio, if users are employing regular expressions in some of the Istio APIs: `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.
