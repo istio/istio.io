@@ -9,7 +9,7 @@ aliases:
 ---
 To the Istio’s user community,
 
-For the period between Aug 23rd 2019 09:16PM PST and Sep 6th 2019 09:26AM PST a Docker image shipped as Istio `proxyv2` 1.2.4 (c.f. [https://hub.docker.com/r/istio/proxyv2](https://hub.docker.com/r/istio/proxyv2) ) contained a faulty version of the proxy against the security bugs [ISTIO-SECURITY-2019-003 and ISTIO-SECURITY-2019-004](/news/2019/istio-security-003-004/).
+For the period between Aug 23rd 2019 09:16PM PST and Sep 6th 2019 09:26AM PST a Docker image shipped as Istio `proxyv2` 1.2.4 (c.f. [https://hub.docker.com/r/istio/proxyv2](https://hub.docker.com/r/istio/proxyv2) ) contained a faulty version of the proxy against the security bugs [ISTIO-SECURITY-2019-003 and ISTIO-SECURITY-2019-004](/news/security/istio-security-2019-003-004/).
 
 If you have installed Istio 1.2.4 during that time, please consider upgrading to Istio 1.2.5 that also contains additional security fixes.
 
