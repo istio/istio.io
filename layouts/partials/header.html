@@ -5,7 +5,6 @@
 {{ $blog_home := .Site.GetPage "section" "blog" }}
 
 {{ $news := (where .Site.Pages "Section" "news").ByPublishDate.Reverse }}
-{{ $latest_news := index $news 0 }}
 {{ $news_home := .Site.GetPage "section" "news" }}
 
 <header>
@@ -37,6 +36,7 @@
                         <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
+
                 {{ with $latest_post }}
                     {{ if eq $section "blog" }}
                         <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
@@ -44,13 +44,15 @@
                         <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
-                {{ with $latest_news }}
+
+                {{ with (.Site.GetPage "section" "news")  }}
                     {{ if eq $section "news" }}
                         <span title="{{ $news_home.Description }}">{{ $news_home.LinkTitle }}</span>
                     {{ else }}
                         <a title="{{ $news_home.Description }}" href="{{ .Permalink }}">{{ $news_home.LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
+
                 {{ with (.Site.GetPage "section" "faq") }}
                     {{ if eq $section "faq" }}
                         <span title="{{ .Description }}">{{ .LinkTitle }}</span>
@@ -58,6 +60,7 @@
                         <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
+
                 {{ with (.Site.GetPage "section" "about") }}
                     {{ if eq $section "about" }}
                         <span title="{{ .Description }}">{{ .LinkTitle }}</span>
