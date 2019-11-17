@@ -216,66 +216,25 @@ spec:
 
 ## 目标规则 {#destination-rules}
 
-与[虚拟服务](#虚拟服务)一起，
-(目的地规则)(/ zh型/ docs /引用/ config /网络/目的地规定/ # DestinationRule)
-是Istio流量路由功能的关键部分。你可以想到
-虚拟服务，即您如何将您的流量**路由到**给定的目的地，以及
-然后您使用目标规则来配置会发生什么流量** *
-目的地。目标规则应用于虚拟服务路由规则之后
-因此，它们适用于交通的“真正”目的地。
-Along with [virtual services](#virtual-services),
-[destination rules](/zh/docs/reference/config/networking/destination-rule/#DestinationRule)
-are a key part of Istio’s traffic routing functionality. You can think of
-virtual services as how you route your traffic **to** a given destination, and
-then you use destination rules to configure what happens to traffic **for** that
-destination. Destination rules are applied after virtual service routing rules
-are evaluated, so they apply to the traffic’s "real" destination.
+与[虚拟服务](#virtual-services)一样，[目标规则](/zh/docs/reference/config/networking/destination-rule/#DestinationRule)也是 Istio 流量路由功能的关键部分。您可以将虚拟服务视为将流量如何路由到给定目标地址，然后使用目标规则来配置该目标的流量。在评估虚拟服务路由规则之后，目标规则将应用于流量的“真实”目标地址。
 
-特别是，您可以使用目标规则来指定指定的服务子集
-将给定服务的所有实例按版本分组。你可以使用这些
-服务子集在虚拟服务的路由规则中进行控制
-到服务的不同实例的流量。
-In particular, you use destination rules to specify named service subsets, such
-as grouping all a given service’s instances by version. You can then use these
-service subsets in the routing rules of virtual services to control the
-traffic to different instances of your services.
+特别是，您可以使用目标规则来指定命名的服务子集，例如按版本为所有给定服务的实例分组。然后可以在虚拟服务的路由规则中使用这些服务子集来控制到服务不同实例的流量。
 
-目的地规则还允许您在呼叫时自定义特使的流量策略
-整个目标服务或特定服务子集，如您的
-首选负载平衡模式，TLS安全模式，或断路器设置。
-属性中可以看到目标规则选项的完整列表
-(目的地规则参考)(/ zh型/ docs /引用/ config /网络/目的地规定)。
-Destination rules also let you customize Envoy’s traffic policies when calling
-the entire destination service or a particular service subset, such as your
-preferred load balancing model, TLS security mode, or circuit breaker settings.
-You can see a complete list of destination rule options in the
-[Destination Rule reference](/zh/docs/reference/config/networking/destination-rule/).
+目标规则还允许您在调用整个目的地服务或特定服务子集时定制 Envoy 的流量策略，比如您喜欢的负载均衡模型、TLS安全模式或熔断器设置。在[目标规则参考](/zh/docs/reference/config/networking/destination-rule/)中可以看到目标规则选项的完整列表。
 
 ### 负载均衡选项
 
-默认情况下，Istio使用循环负载平衡策略，其中每个服务
-实例池中的实例依次获取请求。Istio也支持
-以下模型，您可以在针对a的请求的目标规则中指定这些模型
-特定服务或服务子集。
-By default, Istio uses a round-robin load balancing policy, where each service
-instance in the instance pool gets a request in turn. Istio also supports the
-following models, which you can specify in destination rules for requests to a
-particular service or service subset.
+默认情况下，Istio 使用轮询的负载均衡策略，实例池中的每个实例依次获取请求。Istio 也支持以下模型，您可以在目标规则中为请求指定到一个特定服务或服务子集。
 
--   Random: Requests are forwarded at random to instances in the pool.
--   Weighted: Requests are forwarded to instances in the pool according to a
-    specific percentage.
--   Least requests: Requests are forwarded to instances with the least number of
-    requests.
+-   随机：请求以随机的方式转到池中的实例。
+-   权重：请求根据指定的百分比转到实例。
+-   最少请求：请求被转到最少被访问的实例。
 
-See the
-[Envoy load balancing documentation](https://www.envoyproxy.io/zh/docs/envoy/v1.5.0/intro/arch_overview/load_balancing)
-for more information about each option.
+查看 [Envoy 负载均衡文档](https://www.envoyproxy.io/zh/docs/envoy/v1.5.0/intro/arch_overview/load_balancing)获取这部分的更多信息。
 
 ### 目标规则示例 {#destination-rule-example}
 
-The following example destination rule configures three different subsets for
-the `my-svc` destination service, with different load balancing policies:
+在下面的示例中，目标规则为 `my-svc`目标服务配置了 3 个具有不同负载均衡策略的子集：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -302,28 +261,9 @@ spec:
       version: v3
 {{< /text >}}
 
-每个子集都是基于一个或多个“标签”定义的，在Kubernetes中是这样的
-附加到对象(如Pods)上的键/值对。这些标签
-应用于Kubernetes服务的部署作为“元数据”来识别
-不同的版本。
+每个子集都是基于一个或多个 `labels` 定义的，在 Kubernetes 中它是附加到像 Pod 这种对象上的键/值对。这些标签应用于Kubernetes服务的部署并作为`metadata`来识别不同的版本。
 
-除了定义子集之外，此目标规则还具有默认流量
-此目标中的所有子集的策略，以及特定于子集的策略
-只覆盖那个子集。默认策略，在“子集”上面定义
-字段，为“v1”和“v3”子集设置一个简单的随机负载均衡器。在
-' v2 '策略中，循环负载均衡器被指定在相应的
-子集的领域。
-Each subset is defined based on one or more `labels`, which in Kubernetes are
-key/value pairs that are attached to objects such as Pods. These labels are
-applied in the Kubernetes service’s deployment as `metadata` to identify
-different versions.
-
-As well as defining subsets, this destination rule has both a default traffic
-policy for all subsets in this destination and a subset-specific policy that
-overrides it for just that subset. The default policy, defined above the `subsets`
-field, sets a simple random load balancer for the `v1` and `v3` subsets. In the
-`v2` policy, a round-robin load balancer is specified in the corresponding
-subset’s field.
+除了定义子集之外，目标规则对于所有子集都有默认的流量策略，而对于该子集，则有特定于子集的策略覆盖它。定义在 `subsets` 上的默认策略，为`v1`和`v3`子集设置了一个简单的随机负载均衡器。在`v2` 策略中，轮询负载均衡器被指定在相应的子集字段上。
 
 ## Gateways {#gateways}
 
