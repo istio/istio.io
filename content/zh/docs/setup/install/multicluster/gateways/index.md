@@ -235,7 +235,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 
     {{< tip >}}
     如果 `cluster2` 运行在一个不支持对外负载均衡的环境下，您需要使用 nodePort 访问 gateway。
-    有关获取使用 IP 的说明，请参见教程：[Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)。
+    有关获取使用 IP 的说明，请参见教程：[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)。
     在后面的步骤中，您还需要将 service entry 的 endpoint 的端口从 15443 修改为其对应的 nodePort
     （例如，`kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`）。
 
