@@ -102,7 +102,7 @@ istio-system   tcpkubeattrgenrulerule    4h
     $ kubectl get metrics.config.istio.io --all-namespaces
     {{< /text >}}
 
-1. 如果输出未显示已配置的 Mixer 指标实例，则必须使用相应的实例配置重新配置 Mixer。 
+1. 如果输出未显示已配置的 Mixer 指标实例，则必须使用相应的实例配置重新配置 Mixer。
 
 有关参考，请参阅 [Mixer 指标的默认实例配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
 
