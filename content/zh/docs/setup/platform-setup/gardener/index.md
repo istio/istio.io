@@ -1,6 +1,6 @@
 ---
-title: Kubernetes Gardener
-description: Instructions to setup a Gardener cluster for Istio.
+title: Kubernetes Gardener 快速开始
+description: 使用 Gardener 快速搭建 Istio 服务。
 weight: 19
 aliases:
     - /zh/docs/setup/kubernetes/platform-setup/gardener/
@@ -8,69 +8,55 @@ skip_seealso: true
 keywords: [platform-setup,kubernetes,gardener,sap]
 ---
 
-## Bootstrapping Gardener
+## Gardener 引导 {#bootstrapping-gardener}
 
-To set up your own [Gardener](https://gardener.cloud), see the
-[documentation](https://github.com/gardener/gardener/blob/master/docs/README.md)
-or have a look at the
-[landscape-setup-template](https://github.com/gardener/landscape-setup-template)
-project. To learn more about this open source project, read the
-[blog on `kubernetes.io`](https://kubernetes.io/blog/2018/05/17/gardener/).
+使用 [Gardener](https://gardener.cloud) 建立自己的集群, 可以查看
+[文档](https://github.com/gardener/gardener/blob/master/docs/README.md)，
+也可以查看 [landscape-setup-template](https://github.com/gardener/landscape-setup-template) 项目。
+要了解有关此开源项目的更多信息，请阅读 [`kubernetes.io` 博客](https://kubernetes.io/blog/2018/05/17/gardener/).
 
-### Install and configure `kubectl`
+### 安装并且配置 `kubectl`{#install-and-configure-Kubernetes}
 
-1.  If you already have `kubectl` CLI, run `kubectl version --short` to check
-    the version. You need `v1.10` or newer. If your `kubectl` is older, follow the
-    next step to install a newer version.
+1.  如果您已经有 `kubectl` CLI，请运行 `kubectl version --short` 来检查版本。您需要 `v1.10` 或更高版本。
+    如果您的 `kubectl` 较旧，请按照下一步安装新版本。
 
-1.  [Install the `kubectl` CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+1.  [安装 `kubectl` CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
-### Access Gardener
+### 访问 Gardener{#access-gardener}
 
-1.  Create a project in the Gardener dashboard. This will essentially create a
-    Kubernetes namespace with the name `garden-<my-project>`.
+1.  在 Gardener 仪表板中创建一个项目。 这实际上将创建一个名为 `garden-<my-project>` 的 Kubernetes 命名空间。
 
-1.  [Configure access to your Gardener project](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration)
-    using a kubeconfig. If you are not the Gardener Administrator already, you
-    can create a technical user in the Gardener dashboard: go to the "Members"
-    section and add a service account. You can then download the kubeconfig for
-    your project. You can skip this step if you create your cluster using the
-    user interface; it is only needed for programmatic access, make sure you set
-    `export KUBECONFIG=garden-my-project.yaml` in your shell.
+1.  [配置对您的 Gardener 项目的访问权限](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration)
+    使用 kubeconfig，如果您还不是 Gardener 管理员，则可以在 Gardener 仪表板中创建一个用户：转到 "Members" 部分并添加服务帐户。
+    然后，您可以为您的项目下载 kubeconfig。如果使用用户界面创建集群，则可以跳过此步骤。
+    只有通过程序访问才需要它，请确保在您的 shell 中设置`export KUBECONFIG=garden-my-project.yaml`。
     ![Download kubeconfig for Gardener](images/gardener_service_account.png "downloading the kubeconfig using a service account")
 
-### Creating a Kubernetes cluster
+### 创建 Kubernetes 集群{#creating-a-Kubernetes-cluster}
 
-You can create your cluster using `kubectl` cli by providing a cluster
-specification yaml file. You can find an example for GCP
-[here](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml).
-Make sure the namespace matches that of your project. Then just apply the
-prepared so-called "shoot" cluster CRD with `kubectl`:
+您可以通过提供集群规范 yaml 文件，使用 `kubectl` cli 创建集群。 您可以在 [这博客里](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml) 找到关于 GCP 的示例。
+确保名称空间与您的项目名称空间匹配。然后只需将准备好的 "shoot" 群集 CRD 与 `kubectl` 配合使用：
 
 {{< text bash >}}
 $ kubectl apply --filename my-cluster.yaml
 {{< /text >}}
 
-The easier alternative is to create the cluster following the cluster creation
-wizard in the Gardener dashboard:
+更简单的替代方法是按照 Gardener 仪表板中的集群创建向导来创建集群：
 ![shoot creation](images/gardener_shoot_creation.png "shoot creation via the dashboard")
 
-### Configure `kubectl` for your cluster
+### 为集群配置 `kubectl`{#configure-Kubernetes-for-your-cluster}
 
-You can now download the kubeconfig for your freshly created cluster in the
-Gardener dashboard or via cli as follows:
+现在，您可以在 Gardener 仪表板中或通过 cli 为新创建的集群下载 kubeconfig，如下所示：
 
 {{< text bash >}}
 $ kubectl --namespace shoot--my-project--my-cluster get secret kubecfg --output jsonpath={.data.kubeconfig} | base64 --decode > my-cluster.yaml
 {{< /text >}}
 
-This kubeconfig file has full administrators access to you cluster. For the rest
-of this guide be sure you have `export KUBECONFIG=my-cluster.yaml` set.
+此 kubeconfig 文件具有管理员对您群集的完全访问权限。对于本指南的其余部分，请确保已设置 `export KUBECONFIG=my-cluster.yaml`。
 
-## Cleaning up
+## 删除{#cleaning-up}
 
-Use the Gardener dashboard to delete your cluster, or execute the following with
-`kubectl` pointing to your `garden-my-project.yaml` kubeconfig:
+使用 Gardener 仪表板删除集群，或者使用指向您的 `garden-my-project.yaml` kubeconfig 的 `kubectl` 执行以下操作：
 
 {{< text bash >}}
 $ kubectl --kubeconfig garden-my-project.yaml --namespace garden--my-project annotate shoot my-cluster confirmation.garden.sapcloud.io/deletion=true
