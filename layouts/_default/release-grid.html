@@ -1,0 +1,33 @@
+{{ define "main" }}
+
+{{ .Scratch.Set "skipSeeAlso" true }}
+
+{{ partial "primary_top.html" . }}
+
+<p>{{ .Description }}</p>
+
+<div class="release-grid">
+    {{ $pages := (where .Site.Pages "Section" .Section) }}
+    {{ $pages = sort $pages ".Params.publishdate" "desc" }}
+
+    {{ $parent := .Page }}
+    {{ $parentDir := (path.Dir .Page.File.Dir) }}
+
+    <table>
+        <tbody>
+            {{ range $pages }}
+                {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+                {{ if eq $parentDir $pageLocation }}
+                    <tr>
+                        <td><a href="{{ .Permalink }}">Istio {{ .LinkTitle }}</a></td>
+                        <td>{{ .PublishDate.Format (i18n "page_publish_date_format") -}}</td>
+                    </tr>
+                {{ end }}
+            {{ end }}
+        </tbody>
+    </table>
+</div>
+
+{{ partial "primary_bottom.html" . }}
+
+{{ end }}
