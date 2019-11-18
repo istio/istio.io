@@ -1,40 +1,33 @@
 ---
-title: Google Kubernetes Engine
-description: Set up a multicluster mesh over two GKE clusters.
+title: Google Kubernetes 引擎
+description: 在两套 GKE 集群之上搭建一个多集群的服务网格
 weight: 65
 keywords: [kubernetes,multicluster]
 aliases:
   - /docs/tasks/multicluster/gke/
 ---
 
-This example shows how to configure a multicluster mesh with a
-[single-network deployment](/docs/setup/deployment-models/#single-network)
-over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
+这个例子展示了怎样通过一个 [single-network deployment](/docs/setup/deployment-models/#single-network) 在2个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群之上配置一个多集群的服务网格。 
 
-## Before you begin
+## 开始之前
 
-In addition to the prerequisites for installing Istio the following setup is required for this example:
+除了安装 `Istio` 的外，此示例还需要以下设置
 
-* This sample requires a valid Google Cloud Platform project with billing enabled. If you are
-  not an existing GCP user, you may be able to enroll for a $300 US [Free Trial](https://cloud.google.com/free/) credit.
+* 这个例子需要一个有效的 `Google Cloud Platform` 项目并启用了计费功能, 如果你没有现成的 `GCP` 用户，你可以申请一个价值 $300  的 [免费试用](https://cloud.google.com/free/) 账户
+    * [创建 Google Cloud  项目](https://cloud.google.com/resource-manager/docs/creating-managing-projects) 去托管你的 `GKE` 集群。
 
-    * [Create a Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects) to
-      host your GKE clusters.
+* 安装和初始化这个 [Google Cloud SDK](https://cloud.google.com/sdk/install)
 
-* Install and initialize the [Google Cloud SDK](https://cloud.google.com/sdk/install)
+## 创建 GKE 集群
 
-## Create the GKE Clusters
-
-1.  Set the default project for `gcloud` to perform actions on:
+1. 设置 `gcloud` 的默认项目以在其中执行操作:
 
     {{< text bash >}}
     $ gcloud config set project myProject
     $ proj=$(gcloud config list --format='value(core.project)')
     {{< /text >}}
 
-1.  Create 2 GKE clusters for use with the multicluster feature.  _Note:_ `--enable-ip-alias` is required to
-    allow inter-cluster direct pod-to-pod communication.  The `zone` value must be one of the
-    [GCP zones](https://cloud.google.com/compute/docs/regions-zones/).
+1. 创建2个 `GKE` 集群。注意：`--enable-ip-alias` 是必须开启的，以允许集群间直接 `Pod` 到 `Pod` 的通信。区域必须是 [GCP zones](https://cloud.google.com/compute/docs/regions-zones/) 中的一个。
 
     {{< text bash >}}
     $ zone="us-east1-b"
@@ -56,22 +49,22 @@ In addition to the prerequisites for installing Istio the following setup is req
     --num-nodes "4" --network "default" --enable-cloud-logging --enable-cloud-monitoring --enable-ip-alias --async
     {{< /text >}}
 
-1.  Wait for clusters to transition to the `RUNNING` state by polling their statuses via the following command:
+1. 通过以下命令轮询集群的状态来等待集群转换为RUNNING状态
 
     {{< text bash >}}
     $ gcloud container clusters list
     {{< /text >}}
 
-1.  Get the clusters' credentials ([command details](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)):
+1. 获取集群的证书 ([命令](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials))
 
     {{< text bash >}}
     $ gcloud container clusters get-credentials cluster-1 --zone $zone
     $ gcloud container clusters get-credentials cluster-2 --zone $zone
     {{< /text >}}
 
-1.  Validate `kubectl` access to each cluster and create a `cluster-admin` cluster role binding tied to the Kubernetes credentials associated with your GCP user.
+1. 验证 `kubectl` 可以访问每个集群；并且能够创建 `cluster-admin` 集群角色，并将此角色和你的 `GCP` 用户关联绑定到 `Kubernetes` 证书上。
 
-    1.  For cluster-1:
+    1.  对于 cluster-1:
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
@@ -79,7 +72,7 @@ In addition to the prerequisites for installing Istio the following setup is req
         $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
         {{< /text >}}
 
-    1.  For cluster-2:
+    1.  对于 cluster-2:
 
         {{< text bash >}}
         $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
@@ -87,9 +80,9 @@ In addition to the prerequisites for installing Istio the following setup is req
         $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
         {{< /text >}}
 
-## Create a Google Cloud firewall rule
+## 创建一个 Google Cloud 防火墙规则
 
-To allow the pods on each cluster to directly communicate, create the following rule:
+要允许每个群集上的 `Pod` 直接通信，请创建以下规则:
 
 {{< text bash >}}
 $ function join_by { local IFS="$1"; shift; echo "$*"; }
@@ -105,10 +98,9 @@ $ gcloud compute firewall-rules create istio-multicluster-test-pods \
   --target-tags="${ALL_CLUSTER_NETTAGS}" --quiet
 {{< /text >}}
 
-## Install the Istio control plane
+## 安装 Istio 控制平面
 
-The following generates an Istio installation manifest, installs it, and enables automatic sidecar injection in
-the `default` namespace:
+下面的代码生成 `Istio` 安装清单，安装在 `default` 名称空间中并开启 `sidecar` 自动注入。
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
@@ -119,15 +111,15 @@ $ kubectl apply -f $HOME/istio_master.yaml
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
-Wait for pods to come up by polling their statuses via the following command:
+通过以下命令轮询其状态，以等待 `Pod` 出现:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 {{< /text >}}
 
-## Generate remote cluster manifest
+## 生成远程集群清单
 
-1.  Get the IPs of the control plane pods:
+1.  获取控制平面 `Pod` 的 `IP`:
 
     {{< text bash >}}
     $ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
@@ -135,7 +127,7 @@ $ kubectl get pods -n istio-system
     $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
     {{< /text >}}
 
-1.  Generate remote cluster manifest:
+1.  生成远程集群清单:
 
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio \
@@ -146,10 +138,9 @@ $ kubectl get pods -n istio-system
       --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > $HOME/istio-remote.yaml
     {{< /text >}}
 
-## Install remote cluster manifest
+## 安装远程集群清单
 
-The following installs the minimal Istio components and enables automatic sidecar injection on
-the namespace `default` in the remote cluster:
+以下内容将安装最少的 `Istio` 组件，并在远程集群中的 `default` 名称空间上启用 `sidecar` 注入。
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
@@ -158,12 +149,11 @@ $ kubectl apply -f $HOME/istio-remote.yaml
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
-## Create remote cluster's kubeconfig for Istio Pilot
+## 为 Istio Pilot 创建远程集群的 kubeconfig
 
-The `istio-remote` Helm chart creates a service account with minimal access for use by Istio Pilot
-discovery.
+`istio-remote` Helm chart 创建了一个具有最少访问权限的服务帐户，供 `Istio Pilot` 发现使用。
 
-1.  Prepare environment variables for building the `kubeconfig` file for the service account `istio-multi`:
+1. 为构建 `kubeconfig` 文件准备环境遍历以及 `istio-multi` 的服务账号。
 
     {{< text bash >}}
     $ export WORK_DIR=$(pwd)
@@ -182,7 +172,7 @@ discovery.
     An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
     {{< /tip >}}
 
-1.  Create a `kubeconfig` file in the working directory for the service account `istio-multi`:
+1. 在工作目录中为 `istio-multi` 服务帐户创建 `kubeconfig` 文件。
 
     {{< text bash >}}
     $ cat <<EOF > ${KUBECFG_FILE}
@@ -207,12 +197,11 @@ discovery.
     EOF
     {{< /text >}}
 
-At this point, the remote clusters' `kubeconfig` files have been created in the `${WORK_DIR}` directory.
-The filename for a cluster is the same as the original `kubeconfig` cluster name.
+至此，远程集群的 `kubeconfig` 文 件已在 `${WORK_DIR}` 目录中创建。集群的文件名与原始 `kubeconfig` 集群名称相同。
 
-## Configure Istio control plane to discover the remote cluster
+## 配置 Istio 控制平面以发现远程集群
 
-Create a secret and label it properly for each remote cluster:
+创建一个密钥并且为每个远程集群都打上标签:
 
 {{< text bash >}}
 $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
@@ -220,9 +209,9 @@ $ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n $
 $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 {{< /text >}}
 
-## Deploy Bookinfo Example Across Clusters
+## 跨集群部署 Bookinfo 示例
 
-1.  Install Bookinfo on the first cluster.  Remove the `reviews-v3` deployment to deploy on remote:
+1. 在第一个群集上安装 `Bookinfo`。 删除 `reviews-v3 Deployment` 以远程部署:
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
@@ -231,7 +220,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Install the `reviews-v3` deployment on the remote cluster.
+1. 在远程集群上安装 `reviews-v3 Deployment`。
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-2"
@@ -241,42 +230,34 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@ -l app=reviews,version=v3
     {{< /text >}}
 
-    _Note:_ The `ratings` service definition is added to the remote cluster because `reviews-v3` is a
-    client of `ratings` and creating the service object creates a DNS entry.  The Istio sidecar in the
-    `reviews-v3` pod will determine the proper `ratings` endpoint after the DNS lookup is resolved to a
-    service address.  This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
-    in a federated Kubernetes environment.
+    提示： 这 `ratings` 服务定义添加到远程集群，因为 `reviews-v3` 是 `ratings` 的客户端，并且创建服务对象会创建 `DNS` 记录。`DNS` 解析道服务地址之后, `reviews-v3 Pod` 中的 `Istio sidecar` 将确定适当的 `ratings endpoint` 。如果另外设置了多群集 `DNS` 解决方案，则没有必要。例如在联合 `Kubernetes` 环境中。
 
-1.  Get the `istio-ingressgateway` service's external IP to access the `bookinfo` page to validate that Istio
-    is including the remote's `reviews-v3` instance in the load balancing of reviews versions:
+1. 获取 `istio-ingressgateway` 服务的外部 `IP` 来访问 `bookinfo` 页面，以验证`Istio` 是否在评论版本的负载平衡中包括了远程的 `reviews-v3` 实例。
 
     {{< text bash >}}
     $ kubectl config use-context "gke_${proj}_${zone}_cluster-1"
     $ kubectl get svc istio-ingressgateway -n istio-system
     {{< /text >}}
 
-    Access `http://<GATEWAY_IP>/productpage` repeatedly and each version of reviews should be equally loadbalanced,
-    including `reviews-v3` in the remote cluster (red stars).  It may take several accesses (dozens) to demonstrate
-    the equal loadbalancing between `reviews` versions.
+    重复访问 `http：// <GATEWAY_IP> / productpage`，并且每个评论版本均应均衡负载，包括远程群集中的 `reviews-v3`（红色星号）。可能需要几次访问（数十次）才能证明评论版本之间的负载均衡相等。
 
-## Uninstalling
+## 删除安装
 
-The following should be done in addition to the uninstall of Istio as described in the
-[VPN-based multicluster uninstall section](/docs/setup/install/multicluster/shared-vpn/):
-
-1.  Delete the Google Cloud firewall rule:
+除了基于 [VPN的多集群卸载](/docs/setup/install/multicluster/shared-vpn/) 部分中所述的 `Istio` 卸载之外，还应执行以下操作。
+ 
+1.  删除 `Google Cloud` 防火墙规则：
 
     {{< text bash >}}
     $ gcloud compute firewall-rules delete istio-multicluster-test-pods --quiet
     {{< /text >}}
 
-1.  Delete the `cluster-admin` cluster role binding from each cluster no longer being used for Istio:
+1.  从不再用于 `Istio` 的每个集群中删除 `cluster-admin` 集群角色绑定。
 
     {{< text bash >}}
     $ kubectl delete clusterrolebinding gke-cluster-admin-binding
     {{< /text >}}
 
-1.  Delete any GKE clusters no longer in use.  The following is an example delete command for the remote cluster, `cluster-2`:
+1.  删除不再使用的所有 `GKE` 群集。以下是远程群集 `cluster-2` 的示例删除命令:
 
     {{< text bash >}}
     $ gcloud container clusters delete cluster-2 --zone $zone
