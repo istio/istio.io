@@ -1,6 +1,6 @@
 ---
-title: Security Problems 
-description: Techniques to address common Istio authentication, authorization, and general security-related problems.
+title: 安全问题
+description: 定位常见 Istio 认证、授权、安全相关问题的技巧。
 force_inline_toc: true
 weight: 20
 keywords: [security,citadel]
@@ -10,13 +10,13 @@ aliases:
     - /zh/docs/ops/troubleshooting/repairing-citadel
 ---
 
-## End-user authentication fails
+## 终端用户认证失败{#end-user-authentication-fails}
 
-With Istio, you can enable authentication for end users. Currently, the end user credential supported by the Istio authentication policy is JWT. The following is a guide for troubleshooting the end user JWT authentication.
+使用 Istio，可以启用终端用户认证。目前，Istio 认证策略提供的终端用户凭证是 JWT。以下是排查终端用户 JWT 身份认证问题的指南。
 
-1. Check your Istio authentication policy, `principalBinding` should be set as `USE_ORIGIN` to authenticate the end user.
+1. 检查 Istio 身份认证策略 Policy 配置，`principalBinding` 需要被设为 `USE_ORIGIN` 来验证终端用户。
 
-1. If `jwksUri` isn’t set, make sure the JWT issuer is of url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if the JWT issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in a browser.
+1. 如果 `jwksUri` 未设置，确保 JWT 发行者是 url 格式并且 `url + /.well-known/openid-configuration` 可以在浏览器中打开；例如，如果 JWT 发行者是 `https://accounts.google.com`，确保 `https://accounts.google.com/.well-known/openid-configuration` 是有效的 url，并且可以在浏览器中打开。
 
     {{< text yaml >}}
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -35,11 +35,10 @@ With Istio, you can enable authentication for end users. Currently, the end user
       principalBinding: USE_ORIGIN
     {{< /text >}}
 
-1. If the JWT token is placed in the Authorization header in http requests, make sure the JWT token is valid (not expired, etc). The fields in a JWT token can be decoded by using online JWT parsing tools, e.g., [jwt.io](https://jwt.io/).
+1. 如果 JWT token 放在 http 请求头 Authorization 字段值中，需要确认 JWT token 的有效性（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码，例如：[jwt.io](https://jwt.io/)。
 
-1. Get the Istio proxy (i.e., Envoy) logs to verify the configuration which Pilot distributes is correct.
-
-    For example, if the authentication policy is enforced on the `httpbin` service in the namespace `foo`, use the command below to get logs from the Istio proxy, make sure `local_jwks` is set and the http response code is in the Istio proxy logs.
+1. 通过获取 Istio 代理（例如：Envoy）日志来验证 Pilot 分发的配置是否正确的。
+   例如，如果身份认证策略在命名空间 `foo` 中的 `httpbin` 服务上执行，使用如下命令可以查看 Istio 代理的日志，确保 `local_jwks` 已设置，并且 http 响应码输出到 Istio 代理日志中。
 
     {{< text bash >}}
     $ kubectl logs httpbin-68fbcdcfc7-hrnzm -c istio-proxy -n foo
@@ -57,113 +56,91 @@ With Istio, you can enable authentication for end users. Currently, the end user
     [2018-07-04T19:13:40.463Z] "GET /ip HTTP/1.1" 401 - 0 29 0 - "-" "curl/7.35.0" "9badd659-fa0e-9ca9-b4c0-9ac225571929" "httpbin.foo:8000" "-"
     {{< /text >}}
 
-## Authorization is too restrictive
+## 授权过于严格{#authorization-is-too-restrictive}
 
-When you first enable authorization for a service, all requests are denied by default. After you add one or more authorization policies, then
-matching requests should flow through. If all requests continue to be denied, you can try the following:
+当你第一次对一个服务启用授权，所有的请求都会被默认拒绝。在你增加上授权策略后，满足授权策略的请求才能够通过。如果所有的请求还是被拒绝，你可以尝试以下操作：
 
-1. Make sure there is no typo in your policy YAML file.
+1. 确保在你的授权策略 YAML 文件中内容没有输入错误。
 
-1. Avoid enabling authorization for Istio Control Planes Components, including Mixer, Pilot, Ingress. Istio authorization policy is designed for authorizing access to services in Istio Mesh. Enabling it for Istio Control Planes Components may cause unexpected behavior.
+1. 不要为 Istio 的控制面组件启用授权，包括 Mixer、Pilot、Ingress。Istio 授权策略是为访问 Istio 网格内服务的授权而设计的。如果对 Istio 的控制面启用授权会导致不可预期的行为。
 
-1. Make sure that your `ServiceRoleBinding` and referred `ServiceRole` objects are in the same namespace (by checking "metadata"/”namespace” line).
+1. 确保你的 `ServiceRoleBinding` 和相关的 `ServiceRole` 对象在同一个命名空间（检查 `metadata/namespace` 这一行）。
 
-1. Make sure that your service role and service role binding policies don't use any HTTP only fields
-for TCP services. Otherwise, Istio ignores the policies as if they didn't exist.
+1. 请您不要为 TCP 服务的 `ServiceRole` 和 `ServiceRoleBinding` 设置那些仅适用于 HTTP 服务的属性字段。否则，Istio 会自动忽略这些配置，就好像它们不存在一样。
 
-1. In Kubernetes environment, make sure all services in a `ServiceRole` object are in the same namespace as the
-`ServiceRole` itself. For example, if a service in a `ServiceRole` object is `a.default.svc.cluster.local`, the `ServiceRole` must be in the
-`default` namespace (`metadata/namespace` line should be `default`). For non-Kubernetes environments, all `ServiceRoles` and `ServiceRoleBindings`
-for a mesh should be in the same namespace.
+1. 在 Kubernetes 环境，确保在一个 `ServiceRole` 对象下的所有服务都和 `ServiceRole` 在同一个 namespace 。例如，如果 `ServiceRole` 对象中的服务是 `a.default.svc.cluster.local`，`ServiceRole` 必须在 `default` 命名空间（`metadata/namespace` 这一行应该是 `default`）。对于非 Kubernetes 的环境，一个网格的所有 `ServiceRoles` 和 `ServiceRoleBindings` 都应该在相同的命名空间下。
 
-1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
-   to find out the exact cause.
+1. 根据[确保授权正确开启](#ensure-authorization-is-enabled-correctly)找到确切的原因。
 
-## Authorization is too permissive
+## 授权太过宽松{#authorization-is-too-permissive}
 
-If authorization checks are enabled for a service and yet requests to the
-service aren't being blocked, then authorization was likely not enabled
-successfully. To verify, follow these steps:
+如果已经对一个服务启用了授权，但是对这个服务的请求没有被阻止，那么很有可能是授权没有成功启用。通过以下步骤可以检查这种情况：
 
-1. Check the [authorization docs](/docs/concepts/security/#authorization)
-   to correctly enable Istio authorization.
+1. 检查[启用授权文档](/zh/docs/concepts/security/#authorization)来正确的启用 Istio 授权。
 
-1. Avoid enabling authorization for Istio Control Planes Components, including
-   Mixer, Pilot and Ingress. The Istio authorization features are designed for
-   authorizing access to services in an Istio Mesh. Enabling the authorization
-   features for the Istio Control Planes components can cause unexpected
-   behavior.
+1. 避免为 Istio 控制面组件启用授权，包括 Mixer，Pilot 和 Ingress。Istio 的授权是设计用于 Istio Mesh 下的服务之间的授权的。对 Istio 组件启用授权会引发不可预料的行为。
 
-1. In your Kubernetes environment, check deployments in all namespaces to make
-   sure there is no legacy deployment left that can cause an error in Pilot.
-   You can disable Pilot's authorization plug-in if there is an error pushing
-   authorization policy to Envoy.
+1. 在你的 Kubernetes 环境中，检查所有命名空间下的部署，确保没有可能导致 Istio 错误的遗留的部署。如果发现在向 Envoy 推送授权策略的时候发生错误，你可以禁用 Pilot 的授权插件。
 
-1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
-   to find out the exact cause.
+1. 根据[确保授权正确开启](#ensure-authorization-is-enabled-correctly)找到确切的原因
 
-## Ensure authorization is enabled correctly
+## 确保授权正确开启{#ensure-authorization-is-enabled-correctly}
 
-The `ClusterRbacConfig` default cluster level singleton custom resource controls the authorization functionality globally.
+`ClusterRbacConfig` 默认是集群级别的自定义资源，用于控制全局的授权功能。
 
-1. Run the following command to list existing `ClusterRbacConfig`:
+1. 运行下面的命令，列出已存在的 `ClusterRbacConfig` 配置：
 
     {{< text bash >}}
     $ kubectl get clusterrbacconfigs.rbac.istio.io --all-namespaces
     {{< /text >}}
 
-1. Verify there is only **one** instance of `ClusterRbacConfig` with name `default`. Otherwise, Istio disables the
-authorization functionality and ignores all policies.
+1. 这里应该**只有一个**命名为 `default` 的 `ClusterRbacConfig` 实例。否则 Istio 会禁用授权功能并忽略所有策略。
 
     {{< text plain >}}
     NAMESPACE   NAME      AGE
     default     default   1d
     {{< /text >}}
 
-1. If there is more than one `ClusterRbacConfig` instance, remove any additional `ClusterRbacConfig` instances and
-ensure **only one** instance is named `default`.
+1. 如果有多个 `ClusterRbacConfig` 实例, 请删除其它的 `ClusterRbacConfig`，保证集群之中只有一个名为 `default` 的 `ClusterRbacConfig`。
 
-## Ensure Pilot accepts the policies
+## 确保 Pilot 接受策略{#ensure-pilot-accepts-the-policies}
 
-Pilot converts and distributes your authorization policies to the proxies. The following steps help
-you ensure Pilot is working as expected:
+Pilot 负责对授权策略进行转换，并将其分发给 Sidecar。下面的的步骤可以用于确认 Pilot 是否按预期在工作：
 
-1. Run the following command to export the Pilot `ControlZ`:
+1. 运行下列命令，导出 Pilot 的 `ControlZ`：
 
     {{< text bash >}}
     $ kubectl port-forward $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
     {{< /text >}}
 
-1. Verify you see the following output:
+1. 确保看到如下输出:
 
     {{< text plain >}}
     Forwarding from 127.0.0.1:9876 -> 9876
     {{< /text >}}
 
-1. Start your browser and open the `ControlZ` page at `http://127.0.0.1:9876/scopez/`.
+1. 用浏览器打开 `http://127.0.0.1:9876/scopez/`，浏览 `ControlZ` 页面。
 
-1. Change the `rbac` Output Level to `debug`.
+1. 将 `rbac` 输出级别修改为 `debug`。
 
-1. Use `Ctrl+C` in the terminal you started in step 1 to stop the port-forward command.
+1. 在步骤 1 中打开的终端窗口中输入 `Ctrl+C`，终止端口转发进程。
 
-1. Print the log of Pilot and search for `rbac` with the following command:
+1. 执行以下命令，输出 Pilot 日志并搜索 `rbac`：
 
     {{< tip >}}
-    You probably need to first delete and then re-apply your authorization policies so that
-    the debug output is generated for these policies.
+    你可能需要先删除并重建授权策略，以保证调试日志能够根据这些策略正常生成。
     {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl logs $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
     {{< /text >}}
 
-1. Check the output and verify:
+1. 检查输出并验证：
 
-    - There are no errors.
-    - There is a `"built filter config for ..."` message which means the filter is generated
-      for the target service.
+    - 没有出现错误。
+    - 出现 `"built filter config for ..."` 内容，意味着为目标服务生成了过滤器。
 
-1. For example, you might see something similar to the following:
+1. 例如你可能会看到类似这样的内容：
 
     {{< text plain >}}
     2018-07-26T22:25:41.009838Z debug rbac building filter config for {sleep.foo.svc.cluster.local map[app:sleep pod-template-hash:3326367878] map[destination.name:sleep destination.namespace:foo destination.user:default]}
@@ -180,38 +157,32 @@ you ensure Pilot is working as expected:
     2018-07-26T22:25:41.184407Z info  rbac built filter config for productpage.default.svc.cluster.local
     {{< /text >}}
 
-    It means Pilot generated:
+    说明 Pilot 生成了：
 
-    - An empty config for `sleep.foo.svc.cluster.local` as there is no authorization policies matched
-      and Istio denies all requests sent to this service by default.
+    - `sleep.foo.svc.cluster.local` 的空配置。因为没有符合条件的策略，并且 Istio 默认情况下，会禁止所有对这一服务的访问。
 
-    - An config for `productpage.default.svc.cluster.local` and Istio will allow anyone to access it
-      with GET method.
+    - `productpage.default.svc.cluster.local` 的配置。Istio 会放行所有针对该服务的 GET 访问。
 
-## Ensure Pilot distributes policies to proxies correctly
+## 确认 Pilot 正确的将策略分发给了代理服务器{#ensure-pilot-distributes-policies-to-proxies-correctly}
 
-Pilot distributes the authorization policies to proxies. The following steps help you ensure Pilot
-is working as expected:
+Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 Pilot 按照预期工作：
 
 {{< tip >}}
-The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/),
-otherwise you should replace `"-l app=productpage"` with your actual pod.
+这一章节的命令假设用户已经部署了 [Bookinfo](/zh/docs/examples/bookinfo/)，否则的话应该将 `"-l app=productpage"` 部分根据实际情况进行替换。
 {{< /tip >}}
 
-1. Run the following command to get the proxy configuration dump for the `productpage` service:
+1. 运行下面的命令，获取 `productpage` 服务的代理配置信息：
 
     {{< text bash >}}
     $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request GET config_dump
     {{< /text >}}
 
-1. Check the log and verify:
+1. 校验日志内容：
 
-    - The log includes an `envoy.filters.http.rbac` filter to enforce the authorization policy
-      on each incoming request.
-    - Istio updates the filter accordingly after you update your authorization policy.
+    - 日志中包含了一个 `envoy.filters.http.rbac` 过滤器，会对每一个进入的请求执行授权策略。
+    - 授权策略更新之后，Istio 会据此更新过滤器。
 
-1. The following output means the proxy of `productpage` has enabled the `envoy.filters.http.rbac` filter
-with rules that allows anyone to access it via `GET` method. The `shadow_rules` are not used and you can ignored them safely.
+1. 下面的输出表明，`productpage` 的代理启用了 `envoy.filters.http.rbac` 过滤器，配置的规则为允许任何人通过 `GET` 方法进行访问 `productpage` 服务。`shadow_rules` 没有生效，可以放心的忽略它。
 
     {{< text plain >}}
     {
@@ -261,23 +232,21 @@ with rules that allows anyone to access it via `GET` method. The `shadow_rules` 
     },
     {{< /text >}}
 
-## Ensure proxies enforce policies correctly
+## 确认策略在代理服务器中正确执行{#ensure-proxies-enforce-policies-correctly}
 
-Proxies eventually enforce the authorization policies. The following steps help you ensure the proxy
-is working as expected:
+代理是授权策略的最终实施者。下面的步骤帮助用户确认代理的工作情况：
 
 {{< tip >}}
-The command used in this section assumes you have deployed [Bookinfo application](/docs/examples/bookinfo/).
-otherwise you should replace `"-l app=productpage"` with your actual pod.
+这里的命令假设用户已经部署了 [Bookinfo](/zh/docs/examples/bookinfo/)，否则的话应该将 `"-l app=productpage"` 部分根据实际情况进行替换。
 {{< /tip >}}
 
-1. Turn on the authorization debug logging in proxy with the following command:
+1. 使用以下命令，在代理中打开授权调试日志：
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request POST 'logging?rbac=debug'
     {{< /text >}}
 
-1. Verify you see the following output:
+1. 确认可以看到以下输出：
 
     {{< text plain >}}
     active loggers:
@@ -286,23 +255,21 @@ otherwise you should replace `"-l app=productpage"` with your actual pod.
       ... ...
     {{< /text >}}
 
-1. Visit the `productpage` in your browser to generate some logs.
+1. 在浏览器中打开 `productpage`，以便生成日志。
 
-1. Print the proxy logs with the following command:
+1. 使用以下命令打印代理日志：
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
     {{< /text >}}
 
-1. Check the output and verify:
+1. 检查输出，并验证:
 
-    - The output log shows either `enforced allowed` or `enforced denied` depending on whether the request
-      was allowed or denied respectively.
+    - 根据请求被允许或者被拒绝，分别输出日志包含 `enforced allowed` 或这 `enforced denied` 。
 
-    - Your authorization policy expects the data extracted from the request.
+    - 授权策略需要从请求中获取数据。
 
-1. The following output means there is a `GET` request at path `/productpage` and the policy allows the request.
-The `shadow denied` has no effect and you can ignore it safely.
+1. 下面的输出表示，对 `productpage` 的 `GET` 请求被策略放行。`shadow denied` 没有什么影响，你可以放心的忽略它。
 
     {{< text plain >}}
     ...
@@ -348,12 +315,11 @@ The `shadow denied` has no effect and you can ignore it safely.
     ...
     {{< /text >}}
 
-## Keys and certificates errors
+## 密钥和证书错误{#keys-and-certificates-errors}
 
-If you suspect that some of the keys and/or certificates used by Istio aren't correct, the
-first step is to ensure that [Citadel is healthy](#repairing-citadel).
+如果您怀疑 Istio 使用的某些密钥或证书不正确，那么第一步是确保 [Citadel 健康](#repairing-citadel)。
 
-You can then verify that Citadel is actually generating keys and certificates:
+然后，您可以验证 Citadel 是否真正生成了密钥和证书：
 
 {{< text bash >}}
 $ kubectl get secret istio.my-sa -n my-ns
@@ -361,10 +327,9 @@ NAME                    TYPE                           DATA      AGE
 istio.my-sa             istio.io/key-and-cert          3         24d
 {{< /text >}}
 
-Where `my-ns` and `my-sa` are the namespace and service account your pod is running as.
+其中 `my-ns` 和 `my-sa` 是您的 pod 运行的 namespace 和 Service Account 。
 
-If you want to check the keys and certificates of other service accounts, you can run the following
-command to list all secrets for which Citadel has generated a key and certificate:
+如果要检查其他 Service Account 的密钥和证书，可以运行以下命令列出 Citadel 生成的密钥和证书的所有的 secret：
 
 {{< text bash >}}
 $ kubectl get secret --all-namespaces | grep istio.io/key-and-cert
@@ -383,7 +348,7 @@ kube-public    istio.default                                        istio.io/key
 .....
 {{< /text >}}
 
-Then check that the certificate is valid with:
+然后检查证书是否有效：
 
 {{< text bash >}}
 $ kubectl get secret -o json istio.my-sa -n my-ns | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -noout -text
@@ -448,18 +413,17 @@ Certificate:
          b4:93:04:46
 {{< /text >}}
 
-Make sure the displayed certificate contains valid information. In particular, the Subject Alternative Name field should be `URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`.
-If this is not the case, it is likely that something is wrong with your Citadel. Try to redeploy Citadel and check again.
+确保显示的证书包含有效信息。特别是，Subject Alternative Name 字段应为 `URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`。
+如果不是这样，您的 Citadel 可能已经出现问题。尝试重新部署 Citadel 并再次检查。
 
-Finally, you can verify that the key and certificate are correctly mounted by your sidecar proxy at the directory `/etc/certs`. You
-can use this command to check:
+最后，您可以验证密钥和证书是否由 sidecar 代理正确安装在 `/etc/certs` 目录中。您可以使用此命令检查：
 
 {{< text bash >}}
 $ kubectl exec -it my-pod-id -c istio-proxy -- ls /etc/certs
 cert-chain.pem    key.pem    root-cert.pem
 {{< /text >}}
 
-Optionally, you could use the following command to check its contents:
+（可选）您可以使用以下命令检查其内容：
 
 {{< text bash >}}
 $ kubectl exec -it my-pod-id -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout
@@ -524,31 +488,25 @@ Certificate:
          8e:d5:d0:1e
 {{< /text >}}
 
-## Mutual TLS errors
+## 双向 TLS 错误{#mutual-TLS-errors}
 
-If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](#repairing-citadel), and
-second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
+如果怀疑双向 TLS 出现了问题，首先要确认 [Citadel 健康](#repairing-citadel)，接下来要查看的是[密钥和证书正确下发](#keys-and-certificates-errors) Sidecar.
 
-If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)
-is applied and the right destination rules are in place.
+如果上述检查都正确无误，下一步就应该验证[认证策略](/zh/docs/tasks/security/authn-policy/)已经创建，并且对应的目标规则是否正确应用。
 
-## Citadel is not behaving properly {#repairing-citadel}
+## Citadel 行为异常 {#repairing-citadel}
 
 {{< warning >}}
-Citadel does not support multiple instances. Running multiple Citadel instances
-may introduce race conditions and lead to system outages.
+Citadel 不支持多个实例运行，否则会造成竞争状态并导致系统崩溃。
 {{< /warning >}}
 
 {{< warning >}}
-Workloads with new Kubernetes service accounts can not be started when Citadel is
-disabled for maintenance since they can't get their certificates generated.
+在 Citadel 维护禁用期间，带有新 ServiceAccount 的负载不能够启动，因为它不能从 Citadel 获取生成的证书。
 {{< /warning >}}
 
-Citadel is not a critical data plane component. The default workload certificate lifetime is 3
-months. Certificates will be rotated by Citadel before they expire. If Citadel is disabled for
-short maintenance periods, existing mutual TLS traffic will not be affected.
+Citadel 不是关键的数据平面组件。默认的工作负载证书有效期是3个月。证书在过期前会被 Citadel 轮换。如果在 Citadel 短暂的维护期间内，已经存在的 双向 TLS 不会受影响。
 
-If you suspect Citadel isn't working properly, verify the status of the `istio-citadel` pod:
+如果您怀疑 Citadel 无法正常工作，请验证 `istio-citadel` pod 的状态：
 
 {{< text bash >}}
 $ kubectl get pod -l istio=citadel -n istio-system
@@ -556,18 +514,16 @@ NAME                                     READY     STATUS   RESTARTS   AGE
 istio-citadel-ff5696f6f-ht4gq            1/1       Running  0          25d
 {{< /text >}}
 
-If the `istio-citadel` pod doesn't exist, try to re-deploy the pod.
+如果 `istio-citadel` pod 不存在，请尝试重新部署 pod。
 
-If the `istio-citadel` pod is present but its status is not `Running`, run the commands below to get more
-debugging information and check if there are any errors:
+如果 `istio-citadel` pod 存在但其状态不是 `Running` ，请运行以下命令以获得更多调试信息并检查是否有任何错误：
 
 {{< text bash >}}
 $ kubectl logs -l istio=citadel -n istio-system
 $ kubectl describe pod -l istio=citadel -n istio-system
 {{< /text >}}
 
-If you want to check a workload (with `default` service account and `default` namespace)
-certificate's lifetime:
+如果想要检查一个工作负载（在 `default` 命名空间 ，并且使用 `default` ServiceAccount ）的证书有效期：
 
 {{< text bash >}}
 $ kubectl get secret -o json istio.default -n default | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -noout -text | grep "Not After" -C 1
@@ -577,7 +533,5 @@ Subject:
 {{< /text >}}
 
 {{< tip >}}
-Remember to replace `istio.default` and `-n default` with `istio.YourServiceAccount` and
-`-n YourNamespace` for other workloads. If the certificate is expired, Citadel did not
-update the secret properly. Check Citadel logs for more information.
+不要忘记将 `istio.default` 和 `-n default` 替换成 `istio.YourServiceAccount` 和 `-n YourNamespace`。如果证书已经过期，Citadel 没有及时更新 secret，请检查 Citadel 日志查以获取更多信息。
 {{< /tip >}}
