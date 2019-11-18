@@ -46,7 +46,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
 所有的微服务都和 Envoy sidecar 集成在一起，被集成服务所有的出入流量都被 sidecar 所劫持，这样就为外部控制准备了所需的 Hook，然后就可以利用 Istio 控制平面为应用提供服务路由、遥测数据收集以及策略实施等功能。
 
-### {#start-the-application-services}
+### 启动应用服务{#start-the-application-services}
 
 {{< tip >}}
 如果运行的是 GKE，请确您的集群具有至少四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
