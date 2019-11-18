@@ -1,6 +1,6 @@
 ---
 title: 共享控制平面（单一网络）
-description: 跨多个 Kubernetes 集群用共享控制平面和集群间的 VPN 连接安装一个 Istio 网格。
+description: 安装一个跨多个 Kubernetes 集群的 Istio 网格，多集群共享控制平面，并且集群间通过 VPN 互连。
 weight: 5
 keywords: [kubernetes,multicluster,federation,vpn]
 aliases:
@@ -9,7 +9,7 @@ aliases:
     - /zh/docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
-遵循该指南安装一个 Istio [多集群服务网格](/zh/docs/ops/prep/deployment-models/#multiple-clusters)以让某一个 Kubernetes 集群的服务和应用能够将他们的内部 Kubernetes 网络暴露至其它集群。
+按照该指南安装一个 Istio [多集群服务网格](/zh/docs/ops/prep/deployment-models/#multiple-clusters)以让每个 Kubernetes 集群的服务和应用能够将他们的内部 Kubernetes 网络暴露至其它集群。
 
 在这个配置中，多个 Kubernetes 集群运行一份可以连接到一个共享 Istio [控制平面](/zh/docs/ops/prep/deployment-models/#control-plane-models)的远程配置。
 一旦一个或多个远程 Kubernetes 集群连接到该 Istio 控制平面，Envoy 就会形成一个跨多集群的网格网络。
@@ -20,7 +20,7 @@ aliases:
 
 * 两个或更多运行受支持的 Kubernetes 版本（{{< supported_kubernetes_versions >}}）的集群。
 
-* 在集群**之一**上[部署 Istio 控制平面](/zh/docs/setup/install/istioctl/)的能力。
+* 能够在多集群中的**一个**上[部署 Istio 控制平面](/zh/docs/setup/install/istioctl/)。
 
 * 满足下列要求的 RFC1918 网络、VPN、或其它更高级的网络技术：
 
@@ -77,7 +77,7 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
     只要所有集群中所有 Istio 组件的命名空间都相同，就可以在主集群上覆盖 `istio-system` 名称。
     {{< /tip >}}
 
-1. 下列命令示例标记了 `default` 命名空间。使用类似的命令标记所有需要自动进行 sidecar 注入的远程集群的命名空间。
+2. 下列命令示例标记了 `default` 命名空间。使用类似的命令标记所有需要自动进行 sidecar 注入的远程集群的命名空间。
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
@@ -103,10 +103,10 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
 
 ## 为远程集群创建配置文件{#kubeconfig}
 
-Istio 控制平面需要访问所有网格中的集群以发现服务、端点和 pod 属性。
-下列步骤描述了如何为 Istio 控制平面使用远程集群创建 `kubeconfig` 配置文件。
+Istio 控制平面需要访问网格中的所有集群以发现服务、端点和 pod 属性。
+下列步骤描述了如何通过远程集群为 Istio 控制平面创建 `kubeconfig` 配置文件。
 
-在每个远程集群上执行这些步骤以将集群加入服务网格。这些步骤需要 `cluster-admin` 用户对远程集群的访问权限。
+在每个远程集群上执行这些步骤以将集群加入服务网格。这些步骤需要具有远程集群的 `cluster-admin` 用户访问权限。
 
 1. 用以下命令设置为 `istio-reader-service-account` 服务账号构建 `kubeconfig` 文件所需的环境变量：
 
@@ -126,7 +126,7 @@ Istio 控制平面需要访问所有网格中的集群以发现服务、端点�
     在许多系统上，`openssl enc -d -base64 -A` 可以替代 `base64 --decode`。
     {{< /tip >}}
 
-1. 用以下命令为 `istio-reader-service-account` 服务账号在工作文件夹中创建 `kubeconfig` 文件：
+1. 在工作目录中，用以下命令创建 `istio-reader-service-account` 服务账号对应的 `kubeconfig` 文件：
 
     {{< text bash >}}
     $ cat <<EOF > ${KUBECFG_FILE}
@@ -169,7 +169,7 @@ Istio 控制平面需要访问所有网格中的集群以发现服务、端点�
 在运行 Istio 控制平面的集群上执行这一步骤。
 该步骤使用了来自[上一节](#kubeconfig)的 `WORK_DIR`、`CLUSTER_NAME` 和 `NAMESPACE` 环境变量以及为远程集群的 secret 创建的文件。
 
-如果您已经为远程集群的 secret 创建了环境变量文件，运行以下命令 source 该文件：
+如果您已经为远程集群的 secret 创建了环境变量文件，运行以下命令加载该文件：
 
 {{< text bash >}}
 $ source remote_cluster_env_vars
@@ -180,7 +180,7 @@ $ source remote_cluster_env_vars
 
 {{< warning >}}
 不要为运行 Istio 控制平面的本地集群存储和标记 secrets。
-Istio 始终知道本地集群的 Kubernetes 凭据。
+Istio 始终可以感知到本地集群的 Kubernetes 凭据。
 {{< /warning >}}
 
 创建一个 secret 并为每个远程集群正确标记：
