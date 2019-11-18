@@ -132,7 +132,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     bookinfo-gateway   32s
     {{< /text >}}
 
-1.  根据[文档](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
+1.  根据[文档](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
 
 1.  设置 `GATEWAY_URL`：
 
