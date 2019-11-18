@@ -77,7 +77,7 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
     只要所有集群中所有 Istio 组件的命名空间都相同，就可以在主集群上覆盖 `istio-system` 名称。
     {{< /tip >}}
 
-2. 下列命令示例标记了 `default` 命名空间。使用类似的命令标记所有需要自动进行 sidecar 注入的远程集群的命名空间。
+1. 下列命令示例标记了 `default` 命名空间。使用类似的命令标记所有需要自动进行 sidecar 注入的远程集群的命名空间。
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
