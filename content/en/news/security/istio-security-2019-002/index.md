@@ -2,12 +2,22 @@
 title: ISTIO-SECURITY-2019-002
 subtitle: Security Bulletin
 description: Security vulnerability disclosure for CVE-2019-12995.
+cve: [CVE-2019-12995]
 publishdate: 2019-06-28
 keywords: [CVE]
+skip_seealso: true
 aliases:
     - /blog/2019/cve-2019-12995
     - /news/2019/cve-2019-12995
 ---
+
+| Information       | &nbsp;
+|-------------------|--------
+| CVE               | [CVE 2019-12995](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12995)
+| CVSS Impact Score | 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C)
+| Affected Releases | 1.0 to 1.0.8<br>1.1 to 1.1.9<br>1.2 to 1.2.1
+
+## Context
 
 A bug in Istio’s JWT validation filter causes Envoy to crash in certain cases when the request contains a malformed JWT token. The bug was discovered and reported by a user [on GitHub](https://github.com/istio/istio/issues/15084) on June 23, 2019.
 
@@ -23,21 +33,7 @@ in the Envoy logs.
 
 The Envoy crash can be triggered using a malformed JWT without a valid signature, and on any URI being accessed regardless of the `trigger_rules` in the JWT specification. Thus, this bug makes Envoy vulnerable to a potential DoS attack.
 
-This vulnerability is referred to as [CVE 2019-12995](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12995)
-
-## Affected Istio releases
-
-The following Istio releases are vulnerable:
-
-* 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6, 1.0.7, 1.0.8
-* 1.1, 1.1.1, 1.1.2, 1.1.3, 1.1.4, 1.1.5, 1.1.6, 1.1.7, 1.1.8, 1.1.9
-* 1.2, 1.2.1
-
-## Impact score
-
-Overall CVSS score: 7.5 [AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C)
-
-## Vulnerability impact and detection
+## Impact and detection
 
 Envoy is vulnerable if the following two conditions are satisfied:
 
@@ -83,20 +79,22 @@ echo "${green}Did NOT find JWT in authentication policy, YOU ARE NOT AFFECTED${r
 EOF
 {{< /text >}}
 
-## Mitigations
+## Mitigation
 
-This bug is fixed in the following versions of Istio:
+This bug is fixed in the following Istio releases:
 
-* For Istio 1.0.x deployments: update to a minimum version of Istio 1.0.9
-* For Istio 1.1.x deployments: update to a minimum version of Istio 1.1.10
-* For Istio 1.2.x deployments: update to a minimum version of Istio 1.2.2
+* For Istio 1.0.x deployments: update to [Istio 1.0.9](/news/releases/1.0.x/announcing-1.0.9) or later.
+* For Istio 1.1.x deployments: update to [Istio 1.1.10](/news/releases/1.1.x/announcing-1.1.10) or later.
+* For Istio 1.2.x deployments: update to [Istio 1.2.2](/news/releases/1.2.x/announcing-1.2.2) or later.
 
-If you cannot immediately upgrade to one of these releases, you have the additional option of injecting a [`Lua` filter](https://github.com/istio/tools/tree/master/examples/luacheck) into older versions of Istio.   This filter has been verified to work with Istio versions 1.1.9, 1.0.8, 1.0.6, and 1.1.3.
+If you cannot immediately upgrade to one of these releases, you have the additional option of injecting a
+[Lua filter](https://github.com/istio/tools/tree/master/examples/luacheck) into older releases of Istio.
+This filter has been verified to work with Istio 1.1.9, 1.0.8, 1.0.6, and 1.1.3.
 
-The `Lua` filter is injected *before* the Istio `jwt-auth` filter.
+The Lua filter is injected *before* the Istio `jwt-auth` filter.
 If a JWT token is presented on an http request, the `Lua` filter will check if the JWT token header contains alg:ES256. If the filter finds such a JWT token, the request is rejected.
 
-To install the `Lua` filter, please invoke the following commands:
+To install the Lua filter, please invoke the following commands:
 
 {{< text bash >}}
 $ git clone git@github.com:istio/tools.git
@@ -110,4 +108,4 @@ The setup script uses helm template to produce an `envoyFilter` resource that de
 
 The Istio team would like to thank Divya Raj for the original bug report.
 
-We’d like to remind our community to follow the vulnerability reporting process described at [https://istio.io/about/security-vulnerabilities/](/about/security-vulnerabilities/) to report any bug that can result in a security vulnerability
+{{< boilerplate "security-vulnerability" >}}

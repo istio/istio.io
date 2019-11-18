@@ -2,12 +2,22 @@
 title: ISTIO-SECURITY-2019-001
 subtitle: Security Bulletin
 description: Security vulnerability disclosure for CVE-2019-12243.
+cve: [CVE-2019-12243]
 publishdate: 2019-05-28
 keywords: [CVE]
+skip_seealso: true
 aliases:
     - /blog/2019/cve-2019-12243
     - /news/2019/cve-2019-12243
 ---
+
+| Information       | &nbsp;
+|-------------------|--------
+| CVE               | [CVE 2019-12243](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12243)
+| CVSS Impact Score | 8.9 [CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C)
+| Affected Releases | 1.1 to 1.1.6
+
+## Context
 
 During review of the [Istio 1.1.7](/news/releases/1.1.x/announcing-1.1.7) release notes, we realized that [issue 13868](https://github.com/istio/istio/issues/13868),
 which is fixed in the release, actually represents a security vulnerability.
@@ -19,21 +29,9 @@ as alpha stability, which would not have required invoking this security advisor
 We are revisiting our processes to flag vulnerabilities that are initially reported as bugs instead of through the
 [private disclosure process](/about/security-vulnerabilities/).
 
-We tracked the bug to a code change introduced in Istio 1.1 and affecting all versions up to 1.1.6.
+We tracked the bug to a code change introduced in Istio 1.1 and affecting all releases up to 1.1.6.
 
-This vulnerability is referred to as [CVE 2019-12243](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12243)
-
-## Affected Istio releases
-
-The following Istio releases are vulnerable:
-
-* 1.1, 1.1.1, 1.1.2, 1.1.3, 1.1.4, 1.1.5, 1.1.6
-
-## Impact score
-
-Overall CVSS score: 8.9 [AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C)
-
-## Vulnerability impact and detection
+## Impact and detection
 
 Since Istio 1.1, In the default Istio installation profile, policy enforcement is disabled by default.
 
@@ -55,9 +53,11 @@ You are impacted by the vulnerability issue if the following conditions are all 
 
 ## Mitigation
 
-* Users of Istio 1.0.x are not affected
-* For Istio 1.1.x deployments: update to a minimum version of [Istio 1.1.7](/news/releases/1.1.x/announcing-1.1.7)
+* Users of Istio 1.0.x are not affected.
+* For Istio 1.1.x deployments: update to [Istio 1.1.7](/news/releases/1.1.x/announcing-1.1.7) or later.
 
 ## Credit
 
 The Istio team would like to thank `Haim Helman` for the original bug report.
+
+{{< boilerplate "security-vulnerability" >}}
