@@ -5,9 +5,9 @@ publishdate: 2018-02-02
 attribution: The Istio Team
 release: 0.5.0
 aliases:
-    - /about/notes/older/0.5
-    - /about/notes/0.5/index.html
-    - /news/announcing-0.5
+    - /zh/about/notes/older/0.5
+    - /zh/about/notes/0.5/index.html
+    - /zh/news/announcing-0.5
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or
@@ -47,7 +47,7 @@ of controls.
 ## Security
 
 - **Bring Your Own CA**. There have been many enhancements to the 'bring your own CA' feature.
-[Learn more](/docs/tasks/security/plugin-ca-cert/)
+[Learn more](/docs/tasks/security/citadel-config/plugin-ca-cert/)
 
 - **PKCS8**. Add support for PKCS8 keys to Istio PKI.
 

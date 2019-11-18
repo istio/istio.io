@@ -29,7 +29,7 @@ down once the migration is done.
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in
-[installation steps](/docs/setup/install/kubernetes), or set the `global.mtls.enabled` installation option to false).
+[installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
 * For demo
     * Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them.
@@ -140,7 +140,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
-We recommend you use [Istio Authorization](/docs/tasks/security/authz-http/) to configure different paths with different authorization policies.
+We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
 ## Cleanup
 

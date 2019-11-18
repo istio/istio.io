@@ -4,7 +4,7 @@ description: Overview of distributed tracing in Istio.
 weight: 1
 keywords: [telemetry,tracing]
 aliases:
- - /docs/tasks/telemetry/distributed-tracing/overview/
+ - /zh/docs/tasks/telemetry/distributed-tracing/overview/
 ---
 
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.
@@ -95,7 +95,7 @@ percentage in one of two ways:
 
 * During the mesh setup, use the option `values.pilot.traceSampling` to
   set the percentage of trace sampling. See the
-  [Installing with {{< istioctl >}}](/docs/setup/install/operator/) documentation for
+  [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/) documentation for
   details on setting options.
 * In a running mesh, edit the `istio-pilot` deployment and
   change the environment variable with the following steps:

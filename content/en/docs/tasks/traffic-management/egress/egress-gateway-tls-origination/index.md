@@ -37,7 +37,7 @@ traffic to external services.
     Note that any pod that you can `exec` and `curl` from would do.
 
 *   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{<github_tree>}}/samples/sleep) sample, run:
+    If you used the [sleep]({{< github_tree >}}/samples/sleep) sample, run:
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -94,7 +94,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     sidecar requests that will be directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.
@@ -621,7 +621,7 @@ to hold the configuration of the NGINX server:
     </html>
     {{< /text >}}
 
-### Redeploy the Egress Gateway with the client certificates
+### Redeploy the egress gateway with the client certificates
 
 1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's and CA
    certificates.

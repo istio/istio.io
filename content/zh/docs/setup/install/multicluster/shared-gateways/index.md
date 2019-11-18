@@ -4,13 +4,13 @@ description: Install an Istio mesh across multiple Kubernetes clusters using a s
 weight: 85
 keywords: [kubernetes,multicluster]
 aliases:
-    - /docs/examples/multicluster/split-horizon-eds/
-    - /docs/tasks/multicluster/split-horizon-eds/
-    - /docs/setup/kubernetes/install/multicluster/shared-gateways/
+    - /zh/docs/examples/multicluster/split-horizon-eds/
+    - /zh/docs/tasks/multicluster/split-horizon-eds/
+    - /zh/docs/setup/kubernetes/install/multicluster/shared-gateways/
 ---
 
 Follow this guide to configure a multicluster mesh using a shared
-[control plane](/docs/setup/deployment-models/#control-plane-models)
+[control plane](/docs/ops/prep/deployment-models/#control-plane-models)
 with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
 depending on the location of the request source.
@@ -29,7 +29,7 @@ No VPN connectivity nor direct network access between workloads in different clu
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to [deploy the Istio control plane](/docs/setup/install/operator/)
+* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
 
 * Two Kubernetes clusters (referred to as `cluster1` and `cluster2`).
 

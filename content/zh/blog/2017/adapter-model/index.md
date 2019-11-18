@@ -6,7 +6,7 @@ subtitle: Extending Istio to integrate with a world of infrastructure backends
 attribution: Martin Taillefer
 keywords: [adapters,mixer,policies,telemetry]
 aliases:
-    - /blog/mixer-adapter-model.html
+    - /zh/blog/mixer-adapter-model.html
 target_release: 0.2
 ---
 

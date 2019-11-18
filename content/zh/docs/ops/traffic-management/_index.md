@@ -1,8 +1,8 @@
 ---
-title: Traffic Management
-description: Helps you manage the networking aspects of a running mesh.
+title: 流量管理
+description: 帮助您管理正在运行的网格的网络方面。
 weight: 40
 keywords: [ops,traffic-management]
 aliases:
-    - /help/ops/traffic-management
+    - /zh/help/ops/traffic-management
 ---

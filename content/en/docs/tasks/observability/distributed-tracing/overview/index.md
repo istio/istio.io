@@ -10,7 +10,7 @@ aliases:
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.
 This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
-Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing) feature
+Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature
 to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend
 and configure proxies to send trace spans to them automatically.
 See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
@@ -30,6 +30,12 @@ To do this, an application needs to collect and propagate the following headers 
 * `x-b3-sampled`
 * `x-b3-flags`
 * `x-ot-span-context`
+
+Additionally, tracing integrations based on [OpenCensus](https://opencensus.io/) (e.g. Stackdriver) propagate the following headers:
+
+* `x-cloud-trace-context`
+* `traceparent`
+* `grpc-trace-bin`
 
 If you look at the sample Python `productpage` service, for example,
 you see that the application extracts the required headers from an HTTP request
@@ -95,7 +101,7 @@ percentage in one of two ways:
 
 * During the mesh setup, use the option `values.pilot.traceSampling` to
   set the percentage of trace sampling. See the
-  [Installing with {{< istioctl >}}](/docs/setup/install/operator/) documentation for
+  [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/) documentation for
   details on setting options.
 * In a running mesh, edit the `istio-pilot` deployment and
   change the environment variable with the following steps:

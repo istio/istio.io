@@ -120,7 +120,7 @@ Setting the ingress IP depends on the cluster provider:
 
 {{< /tabset >}}
 
-## Configuring ingress using an Istio Gateway
+## Configuring ingress using an Istio gateway
 
 An ingress [Gateway](/docs/reference/config/networking/gateway/) describes a load balancer operating at the edge of the mesh that receives incoming HTTP/TCP connections.
 It configures exposed ports, protocols, etc.

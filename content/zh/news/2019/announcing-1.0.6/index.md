@@ -5,9 +5,9 @@ publishdate: 2019-02-12
 attribution: The Istio Team
 release: 1.0.6
 aliases:
-    - /about/notes/1.0.6
-    - /blog/2019/announcing-1.0.6
-    - /news/announcing-1.0.6
+    - /zh/about/notes/1.0.6
+    - /zh/blog/2019/announcing-1.0.6
+    - /zh/news/announcing-1.0.6
 ---
 
 We're pleased to announce the availability of Istio 1.0.6. Please see below for what's changed.

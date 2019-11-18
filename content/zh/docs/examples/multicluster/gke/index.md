@@ -4,7 +4,7 @@ description: 在两套 GKE 集群之上搭建一个多集群的服务网格
 weight: 65
 keywords: [kubernetes,multicluster]
 aliases:
-  - /docs/tasks/multicluster/gke/
+  - /zh/docs/tasks/multicluster/gke/
 ---
 
 这个例子展示了怎样通过一个 [single-network deployment](/docs/setup/deployment-models/#single-network) 在2个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群之上配置一个多集群的服务网格。 

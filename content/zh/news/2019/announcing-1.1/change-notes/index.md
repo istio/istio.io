@@ -3,14 +3,14 @@ title: Change Notes
 description: Istio 1.1 release notes.
 weight: 10
 aliases:
-    - /about/notes/1.1
+    - /zh/about/notes/1.1
 ---
 
 ## Incompatible changes from 1.0
 
 In addition to the new features and improvements listed below, Istio 1.1 has introduced
 a number of significant changes from 1.0 that can alter the behavior of applications.
-A concise list of these changes can be found in the [upgrade notice](/news/2019/announcing-1.1/upgrade-notes).
+A concise list of these changes can be found in the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes).
 
 ## Upgrades
 
@@ -18,7 +18,7 @@ We recommend a manual upgrade of the control plane and data plane to 1.1. See
 the [upgrades documents](/docs/setup/upgrade/) for more information.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/news/2019/announcing-1.1/upgrade-notes) for a
+Be sure to check out the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes) for a
 concise list of things you should know before upgrading your deployment to Istio 1.1.
 {{< /warning >}}
 
@@ -69,7 +69,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Locality-Aware Routing**. Added full support for routing to services in the
   same locality before picking services in other localities.
-  See [Locality Load Balancer Settings](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting)
+  See [Locality Load Balancer Settings](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting)
 
 - **Refined Multicluster Routing**. Simplified the multicluster setup and
   enabled additional deployment modes. You can now connect multiple clusters
@@ -85,7 +85,7 @@ concise list of things you should know before upgrading your deployment to Istio
   [gateways](/docs/concepts/traffic-management/#gateways).
 
 - **Performance and Scalability Improvements**. Tuned the performance and
-  scalability of Istio and Envoy. Read more about [Performance and Scalability]/docs/ops/performance-and-scalability/)
+  scalability of Istio and Envoy. Read more about [Performance and Scalability](/docs/ops/performance-and-scalability/)
   enhancements.
 
 - **Access Logging Off by Default**. Disabled the access logs for all Envoy
@@ -104,15 +104,15 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Identity Provisioning Through SDS**. Added SDS support to provide stronger
   security with on-node key generation and dynamic certificate rotation without
-  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/auth-sds)
+  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/citadel-config/auth-sds)
   for more information.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
-  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authz-tcp)
+  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authorization/authz-tcp)
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/rbac-groups/)
+  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/authorization/rbac-groups/)
   for more information.
 
 - **External Certificate Management on Ingress Gateway Controller**.
@@ -183,11 +183,11 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ### Configuration management
 
-- **Galley**. Added [Galley]/docs/ops/architecture/#galley) as the
+- **Galley**. Added [Galley](/docs/ops/architecture/#galley) as the
   primary configuration ingestion and distribution mechanism within Istio. It
   provides a robust model to validate, transform, and distribute configuration
   states to Istio components insulating the Istio components from Kubernetes
-  details. Galley uses the [Mesh Configuration Protocol (MCP)](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp)
+  details. Galley uses the [Mesh Configuration Protocol](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp)
   to interact with components.
 
 - **Monitoring Port**. Changed Galley's default monitoring port from 9093 to

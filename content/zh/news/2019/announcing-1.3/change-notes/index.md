@@ -3,16 +3,16 @@ title: Change Notes
 description: Istio 1.3 release notes.
 weight: 10
 aliases:
-    - /about/notes/1.3
+    - /zh/about/notes/1.3
 ---
 
 ## Installation
 
-- **Added** experimental [manifest and profile commands](/docs/setup/install/operator/) to install and manage the Istio control plane for evaluation.
+- **Added** experimental [manifest and profile commands](/docs/setup/install/istioctl/) to install and manage the Istio control plane for evaluation.
 
 ## Traffic management
 
-- **Added** [automatic protocol determination](/docs/ops/traffic-management/protocol-selection/) of HTTP or TCP for outbound traffic when ports are not named according to Istio’s [conventions](/docs/setup/additional-setup/requirements/).
+- **Added** [automatic protocol determination](/docs/ops/traffic-management/protocol-selection/) of HTTP or TCP for outbound traffic when ports are not named according to Istio’s [conventions]/docs/ops/prep/requirements/).
 - **Added** a mode to the Gateway API for mutual TLS operation.
 - **Fixed** issues present when a service communicates over the network first in permissive mutual TLS mode for protocols like MySQL and MongoDB.
 - **Improved** Envoy proxy readiness checks. They now check Envoy's readiness status.

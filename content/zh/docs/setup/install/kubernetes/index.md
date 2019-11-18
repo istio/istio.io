@@ -4,8 +4,8 @@ description: Instructions to install Istio in a Kubernetes cluster for evaluatio
 weight: 5
 keywords: [kubernetes]
 aliases:
-    - /docs/setup/kubernetes/quick-start/
-    - /docs/setup/kubernetes/install/kubernetes/
+    - /zh/docs/setup/kubernetes/quick-start/
+    - /zh/docs/setup/kubernetes/install/kubernetes/
 ---
 
 This guide installs Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
@@ -18,14 +18,14 @@ access logging.
 {{< /warning >}}
 
 To install Istio for production use, we recommend using the
-[Installing with {{< istioctl >}} guide](/docs/setup/install/operator/)
+[Installing with {{< istioctl >}} guide](/docs/setup/install/istioctl/)
 instead, which provides many more options for selecting and managing the Istio
 configuration. This permits customization of Istio to operator specific
 requirements.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 

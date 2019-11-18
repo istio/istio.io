@@ -6,9 +6,9 @@ publishdate: 2018-07-31
 attribution: The Istio Team
 release: 1.0.0
 aliases:
-    - /about/notes/1.0
-    - /blog/2018/announcing-1.0
-    - /news/announcing-1.0
+    - /zh/about/notes/1.0
+    - /zh/blog/2018/announcing-1.0
+    - /zh/news/announcing-1.0
 ---
 
 Today, we’re excited to announce Istio 1.0! It’s been a little over a year since our initial 0.1 release. Since then, Istio has evolved significantly with the help of a thriving and growing community of contributors and users. We’ve now reached the point where many companies have successfully adopted Istio in production and have gotten real value from the insight and control it provides over their deployments. We’ve helped large enterprises and fast-moving startups like [eBay](https://www.ebay.com/), [Auto Trader UK](https://www.autotrader.co.uk/), [Descartes Labs](http://www.descarteslabs.com/), [HP FitStation](https://www.fitstation.com/), [JUSPAY](https://juspay.in), [Namely](https://www.namely.com/), [PubNub](https://www.pubnub.com/) and [Trulia](https://www.trulia.com/) use Istio to connect, manage and secure their services from the ground up. Shipping this release as 1.0 is recognition that we’ve built a core set of functionality that our users can rely on for production use.
@@ -33,7 +33,7 @@ Here are some highlights:
 
 - Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
 
-- Mutual TLS can now be [rolled out incrementally](/docs/tasks/security/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
+- Mutual TLS can now be [rolled out incrementally](/docs/tasks/security/authentication/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
 
 - Mixer now has support for [developing out-of-process adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide). This will become the default way to extend Mixer over the coming releases and makes building adapters much simpler.
 
@@ -99,7 +99,7 @@ in addition to the server-side telemetry.
 
 #### Adapters
 
-- **SignalFX**. There is a new [`signalfx`](/docs/reference/config/policy-and-telemetry/adapters/signalfx/) adapter.
+- **SignalFX**. There is a new `signalfx` adapter.
 
 - **Stackdriver**. The [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
 release to add new features and improve performance.
@@ -110,8 +110,8 @@ release to add new features and improve performance.
 RPC-level authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
 - **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
-[incrementally turn on mutual TLS](/docs/tasks/security/mtls-migration/) for your services.
-We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authn-policy/),
+[incrementally turn on mutual TLS](/docs/tasks/security/authentication/mtls-migration/) for your services.
+We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authentication/authn-policy/),
 coupled with client-side [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
 - **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can

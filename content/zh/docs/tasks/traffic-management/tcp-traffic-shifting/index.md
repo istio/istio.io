@@ -4,7 +4,7 @@ description: Shows you how to migrate TCP traffic from an old to new version of 
 weight: 31
 keywords: [traffic-management,tcp-traffic-shifting]
 aliases:
-    - /docs/tasks/traffic-management/tcp-version-migration.html
+    - /zh/docs/tasks/traffic-management/tcp-version-migration.html
 ---
 
 This task shows you how to gradually migrate TCP traffic from one version of a
