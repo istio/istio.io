@@ -6,7 +6,7 @@ last_update: 2018-05-16
 attribution: Frank Budinsky
 keywords: [traffic-management,canary]
 aliases:
-    - /blog/canary-deployments-using-istio.html
+    - /zh/blog/canary-deployments-using-istio.html
 ---
 
 {{< tip >}}

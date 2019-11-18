@@ -4,12 +4,12 @@ description: Instructions for installing the Istio control plane on Kubernetes a
 weight: 15
 icon: setup
 aliases:
-    - /docs/tasks/installing-istio.html
-    - /docs/setup/install-kubernetes.html
-    - /docs/setup/kubernetes/quick-start.html
-    - /docs/setup/kubernetes/download-release/
-    - /docs/setup/kubernetes/download/
-    - /docs/setup/kubernetes/
+    - /zh/docs/tasks/installing-istio.html
+    - /zh/docs/setup/install-kubernetes.html
+    - /zh/docs/setup/kubernetes/quick-start.html
+    - /zh/docs/setup/kubernetes/download-release/
+    - /zh/docs/setup/kubernetes/download/
+    - /zh/docs/setup/kubernetes/
 keywords: [kubernetes,install,quick-start,setup,installation]
 list_below: true
 ---
@@ -25,7 +25,7 @@ Istio offers multiple installation flows
 depending on your platform and whether or not you intend to use Istio in production.
 At a high level, the basic flow is the same regardless of platform:
 
-1. [Review the pod requirements](/docs/setup/additional-setup/requirements/)
+1. [Review the pod requirements]/docs/ops/prep/requirements/)
 1. [Prepare your platform for Istio](/docs/setup/platform-setup/)
 1. [Download the Istio release](#downloading-the-release)
 1. [Install Istio on your platform](#installing-istio)
@@ -40,7 +40,7 @@ Download the Istio release which includes installation files, samples and a comm
     extract the latest release automatically:
 
     {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
+    $ curl -L https://istio.io/downloadIstio sh -
     {{< /text >}}
 
 1.  Move to the Istio package directory. For example, if the package is
@@ -71,7 +71,7 @@ Download the Istio release which includes installation files, samples and a comm
 Istio is installed in its own `istio-system` namespace and can manage
 services from all other namespaces. Choose one of the following installation options, depending on your intended use:
 
-- [Demo installation](/docs/setup/install/kubernetes/):
+- [Demo installation](/docs/setup/getting-started/):
    This option is ideal if you're new to Istio and just want to try it out.
    It allows you to experiment with many Istio features with modest resource requirements.
 

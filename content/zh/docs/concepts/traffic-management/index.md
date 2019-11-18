@@ -4,13 +4,13 @@ description: Describes the various Istio features focused on traffic routing and
 weight: 20
 keywords: [traffic-management,pilot, envoy-proxies, service-discovery, load-balancing]
 aliases:
-    - /docs/concepts/traffic-management/pilot
-    - /docs/concepts/traffic-management/rules-configuration
-    - /docs/concepts/traffic-management/fault-injection
-    - /docs/concepts/traffic-management/handling-failures
-    - /docs/concepts/traffic-management/load-balancing
-    - /docs/concepts/traffic-management/request-routing
-    - /docs/concepts/traffic-management/pilot.html
+    - /zh/docs/concepts/traffic-management/pilot
+    - /zh/docs/concepts/traffic-management/rules-configuration
+    - /zh/docs/concepts/traffic-management/fault-injection
+    - /zh/docs/concepts/traffic-management/handling-failures
+    - /zh/docs/concepts/traffic-management/load-balancing
+    - /zh/docs/concepts/traffic-management/request-routing
+    - /zh/docs/concepts/traffic-management/pilot.html
 ---
 
 Istio’s traffic routing rules let you easily control the flow
@@ -461,7 +461,7 @@ configure a purely internal proxy.
 
 Istio provides some preconfigured gateway proxy deployments
 (`istio-ingressgateway` and `istio-egressgateway`) that you can use - both are
-deployed if you use our [demo installation](/docs/setup/install/kubernetes/),
+deployed if you use our [demo installation](/docs/setup/getting-started/),
 while just the ingress gateway is deployed with our
 [default or sds profiles.](/docs/setup/additional-setup/config-profiles/) You
 can apply your own gateway configurations to these deployments or deploy and

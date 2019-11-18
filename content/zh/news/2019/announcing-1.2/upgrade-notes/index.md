@@ -11,7 +11,7 @@ preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.1.
 
 For an overview of new features introduced with Istio 1.2, please refer
-to the [1.2 release notes](/news/2019/announcing-1.2/change-notes).
+to the [1.2 release notes](/news/releases/1.2.x/announcing-1.2/change-notes).
 
 ## Installation and Upgrade
 

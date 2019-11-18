@@ -16,7 +16,7 @@ please ensure your Istio control plane components and your applications are
 highly available with multiple replicas.
 
 {{< warning >}}
-Be sure to check out the [upgrade notes](/news/{{< istio_full_version_release_year >}}/announcing-{{< istio_version >}}/upgrade-notes)
+Be sure to check out the [upgrade notes](/news/releases/{{< istio_version >}}.x/announcing-{{< istio_version >}}/upgrade-notes)
 for a concise list of things you should know before upgrading your deployment to Istio {{< istio_version >}}.
 {{< /warning >}}
 
@@ -27,7 +27,7 @@ are supported. If you are on an older version, please upgrade to {{< istio_previ
 
 ## Upgrade steps
 
-[Download the new Istio release](/docs/setup/#downloading-the-release)
+[Download the new Istio release](/docs/setup/getting-started/#download)
 and change directory to the new release directory.
 
 ### Istio CNI upgrade

@@ -4,9 +4,9 @@ description: This task shows you how to configure Istio to collect and customize
 weight: 10
 keywords: [telemetry,metrics]
 aliases:
-    - /docs/tasks/metrics-logs.html
-    - /docs/tasks/telemetry/metrics-logs/
-    - /docs/tasks/telemetry/metrics/collecting-metrics/
+    - /zh/docs/tasks/metrics-logs.html
+    - /zh/docs/tasks/telemetry/metrics-logs/
+    - /zh/docs/tasks/telemetry/metrics/collecting-metrics/
 ---
 
 This task shows how to configure Istio to automatically gather telemetry for

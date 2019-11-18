@@ -4,7 +4,7 @@ description: Describes how to configure SNI passthrough for an ingress gateway.
 weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
-  - /docs/examples/advanced-gateways/ingress-sni-passthrough/
+  - /zh/docs/examples/advanced-gateways/ingress-sni-passthrough/
 ---
 
 The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress-mount/) task describes how to configure HTTPS

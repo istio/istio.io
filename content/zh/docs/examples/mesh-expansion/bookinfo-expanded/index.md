@@ -4,7 +4,7 @@ description: Illustrates how to expand the Bookinfo application's mesh with a ra
 weight: 60
 keywords: [vms]
 aliases:
-    - /docs/examples/integrating-vms/
+    - /zh/docs/examples/integrating-vms/
 ---
 
 This example deploys the Bookinfo services across Kubernetes and a set of
@@ -28,7 +28,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/install/kubernetes/).
+  [Installation guide](/docs/setup/getting-started/).
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 

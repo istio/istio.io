@@ -5,9 +5,9 @@ publishdate: 2019-05-03
 attribution: The Istio Team
 release: 1.1.5
 aliases:
-    - /about/notes/1.1.5
-    - /blog/2019/announcing-1.1.5
-    - /news/announcing-1.1.5
+    - /zh/about/notes/1.1.5
+    - /zh/blog/2019/announcing-1.1.5
+    - /zh/news/announcing-1.1.5
 ---
 
 We're pleased to announce the availability of Istio 1.1.5. Please see below for what's changed.
