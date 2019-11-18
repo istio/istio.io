@@ -26,7 +26,7 @@ $ istioctl experimental describe <pod-name>[.<namespace>]
 {{< /tip >}}
 
 该指南假定您已经在您的网格中部署了 [Bookinfo](/zh/docs/examples/bookinfo/) 示例。
-如果您还没部署，先参考[启动应用服务](/zh/docs/examples/bookinfo/#start-the-application-services)和[确定 ingress 的 IP 和端口](/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port)。
+如果您还没部署，先参考[启动应用服务](/zh/docs/examples/bookinfo/#start-the-application-services)和[确定 ingress 的 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port)。
 
 ## 验证 pod 是否在网格中{#verify-a-pod-is-in-the-mesh}
 
