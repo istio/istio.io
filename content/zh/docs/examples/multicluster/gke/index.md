@@ -1,6 +1,6 @@
 ---
 title: Google Kubernetes 引擎
-description: 在两套 GKE 集群之上搭建一个多集群的服务网格
+description: 在两套 GKE 集群之上搭建一个多集群的服务网格.
 weight: 65
 keywords: [kubernetes,multicluster]
 aliases:
@@ -13,7 +13,8 @@ aliases:
 
 除了安装 `Istio` 的外，此示例还需要以下设置
 
-* 这个例子需要一个有效的 `Google Cloud Platform` 项目并启用了计费功能, 如果你没有现成的 `GCP` 用户，你可以申请一个价值 $300  的 [免费试用](https://cloud.google.com/free/) 账户
+* 这个例子需要一个有效的 `Google Cloud Platform` 项目并启用了计费功能, 如果你没有现成的 `GCP` 用户，你可以申请一个价值 $300  的 [免费试用
+](https://cloud.google.com/free/) 账户
     * [创建 Google Cloud  项目](https://cloud.google.com/resource-manager/docs/creating-managing-projects) 去托管你的 `GKE` 集群。
 
 * 安装和初始化这个 [Google Cloud SDK](https://cloud.google.com/sdk/install)
