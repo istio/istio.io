@@ -1,6 +1,6 @@
 ---
 title: 安全问题
-description: 一些处理常见 Istio 认证、授权、以及安全相关问题的技巧
+description: 定位常见 Istio 认证、授权、安全相关问题的技巧。
 force_inline_toc: true
 weight: 20
 keywords: [security,citadel]
@@ -16,7 +16,7 @@ aliases:
 
 1. 检查 Istio 身份认证策略 Policy 配置，`principalBinding` 需要被设为 `USE_ORIGIN` 来验证终端用户。
 
-1. 如果 `jwksUri` 未设置，确保 JWT 发行者是 url 格式和 `url + /.well-known/openid-configuration` 可以在浏览器中打开；例如，如果 JWT 发行者是 `https://accounts.google.com`，确保 `https://accounts.google.com/.well-known/openid-configuration` 是有效的 url，并且可以在浏览器中打开。
+1. 如果 `jwksUri` 未设置，确保 JWT 发行者是 url 格式并且 `url + /.well-known/openid-configuration` 可以在浏览器中打开；例如，如果 JWT 发行者是 `https://accounts.google.com`，确保 `https://accounts.google.com/.well-known/openid-configuration` 是有效的 url，并且可以在浏览器中打开。
 
     {{< text yaml >}}
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -35,10 +35,10 @@ aliases:
       principalBinding: USE_ORIGIN
     {{< /text >}}
 
-1. 如果 JWT token 放在 http 请求头 Authorization 字段值红，需要确认 JWT token 的有效性（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码，例如：[jwt.io](https://jwt.io/)。
+1. 如果 JWT token 放在 http 请求头 Authorization 字段值中，需要确认 JWT token 的有效性（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码，例如：[jwt.io](https://jwt.io/)。
 
 1. 通过获取 Istio 代理（例如：Envoy）日志来验证 Pilot 分发的配置是否正确的。
-    例如，如果身份认证策略在 namespace `foo` 中的 `httpbin` 服务上执行，使用如下命令可以查看 Istio 代理的日志，确保 `local_jwks` 已设置，并且 http 响应码输出到 Istio 代理日志中。
+   例如，如果身份认证策略在命名空间 `foo` 中的 `httpbin` 服务上执行，使用如下命令可以查看 Istio 代理的日志，确保 `local_jwks` 已设置，并且 http 响应码输出到 Istio 代理日志中。
 
     {{< text bash >}}
     $ kubectl logs httpbin-68fbcdcfc7-hrnzm -c istio-proxy -n foo
@@ -70,7 +70,7 @@ aliases:
 
 1. 在 Kubernetes 环境，确保在一个 `ServiceRole` 对象下的所有服务都和 `ServiceRole` 在同一个 namespace 。例如，如果 `ServiceRole` 对象中的服务是 `a.default.svc.cluster.local`，`ServiceRole` 必须在 `default` 命名空间（`metadata/namespace` 这一行应该是 `default`）。对于非 Kubernetes 的环境，一个网格的所有 `ServiceRoles` 和 `ServiceRoleBindings` 都应该在相同的命名空间下。
 
-1. 根据[确保授权正确开启](#ensure-authorization-is-enabled-correctly)找到确切的原因。 
+1. 根据[确保授权正确开启](#ensure-authorization-is-enabled-correctly)找到确切的原因。
 
 ## 授权太过宽松{#authorization-is-too-permissive}
 
@@ -86,7 +86,7 @@ aliases:
 
 ## 确保授权正确开启{#ensure-authorization-is-enabled-correctly}
 
-`ClusterRbacConfig` 是一个集群级别的自定义资源，用于控制全局的授权功能。
+`ClusterRbacConfig` 默认是集群级别的自定义资源，用于控制全局的授权功能。
 
 1. 运行下面的命令，列出已存在的 `ClusterRbacConfig` 配置：
 
@@ -159,7 +159,7 @@ Pilot 负责对授权策略进行转换，并将其分发给 Sidecar。下面的
 
     说明 Pilot 生成了：
 
-    - `sleep.foo.svc.cluster.local` 的空配置。因为没有符合条件的策略，并且 Istio 缺省情况下，会禁止所有对这一服务的访问。
+    - `sleep.foo.svc.cluster.local` 的空配置。因为没有符合条件的策略，并且 Istio 默认情况下，会禁止所有对这一服务的访问。
 
     - `productpage.default.svc.cluster.local` 的配置。Istio 会放行所有针对该服务的 GET 访问。
 
@@ -179,7 +179,7 @@ Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 P
 
 1. 校验日志内容：
 
-    - 日志中包含了一个 `envoy.filters.http.rbac` 过滤器，会对每一个进入的请求执行授权策略。    
+    - 日志中包含了一个 `envoy.filters.http.rbac` 过滤器，会对每一个进入的请求执行授权策略。
     - 授权策略更新之后，Istio 会据此更新过滤器。
 
 1. 下面的输出表明，`productpage` 的代理启用了 `envoy.filters.http.rbac` 过滤器，配置的规则为允许任何人通过 `GET` 方法进行访问 `productpage` 服务。`shadow_rules` 没有生效，可以放心的忽略它。
@@ -423,7 +423,7 @@ $ kubectl exec -it my-pod-id -c istio-proxy -- ls /etc/certs
 cert-chain.pem    key.pem    root-cert.pem
 {{< /text >}}
 
-可选择的，您可以使用以下命令检查其内容：
+（可选）您可以使用以下命令检查其内容：
 
 {{< text bash >}}
 $ kubectl exec -it my-pod-id -c istio-proxy -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout
@@ -490,7 +490,7 @@ Certificate:
 
 ## 双向 TLS 错误{#mutual-TLS-errors}
 
-如果怀疑双向 TLS 的出现问题，首先要确认 [Citadel 健康](#repairing-citadel)，接下来要查看的是[密钥和证书正确下发](#keys-and-certificates-errors) Sidecar.
+如果怀疑双向 TLS 出现了问题，首先要确认 [Citadel 健康](#repairing-citadel)，接下来要查看的是[密钥和证书正确下发](#keys-and-certificates-errors) Sidecar.
 
 如果上述检查都正确无误，下一步就应该验证[认证策略](/zh/docs/tasks/security/authentication/authn-policy/)已经创建，并且对应的目标规则是否正确应用。
 
@@ -523,7 +523,7 @@ $ kubectl logs -l istio=citadel -n istio-system
 $ kubectl describe pod -l istio=citadel -n istio-system
 {{< /text >}}
 
-如果想要检查在`default` namespace ，并且使用 `default` ServiceAccount 的工作负载的证书有效期：
+如果想要检查一个工作负载（在 `default` 命名空间 ，并且使用 `default` ServiceAccount ）的证书有效期：
 
 {{< text bash >}}
 $ kubectl get secret -o json istio.default -n default | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -noout -text | grep "Not After" -C 1
@@ -533,5 +533,5 @@ Subject:
 {{< /text >}}
 
 {{< tip >}}
-不要忘记将 `istio.default` 和 `-n default` 替换成 `istio.您的ServiceAccount` 和 `-n 您的Namespace`。如果证书已经过期，Citadel 没有及时更新 secret，请检查 Citadel 日志查以获取更多信息。
+不要忘记将 `istio.default` 和 `-n default` 替换成 `istio.YourServiceAccount` 和 `-n YourNamespace`。如果证书已经过期，Citadel 没有及时更新 secret，请检查 Citadel 日志查以获取更多信息。
 {{< /tip >}}
