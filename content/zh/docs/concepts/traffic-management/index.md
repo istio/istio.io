@@ -265,73 +265,20 @@ spec:
 
 除了定义子集之外，目标规则对于所有子集都有默认的流量策略，而对于该子集，则有特定于子集的策略覆盖它。定义在 `subsets` 上的默认策略，为`v1`和`v3`子集设置了一个简单的随机负载均衡器。在`v2` 策略中，轮询负载均衡器被指定在相应的子集字段上。
 
-## Gateways {#gateways}
+## 网关 {#gateways}
 
-你使用一个[网关](/zh/docs/reference/config/networking/gateway/# gateway)
-管理入站和出站流量为您的网格，让您指定
-要进入或离开网格的流量。应用网关配置
-而不是运行在网格边缘的独立特使代理
-比sidecar特使代理运行在您的服务工作负载。
-You use a [gateway](/zh/docs/reference/config/networking/gateway/#Gateway) to
-manage inbound and outbound traffic for your mesh, letting you specify which
-traffic you want to enter or leave the mesh. Gateway configurations are applied
-to standalone Envoy proxies that are running at the edge of the mesh, rather
-than sidecar Envoy proxies running alongside your service workloads.
+使用一个[网关](/zh/docs/reference/config/networking/gateway/#gateway)为网格来管理入站和出站流量，可以让您指定要进入或离开网格的流量。网关配置用于运行在网格边界的独立 Envoy 代理，而不是服务工作负载的 sidecar 代理。
 
+与 Kubernetes Ingress API这种控制进入系统的流量的其他机制不同，Istio 网关让您充分利用它流量路由的强大能力和灵活性。你可以这么做的原因是 Istio 的网关资源可以配置 4-6层的负载均衡属性，如对外暴露的端口、TLS设置等。作为替代应用层流量路由（L7）到相同的API资源，您绑定了一个常规的 Istio [虚拟服务](#virtual-services)到网关。这让您可以像管理网格中其他数据平面流量一样去管理网关流量。
 
-与控制进入系统的流量的其他机制不同，例如
-Kubernetes Ingress api, Istio网关让您充分利用和
-Istio的流量路由灵活性。你可以这么做，因为Istio是网关
-资源只是让您配置层4-6负载平衡属性，如
-要公开的端口、TLS设置等等。而不是相加
-应用程序层流量路由(L7)到相同的API资源，您绑定一个
-常规Istio[虚拟服务](#虚拟服务)到网关。这允许您
-基本上是管理网关流量，就像在一个Istio中的任何其他数据平面流量一样
-网。
-Unlike other mechanisms for controlling traffic entering your systems, such as
-the Kubernetes Ingress APIs, Istio gateways let you use the full power and
-flexibility of Istio’s traffic routing. You can do this because Istio’s Gateway
-resource just lets you configure layer 4-6 load balancing properties such as
-ports to expose, TLS settings, and so on. Then instead of adding
-application-layer traffic routing (L7) to the same API resource, you bind a
-regular Istio [virtual service](#virtual-services) to the gateway. This lets you
-basically manage gateway traffic like any other data plane traffic in an Istio
-mesh.
+网关主要用于管理进入的流量，但你也可以配置出口网关。出口网关让您为离开网格的流量配置一个专用的出口
+节点，这可以限制哪些服务可以或应该访问外部网络，或者启用[出口流量安全控制](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)为您的网格添加安全性。你也可以使用网关配置一个纯粹的内部代理。
 
-网关主要用于管理进入流量，但你也可以
-出口网关进行配置。出口网关允许您配置专用出口
-节点的流量离开网格，让您限制哪些服务可以或
-应该访问外部网络，还是启用
-[安全控制出口交通](/blog/2019/egress-traffic-control-in-istio-part-1/)
-例如，为您的网格添加安全性。你也可以使用网关
-配置一个纯粹的内部代理。
-Gateways are primarily used to manage ingress traffic, but you can also
-configure egress gateways. An egress gateway lets you configure a dedicated exit
-node for the traffic leaving the mesh, letting you limit which services can or
-should access external networks, or to enable
-[secure control of egress traffic](/blog/2019/egress-traffic-control-in-istio-part-1/)
-to add security to your mesh, for example. You can also use a gateway to
-configure a purely internal proxy.
-
-Istio提供一些预先配置的网关代理部署
-(istio-ingressgateway和istio-egressgateway)
-如果你使用我们的[演示安装](/zh/docs/setup/install/kubernetes/)，
-而只有入口网关与我们的部署
-[默认或sds配置文件](/zh/docs/setup/additional-setup/config-profiles/)你
-可以将您自己的网关配置应用到这些部署或部署
-配置您自己的网关代理。
-Istio provides some preconfigured gateway proxy deployments
-(`istio-ingressgateway` and `istio-egressgateway`) that you can use - both are
-deployed if you use our [demo installation](/zh/docs/setup/install/kubernetes/),
-while just the ingress gateway is deployed with our
-[default or sds profiles.](/zh/docs/setup/additional-setup/config-profiles/) You
-can apply your own gateway configurations to these deployments or deploy and
-configure your own gateway proxies.
+Istio提供一些预先配置好的网关代理部署（istio-ingressgateway 和 istio-egressgateway）供你使用——如果使用我们的[演示安装](/zh/docs/setup/install/kubernetes/)它们都已经部署好了；如果使用[默认或sds配置文件](/zh/docs/setup/additional-setup/config-profiles/)则只部署了入口网关。可以将您自己的网关配置应用到这些部署或部署配置您自己的网关代理。
 
 ### Gateway 示例 {#gateway-example}
 
-The following example shows a possible gateway configuration for external HTTPS
-ingress traffic:
+下面的示例展示了一个为外部HTTPS入口流量的网关配置：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -354,12 +301,7 @@ spec:
       privateKey: /tmp/tls.key
 {{< /text >}}
 
-This gateway configuration lets HTTPS traffic from `ext-host.example.com` into the mesh on
-port 443, but doesn’t specify any routing for the traffic.
-
-To specify routing and for the gateway to work as intended, you must also bind
-the gateway to a virtual service. You do this using the virtual service’s
-`gateways` field, as shown in the following example:
+这个网关配置让 HTTPS 流量从 `ext-host.example.com` 通过443端口流入网格，但没有为请求指定任何路由规则。为想要工作的网关指定路由，你必须把网关绑定到虚拟服务上。正如下面的示例所示，使用虚拟服务的`gateways`字段进行设置：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -368,52 +310,28 @@ metadata:
   name: virtual-svc
 spec:
   hosts:
+
   - ext-host.example.com
     gateways:
     - ext-host-gwy
 {{< /text >}}
 
-You can then configure the virtual service with routing rules for the external
-traffic.
+然后就可以为出口流量配置带有路由规则的虚拟服务。
 
 ## 服务入口 {#service-entries}
 
-你使用
-[服务条目](/zh/docs/reference/config/networking/service-entry/#ServiceEntry)来添加
-Istio内部维护的服务注册表条目。在你添加
-服务入口，特使代理可以向服务发送流量，就好像它
-是你的服务。配置服务条目允许您进行管理
-网格外运行服务的流量，包括以下任务:
-You use a
-[service entry](/zh/docs/reference/config/networking/service-entry/#ServiceEntry) to add
-an entry to the service registry that Istio maintains internally. After you add
-the service entry, the Envoy proxies can send traffic to the service as if it
-was a service in your mesh. Configuring service entries allows you to manage
-traffic for services running outside of the mesh, including the following tasks:
+使用[服务入口](/zh/docs/reference/config/networking/service-entry/#ServiceEntry)来添加一个入口到 Istio 内部维护的服务注册中心。在你添加了服务入口后，Envoy 代理可以向服务发送流量，就好像它是网格内部的服务一样。配置服务入口允许您管理运行在网格外的服务的流量，它包括以下几种任务：
 
--   Redirect and forward traffic for external destinations, such as APIs
-    consumed from the web, or traffic to services in legacy infrastructure.
--   Define [retry](#retries), [timeout](#timeouts), and
-    [fault injection](#fault-injection) policies for external destinations.
--   Add a service running in a Virtual Machine (VM) to the mesh to
-    [expand your mesh](/zh/docs/examples/virtual-machines/single-network/#running-services-on-the-added-vm).
--   Logically add services from a different cluster to the mesh to configure a
-    [multicluster Istio mesh](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)
-    on Kubernetes.
+-   为外部目标 redirect 和转发请求，例如来着web端的API调用，或者流向遗留老系统的服务。
+-   为外部目标定义[重试](#retries)，[超时](#timeouts)和[故障注入](#fault-injection)策略。 
+-   添加一个运行在虚拟机的服务来[扩展你的网格](/zh/docs/examples/virtual-machines/single-network/#running-services-on-the-added-vm)。
+-   从逻辑上添加来自不同集群的服务到网格，在 Kubernetes 上实现一个[多集群 Istio 网格](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)。
 
-您不需要为需要的每个外部服务添加服务条目
-您的网格服务使用。默认情况下，Istio将特使代理配置为
-将请求传递给未知服务。但是，您不能使用Istio功能
-控制没有在mesh中注册的目的地的流量。
-You don’t need to add a service entry for every external service that you want
-your mesh services to use. By default, Istio configures the Envoy proxies to
-passthrough requests to unknown services. However, you can’t use Istio features
-to control the traffic to destinations that aren't registered in the mesh.
+您不需要为网格服务要使用的每个外部服务都添加服务入口。默认情况下，Istio 配置 Envoy 代理将请求传递给未知服务。然而，您不能使用 Istio 的特性来控制没有在网格中注册的目标流量。
 
 ### 服务入口示例 {#service-entry-example}
 
-The following example mesh-external service entry adds the `ext-resource`
-external dependency to Istio’s service registry:
+下面示例的 mesh-external 服务入口将`ext-resource`外部依赖项添加到 Istio 的服务注册中心：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -431,19 +349,9 @@ spec:
     resolution: DNS
 {{< /text >}}
 
-You specify the external resource using the `hosts` field. You can qualify it
-fully or use a wildcard prefixed domain name.
+你指定的外部资源使用 `hosts` 字段。 您可以使用完全限定名或使用通配符作为前缀的域名。
 
-您可以配置虚拟服务和目标规则来控制a的流量
-以更细粒度的方式输入服务，与您配置流量的方式相同
-网格中的任何其他服务。例如，下面的目标规则
-将通信路由配置为使用相互TLS来保护到的连接
-我们使用服务条目配置的外部服务:
-You can configure virtual services and destination rules to control traffic to a
-service entry in a more granular way, in the same way you configure traffic for
-any other service in the mesh. For example, the following destination rule
-configures the traffic route to use mutual TLS to secure the connection to the
-`ext-svc.example.com` external service that we configured using the service entry:
+您可以配置虚拟服务和目标规则，以更细粒度的方式控制到服务入口的流量，这与网格中的任何其他服务配置流量的方式相同。例如，下面的目标规则配置流量路由以使用双向TLS来保护到`ext-svc.example.com`外部服务的连接，我们使用服务入口配置了该外部服务：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -460,9 +368,7 @@ spec:
       caCertificates: /etc/certs/rootcacerts.pem
 {{< /text >}}
 
-See the
-[Service Entry reference](/zh/docs/reference/config/networking/service-entry)
-for more possible configuration options.
+查看[服务入口参考](/zh/docs/reference/config/networking/service-entry)获取更多可能的配置项。
 
 ## Sidecars {#sidecars}
 
