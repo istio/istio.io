@@ -47,7 +47,7 @@ CEXL 支持如下函数。
 |`.endsWith` | 字符串后缀匹配 | `destination.service.endsWith("acme")`  | 检查 `destination.service` 的值是否结束于 `"acme"`。
 |`emptyStringMap` | 创建一个空的 string map | `request.headers` <code>&#124;</code> `emptyStringMap()`| 为 `request.headers` 使用 `emptyStringMap` 去创建一个空的 string map 作为默认值。
 |`conditional` | 三元运算 | `conditional((context.reporter.kind` <code>&#124;</code> `"inbound") == "outbound", "client", "server")` | report kind 是 `outbound` 时返回 `"client"`，否则返回 `"server"`。
-|`toLower` | 将字符串转换成小写 | `toLower("User-Agent")` | 返回 `"user-agent"`.
+|`toLower` | 将字符串转换成小写 | `toLower("User-Agent")` | 返回 `"user-agent"`
 |`size` | 字符串的长度 | `size("admin")` | 返回 5
 
 ## 类型检查{#type-checking}
