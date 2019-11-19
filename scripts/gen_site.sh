@@ -39,6 +39,7 @@ babel --source-maps --minified --no-comments \
   tmp/js/prism.js \
   tmp/js/codeBlocks.js \
   tmp/js/links.js \
+  tmp/js/readTracking.js \
   tmp/js/scroll.js \
   tmp/js/overlays.js \
   tmp/js/lang.js \
