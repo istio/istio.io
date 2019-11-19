@@ -4,7 +4,7 @@ description: Describes how to enable egress traffic for a set of hosts in a comm
 keywords: [traffic-management,egress]
 weight: 50
 aliases:
-  - /docs/examples/advanced-gateways/wildcard-egress-hosts/
+  - /zh/docs/examples/advanced-gateways/wildcard-egress-hosts/
 ---
 
 The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task and

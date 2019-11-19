@@ -6,5 +6,5 @@ weight: 50
 layout: faq
 icon: faq
 aliases:
-  - /help/faq/traffic-management
+  - /zh/help/faq/traffic-management
 ---

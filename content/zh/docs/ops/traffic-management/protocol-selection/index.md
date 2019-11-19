@@ -17,6 +17,7 @@ Istio 默认支持代理所有 TCP 流量，但为了提供附加的能力，比
 下列协议是被支持的：
 
 - `grpc`
+- `grpc-web`
 - `http`
 - `http2`
 - `https`

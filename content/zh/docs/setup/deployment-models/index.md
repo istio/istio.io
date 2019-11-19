@@ -13,8 +13,8 @@ keywords:
 - single-mesh
 - multiple-meshes
 aliases:
-- /docs/concepts/multicluster-deployments/
-- /docs/concepts/deployment-models
+- /zh/docs/concepts/multicluster-deployments/
+- /zh/docs/concepts/deployment-models
 ---
 
 Important system models impact your overall Istio deployment model. This page

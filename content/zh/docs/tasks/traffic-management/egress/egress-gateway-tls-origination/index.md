@@ -4,7 +4,7 @@ description: Describes how to configure an Egress Gateway to perform TLS origina
 weight: 40
 keywords: [traffic-management,egress]
 aliases:
-  - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
+  - /zh/docs/examples/advanced-gateways/egress-gateway-tls-origination/
 ---
 
 The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)

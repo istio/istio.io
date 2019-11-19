@@ -70,7 +70,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
     EOF
     {{< /text >}}
 
-1.  通过该[说明指南](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)获取 ingress 网关 IP 和端口。
+1.  通过该[说明指南](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)获取 ingress 网关 IP 和端口。
 您可以通过 Istio ingress 来验证将要访问到的 Endpoints 服务。
 
     {{< text bash >}}

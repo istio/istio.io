@@ -6,9 +6,9 @@ publishdate: 2019-04-05
 attribution: The Istio Team
 release: 1.1.2
 aliases:
-    - /about/notes/1.1.2
-    - /blog/2019/announcing-1.1.2
-    - /news/announcing-1.1.2
+    - /zh/about/notes/1.1.2
+    - /zh/blog/2019/announcing-1.1.2
+    - /zh/news/announcing-1.1.2
 ---
 
 We're announcing immediate availability of Istio 1.1.2 which contains some important security updates. Please see below for details.
@@ -57,9 +57,9 @@ policies or the routing rules, an attacker could exploit these vulnerabilities t
 
 Eliminating the vulnerabilities requires updating to a corrected version of Envoy. We’ve incorporated the necessary updates in the latest Istio patch releases.
 
-For Istio 1.1.x deployments: update to a minimum of [Istio 1.1.2](/news/2019/announcing-1.1.2)
+For Istio 1.1.x deployments: update to a minimum of [Istio 1.1.2](/news/releases/1.1.x/announcing-1.1.2)
 
-For Istio 1.0.x deployments: update to a minimum of [Istio 1.0.7](/news/2019/announcing-1.0.7)
+For Istio 1.0.x deployments: update to a minimum of [Istio 1.0.7](/news/releases/1.0.x/announcing-1.0.7)
 
 While Envoy 1.9.1 requires opting in to path normalization to address CVE 2019-9901, the version of Envoy embedded in Istio 1.1.2 and 1.0.7 enables path
 normalization by default.

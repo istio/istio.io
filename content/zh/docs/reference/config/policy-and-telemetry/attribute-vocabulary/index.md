@@ -3,8 +3,8 @@ title: Attribute Vocabulary
 description: Describes the base attribute vocabulary used for policy and control.
 weight: 10
 aliases:
-    - /docs/reference/config/mixer/attribute-vocabulary.html
-    - /docs/reference/config/mixer/aspects/attributes.html
+    - /zh/docs/reference/config/mixer/attribute-vocabulary.html
+    - /zh/docs/reference/config/mixer/aspects/attributes.html
 ---
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are

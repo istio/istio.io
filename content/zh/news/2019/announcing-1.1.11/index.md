@@ -5,9 +5,9 @@ publishdate: 2019-07-03
 attribution: The Istio Team
 release: 1.1.11
 aliases:
-    - /about/notes/1.1.11
-    - /blog/2019/announcing-1.1.11
-    - /news/announcing-1.1.11
+    - /zh/about/notes/1.1.11
+    - /zh/blog/2019/announcing-1.1.11
+    - /zh/news/announcing-1.1.11
 ---
 
 We're pleased to announce the availability of Istio 1.1.11. Please see below for what's changed.

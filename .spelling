@@ -145,6 +145,7 @@ Customizable
 CVE
 CVE-2019-14993
 CVE-2019-15226
+CVE-2019-18817
 CVE-2019-9512
 CVE-2019-9513
 CVE-2019-9514
@@ -162,6 +163,8 @@ decapsulated
 Delayering
 Demailly
 deployment
+deserialize
+deserializing
 dev
 devirtualization
 Devirtualization
@@ -275,6 +278,7 @@ istio-mixer
 ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
 ISTIO-SECURITY-2019-005
+ISTIO-SECURITY-2019-006
 istio-system
 istio.io
 istio.io.
@@ -317,10 +321,12 @@ linter
 linters
 liveness
 loopback
+Lua
 Lyft
 macOS
 Mandar
 Manolache
+Marshalers
 memcached
 memcached-2's
 Mesos
@@ -409,6 +415,7 @@ prober
 programmatically
 proto
 protobuf
+protoc
 protos
 proxied
 proxy_http_version
@@ -534,6 +541,8 @@ uncommented
 Undeploy
 unencrypted
 unmanaged
+Unmarshalers
+Unmarshaling
 unnormalized
 unsampled
 untrusted
@@ -563,8 +572,8 @@ veth-pair
 virtualization
 Virtualization
 virtualservices-destrules
+VM
 vm-1
-VM-based
 VMs
 VMware
 VPN

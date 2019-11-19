@@ -49,8 +49,7 @@ This approach has the following benefits:
 
 ## Before you begin
 
-* Follow the [install instructions](/docs/setup/install/istioctl/)
-  to set up Istio with SDS and global mutual TLS enabled.
+Follow the [Istio installation guide](/docs/setup/install/helm/) to set up Istio with SDS and global mutual TLS enabled.
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
 
@@ -229,7 +228,7 @@ To enable the pod security policy, perform the following steps:
 1. Run the following command to restart the Citadel agents:
 
     {{< text bash >}}
-    $ kubectl delete pod -l 'app=nodeagent' -n istio-system
+    $ kubectl delete pod -l 'app=istio-nodeagent' -n istio-system
     pod "istio-nodeagent-dplx2" deleted
     pod "istio-nodeagent-jrbmx" deleted
     pod "istio-nodeagent-rz878" deleted
@@ -239,7 +238,7 @@ To enable the pod security policy, perform the following steps:
    and run the following command to confirm the agents started successfully:
 
     {{< text bash >}}
-    $ kubectl get pod -l 'app=nodeagent' -n istio-system
+    $ kubectl get pod -l 'app=istio-nodeagent' -n istio-system
     NAME                    READY   STATUS    RESTARTS   AGE
     istio-nodeagent-p4p7g   1/1     Running   0          4s
     istio-nodeagent-qdwj6   1/1     Running   0          5s

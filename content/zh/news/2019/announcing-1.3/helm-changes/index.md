@@ -4,7 +4,7 @@ description: Details the Helm chart installation options differences between Ist
 weight: 30
 keywords: [kubernetes, helm, install, options]
 aliases:
-    - /docs/reference/config/installation-options-changes
+    - /zh/docs/reference/config/installation-options-changes
 ---
 
 The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.2 and Istio 1.3. The tables are grouped in to three different categories:

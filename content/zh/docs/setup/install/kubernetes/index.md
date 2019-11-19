@@ -4,8 +4,8 @@ description: Instructions to install Istio in a Kubernetes cluster for evaluatio
 weight: 5
 keywords: [kubernetes]
 aliases:
-    - /docs/setup/kubernetes/quick-start/
-    - /docs/setup/kubernetes/install/kubernetes/
+    - /zh/docs/setup/kubernetes/quick-start/
+    - /zh/docs/setup/kubernetes/install/kubernetes/
 ---
 
 This guide installs Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
@@ -25,7 +25,7 @@ requirements.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 

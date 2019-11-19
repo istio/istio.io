@@ -15,7 +15,7 @@ In certain deployments, you may want to use your own certificate authority
 instead of Citadel. In those cases, Citadel ends up being used strictly for
 its DNS certificate provisioning functionality. Rather than having to deploy
 Citadel at all in this case, you can instead leverage Chiron, a lightweight
-component that signs certificates using the Kubernetes CA APIs without maintaining its own private key.
+component linked with Pilot that signs certificates using the Kubernetes CA APIs without maintaining its own private key.
 
 This task shows how to provision and manage DNS certificates for Istio control
 plane components through Chiron. Using this feature has the following advantages:
@@ -32,7 +32,7 @@ plane components through Chiron. Using this feature has the following advantages
 The configuration is read when Pilot starts.
 
 {{< text bash >}}
-$ cat <<EOF | istioctl manifest apply -f -
+$ cat <<EOF > ./istio.yaml
 apiVersion: install.istio.io/v1alpha2
 kind: IstioControlPlane
 spec:
@@ -44,6 +44,7 @@ spec:
         - secretName: dns.istio-sidecar-injector-service-account
           dnsNames: [istio-sidecar-injector.istio-system.svc, istio-sidecar-injector.istio-system]
 EOF
+$ istioctl manifest apply -f ./istio.yaml
 {{< /text >}}
 
 * Install [`jq`](https://stedolan.github.io/jq/) for validating the results from running the task.

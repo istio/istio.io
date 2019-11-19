@@ -3,7 +3,7 @@ title: Change Notes
 description: Istio 1.2 release notes.
 weight: 10
 aliases:
-    - /about/notes/1.2
+    - /zh/about/notes/1.2
 ---
 
 ## General
@@ -42,7 +42,7 @@ aliases:
 ## Policy
 
 - **Fixed** [Mixer based](https://github.com/istio/istio/issues/13868)TCP Policy enforcement.
-- **Graduated** [Authorization (RBAC)](/docs/reference/config/authorization/istio.rbac.v1alpha1/) from Alpha to Alpha API and Beta runtime.
+- **Graduated** [Authorization (RBAC)](/docs/reference/config/security/istio.rbac.v1alpha1/) from Alpha to Alpha API and Beta runtime.
 
 ## Configuration management
 
@@ -58,7 +58,7 @@ aliases:
 - **Added** support to configure the Datadog location via [`global.tracer.datadog.address`](/docs/reference/config/installation-options/#global-options).
 - **Removed** Previously [deprecated]( https://discuss.istio.io/t/deprecation-notice-custom-mixer-adapter-crds/2055) Adapter and Template CRDs are disabled by default. Use  `mixer.templates.useTemplateCRDs=true` and `mixer.adapters.useAdapterCRDs=true` install options to re-enable them.
 
-Refer to the [installation option change page](/news/2019/announcing-1.2/helm-changes/) to view the complete list of changes.
+Refer to the [installation option change page](/news/releases/1.2.x/announcing-1.2/helm-changes/) to view the complete list of changes.
 
 ## `istioctl` and `kubectl`
 

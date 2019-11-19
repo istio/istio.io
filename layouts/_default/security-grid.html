@@ -1,0 +1,52 @@
+{{ define "main" }}
+
+{{ .Scratch.Set "skipSeeAlso" true }}
+
+{{ partial "primary_top.html" . }}
+
+<p>{{ .Description }}</p>
+
+<div class="security-grid">
+    {{ $pages := (where .Site.Pages "Section" .Section) }}
+    {{ $pages = sort $pages ".Params.publishdate" "desc" }}
+
+    {{ $parent := .Page }}
+    {{ $parentDir := (path.Dir .Page.File.Dir) }}
+
+    <table>
+        <thead>
+            <tr>
+                <th>{{ i18n "security_disclosure" }}</th>
+                <th>{{ i18n "security_related" }}</th>
+                <th>{{ i18n "security_date" }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range $pages }}
+                {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
+                {{ if eq $parentDir $pageLocation }}
+                    <tr>
+                        <td><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></td>
+                        {{ if .Params.cve }}
+                            <td>
+                                {{ $first := true }}
+                                {{ range $cve := .Params.cve }}
+                                    {{- if not $first -}}, {{ end -}}
+                                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ $cve }}">{{ $cve}}<a>
+                                    {{- $first = false -}}
+                                {{ end }}
+                            </td>
+                        {{ else }}
+                            <td>{{ trim .Description "." -}}</td>
+                        {{ end }}
+                        <td>{{ .PublishDate.Format (i18n "page_publish_date_format") -}}</td>
+                    </tr>
+                {{ end }}
+            {{ end }}
+        </tbody>
+    </table>
+</div>
+
+{{ partial "primary_bottom.html" . }}
+
+{{ end }}

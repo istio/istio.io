@@ -4,9 +4,9 @@ description: Describes how to resolve Galley configuration problems.
 force_inline_toc: true
 weight: 50
 aliases:
-    - /help/ops/setup/validation
-    - /help/ops/troubleshooting/validation
-    - /docs/ops/troubleshooting/validation
+    - /zh/help/ops/setup/validation
+    - /zh/help/ops/troubleshooting/validation
+    - /zh/docs/ops/troubleshooting/validation
 ---
 
 ## Seemingly valid configuration is rejected
@@ -284,7 +284,7 @@ istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-galley
 NAME           ENDPOINTS                          AGE
-istio-galley   10.48.6.108:10514,10.48.6.108:443   3d
+istio-galley   10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and
