@@ -4,8 +4,8 @@ description: Describes how to use ControlZ to get insight into individual runnin
 weight: 60
 keywords: [ops]
 aliases:
-  - /help/ops/controlz
-  - /docs/ops/troubleshooting/controlz
+  - /zh/help/ops/controlz
+  - /zh/docs/ops/troubleshooting/controlz
 ---
 
 Istio components are built with a flexible introspection framework which makes it easy to inspect and manipulate the internal state

@@ -143,6 +143,16 @@ Galley and the sidecar injector.
     $ kubectl get validatingwebhookconfiguration
     {{< /text >}}
 
+    If there are existing webhook configurations (e.g., from a previous Istio deployment) for
+    Galley and the sidecar injector, delete them using the following commands. Before running
+    these commands, replace the webhook configuration names in the commands with the
+    actual webhook configuration names of Galley and the sidecar injector in your cluster.
+
+    {{< text bash >}}
+    $ kubectl delete mutatingwebhookconfiguration SIDECAR-INJECTOR-WEBHOOK-CONFIGURATION-NAME
+    $ kubectl delete validatingwebhookconfiguration GALLEY-WEBHOOK-CONFIGURATION-NAME
+    {{< /text >}}
+
 1.  Use `istioctl` to enable the webhook configurations:
 
     {{< text bash >}}
@@ -246,4 +256,6 @@ You can run the following command to delete the resources created in this tutori
 
 {{< text bash >}}
 $ kubectl delete ns test-injection test-validation
+$ kubectl delete -f galley-webhook.yaml
+$ kubectl delete -f sidecar-injector-webhook.yaml
 {{< /text >}}

@@ -5,9 +5,9 @@ publishdate: 2019-08-02
 attribution: The Istio Team
 release: 1.1.12
 aliases:
-    - /about/notes/1.1.12
-    - /blog/2019/announcing-1.1.12
-    - /news/announcing-1.1.12
+    - /zh/about/notes/1.1.12
+    - /zh/blog/2019/announcing-1.1.12
+    - /zh/news/announcing-1.1.12
 ---
 
 We're pleased to announce the availability of Istio 1.1.12. Please see below for what's changed.

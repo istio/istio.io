@@ -4,7 +4,7 @@ description: Overview of distributed tracing in Istio.
 weight: 1
 keywords: [telemetry,tracing]
 aliases:
- - /docs/tasks/telemetry/distributed-tracing/overview/
+ - /zh/docs/tasks/telemetry/distributed-tracing/overview/
 ---
 
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.

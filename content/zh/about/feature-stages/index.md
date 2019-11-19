@@ -3,10 +3,10 @@ title: Feature Status
 description: List of features and their release stages.
 weight: 10
 aliases:
-    - /docs/reference/release-roadmap.html
-    - /docs/reference/feature-stages.html
-    - /docs/welcome/feature-stages.html
-    - /docs/home/roadmap.html
+    - /zh/docs/reference/release-roadmap.html
+    - /zh/docs/reference/feature-stages.html
+    - /zh/docs/welcome/feature-stages.html
+    - /zh/docs/home/roadmap.html
 icon: feature-status
 ---
 

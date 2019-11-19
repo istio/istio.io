@@ -1,7 +1,7 @@
 ---
 title: Architecture
 description: Describes Istio's high-level architecture and design goals.
-weight: 20
+weight: 5
 aliases:
 - /docs/concepts/architecture
 ---

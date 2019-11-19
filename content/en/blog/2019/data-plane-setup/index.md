@@ -10,7 +10,7 @@ target_release: 1.0
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 
-[From Istio’s documentation:]/docs/ops/architecture/)
+[From Istio’s documentation:](/docs/ops/architecture/)
 
 {{< quote >}}
 An Istio service mesh is logically split into a data plane and a control plane.
@@ -33,7 +33,7 @@ It is important to understand that the sidecar injection into the application po
 In simple terms, sidecar injection is adding the configuration of additional containers to the pod template. The added containers needed for the Istio service mesh are:
 
 `istio-init`
-This [init container] (<https://kubernetes.io/docs/concepts/workloads/pods/init-containers/>) is used to setup the `iptables` rules so that inbound/outbound traffic will go through the sidecar proxy. An init container is different than an app container in following ways:
+This [init container](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) is used to setup the `iptables` rules so that inbound/outbound traffic will go through the sidecar proxy. An init container is different than an app container in following ways:
 
 - It runs before an app container is started and it always runs to completion.
 - If there are many init containers, each should complete with success before the next container is started.

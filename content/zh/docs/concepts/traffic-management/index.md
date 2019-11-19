@@ -4,13 +4,13 @@ description: Describes the various Istio features focused on traffic routing and
 weight: 20
 keywords: [traffic-management,pilot, envoy-proxies, service-discovery, load-balancing]
 aliases:
-    - /docs/concepts/traffic-management/pilot
-    - /docs/concepts/traffic-management/rules-configuration
-    - /docs/concepts/traffic-management/fault-injection
-    - /docs/concepts/traffic-management/handling-failures
-    - /docs/concepts/traffic-management/load-balancing
-    - /docs/concepts/traffic-management/request-routing
-    - /docs/concepts/traffic-management/pilot.html
+    - /zh/docs/concepts/traffic-management/pilot
+    - /zh/docs/concepts/traffic-management/rules-configuration
+    - /zh/docs/concepts/traffic-management/fault-injection
+    - /zh/docs/concepts/traffic-management/handling-failures
+    - /zh/docs/concepts/traffic-management/load-balancing
+    - /zh/docs/concepts/traffic-management/request-routing
+    - /zh/docs/concepts/traffic-management/pilot.html
 ---
 
 Istio’s traffic routing rules let you easily control the flow
@@ -29,7 +29,7 @@ changes to your services.
 
 If you’re interested in the details of how the features described in this guide
 work, you can find out more about Istio’s traffic management implementation in the
-[architecture overview]/docs/ops/architecture/). The rest of
+[architecture overview](/docs/ops/architecture/). The rest of
 this guide introduces Istio’s traffic management features.
 
 ## Introducing Istio Traffic Management
@@ -461,7 +461,7 @@ configure a purely internal proxy.
 
 Istio provides some preconfigured gateway proxy deployments
 (`istio-ingressgateway` and `istio-egressgateway`) that you can use - both are
-deployed if you use our [demo installation](/docs/setup/install/kubernetes/),
+deployed if you use our [demo installation](/docs/setup/getting-started/),
 while just the ingress gateway is deployed with our
 [default or sds profiles.](/docs/setup/additional-setup/config-profiles/) You
 can apply your own gateway configurations to these deployments or deploy and
@@ -529,7 +529,7 @@ traffic for services running outside of the mesh, including the following tasks:
 -   Define [retry](#retries), [timeout](#timeouts), and
     [fault injection](#fault-injection) policies for external destinations.
 -   Add a service running in a Virtual Machine (VM) to the mesh to
-    [expand your mesh](/docs/examples/mesh-expansion/single-network/#running-services-on-a-mesh-expansion-machine).
+    [expand your mesh](/docs/examples/virtual-machines/single-network/#running-services-on-the-added-vm).
 -   Logically add services from a different cluster to the mesh to configure a
     [multicluster Istio mesh](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
     on Kubernetes.

@@ -49,10 +49,10 @@ application.
     In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    $ istioctl dashboard prometheus
     {{< /text >}}
 
-    Visit [http://localhost:9090/graph](http://localhost:9090/graph) in your web browser.
+    Click **Graph** in Prometheus.
 
 1.  Execute a Prometheus query.
 
@@ -108,10 +108,10 @@ docs](https://prometheus.io/docs/querying/basics/).
 
 ## Cleanup
 
--   Remove any `kubectl port-forward` processes that may still be running:
+-   Remove any `istioctl` processes that may still be running using control-C or:
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
 -   If you are not planning to explore any follow-on tasks, refer to the
