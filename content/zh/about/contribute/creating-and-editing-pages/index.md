@@ -661,7 +661,7 @@ $ make serve
 
 这将构建站点并启动托管该站点的 Web 服务器。然后，您可以通过 `http://localhost:1313` 连接到Web服务器。
 
-要从远程服务器创建站点并为其提供服务，请按如下所示用服务器的IP地址或DNS域覆盖 `ISTIO_SERVE_DOMAIN`：
+要从远程服务器创建站点并为其提供服务，请按如下所示用服务器的 IP 地址或 DNS 域覆盖 `ISTIO_SERVE_DOMAIN`：
 
 {{< text bash >}}
 $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
