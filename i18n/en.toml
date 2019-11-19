@@ -243,3 +243,6 @@ other = "Related"
 
 [security_date]
 other = "Date"
+
+[mark_all_as_read]
+other = "Mark all as read"
