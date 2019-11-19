@@ -1,74 +1,76 @@
 ---
-title: Expression Language
-description: Mixer configuration expression language reference.
+title: 表达式语言
+description: Mixer 配置表达式语言手册。
 weight: 20
 aliases:
     - /zh/docs/reference/config/mixer/expression-language.html
 ---
 
-This page describes how to use the Mixer configuration expression language (CEXL).
+这篇文档描述了怎样使用 Mixer 配置表达式语言(CEXL)。
 
-## Background
+## 底层{#background}
 
-Mixer configuration uses an expression language (CEXL) to specify match expressions and [mapping expressions](/docs/reference/config/policy-and-telemetry/mixer-overview/#attribute-expressions). CEXL expressions map a set of typed [attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) and constants to a typed
-[value](https://github.com/istio/api/blob/{{< source_branch_name >}}/policy/v1beta1/value_type.proto).
+Mixer 配置使用了一种表达式语言(CEXL)去描述 match expressions 以及 [mapping expressions](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attribute-expressions)。
+CEXL 表达式为有类型的[值](https://github.com/istio/api/blob/{{< source_branch_name >}}/policy/v1beta1/value_type.proto)映射了一组带类型的[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)和常量。
 
-## Syntax
+## 语法{#syntax}
 
-CEXL accepts a subset of **[Go expressions](https://golang.org/ref/spec#Expressions)**, which defines the syntax. CEXL implements a subset of the Go operators that constrains the set of accepted Go expressions. CEXL also supports arbitrary parenthesization.
+CEXL 使用 **[Go 表达式](https://golang.org/ref/spec#Expressions)**的一个子集作为语法。
+CEXL 实现了一组 Go 操作符来限制这部分有限的 Go 表达式。
+CEXL 同样支持任意的括号。
 
-## Functions
+## 函数{#functions}
 
-CEXL supports the following functions.
+CEXL 支持如下函数。
 
-|Operator/Function |Definition |Example | Description|
+|操作符/函数 |定义 |例子 | 描述|
 |------------------|-----------|--------|------------|
-|`==` |Equals |`request.size == 200`
-|`!=` |Not Equals |`request.auth.principal != "admin"`
-|<code>&#124;&#124;</code> |Logical OR | `(request.size == 200)` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`
-|`&&` |Logical AND | `(request.size == 200) && (request.auth.principal == "admin")`
-|`[ ]` |Map Access | `request.headers["x-request-id"]`
-|`+` |Add | `request.host + request.path`
-|`>` |Greater Than | `response.code > 200`
-|`>=` |Greater Than or Equal to | `request.size >= 100`
-|`<` |Less Than | `response.code < 500`
-|`<=` |Less Than or Equal to | `request.size <= 100`
-|<code>&#124;</code> |First non empty | `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
-|`match` | Glob match |`match(destination.service, "*.ns1.svc.cluster.local")` | Matches prefix or suffix based on the location of `*`
-|`email` | Convert a textual e-mail into the `EMAIL_ADDRESS` type | `email("awesome@istio.io")` | Use the `email` function to create an `EMAIL_ADDRESS` literal.
-|`dnsName` | Convert a textual DNS name into the `DNS_NAME` type | `dnsName("www.istio.io")` | Use the `dnsName` function to create a `DNS_NAME` literal.
-|`ip` | Convert a textual IPv4 address into the `IP_ADDRESS` type | `source.ip == ip("10.11.12.13")` | Use the `ip` function to create an `IP_ADDRESS` literal.
-|`timestamp` | Convert a textual timestamp in RFC 3339 format into the `TIMESTAMP` type | `timestamp("2015-01-02T15:04:35Z")` | Use the `timestamp` function to create a `TIMESTAMP` literal.
-|`uri` | Convert a textual URI into the `URI` type | `uri("http://istio.io")` | Use the `uri` function to create a `URI` literal.
-|`.matches` | Regular expression match | `"svc.*".matches(destination.service)` | Matches `destination.service` against regular expression pattern `"svc.*"`.
-|`.startsWith` | string prefix match | `destination.service.startsWith("acme")` | Checks whether `destination.service` starts with `"acme"`.
-|`.endsWith` | string postfix match | `destination.service.endsWith("acme")`  | Checks whether `destination.service` ends with `"acme"`.
-|`emptyStringMap` | Create an empty string map | `request.headers` <code>&#124;</code> `emptyStringMap()`| Use `emptyStringMap` to create an empty string map for default value of `request.headers`.
-|`conditional` | Simulate ternary operator | `conditional((context.reporter.kind` <code>&#124;</code> `"inbound") == "outbound", "client", "server")` | Returns `"client"` if report kind is `outbound` otherwise returns `"server"`.
-|`toLower` | Convert a string to lowercase letters | `toLower("User-Agent")` | Returns `"user-agent"`.
-|`size` | Length of a string | `size("admin")` | Returns 5
+|`==` |相等 |`request.size == 200`
+|`!=` |不等 |`request.auth.principal != "admin"`
+|<code>&#124;&#124;</code> |逻辑或 | `(request.size == 200)` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`
+|`&&` |逻辑与 | `(request.size == 200) && (request.auth.principal == "admin")`
+|`[ ]` |Map 取值 | `request.headers["x-request-id"]`
+|`+` |加 | `request.host + request.path`
+|`>` |大于 | `response.code > 200`
+|`>=` |大于等于 | `request.size >= 100`
+|`<` |小于 | `response.code < 500`
+|`<=` |小于等于 | `request.size <= 100`
+|<code>&#124;</code> | 取首个非空元素 | `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
+|`match` | 通配符匹配 |`match(destination.service, "*.ns1.svc.cluster.local")` | 以 `*` 的位置匹配前缀或后缀
+|`email` | 将文本类型的 e-mail 转换为 `EMAIL_ADDRESS` 类型 | `email("awesome@istio.io")` | 使用 `email` 函数创建一个 `EMAIL_ADDRESS` 字面量。
+|`dnsName` | 将文本类型的 DNS 转换为 `DNS_NAME` 类型 | `dnsName("www.istio.io")` | 使用 `dnsName` 函数创建一个 `DNS_NAME` 字面量。
+|`ip` | 将文本类型的 IPv4 地址转换为 `IP_ADDRESS` type | `source.ip == ip("10.11.12.13")` | 使用 `ip` 函数创建一个 `IP_ADDRESS` 字面量。
+|`timestamp` | 将文本类型的 RFC 3339 时间戳格式转换为 `TIMESTAMP` 类型 | `timestamp("2015-01-02T15:04:35Z")` | 使用 `timestamp` 函数创建一个 `TIMESTAMP` 字面量。
+|`uri` | 将文本类型的 URI 转换为 `URI` 类型 | `uri("http://istio.io")` | 使用 `uri` 函数创建一个 `URI` 字面量。
+|`.matches` | 正则表达式匹配 | `"svc.*".matches(destination.service)` | 通过正则表达式 `"svc.*"` 匹配 `destination.service`。
+|`.startsWith` | 字符串前缀匹配 | `destination.service.startsWith("acme")` | 检查 `destination.service` 的值是否开始于 `"acme"`。
+|`.endsWith` | 字符串后缀匹配 | `destination.service.endsWith("acme")`  | 检查 `destination.service` 的值是否结束于 `"acme"`。
+|`emptyStringMap` | 创建一个空的 string map | `request.headers` <code>&#124;</code> `emptyStringMap()`| 为 `request.headers` 使用 `emptyStringMap` 去创建一个空的 string map 作为默认值。
+|`conditional` | 三元运算 | `conditional((context.reporter.kind` <code>&#124;</code> `"inbound") == "outbound", "client", "server")` | report kind 是 `outbound` 时返回 `"client"`，否则返回 `"server"`。
+|`toLower` | 将字符串转换成小写 | `toLower("User-Agent")` | 返回 `"user-agent"`
+|`size` | 字符串的长度 | `size("admin")` | 返回 5
 
-## Type checking
+## 类型检查{#type-checking}
 
-CEXL variables are attributes from the typed [attribute vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), constants are implicitly typed and, functions are explicitly typed.
+CEXL 变量是[属性词汇表](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)中的某个属性，常量是隐式类型，函数是显式类型。
 
-Mixer validates a CEXL expression and resolves it to a type during configuration validation.
-Selectors must resolve to a boolean value and mapping expressions must resolve to the type they are mapping into. Configuration validation fails if a selector fails to resolve to a boolean or if a mapping expression resolves to an incorrect type.
+Mixer 验证 CEXL 表达式的语法并在配置验证期间解析为一个类型。
+选择器必须解析为 boolean 类型且 mapping expressions 必须解析为它所映射的类型。当选择器解析为 boolean 类型失败或 mapping expression 解析为不正确的类型时配置验证将失败。
 
-For example, if an operator specifies a *string* label as `request.size | 200`, validation fails because the expression resolves to an integer.
+比如，如果一个操作人员指定了一个 *string* 标签为 `request.size | 200`，这个表达式解析为 integer 类型从而验证将失败。
 
-## Missing attributes
+## 属性缺失{#missing-attributes}
 
-If an expression uses an attribute that is not available during request processing, the expression evaluation fails. Use the `|` operator to provide a default value if an attribute may be missing.
+如果表达式使用了一个在请求处理期间不可用的属性，则表达式将执行失败。如果属性可能缺失，请使用`|`运算符提供默认值。
 
-For example, the expression `request.auth.principal == "user1"` fails evaluation if the `request.auth.principal` attribute is missing. The `|` (OR) operator addresses the problem: `(request.auth.principal | "nobody" ) == "user1"`.
+比如，如果表达式 `request.auth.principal` 属性是缺失的则 `request.auth.principal == "user1"` 将执行失败。`|` (或) 运算符可以处理这个问题： `(request.auth.principal | "nobody" ) == "user1"`。
 
-## Examples
+## 例子{#examples}
 
-|Expression |Return Type |Description|
+|表达式 |返回类型 |描述|
 |-----------|------------|-----------|
-|`request.size` <code>&#124; 200</code> |  **int** | `request.size` if available, otherwise 200.
+|`request.size` <code>&#124; 200</code> |  **int** | `request.size` 在可用时返回其值，否则返回 200。
 |`request.headers["x-forwarded-host"] == "myhost"`| **boolean**
-|`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`| **boolean**| True if the user is admin or in the admin group.
-|`(request.auth.principal` <code>&#124;</code> `"nobody" ) == "user1"` | **boolean** | True if `request.auth.principal` is "user1", The expression will not error out if `request.auth.principal` is missing.
-|`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | True if app label is reviews and version label is v3, false otherwise.
+|`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`| **boolean**| user 是 admin 或属于 admin 组时 结果为 True。
+|`(request.auth.principal` <code>&#124;</code> `"nobody" ) == "user1"` | **boolean** | 如果 `request.auth.principal` 是 "user1" 则结果是 True，且 `request.auth.principal` 属性缺失时不会报错。
+|`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | 如果 app label 是 reviews 且 version label 是 v3 则结果是 True， 否则是 false。
