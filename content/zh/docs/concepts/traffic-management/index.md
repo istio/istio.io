@@ -372,33 +372,14 @@ spec:
 
 ## Sidecars {#sidecars}
 
-By default, Istio configures every Envoy proxy to accept traffic on all the
-ports of its associated workload, and to reach every workload in the mesh when
-forwarding traffic. You can use a [sidecar](/zh/docs/reference/config/networking/sidecar/#Sidecar) configuration to do the following:
+默认情况下，Istio 配置每个 Envoy 代理可以访问来自和它关联的工作负载的所有端口的请求，然后转发到每个工作负载。 您可以使用 [sidecar](/zh/docs/reference/config/networking/sidecar/#Sidecar) 配置去做下面的事情：
 
--   Fine-tune the set of ports and protocols that an Envoy proxy accepts.
--   Limit the set of services that the Envoy proxy can reach.
+-   微调 Envoy 代理接受的端口和协议集。
+-   限制 Envoy 代理可以访问的服务集合。
 
-你可能想要在更大的应用中像这样限制边车的可达性，
-将每个代理都配置为可以访问网格中的所有其他服务
-由于高内存使用量，可能会影响网格的性能。
+您可能希望在较庞大的应用程序中限制这样的 sidecar 可达性，配置每个代理能访问网格中的任意服务可能会因为高内存使用量而影响网格的性能。
 
-可以指定希望将sidecar配置应用于所有工作负载
-或选择特定的工作负载
-“workloadSelector”。例如，下面的sidecar配置进行配置
-“bookinfo”名称空间中的所有服务只到达在
-相同的名称空间和Istio控制平面(当前需要使用Istio控制平面)
-政策和遥测技术特点):
-You might want to limit sidecar reachability like this in larger applications,
-where having every proxy configured to reach every other service in the mesh can
-potentially affect mesh performance due to high memory usage.
-
-You can specify that you want a sidecar configuration to apply to all workloads
-in a particular namespace, or choose specific workloads using a
-`workloadSelector`. For example, the following sidecar configuration configures
-all services in the `bookinfo` namespace to only reach services running in the
-same namespace and the Istio control plane (currently needed to use Istio’s
-policy and telemetry features):
+您可以指定将 sidecar 配置应用于特定命名空间中的所有工作负载，或者使用`workloadSelector`选择特定的工作负载。例如，下面的 sidecar 配置将`bookinfo`命名空间中的所有服务配置为仅能访问运行在相同命名空间和 Istio 控制平面中的服务（目前需要使用 Istio 的策略和遥测功能）：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -413,54 +394,17 @@ spec:
     - "istio-system/*"
 {{< /text >}}
 
-See the [Sidecar reference](/zh/docs/reference/config/networking/sidecar/)
-for more details.
+查阅 [Sidecar 参考](/zh/docs/reference/config/networking/sidecar/)获取详细信息。
 
 ## 网络弹性和测试 {#network-resilience-and-testing}
 
-除了帮助你引导你的网格周围的交通，Istio还提供了选择
-可以动态配置的故障恢复和故障注入功能
-在运行时。使用这些特性可以帮助您的应用程序可靠地运行，
-确保服务网格能够容忍故障节点并进行预防
-从级联到其他节点的局部故障。
-As well as helping you direct traffic around your mesh, Istio provides opt-in
-failure recovery and fault injection features that you can configure dynamically
-at runtime. Using these features helps your applications operate reliably,
-ensuring that the service mesh can tolerate failing nodes and preventing
-localized failures from cascading to other nodes.
+除了为您的网格导流之外，Istio 还提供了可选的故障恢复和故障注入功能，您可以在运行时动态配置这些功能。使用这些特性可以让您的应用程序运行稳定，确保服务网格能够容忍故障节点，并防止局部故障级联影响到其他节点。
 
 ### 超时 {#timeouts}
 
-超时是特使代理应该等待的回复时间
-一个给定的服务，确保服务不会等待回复
-在可预测的时间范围内调用成功或失败。的
-HTTP请求的默认超时时间是15秒，这意味着如果服务
-15秒内没有响应，通话失败。
+超时是 Envoy 代理等待来自给定服务的答复的时间量，以确保服务不会因为等待答复无限期的挂起，并在可预测的时间范围内调用成功或失败。HTTP 请求的默认超时时间是 15 秒，这意味着如果服务在 15 秒内没有响应，调用将失败。
 
-对于某些应用程序和服务，Istio的默认超时可能不是
-合适的。例如，超时太长可能会导致过度超时
-等待失败服务的响应的延迟，而超时
-太短可能会导致在等待a时不必要地失败
-涉及多个返回服务的操作。找到并使用您的最佳超时时间
-通过设置，Istio可以轻松地动态调整每个服务的超时
-基本使用[虚拟服务](#虚拟服务)而无需编辑您的
-服务代码。这里有一个虚拟服务，它指定了10秒的超时时间
-呼叫评级服务的v1子集:
-A timeout is the amount of time that an Envoy proxy should wait for replies from
-a given service, ensuring that services don’t hang around waiting for replies
-indefinitely and that calls succeed or fail within a predictable timeframe. The
-default timeout for HTTP requests is 15 seconds, which means that if the service
-doesn’t respond within 15 seconds, the call fails.
-
-For some applications and services, Istio’s default timeout might not be
-appropriate. For example, a timeout that is too long could result in excessive
-latency from waiting for replies from failing services, while a timeout that is
-too short could result in calls failing unnecessarily while waiting for an
-operation involving multiple services to return. To find and use your optimal timeout
-settings, Istio lets you easily adjust timeouts dynamically on a per-service
-basis using [virtual services](#virtual-services) without having to edit your
-service code. Here’s a virtual service that specifies a 10 second timeout for
-calls to the v1 subset of the ratings service:
+对于某些应用程序和服务，Istio 的缺省超时可能不合适。例如，超时太长可能会由于等待失败服务的回复而导致过度的延迟，而超时过短则可能在等待涉及多个返回服务的操作时导致调用不必要地失败。为了找到并使用最佳超时设置，Istio 允许您使用[虚拟服务](#virtual-services)在每个服务的基础上轻松地动态调整超时，而不必编辑您的服务代码。下面的示例是一个虚拟服务，它对 ratings 服务的 v1 子集的调用指定10秒超时：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -480,42 +424,9 @@ spec:
 
 ### 重试 {#retries}
 
-重试设置指定特使代理尝试的最大次数
-如果初始调用失败，则连接到服务。重试可以增强服务
-确保调用不会失败，从而提高可用性和应用程序性能
-永久地由于暂时的问题，如暂时超载
-服务或网络。重试之间的间隔(25ms+)是可变的
-由Istio自动确定，防止被调用服务的存在
-不知所措的请求。默认情况下，特使代理不会尝试这样做
-在第一次失败后重新连接到服务。
+重试设置指定如果初始调用失败，Envoy 代理尝试连接服务的最大次数。通过确保调用不会因为临时过载的服务或网络等问题而永久失败，重试可以提高服务可用性和应用程序的性能。重试之间的间隔（25ms+）是可变的，并由 Istio 自动确定，从而防止被调用服务被请求淹没。默认情况下，在第一次失败后，Envoy 代理不会重新尝试连接服务。
 
-与超时一样，Istio的默认重试行为可能不适合您的应用程序
-延迟方面的需求(对失败的服务进行过多的重试会降低速度
-)或可用性。也像超时，你可以调整你的重试设置
-在[虚拟服务](#虚拟服务)中的每个服务基础，而不必
-触摸您的服务代码。您还可以进一步细化您的重试行为
-添加每次重试超时，指定要等待的时间量
-每次重试都试图成功连接到服务。下面的例子
-事件后最多配置3次重试以连接到此服务子集
-初始调用失败，每个调用超时2秒。
-A retry setting specifies the maximum number of times an Envoy proxy attempts to
-connect to a service if the initial call fails. Retries can enhance service
-availability and application performance by making sure that calls don’t fail
-permanently because of transient problems such as a temporarily overloaded
-service or network. The interval between retries (25ms+) is variable and
-determined automatically by Istio, preventing the called service from being
-overwhelmed with requests. By default, the Envoy proxy doesn’t attempt to
-reconnect to services after a first failure.
-
-Like timeouts, Istio’s default retry behavior might not suit your application
-needs in terms of latency (too many retries to a failed service can slow things
-down) or availability. Also like timeouts, you can adjust your retry settings on
-a per-service basis in [virtual services](#virtual-services) without having to
-touch your service code. You can also further refine your retry behavior by
-adding per-retry timeouts, specifying the amount of time you want to wait for
-each retry attempt to successfully connect to the service. The following example
-configures a maximum of 3 retries to connect to this service subset after an
-initial call failure, each with a 2 second timeout.
+与超时一样，Istio 默认的重试行为在延迟方面可能不适合您的应用程序需求（对失败的服务进行过多的重试会降低速度）或可用性。您可以在[虚拟服务](#virtual-services)中按服务调整重试设置，而不必修改服务代码。您还可以通过添加每次重试的超时来进一步细化重试行为，并指定每次重试都试图成功连接到服务所等待的时间量。下面的示例配置了在初始调用失败后最多重试3次来连接到服务子集，每个重试都有2秒的超时。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
