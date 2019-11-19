@@ -1,0 +1,79 @@
+.dot {
+    display: none;
+}
+
+.dot.visible {
+    @media screen {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-bottom: calc(1em / 2);
+        border-radius: 50%;
+        background: $pillBackgroundColor;
+        color: $pillTextColor;
+    }
+}
+
+.pill {
+    display: none;
+}
+
+.pill.visible {
+    @media screen {
+        display: inline-block;
+        position: relative;
+        top: -6px;
+        padding-left: 4px;
+        padding-right: 4px;
+        margin-left: 4px;
+        font-size: 75%;
+        border-radius: 50%;
+        background: $pillBackgroundColor;
+        color: $pillTextColor;
+    }
+}
+
+#mark-all-read {
+    display: none;
+}
+
+#mark-all-read.visible {
+    display: inline;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .275rem .75rem;
+    font-size: .75rem;
+    line-height: 1;
+    border-radius: $border-radius;
+    background-color: $secondBrandColor;
+    color: $textBrandColor;
+    font-weight: $buttonWeight;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 3px 3px 8px #a7a7a7;
+    margin-right: 10px;
+
+    &:hover {
+        background-color: $mainBrandColor;
+        color: $textBrandColor;
+        text-decoration: none;
+    }
+
+    &:active {
+        background-color: $buttonActiveColor;
+        color: $textBrandColor;
+    }
+
+    &:focus {
+        color: $textBrandColor;
+    }
+}
+
+.mark-all-read-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

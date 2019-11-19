@@ -15,11 +15,14 @@
 
     <table>
         <tbody>
+            {{ $decoration := .Params.decoration }}
             {{ range $pages }}
                 {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
                 {{ if eq $parentDir $pageLocation }}
                     <tr>
-                        <td><a href="{{ .Permalink }}">Istio {{ .LinkTitle }}</a></td>
+                        <td><a href="{{ .Permalink }}">Istio {{ .LinkTitle }}
+                                {{- if $decoration -}}<i class="{{ $decoration }}" data-prefix="{{ .RelPermalink }}"></i>{{- end -}}
+                            </a></td>
                         <td>{{ .PublishDate.Format (i18n "page_publish_date_format") -}}</td>
                     </tr>
                 {{ end }}
