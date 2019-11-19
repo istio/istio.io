@@ -4,9 +4,6 @@
 {{ $latest_post := index $posts 0 }}
 {{ $blog_home := .Site.GetPage "section" "blog" }}
 
-{{ $news := (where .Site.Pages "Section" "news").ByPublishDate.Reverse }}
-{{ $news_home := .Site.GetPage "section" "news" }}
-
 <header>
     <nav >
         <a id="brand" href="{{ $home.Permalink }}">
@@ -39,17 +36,17 @@
 
                 {{ with $latest_post }}
                     {{ if eq $section "blog" }}
-                        <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
+                        <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}<i class="dot" data-prefix="/blog"></i></span>
                     {{ else }}
-                        <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                        <a title="{{ $blog_home.Description }}" href="{{ $blog_home.Permalink }}/{{ $latest_post.PublishDate.Year }}">{{ $blog_home.LinkTitle }}<i class="dot" data-prefix="/blog"></i></a>
                     {{ end }}
                 {{ end }}
 
                 {{ with (.Site.GetPage "section" "news")  }}
                     {{ if eq $section "news" }}
-                        <span title="{{ $news_home.Description }}">{{ $news_home.LinkTitle }}</span>
+                        <span title="{{ .Description }}">{{ .LinkTitle }}<i class="dot" data-prefix="/news"></i></span>
                     {{ else }}
-                        <a title="{{ $news_home.Description }}" href="{{ .Permalink }}">{{ $news_home.LinkTitle }}</a>
+                        <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}<i class="dot" data-prefix="/news"></i></a>
                     {{ end }}
                 {{ end }}
 
