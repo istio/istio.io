@@ -11,11 +11,11 @@ aliases:
     - /news/2019/cve-2019-12995
 ---
 
-| Information       | &nbsp;
-|-------------------|--------
-| CVE               | [CVE 2019-12995](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12995)
-| CVSS Impact Score | 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C)
-| Affected Releases | 1.0 to 1.0.8<br>1.1 to 1.1.9<br>1.2 to 1.2.1
+{{< security_bulletin
+        cves="CVE-2019-12995"
+        cvss="7.5"
+        vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C"
+        releases="1.0 to 1.0.8, 1.1 to 1.1.9, 1.2 to 1.2.1" >}}
 
 ## Context
 
