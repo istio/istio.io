@@ -83,6 +83,9 @@ kind: Deployment
 metadata:
   name: helloworld
 spec:
+  selector:
+    matchLabels:
+      app: helloworld
   template:
     metadata:
       labels:
@@ -98,7 +101,7 @@ spec:
         ports:
         - containerPort: 5000
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
