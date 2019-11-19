@@ -22,11 +22,14 @@
             </tr>
         </thead>
         <tbody>
+            {{ $decoration := .Params.decoration }}
             {{ range $pages }}
                 {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
                 {{ if eq $parentDir $pageLocation }}
                     <tr>
-                        <td><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></td>
+                        <td><a href="{{ .Permalink }}">{{ .LinkTitle }}
+                            {{- if $decoration -}}<i class="{{ $decoration }}" data-prefix="{{ .RelPermalink }}"></i>{{- end -}}
+                        </a></td>
                         {{ if .Params.cve }}
                             <td>
                                 {{ $first := true }}
