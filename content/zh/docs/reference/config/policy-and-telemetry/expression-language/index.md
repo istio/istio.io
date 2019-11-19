@@ -36,7 +36,7 @@ CEXL 支持如下函数。
 |`<` |小于 | `response.code < 500`
 |`<=` |小于等于 | `request.size <= 100`
 |<code>&#124;</code> | 取首个非空元素 | `source.labels["app"]` <code>&#124;</code> `source.labels["svc"]` <code>&#124;</code> `"unknown"`
-|`match` | 通配符匹配 |`match(destination.service, "*.ns1.svc.cluster.local")` | 以 `*` 的位置匹配前缀或后缀 
+|`match` | 通配符匹配 |`match(destination.service, "*.ns1.svc.cluster.local")` | 以 `*` 的位置匹配前缀或后缀
 |`email` | 将文本类型的 e-mail 转换为 `EMAIL_ADDRESS` 类型 | `email("awesome@istio.io")` | 使用 `email` 函数创建一个 `EMAIL_ADDRESS` 字面量。
 |`dnsName` | 将文本类型的 DNS 转换为 `DNS_NAME` 类型 | `dnsName("www.istio.io")` | 使用 `dnsName` 函数创建一个 `DNS_NAME` 字面量。
 |`ip` | 将文本类型的 IPv4 地址转换为 `IP_ADDRESS` type | `source.ip == ip("10.11.12.13")` | 使用 `ip` 函数创建一个 `IP_ADDRESS` 字面量。
