@@ -168,6 +168,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
         route:
         - destination:
             host: edition.cnn.com
+            subset: tls-origination
             port:
               number: 443
     ---
@@ -177,14 +178,16 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
       name: edition-cnn-com
     spec:
       host: edition.cnn.com
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+      subsets:
+      - name: tls-origination
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
     EOF
     {{< /text >}}
 
