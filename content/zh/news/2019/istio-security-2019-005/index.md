@@ -8,7 +8,7 @@ attribution: Istio 团队
 今天，我们发布了三个新的 Istio 版本: 1.1.16、1.2.7 和 1.3.2。 这些新的 Istio 版本解决了一些漏洞，这些漏洞可用于使用 Istio 发起针对服务的拒绝服务（DoS）攻击。
 
 __ISTIO-SECURITY-2019-005__: Envoy 和后面的 Istio 容易受到以下 DoS 攻击：
-* __[CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)__: 收到每个传入的请求后, Envoy 将遍历请求标头，以验证请求头的总大小保持在最大限制以下。远程攻击者可能会制作一个请求，该请求的 header 的大小不会超过最大限制，但包含成千上万个小的 header ，来消耗CPU并导致拒绝服务攻击。
+* __[CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)__: 收到每个传入的请求后, Envoy 将遍历请求标头，以验证请求头的总大小保持在最大限制以下。远程攻击者可能会制作一个请求，该请求的 header 的大小不会超过最大限制，但包含成千上万个小的 header ，来消耗 CPU 并导致拒绝服务攻击。
 
 ## 受影响的 Istio 版本{#affected-istio-releases}
 
