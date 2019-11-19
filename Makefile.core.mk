@@ -6,7 +6,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-SOURCE_BRANCH_NAME ?= release-1.4
+SOURCE_BRANCH_NAME ?= master
 
 gen:
 	@scripts/gen_site.sh
@@ -63,7 +63,7 @@ update_operator_yamls:
 update_examples:
 	@scripts/grab_examples.sh $(SOURCE_BRANCH_NAME)
 
-update_all: update_ref_docs update_operator_yamls update_examples
+update_all: update_ref_docs update_examples
 
 include common/Makefile.common.mk
 

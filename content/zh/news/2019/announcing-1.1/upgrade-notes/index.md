@@ -6,7 +6,7 @@ weight: 20
 
 This page describes changes you need to be aware of when upgrading from Istio 1.0 to 1.1.  Here we detail cases where we intentionally broke backwards compatibility.  We also mention cases where backwards compatibility was preserved but new behavior was introduced that would be surprising to someone familiar with the use and operation of Istio 1.0.
 
-For an overview of new features introduced with Istio 1.1, please refer to the [1.1 change notes](/news/2019/announcing-1.1/change-notes/).
+For an overview of new features introduced with Istio 1.1, please refer to the [1.1 change notes](/news/releases/1.1.x/announcing-1.1/change-notes/).
 
 ## Installation
 
@@ -18,7 +18,7 @@ Istio to evolve beyond a Helm-based installation.  The [upgrade documentation](/
 from Istio 1.0.6 to Istio 1.1.  Please follow these instructions carefully when upgrading.  If `certmanager` is desired, use the `--set certmanager=true` flag
 when installing both `istio-init` and Istio charts with either `template` or `tiller` installation modes.
 
-- Many installation options have been added, removed, or changed. Refer to [Installation Options Changes](/news/2019/announcing-1.1/helm-changes/) for a detailed
+- Many installation options have been added, removed, or changed. Refer to [Installation Options Changes](/news/releases/1.1.x/announcing-1.1/helm-changes/) for a detailed
 summary of the changes.
 
 - The 1.0 `istio-remote` chart used for [multicluster VPN](/docs/setup/install/multicluster/shared-vpn/) and

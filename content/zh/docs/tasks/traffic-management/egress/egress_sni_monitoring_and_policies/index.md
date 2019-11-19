@@ -4,7 +4,7 @@ description: Describes how to configure SNI monitoring and apply policies on TLS
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
 aliases:
-  - /docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
+  - /zh/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 ---
 
 The [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example

@@ -24,7 +24,7 @@ Before you begin, check the following prerequisites:
 
 1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/prep/requirements/).
 
 ## Install Istio using the default profile
 
@@ -65,9 +65,12 @@ accessible to `istioctl` by using this command:
 
 {{< text bash >}}
 $ istioctl profile list
+Istio configuration profiles:
+    minimal
+    remote
+    sds
     default
     demo
-    minimal
 {{< /text >}}
 
 ## Display the configuration of a profile

@@ -3,7 +3,7 @@ title: Envoy 的统计信息
 description: 精细化控制 Envoy 的统计信息。
 weight: 95
 aliases:
-    - /help/ops/telemetry/envoy-stats
+    - /zh/help/ops/telemetry/envoy-stats
 ---
 
 Envoy 代理收集保留了关于网络流量的详细统计信息。
