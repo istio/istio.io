@@ -11,7 +11,7 @@ keywords: [security,access-control,rbac,tcp,authorization]
 
 本文任务假设，你已经：
 
-* Read the [Istio 中的授权和鉴权](/zh/docs/concepts/security/#authorization).
+* 了解 [Istio 的授权和鉴权](/zh/docs/concepts/security/#authorization).
 
 * 按照 [快速开始](/zh/docs/setup/install/kubernetes/) 的指导，在 Kubernetes 中安装完成 Istio。
 
