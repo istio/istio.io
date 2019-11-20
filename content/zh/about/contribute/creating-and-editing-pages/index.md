@@ -101,24 +101,6 @@ keywords: [keyword1,keyword2,...]
 
 |字段               | 描述
 |-------------------|------------
-<<<<<<< HEAD
-<<<<<<< HEAD
-|`title`            | The short title of the page
-|`linktitle`        | An alternate, typically shorter, title for the page which is used in the side bar to reference the page
-|`subtitle`         | An optional subtitle which gets displayed below the main title
-|`description`      | A one-line description of what the page is about
-|`icon`             | An optional path to an image file which gets displayed next to the main title
-|`weight`           | An integer used to determine the sort order of this page relative to other pages in the same directory
-|`keywords`         | An array of keywords describing the page, used to create the web of See Also links
-|`draft`            | When true, prevents the page from showing up in any navigation area
-|`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
-|`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
-|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
-
-A few fields control the auto-generated table of contents present on most pages:
-=======
-=======
->>>>>>> zh-translation:/about/contribute/creating-and-editing-pages/index.md; translating
 |`title`            | 页面短标题
 |`linktitle`        | 页面的备用标题（通常较短），在侧栏中用于引用页面
 |`subtitle`         | 可选子标题，显示在主标题下方
@@ -132,14 +114,8 @@ A few fields control the auto-generated table of contents present on most pages:
 |`skip_seealso`     | 将此设置为 true 可以防止页面为其生成“另请参见”部分
 
 一些字段控制大多数页面上自动生成的目录：
-<<<<<<< HEAD
->>>>>>> zh-translation:/about/contribute/creating-and-editing-pages/index.md
-
-|Field               | Description
-=======
 
 |字段                | 描述
->>>>>>> zh-translation:/about/contribute/creating-and-editing-pages/index.md; translating
 |--------------------|------------
 |`skip_toc`          | 将其设置为 true 可以防止页面为其生成目录
 |`force_inline_toc`  | 将此属性设置为 true 可强制将生成的目录插入到文本中，而不是在边栏中
