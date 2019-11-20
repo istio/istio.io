@@ -11,11 +11,11 @@ aliases:
     - /news/2019/istio-security-003-004
 ---
 
-| Information       | &nbsp;
-|-------------------|--------
-| CVE               | [CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)
-| CVSS Impact Score | 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
-| Affected Releases | 1.1 to 1.1.12<br>1.2 to 1.2.3
+{{< security_bulletin
+        cves="CVE-2019-14993"
+        cvss="7.5"
+        vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        releases="1.1 to 1.1.12, 1.2 to 1.2.3" >}}
 
 ## Context
 
