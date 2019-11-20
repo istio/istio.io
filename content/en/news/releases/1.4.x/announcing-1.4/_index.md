@@ -39,10 +39,10 @@ focuses on simplification and flexibility. This will also replace the old
 ## Automatic mutual TLS
 
 We added [automatic mutual TLS support](/docs/tasks/security/authentication/auto-mtls/). It allows
-you to adopt mutual TLS without configuring destination rule. Istio automatically configures
-client sidecar proxy to send mutual TLS to server endpoints those are able to accept mutual TLS.
+you to adopt mutual TLS without needing to configure destination rules. Istio automatically programs
+client sidecar proxies to send mutual TLS to server endpoints that are able to accept mutual TLS.
 
-Currently this feature requires to explicitly enabled, and we plan to enable it by default in
+Currently this feature must be explicitly enabled, but we plan to enable it by default in a
 future release.
 
 ## Improved troubleshooting
