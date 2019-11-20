@@ -6,8 +6,8 @@ publishdate: 2019-03-19
 attribution: The Istio Team
 release: 1.1.0
 aliases:
-    - /blog/2019/announcing-1.1
-    - /news/announcing-1.1
+    - /zh/blog/2019/announcing-1.1
+    - /zh/news/announcing-1.1
 skip_list: true
 ---
 
@@ -40,7 +40,7 @@ We’ve done work around namespace isolation as well. This lets you use
 Kubernetes namespaces to enforce boundaries of control, and ensures that your
 teams cannot interfere with each other.
 
-We have also improved the [multicluster capabilities and usability](/docs/setup/deployment-models/).
+We have also improved the [multicluster capabilities and usability](/docs/ops/prep/deployment-models/).
 We listened to the community and improved defaults for traffic control and
 policy. We introduced a new component called
 [Galley](/docs/ops/architecture/#galley). Galley validates that sweet,
@@ -48,7 +48,7 @@ sweet YAML, reducing the chance of configuration errors. Galley will also be
 instrumental in [multicluster setups](/docs/setup/install/multicluster/),
 gathering service discovery information from each Kubernetes cluster. We are
 also supporting additional multicluster topologies including different
-[control plane models](/docs/setup/deployment-models/#control-plane-models)
+[control plane models](/docs/ops/prep/deployment-models/#control-plane-models)
 topologies without requiring a flat network.
 
 There is lots more -- see the [change notes](./change-notes) for complete

@@ -4,7 +4,7 @@ description: Learn how to configure the proxies to send tracing requests to Zipk
 weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
-    - /docs/tasks/zipkin-tracing.html
+    - /zh/docs/tasks/zipkin-tracing.html
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.apache.org/),

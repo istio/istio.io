@@ -4,7 +4,7 @@ description: Shows how to set up role-based access control for HTTP services.
 weight: 10
 keywords: [security,access-control,rbac,authorization]
 aliases:
-    - /docs/tasks/security/role-based-access-control.html
+    - /zh/docs/tasks/security/role-based-access-control.html
 ---
 
 This task covers the activities you might need to perform to set up Istio authorization, also known
@@ -18,7 +18,7 @@ The activities in this task assume that you:
 
 * Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Kubernetes quick start](/docs/setup/install/kubernetes/) to install Istio.
+* Follow the [Kubernetes quick start](/docs/setup/getting-started/) to install Istio.
 
 * Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 

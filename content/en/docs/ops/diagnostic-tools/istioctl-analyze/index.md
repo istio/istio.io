@@ -7,19 +7,14 @@ keywords: [istioctl, debugging, kubernetes]
 
 {{< boilerplate experimental-feature-warning >}}
 
-`istioctl analyze` is a powerful Istio diagnostic tool that can detect potential issues with your
+`istioctl analyze` is a diagnostic tool that can detect potential issues with your
 Istio configuration. It can run against a live cluster or a set of local configuration files.
 It can also run against a combination of the two, allowing you to catch problems before you
 apply changes to a cluster.
 
 ## Getting started in under a minute
 
-If you've downloaded Istio version 1.4 or greater, your version of `istioctl` already includes `analyze`.
-
-You can also download the latest version directly, as described [here](#getting-the-latest-version-of-istioctl-analyze),
-even if you're running an older version of Istio.
-
-Once you have a supported version of `istioctl`, you can analyze your current Kubernetes cluster by running:
+You can analyze your current Kubernetes cluster by running:
 
 {{< text bash >}}
 $ ./istioctl x analyze -k
@@ -37,7 +32,7 @@ Note that `x` in the command is because this is currently an experimental featur
 
 ## Analyzing live clusters, local files, or both
 
-The scenario in the ‘getting started’ section is doing analysis on live clusters. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
+The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
 
 Analyze a specific set of local files:
 
@@ -61,7 +56,7 @@ You can run `./istioctl x analyze --help` to see the full set of options.
 
 ## Helping us improve this tool
 
-We're constantly adding more analysis capability and we'd love your help in identifying more use cases.
+We're continuing to add more analysis capability and we'd love your help in identifying more use cases.
 If you've discovered some Istio configuration "gotcha", some tricky situation that caused you some
 problems, open an issue and let us know. We might be able to automatically flag this problem so that
 others can discover and avoid the problem in the first place.

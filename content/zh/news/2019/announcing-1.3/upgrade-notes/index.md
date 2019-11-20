@@ -3,8 +3,8 @@ title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.3.
 weight: 20
 aliases:
-    - /docs/setup/kubernetes/upgrade/notice/
-    - /docs/setup/upgrade/notice
+    - /zh/docs/setup/kubernetes/upgrade/notice/
+    - /zh/docs/setup/upgrade/notice
 ---
 
 This page describes changes you need to be aware of when upgrading from

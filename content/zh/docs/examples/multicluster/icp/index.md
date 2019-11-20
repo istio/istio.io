@@ -4,13 +4,13 @@ description: Example multicluster mesh over two IBM Cloud Private clusters.
 weight: 70
 keywords: [kubernetes,multicluster]
 aliases:
-    - /docs/tasks/multicluster/icp/
+    - /zh/docs/tasks/multicluster/icp/
 ---
 
 This example demonstrates how to setup network connectivity between two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
 and then compose them into a multicluster mesh using a
-[single-network deployment](/docs/setup/deployment-models/#single-network).
+[single-network deployment](/docs/ops/prep/deployment-models/#single-network).
 
 ## Create the IBM Cloud Private Clusters
 

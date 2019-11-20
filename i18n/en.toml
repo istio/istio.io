@@ -234,3 +234,15 @@ other = "Level"
 
 [target_release]
 other = "This blog post was written assuming Istio %v, so some of this content may now be outdated."
+
+[security_disclosure]
+other = "Disclosure"
+
+[security_related]
+other = "Related"
+
+[security_date]
+other = "Date"
+
+[mark_all_as_read]
+other = "Mark all as read"

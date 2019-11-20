@@ -5,9 +5,9 @@ publishdate: 2018-08-29
 attribution: The Istio Team
 release: 1.0.1
 aliases:
-    - /about/notes/1.0.1
-    - /blog/2018/announcing-1.0.1
-    - /news/announcing-1.0.1
+    - /zh/about/notes/1.0.1
+    - /zh/blog/2018/announcing-1.0.1
+    - /zh/news/announcing-1.0.1
 ---
 
 We're pleased to announce the availability of Istio 1.0.1. Please see below for what's changed.

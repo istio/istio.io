@@ -5,13 +5,13 @@ publishdate: 2017-05-24
 subtitle: A robust service mesh for microservices
 attribution: The Istio Team
 aliases:
-    - /blog/istio-service-mesh-for-microservices.html
-    - /blog/0.1-announcement.html
-    - /about/notes/older/0.1
-    - /blog/2017/0.1-announcement
-    - /docs/welcome/notes/0.1.html
-    - /about/notes/0.1/index.html
-    - /news/announcing-0.1
+    - /zh/blog/istio-service-mesh-for-microservices.html
+    - /zh/blog/0.1-announcement.html
+    - /zh/about/notes/older/0.1
+    - /zh/blog/2017/0.1-announcement
+    - /zh/docs/welcome/notes/0.1.html
+    - /zh/about/notes/0.1/index.html
+    - /zh/news/announcing-0.1
 ---
 
 Google, IBM, and Lyft are proud to announce the first public release of [Istio](/): an open source project that provides a uniform way to connect, secure, manage and monitor microservices. Our current release is targeted at the [Kubernetes](https://kubernetes.io/) environment; we intend to add support for other environments such as virtual machines and Cloud Foundry in the coming months.

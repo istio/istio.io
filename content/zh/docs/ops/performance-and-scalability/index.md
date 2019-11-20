@@ -3,14 +3,14 @@ title: Performance and Scalability
 description: Introduces performance and scalability for Istio.
 weight: 25
 aliases:
-- /docs/performance-and-scalability/overview
-- /docs/performance-and-scalability/microbenchmarks
-- /docs/performance-and-scalability/performance-testing-automation
-- /docs/performance-and-scalability/realistic-app-benchmark
-- /docs/performance-and-scalability/scalability
-- /docs/performance-and-scalability/scenarios
-- /docs/performance-and-scalability/synthetic-benchmarks
-- /docs/concepts/performance-and-scalability
+- /zh/docs/performance-and-scalability/overview
+- /zh/docs/performance-and-scalability/microbenchmarks
+- /zh/docs/performance-and-scalability/performance-testing-automation
+- /zh/docs/performance-and-scalability/realistic-app-benchmark
+- /zh/docs/performance-and-scalability/scalability
+- /zh/docs/performance-and-scalability/scenarios
+- /zh/docs/performance-and-scalability/synthetic-benchmarks
+- /zh/docs/concepts/performance-and-scalability
 keywords:
 - performance
 - scalability
