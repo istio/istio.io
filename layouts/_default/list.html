@@ -33,6 +33,7 @@
                 {{ end }}
             </ul>
         {{ else }}
+            {{- $decoration := .Params.decoration -}}
             {{ range $pages }}
                 {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
                 {{ if eq $parentDir $pageLocation }}
@@ -40,6 +41,10 @@
                         <h5>
                             <a href="{{ .Permalink }}">
                                 {{- if .Params.icon -}}<i class="page-icon">{{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}
+
+                                {{- if $decoration -}}
+                                    <i class="{{ $decoration }}" data-prefix="{{ .RelPermalink }}"></i>
+                                {{- end -}}
                             </a>
                         </h5>
                         <p>{{ .Description }}</p>
