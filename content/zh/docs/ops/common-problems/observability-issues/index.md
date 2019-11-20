@@ -1,5 +1,5 @@
 ---
-title: 可观察性问题
+title: 可观测性问题
 description: 处理 Telemetry 收集问题。
 force_inline_toc: true
 weight: 30
@@ -30,7 +30,7 @@ Mixer 安装中默认包含一个 Prometheus 适配器，适配器会收到一�
 
 在 Kubernetes Pod 生命周期设置网络期间，Istio CNI 插件会对 Istio 网格 Pod 执行流量重定向，从而用户在 Istio  网格中部署 Pod 时不需要 [`NET_ADMIN`能力需求](/zh/docs/ops/setup/required-pod-capabilities/)。 Istio CNI 插件主要用来替代 `istio-init` 容器的一些功能。
 
-1. 验证 `istio-cni-node` pod 正在运行：
+1. 验证 `istio-cni-node` pods 正在运行：
 
     {{< text bash >}}
     $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
@@ -42,7 +42,7 @@ Mixer 安装中默认包含一个 Prometheus 适配器，适配器会收到一�
 
 Mixer 会生成指标来监控它自身行为。首先，检查这些指标：
 
-1. `istio-telemetry` Deployment 对外暴露 Mixer 自监控端点。在 Kubernetes 环境中，执行以下命令：
+1. `istio-telemetry` Deployment 对外暴露 Mixer 自监控 endpoint。在 Kubernetes 环境中，执行以下命令：
 
     {{< text bash >}}
     $ kubectl -n istio-system port-forward <istio-telemetry pod> 15014 &
@@ -54,7 +54,7 @@ Mixer 会生成指标来监控它自身行为。首先，检查这些指标：
     grpc_io_server_completed_rpcs{grpc_server_method="istio.mixer.v1.Mixer/Report",grpc_server_status="OK"} 2532
     {{< /text >}}
 
-    如果你没有发现带有 `grpc_server_method="istio.mixer.v1.Mixer/Report"` 的数据，说明 Envoy 没有调用 Mixer 上报遥测数据。
+    如果你没有发现带有 `grpc_server_method="istio.mixer.v1.Mixer/Report"` 的 `grpc_io_server_completed_rpcs` 数据，说明 Envoy 没有调用 Mixer 上报遥测数据。
 
 1.  在这种情况下，请确保已经将服务正确地集成到服务网格中。您可以使用[自动或手动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/) 来完成这个目标。
 
