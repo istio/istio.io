@@ -40,10 +40,12 @@
 5ms
 6ms
 6s
+7.5
 72.96ms
 7Mb
 7ms
 7s
+8.5
 8ms
 8x
 9ms
@@ -143,6 +145,8 @@ CSRs
 Ctrl
 Customizable
 CVE
+CVE-2019-12243
+CVE-2019-12995
 CVE-2019-14993
 CVE-2019-15226
 CVE-2019-18817
@@ -152,6 +156,8 @@ CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
 CVEs
+cves
+cvss
 cyber
 Datadog
 datapath
@@ -470,6 +476,7 @@ schemas
 SDKs
 sds
 Secura
+security_bulletin
 selinux
 serverless
 serviceaccount
