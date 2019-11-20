@@ -246,3 +246,15 @@ other = "Date"
 
 [mark_all_as_read]
 other = "Mark all as read"
+
+[security_bulletin_title]
+other = "Disclosure Details"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "CVSS Impact Score"
+
+[security_bulletin_affected_releases]
+other = "Affected Releases"
