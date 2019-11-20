@@ -28,7 +28,28 @@
                 {{ range $pages }}
                     {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
                     {{ if eq $parentDir $pageLocation }}
-                        <li><a href="{{ .Permalink }}">{{- .Title -}}</a></li>
+                        {{- $info := "" -}}
+                        {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                            {{- if .Params.attribution -}}
+                                {{- $info = printf "%s %s" (i18n "page_attribution") .Params.attribution -}}
+                            {{- end -}}
+
+                            {{- if ne .PublishDate.Year 0001 -}}
+                                {{- if gt (len $info) 0 -}}
+                                    {{- $info = printf "%s\n" $info -}}
+                                {{- end -}}
+                                {{- $info = printf "%s%s" $info (.PublishDate.Format (i18n "page_publish_date_format")) -}}
+                            {{- end -}}
+
+                            {{- if gt .Page.ReadingTime 1 -}}
+                                {{- if gt (len $info) 0 -}}
+                                    {{- $info = printf "%s\n" $info -}}
+                                {{- end -}}
+                                {{- $info = printf "%s%s" $info (printf (i18n "page_reading_time") .Page.ReadingTime) -}}
+                            {{- end -}}
+                        {{ end }}
+
+                        <li><a title="{{ $info }}" href="{{ .Permalink }}">{{- .Title -}}</a></li>
                     {{ end }}
                 {{ end }}
             </ul>
@@ -37,9 +58,31 @@
             {{ range $pages }}
                 {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
                 {{ if eq $parentDir $pageLocation }}
+
+                    {{- $info := "" -}}
+                    {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                        {{- if .Params.attribution -}}
+                            {{- $info = printf "%s %s" (i18n "page_attribution") .Params.attribution -}}
+                        {{- end -}}
+
+                        {{- if ne .PublishDate.Year 0001 -}}
+                            {{- if gt (len $info) 0 -}}
+                                {{- $info = printf "%s\n" $info -}}
+                            {{- end -}}
+                            {{- $info = printf "%s%s" $info (.PublishDate.Format (i18n "page_publish_date_format")) -}}
+                        {{- end -}}
+
+                        {{- if gt .Page.ReadingTime 1 -}}
+                            {{- if gt (len $info) 0 -}}
+                                {{- $info = printf "%s\n" $info -}}
+                            {{- end -}}
+                            {{- $info = printf "%s%s" $info (printf (i18n "page_reading_time") .Page.ReadingTime) -}}
+                        {{- end -}}
+                    {{ end }}
+
                     <div class="entry">
                         <h5>
-                            <a href="{{ .Permalink }}">
+                            <a title="{{ $info }}" href="{{ .Permalink }}">
                                 {{- if .Params.icon -}}<i class="page-icon">{{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}
 
                                 {{- if $decoration -}}
