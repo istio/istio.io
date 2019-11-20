@@ -448,34 +448,9 @@ spec:
 
 ### 熔断器 {#circuit-breakers}
 
-断路器是Istio提供的另一个有用的创建机制
-弹性microservice-based应用程序。在断路器中，你设置限制
-用于调用服务中的各个主机，例如并发数量
-连接或对此主机的调用失败多少次。一旦限制
-已经到达断路器“跳闸”并停止进一步连接到
-主机。使用断路器模式，使快速故障，而不是
-试图连接到过载或故障主机的客户端。
+熔断器是 Istio 为创建具有弹性的微服务应用提供的另一个有用的机制。在熔断器中，设置一个对服务中的单个主机调用的限制，例如并发连接的数量或对该主机调用失败的次数。一旦限制被触发，熔断器就会“跳闸”并停止连接到该主机。使用熔断模式可以快速失败而不必让客户端尝试连接到过载或有故障的主机。
 
-因为断路适用于负载平衡中的“真实”网格目的地
-池，你配置断路器阈值在
-[目的地规则](#destination-rules)，每个规则都有相应的设置
-服务中的单个主机。下面的示例限制了
-对v1子集的“审查”服务工作负载进行并发连接
-100:
-Circuit breakers are another useful mechanism Istio provides for creating
-resilient microservice-based applications. In a circuit breaker, you set limits
-for calls to individual hosts within a service, such as the number of concurrent
-connections or how many times calls to this host have failed. Once that limit
-has been reached the circuit breaker "trips" and stops further connections to
-that host. Using a circuit breaker pattern enables fast failure rather than
-clients trying to connect to an overloaded or failing host.
-
-As circuit breaking applies to "real" mesh destinations in a load balancing
-pool, you configure circuit breaker thresholds in
-[destination rules](#destination-rules), with the settings applying to each
-individual host in the service. The following example limits the number of
-concurrent connections for the `reviews` service workloads of the v1 subset to
-100:
+熔断适用于在负载均衡池中的“真实”网格目标地址，您可以在[目标规则](#destination-rules)中配置熔断器阈值，让配置适用于服务中的每个主机。下面的示例将 v1 子集的`reviews`服务工作负载的并发连接数限制为100：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -494,47 +469,21 @@ spec:
           maxConnections: 100
 {{< /text >}}
 
-You can find out more about creating circuit breakers in
-[Circuit Breaking](/zh/docs/tasks/traffic-management/circuit-breaking/).
+您可以在[熔断](/zh/docs/tasks/traffic-management/circuit-breaking/)中查看更多相关信息。
 
 ### 故障注入 {#fault-injection}
 
-在您配置了网络(包括故障恢复策略)之后，您可以
-是否可以使用Istio的故障注入机制来测试故障恢复能力
-你的申请作为一个整体。故障注入是一种测试方法
-将错误引入系统，以确保系统能够承受并从中恢复
-错误条件。使用故障注入可以特别有用地确保
-您的故障恢复策略不是不兼容或限制太多，
-可能导致关键服务不可用。
+在配置了网络，包括故障恢复策略之后，可以使用 Istio 的故障注入机制来为整个应用程序测试故障恢复能力。故障注入是一种将错误引入系统以确保系统能够承受并从错误条件中恢复的测试方法。使用故障注入特别有用，能确保故障恢复策略不至于不兼容或者太严格，这会导致关键服务不可用。
 
-不像其他引入错误的机制，如延迟数据包或
-在网络层杀死吊舱，Istio允许你在
-应用程序层。这使您可以注入更多相关的失败，比如HTTP
-错误代码，以获得更多相关的结果。
-After you’ve configured your network, including failure recovery policies, you
-can use Istio’s fault injection mechanisms to test the failure recovery capacity
-of your application as a whole. Fault injection is a testing method that
-introduces errors into a system to ensure that it can withstand and recover from
-error conditions. Using fault injection can be particularly useful to ensure
-that your failure recovery policies aren’t incompatible or too restrictive,
-potentially resulting in critical services being unavailable.
+与其他错误注入机制（如延迟数据包或在网络层杀掉Pod）不同，Istio 允许在应用层注入错误。这使您可以注入更多相关的故障，例如 HTTP 错误码，以获得更多相关的结果。
 
-Unlike other mechanisms for introducing errors such as delaying packets or
-killing pods at the network layer, Istio’ lets you inject faults at the
-application layer. This lets you inject more relevant failures, such as HTTP
-error codes, to get more relevant results.
+您可以注入两种故障，它们都使用[虚拟服务](#virtual-services)配置：
 
-You can inject two types of faults, both configured using a
-[virtual service](#virtual-services):
+- 延迟：延迟是时间故障。它们模拟增加的网络延迟或一个超载的上游服务。
 
--   Delays: Delays are timing failures. They mimic increased network latency or
-    an overloaded upstream service.
--   Aborts: Aborts are crash failures. They mimic failures in upstream services.
-    Aborts usually manifest in the form of HTTP error codes or TCP connection
-    failures.
+- 终止：中止是崩溃失败。他们模仿上游服务的失败。中止通常以 HTTP 错误码或TCP连接失败的形式出现。
 
-For example, this virtual service introduces a 5 second delay for 1 out of every 1000
-requests to the `ratings` service.
+例如，下面的虚拟服务为千分之一的访问 `ratings`服务的请求配置了一个 5 秒的延迟：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -556,44 +505,10 @@ spec:
         subset: v1
 {{< /text >}}
 
-For detailed instructions on how to configure delays and aborts, see
-[Fault Injection](/zh/docs/tasks/traffic-management/fault-injection/).
+有关如何配置延迟和终止的详细信息请参考[故障注入](/zh/docs/tasks/traffic-management/fault-injection/)。
 
-### 和你的应用程序一起运行 {#working-with-your-applications}
+### 和您的应用程序一起运行 {#working-with-your-applications}
 
-的Istio故障恢复功能是完全透明的
-应用程序。应用程序不知道是否有特使sidecar代理在处理
-在返回响应之前调用的服务失败。这意味着
-如果还在应用程序代码中设置故障恢复策略
-您需要记住，两者都是独立工作的，因此可能是独立工作的
-冲突。例如，假设您可以有两个超时，一个配置为in
-虚拟服务和应用程序中的另一个。应用程序设置一个2
-对服务的API调用的第二个超时。但是，您配置了一个3
-第二次超时，在虚拟服务中重试一次。在这种情况下，
-应用程序的超时首先生效，因此您的特使超时并重试
-尝试没有效果。
+Istio 故障恢复功能对应用程序来说是完全透明的。在返回响应之前，应用程序不知道 Envoy sidecar 代理是否正在处理被调用服务的故障。这意味着，如果在应用程序代码中设置了故障恢复策略，那么您需要记住这两个策略都是独立工作的，因此可能会发生冲突。例如，假设您设置了两个超时，一个在虚拟服务中配置，另一个在应用程序中配置。应用程序为服务的API调用设置2秒超时。然而您在虚拟服务中配置了一个3秒超时和重试。在这种情况下，应用程序的超时会先生效，因此 Envoy 的超时和重试尝试会失效。
 
-Istio故障恢复功能提高了可靠性和可靠性
-服务在网格中的可用性，应用程序必须处理故障
-或错误，并采取适当的后备行动。例如，当所有
-负载平衡池中的实例失败，Envoy返回' HTTP 503 '
-代码。应用程序必须实现处理
-' HTTP 503 '错误代码..
-Istio failure recovery features are completely transparent to the
-application. Applications don’t know if an Envoy sidecar proxy is handling
-failures for a called service before returning a response. This means that
-if you are also setting failure recovery policies in your application code
-you need to keep in mind that both work independently, and therefore might
-conflict. For example, suppose you can have two timeouts, one configured in
-a virtual service and another in the application. The application sets a 2
-second timeout for an API call to a service. However, you configured a 3
-second timeout with 1 retry in your virtual service. In this case, the
-application’s timeout kicks in first, so your Envoy timeout and retry
-attempt has no effect.
-
-While Istio failure recovery features improve the reliability and
-availability of services in the mesh, applications must handle the failure
-or errors and take appropriate fallback actions. For example, when all
-instances in a load balancing pool have failed, Envoy returns an `HTTP 503`
-code. The application must implement any fallback logic needed to handle the
-`HTTP 503` error code..
+虽然 Istio 故障恢复特性提高了网格中服务的可靠性和可用性，但应用程序必须处理故障或错误并采取适当的回退操作。例如，当负载均衡中的所有实例都失败时，Envoy 返回一个`HTTP 503`代码。应用程序必须实现回退逻辑来处理`HTTP 503`错误代码。
