@@ -9,8 +9,8 @@ keywords: [security,mutual-tls]
 
 * 您已经完成[认证策略](/zh/docs/tasks/security/authn-policy/) 任务.
 * 您熟悉如何通过认证策略开启双向 TLS。
-* Istio 在 Kubernetes 上运行，并且开启全局双向 TLS。可以按照 [Istio 安装说明文档](/zh/docs/setup/))。
-如果已经安装了 Istio，可以根据[为所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls) 任务中说明，通过增加或者修改认证策略和目的规则来开启双向 TLS。
+* Istio 在 Kubernetes 上运行，并且开启全局双向 TLS。可以参考 [Istio 安装说明文档](/zh/docs/setup/)。
+如果已经安装 Istio，可以根据[为所有服务启用双向 TLS 认证](/zh/docs/tasks/security/authn-policy/#globally-enabling-istio-mutual-tls) 任务中说明，通过增加或者修改认证策略和目的规则来开启双向 TLS。
 * [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep) 已经部署在了 `default` namespace，并且这两个应用带有 Envoy sidecar. 例如，可以通过以下命令[手动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) 来完成服务的部署:
 
     {{< text bash >}}
