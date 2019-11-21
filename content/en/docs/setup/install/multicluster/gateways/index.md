@@ -183,7 +183,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (>= 1.4.0)" category-value="coredns-after-1.4.0" >}}
+{{< tab name="CoreDNS (== 1.4.0)" cookie-value="coredns-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -197,6 +197,43 @@ data:
     .:53 {
         errors
         health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           upstream
+           fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
+    global:53 {
+        errors
+        cache 30
+        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})
+    }
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        ready
         kubernetes cluster.local in-addr.arpa ip6.arpa {
            pods insecure
            upstream
