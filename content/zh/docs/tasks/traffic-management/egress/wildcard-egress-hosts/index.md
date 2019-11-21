@@ -584,7 +584,7 @@ SNI 代理会将流量转发到 `443` 端口。
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  检查egress gateway 的 Envoy proxy 的日志。如果 Istio 是被部署到  `istio-system` namespace 中，打印日志的命令是：
+1.  检查 egress gateway 的 Envoy proxy 的日志。如果 Istio 是被部署到  `istio-system` namespace 中，打印日志的命令是：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
