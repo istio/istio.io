@@ -46,7 +46,7 @@
         @media (min-width: $bp-md) {
             @supports (position: sticky) {
                 max-height: calc(100vh - 9rem);
-                overflow-y: auto;
+                overflow-y: scroll;
             }
 
             display: block !important;
