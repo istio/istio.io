@@ -19,7 +19,7 @@ The geographic location typically represents a data center. Istio uses
 this information to prioritize load balancing pools to control
 the geographic location where requests are sent.
 
-## Configuring Locality Load Balancing
+## Configuring locality load balancing
 
 This feature is enabled by default. To disable locality load balancing,
 pass the `--set global.localityLbSetting.enabled=false` flag when installing Istio.
@@ -66,14 +66,14 @@ The hierarchy of prioritization matches in the following order:
 
 Proxies in the same zone but different regions are not considered local to one another.
 
-### Overriding the Locality Fail-over
+### Overriding the locality fail-over
 
 Sometimes, you need to constrain the traffic fail-over to avoid sending traffic to
 endpoints across the globe when there are not enough healthy endpoints in the
 same region. This behavior is useful when sending fail-over traffic across regions
 would not improve service health or many other reasons including regulatory controls.
 To constrain traffic to a region, configure the `values.localityLbSetting` option during install. See the
-[Locality load balancing reference guide](/docs/reference/config/istio.mesh.v1alpha1/#LocalityLoadBalancerSetting)
+[Locality load balancing reference guide](/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
 for options.
 
 An example configuration:

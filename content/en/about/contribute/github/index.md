@@ -24,7 +24,7 @@ To work on Istio documentation, you need to:
    Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements).
 
 The documentation is published under the [Apache
-2.0](https://github.com/istio/istio.io/blob/master/LICENSE) license.
+2.0](https://github.com/istio/community/blob/master/LICENSE) license.
 
 ## How to contribute
 

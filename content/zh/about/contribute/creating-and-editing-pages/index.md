@@ -3,9 +3,9 @@ title: Creating and Editing Pages
 description: Explains the mechanics of creating and maintaining documentation pages.
 weight: 10
 aliases:
-    - /docs/welcome/contribute/writing-a-new-topic.html
-    - /docs/reference/contribute/writing-a-new-topic.html
-    - /about/contribute/writing-a-new-topic.html
+    - /zh/docs/welcome/contribute/writing-a-new-topic.html
+    - /zh/docs/reference/contribute/writing-a-new-topic.html
+    - /zh/about/contribute/writing-a-new-topic.html
     - /create
 keywords: [contribute]
 ---
@@ -137,6 +137,8 @@ The available front matter fields are:
 
 A few fields control the auto-generated table of contents present on most pages:
 
+|Field               | Description
+|--------------------|------------
 |`skip_toc`          | Set this to true to prevent the page from having a table of contents generated for it
 |`force_inline_toc`  | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`max_toc_level`     | Set to 2, 3, 4, 5, or 6 to indicate the maximum heading level to show in the table of contents
@@ -420,7 +422,7 @@ The available attributes are:
 |`downloadas`  | The default file name used when the user [downloads the preformatted block](#download-name).
 |`expandlinks` | Whether or not to expand [GitHub file references](#links-to-github-files) in the preformatted block.
 |`snippet`     | The name of the [snippet](#snippets) of content to extract from the preformatted block.
-|`repo`        | The repo to use for [GitHub links](#links-to-github-files) embedded in preformatted blocks.
+|`repo`        | The repository to use for [GitHub links](#links-to-github-files) embedded in preformatted blocks.
 
 ### Inline vs. imported content
 
@@ -487,8 +489,8 @@ Which renders as:
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
-Normally, links will point to the current release branch of the `istio/istio` repo. If you'd like a link
-that points to a different Istio repo instead, you can use the `repo` attribute:
+Normally, links will point to the current release branch of the `istio/istio` repository. If you'd like a link
+that points to a different Istio repository instead, you can use the `repo` attribute:
 
 {{< text markdown >}}
 {{</* text syntax="bash" repo="operator" */>}}
@@ -702,7 +704,7 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /help/faq
+    - /zh/help/faq
 ---
 {{< /text >}}
 
@@ -717,9 +719,9 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /faq
-    - /faq2
-    - /faq3
+    - /zh/faq
+    - /zh/faq2
+    - /zh/faq3
 ---
 {{< /text >}}
 
@@ -772,7 +774,7 @@ If you get spelling errors, you have three choices to address each:
 
 - It's a command/field/symbol name, so stick some `backticks` around it.
 
-- It's really valid, so go add the word to the `.spelling` file which is at the root of the repo.
+- It's really valid, so go add the word to the `.spelling` file which is at the root of the repository.
 
 If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
 `INTERNAL_ONLY` to prevent the linter from checking external links:

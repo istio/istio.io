@@ -1,8 +1,8 @@
 ---
-title: Consul - How do I unset the context changed by kubectl at the end?
+title: Consul - 怎么取消 kubectl 对上下文的修改？
 weight: 50
 ---
 
-Your `kubectl` is switched to use the Istio context at the end of the `kubectl use-context istio` command.
-You can use `kubectl config get-contexts` to obtain the list of contexts and
-`kubectl config use-context {desired-context}` to switch to use your desired context.
+执行命令 `kubectl use-context istio` 后，你的 `kubectl` 会切换至 Istio 上下文。
+你可以使用 `kubectl config get-contexts` 获取上下文列表，
+并通过 `kubectl config use-context {desired-context}` 切换至你想要的上下文。

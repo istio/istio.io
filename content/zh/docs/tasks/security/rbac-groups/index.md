@@ -12,7 +12,7 @@ authorization and the authorization of list-typed claims in Istio.
 
 * Read the [authorization](/docs/concepts/security/#authorization) concept
 and go through the guide on how to
-[configure Istio authorization](/docs/tasks/security/authz-http).
+[configure Istio authorization](/docs/tasks/security/authorization/authz-http).
 
 * Read the Istio
 [authentication policy](/docs/concepts/security/#authentication-policies)
@@ -22,7 +22,7 @@ concepts.
 
 * Create a Kubernetes cluster with Istio installed and mutual TLS enabled.
 To fulfill this prerequisite you can follow the Kubernetes
-[installation instructions](/docs/setup/install/kubernetes/).
+[installation instructions](/docs/setup/getting-started/).
 
 ## Setup the required namespace and services
 

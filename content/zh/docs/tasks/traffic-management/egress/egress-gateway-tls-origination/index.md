@@ -4,7 +4,7 @@ description: Describes how to configure an Egress Gateway to perform TLS origina
 weight: 40
 keywords: [traffic-management,egress]
 aliases:
-  - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
+  - /zh/docs/examples/advanced-gateways/egress-gateway-tls-origination/
 ---
 
 The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
@@ -94,7 +94,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     sidecar requests that will be directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.

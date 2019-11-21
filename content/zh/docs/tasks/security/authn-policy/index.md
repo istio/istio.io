@@ -4,7 +4,7 @@ description: Shows you how to use Istio authentication policy to setup mutual TL
 weight: 10
 keywords: [security,authentication]
 aliases:
-    - /docs/tasks/security/istio-auth.html
+    - /zh/docs/tasks/security/istio-auth.html
 ---
 
 This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about
@@ -16,7 +16,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Install Istio on a Kubernetes cluster with global mutual TLS disabled (e.g, use the demo configuration profile, as described in
-[installation steps](/docs/setup/install/kubernetes), or set the `global.mtls.enabled` installation option to false).
+[installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
 ### Setup
 
@@ -105,7 +105,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/istio.authentication.v1alpha1/)
+The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/security/istio.authentication.v1alpha1/)
  it is defined in the cluster-scoped `MeshPolicy` CRD.
  {{< /tip >}}
 
@@ -275,7 +275,7 @@ namespace-wide policy takes precedence over the mesh-wide policy, while a servic
 
 ### Namespace-wide policy
 
-The example below shows the policy to enable mutual TLS for all services in namespace `foo`. As you can see, it uses kind: "Policy” rather than "MeshPolicy”,
+The example below shows the policy to enable mutual TLS for all services in namespace `foo`. As you can see, it uses kind: `Policy` rather than `MeshPolicy`,
 and specifies a namespace, in this case, `foo`. If you don’t specify a namespace value the policy will apply to the default namespace.
 
 {{< text bash >}}

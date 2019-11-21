@@ -192,13 +192,13 @@ not aware of the fact that the external proxy forwards the requests further.
 
 ## Cleanup
 
-1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service:
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  Shutdown the [sleep]({{<github_tree>}}/samples/sleep) service in the `external` namespace:
+1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service in the `external` namespace:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external

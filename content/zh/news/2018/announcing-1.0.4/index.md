@@ -5,9 +5,9 @@ publishdate: 2018-11-21
 attribution: The Istio Team
 release: 1.0.4
 aliases:
-    - /about/notes/1.0.4
-    - /blog/2018/announcing-1.0.4
-    - /news/announcing-1.0.4
+    - /zh/about/notes/1.0.4
+    - /zh/blog/2018/announcing-1.0.4
+    - /zh/news/announcing-1.0.4
 ---
 
 We're pleased to announce the availability of Istio 1.0.4. Please see below for what's changed.
@@ -18,7 +18,7 @@ We're pleased to announce the availability of Istio 1.0.4. Please see below for 
 
 - Pilot may deadlock when using [`istioctl proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) to get proxy synchronization status.
   The work around is to *not use* `istioctl proxy-status`.
-  Once Pilot enters a deadlock, it exhibits continuous goroutine growth eventually running out of memory.
+  Once Pilot enters a deadlock, it exhibits continuous memory growth eventually running out of memory.
 
 ## Networking
 

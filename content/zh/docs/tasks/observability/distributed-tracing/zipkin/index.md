@@ -4,7 +4,7 @@ description: Learn how to configure the proxies to send tracing requests to Zipk
 weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
-    - /docs/tasks/zipkin-tracing.html
+    - /zh/docs/tasks/zipkin-tracing.html
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.apache.org/),
@@ -16,7 +16,7 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/operator)
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/istioctl)
     and then configure:
 
     a) a demo/test environment by setting the `--set values.tracing.enabled=true` and `--set values.tracing.provider=zipkin` install options to enable tracing "out of the box"

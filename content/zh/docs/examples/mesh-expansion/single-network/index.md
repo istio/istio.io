@@ -4,7 +4,7 @@ description: Integrate VMs and bare metal hosts into an Istio mesh deployed on K
 weight: 20
 keywords: [kubernetes,vms]
 aliases:
-    - /docs/setup/kubernetes/additional-setup/mesh-expansion/
+    - /zh/docs/setup/kubernetes/additional-setup/mesh-expansion/
 ---
 
 This example provides instructions to integrate VMs and bare metal hosts into
@@ -12,7 +12,7 @@ an Istio mesh deployed on Kubernetes.
 
 ## Prerequisites
 
-* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/install/kubernetes/).
+* You have already set up Istio on Kubernetes. If you haven't done so, you can find out how in the [Installation guide](/docs/setup/getting-started/).
 
 * Mesh expansion machines must have IP connectivity to the endpoints in the mesh. This
 typically requires a VPC or a VPN, as well as a container network that
@@ -23,7 +23,7 @@ is not required to have access to the cluster IP addresses assigned by Kubernete
 include exposing the Kubernetes DNS server through an internal load balancer, using a Core DNS
 server, or configuring the IPs in any other DNS server accessible from the VM.
 
-* Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to enable mesh expansion.
+* Install the [Helm client](https://helm.sh/docs/intro/using_helm/). Helm is needed to enable mesh expansion.
 
 The following instructions:
 
@@ -69,7 +69,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     it to a `.yaml` values file and pass it to
     the command with `--values`, which is the recommended approach when managing configurations with multiple options. You
     can see some sample values files in your Istio installation's `install/kubernetes/helm/istio` directory and find out
-    more about customizing Helm charts in the [Helm documentation](https://docs.helm.sh/using_helm/#using-helm).
+    more about customizing Helm charts in the [Helm documentation](https://helm.sh/docs/intro/using_helm/).
     {{< /tip >}}
 
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE` environment variable to store the namespace. The value of this variable must match the namespace you use in the configuration files later on.
@@ -78,7 +78,7 @@ cluster for mesh expansion, run the following commands on a machine with cluster
     $ export SERVICE_NAMESPACE="default"
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot]/docs/ops/architecture/#pilot) through this IP address.
+1. Determine and store the IP address of the Istio ingress gateway since the mesh expansion machines access [Citadel](/docs/concepts/security/) and [Pilot](/docs/ops/architecture/#pilot) through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -268,7 +268,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
     {{< tip >}}
-    Make sure you have already added the [`istioctl`](/docs/reference/commands/istioctl) client to your path, as described in the [download page](/docs/setup/#downloading-the-release).
+    Make sure you have already added the [`istioctl`](/docs/reference/commands/istioctl) client to your path, as described in the [download page](/docs/setup/getting-started/#download).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:

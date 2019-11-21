@@ -5,9 +5,9 @@ publishdate: 2018-06-01
 attribution: The Istio Team
 release: 0.8.0
 aliases:
-    - /about/notes/0.8
-    - /about/notes/0.8/index.html
-    - /news/announcing-0.8
+    - /zh/about/notes/0.8
+    - /zh/about/notes/0.8/index.html
+    - /zh/news/announcing-0.8
 ---
 
 This is a major release for Istio on the road to 1.0. There are a great many new features and architectural improvements in addition to the usual pile of bug fixes and performance improvements.
@@ -34,7 +34,7 @@ as well as serving a certificate based on the server name presented by the clien
 
 - **Multicluster Support**. We support per-cluster Citadel in multicluster deployments such that all Citadels share the same root certificate and workloads can authenticate each other across the mesh.
 
-- **Authentication Policy**. We've created a unified API for [authentication policy](/docs/tasks/security/authn-policy/) that controls whether service-to-service communication uses mutual TLS as well as end user authentication. This is now the recommended way to control these behaviors.
+- **Authentication Policy**. We've created a unified API for [authentication policy](/docs/tasks/security/authentication/authn-policy/) that controls whether service-to-service communication uses mutual TLS as well as end user authentication. This is now the recommended way to control these behaviors.
 
 ## Telemetry
 

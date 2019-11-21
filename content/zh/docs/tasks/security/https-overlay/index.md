@@ -20,9 +20,8 @@ original HTTPS traffic. And this is the reason Istio can work on HTTPS services.
 ## Before you begin
 
 Set up Istio by following the instructions in the
-[quick start](/docs/setup/install/kubernetes/).
-Note that default mutual TLS authentication should be **disabled** when installing Istio; e.g. option 1 in the
-[quick start](/docs/setup/install/kubernetes/).
+[quick start](/docs/setup/getting-started/).
+Note that default mutual TLS authentication should be **disabled** when installing Istio with the `demo` profile.
 
 The demo is also assumed to be running in a namespace where automatic sidecar injection is
 disabled, and Istio sidecars are instead manually injected with [`istioctl`](/docs/reference/commands/istioctl).

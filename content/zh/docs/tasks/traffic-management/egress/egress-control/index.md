@@ -3,8 +3,8 @@ title: Accessing External Services
 description: Describes how to configure Istio to route traffic from services in the mesh to external services.
 weight: 10
 aliases:
-    - /docs/tasks/egress.html
-    - /docs/tasks/egress
+    - /zh/docs/tasks/egress.html
+    - /zh/docs/tasks/egress
 keywords: [traffic-management,egress]
 ---
 
@@ -407,7 +407,7 @@ For example, if the range is 10.0.0.1&#47;24, use the following command:
 $ istioctl manifest apply <the flags you used to install Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
 {{< /text >}}
 
-Use the same command that you used to [install Istio](/docs/setup/install/operator) and
+Use the same command that you used to [install Istio](/docs/setup/install/istioctl) and
 add `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`.
 
 ### Access the external services
