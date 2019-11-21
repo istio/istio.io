@@ -225,6 +225,7 @@ GCP-IAM
 GCP_OPTS
 gdb
 git
+github
 GitHub
 GKE-IAM
 GKE-Istio
@@ -323,6 +324,7 @@ LibreSSL
 lifecycle
 LightStep
 Linkerd
+links-to-github-files
 linter
 linters
 liveness
