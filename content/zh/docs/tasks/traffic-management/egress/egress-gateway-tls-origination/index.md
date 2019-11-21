@@ -40,14 +40,14 @@ aliases:
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-*   [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)。
+*   [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)。
 
 *   [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-## 通过一个 egress gateway 发起 TLS 连接{#perform-t-ls-origination-with-an-egress-gateway}
+## 通过 egress 网关发起 TLS 连接{#perform-t-ls-origination-with-an-egress-gateway}
 
-本节描述如何使用一个 egress gateway，发起与示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 中一样的 TLS。
-注意，这种情况下，TLS 的发起过程由 egress gateway 完成，而不是像之前示例演示的那样由 sidecar 完成。
+本节描述如何使用 egress 网关发起与示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 中一样的 TLS。
+注意，这种情况下，TLS 的发起过程由 egress 网关完成，而不是像之前示例演示的那样由 sidecar 完成。
 
 1.  为 `edition.cnn.com` 定义一个 `ServiceEntry`：
 
@@ -85,13 +85,13 @@ aliases:
 
     如果在输出中看到 _301 Moved Permanently_，说明 `ServiceEntry` 配置正确。
 
-1.  为 _edition.cnn.com_ 创建一个 egress `Gateway`， 端口 443，以及一个 sidecar 请求的目标规则，sidecar 请求被直接导向 egress gateway。
+1.  为 _edition.cnn.com_ 创建一个 egress `Gateway`， 端口 443，以及一个 sidecar 请求的目标规则，sidecar 请求被直接导向 egress 网关。
 
-    根据需要开启源 pod 与 egress gateway 之间的[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，选择相应的命令。
+    根据需要开启源 pod 与 egress 网关之间的[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，选择相应的命令。
 
     {{< idea >}}
-    若开启双向 TLS ，则源 pod 与 egress gateway 之间的流量为加密状态。
-    此外，双向 TLS 将允许 egress gateway 监控源 pods 的身份，并开启 Mixer 基于该身份标识的强制策略实施。
+    若开启双向 TLS ，则源 pod 与 egress 网关之间的流量为加密状态。
+    此外，双向 TLS 将允许 egress 网关监控源 pods 的身份，并开启 Mixer 基于该身份标识的强制策略实施。
     {{< /idea >}}
 
     {{< tabset cookie-name="mtls" >}}
@@ -176,7 +176,7 @@ aliases:
 
     {{< /tabset >}}
 
-1.  定义一个 `VirtualService` 来引导流量流经 egress gateway，以及一个 `DestinationRule` 为访问 `edition.cnn.com` 的请求发起 TLS 连接：
+1.  定义一个 `VirtualService` 来引导流量流经 egress 网关，以及一个 `DestinationRule` 为访问 `edition.cnn.com` 的请求发起 TLS 连接：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -267,17 +267,17 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
-## 通过 egress gateway 发起双向 TLS 连接{#perform-mutual-t-ls-origination-with-an-egress-gateway}
+## 通过 egress 网关发起双向 TLS 连接{#perform-mutual-t-ls-origination-with-an-egress-gateway}
 
-与前一章节类似，本章节描述如何配置一个 egress gateway，为外部服务发起 TLS 连接，只是这次服务要求双向 TLS。
+与前一章节类似，本章节描述如何配置一个 egress 网关，为外部服务发起 TLS 连接，只是这次服务要求双向 TLS。
 
 本示例要求更高的参与性，首先需要：
 
 1. 生成客户端和服务器证书
 1. 部署一个支持双向 TLS 的外部服务
-1. 使用所需的证书重新部署 egress gateway
+1. 使用所需的证书重新部署 egress 网关
 
-然后才可以配置出口流量流经 egress gateway，egress gateway 将发起 TLS 连接。
+然后才可以配置出口流量流经 egress 网关，egress 网关将发起 TLS 连接。
 
 ### 生成客户端和服务器的证书与密钥{#generate-client-and-server-certificates-and-keys}
 
@@ -600,7 +600,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     </html>
     {{< /text >}}
 
-### 使用客户端证书重新部署 egress gateway{#redeploy-the-egress-gateway-with-the-client-certificates}
+### 使用客户端证书重新部署 egress 网关{#redeploy-the-egress-gateway-with-the-client-certificates}
 
 1. 生成 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) 保存客户端和 CA 的证书。
 
@@ -646,7 +646,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ### 为 egress 流量配置双向 TLS{#configure-mutual-t-ls-origination-for-egress-traffic}
 
-1.  为 `nginx.example.com` 创建一个 egress `Gateway` 端口为 443，以及目标规则和虚拟服务来引导流量流经 egress gateway 并从 egress gateway 流向外部服务。
+1.  为 `nginx.example.com` 创建一个 egress `Gateway` 端口为 443，以及目标规则和虚拟服务来引导流量流经 egress 网关并从 egress 网关流向外部服务。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -690,7 +690,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     EOF
     {{< /text >}}
 
-1.  定义一个 `VirtualService` 引导流量流经 egress gateway，一个 `DestinationRule` 发起双向 TLS 连接：
+1.  定义一个 `VirtualService` 引导流量流经 egress 网关，一个 `DestinationRule` 发起双向 TLS 连接：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
