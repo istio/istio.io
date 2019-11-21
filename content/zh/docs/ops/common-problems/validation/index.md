@@ -13,7 +13,7 @@ aliases:
 
 手动验证您的配置是否正确，当有必要的时候请参照[Istio API 文档](/zh/docs/reference/config) 。
 
-## Invalid configuration is accepted
+## 接受无效配置
 
 验证 `istio-galley`和`validationwebhookconfiguration` 配置是否存在并且是正确的。 无效的 `apiVersion`、 `apiGroup`和 `resource` 配置应该在两个 `webhook` 其中之一被列举出来。
 
