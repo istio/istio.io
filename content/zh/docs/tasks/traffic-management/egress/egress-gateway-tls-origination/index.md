@@ -176,7 +176,7 @@ aliases:
 
     {{< /tabset >}}
 
-1.  定义一个 `VirtualService` 来引导通过 egress gateway 的流量，以及一个 `DestinationRule` 为访问 `edition.cnn.com` 的请求发起 TLS 连接：
+1.  定义一个 `VirtualService` 来引导流量流经 egress gateway，以及一个 `DestinationRule` 为访问 `edition.cnn.com` 的请求发起 TLS 连接：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -277,7 +277,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 1. 部署一个支持双向 TLS 的外部服务
 1. 使用所需的证书重新部署 egress gateway
 
-然后才可以配置出口流量通过 egress gateway，egress gateway 将发起 TLS 连接。
+然后才可以配置出口流量流经 egress gateway，egress gateway 将发起 TLS 连接。
 
 ### 生成客户端和服务器的证书与密钥{#generate-client-and-server-certificates-and-keys}
 
