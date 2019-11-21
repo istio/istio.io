@@ -1,6 +1,6 @@
 ---
-title: Understand your Mesh with Istioctl Describe
-description: Shows you how to use istioctl describe to verify the configurations of a pod in your mesh.
+title: 通过 Istioctl Describe 理解您的网格
+description: 向您展示如何使用 istioctl describe 来验证您的网格中的 pod 的配置。
 weight: 30
 keywords: [traffic-management, istioctl, debugging, kubernetes]
 aliases:
@@ -9,41 +9,31 @@ aliases:
 
 {{< boilerplate experimental-feature-warning >}}
 
-In Istio 1.3, we included the [`istioctl experimental describe`](/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod)
-command. This CLI command provides you with the information needed to understand
-the configuration impacting a {{< gloss >}}pod{{< /gloss >}}. This guide shows
-you how to use this experimental sub-command to see if a pod is in the mesh and
-verify its configuration.
+在 Istio 1.3 中，我们新增了 [`istioctl experimental describe`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod) 命令。
+一些配置可以影响 {{< gloss >}}pod{{< /gloss >}}，要理解这些配置，您可以利用这个命令行工具得到一些必要的信息。
+这份指南向您展示如何使用这个实验性子命令来查看一个 pod 是否在网格中并验证它的配置。
 
-The basic usage of the command is as follows:
+该命令的基本用法如下：
 
 {{< text bash >}}
 $ istioctl experimental describe <pod-name>[.<namespace>]
 {{< /text >}}
 
-Appending a namespace to the pod name has the same affect as using the `-n` option
-of `istioctl` to specify a non-default namespace.
+向 pod 名字后面加上一个命名空间与使用 `istioctl` 的 `-n` 参数来指定一个非默认的命名空间效果一样。
 
 {{< tip >}}
-Just like all other `istioctl` commands, you can replace `experimental`
-with `x` for convenience.
+和所有其它 `istioctl` 命令一样，您可以更方便地用 `x` 来代替 `experimental`。
 {{< /tip >}}
 
-This guide assumes you have deployed the [Bookinfo](/docs/examples/bookinfo/)
-sample in your mesh. If you haven't already done so,
-[start the application's services](/docs/examples/bookinfo/#start-the-application-services)
-and [determine the IP and port of the ingress](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
-before continuing.
+该指南假定您已经在您的网格中部署了 [Bookinfo](/zh/docs/examples/bookinfo/) 示例。
+如果您还没部署，先参考[启动应用服务](/zh/docs/examples/bookinfo/#start-the-application-services)和[确定 ingress 的 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port)。
 
-## Verify a pod is in the mesh
+## 验证 pod 是否在网格中{#verify-a-pod-is-in-the-mesh}
 
-The `istioctl describe` command returns a warning if the {{< gloss >}}Envoy{{< /gloss >}}
-proxy is not present in a pod or if the proxy has not started. Additionally, the command warns
-if some of the [Istio requirements for pods]/docs/ops/prep/requirements/)
-are not met.
+如果 pod 里没有 {{< gloss >}}Envoy{{< /gloss >}} 代理或者代理没启动，`istioctl describe` 命令会返回一个警告。
+另外，如果 [pods 的 Istio 需求](/zh/docs/setup/additional-setup/requirements/)未完全满足，该命令也会警告。
 
-For example, the following command produces a warning indicating a `kubernetes-dashboard`
-pod is not part of the service mesh because it has no sidecar:
+例如，下面的命令发出的警告表示一个 `kubernetes-dashboard` pod 不被包含在服务网格内，因为它没有 sidecar：
 
 {{< text bash >}}
 $ export DASHBOARD_POD=$(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
@@ -51,8 +41,7 @@ $ istioctl x describe pod -n kube-system $DASHBOARD_POD
 WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; no Istio sidecar
 {{< /text >}}
 
-The command will not produce such a warning for a pod that is part of the mesh,
-the Bookinfo `ratings` service for example, but instead will output the Istio configuration applied to the pod:
+但对于服务网格内的 pod，如 Bookinfo 的 `ratings` 服务，该命令就不会报警，而是输出该 pod 的 Istio 配置：
 
 {{< text bash >}}
 $ export RATINGS_POD=$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')
@@ -65,25 +54,22 @@ Service: ratings
 Pilot reports that pod enforces HTTP/mTLS and clients speak HTTP
 {{< /text >}}
 
-The output shows the following information:
+该输出展示了下列信息：
 
-- The ports of the service container in the pod, `9080` for the `ratings` container in this example.
-- The ports of the `istio-proxy` container in the pod, `15090` in this example.
-- The protocol used by the service in the pod, `HTTP` over port `9080` in this example.
-- The mutual TLS settings for the pod.
+- Pod 内的服务容器的端口，如本例中的 `ratings` 容器的 `9080`。
+- Pod 内的 `istio-proxy` 容器的端口，如本例中的 `15090`。
+- Pod 内的服务所用的协议，如本例中的端口 `9080` 上的 `HTTP`。
+- Pod 的双向 TLS 设置。
 
-## Verify destination rule configurations
+## 验证 destination rule 配置{#verify-destination-rule-configurations}
 
-You can use `istioctl describe` to see what
-[destination rules](/docs/concepts/traffic-management/#destination-rules) apply to requests
-to a pod. For example, apply the Bookinfo
-[mutual TLS destination rules]({{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml):
+您可以使用 `istioctl describe` 查看哪些 [destination rule 规则](/zh/docs/concepts/traffic-management/#destination-rules)被用来将请求路由到 pod。例如，应用 Bookinfo [双向 TLS destination rule 规则]({{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml)：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 {{< /text >}}
 
-Now describe the `ratings` pod again:
+现在再来 `describe` 一次 `ratings` 的 pod：
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
@@ -99,26 +85,23 @@ DestinationRule: ratings for "ratings"
 Pilot reports that pod enforces HTTP/mTLS and clients speak mTLS
 {{< /text >}}
 
-The command now shows additional output:
+该命令现在显示了更多的输出：
 
-- The `ratings` destination rule applies to request to the `ratings` service.
-- The subset of the `ratings` destination rule that matches the pod, `v1` in this example.
-- The other subsets defined by the destination rule.
-- The pod accepts either HTTP or mutual TLS requests but clients use mutual TLS.
+- 用于路由到 `ratings` 服务的请求的 destination rule。
+- 匹配该 pod 的 `ratings` destination rule 的子集，本例中为 `v1`。
+- 该 destination rule 所定义的其它子集。
+- 该 pod 同时接受 HTTP 和 双向 TLS 请求，客户端使用 双向 TLS。
 
-## Verify virtual service configurations
+## 验证 virtual service 规则{#verify-virtual-service-configurations}
 
-When [virtual services](/docs/concepts/traffic-management/#virtual-services) configure
-routes to a pod, `istioctl describe` will also include the routes in its output.
-For example, apply the
-[Bookinfo virtual services]({{< github_file>}}/samples/bookinfo/networking/virtual-service-all-v1.yaml)
-that route all requests to `v1` pods:
+当 [virtual services](/zh/docs/concepts/traffic-management/#virtual-services) 配置路由到一个 pod 时，`istioctl describe` 也会在它的输出中包含这些路由。
+例如，应用 [Bookinfo virtual services]({{< github_file>}}/samples/bookinfo/networking/virtual-service-all-v1.yaml) 这个将所有请求都路由到 `v1` pods 的规则：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 {{< /text >}}
 
-Then, describe a pod implementing `v1` of the `reviews` service:
+然后，describe 一个实现了 `reviews` 服务的 `v1` 版本的 pod：
 
 {{< text bash >}}
 $ export REVIEWS_V1_POD=$(kubectl get pod -l app=reviews,version=v1 -o jsonpath='{.items[0].metadata.name}')
@@ -128,14 +111,11 @@ VirtualService: reviews
    1 HTTP route(s)
 {{< /text >}}
 
-The output contains similar information to that shown previously for the `ratings` pod,
-but it also includes the virtual service's routes to the pod.
+该输出包括了与上面展示的 `ratings` pod 类似的信息，同时还有 virtual service 的到该 pod 的路由。
 
-The `istioctl describe` command doesn't just show the virtual services impacting the pod.
-If a virtual service configures the service host of a pod but no traffic will reach it,
-the command's output includes a warning. This case can occur if the virtual service
-actually blocks traffic by never routing traffic to the pod's subset. For
-example:
+`istioctl describe` 命令不仅仅展示影响该 pod 的 virtual service。
+如果一条 virtual service 配置了 pod 的服务主机但却没有流量到达它，该命令将会输出一个警告。
+这种情况可能会发生在 virtual service 实际上已经不再将流量路由到该 pod 的子集而拦截了流量时。例如：
 
 {{< text bash >}}
 $ export REVIEWS_V2_POD=$(kubectl get pod -l app=reviews,version=v2 -o jsonpath='{.items[0].metadata.name}')
@@ -146,18 +126,16 @@ VirtualService: reviews
       Route to non-matching subset v1 for (everything)
 {{< /text >}}
 
-The warning includes the cause of the problem, how many routes were checked, and
-even gives you information about the other routes in place. In this example,
-no traffic arrives at the `v2` pod because the route in the virtual service directs all
-traffic to the `v1` subset.
+该警告包含了这个问题的原因，检查了多少个路由，甚至还会告诉您其它路由的信息。
+在本例中，没有流量会到达 `v2` 的 pod，因为 virtual service 中的路由将所有流量都路由到 `v1` 子集。
 
-If you now delete the Bookinfo destination rules:
+如果您选择删除掉 Bookinfo destination rules：
 
 {{< text bash >}}
 $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 {{< /text >}}
 
-You can see another useful feature of `istioctl describe`:
+您可以看到 `istioctl describe` 的另外一个有用的功能：
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD
@@ -167,34 +145,29 @@ VirtualService: reviews
       Warning: Route to subset v1 but NO DESTINATION RULE defining subsets!
 {{< /text >}}
 
-The output shows you that you deleted the destination rule but not the virtual
-service that depends on it. The virtual service routes traffic to the `v1`
-subset, but there is no destination rule defining the `v1` subset.
-Thus, traffic destined for version `v1` can't flow to the pod.
+该输出说明您删除了 destination rule，但是依赖它的 virtual service 还在。
+Virtual service 想将流量路由到 `v1` 子集，但是没有 destination rule 来定义 `v1` 子集。
+因此，要去 `v1` 的流量就无法流向该 pod。
 
-If you refresh the browser to send a new request to Bookinfo at this
-point, you would see the following message: `Error fetching product reviews`.
-To fix the problem, reapply the destination rule:
+如果您现在刷新浏览器来向 Bookinfo 发送一个新的请求，您将会看到这条消息：`Error fetching product reviews`。
+要修复这个问题，请重新应用 destination rule：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 {{< /text >}}
 
-Reloading the browser shows the app working again and
-running `istioctl experimental describe pod $REVIEWS_V1_POD` no longer produces
-warnings.
+重新刷新浏览器，可以看到应用恢复工作了，运行 `istioctl experimental describe pod $REVIEWS_V1_POD` 也不再报出警告了。
 
-## Verifying traffic routes
+## 验证流量路由{#verifying-traffic-routes}
 
-The `istioctl describe` command shows split traffic weights too.
-For example, run the following command to route 90% of traffic to the `v1` subset
-and 10% to the `v2` subset of the the `reviews` service:
+`istioctl describe` 命令还可以展示流量的分隔权重。
+例如，运行如下命令将 90% 的流量路由到 `revis` 服务的 `v1` 子集，将10% 路由到 `v2` 子集：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
 {{< /text >}}
 
-Now describe the `reviews` `v1` pod:
+现在来 describe `reviews` 的 `v1` pod：
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD
@@ -203,17 +176,15 @@ VirtualService: reviews
    Weight 90%
 {{< /text >}}
 
-The output shows that the `reviews` virtual service has a weight of 90% for the
-`v1` subset.
+该输出显示了 `reviews` virtual service 在 `v1` 子集上有 90% 的权重。
 
-This function is also helpful for other types of routing. For example, you can deploy
-header-specific routing:
+该功能对于别的类型的路由也很有用。例如，您可以部署指定请求头的路由：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-jason-v2-v3.yaml@
 {{< /text >}}
 
-Then, describe the pod again:
+然后，再次 describe 该 pod：
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD
@@ -224,15 +195,12 @@ VirtualService: reviews
       Route to non-matching subset v3 for (everything)
 {{< /text >}}
 
-The output produces a warning since you are describing a pod in the `v1` subset.
-However, the virtual service configuration you applied routes traffic to the `v2`
-subset if the header contains `end-user=jason` and to the `v3` subset in all
-other cases.
+该输出显示了一个警告，因为该 pod 在 `v1` 子集。
+但是，如果请求头包含 `end-user=jason`，该 virtual service 配置将会把流量路由到 `v2` 子集，其余情况下都路由到 `v3` 子集。
 
-## Verifying strict mutual TLS
+## 验证严格双向 TLS{#verifying-strict-mutual-TLS}
 
-Following the [mutual TLS migration](/docs/tasks/security/authentication/mtls-migration/)
-instructions, you can enable strict mutual TLS for the `ratings` service:
+按照[双向 TLS 迁移](/zh/docs/tasks/security/mtls-migration/)的说明，您可以为 `ratings` 服务启用严格双向 TLS：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -249,26 +217,25 @@ spec:
 EOF
 {{< /text >}}
 
-Run the following command to describe the `ratings` pod:
+运行下列命令来 describe `ratings` 的 pod：
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
 Pilot reports that pod enforces mTLS and clients speak mTLS
 {{< /text >}}
 
-The output reports that requests to the the `ratings` pod are now locked down and secure.
+该输出说明到 `ratings` pod 的请求已被锁定并且是安全的。
 
-Sometimes, however, a deployment breaks when switching mutual TLS to `STRICT`.
-The likely cause is that the destination rule didn't match the new configuration.
-For example, if you configure the Bookinfo clients to not use mutual TLS using the
-[plain HTTP destination rules]({{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml):
+尽管如此，一个部署在切换双向 TLS 到 `STRICT` 模式时有时还是会中断。
+这可能是因为 destination rule 与新配置不匹配。
+例如，如果您配置 Bookinfo 的客户端不用双向 TLS 而是用[普通 HTTP destination rules]({{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml)：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
 {{< /text >}}
 
-If you open Bookinfo in your browser, you see `Ratings service is currently unavailable`.
-To learn why, run the following command:
+如果您在浏览器中打开 Bookinfo，您会看到 `Ratings service is currently unavailable`。
+想知道原因，请运行以下命令：
 
 {{< text bash >}}
 $ istioctl x describe pod $RATINGS_POD
@@ -277,26 +244,22 @@ WARNING Pilot predicts TLS Conflict on ratings-v1-f745cf57b-qrxl2 port 9080 (pod
   Check DestinationRule ratings/default and AuthenticationPolicy ratings-strict/default
 {{< /text >}}
 
-The output includes a warning describing the conflict
-between the destination rule and the authentication policy.
+该输出包含了一个警告，描述了 destination rule 和认证策略之间的冲突。
 
-You can restore correct behavior by applying a destination rule that uses
-mutual TLS:
+您可以通过应用一个使用双向 TLS 的 destination rule 来修复问题：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 {{< /text >}}
 
-## Conclusion and cleanup
+## 结论和清理{#conclusion-and-cleanup}
 
-Our goal with the `istioctl x describe` command is to help you understand the
-traffic and security configurations in your Istio mesh.
+我们对于 `istioctl x describe` 命令的目标是帮助您理解您的 Istio 网格中的流量和安全配置。
 
-We would love to hear your ideas for improvements!
-Please join us at [https://discuss.istio.io](https://discuss.istio.io).
+我们也希望能听到您的改善意见！
+请在 [https://discuss.istio.io](https://discuss.istio.io) 参与讨论。
 
-To remove the Bookinfo pods and configurations used in this guide, run the
-following commands:
+运行以下命令以删除 Bookinfo 的 pods 和本指南中用到的配置：
 
 {{< text bash >}}
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo.yaml@
