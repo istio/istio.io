@@ -30,6 +30,7 @@ tsc
 babel --source-maps --minified --no-comments \
   tmp/js/constants.js \
   tmp/js/utils.js \
+  tmp/js/feedback.js \
   tmp/js/kbdnav.js \
   tmp/js/themes.js \
   tmp/js/menu.js \
