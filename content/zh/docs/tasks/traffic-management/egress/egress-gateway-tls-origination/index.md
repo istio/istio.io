@@ -1,6 +1,6 @@
 ---
-title: 可发起 TLS 的 Egress Gateways
-description: 描述如何配置一个 Egress gateway，来向外部服务发起 TLS 连接。
+title: Egress 网关的 TLS 发起过程
+description: 描述如何配置一个 Egress 网关，来向外部服务发起 TLS 连接。
 weight: 40
 keywords: [traffic-management,egress]
 aliases:
@@ -8,10 +8,10 @@ aliases:
 ---
 
 [为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)
-示例中演示了如何配置 Istio 以对请求外部服务的流量 {{< gloss >}}TLS origination{{< /gloss >}}。
+示例中演示了如何配置 Istio 以对外部服务流量实施 {{< gloss >}}TLS origination{{< /gloss >}}。
 [配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)
-示例中演示了如何配置 Istio 来通过专门的 egress gateway 服务引导 egress 流量。
-本示例兼容以上两者，描述如何配置 egress gateway，为访问外部服务的流量发起 TLS 连接。
+示例中演示了如何配置 Istio 来通过专门的 egress 网关服务引导 egress 流量。
+本示例兼容以上两者，描述如何配置 egress 网关，为外部服务流量发起 TLS 连接。
 
 ## 开始之前{#before-you-begin}
 
@@ -31,10 +31,10 @@ aliases:
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
-    注意每一个可以实施 `exec` 和 `curl` 操作的 pod，都需要注入。
+    注意每一个可以执行 `exec` 和 `curl` 操作的 pod，都需要注入。
 
 *   创建一个 shell 变量，来保存向外部服务发送请求的源 pod 的名称。
-    若使用 [sleep]({{< github_tree >}}/samples/sleep) 样本应用，运行：
+    若使用 [sleep]({{< github_tree >}}/samples/sleep) 样例，运行：
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -87,7 +87,7 @@ aliases:
 
 1.  为 _edition.cnn.com_ 创建一个 egress `Gateway`， 端口 443，以及一个 sidecar 请求的目标规则，sidecar 请求被直接导向 egress gateway。
 
-    根据是否有意向开启源 pod 与 egress gateway 之间的[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，选择相应的命令。
+    根据需要开启源 pod 与 egress gateway 之间的[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，选择相应的命令。
 
     {{< idea >}}
     若开启双向 TLS ，则源 pod 与 egress gateway 之间的流量为加密状态。
@@ -249,13 +249,13 @@ aliases:
     $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
     {{< /text >}}
 
-    将显示类似如下的一行：
+    将看到类似如下一行：
 
     {{< text plain>}}
     "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "edition.cnn.com" "151.101.65.67:443"
     {{< /text >}}
 
-### 清除发起 TLS 连接的示例{#cleanup-the-t-ls-origination-example}
+### 清除 TLS 启动实例{#cleanup-the-t-ls-origination-example}
 
 删除创建的 Istio 配置项：
 
@@ -317,7 +317,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 ### 部署一个双向 TLS 服务器{#deploy-a-mutual-t-ls-server}
 
 为了模拟一个真实的支持双向 TLS 协议的外部服务，
-在自身 Kubernetes 集群中部署一个 [NGINX](https://www.nginx.com) 服务器，该服务器运行在 Istio 服务网格之外，譬如：运行在一个没有开启 Istio sidecar proxy 注入的命名空间中。
+在 Kubernetes 集群中部署一个 [NGINX](https://www.nginx.com) 服务器，该服务器运行在 Istio 服务网格之外，譬如：运行在一个没有开启 Istio sidecar proxy 注入的命名空间中。
 
 1.  创建一个命名空间，表示 Istio 网格之外的服务， `mesh-external`。注意在这个命名空间中，sidecar 自动注入是没有[开启](/zh/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) 的，不会在 pods 中自动注入 sidecar proxy。
 
@@ -325,7 +325,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. 生成 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) ，保存服务器和 CA 的证书。
+1.  创建 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) ，保存服务器和 CA 的证书。
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
@@ -559,7 +559,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 1.  使用部署的 [sleep]({{< github_tree >}}/samples/sleep) pod 向 NGINX 服务器发送请求。
     由于 `nginx.example.com` 不是真实存在的，DNS 无法解析，后面的 `curl` 命令使用 `--resolve` 选项手动解析主机名。
     --resolve 选项传递的 IP 值（下方所示，1.1.1.1）没有意义。除 127.0.0.1 之外的任意值都可以使用。
-    正常情况下，目标主机名对应着一个 DNS 项，无需使用 `curl` 的 `--resolve` 选项。
+    一般情况下，目标主机名对应着一个 DNS 项，无需使用 `curl` 的 `--resolve` 选项。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve nginx.example.com:443:1.1.1.1 --cacert /etc/nginx-ca-certs/ca-chain.cert.pem --cert /etc/nginx-client-certs/tls.crt --key /etc/nginx-client-certs/tls.key https://nginx.example.com
@@ -609,7 +609,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
-1.  部署 `istio-egressgateway` 挂载新生成的 secrets 的卷。使用的参数选项与生成 `istio.yaml` 中的一致：
+1.  部署 `istio-egressgateway` 挂载新生成的 secrets 的 volume。使用的参数选项与生成 `istio.yaml` 中的一致：
 
     {{< text bash >}}
     $ istioctl manifest generate --set values.gateways.istio-ingressgateway.enabled=false \
