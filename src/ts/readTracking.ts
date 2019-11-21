@@ -81,7 +81,7 @@ function setDots(): void {
 }
 
 function setMarkAllRead(): void {
-    const button = document.getElementById("mark-all-read");
+    const button = getById("mark-all-read");
     if (button != null) {
         const prefix = button.dataset.prefix;
         if (prefix === undefined) {
