@@ -80,7 +80,7 @@ deployed and you don't want to install it.
     (CRDs) using `kubectl apply`:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+    $ helm template istio-init install/kubernetes/helm/istio-init --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
 1. {{< boilerplate verify-crds >}}
@@ -99,7 +99,7 @@ deployed and you don't want to install it.
 {{< tab name="default" cookie-value="default" >}}
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
+$ helm template istio install/kubernetes/helm/istio --namespace istio-system | kubectl apply -f -
 {{< /text >}}
 
 {{< /tab >}}
@@ -107,7 +107,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 {{< tab name="demo" cookie-value="demo" >}}
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+$ helm template istio install/kubernetes/helm/istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -
 {{< /text >}}
 
@@ -116,7 +116,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 {{< tab name="minimal" cookie-value="minimal" >}}
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+$ helm template istio install/kubernetes/helm/istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl apply -f -
 {{< /text >}}
 
@@ -125,7 +125,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 {{< tab name="sds" cookie-value="sds" >}}
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+$ helm template istio install/kubernetes/helm/istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml | kubectl apply -f -
 {{< /text >}}
 
@@ -140,7 +140,7 @@ corresponding to your chosen profile.
 For example, to configure the `demo` profile with mutual TLS enabled:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+$ helm template istio install/kubernetes/helm/istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo.yaml \
     --set global.controlPlaneSecurityEnabled=true \
     --set global.mtls.enabled=true | kubectl apply -f -
@@ -153,14 +153,14 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 Install the [Istio CNI](/docs/setup/additional-setup/cni/) components:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl apply -f -
+$ helm template istio-cni install/kubernetes/helm/istio-cni --namespace=kube-system | kubectl apply -f -
 {{< /text >}}
 
 Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
 For example, to configure the **default** profile:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
+$ helm template istio install/kubernetes/helm/istio --namespace istio-system \
     --set istio_cni.enabled=true | kubectl apply -f -
 {{< /text >}}
 
