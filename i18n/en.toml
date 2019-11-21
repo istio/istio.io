@@ -258,3 +258,12 @@ other = "CVSS Impact Score"
 
 [security_bulletin_affected_releases]
 other = "Affected Releases"
+
+[feedback_title]
+other = "Was this information useful?"
+
+[feedback_yes]
+other = "Yes"
+
+[feedback_no]
+other = "No"
