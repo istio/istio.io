@@ -143,7 +143,7 @@ keywords: [keyword1,keyword2,...]
 
 ## 添加图片{#adding-images}
 
-将图片文件与 markdown 文件放在同一目录中。首选的图片格式是SVG。在 markdown 文件中，使用以下代码添加图片：
+将图片文件与 markdown 文件放在同一目录中。首选的图片格式是 SVG。在 markdown 文件中，使用以下代码添加图片：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -192,7 +192,7 @@ keywords: [keyword1,keyword2,...]
     [看这里](./adir/anotherfile.html)
     {{< /text >}}
 
-1. **绝对链接**。您可以使用以 / 开头的绝对链接来引用当前层次结构之外的内容：
+1. **绝对链接**。您可以使用以 `/` 开头的绝对链接来引用当前层次结构之外的内容：
 
     {{< text markdown >}}
     [看这里](/docs/adir/afile/)
@@ -224,7 +224,7 @@ keywords: [keyword1,keyword2,...]
 
 ## 版本信息{#version-information}
 
-您可以使用 `{{</* istio_version */>}}` 或 `{{</* istio_full_version */>}}`（分别呈现为 {{< istio_version >}} 和 {{< istio_full_version >}}）获得网站描述的当前Istio版本。
+您可以使用 `{{</* istio_version */>}}` 或 `{{</* istio_full_version */>}}`（分别呈现为 {{< istio_version >}} 和 {{< istio_full_version >}}）获得网站描述的当前 Istio 版本。
 
 `{{</* source_branch_name */>}}` 扩展为网站所对应的 `istio/istio` GitHub 仓库的分支名称，这呈现为 {{< source_branch_name >}}。
 
@@ -248,7 +248,7 @@ func HelloWorld() {
 }
 {{< /text >}}
 
-您必须在预格式化的块中指示内容的语法。上方代码块被标记为 `plain`，表示不应对该块应用语法渲染。与上面使用同样的代码块，但现在使用Go语言语法进行了注解：
+您必须在预格式化的块中指示内容的语法。上方代码块被标记为 `plain`，表示不应对该块应用语法渲染。与上面使用同样的代码块，但现在使用 Go 语言语法进行了注解：
 
 {{< text markdown >}}
 {{</* text go */>}}
@@ -392,7 +392,7 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
-您可以通过类似的方式动态地从互联网提取内容，但是使用 `url` 属性而不是 `file` 属性。这是相同的文件，但是是动态地从URL检索的，而不是静态地引入HTML的：
+您可以通过类似的方式动态地从互联网提取内容，但是使用 `url` 属性而不是 `file` 属性。这是相同的文件，但是是动态地从URL检索的，而不是静态地引入 HTML 的：
 
 {{< text markdown >}}
 {{</* text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" */>}}
@@ -418,9 +418,9 @@ func HelloWorld() {
 
 如果您未指定下载名称，则内联内容将根据当前页面的标题自动导出，下载内容的名称将根据文件名称或 URL 自动导出。
 
-### 链接到GitHub文件{#links-to-github-files}
+### 链接到 GitHub 文件{#links-to-github-files}
 
-如果您预先格式化的内容引用了 Istio 的 GitHub 存储库中的文件，则可以在文件的相对路径名周围加上一对 @ 符号。这些指示路径应呈现为来自GitHub当前分支的文件链接。例如：
+如果您预先格式化的内容引用了 Istio 的 GitHub 存储库中的文件，则可以在文件的相对路径名周围加上一对 @ 符号。这些指示路径应呈现为来自 GitHub 当前分支的文件链接。例如：
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -653,7 +653,7 @@ aliases:
 
 ## 构建和测试网站{#building-and-testing-the-site}
 
-编辑了某些内容文件后，您将需要构建网站以测试您的更改。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。为了在本地构建和测试站点，我们使用了包含Hugo的Docker映像。要构建和运行该站点，只需转到根目录并执行以下操作：
+编辑了某些内容文件后，您将需要构建网站以测试您的更改。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。为了在本地构建和测试站点，我们使用了包含 Hugo 的 Docker 镜像。要构建和运行该站点，只需转到根目录并执行以下操作：
 
 {{< text bash >}}
 $ make serve
@@ -667,7 +667,7 @@ $ make serve
 $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 {{< /text >}}
 
-这将构建站点并启动托管该站点的 Web 服务器。然后，您可以通过 `http://192.168.7.105:1313` 连接到Web服务器。
+这将构建站点并启动托管该站点的 Web 服务器。然后，您可以通过 `http://192.168.7.105:1313` 连接到 Web 服务器。
 
 该网站的所有英文内容都位于 `content/en` 目录以及同级翻译的目录（如 `content/zh`）中。
 
