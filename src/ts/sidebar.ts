@@ -145,9 +145,9 @@ function handleSidebar(): void {
     // force expand the default cards
     sidebar.querySelectorAll<HTMLElement>(".body").forEach(body => {
         if (body.classList.contains("default")) {
+            body.style.maxHeight = body.scrollHeight + "px";
             body.classList.toggle("default");
             body.classList.toggle("show");
-            body.style.maxHeight = body.scrollHeight + "px";
             const header = body.previousElementSibling as HTMLElement;
             if (header) {
                 toggleAttribute(header, ariaExpanded);
