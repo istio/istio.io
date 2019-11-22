@@ -1,7 +1,7 @@
 ---
-title: Common Problems
-description: Describes how to identify and resolve common problems in Istio.
-weight: 40
+title: Best Practices
+description: Best practices for setting up and managing an Istio service mesh.
+weight: 30
 keywords: [ops]
 aliases:
     - /help/ops/troubleshooting
