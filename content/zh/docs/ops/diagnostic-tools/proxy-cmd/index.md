@@ -4,9 +4,9 @@ description: Describes tools and techniques to diagnose Envoy configuration issu
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
 aliases:
-    - /help/ops/traffic-management/proxy-cmd
-    - /help/ops/misc
-    - /help/ops/troubleshooting/proxy-cmd
+    - /zh/help/ops/traffic-management/proxy-cmd
+    - /zh/help/ops/misc
+    - /zh/help/ops/troubleshooting/proxy-cmd
 ---
 
 Istio provides two very valuable commands to help diagnose traffic management configuration problems,

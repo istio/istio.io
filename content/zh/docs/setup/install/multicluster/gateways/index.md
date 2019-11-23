@@ -56,7 +56,7 @@ Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，�
 
     {{< /tip >}}
 
-    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
+    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
 
         {{< warning >}}
         示例目录中的根证书和中间证书已被广泛分发和知道。
@@ -235,7 +235,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 
     {{< tip >}}
     如果 `cluster2` 运行在一个不支持对外负载均衡的环境下，您需要使用 nodePort 访问 gateway。
-    有关获取使用 IP 的说明，请参见教程：[Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)。
+    有关获取使用 IP 的说明，请参见教程：[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)。
     在后面的步骤中，您还需要将 service entry 的 endpoint 的端口从 15443 修改为其对应的 nodePort
     （例如，`kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`）。
 

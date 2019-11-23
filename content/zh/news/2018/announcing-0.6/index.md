@@ -5,9 +5,9 @@ publishdate: 2018-03-08
 attribution: The Istio Team
 release: 0.6.0
 aliases:
-    - /about/notes/older/0.6
-    - /about/notes/0.6/index.html
-    - /news/announcing-0.6
+    - /zh/about/notes/older/0.6
+    - /zh/about/notes/0.6/index.html
+    - /zh/news/announcing-0.6
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or

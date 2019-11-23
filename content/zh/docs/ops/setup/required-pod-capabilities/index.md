@@ -3,7 +3,7 @@ title: Required Pod Capabilities
 description: Describes how to check which capabilities are allowed for your pods.
 weight: 9
 aliases:
-    - /help/ops/setup/required-pod-capabilities
+    - /zh/help/ops/setup/required-pod-capabilities
 ---
 
 If [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) are [enforced](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies) in your
