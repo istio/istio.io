@@ -12,7 +12,7 @@ Istio components are built with a flexible logging framework which provides a nu
 help operate these components and facilitate diagnostics. You control these logging features by passing
 command-line options when starting the components.
 
-## Logging scopes
+## Logging scopes{#logging-scopes}
 
 Logging messages output by a component are categorized by *scopes*. A scope represents a set of related log messages which
 you can control as a whole. Different components have different scopes, depending on the features the component
@@ -48,7 +48,7 @@ $ mixs server --log_output_level attributes=debug,adapters=warning
 In addition to controlling the output level from the command-line, you can also control the output level of a running component
 by using its [ControlZ](/docs/ops/diagnostic-tools/controlz) interface.
 
-## Controlling output
+## Controlling output{#controlling-output}
 
 Log messages are normally sent to a component's standard output stream. The `--log_target` option lets you direct the output to
 any number of different locations. You give the option a comma-separated list of file system paths, along with the special
@@ -57,7 +57,7 @@ values `stdout` and `stderr` to indicate the standard output and standard error 
 Log messages are normally output in a human-friendly format. The `--log_as_json` option can be used to force the output into JSON,
 which can be easier for tools to process.
 
-## Log rotation
+## Log rotation{log-rotation}
 
 Istio components can automatically manage log rotation, which make it simple to break up large logs into smaller log files.
 The `--log_rotate` option lets you specify the base file name to use for rotation. Derived names will be used for individual
@@ -67,7 +67,7 @@ The `--log_rotate_max_age` option lets you specify the maximum number of days be
 let you specify the maximum size in megabytes before file rotation takes place. Finally, the `--log_rotate_max_backups` option lets you control
 the maximum number of rotated files to keep, older files will be automatically deleted.
 
-## Component debugging
+## Component debugging{component-debugging}
 
 The `--log_caller` and `--log_stacktrace_level` options let you control whether log information includes
 programmer-level information. This is useful when trying to track down bugs in a component but is not
