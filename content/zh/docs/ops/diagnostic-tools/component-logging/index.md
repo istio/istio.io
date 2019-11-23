@@ -11,6 +11,7 @@ aliases:
 Istio 组件使用一个灵活的日志框架来构建，该框架提供了许多功能和控件去帮助操作这些组件并促进诊断，在启动组件的时候，可以通过在命令行传递参数来控制这些日志记录功能。
 
 ## 记录范围{#logging-scopes}
+
 组件输出的日志信息按*作用域*分类，一个作用域代表可以被控制的相关日志信息的整体。根据组件提供的功能，不同的组件具有不同的作用域。所有组件都有 `default` 作用域，该作用域用于未分类的日志信息。
 
 例如，在撰写本文时，Mixer 有5个作用域，代表了 Mixer 中的不同功能区域：
@@ -34,11 +35,13 @@ Pilot、Citadel 和 Galley 具有它们自己的范围，你可以通过查看�
 其中 `none` 不产生任何输出信息，并且 `debug` 产生的输出信息最多。 所有作用域的默认级别是 `info` ，为在正常情况下使用 Istio 提供大量的日志信息。
 
 要控制输出级别，也可以在命令行使用 `--log_output_level` 选项。例如：
+
 ```
 {{< text bash >}}
 $ mixs server --log_output_level attributes=debug,adapters=warning
 {{< /text >}}
 ```
+
 除了从命令行控制输出级别外，你也可以使用 [ControlZ](/zh/docs/ops/diagnostic-tools/controlz) 界面控制一个运行组件的输出级别。
 
 ## 控制输出{#controlling-output}
@@ -51,7 +54,7 @@ $ mixs server --log_output_level attributes=debug,adapters=warning
 
 Istio 组件可以自动管理日志的轮询，将庞大的日志分解为较小的日志文件。 `--log_rotate` 选项可以让你基于文件名进行轮询。派生名称将用于单个日志文件。
 
- `--log_rotate_max_age` 选项可以在日志文件被轮询前指定最大天数，然而 `--log_rotate_max_size` 选项可以指定文件轮询之前的最大 size （以兆字节为单位）。最后， `--log_rotate_max_backups` 选项可以控制要保留的最大轮询文件数，较旧的文件将被自动删除。
+`--log_rotate_max_age` 选项可以在日志文件被轮询前指定最大天数，然而 `--log_rotate_max_size` 选项可以指定文件轮询之前的最大 size （以兆字节为单位）。最后， `--log_rotate_max_backups` 选项可以控制要保留的最大轮询文件数，较旧的文件将被自动删除。
 
 ## 组件调试{#component-debugging}
 
