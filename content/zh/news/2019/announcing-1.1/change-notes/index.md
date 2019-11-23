@@ -3,14 +3,14 @@ title: Change Notes
 description: Istio 1.1 release notes.
 weight: 10
 aliases:
-    - /about/notes/1.1
+    - /zh/about/notes/1.1
 ---
 
 ## Incompatible changes from 1.0
 
 In addition to the new features and improvements listed below, Istio 1.1 has introduced
 a number of significant changes from 1.0 that can alter the behavior of applications.
-A concise list of these changes can be found in the [upgrade notice](/news/2019/announcing-1.1/upgrade-notes).
+A concise list of these changes can be found in the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes).
 
 ## Upgrades
 
@@ -18,7 +18,7 @@ We recommend a manual upgrade of the control plane and data plane to 1.1. See
 the [upgrades documents](/docs/setup/upgrade/) for more information.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/news/2019/announcing-1.1/upgrade-notes) for a
+Be sure to check out the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes) for a
 concise list of things you should know before upgrading your deployment to Istio 1.1.
 {{< /warning >}}
 

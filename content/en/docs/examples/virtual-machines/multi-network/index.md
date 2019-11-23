@@ -24,9 +24,6 @@ bare metal and the clusters.
 
 - Virtual machines (VMs) must have IP connectivity to the Ingress gateways in the mesh.
 
-- Install the [Helm client](https://docs.helm.sh/using_helm/). Helm is needed to
-  add VMs to your mesh.
-
 ## Installation steps
 
 Setup consists of preparing the mesh for expansion and installing and configuring each VM.
@@ -38,29 +35,33 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-1. Generate a `meshexpansion-gateways` Istio configuration file using `helm`:
+1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
-    {{< text bash >}}
-    $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-        -f https://github.com/irisdingbj/meshExpansion/blob/master/values-istio-meshexpansion-gateways.yaml \ > $HOME/istio-mesh-expansion-gatways.yaml
-    {{< /text >}}
-
-    For further details and customization options, refer to the
-    [Installation with Helm](/docs/setup/install/helm/) instructions.
-
-1. Deploy Istio control plane into the cluster
+    {{< warning >}}
+    The root and intermediate certificate from the samples directory are widely
+    distributed and known.  Do **not** use these certificates in production as
+    your clusters would then be open to security vulnerabilities and compromise.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ helm template  install/kubernetes/helm/istio-init --name istio-init --namespace istio-system  | kubectl apply -f -
-    $ kubectl apply -f $HOME/istio-mesh-expansion-gatways.yaml
+    $ kubectl create secret generic cacerts -n istio-system \
+        --from-file=@samples/certs/ca-cert.pem@ \
+        --from-file=@samples/certs/ca-key.pem@ \
+        --from-file=@samples/certs/root-cert.pem@ \
+        --from-file=@samples/certs/cert-chain.pem@
     {{< /text >}}
 
-1. Verify Istio is installed successfully
+1. Deploy Istio control plane into the cluster
 
-    {{< text bash >}}
-    $ istioctl verify-install -f $HOME/istio-mesh-expansion-gatways.yaml
-    {{< /text >}}
+        {{< text bash >}}
+        $ istioctl manifest apply \
+            -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion-gateways.yaml \
+            --set coreDNS.enabled=true
+        {{< /text >}}
+
+    For further details and customization options, refer to the
+    [installation instructions](/docs/setup/install/istioctl/).
 
 1. Create `vm` namespace for the VM services.
 
@@ -111,81 +112,16 @@ following commands on a machine with cluster admin privileges:
     ISTIO_SERVICE_CIDR=172.21.0.0/16
     {{< /text >}}
 
+1. If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes
+    to the `cluster.env` file with the following command. You can change the ports later if necessary.
+
+    {{< text bash >}}
+    $ echo "ISTIO_INBOUND_PORTS=8888" >> cluster.env
+    {{< /text >}}
+
 ### Setup DNS
 
-Providing DNS resolution to allow services running on VM can access the
-services running in the cluster. Istio itself does not use the DNS for
-routing requests between services. Services local to a cluster share a
-common DNS suffix(e.g., `svc.cluster.local`). Kubernetes DNS provides
-DNS resolution for these services.
-
-To provide a similar setup to allow services accessible from VMs, you name
-services in the clusters in the format
-`<name>.<namespace>.global`. Istio also ships with a CoreDNS server that
-will provide DNS resolution for these services. In order to utilize this
-DNS, Kubernetes' DNS must be configured to `stub a domain` for `.global`.
-
-{{< warning >}}
-Some cloud providers have different specific `DNS domain stub` capabilities
-and procedures for their Kubernetes services.  Reference the cloud provider's
-documentation to determine how to `stub DNS domains` for each unique
-environment.  The objective of this bash is to stub a domain for `.global` on
-port `53` to reference or proxy the `istiocoredns` service in Istio's service
-namespace.
-{{< /warning >}}
-
-Create one of the following ConfigMaps, or update an existing one, in each
-cluster that will be calling services in remote clusters
-(every cluster in the general case):
-
-For clusters that use `kube-dns`:
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kube-dns
-  namespace: kube-system
-data:
-  stubDomains: |
-    {"global": ["$(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})"]}
-EOF
-{{< /text >}}
-
-For clusters that use CoreDNS:
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: coredns
-  namespace: kube-system
-data:
-  Corefile: |
-    .:53 {
-        errors
-        health
-        kubernetes cluster.local in-addr.arpa ip6.arpa {
-           pods insecure
-           upstream
-           fallthrough in-addr.arpa ip6.arpa
-        }
-        prometheus :9153
-        proxy . /etc/resolv.conf
-        cache 30
-        loop
-        reload
-        loadbalance
-    }
-    global:53 {
-        errors
-        cache 30
-        proxy . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})
-    }
-EOF
-{{< /text >}}
+Reference [Setup DNS](/docs/setup/install/multicluster/gateways/#setup-dns) to set up DNS for the cluster.
 
 ### Setting up the VM
 
@@ -226,14 +162,6 @@ The following example updates the `/etc/hosts` file with the Istio gateway addre
     $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Verify the node agent works:
-
-    {{< text bash >}}
-    $ sudo node_agent
-    ....
-    CSR is approved successfully. Will renew cert in 1079h59m59.84568493s
-    {{< /text >}}
-
 1.  Start Istio using `systemctl`.
 
     {{< text bash >}}
@@ -252,7 +180,6 @@ cluster.
 | `configmap`                          | `coredns`                          | Send *.global request to `istiocordns` service |
 | `service`                            | `istiocoredns`                     | Resolve *.global to Istio Ingress gateway    |
 | `gateway.networking.istio.io`        | `meshexpansion-gateway`           | Open port for Pilot, Citadel and Mixer       |
-| `gateway.networking.istio.io`        | `istio-multicluster-egressgateway` | Open port 15443 for outbound *.global traffic|
 | `gateway.networking.istio.io`        | `istio-multicluster-ingressgateway`| Open port 15443 for inbound *.global traffic |
 | `envoyfilter.networking.istio.io`    | `istio-multicluster-ingressgateway`| Transform `*.global` to `*. svc.cluster.local`   |
 | `destinationrule.networking.istio.io`| `istio-multicluster-destinationrule`| Set traffic policy for 15443 traffic         |
@@ -382,42 +309,10 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 
 1. Determine the VM instance's IP address.
 
-1. Configure a service entry to enable service discovery for the VM. You can add VM services to the mesh using a
-    [service entry](/docs/reference/config/networking/service-entry/). Service entries let you manually add
-    additional services to Pilot's abstract model of the mesh. Once VM services are part of the mesh's abstract model,
-    other services can find and direct traffic to them. Each service entry configuration contains the IP addresses, ports,
-    and appropriate labels of all VMs exposing a particular service, for example:
-
-    {{< text bash yaml >}}
-    $ kubectl -n ${SERVICE_NAMESPACE} apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: ServiceEntry
-    metadata:
-      name: vmhttp
-    spec:
-      hosts:
-      - vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local
-      ports:
-      - number: 8888
-        name: http
-        protocol: HTTP
-      resolution: STATIC
-      endpoints:
-      - address: ${VM_IP}
-        ports:
-          http: 8888
-        labels:
-          app: vmhttp
-          version: "v1"
-    EOF
-    {{< /text >}}
-
-1. The workloads in a Kubernetes cluster need a DNS mapping to resolve the domain names of VM services. To
-    integrate the mapping with your own DNS system, use [`istioctl register`](/docs/reference/commands/istioctl/#istioctl-register) and creates a Kubernetes `selector-less`
-    service, for example:
+1. Add VM services to the mesh
 
     {{< text bash >}}
-    $ istioctl  register -n ${SERVICE_NAMESPACE} vmhttp ${VM_IP} 8888
+    $ istioctl experimental add-to-mesh external-service vmhttp ${VM_IP} http:8888 -n ${SERVICE_NAMESPACE}
     {{< /text >}}
 
     {{< tip >}}
@@ -430,7 +325,6 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ kubectl apply -f @samples/sleep/sleep.yaml@
     $ kubectl get pod
     NAME                             READY     STATUS    RESTARTS   AGE
-    productpage-v1-8fcdcb496-xgkwg   2/2       Running   0          1d
     sleep-88ddbcfdd-rm42k            2/2       Running   0          1s
     ...
     {{< /text >}}
@@ -466,9 +360,8 @@ Run the following commands to remove the expansion VM from the mesh's abstract
 model.
 
 {{< text bash >}}
-$ istioctl deregister -n ${SERVICE_NAMESPACE} vmhttp ${VM_IP}
-2019-02-21T22:12:22.023775Z     info    Deregistered service successfull
-$ kubectl delete ServiceEntry vmhttp -n ${SERVICE_NAMESPACE}
-serviceentry.networking.istio.io "vmhttp" deleted
+$ istioctl experimental remove-from-mesh -n ${SERVICE_NAMESPACE} vmhttp
+Kubernetes Service "vmhttp.vm" has been deleted for external service "vmhttp"
+Service Entry "mesh-expansion-vmhttp" has been deleted for external service "vmhttp"
 {{< /text >}}
 

@@ -4,7 +4,7 @@ description: Shows how to set up role-based access control for HTTP services.
 weight: 10
 keywords: [security,access-control,rbac,authorization]
 aliases:
-    - /docs/tasks/security/role-based-access-control.html
+    - /zh/docs/tasks/security/role-based-access-control.html
 ---
 
 This task covers the activities you might need to perform to set up Istio authorization, also known

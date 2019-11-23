@@ -1,58 +1,50 @@
 ---
-title: Setup a Kubernetes Cluster
-overview: Set up your Kubernetes cluster for the tutorial.
+title: 设置 Kubernetes 集群
+overview: 为教程准备 Kubernetes 集群。
 weight: 2
 ---
 
 {{< boilerplate work-in-progress >}}
 
-In this module, you set up a Kubernetes cluster that has Istio installed and a
-namespace to use throughout the tutorial.
+在这个模块，您将设置一个安装了 Istio 的 Kubernetes 集群，和一个整个教程要用到的命名空间。
 
 {{< warning >}}
-If you are in a workshop and the instructors provide a cluster for you,
-proceed to [setting up your local computer](/docs/examples/microservices-istio/setup-local-computer).
+如果您在培训班且讲师已准备好了集群，直接前往[设置本地机器](/zh/docs/examples/microservices-istio/setup-local-computer)。
 {{</ warning >}}
 
-1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
-    You can use the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
-    [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
+1.  确保您有 [Kubernetes 集群](https://kubernetes.io/docs/tutorials/kubernetes-basics/)的访问权限。
+    您可以使用 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) 或
+     [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started)。
 
-1.  Connect to your cluster and create an environment variable to store the name
-    of a namespace that you will use when you run the tutorial commands.
-    You can use any name, for example `tutorial`.
+1.  连接到您的集群且生成一个环境变量用于存储运行教程指令要用到的命名空间的名字。
+    可以用任何名字，比如 `tutorial`。
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
-1.  Create the namespace:
+1.  创建命名空间：
 
     {{< text bash >}}
     $ kubectl create namespace $NAMESPACE
     {{< /text >}}
 
     {{< tip >}}
-    If you are an instructor, you should allocate a separate namespace per each
-    participant. The tutorial supports work in multiple namespaces
-    simultaneously by multiple participants.
+    如果您是一位讲师，可以为每个参与者分配独立的命名空间。本教程支持多个参与者在不同的命名空间下同时运行。
     {{< /tip >}}
 
-1.  Install Istio with strict mutual TLS enabled. TODO: add command or point to instructions.
+1.  安装 Istio 且启用双向 TLS。 TODO: 为讲师准备命令或要点。
 
-1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
+1.  [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
 
-1.  Create a Kubernetes Ingress resource for these common Istio services using
-    the `kubectl` command shown. It is not necessary to be familiar with each of
-    these services at this point in the tutorial.
+1.  使用 `kubectl` 命令为这些通用 Istio 服务创建一个 Kubernetes Ingress 资源。在教程目前这个阶段要熟悉这些服务并不是必须的。
 
     - [Grafana](https://grafana.com/docs/guides/getting_started/)
     - [Jaeger](https://www.jaegertracing.io/docs/1.13/getting-started/)
     - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
     - [Kiali](https://www.kiali.io/documentation/getting-started/)
 
-    The `kubectl` command can accept an in-line configuration to create the
-    Ingress resources for each service:
+    `kubectl` 命令可以接收一个行内配置去为每个服务创建 Ingress 资源：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -94,9 +86,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     EOF
     {{< /text >}}
 
-1.  Create a role to provide read access to the `istio-system` namespace. This
-    role is required to limit permissions of the participants in the steps
-    below.
+1.  创建一个角色为 `istio-system` 命名空间提供读权限。要在下面的步骤中限制参与者的权限，这个角色是必须要有的。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -112,7 +102,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     EOF
     {{< /text >}}
 
-1.  Create a service account for each participant:
+1.  为每个参与者创建服务账号：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -124,15 +114,10 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     EOF
     {{< /text >}}
 
-1.  Limit each participant's permissions. During the tutorial, participants only
-    need to create resources in their namespace and to read resources from
-    `istio-system` namespace. It is a good practice, even if using your own
-    cluster, to avoid interfering with other namespaces in
-    your cluster.
+1.  限制每个参与者的权限。在教程中，参与者只需要在他们自己的命名空间中创建资源以及从 `istio-system` 命名空间中读取资源。
+    即使使用您自己的集群，这也是一个好的实践，它可以避免影响您集群中的其他命名空间。
 
-    Create a role to allow read-write access to each participant's namespace.
-    Bind the participant's service account to this role and to the role for
-    reading resources from `istio-system`:
+    创建一个角色为每个参与者的命名空间提供读写权限。为每个参与者赋予这个角色，以及读取 `istio-system` 资源的角色：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -177,11 +162,10 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     EOF
     {{< /text >}}
 
-1.  Each participant needs to use their own Kubernetes configuration file. This configuration file specifies
-    the cluster details, the service account, the credentials and the namespace of the participant.
-    The `kubectl` command uses the configuration file to operate on the cluster.
+1.  每个参与者需要使用他们自己的 Kubernetes 配置文件。这个配置文件指明了集群的详细信息，服务账号，证书和参与者的命名空间。
+    `kubectl` 命令使用这个配置文件在集群上操作。
 
-    Generate a Kubernetes configuration file for each participant:
+    为每个参与者创建 Kubernetes 配置文件：
 
     {{< text bash >}}
     $ cat <<EOF > ./${NAMESPACE}-user-config.yaml
@@ -213,15 +197,11 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     EOF
     {{< /text >}}
 
-1.  If you are setting up the cluster for yourself, copy the
-    `${NAMESPACE}-user-config.yaml` file mentioned in the previous steps to your
-    local computer, where `${NAMESPACE}` is the name of the namespace you
-    provided in the previous steps. For example, `tutorial-user-config.yaml`.
-    You will need this file later in the tutorial.
+1.  如果您为自己设置好了集群，复制前面步骤中提到的 `${NAMESPACE}-user-config.yaml` 文件到您的本地机器，`${NAMESPACE}` 就是前面步骤中的命名空间。比如，`tutorial-user-config.yaml`。
+    教程中您将会再次用到这个文件。
 
-    If you are an instructor, send the generated configuration files to each
-    participant who should copy it to their local computer.
+    如果您是讲师，发送生成的文件给每个需要复制到本地机器的参与者。
 
-Congratulations, you configured your cluster for the tutorials!
+恭喜, 您为您的教程设置好了集群！
 
-You are ready to [setup a local computer](/docs/examples/microservices-istio/setup-local-computer).
+您已经准备好[设置本地机器](/zh/docs/examples/microservices-istio/setup-local-computer)了。

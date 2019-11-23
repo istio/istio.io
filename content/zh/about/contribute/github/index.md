@@ -3,12 +3,12 @@ title: Working with GitHub
 description: Shows you how to use GitHub to work on Istio documentation.
 weight: 30
 aliases:
-    - /docs/welcome/contribute/creating-a-pull-request.html
-    - /docs/welcome/contribute/staging-your-changes.html
-    - /docs/welcome/contribute/editing.html
-    - /about/contribute/creating-a-pull-request
-    - /about/contribute/editing
-    - /about/contribute/staging-your-changes
+    - /zh/docs/welcome/contribute/creating-a-pull-request.html
+    - /zh/docs/welcome/contribute/staging-your-changes.html
+    - /zh/docs/welcome/contribute/editing.html
+    - /zh/about/contribute/creating-a-pull-request
+    - /zh/about/contribute/editing
+    - /zh/about/contribute/staging-your-changes
 keywords: [contribute,community,github,pr]
 ---
 
