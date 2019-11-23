@@ -36,6 +36,15 @@ The authorization policy model is now in Beta with the introduction of the
 focuses on simplification and flexibility. This will also replace the old
 [`v1alpha1` RBAC policy](/docs/reference/config/security/istio.rbac.v1alpha1/).
 
+## Automatic mutual TLS
+
+We added [automatic mutual TLS support](/docs/tasks/security/authentication/auto-mtls/). It allows
+you to adopt mutual TLS without needing to configure destination rules. Istio automatically programs
+client sidecar proxies to send mutual TLS to server endpoints that are able to accept mutual TLS.
+
+Currently this feature must be explicitly enabled, but we plan to enable it by default in a
+future release.
+
 ## Improved troubleshooting
 
 We're introducing the

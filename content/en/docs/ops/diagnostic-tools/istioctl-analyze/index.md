@@ -32,9 +32,11 @@ Note that `x` in the command is because this is currently an experimental featur
 
 ## Analyzing live clusters, local files, or both
 
-The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
+The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local Kubernetes yaml configuration files,
+or on a combination of local files and a live cluster. When analyzing a set of local files, the file set is expected to be fully self-contained.
+Typically, this is used to analyze the entire set of configuration files that are intended to be deployed to a cluster.
 
-Analyze a specific set of local files:
+Analyze a specific set of local Kubernetes yaml files:
 
 {{< text bash >}}
 $ ./istioctl x analyze a.yaml b.yaml

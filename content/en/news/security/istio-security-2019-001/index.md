@@ -11,11 +11,11 @@ aliases:
     - /news/2019/cve-2019-12243
 ---
 
-| Information       | &nbsp;
-|-------------------|--------
-| CVE               | [CVE 2019-12243](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12243)
-| CVSS Impact Score | 8.9 [CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C)
-| Affected Releases | 1.1 to 1.1.6
+{{< security_bulletin
+        cves="CVE-2019-12243"
+        cvss="8.9"
+        vector="CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
+        releases="1.1 to 1.1.6" >}}
 
 ## Context
 

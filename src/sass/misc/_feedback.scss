@@ -1,0 +1,26 @@
+#feedback {
+    text-align: center;
+    margin-top: 3rem;
+
+    div {
+        display: inline-block;
+        margin: 0 auto;
+        border: 1px solid $dividerBarColor;
+        border-radius: $border-radius;
+        padding: 1rem;
+    }
+
+    button {
+        width: 7em;
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-top: 1em;
+    }
+
+    button:disabled {
+        opacity: 50%;
+        background-color: $secondBrandColor;
+        color: $textBrandColor;
+        cursor: default;
+    }
+}
