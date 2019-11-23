@@ -56,7 +56,7 @@ Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，�
 
     {{< /tip >}}
 
-    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
+    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
 
         {{< warning >}}
         示例目录中的根证书和中间证书已被广泛分发和知道。
