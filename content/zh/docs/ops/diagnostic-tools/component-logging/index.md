@@ -36,11 +36,7 @@ Pilot、Citadel 和 Galley 具有它们自己的范围，你可以通过查看�
 
 要控制输出级别，也可以在命令行使用 `--log_output_level` 选项。例如：
 
-```
-{{< text bash >}}
-$ mixs server --log_output_level attributes=debug,adapters=warning
-{{< /text >}}
-```
+{{< text bash >}} $ mixs server --log_output_level attributes=debug,adapters=warning {{< /text >}}
 
 除了从命令行控制输出级别外，你也可以使用 [ControlZ](/zh/docs/ops/diagnostic-tools/controlz) 界面控制一个运行组件的输出级别。
 
