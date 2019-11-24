@@ -29,7 +29,7 @@ Helm 的安装方法已被弃用。
 
 ## 先决条件
 
-1. [下载 Istio 发行版](/zh/docs/setup/#downloading-the-release)。
+1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)。
 1. 完成必要的 [Kubernetes 平台设置](/zh/docs/setup/platform-setup/)。
 1. 检查 [Pod 和服务的要求](/zh/docs/setup/additional-setup/requirements/)。
 1. [安装高于 2.10 版本的 Helm 客户端](https://github.com/helm/helm#install)。
