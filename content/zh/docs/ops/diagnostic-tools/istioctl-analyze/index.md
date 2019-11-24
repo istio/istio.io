@@ -76,15 +76,15 @@ $ ./istioctl x analyze -k *.yaml
 
 ## 帮助我们改进此工具{#helping-us-improve-this-tool}
 
-我们将不断增加更多的分析功能，并希望您能帮助您确定更多的用例。
-如果您发现了一些 Istio 配置 “陷阱”，那么一些棘手的情况导致了您的一些问题，请提出问题并告知我们。
-我们也许可以自动标记此问题，以便其他人可以首先发现并避免该问题。
+我们将不断增加更多的分析功能，并希望您能帮助我们确定更多的用例。
+如果您发现了一些 Istio 配置 “陷阱”，一些导致您的使用出现问题的棘手情况，请提出问题并告知我们。
+我们也许可以自动标记此问题，以便其他人可以提前发现并避免该问题。
 
 为此，请您 [开启一个 issue](https://github.com/istio/istio/issues) 来描述您的情况。例如：
 
-- 查看所有虚拟服务
-- 对于每个网关，请查看其网关列表
-- 如果某些网关不存在，则产生错误
+- 查看所有 virtual services
+- 循环查看 virtual services 的 gateways 列表
+- 如果某个 gateways 不存在，则报错
 
 我们已经有针对这种特定情况的分析器，因此这仅是一个示例，用于说明您应提供的信息类型。
 
@@ -100,7 +100,7 @@ $ ./istioctl x analyze -k *.yaml
 
 - **现在支持哪些分析器？**
 
-      我们仍在努力记录分析器。同时，您可以在 [Istio 源代码]({{<github_blob>}}/galley/pkg/config/analysis/analyzers) 中看到所有分析器。
+      我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{<github_blob>}}/galley/pkg/config/analysis/analyzers) 中看到所有分析器。
 
 - **analysis 分析对我的集群有影响吗？**
 
@@ -108,7 +108,7 @@ $ ./istioctl x analyze -k *.yaml
 
 - **超出配置范围的又如何分析呢？**
 
-      今天，分析完全基于 Kubernetes 的配置，但是将来我们希望进一步扩展。例如，我们可以允许分析人员查看日志以生成建议。
+      今天，分析完全基于 Kubernetes 的配置，但是将来我们希望进一步扩展。例如，我们可以允许分析器查看日志以生成建议。
 
 - **在哪里可以找到解决错误的方法？**
 
@@ -118,9 +118,9 @@ $ ./istioctl x analyze -k *.yaml
 
 {{< boilerplate experimental-feature-warning >}}
 
-从 Istio 1.4 开始，可以通过 `galley.enableAnalysis` 标志来设置 Galley 以执行配置分析以及主要负责的配置分发。该分析使用与使用 `istioctl analyze` 时相同的逻辑和错误消息。来自分析的验证消息将写入受影响的 Istio 资源的状态子资源。
+从 Istio 1.4 开始，可以通过 `galley.enableAnalysis` 标志将 Galley 设置为与主要负责的配置分发一起执行配置分析。该分析使用与 `istioctl analyze` 相同的逻辑和错误消息。来自分析的验证消息将写入受影响的 Istio 资源的状态子资源。
 
-例如。如果您在 "ratings" 虚拟服务上网关配置错误，运行 `kubectl get virtualservice ratings` 将为您提供以下信息：
+例如，如果您在 "ratings" 虚拟服务上网关配置错误，运行 `kubectl get virtualservice ratings` 将为您提供以下信息：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -155,7 +155,7 @@ status:
 
 `enableAnalysis` 在后台运行，并将使资源的状态字段保持其当前验证状态的最新状态。请注意，这不能代替 `istioctl analyze`：
 
-- 并非所有资源都有自定义状态字段 (例如 Kubernetes `namespace` resources)，因此附加到这些资源的消息将不会显示验证消息。
+- 并非所有资源都有自定义状态字段 (例如 Kubernetes `namespace` 资源)，因此附加到这些资源的消息将不会显示验证消息。
 - `enableAnalysis` 仅适用于从1.4开始的 Istio 版本，而 `istioctl analysis` 可以用于较早的版本。
 - 尽管可以轻松查看特定资源的问题所在，但要在网格中全面了解验证状态更加困难。
 
