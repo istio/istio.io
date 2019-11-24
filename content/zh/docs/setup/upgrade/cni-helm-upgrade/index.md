@@ -22,7 +22,7 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 
 [下载新版本 Istio](/zh/docs/setup/getting-started/#download)，并切换目录到新版本的目录下。
 
-### Istio CNI 升级{#Istio-cni-upgrade}
+### Istio CNI 升级{#Istio-CNI-upgrade}
 
 如果您已经安装或计划安装 [Istio CNI](/zh/docs/setup/additional-setup/cni/)，请选择以下 **互斥** 选项之一，检查 Istio CNI 是否已经安装并进行升级：
 
