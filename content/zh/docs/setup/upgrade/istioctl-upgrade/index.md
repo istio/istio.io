@@ -81,11 +81,11 @@ keywords: [kubernetes,upgrading]
 
 * 降级命令 `istioctl` 的版本需要与要降级到的 Istio 版本相对应。例如：要将 Istio 从版本 1.4 降级到 1.3.3，需要使用 1.3.3 版本的 `istioctl` 命令。
 
-## 降级到 Istio 1.4 或更高版本的步骤{#downgrade-to-istio-1-4-and-higher-versions-steps}
+## 降级到 Istio 1.4 或更高版本的步骤{#downgrade-to-Istio-1-4-and-higher-versions-steps}
 
 您也可以使用 `istioctl upgrade` 命令降级 Istio 版本。步骤与前一部分提到的升级步骤相同，即使用低版本 Istio 配套的 `istioctl` 命令来降级。降级完成后，Istio 将会恢复到运行 `istioctl experimental upgrade` 命令以前的安装版本。
 
-### 降级到 Istio 1.3.3 或更低版本的步骤{#downgrade-to-istio-1-3-3-and-lower-versions-steps}
+### 降级到 Istio 1.3.3 或更低版本的步骤{#downgrade-to-Istio-1-3-3-and-lower-versions-steps}
 
 `istioctl experimental upgrade` 命令在 Istio 1.3.3 及更低版本中是不可用的。因此，降级必须使用 `istioctl experimental manifest apply` 命令。
 
