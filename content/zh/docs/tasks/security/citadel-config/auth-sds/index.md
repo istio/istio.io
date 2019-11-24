@@ -3,6 +3,8 @@ title: 通过 SDS 提供身份服务
 description: 演示 Istio 如何通过 SDS (Secret Discovery Service) 来提供身份服务。
 weight: 70
 keywords: [security,auth-sds]
+aliases:
+    - /zh/docs/tasks/security/auth-sds/
 ---
 
 该任务演示 Istio 如何通过 [SDS (secret discovery service)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration) 来提供身份服务。

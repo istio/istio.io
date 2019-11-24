@@ -23,7 +23,7 @@ keywords: [profiles,install,helm]
 
 1. **minimal**: 使用 Istio 的[流量管理](/zh/docs/tasks/traffic-management/)功能所需的最少组件集。
 
-1. **sds**: 和 **default** 配置类似，但是启用了 Istio 的 [SDS (secret discovery service)](/zh/docs/tasks/security/auth-sds) 功能。
+1. **sds**: 和 **default** 配置类似，但是启用了 Istio 的 [SDS (secret discovery service)](/zh/docs/tasks/security/citadel-config/auth-sds/) 功能。
     这个配置文件默认启用了附带的认证功能 (Strict Mutual TLS)。
 
 下表中标记为 **X** 的组件就是包含在配置文件里的内容:
