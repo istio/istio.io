@@ -16,13 +16,13 @@ keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 
 ## 搭建平台 {#platform}
 
-在安装 Istio 之前，需要一个运行着 Kubernetes 的兼容版本的{{< gloss >}}集群{{< /gloss >}}。
+在安装 Istio 之前，需要一个运行着 Kubernetes 的兼容版本的 {{< gloss >}}cluster{{< /gloss >}}。
 
 Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes_versions >}} 中测试过。
 
 - 通过选择合适的 [platform-specific setup instructions](/zh/docs/setup/platform-setup/) 来创建一个集群。
 
-有些平台提供了{{< gloss >}}托管控制平面{{< /gloss >}}，您可以使用它来代替手动安装Istio。 如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
+有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装Istio。 如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
 
 ## 下载 Istio {#download}
 
