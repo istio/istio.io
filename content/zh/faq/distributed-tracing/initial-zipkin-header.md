@@ -1,6 +1,6 @@
 ---
-title: What generates the initial Zipkin (B3) HTTP headers?
+title: 为什么要初始化生成 Zipkin (B3) HTTP header?
 weight: 15
 ---
 
-The Istio sidecar proxy (Envoy) generates the initial [headers](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-request-id), if they are not provided by the request.
+如果请求中没有 Zipkin (B3) HTTP header，Istio sidecar 代理(Envoy) 会自动生成初始化的 [headers](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-request-id)。
