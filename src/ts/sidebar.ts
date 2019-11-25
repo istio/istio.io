@@ -83,7 +83,7 @@ function handleSidebar(): void {
             body.style.maxHeight = body.scrollHeight + "px";
         } else {
             // if was expanded, reset this
-            body.style.maxHeight = null;
+            body.style.maxHeight = "";
         }
     }
 
