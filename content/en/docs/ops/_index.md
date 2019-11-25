@@ -1,6 +1,6 @@
 ---
 title: Operations
-description: Hints, tips, tricks about running an Istio mesh.
+description: Concepts, tools, and techniques to deploy and manage an Istio mesh.
 weight: 32
 aliases:
     - /troubleshooting.html

@@ -85,7 +85,7 @@ following commands on a machine with cluster admin privileges:
 
 1. Determine and store the IP address of the Istio ingress gateway since the VMs
    access [Citadel](/docs/concepts/security/) and
-   [Pilot](/docs/ops/architecture/#pilot) through this IP address.
+   [Pilot](/docs/ops/deployment/architecture/#pilot) through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
