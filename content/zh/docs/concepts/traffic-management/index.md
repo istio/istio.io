@@ -19,7 +19,7 @@ Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</
 
 本节中描述的功能特性，如果您对它们是如何工作的感兴趣的话，可以在[架构概述](/zh/docs/ops/architecture/)中找到关于 Istio 的流量管理实现的更多信息。本部分只介绍 Istio 的流量管理特性。
 
-## Istio 流量管理介绍 {#introducing-istio-traffic-management}
+## Istio 流量管理介绍 {#introducing-Istio-traffic-management}
 
 为了在网格中导流，Istio 需要知道所有的 endpoints 在哪里，它们属于哪个服务。为了定位到{{< gloss >}}service registry{{</ gloss >}}(服务注册中心)，Istio 会连接到一个服务发现系统。例如，如果您在 Kubernetes 集群上安装了 Istio，那么它将自动检测该集群中的服务和 endpoints。
 
@@ -275,7 +275,7 @@ spec:
 网关主要用于管理进入的流量，但您也可以配置出口网关。出口网关让您为离开网格的流量配置一个专用的出口
 节点，这可以限制哪些服务可以或应该访问外部网络，或者启用[出口流量安全控制](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)为您的网格添加安全性。您也可以使用网关配置一个纯粹的内部代理。
 
-Istio 提供了一些预先配置好的网关代理部署（istio-ingressgateway 和 istio-egressgateway）供您使用——如果使用我们的[演示安装](/zh/docs/setup/install/getting-started/)它们都已经部署好了；如果使用[默认或 sds 配置文件](/zh/docs/setup/additional-setup/config-profiles/)则只部署了入口网关。可以将您自己的网关配置应用到这些部署或配置您自己的网关代理。
+Istio 提供了一些预先配置好的网关代理部署（`istio-ingressgateway` 和 `istio-egressgateway`）供您使用——如果使用我们的[演示安装](/zh/docs/setup/getting-started/)它们都已经部署好了；如果使用[默认或 sds 配置文件](/zh/docs/setup/additional-setup/config-profiles/)则只部署了入口网关。可以将您自己的网关配置应用到这些部署或配置您自己的网关代理。
 
 ### Gateway 示例 {#gateway-example}
 
@@ -325,7 +325,7 @@ spec:
 
 -   为外部目标 redirect 和转发请求，例如来自 web 端的 API 调用，或者流向遗留老系统的服务。
 -   为外部目标定义[重试](#retries)，[超时](#timeouts)和[故障注入](#fault-injection)策略。
--   添加一个运行在虚拟机的服务来[扩展您的网格](/zh/docs/examples/mesh-expansion/single-network/#running-services-on-the-added-vm)。
+-   添加一个运行在虚拟机的服务来[扩展您的网格](/zh/docs/examples/virtual-machines/single-network/#running-services-on-the-added-vm)。
 -   从逻辑上添加来自不同集群的服务到网格，在 Kubernetes 上实现一个[多集群 Istio 网格](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)。
 
 您不需要为网格服务要使用的每个外部服务都添加服务入口。默认情况下，Istio 配置 Envoy 代理将请求传递给未知服务。但是，您不能使用 Istio 的特性来控制没有在网格中注册的目标流量。
