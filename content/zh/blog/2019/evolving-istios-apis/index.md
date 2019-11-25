@@ -7,7 +7,7 @@ keywords: [apis,composability,evolution]
 target_release: 1.2
 ---
 
-使团队能开发出最适合他们特定组织或者工作负载的抽象层，是 Istio 的一个主要目标，过去是，将来也是。Istio 为服务与服务之间网络通信提供了健壮有力的模块。从 [Istio 0.1](/news/releases/0.x/announcing-0.1) 开始，Istio 小组一直在从生产用户那里了解他们如何将自己的架构，工作负载和约束映射到 Istio 的功能，并且一直在持续优化 Istio API 来让它们更好地为用户服务。
+使团队能开发出最适合他们特定组织或者工作负载的抽象层，是 Istio 的一个主要目标，过去是，将来也是。Istio 为服务与服务之间网络通信提供了健壮有力的模块。从 [Istio 0.1](/zh/news/releases/0.x/announcing-0.1) 开始，Istio 小组一直在从生产用户那里了解他们如何将自己的架构，工作负载和约束映射到 Istio 的功能，并且一直在持续优化 Istio API 来让它们更好地为用户服务。
 
 ## Istio API 的演变{#evolving-istio’s-apis}
 
@@ -35,7 +35,7 @@ Kubernetes 可组合性的一个具体示例是部署应用时有一系列的对
 
 可以在 [Google Cloud HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) (GCLB) 找到网络空间可组合性的另一个例子。要正确使用 GCLB 的一个实例，需要创建和配置 6 个不同的基础对象。这样的设计是我们操作分布式系统 20 年经验的一个结果，并且[为什么每一个对象和其他对象相互独立是有原因的](https://www.youtube.com/watch?v=J5HJ1y6PeyE)。但你通过 Google Cloud 控制台创建一个实例的步骤是被简化过的。我们提供越多的通用的面向终端用户/以角色为中心的配置，以后你们配置的通用设置越少。最终，基础 API 的目标是在不牺牲功能的情况下提供最大的灵活性。
 
-[Knative](http://knative.dev) 是一个创建、运行并且操作无服务器工作负载的平台，它提供了一个以角色为中心的现实世界绝佳的示例，更高层次的 API。[Knative Serving](https://knative.dev/docs/serving/)，Knative 的一个组件，基于 Kubernetes 和 Istio 服务于无服务器应用和 function，为应用开发人员管理服务的路由和修订提供了一个顽固的工作流。由于采用这种顽固的方式，Knative Serving 将 Istio 的 [`VirtualService`](/docs/reference/config/networking/virtual-service/) 和 [`DestinationRule`](/docs/reference/config/networking/destination-rule/) 资源，抽象成一个简化的支持修订和流量路由的 [路由](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) 对象，将与应用开发人员最紧密相关的 Istio 网络 API 的一个子集暴露出来。
+[Knative](http://knative.dev) 是一个创建、运行并且操作无服务器工作负载的平台，它提供了一个以角色为中心的现实世界绝佳的示例，更高层次的 API。[Knative Serving](https://knative.dev/docs/serving/)，Knative 的一个组件，基于 Kubernetes 和 Istio 服务于无服务器应用和 function，为应用开发人员管理服务的路由和修订提供了一个顽固的工作流。由于采用这种顽固的方式，Knative Serving 将 Istio 的 [`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) 和 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 资源，抽象成一个简化的支持修订和流量路由的 [路由](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) 对象，将与应用开发人员最紧密相关的 Istio 网络 API 的一个子集暴露出来。
 
 随着Istio的成熟，我们还看到生产用户在 Istio 的基础 API 之上开发了针对特定工作负载和组织的抽象。
 
@@ -50,8 +50,8 @@ AutoTrader UK 提供了一个基于 Istio 定制平台的我们最喜欢的例�
 - 默认情况下支持路由所有流量，以逐步限制路由
 - 添加单个全局标志以启用双向 TLS 并加密所有 Pod 间通信
 
-噢，如果由于某种原因，你通过安装的 CRD 列表来判断工具箱，在 Istio 1.2 中我们将数字 54 减少到 23。为什么？事实证明，如果您有很多功能，则需要一种方法来配置所有功能。通过对安装程序的改进，您现在可以使用与适配器配合使用的[配置](/docs/setup/additional-setup/config-profiles/)安装Istio。
+噢，如果由于某种原因，你通过安装的 CRD 列表来判断工具箱，在 Istio 1.2 中我们将数字 54 减少到 23。为什么？事实证明，如果您有很多功能，则需要一种方法来配置所有功能。通过对安装程序的改进，您现在可以使用与适配器配合使用的[配置](/zh/docs/setup/additional-setup/config-profiles/)安装Istio。
 
 在所有的服务网格中，作为扩展，Istio 寻求将复杂的基础性操作自动化，比如网络和安全。这意味着总有些 API 是复杂的，但是 Istio 始终致力于解决操作者的需求，同时继续进化 API 以提供强大的构建块并通过以角色为中心的抽象来优先满足灵活性。
 
-我们迫不及待地希望你加入我们的 [社区](/about/community/join/)，看看你会使用 Istio 构建出什么美妙的产品！
+我们迫不及待地希望你加入我们的[社区](/zh/about/community/join/)，看看你会使用 Istio 构建出什么美妙的产品！
