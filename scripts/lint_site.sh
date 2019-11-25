@@ -98,7 +98,7 @@ check_content() {
 }
 
 check_content content/en --en-us
-# only check English words in Chinese docs
+# only check English words in Chinese done??cs
 check_content content/zh --en-us
 
 find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
@@ -124,6 +124,16 @@ done
 find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
     if grep -H -n -E -e "- (/docs|/about|/blog|/faq|/news)" "${f}"; then
         echo "Ensure translated content doesn't include aliases for English content"
+        FAILED=1
+    fi
+
+    if grep -H -n -E -e '"(/docs|/about|/blog|/faq|/news)' "${f}"; then
+        echo "Ensure translated content doesn't include references to English content"
+        FAILED=1
+    fi
+
+    if grep -H -n -E -e '\((/docs|/about|/blog|/faq|/news)' "${f}"; then
+        echo "Ensure translated content doesn't include references to English content"
         FAILED=1
     fi
 done

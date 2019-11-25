@@ -114,7 +114,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-### 确定 Ingress 的 IP 和端口{#determine-the-ingress-i-p-and-port}
+### 确定 Ingress 的 IP 和端口{#determine-the-ingress-IP-and-port}
 
 现在 Bookinfo 服务启动并运行中，您需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。可以用 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 来实现这个目标。
 

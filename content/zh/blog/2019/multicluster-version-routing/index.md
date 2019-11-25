@@ -9,7 +9,7 @@ target_release: 1.0
 ---
 
 If you've spent any time looking at Istio, you've probably noticed that it includes a lot of features that
-can be demonstrated with simple [tasks](/docs/tasks/) and [examples](/docs/examples/)
+can be demonstrated with simple [tasks](/zh/docs/tasks/) and [examples](/zh/docs/examples/)
 running on a single Kubernetes cluster.
 Because most, if not all, real-world cloud and microservices-based applications are not that simple
 and will need to have the services distributed and running in more than one location, you may be
@@ -18,18 +18,18 @@ wondering if all these things will be just as simple in your real production env
 Fortunately, Istio provides several ways to configure a service mesh so that applications
 can, more-or-less transparently, be part of a mesh where the services are running
 in more than one cluster, i.e., in a
-[multicluster deployment](/docs/ops/prep/deployment-models/#multiple-clusters).
+[multicluster deployment](/zh/docs/ops/prep/deployment-models/#multiple-clusters).
 The simplest way to set up a multicluster mesh, because it has no special networking requirements,
 is using a replicated
-[control plane model](/docs/ops/prep/deployment-models/#control-plane-models).
+[control plane model](/zh/docs/ops/prep/deployment-models/#control-plane-models).
 In this configuration, each Kubernetes cluster contributing to the mesh has its own control plane,
 but each control plane is synchronized and running under a single administrative control.
 
 In this article we'll look at how one of the features of Istio,
-[traffic management](/docs/concepts/traffic-management/), works in a multicluster mesh with
+[traffic management](/zh/docs/concepts/traffic-management/), works in a multicluster mesh with
 a dedicated control plane topology.
 We'll show how to configure Istio route rules to call remote services in a multicluster service mesh
-by deploying the [Bookinfo sample]({{<github_tree>}}/samples/bookinfo) with version `v1` of the `reviews` service
+by deploying the [Bookinfo sample]({{< github_tree >}}/samples/bookinfo) with version `v1` of the `reviews` service
 running in one cluster, versions `v2` and `v3` running in a second cluster.
 
 ## Set up clusters
@@ -37,7 +37,7 @@ running in one cluster, versions `v2` and `v3` running in a second cluster.
 To start, you'll need two Kubernetes clusters, both running a slightly customized configuration of Istio.
 
 * Set up a multicluster environment with two Istio clusters by following the
-    [replicated control planes](/docs/setup/install/multicluster/gateways/) instructions.
+    [replicated control planes](/zh/docs/setup/install/multicluster/gateways/) instructions.
 
 * The `kubectl` command is used to access both clusters with the `--context` flag.
     Use the following command to list your contexts:
@@ -263,7 +263,7 @@ Just like any application, we'll use an Istio gateway to access the `bookinfo` a
     $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
-* Follow the [Bookinfo sample instructions](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
+* Follow the [Bookinfo sample instructions](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)
     to determine the ingress IP and port and then point your browser to `http://$GATEWAY_URL/productpage`.
 
 You should see the `productpage` with reviews, but without ratings, because only `v1` of the `reviews` service
@@ -271,7 +271,7 @@ is running on `cluster1` and we have not yet configured access to `cluster2`.
 
 ## Create a service entry and destination rule on `cluster1` for the remote reviews service
 
-As described in the [setup instructions](/docs/setup/install/multicluster/gateways/#setup-dns),
+As described in the [setup instructions](/zh/docs/setup/install/multicluster/gateways/#setup-DNS),
 remote services are accessed with a `.global` DNS name. In our case, it's `reviews.default.global`,
 so we need to create a service entry and destination rule for that host.
 The service entry will use the `cluster2` gateway as the endpoint address to access the service.
@@ -330,7 +330,7 @@ EOF
 The address `240.0.0.3` of the service entry can be any arbitrary unallocated IP.
 Using an IP from the class E addresses range 240.0.0.0/4 is a good choice.
 Check out the
-[gateway-connected multicluster example](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
+[gateway-connected multicluster example](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)
 for more details.
 
 Note that the labels of the subsets in the destination rule map to the service entry

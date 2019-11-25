@@ -8,7 +8,7 @@ aliases:
 ---
 
 Attributes are a central concept used throughout Istio. You can find a description of what attributes are
-and what they are used for [here](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
+and what they are used for [here](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
 
 A given Istio deployment has a fixed vocabulary of attributes that it understands. The specific vocabulary is
 determined by the set of attribute producers being used in the deployment. The primary attribute producer in Istio
@@ -99,7 +99,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 
 ## Timestamp and duration attributes format
 
-Timestamp attributes are represented in the RFC 3339 format. When operating with timestamp attributes, you can use the `timestamp` function defined in [CEXL](/docs/reference/config/policy-and-telemetry/expression-language/) to convert a textual timestamp in RFC 3339 format into the `TIMESTAMP` type, for example: `request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`.
+Timestamp attributes are represented in the RFC 3339 format. When operating with timestamp attributes, you can use the `timestamp` function defined in [CEXL](/zh/docs/reference/config/policy-and-telemetry/expression-language/) to convert a textual timestamp in RFC 3339 format into the `TIMESTAMP` type, for example: `request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`.
 
 Duration attributes represent an amount of time, expressed as a series of decimal numbers with an optional fractional part denoted with a period, and a unit value. The possible unit values are `ns` for nanoseconds, `us` (or `µs`) for microseconds, `ms` for milliseconds, `s` for seconds, `m` for minutes, `h` for hours. For example:
 

@@ -7,7 +7,7 @@ aliases:
 keywords: [traffic-management,ingress,file-mount-credentials]
 ---
 
-The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
+The [Control Ingress Traffic task](/zh/docs/tasks/traffic-management/ingress)
 describes how to configure an ingress gateway to expose an HTTP
 service to external traffic. This task shows how to expose a secure HTTPS
 service using either simple or mutual TLS.
@@ -17,9 +17,9 @@ using a file mount based approach.
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
-and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress) task. After performing
+1.  Perform the steps in the [Before you begin](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
+and [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)
+sections of the [Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
 and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
@@ -111,7 +111,7 @@ create a gateway definition that configures a server on port 443.
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control/#configuring-ingress-using-an-istio-gateway) task:
+1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress/ingress-control/#configuring-ingress-using-an-Istio-gateway) task:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -351,7 +351,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
 ### Configure traffic for the `bookinfo.com` host
 
-1.  Deploy the [Bookinfo sample application](/docs/examples/bookinfo/), without a gateway:
+1.  Deploy the [Bookinfo sample application](/zh/docs/examples/bookinfo/), without a gateway:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
