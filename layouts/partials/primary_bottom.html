@@ -39,8 +39,8 @@
             <div id="feedback">
                 <div>
                     {{ i18n "feedback_title" }}<br>
-                    <button class="btn feedback" onclick="sendFeedback(1)">{{ i18n "feedback_yes" }}</button>
-                    <button class="btn feedback" onclick="sendFeedback(0)">{{ i18n "feedback_no" }}</button>
+                    <button class="btn feedback" onclick="sendFeedback('{{.Site.Language}}', 1)">{{ i18n "feedback_yes" }}</button>
+                    <button class="btn feedback" onclick="sendFeedback('{{.Site.Language}}', 0)">{{ i18n "feedback_no" }}</button>
                 </div>
             </div>
         {{ end }}
