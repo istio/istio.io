@@ -25,7 +25,7 @@ requirements:
 
 - **Named service ports**: Service ports must be named. The port name key/value
   pairs must have the following syntax: `name: <protocol>[-<suffix>]`. See
-  [Protocol Selection](/docs/ops/traffic-management/protocol-selection/) for
+  [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for
   more details.
 
 - **Service association**: A pod must belong to at least one Kubernetes

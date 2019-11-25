@@ -17,7 +17,7 @@ source to all versions of a destination service without any rules being set,
 creating a `VirtualService` with a default route for every service,
 right from the start, is generally considered a best practice in Istio.
 
-Even if you intially have only one version of a service, as soon as you decide
+Even if you initially have only one version of a service, as soon as you decide
 to deploy a second version, you need to have a routing rule in place **before**
 the new version is started, to prevent it from immediately receiving traffic
 in an uncontrolled way.
@@ -50,8 +50,8 @@ spec:
           maxConnections: 100
 {{< /text >}}
 
-Even if Istio’s default round-robin routing calls “v1” instances on occasion,
-maybe even always if “v1” is the only running version, the above traffic policy
+Even if Istio’s default round-robin routing calls "v1" instances on occasion,
+maybe even always if "v1" is the only running version, the above traffic policy
 will never be invoked.
 
 You can fix the above example in one of two ways. You can either move the
