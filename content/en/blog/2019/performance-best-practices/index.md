@@ -108,6 +108,6 @@ For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds just **3 millisec
 Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark).
 {{< /tip >}}
 
-Also check out the [Istio Performance and Scalability guide](/docs/ops/performance-and-scalability) for the most up-to-date performance data.
+Also check out the [Istio Performance and Scalability guide](/docs/ops/deployment/performance-and-scalability) for the most up-to-date performance data.
 
 Thank you for reading, and happy benchmarking!
