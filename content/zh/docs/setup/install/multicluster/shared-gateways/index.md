@@ -336,7 +336,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
     helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
 
-### 跨集群路由实战{#cross-cluster-routing-in-action}
+### 跨集群路由实践{#cross-cluster-routing-in-action}
 
 为了演示访问 `helloworld` 服务的流量如何跨两个集群进行分发，我们从网格内的另一个 `sleep` 服务请求 `helloworld` 服务。
 
