@@ -24,7 +24,6 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 
 ### Istio CNI 升级{#Istio-CNI-upgrade}
 
-
 如果您已经安装或计划安装 [Istio CNI](/zh/docs/setup/additional-setup/cni/)，请选择以下 **互斥** 选项之一，检查 Istio CNI 是否已经安装并进行升级：
 
 {{< tabset cookie-name="controlplaneupdate" >}}
@@ -54,7 +53,6 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 {{< /tab >}}
 
 {{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
-
 
 如果您已使用 [Helm and Tiller](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) 安装 Istio CNI，请优先使用 Helm 升级 Istio CNI。
 
