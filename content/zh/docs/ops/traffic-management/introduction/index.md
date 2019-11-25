@@ -19,7 +19,7 @@ other content.
 When attempting to understand, monitor or troubleshoot the networking within
 an Istio deployment it is critical to understand the fundamental Istio
 concepts starting with the service mesh.  The service mesh is described
-in [Architecture](/docs/ops/architecture/).  As noted
+in [Architecture](/zh/docs/ops/architecture/).  As noted
 in the architecture section Istio has a distinct control plane and a data
 plane and operationally it will be important to be able to monitor the
 network state of both.  The service mesh is a fully interconnected set of
@@ -27,19 +27,19 @@ proxies that are utilized in both the control and data plane to provide
 the Istio features.
 
 Another key concept to understand is how Istio performs traffic management.
-This is described in [Traffic Management Explained](/docs/concepts/traffic-management).
+This is described in [Traffic Management Explained](/zh/docs/concepts/traffic-management).
 Traffic management allows fine grained control with respect to what external
 traffic can enter or exit the mesh and how those requests are routed.  The
 traffic management configuration also dictates how requests between
 microservices within the mesh are handled.  Full details on how to
 configure the traffic management is available
-here: [Traffic Management Configuration](/docs/tasks/traffic-management).
+here: [Traffic Management Configuration](/zh/docs/tasks/traffic-management).
 
 The final concept that is essential for the operator to understand is how
 Istio uses gateways to allow traffic into the mesh or control how requests originating
 in the mesh access external services. This is described with a
 configuration example here:
-[Istio Gateways](/docs/concepts/traffic-management/#gateways)
+[Istio Gateways](/zh/docs/concepts/traffic-management/#gateways)
 
 ## Network Layers Beneath the Mesh
 

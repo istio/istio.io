@@ -35,6 +35,16 @@
             </nav>
         {{ end }}
 
+        {{ if .Scratch.Get "getFeedback" }}
+            <div id="feedback">
+                <div>
+                    {{ i18n "feedback_title" }}<br>
+                    <button class="btn feedback" onclick="sendFeedback(1)">{{ i18n "feedback_yes" }}</button>
+                    <button class="btn feedback" onclick="sendFeedback(0)">{{ i18n "feedback_no" }}</button>
+                </div>
+            </div>
+        {{ end }}
+
         <div id="endnotes-container" aria-hidden="true">
             <h2>{{ i18n "links" }}</h2>
             <ol id="endnotes"></ol>

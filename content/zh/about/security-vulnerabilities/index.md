@@ -14,7 +14,7 @@ To make a report, send an email to the private
 [istio-security-vulnerability-reports@googlegroups.com](mailto:istio-security-vulnerability-reports@googlegroups.com)
 mailing list with the vulnerability details. For normal product bugs
 unrelated to latent security vulnerabilities, please head to
-our [Reporting Bugs](/about/bugs/) page to learn what to do.
+our [Reporting Bugs](/zh/about/bugs/) page to learn what to do.
 
 ### When to report a security vulnerability?
 
@@ -69,7 +69,7 @@ branches.
 
 - Once the binaries are available, an announcement is sent out on the following channels:
 
-    - The [Istio blog](/blog)
+    - The [Istio blog](/zh/blog)
     - The [Announcements](https://discuss.istio.io/c/announcements) category on discuss.istio.io
     - The [Istio Twitter feed](https://twitter.com/IstioMesh)
     - The [#announcements channel on Slack](https://istio.slack.com/messages/CFXS256EQ/)

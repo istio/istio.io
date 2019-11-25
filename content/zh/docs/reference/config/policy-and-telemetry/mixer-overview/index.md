@@ -43,7 +43,7 @@ At a high level, Mixer provides:
 
 Policy enforcement and telemetry collection are entirely driven from configuration.
 Policy check is disabled by default, avoiding the need to go through the Mixer policy component.
-Refer to [Installation Options](/docs/reference/config/installation-options/) for more information.
+Refer to [Installation Options](/zh/docs/reference/config/installation-options/) for more information.
 
 ## Adapters
 
@@ -64,7 +64,7 @@ extended to target new or custom infrastructure backends.
     caption="Mixer and its Adapters"
     >}}
 
-Learn more about the [set of supported adapters](/docs/reference/config/policy-and-telemetry/adapters/).
+Learn more about the [set of supported adapters](/zh/docs/reference/config/policy-and-telemetry/adapters/).
 
 ## Attributes
 
@@ -102,7 +102,7 @@ The specific vocabulary is determined by the set of attribute producers being us
 in the deployment. The primary attribute producer in Istio is Envoy, although
 specialized Mixer adapters can also generate attributes.
 
-Learn more about the [common baseline set of attributes available in most Istio deployments](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
+Learn more about the [common baseline set of attributes available in most Istio deployments](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/).
 
 ### Attribute expressions
 
@@ -127,7 +127,7 @@ destination_version: destination.labels["version"] | "unknown"
 With the above, the `destination_version` label is assigned the value of `destination.labels["version"]`. However if that attribute
 is not present, the literal `"unknown"` is used.
 
-Refer to the [attribute expression](/docs/reference/config/policy-and-telemetry/expression-language/) page for details.
+Refer to the [attribute expression](/zh/docs/reference/config/policy-and-telemetry/expression-language/) page for details.
 
 ## Configuration model
 
@@ -218,7 +218,7 @@ spec:
 {{< /text >}}
 
 Each adapter defines its own particular format of configuration data. Learn more about [the full set of
-adapters and their specific configuration formats](/docs/reference/config/policy-and-telemetry/adapters/).
+adapters and their specific configuration formats](/zh/docs/reference/config/policy-and-telemetry/adapters/).
 
 ### Instances
 
@@ -244,7 +244,7 @@ spec:
 
 Note that all the dimensions expected in the handler configuration are specified in the mapping.
 Templates define the specific required content of individual instances. Learn more about the [set of
-templates and their specific configuration formats](/docs/reference/config/policy-and-telemetry/templates/).
+templates and their specific configuration formats](/zh/docs/reference/config/policy-and-telemetry/templates/).
 
 ### Rules
 

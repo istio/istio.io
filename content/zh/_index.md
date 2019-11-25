@@ -2,6 +2,32 @@
 title: Istio
 description: 用于连接、保护、控制和观测服务。
 ---
+<!-- these script blocks are only for the primary English home page -->
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "https://istio.io",
+        "logo": "https://istio.io/img/logo.png",
+        "sameAs": [
+            "https://twitter.com/IstioMesh",
+            "https://discuss.istio.io/"
+        ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://istio.io/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://istio.io/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+</script>
+
 <main class="landing">
     <div id="banner">
         {{< inline_image "landing/istio-logo.svg" >}}
@@ -16,7 +42,7 @@ description: 用于连接、保护、控制和观测服务。
             <a href="/zh/docs/concepts/traffic-management/">
                 <div class="panel-img-top">
                     {{< inline_image "landing/routing-and-load-balancing.svg" >}}
-                 </div>
+                </div>
                 <div class="panel-body">
                     <hr class="panel-line">
                     <h5 class="panel-title">连接</h5>
@@ -51,10 +77,10 @@ description: 用于连接、保护、控制和观测服务。
                 </div>
                 <div class="panel-body">
                     <hr class="panel-line">
-                    <h5 class="panel-title">控制</h5>
+                    <h5 class="panel-title">Control</h5>
                     <hr class="panel-line">
                     <p class="panel-text">
-                        应用策略并确保其执行使得资源在消费者之间公平分配。
+                        应用策略并确保其执行，使得资源在消费者之间公平分配。
                     </p>
                 </div>
             </a>
@@ -70,7 +96,7 @@ description: 用于连接、保护、控制和观测服务。
                     <h5 class="panel-title">观测</h5>
                     <hr class="panel-line">
                     <p class="panel-text">
-                        通过丰富的自动追踪、监控和记录所有服务，了解正在发生的情况。
+                        对您的一切服务进行多样化、自动化的追踪、监控以及记录日志，以便实时了解正在发生的事情。
                    </p>
                 </div>
             </a>
@@ -80,7 +106,5 @@ description: 用于连接、保护、控制和观测服务。
     <div id="buttons">
         <a title="在 Kubernetes 上安装 Istio。" class="btn" href="/zh/docs/setup/getting-started/">开始吧</a>
         <a title="深入了解 Istio 是什么以及它是如何工作的。" class="btn" href="/zh/docs/concepts/what-is-istio/">了解更多</a>
-        <a title="下载最新版本。" class="btn" href="/docs/setup/getting-started/#download">下载 {{< istio_release_name >}}</a>
+        <a title="下载最新版本。" class="btn" href="/zh/docs/setup/getting-started/#download">下载 {{< istio_release_name >}}</a>
     </div>
-</main>
-

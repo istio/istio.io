@@ -10,11 +10,11 @@ aliases:
     - /news/2019/istio-security-2019-005
 ---
 
-| Information       | &nbsp;
-|-------------------|--------
-| CVE               | [CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)
-| CVSS Impact Score | 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
-| Affected Releases | 1.1 to 1.1.15<br>1.2 to 1.2.6<br>1.3 to 1.3.1
+{{< security_bulletin
+        cves="CVE-2019-15226"
+        cvss="7.5"
+        vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        releases="1.1 to 1.1.15, 1.2 to 1.2.6, 1.3 to 1.3.1" >}}
 
 ## Context
 

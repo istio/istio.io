@@ -10,7 +10,7 @@ aliases:
 ---
 
 Follow this guide to configure a multicluster mesh using a shared
-[control plane](/docs/ops/prep/deployment-models/#control-plane-models)
+[control plane](/zh/docs/ops/prep/deployment-models/#control-plane-models)
 with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
 depending on the location of the request source.
@@ -29,7 +29,7 @@ No VPN connectivity nor direct network access between workloads in different clu
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
+* Authority to [deploy the Istio control plane](/zh/docs/setup/install/istioctl/)
 
 * Two Kubernetes clusters (referred to as `cluster1` and `cluster2`).
 
@@ -56,7 +56,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< warning >}}
     When you enable the additional components necessary for multicluster operation, the resource footprint
     of the Istio control plane may increase beyond the capacity of the default Kubernetes cluster you created when
-    completing the [Platform setup](/docs/setup/platform-setup/) steps.
+    completing the [Platform setup](/zh/docs/setup/platform-setup/) steps.
     If the Istio services aren't getting scheduled due to insufficient CPU or memory, consider
     adding more nodes to your cluster or upgrading to larger memory instances as necessary.
     {{< /warning >}}
@@ -78,17 +78,15 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
-    NAME                                      READY   STATUS      RESTARTS   AGE
-    istio-citadel-9bbf9b4c8-nnmbt             1/1     Running     0          2m8s
-    istio-cleanup-secrets-1.1.0-x9crw         0/1     Completed   0          2m12s
-    istio-galley-868c5fff5d-9ph6l             1/1     Running     0          2m9s
-    istio-ingressgateway-6c756547b-dwc78      1/1     Running     0          2m8s
-    istio-pilot-54fcf8db8-sn9cn               2/2     Running     0          2m8s
-    istio-policy-5fcbd55d8b-xhbpz             2/2     Running     2          2m8s
-    istio-security-post-install-1.1.0-ww5zz   0/1     Completed   0          2m12s
-    istio-sidecar-injector-6dcc9d5c64-7hnnl   1/1     Running     0          2m8s
-    istio-telemetry-57875ffb6d-n2vmf          2/2     Running     3          2m8s
-    prometheus-66c9f5694-8pccr                1/1     Running     0          2m8s
+    NAME                                      READY   STATUS    RESTARTS   AGE
+    istio-citadel-55d8b59798-6hnx4            1/1     Running   0          83s
+    istio-galley-c74b77787-lrtr5              2/2     Running   0          82s
+    istio-ingressgateway-684f5df677-shzhm     1/1     Running   0          83s
+    istio-pilot-5495bc8885-2rgmf              2/2     Running   0          82s
+    istio-policy-69cdf5db4c-x4sct             2/2     Running   2          83s
+    istio-sidecar-injector-5749cf7cfc-pgd95   1/1     Running   0          82s
+    istio-telemetry-646db5ddbd-gvp6l          2/2     Running   1          83s
+    prometheus-685585888b-4tvf7               1/1     Running   0          83s
     {{< /text >}}
 
 1. Create an ingress gateway to access service(s) in `cluster2`:
@@ -132,7 +130,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         {{< /text >}}
 
     1.   Follow the instructions in
-        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports),
         to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
 
     1.  Restore the previous `kubectl` context:
@@ -155,7 +153,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     Update the gateway's address and port of `network1` to reflect the `cluster1` ingress host and port,
-    respectively, then save and quit.
+    respectively, then save and quit. Note that the address appears in two places, the second under `values.yaml:`.
 
     Once saved, Pilot will automatically read the updated network configuration.
 
@@ -191,17 +189,17 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set values.global.remotePolicyAddress=${LOCAL_GW_ADDR} \
       --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-      --set values.global.network="network2"
+      --set values.global.network="network2" \
+      --set autoInjection.enabled=true
     {{< /text >}}
 
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway
-    NAME                                     READY   STATUS      RESTARTS   AGE
-    istio-citadel-75c8fcbfcf-9njn6           1/1     Running     0          12s
-    istio-cleanup-secrets-1.1.0-vtp62        0/1     Completed   0          14s
-    istio-sidecar-injector-cdb5d4dd5-rhks9   1/1     Running     0          12s
+    NAME                                      READY   STATUS    RESTARTS   AGE
+    istio-citadel-55d8b59798-nlk2z            1/1     Running   0          26s
+    istio-sidecar-injector-5749cf7cfc-s6r7p   1/1     Running   0          25s
     {{< /text >}}
 
     {{< warning >}}
@@ -219,7 +217,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         {{< /text >}}
 
     1.   Follow the instructions in
-        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports),
         to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
 
     1.  Restore the previous `kubectl` context:
@@ -242,16 +240,16 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     Update the gateway's address and port of `network2` to reflect the `cluster2` ingress host and port,
-    respectively, then save and quit.
+    respectively, then save and quit. Note that the address appears in two places, the second under `values.yaml:`.
 
     Once saved, Pilot will automatically read the updated network configuration.
 
-1. Prepare environment variables for building the `n2-k8s-config` file for the service account `istio-multi`:
+1. Prepare environment variables for building the `n2-k8s-config` file for the service account `istio-reader-service-account`:
 
     {{< text bash >}}
     $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
     $ SERVER=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
-    $ SECRET_NAME=$(kubectl --context=$CTX_CLUSTER2 get sa istio-multi -n istio-system -o jsonpath='{.secrets[].name}')
+    $ SECRET_NAME=$(kubectl --context=$CTX_CLUSTER2 get sa istio-reader-service-account -n istio-system -o jsonpath='{.secrets[].name}')
     $ CA_DATA=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o jsonpath="{.data['ca\.crt']}")
     $ TOKEN=$(kubectl get --context=$CTX_CLUSTER2 secret ${SECRET_NAME} -n istio-system -o jsonpath="{.data['token']}" | base64 --decode)
     {{< /text >}}
@@ -428,20 +426,30 @@ Execute the following commands to clean up the example services __and__ the Isti
 Cleanup the `cluster2` cluster:
 
 {{< text bash >}}
-$ kubectl delete --context=$CTX_CLUSTER2 -f istio-remote-auth.yaml
-$ kubectl delete --context=$CTX_CLUSTER2 ns istio-system
+$ istioctl manifest generate --context=$CTX_CLUSTER2 \
+  --set profile=remote \
+  --set values.global.mtls.enabled=true \
+  --set values.gateways.enabled=true \
+  --set values.security.selfSigned=false \
+  --set values.global.controlPlaneSecurityEnabled=true \
+  --set values.global.createRemoteSvcEndpoints=true \
+  --set values.global.remotePilotCreateSvcEndpoint=true \
+  --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
+  --set values.global.remotePolicyAddress=${LOCAL_GW_ADDR} \
+  --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
+  --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
+  --set values.global.network="network2" \
+  --set autoInjection.enabled=true | kubectl --context=$CTX_CLUSTER2 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
-$ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT
-$ rm istio-remote-auth.yaml
+$ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT LOCAL_GW_ADDR
 {{< /text >}}
 
 Cleanup the `cluster1` cluster:
 
 {{< text bash >}}
-$ kubectl delete --context=$CTX_CLUSTER1 -f istio-auth.yaml
-$ kubectl delete --context=$CTX_CLUSTER1 ns istio-system
-$ for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl delete --context=$CTX_CLUSTER1 -f $i; done
+$ istioctl manifest generate --context=$CTX_CLUSTER1 \
+  -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-primary.yaml | kubectl --context=$CTX_CLUSTER1 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER1 ns sample
 $ unset CTX_CLUSTER1
-$ rm istio-auth.yaml n2-k8s-config
+$ rm n2-k8s-config
 {{< /text >}}
