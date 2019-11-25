@@ -54,6 +54,6 @@ consider participating in our
 
 {{< community_item logo="./servicemesher.svg" alt="ServiceMesher" >}}
 Our Chinese-language documentation is maintained by the
-[ServiceMesher community](http://www.servicemesher.com), join us and get involved!
+[ServiceMesher community](https://www.servicemesher.com), join us and get involved!
 {{< /community_item >}}
 

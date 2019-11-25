@@ -77,7 +77,7 @@ resources.
 
 ### `Gateway`
 
-A [`Gateway`](/docs/reference/config/networking/gateway/)
+A [`Gateway`](/zh/docs/reference/config/networking/gateway/)
 configures a load balancer for HTTP/TCP traffic, regardless of
 where it will be running.  Any number of gateways can exist within the mesh
 and multiple different gateway implementations can co-exist. In fact, a
@@ -157,9 +157,9 @@ scalability issues with the previous model.
 In effect, what has changed is that instead of configuring routing using a set of individual configuration resources
 (rules) for a particular destination service, each containing a precedence field to control the order of evaluation, we
 now configure the (virtual) destination itself, with all of its rules in an ordered list within a corresponding
-[`VirtualService`](/docs/reference/config/networking/virtual-service/) resource.
+[`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) resource.
 For example, where previously we had two `RouteRule` resources for the
-[Bookinfo](/docs/examples/bookinfo/) application’s `reviews` service, like this:
+[Bookinfo](/zh/docs/examples/bookinfo/) application’s `reviews` service, like this:
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -275,7 +275,7 @@ In addition to this fundamental restructuring, `VirtualService` includes several
 
 ### `DestinationRule`
 
-A [`DestinationRule`](/docs/reference/config/networking/destination-rule/)
+A [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/)
 configures the set of policies to be applied while forwarding traffic to a service. They are
 intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc..
 `DestinationRule` is more or less the same as its predecessor, `DestinationPolicy`, with the following exceptions:
@@ -319,7 +319,7 @@ Notice that, unlike `DestinationPolicy`, multiple policies (e.g., default and v2
 
 ### `ServiceEntry`
 
-[`ServiceEntry`](/docs/reference/config/networking/service-entry/)
+[`ServiceEntry`](/zh/docs/reference/config/networking/service-entry/)
 is used to add additional entries into the service registry that Istio maintains internally.
 It is most commonly used to allow one to model traffic to external dependencies of the mesh
 such as APIs consumed from the web or traffic to services in legacy infrastructure.

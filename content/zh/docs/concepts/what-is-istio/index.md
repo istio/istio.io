@@ -47,7 +47,7 @@ Istio 简单的规则配置和流量路由允许您控制服务之间的流量�
 
 有了更好的对流量的可视性和开箱即用的故障恢复特性，您就可以在问题产生之前捕获它们，无论面对什么情况都可以使调用更可靠，网络更健壮。
 
-请参考 [流量管理文档](/docs/concepts/traffic-management/) 获取更多细节。
+请参考 [流量管理文档](/zh/docs/concepts/traffic-management/) 获取更多细节。
 
 ### 安全{#security}
 
@@ -55,7 +55,7 @@ Istio 的安全特性解放了开发人员，使其只需要专注于应用程�
 
 Istio 是独立于平台的，可以与 Kubernetes（或基础设施）的网络策略一起使用。但它更强大，能够在网络和应用层面保护{{<gloss>}}pod{{</gloss>}}到 pod 或者服务到服务之间的通信。
 
-请参考 [安全文档](/docs/concepts/security/) 获取更多细节。
+请参考 [安全文档](/zh/docs/concepts/security/) 获取更多细节。
 
 ### 策略{#policies}
 
@@ -65,9 +65,9 @@ Istio 允许您为应用程序配置自定义的策略并在运行时执行规�
 * Denials、白名单和黑名单用来限制对服务的访问
 * Header 的重写和重定向
 
-Istio 还容许你创建自己的[策略适配器](/docs/tasks/policy-enforcement/control-headers) 来添加诸如自定义的授权行为。
+Istio 还容许你创建自己的[策略适配器](/zh/docs/tasks/policy-enforcement/control-headers) 来添加诸如自定义的授权行为。
 
-请参考 [策略文档](/docs/concepts/policies/) 获取更多细节。
+请参考 [策略文档](/zh/docs/concepts/policies/) 获取更多细节。
 
 ### 可观察性{#observability}
 
@@ -77,7 +77,7 @@ Istio 的 Mixer 组件负责策略控制和遥测数据收集。它提供了后�
 
 所有这些特性都使您能够更有效地设置、监控和加强服务的 SLO。当然，底线是您可以快速有效地检测到并修复出现的问题。
 
-请参考 [可观察性文档](/docs/concepts/observability/) 获取更多细节。
+请参考 [可观察性文档](/zh/docs/concepts/observability/) 获取更多细节。
 
 ## 平台支持{#platform-support}
 

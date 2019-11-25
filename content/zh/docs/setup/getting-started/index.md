@@ -1,6 +1,6 @@
 ---
-title: 入门
-description: 下载，安装并试用 Istio。
+title: Getting Started
+description: Download, install, and learn how to evaluate and try Istio’s basic features quickly.
 weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/getting-started/
@@ -137,20 +137,6 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-安装 Istio 之后，您就可以 [部署 Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application) 来感受它在路由、故障注入，流量控制等方面的功能。探索各种
- [Istio 任务](/zh/docs/tasks/)，并且尝试您感兴趣的任务。如果您不知道如何入手，下面是一个不错的任务指南：
-
-- [请求路由](/zh/docs/tasks/traffic-management/request-routing/)
-- [故障注入](/zh/docs/tasks/traffic-management/fault-injection/)
-- [流量迁移](/zh/docs/tasks/traffic-management/traffic-shifting/)
-- [查询度量](/zh/docs/tasks/observability/metrics/querying-metrics/)
-- [可视化指标](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [日志收集](/zh/docs/tasks/observability/logs/collecting-logs/)
-- [流量控制](/zh/docs/tasks/policy-enforcement/rate-limiting/)
-- [入口网关](/zh/docs/tasks/traffic-management/ingress/ingress-control/)
-- [外部服务访问](/zh/docs/tasks/traffic-management/egress/egress-control/)
-- [网格可视化](/zh/docs/tasks/observability/kiali/)
-
 下一步，可以定制 Istio 并部署您自己的应用。在您开始自定义 Istio 来适配您的平台或者其他用途之前，请查看以下资源：
 
 - [部署模型](/zh/docs/ops/prep/deployment-models/)
@@ -160,7 +146,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 
 使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/)。
 
-## 卸载 {#Uninstall}
+## 卸载 {#uninstall}
 
 卸载程序将删除 RBAC 权限、`istio-system` 命名空间和所有相关资源。可以忽略那些不存在的资源的报错，因为它们可能已经被删除掉了。
 

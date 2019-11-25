@@ -16,7 +16,7 @@ please ensure your Istio control plane components and your applications are
 highly available with multiple replicas.
 
 {{< warning >}}
-Be sure to check out the [upgrade notes](/news/releases/{{< istio_version >}}.x/announcing-{{< istio_version >}}/upgrade-notes)
+Be sure to check out the [upgrade notes](/zh/news/releases/{{< istio_version >}}.x/announcing-{{< istio_version >}}/upgrade-notes)
 for a concise list of things you should know before upgrading your deployment to Istio {{< istio_version >}}.
 {{< /warning >}}
 
@@ -27,12 +27,12 @@ are supported. If you are on an older version, please upgrade to {{< istio_previ
 
 ## Upgrade steps
 
-[Download the new Istio release](/docs/setup/getting-started/#download)
+[Download the new Istio release](/zh/docs/setup/getting-started/#download)
 and change directory to the new release directory.
 
 ### Istio CNI upgrade
 
-If you have installed or are planning to install [Istio CNI](/docs/setup/additional-setup/cni/),
+If you have installed or are planning to install [Istio CNI](/zh/docs/setup/additional-setup/cni/),
 choose one of the following **mutually exclusive** options to check whether
 Istio CNI is already installed and to upgrade it:
 
@@ -67,7 +67,7 @@ This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
 
 {{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
 
-If you installed Istio CNI using [Helm and Tiller](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
+If you installed Istio CNI using [Helm and Tiller](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
 the preferred upgrade option is to let Helm take care of the upgrade.
 
 1. Check whether `istio-cni` is installed, and in which namespace:
@@ -117,7 +117,7 @@ to update the control plane:
 You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
 including configurations generated using
-[helm template](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template).
+[helm template](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template).
 
 1. Use `kubectl apply` to upgrade all of Istio's CRDs.  Wait a few seconds for the Kubernetes
    API server to commit the upgraded CRDs:
@@ -135,7 +135,7 @@ including configurations generated using
       --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
-    You must pass the same settings as when you first [installed Istio](/docs/setup/install/helm).
+    You must pass the same settings as when you first [installed Istio](/zh/docs/setup/install/helm).
 
 The rolling update process will upgrade all deployments and configmaps to the new version.
 After this process finishes, your Istio control plane should be updated to the new version.
@@ -145,7 +145,7 @@ yaml files from the old version.
 {{< /tab >}}
 
 {{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
-If you installed Istio using [Helm and Tiller](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
+If you installed Istio using [Helm and Tiller](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
 the preferred upgrade option is to let Helm take care of the upgrade.
 
 1. Upgrade the `istio-init` chart to update all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (CRDs).

@@ -66,7 +66,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     $ popd
     {{< /text >}}
 
-## 使用 SDS 配置 TLS Ingress Gateway {#configure-a-TLS-ingress-gateway-using-SDS}
+## 使用 SDS 配置 TLS Ingress Gateway {#configure-a-TLS-ingress-gateway-using-sds}
 
 可以配置 TLS Ingress Gateway ，让它从 Ingress Gateway 代理通过 SDS 获取凭据。Ingress Gateway 代理和 Ingress Gateway 在同一个 Pod 中运行，监视 Ingress Gateway 所在命名空间中新建的 `Secret`。在 Ingress Gateway 中启用 SDS 具有如下好处：
 

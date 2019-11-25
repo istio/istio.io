@@ -131,7 +131,7 @@ Multiple networks afford the following capabilities beyond that of single networ
 - Compliance with standards that require network segmentation
 
 In this model, the workload instances in different networks can only reach each
-other through one or more [Istio gateways](/docs/concepts/traffic-management/#gateways).
+other through one or more [Istio gateways](/zh/docs/concepts/traffic-management/#gateways).
 Istio uses **partitioned service discovery** to provide consumers a different
 view of {{< gloss >}}service endpoint{{< /gloss >}}s. The view depends on the
 network of the consumers.
