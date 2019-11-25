@@ -34,7 +34,7 @@ your specific needs. The following built-in configuration profiles are currently
     This profile comes with additional authentication features enabled by default (Strict Mutual TLS).
 
 1. **remote**: used for configuring remote clusters of a
-    [multicluster mesh](/docs/ops/prep/deployment-models/#multiple-clusters) with a
+    [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) with a
     [shared control plane](/docs/setup/install/multicluster/shared-vpn/) configuration.
 
 The components marked as **X** are installed within each profile:

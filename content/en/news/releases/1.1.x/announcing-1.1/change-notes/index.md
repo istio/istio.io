@@ -183,7 +183,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ### Configuration management
 
-- **Galley**. Added [Galley](/docs/ops/architecture/#galley) as the
+- **Galley**. Added [Galley](/docs/ops/deployment/architecture/#galley) as the
   primary configuration ingestion and distribution mechanism within Istio. It
   provides a robust model to validate, transform, and distribute configuration
   states to Istio components insulating the Istio components from Kubernetes

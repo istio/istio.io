@@ -22,7 +22,7 @@ If you depend on this behavior, there are a few options:
 * Change the protocol from type `http` to type `tcp`
 * Specify the environment variable `PILOT_BLOCK_HTTP_ON_443=false` to the Pilot deployment. Note: this may be removed in future releases.
 
-See [Protocol Selection](/docs/ops/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
+See [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
 
 ### Regex Engine Changes
 
