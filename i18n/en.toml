@@ -212,7 +212,7 @@ other = "Links"
 other = "This is an auto-generated file, please edit the source in the %s repo."
 
 [switch_lang]
-other = "Switch to Chinese"
+other = "Switch Language"
 
 [advisory]
 other = "-"
