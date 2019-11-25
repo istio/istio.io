@@ -76,7 +76,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
     istio-policy-69cdf5db4c-x4sct             2/2     Running   2          83s
     istio-sidecar-injector-5749cf7cfc-pgd95   1/1     Running   0          82s
     istio-telemetry-646db5ddbd-gvp6l          2/2     Running   1          83s
-    prometheus-685585888b-4tvf7               1/1     Running   0          83s 
+    prometheus-685585888b-4tvf7               1/1     Running   0          83s
     {{< /text >}}
 
 1. 创建一个 ingress 网关访问 `cluster2` 中的服务：
