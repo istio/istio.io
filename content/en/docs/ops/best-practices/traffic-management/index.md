@@ -4,8 +4,9 @@ description: Configuration best practices to avoid networking or traffic managem
 force_inline_toc: true
 weight: 20
 aliases:
-    - /help/ops/traffic-management/deploy-guidelines
-    - /help/ops/deploy-guidelines
+  - /help/ops/traffic-management/deploy-guidelines
+  - /help/ops/deploy-guidelines
+  - /docs/ops/traffic-management/deploy-guidelines
 ---
 
 This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.

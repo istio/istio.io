@@ -3,7 +3,8 @@ title: Envoy Statistics
 description: Fine-grained control of Envoy statistics.
 weight: 10
 aliases:
-    - /help/ops/telemetry/envoy-stats
+  - /help/ops/telemetry/envoy-stats
+  - /docs/ops/telemetry/envoy-stats
 ---
 
 The Envoy proxy keeps detailed statistics about network traffic.

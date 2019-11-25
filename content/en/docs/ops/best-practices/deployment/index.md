@@ -3,6 +3,8 @@ title: Deployment Best Practices
 description: General best practices when setting up an Istio service mesh.
 force_inline_toc: true
 weight: 10
+aliases:
+  - /docs/ops/prep/deployment
 ---
 
 We have identified the following general principles to help you get the most
