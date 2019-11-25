@@ -14,7 +14,7 @@ Earlier this year, we published a [blog post](/blog/2019/istio1.1_perf/) on Isti
 
 Overall, we found that Istio's [sidecar proxy](/docs/ops/architecture/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
 
-In the [Istio Tools repository](https://github.com/istio/tools/master/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
+In the [Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
 
 ## 1. Use a production-ready Istio installation
 
