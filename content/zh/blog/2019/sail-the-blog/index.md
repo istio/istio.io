@@ -22,6 +22,6 @@ target_release: 1.3
 -  文章中着重介绍了 Istio 的功能。
 -  文章中详细讲解了使用 Istio 完成一个任务或者满足特定用例需求的相关内容。
 
-仅需[提交一个 PR](/zh/about/contribute/github/#how-to-contribute) 就可以发表您的博客，如果需要，可以[申请评审](/zh/about/contribute/github/#review).
+仅需[提交一个 PR](/zh/about/contribute/github/#how-to-contribute) 就可以发表您的博客，如果需要，可以[申请评审](/zh/about/contribute/github/#review)。
 
 我们期待能够很快就能在博客上看到你的 Istio 体验！

@@ -29,10 +29,10 @@ changes to your services.
 
 If you’re interested in the details of how the features described in this guide
 work, you can find out more about Istio’s traffic management implementation in the
-[architecture overview](/docs/ops/architecture/). The rest of
+[architecture overview](/zh/docs/ops/architecture/). The rest of
 this guide introduces Istio’s traffic management features.
 
-## Introducing Istio Traffic Management
+## Introducing Istio traffic management
 
 In order to direct traffic within your mesh, Istio needs to know where all your
 endpoints are, and which services they belong to. To populate its own
@@ -78,7 +78,7 @@ are built in to the API resources.
 
 ## Virtual services {#virtual-services}
 
-[Virtual services](/docs/reference/config/networking/virtual-service/#VirtualService),
+[Virtual services](/zh/docs/reference/config/networking/virtual-service/#VirtualService),
 along with [destination rules](#destination-rules), are the key building blocks of Istio’s traffic
 routing functionality. A virtual service lets you configure how requests are
 routed to a service within an Istio service mesh, building on the basic
@@ -121,7 +121,7 @@ instances implementing the new service version can scale up and down based on
 traffic load without referring to traffic routing at all. By contrast, container
 orchestration platforms like Kubernetes only support traffic distribution based
 on instance scaling, which quickly becomes complex. You can read more about how
-virtual services help with canary deployments in [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+virtual services help with canary deployments in [Canary Deployments using Istio](/zh/blog/2017/0.1-canary/).
 
 Virtual services also let you:
 
@@ -135,7 +135,7 @@ Virtual services also let you:
     `monolith.com` go to `microservice A`", and so on. You can see how this works
     in [one of our examples below](#more-about-routing-rules).
 -   Configure traffic rules in combination with
-    [gateways](/docs/concepts/traffic-management/#gateways) to control ingress
+    [gateways](/zh/docs/concepts/traffic-management/#gateways) to control ingress
     and egress traffic.
 
 In some cases you also need to configure destination rules to use these
@@ -198,9 +198,9 @@ The `http` section contains the virtual service’s routing rules, describing
 match conditions and actions for routing HTTP/1.1, HTTP2, and gRPC traffic sent
 to the destination(s) specified in the hosts field (you can also use `tcp` and
 `tls` sections to configure routing rules for
-[TCP](/docs/reference/config/networking/virtual-service/#TCPRoute) and
+[TCP](/zh/docs/reference/config/networking/virtual-service/#TCPRoute) and
 unterminated
-[TLS](/docs/reference/config/networking/virtual-service/#TLSRoute)
+[TLS](/zh/docs/reference/config/networking/virtual-service/#TLSRoute)
 traffic). A routing rule consists of the destination where you want the traffic
 to go and zero or more match conditions, depending on your use case.
 
@@ -322,7 +322,7 @@ You can also have multiple routing rules for any given virtual service. This
 lets you make your routing conditions as complex or simple as you like within a
 single virtual service. A full list of match condition fields and their possible
 values can be found in the
-[`HTTPMatchRequest` reference](/docs/reference/config/networking/virtual-service/#HTTPMatchRequest).
+[`HTTPMatchRequest` reference](/zh/docs/reference/config/networking/virtual-service/#HTTPMatchRequest).
 
 In addition to using match conditions, you can distribute traffic
 by percentage "weight". This is useful for A/B testing and canary rollouts:
@@ -351,12 +351,12 @@ example:
 -   Set a [retry policy](#retries) for calls to this destination.
 
 To learn more about the actions available, see the
-[`HTTPRoute` reference](/docs/reference/config/networking/virtual-service/#HTTPRoute).
+[`HTTPRoute` reference](/zh/docs/reference/config/networking/virtual-service/#HTTPRoute).
 
 ## Destination rules {#destination-rules}
 
 Along with [virtual services](#virtual-services),
-[destination rules](/docs/reference/config/networking/destination-rule/#DestinationRule)
+[destination rules](/zh/docs/reference/config/networking/destination-rule/#DestinationRule)
 are a key part of Istio’s traffic routing functionality. You can think of
 virtual services as how you route your traffic **to** a given destination, and
 then you use destination rules to configure what happens to traffic **for** that
@@ -372,7 +372,7 @@ Destination rules also let you customize Envoy’s traffic policies when calling
 the entire destination service or a particular service subset, such as your
 preferred load balancing model, TLS security mode, or circuit breaker settings.
 You can see a complete list of destination rule options in the
-[Destination Rule reference](/docs/reference/config/networking/destination-rule/).
+[Destination Rule reference](/zh/docs/reference/config/networking/destination-rule/).
 
 ### Load balancing options
 
@@ -435,7 +435,7 @@ subset’s field.
 
 ## Gateways {#gateways}
 
-You use a [gateway](/docs/reference/config/networking/gateway/#Gateway) to
+You use a [gateway](/zh/docs/reference/config/networking/gateway/#Gateway) to
 manage inbound and outbound traffic for your mesh, letting you specify which
 traffic you want to enter or leave the mesh. Gateway configurations are applied
 to standalone Envoy proxies that are running at the edge of the mesh, rather
@@ -455,15 +455,15 @@ Gateways are primarily used to manage ingress traffic, but you can also
 configure egress gateways. An egress gateway lets you configure a dedicated exit
 node for the traffic leaving the mesh, letting you limit which services can or
 should access external networks, or to enable
-[secure control of egress traffic](/blog/2019/egress-traffic-control-in-istio-part-1/)
+[secure control of egress traffic](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)
 to add security to your mesh, for example. You can also use a gateway to
 configure a purely internal proxy.
 
 Istio provides some preconfigured gateway proxy deployments
 (`istio-ingressgateway` and `istio-egressgateway`) that you can use - both are
-deployed if you use our [demo installation](/docs/setup/getting-started/),
+deployed if you use our [demo installation](/zh/docs/setup/getting-started/),
 while just the ingress gateway is deployed with our
-[default or sds profiles.](/docs/setup/additional-setup/config-profiles/) You
+[default or sds profiles.](/zh/docs/setup/additional-setup/config-profiles/) You
 can apply your own gateway configurations to these deployments or deploy and
 configure your own gateway proxies.
 
@@ -518,7 +518,7 @@ traffic.
 ## Service entries {#service-entries}
 
 You use a
-[service entry](/docs/reference/config/networking/service-entry/#ServiceEntry) to add
+[service entry](/zh/docs/reference/config/networking/service-entry/#ServiceEntry) to add
 an entry to the service registry that Istio maintains internally. After you add
 the service entry, the Envoy proxies can send traffic to the service as if it
 was a service in your mesh. Configuring service entries allows you to manage
@@ -528,10 +528,10 @@ traffic for services running outside of the mesh, including the following tasks:
     consumed from the web, or traffic to services in legacy infrastructure.
 -   Define [retry](#retries), [timeout](#timeouts), and
     [fault injection](#fault-injection) policies for external destinations.
--   Add a service running in a Virtual Machine (VM) to the mesh to
-    [expand your mesh](/docs/examples/virtual-machines/single-network/#running-services-on-the-added-vm).
+-   Run a mesh service in a Virtual Machine (VM) by
+    [adding VMs to your mesh](/zh/docs/examples/virtual-machines/).
 -   Logically add services from a different cluster to the mesh to configure a
-    [multicluster Istio mesh](/docs/setup/install/multicluster/gateways/#configure-the-example-services)
+    [multicluster Istio mesh](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)
     on Kubernetes.
 
 You don’t need to add a service entry for every external service that you want
@@ -585,14 +585,14 @@ spec:
 {{< /text >}}
 
 See the
-[Service Entry reference](/docs/reference/config/networking/service-entry)
+[Service Entry reference](/zh/docs/reference/config/networking/service-entry)
 for more possible configuration options.
 
 ## Sidecars {#sidecars}
 
 By default, Istio configures every Envoy proxy to accept traffic on all the
 ports of its associated workload, and to reach every workload in the mesh when
-forwarding traffic. You can use a [sidecar](/docs/reference/config/networking/sidecar/#Sidecar) configuration to do the following:
+forwarding traffic. You can use a [sidecar](/zh/docs/reference/config/networking/sidecar/#Sidecar) configuration to do the following:
 
 -   Fine-tune the set of ports and protocols that an Envoy proxy accepts.
 -   Limit the set of services that the Envoy proxy can reach.
@@ -621,7 +621,7 @@ spec:
     - "istio-system/*"
 {{< /text >}}
 
-See the [Sidecar reference](/docs/reference/config/networking/sidecar/)
+See the [Sidecar reference](/zh/docs/reference/config/networking/sidecar/)
 for more details.
 
 ## Network resilience and testing {#network-resilience-and-testing}
@@ -740,7 +740,7 @@ spec:
 {{< /text >}}
 
 You can find out more about creating circuit breakers in
-[Circuit Breaking](/docs/tasks/traffic-management/circuit-breaking/).
+[Circuit Breaking](/zh/docs/tasks/traffic-management/circuit-breaking/).
 
 ### Fault injection {#fault-injection}
 
@@ -790,7 +790,7 @@ spec:
 {{< /text >}}
 
 For detailed instructions on how to configure delays and aborts, see
-[Fault Injection](/docs/tasks/traffic-management/fault-injection/).
+[Fault Injection](/zh/docs/tasks/traffic-management/fault-injection/).
 
 ### Working with your applications {#working-with-your-applications}
 

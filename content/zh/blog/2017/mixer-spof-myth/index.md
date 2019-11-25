@@ -11,7 +11,7 @@ aliases:
 target_release: 0.3
 ---
 
-As [Mixer](/docs/reference/config/policy-and-telemetry/) is in the request path, it is natural to question how it impacts
+As [Mixer](/zh/docs/reference/config/policy-and-telemetry/) is in the request path, it is natural to question how it impacts
 overall system availability and latency. A common refrain we hear when people first glance at Istio architecture diagrams is
 "Isn't this just introducing a single point of failure?"
 
