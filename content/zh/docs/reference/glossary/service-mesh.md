@@ -1,15 +1,8 @@
 ---
 title: Service Mesh
 ---
-A *service mesh* or simply *mesh* is an infrastructure layer that enables
-managed, observable and secure communication between
-[workload instances](/docs/reference/glossary/#workload-instance).
+*服务网格* （简称 *网格* ）是一个可管理、可观测以及支持[工作负载实例](#workload-instance)之间进行安全通信的基础设施层。
 
-Service names combined with a namespace are unique within a mesh.
-In a [multicluster](/docs/reference/glossary/#multicluster) mesh, for example,
-the `bar` service in the `foo` namespace in `cluster-1` is considered the same
-service as the `bar` service in the `foo` namespace in `cluster-2`.
+在一个网格中，服务名称与命名空间组合具有唯一性。例如，在一个[多集群](#multicluster)的网格中，`cluster-1` 集群的 `foo` 命名空间中的 `bar` 服务和 `cluster-2` 集群的 `foo` 命名空间中的 `bar` 服务被认为是同一个服务。
 
-Since [identities](/docs/reference/glossary/#identity) are shared within the service
-mesh, [workload instances](#workload-instance) can authenticate communication with any other [workload
-instance](#workload-instance) within the same service mesh.
+由于服务网格会共享这种[标识](#identity)，因此同一服务网格内的[工作负载实例](#workload-instance)可以相互认证通信。

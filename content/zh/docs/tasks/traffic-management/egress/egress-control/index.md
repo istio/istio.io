@@ -17,16 +17,16 @@ stricter control is usually preferable.
 This task shows you how to access external services in three different ways:
 
 1. Allow the Envoy proxy to pass requests through to services that are not configured inside the mesh.
-1. Configure [service entries](/docs/reference/config/networking/service-entry/) to provide controlled access to external services.
+1. Configure [service entries](/zh/docs/reference/config/networking/service-entry/) to provide controlled access to external services.
 1. Completely bypass the Envoy proxy for a specific range of IPs.
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/zh/docs/setup/).
 
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
     If you have
-    [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    [automatic sidecar injection](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
     enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}
@@ -51,7 +51,7 @@ This task shows you how to access external services in three different ways:
 
 ## Envoy passthrough to external services
 
-Istio has an [installation option](/docs/reference/config/installation-options/),
+Istio has an [installation option](/zh/docs/reference/config/installation-options/),
 `global.outboundTrafficPolicy.mode`, that configures the sidecar handling
 of external services, that is, those services that are not defined in Istio's internal service registry.
 If this option is set to `ALLOW_ANY`, the Istio proxy lets calls to unknown services pass through.
@@ -249,12 +249,12 @@ any other unintentional accesses.
     HTTPS all the HTTP-related information like method, URL path, response code, is encrypted so Istio cannot see and
     cannot monitor that information for HTTPS. If you need to monitor HTTP-related information in access to external
     HTTPS services, you may want to let your applications issue HTTP requests and
-    [configure Istio to perform TLS origination](/docs/tasks/traffic-management/egress/egress-tls-origination/).
+    [configure Istio to perform TLS origination](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/).
 
 ### Manage traffic to external services
 
 Similar to inter-cluster requests, Istio
-[routing rules](/docs/concepts/traffic-management/#routing-rules)
+[routing rules](/zh/docs/concepts/traffic-management/#routing-rules)
 can also be set for external services that are accessed using `ServiceEntry` configurations.
 In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
@@ -319,9 +319,9 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 
 If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
-[intercepting](/docs/concepts/traffic-management/)
+[intercepting](/zh/docs/concepts/traffic-management/)
 external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
-or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
+or the `global.proxy.excludeIPRanges` [configuration option](/zh/docs/reference/config/installation-options/) and
 update the `istio-sidecar-injector` configuration map using the `kubectl apply` command.
 After updating the `istio-sidecar-injector` configuration, it affects all
 future application pod deployments.
@@ -407,7 +407,7 @@ For example, if the range is 10.0.0.1&#47;24, use the following command:
 $ istioctl manifest apply <the flags you used to install Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
 {{< /text >}}
 
-Use the same command that you used to [install Istio](/docs/setup/install/istioctl) and
+Use the same command that you used to [install Istio](/zh/docs/setup/install/istioctl) and
 add `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`.
 
 ### Access the external services
@@ -481,9 +481,9 @@ A malicious application can bypass the Istio sidecar proxy and access any extern
 {{< /warning >}}
 
 To implement egress traffic control in a more secure way, you must
-[direct egress traffic through an egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/)
+[direct egress traffic through an egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)
 and review the security concerns described in the
-[additional security considerations](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)
+[additional security considerations](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)
 section.
 
 ## Cleanup

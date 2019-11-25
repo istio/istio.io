@@ -13,7 +13,7 @@ distributed traces and metrics that help explain performance behaviors and accel
 At the end of this task, Istio sends trace spans from the proxies to a LightStep Satellite pool making them
 available to the web UI.
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an example.
+This task uses the [Bookinfo](/zh/docs/examples/bookinfo/) sample application as an example.
 
 ## Before you begin
 
@@ -76,11 +76,11 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     EOF
     {{< /text >}}
 
-1.   Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
+1.   Follow the [instructions to deploy the Bookinfo sample application](/zh/docs/examples/bookinfo/#deploying-the-application).
 
 ## Visualize trace data
 
-1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port).
 
 1.  To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
 
@@ -133,7 +133,7 @@ consider scaling up the size of your satellite pool.
 If you are not planning any follow-up tasks, remove the Bookinfo sample application and any LightStep secrets
 from your cluster.
 
-1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
+1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/zh/docs/examples/bookinfo/#cleanup) instructions.
 
 1. Remove the secret generated for LightStep:
 

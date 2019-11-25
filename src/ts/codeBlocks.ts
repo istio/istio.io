@@ -350,7 +350,7 @@ function handleCodeBlocks() {
             syntaxColoring = false;
         }
 
-        const item = document.getElementById(syntaxColoringItem);
+        const item = getById(syntaxColoringItem);
         if (item) {
             if (syntaxColoring) {
                 item.classList.add(active);
