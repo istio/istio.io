@@ -3,21 +3,22 @@ title: Pods and Services
 description: Prepare your Kubernetes pods and services to run in an Istio-enabled
   cluster.
 weight: 40
-aliases:
-- /docs/setup/kubernetes/spec-requirements/
-- /docs/setup/kubernetes/prepare/spec-requirements/
-- /docs/setup/kubernetes/prepare/requirements/
-- /docs/setup/kubernetes/additional-setup/requirements/
-- /docs/setup/additional-setup/requirements
-- /docs/ops/setup/required-pod-capabilities
-- /help/ops/setup/required-pod-capabilities
 keywords:
-- kubernetes
-- sidecar
-- sidecar-injection
-- deployment-models
-- pods
-- setup
+  - kubernetes
+  - sidecar
+  - sidecar-injection
+  - deployment-models
+  - pods
+  - setup
+aliases:
+  - /docs/setup/kubernetes/spec-requirements/
+  - /docs/setup/kubernetes/prepare/spec-requirements/
+  - /docs/setup/kubernetes/prepare/requirements/
+  - /docs/setup/kubernetes/additional-setup/requirements/
+  - /docs/setup/additional-setup/requirements
+  - /docs/ops/setup/required-pod-capabilities
+  - /help/ops/setup/required-pod-capabilities
+  - /docs/ops/prep/requirements
 ---
 
 To be part of a mesh, Kubernetes pods and services must satisfy the following

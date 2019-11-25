@@ -3,7 +3,8 @@ title: Automatic Sidecar Injection
 description: Describes Istio's use of Kubernetes webhooks for automatic sidecar injection.
 weight: 20
 aliases:
-    - /help/ops/setup/injection
+  - /help/ops/setup/injection
+  - /docs/ops/setup/injection-concepts
 ---
 
 Automatic sidecar injection adds the sidecar proxy into user-created

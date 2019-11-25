@@ -3,7 +3,8 @@ title: Harden Docker Container Images
 description: Use hardened container images to reduce Istio's attack surface.
 weight: 80
 aliases:
-    - /help/ops/security/harden-docker-images
+  - /help/ops/security/harden-docker-images
+  - /docs/ops/security/harden-docker-images
 ---
 To ease the process of hardening docker images, Istio provides a set of images based on  [distroless images](https://github.com/GoogleContainerTools/distroless)
 

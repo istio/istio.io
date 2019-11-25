@@ -2,6 +2,8 @@
 title: Generate Istio Metrics Without Mixer [Alpha]
 description: How to enable in-proxy generation of HTTP service-level metrics.
 weight: 20
+aliases:
+  - /docs/ops/telemetry/in-proxy-service-telemetry
 ---
 
 Istio 1.4 adds alpha support to generate service-level HTTP metrics

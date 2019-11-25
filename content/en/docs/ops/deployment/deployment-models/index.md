@@ -3,18 +3,19 @@ title: Deployment Models
 description: Describes the system models that impact your overall Istio depolyment.
 weight: 20
 keywords:
-- single-cluster
-- multiple-clusters
-- control-plane
-- tenancy
-- networks
-- identity
-- trust
-- single-mesh
-- multiple-meshes
+  - single-cluster
+  - multiple-clusters
+  - control-plane
+  - tenancy
+  - networks
+  - identity
+  - trust
+  - single-mesh
+  - multiple-meshes
 aliases:
-- /docs/concepts/multicluster-deployments/
-- /docs/concepts/deployment-models
+  - /docs/concepts/multicluster-deployments
+  - /docs/concepts/deployment-models
+  - /docs/ops/prep/deployment-models
 ---
 
 Important system models impact your overall Istio deployment model. This page
