@@ -89,7 +89,7 @@ aliases:
     policy: enabled
     {{< /text >}}
 
-    策略允许的值为 `disabled` 或者 `enabled`。仅当 webhook 的 `namespaceSelector` 与目标命名空间匹配时，默认策略才会被应用。无法识别的策略值默认为 `disabled`。
+    策略允许的值为 `disabled` 或者 `enabled`。仅当 webhook 的 `namespaceSelector` 与目标命名空间匹配时，默认策略才会生效。无法识别的策略值默认为 `disabled`。
 
 1. 检查每个 pod 的注解
 
@@ -203,4 +203,4 @@ Kubernetes与此有关的一个 [issue](https://github.com/kubernetes/kubeadm/is
 
 `tcpdump` 在 sidecar 中不能工作 - 因为该容器不以 root 身份运行。但是由于同一 pod 内容器的网络命名空间是共享的，因此 pod 中的其他容器也能看到所有数据包。`iptables` 也能查看到 pod 级别的相关配置。
 
-Envoy 和应用程序之间的通信是通过 127.0.0.1 进行的，并且未进行加密。
+Envoy 和应用程序之间的通信是通过 127.0.0.1 进行的，这个通讯过程未加密。
