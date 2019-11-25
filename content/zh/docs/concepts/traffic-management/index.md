@@ -64,6 +64,7 @@ Istio 基本的服务发现和负载均衡能力为您提供了一个可用的�
 ### 虚拟服务示例 {#virtual-service-example}
 
 下面的虚拟服务根据请求是否来自特定的用户，把它们路由到服务的不同版本。
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -184,7 +185,6 @@ spec:
 有些匹配条件可以使用精确的值，如前缀或正则。
 
 您可以使用 AND 向同一个`match`块添加多个匹配条件，或者使用 OR 向同一个规则添加多个`match`块。对于任何给定的虚拟服务也可以有多个路由规则。这可以在单个虚拟服务中使路由条件变得随您所愿的复杂或简单。匹配条件字段和备选值的完整列表可以在[`HTTPMatchRequest` 参考](/zh/docs/reference/config/networking/virtual-service/#HTTPMatchRequest)中找到。
-
 
 另外，使用匹配条件您可以按百分比”权重“分发请求。这在 A/B 测试和金丝雀发布中非常有用：
 
