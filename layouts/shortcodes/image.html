@@ -46,63 +46,58 @@ omit this value and it will be computed automatically.
     {{- $width = "100%" -}}
 {{- end -}}
 
-{{- /* Turn relative values for $link into absolute paths */ -}}
+{{- /* Turn relative values for $link into absolute values */ -}}
 
-{{- $prefix := slicestr $link 0 1 -}}
-{{- if (ne $prefix "/") -}}
-    {{- $prefix := slicestr $link 0 8 -}}
-    {{- if (ne $prefix "https://") -}}
-        {{- $prefix := slicestr $link 0 3 -}}
-        {{- if (eq $prefix "../") -}}
-            {{- $link = printf "/%s%s" .Page.File.Dir (slicestr $link 3) -}}
-        {{- else -}}
-            {{- $link = printf "/%s%s" .Page.File.Dir $link -}}
-        {{- end -}}
-    {{- end -}}
-{{- end -}}
-
-{{- $linkPrefix := "" -}}
-{{- $path := "" -}}
-{{- if eq .Page.Language.Lang "zh" -}}
-    {{- $path = printf "content/zh%s" $link -}}
-    {{- $linkPrefix = "/zh" -}}
-
-    {{- if not (fileExists $path) -}}
-        {{- $path = printf "content/en%s" $link -}}
-        {{- $linkPrefix = "" -}}
-    {{- end -}}
-{{- else -}}
-    {{- $path = printf "content/en%s" $link -}}
-{{- end -}}
-
-{{- if strings.HasSuffix $link ".svg" -}}
-    {{- if not (fileExists $path) -}}
-       {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
+{{- if not (or (hasPrefix $link "/") (hasPrefix $link "https://") (strings.HasPrefix $link "http://")) -}}
+    {{ $pageDir := .Page.File.Dir }}
+    {{- if ne .Page.Language.Lang "en" -}}
+        {{- $pageDir = printf "%s/%s" .Page.Language.Lang $pageDir -}}
     {{- end -}}
 
-    {{- $file := readFile $path -}}
-    {{- $w := 0.0 -}}
-    {{- $h := 0.0 -}}
-    {{- $viewBox := findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1 -}}
-    {{- if eq (len $viewBox) 1 -}}
-        {{- $viewBox = index $viewBox 0 -}}
-        {{- $viewBox = index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
-        {{- $sizes := split $viewBox " " -}}
-        {{- $w = sub (float (index $sizes 2)) (float (index $sizes 0)) -}}
-        {{- $h = sub (float (index $sizes 3)) (float (index $sizes 1)) -}}
+    {{- if (hasPrefix $link "../") -}}
+        {{- $link = printf "/%s%s" $pageDir (slicestr $link 3) -}}
+    {{- else if (hasPrefix $link "./") -}}
+        {{- $link = printf "/%s%s" $pageDir (slicestr $link 2) -}}
     {{- else -}}
-        {{- $w = index (findRE "width( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
-        {{- $w = float (index (findRE "[0123456789\\.]+" $w 1) 0) -}}
-        {{- $h = index (findRE "height( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
-        {{- $h = float (index (findRE "[0123456789\\.]+" $h 1) 0) -}}
+        {{- $link = printf "/%s%s" $pageDir $link -}}
     {{- end -}}
-    {{- $ratio = mul (div $h $w) 100 -}}
-{{- else -}}
-    {{- if not $ratio -}}
-        {{- if not (fileExists $path) -}}
-            {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
-        {{- end -}}
+{{- end -}}
 
+
+{{- $path := "" -}}
+{{- if not (or (hasPrefix $link "https://") (strings.HasPrefix $link "http://")) -}}
+    {{- if eq .Page.Language.Lang "en" -}}
+        {{- $path = printf "content/en%s" $link -}}
+    {{- else -}}
+        {{- $path = printf "content%s" $link -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if not $ratio -}}
+    {{- if eq $path "" -}}
+        {{- errorf "Must specify aspect ratio for external image reference '%s' (%s)" $link .Position -}}
+    {{- else if not (fileExists $path) -}}
+        {{- errorf "Image '%s' was not found (%s)" $path .Position -}}
+    {{- end -}}
+    {{- if strings.HasSuffix $link ".svg" -}}
+        {{- $file := readFile $path -}}
+        {{- $w := 0.0 -}}
+        {{- $h := 0.0 -}}
+        {{- $viewBox := findRE "viewBox( *?)=( *?)\"(.*?)\"" $file 1 -}}
+        {{- if eq (len $viewBox) 1 -}}
+            {{- $viewBox = index $viewBox 0 -}}
+            {{- $viewBox = index (findRE "[0123456789 \\.]+" $viewBox 1) 0 -}}
+            {{- $sizes := split $viewBox " " -}}
+            {{- $w = sub (float (index $sizes 2)) (float (index $sizes 0)) -}}
+            {{- $h = sub (float (index $sizes 3)) (float (index $sizes 1)) -}}
+        {{- else -}}
+            {{- $w = index (findRE "width( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
+            {{- $w = float (index (findRE "[0123456789\\.]+" $w 1) 0) -}}
+            {{- $h = index (findRE "height( *?)=( *?)\"(.*?)\"" $file 1) 0 -}}
+            {{- $h = float (index (findRE "[0123456789\\.]+" $h 1) 0) -}}
+        {{- end -}}
+        {{- $ratio = mul (div $h $w) 100 -}}
+    {{- else -}}
         {{- $img := imageConfig $path -}}
         {{- $w := float $img.Width -}}
         {{- $h := float $img.Height -}}
@@ -115,8 +110,8 @@ omit this value and it will be computed automatically.
 
 <figure style="width: {{- $width -}}">
     <div class="wrapper-with-intrinsic-ratio" style="padding-bottom: {{- $ratio -}}%">
-        <a data-skipendnotes="true" href="{{- $linkPrefix -}}{{- $link -}}" title="{{- $title -}}">
-            <img class="element-to-stretch" src="{{- $linkPrefix -}}{{- $link -}}" alt="{{- $alt -}}" />
+        <a data-skipendnotes="true" href="{{- $link -}}" title="{{- $title -}}">
+            <img class="element-to-stretch" src="{{- $link -}}" alt="{{- $alt -}}" />
         </a>
     </div>
     <figcaption>{{- $caption -}}</figcaption>

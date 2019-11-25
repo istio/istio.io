@@ -26,15 +26,15 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 *   [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-## 部署 Istio Egress gateway{#deploy-i-s-t-i-o-egress-gateway}
+## 部署 Istio egress gateway{#deploy-Istio-egress-gateway}
 
-1.  检查 Istio Egress gateway 是否已布署：
+1.  检查 Istio egress gateway 是否已布署：
 
     {{< text bash >}}
     $ kubectl get pod -l istio=egressgateway -n istio-system
     {{< /text >}}
 
-    如果没有 pod 返回，通过接下来的步骤来部署 Istio Egress gateway。
+    如果没有 pod 返回，通过接下来的步骤来部署 Istio egress gateway。
 
 1.  执行以下命令：
 
@@ -96,7 +96,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 1.  为 `edition.cnn.com` 端口 80 创建 Egress gateway。除此之外还要创建一个 destination rule 来引导流量通过 Egress gateway 与外部服务通信。
 
-    根据在 Istio 中是否启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，选择相应的说明。
+    根据在 Istio 中是否启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
     {{< tabset cookie-name="mtls" >}}
 
@@ -299,7 +299,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1.  为 `edition.cnn.com` 创建 Egress Gateway。除此之外还创建了一个 destination rule 和一个 virtual service，这两个对象用来引导流量通过 Egress gateway 与外部服务通信。
 
-    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/mutual-tls/)，选择相应的说明。
+    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
     {{< tabset cookie-name="mtls" >}}
 
@@ -495,10 +495,10 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 另外要注意的是，实际上 Istio 本身无法安全地强制将所有 Egress 流量流经 Egress gateway，Istio 仅通过其 Sidecar 代理启用此类流量。攻击者只要绕过 Sidecar 代理，就可以不经 Egress gateway 直接与网格外面的服务进行通信，从而避免了 Istio 的控制和监控。集群管理员或云供应商必须确保所有外发流量都从 Egress gateway 途径发起。需要用 Istio 之外的机制来满足这一需求，例如以下几种做法：
 
 * 使用防火墙拒绝所有来自 Egress gateway 以外的流量。
-* [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从 Egress gateway 发起的 Egress 流量（[下一节](#apply-ks-network-policies)中举出了这样的例子）。
+* [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从 Egress gateway 发起的 Egress 流量（[下一节](#apply-Kubernetes-network-policies)中举出了这样的例子）。
 * 管理员或者云供应商还可以对网络进行限制，让运行应用的节点只能通过 Gateway 来访问外部网络。要完成这一限制，可以只给 Gateway Pod 分配公网 IP，或者可以配置 NAT 设备，丢弃来自 Egress gateway 以外 Pod 的流量。
 
-## 应用 Kubernetes 网络策略{#apply-ks-network-policies}
+## 应用 Kubernetes 网络策略{#apply-Kubernetes-network-policies}
 
 本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)来阻止绕过 Egress gateway 的外发流量。为了测试网络策略，首先创建一个 `test-egress` 命名空间，并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，然后尝试发送请求到一个网关安全的外部服务。
 
@@ -609,7 +609,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1.  为 `default` 命名空间中为 `sleep` pod 创建一个相同的 destination rule 用来引导流量到 Egress gateway：
 
-    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/mutual-tls/)，选择相应的说明。
+    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
     {{< tabset cookie-name="mtls" >}}
 
@@ -689,9 +689,9 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ## 故障排除{#troubleshooting}
 
-1.  检查是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/mutual-tls/#verify-mutual-TLS-configuration)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注**如果您在 Istio 中启用了双向 TLS 认证，则必须创建。**）。
+1.  检查是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/authentication/mutual-tls/#verify-mutual-TLS-configuration)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注**如果您在 Istio 中启用了双向 TLS 认证，则必须创建。**）。
 
-1.  如果[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)启用后，验证 Egress gateway 的证书：
+1.  如果[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)启用后，验证 Egress gateway 的证书：
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1

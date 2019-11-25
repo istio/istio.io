@@ -116,7 +116,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 {{< /tabset >}}
 
-## 使用一个 Istio Gateway 配置 ingress{#configuring-ingress-using-an-mesh-gateway}
+## 使用一个 Istio Gateway 配置 ingress{#configuring-ingress-using-an-Istio-gateway}
 
 一个 ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述一个运行在网格边界的负载均衡器，负责接收入口 HTTP/TCP 连接。
 其中配置了对外暴露的端口、协议等。

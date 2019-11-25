@@ -18,7 +18,6 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
 ## 验证动态准入 Webhook 前置条件
 
-
 请参阅 [平台设置说明](/zh/docs/setup/platform-setup/)。如果群集配置错误，Webhook 将无法正常工作。集群配置后，当动态 Webhook 和相关特性不能正常工作时，你可以通过以下步骤进行检查。
 
 1. 验证当前是否使用正确版本的 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 和 kubernetes 服务

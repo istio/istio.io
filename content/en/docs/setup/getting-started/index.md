@@ -37,7 +37,7 @@ Download the Istio release which includes installation files, samples, and the
     extract the latest release automatically:
 
     {{< text bash >}}
-    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
+    $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
 1.  Move to the Istio package directory. For example, if the package is

@@ -12,6 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+declare type Callback = (element: HTMLElement) => void;
+
+/* tslint:disable */
+interface Window {
+    observeResize(el: HTMLElement, callback: Callback): void;
+}
+/* tslint:enable */
+
 // Attach the event handlers to support the sidebar
 function handleSidebar(): void {
     const sidebar = getById("sidebar");
@@ -45,6 +53,12 @@ function handleSidebar(): void {
                 // adjust the body's max height to the total size of the body's content
                 el.style.maxHeight = el.scrollHeight + "px";
             });
+        });
+
+        window.observeResize(body, el => {
+            if ((el.style.maxHeight !== null) && (el.style.maxHeight !== "")) {
+                el.style.maxHeight = el.scrollHeight + "px";
+            }
         });
     });
 
@@ -131,9 +145,9 @@ function handleSidebar(): void {
     // force expand the default cards
     sidebar.querySelectorAll<HTMLElement>(".body").forEach(body => {
         if (body.classList.contains("default")) {
-            body.style.maxHeight = body.scrollHeight + "px";
             body.classList.toggle("default");
             body.classList.toggle("show");
+            body.style.maxHeight = body.scrollHeight + "px";
             const header = body.previousElementSibling as HTMLElement;
             if (header) {
                 toggleAttribute(header, ariaExpanded);
