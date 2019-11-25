@@ -9,7 +9,7 @@ target_release: 1.2
 
 使团队能开发出最适合他们特定组织或者工作负载的抽象层，是 Istio 的一个主要目标，过去是，将来也是。Istio 为服务与服务之间网络通信提供了健壮有力的模块。从 [Istio 0.1](/news/releases/0.x/announcing-0.1) 开始，Istio 小组一直在从生产用户那里了解他们如何将自己的架构，工作负载和约束映射到 Istio 的功能，并且一直在持续优化 Istio API 来让它们更好地为用户服务。
 
-## Istio API 的演变{#evolving_istio’s_APIs}
+## Istio API 的演变{#evolving-istio’s-apis}
 
 Istio API 进化的下一步重心是在 Istio 用户的角色上。一个安全管理员应该能够与在逻辑上分组并且简化 Istio 网格中安全操作的 API 进行交互；服务操作人员和流量管理操作也是如此。
 
@@ -25,7 +25,7 @@ Istio API 进化的下一步重心是在 Istio 用户的角色上。一个安全
 
 在接下来的几个版本中，我们将分享我们的进展，我们将加强 Istio API 与 Istio 用户角色之间的一致性。
 
-## 可组合性和抽象{#composability_and_abstractions}
+## 可组合性和抽象{#composability-and-abstractions}
 
 Istio 和 Kubernetes 经常一起使用，但 Istio 更像是 Kubernetes 的附加组件 – Kubernetes 更接近于一个平台。Istio旨在提供基础架构，并在强大的服务网格中展现您所需的功能。例如，有一些使用 Kubernetes 作为基础的 platform-as-a-service 产品，并基于 Kubernetes 的可组合性向应用开发人员提供 API 的子集。
 
@@ -41,7 +41,7 @@ Kubernetes 可组合性的一个具体示例是部署应用时有一系列的对
 
 AutoTrader UK 提供了一个基于 Istio 定制平台的我们最喜欢的例子。在 [来自 Google 的 Kubernetes Podcast 的一个采访](https://kubernetespodcast.com/episode/052-autotrader/) 中，Russel Warman 和 Karl Stoney 描述了他们基于 Kubernetes 的交货平台，和 [用 Prometheus 和 Grafana 搭建的成本面板](https://karlstoney.com/2018/07/07/managing-your-costs-on-kubernetes/)。他们毫不费力地添加了配置项使网络达到他们的开发人员希望配置成的样子，并且现在它管理着的 Istio 的对象让这一切成为可能。在企业和云原生公司中构建了无数其他的平台：一些旨在替换公司特定的自定义脚本的网络，而另一些旨在成为通用的公共工具。随着越来越多的公司开始公开谈论他们的工具，我们将把他们的故事带到此博客。
 
-## 接下来会发生什么{#what’s_coming_next}
+## 接下来会发生什么{#what’s-coming-next}
 
 我们正在为即将发布的版本进行一些改进，其中包括：
 
