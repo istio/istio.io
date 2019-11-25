@@ -49,5 +49,5 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
 
 {{< community_item logo="./servicemesher.svg" alt="ServiceMesher" >}}
 中文内容由
-[ServiceMesher 社区](https://www.servicemesher.com) 维护，加入我们并参与进来吧！
+[ServiceMesher community](https://www.servicemesher.com) 维护，加入我们并参与进来吧！
 {{< /community_item >}}

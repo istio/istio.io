@@ -492,7 +492,7 @@ Certificate:
 
 如果怀疑双向 TLS 出现了问题，首先要确认 [Citadel 健康](#repairing-citadel)，接下来要查看的是[密钥和证书正确下发](#keys-and-certificates-errors) Sidecar.
 
-如果上述检查都正确无误，下一步就应该验证[认证策略](/zh/docs/tasks/security/authn-policy/)已经创建，并且对应的目标规则是否正确应用。
+如果上述检查都正确无误，下一步就应该验证[认证策略](/zh/docs/tasks/security/authentication/authn-policy/)已经创建，并且对应的目标规则是否正确应用。
 
 ## Citadel 行为异常 {#repairing-citadel}
 

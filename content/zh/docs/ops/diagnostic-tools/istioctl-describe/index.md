@@ -26,12 +26,12 @@ $ istioctl experimental describe <pod-name>[.<namespace>]
 {{< /tip >}}
 
 该指南假定您已经在您的网格中部署了 [Bookinfo](/zh/docs/examples/bookinfo/) 示例。
-如果您还没部署，先参考[启动应用服务](/zh/docs/examples/bookinfo/#start-the-application-services)和[确定 ingress 的 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port)。
+如果您还没部署，先参考[启动应用服务](/zh/docs/examples/bookinfo/#start-the-application-services)和[确定 ingress 的 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)。
 
 ## 验证 pod 是否在网格中{#verify-a-pod-is-in-the-mesh}
 
 如果 pod 里没有 {{< gloss >}}Envoy{{< /gloss >}} 代理或者代理没启动，`istioctl describe` 命令会返回一个警告。
-另外，如果 [pods 的 Istio 需求](/zh/docs/setup/additional-setup/requirements/)未完全满足，该命令也会警告。
+另外，如果 [pods 的 Istio 需求](/zh/docs/ops/prep/requirements/)未完全满足，该命令也会警告。
 
 例如，下面的命令发出的警告表示一个 `kubernetes-dashboard` pod 不被包含在服务网格内，因为它没有 sidecar：
 
@@ -200,7 +200,7 @@ VirtualService: reviews
 
 ## 验证严格双向 TLS{#verifying-strict-mutual-TLS}
 
-按照[双向 TLS 迁移](/zh/docs/tasks/security/mtls-migration/)的说明，您可以为 `ratings` 服务启用严格双向 TLS：
+按照[双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration/)的说明，您可以为 `ratings` 服务启用严格双向 TLS：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
