@@ -88,7 +88,7 @@ following commands on a machine with cluster admin privileges:
 
 1. Determine and store the IP address of the Istio ingress gateway since the
    VMs access [Citadel](/docs/concepts/security/) and
-   [Pilot](/docs/ops/architecture/#pilot) and workloads on cluster through
+   [Pilot](/docs/ops/deployment/architecture/#pilot) and workloads on cluster through
    this IP address.
 
     {{< text bash >}}
