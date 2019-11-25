@@ -12,46 +12,55 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// The set of languages supported by the site, add new ones at the end
+const languages = ["en", "zh"];
+
 function handleLanguageSwitch(): void {
-    listen(getById("switch-lang"), click, () => {
+
+    function setLang(newLang: string): void {
         const url = new URL(window.location.href);
-        let path = url.pathname;
-        if (path.startsWith("/zh")) {
-            path = path.substr(3);
-            createCookie("nf_lang", "en");
-        } else {
-            path = "/zh" + path;
-            createCookie("nf_lang", "zh");
+
+        let strippedPath = url.pathname;
+        let currentLang = 0;
+        for (const lang of languages) {
+            if (strippedPath.startsWith("/" + lang)) {
+                strippedPath = strippedPath.substr(3);
+                break;
+            }
+            currentLang++;
         }
-        url.pathname = path;
+
+        if (currentLang >= languages.length) {
+            currentLang = 0;
+        }
+
+        if (newLang === "") {
+            // round-robin through the languages
+            let nextLang = currentLang + 1;
+            if (nextLang >= languages.length) {
+                nextLang = 0;
+            }
+            newLang = languages[nextLang];
+        }
+
+        createCookie("nf_lang", newLang);
+        url.pathname = newLang + "/" + strippedPath;
 
         navigateToUrlOrRoot(url.toString());
+    }
+
+    // handler for the language selector floating button
+    listen(getById("switch-lang"), click, () => {
+        setLang("");
         return true;
     });
 
-    listen(getById("switch-lang-en"), click, () => {
-        const url = new URL(window.location.href);
-        let path = url.pathname;
-        if (path.startsWith("/zh")) {
-            path = path.substr(3);
-        }
-        url.pathname = path;
-
-        createCookie("nf_lang", "en");
-        navigateToUrlOrRoot(url.toString());
-    });
-
-    listen(getById("switch-lang-zh"), click, () => {
-        const url = new URL(window.location.href);
-        let path = url.pathname;
-        if (!path.startsWith("/zh")) {
-            path = "/zh" + path;
-        }
-        url.pathname = path;
-
-        createCookie("nf_lang", "zh");
-        navigateToUrlOrRoot(url.toString());
-    });
+    // handlers for the language-selection menu items */
+    for (const lang of languages) {
+        listen(getById("switch-lang-" + lang), click, () => {
+            setLang(lang);
+        });
+    }
 }
 
 handleLanguageSwitch();
