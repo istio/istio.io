@@ -9,7 +9,7 @@ target_release: 1.2
 
 使团队能开发出最适合他们特定组织或者工作负载的抽象层，是 Istio 的一个主要目标，过去是，将来也是。Istio 为服务与服务之间网络通信提供了健壮有力的模块。从 [Istio 0.1](/zh/news/releases/0.x/announcing-0.1) 开始，Istio 小组一直在从生产用户那里了解他们如何将自己的架构，工作负载和约束映射到 Istio 的功能，并且一直在持续优化 Istio API 来让它们更好地为用户服务。
 
-## Istio API 的演变{#evolving-Istio’s-APIs}
+## Istio API 的演变{#evolving-Istio-APIs}
 
 Istio API 进化的下一步重心是在 Istio 用户的角色上。一个安全管理员应该能够与在逻辑上分组并且简化 Istio 网格中安全操作的 API 进行交互；服务操作人员和流量管理操作也是如此。
 
