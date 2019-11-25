@@ -42,6 +42,5 @@ weight: 3
 
 恭喜，您已配置完毕本地计算机！
 
-
 接下来[在本地运行微服务](/zh/docs/examples/microservices-istio/single/)。
 
