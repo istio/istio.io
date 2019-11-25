@@ -5,9 +5,9 @@ weight: 50
 
 Mixer rules must be valid to be applied at runtime. That means the match
 conditions are well-defined expressions in the
-[language](/docs/reference/config/policy-and-telemetry/expression-language/), the attributes
+[language](/zh/docs/reference/config/policy-and-telemetry/expression-language/), the attributes
 are declared in an [attribute
-manifest](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), and rules have
+manifest](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), and rules have
 no dangling references to handlers and instances.
 
 The attribute values are typically normalized before evaluating rules on

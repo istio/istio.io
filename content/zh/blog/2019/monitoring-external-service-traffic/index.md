@@ -22,7 +22,7 @@ requested feature by production users of Istio and we are excited that the
 support for this was added in release 1.3.
 
 To implement this, the Istio [default
-metrics](/docs/reference/config/policy-and-telemetry/metrics) are augmented with
+metrics](/zh/docs/reference/config/policy-and-telemetry/metrics) are augmented with
 explicit labels to capture blocked and passthrough external service traffic.
 This blog will cover how you can use these augmented metrics to monitor all
 external service traffic.
@@ -48,7 +48,7 @@ options, first to block all external service access (enabled  by setting
 second to allow all access to external service (enabled  by setting
 `global.outboundTrafficPolicy.mode` to `ALLOW_ANY`). The default option for this
 setting (as of Istio 1.3) is to allow all external service access. This
-option can be configured via [mesh configuration](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode).
+option can be configured via [mesh configuration](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode).
 
 This is where the BlackHole and Passthrough clusters are used.
 
@@ -57,7 +57,7 @@ This is where the BlackHole and Passthrough clusters are used.
 * **BlackHoleCluster** - The BlackHoleCluster is a virtual cluster created
   in the Envoy configuration when `global.outboundTrafficPolicy.mode` is set to
   `REGISTRY_ONLY`. In this mode, all traffic to external service is blocked unless
-  [service entries](/docs/reference/config/networking/service-entry)
+  [service entries](/zh/docs/reference/config/networking/service-entry)
   are explicitly added for each service. To implement this, the default virtual
   outbound listener at `0.0.0.0:15001` which uses
   [original destination](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)
