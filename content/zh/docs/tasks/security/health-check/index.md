@@ -9,7 +9,7 @@ keywords: [security,health-check]
 
 当健康检查功能被开启，Citadel 中的 **检测器** 模块会定期向 Citadel 的 CSR gRPC 服务发送 CSRs 并校验响应信息以此判断服务的健康状况。如果 Citadel 服务是健康状态，_检测器_ 会更新 _健康状态文件_ 的 _更新时间_ ，否则什么都不做。Citadel 依赖 [Kubernetes 的健康和就绪检测](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)功能，使用命令行检查 pod 中 _健康状态文件_ 的 _更新时间_ 。如果这个文件有一段时间不更新了，Kubelet 将会重启 Citadel 容器。
 
-注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [SDS](/zh/docs/tasks/security/auth-sds/) 或者 [Mesh Expansion](/zh/docs/examples/mesh-expansion/) 就没有必要使用这个功能。
+注意：Citadel 的健康检查目前只提供了对 CSR 服务 API 的支持，如果没有使用 [SDS](/zh/docs/tasks/security/citadel-config/auth-sds/) 或者 [Mesh Expansion](/zh/docs/examples/mesh-expansion/) 就没有必要使用这个功能。
 
 ## 开始之前{#before-you-begin}
 
