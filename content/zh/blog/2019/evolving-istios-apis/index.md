@@ -7,7 +7,7 @@ keywords: [apis,composability,evolution]
 target_release: 1.2
 ---
 
-One of Istio’s main goals has always been, and continues to be, enabling teams to develop abstractions that work best for their specific organization and workloads. Istio provides robust and powerful building blocks for service-to-service networking. Since [Istio 0.1](/news/releases/0.x/announcing-0.1), the Istio team has been learning from production users about how they map their own architectures, workloads, and constraints to Istio’s capabilities, and we’ve been evolving Istio’s APIs to make them work better for you.
+One of Istio’s main goals has always been, and continues to be, enabling teams to develop abstractions that work best for their specific organization and workloads. Istio provides robust and powerful building blocks for service-to-service networking. Since [Istio 0.1](/zh/news/releases/0.x/announcing-0.1), the Istio team has been learning from production users about how they map their own architectures, workloads, and constraints to Istio’s capabilities, and we’ve been evolving Istio’s APIs to make them work better for you.
 
 ## Evolving Istio’s APIs
 
@@ -40,7 +40,7 @@ higher-level APIs. [Knative Serving](https://knative.dev/docs/serving/), a compo
 serving serverless applications and functions, provides an opinionated workflow for application developers to manage routes and revisions of their services.
 Thanks to that opinionated approach, Knative Serving exposes a subset of Istio’s networking APIs that are most relevant to application developers via a simplified
 [Routes](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) object that supports revisions and traffic routing,
-abstracting Istio’s [`VirtualService`](/docs/reference/config/networking/virtual-service/) and [`DestinationRule`](/docs/reference/config/networking/destination-rule/)
+abstracting Istio’s [`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) and [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/)
 resources.
 
 As Istio has matured, we’ve also seen production users develop workload- and organization-specific abstractions on top of Istio’s infrastructure APIs.
@@ -56,8 +56,8 @@ Some areas of improvement that we’re working on for upcoming releases include:
 - Support for routing all traffic by default to constrain routing incrementally
 - Add a single global flag to enable mutual TLS and encrypt all inter-pod traffic
 
-Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](/docs/setup/additional-setup/config-profiles/) that works with your adapters.
+Oh, and if for some reason you judge a toolbox by the list of CRDs it installs, in Istio 1.2 we cut the number from 54 down to 23. Why? It turns out that if you have a bunch of features, you need to have a way to configure them all. With the improvements we’ve made to our installer, you can now install Istio using a [configuration](/zh/docs/setup/additional-setup/config-profiles/) that works with your adapters.
 
 All service meshes and, by extension, Istio seeks to automate complex infrastructure operations, like networking and security. That means there will always be complexity in its APIs, but Istio will always aim to solve the needs of operators, while continuing to evolve the API to provide robust building blocks and prioritize flexibility through role-centric abstractions.
 
-We can't wait for you to join our [community](/about/community/join/) to see what you build with Istio next!
+We can't wait for you to join our [community](/zh/about/community/join/) to see what you build with Istio next!

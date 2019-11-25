@@ -15,7 +15,7 @@ Once you agree that you should control the egress traffic coming from your clust
 What is required from a system for secure control of egress traffic? Which is the best solution to fulfill
 these requirements? (spoiler: Istio in my opinion)
 Future installments will describe
-[the implementation of the secure control of egress traffic in Istio](/blog/2019/egress-traffic-control-in-istio-part-2/)
+[the implementation of the secure control of egress traffic in Istio](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)
 and compare it with other solutions.
 
 The most important security aspect for a service mesh is probably ingress traffic. You definitely must prevent attackers
@@ -80,7 +80,7 @@ combined them with the
 Istio 1.1 satisfies all gathered requirements:
 
 1.  Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/docs/reference/glossary/#tls-origination) by Istio.
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/zh/docs/reference/glossary/#tls-origination) by Istio.
 
 1.  **Monitor** SNI and the source workload of every egress access.
 
@@ -170,9 +170,9 @@ all of these requirements, in particular it is transparent, DNS-aware, and Kuber
 ## Summary
 
 I hope that you are convinced that controlling egress traffic is important for the security of your cluster. In [the
-part 2 of this series](/blog/2019/egress-traffic-control-in-istio-part-2/) I describe the Istio way to perform secure
+part 2 of this series](/zh/blog/2019/egress-traffic-control-in-istio-part-2/) I describe the Istio way to perform secure
 control of egress traffic. In
 [the
-part 3 of this series](/blog/2019/egress-traffic-control-in-istio-part-3/) I compare it with alternative solutions such as
+part 3 of this series](/zh/blog/2019/egress-traffic-control-in-istio-part-3/) I compare it with alternative solutions such as
 [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
 egress proxies/firewalls.
