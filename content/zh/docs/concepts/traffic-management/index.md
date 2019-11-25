@@ -89,7 +89,8 @@ spec:
 
 #### hosts 字段 {#the-hosts-field}
 
-`hosts`字段列出了虚拟服务的主机——即用户指定的目标或是路由规则设定的目标。这是客户端向服务发送请求时使用的一个或多个地址。
+使用`hosts`字段列举虚拟服务的主机——即用户指定的目标或是路由规则设定的目标。这是客户端向服务发送请求时使用的一个或多个地址。
+
 {{< text yaml >}}
 hosts:
 - reviews
@@ -99,7 +100,7 @@ hosts:
 
 #### 路由规则 {#routing-rules}
 
-`http`部分包含了虚拟服务的路由规则，用来描述匹配条件和路由行为，它们把 HTTP/1.1、HTTP2 和 gRPC 等流量发送到 hosts 字段指定的目标（您也可以用`tcp`和`tls`片段为 [TCP](/zh/docs/reference/config/networking/virtual-service/#TCPRoute) 和未终止的 [TLS](/zh/docs/reference/config/networking/virtual-service/#TLSRoute) 流量设置路由规则）。一个路由规则包含了指定的请求要流向哪个目标地址，具有 0 或多个匹配条件，取决于您的使用场景。
+在`http`字段包含了虚拟服务的路由规则，用来描述匹配条件和路由行为，它们把 HTTP/1.1、HTTP2 和 gRPC 等流量发送到 hosts 字段指定的目标（您也可以用`tcp`和`tls`片段为 [TCP](/zh/docs/reference/config/networking/virtual-service/#TCPRoute) 和未终止的 [TLS](/zh/docs/reference/config/networking/virtual-service/#TLSRoute) 流量设置路由规则）。一个路由规则包含了指定的请求要流向哪个目标地址，具有 0 或多个匹配条件，取决于您的使用场景。
 
 ##### 匹配条件 {#match-condition}
 
@@ -338,7 +339,6 @@ metadata:
   name: svc-entry
 spec:
   hosts:
-
   - ext-svc.example.com
     ports:
   - number: 443
