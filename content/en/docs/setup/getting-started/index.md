@@ -69,7 +69,7 @@ These instructions assume you are new to Istio, providing streamlined instructio
 install Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
 This installation lets you quickly get started evaluating Istio.
 If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/docs/ops/prep/deployment-models/),
+or a more advanced [deployment model](/docs/ops/deployment/deployment-models/),
 follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
 
 {{< warning >}}
@@ -186,9 +186,9 @@ The next step is to customize Istio and deploy your own applications.
 Before you install and customize Istio to fit your platform and intended use,
 check out the following resources:
 
-- [Deployment models](/docs/ops/prep/deployment-models/)
-- [Deployment best practices](/docs/ops/prep/deployment/)
-- [Pod requirements](/docs/ops/prep/requirements/)
+- [Deployment models](/docs/ops/deployment/deployment-models/)
+- [Deployment best practices](/docs/ops/best-practices/deployment/)
+- [Pod requirements](/docs/ops/deployment/requirements/)
 - [General installation instructions](/docs/setup/)
 
 As you continue to use Istio, we look forward to hearing from you and welcoming

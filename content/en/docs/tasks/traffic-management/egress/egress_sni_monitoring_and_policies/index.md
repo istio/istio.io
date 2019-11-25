@@ -92,7 +92,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 
 ## Monitor the SNI and the source identity, and enforce access policies based on them
 
-Since you enabled mutual TLS between the sidecar proxies and the egress gateway, you can monitor the [service identity](/docs/ops/architecture/#citadel) of the applications that access external services, and enforce policies
+Since you enabled mutual TLS between the sidecar proxies and the egress gateway, you can monitor the [service identity](/docs/ops/deployment/architecture/#citadel) of the applications that access external services, and enforce policies
 based on the identities of the traffic source.
 In Istio on Kubernetes, the identities are based on
 [Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
