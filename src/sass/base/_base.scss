@@ -111,19 +111,19 @@ th, td {
 }
 
 tr:first-child th:first-child {
-    border-radius: $border-radius 0 0;
+    border-top-left-radius: $border-radius;
 }
 
 tr:first-child td:first-child {
-    border-radius: $border-radius 0 0;
+    border-top-left-radius: $border-radius;
 }
 
 tr:first-child th:last-child {
-    border-radius: 0 $border-radius 0 0;
+    border-top-right-radius: $border-radius;
 }
 
 tr:first-child td:last-child {
-    border-radius: 0 $border-radius 0 0;
+    border-top-right-radius: $border-radius;
 }
 
 tr:last-child td {
@@ -131,11 +131,11 @@ tr:last-child td {
 }
 
 tr:last-child td:first-child {
-    border-radius: 0 0 0 $border-radius;
+    border-bottom-left-radius: $border-radius;
 }
 
 tr:last-child td:last-child {
-    border-radius: 0 0 $border-radius;
+    border-bottom-right-radius: $border-radius;
 }
 
 tr th:last-child {

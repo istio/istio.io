@@ -14,7 +14,7 @@ keywords: [profiles,install,helm]
     (建议用于生产部署)。
 
 1. **demo**: 这一配置具有适度的资源需求，旨在展示 Istio 的功能。它适合运行 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序和相关任务。
-    这是通过[快速开始](/zh/docs/setup/install/kubernetes/)指导安装的配置，但是您以后可以通过[自定义配置](/zh/docs/setup/install/istioctl/#customizing-the-configuration)
+    这是通过[快速开始](/zh/docs/setup/getting-started/)指导安装的配置，但是您以后可以通过[自定义配置](/zh/docs/setup/install/istioctl/#customizing-the-configuration)
     启用其他功能来探索更高级的任务。
 
     {{< warning >}}
@@ -23,7 +23,7 @@ keywords: [profiles,install,helm]
 
 1. **minimal**: 使用 Istio 的[流量管理](/zh/docs/tasks/traffic-management/)功能所需的最少组件集。
 
-1. **sds**: 和 **default** 配置类似，但是启用了 Istio 的 [SDS (secret discovery service)](/zh/docs/tasks/security/auth-sds) 功能。
+1. **sds**: 和 **default** 配置类似，但是启用了 Istio 的 [SDS (secret discovery service)](/zh/docs/tasks/security/citadel-config/auth-sds/) 功能。
     这个配置文件默认启用了附带的认证功能 (Strict Mutual TLS)。
 
 下表中标记为 **X** 的组件就是包含在配置文件里的内容:
@@ -51,7 +51,7 @@ keywords: [profiles,install,helm]
 
 ## 多集群配置{#multicluster-profiles}
 
-Istio 提供了两个附加的内置配置文件，被专门用于配置[多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters):
+Istio 提供了两个附加的内置配置文件，被专门用于配置[多集群部署](/zh/docs/ops/prep/deployment-models/#multiple-clusters):
 
 1. **remote**: 用于配置通过[共享控制平面](/zh/docs/setup/install/multicluster/shared-vpn/)搭建的多集群网格里的远程集群。
 

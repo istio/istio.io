@@ -1,7 +1,7 @@
 ---
 title: Performance and Scalability
 description: Introduces performance and scalability for Istio.
-weight: 25
+weight: 75
 aliases:
 - /docs/performance-and-scalability/overview
 - /docs/performance-and-scalability/microbenchmarks

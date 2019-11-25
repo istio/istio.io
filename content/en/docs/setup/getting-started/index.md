@@ -5,14 +5,13 @@ weight: 5
 aliases:
     - /docs/setup/kubernetes/getting-started/
     - /docs/setup/kubernetes/
-skip_toc: true
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
 To get started with Istio, just follow these three steps:
 
 1. [Set up your platform](#platform)
-1. [Download the Istio release](#download)
+1. [Download the release](#download)
 1. [Install Istio](#install)
 
 ## Set up your platform {#platform}
@@ -27,7 +26,7 @@ installing Istio manually. If this is the case with your selected platform, and 
 you will be finished installing Istio after creating the cluster, so you can skip the following instructions.
 Refer to your platform service provider for further details and instructions.
 
-## Download the Istio release {#download}
+## Download the release {#download}
 
 Download the Istio release which includes installation files, samples, and the
 [{{< istioctl >}}](/docs/reference/commands/istioctl/) command line utility.
@@ -38,7 +37,7 @@ Download the Istio release which includes installation files, samples, and the
     extract the latest release automatically:
 
     {{< text bash >}}
-    $ curl -L https://git.io/getLatestIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
+    $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
 1.  Move to the Istio package directory. For example, if the package is
@@ -70,7 +69,7 @@ These instructions assume you are new to Istio, providing streamlined instructio
 install Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
 This installation lets you quickly get started evaluating Istio.
 If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/docs/setup/deployment-models/),
+or a more advanced [deployment model](/docs/ops/prep/deployment-models/),
 follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
 
 {{< warning >}}
@@ -136,7 +135,7 @@ access logging.
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## What's next
+## Next steps
 
 With Istio installed, you can now deploy your own application or one of the sample applications
 provided with the installation.
@@ -183,12 +182,14 @@ The following tasks are a good place for beginners to start:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
-The tasks above provide a good basic understanding of Istio's features but,
-explore more [tasks](/docs/tasks/) depending on what interests you. Before you
-install and customize Istio to fit your platform and intended use, check out
-our [general installation instructions](/docs/setup/) for details.
+The next step is to customize Istio and deploy your own applications.
+Before you install and customize Istio to fit your platform and intended use,
+check out the following resources:
 
-The next step is to deploy your own applications.
+- [Deployment models](/docs/ops/prep/deployment-models/)
+- [Deployment best practices](/docs/ops/prep/deployment/)
+- [Pod requirements](/docs/ops/prep/requirements/)
+- [General installation instructions](/docs/setup/)
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
 you to our [community](/about/community/join/).
