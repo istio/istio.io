@@ -63,5 +63,5 @@ $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=
     $ killall kubectl
     {{< /text >}}
 
-1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)中的说明，关闭整个应用程序。
+1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)中的说明，关闭整个应用程序。
 

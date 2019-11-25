@@ -10,8 +10,8 @@ aliases:
 keywords: [kubernetes,multicluster,gateway]
 ---
 
-请参照本指南安装具有副本集 [控制平面](/zh/docs/setup/deployment-models/#control-plane-models) 实例的
-Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，并在每个群集中使用 gateway 来提供跨集群连接服务。
+请参照本指南安装具有副本集 [控制平面](/zh/docs/ops/prep/deployment-models/#multiple-clusters) 实例的
+Istio [多集群部署](/zh/docs/ops/prep/deployment-models/#control-plane-models)，并在每个群集中使用 gateway 来提供跨集群连接服务。
 
 在此配置中，每个集群都使用它自己的 Istio 控制平面来完成安装，并管理自己的 endpoint，
 而不是使用共享的 Istio 控制平面来管理网格。
@@ -79,7 +79,7 @@ Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，�
             -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml
         {{< /text >}}
 
-    想了解更多细节和自定义选项，请参考 [使用 Istioctl 安装](/zh/docs/setup/install/kubernetes/)。
+    想了解更多细节和自定义选项，请参考 [使用 Istioctl 安装](/zh/docs/setup/install/istioctl/)。
 
 ## 配置 DNS{#setup-DNS}
 

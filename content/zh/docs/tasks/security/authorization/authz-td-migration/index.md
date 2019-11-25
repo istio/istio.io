@@ -15,7 +15,7 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
 
 ## Before you begin
 
-1. Read the [authorization concept guide](/docs/concepts/security/#authorization).
+1. Read the [authorization concept guide](/zh/docs/concepts/security/#authorization).
 
 1. Install Istio with a custom trust domain and mutual TLS enabled.
 
@@ -112,7 +112,7 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     Istio mesh is now running with a new trust domain, `new-td`.
 
 1. Delete secrets of `sleep` and `httpbin` in `default` namespace and in `sleep-allow` namespace. Notice if you install Istio with SDS,
-you don't need to follow this step. Learn more about [Provisioning Identity through SDS](/docs/tasks/security/citadel-config/auth-sds/)
+you don't need to follow this step. Learn more about [Provisioning Identity through SDS](/zh/docs/tasks/security/citadel-config/auth-sds/)
 
     {{< text bash >}}
     $ kubectl delete secrets istio.sleep; kubectl delete secrets istio.httpbin;
