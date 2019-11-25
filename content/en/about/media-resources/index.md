@@ -32,6 +32,9 @@ us. Please feel free to borrow these:
       <td class="logo"><img style="background-color: lightgrey" src="/img/istio-bluelogo-nobackground-framed.svg" alt="'Istio Blue` logo with no background, square container"></td>
       <td class="desc"><i>Istio Blue</i> logo in square container, with and without white background</td>
     </tr>
+    <tr>
+      <td class="logo"><img src="/img/istio-white-embroidery-file.dst" alt="'Istio White logo in embroidery format"></td>
+    </tr>
   </tbody>
 </table>
 
