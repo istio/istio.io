@@ -15,7 +15,7 @@ deployed in a single cluster, and the following targeting rules are applied to e
 
 1. [`enableNamespacesByDefault` security configuration](/docs/reference/config/installation-options/#security-options): default behavior if no labels are found on the `ServiceAccount`'s namespace
 
-From these three values, the decision process mirrors that of the [`Sidecar Injection Webhook`](/docs/ops/setup/injection-concepts/). The detailed behavior is that:
+From these three values, the decision process mirrors that of the [`Sidecar Injection Webhook`](/docs/ops/configuration/mesh/injection-concepts/). The detailed behavior is that:
 
 - If `ca.istio.io/override` exists and is `true`, generate key/cert secrets for workloads.
 

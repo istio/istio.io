@@ -92,7 +92,7 @@ spec:
         subset: v1
 {{< /text >}}
 
-## Control configuration sharing across namespaces
+## Control configuration sharing across namespaces {#cross-namespace-configuration}
 
 You can define virtual services, destination rules, or service entries
 in one namespace and then reuse them in other namespaces, if they are exported
@@ -176,7 +176,7 @@ Istio uses this restricted destination rule lookup path for two reasons:
 1. Have a clear lookup order in case there is more than one destination rule for
    the same host.
 
-## Split large virtual services and destination rules into multiple resources
+## Split large virtual services and destination rules into multiple resources {#split-virtual-services}
 
 In situations where it is inconvenient to define the complete set of route rules or policies for a particular
 host in a single `VirtualService` or `DestinationRule` resource, it may be preferable to incrementally specify
