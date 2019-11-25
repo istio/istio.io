@@ -33,7 +33,7 @@ blog.
 
 {{< tip >}}
 This blog is a high-level description of how to deploy Istio in a
-limited multi-tenancy environment. The [docs](/docs/) section will be updated
+limited multi-tenancy environment. The [docs](/zh/docs/) section will be updated
 when official multi-tenancy support is provided.
 {{< /tip >}}
 
@@ -76,8 +76,8 @@ istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 {{< /text >}}
 
-The Istio [sidecar](/docs/setup/additional-setup/sidecar-injection/)
-and [addons](/docs/tasks/observability/), if required, manifests must also be
+The Istio [sidecar](/zh/docs/setup/additional-setup/sidecar-injection/)
+and [addons](/zh/docs/tasks/observability/), if required, manifests must also be
 deployed to match the configured `namespace` in use by the tenant's Istio
 control plane.
 
@@ -230,7 +230,7 @@ ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 {{< /text >}}
 
-See the [Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
+See the [Multiple Istio control planes](/zh/blog/2018/soft-multitenancy/#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
 multi-tenant environment.
 
 ### Test results
@@ -268,7 +268,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 {{< /text >}}
 
 The tenant administrator can deploy applications in the application namespace configured for
-that tenant. As an example, updating the [Bookinfo](/docs/examples/bookinfo/)
+that tenant. As an example, updating the [Bookinfo](/zh/docs/examples/bookinfo/)
 manifests and then deploying under the tenant's application namespace of *ns-0*, listing the
 pods in use by this tenant's namespace is permitted:
 
@@ -290,8 +290,8 @@ $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 {{< /text >}}
 
-If the [add-on tools](/docs/tasks/observability/), example
-[Prometheus](/docs/tasks/observability/metrics/querying-metrics/), are deployed
+If the [add-on tools](/zh/docs/tasks/observability/), example
+[Prometheus](/zh/docs/tasks/observability/metrics/querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.
 

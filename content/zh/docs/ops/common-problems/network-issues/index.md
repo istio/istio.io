@@ -41,7 +41,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 在当前版本的 Envoy sidecar 实现中，加权版本分发被观测到至少需要 100 个请求。
 
-如果路由规则在 [Bookinfo](/zh/docs/examples/bookinfo/) 这个例子中完美地运行，但在你自己的应用中相似版本的路由规则却没有生效，可能因为你的 Kubernetes service 需要被稍微地修改。为了利用 Istio 的七层路由特性 Kubernetes service 必须严格遵守某些限制。参考 [Pods 和 Services 的要求](/zh/docs/setup/additional-setup/requirements/)查看详细信息。
+如果路由规则在 [Bookinfo](/zh/docs/examples/bookinfo/) 这个例子中完美地运行，但在你自己的应用中相似版本的路由规则却没有生效，可能因为你的 Kubernetes service 需要被稍微地修改。为了利用 Istio 的七层路由特性 Kubernetes service 必须严格遵守某些限制。参考 [Pods 和 Services 的要求](/zh/docs/ops/prep/requirements/)查看详细信息。
 
 另一个潜在的问题是路由规则可能只是生效比较慢。在 Kubernetes 上实现的 Istio 利用一个最终一致性算法来保证所有的 Envoy sidecar 有正确的配置包括所有的路由规则。一个配置变更需要花一些时间来传播到所有的 sidecar。在大型的集群部署中传播将会耗时更长并且可能有几秒钟的延迟时间。
 
