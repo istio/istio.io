@@ -22,14 +22,10 @@ sass src/sass/_all.scss all.css -s compressed --no-source-map
 mv all.css* generated/css
 tsc
 
-# TODO: We should be passing the `--presets minify` option to Babel for optimal results in both cases below,
-#       but this just started to fail in Netlify with non-sense errors on 2019/11/05,
-#       even though all tool and library versions are pinned. So I'm turning this off for
-#       now. We can try turning it back on later and see what happens.
-
-babel --source-maps --minified --no-comments \
+babel --source-maps --minified --no-comments --presets minify \
   tmp/js/constants.js \
   tmp/js/utils.js \
+  tmp/js/feedback.js \
   tmp/js/kbdnav.js \
   tmp/js/themes.js \
   tmp/js/menu.js \
@@ -39,6 +35,8 @@ babel --source-maps --minified --no-comments \
   tmp/js/prism.js \
   tmp/js/codeBlocks.js \
   tmp/js/links.js \
+  tmp/js/readTracking.js \
+  tmp/js/resizeObserver.js \
   tmp/js/scroll.js \
   tmp/js/overlays.js \
   tmp/js/lang.js \

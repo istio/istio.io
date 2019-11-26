@@ -4,9 +4,9 @@ description: 在 Docker Desktop 中运行 Istio 的设置说明。
 weight: 12
 skip_seealso: true
 aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/docker-for-desktop/
-    - /docs/setup/kubernetes/prepare/platform-setup/docker/
-    - /docs/setup/kubernetes/platform-setup/docker/
+    - /zh/docs/setup/kubernetes/prepare/platform-setup/docker-for-desktop/
+    - /zh/docs/setup/kubernetes/prepare/platform-setup/docker/
+    - /zh/docs/setup/kubernetes/platform-setup/docker/
 keywords: [platform-setup,kubernetes,docker-desktop]
 ---
 

@@ -3,9 +3,9 @@ title: Creating and Editing Pages
 description: Explains the mechanics of creating and maintaining documentation pages.
 weight: 10
 aliases:
-    - /docs/welcome/contribute/writing-a-new-topic.html
-    - /docs/reference/contribute/writing-a-new-topic.html
-    - /about/contribute/writing-a-new-topic.html
+    - /zh/docs/welcome/contribute/writing-a-new-topic.html
+    - /zh/docs/reference/contribute/writing-a-new-topic.html
+    - /zh/about/contribute/writing-a-new-topic.html
     - /create
 keywords: [contribute]
 ---
@@ -15,7 +15,7 @@ This page shows how to create, test, and maintain Istio documentation topics.
 ## Before you begin
 
 Before you can work on Istio documentation, you first need to create a fork of the Istio documentation repository as described in
-[Working with GitHub](/about/contribute/github/).
+[Working with GitHub](/zh/about/contribute/github/).
 
 ## Choosing a page type
 
@@ -229,7 +229,7 @@ the hierarchy of the site:
 current hierarchy:
 
     {{< text markdown >}}
-    [see here](/docs/adir/afile/)
+    [see here](/zh/docs/adir/afile/)
     {{< /text >}}
 
 ### GitHub
@@ -704,7 +704,7 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /help/faq
+    - /zh/help/faq
 ---
 {{< /text >}}
 
@@ -719,9 +719,9 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /faq
-    - /faq2
-    - /faq3
+    - /zh/faq
+    - /zh/faq2
+    - /zh/faq3
 ---
 {{< /text >}}
 
