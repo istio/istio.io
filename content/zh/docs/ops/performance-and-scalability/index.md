@@ -1,6 +1,6 @@
 ---
-title: Performance and Scalability
-description: Introduces performance and scalability for Istio.
+title: 性能和可扩展性
+description: 介绍 Istio 的性能和可扩展性
 weight: 25
 aliases:
 - /zh/docs/performance-and-scalability/overview
@@ -18,28 +18,21 @@ keywords:
 - benchmarks
 ---
 
-Istio makes it easy to create a network of deployed services with rich routing,
-load balancing, service-to-service authentication, monitoring, and more - all
-without any changes to the application code. Istio strives to provide
-these benefits with minimal resource overhead and aims to support very
-large meshes with high request rates while adding minimal latency.
+Istio 使得创建一个部署了服务的网络变得很容易，该网络具有丰富的路由规则、负载均衡、服务到服务验证和监控等功能，而所有的这些都不需要对应用程序代码进行任何更改。Istio 尽可能用最小的资源开销来提供这些好处，旨在支持很大的网格与高请求率，同时仅增加尽可能低的延迟。
 
-The Istio data plane components, the Envoy proxies, handle data flowing through
-the system. The Istio control plane components, Pilot, Galley and Citadel, configure
-the data plane. The data plane and control plane have distinct performance concerns.
+Istio 的数据平面组件和 Envoy 代理用来处理通过系统的数据流。控制平面组件如 Pilot、Galley 和 Citadel 用来配置数据平面。数据平面和控制平面有不同的性能关注点。
 
-## Performance summary for Istio {{< istio_release_name >}}
+## Istio {{< istio_release_name >}} 性能总结 {#performance-summary-for-istio-hahahugoshortcode-s0-hbhb}
 
-The [Istio load tests](https://github.com/istio/tools/tree/master/perf/load) mesh consists
-of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
-After running the tests using Istio {{< istio_release_name >}}, we get the following results:
+[Istio 负载测试](https://github.com/istio/tools/tree/master/perf/load)网格包含了 **1000** 个服务和 **2000** 个 sidecar，在网格访问内每秒钟有 70,000 个请求。
+在使用 Istio {{< istio_release_name >}} 运行测试后，我们得到了如下结果：
 
-- The Envoy proxy uses **0.6 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
-- The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second.
-- Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 8ms to the 90th percentile latency.
+- 通过代理的 QPS 有 1000 时，Envoy 使用了 **0.6 vCPU** 和 **50 MB 内存**。
+- 网格总的 QPS 为 1000 时，`istio-telemetry` 服务使用了 **0.6 vCPU**。
+- Pilot 使用了 **1 vCPU** 和 1.5 GB 内存。
+- 90%的情况 Envoy 代理只增加了 8ms 的延迟。
 
-## Control plane performance
+## 控制平面性能 {#control-plane-performance}
 
 Pilot configures sidecar proxies based on user authored configuration files and the current
 state of the system. In a Kubernetes environment, Custom Resource Definitions (CRDs) and deployments
@@ -64,7 +57,7 @@ a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and
 You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
 to reach all proxies.
 
-## Data plane performance
+## 数据平面性能 {#data-plane-performance}
 
 Data plane performance depends on many factors, for example:
 
@@ -78,7 +71,7 @@ Data plane performance depends on many factors, for example:
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
-### CPU and memory
+### CPU 和内存 {#cpu-and-memory}
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
 and memory. As of Istio 1.1, a proxy consumes about 0.6 vCPU per 1000
@@ -92,7 +85,7 @@ to a proxy. In a large namespace, the proxy consumes approximately 50 MB of memo
 Since the proxy normally doesn't buffer the data passing through,
 request rate doesn't affect the memory consumption.
 
-### Latency
+### 延迟 {#latency}
 
 Since Istio injects a sidecar proxy on the data path, latency is an important
 consideration. Istio adds an authentication and a Mixer filter to the proxy. Every
@@ -109,7 +102,7 @@ Inside the mesh, a request traverses the client-side proxy and then the server-s
 proxy. This two proxies on the data path add about 7ms to the 90th percentile latency at 1000 requests per second.
 The server-side proxy alone adds 2ms to the 90th percentile latency.
 
-### Latency for Istio {{< istio_release_name >}}
+### Istio {{< istio_release_name >}} 的延迟 {#latency-for-istio-hahahugoshortcode-s3-hbhb}
 
 The default configuration of Istio {{< istio_release_name >}} adds 7ms to the 90th percentile latency of the data plane over the baseline.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/master/perf/benchmark)
@@ -130,7 +123,7 @@ This will decrease the amount data flowing through the system, which will in tur
 - `nomixer-both` Same as **both-sidecars** without Mixer. `MixerV2` latency profile will be similar.
 - `nomixer-server` Same as **server-sidecar** without Mixer. `MixerV2` latency profile will be similar.
 
-### Benchmarking tools
+### 基准测试工具 {#benchmarking-tools}
 
 Istio uses the following tools for benchmarking
 
