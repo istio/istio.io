@@ -98,6 +98,9 @@ $ istioctl manifest apply \
     --set "values.kiali.dashboard.grafanaURL=http://grafana:3000"
 {{< /text >}}
 
+If you have already installed Kiali, edit the Kiali ConfigMap (named `kiali` in the `istio-system`
+namespace) and update the values for `external_services.tracing.url` and `external_services.grafana.url`.
+Changing the ConfigMap will require you to restart the Kiali pod.
 {{< /idea >}}
 
 Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
