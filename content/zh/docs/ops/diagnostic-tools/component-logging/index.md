@@ -1,5 +1,5 @@
 ---
-title: 组件记录
+title: 组件日志记录
 description: 如何使用组件的级别日志来记录正在运行中的组件的行为。
 weight: 70
 keywords: [ops]
