@@ -1,4 +1,4 @@
 ---
 title: Service Consumer
 ---
-The agent that is using a [service](#service).
+服务消费者是使用 [service](#service) 的代理。

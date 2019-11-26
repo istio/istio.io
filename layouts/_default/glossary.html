@@ -1,5 +1,11 @@
 {{ define "main" }}
 
+<style>
+    .primary .article-container article {
+        overflow-x: visible;
+    }
+</style>
+
 {{ partial "primary_top.html" . }}
 
 {{ .Content }}

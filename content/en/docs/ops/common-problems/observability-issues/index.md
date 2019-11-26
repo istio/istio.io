@@ -27,6 +27,17 @@ The Mixer default installations include a Prometheus adapter and the configurati
 
 If the Istio Dashboard or the Prometheus queries don’t show the expected metrics, any step of the flow above may present an issue. The following sections provide instructions to troubleshoot each step.
 
+### Verify Istio CNI pods are running (if used)
+
+The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle’s network setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/ops/deployment/requirements/) for users deploying pods into the Istio mesh. The Istio CNI plugin replaces the functionality provided by the `istio-init` container.
+
+1. Verify that the `istio-cni-node` pods are running:
+
+    {{< text bash >}}
+    $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
+    {{< /text >}}
+
+1. If `PodSecurityPolicy` is being enforced in your cluster, ensure the `istio-cni` service account can use a `PodSecurityPolicy` with the [`NET_ADMIN` capability requirement](/docs/ops/deployment/requirements/)
 ### Verify Mixer is receiving report calls
 
 Mixer generates metrics to monitor its own behavior. The first step is to check these metrics:
@@ -174,14 +185,14 @@ in processing the most recent configuration as supplied.
 1. In Kubernetes environments, setup port-forwarding with:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    $ istioctl dashboard prometheus
     {{< /text >}}
 
-1. Visit `http://localhost:9090/targets`
+1. In the Prometheus browser window, select **Status** then **Targets**.
 
 1. Confirm the target `istio-mesh` has a status of UP.
 
-1. Visit `http://localhost:9090/config`
+1. In the Prometheus browser window, select **Status** then **Configuration**.
 
 1. Confirm an entry exists similar to:
 

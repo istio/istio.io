@@ -3,14 +3,14 @@ title: Performance and Scalability
 description: Introduces performance and scalability for Istio.
 weight: 25
 aliases:
-- /docs/performance-and-scalability/overview
-- /docs/performance-and-scalability/microbenchmarks
-- /docs/performance-and-scalability/performance-testing-automation
-- /docs/performance-and-scalability/realistic-app-benchmark
-- /docs/performance-and-scalability/scalability
-- /docs/performance-and-scalability/scenarios
-- /docs/performance-and-scalability/synthetic-benchmarks
-- /docs/concepts/performance-and-scalability
+- /zh/docs/performance-and-scalability/overview
+- /zh/docs/performance-and-scalability/microbenchmarks
+- /zh/docs/performance-and-scalability/performance-testing-automation
+- /zh/docs/performance-and-scalability/realistic-app-benchmark
+- /zh/docs/performance-and-scalability/scalability
+- /zh/docs/performance-and-scalability/scenarios
+- /zh/docs/performance-and-scalability/synthetic-benchmarks
+- /zh/docs/concepts/performance-and-scalability
 keywords:
 - performance
 - scalability
@@ -59,7 +59,7 @@ The CPU consumption scales with the following factors:
 
 however this part is inherently horizontally scalable.
 
-When [namespace isolation](/docs/reference/config/networking/sidecar/) is enabled,
+When [namespace isolation](/zh/docs/reference/config/networking/sidecar/) is enabled,
 a single Pilot instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
 You can increase the number of Pilot instances to reduce the amount of time it takes for the configuration
 to reach all proxies.
