@@ -195,10 +195,10 @@ keywords: [keyword1,keyword2,...]
 1. **绝对链接**。您可以使用以 `/` 开头的绝对链接来引用当前层次结构之外的内容：
 
     {{< text markdown >}}
-    [看这里](/docs/adir/afile/)
+    [看这里](/zh/docs/adir/afile/)
     {{< /text >}}
 
-### GitHub{#github}
+### GitHub{#GitHub}
 
 有几种方法可以从 GitHub 引用文件：
 
@@ -374,9 +374,9 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 |`syntax`      | 预格式化块的语法。
 |`outputis`    | 当语法为 `bash` 时，它指定命令输出的语法。
 |`downloadas`  | 用户[下载预格式化的块](#download-name)时使用的默认文件名。
-|`expandlinks` | 是否在预格式化的块中扩展 [GitHub 文件引用](#links-to-github-files)。
+|`expandlinks` | 是否在预格式化的块中扩展 [GitHub 文件引用](#links-to-GitHub-files)。
 |`snippet`     | 从预格式化块中提取的内容[片段](#snippets)的名称。
-|`repo`        | 用于 [GitHub 链接](#links-to-github-files)的存储库，嵌入到预格式化的块中。
+|`repo`        | 用于 [GitHub 链接](#links-to-GitHub-files)的存储库，嵌入到预格式化的块中。
 
 ### 内联与导入内容{#inline-vs-imported-content}
 
@@ -418,7 +418,7 @@ func HelloWorld() {
 
 如果您未指定下载名称，则内联内容将根据当前页面的标题自动导出，下载内容的名称将根据文件名称或 URL 自动导出。
 
-### 链接到 GitHub 文件{#links-to-github-files}
+### 链接到 GitHub 文件{#links-to-GitHub-files}
 
 如果您预先格式化的内容引用了 Istio 的 GitHub 存储库中的文件，则可以在文件的相对路径名周围加上一对 @ 符号。这些指示路径应呈现为来自 GitHub 当前分支的文件链接。例如：
 
