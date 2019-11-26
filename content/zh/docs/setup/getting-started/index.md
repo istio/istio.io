@@ -1,6 +1,6 @@
 ---
-title: Getting Started
-description: Download, install, and learn how to evaluate and try Istio’s basic features quickly.
+title: 开始
+description: 下载、安装并学习如何快速使用 Istio 的基本特性。
 weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/getting-started/
@@ -8,84 +8,69 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-To get started with Istio, just follow these three steps:
+要开始使用 Istio，只需遵循以下三个步骤：
 
-1. [Set up your platform](#platform)
-1. [Download the release](#download)
-1. [Install Istio](#install)
+1. [搭建平台](#platform)
+1. [下载 Istio](#download)
+1. [安装 Istio](#install)
 
-## Set up your platform {#platform}
+## 搭建平台 {#platform}
 
-Before you can install Istio, you need a {{< gloss >}}cluster{{< /gloss >}} running a compatible version of Kubernetes.
-Istio {{< istio_version >}} has been tested with Kubernetes releases {{< supported_kubernetes_versions >}}.
+在安装 Istio 之前，需要一个运行着 Kubernetes 的兼容版本的 {{< gloss >}}cluster{{< /gloss >}}。
 
-- Create a cluster by selecting the appropriate [platform-specific setup instructions](/zh/docs/setup/platform-setup/).
+Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes_versions >}} 中测试过。
 
-Some platforms provide a {{< gloss >}}managed control plane{{< /gloss >}} which you can use instead of
-installing Istio manually. If this is the case with your selected platform, and you choose to use it,
-you will be finished installing Istio after creating the cluster, so you can skip the following instructions.
-Refer to your platform service provider for further details and instructions.
+- 通过选择合适的 [platform-specific setup instructions](/zh/docs/setup/platform-setup/) 来创建一个集群。
 
-## Download the release {#download}
+有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装Istio。 如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
 
-Download the Istio release which includes installation files, samples, and the
-[{{< istioctl >}}](/zh/docs/reference/commands/istioctl/) command line utility.
+## 下载 Istio {#download}
 
-1.  Go to the [Istio release]({{< istio_release_url >}}) page to
-    download the installation file corresponding to your OS. Alternatively, on a macOS or
-    Linux system, you can run the following command to download and
-    extract the latest release automatically:
+下载 Istio，下载内容将包含：安装文件、示例和 [{{< istioctl >}}](/zh/docs/reference/commands/istioctl/) 命令行工具。
+
+1.  访问 [Istio release]({{< istio_release_url >}}) 页面下载与您操作系统对应的安装文件。在 macOS 或 Linux 系统中，也可以通过以下命令下载最新版本的 Istio：
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
-1.  Move to the Istio package directory. For example, if the package is
-    `istio-{{< istio_full_version >}}`:
+1.  切换到 Istio 包所在目录下。例如：Istio 包名为 `istio-{{< istio_full_version >}}`，则：
 
     {{< text bash >}}
     $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
-    The installation directory contains:
+    安装目录包含如下内容：
 
-    - Installation YAML files for Kubernetes in `install/kubernetes`
-    - Sample applications in `samples/`
-    - The [`istioctl`](/zh/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
-      used when manually injecting Envoy as a sidecar proxy.
+    - `install/kubernetes` 目录下，有 Kubernetes 相关的 YAML 安装文件
+    - `samples/` 目录下，有示例应用程序
+    - `bin/` 目录下，包含 [`istioctl`](/zh/docs/reference/commands/istioctl) 的客户端文件。`istioctl` 工具用于手动注入 Envoy sidecar 代理。
 
-1.  Add the `istioctl` client to your path, on a macOS or
-    Linux system:
+1.  将 `istioctl` 客户端路径增加到 path 环境变量中，macOS 或 Linux 系统的增加方式如下：
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. You can optionally enable the [auto-completion option](/zh/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+1. 在使用 bash 或 ZSH 控制台时，可以选择启动 [auto-completion option](/zh/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion)。
 
-## Install Istio {#install}
+## 安装 Istio {#install}
 
-These instructions assume you are new to Istio, providing streamlined instruction to
-install Istio's built-in `demo` [configuration profile](/zh/docs/setup/additional-setup/config-profiles/).
-This installation lets you quickly get started evaluating Istio.
-If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/zh/docs/ops/prep/deployment-models/),
-follow the [installing with {{< istioctl >}} instructions](/zh/docs/setup/install/istioctl) instead.
+本指南可以让您快速尝鲜 Istio ，这对初学者来说是一个理想的起点。首先，下载并安装 Istio 的内建 `demo` [配置](/zh/docs/setup/additional-setup/config-profiles/)。
+
+本指南让您快速开始认识 Istio。如果您已经熟悉 Istio 或对其他配置内容或更高级的[部署模型](/zh/docs/ops/prep/deployment-models/)感兴趣，请参考 [使用 {{< istioctl >}} 命令安装](/zh/docs/setup/install/istioctl)。
 
 {{< warning >}}
-The demo configuration profile is not suitable for performance evaluation. It
-is designed to showcase Istio functionality with high levels of tracing and
-access logging.
+演示用的配置不适合用于性能评估。它仅用来展示 Istio 的链路追踪和访问记录功能。
 {{< /warning >}}
 
-1. Install the `demo` profile
+1. 安装 `demo` 配置
 
     {{< text bash >}}
     $ istioctl manifest apply --set profile=demo
     {{< /text >}}
 
-1. Verify the installation by ensuring the following Kubernetes services are deployed and verify they all
-    have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
+1. 为了验证是否安装成功，需要先确保以下 Kubernetes 服务正确部署，然后验证除 `jaeger-agent` 服务外的其他服务，是否均有正确的 `CLUSTER-IP`：
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
@@ -109,14 +94,10 @@ access logging.
     {{< /text >}}
 
     {{< tip >}}
-    If your cluster is running in an environment that does not
-    support an external load balancer (e.g., minikube), the
-    `EXTERNAL-IP` of `istio-ingressgateway` will say
-    `<pending>`. To access the gateway, use the service's
-    `NodePort`, or use port-forwarding instead.
+    如果集群运行在一个不支持外部负载均衡器的环境中（例如：minikube），`istio-ingressgateway` 的 `EXTERNAL-IP` 将显示为 `<pending>` 状态。请使用服务的 `NodePort` 或 端口转发来访问网关。
     {{< /tip >}}
 
-    Also ensure corresponding Kubernetes pods are deployed and have a `STATUS` of `Running`:
+    请确保关联的 Kubernetes pod 已经部署，并且 `STATUS` 为 `Running`：
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -135,70 +116,39 @@ access logging.
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## Next steps
+## 后续步骤 {#next-steps}
 
-With Istio installed, you can now deploy your own application or one of the sample applications
-provided with the installation.
+安装 Istio 后，就可以部署您自己的服务，或部署安装程序中系统的任意一个示例应用。
 
 {{< warning >}}
-The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
-traffic; HTTP/1.0 is not supported.
+应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议用于 HTTP 通信；HTTP/1.0 不支持。
 {{< /warning >}}
 
-When you deploy your application using `kubectl apply`,
-the [Istio sidecar injector](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-will automatically inject Envoy containers into your
-application pods if they are started in namespaces labeled with `istio-injection=enabled`:
+当使用 `kubectl apply` 来部署应用时，如果 pod 启动在标有 `istio-injection=enabled` 的命名空间中，那么，[Istio sidecar 注入器](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) 将自动注入 Envoy 容器到应用的 pod 中：
 
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
 $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-In namespaces without the `istio-injection` label, you can use
-[`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)
-to manually inject Envoy containers in your application pods before deploying
-them:
+在没有 `istio-injection` 标记的命名空间中，在部署前可以使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令将 Envoy 容器手动注入到应用的 pod 中：
 
 {{< text bash >}}
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-If you are not sure where to begin,
-[deploy the Bookinfo sample](/zh/docs/examples/bookinfo/#deploying-the-application)
-which will allow you to evaluate Istio's features for traffic routing, fault injection, rate
-limiting, etc. Then explore the various [Istio tasks](/zh/docs/tasks/) that interest you.
+下一步，可以定制 Istio 并部署您自己的应用。在您开始自定义 Istio 来适配您的平台或者其他用途之前，请查看以下资源：
 
-The following tasks are a good place for beginners to start:
+- [部署模型](/zh/docs/ops/prep/deployment-models/)
+- [部署最佳实践](/zh/docs/ops/prep/deployment/)
+- [Pod 需求](/zh/docs/ops/prep/requirements/)
+- [常规安装说明](/zh/docs/setup/)
 
-- [Request routing](/zh/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/zh/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/zh/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/zh/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Collecting logs](/zh/docs/tasks/observability/logs/collecting-logs/)
-- [Rate limiting](/zh/docs/tasks/policy-enforcement/rate-limiting/)
-- [Ingress gateways](/zh/docs/tasks/traffic-management/ingress/ingress-control/)
-- [Accessing external services](/zh/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/zh/docs/tasks/observability/kiali/)
+使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/)。
 
-The next step is to customize Istio and deploy your own applications.
-Before you install and customize Istio to fit your platform and intended use,
-check out the following resources:
+## 卸载 {#uninstall}
 
-- [Deployment models](/zh/docs/ops/prep/deployment-models/)
-- [Deployment best practices](/zh/docs/ops/prep/deployment/)
-- [Pod requirements](/zh/docs/ops/prep/requirements/)
-- [General installation instructions](/zh/docs/setup/)
-
-As you continue to use Istio, we look forward to hearing from you and welcoming
-you to our [community](/zh/about/community/join/).
-
-## Uninstall
-
-The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
-all resources hierarchically under it. It is safe to ignore errors for
-non-existent resources because they may have been deleted hierarchically.
+卸载程序将删除 RBAC 权限、`istio-system` 命名空间和所有相关资源。可以忽略那些不存在的资源的报错，因为它们可能已经被删除掉了。
 
 {{< text bash >}}
 $ istioctl manifest generate --set profile=demo | kubectl delete -f -

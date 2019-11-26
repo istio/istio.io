@@ -1,120 +1,92 @@
 ---
-title: Upgrade Istio using istioctl [Experimental]
-description: Upgrade or downgrade Istio using the istioctl upgrade command.
+title: 使用 istioctl 命令升级 Istio [实验中]
+description: 使用 istioctl 命令来升级或降级 Istio。
 weight: 25
 keywords: [kubernetes,upgrading]
 ---
 
 {{< boilerplate experimental-feature-warning >}}
 
-The `istioctl experimental upgrade` command performs an upgrade of Istio. Before performing
-the upgrade, it checks that the Istio installation meets the upgrade eligibility
-criteria. Also, it alerts the user if it detects any changes in the profile
-default values between Istio versions.
+`istioctl experimental upgrade` 命令可为 Istio 进行升级。在进行升级之前，升级命令首先检查已安装的 Istio 是否符合升级要求。此外，如果升级命令检测到 Istio 版本间，配置中有任何默认值发生变化，都将及时提醒用户。
 
-The upgrade command can also perform a downgrade of Istio.
+升级命令也可为 Istio 降级。
 
-See the [`istioctl` upgrade reference](/zh/docs/reference/commands/istioctl/#istioctl-experimental-upgrade)
-for all the options provided by the `istioctl experimental upgrade` command.
+查看 [`istioctl` 升级参考](/zh/docs/reference/commands/istioctl/#istioctl-experimental-upgrade) 来获取 `istioctl experimental upgrade` 命令的更多功能。
 
-## Upgrade prerequisites
+## 升级前置条件{#upgrade-prerequisites}
 
-Ensure you meet these requirements before starting the upgrade process:
+确保您在开始升级之前满足以下要求：
 
-* Istio version 1.3.3 or higher is installed.
+* 已安装 Istio 1.3.3 或更高版本。
 
-* Your Istio installation was [installed using {{< istioctl >}}](/zh/docs/setup/install/istioctl/).
+* Istio 是 [使用 {{< istioctl >}}](/zh/docs/setup/install/istioctl/) 命令安装的。
 
-## Upgrade steps
+## 升级步骤{#upgrade-steps}
 
 {{< warning >}}
-Traffic disruption may occur during the upgrade process. To minimize the disruption, ensure
-that at least two replicas of each component (except Citadel) are running. Also, ensure that
-[`PodDistruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
-are configured with a minimum availability of 1.
+升级过程中可能发生流量中断。为了缩短流量中断时间，请确保每个组件（Citadel 除外）至少运行有两个副本。同时，确保 [`PodDistruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) 配置最小可用性为 1。
 {{< /warning >}}
 
-The commands in this section should be run using the new version of `istioctl` which
-can be found in the `bin/` subdirectory of the downloaded package.
+本节中的命令应该使用新版本的 `istioctl` 命令运行，可以在下载包的 `bin/` 目录中找到该命令。
 
-1. [Download the new Istio release](/zh/docs/setup/getting-started/#download)
-   and change directory to the new release directory.
+1. [下载新版本 Istio](/zh/docs/setup/getting-started/#download) 并切换目录为新版本目录。
 
-1. Verify that `istoctl` supports upgrading from your current Istio version by
-   viewing the supported versions list:
+1. 查看支持的版本列表，验证 `istoctl` 命令是否支持从当前版本升级
 
     {{< text bash >}}
     $ istioctl manifest versions
     {{< /text >}}
 
-1. Ensure that your Kubernetes configuration points to the cluster to upgrade:
+1. 确保 Kubernetes 配置指向要升级的集群：
 
     {{< text bash >}}
     $ kubectl config view
     {{< /text >}}
 
-1. Begin the upgrade by running this command:
+1. 运行以下命令开始升级：
 
     {{< text bash >}}
     $ istioctl experimental upgrade -f `<your-custom-configuration-file>`
     {{< /text >}}
 
-    `<your-custom-configuration-file>` is the
+    `<your-custom-configuration-file>` 是
     [IstioControlPlane API Custom Resource Definition](/zh/docs/setup/install/istioctl/#configure-the-feature-or-component-settings)
-    file you used to customize the installation of the currently-running version of Istio.
+    文件，该文件用于自定义安装当前运行版本的 Istio。
 
     {{< warning >}}
-    If you installed Istio using the `-f` flag, for example
-    `istioctl manifest apply -f <IstioControlPlane-custom-resource-definition-file>`,
-    then you must provide the same `-f` flag value to the `istioctl upgrade` command.
+    如果您安装 Istio 时，使用了 `-f` 选项，例如：`istioctl manifest apply -f <IstioControlPlane-custom-resource-definition-file>`，那么 `istioctl upgrade` 命令也必须使用相同的 `-f` 选项参数值。
     {{< /warning >}}
 
-    `istioctl upgrade` does not support the `--set` flag. Therefore, if you
-    installed Istio using the `--set` command, create a configuration file with
-    the equivalent configuration options and pass it to the `istioctl upgrade`
-    command using the `-f` flag instead.
+    `istioctl upgrade` 命令不支持 `--set` 选项。因此，如果您的 Istio 是使用 `--set` 选项安装的，请创建一个与配置项等效的配置文件，并将其传递给 `istioctl upgrade` 命令。使用 `-f` 选项来加载配置文件。
 
-    If you omit the `-f` flag, Istio upgrades using the default profile.
+    如果省略了 `-f` 选项，Istio 将使用默认配置升级。
 
-    After performing several checks, `istioctl` will ask you to confirm whether to proceed.
+    在执行多个步骤的检查后，`istioctl` 将要求您确认是否继续。
 
-1. `istioctl` will install the new version of Istio control plane and indicate the
-   completion status.
+1. `istioctl` 将安装新版本的 Istio 控制平面，并显示完成状态。
 
-1. After `istioctl` completes the upgrade, you must manually update the Istio data plane
-   by restarting any pods with Istio sidecars:
+1. 在使用 `istioctl` 命令升级完成后，必须手动重启包含 Istio sidecar 的 pod 来更新数据平面:
 
     {{< text bash >}}
     $ kubectl rollout restart deployment
     {{< /text >}}
 
-## Downgrade prerequisites
+## 降级前置条件{#downgrade-prerequisites}
 
-Ensure you meet these requirements before starting the downgrade process:
+确保您在开始升级之前满足以下要求：
 
-* Istio version 1.4 or higher is installed.
+* 已安装 Istio 1.4 或更高版本。
 
-* Your Istio installation was [installed using {{< istioctl >}}](/zh/docs/setup/install/istioctl/).
+* Istio 是 [使用 {{< istioctl >}}](/zh/docs/setup/install/istioctl/) 命令安装的。
 
-* Downgrade must be done using the `istioctl` binary version that
-corresponds to the Istio version that you intend to downgrade to.
-For example, if you are downgrading from Istio 1.4 to 1.3.3, use `istioctl`
-version 1.3.3.
+* 降级命令 `istioctl` 的版本需要与要降级到的 Istio 版本相对应。例如：要将 Istio 从版本 1.4 降级到 1.3.3，需要使用 1.3.3 版本的 `istioctl` 命令。
 
-## Downgrade to Istio 1.4 and higher versions steps
+## 降级到 Istio 1.4 或更高版本的步骤{#downgrade-to-Istio-1-4-and-higher-versions-steps}
 
-You can also use `istioctl upgrade` to downgrade versions. The process steps are
-identical to the upgrade process mentioned in the previous section, only use the
-`istioctl` binary corresponding to the lower version. When completed, the
-process will restore Istio back to the Istio version that was installed before
-you ran `istioctl experimental upgrade`.
+您也可以使用 `istioctl upgrade` 命令降级 Istio 版本。步骤与前一部分提到的升级步骤相同，即使用低版本 Istio 配套的 `istioctl` 命令来降级。降级完成后，Istio 将会恢复到运行 `istioctl experimental upgrade` 命令以前的安装版本。
 
-### Downgrade to Istio 1.3.3 and lower versions steps
+### 降级到 Istio 1.3.3 或更低版本的步骤{#downgrade-to-Istio-1-3-3-and-lower-versions-steps}
 
-The `istioctl experimental upgrade` command is not available in Istio 1.3.3 and lower.
-Therefore, downgrade must be performed using the
-`istioctl experimental manifest apply` command.
+`istioctl experimental upgrade` 命令在 Istio 1.3.3 及更低版本中是不可用的。因此，降级必须使用 `istioctl experimental manifest apply` 命令。
 
-This command installs the same Istio control plane as `istioctl experimental upgrade`,
-but does not perform any checks. For example, default values applied to the cluster
-for a configuration profile may change without warning.
+该命令与 `istioctl experimental upgrade` 命令安装的 Istio 控制平面相同，但不会进行任何检查。例如：配置文件中使用的默认值如果发生变化，将不会提醒用户。
