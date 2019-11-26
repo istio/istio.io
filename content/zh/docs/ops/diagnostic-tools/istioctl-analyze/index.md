@@ -118,7 +118,7 @@ the kind of information you should provide.
 
 - **Where can I find out how to fix the errors I'm getting?**
 
-      The set of [configuration analysis messages](/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
+      The set of [configuration analysis messages](/zh/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
 
 ## Enabling validation messages for resource status
 

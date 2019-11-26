@@ -14,8 +14,8 @@
 
 declare function gtag(type: string, action: string, payload: any): void;
 
-function sendFeedback(value: number) {
-    gtag("event", "click", {
+function sendFeedback(language: string, value: number): void {
+    gtag("event", "click-" + language, {
         event_category: "Helpful",
         event_label: window.location.pathname,
         value,

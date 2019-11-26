@@ -61,7 +61,7 @@ controlled way.
 The following instructions create a destination rule for the egress gateway in the `default` namespace
 and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
 If not, the destination rule will not be found on the
-[destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)
+[destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
 and the client requests will fail.
 
 {{< /warning >}}

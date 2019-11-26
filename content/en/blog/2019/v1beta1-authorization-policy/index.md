@@ -312,7 +312,7 @@ The following tables show the relationship between the `v1alpha1` and `v1beta1` 
 | `ServiceRoleBinding` | `AuthorizationPolicy` |
 |----------------------|-----------------------|
 | `user`  | `principals` in `from` |
-| `group` | `paths` in `to` |
+| `group` | `request.auth.claims[group]` in `when` |
 | `source.ip` in property | `ipBlocks` in `from` |
 | `source.namespace` in property | `namespaces` in `from` |
 | `source.principal` in property | `principals` in `from` |

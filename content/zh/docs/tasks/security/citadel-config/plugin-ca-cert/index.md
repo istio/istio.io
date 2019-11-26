@@ -1,8 +1,10 @@
 ---
 title: 插入外部 CA 密钥和证书
 description: 运维人员如何使用现有根证书配置 Citadel 进行证书以及密钥的签发。
-weight: 60
+weight: 10
 keywords: [security,certificates]
+aliases:
+    - /zh/docs/tasks/security/plugin-ca-cert/
 ---
 
 本任务展示运维人员如何使用现有根证书配置 Citadel 进行证书以及密钥的签发。
@@ -11,11 +13,7 @@ keywords: [security,certificates]
 
 ## 开始之前{#before-you-begin}
 
-* 按照 [快速启动](/zh/docs/setup/install/kubernetes/) 中的说明安装 Istio：
-
-{{< tip >}}
-从 Istio 0.7 开始，可以使用[认证策略](/zh/docs/concepts/security/#authentication-policies)来给命名空间中全部/部分服务配置双向 TLS 功能。（在所有命名空间中重复此操作，就相当于全局配置了）。这部分内容可参考[认证策略任务](/zh/docs/tasks/security/authn-policy/)
-{{< /tip >}}
+* 按照 [快速启动](/zh/docs/setup/install/istioctl/) 中的说明安装 Istio：
 
 ## 插入现有密钥和证书{#plugging-in-the-existing-certificate-and-key}
 
@@ -24,6 +22,11 @@ keywords: [security,certificates]
 下面的例子中，Citadel 的签署（CA）证书（`root-cert.pem`）不同于根证书（`root-cert.pem`），因此工作负载无法使用根证书进行证书校验。工作负载需要一个 `cert-chain.pem` 文件作为信任链，其中需要包含所有从根证书到工作负载证书之间的中间 CA。在我们的例子中，他包含了 Citadel 的签署证书，所以 `cert-chain.pem` 和 `ca-cert.pem` 是一致的。注意如果你的 `ca-cert.pem` 和 `ca-cert.pem` 是一致的，那么 `cert-chain.pem` 就是个空文件了。
 
 这些文件都会在 `samples/certs/` 目录中准备就绪提供使用。
+
+    {{< tip >}}
+    The default Citadel installation sets [command line options](/zh/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `cacert`, root certificate in a file named `root-cert.pem`, Citadel key in `ca-key.pem`, etc.)
+    You must use these specific secret and file names, or reconfigure Citadel when you deploy it.
+    {{< /tip >}}
 
 下面的步骤在 Citadel 中插入了证书和密钥：
 
@@ -113,4 +116,4 @@ keywords: [security,certificates]
     $ kubectl delete secret cacerts -n istio-system
     {{< /text >}}
 
-* 移除 Istio 组件：按照 [卸载说明](/zh/docs/setup/install/kubernetes/#uninstall) 进行删除。
+* 移除 Istio 组件：按照 [卸载说明](/zh/docs/setup/getting-started/#uninstall) 进行删除。

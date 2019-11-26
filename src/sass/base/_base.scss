@@ -326,6 +326,11 @@ div.aliases::before {
     }
 }
 
+sup {
+    font-size: 50%;
+    vertical-align: super;
+}
+
 .icon {
     width: 1em;
     height: 1em;

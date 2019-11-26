@@ -40,11 +40,11 @@ aliases:
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-*   [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-i-s-t-i-o-egress-gateway)。
+*   [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
 
 *   [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-## 通过 egress 网关发起 TLS 连接{#perform-t-ls-origination-with-an-egress-gateway}
+## 通过 egress 网关发起 TLS 连接{#perform-TLS-origination-with-an-egress-gateway}
 
 本节描述如何使用 egress 网关发起与示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 中一样的 TLS。
 注意，这种情况下，TLS 的发起过程由 egress 网关完成，而不是像之前示例演示的那样由 sidecar 完成。
@@ -87,7 +87,7 @@ aliases:
 
 1.  为 _edition.cnn.com_ 创建一个 egress `Gateway`， 端口 443，以及一个 sidecar 请求的目标规则，sidecar 请求被直接导向 egress 网关。
 
-    根据需要开启源 pod 与 egress 网关之间的[双向 TLS 认证](/zh/docs/tasks/security/mutual-tls/)，选择相应的命令。
+    根据需要开启源 pod 与 egress 网关之间的[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的命令。
 
     {{< idea >}}
     若开启双向 TLS ，则源 pod 与 egress 网关之间的流量为加密状态。
@@ -255,7 +255,7 @@ aliases:
     "[2018-06-14T13:49:36.340Z] "GET /politics HTTP/1.1" 200 - 0 148528 5096 90 "172.30.146.87" "curl/7.35.0" "c6bfdfc3-07ec-9c30-8957-6904230fd037" "edition.cnn.com" "151.101.65.67:443"
     {{< /text >}}
 
-### 清除 TLS 启动实例{#cleanup-the-t-ls-origination-example}
+### 清除 TLS 启动实例{#cleanup-the-TLS-origination-example}
 
 删除创建的 Istio 配置项：
 
@@ -267,7 +267,7 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
-## 通过 egress 网关发起双向 TLS 连接{#perform-mutual-t-ls-origination-with-an-egress-gateway}
+## 通过 egress 网关发起双向 TLS 连接{#perform-mutual-TLS-origination-with-an-egress-gateway}
 
 与前一章节类似，本章节描述如何配置一个 egress 网关，为外部服务发起 TLS 连接，只是这次服务要求双向 TLS。
 
@@ -314,7 +314,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ cd ..
     {{< /text >}}
 
-### 部署一个双向 TLS 服务器{#deploy-a-mutual-t-ls-server}
+### 部署一个双向 TLS 服务器{#deploy-a-mutual-TLS-server}
 
 为了模拟一个真实的支持双向 TLS 协议的外部服务，
 在 Kubernetes 集群中部署一个 [NGINX](https://www.nginx.com) 服务器，该服务器运行在 Istio 服务网格之外，譬如：运行在一个没有开启 Istio sidecar proxy 注入的命名空间中。
@@ -644,7 +644,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     `tls.crt` 与 `tls.key` 在 `/etc/istio/nginx-client-certs` 中， 而 `ca-chain.cert.pem` 在 `/etc/istio/nginx-ca-certs` 中。
 
-### 为 egress 流量配置双向 TLS{#configure-mutual-t-ls-origination-for-egress-traffic}
+### 为 egress 流量配置双向 TLS{#configure-mutual-TLS-origination-for-egress-traffic}
 
 1.  为 `nginx.example.com` 创建一个 egress `Gateway` 端口为 443，以及目标规则和虚拟服务来引导流量流经 egress 网关并从 egress 网关流向外部服务。
 
@@ -772,7 +772,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     [2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "nginx.example.com" "172.21.72.197:443"
     {{< /text >}}
 
-### 清除双向 TLS 连接示例{#cleanup-the-mutual-t-ls-origination-example}
+### 清除双向 TLS 连接示例{#cleanup-the-mutual-TLS-origination-example}
 
 1.  删除创建的 Kubernetes 资源：
 

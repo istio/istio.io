@@ -65,7 +65,7 @@ _地域优先负载均衡_ 是 _地域负载均衡_ 的默认行为。
 有时，当同一 region 中没有足够正常的 endpoints 时，您需要限制流量故障转移来避免跨全局的流量转发。
 当跨 region 的发送故障转移流量而不能改善服务运行状况或其他诸如监管政策等原因时，该行为是很有用的。
 为了将流量限制到某一个 region，请在安装时配置 `values.localityLbSetting` 选项。
-参考[地域负载均衡参考指南](/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)来获取更多选项。
+参考[地域负载均衡参考指南](/zh/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)来获取更多选项。
 
 配置示例：
 

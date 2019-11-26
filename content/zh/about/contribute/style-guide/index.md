@@ -215,6 +215,6 @@ be considered new in a few months.
 
 ### Minimize use of callouts
 
-[Callouts](/about/contribute/creating-and-editing-pages/#callouts) let you highlight some particular content in your pages, but
+[Callouts](/zh/about/contribute/creating-and-editing-pages/#callouts) let you highlight some particular content in your pages, but
 they need to be used sparingly. Callouts are intended for special notes to the user and over-using them
 throughout the site neutralizes their special attention-grabbing nature.

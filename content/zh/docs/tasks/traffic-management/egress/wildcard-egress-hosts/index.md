@@ -7,7 +7,7 @@ aliases:
   - /zh/docs/examples/advanced-gateways/wildcard-egress-hosts/
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务和[配置 Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) 示例示例讲述了如何为类似 `edition.cnn.com` 的特定主机名配置 egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipedia.org`）的主机启用 egress 流量，而非单独配置每个主机。
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务和[配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/) 示例示例讲述了如何为类似 `edition.cnn.com` 的特定主机名配置 egress 流量。此示例演示了如何为一组处于公共域（如 `*.wikipedia.org`）的主机启用 egress 流量，而非单独配置每个主机。
 
 ## 背景{#background}
 
@@ -17,9 +17,9 @@ aliases:
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [部署 Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)。
+*   [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
 
-*   [开启 Envoy 访问日志](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [开启 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 ## 配置到通配符主机的直接流量{#configure-direct-traffic-to-a-wildcard-host}
 
@@ -382,7 +382,7 @@ SNI 代理会将流量转发到 `443` 端口。
 
 1.   为 _*.wikipedia.org_ 创建一个端口 443，协议为 TLS 的 egress `Gateway`，和一个 virtual service 以将目的为 _*.wikipedia.org_ 的流量定向到 gateway。
 
-    选择与您是否要在源 pod 和 egress gateway 之间启用[双向 TLS 认证](/docs/tasks/security/authentication/mutual-tls/)的相应指示。
+    选择与您是否要在源 pod 和 egress gateway 之间启用[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)的相应指示。
 
     {{< idea >}}
     您可能需要启用双向 TLS，以使 egress gateway 监视源 Pod 的身份，并基于该身份启用 Mixer 策略实施。
