@@ -1,0 +1,44 @@
+{{ $cves := .Get "cves" }}
+{{ $cvss := .Get "cvss" }}
+{{ $vector := .Get "vector" }}
+{{ $releases := .Get "releases" }}
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">{{ i18n "security_bulletin_title" }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ i18n "security_bulletin_cves" }}</td>
+            <td>
+                {{ $split := split $cves "," }}
+                {{ if eq (len $split) 1 }}
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ $cves }}">{{ $cves }}</a>
+                {{ else }}
+                    {{ range $split }}
+                        <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ trim . " " }}">{{ trim . " " }}</a><br>
+                    {{ end }}
+                {{ end }}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ i18n "security_bulletin_cvss" }}</td>
+            <td>{{ $cvss }} <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector={{ $vector }}">{{ $vector }}</a></td>
+        </tr>
+        <tr>
+            <td>{{ i18n "security_bulletin_affected_releases" }}</td>
+            <td>
+                {{ $split = split $releases "," }}
+                {{ if eq (len $split) 1 }}
+                    {{ $releases }}
+                {{ else }}
+                    {{ range $split }}
+                        {{ trim . " " }}<br>
+                    {{ end }}
+                {{ end }}
+            </td>
+        </tr>
+    </tbody>
+</table>

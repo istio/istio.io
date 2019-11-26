@@ -10,9 +10,9 @@ keywords: [performance,scalability,scale,benchmarks]
 
 Service meshes add a lot of functionality to application deployments, including [traffic policies](/docs/concepts/what-is-istio/#traffic-management), [observability](/docs/concepts/what-is-istio/#observability), and [secure communication](/docs/concepts/what-is-istio/#security). But adding a service mesh to your environment comes at a cost, whether that's time (added latency) or resources (CPU cycles). To make an informed decision on whether a service mesh is right for your use case, it's important to evaluate how your application performs when deployed with a service mesh.
 
-Earlier this year, we published a [blog post](/blog/2019/istio1.1_perf/) on Istio's performance improvements in version 1.1. Following the release of [Istio 1.2](/news/2019/announcing-1.2), we want to provide guidance and tools to help you benchmark Istio's data plane performance in a production-ready Kubernetes environment.
+Earlier this year, we published a [blog post](/blog/2019/istio1.1_perf/) on Istio's performance improvements in version 1.1. Following the release of [Istio 1.2](/news/releases/1.2.x/announcing-1.2), we want to provide guidance and tools to help you benchmark Istio's data plane performance in a production-ready Kubernetes environment.
 
-Overall, we found that Istio's [sidecar proxy](/docs/ops/architecture/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
+Overall, we found that Istio's [sidecar proxy](/docs/ops/deployment/architecture/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
 
 In the [Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
 
@@ -108,6 +108,6 @@ For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds just **3 millisec
 Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark).
 {{< /tip >}}
 
-Also check out the [Istio Performance and Scalability guide](/docs/ops/performance-and-scalability) for the most up-to-date performance data.
+Also check out the [Istio Performance and Scalability guide](/docs/ops/deployment/performance-and-scalability) for the most up-to-date performance data.
 
 Thank you for reading, and happy benchmarking!

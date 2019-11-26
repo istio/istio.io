@@ -10,7 +10,7 @@ target_release: 1.0
 ---
 A simple overview of an Istio service-mesh architecture always starts with describing the control-plane and data-plane.
 
-From [Istio’s documentation](/docs/ops/architecture/):
+From [Istio’s documentation](/zh/docs/ops/architecture/):
 
 {{< quote >}}
 An Istio service mesh is logically split into a data plane and a control plane.
@@ -45,7 +45,7 @@ This is the actual sidecar proxy (based on Envoy).
 
 ### Manual injection
 
-In the manual injection method, you can use [`istioctl`](/docs/reference/commands/istioctl) to modify the pod template and add the configuration of the two containers previously mentioned. For both manual as well as automatic injection, Istio takes the configuration from the `istio-sidecar-injector` configuration map (configmap) and the mesh's `istio` configmap.
+In the manual injection method, you can use [`istioctl`](/zh/docs/reference/commands/istioctl) to modify the pod template and add the configuration of the two containers previously mentioned. For both manual as well as automatic injection, Istio takes the configuration from the `istio-sidecar-injector` configuration map (configmap) and the mesh's `istio` configmap.
 
 Let’s look at the configuration of the `istio-sidecar-injector` configmap, to get an idea of what actually is going on.
 
@@ -189,7 +189,7 @@ As seen in the output, the `State` of the `istio-init` container is `Terminated`
 
 ### Automatic injection
 
-Most of the times, you don’t want to manually inject a sidecar every time you deploy an application, using the [`istioctl`](/docs/reference/commands/istioctl) command, but would prefer that Istio automatically inject the sidecar to your pod. This is the recommended approach and for it to work, all you need to do is to label the namespace where you are deploying the app with `istio-injection=enabled`.
+Most of the times, you don’t want to manually inject a sidecar every time you deploy an application, using the [`istioctl`](/zh/docs/reference/commands/istioctl) command, but would prefer that Istio automatically inject the sidecar to your pod. This is the recommended approach and for it to work, all you need to do is to label the namespace where you are deploying the app with `istio-injection=enabled`.
 
 Once labeled, Istio injects the sidecar automatically for any pod you deploy in that namespace. In the following example, the sidecar gets automatically injected in the deployed pods in the `istio-dev` namespace.
 
@@ -306,7 +306,7 @@ This example shows there are many variables, based on whether the automatic side
 - default policy (Configured in the ConfigMap `istio-sidecar-injector`)
 - per-pod override annotation (`sidecar.istio.io/inject`)
 
-The [injection status table](/docs/ops/common-problems/injection/) shows a clear picture of the final injection status based on the value of the above variables.
+The [injection status table](/zh/docs/ops/common-problems/injection/) shows a clear picture of the final injection status based on the value of the above variables.
 
 ## Traffic flow from application container to sidecar proxy
 

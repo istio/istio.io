@@ -22,7 +22,7 @@ This installation guide uses [Helm](https://github.com/helm/helm) charts that pr
 customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can simply use `helm template` to generate the configuration and then install it
 using `kubectl apply`, or you can choose to use `helm install` and let
-[Tiller](https://helm.sh/docs/architecture/#components)
+[Tiller](https://helm.sh/docs/topics/architecture/#components)
 completely manage the installation.
 
 Using these instructions, you can select any one of Istio's built-in
@@ -35,7 +35,7 @@ and then further customize the configuration for your specific needs.
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm#install) with a version higher than 2.10.
 
@@ -66,7 +66,7 @@ appended to the end of the Helm instructions in the installation steps below.
 
 ### Option 1: Install with Helm via `helm template`
 
-Choose this option if your cluster doesn't have [Tiller](https://helm.sh/docs/architecture/#components)
+Choose this option if your cluster doesn't have [Tiller](https://helm.sh/docs/topics/architecture/#components)
 deployed and you don't want to install it.
 
 1. Create a namespace for the `istio-system` components:
@@ -171,7 +171,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 ### Option 2: Install with Helm and Tiller via `helm install`
 
 This option allows Helm and
-[Tiller](https://helm.sh/docs/architecture/#components)
+[Tiller](https://helm.sh/docs/topics/architecture/#components)
 to manage the lifecycle of Istio.
 
 {{< boilerplate helm-security-warning >}}

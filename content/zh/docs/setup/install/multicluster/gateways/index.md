@@ -10,8 +10,8 @@ aliases:
 keywords: [kubernetes,multicluster,gateway]
 ---
 
-请参照本指南安装具有副本集 [控制平面](/zh/docs/setup/deployment-models/#control-plane-models) 实例的
-Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，并在每个群集中使用 gateway 来提供跨集群连接服务。
+请参照本指南安装具有副本集 [控制平面](/zh/docs/ops/prep/deployment-models/#multiple-clusters) 实例的
+Istio [多集群部署](/zh/docs/ops/prep/deployment-models/#control-plane-models)，并在每个群集中使用 gateway 来提供跨集群连接服务。
 
 在此配置中，每个集群都使用它自己的 Istio 控制平面来完成安装，并管理自己的 endpoint，
 而不是使用共享的 Istio 控制平面来管理网格。
@@ -56,7 +56,7 @@ Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，�
 
     {{< /tip >}}
 
-    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
+    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
 
         {{< warning >}}
         示例目录中的根证书和中间证书已被广泛分发和知道。
@@ -79,7 +79,7 @@ Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，�
             -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml
         {{< /text >}}
 
-    想了解更多细节和自定义选项，请参考 [使用 Istioctl 安装](/zh/docs/setup/install/kubernetes/)。
+    想了解更多细节和自定义选项，请参考 [使用 Istioctl 安装](/zh/docs/setup/install/istioctl/)。
 
 ## 配置 DNS{#setup-DNS}
 
@@ -235,7 +235,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 
     {{< tip >}}
     如果 `cluster2` 运行在一个不支持对外负载均衡的环境下，您需要使用 nodePort 访问 gateway。
-    有关获取使用 IP 的说明，请参见教程：[Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)。
+    有关获取使用 IP 的说明，请参见教程：[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)。
     在后面的步骤中，您还需要将 service entry 的 endpoint 的端口从 15443 修改为其对应的 nodePort
     （例如，`kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`）。
 

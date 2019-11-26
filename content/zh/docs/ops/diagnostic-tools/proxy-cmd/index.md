@@ -4,22 +4,22 @@ description: Describes tools and techniques to diagnose Envoy configuration issu
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
 aliases:
-    - /help/ops/traffic-management/proxy-cmd
-    - /help/ops/misc
-    - /help/ops/troubleshooting/proxy-cmd
+    - /zh/help/ops/traffic-management/proxy-cmd
+    - /zh/help/ops/misc
+    - /zh/help/ops/troubleshooting/proxy-cmd
 ---
 
 Istio provides two very valuable commands to help diagnose traffic management configuration problems,
-the [`proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status)
-and [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
+the [`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status)
+and [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
 allows you to get an overview of your mesh and identify the proxy causing the problem. Then `proxy-config` can be used
 to inspect Envoy configuration and diagnose the issue.
 
 If you want to try the commands described below, you can either:
 
 * Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
-[installation steps](/docs/setup/getting-started/) and
-[Bookinfo installation steps](/docs/examples/bookinfo/#deploying-the-application)).
+[installation steps](/zh/docs/setup/getting-started/) and
+[Bookinfo installation steps](/zh/docs/examples/bookinfo/#deploying-the-application)).
 
 OR
 

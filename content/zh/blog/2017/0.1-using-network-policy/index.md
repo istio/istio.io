@@ -5,7 +5,7 @@ publishdate: 2017-08-10
 subtitle:
 attribution: Spike Curtis
 aliases:
-    - /blog/using-network-policy-in-concert-with-istio.html
+    - /zh/blog/using-network-policy-in-concert-with-istio.html
 target_release: 0.1
 ---
 
@@ -104,7 +104,7 @@ spec:
 Here is the service graph for the Bookinfo application.
 
 {{< image width="80%"
-    link="/docs/examples/bookinfo/withistio.svg"
+    link="/zh/docs/examples/bookinfo/withistio.svg"
     caption="Bookinfo Service Graph"
     >}}
 

@@ -14,36 +14,36 @@ microservices-based applications use functionality provided by legacy systems th
 to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the
 applications inside the mesh. In other cases, the applications use web services provided by third parties.
 
-In this blog post, I modify the [Istio Bookinfo Sample Application](/docs/examples/bookinfo/) to fetch book details from
+In this blog post, I modify the [Istio Bookinfo Sample Application](/zh/docs/examples/bookinfo/) to fetch book details from
 an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how
 to enable egress HTTPS traffic in Istio by using _mesh-external service entries_. I provide two options for egress
 HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/getting-started/). Then I deploy
-[Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/zh/docs/setup/getting-started/). Then I deploy
+[Istio Bookinfo Sample Application](/zh/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
 book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
 details without consulting any external service.
 
 The example commands in this blog post work with Istio 1.0+, with or without
-[mutual TLS](/docs/concepts/security/#mutual-tls-authentication) enabled. The Bookinfo configuration files reside in the
+[mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) enabled. The Bookinfo configuration files reside in the
 `samples/bookinfo` directory of the Istio release archive.
 
 Here is a copy of the end-to-end architecture of the application from the original
-[Bookinfo sample application](/docs/examples/bookinfo/).
+[Bookinfo sample application](/zh/docs/examples/bookinfo/).
 
 {{< image width="80%"
-    link="/docs/examples/bookinfo/withistio.svg"
+    link="/zh/docs/examples/bookinfo/withistio.svg"
     caption="The Original Bookinfo Application"
     >}}
 
 Perform the steps in the
-[Deploying the application](/docs/examples/bookinfo/#deploying-the-application),
-[Confirm the app is running](/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
-[Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules)
+[Deploying the application](/zh/docs/examples/bookinfo/#deploying-the-application),
+[Confirm the app is running](/zh/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
+[Apply default destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules)
 sections, and
-[change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
+[change Istio to the blocking-egress-by-default policy](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
 ## Bookinfo with HTTPS access to a Google Books web service
 
@@ -71,10 +71,10 @@ Now direct all the traffic destined to the _details_ microservice, to _details v
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 {{< /text >}}
 
-Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) section.
+Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules) section.
 
 Access the web page of the application, after
-[determining the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+[determining the ingress IP and port](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port).
 
 Oops... Instead of the book details you have the _Error fetching product details_ message displayed:
 
@@ -90,7 +90,7 @@ So what might have gone wrong? Ah... The answer is that I forgot to tell you to 
 an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
 ([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable
 such traffic, you must define a
-[mesh-external service entry](/docs/reference/config/networking/service-entry/).
+[mesh-external service entry](/zh/docs/reference/config/networking/service-entry/).
 
 ### Enable HTTPS access to a Google Books web service
 
@@ -190,7 +190,7 @@ in this case `www.googleapis.com`.
 To allow Istio to perform monitoring and policy enforcement of egress requests based on HTTP details, the microservices
 must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code
 of the microservices must be written differently or configured differently, according to whether the microservice runs
-inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/ops/architecture/#design-goals). Sometimes you need to compromise...
+inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/zh/docs/ops/architecture/#design-goals). Sometimes you need to compromise...
 
 The diagram below shows two options for sending HTTPS traffic to external services. On the top, a microservice sends
 regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice sends unencrypted HTTP requests
@@ -302,7 +302,7 @@ In the next section you will configure TLS origination for accessing an external
 
 1.  Access the web page of the application and verify that the book details are displayed without errors.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
 
@@ -328,7 +328,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 ### Relation to Istio mutual TLS
 
 Note that the TLS origination in this case is unrelated to
-[the mutual TLS](/docs/concepts/security/#mutual-tls-authentication) applied by Istio. The TLS origination for the
+[the mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) applied by Istio. The TLS origination for the
 external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures
 service-to-service communication **inside** the service mesh and provides each service with a strong identity. The
 **external services** in this blog post were accessed using **one-way TLS**, the same mechanism used to secure communication between a

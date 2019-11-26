@@ -1,7 +1,8 @@
 ---
-title: Istio 新闻
-description: 有关 Istio 项目的及时新闻。
-linktitle: 新闻
+title: Istio News
+description: Timely news about the Istio project.
+linktitle: News
 sidebar_multicard: true
-icon: newspaper
+icon: bullhorn
+decoration: pill
 ---
