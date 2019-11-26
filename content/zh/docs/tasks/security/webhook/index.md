@@ -1,24 +1,21 @@
 ---
-title: Istio Webhook Management [Experimental]
-description: How to manage webhooks in Istio through istioctl.
+title: Istio Webhook 管理 [实验性]
+description: 如何在 Istio 中使用 istioctl 工具管理 webhooks。
 weight: 100
 keywords: [security,webhook]
 ---
 
 {{< boilerplate experimental-feature-warning >}}
 
-Istio has two webhooks: Galley and the sidecar injector. By default,
-these webhooks manage their own configurations. From a
-security perspective, this default behavior is not recommended because a compromised webhook could then conduct
-privilege escalation attacks.
+Istio 有两个 webhooks：Galley 和 sidecar 注入器。
+默认情况下，这些 webhooks 自己管理自己的配置。
+从安全角度来看，不建议使用此默认行为，因为被侵入的 webhook 随后可能会进行提权攻击。
 
-This task shows how to use the new [{{< istioctl >}} x post-install webhook](/zh/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) command to
-securely manage the configurations of the webhooks.
+这个任务展示了如何使用新的 [{{< istioctl >}} x post-install webhook](/zh/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) 命令来安全的管理 webhooks 的配置。
 
-## Getting started
+## 开始{#getting-started}
 
-* Install Istio with [DNS certificates configured](/zh/docs/tasks/security/dns-cert) and
-`global.operatorManageWebhooks` set to `true`.
+* [配置 DNS 证书](/zh/docs/tasks/security/dns-cert)，并将 `global.operatorManageWebhooks` 设置为 `true`，以安装 Istio。
 
     {{< text bash >}}
     $ cat <<EOF > ./istio.yaml
@@ -37,19 +34,18 @@ securely manage the configurations of the webhooks.
     $ istioctl manifest apply -f ./istio.yaml
     {{< /text >}}
 
-* Install [`jq`](https://stedolan.github.io/jq/) for JSON parsing.
+* 安装 [`jq`](https://stedolan.github.io/jq/) 以解析 JSON。
 
-## Check webhook certificates
+## 检查 webhook 证书{#check-webhook-certificates}
 
-To display the DNS names in the webhook certificates of Galley and the sidecar injector, you need to get the secret
-from Kubernetes, parse it, decode it, and view the text output with the following commands:
+为了显示 Galley 和 sidecar 注入器的 webhook 证书的 DNS 名字，您需要用以下命令获取 Kubernetes 的 secret，解析它，解码它，并查看输出的文本：
 
 {{< text bash >}}
 $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
 $ kubectl get secret dns.istio-sidecar-injector-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
 {{< /text >}}
 
-The output from the above commands should include the DNS names of Galley and the sidecar injector, respectively:
+上述命令的输出会分别包含 Galley 和 sidecar 注入器的 DNS 名字：
 
 {{< text plain >}}
 X509v3 Subject Alternative Name:
@@ -61,18 +57,15 @@ X509v3 Subject Alternative Name:
   DNS:istio-sidecar-injector.istio-system.svc, DNS:istio-sidecar-injector.istio-system
 {{< /text >}}
 
-## Enable webhook configurations
+## 启用 webhook 配置{#enable-webhook-configurations}
 
-1.  To generate the `MutatingWebhookConfiguration` and `ValidatingWebhookConfiguration` configuration files, run the following
-command.
+1. 运行以下命令生成 `MutatingWebhookConfiguration` 和 `ValidatingWebhookConfiguration` 配置文件。
 
     {{< text bash >}}
     $ istioctl manifest generate > istio.yaml
     {{< /text >}}
 
-1.  Open the `istio.yaml` configuration file, search for `kind: MutatingWebhookConfiguration` and save
-the `MutatingWebhookConfiguration` of the sidecar injector to `sidecar-injector-webhook.yaml`. The following
-is a `MutatingWebhookConfiguration` in an example `istio.yaml`.
+1. 打开 `istio.yaml` 配置文件，搜索 `kind: MutatingWebhookConfiguration`，将 sidecar 注入器的 `MutatingWebhookConfiguration` 部分另存为 `sidecar-injector-webhook.yaml` 文件。下面是示例 `istio.yaml` 中的 `MutatingWebhookConfiguration`。
 
     {{< text yaml >}}
     apiVersion: admissionregistration.k8s.io/v1beta1
@@ -101,10 +94,7 @@ is a `MutatingWebhookConfiguration` in an example `istio.yaml`.
             istio-injection: enabled
     {{< /text >}}
 
-1.  Open the `istio.yaml` configuration file, search for `kind: ValidatingWebhookConfiguration` and save
-the `ValidatingWebhookConfiguration` of Galley to `galley-webhook.yaml`. The following
-is a `ValidatingWebhookConfiguration` in an example `istio.yaml` (only
-a part of the configuration is shown to save space).
+1. 打开 `istio.yaml` 配置文件，搜索 `kind: ValidatingWebhookConfiguration`，将 Galley 的 `ValidatingWebhookConfiguration` 部分另存为 `galley-webhook.yaml` 文件。下面是示例 `istio.yaml` 中的 `ValidatingWebhookConfiguration`（为节省空间只摘抄了一部分）。
 
     {{< text yaml >}}
     apiVersion: admissionregistration.k8s.io/v1beta1
@@ -134,26 +124,21 @@ a part of the configuration is shown to save space).
         sideEffects: None
     {{< /text >}}
 
-1.  Verify that there are no existing webhook configurations for Galley and the sidecar injector.
-The output of the following two commands should not contain any configurations for
-Galley and the sidecar injector.
+1. 验证目前不存在 Galley 和 sidecar 注入器的 webhook 配置。下面两条命令的输出应该不包含 Galley 和 sidecar 注入器的任何配置。
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration
     $ kubectl get validatingwebhookconfiguration
     {{< /text >}}
 
-    If there are existing webhook configurations (e.g., from a previous Istio deployment) for
-    Galley and the sidecar injector, delete them using the following commands. Before running
-    these commands, replace the webhook configuration names in the commands with the
-    actual webhook configuration names of Galley and the sidecar injector in your cluster.
+    如果已经存在 Galley 和 sidecar 注入器的 webhook 配置（例如，上一次 Istio 部署所遗留的），使用下列命令删除它们。在运行这些命令之前，将命令中的 webhook 配置的名字换成您的集群中的 Galley 和 sidecar 注入器的实际 webhook 配置的名字。
 
     {{< text bash >}}
     $ kubectl delete mutatingwebhookconfiguration SIDECAR-INJECTOR-WEBHOOK-CONFIGURATION-NAME
     $ kubectl delete validatingwebhookconfiguration GALLEY-WEBHOOK-CONFIGURATION-NAME
     {{< /text >}}
 
-1.  Use `istioctl` to enable the webhook configurations:
+1. 使用 `istioctl` 启用 webhook 配置：
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook enable --webhook-secret dns.istio-galley-service-account \
@@ -161,8 +146,7 @@ Galley and the sidecar injector.
         --injection-path sidecar-injector-webhook.yaml
     {{< /text >}}
 
-1.  To check that the sidecar injector webhook is working, verify that the webhook injects a
-sidecar container into an example pod with the following commands:
+1. 用以下命令验证 sidecar 注入器的 webhook 是否会将 sidecar 容器注入到示例 pod，以检查该 webhook 是否运行正常：
 
     {{< text bash >}}
     $ kubectl create namespace test-injection
@@ -171,15 +155,14 @@ sidecar container into an example pod with the following commands:
     $ kubectl get pod -n test-injection
     {{< /text >}}
 
-    The output from the `get pod` command should show the following. The `2/2` value means that
-    the webhook injected a sidecar into the example pod:
+    `get pod` 命令应该会显示如下输出。`2/2` 表示 webhook 将一个 sidecar 注入到了示例 pod 中：
 
     {{< text plain >}}
     NAME        READY   STATUS    RESTARTS   AGE
     nginx-app   2/2     Running   0          10s
     {{< /text >}}
 
-1.  Check that the validation webhook is working:
+1. 检查用于验证的 webhook 是否运行正常：
 
     {{< text bash >}}
     $ kubectl create namespace test-validation
@@ -197,62 +180,55 @@ sidecar container into an example pod with the following commands:
     EOF
     {{< /text >}}
 
-    The output from the gateway creation command should show the following output. The error
-    in the output indicates that the validation webhook checked the gateway's configuration YAML file:
+    创建网关的命令应该会显示如下输出。输出中的错误表示了验证 webhook 检查了网关的配置 YAML 文件：
 
     {{< text plain >}}
     Error from server: error when creating "invalid-gateway.yaml": admission webhook "pilot.validation.istio.io" denied the request: configuration is invalid: gateway must have at least one server
     {{< /text >}}
 
-## Show webhook configurations
+## 显示 webhook 配置{#show-webhook-configurations}
 
-1.  If you named the sidecar injector's configuration `istio-sidecar-injector` and
-named Galley's configuration `istio-galley-istio-system`, use the following command
-to show the configurations of these two webhooks:
+1. 如果您将 sidecar 注入器的配置命名为 `istio-sidecar-injector`，将 Galley 的配置命名为 `istio-galley-istio-system`，使用下列命令来显示这两个 webhooks 的配置：
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook status --validation-config=istio-galley-istio-system  --injection-config=istio-sidecar-injector
     {{< /text >}}
 
-1.  If you named the sidecar injector's configuration `istio-sidecar-injector`,
-use the following command to show the configuration of the sidecar injector:
+1. 如果您将 sidecar 注入器的配置命名为 `istio-sidecar-injector`，使用下列命令来显示它的配置：
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook status --validation=false --injection-config=istio-sidecar-injector
     {{< /text >}}
 
-1.  If you named Galley's configuration `istio-galley-istio-system`, show Galley's configuration with the following command:
+1. 如果您将 Galley 的配置命名为 `istio-galley-istio-system`，使用下列命令来显示它的配置：
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook status --injection=false --validation-config=istio-galley-istio-system
     {{< /text >}}
 
-## Disable webhook configurations
+## 禁用 webhook 配置{#disable-webhook-configurations}
 
-1.  If you named the sidecar injector's configuration `istio-sidecar-injector` and
-    named Galley's configuration `istio-galley-istio-system`, use the following command
-    to disable the configurations of these two webhooks:
+1. 如果您将 sidecar 注入器的配置命名为 `istio-sidecar-injector`，将 Galley 的配置命名为 `istio-galley-istio-system`，使用下列命令来禁用这两个 webhooks 的配置：
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook disable --validation-config=istio-galley-istio-system  --injection-config=istio-sidecar-injector
     {{< /text >}}
 
-1.  If you named the sidecar injector's configuration `istio-sidecar-injector`,
-disable the webhook with the following command:
+1. 如果您将 sidecar 注入器的配置命名为 `istio-sidecar-injector`，使用下列命令来禁用它：
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook disable --validation=false --injection-config=istio-sidecar-injector
     {{< /text >}}
 
-1.  If you named Galleys's configuration `istio-galley-istio-system`, disable the webhook with the following command:
+1. 如果您将 Galley 的配置命名为 `istio-galley-istio-system`，使用下列命令来禁用它：
 
     {{< text bash >}}
     $ istioctl experimental post-install webhook disable --injection=false --validation-config=istio-galley-istio-system
     {{< /text >}}
 
-## Cleanup
+## 清理{#cleanup}
 
-You can run the following command to delete the resources created in this tutorial.
+您可以运行下列命令来删除本教程中创建的资源。
 
 {{< text bash >}}
 $ kubectl delete ns test-injection test-validation
