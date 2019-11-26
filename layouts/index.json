@@ -12,7 +12,7 @@
     {{- if $limit.Before $post.PublishDate -}}
       {{- if not $first -}},{{ end -}}
       {{- $first = false }}
-"{{ $post.URL }}": "{{ $post.PublishDate.Format "2006-01-02" }}"
+"{{ $post.RelPermalink }}": "{{ $post.PublishDate.Format "2006-01-02" }}"
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -24,7 +24,7 @@
     {{- if $limit.Before $post.PublishDate -}}
       {{- if not $first -}},{{ end -}}
       {{- $first = false }}
-"{{ $post.URL }}": "{{ $post.PublishDate.Format "2006-01-02" }}"
+"{{ $post.RelPermalink }}": "{{ $post.PublishDate.Format "2006-01-02" }}"
     {{- end -}}
   {{- end -}}
 {{- end }}

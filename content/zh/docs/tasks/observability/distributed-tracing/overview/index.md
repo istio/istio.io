@@ -13,7 +13,7 @@ This allows a deeper understanding about request latency, serialization and para
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing) feature
 to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend
 and configure proxies to send trace spans to them automatically.
-See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
+See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
 
 ## Trace context propagation
 
@@ -95,7 +95,7 @@ percentage in one of two ways:
 
 * During the mesh setup, use the option `values.pilot.traceSampling` to
   set the percentage of trace sampling. See the
-  [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/) documentation for
+  [Installing with {{< istioctl >}}](/zh/docs/setup/install/istioctl/) documentation for
   details on setting options.
 * In a running mesh, edit the `istio-pilot` deployment and
   change the environment variable with the following steps:

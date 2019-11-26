@@ -212,7 +212,7 @@ other = "Links"
 other = "This is an auto-generated file, please edit the source in the %s repo."
 
 [switch_lang]
-other = "Switch to Chinese"
+other = "Switch Language"
 
 [advisory]
 other = "-"
@@ -258,3 +258,12 @@ other = "CVSS Impact Score"
 
 [security_bulletin_affected_releases]
 other = "Affected Releases"
+
+[feedback_title]
+other = "Was this information useful?"
+
+[feedback_yes]
+other = "Yes"
+
+[feedback_no]
+other = "No"

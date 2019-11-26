@@ -17,7 +17,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 Istio 用户权限的提升，对于某些组织的安全政策来说，可能是难以接受的。
 Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的网络功能但却不需要 Istio 用户申请额外的 Kubernetes RBAC 授权的方案。
 
-Istio CNI 插件会在 Kubernetes pod 生命周期的网络设置阶段完成 Istio 网格的 pod 流量转发设置工作，因此用户在部署 pods 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/setup/additional-setup/requirements/)了。
+Istio CNI 插件会在 Kubernetes pod 生命周期的网络设置阶段完成 Istio 网格的 pod 流量转发设置工作，因此用户在部署 pods 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/prep/requirements/)了。
 Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
 ## 前提条件{#prerequisites}
@@ -36,7 +36,7 @@ Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
     任何非默认设置都需要参考[托管 Kubernetes 设置](#hosted-Kubernetes-settings)。
 
 1. 使用 `istioctl` 安装 Istio CNI 和 Istio。
-    参考 [Istio 安装](/zh/docs/setup/install/kubernetes/)的说明，并设置 `--set cni.enabled=true` 和 `--set cni.components.cni.enabled=true` 选项。
+    参考 [Istio 安装](/zh/docs/setup/install/istioctl/)的说明，并设置 `--set cni.enabled=true` 和 `--set cni.components.cni.enabled=true` 选项。
     在上一步中，如果 `istio-cni` 不是按照默认设置安装的，还需要设置 `--set values.cni.cniBinDir=...` 和 `--set values.cni.cniConfDir=...` 选项。
 
 ### Helm chart 参数{#helm-chart-parameters}

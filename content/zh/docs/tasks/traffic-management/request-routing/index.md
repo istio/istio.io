@@ -120,7 +120,7 @@ Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服�
 
 您可以通过再次刷新 Bookinfo 应用程序的 `/productpage` 轻松测试新配置。
 
-1. 在浏览器中打开 Bookinfo 站点。 网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是外部的入口 IP 地址，如 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port) 文档中所述。
+1. 在浏览器中打开 Bookinfo 站点。 网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是外部的入口 IP 地址，如 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port) 文档中所述。
 
     请注意，无论您刷新多少次，页面的评论部分都不会显示评级星标。这是因为您将 Istio 配置为
     将评论服务的所有流量路由到版本 `reviews:v1`，而此版本的服务不访问星级评分服务。
@@ -184,7 +184,7 @@ Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服�
 然后设置了一条路由规则，它根据 `productpage` 服务发起的请求中的 `end-user` 自定义请求头内容，选择性地将特定的流量路由到了 `reviews` 服务的 `v2` 版本。
 
 请注意，Kubernetes 中的服务，如本任务中使用的 Bookinfo 服务，必须遵守某些特定限制，才能利用到 Istio 的 L7 路由特性优势。
-参考 [Pods 和 Services 需求](/zh/docs/setup/additional-setup/requirements)了解详情。
+参考 [Pods 和 Services 需求](/zh/docs/ops/prep/requirements/)了解详情。
 
 在[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting)任务中，您将按照在此处学习到的相同的基本模式来配置路由规则，以逐步将流量从服务的一个版本迁移到另一个版本。
 

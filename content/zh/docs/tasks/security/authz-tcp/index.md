@@ -13,7 +13,7 @@ keywords: [security,access-control,rbac,tcp,authorization]
 
 * 了解 [Istio 的授权和鉴权](/zh/docs/concepts/security/#authorization).
 
-* 按照 [快速开始](/zh/docs/setup/install/kubernetes/) 的指导，在 Kubernetes 中安装完成 Istio。
+* 按照 [快速开始](/zh/docs/setup/getting-started/) 的指导，在 Kubernetes 中安装完成 Istio。
 
 * 部署完成 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 应用示例。
 
