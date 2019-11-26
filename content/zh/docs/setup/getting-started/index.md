@@ -1,6 +1,6 @@
 ---
-title: Getting Started
-description: Download, install, and learn how to evaluate and try Istio’s basic features quickly.
+title: 开始
+description: 下载、安装并学习如何快速使用 Istio 的基本特性。
 weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/getting-started/
