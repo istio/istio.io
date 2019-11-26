@@ -22,7 +22,7 @@ __ISTIO-SECURITY-2019-005__: Envoy 和后面的 Istio 容易受到以下 DoS 攻
 
 CVSS 总体得分: 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
 
-## 漏洞影响和检测[#vulnerability-impact-and-detection]
+## 漏洞影响和检测{#vulnerability-impact-and-detection}
 
 Istio 网关和 sidecars 都容易受到此问题的影响。 如果您正在运行上面列出的版本之一，则您的群集很容易受到攻击。
 
