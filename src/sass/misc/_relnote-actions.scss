@@ -1,0 +1,76 @@
+.relnote-actions {
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    justify-content: center;
+
+    a {
+        color: $textColor;
+        text-decoration: none;
+
+        h5 {
+            margin-bottom: 0;
+            color: $linkColor;
+        }
+
+        &:hover {
+            color: $textBrandColor;
+            text-decoration: none;
+
+            h5 {
+                color: $textBrandColor;
+            }
+        }
+    }
+
+    .entry {
+        flex-basis: 400px;
+        padding: 1rem;
+        border: $tabsetBorderColor 1px dashed;
+        display: block;
+        cursor: pointer;
+        text-decoration: none;
+
+        @media (min-width: $bp-md) {
+            padding: 1rem 4rem;
+        }
+
+        &:hover {
+            background-color: $mainBrandColor;
+            color: $textBrandColor;
+        }
+
+        &:focus {
+            color: $textBrandColor;
+            background-color: $mainBrandColor;
+        }
+
+        &:active {
+            background-color: $buttonActiveColor;
+            color: $textBrandColor;
+        }
+    }
+
+    div.entry {
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: $backgroundColor;
+            cursor: not-allowed;
+        }
+
+        &:active {
+            background-color: $backgroundColor;
+        }
+
+        &:focus {
+            background-color: $backgroundColor;
+        }
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}

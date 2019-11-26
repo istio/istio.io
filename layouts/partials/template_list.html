@@ -1,8 +1,8 @@
 {{ $page := .page }}
 {{ $templates := .templates }}
 
-{{ $templates := split $templates "," }}
-{{ $templates := sort $templates }}
+{{ $templates = split $templates "," }}
+{{ $templates = sort $templates }}
 {{ $last := trim (index (last 1 $templates) 0) " " }}
 {{ range $i, $t := $templates }}
     {{ $temp := trim $t " " }}

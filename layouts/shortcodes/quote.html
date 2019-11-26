@@ -1,9 +1,11 @@
-<aside class="callout quote">
-    <div class="type">
-        {{ partial "large_icon.html" "callout-quote" }}
-    </div>
-    <div class="content">
-        {{- $text := partial "strip_indent.html" (dict "content" .Inner "pos" .Position) -}}
-        {{- $text | markdownify -}}
-    </div>
-</aside>
+<div>
+    <aside class="callout quote">
+        <div class="type">
+            {{ partial "large_icon.html" "callout-quote" }}
+        </div>
+        <div class="content">
+            {{- $text := partial "strip_indent.html" (dict "content" .Inner "pos" .Position) -}}
+            {{- $text | markdownify -}}
+        </div>
+    </aside>
+</div>

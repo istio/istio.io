@@ -22,12 +22,17 @@
     --buttonActiveColor: #e07484;
     --dividerBarColor: rgba(255, 255, 255, .1);
     --glossaryHeaderColor: #{$medium-gray};
-    --blockQuoteBackgroundColor: #{$dark-gray};
-    --tipCalloutBackgroundColor: #{$dark-gray};
-    --ideaCalloutBackgroundColor: #{$dark-gray};
-    --warningCalloutBackgroundColor: #{$dark-gray};
     --deprecatedBackgroundColor: silver;
     --boxBorderColor: var(--textColor);
+
+    --quoteCalloutBackgroundColor: #{$dark-gray};
+    --quoteCalloutBorderColor: #{$dark-gray};
+    --tipCalloutBackgroundColor: #{$dark-gray};
+    --tipCalloutBorderColor: #{$dark-gray};
+    --ideaCalloutBackgroundColor: #{$dark-gray};
+    --ideaCalloutBorderColor: #{$dark-gray};
+    --warningCalloutBackgroundColor: #{$dark-gray};
+    --warningCalloutBorderColor: #{$dark-gray};
 
     --preBlockShadowColor: #777777;
     --preBlockBorderColor: #777777;
@@ -41,10 +46,8 @@
 
     --tabsetBorderColor: #777777;
     --tabsetShadowColor: #777777;
-    --tabsetUnselectedTabTextColor: #e9ffaa;
-    --tabsetUnselectedTabBackgroundColor: #{$not-so-dark-gray};
-    --tabsetSelectedTabTextColor: #a7a7a7;
-    --tabsetSelectedTabBackgroundColor: #{$dark-gray};
+    --tabsetUnselectedTabBackgroundColor: #{$dark-gray};
+    --tabsetSelectedTabBackgroundColor: #{$not-so-dark-gray};
 
     --sidebarRightChevron: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='white' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");
     --sidebarRightChevronHover: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 407.436 407.436'%3E%3Cpath fill='orange' d='M112.814 0L91.566 21.178l181.946 182.54-181.946 182.54 21.248 21.178 203.055-203.718z'/%3E%3C/svg%3E");
@@ -76,6 +79,9 @@
 
     --companyLogoBackgroundColor: lightgrey;
     --companyLogoTaglineColor: #{$black};
+
+    --pillBackgroundColor: lightgreen;
+    --pillTextColor: black;
 
     --textWeight: 300;
     --linkWeight: 300;

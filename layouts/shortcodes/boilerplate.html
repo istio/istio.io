@@ -3,9 +3,9 @@
 {{- $position := .Position }}
 
 {{- if $name -}}
-    {{ $name := printf "%s.md" $name }}
     {{- $bundle := .Page.GetPage "/boilerplates" -}}
     {{- with $bundle -}}
+        {{- $name := printf "%s.md" $name -}}
         {{- $pattern := printf "%s*" $name -}}
         {{- $resource := $bundle.Resources.GetMatch $pattern -}}
         {{- with $resource -}}

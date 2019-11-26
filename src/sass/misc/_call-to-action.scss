@@ -1,17 +1,14 @@
 .call-to-action {
     text-align: center;
+    opacity: 0;
+    transition: opacity .25s ease-in;
 
     @media print {
         display: none;
     }
 
-    #buttons {
-        opacity: 0;
-        transition: opacity .25s ease-in;
-    }
-
     .btn {
-        margin: 1rem 1rem;
+        margin: 1rem;
         width: 13rem;
 
         @media (min-width: $bp-md) {
@@ -19,22 +16,15 @@
         }
     }
 
-    span.btn {
-        cursor: not-allowed;
+    .wide {
+        width: 20rem;
+    }
 
-        &:hover {
-            background-color: $secondBrandColor;
-            color: $textBrandColor;
-        }
-
-        &:active {
-            background-color: $secondBrandColor;
-            color: $textBrandColor;
-        }
+    button.btn {
+        outline: 0;
 
         &:focus {
-            background-color: $secondBrandColor;
-            color: $textBrandColor;
+            text-decoration: underline;
         }
     }
 }

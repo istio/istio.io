@@ -12,9 +12,9 @@
     .entries {
         .letter {
             @media screen {
-                &:target::before {
-                    height: calc(#{$headerHeight} - 1rem);
-                    margin-top: calc(0rem - calc(#{$headerHeight} - 1rem));
+                dt:target::before {
+                    height: calc(#{$headerHeight} + 4.2rem);
+                    margin-top: calc(-#{$headerHeight} - 4.2rem);
                 }
             }
         }
@@ -28,7 +28,6 @@
             background-color: $backgroundColor;
             padding-top: 2.2rem;
             padding-bottom: .15rem;
-            position: -webkit-sticky;
             position: sticky;
             top: calc(#{$headerHeight} - 1rem);
             margin-top: 0;

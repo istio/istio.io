@@ -9,19 +9,20 @@ footer {
     padding: 1rem 4px 1.5rem;
     text-align: center;
     display: grid;
-    grid-template-columns: [user-links] 45% [info] 55% [dev-links] 0%;
+    grid-template-columns: [user-links] 60% [info] 40% [dev-links] 0;
     grid-template-rows: 100%;
 
     @media print {
         display: none;
     }
 
-    @media (min-width: $bp-sm) {
-        padding: 1.5rem 1.25rem 1rem 1.25rem;
+    @media (min-width: $bp-md) {
+        padding: 1.5rem 1.25rem 1rem;
+        grid-template-columns: [user-links] 65% [info] 35% [dev-links] 0;
     }
 
     @media (min-width: $bp-lg) {
-        grid-template-columns: [user-links] 30% [info] 40% [dev-links] 30%;
+        grid-template-columns: [user-links] 35% [info] 30% [dev-links] 35%;
     }
 
     .user-links {
@@ -37,12 +38,12 @@ footer {
             margin-top: 8px;
             color: $textBrandColorLight;
             line-height: 1.6em;
-            font-size: 0.5em;
-            text-align: right!important;
+            font-size: .5em;
+            text-align: right !important;
 
             @media (min-width: $bp-lg) {
-                text-align: center!important;
-                font-size: 0.7em;
+                text-align: center !important;
+                font-size: .7em;
                 margin: 0;
             }
 
@@ -71,7 +72,7 @@ footer {
         position: relative;
         display: inline-flex;
         margin-top: 8px;
-        padding: 6px 6px;
+        padding: 6px;
         border-width: 2px;
         border-color: rgba(0, 0, 0, 0);
         border-style: solid;
@@ -129,6 +130,6 @@ footer {
         font-style: italic;
         margin: 0;
         line-height: 1.6em;
-        font-size: 0.8em;
+        font-size: .8em;
     }
 }

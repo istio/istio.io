@@ -1,0 +1,44 @@
+{{ define "main" }}
+    {{ partial "primary_top.html" . }}
+
+    {{ $found := false }}
+    {{ $current := .}}
+    {{ range $msg := .Site.Data.analysis.messages }}
+        {{ if eq $msg.name $current.Page.Title }}
+            {{ $found = true}}
+
+                <div class="analysis-message-metadata">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>{{ i18n "analysis_name" }}</td>
+                            <td>{{ $msg.name}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ i18n "analysis_code" }}</td>
+                            <td>{{ $msg.code}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ i18n "analysis_description" }}</td>
+                            <td>{{ $msg.description}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ i18n "analysis_level" }}</td>
+                            <td>{{ $msg.level}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {{ end }}
+    {{ end }}
+
+    {{ if not $found }}
+        {{ errorf "Could not find analysis message for %s" .Page.Title }}
+    {{ end }}
+
+    {{ .Content }}
+    {{ partial "primary_bottom.html" . }}
+{{ end }}

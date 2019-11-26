@@ -7,18 +7,18 @@
         display: inline-block;
         width: 200px;
         height: 120px;
-        transition-duration: 0.8s;
+        transition-duration: .8s;
         transform-origin: 50% 50%;
         transition-property: none;
         position: relative;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 0 50px rgba(0, 0, 0, .1), 0 5px 10px rgba(0, 0, 0, .25);
         border-radius: 3px;
         background-color: $companyLogoBackgroundColor;
 
         &:hover {
             transition-property: transform, opacity, box-shadow;
             transform: rotate(360deg);
-            box-shadow: 0 0 50px rgba(0, 0, 200, 0.1), 0 5px 10px rgba(0, 0, 200, 0.25);
+            box-shadow: 0 0 50px rgba(0, 0, 200, .1), 0 5px 10px rgba(0, 0, 200, .25);
         }
     }
 
@@ -59,14 +59,14 @@
         width: 172px;
         height: 92px;
         object-fit: contain;
-        transition-duration: 0.8s;
+        transition-duration: .8s;
         transition-property: opacity;
     }
 
     .tagline {
         color: $companyLogoTaglineColor;
         opacity: 0;
-        transition-duration: 0.8s;
+        transition-duration: .8s;
         transition-property: opacity;
     }
 }

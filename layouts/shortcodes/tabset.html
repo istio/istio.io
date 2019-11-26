@@ -21,8 +21,7 @@
             {{- $id := printf "%s-%d" $tab_set_id $i -}}
             <div{{ if ne $i 0 }} hidden{{ end }} id="{{ $id }}-panel" role="tabpanel" tabindex="0" aria-labelledby="{{ $id }}-tab">
                 {{- $text := partial "strip_indent.html" (dict "content" .content "pos" .Position) -}}
-                {{- $text := $text | markdownify }}
-                {{- $text | safeHTML -}}
+                {{- $text | markdownify -}}
             </div>
         {{- end -}}
     </div>

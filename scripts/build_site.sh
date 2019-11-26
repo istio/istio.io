@@ -1,10 +1,23 @@
-#!/usr/bin/env sh
+#!/bin/bash
+
+# Copyright Istio Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 set -e
 
-mkdir -p generated/css generated/js generated/img
-
-npx sass src/sass/_all.scss all.css -s compressed
-mv all.css* generated/css
-npx babel src/js/constants.js src/js/utils.js src/js/themes.js src/js/menu.js src/js/header.js src/js/sidebar.js src/js/tabset.js src/js/prism.js src/js/codeBlocks.js src/js/links.js src/js/scroll.js src/js/overlays.js src/js/lang.js --out-file generated/js/all.min.js --source-maps --minified --no-comments --presets minify
-npx babel src/js/themes_init.js --out-file generated/js/themes_init.min.js --source-maps --minified --no-comments --presets minify
-npx svgstore -o generated/img/icons.svg src/icons/**/*.svg
+if [[ "$2" == "-no_minify" ]]; then
+    hugo --baseURL "$1"
+else
+    hugo --minify --baseURL "$1"
+fi

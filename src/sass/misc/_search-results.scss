@@ -1,3 +1,4 @@
+// sass-lint:disable class-name-format
 .search-results {
     .gs-webResult div.gs-visibleUrl-long, .gs-promotion div.gs-visibleUrl-long {
         padding-bottom: 0;
@@ -15,6 +16,8 @@
     table {
         margin-left: .5em;
         margin-right: 0;
+        border-collapse: collapse;
+        border-spacing: 0;
     }
 
     table p:first-of-type {
@@ -22,16 +25,11 @@
     }
 
     table p:last-of-type {
-        margin-bottom: 0
+        margin-bottom: 0;
     }
 
     tr.oneof > td {
         border: 0;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
     }
 
     tr:first-child th:first-child {

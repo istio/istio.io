@@ -44,7 +44,7 @@
         border-color: transparent;
     }
 
-    &[x-placement^="top"] {
+    &[x-placement^=top] {
         margin-bottom: $arrow-height;
 
         .arrow {
@@ -55,18 +55,18 @@
         }
     }
 
-    &[x-placement^="bottom"] {
+    &[x-placement^=bottom] {
         margin-top: $arrow-height;
 
         .arrow {
-            border-width: 0 $arrow-width $arrow-height $arrow-width;
+            border-width: 0 $arrow-width $arrow-height;
             border-bottom-color: $popoverBackgroundColor;
             top: -$arrow-height;
             margin: 0 $arrow-width;
         }
     }
 
-    &[x-placement^="right"] {
+    &[x-placement^=right] {
         margin-left: $arrow-width;
 
         .arrow {
@@ -77,7 +77,7 @@
         }
     }
 
-    &[x-placement^="left"] {
+    &[x-placement^=left] {
         margin-right: $arrow-width;
 
         .arrow {

@@ -1,5 +1,11 @@
 {{ define "main" }}
 
+<style>
+    .primary .article-container article {
+        overflow-x: visible;
+    }
+</style>
+
 {{ partial "primary_top.html" . }}
 
 {{ .Content }}
@@ -24,7 +30,7 @@
     </div>
 
     <div class="entries">
-        {{ $previous := "-" }}
+        {{ $previous = "-" }}
         {{ range $w := $words }}
             {{ $first := upper (slicestr $w.Title 0 1) }}
 

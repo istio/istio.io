@@ -1,8 +1,8 @@
 {{ $page := .page }}
 {{ $adapters := .adapters }}
 
-{{ $adapters := split $adapters "," }}
-{{ $adapters := sort $adapters }}
+{{ $adapters = split $adapters "," }}
+{{ $adapters = sort $adapters }}
 {{ $last := trim (index (last 1 $adapters) 0) " " }}
 {{ range $i, $a := $adapters }}
     {{ $adap := trim $a " " }}

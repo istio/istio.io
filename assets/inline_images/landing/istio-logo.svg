@@ -1,5 +1,1 @@
-<svg id="hero-logo" viewBox="0 0 160 240">
-  <polygon points="0,210 160,210 60,240"/>
-  <polygon points="0,200 60,190 60,80"/>
-  <polygon points="70,190 160,200 70,0"/>
-</svg>
+<svg id="hero-logo" viewBox="0 0 160 240"><polygon points="0 210 160 210 60 240"/><polygon points="0 200 60 190 60 80"/><polygon points="70 190 160 200 70 0"/></svg>

@@ -6,8 +6,7 @@
         padding-top: 1rem;
     }
 
-    @supports ((position:-webkit-sticky) or (position:sticky)) {
-        position: -webkit-sticky;
+    @supports (position: sticky) {
         position: sticky;
         top: $headerHeight;
     }
@@ -16,12 +15,12 @@
         padding-left: .5em;
         border-left: 1px solid $dividerBarColor;
 
-        @supports ((position:-webkit-sticky) or (position:sticky)) {
+        @supports (position: sticky) {
             max-height: calc(100vh - 9rem);
         }
 
         @media (min-width: $bp-md) {
-            @supports ((position:-webkit-sticky) or (position:sticky)) {
+            @supports (position: sticky) {
                 max-height: calc(100vh - 9rem);
                 overflow-y: auto;
             }

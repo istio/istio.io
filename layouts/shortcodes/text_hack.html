@@ -1,0 +1,21 @@
+{{- /* Inserts a text block into the HTML. See https://preliminary.istio.io/about/contribute/creating-and-editing-pages/#embedding-preformatted-blocks for details
+This is a special simplified version of the normal text shortcode that doesn't support any features and is designed to work around a bug in Hugo
+that occurs when using a text block inside a tab inside a list. This bug causes indent to be off in that case for certain lines in the text block.
+This hack works around that problem.
+*/ -}}
+{{- $syntax := .Get "syntax" | default (.Get 0) -}}
+
+{{- if not $syntax -}}
+    {{- errorf "Text block does not specify a syntax (%s)" .Position -}}
+    {{- $syntax = "plain" -}}
+{{- end -}}
+
+{{- if eq $syntax "bash" -}}
+    {{- if not (hasPrefix (trim .Inner "\n ") "$") -}}
+        {{- errorf "Text block specifies a bash syntax, but the first line of the block does not start with $ (%s)" .Position -}}
+    {{- end -}}
+{{- end -}}
+
+```{{ printf "%s" $syntax -}}
+{{- .Inner -}}
+```
