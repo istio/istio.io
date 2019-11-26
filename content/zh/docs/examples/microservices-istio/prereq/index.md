@@ -11,7 +11,7 @@ weight: 1
 
 如果你在一个学习班上，并且讲师提供了一个集群，让他们来处理集群的前提条件，你可以跳过本地电脑的设置。
 
-## Kubernetes 集群{#kubernetes-cluster}
+## Kubernetes 集群{#Kubernetes-cluster}
 
 确保满足以下条件：
 
