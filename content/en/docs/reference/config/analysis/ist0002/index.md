@@ -3,6 +3,6 @@ title: Deprecated
 layout: analysis-message
 ---
 
-This message occurs when you use a function that planned for removal in a future Istio version.
+This message occurs when you use a function that is planned for removal in a future version.
 
-To resolve this problem, use the alternative for the deprecated function as indicated in the [release announcements](/news/releases/) that accompany each new Istio version.
+To resolve this problem, check for any alternatives for the deprecated function in the Istio [release announcements](/news/releases/).
