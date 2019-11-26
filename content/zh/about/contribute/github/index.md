@@ -12,7 +12,7 @@ aliases:
 keywords: [contribute,community,github,pr]
 ---
 
-我们很高兴您对改进和扩展 Istio 文档感兴趣！ 在开始之前，请花一些时间来熟悉改进与拓展 Istio 文档的流程。
+我们很高兴您对改进和扩展 Istio 文档感兴趣！在开始之前，请花一些时间来熟悉改进与拓展 Istio 文档的流程。
 
 要处理 Istio 文档，您需要：
 
@@ -28,9 +28,9 @@ keywords: [contribute,community,github,pr]
 
 * 如果您想要编辑现有页面，可以在浏览器中打开页面，然后从该页面右上方的齿轮菜单中选择**在 GitHub 上编辑此页面**选项，这将带您到 GitHub 页面进行编辑操作并提交相应的更改。
 
-* 如果您想要在普通站点上工作，请遵循我们的[如何添加内容](#add)中的步骤。
+* 如果您想使用通用的方式在站点上工作，请遵循我们的[如何添加内容](#add)中的步骤。
 
-* 如果您想要查看现有的拉取请求（PR），遵循我们的[如何查看内容](#review)中的步骤。
+* 如果您想对现有的 pull request（PR）评审，遵循我们的[如何查看内容](#review)中的步骤。
 
 合并您的更改后，您的更改会立即显示在 `preliminary.istio.io` 上。但是，更改仅在下一次我们发布一个新版本的时候才会在 `istio.io` 上显示，该更改大约每季度一次。
 
@@ -80,7 +80,7 @@ keywords: [contribute,community,github,pr]
 
 ## 预览工作
 
-当您提交拉取请求（PR）时，您在 GitHub 上的 PR 页面会显示一个指向为您的 PR 自动构建的登入站点的链接，这对于您查看最终用户的最终页面看起来很有用。这个临时的网站，可以确保页面预览看起来正常。
+当您提交 pull request 时，您在 GitHub 上的 PR 页面会显示一个指向为您的 PR 自动构建的登入站点的链接，这对于您查看最终用户的最终页面看起来很有用。这个临时的网站，可以确保页面预览看起来正常。
 
 如果您创建了 Istio 仓库的分支，则可以在本地预览更改效果。
 有关说明，请参阅 [README](https://github.com/istio/istio.io/blob/master/README.md)。
