@@ -26,7 +26,7 @@ As an example, as of this writing, Mixer has 5 scopes, representing different fu
 - `default`
 - `grpcAdapter`
 
-Pilot, Citadel, and Galley have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
+Pilot, Citadel, and Galley have their own scopes which you can discover by looking at their [reference documentation](/zh/docs/reference/commands/).
 
 Each scope has a unique output level which is one of:
 
@@ -46,7 +46,7 @@ $ mixs server --log_output_level attributes=debug,adapters=warning
 {{< /text >}}
 
 In addition to controlling the output level from the command-line, you can also control the output level of a running component
-by using its [ControlZ](/docs/ops/diagnostic-tools/controlz) interface.
+by using its [ControlZ](/zh/docs/ops/diagnostic-tools/controlz) interface.
 
 ## Controlling output
 

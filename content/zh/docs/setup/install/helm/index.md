@@ -29,9 +29,9 @@ Helm 的安装方法已被弃用。
 
 ## 先决条件
 
-1. [下载 Istio 发行版](/zh/docs/setup/#downloading-the-release)。
+1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)。
 1. 完成必要的 [Kubernetes 平台设置](/zh/docs/setup/platform-setup/)。
-1. 检查 [Pod 和服务的要求](/zh/docs/setup/additional-setup/requirements/)。
+1. 检查 [Pod 和服务的要求](/zh/docs/ops/prep/requirements/)。
 1. [安装高于 2.10 版本的 Helm 客户端](https://github.com/helm/helm#install)。
 
 ## 添加 Helm chart 仓库
@@ -47,15 +47,15 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 
 将目录切换到 Istio 发行版的根目录，然后在以下两个**互斥**选项选择一种安装：
 
-1. 如果您不使用 Tiller 部署 Istio，请查看 [方案 1](/zh/docs/setup/install/helm/#方案-1-使用-helm-template-命令安装)。
-1. 如果您使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发行版, 请查看 [方案 2](/zh/docs/setup/install/helm/#方案-2-在-helm-和-tiller-的环境中使用-helm-install-命令安装)。
+1. 如果您不使用 Tiller 部署 Istio，请查看 [方案 1](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)。
+1. 如果您使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发行版, 请查看 [方案 2](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install)。
 
 {{< tip >}}
 默认情况下，Istio 使用 `LoadBalancer` 服务类型。 而有些平台是不支持 `LoadBalancer`
 服务的。 对于不支持 `LoadBalancer` 服务类型的平台, 执行下面的步骤时，可以在 Helm 命令中加入 `--set gateways.istio-ingressgateway.type=NodePort` 选项，使用 `NodePort` 来替代 `LoadBalancer` 服务类型。
 {{< /tip >}}
 
-### 方案 1: 使用 `helm template` 命令安装
+### 方案 1: 使用 `helm template` 命令安装{#option-1-install-with-helm-via-helm-template}
 
 在您的集群没有按照 [Tiller](https://helm.sh/docs/topics/architecture/#components)
  而且您也不想安装它的情况下，选择此方案安装。
@@ -141,7 +141,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tabset >}}
 
-### 方案 2: 在 Helm 和 Tiller 的环境中使用 `helm install` 命令安装
+### 方案 2: 在 Helm 和 Tiller 的环境中使用 `helm install` 命令安装{#option-2-install-with-helm-and-tiller-via-helm-install}
 
 这个方案使用 Helm 和 [Tiller](https://helm.sh/docs/topics/architecture/#components) 来对 Istio 的生命周期进行管理。
 

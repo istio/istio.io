@@ -20,26 +20,26 @@ weighted routing feature.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+* Setup Istio by following the instructions in the [Installation guide](/zh/docs/setup/).
 
-* Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
+* Review the [Traffic Management](/zh/docs/concepts/traffic-management) concepts doc.
 
 ## Apply weight-based TCP routing
 
 1.  To get started, deploy the `v1` version of the `tcp-echo` microservice.
 
-    *   If you are using [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
+    *   If you are using [manual sidecar injection](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
         use the following command
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
         {{< /text >}}
 
-        The [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command is used to manually modify the `tcp-echo-services.yaml`
+        The [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) command is used to manually modify the `tcp-echo-services.yaml`
         file before creating the deployments.
 
     *   If you are using a cluster with
-        [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+        [automatic sidecar injection](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
         enabled, label the `default` namespace with `istio-injection=enabled`
 
         {{< text bash >}}
@@ -61,7 +61,7 @@ weighted routing feature.
 1.  Confirm that the `tcp-echo` service is up and running.
 
     The `$INGRESS_HOST` variable below is the External IP address of the ingress, as explained in
-the [Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) doc. To obtain the
+the [Ingress Gateways](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) doc. To obtain the
 `$INGRESS_PORT` value, use the following command.
 
     {{< text bash >}}
@@ -168,7 +168,7 @@ With Istio, you can allow the two versions of the `tcp-echo` service to scale up
 and down independently, without affecting the traffic distribution between them.
 
 For more information about version routing with autoscaling, check out the blog
-article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+article [Canary Deployments using Istio](/zh/blog/2017/0.1-canary/).
 
 ## Cleanup
 

@@ -113,7 +113,7 @@ Istio 支持很多追踪系统，包括 [Zipkin](/zh/docs/tasks/observability/di
 
 Istio 为一个请求生成的分布式追踪数据：
 
-{{< image link="/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
+{{< image link="/zh/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
 
 ## 访问日志 {#access-logs}
 
