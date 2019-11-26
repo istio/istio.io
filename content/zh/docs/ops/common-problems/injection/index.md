@@ -173,7 +173,7 @@ $ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o name)
 done
 {{< /text >}}
 
-## 如果 Kubernetes API server 有代理设置的话，sidecar 的自动注入功能是不能用的{#automatic-sidecar-injection-fails-if-the-Kubernetes-API-server-has-proxy-settings}
+## 如果 Kubernetes API server 有代理设置的话，sidecar 的自动注入功能是不能用的{#automatic-sidecar-injection-fails-if-the-Kubernetes-API-server-has-proxy-settings}
 
 当 Kubernetes API server 包含诸如以下的代理设置时：
 
@@ -197,7 +197,7 @@ W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing 
 
 一种解决方法是在 `kube-apiserver` 的配置中删除代理设置，另一种解决方法是把 `istio-sidecar-injector.istio-system.svc` 或者 `.svc` 加到 `no_proxy` 的 `value` 里面。 每种解决方法都需要重新启动 `kube-apiserver`。
 
-Kubernetes与此有关的一个 [issue](https://github.com/kubernetes/kubeadm/issues/666) 已被 [PR #58698](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443) 解决。
+Kubernetes 与此有关的一个 [issue](https://github.com/kubernetes/kubeadm/issues/666) 已被 [PR #58698](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443) 解决。
 
 ## 在 pods 中使用 `tcpdump` 的限制{#limitations-for-using-Tcpdump-in-pods}
 
