@@ -1,15 +1,14 @@
----
-title: Support for Istio 1.1 ends on September 19th, 2019
-subtitle: Support Announcement
-description: Upcoming Istio 1.1 end of life announcement.
+title: 对 Istio 1.1的支持将于2019年9月19日终止
+subtitle: 版本维护公告
+description: 即将发布的 Istio 1.1停止维护公告。
 publishdate: 2019-08-15
 aliases:
-    - /zh/blog/2019/announcing-1.1-eol
-    - /zh/news/2019/announcing-1.1-eol
+    - /blog/2019/announcing-1.1-eol
+    - /news/2019/announcing-1.1-eol
 ---
 
-According to Istio's [support policy](/zh/about/release-cadence/), LTS releases like 1.1 are supported for three months after the next LTS release.   Since [1.2 was released on June 18th](/zh/news/releases/1.2.x/announcing-1.2/), support for 1.1 will end on September 19th, 2019.
+根据 Istio 的 [支持策略](/about/release-cadence/)，在下一个 LTS 版本发布后的三个月内，将支持1.1 LTS 版本。由于[1.2在6月18日发布](/news/releases/1.2.x/announcing-1.2/)， 对1.1的支持将于2019年9月19日终止。
 
-At that point we will stop back-porting fixes for security issues and critical bugs to 1.1, so we encourage you to upgrade to the latest version of Istio ({{<istio_release_name>}}).  If you don't do this you may put yourself in the position of having to do a major upgrade on a short timeframe to pick up a critical fix.
+届时，我们将会把针对安全问题和关键性错误修复后的程序反向移植到1.1，因此我们建议您升级到最新版本的 Istio（{{<istio_release_name>}}。如果您不这样做，可能会在短时间内为了修复关键性错误程序而进行频繁的重大升级。
 
-We care about you and your clusters, so please be kind to yourself and upgrade.
+我们非常关注您和您的集群，所以请参照我们的建议并进行升级。
