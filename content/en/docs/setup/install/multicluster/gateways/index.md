@@ -212,7 +212,7 @@ data:
     global:53 {
         errors
         cache 30
-        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})
+        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP}):53
     }
 EOF
 {{< /text >}}
@@ -249,7 +249,7 @@ data:
     global:53 {
         errors
         cache 30
-        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})
+        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP}):53
     }
 EOF
 {{< /text >}}
