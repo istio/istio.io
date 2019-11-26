@@ -1,50 +1,46 @@
 ---
-title: Setup a Local Computer
-overview: Set up your local computer for the tutorial.
+title: 设置本地计算机
+overview: 为该教程设置本地计算机。
 weight: 3
 ---
 
 {{< boilerplate work-in-progress >}}
 
-In this module you prepare your local computer for the tutorial.
+在本模块中，您将为教程准备本地计算机
 
-1.  On your local computer, locate the `${NAMESPACE}-user-config.yaml` file you
-    created earlier in the tutorial, where `${NAMESPACE}` is the name of your
-    namespace. For example `tutorial-user-config.yaml`.
+1. 开始之前，在本地计算机上，创建你的 namespace：`${NAMESPACE}`，然后创建文件：`${NAMESPACE}-user-config.yaml`，`${NAMESPACE}` 是你之前创建的 namespace。例如 `tutorial-user-config.yaml` 。
 
-1.  Install [`curl`](https://curl.haxx.se/download.html).
+1. 安装 [`curl`](https://curl.haxx.se/download.html)。
 
-1.  Install [Node.js](https://nodejs.org/en/download/).
+1. 安装 [Node.js](https://nodejs.org/en/download/)。
 
-1.  Install [Docker](https://docs.docker.com/install/).
+1. 安装 [Docker](https://docs.docker.com/install/)。
 
-1.  Install [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+1. 安装 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/)。
 
-1.  Set the `KUBECONFIG` environment variable for the `${NAMESPACE}-user-config.yaml`
-    configuration file:
+1. 设置环境变量 `KUBECONFIG`  为 配置文件 `${NAMESPACE}-user-config.yaml`：
 
     {{< text bash >}}
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
     {{< /text >}}
 
-1.  Verify that the configuration took effect by printing the current namespace:
+1. 通过打印当前命名空间来验证配置是否生效:
 
     {{< text bash >}}
     $ kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}"
     tutorial
     {{< /text >}}
 
-    You should see the name of your namespace in the output.
+    您应该在输出中看到之前配置的命名空间的名称。
 
-1.  Download one of the [Istio release archives](https://github.com/istio/istio/releases) and extract
-    the `istioctl` command line tool from the `bin` directory, and verify that you
-    can run `istioctl` with the following command:
+1. 下载一个 [Istio 发行版](https://github.com/istio/istio/releases) ，从 `bin` 目录下提出命令行工具 `istioctl`， 使用下边的命令验证 `istioctl` 是否可以正常使用：
 
     {{< text bash >}}
     $ istioctl version
     version.BuildInfo{Version:"release-1.1-20190214-09-16", GitRevision:"6113e155ac85e2485e30dfea2b80fd97afd3130a", User:"root", Host:"4496ae63-3039-11e9-86e9-0a580a2c0304", GolangVersion:"go1.10.4", DockerHub:"gcr.io/istio-release", BuildStatus:"Clean", GitTag:"1.1.0-snapshot.6-6-g6113e15"}
     {{< /text >}}
 
-Congratulations, you configured your local computer!
+恭喜，您已配置完毕本地计算机！
 
-You are ready to [run a single service locally](/zh/docs/examples/microservices-istio/single/).
+接下来[在本地运行微服务](/zh/docs/examples/microservices-istio/single/)。
+
