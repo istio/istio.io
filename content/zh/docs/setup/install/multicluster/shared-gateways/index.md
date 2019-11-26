@@ -1,6 +1,6 @@
 ---
-title: Shared control plane (multi-network)
-description: Install an Istio mesh across multiple Kubernetes clusters using a shared control plane for disconnected cluster networks.
+title: 共享的控制平面（多网络）
+description: 跨多个 Kubernetes 集群安装一个 Istio 网格，使互不联通的集群网络共享同一个控制平面。
 weight: 85
 keywords: [kubernetes,multicluster]
 aliases:
@@ -9,56 +9,48 @@ aliases:
     - /zh/docs/setup/kubernetes/install/multicluster/shared-gateways/
 ---
 
-Follow this guide to configure a multicluster mesh using a shared
-[control plane](/zh/docs/ops/prep/deployment-models/#control-plane-models)
-with gateways to connect network-isolated clusters.
-Istio's location-aware service routing feature is used to route requests to different endpoints,
-depending on the location of the request source.
+遵循本指南配置一个多集群网格，使用共享的
+[控制平面](/zh/docs/ops/prep/deployment-models/#control-plane-models)，并通过网关连通彼此网络隔离的集群。
+Istio 位置感知的服务路由特性，可以根据请求源所在的位置将请求路由至不同的 endpoints。
 
-By following the instructions in this guide, you will setup a two-cluster mesh as shown in the following diagram:
+遵循本指南中的说明，将安装一个两集群网格，如下图所示：
 
   {{< image width="80%"
   link="./diagram.svg"
   caption="Shared Istio control plane topology spanning multiple Kubernetes clusters using gateways" >}}
 
-The primary cluster, `cluster1`, runs the full set of Istio control plane components while `cluster2` only
-runs Istio Citadel, Sidecar Injector, and Ingress gateway.
-No VPN connectivity nor direct network access between workloads in different clusters is required.
+主集群 `cluster1` 运行全部的 Istio 控制平面组件集，而 `cluster2` 只运行 Istio Citadel、Sidecar 注入器以及 Ingress 网关。
+不同集群的工作负载之间既不要求 VPN 连接也不要求直接网络访问。
 
-## Prerequisites
+## 前提条件{#prerequisites}
 
-* Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
+* 两个或多个 Kubernetes 集群，版本为： {{< supported_kubernetes_versions >}}。
 
-* Authority to [deploy the Istio control plane](/zh/docs/setup/install/istioctl/)
+* 有权限[部署 Istio 控制平面](/zh/docs/setup/install/istioctl/)
 
-* Two Kubernetes clusters (referred to as `cluster1` and `cluster2`).
+* 两个 Kubernetes 集群（称为 `cluster1` 和 `cluster2`）。
 
     {{< warning >}}
-    The Kubernetes API server of `cluster2` MUST be accessible from `cluster1` in order to run this configuration.
+    为了运行本配置，`cluster1` 必须能够访问 `cluster2` 的 Kubernetes API server。
     {{< /warning >}}
 
 {{< boilerplate kubectl-multicluster-contexts >}}
 
-## Setup the multicluster mesh
+## 安装多集群网格{#setup-the-multicluster-mesh}
 
-In this configuration you install Istio with mutual TLS enabled for both the control plane and application pods.
-For the shared root CA, you create a `cacerts` secret on both `cluster1` and `cluster2` clusters using the same Istio
-certificate from the Istio samples directory.
+在本配置中，安装 Istio 时同时开启控制平面和应用 pods 的双向 TLS。
+对于共享的根 CA，使用 Istio 示例目录下相同的 Istio 证书，在 `cluster1` 和 `cluster2` 中都创建相同的 `cacerts` secret。
 
-The instructions, below, also set up `cluster2` with a selector-less service and an endpoint for `istio-pilot.istio-system`
-that has the address of `cluster1` Istio ingress gateway.
-This will be used to access pilot on `cluster1` securely using the ingress gateway without mutual TLS termination.
+下文命令安装 `cluster2` 时，创建一个无 selector 的服务，并为 `istio-pilot.istio-system` 创建一个 endpoint，其地址为 `cluster1` 的 Istio ingress gateway。
+它们用于通过 ingress gateway 安全地访问 `cluster1` 中的 pilot，无需双向 TLS 终端。
 
-### Setup cluster 1 (primary)
+### 安装集群 1（主集群）{#setup-cluster-1-primary}
 
-1. Deploy Istio to `cluster1`:
+1. 在 `cluster1` 中部署 Istio：
 
     {{< warning >}}
-    When you enable the additional components necessary for multicluster operation, the resource footprint
-    of the Istio control plane may increase beyond the capacity of the default Kubernetes cluster you created when
-    completing the [Platform setup](/zh/docs/setup/platform-setup/) steps.
-    If the Istio services aren't getting scheduled due to insufficient CPU or memory, consider
-    adding more nodes to your cluster or upgrading to larger memory instances as necessary.
+    当启用多集群所需的附加组件时，Istio 控制平面的资源占用量可能会增长，甚至超过 Kubernetes 集群安装[平台安装](/zh/docs/setup/platform-setup/) 步骤中的默认容量。
+    如果因 CPU 或内存资源不足导致 Istio 服务无法调度，可以考虑在集群中添加更多节点，或按需升级为更大内存容量的实例。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -69,12 +61,10 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     {{< warning >}}
-    Note that the gateway addresses are set to `0.0.0.0`. These are temporary placeholder values that will
-    later be updated with the public IPs of the `cluster1` and `cluster2` gateways after they are deployed
-    in the following section.
+    注意网关地址设置为 `0.0.0.0`。这些是临时的占位值，在下文章节集群部署后，将被更新为 `cluster1` 和 `cluster2` 的网关公网 IP。
     {{< /warning >}}
 
-    Wait for the Istio pods on `cluster1` to become ready:
+    等待 `cluster1` 中的 Istio pods 就绪：
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
@@ -89,7 +79,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     prometheus-685585888b-4tvf7               1/1     Running   0          83s
     {{< /text >}}
 
-1. Create an ingress gateway to access service(s) in `cluster2`:
+1. 创建一个 ingress 网关访问 `cluster2` 中的服务：
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f - <<EOF
@@ -113,66 +103,61 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     EOF
     {{< /text >}}
 
-    This `Gateway` configures 443 port to pass incoming traffic through to the target service specified in a
-    request's SNI header, for SNI values of the _local_ top-level domain
-    (i.e., the [Kubernetes DNS domain](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)).
-    Mutual TLS connections will be used all the way from the source to the destination sidecar.
+    本例 `Gateway` 配置 443 端口来将流经的入口流量导向请求 SNI 头中指明的目标服务，其中 SNI 的顶级域名为 _local_（譬如： [Kubernetes DNS 域名](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
+    从源至目标 sidecar，始终使用双向 TLS 连接。
 
-    Although applied to `cluster1`, this Gateway instance will also affect `cluster2` because both clusters communicate with the
-    same Pilot.
-1.  Determine the ingress IP and port for `cluster1`.
+    尽管应用于 `cluster1`，该网关实例也会影响 `cluster2`，因为两个集群通过同一个 Pilot 通信。
 
-    1.   Set the current context of `kubectl` to `CTX_CLUSTER1`
+1.  确定 `cluster1` 的 ingress IP 和端口。
+
+    1.   设置 `kubectl` 的当前上下文为 `CTX_CLUSTER1`
 
         {{< text bash >}}
         $ export ORIGINAL_CONTEXT=$(kubectl config current-context)
         $ kubectl config use-context $CTX_CLUSTER1
         {{< /text >}}
 
-    1.   Follow the instructions in
-        [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports),
-        to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
+    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的说明，设置环境变量 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`。
 
-    1.  Restore the previous `kubectl` context:
+    1.  恢复之前的 `kubectl` 上下文：
 
         {{< text bash >}}
         $ kubectl config use-context $ORIGINAL_CONTEXT
         $ unset ORIGINAL_CONTEXT
         {{< /text >}}
 
-    1.  Print the values of `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
+    1.  打印 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`：
 
         {{< text bash >}}
         $ echo The ingress gateway of cluster1: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
         {{< /text >}}
 
-1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
+1.  更新网格网络配置中的网关地址。编辑 `istio` `ConfigMap`：
 
     {{< text bash >}}
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
     {{< /text >}}
 
-    Update the gateway's address and port of `network1` to reflect the `cluster1` ingress host and port,
-    respectively, then save and quit. Note that the address appears in two places, the second under `values.yaml:`.
+    将网关地址和 `network1` 的端口分别更新为 `cluster1` 的 ingress 主机和端口，然后保存并退出。注意该地址在配置文件中出现两次，第二次位于 `values.yaml:` 下方。
 
-    Once saved, Pilot will automatically read the updated network configuration.
+    一旦保存，Pilot 将自动读取更新后的网络配置。
 
-### Setup cluster 2
+### 安装集群 2{#setup-cluster-2}
 
-1. Export the `cluster1` gateway address:
+1. 输出 `cluster1` 的网关地址：
 
     {{< text bash >}}
     $ export LOCAL_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER1 svc --selector=app=istio-ingressgateway \
         -n istio-system -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}') && echo ${LOCAL_GW_ADDR}
     {{< /text >}}
 
-    This command sets the value to the gateway's public IP and displays it.
+    该命令将网关地址设置为网关的公共 IP 并显示。
 
     {{< warning >}}
-    The command fails if the load balancer configuration doesn't include an IP address. The implementation of DNS name support is pending.
+    若负载均衡配置没有设置 IP 地址，命令将执行失败。DNS 域名支持尚未实现，亟待解决。
     {{< /warning >}}
 
-1. Deploy Istio to `cluster2`:
+1. 在 `cluster2` 中部署 Istio：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
@@ -189,11 +174,11 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set values.global.remotePolicyAddress=${LOCAL_GW_ADDR} \
       --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-      --set values.global.network="network2" \
+      --set values.global.network="network2"  \
       --set autoInjection.enabled=true
     {{< /text >}}
 
-    Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
+    等待 `cluster2` 中的 Istio pods 就绪，`istio-ingressgateway` 除外。
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio!=ingressgateway
@@ -203,48 +188,44 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     {{< warning >}}
-    `istio-ingressgateway` will not be ready until you configure the Istio control plane in `cluster1` to watch
-    `cluster2`. You do it in the next section.
+    `istio-ingressgateway` 无法就绪，直到在 `cluster1` 的 Istio 控制面板中配置好 watch `cluster2`。下一节执行该操作。
     {{< /warning >}}
 
-1.  Determine the ingress IP and port for `cluster2`.
+1.  确定 `cluster2` 的 ingress IP 和口。
 
-    1.   Set the current context of `kubectl` to `CTX_CLUSTER2`
+    1.   设置 `kubectl` 的当前上下文为 `CTX_CLUSTER2`
 
         {{< text bash >}}
         $ export ORIGINAL_CONTEXT=$(kubectl config current-context)
         $ kubectl config use-context $CTX_CLUSTER2
         {{< /text >}}
 
-    1.   Follow the instructions in
-        [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports),
-        to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
+    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的说明，设置环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`。
 
-    1.  Restore the previous `kubectl` context:
+    1.  恢复之前的 `kubectl` 上下文：
 
         {{< text bash >}}
         $ kubectl config use-context $ORIGINAL_CONTEXT
         $ unset ORIGINAL_CONTEXT
         {{< /text >}}
 
-    1.  Print the values of `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
+    1.  打印 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`：
 
         {{< text bash >}}
         $ echo The ingress gateway of cluster2: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
         {{< /text >}}
 
-1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
+1.  更新网格网络配置中的网关地址。 编辑 `istio` `ConfigMap`：
 
     {{< text bash >}}
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
     {{< /text >}}
 
-    Update the gateway's address and port of `network2` to reflect the `cluster2` ingress host and port,
-    respectively, then save and quit. Note that the address appears in two places, the second under `values.yaml:`.
+    将 `network2` 的网关地址和端口分别更新为 `cluster2` 的 ingress 主机和端口，然后保存并退出。注意该地址在配置文件中出现两次，第二次位于 `values.yaml:` 下方。
 
-    Once saved, Pilot will automatically read the updated network configuration.
+    一旦保存，Pilot 将自动读取更新后的网络配置。
 
-1. Prepare environment variables for building the `n2-k8s-config` file for the service account `istio-reader-service-account`:
+1. 准备环境变量，构建服务账户 `istio-reader-service-account` 的配置文件 `n2-k8s-config`：
 
     {{< text bash >}}
     $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
@@ -255,10 +236,10 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< /text >}}
 
     {{< idea >}}
-    An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
+    在许多系统中，`base64 --decode` 可以替换为 `openssl enc -d -base64 -A`。
     {{< /idea >}}
 
-1. Create the `n2-k8s-config` file in the working directory:
+1. 在工作目录中创建文件 `n2-k8s-config`：
 
     {{< text bash >}}
     $ cat <<EOF > n2-k8s-config
@@ -282,18 +263,17 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     EOF
     {{< /text >}}
 
-### Start watching cluster 2
+### 启动 watching 集群 2{start-watching-cluster-2}
 
-1.  Execute the following commands to add and label the secret of the `cluster2` Kubernetes.
-    After executing these commands Istio Pilot on `cluster1` will begin watching `cluster2` for services and instances,
-    just as it does for `cluster1`.
+1.  执行下面命令，添加并标记 Kubernetes `cluster2` 的 secret。
+    执行完这些命令，`cluster1` 中的 Istio Pilot 将开始 watching `cluster2` 的服务和实例，如同对待 `cluster1` 一样。
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 secret generic n2-k8s-secret --from-file n2-k8s-config -n istio-system
     $ kubectl label --context=$CTX_CLUSTER1 secret n2-k8s-secret istio/multiCluster=true -n istio-system
     {{< /text >}}
 
-1.  Wait for `istio-ingressgateway` to become ready:
+1.  等待 `istio-ingressgateway` 就绪：
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio=ingressgateway
@@ -301,31 +281,30 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     istio-ingressgateway-5c667f4f84-bscff   1/1       Running   0          16m
     {{< /text >}}
 
-Now that you have your `cluster1` and `cluster2` clusters set up, you can deploy an example service.
+现在，`cluster1` 和 `cluster2` 均已安装完成，可以部署一个案例服务。
 
-## Deploy example service
+## 部署案例服务{#deploy-example-service}
 
-As shown in the diagram, above, deploy two instances of the `helloworld` service,
-one on `cluster1` and one on `cluster2`.
-The difference between the two instances is the version of their `helloworld` image.
+如上图所示，部署两个 `helloworld` 服务，一个运行在 `cluster1` 中，另一个运行在 `cluster2` 中。
+二者的区别是 `helloworld` 镜像的版本不同。
 
-### Deploy helloworld v2 in cluster 2
+### 在集群 2 中部署 helloworld v2{#deploy-helloworld-v2-in-cluster-2}
 
-1. Create a `sample` namespace with a sidecar auto-injection label:
+1. 创建一个 `sample` 命名空间，用 label 标识开启 sidecar 自动注入：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns sample
     $ kubectl label --context=$CTX_CLUSTER2 namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy `helloworld v2`:
+1. 部署 `helloworld v2`：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample
     $ kubectl create --context=$CTX_CLUSTER2 -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample
     {{< /text >}}
 
-1. Confirm `helloworld v2` is running:
+1. 确认 `helloworld v2` 正在运行：
 
     {{< text bash >}}
     $ kubectl get po --context=$CTX_CLUSTER2 -n sample
@@ -333,23 +312,23 @@ The difference between the two instances is the version of their `helloworld` im
     helloworld-v2-7dd57c44c4-f56gq   2/2       Running   0          35s
     {{< /text >}}
 
-### Deploy helloworld v1 in cluster 1
+### 在集群 1 中部署 helloworld v1{#deploy-helloworld-v1-in-cluster-1}
 
-1. Create a `sample` namespace with a sidecar auto-injection label:
+1. 创建一个 `sample` 命名空间，用 label 标识开启 sidecar 自动注入：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 ns sample
     $ kubectl label --context=$CTX_CLUSTER1 namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy `helloworld v1`:
+1. 部署 `helloworld v1`：
 
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER1 -f @samples/helloworld/helloworld.yaml@ -l app=helloworld -n sample
     $ kubectl create --context=$CTX_CLUSTER1 -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample
     {{< /text >}}
 
-1. Confirm `helloworld v1` is running:
+1. 确认 `helloworld v1` 正在运行：
 
     {{< text bash >}}
     $ kubectl get po --context=$CTX_CLUSTER1 -n sample
@@ -357,19 +336,18 @@ The difference between the two instances is the version of their `helloworld` im
     helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
 
-### Cross-cluster routing in action
+### 跨集群路由实践{#cross-cluster-routing-in-action}
 
-To demonstrate how traffic to the `helloworld` service is distributed across the two clusters,
-call the `helloworld` service from another in-mesh `sleep` service.
+为了演示访问 `helloworld` 服务的流量如何跨两个集群进行分发，我们从网格内的另一个 `sleep` 服务请求 `helloworld` 服务。
 
-1. Deploy the `sleep` service in both clusters:
+1. 在两个集群中均部署 `sleep` 服务：
 
     {{< text bash >}}
     $ kubectl apply --context=$CTX_CLUSTER1 -f @samples/sleep/sleep.yaml@ -n sample
     $ kubectl apply --context=$CTX_CLUSTER2 -f @samples/sleep/sleep.yaml@ -n sample
     {{< /text >}}
 
-1. Wait for the `sleep` service to start in each cluster:
+1. 等待 `sleep` 服务启动：
 
     {{< text bash >}}
     $ kubectl get po --context=$CTX_CLUSTER1 -n sample -l app=sleep
@@ -381,27 +359,26 @@ call the `helloworld` service from another in-mesh `sleep` service.
     sleep-754684654f-dzl9j           2/2     Running   0          5s
     {{< /text >}}
 
-1. Call the `helloworld.sample` service several times from `cluster1` :
+1. 从 `cluster1` 请求 `helloworld.sample` 服务若干次：
 
     {{< text bash >}}
     $ kubectl exec --context=$CTX_CLUSTER1 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
-1. Call the `helloworld.sample` service several times from `cluster2` :
+1. 从 `cluster2` 请求 `helloworld.sample` 服务若干次：
 
     {{< text bash >}}
     $ kubectl exec --context=$CTX_CLUSTER2 -it -n sample -c sleep $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl helloworld.sample:5000/hello
     {{< /text >}}
 
-If set up correctly, the traffic to the `helloworld.sample` service will be distributed between instances on `cluster1` and `cluster2`
-resulting in responses with either `v1` or `v2` in the body:
+如果设置正确，访问 `helloworld.sample` 的流量将在 `cluster1` 和 `cluster2` 之间分发，返回的响应结果或者为 `v1` 或者为 `v2`：
 
 {{< text plain >}}
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 {{< /text >}}
 
-You can also verify the IP addresses used to access the endpoints by printing the log of the sleep's `istio-proxy` container.
+也可以通过打印 sleep 的 `istio-proxy` 容器日志，验证访问 endpoints 的 IP 地址。
 
 {{< text bash >}}
 $ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
@@ -409,7 +386,7 @@ $ kubectl logs --context=$CTX_CLUSTER1 -n sample $(kubectl get pod --context=$CT
 [2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
 {{< /text >}}
 
-In `cluster1`, the gateway IP of `cluster2` (`192.23.120.32:15443`) is logged when v2 was called and the instance IP in `cluster1` (`10.10.0.90:5000`) is logged when v1 was called.
+在 `cluster1` 中，当请求分发给 v2 时，`cluster2` 的网关 IP（`192.23.120.32:15443`）被记录，当请求分发给 v1 时，`cluster1` 的实例 IP（`10.10.0.90:5000`）被记录。
 
 {{< text bash >}}
 $ kubectl logs --context=$CTX_CLUSTER2 -n sample $(kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
@@ -417,13 +394,13 @@ $ kubectl logs --context=$CTX_CLUSTER2 -n sample $(kubectl get pod --context=$CT
 [2019-05-25T08:06:12.834Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 181 180 "-" "curl/7.60.0" "ce480b56-fafd-468b-9996-9fea5257cb1e" "helloworld.sample:5000" "10.32.0.9:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36886 -
 {{< /text >}}
 
-In `cluster2`, the gateway IP of `cluster1` (`192.168.1.246:15443`) is logged when v1 was called and the gateway IP in `cluster2` (`10.32.0.9:5000`) is logged when v2 was called.
+在 `cluster2` 中，当请求分发给 v1 时，`cluster1` 的网关 IP （`192.168.1.246:15443`）被记录，当请求分发给 v2 时，`cluster2` 的网关 IP（`10.32.0.9:5000`）被记录。
 
-## Cleanup
+## 清除{#cleanup}
 
-Execute the following commands to clean up the example services __and__ the Istio components.
+执行如下命令清除示例服务__以及__ Istio 组件。
 
-Cleanup the `cluster2` cluster:
+清除集群 `cluster2`：
 
 {{< text bash >}}
 $ istioctl manifest generate --context=$CTX_CLUSTER2 \
@@ -442,9 +419,10 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set autoInjection.enabled=true | kubectl --context=$CTX_CLUSTER2 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
 $ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT LOCAL_GW_ADDR
+
 {{< /text >}}
 
-Cleanup the `cluster1` cluster:
+清除集群 `cluster1`：
 
 {{< text bash >}}
 $ istioctl manifest generate --context=$CTX_CLUSTER1 \
