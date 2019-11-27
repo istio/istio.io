@@ -267,3 +267,18 @@ other = "Yes"
 
 [feedback_no]
 other = "No"
+
+[log_month_format]
+other = "January 2006"
+
+[log_change_format]
+other = "2006/01/02"
+
+[log_when]
+other = "When"
+
+[log_doc]
+other = "Document"
+
+[log_change]
+other = "Change"
