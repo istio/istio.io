@@ -9,9 +9,9 @@ aliases:
 
 属性是整个 Istio 使用的核心概念。可以在[这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)找到属性是什么和用于何处的描述。
 
-每个给定的 Istio 部署有固定的能够理解的属性词汇。这个特定的词汇由当前部署中正在使用的属性生产者的集合来决定。Istio 中除了 Envoy 是首要的属性生产者外， Mixer 和服务也会产生属性。
+每个给定的 Istio 部署有固定的能够理解的属性词汇。这个特定的词汇由当前部署涉及到的所有属性生产者一起来决定。Istio 中除了 Envoy 是首要的属性生产者外， Mixer 和服务也会产生属性。
 
-下面这个表格展示一组规范属性集合和他们各自的类型。大多数 Istio 部署都有产生这些属性的代理（ Envoy 或 Mixer 适配器）。
+下面这个表格展示一组规范属性集合和他们各自的类型。大多数 Istio 部署都会包含产生这些属性的代理（ Envoy 或 Mixer 适配器）。
 
 | 名称 | 类型 | 描述 | Kubernetes 示例 |
 |------|------|-------------|--------------------|
@@ -20,33 +20,33 @@ aliases:
 | `source.labels` | map[string, string] | 源实例附带的键值对 map 。 | version => v1 |
 | `source.name` | string | 源工作负载实例的名称。 | `redis-master-2353460263-1ecey` |
 | `source.namespace` | string | 源工作负载实例的命名空间。 | `my-namespace` |
-| `source.principal` | string | 源工作负载的运行基于的认证机构。 | `service-account-foo` |
+| `source.principal` | string | 源工作负载的运行基于的授权机构。 | `service-account-foo` |
 | `source.owner` | string | 控制源工作负载实例的工作负载。 | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-policy` |
 | `source.workload.uid` | string | 源工作负载的唯一标识符。 | `istio://istio-system/workloads/istio-policy` |
 | `source.workload.name` | string | 源工作负载的名称。 | `istio-policy` |
 | `source.workload.namespace` | string | 源工作负载的命名空间。 | `istio-system` |
-| `destination.uid` | string | 目标工作负载实例特定于平台的唯一标识符。 | `kubernetes://my-svc-234443-5sffe.my-namespace` |
+| `destination.uid` | string | 服务器实例特定于平台的唯一标识符。 | `kubernetes://my-svc-234443-5sffe.my-namespace` |
 | `destination.ip` | ip_address | 服务器 IP 地址。 | `10.0.0.104` |
 | `destination.port` | int64 | 服务器 IP 地址上的接收端口。 | `8080` |
 | `destination.labels` | map[string, string] | 服务器实例附带的键值对 map 。 | version => v2 |
 | `destination.name` | string | 目标工作负载实例的名称。 | `istio-telemetry-2359333` |
 | `destination.namespace` | string | 目标工作负载实例的命名空间。 | `istio-system` |
-| `destination.principal` | string | 目标工作负载运行所基于的认证机构。 | `service-account` |
+| `destination.principal` | string | 目标工作负载运行所基于的授权机构。 | `service-account` |
 | `destination.owner` | string | 控制目标工作负载实例的工作负载。 | `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid` | string | 目标工作负载的唯一标识符。 | `istio://istio-system/workloads/istio-telemetry` |
 | `destination.workload.name` | string | 目标工作负载的名称。 | `istio-telemetry` |
 | `destination.workload.namespace`| string | 目标工作负载的命名空间。 | `istio-system` |
-| `destination.container.name` | string | 服务器工作负载的容器名称。 | `mixer` |
-| `destination.container.image` | string | 目标容器的镜像源。 | `gcr.io/istio-testing/mixer:0.8.0` |
+| `destination.container.name` | string | 目标工作负载实例的容器名称。 | `mixer` |
+| `destination.container.image` | string |目标工作负载实例的容器镜像。 | `gcr.io/istio-testing/mixer:0.8.0` |
 | `destination.service.host` | string | 目标主机地址。 | `istio-telemetry.istio-system.svc.cluster.local` |
-| `destination.service.uid` | string | 目标服务特定于平台的唯一标识符。 | `istio://istio-system/services/istio-telemetry` |
+| `destination.service.uid` | string | 目标服务的唯一标识符。 | `istio://istio-system/services/istio-telemetry` |
 | `destination.service.name` | string | 目标服务的名称。 | `istio-telemetry` |
 | `destination.service.namespace` | string | 目标服务的命名空间。 | `istio-system` |
 | `origin.ip` | ip_address | 代理客户端的 IP 地址, e.g. ingress 代理的来源。 | `127.0.0.1` |
-| `request.headers` | map[string, string] | HTTP 请求头, key 使用小写，或者是 gRPC 的元数据。 | |
+| `request.headers` | map[string, string] | HTTP 请求头，key使用小写。以gRPC为例，此处为其元数据。 | |
 | `request.id` | string | 从统计角度上拥有低碰撞概率的请求 ID。 | |
 | `request.path` | string | 包括 query string 的 HTTP URL 路径。 | |
-| `request.url_path` | string | 带有分离 query string 的 HTTP URL 路径部分。 | |
+| `request.url_path` | string | 部分 HTTP URL 路径，除去了 query string。 | |
 | `request.query_params` | map[string, string] | 从 HTTP URL 提取的 query 参数的 map。 | |
 | `request.host` | string | HTTP/1.x 请求头中的 Host 字段或者是 HTTP/2 请求头中的 authority 字段。 | `redis-master:3337` |
 | `request.method` | string | HTTP 请求方法。 | |
@@ -95,11 +95,11 @@ aliases:
 
 ## 时间戳和持续时间属性格式
 
-时间戳属性以 RFC 3339 格式表示。使用 timestamp 属性操作时，可以使用 [CEXL](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为  `TIMESTAMP` 类型，例如：`request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`。
+时间戳属性以 RFC 3339 格式表示。应用 timestamp 属性时，可以使用 [CEXL](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为  `TIMESTAMP` 类型，例如：`request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`。
 
-持续时间属性表示时间量，表示为一系列十进制数，其中可选的小数部分用句点表示，以及单位值。可能的单位值是纳秒的 `ns`，微秒的 `us`（或`μs`），毫秒的 `ms`，秒的 `s`，分钟的 `m`，小时的 `h`。例如：
+持续时间属性表示时间量，表示为一系列十进制数，其中可选的小数部分用句点表示，以及单位值。可能的单位值是纳秒的 `ns`，微秒 `us`（或`μs`），毫秒 `ms`，秒 `s`，分钟 `m`，小时 `h`。例如：
 
-* `1ms` 代表 1 毫秒
-* `2.3s` 代表 2.3 秒
-* `4m` 代表 4 分钟
-* `5h10m` 代表 5 小时 10 分钟
+* `1ms` 表示 1 毫秒
+* `2.3s` 表示 2.3 秒
+* `4m` 表示 4 分钟
+* `5h10m` 表示 5 小时 10 分钟
