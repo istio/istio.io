@@ -1,22 +1,18 @@
 ---
-title: Diagnose your Configuration with Istioctl Analyze
-description: Shows you how to use istioctl analyze to identify potential issues with your configuration.
+title: 使用 Istioctl Analyze 诊断配置
+description: 演示如何使用 istioctl analyze 来识别配置中的潜在问题。
 weight: 40
 keywords: [istioctl, debugging, kubernetes]
 ---
 
 {{< boilerplate experimental-feature-warning >}}
 
-`istioctl analyze` is a powerful Istio diagnostic tool that can detect potential issues with your
-Istio configuration. It can run against a live cluster or a set of local configuration files.
-It can also run against a combination of the two, allowing you to catch problems before you
-apply changes to a cluster.
+`istioctl analyze` 是功能强大的 Istio 诊断工具，可以检测 Istio 配置的潜在问题。
+它可以针对实时群集或一组本地配置文件运行。它还可以将两者结合起来使用，从而允许您在将更改应用于集群之前发现问题。
 
-## Getting started in under a minute
+## 一分钟入门{#getting-started-in-under-a-minute}
 
-Getting started is very simple. First, download the latest `istioctl` into the current folder
-using one command (downloading the latest release ensure that it will have the most
-complete set of analyzers):
+入门非常简单。 首先，使用一个命令将最新的 `istioctl` 下载到当前文件夹中（下载最新版本以确保它具有最完整的分析器集）：
 
 {{< tabset cookie-name="platform" >}}
 
@@ -38,96 +34,93 @@ $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl 
 
 {{< /tabset >}}
 
-Then, run it against your current Kubernetes cluster:
+然后，在当前的 Kubernetes 集群上运行它：
 
 {{< text bash >}}
 $ ./istioctl x analyze -k
 {{< /text >}}
 
-And that’s it! It’ll give you any recommendations that apply.
+就是这样！ 它会为您提供任何适用的建议。
 
-For example, if you forgot to enable Istio injection (a very common issue), you would get the following warning:
+例如，如果您忘记启用 Istio 注入（一个非常常见的问题），则会收到以下警告：
 
 {{< text plain >}}
 Warn [IST0102](Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
-Note that `x` in the command is because this is currently an experimental feature.
+注意命令中的 `x` 是因为当前这是一个实验性功能。
 
-## Analyzing live clusters, local files, or both
+## 分析实时群集，本地文件或同时分析两者{#analyzing-live-clusters-local-files-or-both}
 
-The scenario in the ‘getting started’ section is doing analysis on live clusters. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
+“入门”部分中的场景是对实时集群进行分析。但是该工具还支持对一组本地 Yaml 配置文件或对本地文件和实时集群的组合进行分析。
 
-Analyze a specific set of local files:
+分析一组特定的本地文件：
 
 {{< text bash >}}
 $ ./istioctl x analyze a.yaml b.yaml
 {{< /text >}}
 
-Analyze all yaml files in the current folder:
+分析当前文件夹中的所有 yaml 文件：
 
 {{< text bash >}}
 $ ./istioctl x analyze *.yaml
 {{< /text >}}
 
-Simulate applying the files in the current folder to the current cluster:
+模拟将当前文件夹中的文件应用于当前集群：
 
 {{< text bash >}}
 $ ./istioctl x analyze -k *.yaml
 {{< /text >}}
 
-You can run `./istioctl x analyze --help` to see the full set of options.
+您可以运行 `./istioctl x analyze --help` 来查看完整的选项集。
 
-## Helping us improve this tool
+## 帮助我们改进此工具{#helping-us-improve-this-tool}
 
-We're constantly adding more analysis capability and we'd love your help in identifying more use cases.
-If you've discovered some Istio configuration "gotcha", some tricky situation that caused you some
-problems, open an issue and let us know. We might be able to automatically flag this problem so that
-others can discover and avoid the problem in the first place.
+我们将不断增加更多的分析功能，并希望您能帮助我们确定更多的用例。
+如果您发现了一些 Istio 配置 “陷阱”，一些导致您的使用出现问题的棘手情况，请提出问题并告知我们。
+我们也许可以自动标记此问题，以便其他人可以提前发现并避免该问题。
 
-To do this, [open an issue](https://github.com/istio/istio/issues) describing your scenario. For example:
+为此，请您 [开启一个 issue](https://github.com/istio/istio/issues) 来描述您的情况。例如：
 
-- Look at all the virtual services
-- For each, look at their list of gateways
-- If some of the gateways don’t exist, produce an error
+- 查看所有 virtual services
+- 循环查看 virtual services 的 gateways 列表
+- 如果某个 gateways 不存在，则报错
 
-We already have an analyzer for this specific scenario, so this is just an example to illustrate what
-the kind of information you should provide.
+我们已经有针对这种特定情况的分析器，因此这仅是一个示例，用于说明您应提供的信息类型。
 
-## Q&A
+## Q&A{#q-a}
 
-- **What Istio release does this tool target?**
+- **此工具针对的是哪个 Istio 版本？**
 
-      Analysis works with any version of Istio, and doesn’t require anything to be installed in the cluster. You just need to get a recent version of `istioctl`.
+      Analysis 可与任何版本的 Istio 一起使用，并且不需要在群集中安装任何组件。您只需要获取 `istioctl` 的最新版本即可。
 
-      In some cases, some of the analyzers will not apply if they are not meaningful with your Istio release. But the analysis will still happen with all analyzers that do apply.
+      在某些情况下，如果某些分析器对您的 Istio 发行版没有意义，则将不适用。但是，所有适用的分析器仍会进行分析。
 
-      Note that while the `analyze` command works across Istio releases, that is not the case for all other `istioctl` commands. So it is suggested that you download the latest release of `istioctl` in a separate folder for analysis purpose, while you use the one that came with your specific Istio release to run other commands.
+      请注意，虽然 `analyze` 命令可在 Istio 发行版中使用，但并非所有其他 `istioctl` 命令都适用。因此建议您在单独的文件夹中下载最新版本的 `istioctl` 以进行分析，同时使用特定 Istio 版本随附的版本来运行其他命令。
 
-- **What analyzers are supported today?**
+- **现在支持哪些分析器？**
 
-      We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
+      我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{<github_blob>}}/galley/pkg/config/analysis/analyzers) 中看到所有分析器。
 
-- **Can analysis do anything harmful to my cluster?**
+- **analysis 分析对我的集群有影响吗？**
 
-      Analysis never changes configuration state. It is a completely read-only operation and so will never alter the state of a cluster.
+      分析永远不会更改配置状态。这是一个完全只读的操作，因此永远不会更改群集的状态。
 
-- **What about analysis that goes beyond configuration?**
+- **超出配置范围的又如何分析呢？**
 
-      Today, the analysis is purely based on Kubernetes configuration, but in the future we’d like to expand beyond that. For example, we could allow analyzers to also look at logs to generate recommendations.
+      今天，分析完全基于 Kubernetes 的配置，但是将来我们希望进一步扩展。例如，我们可以允许分析器查看日志以生成建议。
 
-- **Where can I find out how to fix the errors I'm getting?**
+- **在哪里可以找到解决错误的方法？**
 
-      The set of [configuration analysis messages](/zh/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
+      [配置分析消息集](/zh/docs/reference/config/analysis/) 包含每个消息的描述以及建议的修复程序。
 
-## Enabling validation messages for resource status
+## 为资源状态启用验证消息{#enabling-validation-messages-for-resource-status}
 
 {{< boilerplate experimental-feature-warning >}}
 
-Starting with Istio 1.4, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for, via the `galley.enableAnalysis` flag.
-This analysis uses the same logic and error messages as when using `istioctl analyze`. Validation messages from the analysis are written to the status subresource of the affected Istio resource.
+从 Istio 1.4 开始，可以通过 `galley.enableAnalysis` 标志将 Galley 设置为与主要负责的配置分发一起执行配置分析。该分析使用与 `istioctl analyze` 相同的逻辑和错误消息。来自分析的验证消息将写入受影响的 Istio 资源的状态子资源。
 
-For example. if you have a misconfigured gateway on your "ratings" virtual service, running `kubectl get virtualservice ratings` would give you something like:
+例如，如果您在 "ratings" 虚拟服务上网关配置错误，运行 `kubectl get virtualservice ratings` 将为您提供以下信息：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -160,13 +153,13 @@ status:
     message: 'Referenced gateway not found: "bogus-gateway"'
 {{< /text >}}
 
-`enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
+`enableAnalysis` 在后台运行，并将使资源的状态字段保持其当前验证状态的最新状态。请注意，这不能代替 `istioctl analyze`：
 
-- Not all resources have a custom status field (e.g. Kubernetes `namespace` resources), so messages attached to those resources won't show validation messages.
-- `enableAnalysis` only works on Istio versions starting with 1.4, while `istioctl analyze` can be used with older versions.
-- While it makes it easy to see what's wrong with a particular resource, it's harder to get a holistic view of validation status in the mesh.
+- 并非所有资源都有自定义状态字段 (例如 Kubernetes `namespace` 资源)，因此附加到这些资源的消息将不会显示验证消息。
+- `enableAnalysis` 仅适用于从1.4开始的 Istio 版本，而 `istioctl analysis` 可以用于较早的版本。
+- 尽管可以轻松查看特定资源的问题所在，但要在网格中全面了解验证状态更加困难。
 
-You can enable this feature with:
+您可以通过以下方式启用此功能：
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.galley.enableAnalysis=true
