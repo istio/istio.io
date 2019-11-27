@@ -1,113 +1,92 @@
 ---
-title: Creating and Editing Pages
-description: Explains the mechanics of creating and maintaining documentation pages.
+title: 创建和编辑页面
+description: 介绍创建和维护文档页面的机制。
 weight: 10
 aliases:
     - /zh/docs/welcome/contribute/writing-a-new-topic.html
     - /zh/docs/reference/contribute/writing-a-new-topic.html
     - /zh/about/contribute/writing-a-new-topic.html
-    - /create
+    - /zh/create
 keywords: [contribute]
 ---
 
-This page shows how to create, test, and maintain Istio documentation topics.
+此页面介绍了如何创建、测试和维护 Istio 文档主题。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-Before you can work on Istio documentation, you first need to create a fork of the Istio documentation repository as described in
-[Working with GitHub](/zh/about/contribute/github/).
+在开始编写 Istio 文档之前，首先需要创建一个 Istio 文档存储库的分支正如[使用 GitHub 工作](/zh/about/contribute/github/)中所述。
 
-## Choosing a page type
+## 选择页面类型{#choosing-a-page-type}
 
-As you prepare to write a new topic, think about which of these page types
-is the best fit for your content:
+在准备编写一个新主题时，请考虑您的内容最适合以下哪种页面类型：
 
 <table>
   <tr>
-    <td>Concept</td>
-    <td>A concept page explains some significant aspect of Istio. For example, a concept page might describe the
-    Mixer's configuration model and explain some of its subtleties.
-    Typically, concept pages don't include sequences of steps, but instead provide links to
-    tasks that do.</td>
+    <td>概念</td>
+    <td>概念页面解释了 Istio 的一些重要概念。例如，概念页面可能会描述 Mixer 的配置模型并解释其中的一些细微之处。通常，概念页面不包括具体的操作步骤，而是提供指向任务的链接。</td>
   </tr>
 
   <tr>
-    <td>Reference</td>
-    <td>A reference page provides exhaustive lists of things like API parameters,
-     command-line options, configuration settings, and procedures.
-    </td>
+    <td>参考</td>
+    <td>参考页面提供了诸如 API 参数、命令行选项、配置设置和过程之类的详尽列表。</td>
   </tr>
 
   <tr>
-    <td>Examples</td>
-    <td>An example page describes a fully working stand-alone example highlighting a particular set of features. Examples
-    must have easy to follow setup and usage instructions so users can quickly run the sample
-    themselves and experiment with changing the example to explore the system. Examples are tested and maintained for technical accuracy.
-    </td>
+    <td>示例</td>
+    <td>示例页面描述了一个完整工作的独立示例，突出显示了一组特定功能。示例必须具有易于遵循的设置和使用说明，以便用户可以自己快速运行示例并尝试更改示例以探索系统。测试和维护示例以获得技术准确性。</td>
   </tr>
 
   <tr>
-    <td>Task</td>
-    <td>A task page shows how to do a single thing, typically by giving a short sequence of steps. Task pages have minimal
-    explanation, but often provide links to conceptual topics that provide related background and knowledge. Tasks are tested and maintained for technical accuracy.</td>
+    <td>任务</td>
+    <td>任务页面显示如何执行单个操作，通常通过提供一系列简短的步骤。任务页面具有最少的解释，但通常提供指向提供相关背景和知识的概念主题的链接。测试和维护任务以确保技术准确性。</td>
   </tr>
 
   <tr>
-    <td>Setup</td>
-    <td>A setup page is similar to a task page, except that it is focused on installation
-    activities. Setup pages are tested and maintained for technical accuracy.
-    </td>
+    <td>安装</td>
+    <td>安装页面类似于任务页面，但它侧重于安装活动。测试和维护安装页面以确保技术准确性。</td>
   </tr>
 
   <tr>
-    <td>Blog Post</td>
+    <td>博客文章</td>
     <td>
-      A blog post is an article on Istio or products and technologies related to it. Typically, posts fall in one of the following three categories:
+      博客文章是关于 Istio 或与之相关的产品和技术的文章。通常，博客属于以下 3 个类别之一：
       <ul>
-      <li>Posts detailing the author’s experience using and configuring Istio, especially those that articulate a novel experience or perspective.</li>
-      <li>Posts highlighting Istio features.</li>
-      <li>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</li>
+      <li>详细介绍了作者使用和配置 Istio 的经验，特别是能够表达新颖体验或观点的那些博客。</li>
+      <li>突出显示了 Istio 功能的博客。</li>
+      <li>详细介绍如何使用 Istio 完成任务或实现特定用例的文章。与任务和示例不同，博客文章的技术准确性在发布后不会得到维护和测试。</li>
       </ul>
     </td>
   </tr>
 
   <tr>
-    <td>News Entry</td>
+    <td>新闻条目</td>
     <td>
-      A news entry post is a timely article on Istio and events related to it. News entries typically announce new releases or upcoming events.
+      新闻条目是有关 Istio 及其相关事件的及时文章。新闻条目通常会宣布新版本或即将发生的事件。
     </td>
   </tr>
 
   <tr>
     <td>FAQ</td>
     <td>
-      A FAQ entry is for quick answers to common customer questions. An answer doesn't normally introduce any new
-      concept and is instead narrowly focused on some practical bit of advice or insight, with links back into the
-      main documentation for the user to learn more.
+      FAQ 条目用于快速解答常见的客户问题。答案通常不会引入任何新概念，而是仅侧重于一些实用的建议或见解，并提供了供用户了解更多信息的指向主文档的链接。
     </td>
   </tr>
 
   <tr>
-    <td>Ops Guide</td>
+    <td>运维指南</td>
     <td>
-      For practical solutions to address specific problems encountered while running Istio in a real-world setting.
+      有关解决在实际环境中运行 Istio 时遇到的特定问题的实用解决方案。
     </td>
   </tr>
 </table>
 
-## Naming a topic
+## 命名主题{#naming-a-topic}
 
-Choose a title for your topic that has the keywords you want search engines to find.
-Create a filename for your topic that uses the words in your title, separated by hyphens,
-all in lower case.
+为您的主题选择一个具有您希望搜索引擎查找的关键字的标题。为你的主题创建一个使用标题中的单词、并用连字符分隔而且所有字母均小写的文件名。
 
-## Updating front matter
+## 设置文档的元数据信息{#updating-front-matter}
 
-Every documentation file needs to start with
-[front matter](https://gohugo.io/content-management/front-matter/).
-The front matter is a block of YAML that is between
-triple-dashed lines at the top of each file. Here's the
-chunk of front matter you should start with:
+每个文档文件都需要从头开始写[元数据信息](https://gohugo.io/content-management/front-matter/)。元数据信息是介于两个 YAML 块之间通过 3 个“-”分割的信息。下面就是你需要填写的元数据信息:
 
 {{< text yaml >}}
 ---
@@ -118,55 +97,53 @@ keywords: [keyword1,keyword2,...]
 ---
 {{< /text >}}
 
-Copy the above at the start of your new markdown file and update the information fields.
-The available front matter fields are:
+在新的 markdown 文件的开头复制上面的内容并更新信息字段。可用的字段如下：
 
-|Field              | Description
+|字段               | 描述
 |-------------------|------------
-|`title`            | The short title of the page
-|`linktitle`        | An alternate, typically shorter, title for the page which is used in the side bar to reference the page
-|`subtitle`         | An optional subtitle which gets displayed below the main title
-|`description`      | A one-line description of what the page is about
-|`icon`             | An optional path to an image file which gets displayed next to the main title
-|`weight`           | An integer used to determine the sort order of this page relative to other pages in the same directory
-|`keywords`         | An array of keywords describing the page, used to create the web of See Also links
-|`draft`            | When true, prevents the page from showing up in any navigation area
-|`aliases`          | See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
-|`skip_byline`      | Set this to true to prevent the page from having a byline under the main title
-|`skip_seealso`     | Set this to true to prevent the page from having a "See also" section generated for it
+|`title`            | 页面短标题
+|`linktitle`        | 页面的备用标题（通常较短），在侧栏中用于引用页面
+|`subtitle`         | 可选子标题，显示在主标题下方
+|`description`      | 关于页面内容的单行描述
+|`icon`             | 图像文件的可选路径，该路径显示在主标题旁边
+|`weight`           | 一个整数，用于确定此页面相对于同一目录中其他页面的排序顺序
+|`keywords`         | 描述页面的关键字数组，用于创建“另请参见”链接的网络
+|`draft`            | 如果为 true，则阻止页面显示在任何导航区域中
+|`aliases`          | 有关此项目的详细信息，请参见下面的[重命名，移动或删除页面](#renaming-moving-or-deleting-pages)。
+|`skip_byline`      | 将此属性设置为 true 可以防止页面在主标题下带有下划线
+|`skip_seealso`     | 将此设置为 true 可以防止页面为其生成“另请参见”部分
 
-A few fields control the auto-generated table of contents present on most pages:
+一些字段控制大多数页面上自动生成的目录：
 
-|Field               | Description
+|字段                | 描述
 |--------------------|------------
-|`skip_toc`          | Set this to true to prevent the page from having a table of contents generated for it
-|`force_inline_toc`  | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
-|`max_toc_level`     | Set to 2, 3, 4, 5, or 6 to indicate the maximum heading level to show in the table of contents
-|`remove_toc_prefix` | Set this to a string that will be removed from the start of every entry in the table of contents if present
+|`skip_toc`          | 将其设置为 true 可以防止页面为其生成目录
+|`force_inline_toc`  | 将此属性设置为 true 可强制将生成的目录插入到文本中，而不是在边栏中
+|`max_toc_level`     | 设置为 2、3、4、5 或 6 表示要在目录中显示的最大标题级别
+|`remove_toc_prefix` | 将其设置为一个字符串，该字符串将从目录中每个条目的开头删除（如果存在）
 
-A few front-matter fields are specific to section pages (i.e. for files names `_index.md`):
+一些针对章节页面的属性字段（例如，用于文章排版的文件 `_index.md`）：
 
-|Field                 | Description
+|字段                  | 描述
 |----------------------|------------
-|`skip_list`           | Set this to true to prevent the auto-generated content on a section page
-|`simple_list`         | Set this to true to use a simple list layout rather than gallery layout for the auto-generated content of a section page
-|`list_below`          | Set this to true to insert the auto-generated content on a section page below the manually-written content
-|`list_by_publishdate` | Set this to true to sort the generated content on the page in order in publication date, rather than by page weight
+|`skip_list`           | 将此设置为 true 可以防止在部分页面上自动生成内容
+|`simple_list`         | 将此属性设置为 true 可将简单的列表布局而不是图库布局用于节页面的自动生成的内容
+|`list_below`          | 将此属性设置为 true 可将自动生成的内容插入到手动编写的内容下方的部分页面中
+|`list_by_publishdate` | 将此属性设置为 true 可以按发布日期而不是按页面权重对页面上生成的内容进行排序
 
-There are a few more front matter fields available specifically for blog posts:
+还有一些专门用于博客文章的元数据字段：
 
-|Field           | Description
+|字段            | 描述
 |----------------|------------
-|`publishdate`   | Date of the post's original publication
-|`last_update`   | Date when the post last received a major revision
-|`attribution`   | Optional name of the post's author
-|`twitter`       | Optional Twitter handle of the post's author
-|`target_release`| Release this blog is written with in mind (this is normally the current major Istio release at the time the blog is authored or updated)
+|`publishdate`   | 帖子原始发表日期
+|`last_update`   | 上次重大修改的日期
+|`attribution`   | 帖子作者的姓名（可选）
+|`twitter`       | 帖子作者的 Twitter 账号（可选）
+|`target_release`| 发布此博客时要牢记这一点（通常是创作或更新该博客时当前的主要 Istio 版本）
 
-## Adding images
+## 添加图片{#adding-images}
 
-Put image files in the same directory as your markdown file. The preferred image format is SVG.
-Within markdown, use the following sequence to add the image:
+将图片文件与 markdown 文件放在同一目录中。首选的图片格式是 SVG。在 markdown 文件中，使用以下代码添加图片：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -177,23 +154,17 @@ Within markdown, use the following sequence to add the image:
     */>}}
 {{< /text >}}
 
-The `link` and `caption` values are required, all other values are optional.
+`link` 和 `caption` 是必填项，其他为可选。
 
-If the `title` value isn't supplied, it'll default to the same as `caption`. If the `alt` value is not supplied, it'll
-default to `title` or if that's not defined, to `caption`.
+如果没有提供 `title` 值，它将默认与 `caption` 的值相同。如果没有提供 `alt` 值，它就会默认为 `title` 或 `caption`（如果 title 没有定义）的值。
 
-`width` represents the percentage of space used by the image
-relative to the surrounding text. If the value is not specified, it
-defaults to 100%.
+`width` 表示图像相对于周围文本使用的空间百分比。如果未指定该值，则默认为100％。
 
-`ratio` represents the ratio of the image height compared to the image width. This
-value is calculated automatically for any local image content, but must be calculated
-manually when referencing external image content.
-In that case, `ratio` should be set to (image height / image width) * 100.
+`ratio` 表示图像高度与图像宽度之比。该值是针对任一本地图像内容自动计算的，但是在引用外部图像内容时必须手动计算。在这种情况下，比率应设置为（图像高度/图像宽度）\* 100。
 
-## Adding icons
+## 添加图标{#adding-icons}
 
-You can embed some common icons in your content using:
+您可以使用以下方法在内容中嵌入一些常用图标：
 
 {{< text markdown >}}
 {{</* warning_icon */>}}
@@ -203,75 +174,63 @@ You can embed some common icons in your content using:
 {{</* tip_icon */>}}
 {{< /text >}}
 
-which look like {{< warning_icon >}}, {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
+看起来像 {{< warning_icon >}}、{{< idea_icon >}}、{{< checkmark_icon >}}、{{< cancel_icon >}} 和 {{< tip_icon >}} 这样。
 
-## Linking to other pages
+## 链接到其他页面{#linking-to-other-pages}
 
-There are three types of links that can be included in documentation. Each uses a different
-way to indicate the link target:
+文档中可以包含三种类型的链接。每种方法都使用不同的方式来指示链接目标：
 
-1. **Internet Link**. You use classic URL syntax, preferably with the HTTPS protocol, to reference
-files on the Internet:
+1. **互联网链接**。您使用经典的 URL 语法（最好与 HTTPS 协议一起使用）来引用 Internet 上的文件：
 
     {{< text markdown >}}
-    [see here](https://mysite/myfile.html)
+    [看这里](https://mysite/myfile.html)
     {{< /text >}}
 
-1. **Relative Link**. You use relative links that start with a period to
-reference any content that is at the same level as the current file, or below within
-the hierarchy of the site:
+1. **相对链接**。您可以使用以句点开头的相对链接来引用与当前文件处于同一级别或站点层次结构中以下的任何内容：
 
     {{< text markdown >}}
-    [see here](./adir/anotherfile.html)
+    [看这里](./adir/anotherfile.html)
     {{< /text >}}
 
-1. **Absolute Link**. You use absolute links that start with a `/` to reference content outside of the
-current hierarchy:
+1. **绝对链接**。您可以使用以 `/` 开头的绝对链接来引用当前层次结构之外的内容：
 
     {{< text markdown >}}
-    [see here](/zh/docs/adir/afile/)
+    [看这里](/zh/docs/adir/afile/)
     {{< /text >}}
 
-### GitHub
+### GitHub{#GitHub}
 
-There are a few ways to reference files from GitHub:
+有几种方法可以从 GitHub 引用文件：
 
-- **{{</* github_file */>}}** is how you reference individual files in GitHub such as yaml files. This
-produces a link to `https://raw.githubusercontent.com/istio/istio*`
+- **{{</* github_file */>}}** 是您在 GitHub 中引用单个文件（例如 yaml 文件）的方式。这产生了一个链接指向 `https://raw.githubusercontent.com/istio/istio*`
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
-- **{{</* github_tree */>}}** is how you reference a directory tree in GitHub. This produces a link to
-`https://github.com/istio/istio/tree*`
+- **{{</* github_tree */>}}** 是您在 GitHub 中引用目录树的方式。这产生了一个链接指向 `https://github.com/istio/istio/tree*`
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
-- **{{</* github_blob */>}}** is how you reference a file in GitHub sources. This produces a link to
-`https://github.com/istio/istio/blob*`
+- **{{</* github_blob */>}}** 是您在 GitHub 源中引用文件的方式。这产生了一个链接指向 `https://github.com/istio/istio/blob*`
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-The above annotations yield links to the appropriate branch in GitHub, relative to the branch that the
-documentation is currently targeting. If you need to manually construct a URL, you can use the sequence `{{</* source_branch_name */>}}`
-to get the name of the currently targeted branch.
+相对于文档当前对应的分支，以上注释产生指向 GitHub 中相应分支的链接。如果您需要手动构建 URL，可以使用 `{{</* source_branch_name */>}}` 来获取当前目标分支的名称。
 
-## Version information
+## 版本信息{#version-information}
 
-You can obtain the current Istio version described by the web site using either of `{{</* istio_version */>}}` or
-`{{</* istio_full_version */>}}` which render as {{< istio_version >}} and {{< istio_full_version >}} respectively.
+您可以使用 `{{</* istio_version */>}}` 或 `{{</* istio_full_version */>}}`（分别呈现为 {{< istio_version >}} 和 {{< istio_full_version >}}）获得网站描述的当前 Istio 版本。
 
-`{{</* source_branch_name */>}}` gets expanded to the name of the branch of the `istio/istio` GitHub repository that the
-web site is targeting. This renders as {{< source_branch_name >}}.
+`{{</* source_branch_name */>}}` 扩展为网站所对应的 `istio/istio` GitHub 仓库的分支名称，这呈现为 {{< source_branch_name >}}。
 
-## Embedding preformatted blocks
+## 嵌入预格式化的块{#embedding-preformatted-blocks}
 
-You can embed blocks of preformatted content using the `text` sequence:
+您可以使用 `text` 模块嵌入预格式化的内容块：
 
 {{< text markdown >}}
 {{</* text plain */>}}
@@ -281,7 +240,7 @@ func HelloWorld() {
 {{</* /text */>}}
 {{< /text >}}
 
-The above produces this kind of output:
+上面产生这种输出：
 
 {{< text plain >}}
 func HelloWorld() {
@@ -289,9 +248,7 @@ func HelloWorld() {
 }
 {{< /text >}}
 
-You must indicate the syntax of the content in the preformatted block. Above, the block was marked as
-being `plain` indicating that no syntax coloring should be applied to the block. Consider the same
-block, but now annotated with the Go language syntax:
+您必须在预格式化的块中指示内容的语法。上方代码块被标记为 `plain`，表示不应对该块应用语法渲染。与上面使用同样的代码块，但现在使用 Go 语言语法进行了注解：
 
 {{< text markdown >}}
 {{</* text go */>}}
@@ -301,7 +258,7 @@ func HelloWorld() {
 {{</* /text */>}}
 {{< /text >}}
 
-which renders as:
+渲染效果如下：
 
 {{< text go >}}
 func HelloWorld() {
@@ -309,12 +266,11 @@ func HelloWorld() {
 }
 {{< /text >}}
 
-Supported syntax are `plain`, `markdown`, `yaml`, `json`, `java`, `javascript`, `c`, `cpp`, `csharp`, `go`, `html`, `protobuf`,
-`perl`, `docker`, and `bash`.
+支持的语法有 `plain`、`markdown`、`yaml`、`json`、`java`、`javascript`、`c`、`cpp`、`csharp`、`go`、`html`、`protobuf`、`perl`、`docker`、和 `bash`。
 
-### Command-lines
+### 命令行{#command-lines}
 
-When showing one or more bash command-lines, you start each command-line with a $:
+显示一个或多个 bash 命令行时，您可以以 $ 作为每行命令的开头 ：
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -322,13 +278,13 @@ $ echo "Hello"
 {{</* /text */>}}
 {{< /text >}}
 
-which produces:
+渲染后的效果如下：
 
 {{< text bash >}}
 $ echo "Hello"
 {{< /text >}}
 
-You can have as many command-lines as you want, but only one chunk of output is recognized.
+您可以根据需要设置任意数量的命令行，但是只能识别出一小部分输出。
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -338,7 +294,7 @@ Hello
 {{</* /text */>}}
 {{< /text >}}
 
-which yields:
+渲染后的效果如下：
 
 {{< text bash >}}
 $ echo "Hello" >file.txt
@@ -346,7 +302,7 @@ $ cat file.txt
 Hello
 {{< /text >}}
 
-You can also use line continuation in your command-lines:
+您还可以在命令行中使用行继续：
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -359,7 +315,7 @@ There
 {{</* /text */>}}
 {{< /text >}}
 
-which looks like:
+渲染后的效果如下：
 
 {{< text bash >}}
 $ echo "Hello" \
@@ -370,8 +326,7 @@ Hello
 There
 {{< /text >}}
 
-By default, the output section is handled using the `plain` syntax. If the output uses a well-known
-syntax, you can specify it and get proper coloring for it. This is particularly common for YAML or JSON output:
+默认情况下，使用 `plain` 语法处理输出部分。如果输出使用众所周知的语法，则可以对其进行指定并为其着色。这对于 YAML 或 JSON 输出尤其常见：
 
 {{< text markdown >}}
 {{</* text bash json */>}}
@@ -384,7 +339,7 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {{</* /text */>}}
 {{< /text >}}
 
-which gives:
+渲染后的效果如下：
 
 {{< text bash json >}}
 $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"
@@ -395,10 +350,9 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {"level":"warn","ts":"2017-09-21T04:33:31.233Z","instance":"newlog.logentry.istio-system","destination":"ingress.istio-system.svc.cluster.local","latency":"74.47ms","responseCode":200,"responseSize":5599,"source":"unknown","user":"unknown"}
 {{< /text >}}
 
-### Expanded form
+### 扩展形式{#expanded-form}
 
-To use the more advanced features for preformatted content which are described in the following sections, you must use the
-extended form of the `text` sequence rather than the simplified form shown so far. The expanded form uses normal HTML attributes:
+要使用以下各节中描述的用于预格式化内容的更高级功能，必须使用 `text` 序列的扩展形式，而不是到目前为止显示的简化形式。扩展形式使用普通的HTML属性：
 
 {{< text markdown >}}
 {{</* text syntax="bash" outputis="json" */>}}
@@ -411,54 +365,48 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {{</* /text */>}}
 {{< /text >}}
 
-The available attributes are:
+可用的属性是：
 
-| Attribute    | Description
+| 属性         | 描述
 |--------------|------------
-|`file`        | The path of a file to show in the preformatted block.
-|`url`         | The URL of a document to show in the preformatted block.
-|`syntax`      | The syntax of the preformatted block.
-|`outputis`    | When the syntax is `bash`, this specifies the command output's syntax.
-|`downloadas`  | The default file name used when the user [downloads the preformatted block](#download-name).
-|`expandlinks` | Whether or not to expand [GitHub file references](#links-to-github-files) in the preformatted block.
-|`snippet`     | The name of the [snippet](#snippets) of content to extract from the preformatted block.
-|`repo`        | The repository to use for [GitHub links](#links-to-github-files) embedded in preformatted blocks.
+|`file`        | 在预格式化块中显示的文件的路径。
+|`url`         | 在预格式化块中显示的文档的URL。
+|`syntax`      | 预格式化块的语法。
+|`outputis`    | 当语法为 `bash` 时，它指定命令输出的语法。
+|`downloadas`  | 用户[下载预格式化的块](#download-name)时使用的默认文件名。
+|`expandlinks` | 是否在预格式化的块中扩展 [GitHub 文件引用](#links-to-GitHub-files)。
+|`snippet`     | 从预格式化块中提取的内容[片段](#snippets)的名称。
+|`repo`        | 用于 [GitHub 链接](#links-to-GitHub-files)的存储库，嵌入到预格式化的块中。
 
-### Inline vs. imported content
+### 内联与导入内容{#inline-vs-imported-content}
 
-So far, you've seen examples of inline preformatted content but it's also possible to import content, either
-from a file in the documentation repository or from an arbitrary URL on the Internet. For this, you use the
-`text_import` sequence.
+到目前为止，您已经看到了内联预格式化内容的示例，但是也可以从文档存储库中的文件或从互联网上的任意 URL 导入内容。为此，您使用 `text_import` 序列。
 
-You can use `text_import` with the `file` attribute to reference a file within the documentation repository:
+您可以将 `text_import` 与 `file` 属性一起使用，以引用文档存储库中的文件：
 
 {{< text markdown >}}
 {{</* text_import file="test/snippet_example.txt" syntax="plain" */>}}
 {{< /text >}}
 
-which renders as:
+渲染后的效果如下：
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
-You can dynamically pull in content from the Internet in a similar way, but using the `url` attribute instead of the
-`file` attribute. Here's the same file, but retrieved from a URL dynamically rather than being baked into the
-HTML statically:
+您可以通过类似的方式动态地从互联网提取内容，但是使用 `url` 属性而不是 `file` 属性。这是相同的文件，但是是动态地从URL检索的，而不是静态地引入 HTML 的：
 
 {{< text markdown >}}
 {{</* text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" */>}}
 {{< /text >}}
 
-which produces the following result:
+产生的结果如下：
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" >}}
 
-If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (`raw.githubusercontent.com`) may be used here.
+如果文件来自其他原始站点，则应在该站点上启用 CORS。请注意，此处可以使用 GitHub 原始内容网站（`raw.githubusercontent.com`）。
 
-### Download name
+### 下载名称{#download-name}
 
-You can control the name that the browser
-uses when the user chooses to download the preformatted content by using the `downloadas` attribute. For example:
+您可以使用 `downloadas` 属性控制用户选择下载预格式化内容时浏览器使用的名称。例如：
 
 {{< text markdown >}}
 {{</* text syntax="go" downloadas="hello.go" */>}}
@@ -468,14 +416,11 @@ func HelloWorld() {
 {{</* /text */>}}
 {{< /text >}}
 
-If you don't specify a download name, then it is derived automatically based on the
-title of the current page for inline content, or from the name of the file or URL for imported
-content.
+如果您未指定下载名称，则内联内容将根据当前页面的标题自动导出，下载内容的名称将根据文件名称或 URL 自动导出。
 
-### Links to GitHub files
+### 链接到 GitHub 文件{#links-to-GitHub-files}
 
-If your preformatted content references a file from Istio's GitHub repository, you can surround the relative path name of the file with a pair
-of @ symbols. These indicate that the path should be rendered as a link to the file from the current branch in GitHub. For example:
+如果您预先格式化的内容引用了 Istio 的 GitHub 存储库中的文件，则可以在文件的相对路径名周围加上一对 @ 符号。这些指示路径应呈现为来自 GitHub 当前分支的文件链接。例如：
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -483,14 +428,13 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
-Which renders as:
+渲染后的效果如下：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{< /text >}}
 
-Normally, links will point to the current release branch of the `istio/istio` repository. If you'd like a link
-that points to a different Istio repository instead, you can use the `repo` attribute:
+通常，链接将指向 `istio/istio` 存储库的当前发行版分支。如果您想要一个指向其他 Istio 存储库的链接，则可以使用 `repo` 属性：
 
 {{< text markdown >}}
 {{</* text syntax="bash" repo="operator" */>}}
@@ -498,14 +442,13 @@ $ cat @README.md@
 {{</* /text */>}}
 {{< /text >}}
 
-which renders as:
+渲染后的效果如下：
 
 {{< text syntax="bash" repo="operator" >}}
 $ cat @README.md@
 {{< /text >}}
 
-If your preformatted content happens to use @ symbols for something else, you can turn off link expansion using the
-`expandlinks` attribute:
+如果您的预格式化内容碰巧将 @ 符号用于其他内容，则可以使用 `expandlinks` 属性关闭链接扩展：
 
 {{< text markdown >}}
 {{</* text syntax="bash" expandlinks="false" */>}}
@@ -513,210 +456,193 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 {{</* /text */>}}
 {{< /text >}}
 
-### Snippets
+### 片段{#snippets}
 
-When using imported content, you can control which parts of the content to render using _named snippets_, which represent portions
-of a file. You declare snippets in a file using the `$snippets` annotation with a paired `$endsnippet` annotation. The content
-between the two annotations represents the snippet.
-For example, you could have a text file that looks like this:
+使用导入的内容时，可以使用_命名的片段_（代表文件的各个部分）来控制呈现内容的哪些部分。您可以使用 `$snippets` 批注和成对的 `$endsnippet` 批注在文件中声明代码段。两个注释之间的内容代表代码段。例如，您可能有一个文本文件，如下所示：
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
-and in your markdown file, you can then reference a particular snippet with the `snippet` attribute such as:
+然后在 markdown 文件中，您可以使用 `snippet` 属性引用特定的代码段，例如：
 
 {{< text markdown >}}
 {{</* text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" */>}}
 {{< /text >}}
 
-which renders as:
+渲染后的效果如下：
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
-Within a text file, snippets can indicate the syntax of the snippet content and, for bash syntax, can
-include the syntax of the output. For example:
+在文本文件中，代码段可以指示代码段内容的语法，对于 bash 语法，代码段可以包括输出的语法。例如：
 
 {{< text plain >}}
 $snippet MySnippetFile.txt syntax="bash" outputis="json"
 {{< /text >}}
 
-## Glossary terms
+## 术语表{#glossary-terms}
 
-When first introducing a specialized Istio term in a page, it is desirable to annotate the term as being in the glossary. This
-will produce special rendering inviting the user to click on the term in order to get a pop-up with the definition.
+在页面中首次引入专用的 Istio 术语时，希望在术语表中对其进行注释。这将产生特殊的渲染，邀请用户单击该术语以获取带有定义的弹出窗口。
 
 {{< text markdown >}}
-Mixer uses {{</*gloss*/>}}adapters{{</*/gloss*/>}} to interface to backends.
+Mixer 使用{{</*gloss*/>}}适配器{{</*/gloss*/>}}来连接后端。
+{{< /text >}}
+
+效果如下：
+
+Mixer 使用{{<gloss>}}适配器{{</gloss>}}来连接后端。
+
+如果页面上显示的术语与词汇表中的条目不完全匹配，则可以指定替代项：
+
+{{< text markdown >}}
+Mixer 使用{{</*gloss 适配器*/>}}adapter{{</*/gloss*/>}}来连接后端。
 {{< /text >}}
 
 which looks like:
 
-Mixer uses {{<gloss>}}adapters{{</gloss>}} to interface to backends.
+Mixer 使用 {{<gloss 适配器>}}adapter{{</gloss>}} 来连接后端。
 
-If the term displayed on the page doesn't exactly match the entry in the glossary, you can specify a substitution:
+因此，即使词汇表条目用于**适配器**，也可以在文本中使用**适配器**的英文形式 **adapter**。
 
-{{< text markdown >}}
-Mixer uses an {{</*gloss adapters*/>}}adapter{{</*/gloss*/>}} to interface to a backend.
-{{< /text >}}
+## 标注{#callouts}
 
-which looks like:
-
-Mixer uses an {{<gloss adapters>}}adapter{{</gloss>}} to interface to a backend.
-
-So even though the glossary entry is for *adapters*, the singular form of *adapter* can be used in the text.
-
-## Callouts
-
-You can bring special attention to blocks of content by highlighting warnings, ideas, tips, and quotes:
+您可以通过突出显示警告、提示、技巧和引号来特别关注内容块：
 
 {{< text markdown >}}
 {{</* warning */>}}
-This is an important warning
+这是一个重要的警告
 {{</* /warning */>}}
 
 {{</* idea */>}}
-This is a great idea
+这是一个好主意
 {{</* /idea */>}}
 
 {{</* tip */>}}
-This is a useful tip from an expert
+这是专家的有用提示
 {{</* /tip */>}}
 
 {{</* quote */>}}
-This is a quote from somewhere
+这是源自某处的引用
 {{</* /quote */>}}
 {{< /text >}}
 
 which looks like:
 
 {{< warning >}}
-This is an important warning
+这是一个重要的警告
 {{< /warning >}}
 
 {{< idea >}}
-This is a great idea
+这是一个好主意
 {{< /idea >}}
 
 {{< tip >}}
-This is a useful tip from an expert
+这是专家的有用提示
 {{< /tip >}}
 
 {{< quote >}}
-This is a quote from somewhere
+这是源自某处的引用
 {{< /quote >}}
 
-Please use these callouts sparingly. Callouts are intended for special notes to the user and over-using them
-throughout the site neutralizes their special attention-grabbing nature.
+请谨慎使用这些标注。标注旨在向用户提供特别提示，并且在整个站点中过度使用它们可以抵消其特别吸引人的性质。
 
-## Embedding boilerplate text
+## 嵌入样板文字{#embedding-boilerplate-text}
 
-You can embed common boilerplate text into any markdown output using the `boilerplate` sequence:
+您可以使用 `boilerplate` 序列将通用样板文本嵌入到任何 markdown 输出中：
 
 {{< text markdown >}}
 {{</* boilerplate example */>}}
 {{< /text >}}
 
-which results in:
+效果如下：
 
 {{< boilerplate example >}}
 
-You supply the name of a boilerplate file to insert at the current location. Available boilerplates are
-located in the `boilerplates` directory. Boilerplates are just
-normal markdown files.
+您提供了要在当前位置插入的样板文件的名称。可用的样板位于 `boilerplates` 目录中。样板只是正常的 markdown 文件。
 
-## Using tabs
+## 使用标签{#using-tabs}
 
-If you have some content to display in a variety of formats, it is convenient to use a tab set and display each
-format in a different tab. To insert tabbed content, you use a combination of `tabset` and `tabs` annotations:
+如果您要以多种格式显示某些内容，则使用选项卡集并以不同的选项卡显示每种格式会很方便。要插入选项卡式内容，请结合使用 `tabset` 和 `tabs` 注解：
 
 {{< text markdown >}}
 {{</* tabset cookie-name="platform" */>}}
 
 {{</* tab name="One" cookie-value="one" */>}}
-ONE
+一
 {{</* /tab */>}}
 
 {{</* tab name="Two" cookie-value="two" */>}}
-TWO
+二
 {{</* /tab */>}}
 
 {{</* tab name="Three" cookie-value="three" */>}}
-THREE
+三
 {{</* /tab */>}}
 
 {{</* /tabset */>}}
 {{< /text >}}
 
-which produces the following output:
+产生如下输出：
 
 {{< tabset cookie-name="platform" >}}
 
 {{< tab name="One" cookie-value="one" >}}
-ONE
+一
 {{< /tab >}}
 
 {{< tab name="Two" cookie-value="two" >}}
-TWO
+二
 {{< /tab >}}
 
 {{< tab name="Three" cookie-value="three" >}}
-THREE
+三
 {{< /tab >}}
 
 {{< /tabset >}}
 
-The `name` attribute of each tab contains the text to display for the tab. The content of the tab can be almost any normal markdown.
+每个选项卡的 `name` 属性包含要为该选项卡显示的文本。标签的内容几乎可以是任何常见的 markdown 格式。
 
-The optional `cookie-name` and `cookie-value` attributes allow the tab setting to be sticky across visits to the page. As the user
-selects a tab, the cookie will be automatically saved with the given name and value. If multiple tab sets use the same cookie name
-and values, their setting will be automatically synchronized across pages. This is particularly useful when there are many tab sets
-in the site that hold the same types of formats.
+可选的 `cookie-name` 和 `cookie-value` 属性允许选项卡设置在访问页面时保持粘性。当用户选择一个选项卡时，该 cookie 将自动以给定的名称和值保存。如果多个选项卡集使用相同的 cookie 名称和值，则它们的设置将在页面之间自动同步。当站点中有许多标签集具有相同类型的格式时，此功能特别有用。
 
-For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a cookie name of `environment` and values of
-`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other tab set.
+例如，如果许多选项卡集用于表示 `GCP`、`BlueMix` 和 `AWS` 之间的选择，则它们都可以使用环境的 cookie 名称以及 `gcp`、`bluemix` 和 `aws` 的值。 当用户在一页中选择一个选项卡时，等效选项卡将自动在任何其他选项卡集中选择。
 
-### Limitations
+### 限制{#limitations}
 
-You can use almost any markdown in a tab, except for the following:
+除了以下各项，您几乎可以在标签中使用任何 markdown 语法：
 
-- *No headers*. Headers in a tab will appear in the table of contents and yet clicking on the entry in the
-table of contents will not automatically select the tab.
+- **没有标题**。选项卡中的标题将出现在目录中，但是单击目录中的条目将不会自动选择选项卡。
 
-- *No nested tab sets*. Don't try it, it's horrible.
+- **没有嵌套的标签集**。不要尝试，这太可怕了。
 
-## Renaming, moving, or deleting pages
+## 重命名、移动或删除页面{#renaming-moving-or-deleting-pages}
 
-If you move pages around or delete them completely, you should make sure existing links users may have to those pages continue to work.
-You do this by adding aliases which will cause the user to be redirected automatically from the old URL to a new URL.
+如果移动页面或将其完全删除，则应确保用户可能必须与这些页面的现有链接继续起作用。您可以通过添加别名来做到这一点，这将使用户自动从旧 URL 重定向到新 URL。
 
-In the page that is the *target* of the redirect (where you'd like users to land), you simply add the
-following to the front-matter:
+在作为重定向**目标**的页面（您希望用户登陆的页面）中，您只需在元数据中添加以下内容：
 
 {{< text plain >}}
 aliases:
     - <path>
 {{< /text >}}
 
-For example
+例如
 
 {{< text plain >}}
 ---
-title: Frequently Asked Questions
-description: Questions Asked Frequently.
+title: 经常问的问题
+description: 经常问的问题。
 weight: 12
 aliases:
     - /zh/help/faq
 ---
 {{< /text >}}
 
-With the above in a page saved as `faq/_index.md`, the user will be able to access the page by going
-to `istio.io/faq/` as normal, as well as `istio.io/help/faq/`.
+将上述内容保存在 `faq/_index.md` 页面中后，用户将可以通过正常访问 `istio.io/faq/` 以及 `istio.io/help/faq/` 来访问该页面。
 
-You can also add many redirects like so:
+您还可以添加许多重定向，如下所示：
 
 {{< text plain >}}
 ---
-title: Frequently Asked Questions
-description: Questions Asked Frequently.
+title: 经常问的问题
+description: 经常问的问题。
 weight: 12
 aliases:
     - /zh/faq
@@ -725,59 +651,51 @@ aliases:
 ---
 {{< /text >}}
 
-## Building and testing the site
+## 构建和测试网站{#building-and-testing-the-site}
 
-Once you've edited some content files, you'll want to build the site in order to test
-your changes. We use [Hugo](https://gohugo.io/) to generate our sites. To build and test the site locally, we use a Docker
-image that contains Hugo. To build and serve the site, simply go to the root of the tree and do:
+编辑了某些内容文件后，您将需要构建网站以测试您的更改。我们使用 [Hugo](https://gohugo.io/) 来生成我们的网站。为了在本地构建和测试站点，我们使用了包含 Hugo 的 Docker 镜像。要构建和运行该站点，只需转到根目录并执行以下操作：
 
 {{< text bash >}}
 $ make serve
 {{< /text >}}
 
-This will build the site and start a web server hosting the site. You can then connect to the web server
-at `http://localhost:1313`.
+这将构建站点并启动托管该站点的 Web 服务器。然后，您可以通过 `http://localhost:1313` 连接到Web服务器。
 
-To make and serve the site from a remote server, override `ISTIO_SERVE_DOMAIN` as follows with the IP address
-or DNS Domain of the server as follows:
+要从远程服务器创建站点并为其提供服务，请按如下所示用服务器的 IP 地址或 DNS 域覆盖 `ISTIO_SERVE_DOMAIN`：
 
 {{< text bash >}}
 $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 {{< /text >}}
 
-This will build the site and start a web server hosting the site. You can then connect to the web server
-at `http://192.168.7.105:1313`.
+这将构建站点并启动托管该站点的 Web 服务器。然后，您可以通过 `http://192.168.7.105:1313` 连接到 Web 服务器。
 
-All English content for the site is located in the `content/en` directory, as well as in sibling translated
-directories such as `content/zh`.
+该网站的所有英文内容都位于 `content/en` 目录以及同级翻译的目录（如 `content/zh`）中。
 
 ### Linting
 
-We use linters to ensure some base quality to the site's content. These linters must run without
-complaining before you can submit your changes into the repository. The linters check:
+我们使用 [linters](https://en.wikipedia.org/wiki/Lint_(software)) 来确保网站内容的基本质量。在您将更改提交到存储库之前，这些 linter 必须运行时没有报错。linter 检查以下内容：
 
-- HTML proofing, which ensures all your links are valid along with other checks.
+- HTML 校对，可确保所有链接以及其他检查均有效。
 
-- Spell checking.
+- 拼写检查。
 
-- Style checking, which makes sure your markdown files comply with our common style rules.
+- 样式检查，确保您的 markdown 文件符合我们的通用样式规则。
 
-You can run these linters locally with:
+您可以使用以下命令在本地运行这些 linter 检查：
 
 {{< text bash >}}
 $ make lint
 {{< /text >}}
 
-If you get spelling errors, you have three choices to address each:
+如果您遇到拼写错误，则可以通过三种选择来解决：
 
-- It's a real typo, so fix your markdown.
+- 这是一个真正的错别字，修复你的 markdown。
 
-- It's a command/field/symbol name, so stick some `backticks` around it.
+- 这是命令/字段/符号名称，因此请在其周围加上一些`反引号`。
 
-- It's really valid, so go add the word to the `.spelling` file which is at the root of the repository.
+- 这确实是有效的，因此请将该单词添加到存储库根目录的 .spelling 文件中。
 
-If you're having trouble with the link checker due to poor Internet connectivity, you can set any value to an environment variable named
-`INTERNAL_ONLY` to prevent the linter from checking external links:
+如果由于互联网连接状况不佳而导致链接检查器出现问题，则可以为名为 `INTERNAL_ONLY` 的环境变量设置任何值，以防止 linter 检查外部链接：
 
 {{< text bash >}}
 $ make INTERNAL_ONLY=True lint
