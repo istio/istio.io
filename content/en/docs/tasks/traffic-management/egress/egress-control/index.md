@@ -323,7 +323,7 @@ you can configure the Envoy sidecars to prevent them from
 external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
 or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
 update the `istio-sidecar-injector` configuration map using the `kubectl apply` command. This can also
-be configure on a pod by setting corresponding [annotations](/docs/reference/config/annotations/) such as
+be configured on a pod by setting corresponding [annotations](/docs/reference/config/annotations/) such as
 `traffic.sidecar.istio.io/includeOutboundIPRanges`.
 After updating the `istio-sidecar-injector` configuration, it affects all
 future application pod deployments.
