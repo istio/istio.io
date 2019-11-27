@@ -22,6 +22,7 @@ BASEURL="$1"
 
 # List of name:tagOrBranch
 TOBUILD=(
+  v1.3:release-1.3
   v1.2:release-1.2
   v1.1:release-1.1
   v1.0:release-1.0
@@ -54,10 +55,15 @@ for rel in "${TOBUILD[@]}"; do
   echo "### Building '${NAME}' from ${TAG} for ${URL}"
   git checkout "${TAG}"
 
-  if [[ "${TAG}" != "release-0.8" && "${TAG}" != "release-1.0" && "${TAG}" != "release-1.1" ]]; then
+  if [[ "${TAG}" == "release-1.2" || "${TAG}" == "release-1.3" ]]; then
     scripts/build_site.sh
   fi
+
   scripts/gen_site.sh "${URL}"
+
+  if [[ "${TAG}" != "release-0.8" && "${TAG}" != "release-1.0" && "${TAG}" != "release-1.1" && "${TAG}" != "release-1.2" && "${TAG}" != "release-1.3" ]]; then
+    scripts/build_site.sh
+  fi
 
   mv public "${TMP}/archive/${NAME}"
   echo "- name:  \"${NAME}\"" >> "${TMP}/archives.yml"
@@ -93,7 +99,7 @@ popd || exit
 popd || exit
 
 # Adjust a few things for archive_landing
-rm -fr content/en/about content/en/docs content/en/faq content/en/blog content/zh
+rm -fr content/en/about content/en/docs content/en/faq content/en/blog content/en/news content/zh
 rm -fr static/talks
 sed -i 's/preliminary: true/preliminary: false/g' data/args.yml
 sed -i 's/archive_landing: false/archive_landing: true/g' data/args.yml
@@ -101,8 +107,8 @@ sed -i 's/archive_landing: false/archive_landing: true/g' data/args.yml
 # Grab the state
 cp "${TMP}/archives.yml" data
 
-scripts/build_site.sh
-scripts/gen_site.sh "$1"
+scripts/gen_site.sh
+scripts/build_site.sh "$1"
 
 mv public/* "${TMP}/archive"
 rm -fr public

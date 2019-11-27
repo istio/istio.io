@@ -15,7 +15,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 
 ## 开始之前 {#before-you-begin}
 
-1. 首先执行 [Ingress 任务的初始化步骤](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)，然后执行[Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)部分中[获取 Ingress 的地址和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)，在完成这些步骤之后，也就是完成了 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin) 的部署，并设置了 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 两个环境变量的值。
+1. 首先执行 [Ingress 任务的初始化步骤](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)，然后执行[Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)部分中[获取 Ingress 的地址和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)，在完成这些步骤之后，也就是完成了 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin) 的部署，并设置了 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 两个环境变量的值。
 
 1. macOS 用户应该检查一下本机的 `curl` 是否是使用 [LibreSSL](http://www.libressl.org) 库进行编译的：
 
@@ -66,7 +66,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     $ popd
     {{< /text >}}
 
-## 使用 SDS 配置 TLS Ingress Gateway {#configure-a-TLS-ingress-gateway-using-SDS}
+## 使用 SDS 配置 TLS Ingress Gateway {#configure-a-TLS-ingress-gateway-using-sds}
 
 可以配置 TLS Ingress Gateway ，让它从 Ingress Gateway 代理通过 SDS 获取凭据。Ingress Gateway 代理和 Ingress Gateway 在同一个 Pod 中运行，监视 Ingress Gateway 所在命名空间中新建的 `Secret`。在 Ingress Gateway 中启用 SDS 具有如下好处：
 

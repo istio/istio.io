@@ -4,7 +4,7 @@ description: Resolve common problems with Istio's use of Kubernetes webhooks for
 force_inline_toc: true
 weight: 40
 aliases:
-  - /docs/ops/troubleshooting/injection
+  - /zh/docs/ops/troubleshooting/injection
 ---
 
 ## The result of sidecar injection was not what I expected
@@ -179,7 +179,7 @@ istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-sidecar-injector
 NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:10514,10.48.6.108:443   3d
+istio-sidecar-injector   10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and status

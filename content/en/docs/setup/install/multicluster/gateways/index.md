@@ -11,8 +11,8 @@ keywords: [kubernetes,multicluster,gateway]
 ---
 
 Follow this guide to install an Istio
-[multicluster deployment](/docs/setup/deployment-models/#multiple-clusters)
-with replicated [control plane](/docs/setup/deployment-models/#control-plane-models) instances
+[multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters)
+with replicated [control plane](/docs/ops/deployment/deployment-models/#control-plane-models) instances
 in every cluster and using gateways to connect services across clusters.
 
 Instead of using a shared Istio control plane to manage the mesh,
@@ -462,6 +462,12 @@ Execute the following commands to clean up the example services.
     $ kubectl delete --context=$CTX_CLUSTER2 ns bar
     {{< /text >}}
 
+* Cleanup `environment variables`:
+
+    {{< text bash >}}
+    $ unset SLEEP_POD CLUSTER2_GW_ADDR CLUSTER1_EGW_ADDR CTX_CLUSTER1 CTX_CLUSTER2
+    {{< /text >}}
+
 ## Version-aware routing to remote services
 
 If the remote service has multiple versions, you can add
@@ -508,8 +514,9 @@ for a complete example.
 Uninstall Istio by running the following commands on **every cluster**:
 
 {{< text bash >}}
-$ kubectl delete -f $HOME/istio.yaml
-$ kubectl delete ns istio-system
+$ istioctl manifest generate \
+    -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml \
+    | kubectl delete -f -
 {{< /text >}}
 
 ## Summary

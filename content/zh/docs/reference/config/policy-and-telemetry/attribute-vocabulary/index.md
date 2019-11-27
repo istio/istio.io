@@ -3,8 +3,8 @@ title: 属性词汇
 description: 描述用于策略和控制的基本属性词汇表。
 weight: 10
 aliases:
-  - /docs/reference/config/mixer/attribute-vocabulary.html
-  - /docs/reference/config/mixer/aspects/attributes.html
+    - /zh/docs/reference/config/mixer/attribute-vocabulary.html
+    - /zh/docs/reference/config/mixer/aspects/attributes.html
 ---
 
 属性是整个 Istio 使用的核心概念。可以在[这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)找到属性是什么和用于何处的描述。

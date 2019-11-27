@@ -40,10 +40,12 @@
 5ms
 6ms
 6s
+7.5
 72.96ms
 7Mb
 7ms
 7s
+8.5
 8ms
 8x
 9ms
@@ -143,6 +145,8 @@ CSRs
 Ctrl
 Customizable
 CVE
+CVE-2019-12243
+CVE-2019-12995
 CVE-2019-14993
 CVE-2019-15226
 CVE-2019-18817
@@ -152,6 +156,8 @@ CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
 CVEs
+cves
+cvss
 cyber
 Datadog
 datapath
@@ -163,6 +169,8 @@ decapsulated
 Delayering
 Demailly
 deployment
+deserialize
+deserializing
 dev
 devirtualization
 Devirtualization
@@ -319,10 +327,12 @@ linter
 linters
 liveness
 loopback
+Lua
 Lyft
 macOS
 Mandar
 Manolache
+Marshalers
 memcached
 memcached-2's
 Mesos
@@ -411,6 +421,7 @@ prober
 programmatically
 proto
 protobuf
+protoc
 protos
 proxied
 proxy_http_version
@@ -465,6 +476,7 @@ schemas
 SDKs
 sds
 Secura
+security_bulletin
 selinux
 serverless
 serviceaccount
@@ -536,6 +548,8 @@ uncommented
 Undeploy
 unencrypted
 unmanaged
+Unmarshalers
+Unmarshaling
 unnormalized
 unsampled
 untrusted
@@ -565,8 +579,8 @@ veth-pair
 virtualization
 Virtualization
 virtualservices-destrules
+VM
 vm-1
-VM-based
 VMs
 VMware
 VPN

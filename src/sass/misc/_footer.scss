@@ -16,12 +16,13 @@ footer {
         display: none;
     }
 
-    @media (min-width: $bp-sm) {
+    @media (min-width: $bp-md) {
         padding: 1.5rem 1.25rem 1rem;
+        grid-template-columns: [user-links] 65% [info] 35% [dev-links] 0;
     }
 
     @media (min-width: $bp-lg) {
-        grid-template-columns: [user-links] 30% [info] 40% [dev-links] 30%;
+        grid-template-columns: [user-links] 35% [info] 30% [dev-links] 35%;
     }
 
     .user-links {

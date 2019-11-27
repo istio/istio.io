@@ -1,0 +1,32 @@
+{{- $home := .Site.BaseURL -}}
+
+{{- printf "{" }}
+{{ $pages := (where .Site.Pages "Section" "news") -}}
+
+{{- $now := now -}}
+{{- $limit := $now.Add -15000000000000000 -}}
+
+{{- $first := true -}}
+{{- range $post := $pages -}}
+  {{- if and (not $post.Draft) $post.IsPage $post.PublishDate -}}
+    {{- if $limit.Before $post.PublishDate -}}
+      {{- if not $first -}},{{ end -}}
+      {{- $first = false }}
+"{{ $post.RelPermalink }}": "{{ $post.PublishDate.Format "2006-01-02" }}"
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $pages := (where .Site.Pages "Section" "blog") -}}
+
+{{- range $post := $pages -}}
+  {{- if and (not $post.Draft) $post.IsPage $post.PublishDate -}}
+    {{- if $limit.Before $post.PublishDate -}}
+      {{- if not $first -}},{{ end -}}
+      {{- $first = false }}
+"{{ $post.RelPermalink }}": "{{ $post.PublishDate.Format "2006-01-02" }}"
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+
+{{ printf "}" -}}
