@@ -58,7 +58,7 @@ Pilot 根据用户编写的配置文件和系统当前状态来配置 sidecar �
 
 根据上述因素来度量延迟、吞吐量以及代理的 CPU 和内存消耗。
 
-### CPU 和内存 {#cpu-and-memory}
+### CPU 和内存 {#CPU-and-memory}
 
 只要 sidecar 代理在数据路径上执行额外的工作，它就会消耗 CPU 和内存。以 Istio 1.1 举例，1000 QPS 会使用大约 0.6 vCPU。
 
