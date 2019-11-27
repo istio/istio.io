@@ -1,7 +1,7 @@
 ---
-title: 安全更新：2019-005
+title: ISTIO-SECURITY-2019-005
 subtitle: 安全公告
-description: CVE-2019-15226 的安全漏洞披露。
+description: CVE-2019-15226 所披露的安全漏洞。
 cve: [CVE-2019-15226]
 publishdate: 2019-10-08
 keywords: [CVE]
@@ -22,12 +22,12 @@ Envoy 和 Istio 容易受到以下 DoS 攻击。 收到每个传入的请求后,
 
 ## 影响范围{#impact-and-detection}
 
-Istio gateways 和 Sidecars 都容易受到此问题的影响。如果运行的是受影响的发行版之一，则您的群集容易受到攻击。
+Istio gateway 和 sidecar 都容易受到此问题的影响。如果您运行的 Istio 是受影响的发行版本，那么您的集群容易受到攻击。
 
 ## 防范{#mitigation}
 
-* 对于 Istio 1.1.x 部署: 更新所有控制平面组件 (Pilot, Mixer, Citadel, and Galley) 然后 [更新数据平面](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) 的版本不低于 [Istio 1.1.16](/zh/news/releases/1.1.x/announcing-1.1.16)。
-* 对于 Istio 1.2.x 部署: 更新所有控制平面组件 (Pilot, Mixer, Citadel, and Galley) 然后 [更新数据平面](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) 的版本不低于 [Istio 1.2.7](/zh/news/releases/1.2.x/announcing-1.2.7)。
-* 对于 Istio 1.3.x 部署: 更新所有控制平面组件 (Pilot, Mixer, Citadel, and Galley) 然后 [更新数据平面](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) 的版本不低于 [Istio 1.3.2]((/zh/news/releases/1.3.x/announcing-1.3.2)。
+* 对于 Istio 1.1.x 部署: 更新所有控制平面组件(Pilot, Mixer, Citadel, 和 Galley)然后[更新数据平面](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade)的版本不低于[Istio 1.1.16](/zh/news/releases/1.1.x/announcing-1.1.16)。
+* 对于 Istio 1.2.x 部署: 更新所有控制平面组件(Pilot, Mixer, Citadel, 和 Galley)然后[更新数据平面](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade)的版本不低于[Istio 1.2.7](/zh/news/releases/1.2.x/announcing-1.2.7)。
+* 对于 Istio 1.3.x 部署: 更新所有控制平面组件(Pilot, Mixer, Citadel, 和 Galley)然后[更新数据平面](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade)的版本不低于[Istio 1.3.2]((/zh/news/releases/1.3.x/announcing-1.3.2)。
 
 {{< boilerplate "security-vulnerability" >}}
