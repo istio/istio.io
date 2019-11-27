@@ -88,7 +88,7 @@ Refer to the [Customizable Install with Helm](/docs/setup/install/helm) for comp
 Use the following command to render and apply Istio CNI components and override the default configuration of the
 `logLevel` and `excludeNamespaces` parameters for `istio-cni`:
 
-Create a IstioControlPlane CR yaml locally with your override to install istio, e.g. cni.yaml
+Create a `IstioControlPlane` CR yaml locally with your override to install `istio`, e.g. `cni.yaml`
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -98,16 +98,18 @@ spec:
     enabled: true
   values:
     cni:
-      logLevel: info
       excludeNamespaces:
        - istio-system
        - kube-system
        - foo_ns
        - bar_ns
+  unvalidatedValues:
+    cni:
+      logLevel: info
 {{< /text >}}
 
 {{< text bash >}}
-$ istioctl manifest apply --force -f cni.yaml
+$ istioctl manifest apply -f cni.yaml
 {{< /text >}}
 
 ### Hosted Kubernetes settings
