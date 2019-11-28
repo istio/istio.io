@@ -19,7 +19,7 @@ aliases:
 ---
 
 When configuring a production deployment of Istio, you need to answer a number of questions.
-Will the mesh be comfined to a single {{< gloss >}}cluster{{< /gloss >}} or distributed across
+Will the mesh be confined to a single {{< gloss >}}cluster{{< /gloss >}} or distributed across
 multiple clusters? Will all the services be located in a single fully connected network, or will
 gateways be required to connect services across multiple networks? Is there a single
 {{< gloss >}}control plane{{< /gloss >}}, potentially shared across clusters,
