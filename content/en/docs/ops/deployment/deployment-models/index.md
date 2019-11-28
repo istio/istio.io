@@ -18,8 +18,46 @@ aliases:
   - /docs/ops/prep/deployment-models
 ---
 
-Important system models impact your overall Istio deployment model. This page
-discusses the options for each of these models and describes how you can
+When configuring a production deployment of Istio, you need to answer a number of questions.
+Will the mesh be comfined to a single cluster or distributed across multiple clusters?
+Will all the services be located in a single fully connected network, or will gateways be
+required to connect services across multiple networks? Is there a single control plane,
+potentially shared across clusters, or are there multiple control planes deployed to ensure HA?
+If there is more than one cluster being deployed, and more specifically in isolated networks,
+are they going to be connected into a single service mesh or will they be federated into a
+multiple mesh configuration?
+
+All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
+
+1. single or multiple cluster
+1. single or multiple network
+1. single or multiple control plane
+1. single or multiple mesh
+
+All combinations are possible, although clearly some not very interesting
+(for example, multiple mesh in a single cluster).
+
+Several models such as clusters, networks, control impact your overall Istio deployment model.
+
+There are several dimensions of variability 1. cluster single or many, 2. network single or many,
+ 3. controlplane single or many, 4. mesh single or multi). The 3 cases you've mentioned above are
+ 1. single cluster/single network/single controlplane/single mesh,
+ 2. multi cluster/single network/single controlplane/single mesh,
+ 3. multi cluster/multi network/multi controlplane/multi mesh. That said, all the other combinations are possible,
+although clearly some are not very useful/interesting. That said, the only issue with regard to needing
+service entries or not is the network model - if you have a single network model, then you don't
+need service entries, but if you have multiple networks, you will need them. For example, a multi-network
+version of your case 2 (multi cluster/multi network/single controlplane/single mesh) would work just fine,
+but that requires service entries
+(see example here: https://preliminary.istio.io/docs/setup/install/multicluster/shared-gateways/).
+
+You are correct that having more than one controlplane is recommended for HA, but the production deployments
+would probably be a mix of patterns. For example, you could have 3 clusters, 2 of them with a controlplanes,
+and then all 3 sharing both controlplanes. That way any of the 3 clusters can use either controlplane,
+so we get HA
+
+Important system models impact your overall Istio deployment model.
+This page discusses the options for each of these models and describes how you can
 configure Istio to address them.
 
 ## Cluster models
