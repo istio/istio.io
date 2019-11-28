@@ -1,44 +1,31 @@
 ---
-title: Mutual TLS Migration
-description: Shows you how to incrementally migrate your Istio services to mutual TLS.
+title: 双向 TLS 迁移
+description: 阐述如何将 Istio 服务逐步迁移至双向 TLS 通信模式。
 weight: 40
 keywords: [security,authentication,migration]
 aliases:
     - /zh/docs/tasks/security/mtls-migration/
 ---
 
-This task shows how to migrate your existing Istio services' traffic from plain
-text to mutual TLS without breaking live traffic.
+本任务阐述如何将 Istio 服务的请求从明文模式平滑过渡至双向 TLS 模式，并确保在整个迁移过程中不干扰在线流量的正常通信。
 
-In the scenario where there are many services communicating over the network, it
-may be desirable to gradually migrate them to Istio. During the migration, some services have Envoy
-sidecars while some do not. For a service with a sidecar, if you enable
-mutual TLS on the service, the connections from legacy clients (i.e., clients without
-Envoy) will lose communication since they do not have Envoy sidecars and client certificates.
-To solve this issue, Istio authentication policy provides a "PERMISSIVE" mode to solve
-this problem. Once "PERMISSIVE" mode is enabled, a service can take both HTTP
-and mutual TLS traffic.
+针对多服务跨网络通信的应用场景，通常希望逐步将所有服务迁移到 Istio 网格中。如此一来，在迁移过程中，将出现只有部分服务注入了 Envoy sidecar 的情况。对于一个已注入 sidecar 的服务而言，一旦开启服务的双向 TLS 通信模式，那么传统客户端（即：没有 Envoy 的客户端）将无法与之通信，因为这些客户端没有注入 Envoy sidecar 和客户端证书。为了解决这个问题，Istio 认证策略提供了一种 “PERMISSIVE” 模式。当启用 “PERMISSIVE” 模式时，服务可以同时接收 HTTP 和双向 TLS 请求。
 
-You can configure Istio services to send mutual
-TLS traffic to that service while connections from legacy services will not
-lose communication. Moreover, you can use the
-[Grafana dashboard](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) to check which services are
-still sending plaintext traffic to the service in "PERMISSIVE" mode and choose to lock
-down once the migration is done.
+这样，便可以将 Istio 服务的通信模式配置为双向 TLS，与此同时，不干扰其与传统服务之间的通信。此外，可以使用
+[Grafana dashboard](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) 检查哪些服务仍然向 "PERMISSIVE" 模式的服务发送明文请求，然后选择在这些服务迁移结束后关闭目标服务的 "PERMISSIVE" 模式，将其锁定为只接收双向 TLS 请求。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-* Understand Istio [authentication policy](/zh/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/zh/docs/concepts/security/#mutual-TLS-authentication) concepts.
+* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies) 以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 概念。
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in
-[installation steps](/zh/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
+* 准备一个 Kubernetes 集群并部署好 Istio，不要开启全局双向 TLS （如：可以使用[安装步骤](/zh/docs/setup/getting-started)中提供的 demo 配置 profile，或者将安装选项 `global.mtls.enabled` 设置为 false）。
 
-* For demo
-    * Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them.
+* demo 准备
+    * 创建如下命名空间并在其中都部署上 [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep)，注入 sidecar。
         * `foo`
         * `bar`
 
-    * Create the following namespace and deploy [sleep]({{< github_tree >}}/samples/sleep) without sidecar
+    * 创建如下命名空间并在其中部署 [sleep]({{< github_tree >}}/samples/sleep)，不注入 sidecar
         * `legacy`
 
     {{< text bash >}}
@@ -52,7 +39,7 @@ down once the migration is done.
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
 
-* Verify setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to `httpbin.foo`.  All requests should success with HTTP code 200.
+* （使用 curl 命令）从每个 sleep pod （命名空间为 `foo`， `bar` 或 `legacy`） 分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
 
     {{< text bash >}}
     $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
@@ -61,7 +48,7 @@ down once the migration is done.
     sleep.legacy to httpbin.foo: 200
     {{< /text >}}
 
-* Also verify that there are no authentication policies or destination rules (except control plane's) in the system:
+* 验证没有在系统中设置认证策略或目标规则（控制面板除外）：
 
     {{< text bash >}}
     $ kubectl get policies.authentication.istio.io --all-namespaces
@@ -76,9 +63,9 @@ down once the migration is done.
     istio-system   istio-telemetry   25m
     {{< /text >}}
 
-## Configure clients to send mutual TLS traffic
+## 配置客户端发送双向 TLS 请求{#configure-clients-to-send-mutual-TLS-traffic}
 
-Configure Istio services to send mutual TLS traffic by setting `DestinationRule`.
+设置 `DestinationRule`，配置 Istio 服务发送双向 TLS 请求。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -94,10 +81,9 @@ spec:
 EOF
 {{< /text >}}
 
-`sleep.foo` and `sleep.bar` should start sending mutual TLS traffic to `httpbin.foo`. And `sleep.legacy` still sends plaintext
-traffic to `httpbin.foo` since it does not have sidecar thus `DestinationRule` does not apply.
+`sleep.foo` 和 `sleep.bar` 开始向 `httpbin.foo` 发送双向 TLS 请求。因为 `sleep.legacy` 没有注入 sidecar，`DestinationRule` 不会对其起作用，所以 `sleep.legacy` 仍然向 `httpbin.foo` 发送明文请求。
 
-Now we confirm all requests to `httpbin.foo` still succeed.
+现在，我们确认一下，所有发送至 `httpbin.foo` 的请求仍会响应成功。
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
@@ -106,14 +92,12 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 200
 {{< /text >}}
 
-You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
-[`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/).
-After verifying it works by checking [Grafana to monitor](/zh/docs/tasks/observability/metrics/using-istio-dashboard/),
-then increase the rollout scope and finally apply to all Istio client services.
+也可以指定一部分客户端使用 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 中设置的 `ISTIO_MUTUAL` 双向 TLS 通信模式。
+检查 [Grafana to monitor](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) 验证设置起效后，再扩大作用范围，最终应用到所有的 Istio 客户端服务。
 
-## Lock down to mutual TLS (optional)
+## 锁定为双向 TLS （可选）{#lock-down-to-mutual-TLS-optional}
 
-After migrating all clients to Istio services, injecting Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
+当所有客户端服务都成功迁移至 Istio 之后，注入 Envoy sidecar，便可以锁定 `httpbin.foo` 只接收双向 TLS 请求。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -131,7 +115,7 @@ spec:
 EOF
 {{< /text >}}
 
-Now you should see the request from `sleep.legacy` fails.
+此时，源自 `sleep.legacy` 的请求将响应失败。
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
@@ -140,13 +124,13 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 503
 {{< /text >}}
 
-If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
-However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
-We recommend you use [Istio Authorization](/zh/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
+若无法将所有服务迁移至 Istio （注入 Envoy sidecar），则必须开启 `PERMISSIVE` 模式。
+然而，开启 `PERMISSIVE` 模式时，系统默认不对明文请求进行认证或授权检查。
+推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/) 来为不同的请求路径配置不同的授权策略。
 
-## Cleanup
+## 清除{#cleanup}
 
-Remove all resources.
+清除所有资源。
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
