@@ -42,8 +42,8 @@ In a production deployment involving multiple clusters, the deployment may use a
 mix of patterns. For example, having more than one control plane is recommended for HA,
 but you could achieve this for a 3 cluster deployment by deploying 2 clusters with
 a single shared control plane and then adding the third cluster with a second
-control plane in an isolated network. All three clusters could then be configured
-to share both control planes, so that all the clusters have 2 sources of control
+control plane in a different network. All three clusters could then be configured
+to share both control planes so that all the clusters have 2 sources of control
 to ensure HA.
 
 Choosing the right deployment model depends on the isolation, performance,
