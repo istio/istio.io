@@ -1,6 +1,6 @@
 ---
 title: Deployment Models
-description: Describes the system models that impact your overall Istio depolyment.
+description: Describes the options and considerations when configuring your Istio deployment.
 weight: 20
 keywords:
   - single-cluster
