@@ -70,7 +70,7 @@ Pilot 将控制流量行为的高级路由规则转换为特定于环境的配�
 
 这种松耦合允许 Istio 在 Kubernetes、Consul 或 Nomad 等多种环境中运行，同时维护相同的 operator 接口来进行流量管理。
 
-您可以使用 Istio 的[流量管理 API](/zh/docs/concepts/traffic-management/#introducing-istio-traffic-management) 来指示 Pilot 优化 Envoy 配置，以便对服务网格中的流量进行更细粒度地控制。
+您可以使用 Istio 的[流量管理 API](/zh/docs/concepts/traffic-management/#introducing-Istio-traffic-management) 来指示 Pilot 优化 Envoy 配置，以便对服务网格中的流量进行更细粒度地控制。
 
 ### Citadel{#citadel}
 

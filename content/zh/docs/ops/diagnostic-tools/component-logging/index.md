@@ -1,6 +1,6 @@
 ---
-title: Component Logging
-description: Describes how to use component-level logging to get insights into a running component's behavior.
+title: 组件日志记录
+description: 如何使用组件的级别日志来记录正在运行中的组件的行为。
 weight: 70
 keywords: [ops]
 aliases:
@@ -8,17 +8,13 @@ aliases:
   - /zh/docs/ops/troubleshooting/component-logging
 ---
 
-Istio components are built with a flexible logging framework which provides a number of features and controls to
-help operate these components and facilitate diagnostics. You control these logging features by passing
-command-line options when starting the components.
+Istio 组件使用一个灵活的日志框架来构建，该框架提供了许多功能和控件去帮助操作这些组件并促进诊断，在启动组件的时候，可以通过在命令行传递参数来控制这些日志记录功能。
 
-## Logging scopes
+## 记录范围{#logging-scopes}
 
-Logging messages output by a component are categorized by *scopes*. A scope represents a set of related log messages which
-you can control as a whole. Different components have different scopes, depending on the features the component
-provides. All components have the `default` scope, which is used for non-categorized log messages.
+组件输出的日志信息按 `作用域` 分类，一个作用域代表可以被控制的相关日志信息的整体。根据组件提供的功能，不同的组件具有不同的作用域。所有组件都有 `default` 作用域，该作用域用于未分类的日志信息。
 
-As an example, as of this writing, Mixer has 5 scopes, representing different functional areas within Mixer:
+例如，在撰写本文时，Mixer 有5个作用域，代表了 Mixer 中的不同功能区域：
 
 - `adapters`
 - `api`
@@ -26,9 +22,9 @@ As an example, as of this writing, Mixer has 5 scopes, representing different fu
 - `default`
 - `grpcAdapter`
 
-Pilot, Citadel, and Galley have their own scopes which you can discover by looking at their [reference documentation](/zh/docs/reference/commands/).
+Pilot、Citadel 和 Galley 具有它们自己的范围，你可以通过查看它们的[参考文档](/zh/docs/reference/commands/)来获取更多信息。
 
-Each scope has a unique output level which is one of:
+每个作用域都有一个唯一的输出级别，为下列其中之一：
 
 1. none
 1. error
@@ -36,39 +32,28 @@ Each scope has a unique output level which is one of:
 1. info
 1. debug
 
-where `none` produces no output for the scope, and `debug` produces the maximum amount of output. The default level for all scopes
-is `info` which is intended to provide the right amount of logging information for operating Istio in normal conditions.
+其中 `none` 不产生任何输出信息，并且 `debug` 产生的输出信息最多。 所有作用域的默认级别是 `info` ，为在正常情况下使用 Istio 提供大量的日志信息。
 
-To control the output level, you use the `--log_output_level` command-line option. For example:
+要控制输出级别，也可以在命令行使用 `--log_output_level` 选项。例如：
 
 {{< text bash >}}
 $ mixs server --log_output_level attributes=debug,adapters=warning
 {{< /text >}}
 
-In addition to controlling the output level from the command-line, you can also control the output level of a running component
-by using its [ControlZ](/zh/docs/ops/diagnostic-tools/controlz) interface.
+除了从命令行控制输出级别外，你也可以使用 [ControlZ](/zh/docs/ops/diagnostic-tools/controlz) 界面控制一个运行组件的输出级别。
 
-## Controlling output
+## 控制输出{#controlling-output}
 
-Log messages are normally sent to a component's standard output stream. The `--log_target` option lets you direct the output to
-any number of different locations. You give the option a comma-separated list of file system paths, along with the special
-values `stdout` and `stderr` to indicate the standard output and standard error streams respectively.
+日志信息通常发送到组件的标准输出。 `--log_target` 选项可以定向输出到许多不同的位置。你可以使用一个逗号分隔列表中的文件系统路径，以及分别表示标准输出和标准错误输出流的特殊值 `stdout` 和 `stderr` 。
 
-Log messages are normally output in a human-friendly format. The `--log_as_json` option can be used to force the output into JSON,
-which can be easier for tools to process.
+日志信息通常以友好的格式输出。 `--log_as_json` 选项可用于将输出强制转换为 JSON 格式，以便于更简单地被工具处理。
 
-## Log rotation
+## 日志轮转{#log-rotation}
 
-Istio components can automatically manage log rotation, which make it simple to break up large logs into smaller log files.
-The `--log_rotate` option lets you specify the base file name to use for rotation. Derived names will be used for individual
-log files.
+Istio 组件可以自动管理日志的轮转，将庞大的日志分解为较小的日志文件。 `--log_rotate` 选项可以让你基于文件名进行轮转。派生名称将用于单个日志文件。
 
-The `--log_rotate_max_age` option lets you specify the maximum number of days before file rotation takes place, while the `--log_rotate_max_size` option
-let you specify the maximum size in megabytes before file rotation takes place. Finally, the `--log_rotate_max_backups` option lets you control
-the maximum number of rotated files to keep, older files will be automatically deleted.
+`--log_rotate_max_age` 选项可以在日志文件被轮转前指定最大天数，然而 `--log_rotate_max_size` 选项可以指定文件轮转之前的最大 size （以兆字节为单位）。最后， `--log_rotate_max_backups` 选项可以控制要保留的最大轮转文件数，较旧的文件将被自动删除。
 
-## Component debugging
+## 组件调试{#component-debugging}
 
-The `--log_caller` and `--log_stacktrace_level` options let you control whether log information includes
-programmer-level information. This is useful when trying to track down bugs in a component but is not
-normally used in day-to-day operation.
+`--log_caller` 和 `--log_stacktrace_level` 选项可以控制日志信息是否包括程序员级别的信息。当你试着查找组件中的错误信息时它是有用的，但是，通常在日常操作中不使用。

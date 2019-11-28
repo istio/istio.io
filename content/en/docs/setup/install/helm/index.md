@@ -35,7 +35,7 @@ and then further customize the configuration for your specific needs.
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/ops/prep/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm#install) with a version higher than 2.10.
 

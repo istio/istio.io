@@ -1,0 +1,48 @@
+{{ $first := true }}
+{{ $lastMonth := "" }}
+{{ $lastYear := "" }}
+{{ range .Site.Pages.ByLastmod.Reverse }}
+
+    {{ if and .IsPage (not .Params.skip_sitemap) }}
+        {{ $year := .Lastmod.Year }}
+        {{ $month := .Lastmod.Month }}
+
+        {{ if or (ne $year $lastYear) (ne $month $lastMonth) }}
+            {{ $lastYear = $year }}
+            {{ $lastMonth = $month }}
+
+            {{ if not $first }}
+                </tbody>
+                </table>
+            {{ end }}
+            {{ $first = false }}
+
+            <h2 id="{{ .Lastmod.Format "id_2006_02" }}">{{ .Lastmod.Format (i18n "log_month_format") }}</h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>{{ i18n "log_when" }}</th>
+                    <th>{{ i18n "log_doc" }}</th>
+                    <th>{{ i18n "log_change" }}</th>
+                </tr>
+                <tbody>
+        {{ end }}
+
+        {{ $subject := trim (replaceRE "\\(\\#[0-9]+\\)" "" .GitInfo.Subject) " " }}
+        {{ if not (strings.HasSuffix $subject ".") }}
+            {{ $subject = printf "%s." $subject }}
+        {{ end }}
+
+        <tr>
+            <td>{{ .Lastmod.Format (i18n "log_change_format") }}</td>
+            <td><a href="{{ .Permalink }}" title="{{ .Description }}">{{ .LinkTitle }}</a></td>
+            <td>{{ $subject }}</td>
+        </tr>
+    {{ end }}
+{{ end }}
+
+{{ if not $first }}
+</tbody>
+</table>
+{{ end }}

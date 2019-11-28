@@ -1,50 +1,39 @@
 ---
-title: Diagram Creation Guidelines
-description: Provides assets and instructions to create diagrams for the Istio documentation.
+title: 创建图表指南
+description: 为 Istio 文档创建图表提供素材和说明。
 weight: 40
 keywords: [contribute,diagram,documentation,guide]
 ---
 
-Welcome to the Istio diagram guide!
+欢迎学习 Istio 图表指南！
 
-The guide is available as an [SVG file](./diagram-guidelines.svg) or as a
-[Google Draw file](https://docs.google.com/drawings/d/1f3NyutAQIDOA8ojGNyMA5JAJllDShZGQAFfdD01XdSc/edit)
-to allow you to reuse the shapes and styles with ease. Use these guidelines to
-create SVG diagrams for the Istio website using any vector graphics tool like
-Google Draw, InkScape, or Illustrator. Please ensure that the text in your
-diagrams remains editable.
+本指南通过一个 [SVG 文件](./diagram-guidelines.svg) 或者 [Google Draw 文件](https://docs.google.com/drawings/d/1f3NyutAQIDOA8ojGNyMA5JAJllDShZGQAFfdD01XdSc/edit) 使您可以轻松的复用 shape 和 style。
+通过本指南，您可以使用任何矢量图绘制工具（例如，Google Draw、InkScape、Illustrator）为 Istio 站点创建 SVG 图表。
+请保持图表中的文本处于可编辑状态。
 
-Our goal is to drive consistency across all diagrams in our website to ensure
-diagrams are clear, technically accurate, and accessible.
+我们的目标是在站点内的所有图表之间实现一致性，以确保图表是清晰、技术表达准确和易读的。
 
-Keeping the text editable allows the community to improve and change the
-diagrams as needed.
+保持文本是可编辑的，以允许社区根据需要修改和改进图表。
 
-To create your diagrams, follow these steps:
+若要创建您的图表，请参照下面的步骤：
 
-1. Refer to the [guide](./diagram-guidelines.svg) and copy-paste from it as
-   needed.
-1. Connect the shapes with the appropriate style of line.
-1. Label the shapes and lines with descriptive yet short text.
-1. Add a legend for any labels that apply multiple times.
-1. [Contribute](/zh/about/contribute/github/#add) you diagram to our
-   documentation.
+1. 参考 [指南](./diagram-guidelines.svg)，并根据需要从中复制粘贴。
+1. 用适当的线条连接 shape。
+1. 用简短的描述性文字标记 shape 和线条。
+1. 为多次应用的标签添加图例。
+1. 将您的图表 [贡献](/zh/about/contribute/github/#add) 给我们的文档。
 
-If you create the diagram in Google Draw, follow these steps:
+如果您是在 Google Draw 中创建图表，请参照下面的步骤：
 
-1. Put your diagram in our [team drive](https://drive.google.com/corp/drive/u/0/folders/1jczscJueUBR3IOvH30q9HAZX0jC7GSyW).
-1. Once the diagram is complete, export it as SVG and include the SVG
-   file in your PR.
-1. Leave a comment in the MarkDown file containing the diagram with the
-   URL to the Google Draw file.
+1. 将您的图表放入到我们的 [team drive](https://drive.google.com/corp/drive/u/0/folders/1jczscJueUBR3IOvH30q9HAZX0jC7GSyW)。
+1. 图表绘制完成后，将其导出为 SVG 并将该文件提交在您的 PR 中。
+1. 在包含图表的 MarkDown 中留下带有 Google Draw 文件 URL 的注释。
 
-If your diagram depicts a process, **do not add the descriptions of the steps**
-to the diagram. Instead, only add the numbers of the steps to the diagram and
-add the descriptions of the steps as a numbered list in the document. Ensure
-that the numbers on the list match the numbers on your diagram. This approach
-helps make diagrams easier to understand and the content more accessible.
+如果您的图表包含了步骤，**不要在** 图表中 **为步骤添加描述**。
+仅需将步骤的编号添加到图表中，并在文档中为步骤的编号添加描述，请确保两者的编号是匹配的。
+这种方法使得图表易于理解，内容的可读性也更好。
 
-Thank you for contributing to the Istio documentation!
+感谢您为 Istio 文档做出的贡献！
 
 {{< image width="75%"
     link="./diagram-guidelines.svg"
