@@ -1,89 +1,118 @@
 ---
-title: 使用 Istioctl 命令行工具
-description: Istio 自带的一个可以为服务网格部署提供调试和诊断的补充工具。
+title: Using the Istioctl Command-line Tool
+description: Istio includes a supplemental tool that provides debugging and diagnosis for Istio service mesh deployments.
 weight: 10
 keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
- - /zh/help/ops/component-debugging
- - /zh/docs/ops/troubleshooting/istioctl
+  - /help/ops/component-debugging
+  - /docs/ops/troubleshooting/istioctl
 ---
 
-## 概述 {#overview}
+You can gain insights into what individual components are doing by inspecting their [logs](/docs/ops/diagnostic-tools/component-logging/)
+or peering inside via [introspection](/docs/ops/diagnostic-tools/controlz/). If that's insufficient, the steps below explain
+how to get under the hood.
 
-您可以通过检查各个组件的[日志](/zh/docs/ops/diagnostic-tools/component-logging/)或者通过[自检](/zh/docs/ops/diagnostic-tools/controlz/)机制来了解其功能。如果还不够的话，以下步骤将会告诉您如何深入了解。
-
-[`Istioctl`](/zh/docs/reference/commands/istioctl) 是一个允许服务管理者调试和诊断服务网格应用的命令行配置工具。Istio 项目还提供了两个在 Bash 和 ZSH 环境下用于自动补全 `istioctl` 命令的脚本。这两个脚本均支持当前可用的 `istioctl` 命令。
+The [`istioctl`](/docs/reference/commands/istioctl) tool is a configuration command line utility that allows service operators to debug and diagnose their Istio service mesh deployments. The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion for Bash and ZSH. Both of these scripts provide support for the currently available `istioctl` commands.
 
 {{< tip >}}
-`Istioctl` 只对没有弃用的命令开启了自动补全的功能。
+`istioctl` only has auto-completion enabled for non-deprecated commands.
 {{< /tip >}}
 
-### 网格概览 {#get-an-overview-of-your-mesh}
+## Before you begin
 
-您可以使用 `proxy-status` 命令概览您的网格：
+We recommend you use an `istioctl` version that is the same version as your Istio control plane. Using matching versions helps avoid unforeseen issues.
+
+{{< tip >}}
+If you have already [downloaded the Istio release](/docs/setup/getting-started/#download), you should
+already have `istioctl` and do not need to install it again.
+{{< /tip >}}
+
+## Install {{< istioctl >}}
+
+Install the `istioctl` binary with `curl`:
+
+1. Download the latest release with the command:
+
+    {{< text bash >}}
+    $ curl -sL https://istio.io/downloadIstioctl | sh -
+    {{< /text >}}
+
+1. Add the `istioctl` client to your path, on a macOS or Linux system:
+
+    {{< text bash >}}
+    $ export PATH=$PATH:$HOME/.istioctl/bin
+    {{< /text >}}
+
+1. You can optionally enable the [auto-completion option](#enabling-auto-completion) when working with a bash or ZSH console.
+
+## Get an overview of your mesh
+
+You can get an overview of your mesh using the `proxy-status` command:
 
 {{< text bash >}}
 $ istioctl proxy-status
 {{< /text >}}
 
-如果输出列表中缺少某个代理则意味着它当前未连接到 Polit 实例，所以它无法接收到任何配置。此外，如果它被标记为 stale，则意味着存在网络问题或者需要扩展 Pilot。
+If a proxy is missing from the output list it means that it is not currently connected to a Pilot instance and so it
+will not receive any configuration. Additionally, if it is marked stale, it likely means there are networking issues or
+Pilot needs to be scaled.
 
-### 代理配置 {#get-proxy-configuration}
+## Get proxy configuration
 
-[`Istioctl`](/zh/docs/reference/commands/istioctl) 允许你使用 `proxy-config` 或者 `pc` 命令检索代理的配置信息。
+[`istioctl`](/docs/reference/commands/istioctl) allows you to retrieve information about proxy configuration using the `proxy-config` or `pc` command.
 
-例如检索特定 pod 中 Envoy 实例的集群配置的信息：
+For example, to retrieve information about cluster configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config cluster <pod-name> [flags]
 {{< /text >}}
 
-检索特定 pod 中 Envoy 实例的 bootstrap 配置的信息：
+To retrieve information about bootstrap configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config bootstrap <pod-name> [flags]
 {{< /text >}}
 
-检索特定 pod 中 Envoy 实例的监听器配置的信息：
+To retrieve information about listener configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config listener <pod-name> [flags]
 {{< /text >}}
 
-检索特定 pod 中 Envoy 实例的路由配置的信息：
+To retrieve information about route configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config route <pod-name> [flags]
 {{< /text >}}
 
-检索特定 pod 中 Envoy 实例的 endpoint 配置的信息：
+To retrieve information about endpoint configuration for the Envoy instance in a specific pod:
 
 {{< text bash >}}
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-有关上述命令描述的更多信息，请参考[调试 Envoy 和 Pilot](/zh/docs/ops/diagnostic-tools/proxy-cmd/).
+See [Debugging Envoy and Pilot](/docs/ops/diagnostic-tools/proxy-cmd/) for more advice on interpreting this information.
 
-## `Istioctl` 自动补全 {#auto-completion}
+## `istioctl` auto-completion
 
 {{< tabset cookie-name="prereqs" >}}
 
 {{< tab name="macOS" cookie-value="macos" >}}
 
-如果您使用的是 macOS 操作系统的Bash终端，确认已安装 `bash-completion` 包。使用 macOS 下 [brew](https://brew.sh) 包管理器，您可以通过以下命令检查 `bash-completion` 包是否已经安装：
+If you are using the macOS operating system with the Bash terminal shell, make sure that the `bash-completion` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `bash-completion` package is installed with the following command:
 
 {{< text bash >}}
 $ brew info bash-completion
 bash-completion: stable 1.3 (bottled)
 {{< /text >}}
 
-如果您还未安装 `bash-completion` 包，可以通过以下命令进行安装：
+If you find that the `bash-completion` package is _not_ installed, proceed with installing the `bash-completion` package with the following command:
 
 {{< text bash >}}
 $ brew install bash-completion
 {{< /text >}}
 
-当 `bash-completion` 包被安装到您的 macOS 系统以后，添加下行内容到您的 `~/.bash_profile` 中：
+Once the `bash-completion package` has been installed on your macOS system, add the following line to your `~/.bash_profile` file:
 
 {{< text plain >}}
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
@@ -93,9 +122,9 @@ $ brew install bash-completion
 
 {{< tab name="Linux" cookie-value="linux" >}}
 
-如果您使用基于 Linux 的操作系统，以两种最常见的情况举例，您可以使用 `apt-get install bash-completion` 命令安装基于 Debian 的 Linux 发行版的 base-completion 包，或者使用 `yum install bash-completion` 安装基于 RPM 的 Linux 发行版的包。
+If you are using a Linux-based operating system, you can install the Bash completion package with the `apt-get install bash-completion` command for Debian-based Linux distributions or `yum install bash-completion` for RPM-based Linux distributions, the two most common occurrences.
 
-当 `bash-completion` 包被安装到您的 Linux 系统以后，添加下行内容到您的 `~/.bash_profile` 中：
+Once the `bash-completion` package has been installed on your Linux system, add the following line to your `~/.bash_profile` file:
 
 {{< text plain >}}
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
@@ -105,17 +134,17 @@ $ brew install bash-completion
 
 {{< /tabset >}}
 
-### 开启自动补全 {#enabling-auto-completion}
+### Enabling auto-completion
 
-根据您选择的 shell，按照以下步骤在您的系统开启 `istioctl` 命令补全 :
+To enable `istioctl` completion on your system, follow the steps for your preferred shell:
 
 {{< tabset cookie-name="profile" >}}
 
 {{< tab name="Bash" cookie-value="bash" >}}
 
-安装 bash 自动补全文件
+Installing the bash auto-completion file
 
-如果您使用 bash，`istioctl` 自动补全的文件位于 `tools` 目录。通过复制 `istioctl.bash` 文件到您的 home 目录，然后添加下行内容到您的 `.bashrc` 文件执行 `istioctl` tab补全文件：
+If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
 
 {{< text bash >}}
 $ source ~/istioctl.bash
@@ -125,26 +154,26 @@ $ source ~/istioctl.bash
 
 {{< tab name="ZSH" cookie-value="zsh" >}}
 
-安装 ZSH 自动补全文件
+Installing the ZSH auto-completion file
 
-对于 ZSH 用户，`istioctl` 自动补全文件位于 `tools` 目录。复制 `_istioctl` 文件到你的 home 目录或者你选择的任何目录(同时更新下面脚本目录)，并且在您的 `.zshrc` 文件添加以下命令执行 `istioctl` 自动补全文件：
+For ZSH users, the `istioctl` auto-completion file is located in the `tools` directory. Copy the `_istioctl` file to your home directory, or any directory of your choosing (update directory in script snippet below), and source the `istioctl` auto-completion file in your `.zshrc` file as follows:
 
 {{< text zsh >}}
 source ~/_istioctl
 {{< /text >}}
 
-您也可以添加 `_istioctl` 文件到 `fpath` 变量包含的目录列表中。为此，可以通过复制 `_istioctl` 文件到 `fpath` 中已存在的目录，或者创建一个新目录并将它添加到您的 `~/.zshrc` 文件中的 `fpath` 变量。
+You may also add the `_istioctl` file to a directory listed in the `fpath` variable. To achieve this, place the `_istioctl` file in an existing directory in the `fpath`, or create a new directory and add it to the `fpath` variable in your `~/.zshrc` file.
 
 {{< tip >}}
 
-如果您遇到类似 `complete:13: command not found: compdef` 错误，可以添加以下内容到您的 `~/.zshrc` 文件开头：
+If you get an error like `complete:13: command not found: compdef`, then add the following to the beginning of your `~/.zshrc` file:
 
 {{< text bash >}}
 $ autoload -Uz compinit
 $ compinit
 {{< /text >}}
 
-如果您的自动补全没有生效，在重启您的终端后再试。如果自动补全还是没有生效，试着在您的终端运行上述命令重置自动补全的缓存。
+If your auto-completion is not working, try again after restarting your terminal. If auto-completion still does not work, try resetting the completion cache using the above commands in your terminal.
 
 {{< /tip >}}
 
@@ -152,9 +181,9 @@ $ compinit
 
 {{< /tabset >}}
 
-### 使用自动补全 {#using-auto-completion}
+### Using auto-completion
 
-如果 `istioctl` 补全文件已经正确安装，在您输入 `istioctl` 命令时通过按 Tab 键，它会返回一组推荐命令供您选择：
+If the `istioctl` completion file has been installed correctly, press the Tab key while writing an `istioctl` command, and it should return a set of command suggestions for you to choose from:
 
 {{< text bash >}}
 $ istioctl proxy-<TAB>

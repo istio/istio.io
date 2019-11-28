@@ -6,8 +6,8 @@ description: Istio 1.2.8 patch release.
 publishdate: 2019-10-23
 release: 1.2.8
 aliases:
-    - /zh/news/2019/announcing-1.2.8
-    - /zh/news/announcing-1.2.8
+    - /news/2019/announcing-1.2.8
+    - /news/announcing-1.2.8
 ---
 
 We're pleased to announce the availability of Istio 1.2.8. Please see below for what's changed.
@@ -16,7 +16,7 @@ We're pleased to announce the availability of Istio 1.2.8. Please see below for 
 
 ## Bug fixes
 
-- Fix a bug introduced by [our October 8th security release](/zh/news/security/istio-security-2019-005) which incorrectly calculated HTTP header and body sizes ([Issue 17735](https://github.com/istio/istio/issues/17735)).
+- Fix a bug introduced by [our October 8th security release](/news/security/istio-security-2019-005) which incorrectly calculated HTTP header and body sizes ([Issue 17735](https://github.com/istio/istio/issues/17735)).
 
 - Fix a minor bug where endpoints still remained in /clusters while scaling a deployment to 0 replica ([Issue 14336](https://github.com/istio/istio/issues/14336)).
 

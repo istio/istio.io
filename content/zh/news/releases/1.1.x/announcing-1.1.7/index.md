@@ -6,10 +6,10 @@ description: Istio 1.1.7 patch release.
 publishdate: 2019-05-17
 release: 1.1.7
 aliases:
-    - /zh/about/notes/1.1.7
-    - /zh/blog/2019/announcing-1.1.7
-    - /zh/news/2019/announcing-1.1.7
-    - /zh/news/announcing-1.1.7
+    - /about/notes/1.1.7
+    - /blog/2019/announcing-1.1.7
+    - /news/2019/announcing-1.1.7
+    - /news/announcing-1.1.7
 ---
 
 We're pleased to announce the availability of Istio 1.1.7. Please see below for what's changed.
@@ -18,7 +18,7 @@ We're pleased to announce the availability of Istio 1.1.7. Please see below for 
 
 ## Security update
 
-This release fixes [CVE 2019-12243](/zh/news/security/istio-security-2019-001).
+This release fixes [CVE 2019-12243](/news/security/istio-security-2019-001).
 
 ## Bug fixes
 

@@ -1,49 +1,56 @@
 ---
-title: 故障注入
-description: 此任务说明如何注入故障并测试应用程序的弹性。
+title: Fault Injection
+description: This task shows you how to inject faults to test the resiliency of your application.
 weight: 20
 keywords: [traffic-management,fault-injection]
 aliases:
-    - /zh/docs/tasks/fault-injection.html
+    - /docs/tasks/fault-injection.html
 ---
 
-此任务说明如何注入故障并测试应用程序的弹性。
+This task shows you how to inject faults to test the resiliency of your application.
 
-## 开始之前{#before-you-begin}
+## Before you begin
 
-* 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio 。
+* Set up Istio by following the instructions in the
+  [Installation guide](/docs/setup/).
 
-* 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)，并应用
-  [默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)。
+* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application including the
+  [default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
 
-* 在[流量管理](/zh/docs/concepts/traffic-management) 概念文档中查看有关故障注入的讨论。
+* Review the fault injection discussion in the
+[Traffic Management](/docs/concepts/traffic-management) concepts doc.
 
-* 通过执行[配置请求路由](/zh/docs/tasks/traffic-management/request-routing/)任务或运行以下命令来初始化应用程序版本路由：
+* Apply application version routing by either performing the
+  [request routing](/docs/tasks/traffic-management/request-routing/) task or by
+  running the following commands:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
     {{< /text >}}
 
-* 经过上面的配置，下面是请求的流程：
-    *  `productpage` → `reviews:v2` → `ratings` (针对 `jason` 用户)
-    *  `productpage` → `reviews:v1` (其他用户)
+* With the above configuration, this is how requests flow:
+    *  `productpage` → `reviews:v2` → `ratings` (only for user `jason`)
+    *  `productpage` → `reviews:v1` (for everyone else)
 
-## 注入 HTTP 延迟故障{#injecting-an-http-delay-fault}
+## Injecting an HTTP delay fault
 
-为了测试微服务应用程序 Bookinfo 的弹性，我们将为用户 `jason` 在 `reviews:v2` 和 `ratings` 服务之间注入一个 7 秒的延迟。
-这个测试将会发现一个故意引入 Bookinfo 应用程序中的 bug。
+To test the Bookinfo application microservices for resiliency, inject a 7s delay
+between the `reviews:v2` and `ratings` microservices for user `jason`. This test
+will uncover a bug that was intentionally introduced into the Bookinfo app.
 
-注意 `reviews:v2` 服务对 `ratings` 服务的调用具有 10 秒的硬编码连接超时。
-因此，尽管引入了 7 秒的延迟，我们仍然期望端到端的流程是没有任何错误的。
+Note that the `reviews:v2` service has a 10s hard-coded connection timeout for
+calls to the `ratings` service. Even with the 7s delay that you introduced, you
+still expect the end-to-end flow to continue without any errors.
 
-1. 创建故障注入规则以延迟来自测试用户 `jason` 的流量：
+1.  Create a fault injection rule to delay traffic coming from the test user
+`jason`.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml@
     {{< /text >}}
 
-1. 确认规则已经创建：
+1. Confirm the rule was created:
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
@@ -75,71 +82,82 @@ aliases:
             subset: v1
     {{< /text >}}
 
-    新的规则可能需要几秒钟才能传播到所有的 pod 。
+    Allow several seconds for the new rule to propagate to all pods.
 
-## 测试延迟配置{#testing-the-delay-configuration}
+## Testing the delay configuration
 
-1. 通过浏览器打开 [Bookinfo](/zh/docs/examples/bookinfo) 应用。
+1. Open the [Bookinfo](/docs/examples/bookinfo) web application in your browser.
 
-1. 使用用户 `jason` 登陆到 `/productpage` 页面。
+1. On the `/productpage` web page, log in as user `jason`.
 
-    你期望 Bookinfo 主页在大约 7 秒钟加载完成并且没有错误。
-    但是，出现了一个问题：Reviews 部分显示了错误消息：
+    You expect the Bookinfo home page to load without errors in approximately
+    7 seconds. However, there is a problem: the Reviews section displays an error
+    message:
 
     {{< text plain >}}
     Error fetching product reviews!
     Sorry, product reviews are currently unavailable for this book.
     {{< /text >}}
 
-1. 查看页面的响应时间：
+1. View the web page response times:
 
-    1. 打开浏览器的 *开发工具* 菜单
-    1. 打开 *网络* 标签
-    1. 重新加载 `productpage` 页面。你会看到页面加载实际上用了大约 6s。
+    1. Open the *Developer Tools* menu in you web browser.
+    1. Open the Network tab
+    1. Reload the `/productpage` web page. You will see that the page actually loads in about 6 seconds.
 
-## 理解原理{#understanding-what-happened}
+## Understanding what happened
 
-你发现了一个 bug。微服务中有硬编码超时，导致 `reviews` 服务失败。
+You've found a bug. There are hard-coded timeouts in the microservices that have
+caused the `reviews` service to fail.
 
-按照预期，我们引入的 7 秒延迟不会影响到 `reviews` 服务，因为 `reviews` 和 `ratings` 服务间的超时被硬编码为 10 秒。
-但是，在 `productpage` 和 `reviews` 服务之间也有一个 3 秒的硬编码的超时，再加 1 次重试，一共 6 秒。
-结果，`productpage` 对 `reviews` 的调用在 6 秒后提前超时并抛出错误了。
+As expected, the 7s delay you introduced doesn't affect the `reviews` service
+because the timeout between the `reviews` and `ratings` service is hard-coded at 10s.
+However, there is also a hard-coded timeout between the `productpage` and the `reviews` service,
+coded as 3s + 1 retry for 6s total.
+As a result, the `productpage` call to `reviews` times out prematurely and throws an error after 6s.
 
-这种类型的错误可能发生在典型的由不同的团队独立开发不同的微服务的企业应用程序中。
-Istio 的故障注入规则可以帮助您识别此类异常，而不会影响最终用户。
+Bugs like this can occur in typical enterprise applications where different teams
+develop different microservices independently. Istio's fault injection rules help you identify such anomalies
+without impacting end users.
 
 {{< tip >}}
-请注意，此次故障注入限制为仅影响用户 `jason`。如果您以任何其他用户身份登录，则不会遇到任何延迟。
+Notice that the fault injection test is restricted to when the logged in user is
+`jason`. If you login as any other user, you will not experience any delays.
 {{< /tip >}}
 
-## 错误修复{#fixing-the-bug}
+## Fixing the bug
 
-这种问题通常会这么解决：
+You would normally fix the problem by:
 
-1. 增加 `productpage` 与 `reviews` 服务之间的超时或降低 `reviews` 与 `ratings` 的超时
-1. 终止并重启修复后的微服务
-1. 确认 `/productpage` 页面正常响应且没有任何错误
+1. Either increasing the `productpage` to `reviews` service timeout or decreasing the `reviews` to `ratings` timeout
+1. Stopping and restarting the fixed microservice
+1. Confirming that the `/productpage` web page returns its response without any errors.
 
-但是，`reviews` 服务的 v3 版本已经修复了这个问题。
-`reviews:v3` 服务已将 `reviews` 与 `ratings` 的超时时间从 10 秒降低为 2.5 秒，因此它可以兼容（小于）下游的 `productpage` 的请求。
+However, you already have a fix running in v3 of the `reviews` service.
+The `reviews:v3` service reduces the `reviews` to `ratings` timeout from 10s to 2.5s
+so that it is compatible with (less than) the timeout of the downstream `productpage` requests.
 
-如果您按照[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)任务所述将所有流量转移到 `reviews:v3`，
-您可以尝试修改延迟规则为任何低于 2.5 秒的数值，例如 2 秒，然后确认端到端的流程没有任何错误。
+If you migrate all traffic to `reviews:v3` as described in the
+[traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task, you can then
+try to change the delay rule to any amount less that 2.5s, for example 2s, and confirm
+that the end-to-end flow continues without any errors.
 
-## 注入 HTTP abort 故障{#injecting-an-http-abort-fault}
+## Injecting an HTTP abort fault
 
-测试微服务弹性的另一种方法是引入 HTTP abort 故障。
-这个任务将给 `ratings` 微服务为测试用户 `jason` 引入一个 HTTP abort。
+Another way to test microservice resiliency is to introduce an HTTP abort fault.
+In this task, you will introduce an HTTP abort to the `ratings` microservices for
+the test user `jason`.
 
-在这种情况下，我们希望页面能够立即加载，同时显示 `Ratings service is currently unavailable` 这样的消息。
+In this case, you expect the page to load immediately and display the `Ratings
+service is currently unavailable` message.
 
-1. 为用户 `jason` 创建一个发送 HTTP abort 的故障注入规则：
+1.  Create a fault injection rule to send an HTTP abort for user `jason`:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-test-abort.yaml@
     {{< /text >}}
 
-1. 确认规则已经创建：
+1. Confirm the rule was created:
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
@@ -171,24 +189,28 @@ Istio 的故障注入规则可以帮助您识别此类异常，而不会影响�
             subset: v1
     {{< /text >}}
 
-## 测试中止配置{#testing-the-abort-configuration}
+## Testing the abort configuration
 
-1. 用浏览器打开 [Bookinfo](/zh/docs/examples/bookinfo) 应用。
+1. Open the [Bookinfo](/docs/examples/bookinfo) web application in your browser.
 
-1. 使用用户 `jason` 登陆到 `/productpage` 页面。
+1. On the `/productpage`, log in as user `jason`.
 
-    如果规则成功传播到所有的 pod，您应该能立即看到页面加载并看到 `Ratings service is currently unavailable` 消息。
+    If the rule propagated successfully to all pods, the page loads
+    immediately and the `Ratings service is currently unavailable` message appears.
 
-1. 如果您注销用户 `jason` 或在匿名窗口（或其他浏览器）中打开 Bookinfo 应用程序，
-   您将看到 `/productpage` 为除 `jason` 以外的其他用户调用了 `reviews:v1`（完全不调用 `ratings`）。
-   因此，您不会看到任何错误消息。
+1. If you log out from user `jason` or open the Bookinfo application in an anonymous
+   window (or in another browser), you will see that `/productpage` still calls `reviews:v1`
+   (which does not call `ratings` at all) for everybody but `jason`. Therefore you
+   will not see any error message.
 
-## 清理{#cleanup}
+## Cleanup
 
-1. 删除应用程序路由规则：
+1. Remove the application routing rules:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。
+1. If you are not planning to explore any follow-on tasks, refer to the
+[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+to shutdown the application.

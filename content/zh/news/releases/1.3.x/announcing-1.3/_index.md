@@ -7,10 +7,10 @@ publishdate: 2019-09-12
 release: 1.3.0
 skip_list: true
 aliases:
-    - /zh/blog/2019/announcing-1.3
-    - /zh/news/2019/announcing-1.3
-    - /zh/news/announcing-1.3.0
-    - /zh/news/announcing-1.3
+    - /blog/2019/announcing-1.3
+    - /news/2019/announcing-1.3
+    - /news/announcing-1.3.0
+    - /news/announcing-1.3
 ---
 
 We are pleased to announce the release of Istio 1.3!
@@ -51,7 +51,7 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
 
 ## Other enhancements
 
-- `istioctl` gained many debugging features to help you highlight various issues in your mesh installation. Checkout the `istioctl` [reference page](/zh/docs/reference/commands/istioctl/) for the set of all supported features.
+- `istioctl` gained many debugging features to help you highlight various issues in your mesh installation. Checkout the `istioctl` [reference page](/docs/reference/commands/istioctl/) for the set of all supported features.
 
 - Locality aware load balancing graduated from experimental to default in this release too. Istio now takes advantage of existing locality information to prioritize load balancing pools and favor sending requests to the closest backends.
 
@@ -64,9 +64,9 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
     - Added a new Grafana dashboard for Citadel
     - Improved the Pilot dashboard to expose additional key metrics
 
-- Added the new [Istio Deployment Models concept](/zh/docs/ops/prep/deployment-models/) to help you decide what deployment model suits your needs.
+- Added the new [Istio Deployment Models concept](/docs/ops/deployment/deployment-models/) to help you decide what deployment model suits your needs.
 
-- Organized the content in of our [Operations Guide](/zh/docs/ops/) and created a [section with all troubleshooting tasks](/zh/docs/ops/common-problems) to help you find the information you seek faster.
+- Organized the content in of our [Operations Guide](/docs/ops/) and created a [section with all troubleshooting tasks](/docs/ops/common-problems) to help you find the information you seek faster.
 
 As always, there is a lot happening in the [Community Meeting](https://github.com/istio/community#community-meeting); join us every other Thursday at 11 AM Pacific.
 

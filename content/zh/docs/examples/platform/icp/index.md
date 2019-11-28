@@ -4,14 +4,14 @@ description: Example multicluster mesh over two IBM Cloud Private clusters.
 weight: 70
 keywords: [kubernetes,multicluster]
 aliases:
-    - /zh/docs/tasks/multicluster/icp/
-    - /zh/docs/examples/multicluster/icp/
+    - /docs/tasks/multicluster/icp/
+    - /docs/examples/multicluster/icp/
 ---
 
 This example demonstrates how to setup network connectivity between two
 [IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
 and then compose them into a multicluster mesh using a
-[single-network deployment](/zh/docs/ops/prep/deployment-models/#single-network).
+[single-network deployment](/docs/ops/deployment/deployment-models/#single-network).
 
 ## Create the IBM Cloud Private clusters
 
@@ -148,14 +148,14 @@ across all nodes in the two IBM Cloud Private Clusters.
 
 ## Install Istio for multicluster
 
-Follow the [single-network shared control plane instructions](/zh/docs/setup/install/multicluster/shared-vpn/) to install and configure
+Follow the [single-network shared control plane instructions](/docs/setup/install/multicluster/shared-vpn/) to install and configure
 local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
 
 In this guide, it is assumed that the local Istio control plane is deployed in `cluster-1`, while the Istio remote is deployed in `cluster-2`.
 
 ## Deploy the Bookinfo example across clusters
 
-The following example enables [automatic sidecar injection](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+The following example enables [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
 
 1.  Install `bookinfo` on the first cluster `cluster-1`. Remove the `reviews-v3` deployment which will be deployed on cluster `cluster-2` in the following step:
 
@@ -237,7 +237,7 @@ The following example enables [automatic sidecar injection](/zh/docs/setup/addit
     service address. This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
     in a federated Kubernetes environment.
 
-1.  [Determine the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)
+1.  [Determine the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
     for `istio-ingressgateway`'s `INGRESS_HOST` and `INGRESS_PORT` variables to access the gateway.
 
     Access `http://<INGRESS_HOST>:<INGRESS_PORT>/productpage` repeatedly and each version of `reviews` should be equally load balanced,

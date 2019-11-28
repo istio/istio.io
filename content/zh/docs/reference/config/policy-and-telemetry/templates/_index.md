@@ -1,13 +1,13 @@
 ---
-title: 模板
-description: Mixer 模板用于将数据发送到各个适配器。
+title: Templates
+description: Mixer templates are used to send data to individual adapters.
 weight: 50
 aliases:
-    - /zh/docs/reference/config/template/index.html
+    - /docs/reference/config/template/index.html
 ---
 
-## 适配器
+## Adapters
 
-下表显示了实现每个受支持模板的[适配器](/zh/docs/reference/config/policy-and-telemetry/adapters)集。
+The table below shows the set of [adapters](/docs/reference/config/policy-and-telemetry/adapters) that implement each supported template.
 
 {{< template_table >}}

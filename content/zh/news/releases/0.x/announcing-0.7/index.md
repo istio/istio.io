@@ -6,10 +6,10 @@ description: Istio 0.7 announcement.
 publishdate: 2018-03-28
 release: 0.7.0
 aliases:
-    - /zh/about/notes/0.7
-    - /zh/about/notes/0.7/index.html
-    - /zh/news/2018/announcing-0.7
-    - /zh/news/announcing-0.7
+    - /about/notes/0.7
+    - /about/notes/0.7/index.html
+    - /news/2018/announcing-0.7
+    - /news/announcing-0.7
 ---
 
 For this release, we focused on improving our build and test infrastructures and increasing the
@@ -24,5 +24,5 @@ change in 0.8 and beyond.
 
 Known Issues:
 
-Our [Helm chart](/zh/docs/setup/install/helm)
+Our [Helm chart](/docs/setup/install/helm)
 currently requires some workaround to apply the chart correctly, see [4701](https://github.com/istio/istio/issues/4701) for details.

@@ -1,69 +1,91 @@
 ---
-title: 基于组和列表声明的授权
-description: 有关如何在 Istio 中配置基于组的授权和列表类型声明的授权的教程。
-weight: 10
+title: Authorization for groups and list claims
+description: Tutorial on how to configure the groups-base authorization and configure the authorization of list-typed claims in Istio.
+weight: 30
 keywords: [security,authorization]
 aliases:
-    - /zh/docs/tasks/security/rbac-groups/
+    - /docs/tasks/security/rbac-groups/
 ---
 
-本教程将向您介绍在 Istio 中配置基于组的授权和列表类型声明的授权的示例。
+This tutorial walks you through examples to configure the groups-base
+authorization and the authorization of list-typed claims in Istio.
 
-## 开始之前{#before-you-begin}
+## Before you begin
 
-* 阅读[授权](/zh/docs/concepts/security/#authorization)概念并阅读有关如何[配置 Istio 授权](/zh/docs/concepts/security/#authorization)的指南。
+* Read the [authorization](/docs/concepts/security/#authorization) concept
+and go through the guide on how to
+[configure Istio authorization](/docs/tasks/security/authorization/authz-http).
 
-* 阅读 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)概念。
+* Read the Istio
+[authentication policy](/docs/concepts/security/#authentication-policies)
+and the related
+[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication)
+concepts.
 
-* 创建一个安装了 Istio 并启用了双向 TLS 的 Kubernetes 集群。要满足此先决条件，您可以按照 Kubernetes [安装说明](/zh/docs/setup/install/istioctl/)进行操作。
+* Follow the [Istio installation guide](/docs/setup/install/istioctl/)
+to install Istio with mutual TLS enabled.
 
-## 设置所需的命名空间和服务{#setup-the-required-namespace-and-services}
+## Setup the required namespace and workloads
 
-本教程在一个名为 `rbac-groups-test-ns` 的新命名空间中运行，该命名空间有两个服务，`httpbin` 和 `sleep`，两者都各自附带一个 Envoy sidecar 代理。使用以下命令来设置环境变量以存储命名空间的名称，创建命名空间，并启动这两个服务。
-在运行以下命令之前，您需要输入包含 Istio 安装文件的目录。
+This tutorial runs in a new namespace called `authz-groups-test-ns`,
+with two workloads, `httpbin` and `sleep`, both running with an Envoy sidecar
+proxy. The following command sets an environmental variable to store the
+name of the namespace, creates the namespace, and starts the two workloads.
+Before running the following command, you need to enter the directory
+containing the Istio installation files.
 
-1.  将 `NS` 环境变量的值设置为 `rbac-listclaim-test-ns`：
+1.  Set the value of the `NS` environmental variable to `authz-groups-test-ns`:
 
     {{< text bash >}}
     $ export NS=authz-groups-test-ns
     {{< /text >}}
 
-1.  确保 `NS` 环境变量指向一个完全用于测试的命名空间。运行以下命令删除 `NS` 环境变量指向的命名空间中的所有资源。
+1.  Make sure that the `NS` environmental variable points to a testing-only
+namespace. Run the following command to delete all resources in the namespace
+pointed by the `NS` environmental variable.
 
     {{< text bash >}}
     $ kubectl delete namespace $NS
     {{< /text >}}
 
-1.  为本教程创建命名空间：
+1.  Create the namespace for this tutorial:
 
     {{< text bash >}}
     $ kubectl create ns $NS
     {{< /text >}}
 
-1.  创建 `httpbin` 和 `sleep` 服务和部署：
+1.  Create the `httpbin` and `sleep` workloads and deployments:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n $NS
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n $NS
     {{< /text >}}
 
-1.  要验证 `httpbin` 和 `sleep` 服务是否正在运行并且 `sleep` 能够访问 `httpbin`，请运行以下 curl 命令：
+1.  To verify that `httpbin` and `sleep` workloads are running and `sleep` is able to
+    reach `httpbin`, run the following curl command:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n"
     {{< /text >}}
 
-    当命令成功时，它返回 HTTP 状态码为 200。
+    When the command succeeds, it returns the HTTP code 200.
 
-## 使用双向 TLS 配置 JSON Web 令牌（JWT）认证{#configure-json-web-token-JWT-authentication-with-mutual-TLS}
+## Configure JSON Web Token (JWT) authentication with mutual TLS
 
-您接下来应用的认证策略会强制要求访问 `httpbin` 服务需要具备有效的 JWT。
-策略中定义的 JSON Web 密钥集（ JWKS ）端点必须对 JWT 进行签名。
-本教程使用 Istio 代码库中的 [JWKS 端点]({{< github_file >}}/security/tools/jwt/samples/jwks.json)并使用[此示例 JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt)。
-示例 JWT 包含一个标识为 `groups` 的声明键和一个 [`"group1"`，`"group2"`] 字符串列表的声明值。
-JWT 声明值可以是字符串或字符串列表；两种类型都支持。
+The authentication policy you apply next enforces that a valid JWT is needed to
+access the `httpbin` workload.
+The JSON Web Key Set (JWKS) endpoint defined in the policy must sign the JWT.
+This tutorial uses the
+[JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json)
+from the Istio code base and uses
+[this sample JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt).
+The sample JWT contains a JWT claim with a `groups` claim key and a list of
+strings, [`"group1"`, `"group2"`] as the claim value.
+The JWT claim value could either be a string or a list of strings; both types
+are supported.
 
-1.  应用认证策略同时需要双向 TLS 和 `httpbin` 服务的 JWT 认证。
+1.  Apply an authentication policy to require both mutual TLS and
+JWT authentication for `httpbin`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
@@ -84,7 +106,8 @@ JWT 声明值可以是字符串或字符串列表；两种类型都支持。
     EOF
     {{< /text >}}
 
-1.  在 `sleep` 中应用 `DestinationRule` 策略以使用双向 TLS 与 `httpbin` 通信。
+1.  Apply a `DestinationRule` policy on `sleep` to use mutual TLS when
+communicating with `httpbin`.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
@@ -100,34 +123,39 @@ JWT 声明值可以是字符串或字符串列表；两种类型都支持。
     EOF
     {{< /text >}}
 
-1.  设置 `TOKEN` 环境变量以包含有效的示例 JWT。
+1.  Set the `TOKEN` environmental variable to contain a valid sample JWT.
 
     {{< text bash >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s)
     {{< /text >}}
 
-1.  连接到 `httpbin` 服务：
+1.  Connect to the `httpbin` workload:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    当附加的 JWT 有效时，它返回 HTTP 状态码为 200。
+    When a valid JWT is attached, it returns the HTTP code 200.
 
-1.  当没有附加 JWT 时，验证与 `httpbin` 服务的连接是否失败：
+1.  Verify that the connection to the `httpbin` workload fails when the JWT is not attached:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n"
     {{< /text >}}
 
-    当没有附加有效的 JWT 时，它返回 HTTP 状态码为 401。
+    When no valid JWT is attached, it returns the HTTP code 401.
 
-## 配置基于组的授权{#configure-groups-based-authorization}
+## Configure groups-based authorization
 
-本节创建一个策略授权来自特定组的请求访问 `httpbin` 服务。
-由于缓存和其他传播开销可能会有一些延迟，因此请等待新定义的 RBAC 策略生效。
+This section creates a policy to authorize the access to the `httpbin`
+workload if the requests are originated from specific groups.
+As there may be some delays due to caching and other propagation overhead,
+wait until the newly defined authorization policy to take effect.
 
-1.  为命名空间启用 Istio RBAC：
+1. Run the following command to create a `deny-all` policy in the `default` namespace.
+   The policy doesn't have a `selector` field, which applies the policy to every workload in the
+   `$NS` namespace. The `spec:` field of the policy has the empty value `{}`.
+   The empty value means that no traffic is permitted, effectively denying all requests.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
@@ -140,15 +168,18 @@ JWT 声明值可以是字符串或字符串列表；两种类型都支持。
     EOF
     {{< /text >}}
 
-1.  一旦 RBAC 策略生效，验证 Istio 是否拒绝了与 `httpbin` 服务的 curl 连接：
+1.  Once the policy takes effect, verify that Istio rejected the curl
+connection to the `httpbin` workload:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    一旦 RBAC 策略生效，该命令返回 HTTP 状态码为 403。
+    Once the policy takes effect, the command returns the HTTP code 403.
 
-1.  要提供对 `httpbin` 服务的读访问权，请创建 `httpbin-viewer` 服务角色：
+1.  To give read access to the `httpbin` workload, create the `httpbin-viewer`
+policy that applies to workload with label `app: httpbin` and allows users in
+`group1` to access it with `GET` method:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
@@ -170,63 +201,31 @@ JWT 声明值可以是字符串或字符串列表；两种类型都支持。
     EOF
     {{< /text >}}
 
-1.  要将 `httpbin-viewer` 角色分配给 `group1` 中的用户，请创建 `bind-httpbin-viewer` 服务角色绑定。
+    Wait for the newly defined policy to take effect.
 
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -n $NS -f -
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-httpbin-viewer
-      namespace: rbac-groups-test-ns
-    spec:
-      subjects:
-      - properties:
-          request.auth.claims[groups]: "group1"
-      roleRef:
-        kind: ServiceRole
-        name: "httpbin-viewer"
-    EOF
-    {{< /text >}}
-
-    或者，您可以在 `subject` 下指定 `group` 属性。指定组的两种方式都是等效的。目前，Istio 仅支持与在 JWT 中的 `request.auth.claims` 属性和 `subject` 下的 `group` 属性进行字符串列表匹配。
-
-    指定 `subject` 下的 `group` 属性，请使用以下命令：
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -n $NS -f -
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ServiceRoleBinding
-    metadata:
-      name: bind-httpbin-viewer
-      namespace: rbac-groups-test-ns
-    spec:
-      subjects:
-      - group: "group1"
-      roleRef:
-        kind: ServiceRole
-        name: "httpbin-viewer"
-    EOF
-    {{< /text >}}
-
-    等待新定义的 RBAC 策略生效。
-
-1.  RBAC 策略生效后，验证与 `httpbin` 服务的连接是否成功：
+1.  After the policy takes effect, verify the connection to the `httpbin`
+workload succeeds:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    HTTP Header 包含一个有效的 JWT，其 `groups` 声明值为[`"group1"`，`"group2"`]，因为它包含 `group1`，所以返回 HTTP 状态码为 200。
+    The HTTP header including a valid JWT with the `groups` claim
+    value of [`"group1"`, `"group2"`] returns HTTP code 200
+    since it contains `group1`.
 
-## 配置列表类型声明的授权{#configure-the-authorization-of-list-typed-claims}
+## Configure the authorization of list-typed claims
 
-Istio RBAC 支持配置列表类型声明的授权。
-示例中的 JWT 包含一个带有标识为 `scope` 的声明键和一个 [`"scope1"`，`"scope2"`] 字符串列表作为其声明值。
-您可以使用 `gen-jwt` [python 脚本]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py)生成带有其他列表类型声明的 JWT 进行测试。
-按照 `gen-jwt` 脚本中的说明使用 `gen-jwt.py` 文件。
+Istio supports configuring the authorization of list-typed claims.
+The example JWT contains a JWT claim with a `scope` claim key and
+a list of strings, [`"scope1"`, `"scope2"`] as the claim value.
+You may use the `gen-jwt`
+[python script]({{<github_file>}}/security/tools/jwt/samples/gen-jwt.py)
+to generate a JWT with other list-typed claims for testing purposes.
+Follow the instructions in the `gen-jwt` script to use the `gen-jwt.py` file.
 
-1.  要将 `httpbin-viewer` 角色分配给一个附加 JWT 其中包含值为 `scope1` 的列表类型 `scope` 声明的请求，请创建名为 `bind-httpbin-viewer` 的服务角色进行绑定：
+1.  To allow requests with a JWT including a list-typed `scope` claim with the value of `scope1`,
+update the policy `httpbin-viewer` with the following command:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n $NS -f -
@@ -248,19 +247,23 @@ Istio RBAC 支持配置列表类型声明的授权。
     EOF
     {{< /text >}}
 
-    等待新定义的 RBAC 策略生效。
+    Wait for the newly defined policy to take effect.
 
-1.  RBAC 策略生效后，验证与 `httpbin` 服务的连接是否成功：
+1.  After the policy takes effect, verify that the connection to
+the `httpbin` workload succeeds:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n $NS -o jsonpath={.items..metadata.name}) -c sleep -n $NS -- curl http://httpbin.$NS:8000/ip -s -o /dev/null -w "%{http_code}\n" --header "Authorization: Bearer $TOKEN"
     {{< /text >}}
 
-    HTTP Header 包含一个有效的 JWT，`scope` 的声明值为[`"scope1"`，`"scope2"`]，因为它包含 `scope1`， 所以返回 HTTP 状态码为 200。
+    The HTTP header including a valid JWT with the `scope` claim
+    value of [`"scope1"`, `"scope2"`] returns HTTP code 200
+    since it contains `scope1`.
 
-## 清理{#cleanup}
+## Cleanup
 
-完成本教程后，运行以下命令删除在命名空间中创建的所有资源。
+After completing this tutorial, run the following command to delete all
+resources created in the namespace.
 
 {{< text bash >}}
 $ kubectl delete namespace $NS

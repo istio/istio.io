@@ -11,7 +11,8 @@ Citadel uses a flag `max-workload-cert-ttl` to control the maximum lifetime for 
 workloads. The default value is 90 days. If `workload-cert-ttl` on Citadel or node agent is greater than
 `max-workload-cert-ttl`, Citadel will fail issuing the certificate.
 
-Modify the `istio-demo.yaml` file to customize the Citadel configuration.
+You can modify a [generated manifest](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
+file to customize the Citadel configuration.
 The following modification specifies that the Istio certificates for workloads running in Kubernetes
 has 1 hours lifetime. Besides that, the maximum allowed Istio certificate lifetime is 48 hours.
 
@@ -41,7 +42,7 @@ For the workloads running on VMs and bare metal hosts, the lifetime of their Ist
 `max-workload-cert-ttl` of Citadel.
 
 To customize this configuration, the argument for the node agent service should be modified.
-After [setting up the machines](/zh/docs/examples/virtual-machines/single-network/#setting-up-the-VM) for Istio
+After [setting up the machines](/docs/examples/virtual-machines/single-network/#setting-up-the-vm) for Istio
 mesh expansion, modify the file `/lib/systemd/system/istio-auth-node-agent.service` on the VMs or bare metal hosts:
 
 {{< text plain >}}

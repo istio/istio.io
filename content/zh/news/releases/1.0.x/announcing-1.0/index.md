@@ -6,11 +6,11 @@ description: Istio is ready for production use with its 1.0 release.
 publishdate: 2018-07-31
 release: 1.0.0
 aliases:
-    - /zh/about/notes/1.0
-    - /zh/blog/2018/announcing-1.0
-    - /zh/news/2018/announcing-1.0
-    - /zh/news/announcing-1.0.0
-    - /zh/news/announcing-1.0
+    - /about/notes/1.0
+    - /blog/2018/announcing-1.0
+    - /news/2018/announcing-1.0
+    - /news/announcing-1.0.0
+    - /news/announcing-1.0
 ---
 
 Today, we’re excited to announce Istio 1.0! It’s been a little over a year since our initial 0.1 release. Since then, Istio has evolved significantly with the help of a thriving and growing community of contributors and users. We’ve now reached the point where many companies have successfully adopted Istio in production and have gotten real value from the insight and control it provides over their deployments. We’ve helped large enterprises and fast-moving startups like [eBay](https://www.ebay.com/), [Auto Trader UK](https://www.autotrader.co.uk/), [Descartes Labs](http://www.descarteslabs.com/), [HP FitStation](https://www.fitstation.com/), [JUSPAY](https://juspay.in), [Namely](https://www.namely.com/), [PubNub](https://www.pubnub.com/) and [Trulia](https://www.trulia.com/) use Istio to connect, manage and secure their services from the ground up. Shipping this release as 1.0 is recognition that we’ve built a core set of functionality that our users can rely on for production use.
@@ -31,18 +31,18 @@ and [Styra](https://styra.com/) built extensions to our policy enforcement and n
 Since the 0.8 release we’ve added some important new features and more importantly marked many of our existing features as Beta signaling that they’re ready for production use.
 Here are some highlights:
 
-- Multiple Kubernetes clusters can now be [added to a single mesh](/zh/docs/setup/install/multicluster/) and enabling cross-cluster communication and consistent policy enforcement. Multicluster support is now Beta.
+- Multiple Kubernetes clusters can now be [added to a single mesh](/docs/setup/install/multicluster/) and enabling cross-cluster communication and consistent policy enforcement. Multicluster support is now Beta.
 
-- Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/zh/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
+- Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
 
-- Mutual TLS can now be [rolled out incrementally](/zh/docs/tasks/security/authentication/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
+- Mutual TLS can now be [rolled out incrementally](/docs/tasks/security/authentication/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
 
 - Mixer now has support for [developing out-of-process adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide). This will become the default way to extend Mixer over the coming releases and makes building adapters much simpler.
 
-- [Authorization policies](/zh/docs/concepts/security/#authorization) which control access to services are now entirely evaluated locally in Envoy increasing
+- [Authorization policies](/docs/concepts/security/#authorization) which control access to services are now entirely evaluated locally in Envoy increasing
 their performance and reliability.
 
-- [Helm chart installation](/zh/docs/setup/install/helm/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
+- [Helm chart installation](/docs/setup/install/helm/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
 
 - We’ve put a lot of effort into performance including continuous regression testing, large scale environment simulation and targeted fixes. We’re very happy with the results and will share more on this in detail in the coming weeks.
 
@@ -52,9 +52,9 @@ While this is a significant milestone for the project there’s lots more to do.
 
 ## Getting started
 
-If you’re new to Istio and looking to use it for your deployment we’d love to hear from you. Take a look at [our docs](/zh/docs/) or stop by our
+If you’re new to Istio and looking to use it for your deployment we’d love to hear from you. Take a look at [our docs](/docs/) or stop by our
 [chat forum](https://discuss.istio.io). If you’d like
-to go deeper and [contribute to the project](/zh/about/community) come to one of our community meetings and say hello.
+to go deeper and [contribute to the project](/about/community) come to one of our community meetings and say hello.
 
 ## Thanks
 
@@ -65,7 +65,7 @@ The Istio team would like to give huge thanks to everyone who has made a contrib
 ### Networking
 
 - **SNI Routing using Virtual Services**. Newly introduced `TLS` sections in
-[`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) can be used to route TLS traffic
+[`VirtualService`](/docs/reference/config/networking/virtual-service/) can be used to route TLS traffic
 based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with
 virtual service TLS routes. TLS/HTTPS ports without an accompanying virtual service will be treated as opaque TCP.
 
@@ -74,11 +74,11 @@ virtual service TLS routes. TLS/HTTPS ports without an accompanying virtual serv
 - **Old (v1alpha1) Networking APIs Removed**. Support for the old `v1alpha1` traffic management model
 has been removed.
 
-- **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use [gateways](/zh/docs/concepts/traffic-management/#gateways) instead.
+- **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use [gateways](/docs/concepts/traffic-management/#gateways) instead.
 
 ### Policy and telemetry
 
-- **Updated Attributes**. The set of [attributes](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
+- **Updated Attributes**. The set of [attributes](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
 destination of traffic have been completely revamped in order to be more
 precise and comprehensive.
 
@@ -103,27 +103,27 @@ in addition to the server-side telemetry.
 
 - **SignalFX**. There is a new `signalfx` adapter.
 
-- **Stackdriver**. The [`stackdriver`](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
+- **Stackdriver**. The [`stackdriver`](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
 release to add new features and improve performance.
 
 ### Security
 
-- **Authorization**. We've reimplemented our [authorization functionality](/zh/docs/concepts/security/#authorization).
+- **Authorization**. We've reimplemented our [authorization functionality](/docs/concepts/security/#authorization).
 RPC-level authorization policies can now be implemented without the need for Mixer and Mixer adapters.
 
-- **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/zh/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
-[incrementally turn on mutual TLS](/zh/docs/tasks/security/authentication/mtls-migration/) for your services.
-We removed service annotations and have a [unique approach to turn on mutual TLS](/zh/docs/tasks/security/authentication/authn-policy/),
-coupled with client-side [destination rules](/zh/docs/concepts/traffic-management/#destination-rules).
+- **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
+[incrementally turn on mutual TLS](/docs/tasks/security/authentication/mtls-migration/) for your services.
+We removed service annotations and have a [unique approach to turn on mutual TLS](/docs/tasks/security/authentication/authn-policy/),
+coupled with client-side [destination rules](/docs/concepts/traffic-management/#destination-rules).
 
-- **JWT Authentication**. We now support [JWT authentication](/zh/docs/concepts/security/#authentication) which can
-be configured using [authentication policies](/zh/docs/concepts/security/#authentication-policies).
+- **JWT Authentication**. We now support [JWT authentication](/docs/concepts/security/#authentication) which can
+be configured using [authentication policies](/docs/concepts/security/#authentication-policies).
 
 ### `istioctl`
 
-- Added the [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
+- Added the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
 
-- Added the [`istioctl proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) command.
+- Added the [`istioctl proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) command.
 
 - Added the `istioctl experimental convert-ingress` command.
 
@@ -140,11 +140,11 @@ be configured using [authentication policies](/zh/docs/concepts/security/#authen
 ### Known issues with 1.0
 
 - Amazon's EKS service does not implement automatic sidecar injection.  Istio can be used in Amazon's
-  EKS by using [manual injection](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) for
-  sidecars and turning off galley using the [Helm parameter](/zh/docs/setup/install/helm)
+  EKS by using [manual injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) for
+  sidecars and turning off galley using the [Helm parameter](/docs/setup/install/helm)
   `--set galley.enabled=false`.
 
-- In a [multicluster deployment](/zh/docs/setup/install/multicluster) the mixer-telemetry
+- In a [multicluster deployment](/docs/setup/install/multicluster) the mixer-telemetry
   and mixer-policy components do not connect to the Kubernetes API endpoints of any of the remote
   clusters.  This results in a loss of telemetry fidelity as some of the metadata associated
   with workloads on remote clusters is incomplete.

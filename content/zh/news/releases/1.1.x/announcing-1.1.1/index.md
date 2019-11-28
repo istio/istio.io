@@ -6,10 +6,10 @@ description: Istio 1.1.1 patch release.
 publishdate: 2019-03-25
 release: 1.1.1
 aliases:
-    - /zh/about/notes/1.1.1
-    - /zh/blog/2019/announcing-1.1.1
-    - /zh/news/2019/announcing-1.1.1
-    - /zh/news/announcing-1.1.1
+    - /about/notes/1.1.1
+    - /blog/2019/announcing-1.1.1
+    - /news/2019/announcing-1.1.1
+    - /news/announcing-1.1.1
 ---
 
 We're pleased to announce the availability of Istio 1.1.1. Please see below for what's changed.
@@ -19,7 +19,7 @@ We're pleased to announce the availability of Istio 1.1.1. Please see below for 
 ## Bug fixes and minor enhancements
 
 - Configure Prometheus to monitor Citadel ([Issue 12175](https://github.com/istio/istio/pull/12175))
-- Improve output of [`istioctl verify-install`](/zh/docs/reference/commands/istioctl/#istioctl-verify-install) command ([Issue 12174](https://github.com/istio/istio/pull/12174))
+- Improve output of [`istioctl verify-install`](/docs/reference/commands/istioctl/#istioctl-verify-install) command ([Issue 12174](https://github.com/istio/istio/pull/12174))
 - Reduce log level for missing service account messages for a SPIFFE URI ([Issue 12108](https://github.com/istio/istio/issues/12108))
 - Fix broken path on the opt-in SDS feature's Unix domain socket ([Issue 12688](https://github.com/istio/istio/pull/12688))
 - Fix Envoy tracing that was preventing a child span from being created if the parent span was propagated with an empty string ([Envoy Issue 6263](https://github.com/envoyproxy/envoy/pull/6263))

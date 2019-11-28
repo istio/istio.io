@@ -1,5 +1,5 @@
 ---
 title: Ingress
-description: 控制 Istio 服务网格的入口流量。
+description: Controlling ingress traffic for an Istio service mesh.
 weight: 70
 ---

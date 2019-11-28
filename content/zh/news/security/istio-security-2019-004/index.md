@@ -33,7 +33,7 @@ If Istio terminates externally originated HTTP then it is vulnerable.   If Istio
 
 ## Mitigation
 
-* For Istio 1.1.x deployments: update to a [Istio 1.1.13](/zh/news/releases/1.1.x/announcing-1.1.13) or later.
-* For Istio 1.2.x deployments: update to a [Istio 1.2.4](/zh/news/releases/1.2.x/announcing-1.2.4) or later.
+* For Istio 1.1.x deployments: update to a [Istio 1.1.13](/news/releases/1.1.x/announcing-1.1.13) or later.
+* For Istio 1.2.x deployments: update to a [Istio 1.2.4](/news/releases/1.2.x/announcing-1.2.4) or later.
 
 {{< boilerplate "security-vulnerability" >}}

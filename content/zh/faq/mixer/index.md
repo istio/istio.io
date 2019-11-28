@@ -6,5 +6,5 @@ weight: 40
 layout: faq
 icon: faq
 aliases:
-  - /zh/help/faq/mixer
+  - /help/faq/mixer
 ---

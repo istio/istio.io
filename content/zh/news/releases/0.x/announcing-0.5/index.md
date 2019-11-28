@@ -6,10 +6,10 @@ description: Istio 0.5 announcement.
 publishdate: 2018-02-02
 release: 0.5.0
 aliases:
-    - /zh/about/notes/older/0.5
-    - /zh/about/notes/0.5/index.html
-    - /zh/news/2018/announcing-0.5
-    - /zh/news/announcing-0.5
+    - /about/notes/older/0.5
+    - /about/notes/0.5/index.html
+    - /news/2018/announcing-0.5
+    - /news/announcing-0.5
 ---
 
 In addition to the usual pile of bug fixes and performance improvements, this release includes the new or
@@ -27,7 +27,7 @@ information on customized Istio deployments.
 [mutating webhook feature](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#api-machinery) to provide automatic
 pod-level proxy injection. Automatic injection requires Kubernetes 1.9 or beyond and
 therefore doesn't work on older versions. The alpha initializer mechanism is no longer supported.
-[Learn more](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+[Learn more](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 
 - **Revised Traffic Rules**. Based on user feedback, we have made significant changes to Istio's traffic management
 (routing rules, destination rules, etc.). We would love your continuing feedback while we polish this in the coming weeks.
@@ -38,10 +38,10 @@ therefore doesn't work on older versions. The alpha initializer mechanism is no 
 providing a flexible fine-grained access control mechanism. [Learn more](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA)
 
 - **Istio RBAC**. Mixer now has a role-based access control adapter.
-[Learn more](/zh/docs/concepts/security/#authorization)
+[Learn more](/docs/concepts/security/#authorization)
 
 - **Fluentd**. Mixer now has an adapter for log collection through [Fluentd](https://www.fluentd.org).
-[Learn more](/zh/docs/tasks/observability/logs/fluentd/)
+[Learn more](/docs/tasks/observability/logs/fluentd/)
 
 - **Stdio**. The stdio adapter now lets you log to files with support for log rotation & backup, along with a host
 of controls.
@@ -49,12 +49,12 @@ of controls.
 ## Security
 
 - **Bring Your Own CA**. There have been many enhancements to the 'bring your own CA' feature.
-[Learn more](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/)
+[Learn more](/docs/tasks/security/citadel-config/plugin-ca-cert/)
 
 - **PKCS8**. Add support for PKCS8 keys to Istio PKI.
 
 - **Istio RBAC** Istio RBAC provides access control for services in Istio mesh.
-[Learn more](/zh/docs/concepts/security/#authorization).
+[Learn more](/docs/concepts/security/#authorization).
 
 ## Other
 

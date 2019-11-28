@@ -6,10 +6,10 @@ description: Istio 1.0.4 patch release.
 publishdate: 2018-11-21
 release: 1.0.4
 aliases:
-    - /zh/about/notes/1.0.4
-    - /zh/blog/2018/announcing-1.0.4
-    - /zh/news/2018/announcing-1.0.4
-    - /zh/news/announcing-1.0.4
+    - /about/notes/1.0.4
+    - /blog/2018/announcing-1.0.4
+    - /news/2018/announcing-1.0.4
+    - /news/announcing-1.0.4
 ---
 
 We're pleased to announce the availability of Istio 1.0.4. Please see below for what's changed.
@@ -18,7 +18,7 @@ We're pleased to announce the availability of Istio 1.0.4. Please see below for 
 
 ## Known issues
 
-- Pilot may deadlock when using [`istioctl proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) to get proxy synchronization status.
+- Pilot may deadlock when using [`istioctl proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) to get proxy synchronization status.
   The work around is to *not use* `istioctl proxy-status`.
   Once Pilot enters a deadlock, it exhibits continuous memory growth eventually running out of memory.
 

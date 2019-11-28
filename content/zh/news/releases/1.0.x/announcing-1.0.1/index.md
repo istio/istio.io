@@ -6,10 +6,10 @@ description: Istio 1.0.1 patch release.
 publishdate: 2018-08-29
 release: 1.0.1
 aliases:
-    - /zh/about/notes/1.0.1
-    - /zh/blog/2018/announcing-1.0.1
-    - /zh/news/2019/announcing-1.0.1
-    - /zh/news/announcing-1.0.1
+    - /about/notes/1.0.1
+    - /blog/2018/announcing-1.0.1
+    - /news/2019/announcing-1.0.1
+    - /news/announcing-1.0.1
 ---
 
 We're pleased to announce the availability of Istio 1.0.1. Please see below for what's changed.
@@ -22,7 +22,7 @@ We're pleased to announce the availability of Istio 1.0.1. Please see below for 
 
 - Fixed virtual service host mismatch issue when adding a port.
 
-- Added limited support for [merging multiple virtual service or destination rule definitions](/zh/docs/ops/traffic-management/deploy-guidelines/#multiple-virtual-services-and-destination-rules-for-the-same-host) for the same host.
+- Added limited support for [merging multiple virtual service or destination rule definitions](/docs/ops/best-practices/traffic-management/#split-virtual-services) for the same host.
 
 - Allow [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/outlier_detection.proto) consecutive gateway failures when using HTTP.
 

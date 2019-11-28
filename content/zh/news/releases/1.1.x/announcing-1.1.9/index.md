@@ -6,10 +6,10 @@ description: Istio 1.1.9 patch release.
 publishdate: 2019-06-17
 release: 1.1.9
 aliases:
-    - /zh/about/notes/1.1.9
-    - /zh/blog/2019/announcing-1.1.9
-    - /zh/news/2019/announcing-1.1.9
-    - /zh/news/announcing-1.1.9
+    - /about/notes/1.1.9
+    - /blog/2019/announcing-1.1.9
+    - /news/2019/announcing-1.1.9
+    - /news/announcing-1.1.9
 ---
 
 We're pleased to announce the availability of Istio 1.1.9. Please see below for what's changed.

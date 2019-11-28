@@ -6,10 +6,10 @@ description: Istio 1.1.4 patch release.
 publishdate: 2019-04-24
 release: 1.1.4
 aliases:
-    - /zh/about/notes/1.1.4
-    - /zh/blog/2019/announcing-1.1.4
-    - /zh/news/2019/announcing-1.1.4
-    - /zh/news/announcing-1.1.4
+    - /about/notes/1.1.4
+    - /blog/2019/announcing-1.1.4
+    - /news/2019/announcing-1.1.4
+    - /news/announcing-1.1.4
 ---
 
 We're pleased to announce the availability of Istio 1.1.4. Please see below for what's changed.
@@ -44,7 +44,7 @@ memory or IP ports over time ([Issue 13355](https://github.com/istio/istio/issue
 
 - Added missing validation to prevent gateway names from containing dots ([Issue 13211](https://github.com/istio/istio/issues/13211)).
 
-- Fixed bug where [`ConsistentHashLB.minimumRingSize`](/zh/docs/reference/config/networking/destination-rule#LoadBalancerSettings-ConsistentHashLB)
+- Fixed bug where [`ConsistentHashLB.minimumRingSize`](/docs/reference/config/networking/destination-rule#LoadBalancerSettings-ConsistentHashLB)
 was defaulting to 0 instead of the documented 1024 ([Issue 13261](https://github.com/istio/istio/issues/13261)).
 
 ## Small enhancements

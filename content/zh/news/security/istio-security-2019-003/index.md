@@ -7,8 +7,8 @@ publishdate: 2019-08-13
 keywords: [CVE]
 skip_seealso: true
 aliases:
-    - /zh/blog/2019/istio-security-003-004
-    - /zh/news/2019/istio-security-003-004
+    - /blog/2019/istio-security-003-004
+    - /news/2019/istio-security-003-004
 ---
 
 {{< security_bulletin
@@ -79,7 +79,7 @@ EOF
 
 ## Mitigation
 
-* For Istio 1.1.x deployments: update to [Istio 1.1.13](/zh/news/releases/1.1.x/announcing-1.1.13) or later
-* For Istio 1.2.x deployments: update to [Istio 1.2.4](/zh/news/releases/1.2.x/announcing-1.2.4) or later.
+* For Istio 1.1.x deployments: update to [Istio 1.1.13](/news/releases/1.1.x/announcing-1.1.13) or later
+* For Istio 1.2.x deployments: update to [Istio 1.2.4](/news/releases/1.2.x/announcing-1.2.4) or later.
 
 {{< boilerplate "security-vulnerability" >}}

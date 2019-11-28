@@ -6,10 +6,10 @@ description: Istio 1.1.12 patch release.
 publishdate: 2019-08-02
 release: 1.1.12
 aliases:
-    - /zh/about/notes/1.1.12
-    - /zh/blog/2019/announcing-1.1.12
-    - /zh/news/2019/announcing-1.1.12
-    - /zh/news/announcing-1.1.12
+    - /about/notes/1.1.12
+    - /blog/2019/announcing-1.1.12
+    - /news/2019/announcing-1.1.12
+    - /news/announcing-1.1.12
 ---
 
 We're pleased to announce the availability of Istio 1.1.12. Please see below for what's changed.

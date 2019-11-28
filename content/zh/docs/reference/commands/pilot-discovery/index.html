@@ -104,11 +104,6 @@ remove_toc_prefix: 'pilot-discovery '
 <td>Directory to watch for updates to config yaml files. If specified, the files will be used as the source of config, rather than a CRD client.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--consulserverInterval &lt;duration&gt;</code></td>
-<td></td>
-<td>Interval (in seconds) for polling the Consul service registry  (default `2s`)</td>
-</tr>
-<tr>
 <td><code>--consulserverURL &lt;string&gt;</code></td>
 <td></td>
 <td>URL for the Consul server  (default ``)</td>
@@ -127,11 +122,6 @@ remove_toc_prefix: 'pilot-discovery '
 <td><code>--disable-install-crds</code></td>
 <td></td>
 <td>Disable discovery service from verifying the existence of CRDs at startup and then installing if not detected.  It is recommended to be disable for highly available setups. </td>
-</tr>
-<tr>
-<td><code>--discoveryCache</code></td>
-<td></td>
-<td>Enable caching discovery service responses </td>
 </tr>
 <tr>
 <td><code>--domain &lt;string&gt;</code></td>
@@ -544,7 +534,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
@@ -683,9 +673,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
-<tr><td><code>pilot_discovery_calls</code></td><td><code>Sum</code></td><td>Individual method calls in Pilot</td></tr>
-<tr><td><code>pilot_discovery_errors</code></td><td><code>Sum</code></td><td>Errors encountered during a given method call within Pilot</td></tr>
-<tr><td><code>pilot_discovery_resources</code></td><td><code>Distribution</code></td><td>Returned resource counts per method by Pilot</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
@@ -708,7 +695,8 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CSD configs.</td></tr>
-<tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster, as of last push. Zero instances is an error.</td></tr>
+<tr><td><code>pilot_xds_eds_all_locality_endpoints</code></td><td><code>LastValue</code></td><td>Network endpoints for each cluster(across all localities), as of last push. Zero endpoints is an error.</td></tr>
+<tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster(grouped by locality), as of last push. Zero instances is an error.</td></tr>
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
 <tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
@@ -716,5 +704,9 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed Side car injection requests.</td></tr>
+<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of Side car injection requests.</td></tr>
+<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped injection requests.</td></tr>
+<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful Side car injection requests.</td></tr>
 </tbody>
 </table>

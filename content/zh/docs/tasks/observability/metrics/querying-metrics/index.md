@@ -1,26 +1,29 @@
 ---
-title: 通过 Prometheus 查询度量指标
-description: 本任务介绍如何通过 Prometheus 查询 Istio 度量指标。
+title: Querying Metrics from Prometheus
+description: This task shows you how to query for Istio Metrics using Prometheus.
 weight: 30
 keywords: [telemetry,metrics]
 aliases:
-    - /zh/docs/tasks/telemetry/querying-metrics/
-    - /zh/docs/tasks/telemetry/metrics/querying-metrics/
+    - /docs/tasks/telemetry/querying-metrics/
+    - /docs/tasks/telemetry/metrics/querying-metrics/
 ---
 
-本任务介绍如何通过 Prometheus 查询 Istio 度量指标。作为任务的一部分，你将通过 web 界面查询度量指标值。
+This task shows you how to query for Istio Metrics using Prometheus. As part of
+this task, you will use the web-based interface for querying metric values.
 
-本任务以 [Bookinfo](/zh/docs/examples/bookinfo/) 样本应用作为案例。
+The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
+the example application throughout this task.
 
-## 开始之前{#before-you-begin}
+## Before you begin
 
-在自身集群中 [安装 Istio](/zh/docs/setup/) 并部署一个应用。
+[Install Istio](/docs/setup/) in your cluster and deploy an
+application.
 
-## 查询 Istio 度量指标{#query-mesh-metrics}
+## Querying Istio metrics
 
-1.  验证自身集群中运行着 `prometheus` 服务。
+1.  Verify that the `prometheus` service is running in your cluster.
 
-    在 Kubernetes 环境中，执行如下命令：
+    In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc prometheus
@@ -28,83 +31,89 @@ aliases:
     prometheus   10.59.241.54   <none>        9090/TCP   2m
     {{< /text >}}
 
-1.  向网格发送流量。
+1.  Send traffic to the mesh.
 
-    以 Bookinfo 为例，在 web 浏览器中访问 `http://$GATEWAY_URL/productpage` 或执行如下命令：
+    For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+    browser or issue the following command:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
     {{< tip >}}
-    `$GATEWAY_URL` 是在 [Bookinfo](/zh/docs/examples/bookinfo/) 应用中设置的值。
+    `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
     {{< /tip >}}
 
-1.  打开 Prometheus UI。
+1.  Open the Prometheus UI.
 
-    在 Kubernetes 环境中，执行如下命令：
+    In Kubernetes environments, execute the following command:
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
+    $ istioctl dashboard prometheus
     {{< /text >}}
 
-    在 web 浏览器中访问 [http://localhost:9090/graph](http://localhost:9090/graph)。
+    Click **Graph** in Prometheus.
 
-1.  执行一个 Prometheus 查询。
+1.  Execute a Prometheus query.
 
-    在 web 页面顶部的 "Expression" 对话框中，输入文本：
-    `istio_requests_total`。 然后点击 **Execute** 按钮。
+    In the "Expression" input box at the top of the web page, enter the text:
+    `istio_requests_total`. Then, click the **Execute** button.
 
-结果类似于：
+The results will be similar to:
 
 {{< image link="./prometheus_query_result.png" caption="Prometheus Query Result" >}}
 
-其他查询：
+Other queries to try:
 
--   请求 `productpage` 服务的总次数：
+-   Total count of all requests to the `productpage` service:
 
     {{< text plain >}}
     istio_requests_total{destination_service="productpage.default.svc.cluster.local"}
     {{< /text >}}
 
--   请求 `reviews` 服务 V3 版本的总次数：
+- Total count of all requests to `v3` of the `reviews` service:
 
     {{< text plain >}}
     istio_requests_total{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
     {{< /text >}}
 
-    该查询返回所有请求 `reviews` 服务 v3 版本的当前总次数。
+    This query returns the current total count of all requests to the v3 of the `reviews` service.
 
--   过去 5 分钟 `productpage` 服务所有实例的请求频次：
+-   Rate of requests over the past 5 minutes to all instances of the `productpage` service:
 
     {{< text plain >}}
     rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
     {{< /text >}}
 
-### 关于 Prometheus 插件{#about-the-monitor-add-on}
+### About the Prometheus add-on
 
-Mixer 自带一个内嵌的 [Prometheus](https://prometheus.io) 适配器，对外暴露一个端点，负责提供度量指标值服务。 Prometheus 插件是一个提前配置好的 Prometheus 服务器，旨在通过 Mixer 端点收集对外暴露的度量指标。插件提供了持久化存储和 Istio 度量指标查询机制。
+Mixer comes with a built-in [Prometheus](https://prometheus.io) adapter that
+exposes an endpoint serving generated metric values. The Prometheus add-on is a
+Prometheus server that comes preconfigured to scrape Mixer endpoints to collect
+the exposed metrics. It provides a mechanism for persistent storage and querying
+of Istio metrics.
 
-Prometheus 插件预配抓捕如下端点：
+The configured Prometheus add-on scrapes the following endpoints:
 
-1. `istio-telemetry.istio-system:42422`: `istio-mesh` 任务返回所有 Mixer 生成的度量指标。
-1. `istio-telemetry.istio-system:15014`: `istio-telemetry` 任务返回所有 Mixer 特殊的度量指标。该端点用于监控 Mixer 本身。
-1. `istio-proxy:15090`: `envoy-stats` 任务返回 Envoy 生成的原始状态。 Prometheus 被配置来查找对外暴露了 `envoy-prom` 端点的 pods。 在收集过程中，插件配置过滤掉大量 envoy 度量指标，从而限制插件进程的数据量。
-1. `istio-pilot.istio-system:15014`: `pilot` 任务返回 Pilot 生成的度量指标。
-1. `istio-galley.istio-system:15014`: `galley` 任务返回 Galley 生成的度量指标。
-1. `istio-policy.istio-system:15014`: `istio-policy` 任务返回所有策略相关的度量指标。
-1. `istio-citadel.istio-system:15014`: `istio-citadel` 任务返回所有 Citadel 生成的度量指标。
+1. `istio-telemetry.istio-system:42422`: The `istio-mesh` job returns all Mixer-generated metrics.
+1. `istio-telemetry.istio-system:15014`: The `istio-telemetry` job returns all Mixer-specific metrics. Use this endpoint to monitor Mixer itself.
+1. `istio-proxy:15090`: The `envoy-stats` job returns raw stats generated by Envoy. Prometheus is configured to look for pods with the `envoy-prom` endpoint exposed. The add-on configuration filters out a large number of envoy metrics during collection in an attempt to limit the scale of data by the add-on processes.
+1. `istio-pilot.istio-system:15014`: The `pilot` job returns the Pilot-generated metrics.
+1. `istio-galley.istio-system:15014`: The `galley` job returns the Galley-generated metrics.
+1. `istio-policy.istio-system:15014`: The `istio-policy` job returns all policy-related metrics.
+1. `istio-citadel.istio-system:15014`: The `istio-citadel` job returns all Citadel-generated metrics.
 
-更多关于 Prometheus 查询的信息，请阅读 [querying
+For more on querying Prometheus, please read their [querying
 docs](https://prometheus.io/docs/querying/basics/).
 
-## 清除{#cleanup}
+## Cleanup
 
--   删除所有可能运行着的 `kubectl port-forward` 进程：
+-   Remove any `istioctl` processes that may still be running using control-C or:
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
--   若不再执行后续任务， 参考
-    [Bookinfo cleanup](/zh/docs/examples/bookinfo/#cleanup) 命令关闭应用。
+-   If you are not planning to explore any follow-on tasks, refer to the
+    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    to shutdown the application.

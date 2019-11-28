@@ -1,12 +1,13 @@
 ---
-title: 安装指南
-linktitle: 安装
-description: 选择最适合您的需求和平台的指南。
+title: Installation Guides
+linktitle: Install
+description: Choose the guide that best suits your needs and platform.
 weight: 20
 aliases:
-    - /zh/docs/setup/kubernetes/install/
+    - /docs/setup/kubernetes/install/
 ---
 
 {{< tip >}}
-Istio {{< istio_version >}} 已通过这些 Kubernetes 发行版测试：{{< supported_kubernetes_versions >}}.
+Istio {{< istio_version >}} has been tested with these Kubernetes releases:
+{{< supported_kubernetes_versions >}}.
 {{< /tip >}}

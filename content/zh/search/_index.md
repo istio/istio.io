@@ -1,5 +1,5 @@
 ---
-title: 搜索结果
+title: Search Results
 sidebar_none: true
 skip_toc: true
 ---

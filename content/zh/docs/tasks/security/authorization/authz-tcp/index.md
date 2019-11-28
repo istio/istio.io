@@ -4,22 +4,22 @@ description: Shows how to set up access control for TCP traffic.
 weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
 aliases:
-    - /zh/docs/tasks/security/authz-tcp/
+    - /docs/tasks/security/authz-tcp/
 ---
 
 This task shows you how to set up Istio authorization for TCP traffic in an Istio mesh.
 You can learn more about the Istio authorization in the
-[authorization concept page](/zh/docs/concepts/security/#authorization).
+[authorization concept page](/docs/concepts/security/#authorization).
 
 ## Before you begin
 
 The activities in this task assume that you:
 
-* Read the [authorization concept](/zh/docs/concepts/security/#authorization).
+* Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/zh/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
-* Deploy the [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
 the product page, you can see the following sections:
@@ -38,7 +38,7 @@ because some delay is possible due to caching and other propagation overhead.
 
 ## Configure access control for a TCP workload
 
-By default, the [Bookinfo](/zh/docs/examples/bookinfo/) example application only uses the HTTP protocol.
+By default, the [Bookinfo](/docs/examples/bookinfo/) example application only uses the HTTP protocol.
 To showcase the authorization of TCP traffic, you must update the application to use TCP.
 The following steps deploy the Bookinfo application and update its `ratings` workload to the `v2` version,
 which talks to a MongoDB backend using TCP, and then apply the authorization policy to the MongoDB workload.

@@ -4,19 +4,19 @@ description: Learn how to configure the proxies to send tracing requests to Zipk
 weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
-    - /zh/docs/tasks/zipkin-tracing.html
+    - /docs/tasks/zipkin-tracing.html
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.apache.org/),
 regardless of the language, framework, or platform you use to build your application.
 
-This task uses the [Bookinfo](/zh/docs/examples/bookinfo/) sample as the example application.
+This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
 
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/zh/docs/setup/install/istioctl)
+1.  To set up Istio, follow the instructions in the [Installation guide](/docs/setup/install/istioctl)
     and then configure:
 
     a) a demo/test environment by setting the `--set values.tracing.enabled=true` and `--set values.tracing.provider=zipkin` install options to enable tracing "out of the box"
@@ -28,19 +28,17 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
     Use the `pilot.traceSampling` option to set the sampling rate. The default sampling rate is 1%.
     {{< /warning >}}
 
-1.  Deploy the [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) sample application.
+1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Accessing the dashboard
 
-[Remotely Accessing Telemetry Addons](/zh/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the option `--set values.tracing.ingress.enabled=true` during install.
+[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the option `--set values.tracing.ingress.enabled=true` during install.
 
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-system` namespace:
 
 {{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 15032:9411
+$ istioctl dashboard zipkin
 {{< /text >}}
-
-Open your browser to [http://localhost:15032](http://localhost:15032).
 
 ## Generating traces using the Bookinfo sample
 
@@ -65,13 +63,13 @@ Open your browser to [http://localhost:15032](http://localhost:15032).
 
 ## Cleanup
 
-1.  Remove any `kubectl port-forward` processes that may still be running:
+1.  Remove any `istioctl` processes that may still be running using control-C or:
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/zh/docs/examples/bookinfo/#cleanup) instructions
+    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.
 

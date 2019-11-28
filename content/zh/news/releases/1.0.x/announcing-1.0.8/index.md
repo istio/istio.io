@@ -6,10 +6,10 @@ description: Istio 1.0.8 patch release.
 publishdate: 2019-06-07
 release: 1.0.8
 aliases:
-    - /zh/about/notes/1.0.8
-    - /zh/blog/2019/announcing-1.0.8
-    - /zh/news/2019/announcing-1.0.8
-    - /zh/news/announcing-1.0.8
+    - /about/notes/1.0.8
+    - /blog/2019/announcing-1.0.8
+    - /news/2019/announcing-1.0.8
+    - /news/announcing-1.0.8
 ---
 
 We're pleased to announce the availability of Istio 1.0.8. Please see below for what's changed.

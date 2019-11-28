@@ -1,5 +1,6 @@
 ---
 ---
 {{< warning >}}
-以下信息描述了一个实验性功能，仅用于评估。
+The following information describes an experimental feature, which is intended
+for evaluation purposes only.
 {{< /warning >}}

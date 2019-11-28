@@ -1,17 +1,22 @@
 ---
-title: MySQL 连接故障排除
-description: 解决由于 PERMISSIVE 模式导致的 MySQL 连接问题。
+title: MySQL Connectivity Troubleshooting
+description: Troubleshooting MySQL connectivity issue due to PERMISSIVE mode.
 weight: 95
 keywords: [mysql,mtls]
 ---
 
-安装 Istio 后您可能会发现 MySQL 无法连接。这是因为 `istio-demo.yaml` 中默认使用的 `PERMISSIVE` 模式不适用于 MySQL。您可能会看到类似于 "ERROR 2013 (HY000): Lost connection to MySQL server at 'reading initial communication packet', system error: 0" 的错误。
+You may find MySQL can't connect after installing Istio. This is because of `PERMISSIVE` mode,
+which is enabled in the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/),
+does not work with MySQL.
+You may see error messages such as `ERROR 2013 (HY000): Lost connection to MySQL server at
+'reading initial communication packet', system error: 0`.
 
-有两种方法可以解决此问题。
+There have two options to solve the problem.
 
-1. 禁用双向 TLS。
+1. Disable Mutual TLS.
 
-    如果不需要 Istio 双向 TLS，您可以选择这种方法。您可以通过显式的禁用 MySQL 上的双向 TLS 来实现。
+    Choose this option if you don't want Istio mutual TLS. You achieve this by disabling mutual TLS on the MySQL
+    service explicitly.
 
     {{< text syntax="bash" >}}
     $ kubectl apply -f - <<EOF
@@ -25,9 +30,9 @@ keywords: [mysql,mtls]
     EOF
     {{< /text >}}
 
-1. 在 STRICT 模式下启用双向 TLS。
+1. Enable mutual TLS in STRICT mode.
 
-    如果您需要为 MySQL 提供双向 TLS 保护，请使用目标规则和认证策略来启用双向 TLS。
+    If you want mutual TLS protection for MySQL, enable mutual TLS using a destination rule and an authentication policy.
 
     {{< text syntax="bash" >}}
     $ kubectl apply -f - <<EOF

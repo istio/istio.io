@@ -7,8 +7,8 @@ publishdate: 2019-06-28
 keywords: [CVE]
 skip_seealso: true
 aliases:
-    - /zh/blog/2019/cve-2019-12995
-    - /zh/news/2019/cve-2019-12995
+    - /blog/2019/cve-2019-12995
+    - /news/2019/cve-2019-12995
 ---
 
 {{< security_bulletin
@@ -83,9 +83,9 @@ EOF
 
 This bug is fixed in the following Istio releases:
 
-* For Istio 1.0.x deployments: update to [Istio 1.0.9](/zh/news/releases/1.0.x/announcing-1.0.9) or later.
-* For Istio 1.1.x deployments: update to [Istio 1.1.10](/zh/news/releases/1.1.x/announcing-1.1.10) or later.
-* For Istio 1.2.x deployments: update to [Istio 1.2.2](/zh/news/releases/1.2.x/announcing-1.2.2) or later.
+* For Istio 1.0.x deployments: update to [Istio 1.0.9](/news/releases/1.0.x/announcing-1.0.9) or later.
+* For Istio 1.1.x deployments: update to [Istio 1.1.10](/news/releases/1.1.x/announcing-1.1.10) or later.
+* For Istio 1.2.x deployments: update to [Istio 1.2.2](/news/releases/1.2.x/announcing-1.2.2) or later.
 
 If you cannot immediately upgrade to one of these releases, you have the additional option of injecting a
 [Lua filter](https://github.com/istio/tools/tree/master/examples/luacheck) into older releases of Istio.

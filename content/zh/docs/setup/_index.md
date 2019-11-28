@@ -1,13 +1,13 @@
 ---
-title: 安装
-description: 关于如何在 Kubernetes 集群中安装 Istio 控制平面和添加虚拟机到 mesh 中的说明。
+title: Setup
+description: Instructions for installing the Istio control plane on Kubernetes.
 weight: 15
-icon: 安装
+icon: setup
 aliases:
-    - /zh/docs/tasks/installing-istio.html
-    - /zh/docs/setup/install-kubernetes.html
-    - /zh/docs/setup/kubernetes/quick-start.html
-    - /zh/docs/setup/kubernetes/download-release/
-    - /zh/docs/setup/kubernetes/download/
+    - /docs/tasks/installing-istio.html
+    - /docs/setup/install-kubernetes.html
+    - /docs/setup/kubernetes/quick-start.html
+    - /docs/setup/kubernetes/download-release/
+    - /docs/setup/kubernetes/download/
 keywords: [kubernetes,install,quick-start,setup,installation]
 ---

@@ -4,20 +4,20 @@ description: Shows you how to use Istio authentication policy to setup mutual TL
 weight: 10
 keywords: [security,authentication]
 aliases:
-    - /zh/docs/tasks/security/istio-auth.html
-    - /zh/docs/tasks/security/authn-policy/
+    - /docs/tasks/security/istio-auth.html
+    - /docs/tasks/security/authn-policy/
 ---
 
 This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about
-the underlying concepts in the [authentication overview](/zh/docs/concepts/security/#authentication).
+the underlying concepts in the [authentication overview](/docs/concepts/security/#authentication).
 
 ## Before you begin
 
-* Understand Istio [authentication policy](/zh/docs/concepts/security/#authentication-policies) and related
-[mutual TLS authentication](/zh/docs/concepts/security/#mutual-TLS-authentication) concepts.
+* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related
+[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Install Istio on a Kubernetes cluster with global mutual TLS disabled (e.g, use the demo configuration profile, as described in
-[installation steps](/zh/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
+[installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
 ### Setup
 
@@ -106,7 +106,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The mesh authentication policy uses the [regular authentication policy API](/zh/docs/reference/config/security/istio.authentication.v1alpha1/)
+The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/security/istio.authentication.v1alpha1/)
  it is defined in the cluster-scoped `MeshPolicy` CRD.
  {{< /tip >}}
 
@@ -124,7 +124,7 @@ sleep.bar to httpbin.foo: 503
 sleep.bar to httpbin.bar: 503
 {{< /text >}}
 
-To configure the client side, you need to set [destination rules](/zh/docs/concepts/traffic-management/#destination-rules) to use mutual TLS. It's possible to use
+To configure the client side, you need to set [destination rules](/docs/concepts/traffic-management/#destination-rules) to use mutual TLS. It's possible to use
 multiple destination rules, one for each applicable service (or namespace). However, it's more convenient to use a rule with the `*` wildcard to match all
 services so that it is on par with the mesh-wide authentication policy.
 
@@ -494,7 +494,7 @@ To experiment with this feature, you need a valid JWT. The JWT must correspond t
 this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and this
 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
-Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/zh/docs/tasks/traffic-management/ingress/)).
+Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF

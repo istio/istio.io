@@ -1,40 +1,45 @@
 ---
-title: 简化地多集群安装 [实验性]
-description: 配置一个跨多个 Kubernetes 集群的 Istio 网格。
+title: Simplified Multicluster Install [Experimental]
+description: Configure an Istio mesh spanning multiple Kubernetes clusters.
 weight: 1
 keywords: [kubernetes,multicluster]
 ---
 
 {{< boilerplate experimental-feature-warning >}}
 
-本指南描述了如何使用一种简化的实验性方式来配置一个跨多个 Kubernetes 集群的 Istio 网格。
-我们希望在将来的版本中继续开发这项功能，因此非常期待您对这个流程进行反馈。
+This guide describes how to configure an Istio mesh that includes multiple Kubernetes clusters using a simplified experimental approach.
+We hope to continue developing this functionality in coming releases, so we'd love your feedback on the overall flow.
 
-在此我们集中讨论如何连接多集群网格的细节，有关其它背景信息，请参考[多集群部署模型](/zh/docs/ops/prep/deployment-models/#multiple-clusters)。
-我们将展示如何将同一网络上的两个集群与另一个网络上的第三个集群连接起来。
+We focus here on the details of getting a multicluster mesh wired up, refer to [multicluster deployment model](/docs/ops/deployment/deployment-models/#multiple-clusters) for
+additional background information. We'll show how to connect two clusters that are on the same network together, along
+with a third cluster that's on a different network.
 
-使用本指南中展示的方法会导致 Istio 控制平面的实例部署在网格中的每个集群中。
-尽管这是一种常见配置，但其他更复杂的拓扑也是可能的，只是需要使用一些手动的过程来完成，此处不再赘述。
+Using the approach shown in this guide results in an instance of the Istio control plane being deployed in every cluster
+within the mesh. Although this is a common configuration, other more complex topologies are possible, but have to be done
+using a more manual process, not described herein.
 
-## 开始之前{#before-you-begin}
+## Before you begin
 
-此处我们描述的过程主要针对相对干净的未部署过 Istio 的集群。
-我们在将来能将支持扩展到现有集群。
+The procedures we describe here are primarily intended to be used with relatively pristine clusters,
+where Istio hasn't already been deployed. We hope to expand support in the future to existing clusters.
 
-为了便于说明，本指南假定您已经创建了三个 Kubernetes 集群：
+For the sake of explanation, this guide assumes you have created three Kubernetes clusters:
 
-- 一个在 `network-east` 网络上的名为 `cluster-east-1` 的集群。
-- 一个在 `network-east` 网络上的名为 `cluster-east-2` 的集群。
-- 一个在 `network-west` 网络上的名为 `cluster-west-1` 的集群。
+- A cluster named `cluster-east-1` on the network named `network-east`.
+- A cluster named `cluster-east-2` on the network named `network-east`.
+- A cluster named `cluster-west-1` on the network named `network-west`.
 
-这些集群应当尚未安装 Istio。前两个集群在同一个网络，并可直连，而第三个集群在另一个网络。
-请查看[平台设置说明](/zh/docs/setup/platform-setup)，以了解针对您的特定环境的任何特殊说明。
+These clusters shouldn't have Istio on them yet. The first two clusters are on the same network and have
+direct connectivity, while the third cluster is on a different network.
+Take a look at the [platform setup instructions](/docs/setup/platform-setup)
+for any special instructions for your particular environment.
 
-## 初步准备{#initial-preparations}
+## Initial preparations
 
-您需要执行一些一次性步骤才能设置多集群网格：
+You need to do a few one-time steps in order to be able to setup a multicluster mesh:
 
-1. 确保您的所有集群都被包含在您的 [Kubernetes 配置文件](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/#define-clusters-users-and-contexts)中，并为它们创建了上下文配置。完成后，您的配置文件应该包含类似如下内容：
+1. Ensure that all of your clusters are included in your [Kubernetes configuration file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/#define-clusters-users-and-contexts)
+and create contexts for each cluster. Once you're done, your configuration file should include something similar to:
 
     {{< text syntax="yaml" downloadas="kubeconfig.yaml" >}}
     kind: Config
@@ -58,19 +63,21 @@ keywords: [kubernetes,multicluster]
       name: context-west-1
     {{< /text >}}
 
-1. 决定您的多集群网格的名字。推荐使用一些短小好记的：
+1. Decide on what the name of your multicluster mesh will be. Something short but memorable is your best choice here:
 
     {{< text bash >}}
     $ export MESH_ID=mymeshname
     {{< /text >}}
 
-1. 决定组织名以用于创建用来让集群互相通信的根证书和中间证书。这通常可以从您的组织的 DNS 名中得来：
+1. Decide on the organization name to use in the root and intermediate certificates created to let the clusters communicate with one
+another. This should generally be derived from your organization's DNS name:
 
     {{< text bash >}}
     $ export ORG_NAME=mymeshname.mycompanyname.com
     {{< /text >}}
 
-1. 创建一个工作目录，用于存储在集群启动过程中产生的若干文件：
+1. Create a working directory where to store a number of files produced during the cluster
+onboarding process:
 
     {{< text bash >}}
     $ export WORKDIR=mydir
@@ -78,24 +85,30 @@ keywords: [kubernetes,multicluster]
     $ cd ${WORKDIR}
     {{< /text >}}
 
-1. 下载[设置脚本]({{< github_file >}}/samples/multicluster/setup-mesh.sh)到您的工作目录。
-该脚本负责创建必要的证书以启用跨集群通信，它为您准备了默认配置文件，并将在每个集群中部署和配置 Istio。
+1. Download the [setup script]({{< github_file >}}/samples/multicluster/setup-mesh.sh) to your working directory.
+This script takes care of creating the requisite
+certificates to enable cross-cluster communication, it prepares default configuration files for you,
+and will deploy and configure Istio in each cluster.
 
-1. 最后，运行下载的脚本以准备网格。这会创建一个将用于保护网格中群集之间的通信安全的根密钥和证书，以及用于控制所有群集上部署的 Istio 的配置的 `base.yaml` 文件：
+1. And finally, prepare the mesh by running the download script. This will create a root key and certificate
+that will be used to secure communication between the clusters in the mesh, along with a `base.yaml`
+file which will be used to control the Istio configuration deployed on all the clusters:
 
     {{< text bash >}}
     $ ./setup-mesh.sh prep
     {{< /text >}}
 
-    请注意此步骤不会对集群产生任何影响，它只是在您的工作目录里创建了若干文件。
+    Note that this step doesn't actually do anything to the clusters, it is merely cresting a number of files within your
+    working directory.
 
-## 定制 Istio{#customizing-Istio}
+## Customizing Istio
 
-上面的网格准备工作在您的工作目录里创建了一个名为 `base.yaml` 的文件。
-这个文件定义了基本的 [`IstioControlPlane`](/zh/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlane) 配置，它用于将 Istio 部署到您的集群中（下面就会提到）。
-您可以[定制 `base.yaml`](/zh/docs/setup/install/istioctl/#configure-the-feature-or-component-settings) 文件，以精确控制 Istio 将被如何部署到所有的集群中。
+Preparing the mesh above created a file called `base.yaml` in your working directory. This file defines the
+basic [`IstioControlPlane`](/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlane) configuration that will be used when deploying Istio in your clusters (which will happen below). You
+can [customize the `base.yaml`](/docs/setup/install/istioctl/#configure-the-feature-or-component-settings) file
+to control exactly how Istio will be deployed in all the clusters.
 
-只有这些值不应该被修改：
+The only values that shouldn't be modified are:
 
 {{< text plain >}}
 values.gateway.istio-ingressgateway.env.ISTIO_MESH_NETWORK
@@ -106,12 +119,13 @@ values.global.meshNetworks
 values.pilot.meshNetworks=
 {{< /text >}}
 
-这些值是通过以下步骤自动设置的，任何手动设置都会导致数据丢失。
+These values are set automatically by the procedures below, any manual setting will therefore be lost.
 
-## 创建网格{#creating-the-mesh}
+## Creating the mesh
 
-通过编辑在您的工作目录中的 `topology.yaml` 文件来指定哪些集群将被包含在网格中。
-为这三个集群都添加一个条目，使文件如下所示：
+You indicate which clusters to include in the mesh by editing the `topology.yaml` file
+within your working directory. Add an entry for all three clusters such that the file will
+look like:
 
 {{< text yaml >}}
 mesh_id: mymeshname
@@ -124,29 +138,30 @@ contexts:
     network: network-west
 {{< /text >}}
 
-该拓扑文件保存了网格的名字，以及网络的上下文映射。当文件保存后，您就可以开始创建网格了。
-这将部署 Istio 到每个集群，并配置每个势力以互相安全通信：
+The topology file holds the name of the mesh, as well as a mapping of contexts to networks.
+Once the file has been saved, you can now create the mesh. This will deploy Istio in every
+cluster and configure each instance to be able to securely communicate with one another:
 
 {{< text bash >}}
 $ ./setup-mesh apply
 {{< /text >}}
 
-想要往网格中添加或删除集群，只需要对应地更新该拓扑文件并重新应用这些更改。
+To add and remove clusters from the mesh, just update the topology file accordingly and reapply the changes.
 
 {{< warning >}}
-每当您使用 `setup-mesh.sh apply` 时，都会在您的工作目录中创建一些 secret 文件，尤其是与不同证书关联的一些私钥。
-您应该存储并保护好这些 secrets。需要保护的这些文件是：
+Whenever you use `setup-mesh.sh apply` some secret material may be created in your working directory, in particular some private keys associated
+with the different certificates. You should store and protect those secrets. The specific files to safeguard are:
 
 {{< text plain >}}
-certs/root-key.pem - 根私钥
-certs/intermediate-*/ca-key.pem - 中间私钥
+certs/root-key.pem - the root's private key.
+certs/intermediate-*/ca-key.pem - intermediates' private keys
 {{< /text >}}
 
 {{< /warning >}}
 
-## 清理{#clean-up}
+## Clean up
 
-您可以使用以下命令从所有的已知集群中删除 Istio：
+You can remove Istio from all the known clusters with:
 
 {{< text bash >}}
 $ ./setup-mesh.sh teardown

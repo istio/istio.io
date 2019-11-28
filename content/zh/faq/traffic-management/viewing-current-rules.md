@@ -1,6 +1,6 @@
 ---
-title: 怎样查看在 Istio 中已配置的当前路由规则？
+title: How can I view the current route rules I have configured with Istio?
 weight: 10
 ---
 
-可以使用这个命令查看 `kubectl get virtualservice -o yaml`
+Rules can be viewed using `kubectl get virtualservice -o yaml`

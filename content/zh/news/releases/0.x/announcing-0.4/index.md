@@ -6,11 +6,11 @@ description: Istio 0.4 announcement.
 publishdate: 2017-12-18
 release: 0.4.0
 aliases:
-    - /zh/about/notes/older/0.4
-    - /zh/docs/welcome/notes/0.4.html
-    - /zh/about/notes/0.4/index.html
-    - /zh/news/2017/announcing-0.4
-    - /zh/news/announcing-0.4
+    - /about/notes/older/0.4
+    - /docs/welcome/notes/0.4.html
+    - /about/notes/0.4/index.html
+    - /news/2017/announcing-0.4
+    - /news/announcing-0.4
 ---
 
 This release has only got a few weeks' worth of changes, as we stabilize our monthly release process.
@@ -31,7 +31,7 @@ possible for Pilot to discover CF services and service instances.
 - **Helm Charts**. We now provide Helm charts to install Istio.
 
 - **Enhanced Attribute Expressions**. Mixer's expression language gained a few new functions
-to make it easier to write policy rules. [Learn more](/zh/docs/reference/config/policy-and-telemetry/expression-language/)
+to make it easier to write policy rules. [Learn more](/docs/reference/config/policy-and-telemetry/expression-language/)
 
 If you're into the nitty-gritty details, you can see our more detailed low-level
 release notes [here](https://github.com/istio/istio/wiki/v0.4.0).

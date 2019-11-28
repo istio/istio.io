@@ -6,5 +6,5 @@ weight: 30
 layout: faq
 icon: faq
 aliases:
-  - /zh/help/faq/security
+  - /help/faq/security
 ---

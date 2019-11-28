@@ -1,48 +1,55 @@
 ---
 title: Minikube
-description: 在 Minikube 上配置 Istio。
+description: Instructions to setup minikube for Istio.
 weight: 21
 skip_seealso: true
 aliases:
-    - /zh/docs/setup/kubernetes/prepare/platform-setup/minikube/
-    - /zh/docs/setup/kubernetes/platform-setup/minikube/
+    - /docs/setup/kubernetes/prepare/platform-setup/minikube/
+    - /docs/setup/kubernetes/platform-setup/minikube/
 keywords: [platform-setup,kubernetes,minikube]
 ---
 
-按照文档安装 minikube，为 Istio 与一些基础应用准备足够的系统资源。
+Follow these instructions to prepare minikube for Istio installation with sufficient
+resources to run Istio and some basic applications.
 
-## 前提条件{#prerequisites}
+## Prerequisites
 
-- 运行 minikube 需要管理员权限。
+- Administrative privileges are required to run minikube.
 
-- 如果要启用 SDS，需要为 Kubernetes deployment 添加[额外的配置](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)。
-访问 [`api-server` 参考文档](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/)查看最新的可选参数。
+- To enable SDS for your mesh, you must add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes deployment.
+Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) for the most up-to-date flags.
 
-## 安装步骤{#installation-steps}
+## Installation steps
 
-1.  安装最新的 [minikube](https://kubernetes.io/docs/setup/minikube/)，版本 **1.1.1 或更高**，以及
-    [minikube 虚拟机驱动](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)。
+1.  Install the latest version of
+    [minikube](https://kubernetes.io/docs/setup/minikube/), version **1.1.1 or
+    later**, and a
+    [minikube hypervisor driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
-1.  如果你没有使用默认的驱动，需要配置 minikube 虚拟机驱动。
+1.  If you're not using the default driver, set your minikube hypervisor driver.
 
-    比如，如果你安装了 KVM 虚拟机，使用如下命令设置 minikube 的 `vm-driver` 配置：
+    For example, if you installed the KVM hypervisor, set the `vm-driver`
+    within the minikube configuration using the following command:
 
     {{< text bash >}}
     $ minikube config set vm-driver kvm2
     {{< /text >}}
 
-1.  以 16384 `MB` 内存和 4 `CPUs` 启动 minikube。这个例子使用了 Kubernetes **1.14.2**。
-    你可以设置 `--kubernetes-version` 的值以指定任意 Istio 支持的 Kubernetes 版本：
+1.  Start minikube with 16384 `MB` of memory and 4 `CPUs`. This example uses Kubernetes version **1.14.2**.
+    You can change the version to any Kubernetes version supported by Istio by altering the
+    `--kubernetes-version` value:
 
     {{< text bash >}}
     $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.14.2
     {{< /text >}}
 
-    取决于你使用的虚拟机版本以及所运行的平台，最小内存要求也不同。16384 `MB` 足够运行
-    Istio 和 bookinfo。
+    Depending on the hypervisor you use and the platform on which the hypervisor
+    is run, minimum memory requirements vary. 16384 `MB` is sufficent to run
+    Istio and bookinfo.
 
     {{< tip >}}
-    如果你没有足够的内存分配给 minikube 虚拟机，可能出现如下报错：
+    If you don't have enough RAM allocated to the minikube
+    virtual machine, the following errors could occur:
 
     - image pull failures
     - healthcheck timeout failures
@@ -51,7 +58,7 @@ keywords: [platform-setup,kubernetes,minikube]
     - complete lock-up of the virtual machine
     - host NMI watchdog reboots
 
-    minikube 中有一个不错的方法查看内存占用：
+    One effective way to monitor memory usage in minikube:
 
     {{< text bash >}}
     $ minikube ssh
@@ -59,20 +66,24 @@ keywords: [platform-setup,kubernetes,minikube]
     GiB Mem : 12.4/15.7
     {{< /text >}}
 
-    这里显示虚拟机内全部的 15.7G 内存已占用了 12.4G。这个数据是在一个 16G 内存的 Macbook Pro 13" 中运行着 Istio 1.2 和
-     bookinfo 的 VMWare Fusion 虚拟机中生成的。
+    This shows 12.4GiB used of an available 15.7 GiB RAM within the virtual
+    machine.  This data was generated with the VMWare Fusion hypervisor on a
+    Macbook Pro 13" with 16GiB RAM running Istio 1.2 with bookinfo installed.
     {{< /tip >}}
 
-1.  （可选，推荐）如果你希望 minikube 提供一个负载均衡给 Istio，你可以使用
-    [minikube tunnel](https://minikube.sigs.k8s.io/docs/tasks/loadbalancer/#using-minikube-tunnel)。
-    在另一个终端运行这个命令，因为 minikube tunnel 会阻塞的你的终端用于显示网络诊断信息：
+1.  (Optional, recommended) If you want minikube to provide a load balancer for use
+    by Istio, you can use the
+    [minikube tunnel](https://minikube.sigs.k8s.io/docs/tasks/loadbalancer/#using-minikube-tunnel) feature.
+    Run this command in a different terminal, because the minikube tunnel feature will block your
+    terminal to output diagnostic information about the network:
 
     {{< text bash >}}
     $ minikube tunnel
     {{< /text >}}
 
     {{< warning >}}
-    有时 minikube 不会正确清理 tunnel network。强制清理使用如下命令：
+    Sometimes minikube does not clean up the tunnel network properly. To force a proper
+    cleanup:
 
     {{< text bash >}}
     $ minikube tunnel --cleanup

@@ -1,8 +1,8 @@
 ---
-title: 分布式追踪
-description: 该任务展示了如何为启用了 Istio 支持的应用进行追踪。
+title: Distributed Tracing
+description: This task shows you how to configure Istio-enabled applications to collect trace spans.
 weight: 30
 keywords: [telemetry,tracing]
 aliases:
- - /zh/docs/tasks/telemetry/distributed-tracing/
+ - /docs/tasks/telemetry/distributed-tracing/
 ---

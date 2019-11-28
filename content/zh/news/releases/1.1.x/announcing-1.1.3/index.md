@@ -6,10 +6,10 @@ description: Istio 1.1.3 patch release.
 publishdate: 2019-04-15
 release: 1.1.3
 aliases:
-    - /zh/about/notes/1.1.3
-    - /zh/blog/2019/announcing-1.1.3
-    - /zh/news/2019/announcing-1.1.3
-    - /zh/news/announcing-1.1.3
+    - /about/notes/1.1.3
+    - /blog/2019/announcing-1.1.3
+    - /news/2019/announcing-1.1.3
+    - /news/announcing-1.1.3
 ---
 
 We're pleased to announce the availability of Istio 1.1.3. Please see below for what's changed.
@@ -45,7 +45,7 @@ to services for `Sidecar` listeners ([Issue 12536](https://github.com/istio/isti
 
 - Fix validation logic so that `port.name` is no longer a valid `PortSelection`.
 
-- Fix [`istioctl proxy-config cluster`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config-cluster) cluster type column rendering ([Issue 12455](https://github.com/istio/istio/issues/12455)).
+- Fix [`istioctl proxy-config cluster`](/docs/reference/commands/istioctl/#istioctl-proxy-config-cluster) cluster type column rendering ([Issue 12455](https://github.com/istio/istio/issues/12455)).
 
 - Fix SDS secret mount configuration.
 

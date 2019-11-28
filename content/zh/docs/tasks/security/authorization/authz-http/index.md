@@ -4,22 +4,22 @@ description: Shows how to set up role-based access control for HTTP traffic.
 weight: 10
 keywords: [security,access-control,rbac,authorization]
 aliases:
-    - /zh/docs/tasks/security/role-based-access-control.html
-    - /zh/docs/tasks/security/authz-http/
+    - /docs/tasks/security/role-based-access-control.html
+    - /docs/tasks/security/authz-http/
 ---
 
 This task shows you how to set up Istio authorization for HTTP traffic in an Istio mesh.
-Learn more in our [authorization concept page](/zh/docs/concepts/security/#authorization).
+Learn more in our [authorization concept page](/docs/concepts/security/#authorization).
 
 ## Before you begin
 
 The activities in this task assume that you:
 
-* Read the [authorization concept](/zh/docs/concepts/security/#authorization).
+* Read the [authorization concept](/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/zh/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
-* Deploy the [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) sample application.
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
 the product page, you can see the following sections:

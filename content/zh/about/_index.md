@@ -1,7 +1,7 @@
 ---
-title: 关于 Istio
-linktitle: 关于
-description: 关于 Istio 项目的说明。
+title: About Istio
+linktitle: About
+description: Get a bit more in-depth info about the Istio project.
 sidebar_singlecard: true
 weight: 15
 icon: about

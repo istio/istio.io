@@ -1,13 +1,21 @@
 ---
-title: 我能在 Istio 网格中运行 Elasticsearch 吗?
-description: 在 Istio 中运行 Elasticsearch 需要的配置
+title: Can I run Elasticsearch inside an Istio mesh?
+description: Elasticsearch configuration required for use with Istio
 weight: 50
 keywords: [elasticsearch]
 ---
 
-在 Istio 中运行 Elasticsearch，有两个 Elasticsearch 配置参数需要被正确设置：`network.bind_host` 和 `network.publish_host`。默认情况下，这些参数值被设置成 `network.host` 参数。如果 `network.host` 被设置成 `0.0.0.0`，Elasticsearch 很可能选择 pod IP 作为发布地址并且不需要更进一步的配置。
+There are two Elasticsearch configuration parameters that need to be
+set appropriately to run Elasticsearch with Istio:
+`network.bind_host` and `network.publish_host`. By default, these
+parameters are set to the `network.host` parameter. If `network.host`
+is set to `0.0.0.0`, Elasticsearch will most likely pick up the pod IP
+as the publishing address and no further configuration will be
+needed.
 
-如果默认配置没有生效，你可以将 `network.bind_host` 设置为 `0.0.0.0` 或 `localhost` (`127.0.0.1`) 并将 `network.publish_host` 设置为 pod IP，例如：
+If the default configuration does not work, you can set the
+`network.bind_host` to `0.0.0.0` or `localhost` (`127.0.0.1`) and
+`network.publish_host` to the pod IP. For example:
 
 {{< text yaml >}}
 ...
@@ -24,4 +32,5 @@ containers:
    ...
 {{< /text >}}
 
-了解更多信息请查看 [Elasticsearch 网络设置](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html#modules-network)。
+Refer to [Network Settings for Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html#modules-network)
+for more information.

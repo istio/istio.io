@@ -1,34 +1,39 @@
 ---
-title: Bookinfo 应用 - 多集群
-description: 跨多集群网格部署示例应用程序。
+title: Bookinfo Application - Multicluster
+description: Deploys a sample application across a multicluster mesh.
 weight: 11
 keywords: [multicluster]
 ---
 
 {{< boilerplate experimental-feature-warning >}}
 
-本示例是对[简化版多集群设置过程](/zh/docs/setup/install/multicluster/simplified)的补充。
-它向您展示了如何跨多集群网格部署 Istio 的经典 [Bookinfo](/zh/docs/examples/bookinfo) 示例应用。
+This example complements the [simplified multicluster setup procedure](/docs/setup/install/multicluster/simplified).
+It shows you how to deploy Istio's classic [Bookinfo](/docs/examples/bookinfo) sample application across
+a multicluster mesh.
 
-## 让它运行起来{#getting-it-running}
+## Getting it running
 
-1. 请先从[这些说明](/zh/docs/setup/install/multicluster/simplified)开始，它将向您展示如何配置一个 3 集群的网格。
+1. Start by following [these instructions](/docs/setup/install/multicluster/simplified) which will show you how to
+configure a 3 cluster mesh.
 
-1. 下载 [`setup-bookinfo.sh` 脚本]({{< github_file >}}/samples/multicluster/setup-bookinfo.sh)并保存至上一步中创建的工作目录中。
+1. Download the [`setup-bookinfo.sh` script]({{< github_file >}}/samples/multicluster/setup-bookinfo.sh) and saved it into
+the working directory created in the previous step.
 
-1. 运行下载的脚本：
+1. Run the downloaded script:
 
     {{< text bash >}}
     $ ./setup-bookinfo.sh install
     {{< /text >}}
 
-    这将会把 Bookinfo 部署到网格的所有集群中。
+    This will deploy Bookinfo on all the clusters in the mesh.
 
-## 观察它能否正常工作{#showing-that-its-working}
+## Showing that its working
 
-现在 Bookinfo 已经部署到所有的集群中了，我们可以禁用掉它的某些集群中的某些服务，然后观察整个应用继续保持响应状态，表明流量可以根据需要在群集之间透明地流动。
+Now that Bookinfo has been deployed to all clusters, we can disable some of its service in some of its clusters,
+and then see that the overall app continues to be responsive, indicating that traffic transparently flows between
+clusters as needed.
 
-让我们禁用掉一些服务：
+Let's disable a few services:
 
 {{< text bash >}}
 $ for DEPLOYMENT in details-v1 productpage-v1 reviews-v2 reviews-v3; do
@@ -42,11 +47,11 @@ $    kubectl --context=context-west-1 scale deployment ${DEPLOYMENT} --replicas=
 $ done
 {{< /text >}}
 
-现在请参考 [常规的 Bookinfo](/zh/docs/examples/bookinfo) 来证明多集群部署是可以正常运行的。
+Now use [Bookinfo normally](/docs/examples/bookinfo) to demonstrate that the multicluster deployment is working properly.
 
-## 清理{#clean-up}
+## Clean up
 
-您可以使用以下命令从所有集群中删除 Bookinfo：
+You can remove Bookinfo from all clusters with:
 
 {{< text bash >}}
 $ ./setup-bookinfo.sh uninstall

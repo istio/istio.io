@@ -3,7 +3,7 @@ title: RBAC Constraints and Properties (deprecated)
 description: Describes the supported constraints and properties.
 weight: 50
 aliases:
-    - /zh/docs/reference/config/security/constraints-and-properties/
+    - /docs/reference/config/security/constraints-and-properties/
 ---
 
 {{< warning >}}
@@ -25,7 +25,7 @@ Istio supports all keys listed on this page for the HTTP protocol but supports o
 Unsupported keys and values will be ignored silently.
 {{< /warning >}}
 
-For more information, refer to the [authorization concept page](/zh/docs/concepts/security/#authorization).
+For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
 
 ## Supported constraints
 

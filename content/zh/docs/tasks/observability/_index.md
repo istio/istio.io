@@ -1,8 +1,8 @@
 ---
-title: 可观察性
-description: 演示如何从网格收集遥测信息。
+title: Observability
+description: Demonstrates how to collect telemetry information from the mesh.
 weight: 30
 aliases:
- - /zh/docs/examples/telemetry/
- - /zh/docs/tasks/telemetry/
+ - /docs/examples/telemetry/
+ - /docs/tasks/telemetry/
 ---

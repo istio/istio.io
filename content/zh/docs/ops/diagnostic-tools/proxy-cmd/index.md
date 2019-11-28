@@ -4,22 +4,22 @@ description: Describes tools and techniques to diagnose Envoy configuration issu
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
 aliases:
-    - /zh/help/ops/traffic-management/proxy-cmd
-    - /zh/help/ops/misc
-    - /zh/help/ops/troubleshooting/proxy-cmd
+    - /help/ops/traffic-management/proxy-cmd
+    - /help/ops/misc
+    - /help/ops/troubleshooting/proxy-cmd
 ---
 
 Istio provides two very valuable commands to help diagnose traffic management configuration problems,
-the [`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status)
-and [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
+the [`proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status)
+and [`proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
 allows you to get an overview of your mesh and identify the proxy causing the problem. Then `proxy-config` can be used
 to inspect Envoy configuration and diagnose the issue.
 
 If you want to try the commands described below, you can either:
 
-* Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
-[installation steps](/zh/docs/setup/getting-started/) and
-[Bookinfo installation steps](/zh/docs/examples/bookinfo/#deploying-the-application)).
+* Have a Kubernetes cluster with Istio and Bookinfo installed (as described in
+[installation steps](/docs/setup/getting-started/) and
+[Bookinfo installation steps](/docs/examples/bookinfo/#deploying-the-application)).
 
 OR
 
@@ -295,7 +295,7 @@ one route that matches on everything. This route tells Envoy to send the request
     172.17.0.5:9080      HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
-## Inspecting Bootstrap configuration
+## Inspecting bootstrap configuration
 
 So far we have looked at configuration retrieved (mostly) from Pilot, however Envoy requires some bootstrap configuration that
 includes information like where Pilot can be found. To view this use the following command:

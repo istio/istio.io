@@ -1,52 +1,52 @@
 ---
 title: Azure
-description: 为 Istio 设置一个 Azure 集群的指令。
+description: Instructions to setup an Azure cluster for Istio.
 weight: 9
 skip_seealso: true
 aliases:
-    - /zh/docs/setup/kubernetes/prepare/platform-setup/azure/
-    - /zh/docs/setup/kubernetes/platform-setup/azure/
+    - /docs/setup/kubernetes/prepare/platform-setup/azure/
+    - /docs/setup/kubernetes/platform-setup/azure/
 keywords: [platform-setup,azure]
 ---
 
-跟随这些指令来为 Istio 准备一个 Azure 集群。
+Follow these instructions to prepare an Azure cluster for Istio.
 
-你可以通过完全支持 Istio 的 [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) 或者 [AKS-Engine](https://github.com/azure/aks-engine)，部署一个 Kubernetes 集群到 Azure 上。
+You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [AKS-Engine](https://github.com/azure/aks-engine) which fully supports Istio.
 
 ## AKS
 
-你可以通过 [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) 或者 [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal) 创建一个 AKS 集群。
+You can create an AKS cluster via [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) or [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal).
 
-对于 `az` cli 的选项，完成 `az login` 认证或者使用 cloud shell，然后运行下面的命令。
+For the `az` cli option, complete `az login` authentication OR use cloud shell, then run the following commands below.
 
-1. 确定支持 AKS 的期望 region 名
+1. Determine the desired region name which supports AKS
 
     {{< text bash >}}
     $ az provider list --query "[?namespace=='Microsoft.ContainerService'].resourceTypes[] | [?resourceType=='managedClusters'].locations[]" -o tsv
     {{< /text >}}
 
-1. 证实对于期望的 region 有支持的 Kubernetes 版本
+1. Verify the supported Kubernetes versions for the desired region
 
-    使用从上面步骤中期望的 region 值替换 `my location`，然后执行：
+    Replace `my location` using the desired region value from the above step, and then execute:
 
     {{< text bash >}}
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
     {{< /text >}}
 
-    确保最小值 `1.10.5` 被列出。
+    Ensure a minimum of `1.10.5` is listed.
 
-1. 创建 resource group 和部署 AKS 集群
+1. Create the resource group and deploy the AKS cluster
 
-    使用期望的名字替换 `myResourceGroup` 和 `myAKSCluster`，使用第一步中的名字替换 `mylocation`，替换 `1.10.5` 如果其在 region 中不被支持，然后执行：
+    Replace `myResourceGroup` and `myAKSCluster` with desired names, `my location` using the value from step 1, `1.10.5` if not supported in the region, and then execute:
 
     {{< text bash >}}
     $ az group create --name myResourceGroup --location "my location"
     $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.10.5 --generate-ssh-keys
     {{< /text >}}
 
-1. 取得 AKS `kubeconfig` 证书
+1. Get the AKS `kubeconfig` credentials
 
-    使用从之前步骤中获得的名字替换 `myResourceGroup` 和 `myAKSCluster` 并且执行：
+    Replace `myResourceGroup` and `myAKSCluster` with the names from the previous step and execute:
 
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
@@ -54,24 +54,25 @@ keywords: [platform-setup,azure]
 
 ## AKS-Engine
 
-1. [跟随这些命令](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine) 来获取和安装 `aks-engine` 的二进制版本。
+1. [Follow the instructions](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine) to get and install the `aks-engine` binary.
 
-1. 下载支持部署 Istio 的 `aks-engine` API 模型定义：
+1. Download the `aks-engine` API model definition that supports deploying Istio:
 
     {{< text bash >}}
     $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    注意：可能使用其他可以和 Istio 一起工作的 api 模型定义。MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook 准入控制标识和 RBAC 被默认打开。从 [aks-engine api 模型默认值](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) 获取更多信息。
+    Note: It is possible to use other api model definitions which will work with Istio. The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default. See [aks-engine api model default values](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) for further information.
 
-1. 使用 `istio.json` 模板来部署你的集群。你能发现对于参数的参考在
-   [官方文档](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition) 中。
+1. Deploy your cluster using the `istio.json` template. You can find references
+   to the parameters in the
+   [official docs](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition).
 
-    | 参数                             | 期望值             |
+    | Parameter                             | Expected value             |
     |---------------------------------------|----------------------------|
     | `subscription_id`                     | Azure Subscription Id      |
-    | `dns_prefix`                          | 集群 DNS 前缀         |
-    | `location`                            | 集群位置           |
+    | `dns_prefix`                          | Cluster DNS Prefix         |
+    | `location`                            | Cluster Location           |
 
     {{< text bash >}}
     $ aks-engine deploy --subscription-id <subscription_id> \
@@ -80,19 +81,22 @@ keywords: [platform-setup,azure]
     {{< /text >}}
 
     {{< tip >}}
-    几分钟之后，你能发现你的集群在你的 Azure subscription 上的
-    resource group 里被叫做 `<dns_prefix>-<id>`。假设 `dns_prefix` 有这样的值 `myclustername`，一个带着唯一集群 ID `mycluster-5adfba82` 的有效的 resource group。`aks-engine` 在 `_output` 文件夹中生成你的 `kubeconfig`
-    文件。
+    After a few minutes, you can find your cluster on your Azure subscription
+    in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
+    the value `myclustername`, a valid resource group with a unique cluster
+    ID is `mycluster-5adfba82`. The `aks-engine` generates your `kubeconfig`
+    file in the `_output` folder.
     {{< /tip >}}
 
-1. 使用 `<dns_prefix>-<id>` 集群 ID，为了从 `_output` 文件夹复制你的 `kubeconfig` 到你的机器：
+1. Use the `<dns_prefix>-<id>` cluster ID, to copy your `kubeconfig` to your
+   machine from the `_output` folder:
 
     {{< text bash >}}
     $ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
         ~/.kube/config
     {{< /text >}}
 
-    比如：
+    For example:
 
     {{< text bash >}}
     $ cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json \

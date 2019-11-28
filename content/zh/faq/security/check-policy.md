@@ -1,16 +1,16 @@
 ---
-title: 如何检查一个服务是否启动了双向 TLS？
+title: How can I check whether mutual TLS is enabled for a service?
 weight: 11
 ---
 
-您可以通过 [`istioctl`](/zh/docs/reference/commands/istioctl) 提供的一个选项来进行确认，请执行以下命令：
+The [`istioctl`](/docs/reference/commands/istioctl) command provides an option for this purpose. You can do:
 
 {{< text bash >}}
 $ istioctl authn tls-check $CLIENT_POD httpbin.default.svc.cluster.local
-HOST:PORT                                  STATUS     SERVER     CLIENT     AUTHN POLICY        DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     OK         mTLS       mTLS       /default            istio-system/default
+HOST:PORT                                  STATUS     SERVER     CLIENT           AUTHN POLICY     DESTINATION RULE
+httpbin.default.svc.cluster.local:8000     OK         STRICT     ISTIO_MUTUAL     /default         istio-system/default
 {{< /text >}}
 
-其中 `$CLIENT_POD` 是作为客户端服务运行的 pod 中的任意一个的 ID。
+Where `$CLIENT_POD` is the ID of one of the client service's pods.
 
-请参见[验证双向 TLS 配置](/zh/docs/tasks/security/authentication/mutual-tls/#verify-mutual-TLS-configuration)以获取更多细节。
+Refer to [Verify mutual TLS configuration](/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration) for more information.

@@ -3,8 +3,8 @@ title: Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.3.
 weight: 20
 aliases:
-    - /zh/docs/setup/kubernetes/upgrade/notice/
-    - /zh/docs/setup/upgrade/notice
+    - /docs/setup/kubernetes/upgrade/notice/
+    - /docs/setup/upgrade/notice
 ---
 
 This page describes changes you need to be aware of when upgrading from
@@ -31,10 +31,10 @@ to intentionally bypass Envoy, you must opt out of port capturing with the
 
 Protocol sniffing is now enabled by default. Disable protocol sniffing with the
 `--set pilot.enableProtocolSniffing=false` option when you upgrade to get the
-previous behavior. To learn more see our [protocol selection page](/zh/docs/ops/traffic-management/protocol-selection/).
+previous behavior. To learn more see our [protocol selection page](/docs/ops/configuration/traffic-management/protocol-selection/).
 
 To specify a hostname in multiple namespaces, you must select a single host using
-a [`Sidecar` resource](/zh/docs/reference/config/networking/sidecar/).
+a [`Sidecar` resource](/docs/reference/config/networking/sidecar/).
 
 ## Trust domain validation
 
@@ -60,4 +60,4 @@ the audience, the value of the `aud` field, to be `istio-ca` when you enable
 SDS.
 
 Before upgrading to Istio 1.3 with SDS enabled, see our blog post on
-[trustworthy JWTs and SDS](/zh/blog/2019/trustworthy-jwt-sds/).
+[trustworthy JWTs and SDS](/blog/2019/trustworthy-jwt-sds/).

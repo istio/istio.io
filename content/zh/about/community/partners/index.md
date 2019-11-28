@@ -1,17 +1,17 @@
 ---
-title: 合作伙伴
-description: 围绕 Istio 进行构建的用户。
+title: Partners
+description: Who's building stuff around Istio.
 weight: 20
 icon: partners
 keywords: [community]
 skip_seealso: true
 ---
 
-Istio 受益强大的合作伙伴生态。了解下他们是如何使 Istio 变得更好。
+Istio benefits from an ecosystem of great partners. Check 'em out and learn how they make Istio even better.
 
 <div class="logo-gallery">
     {{< company_logo link="https://www.getambassador.io" logo="./ambassador.svg" alt="Ambassador API Gateway" tagline="Open source Kubernetes-native API Gateway" >}}
-    {{< company_logo link="https://www.antfin.com" logo="./antfinancial.png" alt="Ant Financial" tagline="给世界带来更多平等的机会" >}}
+    {{< company_logo link="https://www.antfin.com" logo="./antfinancial.png" alt="Ant Financial" tagline="Bring the world equal opportunities" >}}
     {{< company_logo link="https://apigee.com" logo="./apigee.svg" alt="Apigee" tagline="Power your APIs with a leader three times running" >}}
     {{< company_logo link="https://www.aporeto.com" logo="./aporeto.svg" alt="Aporeto" tagline="Cloud Workload Protection that Actually Scales" >}}
     {{< company_logo link="https://aspenmesh.io" logo="./aspenmesh.svg" alt="Aspen Mesh" tagline="Service Mesh Made Easy" >}}
@@ -34,4 +34,4 @@ Istio 受益强大的合作伙伴生态。了解下他们是如何使 Istio 变�
     {{< company_logo link="https://wso2.com" logo="./wso2.svg" alt="WSO2" tagline="The #1 Open Source API Management and Integration Platform" >}}
 </div>
 
-想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.io/pulls)。
+Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).

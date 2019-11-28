@@ -1,13 +1,12 @@
 ---
-title: 运维指南
-description: 关于运行 Istio 网格的提示、技巧和窍门。
+title: Operations
+description: Concepts, tools, and techniques to deploy and manage an Istio mesh.
 weight: 32
-icon: guide
 aliases:
-    - /zh/troubleshooting.html
-    - /zh/troubleshooting/index.html
-    - /zh/help/troubleshooting/index.html
-    - /zh/help/ops
-    - /zh/help
+    - /troubleshooting.html
+    - /troubleshooting/index.html
+    - /help/troubleshooting/index.html
+    - /help/ops
+    - /help
 icon: guide
 ---

@@ -7,8 +7,8 @@ publishdate: 2019-05-28
 keywords: [CVE]
 skip_seealso: true
 aliases:
-    - /zh/blog/2019/cve-2019-12243
-    - /zh/news/2019/cve-2019-12243
+    - /blog/2019/cve-2019-12243
+    - /news/2019/cve-2019-12243
 ---
 
 {{< security_bulletin
@@ -19,15 +19,15 @@ aliases:
 
 ## Context
 
-During review of the [Istio 1.1.7](/zh/news/releases/1.1.x/announcing-1.1.7) release notes, we realized that [issue 13868](https://github.com/istio/istio/issues/13868),
+During review of the [Istio 1.1.7](/news/releases/1.1.x/announcing-1.1.7) release notes, we realized that [issue 13868](https://github.com/istio/istio/issues/13868),
 which is fixed in the release, actually represents a security vulnerability.
 
-Initially we thought the bug was impacting the [TCP Authorization](/zh/about/feature-stages/#security-and-policy-enforcement) feature advertised
+Initially we thought the bug was impacting the [TCP Authorization](/about/feature-stages/#security-and-policy-enforcement) feature advertised
 as alpha stability, which would not have required invoking this security advisory process, but we later realized that the
-[Deny Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/) and
-[List Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) feature were affected and those are considered stable features.
+[Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/) and
+[List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/) feature were affected and those are considered stable features.
 We are revisiting our processes to flag vulnerabilities that are initially reported as bugs instead of through the
-[private disclosure process](/zh/about/security-vulnerabilities/).
+[private disclosure process](/about/security-vulnerabilities/).
 
 We tracked the bug to a code change introduced in Istio 1.1 and affecting all releases up to 1.1.6.
 
@@ -54,7 +54,7 @@ You are impacted by the vulnerability issue if the following conditions are all 
 ## Mitigation
 
 * Users of Istio 1.0.x are not affected.
-* For Istio 1.1.x deployments: update to [Istio 1.1.7](/zh/news/releases/1.1.x/announcing-1.1.7) or later.
+* For Istio 1.1.x deployments: update to [Istio 1.1.7](/news/releases/1.1.x/announcing-1.1.7) or later.
 
 ## Credit
 

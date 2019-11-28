@@ -7,9 +7,9 @@ keywords:
 - virtual-machine
 - vms
 aliases:
-- /zh/docs/examples/integrating-vms/
-- /zh/docs/examples/mesh-expansion/bookinfo-expanded
-- /zh/docs/examples/vm-bookinfo
+- /docs/examples/integrating-vms/
+- /docs/examples/mesh-expansion/bookinfo-expanded
+- /docs/examples/vm-bookinfo
 ---
 
 This example deploys the Bookinfo application across Kubernetes with one
@@ -33,11 +33,11 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 ## Before you begin
 
 - Setup Istio by following the instructions in the
-  [Installation guide](/zh/docs/setup/getting-started/).
+  [Installation guide](/docs/setup/getting-started/).
 
-- Deploy the [Bookinfo](/zh/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
+- Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-- Create a VM named 'vm-1' in the same project as the Istio cluster, and [join the mesh](/zh/docs/examples/virtual-machines/single-network/).
+- Create a VM named 'vm-1' in the same project as the Istio cluster, and [join the mesh](/docs/examples/virtual-machines/single-network/).
 
 ## Running MySQL on the VM
 
@@ -100,7 +100,7 @@ $ hostname -I
 
 ## Registering the mysql service with the mesh
 
-On a host with access to [`istioctl`](/zh/docs/reference/commands/istioctl) commands, register the VM and mysql db service
+On a host with access to [`istioctl`](/docs/reference/commands/istioctl) commands, register the VM and mysql db service
 
 {{< text bash >}}
 $ istioctl register -n vm mysqldb <ip-address-of-vm> 3306

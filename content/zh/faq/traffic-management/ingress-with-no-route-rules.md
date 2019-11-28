@@ -1,12 +1,15 @@
 ---
-title: 我可以不配置任何路由规则，使用 Ingress 的标准配置吗？
+title: Can I use standard Ingress specification without any route rules?
 weight: 40
 ---
 
-简单的 `Ingress` 规范，提供了开箱即用，通过 `Host`,`TLS` 以及基本 `Path` 精确匹配就可以使用，无需配置路由规则。
-然而，`Path` 在使用 `Ingress` 资源时不应该有任何 `.` 字符。
+Simple ingress specifications, with host, TLS, and exact path based
+matches will work out of the box without the need for route
+rules. However, note that the path used in the ingress resource should
+not have any `.` characters.
 
-比如，下面 `Ingress` 的资源匹配 `Host` 为 `example.com` 以及 `URL` 为 `/helloworld` 的请求。
+For example, the following ingress resource matches requests for the
+example.com host, with /helloworld as the URL.
 
 {{< text bash >}}
 $ kubectl create -f - <<EOF
@@ -28,7 +31,8 @@ rules:
 EOF
 {{< /text >}}
 
-然而，这下面的规则将不工作，因为他们在 `Path` 中使用了匹配表达式，并且添加了 `ingress.kubernetes.io` 注解。
+However, the following rules will not work because they use regular
+expressions in the path and `ingress.kubernetes.io` annotations:
 
 {{< text bash >}}
 $ kubectl create -f - <<EOF

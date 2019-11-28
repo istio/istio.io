@@ -1,272 +1,310 @@
 ---
-title: 安全
-description: 描述 Istio 的授权与鉴权功能。
+title: Security
+description: Describes Istio's authorization and authentication functionality.
 weight: 25
 keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
 aliases:
-    - /zh/docs/concepts/network-and-auth/auth.html
-    - /zh/docs/concepts/security/authn-policy/
-    - /zh/docs/concepts/security/mutual-tls/
-    - /zh/docs/concepts/security/rbac/
-    - /zh/docs/concepts/security/mutual-tls.html
+    - /docs/concepts/network-and-auth/auth.html
+    - /docs/concepts/security/authn-policy/
+    - /docs/concepts/security/mutual-tls/
+    - /docs/concepts/security/rbac/
+    - /docs/concepts/security/mutual-tls.html
 ---
 
-将单一应用程序分解为微服务可提供各种好处，包括更好的灵活性、可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：
+Breaking down a monolithic application into atomic services offers various benefits, including better agility, better scalability
+and better ability to reuse services.
+However, microservices also have particular security needs:
 
-- 为了抵御中间人攻击，需要流量加密。
-- 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略。
-- 要审核谁在什么时候做了什么，需要审计工具。
+- To defend against the man-in-the-middle attack, they need traffic encryption.
 
-Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。
+- To provide flexible service access control, they need mutual TLS and fine-grained access policies.
 
-本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据、端点、通信和平台的内部和外部威胁。
+- To audit who did what at what time, they need auditing tools.
 
-{{< image width="80%" link="overview.svg" caption="Istio 安全概述" >}}
+Istio Security tries to provide a comprehensive security solution to solve all these issues.
 
-Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密以及用于保护您的服务和数据的身份验证，授权和审计（AAA）工具。 Istio 安全的目标是：
+This page gives an overview on how you can use Istio security features to secure your services, wherever you run them.
+In particular, Istio security mitigates both insider and external threats against your data, endpoints, communication and platform.
 
-- **默认安全**： 应用程序代码和基础结构无需更改
+{{< image width="80%" link="./overview.svg" caption="Istio Security Overview" >}}
 
-- **深度防御**： 与现有安全系统集成，提供多层防御
+The Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization
+and audit (AAA) tools to protect your services and data. The goals of Istio security are:
 
-- **零信任网络**： 在不受信任的网络上构建安全解决方案
+- **Security by default**: no changes needed for application code and infrastructure
 
-请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration/)相关文章，开始在部署的服务中使用 Istio 安全功能。
-请访问我们的[安全任务](/zh/docs/tasks/security/)，以获取有关使用安全功能的详细说明。
+- **Defense in depth**: integrate with existing security systems to provide multiple layers of defense
 
-## 高级架构{#high-level-architecture}
+- **Zero-trust network**: build security solutions on untrusted networks
 
-Istio 中的安全性涉及多个组件：
+Visit our [Mutual TLS Migration docs](/docs/tasks/security/authentication/mtls-migration/) to start using Istio security features with your deployed services.
+Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
 
-- **Citadel** 用于密钥和证书管理
+## High-level architecture
 
-- **Sidecar 和周边代理** 实现客户端和服务器之间的安全通信
+Security in Istio involves multiple components:
 
-- **Pilot** 将[授权策略](/zh/docs/concepts/security/#authorization-policy)和[安全命名信息](/zh/docs/concepts/security/#secure-naming)分发给代理
+- **Citadel** for key and certificate management
 
-- **Mixer** 管理授权和审计
+- **Sidecar and perimeter proxies** to implement secure communication between clients and servers
 
-{{< image width="80%" link="./architecture.svg" caption="Istio 安全架构" >}}
+- **Pilot** to distribute [authentication policies](/docs/concepts/security/#authentication-policies)
+  and [secure naming information](/docs/concepts/security/#secure-naming) to the proxies
 
-在下面的部分中，我们将详细介绍 Istio 安全功能。
+- **Mixer** to manage authorization and auditing
 
-## Istio 身份{#istio-identity}
+{{< image width="80%" link="./architecture.svg" caption="Istio Security Architecture" >}}
 
-身份是任何安全基础架构的基本概念。在服务间通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。
-在客户端，根据[安全命名](/zh/docs/concepts/security/#secure-naming)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
-在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#authorization-policy)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
+In the following sections, we introduce the Istio security features in detail.
 
-在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。
-这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。
-在没有此类身份的平台上，Istio 可以使用可以对服务实例进行分组的其他身份，例如服务名称。
+## Istio identity
 
-不同平台上的 Istio 服务标识：
+Identity is a fundamental concept of any security infrastructure. At the beginning of a service-to-service communication,
+the two parties must exchange credentials with their identity information for mutual authentication purposes.
+On the client side, the server's identity is checked against the [secure naming](/docs/concepts/security/#secure-naming)
+information to see if it is an authorized runner of the service.
+On the server side, the server can determine what information the client can access based on the
+[authorization policies](/docs/concepts/security/#authorization-policy),
+audit who accessed what at what time, charge clients based on the services they used,
+and reject any clients who failed to pay their bill from accessing the services.
 
-- **Kubernetes**： Kubernetes 服务帐户
+In the Istio identity model, Istio uses the first-class service identity to determine the identity of a service.
+This gives great flexibility and granularity to represent a human user, an individual service, or a group of services.
+On platforms that do not have such identity available,
+Istio can use other identities that can group service instances, such as service names.
 
-- **GKE/GCE**： 可以使用 GCP 服务帐户
+Istio service identities on different platforms:
 
-- **GCP**： GCP 服务帐户
+- **Kubernetes**: Kubernetes service account
 
-- **AWS**： AWS IAM 用户/角色 帐户
+- **GKE/GCE**: may use GCP service account
 
-- **On-premises（非 Kubernetes）**： 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
+- **GCP**: GCP service account
 
-自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
+- **AWS**: AWS IAM user/role account
 
-### Istio 安全与 SPIFFE{#Istio-security-SPIFFE}
+- **On-premises (non-Kubernetes)**: user account, custom service account, service name, Istio service account, or GCP service account.
+  The custom service account refers to the existing service account just like the identities that the customer's Identity Directory manages.
 
-[SPIFFE](https://spiffe.io/) 标准提供了一个框架规范，该框架能够跨异构环境引导和向服务发布身份。
+### Istio security vs SPIFFE
 
-Istio 和 SPIFFE 共享相同的身份文件：[SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md)（SPIFFE 可验证身份证件）。
-例如，在 Kubernetes 中，X.509 证书的 URI 字段格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`。
-这使 Istio 服务能够建立和接受与其他 SPIFFE 兼容系统的连接。
+The [SPIFFE](https://spiffe.io/) standard provides a specification for a framework capable of bootstrapping and issuing identities to services
+across heterogeneous environments.
 
-Istio 安全性和 [SPIRE](https://spiffe.io/spire/)，它是 SPIFFE 的实现，在 PKI 实现细节上有所不同。
+Istio and SPIFFE share the same identity document: [SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md) (SPIFFE Verifiable Identity Document).
+For example, in Kubernetes, the X.509 certificate has the URI field in the format of
+`spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`.
+This enables Istio services to establish and accept connections with other SPIFFE-compliant systems.
 
-Istio 提供更全面的安全解决方案，包括身份验证、授权和审计。
+Istio security and [SPIRE](https://spiffe.io/spire/), which is the implementation of SPIFFE, differ in the PKI implementation details.
+Istio provides a more comprehensive security solution, including authentication, authorization, and auditing.
 
-## PKI{#PKI}
+## PKI
 
-Istio PKI 建立在 Istio Citadel 之上，可为每个工作负载安全地提供强大的工作负载标识。
-Istio 使用 X.509 证书来携带 [SPIFFE](https://spiffe.io/) 格式的身份。
-PKI 还可以大规模自动化密钥和证书轮换。
+The Istio PKI is built on top of Istio Citadel and securely provisions strong identities to every workload.
+Istio uses X.509 certificates to carry the identities in [SPIFFE](https://spiffe.io/) format.
+The PKI also automates the key & certificate rotation at scale.
 
-Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
-目前，我们为每个方案使用不同的证书密钥配置机制。
+Istio supports services running on both Kubernetes pods and on-premises machines.
+Currently we use different certificate key provisioning mechanisms for each scenario.
 
-### Kubernetes 方案{#Kubernetes-scenario}
+### Kubernetes scenario
 
-1. Citadel 监视 Kubernetes `apiserver`，为每个现有和新的服务帐户创建 SPIFFE 证书和密钥对。Citadel 将证书和密钥对存储为 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/)。
+1. Citadel watches the Kubernetes `apiserver`, creates a SPIFFE certificate and key pair for each of the existing and new service accounts.
+   Citadel stores the certificate and key pairs as
+   [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1. 创建 pod 时，Kubernetes 会根据其服务帐户通过 [Kubernetes secret volume](https://kubernetes.io/docs/concepts/storage/volumes/#secret) 将证书和密钥对挂载到 pod。
+1. When you create a pod, Kubernetes mounts the certificate and key pair to the pod according to its service account via
+   [Kubernetes secret volume](https://kubernetes.io/docs/concepts/storage/volumes/#secret).
 
-1. Citadel 监视每个证书的生命周期，并通过重写 Kubernetes secret 自动轮换证书。
+1. Citadel watches the lifetime of each certificate, and automatically rotates the certificates by rewriting the Kubernetes secrets.
 
-1. Pilot 生成[安全命名](/zh/docs/concepts/security/#secure-naming)信息，该信息定义了哪些 Service Account 可以运行哪些服务。Pilot 然后将安全命名信息传递给 envoy sidecar。
+1. Pilot generates the [secure naming](/docs/concepts/security/#secure-naming) information,
+   which defines what service account or accounts can run a certain service.
+   Pilot then passes the secure naming information to the sidecar Envoy.
 
-### 本地机器方案{#on-premises-machines-scenario}
+### On-premises machines scenario
 
-1. Citadel 创建 gRPC 服务来接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSR）。
+1. Citadel creates a gRPC service to take [Certificate Signing Requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 
-1. 节点代理生成私钥和 CSR，并将 CSR 及其凭据发送给 Citadel 进行签名。
+1. Node agent generates a private key and CSR, and sends the CSR with its credentials to Citadel for signing.
 
-1. Citadel 验证 CSR 承载的凭证，并签署 CSR 以生成证书。
+1. Citadel validates the credentials carried with the CSR, and signs the CSR to generate the certificate.
 
-1. 节点代理将从 Citadel 接收的证书和私钥发送给 Envoy。
+1. The node agent sends both the certificate received from Citadel and the
+   private key to Envoy.
 
-1. 上述 CSR 过程会定期重复进行证书和密钥轮换。
+1. The above CSR process repeats periodically for certificate and key rotation.
 
-### Kubernetes 中的代理节点{#node-agent-in-Kubernetes}
+### Node agent in Kubernetes
 
-Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配的选项，如下图所示。请注意，本地计算机的标识提供流程是相同的，因此我们仅描述 Kubernetes 方案。
+Istio provides the option of using node agent in Kubernetes for certificate and key provisioning, as shown in the figure below.
+Note that the identity provisioning flow for on-premises machines will be similar in the near future, we only describe the Kubernetes scenario here.
 
-{{< image width="80%" link="./node_agent.svg" caption="PKI 与 Kubernetes 中的节点代理" >}}
+{{< image width="80%" link="./node_agent.svg" caption="PKI with node agents in Kubernetes"  >}}
 
-流程如下：
+The flow goes as follows:
 
-1. Citadel 创建一个 gRPC 服务来接受 CSR 请求。
+1. Citadel creates a gRPC service to take CSR requests.
 
-1. Envoy 通过 Envoy secret 发现服务（SDS）API 发送证书和密钥请求。
+1. Envoy sends a certificate and key request via Envoy secret discovery service (SDS) API.
 
-1. 收到 SDS 请求后，节点代理会创建私钥和 CSR，并将 CSR 及其凭据发送给 Citadel 进行签名。
+1. Upon receiving the SDS request, the node agent creates the private key and CSR before sending the CSR with its credentials to Citadel for signing.
 
-1. Citadel 验证 CSR 中携带的凭证，并签署 CSR 以生成证书。
+1. Citadel validates the credentials carried in the CSR and signs the CSR to generate the certificate.
 
-1. 节点代理通过 Envoy SDS API 将从 Citadel 接收的证书和私钥发送给 Envoy。
+1. The node agent sends the certificate received from Citadel and the private key to Envoy via the Envoy SDS API.
 
-1. 上述 CSR 过程会定期重复进行证书和密钥轮换。
+1. The above CSR process repeats periodically for certificate and key rotation.
 
 {{< idea >}}
-使用节点代理调试端点可以查看节点代理当前正在为其客户端代理提供服务的  secrets。访问代理程序端口 `8080` 上的 `/debug/sds/workload` 以获取当前工作负载 secrets，或访问 `/debug/sds/gateway` 以获取当前网关 secrets。
+Use the node agent debug endpoint to view the secrets a node agent is actively serving to its client proxies. Navigate to `/debug/sds/workload` on the agent's port `8080` to dump active workload secrets, or `/debug/sds/gateway` to dump active gateway secrets.
 {{< /idea >}}
 
-## 最佳实践{#best-practices}
+## Authentication
 
-在本节中，我们提供了一些部署指南并讨论了一个真实的场景。
+Istio provides two types of authentication:
 
-### 部署指南{#deployment-guidelines}
+- **Transport authentication**, also known as **service-to-service authentication**:
+  verifies the direct client making the connection. Istio offers [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
+  as a full stack solution for transport authentication. You can
+  easily turn on this feature without requiring service code changes. This
+  solution:
 
-如果有多个服务运维团队（又名 [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的 [Kubernetes 命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
+    - Provides each service with a strong identity representing its role to
+      enable interoperability across clusters and clouds.
+    - Secures service-to-service communication and end-user-to-service
+      communication.
+    - Provides a key management system to automate key and certificate
+      generation, distribution, and rotation.
 
-{{< warning >}}
-如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们**强烈**建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
-{{< /warning >}}
+- **Origin authentication**, also known as **end-user authentication**: verifies the
+  original client making the request as an end-user or device.
+  Istio enables request-level authentication with JSON Web Token (JWT) validation
+  and a streamlined developer experience for open source OpenID Connect provider
+  [ORY Hydra](https://www.ory.sh), [Keycloak](https://www.keycloak.org),
+  [Auth0](https://auth0.com/),
+  [Firebase Auth](https://firebase.google.com/docs/auth/),
+  [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect), and custom auth.
 
-### 示例{#example}
+In both cases, Istio stores the authentication policies in the `Istio config store` via a custom Kubernetes API.
+Pilot keeps them up-to-date for each proxy, along with the keys where appropriate.
+Additionally, Istio supports authentication in permissive mode to help you understand how a policy change can affect your security posture
+before it becomes effective.
 
-让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend` 服务可以访问 `photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
+### Mutual TLS authentication
 
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
+Istio tunnels service-to-service communication through the client side and server side [Envoy proxies](https://envoyproxy.github.io/envoy/).
+For a client to call a server with mutual TLS authentication:
 
-在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
+1. Istio re-routes the outbound traffic from a client to the client's local sidecar Envoy.
 
-### Citadel 如何确定是否创建了服务帐户 secrets（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
+1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
+   During the handshake, the client side Envoy also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
+   the service account presented in the server certificate is authorized to run the target service.
 
-当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
+1. The client side Envoy and the server side Envoy establish a mutual TLS connection,
+   and Istio forwards the traffic from the client side Envoy to the server side Envoy.
 
-1. `ca.istio.io/env` 命名空间标签：包含所需 Citadel 实例的命名空间的*字符串值*标签
+1. After authorization, the server side Envoy forwards the traffic to the server service through local TCP connections.
 
-1. `ca.istio.io/override` 命名空间标签：*布尔值*标签，它将覆盖所有其他配置，并强制所有 Citadel 实例定位或忽略命名空间
+#### Permissive mode
 
-1. [`enableNamespacesByDefault` 安全配置](/zh/docs/reference/config/installation-options/#security-options)：如果在 ServiceAccount 的命名空间上未找到标签，则为默认行为
+Istio mutual TLS has a permissive mode, which allows a service to accept
+both plaintext traffic and mutual TLS traffic at the same time. This
+feature greatly improves the mutual TLS onboarding experience.
 
-从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/setup/injection-concepts/)
+Many non-Istio clients communicating with a non-Istio server presents a
+problem for an operator who wants to migrate that server to Istio with
+mutual TLS enabled. Commonly, the operator cannot install an Istio sidecar
+for all clients at the same time or does not even have the permissions to
+do so on some clients. Even after installing the Istio sidecar on the
+server, the operator cannot enable mutual TLS without breaking existing
+communications.
 
-- 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的命名空间中定义了标签，则命名空间中的 Citadel 实例 ns-foo 将用于为命名空间中的工作负载生成密钥/证书 secrets ServiceAccount。
-- 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为 true，则默认 Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书 secrets。
-- 否则，不会为 ServiceAccount 的命名空间创建任何 secret。
+With the permissive mode enabled, the server accepts both plaintext and
+mutual TLS traffic. The mode provides great flexibility for the
+on-boarding process. The server's installed Istio sidecar takes mutual TLS
+traffic immediately without breaking existing plaintext traffic. As a
+result, the operator can gradually install and configure the client's
+Istio sidecars to send mutual TLS traffic. Once the configuration of the
+clients is complete, the operator can configure the server to mutual TLS
+only mode. For more information, visit the
+[Mutual TLS Migration tutorial](/docs/tasks/security/authentication/mtls-migration).
 
-以下表格捕获了此逻辑：
+#### Secure naming
 
-| `ca.istio.io/override` value | `ca.istio.io/env` match | `enableNamespacesByDefault` configuration | 已经创建的 Workload secret |
-|------------------------------|-------------------------|-------------------------------------------|-------------------------|
-|`true`|yes|`true`|yes|
-|`true`|yes|`false`|yes|
-|`true`|no|`true`|yes|
-|`true`|no|`false`|yes|
-|`true`|unset|`true`|yes|
-|`true`|unset|`false`|yes|
-|`false`|yes|`true`|no|
-|`false`|yes|`false`|no|
-|`false`|no|`true`|no|
-|`false`|no|`false`|no|
-|`false`|unset|`true`|no|
-|`false`|unset|`false`|no|
-|unset|yes|`true`|yes|
-|unset|yes|`false`|yes|
-|unset|no|`true`|no|
-|unset|no|`false`|no|
-|unset|unset|`true`|yes|
-|unset|unset|`false`|no|
+The secure naming information contains *N-to-N* mappings from the server identities, which are encoded in certificates,
+to the service names that are referred by discovery service or DNS.
+A mapping from identity `A` to service name `B` means "`A` is allowed and authorized to run service `B`".
+Pilot watches the Kubernetes `apiserver`, generates the secure naming information, and distributes it securely to the sidecar Envoys.
+The following example explains why secure naming is critical in authentication.
 
-{{< idea >}}
-当命名空间从 _disabled_ 变成 _enabled_ 时，Citadel 将为该命名空间中的所有 `ServiceAccounts` 追溯生成 secrets。 但是从 _enabled_ 变成 _disabled_ 时，Citadel 将不会删除命名空间已经生成的 secrets，除非更新根证书才会重新更新 secrets。
-{{< /idea >}}
+Suppose the legitimate servers that run the service `datastore` only use the `infra-team` identity.
+A malicious user has certificate and key for the `test-team` identity.
+The malicious user intends to impersonate the service to inspect the data sent from the clients.
+The malicious user deploys a forged server with the certificate and key for the `test-team` identity.
+Suppose the malicious user successfully hijacked (through DNS spoofing, BGP/route hijacking, ARP
+spoofing, etc.) the traffic sent to the `datastore` and redirected it to the forged server.
 
-## 认证{#authentication}
+When a client calls the `datastore` service, it extracts the `test-team` identity from the server's certificate,
+and checks whether `test-team` is allowed to run `datastore` with the secure naming information.
+The client detects that `test-team` is **not** allowed to run the `datastore` service and the authentication fails.
 
-Istio 提供两种类型的身份验证：
+Secure naming is able to protect against general network hijackings for HTTPS traffic. It can also
+protect TCP traffic from general network hijackings except for DNS spoofing. It would fail to work
+for TCP traffic if the attacker hijacks the DNS and modifies the IP address of the destination. This
+is because TCP traffic does not contain the hostname information and we can only rely on the IP
+address for routing. And this DNS hijack can happen even before the client-side Envoy receives the
+traffic.
 
-- **传输身份验证**，也称为**服务到服务身份验证**：验证建立连接的直接客户端。
-  Istio 提供 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
-  您可以轻松打开此功能，而无需更改服务代码。这个解决方案：
+### Authentication architecture
 
-    - 为每个服务提供强大的身份，表示其角色，以实现跨群集和云的互操作性。
-    - 保护服务到服务通信和最终用户到服务通信。
-    - 提供密钥管理系统，以自动执行密钥和证书生成，分发和轮换。
+You can specify authentication requirements for services receiving requests in
+an Istio mesh using authentication policies. The mesh operator uses `.yaml`
+files to specify the policies. The policies are saved in the Istio
+configuration storage once deployed. Pilot, the Istio controller, watches the
+configuration storage. Upon any policy changes, Pilot translates the new policy
+to the appropriate configuration telling the Envoy sidecar proxy how to perform
+the required authentication mechanisms. Pilot may fetch the public key and
+attach it to the configuration for JWT validation. Alternatively, Pilot
+provides the path to the keys and certificates the Istio system manages and
+installs them to the application pod for mutual TLS. You can find more info in
+the [PKI section](/docs/concepts/security/#pki).
+Istio sends configurations to the targeted endpoints asynchronously. Once the
+proxy receives the configuration, the new authentication requirement takes
+effect immediately on that pod.
 
-- **来源身份认证**，也称为**最终用户身份验证**：验证作为最终用户或设备发出请求的原始客户端。Istio 通过 JSON Web Token（JWT）验证和 [ORY Hydra](https://www.ory.sh)、[Keycloak](https://www.keycloak.org)，[Auth0](https://auth0.com/)、[Firebase Auth](https://firebase.google.com/docs/auth/)、[Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
+Client services, those that send requests, are responsible for following
+the necessary authentication mechanism. For origin authentication (JWT), the
+application is responsible for acquiring and attaching the JWT credential to
+the request. For mutual TLS, Istio provides a [destination rule](/docs/concepts/traffic-management/#destination-rules).
+The operator can use the destination rule to instruct client proxies to make
+initial connections using TLS with the certificates expected on the server
+side. You can find out more about how mutual TLS works in Istio in
+[Mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication).
 
-在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在宽容模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
+{{< image width="60%" link="./authn.svg" caption="Authentication Architecture" >}}
 
-### 双向 TLS 认证{#mutual-TLS-authentication}
+Istio outputs identities with both types of authentication, as well as other
+claims in the credential if applicable, to the next layer:
+[authorization](/docs/concepts/security/#authorization). Additionally,
+operators can specify which identity, either from transport or origin
+authentication, should Istio use as ‘the principal'.
 
-Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代理](https://envoyproxy.github.io/envoy/)。为了使客户端通过双向 TLS 调用服务端，请遵循以下步骤：
+### Authentication policies
 
-1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
+This section provides more details about how Istio authentication policies
+work. As you'll remember from the [Architecture section](/docs/concepts/security/#authentication-architecture),
+authentication policies apply to requests that a service **receives**. To
+specify client-side authentication rules in mutual TLS, you need to specify the
+`TLSSettings` in the `DestinationRule`. You can find more information in our
+[TLS settings reference docs](/docs/reference/config/networking/destination-rule/#TLSSettings).
+Like other Istio configuration, you can specify authentication policies in
+`.yaml` files. You deploy policies using `kubectl`.
 
-1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，以验证服务器证书中显示的服务帐户是否被授权运行到目标服务。
-
-1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
-
-1. 授权后，服务器端 Envoy 通过本地 TCP 连接将流量转发到服务器服务。
-
-#### 宽容模式{#permissive-mode}
-
-Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 同时接受纯文本流量和双向 TLS 流量。这个功能极大的提升了双向 TLS 的入门体验。
-
-在运维人员希望将服务移植到启用了双向 TLS 的 Istio 上时，许多非 Istio 客户端和非 Istio 服务端通信时会产生问题。通常情况下，运维人员无法同时为所有客户端安装 Istio sidecar，甚至没有这样做的权限。即使在服务端上安装了 Istio sidecar，运维人员也无法在不中断现有连接的情况下启用双向 TLS。
-
-启用宽容模式后，服务同时接受纯文本和双向 TLS 流量。这个模式为入门提供了极大的灵活性。服务中安装的 Istio sidecar 立即接受双向 TLS 流量而不会打断现有的纯文本流量。因此，运维人员可以逐步安装和配置客户端 Istio sidecars 发送双向 TLS 流量。一旦客户端配置完成，运维人员便可以将服务端配置为仅 TLS 模式。更多信息请访问[双向 TLS 迁移向导](/zh/docs/tasks/security/authentication/mtls-migration)。
-
-#### 安全命名{#secure-naming}
-
-安全命名信息包含从编码在证书中的服务器标识到被发现服务或 DNS 引用的服务名称的 *N-到-N* 映射。从身份 `A` 到服务名称 `B` 的映射意味着“允许 `A` 并授权其运行服务 `B`。Pilot 监视 Kubernetes `apiserver`，生成安全的命名信息，并将其安全地分发给 sidecar Envoy。以下示例说明了为什么安全命名在身份验证中至关重要。
-
-假设运行服务 `datastore` 的合法服务器仅使用 `infra-team` 标识。恶意用户拥有 `test-team` 身份的证书和密钥。恶意用户打算模拟服务以检查从客户端发送的数据。恶意用户使用证书和 `test-team` 身份的密钥部署伪造服务器。假设恶意用户成功攻击了发现服务或 DNS，以将 `datastore` 服务名称映射到伪造服务器。
-
-当客户端调用 `datastore` 服务时，它从服务器的证书中提取 `test-team` 标识，并检查是否允许 `test-team` 运行带有安全命名信息的 `datastore`。客户端检测到 `test-team` 不允许运行 `datastore` 服务，并且验证失败。
-
-安全命名能够防止 HTTPS 流量受到一般性网络劫持，除了 DNS 欺骗外，它还可以保护 TCP 流量免受一般网络劫持。如果攻击者劫持了 DNS 并修改了目的地的 IP 地址，它将无法用于 TCP 通信。这是因为 TCP 流量不包含主机名信息，我们只能依靠 IP 地址进行路由，而且甚至在客户端 Envoy 收到流量之前，也可能发生 DNS 劫持。
-
-### 认证架构{#authentication-architecture}
-
-您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 `Istio Config Store`。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#PKI)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
-
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
-
-{{< image width="60%" link="./auth.svg" caption="认证架构" >}}
-
-Istio 将两种类型的身份验证以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#authorization)。此外，运维人员可以指定将传输或原始身份验证中的哪个身份作为`委托人`使用。
-
-### 认证策略{#authentication-policies}
-
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/networking/destination-rule/#TLSSettings)中有更多这方面的信息。和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略，然后使用 `istioctl` 进行部署。
-
-下面例子中的认证策略要求 `reviews` 服务必须使用双向 TLS：
+The following example authentication policy specifies that transport
+authentication for the `reviews` service must use mutual TLS:
 
 {{< text yaml >}}
 apiVersion: "authentication.istio.io/v1alpha1"
@@ -276,15 +314,17 @@ metadata:
 spec:
   targets:
   - name: reviews
-    peers:
+  peers:
   - mtls: {}
 {{< /text >}}
 
-#### 策略存储范围{#policy-storage-scope}
+#### Policy storage scope
 
-Istio 可以在命名空间范围或网络范围存储中存储身份认证策略：
+Istio can store authentication policies in namespace-scope or mesh-scope
+storage:
 
-- 为 `kind` 字段指定了网格范围策略，其值为 `MeshPolicy`，名称为 `default`。例如：
+- Mesh-scope policy is specified with a value of `MeshPolicy` for the `kind`
+  field and the name `"default"`. For example:
 
     {{< text yaml >}}
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -296,7 +336,9 @@ Istio 可以在命名空间范围或网络范围存储中存储身份认证策�
       - mtls: {}
     {{< /text >}}
 
-- 为 `kind` 字段和指定的命名空间指定命名空间范围策略，其值为 `Policy`。如果未指定，则使用默认命名空间。例如，命名空间 `ns1`：
+- Namespace-scope policy is specified with a value of `"Policy"` for the `kind`
+  field and a specified namespace. If unspecified, the default namespace is
+  used. For example for namespace `ns1`:
 
     {{< text yaml >}}
     apiVersion: "authentication.istio.io/v1alpha1"
@@ -309,60 +351,107 @@ Istio 可以在命名空间范围或网络范围存储中存储身份认证策�
       - mtls: {}
     {{< /text >}}
 
-命名空间范围存储中的策略只能影响同一命名空间中的服务。网格范围内的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets:` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#target-selectors)中找到更多信息。
+Policies in the namespace-scope storage can only affect services in the same
+namespace. Policies in mesh-scope can affect all services in the mesh. To
+prevent conflict and misuse, only one policy can be defined in mesh-scope
+storage. That policy must be named `default` and have an empty
+`targets:` section. You can find more information on our
+[target selectors section](/docs/concepts/security/#target-selectors).
 
-#### 目标选择器{#target-selectors}
+Kubernetes currently implements the Istio configuration on Custom Resource
+Definitions (CRDs). These CRDs correspond to namespace-scope and
+cluster-scope `CRDs` and automatically inherit access protection via the
+Kubernetes RBAC. You can read more on the
+[Kubernetes CRD documentation](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 
-身份认证策略的目标指定策略适用的服务。以下示例展示的是一个 `targets:` 部分，指定该策略适用于：
+#### Target selectors
 
-- 任何端口上的 `product-page` 服务。
-- 端口 `9000` 上的评论服务。
+An authentication policy's targets specify the service or services to which the
+policy applies. The following example shows a `targets:` section specifying
+that the policy applies to:
+
+- The `product-page` service on any port.
+- The reviews service on port `9000`.
 
 {{< text yaml >}}
 targets:
-
  - name: product-page
  - name: reviews
    ports:
    - number: 9000
 {{< /text >}}
 
-如果您未提供 `targets:` 部分，则 Istio 将策略与策略存储范围内的所有服务匹配。因此，`targets:` 部分可以帮助您指定策略的范围：
+If you don't provide a `targets:` section, Istio matches the policy to all
+services in the storage scope of the policy. Thus, the `targets:` section can
+help you specify the scope of the policies:
 
-- 网格范围策略：在网格范围存储中定义的策略，没有目标选择器部分。**网格中**最多只能有**一个**网格范围的策略。
+- Mesh-wide policy: A policy defined in the mesh-scope storage with no target
+  selector section. There can be at most **one** mesh-wide policy **in the
+  mesh**.
 
-- 命名空间范围的策略：在命名空间范围存储中定义的策略，名称为 `default` 且没有目标选择器部分。**每个命名空间**最多只能有**一个**命名空间范围的策略。
+- Namespace-wide policy: A policy defined in the namespace-scope storage with
+  name `default` and no target selector section. There can be at most **one**
+  namespace-wide policy **per namespace**.
 
-- 特定于服务的策略：在命名空间范围存储中定义的策略，具有非空目标选择器部分。命名空间可以具有**零个，一个或多个**特定于服务的策略。
+- Service-specific policy: a policy defined in the namespace-scope storage,
+  with non-empty target selector section. A namespace can have **zero, one, or
+  many** service-specific policies.
 
-对于每项服务，Istio 都应用最窄的匹配策略。顺序是：**特定服务>命名空间范围>网格范围**。如果多个特定于服务的策略与服务匹配，则 Istio 随机选择其中一个。运维人员在配置其策略时必须避免此类冲突。
+For each service, Istio applies the narrowest matching policy. The order is:
+**service-specific > namespace-wide > mesh-wide**. If more than one
+service-specific policy matches a service, Istio selects one of them at
+random. Operators must avoid such conflicts when configuring their policies.
 
-为了强制网格范围和命名空间范围的策略的唯一性，Istio 每个网格只接受一个身份认证策略，每个命名空间只接受一个身份认证策略。Istio 还要求网格范围和命名空间范围的策略具有特定名称 `default`。
+To enforce uniqueness for mesh-wide and namespace-wide policies, Istio accepts
+only one authentication policy per mesh and one authentication policy per
+namespace. Istio also requires mesh-wide and namespace-wide policies to have
+the specific name `default`.
 
-#### 传输认证{#transport-authentication}
+If a service has no matching policies, both transport authentication and
+origin authentication are disabled.
 
-`peers:` 部分定义了策略中传输身份验证支持的身份验证方法和相关参数。该部分可以列出多个方法，并且只有一个方法必须满足认证才能通过。但是，从 Istio 0.7 版本开始，当前支持的唯一传输身份验证方法是双向 TLS。如果您不需要传输身份验证，请完全跳过此部分。
+#### Transport authentication
 
-以下示例显示了使用双向 TLS 启用传输身份验证的 `peers:` 部分。
+The `peers:` section defines the authentication methods and associated
+parameters supported for transport authentication in a policy. The section can
+list more than one method and only one method must be satisfied for the
+authentication to pass. However, as of the Istio 0.7 release, the only
+transport authentication method currently supported is mutual TLS.
+
+The following example shows the `peers:` section enabling transport
+authentication using mutual TLS.
 
 {{< text yaml >}}
 peers:
   - mtls: {}
 {{< /text >}}
 
-默认的双向 TLS 模式为 `STRICT`。因此，`mode: STRICT` 等效于以下内容：
+The mutual TLS setting has an optional `mode` parameter that defines the
+strictness of the peer transport authentication. These modes are documented
+in the [Authentication Policy reference document](/docs/reference/config/security/istio.authentication.v1alpha1/#MutualTls-Mode).
+
+The default mutual TLS mode is `STRICT`. Therefore, `mode: STRICT` is equivalent to all of the following:
 
 - `- mtls: {}`
 - `- mtls:`
 - `- mtls: null`
 
-如果不指定双向 TLS 模式，则对等方无法使用 Transport 身份验证，并且 Istio 拒绝绑定到 Sidecar 的双向 TLS 连接。在应用程序层，服务仍可以处理它们自己的双向 TLS 会话。
+When you do not specify a mutual TLS mode, peers cannot use transport
+authentication, and Istio rejects mutual TLS connections bound for the sidecar.
+At the application layer, services may still handle their own mutual TLS sessions.
 
-#### 来源身份认证{#origin-authentication}
+#### Origin authentication
 
-`origins:` 部分定义了原始身份验证支持的身份验证方法和相关参数。Istio 仅支持 JWT 原始身份验证。但是，策略可以列出不同发行者的多个 JWT。与传输身份验证类似，只有一种列出的方法必须满足身份验证才能通过。
+The `origins:` section defines authentication methods and associated parameters
+supported for origin authentication. Istio only supports JWT origin
+authentication. You can specify allowed JWT issuers, and enable or disable JWT authentication for a
+specific path. If all JWTs are disabled for a request path, authentication also passes as if there is
+none defined.
+Similar to peer authentication, only one of the listed methods must be
+satisfied for the authentication to pass.
 
-以下示例策略为原始身份验证指定了一个 `origin:` 部分，该部分接受 Google 发布的 JWT。路径的 JWT 身份验证 `/health` 已禁用。
+The following example policy specifies an `origins:` section for origin authentication that accepts
+JWTs issued by Google. JWT authentication for path `/health` is disabled.
 
 {{< text yaml >}}
 origins:
@@ -374,21 +463,37 @@ origins:
       - exact: /health
 {{< /text >}}
 
-#### 主认证绑定{#principal-binding}
+#### Principal binding
 
-主认证关系用键值对的方式存储绑定关系。默认情况下，Istio 使用 `peers:` 部分中配置的身份验证。如果在 `peers:` 部分中未配置身份验证，则 Istio 将保留身份验证。策略编写者可以使用 `USE_ORIGIN` 值覆盖此行为。此值将 Istio 配置为使用 origin 的身份验证作为主体身份验证。将来，我们将支持条件绑定，例如：当传输体为 X 时为 `USE_PEER`，否则为 `USE_ORIGIN` 。
+The principal binding key-value pair defines the principal authentication for a
+policy. By default, Istio uses the authentication configured in the `peers:`
+section. If no authentication is configured in the `peers:` section, Istio
+leaves the authentication unset. Policy writers can overwrite this behavior
+with the `USE_ORIGIN` value. This value configures Istio to use the origin's
+authentication as the principal authentication instead. In future, we will
+support conditional binding, for example: `USE_PEER` when peer is X, otherwise
+`USE_ORIGIN`.
 
-以下示例显示了 `principalBinding` 键，其值为 `USE_ORIGIN`：
+The following example shows the `principalBinding` key with a value of
+`USE_ORIGIN`:
 
 {{< text yaml >}}
 principalBinding: USE_ORIGIN
 {{< /text >}}
 
-### 更新认证策略{#updating-authentication-policies}
+### Updating authentication policies
 
-您可以随时更改身份认证策略，Istio 几乎实时地将更改推送到端点。但是，Istio 无法保证所有端点同时收到新策略。以下是在更新身份认证策略时避免中断的建议：
+You can change an authentication policy at any time and Istio pushes the change
+to the endpoints almost in real time. However, Istio cannot guarantee that all
+endpoints receive a new policy at the same time. The following are
+recommendations to avoid disruption when updating your authentication policies:
 
-- 启用或禁用双向 TLS：使用带有 `mode:` 键和 `PERMISSIVE` 值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[双向 TLS 的迁移](/zh/docs/tasks/security/authentication/mtls-migration)。
+- To enable or disable mutual TLS: Use a temporary policy with a `mode:` key
+  and a `PERMISSIVE` value. This configures receiving services to accept both
+  types of traffic: plaintext and TLS. Thus, no request is dropped. Once all
+  clients switch to the expected protocol, with or without mutual TLS, you can
+  replace the `PERMISSIVE` policy with the final policy. For more information,
+  visit the [Mutual TLS Migration tutorial](/docs/tasks/security/authentication/mtls-migration).
 
 {{< text yaml >}}
 peers:
@@ -396,29 +501,38 @@ peers:
     mode: PERMISSIVE
 {{< /text >}}
 
-- 对于 JWT 身份验证迁移：在更改策略之前，请求应包含新的 JWT。一旦服务器端完全切换到新策略，旧 JWT（如果有的话）可以被删除。需要更改客户端应用程序才能使这些更改生效。
+- For JWT authentication migration: requests should contain new JWT before
+  changing policy. Once the server side has completely switched to the new
+  policy, the old JWT, if there is any, can be removed. Client applications
+  need to be changed for these changes to work.
 
-## 授权{#authorization}
+## Authorization
 
-Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Istio 网格中的服务提供命名空间级别、服务级别和方法级别的访问控制。它的特点是：
+Istio's authorization feature provides mesh-level, namespace-level, and workload-level
+access control on workloads in an Istio Mesh. It provides:
 
-- **基于角色的语义**，简单易用。
-- **服务间和最终用户对服务的授权**。
-- **通过自定义属性支持的灵活性**，例如条件、角色和角色绑定。
-- **高性能**，因为 Istio 授权是在 Envoy 本地强制执行的。
-- **高兼容性**，原生支持 HTTP、HTTPS 和 HTTP2，以及任意普通 TCP 协议。
+- **Workload-to-workload and end-user-to-workload authorization**.
+- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/), which is easy to use and maintain.
+- **Flexible semantics**, operators can define custom conditions on Istio attributes.
+- **High performance**, as Istio authorization is enforced natively on Envoy.
+- **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
 
-### 授权架构{#authorization-architecture}
+### Authorization architecture
 
-{{< image width="90%"  link="./authz.svg" alt="Istio Authorization" caption="Istio 授权架构" >}}
+{{< image width="90%" link="./authz.svg"
+    alt="Istio Authorization"
+    caption="Istio Authorization Architecture"
+    >}}
 
-上图显示了基本的 Istio 授权架构。运维人员使用 `.yaml` 文件指定 Istio 授权策略。部署后，Istio 将策略保存在 `Istio Config Store` 中。
+The above diagram shows the basic Istio authorization architecture. Operators
+specify Istio authorization policies using `.yaml` files.
 
-Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获取更新的授权策略。Pilot 将 Istio 授权策略分发给与服务实例位于同一位置的 Envoy 代理。
+Each Envoy proxy runs an authorization engine that authorizes requests at
+runtime. When a request comes to the proxy, the authorization engine evaluates
+the request context against the current authorization policies, and returns the
+authorization result, `ALLOW` or `DENY`.
 
-每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果 `ALLOW` 或 `DENY`。
-
-### Implicit enablement{#implicit-enablement}
+### Implicit enablement
 
 There is no need to explicitly enable Istio's authorization feature, you just apply
 the `AuthorizationPolicy` on **workloads** to enforce access control.
@@ -432,10 +546,10 @@ denied by default, unless explicitly allowed by a rule declared in the policy.
 Currently `AuthorizationPolicy` only supports `ALLOW` action. This means that if
 multiple authorization policies apply to the same workload, the effect is additive.
 
-### 授权策略{#authorization-policy}
+### Authorization policy
 
 To configure an Istio authorization policy, you create an
-[`AuthorizationPolicy` resource](/zh/docs/reference/config/security/authorization-policy/).
+[`AuthorizationPolicy` resource](/docs/reference/config/security/authorization-policy/).
 
 An authorization policy includes a selector and a list of rules. The selector
 specifies the **target** that the policy applies to, while the rules specify **who**
@@ -606,7 +720,7 @@ spec:
 {{< /text >}}
 
 The supported `key` values of a condition are listed in the
-[conditions page](/zh/docs/reference/config/security/conditions/).
+[conditions page](/docs/reference/config/security/conditions/).
 
 #### Authenticated and unauthenticated identity
 
@@ -663,7 +777,7 @@ These fields include:
 - The `request_principals` field in the source section of the authorization policy object
 - The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
 
-The supported conditions are listed in the [conditions page](/zh/docs/reference/config/security/conditions/).
+The supported conditions are listed in the [conditions page](/docs/reference/config/security/conditions/).
 
 If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
 authorization policy.
@@ -690,7 +804,8 @@ spec:
        ports: ["27017"]
 {{< /text >}}
 
-### 使用其他授权机制{#using-other-authorization-mechanisms}
+### Using other authorization mechanisms
 
-虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。
-要在 Mixer 中使用和配置插件，请访问我们的[策略和遥测适配器文档](/zh/docs/reference/config/policy-and-telemetry/adapters)。
+While we strongly recommend using the Istio authorization mechanisms,
+Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/reference/config/policy-and-telemetry/adapters).

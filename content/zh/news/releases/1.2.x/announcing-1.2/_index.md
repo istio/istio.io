@@ -7,10 +7,10 @@ publishdate: 2019-06-18
 release: 1.2.0
 skip_list: true
 aliases:
-    - /zh/blog/2019/announcing-1.2
-    - /zh/news/2019/announcing-1.2
-    - /zh/news/announcing-1.2.0
-    - /zh/news/announcing-1.2
+    - /blog/2019/announcing-1.2
+    - /news/2019/announcing-1.2
+    - /news/announcing-1.2.0
+    - /news/announcing-1.2
 ---
 
 We are pleased to announce the release of Istio 1.2!
@@ -40,7 +40,7 @@ on for some time.   We’re putting in place the infrastructure to measure the
 metrics each team decided on (paraphrasing Peter Drucker: if you can’t
 measure it, you can’t manage it).
 
-You might have noticed that the [patch releases](/zh/news/) for 1.1 have
+You might have noticed that the [patch releases](/news/) for 1.1 have
 been coming fast and furious.
 
 In order to get features in the hands of our customers and users as soon as
@@ -50,7 +50,7 @@ part of the release.
 
 We're seeing early results from the usability group. In the release notes,
 you'll find that you can now set log levels for the control plane and the
-data plane globally.  You can use [`istioctl`](/zh/docs/reference/commands/istioctl) to validate that your Kubernetes
+data plane globally.  You can use [`istioctl`](/docs/reference/commands/istioctl) to validate that your Kubernetes
 installation meets Istio's requirements. And the new
 `traffic.sidecar.istio.io/includeInboundPorts` annotation to eliminate the
 need for service owner to declare `containerPort` in the deployment yaml.

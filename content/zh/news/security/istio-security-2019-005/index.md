@@ -7,7 +7,7 @@ publishdate: 2019-10-08
 keywords: [CVE]
 skip_seealso: true
 aliases:
-    - /zh/news/2019/istio-security-2019-005
+    - /news/2019/istio-security-2019-005
 ---
 
 {{< security_bulletin
@@ -26,8 +26,8 @@ Both Istio gateways and sidecars are vulnerable to this issue. If you are runnin
 
 ## Mitigation
 
-* For Istio 1.1.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.1.16](/zh/news/releases/1.1.x/announcing-1.1.16) or later.
-* For Istio 1.2.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.2.7](/zh/news/releases/1.2.x/announcing-1.2.7) or later.
-* For Istio 1.3.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/zh/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.3.2](/zh/news/releases/1.3.x/announcing-1.3.2) or later.
+* For Istio 1.1.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.1.16](/news/releases/1.1.x/announcing-1.1.16) or later.
+* For Istio 1.2.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.2.7](/news/releases/1.2.x/announcing-1.2.7) or later.
+* For Istio 1.3.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.3.2](/news/releases/1.3.x/announcing-1.3.2) or later.
 
 {{< boilerplate "security-vulnerability" >}}

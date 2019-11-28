@@ -6,10 +6,10 @@ description: Istio 1.1.14 patch release.
 publishdate: 2019-08-26
 release: 1.1.14
 aliases:
-    - /zh/about/notes/1.1.14
-    - /zh/blog/2019/announcing-1.1.14
-    - /zh/news/2019/announcing-1.1.14
-    - /zh/news/announcing-1.1.14
+    - /about/notes/1.1.14
+    - /blog/2019/announcing-1.1.14
+    - /news/2019/announcing-1.1.14
+    - /news/announcing-1.1.14
 ---
 
 We're pleased to announce the availability of Istio 1.1.14. Please see below for what's changed.
@@ -18,8 +18,8 @@ We're pleased to announce the availability of Istio 1.1.14. Please see below for
 
 ## Security update
 
-Following the previous fixes for the security vulnerabilities described in [ISTIO-SECURITY-2019-003](/zh/news/security/istio-security-2019-003/)
-and [ISTIO-SECURITY-2019-004](/zh/news/security/istio-security-2019-004/), we are now addressing the internal control plane communication surface. These security fixes were not available at the time of our previous security release, and we considered the control plane gRPC surface to be harder to exploit.
+Following the previous fixes for the security vulnerabilities described in [ISTIO-SECURITY-2019-003](/news/security/istio-security-2019-003/)
+and [ISTIO-SECURITY-2019-004](/news/security/istio-security-2019-004/), we are now addressing the internal control plane communication surface. These security fixes were not available at the time of our previous security release, and we considered the control plane gRPC surface to be harder to exploit.
 
 You can find the gRPC vulnerability fix description on their mailing list (c.f.
 [HTTP/2 Security Vulnerabilities](https://groups.google.com/forum/#!topic/grpc-io/w5jPamxdda4)).

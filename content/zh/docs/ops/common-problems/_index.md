@@ -1,10 +1,10 @@
 ---
-title: 普通问题
-description: 描述如何辨认和解决 Istio 中的普通问题。
-weight: 70
+title: Common Problems
+description: Describes how to identify and resolve common problems in Istio.
+weight: 40
 keywords: [ops]
 aliases:
-    - /zh/help/ops/troubleshooting
-    - /zh/help/ops/traffic-management/troubleshooting
-    - /zh/help/ops/setup
+    - /help/ops/troubleshooting
+    - /help/ops/traffic-management/troubleshooting
+    - /help/ops/setup
 ---

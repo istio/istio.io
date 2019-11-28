@@ -5,13 +5,13 @@ description: Istio 0.2 announcement.
 publishdate: 2017-10-10
 subtitle: Improved mesh and support for multiple environments
 aliases:
-    - /zh/blog/istio-0.2-announcement.html
-    - /zh/about/notes/older/0.2
-    - /zh/blog/2017/0.2-announcement
-    - /zh/docs/welcome/notes/0.2.html
-    - /zh/about/notes/0.2/index.html
-    - /zh/news/2017/announcing-0.2
-    - /zh/news/announcing-0.2
+    - /blog/istio-0.2-announcement.html
+    - /about/notes/older/0.2
+    - /blog/2017/0.2-announcement
+    - /docs/welcome/notes/0.2.html
+    - /about/notes/0.2/index.html
+    - /news/2017/announcing-0.2
+    - /news/announcing-0.2
 ---
 
 We launched Istio; an open platform to connect, manage, monitor, and secure microservices, on May 24, 2017. We have been humbled by the incredible interest, and
@@ -47,7 +47,7 @@ you easily integrate your solution with Istio.
 
 ## Get involved in shaping the future of Istio
 
-We have a growing [roadmap](/zh/about/feature-stages/) ahead of us, full of great features to implement. Our focus next release is going to be on stability, reliability, integration with third party tools and multicluster use cases.
+We have a growing [roadmap](/about/feature-stages/) ahead of us, full of great features to implement. Our focus next release is going to be on stability, reliability, integration with third party tools and multicluster use cases.
 
 To learn how to get involved and contribute to Istio's future, check out our [community](https://github.com/istio/community) GitHub repository which
 will introduce you to our working groups, our mailing lists, our various community meetings, our general procedures and our guidelines.

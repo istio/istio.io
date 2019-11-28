@@ -5,14 +5,14 @@ description: Istio 0.1 announcement.
 publishdate: 2017-05-24
 subtitle: A robust service mesh for microservices
 aliases:
-    - /zh/blog/istio-service-mesh-for-microservices.html
-    - /zh/blog/0.1-announcement.html
-    - /zh/about/notes/older/0.1
-    - /zh/blog/2017/0.1-announcement
-    - /zh/docs/welcome/notes/0.1.html
-    - /zh/about/notes/0.1/index.html
-    - /zh/news/2017/announcing-0.1
-    - /zh/news/announcing-0.1
+    - /blog/istio-service-mesh-for-microservices.html
+    - /blog/0.1-announcement.html
+    - /about/notes/older/0.1
+    - /blog/2017/0.1-announcement
+    - /docs/welcome/notes/0.1.html
+    - /about/notes/0.1/index.html
+    - /news/2017/announcing-0.1
+    - /news/announcing-0.1
 ---
 
 Google, IBM, and Lyft are proud to announce the first public release of [Istio](/): an open source project that provides a uniform way to connect, secure, manage and monitor microservices. Our current release is targeted at the [Kubernetes](https://kubernetes.io/) environment; we intend to add support for other environments such as virtual machines and Cloud Foundry in the coming months.
@@ -56,7 +56,7 @@ Google, IBM and Lyft joined forces to create Istio from a desire to provide a re
 Istio is a completely open development project. Today we are releasing version 0.1, which works in a Kubernetes cluster, and we plan to have major new
 releases every 3 months, including support for additional environments. Our goal is to enable developers and operators to rollout and operate microservices
 with agility, complete visibility of the underlying network, and uniform control and security in all environments. We look forward to working with the Istio
-community and our partners towards these goals, following our [roadmap](/zh/about/feature-stages/).
+community and our partners towards these goals, following our [roadmap](/about/feature-stages/).
 
 Visit [here](https://github.com/istio/istio/releases) to get the latest released bits.
 

@@ -6,8 +6,8 @@ description: Istio 1.3.1 patch release.
 publishdate: 2019-09-27
 release: 1.3.1
 aliases:
-    - /zh/news/2019/announcing-1.3.1
-    - /zh/news/announcing-1.3.1
+    - /news/2019/announcing-1.3.1
+    - /news/announcing-1.3.1
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.3.0 and Istio 1.3.1.
@@ -31,5 +31,5 @@ This release includes bug fixes to improve robustness. This release note describ
 - **Added** annotations for Datadog tracing that controls extra features in sidecars.
 - **Added** the `pilot_xds_push_time` metric to report Pilot xDS push time.
 - **Added** `istioctl experimental analyze` to support multi-resource analysis and validation.
-- **Added** support for running metadata exchange and stats extensions in a WebAssembly sandbox. Follow [these](/zh/docs/ops/telemetry/in-proxy-service-telemetry/) instructions to try it out.
+- **Added** support for running metadata exchange and stats extensions in a WebAssembly sandbox. Follow [these](/docs/ops/configuration/telemetry/in-proxy-service-telemetry/) instructions to try it out.
 - **Removed** time diff info in the proxy-status command.

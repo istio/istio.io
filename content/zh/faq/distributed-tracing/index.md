@@ -1,10 +1,10 @@
 ---
-title: 分布式追踪的常见问题
-linktitle: 分布式追踪
-description: 分布式追踪问答。
+title: Distributed Tracing FAQ
+linktitle: Distributed Tracing
+description: Distributed Tracing Q & A.
 weight: 46
 layout: faq
 icon: faq
 aliases:
-  - /zh/help/faq/distributed-tracing
+  - /help/faq/distributed-tracing
 ---

@@ -1,7 +1,7 @@
 ---
-title: 策略和遥测
-description: 描述如何配置 Istio 的策略和遥测功能。
-weight: 30
+title: Policies and Telemetry
+description: Describes how to configure Istio's policy and telemetry features.
+weight: 50
 aliases:
-    - /zh/docs/reference/config/mixer/index.html
+    - /docs/reference/config/mixer/index.html
 ---
