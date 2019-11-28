@@ -1,22 +1,22 @@
 ---
 title: 双向 TLS 迁移
-description: 阐述如何将 Istio 服务即时迁移至双向 TLS 通信模式。
+description: 阐述如何将 Istio 服务逐步迁移至双向 TLS 通信模式。
 weight: 40
 keywords: [security,authentication,migration]
 aliases:
     - /zh/docs/tasks/security/mtls-migration/
 ---
 
-本任务阐述如何将 Istio 服务的流量从明文模式迁移至双向 TLS 模式，并且迁移过程中不中断在线流量。
+本任务阐述如何将 Istio 服务的请求从明文模式平滑过渡至双向 TLS 模式，并确保在整个迁移过程中不干扰在线流量的正常通信。
 
-在多个服务通过网络通信的场景下，通常希望逐步将所有服务迁移到 Istio 网格中。如此一来，在迁移过程中，将出现部分服务注入了 Envoy sidecar 而其他服务没有的情况。对于一个已注入 sidecar 的服务而言，一旦开启服务的双向 TLS 通信模式，那么传统客户端（即：没有 Envoy 的客户端）将无法与之通信，因为这些客户端没有注入 Envoy sidecar 和客户端证书。为了解决这个问题，Istio 认证策略提供了一种 “PERMISSIVE” 模式。当启用 “PERMISSIVE” 模式时，服务可以同时接收 HTTP 和双向 TLS 流量。
+针对多服务跨网络通信的应用场景，通常希望逐步将所有服务迁移到 Istio 网格中。如此一来，在迁移过程中，将出现只有部分服务注入了 Envoy sidecar 的情况。对于一个已注入 sidecar 的服务而言，一旦开启服务的双向 TLS 通信模式，那么传统客户端（即：没有 Envoy 的客户端）将无法与之通信，因为这些客户端没有注入 Envoy sidecar 和客户端证书。为了解决这个问题，Istio 认证策略提供了一种 “PERMISSIVE” 模式。当启用 “PERMISSIVE” 模式时，服务可以同时接收 HTTP 和双向 TLS 请求。
 
 这样，便可以将 Istio 服务的通信模式配置为双向 TLS，与此同时，不干扰其与传统服务之间的通信。此外，可以使用
-[Grafana dashboard](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) 检查哪些服务仍然向 "PERMISSIVE" 模式的服务发送明文流量，然后选择在这些服务迁移结束后关闭目标服务的 "PERMISSIVE" 模式，将其锁定为只接收双向 TLS 流量。
+[Grafana dashboard](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) 检查哪些服务仍然向 "PERMISSIVE" 模式的服务发送明文请求，然后选择在这些服务迁移结束后关闭目标服务的 "PERMISSIVE" 模式，将其锁定为只接收双向 TLS 请求。
 
 ## 开始之前{#before-you-begin}
 
-* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies) 以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication) 概念。
+* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies) 以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 概念。
 
 * 准备一个 Kubernetes 集群并部署好 Istio，不要开启全局双向 TLS （如：可以使用[安装步骤](/zh/docs/setup/getting-started)中提供的 demo 配置 profile，或者将安装选项 `global.mtls.enabled` 设置为 false）。
 
@@ -48,7 +48,7 @@ aliases:
     sleep.legacy to httpbin.foo: 200
     {{< /text >}}
 
-* 同时验证没有在系统中设置认证策略或目标规则（控制面板除外）：
+* 验证没有在系统中设置认证策略或目标规则（控制面板除外）：
 
     {{< text bash >}}
     $ kubectl get policies.authentication.istio.io --all-namespaces
@@ -63,9 +63,9 @@ aliases:
     istio-system   istio-telemetry   25m
     {{< /text >}}
 
-## 配置客户端发送双向 TLS 流量{#configure-clients-to-send-mutual-TLS-traffic}
+## 配置客户端发送双向 TLS 请求{#configure-clients-to-send-mutual-TLS-traffic}
 
-设置 `DestinationRule`，配置 Istio 服务发送双向 TLS 流量。
+设置 `DestinationRule`，配置 Istio 服务发送双向 TLS 请求。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -81,9 +81,9 @@ spec:
 EOF
 {{< /text >}}
 
-`sleep.foo` 和 `sleep.bar` 开始向 `httpbin.foo` 发送双向 TLS 流量。因为 `sleep.legacy` 没有注入 sidecar，`DestinationRule` 不会对其起作用，所以 `sleep.legacy` 仍然向 `httpbin.foo` 发送明文流量。
+`sleep.foo` 和 `sleep.bar` 开始向 `httpbin.foo` 发送双向 TLS 请求。因为 `sleep.legacy` 没有注入 sidecar，`DestinationRule` 不会对其起作用，所以 `sleep.legacy` 仍然向 `httpbin.foo` 发送明文请求。
 
-现在，我们确认一下，所有发送至 `httpbin.foo` 的请求仍然响应成功。
+现在，我们确认一下，所有发送至 `httpbin.foo` 的请求仍会响应成功。
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
@@ -97,7 +97,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 
 ## 锁定为双向 TLS （可选）{#lock-down-to-mutual-TLS-optional}
 
-当所有客户端服务都成功迁移至 Istio 之后，注入 Envoy sidecar，便可以锁定 `httpbin.foo` 只接收双向 TLS 流量。
+当所有客户端服务都成功迁移至 Istio 之后，注入 Envoy sidecar，便可以锁定 `httpbin.foo` 只接收双向 TLS 请求。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -125,7 +125,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 {{< /text >}}
 
 若无法将所有服务迁移至 Istio （注入 Envoy sidecar），则必须开启 `PERMISSIVE` 模式。
-然而，开启 `PERMISSIVE` 模式时，默认不对明文流量进行认证或授权检查。
+然而，开启 `PERMISSIVE` 模式时，系统默认不对明文请求进行认证或授权检查。
 推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/) 来为不同的请求路径配置不同的授权策略。
 
 ## 清除{#cleanup}
