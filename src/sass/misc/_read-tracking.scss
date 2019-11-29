@@ -1,8 +1,4 @@
 .dot {
-    display: none;
-}
-
-.dot.visible {
     @media screen {
         display: inline-block;
         width: 6px;
@@ -11,14 +7,20 @@
         border-radius: 50%;
         background: $pillBackgroundColor;
         color: $pillTextColor;
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+.dot.visible {
+    @media screen {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .4s ease-in-out;
     }
 }
 
 .pill {
-    display: none;
-}
-
-.pill.visible {
     @media screen {
         display: inline-block;
         position: relative;
@@ -30,6 +32,16 @@
         border-radius: 50%;
         background: $pillBackgroundColor;
         color: $pillTextColor;
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+.pill.visible {
+    @media screen {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .4s ease-in-out;
     }
 }
 
