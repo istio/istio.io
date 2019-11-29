@@ -108,7 +108,7 @@ aliases:
 
 参考 [Setup DNS](/zh/docs/setup/install/multicluster/gateways/#setup-DNS) 设置集群 DNS 。
 
-### 设置 VM {#setting-up-the-vm}
+### 设置 VM {#setting-up-the-VM}
 
 下一步，在每台您想要添加到网格中的机器上执行如下命令：
 
@@ -172,7 +172,7 @@ aliases:
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-pilot`           | Set route info for `istio-pilot`             |
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-citadel`         | Set route info for `istio-citadel`           |
 
-## 暴露在集群上运行的服务到 VMS {#expose-service-running-on-cluster-to-vms}
+## 暴露在集群上运行的服务到 VMS {#expose-service-running-on-cluster-to-VMS}
 
 集群中每个需要被 VM 访问到的服务必须在集群中添加一个 service entry 配置。Service entry 中的 host 要求格式为 `<name>.<namespace>.global` ，其中 name 和 namespace 分别对应服务中的名字和命名空间。
 
@@ -240,7 +240,7 @@ aliases:
     禁止为端口 15443 创建 `Gateway` 配置。
     {{< /warning >}}
 
-## 从 VM 发送请求到 kubernetes 中的服务{#send-requests-from-vm-to-kubernetes-services}
+## 从 VM 发送请求到 kubernetes 中的服务{#send-requests-from-VM-to-Kubernetes-services}
 
 机器在安装以后，就能访问运行在 Kubernetes 集群中的服务。
 
@@ -261,7 +261,7 @@ $ curl -v httpbin.bar.global:8000
 
 `server: envoy` header 表示 sidecar 拦截了这个流量。
 
-## 在添加的 VM 上运行服务{#running-services-on-the-added-vm}
+## 在添加的 VM 上运行服务{#running-services-on-the-added-VM}
 
 1. 在 VM 实例上安装一个 HTTP 服务器处理来自端口 8888 的 HTTP 流量：
 
