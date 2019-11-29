@@ -31,7 +31,7 @@ $ istioctl experimental describe <pod-name>[.<namespace>]
 ## 验证 pod 是否在网格中{#verify-a-pod-is-in-the-mesh}
 
 如果 pod 里没有 {{< gloss >}}Envoy{{< /gloss >}} 代理或者代理没启动，`istioctl describe` 命令会返回一个警告。
-另外，如果 [pods 的 Istio 需求](/zh/docs/ops/prep/requirements/)未完全满足，该命令也会警告。
+另外，如果 [pods 的 Istio 需求](/zh/docs/ops/deployment/requirements/)未完全满足，该命令也会警告。
 
 例如，下面的命令发出的警告表示一个 `kubernetes-dashboard` pod 不被包含在服务网格内，因为它没有 sidecar：
 
