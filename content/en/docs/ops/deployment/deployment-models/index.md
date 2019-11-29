@@ -1,6 +1,6 @@
 ---
 title: Deployment Models
-description: Describes the system models that impact your overall Istio depolyment.
+description: Describes the options and considerations when configuring your Istio deployment.
 weight: 20
 keywords:
   - single-cluster
@@ -18,9 +18,37 @@ aliases:
   - /docs/ops/prep/deployment-models
 ---
 
-Important system models impact your overall Istio deployment model. This page
-discusses the options for each of these models and describes how you can
-configure Istio to address them.
+When configuring a production deployment of Istio, you need to answer a number of questions.
+Will the mesh be confined to a single {{< gloss >}}cluster{{< /gloss >}} or distributed across
+multiple clusters? Will all the services be located in a single fully connected network, or will
+gateways be required to connect services across multiple networks? Is there a single
+{{< gloss >}}control plane{{< /gloss >}}, potentially shared across clusters,
+or are there multiple control planes deployed to ensure high availability (HA)?
+If there is more than one cluster being deployed, and more specifically in isolated networks,
+are they going to be connected into a single {{< gloss >}}multicluster{{< /gloss >}}
+service mesh or will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+
+All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
+
+1. single or multiple cluster
+1. single or multiple network
+1. single or multiple control plane
+1. single or multiple mesh
+
+All combinations are possible, although some are more common than others and
+some are clearly not very interesting (for example, multiple mesh in a single cluster).
+
+In a production deployment involving multiple clusters, the deployment may use a
+mix of patterns. For example, having more than one control plane is recommended for HA,
+but you could achieve this for a 3 cluster deployment by deploying 2 clusters with
+a single shared control plane and then adding the third cluster with a second
+control plane in a different network. All three clusters could then be configured
+to share both control planes so that all the clusters have 2 sources of control
+to ensure HA.
+
+Choosing the right deployment model depends on the isolation, performance,
+and HA requirements for your use case. This guide describes the various options and
+considerations when configuring your Istio deployment.
 
 ## Cluster models
 
