@@ -782,3 +782,9 @@ If you're having trouble with the link checker due to poor Internet connectivity
 {{< text bash >}}
 $ make INTERNAL_ONLY=True lint
 {{< /text >}}
+
+## Using GitHub
+
+Checkout [Working with GitHub](/about/contribute/github) to learn how to generally use GitHub to submit
+documentation changes. Of particular interest, see the [section on branching](/about/contribute/github#branching)
+to understand how we use branches and cherry picking.
