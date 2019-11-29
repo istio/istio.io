@@ -2,9 +2,6 @@
 title: Failure Domain
 ---
 
-A failure domain is a physical or logical section of the computing environment
-that is negatively affected when a critical device or service experiences
-problems.
+故障域是计算环境中物理或者逻辑的一部分，当关键设备或服务遇到问题时，它也会受到负面影响。
 
-For an Istio deployment, failure domains could encompass multiple availability
-zones of your platform.
+对于 Istio 部署而言，故障域可能包含平台中的多个可用性区域。
