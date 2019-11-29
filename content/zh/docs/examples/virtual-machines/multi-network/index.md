@@ -12,7 +12,7 @@ aliases:
 - /zh/docs/tasks/virtual-machines/multi-network
 ---
 
-本示例演示如何利用网关整合一个 VM 或一个裸机到部署在 Kubernetes 上的多网络 Istio 网格中。这种方式不要求 VM, 裸机和集群之间可以通过 VPN 连通或者直接的网络访问。
+本示例演示如何利用网关整合一个 VM 或一个裸机到部署在 Kubernetes 上的多网络 Istio 网格中。这种方式不要求 VM，裸机和集群之间可以通过 VPN 连通或者直接的网络访问。
 
 ## 前提条件{#prerequisites}
 
@@ -23,14 +23,14 @@ aliases:
 
 设置内容包括准备网格用于扩展，安装和配置各个 VM 。
 
-### 集群上定制化安装 Istio {#customized-installation-of-istio-on-the-cluster}
+### 集群上定制化安装 Istio {#customized-installation-of-Istio-on-the-cluster}
 
 当添加非 Kubernetes 的服务到 Istio 网格时，第一步是 Istio 本身的安装配置，并生成让 VMs 连接到网格的配置文件。为 VM 准备集群需要使用集群管理员权限在一台机器上执行如下命令：
 
 1. 为您的生成的 CA 证书创建 Kubernetes secret，使用如下命令。查看 [Certificate Authority (CA) certificates](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) 获取更多细节。
 
     {{< warning >}}
-    来自例子库的根证书和中级证书被大量分发和公开。不要在生产中使用这些证书，这会成为您的集群的安全漏洞。
+    样本目录中的 root 证书和中间证书已经大范围分发并被识别。**不能** 在生产环境中使用这些证书，否则您的集群容易受到安全漏洞和破坏的威胁。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -104,7 +104,7 @@ aliases:
     $ echo "ISTIO_INBOUND_PORTS=8888" >> cluster.env
     {{< /text >}}
 
-### 设置 DNS {#setup-dns}
+### 设置 DNS {#setup-DNS}
 
 参考 [Setup DNS](/zh/docs/setup/install/multicluster/gateways/#setup-DNS) 设置集群 DNS 。
 
@@ -121,7 +121,7 @@ aliases:
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1. 添加 Istio gateway 的 IP 地址到 `/etc/hosts` 中。重新查看 [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) 部分学习怎样获取 IP 地址。
+1. 添加 Istio gateway 的 IP 地址到 `/etc/hosts` 中。重新查看 [集群上定制化安装 Istio ](#customized-installation-of-Istio-on-the-cluster) 部分学习怎样获取 IP 地址。
 下面的示例演示更新 `/etc/hosts` 文件中的 Istio gateway 地址：
 
     {{< text bash >}}
@@ -154,12 +154,9 @@ aliases:
     $ sudo systemctl start istio
     {{< /text >}}
 
-## 添加 Istio 资源{#added-istio-resources}
+## 添加 Istio 资源{#added-Istio-resources}
 
 下面的 Istio 资源结合 gateways 一起对添加 VMs 到网格中做支持。这些资源让 VM 和 集群摆脱了扁平网络的要求。
-The Istio resources below are added to support adding VMs to the mesh with
-gateways. These resources remove the flat network requirement between the VM and
-cluster.
 
 | 资源类型| 资源名字 | 功能 |
 | ----------------------------       |---------------------------       | -----------------                          |
