@@ -36,7 +36,7 @@ keywords:
 - **应用 UID**: 确保你的 Pod 不会以用户 ID（UID）为 1337 的用户运行应用。
 
 - **`NET_ADMIN` 功能**: 如果你的集群执行 Pod 安全策略，必须给 Pod 配置 `NET_ADMIN` 功能。如果你使用 [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)
-  可以不配置。要了解更多 `NET_ADMIN` 功能的知识，请查看[需要的 Pod Capabilities](#required-pod-capabilities)。
+  可以不配置。要了解更多 `NET_ADMIN` 功能的知识，请查看[所需的 Pod 功能](#required-pod-capabilities)。
 
 ## Istio 使用的端口{#ports-used-by-Istio}
 
@@ -66,33 +66,22 @@ Istio 使用了如下的端口和协议。请确保没有 TCP Headless Service �
 | 15090 | HTTP | Mixer | Proxy |
 | 42422 | TCP | Mixer | 遥测 - Prometheus |
 
-## Required pod capabilities{#required-pod-capabilities}
+## 所需的 Pod 功能{#required-pod-capabilities}
 
-If [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
-are [enforced](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)
-in your cluster and unless you use the Istio CNI Plugin, your pods must have the
-`NET_ADMIN` capability allowed. The initialization containers of the Envoy
-proxies require this capability.
+如果集群中的 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) 被[强制执行](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)，并且除非您使用 Istio CNI 插件，否则您的 Pod 必须具有允许的 `NET_ADMIN` 功能。Envoy 代理的初始化容器需要此功能。
 
-To check if the `NET_ADMIN` capability is allowed for your pods, you need to check if their
-[service account](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
-can use a pod security policy that allows the `NET_ADMIN` capability.
-If you haven't specified a service account in your pods' deployment, the pods run using
-the `default` service account in their deployment's namespace.
+要检查您的 Pod 是否支持 `NET_ADMIN` 功能，您需要检查其 [service account(服务账户)](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 是否可以使用允许 `NET_ADMIN` 功能的 Pod 安全策略。如果尚未在 Pod 的部署中指定服务帐户，则 Pod 将在其部署的命名空间中使用 `默认` 服务帐户运行。
 
-To list the capabilities for a service account, replace `<your namespace>` and `<your service account>`
-with your values in the following command:
+要实现列出服务帐户的功能，在以下命令中，用您的值替换 `<your namespace>` and `<your service account>`：
 
 {{< text bash >}}
 $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
 {{< /text >}}
 
-For example, to check for the `default` service account in the `default` namespace, run the following command:
+例如，要检查 `默认` 命名空间中的 `默认` 服务帐户，请运行以下命令：
 
 {{< text bash >}}
 $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
 {{< /text >}}
 
-If you see `NET_ADMIN` or `*` in the list of capabilities of one of the allowed
-policies for your service account, your pods have permission to run the Istio init containers.
-Otherwise, you will need to [provide the permission](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies).
+如果您在服务帐户允许的策略的功能列表中看到 `NET_ADMIN` 或者 `*`，则您的 Pod 有权利运行 Istio 初始化容器。否则，您将需要[提供许可认证](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies)。

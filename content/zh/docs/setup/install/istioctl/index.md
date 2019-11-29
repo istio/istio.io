@@ -19,7 +19,7 @@ keywords: [operator,kubernetes,helm]
 
 1. [下载 Istio 发行版本](/zh/docs/setup/getting-started/#download)。
 1. 执行任何必要的 [特定于平台的设置](/zh/docs/setup/platform-setup/)。
-1. 检查 [Pods 和 Services 的要求](/zh/docs/ops/prep/requirements/)。
+1. 检查 [Pods 和 Services 的要求](/zh/docs/ops/deployment/requirements/)。
 
 ## 使用默认配置文件安装 Istio{#install-Istio-using-the-default-profile}
 

@@ -141,7 +141,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 
 - [部署模型](/zh/docs/ops/prep/deployment-models/)
 - [部署最佳实践](/zh/docs/ops/prep/deployment/)
-- [Pod 需求](/zh/docs/ops/prep/requirements/)
+- [Pod 需求](/zh/docs/ops/deployment/requirements/)
 - [常规安装说明](/zh/docs/setup/)
 
 使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/)。
