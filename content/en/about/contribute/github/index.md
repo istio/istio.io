@@ -120,7 +120,7 @@ instructions.
 ## Branching
 
 We use multiple branches to track documentation for different versions of Istio.
-The master branch is where active doc work tables place, this is where you should
+The master branch is where active doc work takes place, this is where you should
 generally be making changes.
 
 On the day of an Istio release, a release branch is created from master for that
@@ -141,9 +141,19 @@ on your documentation PR. For example, if you introduce a correction in a PR to
 the master branch, you can apply the `cherrypick/release-1.4` label in order to
 merge this change to the `release-1.4` branch.
 
+Once your initial PR is merged, automation will create a new PR in the release
+branch which includes your changes. You may need to add a comment to the PR
+that reads `@googlebot I consent` in order to satisfy the `CLA` bot that we
+use.
+
+On rare occasions, automatic cherry picks don't work. When that happens, the
+automation will leave a note in the original PR indicating it failed. When
+that happens, you will need to manually create the cherry pick and deal
+with the merge issues that prevented the process from working automatically.
+
 Note that we only ever cherry pick changes into the current release branch,
-and never to older branches. Older branches are considered to be archive and
-generally no longer receive any changes after they've been archived.
+and never to older branches. Older branches are considered to be archived and
+generally no longer receive any changes.
 
 ## Istio community roles
 
