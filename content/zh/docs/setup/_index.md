@@ -2,7 +2,7 @@
 title: 安装
 description: 关于如何在 Kubernetes 集群中安装 Istio 控制平面和添加虚拟机到 mesh 中的说明。
 weight: 15
-icon: 安装
+icon: setup
 aliases:
     - /zh/docs/tasks/installing-istio.html
     - /zh/docs/setup/install-kubernetes.html
