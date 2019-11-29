@@ -17,7 +17,7 @@ keywords: [kubernetes,cni,sidecar,proxy,network,helm]
 Istio 用户权限的提升，对于某些组织的安全政策来说，可能是难以接受的。
 Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的网络功能但却不需要 Istio 用户申请额外的 Kubernetes RBAC 授权的方案。
 
-Istio CNI 插件会在 Kubernetes pod 生命周期的网络设置阶段完成 Istio 网格的 pod 流量转发设置工作，因此用户在部署 pods 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/prep/requirements/)了。
+Istio CNI 插件会在 Kubernetes pod 生命周期的网络设置阶段完成 Istio 网格的 pod 流量转发设置工作，因此用户在部署 pods 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/requirements/)了。
 Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
 ## 前提条件{#prerequisites}
