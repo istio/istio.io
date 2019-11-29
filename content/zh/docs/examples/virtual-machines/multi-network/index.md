@@ -172,9 +172,9 @@ aliases:
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-pilot`           | Set route info for `istio-pilot`             |
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-citadel`         | Set route info for `istio-citadel`           |
 
-## 暴露在集群上运行的服务到 VMS {#expose-service-running-on-cluster-to-VMS}
+## 暴露在集群上运行的服务到 VMS {#expose-service-running-on-cluster-to-vms}
 
-集群中每个需要被 VM 访问到的服务必须在集群中添加一个 service entry 配置。Service entry 中的 host 要求格式为 `<name>.<namespace>.global` ，其中 name 和 namespace 分别对应服务中的名字和命名空间。
+集群中每个需要被 VM 访问到的服务必须在集群中添加一个 service entry 配置。Service entry 中的 host 要求格式为 `<name>.<namespace>.global`，其中 name 和 namespace 分别对应服务中的名字和命名空间。
 
 在集群中配置 [httpbin service]({{< github_tree >}}/samples/httpbin) ，演示 VM 怎样访问集群中的服务。
 
@@ -188,12 +188,12 @@ aliases:
 
 1. 在集群中为 `httpbin` 服务创建 service entry 。
 
-    为了 VM 中的服务能够访问到集群中的 `httpbin` ，我们需要为它创建一个 service entry。Service entry 中的 host 值要求格式为 `<name>.<namespace>.global` ，其中 name 和 namespace 分别对应远程服务中的名字和命名空间。
+    为了 VM 中的服务能够访问到集群中的 `httpbin` ，我们需要为它创建一个 service entry。Service entry 中的 host 值要求格式为 `<name>.<namespace>.global`，其中 name 和 namespace 分别对应远程服务中的名字和命名空间。
 
     因为 DNS 解析 `*.global` 域上的服务，您需要为这些服务分配一个 IP 地址。
 
     {{< tip >}}
-    各个服务（ `*.global` DNS 域中）必须在集群中有一个唯一的 IP 。
+    各个服务（ `*.global` DNS 域中）必须在集群中有一个唯一的 IP。
     {{< /tip >}}
 
     如果全局服务已经有真正的 VIPs，您可以使用它们，否则我们建议使用来自回环段 `127.0.0.0/8` 的还未分配的 IPs 。这些 IPs 在 pod 外不能路由。
@@ -234,13 +234,13 @@ aliases:
 
     上述配置会让来自 VMs 的 地址为 `httpbin.bar.global` 的 *any port* 的所有流量通过双向 TLS 连接被路由到指定 endpoint `<IPofClusterIngressGateway>:15443` 。
 
-    端口为 15443 的 gateway 是一个特殊的 SNI-aware Envoy，作为结合 gateway 的网格扩张的部分在 Istio 安装部署步骤部分做了配置和安装。进入端口 15443 的流量会在目标集群中合适的内部服务的 pods 上做负载均衡（本例子，是集群中的 `httpbin.bar` ）。
+    端口为 15443 的 gateway 是一个特殊的 SNI-aware Envoy，作为结合 gateway 的网格扩张的部分在 Istio 安装部署步骤部分做了配置和安装。进入端口 15443 的流量会在目标集群中合适的内部服务的 pods 上做负载均衡（本例子，是集群中的 `httpbin.bar`）。
 
     {{< warning >}}
     禁止为端口 15443 创建 `Gateway` 配置。
     {{< /warning >}}
 
-## 从 VM 发送请求到 kubernetes 中的服务{#send-requests-from-VM-to-Kubernetes-services}
+## 从 VM 发送请求到 kubernetes 中的服务{#send-requests-from-vm-to-Kubernetes-services}
 
 机器在安装以后，就能访问运行在 Kubernetes 集群中的服务。
 
@@ -281,7 +281,7 @@ $ curl -v httpbin.bar.global:8000
     确认您已经将 `istioctl` 客户端添加到您的路径下，这在 [download page](/zh/docs/setup/getting-started/#download) 有讲到。
     {{< /tip >}}
 
-1. 在 kubernetes 集群中部署一个运行 `sleep` 服务的pod，并等待它的状态变为 ready ：
+1. 在 kubernetes 集群中部署一个运行 `sleep` 服务的 pod，并等待它的状态变为 ready：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
