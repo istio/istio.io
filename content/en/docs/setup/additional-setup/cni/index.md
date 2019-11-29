@@ -74,7 +74,7 @@ or the corresponding path in a custom overlay file.
 
 ### Excluding specific Kubernetes namespaces
 
-This example uses Helm to perform the following tasks:
+This example uses `Istioctl` to perform the following tasks:
 
 * Install the Istio CNI plugin.
 * Configure its log level.
@@ -83,17 +83,33 @@ This example uses Helm to perform the following tasks:
     * `foo_ns`
     * `bar_ns`
 
-Refer to the [Customizable Install with Helm](/docs/setup/install/helm) for complete instructions.
+Refer to the [Customizable Install with `Istioctl`](/docs/setup/install/istioctl) for complete instructions.
 
 Use the following command to render and apply Istio CNI components and override the default configuration of the
 `logLevel` and `excludeNamespaces` parameters for `istio-cni`:
 
+Create a `IstioControlPlane` CR yaml locally with your override to install `istio`, e.g. `cni.yaml`
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  cni:
+    enabled: true
+  values:
+    cni:
+      excludeNamespaces:
+       - istio-system
+       - kube-system
+       - foo_ns
+       - bar_ns
+  unvalidatedValues:
+    cni:
+      logLevel: info
+{{< /text >}}
+
 {{< text bash >}}
-$ istioctl manifest apply \
-    --set <flags you used to install Istio>
-    --set cni.enabled=true \
-    --set values.cni.logLevel=info \
-    --set values.cni.excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"}
+$ istioctl manifest apply -f cni.yaml
 {{< /text >}}
 
 ### Hosted Kubernetes settings
@@ -121,11 +137,11 @@ The following table shows the required settings for many common Kubernetes envir
     For existing clusters, this redeploys all nodes.
     {{< /warning >}}
 
-1.  Install Istio CNI via Helm including the `--set cniBinDir=/home/kubernetes/bin` option.
-    For example, the following `helm install` command sets the `cniBinDir` value for a GKE cluster:
+1.  Install Istio CNI via `Istioctl` including the `--set cniBinDir=/home/kubernetes/bin` option.
+    For example, the following `istioctl manifest` command sets the `cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system --set cniBinDir=/home/kubernetes/bin
+    $ istioctl manifest apply --set cniBinDir=/home/kubernetes/bin
     {{< /text >}}
 
 ## Sidecar injection compatibility
