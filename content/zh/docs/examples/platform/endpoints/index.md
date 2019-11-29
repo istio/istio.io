@@ -21,7 +21,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
 
 按照[使用 Google Kubernetes Engine 快速开始](/zh/docs/setup/platform-setup/gke)的说明为 GKE 安装 Istio。
 
-## HTTP 端点服务{#HTTP-endpoints-service}
+## HTTP endpoints 服务{#HTTP-endpoints-service}
 
 1. 按照[这篇说明](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)使用 `--includeIPRanges` 将 service 和 deployment 注入到网格中，以让 Egress 可以直接调用外部服务。
 否则，ESP 将无法访问 Google cloud service control。
@@ -76,7 +76,7 @@ $ curl --request POST --header "content-type:application/json" --data '{"message
     $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"
     {{< /text >}}
 
-## 使用安全 Ingress 的 HTTPS 端点服务{#HTTPS-endpoints-service-using-secured-Ingress}
+## 使用安全 Ingress 的 HTTPS endpoints 服务{#HTTPS-endpoints-service-using-secured-Ingress}
 
 安全地访问网格 Endpoints 服务的推荐方式是通过一个配置了 TLS 的 ingress。
 
