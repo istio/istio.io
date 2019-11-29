@@ -17,7 +17,7 @@ aliases:
 
 1. 执行必要的[平台特定设置](/zh/docs/setup/platform-setup/)。
 
-1. 检查 [Pods 和 Services 需求](/zh/docs/ops/prep/requirements/)。
+1. 检查 [Pods 和 Services 需求](/zh/docs/ops/deployment/requirements/)。
 
 1. 部署 Istio operator：
 

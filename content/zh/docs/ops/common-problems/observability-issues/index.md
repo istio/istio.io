@@ -28,7 +28,7 @@ Mixer 安装中默认包含一个 Prometheus 适配器，适配器会收到一�
 
 ### （如果需要）验证 Istio CNI pod 正在运行{#verify-Istio-CNI-pods-are-running}
 
-在 Kubernetes Pod 生命周期设置网络期间，Istio CNI 插件会对 Istio 网格 Pod 执行流量重定向，从而用户在 Istio  网格中部署 Pod 时不需要 [`NET_ADMIN`能力需求](/zh/docs/ops/prep/requirements/)。 Istio CNI 插件主要用来替代 `istio-init` 容器的一些功能。
+在 Kubernetes Pod 生命周期设置网络期间，Istio CNI 插件会对 Istio 网格 Pod 执行流量重定向，从而用户在 Istio  网格中部署 Pod 时不需要 [`NET_ADMIN`能力需求](/zh/docs/ops/deployment/requirements/)。 Istio CNI 插件主要用来替代 `istio-init` 容器的一些功能。
 
 1. 验证 `istio-cni-node` pods 正在运行：
 
@@ -36,7 +36,7 @@ Mixer 安装中默认包含一个 Prometheus 适配器，适配器会收到一�
     $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
     {{< /text >}}
 
-1. 如果 `PodSecurityPolicy` 在您的集群上已经启用，请确保 `istio-cni` 服务账号可以使用具有 [`NET_ADMIN`能力需求](/zh/docs/ops/prep/requirements/)的 `PodSecurityPolicy`。
+1. 如果 `PodSecurityPolicy` 在您的集群上已经启用，请确保 `istio-cni` 服务账号可以使用具有 [`NET_ADMIN`能力需求](/zh/docs/ops/deployment/requirements/)的 `PodSecurityPolicy`。
 
 ### 确认 Mixer 可以收到指标报告的调用{#verify-mixer-is-receiving-report-calls}
 
