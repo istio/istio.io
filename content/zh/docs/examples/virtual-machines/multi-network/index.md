@@ -172,7 +172,7 @@ aliases:
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-pilot`           | Set route info for `istio-pilot`             |
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-citadel`         | Set route info for `istio-citadel`           |
 
-## 暴露在集群上运行的服务到 VMS {#expose-service-running-on-cluster-to-vms}
+## 暴露在集群上运行的服务到 VMS{#expose-service-running-on-cluster-to-vms}
 
 集群中每个需要被 VM 访问到的服务必须在集群中添加一个 service entry 配置。Service entry 中的 host 要求格式为 `<name>.<namespace>.global`，其中 name 和 namespace 分别对应服务中的名字和命名空间。
 
@@ -240,7 +240,7 @@ aliases:
     禁止为端口 15443 创建 `Gateway` 配置。
     {{< /warning >}}
 
-## 从 VM 发送请求到 kubernetes 中的服务{#send-requests-from-vm-to-Kubernetes-services}
+## 从 VM 发送请求到 Kubernetes 中的服务{#send-requests-from-VM-to-Kubernetes-services}
 
 机器在安装以后，就能访问运行在 Kubernetes 集群中的服务。
 
@@ -281,7 +281,7 @@ $ curl -v httpbin.bar.global:8000
     确认您已经将 `istioctl` 客户端添加到您的路径下，这在 [download page](/zh/docs/setup/getting-started/#download) 有讲到。
     {{< /tip >}}
 
-1. 在 kubernetes 集群中部署一个运行 `sleep` 服务的 pod，并等待它的状态变为 ready：
+1. 在 Kubernetes 集群中部署一个运行 `sleep` 服务的 pod，并等待它的状态变为 ready：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
