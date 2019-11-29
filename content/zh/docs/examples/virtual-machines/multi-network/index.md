@@ -172,7 +172,7 @@ aliases:
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-pilot`           | Set route info for `istio-pilot`             |
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-citadel`         | Set route info for `istio-citadel`           |
 
-## 暴露在集群上运行的服务到 VMS{#expose-service-running-on-cluster-to-vms}
+## 暴露在集群上运行的服务到 VMS {#expose-service-running-on-cluster-to-vms}
 
 集群中每个需要被 VM 访问到的服务必须在集群中添加一个 service entry 配置。Service entry 中的 host 要求格式为 `<name>.<namespace>.global`，其中 name 和 namespace 分别对应服务中的名字和命名空间。
 
