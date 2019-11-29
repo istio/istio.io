@@ -203,11 +203,11 @@ When the Kubernetes API server includes proxy settings such as:
 {{< text yaml >}}
 env:
   - name: http_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: https_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: no_proxy
-  value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
+    value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 
 With these settings, Sidecar injection fails. The only related failure log can be found in `kube-apiserver` log:
