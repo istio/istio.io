@@ -28,5 +28,5 @@ proximity to end-users**. Proximity helps your deployment have low latency.
 
 Include clusters in your deployment **across multiple availability regions
 and zones** within each geographic region. This approach limits the size of the
-{{< gloss "failure domain" >}}failure domains{{< /gloss >}} of your deployment,
+{{< gloss "failure domain" >}}failure domain{{< /gloss >}} of your deployment,
 and helps you avoid global failures.
