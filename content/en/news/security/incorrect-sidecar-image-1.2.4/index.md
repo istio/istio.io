@@ -1,6 +1,7 @@
 ---
 title: Istio 1.2.4 sidecar image vulnerability
 description: An erroneous 1.2.4 sidecar image was available due to a faulty release operation.
+releases: ["1.2 to 1.2.4"]
 publishdate: 2019-09-10
 keywords: [community,blog,security]
 aliases:
@@ -30,4 +31,4 @@ We have noticed this problem and pushed back the fixed image on Sep 6th 2019 09:
 
 We are sorry for any inconvenience you may have experienced due to this incident, and [are working towards a better release system](https://github.com/istio/istio/issues/16887), as well as a more efficient way to deal with vulnerability reports.
 
-The release managers for 1.2
+- The release managers for 1.2

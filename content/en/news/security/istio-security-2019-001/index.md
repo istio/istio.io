@@ -2,7 +2,10 @@
 title: ISTIO-SECURITY-2019-001
 subtitle: Security Bulletin
 description: Security vulnerability disclosure for CVE-2019-12243.
-cve: [CVE-2019-12243]
+cves: [CVE-2019-12243]
+cvss: "8.9"
+vector: "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
+releases: ["1.1 to 1.1.6"]
 publishdate: 2019-05-28
 keywords: [CVE]
 skip_seealso: true
@@ -11,13 +14,7 @@ aliases:
     - /news/2019/cve-2019-12243
 ---
 
-{{< security_bulletin
-        cves="CVE-2019-12243"
-        cvss="8.9"
-        vector="CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
-        releases="1.1 to 1.1.6" >}}
-
-## Context
+{{< security_bulletin >}}
 
 During review of the [Istio 1.1.7](/news/releases/1.1.x/announcing-1.1.7) release notes, we realized that [issue 13868](https://github.com/istio/istio/issues/13868),
 which is fixed in the release, actually represents a security vulnerability.
