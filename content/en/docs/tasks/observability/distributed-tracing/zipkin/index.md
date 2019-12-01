@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/zipkin-tracing.html
 ---
 
-After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.apache.org/),
+After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.io/),
 regardless of the language, framework, or platform you use to build your application.
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
