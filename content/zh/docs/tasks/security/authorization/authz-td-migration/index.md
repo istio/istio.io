@@ -9,7 +9,7 @@ keywords: [security,access-control,rbac,authorization,trust domain, migration]
 
 在 Istio 1.4 中，我们引入了一个 alpha 特性以支持授权策略 {{< gloss >}}trust domain migration{{</ gloss >}}。
 这意味着如果一个 Istio 网格需要改变它的 {{< gloss >}}trust domain{{</ gloss >}}，其授权策略是不需要手动更新的。
-在 Istio 中，如果一个 {{< gloss >}}workload{{</ gloss >}} 用 service account `bar` 运行在命名空间 `foo` 中，系统的信任域为 `my-td`，那么该工作负载的身份就是 `spiffe://my-td/ns/foo/sa/bar`。
+在 Istio 中，如果一个 {{< gloss >}}workload{{</ gloss >}} 运行在命名空间 `foo` 中，服务账户为 `bar`，系统的信任域为 `my-td`，那么该工作负载的身份就是 `spiffe://my-td/ns/foo/sa/bar`。
 默认情况下，Istio 网格的信任域是 `cluster.local`，除非您在安装时另外指定了。
 
 ## 开始之前{#before-you-begin}
@@ -70,18 +70,18 @@ keywords: [security,access-control,rbac,authorization,trust domain, migration]
     EOF
     {{< /text >}}
 
-请注意授权策略传播到 sidecars 可能需要数十秒。
+请注意授权策略传播到 sidecars 大约需要几十秒。
 
-1. 验证如下到 `httpbin` 的请求：
+1. 验证从以下请求源发送至 `httpbin` 的请求：
 
-    * 来自 `default` 命名空间的 `sleep` 的请求被拒绝。
+    * 来自 `default` 命名空间的 `sleep` 服务的请求被拒绝。
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
-    * 来自 `sleep-allow` 命名空间的 `sleep` 通过了。
+    * 来自 `sleep-allow` 命名空间的 `sleep` 服务的请求通过了。
 
     {{< text bash >}}
     $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
@@ -189,7 +189,7 @@ keywords: [security,access-control,rbac,authorization,trust domain, migration]
 从 Istio 1.4 起，在编辑授权策略时，您应该在策略中的信任域部分使用 `cluster.local`。
 例如，应该是 `cluster.local/ns/sleep-allow/sa/sleep`，而不是 `old-td/ns/sleep-allow/sa/sleep`。
 请注意，在这种情况下，`cluster.local` 并不是 Istio 网格的信任域（信任域依然是 `old-td`）。
-但是，在策略中，`cluster.local` 是指向当前信任域的指针，即 `old-td`（后来是 `new-td`）及其别名。
+在策略中，`cluster.local` 是一个指针，指向当前信任域，即 `old-td`（后来是 `new-td`）及其别名。
 通过在授权策略中使用 `cluster.local`，当您迁移到新的信任域时，Istio 将检测到此情况，并将新的信任域视为旧的信任域，而无需包含别名。
 
 ## 清理{#clean-up}
