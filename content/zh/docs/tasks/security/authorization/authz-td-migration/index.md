@@ -1,23 +1,22 @@
 ---
-title: Authorization Policy Trust Domain Migration
-description: Shows how to migrate from one trust domain to another without changing authorization policy.
+title: 授权策略信任域迁移
+description: 阐述如何在不更改授权策略的前提下从一个信任域迁移到另一个。
 weight: 40
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
 ---
 
-This task shows you how to migrate from one trust domain to another without changing authorization policy.
+该任务阐述了如何在不更改授权策略的前提下从一个信任域迁移到另一个。
 
-In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain migration{{</ gloss >}} for authorization policy. This means if an
- Istio mesh needs to change its {{< gloss >}}trust domain{{</ gloss >}}, the authorization policy doesn't need to be changed manually.
- In Istio, if a {{< gloss >}}workload{{</ gloss >}} is running in namespace `foo` with the service account `bar`, and the trust domain of the system is `my-td`,
- the identity of said workload is `spiffe://my-td/ns/foo/sa/bar`. By default, the Istio mesh trust domain is `cluster.local`,
- unless you specify it during the installation.
+在 Istio 1.4 中，我们引入了一个 alpha 特性以支持授权策略 {{< gloss >}}trust domain migration{{</ gloss >}}。
+这意味着如果一个 Istio 网格需要改变它的 {{< gloss >}}trust domain{{</ gloss >}}，其授权策略是不需要手动更新的。
+在 Istio 中，如果一个 {{< gloss >}}workload{{</ gloss >}} 运行在命名空间 `foo` 中，服务账户为 `bar`，系统的信任域为 `my-td`，那么该工作负载的身份就是 `spiffe://my-td/ns/foo/sa/bar`。
+默认情况下，Istio 网格的信任域是 `cluster.local`，除非您在安装时另外指定了。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-1. Read the [authorization concept guide](/zh/docs/concepts/security/#authorization).
+1. 阅读[授权概念指南](/zh/docs/concepts/security/#authorization)。
 
-1. Install Istio with a custom trust domain and mutual TLS enabled.
+1. 安装 Istio，自定义信任域，并启用双向 TLS。
 
     {{< text bash >}}
     $ cat <<EOF > ./td-installation.yaml
@@ -34,8 +33,7 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
     $ istioctl manifest apply --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
-1. Deploy the [httpbin]({{< github_tree >}}/samples/httpbin) sample in the `default` namespace
- and the [sleep]({{< github_tree >}}/samples/sleep) sample in the `default` and `sleep-allow` namespaces:
+1. 将 [httpbin]({{< github_tree >}}/samples/httpbin) 示例部署于 `default` 命名空间中，将 [sleep]({{< github_tree >}}/samples/sleep) 示例部署于 `default` 和 `sleep-allow` 命名空间中：
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
@@ -46,7 +44,7 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sleep-allow
     {{< /text >}}
 
-1. Apply the authorization policy below to deny all requests to `httpbin` except from `sleep` in the `sleep-allow` namespace.
+1. 应用如下授权策略以拒绝所有到 `httpbin` 的请求，除了来自 `sleep-allow` 命名空间的 `sleep` 服务。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -72,27 +70,27 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
     EOF
     {{< /text >}}
 
-Notice that it may take tens of seconds for the authorization policy to be propagated to the sidecars.
+请注意授权策略传播到 sidecars 大约需要几十秒。
 
-1. Verify that requests to `httpbin` from:
+1. 验证从以下请求源发送至 `httpbin` 的请求：
 
-    * `sleep` in the `default` namespace are denied.
+    * 来自 `default` 命名空间的 `sleep` 服务的请求被拒绝。
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
-    * `sleep` in the `sleep-allow` namespace are allowed.
+    * 来自 `sleep-allow` 命名空间的 `sleep` 服务的请求通过了。
 
     {{< text bash >}}
     $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
-## Migrate trust domain without trust domain aliases
+## 迁移信任域但不使用别名{#migrate-trust-domain-without-trust-domain-aliases}
 
-1. Install Istio with a new trust domain.
+1. 使用一个新的信任域安装 Istio。
 
     {{< text bash >}}
     $ cat <<EOF > ./td-installation.yaml
@@ -109,10 +107,9 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     $ istioctl manifest apply --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
-    Istio mesh is now running with a new trust domain, `new-td`.
+    Istio 网格现在运行于一个新的信任域 `new-td` 了。
 
-1. Delete secrets of `sleep` and `httpbin` in `default` namespace and in `sleep-allow` namespace. Notice if you install Istio with SDS,
-you don't need to follow this step. Learn more about [Provisioning Identity through SDS](/zh/docs/tasks/security/citadel-config/auth-sds/)
+1. 删除 `default` 和 `sleep-allow` 命名空间中的 `sleep` 和 `httpbin` 的 secrets。请注意如果您安装 Istio 时启用了 SDS，您可以跳过这一步。了解详情请参考[通过 SDS 设置身份](/zh/docs/tasks/security/citadel-config/auth-sds/)。
 
     {{< text bash >}}
     $ kubectl delete secrets istio.sleep; kubectl delete secrets istio.httpbin;
@@ -122,7 +119,7 @@ you don't need to follow this step. Learn more about [Provisioning Identity thro
     $ kubectl delete secrets istio.sleep -n sleep-allow
     {{< /text >}}
 
-1. Redeploy the `httpbin` and `sleep` applications to pick up changes from the new Istio control plane.
+1. 重新部署 `httpbin` 和 `sleep` 应用以从新的 Istio 控制平面获取更新。
 
     {{< text bash >}}
     $ kubectl delete pod --all
@@ -132,7 +129,7 @@ you don't need to follow this step. Learn more about [Provisioning Identity thro
     $ kubectl delete pod --all -n sleep-allow
     {{< /text >}}
 
-1. Verify that requests to `httpbin` from both `sleep` in `default` namespace and `sleep-allow` namespace are denied.
+1. 验证来自 `default` 和 `sleep-allow` 命名空间的 `sleep` 到 `httpbin` 的访问都被拒绝。
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
@@ -144,16 +141,15 @@ you don't need to follow this step. Learn more about [Provisioning Identity thro
     403
     {{< /text >}}
 
-    This is because we specified an authorization policy that deny all requests to `httpbin`, except the ones
-     the `old-td/ns/sleep-allow/sa/sleep` identity, which is the old identity of the `sleep` application in `sleep-allow` namespace.
-     When we migrated to a new trust domain above, i.e. `new-td`, the identity of this `sleep` application is now `new-td/ns/sleep-allow/sa/sleep`,
-     which is not the same as `old-td/ns/sleep-allow/sa/sleep`. Therefore, requests from the `sleep` application in `sleep-allow` namespace
-     to `httpbin` were allowed before are now being denied. Prior to Istio 1.4, the only way to make this work is to change the authorization
-     policy manually. In Istio 1.4, we introduce an easy way, as shown below.
+    这是因为我们指定了一个授权策略，它会拒绝所有到 `httpbin` 的请求，除非请求来源的身份是 `old-td/ns/sleep-allow/sa/sleep`，而这个身份是 `sleep-allow` 命名空间的 `sleep` 的旧身份。
+    当我们迁移到一个新的信任域，即 `new-td`，`sleep` 应用的身份就变成 `new-td/ns/sleep-allow/sa/sleep`，与 `old-td/ns/sleep-allow/sa/sleep` 不同。
+    因此，`sleep-allow` 命名空间中的 `sleep` 应用之前的请求被放行，但现在被拒绝。
+    在 Istio 1.4 之前，修复该问题的唯一方式就是手动调整授权策略。
+    而在 Istio 1.4 中，我们引入了一种更简单的方法，如下所示。
 
-## Migrate trust domain with trust domain aliases
+## 使用别名迁移信任域{#migrate-trust-domain-with-trust-domain-aliases}
 
-1. Install Istio with a new trust domain and trust domain aliases.
+1. 使用一个新的信任域和信任域别名安装 Istio。
 
     {{< text bash >}}
     $ cat <<EOF > ./td-installation.yaml
@@ -172,32 +168,31 @@ you don't need to follow this step. Learn more about [Provisioning Identity thro
     $ istioctl manifest apply --set profile=demo -f td-installation.yaml
     {{< /text >}}
 
-1. Without changing the authorization policy, verify that requests to `httpbin` from:
+1. 不调整授权策略，验证到 `httpbin` 的请求：
 
-    * `sleep` in the `default` namespace are denied.
+    * 来自 `default` 命名空间的 `sleep` 的请求被拒绝。
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
-    * `sleep` in the `sleep-allow` namespace are allowed.
+    * 来自 `sleep-allow` 命名空间的 `sleep` 通过了。
 
     {{< text bash >}}
     $ kubectl exec $(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
-## Best practices
+## 最佳实践{#best-practices}
 
-Starting from Istio 1.4, when writing authorization policy, you should consider using the value `cluster.local` as the
-trust domain part in the policy. For example, instead of `old-td/ns/sleep-allow/sa/sleep`, it should be `cluster.local/ns/sleep-allow/sa/sleep`.
-Notice that in this case, `cluster.local` is not the Istio mesh trust domain (the trust domain is still `old-td`). However,
-in authorization policy, `cluster.local` is a pointer that points to the current trust domain, i.e. `old-td` (and later `new-td`), as well as its aliases.
-By using `cluster.local` in the authorization policy, when you migrate to a new trust domain, Istio will detect this and treat the new trust domain
-as the old trust domain without you having to include the aliases.
+从 Istio 1.4 起，在编辑授权策略时，您应该在策略中的信任域部分使用 `cluster.local`。
+例如，应该是 `cluster.local/ns/sleep-allow/sa/sleep`，而不是 `old-td/ns/sleep-allow/sa/sleep`。
+请注意，在这种情况下，`cluster.local` 并不是 Istio 网格的信任域（信任域依然是 `old-td`）。
+在策略中，`cluster.local` 是一个指针，指向当前信任域，即 `old-td`（后来是 `new-td`）及其别名。
+通过在授权策略中使用 `cluster.local`，当您迁移到新的信任域时，Istio 将检测到此情况，并将新的信任域视为旧的信任域，而无需包含别名。
 
-## Clean up
+## 清理{#clean-up}
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
