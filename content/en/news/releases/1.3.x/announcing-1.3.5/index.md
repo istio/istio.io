@@ -3,8 +3,7 @@ title: Announcing Istio 1.3.5
 linktitle: 1.3.5
 description: Istio 1.3.5 patch release.
 publishdate: 2019-11-11
-attribution: The Istio Team
-subtitle: Minor Update
+subtitle: Patch Release
 release: 1.3.5
 aliases:
     - /news/2019/announcing-1.3.5
