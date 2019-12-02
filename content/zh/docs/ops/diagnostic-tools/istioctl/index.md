@@ -66,9 +66,9 @@ $ istioctl proxy-config endpoints <pod-name> [flags]
 
 ## `Istioctl` 自动补全 {#auto-completion}
 
-{{< tabset cookie-name="prereqs" >}}
+{{< tabset category-name="prereqs" >}}
 
-{{< tab name="macOS" cookie-value="macos" >}}
+{{< tab name="macOS" category-value="macos" >}}
 
 如果您使用的是 macOS 操作系统的Bash终端，确认已安装 `bash-completion` 包。使用 macOS 下 [brew](https://brew.sh) 包管理器，您可以通过以下命令检查 `bash-completion` 包是否已经安装：
 
@@ -91,7 +91,7 @@ $ brew install bash-completion
 
 {{< /tab >}}
 
-{{< tab name="Linux" cookie-value="linux" >}}
+{{< tab name="Linux" category-value="linux" >}}
 
 如果您使用基于 Linux 的操作系统，以两种最常见的情况举例，您可以使用 `apt-get install bash-completion` 命令安装基于 Debian 的 Linux 发行版的 base-completion 包，或者使用 `yum install bash-completion` 安装基于 RPM 的 Linux 发行版的包。
 
@@ -109,9 +109,9 @@ $ brew install bash-completion
 
 根据您选择的 shell，按照以下步骤在您的系统开启 `istioctl` 命令补全 :
 
-{{< tabset cookie-name="profile" >}}
+{{< tabset category-name="profile" >}}
 
-{{< tab name="Bash" cookie-value="bash" >}}
+{{< tab name="Bash" category-value="bash" >}}
 
 安装 bash 自动补全文件
 
@@ -123,7 +123,7 @@ $ source ~/istioctl.bash
 
 {{< /tab >}}
 
-{{< tab name="ZSH" cookie-value="zsh" >}}
+{{< tab name="ZSH" category-value="zsh" >}}
 
 安装 ZSH 自动补全文件
 

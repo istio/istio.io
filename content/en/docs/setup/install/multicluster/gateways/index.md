@@ -129,8 +129,8 @@ Create one of the following ConfigMaps, or update an existing one, in each
 cluster that will be calling services in remote clusters
 (every cluster in the general case):
 
-{{< tabset cookie-name="platform" >}}
-{{< tab name="KubeDNS" cookie-value="kube-dns" >}}
+{{< tabset category-name="platform" >}}
+{{< tab name="KubeDNS" category-value="kube-dns" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -147,7 +147,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (< 1.4.0)" cookie-value="coredns-prev-1.4.0" >}}
+{{< tab name="CoreDNS (< 1.4.0)" category-value="coredns-prev-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -183,7 +183,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+{{< tab name="CoreDNS (>= 1.4.0)" category-value="coredns-after-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -364,9 +364,9 @@ The egress gateway used in this configuration cannot also be used for other, non
 
 If `$CLUSTER2_GW_ADDR` is an IP address, use the `$CLUSTER2_GW_ADDR - IP address` option.  If `$CLUSTER2_GW_ADDR` is a hostname, use the `$CLUSTER2_GW_ADDR - hostname` option.
 
-{{< tabset cookie-name="profile" >}}
+{{< tabset category-name="profile" >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - IP address" cookie-value="option1" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - IP address" category-value="option1" >}}
 * Export the `cluster1` egress gateway address:
 
 {{< text bash >}}
@@ -407,7 +407,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - hostname" category-value="option2" >}}
 If the `${CLUSTER2_GW_ADDR}` is a hostname, you can use `resolution: DNS` for the endpoint resolution:
 
 {{< text bash >}}

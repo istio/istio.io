@@ -16,7 +16,7 @@ let trackedPages: any = null;
 let visitedPages: any = null;
 
 function loadVisitedPages(): void {
-    const blob = localStorage.getItem("visitedPages");
+    const blob = readLocalStorage("visitedPages");
     if (blob != null) {
         visitedPages = JSON.parse(blob);
     }

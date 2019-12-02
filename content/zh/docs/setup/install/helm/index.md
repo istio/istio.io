@@ -84,9 +84,9 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
     您可以添加一个或多个 `--set <key>=<value>` 来进一步自定义 helm 命令的 [安装选项](/zh/docs/reference/config/installation-options/) 。
     {{< /tip >}}
 
-{{< tabset cookie-name="helm_profile" >}}
+{{< tabset category-name="helm_profile" >}}
 
-{{< tab name="default" cookie-value="default" >}}
+{{< tab name="default" category-value="default" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
@@ -94,7 +94,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="demo" cookie-value="demo" >}}
+{{< tab name="demo" category-value="demo" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -103,7 +103,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="minimal" cookie-value="minimal" >}}
+{{< tab name="minimal" category-value="minimal" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -112,7 +112,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="sds" category-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -121,7 +121,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" category-value="cni" >}}
 
 安装 [Istio CNI](/zh/docs/setup/additional-setup/cni/) 组件：
 
@@ -177,9 +177,9 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
     [安装选项](/zh/docs/reference/config/installation-options/)。
     {{< /tip >}}
 
-{{< tabset cookie-name="helm_profile" >}}
+{{< tabset category-name="helm_profile" >}}
 
-{{< tab name="default" cookie-value="default" >}}
+{{< tab name="default" category-value="default" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
@@ -187,7 +187,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="demo" cookie-value="demo" >}}
+{{< tab name="demo" category-value="demo" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -196,7 +196,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="minimal" cookie-value="minimal" >}}
+{{< tab name="minimal" category-value="minimal" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -205,7 +205,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="sds" category-value="sds" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -214,7 +214,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" category-value="cni" >}}
 
 安装 [Istio CNI](/zh/docs/setup/additional-setup/cni/) chart：
 
@@ -251,9 +251,9 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 - 如果你使用 `helm template` 命令安装的 Istio，使用如下命令卸载：
 
-{{< tabset cookie-name="helm_profile" >}}
+{{< tabset category-name="helm_profile" >}}
 
-{{< tab name="default" cookie-value="default" >}}
+{{< tab name="default" category-value="default" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl delete -f -
@@ -262,7 +262,7 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="demo" cookie-value="demo" >}}
+{{< tab name="demo" category-value="demo" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -272,7 +272,7 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="minimal" cookie-value="minimal" >}}
+{{< tab name="minimal" category-value="minimal" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -282,7 +282,7 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="sds" category-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -292,7 +292,7 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" category-value="cni" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
