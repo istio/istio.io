@@ -563,17 +563,17 @@ which looks like:
 如果您要以多种格式显示某些内容，则使用选项卡集并以不同的选项卡显示每种格式会很方便。要插入选项卡式内容，请结合使用 `tabset` 和 `tabs` 注解：
 
 {{< text markdown >}}
-{{</* tabset cookie-name="platform" */>}}
+{{</* tabset category-name="platform" */>}}
 
-{{</* tab name="One" cookie-value="one" */>}}
+{{</* tab name="One" category-value="one" */>}}
 一
 {{</* /tab */>}}
 
-{{</* tab name="Two" cookie-value="two" */>}}
+{{</* tab name="Two" category-value="two" */>}}
 二
 {{</* /tab */>}}
 
-{{</* tab name="Three" cookie-value="three" */>}}
+{{</* tab name="Three" category-value="three" */>}}
 三
 {{</* /tab */>}}
 
@@ -582,17 +582,17 @@ which looks like:
 
 产生如下输出：
 
-{{< tabset cookie-name="platform" >}}
+{{< tabset category-name="platform" >}}
 
-{{< tab name="One" cookie-value="one" >}}
+{{< tab name="One" category-value="one" >}}
 一
 {{< /tab >}}
 
-{{< tab name="Two" cookie-value="two" >}}
+{{< tab name="Two" category-value="two" >}}
 二
 {{< /tab >}}
 
-{{< tab name="Three" cookie-value="three" >}}
+{{< tab name="Three" category-value="three" >}}
 三
 {{< /tab >}}
 
@@ -600,7 +600,7 @@ which looks like:
 
 每个选项卡的 `name` 属性包含要为该选项卡显示的文本。标签的内容几乎可以是任何常见的 markdown 格式。
 
-可选的 `cookie-name` 和 `cookie-value` 属性允许选项卡设置在访问页面时保持粘性。当用户选择一个选项卡时，该 cookie 将自动以给定的名称和值保存。如果多个选项卡集使用相同的 cookie 名称和值，则它们的设置将在页面之间自动同步。当站点中有许多标签集具有相同类型的格式时，此功能特别有用。
+可选的 `category-name` 和 `category-value` 属性允许选项卡设置在访问页面时保持粘性。当用户选择一个选项卡时，该 cookie 将自动以给定的名称和值保存。如果多个选项卡集使用相同的 cookie 名称和值，则它们的设置将在页面之间自动同步。当站点中有许多标签集具有相同类型的格式时，此功能特别有用。
 
 例如，如果许多选项卡集用于表示 `GCP`、`BlueMix` 和 `AWS` 之间的选择，则它们都可以使用环境的 cookie 名称以及 `gcp`、`bluemix` 和 `aws` 的值。 当用户在一页中选择一个选项卡时，等效选项卡将自动在任何其他选项卡集中选择。
 
