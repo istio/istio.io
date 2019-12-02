@@ -1,7 +1,6 @@
 ---
-title: Virtual Machines in Multi-Network Meshes
-description: Learn how to add a service running on a virtual machine to your multi-network
-  Istio mesh.
+title: 多网络网格中的虚拟机。
+description: 学习怎样添加运行在虚拟机上的服务到您的多网络 Istio 网格中。
 weight: 30
 keywords:
 - kubernetes
@@ -13,34 +12,25 @@ aliases:
 - /zh/docs/tasks/virtual-machines/multi-network
 ---
 
-This example provides instructions to integrate a VM or a bare metal host into a
-multi-network Istio mesh deployed on Kubernetes using gateways. This approach
-doesn't require VPN connectivity or direct network access between the VM, the
-bare metal and the clusters.
+本示例演示如何利用网关整合一个 VM 或一个裸机到部署在 Kubernetes 上的多网络 Istio 网格中。这种方式不要求 VM，裸机和集群之间可以通过 VPN 连通或者直接的网络访问。
 
-## Prerequisites
+## 前提条件{#prerequisites}
 
-- One or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
+- 一个或者多个 Kubernetes 集群，支持版本为：{{< supported_kubernetes_versions >}}。
+- 虚拟机（VMs）必须可以通过 IP 连接网格中的 Ingress 网关。
 
-- Virtual machines (VMs) must have IP connectivity to the Ingress gateways in the mesh.
+## 安装步骤{#installation-steps}
 
-## Installation steps
+设置内容包括准备网格用于扩展，安装和配置各个 VM 。
 
-Setup consists of preparing the mesh for expansion and installing and configuring each VM.
+### 集群上定制化安装 Istio {#customized-installation-of-Istio-on-the-cluster}
 
-### Customized installation of Istio on the cluster
+当添加非 Kubernetes 的服务到 Istio 网格时，第一步是 Istio 本身的安装配置，并生成让 VMs 连接到网格的配置文件。为 VM 准备集群需要使用集群管理员权限在一台机器上执行如下命令：
 
-The first step when adding non-Kubernetes services to an Istio mesh is to
-configure the Istio installation itself, and generate the configuration files
-that let VMs connect to the mesh. Prepare the cluster for the VM with the
-following commands on a machine with cluster admin privileges:
-
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+1. 为您的生成的 CA 证书创建 Kubernetes secret，使用如下命令。查看 [Certificate Authority (CA) certificates](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) 获取更多细节。
 
     {{< warning >}}
-    The root and intermediate certificate from the samples directory are widely
-    distributed and known.  Do **not** use these certificates in production as
-    your clusters would then be open to security vulnerabilities and compromise.
+    样本目录中的 root 证书和中间证书已经大范围分发并被识别。**不能** 在生产环境中使用这些证书，否则您的集群容易受到安全漏洞和破坏的威胁。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -52,7 +42,7 @@ following commands on a machine with cluster admin privileges:
         --from-file=@samples/certs/cert-chain.pem@
     {{< /text >}}
 
-1. Deploy Istio control plane into the cluster
+1. 集群中部署 Istio 控制平面
 
         {{< text bash >}}
         $ istioctl manifest apply \
@@ -60,22 +50,21 @@ following commands on a machine with cluster admin privileges:
             --set coreDNS.enabled=true
         {{< /text >}}
 
-    For further details and customization options, refer to the
-    [installation instructions](/zh/docs/setup/install/istioctl/).
+    更多细节和定制选项，参考 [installation instructions](/zh/docs/setup/install/istioctl/)。
 
-1. Create `vm` namespace for the VM services.
+1. 为 VM 的服务创建 `vm` 命名空间
 
     {{< text bash >}}
     $ kubectl create ns vm
     {{< /text >}}
 
-1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE` environment variable to store the namespace. The value of this variable must match the namespace you use in the configuration files later on.
+1. 定义命名空间，供 VM 加入。本示例使用 `SERVICE_NAMESPACE` 环境变量保存命名空间。这个环境变量的值必须与您后面在配置文件中使用的命名空间匹配。
 
     {{< text bash >}}
     $ export SERVICE_NAMESPACE="vm"
     {{< /text >}}
 
-1. Extract the initial keys the service account needs to use on the VMs.
+1. 取得初始密钥，服务账户需要在 VMs 上使用。
 
     {{< text bash >}}
     $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
@@ -86,10 +75,8 @@ following commands on a machine with cluster admin privileges:
           -o jsonpath='{.data.cert-chain\.pem}' | base64 --decode > cert-chain.pem
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the
-   VMs access [Citadel](/zh/docs/concepts/security/) and
-   [Pilot](/zh/docs/ops/architecture/#pilot) and workloads on cluster through
-   this IP address.
+1. 确定并保存 Istio Ingress gateway 的 IP 地址，VMs 会通过这个 IP 地址访问 [Citadel](/zh/docs/concepts/security/) ，
+   [Pilot](/zh/docs/ops/architecture/#pilot) 和集群中的工作负载。
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -97,14 +84,13 @@ following commands on a machine with cluster admin privileges:
     35.232.112.158
     {{< /text >}}
 
-1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
-    to intercept and redirect via Envoy.
+1. 生成一个 `cluster.env` 配置并部署到 VMs 中。这个文件包含会被 Envoy 拦截和转发 Kubernetes 集群 IP 地址段。
 
     {{< text bash >}}
     $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
 
-1. Check the contents of the generated `cluster.env` file. It should be similar to the following example:
+1. 检查生成的 `cluster.env` 文件内容。它应该和下面示例类似：
 
     {{< text bash >}}
     $ cat cluster.env
@@ -112,70 +98,67 @@ following commands on a machine with cluster admin privileges:
     ISTIO_SERVICE_CIDR=172.21.0.0/16
     {{< /text >}}
 
-1. If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes
-    to the `cluster.env` file with the following command. You can change the ports later if necessary.
+1. 如果 VM 只是调用网格中的服务，您可以跳过这一步。否则，通过如下命令添加 VM 暴露的端口到 `cluster.env` 文件中。如果有必要，您后面还能修改这些端口。
 
     {{< text bash >}}
     $ echo "ISTIO_INBOUND_PORTS=8888" >> cluster.env
     {{< /text >}}
 
-### Setup DNS
+### 设置 DNS {#setup-DNS}
 
-Reference [Setup DNS](/zh/docs/setup/install/multicluster/gateways/#setup-DNS) to set up DNS for the cluster.
+参考 [Setup DNS](/zh/docs/setup/install/multicluster/gateways/#setup-DNS) 设置集群 DNS 。
 
-### Setting up the VM
+### 设置 VM {#setting-up-the-VM}
 
-Next, run the following commands on each machine that you want to add to the mesh:
+下一步，在每台您想要添加到网格中的机器上执行如下命令：
 
-1.  Copy the previously created `cluster.env` and `*.pem` files to the VM.
+1. 拷贝之前创建的 `cluster.env` 和 `*.pem` 到 VM 中。
 
-1.  Install the Debian package with the Envoy sidecar.
+1. 安装 Envoy sidecar 的 Debian 包。
 
     {{< text bash >}}
     $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) section to learn how to obtain the IP address.
-The following example updates the `/etc/hosts` file with the Istio gateway address:
+1. 添加 Istio gateway 的 IP 地址到 `/etc/hosts` 中。重新查看 [集群上定制化安装 Istio](#customized-installation-of-Istio-on-the-cluster) 部分学习怎样获取 IP 地址。
+下面的示例演示更新 `/etc/hosts` 文件中的 Istio gateway 地址：
 
     {{< text bash >}}
     $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" | sudo tee -a /etc/hosts
     {{< /text >}}
 
-1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
+1. 安装 `root-cert.pem`, `key.pem` 和 `cert-chain.pem` 到 `/etc/certs/` 下。
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/certs
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
-1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
+1. 安装 `cluster.env` 到 `/var/lib/istio/envoy/` 下。
 
     {{< text bash >}}
     $ sudo cp cluster.env /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
+1. 移交 `/etc/certs/` 和 `/var/lib/istio/envoy/` 下的文件所有权给 Istio proxy 。
 
     {{< text bash >}}
     $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Start Istio using `systemctl`.
+1. 使用 `systemctl` 启动 Istio 。
 
     {{< text bash >}}
     $ sudo systemctl start istio-auth-node-agent
     $ sudo systemctl start istio
     {{< /text >}}
 
-## Added Istio resources
+## 添加 Istio 资源{#added-Istio-resources}
 
-The Istio resources below are added to support adding VMs to the mesh with
-gateways. These resources remove the flat network requirement between the VM and
-cluster.
+下面的 Istio 资源结合 gateways 一起对添加 VMs 到网格中做支持。这些资源让 VM 和 集群摆脱了扁平网络的要求。
 
-| Resource Kind| Resource Name | Function |
+| 资源类型| 资源名字 | 功能 |
 | ----------------------------       |---------------------------       | -----------------                          |
 | `configmap`                          | `coredns`                          | Send *.global request to `istiocordns` service |
 | `service`                            | `istiocoredns`                     | Resolve *.global to Istio Ingress gateway    |
@@ -189,15 +172,13 @@ cluster.
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-pilot`           | Set route info for `istio-pilot`             |
 | `virtualservice.networking.istio.io` | `meshexpansion-vs-citadel`         | Set route info for `istio-citadel`           |
 
-## Expose service running on cluster to VMs
+## 暴露在集群上运行的服务到 VMs {#expose-service-running-on-cluster-to-VMs}
 
-Every service in the cluster that needs to be accessed from the VM requires a service entry configuration in the cluster. The host used in the service entry should be of the form `<name>.<namespace>.global` where name and namespace correspond to the service’s name and namespace respectively.
+集群中每个需要被 VM 访问到的服务必须在集群中添加一个 service entry 配置。Service entry 中的 host 要求格式为 `<name>.<namespace>.global`，其中 name 和 namespace 分别对应服务中的名字和命名空间。
 
-To demonstrate access from VM to  cluster services, configure the
-the [httpbin service]({{< github_tree >}}/samples/httpbin)
-in the cluster.
+在集群中配置 [httpbin service]({{< github_tree >}}/samples/httpbin) ，演示 VM 怎样访问集群中的服务。
 
-1. Deploy the `httpbin` service in the cluster
+1. 在集群中部署 `httpbin` 。
 
     {{< text bash >}}
     $ kubectl create namespace bar
@@ -205,27 +186,21 @@ in the cluster.
     $ kubectl apply -n bar -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-1. Create a service entry for the `httpbin` service in the cluster.
+1. 在集群中为 `httpbin` 服务创建 service entry 。
 
-    To allow services in VM  to access `httpbin` in the cluster, we need to create
-    a service entry for it. The host name of the service entry should be of the form
-    `<name>.<namespace>.global` where name and namespace correspond to the
-    remote service's name and namespace respectively.
+    为了 VM 中的服务能够访问到集群中的 `httpbin` ，我们需要为它创建一个 service entry。Service entry 中的 host 值要求格式为 `<name>.<namespace>.global`，其中 name 和 namespace 分别对应远程服务中的名字和命名空间。
 
-    For DNS resolution for services under the `*.global` domain, you need to assign these
-    services an IP address.
+    因为 DNS 解析 `*.global` 域上的服务，您需要为这些服务分配一个 IP 地址。
 
     {{< tip >}}
-    Each service (in the `.global` DNS domain) must have a unique IP within the cluster.
+    各个服务（ `*.global` DNS 域中）必须在集群中有一个唯一的 IP。
     {{< /tip >}}
 
-    If the global services have actual VIPs, you can use those, but otherwise we suggest
-    using IPs from the loopback range `127.0.0.0/8` that are not already allocated.
-    These IPs are non-routable outside of a pod.
-    In this example we'll use IPs in `127.255.0.0/16` which avoids conflicting with
-    well known IPs such as `127.0.0.1` (`localhost`).
-    Application traffic for these IPs will be captured by the sidecar and routed to the
-    appropriate remote service.
+    如果全局服务已经有真正的 VIPs，您可以使用它们，否则我们建议使用来自回环段 `127.0.0.0/8` 的还未分配的 IPs 。这些 IPs 在 pod 外不能路由。
+
+    本示例中我们使用 `127.255.0.0/16` 中的 IPs 避免和常用的 IPs 例如 `127.0.0.1` (`localhost`) 产生冲突。
+
+    使用这些 IPs 的应用流量将被 sidecar 捕获并路由到合适的远程服务上。
 
     {{< text bash >}}
     $ kubectl apply  -n bar -f - <<EOF
@@ -235,7 +210,7 @@ in the cluster.
       name: httpbin.bar.forvms
     spec:
       hosts:
-      # must be of form name.namespace.global
+      # 格式要求必须为 name.namespace.global
       - httpbin.bar.global
       location: MESH_INTERNAL
       ports:
@@ -244,47 +219,34 @@ in the cluster.
         protocol: http
       resolution: DNS
       addresses:
-      # the IP address to which httpbin.bar.global will resolve to
-      # must be unique for each service, within a given cluster.
-      # This address need not be routable. Traffic for this IP will be captured
-      # by the sidecar and routed appropriately.
-      # This address will also be added into VM's /etc/hosts
+      #  httpbin.bar.global 将会被解析至这个 IP 地址，它对于给定集群中的各个服务必须是唯一的。
+      # 这个地址不需要可路由。这个 IP 的流量将会被 sidecar 捕获并路由到合适的地方。
+      # 同时这个地址也会被添加到 VM 的 /etc/hosts 中
       - 127.255.0.3
       endpoints:
-      # This is the routable address of the ingress gateway in the cluster.
-      # Traffic from the VMs will be
-      # routed to this address.
+      # 这是集群中 ingress gateway 的可路由地址。
+      # 来自 VMs 的流量将被路由到这个地址。
       - address: ${CLUSTER_GW_ADDR}
         ports:
           http1: 15443 # Do not change this port value
     EOF
     {{< /text >}}
 
-    The configurations above will result in all traffic from VMs for
-    `httpbin.bar.global` on *any port* to be routed to the endpoint
-    `<IPofClusterIngressGateway>:15443` over a mutual TLS connection.
+    上述配置会让来自 VMs 的 地址为 `httpbin.bar.global` 的 *any port* 的所有流量通过双向 TLS 连接被路由到指定 endpoint `<IPofClusterIngressGateway>:15443` 。
 
-    The gateway for port 15443 is a special SNI-aware Envoy
-    preconfigured and installed as part of the meshexpansion with gateway Istio installation step
-    in the [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) section. Traffic entering port 15443 will be
-    load balanced among pods of the appropriate internal service of the target
-    cluster (in this case, `httpbin.bar` in the cluster).
+    端口为 15443 的 gateway 是一个特殊的 SNI-aware Envoy，作为结合 gateway 的网格扩张的部分在 Istio 安装部署步骤部分做了配置和安装。进入端口 15443 的流量会在目标集群中合适的内部服务的 pods 上做负载均衡（本例子，是集群中的 `httpbin.bar`）。
 
     {{< warning >}}
-    Do not create a `Gateway` configuration for port 15443.
+    禁止为端口 15443 创建 `Gateway` 配置。
     {{< /warning >}}
 
-## Send requests from VM to Kubernetes services
+## 从 VM 发送请求到 Kubernetes 中的服务{#send-requests-from-VM-to-Kubernetes-services}
 
-After setup, the machine can access services running in the Kubernetes cluster.
+机器在安装以后，就能访问运行在 Kubernetes 集群中的服务。
 
-The following example shows accessing a service running in the Kubernetes
-cluster from a VM using `/etc/hosts/`, in this case using a
-service from the [httpbin service]({{<github_tree>}}/samples/httpbin).
+下面的示例演示一个使用 `/etc/hosts/` 的 VM 访问运行在 Kubernetes 集群中的服务。这个服务来自 [httpbin service]({{<github_tree>}}/samples/httpbin)。
 
-1.  On the added VM, add the service name and address to its `/etc/hosts` file.
-    You can then connect to the cluster service from the VM, as in the example
-    below:
+1. 在添加的 VM 上，添加服务名字和地址到它的 `/etc/hosts` 文件中。您就可以从该 VM 连接集群上的服务了，例子如下：
 
     {{< text bash >}}
 $ echo "127.255.0.3 httpbin.bar.global" | sudo tee -a /etc/hosts
@@ -297,29 +259,29 @@ $ curl -v httpbin.bar.global:8000
 ... html content ...
     {{< /text >}}
 
-The `server: envoy` header indicates that the sidecar intercepted the traffic.
+`server: envoy` header 表示 sidecar 拦截了这个流量。
 
-## Running services on the added VM
+## 在添加的 VM 上运行服务{#running-services-on-the-added-VM}
 
-1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8888:
+1. 在 VM 实例上安装一个 HTTP 服务器处理来自端口 8888 的 HTTP 流量：
 
     {{< text bash >}}
     $ python -m SimpleHTTPServer 8888
     {{< /text >}}
 
-1. Determine the VM instance's IP address.
+1. 指定 VM 实例的 IP 地址。
 
-1. Add VM services to the mesh
+1. 添加 VM 服务到网格中
 
     {{< text bash >}}
     $ istioctl experimental add-to-mesh external-service vmhttp ${VM_IP} http:8888 -n ${SERVICE_NAMESPACE}
     {{< /text >}}
 
     {{< tip >}}
-    Ensure you have added the `istioctl` client to your path, as described in the [download page](/zh/docs/setup/getting-started/#download).
+    确认您已经将 `istioctl` 客户端添加到您的路径下，这在 [download page](/zh/docs/setup/getting-started/#download) 有讲到。
     {{< /tip >}}
 
-1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:
+1. 在 Kubernetes 集群中部署一个运行 `sleep` 服务的 pod，并等待它的状态变为 ready：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -329,13 +291,13 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     ...
     {{< /text >}}
 
-1. Send a request from the `sleep` service on the pod to the VM's HTTP service:
+1. 从运行在 pod 上的 `sleep` 服务发送请求给 VM 的 HTTP 服务：
 
     {{< text bash >}}
     $ kubectl exec -it sleep-88ddbcfdd-rm42k -c sleep -- curl vmhttp.${SERVICE_NAMESPACE}.svc.cluster.local:8888
     {{< /text >}}
 
-    If configured properly, you will see something similar to the output below.
+    如果配置正确，您将会看到如下类似输出：
 
     {{< text html >}}
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html>
@@ -350,18 +312,14 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     </body>
     {{< /text >}}
 
-**Congratulations!** You successfully configured a service running in a pod within the cluster to
-send traffic to a service running on a VM outside of the cluster and tested that
-the configuration worked.
+**恭喜！** 您成功配置一个运行在集群 pod 上的服务，发送流量给运行在一个集群外的 VM 上的服务并测试配置是否生效。
 
-## Cleanup
+## 清除{#cleanup}
 
-Run the following commands to remove the expansion VM from the mesh's abstract
-model.
+执行如下命令从网格的抽象模型中移除扩展的 VM。
 
 {{< text bash >}}
 $ istioctl experimental remove-from-mesh -n ${SERVICE_NAMESPACE} vmhttp
 Kubernetes Service "vmhttp.vm" has been deleted for external service "vmhttp"
 Service Entry "mesh-expansion-vmhttp" has been deleted for external service "vmhttp"
 {{< /text >}}
-
