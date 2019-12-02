@@ -2,4 +2,4 @@
 title: Trust Domain Migration
 ---
 
-The process of changing the [trust domain](/zh/docs/reference/glossary/#trust-domain) of an Istio mesh.
+更改 Istio 网格的[信任域](/zh/docs/reference/glossary/#trust-domain)的过程。
