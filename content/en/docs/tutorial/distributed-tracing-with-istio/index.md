@@ -51,4 +51,4 @@ applications' code nor their container environment.
 Distributed tracing, however, comes with a price. You must change the code of your application to pass a set of HTTP
 headers down the chain.
 The list of the headers and code snippets in Python and Java are shown in
-[Distributed Tracing Overview](/docs/tasks/telemetry/distributed-tracing/overview/#understanding-what-happened).
+[Distributed Tracing Overview](/docs/tasks/telemetry/distributed-tracing/overview).

@@ -19,12 +19,11 @@ microservices, monitor traffic by a dashboard, and examine distributed tracing.
 ## Next steps to learn Istio
 
 Istio provides many more features, not covered in this tutorial.
-Note that [Istio can run on VMs](/docs/examples/integrating-vms).
-Istio can be integrated with [service registries](/docs/setup/consul) other than Kubernetes.
+Note that [Istio can run on VMs](/docs/examples/virtual-machines).
 Istio can [control the traffic from the outside into the service mesh](/docs/tasks/traffic-management/ingress)
 and [the traffic to external services](/docs/tasks/traffic-management/egress).
 
 And, last but not least, Istio can be used to
-[connect applications in multiple clusters](/docs/concepts/multicluster-deployments/).
+[connect applications in multiple clusters](/docs/ops/deployment/deployment-models/#multiple-clusters).
 
 See more tasks, examples and blog posts at [istio.io](/).
