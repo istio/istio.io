@@ -62,7 +62,7 @@ changed. Also check the pods' status with `kubectl get pods`.
 1.  Check the webpage of the application:
 
     {{< image width="80%"
-        link="images/bookinfo-details-unavailable.png"
+        link="bookinfo-details-unavailable.png"
         caption="Bookinfo Web Application, details unavailable"
         >}}
 

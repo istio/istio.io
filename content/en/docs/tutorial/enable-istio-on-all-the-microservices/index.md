@@ -49,14 +49,14 @@ microservices in one stroke.
     appear in the list of services.
 
     {{< image width="80%"
-        link="images/dashboard-mesh-all.png"
+        link="dashboard-mesh-all.png"
         caption="Istio Mesh Dashboard"
         >}}
 
 1.  Check some other microservice in _Istio Service Dashboard_, e.g. `ratings` :
 
     {{< image width="80%"
-        link="images/dashboard-ratings.png"
+        link="dashboard-ratings.png"
         caption="Istio Service Dashboard"
         >}}
 
@@ -69,7 +69,7 @@ microservices in one stroke.
     In the _Display_ drop-down menu mark the _Traffic Animation_ checkbox to see some cool traffic animation.
 
     {{< image width="80%"
-        link="images/kiali-display-menu.png"
+        link="kiali-display-menu.png"
         caption="Kiali Graph Tab, display drop-down menu"
         >}}
 
@@ -77,12 +77,12 @@ microservices in one stroke.
     graph. Notice the traffic metrics on the right.
 
     {{< image width="80%"
-        link="images/kiali-edge-labels-menu.png"
+        link="kiali-edge-labels-menu.png"
         caption="Kiali Graph Tab, edge labels drop-down menu"
         >}}
 
     {{< image width="80%"
-        link="images/kiali-initial.png"
+        link="kiali-initial.png"
         caption="Kiali Graph Tab"
         >}}
 

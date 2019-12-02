@@ -25,7 +25,7 @@ microservices react to the faults you injected.
 1.  Access application's webpage, sign in as `jason` and observe that now an error is displayed instead of the reviews.
 
     {{< image width="80%"
-        link="images/bookinfo-ratings-unavailable-jason.png"
+        link="bookinfo-ratings-unavailable-jason.png"
         caption="Bookinfo Web Application, ratings unavailable for a test user"
         >}}
 
@@ -56,7 +56,7 @@ microservices react to the faults you injected.
     percentage of errors in the `HTTP Traffic` section on the right.
 
     {{< image width="80%"
-        link="images/kiali-fault-injection.png"
+        link="kiali-fault-injection.png"
         caption="Kiali Graph Tab with fault injection"
         >}}
 
@@ -78,7 +78,7 @@ microservices react to the faults you injected.
     You should see that now the "Error fetching product reviews!" message is displayed.
 
     {{< image width="80%"
-        link="images/bookinfo-reviews-unavailable-jason.png"
+        link="bookinfo-reviews-unavailable-jason.png"
         caption="Bookinfo Web Application, reviews unavailable for a test user"
         >}}
 
@@ -110,7 +110,7 @@ microservices react to the faults you injected.
     turned orange, and the percentage of the errors in the _HTTP Traffic_ section on the right increased.
 
     {{< image width="80%"
-        link="images/kiali-delay-injection.png"
+        link="kiali-delay-injection.png"
         caption="Kiali Graph Tab with delay injection"
     >}}
 
@@ -120,7 +120,7 @@ microservices react to the faults you injected.
     Notice the response code `500` in _Service Workloads_, _Incoming requests by destination and response code_.
 
     {{< image width="80%"
-        link="images/dashboard-reviews-500.png"
+        link="dashboard-reviews-500.png"
         caption="Istio Service Dashboard"
         >}}
 
@@ -128,7 +128,7 @@ microservices react to the faults you injected.
     trace with errors:
 
     {{< image width="80%"
-        link="images/jaeger-tracing-timeout-errors.png"
+        link="jaeger-tracing-timeout-errors.png"
         caption="Jaeger UI, timeout errors"
         >}}
 
@@ -172,7 +172,7 @@ microservices react to the faults you injected.
     latest trace:
 
     {{< image width="80%"
-        link="images/jaeger-trace-delay-2.png"
+        link="jaeger-trace-delay-2.png"
         caption="Jaeger UI, two seconds delay"
         >}}
 

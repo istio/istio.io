@@ -33,7 +33,7 @@ one later.
     Note that everything is green and there are no errors shown on the right panel, 100% success.
 
     {{< image width="80%"
-        link="images/kiali-successful-ratings.png"
+        link="kiali-successful-ratings.png"
         caption="Kiali Graph Tab with ratings without errors"
         >}}
 
@@ -43,7 +43,7 @@ one later.
     Notice the 100% client and server success rate.
 
     {{< image width="80%"
-        link="images/dashboard-successful-ratings.png"
+        link="dashboard-successful-ratings.png"
         caption="Istio Service Dashboard for the ratings microservice with 100% success rate"
         >}}
 
@@ -125,7 +125,7 @@ one later.
     Select `last 30 minutes` in the fetching interval drop-down menu at the top right.
 
     {{< image width="80%"
-        link="images/kiali-set-last-30-minutes.png"
+        link="kiali-set-last-30-minutes.png"
         caption="Kiali Graph Tab, setting the fetching interval for the last 30 minutes"
         >}}
 
@@ -134,7 +134,7 @@ one later.
     the fetching interval drop-down menu at the top right.
 
     {{< image width="80%"
-        link="images/dashboard-set-last-30-minutes.png"
+        link="dashboard-set-last-30-minutes.png"
         caption="Istio Service Dashboard, setting the fetching interval for the last 30 minutes"
         >}}
 
@@ -150,7 +150,7 @@ one later.
     the success rate on the right panel is less than 100%.
 
     {{< image width="80%"
-        link="images/kiali-first-ratings-errors.png"
+        link="kiali-first-ratings-errors.png"
         caption="Kiali Graph Tab with first errors in ratings"
         >}}
 
@@ -160,7 +160,7 @@ one later.
     success rate.
 
     {{< image width="80%"
-        link="images/dashboard-first-ratings-errors.png"
+        link="dashboard-first-ratings-errors.png"
         caption="Istio Service Dashboard with first errors in ratings"
         >}}
 
@@ -169,7 +169,7 @@ one later.
     partial functionality to the user in the face of occurring failures and it is good.
 
     {{< image width="80%"
-        link="images/bookinfo-ratings-unavailable.png"
+        link="bookinfo-ratings-unavailable.png"
         caption="Bookinfo application: ratings unavailable"
         >}}
 
@@ -182,7 +182,7 @@ one later.
     Click on the `ratings` service. Note that the error rate on the right panel is about 50%.
 
     {{< image width="80%"
-        link="images/kiali-50-percent-ratings-error.png"
+        link="kiali-50-percent-ratings-error.png"
         caption="Kiali Graph Tab with 50% errors in ratings"
         >}}
 
@@ -192,7 +192,7 @@ one later.
     success rate.
 
     {{< image width="80%"
-        link="images/dashboard-50-percent-ratings-error.png"
+        link="dashboard-50-percent-ratings-error.png"
         caption="Istio Service Dashboard with 51% errors in ratings"
         >}}
 
@@ -260,7 +260,7 @@ one later.
     `ratings` is orange.
 
     {{< image width="80%"
-        link="images/kiali-ratings-with-liveness-probe.png"
+        link="kiali-ratings-with-liveness-probe.png"
         caption="Kiali Graph Tab, ratings with the liveness probe"
         >}}
 
@@ -270,7 +270,7 @@ one later.
     success rate is almost 100%. Note the drop in the success rate that happened about 15 minutes ago.
 
     {{< image width="80%"
-        link="images/dashboard-ratings-with-liveness-probe.png"
+        link="dashboard-ratings-with-liveness-probe.png"
         caption="Istio Service Dashboard, ratings with the liveness probe"
         >}}
 

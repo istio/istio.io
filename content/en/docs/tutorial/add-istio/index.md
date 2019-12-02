@@ -90,7 +90,7 @@ serve user requests.
     In the top left drop-down menu, select _Istio Mesh Dashboard_.
 
     {{< image width="80%"
-        link="images/dashboard-select-dashboard.png"
+        link="dashboard-select-dashboard.png"
         caption="Select Istio Mesh Dashboard from the top left drop-down menu"
         >}}
 
@@ -98,7 +98,7 @@ serve user requests.
     `productpage.<your namespace>.svc.cluster.local`.
 
     {{< image width="80%"
-        link="images/dashboard-mesh.png"
+        link="dashboard-mesh.png"
         caption="Istio Mesh Dashboard"
         >}}
 
@@ -106,7 +106,7 @@ serve user requests.
     the drop-down menu of services.
 
     {{< image width="80%"
-        link="images/dashboard-service-select-productpage.png"
+        link="dashboard-service-select-productpage.png"
         caption="Istio Service Dashboard, `productpage` selected"
         >}}
 
@@ -114,7 +114,7 @@ serve user requests.
     dashboard graphs are updated.
 
     {{< image width="80%"
-        link="images/dashboard-service.png"
+        link="dashboard-service.png"
         caption="Istio Service Dashboard"
         >}}
 

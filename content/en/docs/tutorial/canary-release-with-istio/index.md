@@ -88,7 +88,7 @@ a new version and enable traffic to it for a tester with login name `jason`.
     You will see that now the ratings have red stars which means that your new version is used.
 
     {{< image width="80%"
-        link="images/bookinfo-ratings-v3-jason.png"
+        link="bookinfo-ratings-v3-jason.png"
         caption="Bookinfo Web Application, ratings v3 version for the jason user"
         >}}
 
@@ -105,7 +105,7 @@ a new version and enable traffic to it for a tester with login name `jason`.
     `reviews` virtual service on the box that designates the `reviews` microservice.
 
     {{< image width="80%"
-        link="images/kiali-reviews-v3.png"
+        link="kiali-reviews-v3.png"
         caption="Kiali Graph Tab with reviews v3"
         >}}
 
@@ -123,13 +123,13 @@ a new version and enable traffic to it for a tester with login name `jason`.
     console.
 
     {{< image width="80%"
-        link="images/kiali-istio-config.png"
+        link="kiali-istio-config.png"
         caption="Kiali Istio Config tab"
         >}}
 
 1.  Click on the `reviews` virtual service to see its visual representation.
 
     {{< image width="80%"
-        link="images/kiali-reviews-virtual-service.png"
+        link="kiali-reviews-virtual-service.png"
         caption="Kiali Reviews Virtual Service"
         >}}

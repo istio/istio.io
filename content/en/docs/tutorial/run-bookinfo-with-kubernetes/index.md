@@ -159,7 +159,7 @@ configure the steps below successfully, you will be able to access the applicati
     You should see the following webpage:
 
     {{< image width="80%"
-        link="images/bookinfo.png"
+        link="bookinfo.png"
         caption="Bookinfo Web Application"
         >}}
 

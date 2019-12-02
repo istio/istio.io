@@ -128,7 +128,7 @@ more failures and making the application or parts of it unavailable.
     Notice the _v-flooding_ version of `productpage`.
 
     {{< image width="80%"
-        link="images/kiali-productpage-flooding.png"
+        link="kiali-productpage-flooding.png"
         caption="Kiali Graph Tab with productpage v-flooding"
         >}}
 
@@ -222,7 +222,7 @@ more failures and making the application or parts of it unavailable.
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     {{< image width="80%"
-        link="images/kiali-productpage-flooding-rate-limiting.png"
+        link="kiali-productpage-flooding-rate-limiting.png"
         caption="Kiali Graph Tab with productpage v-flooding and rate limiting enabled"
         >}}
 

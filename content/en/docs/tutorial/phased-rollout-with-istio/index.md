@@ -73,14 +73,14 @@ then to 20% and so on.
     You will see the rate of the traffic entering `reviews` split roughly 90:10 between `reviews` _v2_ and _v3_.
 
     {{< image width="80%"
-        link="images/kiali-phased-rollout.png"
+        link="kiali-phased-rollout.png"
         caption="Kiali Graph Tab with traffic splitting 90:10 between reviews v2 and v3"
         >}}
 
 1.  Observe the `reviews` virtual service in your Kiali console, the `Istio Config` tab.
 
     {{< image width="80%"
-        link="images/kiali-phased-rollout-virtual-service.png"
+        link="kiali-phased-rollout-virtual-service.png"
         caption="Kiali, the reviews virtual service"
         >}}
 
@@ -90,7 +90,7 @@ then to 20% and so on.
     `reviews` is not equal to 100: 80 to _v2_ and 10 to _v3_. Istio validates the configuration items you submit. Good.
 
     {{< image width="80%"
-        link="images/kiali-edit-virtual-service-error.png"
+        link="kiali-edit-virtual-service-error.png"
         caption="Kiali, editing the reviews virtual service with error"
         >}}
 

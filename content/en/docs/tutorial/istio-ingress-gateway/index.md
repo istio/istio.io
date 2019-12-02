@@ -118,7 +118,7 @@ control already at the ingress point, even before the traffic reaches your micro
     `istio-ingressgateway istio-system` (the Istio Ingress Gateway).
 
     {{< image width="80%"
-        link="images/kiali-ingress-gateway.png"
+        link="kiali-ingress-gateway.png"
         caption="Kiali Graph Tab with Istio Ingress Gateway"
         >}}
 
@@ -139,6 +139,6 @@ control already at the ingress point, even before the traffic reaches your micro
     of traffic for your application.
 
     {{< image width="80%"
-        link="images/kiali-ingress-gateway-only.png"
+        link="kiali-ingress-gateway-only.png"
         caption="Kiali Graph Tab with Istio Ingress Gateway as a single source of traffic"
         >}}

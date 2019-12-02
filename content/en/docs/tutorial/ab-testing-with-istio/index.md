@@ -41,7 +41,7 @@ stars look better in Firefox and you want to check your hypothesis, by directing
     You will see the rate of the traffic entering `reviews` split roughly 50:50 between `reviews` _v2_ and _v3_.
 
     {{< image width="80%"
-        link="images/kiali-ab-testing.png"
+        link="kiali-ab-testing.png"
         caption="Kiali Graph Tab with traffic splitting 50:50 between reviews v2 and v3"
         >}}
 

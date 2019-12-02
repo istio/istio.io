@@ -81,7 +81,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     Notice the two versions of `ratings`, _v1_ and _v-unavailable_, handling the requests successfully.
 
     {{< image width="80%"
-        link="images/kiali-ratings-unavailable.png"
+        link="kiali-ratings-unavailable.png"
         caption="Kiali Graph Tab with ratings v-unavailable"
         >}}
 
@@ -89,7 +89,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     box of the whole `ratings` microservice turns red, the box of `reviews` becomes orange.
 
     {{< image width="80%"
-        link="images/kiali-ratings-unavailable-failing.png"
+        link="kiali-ratings-unavailable-failing.png"
         caption="Kiali Graph Tab with ratings v-unavailable failing"
         >}}
 
@@ -100,7 +100,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     _ratings v1_.
 
     {{< image width="80%"
-        link="images/kiali-ratings-unavailable-detected.png"
+        link="kiali-ratings-unavailable-detected.png"
         caption="Kiali Graph Tab with traffic not routed to ratings v-unavailable"
         >}}
 

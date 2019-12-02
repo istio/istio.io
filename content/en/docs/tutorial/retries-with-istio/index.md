@@ -90,7 +90,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
     right.
 
     {{< image width="80%"
-        link="images/kiali-faulty-ratings.png"
+        link="kiali-faulty-ratings.png"
         caption="Kiali Graph Tab with faulty ratings"
         >}}
 
@@ -98,7 +98,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
     `ratings` being unavailable.
 
     {{< image width="80%"
-        link="images/bookinfo-ratings-unavailable.png"
+        link="../../liveness-probes-with-kubernetes/bookinfo-ratings-unavailable.png"
         caption="Bookinfo application: ratings unavailable"
         >}}
 
@@ -134,7 +134,7 @@ To mitigate such a fault, you perform a retry of 3 times on the call to `ratings
     Note that the HTTP error rate is reduced.
 
     {{< image width="80%"
-        link="images/kiali-retry-to-ratings.png"
+        link="kiali-retry-to-ratings.png"
         caption="Kiali Graph Tab with retry to ratings"
         >}}
 

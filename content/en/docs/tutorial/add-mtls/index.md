@@ -58,7 +58,7 @@ microservices in your namespace.
     _Service Workload_.
 
     {{< image width="80%"
-        link="images/dashboard-ratings-mtls.png"
+        link="dashboard-ratings-mtls.png"
         caption="Istio Service Dashboard"
         >}}
 
@@ -69,7 +69,7 @@ microservices in your namespace.
     edges.
 
     {{< image width="80%"
-        link="images/kiali-mtls.png"
+        link="kiali-mtls.png"
         caption="Kiali Graph Tab with mutual TLS"
         >}}
 

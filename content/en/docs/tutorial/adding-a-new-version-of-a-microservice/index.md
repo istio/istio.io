@@ -67,7 +67,7 @@ unit tests, integration tests, end-to-end tests and tests in a staging environme
     sometimes without stars (approximately 75% of the time).
 
     {{< image width="80%"
-        link="images/bookinfo-reviews-v2.png"
+        link="bookinfo-reviews-v2.png"
         caption="Bookinfo Web Application with black stars as ratings"
         >}}
 

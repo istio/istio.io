@@ -92,7 +92,7 @@ user instead of letting the user wait for a long period of time.
     error rate of the HTTP traffic on the right.
 
     {{< image width="80%"
-        link="images/kiali-delayed-ratings.png"
+        link="kiali-delayed-ratings.png"
         caption="Kiali Graph Tab with delayed ratings"
         >}}
 
@@ -102,7 +102,7 @@ user instead of letting the user wait for a long period of time.
     through `reviews` to `productpage`. Not good.
 
     {{< image width="80%"
-        link="images/bookinfo-reviews-unavailable.png"
+        link="bookinfo-reviews-unavailable.png"
         caption="Bookinfo application: reviews unavailable"
         >}}
 
@@ -135,7 +135,7 @@ user instead of letting the user wait for a long period of time.
     results of the whole webpage.
 
     {{< image width="80%"
-        link="images/bookinfo-ratings-unavailable.png"
+        link="../../liveness-probes-with-kubernetes/bookinfo-ratings-unavailable.png"
         caption="Bookinfo application: ratings unavailable"
         >}}
 
@@ -145,7 +145,7 @@ user instead of letting the user wait for a long period of time.
     Note that now `productpage` turned green and the error rate of the HTTP traffic is reduced.
 
     {{< image width="80%"
-        link="images/kiali-timeout-to-ratings.png"
+        link="kiali-timeout-to-ratings.png"
         caption="Kiali Graph Tab with faulty ratings"
         >}}
 

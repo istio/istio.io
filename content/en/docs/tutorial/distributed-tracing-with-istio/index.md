@@ -23,7 +23,7 @@ In this module you examine the traces of your application.
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
     {{< image width="80%"
-        link="images/jaeger-ui.png"
+        link="jaeger-ui.png"
         caption="Jaeger UI"
         >}}
 
@@ -33,7 +33,7 @@ In this module you examine the traces of your application.
 1.  Examine one of the returned traces on the right:
 
     {{< image width="80%"
-        link="images/jaeger-ui-productpage.png"
+        link="jaeger-ui-productpage.png"
         caption="Jaeger UI, productpage trace"
         >}}
 

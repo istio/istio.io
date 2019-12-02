@@ -61,6 +61,6 @@ without errors.
     the graph.
 
     {{< image width="80%"
-        link="images/kiali-traffic-shadowing.png"
+        link="kiali-traffic-shadowing.png"
         caption="Kiali Graph Tab with traffic shadowing to reviews v3"
         >}}

@@ -58,7 +58,7 @@ See below several examples of Prometheus Istio-related queries.
 [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
 {{< image width="80%"
-    link="images/prometheus.png"
+    link="prometheus.png"
     caption="Prometheus Query UI"
     >}}
 
