@@ -58,7 +58,7 @@ IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。
 {{< warning >}}
 只有多个 IBM Cloud Private 集群中的所有节点都位于同一子网中，这个方法才有效。
 直接为位于不同子网中的节点添加 BGP 路由器是行不通的，因为 IP 地址必须通过单跳就能访问。
-另外，您可以使用 VPN 以让 pod 跨集群通信。请参考[这篇文章](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3)以获取更多细节。
+另外，您可以使用 VPN 实现 pod 跨集群通信。请参考[这篇文章](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3)以获取更多细节。
 {{< /warning >}}
 
 您可以检查如何添加从 `cluster-1` 到 `cluster-2` 的 IP 路由以验证 pod 之间的跨集群通信。
