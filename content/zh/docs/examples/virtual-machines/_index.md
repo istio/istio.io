@@ -1,6 +1,6 @@
 ---
-title: Virtual Machines
-description: Examples that add workloads running on virtual machines to an Istio mesh.
+title: 虚拟机
+description: 将虚拟机中运行的工作负载添加到 Istio 网格的示例。
 weight: 30
 aliases:
 - /zh/docs/examples/mesh-expansion/
