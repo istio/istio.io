@@ -20,7 +20,6 @@ aliases:
 
 * 部署了 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例应用。
 
-
 部署完 Bookinfo 应用后，打开 `http://$GATEWAY_URL/productpage` 地址进入到 Bookinfo 图书页面。在该页面中，您可以看到如下模块：
 
 * 在页面的左下方是图书详情 (**Book Detail**) 模块，内容包括：图书类型、页数、出版社等信息。
