@@ -1,6 +1,6 @@
 ---
 title: IBM Cloud Private
-description: Example multicluster mesh over two IBM Cloud Private clusters.
+description: 跨两个 IBM Cloud Private 集群的多集群网格示例。
 weight: 70
 keywords: [kubernetes,multicluster]
 aliases:
@@ -8,19 +8,15 @@ aliases:
     - /zh/docs/examples/multicluster/icp/
 ---
 
-This example demonstrates how to setup network connectivity between two
-[IBM Cloud Private](https://www.ibm.com/cloud/private) clusters
-and then compose them into a multicluster mesh using a
-[single-network deployment](/zh/docs/ops/prep/deployment-models/#single-network).
+本例演示了如何在两个 [IBM Cloud Private](https://www.ibm.com/cloud/private) 集群之间设置网络连接并使用[单网络部署](/zh/docs/ops/prep/deployment-models/#single-network)以将它们组成一个多集群网格。
 
-## Create the IBM Cloud Private clusters
+## 创建 IBM Cloud Private 集群{#create-the-IBM-Cloud-Private-clusters}
 
-1.  [Install two IBM Cloud Private clusters](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.2.0/installing/install.html).
+1. [安装两个 IBM Cloud Private 集群](https://www.ibm.com/support/knowledgecenter/zh/SSBS6K_3.2.0/installing/install.html).
 
     {{< warning >}}
-    Make sure individual cluster Pod CIDR ranges and service CIDR ranges are unique and do not overlap
-    across the multicluster environment and may not overlap. This can be configured by `network_cidr` and
-    `service_cluster_ip_range` in `cluster/config.yaml`.
+    确保每个集群的 Pod CIDR 范围和服务 CIDR 范围都是唯一的，并且在多集群环境中不会重叠。
+    这可以通过 `cluster/config.yaml` 文件中的 `network_cidr` 和 `service_cluster_ip_range` 来配置。
     {{< /warning >}}
 
     {{< text plain >}}
@@ -34,42 +30,42 @@ and then compose them into a multicluster mesh using a
     service_cluster_ip_range: 10.0.0.0/16
     {{< /text >}}
 
-1.  After IBM Cloud Private cluster install finishes, validate `kubectl` access to each cluster. In this example, consider
-    two clusters `cluster-1` and `cluster-2`.
+1. 在 IBM Cloud Private 集群安装完成后，验证 `kubectl` 可以访问这些集群。在本例中，我们将两个集群命名为 `cluster-1` 和 `cluster-2`。
 
-    1.  [Configure `cluster-1` with `kubectl`](https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.0/manage_cluster/install_kubectl.html).
+    1. [使用 `kubectl` 配置 `cluster-1`](https://www.ibm.com/support/knowledgecenter/zh/SSBS6K_3.2.0/manage_cluster/install_kubectl.html)。
 
-    1.  Check the cluster status:
+    1. 检查集群状态：
 
         {{< text bash >}}
         $ kubectl get nodes
         $ kubectl get pods --all-namespaces
         {{< /text >}}
 
-    1.  Repeat above two steps to validate `cluster-2`.
+    1. 重复以上两步来验证 `cluster-2`。
 
-## Configure pod communication across IBM Cloud Private clusters
+## 配置 pod 通过 IBM Cloud Private 集群通信{#configure-pod-communication-across-IBM-Cloud-Private-clusters}
 
-IBM Cloud Private uses Calico Node-to-Node Mesh by default to manage container networks. The BGP client
-on each node distributes the IP router information to all nodes.
+IBM Cloud Private 默认使用 Calico Node-to-Node Mesh 来管理容器网络。
+每个节点上的 BGP 客户端会将 IP 路由信息分发到所有节点。
 
-To ensure pods can communicate across different clusters, you need to configure IP routers on all nodes
-across the two clusters. In summary, you need the following two steps to configure pod communication across
-two IBM Cloud Private Clusters:
+为了确保 pods 可以跨不同集群通信，您需要在两个集群的所有节点上都配置 IP 路由。
+综上所述，您需要以下两步以配置 pod 跨两个 IBM Cloud Private 集群通信：
 
-1.  Add IP routers from `cluster-1` to `cluster-2`.
+1. 添加从 `cluster-1` 到 `cluster-2` 的 IP 路由。
 
-1.  Add IP routers from `cluster-2` to `cluster-1`.
+1. 添加从 `cluster-2` 到 `cluster-1` 的 IP 路由。
 
 {{< warning >}}
-This approach works if all the nodes within the multiple IBM Cloud Private clusters are located in the same subnet. It is unable to add BGP routers directly for nodes located in different subnets because the IP addresses must be reachable with a single hop. Alternatively, you can use a VPN for pod communication across clusters. Refer to [this article](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3) for more details.
+只有多个 IBM Cloud Private 集群中的所有节点都位于同一子网中，这个方法才有效。
+直接为位于不同子网中的节点添加 BGP 路由器是行不通的，因为 IP 地址必须通过单跳就能访问。
+另外，您可以使用 VPN 实现 pod 跨集群通信。请参考[这篇文章](https://medium.com/ibm-cloud/setup-pop-to-pod-communication-across-ibm-cloud-private-clusters-add0b079ebf3)以获取更多细节。
 {{< /warning >}}
 
-You can check how to add IP routers from `cluster-1` to `cluster-2` to validate pod to pod communication
-across clusters. With Node-to-Node Mesh mode, each node will have IP routers connecting to peer nodes in
-the cluster. In this example, both clusters have three nodes.
+您可以检查如何添加从 `cluster-1` 到 `cluster-2` 的 IP 路由以验证 pod 之间的跨集群通信。
+在 Node-to-Node Mesh 模式下，每个节点都将具有连接到群集中对等节点的 IP 路由。
+在本例中，每个集群有三个节点。
 
-The `hosts` file for `cluster-1`:
+`cluster-1` 的 `hosts` 文件：
 
 {{< text plain >}}
 172.16.160.23 micpnode1
@@ -77,7 +73,7 @@ The `hosts` file for `cluster-1`:
 172.16.160.29 micpnode3
 {{< /text >}}
 
-The `hosts` file for `cluster-2`:
+`cluster-2` 的 `hosts` 文件：
 
 {{< text plain >}}
 172.16.187.14 nicpnode1
@@ -85,7 +81,7 @@ The `hosts` file for `cluster-2`:
 172.16.187.18 nicpnode3
 {{< /text >}}
 
-1.  Obtain routing information on all nodes in `cluster-1` with the command `ip route | grep bird`.
+1. 在 `cluster-1` 的所有节点上使用命令 `ip route | grep bird` 获取路由信息。
 
     {{< text bash >}}
     $ ip route | grep bird
@@ -108,7 +104,7 @@ The `hosts` file for `cluster-2`:
     10.1.192.0/26 via 172.16.160.27 dev tunl0  proto bird onlink
     {{< /text >}}
 
-1.  There are three IP routers total for those three nodes in `cluster-1`.
+1. `cluster-1` 中的这三个节点一共有三个 IP 路由。
 
     {{< text plain >}}
     10.1.176.64/26 via 172.16.160.29 dev tunl0  proto bird onlink
@@ -116,7 +112,7 @@ The `hosts` file for `cluster-2`:
     10.1.192.0/26 via 172.16.160.27 dev tunl0  proto bird onlink
     {{< /text >}}
 
-1.  Add those three IP routers to all nodes in `cluster-2` by the command to follows:
+1. 使用以下命令将这三个 IP 路由添加到 `cluster-2` 的所有节点：
 
     {{< text bash >}}
     $ ip route add 10.1.176.64/26 via 172.16.160.29
@@ -124,18 +120,16 @@ The `hosts` file for `cluster-2`:
     $ ip route add 10.1.192.0/26 via 172.16.160.27
     {{< /text >}}
 
-1.  You can use the same steps to add all IP routers from `cluster-2` to `cluster-1`. After the configuration
-    is complete, all the pods in those two different clusters can communicate with each other.
+1. 您可以使用相同的步骤以添加从 `cluster-2` 到 `cluster-1` 的所有 IP 路由。配置完成后，这两个不同集群中的所有 pods 都可以互相通信了。
 
-1.  Verify across pod communication by pinging pod IP in `cluster-2` from `cluster-1`. The following is a pod
-     from `cluster-2` with pod IP as `20.1.58.247`.
+1. 从 `cluster-1` ping `cluster-2` 中的 pod IP 以验证 pod 之间的通信。下面是一个 `cluster-2` 中的 pod，其 IP 为 `20.1.58.247`。
 
     {{< text bash >}}
     $ kubectl -n kube-system get pod -owide | grep dns
     kube-dns-ksmq6                                                1/1     Running             2          28d   20.1.58.247      172.16.187.14   <none>
     {{< /text >}}
 
-1.  From a node in `cluster-1` ping the pod IP which should succeed.
+1. 从 `cluster-1` 的一个节点上 ping 该 pod IP，应该会成功。
 
     {{< text bash >}}
     $ ping 20.1.58.247
@@ -143,21 +137,19 @@ The `hosts` file for `cluster-2`:
     64 bytes from 20.1.58.247: icmp_seq=1 ttl=63 time=1.73 ms
     {{< /text >}}
 
-The steps above in this section enables pod communication across the two clusters by configuring a full IP routing mesh
-across all nodes in the two IBM Cloud Private Clusters.
+本节中的这些步骤，通过在两个 IBM Cloud Private 集群中的所有节点之间配置完整的 IP 路由网格，使得 pod 可以在两个集群之间通信。
 
-## Install Istio for multicluster
+## 为多集群安装 Istio{#install-Istio-for-multicluster}
 
-Follow the [single-network shared control plane instructions](/zh/docs/setup/install/multicluster/shared-vpn/) to install and configure
-local Istio control plane and Istio remote on `cluster-1` and `cluster-2`.
+按照[单网络共享控制平面说明](/zh/docs/setup/install/multicluster/shared-vpn/)在 `cluster-1` 和 `cluster-2` 上安装并配置本地 Istio 控制平面和远程 Istio。
 
-In this guide, it is assumed that the local Istio control plane is deployed in `cluster-1`, while the Istio remote is deployed in `cluster-2`.
+在本指南中，假定本地 Istio 控制平面部署在 `cluster-1`，远程 Istio 部署在 `cluster-2`。
 
-## Deploy the Bookinfo example across clusters
+## 跨集群部署 Bookinfo 示例{#deploy-the-Bookinfo-example-across-clusters}
 
-The following example enables [automatic sidecar injection](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+下面的例子启用了[自动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)。
 
-1.  Install `bookinfo` on the first cluster `cluster-1`. Remove the `reviews-v3` deployment which will be deployed on cluster `cluster-2` in the following step:
+1. 在集群 `cluster-1` 上安装 `bookinfo`。删掉 `reviews-v3` deployment，它将在接下来的步骤中被部署到集群 `cluster-2` 上：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -165,7 +157,7 @@ The following example enables [automatic sidecar injection](/zh/docs/setup/addit
     $ kubectl delete deployment reviews-v3
     {{< /text >}}
 
-1.  Deploy the `reviews-v3` service along with any corresponding services on the remote `cluster-2` cluster:
+1. 在远程 `cluster-2` 集群上部署 `reviews-v3` 服务以及其它相关服务：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -231,15 +223,11 @@ The following example enables [automatic sidecar injection](/zh/docs/setup/addit
     EOF
     {{< /text >}}
 
-    _Note:_ The `ratings` service definition is added to the remote cluster because `reviews-v3` is client
-    of `ratings` service, thus a DNS entry for `ratings` service is required for `reviews-v3`. The Istio sidecar
-    in the `reviews-v3` pod will determine the proper `ratings` endpoint after the DNS lookup is resolved to a
-    service address. This would not be necessary if a multicluster DNS solution were additionally set up, e.g. as
-    in a federated Kubernetes environment.
+    _请注意：_ `ratings` 服务定义也添加到远程集群是因为 `reviews-v3` 是 `ratings` 服务的客户端，因此 `reviews-v3` 需要 `ratings` 服务的 DNS 条目。
+    `reviews-v3` pod 里的 Istio sidecar 将在 DNS 解析为服务地址后确定适当的 `ratings` 端点。
+    如果另外设置了多群集 DNS 解决方案，例如在联邦 Kubernetes 环境中，这些就不是必须的了。
 
-1.  [Determine the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)
-    for `istio-ingressgateway`'s `INGRESS_HOST` and `INGRESS_PORT` variables to access the gateway.
+1. 为 `istio-ingressgateway` [确定它的 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)为 `INGRESS_HOST` 和 `INGRESS_PORT` 变量以访问网关。
 
-    Access `http://<INGRESS_HOST>:<INGRESS_PORT>/productpage` repeatedly and each version of `reviews` should be equally load balanced,
-    including `reviews-v3` in the remote cluster (red stars). It may take several accesses (dozens) to demonstrate the equal load balancing
-    between `reviews` versions.
+    重复访问 `http://<INGRESS_HOST>:<INGRESS_PORT>/productpage`，每个版本的 `reviews` 都应负载均衡，包括远程集群上的 `reviews-v3`（红色星级）。
+    可能需要几次访问（数十次）才能证明 `reviews` 版本之间是负载均衡的。
