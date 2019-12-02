@@ -118,9 +118,9 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -166,7 +166,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -326,9 +326,9 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -409,7 +409,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -663,9 +663,9 @@ external service.
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
@@ -691,7 +691,7 @@ external service.
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -n test-egress -f - <<EOF

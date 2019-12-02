@@ -42,9 +42,9 @@ In this case, you can access the gateway using the service's [node port](https:/
 
 Choose the instructions corresponding to your environment:
 
-{{< tabset cookie-name="gateway-ip" >}}
+{{< tabset category-name="gateway-ip" >}}
 
-{{< tab name="external load balancer" cookie-value="external-lb" >}}
+{{< tab name="external load balancer" category-value="external-lb" >}}
 
 Follow these instructions if you have determined that your environment has an external load balancer.
 
@@ -70,7 +70,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /tab >}}
 
-{{< tab name="node port" cookie-value="node-port" >}}
+{{< tab name="node port" category-value="node-port" >}}
 
 Follow these instructions if you have determined that your environment does not have an external load balancer,
 so you need to use a node port instead.

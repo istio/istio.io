@@ -24,7 +24,7 @@ let syntaxColoring = true;
 // All the voodoo needed to support our fancy code blocks
 function handleCodeBlocks() {
     const toolbarShow = "toolbar-show";
-    const syntaxColoringCookie = "syntax-coloring";
+    const syntaxColoringStorageItem = "syntax-coloring";
     const syntaxColoringItem = "syntax-coloring-item";
 
     // Add a toolbar to all PRE blocks
@@ -343,10 +343,10 @@ function handleCodeBlocks() {
     }
 
     function handleSyntaxColoringOption(): void {
-        const cookieValue = readCookie(syntaxColoringCookie);
-        if (cookieValue === "true") {
+        const setting = readLocalStorage(syntaxColoringStorageItem);
+        if (setting === "true") {
             syntaxColoring = true;
-        } else if (cookieValue === "false") {
+        } else if (setting === "false") {
             syntaxColoring = false;
         }
 
@@ -360,7 +360,7 @@ function handleCodeBlocks() {
         }
 
         listen(getById(syntaxColoringItem), click, () => {
-            createCookie(syntaxColoringCookie, syntaxColoring ? "false" : "true");
+            localStorage.setItem(syntaxColoringStorageItem, syntaxColoring ? "false" : "true");
             location.reload();
         });
     }
