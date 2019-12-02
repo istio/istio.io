@@ -25,7 +25,7 @@ target_release: 1.1
 * [Control Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了网格内的应用程序如何访问外部(Kubernetes 集群之外) HTTP 和 HTTPS 服务。
 * [配置 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway/)示例描述了如何配置 Istio 来通过一个称为 _出口网关_ 的专用网关服务来引导出口流量。
 * [带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/) 示例演示了如何允许应用程序向需要 HTTPS 的外部服务器发送 HTTP 请求，同时通过 Egress Gateway 引导流量。
-* [收集指标](/zh/docs/tasks/telemetry/metrics/collecting-metrics/)任务描述如何为网格中的服务配置指标。
+* [收集指标](/zh/docs/tasks/observability/metrics/collecting-metrics/)任务描述如何为网格中的服务配置指标。
 * [Grafana 的可视化指标](/zh/docs/tasks/telemetry/metrics/using-istio-dashboard/)描述了用于监控网格流量的 Istio 仪表板。
 * [基本访问控制](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何控制对网格内服务的访问。
 * [拒绝和白/黑名单](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何使用黑名单或白名单检查器配置访问策略。
