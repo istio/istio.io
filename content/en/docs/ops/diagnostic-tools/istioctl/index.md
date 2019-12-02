@@ -95,9 +95,9 @@ See [Debugging Envoy and Pilot](/docs/ops/diagnostic-tools/proxy-cmd/) for more 
 
 ## `istioctl` auto-completion
 
-{{< tabset cookie-name="prereqs" >}}
+{{< tabset category-name="prereqs" >}}
 
-{{< tab name="macOS" cookie-value="macos" >}}
+{{< tab name="macOS" category-value="macos" >}}
 
 If you are using the macOS operating system with the Bash terminal shell, make sure that the `bash-completion` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `bash-completion` package is installed with the following command:
 
@@ -120,7 +120,7 @@ Once the `bash-completion package` has been installed on your macOS system, add 
 
 {{< /tab >}}
 
-{{< tab name="Linux" cookie-value="linux" >}}
+{{< tab name="Linux" category-value="linux" >}}
 
 If you are using a Linux-based operating system, you can install the Bash completion package with the `apt-get install bash-completion` command for Debian-based Linux distributions or `yum install bash-completion` for RPM-based Linux distributions, the two most common occurrences.
 
@@ -138,9 +138,9 @@ Once the `bash-completion` package has been installed on your Linux system, add 
 
 To enable `istioctl` completion on your system, follow the steps for your preferred shell:
 
-{{< tabset cookie-name="profile" >}}
+{{< tabset category-name="profile" >}}
 
-{{< tab name="Bash" cookie-value="bash" >}}
+{{< tab name="Bash" category-value="bash" >}}
 
 Installing the bash auto-completion file
 
@@ -152,7 +152,7 @@ $ source ~/istioctl.bash
 
 {{< /tab >}}
 
-{{< tab name="ZSH" cookie-value="zsh" >}}
+{{< tab name="ZSH" category-value="zsh" >}}
 
 Installing the ZSH auto-completion file
 

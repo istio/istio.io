@@ -388,9 +388,9 @@ SNI 代理会将流量转发到 `443` 端口。
     您可能需要启用双向 TLS，以使 egress gateway 监视源 Pod 的身份，并基于该身份启用 Mixer 策略实施。
     {{< /idea >}}
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -502,7 +502,7 @@ SNI 代理会将流量转发到 `443` 端口。
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
