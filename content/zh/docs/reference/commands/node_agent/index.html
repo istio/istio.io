@@ -1,0 +1,178 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/istio' REPO
+source_repo: https://github.com/istio/istio
+title: node_agent
+description: Istio security per-node agent.
+generator: pkg-collateral-docs
+number_of_entries: 3
+max_toc_level: 2
+remove_toc_prefix: 'node_agent '
+---
+<p>Istio security per-node agent.</p>
+<pre class="language-bash"><code>node_agent [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ca-address &lt;string&gt;</code></td>
+<td>Istio CA address  (default `istio-citadel:8060`)</td>
+</tr>
+<tr>
+<td><code>--cert-chain &lt;string&gt;</code></td>
+<td>Node Agent identity cert file  (default `/etc/certs/cert-chain.pem`)</td>
+</tr>
+<tr>
+<td><code>--env &lt;string&gt;</code></td>
+<td>Node Environment : unspecified | onprem | gcp | aws  (default `unspecified`)</td>
+</tr>
+<tr>
+<td><code>--experimental-dual-use</code></td>
+<td>Enable dual-use mode. Generates certificates with a CommonName identical to the SAN. </td>
+</tr>
+<tr>
+<td><code>--key &lt;string&gt;</code></td>
+<td>Node Agent private key file  (default `/etc/certs/key.pem`)</td>
+</tr>
+<tr>
+<td><code>--key-size &lt;int&gt;</code></td>
+<td>Size of generated private key  (default `2048`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--org &lt;string&gt;</code></td>
+<td>Organization for the cert  (default ``)</td>
+</tr>
+<tr>
+<td><code>--platform &lt;string&gt;</code></td>
+<td>The platform istio runs on: vm | k8s  (default `vm`)</td>
+</tr>
+<tr>
+<td><code>--root-cert &lt;string&gt;</code></td>
+<td>Root Certificate file  (default `/etc/certs/root-cert.pem`)</td>
+</tr>
+<tr>
+<td><code>--workload-cert-ttl &lt;duration&gt;</code></td>
+<td>The requested TTL for the workload  (default `2160h0m0s`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="node_agent-version">node_agent version</h2>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>node_agent version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include called information, scopes can be any of [default]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level of messages to output,  can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>The minimum logging level at which stack traces are captured, can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Use --short=false to generate full version information </td>
+</tr>
+</tbody>
+</table>
+<h2 id="metrics">Exported metrics</h2>
+<table class="metrics">
+<thead>
+<tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
+</tbody>
+</table>

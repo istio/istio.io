@@ -1,8 +1,6 @@
 {{ $home := .Site.GetPage "home" }}
 {{ $section := .Section }}
-{{ $posts := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
-{{ $latest_post := index $posts 0 }}
-{{ $blog_home := .Site.GetPage "section" "blog" }}
+{{ $current := . }}
 
 <header>
     <nav >
@@ -16,7 +14,7 @@
             {{ else if .Site.Data.args.preliminary }}
                 <span class="name">Istio Prelim {{ .Site.Data.args.version }}</span>
             {{ else }}
-                <span class="name">Istio</span>
+                <span class="name">Istio {{ .Site.Data.args.version }}</span>
             {{ end }}
         </a>
 
@@ -25,32 +23,49 @@
         </div>
 
         <div id="header-links">
-            {{ with (.Site.GetPage "section" "docs") }}
-                {{ if eq $section "docs" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+            {{ if not .Site.Data.args.archive_landing }}
+                {{ with (.Site.GetPage "section" "docs") }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "docs" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a {{ if eq $section "docs" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with $latest_post }}
-                {{ if eq $section "blog" }}
-                    <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+
+                {{ with (.Site.GetPage "section" "blog") }}
+                    {{ $posts := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
+                    {{ $latest_post := index $posts 0 }}
+                    {{ $link := printf "%v%v/" .Permalink $latest_post.PublishDate.Year }}
+
+                    {{ if eq $link $current.Permalink }}
+                        <span {{ if eq $section "blog" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}<i class="dot" data-prefix="/blog"></i></span>
+                    {{ else }}
+                        <a {{ if eq $section "blog" }}class="current" {{ end }}title="{{ .Description }}" href="{{ $link }}">{{ .LinkTitle }}<i class="dot" data-prefix="/blog"></i></a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with (.Site.GetPage "section" "faq") }}
-                {{ if eq $section "faq" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+
+                {{ with (.Site.GetPage "section" "news")  }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "news" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}<i class="dot" data-prefix="/news"></i></span>
+                    {{ else }}
+                        <a {{ if eq $section "news" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}<i class="dot" data-prefix="/news"></i></a>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-            {{ with (.Site.GetPage "section" "about") }}
-                {{ if eq $section "about" }}
-                    <span title="{{ .Description }}">{{ .LinkTitle }}</span>
-                {{ else }}
-                    <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+
+                {{ with (.Site.GetPage "section" "faq") }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "faq" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a {{ if eq $section "faq" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                    {{ end }}
+                {{ end }}
+
+                {{ with (.Site.GetPage "section" "about") }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "about" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
+                    {{ else }}
+                        <a {{ if eq $section "about" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                    {{ end }}
                 {{ end }}
             {{ end }}
 
@@ -61,10 +76,12 @@
                 </button>
 
                 <div id="gearDropdownContent" class="menu-content" aria-labelledby="gearDropdownButton" role="menu">
+                    <!--
                     <a tabindex="-1" role="menuitem" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
                     <a tabindex="-1" role="menuitem" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
 
                     <div role="separator"></div>
+                    -->
 
                     <a tabindex="-1" role="menuitem" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
                     <a tabindex="-1" role="menuitem" id="dark-theme-item">{{ i18n "dark_theme" }}</a>
@@ -82,9 +99,9 @@
                             <a tabindex="-1" role="menuitem" class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
                         {{ else }}
                             {{ if eq $home.Lang "zh" }}
-                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content_zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ else }}
-                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                                <a tabindex="-1" role="menuitem" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
                             {{ end }}
                         {{ end }}
 
@@ -98,15 +115,20 @@
                     {{ $next := .Site.Data.versions.preliminary }}
                     {{ $current := .Site.Data.versions.main }}
 
+                    {{ $fileDir := "" }}
+                    {{ with .File }}
+                        {{ $fileDir = .Dir }}
+                    {{ end }}
+
                     {{ if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else if .Site.Data.args.preliminary }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "current_release") $current }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://istio.io/{{ $fileDir }}');return false;">{{ i18n "current_release" }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ else }}
-                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{.File.Dir}}');return false;">{{ printf (i18n "next_release") $next }}</a>
+                        <a tabindex="-1" role="menuitem" onclick="navigateToUrlOrRoot('https://preliminary.istio.io/{{ $fileDir }}');return false;">{{ i18n "next_release" }}</a>
                         <a tabindex="-1" role="menuitem" href="https://archive.istio.io">{{ i18n "archived_releases" }}</a>
                     {{ end }}
                 </div>
@@ -125,7 +147,7 @@
             {{ end }}
             <input type="hidden" name="ie" value="utf-8" />
             <input type="hidden" name="hl" value="en" />
-            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search.html" />
+            <input type="hidden" id="search-page-url" value="{{ .Site.BaseURL }}/search" />
             <input id="search-textbox" class="form-control" name="q" type="search" aria-label='{{ i18n "search" }}'/>
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "cancel-x" }}</button>
         </form>

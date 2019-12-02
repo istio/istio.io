@@ -259,7 +259,7 @@ function handleCodeBlocks() {
 
             if (cmd !== "") {
                 if (code.dataset.expandlinks === "true") {
-                    cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/istio/" + branchName + "/$1'>$1</a>");
+                    cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/" + code.dataset.repo + "/" + branchName + "/$1'>$1</a>");
                 }
 
                 let html = "<div class='command'>" + cmd + "</div>";
@@ -350,7 +350,7 @@ function handleCodeBlocks() {
             syntaxColoring = false;
         }
 
-        const item = document.getElementById(syntaxColoringItem);
+        const item = getById(syntaxColoringItem);
         if (item) {
             if (syntaxColoring) {
                 item.classList.add(active);

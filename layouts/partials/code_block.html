@@ -5,6 +5,11 @@
 {{- $output_is := .Get "outputis" | default (.Get 1) -}}
 {{- $download_as := .Get "downloadas" -}}
 {{- $snippet := .Get "snippet" -}}
+{{- $repo := .Get "repo" -}}
+
+{{- if not $repo  }}
+    {{- $repo = "istio" }}
+{{- end -}}
 
 {{- $expand_links := "true" -}}
 
@@ -12,7 +17,7 @@
     {{- $expand_links = .Get "expandlinks" }}
 {{- end -}}
 
-{{- if not $syntax -}}
+{{- if not (or $syntax $snippet) -}}
     {{- errorf "Text block does not specify a syntax (%s)" .Position -}}
     {{- $syntax = "plain" -}}
 {{- end -}}
@@ -25,8 +30,12 @@
         {{- errorf "Can't combine inner content with a url attribute (%s)" .Position -}}
     {{- end -}}
     {{- if not $download_as -}}
-        {{- $tmp := split $url "/" | last 1 -}}
-        {{- $download_as = index $tmp 0 -}}
+        {{- if $snippet }}
+            {{ $download_as = $snippet }}
+        {{- else -}}
+            {{- $tmp := split $url "/" | last 1 -}}
+            {{- $download_as = index $tmp 0 -}}
+        {{- end -}}
     {{- end -}}
 {{- else -}}
     {{- if $file -}}
@@ -35,8 +44,12 @@
             {{- errorf "Can't combine url or inner content with a file attribute (%s)" .Position -}}
         {{- end -}}
         {{- if not $download_as -}}
-            {{- $tmp := split $file "/" | last 1 -}}
-            {{- $download_as = index $tmp 0 -}}
+            {{- if $snippet }}
+                {{ $download_as = $snippet }}
+            {{- else -}}
+                {{- $tmp := split $file "/" | last 1 -}}
+                {{- $download_as = index $tmp 0 -}}
+            {{- end -}}
         {{- end -}}
     {{- else -}}
         {{- if $snippet -}}
@@ -49,19 +62,50 @@
         {{- errorf "Text blocks need to not be indented, or indented by a multiple of 4 spaces (%s)" .Page.Position -}}
     {{- end -}}
 
+    {{- if $snippet -}}
+        {{- $pattern := printf "(?msU).*\\$snippet %s +syntax=\"(.+)\" +outputis=\"(.+)\" *$\\n(.*)(?-s)\\n^.*\\$endsnippet *$(?s-U).*" $snippet -}}
+        {{- $match := findRE $pattern $text -}}
+        {{- if eq (len $match) 0 -}}
+
+            {{- $pattern := printf "(?msU).*\\$snippet %s +syntax=\"(.+)\" *$\\n(.*)(?-s)\\n^.*\\$endsnippet *$(?s-U).*" $snippet -}}
+            {{- $match = findRE $pattern $text -}}
+            {{- if eq (len $match) 0 -}}
+
+                {{- $pattern := printf "(?msU).*\\$snippet %s *$\\n(.*)(?-s)\\n^.*\\$endsnippet *$(?s-U).*" $snippet -}}
+                {{- $match = findRE $pattern $text -}}
+                {{- if eq (len $match) 0 -}}
+                    {{- errorf "Could not find snippet %s (%s)" $snippet .Position -}}
+                {{- else -}}
+                    {{- $text = replaceRE $pattern "$1" $text -}}
+                {{- end -}}
+            {{- else -}}
+                {{- if not $syntax -}}
+                    {{- $syntax = replaceRE $pattern "$1" $text -}}
+                {{- end -}}
+
+                {{- $text = replaceRE $pattern "$2" $text -}}
+            {{- end -}}
+        {{- else -}}
+            {{- if not $syntax -}}
+                {{- $syntax = replaceRE $pattern "$1" $text -}}
+            {{- end -}}
+
+            {{- if not $output_is -}}
+                {{- $output_is = replaceRE $pattern "$2" $text -}}
+            {{- end -}}
+
+            {{- $text = replaceRE $pattern "$3" $text -}}
+        {{- end -}}
+    {{- end -}}
+
     {{- if eq $syntax "bash" -}}
         {{- if not (hasPrefix $text "$") -}}
             {{- errorf "Text block specifies a bash syntax, but the first line of the block does not start with $ (%s)" .Position -}}
         {{- end -}}
     {{- else -}}
         {{- if $output_is -}}
-            {{- errorf "Only text blocks with a bash syntax can use the outputis attribute (%s)" .Position -}}
+            {{- errorf "Only text blocks with a bash syntax can use outputis (%s)" .Position -}}
         {{- end -}}
-    {{- end -}}
-
-    {{- if $snippet -}}
-        {{- $pattern := printf "(?msU)(.*\\$snippet %s.*$\\n)(.*)(?-s)(\\n^.*\\$endsnippet.*$)(?s-U)(.*)" $snippet -}}
-        {{- $text = replaceRE $pattern "$2" $text -}}
     {{- end -}}
 {{- end -}}
 
@@ -78,6 +122,9 @@
 {{- if $output_is -}}
     {{- $attrs = printf "%sdata-outputis='%s' " $attrs $output_is -}}
 {{- end -}}
+{{- if $expand_links -}}
+    {{- $attrs = printf "%sdata-repo='%s' " $attrs $repo -}}
+{{- end -}}
 
 {{- $anchor := "" }}
 {{- if $url -}}
@@ -91,7 +138,7 @@
         {{- range $link := $links -}}
             {{- $target := trim $link "@" -}}
             {{- if gt (len $target) 0 -}}
-                {{- $anchor = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/istio/%s/%s'>Zip</a>%s" $branch $target $anchor -}}
+                {{- $anchor = printf "<a data-skipendnotes='true' style='display:none' href='https://raw.githubusercontent.com/istio/%s/%s/%s'>Zip</a>%s" $repo $branch $target $anchor -}}
             {{- end -}}
         {{- end -}}
     {{- end -}}

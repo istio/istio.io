@@ -8,7 +8,7 @@
         {{- end -}}
 
         {{- if not .Site.Data.args.archive_landing -}}
-            <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="{{- $release_url -}}" aria-label="Download Istio">
+            <a class="channel" title='{{ printf (i18n "download_desc") (strings.TrimSuffix ".0" .Site.Data.args.full_version) }}' href="/docs/setup/getting-started/#download" aria-label="Download Istio">
                 <span>download</span>
                 {{ partial "icon.html" "download" }}
             </a>
@@ -22,6 +22,11 @@
         <a class="channel" title='{{ i18n "stackoverflow_desc" }}' href="https://stackoverflow.com/questions/tagged/istio" aria-label="Stack Overflow">
             <span>stack overflow</span>
             {{ partial "icon.html" "stackoverflow" }}
+        </a>
+
+        <a class="channel" title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
+            <span>slack</span>
+            {{ partial "icon.html" "slack" }}
         </a>
 
         <a class="channel" title='{{ i18n "twitter_desc" }}' href="https://twitter.com/IstioMesh" aria-label="Twitter">
@@ -68,11 +73,6 @@
         <a class="channel" title='{{ i18n "github_desc" }}' href="https://github.com/istio/community" aria-label="GitHub">
             <span>github</span>
             {{ partial "icon.html" "github" }}
-        </a>
-
-        <a class="channel" title='{{ i18n "slack_desc" }}' href="https://istio.slack.com" aria-label="slack">
-            <span>slack</span>
-            {{ partial "icon.html" "slack" }}
         </a>
 
         <a class="channel" title='{{ i18n "team_drive_desc" }}' href="https://groups.google.com/forum/#!forum/istio-team-drive-access" aria-label="team drive">

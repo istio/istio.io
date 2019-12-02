@@ -11,7 +11,6 @@ anchor = "smart"
 enableGitInfo = true
 enableEmoji = false
 buildFuture = true
-ignoreFiles = [ "OWNERS" ]
 staticDir = ["static", "generated"]
 
 # we use Netlify server-side redirects instead of generated aliases
@@ -27,13 +26,13 @@ disableAliases = true
     latexDashes = true
     extensions = [""]
 
-[outputs]
-  home = ["HTML", "RSS", "REDIR"]
-  section = ["HTML"]
-
 [mediaTypes]
     [mediaTypes."text/netlify"]
         delimiter = ""
+
+[outputs]
+  home = ["HTML", "RSS", "REDIR", "JSON"]
+  section = ["HTML", "RSS"]
 
 [outputFormats]
     [outputFormats.RSS]
@@ -43,6 +42,8 @@ disableAliases = true
         baseName = "_redirects"
         isPlainText = true
         notAlternative = true
+    [outputFormats.JSON]
+        baseName = "_tracked_pages"
 
 [related]
     # Only include matches with rank >= threshold. This is a normalized rank between 0 and 100.
@@ -65,6 +66,6 @@ disableAliases = true
 # internationalization
 [languages]
     [languages.zh]
-        contentDir = "content_zh"
+        contentDir = "content/zh"
     [languages.en]
-        contentDir = "content"
+        contentDir = "content/en"

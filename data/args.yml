@@ -1,11 +1,15 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.2"
+version: "1.5"
 
 # The full Istio version identifier the docs describe
-full_version: "1.2.0"
+full_version: "1.5.0"
+full_version_release_year: 2020
+
+# The previous Istio version identifier the docs describe, used for upgrade documentation
+previous_version: "1.4"
 
 # The year to display in copyright notices
-copyright_year: 2019
+copyright_year: 2020
 
 # Controls the incarnation of the site
 #
@@ -26,7 +30,7 @@ source_branch_name: master
 doc_branch_name: master
 
 # The list of supported versions described by the docs
-supported_kubernetes_versions: ["1.11", "1.12", "1.13"]
+supported_kubernetes_versions: ["1.13", "1.14", "1.15"]
 
 ####### Static values
 
