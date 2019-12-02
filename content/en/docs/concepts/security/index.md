@@ -161,96 +161,6 @@ The flow goes as follows:
 Use the node agent debug endpoint to view the secrets a node agent is actively serving to its client proxies. Navigate to `/debug/sds/workload` on the agent's port `8080` to dump active workload secrets, or `/debug/sds/gateway` to dump active gateway secrets.
 {{< /idea >}}
 
-## Best practices
-
-In this section, we provide a few deployment guidelines and discuss a real-world scenario.
-
-### Deployment guidelines
-
-If there are multiple service operators (a.k.a. [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering))
-deploying different services in a medium- or large-size cluster, we recommend creating a separate
-[Kubernetes namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/) for each SRE team to isolate their access.
-For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
-that both teams cannot access each other's services.
-
-{{< warning >}}
-If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
-We **strongly** recommend running Citadel in a dedicated namespace (for example, `istio-citadel-ns`), to restrict access to
-the cluster to only administrators.
-{{< /warning >}}
-
-### Example
-
-Let us consider a three-tier application with three services: `photo-frontend`,
-`photo-backend`, and `datastore`. The photo SRE team manages the
-`photo-frontend` and `photo-backend` services while the datastore SRE team
-manages the `datastore` service. The `photo-frontend` service can access
-`photo-backend`, and the `photo-backend` service can access `datastore`.
-However, the `photo-frontend` service cannot access `datastore`.
-
-In this scenario, a cluster administrator creates three namespaces:
-`istio-citadel-ns`, `photo-ns`, and `datastore-ns`. The administrator has
-access to all namespaces and each team only has access to its own namespace.
-The photo SRE team creates two service accounts to run `photo-frontend` and
-`photo-backend` respectively in the `photo-ns` namespace. The datastore SRE
-team creates one service account to run the `datastore` service in the
-`datastore-ns` namespace. Moreover, we need to enforce the service access
-control in [Istio Mixer](/docs/reference/config/policy-and-telemetry/) such that
-`photo-frontend` cannot access datastore.
-
-In this setup, Kubernetes can isolate the operator privileges on managing the services.
-Istio manages certificates and keys in all namespaces
-and enforces different access control rules to the services.
-
-### How Citadel determines whether to create service account secrets
-
-When a Citadel instance notices that a `ServiceAccount` is created in a namespace, it must decide whether it should generate an `istio.io/key-and-cert` secret for that `ServiceAccount`. In order to make that decision, Citadel considers three inputs (note: there can be multiple Citadel instances deployed in a single cluster, and the following targeting rules are applied to each instance):
-
-1. `ca.istio.io/env` namespace label: *string valued* label containing the namespace of the desired Citadel instance
-
-1. `ca.istio.io/override` namespace label: *boolean valued* label which overrides all other configurations and forces all Citadel instances either to target or ignore a namespace
-
-1. [`enableNamespacesByDefault` security configuration](/docs/reference/config/installation-options/#security-options): default behavior if no labels are found on the `ServiceAccount`'s namespace
-
-From these three values, the decision process mirrors that of the [`Sidecar Injection Webhook`](/docs/ops/setup/injection-concepts/). The detailed behavior is that:
-
-- If `ca.istio.io/override` exists and is `true`, generate key/cert secrets for workloads.
-
-- Otherwise, if `ca.istio.io/override` exists and is `false`, don't generate key/cert secrets for workloads.
-
-- Otherwise, if a `ca.istio.io/env: "ns-foo"` label is defined in the service account's namespace, the Citadel instance in namespace `ns-foo` will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
-
-- Otherwise, set `enableNamespacesByDefault` to `true` during installation. If it is `true`, the default Citadel instance will be used for generating key/cert secrets for workloads in the `ServiceAccount`'s namespace.
-
-- Otherwise, no secrets are created for the `ServiceAccount`'s namespace.
-
-This logic is captured in the truth table below:
-
-| `ca.istio.io/override` value | `ca.istio.io/env` match | `enableNamespacesByDefault` configuration | Workload secret created |
-|------------------------------|-------------------------|-------------------------------------------|-------------------------|
-|`true`|yes|`true`|yes|
-|`true`|yes|`false`|yes|
-|`true`|no|`true`|yes|
-|`true`|no|`false`|yes|
-|`true`|unset|`true`|yes|
-|`true`|unset|`false`|yes|
-|`false`|yes|`true`|no|
-|`false`|yes|`false`|no|
-|`false`|no|`true`|no|
-|`false`|no|`false`|no|
-|`false`|unset|`true`|no|
-|`false`|unset|`false`|no|
-|unset|yes|`true`|yes|
-|unset|yes|`false`|yes|
-|unset|no|`true`|no|
-|unset|no|`false`|no|
-|unset|unset|`true`|yes|
-|unset|unset|`false`|no|
-
-{{< idea >}}
-When a namespace transitions from _disabled_ to _enabled_, Citadel will retroactively generate secrets for all `ServiceAccounts` in that namespace. When transitioning from _enabled_ to _disabled_, however, Citadel will not delete the namespace's generated secrets until the root certificate is renewed.
-{{< /idea >}}
-
 ## Authentication
 
 Istio provides two types of authentication:
@@ -518,7 +428,7 @@ peers:
 
 The mutual TLS setting has an optional `mode` parameter that defines the
 strictness of the peer transport authentication. These modes are documented
-in the [Authentication Policy reference document](/docs/reference/config/istio.authentication.v1alpha1/#MutualTls-Mode).
+in the [Authentication Policy reference document](/docs/reference/config/security/istio.authentication.v1alpha1/#MutualTls-Mode).
 
 The default mutual TLS mode is `STRICT`. Therefore, `mode: STRICT` is equivalent to all of the following:
 
@@ -602,7 +512,7 @@ Istio's authorization feature provides mesh-level, namespace-level, and workload
 access control on workloads in an Istio Mesh. It provides:
 
 - **Workload-to-workload and end-user-to-workload authorization**.
-- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/authorization/authorization-policy/), which is easy to use and maintain.
+- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/), which is easy to use and maintain.
 - **Flexible semantics**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
@@ -639,7 +549,7 @@ multiple authorization policies apply to the same workload, the effect is additi
 ### Authorization policy
 
 To configure an Istio authorization policy, you create an
-[`AuthorizationPolicy` resource](/docs/reference/config/authorization/authorization-policy/).
+[`AuthorizationPolicy` resource](/docs/reference/config/security/authorization-policy/).
 
 An authorization policy includes a selector and a list of rules. The selector
 specifies the **target** that the policy applies to, while the rules specify **who**
@@ -810,7 +720,7 @@ spec:
 {{< /text >}}
 
 The supported `key` values of a condition are listed in the
-[conditions page](/docs/reference/config/authorization/conditions/).
+[conditions page](/docs/reference/config/security/conditions/).
 
 #### Authenticated and unauthenticated identity
 
@@ -867,7 +777,7 @@ These fields include:
 - The `request_principals` field in the source section of the authorization policy object
 - The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
 
-The supported conditions are listed in the [conditions page](/docs/reference/config/authorization/conditions/).
+The supported conditions are listed in the [conditions page](/docs/reference/config/security/conditions/).
 
 If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
 authorization policy.

@@ -17,7 +17,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Install Istio on a Kubernetes cluster with global mutual TLS disabled (e.g, use the demo configuration profile, as described in
-[installation steps](/docs/setup/install/kubernetes), or set the `global.mtls.enabled` installation option to false).
+[installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
 ### Setup
 
@@ -106,7 +106,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/istio.authentication.v1alpha1/)
+The mesh authentication policy uses the [regular authentication policy API](/docs/reference/config/security/istio.authentication.v1alpha1/)
  it is defined in the cluster-scoped `MeshPolicy` CRD.
  {{< /tip >}}
 
@@ -210,6 +210,14 @@ spec:
    tls:
      mode: DISABLE
 EOF
+{{< /text >}}
+
+Test it again after you add the destination rule to ensure it passes:
+
+{{< text bash >}}
+$ for from in "foo" "bar"; do for to in "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+sleep.foo to httpbin.legacy: 200
+sleep.bar to httpbin.legacy: 200
 {{< /text >}}
 
 {{< tip >}}

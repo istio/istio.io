@@ -179,7 +179,7 @@ istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-sidecar-injector
 NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:10514,10.48.6.108:443   3d
+istio-sidecar-injector   10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and status
@@ -203,11 +203,11 @@ When the Kubernetes API server includes proxy settings such as:
 {{< text yaml >}}
 env:
   - name: http_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: https_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: no_proxy
-  value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
+    value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 
 With these settings, Sidecar injection fails. The only related failure log can be found in `kube-apiserver` log:

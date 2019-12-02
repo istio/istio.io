@@ -26,4 +26,4 @@ This destination rule is already added to the system when
 Istio is installed with mutual TLS enabled.
 {{< /tip >}}
 
-Similarly, you can add destination rules for other non-Istio services. For more examples, see [task](/docs/tasks/security/authentication/authn-policy/#request-from-istio-services-to-non-istio-services).
+Similarly, you can add destination rules for other non-Istio services. For more examples, see [task](/zh/docs/tasks/security/authentication/authn-policy/#request-from-istio-services-to-non-istio-services).

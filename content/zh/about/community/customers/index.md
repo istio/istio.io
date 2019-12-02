@@ -1,13 +1,13 @@
 ---
 title: Istio in Action
-description: Who's using Istio out there.
+description: 使用 Istio 的用户。
 weight: 30
 icon: customers
 keywords: [community]
 skip_seealso: true
 ---
 
-Tons of people are using Istio. Maybe you should too?
+以下是 Istio 的用户。也许你也应该试试？
 
 <div class="logo-gallery">
     {{< company_logo link="https://www.autodesk.com" logo="./autodesk.png" alt="Autodesk" >}}
@@ -17,9 +17,10 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.daocloud.io" logo="./daocloud.svg" alt="DaoCloud" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="./descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="./ebay.png" alt="eBay" >}}
-    {{< company_logo link="https://www.flexe.com/" logo="/about/community/customers/flexe.svg" alt="FLEXE" >}}
+    {{< company_logo link="https://www.flexe.com/" logo="./flexe.svg" alt="FLEXE" >}}
     {{< company_logo link="https://www.fitstation.com" logo="./fitstation.png" alt="FitStation" >}}
     {{< company_logo link="https://www.getyourguide.com/" logo="./getyourguide.svg" alt="GetYourGuide" >}}
+    {{< company_logo link="https://cloud.inspur.com/" logo="./inspurcloud.png" alt="Inspur Cloud" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
     {{< company_logo link="https://loblawdigital.co" logo="./loblaw-digital.png" alt="Loblaw Digital" >}}
     {{< company_logo link="https://www.namely.com" logo="./namely.svg" alt="Namely" >}}
@@ -33,4 +34,4 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://ygrene.com" logo="./ygrene.jpeg" alt="Ygrene Energy Fund" >}}
 </div>
 
-Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).
+想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.io/pulls)。

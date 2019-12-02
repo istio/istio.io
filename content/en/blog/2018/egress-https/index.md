@@ -21,7 +21,7 @@ HTTPS traffic and describe the pros and cons of each of the options.
 
 ## Initial setting
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/install/kubernetes/). Then I deploy
+To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/docs/setup/getting-started/). Then I deploy
 [Istio Bookinfo Sample Application](/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
 book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
 details without consulting any external service.
@@ -190,7 +190,7 @@ in this case `www.googleapis.com`.
 To allow Istio to perform monitoring and policy enforcement of egress requests based on HTTP details, the microservices
 must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code
 of the microservices must be written differently or configured differently, according to whether the microservice runs
-inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency]/docs/ops/architecture/#design-goals). Sometimes you need to compromise...
+inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/docs/ops/deployment/architecture/#design-goals). Sometimes you need to compromise...
 
 The diagram below shows two options for sending HTTPS traffic to external services. On the top, a microservice sends
 regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice sends unencrypted HTTP requests

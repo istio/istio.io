@@ -1,5 +1,5 @@
 ---
-title: 工作负载实例
+title: Workload Instance
 ---
 工作负载实例是[工作负载](#workload)的一个二进制实例化对象。
 一个工作负载实例可以开放零个或多个[服务 endpoint](#service-endpoint)，
