@@ -1,7 +1,7 @@
 ---
 title: Setup a Kubernetes Cluster
 overview: Set up your Kubernetes cluster for the tutorial.
-weight: 2
+weight: 3
 ---
 
 {{< boilerplate work-in-progress >}}
