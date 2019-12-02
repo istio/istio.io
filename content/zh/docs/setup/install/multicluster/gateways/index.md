@@ -99,8 +99,8 @@ Istio 还附带了一个名为 CoreDNS 的服务，它可以为这些服务提�
 在每个要调用远端集群中服务的集群中（通常是所有集群），
 选择并创建下面这些 ConfigMaps 中的一个，或直接使用现有的做修改。
 
-{{< tabset cookie-name="platform" >}}
-{{< tab name="KubeDNS" cookie-value="kube-dns" >}}
+{{< tabset category-name="platform" >}}
+{{< tab name="KubeDNS" category-value="kube-dns" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -117,7 +117,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (< 1.4.0)" cookie-value="coredns-prev-1.4.0" >}}
+{{< tab name="CoreDNS (< 1.4.0)" category-value="coredns-prev-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -153,7 +153,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+{{< tab name="CoreDNS (>= 1.4.0)" category-value="coredns-after-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -321,9 +321,9 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 
 如果 `$CLUSTER2_GW_ADDR` 是 IP 地址，请使用 `$CLUSTER2_GW_ADDR - IP address` 选项。如果 `$CLUSTER2_GW_ADDR` 是域名，请使用 `$CLUSTER2_GW_ADDR - hostname` 选项。
 
-{{< tabset cookie-name="profile" >}}
+{{< tabset category-name="profile" >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - IP address" cookie-value="option1" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - IP address" category-value="option1" >}}
 * 暴露 `cluster1` egress gateway 地址:
 
 {{< text bash >}}
@@ -364,7 +364,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - hostname" category-value="option2" >}}
 如果 `${CLUSTER2_GW_ADDR}` 是域名，您也可以使用 `resolution: DNS` 实现 endpoint 解析。
 
 {{< text bash >}}
