@@ -51,7 +51,7 @@ Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工�
 
 ## 有用的链接{useful-links}
 
-- [Istio 服务网格性能 (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 Kubecon Europe 2018
+- [Istio 服务网格性能 (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018
 - [Istio 性能和可扩展性讨论专题](https://discuss.istio.io/c/performance-and-scalability)
 
 ## 免责声明{disclaimer}
