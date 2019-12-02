@@ -39,7 +39,7 @@ Kubernetes 可组合性的一个具体示例是部署应用时有一系列的对
 
 随着 Istio 的成熟，我们还看到生产用户在 Istio 的基础 API 之上开发了针对特定工作负载和组织的抽象层。
 
-AutoTrader UK 提供了一个基于 Istio 定制平台的我们最喜欢的例子。在 [来自 Google 的 Kubernetes Podcast 的一个采访](https://kubernetespodcast.com/episode/052-autotrader/) 中，Russel Warman 和 Karl Stoney 描述了他们基于 Kubernetes 的交付平台，和 [用 Prometheus 和 Grafana 搭建的成本 Dashbord](https://karlstoney.com/2018/07/07/managing-your-costs-on-kubernetes/)。他们毫不费力地添加了配置项使网络达到他们的开发人员希望配置成的样子，并且现在它管理着的 Istio 的对象让这一切成为可能。在企业和云原生公司中构建了无数其他的平台：一些旨在替换公司特定的自定义脚本的网络，而另一些旨在成为通用的公共工具。随着越来越多的公司开始公开谈论他们的工具，我们将把他们的故事带到此博客。
+AutoTrader UK 提供了一个基于 Istio 定制平台的我们最喜欢的例子。在 [来自 Google 的 Kubernetes Podcast 的一个采访](https://kubernetespodcast.com/episode/052-autotrader/) 中，Russel Warman 和 Karl Stoney 描述了他们基于 Kubernetes 的交付平台，和 [用 Prometheus 和 Grafana 搭建的成本 Dashboard](https://karlstoney.com/2018/07/07/managing-your-costs-on-kubernetes/)。他们毫不费力地添加了配置项使网络达到他们的开发人员希望配置成的样子，并且现在它管理着的 Istio 的对象让这一切成为可能。在企业和云原生公司中构建了无数其他的平台：一些旨在替换公司特定的自定义脚本的网络，而另一些旨在成为通用的公共工具。随着越来越多的公司开始公开谈论他们的工具，我们将把他们的故事带到此博客。
 
 ## 接下来会发生什么{#what’s-coming-next}
 
