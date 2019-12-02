@@ -27,7 +27,7 @@
             <ul>
                 {{ range $pages }}
                     {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
-                    {{ if eq $parentDir $pageLocation }}
+                    {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
                         {{- $info := "" -}}
                         {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
                             {{- if .Params.attribution -}}
@@ -57,7 +57,7 @@
             {{- $decoration := .Params.decoration -}}
             {{ range $pages }}
                 {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
-                {{ if eq $parentDir $pageLocation }}
+                {{ if and (eq $parentDir $pageLocation)  (not .Params.draft) }}
 
                     {{- $info := "" -}}
                     {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
