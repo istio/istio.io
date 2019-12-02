@@ -12,7 +12,7 @@ target_release: 1.1
 
 在这篇博客文章中，将向您展示如何使用 Istio 进行 HTTP Egress 流量监控和访问策略。
 
-## 用例
+## 用例{#use-case}
 
 考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问 edition.cnn.com 的权限](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport)和[edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
 
@@ -20,30 +20,29 @@ target_release: 1.1
 
 本组织决心防止对新策略的任何篡改，决定设置一些机制以防止恶意应用程序访问禁止的话题。
 
-## 相关工作和示例
+## 相关工作和示例{#related-tasks-and-examples}
 
 * [Control Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了网格内的应用程序如何访问外部(Kubernetes 集群之外) HTTP 和 HTTPS 服务。
 * [配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例描述了如何配置 Istio 来通过一个称为 _出口网关_ 的专用网关服务来引导出口流量。
 * [带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) 示例演示了如何允许应用程序向需要 HTTPS 的外部服务器发送 HTTP 请求，同时通过 Egress Gateway 引导流量。
 * [收集指标](/zh/docs/tasks/observability/metrics/collecting-metrics/)任务描述如何为网格中的服务配置指标。
-* [Grafana 的可视化指标](/zh/docs/tasks/telemetry/metrics/using-istio-dashboard/)描述了用于监控网格流量的 Istio 仪表板。
 * [Grafana 的可视化指标](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)描述了用于监控网格流量的 Istio 仪表板。
 * [基本访问控制](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何控制对网格内服务的访问。
 * [拒绝和白/黑名单](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何使用黑名单或白名单检查器配置访问策略。
 
 与上面的遥测和安全任务相反，这篇博客文章描述了 Istio 的监控和访问策略，专门应用于 egress 流量。
 
-## 开始之前
+## 开始之前{#before-you-begin}
 
 按照[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)中的步骤，**启用了双向 TLS 身份验证**，而不需要[清除](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination//#cleanup)步骤。完成该示例后，您可以从安装了 `curl` 的网格中容器访问 [edition.cnn.com/politics](https://edition.cnn.com/politics)。本文假设 `SOURCE_POD` 环境变量包含源 pod 的名称，容器的名称为 `sleep`。
 
-## 配置监控和访问策略
+## 配置监控和访问策略{#configure-monitoring-and-access-policies}
 
 由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
 
 根据我们的场景，组织执行了[开始之前](#开始之前)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edition.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
 
-### 日志
+### 日志{#logging}
 
 配置 Istio 以记录对 _*.cnn.com_ 的访问。创建一个 `logentry` 和两个 [stdio](/zh/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`，一个用于记录禁止访问(_error_ 日志级别)，另一个用于记录对 _*.cnn.com_ 的所有访问(_info_ 日志级别)。然后创建规则将 `logentry` 实例定向到 `handlers`。一个规则指导访问 _*.cnn.com/politics_ 为日志禁止访问处理程序,另一个规则指导日志条目的处理程序，输出每个访问 _*.cnn.com_ 作为 _info_ 的日志级别。要了解 Istio `logentries`、`rules` 和 `handlers`，请参见 [Istio 适配器模型](/zh/blog/2017/adapter-model/)。下图显示了涉及的实体和它们之间的依赖关系：
 
@@ -152,7 +151,7 @@ target_release: 1.1
       * `sourcePrincipal`:`cluster.local/ns/default/sa/sleep` —— 表示 `default` 命名空间中的 `sleep` 服务帐户的字符串
       * `reporterUID`: `kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system` —— 报告 pod 的 UID，在本例中为 `istio-egressgateway-747b6764b8-44rrh`，位于 `istio-system` 命名空间中
 
-### 路由访问控制
+### 路由访问控制{#access-control-by-routing}
 
 启用对 _edition.cnn.com_ 的访问进行日志记录之后，自动执行访问策略，即只允许访问 _/health_ 和 _/sport_ URL 路径。这样一个简单的策略控制可以通过 Istio 路由实现。
 
@@ -286,7 +285,7 @@ target_release: 1.1
 您可能需要等待几秒钟，等待 `VirtualService` 的更新传播到 egress 网关。
 {{< /tip >}}
 
-### Mixer 策略检查访问控制
+### Mixer 策略检查访问控制{#access-control-by-Mixer-policy-checks}
 
  在该步骤中，您使用 Mixer [`Listchecker` 适配器](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)，它是一种白名单。您可以使用请求的 URL 路径定义一个 `listentry`，并使用一个 `listchecker` 由 `overrides` 字段指定的允许 URL 路径的静态列表检查 `listentry`。对于[外部标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，请使用 `providerurl` 字段。实例、规则和处理程序的更新图如下所示。注意，您重用相同的策略规则 `handle-cn-access` 来进行日志记录和访问策略检查。
 
@@ -349,7 +348,7 @@ target_release: 1.1
     200
     {{< /text >}}
 
-### Mixer 策略检查访问控制，第二部分
+### Mixer 策略检查访问控制，第二部分{#access-control-by-Mixer-policy-checks-part-2}
 
 在我们用例中的组织设法配置日志和访问控制之后，它决定扩展它的访问策略，允许具有特殊[服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)的应用程序访问 _cnn.com_ 的任何主题，而不受监控。您将看到如何在 Istio 中配置此需求。
 
@@ -452,7 +451,7 @@ target_release: 1.1
     $  kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
     {{< /text >}}
 
-## 与 HTTPS egress 流量控制进行比较
+## 与 HTTPS egress 流量控制进行比较{#comparison-with-HTTPS-egress-traffic-control}
 
 在这个用例中，应用程序使用 HTTP 和 Istio Egress 网关为它们执行 TLS 初始化。或者，应用程序可以通过向 _edition.cnn.com_ 发出 HTTPS 请求来发起 TLS 本身。在本节中，我们将描述这两种方法及其优缺点。
 
@@ -476,11 +475,11 @@ caption="HTTPS egress 流量通过 egress 网关"
 
 我们认为，每个组织都应充分考虑这两种方法的优缺点，并选择最适合其需要的方法。
 
-## 总结
+## 总结{#summary}
 
  在这篇博客文章中，我们展示了如何将 Istio 的不同监控和策略机制应用于 HTTP egress 流量。可以通过配置日志适配器来实现监控。访问策略可以通过配置 `VirtualServices` 或配置各种策略检查适配器来实现。向您演示了一个只允许特定 URL 路径的简单策略。还向您展示了一个更复杂的策略，通过对具有特定服务帐户的应用程序进行豁免，扩展了简单策略。最后，比较了 HTTP-with-TLS-origination egress 流量与 HTTPS egress 流量，以及通过 Istio 进行控制的可能性。
 
-## 清理
+## 清理{#cleanup}
 
 1.  执行[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例的[清理](/zh/docs/tasks/traffic-management/egress/egress-gateway/#cleanup)部分中的说明。
 
