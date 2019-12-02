@@ -425,9 +425,9 @@ The SNI proxy will forward the traffic to port `443`.
     You may want to enable mutual TLS to let the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that identity.
     {{< /idea >}}
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -544,7 +544,7 @@ The SNI proxy will forward the traffic to port `443`.
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF

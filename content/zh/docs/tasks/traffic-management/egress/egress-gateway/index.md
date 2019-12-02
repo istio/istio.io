@@ -98,9 +98,9 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     根据在 Istio 中是否启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -146,7 +146,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -301,9 +301,9 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -384,7 +384,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -611,9 +611,9 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
@@ -639,7 +639,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -n test-egress -f - <<EOF

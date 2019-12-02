@@ -608,9 +608,9 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
     the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
     identity.)
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -691,7 +691,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF

@@ -14,9 +14,9 @@ keywords: [istioctl, debugging, kubernetes]
 
 入门非常简单。 首先，使用一个命令将最新的 `istioctl` 下载到当前文件夹中（下载最新版本以确保它具有最完整的分析器集）：
 
-{{< tabset cookie-name="platform" >}}
+{{< tabset category-name="platform" >}}
 
-{{< tab name="Mac" cookie-value="macos" >}}
+{{< tab name="Mac" category-value="macos" >}}
 
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
@@ -24,7 +24,7 @@ $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl 
 
 {{< /tab >}}
 
-{{< tab name="Linux" cookie-value="linux" >}}
+{{< tab name="Linux" category-value="linux" >}}
 
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
