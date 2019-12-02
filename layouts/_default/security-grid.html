@@ -17,32 +17,45 @@
         <thead>
             <tr>
                 <th>{{ i18n "security_disclosure" }}</th>
-                <th>{{ i18n "security_related" }}</th>
                 <th>{{ i18n "security_date" }}</th>
+                <th>{{ i18n "security_affected_releases" }}</th>
+                <th>{{ i18n "security_impact_score" }}</th>
+                <th>{{ i18n "security_related" }}</th>
             </tr>
         </thead>
         <tbody>
             {{ $decoration := .Params.decoration }}
             {{ range $pages }}
                 {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
-                {{ if eq $parentDir $pageLocation }}
+                {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
                     <tr>
                         <td><a href="{{ .Permalink }}">{{ .LinkTitle }}
                             {{- if $decoration -}}<i class="{{ $decoration }}" data-prefix="{{ .RelPermalink }}"></i>{{- end -}}
                         </a></td>
-                        {{ if .Params.cve }}
+
+                        <td>{{ .PublishDate.Format (i18n "page_publish_date_format") -}}</td>
+
+                        <td>
+                            {{ range .Params.releases }}
+                                {{ trim . " " }}<br>
+                            {{ end }}
+                        </td>
+
+                        <td class="score">
+                            {{ if .Params.cvss }}
+                                <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector={{ .Params.vector }}">{{ .Params.cvss }}</a>
+                            {{ end }}
+                        </td>
+
+                        {{ if .Params.cves }}
                             <td>
-                                {{ $first := true }}
-                                {{ range $cve := .Params.cve }}
-                                    {{- if not $first -}}, {{ end -}}
-                                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ $cve }}">{{ $cve}}<a>
-                                    {{- $first = false -}}
+                                {{ range $cve := .Params.cves }}
+                                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ $cve }}">{{ $cve}}<a><br>
                                 {{ end }}
                             </td>
                         {{ else }}
                             <td>{{ trim .Description "." -}}</td>
                         {{ end }}
-                        <td>{{ .PublishDate.Format (i18n "page_publish_date_format") -}}</td>
                     </tr>
                 {{ end }}
             {{ end }}

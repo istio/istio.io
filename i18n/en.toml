@@ -244,6 +244,12 @@ other = "Related"
 [security_date]
 other = "Date"
 
+[security_affected_releases]
+other = "Affected Releases"
+
+[security_impact_score]
+other = "Impact Score"
+
 [mark_all_as_read]
 other = "Mark all as read"
 

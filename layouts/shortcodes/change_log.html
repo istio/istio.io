@@ -3,7 +3,7 @@
 {{ $lastYear := "" }}
 {{ range .Site.Pages.ByLastmod.Reverse }}
 
-    {{ if and .IsPage (not .Params.skip_sitemap) }}
+    {{ if and .IsPage (not .Params.skip_sitemap) (not .Params.draft) }}
         {{ $year := .Lastmod.Year }}
         {{ $month := .Lastmod.Month }}
 
