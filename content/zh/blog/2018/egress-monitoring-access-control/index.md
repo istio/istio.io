@@ -14,7 +14,7 @@ target_release: 1.1
 
 ## 用例
 
-考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问 edition.cnn.com 的权限](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport)和[edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
+考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问 edition.cnn.com 的权限](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport)和[edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
 
 为了实现这一目标，组织的运维人员监控对外部服务的访问，并分析 Istio 日志，以验证没有向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送未经授权的请求。他们还配置了 Istio 来防止自动访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 。
 
@@ -23,10 +23,11 @@ target_release: 1.1
 ## 相关工作和示例
 
 * [Control Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了网格内的应用程序如何访问外部(Kubernetes 集群之外) HTTP 和 HTTPS 服务。
-* [配置 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway/)示例描述了如何配置 Istio 来通过一个称为 _出口网关_ 的专用网关服务来引导出口流量。
-* [带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/) 示例演示了如何允许应用程序向需要 HTTPS 的外部服务器发送 HTTP 请求，同时通过 Egress Gateway 引导流量。
+* [配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例描述了如何配置 Istio 来通过一个称为 _出口网关_ 的专用网关服务来引导出口流量。
+* [带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) 示例演示了如何允许应用程序向需要 HTTPS 的外部服务器发送 HTTP 请求，同时通过 Egress Gateway 引导流量。
 * [收集指标](/zh/docs/tasks/observability/metrics/collecting-metrics/)任务描述如何为网格中的服务配置指标。
 * [Grafana 的可视化指标](/zh/docs/tasks/telemetry/metrics/using-istio-dashboard/)描述了用于监控网格流量的 Istio 仪表板。
+* [Grafana 的可视化指标](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)描述了用于监控网格流量的 Istio 仪表板。
 * [基本访问控制](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何控制对网格内服务的访问。
 * [拒绝和白/黑名单](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何使用黑名单或白名单检查器配置访问策略。
 
@@ -34,11 +35,11 @@ target_release: 1.1
 
 ## 开始之前
 
-按照[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/)中的步骤，**启用了双向 TLS 身份验证**，而不需要[清除](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination//#cleanup)步骤。完成该示例后，您可以从安装了 `curl` 的网格中容器访问 [edition.cnn.com/politics](https://edition.cnn.com/politics)。本文假设 `SOURCE_POD` 环境变量包含源 pod 的名称，容器的名称为 `sleep`。
+按照[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)中的步骤，**启用了双向 TLS 身份验证**，而不需要[清除](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination//#cleanup)步骤。完成该示例后，您可以从安装了 `curl` 的网格中容器访问 [edition.cnn.com/politics](https://edition.cnn.com/politics)。本文假设 `SOURCE_POD` 环境变量包含源 pod 的名称，容器的名称为 `sleep`。
 
 ## 配置监控和访问策略
 
-由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
+由于您希望以 _安全方式_ 完成您的任务，您应该通过 _egress 网关_ 引导流量，正如[带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)任务中所描述的那样。这里的 _安全方式_ 意味着您希望防止恶意应用程序绕过 Istio 监控和策略强制。
 
 根据我们的场景，组织执行了[开始之前](#开始之前)部分中的命令，启用 HTTP 流量到 _edition.cnn.com_ ，并将该流量配置为通过 egress 网关。egress 网关执行 TLS 发起到 _edition.cnn.com_ ，因此流量在网格中被加密。此时，组织已经准备好配置 Istio 来监控和应用 _edition.cnn.com_ 流量的访问策略。
 
@@ -196,7 +197,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-    注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_ 。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅 [egress 网关安全性注意事项](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway/#额外的安全考量)）。您一定不希望您的任何策略被篡改。
+    注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_ 。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅 [egress 网关安全性注意事项](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)）。您一定不希望您的任何策略被篡改。
 
 1.  发送之前的三个 HTTP 请求到 _cnn.com_ ：
 
@@ -471,7 +472,7 @@ link="https-to-gateway.svg"
 caption="HTTPS egress 流量通过 egress 网关"
 >}}
 
-从安全的角度来看，端到端 HTTPS 被认为是一种更好的方法。然而，由于流量是加密的，Istio 代理和出口网关只能看到源和目标 IP 以及目标的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS ，所以[源标识](/zh/docs/concepts/security/#Istio-身份)也是已知的。网关无法检查 URL 路径、HTTP 方法和请求的头，因此无法基于 HTTP 信息进行监控和策略。在我们的用例中，组织将能够允许访问 _edition.cnn.com_ 并指定允许哪些应用程序访问 _edition.cnn.com_ 。但是，将不可能允许或阻止对 _edition.cnn.com_ 的特定URL路径的访问。使用HTTPS方法既不能阻止对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的访问，也不能监控此类访问。
+从安全的角度来看，端到端 HTTPS 被认为是一种更好的方法。然而，由于流量是加密的，Istio 代理和出口网关只能看到源和目标 IP 以及目标的 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS ，所以[源标识](/zh/docs/concepts/security/#istio-identity)也是已知的。网关无法检查 URL 路径、HTTP 方法和请求的头，因此无法基于 HTTP 信息进行监控和策略。在我们的用例中，组织将能够允许访问 _edition.cnn.com_ 并指定允许哪些应用程序访问 _edition.cnn.com_ 。但是，将不可能允许或阻止对 _edition.cnn.com_ 的特定URL路径的访问。使用HTTPS方法既不能阻止对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的访问，也不能监控此类访问。
 
 我们认为，每个组织都应充分考虑这两种方法的优缺点，并选择最适合其需要的方法。
 
@@ -481,7 +482,7 @@ caption="HTTPS egress 流量通过 egress 网关"
 
 ## 清理
 
-1.  执行[配置 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway//)示例的[清理](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway//#清理)部分中的说明。
+1.  执行[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例的[清理](/zh/docs/tasks/traffic-management/egress/egress-gateway/#cleanup)部分中的说明。
 
 1.  删除日志和策略检查配置：
 
