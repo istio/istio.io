@@ -1,39 +1,34 @@
 ---
-title: Install Istio for Google Cloud Endpoints Services
-description: Explains how to manually integrate Google Cloud Endpoints services with Istio.
+title: 在 Google Cloud Endpoints 服务上安装 Istio
+description: 如何将 Istio 手动集成至 Google Cloud Endpoints 服务的说明。
 weight: 10
 aliases:
     - /zh/docs/guides/endpoints/index.html
     - /zh/docs/examples/endpoints/
 ---
 
-This document shows how to manually integrate Istio with existing
-Google Cloud Endpoints services.
+该文档展示了如何将 Istio 手动集成至现成的 Google Cloud Endpoints 服务中。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-If you don't have an Endpoints service and want to try it out, you can follow
-the [instructions](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine)
-to setup an Endpoints service on GKE.
-After setup, you should be able to get an API key and store it in `ENDPOINTS_KEY` environment variable and the external IP address `EXTERNAL_IP`.
-You may test the service using the following command:
+如果您还没有 Endpoints 服务并想尝试一下，请按照[这个说明](https://cloud.google.com/endpoints/docs/openapi/get-started-kubernetes-engine)在 GKE 上设置一个 Endpoints 服务。
+设置完成后，您会得到一个 API key，将它存为 `ENDPOINTS_KEY` 环境变量，然后将 external IP 地址存为 `EXTERNAL_IP`。
+您可以使用以下命令测试该服务：
 
 {{< text bash >}}
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/zh/docs/setup/platform-setup/gke).
+按照[使用 Google Kubernetes Engine 快速开始](/zh/docs/setup/platform-setup/gke)的说明为 GKE 安装 Istio。
 
-## HTTP endpoints service
+## HTTP endpoints 服务{#HTTP-endpoints-service}
 
-1.  Inject the service and the deployment into the mesh using `--includeIPRanges` by following the
-[instructions](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
-so that Egress is allowed to call external services directly.
-Otherwise, ESP will not be able to access Google cloud service control.
+1. 按照[这篇说明](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)使用 `--includeIPRanges` 将 service 和 deployment 注入到网格中，以让 Egress 可以直接调用外部服务。
+否则，ESP 将无法访问 Google cloud service control。
 
-1.  After injection, issue the same test command as above to ensure that calling ESP continues to work.
+1. 注入后，使用上面同样的测试命令以确保访问 ESP 依然有效。
 
-1.  If you want to access the service through Istio ingress, create the following networking definitions:
+1. 如果您希望通过 Istio ingress 访问该服务，请创建如下网络定义：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -74,29 +69,27 @@ Otherwise, ESP will not be able to access Google cloud service control.
     EOF
     {{< /text >}}
 
-1.  Get the ingress gateway IP and port by following the [instructions](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports).
-You can verify accessing the Endpoints service through Istio ingress:
+1. 按照[这篇说明](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)获取 ingress 网关的 IP 和端口。
+您可以使用以下命令检查一下通过 Istio ingress 访问 Endpoints 服务：
 
     {{< text bash >}}
     $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${INGRESS_HOST}:${INGRESS_PORT}/echo?key=${ENDPOINTS_KEY}"
     {{< /text >}}
 
-## HTTPS endpoints service using secured Ingress
+## 使用安全 Ingress 的 HTTPS endpoints 服务{#HTTPS-endpoints-service-using-secured-Ingress}
 
-The recommended way to securely access a mesh Endpoints service is through an ingress configured with TLS.
+安全地访问网格 Endpoints 服务的推荐方式是通过一个配置了 TLS 的 ingress。
 
-1.  Install Istio with strict mutual TLS enabled. Confirm that the following command outputs either `STRICT` or empty:
+1. 在启用严格双向 TLS 的情况下安装 Istio。确认下列命令的输出是 `STRICT` 还是空的：
 
     {{< text bash >}}
     $ kubectl get meshpolicy default -n istio-system -o=jsonpath='{.spec.peers[0].mtls.mode}'
     {{< /text >}}
 
-1.  Re-inject the service and the deployment into the mesh using `--includeIPRanges` by following the
-[instructions](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
-so that Egress is allowed to call external services directly.
-Otherwise, ESP will not be able to access Google cloud service control.
+1. 按照[这篇说明](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)使用 `--includeIPRanges` 将 service 和 deployment 注入到网格中，以让 Egress 可以直接调用外部服务。
+否则，ESP 将无法访问 Google cloud service control。
 
-1.  After this, you will find access to `ENDPOINTS_IP` no longer works because the Istio proxy only accepts secure mesh connections.
-Accessing through Istio ingress should continue to work since the ingress proxy initiates mutual TLS connections within the mesh.
+1. 然后，您将发现，`ENDPOINTS_IP` 已经无法访问了，因为 Istio 代理只接受安全的网格连接。
+通过 Istio ingress 访问依然有效，因为 ingress 代理创建了与网格的双向 TLS 连接。
 
-1.  To secure the access at the ingress, follow the [instructions](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/).
+1. 按照[这篇说明](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)以让 ingress 上的访问更加安全。
