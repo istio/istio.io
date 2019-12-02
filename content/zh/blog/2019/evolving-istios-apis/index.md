@@ -1,6 +1,6 @@
 ---
 title: “Istio API 的演变”
-description: Istio API 的设计原则和这些 API 是如何演变的
+description: "The design principles behind Istio's APIs and how those APIs are evolving."
 publishdate: 2019-08-05
 attribution: Louis Ryan (Google), Sandeep Parikh (Google)
 keywords: [apis,composability,evolution]
