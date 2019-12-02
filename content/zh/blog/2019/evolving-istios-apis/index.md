@@ -29,13 +29,13 @@ Istio API 进化的下一步重心是在 Istio 用户的角色上。一个安全
 
 Istio 和 Kubernetes 经常一起使用，但 Istio 更像是 Kubernetes 的附加组件 – Kubernetes 更接近于一个平台。Istio 旨在提供基础架构，并在强大的服务网格中展现您所需的功能。例如，有一些使用 Kubernetes 作为基础的 platform-as-a-service 产品，并基于 Kubernetes 的可组合性向应用开发人员提供 API 的子集。
 
-Kubernetes 可组合性的一个具体示例是部署应用时有一系列的对象需要配置。根据我们的统计，至少有 10 个对象需要被配置：`Namespace`，`Service`，`Ingress`，`Deployment`，`HorizontalPodAutoscaler`，`Secret`，`ConfigMap`，`RBAC`，`PodDisruptionBudget` 和 `NetworkPolicy`。
+Kubernetes 可组合性的一个具体示例是部署应用时有一系列的对象需要配置。根据我们的统计，至少有 10 个对象需要被配置：`Namespace`、`Service`、`Ingress`、`Deployment`、`HorizontalPodAutoscaler`、`Secret`、`ConfigMap`、`RBAC`、`PodDisruptionBudget` 和 `NetworkPolicy`。
 
 听起来很复杂，但不是每个人都要和这些概念打交道。不同的团队有不同的职责，比如集群、网络、或者安全管理团队，并且许多配置提供合理的默认值。云原生平台和部署工具的一个巨大的优势是可以利用少量的信息来为你配置这些对象以隐藏这种复杂性。
 
 可以在 [Google Cloud HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) (GCLB) 找到网络空间可组合性的另一个例子。要正确使用 GCLB 的一个实例，需要创建和配置 6 个不同的基础对象。这样的设计是我们操作分布式系统 20 年经验的一个结果，并且[为什么每一个对象和其他对象相互独立是有原因的](https://www.youtube.com/watch?v=J5HJ1y6PeyE)。但你通过 Google Cloud 控制台创建一个实例的步骤是被简化过的。我们提供越多的通用的面向终端用户/以角色为中心的配置，以后你们配置的通用设置越少。最终，基础 API 的目标是在不牺牲功能的情况下提供最大的灵活性。
 
-[Knative](http://knative.dev) 是一个创建、运行并且操作无服务器工作负载的平台，它提供了一个以角色为中心的现实世界绝佳的示例，更高层次的 API。[Knative Serving](https://knative.dev/docs/serving/)，Knative 的一个组件，基于 Kubernetes 和 Istio 服务于无服务器应用和 function，为应用开发人员管理服务的路由和修订提供了一个顽固的工作流。由于采用这种顽固的方式，Knative Serving 将 Istio 的 [`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) 和 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 资源，抽象成一个简化的支持修订和流量路由的 [路由](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) 对象，将与应用开发人员最紧密相关的 Istio 网络 API 的一个子集暴露出来。
+[Knative](http://knative.dev) 是一个创建、运行并且操作无服务器工作负载的平台，它提供了一个以角色为中心的现实世界绝佳的示例，更高层次的 API。[Knative Serving](https://knative.dev/docs/serving/)，Knative 的一个组件，基于 Kubernetes 和 Istio 服务于无服务器应用和功能，为应用开发人员管理服务的路由和修订提供了一个稳定的工作流。由于采用这种稳定的方式，Knative Serving 将 Istio 的 [`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) 和 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 资源，抽象成一个简化的支持修订和流量路由的 [路由](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) 对象，将与应用开发人员最紧密相关的 Istio 网络 API 的一个子集暴露出来。
 
 随着 Istio 的成熟，我们还看到生产用户在 Istio 的基础 API 之上开发了针对特定工作负载和组织的抽象层。
 
