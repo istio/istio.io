@@ -1,7 +1,7 @@
-{{ $cves := .Get "cves" }}
-{{ $cvss := .Get "cvss" }}
-{{ $vector := .Get "vector" }}
-{{ $releases := .Get "releases" }}
+{{ $cves := .Page.Params.cves }}
+{{ $cvss := .Page.Params.cvss }}
+{{ $vector := .Page.Params.vector }}
+{{ $releases := .Page.Params.releases }}
 
 <table>
     <thead>
@@ -13,13 +13,8 @@
         <tr>
             <td>{{ i18n "security_bulletin_cves" }}</td>
             <td>
-                {{ $split := split $cves "," }}
-                {{ if eq (len $split) 1 }}
-                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ $cves }}">{{ $cves }}</a>
-                {{ else }}
-                    {{ range $split }}
-                        <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ trim . " " }}">{{ trim . " " }}</a><br>
-                    {{ end }}
+                {{ range $cves }}
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ trim . " " }}">{{ trim . " " }}</a><br>
                 {{ end }}
             </td>
         </tr>
@@ -30,13 +25,8 @@
         <tr>
             <td>{{ i18n "security_bulletin_affected_releases" }}</td>
             <td>
-                {{ $split = split $releases "," }}
-                {{ if eq (len $split) 1 }}
-                    {{ $releases }}
-                {{ else }}
-                    {{ range $split }}
-                        {{ trim . " " }}<br>
-                    {{ end }}
+                {{ range $releases }}
+                    {{ trim . " " }}<br>
                 {{ end }}
             </td>
         </tr>
