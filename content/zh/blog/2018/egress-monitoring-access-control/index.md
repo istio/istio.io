@@ -25,7 +25,7 @@ target_release: 1.1
 * [Control Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务演示了网格内的应用程序如何访问外部(Kubernetes 集群之外) HTTP 和 HTTPS 服务。
 * [配置 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway/)示例描述了如何配置 Istio 来通过一个称为 _出口网关_ 的专用网关服务来引导出口流量。
 * [带 TLS 发起的 Egress 网关](/zh/docs/tasks/traffic-management/edge-traffic/egress-gateway-tls-origination/) 示例演示了如何允许应用程序向需要 HTTPS 的外部服务器发送 HTTP 请求，同时通过 Egress Gateway 引导流量。
-* [收集指标](/docs/tasks/telemetry/metrics/collecting-metrics/)任务描述如何为网格中的服务配置指标。
+* [收集指标](/zh/docs/tasks/telemetry/metrics/collecting-metrics/)任务描述如何为网格中的服务配置指标。
 * [Grafana 的可视化指标](/zh/docs/tasks/telemetry/metrics/using-istio-dashboard/)描述了用于监控网格流量的 Istio 仪表板。
 * [基本访问控制](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何控制对网格内服务的访问。
 * [拒绝和白/黑名单](/zh/docs/tasks/policy-enforcement/denial-and-list/)任务显示如何使用黑名单或白名单检查器配置访问策略。
@@ -44,7 +44,7 @@ target_release: 1.1
 
 ### 日志
 
-配置 Istio 以记录对 _*.cnn.com_ 的访问。创建一个 `logentry` 和两个 [stdio](/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`，一个用于记录禁止访问(_error_ 日志级别)，另一个用于记录对 _*.cnn.com_ 的所有访问(_info_ 日志级别)。然后创建规则将 `logentry` 实例定向到 `handlers`。一个规则指导访问 _*.cnn.com/politics_ 为日志禁止访问处理程序,另一个规则指导日志条目的处理程序，输出每个访问 _*.cnn.com_ 作为 _info_ 的日志级别。要了解 Istio `logentries`、`rules` 和 `handlers`，请参见 [Istio 适配器模型](/zh/blog/2017/adapter-model/)。下图显示了涉及的实体和它们之间的依赖关系：
+配置 Istio 以记录对 _*.cnn.com_ 的访问。创建一个 `logentry` 和两个 [stdio](/zh/docs/reference/config/policy-and-telemetry/adapters/stdio/) `handlers`，一个用于记录禁止访问(_error_ 日志级别)，另一个用于记录对 _*.cnn.com_ 的所有访问(_info_ 日志级别)。然后创建规则将 `logentry` 实例定向到 `handlers`。一个规则指导访问 _*.cnn.com/politics_ 为日志禁止访问处理程序,另一个规则指导日志条目的处理程序，输出每个访问 _*.cnn.com_ 作为 _info_ 的日志级别。要了解 Istio `logentries`、`rules` 和 `handlers`，请参见 [Istio 适配器模型](/zh/blog/2017/adapter-model/)。下图显示了涉及的实体和它们之间的依赖关系：
 
 {{< image width="80%"
     link="egress-adapters-monitoring.svg"
@@ -227,13 +227,13 @@ target_release: 1.1
 
     你依然会得到关于访问[edition.cnn.com/politics](https://edition.cnn.com/politics)的信息和错误消息，然而这次 `responseCode` 会像我们预想的那样返回 `404` 。
 
-虽然在这个简单的例子中使用 Istio 路由实现访问控制是可行的，但是在更复杂的例子中就不够了。例如，组织可能希望在某些条件下允许访问[edition.cnn.com/politics](https://edition.cnn.com/politics)，因此需要比仅通过 URL 路径过滤更复杂的策略逻辑。您可能想要应用 Istio Mixer 适配器，例如允许/禁止 URL 路径的[白名单或黑名单](/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)。策略规则允许指定复杂的条件，用丰富的表达式语言指定，其中包括与和或逻辑运算符。这些规则可用于日志记录和策略检查。更高级的用户可能希望应用基于 [Istio 角色访问控制](/docs/concepts/security/#authorization)。
+虽然在这个简单的例子中使用 Istio 路由实现访问控制是可行的，但是在更复杂的例子中就不够了。例如，组织可能希望在某些条件下允许访问[edition.cnn.com/politics](https://edition.cnn.com/politics)，因此需要比仅通过 URL 路径过滤更复杂的策略逻辑。您可能想要应用 Istio Mixer 适配器，例如允许/禁止 URL 路径的[白名单或黑名单](/zh/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)。策略规则允许指定复杂的条件，用丰富的表达式语言指定，其中包括与和或逻辑运算符。这些规则可用于日志记录和策略检查。更高级的用户可能希望应用基于 [Istio 角色访问控制](/zh/docs/concepts/security/#authorization)。
 
 另一方面是与远程访问策略系统的集成。如果在我们的用例中组织操作一些[标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，您可能希望配置 Istio 来使用来自这样一个系统的访问策略信息。您可以通过应用 [Istio Mixer 适配器](/blog/2017/adapter-model/)来实现这种集成。
 
 现在您移除在本节中使用的路由取消访问控制，在下一节将向您演示通过 Mixer 策略检查实现访问控制。
 
-1.  用之前[配置 Egress 网关](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway)示例中的版本替换 _edition.cnn.com_ 的 `VirtualService`：
+1.  用之前[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway)示例中的版本替换 _edition.cnn.com_ 的 `VirtualService`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -287,7 +287,7 @@ target_release: 1.1
 
 ### Mixer 策略检查访问控制
 
- 在该步骤中，您使用 Mixer [`Listchecker` 适配器](/docs/reference/config/policy-and-telemetry/adapters/list/)，它是一种白名单。您可以使用请求的 URL 路径定义一个 `listentry`，并使用一个 `listchecker` 由 `overrides` 字段指定的允许 URL 路径的静态列表检查 `listentry`。对于[外部标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，请使用 `providerurl` 字段。实例、规则和处理程序的更新图如下所示。注意，您重用相同的策略规则 `handle-cn-access` 来进行日志记录和访问策略检查。
+ 在该步骤中，您使用 Mixer [`Listchecker` 适配器](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)，它是一种白名单。您可以使用请求的 URL 路径定义一个 `listentry`，并使用一个 `listchecker` 由 `overrides` 字段指定的允许 URL 路径的静态列表检查 `listentry`。对于[外部标识和访问管理](https://en.wikipedia.org/wiki/Identity_management)系统，请使用 `providerurl` 字段。实例、规则和处理程序的更新图如下所示。注意，您重用相同的策略规则 `handle-cn-access` 来进行日志记录和访问策略检查。
 
 {{< image width="80%"
     link="egress-adapters-monitoring-policy.svg"
