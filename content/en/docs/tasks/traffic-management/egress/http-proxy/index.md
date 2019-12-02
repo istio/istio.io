@@ -71,6 +71,9 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
       namespace: external
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: squid
       template:
         metadata:
           labels:
