@@ -49,13 +49,13 @@ then to 20% and so on.
 
 1.  Execute the following queries:
 
-    1.  Number of requests from _sleep_ to _reviews v2_:
+    1.  Number of requests to _reviews v2_:
 
         {{< text plain >}}
         sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v2"})
         {{< /text >}}
 
-    1.  Number of requests from _sleep_ to _reviews v3_:
+    1.  Number of requests to _reviews v3_:
 
         {{< text plain >}}
         sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews", destination_version="v3"})
