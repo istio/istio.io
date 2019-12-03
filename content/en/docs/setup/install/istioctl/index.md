@@ -63,7 +63,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 $ istioctl manifest apply --set installPackagePath=~/istio-releases/istio-1.4.0/install/kubernetes/operator/charts
 {{< /text >}}
 
-This will result in the same installation as `istioctl manifest apply` alone, because the command above points to the
+If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl manifest apply` alone, because it points to the
 same charts as the compiled in ones.
 We recommend using the compiled-in charts rather than external ones because in this way the compatibility of the
 istioctl binary with the charts is guaranteed.
