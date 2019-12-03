@@ -48,11 +48,11 @@ If you choose to ignore the validation errors, add `--validate=false` to your `k
 
 Istio 1.4 introduces a new CRD `authorizationpolicies.security.istio.io` for the
 [authorization policy](/docs/reference/config/security/authorization-policy/).
-Your cluster may have a leftover CRD `authorizationpolicies.rbac.istio.io` due to
-internal implementation detail before Istio 1.4.
+Your cluster may have an interim leftover CRD `authorizationpolicies.rbac.istio.io`
+due to an internal implementation detail before Istio 1.4.
 
-The leftover CRD is never used and could be removed safely from the cluster. Run
-the following command to remove it to avoid confusions:
+The leftover CRD is unused and you can safely remove it from the cluster using
+this command:
 
 {{< text bash >}}
 $ kubectl delete crd authorizationpolicies.rbac.istio.io --ignore-not-found=true
