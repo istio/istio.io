@@ -57,7 +57,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-然后，**[安装 Helm](https://helm.sh/docs/intro/install/) 并[生成 Istio 最小配置安装](/zh/docs/setup/install/helm/)** -- 只有流量管理组件：
+然后，[安装 Helm](https://helm.sh/docs/intro/install/) 并[生成 Istio 最小配置安装](/zh/docs/setup/install/helm/) -- 只有流量管理组件：
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \
@@ -71,20 +71,20 @@ $ helm template install/kubernetes/helm/istio \
   --set pilot.sidecar=false > istio-minimal.yaml
 {{< /text >}}
 
-然后**创建 `istio-system` namespace 并部署 Istio**：
+然后创建 `istio-system` namespace 并部署 Istio：
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
 $ kubectl apply -f istio-minimal.yaml
 {{< /text >}}
 
-然后，在没有 Istio sidecar 容器的前提下**部署 Bookinfo 示例**：
+然后，在没有 Istio sidecar 容器的前提下部署 Bookinfo 示例：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
 {{< /text >}}
 
-现在，**配置一个新的 Gateway** 允许从 Istio 网格外部访问 reviews service；一个新的 `VirtualService` 用于平均分配到 reviews service v1 和 v2 版本的流量；以及一系列新的、将目标子集与服务版本相匹配的 `DestinationRule` 资源：
+现在，配置一个新的 Gateway 允许从 Istio 网格外部访问 reviews service；一个新的 `VirtualService` 用于平均分配到 reviews service v1 和 v2 版本的流量；以及一系列新的、将目标子集与服务版本相匹配的 `DestinationRule` 资源：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -145,7 +145,7 @@ spec:
 EOF
 {{< /text >}}
 
-最后，使用 `curl` **部署一个用于测试的 Pod**（没有 Istio sidecar 容器）：
+最后，使用 `curl` 部署一个用于测试的 Pod（没有 Istio sidecar 容器）：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@

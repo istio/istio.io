@@ -34,7 +34,7 @@ Sidecar proxy 模式成就了很多奇迹。Sidecar 身处微服务的数据路�
 
 值得注意的一点是，AppSwitch 的客户端和服务器之间不做任何数据转发。它们中间会通过 Unix socket 交换文件描述符，从而避免数据拷贝。另外客户端也不是独立进程，而是运行在应用本身的上下文之中的，因此应用和 AppSwitch 之间也不存在数据拷贝的操作。
 
-## 删减堆栈层{#delayering-the-stack}
+## 删减堆栈层{#Delayering-the-stack}
 
 现在我们大概知道了 AppSwitch 的功能，接下来看看它从标准服务网格中优化掉的层。
 
@@ -150,7 +150,7 @@ Socket 委托功能对于知晓 Sidecar 存在并希望利用其能力的应用�
 1. 可以轻松的扩展到其它平台，例如 Mesos。
 1. 同一个集群中可以同时运行标准应用以及启用 AppSwitch 支持的应用。
 
-### AppSwitch `DaemonSet`{#appswitch-daemonset}
+### AppSwitch `DaemonSet`
 
 AppSwitch 守护进程可以配置成 `DaemonSet` 的运行方式，也可以作为直接注入应用程序清单的扩展。两种方式下都能够处理来自受支持应用的网络事件。
 
