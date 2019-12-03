@@ -16,7 +16,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-1. 要设置 Istio，按照[安装指南](/zh/docs/setup/install/operator)中的说明进行操作。
+1. 要设置 Istio，按照[安装指南](/zh/docs/setup/install/istioctl)中的说明进行操作。
 
     a) 通过设置 `--set values.tracing.enabled = true` 安装选项以启用 tracing 的“开箱即用”的演示/测试环境
 
@@ -63,5 +63,5 @@ $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=
     $ killall kubectl
     {{< /text >}}
 
-1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)中的说明，关闭整个应用程序。
+1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)中的说明，关闭整个应用程序。
 

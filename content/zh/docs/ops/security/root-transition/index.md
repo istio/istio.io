@@ -1,79 +1,79 @@
 ---
-title: Extending Self-Signed Certificate Lifetime
-description: Learn how to extend the lifetime of the Istio self-signed root certificate.
+title: 延长自签名证书的寿命
+description: 学习如何延长 Istio 自签名根证书的寿命。
 weight: 90
 keywords: [security, PKI, certificate, Citadel]
 aliases:
-    - /help/ops/security/root-transition
+    - /zh/help/ops/security/root-transition
 ---
 
-Istio self-signed certificates have historically had a 1 year default lifetime.
-If you are using Istio self-signed certificates,
-you need to schedule regular root transitions before they expire.
-An expiration of a root certificate may lead to an unexpected cluster-wide outage.
+Istio 自签名证书历来具有 1 年的默认寿命。
+如果您使用 Istio 自签名证书，您需要注意根证书的到期日期。
+根证书的过期可能会导致集群范围内的意外中断。
 
-{{< tip >}}
-We strongly recommend you rotate root keys and root certificates annually as a security best practice.
-We will send out instructions for root key/cert rotation as a follow-up.
-{{< /tip >}}
+请参考[下列步骤](#root-transition-procedure)的第一步来计算您的根证书的剩余寿命。
 
-To evaluate the lifetime remaining for your root certificate, please refer to the first step in the
-[procedure below](#root-transition-procedure).
+下列步骤将向您展示如何转换到一个新的根证书。
+转换完成后，新的根证书将有 10 年的寿命。
+注意 Envoy 实例将会热重启来重新加载新的根证书，这可能会对长连接造成影响。
+请参考[这里](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart)和[这里](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)来了解这些影响和 Envoy 热重启的原理。
 
-We provide the following procedure for you to do the root transition.
-Note that the Envoy instances will be hot restarted to reload the new root certificates, which may impact long-lived connections.
-For details about the impacts and how Envoy hot restart works, please refer to
-[here](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart) and
-[here](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5).
+## 方案{#scenarios}
 
-## Scenarios
+如果您目前在 Istio 中没使用双向 TLS 功能，并且将来也没打算用，您将不受影响，也无需任何动作。
 
-If you are not currently using the mutual TLS feature in Istio and will not use it in the future,
-you are not affected and no action is required.
-You may choose to upgrade to 1.0.8, 1.1.8 or later versions to avoid this problem in the future.
+如果您将来可能会使用双向 TLS 功能，您应该按照下列步骤来转换根证书。
 
-If you are not currently using the mutual TLS feature in Istio and may use it in the future,
-you are recommended to follow the procedure listed below to upgrade.
+如果您选择已经在 Istio 中使用了带有自签名证书的双向 TLS 功能，请按照下列步骤检查您是否会受到影响。
 
-If you are currently using the mutual TLS feature in Istio with self-signed certificates,
-please follow the procedure and check whether you will be affected.
+## 根转换过程{#root-transition-procedure}
 
-## Root transition procedure
+1. 检查根证书的过期时间：
 
-1. Check when the root certificate expires:
-
-    Download this [script](https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh)
-    on a machine that has `kubectl` access to the cluster.
+    在一台有能访问集群的 `kubectl` 工具的机器上下载[脚本](https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh)。
 
     {{< text bash>}}
     $ wget https://raw.githubusercontent.com/istio/tools/{{< source_branch_name >}}/bin/root-transition.sh
     $ chmod +x root-transition.sh
-    $ ./root-transition.sh check
+    $ ./root-transition.sh check-root
     ...
-    ===YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRES!=====
+    =====YOU HAVE 30 DAYS BEFORE THE ROOT CERT EXPIRES!=====
     {{< /text >}}
 
-    Execute the remainder of the steps prior to root certificate expiration to avoid system outages.
+    在根证书过期之前执行剩下的步骤，以避免系统中断。
 
-1. Execute a root certificate transition:
+1. 检查您的 sidecars 的版本，如果需要就将它升级：
 
-    During the transition, the Envoy sidecars may be hot-restarted to reload the new certificates.
-    This may have some impact on your traffic. Please refer to
-    [Envoy hot restart](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart)
-    and read [this](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)
-    blog post for more details.
+    一些早期的 Istio sidecar 版本不会自动重载新的根证书。
+    请运行以下命令检查您的 Istio sidecars 的版本。
+
+    {{< text bash>}}
+    $ ./root-transition.sh check-version
+    Checking namespace: default
+    Istio proxy version: 1.3.5
+    Checking namespace: istio-system
+    Istio proxy version: 1.3.5
+    Istio proxy version: 1.3.5
+    ...
+    {{< /text >}}
+
+    如果您的 sidecars 的版本低于 1.0.8 和 1.1.8，请升级 Istio 控制面板和 sidecars 的版本到不低于 1.0.8 和 1.1.8。
+    请参考 Istio [升级步骤](/zh/docs/setup/upgrade/)或您的云服务提供商提供的步骤来升级。
+
+1. 执行根证书转换：
+
+    在转换的过程中，Envoy sidecars 可能会热重启来重载新证书。
+    这可能会影响您的流量。请参考 [Envoy 热重启](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/hot_restart)并阅读[这篇博客](https://blog.envoyproxy.io/envoy-hot-restart-1d16b14555b5)来获得更多细节。
 
     {{< warning >}}
-    If your Pilot does not have an Envoy sidecar, consider installing Envoy sidecar for your Pilot.
-    Because the Pilot has issue using the old root certificate to verify the new workload certificates.
-    This may cause disconnection between Pilot and Envoy.
-    Please see the [here](#how-to-check-if-pilot-has-an-envoy-sidecar) for how to check.
-    The [Istio upgrade guide](/docs/setup/upgrade/)
-    by default installs Pilot with Envoy sidecar.
+    如果您的 Pilot 没有配置 Envoy sidecar，考虑为它安装一个。
+    因为 Pilot 在使用旧的根证书验证新的工作负载证书时有问题，这可能会导致 Pilot 与 Envoy 断开连接。
+    如何检测该条件请参考[这儿](#how-can-i-check-if-pilot-has-a-sidecar)。
+    [Istio 升级指南](/zh/docs/setup/upgrade/)默认会为 Pilot 安装 Envoy sidecar。
     {{< /warning >}}
 
     {{< text bash>}}
-    $ ./root-transition.sh transition
+    $ ./root-transition.sh root-transition
     Create new ca cert, with trust domain as cluster.local
     Wed Jun  5 19:11:15 PDT 2019 delete old ca secret
     secret "istio-ca-secret" deleted
@@ -96,41 +96,33 @@ please follow the procedure and check whether you will be affected.
     Please save them safely and privately.
     {{< /text >}}
 
-1. Verify the new workload certificates are generated:
+1. 确认新的工作负载证书已经创建：
 
     {{< text bash>}}
-    $ ./root-transition.sh verify
+    $ ./root-transition.sh verify-certs
     ...
     Checking the current root CA certificate is propagated to all the Istio-managed workload secrets in the cluster.
     Root cert MD5 is 8fa8229ab89122edba73706e49a55e4c
     Checking namespace: default
-      Secret default.istio.default is updated.
-      Secret default.istio.sleep is updated.
+      Secret default.istio.default matches current root.
+      Secret default.istio.sleep matches current root.
     Checking namespace: istio-system
-      Secret istio-system.istio.default is updated.
+      Secret istio-system.istio.default matches current root.
       ...
-    ------All Istio keys and certificates are updated in secret!
+
+    =====All Istio mutual TLS keys and certificates match the current root!=====
+
     {{< /text >}}
 
-    If this command fails, wait a minute and run the command again.
-    It takes some time for Citadel to propagate the certificates.
+    如果命令执行失败，请等一会重新执行。Citadel 传播证书需要一些时间。
 
-1. Upgrade to Istio 1.0.8, 1.1.8 or later:
+1. 确认 Envoy 已经加载了新的工作负载证书：
 
-    {{< warning >}}
-    To ensure the control plane components and Envoy sidecars all load the new certificates and keys, this step is mandatory.
-    {{< /warning >}}
-
-    Upgrade your control plane and `istio-proxy` sidecars to 1.0.8, 1.1.8 or later.
-    Please follow the Istio [upgrade procedure](/docs/setup/upgrade/).
-
-1. Verify the new workload certificates are loaded by Envoy:
-
-    You can verify whether an Envoy has received the new certificates.
-    The following command shows an example to check the Envoy’s certificate for pod _foo_ running in namespace _bar_.
+    您可以确认 Envoy 是否已经收到新的证书。
+    下面是如何检查 Envoy 中某个 pod 的证书的命令示例。
 
     {{< text bash>}}
-    $ kubectl exec -foo -c istio-proxy -n bar -- pilot-agent request GET certs | head -c 1000
+    $ kubectl exec [YOUR_POD] -c istio-proxy -n [YOUR_NAMESPACE] -- curl http://localhost:15000/certs | head -c 1000
     {
      "certificates": [
       {
@@ -145,55 +137,45 @@ please follow the procedure and check whether you will be affected.
         }
     {{< /text >}}
 
-    Please inspect the `valid\_from` value of the `ca\_cert`.
-    If it matches the `_Not_ _Before_` value in the new certificate as shown in Step 2,
-    your Envoy has loaded the new root certificate.
+    请检查 `ca\_cert` 的 `valid\_from` 的值。
+    如果它能匹配上步骤 3 中显示的新证书的 `_Not_ _Before_` 的值，那么您的 Envoy 已经加载了新的根证书。
 
-## Troubleshooting
+## 问题排查{#troubleshooting}
 
-### Can I upgrade to 1.0.8, 1.1.8 or later first, and then do the root transition?
+### 为何工作负载无法获得新的证书？{#why-are-not-workloads-picking-up-the-new-certificates-in-step-5}
 
-Yes, you can. You can upgrade to 1.0.8, 1.1.8 or later as normal.
-After that, follow the root transition steps and in Step 4,
-manually restart Galley, Pilot and sidecar-injector to ensure they load the new root certificates.
-
-### Why my workloads do not pick up the new certificates (in Step 5)?
-
-Please make sure you have updated to 1.0.8, 1.1.8 or later for the `istio-proxy` sidecars in Step 4.
+请确定您已经在步骤 2 中将 `istio-proxy` sidecars 更新至 1.0.8，1.1.8 或更新版本。
 
 {{< warning >}}
-If you are using Istio releases 1.1.3 - 1.1.7, the Envoy may not be hot-restarted
-after the new certificates are generated.
+如果您使用 Istio 1.1.3 - 1.1.7 版本，Envoy 可能不会在新证书创建后热重启。
 {{< /warning >}}
 
-### Why my Pilot does not work and logs "handshake error"?
+### 为何 Pilot 无法工作并输出 “handshake error” 日志？{#why-does-pilot-not-work-and-log-handshake-error}
 
-This may because the Pilot is
-[not using an Envoy sidecar](#how-to-check-if-pilot-has-an-envoy-sidecar),
-while the `controlPlaneSecurity` is enabled.
-In this case, restart both Galley and Pilot to ensure they load the new certificates.
-As an example, the following commands redeploy a pod for Galley / Pilot by removing a pod.
+这可能是因为启用 `controlPlaneSecurity` 后，Pilot [没有使用 Envoy sidecar](#how-can-i-check-if-pilot-has-a-sidecar)。
+这种情况下，重启 Galley 和 Pilot 以保证他们加载了新的证书。
+下列命令会通过删除 pod 来重新部署 Galley 和 Pilot 的 pod 作为示例。
 
 {{< text bash>}}
 $ kubectl delete po <galley-pod> -n istio-system
 $ kubectl delete po <pilot-pod> -n istio-system
 {{< /text >}}
 
-### How to check if Pilot has an Envoy sidecar
+### 如何判断 Pilot 有 sidecar？{#how-can-i-check-if-pilot-has-a-sidecar}
 
-If the following command shows `1/1`, that means your Pilot does not have an Envoy sidecar,
-otherwise, if it is showing `2/2`, your Pilot is using an Envoy sidecar.
+如果下列命令显示 `1/1`，意味着您的 Pilot 没有 Envoy sidecar，
+否则，如果它显示 `2/2`，您的 Pilot 正在使用 Envoy sidecar。
 
 {{< text bash>}}
 $ kubectl get po -l istio=pilot -n istio-system
 istio-pilot-569bc6d9c-tfwjr   1/1     Running   0          11m
 {{< /text >}}
 
-### I can't deploy new workloads with the sidecar-injector
+### 为何我无法用 sidecar-injector 部署新的工作负载？{#why-cant-i-deploy-new-workloads-with-the-sidecar-injector}
 
-This may happen if you did not upgrade to 1.0.8, 1.1.8 or later.
-Try to restart the sidecar injector.
-The sidecar injector will reload the certificate after the restart:
+这可能是因为您没有升级到 1.0.8，1.1.8 或更新版本。
+试着重启 sidecar injector。
+重启后 sidecar injector 会重新加载证书：
 
 {{< text bash>}}
 $ kubectl delete po -l istio=sidecar-injector -n istio-system

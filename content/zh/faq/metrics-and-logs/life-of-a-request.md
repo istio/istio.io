@@ -3,11 +3,11 @@ title: How to figure out what happened to a request in Istio?
 weight: 80
 ---
 
-You can enable [tracing](/docs/tasks/observability/distributed-tracing/) to determine the flow of a request in Istio.
+You can enable [tracing](/zh/docs/tasks/observability/distributed-tracing/) to determine the flow of a request in Istio.
 
 Additionally, you can use the following commands to know more about the state of the mesh:
 
-* [`istioctl proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config): Retrieve information about proxy configuration when running in Kubernetes:
+* [`istioctl proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config): Retrieve information about proxy configuration when running in Kubernetes:
 
     {{< text plain >}}
     # Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.

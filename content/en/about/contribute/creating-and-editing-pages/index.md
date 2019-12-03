@@ -137,6 +137,8 @@ The available front matter fields are:
 
 A few fields control the auto-generated table of contents present on most pages:
 
+|Field               | Description
+|--------------------|------------
 |`skip_toc`          | Set this to true to prevent the page from having a table of contents generated for it
 |`force_inline_toc`  | Set this to true to force the generated table of contents to be inserted inline in the text instead of in a sidebar
 |`max_toc_level`     | Set to 2, 3, 4, 5, or 6 to indicate the maximum heading level to show in the table of contents
@@ -627,17 +629,17 @@ If you have some content to display in a variety of formats, it is convenient to
 format in a different tab. To insert tabbed content, you use a combination of `tabset` and `tabs` annotations:
 
 {{< text markdown >}}
-{{</* tabset cookie-name="platform" */>}}
+{{</* tabset category-name="platform" */>}}
 
-{{</* tab name="One" cookie-value="one" */>}}
+{{</* tab name="One" category-value="one" */>}}
 ONE
 {{</* /tab */>}}
 
-{{</* tab name="Two" cookie-value="two" */>}}
+{{</* tab name="Two" category-value="two" */>}}
 TWO
 {{</* /tab */>}}
 
-{{</* tab name="Three" cookie-value="three" */>}}
+{{</* tab name="Three" category-value="three" */>}}
 THREE
 {{</* /tab */>}}
 
@@ -646,17 +648,17 @@ THREE
 
 which produces the following output:
 
-{{< tabset cookie-name="platform" >}}
+{{< tabset category-name="platform" >}}
 
-{{< tab name="One" cookie-value="one" >}}
+{{< tab name="One" category-value="one" >}}
 ONE
 {{< /tab >}}
 
-{{< tab name="Two" cookie-value="two" >}}
+{{< tab name="Two" category-value="two" >}}
 TWO
 {{< /tab >}}
 
-{{< tab name="Three" cookie-value="three" >}}
+{{< tab name="Three" category-value="three" >}}
 THREE
 {{< /tab >}}
 
@@ -664,13 +666,13 @@ THREE
 
 The `name` attribute of each tab contains the text to display for the tab. The content of the tab can be almost any normal markdown.
 
-The optional `cookie-name` and `cookie-value` attributes allow the tab setting to be sticky across visits to the page. As the user
-selects a tab, the cookie will be automatically saved with the given name and value. If multiple tab sets use the same cookie name
+The optional `category-name` and `category-value` attributes allow the tab setting to be sticky across visits to the page. As the user
+selects a tab, the selection will be saved automatically with the given name and value. If multiple tab sets use the same category name
 and values, their setting will be automatically synchronized across pages. This is particularly useful when there are many tab sets
 in the site that hold the same types of formats.
 
-For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a cookie name of `environment` and values of
-`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other tab set.
+For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a category name of `environment` and values of
+`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other tab set of any page visited.
 
 ### Limitations
 
@@ -780,3 +782,9 @@ If you're having trouble with the link checker due to poor Internet connectivity
 {{< text bash >}}
 $ make INTERNAL_ONLY=True lint
 {{< /text >}}
+
+## Using GitHub
+
+Checkout [Working with GitHub](/about/contribute/github) to learn how to generally use GitHub to submit
+documentation changes. Of particular interest, see the [section on branching](/about/contribute/github#branching)
+to understand how we use branches and cherry picking.

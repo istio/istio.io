@@ -48,7 +48,7 @@ release, which happens around once a quarter.
 
 ### How to add content {#add}
 
-To add content you must create a fork of the repository and a PR from
+To add content you must create a fork of the repository and submit a PR from
 your fork to the docs main repository. The following steps describe the
 process:
 
@@ -62,8 +62,10 @@ code</a>
     create a copy of our repository in your GitHub account.
 
 1.  Create a clone of your fork and make any changes you want.
+
 1.  When you are ready to send those changes to us, push the changes to your
     fork.
+
 1.  Go to the index page for your fork, and click **New Pull Request** to let
     us know about it.
 
@@ -114,6 +116,44 @@ If you created a fork of the repository, you can preview your changes locally.
 See this
 [README](https://github.com/istio/istio.io/blob/master/README.md) for
 instructions.
+
+## Branching
+
+We use multiple branches to track documentation for different versions of Istio.
+The master branch is where active doc work takes place, this is where you should
+generally be making changes.
+
+On the day of an Istio release, a release branch is created from master for that
+release. For example, there are branches called `release-1.0`, `release-1.1`,
+`release-1.2` and so forth.
+
+The `istio.io` public site is produced by processing content from the current
+release branch. The `preliminary.istio.io` site is produced by processing
+content from the master branch. And the `archive.istio.io` site is
+produced by processing content from all prior release branches.
+
+Given how branching works, if you submit a change into the master branch,
+that change will not appear on `istio.io` until the next major Istio release
+happens. If your documentation change is relevant to the current Istio release,
+then it's probably worth also applying your change to the current release branch.
+You can do this easily and automatically by using the special cherry-pick labels
+on your documentation PR. For example, if you introduce a correction in a PR to
+the master branch, you can apply the `cherrypick/release-1.4` label in order to
+merge this change to the `release-1.4` branch.
+
+Once your initial PR is merged, automation will create a new PR in the release
+branch which includes your changes. You may need to add a comment to the PR
+that reads `@googlebot I consent` in order to satisfy the `CLA` bot that we
+use.
+
+On rare occasions, automatic cherry picks don't work. When that happens, the
+automation will leave a note in the original PR indicating it failed. When
+that happens, you will need to manually create the cherry pick and deal
+with the merge issues that prevented the process from working automatically.
+
+Note that we only ever cherry pick changes into the current release branch,
+and never to older branches. Older branches are considered to be archived and
+generally no longer receive any changes.
 
 ## Istio community roles
 

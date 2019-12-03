@@ -1,96 +1,76 @@
 ---
-title: Generate Istio Metrics Without Mixer [Experimental]
-description: How to enable in-proxy generation of HTTP service-level metrics.
+title: 不使用 Mixer 生成 Istio 指标 [试验性的]
+description: 怎样使用代理生成服务级别的指标。
 weight: 70
 ---
 
 {{< boilerplate experimental-feature-warning >}}
 
-Istio 1.3 adds experimental support to generate service-level HTTP metrics
-directly in the Envoy proxies. This feature lets you continue to monitor your
-service meshes using the tools Istio provides without needing Mixer.
+Istio 1.3 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了试验性支持。这个特性让你可以在没有 Mixer 的情况下使用 Istio 提供的工具监控你的服务网格。
 
-The in-proxy generation of service-level metrics replaces the following HTTP
-metrics that Mixer currently generates:
+在代理中生成的服务级别指标代替了如下所示的当前在 Mixer 中生成的 HTTP 指标：
 
 - `istio_requests_total`
 - `istio_request_duration_seconds`
 - `istio_request_size`
 
-## Enable service-level metrics generation in Envoy
+## 在 Envoy 中启用服务级别指标生成功能{#enable-service-level-metrics-generation-in-envoy}
 
-To generate service-level metrics directly in the Envoy proxies, follow these steps:
+要直接在 Envoy 代理中生成服务级别的指标，请按照下列步骤操作：
 
-1.  To prevent duplicate telemetry generation, disable calls to `istio-telemetry` in the mesh:
+1.  为了阻止生成重复的遥测指标，请禁用网格中的 `istio-telemetry`：
 
     {{< text bash >}}
     $ istioctl manifest apply --set values.mixer.telemetry.enabled=false,values.mixer.policy.enabled=false
     {{< /text >}}
 
     {{< tip >}}
-    Alternatively, you can comment out `mixerCheckServer` and `mixerReportServer` in your [mesh configuration](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+    或者，你可以在你的 [网格配置](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) 中注释掉 `mixerCheckServer` 和 `mixerReportServer`。
     {{< /tip >}}
 
-1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata.
-   A custom filter handles this exchange. Enable the metadata exchange filter with the following command:
+1. 为了生成服务级别的指标，代理必须交换 {{< gloss >}}workload{{< /gloss >}} 元数据。有一个自定义的过滤器可以来处理元数据交换。请使用如下命令来启用元数据交换过滤器：
 
     {{< text bash >}}
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/{{< source_branch_name >}}/extensions/stats/testdata/istio/metadata-exchange_filter.yaml
     {{< /text >}}
 
-1. To actually generate the service-level metrics, you must apply the custom stats filter.
+1. 为了最终生成服务级别的指标，你必须应用一个自定义的统计过滤器。
 
     {{< text bash >}}
     $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/{{< source_branch_name >}}/extensions/stats/testdata/istio/stats_filter.yaml
     {{< /text >}}
 
-1. Go to the **Istio Mesh** Grafana dashboard. Verify that the dashboard displays the same telemetry as before but without
-    any requests flowing through Istio's Mixer.
+1. 打开 **Istio Mesh** Grafana 面板。可以验证在没有任何请求经过 Istio Mixer 的情况下仍然显示和之前一样的遥测指标。
 
-## Differences with Mixer-based generation
+## 和基于 Mixer 生成遥测指标的区别{#differences-with-mixer-based-generation}
 
-Small differences between the in-proxy generation and Mixer-based generation of service-level metrics
-persist in Istio 1.3. We won't consider the functionality stable until in-proxy generation has full feature-parity with
-Mixer-based generation.
+在 Istio 1.3 版本，代理生成和基于 Mixer 生成服务级别的指标存在一些细微的差别。在代理生成和基于 Mixer 生成服务级别的指标有相同完整的特性之前，我们不会考虑功能的稳定性。
 
-Until then, please consider these differences:
+在那之前，请注意如下差别：
 
-- The `istio_request_duration_seconds` latency metric has the new name: `istio_request_duration_milliseconds`.
-  The new metric uses milliseconds instead of seconds. We updated the Grafana dashboards to
-  account for these changes.
-- The `istio_request_duration_milliseconds` metric uses more granular buckets inside the proxy, providing
-  increased accuracy in latency reporting.
+- `istio_request_duration_seconds` 时延指标有一个新的名字：`istio_request_duration_milliseconds`。新的指标度量单位使用毫秒代替秒。我们更新了 Grafana 面板来应对这些变化。
+- `istio_request_duration_milliseconds` 指标在代理中使用更多细粒度的 buckets，以提高时延报告的准确性。
 
-## Performance impact
+## 性能影响{#performance-impact}
 
 {{< warning >}}
 
-As this work is currently experimental, our primary focus has been on establishing
-the base functionality. We have identified several performance optimizations based
-on our initial experimentation, and expect to continue to improve the performance
-and scalability of this feature as it develops.
+因为目前的工作是试验性的，我们主要关注的是建立基础性的功能。基于我们最初的试验，我们已经确定了几个基础的性能优化方向，希望能持续提高性能以及在开发时这个特性的可扩展性。
 
-We won't consider this feature for promotion to **Beta** or **Stable** [status](/about/feature-stages/#feature-phase-definitions)
-until performance and scalability assessments and improvements have been made.
+我们不考虑将这个特性提升到 **Beta** 或者 **Stable** [状态](/zh/about/feature-stages/#feature-phase-definitions)，直到我们完成性能和可扩展性的提升以及评估。
 
-The performance of your mesh depends on your configuration.
-To learn more, see our [performance best practices post](/blog/2019/performance-best-practices/).
+你的网格的性能依赖于你的配置。要了解更多，请看我们的 [性能最佳实践帖](/zh/blog/2019/performance-best-practices/)。
 
 {{< /warning >}}
 
-Here's what we've measured so far:
+下面是目前为止我们做的测试评估：
 
-- All new filters together use 10% less CPU resources for the `istio-proxy` containers
-  than the Mixer filter.
-- The new filters add ~5ms P90 latency at 1000 rps compared to Envoy proxies
-  configured with no telemetry filters.
-- If you only use the `istio-telemetry` service to generate service-level metrics,
-  you can switch off the `istio-telemetry` service. This could save up to ~0.5 vCPU per
-  1000 rps of mesh traffic, and could halve the CPU consumed by Istio while collecting
-  [standard metrics](/docs/reference/config/policy-and-telemetry/metrics/).
+- 在 `istio-proxy` 容器中所有的过滤器一起使用比运行 Mixer 过滤器减少了 10% 的 CPU 资源。
+- 和不配置遥测过滤器的 Envoy 代理相比，新增加的过滤器会导致在 1000 rps 时增加约 5ms P90 的时延。
+- 如果你只使用 `istio-telemetry` 服务来生成服务级别的指标，你可以关闭 `istio-telemetry` 服务。这样网格中每 1000 rps 流量可以为你节省约 0.5 vCPU，并且可以在收集 [标准指标](/zh/docs/reference/config/policy-and-telemetry/metrics/) 时将 Istio 消耗的 CPU 减半。
 
-## Known limitations
+## 已知的限制{#known-limitations}
 
-- We only provide support for exporting these metrics via Prometheus.
-- We provide no support to generate TCP metrics.
-- We provide no proxy-side customization or configuration of the generated metrics.
+- 我们只对通过 Prometheus 导出指标提供支持。
+- 我们不支持生成 TCP 指标。
+- 我们提供不基于代理生成的指标的自定义或配置。

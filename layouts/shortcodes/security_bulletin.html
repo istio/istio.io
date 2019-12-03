@@ -1,0 +1,34 @@
+{{ $cves := .Page.Params.cves }}
+{{ $cvss := .Page.Params.cvss }}
+{{ $vector := .Page.Params.vector }}
+{{ $releases := .Page.Params.releases }}
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">{{ i18n "security_bulletin_title" }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ i18n "security_bulletin_cves" }}</td>
+            <td>
+                {{ range $cves }}
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ trim . " " }}">{{ trim . " " }}</a><br>
+                {{ end }}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ i18n "security_bulletin_cvss" }}</td>
+            <td>{{ $cvss }} <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector={{ $vector }}">{{ $vector }}</a></td>
+        </tr>
+        <tr>
+            <td>{{ i18n "security_bulletin_affected_releases" }}</td>
+            <td>
+                {{ range $releases }}
+                    {{ trim . " " }}<br>
+                {{ end }}
+            </td>
+        </tr>
+    </tbody>
+</table>

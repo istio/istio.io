@@ -44,7 +44,7 @@ Below is our list of existing features and their current phases. This informatio
 | Gateway: Ingress, Egress for all protocols | Stable
 | TLS termination and SNI Support in Gateways | Stable
 | SNI (multiple certs) at ingress | Stable
-| [Locality load balancing](/docs/ops/traffic-management/locality-load-balancing/) | Beta
+| [Locality load balancing](/docs/ops/configuration/traffic-management/locality-load-balancing/) | Beta
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
@@ -71,25 +71,22 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
+| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/citadel-config/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
-| [Mutual TLS Migration](/docs/tasks/security/mtls-migration)    | Beta
+| [Mutual TLS Migration](/docs/tasks/security/authentication/mtls-migration)    | Beta
 | [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
-| [Authorization (RBAC)](/docs/concepts/security/#authorization)   | Alpha
+| [Authorization](/docs/concepts/security/#authorization)   | Beta
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [TCP Authorization (RBAC)](/docs/tasks/security/authz-tcp) | Alpha
-| [SDS Integration](/docs/tasks/security/auth-sds/) | Alpha
-
-The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is still subject to a backwards incompatible change.  Due to this, we advertise it as Alpha.
+| [SDS Integration](/docs/tasks/security/citadel-config/auth-sds/) | Alpha
 
 ### Core
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Standalone Operator](/docs/ops/setup/standalone-operator/) | Alpha
+| [Standalone Operator](/docs/setup/install/standalone-operator/) | Alpha
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/) | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
@@ -105,7 +102,7 @@ The 'Authorization (RBAC)' runtime is considered Beta.  However, its API is stil
 | [Out of Process Mixer Adapters (gRPC Adapters)](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) | Beta
 | [Istio CNI plugin](/docs/setup/additional-setup/cni/) | Alpha
 | IPv6 support for Kubernetes | Alpha
-| [Distroless base images for Istio](/docs/ops/security/harden-docker-images/) | Alpha
+| [Distroless base images for Istio](/docs/ops/configuration/security/harden-docker-images/) | Alpha
 
 {{< idea >}}
 Please get in touch by joining our [community](/about/community/) if there are features you'd like to see in our future releases!

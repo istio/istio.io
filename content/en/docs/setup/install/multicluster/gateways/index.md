@@ -11,8 +11,8 @@ keywords: [kubernetes,multicluster,gateway]
 ---
 
 Follow this guide to install an Istio
-[multicluster deployment](/docs/setup/deployment-models/#multiple-clusters)
-with replicated [control plane](/docs/setup/deployment-models/#control-plane-models) instances
+[multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters)
+with replicated [control plane](/docs/ops/deployment/deployment-models/#control-plane-models) instances
 in every cluster and using gateways to connect services across clusters.
 
 Instead of using a shared Istio control plane to manage the mesh,
@@ -73,7 +73,7 @@ Cross-cluster communication occurs over Istio gateways of the respective cluster
 
     {{< /tip >}}
 
-    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
         {{< warning >}}
         The root and intermediate certificate from the samples directory are widely
@@ -129,8 +129,8 @@ Create one of the following ConfigMaps, or update an existing one, in each
 cluster that will be calling services in remote clusters
 (every cluster in the general case):
 
-{{< tabset cookie-name="platform" >}}
-{{< tab name="KubeDNS" cookie-value="kube-dns" >}}
+{{< tabset category-name="platform" >}}
+{{< tab name="KubeDNS" category-value="kube-dns" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -147,7 +147,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (< 1.4.0)" cookie-value="coredns-prev-1.4.0" >}}
+{{< tab name="CoreDNS (< 1.4.0)" category-value="coredns-prev-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -183,7 +183,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+{{< tab name="CoreDNS (>= 1.4.0)" category-value="coredns-after-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -275,7 +275,7 @@ running in a second cluster. Before you begin:
     (i.e., `kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`).
     {{< /tip >}}
 
-1. Create a service entry for the `httpbin` service in `cluster2`.
+1. Create a service entry for the `httpbin` service in `cluster1`.
 
     To allow `sleep` in `cluster1` to access `httpbin` in `cluster2`, we need to create
     a service entry for it. The host name of the service entry should be of the form
@@ -364,9 +364,9 @@ The egress gateway used in this configuration cannot also be used for other, non
 
 If `$CLUSTER2_GW_ADDR` is an IP address, use the `$CLUSTER2_GW_ADDR - IP address` option.  If `$CLUSTER2_GW_ADDR` is a hostname, use the `$CLUSTER2_GW_ADDR - hostname` option.
 
-{{< tabset cookie-name="profile" >}}
+{{< tabset category-name="profile" >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - IP address" cookie-value="option1" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - IP address" category-value="option1" >}}
 * Export the `cluster1` egress gateway address:
 
 {{< text bash >}}
@@ -407,7 +407,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - hostname" category-value="option2" >}}
 If the `${CLUSTER2_GW_ADDR}` is a hostname, you can use `resolution: DNS` for the endpoint resolution:
 
 {{< text bash >}}
@@ -462,6 +462,12 @@ Execute the following commands to clean up the example services.
     $ kubectl delete --context=$CTX_CLUSTER2 ns bar
     {{< /text >}}
 
+* Cleanup `environment variables`:
+
+    {{< text bash >}}
+    $ unset SLEEP_POD CLUSTER2_GW_ADDR CLUSTER1_EGW_ADDR CTX_CLUSTER1 CTX_CLUSTER2
+    {{< /text >}}
+
 ## Version-aware routing to remote services
 
 If the remote service has multiple versions, you can add
@@ -508,8 +514,9 @@ for a complete example.
 Uninstall Istio by running the following commands on **every cluster**:
 
 {{< text bash >}}
-$ kubectl delete -f $HOME/istio.yaml
-$ kubectl delete ns istio-system
+$ istioctl manifest generate \
+    -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml \
+    | kubectl delete -f -
 {{< /text >}}
 
 ## Summary

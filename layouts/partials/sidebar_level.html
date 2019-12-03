@@ -16,7 +16,7 @@
 {{ $leafSection := true }}
 {{ range $pages }}
     {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
-    {{ if eq $parentDir $pageLocation }}
+    {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
         {{ if not .IsPage }}
             {{ $leafSection = false }}
         {{ end }}
@@ -26,21 +26,30 @@
 <ul role="{{ if $top }}tree{{ else }}group{{ end }}" aria-expanded="{{ if $collapse }}false{{ else }}true{{ end }}"{{ if $leafSection }} class="leaf-section"{{ end }} {{ if $labelledby}}aria-labelledby="{{ $labelledby }}"{{ end }}>
     {{ range $pages }}
         {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
-        {{ if eq $parentDir $pageLocation }}
+        {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
+            {{ $desc := .Description }}
+
+            {{- if ne .PublishDate.Year 0001 -}}
+                {{ $desc = printf "%s (%s)" (trim $desc ".") (.PublishDate.Format (i18n "page_publish_date_format")) -}}
+            {{ end }}
+
             {{ if not .IsPage }}
                 <li role="treeitem" aria-label="{{ .LinkTitle}}">
                     {{ $collapse := not (.IsAncestor $current) }}
+                    {{ if eq . $current }}
+                        {{ $collapse = true }}
+                    {{ end }}
 
-                    <button{{ if not $collapse }} class="show"{{ end }} aria-hidden="true"></button><a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
+                    <button{{ if not $collapse }} class="show"{{ end }} aria-hidden="true"></button><a {{ if eq $current.Permalink .Permalink }}class="current"{{ end }} title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle}}</a>
 
                     {{ partial "sidebar_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
                 </li>
             {{ else }}
                 <li role="none">
                     {{ if eq $current.Permalink .Permalink }}
-                        <span role="treeitem" class="current" title="{{ .Description }}">{{ .LinkTitle }}</span>
+                        <span role="treeitem" class="current" title="{{ $desc }}">{{ .LinkTitle }}</span>
                     {{ else }}
-                        <a role="treeitem" title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                        <a role="treeitem" title="{{ $desc }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 </li>
             {{ end }}

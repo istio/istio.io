@@ -61,7 +61,7 @@ controlled way.
 The following instructions create a destination rule for the egress gateway in the `default` namespace
 and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
 If not, the destination rule will not be found on the
-[destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)
+[destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
 and the client requests will fail.
 
 {{< /warning >}}
@@ -116,11 +116,11 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     traffic directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -166,7 +166,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -324,11 +324,11 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -409,7 +409,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -f - <<EOF
@@ -661,11 +661,11 @@ external service.
 1.  Create the same destination rule as for the `sleep` pod in the `default` namespace to direct the traffic through the egress gateway:
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
@@ -691,7 +691,7 @@ external service.
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
     {{< text_hack bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
@@ -745,12 +745,12 @@ external service.
 
 ## Troubleshooting
 
-1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
-    steps in [Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration).
+1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio, following the
+    steps in [Verify mutual TLS configuration](/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration).
     If mutual TLS is enabled, make sure you create the configuration
     items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 
-1.  If [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) is enabled, verify the correct certificate of the
+1.  If [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) is enabled, verify the correct certificate of the
     egress gateway:
 
     {{< text bash >}}

@@ -16,7 +16,7 @@ please ensure your Istio control plane components and your applications are
 highly available with multiple replicas.
 
 {{< warning >}}
-Be sure to check out the [upgrade notes](/news/{{< istio_full_version_release_year >}}/announcing-{{< istio_version >}}/upgrade-notes)
+Be sure to check out the [upgrade notes](/news/releases/{{< istio_version >}}.x/announcing-{{< istio_version >}}/upgrade-notes)
 for a concise list of things you should know before upgrading your deployment to Istio {{< istio_version >}}.
 {{< /warning >}}
 
@@ -27,7 +27,7 @@ are supported. If you are on an older version, please upgrade to {{< istio_previ
 
 ## Upgrade steps
 
-[Download the new Istio release](/docs/setup/#downloading-the-release)
+[Download the new Istio release](/docs/setup/getting-started/#download)
 and change directory to the new release directory.
 
 ### Istio CNI upgrade
@@ -36,8 +36,8 @@ If you have installed or are planning to install [Istio CNI](/docs/setup/additio
 choose one of the following **mutually exclusive** options to check whether
 Istio CNI is already installed and to upgrade it:
 
-{{< tabset cookie-name="controlplaneupdate" >}}
-{{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
+{{< tabset category-name="controlplaneupdate" >}}
+{{< tab name="Kubernetes rolling update" category-value="k8supdate" >}}
 
 You can use Kubernetes’ rolling update mechanism to upgrade the Istio CNI components.
 This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
@@ -65,7 +65,7 @@ This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
 
 {{< /tab >}}
 
-{{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
+{{< tab name="Helm upgrade" category-value="helmupgrade" >}}
 
 If you installed Istio CNI using [Helm and Tiller](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
 the preferred upgrade option is to let Helm take care of the upgrade.
@@ -112,8 +112,8 @@ Pilot, Galley, Policy, Telemetry and Sidecar injector.
 Choose one of the following **mutually exclusive** options
 to update the control plane:
 
-{{< tabset cookie-name="controlplaneupdate" >}}
-{{< tab name="Kubernetes rolling update" cookie-value="k8supdate" >}}
+{{< tabset category-name="controlplaneupdate" >}}
+{{< tab name="Kubernetes rolling update" category-value="k8supdate" >}}
 You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
 including configurations generated using
@@ -144,7 +144,7 @@ critical issue with the new control plane, you can rollback the changes by apply
 yaml files from the old version.
 {{< /tab >}}
 
-{{< tab name="Helm upgrade" cookie-value="helmupgrade" >}}
+{{< tab name="Helm upgrade" category-value="helmupgrade" >}}
 If you installed Istio using [Helm and Tiller](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install),
 the preferred upgrade option is to let Helm take care of the upgrade.
 
