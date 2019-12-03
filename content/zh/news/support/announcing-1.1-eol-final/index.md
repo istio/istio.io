@@ -1,7 +1,7 @@
 ---
 title: 对 Istio 1.1 的支持已终止
 subtitle: 版本维护公告
-description: Istio 1.1 的维护终止公告
+description: Istio 1.1 的维护终止公告。
 publishdate: 2019-10-21
 aliases:
     - /zh/news/2019/announcing-1.1-eol-final
