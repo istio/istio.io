@@ -10,6 +10,12 @@ You can proceed to enable Istio on the microservices incrementally, one by one, 
 Istio for more and more microservices. For the purpose of this tutorial, you will just enable Istio on the remaining
 microservices in one stroke.
 
+1.  For the sake of the tutorial (for simplicity) scale the deployments of microservices down to 1:
+
+    {{< text bash >}}
+    $ kubectl scale deployments --all --replicas 1
+    {{< /text >}}
+
 1.  Redeploy the Bookinfo application, Istio-enabled. `productpage` will not be redeployed since it already has Istio
     injected, its pods will not be changed. This time you will use only a single replica of a microservice,
     scaling of the microservices is orthogonal to the demonstrated Istio features.
