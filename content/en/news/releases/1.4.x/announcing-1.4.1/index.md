@@ -6,7 +6,6 @@ description: Istio 1.4.1 patch release.
 publishdate: 2019-12-05
 release: 1.4.1
 aliases:
-    - /news/2019/announcing-1.4.1
     - /news/announcing-1.4.1
 ---
 
