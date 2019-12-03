@@ -24,7 +24,7 @@ serve user requests.
     metadata:
       name: default
     spec:
-      peers:
+      peers: []
     EOF
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
