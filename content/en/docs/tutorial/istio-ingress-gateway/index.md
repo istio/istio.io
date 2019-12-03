@@ -63,7 +63,7 @@ control already at the ingress point, even before the traffic reaches your micro
         - uri:
             exact: /logout
         - uri:
-            prefix: /api/v1/products
+            prefix: /static
         route:
         - destination:
             host: productpage
