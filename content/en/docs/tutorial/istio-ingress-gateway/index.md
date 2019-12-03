@@ -101,7 +101,7 @@ control already at the ingress point, even before the traffic reaches your micro
     constant user traffic in the real world:
 
     {{< text bash >}}
-    $ while :; do curl -s $MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage | grep -o "<title>.*</title>"; sleep 1; done
+    $ while :; do curl -s <output of the previous command> | grep -o "<title>.*</title>"; sleep 1; done
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
