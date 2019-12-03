@@ -76,7 +76,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
           - path: /
             backend:
               serviceName: tracing
-              servicePort: 80
+              servicePort: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
