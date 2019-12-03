@@ -127,7 +127,7 @@ a new version and enable traffic to it for a tester with login name `jason`.
         caption="Kiali Istio Config tab"
         >}}
 
-1.  Click on the `reviews` virtual service to see its visual representation.
+1.  Click on the `reviews` virtual service to see its overview.
 
     {{< image width="80%"
         link="kiali-reviews-virtual-service.png"
