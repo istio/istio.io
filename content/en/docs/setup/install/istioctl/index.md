@@ -57,7 +57,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 `istioctl` for auditing and customization purposes and can be found in the release tar in the
 `install/kubernetes/operator/charts` directory.
 `Istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
-`installPackagePath` to a local filesystem path:
+`installPackagePath` to a local file system path:
 
 {{< text bash >}}
 $ istioctl manifest apply --set installPackagePath=~/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
