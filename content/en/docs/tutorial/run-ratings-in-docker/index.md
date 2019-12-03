@@ -6,7 +6,8 @@ weight: 20
 
 ---
 
-This module shows how you create a [Docker](https://www.docker.com) image and run it locally.
+This module shows how you create a [Docker](https://www.docker.com) image and run it locally. Perform the instructions
+below in the `ratings` directory you worked with in the previous module.
 
 1.  Download a [Dockerfile](https://docs.docker.com/engine/reference/builder/) for the `ratings` microservice.
 
