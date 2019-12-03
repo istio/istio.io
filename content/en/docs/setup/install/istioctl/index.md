@@ -48,6 +48,26 @@ security related configuration parameters:
 $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
+In general, you can use the `--set` flag in `istioctl` as you would with `Helm`. The major difference is you must
+prefix the `Helm` paths with `values.` because this is the path to the `Helm` pass-through API.
+
+## Install from external charts
+
+By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
+`istioctl` for auditing and customization purposes and can be found in the release tar in the
+`install/kubernetes/operator/charts` directory.
+`Istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
+`installPackagePath` to a local filesystem path:
+
+{{< text bash >}}
+$ istioctl manifest apply --set installPackagePath=~/istio-releases/istio-1.4.0/install/kubernetes/operator/charts
+{{< /text >}}
+
+This will result in the same installation as `istioctl manifest apply` alone, because the command above points to the
+same charts as the compiled in ones.
+We recommend using the compiled-in charts rather than external ones because in this way the compatibility of the
+istioctl binary with the charts is guaranteed.
+
 ## Install a different profile
 
 Other Istio configuration profiles can be installed in a cluster by passing the
