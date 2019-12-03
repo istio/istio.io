@@ -37,14 +37,14 @@ In this module you examine the traces of your application.
         caption="Jaeger UI, productpage trace"
         >}}
 
-    You can see the date and the time when the trace was captured and that the whole chain of calls took 29.46 ms.
-    You can see that `productpage` called `details` and that it took 2.33 ms for `details` to return a response.
+    You can see the date and the time when the trace was captured and that the whole chain of calls took 32.55 ms.
+    You can see that `productpage` called `details` and that it took 1.63 ms for `details` to return a response.
     For `productpage`, the time that elapsed between the call to `details` and getting a response from it,
-    was 3.11 ms.
-    `productpage` also called `reviews` which called `ratings`. For `ratings` it took 1.14 ms to return a response,
-    for `reviews`, the time that elapsed between the call to `ratings` and getting a response from it, was 2.12 ms.
-    For `reviews` it took 13.71 ms to return a response. You can see from the trace that the major contribution to the
-    latency of the chain was by `reviews` (13.71 ms out of the whole 29.46 ms).
+    was 2.31 ms.
+    `productpage` also called `reviews` which called `ratings`. For `ratings` it took 0.88 ms to return a response,
+    for `reviews`, the time that elapsed between the call to `ratings` and getting a response from it, was 2.06 ms.
+    For `reviews` it took 7.38 ms to return a response. You can see from the trace that the major contribution to the
+    latency of the chain was by `reviews` (7.38 ms out of the whole 32.55 ms).
 
 Note that most of the Istio features are transparent to applications, which means you need to change neither the
 applications' code nor their container environment.
