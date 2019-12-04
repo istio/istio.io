@@ -1,34 +1,32 @@
 ---
-title: Deploy a Custom Ingress Gateway Using Cert-Manager
-description: Describes how to deploy a custom ingress gateway using cert-manager manually.
-subtitle: Custom ingress gateway
+title: 使用 Cert-Manager 部署一个自定义 Ingress 网关
+description: 如何使用 cert-manager 手工部署一个自定义 Ingress 网关。
+subtitle: 自定义 Ingress 网关
 publishdate: 2019-01-10
 keywords: [ingress,traffic-management]
 attribution: Julien Senon
 target_release: 1.0
 ---
 
-This post provides instructions to manually create a custom ingress [gateway](/zh/docs/reference/config/networking/gateway/) with automatic provisioning of certificates based on cert-manager.
+本文介绍了手工创建自定义 Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 的过程，其中使用 cert-manager 完成了证书的自动管理。
 
-The creation of custom ingress gateway could be used in order to have different `loadbalancer` in order to isolate traffic.
+自定义 Ingress 网关在使用不同负载均衡器来隔离通信的情况下很有帮助。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/zh/docs/setup/).
-* Setup `cert-manager` with helm [chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart)
-* We will use `demo.mydemo.com` for our example,
-  it must be resolved with your DNS
+* 根据 [安装指南](/zh/docs/setup/) 完成 Istio 的部署。
+* 用 Helm [Chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart) 部署 `cert-manager`。
+* 我们会使用 `demo.mydemo.com` 进行演示，因此你的 DNS 解析要能够解析这个域名。
 
-## Configuring the custom ingress gateway
+## 配置自定义 Ingress 网关{#configuring-the-custom-ingress-gateway}
 
-1. Check if [cert-manager](https://github.com/helm/charts/tree/master/stable/cert-manager) was installed using Helm with the following command:
+1. 用下面的 `helm` 命令检查 [cert-manager](https://github.com/helm/charts/tree/master/stable/cert-manager) 是否已经完成部署：
 
     {{< text bash >}}
     $ helm ls
     {{< /text >}}
 
-    The output should be similar to the example below and show cert-manager with a `STATUS` of `DEPLOYED`:
+    该命令的输出大概如下所示，其中的 `cert-manager` 的 `STATUS` 字段应该是 `DEPLOYED`
 
     {{< text plain >}}
     NAME   REVISION UPDATED                  STATUS   CHART                     APP VERSION   NAMESPACE
@@ -36,10 +34,10 @@ The creation of custom ingress gateway could be used in order to have different 
     cert      1     Wed Oct 24 14:08:36 2018 DEPLOYED cert-manager-v0.6.0-dev.2 v0.6.0-dev.2  istio-system
     {{< /text >}}
 
-1. To create the cluster's issuer, apply the following configuration:
+1. 要创建集群的证书签发者，可以使用如下的配置：
 
     {{< tip >}}
-    Change the cluster's [issuer](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html) provider with your own configuration values. The example uses the values under `route53`.
+    用自己的配置修改集群的 [证书签发者](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html)。例子中使用的是 `route53`。
     {{< /tip >}}
 
     {{< text yaml >}}
@@ -50,15 +48,15 @@ The creation of custom ingress gateway could be used in order to have different 
       namespace: kube-system
     spec:
       acme:
-        # The ACME server URL
+        # ACME 服务器地址
         server: https://acme-v02.api.letsencrypt.org/directory
-        # Email address used for ACME registration
+        # ACME 注册的 Email 地址
         email: <REDACTED>
-        # Name of a secret used to store the ACME account private key
+        # Secret 的名字，用于保存 ACME 账号的私钥
         privateKeySecretRef:
           name: letsencrypt-demo
         dns01:
-          # Here we define a list of DNS-01 providers that can solve DNS challenges
+          # 这里定义了一个列表，包含了 DNS-01 的相关内容，用于应对 DNS Challenge。
           providers:
           - name: your-dns
             route53:
@@ -69,7 +67,7 @@ The creation of custom ingress gateway could be used in order to have different 
                 key: secret-access-key
     {{< /text >}}
 
-1. If you use the `route53` [provider](https://cert-manager.readthedocs.io/en/latest/tasks/acme/configuring-dns01/route53.html), you must provide a secret to perform DNS ACME Validation. To create the secret, apply the following configuration file:
+1. 如果使用的是 `route53` [provider](https://cert-manager.readthedocs.io/en/latest/tasks/acme/configuring-dns01/route53.html)，必须提供一个 Secret 来进行 DNS 的 ACME 验证。可以使用下面的配置来创建需要的 Secret：
 
     {{< text yaml >}}
     apiVersion: v1
@@ -81,7 +79,7 @@ The creation of custom ingress gateway could be used in order to have different 
       secret-access-key: <REDACTED BASE64>
     {{< /text >}}
 
-1. Create your own certificate:
+1. 创建自己的证书：
 
     {{< text yaml >}}
     apiVersion: certmanager.k8s.io/v1alpha1
@@ -105,9 +103,9 @@ The creation of custom ingress gateway could be used in order to have different 
       secretName: istio-customingressgateway-certs
     {{< /text >}}
 
-    Make a note of the value of `secretName` since a future step requires it.
+    记录一下 `secretName` 的值，后面会使用它。
 
-1. To scale automatically, declare a new horizontal pod autoscaler with the following configuration:
+1. 要进行自动扩容，可以新建一个 HPA 对象：
 
     {{< text yaml >}}
     apiVersion: autoscaling/v1
@@ -129,16 +127,16 @@ The creation of custom ingress gateway could be used in order to have different 
       desiredReplicas: 1
     {{< /text >}}
 
-1. Apply your deployment with declaration provided in the [yaml definition](/zh/blog/2019/custom-ingress-gateway/deployment-custom-ingress.yaml)
+1. 使用 [附件 YAML 中的定义](/zh/blog/2019/custom-ingress-gateway/deployment-custom-ingress.yaml)进行部署。
 
     {{< tip >}}
-    The annotations used, for example `aws-load-balancer-type`, only apply for AWS.
+    其中类似 `aws-load-balancer-type` 这样的注解，只对 AWS 生效。
     {{< /tip >}}
 
-1. Create your service:
+1. 创建你的服务：
 
     {{< warning >}}
-    The `NodePort` used needs to be an available port.
+    `NodePort` 需要是一个可用端口。
     {{< /warning >}}
 
     {{< text yaml >}}
@@ -172,7 +170,7 @@ The creation of custom ingress gateway could be used in order to have different 
           port: 31400
     {{< /text >}}
 
-1. Create your Istio custom gateway configuration object:
+1. 创建你的自定义 Ingress 网关配置对象：
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
@@ -205,7 +203,7 @@ The creation of custom ingress gateway could be used in order to have different 
           serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
     {{< /text >}}
 
-1. Link your `istio-custom-gateway` with your `VirtualService`:
+1. 使用 `VirtualService` 连接 `istio-custom-gateway`：
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1alpha3
@@ -223,7 +221,7 @@ The creation of custom ingress gateway could be used in order to have different 
             host: my-demoapp
     {{< /text >}}
 
-1. Correct certificate is returned by the server and it is successfully verified (_SSL certificate verify ok_ is printed):
+1. 服务器返回了正确的证书，并成功完成验证（`SSL certificate verify ok`）：
 
     {{< text bash >}}
     $ curl -v `https://demo.mydemo.com`
@@ -231,4 +229,4 @@ The creation of custom ingress gateway could be used in order to have different 
       SSL certificate verify ok.
     {{< /text >}}
 
-**Congratulations!** You can now use your custom `istio-custom-gateway` [gateway](/zh/docs/reference/config/networking/gateway/) configuration object.
+**恭喜你！** 现在你可以使用自定义的 `istio-custom-gateway` [网关](/zh/docs/reference/config/networking/gateway/) 对象了。

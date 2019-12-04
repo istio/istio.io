@@ -1,122 +1,121 @@
 ---
-title: Egress Gateway Performance Investigation
-description: Verifies the performance impact of adding an egress gateway.
+title: Egress gateway 性能测试
+description: 评估加入 Egress gateway 对性能造成的影响。
 publishdate: 2019-01-31
-subtitle: An Istio Egress Gateway performance assessment
+subtitle: Istio Egress gateway 性能评估
 attribution: Jose Nativio, IBM
 keywords: [performance,traffic-management,egress,mongo]
 target_release: 1.0
 ---
 
-The main objective of this investigation was to determine the impact on performance and resource utilization when an egress gateway is added in the service mesh to access an external service (MongoDB, in this case). The steps to configure an egress gateway for an external MongoDB are described in the blog [Consuming External MongoDB Services](/zh/blog/2018/egress-mongo/).
+为了从网格中访问外部服务（本例中使用的是 MongoDB），需要加入 Egress gateway，本次测试的主要目的就是调查这一行为对性能和资源使用造成的影响。在博客 [使用外部 MongoDB 服务](/zh/blog/2018/egress-mongo/) 中介绍了为外部 MongoDB 配置 Egress gateway 的具体步骤。
 
-The application used for this investigation was the Java version of Acmeair, which simulates an airline reservation system. This application is used in the Performance Regression Patrol of Istio daily builds, but on that setup the microservices have been accessing the external MongoDB directly via their sidecars, without an egress gateway.
+本次测试中使用的应用是 Acmeair 的 Java 版，这个应用会模拟一个航空订票系统。在 Istio 的每日构建中会使用该应用来进行性能的回归测试，但是在回归测试过程中，这些应用会使用自己的 Sidecar 来访问外部的 MongoDB，而不是 Egress gateway。
 
-The diagram below illustrates how regression patrol currently runs with Acmeair and Istio:
+下图描述了目前的 Istio 回归测试过程中，Acmeair 应用的运行方式：
 
 {{< image width="70%"
     link="./acmeair_regpatrol3.png"
-    caption="Acmeair benchmark in the Istio performance regression patrol environment"
+    caption="在 Istio 性能回归测试环境中的 Acmeair 基准测试"
     >}}
 
-Another difference is that the application communicates with the external DB with plain MongoDB protocol. The first change made for this study was to establish a TLS communication between the MongoDB and its clients running within the application, as this is a more realistic scenario.
+还有一个差别就是，这一应用和外部数据库使用的是明文的 MongoDB 协议。本文中的第一个变化就是将应用到外部 MongoDB 之间的连接升级为 TLS 模式，以体现更贴近实际情况的场景。
 
-Several cases for accessing the external database from the mesh were tested and described next.
+下面会讲到一些从网格中访问外部数据库的具体案例。
 
-## Egress traffic cases
+## Egress 流量案例{#egress-traffic-cases}
 
-### Case 1:  Bypassing the sidecar
+### 案例 1：绕过 Sidecar{#case-1-bypassing-the-sidecar}
 
-In this case, the sidecar does not intercept the communication between the application and the external DB. This is accomplished by setting the init container argument -x with the CIDR of the MongoDB, which makes the sidecar ignore messages to/from this IP address. For example:
+在这个案例中，Sidecar 对应用和外部数据库之间的通信不做拦截。这一配置是通过初始化容器中的 `-x` 参数来完成的，将其内容设置为 MongoDB 的 CIDR 即可。这种做法导致 Sidecar 忽略流入/流出指定 IP 地址的流量。举例来说：
 
         - -x
         - "169.47.232.211/32"
 
 {{< image width="70%"
     link="./case1_sidecar_bypass3.png"
-    caption="Traffic to external MongoDB by-passing the sidecar"
+    caption="绕过 Sidecar 和外部 MongoDB 进行通信"
     >}}
 
-### Case 2: Through the sidecar, with service entry
+### 案例 2：使用 Service Entry，通过 Sidecar 完成访问{#case-2-through-the-sidecar-with-service-entry}
 
-This is the default configuration when the sidecar is injected into the application pod. All messages are intercepted by the sidecar and routed to the destination according to the configured rules, including the communication with external services. The MongoDB was defined as a `ServiceEntry`.
+在 Sidecar 已经注入到应用 Pod 之后，这种方式是缺省（访问外部服务）的方式。所有的流量都被 Sidecar 拦截，然后根据配置好的规则路由到目的地，这里所说的目的地也包含了外部服务。下面为 MongoDB 配置一个 `ServiceEntry`。
 
 {{< image width="70%"
     link="./case2_sidecar_passthru3.png"
-    caption="Sidecar intercepting traffic to external MongoDB"
+    caption="Sidecar 拦截对外部 MongoDB 的流量"
     >}}
 
-### Case 3: Egress gateway
+### 案例 3: Egress gateway{#case-3-egress-gateway}
 
-The egress gateway and corresponding destination rule and virtual service resources are defined for accessing MongoDB. All traffic to and from the external DB goes through the egress gateway (envoy).
+配置 Egress gateway 以及配套的 Destination rule 和 Virtual service，用于访问 MongoDB。所有进出外部数据库的流量都从 Egress gateway（Envoy）通过。
 
 {{< image width="70%"
     link="./case3_egressgw3.png"
-    caption="Introduction of the egress gateway to access MongoDB"
+    caption="使用 Egress gateway 访问 MongoDB"
     >}}
 
-### Case 4: Mutual TLS between sidecars and the egress gateway
+### 案例 4：在 Sidecar 和 Egress gateway 之间的双向 TLS{#case-4-mutual-TLS-between-sidecars-and-the-egress-gateway}
 
-In this case, there is an extra layer of security between the sidecars and the gateway, so some impact in performance is expected.
+这种方式中，在 Sidecar 和 Gateway 之中多出了一个安全层，所以会影响性能。
 
 {{< image width="70%"
     link="./case4_egressgw_mtls3.png"
-    caption="Enabling mutual TLS between sidecars and the egress gateway"
+    caption="在 Sidecar 和 Egress gateway 之间启用双向 TLS"
     >}}
 
-### Case 5: Egress gateway with SNI proxy
+### 案例 5：带有 SNI proxy 的 Egress gateway{#case-5-egress-gateway-with-SNI-proxy}
 
-This scenario is used to evaluate the case where another proxy is required to access wildcarded domains. This may be required due current limitations of envoy. An nginx proxy was created as sidecar in the egress gateway pod.
+这个场景中，因为 Envoy 目前存在的一些限制，需要另一个代理来访问通配符域名。这里创建了一个 Nginx 代理，在 Egress gateway Pod 中作为 Sidecar 来使用。
 
 {{< image width="70%"
     link="./case5_egressgw_sni_proxy3.png"
-    caption="Egress gateway with additional SNI Proxy"
+    caption="带有 SNI proxy 的 Egress gateway"
     >}}
 
-## Environment
+## 环境{#environment}
 
-* Istio version: 1.0.2
-* `K8s` version: `1.10.5_1517`
-* Acmeair App: 4 services (1 replica of each), inter-services transactions, external Mongo DB, avg payload: 620 bytes.
+* Istio 版本： 1.0.2
+* `K8s` 版本：`1.10.5_1517`
+* Acmeair 应用：4 个服务（每个服务一个实例），跨服务事务，外部 MongoDB，平均载荷：620 字节。
 
-## Results
+## 结果{#results}
 
-`Jmeter` was used to generate the workload which consisted in a sequence of 5-minute runs, each one using a growing number of clients making http requests. The number of clients used were 1, 5, 10, 20, 30, 40, 50 and 60.
+使用 `Jmeter` 来生成负载，负载包含了一组持续五分钟的访问，每个阶段都会逐步提高客户端数量来发出 http 请求。客户端数量为：1、5、10、20、30、40、50 和 60。
 
-### Throughput
+### 吞吐量{#throughput}
 
-The chart below shows the throughput obtained for the different cases:
+下图展示了不同案例中的吞吐量：
 
 {{< image width="75%"
     link="./throughput3.png"
-    caption="Throughput obtained for the different cases"
+    caption="不同案例中的吞吐量"
     >}}
 
-As you can see, there is no major impact in having sidecars and the egress gateway between the application and the external MongoDB, but enabling mutual TLS and then adding the SNI proxy caused a degradation in the throughput of about 10% and 24%, respectively.
+如图可见，在应用和外部数据库中加入 Sidecar 和 Egress gateway 并没有对性能产生太大影响；但是启用双向 TLS、又加入 SNI 代理之后，吞吐量分别下降了 10% 和 24%。
 
-### Response time
+### 响应时间{#response-time}
 
-The average response times for the different requests were collected when traffic was being driven with 20 clients. The chart below shows the average, median, 90%, 95% and 99% average values for each case:
+在 20 客户端的情况下，我们对不同请求的平均响应时间也进行了记录。下图展示了各个案例中平均、中位数、90%、95% 以及 99% 百分位的响应时间。
 
 {{< image width="75%"
     link="./response_times3.png"
-    caption="Response times obtained for the different configurations"
+    caption="不同配置中的响应时间"
     >}}
 
-Likewise, not much difference in the response times for the 3 first cases, but mutual TLS and the extra proxy adds noticeable latency.
+跟吞吐量类似，前面三个案例的响应时间没有很大区别，但是双向 TLS 和 额外的代理造成了明显的延迟。
 
-### CPU utilization
+### CPU 用量{#CPU-utilization}
 
-The CPU usage was collected for all Istio components as well as for the sidecars during the runs. For a fair comparison, CPU used by Istio was normalized by the throughput obtained for a given run. The results are shown in the following graph:
+运行过程中还搜集了所有 Istio 组件以及 Sidecar 的 CPU 使用情况。为了公平起见，用吞吐量对 Istio 的 CPU 用量进行了归一化。下图中展示了这一结果：
 
 {{< image width="75%"
     link="./cpu_usage3.png"
-    caption="CPU usage normalized by TPS"
+    caption="使用 TPS 进行归一化的 CPU 用量"
     >}}
 
-In terms of CPU consumption per transaction, Istio has used significantly more CPU only in the egress gateway + SNI proxy case.
+经过归一化处理之后的 CPU 用量数据表明，Istio 在使用 Egress gateway + SNI 代理的情况下，消耗了更多的 CPU。
 
-## Conclusion
+## 结论{#conclusion}
 
-In this investigation, we tried different options to access an external TLS-enabled MongoDB to compare their performance. The introduction of the Egress Gateway did not have a significant impact on the performance nor meaningful additional CPU consumption. Only when enabling mutual TLS between sidecars and egress gateway or using an additional SNI proxy for wildcarded domains we could observe some degradation.
-
+在这一系列的测试之中，我们用不同的方式来访问一个启用了 TLS 的 MongoDB 来进行性能对比。Egress gateway 的引用没有对性能和 CPU 消耗的显著影响。但是启用了 Sidecar 和 Egress gateway 之间的双向 TLS 或者为通配符域名使用了额外的 SNI 代理之后，会看到性能降级的现象。
