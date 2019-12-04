@@ -77,7 +77,7 @@ istio-system   tcpkubeattrgenrulerule    4h
 
 作为参考，请参阅 [Prometheus 的默认规则]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
 
-### 验证 Prometheus handler 配置是否存在(#verify-the-Prometheus-handler-configuration-exists)
+### 验证 Prometheus handler 配置是否存在{#verify-the-Prometheus-handler-configuration-exists}
 
 1. 在 Kubernetes 环境中，执行以下命令：
 
