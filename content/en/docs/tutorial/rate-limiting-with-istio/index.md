@@ -123,7 +123,8 @@ more failures and making the application or parts of it unavailable.
     {{< /text >}}
 
 1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace. Select the
+    `Requests per second` drop-down menu option.
 
     Notice the _v-flooding_ version of `productpage`.
 
