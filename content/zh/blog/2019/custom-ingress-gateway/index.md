@@ -37,7 +37,7 @@ target_release: 1.0
 1. 要创建集群的证书签发者，可以使用如下的配置：
 
     {{< tip >}}
-    用自己的配置修改集群的 [证书签发者](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html#issuers)。例子中使用的是 `route53`。
+    用自己的配置修改集群的 [证书签发者](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html)。例子中使用的是 `route53`。
     {{< /tip >}}
 
     {{< text yaml >}}
