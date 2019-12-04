@@ -8,7 +8,7 @@ title: 检查信息是否格式化
 <level> [<code>] (<affected-resource>) <message-details>
 {{< /text >}}
 
-`<affected-resource>` 字段的详细输出：
+像 `<affected-resource>` 字段的详细格式如下：
 
 {{< text plain >}}
 <resource-kind> <resource-name>.<resource-namespace>
