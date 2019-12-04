@@ -84,3 +84,9 @@ stars look better in Firefox and you want to check your hypothesis, by directing
     $ curl -s $MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage  -H"User-Agent: Firefox" | grep color | uniq
      <font color="black">
     {{< /text >}}
+
+1.  For the following modules, restore distributing the traffic 50:50 between _reviews v2_ and _reviews v3_.
+
+    {{< text bash >}}
+    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/virtual-service-reviews-v2-v3.yaml
+    {{< /text >}}
