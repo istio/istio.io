@@ -12,7 +12,7 @@ RBAC 策略中的约束和属性已经被 `AuthorizationPolicy` 中的条件取�
 
 本节包含支持格式化的键和值，你可以将其用作于服务角色和服务角色绑定配置对象中的约束和属性。约束和属性是额外的条件，你可以指定配置对象 `kind:` 字段的值为 `ServiceRole` 或 `ServiceRoleBinding`，以指定详细的访问控制要求。
 
-具体来讲，你可以使用 `service role 中 `access rule` 字段的 `constraints` 来指定额外的条件，也可以使用 `service role binding` 中 `subject` 字段的 `properties` 来指定额外的条件。`Istio` 支持此在此页面上列出的所有 `HTTP` 协议密钥，但是仅支持一些简单的 `TCP` 协议密钥。
+具体来讲，你可以使用 `service role` 中 `access rule` 字段的 `constraints` 来指定额外的条件，也可以使用 `service role binding` 中 `subject` 字段的 `properties` 来指定额外的条件。`Istio` 支持此在此页面上列出的所有 `HTTP` 协议密钥，但是仅支持一些简单的 `TCP` 协议密钥。
 
 {{< warning >}}
 不支持的键和值将被忽略。
