@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-002
 subtitle: Security Bulletin
-description: Denial of service affecting JWT access token parsing in versions 1.0 to 1.0.8, 1.1 to 1.1.9, and 1.2 to 1.2.1 of Istio.
+description: Denial of service affecting JWT access token parsing.
 cves: [CVE-2019-12995]
 cvss: "7.5"
 vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C"

@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-004
 subtitle: Security Bulletin
-description: Multiple denial of service vulnerabilities related to HTTP2 support in Envoy. This affects Istio versions 1.1 to 1.1.12 and 1.2 to 1.2.3.
+description: Multiple denial of service vulnerabilities related to HTTP2 support in Envoy.
 cves: [CVE-2019-9512, CVE-2019-9513, CVE-2019-9514, CVE-2019-9515, CVE-2019-9518]
 cvss: "7.5"
 vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"

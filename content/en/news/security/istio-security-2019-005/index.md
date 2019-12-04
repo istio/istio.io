@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-005
 subtitle: Security Bulletin
-description: Denial of service caused by the presence of numerous HTTP headers. This affects Istio 1.1 to 1.1.15, 1.2 to 1.2.6 and 1.3 to 1.3.1.
+description: Denial of service caused by the presence of numerous HTTP headers in client requests.
 cves: [CVE-2019-15226]
 cvss: "7.5"
 vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
