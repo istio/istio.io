@@ -35,7 +35,7 @@ RBAC 策略中的约束和属性已经被 `AuthorizationPolicy` 中的条件取�
 | `request.headers` | `HTTP` 请求头，需要用 `[]` 括起来 | NO | `request.headers[X-Custom-Token]` | `["abc123"]` |
 
 {{< warning >}}
-请注意，无法保证 `experimental.*` 密钥向后的兼容性，可以随时将它们删除，须谨慎操作。
+请注意，无法保证 `experimental.*` 密钥向后的兼容性，可以随时删除它们，但是须要谨慎操作。
 {{< /warning >}}
 
 ## 支持的属性{#supported-properties}
