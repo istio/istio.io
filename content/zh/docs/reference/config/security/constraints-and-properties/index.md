@@ -1,62 +1,54 @@
 ---
-title: RBAC Constraints and Properties (deprecated)
-description: Describes the supported constraints and properties.
+title: RBAC 约束和属性（不建议使用）
+description: 受支持的约束条件和属性。
 weight: 50
 aliases:
     - /zh/docs/reference/config/security/constraints-and-properties/
 ---
 
 {{< warning >}}
-The constraints and properties in the RBAC policy are deprecated by the conditions in
-the `AuthorizationPolicy`. Please use the conditions in `AuthorizationPolicy` resources,
-this page is for reference only and will be removed in the future.
+RBAC 策略中的约束和属性已经被 `AuthorizationPolicy` 中的条件取代。 请使用 `AuthorizationPolicy` 资源中的条件，此页面仅供参考，以后将被删除。
 {{< /warning >}}
 
-This section contains the supported keys and value formats you can use as constraints and properties
-in the service roles and service role bindings configuration objects.
-Constraints and properties are extra conditions you can add as fields in configuration objects with
-a `kind:` value of `ServiceRole` and `ServiceRoleBinding` to specify detailed access control requirements.
+本节包含支持格式化的键和值，你可以将其用作于服务角色和服务角色绑定配置对象中的约束和属性。约束和属性是额外的条件，你可以指定配置对象 `kind:` 字段的值为 `ServiceRole` 或 `ServiceRoleBinding`，以指定详细的访问控制要求。
 
-Specifically, you can use constraints to specify extra conditions in the access rule field of a service
-role. You can use properties to specify extra conditions in the subject field of a service role binding.
-Istio supports all keys listed on this page for the HTTP protocol but supports only some for the plain TCP protocol.
+具体来讲，你可以使用 `service role` 中 `access rule` 字段的 `constraints` 来指定额外的条件，也可以使用 `service role binding` 中 `subject` 字段的 `properties` 来指定额外的条件。`Istio` 支持此在此页面上列出的所有 `HTTP` 协议密钥，但是仅支持一些简单的 `TCP` 协议密钥。
 
 {{< warning >}}
-Unsupported keys and values will be ignored silently.
+不支持的键和值将被忽略。
 {{< /warning >}}
 
-For more information, refer to the [authorization concept page](/zh/docs/concepts/security/#authorization).
+有关更多信息，请参阅 [授权概念页面](/zh/docs/concepts/security/#authorization)。
 
-## Supported constraints
+## 支持的约束{#supported-constraints}
 
-The following table lists the currently supported keys for the `constraints` field:
+下表列出了该 `constraints` 字段当前支持的键：
 
-| Name | Description | Supported for TCP services | Key Example | Values Example |
+| 名称 | 描述 | 是否支持 `TCP` 协议 | 示例键 | 示例值 |
 |------|-------------|----------------------------|-------------|----------------|
-| `destination.ip` | Destination workload instance IP address, supports single IP or CIDR | YES | `destination.ip` |  `["10.1.2.3", "10.2.0.0/16"]` |
-| `destination.port` | The recipient port on the server IP address, must be in the range [0, 65535] | YES | `destination.port` | `["80", "443"]` |
-| `destination.labels` | A map of key-value pairs attached to the server instance | YES | `destination.labels[version]` | `["v1", "v2"]` |
-| `destination.namespace` | Destination workload instance namespace | YES | `destination.namespace` | `["default"]` |
-| `destination.user` | The identity of the destination workload | YES | `destination.user` | `["bookinfo-productpage"]` |
-| `experimental.envoy.filters.*` | Experimental metadata matching for filters, values wrapped in `[]` are matched as a list | YES | `experimental.envoy.filters.network.mysql_proxy[db.table]` | `["[update]"]` |
-| `request.headers` | HTTP request headers, The actual header name is surrounded by brackets | NO | `request.headers[X-Custom-Token]` | `["abc123"]` |
+| `destination.ip` | 目标 `IP` 地址，支持单个 `IP` 或 `CIDR` | YES | `destination.ip` |  `["10.1.2.3", "10.2.0.0/16"]` |
+| `destination.port` | 目标 `IP` 地址上的端口，必须在 `[0，65535]` 范围内 | YES | `destination.port` | `["80", "443"]` |
+| `destination.labels` | 附加到服务器实例的键值对的映射 | YES | `destination.labels[version]` | `["v1", "v2"]` |
+| `destination.namespace` | 目标负载实例命名空间 | YES | `destination.namespace` | `["default"]` |
+| `destination.user` | 目标负载上的标识 | YES | `destination.user` | `["bookinfo-productpage"]` |
+| `experimental.envoy.filters.*` | 用于过滤器的实验性元数据匹配，包裹在 `[]` 列表中的值被用于匹配 | YES | `experimental.envoy.filters.network.mysql_proxy[db.table]` | `["[update]"]` |
+| `request.headers` | `HTTP` 请求头，需要用 `[]` 括起来 | NO | `request.headers[X-Custom-Token]` | `["abc123"]` |
 
 {{< warning >}}
-Note that no backward compatibility is guaranteed for the `experimental.*` keys. They may be removed
-at any time, and customers are advised to use them at their own risk.
+请注意，无法保证 `experimental.*` 密钥向后的兼容性，可以随时删除它们，但是须要谨慎操作。
 {{< /warning >}}
 
-## Supported properties
+## 支持的属性{#supported-properties}
 
-The following table lists the currently supported keys for the `properties` field:
+下表列出了该 `properties` 字段当前支持的键：
 
-| Name | Description | Supported for TCP services | Key Example | Value Example |
+| 名称 | 描述 | 是否支持 `TCP` 协议 | 示例键 | 示例值 |
 |------|-------------|----------------------------|-------------|---------------|
-| `source.ip`  | Source workload instance IP address, supports single IP or CIDR | YES | `source.ip` | `"10.1.2.3"` |
-| `source.namespace`  | Source workload instance namespace | YES | `source.namespace` | `"default"` |
-| `source.principal` | The identity of the source workload | YES | `source.principal` | `"cluster.local/ns/default/sa/productpage"` |
-| `request.headers` | HTTP request headers. The actual header name is surrounded by brackets | NO | `request.headers[User-Agent]` | `"Mozilla/*"` |
-| `request.auth.principal` | The authenticated principal of the request. | NO | `request.auth.principal` | `"accounts.my-svc.com/104958560606"` |
-| `request.auth.audiences` | The intended audience(s) for this authentication information | NO | `request.auth.audiences` | `"my-svc.com"` |
-| `request.auth.presenter` | The authorized presenter of the credential | NO | `request.auth.presenter` | `"123456789012.my-svc.com"` |
-| `request.auth.claims` | Claims from the origin JWT. The actual claim name is surrounded by brackets | NO | `request.auth.claims[iss]` | `"*@foo.com"` |
+| `source.ip`  | 源 `IP` 地址，支持单个 `IP` 或 `CIDR` | YES | `source.ip` | `"10.1.2.3"` |
+| `source.namespace`  | 源负载实例命名空间 | YES | `source.namespace` | `"default"` |
+| `source.principal` | 源负载的标识 | YES | `source.principal` | `"cluster.local/ns/default/sa/productpage"` |
+| `request.headers` | `HTTP` 请求头，需要用 `[]` 括起来 | NO | `request.headers[User-Agent]` | `"Mozilla/*"` |
+| `request.auth.principal` | 已认证过 `principal` 的请求。 | NO | `request.auth.principal` | `"accounts.my-svc.com/104958560606"` |
+| `request.auth.audiences` | 此身份验证信息的目标主体 | NO | `request.auth.audiences` | `"my-svc.com"` |
+| `request.auth.presenter` | 证书的颁发者 | NO | `request.auth.presenter` | `"123456789012.my-svc.com"` |
+| `request.auth.claims` | `Claims` 来源于 `JWT`。需要用 `[]` 括起来 | NO | `request.auth.claims[iss]` | `"*@foo.com"` |
