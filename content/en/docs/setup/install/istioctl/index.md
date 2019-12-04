@@ -57,7 +57,7 @@ prefix the `Helm` paths with `values.` because this is the path to the `Helm` pa
 By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
 `istioctl` for auditing and customization purposes and can be found in the release tar in the
 `install/kubernetes/operator/charts` directory.
-`Istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
+`istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
 `installPackagePath` to a local file system path:
 
 {{< text bash >}}
