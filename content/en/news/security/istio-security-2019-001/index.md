@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-001
 subtitle: Security Bulletin
-description: Security vulnerability disclosure for CVE-2019-12243.
+description: Incorrect access control.
 cves: [CVE-2019-12243]
 cvss: "8.9"
 vector: "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
