@@ -1,6 +1,6 @@
 ---
-title: Traffic Mirroring with Istio for Testing in Production
-description: An introduction to safer, lower-risk deployments and release to production.
+title: 用于在生产环境进行测试的 Istio 流量镜像功能
+description: 介绍更安全，低风险的部署和发布到生产。
 publishdate: 2018-02-08
 subtitle: Routing rules for HTTP traffic
 attribution: Christian Posta
@@ -8,9 +8,9 @@ keywords: [traffic-management,mirroring]
 target_release: 0.5
 ---
 
-Trying to enumerate all the possible combinations of test cases for testing services in non-production/test environments can be daunting. In some cases, you'll find that all of the effort that goes into cataloging these use cases doesn't match up to real production use cases. Ideally, we could use live production use cases and traffic to help illuminate all of the feature areas of the service under test that we might miss in more contrived testing environments.
+在非生产/测试环境中，尝试穷举一个服务所有可能的测试用例组合是个令人望而生畏的任务, 在某些情况下，您会发现编写这些用例的所有工作都与实际生产用例不匹配, 理想情况下，我们可以使用实时生产用例和流量来帮助说明我们可能在更人为的测试环境中错过的所测试服务的所有功能区域。
 
-Istio can help here. With the release of [Istio 0.5](/zh/news/releases/0.x/announcing-0.5), Istio can mirror traffic to help test your services. You can write route rules similar to the following to enable traffic mirroring:
+Istio 可以在这里提供帮助, 随着[Istio 0.5.0](/zh/news/releases/0.x/announcing-0.5)的发布，Istio 可以镜像流量来帮助测试您的服务, 您可以编写类似于以下内容的路由规则来启用流量镜像：
 
 {{< text yaml >}}
 apiVersion: config.istio.io/v1alpha2
@@ -34,11 +34,11 @@ spec:
       version: v2
 {{< /text >}}
 
-A few things to note here:
+这里有几点需要注意：
 
-* When traffic gets mirrored to a different service, that happens outside the critical path of the request
-* Responses to any mirrored traffic is ignored; traffic is mirrored as "fire-and-forget"
-* You'll need to have the 0-weighted route to hint to Istio to create the proper Envoy cluster under the covers; [this should be ironed out in future releases](https://github.com/istio/istio/issues/3270).
+* 当流量镜像到不同的服务时，会发生在请求的关键路径之外
+* 忽略对任何镜像流量的响应; 流量被视为"即发即忘”
+* 必须创建一个权重为 0 的路由，让 Istio 据此通知 Envoy 创建对应的集群定义; [这应该在未来的版本中解决](https://github.com/istio/istio/issues/3270)。
 
-Learn more about mirroring by visiting the [Mirroring Task](/zh/docs/tasks/traffic-management/mirroring/) and see a more
-[comprehensive treatment of this scenario on my blog](https://dzone.com/articles/traffic-shadowing-with-istio-reducing-the-risk-of).
+访问[镜像任务](/zh/docs/tasks/traffic-management/mirroring/)了解有关镜像的更多信息，并查看更多信息
+[在我的博客上综合处理这种情况](https://dzone.com/articles/traffic-shadowing-with-istio-reducing-the-risk-of).
