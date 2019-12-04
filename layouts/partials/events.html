@@ -1,0 +1,86 @@
+{{- $page := .page -}}
+{{- $kind := .kind -}}
+{{- $now := now }}
+
+{{- $bundle := $page.Page.GetPage "/events" -}}
+{{- with $bundle -}}
+    {{- $events := .Resources.Match (printf "%ss/**.md" $kind) -}}
+    {{- if gt (len $events) 0 -}}
+        <div class="{{ printf "%s-container" $kind }}">
+            {{- range $events -}}
+
+                {{- if .Params.draft -}}
+                    {{/* do nothing */}}
+                {{- else -}}
+                    {{ $periodStart := $now }}
+                    {{- if eq .Params.period_start "latest_release" -}}
+                        {{/* find the latest release note and get its publication date as the period start */}}
+                        {{- range .Site.Pages -}}
+                            {{- if eq .Page.Params.release .Site.Data.args.full_version -}}
+                                {{- if not .Page.Params.draft -}}
+                                    {{- $periodStart = .PublishDate -}}
+                                {{- end -}}
+                            {{- end -}}
+                        {{- end -}}
+                    {{- else -}}
+                        {{ $periodStart = time .Params.period_start }}
+                    {{- end -}}
+
+                    {{ $periodEnd := $periodStart }}
+                    {{- if .Params.period_duration -}}
+                        {{- $periodEnd = $periodStart.AddDate 0  0 .Params.period_duration -}}
+                    {{- else -}}
+                        {{ $periodEnd = time .Params.period_end }}
+                    {{- end -}}
+
+                    {{- if lt $now $periodEnd -}}
+
+                        {{- $periodStart = $periodStart.UTC -}}
+                        {{- $periodEnd = $periodEnd.UTC -}}
+
+                        {{- if .Params.link -}}
+                            <a href="{{ .Params.link }}"
+                            class="{{ $kind }}"
+                            data-title="{{- .Params.title -}}"
+                            data-period-start='{{ div $periodStart.UnixNano 1000000 }}'
+                            data-period-end='{{ div $periodEnd.UnixNano 1000000 }}'
+                            data-max-impressions="{{ .Params.max_impressions }}"
+                            data-timeout="{{ .Params.timeout }}">
+                        {{- else -}}
+                            <div
+                            class="{{ $kind }}"
+                            data-title="{{- .Params.title -}}"
+                            data-period-start='{{ div $periodStart.UnixNano 1000000 }}'
+                            data-period-end='{{ div $periodEnd.UnixNano 1000000 }}'
+                            data-max-impressions="{{ .Params.max_impressions }}"
+                            data-timeout="{{ .Params.timeout }}">
+                        {{- end -}}
+
+                        {{- if eq $kind "sticker" -}}
+                            <div class="left"></div>
+                            <div class="right"></div>
+
+                            <div class="wrap">
+                                <div class="content">
+                                    {{ .Content | markdownify }}
+                                </div>
+                            </div>
+                            <div class="frame"></div>
+                        {{- else -}}
+                            <div class="content">
+                                {{ .Content | markdownify }}
+                            </div>
+                            <div class="frame"></div>
+                        {{- end -}}
+
+                        {{- if .Params.link -}}
+                            </a>
+                        {{- else -}}
+                            </div>
+                        {{- end -}}
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+        </div>
+    {{- end -}}
+{{- end -}}
