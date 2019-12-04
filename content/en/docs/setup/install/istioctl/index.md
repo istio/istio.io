@@ -48,7 +48,8 @@ security related configuration parameters:
 $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
-In general, you can use the `--set` flag in `istioctl` as you would with `Helm`. The major difference is you must
+In general, you can use the `--set` flag in `istioctl` as you would with
+[Helm](/docs/setup/install/helm/). The only difference is you must
 prefix the `Helm` paths with `values.` because this is the path to the `Helm` pass-through API.
 
 ## Install from external charts
