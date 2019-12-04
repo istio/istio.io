@@ -1,15 +1,14 @@
 ---
-title: Analyzer Message Format
+title: 检查信息是否格式化
 ---
 
-The `istioctl analyze` command provides messages in the format:
 该 `istioctl analyze` 命令规定以下格式：
 
 {{< text plain >}}
 <level> [<code>] (<affected-resource>) <message-details>
 {{< /text >}}
 
-The `<affected-resource>` field expands to:
+`<affected-resource>` 字段的详细输出:
 
 {{< text plain >}}
 <resource-kind> <resource-name>.<resource-namespace>
@@ -21,4 +20,4 @@ The `<affected-resource>` field expands to:
 Error [IST0101] (VirtualService httpbin.default) Referenced gateway not found: "httpbin-gateway-bogus"
 {{< /text >}}
 
-The `<message-details>` field contains a detailed description that may contain further information to help resolve the problem. The namespace suffix is omitted for cluster-scoped resources, for example `namespace`.
+包含详细描述的 `<message-details>` 字段也许可以帮你进一步解决问题,对于集群范围的资源 (例如 `namespace`)，将省略其后缀。  
