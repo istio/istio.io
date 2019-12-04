@@ -1,53 +1,53 @@
 ---
-title: Incremental Istio Part 1, Traffic Management
-description: How to use Istio for traffic management without deploying sidecar proxies.
+title: 增量式应用 Istio 第一部分，流量管理
+description: 如何在不部署 Sidecar 代理的情况下使用 Istio 进行流量管理。
 publishdate: 2018-11-21
 subtitle:
 attribution: Sandeep Parikh
 twitter: crcsmnky
-keywords: [traffic-management,gateway]
+keywords: [traffic-management, gateway]
 target_release: 1.0
 ---
 
-Traffic management is one of the critical benefits provided by Istio. At the heart of Istio’s traffic management is the ability to decouple traffic flow and infrastructure scaling. This lets you control your traffic in ways that aren’t possible without a service mesh like Istio.
+流量管理是 Istio 提供的重要优势之一。Istio 流量管理的核心是在将通信流量和基础设施的伸缩进行解耦。如果没有 Istio 这样的服务网格，这种流量控制方式是不可能实现的。
 
-For example, let’s say you want to execute a [canary deployment](https://martinfowler.com/bliki/CanaryRelease.html). With Istio, you can specify that **v1** of a service receives 90% of incoming traffic, while **v2** of that service only receives 10%. With standard Kubernetes deployments, the only way to achieve this is to manually control the number of available Pods for each version, for example 9 Pods running v1 and 1 Pod running v2. This type of manual control is hard to implement, and over time may have trouble scaling. For more information, check out [Canary Deployments using Istio](/zh/blog/2017/0.1-canary/).
+例如，您希望执行一次[金丝雀发布](https://martinfowler.com/bliki/CanaryRelease.html)。当使用 Istio 时，您可以指定 service 的 **v1** 版本接收 90% 的传入流量，而该 service **v2** 版本仅接收 10%。如果使用标准的 Kubernetes deployment，实现此目的的唯一方法是手动控制每个版本的可用 Pod 数量，例如使 9 个 Pod 运行 v1 版本，使 1 个 Pod 运行 v2 版本。这种类型的手动控制难以实现，并且随着时间的推移可能无法扩展。有关更多信息，请查看[使用 Istio 进行金丝雀发布](/zh/blog/2017/0.1-canary/)。
 
-The same issue exists when deploying updates to existing services. While you can update deployments with Kubernetes, it requires replacing v1 Pods with v2 Pods. Using Istio, you can deploy v2 of your service and use built-in traffic management mechanisms to shift traffic to your updated services at a network level, then remove the v1 Pods.
+部署现有 service 的更新时存在同样的问题。虽然您可以使用 Kubernetes 更新 deployment，但它需要将 v1 Pod 替换为 v2 Pod。使用 Istio，您可以部署 service 的 v2 版本，并使用内置流量管理机制在网络层面将流量转移到更新后的 service，然后删除 v1 版本的 Pod。
 
-In addition to canary deployments and general traffic shifting, Istio also gives you the ability to implement dynamic request routing (based on HTTP headers), failure recovery, retries, circuit breakers, and fault injection. For more information, check out the [Traffic Management documentation](/zh/docs/concepts/traffic-management/).
+除了金丝雀发布和一般流量转移之外，Istio 还使您能够实现动态请求路由（基于 HTTP header）、故障恢复、重试、断路器和故障注入。有关更多信息，请查看[流量管理文档](/zh/docs/concepts/traffic-management/)。
 
-This post walks through a technique that highlights a particularly useful way that you can implement Istio incrementally -- in this case, only the traffic management features -- without having to individually update each of your Pods.
+这篇文章介绍的技术重点突出了一种特别有用的方法，可以逐步实现 Istio（在这种情况下，只有流量管理功能），而无需单独更新每个 Pod。
 
-## Setup: why implement Istio traffic management features?
+## 设置：为什么要实施 Istio 流量管理功能？{#setup-why-implement-Istio-traffic-management-features}
 
-Of course, the first question is: Why would you want to do this?
+当然，第一个问题是：为什么要这样做？
 
-If you’re part of one of the many organizations out there that have a large cluster with lots of teams deploying, the answer is pretty clear. Let’s say Team A is getting started with Istio and wants to start some canary deployments on Service A, but Team B hasn’t started using Istio, so they don’t have sidecars deployed.
+如果你是众多拥有大量团队和大型集群的组织中的一员，那么答案是很清楚的。假设 A 团队正在开始使用 Istio，并希望在 service A 上开始一些金丝雀发布，但是 B 团队还没有开始使用 Istio，所以他们没有部署 sidecar。
 
-With Istio, Team A can still implement their canaries by having Service B call Service A through Istio’s ingress gateway.
+使用 Istio，A 团队仍然可以让 service B 通过 Istio 的 ingress gateway 调用 service A 来实现他们的金丝雀发布。
 
-## Background: traffic routing in an Istio mesh
+## 背景：Istio 网格中的流量路由{#background-traffic-routing-in-an-Istio-mesh}
 
-But how can you use Istio’s traffic management capabilities without updating each of your applications’ Pods to include the Istio sidecar? Before answering that question, let’s take a quick high-level look at how traffic enters an Istio mesh and how it’s routed.
+但是，如何在不更新每个应用程序的 Pod 的情况下，使用 Istio 的流量管理功能来包含 Istio sidecar？在回答这个问题之前，让我们以高层视角，快速地看看流量如何进入 Istio 网格以及如何被路由。
 
-Pods that are part of the Istio mesh contain a sidecar proxy that is responsible for mediating all inbound and outbound traffic to the Pod. Within an Istio mesh, Pilot is responsible for converting high-level routing rules into configurations and propagating them to the sidecar proxies. That means when services communicate with one another, their routing decisions are determined from the client side.
+Pod 包含一个 sidecar 代理，该代理作为 Istio 网格的一部分，负责协调 Pod 的所有入站和出站流量。在 Istio 网格中，Pilot 负责将高级路由规则转换为配置并将它们传播到 sidecar 代理。这意味着当服务彼此通信时，它们的路由决策是由客户端确定的。
 
-Let’s say you have two services that are part of the Istio mesh, Service A and Service B. When A wants to communicate with B, the sidecar proxy of Pod A is responsible for directing traffic to Service B. For example, if you wanted to split traffic 50/50 across Service B v1 and v2, the traffic would flow as follows:
+假设您有 service A 和 service B 两个服务，他们是 Istio 网格的一部分。当 A 想要与 B 通信时，Pod A 的 sidecar 代理负责将流量引导到 service B。例如，如果你希望到 service B v1 版本和 v2 版本之间的流量按 50/50 分割，流量将按如下方式流动：
 
-{{< image width="60%" link="./fifty-fifty.png" caption="50/50 Traffic Split" >}}
+{{< image width="60%" link="./fifty-fifty.png" caption="50/50 流量分割" >}}
 
-If Services A and B are not part of the Istio mesh, there is no sidecar proxy that knows how to route traffic to different versions of Service B. In that case you need to use another approach to get traffic from Service A to Service B, following the 50/50 rules you’ve setup.
+如果 service A 和 B 不是 Istio 网格的一部分，则没有 sidecar 代理知道如何将流量路由到 service B 的不同版本。在这种情况下，您需要使用另一种方法来使 service A 到 service B 的流量遵循您设置的 50/50 规则。
 
-Fortunately, a standard Istio deployment already includes a [Gateway](/zh/docs/concepts/traffic-management/#gateways) that specifically deals with ingress traffic outside of the Istio mesh. This Gateway is used to allow ingress traffic from outside the cluster via an external load balancer, or to allow ingress traffic from within the Kubernetes cluster but outside the service mesh. It can be configured to proxy incoming ingress traffic to the appropriate Pods, even if they don’t have a sidecar proxy. While this approach allows you to leverage Istio’s traffic management features, it does mean that traffic going through the ingress gateway will incur an extra hop.
+幸运的是，标准的 Istio 部署已经包含了一个 [Gateway](/zh/docs/concepts/traffic-management/#gateways)，它专门处理 Istio 网格之外的入口流量。此 Gateway 用于允许通过外部负载均衡器进入的集群外部入口流量；或来自 Kubernetes 集群，但在服务网格之外的入口流量。网关可以进行配置，对没有 Sidecar 支持的入口流量进行代理，引导流量进入相应的 Pod。这种方法允许您利用 Istio 的流量管理功能，其代价是通过入口网关的流量将产生额外的跃点。
 
-{{< image width="60%" link="./fifty-fifty-ingress-gateway.png" caption="50/50 Traffic Split using Ingress Gateway" >}}
+{{< image width="60%" link="./fifty-fifty-ingress-gateway.png" caption="使用 Ingress Gateway 的 50/50 流量分割" >}}
 
-## In action: traffic routing with Istio
+## 实践：Istio 流量路由{#in-action-traffic-routing-with-Istio}
 
-A simple way to see this type of approach in action is to first setup your Kubernetes environment using the [Platform Setup](/zh/docs/setup/platform-setup/) instructions, and then install the **minimal** Istio profile using [Helm](/zh/docs/setup/install/helm/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
+一种实践的简单方法是首先按照[平台设置](/zh/docs/setup/platform-setup/)说明设置 Kubernetes 环境，然后使用 [Helm](/zh/docs/setup/install/helm/) 安装仅包含流量管理组件（ingress gateway、egress gateway、Pilot）的 Istio。下面的示例使用 [Google Kubernetes Engine](https://cloud.google.com/gke)。
 
-First, setup and configure [GKE](/zh/docs/setup/platform-setup/gke/):
+首先，安装并配置 [GKE](/zh/docs/setup/platform-setup/gke/)：
 
 {{< text bash >}}
 $ gcloud container clusters create istio-inc --zone us-central1-f
@@ -57,7 +57,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding \
    --user=$(gcloud config get-value core/account)
 {{< /text >}}
 
-Next, [install Helm](https://helm.sh/docs/intro/install/) and [generate a minimal Istio install](/zh/docs/setup/install/helm/) -- only traffic management components:
+然后，[安装 Helm](https://helm.sh/docs/intro/install/) 并[生成 Istio 最小配置安装](/zh/docs/setup/install/helm/) -- 只有流量管理组件：
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio \
@@ -71,20 +71,20 @@ $ helm template install/kubernetes/helm/istio \
   --set pilot.sidecar=false > istio-minimal.yaml
 {{< /text >}}
 
-Then create the `istio-system` namespace and deploy Istio:
+然后创建 `istio-system` namespace 并部署 Istio：
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
 $ kubectl apply -f istio-minimal.yaml
 {{< /text >}}
 
-Next, deploy the Bookinfo sample without the Istio sidecar containers:
+然后，在没有 Istio sidecar 容器的前提下部署 Bookinfo 示例：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
 {{< /text >}}
 
-Now, configure a new Gateway that allows access to the reviews service from outside the Istio mesh, a new `VirtualService` that splits traffic evenly between v1 and v2 of the reviews service, and a set of new `DestinationRule` resources that match destination subsets to service versions:
+现在，配置一个新的 Gateway 允许从 Istio 网格外部访问 reviews service；一个新的 `VirtualService` 用于平均分配到 reviews service v1 和 v2 版本的流量；以及一系列新的、将目标子集与服务版本相匹配的 `DestinationRule` 资源：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -94,7 +94,7 @@ metadata:
   name: reviews-gateway
 spec:
   selector:
-    istio: ingressgateway # use istio default controller
+    istio: ingressgateway # 使用 istio 默认控制器
   servers:
   - port:
       number: 80
@@ -145,17 +145,17 @@ spec:
 EOF
 {{< /text >}}
 
-Finally, deploy a pod that you can use for testing with `curl` (and without the Istio sidecar container):
+最后，使用 `curl` 部署一个用于测试的 Pod（没有 Istio sidecar 容器）：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
-## Testing your deployment
+## 测试您的部署{#testing-your-deployment}
 
-Now, you can test different behaviors using the `curl` commands via the sleep Pod.
+现在就可以通过 Sleep pod 使用 curl 命令来测试不同的行为了。
 
-The first example is to issue requests to the reviews service using standard Kubernetes service DNS behavior (**note**: [`jq`](https://stedolan.github.io/jq/) is used in the examples below to filter the output from `curl`):
+第一个示例是使用标准 Kubernetes service DNS 行为向 reviews service 发出请求（**注意**：下面的示例中使用了 [`jq`](https://stedolan.github.io/jq/) 来过滤 `curl` 的输出）：
 
 {{< text bash >}}
 $ export SLEEP_POD=$(kubectl get pod -l app=sleep \
@@ -187,7 +187,7 @@ null
 }
 {{< /text >}}
 
-Notice how we’re getting responses from all three versions of the reviews service (`null` is from reviews v1 which doesn’t have ratings) and not getting the even split across v1 and v2. This is expected behavior because the `curl` command is using Kubernetes service load balancing across all three versions of the reviews service. In order to access the reviews 50/50 split we need to access the service via the ingress Gateway:
+请注意我们是如何从 reviews service 的所有三个版本获得响应（`null` 来自 reviews v1 版本，它没有评级数据）并且流量没有在 v1 和 v2 版本间平均拆分。这是预期的行为，因为 `curl` 命令在 reviews service 所有三个版本之间进行 Kubernetes service 负载均衡。为了以 50/50 的流量拆分形式访问 reviews，我们需要通过 ingress Gateway 访问 service：
 
 {{< text bash >}}
 $ for i in `seq 4`; do \
@@ -219,6 +219,6 @@ null
 null
 {{< /text >}}
 
-Mission accomplished! This post showed how to deploy a minimal installation of Istio that only contains the traffic management components (Pilot, ingress Gateway), and then use those components to direct traffic to specific versions of the reviews service. And it wasn't necessary to deploy the Istio sidecar proxy to gain these capabilities, so there was little to no interruption of existing workloads or applications.
+任务完成！这篇文章展示了如何部署仅包含流量管理组件（Pilot、ingress Gateway）的 Istio 的最小安装，然后使用这些组件将流量定向到特定版本的 reviews service。由于不是必须通过部署 Istio sidecar 代理来获得这些功能，因此几乎没有给现有工作负载或应用程序造成中断。
 
-Using the built-in ingress gateway (along with some `VirtualService` and `DestinationRule` resources) this post showed how you can easily leverage Istio’s traffic management for cluster-external ingress traffic and cluster-internal service-to-service traffic. This technique is a great example of an incremental approach to adopting Istio, and can be especially useful in real-world cases where Pods are owned by different teams or deployed to different namespaces.
+这篇文章展示了如何利用 Istio 及内置的 ingress Gateway（以及一些 `VirtualService` 和 `DestinationRule` 资源），轻松实现集群外部入口流量和集群内部服务到服务的流量管理。这种技术是增量式应用 Istio 的一个很好的例子，在 Pod 由不同团队拥有，或部署到不同命名空间的现实案例中尤其有用。
