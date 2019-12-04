@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-006
 subtitle: Security Bulletin
-description: Security vulnerability disclosure for CVE-2019-18817.
+description: Denial of service.
 cves: [CVE-2019-18817]
 cvss: "7.5"
 vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C"

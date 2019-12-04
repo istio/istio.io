@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-002
 subtitle: Security Bulletin
-description: Security vulnerability disclosure for CVE-2019-12995.
+description: Denial of service affecting JWT access token parsing.
 cves: [CVE-2019-12995]
 cvss: "7.5"
 vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C"
