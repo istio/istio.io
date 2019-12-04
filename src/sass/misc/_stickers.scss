@@ -1,0 +1,63 @@
+.sticker-container {
+
+    --trapezoid-edge: 3.3rem;
+
+    @media screen AND (min-width: $bp-md) {
+        .sticker {
+            display: none;
+            position: fixed;
+            bottom: -38px;
+            left: -114px;
+            width: 260px;
+            height: var(--trapezoid-edge);
+            z-index: $promotion-z;
+            color: $stickerTextColor;
+            background: $stickerBackgroundColor;
+            transform: rotate(45deg);
+            transform-origin: bottom right;
+            text-align: center;
+            vertical-align: middle;
+
+            .wrap {
+                display: flex;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .content {
+                margin: auto 0;
+                top: 0;
+            }
+
+            .frame {
+                top: 2px;
+                left: 2rem;
+                border-color: transparent;
+                border-top: $stickerBorderColor 1px solid;
+                border-bottom: $stickerBorderColor 1px solid;
+                background: transparent;
+                width: calc(100% - 4rem);
+                height: calc(100% - 4px);
+                position: absolute;
+            }
+
+            .left {
+                height: var(--trapezoid-edge);
+                width: var(--trapezoid-edge);
+                float: left;
+                background: transparent;
+                shape-outside: polygon(0 0, 100% 100%, 0 100%);
+                clip-path: polygon(0 0, 100% 100%, 0 100%);
+            }
+
+            .right {
+                height: var(--trapezoid-edge);
+                width: var(--trapezoid-edge);
+                float: right;
+                background: transparent;
+                shape-outside: polygon(0 100%, 100% 100%, 100% 0);
+                clip-path: polygon(0 100%, 100% 100%, 100% 0);
+            }
+        }
+    }
+}

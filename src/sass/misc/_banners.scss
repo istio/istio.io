@@ -1,0 +1,33 @@
+@media screen {
+    .banner-container {
+        position: relative;
+        top: -.8rem;
+        width: 100%;
+        text-align: center;
+        color: $bannerTextColor;
+        background-color: $bannerBackgroundColor;
+        font-size: 1.25rem;
+
+        .banner {
+            display: none;
+            position: relative;
+            width: 100%;
+        }
+
+        .frame {
+            top: 2px;
+            left: 6rem;
+            border-color: transparent;
+            border-top: $bannerBorderColor 1px solid;
+            border-bottom: $bannerBorderColor 1px solid;
+            background: transparent;
+            width: calc(100% - 12rem);
+            height: calc(100% - 4px);
+            position: absolute;
+        }
+
+        .content {
+            top: 0;
+        }
+    }
+}
