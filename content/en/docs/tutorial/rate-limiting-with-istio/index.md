@@ -204,8 +204,10 @@ more failures and making the application or parts of it unavailable.
         spec:
           quotaSpecs:
           - name: request-count
+            namespace: $NAMESPACE
           services:
           - name: reviews
+            namespace: $NAMESPACE
         ---
         apiVersion: config.istio.io/v1alpha2
         kind: rule
