@@ -21,8 +21,8 @@ aliases:
 | `request.headers` | `HTTP` 请求头，需要用 `[]` 括起来 | HTTP only | `key: request.headers[User-Agent]`<br/>`values: ["Mozilla/*"]` |
 | `source.ip`  | 源 `IP` 地址，支持单个 `IP` 或 `CIDR` | HTTP and TCP | `key: source.ip`<br/>`values: ["10.1.2.3"]` |
 | `source.namespace`  | 源负载实例命名空间 | HTTP and TCP | `key: source.namespace`<br/>`values: ["default"]` |
-| `source.principal` | 源工作负载的标识 | HTTP and TCP | `key: source.principal`<br/>`values: ["cluster.local/ns/default/sa/productpage"]` |
-| `request.auth.principal` | 对于请求已验证的主体。 | HTTP only | `key: request.auth.principal`<br/>`values: ["accounts.my-svc.com/104958560606"]` |
+| `source.principal` | 源负载的标识 | HTTP and TCP | `key: source.principal`<br/>`values: ["cluster.local/ns/default/sa/productpage"]` |
+| `request.auth.principal` | 已认证过 `principal` 的请求。 | HTTP only | `key: request.auth.principal`<br/>`values: ["accounts.my-svc.com/104958560606"]` |
 | `request.auth.audiences` | 此身份验证信息的目标主体 | HTTP only | `key: request.auth.audiences`<br/>`values: ["my-svc.com"]` |
 | `request.auth.presenter` | 证书的颁发者 | HTTP only | `key: request.auth.presenter`<br/>`values: ["123456789012.my-svc.com"]` |
 | `request.auth.claims` | `Claims` 来源于 `JWT`。需要用 `[]` 括起来 | HTTP only | `key: request.auth.claims[iss]`<br/>`values: ["*@foo.com"]` |
