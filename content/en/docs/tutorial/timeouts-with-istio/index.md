@@ -88,8 +88,8 @@ user instead of letting the user wait for a long period of time.
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Note that now `productpage` turned orange while `reviews` and `ratings` turned red. Notice the red edges and the
-    error rate of the HTTP traffic on the right.
+    Note that now `productpage`, `reviews` and `ratings` turned red. Notice the red edges.
+    In the `HTTP traffic` tab on the right, select `Total`. Notice the error rate of the HTTP traffic.
 
     {{< image width="80%"
         link="kiali-delayed-ratings.png"
@@ -146,7 +146,7 @@ user instead of letting the user wait for a long period of time.
 
     {{< image width="80%"
         link="kiali-timeout-to-ratings.png"
-        caption="Kiali Graph Tab with faulty ratings"
+        caption="Kiali Graph Tab with timeout to ratings"
         >}}
 
 1.  Remove the `v-delayed` version of `ratings`, the virtual service that routes to it, and recreate the destination
