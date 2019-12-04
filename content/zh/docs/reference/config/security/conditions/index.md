@@ -26,8 +26,8 @@ aliases:
 | `request.auth.audiences` | 此身份验证信息的目标主体 | HTTP only | `key: request.auth.audiences`<br/>`values: ["my-svc.com"]` |
 | `request.auth.presenter` | 证书的颁发者 | HTTP only | `key: request.auth.presenter`<br/>`values: ["123456789012.my-svc.com"]` |
 | `request.auth.claims` | `Claims` 来源于 `JWT`。需要用 `[]` 括起来 | HTTP only | `key: request.auth.claims[iss]`<br/>`values: ["*@foo.com"]` |
-| `destination.ip` | 目标IP地址，支持单个 `IP` 或 `CIDR` | HTTP and TCP | `key: destination.ip`<br/>`values: ["10.1.2.3", "10.2.0.0/16"]` |
-| `destination.port` | 目标IP地址上的端口，必须在 `[0，65535]` 范围内 | HTTP and TCP | `key: destination.port`<br/>`values: ["80", "443"]` |
+| `destination.ip` | 目标 `IP` 地址，支持单个 `IP` 或 `CIDR` | HTTP and TCP | `key: destination.ip`<br/>`values: ["10.1.2.3", "10.2.0.0/16"]` |
+| `destination.port` | 目标 `IP` 地址上的端口，必须在 `[0，65535]` 范围内 | HTTP and TCP | `key: destination.port`<br/>`values: ["80", "443"]` |
 | `connection.sni` | 服务器名称指示 | HTTP and TCP | `key: connection.sni`<br/>`values: ["www.example.com"]` |
 | `experimental.envoy.filters.*` | 用于过滤器的实验性元数据匹配，包装的值 `[]` 作为列表匹配 | HTTP and TCP | `key: experimental.envoy.filters.network.mysql_proxy[db.table]`<br/>`values: ["[update]"]` |
 
