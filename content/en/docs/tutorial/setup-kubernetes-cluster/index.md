@@ -42,6 +42,19 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
 1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
+1.  Verify that `disablePolicyChecks` option in the Istio configmap is set to `false`:
+
+    {{< text bash >}}
+    $ kubectl get cm istio -n istio-system -o yaml | grep -v { | grep disablePolicyChecks
+    disablePolicyChecks: false
+    {{< /text >}}
+
+    if it is set to `true`, edit the Istio configmap:
+
+    {{< text bash >}}
+    $ kubectl edit cm istio -n istio-system
+    {{< /text >}}
+
 1.  Create a Kubernetes Ingress resource for these common Istio services using
     the `kubectl` command shown. It is not necessary to be familiar with each of
     these services at this point in the tutorial.
