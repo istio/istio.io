@@ -48,8 +48,6 @@ function handleEvents(): void {
             const periodStart = parseInt(el.dataset.periodStart, 10);
             const periodEnd = parseInt(el.dataset.periodEnd, 10) + 24 * 3600 * 1000 - 1; // include the final day
 
-            console.log("title", title, "periodStart", periodStart, "periodEnd", periodEnd, "now", now);
-
             let maxImpressions = 0;
             if (el.dataset.maxImpressions) {
                 maxImpressions = parseInt(el.dataset.maxImpressions, 10);
