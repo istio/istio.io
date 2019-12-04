@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-003
 subtitle: Security Bulletin
-description: Security vulnerability disclosure for CVE-2019-14993.
+description: CVE-2019-14993 所披露的安全漏洞。
 cve: [CVE-2019-14993]
 publishdate: 2019-08-13
 keywords: [CVE]
@@ -17,14 +17,13 @@ aliases:
         vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
         releases="1.1 to 1.1.12, 1.2 to 1.2.3" >}}
 
-## Context
+## 内容{#context}
 
-An Envoy user reported publicly an issue (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) about regular expressions (or regex) matching
-that crashes Envoy with very large URIs. After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio, if users are employing regular expressions in some of the Istio APIs: `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.
+一位 Envoy 用户报告了一个 (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) 关于非常大的URI的正则表达式会导致 Envoy 崩溃的问题。通过调查，Istio 团队发现如果用户正在这些 Istio API（`JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`）中使用正则表达式，那么这个问题可能在 Istio 中引发 Dos 攻击。
 
-## Impact and detection
+## 影响范围{#impact-and-detection}
 
-To detect if there is any regular expressions used in Istio APIs in your cluster, run the following command which prints either of the following output:
+运行下面的命令可以打印下面的输出，检测在你的集群中是否使用了 Istio 正则表达式相关的 API。
 
 * YOU ARE AFFECTED: found regex used in `AuthenticationPolicy` or `VirtualService`
 * YOU ARE NOT AFFECTED: did not find regex usage
@@ -77,9 +76,9 @@ echo "${green}YOU ARE NOT AFFECTED: did not find regex usage${reset}"
 EOF
 {{< /text >}}
 
-## Mitigation
+## 防范{#mitigation}
 
-* For Istio 1.1.x deployments: update to [Istio 1.1.13](/zh/news/releases/1.1.x/announcing-1.1.13) or later
-* For Istio 1.2.x deployments: update to [Istio 1.2.4](/zh/news/releases/1.2.x/announcing-1.2.4) or later.
+* Istio 1.1.x: 升级到 [Istio 1.1.13](/zh/news/releases/1.1.x/announcing-1.1.13) 或者更高
+* Istio 1.2.x: 升级到 [Istio 1.2.4](/zh/news/releases/1.2.x/announcing-1.2.4) 或者更高
 
 {{< boilerplate "security-vulnerability" >}}
