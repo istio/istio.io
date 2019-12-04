@@ -683,6 +683,75 @@ table of contents will not automatically select the tab.
 
 - *No nested tab sets*. Don't try it, it's horrible.
 
+## Banners and stickers
+
+You can automatically insert time-sensitive banners and stickers into the generated site in order
+to advertise upcoming events, or publicize something new.
+
+There are two types of promotions supported:
+
+- **Countdown stickers** that show how much time is left before something big happens. (e.g. "2 days until Istio 1.5").
+Stickers have minimal visuals displayed to the user during the event period.
+
+- **Banners** that display a prominent message to the user to let them know a significant event is about to take place,
+is taking place, or has taken place. (e.g. "Istio 1.5 has been released, download it today!" or "Join us at KubeCon on March 30").
+Banners are full-screen slices displayed to the user during the event period.
+
+To create banners and stickers, you add files to the `events/banners` or `events/stickers` directories. You create one normal markdown
+file per event. Within these files, you use the following dedicated front-matter fields to control various features:
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>title</code></td>
+            <td>The name of the event. This is not displayed on the web site, it's intended for diagnostic messages.</td>
+        </tr>
+        <tr>
+            <td><code>period_start</code></td>
+            <td>The starting date at which to start displaying the item in <code>YYYY-MM-DD</code> format.
+            Instead of a date, this can also be the value <code>latest_release</code>, which then uses the latest known
+            Istio release as the start date. This is useful when creating a banned that says "Istio x.y.z has just been relesed".
+            </td>
+        </tr>
+        <tr>
+            <td><code>period_end</code></td>
+            <td>The last date on which to display the item in <code>YYYY-MM-DD</code> format. This value is mutually
+            exclusive with <code>period_duration</code> below.
+            </td>
+        </tr>
+        <tr>
+            <td><code>period_duration</code></td>
+            <td>How many days to display the item to the user. This value is mutually exclusive with
+            <code>period_end</code> above.
+            </td>
+        </tr>
+        <tr>
+            <td><code>max_impressions</code></td>
+            <td>How many times to show the content to the user during
+                the event's period. A value of 3 would mean that the first three pages visited by the user during the period will display
+                the content, and the content will be hidden on subsequent page loads. A value of 0, or ommiting the field completely,
+                results in the content being displayed on all page visits during the period.
+            </td>
+        </tr>
+        <tr>
+            <td><code>timeout</code></td>
+            <td>The amount of time the content is visible to the user on a given page. After that much time passes, the item will be removed from the page.</td>
+        </tr>
+        <tr>
+            <td><code>link</code></td>
+            <td>You can specify a URL, which turns the whole item into a clickable target. Once the user clicks on the item,
+            the item is no longer shown to the user.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 ## Renaming, moving, or deleting pages
 
 If you move pages around or delete them completely, you should make sure existing links users may have to those pages continue to work.
