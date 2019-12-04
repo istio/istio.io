@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.5
+title: 宣布 Istio 1.5 发布
 linktitle: 1.5
-subtitle: Major Update
-description: Istio 1.5 release announcement.
+subtitle: 重大更新
+description: Istio 1.5发布公告。
 publishdate: 2020-02-11
 release: 1.5.0
 skip_list: true
@@ -12,7 +12,7 @@ aliases:
     - /zh/news/announcing-1.5
 ---
 
-We are pleased to announce the release of Istio 1.5!
+我们很高兴地宣布，Istio 1.5 发布！
 
 {{< relnote >}}
 

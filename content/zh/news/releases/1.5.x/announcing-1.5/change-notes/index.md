@@ -1,6 +1,6 @@
 ---
-title: Change Notes
-description: Istio 1.5 release notes.
+title: 变更说明
+description: Istio 1.5 版本变更说明。
 weight: 10
 ---
 

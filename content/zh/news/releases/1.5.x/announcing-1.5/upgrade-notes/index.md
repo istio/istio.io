@@ -1,13 +1,9 @@
 ---
-title: Upgrade Notes
-description: Important changes to consider when upgrading to Istio 1.5.
+title: 更新说明
+description: 升级到 Istio 1.5 时要考虑的重要更改。
 weight: 20
 ---
 
-This page describes changes you need to be aware of when upgrading from
-Istio 1.4 to 1.5.  Here, we detail cases where we intentionally broke backwards
-compatibility.  We also mention cases where backwards compatibility was
-preserved but new behavior was introduced that would be surprising to someone
-familiar with the use and operation of Istio 1.4.
+此页描述了从 1.4 升级到 1.5 时需要注意的更改。这里详细说明了我们故意不向后兼容的原因。我们还提到了保留向后兼容性但引入新行为的案列，这会让熟悉 Istio 1.4 使用和操作的人感到非常惊讶。
 
 TBD
