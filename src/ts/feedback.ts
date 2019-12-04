@@ -21,7 +21,36 @@ function sendFeedback(language: string, value: number): void {
         value,
     });
 
-    document.querySelectorAll<HTMLButtonElement>(".feedback").forEach(button => {
-        button.disabled = true;
+    const initial = getById("feedback-initial");
+    if (initial) {
+        initial.style.display = "none";
+    }
+
+    let next = "feedback-thankyou";
+    if (value === 0) {
+        next = "feedback-comment";
+    }
+
+    const ne = getById(next);
+    if (ne) {
+        ne.style.display = "block";
+    }
+}
+
+function sendComment(language: string, value: string): void {
+    gtag("event", "comment-" + language, {
+        event_category: "Helpful",
+        event_label: window.location.pathname,
+        value,
     });
+
+    const comment = getById("feedback-comment");
+    if (comment) {
+        comment.style.display = "none";
+    }
+
+    const ty = getById("feedback-thankyou");
+    if (ty) {
+        ty.style.display = "block";
+    }
 }
