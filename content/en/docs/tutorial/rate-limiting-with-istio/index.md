@@ -112,7 +112,7 @@ more failures and making the application or parts of it unavailable.
         - uri:
             exact: /logout
         - uri:
-            prefix: /api/v1/products
+            prefix: /static
         route:
         - destination:
             host: productpage
@@ -265,7 +265,7 @@ more failures and making the application or parts of it unavailable.
         - uri:
             exact: /logout
         - uri:
-            prefix: /api/v1/products
+            prefix: /static
         route:
         - destination:
             host: productpage
