@@ -1,7 +1,7 @@
 ---
-title: ISTIO-安全-2019-003
+title: ISTIO-SECURITY-2019-003
 subtitle: Security Bulletin
-description: CVE-2019-14993 安全漏洞公开。
+description: CVE-2019-14993 所披露的安全漏洞。
 cve: [CVE-2019-14993]
 publishdate: 2019-08-13
 keywords: [CVE]
@@ -17,11 +17,11 @@ aliases:
         vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
         releases="1.1 to 1.1.12, 1.2 to 1.2.3" >}}
 
-## 上下文 {#context}
+## 内容{#context}
 
-一位 Envoy 用户报告了一个 (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) 关于非常大的URI的正则表达式会导致 Envoy 崩溃的问题。通过调查，Istio 团队发现如果用户正在这些接口中是用正则表达式(`JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`.)， 那么这个问题可能在 Istio 中引发 Dos 攻击。
+一位 Envoy 用户报告了一个 (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) 关于非常大的URI的正则表达式会导致 Envoy 崩溃的问题。通过调查，Istio 团队发现如果用户正在这些 Istio API（JWT, VirtualService, HTTPAPISpecBinding, QuotaSpecBinding）中使用正则表达式，那么这个问题可能在 Istio 中引发 Dos 攻击。
 
-## 影响及检测 {#impact-and-detection}
+## 影响范围{#impact-and-detection}
 
 运行下面的命令可以打印下面的输出，检测在你的集群中是否使用了 Istio 正则表达式相关的 API。
 
@@ -76,7 +76,7 @@ echo "${green}YOU ARE NOT AFFECTED: did not find regex usage${reset}"
 EOF
 {{< /text >}}
 
-## 缓解 {#mitigation}
+## 防范{#mitigation}
 
 * Istio 1.1.x: 升级到 [Istio 1.1.13](/zh/news/releases/1.1.x/announcing-1.1.13) 或者更高
 * Istio 1.2.x: 升级到 [Istio 1.2.4](/zh/news/releases/1.2.x/announcing-1.2.4) 或者更高
