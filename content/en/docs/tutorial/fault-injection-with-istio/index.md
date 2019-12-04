@@ -51,9 +51,7 @@ microservices react to the faults you injected.
 1.  Check your Kiali console,
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    Note that the `reviews` microservice became orange and the edges to `ratings` became orange as well. Note the
-    red portion of the stacked bar chart on the right, it designates the proportion of `5xx` errors. Notice the
-    percentage of errors in the `HTTP Traffic` section on the right.
+    Note that the `reviews` microservice became orange and the edges to `ratings` became red.
 
     {{< image width="80%"
         link="kiali-fault-injection.png"
@@ -106,8 +104,8 @@ microservices react to the faults you injected.
 1.  Check your Kiali console,
         [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
-    This time the situation is more serious. The `reviews` microservice turned red, the `productpage` microservice
-    turned orange, and the percentage of the errors in the _HTTP Traffic_ section on the right increased.
+    This time the situation is more serious. Both the `reviews` and the `productpage` microservices
+    turned orange.
 
     {{< image width="80%"
         link="kiali-delay-injection.png"
@@ -123,16 +121,6 @@ microservices react to the faults you injected.
         link="dashboard-reviews-500.png"
         caption="Istio Service Dashboard"
         >}}
-
-1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your `productpage` service, find the
-    trace with errors:
-
-    {{< image width="80%"
-        link="jaeger-tracing-timeout-errors.png"
-        caption="Jaeger UI, timeout errors"
-        >}}
-
-    Note that the call to `productpage` took 5.08 s, and that it took 2.5 s for `reviews` to return a response.
 
 1.   Examine [`reviews`'s code]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java) that calls `ratings`:
 
@@ -168,16 +156,8 @@ microservices react to the faults you injected.
     $ curl -s {{< github_file >}}/samples/bookinfo/networking/virtual-service-ratings-test-delay.yaml | sed 's/7s/2s/g' | kubectl apply -f -
     {{< /text >}}
 
-1.  Access Jaeger UI at [http://my-istio-tracing.io](http://my-istio-tracing.io), your `productpage` service, check the
-    latest trace:
-
-    {{< image width="80%"
-        link="jaeger-trace-delay-2.png"
-        caption="Jaeger UI, two seconds delay"
-        >}}
-
-    You can see that now there were no errors and the whole call chain took 2.3 s. It took 2 s for `reviews` to return
-    a response, as you set by fault injection in the previous step.
+1.  Access the application's webpage signed in as `jason`. You can see that while there is some delay, there are no
+    errors anymore.
 
 1.  Clean the fault injection:
 
