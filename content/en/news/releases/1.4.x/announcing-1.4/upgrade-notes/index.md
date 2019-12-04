@@ -43,3 +43,17 @@ To help with your upgrade, here are some steps you could take:
 * In addition to structural validation, you can also use `istioctl x analyze` to help you detect other potential issues with your Istio configurations. Refer to [here](/docs/ops/diagnostic-tools/istioctl-analyze/) for more details.
 
 If you choose to ignore the validation errors, add `--validate=false` to your `kubectl` command when you create or modify Istio resources. We strongly discourage doing so however, since it is willingly introducing incorrect configuration.
+
+## Leftover CRD
+
+Istio 1.4 introduces a new CRD `authorizationpolicies.security.istio.io` for the
+[authorization policy](/docs/reference/config/security/authorization-policy/).
+Your cluster may have an interim leftover CRD `authorizationpolicies.rbac.istio.io`
+due to an internal implementation detail before Istio 1.4.
+
+The leftover CRD is unused and you can safely remove it from the cluster using
+this command:
+
+{{< text bash >}}
+$ kubectl delete crd authorizationpolicies.rbac.istio.io --ignore-not-found=true
+{{< /text >}}
