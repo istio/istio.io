@@ -1,6 +1,6 @@
 ---
-title: Authorization for HTTP traffic
-description: Shows how to set up role-based access control for HTTP traffic.
+title: HTTP 流量授权
+description: 展示如何设置基于角色的 HTTP 流量访问控制。
 weight: 10
 keywords: [security,access-control,rbac,authorization]
 aliases:
@@ -8,45 +8,34 @@ aliases:
     - /zh/docs/tasks/security/authz-http/
 ---
 
-This task shows you how to set up Istio authorization for HTTP traffic in an Istio mesh.
-Learn more in our [authorization concept page](/zh/docs/concepts/security/#authorization).
+该任务向您展示了如何在 Istio 网格中为 HTTP 流量设置 Istio 授权。在[授权概念页面](/zh/docs/concepts/security/#authorization)了解更多内容。
 
-## Before you begin
+## 开始之前
 
-The activities in this task assume that you:
+本任务的活动假设你：
 
-* Read the [authorization concept](/zh/docs/concepts/security/#authorization).
+* 阅读了[授权概念](/zh/docs/concepts/security/#authorization)。
 
-* Follow the [Istio installation guide](/zh/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+* 遵照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装完成 Istio 并启用了双向 TLS。
 
-* Deploy the [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) sample application.
+* 部署了 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例应用。
 
-After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
-the product page, you can see the following sections:
+部署 Bookinfo 应用后通过`http://$GATEWAY_URL/productpage`访问 product 页面，可以看到如下内容：
 
-* **Book Details** on the lower left side, which includes: book type, number of
-  pages, publisher, etc.
-* **Book Reviews** on the lower right of the page.
+* **Book Details** 在左下方，包括：图书类型，页数，出版社等。
+* **Book Reviews** 在页面右下方。
 
-When you refresh the page, the app shows different versions of reviews in the product page.
-The app presents the reviews in a round robin style: red stars, black stars, or no stars.
+当刷新页面时，应用会在 product 页面中以轮询的方式显示不同版本的评论：如红色星标，黑色星标，或者没有星标。
 
 {{< tip >}}
-If you don't see the expected output in the browser as you follow the task, retry in a few more seconds
-because some delay is possible due to caching and other propagation overhead.
+如果没有在浏览器中看到预期的输出，请过几秒钟重试，因为缓存和其他传输开销会导致一些延迟。
 {{< /tip >}}
 
-## Configure access control for workloads using HTTP traffic
+## 为 HTTP 流量的工作负载配置访问控制
 
-Using Istio, you can easily setup access control for {{< gloss "workload" >}}workloads{{< /gloss >}}
-in your mesh. This task shows you how to set up access control using Istio authorization.
-First, you configure a simple `deny-all` policy that rejects all requests to the workload,
-and then grant more access to the workload gradually and incrementally.
+使用 Istio，您可以轻松地为网格中的{{< gloss "workload" >}}workloads{{< /gloss >}}设置访问控制。本任务向您展示如何使用 Istio 授权设置访问控制。首先，配置一个简单的`deny-all`策略，来拒绝工作负载的所有请求，然后逐渐地、增量地授予对工作负载的更多访问权。
 
-1. Run the following command to create a `deny-all` policy in the `default` namespace.
-   The policy doesn't have a `selector` field, which applies the policy to every workload in the
-   `default` namespace. The `spec:` field of the policy has the empty value `{}`.
-   That value means that no traffic is permitted, effectively denying all requests.
+1. 运行下面的命令在 `default` 命名空间里创建一个 `deny-all` 策略。该策略没有 `selector` 字段，它会把策略应用于 `default` 命名空间中的每个工作负载。策略的 `spec:` 字段为空值 `{}`，意思是不允许任何流量，有效地拒绝所有请求。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -60,10 +49,7 @@ and then grant more access to the workload gradually and incrementally.
     EOF
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
-    You should see `"RBAC: access denied"`. The error shows that the configured `deny-all` policy
-    is working as intended, and Istio doesn't have any rules that allow any access to
-    workloads in the mesh.
+    打开浏览器访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)页面。你将会看到 `"RBAC: access denied"`。该错误表明配置的 `deny-all` 策略按期望生效了，并且 Istio 没有任何规则允许对网格中的工作负载进行任何访问。
 
 1. Run the following command to create a `productpage-viewer` policy to allow access
    with `GET` method to the `productpage` workload. The policy does not set the `from`
@@ -188,9 +174,9 @@ and then grant more access to the workload gradually and incrementally.
     **Congratulations!** You successfully applied authorization policy to enforce access
     control for workloads using HTTP traffic.
 
-## Clean up
+## 清除
 
-1. Remove all authorization policies from your configuration:
+1. 从你的配置中删除所有的授权策略：
 
     {{< text bash >}}
     $ kubectl delete authorizationpolicy.security.istio.io/deny-all
