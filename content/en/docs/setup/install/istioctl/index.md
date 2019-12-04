@@ -50,7 +50,7 @@ $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.glo
 
 In general, you can use the `--set` flag in `istioctl` as you would with
 [Helm](/docs/setup/install/helm/). The only difference is you must
-prefix the `Helm` paths with `values.` because this is the path to the `Helm` pass-through API.
+prefix the setting paths with `values.` because this is the path to the Helm pass-through API, described below.
 
 ## Install from external charts
 
