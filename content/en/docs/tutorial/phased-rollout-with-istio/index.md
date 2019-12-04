@@ -105,6 +105,28 @@ then to 20% and so on.
     $ kubectl edit virtualservice reviews
     {{< /text >}}
 
+1.  Kiali provides cool UI for modifying the distribution of the traffic. Navigate to the `Services` tab of your Kiali
+    console. Select the `reviews` service.
+
+    {{< image width="80%"
+        link="kiali-reviews-service.png"
+        caption="Kiali, selecting the reviews service"
+        >}}
+
+1.  Select `Updated Weighted Routing` action from the `Actions` drop-down menu.
+
+    {{< image width="80%"
+        link="kiali-update-weighted-routing-action.png"
+        caption="Kiali, selecting the updated weighted routing action"
+        >}}
+
+1.  You can move any of the sliders to change the distribution of the traffic between _v2_ and _v3_.
+
+    {{< image width="80%"
+        link="kiali-update-weighted-routing.png"
+        caption="Kiali, updating the weighted routing"
+        >}}
+
 1.  Finally, direct all the traffic to _reviews v3_.
 
     {{< text bash >}}
