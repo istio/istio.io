@@ -746,7 +746,8 @@ file per event. Within these files, you use the following dedicated front-matter
         <tr>
             <td><code>link</code></td>
             <td>You can specify a URL, which turns the whole item into a clickable target. Once the user clicks on the item,
-            the item is no longer shown to the user.
+            the item is no longer shown to the user. The special value `latest_release` can be used here to introduce a link
+            to the current release's announcement page.
             </td>
         </tr>
     </tbody>
