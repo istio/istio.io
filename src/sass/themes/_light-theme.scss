@@ -85,10 +85,18 @@ html {
     --stickerBackgroundColor: rgba(34, 139, 34, 1);
     --stickerTextColor: white;
     --stickerBorderColor: rgba(59, 164, 59, 1);
+    --stickerLinkColor: #e9ffaa;
+    --stickerLinkHoverColor: #de7d40;
+    --stickerLinkDisabledColor: #444444;
+    --stickerLinkActiveColor: #de7d40;
 
     --bannerBackgroundColor: rgba(34, 139, 34, 1);
     --bannerTextColor: white;
-    --banner1BorderColor: rgba(59, 164, 59, 1);
+    --bannerBorderColor: rgba(59, 164, 59, 1);
+    --bannerLinkColor: #e9ffaa;
+    --bannerLinkHoverColor: #de7d40;
+    --bannerLinkDisabledColor: #444444;
+    --bannerLinkActiveColor: #de7d40;
 
     --textWeight: 400;
     --linkWeight: 400;
