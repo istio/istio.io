@@ -73,7 +73,7 @@ metadata:
 spec:
   hosts:
   - reviews
-    http:
+  http:
   - match:
     - headers:
         end-user:
@@ -191,9 +191,8 @@ spec:
 {{< text yaml >}}
 spec:
   hosts:
-
   - reviews
-    http:
+  http:
   - route:
     - destination:
         host: reviews
@@ -309,9 +308,8 @@ metadata:
   name: virtual-svc
 spec:
   hosts:
-
   - ext-host.example.com
-    gateways:
+  gateways:
     - ext-host-gwy
 {{< /text >}}
 
@@ -340,12 +338,12 @@ metadata:
 spec:
   hosts:
   - ext-svc.example.com
-    ports:
+  ports:
   - number: 443
     name: https
     protocol: HTTPS
-    location: MESH_EXTERNAL
-    resolution: DNS
+  location: MESH_EXTERNAL
+  resolution: DNS
 {{< /text >}}
 
 您指定的外部资源使用 `hosts` 字段。可以使用完全限定名或通配符作为前缀域名。
@@ -388,7 +386,6 @@ metadata:
   namespace: bookinfo
 spec:
   egress:
-
   - hosts:
     - "./*"
     - "istio-system/*"
@@ -414,7 +411,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - route:
     - destination:
         host: ratings
@@ -436,7 +433,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - route:
     - destination:
         host: ratings
@@ -493,7 +490,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - fault:
       delay:
         percentage:
