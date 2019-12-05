@@ -275,7 +275,7 @@ other = "Yes"
 other = "No"
 
 [feedback_ask_for_comment]
-other = "What could make this information more useful?"
+other = "Do you have any suggestions for improvement?"
 
 [feedback_thankyou]
 other = "Thanks for your feedback!"
