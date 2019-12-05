@@ -155,6 +155,13 @@ Enable access policies in the following sections to limit access to the microser
     either read-write, or nothing. Similarly, you cannot allow/deny traffic based on other HTTP parameters, like
     HTTP Path. To specify access policies based on HTTP parameters you have to use Istio policies.
 
+    Put the original review stars back:
+
+    {{< text bash >}}
+    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -X POST ratings:9080/ratings/0 -d '{"Reviewer1":5,"Reviewer2":4}'
+    {"id":0,"ratings":{"Reviewer1":5,"Reviewer2":4}}
+    {{< /text >}}
+
     Delete the Kubernetes Network Policies in the next subsection and proceed to define Istio RBAC policies.
 
 ### Clean Kubernetes Network Policies
