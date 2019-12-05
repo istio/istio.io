@@ -27,4 +27,12 @@
         color: $textBrandColor;
         cursor: default;
     }
+
+    #feedback-comment {
+        display: none;
+    }
+
+    #feedback-thankyou {
+        display: none;
+    }
 }
