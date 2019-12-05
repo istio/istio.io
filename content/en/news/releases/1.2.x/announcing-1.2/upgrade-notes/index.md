@@ -27,7 +27,7 @@ The following CRDs remain:
 
 | Custom Resource Definition name | Purpose |
 | --- | --- |
-| `adapter`| Specification of Istio extension declarations |
+| `adapter` | Specification of Istio extension declarations |
 | `attributemanifest` | Specification of Istio extension declarations |
 | `template` | Specification of Istio extension declarations |
 | `handler` | Specification of extension invocations |

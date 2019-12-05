@@ -125,7 +125,7 @@ The `ServiceRole` and `ServiceRoleBinding` above expressed "*who* is allowed to 
 ### Service/method level isolation with/without primary identities
 
 Here is another example that demonstrates finer grained access control at service/method level. The first step
- is to define a `book-reader` `ServiceRole` that allows READ access to `/books/*` resource in `bookstore` service.
+ is to define a `book-reader` service role that allows READ access to `/books/*` resource in `bookstore` service.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"

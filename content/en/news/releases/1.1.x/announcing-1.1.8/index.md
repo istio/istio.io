@@ -18,7 +18,7 @@ We're pleased to announce the availability of Istio 1.1.8. Please see below for 
 
 ## Bug fixes
 
-- Fix `PASSTHROUGH` `DestinationRules` for CDS clusters ([Issue 13744](https://github.com/istio/istio/issues/13744)).
+- Fix `PASSTHROUGH DestinationRules` for CDS clusters ([Issue 13744](https://github.com/istio/istio/issues/13744)).
 - Make the `appVersion` and `version` fields in the Helm charts display the correct Istio version ([Issue 14290](https://github.com/istio/istio/issues/14290)).
 - Fix Mixer crash affecting both policy and telemetry servers ([Issue 14235](https://github.com/istio/istio/issues/14235)).
 - Fix multicluster issue where two pods in different clusters could not share the same IP address ([Issue 14066](https://github.com/istio/istio/issues/14066)).

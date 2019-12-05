@@ -184,7 +184,7 @@ to hold the configuration of the NGINX server:
 
 ## Configure an ingress gateway
 
-1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` `tls` `mode` which instructs
+1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` TLS mode which instructs
     the gateway to pass the ingress traffic AS IS, without terminating TLS.
 
     {{< text bash >}}
