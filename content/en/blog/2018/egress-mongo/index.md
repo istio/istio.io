@@ -1129,7 +1129,7 @@ section.
     $ kubectl delete envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
-1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
+1.  Delete the configuration items for the `egressgateway-with-sni-proxy` deployment:
 
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy
