@@ -249,7 +249,7 @@ In this section you apply Istio [Authorization Policies](/docs/concepts/security
                          "cluster.local/ns/$NAMESPACE/sa/sleep"]
         to:
         - operation:
-            methods: ["GET"]  
+            methods: ["GET"]
     EOF
     {{< /text >}}
 
