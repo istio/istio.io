@@ -225,6 +225,8 @@ one later.
           labels:
             app: ratings
             version: v-unhealthy
+          annotations:
+            sidecar.istio.io/rewriteAppHTTPProbers: "true"
         spec:
           containers:
           - name: ratings
