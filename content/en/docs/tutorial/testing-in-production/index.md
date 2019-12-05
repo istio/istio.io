@@ -21,7 +21,7 @@ Perform testing of your microservice, in production!
 
 ## Chaos testing
 
-Perform some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/) in production and see how
+Perform some [chaos testing](https://en.wikipedia.org/wiki/Chaos_engineering) in production and see how
 your application reacts. After each chaos operation, access the application's webpage and see if anything was
 changed. Also check the pods' status with `kubectl get pods`.
 
