@@ -175,7 +175,7 @@ $ kubectl delete networkpolicy reviews ratings details
 In this section you apply Istio [Authorization Policies](/docs/concepts/security/#authorization).
 
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
-    You will need it to define autorization policies.
+    You will need it to define authorization policies.
 
     {{< text bash >}}
     $ export NAMESPACE=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
