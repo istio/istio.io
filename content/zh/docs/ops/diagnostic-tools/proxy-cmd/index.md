@@ -17,7 +17,7 @@ to inspect Envoy configuration and diagnose the issue.
 
 If you want to try the commands described below, you can either:
 
-* Have a Kubernetes cluster with Istio and Bookinfo installed (e.g use `istio.yaml` as described in
+* Have a Kubernetes cluster with Istio and Bookinfo installed (as described in
 [installation steps](/zh/docs/setup/getting-started/) and
 [Bookinfo installation steps](/zh/docs/examples/bookinfo/#deploying-the-application)).
 
@@ -295,7 +295,7 @@ one route that matches on everything. This route tells Envoy to send the request
     172.17.0.5:9080      HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
-## Inspecting Bootstrap configuration
+## Inspecting bootstrap configuration
 
 So far we have looked at configuration retrieved (mostly) from Pilot, however Envoy requires some bootstrap configuration that
 includes information like where Pilot can be found. To view this use the following command:

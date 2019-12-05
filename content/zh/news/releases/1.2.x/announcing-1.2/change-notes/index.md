@@ -13,7 +13,7 @@ aliases:
 
 ## Traffic management
 
-- **Improved** [locality based routing](/zh/docs/ops/traffic-management/locality-load-balancing/) in multicluster environments.
+- **Improved** [locality based routing](/zh/docs/ops/configuration/traffic-management/locality-load-balancing/) in multicluster environments.
 - **Improved** outbound traffic policy in [`ALLOW_ANY` mode](/zh/docs/reference/config/installation-options/#global-options). Traffic for unknown HTTP/HTTPS hosts on an existing port will be [forwarded as is](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services). Unknown traffic will be logged in Envoy access logs.
 - **Added** support for setting HTTP idle timeouts to upstream services.
 - **Improved** Sidecar support for [NONE mode](/zh/docs/reference/config/networking/sidecar/#CaptureMode) (without iptables) .
@@ -23,7 +23,7 @@ aliases:
 ## Security
 
 - **Improved** extend the default lifetime of self-signed Citadel root certificates to 10 years.
-- **Added** Kubernetes health check prober rewrite per deployment via `sidecar.istio.io/rewriteAppHTTPProbers: "true"` in the `PodSpec` [annotation](/zh/docs/ops/setup/app-health-check/#use-annotations-on-pod).
+- **Added** Kubernetes health check prober rewrite per deployment via `sidecar.istio.io/rewriteAppHTTPProbers: "true"` in the `PodSpec` [annotation](/zh/docs/ops/configuration/mesh/app-health-check/#use-annotations-on-pod).
 - **Added** support for configuring the secret paths for Istio mutual TLS certificates. Refer [here](https://github.com/istio/istio/issues/11984) for more details.
 - **Added** support for [PKCS 8](https://en.wikipedia.org/wiki/PKCS_8) private keys for workloads, enabled by the flag `pkcs8-keys` on Citadel.
 - **Improved** JWT public key fetching logic to be more resilient to network failure.

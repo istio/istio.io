@@ -8,7 +8,7 @@ aliases:
     - /zh/docs/examples/multicluster/icp/
 ---
 
-本例演示了如何在两个 [IBM Cloud Private](https://www.ibm.com/cloud/private) 集群之间设置网络连接并使用[单网络部署](/zh/docs/ops/prep/deployment-models/#single-network)以将它们组成一个多集群网格。
+本例演示了如何在两个 [IBM Cloud Private](https://www.ibm.com/cloud/private) 集群之间设置网络连接并使用[单网络部署](/zh/docs/ops/deployment/deployment-models/#single-network)以将它们组成一个多集群网格。
 
 ## 创建 IBM Cloud Private 集群{#create-the-IBM-Cloud-Private-clusters}
 

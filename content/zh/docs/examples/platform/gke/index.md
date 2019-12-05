@@ -8,7 +8,7 @@ aliases:
   - /zh/docs/examples/multicluster/gke/
 ---
 
-此示例展示在两个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群上使用[单网络 deployment](/zh/docs/ops/prep/deployment-models/#single-network) 配置多集群网格。
+此示例展示在两个 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) 集群上使用[单网络 deployment](/zh/docs/ops/deployment/deployment-models/#single-network) 配置多集群网格。
 
 ## 开始之前{#before-you-begin}
 

@@ -58,7 +58,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
 本指南可以让您快速尝鲜 Istio ，这对初学者来说是一个理想的起点。首先，下载并安装 Istio 的内建 `demo` [配置](/zh/docs/setup/additional-setup/config-profiles/)。
 
-本指南让您快速开始认识 Istio。如果您已经熟悉 Istio 或对其他配置内容或更高级的[部署模型](/zh/docs/ops/prep/deployment-models/)感兴趣，请参考 [使用 {{< istioctl >}} 命令安装](/zh/docs/setup/install/istioctl)。
+本指南让您快速开始认识 Istio。如果您已经熟悉 Istio 或对其他配置内容或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，请参考 [使用 {{< istioctl >}} 命令安装](/zh/docs/setup/install/istioctl)。
 
 {{< warning >}}
 演示用的配置不适合用于性能评估。它仅用来展示 Istio 的链路追踪和访问记录功能。
@@ -139,8 +139,8 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 
 下一步，可以定制 Istio 并部署您自己的应用。在您开始自定义 Istio 来适配您的平台或者其他用途之前，请查看以下资源：
 
-- [部署模型](/zh/docs/ops/prep/deployment-models/)
-- [部署最佳实践](/zh/docs/ops/prep/deployment/)
+- [部署模型](/zh/docs/ops/deployment/deployment-models/)
+- [部署最佳实践](/zh/docs/ops/deployment/deployment/)
 - [Pod 需求](/zh/docs/ops/deployment/requirements/)
 - [常规安装说明](/zh/docs/setup/)
 
