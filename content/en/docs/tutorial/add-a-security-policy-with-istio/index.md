@@ -172,24 +172,10 @@ $ kubectl delete networkpolicy reviews ratings details
 
 ## Istio RBAC
 
-In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concepts/security/#authorization).
-
-1.   Secure access control in Istio is based on
-     [Kubernetes Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/),
-     which serve as as the [identities](https://en.wikipedia.org/wiki/Digital_identity) of the pods.
-     Add Kubernetes Service Accounts to `productpage` and `reviews`.
-
-    {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-add-serviceaccount.yaml
-    serviceaccount "bookinfo-productpage" created
-    deployment "productpage-v1" configured
-    serviceaccount "bookinfo-reviews" created
-    deployment "reviews-v2" configured
-    deployment "reviews-v3" configured
-    {{< /text >}}
+In this section you apply Istio [Authorization Policies](/docs/concepts/security/#authorization).
 
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
-    You will need it to recognize your microservices in the logs:
+    You will need it to define autorization policies.
 
     {{< text bash >}}
     $ export NAMESPACE=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
@@ -197,124 +183,88 @@ In this section you apply Istio [Role-based Access Control (RBAC)](/docs/concept
     tutorial
     {{< /text >}}
 
-1.   Create Istio service roles for read access to `productpage`, `reviews`, `ratings` and `details`.
+1.  Create authorization policies:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRole
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: productpage-viewer
     spec:
+      selector:
+        matchLabels:
+          app: productpage
       rules:
-      - services: ["productpage.$NAMESPACE.svc.cluster.local"]
-        methods: ["GET"]
+      - to:
+        - operation:
+            methods: ["GET"]
     ---
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRole
-    metadata:
-      name: reviews-viewer
-    spec:
-      rules:
-      - services: ["reviews.$NAMESPACE.svc.cluster.local"]
-        methods: ["GET"]
-    ---
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRole
-    metadata:
-      name: ratings-viewer
-    spec:
-      rules:
-      - services: ["ratings.$NAMESPACE.svc.cluster.local"]
-        methods: ["GET"]
-    ---
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRole
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: details-viewer
     spec:
+      selector:
+        matchLabels:
+          app: details
       rules:
-      - services: ["details.$NAMESPACE.svc.cluster.local"]
-        methods: ["GET"]
-    EOF
-    {{< /text >}}
-
-1.  Create role bindings to enable read access to microservices according to the requirements of the application:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRoleBinding
-    metadata:
-      name: productpage-viewer
-    spec:
-      subjects:
-      - user: "*"
-      roleRef:
-        kind: ServiceRole
-        name: productpage-viewer
+      - from:
+        - source:
+            principals: ["cluster.local/ns/$NAMESPACE/sa/bookinfo-productpage",
+                         "cluster.local/ns/$NAMESPACE/sa/sleep"]
+        to:
+        - operation:
+            methods: ["GET"]
     ---
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRoleBinding
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: reviews-viewer
     spec:
-      subjects:
-      - user: "cluster.local/ns/${NAMESPACE}/sa/bookinfo-productpage"
-      - user: "cluster.local/ns/${NAMESPACE}/sa/sleep"
-      roleRef:
-        kind: ServiceRole
-        name: reviews-viewer
+      selector:
+        matchLabels:
+          app: reviews
+      rules:
+      - from:
+        - source:
+            principals: ["cluster.local/ns/$NAMESPACE/sa/bookinfo-productpage",
+                         "cluster.local/ns/$NAMESPACE/sa/sleep"]
+        to:
+        - operation:
+            methods: ["GET"]
     ---
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRoleBinding
-    metadata:
-      name: details-viewer
-    spec:
-      subjects:
-      - user: "cluster.local/ns/${NAMESPACE}/sa/bookinfo-productpage"
-      - user: "cluster.local/ns/${NAMESPACE}/sa/sleep"
-      roleRef:
-        kind: ServiceRole
-        name: details-viewer
-    ---
-    apiVersion: rbac.istio.io/v1alpha1
-    kind: ServiceRoleBinding
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: ratings-viewer
     spec:
-      subjects:
-      - user: "cluster.local/ns/${NAMESPACE}/sa/bookinfo-reviews"
-      - user: "cluster.local/ns/${NAMESPACE}/sa/sleep"
-      roleRef:
-        kind: ServiceRole
-        name: ratings-viewer
+      selector:
+        matchLabels:
+          app: ratings
+      rules:
+      - from:
+        - source:
+            principals: ["cluster.local/ns/$NAMESPACE/sa/bookinfo-reviews",
+                         "cluster.local/ns/$NAMESPACE/sa/sleep"]
+        to:
+        - operation:
+            methods: ["GET"]  
     EOF
     {{< /text >}}
 
-1.  Ask your cluster owner to enable
-    [Istio RBAC](/docs/concepts/security/#authorization) on your namespace.
+1.  Apply `deny-all` policy.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "rbac.istio.io/v1alpha1"
-    kind: ClusterRbacConfig
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
-      name: default
-      namespace: istio-system
+      name: deny-all
     spec:
-      mode: ON_WITH_INCLUSION
-      inclusion:
-        namespaces: [ "$NAMESPACE" ]
+      {}
     EOF
     {{< /text >}}
-
-    To enable Istio RBAC on multiple namespaces, list them in the `namespaces` field, separated by commas.
-
-    {{< warning >}}
-    After Istio RBAC is enabled on a namespace, all the traffic to microservices in the namespace is blocked unless
-    explicitly allowed. This is the recommended mode according to some compliance standards.
-    {{< /warning >}}
 
 1.  Access the application's webpage and verify that the application continues to work, which would mean that the
     authorized access is allowed and you configured your policy rules correctly.
@@ -357,3 +307,9 @@ HTTP parameters of the access, in your case which HTTP method which microservice
 microservice. Also note that you can follow the
 [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) principle and apply Kubernetes
 Network Policies together with Istio RBAC.
+
+## Cleanup
+
+{{< text bash >}}
+$ kubectl delete authorizationpolicy deny-all ratings-viewer reviews-viewer details-viewer productpage-viewer
+{{< /text >}}

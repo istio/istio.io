@@ -156,7 +156,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       namespace: $NAMESPACE
     rules:
     - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io", "authentication.istio.io",
-                  "rbac.istio.io", "config.istio.io"]
+                  "security.istio.io", "config.istio.io"]
       resources: ["*"]
       verbs: ["*"]
     ---
