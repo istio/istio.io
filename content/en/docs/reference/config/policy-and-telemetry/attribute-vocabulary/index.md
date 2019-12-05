@@ -39,7 +39,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | `istio://istio-system/workloads/istio-telemetry` |
 | `destination.workload.name`     | string | Destination workload name. | `istio-telemetry` |
-| `destination.workload.namespace`| string | Destination workload namespace. | `istio-system` |
+| `destination.workload.namespace` | string | Destination workload namespace. | `istio-system` |
 | `destination.container.name`    | string | Name of the destination workload instance's container. | `mixer` |
 | `destination.container.image`   | string | Image of the destination workload instance's container. | `gcr.io/istio-testing/mixer:0.8.0` |
 | `destination.service.host`      | string | Destination host address. | `istio-telemetry.istio-system.svc.cluster.local` |

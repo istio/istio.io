@@ -31,24 +31,24 @@ This logic is captured in the truth table below:
 
 | `ca.istio.io/override` value | `ca.istio.io/env` match | `enableNamespacesByDefault` configuration | Workload secret created |
 |------------------------------|-------------------------|-------------------------------------------|-------------------------|
-|`true`|yes|`true`|yes|
-|`true`|yes|`false`|yes|
-|`true`|no|`true`|yes|
-|`true`|no|`false`|yes|
-|`true`|unset|`true`|yes|
-|`true`|unset|`false`|yes|
-|`false`|yes|`true`|no|
-|`false`|yes|`false`|no|
-|`false`|no|`true`|no|
-|`false`|no|`false`|no|
-|`false`|unset|`true`|no|
-|`false`|unset|`false`|no|
-|unset|yes|`true`|yes|
-|unset|yes|`false`|yes|
-|unset|no|`true`|no|
-|unset|no|`false`|no|
-|unset|unset|`true`|yes|
-|unset|unset|`false`|no|
+|`true` | yes | `true` | yes |
+|`true` | yes | `false` | yes |
+|`true` | no | `true` | yes |
+|`true` | no | `false` | yes |
+|`true` | unset | `true` | yes |
+|`true` | unset | `false` | yes |
+|`false` | yes | `true` | no |
+|`false` | yes | `false` | no |
+|`false` | no | `true` | no |
+|`false` | no | `false` | no |
+|`false` | unset | `true` | no |
+|`false` | unset | `false` | no |
+|unset| yes | `true` | yes |
+|unset| yes | `false` | yes |
+|unset| no | `true` | no |
+|unset| no | `false` | no |
+|unset| unset | `true` | yes |
+|unset| unset | `false` | no |
 
 {{< idea >}}
 When a namespace transitions from _disabled_ to _enabled_, Citadel will retroactively generate secrets for all `ServiceAccounts` in that namespace. When transitioning from _enabled_ to _disabled_, however, Citadel will not delete the namespace's generated secrets until the root certificate is renewed.

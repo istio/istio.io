@@ -36,7 +36,7 @@ Envoy update which contains the final version of the patches.
 
 - Prevent services with same target port resulting in duplicate inbound listeners ([Issue 9504](https://github.com/istio/istio/issues/9504)).
 
-- Fix issue with configuring `Sidecar` `egress` ports for namespaces other than `istio-system` resulting in a `envoy.tcp_proxy` filter of `BlackHoleCluster` by auto binding
+- Fix issue with configuring `Sidecar egress` ports for namespaces other than `istio-system` resulting in a `envoy.tcp_proxy` filter of `BlackHoleCluster` by auto binding
 to services for `Sidecar` listeners ([Issue 12536](https://github.com/istio/istio/issues/12536)).
 
 - Fix gateway `vhost` configuration generation issue by favoring more specific host matches ([Issue 12655](https://github.com/istio/istio/issues/12655)).
