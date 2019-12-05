@@ -194,7 +194,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 1.  如果要通过出口网关引导流量，请继续下一节。否则，请执行 
     [cleanup](#cleanup-of-TCP-egress-traffic-control).
 
-### 通过 egress gateway 定向 TCP egress 流量{#direct-TCP-egress-traffic-through-an-egress-gateway}
+### 通过 egress gateway 定向 TCP Egress 流量{#direct-TCP-egress-traffic-through-an-egress-gateway}
 
 在本节中，您将处理通过 [egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
 
@@ -203,7 +203,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 1. 如果您未执行 [上一节](#control-TCP-egress-traffic-without-a-gateway) 中的步骤，则立即执行这些步骤。
 
 1. 您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的 {{< gloss >}}mutual TLS Authentication{{< /gloss >}}，以使 egress gateway 监控来源 pod 的身份并基于该 identity     启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
-   如果你不想开启双向 TLS，参考[[Mutual TLS between the sidecar proxies and the egress gateway](#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway)小节
+   如果你不想开启双向 TLS，参考[Mutual TLS between the sidecar proxies and the egress gateway](#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway)小节
   否则，请继续以下部分。
 
 #### 配置从 sidecar 到 egress gateway 的 TCP 流量{#configure-TCP-traffic-from-sidecars-to-the-egress-gateway}
@@ -228,7 +228,8 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
     istio-egressgateway   ClusterIP   172.21.202.204   <none>        80/TCP,443/TCP,7777/TCP   34d
     {{< /text >}}
 
-1. 为 `istio-egressgateway`服务 关闭双向 TLS 认证
+1. 为 `istio-egressgateway` 服务 关闭双向 TLS 认证
+
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: authentication.istio.io/v1alpha1
@@ -315,7 +316,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 3. [验证 TCP egress 流量是否被定向到 egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway).
 
-#### Sidecar 代理和 egress gateway 之间的双向 TLS{mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway}
+#### Sidecar 代理和 egress gateway 之间的双向 TLS{mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway}
 
 1. 删除前面小节中的配置：
 
