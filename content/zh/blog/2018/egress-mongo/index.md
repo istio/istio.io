@@ -133,7 +133,7 @@ target_release: 1.1
 
 ### 访问网页{#access-the-webpage}
 
-[确认 ingress IP 和端口之后](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)，访问应用程序的网页。
+[确认 ingress IP 和端口之后](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)，访问应用程序的网页。
 
 由于您尚未配置 egress 流量控制，所以 Istio 会阻止到 MongoDB 服务的访问。这就是为什么您当前不能看到评级的星标，只能看到 _"Ratings service is currently unavailable"_ 的信息：
 
@@ -145,7 +145,7 @@ target_release: 1.1
 
 由于 [MongoDB 协议](https://zh/docs.mongodb.com/manual/reference/mongodb-wire-protocol/)运行在 TCP 之上，您可以像控制到[其余 TCP 服务](/zh/blog/2018/egress-tcp/)的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 [CIDR](https://tools.ietf.org/html/rfc2317) 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。
 
-在 MongoDB IP 不稳定的情况下，可以以 [TLS 方式控制](#egress-control-for-tls) egress 流量，或绕过 Istio sidecar [直接](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)路由流量。
+在 MongoDB IP 不稳定的情况下，可以以 [TLS 方式控制](#egress-control-for-TLS) egress 流量，或绕过 Istio sidecar [直接](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)路由流量。
 
 获取 MongoDB 数据库实例的 IP 地址。一种选择是使用 [host](https://linux.die.net/man/1/host) 命令。
 
@@ -192,18 +192,18 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 请注意，和预期的一样，您会看到两个显示评论的一星评级。您将评级设置为一星，以作为外部数据库确实被使用了的视觉证据。
 
 1.  如果要通过出口网关引导流量，请继续下一节。否则，请执行 
-    [cleanup](#cleanup-of-tcp-egress-traffic-control).
+    [cleanup](#cleanup-of-TCP-egress-traffic-control).
 
 ### 通过 egress gateway 定向 TCP egress 流量{#direct-TCP-egress-traffic-through-an-egress-gateway}
 
 在本节中，您将处理通过 [egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
 
-1.  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+1.  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
 
-1. 如果您未执行 [上一节](#control-tcp-egress-traffic-without-a-gateway) 中的步骤，则立即执行这些步骤。
+1. 如果您未执行 [上一节](#control-TCP-egress-traffic-without-a-gateway) 中的步骤，则立即执行这些步骤。
 
 1. 您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的 {{< gloss >}}mutual TLS Authentication{{< /gloss >}}，以使 egress gateway 监控来源 pod 的身份并基于该 identity     启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
-   如果你不想开启双向 TLS，参考[[Mutual TLS between the sidecar proxies and the egress gateway](#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway)小节
+   如果你不想开启双向 TLS，参考[[Mutual TLS between the sidecar proxies and the egress gateway](#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway)小节
   否则，请继续以下部分。
 
 #### 配置从 sidecar 到 egress gateway 的 TCP 流量{#configure-TCP-traffic-from-sidecars-to-the-egress-gateway}
@@ -506,7 +506,7 @@ Sidecar 代理通过匹配 MongoDB 主机的 SNI，将 TLS 连接从 MongoDB 客
 Egress gateway 再将流量转发到 MongoDB 主机。请注意，sidecar 代理会将目的端口重写为 443。
 Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoDB 主机，并再次将端口重写为 MongoDB 服务器的端口。
 
-1.  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+1.  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
 
 1. 为 MongoDB service 创建一个 `ServiceEntry`:
 
