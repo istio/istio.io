@@ -41,7 +41,7 @@
                         {{- if .Params.link -}}
                             <a href="{{ .Params.link }}"
                             class="{{ $kind }}"
-                            data-title="{{- .Params.title -}}"
+                            data-title="{{- .Params.title -}} - {{- $periodStart -}}"
                             data-period-start='{{ div $periodStart.UnixNano 1000000 }}'
                             data-period-end='{{ div $periodEnd.UnixNano 1000000 }}'
                             data-max-impressions="{{ .Params.max_impressions }}"
@@ -49,7 +49,7 @@
                         {{- else -}}
                             <div
                             class="{{ $kind }}"
-                            data-title="{{- .Params.title -}}"
+                            data-title="{{- .Params.title -}} - {{- $periodStart -}}"
                             data-period-start='{{ div $periodStart.UnixNano 1000000 }}'
                             data-period-end='{{ div $periodEnd.UnixNano 1000000 }}'
                             data-max-impressions="{{ .Params.max_impressions }}"
@@ -62,13 +62,13 @@
 
                             <div class="wrap">
                                 <div class="content">
-                                    {{ .Content | markdownify }}
+                                    {{ .Content }}
                                 </div>
                             </div>
                             <div class="frame"></div>
                         {{- else -}}
                             <div class="content">
-                                {{ .Content | markdownify }}
+                                {{ .Content }}
                             </div>
                             <div class="frame"></div>
                         {{- end -}}

@@ -1,8 +1,10 @@
 .sticker-container {
-
-    --trapezoid-edge: 3.3rem;
+    display: none;
 
     @media screen AND (min-width: $bp-md) {
+        display: block;
+        --trapezoid-edge: 3.3rem;
+
         .sticker {
             display: none;
             position: fixed;
@@ -15,8 +17,6 @@
             background: $stickerBackgroundColor;
             transform: rotate(45deg);
             transform-origin: bottom right;
-            text-align: center;
-            vertical-align: middle;
 
             .wrap {
                 display: flex;
@@ -26,10 +26,14 @@
 
             .content {
                 margin: auto 0;
-                top: 0;
+
+                p {
+                    margin: 0;
+                }
             }
 
             .frame {
+                position: absolute;
                 top: 2px;
                 left: 2rem;
                 border-color: transparent;
@@ -38,7 +42,6 @@
                 background: transparent;
                 width: calc(100% - 4rem);
                 height: calc(100% - 4px);
-                position: absolute;
             }
 
             .left {
@@ -58,6 +61,24 @@
                 shape-outside: polygon(0 100%, 100% 100%, 100% 0);
                 clip-path: polygon(0 100%, 100% 100%, 100% 0);
             }
+        }
+
+        a {
+            color: $stickerLinkColor;
+        }
+
+        a:hover, a:focus {
+            color: $stickerLinkHoverColor;
+            text-decoration: none;
+        }
+
+        a.disabled {
+            color: $stickerLinkDisabledColor;
+        }
+
+        a.active {
+            color: $stickerLinkActiveColor;
+            text-decoration: none;
         }
     }
 }
