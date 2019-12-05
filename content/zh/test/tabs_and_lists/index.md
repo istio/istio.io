@@ -4,13 +4,13 @@ description: Composing tabs and lists.
 skip_sitemap: true
 ---
 
-{{< tabset cookie-name="test" >}}
+{{< tabset category-name="test" >}}
 
-{{< tab name="One" cookie-value="one" >}}
+{{< tab name="One" category-value="one" >}}
 1. One paragraph in a list in a tab
 {{< /tab >}}
 
-{{< tab name="Two" cookie-value="two" >}}
+{{< tab name="Two" category-value="two" >}}
 1. Three
 
 1. separate
@@ -20,7 +20,7 @@ skip_sitemap: true
     This last bullet with two paragraphs
 {{< /tab >}}
 
-{{< tab name="Three" cookie-value="three" >}}
+{{< tab name="Three" category-value="three" >}}
 1. Simple text in a list in a tab
 
     A paragraph
@@ -36,7 +36,7 @@ skip_sitemap: true
 1. Third bullet
 {{< /tab >}}
 
-{{< tab name="Four" cookie-value="four" >}}
+{{< tab name="Four" category-value="four" >}}
 1. Simple text with _markdown_ in a list in a tab
 
     {{< warning >}}
@@ -44,7 +44,7 @@ skip_sitemap: true
     {{< /warning >}}
 {{< /tab >}}
 
-{{< tab name="Five" cookie-value="five" >}}
+{{< tab name="Five" category-value="five" >}}
 1. Simple text in a list in a tab
 
     {{< text plain >}}
@@ -53,7 +53,7 @@ skip_sitemap: true
 
 {{< /tab >}}
 
-{{< tab name="Six" cookie-value="six" >}}
+{{< tab name="Six" category-value="six" >}}
 1. Simple text with _markdown_ in a list in a tab
 
     {{< warning >}}
@@ -63,7 +63,7 @@ skip_sitemap: true
 1. Second bullet
 {{< /tab >}}
 
-{{< tab name="Seven" cookie-value="seven" >}}
+{{< tab name="Seven" category-value="seven" >}}
 1. Simple text with _markdown_ in a list in a tab
 
     {{< text_hack bash >}}

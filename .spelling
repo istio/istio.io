@@ -8,9 +8,17 @@
 0.2.x
 0.8.x
 1.0.x
+1.0.x.
 1.1.x
+1.1.x.
 1.2.x
+1.2.x.
 1.3.x
+1.3.x.
+1.4.x
+1.4.x.
+1.5.x
+1.5.x.
 1.x
 10ms
 10s
@@ -40,10 +48,12 @@
 5ms
 6ms
 6s
+7.5
 72.96ms
 7Mb
 7ms
 7s
+8.5
 8ms
 8x
 9ms
@@ -143,6 +153,8 @@ CSRs
 Ctrl
 Customizable
 CVE
+CVE-2019-12243
+CVE-2019-12995
 CVE-2019-14993
 CVE-2019-15226
 CVE-2019-18817
@@ -152,6 +164,8 @@ CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
 CVEs
+cves
+cvss
 cyber
 Datadog
 datapath
@@ -304,7 +318,7 @@ Kops
 Kuat
 Kube
 kubebuilder
-Kubecon
+KubeCon
 kubeconfig
 Kubelet
 kubelet
@@ -321,6 +335,7 @@ linter
 linters
 liveness
 loopback
+Lua
 Lyft
 macOS
 Mandar
@@ -469,6 +484,7 @@ schemas
 SDKs
 sds
 Secura
+security_bulletin
 selinux
 serverless
 serviceaccount

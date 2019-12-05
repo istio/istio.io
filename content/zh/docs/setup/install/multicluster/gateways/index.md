@@ -10,8 +10,8 @@ aliases:
 keywords: [kubernetes,multicluster,gateway]
 ---
 
-请参照本指南安装具有副本集 [控制平面](/zh/docs/setup/deployment-models/#control-plane-models) 实例的
-Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，并在每个群集中使用 gateway 来提供跨集群连接服务。
+请参照本指南安装具有副本集 [控制平面](/zh/docs/ops/prep/deployment-models/#multiple-clusters) 实例的
+Istio [多集群部署](/zh/docs/ops/prep/deployment-models/#control-plane-models)，并在每个群集中使用 gateway 来提供跨集群连接服务。
 
 在此配置中，每个集群都使用它自己的 Istio 控制平面来完成安装，并管理自己的 endpoint，
 而不是使用共享的 Istio 控制平面来管理网格。
@@ -56,7 +56,7 @@ Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，�
 
     {{< /tip >}}
 
-    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
+    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
 
         {{< warning >}}
         示例目录中的根证书和中间证书已被广泛分发和知道。
@@ -79,7 +79,7 @@ Istio [多集群部署](/zh/docs/setup/deployment-models/#multiple-clusters)，�
             -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml
         {{< /text >}}
 
-    想了解更多细节和自定义选项，请参考 [使用 Istioctl 安装](/zh/docs/setup/install/kubernetes/)。
+    想了解更多细节和自定义选项，请参考 [使用 Istioctl 安装](/zh/docs/setup/install/istioctl/)。
 
 ## 配置 DNS{#setup-DNS}
 
@@ -99,8 +99,8 @@ Istio 还附带了一个名为 CoreDNS 的服务，它可以为这些服务提�
 在每个要调用远端集群中服务的集群中（通常是所有集群），
 选择并创建下面这些 ConfigMaps 中的一个，或直接使用现有的做修改。
 
-{{< tabset cookie-name="platform" >}}
-{{< tab name="KubeDNS" cookie-value="kube-dns" >}}
+{{< tabset category-name="platform" >}}
+{{< tab name="KubeDNS" category-value="kube-dns" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -117,7 +117,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (< 1.4.0)" cookie-value="coredns-prev-1.4.0" >}}
+{{< tab name="CoreDNS (< 1.4.0)" category-value="coredns-prev-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -153,7 +153,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+{{< tab name="CoreDNS (>= 1.4.0)" category-value="coredns-after-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -321,9 +321,9 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 
 如果 `$CLUSTER2_GW_ADDR` 是 IP 地址，请使用 `$CLUSTER2_GW_ADDR - IP address` 选项。如果 `$CLUSTER2_GW_ADDR` 是域名，请使用 `$CLUSTER2_GW_ADDR - hostname` 选项。
 
-{{< tabset cookie-name="profile" >}}
+{{< tabset category-name="profile" >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - IP address" cookie-value="option1" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - IP address" category-value="option1" >}}
 * 暴露 `cluster1` egress gateway 地址:
 
 {{< text bash >}}
@@ -364,7 +364,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="$CLUSTER2_GW_ADDR - hostname" cookie-value="option2" >}}
+{{< tab name="$CLUSTER2_GW_ADDR - hostname" category-value="option2" >}}
 如果 `${CLUSTER2_GW_ADDR}` 是域名，您也可以使用 `resolution: DNS` 实现 endpoint 解析。
 
 {{< text bash >}}

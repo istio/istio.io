@@ -8,7 +8,7 @@ aliases:
 ---
 
 This page describes changes you need to be aware of when upgrading from
-Istio 1.2 to 1.3.  Here, we detail cases where we intentionally broke backwards
+Istio 1.2.x to 1.3.x.  Here, we detail cases where we intentionally broke backwards
 compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.2.
@@ -31,7 +31,7 @@ to intentionally bypass Envoy, you must opt out of port capturing with the
 
 Protocol sniffing is now enabled by default. Disable protocol sniffing with the
 `--set pilot.enableProtocolSniffing=false` option when you upgrade to get the
-previous behavior. To learn more see our [protocol selection page](/docs/ops/traffic-management/protocol-selection/).
+previous behavior. To learn more see our [protocol selection page](/docs/ops/configuration/traffic-management/protocol-selection/).
 
 To specify a hostname in multiple namespaces, you must select a single host using
 a [`Sidecar` resource](/docs/reference/config/networking/sidecar/).

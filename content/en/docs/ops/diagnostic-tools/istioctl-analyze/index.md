@@ -32,9 +32,11 @@ Note that `x` in the command is because this is currently an experimental featur
 
 ## Analyzing live clusters, local files, or both
 
-The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
+The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local Kubernetes yaml configuration files,
+or on a combination of local files and a live cluster. When analyzing a set of local files, the file set is expected to be fully self-contained.
+Typically, this is used to analyze the entire set of configuration files that are intended to be deployed to a cluster.
 
-Analyze a specific set of local files:
+Analyze a specific set of local Kubernetes yaml files:
 
 {{< text bash >}}
 $ ./istioctl x analyze a.yaml b.yaml
@@ -109,9 +111,9 @@ of analyzers and may find issues that older versions miss.
 
 You can download the latest `istioctl` into the current folder using the following command:
 
-{{< tabset cookie-name="platform" >}}
+{{< tabset category-name="platform" >}}
 
-{{< tab name="Mac" cookie-value="macos" >}}
+{{< tab name="Mac" category-value="macos" >}}
 
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
@@ -119,7 +121,7 @@ $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl 
 
 {{< /tab >}}
 
-{{< tab name="Linux" cookie-value="linux" >}}
+{{< tab name="Linux" category-value="linux" >}}
 
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz

@@ -322,7 +322,9 @@ you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/)
 external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
 or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
-update the `istio-sidecar-injector` configuration map using the `kubectl apply` command.
+update the `istio-sidecar-injector` configuration map using the `kubectl apply` command. This can also
+be configured on a pod by setting corresponding [annotations](/docs/reference/config/annotations/) such as
+`traffic.sidecar.istio.io/includeOutboundIPRanges`.
 After updating the `istio-sidecar-injector` configuration, it affects all
 future application pod deployments.
 
@@ -508,9 +510,9 @@ $ kubectl delete -f @samples/sleep/sleep.yaml@
 
 1.  If you want to change the mode, perform the following commands:
 
-    {{< tabset cookie-name="outbound_traffic_policy_mode" >}}
+    {{< tabset category-name="outbound_traffic_policy_mode" >}}
 
-    {{< tab name="change from ALLOW_ANY to REGISTRY_ONLY" cookie-value="REGISTRY_ONLY" >}}
+    {{< tab name="change from ALLOW_ANY to REGISTRY_ONLY" category-value="REGISTRY_ONLY" >}}
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
@@ -519,7 +521,7 @@ $ kubectl delete -f @samples/sleep/sleep.yaml@
 
     {{< /tab >}}
 
-    {{< tab name="change from REGISTRY_ONLY to ALLOW_ANY" cookie-value="ALLOW_ANY" >}}
+    {{< tab name="change from REGISTRY_ONLY to ALLOW_ANY" category-value="ALLOW_ANY" >}}
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -

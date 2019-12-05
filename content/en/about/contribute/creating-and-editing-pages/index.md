@@ -629,17 +629,17 @@ If you have some content to display in a variety of formats, it is convenient to
 format in a different tab. To insert tabbed content, you use a combination of `tabset` and `tabs` annotations:
 
 {{< text markdown >}}
-{{</* tabset cookie-name="platform" */>}}
+{{</* tabset category-name="platform" */>}}
 
-{{</* tab name="One" cookie-value="one" */>}}
+{{</* tab name="One" category-value="one" */>}}
 ONE
 {{</* /tab */>}}
 
-{{</* tab name="Two" cookie-value="two" */>}}
+{{</* tab name="Two" category-value="two" */>}}
 TWO
 {{</* /tab */>}}
 
-{{</* tab name="Three" cookie-value="three" */>}}
+{{</* tab name="Three" category-value="three" */>}}
 THREE
 {{</* /tab */>}}
 
@@ -648,17 +648,17 @@ THREE
 
 which produces the following output:
 
-{{< tabset cookie-name="platform" >}}
+{{< tabset category-name="platform" >}}
 
-{{< tab name="One" cookie-value="one" >}}
+{{< tab name="One" category-value="one" >}}
 ONE
 {{< /tab >}}
 
-{{< tab name="Two" cookie-value="two" >}}
+{{< tab name="Two" category-value="two" >}}
 TWO
 {{< /tab >}}
 
-{{< tab name="Three" cookie-value="three" >}}
+{{< tab name="Three" category-value="three" >}}
 THREE
 {{< /tab >}}
 
@@ -666,13 +666,13 @@ THREE
 
 The `name` attribute of each tab contains the text to display for the tab. The content of the tab can be almost any normal markdown.
 
-The optional `cookie-name` and `cookie-value` attributes allow the tab setting to be sticky across visits to the page. As the user
-selects a tab, the cookie will be automatically saved with the given name and value. If multiple tab sets use the same cookie name
+The optional `category-name` and `category-value` attributes allow the tab setting to be sticky across visits to the page. As the user
+selects a tab, the selection will be saved automatically with the given name and value. If multiple tab sets use the same category name
 and values, their setting will be automatically synchronized across pages. This is particularly useful when there are many tab sets
 in the site that hold the same types of formats.
 
-For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a cookie name of `environment` and values of
-`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other tab set.
+For example, if many tab sets are used to represent a choice between `GCP`, `BlueMix` and `AWS`, they can all use a category name of `environment` and values of
+`gcp`, `bluemix`, and `aws`. When a user selects a tab in one page, the equivalent tab will automatically be selected in any other tab set of any page visited.
 
 ### Limitations
 
@@ -682,6 +682,75 @@ You can use almost any markdown in a tab, except for the following:
 table of contents will not automatically select the tab.
 
 - *No nested tab sets*. Don't try it, it's horrible.
+
+## Banners and stickers
+
+You can automatically insert time-sensitive banners and stickers into the generated site in order
+to advertise upcoming events, or publicize something new.
+
+There are two types of promotions supported:
+
+- **Countdown stickers** that show how much time is left before something big happens. (e.g. "2 days until Istio 1.5").
+Stickers have minimal visuals displayed to the user during the event period.
+
+- **Banners** that display a prominent message to the user to let them know a significant event is about to take place,
+is taking place, or has taken place. (e.g. "Istio 1.5 has been released, download it today!" or "Join us at KubeCon on March 30").
+Banners are full-screen slices displayed to the user during the event period.
+
+To create banners and stickers, you add files to the `events/banners` or `events/stickers` directories. You create one normal markdown
+file per event. Within these files, you use the following dedicated front-matter fields to control various features:
+
+<table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>title</code></td>
+            <td>The name of the event. This is not displayed on the web site, it's intended for diagnostic messages.</td>
+        </tr>
+        <tr>
+            <td><code>period_start</code></td>
+            <td>The starting date at which to start displaying the item in <code>YYYY-MM-DD</code> format.
+            Instead of a date, this can also be the value <code>latest_release</code>, which then uses the latest known
+            Istio release as the start date. This is useful when creating a banned that says "Istio x.y.z has just been relesed".
+            </td>
+        </tr>
+        <tr>
+            <td><code>period_end</code></td>
+            <td>The last date on which to display the item in <code>YYYY-MM-DD</code> format. This value is mutually
+            exclusive with <code>period_duration</code> below.
+            </td>
+        </tr>
+        <tr>
+            <td><code>period_duration</code></td>
+            <td>How many days to display the item to the user. This value is mutually exclusive with
+            <code>period_end</code> above.
+            </td>
+        </tr>
+        <tr>
+            <td><code>max_impressions</code></td>
+            <td>How many times to show the content to the user during
+                the event's period. A value of 3 would mean that the first three pages visited by the user during the period will display
+                the content, and the content will be hidden on subsequent page loads. A value of 0, or ommiting the field completely,
+                results in the content being displayed on all page visits during the period.
+            </td>
+        </tr>
+        <tr>
+            <td><code>timeout</code></td>
+            <td>The amount of time the content is visible to the user on a given page. After that much time passes, the item will be removed from the page.</td>
+        </tr>
+        <tr>
+            <td><code>link</code></td>
+            <td>You can specify a URL, which turns the whole item into a clickable target. Once the user clicks on the item,
+            the item is no longer shown to the user.
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 ## Renaming, moving, or deleting pages
 
@@ -782,3 +851,9 @@ If you're having trouble with the link checker due to poor Internet connectivity
 {{< text bash >}}
 $ make INTERNAL_ONLY=True lint
 {{< /text >}}
+
+## Using GitHub
+
+Checkout [Working with GitHub](/about/contribute/github) to learn how to generally use GitHub to submit
+documentation changes. Of particular interest, see the [section on branching](/about/contribute/github#branching)
+to understand how we use branches and cherry picking.
