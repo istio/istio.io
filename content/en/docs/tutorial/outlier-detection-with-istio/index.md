@@ -36,12 +36,17 @@ You want to give the faulty microservice time to recuperate, and then to start s
       name: ratings-v-unavailable
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: ratings
+          version: v-unavailable
       template:
         metadata:
           labels:
             app: ratings
             version: v-unavailable
         spec:
+          serviceAccountName: bookinfo-ratings
           containers:
           - name: ratings
             image: istio/examples-bookinfo-ratings-v-unavailable:latest
