@@ -12,16 +12,20 @@
                 {{- if .Params.draft -}}
                     {{/* do nothing */}}
                 {{- else -}}
-                    {{ $periodStart := $now }}
-                    {{- if eq .Params.period_start "latest_release" -}}
-                        {{/* find the latest release note and get its publication date as the period start */}}
+                    {{- $latest_release := "" -}}
+                    {{- if or (eq .Params.period_start "latest_release") (eq $.Params.link "latest_release") -}}
                         {{- range .Site.Pages -}}
                             {{- if eq .Page.Params.release .Site.Data.args.full_version -}}
                                 {{- if not .Page.Params.draft -}}
-                                    {{- $periodStart = .PublishDate -}}
+                                    {{- $latest_release = . -}}
                                 {{- end -}}
                             {{- end -}}
                         {{- end -}}
+                    {{- end -}}
+
+                    {{ $periodStart := $now }}
+                    {{- if eq .Params.period_start "latest_release" -}}
+                        {{- $periodStart = $latest_release.PublishDate -}}
                     {{- else -}}
                         {{ $periodStart = time .Params.period_start }}
                     {{- end -}}
@@ -39,7 +43,12 @@
                         {{- $periodEnd = $periodEnd.UTC -}}
 
                         {{- if .Params.link -}}
-                            <a href="{{ .Params.link }}"
+                            {{- $link := .Params.link -}}
+                            {{- if eq $link "latest_release" -}}
+                                {{ $link = $latest_release.Permalink -}}
+                            {{- end -}}
+
+                            <a href="{{ $link }}"
                             class="{{ $kind }}"
                             data-title="{{- .Params.title -}} - {{- $periodStart -}}"
                             data-period-start='{{ div $periodStart.UnixNano 1000000 }}'
