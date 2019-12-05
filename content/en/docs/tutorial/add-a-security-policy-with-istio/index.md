@@ -170,7 +170,7 @@ Enable access policies in the following sections to limit access to the microser
 $ kubectl delete networkpolicy reviews ratings details
 {{< /text >}}
 
-## Istio RBAC
+## Istio Authorization Policies
 
 In this section you apply Istio [Authorization Policies](/docs/concepts/security/#authorization).
 
