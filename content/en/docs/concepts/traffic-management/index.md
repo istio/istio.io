@@ -509,7 +509,7 @@ spec:
   hosts:
   - ext-host.example.com
   gateways:
-    - ext-host-gwy
+  - ext-host-gwy
 {{< /text >}}
 
 You can then configure the virtual service with routing rules for the external
