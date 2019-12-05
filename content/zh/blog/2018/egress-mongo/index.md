@@ -99,7 +99,7 @@ target_release: 1.1
 
 ### 在 Bookinfo 应用程序中使用外部数据库{use-the-external-database-in-Bookinfo-application}
 
-1.部署使用 MongoDB 数据库的 _ratings_ 微服务（_ratings v2_）
+1.部署使用 MongoDB 数据库的 _ratings_ 微服务（_ratings v2_）：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
