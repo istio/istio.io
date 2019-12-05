@@ -1,5 +1,8 @@
-@media screen {
-    .banner-container {
+.banner-container {
+    display: none;
+
+    @media screen AND (min-width: $bp-md) {
+        display: block;
         position: relative;
         top: -.8rem;
         width: 100%;
@@ -28,6 +31,28 @@
 
         .content {
             top: 0;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        a {
+            color: $bannerLinkColor;
+        }
+
+        a:hover, a:focus {
+            color: $bannerLinkHoverColor;
+            text-decoration: none;
+        }
+
+        a.disabled {
+            color: $bannerLinkDisabledColor;
+        }
+
+        a.active {
+            color: $bannerLinkActiveColor;
+            text-decoration: none;
         }
     }
 }
