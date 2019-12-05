@@ -1,14 +1,14 @@
 ---
-title: Support for Istio 1.1 has ended
-subtitle: Support Announcement
-description: Istio 1.1 end of life announcement.
+title: 对 Istio 1.1 的支持已终止
+subtitle: 版本维护公告
+description: Istio 1.1 的维护终止公告。
 publishdate: 2019-10-21
 aliases:
     - /zh/news/2019/announcing-1.1-eol-final
 ---
 
-As [previously announced](/zh/news/support/announcing-1.1-eol/), support for Istio 1.1 has now officially ended.
+正如 [之前宣布的](/zh/news/support/announcing-1.1-eol/)一样，对 Istio 1.1 的支持现已正式宣布终止。
 
-Since we learned of the security vulnerability [behind our October 8th security release](/zh/news/security/istio-security-2019-005) while still barely within the 1.1 support period, we decided to extend the 1.1 support period beyond the original announcement and release [1.1.16](/zh/news/releases/1.1.x/announcing-1.1.16).   Then we discovered a [bug in HTTP header size calculation](https://github.com/istio/istio/issues/17735) was introduced by the security release, so we decided to release a fix in one last [1.1.17](/zh/news/releases/1.1.x/announcing-1.1.17) release before closing out the 1.1 series for good.
+由于我们在[10月8日发布之后](/zh/news/security/istio-security-2019-005)了解到该版本存在安全漏洞，而该漏洞仍处于 1.1 版本支持的期限内，因此我们决定将 1.1 支持期限延长至原始公告之后并发布[1.1.16](/zh/news/releases/1.1.x/announcing-1.1.16)。然后，我们发现此版本引入了 [HTTP header 计算大小的错误](https://github.com/istio/istio/issues/17735) 因此我们决定最后发布一个补丁程序[1.1.17](/zh/news/releases/1.1.x/announcing-1.1.17) 发布之后，将会彻底关闭 1.1 系列版本。
 
-At this point we will no longer back-port fixes for security issues and critical bugs to 1.1, so we heartily encourage you to upgrade to the latest version of Istio ({{<istio_release_name>}}) if you haven't already.
+届时，我们将不会再针对安全和关键错误的修复等问题移植回 1.1，因此，我们衷心希望您将现有集群升级到最新版本的 Istio ({{<istio_release_name>}})。
