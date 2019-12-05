@@ -39,6 +39,10 @@ and then further customize the configuration for your specific needs.
 
 1. [Install a Helm client](https://github.com/helm/helm#install) with a version higher than 2.10.
 
+    {{< warning >}}
+    Use a 2.x version of Helm. Helm 3 is not supported.
+    {{< /warning >}}
+
 ## Helm chart release repositories
 
 The commands in this guide use the Helm charts that are included in the Istio release image.
