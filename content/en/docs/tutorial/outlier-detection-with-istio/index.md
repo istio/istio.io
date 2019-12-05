@@ -81,7 +81,7 @@ You want to give the faulty microservice time to recuperate, and then to start s
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
 
     {{< tip >}}
-    Switch the fetching interval to `5s`, so you will see what happens more precisely.
+    Switch the fetching interval to `10s`, so you will see what happens more precisely.
     {{< /tip >}}
 
     Notice the two versions of `ratings`, _v1_ and _v-unavailable_, handling the requests successfully.
