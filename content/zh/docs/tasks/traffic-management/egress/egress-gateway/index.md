@@ -102,7 +102,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -142,13 +142,13 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
     {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -174,7 +174,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
       subsets:
       - name: cnn
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
@@ -305,7 +305,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -380,13 +380,13 @@ $ kubectl delete destinationrule egressgateway-for-cnn
               number: 443
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
     {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -450,7 +450,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
               number: 443
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
@@ -615,7 +615,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -635,13 +635,13 @@ $ kubectl delete destinationrule egressgateway-for-cnn
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
     {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -652,7 +652,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
       subsets:
       - name: cnn
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 

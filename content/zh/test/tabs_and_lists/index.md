@@ -66,13 +66,13 @@ skip_sitemap: true
 {{< tab name="Seven" category-value="seven" >}}
 1. Simple text with _markdown_ in a list in a tab
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ NoIndent:
         FourIndent:
             - EightIndent
         FourIndentAgain:
             - EightIndentAgain
-    {{< /text_hack >}}
+    {{< /text >}}
 
 1. Second bullet
 {{< /tab >}}
