@@ -32,7 +32,7 @@ In Kubernetes, a pod's locality is determined via the [well-known labels for reg
 on the node it is deployed. If you are using a hosted Kubernetes service your cloud provider
 should configure this for you. If you are running your own Kubernetes cluster you will need
 to add these labels to your nodes. The sub-zone concept doesn't exist in Kubernetes.
-As a result, this field does not need to be configured.
+As a result, Istio introduced the custom node label `topology.istio.io/subzone` to define a sub-zone.
 
 In order for Istio to determine locality, a Service must be associated with the caller.
 
