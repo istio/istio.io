@@ -612,7 +612,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 
     {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -687,13 +687,13 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
     {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -757,7 +757,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 

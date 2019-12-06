@@ -19,7 +19,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FINDFILES=find . \( -path ./common-protos -o -path ./.git -o -path ./.github \) -prune -o -type f
+FINDFILES=find . \( -path ./common-protos -o -path ./.git -o -path ./.github -o -path ./licenses \) -prune -o -type f
 XARGS = xargs -0 -r
 
 lint-dockerfiles:
@@ -46,6 +46,8 @@ lint-python:
 
 lint-markdown:
 	@${FINDFILES} -name '*.md' -print0 | ${XARGS} mdl --ignore-front-matter --style common/config/mdl.rb
+
+lint-links:
 	@${FINDFILES} -name '*.md' -print0 | ${XARGS} awesome_bot --skip-save-results --allow_ssl --allow-timeout --allow-dupe --allow-redirect --white-list ${MARKDOWN_LINT_WHITELIST}
 
 lint-sass:
@@ -85,6 +87,7 @@ dump-licenses-csv:
 
 mirror-licenses:
 	@go mod download
+	@rm -fr licenses
 	@license-lint --mirror
 
 TMP := $(shell mktemp -d -u)
@@ -95,7 +98,7 @@ update-common:
 	@git clone -q --depth 1 --single-branch --branch $(UPDATE_BRANCH) https://github.com/istio/common-files $(TMP)/common-files
 	@cd $(TMP)/common-files ; git rev-parse HEAD >files/common/.commonfiles.sha
 	@rm -fr common
-	@cp -rT $(TMP)/common-files/files $(shell pwd)
+	@cp -a $(TMP)/common-files/files/* $(shell pwd)
 	@rm -fr $(TMP)/common-files
 
 update-common-protos:
@@ -103,7 +106,7 @@ update-common-protos:
 	@git clone -q --depth 1 --single-branch --branch $(UPDATE_BRANCH) https://github.com/istio/common-files $(TMP)/common-files
 	@cd $(TMP)/common-files ; git rev-parse HEAD > common-protos/.commonfiles.sha
 	@rm -fr common-protos
-	@cp -ar $(TMP)/common-files/common-protos $(shell pwd)/common-protos
+	@cp -a $(TMP)/common-files/common-protos $(shell pwd)
 	@rm -fr $(TMP)/common-files
 
 check-clean-repo:
