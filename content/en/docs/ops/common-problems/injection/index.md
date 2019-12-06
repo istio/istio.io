@@ -229,3 +229,11 @@ Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. How
 network namespace is shared. `iptables` will also see the pod-wide configuration.
 
 Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.
+
+## Cluster is not scaled down automatically
+
+Due to the fact that the sidecar container mounts a local storage volume, the
+node autoscaler is unable to evict nodes with the injected pods. This is
+a [known issue](https://github.com/istio/istio/issues/19395). The workaround is
+to add a pod annotation `"cluster-autoscaler.kubernetes.io/safe-to-evict":
+"true"` to the injected pods.
