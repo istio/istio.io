@@ -171,7 +171,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 1. [`enableNamespacesByDefault` 安全配置](/zh/docs/reference/config/installation-options/#security-options)：如果在 ServiceAccount 的命名空间上未找到标签，则为默认行为
 
-从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/setup/injection-concepts/)
+从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/configuration/mesh/injection-concepts/)
 
 - 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书 secrets。
 - 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。

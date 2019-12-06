@@ -5,6 +5,7 @@ weight: 5
 aliases:
     - /zh/docs/setup/kubernetes/getting-started/
     - /zh/docs/setup/kubernetes/
+    - /zh/docs/setup/kubernetes/install/kubernetes/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
@@ -58,7 +59,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
 本指南可以让您快速尝鲜 Istio ，这对初学者来说是一个理想的起点。首先，下载并安装 Istio 的内建 `demo` [配置](/zh/docs/setup/additional-setup/config-profiles/)。
 
-本指南让您快速开始认识 Istio。如果您已经熟悉 Istio 或对其他配置内容或更高级的[部署模型](/zh/docs/ops/prep/deployment-models/)感兴趣，请参考 [使用 {{< istioctl >}} 命令安装](/zh/docs/setup/install/istioctl)。
+本指南让您快速开始认识 Istio。如果您已经熟悉 Istio 或对其他配置内容或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，请参考 [使用 {{< istioctl >}} 命令安装](/zh/docs/setup/install/istioctl)。
 
 {{< warning >}}
 演示用的配置不适合用于性能评估。它仅用来展示 Istio 的链路追踪和访问记录功能。
@@ -137,10 +138,26 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
+如果您不确定要从哪开始，可以先[部署 Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application)，它会让您体验到 Istio 的流量路由、故障注入、速率限制等功能。
+然后您可以根据您的兴趣浏览各种各样的[Istio 任务](/zh/docs/tasks/)。
+
+下列任务都是初学者开始学习的好入口：
+
+- [请求路由](/zh/docs/tasks/traffic-management/request-routing/)
+- [故障注入](/zh/docs/tasks/traffic-management/fault-injection/)
+- [流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)
+- [查询指标](/zh/docs/tasks/observability/metrics/querying-metrics/)
+- [可视化指标](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [日志收集](/zh/docs/tasks/observability/logs/collecting-logs/)
+- [速率限制](/zh/docs/tasks/policy-enforcement/rate-limiting/)
+- [Ingress 网关](/zh/docs/tasks/traffic-management/ingress/ingress-control/)
+- [访问外部服务](/zh/docs/tasks/traffic-management/egress/egress-control/)
+- [可视化您的网格](/zh/docs/tasks/observability/kiali/)
+
 下一步，可以定制 Istio 并部署您自己的应用。在您开始自定义 Istio 来适配您的平台或者其他用途之前，请查看以下资源：
 
-- [部署模型](/zh/docs/ops/prep/deployment-models/)
-- [部署最佳实践](/zh/docs/ops/prep/deployment/)
+- [部署模型](/zh/docs/ops/deployment/deployment-models/)
+- [部署最佳实践](/zh/docs/ops/best-practices/deployment/)
 - [Pod 需求](/zh/docs/ops/deployment/requirements/)
 - [常规安装说明](/zh/docs/setup/)
 

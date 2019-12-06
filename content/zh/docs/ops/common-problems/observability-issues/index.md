@@ -224,4 +224,5 @@ Thu Jun 15 02:25:42 UTC 2017
 ## 缺失 Grafana 输出{#missing-Grafana-output}
 
 如果当您通过本地 web 客户端连接远程 Istio 不能获取 Grafana 输出，您需要验证客户端和服务端日期和时间是否一致。
+
 Grafana 的输出会受到 Web 客户端（例如：Chrome）时间的影响。一个简单的解决方案，验证下 Kubernetes 集群内部使用的时间同步服务是否在正常运行，以及 Web 客户端是否正确的使用时间同步服务。NTP 和 Chrony 是常用的时间同步系统，特别是在有防火墙的工程实验环境中会出现问题。例如：在该场景中，NTP 没有被配置到正确的基于实验室的 NTP 服务。
