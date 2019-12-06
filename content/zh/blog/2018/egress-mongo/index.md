@@ -114,7 +114,7 @@ target_release: 1.1
     deployment.extensions/ratings-v2 env updated
     {{< /text >}}
 
-2. 将所有到 _reviews_ service 的流量路由到它的 _v3_ 版本，以确保 _reviews_ service 总是调用 _ratings_ service。此外，将所有到 `ratings` service
+1. 将所有到 _reviews_ service 的流量路由到它的 _v3_ 版本，以确保 _reviews_ service 总是调用 _ratings_ service。此外，将所有到 `ratings` service
    的流量路由到使用外部数据库的 _ratings v2_。
 
    通过添加两个 [virtual services](/zh/docs/reference/config/networking/virtual-service/) 来为以上两个 services 指定路由。这些 virtual service
@@ -695,7 +695,6 @@ Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoD
     {{< /tabset >}}
 
 1. [验证 TCP egress 流量是否通过 egress gateway 定向](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
-
 
 #### 清除通过 egress gateway 定向 TLS Egress 流量的配置{#cleanup-directing-TLS-Egress-traffic-through-an-egress-gateway}
 
