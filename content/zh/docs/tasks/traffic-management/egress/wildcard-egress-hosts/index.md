@@ -392,7 +392,7 @@ SNI 代理会将流量转发到 `443` 端口。
 
     {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -498,13 +498,13 @@ SNI 代理会将流量转发到 `443` 端口。
         filterType: NETWORK
         filterConfig: {}
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
     {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -569,7 +569,7 @@ SNI 代理会将流量转发到 `443` 端口。
              number: 8443
          weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
