@@ -158,9 +158,7 @@ which is useful for checking the effects of customizations before applying chang
 You can show differences between the default and demo profiles using these commands:
 
 {{< text bash >}}
-$ istioctl profile dump default > 1.yaml
-$ istioctl profile dump demo > 2.yaml
-$ istioctl profile diff 1.yaml 2.yaml
+$ istioctl profile diff <(istioctl profile dump default) <(istioctl profile dump demo)
  gateways:
    components:
      egressGateway:
