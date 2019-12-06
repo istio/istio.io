@@ -220,5 +220,71 @@ other = "中文内容由 ServiceMesher 社区维护，部分文档可能稍微�
 [syntax_coloring]
 other = "代码高亮"
 
-[announcement_relnotes]
-other = "%s 发布说明"
+[analysis_name]
+other = "消息名称"
+
+[analysis_code]
+other = "消息代码"
+
+[analysis_description]
+other = "描述"
+
+[analysis_level]
+other = "等级"
+
+[target_release]
+other = "该博客文章是在 Istio %v 的版本下编写的，因此其中某些内容现在可能已过时。"
+
+[security_disclosure]
+other = "安全漏洞"
+
+[security_related]
+other = "关联"
+
+[security_date]
+other = "日期"
+
+[security_affected_releases]
+other = "受影响的版本"
+
+[security_impact_score]
+other = "影响评分"
+
+[mark_all_as_read]
+other = "全部标位已读"
+
+[security_bulletin_title]
+other = "安全漏洞详情"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "CVSS 影响评分"
+
+[security_bulletin_affected_releases]
+other = "受影响的版本"
+
+[feedback_title]
+other = "这些信息有用吗？"
+
+[feedback_yes]
+other = "是的"
+
+[feedback_no]
+other = "没有"
+
+[log_month_format]
+other = "2006-01"
+
+[log_change_format]
+other = "2006/01/02"
+
+[log_when]
+other = "日期"
+
+[log_doc]
+other = "文档"
+
+[log_change]
+other = "更改"

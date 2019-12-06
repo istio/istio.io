@@ -51,7 +51,7 @@ keywords: [profiles,install,helm]
 
 ## 多集群配置{#multicluster-profiles}
 
-Istio 提供了两个附加的内置配置文件，被专门用于配置[多集群部署](/zh/docs/ops/prep/deployment-models/#multiple-clusters):
+Istio 提供了两个附加的内置配置文件，被专门用于配置[多集群部署](/zh/docs/ops/deployment/deployment-models/#multiple-clusters):
 
 1. **remote**: 用于配置通过[共享控制平面](/zh/docs/setup/install/multicluster/shared-vpn/)搭建的多集群网格里的远程集群。
 

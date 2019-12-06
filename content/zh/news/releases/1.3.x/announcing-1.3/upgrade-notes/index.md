@@ -31,7 +31,7 @@ to intentionally bypass Envoy, you must opt out of port capturing with the
 
 Protocol sniffing is now enabled by default. Disable protocol sniffing with the
 `--set pilot.enableProtocolSniffing=false` option when you upgrade to get the
-previous behavior. To learn more see our [protocol selection page](/zh/docs/ops/traffic-management/protocol-selection/).
+previous behavior. To learn more see our [protocol selection page](/zh/docs/ops/configuration/traffic-management/protocol-selection/).
 
 To specify a hostname in multiple namespaces, you must select a single host using
 a [`Sidecar` resource](/zh/docs/reference/config/networking/sidecar/).

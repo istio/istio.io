@@ -10,7 +10,7 @@ keywords: [kubernetes,multicluster]
 本指南描述了如何使用一种简化的实验性方式来配置一个跨多个 Kubernetes 集群的 Istio 网格。
 我们希望在将来的版本中继续开发这项功能，因此非常期待您对这个流程进行反馈。
 
-在此我们集中讨论如何连接多集群网格的细节，有关其它背景信息，请参考[多集群部署模型](/zh/docs/ops/prep/deployment-models/#multiple-clusters)。
+在此我们集中讨论如何连接多集群网格的细节，有关其它背景信息，请参考[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)。
 我们将展示如何将同一网络上的两个集群与另一个网络上的第三个集群连接起来。
 
 使用本指南中展示的方法会导致 Istio 控制平面的实例部署在网格中的每个集群中。
