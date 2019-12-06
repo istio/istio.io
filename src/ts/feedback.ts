@@ -26,31 +26,47 @@ function sendFeedback(language: string, value: number): void {
         initial.style.display = "none";
     }
 
-    let next = "feedback-thankyou";
-    if (value === 0) {
-        next = "feedback-comment";
-    }
-
-    const ne = getById(next);
-    if (ne) {
-        ne.style.display = "block";
-    }
-}
-
-function sendComment(language: string, value: string): void {
-    gtag("event", "comment-" + language, {
-        event_category: "Helpful",
-        event_label: window.location.pathname,
-        value,
-    });
-
-    const comment = getById("feedback-comment");
-    if (comment) {
-        comment.style.display = "none";
-    }
-
     const ty = getById("feedback-thankyou");
-    if (ty) {
-        ty.style.display = "block";
+    if (!ty) {
+        return;
     }
+
+    // say thank you and leave
+    ty.style.display = "inline-block";
+
+    /*
+    TODO: this code is disabled since at the moment there isn't a good place to send any written feedback to.
+
+    if (value === 1) {
+        // say thank you and leave
+        ty.style.display = "inline-block";
+        return;
+    }
+
+    const cm = getById("feedback-comment");
+    if (!cm) {
+        return
+    }
+
+    const tb = getById("feedback-textbox");
+    if (!tb) {
+        return
+    }
+
+    cm.style.display = "inline-block";
+    tb.focus();
+
+    listen(tb, "keypress", o => {
+        const e = o as KeyboardEvent;
+
+        if (e.keyCode != keyCodes.RETURN) {
+            return;
+        }
+
+        // TODO: send the feedback somewhere
+
+        cm.style.display = "none";
+        ty.style.display = "inline-block";
+    });
+     */
 }

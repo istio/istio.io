@@ -35,4 +35,12 @@
     #feedback-thankyou {
         display: none;
     }
+
+    input {
+        color: $textColor;
+        background: $backgroundColor;
+        width: 400px;
+        font-size: $font-size--primary;
+        padding: .1rem;
+    }
 }
