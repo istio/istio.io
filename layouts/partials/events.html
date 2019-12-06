@@ -14,27 +14,25 @@
                 {{- else -}}
                     {{- $latest_release := "" -}}
                     {{- if or (eq .Params.period_start "latest_release") (eq $.Params.link "latest_release") -}}
-                        {{- range .Site.Pages -}}
-                            {{- if eq .Page.Params.release .Site.Data.args.full_version -}}
-                                {{- if not .Page.Params.draft -}}
-                                    {{- $latest_release = . -}}
-                                {{- end -}}
+                        {{- range where .Site.Pages ".Page.Params.release" .Site.Data.args.full_version -}}
+                            {{- if not .Page.Params.draft -}}
+                                {{- $latest_release = . -}}
                             {{- end -}}
                         {{- end -}}
                     {{- end -}}
 
-                    {{ $periodStart := $now }}
+                    {{- $periodStart := $now -}}
                     {{- if eq .Params.period_start "latest_release" -}}
                         {{- $periodStart = $latest_release.PublishDate -}}
                     {{- else -}}
-                        {{ $periodStart = time .Params.period_start }}
+                        {{- $periodStart = time .Params.period_start -}}
                     {{- end -}}
 
-                    {{ $periodEnd := $periodStart }}
+                    {{- $periodEnd := $periodStart -}}
                     {{- if .Params.period_duration -}}
                         {{- $periodEnd = $periodStart.AddDate 0  0 .Params.period_duration -}}
                     {{- else -}}
-                        {{ $periodEnd = time .Params.period_end }}
+                        {{- $periodEnd = time .Params.period_end -}}
                     {{- end -}}
 
                     {{- if lt $now $periodEnd -}}

@@ -69,12 +69,9 @@
     {{ $upgrade_notes := .Page.GetPage "./upgrade-notes" }}
     {{ if not $upgrade_notes }}
         {{ $base_version := printf "%v.%v.0" $page_version $page_revision }}
-        {{ range $page := .Site.Pages }}
-            {{ $release := $page.Params.release }}
-            {{ if eq $release $base_version }}
-                {{ $path := printf "/%supgrade-notes" $page.File.Dir }}
-                {{ $upgrade_notes = .Page.GetPage $path }}
-            {{ end }}
+        {{ range $page := where .Site.Pages ".Params.release" $base_version }}
+            {{ $path := printf "/%supgrade-notes" $page.File.Dir }}
+            {{ $upgrade_notes = .Page.GetPage $path }}
         {{ end }}
     {{ end }}
 
