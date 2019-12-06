@@ -202,7 +202,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 1. 如果您未执行 [上一节](#control-TCP-egress-traffic-without-a-gateway) 中的步骤，则立即执行这些步骤。
 
 1. 您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的 {{< gloss >}}mutual TLS Authentication{{< /gloss >}}，以使 egress gateway 监控来源 pod 的身份并基于该 identity     启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
-   如果你不想开启双向 TLS，参考[Mutual TLS between the sidecar proxies and the egress gateway](#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway)小节
+   如果你不想开启双向 TLS，参考[Mutual TLS between the sidecar proxies and the egress gateway](#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway)小节
   否则，请继续以下部分。
 
 #### 配置从 sidecar 到 egress gateway 的 TCP 流量{#configure-TCP-traffic-from-sidecars-to-the-egress-gateway}
@@ -315,7 +315,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1. [验证 TCP egress 流量是否被定向到 egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway).
 
-#### Sidecar 代理和 egress gateway 之间的双向 TLS{mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway}
+#### Sidecar 代理和 egress gateway 之间的双向 TLS{mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway}
 
 1. 删除前面小节中的配置：
 
