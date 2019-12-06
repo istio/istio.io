@@ -27,15 +27,15 @@ target_release: 1.1
     $ export MONGO_ADMIN_PASSWORD=<your MongoDB admin password>
     {{< /text >}}
 
-2. 为需要创建的新用户（即 `bookinfo`）的密码设置环境变量，并使用 [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins) 将其从历史记录中删除。
+1. 为需要创建的新用户（即 `bookinfo`）的密码设置环境变量，并使用 [history -d](https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins) 将其从历史记录中删除。
 
     {{< text bash >}}
     $ export BOOKINFO_PASSWORD=<password>
     {{< /text >}}
 
-3. 为您的 MongoDB 服务设置环境变量 `MONGODB_HOST` 和 `MONGODB_PORT`。
+1. 为您的 MongoDB 服务设置环境变量 `MONGODB_HOST` 和 `MONGODB_PORT`。
 
-4. 创建 `bookinfo` 用户：
+1. 创建 `bookinfo` 用户：
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
@@ -50,7 +50,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-5. 创建一个 _collection_  来保存评级数据。以下命令将两个评级都设置为 `1`，以便在 Bookinfo _ratings_ service 使用数据库时提供视觉验证（默认 Bookinfo _ratings_
+1. 创建一个 _collection_  来保存评级数据。以下命令将两个评级都设置为 `1`，以便在 Bookinfo _ratings_ service 使用数据库时提供视觉验证（默认 Bookinfo _ratings_
    为 `4` 和 `5`）
 
     {{< text bash >}}
@@ -64,7 +64,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-6. 检查 `bookinfo` 用户是否可以获取评级数据:
+1. 检查 `bookinfo` 用户是否可以获取评级数据:
 
     {{< text bash >}}
     $ cat <<EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u bookinfo -p $BOOKINFO_PASSWORD --authenticationDatabase test
@@ -86,7 +86,7 @@ target_release: 1.1
 ### Bookinfo 应用程序的初始设置{#Initial-setting-of-Bookinfo-application}
 
 为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/zh/docs/setup/getting-started/) 的 Kubernetes 集群。然后部署
-[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules)和[改变 Istio 到  blocking-egress-by-default 策略 ](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
+[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules)和[改变 Istio 到  blocking-egress-by-default 策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
 
 此应用程序从 `ratings` 微服务获取书籍评级（1 到 5 的数字）。评级以星标形式显示每条评论。`ratings` 微服务有几个版本。在下一小节中，请部署使用 [MongoDB](https://www.mongodb.com)
 作为 ratings 数据库的版本。
@@ -108,13 +108,13 @@ target_release: 1.1
     {{< /text >}}
 
 1.  为你的 MongoDB 设置 `MONGO_DB_URL` 环境变量：
-    
+
     {{< text bash >}}
     $ kubectl set env deployment/ratings-v2 "MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&ssl=true"
     deployment.extensions/ratings-v2 env updated
     {{< /text >}}
 
-1. 将所有到 _reviews_ service 的流量路由到它的 _v3_ 版本，以确保 _reviews_ service 总是调用 _ratings_ service。此外，将所有到 `ratings` service
+2. 将所有到 _reviews_ service 的流量路由到它的 _v3_ 版本，以确保 _reviews_ service 总是调用 _ratings_ service。此外，将所有到 `ratings` service
    的流量路由到使用外部数据库的 _ratings v2_。
 
    通过添加两个 [virtual services](/zh/docs/reference/config/networking/virtual-service/) 来为以上两个 services 指定路由。这些 virtual service
@@ -191,8 +191,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 请注意，和预期的一样，您会看到两个显示评论的一星评级。您将评级设置为一星，以作为外部数据库确实被使用了的视觉证据。
 
-1.  如果要通过出口网关引导流量，请继续下一节。否则，请执行 
-    [cleanup](#cleanup-of-TCP-egress-traffic-control).
+1.  如果要通过出口网关引导流量，请继续下一节。否则，请执行 [cleanup](#cleanup-of-TCP-egress-traffic-control).
 
 ### 通过 egress gateway 定向 TCP Egress 流量{#direct-TCP-egress-traffic-through-an-egress-gateway}
 
@@ -243,7 +242,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
     EOF
     {{< /text >}}
 
-2. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以定向流量到 egress gateway，并从 egress gateway 发送到外部服务。
+1. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以定向流量到 egress gateway，并从 egress gateway 发送到外部服务。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -314,7 +313,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
     EOF
     {{< /text >}}
 
-3. [验证 TCP egress 流量是否被定向到 egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway).
+1. [验证 TCP egress 流量是否被定向到 egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway).
 
 #### Sidecar 代理和 egress gateway 之间的双向 TLS{mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway}
 
@@ -344,7 +343,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
     EOF
     {{< /text >}}
 
-2. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以定向流量到 egress gateway，并从 egress gateway 发送到外部服务。
+1. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以定向流量到 egress gateway，并从 egress gateway 发送到外部服务。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -429,9 +428,11 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
     EOF
     {{< /text >}}
 
-3. 继续下一节。
+1. 继续下一节。
 
 #### 验证 TCP egress 流量是否通过 egress gateway 定向{#verify-that-egress-traffic-is-directed-through-the-egress-gateway}
+
+1.  再次刷新应用程序的网页，并验证等级是否仍正确显示。
 
 1.  [开启 Envoy访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
@@ -534,7 +535,7 @@ Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoD
 
 1. 刷新应用程序的网页并验证评级数据是否显示正常。
 
-2. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。
+1. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。
 
    如果您希望启用 sidecar 代理和应用程序 pod 以及 egress gateway 之间的[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，可以使用下面的命令。（您可能希望启用双向 TLS 以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。）
 
@@ -693,7 +694,7 @@ Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoD
 
     {{< /tabset >}}
 
-3. [验证 TCP egress 流量是否通过 egress gateway 定向](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
+1. [验证 TCP egress 流量是否通过 egress gateway 定向](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
 
 
 #### 清除通过 egress gateway 定向 TLS Egress 流量的配置{#cleanup-directing-TLS-Egress-traffic-through-an-egress-gateway}
@@ -1023,7 +1024,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
 
-#### 理解发生了什么{#understanding-what-happened}
+#### 理解原理{#understanding-what-happened}
 
 在本节中，您使用通配符域名为您的 MongoDB 主机配置了 egress 流量。对于单个 MongoDB 主机使用通配符域名没有任何好处（可以指定确切的主机名），
 而当集群中的应用程序需要访问多个匹配某个通配符域名的 MongoDB 主机时可能有用。
