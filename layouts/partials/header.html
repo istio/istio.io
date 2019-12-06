@@ -24,7 +24,7 @@
 
         <div id="header-links">
             {{ if not .Site.Data.args.archive_landing }}
-                {{ with (.Site.GetPage "section" "docs") }}
+                {{ with (.Site.GetPage "/docs") }}
                     {{ if eq .Permalink $current.Permalink }}
                         <span {{ if eq $section "docs" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
@@ -32,7 +32,7 @@
                     {{ end }}
                 {{ end }}
 
-                {{ with (.Site.GetPage "section" "blog") }}
+                {{ with (.Site.GetPage "/blog") }}
                     {{ $posts := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
                     {{ $latest_post := index $posts 0 }}
                     {{ $link := printf "%v%v/" .Permalink $latest_post.PublishDate.Year }}
@@ -44,7 +44,7 @@
                     {{ end }}
                 {{ end }}
 
-                {{ with (.Site.GetPage "section" "news")  }}
+                {{ with (.Site.GetPage "/news")  }}
                     {{ if eq .Permalink $current.Permalink }}
                         <span {{ if eq $section "news" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}<i class="dot" data-prefix="/news"></i></span>
                     {{ else }}
@@ -52,7 +52,7 @@
                     {{ end }}
                 {{ end }}
 
-                {{ with (.Site.GetPage "section" "faq") }}
+                {{ with (.Site.GetPage "/faq") }}
                     {{ if eq .Permalink $current.Permalink }}
                         <span {{ if eq $section "faq" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
@@ -60,7 +60,7 @@
                     {{ end }}
                 {{ end }}
 
-                {{ with (.Site.GetPage "section" "about") }}
+                {{ with (.Site.GetPage "/about") }}
                     {{ if eq .Permalink $current.Permalink }}
                         <span {{ if eq $section "about" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
