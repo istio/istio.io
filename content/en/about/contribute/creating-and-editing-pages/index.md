@@ -155,13 +155,13 @@ A few front-matter fields are specific to section pages (i.e. for files names `_
 
 There are a few more front matter fields available specifically for blog posts:
 
-|Field           | Description
-|----------------|------------
-|`publishdate`   | Date of the post's original publication
-|`last_update`   | Date when the post last received a major revision
-|`attribution`   | Optional name of the post's author
-|`twitter`       | Optional Twitter handle of the post's author
-|`target_release`| Release this blog is written with in mind (this is normally the current major Istio release at the time the blog is authored or updated)
+|Field            | Description
+|-----------------|------------
+|`publishdate`    | Date of the post's original publication
+|`last_update`    | Date when the post last received a major revision
+|`attribution`    | Optional name of the post's author
+|`twitter`        | Optional Twitter handle of the post's author
+|`target_release` | Release this blog is written with in mind (this is normally the current major Istio release at the time the blog is authored or updated)
 
 ## Adding images
 
@@ -746,7 +746,8 @@ file per event. Within these files, you use the following dedicated front-matter
         <tr>
             <td><code>link</code></td>
             <td>You can specify a URL, which turns the whole item into a clickable target. Once the user clicks on the item,
-            the item is no longer shown to the user.
+            the item is no longer shown to the user. The special value `latest_release` can be used here to introduce a link
+            to the current release's announcement page.
             </td>
         </tr>
     </tbody>

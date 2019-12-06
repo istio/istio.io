@@ -208,7 +208,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     secret "istio-ingressgateway-ca-certs" created
     {{< /text >}}
 
-1.  Redefine your previous `Gateway` to change the `tls` `mode` to `MUTUAL` and to specify `caCertificates`:
+1.  Redefine your previous `Gateway` to change the TLS mode to `MUTUAL` and to specify `caCertificates`:
 
     {{< warning >}}
     The location of the certificate **must** be `/etc/istio/ingressgateway-ca-certs`, or the gateway

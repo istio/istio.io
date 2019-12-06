@@ -37,10 +37,17 @@
 
         {{ if .Scratch.Get "getFeedback" }}
             <div id="feedback">
-                <div>
+                <div id="feedback-initial">
                     {{ i18n "feedback_title" }}<br>
                     <button class="btn feedback" onclick="sendFeedback('{{.Site.Language}}', 1)">{{ i18n "feedback_yes" }}</button>
                     <button class="btn feedback" onclick="sendFeedback('{{.Site.Language}}', 0)">{{ i18n "feedback_no" }}</button>
+                </div>
+                <div id="feedback-comment">
+                    {{ i18n "feedback_ask_for_comment" }}<br>
+                    <input id="feedback-textbox" type="text" placeholder='{{ i18n "feedback_comment_placeholder"}}' onchange="sendComment('{{.Site.Language}}', this.value)"/>
+                </div>
+                <div id="feedback-thankyou">
+                    {{ i18n "feedback_thankyou" }}
                 </div>
             </div>
         {{ end }}

@@ -17,7 +17,7 @@ Istio 的流量路由规则可以让您很容易的控制服务之间的流量�
 
 Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</ gloss >}} 代理。网格内服务发送和接收的所有流量（{{< gloss >}}data plane{{</ gloss >}}流量）都经由 Envoy 代理，这让控制网格内的流量变得异常简单，而且不需要对服务做任何的更改。
 
-本节中描述的功能特性，如果您对它们是如何工作的感兴趣的话，可以在[架构概述](/zh/docs/ops/architecture/)中找到关于 Istio 的流量管理实现的更多信息。本部分只介绍 Istio 的流量管理特性。
+本节中描述的功能特性，如果您对它们是如何工作的感兴趣的话，可以在[架构概述](/zh/docs/ops/deployment/architecture/)中找到关于 Istio 的流量管理实现的更多信息。本部分只介绍 Istio 的流量管理特性。
 
 ## Istio 流量管理介绍 {#introducing-Istio-traffic-management}
 
@@ -73,7 +73,7 @@ metadata:
 spec:
   hosts:
   - reviews
-    http:
+  http:
   - match:
     - headers:
         end-user:
@@ -191,9 +191,8 @@ spec:
 {{< text yaml >}}
 spec:
   hosts:
-
   - reviews
-    http:
+  http:
   - route:
     - destination:
         host: reviews
@@ -309,9 +308,8 @@ metadata:
   name: virtual-svc
 spec:
   hosts:
-
   - ext-host.example.com
-    gateways:
+  gateways:
     - ext-host-gwy
 {{< /text >}}
 
@@ -340,12 +338,12 @@ metadata:
 spec:
   hosts:
   - ext-svc.example.com
-    ports:
+  ports:
   - number: 443
     name: https
     protocol: HTTPS
-    location: MESH_EXTERNAL
-    resolution: DNS
+  location: MESH_EXTERNAL
+  resolution: DNS
 {{< /text >}}
 
 您指定的外部资源使用 `hosts` 字段。可以使用完全限定名或通配符作为前缀域名。
@@ -388,7 +386,6 @@ metadata:
   namespace: bookinfo
 spec:
   egress:
-
   - hosts:
     - "./*"
     - "istio-system/*"
@@ -414,7 +411,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - route:
     - destination:
         host: ratings
@@ -436,7 +433,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - route:
     - destination:
         host: ratings
@@ -493,7 +490,7 @@ metadata:
 spec:
   hosts:
   - ratings
-    http:
+  http:
   - fault:
       delay:
         percentage:

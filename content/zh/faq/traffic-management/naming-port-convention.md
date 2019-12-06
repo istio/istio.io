@@ -5,4 +5,4 @@ weight: 50
 
 Currently, Istio supports TCP based protocols. Additionally, Istio provides functionality such as routing and metrics for other protocols such as `http` and `mysql`.
 
-For a list of all protocols, and information on how to configure protocols, view the [Protocol Selection](/zh/docs/ops/traffic-management/protocol-selection/) documentation.
+For a list of all protocols, and information on how to configure protocols, view the [Protocol Selection](/zh/docs/ops/configuration/traffic-management/protocol-selection/) documentation.

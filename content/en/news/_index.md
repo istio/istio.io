@@ -5,4 +5,7 @@ linktitle: News
 sidebar_multicard: true
 icon: bullhorn
 decoration: pill
+outputs:
+    - html
+    - rss    
 ---

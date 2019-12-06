@@ -1,27 +1,28 @@
 ---
 title: Pod 和 Service
 description:  在启用了 Istio 的集群中运行 Kubernetes 的 Pod 和 Service，您需要做些准备。
-weight: 3
-aliases:
-- /zh/docs/setup/kubernetes/spec-requirements/
-- /zh/docs/setup/kubernetes/prepare/spec-requirements/
-- /zh/docs/setup/kubernetes/prepare/requirements/
-- /zh/docs/setup/kubernetes/additional-setup/requirements/
-- /zh/docs/setup/additional-setup/requirements
-- /zh/docs/ops/setup/required-pod-capabilities
-- /help/ops/setup/required-pod-capabilities
+weight: 40
 keywords:
-- kubernetes
-- sidecar
-- sidecar-injection
-- deployment-models
-- pods
-- setup
+  - kubernetes
+  - sidecar
+  - sidecar-injection
+  - deployment-models
+  - pods
+  - setup
+aliases:
+  - /zh/docs/setup/kubernetes/spec-requirements/
+  - /zh/docs/setup/kubernetes/prepare/spec-requirements/
+  - /zh/docs/setup/kubernetes/prepare/requirements/
+  - /zh/docs/setup/kubernetes/additional-setup/requirements/
+  - /zh/docs/setup/additional-setup/requirements
+  - /zh/docs/ops/setup/required-pod-capabilities
+  - /zh/help/ops/setup/required-pod-capabilities
+  - /zh/docs/ops/prep/requirements
 ---
 
 作为 Istio 服务网格中的一部分，Kubernetes 集群中的 Pod 和 Service 必须满足以下要求：
 
-- **命名的服务端口**: Service 的端口必须命名。端口名键值对必须按以下格式：`name: <protocol>[-<suffix>]`。更多说明请参看[协议选择](/zh/docs/ops/traffic-management/protocol-selection/)。
+- **命名的服务端口**: Service 的端口必须命名。端口名键值对必须按以下格式：`name: <protocol>[-<suffix>]`。更多说明请参看[协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/)。
 
 - **Service 关联**: 每个 Pod 必须至少属于一个 Kubernetes Service，不管这个 Pod 是否对外暴露端口。如果一个 Pod 同时属于多个 [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)，
   那么这些 Service 不能同时在一个端口号上使用不同的协议（比如：HTTP 和 TCP）。

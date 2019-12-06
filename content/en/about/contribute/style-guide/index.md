@@ -42,17 +42,17 @@ represents. For example:
 
 ### Use **bold** for user interface elements
 
-|Do               |Don't
-|-----------------|------
-|Click **Fork**.  |Click "Fork".
-|Select **Other**.|Select 'Other'.
+|Do                | Don't
+|------------------|------
+|Click **Fork**.   | Click "Fork".
+|Select **Other**. | Select 'Other'.
 
 ### Use _italics_ to define or introduce new terms
 
-|Do                                         |Don't
+|Do                                         | Don't
 |-------------------------------------------|---
-|A _cluster_ is a set of nodes ...          |A "cluster" is a set of nodes ...
-|These components form the _control plane_. |These components form the **control plane**.
+|A _cluster_ is a set of nodes ...          | A "cluster" is a set of nodes ...
+|These components form the _control plane_. | These components form the **control plane**.
 
 ### Use `code` style for filenames, directories, and paths
 
@@ -66,8 +66,8 @@ represents. For example:
 
 |Do                          | Don't
 |----------------------------|------
-|The `foo run` command creates a `Deployment`.|The "foo run" command creates a `Deployment`.
-|For declarative management, use `foo apply`.|For declarative management, use "foo apply".
+|The `foo run` command creates a `Deployment`. | The "foo run" command creates a `Deployment`.
+|For declarative management, use `foo apply`. | For declarative management, use "foo apply".
 
 ### Use `code` style for object field names
 

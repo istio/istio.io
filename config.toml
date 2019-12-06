@@ -32,7 +32,7 @@ disableAliases = true
 
 [outputs]
   home = ["HTML", "RSS", "REDIR", "JSON"]
-  section = ["HTML", "RSS"]
+  section = ["HTML"]
 
 [outputFormats]
     [outputFormats.RSS]

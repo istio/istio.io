@@ -46,7 +46,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 {{< warning >}}
 以下说明在 `default` 命名空间中为 Egress gateway 创建 destination rule 并假设客户端 `SOURCE_POD` 也在 `default` 命名空间中运行。
-如果没有，则 destination rule 将不会在 [destination rule 查找路径](/zh/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)，客户端请求将失败。
+如果没有，则 destination rule 将不会在 [destination rule 查找路径](/zh/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)，客户端请求将失败。
 
 {{< /warning >}}
 

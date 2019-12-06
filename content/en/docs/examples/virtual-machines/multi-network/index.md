@@ -177,17 +177,17 @@ cluster.
 
 | Resource Kind| Resource Name | Function |
 | ----------------------------       |---------------------------       | -----------------                          |
-| `configmap`                          | `coredns`                          | Send *.global request to `istiocordns` service |
-| `service`                            | `istiocoredns`                     | Resolve *.global to Istio Ingress gateway    |
-| `gateway.networking.istio.io`        | `meshexpansion-gateway`           | Open port for Pilot, Citadel and Mixer       |
-| `gateway.networking.istio.io`        | `istio-multicluster-ingressgateway`| Open port 15443 for inbound *.global traffic |
-| `envoyfilter.networking.istio.io`    | `istio-multicluster-ingressgateway`| Transform `*.global` to `*. svc.cluster.local`   |
-| `destinationrule.networking.istio.io`| `istio-multicluster-destinationrule`| Set traffic policy for 15443 traffic         |
-| `destinationrule.networking.istio.io`| `meshexpansion-dr-pilot`           | Set traffic policy for `istio-pilot`         |
-| `destinationrule.networking.istio.io`| `istio-policy`                     | Set traffic policy for `istio-policy`        |
-| `destinationrule.networking.istio.io`| `istio-telemetry`                  | Set traffic policy for `istio-telemetry`     |
-| `virtualservice.networking.istio.io` | `meshexpansion-vs-pilot`           | Set route info for `istio-pilot`             |
-| `virtualservice.networking.istio.io` | `meshexpansion-vs-citadel`         | Set route info for `istio-citadel`           |
+| `configmap`                           | `coredns`                            | Send *.global request to `istiocordns` service |
+| `service`                             | `istiocoredns`                       | Resolve *.global to Istio Ingress gateway    |
+| `gateway.networking.istio.io`         | `meshexpansion-gateway`              | Open port for Pilot, Citadel and Mixer       |
+| `gateway.networking.istio.io`         | `istio-multicluster-ingressgateway`  | Open port 15443 for inbound *.global traffic |
+| `envoyfilter.networking.istio.io`     | `istio-multicluster-ingressgateway`  | Transform `*.global` to `*. svc.cluster.local`   |
+| `destinationrule.networking.istio.io` | `istio-multicluster-destinationrule` | Set traffic policy for 15443 traffic         |
+| `destinationrule.networking.istio.io` | `meshexpansion-dr-pilot`             | Set traffic policy for `istio-pilot`         |
+| `destinationrule.networking.istio.io` | `istio-policy`                       | Set traffic policy for `istio-policy`        |
+| `destinationrule.networking.istio.io` | `istio-telemetry`                    | Set traffic policy for `istio-telemetry`     |
+| `virtualservice.networking.istio.io`  | `meshexpansion-vs-pilot`             | Set route info for `istio-pilot`             |
+| `virtualservice.networking.istio.io`  | `meshexpansion-vs-citadel`           | Set route info for `istio-citadel`           |
 
 ## Expose service running on cluster to VMs
 

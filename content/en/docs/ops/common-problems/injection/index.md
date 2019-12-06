@@ -90,7 +90,7 @@ of injected sidecar when it was.
 
 1. Check default policy
 
-    Check the default injection policy in the `istio-sidecar-injector` `configmap`.
+    Check the default injection policy in the `istio-sidecar-injector configmap`.
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | grep policy:
