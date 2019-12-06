@@ -17,7 +17,7 @@ Istio 的流量路由规则可以让您很容易的控制服务之间的流量�
 
 Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</ gloss >}} 代理。网格内服务发送和接收的所有流量（{{< gloss >}}data plane{{</ gloss >}}流量）都经由 Envoy 代理，这让控制网格内的流量变得异常简单，而且不需要对服务做任何的更改。
 
-本节中描述的功能特性，如果您对它们是如何工作的感兴趣的话，可以在[架构概述](/zh/docs/ops/architecture/)中找到关于 Istio 的流量管理实现的更多信息。本部分只介绍 Istio 的流量管理特性。
+本节中描述的功能特性，如果您对它们是如何工作的感兴趣的话，可以在[架构概述](/zh/docs/ops/deployment/architecture/)中找到关于 Istio 的流量管理实现的更多信息。本部分只介绍 Istio 的流量管理特性。
 
 ## Istio 流量管理介绍 {#introducing-Istio-traffic-management}
 
