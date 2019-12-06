@@ -76,7 +76,7 @@ aliases:
     one Mon Nov 12 23:25:19 UTC 2018
     {{< /text >}}
 
-    {{< warning >}}    		
+    {{< warning >}}
     可能需要通过 `sudo` 执行 `docker` 命令，这取决于您的 Docker 安装。
     {{< /warning >}}
 
@@ -145,7 +145,7 @@ aliases:
      `v1` 版本，与此同时有 20% 流量路由到了 `v2` 版本。
 
 ## 理解原理{#understanding-what-happened}
-		
+
 这个任务中，使用 Istio 路由权重特性将 `tcp-echo` 服务的 TCP 流量从旧版本迁移到了新版本。请注意，这与使用容
 器编排平台的 deployment 进行版本迁移非常不同，后者（容器编排平台）是通过对特定组别的实例进行伸缩实现的。
 
