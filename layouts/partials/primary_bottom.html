@@ -43,8 +43,8 @@
                     <button class="btn feedback" onclick="sendFeedback('{{.Site.Language}}', 0)">{{ i18n "feedback_no" }}</button>
                 </div>
                 <div id="feedback-comment">
-                    {{ i18n "feedback_ask_for_comment" }}<br>
-                    <input id="feedback-textbox" type="text" placeholder='{{ i18n "feedback_comment_placeholder"}}' onchange="sendComment('{{.Site.Language}}', this.value)"/>
+                    {{ i18n "feedback_ask_for_comment" }}<br><br>
+                    <input id="feedback-textbox" type="text" placeholder='{{ i18n "feedback_comment_placeholder"}}' data-lang='{{.Site.Language}}'/>
                 </div>
                 <div id="feedback-thankyou">
                     {{ i18n "feedback_thankyou" }}
