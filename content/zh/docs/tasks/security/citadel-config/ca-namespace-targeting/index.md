@@ -6,13 +6,13 @@ aliases:
     - /zh/docs/tasks/security/ca-namespace-targeting/
 ---
 
-集群操作者可以决定不为命名空间的一些子空间生成 `ServiceAccount` secret，或者使 `ServiceAccount` secret 生成器加入每一个命名空间。此任务描述了操作者如何针对这些情况配置集群。有关 Citadel 命名空间定位机制的完整文档可参考[此处](/zh/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets)。
+集群操作者可以决定不为命名空间的一些子空间生成 `ServiceAccount` secret，或者使 `ServiceAccount` secret 生成器加入每一个命名空间。此任务描述了操作者如何针对这些情况配置集群。有关 Citadel 命名空间定位机制的完整文档可参考[此处](/zh/docs/ops/configuration/mesh/secret-creation/)。
 
 ## 开始之前{#before-you-begin}
 
 为了完成此任务，您首先应该执行以下操作：
 
-* 阅读[安全概念](/zh/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets)。
+* 阅读[安全概念](/zh/docs/ops/configuration/mesh/secret-creation/)。
 
 * 按照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio，并开启 mutual TLS。
 
