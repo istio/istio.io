@@ -49,17 +49,17 @@ omit this value and it will be computed automatically.
 {{- /* Turn relative values for $link into absolute values */ -}}
 
 {{- if not (or (hasPrefix $link "/") (hasPrefix $link "https://") (strings.HasPrefix $link "http://")) -}}
-    {{ $pageDir := .Page.File.Dir }}
+    {{ $pageDir := path.Dir .Page.File.Path }}
     {{- if ne .Page.Language.Lang "en" -}}
         {{- $pageDir = printf "%s/%s" .Page.Language.Lang $pageDir -}}
     {{- end -}}
 
     {{- if (hasPrefix $link "../") -}}
-        {{- $link = printf "/%s%s" $pageDir (slicestr $link 3) -}}
+        {{- $link = printf "/%s/%s" $pageDir (slicestr $link 3) -}}
     {{- else if (hasPrefix $link "./") -}}
-        {{- $link = printf "/%s%s" $pageDir (slicestr $link 2) -}}
+        {{- $link = printf "/%s/%s" $pageDir (slicestr $link 2) -}}
     {{- else -}}
-        {{- $link = printf "/%s%s" $pageDir $link -}}
+        {{- $link = printf "/%s/%s" $pageDir $link -}}
     {{- end -}}
 {{- end -}}
 
