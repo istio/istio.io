@@ -276,7 +276,7 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 
 ## 直接访问外部服务{#direct-access-to-external-services}
 
-如果要让特定范围的 ​​IP 完全绕过Istio，则可以配置 Envoy  sidecars 以防止它们[拦截](/zh/docs/concepts/traffic-management/)外部请求。要设置绕过 Istio，请更改 `global.proxy.includeIPRanges` 或 `global.proxy.excludeIPRanges` 配置选项，并使用 `kubectl apply` 命令更新 `istio-sidecar-injector` 的[配置]((/zh/docs/reference/config/installation-options/))。`istio-sidecar-injector` 配置的更新，影响的是新部署应用的 pod。
+如果要让特定范围的 ​​IP 完全绕过Istio，则可以配置 Envoy  sidecars 以防止它们[拦截](/zh/docs/concepts/traffic-management/)外部请求。要设置绕过 Istio，请更改 `global.proxy.includeIPRanges` 或 `global.proxy.excludeIPRanges` 配置选项，并使用 `kubectl apply` 命令更新 `istio-sidecar-injector` 的[配置](/zh/docs/reference/config/installation-options/)。`istio-sidecar-injector` 配置的更新，影响的是新部署应用的 pod。
 
 {{< warning >}}
 与 [Envoy 转发流量到外部服务](#envoy-passthrough-to-external-services) 不同，后者使用 `ALLOW_ANY` 流量策略来让 Istio sidecar 代理将调用传递给未知服务，
