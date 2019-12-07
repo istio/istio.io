@@ -1,6 +1,6 @@
 ---
-title: 网络问题
-description: 定位 Istio 流量管理和网络问题的技术。
+title: 流量管理问题
+description: 定位常见的 Istio 流量管理和网络问题的技术。
 force_inline_toc: true
 weight: 10
 aliases:
@@ -44,73 +44,6 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 如果路由规则在 [Bookinfo](/zh/docs/examples/bookinfo/) 这个例子中完美地运行，但在你自己的应用中相似版本的路由规则却没有生效，可能因为你的 Kubernetes service 需要被稍微地修改。为了利用 Istio 的七层路由特性 Kubernetes service 必须严格遵守某些限制。参考 [Pods 和 Services 的要求](/zh/docs/ops/deployment/requirements/)查看详细信息。
 
 另一个潜在的问题是路由规则可能只是生效比较慢。在 Kubernetes 上实现的 Istio 利用一个最终一致性算法来保证所有的 Envoy sidecar 有正确的配置包括所有的路由规则。一个配置变更需要花一些时间来传播到所有的 sidecar。在大型的集群部署中传播将会耗时更长并且可能有几秒钟的延迟时间。
-
-## Destination rule 策略未生效{#destination-rule-policy-not-activated}
-
-尽管 destination rule 和特定的目标主机关联，subset-specific 策略的激活最终依赖于路由规则。
-
-当路由一个请求，Envoy 首先会评估 virtual service 中的 route rule 来决定是否路由到一个特定的 subset。如此，它才会激活任意与 subset 相对应的 destination rule 策略。所以，如果你希望流量路由到正确的 subset，只有你定义明确的 subset 策略 Istio 才会应用。
-
-举个例子，假设下面是为 *reviews* 服务定义的唯一的 destination rule，因此，这里没有与 `VirtualService` 定义相对应的路由规则：
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews
-spec:
-  host: reviews
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-    trafficPolicy:
-      connectionPool:
-        tcp:
-          maxConnections: 100
-{{< /text >}}
-
-如果某些情况下 Istio 默认采用 round-robin 策略来访问 "v1" 实例，可能最终 "v1" 实例是唯一运行的版本，那么上面的流量策略将永远不会被使用到。
-
-你可以通过下面两种方式之一来使上面的例子生效：
-
-1. 将 destination rule 中的流量策略上移一级以使策略应用到任意 subset，例如：
-
-    {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: reviews
-    spec:
-      host: reviews
-      trafficPolicy:
-        connectionPool:
-          tcp:
-            maxConnections: 100
-      subsets:
-      - name: v1
-        labels:
-          version: v1
-    {{< /text >}}
-
-1. 用 `VirtualService` 为这个服务定义一个正确的路由规则。例如，为 `reviews` 服务的 `v1` subset 添加一个简单的路由规则：
-
-    {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v1
-    {{< /text >}}
-
-Istio 默认可以方便地将流量从任意源传输到目标服务的任意版本而不需要设置任何规则。因为你需要区分一个服务的不同版本，所以你需要定义不同的路由规则。因此，我们考虑从一开始就为每个服务基于最佳实践设置一个默认的路由规则。
 
 ## 设置 destination rule 之后出现 503 异常{#service-unavailable-errors-after-setting-destination-rule}
 
@@ -314,3 +247,87 @@ server {
 - `Gateway` 配置 `gw` 到主机 `*.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
 - `VirtualService` 配置 `vs1` 到主机 `service1.test.com` 并且 gateway 配置为 `gw`
 - `VirtualService` 配置 `vs2` 到主机 `service2.test.com` 并且 gateway 配置为 `gw`
+
+## 在网关中配置多个TLS主机时端口冲突{#port-conflict-when-configuring-multiple-TLS-hosts-in-a-gateway}
+
+如果您应用的 `Gateway` 配置与另一个现有的 `Gateway` 具有相同的 `selector` 标签，如果它们都暴露了相同的 HTTPS 端口，那您必须确保它们具有唯一的端口名。
+否则，该配置在应用时不会立即显示错误指示，但在运行时网关配置中将忽略该配置。
+例如：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
+
+使用此配置，对第二个主机 `myhost2.com` 的请求将会失败，因为这两个网关端口的名字都是 `https`。
+例如，_curl_ 请求将产生如下错误消息：
+
+{{< text plain >}}
+curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to myhost2.com:443
+{{< /text >}}
+
+您可以通过检查 Pilot 的日志中是否有类似以下内容的消息来确认是否已发生这种情况：
+
+{{< text bash >}}
+$ kubectl logs -n istio-system $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -c discovery | grep "non unique port"
+2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+{{< /text >}}
+
+为避免此问题，请确保使用 `protocol: HTTPS` 的端口都有不同的名字。
+例如，将第二个更改为 `https2`：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https2
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
