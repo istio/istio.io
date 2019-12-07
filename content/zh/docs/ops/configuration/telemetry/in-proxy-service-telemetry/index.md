@@ -1,12 +1,12 @@
 ---
-title: 不使用 Mixer 生成 Istio 指标 [试验性的]
+title: 不使用 Mixer 生成 Istio 指标 [Alpha]
 description: 怎样使用代理生成服务级别的指标。
 weight: 20
 aliases:
   - /zh/docs/ops/telemetry/in-proxy-service-telemetry
 ---
 
-Istio 1.4 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了试验性支持。
+Istio 1.4 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了 alpha 版支持。
 这个特性让你可以在没有 Mixer 的情况下使用 Istio 提供的工具监控你的服务网格。
 
 在代理中生成的服务级别指标代替了如下所示的当前在 Mixer 中生成的 HTTP 指标：
