@@ -8,11 +8,11 @@ aliases:
 keywords: [traffic-management,egress]
 ---
 
-由于默认情况下，来自启用了 Istio 的 Pod 的所有出站流量都会重定向到其 Sidecar 代理，群集外部 URL 的可访问性取决于代理的配置。默认情况下，Istio 将 Envoy 代理配置为传递未知服务的请求。尽管这为入门 Istio 带来了方便，但是，通常情况下，配置更严格的控制是更可取的。
+由于默认情况下，来自 Istio-enable Pod 的所有出站流量都会重定向到其 Sidecar 代理，群集外部 URL 的可访问性取决于代理的配置。默认情况下，Istio 将 Envoy 代理配置为允许传递未知服务的请求。尽管这为入门 Istio 带来了方便，但是，通常情况下，配置更严格的控制是更可取的。
 
 这个任务像你展示了三种访问外部服务的方法：
 
-1. 允许 Envoy 代理将请求传递给网格内未配置的服务。
+1. 允许 Envoy 代理将请求传递到未在网格内配置过的服务。
 1. 配置 [service entries](/zh/docs/reference/config/networking/service-entry/) 以提供对外部服务的受控访问。
 1. 对于特定范围的 IP，完全绕过 Envoy 代理。
 
@@ -47,7 +47,7 @@ keywords: [traffic-management,egress]
 Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)，
 `global.outboundTrafficPolicy.mode`，它配置 sidecar 对外部服务（那些没有在 Istio 的内部服务注册中定义的服务）的处理方式。如果这个选项设置为 `ALLOW_ANY`，Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_ONLY`，那么 Istio 代理会阻止任何没有在网格中定义的 HTTP 服务或 service entry 的主机。`ALLOW_ANY` 是默认值，不控制对外部服务的访问，方便你快速地评估 Istio。你可以稍后再[配置对外部服务的访问](#controlled-access-to-external-services) 。
 
-1. 要查看这种方法的实际效果，你需要确保 Istio 的安装配置了`global.outboundTrafficPolicy.mode` 选项为 `ALLOW_ANY`。它在默认情况下是开启的，除非你在安装 Istio 时显式地将它设置为 `REGISTRY_ONLY`。
+1. 要查看这种方法的实际效果，你需要确保 Istio 的安装配置了 `global.outboundTrafficPolicy.mode` 选项为 `ALLOW_ANY`。它在默认情况下是开启的，除非你在安装 Istio 时显式地将它设置为 `REGISTRY_ONLY`。
 
     运行以下命令以确认配置是正确的：
 
@@ -56,10 +56,10 @@ Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)�
     mode: ALLOW_ANY
     {{< /text >}}
 
-    如果它开启了，那么输出用应该会出现 `mode: ALLOW_ANY`。
+    如果它开启了，那么输出应该会出现 `mode: ALLOW_ANY`。
 
     {{< tip >}}
-    如果你显式地设置了 `REGISTRY_ONLY` 模式，可以用一下的命令来改变它：
+    如果你显式地设置了 `REGISTRY_ONLY` 模式，可以用以下的命令来改变它：
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
@@ -67,7 +67,7 @@ Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)�
     {{< /text >}}
 
     {{< /tip >}}
-2. 从 `SOURCE_POD` 向外部 HTTPS 服务发出两个请求，确保能够得到状态码为 `200` 的响应：
+1. 从 `SOURCE_POD` 向外部 HTTPS 服务发出两个请求，确保能够得到状态码为 `200` 的响应：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
@@ -132,7 +132,7 @@ Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)�
     EOF
     {{< /text >}}
 
-2. 从 `SOURCE_POD` 向外部的 HTTP 服务放出一个请求：
+1. 从 `SOURCE_POD` 向外部的 HTTP 服务发出一个请求：
 
     {{< text bash >}}
     $  kubectl exec -it $SOURCE_POD -c sleep -- curl http://httpbin.org/headers
@@ -150,7 +150,7 @@ Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)�
 
     注意由 Istio sidecar 代理添加的 headers: `X-Envoy-Decorator-Operation`。
 
-3.  检查 `SOURCE_POD` 的 sidecar 代理的日志:
+1.  检查 `SOURCE_POD` 的 sidecar 代理的日志:
 
     {{< text bash >}}
     $  kubectl logs $SOURCE_POD -c istio-proxy | tail
@@ -159,7 +159,7 @@ Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)�
 
     注意与 HTTP 请求相关的 `httpbin.org/headers`.
 
-4. 检查 Mixer 日志。如果 Istio 部署的命名空间是 `istio-system`，那么打印日志的命令如下：
+1. 检查 Mixer 日志。如果 Istio 部署的命名空间是 `istio-system`，那么打印日志的命令如下：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
@@ -190,14 +190,14 @@ Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)�
     EOF
     {{< /text >}}
 
-2.  从 `SOURCE_POD` 往外部 HTTPS 服务发送请求：
+1.  从 `SOURCE_POD` 往外部 HTTPS 服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
-3.  检查 `SOURCE_POD` 的 sidecar 代理的日志：
+1.  检查 `SOURCE_POD` 的 sidecar 代理的日志：
 
     {{< text bash >}}
     $ kubectl logs $SOURCE_POD -c istio-proxy | tail
@@ -206,7 +206,7 @@ Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)�
 
     请注意与您对 `www.google.com` 的 HTTPS 请求相关的条目。
 
-4.  检查 Mixer 日志。如果 Istio 部署的命名空间是 `istio-system`，那么打印日志的命令如下：
+1.  检查 Mixer 日志。如果 Istio 部署的命名空间是 `istio-system`，那么打印日志的命令如下：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'www.google.com'
@@ -371,7 +371,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 }
 {{< /text >}}
 
-与通过 HTTP 和 HTTPS 访问外部服务不通，你不会看到任何与 Istio sidecar 有关的请求头，
+与通过 HTTP 和 HTTPS 访问外部服务不同，你不会看到任何与 Istio sidecar 有关的请求头，
 并且发送到外部服务的请求既不会出现在 Sidecar 的日志中，也不会出现在 Mixer 日志中。
 绕过 Istio sidecar 意味着你不能再监视对外部服务的访问。
 
