@@ -49,12 +49,15 @@ sidecar injected, able to serve mutual TLS traffic.
 $ kubectl create ns partial
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n partial
 $ cat <<EOF | kubectl apply -n partial -f -
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: httpbin-nosidecar
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin
   template:
     metadata:
       labels:
