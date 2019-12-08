@@ -1,36 +1,32 @@
 ---
-title: Circuit Breaking
-description: This task shows you how to configure circuit breaking for connections, requests, and outlier detection.
+title: 熔断
+description: 本任务展示如何为连接、请求以及异常检测配置熔断。
 weight: 50
 keywords: [traffic-management,circuit-breaking]
 ---
 
-This task shows you how to configure circuit breaking for connections, requests,
-and outlier detection.
+本任务展示如何为连接、请求以及异常检测配置熔断。
 
-Circuit breaking is an important pattern for creating resilient microservice
-applications. Circuit breaking allows you to write applications that limit the impact of failures, latency spikes, and other undesirable effects of network peculiarities.
+熔断，是创建弹性微服务应用程序的重要模式。熔断能够使您的应用程序具备应对来自故障、潜在峰值和其他
+未知网络因素影响的能力。
 
-In this task, you will configure circuit breaking rules and then test the
-configuration by intentionally "tripping" the circuit breaker.
+这个任务中，你将配置熔断规则，然后通过有意的使熔断器“跳闸”来测试配置。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/zh/docs/setup/).
+* 跟随 [安装指南](/zh/docs/setup/) 安装 Istio。
 
 {{< boilerplate start-httpbin-service >}}
 
-The `httpbin` application serves as the backend service for this task.
+应用程序 `httpbin` 作为此任务的后端服务。
 
-## Configuring the circuit breaker
+## 配置熔断器{#configuring-the-circuit-breaker}
 
-1.  Create a [destination rule](/zh/docs/reference/config/networking/destination-rule/) to apply circuit breaking settings
-when calling the `httpbin` service:
+1. 创建一个 [目标规则](/zh/docs/reference/config/networking/destination-rule/)，在调用 `httpbin`
+服务时应用熔断设置：
 
     {{< warning >}}
-    If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it.
-    Otherwise requests will generate 503 errors as described [here](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule).
+    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule` 。否则请求将产生 503 错误，如 [这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule) 所述。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -56,7 +52,7 @@ when calling the `httpbin` service:
     EOF
     {{< /text >}}
 
-1.  Verify the destination rule was created correctly:
+1.  验证目标规则是否已正确创建：
 
     {{< text bash yaml >}}
     $ kubectl get destinationrule httpbin -o yaml
@@ -81,23 +77,19 @@ when calling the `httpbin` service:
           maxEjectionPercent: 100
     {{< /text >}}
 
-## Adding a client
+## 增加一个客户{#adding-a-client}
 
-Create a client to send traffic to the `httpbin` service. The client is
-a simple load-testing client called [fortio](https://github.com/istio/fortio).
-Fortio lets you control the number of connections, concurrency, and
-delays for outgoing HTTP calls. You will use this client to "trip" the circuit breaker
-policies you set in the `DestinationRule`. 
+创建客户端程序以发送流量到 `httpbin` 服务。这是一个名为 [Fortio](https://github.com/istio/fortio)
+的负载测试客户的，其可以控制连接数、并发数及发送 HTTP 请求的延迟。通过 Fortio 能够有效的触发前面
+在 `DestinationRule` 中设置的熔断策略。
 
-1. Inject the client with the Istio sidecar proxy so network interactions are
-governed by Istio:
+1. 向客户端注入 Istio Sidecar 代理，以便 Istio 对其网络交互进行管理：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/sample-client/fortio-deploy.yaml@)
     {{< /text >}}
 
-1. Log in to the client pod and use the fortio tool to call `httpbin`.
-Pass in `-curl` to indicate that you just want to make one call:
+1. 登入客户端 Pod 并使用 Fortio 工具调用 `httpbin` 服务。`-curl` 参数表明发送一次调用：
 
     {{< text bash >}}
     $ FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
@@ -128,17 +120,15 @@ Pass in `-curl` to indicate that you just want to make one call:
     }
     {{< /text >}}
 
-You can see the request succeeded! Now, it's time to break something.
+可以看到调用后端服务的请求已经成功！接下来，可以测试熔断。
 
-## Tripping the circuit breaker
+## 触发熔断器{#tripping-the-circuit-breaker}
 
-In the `DestinationRule` settings, you specified `maxConnections: 1` and
-`http1MaxPendingRequests: 1`. These rules indicate that if you exceed more than
-one connection and request concurrently, you should see some failures when the
-`istio-proxy` opens the circuit for further requests and connections.
+在 `DestinationRule` 配置中，您定义了 `maxConnections: 1` 和 `http1MaxPendingRequests: 1`。
+这些规则意味着，如果并发的连接和请求数超过一个，在 `istio-proxy` 进行进一步的请求和连接时，后续请求或
+连接将被阻止。
 
-1. Call the service with two concurrent connections (`-c 2`) and send 20 requests
-(`-n 20`):
+1. 发送并发数为 2 的连接（`-c 2`），请求 20 次（`-n 20`）：
 
     {{< text bash >}}
     $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
@@ -169,15 +159,14 @@ one connection and request concurrently, you should see some failures when the
     All done 20 calls (plus 0 warmup) 10.215 ms avg, 187.8 qps
     {{< /text >}}
 
-    It's interesting to see that almost all requests made it through! The `istio-proxy`
-    does allow for some leeway.
+    有趣的是，几乎所有的请求都完成了！`istio-proxy` 确实允许存在一些误差。
 
     {{< text plain >}}
     Code 200 : 19 (95.0 %)
     Code 503 : 1 (5.0 %)
     {{< /text >}}
 
-1. Bring the number of concurrent connections up to 3:
+1. 将并发连接数提高到 3 个：
 
     {{< text bash >}}
     $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
@@ -220,15 +209,14 @@ one connection and request concurrently, you should see some failures when the
     All done 30 calls (plus 0 warmup) 5.336 ms avg, 422.2 qps
     {{< /text >}}
 
-    Now you start to see the expected circuit breaking behavior. Only 63.3% of the
-    requests succeeded and the rest were trapped by circuit breaking:
+    现在，您将开始看到预期的熔断行为，只有 63.3% 的请求成功，其余的均被熔断器拦截：
 
     {{< text plain >}}
     Code 200 : 19 (63.3 %)
     Code 503 : 11 (36.7 %)
     {{< /text >}}
 
-1. Query the `istio-proxy` stats to see more:
+1. 查询 `istio-proxy` 状态以了解更多熔断详情:
 
     {{< text bash >}}
     $ kubectl exec $FORTIO_POD -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
@@ -238,18 +226,17 @@ one connection and request concurrently, you should see some failures when the
     cluster.outbound|80||httpbin.springistio.svc.cluster.local.upstream_rq_pending_total: 39
     {{< /text >}}
 
-    You can see `12` for the `upstream_rq_pending_overflow` value which means `12`
-    calls so far have been flagged for circuit breaking.
+    可以看到 `upstream_rq_pending_overflow` 值 `12`，这意味着，目前为止已有 12 个调用被标记为熔断。
 
-## Cleaning up
+## 清理{#cleaning-up}
 
-1.  Remove the rules:
+1.  清理规则:
 
     {{< text bash >}}
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:
+1.  下线 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy
