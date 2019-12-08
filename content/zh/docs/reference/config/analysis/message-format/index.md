@@ -2,13 +2,13 @@
 title: Analyzer Message Format
 ---
 
-该 `istioctl analyze` 命令规定以下格式：
+`istioctl analyze` 命令规定以下格式：
 
 {{< text plain >}}
 <level> [<code>] (<affected-resource>) <message-details>
 {{< /text >}}
 
-该 `<affected-resource>` 字段的详细格式如下：
+`<affected-resource>` 字段的详细格式如下：
 
 {{< text plain >}}
 <resource-kind> <resource-name>.<resource-namespace>
