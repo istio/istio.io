@@ -2,4 +2,4 @@
 headless: true
 ---
 
-This file tells Hugo that the files in this directory tree shouldn't be rendered as normal pages on the site.
+这个文件告诉 Hugo 引擎，在生成页面时，所有放置在当前目录树下的文件都不需要生成独立的页面在站点中显示。
