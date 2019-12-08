@@ -38,7 +38,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  Install Istio with strict mutual TLS enabled. TODO: add command or point to instructions.
+1.  [Install Istio](/docs/setup/install/).
 
 1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
