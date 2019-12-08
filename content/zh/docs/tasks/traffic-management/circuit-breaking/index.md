@@ -1,16 +1,16 @@
 ---
 title: 熔断
-description: 本任务展示如为连接、请求以及异常检测配置熔断。
+description: 本任务展示如何为连接、请求以及异常检测配置熔断。
 weight: 50
 keywords: [traffic-management,circuit-breaking]
 ---
 
-本任务展示如为连接、请求以及异常检测配置熔断。
+本任务展示如何为连接、请求以及异常检测配置熔断。
 
-熔断，是创建弹性微服务应用程序的重要模式。熔断器能够使您的应用程序具备应对来自故障、潜在峰值和其他
+熔断，是创建弹性微服务应用程序的重要模式。熔断能够使您的应用程序具备应对来自故障、潜在峰值和其他
 未知网络因素影响的能力。
 
-这个任务中，你将配置熔断规则，然后通过有意的“跳闸”断路器来测试配置。
+这个任务中，你将配置熔断规则，然后通过有意的使熔断器“跳闸”来测试配置。
 
 ## 开始之前{#before-you-begin}
 
@@ -23,7 +23,7 @@ keywords: [traffic-management,circuit-breaking]
 ## 配置熔断器{#configuring-the-circuit-breaker}
 
 1. 创建一个 [目标规则](/zh/docs/reference/config/networking/destination-rule/)，在调用 `httpbin`
-服务时应用断路设置：
+服务时应用熔断设置：
 
     {{< warning >}}
     如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule` 。否则请求将产生 503 错误，如 [这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule) 所述。
@@ -122,7 +122,7 @@ keywords: [traffic-management,circuit-breaking]
 
 可以看到调用后端服务的请求已经成功！接下来，可以测试熔断。
 
-## 触发熔断机制{#tripping-the-circuit-breaker}
+## 触发熔断器{#tripping-the-circuit-breaker}
 
 在 `DestinationRule` 配置中，您定义了 `maxConnections: 1` 和 `http1MaxPendingRequests: 1`。
 这些规则意味着，如果并发的连接和请求数超过一个，在 `istio-proxy` 进行进一步的请求和连接时，后续请求或
