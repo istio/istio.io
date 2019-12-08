@@ -1,6 +1,6 @@
 ---
-title: Accessing External Services
-description: Describes how to configure Istio to route traffic from services in the mesh to external services.
+title: 访问外部服务
+description: 描述如何配置 Istio 以将流量从网格中的服务路由到外部服务。
 weight: 10
 aliases:
     - /zh/docs/tasks/egress.html
@@ -8,74 +8,58 @@ aliases:
 keywords: [traffic-management,egress]
 ---
 
-Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
-accessibility of URLs outside of the cluster depends on the configuration of the proxy.
-By default, Istio configures the Envoy proxy to passthrough requests for unknown services.
-Although this provides a convenient way to get started with Istio, configuring
-stricter control is usually preferable.
+由于默认情况下，来自 Istio-enable Pod 的所有出站流量都会重定向到其 Sidecar 代理，群集外部 URL 的可访问性取决于代理的配置。默认情况下，Istio 将 Envoy 代理配置为允许传递未知服务的请求。尽管这为入门 Istio 带来了方便，但是，通常情况下，配置更严格的控制是更可取的。
 
-This task shows you how to access external services in three different ways:
+这个任务向你展示了三种访问外部服务的方法：
 
-1. Allow the Envoy proxy to pass requests through to services that are not configured inside the mesh.
-1. Configure [service entries](/zh/docs/reference/config/networking/service-entry/) to provide controlled access to external services.
-1. Completely bypass the Envoy proxy for a specific range of IPs.
+1. 允许 Envoy 代理将请求传递到未在网格内配置过的服务。
+1. 配置 [service entries](/zh/docs/reference/config/networking/service-entry/) 以提供对外部服务的受控访问。
+1. 对于特定范围的 IP，完全绕过 Envoy 代理。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-*   Setup Istio by following the instructions in the [Installation guide](/zh/docs/setup/).
-
-*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
-    If you have
-    [automatic sidecar injection](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-    enabled, run the following command to deploy the sample app:
+*   根据 [安装指南](/zh/docs/setup/) 中的命令设置 Istio。
+*   部署 [sleep]({{< github_tree >}}/samples/sleep) 这个示例应用，用作发送请求的测试源。
+    如果你启用了 [自动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，使用以下的命令来部署示例应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-    Otherwise, manually inject the sidecar before deploying the `sleep` application with the following command:
+    否则，在部署 `sleep` 应用前，使用以下命令手动注入 sidecar：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
     {{< /text >}}
 
     {{< tip >}}
-    You can use any pod with `curl` installed as a test source.
+    您可以使用任何安装了 `curl` 的 pod 作为测试源。
     {{< /tip >}}
 
-*   Set the `SOURCE_POD` environment variable to the name of your source pod:
+*   设置环境变量 `SOURCE_POD`，值为你的源 pod 的名称：
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-## Envoy passthrough to external services
+## Envoy 转发流量到外部服务{#envoy-passthrough-to-external-services}
 
-Istio has an [installation option](/zh/docs/reference/config/installation-options/),
-`global.outboundTrafficPolicy.mode`, that configures the sidecar handling
-of external services, that is, those services that are not defined in Istio's internal service registry.
-If this option is set to `ALLOW_ANY`, the Istio proxy lets calls to unknown services pass through.
-If the option is set to `REGISTRY_ONLY`, then the Istio proxy blocks any host without an HTTP service or
-service entry defined within the mesh.
-`ALLOW_ANY` is the default value, allowing you to start evaluating Istio quickly,
-without controlling access to external services.
-You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
+Istio 有一个 [安装选项](/zh/docs/reference/config/installation-options/)，
+`global.outboundTrafficPolicy.mode`，它配置 sidecar 对外部服务（那些没有在 Istio 的内部服务注册中定义的服务）的处理方式。如果这个选项设置为 `ALLOW_ANY`，Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_ONLY`，那么 Istio 代理会阻止任何没有在网格中定义的 HTTP 服务或 service entry 的主机。`ALLOW_ANY` 是默认值，不控制对外部服务的访问，方便你快速地评估 Istio。你可以稍后再[配置对外部服务的访问](#controlled-access-to-external-services) 。
 
-1. To see this approach in action you need to ensure that your Istio installation is configured
-    with the `global.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
-    set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
+1. 要查看这种方法的实际效果，你需要确保 Istio 的安装配置了 `global.outboundTrafficPolicy.mode` 选项为 `ALLOW_ANY`。它在默认情况下是开启的，除非你在安装 Istio 时显式地将它设置为 `REGISTRY_ONLY`。
 
-    Run the following command to confirm it is configured correctly:
+    运行以下命令以确认配置是正确的：
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
     mode: ALLOW_ANY
     {{< /text >}}
 
-    The string `mode: ALLOW_ANY` should appear in the output if it is enabled.
+    如果它开启了，那么输出应该会出现 `mode: ALLOW_ANY`。
 
     {{< tip >}}
-    If you have explicitly configured `REGISTRY_ONLY` mode, you can run the following command to change it:
+    如果你显式地设置了 `REGISTRY_ONLY` 模式，可以用以下的命令来改变它：
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
@@ -83,9 +67,7 @@ You can then decide to [configure access to external services](#controlled-acces
     {{< /text >}}
 
     {{< /tip >}}
-
-1.  Make a couple of requests to external HTTPS services from the `SOURCE_POD` to confirm
-    successful `200` responses:
+1. 从 `SOURCE_POD` 向外部 HTTPS 服务发出两个请求，确保能够得到状态码为 `200` 的响应：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
@@ -93,39 +75,30 @@ You can then decide to [configure access to external services](#controlled-acces
     HTTP/2 200
     {{< /text >}}
 
-Congratulations! You successfully sent egress traffic from your mesh.
+恭喜！你已经成功地从网格中发送了 egress 流量。
 
-This simple approach to access external services, has the drawback that you lose Istio monitoring and control
-for traffic to external services; calls to external services will not appear in the Mixer log, for example.
-The next section shows you how to monitor and control your mesh's access to external services.
+这种访问外部服务的简单方法有一个缺点，即丢失了对外部服务流量的 Istio 监控和控制；比如，外部服务的调用没有记录到 Mixer 的日志中。下一节将介绍如何监控和控制网格对外部服务的访问。
 
-## Controlled access to external services
+## 控制对外部服务的访问{#controlled-access-to-external-services}
 
-Using Istio `ServiceEntry` configurations, you can access any publicly accessible service
-from within your Istio cluster. This section shows you how to configure access to an external HTTP service,
-[httpbin.org](http://httpbin.org), as well as an external HTTPS service,
-[www.google.com](https://www.google.com) without losing Istio's traffic monitoring and control features.
+使用 Istio `ServiceEntry` 配置，你可以从 Istio 集群中访问任何公开的服务。本节将向你展示如何在不丢失 Istio 的流量监控和控制特性的情况下，配置对外部 HTTP 服务([httpbin.org](http://httpbin.org)) 和外部 HTTPS 服务([www.google.com](https://www.google.com)) 的访问。
 
-### Change to the blocking-by-default policy
+### 更改为默认的封锁策略{#change-to-the-blocking-by-default-policy}
 
-To demonstrate the controlled way of enabling access to external services, you need to change the
-`global.outboundTrafficPolicy.mode` option from the `ALLOW_ANY` mode to the `REGISTRY_ONLY` mode.
+为了演示如何控制对外部服务的访问，你需要将 `global.outboundTrafficPolicy.mode` 选项，从 `ALLOW_ANY`模式 改为 `REGISTRY_ONLY` 模式。
 
 {{< tip >}}
-You can add controlled access to services that are already accessible in `ALLOW_ANY` mode.
-This way, you can start using Istio features on some external services without blocking any others.
-Once you've configured all of your services, you can then switch the mode to `REGISTRY_ONLY` to block
-any other unintentional accesses.
+你可以向已经在 `ALLOW_ANY` 模式下的可访问服务添加访问控制。通过这种方式，你可以在一些外部服务上使用 Istio 的特性，而不会阻止其他服务。一旦你配置了所有服务，就可以将模式切换到 `REGISTRY_ONLY` 来阻止任何其他无意的访问。
 {{< /tip >}}
 
-1.  Run the following command to change the `global.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
+1. 执行以下命令来将 `global.outboundTrafficPolicy.mode` 选项改为 `REGISTRY_ONLY`：
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
     configmap "istio" replaced
     {{< /text >}}
 
-1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
+1. 从 `SOURCE_POD` 向外部 HTTPS 服务发出几个请求，验证它们现在是否被阻止：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"; kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://edition.cnn.com | grep "HTTP/"
@@ -134,13 +107,12 @@ any other unintentional accesses.
     {{< /text >}}
 
     {{< warning >}}
-    It may take a while for the configuration change to propagate, so you might still get successful connections.
-    Wait for several seconds and then retry the last command.
+    配置更改后肯需要一小段时间才能生效，所以你可能仍然可以得到成功地响应。等待若干秒后再重新执行上面的命令。
     {{< /warning >}}
 
-### Access an external HTTP service
+### 访问一个外部的 HTTP 服务{#access-an-external-http-service}
 
-1.  Create a `ServiceEntry` to allow access to an external HTTP service:
+1. 创建一个 `ServiceEntry`，以允许访问一个外部的 HTTP 服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -160,7 +132,7 @@ any other unintentional accesses.
     EOF
     {{< /text >}}
 
-1.  Make a request to the external HTTP service from `SOURCE_POD`:
+1. 从 `SOURCE_POD` 向外部的 HTTP 服务发出一个请求：
 
     {{< text bash >}}
     $  kubectl exec -it $SOURCE_POD -c sleep -- curl http://httpbin.org/headers
@@ -176,31 +148,29 @@ any other unintentional accesses.
     }
     {{< /text >}}
 
-    Note the headers added by the Istio sidecar proxy: `X-Envoy-Decorator-Operation`.
+    注意由 Istio sidecar 代理添加的 headers: `X-Envoy-Decorator-Operation`。
 
-1.  Check the log of the sidecar proxy of `SOURCE_POD`:
+1.  检查 `SOURCE_POD` 的 sidecar 代理的日志:
 
     {{< text bash >}}
     $  kubectl logs $SOURCE_POD -c istio-proxy | tail
     [2019-01-24T12:17:11.640Z] "GET /headers HTTP/1.1" 200 - 0 599 214 214 "-" "curl/7.60.0" "17fde8f7-fa62-9b39-8999-302324e6def2" "httpbin.org" "35.173.6.94:80" outbound|80||httpbin.org - 35.173.6.94:80 172.30.109.82:55314 -
     {{< /text >}}
 
-    Note the entry related to your HTTP request to `httpbin.org/headers`.
+    注意与 HTTP 请求相关的 `httpbin.org/headers`.
 
-1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1. 检查 Mixer 日志。如果 Istio 部署的命名空间是 `istio-system`，那么打印日志的命令如下：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
     {"level":"info","time":"2019-01-24T12:17:11.855496Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"unknown","destinationApp":"","destinationIp":"I60GXg==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"httpbin.org","destinationWorkload":"unknown","grpcMessage":"","grpcStatus":"","httpAuthority":"httpbin.org","latency":"214.661667ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":270,"referer":"","reporter":"source","requestId":"17fde8f7-fa62-9b39-8999-302324e6def2","requestSize":0,"requestedServerName":"","responseCode":200,"responseSize":599,"responseTimestamp":"2019-01-24T12:17:11.855521Z","sentBytes":806,"sourceApp":"sleep","sourceIp":"AAAAAAAAAAAAAP//rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","url":"/headers","userAgent":"curl/7.60.0","xForwardedFor":"0.0.0.0"}
     {{< /text >}}
 
-    Note that the `destinationServiceHost` attribute is equal to `httpbin.org`. Also notice the HTTP-related attributes:
-    `method`, `url`, `responseCode` and others. Using Istio egress traffic control, you can monitor access to external
-    HTTP services, including the HTTP-related information of each access.
+    请注意 `destinationServiceHost` 这个属性的值是 `httpbin.org`。另外，注意与 HTTP 相关的属性，比如：`method`, `url`, `responseCode` 等等。使用 Istio egress 流量控制，你可以监控对外部 HTTP 服务的访问，包括每次访问中与 HTTP 相关的信息。
 
-### Access an external HTTPS service
+### 访问外部 HTTPS 服务{#access-an-external-https-service}
 
-1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
+1.  创建一个 `ServiceEntry`，允许对外部服务的访问。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -220,46 +190,36 @@ any other unintentional accesses.
     EOF
     {{< /text >}}
 
-1.  Make a request to the external HTTPS service from `SOURCE_POD`:
+1.  从 `SOURCE_POD` 往外部 HTTPS 服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
-1.  Check the log of the sidecar proxy of `SOURCE_POD`:
+1.  检查 `SOURCE_POD` 的 sidecar 代理的日志：
 
     {{< text bash >}}
     $ kubectl logs $SOURCE_POD -c istio-proxy | tail
     [2019-01-24T12:48:54.977Z] "- - -" 0 - 601 17766 1289 - "-" "-" "-" "-" "172.217.161.36:443" outbound|443||www.google.com 172.30.109.82:59480 172.217.161.36:443 172.30.109.82:59478 www.google.com
     {{< /text >}}
 
-    Note the entry related to your HTTPS request to `www.google.com`.
+    请注意与您对 `www.google.com` 的 HTTPS 请求相关的条目。
 
-1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  检查 Mixer 日志。如果 Istio 部署的命名空间是 `istio-system`，那么打印日志的命令如下：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'www.google.com'
     {"level":"info","time":"2019-01-24T12:48:56.266553Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"1.289085134s","connectionEvent":"close","connection_security_policy":"unknown","destinationApp":"","destinationIp":"rNmhJA==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"www.google.com","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":601,"reporter":"source","requestedServerName":"www.google.com","sentBytes":17766,"sourceApp":"sleep","sourceIp":"rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","totalReceivedBytes":601,"totalSentBytes":17766}
     {{< /text >}}
 
-    Note that the `requestedServerName` attribute is equal to `www.google.com`. Using Istio egress traffic control, you
-    can monitor access to external HTTPS services, in particular the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) and the number of sent and received bytes. Note that in
-    HTTPS all the HTTP-related information like method, URL path, response code, is encrypted so Istio cannot see and
-    cannot monitor that information for HTTPS. If you need to monitor HTTP-related information in access to external
-    HTTPS services, you may want to let your applications issue HTTP requests and
-    [configure Istio to perform TLS origination](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/).
+    请注意 `requestedServerName` 这个属性的值是 `www.google.com`。使用 Istio egress 流量控制，你可以监控对外部 HTTP 服务的访问，特别是 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 和发送/接收的字节数。请注意像 method、URL path、response code 这些与 HTTP 相关的信息，已经被加密了；所以 Istio 看不到也无法对它们进行监控。如果你需要在访问外部 HTTPS 服务时，监控 HTTP 相关的信息, 那么你需要让你的应用发出 HTTP 请求, 并[为 Istio 设置 TLS origination](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)
 
-### Manage traffic to external services
+### 管理到外部服务的流量{#manage-traffic-to-external-services}
 
-Similar to inter-cluster requests, Istio
-[routing rules](/zh/docs/concepts/traffic-management/#routing-rules)
-can also be set for external services that are accessed using `ServiceEntry` configurations.
-In this example, you set a timeout rule on calls to the `httpbin.org` service.
+与集群内的请求相似，也可以为使用 `ServiceEntry` 配置访问的外部服务设置 [Istio 路由规则](/zh/docs/concepts/traffic-management/#routing-rules)。在本示例中，你将设置对 `httpbin.org` 服务访问的超时规则。
 
-1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the
-    httpbin.org external service:
+1.  从用作测试源的 pod 内部，向外部服务 `httpbin.org` 的 `/delay` endpoint 发出 _curl_ 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep sh
@@ -271,9 +231,9 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     sys     0m0.003s
     {{< /text >}}
 
-    The request should return 200 (OK) in approximately 5 seconds.
+    这个请求大约在 5 秒内返回 200 (OK)。
 
-1.  Exit the source pod and use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
+1.  退出测试源 pod，使用 `kubectl` 设置调用外部服务 `httpbin.org` 的超时时间为 3 秒。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -293,7 +253,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     EOF
     {{< /text >}}
 
-1.  Wait a few seconds, then make the _curl_ request again:
+1.  几秒后，重新发出 _curl_ 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep sh
@@ -305,71 +265,54 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     sys     0m0.004s
     {{< /text >}}
 
-    This time a 504 (Gateway Timeout) appears after 3 seconds.
-    Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
+    这一次，在 3 秒后出现了 504 (Gateway Timeout)。Istio 在 3 秒后切断了响应时间为 5 秒的 `httpbin.org` 服务。
 
-### Cleanup the controlled access to external services
+### 清理对外部服务的受控访问{#cleanup-the-controlled-access-to-external-services}
 
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
 $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 {{< /text >}}
 
-## Direct access to external services
+## 直接访问外部服务{#direct-access-to-external-services}
 
-If you want to completely bypass Istio for a specific IP range,
-you can configure the Envoy sidecars to prevent them from
-[intercepting](/zh/docs/concepts/traffic-management/)
-external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
-or the `global.proxy.excludeIPRanges` [configuration option](/zh/docs/reference/config/installation-options/) and
-update the `istio-sidecar-injector` configuration map using the `kubectl apply` command.
-After updating the `istio-sidecar-injector` configuration, it affects all
-future application pod deployments.
+如果要让特定范围的 ​​IP 完全绕过Istio，则可以配置 Envoy  sidecars 以防止它们[拦截](/zh/docs/concepts/traffic-management/)外部请求。要设置绕过 Istio，请更改 `global.proxy.includeIPRanges` 或 `global.proxy.excludeIPRanges` 配置选项，并使用 `kubectl apply` 命令更新 `istio-sidecar-injector` 的[配置](/zh/docs/reference/config/installation-options/)。`istio-sidecar-injector` 配置的更新，影响的是新部署应用的 pod。
 
 {{< warning >}}
-Unlike [Envoy passthrough to external services](#envoy-passthrough-to-external-services),
-which uses the `ALLOW_ANY` traffic policy to instruct the Istio sidecar proxy to
-passthrough calls to unknown services,
-this approach completely bypasses the sidecar, essentially disabling all of Istio's features
-for the specified IPs. You cannot incrementally add service entries for specific
-destinations, as you can with the `ALLOW_ANY` approach.
-Therefore, this configuration approach is only recommended as a last resort
-when, for performance or other reasons, external access cannot be configured using the sidecar.
+与 [Envoy 转发流量到外部服务](#envoy-passthrough-to-external-services) 不同，后者使用 `ALLOW_ANY` 流量策略来让 Istio sidecar 代理将调用传递给未知服务，
+该方法完全绕过了 sidecar，从而实质上禁用了指定 IP 的所有 Istio 功能。你不能像 `ALLOW_ANY` 方法那样为特定的目标增量添加 service entries。
+因此，仅当出于性能或其他原因无法使用边车配置外部访问时，才建议使用此配置方法。
 {{< /warning >}}
 
-A simple way to exclude all external IPs from being redirected to the sidecar proxy is
-to set the `global.proxy.includeIPRanges` configuration option to the IP range or ranges
-used for internal cluster services.
-These IP range values depend on the platform where your cluster runs.
+排除所有外部 IP 重定向到 Sidecar 代理的一种简单方法是将 `global.proxy.includeIPRanges` 配置选项设置为内部集群服务使用的 IP 范围。这些 IP 范围值取决于集群所在的平台。
 
-### Determine the internal IP ranges for your platform
+### 确定平台内部的 IP 范围{#determine-the-internal-IP-ranges-for-your-platform}
 
-Set the value of `global.proxy.includeIPRanges` according to your cluster provider.
+根据你的集群的提供者，设置参数 `global.proxy.includeIPRanges`。
 
 #### IBM Cloud Private
 
-1.  Get your `service_cluster_ip_range` from IBM Cloud Private configuration file under `cluster/config.yaml`:
+1. 从 `IBM Cloud Private` 的配置文件 `cluster/config.yaml` 中获取你的 `service_cluster_ip_range`:
 
     {{< text bash >}}
     $ cat cluster/config.yaml | grep service_cluster_ip_range
     {{< /text >}}
 
-    The following is a sample output:
+    以下是输出示例：
 
     {{< text plain >}}
     service_cluster_ip_range: 10.0.0.1/24
     {{< /text >}}
 
-1.  Use `--set global.proxy.includeIPRanges="10.0.0.1/24"`
+1.  使用 `--set global.proxy.includeIPRanges="10.0.0.1/24"`
 
 #### IBM Cloud Kubernetes Service
 
-Use `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
+使用 `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
 #### Google Container Engine (GKE)
 
-The ranges are not fixed, so you will need to run the `gcloud container clusters describe` command to determine the
-ranges to use. For example:
+范围是不固定的，你需要运行 `gcloud container clusters describe` 命令来确定要使用的范围。举个例子：
 
 {{< text bash >}}
 $ gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
@@ -377,48 +320,43 @@ clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 {{< /text >}}
 
-Use `--set global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
+使用 `--set global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
 
 #### Azure Container Service(ACS)
 
-Use `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
+使用 `--set global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
 
 #### Minikube, Docker For Desktop, Bare Metal
 
-The default value is `10.96.0.0/12`, but it's not fixed. Use the following command to determine your actual value:
+默认值为 `10.96.0.0/12`，但不是固定的。使用以下命令确定您的实际值：
 
 {{< text bash >}}
 $ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
       --service-cluster-ip-range=10.96.0.0/12
 {{< /text >}}
 
-Use `--set global.proxy.includeIPRanges="10.96.0.0/12"`
+使用 `--set global.proxy.includeIPRanges="10.96.0.0/12"`
 
-### Configuring the proxy bypass
+### 配置代理绕行{#configuring-the-proxy-bypass}
 
 {{< warning >}}
-Remove the service entry and virtual service previously deployed in this guide.
+删除本指南中先前部署的 service entry 和 virtual service。
 {{< /warning >}}
 
-Update your `istio-sidecar-injector` configuration map using the IP ranges specific to your platform.
-For example, if the range is 10.0.0.1&#47;24, use the following command:
+使用平台的 IP 范围更新 `istio-sidecar-injector` 的配置。比如，如果 IP 范围是 10.0.0.1&#47;24，则使用一下命令：
 
 {{< text bash >}}
 $ istioctl manifest apply <the flags you used to install Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"
 {{< /text >}}
 
-Use the same command that you used to [install Istio](/zh/docs/setup/install/istioctl) and
-add `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`.
+在 [安装 Istio](/zh/docs/setup/install/istioctl) 命令的基础上增加 `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`
 
-### Access the external services
+### 访问外部服务{#access-the-external-services}
 
-Because the bypass configuration only affects new deployments, you need to redeploy the `sleep`
-application as described in the [Before you begin](#before-you-begin) section.
+由于绕行配置仅影响新的部署，因此您需要按照[开始之前](#before-you-begin)部分中的说明重新部署 `sleep` 程序。
 
-After updating the `istio-sidecar-injector` configmap and redeploying the `sleep` application,
-the Istio sidecar will only intercept and manage internal requests
-within the cluster. Any external request bypasses the sidecar and goes straight to its intended destination.
-For example:
+在更新 `istio-sidecar-injector` configmap 和重新部署 `sleep` 程序后，Istio sidecar 将仅拦截和管理集群中的内部请求。
+任何外部请求都会绕过 Sidecar，并直接到达其预期的目的地。举个例子：
 
 {{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -433,70 +371,60 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 }
 {{< /text >}}
 
-Unlike accessing external services through HTTP or HTTPS, you don't see any headers related to the Istio sidecar and the
-requests sent to external services appear neither in the log of the sidecar nor in the Mixer log.
-Bypassing the Istio sidecars means you can no longer monitor the access to external services.
+与通过 HTTP 和 HTTPS 访问外部服务不同，你不会看到任何与 Istio sidecar 有关的请求头，
+并且发送到外部服务的请求既不会出现在 Sidecar 的日志中，也不会出现在 Mixer 日志中。
+绕过 Istio sidecar 意味着你不能再监视对外部服务的访问。
 
-### Cleanup the direct access to external services
+### 清除对外部服务的直接访问{#cleanup-the-direct-access-to-external-services}
 
-Update the `istio-sidecar-injector.configmap.yaml` configuration map to redirect all outbound traffic to the sidecar
-proxies:
+更新 `istio-sidecar-injector.configmap.yaml` 配置，以将所有出站流量重定向到 sidecar 代理：
 
 {{< text bash >}}
 $ istioctl manifest apply <the flags you used to install Istio>
 {{< /text >}}
 
-## Understanding what happened
+## 理解原理{#understanding-what-happened}
 
-In this task you looked at three ways to call external services from an Istio mesh:
+在此任务中，您研究了从 Istio 网格调用外部服务的三种方法：
 
-1. Configuring Envoy to allow access to any external service.
+1. 配置 Envoy 以允许访问任何外部服务。
 
-1. Use a service entry to register an accessible external service inside the mesh. This is the
-   recommended approach.
+1. 使用 service entry 将一个可访问的外部服务注册到网格中。这是推荐的方法。
 
-1. Configuring the Istio sidecar to exclude external IPs from its remapped IP table.
+1. 配置 Istio sidecar 以从其重新映射的 IP 表中排除外部 IP。
 
-The first approach directs traffic through the Istio sidecar proxy, including calls to services
-that are unknown inside the mesh. When using this approach,
-you can't monitor access to external services or take advantage of Istio's traffic control features for them.
-To easily switch to the second approach for specific services, simply create service entries for those external services.
-This process allows you to initially access any external service and then later
-decide whether or not to control access, enable traffic monitoring, and use traffic control features as needed.
+第一种方法通过 Istio sidecar 代理来引导流量，包括对网格内部未知服务的调用。使用这种方法时，你将无法监控对外部服务的访问或无法利用 Istio 的流量控制功能。
+要轻松为特定的服务切换到第二种方法，只需为那些外部服务创建 service entry 即可。
+此过程使你可以先访问任何外部服务，然后再根据需要决定是否启用控制访问、流量监控、流量控制等功能。
 
-The second approach lets you use all of the same Istio service mesh features for calls to services inside or
-outside of the cluster. In this task, you learned how to monitor access to external services and set a timeout
-rule for calls to an external service.
+第二种方法可以让你使用 Istio 服务网格所有的功能区调用集群内或集群外的服务。
+在此任务中，你学习了如何监控对外部服务的访问并设置对外部服务的调用的超时规则。
 
-The third approach bypasses the Istio sidecar proxy, giving your services direct access to any external server.
-However, configuring the proxy this way does require cluster-provider specific knowledge and configuration.
-Similar to the first approach, you also lose monitoring of access to external services and you can't apply
-Istio features on traffic to external services.
+第三种方法绕过了 Istio Sidecar 代理，使你的服务可以直接访问任意的外部服务。
+但是，以这种方式配置代理需要了解集群提供商相关知识和配置。
+与第一种方法类似，你也将失去对外部服务访问的监控，并且无法将 Istio 功能应用于外部服务的流量。
 
-## Security note
+## 安全说明{#security-note}
 
 {{< warning >}}
-Note that configuration examples in this task **do not enable secure egress traffic control** in Istio.
-A malicious application can bypass the Istio sidecar proxy and access any external service without Istio control.
+请注意，此任务中的配置示例**没有启用安全的出口流量控制**。
+恶意程序可以绕过 Istio Sidecar 代理并在没有 Istio 控制的情况下访问任何外部服务。
 {{< /warning >}}
 
-To implement egress traffic control in a more secure way, you must
-[direct egress traffic through an egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)
-and review the security concerns described in the
-[additional security considerations](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)
-section.
+为了以更安全的方式实施出口流量控制，你必须 [通过egress gateway 引导出口流量](/zh/docs/tasks/traffic-management/egress/egress-gateway/)，
+并查看[其他安全注意事项](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)部分中描述的安全问题。
 
-## Cleanup
+## 清理{#cleanup}
 
-Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+关闭服务 [sleep]({{< github_tree >}}/samples/sleep):
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
-### Set the outbound traffic policy mode to your desired value
+### 将出站流量策略模式设置为所需的值{#set-the-outbound-traffic-policy-mode-to-your-desired-value}
 
-1.  Check the current value:
+1.  检查现在的值:
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
@@ -504,9 +432,9 @@ $ kubectl delete -f @samples/sleep/sleep.yaml@
     mode: ALLOW_ANY
     {{< /text >}}
 
-    The output will be either `mode: ALLOW_ANY` or `mode: REGISTRY_ONLY`.
+    输出将会是 `mode: ALLOW_ANY` 或 `mode: REGISTRY_ONLY`。
 
-1.  If you want to change the mode, perform the following commands:
+1.  如果你想改变这个模式，执行以下命令：
 
     {{< tabset category-name="outbound_traffic_policy_mode" >}}
 
