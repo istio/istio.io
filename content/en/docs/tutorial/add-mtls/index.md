@@ -38,6 +38,34 @@ microservices in your namespace.
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
     {{< /text >}}
 
+    {{< warning >}}
+
+    In case you did not enable the Istio Ingress Gateway, run the following command, in addition to the command above:
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: authentication.istio.io/v1alpha1
+    kind: Policy
+    metadata:
+      name: disable-mtls-productpage
+    spec:
+      targets:
+      - name: productpage
+      peers: []
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: productpage
+    spec:
+      host: productpage
+      trafficPolicy:
+        tls:
+          mode: DISABLE
+    EOF
+    {{< /text >}}
+
 1.  Access your application's web page and verify that everything continues to work as expected.
 
 1.  Verify that your microservices do not accept unencrypted traffic anymore. Send an HTTP request to `ratings` from
