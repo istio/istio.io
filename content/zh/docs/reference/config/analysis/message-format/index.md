@@ -8,7 +8,7 @@ title: Analyzer Message Format
 <level> [<code>] (<affected-resource>) <message-details>
 {{< /text >}}
 
-像 `<affected-resource>` 字段的详细格式如下：
+该 `<affected-resource>` 字段的详细格式如下：
 
 {{< text plain >}}
 <resource-kind> <resource-name>.<resource-namespace>
