@@ -1,5 +1,5 @@
 ---
-title: 检查信息是否格式化
+title: 分析消息格式
 ---
 
 该 `istioctl analyze` 命令规定以下格式：
