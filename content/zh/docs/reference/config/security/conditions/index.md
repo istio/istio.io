@@ -6,7 +6,7 @@ aliases:
     - /zh/docs/reference/config/security/conditions/
 ---
 
-此页面描述了可以用作[授权策略](/zh/docs/reference/config/security/authorization-policy/) `when` 字段中受支持的键和值的格式。
+此页面描述了可以用作[授权策略](/zh/docs/reference/config/security/authorization-policy/) `when` 字段中所支持的键和值的格式。
 
 {{< warning >}}
 不支持的键和值将被忽略。
@@ -16,7 +16,7 @@ aliases:
 
 ## 支持条件{#supported-conditions}
 
-| 名称 | 描述 | 支持的协议 | 例子 |
+| 名称 | 描述 | 支持的协议 | 示例 |
 |------|-------------|--------------------|---------|
 | `request.headers` | `HTTP` 请求头，需要用 `[]` 括起来 | HTTP only | `key: request.headers[User-Agent]`<br/>`values: ["Mozilla/*"]` |
 | `source.ip`  | 源 `IP` 地址，支持单个 `IP` 或 `CIDR` | HTTP and TCP | `key: source.ip`<br/>`values: ["10.1.2.3"]` |
