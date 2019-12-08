@@ -8,7 +8,7 @@ aliases:
     - /zh/docs/tasks/security/authn-policy/
 ---
 
-本任务涵盖了您在启用，配置和使用 Istio 认证策略时可能需要做的主要工作。更多下面的概念介绍请查看 [认证总览](/zh/docs/concepts/security/#authentication)。
+本任务涵盖了您在启用、配置和使用 Istio 认证策略时可能需要做的主要工作。更多基本概念介绍请查看 [认证总览](/zh/docs/concepts/security/#authentication)。
 
 ## 开始之前{#before-you-begin}
 
@@ -31,7 +31,7 @@ $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n legacy
 $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
 {{< /text >}}
 
-您可以在命名空间 `foo`, `bar` 或 `legacy` 下的任意 `sleep` pod 中使用 `curl` 发送一个 HTTP 请求给 `httpbin.foo`，`httpbin.bar` 或 `httpbin.legacy` 来验证。所有请求应该都成功返回 HTTP 代码 200。
+您可以在命名空间 `foo`、`bar` 或 `legacy` 下的任意 `sleep` pod 中使用 `curl` 发送一个 HTTP 请求给 `httpbin.foo`、`httpbin.bar` 或 `httpbin.legacy` 来验证。所有请求应该都成功返回 HTTP 代码 200。
 
 例如，这里的一个从 `sleep.bar` 到 `httpbin.foo` 的检查可达性的命令：
 
@@ -77,7 +77,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 {{< /text >}}
 
 {{< tip >}}
-您可能会看到 destination rules 配置了除上面显示以外的其他 hosts，这依赖于 Istio 的版本。但是，应该没有 destination rules 配置 `foo`, `bar` 和 `legacy` 命名空间中的 hosts，也没有配置通配符 `*`
+您可能会看到 destination rules 配置了除上面显示以外的其他 hosts，这依赖于 Istio 的版本。但是，应该没有 destination rules 配置 `foo`、`bar` 和 `legacy` 命名空间中的 hosts，也没有配置通配符 `*`
 {{< /tip >}}
 
 ## 全局启用 Istio 双向 TLS{#globally-enabling-Istio-mutual-TLS}
@@ -102,7 +102,7 @@ EOF
 
 该策略规定网格上的所有工作负载只接收使用 TLS 的加密请求。如您所见，该认证策略的类型为：`MeshPolicy`。策略的名字必须是 `default`，并且不含 `targets` 属性（目的是应用到网格中所有服务上）。
 
-这时候，只有接收方配置使用双向 TLS。如果您在 *Istio services* 之间执行 `curl` 命令（例如，那些带有 sidecars 的服务），由于客户端仍旧使用纯文本，所有请求都会失败并报 503 错误。
+这时候，只有接收方配置使用双向 TLS。如果您在 *Istio services* 之间执行 `curl` 命令（即，那些带有 sidecars 的服务），由于客户端仍旧使用纯文本，所有请求都会失败并报 503 错误。
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -130,12 +130,12 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-* 从 Istio 1.1 开始，只有客户端命名空间，服务端命名空间和 `global` 命名空间（默认是 `istio-system`）中的 destination rules 会按顺序被认定为服务。
+* 从 Istio 1.1 开始，只有客户端命名空间，服务端命名空间和 `global` 命名空间（默认是 `istio-system`）中的 destination rules 会按顺序提供给服务。
 * Host 值 `*.local` 限制只与集群中的服务匹配，而不是外部服务。同时注意，destination rule 的名字或命名空间没有做限制。
-* 在 `ISTIO_MUTUAL` TLS 模式下，Istio 将根据密钥和证书的内部实现为它们设置它们的路径（例如客户端证书，密钥和 CA 证书）。
+* 在 `ISTIO_MUTUAL` TLS 模式下，Istio 将根据密钥和证书（例如客户端证书，密钥和 CA 证书）的内部实现为它们设置路径。
 {{< /tip >}}
 
-别忘了 destination rules 也可用于非授权原因例如设置金丝雀发布，不过要适用同样的优先顺序。因此，如果一个服务不管什么原因要求一个特定的 destination rule - 例如，配置负载均衡 - 这个规则必须包含一个简单的 `ISTIO_MUTUAL` 模式的 TLS 块，否则它将会被网格或者命名空间范围的 TLS 设置覆盖并使 TLS 失效。
+别忘了 destination rules 也可用于非授权原因例如设置金丝雀发布，不过要适用同样的优先顺序。因此，如果一个服务不管什么原因要求一个特定的 destination rule —— 例如，配置负载均衡 —— 这个规则必须包含一个简单的 `ISTIO_MUTUAL` 模式的 TLS 块，否则它将会被网格或者命名空间范围的 TLS 设置覆盖并使 TLS 失效。
 
 重新执行上述测试命令，您将看到所有 Istio 服务间的请求现在都成功完成。
 
@@ -204,7 +204,7 @@ sleep.bar to httpbin.legacy: 200
 这个 destination rule 在服务端（`httpbin.legacy`）的命名空间中，因此它优先于定义在 `istio-system` 中的全局 destination rule。
 {{< /tip >}}
 
-### 请求从 Istio 服务到Kubernetes api server{#request-from-Istio-services-to-Kubernetes-API-server}
+### 请求从 Istio 服务到 Kubernetes API server{#request-from-Istio-services-to-Kubernetes-API-server}
 
 Kubernetes API server 没有 sidecar，所以来自 Istio 服务的请求如 `sleep.foo` 将会失败，这跟发送请求给任何非 Istio 服务有相同的问题。
 
@@ -507,7 +507,7 @@ spec:
 EOF
 {{< /text >}}
 
-获得 ingress IP
+获取 ingress IP
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -554,7 +554,7 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 200
 {{< /text >}}
 
-为了观察 JWT 验证的其它方面，使用脚本[`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) 生成新 tokens 带上不同的发布者，观众，过期日期，等等进行测试。这个脚本可以从 Istio 库下载：
+为了观察 JWT 验证的其它方面，使用脚本[`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) 生成新 tokens 带上不同的发行人、受众、有效期等等进行测试。这个脚本可以从 Istio 库下载：
 
 {{< text bash >}}
 $ wget {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
@@ -759,7 +759,7 @@ command terminated with exit code 56
     $ kubectl -n foo delete destinationrule httpbin
     {{< /text >}}
 
-1. 如果您不打算研究后续任务，你可以简单删除测试的命名空间来删除所有资源：
+1. 如果您不打算研究后续任务，您只需简单删除测试命名空间即可删除所有资源：
 
     {{< text bash >}}
     $ kubectl delete ns foo bar legacy
