@@ -19,7 +19,7 @@ weight: 20
 * 把协议类型从 `http` 替换为 `tcp`。
 * 给 Pilot deployment 指定环境变量 `PILOT_BLOCK_HTTP_ON_443=false`。注意：这会在未来的发布中移除。
 
-查看 [Protocol Selection](/zh/docs/ops/traffic-management/protocol-selection/) 获取更多关于指定协议端口的信息。
+查看 [Protocol Selection](/zh/docs/ops/configuration/traffic-management/protocol-selection/) 获取更多关于指定协议端口的信息。
 
 ### 正则引擎变化{#regex-engine-changes}
 

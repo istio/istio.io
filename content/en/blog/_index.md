@@ -7,4 +7,7 @@ icon: blog
 decoration: pill
 aliases:
     - /blog/posts/index.html
+outputs:
+    - html
+    - rss    
 ---

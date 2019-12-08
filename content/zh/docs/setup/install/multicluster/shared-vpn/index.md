@@ -9,9 +9,9 @@ aliases:
     - /zh/docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
-按照该指南安装一个 Istio [多集群服务网格](/zh/docs/ops/prep/deployment-models/#multiple-clusters)以让每个 Kubernetes 集群的服务和应用能够将他们的内部 Kubernetes 网络暴露至其它集群。
+按照该指南安装一个 Istio [多集群服务网格](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)以让每个 Kubernetes 集群的服务和应用能够将他们的内部 Kubernetes 网络暴露至其它集群。
 
-在这个配置中，多个 Kubernetes 集群运行一份可以连接到一个共享 Istio [控制平面](/zh/docs/ops/prep/deployment-models/#control-plane-models)的远程配置。
+在这个配置中，多个 Kubernetes 集群运行一份可以连接到一个共享 Istio [控制平面](/zh/docs/ops/deployment/deployment-models/#control-plane-models)的远程配置。
 一旦一个或多个远程 Kubernetes 集群连接到该 Istio 控制平面，Envoy 就会形成一个跨多集群的网格网络。
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="跨多 Kubernetes 集群的 Istio 网格可通过 VPN 直接访问远程 Pod" >}}

@@ -47,15 +47,7 @@
                             {{ end }}
                         </td>
 
-                        {{ if .Params.cves }}
-                            <td>
-                                {{ range $cve := .Params.cves }}
-                                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name={{ $cve }}">{{ $cve}}<a><br>
-                                {{ end }}
-                            </td>
-                        {{ else }}
-                            <td>{{ trim .Description "." -}}</td>
-                        {{ end }}
+                        <td>{{ trim .Description "." -}}</td>
                     </tr>
                 {{ end }}
             {{ end }}

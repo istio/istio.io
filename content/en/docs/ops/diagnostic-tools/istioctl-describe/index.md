@@ -194,7 +194,7 @@ and 10% to the `v2` subset of the the `reviews` service:
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
 {{< /text >}}
 
-Now describe the `reviews` `v1` pod:
+Now describe the `reviews v1` pod:
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD

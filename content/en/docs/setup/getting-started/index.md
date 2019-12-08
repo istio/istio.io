@@ -20,7 +20,7 @@ To get started with Istio, just follow these three steps:
 Before you can install Istio, you need a {{< gloss >}}cluster{{< /gloss >}} running a compatible version of Kubernetes.
 Istio {{< istio_version >}} has been tested with Kubernetes releases {{< supported_kubernetes_versions >}}.
 
-- Create a cluster by selecting the appropriate [platform-specific setup instructions](/docs/setup/platform-setup/).
+Create a cluster by selecting the appropriate [platform-specific setup instructions](/docs/setup/platform-setup/).
 
 Some platforms provide a {{< gloss >}}managed control plane{{< /gloss >}} which you can use instead of
 installing Istio manually. If this is the case with your selected platform, and you choose to use it,

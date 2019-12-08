@@ -10,7 +10,7 @@ aliases:
 ---
 
 遵循本指南配置一个多集群网格，使用共享的
-[控制平面](/zh/docs/ops/prep/deployment-models/#control-plane-models)，并通过网关连通彼此网络隔离的集群。
+[控制平面](/zh/docs/ops/deployment/deployment-models/#control-plane-models)，并通过网关连通彼此网络隔离的集群。
 Istio 位置感知的服务路由特性，可以根据请求源所在的位置将请求路由至不同的 endpoints。
 
 遵循本指南中的说明，将安装一个两集群网格，如下图所示：

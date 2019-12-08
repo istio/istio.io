@@ -76,7 +76,7 @@ aliases:
     {{< /text >}}
 
 1. 确定并保存 Istio Ingress gateway 的 IP 地址，VMs 会通过这个 IP 地址访问 [Citadel](/zh/docs/concepts/security/) ，
-   [Pilot](/zh/docs/ops/architecture/#pilot) 和集群中的工作负载。
+   [Pilot](/zh/docs/ops/deployment/architecture/#pilot) 和集群中的工作负载。
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')

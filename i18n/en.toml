@@ -274,6 +274,15 @@ other = "Yes"
 [feedback_no]
 other = "No"
 
+[feedback_ask_for_comment]
+other = "Do you have any suggestions for improvement?"
+
+[feedback_thankyou]
+other = "Thanks for your feedback!"
+
+[feedback_comment_placeholder]
+other = "Help us improve..."
+
 [log_month_format]
 other = "January 2006"
 
