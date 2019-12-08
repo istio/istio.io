@@ -10,7 +10,7 @@ This task shows you how to enable Istio policy enforcement.
 ## At install time
 
 In the default Istio installation profile, policy enforcement is disabled. To install Istio
-with policy enforcement on, use the `--set values.global.disablePolicyChecks=false` install option.
+with policy enforcement on, use the `--set values.global.disablePolicyChecks=false --set values.pilot.policy.enabled=true` install option.
 
 Alternatively, you may [install Istio using the demo profile](/docs/setup/getting-started/),
 which enables policy checks by default.
@@ -31,7 +31,7 @@ which enables policy checks by default.
     Execute the following command from the root Istio directory:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.disablePolicyChecks=false
+    $ istioctl manifest apply --set values.global.disablePolicyChecks=false --set values.pilot.policy.enabled=true
     configmap "istio" replaced
     {{< /text >}}
 
