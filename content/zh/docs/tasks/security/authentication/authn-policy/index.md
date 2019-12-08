@@ -412,7 +412,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..met
 
 ### 策略优先级{#policy-precedence}
 
-为了证明特定服务策略比命名空间范围的策略优先级高，您可以像下面一样为 `httpbin.foo` 添加一个禁用双向 TLS 的策略。
+为了演示特定服务策略比命名空间范围的策略优先级高，您可以像下面一样为 `httpbin.foo` 添加一个禁用双向 TLS 的策略。
 注意您已经为所有在命名空间 `foo` 中的服务创建了命名空间范围的策略来启用双向 TLS 并观察到从 `sleep.legacy` 到 `httpbin.foo` 的请求都会失败（如上所示）。
 
 {{< text bash >}}
@@ -427,7 +427,7 @@ spec:
 EOF
 {{< /text >}}
 
-and destination rule:
+添加 destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
