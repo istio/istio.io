@@ -9,7 +9,7 @@ weight: 20
 
 ## 流量管理{#traffic-management}
 
-### 443端口的HTTP服务{#http-services-on-port-four-four-three}
+### 443端口的 HTTP 服务{#http-services-on-port-four-four-three}
 
 `http`类型的服务将不再允许使用 443 端口，这个改动是为了保护协议不与外部的 HTTPS 服务所冲突。
 
@@ -37,6 +37,6 @@ weight: 20
 
 * 升级 Istio 之后，用 `kubectl apply --dry-run` 来跑一遍你的 Istio 配置，这样你就可以知道这些配置对于 API server 来说是不是 unknown 或者无效的字段。（`DryRun` 特性是 Kubernetes 1.13+ 版本开始的默认选项）
 * 查看 [reference documentation](/zh/docs/reference/config/) 来确认修正字段名和数据类型。
-* 另外，为了能够结构化验证，你也可以使用 `istioctl x analyze` 来帮助检查到你的 Istio 配置的潜在问题。参考 [here](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 或者更多细节。
+* 另外，为了能够结构化验证，你也可以使用 `istioctl x analyze` 来帮助检查到你的 Istio 配置的潜在问题。参考 [here](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 获取更多细节。
 
 如果你想忽略验证错误，当你创建或者修改 Istio 资源的时候可以给 `kubectl` 添加 `--validate=false` 参数。由于这会导致错误的配置，我们非常不推荐这么做。
