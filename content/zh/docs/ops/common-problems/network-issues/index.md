@@ -25,7 +25,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 - `NR`：没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`：上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
-- `UF`：未能连接到上游，如果你正在使用 Istio 认证，请检查[双向 TLS 配置冲突](#503-errors-after-setting-destination-rule)。
+- `UF`：未能连接到上游，如果你正在使用 Istio 认证，请检查[双向 TLS 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
 
 如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
 
@@ -45,7 +45,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 另一个潜在的问题是路由规则可能只是生效比较慢。在 Kubernetes 上实现的 Istio 利用一个最终一致性算法来保证所有的 Envoy sidecar 有正确的配置包括所有的路由规则。一个配置变更需要花一些时间来传播到所有的 sidecar。在大型的集群部署中传播将会耗时更长并且可能有几秒钟的延迟时间。
 
-## 设置 destination rule 之后出现 503 异常{#503-errors-after-setting-destination-rule}
+## 设置 destination rule 之后出现 503 异常{#service-unavailable-errors-after-setting-destination-rule}
 
 如果在你应用了一个 `DestinationRule` 之后请求一个服务立即发生了 HTTP 503 异常，并且这个异常状态一直持续到您移除或回滚了这个 `DestinationRule`，那么这个 `DestinationRule` 大概为这个服务引起了一个 TLS 冲突。
 
@@ -178,9 +178,9 @@ spec:
 
 如果部署了 `istio-citadel`，Envoy 每 45 天会重启一次来刷新证书。这会导致 TCP 数据流失去连接或者服务之间的长连接。
 
-你应该在应用中为这种失去连接异常构建快速恢复的能力。若想阻止这种失去连接异常发生，你需要禁用 mutual TLS，并下线 istio-citadel。
+你应该在应用中为这种失去连接异常构建快速恢复的能力。若想阻止这种失去连接异常发生，你需要禁用双向 TLS，并下线 `istio-citadel`。
 
-首先，编辑你的 `istio` 配置来禁用 mutual TLS：
+首先，编辑你的 `istio` 配置来禁用双向 TLS：
 
 {{< text bash >}}
 $ kubectl edit configmap -n istio-system istio
@@ -197,7 +197,7 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 ## Envoy 在负载下崩溃{#envoy-is-crashing-under-load}
 
-检查你的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件的 descriptor 的限制，它将导致 Envoy 断言失败并崩溃：
+检查你的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件描述符的限制，它将导致 Envoy 断言失败并崩溃：
 
 {{< text plain >}}
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
