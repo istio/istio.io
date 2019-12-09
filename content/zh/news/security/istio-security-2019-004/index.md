@@ -28,7 +28,7 @@ Envoy 和 Istio 容易受到一系列基于 HTTP/2 的 DoS 攻击：
 
 ## 影响范围{#impact-and-detection}
 
-如果 Istio 终止来自外部的 HTTP，则它很容易受到攻击。如果终止 HTTP 的是 Istio 前面的 Intermediary (例: HTTP 负载均衡)，那 Intermediary 就可以保护 Istio，前提是 Intermediary 本身不容易受到相同的 HTTP/2 攻击。
+如果 Istio 终止来自外部的 HTTP，则 Istio 会变得很脆弱。如果终止 HTTP 的是 Istio 前面的 Intermediary (例: HTTP 负载均衡)，那 Intermediary 就可以保护 Istio，前提是 Intermediary 本身不容易受到相同的 HTTP/2 攻击。
 
 ## 防范{#mitigation}
 
