@@ -46,7 +46,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     $ docker run -d -p 9081:9080 $USER/ratings
     {{< /text >}}
 
-1.  Access [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7) in your browser or by the _curl_ command:
+1.  Access [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7) in your browser or use the following `curl` command:
 
     {{< text bash >}}
     $ curl localhost:9081/ratings/7
