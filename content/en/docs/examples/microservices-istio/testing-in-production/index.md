@@ -88,7 +88,7 @@ the pods' status with `kubectl get pods`.
     sleep-88ddbcfdd-l9zq4           1/1     Running   0          48m
     {{< /text >}}
 
-    Note that the first pod was restarted twice and two other `details` pods
+    The first pod restarted twice and two other `details` pods
     were restarted once. You may experience the `Error` and the
     `CrashLoopBackOff` statuses until the pods reach `Running` status.
 
