@@ -193,7 +193,7 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
     private final static String ratings_service = "http://ratings:9080/ratings";
     {{< /text >}}
 
-1.  Set an infinite loop in a separate terminal window to send traffic to your application. It will simulate the
+1.  Set an infinite loop in a separate terminal window to send traffic to your application to simulate the
     constant user traffic in the real world:
 
     {{< text bash >}}
