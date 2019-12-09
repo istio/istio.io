@@ -41,8 +41,8 @@ $ istioctl manifest apply
 $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
-通常，您可以像使用 [helm](/docs/set/install/helm/) 一样在 `istioctl` 中配置 `--set` 参数。
-唯一的区别是必须在设置路径前加上 `values.` because this is the path to the Helm pass-through API, described below.
+通常，您可以像使用 [helm](/docs/set/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
+唯一的区别是必须增加前缀 `values.` 在配置路径中，because this is the path to the Helm pass-through API, described below.
 
 ## 从外部 Chart 安装
 
