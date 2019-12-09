@@ -8,7 +8,7 @@ weight: 30
 {{< boilerplate work-in-progress >}}
 
 This module shows you an application composed of four microservices: `productpage`, `details`, `ratings` and `reviews`.
-The application is called `Bookinfo`, it is described in the [Bookinfo example](/docs/examples/bookinfo).
+We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/docs/examples/bookinfo) page.
 Read [the description of the application](/docs/examples/bookinfo),
 consider the described application there as the final version, in which the `reviews` microservice has three versions
 `_v1_`, `_v2_`, `_v3_`.
