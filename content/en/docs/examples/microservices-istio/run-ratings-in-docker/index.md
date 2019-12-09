@@ -40,7 +40,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
 
 1.  Run ratings in Docker. The following [docker run](https://docs.docker.com/engine/reference/commandline/run/) command
     instructs Docker to expose port `9080` of the container to port `9081` of your computer. You will access the
-    `ratings` microservice by port `9081`.
+    `ratings` microservice on port `9081`.
 
     {{< text bash >}}
     $ docker run -d -p 9081:9080 $USER/ratings
