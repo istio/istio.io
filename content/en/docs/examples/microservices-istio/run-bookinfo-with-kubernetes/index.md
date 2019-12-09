@@ -39,7 +39,7 @@ The next modules enhance the application with multiple versions of the `reviews`
 1.  Skim [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml).
     This is the Kubernetes deployment spec of the app. Notice the services and the deployments.
 
-1.  Deploy the application to Kubernetes:
+1.  Deploy the application to your Kubernetes cluster on the `tutorial` namespace:
 
     {{< text bash >}}
     $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
