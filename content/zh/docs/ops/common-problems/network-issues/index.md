@@ -1,6 +1,6 @@
 ---
-title: 网络问题
-description: 定位 Istio 流量管理和网络问题的技术。
+title: 流量管理问题
+description: 定位常见的 Istio 流量管理和网络问题的技术。
 force_inline_toc: true
 weight: 10
 aliases:
@@ -11,7 +11,7 @@ aliases:
 
 ## 请求被 Envoy 拒绝{#requests-are-rejected-by-envoy}
 
-请求被拒绝有许多原因。弄明白为什么请求被拒绝的最好方式是通过检查 Envoy 的访问日志。默认情况下，访问日志被输出到容器的标准输出中。运行下列命令可以查看日志：
+请求被拒绝有许多原因。弄明白为什么请求被拒绝的最好方式是检查 Envoy 的访问日志。默认情况下，访问日志被输出到容器的标准输出中。运行下列命令可以查看日志：
 
 {{< text bash >}}
 $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
@@ -25,7 +25,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 - `NR`：没有配置路由，请检查你的 `DestinationRule` 或者 `VirtualService` 配置。
 - `UO`：上游溢出导致断路，请在 `DestinationRule` 检查你的熔断器配置。
-- `UF`：未能连接到上游，如果你正在使用 Istio 认证，请检查 [mutual-tls 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
+- `UF`：未能连接到上游，如果你正在使用 Istio 认证，请检查[双向 TLS 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
 
 如果一个请求的响应标志是 `UAEX` 并且 Mixer 策略状态不是 `-`，表示这个请求被 Mixer 拒绝。
 
@@ -45,76 +45,9 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 
 另一个潜在的问题是路由规则可能只是生效比较慢。在 Kubernetes 上实现的 Istio 利用一个最终一致性算法来保证所有的 Envoy sidecar 有正确的配置包括所有的路由规则。一个配置变更需要花一些时间来传播到所有的 sidecar。在大型的集群部署中传播将会耗时更长并且可能有几秒钟的延迟时间。
 
-## Destination rule 策略未生效{#destination-rule-policy-not-activated}
-
-尽管 destination rule 和特定的目标主机关联，subset-specific 策略的激活最终依赖于路由规则。
-
-当路由一个请求，Envoy 首先会评估 virtual service 中的 route rule 来决定是否路由到一个特定的 subset。如此，它才会激活任意与 subset 相对应的 destination rule 策略。所以，如果你希望流量路由到正确的 subset，只有你定义明确的 subset 策略 Istio 才会应用。
-
-举个例子，假设下面是为 *reviews* 服务定义的唯一的 destination rule，因此，这里没有与 `VirtualService` 定义相对应的路由规则：
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews
-spec:
-  host: reviews
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-    trafficPolicy:
-      connectionPool:
-        tcp:
-          maxConnections: 100
-{{< /text >}}
-
-如果某些情况下 Istio 默认采用 round-robin 策略来访问 "v1" 实例，可能最终 "v1" 实例是唯一运行的版本，那么上面的流量策略将永远不会被使用到。
-
-你可以通过下面两种方式之一来使上面的例子生效：
-
-1. 将 destination rule 中的流量策略上移一级以使策略应用到任意 subset，例如：
-
-    {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: reviews
-    spec:
-      host: reviews
-      trafficPolicy:
-        connectionPool:
-          tcp:
-            maxConnections: 100
-      subsets:
-      - name: v1
-        labels:
-          version: v1
-    {{< /text >}}
-
-1. 用 `VirtualService` 为这个服务定义一个正确的路由规则。例如，为 `reviews` 服务的 `v1` subset 添加一个简单的路由规则：
-
-    {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v1
-    {{< /text >}}
-
-Istio 默认可以方便地将流量从任意源传输到目标服务的任意版本而不需要设置任何规则。因为你需要区分一个服务的不同版本，所以你需要定义不同的路由规则。因此，我们考虑从一开始就为每个服务基于最佳实践设置一个默认的路由规则。
-
 ## 设置 destination rule 之后出现 503 异常{#service-unavailable-errors-after-setting-destination-rule}
 
-如果在你应用了一个 `DestinationRule` 之后请求一个服务立即产生了一个 503 异常，并且这个异常持续产生直到你移除了这个 `DestinationRule`，那么这个 `DestinationRule` 大概为这个服务引起了一个 TLS 冲突。
+如果在你应用了一个 `DestinationRule` 之后请求一个服务立即发生了 HTTP 503 异常，并且这个异常状态一直持续到您移除或回滚了这个 `DestinationRule`，那么这个 `DestinationRule` 大概为这个服务引起了一个 TLS 冲突。
 
 举个例子，如果在你的集群里配置了全局的 mutual TLS，这个 `DestinationRule` 肯定包含下列的 `trafficPolicy`：
 
@@ -124,9 +57,10 @@ trafficPolicy:
     mode: ISTIO_MUTUAL
 {{< /text >}}
 
-否则，这个 TLS mode 默认被设置成 `DISABLE` 会使客户端 sidecar 代理发起普通的 HTTP 请求而不是 TLS 加密了的请求。因此，请求和服务端代理冲突，因为服务端代理期望的是加密了的请求。
+否则，这个 TLS mode 默认被设置成 `DISABLE` 会使客户端 sidecar 代理发起明文 HTTP 请求而不是 TLS 加密了的请求。因此，请求和服务端代理冲突，因为服务端代理期望的是加密了的请求。
 
-为了确认是否存在冲突，请检查你的服务 [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中的 `STATUS` 字段是否被设置为 `CONFLICT`。举个例子，一个和如下命令类似的命令可以用来为 `httpbin` 服务检查冲突：
+为了确认是否存在冲突，请检查 [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令输出中待检查服务对应条目的 `STATUS` 字段是否被设置为 `CONFLICT`。
+举个例子，一个和类似如下的命令可以用来检查 `httpbin` 服务是否存在冲突：
 
 {{< text bash >}}
 $ istioctl authn tls-check istio-ingressgateway-db454d49b-lmtg8.istio-system httpbin.default.svc.cluster.local
@@ -147,7 +81,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者，你正在测试 ingress-gateway IP 而不是 DNS 也可以配置成“*”（例如，http://1.2.3.4/hello）
+  - "myapp.com" # 或者您正在通过 IP 而不是 DNS 测试 ingress-gateway（例如 http://1.2.3.4/hello），也可以配置成 "*"
   gateways:
   - myapp-gateway
   http:
@@ -161,7 +95,7 @@ spec:
     ...
 {{< /text >}}
 
-并且你有一个路由 helloworld 服务到一个普通 subset 的 `VirtualService` 配置：
+你还有一个 `VirtualService` 将访问 helloworld 服务的流量路由至该服务的一个特定子集：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -178,9 +112,10 @@ spec:
         subset: v1
 {{< /text >}}
 
-在这种情况下你会注意到向 helloworld 服务发起的请求通过 ingress gateway 将会被直接路由到 subset v1 而不是使用默认的 round-robin 路由规则。
+此时你会发现，通过 ingress 网关访问 helloworld 服务的请求没有直接路由到服务实例子集 v1，而是仍然使用默认的轮询调度路由。
 
-gateway 主机（例如，`myapp.com`）配置将会激活 myapp `VirtualService` 里的规则使 ingress 请求被路由到 helloworld 服务的任意端点。只有服务 `helloworld.default.svc.cluster.local` 内部的请求将会使用 helloworld `VirtualService` 配置直接将流量定向传输到 subset v1。
+Ingress 请求经由网关主机（如： `myapp.com`）进行路由，网关主机将激活 myapp `VirtualService` 中的规则，将请求路由至 helloworld 服务的任何一个实例端点。
+只有通过主机 `helloworld.default.svc.cluster.local` 访问的内部请求才会使用 helloworld `VirtualService`，其中的规则直接将流量路由至服务实例子集 v1。
 
 为了控制从 gateway 过来的流量，你需要在 myapp `VirtualService` 的配置中包含 subset 规则配置：
 
@@ -191,7 +126,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者，你正在测试 ingress-gateway IP 而不是 DNS 也可以配置成”*“（例如，http://1.2.3.4/hello）
+  - "myapp.com" # 或者您正在通过 IP 而不是 DNS 测试 ingress-gateway（例如 http://1.2.3.4/hello），也可以配置成 "*"
   gateways:
   - myapp-gateway
   http:
@@ -206,7 +141,7 @@ spec:
     ...
 {{< /text >}}
 
-或者，你可以尽可能地将连个 `VirtualServices` 配置合并成一个：
+或者，你可以尽可能地将两个 `VirtualServices` 配置合并成一个：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -215,7 +150,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - myapp.com # 这里不能使用“*”，因为这是与网格服务结合在一起的。
+  - myapp.com # 这里不能使用“*”，因为这是与网格服务关联在一起的。
   - helloworld.default.svc.cluster.local
   gateways:
   - mesh # 内部和外部都可以应用
@@ -241,18 +176,18 @@ spec:
 
 ## Headless TCP 服务失去连接{#headless-tcp-services-losing-connection}
 
-如果部署了 `istio-citadel`，Envoy 每 45 天会重启一次来使证书刷新。这会导致 TCP 数据流失去连接或者服务之间的长连接。
+如果部署了 `istio-citadel`，Envoy 每 45 天会重启一次来刷新证书。这会导致 TCP 数据流失去连接或者服务之间的长连接。
 
-你应该在你的应用中为这种失去连接异常构建快速恢复的能力，但你仍然想阻止这种失去连接异常的发生，你应该禁用 mutual TLS 配置并且禁止 `istio-citadel` 部署。
+你应该在应用中为这种失去连接异常构建快速恢复的能力。若想阻止这种失去连接异常发生，你需要禁用双向 TLS，并下线 `istio-citadel`。
 
-首先，编辑你的 `istio` 配置来禁用 mutual TLS：
+首先，编辑你的 `istio` 配置来禁用双向 TLS：
 
 {{< text bash >}}
 $ kubectl edit configmap -n istio-system istio
 $ kubectl delete pods -n istio-system -l istio=pilot
 {{< /text >}}
 
-然后，逐一下线 `istio-citadel` 部署来禁止 Envoy 重启：
+然后，下线 `istio-citadel` 来禁止 Envoy 重启：
 
 {{< text bash >}}
 $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
@@ -262,7 +197,7 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 ## Envoy 在负载下崩溃{#envoy-is-crashing-under-load}
 
-检查你的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件的 descriptor 的限制，它将导致 Envoy 断言失败并崩溃：
+检查你的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件描述符的限制，它将导致 Envoy 断言失败并崩溃：
 
 {{< text plain >}}
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
@@ -272,9 +207,9 @@ $ kubectl scale --replicas=0 deploy/istio-citadel -n istio-system
 
 ## Envoy 不能连接到 HTTP/1.0 服务{#envoy-won't-connect-to-my-http/1.0-service}
 
-Envoy 要求 `HTTP/1.1` 或者 `HTTP/2` 协议的流量作为上游服务。举个例子，当在 Envoy 之后使用 [NGINX](https://www.nginx.com/) 来代理你的流量，你将需要在你的 NGINX 配置里直接设置 [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) 为 "1.1"，因为 NGINX 默认的设置是 1.0。
+Envoy 要求上游服务使用 `HTTP/1.1` 或者 `HTTP/2` 协议流量。举个例子，当在 Envoy 之后使用 [NGINX](https://www.nginx.com/) 来代理你的流量，你将需要在你的 NGINX 配置里将 [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) 设置为 "1.1"，因为 NGINX 默认的设置是 1.0。
 
-例如配置为：
+示例配置为：
 
 {{< text plain >}}
 upstream http_backend {
@@ -302,15 +237,103 @@ server {
 举个例子，假如你有 2 个主机共用相同的 TLS 证书，如下所示：
 
 - 通配证书 `*.test.com` 被安装到 `istio-ingressgateway`
-- `Gateway` 配置 `gw1` 到主机 `service1.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
-- `Gateway` 配置 `gw2` 到主机 `service2.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
-- `VirtualService` 配置 `vs1` 到主机 `service1.test.com` 并且 gateway 配置为 `gw1`
-- `VirtualService` 配置 `vs2` 到主机 `service2.test.com` 并且 gateway 配置为 `gw2`
+- `Gateway` 将 `gw1` 配置为主机 `service1.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
+- `Gateway` 将 `gw2` 配置为主机 `service2.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
+- `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 gateway 配置为 `gw1`
+- `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 gateway 配置为 `gw2`
 
-因为两个网关都由相同的工作负载提供服务（例如，选择器 `istio: ingressgateway`）到两个服务的请求（`service1.test.com` 和 `service2.test.com`）将会解析为同一 IP。如果 `service1.test.com` 首先被接受了，它将会返回一个通配证书（`*.test.com`）表明到 `service2.test.com` 的连接也可以使用相同的证书。浏览器比如 Chrome 和 Firefox 因此会自动使用已建立的连接来发送到 `service2.test.com` 的请求。因此 gateway（`gw1`）没有到 `service2.test.com` 的路由信息，它会返回一个 404 (Not Found) 响应。
+因为两个网关都由相同的工作负载提供服务（例如，选择器 `istio: ingressgateway`），到两个服务的请求（`service1.test.com` 和 `service2.test.com`）将会解析为同一 IP。
+如果 `service1.test.com` 首先被接受了，它将会返回一个通配证书（`*.test.com`）使得到 `service2.test.com` 的连接也能够使用相同的证书。
+因此，Chrome 和 Firefox 等浏览器会自动使用已建立的连接来发送到 `service2.test.com` 的请求。
+因为 gateway（`gw1`）没有到 `service2.test.com` 的路由信息，它会返回一个 404 (Not Found) 响应。
 
-你可以通过配置一个单独的 `Gateway` 来阻止这个问题产生，而不是两个（`gw1` 和 `gw2`）。然后，简单地绑定两个 `VirtualServices` 到这个单独的网关，比如这样：
+你可以通过配置一个单独的通用 `Gateway` 来避免这个问题，而不是两个（`gw1` 和 `gw2`）。
+然后，简单地绑定两个 `VirtualServices` 到这个单独的网关，比如这样：
 
-- `Gateway` 配置 `gw` 到主机 `*.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用 gateway 安装的（通配）证书
-- `VirtualService` 配置 `vs1` 到主机 `service1.test.com` 并且 gateway 配置为 `gw`
-- `VirtualService` 配置 `vs2` 到主机 `service2.test.com` 并且 gateway 配置为 `gw`
+- `Gateway` 将 `gw` 配置为主机 `*.test.com`，选择器 `istio: ingressgateway`，并且 TLS 使用网关挂载的（通配）证书
+- `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 gateway 配置为 `gw`
+- `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 gateway 配置为 `gw`
+
+## 在网关中配置多个TLS主机时端口冲突{#port-conflict-when-configuring-multiple-TLS-hosts-in-a-gateway}
+
+如果您应用的 `Gateway` 配置与另一个现有的 `Gateway` 具有相同的 `selector` 标签，如果它们都暴露了相同的 HTTPS 端口，那您必须确保它们具有唯一的端口名。
+否则，该配置在应用时不会立即显示错误指示，但在运行时网关配置中将忽略该配置。
+例如：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
+
+使用此配置，对第二个主机 `myhost2.com` 的请求将会失败，因为这两个网关端口的名字都是 `https`。
+例如，_curl_ 请求将产生如下错误消息：
+
+{{< text plain >}}
+curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to myhost2.com:443
+{{< /text >}}
+
+您可以通过检查 Pilot 的日志中是否有类似以下内容的消息来确认是否已发生这种情况：
+
+{{< text bash >}}
+$ kubectl logs -n istio-system $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -c discovery | grep "non unique port"
+2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+{{< /text >}}
+
+为避免此问题，请确保使用 `protocol: HTTPS` 的端口都有不同的名字。
+例如，将第二个更改为 `https2`：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https2
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
