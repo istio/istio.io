@@ -40,7 +40,7 @@ $ istioctl manifest apply
 $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
-通常，您可以像使用 [helm](/zh/docs/set/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
+通常，您可以像使用 [helm](/zh/docs/setup/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
 唯一的区别是必须增加前缀 `values.` 在配置路径中，because this is the path to the Helm pass-through API, described below.
 
 ## 从外部 Chart 安装
@@ -254,7 +254,7 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
-如 [Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api) 所述，Helm 值也可以在 `IstioControlPlane` 定义中设置。
+如 [Customize Istio settings using the Helm API](#customize-Istio-settings-using-the-helm-API) 所述，Helm 值也可以在 `IstioControlPlane` 定义中设置。
 {{< /tip >}}
 
 ### 识别 Istio 功能或组件{#identify-an-Istio-feature-or-component}
