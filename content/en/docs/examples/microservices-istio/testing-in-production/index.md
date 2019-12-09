@@ -8,7 +8,7 @@ weight: 40
 
 {{< boilerplate work-in-progress >}}
 
-Perform testing of your microservice, in production!
+Test your microservice, in production!
 
 ## Testing individual microservices
 
