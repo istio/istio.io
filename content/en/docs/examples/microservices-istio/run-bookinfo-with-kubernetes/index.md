@@ -64,7 +64,7 @@ The next modules enhance the application with multiple versions of the `reviews`
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
-1.  After the four services achieve the `Running` status, scale the deployments: let each version of each microservice run in three pods.
+1.  After the four services achieve the `Running` status, you can scale the deployment. To let each version of each microservice run in three pods, execute the following command:
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 3
