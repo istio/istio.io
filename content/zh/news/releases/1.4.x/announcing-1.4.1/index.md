@@ -15,9 +15,9 @@ aliases:
 
 ## Bug 修复{#bug-fixes}
 
-- **修复** Windows 安装 `istioctl` ([Issue 19020](https://github.com/istio/istio/pull/19020)).
+- **修复** Windows 安装 `istioctl` 的问题 ([Issue 19020](https://github.com/istio/istio/pull/19020)).
 - **修复** 当在 Kubernetes Ingress 中使用 cert-manager 的一个路由匹配顺序问题 ([Issue 19000](https://github.com/istio/istio/pull/19000)).
-- **修复** 当 pod 名称包含周期时 Mixer 的 source namespace 属性配置错误 ([Issue 19015](https://github.com/istio/istio/issues/19015)).
-- **修复** Galley 生成了过多的指标数据 ([Issue 19165](https://github.com/istio/istio/issues/19165)).
-- **修复** 追踪服务的端口正常监听80 ([Issue 19227](https://github.com/istio/istio/issues/19227)).
-- **修复** 缺失 `istioctl` 自动补齐文件 ([Issue 19297](https://github.com/istio/istio/issues/19297)).
+- **修复** 当 pod 名称包含周期时 Mixer 的 source namespace 属性配置错误的问题 ([Issue 19015](https://github.com/istio/istio/issues/19015)).
+- **修复** Galley 生成了过多的指标数据的问题 ([Issue 19165](https://github.com/istio/istio/issues/19165)).
+- **修复** 使追踪服务的端口正常监听80 ([Issue 19227](https://github.com/istio/istio/issues/19227)).
+- **修复** 缺失 `istioctl` 自动补齐文件的问题 ([Issue 19297](https://github.com/istio/istio/issues/19297)).
