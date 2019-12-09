@@ -24,7 +24,7 @@ The next modules enhance the application with multiple versions of the `reviews`
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
-1.  Set your configuration to the file you created in the previous tutorial steps:
+1.  Set the value of the `KUBECONFIG` environmental variable to the path of file you created in the previous module:
 
     {{< text bash >}}
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
