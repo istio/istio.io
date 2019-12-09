@@ -93,7 +93,7 @@ the pods' status with `kubectl get pods`.
     `CrashLoopBackOff` statuses until the pods reach `Running` status.
 
 In both cases, the application did not crash. The crash in the
-`details` microservice did not cause other microservices to fail. It means you
+`details` microservice did not cause other microservices to fail. This behavior means you
 did not have a _cascading failure_ in this situation. On the contrary, you had
 _gradual service degradation_: despite one microservice being crashed, the
 application still provided useful functionality: displayed the reviews and the
