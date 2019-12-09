@@ -10,7 +10,7 @@ weight: 20
 
 This module shows how you create a [Docker](https://www.docker.com) image and run it locally.
 
-1.  Download a [`Dockerfile`](https://docs.docker.com/engine/reference/builder/) for the `ratings` microservice.
+1.  Download the [`Dockerfile`](https://docs.docker.com/engine/reference/builder/) for the `ratings` microservice.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/Dockerfile -o Dockerfile
