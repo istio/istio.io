@@ -13,7 +13,7 @@ Read [the description of the application](/docs/examples/bookinfo),
 The version of the application used in the example can be viewed as the final version since the `reviews` microservice has three versions:
 `v1`, `v2`, `v3`.
 
-In this module you start with the application which has the first version of the `reviews` microservice, `_v1_`.
+In this module, the application only uses the `v1` version of the `reviews` microservice.
 In the next modules, you will evolve the application.
 
 ## Deploy the application and a testing pod
