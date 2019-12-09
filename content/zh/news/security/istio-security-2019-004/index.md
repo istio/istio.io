@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-004
-subtitle: Security Bulletin
-description: Security vulnerability disclosure for multiple CVEs.
+subtitle: 安全公告
+description: 披露了多个 CVE 的安全漏洞。
 cve: [CVE-2019-9512, CVE-2019-9513, CVE-2019-9514, CVE-2019-9515, CVE-2019-9518]
 publishdate: 2019-08-13
 keywords: [CVE]
@@ -14,26 +14,25 @@ skip_seealso: true
         vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
         releases="1.1 to 1.1.12, 1.2 to 1.2.3" >}}
 
-## Context
+## 内容{#context}
 
-Envoy, and subsequently Istio are vulnerable to a series of trivial HTTP/2-based DoS attacks:
+Envoy 和 Istio 容易受到一系列基于 HTTP/2 的 DoS 攻击：
 
-* HTTP/2 flood using PING frames and queuing of response PING ACK frames that results in unbounded memory growth (which can lead to out of memory conditions).
-* HTTP/2 flood using PRIORITY frames that results in excessive CPU usage and starvation of other clients.
-* HTTP/2 flood using HEADERS frames with invalid HTTP headers and queuing of response `RST_STREAM` frames that results in unbounded memory growth (which can lead to out of memory conditions).
-* HTTP/2 flood using SETTINGS frames and queuing of SETTINGS ACK frames that results in unbounded memory growth (which can lead to out of memory conditions).
-* HTTP/2 flood using frames with an empty payload that results in excessive CPU usage and starvation of other clients.
+* 利用 HTTP/2 的 PING 帧及 PING ACK 帧响应队列发起的洪水攻击，这会导致内存的无限制增长(可能导致内存不足的情况)。
+* 利用 HTTP/2 的 PRIORITY 帧发起的洪水攻击，这会导致 CPU 使用率过高、不能及时响应其它正常的客户端。
+* 利用 HTTP/2 的 HEADERS 帧(带有无效 HTTP header)和 `RST_STREAM` 帧响应队列发起的洪水攻击，这会导致内存的无限制增长(可能导致内存不足的情况)。
+* 利用 HTTP/2 的 SETTINGS 帧及 SETTINGS ACK 帧响应队列发起的洪水攻击，这会导致内存的无限制增长(可能导致内存不足的情况)。
+* 利用 HTTP/2 的 空荷载帧发起的洪水攻击，这会导致 CPU 使用率过高、不能及时响应其它正常的客户端。
 
-Those vulnerabilities were reported externally and affect multiple proxy implementations.
-See [this security bulletin](https://github.com/Netflix/security-bulletins/blob/master/advisories/third-party/2019-002.md) for more information.
+这些漏洞是从外部报告的，并影响多个代理的实现。更多信息请查看 [安全公告](https://github.com/Netflix/security-bulletins/blob/master/advisories/third-party/2019-002.md)。
 
-## Impact and detection
+## 影响范围{#impact-and-detection}
 
-If Istio terminates externally originated HTTP then it is vulnerable.   If Istio is instead fronted by an intermediary that terminates HTTP (e.g., a HTTP load balancer), then that intermediary would protect Istio, assuming the intermediary is not itself vulnerable to the same HTTP/2 exploits.
+如果 Istio 终止来自外部的 HTTP，则 Istio 会变得很脆弱。如果终止 HTTP 的是 Istio 前面的 Intermediary (例: HTTP 负载均衡)，那 Intermediary 就可以保护 Istio，前提是 Intermediary 本身不容易受到相同的 HTTP/2 攻击。
 
-## Mitigation
+## 防范{#mitigation}
 
-* For Istio 1.1.x deployments: update to a [Istio 1.1.13](/zh/news/releases/1.1.x/announcing-1.1.13) or later.
-* For Istio 1.2.x deployments: update to a [Istio 1.2.4](/zh/news/releases/1.2.x/announcing-1.2.4) or later.
+* 对于 Istio 1.1.x 部署：更新至[Istio 1.1.13](/zh/news/releases/1.1.x/announcing-1.1.13)或者更新的版本。
+* 对于 Istio 1.2.x 部署：更新至[Istio 1.2.4](/zh/news/releases/1.2.x/announcing-1.2.4)或者更新的版本。
 
 {{< boilerplate "security-vulnerability" >}}
