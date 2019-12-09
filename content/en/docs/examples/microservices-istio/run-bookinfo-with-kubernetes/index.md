@@ -18,7 +18,7 @@ The next modules enhance the application with multiple versions of the `reviews`
 
 ## Deploy the application and a testing pod
 
-1.  Before you begin, set your namespace:
+1.  Set the value of the `NAMESPACE` environmental variable to `tutorial`:
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
