@@ -156,7 +156,7 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
 ### Update your `/etc/hosts` configuration file
 
 1.  Append the output of the following command to `/etc/hosts`. You should have a
-    [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use the
+    [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use
     [`sudo`](https://en.wikipedia.org/wiki/Sudo) command for it.
 
     {{< text bash >}}
