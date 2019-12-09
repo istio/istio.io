@@ -380,6 +380,12 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 </thead>
 <tbody>
 <tr>
+<td><code>ISTIOD_ADDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
+</tr>
+<tr>
 <td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
 <td>Integer</td>
 <td><code>100000</code></td>
@@ -432,6 +438,12 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Pilot will assign meaningful nonces to each Envoy configuration message, and allow users to interrogate which envoy has which config from the debug interface.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CRD_VALIDATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
