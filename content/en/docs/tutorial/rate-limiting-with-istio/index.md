@@ -73,53 +73,10 @@ more failures and making the application or parts of it unavailable.
     EOF
     {{< /text >}}
 
-1.  Store the name of your namespace in the `NAMESPACE` environment variable.
-    You will need it to recognize your microservices in the logs:
+1.  Delete the previous deployment of `productpage` so the traffic will go only to `productpage v-flooding`:
 
     {{< text bash >}}
-    $ export NAMESPACE=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
-    $ echo $NAMESPACE
-    tutorial
-    {{< /text >}}
-
-1.  Create an environment variable for
-
-    {{< text bash >}}
-    $ export MY_INGRESS_GATEWAY_HOST=istio.$NAMESPACE.bookinfo.com
-    $ echo $MY_INGRESS_GATEWAY_HOST
-    istio.tutorial.bookinfo.com
-    {{< /text >}}
-
-1.  Reconfigure the virtual service of the Istio Ingress Gateway to use the buggy version:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: bookinfo
-    spec:
-      hosts:
-      - $MY_INGRESS_GATEWAY_HOST
-      gateways:
-      - bookinfo-gateway.$NAMESPACE.svc.cluster.local
-      http:
-      - match:
-        - uri:
-            exact: /productpage
-        - uri:
-            exact: /login
-        - uri:
-            exact: /logout
-        - uri:
-            prefix: /static
-        route:
-        - destination:
-            host: productpage
-            subset: v-flooding
-            port:
-              number: 9080
-    EOF
+    $ kubectl delete deployment productpage-v1
     {{< /text >}}
 
 1.  Check your Kiali console,
@@ -282,5 +239,6 @@ more failures and making the application or parts of it unavailable.
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml
+    $ kubectl apply -l app=productpage -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     $ kubectl delete deployment productpage-v-flooding
     {{< /text >}}
