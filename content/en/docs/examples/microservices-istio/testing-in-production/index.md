@@ -92,7 +92,7 @@ the pods' status with `kubectl get pods`.
     were restarted once. You may experience the `Error` and the
     `CrashLoopBackOff` statuses until the pods reach `Running` status.
 
-Note that in both cases the application did not crash. The crash in the
+In both cases, the application did not crash. The crash in the
 `details` microservice did not cause other microservices to fail. It means you
 did not have a _cascading failure_ in this situation. On the contrary, you had
 _gradual service degradation_: despite one microservice being crashed, the
