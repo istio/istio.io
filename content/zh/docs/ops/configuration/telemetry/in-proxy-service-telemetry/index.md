@@ -1,14 +1,13 @@
 ---
-title: 不使用 Mixer 生成 Istio 指标 [试验性的]
+title: 不使用 Mixer 生成 Istio 指标 [Alpha]
 description: 怎样使用代理生成服务级别的指标。
 weight: 20
 aliases:
   - /zh/docs/ops/telemetry/in-proxy-service-telemetry
 ---
 
-{{< boilerplate experimental-feature-warning >}}
-
-Istio 1.3 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了试验性支持。这个特性让你可以在没有 Mixer 的情况下使用 Istio 提供的工具监控你的服务网格。
+Istio 1.4 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了 alpha 版支持。
+这个特性让你可以在没有 Mixer 的情况下使用 Istio 提供的工具监控你的服务网格。
 
 在代理中生成的服务级别指标代替了如下所示的当前在 Mixer 中生成的 HTTP 指标：
 
@@ -20,29 +19,44 @@ Istio 1.3 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
 
 要直接在 Envoy 代理中生成服务级别的指标，请按照下列步骤操作：
 
-1.  为了阻止生成重复的遥测指标，请禁用网格中的 `istio-telemetry`：
+选项 1：
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.mixer.telemetry.enabled=false,values.mixer.policy.enabled=false
+    $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v2.enabled=true
     {{< /text >}}
 
-    {{< tip >}}
-    或者，你可以在你的 [网格配置](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) 中注释掉 `mixerCheckServer` 和 `mixerReportServer`。
-    {{< /tip >}}
+选项 2：
+
+手动执行以下步骤：
+
+1. 要禁用 Mixer http 报告，请在您的网格配置中将 `disableMixerHttpReports` 设置为 true
+
+    检查现有状态：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | grep disableMixerHttpReports
+    disableMixerHttpReports: true
+    {{< /text >}}
+
+    如果 disableMixerHttpReports 被设置为 false，更新您的网格配置：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get cm istio -o yaml | sed -e 's/disableMixerHttpReports: false/disableMixerHttpReports: true/g' | kubectl replace -f -
+    {{< /text >}}
 
 1. 为了生成服务级别的指标，代理必须交换 {{< gloss >}}workload{{< /gloss >}} 元数据。有一个自定义的过滤器可以来处理元数据交换。请使用如下命令来启用元数据交换过滤器：
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/{{< source_branch_name >}}/extensions/stats/testdata/istio/metadata-exchange_filter.yaml
+    $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/metadata_exchange_filter.yaml@
     {{< /text >}}
 
 1. 为了最终生成服务级别的指标，你必须应用一个自定义的统计过滤器。
 
     {{< text bash >}}
-    $ kubectl -n istio-system apply -f https://raw.githubusercontent.com/istio/proxy/{{< source_branch_name >}}/extensions/stats/testdata/istio/stats_filter.yaml
+    $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/stats_filter.yaml@
     {{< /text >}}
 
-1. 打开 **Istio Mesh** Grafana 面板。可以验证在没有任何请求经过 Istio Mixer 的情况下仍然显示和之前一样的遥测指标。
+打开 **Istio Mesh** Grafana 面板。可以验证在没有任何请求经过 Istio Mixer 的情况下仍然显示和之前一样的遥测指标。
 
 ## 和基于 Mixer 生成遥测指标的区别{#differences-with-mixer-based-generation}
 
@@ -50,7 +64,8 @@ Istio 1.3 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
 
 在那之前，请注意如下差别：
 
-- `istio_request_duration_seconds` 时延指标有一个新的名字：`istio_request_duration_milliseconds`。新的指标度量单位使用毫秒代替秒。我们更新了 Grafana 面板来应对这些变化。
+- `istio_request_duration_seconds` 时延指标有一个新的名字：`istio_request_duration_milliseconds`。
+  新的指标度量单位使用毫秒代替秒。我们更新了 Grafana 面板来应对这些变化。
 - `istio_request_duration_milliseconds` 指标在代理中使用更多细粒度的 buckets，以提高时延报告的准确性。
 
 ## 性能影响{#performance-impact}
@@ -69,7 +84,8 @@ Istio 1.3 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
 
 - 在 `istio-proxy` 容器中所有的过滤器一起使用比运行 Mixer 过滤器减少了 10% 的 CPU 资源。
 - 和不配置遥测过滤器的 Envoy 代理相比，新增加的过滤器会导致在 1000 rps 时增加约 5ms P90 的时延。
-- 如果你只使用 `istio-telemetry` 服务来生成服务级别的指标，你可以关闭 `istio-telemetry` 服务。这样网格中每 1000 rps 流量可以为你节省约 0.5 vCPU，并且可以在收集 [标准指标](/zh/docs/reference/config/policy-and-telemetry/metrics/) 时将 Istio 消耗的 CPU 减半。
+- 如果你只使用 `istio-telemetry` 服务来生成服务级别的指标，你可以关闭 `istio-telemetry` 服务。
+  这样网格中每 1000 rps 流量可以为你节省约 0.5 vCPU，并且可以在收集 [标准指标](/zh/docs/reference/config/policy-and-telemetry/metrics/) 时将 Istio 消耗的 CPU 减半。
 
 ## 已知的限制{#known-limitations}
 
