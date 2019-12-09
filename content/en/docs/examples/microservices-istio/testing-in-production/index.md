@@ -89,7 +89,7 @@ the pods' status with `kubectl get pods`.
     {{< /text >}}
 
     The first pod restarted twice and two other `details` pods
-    were restarted once. You may experience the `Error` and the
+    restarted once. You may experience the `Error` and the
     `CrashLoopBackOff` statuses until the pods reach `Running` status.
 
 In both cases, the application did not crash. The crash in the
