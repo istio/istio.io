@@ -11,7 +11,7 @@ This module shows you an application composed of four microservices: `productpag
 We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/docs/examples/bookinfo) page.
 Read [the description of the application](/docs/examples/bookinfo),
 The version of the application used in the example can be viewed as the final version since the `reviews` microservice has three versions:
-`_v1_`, `_v2_`, `_v3_`.
+`v1`, `v2`, `v3`.
 
 In this module you start with the application which has the first version of the `reviews` microservice, `_v1_`.
 In the next modules, you will evolve the application.
