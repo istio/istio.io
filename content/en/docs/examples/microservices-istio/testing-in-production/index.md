@@ -22,7 +22,7 @@ Test your microservice, in production!
 
 Perform some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/)
 in production and see how your application reacts. After each chaos operation,
-access the application's webpage and see if anything was changed. Also check
+access the application's webpage and see if anything changed. Check
 the pods' status with `kubectl get pods`.
 
 1.  Terminate the `details` service in one pod.
