@@ -14,14 +14,16 @@ aliases:
 将单一应用程序分解为微服务可提供各种好处，包括更好的灵活性、可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：
 
 - 为了抵御中间人攻击，需要流量加密。
+
 - 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略。
+
 - 要审核谁在什么时候做了什么，需要审计工具。
 
 Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。
 
 本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据、端点、通信和平台的内部和外部威胁。
 
-{{< image width="80%" link="overview.svg" caption="Istio 安全概述" >}}
+{{< image width="80%" link="./overview.svg" caption="Istio 安全概述" >}}
 
 Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密以及用于保护您的服务和数据的身份验证，授权和审计（AAA）工具。 Istio 安全的目标是：
 
@@ -70,7 +72,7 @@ Istio 中的安全性涉及多个组件：
 
 - **AWS**： AWS IAM 用户/角色 帐户
 
-- **On-premises（非 Kubernetes）**： 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
+- **本地（非 Kubernetes）**： 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
 
 自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 
@@ -139,71 +141,6 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 
 {{< idea >}}
 使用节点代理调试端点可以查看节点代理当前正在为其客户端代理提供服务的  secrets。访问代理程序端口 `8080` 上的 `/debug/sds/workload` 以获取当前工作负载 secrets，或访问 `/debug/sds/gateway` 以获取当前网关 secrets。
-{{< /idea >}}
-
-## 最佳实践{#best-practices}
-
-在本节中，我们提供了一些部署指南并讨论了一个真实的场景。
-
-### 部署指南{#deployment-guidelines}
-
-如果有多个服务运维团队（又名 [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的 [Kubernetes 命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
-
-{{< warning >}}
-如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们**强烈**建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
-{{< /warning >}}
-
-### 示例{#example}
-
-让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend` 服务可以访问 `photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
-
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
-
-在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
-
-### Citadel 如何确定是否创建了服务帐户 secrets（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
-
-当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
-
-1. `ca.istio.io/env` 命名空间标签：包含所需 Citadel 实例的命名空间的*字符串值*标签
-
-1. `ca.istio.io/override` 命名空间标签：*布尔值*标签，它将覆盖所有其他配置，并强制所有 Citadel 实例定位或忽略命名空间
-
-1. [`enableNamespacesByDefault` 安全配置](/zh/docs/reference/config/installation-options/#security-options)：如果在 ServiceAccount 的命名空间上未找到标签，则为默认行为
-
-从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/configuration/mesh/injection-concepts/)
-
-- 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的命名空间中定义了标签，则命名空间中的 Citadel 实例 ns-foo 将用于为命名空间中的工作负载生成密钥/证书 secrets ServiceAccount。
-- 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为 true，则默认 Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书 secrets。
-- 否则，不会为 ServiceAccount 的命名空间创建任何 secret。
-
-以下表格捕获了此逻辑：
-
-| `ca.istio.io/override` value | `ca.istio.io/env` match | `enableNamespacesByDefault` configuration | 已经创建的 Workload secret |
-|------------------------------|-------------------------|-------------------------------------------|-------------------------|
-|`true`|yes|`true`|yes|
-|`true`|yes|`false`|yes|
-|`true`|no|`true`|yes|
-|`true`|no|`false`|yes|
-|`true`|unset|`true`|yes|
-|`true`|unset|`false`|yes|
-|`false`|yes|`true`|no|
-|`false`|yes|`false`|no|
-|`false`|no|`true`|no|
-|`false`|no|`false`|no|
-|`false`|unset|`true`|no|
-|`false`|unset|`false`|no|
-|unset|yes|`true`|yes|
-|unset|yes|`false`|yes|
-|unset|no|`true`|no|
-|unset|no|`false`|no|
-|unset|unset|`true`|yes|
-|unset|unset|`false`|no|
-
-{{< idea >}}
-当命名空间从 _disabled_ 变成 _enabled_ 时，Citadel 将为该命名空间中的所有 `ServiceAccounts` 追溯生成 secrets。 但是从 _enabled_ 变成 _disabled_ 时，Citadel 将不会删除命名空间已经生成的 secrets，除非更新根证书才会重新更新 secrets。
 {{< /idea >}}
 
 ## 认证{#authentication}
@@ -400,62 +337,56 @@ peers:
 
 ## 授权{#authorization}
 
-Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Istio 网格中的服务提供命名空间级别、服务级别和方法级别的访问控制。它的特点是：
+Istio 的授权功能为 Istio 网格中的工作负载提供网格级别、命名空间级别和工作负载级别的访问控制。它提供了：
 
-- **基于角色的语义**，简单易用。
-- **服务间和最终用户对服务的授权**。
-- **通过自定义属性支持的灵活性**，例如条件、角色和角色绑定。
+- **工作负载间和最终用户到工作负载的授权**。
+- **一个简单的 API**，它包括一个单独的并且很容易使用和维护的 [`AuthorizationPolicy` CRD](/zh/docs/reference/config/security/authorization-policy/)。
+- **灵活的语义**，运维人员可以在 Istio 属性上自定义条件。
 - **高性能**，因为 Istio 授权是在 Envoy 本地强制执行的。
 - **高兼容性**，原生支持 HTTP、HTTPS 和 HTTP2，以及任意普通 TCP 协议。
 
 ### 授权架构{#authorization-architecture}
 
-{{< image width="90%"  link="./authz.svg" alt="Istio Authorization" caption="Istio 授权架构" >}}
+{{< image width="90%"  link="./authz.svg"
+    alt="Istio 授权"
+    caption="Istio 授权架构"
+    >}}
 
-上图显示了基本的 Istio 授权架构。运维人员使用 `.yaml` 文件指定 Istio 授权策略。部署后，Istio 将策略保存在 `Istio Config Store` 中。
-
-Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获取更新的授权策略。Pilot 将 Istio 授权策略分发给与服务实例位于同一位置的 Envoy 代理。
+上图显示了基本的 Istio 授权架构。运维人员使用 `.yaml` 文件指定 Istio 授权策略。
 
 每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果 `ALLOW` 或 `DENY`。
 
-### Implicit enablement{#implicit-enablement}
+### 隐式启用{#implicit-enablement}
 
-There is no need to explicitly enable Istio's authorization feature, you just apply
-the `AuthorizationPolicy` on **workloads** to enforce access control.
+无需显式启用 Istio 的授权功能，只需在**工作负载**上应用 `AuthorizationPolicy` 即可实现访问控制。
 
-If no `AuthorizationPolicy` applies to a workload, no access control will be enforced,
-In other words, all requests will be allowed.
+如果没有对工作负载应用 `AuthorizationPolicy`，则不会执行访问控制，也就是说，将允许所有请求。
 
-If any `AuthorizationPolicy` applies to a workload, access to that workload is
-denied by default, unless explicitly allowed by a rule declared in the policy.
+如果有任何 `AuthorizationPolicy` 应用到工作负载，则默认情况下将拒绝对该工作负载的访问，除非策略中声明的规则明确允许了。
 
-Currently `AuthorizationPolicy` only supports `ALLOW` action. This means that if
-multiple authorization policies apply to the same workload, the effect is additive.
+目前，`AuthorizationPolicy` 仅支持 `ALLOW` 动作。
+这意味着，如果将多个授权策略应用于同一工作负载，它们的效果是累加的。
 
 ### 授权策略{#authorization-policy}
 
-To configure an Istio authorization policy, you create an
-[`AuthorizationPolicy` resource](/zh/docs/reference/config/security/authorization-policy/).
+要配置 Istio 授权策略，请创建一个 [`AuthorizationPolicy` resource](/zh/docs/reference/config/security/authorization-policy/)。
 
-An authorization policy includes a selector and a list of rules. The selector
-specifies the **target** that the policy applies to, while the rules specify **who**
-is allowed to do **what** under which **conditions**. Specifically:
+授权策略包括选择器和规则列表。
+选择器指定策略所适用的**目标**，而规则指定什么**条件**下允许**谁**做**什么**。
+具体来说：
 
-- **target** refers to the `selector` section in the `AuthorizationPolicy`.
-- **who** refers to the `from` section in the `rule` of the `AuthorizationPolicy`.
-- **what** refers to the `to` section in the `rule` of the `AuthorizationPolicy`.
-- **conditions** refers to the `when` section in the `rule` of the `AuthorizationPolicy`.
+- **目标** 请参考 `AuthorizationPolicy` 中的 `selector` 部分。
+- **谁** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `from` 部分。
+- **什么** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `to` 部分。
+- **条件** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `when` 部分。
 
-Each rule has the following standard fields:
+每个规则都有以下标准字段：
 
-- **`from`**: A list of sources.
-- **`to`**: A list of operations.
-- **`when`**: A list of custom conditions.
+- **`from`**：来源列表。
+- **`to`**：操作列表。
+- **`when`**：自定义条件列表。
 
-The following example shows an `AuthorizationPolicy` that allows two sources
-(service account `cluster.local/ns/default/sa/sleep` and namespace `dev`) to access the
-workloads with labels `app: httpbin` and `version: v1` in namespace foo when the request
-is sent with a valid JWT token.
+下例显示了一个 `AuthorizationPolicy`，它允许两个来源（服务帐户 `cluster.local/ns/default/sa/sleep` 和命名空间 `dev`）在使用有效的 JWT 令牌发送请求时，可以访问命名空间 foo 中的带有标签 `app: httpbin` 和 `version: v1` 的工作负载。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -482,23 +413,19 @@ spec:
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
-#### Policy Target
+#### 策略目标{#policy-target}
 
-Policy scope (target) is determined by `metadata/namespace` and an optional `selector`.
+策略范围（目标）由 `metadata/namespace` 和可选的 `selector` 确定。
 
-The `metadata/namespace` tells which namespace the policy applies to. If set to the
-root namespace, the policy applies to all namespaces in a mesh. The value of
-root namespace is configurable, and the default is `istio-system`. If set to a
-normal namespace, the policy will only apply to the specified namespace.
+`metadata/namespace` 告诉该策略适用于哪个命名空间。如果设置为根命名空间，则该策略将应用于网格中的所有命名空间。根命名空间的值是可配置的，默认值为 `istio-system`。
+如果设置为普通命名空间，则该策略将仅适用于指定的命名空间。
 
-A workload `selector` can be used to further restrict where a policy applies.
-The `selector` uses pod labels to select the target workload. The workload
-selector contains a list of `{key: value}` pairs, where the `key` is the name of the label.
-If not set, the authorization policy will be applied to all workloads in the same namespace
-as the authorization policy.
+工作负载 `selector` 可用于进一步限制策略的应用范围。
+`selector` 使用 pod 标签来选择目标工作负载。
+工作负载选择器包含 `{key: value}` 对的列表，其中 `key` 是标签的名称。
+如果未设置，则授权策略将应用于与授权策略相同的命名空间中的所有工作负载。
 
-The following example policy `allow-read` allows `"GET"` and `"HEAD"` access to
-the workload with label `app: products` in the `default` namespace.
+以下示例策略 `allow-read` 允许对 `default` 命名空间中带有标签 `app: products` 的工作负载的 `"GET"` 和 `"HEAD"` 访问。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -516,19 +443,17 @@ spec:
          methods: ["GET", "HEAD"]
 {{< /text >}}
 
-#### Value matching
+#### 值匹配{#value-matching}
 
-Exact match, prefix match, suffix match, and presence match are supported for most
-of the field with a few exceptions (e.g., the `key` field under the `when` section,
-the `ipBlocks` under the `source` section and the `ports` field under the `to` section only support exact match).
+大部分字段都支持完全匹配、前缀匹配、后缀匹配和存在匹配，但有一些例外情况（例如，`when` 部分下的`key` 字段，`source` 部分下的 `ipBlocks` 和 `to` 部分下的 `ports` 字段仅支持完全匹配）。
 
-- **Exact match**. i.e., exact string match.
-- **Prefix match**. A string with an ending `"*"`. For example, `"test.abc.*"` matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
-- **Suffix match**. A string with a starting `"*"`. For example, `"*.abc.com"` matches `"eng.abc.com"`, `"test.eng.abc.com"`, etc.
-- **Presence match**. `*` is used to specify anything but not empty. You can specify a field must be present using the format `fieldname: ["*"]`.
-This means that the field can match any value, but it cannot be empty. Note that it is different from leaving a field unspecified, which means anything including empty.
+- **完全匹配**。即完整的字符串匹配。
+- **前缀匹配**。`"*"` 结尾的字符串。例如，`"test.abc.*"` 匹配 `"test.abc.com"`、`"test.abc.com.cn"`、`"test.abc.org"` 等等。
+- **后缀匹配**。`"*"` 开头的字符串。例如，`"*.abc.com"` 匹配 `"eng.abc.com"`、`"test.eng.abc.com"` 等等。
+- **存在匹配**。`*` 用于指定非空的任意内容。您可以使用格式 `fieldname: ["*"]` 指定必须存在的字段。
+这意味着该字段可以匹配任意内容，但是不能为空。请注意这与不指定字段不同，后者意味着包括空的任意内容。
 
-The following example policy allows access at paths with prefix `"/test/"` or suffix `"/info"`.
+以下示例策略允许访问前缀为 `"/test/"` 或后缀为 `"/info"` 的路径。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -546,10 +471,9 @@ spec:
         paths: ["/test/*", "*/info"]
 {{< /text >}}
 
-#### Allow-all and deny-all
+#### 全部允许和全部拒绝{#allow-all-and-deny-all}
 
-The example below shows a simple policy `allow-all` which allows full access to all
-workloads in the `default` namespace.
+下例展示了一个简单的策略 `allow-all`，它允许到 `default` 命名空间的所有工作负载的全部访问。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -562,8 +486,7 @@ spec:
   - {}
 {{< /text >}}
 
-The example below shows a simple policy `deny-all` which denies access to all workloads
-in the `admin` namespace.
+下例展示了一个简单的策略 `deny-all`，它拒绝对 `admin` 命名空间的所有工作负载的任意访问。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -575,12 +498,11 @@ spec:
   {}
 {{< /text >}}
 
-#### Custom conditions
+#### 自定义条件{#custom-conditions}
 
-You can also use the `when` section to specify additional conditions. For example, the following
-`AuthorizationPolicy` definition includes a condition that `request.headers[version]` is either `"v1"` or `"v2"`.
-In this case, the key is `request.headers[version]`, which is an entry in the Istio attribute `request.headers`,
-which is a map.
+您还可以使用 `when` 部分指定其他条件。
+例如，下面的 `AuthorizationPolicy` 定义包括以下条件：`request.headers[version]` 是 `v1` 或 `v2`。
+在这种情况下，key 是 `request.headers[version]`，它是 Istio 属性 `request.headers`（是个字典）中的一项。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -605,14 +527,12 @@ spec:
      values: ["v1", "v2"]
 {{< /text >}}
 
-The supported `key` values of a condition are listed in the
-[conditions page](/zh/docs/reference/config/security/conditions/).
+[条件页面](/zh/docs/reference/config/security/conditions/)中列出了支持的条件 `key` 值。
 
-#### Authenticated and unauthenticated identity
+#### 认证与未认证身份{#authenticated-and-unauthenticated-identity}
 
-If you want to make a workload publicly accessible, you need to leave the
-`source` section empty. This allows sources from **all (both authenticated and
-unauthenticated)** users and workloads, for example:
+如果要使工作负载可公开访问，则需要将 `source` 部分留空。
+这允许来自**所有（经过身份验证和未经身份验证）**的用户和工作负载的源，例如：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -631,7 +551,7 @@ spec:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-To allow only **authenticated** users, set `principal` to `"*"` instead, for example:
+要仅允许**经过身份验证**的用户，请将 `principal` 设置为 `"*"`，例如：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -653,23 +573,21 @@ spec:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-### Using Istio authorization on plain TCP protocols
+### 在普通 TCP 协议上使用 Istio 授权{#using-Istio-authorization-on-plain-TCP-protocols}
 
-Istio authorization supports workloads using any plain TCP protocols, such as MongoDB. In this case,
-you configure the authorization policy in the same way you did for the HTTP workloads.
-The difference is that certain fields and conditions are only applicable to HTTP workloads.
-These fields include:
+Istio 授权支持工作负载使用任意普通 TCP 协议，如 MongoDB。
+在这种情况下，您可以按照与 HTTP 工作负载相同的方式配置授权策略。
+不同之处在于某些字段和条件仅适用于 HTTP 工作负载。
+这些字段包括：
 
-- The `request_principals` field in the source section of the authorization policy object
-- The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
+- 授权策略对象 `source` 部分中的 `request_principals` 字段
+- 授权策略对象 `operation` 部分中的 `hosts`、`methods` 和 `paths` 字段
 
-The supported conditions are listed in the [conditions page](/zh/docs/reference/config/security/conditions/).
+ [条件页面](/zh/docs/reference/config/security/conditions/)中列出了支持的条件。
 
-If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
-authorization policy.
+如果您在授权策略中对 TCP 工作负载使用了任何只适用于 HTTP 的字段，Istio 将会忽略它们。
 
-Assuming you have a MongoDB service on port 27017, the following example configures an authorization
-policy to only allow the `bookinfo-ratings-v2` service in the Istio mesh to access the MongoDB workload.
+假设您在端口 27017 上有一个 MongoDB 服务，下例配置了一个授权策略，只允许 Istio 网格中的 `bookinfo-ratings-v2` 服务访问该 MongoDB 工作负载。
 
 {{< text yaml >}}
 apiVersion: "security.istio.io/v1beta1"
