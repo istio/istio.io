@@ -1,7 +1,7 @@
 ---
 ---
-这是一个 boilerplate 示例，内容为 *markdown* 文本。
+这是一些 **markdown** _文本_ 的样板。
 
 {{< text plain >}}
-一个简单的 boilerplate 文本块案例。
+个嵌套文本块样本的例子。
 {{< /text >}}
