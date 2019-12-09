@@ -123,7 +123,7 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
     type: LoadBalancer
     {{< /text >}}
 
-### Configure Ingress and access your application's webpage
+### Configure the Kubernetes Ingress resource and access your application's webpage
 
 1.  Create Kubernetes Ingress:
 
