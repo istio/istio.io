@@ -14,7 +14,7 @@ The version of the application used in the example can be viewed as the final ve
 `v1`, `v2`, `v3`.
 
 In this module, the application only uses the `v1` version of the `reviews` microservice.
-In the next modules, you will evolve the application.
+The next modules enhance the application with multiple versions of the `reviews` microservice.
 
 ## Deploy the application and a testing pod
 
