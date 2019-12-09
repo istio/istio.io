@@ -111,7 +111,7 @@ The next modules enhance the application with multiple versions of the `reviews`
 
 ## Enable external access to the application
 
-Once your application is running, enable external (by clients from outside of the cluster) access to it. Once you
+Once your application is running, enable clients from outside the cluster to access it. Such clients are known as mesh-external clients. Once you
 configure the steps below successfully, you will be able to access the application by browser from your laptop.
 
 If your cluster runs on GKE, change the `productpage` service type to `LoadBalancer` before you create your Kubernetes ingress, as shown in this example:
