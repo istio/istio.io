@@ -53,7 +53,7 @@ The next modules enhance the application with multiple versions of the `reviews`
     deployment "productpage-v1" created
     {{< /text >}}
 
-1.  Check the pods status:
+1.  Check the status of the pods:
 
     {{< text bash >}}
     $ kubectl get pods
