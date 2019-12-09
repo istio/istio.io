@@ -6,8 +6,7 @@ keywords: [istioctl, kubernetes]
 ---
 
 请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
-如果您刚接触 Istio 或者只是要简单试用，请
-参考 [开始](/docs/setup/getting-started) 文档进行操作。
+如果您刚接触 Istio 或者只是要简单试用，请参考 [开始](/zh/docs/setup/getting-started) 文档进行操作。
 
 本指南使用可以高度自定义 Istio 控制平面和数据平面的 [`istioctl`](/zh/docs/reference/commands/istioctl/) 命令行工具。
 该命令行工具具有用户输入校验，可以防止错误的安装和自定义选项。
@@ -32,7 +31,7 @@ keywords: [istioctl, kubernetes]
 $ istioctl manifest apply
 {{< /text >}}
 
-此命令将在您配置的 Kubernets 集上安装 `default` 配置文件。
+此命令将在您配置的 Kubernetes 集上安装 `default` 配置文件。
 `default` 配置文件建立生产环境的良好起点，这与旨在评估广泛的 Istio 功能特性的较大的 `demo` 配置文件不同。
 
 如果要在 `default` 配置文件之上启用安全性，可以设置与安全相关的配置参数：
@@ -41,7 +40,7 @@ $ istioctl manifest apply
 $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
-通常，您可以像使用 [helm](/docs/set/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
+通常，您可以像使用 [helm](/zh/docs/set/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
 唯一的区别是必须增加前缀 `values.` 在配置路径中，because this is the path to the Helm pass-through API, described below.
 
 ## 从外部 Chart 安装
@@ -247,18 +246,15 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
-为了向后兼容，还完全支持前面的 [Helm 安装](/docs/reference/config/installation-options/)。		
-若要在命令行中设置它们，请在选项名称前面加上  "`values.`"。		
+为了向后兼容，还完全支持 [Helm 安装](/zh/docs/reference/config/installation-options/)。
+若要在命令行中设置它们，请在选项名称前面加上  "`values.`"。
 如下所示，下面命令就重写了 Helm 的 `pilot.traceSampling` 配置选项：
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
-Helm values can also be set in an `IstioControlPlane` definition as described in
-[Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api), below.
-		
-如 [Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api) 所述，helm值也可以在 `IstioControlPlane` 定义中设置。
+如 [Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api) 所述，Helm 值也可以在 `IstioControlPlane` 定义中设置。
 {{< /tip >}}
 
 ### 识别 Istio 功能或组件{#identify-an-Istio-feature-or-component}
