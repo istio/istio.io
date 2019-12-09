@@ -94,7 +94,7 @@ the pods' status with `kubectl get pods`.
 
 In both cases, the application did not crash. The crash in the
 `details` microservice did not cause other microservices to fail. This behavior means you
-did not have a _cascading failure_ in this situation. On the contrary, you had
+did not have a **cascading failure** in this situation. Instead, you had
 **gradual service degradation**: despite one microservice crashing, the
 application still provided useful functionality: displayed the reviews and the
 basic information about the book.
