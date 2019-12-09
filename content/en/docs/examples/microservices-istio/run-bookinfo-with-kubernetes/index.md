@@ -102,7 +102,7 @@ The next modules enhance the application with multiple versions of the `reviews`
     $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
-1.  To confirm that the Bookinfo application is running, send a request to it by a curl command from your testing pod:
+1.  To confirm that the Bookinfo application is running, send a request to it with a curl command from your testing pod:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
