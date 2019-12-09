@@ -2,16 +2,19 @@
 title: 使用 Istioctl 安装
 description: 安装和自定义任何 Istio 配置文件以进行深入评估或用于生产。
 weight: 10
-keywords: [operator,kubernetes,helm]
+keywords: [istioctl, kubernetes]
 ---
 
 请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
+如果您刚接触 Istio 或者只是要简单试用，请
+参考 [开始](/docs/setup/getting-started) 文档进行操作。
 
 本指南使用可以高度自定义 Istio 控制平面和数据平面的 [`istioctl`](/zh/docs/reference/commands/istioctl/) 命令行工具。
 该命令行工具具有用户输入校验，可以防止错误的安装和自定义选项。
 
-使用这些说明，您可以选择 Istio 的任何内置组件
-[配置文件](/zh/docs/setup/additional-setup/config-profiles/) 然后根据您的特定需求进一步自定义配置。
+使用这些命令说明，您可以选择 Istio 的任何内置组件
+[配置文件](/zh/docs/setup/additional-setup/config-profiles/) 然后
+根据您的特定需求进一步自定义配置。
 
 ## 先决条件{#prerequisites}
 
@@ -29,9 +32,34 @@ keywords: [operator,kubernetes,helm]
 $ istioctl manifest apply
 {{< /text >}}
 
-此命令在您定义的集群上安装 `default` 配置文件 Kubernetes 配置。
-默认配置文件是一个很好的开始，用于建立生产环境，这与较大的 `demo` 配置文件不同，
-用于评估广泛的 Istio 功能。
+此命令将在您配置的 Kubernets 集上安装 `default` 配置文件。
+`default` 配置文件建立生产环境的良好起点，这与旨在评估广泛的 Istio 功能特性的较大的 `demo` 配置文件不同。
+
+如果要在 `default` 配置文件之上启用安全性，可以设置与安全相关的配置参数：
+
+{{< text bash >}}
+$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+{{< /text >}}
+
+通常，您可以像使用 [helm](/docs/set/install/helm/) 一样在 `istioctl` 中配置 `--set` 参数。
+唯一的区别是必须在设置路径前加上 `values.` because this is the path to the Helm pass-through API, described below.
+
+## Install from external charts
+
+By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
+`istioctl` for auditing and customization purposes and can be found in the release tar in the
+`install/kubernetes/operator/charts` directory.
+`istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
+`installPackagePath` to a local file system path:
+
+{{< text bash >}}
+$ istioctl manifest apply --set installPackagePath=~/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
+{{< /text >}}
+
+If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl manifest apply` alone, because it points to the
+same charts as the compiled-in ones.
+Other than for experimenting with or testing new features, we recommend using the compiled-in charts rather than external ones to ensure compatibility of the
+`istioctl` binary with the charts.
 
 ## 安装其他配置文件{#install-a-different-profile}
 
