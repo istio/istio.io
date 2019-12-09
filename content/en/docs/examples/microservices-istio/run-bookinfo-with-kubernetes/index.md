@@ -30,7 +30,7 @@ The next modules enhance the application with multiple versions of the `reviews`
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
     {{< /text >}}
 
-1.  Set `MYHOST` variable to hold the URL of the application:
+1.  Set the `MYHOST` environmental variable to hold the URL of the application:
 
     {{< text bash >}}
     $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
