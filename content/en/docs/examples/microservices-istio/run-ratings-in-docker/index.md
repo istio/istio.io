@@ -26,7 +26,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     into the container's filesystem and then runs the `npm install` command you ran in the previous module.
     The `CMD` command instructs Docker to run the `ratings` service on port `9080`.
 
-1.  Build a Docker image:
+1.  Build a Docker image from the `Dockerfile`:
 
     {{< text bash >}}
     $ docker build -t $USER/ratings .
