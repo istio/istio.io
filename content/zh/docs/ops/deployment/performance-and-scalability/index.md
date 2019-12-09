@@ -28,10 +28,10 @@ Istio 的数据平面组件 Envoy 代理用来处理通过系统的数据流。�
 [Istio 负载测试](https://github.com/istio/tools/tree/master/perf/load)网格包含了 **1000** 个服务和 **2000** 个 sidecar，全网格范围内，QPS 为 70,000。
 在使用 Istio {{< istio_release_name >}} 运行测试后，我们得到了如下结果：
 
-- 通过代理的 QPS 有 1000 时，Envoy 使用了 **0.6 vCPU** 和 **50 MB 内存**。
+- 通过代理的 QPS 有 1000 时，Envoy 使用了 **0.5 vCPU** 和 **50 MB 内存**。
 - 网格总的 QPS 为 1000 时，`istio-telemetry` 服务使用了 **0.6 vCPU**。
 - Pilot 使用了 **1 vCPU** 和 1.5 GB 内存。
-- 90%的情况 Envoy 代理只增加了 8ms 的延迟。
+- 90%的情况 Envoy 代理只增加了 6.3 ms 的延迟。
 
 ## 控制平面性能 {#control-plane-performance}
 
@@ -73,15 +73,15 @@ Pilot 根据用户编写的配置文件和系统当前状态来配置 sidecar �
 
 响应被返回给客户端后，Envoy 代理将收集原始的遥测数据。为请求收集原始遥测数据所花费的时间并没有统计在完成该请求所需的总时间里。但是，worker 在忙着处理请求时是不会立刻开始处理下一个请求的。此过程会增加下一个请求的队列等待时间并影响平均延迟和尾部延迟。实际的尾部延迟取决于流量模式。
 
-在网格内部，一个请求会先遍历客户端代理，然后遍历服务端代理。在90%的情况下，数据路径上的这两个代理每 1000 QPS 会产生 7ms 的延迟。
+在网格内部，一个请求会先遍历客户端代理，然后遍历服务端代理。在 90% 的情况下，数据路径上的这两个代理每 1000 QPS 会产生 6.3 ms 的延迟。
 
-90% 的情况下仅服务端代理会增加 2ms 的延迟。
+90% 的情况下仅服务端代理会增加 1.7 ms 的延迟。
 
 ### Istio {{< istio_release_name >}} 的延迟 {#latency-for-Istio}
 
-Istio {{< istio_release_name >}} 的默认配置在 90% 的情况下使数据平面的延迟比基线增加了 7ms。我们通过 `http/1.1` 协议的 [Istio 基准测试](https://github.com/istio/tools/tree/master/perf/benchmark)获得了结果，测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理，双向 TLS 打开状态。
+Istio {{< istio_release_name >}} 的默认配置在 90% 的情况下使数据平面的延迟比基线增加了 6.3 ms。我们通过 `http/1.1` 协议的 [Istio 基准测试](https://github.com/istio/tools/tree/master/perf/benchmark)获得了结果，测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理，双向 TLS 打开状态。
 
-在接下来的 Istio 版本中我们会把 `istio-policy` 和 `istio-telemetry` 的功能移动到 `MixerV2` 的代理。这将降低通过系统的数据流量，从而减少 CPU 使用和延迟。
+在接下来的 Istio 版本中我们会把 `istio-policy` 和 `istio-telemetry` 的功能移动到 `TelemetryV2` 的代理。这将降低通过系统的数据流量，从而减少 CPU 使用和延迟。
 
 {{< image width="90%"
     link="latency_p90.svg"
@@ -92,8 +92,10 @@ Istio {{< istio_release_name >}} 的默认配置在 90% 的情况下使数据平
 - `baseline` 客户端 pod 直接调用服务端 pod，没有 sidecar 参与。
 - `server-sidecar` 服务端 sidecar。
 - `both-sidecars` 客户端和服务端 sidecar 都参与测试。这也是网格的默认情况。
-- `nomixer-both` 没有 Mixer 的 **both-sidecars** 模式。和 `MixerV2` 的延迟情况类似。
-- `nomixer-server` 没有 Mixer 的 **server-sidecar** 模式。和 `MixerV2` 的延迟情况类似。
+- `nomixer-both` 没有 Mixer 的 **both-sidecars** 模式。
+- `nomixer-server` 没有 Mixer 的 **server-sidecar** 模式。
+- `telemetryv2-nullvm_both` 使用遥测 v2 的 **both-sidecars** 模式。目标是将来执行与 "No Mixer" 相同的功能。
+- `telemetryv2-nullvm_serveronly` 使用遥测 v2 的 **server-sidecars** 模式。目标是将来执行与 "No Mixer" 相同的功能。
 
 ### 基准测试工具 {#benchmarking-tools}
 
