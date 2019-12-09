@@ -157,7 +157,7 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
 
 1.  Append the output of the following command to `/etc/hosts`. You should have a
     [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use
-    [`sudo`](https://en.wikipedia.org/wiki/Sudo) command for it.
+    [`sudo`](https://en.wikipedia.org/wiki/Sudo) to run the command.
 
     {{< text bash >}}
     $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
