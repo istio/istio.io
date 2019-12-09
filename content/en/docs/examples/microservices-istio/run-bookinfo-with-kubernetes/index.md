@@ -153,7 +153,7 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
     EOF
     {{< /text >}}
 
-### Update your /etc/hosts file
+### Update your `/etc/hosts` configuration file
 
 1.  Append the output of the following command to `/etc/hosts`. You should have a
     [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use the
