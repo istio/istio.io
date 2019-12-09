@@ -185,7 +185,7 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
         caption="Bookinfo Web Application"
         >}}
 
-1.  Observe how microservices call each other, for example, `reviews` calls the `ratings` microservice by the
+1.  Observe how microservices call each other. For example, `reviews` calls the `ratings` microservice using the
     `http://ratings:9080/ratings` URL.
     See the [code of `reviews`]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java):
 
