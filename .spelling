@@ -161,6 +161,7 @@ CVE-2019-15226
 CVE-2019-18801
 CVE-2019-18802
 CVE-2019-18817
+CVE-2019-18838
 CVE-2019-9512
 CVE-2019-9513
 CVE-2019-9514
@@ -180,6 +181,7 @@ decapsulated
 Delayering
 Demailly
 deployment
+dereferenced
 deserialize
 deserializing
 dev
