@@ -132,6 +132,7 @@ CloudWatch
 CNI
 cnn.com
 Cognito
+codec
 colocate
 colocated
 colocating
@@ -157,6 +158,8 @@ CVE-2019-12243
 CVE-2019-12995
 CVE-2019-14993
 CVE-2019-15226
+CVE-2019-18801
+CVE-2019-18802
 CVE-2019-18817
 CVE-2019-9512
 CVE-2019-9513
@@ -293,6 +296,7 @@ ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
 ISTIO-SECURITY-2019-005
 ISTIO-SECURITY-2019-006
+ISTIO-SECURITY-2019-007
 istio-system
 istio.io
 istio.io.
@@ -604,6 +608,7 @@ Websockets
 WebSphere
 whitelist
 whitelists
+whitespace
 Wikipedia
 wikipedia.org
 wildcard
