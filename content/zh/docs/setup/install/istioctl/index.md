@@ -9,15 +9,14 @@ keywords: [istioctl, kubernetes]
 如果您刚接触 Istio 或者只是要简单试用，请参考 [开始](/zh/docs/setup/getting-started) 文档进行操作。
 
 本指南使用可以高度自定义 Istio 控制平面和数据平面的 [`istioctl`](/zh/docs/reference/commands/istioctl/) 命令行工具。
-该命令行工具具有用户输入校验，可以防止错误的安装和自定义选项。
+该命令行工具具有用户输入校验功能，可以防止错误的安装和自定义选项。
 
-使用这些命令说明，您可以选择 Istio 的任何内置组件
-[配置文件](/zh/docs/setup/additional-setup/config-profiles/) 然后
+使用这些命令说明，您可以选择 Istio 的任何内置 [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 然后
 根据您的特定需求进一步自定义配置。
 
-## 先决条件{#prerequisites}
+## 前提条件{#prerequisites}
 
-开始之前，请检查以下先决条件：
+开始之前，请检查以下前提条件：
 
 1. [下载 Istio 发行版本](/zh/docs/setup/getting-started/#download)。
 1. 执行任何必要的 [特定于平台的设置](/zh/docs/setup/platform-setup/)。
@@ -31,7 +30,7 @@ keywords: [istioctl, kubernetes]
 $ istioctl manifest apply
 {{< /text >}}
 
-此命令将在您配置的 Kubernetes 集上安装 `default` 配置文件。
+此命令将在您配置的 Kubernetes 集群上安装 `default` 配置文件。
 `default` 配置文件建立生产环境的良好起点，这与旨在评估广泛的 Istio 功能特性的较大的 `demo` 配置文件不同。
 
 如果要在 `default` 配置文件之上启用安全性，可以设置与安全相关的配置参数：
@@ -41,9 +40,9 @@ $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.glo
 {{< /text >}}
 
 通常，您可以像使用 [helm](/zh/docs/setup/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
-唯一的区别是必须增加前缀 `values.` 在配置路径中，because this is the path to the Helm pass-through API, described below.
+唯一的区别是必须为配置路径增加 `values.` 前缀，因为这是 Helm 直通 API 的路径，如下所述。
 
-## 从外部 Chart 安装
+## 从外部 Chart 安装{#install-from-external-charts}
 
 通常，`istioctl` 使用内置 Chart 生成安装清单。这些 Chart 与 `istioctl` 一起发布，用于审核和自定义，它们
 放置在 `install/kubernetes/operator/charts` 目录下。
@@ -239,7 +238,10 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
-或者，可以使用 `istioctl` 的 `-f` 选项来指定具有完整配置的YAML文件：
+Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
+`istioctl` using the `-f` option:
+
+或者，可以在YAML文件中指定 `IstioControlPlane` 配置，并使用 `-f` 选项将其传递给 `istioctlt`：
 
 {{< text bash >}}
 $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
@@ -257,7 +259,7 @@ $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 如 [Customize Istio settings using the Helm API](#customize-Istio-settings-using-the-helm-API) 所述，Helm 值也可以在 `IstioControlPlane` 定义中设置。
 {{< /tip >}}
 
-### 识别 Istio 功能或组件{#identify-an-Istio-feature-or-component}
+### 标识 Istio 功能或组件{#identify-an-Istio-feature-or-component}
 
 `IstioControlPlane` API 按功能对控制平面组件进行分组，如下表所示：
 
