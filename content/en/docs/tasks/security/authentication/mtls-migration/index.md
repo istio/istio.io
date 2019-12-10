@@ -71,9 +71,10 @@ down once the migration is done.
 
     {{< text bash >}}
     $ kubectl get destinationrule --all-namespaces
-    NAMESPACE      NAME              AGE
-    istio-system   istio-policy      25m
-    istio-system   istio-telemetry   25m
+    NAMESPACE      NAME                                 HOST                                             AGE
+    istio-system   istio-multicluster-destinationrule   *.global                                         35s
+    istio-system   istio-policy                         istio-policy.istio-system.svc.cluster.local      35s
+    istio-system   istio-telemetry                      istio-telemetry.istio-system.svc.cluster.local   33s
     {{< /text >}}
 
 ## Configure clients to send mutual TLS traffic
