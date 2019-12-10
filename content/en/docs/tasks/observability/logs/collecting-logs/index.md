@@ -86,7 +86,7 @@ The `kind: instance` stanza of configuration defines a schema for generated log 
 to generate log entries for requests based on the attributes reported by Envoy.
 
 The `severity` parameter is used to indicate the log level for any generated
-`logentry`. In this example, a literal value of `"warning"` is used. This value will
+`logentry`. In this example, a literal value of `"warn"` is used. This value will
 be mapped to supported logging levels by a `logentry` *handler*.
 
 The `timestamp` parameter provides time information for all log entries. In this
@@ -105,7 +105,7 @@ The `kind: handler` stanza of configuration defines a *handler* named `newloghan
 handler `spec` configures how the `stdio` compiled adapter code processes received
 `logentry` instances. The `severity_levels` parameter controls how `logentry`
 values for the `severity` field are mapped to supported logging levels. Here,
-the value of `"warning"` is mapped to the `WARNING` log level. The
+the value of `"warn"` is mapped to the `WARNING` log level. The
 `outputAsJson` parameter directs the adapter to generate JSON-formatted log
 lines.
 
