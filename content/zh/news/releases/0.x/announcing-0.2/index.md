@@ -18,9 +18,9 @@ aliases:
 
 今天我们十分高兴地宣布推出 0.2 版本，它提高了稳定性和性能、允许在 Kubernetes 集群中广泛部署并自动注入 sidecar 、为 TCP 服务添加策略和身份验证、同时保证扩展网格收录那些部署在虚拟机中的服务。此外，Istio 可以利用 Consul/Nomad 或 Eureka 在 Kubernetes 外部运行。 除了核心功能，Istio 的扩展已经准备由第三方公司和开发人员编写。
 
-## 0.2版本的亮点
+## 0.2版本的亮点{#highlights-for-the-0.2-release}
 
-### 可用性改进
+### 可用性改进{#usability-improvements}
 
 - _支持多命名空间_:  Istio 现在可以跨多个名称空间在集群范围内工作，这也是来自 0.1 版本中社区最强烈的要求之一。
 
@@ -34,13 +34,13 @@ aliases:
 
 - _改进路由和指标_: 支持 WebSocket 、MongoDB 和 Redis 协议。 您可以将弹性功能（如熔断器）应用于第三方服务。除了 Mixer 的指标外，数以百计 Envoy 指标现在已经在 Prometheus 中可见，它们用于监控 Istio 网格中的流量吞吐。
 
-### 跨环境支持
+### 跨环境支持{#cross-environment-support}
 
 - _网格扩展_:  Istio 网格现在可以在 Kubernetes 之外跨服务 ——  就像那些运行在虚拟机中的服务一样，他们同时享受诸如自动双向 TLS认证、流量管理、遥测和跨网格策略实施带来的好处。
 
 - _运行在 Kubernetes 外部_: 我们知道许多客户使用其他的服务注册中心和 orchestration 解决方案（如 Consul/Nomad 和 Eureka）， Istio Pilot 可以在 Kubernetes 外部单独运行，同时从这些系统中获取信息，并在虚拟机或容器中管理 Envoy fleet 。
 
-## 加入到塑造 Istio 未来的队伍中
+## 加入到塑造 Istio 未来的队伍中{#get-involved-in-shaping-the-future-of-Istio}
 
 呈现在我们面前的是一幅不断延伸的[蓝图](/zh/about/feature-stages/) ，它充满着强大的潜能。我们将在下个版本致力于 Istio 的稳定性，可靠性，第三方工具集成和多集群用例。
 
@@ -50,9 +50,9 @@ aliases:
 
 谢谢
 
-## 发布说明
+## 发布说明{#release-notes}
 
-### 通用
+### 通用{#general}
 
 - **更新配置模型**。 Istio 现在使用了 Kubernetes 的 [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 来描述和存储其配置。当运行在 Kubernetes 上时，现在可以使用 `kubectl` 命令来管理配置。
@@ -67,7 +67,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 
 - **自动注入 Sidecar**。 使用 Kubernetes 中的  [Initializers](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) alpha 功能，可以在部署后将Istio边车自动注入到Pod中。
 
-### 性能及品质
+### 性能及品质{#performance-and-quality}
 
 整个系统在性能和可靠性方面都有许多改进。
 我们尚未考虑将 Istio 0.2 用于生产，但我们在这一方面取得了长足的进步。以下是一些注意事项：
@@ -83,7 +83,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 
 - **减少 Egress 流量的延迟**。现在，我们直接将流量从 sidecar 转发到外部服务。
 
-### 流量管理
+### 流量管理{#traffic-management}
 
 - **Egress 规则**。 现在可以为 Egress 流量指定路由规则。
 
@@ -92,7 +92,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 
 - **其它改进**。 Ingress 正确支持 gRPC 服务，更好的支持健康检查和 Jaeger 追踪。
 
-### 策略执行及遥测
+### 策略执行及遥测{#policy-enforcement-telemetry}
 
 - **Ingress 策略**。 除了 0.1 中支持的东西流量。现在，策略也可以应用于南北流量。
 
@@ -110,7 +110,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 
 - **Mixer 调用追踪**。 现在可以在 Zipkin 仪表板中跟踪和分析 Envoy 和 Mixer 之间的调用。
 
-### 安全
+### 安全{#security}
 
 - **TCP 流量的双向 TLS**。 除了HTTP流量外，TCP流量现在也支持双向TLS。
 
@@ -121,7 +121,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 
 - **永久性 CA 密钥/证书存储**。 Istio CA 现在将签名密钥/证书持久化存储，以方便CA重新启动。
 
-## 已知问题
+## 已知问题{#known-issues}
 
 - **用户访问应用程序时可能会收到 404**:  我们注意到，Envoy有时无法正确获取路由，因此将404返回给用户。
 我们正在对此 [问题](https://github.com/istio/istio/issues/1038) 进行积极的工作。
