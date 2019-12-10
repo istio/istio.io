@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/networking/virtual-service.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
-aliases: [/docs/reference/config/networking/v1alpha3/virtual-service.html]
+aliases: [/docs/reference/config/networking/v1alpha3/virtual-service]
 number_of_entries: 23
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
@@ -315,7 +315,7 @@ spec:
 services must first be added to Istio&rsquo;s internal service registry using the
 ServiceEntry resource. VirtualServices can then be defined to control traffic
 bound to these external services. For example, the following rules define a
-Service for wikipedia.org and set a timeout of 5s for http requests.</p>
+Service for wikipedia.org and set a timeout of 5s for HTTP requests.</p>
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -411,7 +411,7 @@ No
 <h2 id="HTTPFaultInjection">HTTPFaultInjection</h2>
 <section>
 <p>HTTPFaultInjection can be used to specify one or more faults to inject
-while forwarding http requests to the destination specified in a route.
+while forwarding HTTP requests to the destination specified in a route.
 Fault specification is part of a VirtualService rule. Faults include
 aborting the Http request from downstream service, and/or delaying
 proxying of requests. A fault rule MUST HAVE delay or abort or both.</p>
@@ -957,7 +957,8 @@ spec:
 <td>
 <p>Number of retries for a given request. The interval
 between retries will be determined automatically (25ms+). Actual
-number of retries attempted depends on the httpReqTimeout.</p>
+number of retries attempted depends on the request <code>timeout</code> of the
+<a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>.</p>
 
 </td>
 <td>
@@ -1103,7 +1104,7 @@ No
 <td><code>route</code></td>
 <td><code><a href="#HTTPRouteDestination">HTTPRouteDestination[]</a></code></td>
 <td>
-<p>A http rule can either redirect or forward (default) traffic. The
+<p>A HTTP rule can either redirect or forward (default) traffic. The
 forwarding target can be one of several versions of a service (see
 glossary in beginning of document). Weights associated with the
 service version determine the proportion of traffic it receives.</p>
@@ -1117,7 +1118,7 @@ No
 <td><code>redirect</code></td>
 <td><code><a href="#HTTPRedirect">HTTPRedirect</a></code></td>
 <td>
-<p>A http rule can either redirect or forward (default) traffic. If
+<p>A HTTP rule can either redirect or forward (default) traffic. If
 traffic passthrough option is specified in the rule,
 route/redirect will be ignored. The redirect primitive can be used to
 send a HTTP 301 redirect to a different URI or Authority.</p>
@@ -1190,9 +1191,9 @@ destination.</p>
 No
 </td>
 </tr>
-<tr id="HTTPRoute-mirror_percent">
-<td><code>mirrorPercent</code></td>
-<td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
+<tr id="HTTPRoute-mirror_percentage">
+<td><code>mirrorPercentage</code></td>
+<td><code><a href="#Percent">Percent</a></code></td>
 <td>
 <p>Percentage of the traffic to be mirrored by the <code>mirror</code> field.
 If this field is absent, all the traffic (100%) will be mirrored.
@@ -1221,6 +1222,19 @@ No
 <td><code><a href="#Headers">Headers</a></code></td>
 <td>
 <p>Header manipulation rules</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRoute-mirror_percent" class="deprecated ">
+<td><code>mirrorPercent</code></td>
+<td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
+<td>
+<p>Percentage of the traffic to be mirrored by the <code>mirror</code> field.
+Use of integer <code>mirror_percent</code> value is deprecated. Use the
+double <code>mirror_percentage</code> field instead</p>
 
 </td>
 <td>
@@ -2008,9 +2022,12 @@ Yes
 <td><code>gateways</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The names of gateways and sidecars that should apply these routes. A
-single VirtualService is used for sidecars inside the mesh as well as
-for one or more gateways. The selection condition imposed by this
+<p>The names of gateways and sidecars that should apply these routes.
+Gateways in other namespaces may be referred to by
+<code>&lt;gateway namespace&gt;/&lt;gateway name&gt;</code>; specifying a gateway with no
+namespace qualifier is the same as specifying the VirtualService&rsquo;s
+namespace. A single VirtualService is used for sidecars inside the mesh as
+well as for one or more gateways. The selection condition imposed by this
 field can be overridden using the source field in the match conditions
 of protocol-specific routes. The reserved word <code>mesh</code> is used to imply
 all the sidecars in the mesh. When this field is omitted, the default
