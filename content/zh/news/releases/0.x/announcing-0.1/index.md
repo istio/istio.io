@@ -18,7 +18,7 @@ aliases:
 Google、 IBM 和 Lyft 骄傲的宣布了 [Istio](/zh) 的首个公开版本，Istio 是一个提供一致的方式用于连接、加固、管理和监控微服务的开源项目。当前版本专注于支持 [Kubernetes](https://kubernetes.io/) 环境，我们计划在接下来的几个月添加诸如虚拟机和 Cloud Foundry 等环境的支持。
 Istio 为微服务添加了流量管理能力，同时为比如安全、监控、路由、连接管理和策略等附加能力打下了基础。此软件构建于来自 Lyft 的经过实战检验的 [Envoy](https://envoyproxy.github.io/envoy/) 代理之上，能在*无需改动任何应用代码*的情况下赋予对应用流量的可见性和控制能力。Istio 为 CIO 们提供了一个在企业内加强安全、策略和规范的强有力的工具。
 
-## 背景
+## 背景{#background}
 
 基于微服务模式编写可靠的、松耦合的、产品级的应用是有挑战的。随着巨型单体应用被分解为微服务，软件团队不得不面对将微服务集成进分布式系统的挑战：服务发现、负载均衡、故障容忍、端到端监测、动态路由，还有最重要的合规和安全。
 
@@ -26,13 +26,13 @@ Istio 为微服务添加了流量管理能力，同时为比如安全、监控�
 
 有一个解决方案是使用通用 RPC 库比如 [gRPC](https://grpc.io)，但是这在大规模适配时花销不菲，且可能在某些事实上无法更动的应用上留下棕色地带。运维人员需要一个灵活的工具来使他们的微服务变得安全、合规、可追踪和高可用，开发人员也需要这种能力来在产品环境实验不同的功能或者部署金丝雀版本而不影响系统的完整性。
 
-## 解决方案：服务网格
+## 解决方案：服务网格{#solution-service-mesh}
 
 想象一下如果我们可以在服务和网络之间透明的注入一层基础设施来给予运维人员所需要的控制能力的同时又能让开发人员免除需要将解决分布式系统问题的代码糅合到业务代码的烦恼。这种一致的基础设施层与服务开发的搭配通常被称之为 **_服务网格_**。正如微服务帮助不同的功能团队之间互相解耦，服务网格可以帮助解除功能开发和发布流程之间的耦合。Istio 通过在不同的服务网络间注入代理来将不同的微服务集成进同一个服务网格。
 
 Google、IBM 和 Lyft 为了共同的愿景，基于为内部和企业客户构建和管理大规模微服务的经验合力创造了 Istio，以此来为微服务的开发和维护提供一个可靠的基础。Google 和 IBM 在他们自身的应用以及他们的企业客户的敏感的／受管制的环境中实施大规模微服务时积累了丰富的经验，同时 Lyft 开发了 Envoy 以解决他们内部面对的挑战。在成功的将其应用于生产环境，管理过能每秒处理两百万个请求的分布于上万个虚拟机 超过100个微服务一年后 [Lyft 开源 Envoy](https://eng.lyft.com/announcing-envoy-c-l7-proxy-and-communication-bus-92520b6c8191) 。
 
-## Istio 的好处
+## Istio 的好处{#benefits-of-Istio}
 
 **集群范围的可见性**：故障时有发生，运维人员需要工具来监控集群健康和微服务状态。Istio 生成有关应用和网络行为的详细监测数据，可使用 [Prometheus](https://prometheus.io/) 和 [Grafana](https://github.com/grafana/grafana) 渲染，也可以发送指标和日志到任何收集、聚合和查询的系统以轻松的扩展其功能。Istio 使用 [Zipkin](https://github.com/openzipkin/zipkin) 提供分析性能瓶颈和诊断分布式故障的功能。
 
@@ -50,7 +50,7 @@ Google、IBM 和 Lyft 为了共同的愿景，基于为内部和企业客户构�
 
 **渐进式适配**：我们有意使 Istio 对于运行于网格中的服务完全透明，这允许团队逐步适配 Istio 的功能。适配人员可以首先启用集群范围内的可见性，一旦他们适应了 Istio 的存在，他们可以按需开启其他功能。
 
-## 加入我们
+## 加入我们{#join-us-in-this-journey}
 
 Istio 是一个完全开放的开发项目。今天我们发布了能工作于 Kubernetes 集群的 0.1 版本，我们计划每三个月发布一个大版本，包括支持更多的环境。我们的目标是赋能开发者和运维人员，使他们在所有环境中都能敏捷的发布和维护微服务，拥有底层网络的完全的可见性，且获得一致的控制和安全能力。我们期待与 Istio 社区和我们的合作伙伴一起沿着 [路线图](/zh/about/feature-stages/) 朝着这些目标前进。
 
@@ -58,7 +58,7 @@ Istio 是一个完全开放的开发项目。今天我们发布了能工作于 K
 
 查看在 GlueCon 2017 公布 Istio 时的 [介绍](/talks/istio_talk_gluecon_2017.pdf)。
 
-## 社区
+## 社区{#community}
 
 我们很兴奋的看到来自社区中很多公司的早期支持：
 [Red Hat](https://blog.openshift.com/red-hat-istio-launch/) 的 Red Hat OpenShift 和 OpenShift Application Runtimes，
@@ -80,7 +80,7 @@ WeaveWorks 的 [Weave Cloud](https://www.weave.works/blog/istio-weave-cloud/) �
 
 欢迎登船！
 
-## 发布说明
+## 发布说明{#release-notes}
 
 - 使用单个命令将 Istio 安装到 Kubernetes namespace 中。
 - 将 Envoy proxy 半自动注入至 Kubernetes Pod 中。
