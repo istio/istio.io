@@ -6,7 +6,7 @@ aliases:
     - /docs/tasks/security/ca-namespace-targeting/
 ---
 
-A cluster operator might decide not to generate `ServiceAccount` secrets for some subset of namespaces, or to make `ServiceAccount` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here]((/docs/ops/configuration/mesh/secret-creation/).
+A cluster operator might decide not to generate `ServiceAccount` secrets for some subset of namespaces, or to make `ServiceAccount` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here](/docs/ops/configuration/mesh/secret-creation/).
 
 ## Before you begin
 
