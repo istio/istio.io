@@ -7,11 +7,9 @@ weight: 30
 
 {{< boilerplate work-in-progress >}}
 
-This module shows you an application composed of four microservices: `productpage`, `details`, `ratings` and `reviews`.
-We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/docs/examples/bookinfo) page.
-Read [the description of the application](/docs/examples/bookinfo),
-The version of the application used in the example can be viewed as the final version since the `reviews` microservice has three versions:
-`v1`, `v2`, `v3`.
+This module shows you an application composed of four microservices written in different programming languages: `productpage`, `details`, `ratings` and `reviews`. We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/docs/examples/bookinfo) page.
+
+The version of the application used in the example can be viewed as the final version since the `reviews` microservice has three versions: `v1`, `v2`, `v3`.
 
 In this module, the application only uses the `v1` version of the `reviews` microservice.
 The next modules enhance the application with multiple versions of the `reviews` microservice.
@@ -114,6 +112,8 @@ The next modules enhance the application with multiple versions of the `reviews`
 Once your application is running, enable clients from outside the cluster to access it. Such clients are known as mesh-external clients. Once you
 configure the steps below successfully, you can access the application from your laptop's browser.
 
+{{< warning >}}
+
 If your cluster runs on GKE, change the `productpage` service type to `LoadBalancer` before you create your Kubernetes ingress, as shown in this example:
 
     {{< text yaml >}}
@@ -122,6 +122,8 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
     sessionAffinity: None
     type: LoadBalancer
     {{< /text >}}
+
+{{< /warning >}}
 
 ### Configure the Kubernetes Ingress resource and access your application's webpage
 
@@ -205,4 +207,4 @@ If your cluster runs on GKE, change the `productpage` service type to `LoadBalan
     ...
     {{< /text >}}
 
-You are ready to [test the application](/docs/examples/microservices-istio/testing-in-production).
+You are ready to [test the application](/docs/examples/microservices-istio/production-testing).

@@ -39,7 +39,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     {{< /text >}}
 
 1.  Run ratings in Docker. The following [docker run](https://docs.docker.com/engine/reference/commandline/run/) command
-    instructs Docker to expose port `9080` of the container to port `9081` of your computer. You will access the
+    instructs Docker to expose port `9080` of the container to port `9081` of your computer, allowing you to access the
     `ratings` microservice on port `9081`.
 
     {{< text bash >}}
@@ -69,4 +69,4 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     $ docker stop <the container ID from the output of docker ps>
     {{< /text >}}
 
-You are ready to [deploy the application](/docs/examples/microservices-istio/run-bookinfo-with-kubernetes).
+You are ready to [deploy the application](/docs/examples/microservices-istio/bookinfo-kubernetes).
