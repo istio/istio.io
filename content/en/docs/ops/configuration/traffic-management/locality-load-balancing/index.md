@@ -28,7 +28,7 @@ pass the `--set global.localityLbSetting.enabled=false` flag when installing Ist
 ## Requirements
 
 Currently, the service discovery platform populates the locality automatically.
-In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region)
+In Kubernetes, a pod's locality is determined via the [well-known labels for region and zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domainbetakubernetesioregion)
 on the node it is deployed. If you are using a hosted Kubernetes service your cloud provider
 should configure this for you. If you are running your own Kubernetes cluster you will need
 to add these labels to your nodes. The sub-zone concept doesn't exist in Kubernetes.
