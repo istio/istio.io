@@ -6,7 +6,7 @@ cves: [CVE-2019-18801,CVE-2019-18802]
 cvss: "9.0"
 vector: "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H"
 releases: ["1.2 to 1.2.9", "1.3 to 1.3.5", "1.4 to 1.4.1"]
-publishdate: 2019-09-10
+publishdate: 2019-12-10
 keywords: [CVE]
 skip_seealso: true
 ---
