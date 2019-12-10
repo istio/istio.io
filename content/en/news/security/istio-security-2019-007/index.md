@@ -19,6 +19,8 @@ Envoy, and subsequently Istio are vulnerable to two newly discovered vulnerabili
 
 * __[CVE-2019-18802](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18802)__: HTTP/1 codec incorrectly fails to trim whitespace after header values. This could allow an attacker to bypass Istio's policy either for information disclosure or escalation of privileges.
 
+* __[CVE-2019-18838](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18838)__: Upon receipt of a malformed HTTP request without the "Host" header, an encoder filter invoking Envoy's route manager APIs that access request's "Host" header will cause NULL pointer to be dereferenced and result in abnormal termination of the Envoy process.
+
 ## Impact and detection
 
 Both Istio gateways and sidecars are vulnerable to this issue. If you are running one of the affected releases where downstream's requests are HTTP/2 while upstream's are HTTP/1, then your cluster is vulnerable.  We expect this to be true of most clusters.
