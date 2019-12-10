@@ -5,8 +5,7 @@ subtitle: 补丁发布
 description: Istio 1.4.1 补丁发布。
 publishdate: 2019-12-05
 release: 1.4.1
-aliases:
-    - /news/announcing-1.4.1
+
 ---
 
 此次发布包括了一些 bug 修复来提升健壮性。此次发布的注意事项描述了 Istio 1.4.0 和 Istio 1.4.1 之间的差异。
