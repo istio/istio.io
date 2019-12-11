@@ -26,7 +26,7 @@ aliases:
 
 目前，服务发现平台会自动填充地域。
 
-在 Kubernetes 中，Pod 的地域是通过在已部署的节点上的 [Region 和 Zone 的标签](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domain-beta-kubernetes-io-region)决定的。
+在 Kubernetes 中，Pod 的地域是通过在已部署的节点上的 [Region 和 Zone 的标签](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#failure-domainbetakubernetesioregion)决定的。
 如果您正在使用托管的 Kubernetes 服务，那么云供应商会进行配置。
 如果您正在运行自己的 Kubernetes 集群，那么需要将这些标签添加到您的节点中。
 Kubernetes 中不存在 sub-zone 的概念。因此，该字段不需要配置。
