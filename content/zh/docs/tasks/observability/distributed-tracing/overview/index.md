@@ -13,7 +13,7 @@ Istio 利用 [Envoy 的分布式跟踪](https://www.envoyproxy.io/docs/envoy/v1.
 
 请参阅 [Zipkin](../zipkin/)， [Jaeger](../jaeger/) 和 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 的任务文档来了解 Istio 如何与这些分布式跟踪系统一起工作。
 
-## 跟踪上下文传递{#Trace-context-propagation}
+## 跟踪上下文传递{#trace-context-propagation}
 
 尽管 Istio 代理能够自动发送 spans，但是他们需要一些附加线索才能将整个跟踪链路关联到一起。
 
@@ -80,7 +80,7 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 
 当你在应用程序中进行下游调用时，请确保包含这些请求头。
 
-## 跟踪采样{#Trace-sampling}
+## 跟踪采样{#trace-sampling}
 
 默认情况下，使用 demo 配置文件安装时，Istio 会捕获所有请求的跟踪信息。例如，当使用上面的 Bookinfo 示例应用时，每次访问 /productpage 接口时，你都可以在 dashboard 中看到一条相应的跟踪信息。此采样频率适用于测试或低流量网格。对于高流量网格你可以通过下面的2中方法之一来降低跟踪采样频率：
 
