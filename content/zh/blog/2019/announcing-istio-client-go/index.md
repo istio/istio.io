@@ -68,7 +68,7 @@ func main() {
 
 你可以在 [这里](https://github.com/istio/client-go/blob/{{< source_branch_name >}}/cmd/example/client.go) 找到更详尽的示例。
 
-## 为 Istio 客户端创建更有用工具{#useful-tools-created-for-generating-istio-client-go}
+## 为 Istio 客户端创建更有用工具{#useful-tools-created-for-generating-Istio-client-go}
 
 如果你想知道为什么花这么长时间或为什么很难生成此客户端，本小节可以将对此说明。在 `Istio` 中，我们使用[protobuf](https://developers.google.com/protocol-buffers) 规范编写 `API`，然后使用 `protobuf` 工具链将其转换为 `Go` 定义。如果尝试从 `protobuf` 的 `API` 生成 `Kubernetes` 客户端，可能会面临三个主要的挑战：
 
