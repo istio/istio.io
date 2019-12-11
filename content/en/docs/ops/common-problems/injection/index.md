@@ -90,7 +90,7 @@ of injected sidecar when it was.
 
 1. Check default policy
 
-    Check the default injection policy in the `istio-sidecar-injector` `configmap`.
+    Check the default injection policy in the `istio-sidecar-injector configmap`.
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | grep policy:
@@ -203,11 +203,11 @@ When the Kubernetes API server includes proxy settings such as:
 {{< text yaml >}}
 env:
   - name: http_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: https_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: no_proxy
-  value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
+    value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 
 With these settings, Sidecar injection fails. The only related failure log can be found in `kube-apiserver` log:
@@ -229,3 +229,11 @@ Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. How
 network namespace is shared. `iptables` will also see the pod-wide configuration.
 
 Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.
+
+## Cluster is not scaled down automatically
+
+Due to the fact that the sidecar container mounts a local storage volume, the
+node autoscaler is unable to evict nodes with the injected pods. This is
+a [known issue](https://github.com/istio/istio/issues/19395). The workaround is
+to add a pod annotation `"cluster-autoscaler.kubernetes.io/safe-to-evict":
+"true"` to the injected pods.

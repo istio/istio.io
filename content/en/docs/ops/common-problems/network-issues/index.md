@@ -1,5 +1,5 @@
 ---
-title: Networking Problems
+title: Traffic Management Problems
 description: Techniques to address common Istio traffic management and network problems.
 force_inline_toc: true
 weight: 10
@@ -52,7 +52,7 @@ but similar version routing rules have no effect on your own application, it may
 your Kubernetes services need to be changed slightly.
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/ops/prep/requirements/)
+Refer to the [Requirements for Pods and Services](/docs/ops/deployment/requirements/)
 for details.
 
 Another potential issue is that the route rules may simply be slow to take effect.
@@ -62,87 +62,6 @@ including all route rules. A configuration change will take some time
 to propagate to all the sidecars.  With large deployments the
 propagation will take longer and there may be a lag time on the
 order of seconds.
-
-## Destination rule policy not activated
-
-Although destination rules are associated with a particular destination host,
-the activation of subset-specific policies depends on route rule evaluation.
-
-When routing a request, Envoy first evaluates route rules in virtual services
-to determine if a particular subset is being routed to.
-If so, only then will it activate any destination rule policies corresponding to the subset.
-Consequently, Istio only applies the policies you define for specific subsets if
-you explicitly routed traffic to the corresponding subset.
-
-For example, consider the following destination rule as the one and only configuration defined for the
-*reviews* service, that is, there are no route rules in a corresponding `VirtualService` definition:
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews
-spec:
-  host: reviews
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-    trafficPolicy:
-      connectionPool:
-        tcp:
-          maxConnections: 100
-{{< /text >}}
-
-Even if Istio's default round-robin routing calls "v1" instances on occasion,
-maybe even always if "v1" is the only running version, the above traffic policy will never be invoked.
-
-You can fix the above example in one of two ways:
-
-1. Move the traffic policy in the destination rule up a level to make the policy
-    apply to any subset, for example:
-
-    {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: reviews
-    spec:
-      host: reviews
-      trafficPolicy:
-        connectionPool:
-          tcp:
-            maxConnections: 100
-      subsets:
-      - name: v1
-        labels:
-          version: v1
-    {{< /text >}}
-
-1. Define proper route rules for the service using a `VirtualService`.
-    For example, add a simple route rule for the `v1` subset of the `reviews` service:
-
-    {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v1
-    {{< /text >}}
-
-The default Istio behavior conveniently sends traffic from any source
-to all versions of the destination service without you setting any rules.
-As soon as you need to differentiate between the versions of a service,
-you need to define routing rules.
-Due to this fact, we consider a best practice to set a default routing rule
-for every service from the start.
 
 ## 503 errors after setting destination rule
 
@@ -369,3 +288,89 @@ Then, simply bind both `VirtualServices` to it like this:
 - `Gateway` configuration `gw` with host `*.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
 - `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw`
 - `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw`
+
+## Port conflict when configuring multiple TLS hosts in a gateway
+
+If you apply a `Gateway` configuration that has the same `selector` labels as another
+existing `Gateway`, then if they both expose the same HTTPS port you must ensure that they have
+unique port names. Otherwise, the configuration will be applied without an immediate error indication
+but it will be ignored in the runtime gateway configuration. For example:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}
+
+With this configuration, requests to the second host, `myhost2.com`, will fail because
+both gateway ports have `name: https`.
+A _curl_ request, for example, will produce an error message something like this:
+
+{{< text plain >}}
+curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to myhost2.com:443
+{{< /text >}}
+
+You can confirm that this has happened by checking Pilot's logs for a message similar to the following:
+
+{{< text bash >}}
+$ kubectl logs -n istio-system $(kubectl get pod -l istio=pilot -n istio-system -o jsonpath={.items..metadata.name}) -c discovery | grep "non unique port"
+2018-09-14T19:02:31.916960Z info    model   skipping server on gateway mygateway2 port https.443.HTTPS: non unique port name for HTTPS port
+{{< /text >}}
+
+To avoid this problem, ensure that multiple uses of the same `protocol: HTTPS` port are uniquely named.
+For example, change the second one to `https2`:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway2
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https2
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - "myhost2.com"
+{{< /text >}}

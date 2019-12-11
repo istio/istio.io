@@ -11,7 +11,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-1. 依照[安装指引](/zh/docs/setup/install/kubernetes/)在 Kubernetes 中 安装 Istio。
+1. 依照[安装指引](/zh/docs/setup/getting-started/)在 Kubernetes 中 安装 Istio。
 
     {{< warning >}}
     Policy enforcement **必须**开启。依照
@@ -86,7 +86,7 @@ aliases:
     {{< /text >}}
 
     _注意:_ 替换您的配置中 [rate_limit_algorithm](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)，
-    [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) 的值.
+    [redis_server_url](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) 的值.
 
     `redisquota` 处理器定义了 4 个不同的速率限制规则。默认如果没有匹配到优先规则，是 `500` 个请求量每秒 (`1s`)。
     使用了 `ROLLING_WINDOW` 算法作为 quota 检查且为之定义了 500ms 的 `bucketDuration`。我们也定义了三个优先规则：

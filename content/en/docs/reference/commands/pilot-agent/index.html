@@ -192,6 +192,10 @@ remove_toc_prefix: 'pilot-agent '
 <td>The identity used as the suffix for mixer&#39;s spiffe SAN. This would only be used by pilot all other proxy would get this value from pilot  (default ``)</td>
 </tr>
 <tr>
+<td><code>--outlierLogPath &lt;string&gt;</code></td>
+<td>The log path for outlier detection  (default ``)</td>
+</tr>
+<tr>
 <td><code>--parentShutdownDuration &lt;duration&gt;</code></td>
 <td>The time in seconds that Envoy will wait before shutting down the parent process during a hot restart  (default `1m0s`)</td>
 </tr>
@@ -422,6 +426,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>ISTIOD_ADDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
+</tr>
+<tr>
 <td><code>ISTIO_AUTO_MTLS_ENABLED</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -546,6 +556,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Pilot will assign meaningful nonces to each Envoy configuration message, and allow users to interrogate which envoy has which config from the debug interface.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CRD_VALIDATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>

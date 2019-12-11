@@ -15,7 +15,7 @@ icon: bugs
 
 搜索我们的 [问题数据库](https://github.com/istio/istio/issues/) 来查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中没有找到你的问题，请打开一个 [新问题](https://github.com/istio/istio/issues/new/choose) 让我们知道出现了什么错误。
 
-如果您认为错误实际上是一个安全漏洞，请访问 [报告安全漏洞](/about/security-vulnerabilities/) 了解如何处理。
+如果您认为错误实际上是一个安全漏洞，请访问 [报告安全漏洞](/zh/about/security-vulnerabilities/) 了解如何处理。
 
 ### Kubernetes 集群状态档案{#Kubernetes-cluster-state-archives}
 

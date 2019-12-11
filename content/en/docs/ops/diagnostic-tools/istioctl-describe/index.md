@@ -39,7 +39,7 @@ before continuing.
 
 The `istioctl describe` command returns a warning if the {{< gloss >}}Envoy{{< /gloss >}}
 proxy is not present in a pod or if the proxy has not started. Additionally, the command warns
-if some of the [Istio requirements for pods](/docs/ops/prep/requirements/)
+if some of the [Istio requirements for pods](/docs/ops/deployment/requirements/)
 are not met.
 
 For example, the following command produces a warning indicating a `kubernetes-dashboard`
@@ -194,7 +194,7 @@ and 10% to the `v2` subset of the the `reviews` service:
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
 {{< /text >}}
 
-Now describe the `reviews` `v1` pod:
+Now describe the `reviews v1` pod:
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD

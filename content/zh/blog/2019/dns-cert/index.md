@@ -28,4 +28,4 @@ Chiron is the component provisioning and managing DNS certificates in Istio.
     caption="The architecture of provisioning and managing DNS certificates in Istio"
     >}}
 
-To try this new feature, refer to the [DNS certificate management task](/docs/tasks/security/dns-cert).
+To try this new feature, refer to the [DNS certificate management task](/zh/docs/tasks/security/dns-cert).

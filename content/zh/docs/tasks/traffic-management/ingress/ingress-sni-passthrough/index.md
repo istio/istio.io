@@ -7,7 +7,7 @@ aliases:
   - /zh/docs/examples/advanced-gateways/ingress-sni-passthrough/
 ---
 
-The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress-mount/) task describes how to configure HTTPS
+The [Securing Gateways with HTTPS](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/) task describes how to configure HTTPS
 ingress access to an HTTP service. This example describes how to configure HTTPS ingress access to an HTTPS service,
 i.e., configure an ingress gateway to perform SNI passthrough, instead of TLS termination on incoming requests.
 
@@ -235,7 +235,7 @@ to hold the configuration of the NGINX server:
     {{< /text >}}
 
 1.  Follow the instructions in
-    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)
     to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 1.  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and

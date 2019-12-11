@@ -9,14 +9,14 @@ aliases:
     - /docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
-Follow this guide to install an Istio [multicluster service mesh](/docs/ops/prep/deployment-models/#multiple-clusters)
+Follow this guide to install an Istio [multicluster service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
 where the Kubernetes cluster services and the applications in each cluster
 have the capability to expose their internal Kubernetes network to other
 clusters.
 
 In this configuration, multiple Kubernetes clusters running
 a remote configuration connect to a shared Istio
-[control plane](/docs/ops/prep/deployment-models/#control-plane-models).
+[control plane](/docs/ops/deployment/deployment-models/#control-plane-models).
 Once one or more remote Kubernetes clusters are connected to the
 Istio control plane, Envoy can then form a mesh network across multiple clusters.
 

@@ -12,4 +12,4 @@ Kubernetes-based deployments. However, Istio is being built to enable rapid and 
 
 *Service mesh*: Istio is designed to manage communications between microservices and applications. Without requiring changes to the underlying services, Istio provides automated baseline traffic resilience, service metrics collection, distributed tracing, traffic encryption, protocol upgrades, and advanced routing functionality for all service-to-service communication.
 
-For more detail, please see: [What is Istio?](/docs/concepts/what-is-istio/)
+For more detail, please see: [What is Istio?](/zh/docs/concepts/what-is-istio/)

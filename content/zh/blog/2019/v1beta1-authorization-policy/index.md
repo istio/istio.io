@@ -9,7 +9,7 @@ target_release: 1.4
 ---
 
 Istio 1.4 introduces the
-[`v1beta1` authorization policy](/docs/reference/config/security/authorization-policy/),
+[`v1beta1` authorization policy](/zh/docs/reference/config/security/authorization-policy/),
 which is a major update to the previous `v1alpha1` role-based access control
 (RBAC) policy. The new policy provides these improvements:
 
@@ -25,7 +25,7 @@ configuration resources `ClusterRbacConfig`, `ServiceRole`, and
 
 This post describes the new `v1beta1` authorization policy model, its
 design goals and the migration from `v1alpha1` RBAC policies. See the
-[authorization concept page](/docs/concepts/security/#authorization)
+[authorization concept page](/zh/docs/concepts/security/#authorization)
 for a detailed in-depth explanation of the `v1beta1` authorization policy.
 
 We welcome your feedback about the `v1beta1` authorization policy at
@@ -74,7 +74,7 @@ The new `v1beta1` authorization policy had several design goals:
 
 ## `AuthorizationPolicy`
 
-An [`AuthorizationPolicy` custom resource](/docs/reference/config/security/authorization-policy/)
+An [`AuthorizationPolicy` custom resource](/zh/docs/reference/config/security/authorization-policy/)
 enables access control on workloads. This section gives an overview of the
 changes in the `v1beta1` authorization policy.
 
@@ -210,7 +210,7 @@ spec:
 
 A policy in the root namespace applies to all workloads in the mesh in every
 namespaces. The root namespace is configurable in the
-[`MeshConfig`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)
+[`MeshConfig`](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)
 and has the default value of `istio-system`.
 
 For example, you installed Istio in `istio-system` namespace and deployed

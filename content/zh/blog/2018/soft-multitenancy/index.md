@@ -33,7 +33,7 @@ blog.
 
 {{< tip >}}
 This blog is a high-level description of how to deploy Istio in a
-limited multi-tenancy environment. The [docs](/docs/) section will be updated
+limited multi-tenancy environment. The [docs](/zh/docs/) section will be updated
 when official multi-tenancy support is provided.
 {{< /tip >}}
 
@@ -76,8 +76,8 @@ istio-system1   istio-mixer-7d4f7b9968-66z44               3/3       Running   0
 istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0          15d
 {{< /text >}}
 
-The Istio [sidecar](/docs/setup/additional-setup/sidecar-injection/)
-and [addons](/docs/tasks/observability/), if required, manifests must also be
+The Istio [sidecar](/zh/docs/setup/additional-setup/sidecar-injection/)
+and [addons](/zh/docs/tasks/observability/), if required, manifests must also be
 deployed to match the configured `namespace` in use by the tenant's Istio
 control plane.
 
@@ -230,7 +230,7 @@ ratings-default       RouteRule.v1alpha2.config.istio.io    ns-1
 reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 {{< /text >}}
 
-See the [Multiple Istio control planes](/blog/2018/soft-multitenancy/#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
+See the [Multiple Istio control planes](/zh/blog/2018/soft-multitenancy/#multiple-istio-control-planes) section of this document for more details on `namespace` requirements in a
 multi-tenant environment.
 
 ### Test results
@@ -268,7 +268,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 {{< /text >}}
 
 The tenant administrator can deploy applications in the application namespace configured for
-that tenant. As an example, updating the [Bookinfo](/docs/examples/bookinfo/)
+that tenant. As an example, updating the [Bookinfo](/zh/docs/examples/bookinfo/)
 manifests and then deploying under the tenant's application namespace of *ns-0*, listing the
 pods in use by this tenant's namespace is permitted:
 
@@ -290,8 +290,8 @@ $ kubectl get pods -n ns-1
 Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list pods in the namespace "ns-1"
 {{< /text >}}
 
-If the [add-on tools](/docs/tasks/observability/), example
-[Prometheus](/docs/tasks/observability/metrics/querying-metrics/), are deployed
+If the [add-on tools](/zh/docs/tasks/observability/), example
+[Prometheus](/zh/docs/tasks/observability/metrics/querying-metrics/), are deployed
 (also limited by an Istio `namespace`) the statistical results returned would represent only
 that traffic seen from that tenant's application namespace.
 
@@ -356,9 +356,9 @@ Istio functionality required to support those use cases.
 ## References
 
 * Video on Kubernetes multi-tenancy support, [Multi-Tenancy Support & Security Modeling with RBAC and Namespaces](https://www.youtube.com/watch?v=ahwCkJGItkU), and the [supporting slide deck](https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf).
-* Kubecon talk on security that discusses Kubernetes support for "Cooperative soft multi-tenancy", [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
+* KubeCon talk on security that discusses Kubernetes support for "Cooperative soft multi-tenancy", [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
 * Kubernetes documentation on [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and [namespaces](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
-* Kubecon slide deck on [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
+* KubeCon slide deck on [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
 * Google document on [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc). (Requires permission)
 * Cloud Foundry WIP document, [Multi-cloud and Multi-tenancy](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)
 * [Istio Auto Multi-Tenancy 101](https://docs.google.com/document/d/12F183NIRAwj2hprx-a-51ByLeNqbJxK16X06vwH5OWE)

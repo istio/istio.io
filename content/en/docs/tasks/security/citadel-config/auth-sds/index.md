@@ -11,9 +11,9 @@ This task shows how to enable
 [SDS (secret discovery service)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)
 for Istio identity provisioning.
 
-Prior to Istio 1.1, the keys and certificates of Istio workloads were generated
-by Citadel and distributed to sidecars through secret-volume mounted files,
-this approach has the following minor drawbacks:
+By default, the keys and certificates of Istio workloads are generated
+by Citadel and distributed to sidecars through secret-volume mounted files.
+This approach has the following minor drawbacks:
 
 * Performance regression during certificate rotation:
   When certificate rotation happens, Envoy is hot restarted to pick up the new
@@ -24,8 +24,8 @@ this approach has the following minor drawbacks:
   with known
   [risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks).
 
-These issues are addressed in Istio 1.1 through the SDS identity provision flow.
-The workflow can be described as follows.
+These issues can be addressed by enabling the SDS identity provision flow.
+This workflow can be described as follows:
 
 1. The workload sidecar Envoy requests the key and certificates from the Citadel
    agent: The Citadel agent is a SDS server, which runs as per-node `DaemonSet`.
@@ -36,7 +36,7 @@ The workflow can be described as follows.
 
 1. The Citadel agent sends the key and certificate back to the workload sidecar.
 
-This approach has the following benefits:
+The SDS approach has the following benefits:
 
 * The private key never leaves the node: It is only in the Citadel agent
   and Envoy sidecar's memory.

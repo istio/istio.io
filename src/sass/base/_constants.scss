@@ -19,14 +19,14 @@ $headerHeight: 3.7rem;
 $footerHeight: 7rem;
 
 // Z-index of different layers
-$promotion-z: 200;
-$ticker-z: 150;
 $header-z: 100;
 $overlay-z: 75;
 $sidebar-z: 50;
 $floating-button-z: 15;
 $glossary-letter-z: 10;
 $toolbar-button-z: 1;
+$promotion-z: -1;
+$footer-z: -2;
 
 // various manifest constants
 $border-radius: 4px;

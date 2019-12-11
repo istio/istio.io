@@ -24,7 +24,7 @@ networking functionality but without requiring Istio users to enable elevated
 Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/ops/prep/requirements/)
+setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/ops/deployment/requirements/)
 for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
@@ -74,7 +74,7 @@ or the corresponding path in a custom overlay file.
 
 ### Excluding specific Kubernetes namespaces
 
-This example uses Helm to perform the following tasks:
+This example uses `Istioctl` to perform the following tasks:
 
 * Install the Istio CNI plugin.
 * Configure its log level.
@@ -83,17 +83,33 @@ This example uses Helm to perform the following tasks:
     * `foo_ns`
     * `bar_ns`
 
-Refer to the [Customizable Install with Helm](/docs/setup/install/helm) for complete instructions.
+Refer to the [Customizable Install with `Istioctl`](/docs/setup/install/istioctl) for complete instructions.
 
 Use the following command to render and apply Istio CNI components and override the default configuration of the
 `logLevel` and `excludeNamespaces` parameters for `istio-cni`:
 
+Create a `IstioControlPlane` CR yaml locally with your override to install `istio`, e.g. `cni.yaml`
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  cni:
+    enabled: true
+  values:
+    cni:
+      excludeNamespaces:
+       - istio-system
+       - kube-system
+       - foo_ns
+       - bar_ns
+  unvalidatedValues:
+    cni:
+      logLevel: info
+{{< /text >}}
+
 {{< text bash >}}
-$ istioctl manifest apply \
-    --set <flags you used to install Istio>
-    --set cni.enabled=true \
-    --set values.cni.logLevel=info \
-    --set values.cni.excludeNamespaces={"istio-system,kube-system,foo_ns,bar_ns"}
+$ istioctl manifest apply -f cni.yaml
 {{< /text >}}
 
 ### Hosted Kubernetes settings
@@ -105,7 +121,7 @@ The following table shows the required settings for many common Kubernetes envir
 
 | Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `--set values.cni.cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
 | IKS (IBM cloud) | _(none)_ | _(none)_ |
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
@@ -121,11 +137,11 @@ The following table shows the required settings for many common Kubernetes envir
     For existing clusters, this redeploys all nodes.
     {{< /warning >}}
 
-1.  Install Istio CNI via Helm including the `--set cniBinDir=/home/kubernetes/bin` option.
-    For example, the following `helm install` command sets the `cniBinDir` value for a GKE cluster:
+1.  Install Istio CNI via `Istioctl` including the `--set cniBinDir=/home/kubernetes/bin` option.
+    For example, the following `istioctl manifest` command sets the `cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system --set cniBinDir=/home/kubernetes/bin
+    $ istioctl manifest apply --set cniBinDir=/home/kubernetes/bin
     {{< /text >}}
 
 ## Sidecar injection compatibility
@@ -182,7 +198,7 @@ application pod annotation key.
 |----------------|--------|---------|-------------|
 | `sidecar.istio.io/inject` | `true`, `false` | `true` | Indicates whether the Istio proxy sidecar should be injected. If present and `false`, the Istio CNI plugin doesn't configure the namespace's iptables for the pod. |
 | `sidecar.istio.io/status` | | | Annotation created by Istio's sidecar injection. If missing, the Istio CNI plugin doesn't configure the pod namespace's iptables. |
-| `sidecar.istio.io/interceptionMode`| `REDIRECT`, `TPROXY` | `REDIRECT` | The iptables redirect mode to use. |
+| `sidecar.istio.io/interceptionMode` | `REDIRECT`, `TPROXY` | `REDIRECT` | The iptables redirect mode to use. |
 | `traffic.sidecar.istio.io/includeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | `"*"` | Comma separated list of IP ranges in CIDR form to redirect to the sidecar proxy.  The default value of `"*"` redirects all traffic. |
 | `traffic.sidecar.istio.io/excludeOutboundIPRanges` | `<IPCidr1>,<IPCidr2>,...` | | Comma separated list of IP ranges in CIDR form to be excluded from redirection.  Only applies when `includeOutboundIPRanges` is `"*"`. |
 | `traffic.sidecar.istio.io/includeInboundPorts` | `<port1>,<port2>,...` | Pod's list of `containerPorts` | Comma separated list of inbound ports for which traffic is to be redirected to the Istio proxy sidecar.  The value of `"*"` redirects all ports. |

@@ -10,7 +10,7 @@ keywords: [kubernetes,multicluster]
 This guide describes how to configure an Istio mesh that includes multiple Kubernetes clusters using a simplified experimental approach.
 We hope to continue developing this functionality in coming releases, so we'd love your feedback on the overall flow.
 
-We focus here on the details of getting a multicluster mesh wired up, refer to [multicluster deployment model](/docs/ops/prep/deployment-models/#multiple-clusters) for
+We focus here on the details of getting a multicluster mesh wired up, refer to [multicluster deployment model](/docs/ops/deployment/deployment-models/#multiple-clusters) for
 additional background information. We'll show how to connect two clusters that are on the same network together, along
 with a third cluster that's on a different network.
 

@@ -53,7 +53,7 @@ Istio 1.1 introduces new features and optimizations to help harden the service m
 
 ## Useful links
 
-* [Istio Service Mesh Performance (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), by Surya Duggirala, Laurent Demailly and Fawad Khaliq at Kubecon Europe 2018
+* [Istio Service Mesh Performance (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), by Surya Duggirala, Laurent Demailly and Fawad Khaliq at KubeCon Europe 2018
 * [Istio Performance and Scalability discussion forum](https://discuss.istio.io/c/performance-and-scalability)
 
 ## Disclaimer

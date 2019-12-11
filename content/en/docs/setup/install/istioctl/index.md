@@ -24,7 +24,7 @@ Before you begin, check the following prerequisites:
 
 1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/ops/prep/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
 ## Install Istio using the default profile
 
@@ -47,6 +47,27 @@ security related configuration parameters:
 {{< text bash >}}
 $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
+
+In general, you can use the `--set` flag in `istioctl` as you would with
+[Helm](/docs/setup/install/helm/). The only difference is you must
+prefix the setting paths with `values.` because this is the path to the Helm pass-through API, described below.
+
+## Install from external charts
+
+By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
+`istioctl` for auditing and customization purposes and can be found in the release tar in the
+`install/kubernetes/operator/charts` directory.
+`istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
+`installPackagePath` to a local file system path:
+
+{{< text bash >}}
+$ istioctl manifest apply --set installPackagePath=~/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
+{{< /text >}}
+
+If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl manifest apply` alone, because it points to the
+same charts as the compiled-in ones.
+Other than for experimenting with or testing new features, we recommend using the compiled-in charts rather than external ones to ensure compatibility of the
+`istioctl` binary with the charts.
 
 ## Install a different profile
 
@@ -137,9 +158,7 @@ which is useful for checking the effects of customizations before applying chang
 You can show differences between the default and demo profiles using these commands:
 
 {{< text bash >}}
-$ istioctl profile dump default > 1.yaml
-$ istioctl profile dump demo > 2.yaml
-$ istioctl profile diff 1.yaml 2.yaml
+$ istioctl profile diff <(istioctl profile dump default) <(istioctl profile dump demo)
  gateways:
    components:
      egressGateway:

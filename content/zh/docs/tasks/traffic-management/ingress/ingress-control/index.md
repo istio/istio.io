@@ -40,9 +40,9 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 选择符合自身环境的指令执行：
 
-{{< tabset cookie-name="gateway-ip" >}}
+{{< tabset category-name="gateway-ip" >}}
 
-{{< tab name="external load balancer" cookie-value="external-lb" >}}
+{{< tab name="external load balancer" category-value="external-lb" >}}
 
 若已确定自身环境使用了外部负载均衡器，执行如下指令。
 
@@ -67,7 +67,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /tab >}}
 
-{{< tab name="node port" cookie-value="node-port" >}}
+{{< tab name="node port" category-value="node-port" >}}
 
 若自身环境未使用外部负载均衡器，需要通过 node port 访问。执行如下命令。
 
@@ -116,7 +116,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 {{< /tabset >}}
 
-## 使用一个 Istio Gateway 配置 ingress{#configuring-ingress-using-an-mesh-gateway}
+## 使用一个 Istio Gateway 配置 ingress{#configuring-ingress-using-an-Istio-gateway}
 
 一个 ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述一个运行在网格边界的负载均衡器，负责接收入口 HTTP/TCP 连接。
 其中配置了对外暴露的端口、协议等。

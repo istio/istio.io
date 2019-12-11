@@ -35,9 +35,13 @@ and then further customize the configuration for your specific needs.
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/ops/prep/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm#install) with a version higher than 2.10.
+
+    {{< warning >}}
+    Use a 2.x version of Helm. Helm 3 is not supported.
+    {{< /warning >}}
 
 ## Helm chart release repositories
 
@@ -94,9 +98,9 @@ deployed and you don't want to install it.
     [Installation Options](/docs/reference/config/installation-options/) to the helm command.
     {{< /tip >}}
 
-{{< tabset cookie-name="helm_profile" >}}
+{{< tabset category-name="helm_profile" >}}
 
-{{< tab name="default" cookie-value="default" >}}
+{{< tab name="default" category-value="default" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
@@ -104,7 +108,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="demo" cookie-value="demo" >}}
+{{< tab name="demo" category-value="demo" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -113,7 +117,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="minimal" cookie-value="minimal" >}}
+{{< tab name="minimal" category-value="minimal" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -122,7 +126,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="sds" category-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -131,7 +135,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="Mutual TLS enabled" cookie-value="mtls" >}}
+{{< tab name="Mutual TLS enabled" category-value="mtls" >}}
 
 Enable mutual TLS in Istio by setting options `global.controlPlaneSecurityEnabled=true`
 and `global.mtls.enabled=true`, in addition to the specifying the Helm values file
@@ -148,7 +152,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" category-value="cni" >}}
 
 Install the [Istio CNI](/docs/setup/additional-setup/cni/) components:
 
@@ -206,9 +210,9 @@ to manage the lifecycle of Istio.
     [Installation Options](/docs/reference/config/installation-options/) to the helm command.
     {{< /tip >}}
 
-{{< tabset cookie-name="helm_profile" >}}
+{{< tabset category-name="helm_profile" >}}
 
-{{< tab name="default" cookie-value="default" >}}
+{{< tab name="default" category-value="default" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
@@ -216,7 +220,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="demo" cookie-value="demo" >}}
+{{< tab name="demo" category-value="demo" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -225,7 +229,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="minimal" cookie-value="minimal" >}}
+{{< tab name="minimal" category-value="minimal" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -234,7 +238,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="sds" category-value="sds" >}}
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -243,7 +247,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="Mutual TLS enabled" cookie-value="mtls" >}}
+{{< tab name="Mutual TLS enabled" category-value="mtls" >}}
 
 Enable mutual TLS in Istio by setting options `global.controlPlaneSecurityEnabled=true`
 and `global.mtls.enabled=true`, in addition to the specifying the Helm values file
@@ -260,7 +264,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" category-value="cni" >}}
 
 Install the [Istio CNI](/docs/setup/additional-setup/cni/) chart:
 
@@ -299,9 +303,9 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 - If you installed Istio using the `helm template` command, uninstall with these commands:
 
-{{< tabset cookie-name="helm_profile" >}}
+{{< tabset category-name="helm_profile" >}}
 
-{{< tab name="default" cookie-value="default" >}}
+{{< tab name="default" category-value="default" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl delete -f -
@@ -310,7 +314,7 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="demo" cookie-value="demo" >}}
+{{< tab name="demo" category-value="demo" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -320,7 +324,7 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="minimal" cookie-value="minimal" >}}
+{{< tab name="minimal" category-value="minimal" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -330,7 +334,7 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="sds" cookie-value="sds" >}}
+{{< tab name="sds" category-value="sds" >}}
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
@@ -340,13 +344,13 @@ $ kubectl delete namespace istio-system
 
 {{< /tab >}}
 
-{{< tab name="Mutual TLS enabled" cookie-value="mtls" >}}
+{{< tab name="Mutual TLS enabled" category-value="mtls" >}}
 
 Follow the instructions corresponding to your selected configuration profile.
 
 {{< /tab >}}
 
-{{< tab name="Istio CNI enabled" cookie-value="cni" >}}
+{{< tab name="Istio CNI enabled" category-value="cni" >}}
 
 Follow the instructions corresponding to your selected configuration profile
 and then execute the following command to uninstall the CNI plug-in:

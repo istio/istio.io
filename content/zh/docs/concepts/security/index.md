@@ -14,16 +14,16 @@ aliases:
 将单一应用程序分解为微服务可提供各种好处，包括更好的灵活性、可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：
 
 - 为了抵御中间人攻击，需要流量加密。
+
 - 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略。
+
 - 要审核谁在什么时候做了什么，需要审计工具。
 
 Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。
 
 本页概述了如何使用 Istio 的安全功能来保护您的服务，无论您在何处运行它们。特别是 Istio 安全性可以缓解针对您的数据、端点、通信和平台的内部和外部威胁。
 
-{{< image width="80%" link="overview.svg"
-    caption="Istio 安全概述"
-    >}}
+{{< image width="80%" link="./overview.svg" caption="Istio 安全概述" >}}
 
 Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密以及用于保护您的服务和数据的身份验证，授权和审计（AAA）工具。 Istio 安全的目标是：
 
@@ -33,7 +33,7 @@ Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密
 
 - **零信任网络**： 在不受信任的网络上构建安全解决方案
 
-请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/mtls-migration/)相关文章，开始在部署的服务中使用 Istio 安全功能。
+请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration/)相关文章，开始在部署的服务中使用 Istio 安全功能。
 请访问我们的[安全任务](/zh/docs/tasks/security/)，以获取有关使用安全功能的详细说明。
 
 ## 高级架构{#high-level-architecture}
@@ -72,7 +72,7 @@ Istio 中的安全性涉及多个组件：
 
 - **AWS**： AWS IAM 用户/角色 帐户
 
-- **On-premises（非 Kubernetes）**： 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
+- **本地（非 Kubernetes）**： 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
 
 自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 
@@ -143,71 +143,6 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 使用节点代理调试端点可以查看节点代理当前正在为其客户端代理提供服务的  secrets。访问代理程序端口 `8080` 上的 `/debug/sds/workload` 以获取当前工作负载 secrets，或访问 `/debug/sds/gateway` 以获取当前网关 secrets。
 {{< /idea >}}
 
-## 最佳实践{#best-practices}
-
-在本节中，我们提供了一些部署指南并讨论了一个真实的场景。
-
-### 部署指南{#deployment-guidelines}
-
-如果有多个服务运维团队（又名 [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在中型或大型集群中部署不同的服务，我们建议创建一个单独的 [Kubernetes 命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)让每个 SRE 团队隔离他们的访问权限。例如，您可以为 `team1` 创建 `team1-ns` 命名空间，为 `team2` 创建 `team2-ns` 命名空间，这样两个团队都无法访问彼此的服务。
-
-{{< warning >}}
-如果 Citadel 遭到入侵，则可能会暴露集群中的所有托管密钥和证书。我们**强烈**建议在专用命名空间中运行 Citadel（例如，`istio-citadel-ns`），以便仅限管理员访问群集。
-{{< /warning >}}
-
-### 示例{#example}
-
-让我们考虑一个带有三种服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。照片 SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而数据存储 SRE 团队管理 `datastore` 服务。 `photo-frontend` 服务可以访问 `photo-backend`，`photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
-
-在这种情况下，集群管理员创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员可以访问所有命名空间，每个团队只能访问自己的命名空间。照片 SRE 团队创建了两个服务帐户，分别在 `photo-ns` 命名空间中运行 `photo-frontend` 和 `photo-backend`。数据存储区 SRE 团队创建一个服务帐户，以在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，使得 `photo-frontend` 无法访问数据存储区。
-
-在此设置中，Kubernetes 可以隔离运营商管理服务的权限。 Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。
-
-### Citadel 如何确定是否创建了服务帐户 secrets（Service Account secrets）{#how-citadel-determines-whether-to-create-service-account-secrets}
-
-当 Citadel 实例注意到 `ServiceAccount` 在命名空间中创建了 a 时，它必须决定是否应该 `istio.io/key-and-cert` 为此生成一个 `ServiceAccount` secret，为了做出决定，Citadel 考虑了三个输入内容（请注意：单个群集中可以部署多个 Citadel 实例，并且以下规则应用于每个实例）：
-
-1. `ca.istio.io/env` 命名空间标签：包含所需 Citadel 实例的命名空间的*字符串值*标签
-
-1. `ca.istio.io/override` 命名空间标签：*布尔值*标签，它将覆盖所有其他配置，并强制所有 Citadel 实例定位或忽略命名空间
-
-1. [`enableNamespacesByDefault` 安全配置](/zh/docs/reference/config/installation-options/#security-options)：如果在 ServiceAccount 的命名空间上未找到标签，则为默认行为
-
-从这三个值中，过程详细的反映的策略行为是：[`Sidecar 注入 Webhook`](/zh/docs/ops/setup/injection-concepts/)
-
-- 如果 `ca.istio.io/override` 存在且为 true，则为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/override` 存在且为 false，则不要为工作负载生成密钥/证书 secrets。
-- 否则，如果 `ca.istio.io/env: "ns-foo"` 在服务帐户的命名空间中定义了标签，则命名空间中的 Citadel 实例 ns-foo 将用于为命名空间中的工作负载生成密钥/证书 secrets ServiceAccount。
-- 否则，请遵循 `enableNamespacesByDefault` Helm flag，如果为true，则默认Citadel 实例将用于为 ServiceAccount 的命名空间中的工作负载生成密钥/证书 secrets。
-- 否则，不会为 ServiceAccount 的命名空间创建任何 secret。
-
-以下表格捕获了此逻辑：
-
-| `ca.istio.io/override` value | `ca.istio.io/env` match | `enableNamespacesByDefault` configuration | 已经创建的 Workload secret |
-|------------------------------|-------------------------|-------------------------------------------|-------------------------|
-|`true`|yes|`true`|yes|
-|`true`|yes|`false`|yes|
-|`true`|no|`true`|yes|
-|`true`|no|`false`|yes|
-|`true`|unset|`true`|yes|
-|`true`|unset|`false`|yes|
-|`false`|yes|`true`|no|
-|`false`|yes|`false`|no|
-|`false`|no|`true`|no|
-|`false`|no|`false`|no|
-|`false`|unset|`true`|no|
-|`false`|unset|`false`|no|
-|unset|yes|`true`|yes|
-|unset|yes|`false`|yes|
-|unset|no|`true`|no|
-|unset|no|`false`|no|
-|unset|unset|`true`|yes|
-|unset|unset|`false`|no|
-
-{{< idea >}}
-当命名空间从 _disabled_ 变成 _enabled_ 时，Citadel 将为该命名空间中的所有 `ServiceAccounts` 追溯生成 secrets。 但是从 _enabled_ 变成 _disabled_ 时，Citadel 将不会删除命名空间已经生成的 secrets，除非更新根证书才会重新更新 secrets。
-{{< /idea >}}
-
 ## 认证{#authentication}
 
 Istio 提供两种类型的身份验证：
@@ -230,7 +165,7 @@ Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代
 
 1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
 
-1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还做了[安全命名](/docs/concepts/security/#secure-naming)检查，以验证服务器证书中显示的服务帐户是否被授权运行到目标服务。
+1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，以验证服务器证书中显示的服务帐户是否被授权运行到目标服务。
 
 1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
 
@@ -242,7 +177,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 在运维人员希望将服务移植到启用了双向 TLS 的 Istio 上时，许多非 Istio 客户端和非 Istio 服务端通信时会产生问题。通常情况下，运维人员无法同时为所有客户端安装 Istio sidecar，甚至没有这样做的权限。即使在服务端上安装了 Istio sidecar，运维人员也无法在不中断现有连接的情况下启用双向 TLS。
 
-启用宽容模式后，服务同时接受纯文本和双向 TLS 流量。这个模式为入门提供了极大的灵活性。服务中安装的 Istio sidecar 立即接受双向 TLS 流量而不会打断现有的纯文本流量。因此，运维人员可以逐步安装和配置客户端 Istio sidecars 发送双向 TLS 流量。一旦客户端配置完成，运维人员便可以将服务端配置为仅 TLS 模式。更多信息请访问[双向 TLS 迁移向导](/zh/docs/tasks/security/mtls-migration)。
+启用宽容模式后，服务同时接受纯文本和双向 TLS 流量。这个模式为入门提供了极大的灵活性。服务中安装的 Istio sidecar 立即接受双向 TLS 流量而不会打断现有的纯文本流量。因此，运维人员可以逐步安装和配置客户端 Istio sidecars 发送双向 TLS 流量。一旦客户端配置完成，运维人员便可以将服务端配置为仅 TLS 模式。更多信息请访问[双向 TLS 迁移向导](/zh/docs/tasks/security/authentication/mtls-migration)。
 
 #### 安全命名{#secure-naming}
 
@@ -390,7 +325,7 @@ principalBinding: USE_ORIGIN
 
 您可以随时更改身份认证策略，Istio 几乎实时地将更改推送到端点。但是，Istio 无法保证所有端点同时收到新策略。以下是在更新身份认证策略时避免中断的建议：
 
-- 启用或禁用双向 TLS：使用带有 `mode:` 键和 `PERMISSIVE` 值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[双向 TLS 的迁移](/zh/docs/tasks/security/mtls-migration)。
+- 启用或禁用双向 TLS：使用带有 `mode:` 键和 `PERMISSIVE` 值的临时策略。这会将接收服务配置为接受两种类型的流量：纯文本和 TLS。因此，不会丢弃任何请求。一旦所有客户端切换到预期协议，无论是否有双向 TLS，您都可以将 `PERMISSIVE` 策略替换为最终策略。有关更多信息，请访问[双向 TLS 的迁移](/zh/docs/tasks/security/authentication/mtls-migration)。
 
 {{< text yaml >}}
 peers:
@@ -402,282 +337,275 @@ peers:
 
 ## 授权{#authorization}
 
-Istio 的授权功能也称为基于角色的访问控制（RBAC）——为 Istio 网格中的服务提供命名空间级别、服务级别和方法级别的访问控制。它的特点是：
+Istio 的授权功能为 Istio 网格中的工作负载提供网格级别、命名空间级别和工作负载级别的访问控制。它提供了：
 
-- **基于角色的语义**，简单易用。
-- **服务间和最终用户对服务的授权**。
-- **通过自定义属性支持的灵活性**，例如条件、角色和角色绑定。
+- **工作负载间和最终用户到工作负载的授权**。
+- **一个简单的 API**，它包括一个单独的并且很容易使用和维护的 [`AuthorizationPolicy` CRD](/zh/docs/reference/config/security/authorization-policy/)。
+- **灵活的语义**，运维人员可以在 Istio 属性上自定义条件。
 - **高性能**，因为 Istio 授权是在 Envoy 本地强制执行的。
 - **高兼容性**，原生支持 HTTP、HTTPS 和 HTTP2，以及任意普通 TCP 协议。
 
 ### 授权架构{#authorization-architecture}
 
-{{< image width="90%"  link="./authz.svg" alt="Istio Authorization" caption="Istio 授权架构" >}}
+{{< image width="90%"  link="./authz.svg"
+    alt="Istio 授权"
+    caption="Istio 授权架构"
+    >}}
 
-上图显示了基本的 Istio 授权架构。运维人员使用 `.yaml` 文件指定 Istio 授权策略。部署后，Istio 将策略保存在 `Istio Config Store` 中。
-
-Pilot 监督 Istio 授权策略的变更。如果发现任何更改，它将获取更新的授权策略。Pilot 将 Istio 授权策略分发给与服务实例位于同一位置的 Envoy 代理。
+上图显示了基本的 Istio 授权架构。运维人员使用 `.yaml` 文件指定 Istio 授权策略。
 
 每个 Envoy 代理都运行一个授权引擎，该引擎在运行时授权请求。当请求到达代理时，授权引擎根据当前授权策略评估请求上下文，并返回授权结果 `ALLOW` 或 `DENY`。
 
-### 启用授权{#enabling-authorization}
+### 隐式启用{#implicit-enablement}
 
-您可以使用 `RbacConfig` 对象启用 Istio Authorization。`RbacConfig` 对象是一个网格范围的单例，其固定名称值为 `default`。您只能在网格中使用一个 `RbacConfig` 实例。与其他 Istio 配置对象一样，`RbacConfig` 被定义为 Kubernetes `CustomResourceDefinition` [（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 对象。
+无需显式启用 Istio 的授权功能，只需在**工作负载**上应用 `AuthorizationPolicy` 即可实现访问控制。
 
-在 `RbacConfig` 对象中，运算符可以指定 `mode` 值，它可以是：
+如果没有对工作负载应用 `AuthorizationPolicy`，则不会执行访问控制，也就是说，将允许所有请求。
 
-- **`OFF`**：禁用 Istio 授权。
-- **`ON`**：为网格中的所有服务启用了 Istio 授权。
-- **`ON_WITH_INCLUSION`**：仅对`包含`字段中指定的服务和命名空间启用 Istio 授权。
-- **`ON_WITH_EXCLUSION`**：除了`排除`字段中指定的服务和命名空间外，网格中的所有服务都启用了 Istio 授权。
+如果有任何 `AuthorizationPolicy` 应用到工作负载，则默认情况下将拒绝对该工作负载的访问，除非策略中声明的规则明确允许了。
 
-在以下示例中，为 `default` 命名空间启用了 Istio 授权。
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ClusterRbacConfig
-metadata:
-  name: default
-spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-{{< /text >}}
+目前，`AuthorizationPolicy` 仅支持 `ALLOW` 动作。
+这意味着，如果将多个授权策略应用于同一工作负载，它们的效果是累加的。
 
 ### 授权策略{#authorization-policy}
 
-要配置 Istio 授权策略，请指定 `ServiceRole` 和 `ServiceRoleBinding`。与其他 Istio 配置对象一样，它们被定义为 Kubernetes `CustomResourceDefinition`（[CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)）对象。
+要配置 Istio 授权策略，请创建一个 [`AuthorizationPolicy` resource](/zh/docs/reference/config/security/authorization-policy/)。
 
-- **`ServiceRole`** 定义了一组访问服务的权限。
-- **`ServiceRoleBinding`** 向特定主题授予 `ServiceRole`，例如用户、组或服务。
+授权策略包括选择器和规则列表。
+选择器指定策略所适用的**目标**，而规则指定什么**条件**下允许**谁**做**什么**。
+具体来说：
 
-`ServiceRole` 和 `ServiceRoleBinding` 的组合规定：允许**谁**在**哪些条件**下**做什么** 。明确地说：
+- **目标** 请参考 `AuthorizationPolicy` 中的 `selector` 部分。
+- **谁** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `from` 部分。
+- **什么** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `to` 部分。
+- **条件** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `when` 部分。
 
-- **谁**指的是 `ServiceRoleBinding` 中的 `subject` 部分。
-- **做什么**指的是 `ServiceRole` 中的 `permissions` 部分。
-- **哪些条件**指的是你可以在 `ServiceRole` 或 `ServiceRoleBinding` 中使用 [Istio 属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)指定的 `conditions` 部分。
+每个规则都有以下标准字段：
 
-#### `ServiceRole`{#service-role}
+- **`from`**：来源列表。
+- **`to`**：操作列表。
+- **`when`**：自定义条件列表。
 
-`ServiceRole` 规范包括`规则`、所谓的权限列表。每条规则都有以下标准字段：
-
-- **`services`**：服务名称列表。您可以将值设置为 `*` 以包括指定命名空间中的所有服务。
-
-- **`methods`**：HTTP 方法名称列表，对于 gRPC 请求的权限，HTTP 动词始终是 `POST`。您可以将值设置为 `*` 以包含所有 HTTP 方法。
-
-- **`paths`**：HTTP 路径或 gRPC 方法。gRPC 方法必须采用 `/packageName.serviceName/methodName` 的形式，并且区分大小写。
-
-`ServiceRole` 规范仅适用于 `metadata` 部分中指定的命名空间。规则中需要 `services` 和 `methods` 字段。`paths` 是可选的。如果未指定规则或将其设置为 `*`，则它适用于任何实例。
-
-下面的示例显示了一个简单的角色：`service-admin`，它可以完全访问 `default` 命名空间中的所有服务。
+下例显示了一个 `AuthorizationPolicy`，它允许两个来源（服务帐户 `cluster.local/ns/default/sa/sleep` 和命名空间 `dev`）在使用有效的 JWT 令牌发送请求时，可以访问命名空间 foo 中的带有标签 `app: httpbin` 和 `version: v1` 的工作负载。
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: service-admin
-  namespace: default
+ name: httpbin
+ namespace: foo
 spec:
-  rules:
-  - services: ["*"]
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/sleep"]
+   - source:
+       namespaces: ["dev"]
+   to:
+   - operation:
+       methods: ["GET"]
+   when:
+   - key: request.auth.claims[iss]
+     values: ["https://accounts.google.com"]
 {{< /text >}}
 
-这是另一个角色：`products-viewer`，它有读取权限，包括 `GET` 和 `HEAD`，能够访问 `default` 命名空间中的 `products.default.svc.cluster.local` 服务。
+#### 策略目标{#policy-target}
+
+策略范围（目标）由 `metadata/namespace` 和可选的 `selector` 确定。
+
+`metadata/namespace` 告诉该策略适用于哪个命名空间。如果设置为根命名空间，则该策略将应用于网格中的所有命名空间。根命名空间的值是可配置的，默认值为 `istio-system`。
+如果设置为普通命名空间，则该策略将仅适用于指定的命名空间。
+
+工作负载 `selector` 可用于进一步限制策略的应用范围。
+`selector` 使用 pod 标签来选择目标工作负载。
+工作负载选择器包含 `{key: value}` 对的列表，其中 `key` 是标签的名称。
+如果未设置，则授权策略将应用于与授权策略相同的命名空间中的所有工作负载。
+
+以下示例策略 `allow-read` 允许对 `default` 命名空间中带有标签 `app: products` 的工作负载的 `"GET"` 和 `"HEAD"` 访问。
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: products-viewer
+  name: allow-read
   namespace: default
 spec:
+  selector:
+    matchLabels:
+      app: products
   rules:
-  - services: ["products.default.svc.cluster.local"]
-    methods: ["GET", "HEAD"]
+  - to:
+    - operation:
+         methods: ["GET", "HEAD"]
 {{< /text >}}
 
-此外，我们支持规则中所有字段的前缀匹配和后缀匹配。例如，您可以在 `default`命名空间中定义具有以下权限的 `tester` 角色：
+#### 值匹配{#value-matching}
 
-- 完全访问前缀为 `test-*` 的所有服务，例如：`test-bookstore`、`test-performance`、`test-api.default.svc.cluster.local`。
-- 读取（`GET`）使用 `*/reviews` 后缀访问的所有路径，例如：在 `bookstore .default.svc.cluster.local` 服务中的 `/books/reviews`、`/events/booksale/reviews`、`/reviews`。
+大部分字段都支持完全匹配、前缀匹配、后缀匹配和存在匹配，但有一些例外情况（例如，`when` 部分下的`key` 字段，`source` 部分下的 `ipBlocks` 和 `to` 部分下的 `ports` 字段仅支持完全匹配）。
+
+- **完全匹配**。即完整的字符串匹配。
+- **前缀匹配**。`"*"` 结尾的字符串。例如，`"test.abc.*"` 匹配 `"test.abc.com"`、`"test.abc.com.cn"`、`"test.abc.org"` 等等。
+- **后缀匹配**。`"*"` 开头的字符串。例如，`"*.abc.com"` 匹配 `"eng.abc.com"`、`"test.eng.abc.com"` 等等。
+- **存在匹配**。`*` 用于指定非空的任意内容。您可以使用格式 `fieldname: ["*"]` 指定必须存在的字段。
+这意味着该字段可以匹配任意内容，但是不能为空。请注意这与不指定字段不同，后者意味着包括空的任意内容。
+
+以下示例策略允许访问前缀为 `"/test/"` 或后缀为 `"/info"` 的路径。
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: tester
   namespace: default
 spec:
+  selector:
+    matchLabels:
+      app: products
   rules:
-  - services: ["test-*"]
-    methods: ["*"]
-  - services: ["bookstore.default.svc.cluster.local"]
-    paths: ["*/reviews"]
-    methods: ["GET"]
+  - to:
+    - operation:
+        paths: ["/test/*", "*/info"]
 {{< /text >}}
 
-在 `ServiceRole` 中，`namespace` + `services` + `paths` + `methods` 的组合定义了**如何访问服务**。在某些情况下，您可能需要为规则指定其他条件。例如，规则可能仅适用于服务的某个**版本**，或仅适用于具有特定**标签**的服务，如 `foo`。您可以使用 `constraints` 轻松指定这些条件。
+#### 全部允许和全部拒绝{#allow-all-and-deny-all}
 
-例如，下面的 `ServiceRole` 定义在以前的 `products-viewer` 角色基础之上添加了一个约束：`request.headers[version]` 为 `v1` 或 `v2`。在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中列出了约束支持的 `key` 值。在属性值是 `map` 类型的情况下，例如 `request.headers`，`key` 是 map 中的一个条目，例如 `request.headers[version]`。
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
-metadata:
-  name: products-viewer-version
-  namespace: default
-spec:
-  rules:
-  - services: ["products.default.svc.cluster.local"]
-    methods: ["GET", "HEAD"]
-    constraints:
-    - key: request.headers[version]
-      values: ["v1", "v2"]
-{{< /text >}}
-
-#### `ServiceRoleBinding`{#service-role-binding}
-
-`ServiceRoleBinding` 规范包括两部分：
-
-- **`roleRef`** 指的是同一命名空间中的 `ServiceRole` 资源。
-- **`subjects`** 分配给角色的列表。
-
-您可以使用 `user` 或一组 `properties` 显式指定 *subject*。`ServiceRoleBinding` *subject* 中的 *property* 类似于 `ServiceRole` 规范中的 *constraint*。 *property* 还允许您使用条件指定分配给此角色的一组帐户。它包含一个 `key` 及其允许的*值*。约束支持的 `key` 值列在[约束和属性页面](/zh/docs/reference/config/authorization/constraints-and-properties/)中。
-
-下面的例子显示了一个名为 `test-binding-products` 的 `ServiceRoleBinding`，它将两个 `subject` 绑定到名为 `product-viewer` 的 `ServiceRole` 并具有以下 `subject`
-
-- 代表服务 **a** 的服务帐户，`service-account-a`。
-- 代表 Ingress 服务的服务帐户 `istio-ingress-service-account` **并且** 它的 JWT 中的 `mail` 项声明为 `a@foo.com`。
+下例展示了一个简单的策略 `allow-all`，它允许到 `default` 命名空间的所有工作负载的全部访问。
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: test-binding-products
-  namespace: default
-spec:
-  subjects:
-  - user: "service-account-a"
-  - user: "istio-ingress-service-account"
-    properties:
-      request.auth.claims[email]: "a@foo.com"
-    roleRef:
-    kind: ServiceRole
-    name: "products-viewer"
-{{< /text >}}
-
-如果您想要公开访问服务，可以将 `subject` 设置为 `user："*"` 。此值将 `ServiceRole` 分配给**所有（经过身份验证和未经身份验证的）**用户和服务，例如：
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: binding-products-allusers
-  namespace: default
-spec:
-  subjects:
-  - user: "*"
-    roleRef:
-    kind: ServiceRole
-    name: "products-viewer"
-{{< /text >}}
-
-要将 `ServiceRole` 分配给**经过身份验证的**用户和服务，请使用 `source.principal："*"` 代替，例如：
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: binding-products-all-authenticated-users
-  namespace: default
-spec:
-  subjects:
-  - properties:
-      source.principal: "*"
-  roleRef:
-    kind: ServiceRole
-    name: "products-viewer"
-{{< /text >}}
-
-### 在普通 TCP 协议上使用 Istio 认证{#using-Istio-authorization-on-plain-TCP-protocols}
-
-[Service role](#service-role) 和 [Service role binding](#service-role-binding) 中的例子展示了在使用 HTTP 协议的 service 上使用 Istio 认证的典型方法。在那些例子中，service role 和 service role binding 里的所有字段都可以支持。
-
-Istio 授权支持使用任何普通 TCP 协议的 service，例如 MongoDB。在这种情况下，您可以像配置 HTTP 服务一样配置 service role 和 service role binding。不同之处在于某些字段，约束和属性仅适用于 HTTP 服务。这些字段包括：
-
-- service role 配置对象中的 `paths` 和 `methods` 字段。
-- service role binding 配置对象中的 `group` 字段。
-
-支持的约束和属性在[约束和属性页面](
-/zh/docs/reference/config/authorization/constraints-and-properties/)中列出。
-
-如果您在 TCP service 中使用了任意 HTTP 独有的字段，Istio 将会完全忽略 service role 或 service role binding 自定义资源，以及里面设置的策略。
-
-假设您有一个 MongoDB service 在 27017 端口上监听，下面的示例配置了一个 service role 和一个 service role binding，仅允许 Istio 网格中的 `bookinfo-ratings-v2` 访问 MongoDB service。
-
-{{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRole
-metadata:
-  name: mongodb-viewer
+  name: allow-all
   namespace: default
 spec:
   rules:
-  - services: ["mongodb.default.svc.cluster.local"]
-    constraints:
-    - key: "destination.port"
-      values: ["27017"]
----
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
-metadata:
-  name: bind-mongodb-viewer
-  namespace: default
-spec:
-  subjects:
-  - user: "cluster.local/ns/default/sa/bookinfo-ratings-v2"
-  roleRef:
-    kind: ServiceRole
-    name: "mongodb-viewer"
+  - {}
 {{< /text >}}
 
-### 授权宽容模式{#authorization-permissive-mode}
-
-授权宽容模式（authorization permissive mode）是 Istio 1.1 发布版中的实验特性。其接口可能在未来的发布中发生变化。
-
-授权宽容模式允许您在将授权策略提交到生产环境部署之前对其进行验证。
-
-您可以在全局授权配置和单个独立策略中启用授权宽容模式。如果在全局授权配置中设置，所有策略都将切换至授权宽容模式，不管其本身的模式。如果您设置全局授权模式为 ENFORCED，单个策略设置的强制模式将起作用。如果您没有设置任何模式，全局授权配置和单个策略都将默认被设置为 ENFORCED。
-
-要全局启用宽容模式，请将全局 Istio RBAC 授权配置中的 `enforcement_mode：` 设置为 PERMISSIVE，如下面的示例所示。
+下例展示了一个简单的策略 `deny-all`，它拒绝对 `admin` 命名空间的所有工作负载的任意访问。
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ClusterRbacConfig
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: default
+  name: deny-all
+  namespace: admin
 spec:
-  mode: 'ON_WITH_INCLUSION'
-  inclusion:
-    namespaces: ["default"]
-  enforcement_mode: PERMISSIVE
+  {}
 {{< /text >}}
 
-如要为特定策略启用宽容模式，请将策略配置文件中的 `mode:` 设置为 `PERMISSIVE`，如下面的示例所示。
+#### 自定义条件{#custom-conditions}
+
+您还可以使用 `when` 部分指定其他条件。
+例如，下面的 `AuthorizationPolicy` 定义包括以下条件：`request.headers[version]` 是 `v1` 或 `v2`。
+在这种情况下，key 是 `request.headers[version]`，它是 Istio 属性 `request.headers`（是个字典）中的一项。
 
 {{< text yaml >}}
-apiVersion: "rbac.istio.io/v1alpha1"
-kind: ServiceRoleBinding
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: bind-details-reviews
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/sleep"]
+   to:
+   - operation:
+       methods: ["GET"]
+   when:
+   - key: request.headers[version]
+     values: ["v1", "v2"]
+{{< /text >}}
+
+[条件页面](/zh/docs/reference/config/security/conditions/)中列出了支持的条件 `key` 值。
+
+#### 认证与未认证身份{#authenticated-and-unauthenticated-identity}
+
+如果要使工作负载可公开访问，则需要将 `source` 部分留空。
+这允许来自**所有（经过身份验证和未经身份验证）**的用户和工作负载的源，例如：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - to:
+   - operation:
+       methods: ["GET", "POST"]
+{{< /text >}}
+
+要仅允许**经过身份验证**的用户，请将 `principal` 设置为 `"*"`，例如：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ rules:
+ - from:
+   - source:
+       principals: ["*"]
+   to:
+   - operation:
+       methods: ["GET", "POST"]
+{{< /text >}}
+
+### 在普通 TCP 协议上使用 Istio 授权{#using-Istio-authorization-on-plain-TCP-protocols}
+
+Istio 授权支持工作负载使用任意普通 TCP 协议，如 MongoDB。
+在这种情况下，您可以按照与 HTTP 工作负载相同的方式配置授权策略。
+不同之处在于某些字段和条件仅适用于 HTTP 工作负载。
+这些字段包括：
+
+- 授权策略对象 `source` 部分中的 `request_principals` 字段
+- 授权策略对象 `operation` 部分中的 `hosts`、`methods` 和 `paths` 字段
+
+ [条件页面](/zh/docs/reference/config/security/conditions/)中列出了支持的条件。
+
+如果您在授权策略中对 TCP 工作负载使用了任何只适用于 HTTP 的字段，Istio 将会忽略它们。
+
+假设您在端口 27017 上有一个 MongoDB 服务，下例配置了一个授权策略，只允许 Istio 网格中的 `bookinfo-ratings-v2` 服务访问该 MongoDB 工作负载。
+
+{{< text yaml >}}
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: mongodb-policy
   namespace: default
 spec:
-  subjects:
-    - user: "cluster.local/ns/default/sa/bookinfo-productpage"
-  roleRef:
-    kind: ServiceRole
-    name: "details-reviews-viewer"
-  mode: PERMISSIVE
+ selector:
+   matchLabels:
+     app: mongodb
+ rules:
+ - from:
+   - source:
+       principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
+   to:
+   - operation:
+       ports: ["27017"]
 {{< /text >}}
 
 ### 使用其他授权机制{#using-other-authorization-mechanisms}

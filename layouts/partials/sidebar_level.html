@@ -16,7 +16,7 @@
 {{ $leafSection := true }}
 {{ range $pages }}
     {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
-    {{ if eq $parentDir $pageLocation }}
+    {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
         {{ if not .IsPage }}
             {{ $leafSection = false }}
         {{ end }}
@@ -26,7 +26,7 @@
 <ul role="{{ if $top }}tree{{ else }}group{{ end }}" aria-expanded="{{ if $collapse }}false{{ else }}true{{ end }}"{{ if $leafSection }} class="leaf-section"{{ end }} {{ if $labelledby}}aria-labelledby="{{ $labelledby }}"{{ end }}>
     {{ range $pages }}
         {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
-        {{ if eq $parentDir $pageLocation }}
+        {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
             {{ $desc := .Description }}
 
             {{- if ne .PublishDate.Year 0001 -}}

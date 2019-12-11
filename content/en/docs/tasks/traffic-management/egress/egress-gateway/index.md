@@ -61,7 +61,7 @@ controlled way.
 The following instructions create a destination rule for the egress gateway in the `default` namespace
 and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
 If not, the destination rule will not be found on the
-[destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)
+[destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
 and the client requests will fail.
 
 {{< /warning >}}
@@ -118,11 +118,11 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -162,13 +162,13 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -194,7 +194,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
       subsets:
       - name: cnn
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
@@ -326,11 +326,11 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -405,13 +405,13 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
               number: 443
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -475,7 +475,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
               number: 443
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
@@ -663,11 +663,11 @@ external service.
     Choose the instructions corresponding to whether or not you have
     [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -687,13 +687,13 @@ external service.
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -704,7 +704,7 @@ external service.
       subsets:
       - name: cnn
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 

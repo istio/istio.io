@@ -31,5 +31,5 @@ This release includes bug fixes to improve robustness. This release note describ
 - **Added** annotations for Datadog tracing that controls extra features in sidecars.
 - **Added** the `pilot_xds_push_time` metric to report Pilot xDS push time.
 - **Added** `istioctl experimental analyze` to support multi-resource analysis and validation.
-- **Added** support for running metadata exchange and stats extensions in a WebAssembly sandbox. Follow [these](/docs/ops/telemetry/in-proxy-service-telemetry/) instructions to try it out.
+- **Added** support for running metadata exchange and stats extensions in a WebAssembly sandbox. Follow [these](/docs/ops/configuration/telemetry/in-proxy-service-telemetry/) instructions to try it out.
 - **Removed** time diff info in the proxy-status command.

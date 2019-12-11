@@ -10,7 +10,7 @@ target_release: 0.8
 
 Micro-segmentation is a security technique that creates secure zones in cloud deployments and allows organizations to
 isolate workloads from one another and secure them individually.
-[Istio's authorization feature](/docs/concepts/security/#authorization), also known as Istio Role Based Access Control,
+[Istio's authorization feature](/zh/docs/concepts/security/#authorization), also known as Istio Role Based Access Control,
 provides micro-segmentation for services in an Istio mesh. It features:
 
 * Authorization at different levels of granularity, including namespace level, service level, and method level.
@@ -18,7 +18,7 @@ provides micro-segmentation for services in an Istio mesh. It features:
 * High performance, as it is enforced natively on Envoy.
 * Role-based semantics, which makes it easy to use.
 * High flexibility as it allows users to define conditions using
-[combinations of attributes](/docs/reference/config/security/constraints-and-properties/).
+[combinations of attributes](/zh/docs/reference/config/security/constraints-and-properties/).
 
 In this blog post, you'll learn about the main authorization features and how to use them in different situations.
 
@@ -49,7 +49,7 @@ frontend service.
 duplicate configurations in multiple places and later forget to update some of them when you need to make changes.
 
 On the other hand, Istio's authorization system is not a traditional RBAC system. It also allows users to define **conditions** using
-[combinations of attributes](/docs/reference/config/security/constraints-and-properties/). This gives Istio
+[combinations of attributes](/zh/docs/reference/config/security/constraints-and-properties/). This gives Istio
 flexibility to express complex access control policies. In fact, **the "RBAC + conditions” model
 that Istio authorization adopts, has all the benefits an RBAC system has, and supports the level of flexibility that
 normally an ABAC system provides.** You'll see some [examples](#examples) below.
@@ -69,7 +69,7 @@ In addition to the primary identity, you can also specify any conditions that de
 you can specify the client identity as "user Alice calling from Bookstore frontend service”, in which case,
 you have a combined identity of the calling service (`Bookstore frontend`) and the end user (`Alice`).
 
-To improve security, you should enable [authentication features](/docs/concepts/security/#authentication),
+To improve security, you should enable [authentication features](/zh/docs/concepts/security/#authentication),
 and use authenticated identities in authorization policies. However, strongly authenticated identity is not required
 for using authorization. Istio authorization works with or without identities. If you are working with a legacy system,
 you may not have mutual TLS or JWT authentication setup for your mesh. In this case, the only way to identify the client is, for example,
@@ -77,9 +77,9 @@ through IP. You can still use Istio authorization to control which IP addresses 
 
 ## Examples
 
-The [authorization task](/docs/tasks/security/authorization/authz-http/) shows you how to
+The [authorization task](/zh/docs/tasks/security/authorization/authz-http/) shows you how to
 use Istio's authorization feature to control namespace level and service level access using the
-[Bookinfo application](/docs/examples/bookinfo/). In this section, you'll see more examples on how to achieve
+[Bookinfo application](/zh/docs/examples/bookinfo/). In this section, you'll see more examples on how to achieve
 micro-segmentation with Istio authorization.
 
 ### Namespace level segmentation via RBAC + conditions
@@ -143,7 +143,7 @@ spec:
 #### Using authenticated client identities
 
 Suppose you want to grant this `book-reader` role to your `bookstore-frontend` service. If you have enabled
-[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) for your mesh, you can use a
+[mutual TLS authentication](/zh/docs/concepts/security/#mutual-TLS-authentication) for your mesh, you can use a
 service account to identify your `bookstore-frontend` service. Granting the `book-reader` role to the `bookstore-frontend`
 service can be done by creating a `ServiceRoleBinding` as shown below:
 
@@ -163,7 +163,7 @@ spec:
 
 You may want to restrict this further by adding a condition that "only users who belong to the `qualified-reviewer` group are
 allowed to read books”. The `qualified-reviewer` group is the end user identity that is authenticated by
-[JWT authentication](/docs/concepts/security/#authentication). In this case, the combination of the client service identity
+[JWT authentication](/zh/docs/concepts/security/#authentication). In this case, the combination of the client service identity
 (`bookstore-frontend`) and the end user identity (`qualified-reviewer`) is used in the authorization policy.
 
 {{< text yaml >}}
@@ -210,5 +210,5 @@ Istio’s authorization feature provides authorization at namespace-level, servi
 It adopts "RBAC + conditions” model, which makes it easy to use and understand as an RBAC system, while providing the level of
 flexibility that an ABAC system normally provides. Istio authorization achieves high performance as it is enforced
 natively on Envoy. While it provides the best security by working together with
-[Istio authentication features](/docs/concepts/security/#authentication), Istio authorization can also be used to
+[Istio authentication features](/zh/docs/concepts/security/#authentication), Istio authorization can also be used to
 provide access control for legacy systems that do not have authentication.

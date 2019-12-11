@@ -18,12 +18,12 @@ architecture. One popular logging backend is
 end of this task, a new log stream will be enabled sending logs to an
 example Fluentd / Elasticsearch / Kibana stack.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used
+The [Bookinfo](/zh/docs/examples/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup/) in your cluster and deploy an
+* [Install Istio](/zh/docs/setup/) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
@@ -331,7 +331,7 @@ example stack.
 1.  Send traffic to the sample application.
 
     For the
-    [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
+    [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)
     sample, visit `http://$GATEWAY_URL/productpage` in your web browser
     or issue the following command:
 
@@ -383,5 +383,5 @@ example stack.
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/zh/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
