@@ -167,7 +167,7 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
 {{< /text >}}
 
-现在来 describe `reviews` 的 `v1` pod：
+现在来 describe `reviews v1` pod：
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD
