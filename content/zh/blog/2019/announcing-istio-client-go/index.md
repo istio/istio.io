@@ -7,7 +7,7 @@ keywords: [client-go,tools,crd]
 target_release: 1.4
 ---
 
-我们很高兴宣布 [Istio client go](https://github.com/istio/client-go) 发布了初始版本，该存储库使开发人员能够在 `Kubernetes` 环境中访问 `Istio API` 。在此存储库中的 `Kubernetes` 程序和客户端使开发人员可以轻松地为所有 `Istio` 自定义资源，比如创建，读取，更新和删除 `(CRUD)` 操作。
+我们很高兴地宣布 [Istio client go](https://github.com/istio/client-go) 的第一个版本发布了，该存储库使开发人员能够在 `Kubernetes` 环境中访问 `Istio API` 。在此存储库中的 `Kubernetes` 程序和客户端使开发人员可以轻松地为所有 `Istio` 客户端自定义的资源 `(CRDs)` 创建，读取，更新和删除 `(CRUD)`。
 
 这是许多 Istio 用户强烈要求的功能，从 [Aspen Mesh](https://github.com/aspenmesh/istio-client-go)
 和 [Knative project](https://github.com/knative/pkg)  项目对客户端产生的功能请求中可以明显地看出这一点。如果您正在使用上述客户端之一，则可以像如下这样轻松地切换到 [Istio client go](https://github.com/istio/client-go) 去使用：
@@ -68,7 +68,7 @@ func main() {
 
 你可以在 [这里](https://github.com/istio/client-go/blob/{{< source_branch_name >}}/cmd/example/client.go) 找到更详尽的示例。
 
-## 为 `Istio` 客户端创建更有用工具{#useful-tools-created-for-generating-istio-client-go}
+## 为Istio客户端创建更有用工具{#useful-tools-created-for-generating-istio-client-go}
 
 如果你想知道为什么花这么长时间或为什么很难生成此客户端，本小节可以将对此说明。在 `Istio` 中，我们使用[protobuf](https://developers.google.com/protocol-buffers) 规范编写 `API`，然后使用 `protobuf` 工具链将其转换为 `Go` 定义。如果尝试从 `protobuf` 的 `API` 生成 `Kubernetes` 客户端，可能会面临三个主要的挑战：
 
