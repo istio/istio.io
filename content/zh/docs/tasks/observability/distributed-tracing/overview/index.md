@@ -82,7 +82,7 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 
 ## 跟踪采样{#trace-sampling}
 
-默认情况下，使用 demo 配置文件安装时，Istio 会捕获所有请求的跟踪信息。例如，当使用上面的 Bookinfo 示例应用时，每次访问 /productpage 接口时，你都可以在 dashboard 中看到一条相应的跟踪信息。此采样频率适用于测试或低流量网格。对于高流量网格你可以通过下面的2中方法之一来降低跟踪采样频率：
+默认情况下，使用 demo 配置文件安装时，Istio 会捕获所有请求的跟踪信息。例如，当使用上面的 Bookinfo 示例应用时，每次访问 `/productpage` 接口时，你都可以在 dashboard 中看到一条相应的跟踪信息。此采样频率适用于测试或低流量网格。对于高流量网格你可以通过下面的2中方法之一来降低跟踪采样频率：
 
 * 在网格安装时，使用可选项 `values.pilot.traceSampling` 来设置采样百分比。参考 [安装 {{< istioctl >}}](/zh/docs/setup/install/istioctl/) 文档查看详细的配置可选项。
 
@@ -93,6 +93,6 @@ public Response bookReviewsById(@PathParam("productId") int productId,
         $ kubectl -n istio-system edit deploy istio-pilot
         {{< /text >}}
 
-    2. 找到 `PILOT_TRACE_SAMPLING` 环境变量，将 `value:` 设置成你想要的百分比。
+    1. 找到 `PILOT_TRACE_SAMPLING` 环境变量，将 `value:` 设置成你想要的百分比。
 
 在这两种情况下，有效值的范围从 0.0 到 100.0，精度为 0.01。
