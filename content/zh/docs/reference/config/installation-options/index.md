@@ -7,7 +7,7 @@ force_inline_toc: true
 ---
 
 {{< warning >}}
-使用 Helm 安装 Istio 正在被弃用，不过你在 [使用 {{< istioctl >}} 安装 Istio](/zh/docs/setup/install/istioctl/)  时仍然可以使用这些 Helm 的配置项，把"`values.`"作为选项名的前缀。例如，替换下面的 `helm` 命令：
+使用 Helm 安装 Istio 的方式正在被弃用，不过你在[使用 {{< istioctl >}} 安装 Istio](/zh/docs/setup/install/istioctl/) 时仍然可以使用这些 Helm 的配置项，把 `values.` 作为选项名的前缀。例如，替换下面的 `helm` 命令：
 
 {{< text bash >}}
 $ helm template ... --set global.mtls.enabled=true
@@ -213,13 +213,13 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.proxy.envoyAccessLogService.tlsSettings.clientCertificate` | `` | `例：/etc/istio/als/cert-chain.pem` |
 | `global.proxy.envoyAccessLogService.tlsSettings.privateKey` | `` | `例：/etc/istio/als/key.pem` |
 | `global.proxy.envoyAccessLogService.tlsSettings.caCertificates` | `` | `例：/etc/istio/als/root-cert.pem` |
-| `global.proxy.envoyAccessLogService.tlsSettings.sni` | `` | `例：als.somedomain` |
+| `global.proxy.envoyAccessLogService.tlsSettings.sni` | `` | `例：tlsomedomain` |
 | `global.proxy.envoyAccessLogService.tlsSettings.subjectAltNames` | `[]` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.probes` | `3` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.time` | `10s` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.interval` | `10s` |  |
 | `global.proxy.logLevel` | `""` | `代理的日志级别，应用于网关和 sidecars。如果为空，则使用 "warning"。期望值是：trace\|debug\|info\|warning\|error\|critical\|off` |
-| `global.proxy.componentLogLevel` | `""` | `每个组件的代理日志级别，应用于网关和 sidecars。如果组件级别没设置，全局的“logLevel”将启用。如果为空，“misc:error” 将启用` |
+| `global.proxy.componentLogLevel` | `""` | `每个组件的代理日志级别，应用于网关和 sidecars。如果组件级别没设置，全局的 "logLevel" 将启用。如果为空，"misc:error" 将启用` |
 | `global.proxy.dnsRefreshRate` | `300s` | `配置类型为 STRICT_DNS 的 Envoy 集群的 DNS 刷新率，必须以秒为单位。例如：300s 是合法的但 5m 不合法。` |
 | `global.proxy.protocolDetectionTimeout` | `10ms` | `自动协议检测使用一组试探法来确定连接是否使用TLS（服务端），以及正在使用的应用程序协议（例如 http 和 tcp）。 试探法依赖于客户端发送的第一个数据位。对于像 Mysql，MongoDB 这样的服务器的第一协议来说，在指定的时间段之后，Envoy 将对协议检测超时，默认为非 mTLS 的 TCP 流量。设置此字段以调整 Envoy 将等待客户端发送第一个数据位的时间。（必须 >=1ms）` |
 | `global.proxy.privileged` | `false` | `如果设置为 true，istio-proxy 容器将享有 securityContext 的权限。` |
@@ -246,7 +246,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.proxy_init.image` | `proxy_init` | `proxy_init 容器的基本名称，用于配置iptables。` |
 | `global.imagePullPolicy` | `IfNotPresent` |  |
 | `global.controlPlaneSecurityEnabled` | `false` | `启用 controlPlaneSecurityEnabled enabled。当密钥被传输时，将导致启动 pod 的延迟，不建议用于测试。` |
-| `global.disablePolicyChecks` | `true` | `disablePolicyChecks 关闭 mixer 策略检查。如果 mixer.policy.enabled==true 那么 disablePolicyChecks 生效。当在 istio config map 中设置此值时—— pilot 需要重启才能生效。` |
+| `global.disablePolicyChecks` | `true` | `disablePolicyChecks 关闭 mixer 策略检查。如果 mixer.policy.enabled==true 那么 disablePolicyChecks 生效。当在 istio config map 中设置此值时 —— pilot 需要重启才能生效。` |
 | `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen 允许在无法访问混合策略服务的情况下进行通信。缺省值为 false，这意味着当客户端无法连接到 Mixer 时，流量将被拒绝。` |
 | `global.enableTracing` | `true` | `EnableTracing 设置和 istio config map 中同样的值，需要 pilot 重启生效。` |
 | `global.tracer.lightstep.address` | `""` | `例：lightstep-satellite:443` |
@@ -344,41 +344,41 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `istiocoredns.podAntiAffinityLabelSelector` | `[]` |  |
 | `istiocoredns.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `kiali` options
+## `kiali` 选项
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
-| `kiali.enabled` | `false` | `Note that if using the demo yaml when installing via Helm, this default will be true.` |
+| `kiali.enabled` | `false` | `注意当通过 Helm 安装，使用 demo yaml时，默认值为 true。` |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `quay.io/kiali` |  |
 | `kiali.image` | `kiali` |  |
 | `kiali.tag` | `v1.1.0` |  |
-| `kiali.contextPath` | `/kiali` | `The root context path to access the Kiali UI.` |
+| `kiali.contextPath` | `/kiali` | `访问 Kiali UI 的根上下文路径。` |
 | `kiali.nodeSelector` | `{}` |  |
 | `kiali.tolerations` | `[]` |  |
 | `kiali.podAntiAffinityLabelSelector` | `[]` |  |
 | `kiali.podAntiAffinityTermLabelSelector` | `[]` |  |
 | `kiali.ingress.enabled` | `false` |  |
-| `kiali.ingress.hosts` | `kiali.local` | `Used to create an Ingress record.` |
-| `kiali.dashboard.auth.strategy` | `login` | `Can be anonymous, login, or openshift` |
-| `kiali.dashboard.secretName` | `kiali` | `You must create a secret with this name - one is not provided out-of-box.` |
-| `kiali.dashboard.viewOnlyMode` | `false` | `Bind the service account to a role with only read access` |
-| `kiali.dashboard.grafanaURL` | `` | `If you have Grafana installed and it is accessible to client browsers, then set this to its external URL. Kiali will redirect users to this URL when Grafana metrics are to be shown.` |
-| `kiali.dashboard.jaegerURL` | `` | `If you have Jaeger installed and it is accessible to client browsers, then set this property to its external URL. Kiali will redirect users to this URL when Jaeger tracing is to be shown.` |
+| `kiali.ingress.hosts` | `kiali.local` | `用来创建一个 Ingress 记录。` |
+| `kiali.dashboard.auth.strategy` | `login` | `可以匿名，登录或 openshift` |
+| `kiali.dashboard.secretName` | `kiali` | `必须使用该名称创建密钥——其中一个不是开箱即用的。` |
+| `kiali.dashboard.viewOnlyMode` | `false` | `将服务帐户绑定到只读访问权限的角色。` |
+| `kiali.dashboard.grafanaURL` | `` | `如果你安装了 Grafana 并可以通过客户端浏览器访问，设置此值作为它的外部 URL。当 Grafana 指标被显示时 Kiali 将重定向用户到此 URL。` |
+| `kiali.dashboard.jaegerURL` | `` | `如果你安装了 Jaeger 并可以通过客户端浏览器访问，设置此值作为它的外部 URL。当 Jaeger 追踪被显示时 Kiali 将重定向用户到此 URL。` |
 | `kiali.prometheusAddr` | `http://prometheus:9090` |  |
-| `kiali.createDemoSecret` | `false` | `When true, a secret will be created with a default username and password. Useful for demos.` |
+| `kiali.createDemoSecret` | `false` | `为 true 时，将使用默认用户名和密码创建密钥。用于演示。` |
 | `kiali.security.enabled` | `true` |  |
 | `kiali.security.cert_file` | `/kiali-cert/cert-chain.pem` |  |
 | `kiali.security.private_key_file` | `/kiali-cert/key.pem` |  |
 
-## `mixer` options
+## `mixer` 选项
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `mixer.image` | `mixer` |  |
 | `mixer.env.GODEBUG` | `gctrace=1` |  |
-| `mixer.env.GOMAXPROCS` | `"6"` | `max procs should be ceil(cpu limit + 1)` |
-| `mixer.policy.enabled` | `false` | `if policy is enabled, global.disablePolicyChecks has affect.` |
+| `mixer.env.GOMAXPROCS` | `"6"` | `最大进程数为 ceil(cpu limit + 1)` |
+| `mixer.policy.enabled` | `false` | `如果策略启用，global.disablePolicyChecks 生效。` |
 | `mixer.policy.replicaCount` | `1` |  |
 | `mixer.policy.autoscaleEnabled` | `true` |  |
 | `mixer.policy.autoscaleMin` | `1` |  |
@@ -395,14 +395,14 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `mixer.telemetry.rollingMaxSurge` | `100%` |  |
 | `mixer.telemetry.rollingMaxUnavailable` | `25%` |  |
 | `mixer.telemetry.sessionAffinityEnabled` | `false` |  |
-| `mixer.telemetry.loadshedding.mode` | `enforce` | `disabled, logonly or enforce` |
-| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `based on measurements 100ms p50 translates to p99 of under 1s. This is ok for telemetry which is inherently async.` |
+| `mixer.telemetry.loadshedding.mode` | `enforce` | `disabled，logonly 或 enforce` |
+| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `根据测量值把100ms p50 转换成 1s 以下的 p99。这对于本质上是异步的遥测来说是可以接受的。` |
 | `mixer.telemetry.resources.requests.cpu` | `1000m` |  |
 | `mixer.telemetry.resources.requests.memory` | `1G` |  |
-| `mixer.telemetry.resources.limits.cpu` | `4800m` | `It is best to do horizontal scaling of mixer using moderate cpu allocation. We have experimentally found that these values work well.` |
+| `mixer.telemetry.resources.limits.cpu` | `4800m` | `最好使用适当的 cpu 分配来实现 Mixer 的水平扩展。我们已经通过实验发现这些数值工作的很好。` |
 | `mixer.telemetry.resources.limits.memory` | `4G` |  |
-| `mixer.telemetry.reportBatchMaxEntries` | `100` | `Set reportBatchMaxEntries to 0 to use the default batching behavior (i.e., every 100 requests). A positive value indicates the number of requests that are batched before telemetry data is sent to the mixer server` |
-| `mixer.telemetry.reportBatchMaxTime` | `1s` | `Set reportBatchMaxTime to 0 to use the default batching behavior (i.e., every 1 second). A positive time value indicates the maximum wait time since the last request will telemetry data be batched before being sent to the mixer server` |
+| `mixer.telemetry.reportBatchMaxEntries` | `100` | `设置 reportBatchMaxEntries 为 0 来使用默认的批量行为（例如 每 100 个请求）。正值表示在将遥测数据发送到 Mixer 之前批处理的请求数。` |
+| `mixer.telemetry.reportBatchMaxTime` | `1s` | `将 reportBatchMaxTime 设置为 0 以使用默认的批处理行为（例如每秒）。正时间值表示最大的等待时间，因为最后一个请求将在发送到 Mxier 之前批量处理遥测数据。` |
 | `mixer.podAnnotations` | `{}` |  |
 | `mixer.nodeSelector` | `{}` |  |
 | `mixer.tolerations` | `[]` |  |
@@ -413,7 +413,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `mixer.adapters.stdio.outputAsJson` | `true` |  |
 | `mixer.adapters.prometheus.enabled` | `true` |  |
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
-| `mixer.adapters.useAdapterCRDs` | `false` | `Setting this to false sets the useAdapterCRDs mixer startup argument to false` |
+| `mixer.adapters.useAdapterCRDs` | `false` | `设置为 false 则 useAdapterCRDs mixer 启动参数为 false` |
 
 ## `nodeagent` 选项
 
@@ -422,7 +422,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `nodeagent.enabled` | `false` |  |
 | `nodeagent.image` | `node-agent-k8s` |  |
 | `nodeagent.env.CA_PROVIDER` | `""` | `认证提供商名称` |
-| `nodeagent.env.CA_ADDR` | `""` | `CA endpoint.` |
+| `nodeagent.env.CA_ADDR` | `""` | `CA endpoint` |
 | `nodeagent.env.Plugins` | `""` | `认证提供商的插件名称` |
 | `nodeagent.nodeSelector` | `{}` |  |
 | `nodeagent.tolerations` | `[]` |  |
@@ -512,7 +512,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `sidecarInjectorWebhook.podAntiAffinityLabelSelector` | `[]` |  |
 | `sidecarInjectorWebhook.podAntiAffinityTermLabelSelector` | `[]` |  |
 | `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | `如果是 true，webhook 或 istioctl injector 将为活性健康检查重写 PodSpec 以重定向请求到 sidecar。这使得即使在启用 mTLS 时，活性检查也可以工作。` |
-| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `你可以使用名为 alwaysInjectSelector 和neverInjectSelector 的字段，它们总是注入 sidecar 或者总是略过与标签选择器匹配的 pod 上的注入，而不管全局策略是什么。参看  https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
+| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `你可以使用名为 alwaysInjectSelector 和neverInjectSelector 的字段，它们总是注入 sidecar 或者总是略过与标签选择器匹配的 pod 上的注入，而不管全局策略是什么。参看  https://istio.io/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
 | `sidecarInjectorWebhook.alwaysInjectSelector` | `[]` |  |
 
 ## `tracing` 选项
@@ -529,7 +529,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `tracing.jaeger.image` | `all-in-one` |  |
 | `tracing.jaeger.tag` | `1.12` |  |
 | `tracing.jaeger.memory.max_traces` | `50000` |  |
-| `tracing.jaeger.spanStorageType` | `badger` | `对多合一的镜像 spanStorageType 的值可以是“memory” 和 “badger”` |
+| `tracing.jaeger.spanStorageType` | `badger` | `对多合一的镜像 spanStorageType 的值可以是 "memory" 和 "badger"` |
 | `tracing.jaeger.persist` | `false` |  |
 | `tracing.jaeger.storageClassName` | `""` |  |
 | `tracing.jaeger.accessMode` | `ReadWriteMany` |  |
