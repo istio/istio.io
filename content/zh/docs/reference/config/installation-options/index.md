@@ -29,7 +29,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 <!-- Run python scripts/tablegen.py to generate this table -->
 
 <!-- AUTO-GENERATED-START -->
-## `certmanager` 选项
+## `certmanager` 选项 {#CertManager-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -44,7 +44,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `certmanager.podAntiAffinityLabelSelector` | `[]` |  |
 | `certmanager.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `galley` 选项
+## `galley` 选项 {#galley-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -58,7 +58,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `galley.podAntiAffinityLabelSelector` | `[]` |  |
 | `galley.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `gateways` 选项
+## `gateways` 选项 {#gateways-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -181,7 +181,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `gateways.istio-ilbgateway.nodeSelector` | `{}` |  |
 | `gateways.istio-ilbgateway.tolerations` | `[]` |  |
 
-## `global` 选项
+## `global` 选项 {#global-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -280,7 +280,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.localityLbSetting.enabled` | `true` |  |
 | `global.enableHelmTest` | `false` | `指定是否启用 helm test。此字段默认为 false，所以当生成模板时 'helm template ...' 将忽略 helm test yaml 文件。 ` |
 
-## `grafana` 选项
+## `grafana` 选项 {#Grafana-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -323,13 +323,13 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-## `istio_cni` 选项
+## `istio_cni` 选项 {#Istio_CNI-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `istio_cni.enabled` | `false` |  |
 
-## `istiocoredns` 选项
+## `istiocoredns` 选项 {#IstioCoreDns-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -344,7 +344,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `istiocoredns.podAntiAffinityLabelSelector` | `[]` |  |
 | `istiocoredns.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `kiali` 选项
+## `kiali` 选项 {#Kiali-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -371,7 +371,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `kiali.security.cert_file` | `/kiali-cert/cert-chain.pem` |  |
 | `kiali.security.private_key_file` | `/kiali-cert/key.pem` |  |
 
-## `mixer` 选项
+## `mixer` 选项 {#mixer-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -415,7 +415,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
 | `mixer.adapters.useAdapterCRDs` | `false` | `设置为 false 则 useAdapterCRDs mixer 启动参数为 false` |
 
-## `nodeagent` 选项
+## `nodeagent` 选项 {#NodeAgent-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -429,7 +429,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `nodeagent.podAntiAffinityLabelSelector` | `[]` |  |
 | `nodeagent.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `pilot` 选项
+## `pilot` 选项 {#pilot-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -454,7 +454,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `pilot.podAntiAffinityTermLabelSelector` | `[]` |  |
 | `pilot.keepaliveMaxServerConnectionAge` | `30m` | `用来限制 sidecar 与 pilot 连接的时间。它平衡了 pilot 实例之间的负载，代价是增加了系统的负载。` |
 
-## `prometheus` 选项
+## `prometheus` 选项 {#Prometheus-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -477,7 +477,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `prometheus.service.nodePort.port` | `32090` |  |
 | `prometheus.security.enabled` | `true` |  |
 
-## `security` 选项
+## `security` 选项 {#security-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -497,7 +497,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `security.podAntiAffinityLabelSelector` | `[]` |  |
 | `security.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `sidecarInjectorWebhook` 选项
+## `sidecarInjectorWebhook` 选项 {#SidecarInjectorWebHook-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -515,7 +515,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `你可以使用名为 alwaysInjectSelector 和neverInjectSelector 的字段，它们总是注入 sidecar 或者总是略过与标签选择器匹配的 pod 上的注入，而不管全局策略是什么。参看  https://istio.io/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
 | `sidecarInjectorWebhook.alwaysInjectSelector` | `[]` |  |
 
-## `tracing` 选项
+## `tracing` 选项 {#tracing-option}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
