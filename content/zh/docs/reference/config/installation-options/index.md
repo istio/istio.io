@@ -220,65 +220,65 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.proxy.envoyAccessLogService.tcpKeepalive.interval` | `10s` |  |
 | `global.proxy.logLevel` | `""` | `代理的日志级别，应用于网关和 sidecars。如果为空，则使用 "warning"。期望值是：trace\|debug\|info\|warning\|error\|critical\|off` |
 | `global.proxy.componentLogLevel` | `""` | `每个组件的代理日志级别，应用于网关和 sidecars。如果组件级别没设置，全局的“logLevel”将启用。如果为空，“misc:error” 将启用` |
-| `global.proxy.dnsRefreshRate` | `300s` | `Configure the DNS refresh rate for Envoy cluster of type STRICT_DNS This must be given it terms of seconds. For example, 300s is valid but 5m is invalid.` |
-| `global.proxy.protocolDetectionTimeout` | `10ms` | `Automatic protocol detection uses a set of heuristics to determine whether the connection is using TLS or not (on the server side), as well as the application protocol being used (e.g., http vs tcp). These heuristics rely on the client sending the first bits of data. For server first protocols like MySQL, MongoDB, etc., Envoy will timeout on the protocol detection after the specified period, defaulting to non mTLS plain TCP traffic. Set this field to tweak the period that Envoy will wait for the client to send the first bits of data. (MUST BE >=1ms)` |
-| `global.proxy.privileged` | `false` | `If set to true, istio-proxy container will have privileged securityContext` |
-| `global.proxy.enableCoreDump` | `false` | `If set, newly injected sidecars will have core dumps enabled.` |
-| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `Image used to enable core dumps. This is only used, when "enableCoreDump" is set to true.` |
-| `global.proxy.statusPort` | `15020` | `Default port for Pilot agent health checks. A value of 0 will disable health checking.` |
-| `global.proxy.readinessInitialDelaySeconds` | `1` | `The initial delay for readiness probes in seconds.` |
-| `global.proxy.readinessPeriodSeconds` | `2` | `The period between readiness probes.` |
-| `global.proxy.readinessFailureThreshold` | `30` | `The number of successive failed probes before indicating readiness failure.` |
+| `global.proxy.dnsRefreshRate` | `300s` | `配置类型为 STRICT_DNS 的 Envoy 集群的 DNS 刷新率，必须以秒为单位。例如：300s 是合法的但 5m 不合法。` |
+| `global.proxy.protocolDetectionTimeout` | `10ms` | `自动协议检测使用一组试探法来确定连接是否使用TLS（服务端），以及正在使用的应用程序协议（例如 http 和 tcp）。 试探法依赖于客户端发送的第一个数据位。对于像 Mysql，MongoDB 这样的服务器的第一协议来说，在指定的时间段之后，Envoy 将对协议检测超时，默认为非 mTLS 的 TCP 流量。设置此字段以调整 Envoy 将等待客户端发送第一个数据位的时间。（必须 >=1ms）` |
+| `global.proxy.privileged` | `false` | `如果设置为 true，istio-proxy 容器将享有 securityContext 的权限。` |
+| `global.proxy.enableCoreDump` | `false` | `如果设置，新注入的sidecars将启用 core dumps。` |
+| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `镜像用于开启 core dumps。仅在 "enableCoreDump" 设置为 true 时使用。` |
+| `global.proxy.statusPort` | `15020` | `Pilot 代理健康检查的默认端口。值为 0 将关闭健康检查。` |
+| `global.proxy.readinessInitialDelaySeconds` | `1` | `readiness 探针的初始延迟秒数。` |
+| `global.proxy.readinessPeriodSeconds` | `2` | `readiness 探针的探测间隔。` |
+| `global.proxy.readinessFailureThreshold` | `30` | `确定 readiness 失败前探测成功失败的数量。` |
 | `global.proxy.includeIPRanges` | `"*"` |  |
 | `global.proxy.excludeIPRanges` | `""` |  |
 | `global.proxy.excludeOutboundPorts` | `""` |  |
-| `global.proxy.kubevirtInterfaces` | `""` | `pod internal interfaces` |
+| `global.proxy.kubevirtInterfaces` | `""` | `pod 内部接口` |
 | `global.proxy.includeInboundPorts` | `"*"` |  |
 | `global.proxy.excludeInboundPorts` | `""` |  |
-| `global.proxy.autoInject` | `enabled` | `This controls the 'policy' in the sidecar injector.` |
-| `global.proxy.envoyStatsd.enabled` | `false` | `If enabled is set to true, host and port must also be provided. Istio no longer provides a statsd collector.` |
-| `global.proxy.envoyStatsd.host` | `` | `example: statsd-svc.istio-system` |
-| `global.proxy.envoyStatsd.port` | `` | `example: 9125` |
+| `global.proxy.autoInject` | `enabled` | `控制 sidecar 注入器的 'policy'。` |
+| `global.proxy.envoyStatsd.enabled` | `false` | `如果设置为 true，主机和端口必须提供。Istio 不再提供一个 statsd 收集器。` |
+| `global.proxy.envoyStatsd.host` | `` | `例： statsd-svc.istio-system` |
+| `global.proxy.envoyStatsd.port` | `` | `例：9125` |
 | `global.proxy.envoyMetricsService.enabled` | `false` |  |
-| `global.proxy.envoyMetricsService.host` | `` | `example: metrics-service.istio-system` |
-| `global.proxy.envoyMetricsService.port` | `` | `example: 15000` |
-| `global.proxy.tracer` | `"zipkin"` | `Specify which tracer to use. One of: zipkin, lightstep, datadog, stackdriver. If using stackdriver tracer outside GCP, set env GOOGLE_APPLICATION_CREDENTIALS to the GCP credential file.` |
-| `global.proxy_init.image` | `proxy_init` | `Base name for the proxy_init container, used to configure iptables.` |
+| `global.proxy.envoyMetricsService.host` | `` | `例：metrics-service.istio-system` |
+| `global.proxy.envoyMetricsService.port` | `` | `例：15000` |
+| `global.proxy.tracer` | `"zipkin"` | `指定使用以下哪一个追踪器：zipkin，lightstep， datadog，stackdriver。 如果使用外部 GCP 的 stackdriver 追踪器，设置环境变量 GOOGLE_APPLICATION_CREDENTIALS 为 GCP 的凭证文件。` |
+| `global.proxy_init.image` | `proxy_init` | `proxy_init 容器的基本名称，用于配置iptables。` |
 | `global.imagePullPolicy` | `IfNotPresent` |  |
-| `global.controlPlaneSecurityEnabled` | `false` | `controlPlaneSecurityEnabled enabled. Will result in delays starting the pods while secrets are propagated, not recommended for tests.` |
-| `global.disablePolicyChecks` | `true` | `disablePolicyChecks disables mixer policy checks. if mixer.policy.enabled==true then disablePolicyChecks has affect. Will set the value with same name in istio config map - pilot needs to be restarted to take effect.` |
-| `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen allows traffic in cases when the mixer policy service cannot be reached. Default is false which means the traffic is denied when the client is unable to connect to Mixer.` |
-| `global.enableTracing` | `true` | `EnableTracing sets the value with same name in istio config map, requires pilot restart to take effect.` |
-| `global.tracer.lightstep.address` | `""` | `example: lightstep-satellite:443` |
-| `global.tracer.lightstep.accessToken` | `""` | `example: abcdefg1234567` |
-| `global.tracer.lightstep.secure` | `true` | `example: true\|false` |
-| `global.tracer.lightstep.cacertPath` | `""` | `example: /etc/lightstep/cacert.pem` |
+| `global.controlPlaneSecurityEnabled` | `false` | `启用 controlPlaneSecurityEnabled enabled。当密钥被传输时，将导致启动 pod 的延迟，不建议用于测试。` |
+| `global.disablePolicyChecks` | `true` | `disablePolicyChecks 关闭 mixer 策略检查。如果 mixer.policy.enabled==true 那么 disablePolicyChecks 生效。当在 istio config map 中设置此值时—— pilot 需要重启才能生效。` |
+| `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen 允许在无法访问混合策略服务的情况下进行通信。缺省值为 false，这意味着当客户端无法连接到 Mixer 时，流量将被拒绝。` |
+| `global.enableTracing` | `true` | `EnableTracing 设置和 istio config map 中同样的值，需要 pilot 重启生效。` |
+| `global.tracer.lightstep.address` | `""` | `例：lightstep-satellite:443` |
+| `global.tracer.lightstep.accessToken` | `""` | `例：abcdefg1234567` |
+| `global.tracer.lightstep.secure` | `true` | `例：true\|false` |
+| `global.tracer.lightstep.cacertPath` | `""` | `例：/etc/lightstep/cacert.pem` |
 | `global.tracer.zipkin.address` | `""` |  |
 | `global.tracer.datadog.address` | `"$(HOST_IP):8126"` |  |
-| `global.mtls.enabled` | `false` | `Default setting for service-to-service mtls. Can be set explicitly using destination rules or service annotations.` |
-| `global.imagePullSecrets` | `[]` | `Lists the secrets you need to use to pull Istio images from a private registry.` |
+| `global.mtls.enabled` | `false` | `服务到服务 mtls 的默认设置项。可以明确的设置使用目标规则或服务 annotations。` |
+| `global.imagePullSecrets` | `[]` | `列出你从私有注册拉取 Istio 镜像所需的密钥。` |
 | `global.arch.amd64` | `2` |  |
 | `global.arch.s390x` | `2` |  |
 | `global.arch.ppc64le` | `2` |  |
-| `global.oneNamespace` | `false` | `Whether to restrict the applications namespace the controller manages; If not set, controller watches all namespaces` |
-| `global.defaultNodeSelector` | `{}` | `Default node selector to be applied to all deployments so that all pods can be constrained to run a particular nodes. Each component can overwrite these default values by adding its node selector block in the relevant section below and setting the desired values.` |
-| `global.defaultTolerations` | `[]` | `Default node tolerations to be applied to all deployments so that all pods can be scheduled to a particular nodes with matching taints. Each component can overwrite these default values by adding its tolerations block in the relevant section below and setting the desired values. Configure this field in case that all pods of Istio control plane are expected to be scheduled to particular nodes with specified taints.` |
-| `global.configValidation` | `true` | `Whether to perform server-side validation of configuration.` |
+| `global.oneNamespace` | `false` | `是否限制控制器管理的应用程序名称空间；如果不设置，控制器将检测所有命名空间。` |
+| `global.defaultNodeSelector` | `{}` | `将缺省节点选择器应用于所有 Deployment，以便所有 pod 都能被约束来运行特定的节点。每个组件都可以通过在下面的相关部分中添加其节点选择器块并设置所需的值来覆盖这些默认值。` |
+| `global.defaultTolerations` | `[]` | `缺省节点容错应用于所有 Deployment，以便所有 pod 都可以调度到具有匹配 taints 的特定节点。每个组件都可以通过在下面的相关部分中添加自己的 tolerance 块并设置所需的值来覆盖这些默认值。配置此字段，以防所有 Istio 控制平面的 pod 都被调度到指定 taints 的特定节点。` |
+| `global.configValidation` | `true` | `是否执行服务端配置验证。` |
 | `global.meshExpansion.enabled` | `false` |  |
-| `global.meshExpansion.useILB` | `false` | `If set to true, the pilot and citadel mtls and the plaintext pilot ports will be exposed on an internal gateway` |
-| `global.multiCluster.enabled` | `false` | `Set to true to connect two kubernetes clusters via their respective ingressgateway services when pods in each cluster cannot directly talk to one another. All clusters should be using Istio mTLS and must have a shared root CA for this model to work.` |
+| `global.meshExpansion.useILB` | `false` | `如果设置为 true，pilot 和 citadel mtls 以及明文 pilot 端口将暴露在内部网关上。` |
+| `global.multiCluster.enabled` | `false` | `当两个 kubernetes 集群中的 pod 不能互相直接通信时，设置为 true 将通过各自的 ingressgateway 服务连接两个 kubernetes 集群。所有的集群都应该使用 Istio mTLS，并且必须有一个共享的根 CA 才能让这个模型工作。` |
 | `global.defaultResources.requests.cpu` | `10m` |  |
 | `global.defaultPodDisruptionBudget.enabled` | `true` |  |
 | `global.priorityClassName` | `""` |  |
-| `global.useMCP` | `true` | `Use the Mesh Control Protocol (MCP) for configuring Mixer and Pilot. Requires galley (--set galley.enabled=true).` |
+| `global.useMCP` | `true` | `使用网格控制协议（MCP）来配置 Mixer 和 Pilot。需要 galley (--set galley.enabled=true)。` |
 | `global.trustDomain` | `""` |  |
-| `global.meshID` | `""` | `Mesh ID means Mesh Identifier. It should be unique within the scope where meshes will interact with each other, but it is not required to be globally/universally unique. For example, if any of the following are true, then two meshes must have different Mesh IDs: - Meshes will have their telemetry aggregated in one place - Meshes will be federated together - Policy will be written referencing one mesh from the other If an administrator expects that any of these conditions may become true in the future, they should ensure their meshes have different Mesh IDs assigned. Within a multicluster mesh, each cluster must be (manually or auto) configured to have the same Mesh ID value. If an existing cluster 'joins' a multicluster mesh, it will need to be migrated to the new mesh ID. Details of migration TBD, and it may be a disruptive operation to change the Mesh ID post-install. If the mesh admin does not specify a value, Istio will use the value of the mesh's Trust Domain. The best practice is to select a proper Trust Domain value.` |
+| `global.meshID` | `""` | `Mesh ID 意为 Mesh 标识符。在网格相互作用的范围内，它应该是唯一的，但不要求它是全局/普遍唯一的。例如，如果下面条件任意一个为真，那么两个网格必须有不同的 Mesh ID：—— 网格将遥测聚合在一个地方 —— 网格将连接在一起 —— 如果管理员期望这些条件中的任何一个在将来可能成为现实，那么策略将被从一个网格写入到另一个引用它的网格，他们需要保证这些网格被指定了不同的 Mesh ID。在一个多集群网格下，每一个集群必须（手动或自动）配置相同的 Mesh ID。如果一个存在的集群“加入”多集群网格，它需要被迁移到新的 mesh ID。详细的迁移还在制定中，在安装后更改 Mesh ID 可能会造成混乱。如果这个网格没有指定一个特定值，Istio 将使用该网格信任域的值。最佳实践是选择适当的信任域值。` |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
-| `global.sds.enabled` | `false` | `SDS enabled. IF set to true, mTLS certificates for the sidecars will be distributed through the SecretDiscoveryService instead of using K8S secrets to mount the certificates.` |
+| `global.sds.enabled` | `false` | `启用 SDS。如果设置为 true，sidecars 的 mTLS 证书将通过 SecretDiscoveryService 分发，而不是使用 K8S secret来挂载。` |
 | `global.sds.udsPath` | `""` |  |
 | `global.meshNetworks` | `{}` |  |
 | `global.localityLbSetting.enabled` | `true` |  |
-| `global.enableHelmTest` | `false` | `Specifies whether helm test is enabled or not. This field is set to false by default, so 'helm template ...' will ignore the helm test yaml files when generating the template` |
+| `global.enableHelmTest` | `false` | `指定是否启用 helm test。此字段默认为 false，所以当生成模板时 'helm template ...' 将忽略 helm test yaml 文件。 ` |
 
 ## `grafana` 选项
 
