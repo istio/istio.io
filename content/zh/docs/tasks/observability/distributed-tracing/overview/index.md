@@ -1,6 +1,6 @@
 ---
 title: 概述
-description: Istio中调用跟踪的概述。
+description: Istio 中调用跟踪的概述。
 weight: 1
 keywords: [telemetry,tracing]
 aliases:
