@@ -1,6 +1,6 @@
 ---
 title: 安装选项（Helm）
-description: 描述使用 Helm charts 安装 Istio 时的可选项。
+description: 描述使用 Helm chart 安装 Istio 时的可选项。
 weight: 15
 keywords: [kubernetes,helm]
 force_inline_toc: true
