@@ -26,10 +26,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 不幸的是，由于支持的选项集有最新的变化，此文档已经过时。获取准确的支持的选项集，请参阅 [Helm charts]({{< github_tree >}}/install/kubernetes/helm/istio)。
 {{< /warning >}}
 
-<!-- Run python scripts/tablegen.py to generate this table -->
-
-<!-- AUTO-GENERATED-START -->
-## `certmanager` 选项 {#CertManager-options}
+## `certmanager` 选项 {#cert-manager-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -87,7 +84,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `gateways.istio-ingressgateway.externalIPs` | `[]` |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-ingressgateway.podAnnotations` | `{}` |  |
-| `gateways.istio-ingressgateway.type` | `LoadBalancer` | `如果需要可以改为 NodePort，ClusterIP 或 LoadBalancer ` |
+| `gateways.istio-ingressgateway.type` | `LoadBalancer` | `如果需要可以改为 NodePort，ClusterIP 或 LoadBalancer` |
 | `gateways.istio-ingressgateway.ports.targetPort` | `15020` |  |
 | `gateways.istio-ingressgateway.ports.name` | `status-port` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
@@ -140,7 +137,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `gateways.istio-egressgateway.cpu.targetAverageUtilization` | `80` |  |
 | `gateways.istio-egressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-egressgateway.podAnnotations` | `{}` |  |
-| `gateways.istio-egressgateway.type` | `ClusterIP` | `如果需要可改为 NodePort 或 LoadBalancer ` |
+| `gateways.istio-egressgateway.type` | `ClusterIP` | `如果需要可改为 NodePort 或 LoadBalancer` |
 | `gateways.istio-egressgateway.ports.name` | `http2` |  |
 | `gateways.istio-egressgateway.ports.name` | `https` |  |
 | `gateways.istio-egressgateway.ports.targetPort` | `15443` |  |
@@ -278,7 +275,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.sds.udsPath` | `""` |  |
 | `global.meshNetworks` | `{}` |  |
 | `global.localityLbSetting.enabled` | `true` |  |
-| `global.enableHelmTest` | `false` | `指定是否启用 helm test。此字段默认为 false，所以当生成模板时 'helm template ...' 将忽略 helm test yaml 文件。 ` |
+| `global.enableHelmTest` | `false` | `指定是否启用 helm test。此字段默认为 false，所以当生成模板时 'helm template ...' 将忽略 helm test yaml 文件。` |
 
 ## `grafana` 选项 {#Grafana-options}
 
@@ -323,13 +320,13 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-## `istio_cni` 选项 {#Istio_CNI-options}
+## `istio_cni` 选项 {#Istio-CNI-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `istio_cni.enabled` | `false` |  |
 
-## `istiocoredns` 选项 {#IstioCoreDns-options}
+## `istiocoredns` 选项 {#Istio-CoreDNS-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -415,7 +412,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
 | `mixer.adapters.useAdapterCRDs` | `false` | `设置为 false 则 useAdapterCRDs mixer 启动参数为 false` |
 
-## `nodeagent` 选项 {#NodeAgent-options}
+## `nodeagent` 选项 {#node-agent-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -497,7 +494,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `security.podAntiAffinityLabelSelector` | `[]` |  |
 | `security.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `sidecarInjectorWebhook` 选项 {#SidecarInjectorWebHook-options}
+## `sidecarInjectorWebhook` 选项 {#sidecar-injector-webHook-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -550,5 +547,3 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `tracing.service.type` | `ClusterIP` |  |
 | `tracing.service.externalPort` | `9411` |  |
 | `tracing.ingress.enabled` | `false` |  |
-
-<!-- AUTO-GENERATED-END -->
