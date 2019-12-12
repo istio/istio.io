@@ -1,5 +1,5 @@
 ---
-title: 多网络网格中的虚拟机。
+title: 多网络网格中的虚拟机
 description: 学习怎样添加运行在虚拟机上的服务到您的多网络 Istio 网格中。
 weight: 30
 keywords:

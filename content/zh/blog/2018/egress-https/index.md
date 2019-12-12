@@ -1,101 +1,90 @@
 ---
-title: Consuming External Web Services
-description: Describes a simple scenario based on Istio's Bookinfo example.
+title: 使用外部 Web 服务
+description: 描述基于 Istio Bookinfo 示例的简单场景。
 publishdate: 2018-01-31
 last_update: 2019-04-11
-subtitle: Mesh-external service entries for egress HTTPS traffic
+subtitle: HTTPS 流量的出口规则
 attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
 target_release: 1.1
 ---
 
-In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the
-microservices-based applications use functionality provided by legacy systems that reside outside the mesh. You may want
-to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the
-applications inside the mesh. In other cases, the applications use web services provided by third parties.
+在许多情况下，在 _service mesh_ 中的微服务序并不是应用程序的全部，有时，
+网格内部的微服务需要使用在服务网格外部的遗留系统提供的功能，虽然我们希望逐步将这些系统迁移到服务网格中。
+但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。还有其他情况，
+应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。
 
-In this blog post, I modify the [Istio Bookinfo Sample Application](/zh/docs/examples/bookinfo/) to fetch book details from
-an external web service ([Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)). I show how
-to enable egress HTTPS traffic in Istio by using _mesh-external service entries_. I provide two options for egress
-HTTPS traffic and describe the pros and cons of each of the options.
+在这篇博客文章中，我修改了[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)让它可以
+从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。
+我将展示如何使用 _mesh-external service entries_ 在 Istio 中启用外部 HTTPS 流量。最后，
+我解释了当前与 Istio 出口流量控制相关的问题。
 
-## Initial setting
+## 初始设定{#initial-setting}
 
-To demonstrate the scenario of consuming an external web service, I start with a Kubernetes cluster with [Istio installed](/zh/docs/setup/getting-started/). Then I deploy
-[Istio Bookinfo Sample Application](/zh/docs/examples/bookinfo/). This application uses the _details_ microservice to fetch
-book details, such as the number of pages and the publisher. The original _details_ microservice provides the book
-details without consulting any external service.
+为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/zh/docs/setup/getting-started/) 的
+ Kubernetes 集群, 然后我部署 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/),
+ 此应用程序使用 _details_ 微服务来获取书籍详细信息，例如页数和发布者, 原始 _details_ 微服务提供书籍
+ 详细信息，无需咨询任何外部服务。
 
-The example commands in this blog post work with Istio 1.0+, with or without
-[mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) enabled. The Bookinfo configuration files reside in the
-`samples/bookinfo` directory of the Istio release archive.
+此博客文章中的示例命令适用于 Istio 1.0+，无论启用或不启用[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)。
+ Bookinfo 配置文件位于 Istio 发行存档的 `samples/bookinfo` 目录中。
 
-Here is a copy of the end-to-end architecture of the application from the original
-[Bookinfo sample application](/zh/docs/examples/bookinfo/).
+以下是原始 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)中应用程序端到端体系结构的副本。
 
 {{< image width="80%"
     link="/zh/docs/examples/bookinfo/withistio.svg"
-    caption="The Original Bookinfo Application"
+    caption="原 Bookinfo 应用程序"
     >}}
 
-Perform the steps in the
-[Deploying the application](/zh/docs/examples/bookinfo/#deploying-the-application),
-[Confirm the app is running](/zh/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster),
-[Apply default destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules)
-sections, and
-[change Istio to the blocking-egress-by-default policy](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
+执行[部署应用程序](/zh/docs/examples/bookinfo/#deploying-the-application)、[确认应用正在运行](/zh/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster)，以及
+[应用默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)中的步骤部分。
 
-## Bookinfo with HTTPS access to a Google Books web service
+### Bookinfo 使用 HTTPS 访问 Google 图书网络服务{#Bookinfo-with-https-access-to-a-google-books-web-service}
 
-Deploy a new version of the _details_ microservice, _v2_, that fetches the book details from [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started). Run the following command; it sets the
-`DO_NOT_ENCRYPT` environment variable of the service's container to `false`. This setting will instruct the deployed
-service to use HTTPS (instead of HTTP) to access to the external service.
+让我们添加一个新版本的 _details_ 微服务，_v2_，从[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)中获取图书详细信息。
+它设定了服务容器的 `DO_NOT_ENCRYPT` 环境变量为 `false`。此设置将指示已部署服务使用 HTTPS（而不是 HTTP ）来访问外部服务。
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@ --dry-run -o yaml | kubectl set env --local -f - 'DO_NOT_ENCRYPT=false' -o yaml | kubectl apply -f -
 {{< /text >}}
 
-The updated architecture of the application now looks as follows:
+现在，应用程序的更新架构如下所示：
 
 {{< image width="80%"
-    link="./bookinfo-details-v2.svg"
-    caption="The Bookinfo Application with details V2"
+    link="bookinfo-details-v2.svg"
+    caption="Bookinfo 的 details V2 应用程序"
     >}}
 
-Note that the Google Books web service is outside the Istio service mesh, the boundary of which is marked by a dashed
-line.
+请注意，Google Book 服务位于 Istio 服务网格之外，其边界由虚线标记。
 
-Now direct all the traffic destined to the _details_ microservice, to _details version v2_.
+现在让我们将指向 _details_ 微服务的所有流量定向到 _details v2_：
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 {{< /text >}}
 
-Note that the virtual service relies on a destination rule that you created in the [Apply default destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules) section.
+请注意，`VirtualService` 依赖于您在[应用默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)部分中创建的目标规则。
 
-Access the web page of the application, after
-[determining the ingress IP and port](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port).
+在[确定 ingress 的 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)之后，
+让我们访问应用程序的网页。
 
-Oops... Instead of the book details you have the _Error fetching product details_ message displayed:
+糟糕...页面显示 _Error fetching product details_，而不是书籍详细信息：
 
-{{< image width="80%" link="./errorFetchingBookDetails.png" caption="The Error Fetching Product Details Message" >}}
+{{< image width="80%" link="errorFetchingBookDetails.png" caption="获取产品详细信息的错误消息" >}}
 
-The good news is that your application did not crash. With a good microservice design, you do not have **failure
-propagation**. In your case, the failing _details_ microservice does not cause the `productpage` microservice to fail.
-Most of the functionality of the application is still provided, despite the failure in the _details_ microservice. You
-have **graceful service degradation**: as you can see, the reviews and the ratings are displayed correctly, and the
-application is still useful.
+好消息是我们的应用程序没有崩溃, 通过良好的微服务设计，我们没有让**故障扩散**。在我们的例子中，
+失败的 _details_ 微服务不会导致 `productpage` 微服务失败, 尽管 _details_ 微服务失败，
+仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，
+应用程序仍然有用。
 
-So what might have gone wrong? Ah... The answer is that I forgot to tell you to enable traffic from inside the mesh to
-an external service, in this case to the Google Books web service. By default, the Istio sidecar proxies
-([Envoy proxies](https://www.envoyproxy.io)) **block all the traffic to destinations outside the cluster**. To enable
-such traffic, you must define a
-[mesh-external service entry](/zh/docs/reference/config/networking/service-entry/).
+那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
+默认情况下，Istio sidecar 代理（[Envoy proxies](https://www.envoyproxy.io)）
+**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[mesh-external service entry](/zh/docs/reference/config/networking/service-entry/)。
 
-### Enable HTTPS access to a Google Books web service
+### 启用对 Google Books 网络服务的 HTTPS 访问{#enable-https-access-to-a-google-books-web-service}
 
-No worries, define a **mesh-external service entry** and fix your application. You must also define a _virtual
-service_ to perform routing by [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) to the external service.
+不用担心，让我们定义**网格外部 `ServiceEntry`** 并修复我们的应用程序。您还必须定义 _virtual
+service_ 使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -134,11 +123,11 @@ spec:
 EOF
 {{< /text >}}
 
-Now accessing the web page of the application displays the book details without error:
+现在访问应用程序的网页会显示书籍详细信息而不会出现错误：
 
-{{< image width="80%" link="./externalBookDetails.png" caption="Book Details Displayed Correctly" >}}
+{{< image width="80%" link="externalBookDetails.png" caption="正确显示书籍详细信息" >}}
 
-You can query your service entries:
+您可以查询您的 `ServiceEntry` ：
 
 {{< text bash >}}
 $ kubectl get serviceentries
@@ -146,21 +135,20 @@ NAME         AGE
 googleapis   8m
 {{< /text >}}
 
-You can delete your service entry:
+您可以删除您的 `ServiceEntry` ：
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
 serviceentry "googleapis" deleted
 {{< /text >}}
 
-and see in the output that the service entry is deleted.
+并在输出中看到删除了 `ServiceEntry`。
 
-Accessing the web page after deleting the service entry produces the same error that you experienced before, namely
-_Error fetching product details_. As you can see, the service entries are defined **dynamically**, as are many other
-Istio configuration artifacts. The Istio operators can decide dynamically which domains they allow the microservices to
-access. They can enable and disable traffic to the external domains on the fly, without redeploying the microservices.
+删除 `ServiceEntry` 后访问网页会产生我们之前遇到的相同错误，即 _Error fetching product details_,
+正如我们所看到的，，与许多其他 Istio 配置一样，`ServiceEntry` 是**动态定义**的 , Istio 运算符可以动态决定
+它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
 
-### Cleanup of HTTPS access to a Google Books web service
+### 清除对 Google 图书网络服务的 HTTPS 访问权限{#cleanup-of-https-access-to-a-google-books-web-service}
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
@@ -169,42 +157,34 @@ $ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 {{< /text >}}
 
-## TLS origination by Istio
+## 由 Istio 发起的 TLS{#TLS-origination-by-Istio}
 
-There is a caveat to this story. Suppose you want to monitor which specific set of
-[Google APIs](https://developers.google.com/apis-explorer/) your microservices use
-([Books](https://developers.google.com/books/docs/v1/getting_started),
-[Calendar](https://developers.google.com/calendar/), [Tasks](https://developers.google.com/tasks/) etc.)
-Suppose you want to enforce a policy that using only
-[Books APIs](https://developers.google.com/books/docs/v1/getting_started) is allowed. Suppose you want to monitor the
-book identifiers that your microservices access. For these monitoring and policy tasks you need to know the URL path.
-Consider for example the URL
-[`www.googleapis.com/books/v1/volumes?q=isbn:0486424618`](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618).
-In that URL, [Books APIs](https://developers.google.com/books/docs/v1/getting_started) is specified by the path segment
-`/books`, and the [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number) number by the path segment
-`/volumes?q=isbn:0486424618`. However, in HTTPS, all the HTTP details (hostname, path, headers etc.) are encrypted and
-such monitoring and policy enforcement by the sidecar proxies is not possible. Istio can only know the server name of
-the encrypted requests by the [SNI](https://tools.ietf.org/html/rfc3546#section-3.1) (_Server Name Indication_) field,
-in this case `www.googleapis.com`.
+这个故事有一个警告。假设您要监视您的微服务使用 [Google API](https://developers.google.com/apis-explorer/) 的哪个特定集
+（[书籍](https://developers.google.com/books/docs/v1/getting_started)，[日历](https://developers.google.com/calendar/)，[任务](https://developers.google.com/tasks/)等）
+假设您要强制执行仅允许使用[图书 API](https://developers.google.com/books/docs/v1/getting_started)的策略。
+假设您要监控您的微服务访问的标识符。对于这些监视和策略任务，您需要知道 URL 路径。
+考虑例如 URL [`www.googleapis.com/books/v1/volumes?q=isbn:0486424618`](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618)。
+在该网址中，路径段指定了[图书 API](https://developers.google.com/books/docs/v1/getting_started)
+`/books` 和路径段的 [ISBN](https://en.wikipedia.org/wiki/International_Standard_Book_Number) 代码
+ `/volumes?q=isbn:0486424618`。但是，在 HTTPS 中，所有 HTTP 详细信息（主机名，路径，标头等）都是加密的
+sidecar 代理的这种监督和策略执行是无法实现的。Istio 只能通过 [SNI](https://tools.ietf.org/html/rfc3546#section-3.1)（_Server Name Indication_）得知加密请求中的主机名称，在这里就是 `www.googleapis.com`。
 
-To allow Istio to perform monitoring and policy enforcement of egress requests based on HTTP details, the microservices
-must issue HTTP requests. Istio then opens an HTTPS connection to the destination (performs TLS origination). The code
-of the microservices must be written differently or configured differently, according to whether the microservice runs
-inside or outside an Istio service mesh. This contradicts the Istio design goal of [maximizing transparency](/zh/docs/ops/deployment/architecture/#design-goals). Sometimes you need to compromise...
+为了允许 Istio 基于域执行出口请求的过滤，微服务必须发出 HTTP 请求, 然后，Istio 打开到目标的 HTTPS 连接（执行 TLS 发起）,
+根据微服务是在 Istio 服务网格内部还是外部运行，
+微服务的代码必须以不同方式编写或以不同方式配置, 这与[最大化透明度](/zh/docs/ops/deployment/architecture/#design-goals)
+的 Istio 设计目标相矛盾, 有时我们需要妥协......
 
-The diagram below shows two options for sending HTTPS traffic to external services. On the top, a microservice sends
-regular HTTPS requests, encrypted end-to-end. On the bottom, the same microservice sends unencrypted HTTP requests
-inside a pod, which are intercepted by the sidecar Envoy proxy. The sidecar proxy performs TLS origination, so the
-traffic between the pod and the external service is encrypted.
+下图显示了如何执行外部服务的 HTTPS 流量, 在顶部，Istio 服务网格外部的微服务发送常规 HTTPS 请求，
+端到端加密, 在底部，Istio 服务网格内的相同微服务必须在 pod 内发送未加密的 HTTP 请求，
+这些请求被 sidecar Envoy 代理拦截 , sidecar 代理执行 TLS 发起，因此 pod 和外部服务之间的流量被加密。
 
 {{< image width="60%"
-    link="./https_from_the_app.svg"
-    caption="HTTPS traffic to external services, with TLS originated by the microservice vs. by the sidecar proxy"
+    link="https_from_the_app.svg"
+    caption="对外发起 HTTPS 流量的两种方式：微服务自行发起，或由 Sidecar 代理发起"
     >}}
 
-Here is how both patterns are supported in the
-[Bookinfo details microservice code]({{< github_file >}}/samples/bookinfo/src/details/details.rb), using the Ruby
-[net/http module](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html):
+以下是我们如何在 [Bookinfo 的 details 微服务代码]({{< github_file >}}/samples/bookinfo/src/details/details.rb)
+中使用 Ruby [net/http 模块](https://docs.ruby-lang.org/en/2.0.0/Net/HTTP.html)：
 
 {{< text ruby >}}
 uri = URI.parse('https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn)
@@ -215,11 +195,10 @@ unless ENV['DO_NOT_ENCRYPT'] === 'true' then
 end
 {{< /text >}}
 
-When the `DO_NOT_ENCRYPT` environment variable is defined, the request is performed without SSL (plain HTTP) to port 80.
+当定义 `WITH_ISTIO` 环境变量时，在没有 SSL（普通 HTTP ）的情况下请求会通过 80 端口执行。
 
-You can set the `DO_NOT_ENCRYPT` environment variable to _"true"_ in the
-[Kubernetes deployment spec of details v2]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml),
-the `container` section:
+我们将 [details v2 的部署配置文件]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml) 的环境变量 `DO_NOT_ENCRYPT` 设置为 _"true"_。
+`container` 部分：
 
 {{< text yaml >}}
 env:
@@ -227,27 +206,25 @@ env:
   value: "true"
 {{< /text >}}
 
-In the next section you will configure TLS origination for accessing an external web service.
+在下一节中，您将配置 TLS 发起以访问外部 Web 服务。
 
-## Bookinfo with TLS origination to a Google Books web service
+## 具有 TLS 的 Bookinfo 起源于 Google Books 网络服务{#Bookinfo-with-TLS-origination-to-a-google-books-web-service}
 
-1.  Deploy a version of _details v2_ that sends an HTTP request to
-    [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started). The `DO_NOT_ENCRYPT` variable
-    is set to true in
-    [`bookinfo-details-v2.yaml`]({{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml).
+1.  部署 _details v2_ 版本，将 HTTP 请求发送到 [Google Books API](https://developers.google.com/books/docs/v1/getting_started)。
+    在 [`bookinfo-details-v2.yaml`]({{<github_file>}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml) 中，
+    `DO_NOT_ENCRYPT` 变量设置为 true。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
     {{< /text >}}
 
-1.  Direct the traffic destined to the _details_ microservice, to _details version v2_.
+1.  将指向 _details_ 微服务的流量定向到 _details v2_。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     {{< /text >}}
 
-1.  Create a mesh-external service entry for `www.google.apis` , a virtual service to rewrite the destination port from
-    80 to 443, and a destination rule to perform TLS origination.
+1.  为 `www.google.apis` 创建网格外部 `ServiceEntry`，virtual service 将目标端口从 80 重写为 443，并执行 TLS 的 `destination rule`。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -296,15 +273,15 @@ In the next section you will configure TLS origination for accessing an external
         - port:
             number: 443
           tls:
-            mode: SIMPLE # initiates HTTPS when accessing www.googleapis.com
+            mode: SIMPLE # 访问 edition.cnn.com 时启动 HTTPS
     EOF
     {{< /text >}}
 
-1.  Access the web page of the application and verify that the book details are displayed without errors.
+1.  访问应用程序的网页，并验证显示的书籍详细信息没有错误。
 
-1.  [Enable Envoy’s access logging](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1.  [开启 Envoy 访问记录功能](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
+1.  检查 _details v2_ 的 sidecar 代理的日志，并查看 HTTP 请求。
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis
@@ -312,10 +289,10 @@ In the next section you will configure TLS origination for accessing an external
     EOF
     {{< /text >}}
 
-    Note the URL path in the log, the path can be monitored and access policies can be applied based on it. To read more
-    about monitoring and access policies for HTTP egress traffic, check out [this blog post](https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging).
+    请注意日志中的 URL 路径，可以监视路径并根据它来应用访问策略。要了解有关 HTTP 出口流量的监控和访问策略
+    的更多信息，请查看[归档博客之出口流量监控之日志](https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging)。
 
-### Cleanup of TLS origination to a Google Books web service
+### 清除 TLS 原始数据到 Google Books 网络服务{#cleanup-of-TLS-origination-to-a-google-books-web-service}
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
@@ -325,23 +302,19 @@ $ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 {{< /text >}}
 
-### Relation to Istio mutual TLS
+### Istio 双向 TLS 的关系{#relation-to-Istio-mutual-TLS}
 
-Note that the TLS origination in this case is unrelated to
-[the mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) applied by Istio. The TLS origination for the
-external services will work, whether the Istio mutual TLS is enabled or not. The **mutual** TLS secures
-service-to-service communication **inside** the service mesh and provides each service with a strong identity. The
-**external services** in this blog post were accessed using **one-way TLS**, the same mechanism used to secure communication between a
-web browser and a web server. TLS is applied to the communication with external services to verify the identity of the
-external server and to encrypt the traffic.
+请注意，在这种情况下，TLS 的源与 Istio 应用的 [双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) 无关,
+无论 Istio 双向 TLS 是否启用，外部服务的 TLS 源都将起作用 , 保证服务网**内**的服务到服务通信，
+并为每个服务提供强大的身份认证, 在此博客文章中的 **外部服务**的情况下，我们有**单向** TLS，
+这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，
+以验证外部服务器的身份并加密流量。
 
-## Conclusion
+## 结论{#conclusion}
 
-In this blog post I demonstrated how microservices in an Istio service mesh can consume external web services by
-HTTPS. By default, Istio blocks all the traffic to the hosts outside the cluster. To enable such traffic, mesh-external
-service entries must be created for the service mesh. It is possible to access the external sites either by
-issuing HTTPS requests, or by issuing HTTP requests with Istio performing TLS origination. When the microservices issue
-HTTPS requests, the traffic is encrypted end-to-end, however Istio cannot monitor HTTP details like the URL paths of the
-requests. When the microservices issue HTTP requests, Istio can monitor the HTTP details of the requests and enforce
-HTTP-based access policies. However, in that case the traffic between microservice and the sidecar proxy is unencrypted.
-Having part of the traffic unencrypted can be forbidden in organizations with very strict security requirements.
+在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，
+Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用 mesh-external,必须为服务网格创建 `ServiceEntry` ,
+可以通过 HTTPS 访问外部站点，当微服务发出 HTTPS 请求时，流量是端到端加密的，但是 Istio 无法监视 HTTP 详细信息，
+例如请求的 URL 路径。当微服务发出 HTTP 请求时，Istio 可以监视请求的 HTTP 详细信息并强制执行基于 HTTP 的访问策略。
+但是，在这种情况下，微服务和 sidecar 代理之间的流量是未加密的。在具有非常严格的安全要求的组织中，
+可以禁止未加密的部分流量。
