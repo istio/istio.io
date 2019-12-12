@@ -315,7 +315,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1. [验证 TCP egress 流量是否被定向到 egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway).
 
-#### Sidecar 代理和 egress gateway 之间的双向 TLS{#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway}
+#### Sidecar 代理和 egress gateway 之间的双向 TLS{#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway}
 
 1. 删除前面小节中的配置：
 
