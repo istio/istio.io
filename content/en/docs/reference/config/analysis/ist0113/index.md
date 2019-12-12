@@ -8,7 +8,7 @@ in conflict with regards to mutual TLS. The two resources are in conflict if the
 specify incompatible mutual TLS modes to be used; this conflict means traffic matching
 the destination rule to the specified host will be rejected.
 
-This message is only produced on clusters that are not using [automatic mutual
+This message is only produced on service meshes that are not using [automatic mutual
 TLS](/docs/tasks/security/authentication/auto-mtls/).
 
 ## An example
@@ -58,8 +58,8 @@ order:
 
 1. A policy resource in namespace `my-namespace` that contains a `target`
    specifying `my-service`.
-1. A policy resource in namespace `my-namespace` that does not contain a
-   `target`. This policy implicitly applies to the entire namespace.
+1. A policy resource named `default` in namespace `my-namespace` that does not
+   contain a `target`. This policy implicitly applies to the entire namespace.
 1. A mesh policy resource named `default`.
 
 To determine which destination rules are applied to traffic sent to
