@@ -185,6 +185,11 @@ Run the following command to create default destination rules for the Bookinfo s
 
 * If you did **not** enable mutual TLS, execute this command:
 
+    {{< tip >}}
+    Choose this option if you are new to Istio and are using the `demo`
+    [configuration profile](/docs/setup/additional-setup/config-profiles/).
+    {{< /tip >}}
+
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
