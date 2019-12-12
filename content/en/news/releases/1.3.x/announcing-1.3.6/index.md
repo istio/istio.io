@@ -19,6 +19,7 @@ This release contains fixes for the security vulnerability described in [our Dec
 
 __[CVE-2019-18801](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18801)__: Fix a vulnerability affecting Envoy's processing of large HTTP/2 request headers.  A successful exploitation of this vulnerability could lead to a denial of service, escalation of privileges, or information disclosure.
 __[CVE-2019-18802](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18802)__: Fix a vulnerability resulting from whitespace after HTTP/1 header values which could allow an attacker to bypass Istio's policy checks, potentially resulting in information disclosure or escalation of privileges.
+__[CVE-2019-18838](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18838)__: Fix a vulnerability resulting from malformed HTTP request missing the "Host" header. An encoder filter that invokes Envoy's route manager APIs that access request's "Host" header will cause a NULL pointer to be dereferenced and result in abnormal termination of the Envoy process.
 
 ## Bug fixes
 
