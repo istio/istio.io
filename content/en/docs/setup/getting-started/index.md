@@ -166,7 +166,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
 If you are not sure where to begin,
-[deploy the Bookinfo sample](/docs/examples/bookinfo/#deploying-the-application)
+[deploy the Bookinfo sample](/docs/examples/bookinfo/)
 which will allow you to evaluate Istio's features for traffic routing, fault injection, rate
 limiting, etc. Then explore the various [Istio tasks](/docs/tasks/) that interest you.
 
