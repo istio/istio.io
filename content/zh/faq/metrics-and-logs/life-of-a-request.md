@@ -1,45 +1,45 @@
 ---
-title: How to figure out what happened to a request in Istio?
+title: 怎样查看 Istio 的请求都发生了什么？
 weight: 80
 ---
 
-You can enable [tracing](/zh/docs/tasks/observability/distributed-tracing/) to determine the flow of a request in Istio.
+您可以启用 [tracing](/zh/docs/tasks/observability/distributed-tracing/) 以确定 Istio 中的请求是怎样流动的。
 
-Additionally, you can use the following commands to know more about the state of the mesh:
+另外，您还可以使用如下命令以了解网格中的更多状态信息：
 
-* [`istioctl proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config): Retrieve information about proxy configuration when running in Kubernetes:
+* [`istioctl proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config)：获取 Kubernetes 运行期间的 proxy 配置信息：
 
     {{< text plain >}}
-    # Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.
+    # 在指定的 pod 中 Envoy 实例的启动（bootstrap）配置信息。
     $ istioctl proxy-config bootstrap productpage-v1-bb8d5cbc7-k7qbm
 
-    # Retrieve information about cluster configuration for the Envoy instance in the specified pod.
+    # 在指定的 pod 中 Envoy 实例的集群（cluster）配置信息。
     $ istioctl proxy-config cluster productpage-v1-bb8d5cbc7-k7qbm
 
-    # Retrieve information about listener configuration for the Envoy instance in the specified pod.
+    # 在指定的 pod 中 Envoy 实例的监听器（listener）配置信息。
     $ istioctl proxy-config listener productpage-v1-bb8d5cbc7-k7qbm
 
-    # Retrieve information about route configuration for the Envoy instance in the specified pod.
+    # 在指定的 pod 中 Envoy 实例的路由（route）配置信息。
     $ istioctl proxy-config route productpage-v1-bb8d5cbc7-k7qbm
 
-    # Retrieve information about endpoint configuration for the Envoy instance in the specified pod.
+    # 在指定的 pod 中 Envoy 实例的端点（endpoint）配置信息。
     $ istioctl proxy-config endpoints productpage-v1-bb8d5cbc7-k7qbm
 
-    # Try the following to discover more proxy-config commands
+    # 查看更多 proxy-config 的用法可用如下命令
     $ istioctl proxy-config --help
     {{< /text >}}
 
-* `kubectl get`: Gets information about different resources in the mesh along with routing configuration:
+* `kubectl get`：通过路由配置获取网格中不同资源的信息：
 
     {{< text plain >}}
-    # List all virtual services
+    # 列出所有的 virtual services
     $ kubectl get virtualservices
     {{< /text >}}
 
-* Mixer access logs: Mixer writes access logs that contain information about requests. You can get them with:
+* Mixer 访问日志： Mixer 的访问日志中包含了关于请求的信息。您可以通过这样获取：
 
     {{< text plain >}}
-    # Fill <istio namespace> with the namespace of your istio mesh. Ex: istio-system
+    # 将 <istio namespace> 处改为您自己的 Istio namespace。 比如： istio-system
     $ TELEMETRY_POD=`kubectl get po -n <istio namespace> | grep istio-telemetry | awk '{print $1;}'`
     $ kubectl logs $TELEMETRY_POD -c mixer  -n istio-system  | grep accesslog
     {{< /text >}}
