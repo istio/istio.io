@@ -72,7 +72,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 
 Sidecar 注入 webhook 是默认启用的。如果你希望禁用 webhook，可以使用 [Helm](/zh/docs/setup/install/helm/) 将 `sidecarInjectorWebhook.enabled` 设置为 `false`。
 
-还有很多[其他选项](/zh/docs/reference/config/installation-options/#sidecarinjectorwebhook-options)可以配置。
+还有很多[其他选项](/zh/docs/reference/config/installation-options/#sidecar-injector-webhook-options)可以配置。
 
 #### 部署应用{#deploying-an-app}
 

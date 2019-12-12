@@ -1,40 +1,34 @@
 ---
-title: Installation Options (Helm)
-description: Describes the options available when installing Istio using Helm charts.
+title: 安装选项（Helm）
+description: 描述使用 Helm chart 安装 Istio 时的可选项。
 weight: 15
 keywords: [kubernetes,helm]
 force_inline_toc: true
 ---
 
 {{< warning >}}
-Installing Istio with Helm is in the process of deprecation, however, you can use these Helm
-configuration options when [installing Istio with {{< istioctl >}}](/zh/docs/setup/install/istioctl/)
-by prepending the string "`values.`" to the option name. For example, instead of this `helm` command:
+使用 Helm 安装 Istio 的方式正在被弃用，不过你在[使用 {{< istioctl >}} 安装 Istio](/zh/docs/setup/install/istioctl/) 时仍然可以使用这些 Helm 的配置项，把 `values.` 作为选项名的前缀。例如，替换下面的 `helm` 命令：
 
 {{< text bash >}}
 $ helm template ... --set global.mtls.enabled=true
 {{< /text >}}
 
-You can use this `istioctl` command:
+可以使用 `istioctl` 命令：
 
 {{< text bash >}}
 $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /text >}}
 
-Refer to [customizing the configuration](/zh/docs/setup/install/istioctl/#customizing-the-configuration) for details.
+参考[自定义配置](/zh/docs/setup/install/istioctl/#customizing-the-configuration)获取详细信息。
 {{< /warning >}}
 
 {{< warning >}}
-This document is unfortunately out of date with the latest changes in the set of supported options.
-To get the exact set of supported options, please see the [Helm charts]({{< github_tree >}}/install/kubernetes/helm/istio).
+不幸的是，由于支持的选项集有最新的变化，此文档已经过时。获取准确的支持的选项集，请参阅 [Helm charts]({{< github_tree >}}/install/kubernetes/helm/istio)。
 {{< /warning >}}
 
-<!-- Run python scripts/tablegen.py to generate this table -->
+## `certmanager` 选项 {#cert-manager-options}
 
-<!-- AUTO-GENERATED-START -->
-## `certmanager` options
-
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `certmanager.enabled` | `false` |  |
 | `certmanager.replicaCount` | `1` |  |
@@ -47,9 +41,9 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `certmanager.podAntiAffinityLabelSelector` | `[]` |  |
 | `certmanager.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `galley` options
+## `galley` 选项 {#galley-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `galley.enabled` | `true` |  |
 | `galley.replicaCount` | `1` |  |
@@ -61,14 +55,14 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `galley.podAntiAffinityLabelSelector` | `[]` |  |
 | `galley.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `gateways` options
+## `gateways` 选项 {#gateways-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `gateways.enabled` | `true` |  |
 | `gateways.istio-ingressgateway.enabled` | `true` |  |
-| `gateways.istio-ingressgateway.sds.enabled` | `false` | `If true, ingress gateway fetches credentials from SDS server to handle TLS connections.` |
-| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` | `SDS server that watches kubernetes secrets and provisions credentials to ingress gateway. This server runs in the same pod as ingress gateway.` |
+| `gateways.istio-ingressgateway.sds.enabled` | `false` | `如果是 true，ingress gateway 将从 SDS 服务器获取凭证来处理 TLS 连接。` |
+| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` | `SDS 服务器为 ingress gateway 监测 kubernetes 密钥和规定的凭证。服务器和 ingress gateway 运行在同一个 pod 中。` |
 | `gateways.istio-ingressgateway.sds.resources.requests.cpu` | `100m` |  |
 | `gateways.istio-ingressgateway.sds.resources.requests.memory` | `128Mi` |  |
 | `gateways.istio-ingressgateway.sds.resources.limits.cpu` | `2000m` |  |
@@ -90,7 +84,7 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `gateways.istio-ingressgateway.externalIPs` | `[]` |  |
 | `gateways.istio-ingressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-ingressgateway.podAnnotations` | `{}` |  |
-| `gateways.istio-ingressgateway.type` | `LoadBalancer` | `change to NodePort, ClusterIP or LoadBalancer if need be` |
+| `gateways.istio-ingressgateway.type` | `LoadBalancer` | `如果需要可以改为 NodePort，ClusterIP 或 LoadBalancer` |
 | `gateways.istio-ingressgateway.ports.targetPort` | `15020` |  |
 | `gateways.istio-ingressgateway.ports.name` | `status-port` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `80` |  |
@@ -123,7 +117,7 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `gateways.istio-ingressgateway.secretVolumes.secretName` | `istio-ingressgateway-ca-certs` |  |
 | `gateways.istio-ingressgateway.secretVolumes.mountPath` | `/etc/istio/ingressgateway-ca-certs` |  |
 | `gateways.istio-ingressgateway.applicationPorts` | `""` |  |
-| `gateways.istio-ingressgateway.env.ISTIO_META_ROUTER_MODE` | `"sni-dnat"` | `A gateway with this mode ensures that pilot generates an additional set of clusters for internal services but without Istio mTLS, to enable cross cluster routing.` |
+| `gateways.istio-ingressgateway.env.ISTIO_META_ROUTER_MODE` | `"sni-dnat"` | `使用这种模式的网关可以确保 pilot 为内部服务生成一组额外的集群，而不使用 Istio mTLS，从而支持跨集群路由。` |
 | `gateways.istio-ingressgateway.nodeSelector` | `{}` |  |
 | `gateways.istio-ingressgateway.tolerations` | `[]` |  |
 | `gateways.istio-ingressgateway.podAntiAffinityLabelSelector` | `[]` |  |
@@ -143,7 +137,7 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `gateways.istio-egressgateway.cpu.targetAverageUtilization` | `80` |  |
 | `gateways.istio-egressgateway.serviceAnnotations` | `{}` |  |
 | `gateways.istio-egressgateway.podAnnotations` | `{}` |  |
-| `gateways.istio-egressgateway.type` | `ClusterIP` | `change to NodePort or LoadBalancer if need be` |
+| `gateways.istio-egressgateway.type` | `ClusterIP` | `如果需要可改为 NodePort 或 LoadBalancer` |
 | `gateways.istio-egressgateway.ports.name` | `http2` |  |
 | `gateways.istio-egressgateway.ports.name` | `https` |  |
 | `gateways.istio-egressgateway.ports.targetPort` | `15443` |  |
@@ -184,115 +178,115 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `gateways.istio-ilbgateway.nodeSelector` | `{}` |  |
 | `gateways.istio-ilbgateway.tolerations` | `[]` |  |
 
-## `global` options
+## `global` 选项 {#global-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
-| `global.hub` | `` | `Default hub for Istio images. Releases are published to docker hub under 'istio' project. Daily builds from prow are on gcr.io` |
-| `global.tag` | `` | `Default tag for Istio images.` |
+| `global.hub` | `` | `Istio 镜像的默认 hub。发布在 'istio' 项目下的 docker hub 中。通过 gcr.io 的 prow 每日构建。` |
+| `global.tag` | `` | `Istio 镜像的默认 tag` |
 | `global.logging.level` | `"default:info"` |  |
-| `global.monitoringPort` | `15014` | `monitoring port used by mixer, pilot, galley and sidecar injector` |
+| `global.monitoringPort` | `15014` | `mixer, pilot, galley 和 sidecar injector 使用的监控端口` |
 | `global.k8sIngress.enabled` | `false` |  |
-| `global.k8sIngress.gatewayName` | `ingressgateway` | `Gateway used for k8s Ingress resources. By default it is using 'istio:ingressgateway' that will be installed by setting 'gateways.enabled' and 'gateways.istio-ingressgateway.enabled' flags to true.` |
-| `global.k8sIngress.enableHttps` | `false` | `enableHttps will add port 443 on the ingress. It REQUIRES that the certificates are installed  in the expected secrets - enabling this option without certificates will result in LDS rejection and the ingress will not work.` |
+| `global.k8sIngress.gatewayName` | `ingressgateway` | `k8s Ingress 资源使用的网关。默认使用 'istio:ingressgateway'，通过设置 'gateways.enabled' 和 'gateways.istio-ingressgateway.enabled' 标志为 true 来安装。` |
+| `global.k8sIngress.enableHttps` | `false` | `enableHttps 将在 ingress 添加 443 端口。它要求证书安装在预期的密钥中——在没有证书的情况下启用此选项将导致 LDS 拒绝，ingress 将无法工作。` |
 | `global.proxy.init.resources.limits.cpu` | `100m` |  |
 | `global.proxy.init.resources.limits.memory` | `50Mi` |  |
 | `global.proxy.init.resources.requests.cpu` | `10m` |  |
 | `global.proxy.init.resources.requests.memory` | `10Mi` |  |
 | `global.proxy.image` | `proxyv2` |  |
-| `global.proxy.clusterDomain` | `"cluster.local"` | `cluster domain. Default value is "cluster.local".` |
+| `global.proxy.clusterDomain` | `"cluster.local"` | `集群域，默认值是 "cluster.local"。` |
 | `global.proxy.resources.requests.cpu` | `100m` |  |
 | `global.proxy.resources.requests.memory` | `128Mi` |  |
 | `global.proxy.resources.limits.cpu` | `2000m` |  |
 | `global.proxy.resources.limits.memory` | `1024Mi` |  |
-| `global.proxy.concurrency` | `2` | `Controls number of Proxy worker threads. If set to 0, then start worker thread for each CPU thread/core.` |
+| `global.proxy.concurrency` | `2` | `控制代理 worker 线程的数量。如果设置为 0，每个 CPU 每个核启动一个 worker 线程。` |
 | `global.proxy.accessLogFile` | `""` |  |
-| `global.proxy.accessLogFormat` | `""` | `Configure how and what fields are displayed in sidecar access log. Setting to empty string will result in default log format` |
-| `global.proxy.accessLogEncoding` | `TEXT` | `Configure the access log for sidecar to JSON or TEXT.` |
+| `global.proxy.accessLogFormat` | `""` | `配置如何以及哪些字段显示在 sidecar 访问日志中。设置为空字符串为默认的日志格式` |
+| `global.proxy.accessLogEncoding` | `TEXT` | `配置 sidecar 的访问日志为 JSON 或 TEXT 格式` |
 | `global.proxy.envoyAccessLogService.enabled` | `false` |  |
-| `global.proxy.envoyAccessLogService.host` | `` | `example: accesslog-service.istio-system` |
-| `global.proxy.envoyAccessLogService.port` | `` | `example: 15000` |
-| `global.proxy.envoyAccessLogService.tlsSettings.mode` | `DISABLE` | `DISABLE, SIMPLE, MUTUAL, ISTIO_MUTUAL` |
-| `global.proxy.envoyAccessLogService.tlsSettings.clientCertificate` | `` | `example: /etc/istio/als/cert-chain.pem` |
-| `global.proxy.envoyAccessLogService.tlsSettings.privateKey` | `` | `example: /etc/istio/als/key.pem` |
-| `global.proxy.envoyAccessLogService.tlsSettings.caCertificates` | `` | `example: /etc/istio/als/root-cert.pem` |
-| `global.proxy.envoyAccessLogService.tlsSettings.sni` | `` | `example: als.somedomain` |
+| `global.proxy.envoyAccessLogService.host` | `` | `例： accesslog-service.istio-system` |
+| `global.proxy.envoyAccessLogService.port` | `` | `例：15000` |
+| `global.proxy.envoyAccessLogService.tlsSettings.mode` | `DISABLE` | `DISABLE，SIMPLE，MUTUAL，ISTIO_MUTUAL` |
+| `global.proxy.envoyAccessLogService.tlsSettings.clientCertificate` | `` | `例：/etc/istio/als/cert-chain.pem` |
+| `global.proxy.envoyAccessLogService.tlsSettings.privateKey` | `` | `例：/etc/istio/als/key.pem` |
+| `global.proxy.envoyAccessLogService.tlsSettings.caCertificates` | `` | `例：/etc/istio/als/root-cert.pem` |
+| `global.proxy.envoyAccessLogService.tlsSettings.sni` | `` | `例：tlsomedomain` |
 | `global.proxy.envoyAccessLogService.tlsSettings.subjectAltNames` | `[]` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.probes` | `3` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.time` | `10s` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.interval` | `10s` |  |
-| `global.proxy.logLevel` | `""` | `Log level for proxy, applies to gateways and sidecars.  If left empty, "warning" is used. Expected values are: trace\|debug\|info\|warning\|error\|critical\|off` |
-| `global.proxy.componentLogLevel` | `""` | `Per Component log level for proxy, applies to gateways and sidecars. If a component level is not set, then the global "logLevel" will be used. If left empty, "misc:error" is used.` |
-| `global.proxy.dnsRefreshRate` | `300s` | `Configure the DNS refresh rate for Envoy cluster of type STRICT_DNS This must be given it terms of seconds. For example, 300s is valid but 5m is invalid.` |
-| `global.proxy.protocolDetectionTimeout` | `10ms` | `Automatic protocol detection uses a set of heuristics to determine whether the connection is using TLS or not (on the server side), as well as the application protocol being used (e.g., http vs tcp). These heuristics rely on the client sending the first bits of data. For server first protocols like MySQL, MongoDB, etc., Envoy will timeout on the protocol detection after the specified period, defaulting to non mTLS plain TCP traffic. Set this field to tweak the period that Envoy will wait for the client to send the first bits of data. (MUST BE >=1ms)` |
-| `global.proxy.privileged` | `false` | `If set to true, istio-proxy container will have privileged securityContext` |
-| `global.proxy.enableCoreDump` | `false` | `If set, newly injected sidecars will have core dumps enabled.` |
-| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `Image used to enable core dumps. This is only used, when "enableCoreDump" is set to true.` |
-| `global.proxy.statusPort` | `15020` | `Default port for Pilot agent health checks. A value of 0 will disable health checking.` |
-| `global.proxy.readinessInitialDelaySeconds` | `1` | `The initial delay for readiness probes in seconds.` |
-| `global.proxy.readinessPeriodSeconds` | `2` | `The period between readiness probes.` |
-| `global.proxy.readinessFailureThreshold` | `30` | `The number of successive failed probes before indicating readiness failure.` |
+| `global.proxy.logLevel` | `""` | `代理的日志级别，应用于网关和 sidecars。如果为空，则使用 "warning"。期望值是：trace\|debug\|info\|warning\|error\|critical\|off` |
+| `global.proxy.componentLogLevel` | `""` | `每个组件的代理日志级别，应用于网关和 sidecars。如果组件级别没设置，全局的 "logLevel" 将启用。如果为空，"misc:error" 将启用` |
+| `global.proxy.dnsRefreshRate` | `300s` | `配置类型为 STRICT_DNS 的 Envoy 集群的 DNS 刷新率，必须以秒为单位。例如：300s 是合法的但 5m 不合法。` |
+| `global.proxy.protocolDetectionTimeout` | `10ms` | `自动协议检测使用一组试探法来确定连接是否使用TLS（服务端），以及正在使用的应用程序协议（例如 http 和 tcp）。 试探法依赖于客户端发送的第一个数据位。对于像 Mysql，MongoDB 这样的服务器的第一协议来说，在指定的时间段之后，Envoy 将对协议检测超时，默认为非 mTLS 的 TCP 流量。设置此字段以调整 Envoy 将等待客户端发送第一个数据位的时间。（必须 >=1ms）` |
+| `global.proxy.privileged` | `false` | `如果设置为 true，istio-proxy 容器将享有 securityContext 的权限。` |
+| `global.proxy.enableCoreDump` | `false` | `如果设置，新注入的sidecars将启用 core dumps。` |
+| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `镜像用于开启 core dumps。仅在 "enableCoreDump" 设置为 true 时使用。` |
+| `global.proxy.statusPort` | `15020` | `Pilot 代理健康检查的默认端口。值为 0 将关闭健康检查。` |
+| `global.proxy.readinessInitialDelaySeconds` | `1` | `readiness 探针的初始延迟秒数。` |
+| `global.proxy.readinessPeriodSeconds` | `2` | `readiness 探针的探测间隔。` |
+| `global.proxy.readinessFailureThreshold` | `30` | `确定 readiness 失败前探测成功失败的数量。` |
 | `global.proxy.includeIPRanges` | `"*"` |  |
 | `global.proxy.excludeIPRanges` | `""` |  |
 | `global.proxy.excludeOutboundPorts` | `""` |  |
-| `global.proxy.kubevirtInterfaces` | `""` | `pod internal interfaces` |
+| `global.proxy.kubevirtInterfaces` | `""` | `pod 内部接口` |
 | `global.proxy.includeInboundPorts` | `"*"` |  |
 | `global.proxy.excludeInboundPorts` | `""` |  |
-| `global.proxy.autoInject` | `enabled` | `This controls the 'policy' in the sidecar injector.` |
-| `global.proxy.envoyStatsd.enabled` | `false` | `If enabled is set to true, host and port must also be provided. Istio no longer provides a statsd collector.` |
-| `global.proxy.envoyStatsd.host` | `` | `example: statsd-svc.istio-system` |
-| `global.proxy.envoyStatsd.port` | `` | `example: 9125` |
+| `global.proxy.autoInject` | `enabled` | `控制 sidecar 注入器的 'policy'。` |
+| `global.proxy.envoyStatsd.enabled` | `false` | `如果设置为 true，主机和端口必须提供。Istio 不再提供一个 statsd 收集器。` |
+| `global.proxy.envoyStatsd.host` | `` | `例： statsd-svc.istio-system` |
+| `global.proxy.envoyStatsd.port` | `` | `例：9125` |
 | `global.proxy.envoyMetricsService.enabled` | `false` |  |
-| `global.proxy.envoyMetricsService.host` | `` | `example: metrics-service.istio-system` |
-| `global.proxy.envoyMetricsService.port` | `` | `example: 15000` |
-| `global.proxy.tracer` | `"zipkin"` | `Specify which tracer to use. One of: zipkin, lightstep, datadog, stackdriver. If using stackdriver tracer outside GCP, set env GOOGLE_APPLICATION_CREDENTIALS to the GCP credential file.` |
-| `global.proxy_init.image` | `proxy_init` | `Base name for the proxy_init container, used to configure iptables.` |
+| `global.proxy.envoyMetricsService.host` | `` | `例：metrics-service.istio-system` |
+| `global.proxy.envoyMetricsService.port` | `` | `例：15000` |
+| `global.proxy.tracer` | `"zipkin"` | `指定使用以下哪一个追踪器：zipkin，lightstep， datadog，stackdriver。 如果使用外部 GCP 的 stackdriver 追踪器，设置环境变量 GOOGLE_APPLICATION_CREDENTIALS 为 GCP 的凭证文件。` |
+| `global.proxy_init.image` | `proxy_init` | `proxy_init 容器的基本名称，用于配置iptables。` |
 | `global.imagePullPolicy` | `IfNotPresent` |  |
-| `global.controlPlaneSecurityEnabled` | `false` | `controlPlaneSecurityEnabled enabled. Will result in delays starting the pods while secrets are propagated, not recommended for tests.` |
-| `global.disablePolicyChecks` | `true` | `disablePolicyChecks disables mixer policy checks. if mixer.policy.enabled==true then disablePolicyChecks has affect. Will set the value with same name in istio config map - pilot needs to be restarted to take effect.` |
-| `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen allows traffic in cases when the mixer policy service cannot be reached. Default is false which means the traffic is denied when the client is unable to connect to Mixer.` |
-| `global.enableTracing` | `true` | `EnableTracing sets the value with same name in istio config map, requires pilot restart to take effect.` |
-| `global.tracer.lightstep.address` | `""` | `example: lightstep-satellite:443` |
-| `global.tracer.lightstep.accessToken` | `""` | `example: abcdefg1234567` |
-| `global.tracer.lightstep.secure` | `true` | `example: true\|false` |
-| `global.tracer.lightstep.cacertPath` | `""` | `example: /etc/lightstep/cacert.pem` |
+| `global.controlPlaneSecurityEnabled` | `false` | `启用 controlPlaneSecurityEnabled enabled。当密钥被传输时，将导致启动 pod 的延迟，不建议用于测试。` |
+| `global.disablePolicyChecks` | `true` | `disablePolicyChecks 关闭 mixer 策略检查。如果 mixer.policy.enabled==true 那么 disablePolicyChecks 生效。当在 istio config map 中设置此值时 —— pilot 需要重启才能生效。` |
+| `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen 允许在无法访问混合策略服务的情况下进行通信。缺省值为 false，这意味着当客户端无法连接到 Mixer 时，流量将被拒绝。` |
+| `global.enableTracing` | `true` | `EnableTracing 设置和 istio config map 中同样的值，需要 pilot 重启生效。` |
+| `global.tracer.lightstep.address` | `""` | `例：lightstep-satellite:443` |
+| `global.tracer.lightstep.accessToken` | `""` | `例：abcdefg1234567` |
+| `global.tracer.lightstep.secure` | `true` | `例：true\|false` |
+| `global.tracer.lightstep.cacertPath` | `""` | `例：/etc/lightstep/cacert.pem` |
 | `global.tracer.zipkin.address` | `""` |  |
 | `global.tracer.datadog.address` | `"$(HOST_IP):8126"` |  |
-| `global.mtls.enabled` | `false` | `Default setting for service-to-service mtls. Can be set explicitly using destination rules or service annotations.` |
-| `global.imagePullSecrets` | `[]` | `Lists the secrets you need to use to pull Istio images from a private registry.` |
+| `global.mtls.enabled` | `false` | `服务到服务 mtls 的默认设置项。可以明确的设置使用目标规则或服务 annotations。` |
+| `global.imagePullSecrets` | `[]` | `列出你从私有注册拉取 Istio 镜像所需的密钥。` |
 | `global.arch.amd64` | `2` |  |
 | `global.arch.s390x` | `2` |  |
 | `global.arch.ppc64le` | `2` |  |
-| `global.oneNamespace` | `false` | `Whether to restrict the applications namespace the controller manages; If not set, controller watches all namespaces` |
-| `global.defaultNodeSelector` | `{}` | `Default node selector to be applied to all deployments so that all pods can be constrained to run a particular nodes. Each component can overwrite these default values by adding its node selector block in the relevant section below and setting the desired values.` |
-| `global.defaultTolerations` | `[]` | `Default node tolerations to be applied to all deployments so that all pods can be scheduled to a particular nodes with matching taints. Each component can overwrite these default values by adding its tolerations block in the relevant section below and setting the desired values. Configure this field in case that all pods of Istio control plane are expected to be scheduled to particular nodes with specified taints.` |
-| `global.configValidation` | `true` | `Whether to perform server-side validation of configuration.` |
+| `global.oneNamespace` | `false` | `是否限制控制器管理的应用程序名称空间；如果不设置，控制器将检测所有命名空间。` |
+| `global.defaultNodeSelector` | `{}` | `将缺省节点选择器应用于所有 Deployment，以便所有 pod 都能被约束来运行特定的节点。每个组件都可以通过在下面的相关部分中添加其节点选择器块并设置所需的值来覆盖这些默认值。` |
+| `global.defaultTolerations` | `[]` | `缺省节点容错应用于所有 Deployment，以便所有 pod 都可以调度到具有匹配 taints 的特定节点。每个组件都可以通过在下面的相关部分中添加自己的 tolerance 块并设置所需的值来覆盖这些默认值。配置此字段，以防所有 Istio 控制平面的 pod 都被调度到指定 taints 的特定节点。` |
+| `global.configValidation` | `true` | `是否执行服务端配置验证。` |
 | `global.meshExpansion.enabled` | `false` |  |
-| `global.meshExpansion.useILB` | `false` | `If set to true, the pilot and citadel mtls and the plaintext pilot ports will be exposed on an internal gateway` |
-| `global.multiCluster.enabled` | `false` | `Set to true to connect two kubernetes clusters via their respective ingressgateway services when pods in each cluster cannot directly talk to one another. All clusters should be using Istio mTLS and must have a shared root CA for this model to work.` |
+| `global.meshExpansion.useILB` | `false` | `如果设置为 true，pilot 和 citadel mtls 以及明文 pilot 端口将暴露在内部网关上。` |
+| `global.multiCluster.enabled` | `false` | `当两个 kubernetes 集群中的 pod 不能互相直接通信时，设置为 true 将通过各自的 ingressgateway 服务连接两个 kubernetes 集群。所有的集群都应该使用 Istio mTLS，并且必须有一个共享的根 CA 才能让这个模型工作。` |
 | `global.defaultResources.requests.cpu` | `10m` |  |
 | `global.defaultPodDisruptionBudget.enabled` | `true` |  |
 | `global.priorityClassName` | `""` |  |
-| `global.useMCP` | `true` | `Use the Mesh Control Protocol (MCP) for configuring Mixer and Pilot. Requires galley (--set galley.enabled=true).` |
+| `global.useMCP` | `true` | `使用网格控制协议（MCP）来配置 Mixer 和 Pilot。需要 galley (--set galley.enabled=true)。` |
 | `global.trustDomain` | `""` |  |
-| `global.meshID` | `""` | `Mesh ID means Mesh Identifier. It should be unique within the scope where meshes will interact with each other, but it is not required to be globally/universally unique. For example, if any of the following are true, then two meshes must have different Mesh IDs: - Meshes will have their telemetry aggregated in one place - Meshes will be federated together - Policy will be written referencing one mesh from the other If an administrator expects that any of these conditions may become true in the future, they should ensure their meshes have different Mesh IDs assigned. Within a multicluster mesh, each cluster must be (manually or auto) configured to have the same Mesh ID value. If an existing cluster 'joins' a multicluster mesh, it will need to be migrated to the new mesh ID. Details of migration TBD, and it may be a disruptive operation to change the Mesh ID post-install. If the mesh admin does not specify a value, Istio will use the value of the mesh's Trust Domain. The best practice is to select a proper Trust Domain value.` |
+| `global.meshID` | `""` | `Mesh ID 意为 Mesh 标识符。在网格相互作用的范围内，它应该是唯一的，但不要求它是全局/普遍唯一的。例如，如果下面条件任意一个为真，那么两个网格必须有不同的 Mesh ID：—— 网格将遥测聚合在一个地方 —— 网格将连接在一起 —— 如果管理员期望这些条件中的任何一个在将来可能成为现实，那么策略将被从一个网格写入到另一个引用它的网格，他们需要保证这些网格被指定了不同的 Mesh ID。在一个多集群网格下，每一个集群必须（手动或自动）配置相同的 Mesh ID。如果一个存在的集群“加入”多集群网格，它需要被迁移到新的 mesh ID。详细的迁移还在制定中，在安装后更改 Mesh ID 可能会造成混乱。如果这个网格没有指定一个特定值，Istio 将使用该网格信任域的值。最佳实践是选择适当的信任域值。` |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
-| `global.sds.enabled` | `false` | `SDS enabled. IF set to true, mTLS certificates for the sidecars will be distributed through the SecretDiscoveryService instead of using K8S secrets to mount the certificates.` |
+| `global.sds.enabled` | `false` | `启用 SDS。如果设置为 true，sidecars 的 mTLS 证书将通过 SecretDiscoveryService 分发，而不是使用 K8S secret来挂载。` |
 | `global.sds.udsPath` | `""` |  |
 | `global.meshNetworks` | `{}` |  |
 | `global.localityLbSetting.enabled` | `true` |  |
-| `global.enableHelmTest` | `false` | `Specifies whether helm test is enabled or not. This field is set to false by default, so 'helm template ...' will ignore the helm test yaml files when generating the template` |
+| `global.enableHelmTest` | `false` | `指定是否启用 helm test。此字段默认为 false，所以当生成模板时 'helm template ...' 将忽略 helm test yaml 文件。` |
 
-## `grafana` options
+## `grafana` 选项 {#Grafana-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `grafana.enabled` | `false` |  |
 | `grafana.replicaCount` | `1` |  |
 | `grafana.image.repository` | `grafana/grafana` |  |
 | `grafana.image.tag` | `6.1.6` |  |
 | `grafana.ingress.enabled` | `false` |  |
-| `grafana.ingress.hosts` | `grafana.local` | `Used to create an Ingress record.` |
+| `grafana.ingress.hosts` | `grafana.local` | `常用于创建一个 Ingress  记录` |
 | `grafana.persist` | `false` |  |
 | `grafana.storageClassName` | `""` |  |
 | `grafana.accessMode` | `ReadWriteMany` |  |
@@ -326,15 +320,15 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-## `istio_cni` options
+## `istio_cni` 选项 {#Istio-CNI-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `istio_cni.enabled` | `false` |  |
 
-## `istiocoredns` options
+## `istiocoredns` 选项 {#Istio-CoreDNS-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `istiocoredns.enabled` | `false` |  |
 | `istiocoredns.replicaCount` | `1` |  |
@@ -347,41 +341,41 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `istiocoredns.podAntiAffinityLabelSelector` | `[]` |  |
 | `istiocoredns.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `kiali` options
+## `kiali` 选项 {#Kiali-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
-| `kiali.enabled` | `false` | `Note that if using the demo yaml when installing via Helm, this default will be true.` |
+| `kiali.enabled` | `false` | `注意当通过 Helm 安装，使用 demo yaml时，默认值为 true。` |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `quay.io/kiali` |  |
 | `kiali.image` | `kiali` |  |
 | `kiali.tag` | `v1.1.0` |  |
-| `kiali.contextPath` | `/kiali` | `The root context path to access the Kiali UI.` |
+| `kiali.contextPath` | `/kiali` | `访问 Kiali UI 的根上下文路径。` |
 | `kiali.nodeSelector` | `{}` |  |
 | `kiali.tolerations` | `[]` |  |
 | `kiali.podAntiAffinityLabelSelector` | `[]` |  |
 | `kiali.podAntiAffinityTermLabelSelector` | `[]` |  |
 | `kiali.ingress.enabled` | `false` |  |
-| `kiali.ingress.hosts` | `kiali.local` | `Used to create an Ingress record.` |
-| `kiali.dashboard.auth.strategy` | `login` | `Can be anonymous, login, or openshift` |
-| `kiali.dashboard.secretName` | `kiali` | `You must create a secret with this name - one is not provided out-of-box.` |
-| `kiali.dashboard.viewOnlyMode` | `false` | `Bind the service account to a role with only read access` |
-| `kiali.dashboard.grafanaURL` | `` | `If you have Grafana installed and it is accessible to client browsers, then set this to its external URL. Kiali will redirect users to this URL when Grafana metrics are to be shown.` |
-| `kiali.dashboard.jaegerURL` | `` | `If you have Jaeger installed and it is accessible to client browsers, then set this property to its external URL. Kiali will redirect users to this URL when Jaeger tracing is to be shown.` |
+| `kiali.ingress.hosts` | `kiali.local` | `用来创建一个 Ingress 记录。` |
+| `kiali.dashboard.auth.strategy` | `login` | `可以匿名，登录或 openshift` |
+| `kiali.dashboard.secretName` | `kiali` | `必须使用该名称创建密钥——其中一个不是开箱即用的。` |
+| `kiali.dashboard.viewOnlyMode` | `false` | `将服务帐户绑定到只读访问权限的角色。` |
+| `kiali.dashboard.grafanaURL` | `` | `如果你安装了 Grafana 并可以通过客户端浏览器访问，设置此值作为它的外部 URL。当 Grafana 指标被显示时 Kiali 将重定向用户到此 URL。` |
+| `kiali.dashboard.jaegerURL` | `` | `如果你安装了 Jaeger 并可以通过客户端浏览器访问，设置此值作为它的外部 URL。当 Jaeger 追踪被显示时 Kiali 将重定向用户到此 URL。` |
 | `kiali.prometheusAddr` | `http://prometheus:9090` |  |
-| `kiali.createDemoSecret` | `false` | `When true, a secret will be created with a default username and password. Useful for demos.` |
+| `kiali.createDemoSecret` | `false` | `为 true 时，将使用默认用户名和密码创建密钥。用于演示。` |
 | `kiali.security.enabled` | `true` |  |
 | `kiali.security.cert_file` | `/kiali-cert/cert-chain.pem` |  |
 | `kiali.security.private_key_file` | `/kiali-cert/key.pem` |  |
 
-## `mixer` options
+## `mixer` 选项 {#mixer-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `mixer.image` | `mixer` |  |
 | `mixer.env.GODEBUG` | `gctrace=1` |  |
-| `mixer.env.GOMAXPROCS` | `"6"` | `max procs should be ceil(cpu limit + 1)` |
-| `mixer.policy.enabled` | `false` | `if policy is enabled, global.disablePolicyChecks has affect.` |
+| `mixer.env.GOMAXPROCS` | `"6"` | `最大进程数为 ceil(cpu limit + 1)` |
+| `mixer.policy.enabled` | `false` | `如果策略启用，global.disablePolicyChecks 生效。` |
 | `mixer.policy.replicaCount` | `1` |  |
 | `mixer.policy.autoscaleEnabled` | `true` |  |
 | `mixer.policy.autoscaleMin` | `1` |  |
@@ -398,14 +392,14 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `mixer.telemetry.rollingMaxSurge` | `100%` |  |
 | `mixer.telemetry.rollingMaxUnavailable` | `25%` |  |
 | `mixer.telemetry.sessionAffinityEnabled` | `false` |  |
-| `mixer.telemetry.loadshedding.mode` | `enforce` | `disabled, logonly or enforce` |
-| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `based on measurements 100ms p50 translates to p99 of under 1s. This is ok for telemetry which is inherently async.` |
+| `mixer.telemetry.loadshedding.mode` | `enforce` | `disabled，logonly 或 enforce` |
+| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `根据测量值把100ms p50 转换成 1s 以下的 p99。这对于本质上是异步的遥测来说是可以接受的。` |
 | `mixer.telemetry.resources.requests.cpu` | `1000m` |  |
 | `mixer.telemetry.resources.requests.memory` | `1G` |  |
-| `mixer.telemetry.resources.limits.cpu` | `4800m` | `It is best to do horizontal scaling of mixer using moderate cpu allocation. We have experimentally found that these values work well.` |
+| `mixer.telemetry.resources.limits.cpu` | `4800m` | `最好使用适当的 cpu 分配来实现 Mixer 的水平扩展。我们已经通过实验发现这些数值工作的很好。` |
 | `mixer.telemetry.resources.limits.memory` | `4G` |  |
-| `mixer.telemetry.reportBatchMaxEntries` | `100` | `Set reportBatchMaxEntries to 0 to use the default batching behavior (i.e., every 100 requests). A positive value indicates the number of requests that are batched before telemetry data is sent to the mixer server` |
-| `mixer.telemetry.reportBatchMaxTime` | `1s` | `Set reportBatchMaxTime to 0 to use the default batching behavior (i.e., every 1 second). A positive time value indicates the maximum wait time since the last request will telemetry data be batched before being sent to the mixer server` |
+| `mixer.telemetry.reportBatchMaxEntries` | `100` | `设置 reportBatchMaxEntries 为 0 来使用默认的批量行为（例如 每 100 个请求）。正值表示在将遥测数据发送到 Mixer 之前批处理的请求数。` |
+| `mixer.telemetry.reportBatchMaxTime` | `1s` | `将 reportBatchMaxTime 设置为 0 以使用默认的批处理行为（例如每秒）。正时间值表示最大的等待时间，因为最后一个请求将在发送到 Mxier 之前批量处理遥测数据。` |
 | `mixer.podAnnotations` | `{}` |  |
 | `mixer.nodeSelector` | `{}` |  |
 | `mixer.tolerations` | `[]` |  |
@@ -416,25 +410,25 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `mixer.adapters.stdio.outputAsJson` | `true` |  |
 | `mixer.adapters.prometheus.enabled` | `true` |  |
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
-| `mixer.adapters.useAdapterCRDs` | `false` | `Setting this to false sets the useAdapterCRDs mixer startup argument to false` |
+| `mixer.adapters.useAdapterCRDs` | `false` | `设置为 false 则 useAdapterCRDs mixer 启动参数为 false` |
 
-## `nodeagent` options
+## `nodeagent` 选项 {#node-agent-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `nodeagent.enabled` | `false` |  |
 | `nodeagent.image` | `node-agent-k8s` |  |
-| `nodeagent.env.CA_PROVIDER` | `""` | `name of authentication provider.` |
-| `nodeagent.env.CA_ADDR` | `""` | `CA endpoint.` |
-| `nodeagent.env.Plugins` | `""` | `names of authentication provider's plugins.` |
+| `nodeagent.env.CA_PROVIDER` | `""` | `认证提供商名称` |
+| `nodeagent.env.CA_ADDR` | `""` | `CA endpoint` |
+| `nodeagent.env.Plugins` | `""` | `认证提供商的插件名称` |
 | `nodeagent.nodeSelector` | `{}` |  |
 | `nodeagent.tolerations` | `[]` |  |
 | `nodeagent.podAntiAffinityLabelSelector` | `[]` |  |
 | `nodeagent.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `pilot` options
+## `pilot` 选项 {#pilot-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `pilot.enabled` | `true` |  |
 | `pilot.autoscaleEnabled` | `true` |  |
@@ -445,7 +439,7 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `pilot.image` | `pilot` |  |
 | `pilot.sidecar` | `true` |  |
 | `pilot.traceSampling` | `1.0` |  |
-| `pilot.enableProtocolSniffing` | `false` | `if protocol sniffing is enabled. Default to false.` |
+| `pilot.enableProtocolSniffing` | `false` | `是否启用 sniffing 协议。默认是 false。` |
 | `pilot.resources.requests.cpu` | `500m` |  |
 | `pilot.resources.requests.memory` | `2048Mi` |  |
 | `pilot.env.PILOT_PUSH_THROTTLE` | `100` |  |
@@ -455,11 +449,11 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `pilot.tolerations` | `[]` |  |
 | `pilot.podAntiAffinityLabelSelector` | `[]` |  |
 | `pilot.podAntiAffinityTermLabelSelector` | `[]` |  |
-| `pilot.keepaliveMaxServerConnectionAge` | `30m` | `The following is used to limit how long a sidecar can be connected to a pilot. It balances out load across pilot instances at the cost of increasing system churn.` |
+| `pilot.keepaliveMaxServerConnectionAge` | `30m` | `用来限制 sidecar 与 pilot 连接的时间。它平衡了 pilot 实例之间的负载，代价是增加了系统的负载。` |
 
-## `prometheus` options
+## `prometheus` 选项 {#Prometheus-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `prometheus.enabled` | `true` |  |
 | `prometheus.replicaCount` | `1` |  |
@@ -471,38 +465,38 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `prometheus.tolerations` | `[]` |  |
 | `prometheus.podAntiAffinityLabelSelector` | `[]` |  |
 | `prometheus.podAntiAffinityTermLabelSelector` | `[]` |  |
-| `prometheus.scrapeInterval` | `15s` | `Controls the frequency of prometheus scraping` |
+| `prometheus.scrapeInterval` | `15s` | `控制 prometheus scraping 的频率` |
 | `prometheus.contextPath` | `/prometheus` |  |
 | `prometheus.ingress.enabled` | `false` |  |
-| `prometheus.ingress.hosts` | `prometheus.local` | `Used to create an Ingress record.` |
+| `prometheus.ingress.hosts` | `prometheus.local` | `常用于创建一个 Ingress 记录` |
 | `prometheus.service.annotations` | `{}` |  |
 | `prometheus.service.nodePort.enabled` | `false` |  |
 | `prometheus.service.nodePort.port` | `32090` |  |
 | `prometheus.security.enabled` | `true` |  |
 
-## `security` options
+## `security` 选项 {#security-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `security.enabled` | `true` |  |
 | `security.replicaCount` | `1` |  |
 | `security.rollingMaxSurge` | `100%` |  |
 | `security.rollingMaxUnavailable` | `25%` |  |
-| `security.enableNamespacesByDefault` | `true` | `determines whether namespaces without the ca.istio.io/env and ca.istio.io/override labels should be targeted by the Citadel instance for secret creation` |
+| `security.enableNamespacesByDefault` | `true` | `确定名称空间没有被密钥创建的 Citadel 标记 ca.istio.io/env 和ca.istio.io/override 标签。` |
 | `security.image` | `citadel` |  |
-| `security.selfSigned` | `true` | `indicate if self-signed CA is used.` |
+| `security.selfSigned` | `true` | `表明自签名 CA 是否使用。` |
 | `security.createMeshPolicy` | `true` |  |
 | `security.nodeSelector` | `{}` |  |
 | `security.tolerations` | `[]` |  |
 | `security.citadelHealthCheck` | `false` |  |
-| `security.workloadCertTtl` | `2160h` | `90*24hour = 2160h` |
-| `security.enableNamespacesByDefault` | `true` | `Determines Citadel default behavior if the ca.istio.io/env or ca.istio.io/override labels are not found on a given namespace. For example: consider a namespace called "target", which has neither the "ca.istio.io/env" nor the "ca.istio.io/override" namespace labels. To decide whether or not to generate secrets for service accounts created in this "target" namespace, Citadel will defer to this option. If the value of this option is "true" in this case, secrets will be generated for the "target" namespace. If the value of this option is "false" Citadel will not generate secrets upon service account creation.` |
+| `security.workloadCertTtl` | `2160h` | `90*24 小时 = 2160h` |
+| `security.enableNamespacesByDefault` | `true` | `指定 Citadel 的默认行为，如果ca.istio.io/env 或 ca.istio.io/override 标签没有在给定的命名空间发现。例如：考虑一个叫 "target" 的命名空间，既没有 "ca.istio.io/env" 也没有 "ca.istio.io/override" 标签。决定是否为这个 “target” 命名空间的服务账号创建密钥，Citadel 讲参考这一选项。在这个例子中如果值为 "true"，密钥将为 "target" 命名空间生成。如果值是 "false"，Citadel 不会在创建服务账户时产生密钥。` |
 | `security.podAntiAffinityLabelSelector` | `[]` |  |
 | `security.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `sidecarInjectorWebhook` options
+## `sidecarInjectorWebhook` 选项 {#sidecar-injector-webhook-options}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `sidecarInjectorWebhook.enabled` | `true` |  |
 | `sidecarInjectorWebhook.replicaCount` | `1` |  |
@@ -514,13 +508,13 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `sidecarInjectorWebhook.tolerations` | `[]` |  |
 | `sidecarInjectorWebhook.podAntiAffinityLabelSelector` | `[]` |  |
 | `sidecarInjectorWebhook.podAntiAffinityTermLabelSelector` | `[]` |  |
-| `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | `If true, webhook or istioctl injector will rewrite PodSpec for liveness health check to redirect request to sidecar. This makes liveness check work even when mTLS is enabled.` |
-| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `You can use the field called alwaysInjectSelector and neverInjectSelector which will always inject the sidecar or always skip the injection on pods that match that label selector, regardless of the global policy. See https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
+| `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | `如果是 true，webhook 或 istioctl injector 将为活性健康检查重写 PodSpec 以重定向请求到 sidecar。这使得即使在启用 mTLS 时，活性检查也可以工作。` |
+| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `你可以使用名为 alwaysInjectSelector 和neverInjectSelector 的字段，它们总是注入 sidecar 或者总是略过与标签选择器匹配的 pod 上的注入，而不管全局策略是什么。参看  https://istio.io/zh/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
 | `sidecarInjectorWebhook.alwaysInjectSelector` | `[]` |  |
 
-## `tracing` options
+## `tracing` 选项 {#tracing-option}
 
-| Key | Default Value | Description |
+| 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
 | `tracing.enabled` | `false` |  |
 | `tracing.provider` | `jaeger` |  |
@@ -532,7 +526,7 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `tracing.jaeger.image` | `all-in-one` |  |
 | `tracing.jaeger.tag` | `1.12` |  |
 | `tracing.jaeger.memory.max_traces` | `50000` |  |
-| `tracing.jaeger.spanStorageType` | `badger` | `spanStorageType value can be "memory" and "badger" for all-in-one image` |
+| `tracing.jaeger.spanStorageType` | `badger` | `对多合一的镜像 spanStorageType 的值可以是 "memory" 和 "badger"` |
 | `tracing.jaeger.persist` | `false` |  |
 | `tracing.jaeger.storageClassName` | `""` |  |
 | `tracing.jaeger.accessMode` | `ReadWriteMany` |  |
@@ -553,5 +547,3 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `tracing.service.type` | `ClusterIP` |  |
 | `tracing.service.externalPort` | `9411` |  |
 | `tracing.ingress.enabled` | `false` |  |
-
-<!-- AUTO-GENERATED-END -->
