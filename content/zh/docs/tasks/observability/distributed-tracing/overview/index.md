@@ -9,13 +9,13 @@ aliases:
 
 分布式跟踪可以让用户对跨多个分布式服务网格的1个请求进行跟踪分析。这样进而可以通过可视化的方式更加深入地了解请求的延迟，序列化和并行度。
 
-Istio 利用 [Envoy 的分布式跟踪](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing) 功能提供了开箱即用的跟踪集成。确切地说，Istio 提供了安装各种各种跟踪后端服务的选项，并且通过配置代理来自动发送跟踪 spans 到跟踪后端服务。
+Istio 利用 [Envoy 的分布式跟踪](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing) 功能提供了开箱即用的跟踪集成。确切地说，Istio 提供了安装各种各种跟踪后端服务的选项，并且通过配置代理来自动发送跟踪 span 到跟踪后端服务。
 
 请参阅 [Zipkin](../zipkin/)， [Jaeger](../jaeger/) 和 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 的任务文档来了解 Istio 如何与这些分布式跟踪系统一起工作。
 
 ## 跟踪上下文传递{#trace-context-propagation}
 
-尽管 Istio 代理能够自动发送 spans，但是他们需要一些附加线索才能将整个跟踪链路关联到一起。
+尽管 Istio 代理能够自动发送 span，但是他们需要一些附加线索才能将整个跟踪链路关联到一起。
 
 所以当代理发送 span 信息的时候，应用需要附加适当的 HTTP 请求头信息，这样才能够把多个 span 正确的关联到同一个跟踪上。
 
