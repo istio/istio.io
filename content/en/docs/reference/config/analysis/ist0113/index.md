@@ -109,7 +109,7 @@ Contained in this message are the two resources that are in conflict:
 * Destination rule resource `istio-system/default-rule`, which is requiring mutual TLS
   when sending traffic to host `myhost.my-namespace.svc.cluster.local:8080`
 
-You can fix the conflict by:
+You can fix the conflict by doing one of the following:
 
 * Modifying policy resource `my-namespace/my-policy` to require mutual TLS as an
   authentication mode. In general this is done by adding a `peers` attribute to
