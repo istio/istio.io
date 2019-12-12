@@ -494,7 +494,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `security.podAntiAffinityLabelSelector` | `[]` |  |
 | `security.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## `sidecarInjectorWebhook` 选项 {#sidecar-injector-webHook-options}
+## `sidecarInjectorWebhook` 选项 {#sidecar-injector-webhook-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
