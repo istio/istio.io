@@ -3,7 +3,7 @@ title: MisplacedAnnotation
 layout: analysis-message
 ---
 
-此消息发生在当 Istio {{< gloss >}}annotation{{< /gloss >}} 被添加到无效的资源上时，或者在一个资源的错误的位置上。
+此消息发生在当 Istio {{< gloss >}}annotation{{< /gloss >}} 被添加到无效的资源上或资源的错误位置时。
 
 比如，当你创建一个 deployment 并且把 annotation 添加 deployment 上而不是它创建的 pod 上时就会发生。
 
