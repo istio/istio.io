@@ -1,7 +1,6 @@
 ---
-title: Istio doesn't work - what do I do?
+title: Istio 不工作了应该怎么做？
 weight: 90
 ---
 
-Check out the [operations guide](/zh/docs/ops/) for finding solutions and our
-[bug reporting](/zh/about/bugs/) page for filing bugs.
+查看 [操作指南](/zh/docs/ops/) 寻找解决方案或者 [错误报告](/zh/about/bugs/) 页面去提交错误。
