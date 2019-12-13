@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 74
+number_of_entries: 75
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -47,6 +47,117 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-analyze">istioctl analyze</h2>
+<p>Analyze Istio configuration and print validation messages</p>
+<pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--all-namespaces</code></td>
+<td></td>
+<td>Analyze all namespaces </td>
+</tr>
+<tr>
+<td><code>--color</code></td>
+<td></td>
+<td>Default true.  Disable with &#39;=false&#39; or set $TERM to dumb </td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--discovery</code></td>
+<td><code>-d</code></td>
+<td>&#39;true&#39; to enable service discovery, &#39;false&#39; to disable it. Defaults to true if --use-kube is set, false otherwise. Analyzers requiring resources made available by enabling service discovery will be skipped. </td>
+</tr>
+<tr>
+<td><code>--failure-threshold &lt;Level&gt;</code></td>
+<td></td>
+<td>The severity level of analysis at which to set a non-zero exit code. Valid values: [Info Warn Error]  (default `Warn`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--list-analyzers</code></td>
+<td><code>-L</code></td>
+<td>List the analyzers available to run. Suppresses normal execution. </td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cacheLog, citadelClientLog, configMapController, conversions, default, googleCAClientLog, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, patch, processing, rbac, resource, runtime, sdsServiceLog, secretFetcherLog, source, stsClientLog, tpath, translator, util, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn`)</td>
+</tr>
+<tr>
+<td><code>--meshConfigFile &lt;string&gt;</code></td>
+<td></td>
+<td>Overrides the mesh config values to use for analysis.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
+</tr>
+<tr>
+<td><code>--output-threshold &lt;Level&gt;</code></td>
+<td></td>
+<td>The severity level of analysis at which to display messages. Valid values: [Info Warn Error]  (default `Info`)</td>
+</tr>
+<tr>
+<td><code>--use-kube</code></td>
+<td><code>-k</code></td>
+<td>Use live Kubernetes cluster for analysis </td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Enable verbose output </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-analyze Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Analyze yaml files
+istioctl analyze a.yaml b.yaml
+
+# Analyze the current live cluster
+istioctl analyze -k
+
+# Analyze the current live cluster, simulating the effect of applying additional yaml files
+istioctl analyze -k a.yaml b.yaml
+
+# Analyze yaml files, overriding service discovery to enabled
+istioctl analyze -d true a.yaml b.yaml services.yaml
+
+# Analyze the current live cluster, overriding service discovery to disabled
+istioctl analyze -k -d false
+
+# List available analyzers
+istioctl analyze -L
+
+</code></pre>
 <h2 id="istioctl-authn">istioctl authn</h2>
 <p>
 A group of commands used to interact with Istio authentication policies.
@@ -146,7 +257,7 @@ istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
 
 </code></pre>
 <h2 id="istioctl-authz">istioctl authz</h2>
-<p>(authz is experimental.  Use `istioctl experimental authz`)</p>
+<p>(authz is experimental. Use `istioctl experimental authz`)</p>
 <pre class="language-bash"><code>istioctl authz [flags]
 </code></pre>
 <table class="command-flags">
@@ -860,7 +971,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <pre class="language-bash"><code>istioctl experimental add-to-mesh service productpage
 </code></pre>
 <h2 id="istioctl-experimental-analyze">istioctl experimental analyze</h2>
-<p>Analyze Istio configuration and print validation messages</p>
+<p>Analyze Istio configuration and print validation messages (analyze has graduated. Use `istioctl analyze`)</p>
 <pre class="language-bash"><code>istioctl experimental analyze &lt;file&gt;... [flags]
 </code></pre>
 <table class="command-flags">
@@ -952,22 +1063,22 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <h3 id="istioctl-experimental-analyze Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Analyze yaml files
-istioctl experimental analyze a.yaml b.yaml
+istioctl analyze a.yaml b.yaml
 
 # Analyze the current live cluster
-istioctl experimental analyze -k
+istioctl analyze -k
 
 # Analyze the current live cluster, simulating the effect of applying additional yaml files
-istioctl experimental analyze -k a.yaml b.yaml
+istioctl analyze -k a.yaml b.yaml
 
 # Analyze yaml files, overriding service discovery to enabled
-istioctl experimental analyze -d true a.yaml b.yaml services.yaml
+istioctl analyze -d true a.yaml b.yaml services.yaml
 
 # Analyze the current live cluster, overriding service discovery to disabled
-istioctl experimental analyze -k -d false
+istioctl analyze -k -d false
 
 # List available analyzers
-istioctl experimental analyze -L
+istioctl analyze -L
 
 </code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
@@ -1166,7 +1277,7 @@ string on top of the converted policies before apply them.</p>
 
 </code></pre>
 <h2 id="istioctl-experimental-convert-ingress">istioctl experimental convert-ingress</h2>
-<p>(convert-ingress has graduated.  Use `istioctl convert-ingress`)</p>
+<p>(convert-ingress has graduated. Use `istioctl convert-ingress`)</p>
 <pre class="language-bash"><code>istioctl experimental convert-ingress [flags]
 </code></pre>
 <table class="command-flags">
@@ -1281,7 +1392,7 @@ istioctl --Kubeconfig=c0.yaml x create-remote-secret --auth-type=plugin --auth-p
 
 </code></pre>
 <h2 id="istioctl-experimental-dashboard">istioctl experimental dashboard</h2>
-<p>(dashboard has graduated.  Use `istioctl dashboard`)</p>
+<p>(dashboard has graduated. Use `istioctl dashboard`)</p>
 <pre class="language-bash"><code>istioctl experimental dashboard [flags]
 </code></pre>
 <table class="command-flags">
@@ -3842,7 +3953,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </tbody>
 </table>
 <h2 id="istioctl-validate">istioctl validate</h2>
-<p>Validate Istio policy and rules</p>
+<p>Validate Istio policy and rules (NOTE: validate is deprecated and will be removed in 1.6. Use &#39;istioctl analyze&#39; to validate configuration.)</p>
 <pre class="language-bash"><code>istioctl validate -f FILENAME [options] [flags]
 </code></pre>
 <table class="command-flags">
@@ -3902,8 +4013,8 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 		# Validate current services under &#39;default&#39; namespace within the cluster
 		kubectl get services -o yaml |istioctl validate -f -
 
-		# Also see the related experimental command &#39;istioctl x analyze&#39;
-		istioctl x analyze samples/bookinfo/networking/bookinfo-gateway.yaml
+		# Also see the related command &#39;istioctl analyze&#39;
+		istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml
 
 </code></pre>
 <h2 id="istioctl-verify-install">istioctl verify-install</h2>
