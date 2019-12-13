@@ -19,7 +19,7 @@ aliases:
 
 ## 内容{#context}
 
-当请求包含格式错误的 JWT 令牌时，Istio JWT 认证过滤器中的 BUG 会导致 Envoy 在某些情况下崩溃。该 BUG 已由一个用户在 [GitHub](https://github.com/istio/istio/issues/15084) 上于2019年6月23日发现并报告。
+当请求包含格式错误的 JWT 令牌时，Istio JWT 认证过滤器中的 BUG 会导致 Envoy 在某些情况下崩溃。该 BUG 已由一个用户在 [GitHub](https://github.com/istio/istio/issues/15084) 上于 2019 年 6 月 23 日发现并报告。
 
 此 BUG 会影响所有正在使用 JWT 身份认证策略的 Istio 版本。
 
@@ -30,6 +30,7 @@ Epoch 0 terminated with an error: signal: segmentation fault (core dumped)
 {{< /text >}}
 
 可以使用格式错误的 JWT (没有有效的签名) 触发 Envoy 崩溃，并且可以访问任何 URI，无论 JWT 规范中的 `trigger_rules` 如何设置。 因此，此错误使 Envoy 容易受到潜在的 DoS 攻击。
+无论 JWT 规范中的 `trigger_rules` 如何设置，Envoy 都可能因为格式错误的 JWT token (没有有效的签名) 崩溃，导致所有 URI 访问不受限制。 因此，这个 BUG 使 Envoy 容易受到潜在的 DoS 攻击。
 
 ## 影响范围{#impact-and-detection}
 
@@ -42,9 +43,9 @@ Epoch 0 terminated with an error: signal: segmentation fault (core dumped)
 用于签名认证的 RSA 算法不包含任何已知的安全漏洞。 仅当使用此算法时才触发此 CVE，但与系统的安全性无关。
 {{< /tip >}}
 
-如果将 JWT 策略应用于 Istio ingress gateway。请注意，有权访问 Ingress gateway 的任何外部用户都可以通过单个 HTTP 请求将其崩溃。
+如果将 JWT 策略应用于 Istio ingress gateway。请注意，有权访问 Ingress gateway 的任何外部用户都可以通过单个 HTTP 请求导致它崩溃。
 
-如果仅将 JWT 策略应用 Sidecar， 请记住它仍然可能受到攻击。 例如，Istio ingress gateway 可能会将 JWT token 转发到 Sidecar，这可能是格式错误的 JWT token ，该token 可能让 Sidecar 崩溃。
+如果仅将 JWT 策略应用 Sidecar， 请记住它仍然可能受到攻击。 例如，Istio ingress gateway 可能会将 JWT token 转发到 Sidecar，这可能是格式错误的 JWT token ，该 token 可能让 Sidecar 崩溃。
 
 易受攻击的 Envoy 将在处理 JWT token 格式错误的 HTTP 请求上崩溃。 当 Envoy 崩溃时，所有现有连接将立即断开连接。 `pilot-agent` 将自动重启崩溃的 Envoy，重启可能需要几秒钟到几分钟的时间。 崩溃超过十次后，pilot-agent 将停止重新启动 Envoy。 在这种情况下，Kubernetes 将重新部署 Pod，包括 Envoy 的工作负载。
 
@@ -79,7 +80,7 @@ EOF
 
 ## 防范{#mitigation}
 
-在以下 Istio 发行版中已修复此错误：
+在以下 Istio 发行版中已修复此 BUG：
 
 * Istio 1.0.x: 升级到 [Istio 1.0.9](/zh/news/releases/1.0.x/announcing-1.0.9) 或者更新高版本。
 * Istio 1.1.x: 升级到 [Istio 1.1.10](/zh/news/releases/1.1.x/announcing-1.1.10) 或者更新高版本。
