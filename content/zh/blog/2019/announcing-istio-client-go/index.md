@@ -73,15 +73,14 @@ func main() {
 
 如果您想知道为什么花费大量时间也很难生成此客户端，本小节将对此进行说明。在 `Istio` 中，我们使用[protobuf](https://developers.google.com/protocol-buffers) 规范编写 `API`，然后使用 `protobuf` 工具链将其转换为 `Go` 定义。如果尝试从 `protobuf` 的 `API` 生成 `Kubernetes` 客户端，可能会面临三个主要的挑战：
 
-* **创建 `Kubernetes` 装饰器类型** - Kubernetes [客户端生成库](https://github.com/kubernetes/code-generator/tree/master/cmd/client-gen)
+* **Creating Kubernetes Wrapper Types** - Kubernetes [客户端生成库](https://github.com/kubernetes/code-generator/tree/master/cmd/client-gen)
 仅适用于遵循 `Kubernetes` 对象规范的 `Go` 对象， 例如： [Authentication Policy Kubernetes Wrappers](https://github.com/istio/client-go/blob/{{< source_branch_name >}}/pkg/apis/authentication/v1alpha1/types.gen.go)。这意味着对于需要程序访问的每个API，您都需要创建这些装饰器。此外，每个 `CRD` 组，版本和种类都需要大量的样板，需要用客户端代码生成。为了自动化该过程，我们创建了一个 [Kubernetes type
 generator](https://github.com/istio/tools/tree/master/cmd/kubetype-gen) 工具，可以基于注释去自动创建 `Kubernetes`类型。该工具的注释和各种可用选项在 [README](https://github.com/istio/tools/blob/master/cmd/kubetype-gen/README.md) 中进行了说明。请注意，如果您使用 `protobuf` 工具生成 `Go` 类型，则需要将这些注释添加到 `proto` 文件中，以便注释出现在生成的 `Go` 文件中，然后供该工具使用。
 
-* **生成深层复制方法** - 在 `Kubernetes` 客户端机制中，如果想对从客户端返回的任何对象进行改变，则需要制作该对象的副本以防止在缓存存储中就地修改该对象。做到这一点的规范方法是在所有嵌套类型上创建一个 `deepcopy` 方法。我们创建了一个 [protoc deep copy
+* **Generating deep copy methods** - 在 `Kubernetes` 客户端机制中，如果想对从客户端返回的任何对象进行改变，则需要制作该对象的副本以防止在缓存存储中就地修改该对象。做到这一点的规范方法是在所有嵌套类型上创建一个 `deepcopy` 方法。我们创建了一个 [protoc deep copy
 generator](https://github.com/istio/tools/tree/master/cmd/protoc-gen-deepcopy) 工具，该工具是一个 `protoc` 插件，可以使用 [Proto
 Clone](https://godoc.org/github.com/golang/protobuf/proto#Clone) 库上的注释自动创建 `deepcopy` 方法。这是一个创建 `deepcopy` 方法的[示例](https://github.com/istio/api/blob/{{< source_branch_name >}}/authentication/v1alpha1/policy_deepcopy.gen.go)。
 
-对于从 `proto` 定义生成的类型，使用默认的 `Go` `JSON` 编码器或解码器通常会出现问题，因为像 `protobuf` 的 `oneof` 这类字段需要进行特殊处理。另外，名称名称中带有下划线的任何 `Proto` 字段都可以序列化或反序列化为不同的字段名称，具体取决于编码器/解码器，因为 `Go` 结构体的标记方式[不同](https://github.com/istio/istio/issues/17600)。始终建议使用 `protobuf` 原语对 `JSON` 进行序列化或反序列化，而不是依赖默认的 `Go` 库。我们创建了一个 [protoc JSON
-shim](https://github.com/istio/tools/tree/master/cmd/protoc-gen-jsonshim) 工具，它是一个 `protoc` 插件，可以为从 `Proto` 定义所有 `Go` 类型自动创建的 `Marshalers` 或 `Unmarshalers`。这是用此工具生成代码的一个[示例](https://github.com/istio/api/blob/{{< source_branch_name >}}/authentication/v1alpha1/policy_json.gen.go)。
+* **Generating deep copy methods** - 对于从 `proto` 定义生成的类型，使用默认的 `Go` `JSON` 编码器或解码器通常会出现问题，因为像 `protobuf` 的 `oneof` 这类字段需要进行特殊处理。另外，名称名称中带有下划线的任何 `Proto` 字段都可以序列化或反序列化为不同的字段名称，具体取决于编码器/解码器，因为 `Go` 结构体的标记方式[不同](https://github.com/istio/istio/issues/17600)。始终建议使用 `protobuf` 原语对 `JSON` 进行序列化或反序列化，而不是依赖默认的 `Go` 库。我们创建了一个 [protoc JSON shim](https://github.com/istio/tools/tree/master/cmd/protoc-gen-jsonshim) 工具，它是一个 `protoc` 插件，可以为从 `Proto` 定义所有 `Go` 类型自动创建的 `Marshalers` 或 `Unmarshalers`。这是用此工具生成代码的一个[示例](https://github.com/istio/api/blob/{{< source_branch_name >}}/authentication/v1alpha1/policy_json.gen.go)。
 
 我们希望新发布的客户端库使用户能够为 `Istio API` 创建更多的集成和控制器，并且开发人员可以使用上述工具从 `Proto API` 生成 `Kubernetes` 客户端。
