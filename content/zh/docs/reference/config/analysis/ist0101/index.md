@@ -3,17 +3,15 @@ title: ReferencedResourceNotFound
 layout: analysis-message
 ---
 
-This message occurs when an Istio resource references another resource that does
-not exist. This will lead to errors when Istio tries to look up the referenced
-resource but cannot find it.
+当一个 Istio 资源引用另一个不存在的资源时，会触发此消息。当 Istio 试图查找引用的资源，但是找不到它时，这将导致错误。
 
-For example, you receive this error:
+例如，你收到这个错误:
 
 {{< text plain >}}
 Error [IST0101] (VirtualService httpbin.default) Referenced gateway not found: "httpbin-gateway-bogus"
 {{< /text >}}
 
-In this example, the `VirtualService` refers to a gateway that does not exist:
+在这个例子中, `VirtualService` 指向一个不存在的网关:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -46,5 +44,4 @@ spec:
         host: httpbin-gateway
 {{< /text >}}
 
-To resolve this problem, look for the resource type in the detailed error
-message, correct your Istio configuration and try again.
+要解决此问题，请在详细的错误消息中找到资源类型，修正 Istio 配置并重试。
