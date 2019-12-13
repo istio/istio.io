@@ -3,10 +3,9 @@ title: GatewayPortNotOnWorkload
 layout: analysis-message
 ---
 
-This message occurs when a gateway (usually `istio-ingressgateway`) offers a
-port that the Kubernetes service workload selected by the gateway does not.
+当网关（通常为 `istio-ingressgateway`）提供了一个端口，而该端口并非由网关选择的 Kubernetes service 工作负载提供时，将触发此消息。
 
-For example, your Istio configuration contains these values:
+例如，您的 Istio 配置包含以下值:
 
 {{< text yaml >}}
 # Gateway with bogus port
@@ -33,9 +32,6 @@ spec:
     - "*"
 {{< /text >}}
 
-In this example, the `GatewayPortNotOnWorkload` message occurs because this
-configuration uses port 8004, but a default `IngressGateway` is only open on ports
-80, 443, 31400, and 15443.
+在本例中，出现 `GatewayPortNotOnWorkload` 消息是因为此配置使用了端口8004，但默认的 `IngressGateway` 仅打开了端口80、443、31400和15443。
 
-To resolve this problem, change your gateway configuration to use a valid port
-on the workload and try again.
+要解决此问题，请更改网关配置，在工作负载上使用有效端口，然后重试。
