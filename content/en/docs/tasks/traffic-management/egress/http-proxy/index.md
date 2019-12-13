@@ -191,25 +191,192 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
     $ export EGRESS_GATEWAY_PROXY_PORT=7777
     {{< /text >}}
 
-1.  Update the egress gateway deployment:
+1.  Add the port for redirecting traffic to the egress gateway to an `IstioControlPlane` definition:
 
     {{< text bash >}}
-    $ cat <<EOF > egress-manifest.yaml
+    $ cat <<EOF > ./egress_add_port.conf
     apiVersion: install.istio.io/v1alpha2
     kind: IstioControlPlane
+    metadata:
+      namespace: istio-operator
+      name: example-istiocontrolplane
     spec:
-    gateways:
-      components:
-        egressGateway:
-          enabled: true
-          k8s:
-            resources:
-              requests:
-                cpu: 10m
-                memory: 40Mi
+      profile: demo
+      gateways:
+        enabled: true
+      values:
+        gateways:
+          istio-egressgateway:
+            ports:
+              - port: 7777
+                name: tcp
+              - port: 80
+                name: http
+              - port: 443
+                name: https
+              - port: 15443
+                name: tls
     EOF
     {{< /text >}}
 
+1.  Apply the definition from the previous step:
+
+    {{< text bash >}}
+    $ istioctl manifest apply -f ./egress_add_port.conf
+    {{< /text >}}
+
+1.  Define the Service entry:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: proxy
+    spec:
+      hosts:
+      - my-company-proxy.com # ignored
+      addresses:
+      - $PROXY_IP/32
+      ports:
+      - number: $PROXY_PORT
+        name: tcp
+        protocol: TCP
+      - number: $EGRESS_GATEWAY_PROXY_PORT
+        name: tcp-gateway
+        protocol: TCP
+      location: MESH_EXTERNAL
+    EOF
+    {{< /text >}}
+
+1.  If your remote proxy does not have a host name, create a Kubernetes ExternalName service for it:
+
+    {{< text bash >}}
+    $ kubectl apply -n istio-system -f - <<EOF
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: myproxy
+    spec:
+      type: ExternalName
+      externalName: $PROXY_IP
+      ports:
+      - protocol: TCP
+        port: $PROXY_PORT
+        name: tcp
+    EOF
+    {{< /text >}}
+
+1.  Set the `PROXY_HOSTNAME` variable to the real hostname of your proxy or to the Kubernetes ExternalName service you
+    created earlier:
+
+    {{< text bash >}}
+    $ export PROXY_HOSTNAME=myproxy.istio-system.svc.cluster.local
+    {{< /text >}}
+
+1.  Create an egress `Gateway` for your external proxy, and destination rules and a virtual service to direct the
+    traffic through the egress gateway and from the egress gateway to the external proxy.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: $EGRESS_GATEWAY_PROXY_PORT
+          name: tcp
+          protocol: TCP
+        hosts:
+        - my-company-proxy.com
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-proxy
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+      - name: proxy
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: myproxy
+    spec:
+      host: $PROXY_HOSTNAME
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-traffic-to-proxy-through-egress-gateway
+    spec:
+      hosts:
+      - my-company-proxy.com
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tcp:
+      - match:
+        - gateways:
+          - mesh
+          destinationSubnets:
+          - $PROXY_IP/32
+          port: $PROXY_PORT
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: proxy
+            port:
+              number: $EGRESS_GATEWAY_PROXY_PORT
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: $EGRESS_GATEWAY_PROXY_PORT
+        route:
+        - destination:
+            host: $PROXY_HOSTNAME
+            port:
+              number: $PROXY_PORT
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Send a request from the `sleep` pod in the `default` namespace.
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    <title>Wikipedia, the free encyclopedia</title>
+    {{< /text >}}
+
+1.  Check the Istio sidecar proxy's logs for your request:
+
+    {{< text bash >}}
+    $ kubectl logs $SOURCE_POD -c istio-proxy
+    [2018-12-07T10:38:02.841Z] "- - -" 0 - 702 87599 92 - "-" "-" "-" "-" "172.30.109.95:3128" outbound|3128||my-company-proxy.com 172.30.230.52:44478 172.30.109.95:3128 172.30.230.52:44476 -
+    {{< /text >}}
+
+1.  Check the log of the egress gateway's Envoy and see a line that corresponds to your
+    requests to the proxy. If Istio is deployed in the `istio-system` namespace, the command to print the
+    log is:
+
+    {{< text bash >}}
+    $ kubectl logs -l istio=egressgateway -n istio-system
+    [2019-04-14T06:12:07.636Z] "- - -" 0 - "-" 1591 4393 94 - "-" "-" "-" "-" "<Your proxy IP>:<your proxy port>" outbound|<your proxy port>||my-company-proxy.com 172.30.146.119:59924 172.30.146.119:443 172.30.230.1:59206 -
+    {{< /text >}}
+
+### Clean the egress gateway
+
+{{< text bash >}}
+$ kubectl delete virtualservice direct-traffic-to-proxy-through-egress-gateway
+$ kubectl delete destinationrule proxy egressgateway-for-proxy
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete service myproxy -n istio-system
+{{< /text >}}
 
 ## Understanding what happened
 
