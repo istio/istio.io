@@ -94,38 +94,38 @@ Istio 可以管理其他非系统名称空间中的服务。
 
 ### 策略执行及遥测{#policy-enforcement-telemetry}
 
-- **Ingress 策略**。 除了 0.1 中支持的东西流量。现在，策略也可以应用于南北流量。
+- **Ingress 策略**。除了 0.1 中支持的东西流量。现在，策略也可以应用于南北流量。
 
-- **支持 TCP 服务**。 除了 0.1 中可用的 HTTP 级策略控制外，0.2 还引入了 TCP 服务的策略控制。
+- **支持 TCP 服务**。除了 0.1 中可用的 HTTP 级策略控制外，0.2 还引入了 TCP 服务的策略控制。
 
 - **新的 Mixer API**。Envoy 用于与 Mixer 进行交互的 API 已进行了完全重新设计，以提高健壮性，灵活性，并支持丰富的代理端缓存和批处理以提高性能。
 
-- **新的 Mixer Adapter 模型**。 新的适配器组合模型通过模板添加全新的适配器类，使扩展Mixer更容易。这种新模型将作为将来许多功能的基础构建块。
+- **新的 Mixer Adapter 模型**。新的适配器组合模型通过模板添加全新的适配器类，使扩展 Mixer 更容易。这种新模型将作为将来许多功能的基础构建块。
 请参阅 [适配器开发者指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) 以了解如何编写适配器。
 
-- **改进 Mixer 构建模型**。 现在，构建包含自定义适配器的 Mixer 二进制文件变得更加容易。
+- **改进 Mixer 构建模型**。现在，构建包含自定义适配器的 Mixer 二进制文件变得更加容易。
 
-- **Mixer Adapter 更新**。 内置适配器已全部重写以适合新的适配器模型。该版本已添加了`stackdriver`适配器。
+- **Mixer Adapter 更新**。内置适配器已全部重写以适合新的适配器模型。该版本已添加了 `stackdriver` 适配器。
 实验性的 `redisquota` 适配器已从 0.2 版本中删除，但有望在 生产就绪的 0.3 版本中回归。
 
 - **Mixer 调用追踪**。 现在可以在 Zipkin 仪表板中跟踪和分析 Envoy 和 Mixer 之间的调用。
 
 ### 安全{#security}
 
-- **TCP 流量的双向 TLS**。 除了HTTP流量外，TCP流量现在也支持双向TLS。
+- **TCP 流量的双向 TLS**。除了 HTTP 流量外，TCP 流量现在也支持双向 TLS。
 
-- **VM 和物理机的身份配置**。Auth支持使用每节点代理进行身份配置的新机制。
-该代理在每个节点（VM /物理机）上运行，并负责生成和发送CSR（证书签名请求）以从Istio CA获取证书。
+- **VM 和物理机的身份配置**。Auth 支持使用每节点代理进行身份配置的新机制。
+该代理在每个节点（VM /物理机）上运行，并负责生成和发送 CSR（证书签名请求）以从 Istio CA 获取证书。
 
-- **使用自己的CA证书**。 允许用户向 Istio CA 提供自己的密钥和证书。
+- **使用自己的CA证书**。允许用户向 Istio CA 提供自己的密钥和证书。
 
-- **永久性 CA 密钥/证书存储**。 Istio CA 现在将签名密钥/证书持久化存储，以方便CA重新启动。
+- **永久性 CA 密钥/证书存储**。Istio CA 现在将签名密钥/证书持久化存储，以方便 CA 重新启动。
 
 ## 已知问题{#known-issues}
 
-- **用户访问应用程序时可能会收到 404**:  我们注意到，Envoy有时无法正确获取路由，因此将404返回给用户。
+- **用户访问应用程序时可能会收到 404**：我们注意到，Envoy有时无法正确获取路由，因此将 404 返回给用户。
 我们正在对此 [问题](https://github.com/istio/istio/issues/1038) 进行积极的工作。
 
-- **在真正准备就绪之前，Istio Ingress 或Egress 就报告了准备就绪**: 您可以在 `istio-system` 名称空间中检查 `istio-ingress` 和 `istio-egress` pod 的状态，并在所有 Istio pod 报告就绪状态后等待几秒钟。我们正在对此 [问题](https://github.com/istio/istio/pull/1055) 进行积极的工作。
+- **在真正准备就绪之前，Istio Ingress 或 Egress 就报告了准备就绪**：您可以在 `istio-system` 名称空间中检查 `istio-ingress` 和 `istio-egress` pod 的状态，并在所有 Istio pod 报告就绪状态后等待几秒钟。我们正在对此 [问题](https://github.com/istio/istio/pull/1055) 进行积极的工作。
 
-- **启用了 Istio Auth 的服务无法与一个非 Istio 服务通信**: 此限制将在不久的将来消除。
+- **启用了 Istio Auth 的服务无法与一个非 Istio 服务通信**：此限制将在不久的将来消除。
