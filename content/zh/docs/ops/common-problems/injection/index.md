@@ -82,7 +82,7 @@ aliases:
 
 1. 检查默认策略
 
-    在 `istio-sidecar-injector` `configmap` 中检查默认注入策略。
+    在 `istio-sidecar-injector configmap` 中检查默认注入策略。
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | grep policy:

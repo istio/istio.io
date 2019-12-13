@@ -12,7 +12,7 @@ aliases:
 
 ## 开始之前 {#before-you-begin}
 
-本任务的活动假设你已经：
+本任务假设你已经：
 
 * 阅读了[授权概念](/zh/docs/concepts/security/#authorization)。
 
