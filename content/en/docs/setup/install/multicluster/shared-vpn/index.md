@@ -79,6 +79,7 @@ cluster. You can install the component in one of two ways:
     $ istioctl manifest apply \
     --set profile=remote \
     --set values.global.controlPlaneSecurityEnabled=false \
+    --set values.global.createRemoteSvcEndpoints=true \
     --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
