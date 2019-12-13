@@ -5,8 +5,6 @@ weight: 40
 keywords: [istioctl, debugging, kubernetes]
 ---
 
-{{< boilerplate experimental-feature-warning >}}
-
 `istioctl analyze` is a diagnostic tool that can detect potential issues with your
 Istio configuration. It can run against a live cluster or a set of local configuration files.
 It can also run against a combination of the two, allowing you to catch problems before you
@@ -17,7 +15,7 @@ apply changes to a cluster.
 You can analyze your current Kubernetes cluster by running:
 
 {{< text bash >}}
-$ ./istioctl x analyze -k
+$ ./istioctl analyze -k
 {{< /text >}}
 
 And that’s it! It’ll give you any recommendations that apply.
@@ -28,8 +26,6 @@ For example, if you forgot to enable Istio injection (a very common issue), you 
 Warn [IST0102](Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
-Note that `x` in the command is because this is currently an experimental feature.
-
 ## Analyzing live clusters, local files, or both
 
 The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local Kubernetes yaml configuration files,
@@ -39,22 +35,22 @@ Typically, this is used to analyze the entire set of configuration files that ar
 Analyze a specific set of local Kubernetes yaml files:
 
 {{< text bash >}}
-$ ./istioctl x analyze a.yaml b.yaml
+$ ./istioctl analyze a.yaml b.yaml
 {{< /text >}}
 
 Analyze all yaml files in the current folder:
 
 {{< text bash >}}
-$ ./istioctl x analyze *.yaml
+$ ./istioctl analyze *.yaml
 {{< /text >}}
 
 Simulate applying the files in the current folder to the current cluster:
 
 {{< text bash >}}
-$ ./istioctl x analyze -k *.yaml
+$ ./istioctl analyze -k *.yaml
 {{< /text >}}
 
-You can run `./istioctl x analyze --help` to see the full set of options.
+You can run `./istioctl analyze --help` to see the full set of options.
 
 ## Helping us improve this tool
 
