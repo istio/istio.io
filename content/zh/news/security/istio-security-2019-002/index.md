@@ -29,7 +29,6 @@ aliases:
 Epoch 0 terminated with an error: signal: segmentation fault (core dumped)
 {{< /text >}}
 
-可以使用格式错误的 JWT (没有有效的签名) 触发 Envoy 崩溃，并且可以访问任何 URI，无论 JWT 规范中的 `trigger_rules` 如何设置。 因此，此错误使 Envoy 容易受到潜在的 DoS 攻击。
 无论 JWT 规范中的 `trigger_rules` 如何设置，Envoy 都可能因为格式错误的 JWT token (没有有效的签名) 崩溃，导致所有 URI 访问不受限制。 因此，这个 BUG 使 Envoy 容易受到潜在的 DoS 攻击。
 
 ## 影响范围{#impact-and-detection}
