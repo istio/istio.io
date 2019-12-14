@@ -1,6 +1,6 @@
 ---
 title: Zipkin
-description: 了解如何通过代理配置以将追踪请求发送到 Zipkin
+description: 了解如何通过代理配置以将追踪请求发送到 Zipkin。
 weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
@@ -16,7 +16,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-1.  参考 [使用 Istioctl 安装](/zh/docs/setup/install/istioctl) 中的说明，
+1.  参考 [安装指南](/zh/docs/setup/install/istioctl) 中的说明，
     使用如下配置安装 Istio：
 
     a) 通过配置 `--set values.tracing.enabled=true` 和 `--set values.tracing.provider=zipkin` 选项可以安装一个“开箱即用”的演示或测试环境。
@@ -40,7 +40,7 @@ aliases:
 $ istioctl dashboard zipkin
 {{< /text >}}
 
-## 使用 Bookinofo 示例程序生成追踪报告{#generating-traces-using-the-bookinfo-sample}
+## 使用 Bookinfo 示例程序生成追踪报告{#generating-traces-using-the-Bookinfo-sample}
 
 1.  当 Bookinfo 程序启动并正常运行后，访问 `http://$GATEWAY_URL/productpage` 一次或多次，
     以生成追踪信息。
@@ -69,6 +69,6 @@ $ istioctl dashboard zipkin
     {{< /text >}}
 
 1.  如果您不打算继续深入探索任何后续任务，请
-    参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup) 说明
+    参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 说明
     关闭应用程序。
 
