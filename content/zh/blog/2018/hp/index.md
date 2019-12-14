@@ -1,7 +1,7 @@
 ---
 title: Istio 是惠普 FitStation 平台的改变者
-description: How HP is building its next-generation footwear personalization platform on Istio.
-subtitle: How HP is building its next-generation footwear personalization platform on Istio
+description: 惠普如何在 Istio 上构建其下一代鞋类个性化平台。
+subtitle: 惠普如何在 Istio 上构建其下一代鞋类个性化平台
 publishdate: 2018-07-31
 attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Source Advocate & Contributor
 target_release: 1.0
@@ -29,4 +29,4 @@ FitStation 建立在对用户生物识别数据的最终安全性和隐私承诺
 跟随 Istio 的成长一直非常令人兴奋。我们已经能够看到不同开发版本的性能和稳定性的明显改进。
 版本 0.7 和 0.8 之间的改进使我们的团队对 1.0 版本感到满意，我们可以说 Istio 现在已经准备好用于实际生产。
 
-我们期待着 Istio 、Envoy 、Cilium 和 CNCF 充满希望的路线图。
+我们期待着 Istio、Envoy、Cilium 和 CNCF 充满希望的路线图。
