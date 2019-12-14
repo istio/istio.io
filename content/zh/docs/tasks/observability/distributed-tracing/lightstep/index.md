@@ -17,7 +17,7 @@ LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 
 1. 确保你有一个 LightStep 账户。这里可以免费[注册](https://lightstep.com/products/tracing/)试用 LightStep Tracing，或者[联系 LightStep](https://lightstep.com/contact/) 创建企业级的 LightStep [𝑥]PM 账户。
 
-1. 对于 [𝑥]PM 用户，确保你已为 satellite 池并且配置了 TLS 证书和一个暴露出来的安全 GRPC 端口。这里[配置 LightStep Satellite](https://docs.lightstep.com/docs/satellite-setup) 有配置 satellite 的详细说明。
+1. 对于 [𝑥]PM 用户，确保你已有 satellite 池并且配置了 TLS 证书和一个暴露出来的安全 GRPC 端口。这里[配置 LightStep Satellite](https://docs.lightstep.com/docs/satellite-setup) 有配置 satellite 的详细说明。
 
    对于 LightStep Tracing 的用户，你的 satellites 是已经配置好的。
 
@@ -76,7 +76,7 @@ LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 
 ## 可视化追踪数据{#visualize-trace-data}
 
-1.  按照[为 Bookinfo 应用程序创建 ingress 网关说明](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)操作。
+1.  按照[为 Bookinfo 应用程序创建 ingress 网关说明](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)操作。
 
 1.  为了验证上一步是否成功，请确认你在 shell 的环境变量中中设置了 `GATEWAY_URL` 。
 
@@ -107,7 +107,7 @@ LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 追踪中的两个 spans 表示一个 RPC请求。例如，从 `productpage` 到 `reviews` 的请求调用，以操作标签 `reviews.default.svc.cluster.local:9080/*` 和服务标签 `productpage.default: proxy client` 的 span 开始。该服务表示是这个调用的客户端 span。截图显示此次调用耗时 15.30 毫秒。第二个 span 标记有操作标签 `reviews.default.svc.cluster.local:9080/*` 操作和服务标签 `reviews.default: proxy server` 。第二个 span 是第一个 span 的下一级，表示调用的服务端 span。截图显示此次调用耗时 14.60 毫秒。
 
 {{< warning >}}
-集成后的LightStep 当前无法捕获由 Istio 的内部操作组件（如 Mixer）生成的 span。
+集成后的 LightStep 当前无法捕获由 Istio 的内部操作组件（如 Mixer）生成的 span。
 {{< /warning >}}
 
 ## 追踪采样{#trace-sampling}
@@ -117,8 +117,6 @@ Istio 通过配置追踪采样百分比来捕获追踪信息。想了解如何�
 
 ## 清除{#cleanup}
 
-If you are not planning any follow-up tasks, remove the Bookinfo sample application and any LightStep secrets
-from your cluster.
 如果你不想继续执测试操作任务，可以从集群中删除 Bookinfo 示例应用程序和所有的 LightStep 密钥。
 
 1. 删除 Bookinfo 应用程序，请参阅[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup)说明。
