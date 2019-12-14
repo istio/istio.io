@@ -1,6 +1,6 @@
 ---
 title: Zipkin
-description: 了解如何通过代理配置以将追踪请求发送到 Zipkin。
+description: 了解如何通过配置代理以将追踪请求发送到 Zipkin。
 weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
@@ -57,7 +57,7 @@ $ istioctl dashboard zipkin
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
 
 1.  追踪由一组 span 组成，
-    其中每个 span 对应于在执行 `/productpage` 请求或内部 Istio 组件期间调用的 Bookinfo 服务，
+    其中每个 span 对应一个 Bookinfo 服务，该服务在执行 /productpage 请求或 Istio 内部组件时被调用，
     例如：`istio-ingressgateway`。
 
 ## 清理{#cleanup}
