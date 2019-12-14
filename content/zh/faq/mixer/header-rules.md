@@ -3,7 +3,7 @@ title: 为什么我的规则无法匹配?
 weight: 50
 ---
 
-Mixer 的规则必须在运行时验证。这意味着匹配条件的必须是 [语言](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 中明确定义的表达式，
+Mixer 的规则必须在运行时验证。这意味着匹配条件的必须是 [语言](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 中定义良好的表达式，
 属性是 [属性清单](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) 中声明过的，
 并且规则所指向的 handler 和 instance 也必须存在。
 
