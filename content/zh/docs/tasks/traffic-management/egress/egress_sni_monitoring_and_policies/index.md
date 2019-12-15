@@ -68,7 +68,7 @@ aliases:
 
     根据您定义的策略，对 `en.wikipedia.org` 的访问被禁止了。
 
-1.  发送 HTTPS 请求到其它 wikipedia 站点，如 [https://es.wikipedia.org](https://es.wikipedia.org) 和
+1.  发送 HTTPS 请求到其它语言版本的 Wikipedia 站点，如 [https://es.wikipedia.org](https://es.wikipedia.org) 和
     [https://de.wikipedia.org](https://de.wikipedia.org)：
 
     {{< text bash >}}
@@ -77,7 +77,7 @@ aliases:
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-    符合预期效果，除 `en.wikipedia.org` 外的 wikipedia 站点均可被正常访问。
+    符合预期效果，除 `en.wikipedia.org` 外的 Wikipedia 站点均可被正常访问。
 
 ### 清除监视器和策略检查{#cleanup-of-monitoring-and-policy-enforcement}
 
