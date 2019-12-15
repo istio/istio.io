@@ -1,15 +1,15 @@
 ---
 title: 请求头和路由控制
-description: 演示如何使用策略适配器修改请求标头和路由。
+description: 演示如何使用策略适配器修改请求头和路由。
 weight: 20
 keywords: [policies,routing]
 ---
 
-此任务演示如何使用策略适配器来操作请求标头和路由。
+此任务演示如何使用策略适配器来操作请求头和路由。
 
 ## 开始之前{#before-you-begin}
 
-* 遵循 [安装指南](/zh/docs/setup/) 中的说明在 Kubernetes 上安装 Istio 。
+* 遵循 [安装指南](/zh/docs/setup/) 中的说明在 Kubernetes 集群上安装 Istio 。
 
     {{< warning >}}
     **必须** 在你的集群上启用策略检查。请按照 [启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
@@ -51,7 +51,7 @@ keywords: [policies,routing]
 此适配器还返回一个包含 `value` 字段的输出。适配器上配置有一个查找表，用于填充输出值，
 或者在查找表中不存在输入实例键时返回 `NOT_FOUND` 错误状态。
 
-1. 部署演示适配器:
+1. 部署演示适配器：
 
     {{< text bash >}}
     $ kubectl run keyval --image=gcr.io/istio-testing/keyval:release-1.1 --namespace istio-system --port 9070 --expose
@@ -64,7 +64,7 @@ keywords: [policies,routing]
     $ kubectl apply -f @samples/httpbin/policy/keyval.yaml@
     {{< /text >}}
 
-1. 使用固定的查找表为演示适配器创建一个 Handler ：
+1. 使用固定的查找表为演示适配器创建一个 Handler：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
@@ -83,7 +83,7 @@ keywords: [policies,routing]
     EOF
     {{< /text >}}
 
-1. 使用 `user` 请求标头作为查找键，为 Handler 创建一个 Instance：
+1. 使用 `user` 请求头作为查找键，为 Handler 创建一个 Instance：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
@@ -99,7 +99,7 @@ keywords: [policies,routing]
     EOF
     {{< /text >}}
 
-## 请求标头操作{#request-header-operations}
+## 请求头操作{#request-header-operations}
 
 1. 确保 _httpbin_ 服务可以通过 ingress gateway 正常访问：
 
@@ -115,7 +115,7 @@ keywords: [policies,routing]
     }
     {{< /text >}}
 
-    输出应该是 _httpbin_ 服务接收到的请求标头。
+    输出应该是 _httpbin_ 服务接收到的请求头。
 
 1. 为演示适配器创建 Rule：
 
@@ -156,7 +156,7 @@ keywords: [policies,routing]
 
     请注意 `user-group` 标头，该标头派生自适配器的 Rlue 定义，Rlue 中表达式 `x.output.value` 的取值结果为适配器 `keyval` 返回值的 `value` 字段。
 
-1. 则修 Rule 配置，如果匹配成功，则将 URI 路径重写，路由到不同的 Virtual service：
+1. 如果匹配成功，则修改 Rule 规则，重写 URI 路径到其他 Virtual service 路由：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
