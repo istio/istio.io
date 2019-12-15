@@ -106,7 +106,7 @@ keywords: [contribute,community,github,pr]
 
 请注意，我们只会在当前版本的 Release 分支中应用更改，而不会在旧版本中进行。较旧的分支被视为已归档，并且通常不再接收任何更改。
 
-## Istio 社区角色{#istio-community-roles}
+## Istio 社区角色{#Istio-community-roles}
 
 根据您的贡献和责任，您可以扮演多个角色。
 
