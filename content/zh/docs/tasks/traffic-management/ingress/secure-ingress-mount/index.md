@@ -260,14 +260,14 @@ Ingress 网关将向客户端提供与每个请求的服务器相对应的唯一
 与之前的小节不同，Istio 默认 ingress 网关无法立即使用，因为它仅被预配置为支持一个安全主机。
 您需要先使用另一个 secret 配置并重新部署 ingress 网关服务器，然后才能使用它来处理第二台主机。
 
-### 为 `bookinfo.com` 创建服务器证书和私钥{#create-a-server-certificate-and-private-key-for-bookinfo}
+### 为 `bookinfo.com` 创建服务器证书和私钥{#create-a-server-certificate-and-private-key-for-book-info}
 
 {{< text bash >}}
 $ openssl req -out bookinfo.com.csr -newkey rsa:2048 -nodes -keyout bookinfo.com.key -subj "/CN=bookinfo.com/O=bookinfo organization"
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in bookinfo.com.csr -out bookinfo.com.crt
 {{< /text >}}
 
-### 使用新证书重新部署 `istio-ingressgateway`{#redeploy-istio-ingress-gateway-with-the-new-certificate}
+### 使用新证书重新部署 `istio-ingressgateway`{#redeploy-Istio-ingress-gateway-with-the-new-certificate}
 
 1. 创建一个新的 secret 以保存 `bookinfo.com` 的证书：
 
@@ -317,7 +317,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
     `tls.crt` 和 `tls.key` 应该出现在文件夹之中。
 
-### 配置 `bookinfo.com` 主机的流量{#configure-traffic-for-the-bookinfo-host}
+### 配置 `bookinfo.com` 主机的流量{#configure-traffic-for-the-book-info-host}
 
 1. 部署[Bookinfo 示例应用](/zh/docs/examples/bookinfo/)，但不要部署网关：
 
