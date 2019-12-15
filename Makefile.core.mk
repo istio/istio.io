@@ -60,10 +60,10 @@ update_ref_docs:
 update_operator_yamls:
 	@scripts/grab_operator_yamls.sh $(SOURCE_BRANCH_NAME)
 
-update_examples:
-	@scripts/grab_examples.sh $(SOURCE_BRANCH_NAME)
-
 update_all: update_ref_docs update_operator_yamls update_examples
+
+foo2:
+	hugo version
 
 include common/Makefile.common.mk
 
