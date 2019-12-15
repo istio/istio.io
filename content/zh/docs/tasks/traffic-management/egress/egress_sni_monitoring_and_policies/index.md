@@ -25,7 +25,7 @@ aliases:
 
 ## SNI 监控和访问策略{#SNI-monitoring-and-access-policies}
 
-由于已将出口流量配置为流经 egress gateway，因此可以 **安全地** 对出口流量应用监视和访问策略检查。
+由于已将出口流量配置为流经 egress 网关，因此可以 **安全地** 对出口流量应用监视和访问策略检查。
 本节中，您将为流向 _*.wikipedia.org_ 的出口流量定义日志条目和访问策略。
 
 1.  创建日志记录配置：
