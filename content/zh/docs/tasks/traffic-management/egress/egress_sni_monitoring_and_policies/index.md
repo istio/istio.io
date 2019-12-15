@@ -1,6 +1,6 @@
 ---
-title: TLS Egress 监视和策略配置
-description: 描述如何在 TLS Egress 上配置 SNI 监视和策略。
+title: TLS Egress 监控和策略配置
+description: 描述如何在 TLS Egress 上配置 SNI 监控和策略。
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
 aliases:
@@ -8,7 +8,7 @@ aliases:
 ---
 
 前面的任务 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 描述了如何为公共域 `*.wikipedia.org` 中的一组主机启用 Egress 流量，本文基于该任务，
-演示如何为 TLS Egress 配置 SNI 监视和策略。
+演示如何为 TLS Egress 配置 SNI 监控和策略。
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -25,7 +25,7 @@ aliases:
 
 ## SNI 监控和访问策略{#SNI-monitoring-and-access-policies}
 
-由于已将出口流量配置为流经 egress 网关，因此可以 **安全地** 对出口流量应用监视和访问策略检查。
+由于已将出口流量配置为流经 egress 网关，因此可以 **安全地** 对出口流量应用监控和访问策略检查。
 本节中，您将为流向 _*.wikipedia.org_ 的出口流量定义日志条目和访问策略。
 
 1.  创建日志记录配置：
@@ -77,16 +77,16 @@ aliases:
 
     符合预期效果，除 `en.wikipedia.org` 外的 Wikipedia 站点均可被正常访问。
 
-### 清除监视器和策略检查{#cleanup-of-monitoring-and-policy-enforcement}
+### 清除监控和策略检查{#cleanup-of-monitoring-and-policy-enforcement}
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/telemetry/sni-logging.yaml@
 $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 {{< /text >}}
 
-## 监视 SNI 和源身份标识，并基于它们执行访问策略{#monitor-the-SNI-and-the-source-identity-and-enforce-access-policies-based-on-them}
+## 监控 SNI 和源身份标识，并基于它们执行访问策略{#monitor-the-SNI-and-the-source-identity-and-enforce-access-policies-based-on-them}
 
-由于您在 sidecar 代理和 egress 网关之间启用了双向 TLS，因此您可以监视访问外部服务的应用程序的 [服务标识](/zh/docs/ops/deployment/architecture/#citadel)，并根据流量来源的身份标识执行访问策略。
+由于您在 sidecar 代理和 egress 网关之间启用了双向 TLS，因此您可以监控访问外部服务的应用程序的 [服务标识](/zh/docs/ops/deployment/architecture/#citadel)，并根据流量来源的身份标识执行访问策略。
 在 Kubernetes 上的 Istio 中，源身份标识基于 [服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)。
 本小节中，您将在 `sleep-us` 和 `sleep-canada` 服务账户下分别部署 `sleep-us` 和 `sleep-canada` 两个容器。
 然后定义一个策略，该策略允许具有 `sleep-us` 标识的应用访问 English 和 Spanish 版本的 Wikipedia 站点，并允许具有 `sleep-canada` 身份标识的应用访问 English 和 French 版本的 Wikipedia 站点。
@@ -168,7 +168,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 
     请注意，只有 `sleep-canada` 服务帐户访问处于白名单中的 Wikipedia 站点，即 English 和 French 版本的 Wikipedia。
 
-### 清理 SNI 及源标识的监视器和策略检查{#cleanup-of-monitoring-and-policy-enforcement-of-SNI-and-source-identity}
+### 清理 SNI 及源标识的监控和策略检查{#cleanup-of-monitoring-and-policy-enforcement-of-SNI-and-source-identity}
 
 {{< text bash >}}
 $ kubectl delete service sleep-us sleep-canada
