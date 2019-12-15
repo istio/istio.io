@@ -7,18 +7,16 @@ aliases:
   - /zh/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 ---
 
-前面的任务 [使用 wildcard 主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 描述了如何为公共域 `*.wikipedia.org` 中的一组主机启用 Egress 流量，本文基于该任务，
+前面的任务 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 描述了如何为公共域 `*.wikipedia.org` 中的一组主机启用 Egress 流量，本文基于该任务，
 演示如何为 TLS Egress 配置 SNI 监视和策略。
 
 {{< boilerplate before-you-begin-egress >}}
 
-*  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
+*  [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
 
 *  [开启 Envoy 的访问日志记录](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-*  参考 [使用 wildcard 主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务中的 [步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)，配置流量流向 `*.wikipedia.org`。
-
-   **启用双向 TLS**。
+*  参考 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务中的 [步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)，配置流量流向 `*.wikipedia.org`，且**启用双向 TLS**。
 
     {{< warning >}}
     **必须** 在你的集群上启用策略检查。请按照 [启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
@@ -86,7 +84,7 @@ $ kubectl delete -f @samples/sleep/telemetry/sni-logging.yaml@
 $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 {{< /text >}}
 
-## 监视 SNI 和源身份标识，并基于它们执行访问策略。{#monitor-the-SNI-and-the-source-identity-and-enforce-access-policies-based-on-them}
+## 监视 SNI 和源身份标识，并基于它们执行访问策略{#monitor-the-SNI-and-the-source-identity-and-enforce-access-policies-based-on-them}
 
 由于您在 sidecar 代理和 egress 网关之间启用了双向 TLS，因此您可以监视访问外部服务的应用程序的 [服务标识](/zh/docs/ops/deployment/architecture/#citadel)，并根据流量来源的身份标识执行访问策略。
 在 Kubernetes 上的 Istio 中，源身份标识基于 [服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)。
@@ -150,8 +148,6 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
     <title>Wikipedia, la enciclopedia libre</title>
     {{< /text >}}
 
-    Note that only the allowed Wikipedia sites for sleep-us service account are allowed, namely Wikipedia in English and Spanish.
-
     请注意，仅允许 `sleep-us` 服务帐户访问处于白名单中的 Wikipedia 站点，即 English 和 Spanish 版本的 Wikipedia。
 
     {{< tip >}}
@@ -182,9 +178,9 @@ $ kubectl delete -f @samples/sleep/telemetry/sni-logging.yaml@
 $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
 {{< /text >}}
 
-## 清楚{#cleanup}
+## 清除{#cleanup}
 
-1.  执行 [使用 wildcard 主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务的 [清理步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)。
+1.  执行 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务的 [清除步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)。
 
 1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
 
