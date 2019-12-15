@@ -32,6 +32,6 @@ spec:
     - "*"
 {{< /text >}}
 
-在本例中，出现 `GatewayPortNotOnWorkload` 消息是因为此配置使用了8004端口，但默认的 `IngressGateway` 仅打开了80、443、31400和15443端口。
+在本例中，出现 `GatewayPortNotOnWorkload` 消息是因为此配置使用了 8004 端口，但默认的 `IngressGateway` 仅打开了 80、443、31400 和 15443 端口。
 
 要解决此问题，请更改网关配置，在工作负载上使用有效端口，然后重试。
