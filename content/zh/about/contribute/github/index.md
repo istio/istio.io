@@ -78,7 +78,14 @@ keywords: [contribute,community,github,pr]
 
 1.  发布评论后，大家经过讨论一致同意合并 PR，请在文本上留下：`/hold cancel`。该命令将取消阻止 PR 合并。
 
-## 分支
+## 预览工作{#previewing-your-work}
+
+当您提交 pull request 时，您在 GitHub 上的 PR 页面会显示一个指向为您的 PR 自动构建的登入站点的链接，这对于您查看最终用户的最终页面看起来很有用。这个临时的网站，可以确保页面预览看起来正常。
+
+如果您创建了 Istio 仓库的分支，则可以在本地预览更改效果。
+有关说明，请参阅 [README](https://github.com/istio/istio.io/blob/master/README.md)。
+
+## 分支{#branching}
 
 我们使用多个分支来跟踪不同版本的 Istio 的文档。master 分支是接受文档更新的地方，通常应在此处进行更改。
 
@@ -99,14 +106,7 @@ keywords: [contribute,community,github,pr]
 
 请注意，我们只会在当前版本的 Release 分支中应用更改，而不会在旧版本中进行。较旧的分支被视为已归档，并且通常不再接收任何更改。
 
-## 预览工作
-
-当您提交 pull request 时，您在 GitHub 上的 PR 页面会显示一个指向为您的 PR 自动构建的登入站点的链接，这对于您查看最终用户的最终页面看起来很有用。这个临时的网站，可以确保页面预览看起来正常。
-
-如果您创建了 Istio 仓库的分支，则可以在本地预览更改效果。
-有关说明，请参阅 [README](https://github.com/istio/istio.io/blob/master/README.md)。
-
-## Istio 社区角色
+## Istio 社区角色{#istio-community-roles}
 
 根据您的贡献和责任，您可以扮演多个角色。
 
