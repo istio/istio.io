@@ -1,6 +1,6 @@
 ---
-title: DNS证书管理
-description: 在Istio中配置和管理DNS证书。
+title: DNS 证书管理
+description: 在 Istio 中配置和管理 DNS 证书。
 publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, certificates, DNS]
@@ -10,7 +10,6 @@ target_release: 1.4
 默认情况下, `Istio` 的 `DNS` 证书是由 `Citadel` 来管理的。`Citadel` 是一个功能强大的组件，不仅维护自己的私有签名密钥，而且充当证书颁发机构（CA）。
 
 在 `Istio` 的 1.4 版本中，我们引入了一项新功能，可以安全地配置和管理由 `Kubernetes CA` 签名的 `DNS` 证书，它具有以下优点。
-
 
 * 轻量级 `DNS` 证书管理，不依赖于 `Citadel`。
 
