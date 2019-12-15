@@ -1,27 +1,24 @@
 ---
-title: Control Headers and Routing
-description: Shows how to modify request headers and routing using policy adapters.
+title: 请求头和路由控制
+description: 演示如何使用策略适配器修改请求头和路由。
 weight: 20
 keywords: [policies,routing]
 ---
 
-This task demonstrates how to use a policy adapter to manipulate request headers and routing.
+此任务演示如何使用策略适配器来操作请求头和路由。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-* Set up Istio on Kubernetes by following the instructions in the
-  [Installation guide](/zh/docs/setup/).
+* 遵循 [安装指南](/zh/docs/setup/) 中的说明在 Kubernetes 集群上安装 Istio 。
 
     {{< warning >}}
-    Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
-    [Enabling Policy Enforcement](/zh/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    **必须** 在你的集群上启用策略检查。请按照 [启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
+    中的步骤操作，以确保启用了策略检查 。
     {{< /warning >}}
 
-* Follow the set-up instructions in the [ingress task](/zh/docs/tasks/traffic-management/ingress/) to configure an ingress using a gateway.
+* 按照 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中的设置说明，使用 Gateway 配置 ingress。
 
-* Customize the [virtual service](/zh/docs/reference/config/networking/virtual-service/)
-  configuration for the `httpbin` service containing two route rules that allow traffic for paths `/headers` and
-  `/status`:
+* 为 `httpbin` 服务定义一个包含两条路由规则的 [virtual service](/zh/docs/reference/config/networking/virtual-service/)，以接收来自路径 `/headers` 和 `/status` 的请求：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
@@ -50,26 +47,24 @@ This task demonstrates how to use a policy adapter to manipulate request headers
 
 ## Output-producing adapters
 
-In this task, we are using a sample policy adapter `keyval`. In addition to
-a policy check result, this adapter returns an output with a single field
-called `value`. The adapter is configured with a lookup table, which it uses to
-populate the output value, or return `NOT_FOUND` error status if the input
-instance key is not present in the lookup table.
+在此任务中，我们使用名为 `keyval` 的策略适配器。除输出策略检查结果之外，
+此适配器还返回一个包含 `value` 字段的输出。适配器上配置有一个查找表，用于填充输出值，
+或者在查找表中不存在输入实例键时返回 `NOT_FOUND` 错误状态。
 
-1. Deploy the demo adapter:
+1. 部署演示适配器：
 
     {{< text bash >}}
     $ kubectl run keyval --image=gcr.io/istio-testing/keyval:release-1.1 --namespace istio-system --port 9070 --expose
     {{< /text >}}
 
-1. Enable the `keyval` adapter by deploying its template and configuration descriptors:
+1. 通过模板和配置描述启用 `keyval` 适配器：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/policy/keyval-template.yaml@
     $ kubectl apply -f @samples/httpbin/policy/keyval.yaml@
     {{< /text >}}
 
-1. Create a handler for the demo adapter with a fixed lookup table:
+1. 使用固定的查找表为演示适配器创建一个 Handler：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
@@ -88,7 +83,7 @@ instance key is not present in the lookup table.
     EOF
     {{< /text >}}
 
-1. Create an instance for the handler with the `user` request header as a lookup key:
+1. 使用 `user` 请求头作为查找键，为 Handler 创建一个 Instance：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
@@ -104,9 +99,9 @@ instance key is not present in the lookup table.
     EOF
     {{< /text >}}
 
-## Request header operations
+## 请求头操作{#request-header-operations}
 
-1. Ensure the _httpbin_ service is accessible through the ingress gateway:
+1. 确保 _httpbin_ 服务可以通过 ingress gateway 正常访问：
 
     {{< text bash >}}
     $ curl http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -120,9 +115,9 @@ instance key is not present in the lookup table.
     }
     {{< /text >}}
 
-    The output should be the request headers as they are received by the _httpbin_ service.
+    输出应该是 _httpbin_ 服务接收到的请求头。
 
-1. Create a rule for the demo adapter:
+1. 为演示适配器创建 Rule：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
@@ -142,7 +137,7 @@ instance key is not present in the lookup table.
     EOF
     {{< /text >}}
 
-1. Issue a new request to the ingress gateway with the header `key` set to value `jason`:
+1. 向入口网关发出新请求，将请求 `key` 设置为值 `jason`：
 
     {{< text bash >}}
     $ curl -Huser:jason http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -159,12 +154,9 @@ instance key is not present in the lookup table.
     }
     {{< /text >}}
 
-    Note the presence of the `user-group` header with the value derived from the
-    rule application of the adapter. The expression `x.output.value` in the rule
-    evaluates to the populated `value` field returned by the `keyval` adapter.
+    请注意 `user-group` 标头，该标头派生自适配器的 Rlue 定义，Rlue 中表达式 `x.output.value` 的取值结果为适配器 `keyval` 返回值的 `value` 字段。
 
-1. Modify the rule to rewrite the URI path to a different virtual service route
-   if the check succeeds:
+1. 如果匹配成功，则修改 Rule 规则，重写 URI 路径到其他 Virtual service 路由：
 
     {{< text bash yaml >}}
     $ kubectl apply -f - <<EOF
@@ -184,7 +176,7 @@ instance key is not present in the lookup table.
     EOF
     {{< /text >}}
 
-1. Repeat the request to the ingress gateway:
+1. 再次向 ingress gateway 发送请求：
 
     {{< text bash >}}
     $ curl -Huser:jason -I http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -193,17 +185,13 @@ instance key is not present in the lookup table.
     ...
     {{< /text >}}
 
-    Note that the ingress gateway changed the route _after_ the rule application
-    of the policy adapter. The modified request may use a different route and
-    destination and is subject to the traffic management configuration.
+    请注意，在策略适配器的规则应用 _之后_，ingress gateway 更改了路由。修改后的请求可能使用不同的路由和目的地，并受流量管理配置的约束。
 
-    The modified request is not checked again by the policy engine within the
-    same proxy. Therefore, we recommend to use this feature in gateways, so
-    that the server-side policy checks take effect.
+    同一代理内的策略引擎不会再次检查已修改的请求。因此，我们建议在网关中使用此功能，以便服务器端策略检查生效。
 
-## Cleanup
+## 清理{#cleanup}
 
-Delete the policy resources for the demo adapter:
+删除演示适配器的策略资源：
 
 {{< text bash >}}
 $ kubectl delete rule/keyval handler/keyval instance/keyval adapter/keyval template/keyval -n istio-system
@@ -211,5 +199,4 @@ $ kubectl delete service keyval -n istio-system
 $ kubectl delete deployment keyval -n istio-system
 {{< /text >}}
 
-Complete the clean-up instructions in [ingress task](/zh/docs/tasks/traffic-management/ingress/).
-
+完成 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中的清理说明。
