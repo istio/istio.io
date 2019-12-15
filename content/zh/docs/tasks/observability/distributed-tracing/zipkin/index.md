@@ -1,77 +1,74 @@
 ---
 title: Zipkin
-description: Learn how to configure the proxies to send tracing requests to Zipkin.
+description: 了解如何通过配置代理以将追踪请求发送到 Zipkin。
 weight: 10
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /zh/docs/tasks/zipkin-tracing.html
 ---
 
-After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.apache.org/),
-regardless of the language, framework, or platform you use to build your application.
+通过本任务，您将了解如何使应用程序可被 [Zipkin](https://zipkin.io/) 追踪，
+而无需考虑应用程序使用何种开发语言、框架或平台。
 
-This task uses the [Bookinfo](/zh/docs/examples/bookinfo/) sample as the example application.
+本任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为示例应用程序。
 
-To learn how Istio handles tracing, visit this task's [overview](../overview/).
+要了解 Istio 如何处理追踪，请访问此任务的 [概述](../overview/)。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-1.  To set up Istio, follow the instructions in the [Installation guide](/zh/docs/setup/install/istioctl)
-    and then configure:
+1.  参考 [安装指南](/zh/docs/setup/install/istioctl) 中的说明，
+    使用如下配置安装 Istio：
 
-    a) a demo/test environment by setting the `--set values.tracing.enabled=true` and `--set values.tracing.provider=zipkin` install options to enable tracing "out of the box"
+    a) 通过配置 `--set values.tracing.enabled=true` 和 `--set values.tracing.provider=zipkin` 选项可以安装一个“开箱即用”的演示或测试环境。
 
-    b) a production environment by referencing an existing Zipkin instance and then setting the `--set values.global.tracer.zipkin.address=<zipkin-collector-service>.<zipkin-collector-namespace>:9411` install option.
+    b) 对于生产环境，通过配置 `--set values.global.tracer.zipkin.address=<zipkin-collector-service>.<zipkin-collector-namespace>:9411` 选项以使用已有的 Zipkin 实例。
 
     {{< warning >}}
-    When you enable tracing, you can set the sampling rate that Istio uses for tracing.
-    Use the `pilot.traceSampling` option to set the sampling rate. The default sampling rate is 1%.
+    启用追踪时，可以通过 `Pilot.traceSampling` 选项设置 Istio 的追踪采样率。
+    默认采样率为 1%。
     {{< /warning >}}
 
-1.  Deploy the [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) sample application.
+1.  部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例程序。
 
-## Accessing the dashboard
+## 访问仪表盘{#accessing-the-dashboard}
 
-[Remotely Accessing Telemetry Addons](/zh/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway. Alternatively, to use a Kubernetes ingress, specify the option `--set values.tracing.ingress.enabled=true` during install.
+[远程访问遥测组件](/zh/docs/tasks/observability/gateways) 详细描述了如何通过配置网关以访问 Istio 组件。或者，如果要使用 Kubernetes ingress, 请在安装时配置 `--set values.tracing.ingress.enabled=true` 选项。
 
-For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-system` namespace:
+对于测试（和临时访问），您也可以使用端口转发。假设已将 Zipkin 部署到 `istio-system` 命名空间，请使用以下方法：
 
 {{< text bash >}}
-$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=zipkin -o jsonpath='{.items[0].metadata.name}') 15032:9411
+$ istioctl dashboard zipkin
 {{< /text >}}
 
-Open your browser to [http://localhost:15032](http://localhost:15032).
+## 使用 Bookinfo 示例程序生成追踪报告{#generating-traces-using-the-Bookinfo-sample}
 
-## Generating traces using the Bookinfo sample
-
-1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage` one or more times
-    to generate trace information.
+1.  当 Bookinfo 程序启动并正常运行后，访问 `http://$GATEWAY_URL/productpage` 一次或多次，
+    以生成追踪信息。
 
     {{< boilerplate trace-generation >}}
 
-1.  From the top panel, select a service of interest (or 'all') from the **Service Name** drop-down list and click
-    **Find Traces**:
+1.  在顶部面板中，从 **Service Name** 下拉列表中选择感兴趣的服务（或“全部”），
+    然后单击 **Find Traces**:
 
     {{< image link="./istio-tracing-list-zipkin.png" caption="Tracing Dashboard" >}}
 
-1.  Click on the most recent trace at the top to see the details corresponding to the
-    latest request to the `/productpage`:
+1.  单击顶部的最新追踪，查看与之对应的最新 `/productpage` 请求的详细信息：
 
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
 
-1.  The trace is comprised of a set of spans,
-    where each span corresponds to a Bookinfo service, invoked during the execution of a `/productpage` request, or
-    internal Istio component, for example: `istio-ingressgateway`.
+1.  追踪由一组 span 组成，
+    其中每个 span 对应一个 Bookinfo 服务，该服务在执行 `/productpage` 请求或 Istio 内部组件时被调用，
+    例如：`istio-ingressgateway`。
 
-## Cleanup
+## 清理{#cleanup}
 
-1.  Remove any `kubectl port-forward` processes that may still be running:
+1.  删除所有可能仍在运行的 `istioctl` 进程，使用 control-C 或者：
 
     {{< text bash >}}
-    $ killall kubectl
+    $ killall istioctl
     {{< /text >}}
 
-1.  If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/zh/docs/examples/bookinfo/#cleanup) instructions
-    to shutdown the application.
+1.  如果您不打算继续深入探索任何后续任务，请
+    参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 说明
+    关闭应用程序。
 
