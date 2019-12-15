@@ -17,6 +17,23 @@ staticDir = ["static", "generated"]
 disableAliases = true
 
 [markup]
+  defaultMarkdownHandler = "blackfriday"
+  [markup.blackfriday]
+    angledQuotes = false
+    footnoteAnchorPrefix = ""
+    footnoteReturnLinkContents = ""
+    fractions = true
+    hrefTargetBlank = false
+    latexDashes = true
+    nofollowLinks = false
+    noreferrerLinks = false
+    plainIDAnchors = true
+    skipHTML = false
+    smartDashes = true
+    smartypants = true
+    smartypantsQuotesNBSP = false
+    taskLists = true
+    extensions = [""]
   [markup.goldmark]
     [markup.goldmark.extensions]
       definitionList = true
