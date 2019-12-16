@@ -6,9 +6,9 @@ weight: 10
 
 ## 流量管理{#traffic-management}
 
-- **新增了** 对 [mirroring](/docs/tasks/traffic-management/mirroring/) 百分比的支持。
-- **改进了**  `Envoy sidecar`。 当 `Envoy sidecar` 崩溃退出时，可以更轻松地查看 `Envoy sidecar` 的状态。
-- **改进了** `Pilot` 的功能，当无请求状态时，无需进行任何更改即可跳过向 `Envoy` 发送冗余配置。
+- **新增了** 对 [mirroring](/docs/tasks/traffic-management/mirroring/) 百分比的流量支持。
+- **改进了**  `Envoy sidecar`。当 `Envoy sidecar` 崩溃退出时，可以更轻松地查看 `Envoy sidecar` 的状态。
+- **改进了** `Pilot` 的功能，当无需修改时，即可跳过向 `Envoy` 发送冗余配置的操作。
 - **改进了** 请求头服务，以避免与同一端口上的不同服务发生冲突。
 - **禁用了** 默认的 [circuit breakers](/zh/docs/tasks/traffic-management/circuit-breaking/)。
 - **更新了** 正则表达式引擎为 `re2`。有关详细信息，请参阅[升级说明](/zh/news/releases/1.4.x/announcing-1.4/upgrade-notes)。
@@ -25,7 +25,7 @@ weight: 10
 
 - **新增了** 在 [Stackdriver](https://github.com/istio/proxy/blob/{{< source_branch_name >}}/extensions/stackdriver/README.md) 中的实验性的代理遥测报告。
 - **改进了** 对 `HTTP` 服务指标监控的[代理](/zh/docs/ops/configuration/telemetry/in-proxy-service-telemetry/) `Prometheus` ，(从实验到 `alpha`)。
-- **改进了** 遥测收集功能，用于[阻止和传递外部流量](/zh/blog/2019/monitoring-external-service-traffic/).
+- **改进了** 遥测收集功能，用于[阻止和传递外部流量](/zh/blog/2019/monitoring-external-service-traffic/)。
 - **新增了** 为 `Envoy` [静态模式](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)配置的选项。
 - **新增了** `inbound` 和 `outbound` 对 `Envoy HTTP stats` 特定通信方向的描述。
 - **改进了** 对通过出口网关流量的遥测报告。
