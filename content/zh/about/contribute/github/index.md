@@ -50,7 +50,7 @@ keywords: [contribute,community,github,pr]
 
 1.  进入 fork 仓库的索引页面，然后单击**New Pull Request**提交 PR。
 
-### 如何查看内容{#review}
+### 如何评审内容{#review}
 
 如果您的评论内容很少，请直接在 PR 上发表评论。如果您评论的内容很详细，请按照以下步骤操作：
 
