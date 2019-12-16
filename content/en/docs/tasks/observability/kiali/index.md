@@ -41,11 +41,13 @@ authenticate to Kiali.
 First, define the credentials you want to use as the Kiali username and passphrase:
 
 This will prompt you to provide Kiali Username.
+
 {{< text bash >}}
 $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
 {{< /text >}}
 
 This will prompt you to provide Kiali Passphrase.
+
 {{< text bash >}}
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
 {{< /text >}}
@@ -53,11 +55,13 @@ $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base6
 If you are using the Z Shell, `zsh`, use the following to define the credentials:
 
 This will prompt you to provide Kiali Username.
+
 {{< text bash >}}
 $ KIALI_USERNAME=$(read '?Kiali Username: ' uval && echo -n $uval | base64)
 {{< /text >}}
 
 This will prompt you to provide Kiali Passphrase.
+
 {{< text bash >}}
 $ KIALI_PASSPHRASE=$(read -s "?Kiali Passphrase: " pval && echo -n $pval | base64)
 {{< /text >}}
