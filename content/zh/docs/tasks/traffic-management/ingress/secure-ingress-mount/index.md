@@ -1,70 +1,56 @@
 ---
-title: Secure Gateways (File Mount)
-description: Expose a service outside of the service mesh over TLS or mTLS using file-mounted certificates.
+title: 安全网关（文件挂载）
+description: 使用文件挂载的证书将一个服务通过 TLS 或 mTLS 暴露出服务网格之外。
 weight: 20
 aliases:
     - /zh/docs/tasks/traffic-management/secure-ingress/mount/
 keywords: [traffic-management,ingress,file-mount-credentials]
 ---
 
-The [Control Ingress Traffic task](/zh/docs/tasks/traffic-management/ingress)
-describes how to configure an ingress gateway to expose an HTTP
-service to external traffic. This task shows how to expose a secure HTTPS
-service using either simple or mutual TLS.
+[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress)描述了如何配置一个 ingress 网关以将 HTTP 服务暴露给外部流量。本任务则展示了如何使用简单或双向 TLS 暴露安全 HTTPS 服务。
 
-The TLS required private key, server certificate, and root certificate, are configured
-using a file mount based approach.
+TLS 所必需的私钥、服务器证书和根证书使用基于文件挂载的方式进行配置。
 
-## Before you begin
+## 开始之前{#before-you-begin}
 
-1.  Perform the steps in the [Before you begin](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
-and [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)
-sections of the [Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress) task. After performing
-those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
-and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
+1. 执行[开始之前](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)任务和[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress)任务中的[确认 ingress 的 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)小节中的步骤。执行完毕后，Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin) 服务都已经部署完毕。环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 也已经设置。
 
-1.  For macOS users, verify that you use _curl_ compiled with the [LibreSSL](http://www.libressl.org) library:
+1. 对于 macOS 用户，确认您的 _curl_ 使用了 [LibreSSL](http://www.libressl.org) 库来编译：
 
     {{< text bash >}}
     $ curl --version | grep LibreSSL
     curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
     {{< /text >}}
 
-    If a version of _LibreSSL_ is printed as in the output above, your _curl_ should work correctly with the
-    instructions in this task. Otherwise, try another installation of _curl_, for example on a Linux machine.
+    如果如上面的输出中所示打印了 _LibreSSL_ 的版本，则 _curl_ 应该可以按照此任务中的说明正常工作。否则，请尝试别的 _curl_，例如运行于 Linux 计算机的版本。
 
-## Generate server certificate and private key
+## 生成服务器证书和私钥{#generate-server-certificate-and-private-key}
 
-For this task you can use your favorite tool to generate certificates and keys. The commands below use
-[openssl](https://man.openbsd.org/openssl.1)
+此任务您可以使用您喜欢的工具来生成证书和私钥。下列命令使用了 [openssl](https://man.openbsd.org/openssl.1)
 
-1.  Create a root certificate and private key to sign the certificate for your services:
+1. 创建一个根证书和私钥以为您的服务所用的证书签名：
 
     {{< text bash >}}
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
     {{< /text >}}
 
-1.  Create a certificate and a private key for `httpbin.example.com`:
+1. 为 `httpbin.example.com` 创建一个证书和私钥：
 
     {{< text bash >}}
     $ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
     {{< /text >}}
 
-## Configure a TLS ingress gateway with a file mount-based approach
+## 基于文件挂载的方式配置 TLS ingress 网关{#configure-a-TLS-ingress-gateway-with-a-file-mount-based-approach}
 
-In this section you configure an ingress gateway with port 443 to handle HTTPS
-traffic. You first create a secret with a certificate and a private key. The
-secret is mounted to a file on the `/etc/istio/ingressgateway-certs` path. You can then
-create a gateway definition that configures a server on port 443.
+本节中，您将配置一个使用 443 端口的 ingress 网关，以处理 HTTPS 流量。
+首先使用证书和私钥创建一个 secret。该 secret 将被挂载为 `/etc/istio/ingressgateway-certs` 路径下的一个文件。
+然后您可以创建一个网关定义，它将配置一个运行于端口 443 的服务。
 
-1. Create a Kubernetes secret to hold the server's certificate and private key.
-   Use `kubectl` to create the secret `istio-ingressgateway-certs` in namespace
-   `istio-system` . The Istio gateway will load the secret automatically.
+1. 创建一个 Kubernetes secret 以保存服务器的证书和私钥。使用 `kubectl` 在命名空间 `istio-system` 下创建 secret `istio-ingressgateway-certs`。Istio 网关将会自动加载该 secret。
 
     {{< warning >}}
-    The secret **must** be named `istio-ingressgateway-certs` in the `istio-system` namespace to align with the
-    configuration of the Istio default ingress gateway used in this task.
+    该 secret **必须**在 `istio-system` 命名空间下，且名为 `istio-ingressgateway-certs`，以与此任务中使用的 Istio 默认 ingress 网关的配置保持一致。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -72,20 +58,18 @@ create a gateway definition that configures a server on port 443.
     secret "istio-ingressgateway-certs" created
     {{< /text >}}
 
-    Note that by default all the pods in the `istio-system` namespace can mount this secret and access the
-    private key. You may want to deploy the ingress gateway in a separate namespace and create the secret there, so that
-    only the ingress gateway pod will be able to mount it.
+    请注意，默认情况下，`istio-system` 命名空间下的所有 pod 都能挂载这个 secret 并访问该私钥。您可以将 ingress 网关部署到一个单独的命名空间中，并在那创建 secret，这样就只有这个 ingress 网关 pod 才能挂载它。
 
-    Verify that `tls.crt` and `tls.key` have been mounted in the ingress gateway pod:
+    验证 `tls.crt` 和 `tls.key` 都已经挂载到 ingress 网关 pod 中：
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
     {{< /text >}}
 
-1.  Define a `Gateway` with a `server` section for port 443.
+1. 为 443 端口定义 `Gateway` 并设置 `server`。
 
     {{< warning >}}
-    The location of the certificate and the private key **must** be `/etc/istio/ingressgateway-certs`, or the gateway will fail to load them.
+    证书和私钥**必须**位于 `/etc/istio/ingressgateway-certs`，否则网关将无法加载它们。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -111,7 +95,7 @@ create a gateway definition that configures a server on port 443.
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the `Gateway`. Define the same `VirtualService` as in the [Control Ingress Traffic](/zh/docs/tasks/traffic-management/ingress/ingress-control/#configuring-ingress-using-an-Istio-gateway) task:
+1. 配置路由以让流量从 `Gateway` 进入。定义与[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/ingress-control/#configuring-ingress-using-an-Istio-gateway)任务中相同的 `VirtualService`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -138,20 +122,17 @@ create a gateway definition that configures a server on port 443.
     EOF
     {{< /text >}}
 
-1.  Access the `httpbin` service with HTTPS by sending an `https` request using _curl_ to `SECURE_INGRESS_PORT`.
+1. 使用 _curl_ 发送一个 `https` 请求到 `SECURE_INGRESS_PORT` 以通过 HTTPS 访问 `httpbin` 服务。
 
-    The `--resolve` flag instructs _curl_ to supply the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value `httpbin.example.com` when accessing the gateway IP
-    over TLS. The `--cacert` option instructs _curl_ to use your generated certificate to verify the server.
+    `--resolve` 标志让 _curl_ 在通过 TLS 访问网关 IP 时支持 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 值 `httpbin.example.com`。
+    `--cacert` 选项则让 _curl_ 使用您创建的证书来验证服务器。
 
     {{< tip >}}
-    The `-HHost:httpbin.example.com` flag is included but only really needed if `SECURE_INGRESS_PORT` is different
-    from the actual gateway port (443), for example, if you are accessing the server via a mapped `NodePort`.
+    `-HHost:httpbin.example.com` 标志也包含了，但只有当 `SECURE_INGRESS_PORT` 与实际网关端口（443）不同（例如，您通过映射的 `NodePort` 来访问服务）时才真正需要。
     {{< /tip >}}
 
-    By sending the request to the `/status/418` URL path, you get a nice visual clue that your `httpbin` service was
-    indeed accessed. The `httpbin` service will return the
-    [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
+    通过发送请求到 `/status/418` URL 路径，您可以很好地看到您的 `httpbin` 服务确实已被访问。
+    `httpbin` 服务将返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) 代码。
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -179,28 +160,22 @@ create a gateway definition that configures a server on port 443.
     {{< /text >}}
 
     {{< tip >}}
-    It might take time for the gateway definition to propagate so you might get the following error:
-    `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`. Wait for a minute and
-    then retry the _curl_ call.
+    网关定义传播需要时间，因此您可能会得到以下报错：
+    `Failed to connect to httpbin.example.com port <your secure port>: Connection refused`。请稍后重新执行 _curl_ 命令。
     {{< /tip >}}
 
-    Look for the _Server certificate_ section in the _curl_ output and specifically a line with the matched _common name_:
-    `common name: httpbin.example.com (matched)`. The line `SSL certificate verify ok` in the output indicates
-    that the server's certificate was verified successfully. If all went well, you should also see a returned
-    status of 418 along with a nice drawing of a teapot.
+    在 _curl_ 的输出中寻找 _Server certificate_ 部分，尤其是找到与 _common name_ 匹配的行：`common name: httpbin.example.com (matched)`。
+    输出中的 `SSL certificate verify ok` 这一行表示服务端的证书验证成功。
+    如果一切顺利，您还应该看到返回的状态 418，以及精美的茶壶图。
 
-## Configure a mutual TLS ingress gateway
+## 配置双向 TLS ingress 网关{#configure-a-mutual-TLS-ingress-gateway}
 
-In this section you extend your gateway's definition from the previous section to support
-[mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication) between external clients and the gateway.
+本节中您将您的网关的定义从上一节中扩展为支持外部客户端和网关之间的[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication)。
 
-1. Create a Kubernetes `Secret` to hold the [CA](https://en.wikipedia.org/wiki/Certificate_authority) certificate that
-the server will use to verify its clients. Create the secret `istio-ingressgateway-ca-certs` in namespace `istio-system`
- using `kubectl`. The Istio gateway will automatically load the secret.
+1. 创建一个 Kubernetes `Secret` 以保存服务端将用来验证它的客户端的 [CA](https://en.wikipedia.org/wiki/Certificate_authority) 证书。使用 `kubectl` 在命名空间 `istio-system` 中创建 secret `istio-ingressgateway-ca-certs`。Istio 网关将会自动加载该 secret。
 
     {{< warning >}}
-    The secret **must** be named `istio-ingressgateway-ca-certs` in the `istio-system` namespace to align with the
-    configuration of the Istio default ingress gateway used in this task.
+    该 secret **必须**在 `istio-system` 命名空间下，且名为 `istio-ingressgateway-ca-certs`，以与此任务中使用的 Istio 默认 ingress 网关的配置保持一致。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -208,12 +183,11 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     secret "istio-ingressgateway-ca-certs" created
     {{< /text >}}
 
-1.  Redefine your previous `Gateway` to change the `tls` `mode` to `MUTUAL` and to specify `caCertificates`:
+1. 重新定义之前的 `Gateway`，修改 TLS 模式为 `MUTUAL`，并指定 `caCertificates`：
 
     {{< warning >}}
-    The location of the certificate **must** be `/etc/istio/ingressgateway-ca-certs`, or the gateway
-    will fail to load them. The file (short) name of the certificate must be identical to the one you created the secret
-    from, in this case `example.com.crt`.
+    证书**必须**位于 `/etc/istio/ingressgateway-ca-certs`，否则网关将无法加载它们。
+    证书的（短）文件名必须与您创建 secret 的名称相同，在本例中为 `example.com.crt`。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -240,7 +214,7 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     EOF
     {{< /text >}}
 
-1.  Access the `httpbin` service by HTTPS as in the previous section:
+1. 像上一节中一样通过 HTTPS 访问 `httpbin` 服务：
 
     {{< text bash >}}
     $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -248,23 +222,19 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
     {{< /text >}}
 
     {{< warning >}}
-    It might take time for the gateway definition to propagate so you might still get _418_. Wait for a minute and
-    then retry the _curl_ call.
+    网关定义传播需要时间，因此您可能会仍然得到 _418_ 状态码。请稍后重新执行 _curl_ 命令。
     {{< /warning >}}
 
-    This time you will get an error since the server refuses to accept unauthenticated requests. You need to pass _curl_
-    a client certificate and your private key for signing the request.
+    这次您将得到一个报错，因为服务端拒绝接受未认证的请求。您需要传递 _curl_ 客户端证书和私钥以将请求签名。
 
-1.  Create a client certificate for the `httpbin.example.com` service. You can designate the client by the
-    `httpbin-client.example.com` URI, or use any other URI.
+1. 为 `httpbin.example.com` 服务创建客户端证书。您可以使用 `httpbin-client.example.com` URI 来指定客户端，或使用其它 URI。
 
     {{< text bash >}}
     $ openssl req -out httpbin-client.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin-client.example.com.key -subj "/CN=httpbin-client.example.com/O=httpbin's client organization"
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin-client.example.com.csr -out httpbin-client.example.com.crt
     {{< /text >}}
 
-1.  Resend the previous request by _curl_, this time passing as parameters your client certificate (additional `--cert` option)
- and your private key (the `--key` option):
+1. 重新用 _curl_ 发送之前的请求，这次通过参数传递客户端证书（添加 `--cert` 选项）和您的私钥（`--key` 选项）：
 
     {{< text bash >}}
     $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt --cert httpbin-client.example.com.crt --key httpbin-client.example.com.key https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -280,35 +250,33 @@ the server will use to verify its clients. Create the secret `istio-ingressgatew
         `"""`
     {{< /text >}}
 
-    This time the server performed client authentication successfully and you received the pretty teapot drawing again.
+    这次服务器成功执行了客户端身份验证，您再次收到了漂亮的茶壶图。
 
-## Configure a TLS ingress gateway for multiple hosts
+## 为多主机配置 TLS ingress 网关{#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
-In this section you will configure an ingress gateway for multiple hosts, `httpbin.example.com` and `bookinfo.com`.
-The ingress gateway will present to clients a unique certificate corresponding to each requested server.
+本节中您将为多个主机（`httpbin.example.com` 和 `bookinfo.com`）配置 ingress 网关。
+Ingress 网关将向客户端提供与每个请求的服务器相对应的唯一证书。
 
-Unlike the previous sections, the Istio default ingress gateway will not work out of the box because it is only
-preconfigured to support one secure host. You'll need to first configure and redeploy the ingress gateway
-server with another secret, before you can use it to handle a second host.
+与之前的小节不同，Istio 默认 ingress 网关无法立即使用，因为它仅被预配置为支持一个安全主机。
+您需要先使用另一个 secret 配置并重新部署 ingress 网关服务器，然后才能使用它来处理第二台主机。
 
-### Create a server certificate and private key for `bookinfo.com`
+### 为 `bookinfo.com` 创建服务器证书和私钥{#create-a-server-certificate-and-private-key-for-book-info}
 
 {{< text bash >}}
 $ openssl req -out bookinfo.com.csr -newkey rsa:2048 -nodes -keyout bookinfo.com.key -subj "/CN=bookinfo.com/O=bookinfo organization"
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in bookinfo.com.csr -out bookinfo.com.crt
 {{< /text >}}
 
-### Redeploy `istio-ingressgateway` with the new certificate
+### 使用新证书重新部署 `istio-ingressgateway`{#redeploy-Istio-ingress-gateway-with-the-new-certificate}
 
-1. Create a new secret to hold the certificate for `bookinfo.com`:
+1. 创建一个新的 secret 以保存 `bookinfo.com` 的证书：
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls istio-ingressgateway-bookinfo-certs --key bookinfo.com.key --cert bookinfo.com.crt
     secret "istio-ingressgateway-bookinfo-certs" created
     {{< /text >}}
 
-1.  To include a volume mounted from the new created secret, update the `istio-ingressgateway` deployment.
-    To patch the `istio-ingressgateway` deployment, create the following `gateway-patch.json` file:
+1. 更新 `istio-ingressgateway` deployment 以挂载新创建的 secret。创建如下 `gateway-patch.json` 文件以更新 `istio-ingressgateway` deployment：
 
     {{< text bash >}}
     $ cat > gateway-patch.json <<EOF
@@ -335,29 +303,29 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     EOF
     {{< /text >}}
 
-1.  Apply `istio-ingressgateway` deployment patch with the following command:
+1. 使用以下命令应用 `istio-ingressgateway` deployment 更新：
 
     {{< text bash >}}
     $ kubectl -n istio-system patch --type=json deploy istio-ingressgateway -p "$(cat gateway-patch.json)"
     {{< /text >}}
 
-1.  Verify that the key and certificate have been successfully loaded in the `istio-ingressgateway` pod:
+1. 验证 `istio-ingressgateway` pod 已成功加载私钥和证书：
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-bookinfo-certs
     {{< /text >}}
 
-    `tls.crt` and `tls.key` should appear in the directory contents.
+    `tls.crt` 和 `tls.key` 应该出现在文件夹之中。
 
-### Configure traffic for the `bookinfo.com` host
+### 配置 `bookinfo.com` 主机的流量{#configure-traffic-for-the-book-info-host}
 
-1.  Deploy the [Bookinfo sample application](/zh/docs/examples/bookinfo/), without a gateway:
+1. 部署[Bookinfo 示例应用](/zh/docs/examples/bookinfo/)，但不要部署网关：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
-1.  Define a gateway for `bookinfo.com`:
+1. 为 `bookinfo.com` 定义网关：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -382,8 +350,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     EOF
     {{< /text >}}
 
-1.  Configure the routes for `bookinfo.com`. Define a `VirtualService` like the one in
-    [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml):
+1. 配置 `bookinfo.com` 的路由。定义类似 [`samples/bookinfo/networking/bookinfo-gateway.yaml`]({{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml) 的 `VirtualService`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -414,7 +381,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     EOF
     {{< /text >}}
 
-1.  Send a request to the _Bookinfo_ `productpage`:
+1. 发送到 _Bookinfo_ `productpage` 的请求：
 
     {{< text bash >}}
     $ curl -o /dev/null -s -v -w "%{http_code}\n" -HHost:bookinfo.com --resolve bookinfo.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt -HHost:bookinfo.com https://bookinfo.com:$SECURE_INGRESS_PORT/productpage
@@ -430,8 +397,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     200
     {{< /text >}}
 
-1.  Verify that `httbin.example.com` is accessible as previously. Send a request to it and see again the teapot you
-    should already love:
+1. 验证 `httbin.example.com` 像之前一样可访问。发送一个请求给它，您会再次看到您喜爱的茶壶：
 
     {{< text bash >}}
     $ curl -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt --cert httpbin-client.example.com.crt --key httpbin-client.example.com.key https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
@@ -447,42 +413,37 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
         `"""`
     {{< /text >}}
 
-## Troubleshooting
+## 问题排查{#troubleshooting}
 
-*   Inspect the values of the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment
-    variables. Make sure they have valid values, according to the output of the
-    following commands:
+*   检查环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 的值。通过下列命令的输出确保它们都有有效值：
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
     {{< /text >}}
 
-*   Verify that the key and the certificate are successfully loaded in the
-    `istio-ingressgateway` pod:
+*   验证 `istio-ingressgateway` pod 已经成功加载了私钥和证书：
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-certs
     {{< /text >}}
 
-    `tls.crt` and `tls.key` should exist in the directory contents.
+    `tls.crt` 和 `tls.key` 应存在于文件夹之中。
 
-*   If you created the `istio-ingressgateway-certs` secret, but the key and the
-    certificate are not loaded, delete the ingress gateway pod and force the
-    ingress gateway pod to restart and reload key and certificate.
+*   如果您已经创建了 `istio-ingressgateway-certs` secret，但是私钥和证书未加载，删掉 ingress 网关 pod 以强行重启 ingress 网关 pod 并重新加载私钥和证书。
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-*   Verify that the `Subject` is correct in the certificate of the ingress gateway:
+*   验证 ingress 网关的证书的 `Subject` 是正确的：
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-certs/tls.crt | openssl x509 -text -noout | grep 'Subject:'
         Subject: CN=httpbin.example.com, O=httpbin organization
     {{< /text >}}
 
-*   Verify that the proxy of the ingress gateway is aware of the certificates:
+*   验证 ingress 网关的代理是否知道证书：
 
     {{< text bash >}}
     $ kubectl exec -ti $(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -n istio-system -- pilot-agent request GET certs
@@ -492,27 +453,27 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
     }
     {{< /text >}}
 
-*   Check the log of `istio-ingressgateway` for error messages:
+*   检查 `istio-ingressgateway` 的日志看是否有错误消息：
 
     {{< text bash >}}
     $ kubectl logs -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-*   For macOS users, verify that you use `curl` compiled with the [LibreSSL](http://www.libressl.org)
-    library, as described in the [Before you begin](#before-you-begin) section.
+*   对于 macOS 用户，验证您是否使用的是用 [LibreSSL](http://www.libressl.org) 库编译的`curl`，如[开始之前](#before-you-begin)部分中所述。
 
-### Troubleshooting for mutual TLS
+### 双向 TLS 问题排查{#troubleshooting-for-mutual-TLS}
 
-In addition to the steps in the previous section, perform the following:
+除了上一节中的步骤之外，请执行以下操作：
 
-*   Verify that the CA certificate is loaded in the `istio-ingressgateway` pod:
+*   验证 `istio-ingressgateway` pod 已经加载了 CA 证书：
 
     {{< text bash >}}
     $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=ingressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/ingressgateway-ca-certs
     {{< /text >}}
 
-    `example.com.crt` should exist in the directory contents.
+    `example.com.crt` 应存在于文件夹之中。
 
+*   如果您已经创建了 `istio-ingressgateway-ca-certs` secret，但是 CA 证书未加载，删掉 ingress 网关 pod 以强行重新加载证书：
 *   If you created the `istio-ingressgateway-ca-certs` secret, but the CA
     certificate is not loaded, delete the ingress gateway pod and force it to
     reload the certificate:
@@ -521,16 +482,16 @@ In addition to the steps in the previous section, perform the following:
     $ kubectl delete pod -n istio-system -l istio=ingressgateway
     {{< /text >}}
 
-*   Verify that the `Subject` is correct in the CA certificate of the ingress gateway:
+*   验证 ingress 网关的 CA 证书的 `Subject` 是正确的：
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/istio/ingressgateway-ca-certs/example.com.crt | openssl x509 -text -noout | grep 'Subject:'
     Subject: O=example Inc., CN=example.com
     {{< /text >}}
 
-## Cleanup
+## 清理{#cleanup}
 
-1.  Delete the `Gateway` configuration, the `VirtualService`, and the secrets:
+1. 删除 `Gateway` 配置、`VirtualService` 和 secrets：
 
     {{< text bash >}}
     $ kubectl delete gateway --ignore-not-found=true httpbin-gateway bookinfo-gateway
@@ -539,19 +500,19 @@ In addition to the steps in the previous section, perform the following:
     $ kubectl delete --ignore-not-found=true virtualservice bookinfo
     {{< /text >}}
 
-1.  Delete the directories of the certificates and the repository used to generate them:
+1. 删除证书目录和用于生成证书的存储库：
 
     {{< text bash >}}
     $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr httpbin-client.example.com.crt httpbin-client.example.com.key httpbin-client.example.com.csr bookinfo.com.crt bookinfo.com.key bookinfo.com.csr
     {{< /text >}}
 
-1.  Remove the patch file you used for redeployment of `istio-ingressgateway`:
+1. 删除用于重新部署 `istio-ingressgateway` 的更新文件：
 
     {{< text bash >}}
     $ rm -f gateway-patch.json
     {{< /text >}}
 
-1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
+1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
     {{< text bash >}}
     $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
