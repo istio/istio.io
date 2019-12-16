@@ -3,7 +3,7 @@ title: PortNameIsNotUnderNamingConvention
 layout: analysis-message
 ---
 
-This message occurs when the port doesn't follow [Istio service port naming convention](/docs/ops/deployment/requirements/) 
+This message occurs when the port doesn't follow the [Istio service port naming convention](/docs/ops/deployment/requirements/) 
 or the port is unnamed. If you are not on the way to hardening your cluster, you can ignore the message.
 
 ## Example
