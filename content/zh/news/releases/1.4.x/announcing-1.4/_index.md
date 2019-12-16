@@ -26,7 +26,7 @@ aliases:
 
 授权策略模型现在处于 `Beta` 中，其中引入了以简化和灵活性为重点的 [`v1beta1` authorization policy](/zh/blog/2019/v1beta1-authorization-policy/) 策略。这也将取代旧的 [`v1alpha1` RBAC policy](/zh/docs/reference/config/security/istio.rbac.v1alpha1/) 策略。
 
-## 双向 TLS 认证{#automatic-mutual-tls}
+## Automatic mutual TLS
 
 我们添加了 [automatic mutual TLS support](/zh/docs/tasks/security/authentication/auto-mtls/)。它允许您采用双向 `TLS`，而无需配置目标规则。`Istio` 自动对客户端 `Sidecar` 代理进行编程，以双向 `TLS` 发送到能够接受双向 `TLS` 的服务器端点。
 
