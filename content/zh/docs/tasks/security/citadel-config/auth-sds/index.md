@@ -7,9 +7,9 @@ aliases:
     - /zh/docs/tasks/security/auth-sds/
 ---
 
-这个任务是讲述 Istio 中如何通过启动[SDS(密钥发现服务)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)来进行身份认证的。
+这个任务是讲述 Istio 中如何通过启动 [SDS (密钥发现服务)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)来进行身份认证的。
 
-在 Istio 1.1之前，Istio workload 的密钥和证书都是由 Citadel 生成的，并且通过挂载 secret-volume 文件的方式下发给 sidecar 上。
+在 Istio 1.1 之前，Istio workload 的密钥和证书都是由 Citadel 生成的，并且通过挂载 secret-volume 文件的方式下发给 sidecar 上。
 这种做法有下面一些小缺陷：
 
 * 证书替换期间的性能下降问题：
@@ -21,11 +21,11 @@ aliases:
 这些问题都在 Istio 1.1 中通过提供 SDS 身份认证解决了。
 整个过程可以描述如下：
 
-1. workload 边车 Envoy 向 Citadel 代理请求密钥和证书： Citadel 代理是一个 SDS 服务，作为每个节点上的 `DaemonSet` 运行。 Envoy 在请求时会传一个 Kubernetes 服务帐号的 JWT 到代理。
+1. workload 边车 Envoy 向 Citadel 代理请求密钥和证书：Citadel 代理是一个 SDS 服务，作为每个节点上的 `DaemonSet` 运行。 Envoy 在请求时会传一个 Kubernetes 服务帐号的 JWT 到代理。
 
-1. Citadel 代理产生密钥对并且发送 CSR 请求给 Citadel 服务： Citadel 服务验证收到的 JWT 并且向 Citadel 颁发证书。
+2. Citadel 代理产生密钥对并且发送 CSR 请求给 Citadel 服务：Citadel 服务验证收到的 JWT 并且向 Citadel 颁发证书。
 
-1. Citadel 代理发送回密钥和证书给到 workload 边车。
+3. Citadel 代理发送回密钥和证书给到 workload 边车。
 
 这样做有如下优势：
 
@@ -52,7 +52,7 @@ $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n 
 $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
 {{< /text >}}
 
-验证所有的双向 TLS 请求都成功了：
+验证是否所有的双向 TLS 请求都已经成功：
 
 {{< text bash >}}
 $ for from in "foo" "bar"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -133,10 +133,10 @@ Istio 的密钥发现服务（SDS）使用 Citadel 代理通过 Unix domain 套�
     EOF
     {{< /text >}}
 
-1. 要阻止其它 pod 需改 Unix domain 套接字，就要修改配置项 `allowedHostPaths` ，读写权限配置为`readOnly: true`， 这个选项是 Citadel 代理用于配置 Unix domain 套接字路径的。
+1. 要阻止其它 pod 修改 Unix domain 套接字，就要修改配置项 `allowedHostPaths` ，读写权限配置为`readOnly: true`， 这个选项是 Citadel 代理用于配置 Unix domain 套接字路径的。
 
     {{< warning >}}
-    以下 pod 安全策略假定是以前没有实施其它的 pod 安全策略。如果你已经实施了其它的 pod 安全策略，给已经存在的策略使用下面的配置值，而不是直接实施配置。
+   假设以下的 pod 安全策略是之前其它 pod 没有使用过的。如果你已经实施了其它的 pod 安全策略，则给已经存在的策略新增以下的配置值，而不是直接实施配置。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -323,6 +323,6 @@ Istio 的密钥发现服务（SDS）使用 Citadel 代理通过 Unix domain 套�
 
 目前，SDS 身份提供流程有以下注意事项：
 
-* SDS 支持目前还是在[Alpha](/zh/about/feature-stages/#security-and-policy-enforcement)版本。
+* SDS 目前只支持[Alpha](/zh/about/feature-stages/#security-and-policy-enforcement)版本。
 
 * 目前还无法流畅的将群集从使用密钥卷装载方式迁移到使用 SDS ， 功能还在开发中。
