@@ -20,7 +20,7 @@ aliases:
 
 ## Mixer-less 遥测技术{#mixer-less-telemetry}
 
-我们在不使用 `Mixer` 的情况下实施遥测技术以简化网格的安装和操作，同时极大地提高性能。HTTP 指标代理已从实验性过渡到了 `alpha`。这一功能的改进深受用户喜爱，当然，我们还在继续努力完善此项功能。我们还添加了不需要 `Mixer` 的功能：`TCP` 指标和 `Stackdriver` 指标。
+我们在不使用 `Mixer` 的情况下实施遥测技术以简化网格的安装和操作，同时极大地提高性能。HTTP 指标代理已从实验性过渡到了 `alpha`。这一功能的改进深受用户喜爱，当然，我们还在继续努力完善此项功能。我们还添加了不需要 `Mixer` 的新实验功能：`TCP` 指标和 `Stackdriver` 指标。
 
 ## 处在 `beta` 中的授权模型{#authorization-policy-model-in-beta}
 
@@ -47,7 +47,7 @@ aliases:
 - 实验性的多群集设置已添加到 `istioctl` 命令中
 - 我们通过删除 Docker 镜像中的 `proxy_init` 从而简化安装
 
-与往常一样，[社区会议](https://github.com/istio/community#community-meeting)上会发生很多事情；所以请在太平洋时间的每个星期四上午的11点钟请加入我们。
+与往常一样，[社区会议](https://github.com/istio/community#community-meeting)上会发生很多相关事宜；所以请在太平洋时间的每个星期四上午的11点钟请加入我们。
 
 我们很荣幸被评选为在 GitHub 上[增长最快](https://octoverse.github.com/#top-and-trending-projects)的五个开源项目之一。你想参与其中吗？加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一 ，让我们一起把 Istio 变得更好。
 
