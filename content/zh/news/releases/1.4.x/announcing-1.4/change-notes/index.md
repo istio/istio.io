@@ -9,7 +9,7 @@ weight: 10
 - **新增了** 对 [mirroring](/docs/tasks/traffic-management/mirroring/) 百分比的流量支持。
 - **改进了**  `Envoy sidecar`。当 `Envoy sidecar` 崩溃退出时，可以更轻松地查看 `Envoy sidecar` 的状态。
 - **改进了** `Pilot` 的功能，当无需修改时，即可跳过向 `Envoy` 发送冗余配置的操作。
-- **改进了** 请求头服务，以避免与同一端口上的不同服务发生冲突。
+- **改进了** `headless` 服务，以避免与同一端口上的不同服务发生冲突。
 - **禁用了** 默认的 [circuit breakers](/zh/docs/tasks/traffic-management/circuit-breaking/)。
 - **更新了** 正则表达式引擎为 `re2`。有关详细信息，请参阅[升级说明](/zh/news/releases/1.4.x/announcing-1.4/upgrade-notes)。
 
