@@ -612,6 +612,64 @@ which looks like:
 
 - **没有嵌套的标签集**。不要尝试，这太可怕了。
 
+## 导航和表情{#banners-and-stickers}
+
+为了宣传宣传即将发生的事件，或新事物。您可以将具有时效性的 banners 和 stickers 按顺序自动插入到生成的网站。
+
+支持两种类型的 promotion:
+
+- **Countdown stickers** 显示发生大事情之前还剩下多少时间。(例如，"距离 Istio 1.5发布还有2天")。在活动期间，stickers 向用户显示的视觉效果最小。
+
+- **Banners**  向用户显示突出的消息，让他们知道即将发生的重大事件，正在发生或已经发生。 (例如，"Istio 1.5已发布，请立即下载！" 或 "3月30日加入我们的KubeCon")。标语是事件期间向用户显示的全屏 Banner。
+
+要创建 banners 和 stickers ，您可以将文件添加到 `events/banners`  或者 `events/stickers` 目录中。 您需要为每个事件创建一个 markdown 文件。在这些文件中，使用以下特殊的字段来控制各种功能：
+
+<table>
+    <thead>
+        <tr>
+            <th>字段</th>
+            <th>描述</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>title</code></td>
+            <td>事件的名称。 它未显示在网站上，仅用于诊断消息。</td>
+        </tr>
+        <tr>
+            <td><code>period_start</code></td>
+            <td> 以 <code>YYYY-MM-DD</code> 格式定义开始显示 item 的日期。
+            除了日期，它也可以是值 <code>latest_release</code>, 使用已知的最新 Istio 版本作为开始日期。当创建的 banner 为 "Istio x.y.z 刚刚发布" 时，此功能很有用。
+            </td>
+        </tr>
+        <tr>
+            <td><code>period_end</code></td>
+            <td>以 <code>YYYY-MM-DD</code> 格式定义显示 item 的最后日期。该值与 <code>period_duration</code> 互斥。
+            </td>
+        </tr>
+        <tr>
+            <td><code>period_duration</code></td>
+            <td>向用户显示项目的天数。 该值与上面的
+            <code>period_end</code> 互斥。
+            </td>
+        </tr>
+        <tr>
+            <td><code>max_impressions</code></td>
+            <td>在活动期间向用户显示内容的次数。 值为3表示在此期间用户访问的前三个页面将显示内容，并且在后续页面加载时将隐藏该内容。 值为 0 或完全省略该字段会导致该内容在此期间的所有页面访问中显示。
+            </td>
+        </tr>
+        <tr>
+            <td><code>timeout</code></td>
+            <td>内容在给定页面上对用户可见的时间。 经过这么长时间后，该项目将从页面中删除。</td>
+        </tr>
+        <tr>
+            <td><code>link</code></td>
+             <td>您可以指定一个URL，它将整个项目变成可点击的目标。 用户单击该项目后，该项目将不再显示给用户。 这里可以使用特殊值 `latest_release`来引入指向当前版本的公告页面的链接。
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 ## 重命名、移动或删除页面{#renaming-moving-or-deleting-pages}
 
 如果移动页面或将其完全删除，则应确保用户可能必须与这些页面的现有链接继续起作用。您可以通过添加别名来做到这一点，这将使用户自动从旧 URL 重定向到新 URL。
@@ -700,3 +758,7 @@ $ make lint
 {{< text bash >}}
 $ make INTERNAL_ONLY=True lint
 {{< /text >}}
+
+## 使用 GitHub{#using-github}
+
+点击 [使用 GitHub 参与社区活动](/zh/about/contribute/github) 了解如何使用 GitHub 处理 Istio 文档。如果你非常感兴趣, 查看 [分支部分](/zh/about/contribute/github#branching) 来了解我们是怎么使用分支和处理冲突的。
