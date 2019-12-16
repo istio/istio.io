@@ -1,12 +1,13 @@
 ---
-title: Support for Istio 1.2 has ended
-subtitle: Support Announcement
-description: Istio 1.2 end of life announcement.
-publishdate: 2019-12-13
+title: 对 Istio 1.2 的支持已终止
+subtitle: 版本维护公告
+description: Istio 1.2 生命周期终止公告。
+publishdate: 2019年12月13日
 aliases:
-    - /news/2019/announcing-1.2-eol-final
+    - /zh/news/2019/announcing-1.2-eol-final
 ---
 
-As [previously announced](/news/support/announcing-1.2-eol/), support for Istio 1.2 has now officially ended.
+如 [先前宣布](/news/support/announcing-1.2-eol/) 的一样, 对 Istio 1.2 的支持现已正式终止。
 
-At this point we will no longer back-port fixes for security issues and critical bugs to 1.2, so we heartily encourage you to upgrade to the latest version of Istio ({{<istio_release_name>}}) if you haven't already.
+我们将不再为 1.2 提供针对安全问题和关键错误的修复程序，因此，如果您尚未升级，
+我们建议您升级到最新版本的 Istio ({{<istio_release_name>}})。
