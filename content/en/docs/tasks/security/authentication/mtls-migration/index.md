@@ -112,7 +112,7 @@ You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutu
 After verifying it works by checking [Grafana to monitor](/docs/tasks/observability/metrics/using-istio-dashboard/),
 then increase the rollout scope and finally apply to all Istio client services.
 
-## Lock down to mutual TLS (optional)
+## Lock down to mutual TLS
 
 After migrating all clients to Istio services, injecting Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
 
