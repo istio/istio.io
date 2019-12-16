@@ -15,7 +15,7 @@ aliases:
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)。
+*   [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
 
 *   [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
@@ -83,7 +83,7 @@ $ kubectl delete virtualservice wikipedia
 
 通常情况下，通用域中的所有域名并不由一个唯一的 hosting server 提供服务。此时，需要一个更加复杂的配置。
 
-### Wildcard configuration for a single hosting server{#wildcard-configuration-for-a-single-hosting-server}
+### 单一 hosting 服务器的 Wildcard 配置{#wildcard-configuration-for-a-single-hosting-server}
 
 当一台唯一的服务器为所有 wildcard 主机提供服务时，基于 egress 网关访问 wildcard 主机的配置与普通主机类似，除了：配置的路由目标不能与配置的主机相同，如：wildcard 主机，需要配置为通用域集合的唯一服务器主机。
 
@@ -223,7 +223,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
 本章节，除了标准的 Istio Envoy 代理，您将再部署一个带 SNI 代理的 egress 网关。本示例使用 [Nginx](http://nginx.org) 作为 SNI 代理。任何一个能够根据任意的、非预先配置的 SNI 值路由流量的 SNI 代理均可。
 SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，egress `Gateway` 和 `VirtualServices` 中配置的端口除外。SNI 代理将流量转发至端口 `443`。
 
-1.  创建一个 Nginx SNI 代理的配置文件。您可以按需编辑文件指定附加的 Nginx 设置。注意 `server` 的 `listen` 元语指定端口为 `8443`，其 `proxy_pass` 元语使用 `ssl_preread_server_name` 端口为 `443`，`ssl_preread` 为 `on` 以开启 `SNI` 读。
+1.  创建一个 Nginx SNI 代理的配置文件。您可以按需编辑文件指定附加的 Nginx 设置。注意 `server` 的 `listen` 原语指定端口为 `8443`，其 `proxy_pass` 原语使用 `ssl_preread_server_name` 端口为 `443`，`ssl_preread` 为 `on` 以开启 `SNI` 读。
 
     {{< text bash >}}
     $ cat <<EOF > ./sni-proxy.conf
@@ -610,7 +610,7 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
 
     注意属性 `requestedServerName`。
 
-#### 清除任意域的 wildcard 配置{#cleanup-wildcard-configuration-for-arbitrary}
+#### 清除任意域的 wildcard 配置{#cleanup-wildcard-configuration-for-arbitrary-domains}
 
 1.  删除 _*.wikipedia.org_ 的配置项：
 
