@@ -23,9 +23,9 @@ aliases:
 
 1. workload 边车 Envoy 向 Citadel 代理请求密钥和证书：Citadel 代理是一个 SDS 服务，作为每个节点上的 `DaemonSet` 运行。 Envoy 在请求时会传一个 Kubernetes 服务帐号的 JWT 到代理。
 
-2. Citadel 代理产生密钥对并且发送 CSR 请求给 Citadel 服务：Citadel 服务验证收到的 JWT 并且向 Citadel 颁发证书。
+1. Citadel 代理产生密钥对并且发送 CSR 请求给 Citadel 服务：Citadel 服务验证收到的 JWT 并且向 Citadel 颁发证书。
 
-3. Citadel 代理发送回密钥和证书给到 workload 边车。
+1. Citadel 代理发送回密钥和证书给到 workload 边车。
 
 这样做有如下优势：
 
