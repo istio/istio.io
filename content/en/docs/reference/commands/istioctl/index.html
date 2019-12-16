@@ -1041,7 +1041,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [log json yaml]  (default `log`)</td>
+<td>Output format: one of [yaml log json]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -2428,10 +2428,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tbody>
 </table>
 <h2 id="istioctl-experimental-wait">istioctl experimental wait</h2>
-<p>Waits for the specified condition to be true of an Istio resource.  For example:</p>
-<p>istioctl experimental wait --for=distribution virtual-service bookinfo.default</p>
-<p>will block until the bookinfo virtual service has been distributed to all proxies in the mesh.
-</p>
+<p>Waits for the specified condition to be true of an Istio resource.</p>
 <pre class="language-bash"><code>istioctl experimental wait [flags] &lt;type&gt; &lt;name&gt;[.&lt;namespace&gt;]
 </code></pre>
 <table class="command-flags">
@@ -2490,6 +2487,15 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </tr>
 </tbody>
 </table>
+<h3 id="istioctl-experimental-wait Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Wait until the bookinfo virtual service has been distributed to all proxies in the mesh
+istioctl experimental wait --for=distribution virtualservice bookinfo.default
+
+# Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
+istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
+
+</code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p></p>
 <p>kube-inject manually injects the Envoy sidecar into Kubernetes

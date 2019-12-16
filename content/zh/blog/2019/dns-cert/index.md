@@ -1,31 +1,27 @@
 ---
-title: DNS Certificate Management
-description: Provision and manage DNS certificates in Istio.
+title: DNS 证书管理
+description: 在 Istio 中配置和管理 DNS 证书。
 publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, certificates, DNS]
 target_release: 1.4
 ---
 
-By default, Citadel manages the DNS certificates of the Istio control plane.
-Citadel is a large component that maintains its own private signing key, and acts as a Certificate Authority (CA).
+默认情况下, `Istio` 的 `DNS` 证书是由 `Citadel` 来管理的。`Citadel` 是一个功能强大的组件，不仅维护自己的私有签名密钥，而且充当证书颁发机构（CA）。
 
-New in Istio 1.4, we introduce a feature to securely provision and manage DNS certificates
-signed by the Kubernetes CA, which has the following advantages.
+在 `Istio` 的 1.4 版本中，我们引入了一项新功能，可以安全地配置和管理由 `Kubernetes CA` 签名的 `DNS` 证书，它具有以下优点。
 
-* Lighter weight DNS certificate management with no dependency on Citadel.
+* 轻量级 `DNS` 证书管理，不依赖于 `Citadel`。
 
-* Unlike Citadel, this feature doesn't maintain a private signing key, which enhances security.
+* 与 `Citadel` 不同的是，此功能不维护私有签名密钥，从而增强了安全性。
 
-* Simplified root certificate distribution to TLS clients.
-Clients no longer need to wait for Citadel to generate and distribute its CA certificate.
+* 简化了向 `TLS` 客户端分发根证书。客户不再需要等待 `Citadel` 生成和分发其 `CA` 证书。
 
-The following diagram shows the architecture of provisioning and managing DNS certificates in Istio.
-Chiron is the component provisioning and managing DNS certificates in Istio.
+下图显示了在 `Istio` 中配置和管理 `DNS` 证书的体系结构。`Chiron` 是在 `Istio` 中配置和管理 `DNS` 证书的组件。
 
 {{< image width="50%"
     link="./architecture.png"
-    caption="The architecture of provisioning and managing DNS certificates in Istio"
+    caption="在 Istio 中配置和管理 DNS 证书的架构"
     >}}
 
-To try this new feature, refer to the [DNS certificate management task](/zh/docs/tasks/security/dns-cert).
+要尝试此新功能，请参阅 [DNS 证书管理内容](/zh/docs/tasks/security/dns-cert)。

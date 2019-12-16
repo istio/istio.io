@@ -1,40 +1,29 @@
 ---
-title: Secure Webhook Management
-description: A more secure way to manage Istio webhooks.
+title: 安全管理 Webhook
+description: 一种更安全管理 Istio webhook 的方法。 
 publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, webhook]
 target_release: 1.4
 ---
 
-Istio has two webhooks: Galley and the sidecar injector.
-Galley validates Kubernetes resources and the sidecar injector injects sidecar
-containers into Istio.
+`Istio` 有两个 `webhook`，分别是 `Galley` 和 `sidecar injector`。
+`Galley` 负责验证 `Kubernetes` 资源，`sidecar injector` 负责将 `sidecar` 中注入 `Istio`
 
-By default, Galley and the sidecar injector manage their own webhook configurations.
-This can pose a security risk if they are compromised, for example, through buffer overflow attacks.
-Configuring a webhook is a highly privileged operation as a webhook may monitor and mutate all
-Kubernetes resources.
+默认情况下，`Galley` 和 `sidecar injector` 管理它们自己 `Webhook` 的配置。如果出现漏洞（例如，缓冲区溢出）它们便会受到威胁，可能会带来一些安全隐患。所以，配置 `Webhook` 是一项权限很高的操作，因为 `Webhook` 会监控和更改所有 `Kubernetes secrets`。
 
-In the following example, the attacker compromises
-Galley and modifies the webhook configuration of Galley to eavesdrop on all Kubernetes secrets
-(the `clientConfig` is modified by the attacker to direct the `secrets` resources to
-a service owned by the attacker).
+在以下示例中，攻击者破坏了 `Galley` 并修改了 `Galley` 的 `webhook` 配置，以便于窃听所有 `Kubernetes` 机密（`clientConfig` 攻击者对其进行了修改，将 `secrets` 资源改变为攻击者自己所拥有的服务）。
 
 {{< image width="70%"
     link="./example_attack.png"
-    caption="An example attack"
+    caption="攻击示例"
     >}}
 
-To protect against this kind of attack, Istio 1.4 introduces a new feature to securely manage
-webhooks using `istioctl`:
+为了防止这种攻击，`Istio` 1.4 引入了一项新功能，可以使用 `istioctl` 更安全地管理 `Webhook`：
 
-1. `istioctl`, instead of Galley and the sidecar injector, manage the webhook configurations.
-Galley and the sidecar injector are de-privileged so even if they are compromised, they
-will not be able to alter the webhook configurations.
+1. `istioctl` 替代 `Galley` 和 `sidecar injector` 去管理 `Webhook` 配置。
+`Galley` 和 `sidecar injector` 已经被解除特殊权限，因此即便受到侵入，它们也无法更改 `Webhook` 的配置。
 
-1. Before configuring a webhook, `istioctl` will verify the webhook server is up
-and that the certificate chain used by the webhook server is valid. This reduces the errors
-that can occur before a server is ready or if a server has invalid certificates.
+1. 在配置 `Webhook` 前, `istioctl` 将验证 `Webhook` 服务器是否已启动和该 `Webhook` 服务器使用的证书链是否有效。这样可以减少在服务器就绪之前或服务器证书失效时可能发生的错误。
 
-To try this new feature, refer to the [Istio webhook management task](/zh/docs/tasks/security/webhook).
+要尝试此新功能，请参阅 [Istio Webhook 管理内容](/zh/docs/tasks/security/webhook)。

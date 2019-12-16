@@ -404,7 +404,7 @@ No
 <p>Service discovery mode for the hosts. Care must be taken
 when setting the resolution mode to NONE for a TCP port without
 accompanying IP addresses. In such cases, traffic to any IP on
-said port will be allowed (i.e. 0.0.0.0:<port>).</p>
+said port will be allowed (i.e. <code>0.0.0.0:&lt;port&gt;</code>).</p>
 
 </td>
 <td>
@@ -531,7 +531,7 @@ domain/network. All endpoints in the same network are assumed to be
 directly reachable from one another. When endpoints in different
 networks cannot reach each other directly, an Istio Gateway can be
 used to establish connectivity (usually using the
-AUTO_PASSTHROUGH mode in a Gateway Server). This is
+<code>AUTO_PASSTHROUGH</code> mode in a Gateway Server). This is
 an advanced configuration used typically for spanning an Istio mesh
 over multiple clusters.</p>
 

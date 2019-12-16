@@ -1,46 +1,41 @@
 ---
-title: Monitoring and Policies for TLS Egress
-description: Describes how to configure SNI monitoring and apply policies on TLS egress traffic.
+title: TLS Egress 监控和策略配置
+description: 描述如何在 TLS Egress 上配置 SNI 监控和策略。
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
 aliases:
   - /zh/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 ---
 
-The [Configure Egress Traffic using Wildcard Hosts](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example
-describes how to enable TLS egress traffic for a set of hosts in a common domain, in that case `*.wikipedia.org`. This
-example extends that example to show how to configure SNI monitoring and apply policies on TLS egress traffic.
+前面的任务 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 描述了如何为公共域 `*.wikipedia.org` 中的一组主机启用 Egress 流量，本文基于该任务，
+演示如何为 TLS Egress 配置 SNI 监控和策略。
 
 {{< boilerplate before-you-begin-egress >}}
 
-*  [Deploy Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
+*  [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
 
-*  [Enable Envoy’s access logging](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*  [开启 Envoy 的访问日志记录](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-*  Configure traffic to `*.wikipedia.org` by following
-   [the steps](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in
-   [Configure Egress Traffic using Wildcard Hosts](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example,
-   **with mutual TLS enabled**.
+*  参考 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务中的 [步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)，配置流量流向 `*.wikipedia.org`，且**启用双向 TLS**。
 
     {{< warning >}}
-    Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
-    [Enabling Policy Enforcement](/zh/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    **必须** 在你的集群上启用策略检查。请按照 [启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
+    中的步骤操作，以确保策略检查已启用 。
     {{< /warning >}}
 
-## SNI monitoring and access policies
+## SNI 监控和访问策略{#SNI-monitoring-and-access-policies}
 
-Since you configured the egress traffic to flow through the egress gateway, you can apply monitoring and access policy
-enforcement on the egress traffic, **securely**. In this section you will define a log entry and an access policy for
-the egress traffic to _*.wikipedia.org_.
+由于已将出口流量配置为流经 egress 网关，因此可以 **安全地** 对出口流量应用监控和访问策略检查。
+本节中，您将为流向 _*.wikipedia.org_ 的出口流量定义日志条目和访问策略。
 
-1.  Create logging configuration:
+1.  创建日志记录配置：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/telemetry/sni-logging.yaml@
     {{< /text >}}
 
-1.  Send HTTPS requests to
-    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
+1.  向 [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)
+    发送 HTTPS 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
@@ -48,20 +43,19 @@ the egress traffic to _*.wikipedia.org_.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  检查 Mixer 日志。如果 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access'
     {{< /text >}}
 
-1.  Define a policy that allows access to the hostnames matching `*.wikipedia.org` except for Wikipedia in
-    English:
+1.  定义一个策略，该策略允许访问除 `en.wikipedia.org` 以外的所有 `*.wikipedia.org` 主机：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/policy/sni-wikipedia.yaml@
     {{< /text >}}
 
-1.  Send an HTTPS request to the blacklisted [Wikipedia in English](https://en.wikipedia.org):
+1.  向处于黑名单中的 [Wikipedia in English](https://en.wikipedia.org) 发送 https 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
@@ -70,10 +64,10 @@ the egress traffic to _*.wikipedia.org_.
     command terminated with exit code 35
     {{< /text >}}
 
-    Access to Wikipedia in English is blocked according to the policy you defined.
+    根据您定义的策略，对 `en.wikipedia.org` 的访问被禁止了。
 
-1.  Send HTTPS requests to some other Wikipedia sites, for example [https://es.wikipedia.org](https://es.wikipedia.org) and
-    [https://de.wikipedia.org](https://de.wikipedia.org):
+1.  发送 HTTPS 请求到其它语言版本的 Wikipedia 站点，如 [https://es.wikipedia.org](https://es.wikipedia.org) 和
+    [https://de.wikipedia.org](https://de.wikipedia.org)：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
@@ -81,28 +75,23 @@ the egress traffic to _*.wikipedia.org_.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-    Access to Wikipedia sites in other languages is allowed, as expected.
+    符合预期效果，除 `en.wikipedia.org` 外的 Wikipedia 站点均可被正常访问。
 
-### Cleanup of monitoring and policy enforcement
+### 清除监控和策略检查{#cleanup-of-monitoring-and-policy-enforcement}
 
 {{< text bash >}}
 $ kubectl delete -f @samples/sleep/telemetry/sni-logging.yaml@
 $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 {{< /text >}}
 
-## Monitor the SNI and the source identity, and enforce access policies based on them
+## 监控 SNI 和源身份标识，并基于它们执行访问策略{#monitor-the-SNI-and-the-source-identity-and-enforce-access-policies-based-on-them}
 
-Since you enabled mutual TLS between the sidecar proxies and the egress gateway, you can monitor the [service identity](/zh/docs/ops/deployment/architecture/#citadel) of the applications that access external services, and enforce policies
-based on the identities of the traffic source.
-In Istio on Kubernetes, the identities are based on
-[Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
-subsection, you deploy two _sleep_ containers, `sleep-us` and `sleep-canada` under two service accounts,
-`sleep-us` and `sleep-canada`, respectively. Then you define a policy that allows applications with the `sleep-us`
-identity to access the English and the Spanish versions of Wikipedia, and services with `sleep-canada` identity to
-access the English and the French versions.
+由于您在 sidecar 代理和 egress 网关之间启用了双向 TLS，因此您可以监控访问外部服务的应用程序的 [服务标识](/zh/docs/ops/deployment/architecture/#citadel)，并根据流量来源的身份标识执行访问策略。
+在 Kubernetes 上的 Istio 中，源身份标识基于 [服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)。
+本小节中，您将在 `sleep-us` 和 `sleep-canada` 服务账户下分别部署 `sleep-us` 和 `sleep-canada` 两个容器。
+然后定义一个策略，该策略允许具有 `sleep-us` 标识的应用访问 English 和 Spanish 版本的 Wikipedia 站点，并允许具有 `sleep-canada` 身份标识的应用访问 English 和 French 版本的 Wikipedia 站点。
 
-1.  Deploy two _sleep_ containers, `sleep-us` and `sleep-canada`, with `sleep-us` and `sleep-canada` service
-    accounts, respectively:
+1.  在 `sleep-us` 和 `sleep-canada` 服务账户下分别部署 `sleep-us` 和 `sleep-canada` 两个容器：
 
     {{< text bash >}}
     $ sed 's/: sleep/: sleep-us/g' @samples/sleep/sleep.yaml@ | kubectl apply -f -
@@ -115,13 +104,13 @@ access the English and the French versions.
     deployment "sleep-canada" created
     {{< /text >}}
 
-1.  Create logging configuration:
+1.  创建日志记录配置:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/telemetry/sni-logging.yaml@
     {{< /text >}}
 
-1.  Send HTTPS requests to Wikipedia sites in English, German, Spanish and French, from `sleep-us`:
+1.  从 `sleep-us` 发送 HTTPS 请求至 English、German、Spanish 和 French 版本的 Wikipedia 站点：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep-us -o jsonpath='{.items[0].metadata.name}') -c sleep-us -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>"'
@@ -131,7 +120,7 @@ access the English and the French versions.
     <title>Wikipédia, l'encyclopédie libre</title>
     {{< /text >}}
 
-1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+1.  检查 Mixer 日志。如果 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access'
@@ -141,17 +130,17 @@ access the English and the French versions.
     {"level":"info","time":"2019-01-10T17:33:57.413908Z","instance":"egress-access.instance.istio-system","connectionEvent":"open","destinationApp":"","requestedServerName":"fr.wikipedia.org","source":"istio-egressgateway-with-sni-proxy","sourceNamespace":"default","sourcePrincipal":"cluster.local/ns/default/sa/sleep-us","sourceWorkload":"istio-egressgateway-with-sni-proxy"}
     {{< /text >}}
 
-    Note the `requestedServerName` attribute, and `sourcePrincipal`, it must be `cluster.local/ns/default/sa/sleep-us`.
+    注意 `requestedServerName` 属性，并且 `sourcePrincipal` 必须为 `cluster.local/ns/default/sa/sleep-us`。
 
-1.  Define a policy that will allow access to Wikipedia in English and Spanish for applications with the `sleep-us`
-    service account and to Wikipedia in English and French for applications with the `sleep-canada` service account.
-    Access to other Wikipedia sites will be blocked.
+1.  定义一个策略，允许使用服务帐户 `sleep-us` 的应用程序访问 English 和 Spanish 版本的 Wikipedia，
+    允许使用服务帐户 `sleep-canada` 的应用程序访问访问 English 和 French 版本的 Wikipedia。
+    如果这些应用尝试访问其他语种版本的 Wikipedia，访问将被阻止。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/policy/sni-serviceaccount.yaml@
     {{< /text >}}
 
-1.  Resend HTTPS requests to Wikipedia sites in English, German, Spanish and French, from `sleep-us`:
+1.  再次从 `sleep-us` 发送 HTTPS 请求到 English、German、Spanish 和 French 版本的 Wikipedia：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep-us -o jsonpath='{.items[0].metadata.name}') -c sleep-us -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>";:'
@@ -159,19 +148,17 @@ access the English and the French versions.
     <title>Wikipedia, la enciclopedia libre</title>
     {{< /text >}}
 
-    Note that only the allowed Wikipedia sites for `sleep-us` service account are allowed, namely Wikipedia in English
-    and Spanish.
+    请注意，仅允许 `sleep-us` 服务帐户访问处于白名单中的 Wikipedia 站点，即 English 和 Spanish 版本的 Wikipedia。
 
     {{< tip >}}
-    It may take several minutes for the Mixer policy components to synchronize on the new policy. In case you want to
-    quickly demonstrate the new policy without waiting until the synchronization is complete, delete the Mixer policy pods:
+    Mixer 策略组件可能需要几分钟的时间才能完成新策略的同步。如果您想在不等待同步完成的情况下快速演示新策略，请 Mixer 策略 Pod 删除：
     {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl delete pod -n istio-system -l istio-mixer-type=policy
     {{< /text >}}
 
-1.  Resend HTTPS requests to Wikipedia sites in English, German, Spanish and French, from `sleep-canada`:
+1.  再次从 `sleep-canada` 发送 HTTPS 请求到 English、German、Spanish 和 French 站点：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep-canada -o jsonpath='{.items[0].metadata.name}') -c sleep-canada -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>";:'
@@ -179,10 +166,9 @@ access the English and the French versions.
     <title>Wikipédia, l'encyclopédie libre</title>
     {{< /text >}}
 
-    Note that only the allowed Wikipedia sites for `sleep-canada` service account are allowed, namely Wikipedia in
-    English and French.
+    请注意，只有 `sleep-canada` 服务帐户访问处于白名单中的 Wikipedia 站点，即 English 和 French 版本的 Wikipedia。
 
-### Cleanup of monitoring and policy enforcement of SNI and source identity
+### 清理 SNI 及源标识的监控和策略检查{#cleanup-of-monitoring-and-policy-enforcement-of-SNI-and-source-identity}
 
 {{< text bash >}}
 $ kubectl delete service sleep-us sleep-canada
@@ -192,14 +178,11 @@ $ kubectl delete -f @samples/sleep/telemetry/sni-logging.yaml@
 $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
 {{< /text >}}
 
-## Cleanup
+## 清除{#cleanup}
 
-1.  Perform
-    [the cleanup steps](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)
-    from [Configure Egress Traffic using Wildcard Hosts](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)
-    example.
+1.  执行 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务的 [清除步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)。
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

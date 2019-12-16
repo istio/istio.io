@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.4
+title: 发布 Istio 1.4 版本
 linktitle: 1.4
-subtitle: Major Update
-description: Istio 1.4 release announcement.
+subtitle: 重大更新
+description: Istio 1.4 版本发布公告。
 publishdate: 2019-11-14
 release: 1.4.0
 skip_list: true
@@ -12,74 +12,43 @@ aliases:
     - /zh/news/announcing-1.4
 ---
 
-We are pleased to announce the release of Istio 1.4!
+我们很高兴地宣布 Istio 1.4 版本发布啦！
 
-{{< relnote >}}
+{{<relnote>}}
 
-Istio 1.4 continues our efforts at improving the Istio user experience,
-with a focus on simplification. We've also continued to add features that
-improve the performance and experience of running Istio.
+`Istio 1.4` 继续致力于改善 `Istio` 用户的体验，并着重于简化使用方式。我们还在继续添加新功能，以提高 `Istio` 的运行性能和使用体验。
 
-## Mixer-less telemetry
+## Mixer-less 遥测技术{#mixer-less-telemetry}
 
-Our implementation of telemetry without Mixer will simplify installation and
-operation of meshes, all while vastly improving performance. The in-proxy
-generation of HTTP metrics has graduated from experimental to alpha. Users
-are very excited about this improvement and we are working hard to get it
-ready. We've also added new experimental features that don't require Mixer:
-TCP metrics and Stackdriver metrics.
+我们在不使用 `Mixer` 的情况下实施遥测技术以简化网格的安装和操作，同时极大地提高性能。HTTP 指标代理已从实验性过渡到了 `alpha`。这一功能的改进深受用户喜爱，当然，我们还在继续努力完善此项功能。我们还添加了不需要 `Mixer` 的新实验功能：`TCP` 指标和 `Stackdriver` 指标。
 
-## Authorization policy model in `beta`
+## 处在 `beta` 中的授权模型{#authorization-policy-model-in-beta}
 
-The authorization policy model is now in Beta with the introduction of the
-[`v1beta1` authorization policy](/zh/blog/2019/v1beta1-authorization-policy/) that
-focuses on simplification and flexibility. This will also replace the old
-[`v1alpha1` RBAC policy](/zh/docs/reference/config/security/istio.rbac.v1alpha1/).
+授权策略模型现在处于 `Beta` 中，其中引入了以简化和灵活性为重点的 [`v1beta1` authorization policy](/zh/blog/2019/v1beta1-authorization-policy/) 策略。这也将取代旧的 [`v1alpha1` RBAC policy](/zh/docs/reference/config/security/istio.rbac.v1alpha1/) 策略。
 
 ## Automatic mutual TLS
 
-We added [automatic mutual TLS support](/zh/docs/tasks/security/authentication/auto-mtls/). It allows
-you to adopt mutual TLS without needing to configure destination rules. Istio automatically programs
-client sidecar proxies to send mutual TLS to server endpoints that are able to accept mutual TLS.
+我们添加了 [automatic mutual TLS support](/zh/docs/tasks/security/authentication/auto-mtls/)。它允许您采用双向 `TLS`，而无需配置目标规则。`Istio` 自动对客户端 `Sidecar` 代理进行编程，以双向 `TLS` 发送到能够接受双向 `TLS` 的服务器端点。
 
-Currently this feature must be explicitly enabled, but we plan to enable it by default in a
-future release.
+如果想在目前的版本中使用，必须手动配置启用，但是我们计划在以后的版本中默认启用它。
 
-## Improved troubleshooting
+## 改善故障排除方法{#improved-troubleshooting}
 
-We're introducing the
-[`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) command to
-improve troubleshooting of your mesh. Check for problems with
-configuration in your mesh, and even validate new configuration prior to
-submitting it to the mesh.
+我们正在引入 [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 命令来改善排除网格故障的困难。检查网格中的配置，以及在将新配置提交到网格之前要对其进行验证。
 
-## Better sidecar
+## 更好的 sidecar{#better-sidecar}
 
-We've been doing tons of work to improve Envoy, its feature set, and the
-experience of using it. Envoy now exits more gracefully on crashes, supports
-more metrics, and can mirror traffic to a percentage of traffic. It reports
-the direction of traffic and has better configuration of `stat patterns`.
-Finally, there is a new
-[experimental command](/zh/docs/reference/commands/istioctl/#istioctl-experimental-wait)
-that can tell you when configuration
-has been pushed to all proxies in the mesh.
+我们一直在做大量工作来改善 `Envoy` 的功能和用户使用体验，`Envoy` 在崩溃时可以更正常地退出，它支持更多指标，并且可以将流量映射到一定的比例。它会报告流量的来源，并且可以更好地配置 `stat patterns`。最后，有一个新的[实验命令](/zh/docs/reference/commands/istioctl/#istioctl-experimental-wait)  ，可以告诉您将所有代理推送到网格中的时间。
 
-## Other enhancements
+## 其他增强功能{#other-enhancements}
 
-- Citadel will now periodically check for and rotate expired root certificates
-- We've added support for OpenAPI v3 schema validation
-- Experimental multi-cluster setup has been added to `istioctl`
-- We simplified installation by removing the `proxy_init` Docker image
+- Citadel 将定期检查和更换过期的根证书
+- 我们增加了对 OpenAPI v3 模式验证的支持
+- 实验性的多群集设置已添加到 `istioctl` 命令中
+- 我们通过删除 Docker 镜像中的 `proxy_init` 从而简化安装
 
-As always, there is a lot happening in the
-[Community Meeting](https://github.com/istio/community#community-meeting);
-join us every other Thursday at 11 AM Pacific.
+与往常一样，[社区会议](https://github.com/istio/community#community-meeting)上会发生很多相关事宜；所以请在太平洋时间的每个星期四上午的11点钟请加入我们。
 
-We were very proud to be called out as one of the top five
-[fastest growing](https://octoverse.github.com/#top-and-trending-projects)
-open source projects in all of GitHub. Want to get involved? Join one of our
-[Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)
-and help us make Istio even better.
+我们很荣幸被评选为在 GitHub 上[增长最快](https://octoverse.github.com/#top-and-trending-projects)的五个开源项目之一。你想参与其中吗？加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一 ，让我们一起把 Istio 变得更好。
 
-To join the conversation, go to [discuss.istio.io](https://discuss.istio.io),
-log in with your GitHub credentials and join us!
+要加入我们，请访问 [discuss.istio.io](https://discuss.istio.io)，并使用您的 GitHub 账号登录！
