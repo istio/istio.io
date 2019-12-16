@@ -6,7 +6,7 @@ weight: 10
 
 ## 流量管理{#traffic-management}
 
-- **新增了** 对 [mirroring](/docs/tasks/traffic-management/mirroring/) 百分比的流量支持。
+- **新增了** 对 [mirroring](/zh/docs/tasks/traffic-management/mirroring/) 百分比的流量支持。
 - **改进了**  `Envoy sidecar`。当 `Envoy sidecar` 崩溃退出时，可以更轻松地查看 `Envoy sidecar` 的状态。
 - **改进了** `Pilot` 的功能，当无需修改时，即可跳过向 `Envoy` 发送冗余配置的操作。
 - **改进了** `headless` 服务，以避免与同一端口上的不同服务发生冲突。
