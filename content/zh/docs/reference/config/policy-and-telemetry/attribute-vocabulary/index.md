@@ -7,11 +7,15 @@ aliases:
     - /zh/docs/reference/config/mixer/aspects/attributes.html
 ---
 
-属性是整个 Istio 使用的核心概念。可以在[这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)找到属性是什么和用于何处的描述。
+属性是整个 Istio 使用的核心概念。
+可以在[这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)找到属性是什么和用于何处的描述。
 
-每个给定的 Istio 部署有固定的能够理解的属性词汇。这个特定的词汇由当前部署涉及到的所有属性生产者一起来决定。Istio 中除了 Envoy 是首要的属性生产者外， Mixer 和服务也会产生属性。
+每个给定的 Istio 部署有固定的能够理解的属性词汇。
+这个特定的词汇由当前部署涉及到的所有属性生产者一起来决定。
+Istio 中除了 Envoy 是首要的属性生产者外，Mixer 和服务也会产生属性。
 
-下面这个表格展示一组规范属性集合和他们各自的类型。大多数 Istio 部署都会包含产生这些属性的代理（ Envoy 或 Mixer 适配器）。
+下面这个表格展示一组规范属性集合和他们各自的类型。
+大多数 Istio 部署都会包含产生这些属性的代理（Envoy 或 Mixer 适配器）。
 
 | 名称 | 类型 | 描述 | Kubernetes 示例 |
 |------|------|-------------|--------------------|
@@ -95,9 +99,13 @@ aliases:
 
 ## 时间戳和持续时间属性格式
 
-时间戳属性以 RFC 3339 格式表示。应用 timestamp 属性时，可以使用 [CEXL](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为  `TIMESTAMP` 类型，例如：`request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`。
+时间戳属性以 RFC 3339 格式表示。
+应用 timestamp 属性时，可以使用 [CEXL](/zh/docs/reference/config/policy-and-telemetry/expression-language/)
+中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为  `TIMESTAMP` 类型，
+例如：`request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`。
 
-持续时间属性表示时间量，表示为一系列十进制数，其中可选的小数部分用句点表示，以及单位值。可能的单位值是纳秒的 `ns`，微秒 `us`（或`μs`），毫秒 `ms`，秒 `s`，分钟 `m`，小时 `h`。例如：
+持续时间属性表示时间量，表示为一系列十进制数，其中可选的小数部分用句点表示，以及单位值。
+可能的单位值是纳秒的 `ns`，微秒 `us`（或`μs`），毫秒 `ms`，秒 `s`，分钟 `m`，小时 `h`。例如：
 
 * `1ms` 表示 1 毫秒
 * `2.3s` 表示 2.3 秒
