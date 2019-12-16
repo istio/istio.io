@@ -7,7 +7,7 @@ aliases:
     - /zh/docs/tasks/security/auth-sds/
 ---
 
-这个任务是讲述 Istio 中如何通过启动 [SDS (密钥发现服务)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)来进行身份认证的。
+这个任务是讲述 Istio 中如何通过启动 [SDS（密钥发现服务）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)来进行身份认证的。
 
 在 Istio 1.1 之前，Istio workload 的密钥和证书都是由 Citadel 生成的，并且通过挂载 secret-volume 文件的方式下发给 sidecar 上。
 这种做法有下面一些小缺陷：
