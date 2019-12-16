@@ -15,4 +15,4 @@ keywords: [kubernetes,multicluster]
 例如，两个集群可能共享一个控制平面，而第三个集群拥有自己的控制平面。
 {{< /tip >}}
 
-欲获取更需信息请参考[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)。
+欲获取更多信息请参考[多集群部署模型](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)。
