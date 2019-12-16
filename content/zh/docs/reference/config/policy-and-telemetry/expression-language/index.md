@@ -71,6 +71,6 @@ Mixer 验证 CEXL 表达式的语法并在配置验证期间解析为一个类�
 |-----------|------------|-----------|
 |`request.size` <code>&#124; 200</code> |  **int** | `request.size` 在可用时返回其值，否则返回 200。
 |`request.headers["x-forwarded-host"] == "myhost"`| **boolean**
-|`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`| **boolean**| user 是 admin 或属于 admin 组时 结果为 true。
+|`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`| **boolean**| user 是 admin 或属于 admin 组时，结果为 true。
 |`(request.auth.principal` <code>&#124;</code> `"nobody" ) == "user1"` | **boolean** | 如果 `request.auth.principal` 是 "user1" 则结果是 true，且 `request.auth.principal` 属性缺失时不会报错。
-|`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | 如果 app label 是 reviews 且 version label 是 v3 则结果是 true， 否则是 false。
+|`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | 如果 app label 是 reviews 且 version label 是 v3 则结果是 true，否则是 false。
