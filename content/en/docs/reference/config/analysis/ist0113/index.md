@@ -7,7 +7,7 @@ layout: analysis-message
 如果这两个资源各自指定的双向 TLS 模式不兼容，则它们会冲突。
 此冲突意味着与目标规则匹配的到达指定主机的流量将被拒绝。
 
-此消息仅会在不使用 [自动双向 TLS](/zh/docs/tasks/security/authentication/auto-mtls/) 的服务网格上发生。
+此消息仅会在不使用[自动双向 TLS](/zh/docs/tasks/security/authentication/auto-mtls/) 的服务网格上发生。
 
 ## 示例{#an-example}
 
