@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-003
 subtitle: Security Bulletin
-description: 在正则表达式解析中拒绝服务。
+description: 解析正则表达式导致的拒绝服务。
 cves: [CVE-2019-14993]
 cvss: "7.5"
 vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
