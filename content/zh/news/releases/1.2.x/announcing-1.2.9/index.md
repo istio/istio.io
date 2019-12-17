@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.2.9
+title: 发布 Istio 1.2.9
 linktitle: 1.2.9
-subtitle: Patch Release
-description: Istio 1.2.9 patch release.
+subtitle: 发布补丁
+description: Istio 1.2.9 版本修复。
 publishdate: 2019-11-06
 release: 1.2.9
 aliases:
@@ -10,14 +10,14 @@ aliases:
     - /zh/news/announcing-1.2.9
 ---
 
-We're pleased to announce the availability of Istio 1.2.9. Please see below for what's changed.
+我们很高兴地宣布 Istio 1.2.9 现在是可用的，详情请查看如下更改。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix a proxy startup race condition.
+- 修复代理启动的先决条件。
 
-## Features
+## 特点{#features}
 
-- Adding support for Citadel automatic root certificate rotation ([Issue 17059](https://github.com/istio/istio/issues/17059)).
+- 添加了对 `Citadel` 自动更换根证书的支持 ([Issue 17059](https://github.com/istio/istio/issues/17059))。
