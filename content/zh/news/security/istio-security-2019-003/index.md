@@ -1,8 +1,11 @@
 ---
 title: ISTIO-SECURITY-2019-003
 subtitle: Security Bulletin
-description: CVE-2019-14993 所披露的安全漏洞。
-cve: [CVE-2019-14993]
+description: 解析正则表达式导致的拒绝服务。
+cves: [CVE-2019-14993]
+cvss: "7.5"
+vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+releases: ["1.1 to 1.1.12", "1.2 to 1.2.3"]
 publishdate: 2019-08-13
 keywords: [CVE]
 skip_seealso: true
@@ -11,11 +14,7 @@ aliases:
     - /zh/news/2019/istio-security-003-004
 ---
 
-{{< security_bulletin
-        cves="CVE-2019-14993"
-        cvss="7.5"
-        vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-        releases="1.1 to 1.1.12, 1.2 to 1.2.3" >}}
+{{< security_bulletin >}}
 
 ## 内容{#context}
 
