@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-005
 subtitle: 安全公告
-description: 由于客户端请求中存在大量 HTTP headers 而导致的拒绝服务。
+description: 由于客户端请求中存在大量 HTTP header 而导致的拒绝服务。
 cves: [CVE-2019-15226]
 cvss: "7.5"
 vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
