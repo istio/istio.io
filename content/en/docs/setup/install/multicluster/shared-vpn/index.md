@@ -79,6 +79,7 @@ cluster. You can install the component in one of two ways:
     $ istioctl manifest apply \
     --set profile=remote \
     --set values.global.controlPlaneSecurityEnabled=false \
+    --set values.global.createRemoteSvcEndpoints=true \
     --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
@@ -122,6 +123,7 @@ The following table shows the `istioctl` configuration values for remote cluster
 | `values.global.remoteTelemetryAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's telemetry Pod IP address or remote cluster DNS resolvable hostname |
 | `values.sidecarInjectorWebhook.enabled` | true, false | true | Specifies whether to enable automatic sidecar injection on the remote cluster |
 | `values.global.remotePilotCreateSvcEndpoint` | true, false | false | If set, a selector-less service and endpoint for `istio-pilot` are created with the `remotePilotAddress` IP, which ensures the `istio-pilot.<namespace>` is DNS resolvable in the remote cluster. |
+| `values.global.createRemoteSvcEndpoints` | true, false | false | If set, selector-less services and endpoints for `istio-pilot`, `istio-telemetry`, `istio-policy` are created with the corresponding remote IPs: `remotePilotAddress`, `remoteTelmetryAddress`, `remotePolicyAddress`, which ensures the service names are DNS resolvable in the remote cluster. |
 
 ## Generate configuration files for remote clusters {#kubeconfig}
 
@@ -237,6 +239,7 @@ To uninstall the cluster run the following command:
     $ istioctl manifest generate \
     --set profile=remote \
     --set values.global.controlPlaneSecurityEnabled=false \
+    --set values.global.createRemoteSvcEndpoints=true \
     --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
@@ -264,6 +267,7 @@ Before you begin, set the endpoint IP environment variables as described in the
     $ istioctl manifest apply \
     --set profile=remote \
     --set values.global.controlPlaneSecurityEnabled=false \
+    --set values.global.createRemoteSvcEndpoints=true \
     --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
@@ -483,6 +487,7 @@ and endpoint to allow the remote sidecars to resolve the
       --set values.global.mtls.enabled=true \
       --set values.security.selfSigned=false \
       --set values.global.controlPlaneSecurityEnabled=true \
+      --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${PILOT_POD_IP} \
       --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
