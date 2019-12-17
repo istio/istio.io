@@ -3,15 +3,17 @@ title: MTLSPolicyConflict
 layout: analysis-message
 ---
 
-当目标规则和策略资源与双向 TLS 发生冲突时，会出现此消息。
-如果这两个资源各自指定的双向 TLS 模式不兼容，则它们会冲突。
-此冲突意味着与目标规则匹配的到达指定主机的流量将被拒绝。
+This message occurs when a destination rule resource and a policy resource are
+in conflict with regards to mutual TLS. The two resources are in conflict if they each
+specify incompatible mutual TLS modes to be used; this conflict means traffic matching
+the destination rule to the specified host will be rejected.
 
-此消息仅会在不使用 [自动双向 TLS](/zh/docs/tasks/security/authentication/auto-mtls/) 的服务网格上发生。
+This message is only produced on service meshes that are not using [automatic mutual
+TLS](/docs/tasks/security/authentication/auto-mtls/).
 
-## 示例{#an-example}
+## An example
 
-考虑使用以下 `MeshPolicy` 的 Istio 网格：
+Consider an Istio mesh with the following mesh policy:
 
 {{< text yaml >}}
 apiVersion: authentication.istio.io/v1alpha1
@@ -23,13 +25,16 @@ spec:
   - mtls: {}
 {{< /text >}}
 
-该策略资源的效果是,所有服务都需要使用双向 TLS 认证策略。
-但是，请注意，没有相应的目标规则要求流量使用双向 TLS，流量将在不使用 TLS 的情况下被发送到服务。
-此冲突意味着,目的地为网格中的服务的流量将最终失败。
+The effect of this policy resource is that all services have an authentication
+policy requiring mutual TLS to be used. However, note that without a corresponding
+destination rule requiring traffic to use mutual TLS, traffic will be sent to services
+without using mutual TLS. This conflict means that traffic destined for services in
+the mesh will ultimately fail.
 
-此示例中，您可以通过以下两种方式之一解决此问题：
-您可以将网格策略的双向 TLS 要求降级，以接收明文流量（这可能包括完全删除网格策略），
-或者可以创建相应的目标规则以要求网格内的流量使用双向 TLS：
+In this example, you can fix the issue in one of two ways: you could downgrade
+the mesh policy's mutual TLS requirements to accept plaintext traffic (which might include
+removing the mesh policy entirely), or you can create a corresponding
+destination rule that specifies to use mutual TLS for traffic within the mesh:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -43,32 +48,51 @@ spec:
       mode: ISTIO_MUTUAL
 {{< /text >}}
 
-## 哪些目标规则和策略与服务有关{#which-destination-rules-and-policies-are-relevant-to-a-service}
+## Which destination rules and policies are relevant to a service
 
-为了有效解决双向 TLS 冲突，了解目标规则和策略如何影响到达服务的流量会很有帮助。
-考虑一个在 `my-namespace` 命名空间中的 `my-service` 示例服务。
-要确定哪个策略对象应用于 `my-service`，请按以下顺序匹配以下资源：
+To effectively resolve mutual TLS conflicts, it's helpful to understand how both
+destination rules and policies affect traffic to a service. Consider an example
+service named `my-service` in namespace `my-namespace`. To determine which
+policy object is applied to `my-service`, the following resources are matched in
+order:
 
-1. 在命名空间 `my-namespace` 中，定义了 `target` 为 `my-service` 的策略。
-1. 在命名空间 `my-namespace` 中，名为 `default` 且没有定义 `target` 的策略。这样的策略隐式的适用于整个命名空间。
-1. 名为 `default` 的策略。
+1. A policy resource in namespace `my-namespace` that contains a `target`
+   specifying `my-service`.
+1. A policy resource named `default` in namespace `my-namespace` that does not
+   contain a `target`. This policy implicitly applies to the entire namespace.
+1. A mesh policy resource named `default`.
 
-要确定哪些目标规则被应用于发送到 `my-service` 的流量，我们首先必须知道流量来自哪个命名空间。
-本例中，我们假设这个命名空间为 `other-namespace`。
-目标规则按照下面的顺序进行匹配：
+To determine which destination rules are applied to traffic sent to
+`my-service`, we must first know which namespace the traffic originates from.
+For the sake of this example, let's call that namespace `other-namespace`.
+Destination rules are matched in the following order:
 
-1. 命名空间 `other-namespace` 中，要匹配主机 `my-service.my-namespace.svc.cluster.local` 的目标规则，
-   这可能是完全匹配或通配符匹配。还要注意，控制配置资源可见性的 `exportTo` 字段将被忽略，因为与源服务相同的命名空间中的资源始终可见。
-1. 命名空间 `my-namespace` 中，要匹配主机 `my-service.my-namespace.svc.cluster.local` 的目标规则，
-   这可能是完全匹配或通配符匹配。请注意，`exportTo` 字段必须定义此资源为公共资源（例如，它取值为`*`或未指定），以便进行匹配。
-1. 根命名空间（默认为 `istio-system`）中要匹配主机 `my-service.my-namespace.svc.cluster.local` 的目标规则。
-   根命名空间由 [`MeshConfig` 资源](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) 的 `rootNamespace` 属性控制。请注意，`exportTo` 字段必须定义此资源为公共资源（例如，它取值为`*`或未指定），以便进行匹配。
+1. A destination rule in namespace `other-namespace` that specifies a host that
+   matches `my-service.my-namespace.svc.cluster.local`. This may be an exact
+   match or a wildcard match. Also note that the `exportTo` field, which
+   controls the visibility of configuration resources, will effectively be
+   ignored as resources within the same namespace as the source service are
+   always visible.
+1. A destination rule in namespace `my-namespace` that specifies a host that
+   matches `my-service.my-namespace.svc.cluster.local`. This may be an exact
+   match or a wildcard match. Note that the `exportTo` field must specify that
+   this resource is public (e.g. it has the value `"*"` or is not specified) in
+   order for a match to occur.
+1. A destination rule in the "root namespace" (which is, by default,
+   `istio-system`) that matches `my-service.my-namespace.svc.cluster.local`. The
+   root namespace is controlled by the `rootNamespace` property in the
+   [`MeshConfig` resource](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+   Note that the `exportTo` field must specify that this resource is public
+   (e.g. it has the value `"*"` or is not specified) in order for a match to
+   occur.
 
-最后请注意，遵循这些规则时，Istio 不会应用任何继承概念。第一个符合匹配条件的资源将被使用。
+Finally, be aware that Istio doesn't apply any concept of inheritance when
+following these rules. The first resources that matches the specified criteria
+is used.
 
-## 如何处理{#how-to-resolve}
+## How to resolve
 
-检查输出信息，您将看到类似下面的信息：
+Look at the output of the message. You should see something like:
 
 {{< text plain >}}
 Error [IST0113] (DestinationRule default-rule.istio-system) A DestinationRule
@@ -78,17 +102,27 @@ myhost.my-namespace.svc.cluster.local:8080. The DestinationRule
 object "my-namespace/my-policy" specifies Plaintext.
 {{< /text >}}
 
-此消息中包含两个冲突的资源：
+Contained in this message are the two resources that are in conflict:
 
-* 策略资源 `my-namespace/my-policy`，它指定 `Plaintext` 作为其支持的双向 TLS 模式。
-* 目标规则 `istio-system/default-rule`，它要求到达 `myhost.my-namespace.svc.cluster.local:8080` 主机的流量使用双向 TLS。
+* Policy resource `my-namespace/my-policy`, which is specifying 'Plaintext' as its
+  supported mutual TLS mode.
+* Destination rule resource `istio-system/default-rule`, which is requiring mutual TLS
+  when sending traffic to host `myhost.my-namespace.svc.cluster.local:8080`
 
-您可以通过执行以下任一操作来解决冲突：
+You can fix the conflict by doing one of the following:
 
-* 修改策略资源 `my-namespace/my-policy` 以将双向 TLS 作为身份验证模式。
-  通常，可以通过在资源中添加一个 `peer` 属性来实现，其子属性为 `mtls`。您可以在
-  [策略对象参考](/zh/docs/reference/config/security/istio.authentication.v1alpha1/#Policy) 中阅读有关策略对象的更多信息。
-* 修改目标规则 `istio-system/default-rule`，删除 `ISTIO_MUTUAL` 以不使用双向 TLS。
-  请注意，默认情况下 `default-rule` 在 `istio-system` 命名空间中，`istio-system` 命名空间被认为是配置的根命名空间（尽管可以通过资源中的 `rootNamespace` 属性来覆盖它）。这意味着此目标规则可能会影响网格中的所有其他服务。
-* 在与服务所在命名空间相同的命名空间中，添加新的目标规则（本例中为 `my-namespace`），并且不要将流量策略定义为 `ISTIO_MUTUAL`。
-  由于此规则与服务位于同一命名空间中，因此它将覆盖全局目标规则 `istio-system/default-rule`。
+* Modifying policy resource `my-namespace/my-policy` to require mutual TLS as an
+  authentication mode. In general this is done by adding a `peers` attribute to
+  the resource with a child of `mtls`. You can read more about how this is
+  achieved on the [reference page for policy objects](/docs/reference/config/security/istio.authentication.v1alpha1/#Policy).
+* Modifying destination rule `istio-system/default-rule` to not use mutual TLS by
+  removing the `ISTIO_MUTUAL` traffic policy. Note that `default-rule` is in the
+  `istio-system` namespace - by default, the `istio-system` namespace is
+  considered the "root namespace" for configuration (although this can be overridden via
+  the `rootNamespace` property in the [`MeshConfig` resource](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+  That means that this destination rule potentially affects all other services
+  in the mesh.
+* Add a new destination rule in the same namespace as the service (in this case,
+  namespace `my-namespace`), and do not specify a traffic policy of
+  `ISTIO_MUTUAL`. Because this rule is located in the same namespace as the
+  service, it will override the global destination rule `istio-system/default-rule`.
