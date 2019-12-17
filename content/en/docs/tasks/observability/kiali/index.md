@@ -40,13 +40,13 @@ authenticate to Kiali.
 
 First, define the credentials you want to use as the Kiali username and passphrase:
 
-This will prompt you to provide Kiali Username.
+Enter a Kiali username when prompted:
 
 {{< text bash >}}
 $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
 {{< /text >}}
 
-This will prompt you to provide Kiali Passphrase.
+Enter a Kiali passphrase when prompted:
 
 {{< text bash >}}
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
