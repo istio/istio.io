@@ -249,7 +249,7 @@ metadata:
 
 当设置路由规则将流量导向一个服务特定的版本（网格）时，必须确保这些网格在路由中被使用之前是可用的。否则在重新配置期间，对服务的调用可能会返回 503 错误。
 
-使用单个 `kubectl` 调用创建定义相应网格的 `VirtualServices` 和 `DestinationRules`（例如 `kubectl apply -f myVirtualServiceAndDestinationRule.yaml`）是不充分的，因为资源以最终一致的方式传播（从配置服务，例如 Kubernetes API server）到Pilot实例。 如果使用网格的 `VirtualService` 比定义了网格的 `DestinationRule` 先到达，那么有Pilot生成的Envoy配置将会引用不存在的上游池。这将导致 HTTP 503 错误，直到对于 Pilot，所有的配置对象都可使用。
+使用单个 `kubectl` 调用创建定义相应网格的 `VirtualServices` 和 `DestinationRules`（例如 `kubectl apply -f myVirtualServiceAndDestinationRule.yaml`）是不充分的，因为资源以最终一致的方式传播（从配置服务，例如 Kubernetes API server）到 Pilot 实例。 如果使用网格的 `VirtualService` 比定义了网格的 `DestinationRule` 先到达，那么有 Pilot 生成的 Envoy 配置将会引用不存在的上游池。这将导致 HTTP 503 错误，直到对于 Pilot，所有的配置对象都可使用。
 
 为了确保在配置网格的路由时，服务没有中断时间，请遵循下面所描述的先合后断的流程：
 
