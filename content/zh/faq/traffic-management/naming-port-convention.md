@@ -1,8 +1,8 @@
 ---
-title: What protocols does Istio support?
+title: Istio 支持哪些协议？
 weight: 50
 ---
 
-Currently, Istio supports TCP based protocols. Additionally, Istio provides functionality such as routing and metrics for other protocols such as `http` and `mysql`.
+目前，Istio 支持基于 TCP 的协议。此外，Istio 还为其他协议（如 `http` 和 `mysql`）提供路由和指标等功能。
 
-For a list of all protocols, and information on how to configure protocols, view the [Protocol Selection](/zh/docs/ops/configuration/traffic-management/protocol-selection/) documentation.
+对于所有协议列表以及协议配置信息，请查看文档[协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/) 。
