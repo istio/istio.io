@@ -20,7 +20,7 @@ aliases:
 
 __ISTIO-SECURITY-2019-005__:  `Envoy` 社区发现的一个 `DoS` 漏洞。
 
-  * __[CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)__: 经过调查，`Istio` 团队发现，如果攻击者使用大量非常小的 `headers`，则可以利用此问题在 `Istio` 中进行 `DoS` 攻击。
+  * __[CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)__: 经过调查，`Istio` 团队发现，如果攻击者使用大量非常小的 `header`，则可以利用此问题在 `Istio` 中进行 `DoS` 攻击。
 
 ## Bug 修复{#bug-fix}
 
