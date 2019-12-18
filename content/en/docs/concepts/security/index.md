@@ -46,12 +46,12 @@ Security in Istio involves multiple components:
 
 - **Citadel** for key and certificate management
 
-- **Sidecar and perimeter proxies** to implement secure communication between clients and servers
+- **Sidecar and perimeter proxies** to implement secure communication and authorization between clients and servers
 
 - **Pilot** to distribute [authentication policies](/docs/concepts/security/#authentication-policies)
   and [secure naming information](/docs/concepts/security/#secure-naming) to the proxies
 
-- **Mixer** to manage authorization and auditing
+- **Mixer** to manage auditing
 
 {{< image width="80%" link="./architecture.svg" caption="Istio Security Architecture" >}}
 
