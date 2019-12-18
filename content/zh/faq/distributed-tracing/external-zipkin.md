@@ -1,5 +1,5 @@
 ---
-title: Istio 是否能发送追踪信息到外部的 Zipkin 兼容的后端？
+title: Istio 是否能发送追踪信息到外部与 Zipkin 兼容的后端？
 weight: 70
 ---
 
