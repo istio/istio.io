@@ -26,4 +26,4 @@ aliases:
 
 - 如果启用了访问日志，`passthrough` 监听器的请求将被记录。
 - 使 Pilot 容忍未知的 JSON 字段，以便在升级过程中可以更轻松地回滚到旧版本。
-- 将备用 secrets 的支持添加到 Envoy 可以使用的 `SDS` 中，而不是在启动过程中无限期地等待最新的或不存在的 secrets（[Issue 13853](https://github.com/istio/istio/issues/13853)）。
+- 将备用 secret 的支持添加到 Envoy 可以使用的 `SDS` 中，而不是在启动过程中无限期地等待最新的或不存在的 secret（[Issue 13853](https://github.com/istio/istio/issues/13853)）。
