@@ -759,6 +759,6 @@ $ make lint
 $ make INTERNAL_ONLY=True lint
 {{< /text >}}
 
-## 使用 GitHub{#using-github}
+## 使用GitHub{#using-github}
 
 点击 [使用 GitHub 参与社区活动](/zh/about/contribute/github) 了解如何使用 GitHub 处理 Istio 文档。如果你非常感兴趣, 查看 [分支部分](/zh/about/contribute/github#branching) 来了解我们是怎么使用分支和处理冲突的。
