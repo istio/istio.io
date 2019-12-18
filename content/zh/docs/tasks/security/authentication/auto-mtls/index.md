@@ -15,7 +15,7 @@ without sidecars. This allows you to adopt Istio mutual TLS incrementally with m
 ## Before you begin
 
 * Understand Istio [authentication policy](/zh/docs/concepts/security/#authentication-policies) and related
-[mutual TLS authentication](/zh/docs/concepts/security/#mutual-TLS-authentication) concepts.
+[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Install Istio with the `global.mtls.enabled` option set to false and `global.mtls.auto` set to true.
 For example, using the `demo` configuration profile:
@@ -49,12 +49,15 @@ sidecar injected, able to serve mutual TLS traffic.
 $ kubectl create ns partial
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n partial
 $ cat <<EOF | kubectl apply -n partial -f -
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: httpbin-nosidecar
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin
   template:
     metadata:
       labels:
