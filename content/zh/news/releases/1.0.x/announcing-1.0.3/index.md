@@ -18,15 +18,15 @@ aliases:
 
 ## 行为变更{#behavior-changes}
 
-- 现在必须 [验证 webhook](/zh/docs/ops/common-problems/validation)。禁用它可能导致 Pilot 崩溃。
+- 现在强制使用 [验证 webhook](/zh/docs/ops/common-problems/validation)。禁用它可能导致 Pilot 崩溃。
 
-- 现在，在配置 DNS 解析时，[Service entry](/zh/docs/reference/config/networking/service-entry/) 验证会拒绝通配主机名（`*`）。API 从未允许这样做，只是在以前的版本中，`ServiceEntry` 被错误地排除在验证之外。请将通配符作为主机名的一部分，例如 `*.bar.com`，可以保持不变。
+- 现在，[Service entry](/zh/docs/reference/config/networking/service-entry/) 验证会在配置为 DNS 解析时拒绝通配主机名（`*`）。API 从未允许这样做，只是在以前的版本中，`ServiceEntry` 被错误地排除在验证之外。把通配符作为主机名的一部分，例如 `*.bar.com`，将保持不变。
 
 - `istio-proxy` 的核心转储路径已更改为 `/var/lib/istio`。
 
 ## 网络{#networking}
 
-- [双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls) 许可模式现在是默认启用的。
+- [双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls) 宽容模式现在是默认启用的。
 
 - Pilot 性能和可扩展性已大大增强。Pilot 现在可以在不到 1 秒的时间内向 500 个 sidecar 提供 endpoint 更新。
 
@@ -42,4 +42,4 @@ aliases:
 
 - `istio-telemetry` CPU 使用率降低 10%。
 
-- 淘汰 `statsd-to-prometheus` deployment。现在可以直接从 `istio-proxy` 中抓取 Prometheus。
+- 淘汰 `statsd-to-prometheus` deployment。Prometheus 现在可以直接从 `istio-proxy` 中抓取指标。
