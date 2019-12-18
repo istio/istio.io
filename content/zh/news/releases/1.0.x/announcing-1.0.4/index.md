@@ -24,12 +24,12 @@ aliases:
 
 ## 网络{#networking}
 
-- 修复了缺少 removal 导致 503 错误的远古 endpoint bug。
+- 修复了过期 endpoint 漏删导致 503 错误的 bug。
 
 - 修复了 Pod 标签包含 `/` 时 sidecar 的注入 bug。
 
 ## 策略和遥测{#policy-and-telemetry}
 
-- 修复了进程外 Mixer 适配器造成的不正确行为，偶尔导致数据损坏的 bug。
+- 修复了进程外 Mixer 适配器偶尔的数据损坏问题导致的不正确行为。
 
 - 修复了在等待失踪的 CRD 时，Mixer 过度使用 CPU 的 bug。
