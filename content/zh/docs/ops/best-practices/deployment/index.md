@@ -12,7 +12,7 @@ aliases:
 
 ## 部署更少的集群
 
-在少量大型的集群中，而不是在大量的小型集群中部署 Istio。最好的做法是使用 [租户命名空间]（/zh/docs/ops/deployment/deployment-models/#namespace-tenancy）来管理大型集群，而不是将集群添加到部署中。按照这种方法，你可以在每个区域或者区域中的一个或两个集群中部署 Istio。你可以在每一个 region 或者 zone 中的集群中部署一个控制平面以提高可靠性。
+在少量大型的集群中，而不是在大量的小型集群中部署 Istio。最好的做法是使用 [租户命名空间](/zh/docs/ops/deployment/deployment-models/#namespace-tenancy)来管理大型集群，而不是将集群添加到部署中。按照这种方法，你可以在每个区域或者区域中的一个或两个集群中部署 Istio。你可以在每一个 region 或者 zone 中的集群中部署一个控制平面以提高可靠性。
 
 ## 靠近你的用户部署集群
 
