@@ -96,7 +96,7 @@ metadata:
 EOF
 {{< /text >}}
 
-再次检查命名空间的 secret，请运行：
+再次检查命名空间 `foo` 中的 secret，请运行：
 
 {{< text bash >}}
 $ kubectl get secrets -n foo | grep istio.io
