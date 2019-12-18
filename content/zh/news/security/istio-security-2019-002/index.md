@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-002
-subtitle: Security Bulletin
-description: Security vulnerability disclosure for CVE-2019-12995.
+subtitle: 安全公告
+description: CVE-2019-12995 所披露的安全漏洞。
 cve: [CVE-2019-12995]
 publishdate: 2019-06-28
 keywords: [CVE]
@@ -17,43 +17,41 @@ aliases:
         vector="CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C"
         releases="1.0 to 1.0.8, 1.1 to 1.1.9, 1.2 to 1.2.1" >}}
 
-## Context
+## 内容{#context}
 
-A bug in Istio’s JWT validation filter causes Envoy to crash in certain cases when the request contains a malformed JWT token. The bug was discovered and reported by a user [on GitHub](https://github.com/istio/istio/issues/15084) on June 23, 2019.
+当请求包含格式错误的 JWT 令牌时，Istio JWT 认证过滤器中的 BUG 会导致 Envoy 在某些情况下崩溃。该 BUG 已由一个用户在 [GitHub](https://github.com/istio/istio/issues/15084) 上于 2019 年 6 月 23 日发现并报告。
 
-This bug affects all versions of Istio that are using the JWT authentication policy.
+此 BUG 会影响所有正在使用 JWT 身份认证策略的 Istio 版本。
 
-The symptoms of the bug are an HTTP 503 error seen by the client, and
+此 BUG 会导致客户端收到 HTTP 503 错误，并且 Envoy 会有以下日志。
 
 {{< text plain >}}
 Epoch 0 terminated with an error: signal: segmentation fault (core dumped)
 {{< /text >}}
 
-in the Envoy logs.
+无论 JWT 规范中的 `trigger_rules` 如何设置，Envoy 都可能因为格式错误的 JWT token (没有有效的签名) 崩溃，导致所有 URI 访问不受限制。 因此，这个 BUG 使 Envoy 容易受到潜在的 DoS 攻击。
 
-The Envoy crash can be triggered using a malformed JWT without a valid signature, and on any URI being accessed regardless of the `trigger_rules` in the JWT specification. Thus, this bug makes Envoy vulnerable to a potential DoS attack.
+## 影响范围{#impact-and-detection}
 
-## Impact and detection
+如果满足以下两个条件，则 Envoy 将很容易受到攻击：
 
-Envoy is vulnerable if the following two conditions are satisfied:
-
-* A JWT authentication policy is applied to it.
-* The JWT issuer (specified by `jwksUri`) uses the RSA algorithm for signature verification
+* 使用了 JWT 身份认证策略。
+* 使 JWT issuer(由 `jwksUri` 发行)使用 RSA 算法进行签名认证。
 
 {{< tip >}}
-The RSA algorithm used for signature verification does not contain any known security vulnerability.  This CVE is triggered only when using this algorithm but is unrelated to the security of the system.
+用于签名认证的 RSA 算法不包含任何已知的安全漏洞。 仅当使用此算法时才触发此 CVE，但与系统的安全性无关。
 {{< /tip >}}
 
-If JWT policy is applied to the Istio ingress gateway, please be aware that any external user who has access to the ingress gateway could crash it with a single HTTP request.
+如果将 JWT 策略应用于 Istio ingress gateway。请注意，有权访问 Ingress gateway 的任何外部用户都可以通过单个 HTTP 请求导致它崩溃。
 
-If JWT policy is applied to the sidecar only, please keep in mind it might still be vulnerable. For example, the Istio ingress gateway might forward the JWT token to the sidecar which could be a malformed JWT token that crashes the sidecar.
+如果仅将 JWT 策略应用 Sidecar， 请记住它仍然可能受到攻击。 例如，Istio ingress gateway 可能会将 JWT token 转发到 Sidecar，这可能是格式错误的 JWT token ，该 token 可能让 Sidecar 崩溃。
 
-A vulnerable Envoy will crash on an HTTP request with a malformed JWT token. When Envoy crashes, all existing connections will be disconnected immediately. The `pilot-agent` will restart the crashed Envoy automatically and it may take a few seconds to a few minutes for the restart. pilot-agent will stop restarting Envoy after it crashed more than ten times. In this case, Kubernetes will redeploy the pod, including the workload behind Envoy.
+易受攻击的 Envoy 将在处理 JWT token 格式错误的 HTTP 请求上崩溃。 当 Envoy 崩溃时，所有现有连接将立即断开连接。 `pilot-agent` 将自动重启崩溃的 Envoy，重启可能需要几秒钟到几分钟的时间。 崩溃超过十次后，pilot-agent 将停止重新启动 Envoy。 在这种情况下，Kubernetes 将重新部署 Pod，包括 Envoy 的工作负载。
 
-To detect if there is any JWT authentication policy applied in your cluster, run the following command which print either of the following output:
+要检测集群中是否应用了任何 JWT 身份认证策略，请运行以下命令，该命令将显示以下任一输出：
 
-* Found JWT in authentication policy, **YOU ARE AFFECTED**
-* Did NOT find JWT in authentication policy, *YOU ARE NOT AFFECTED*
+* 在身份认证策略中找到了 JWT, **你会收到影响**
+* 未在身份认证策略中找到 JWT, *你不会会收到影响*
 
 {{< text bash >}}
 $ cat <<'EOF' | bash -
@@ -71,30 +69,27 @@ JWKS_URI=()
 JWKS_URI+=($(kubectl get policy --all-namespaces -o jsonpath='{range .items[*]}{.spec.origins[*].jwt.jwksUri}{" "}{end}'))
 JWKS_URI+=($(kubectl get meshpolicy --all-namespaces -o jsonpath='{range .items[*]}{.spec.origins[*].jwt.jwksUri}{" "}{end}'))
 if [ "${#JWKS_URI[@]}" != 0 ]; then
-  echo "${red}Found JWT in authentication policy, YOU ARE AFFECTED${reset}"
+  echo "${red}在身份认证策略中找到了 JWT, 你会收到影响${reset}"
   exit 1
 fi
 
-echo "${green}Did NOT find JWT in authentication policy, YOU ARE NOT AFFECTED${reset}"
+echo "${green}未在身份认证策略中找到 JWT, 你不会受到影响${reset}"
 EOF
 {{< /text >}}
 
-## Mitigation
+## 防范{#mitigation}
 
-This bug is fixed in the following Istio releases:
+在以下 Istio 发行版中已修复此 BUG：
 
-* For Istio 1.0.x deployments: update to [Istio 1.0.9](/zh/news/releases/1.0.x/announcing-1.0.9) or later.
-* For Istio 1.1.x deployments: update to [Istio 1.1.10](/zh/news/releases/1.1.x/announcing-1.1.10) or later.
-* For Istio 1.2.x deployments: update to [Istio 1.2.2](/zh/news/releases/1.2.x/announcing-1.2.2) or later.
+* Istio 1.0.x: 升级到 [Istio 1.0.9](/zh/news/releases/1.0.x/announcing-1.0.9) 或者更新高版本。
+* Istio 1.1.x: 升级到 [Istio 1.1.10](/zh/news/releases/1.1.x/announcing-1.1.10) 或者更新高版本。
+* Istio 1.2.x: 升级到 [Istio 1.2.2](/zh/news/releases/1.2.x/announcing-1.2.2) 或者更新高版本。
 
-If you cannot immediately upgrade to one of these releases, you have the additional option of injecting a
-[Lua filter](https://github.com/istio/tools/tree/master/examples/luacheck) into older releases of Istio.
-This filter has been verified to work with Istio 1.1.9, 1.0.8, 1.0.6, and 1.1.3.
+如果您无法立即升级到以下版本之一，则可以选择注入一个 [Lua filter](https://github.com/istio/tools/tree/master/examples/luacheck) 到老的 Istio 版本中。Istio 1.1.9、1.0.8、1.0.6、和 1.1.3 将会进行该认证。
 
-The Lua filter is injected *before* the Istio `jwt-auth` filter.
-If a JWT token is presented on an http request, the `Lua` filter will check if the JWT token header contains alg:ES256. If the filter finds such a JWT token, the request is rejected.
+Lua 过滤器是在 Istio `jwt-auth` 过滤器 *之前* 注入的。如果在 HTTP 请求中提供了 JWT 令牌，则 `Lua` 过滤器将检查 JWT 令牌头是否包含 alg:ES256 。如果过滤器找到了这样的 JWT 令牌，则该请求将被拒绝。
 
-To install the Lua filter, please invoke the following commands:
+要安装 Lua 过滤器，请执行以下命令：
 
 {{< text bash >}}
 $ git clone git@github.com:istio/tools.git
@@ -102,10 +97,10 @@ $ cd tools/examples/luacheck/
 $ ./setup.sh
 {{< /text >}}
 
-The setup script uses helm template to produce an `envoyFilter` resource that deploys to gateways. You may change the listener type to `ANY` to also apply it to sidecars. You should only do this if you enforce JWT policies on sidecars *and* sidecars receive direct traffic from the outside.
+安装脚本使用 Helm 模板来生成一个 `envoyFilter` 资源，该资源将部署到 Gateway。 您可以将 Listener 类型更改为 `ANY`，以将其也应用到 Sidecar。只有当您在 Sidecar 上强制使用 JWT 身份认证策略，并在直接接收外部的请求，才应该这样做。
 
-## Credit
+## 致谢{#credit}
 
-The Istio team would like to thank Divya Raj for the original bug report.
+Istio 团队非常感谢 Divya Raj 的原始 BUG 报告。
 
 {{< boilerplate "security-vulnerability" >}}
