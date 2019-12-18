@@ -1,33 +1,23 @@
 ---
-title: Deployment Best Practices
-description: General best practices when setting up an Istio service mesh.
+title: 部署的最佳实践
+description: 设置 Istion 服务网格时的普遍最佳实践。
 force_inline_toc: true
 weight: 10
 aliases:
   - /zh/docs/ops/prep/deployment
 ---
 
-We have identified the following general principles to help you get the most
-out of your Istio deployments. These best practices aim to limit the impact of
-bad configuration changes and make managing your deployments easier.
+我们定义了以下一般性原则来最大化帮助到你的 Istio 部署。
+这些最佳实践旨在限制错误的配置变更所带来的影响以及更容易得管理你的部署。
 
-## Deploy fewer clusters
+## 部署更少的集群
 
-Deploy Istio across a small number of large clusters, rather than a large number
-of small clusters. Instead of adding clusters to your deployment, the best
-practice is to use [namespace tenancy](/zh/docs/ops/deployment/deployment-models/#namespace-tenancy)
-to manage large clusters. Following this approach, you can deploy Istio across
-one or two clusters per zone or region. You can then deploy a control plane on
-one cluster per region or zone for added reliability.
+在少量大型的集群中，而不是在大量的小型集群中部署 Istio。最好的做法是使用 [租户命名空间]（/zh/docs/ops/deployment/deployment-models/#namespace-tenancy）来管理大型集群，而不是将集群添加到部署中。按照这种方法，你可以在每个区域或者区域中的一个或两个集群中部署 Istio。你可以在每一个 region 或者 zone 中的集群中部署一个控制平面以提高可靠性。
 
-## Deploy clusters near your users
+## 靠近你的用户部署集群
 
-Include clusters in your deployment across the globe for **geographic
-proximity to end-users**. Proximity helps your deployment have low latency.
+在你的全球化部署中包含集群使得 **终端用户在地理位置上最近**。 邻近性有助于你的部署具有低延迟。
 
-## Deploy across multiple availability zones
+## 跨多个可用区部署
 
-Include clusters in your deployment **across multiple availability regions
-and zones** within each geographic region. This approach limits the size of the
-{{< gloss "failure domain" >}}failure domains{{< /gloss >}} of your deployment,
-and helps you avoid global failures.
+在你的部署中将集群包括在每个地理区域内的多个可用区域和区域中。此方法限制了部署的 {{< gloss "failure domain" >}} 故障域 {{< /gloss >}} 的大小，并且有助于避免全局故障。
