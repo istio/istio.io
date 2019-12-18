@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.0.1
+title: Istio 1.0.1 发布公告
 linktitle: 1.0.1
-subtitle: Patch Release
-description: Istio 1.0.1 patch release.
+subtitle: 补丁发布
+description: Istio 1.0.1 补丁发布。
 publishdate: 2018-08-29
 release: 1.0.1
 aliases:
@@ -12,42 +12,42 @@ aliases:
     - /zh/news/announcing-1.0.1
 ---
 
-We're pleased to announce the availability of Istio 1.0.1. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.0.1 现已正式发布。下面是更新详情。
 
 {{< relnote >}}
 
-## Networking
+## 网络{#networking}
 
-- Improved Pilot scalability and Envoy startup time.
+- 改进了 Pilot 的可扩展性和 Envoy 的启动时间。
 
-- Fixed virtual service host mismatch issue when adding a port.
+- 修复了添加端口时，虚拟服务 host 不匹配的 bug。
 
-- Added limited support for [merging multiple virtual service or destination rule definitions](/zh/docs/ops/best-practices/traffic-management/#split-virtual-services) for the same host.
+- 增加了对[合并同一主机的多个虚拟服务或目标规则定义](/zh/docs/ops/best-practices/traffic-management/#split-virtual-services) 的有限支持。
 
-- Allow [outlier](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/outlier_detection.proto) consecutive gateway failures when using HTTP.
+- 使用HTTP时，允许连续的[异常](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/outlier_detection.proto)网关故障。
 
-## Environment
+## 环境{#environment}
 
-- Made it possible to use Pilot standalone, for those users who want to only leverage Istio's traffic management functionality.
+- 对于那些只想使用 Istio 流量管理功能的用户，Pilot 现在可以独立使用。
 
-- Introduced the convenient `values-istio-gateway.yaml` configuration that enables users to run standalone gateways.
+- 引入了方便的配置 `values-istio-gateway.yaml`，该配置使用户能够运行独立网关。
 
-- Fixed a variety of Helm installation issues, including an issue with the `istio-sidecar-injector` configmap not being found.
+- 修复了一堆 Helm 的安装问题，包括 `istio-sidecar-injector` 找不到配置映射的 bug。
 
-- Fixed the Istio installation error with Galley not being ready.
+- 修复了 Galley 尚未准备就绪的 Istio 安装 bug。
 
-- Fixed a variety of issues around mesh expansion.
+- 修复了有关网格扩展的各种 bug。
 
-## Policy and telemetry
+## 策略和遥测{#policy-and-telemetry}
 
-- Added an experimental metrics expiration configuration to the Mixer Prometheus adapter.
+- 向 Mixer Prometheus 适配器添加了实验性的指标过期配置。
 
-- Updated Grafana to 5.2.2.
+- Grafana 升级至 5.2.2。
 
-### Adapters
+### 适配器{#adapters}
 
-- Ability to specify sink options for the Stackdriver adapter.
+- 现在可以为 Stackdriver 适配器指定接收器选项。
 
 ## Galley
 
-- Improved configuration validation for health checks.
+- 改进健康检查的配置验证。
