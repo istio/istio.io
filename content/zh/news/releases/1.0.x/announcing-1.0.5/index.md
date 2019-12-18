@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.0.5
+title: Istio 1.0.5 发布公告
 linktitle: 1.0.5
-subtitle: Patch Release
-description: Istio 1.0.5 patch release.
+subtitle: 补丁发布
+description: Istio 1.0.5 补丁发布。
 publishdate: 2018-12-20
 release: 1.0.5
 aliases:
@@ -12,15 +12,14 @@ aliases:
     - /zh/news/announcing-1.0.5
 ---
 
-We're pleased to announce the availability of Istio 1.0.5. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.0.5 现已正式发布。下面是更新详情。
 
 {{< relnote >}}
 
-## General
+## 概况{#general}
 
-- Disabled the precondition cache in the `istio-policy` service as it lead to invalid results. The
-cache will be reintroduced in a later release.
+- 禁用 `istio-policy` 服务中的前置条件缓存，因为它会导致无效的结果。缓存将在以后的版本中重新引入。
 
-- Mixer now only generates spans when there is an enabled `tracespan` adapter, resulting in lower CPU overhead in normal cases.
+- Mixer 现在仅在启用了 `tracespan` 适配器的情况下才生成 span，从而降低了正常情况下的 CPU 开销。
 
-- Fixed a problem that could lead Pilot to hang.
+- 修复了一个可能导致 Pilot 挂起的 bug。
