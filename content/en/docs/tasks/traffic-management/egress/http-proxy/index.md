@@ -249,7 +249,7 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
     EOF
     {{< /text >}}
 
-1.  If your remote proxy does not have a host name, create a Kubernetes ExternalName service for it:
+1.  Create a Kubernetes `ExternalName` service for your proxy:
 
     {{< text bash >}}
     $ kubectl apply -n istio-system -f - <<EOF
