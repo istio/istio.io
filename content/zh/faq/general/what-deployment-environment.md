@@ -1,5 +1,5 @@
 ---
-title: 目前支持哪些 deployment 环境？
+title: 目前支持哪些部署环境？
 weight: 60
 ---
 
