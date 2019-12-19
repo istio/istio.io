@@ -236,7 +236,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     You will need this file later in the tutorial.
 
     If you are an instructor, send the generated configuration files to each
-    participant who should copy it to their local computer.
+    participant. The participants must copy their configuration file to their local computer.
 
 Congratulations, you configured your cluster for the tutorials!
 
