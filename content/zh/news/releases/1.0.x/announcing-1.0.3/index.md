@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.0.3
+title: Istio 1.0.3 发布公告
 linktitle: 1.0.3
-subtitle: Patch Release
-description: Istio 1.0.3 patch release.
+subtitle: 补丁发布
+description: Istio 1.0.3 补丁发布。
 publishdate: 2018-10-30
 release: 1.0.3
 aliases:
@@ -12,34 +12,34 @@ aliases:
     - /zh/news/announcing-1.0.3
 ---
 
-We're pleased to announce the availability of Istio 1.0.3. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.0.3 现已正式发布。下面是更新详情。
 
 {{< relnote >}}
 
-## Behavior changes
+## 行为变更{#behavior-changes}
 
-- [Validating webhook](/zh/docs/ops/common-problems/validation) is now mandatory. Disabling it may result in Pilot crashes.
+- 现在强制使用 [验证 webhook](/zh/docs/ops/common-problems/validation)。禁用它可能导致 Pilot 崩溃。
 
-- [Service entry](/zh/docs/reference/config/networking/service-entry/) validation now rejects the wildcard hostname (`*`) when configuring DNS resolution. The API has never allowed this, however `ServiceEntry` was erroneously excluded from validation in the previous release. Use of wildcards as part of a hostname, e.g. `*.bar.com`, remains unchanged.
+- 现在，[Service entry](/zh/docs/reference/config/networking/service-entry/) 验证会在配置为 DNS 解析时拒绝通配主机名（`*`）。API 从未允许这样做，只是在以前的版本中，`ServiceEntry` 被错误地排除在验证之外。把通配符作为主机名的一部分，例如 `*.bar.com`，将保持不变。
 
-- The core dump path for `istio-proxy` has changed to `/var/lib/istio`.
+- `istio-proxy` 的核心转储路径已更改为 `/var/lib/istio`。
 
-## Networking
+## 网络{#networking}
 
-- [Mutual TLS](/zh/docs/tasks/security/authentication/mutual-tls) Permissive mode is enabled by default.
+- [双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls) 宽容模式现在是默认启用的。
 
-- Pilot performance and scalability has been greatly enhanced. Pilot now delivers endpoint updates to 500 sidecars in under 1 second.
+- Pilot 性能和可扩展性已大大增强。Pilot 现在可以在不到 1 秒的时间内向 500 个 sidecar 提供 endpoint 更新。
 
-- Default [trace sampling](/zh/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) is set to 1%.
+- [追踪采样](/zh/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) 默认设置为 1%。
 
-## Policy and telemetry
+## 策略和遥测{#policy-and-telemetry}
 
-- Mixer (`istio-telemetry`) now supports load shedding based on request rate and expected latency.
+- Mixer（`istio-telemetry`）现在支持基于请求速率和预期延迟的减载。
 
-- Mixer client (`istio-policy`) now supports `FAIL_OPEN` setting.
+- Mixer 客户端（`istio-policy`）现在支持 `FAIL_OPEN` 设置。
 
-- Istio Performance dashboard added to Grafana.
+- Istio 性能仪表盘已添加至 Grafana。
 
-- Reduced `istio-telemetry` CPU usage by 10%.
+- `istio-telemetry` CPU 使用率降低 10%。
 
-- Eliminated `statsd-to-prometheus` deployment. Prometheus now directly scrapes from `istio-proxy`.
+- 淘汰 `statsd-to-prometheus` deployment。Prometheus 现在可以直接从 `istio-proxy` 中抓取指标。
