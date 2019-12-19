@@ -1,5 +1,5 @@
 ---
-title: 'Istio' 这个词是什么意思呢？
+title: 'Istio' 这个词是什么意思？
 weight: 160
 ---
 
