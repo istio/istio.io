@@ -107,7 +107,7 @@ Since you run the `ratings` service locally, you can also access it via the
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
-1. Use the `POST` method of the `curl` command to set the ratings for the
+1. Open a different terminal session and use the `POST` method of the `curl` command to set the ratings for the
     product to `1`:
 
     {{< text bash >}}
@@ -126,4 +126,4 @@ Since you run the `ratings` service locally, you can also access it via the
 
 Congratulations, you can now build, test, and run a service on your local computer!
 
-You are ready to learn how to package the service into a container.
+You are ready to [package the service](/docs/examples/microservices-istio/package-service) into a container.

@@ -8,6 +8,14 @@ weight: 3
 
 In this module you prepare your local computer for the tutorial.
 
+1.  On your local computer, create an environment variable to store the name
+    of the namespace used when you run the tutorial commands.
+    You can use any name, for example `tutorial`.
+
+    {{< text bash >}}
+    $ export NAMESPACE=tutorial
+    {{< /text >}}
+
 1.  On your local computer, locate the `${NAMESPACE}-user-config.yaml` file you
     created earlier in the tutorial, where `${NAMESPACE}` is the name of your
     namespace. For example `tutorial-user-config.yaml`.

@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.0.2
+title: Istio 1.0.2 发布公告
 linktitle: 1.0.2
-subtitle: Patch Release
-description: Istio 1.0.2 patch release.
+subtitle: 补丁发布
+description: Istio 1.0.2 补丁发布。
 publishdate: 2018-09-06
 release: 1.0.2
 aliases:
@@ -12,20 +12,20 @@ aliases:
     - /zh/news/announcing-1.0.2
 ---
 
-We're pleased to announce the availability of Istio 1.0.2. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.0.2 现已正式发布。下面是更新详情。
 
 {{< relnote >}}
 
-## General
+## 概况{#general}
 
-- Fixed bug in Envoy where the sidecar would crash if receiving normal traffic on the mutual TLS port.
+- 修复 Envoy 的 bug：如果在双向 TLS 端口上接收正常流量，则 sidecar 会崩溃。
 
-- Fixed bug with Pilot propagating incomplete updates to Envoy in a multicluster environment.
+- 修复 Pilot 在多集群环境中向 Envoy 传播不完整更新的 bug。
 
-- Added a few more Helm options for Grafana.
+- 为 Grafana 添加了更多 Helm 选项。
 
-- Improved Kubernetes service registry queue performance.
+- 改进 Kubernetes 服务注册队列的性能。
 
-- Fixed bug where `istioctl proxy-status` was not showing the patch version.
+- 修复 `istioctl proxy-status` 未显示补丁版本的 bug。
 
-- Add validation of virtual service SNI hosts.
+- 添加虚拟服务 SNI host 的验证。
