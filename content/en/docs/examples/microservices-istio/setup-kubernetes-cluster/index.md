@@ -18,7 +18,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     You can use the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
     [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
-1.  Connect to your cluster and create an environment variable to store the name
+1.  Create an environment variable to store the name
     of a namespace that you will use when you run the tutorial commands.
     You can use any name, for example `tutorial`.
 
