@@ -1,6 +1,6 @@
 ---
-title: What does the word 'Istio' mean?
+title: “Istio” 这个词是什么意思？
 weight: 160
 ---
 
-It's the Greek word for 'sail'.
+它是希腊语中的 “sail”。
