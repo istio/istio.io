@@ -45,7 +45,7 @@ reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYN
 * `NOT SENT` 意思是 Pilot 没有发送任何信息给 Envoy。这通常是因为 Pilot 没什么可发送的。
 * `STALE` 意思是 Pilot 已经发送了一个更新到 Envoy，但还没有收到应答。这通常意味着 Envoy 和 Pilot 之间存在网络问题，或者 Istio 自身的bug。
 
-## 检查 Envoy 和 Istio Pilot 的差异{#retrieve-diffs-between-envoy-and-istio-pilot}
+## 检查 Envoy 和 Istio Pilot 的差异{#retrieve-diffs-between-envoy-and-Istio-pilot}
 
 通过提供代理 ID，`proxy-status` 命令还可以用来检查 Envoy 已加载的配置和 Pilot 发送给它的配置有什么异同，这可以帮您准确定位哪些配置是不同步的，以及问题出在哪里。
 
@@ -120,7 +120,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
     * 每个服务 IP 一个虚拟监听器，针对每一个非 HTTP 的外部 TCP/HTTPS 流量。
     * Pod IP 上的虚拟监听器，针对内部流量暴露的端口。
     * `0.0.0.0`监听器，针对外部 HTTP 流量的每个 HTTP 端口。
-    
+
 {{< text bash >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
     ADDRESS            PORT      TYPE
@@ -154,12 +154,12 @@ istio-egressgateway.istio-system.svc.cluster.local                              
     0.0.0.0            15001     TCP    // Receives all inbound and outbound traffic to the pod from IP tables and hands over to virtual listener
     172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
     {{< /text >}}
-    
+
 1. 从上面的信息可以看到，每一个 sidecar 有一个绑定到 `0.0.0.0:15001` 的监听器，来确定 IP 表将所有进出 Pod 的流量路由到哪里。监听器设置 `useOriginalDst` 为 true 意味着它将请求传递给最适合原始请求目的地的监听器。如果找不到匹配的虚拟监听器，它会将请求发送到直接连接到目的地的 `PassthroughCluster`。
 
-  {{< text bash json >}}
-  $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
-  [
+    {{< text bash json >}}
+    $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
+    [
         {
             "name": "virtual",
             "address": {
@@ -185,11 +185,11 @@ istio-egressgateway.istio-system.svc.cluster.local                              
         }
     ]
     {{< /text >}}
-  
+
 1. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080` 的虚拟监听器。这一监听器将检索在它配置的 RDS 里的路由配置。在这个例子中它将寻找 Pilot（通过 ADS）配置在 RDS 中的路由 `9080`。
 
-  {{< text bash json >}}
-  $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
+    {{< text bash json >}}
+    $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
     ...
     "rds": {
         "config_source": {
@@ -199,13 +199,13 @@ istio-egressgateway.istio-system.svc.cluster.local                              
     }
     ...
     {{< /text >}}
-  
+
 1. 对每个服务，`9080` 路由配置只有一个虚拟主机。我们的请求会走到 reviews 服务，因此 Envoy 将选择一个虚拟主机把请求匹配到一个域。一旦匹配到，Envoy 会寻找请求匹配到的第一个路由。本例中我们没有设置任何高级路由规则，因此路由会匹配任何请求。这一路由告诉 Envoy 发送请求到 `outbound|9080||reviews.default.svc.cluster.local` 集群。
 
-  {{< text bash json >}}
-  $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
-  [
-      {
+    {{< text bash json >}}
+    $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
+    [
+        {
             "name": "9080",
             "virtualHosts": [
                 {
@@ -235,10 +235,10 @@ istio-egressgateway.istio-system.svc.cluster.local                              
                             },
     ...
     {{< /text >}}
-  
+
 1. 此集群配置为从 Pilot （通过 ADS）检索关联的 endpoints。所以 Envoy 会使用 `serviceName` 字段作为主键，来检查 endpoints 列表并把请求代理到其中之一。
 
-  {{< text bash json >}}
+    {{< text bash json >}}
     $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
     [
         {
@@ -259,7 +259,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
         }
     ]
     {{< /text >}}
-  
+
 1. 要查看此集群当前可用的 endpoints，请使用 `proxy-config` endpoints 命令。
 
     {{< text bash json >}}
@@ -290,7 +290,7 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 ...
 {{< /text >}}
 
-## 验证到 Istio Pilot 的连通性{#verifying-connectivity-to-istio-pilot}
+## 验证到 Istio Pilot 的连通性{#verifying-connectivity-to-Istio-pilot}
 
 验证与 Pilot 的连通性是一个有用的故障排除步骤。服务网格内的每个代理容器都应该能和 Pilot 通信。这可以通过几个简单的步骤来实现：
 
@@ -320,7 +320,7 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 
 对网格内的每个服务，您将会收到一个响应，列举了 "service-key" 和 "hosts"。
 
-## Istio 使用的 Envoy 版本是什么？{#what-envoy-version-is-istio-using}
+## Istio 使用的 Envoy 版本是什么？{#what-envoy-version-is-Istio-using}
 
 要在部署中找出 Envoy 的版本，您可以通过 `exec` 进入容器并查询 `server_info` endpoint：
 
