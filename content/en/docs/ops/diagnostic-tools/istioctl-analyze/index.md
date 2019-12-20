@@ -17,7 +17,7 @@ apply changes to a cluster.
 You can analyze your current Kubernetes cluster by running:
 
 {{< text bash >}}
-$ ./istioctl x analyze -k
+$ istioctl x analyze -k
 {{< /text >}}
 
 And that’s it! It’ll give you any recommendations that apply.
@@ -39,22 +39,22 @@ Typically, this is used to analyze the entire set of configuration files that ar
 Analyze a specific set of local Kubernetes yaml files:
 
 {{< text bash >}}
-$ ./istioctl x analyze a.yaml b.yaml
+$ istioctl x analyze a.yaml b.yaml
 {{< /text >}}
 
 Analyze all yaml files in the current folder:
 
 {{< text bash >}}
-$ ./istioctl x analyze *.yaml
+$ istioctl x analyze *.yaml
 {{< /text >}}
 
 Simulate applying the files in the current folder to the current cluster:
 
 {{< text bash >}}
-$ ./istioctl x analyze -k *.yaml
+$ istioctl x analyze -k *.yaml
 {{< /text >}}
 
-You can run `./istioctl x analyze --help` to see the full set of options.
+You can run `istioctl x analyze --help` to see the full set of options.
 
 ## Helping us improve this tool
 
