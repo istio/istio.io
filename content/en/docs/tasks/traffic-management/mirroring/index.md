@@ -32,6 +32,10 @@ you will apply a rule to mirror a portion of traffic to `v2`.
       name: httpbin-v1
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v1
       template:
         metadata:
           labels:
@@ -58,6 +62,10 @@ you will apply a rule to mirror a portion of traffic to `v2`.
       name: httpbin-v2
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v2
       template:
         metadata:
           labels:
@@ -106,6 +114,9 @@ you will apply a rule to mirror a portion of traffic to `v2`.
       name: sleep
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: sleep
       template:
         metadata:
           labels:
