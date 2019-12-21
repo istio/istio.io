@@ -24,7 +24,7 @@ aliases:
 诸如 [Datadog](https://www.datadoghq.com/)、[SolarWinds](https://www.solarwinds.com/)、[Sysdig](https://sysdig.com/blog/monitor-istio/)、[Google Stackdriver](https://cloud.google.com/stackdriver/) 和 [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) 之类的可观察性提供商已经编写了将 Istio 与他们的产品集成的插件。
 [Tigera](https://www.tigera.io/resources/using-network-policy-concert-istio-2/)、[Aporeto](https://www.aporeto.com/)、[Cilium](https://cilium.io/) 和 [Styra](https://styra.com/) 为我们的策略执行和网络功能构建了扩展。
 [Red Hat](https://www.redhat.com/en) 构建了 [Kiali](https://www.kiali.io)，以围绕网格管理和可观察性提供不错的用户体验。
-[Cloud Foundry](https://www.cloudfoundry.org/) 基于Istio的下一代流量路由栈，
+[Cloud Foundry](https://www.cloudfoundry.org/) 基于 Istio 的下一代流量路由栈，
 最近宣布的 [Knative](https://github.com/knative/docs) serverless 项目也在做同样的事情，并且 [Apigee](https://apigee.com/) 宣布他们计划在其 API 管理中使用它。
 这些只是社区去年添加集成中的一部分。
 
@@ -34,7 +34,7 @@ aliases:
 
 - 现在可以将多个 Kubernetes 集群 [添加到单个网格](/zh/docs/setup/install/multicluster/) 中，并实现跨集群通信和一致的策略实施。多群集支持现在为 Beta。
 
-- 现在，可以对通过网状网络的流量进行细粒度控制的网络 API 已成为 Beta。使用网关对进入和退出问题进行显式建模，使运营商可以 [控制网络拓扑](/zh/blog/2018/v1alpha3-routing/) 并满足边缘的访问安全性要求。
+- 现在，可以对通过网状网络的流量进行细粒度控制的网络 API 已成为 Beta。使用网关对进入和退出问题进行显式建模，使运维人员可以 [控制网络拓扑](/zh/blog/2018/v1alpha3-routing/) 并满足边缘的访问安全性要求。
 
 - 双向 TLS 现在 [以增量方式推出]，无需更新服务的所有客户端。这是一项关键功能，现有生产部署可以无障碍的就地采用。
 
