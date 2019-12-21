@@ -1,6 +1,6 @@
 ---
 title: Istio client-go 发布公告
-description: 正式访问 Istio 资源。
+description: 正式启用访问 Istio 资源。
 publishdate: 2019-11-14
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [client-go,tools,crd]
