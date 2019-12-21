@@ -37,7 +37,7 @@ $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl 
 然后，在当前的 Kubernetes 集群上运行它：
 
 {{< text bash >}}
-$ ./istioctl x analyze -k
+$ istioctl x analyze -k
 {{< /text >}}
 
 就是这样！ 它会为您提供任何适用的建议。
@@ -57,22 +57,22 @@ Warn [IST0102](Namespace default) The namespace is not enabled for Istio injecti
 分析一组特定的本地文件：
 
 {{< text bash >}}
-$ ./istioctl x analyze a.yaml b.yaml
+$ istioctl x analyze a.yaml b.yaml
 {{< /text >}}
 
 分析当前文件夹中的所有 yaml 文件：
 
 {{< text bash >}}
-$ ./istioctl x analyze *.yaml
+$ istioctl x analyze *.yaml
 {{< /text >}}
 
 模拟将当前文件夹中的文件应用于当前集群：
 
 {{< text bash >}}
-$ ./istioctl x analyze -k *.yaml
+$ istioctl x analyze -k *.yaml
 {{< /text >}}
 
-您可以运行 `./istioctl x analyze --help` 来查看完整的选项集。
+您可以运行 `istioctl x analyze --help` 来查看完整的选项集。
 
 ## 帮助我们改进此工具{#helping-us-improve-this-tool}
 

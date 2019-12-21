@@ -57,7 +57,7 @@ replicationcontroller "my-nginx" created
 然后，创建另一个 pod 来调用该服务。
 
 {{< text bash >}}
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
 {{< /text >}}
 
 获取 pods
@@ -107,7 +107,7 @@ $ kubectl delete -f @samples/https/nginx-app.yaml@
 与 sidecar 一起部署
 
 {{< text bash >}}
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 {{< /text >}}
 
 确保该 pod 已经启动且正在运行
@@ -187,10 +187,10 @@ prometheus-86cb6dd77c-ntw88                1/1       Running     0          23h
 然后重新部署 HTTPS 服务和 sleep 服务
 
 {{< text bash >}}
-$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/sleep/sleep.yaml@)
-$ kubectl delete -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
-$ kubectl apply -f <(bin/istioctl kube-inject -f @samples/https/nginx-app.yaml@)
+$ kubectl delete -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+$ kubectl delete -f <(istioctl kube-inject -f @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 {{< /text >}}
 
 确保该 pod 已经启动且正在运行
