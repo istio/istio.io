@@ -1,6 +1,6 @@
 ---
-title: Deployment Models
-description: Describes the options and considerations when configuring your Istio deployment.
+title: 部署模型
+description: 描述 Istio 的部署配置建议及可选选项
 weight: 20
 keywords:
   - single-cluster
@@ -18,39 +18,29 @@ aliases:
   - /zh/docs/ops/prep/deployment-models
 ---
 
-When configuring a production deployment of Istio, you need to answer a number of questions.
-Will the mesh be confined to a single {{< gloss >}}cluster{{< /gloss >}} or distributed across
-multiple clusters? Will all the services be located in a single fully connected network, or will
-gateways be required to connect services across multiple networks? Is there a single
-{{< gloss >}}control plane{{< /gloss >}}, potentially shared across clusters,
-or are there multiple control planes deployed to ensure high availability (HA)?
-If there is more than one cluster being deployed, and more specifically in isolated networks,
-are they going to be connected into a single {{< gloss >}}multicluster{{< /gloss >}}
-service mesh or will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+当您配置 Istio 为生产环境部署时，需要回答一系列的问题。
+网格将被限制在单个 {{< gloss >}}cluster{{< /gloss >}} 中还是分布在多个群集中？
+是将所有服务都放置在单个完全连接的网络中，还是需要网关来跨多个网络连接服务？
+是否存在单个 {{< gloss >}}control plane{{< /gloss >}} （可能在群集之间共享），或者是否部署了多个控制平面以确保高可用（HA）？
+如果要部署多个群集，更具体地说是在隔离的网络中，是否要将它们连接到单个 {{< gloss >}}multicluster{{< /gloss >}} 服务网格中，
+还是将它们联合到一个 {{< gloss >}}multi-mesh{{< /gloss >}} 部署中？
 
-All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
+所有这些问题，都代表了 Istio 部署的独立配置维度。
 
-1. single or multiple cluster
-1. single or multiple network
-1. single or multiple control plane
-1. single or multiple mesh
+1. 单个或多个群集
+1. 单个或多个网络
+1. 单或多控制平面
+1. 单个或多个网格
 
-All combinations are possible, although some are more common than others and
-some are clearly not very interesting (for example, multiple mesh in a single cluster).
+所有组合都是可能的，尽管某些组合比其他组合更常见，并且某些组合显然不是很有趣（例如，单个群集中有多个网格）。
 
-In a production deployment involving multiple clusters, the deployment may use a
-mix of patterns. For example, having more than one control plane is recommended for HA,
-but you could achieve this for a 3 cluster deployment by deploying 2 clusters with
-a single shared control plane and then adding the third cluster with a second
-control plane in a different network. All three clusters could then be configured
-to share both control planes so that all the clusters have 2 sources of control
-to ensure HA.
+在涉及多个集群的生产部署中，部署可能使用多种模式。例如，对于 HA，建议拥有多个控制平面，
+但是对于 3 个集群部署，您可以通过使用单个共享控制平面部署 2 个集群，然后在另一个网络中添加第 3 个集群和第 2 个控制平面来实现。
+然后，可以将所有三个集群配置为共享两个控制平面，以便所有集群都有 2 个控制源来确保 HA。
 
-Choosing the right deployment model depends on the isolation, performance,
-and HA requirements for your use case. This guide describes the various options and
-considerations when configuring your Istio deployment.
+选择正确的部署模型取决于您对隔离性、性能和 HA 的要求。本指南介绍了配置 Istio 部署时的各种选项和注意事项。
 
-## Cluster models
+## 集群模型{#cluster-models}
 
 The workload instances of your application run in one or more
 {{< gloss "cluster" >}}clusters{{< /gloss >}}. For isolation, performance, and
