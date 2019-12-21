@@ -1,5 +1,5 @@
 ---
-title: 认证策略。
+title: 认证策略
 description: 为您展示如何使用 Istio 认证策略设置双向 TLS 和基础终端用户认证。
 weight: 10
 keywords: [security,authentication]

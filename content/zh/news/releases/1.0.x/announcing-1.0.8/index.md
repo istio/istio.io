@@ -18,7 +18,7 @@ aliases:
 
 ## Bug 修复{#bug-fixes}
 
-- 修复了 Citadel 如果无法联系 Kubernetes API 服务器可能会生成新的根 CA 的问题，导致双向 TLS 验证失败（[Issue 14512](https://github.com/istio/istio/issues/14512)）。
+- 修复了 Citadel 如果无法联系 Kubernetes API 服务器可能会生成新的根 CA 的问题，该问题会导致双向 TLS 验证失败（[Issue 14512](https://github.com/istio/istio/issues/14512)）。
 
 ## 小的改进{#small-enhancements}
 
