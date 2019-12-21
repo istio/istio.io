@@ -15,7 +15,7 @@ Istio 跟踪迁移到 sidecar 的服务端工作负载，并将客户端 sidecar
 ## 开始之前{#before-you-begin}
 
 * 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies) 和关于
-[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication) 章节的内容。
+[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 章节的内容。
 
 * 安装 Istio 时，配置 `global.mtls.enabled` 选项为 false，`global.mtls.auto` 选项为 true。
 以安装 `demo` 配置文件为例：
