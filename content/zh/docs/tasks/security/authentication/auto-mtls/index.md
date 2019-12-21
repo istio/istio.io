@@ -135,7 +135,7 @@ URI=spiffe://cluster.local/ns/full/sa/sleep
 response 200
 {{< /text >}}
 
-SPIFFE URI 显示来自 X509 证书的客户端标识，它指示通流量是在双向 TLS 中发送的。
+SPIFFE URI 显示来自 X509 证书的客户端标识，它表明流量是在双向 TLS 中发送的。
 如果流量为明文，将不会显示客户端证书。
 
 ### 从 PERMISSIVE 模式开始{#start-from-permissive-mode}
