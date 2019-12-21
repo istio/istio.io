@@ -40,7 +40,7 @@ aliases:
 
 - Mixer 开始支持 [开发进程外适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)。这将成为在未来发行版中扩展 Mixer 的默认方法，并使构建适配器更加简单。
 
-- 现在，由 Envoy 完全控制本地控制访问服务的 [授权策略]((/zh/docs/concepts/security/#authorization))，以提高其性能和可靠性。
+- 现在，由 Envoy 完全控制本地控制访问服务的 [授权策略](/zh/docs/concepts/security/#authorization)，以提高其性能和可靠性。
 
 - 现在建议使用 [Helm chart 安装](/zh/docs/setup/install/helm/) 方法，该方法提供了丰富的自定义选项，可以按您的意愿采用 Istio。
 
