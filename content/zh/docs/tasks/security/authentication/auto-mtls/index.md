@@ -7,10 +7,10 @@ keywords: [security,mtls,ux]
 
 本任务通过一个简化的工作流，展示如何使用双向 TLS。
 
-借助 Istio 的自动双向 TLS 特性，您只需配置认证策略即可使用双向TLS，而无需关注目标规则。
+借助 Istio 的自动双向 TLS 特性，您只需配置认证策略即可使用双向 TLS，而无需关注目标规则。
 
 Istio 跟踪迁移到 sidecar 的服务端工作负载，并将客户端 sidecar 配置为自动向这些工作负载发送双向 TLS 流量，
-同时将明文流量发送到没有 sidecar 的工作负载。这使有助于通过最少的配置，逐步在网格中使用双向 TLS。
+同时将明文流量发送到没有 sidecar 的工作负载。这使您可以通过最少的配置，逐步在网格中使用双向 TLS。
 
 ## 开始之前{#before-you-begin}
 
@@ -43,7 +43,7 @@ $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n full
 {{< /text >}}
 
 命名空间 `partial` 包含部分迁移到 Istio 的服务器工作负载。
-只有完成迁移的服务器工作负载注入了 Sidecar，能够使用双向 TLS 流量。
+只有完成迁移的服务器工作负载（由于已注入 Sidecar）能够使用双向 TLS 流量。
 
 {{< text bash >}}
 $ kubectl create ns partial
@@ -232,8 +232,8 @@ mutual TLS traffic.
 
 所有 `httpbin.full` 工作负载和带有 Sidecar 的 `httpbin.partial` 都只可使用双向 TLS 流量。
 
-现在来自 `sleep.legacy` 的请求将开始失败，由于其不支持发送双向 TLS 流量。
-但是客户的 `sleep.full` 的请求将仍可成功返回 200 状态码，因为它已配置为自动双向 TLS，并且发送双向 TLS 请求。
+现在来自 `sleep.legacy` 的请求将开始失败，因为其不支持发送双向 TLS 流量。
+但是客户端 `sleep.full` 的请求将仍可成功返回 200 状态码，因为它已配置为自动双向 TLS，并且发送双向 TLS 请求。
 
 {{< text bash >}}
 $ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$';  echo -n "\n"; done; done
@@ -260,7 +260,7 @@ response code: 200
 
 {{< /text >}}
 
-### 禁用双向 TLS 以器用明文传输{#disable-mutual-TLS-to-plain-text}
+### 禁用双向 TLS 以启用明文传输{#disable-mutual-TLS-to-plain-text}
 
 如果出于某种原因，您希望服务显式地处于明文模式，则可以将身份验证策略配置为明文。
 
@@ -305,7 +305,7 @@ response code: 200
 
 为了向后兼容，您仍然可以像以前一样使用目标规则来覆盖 TLS 配置。当目标规则具有显式 TLS 配置时，它将覆盖 Sidecar 客户端的 TLS 配置。
 
-例如，您可以显式配置目标规则 `httpbin.full`，以显式启用或禁用双向 TLS。
+例如，您可以显式的为 `httpbin.full` 配置目标规则，以显式启用或禁用双向 TLS。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n full -f -
@@ -358,8 +358,8 @@ $ kubectl delete ns full partial legacy
 
 如前所述，自动双向 TLS 是网格 Helm 安装选项。您必须重新安装 Istio 才能启用或禁用该功能。
 当此功能被禁用，如果您已经依靠它来自动加密流量，则流量可以**回退到纯明文**模式，
-这可能会影响您的**安全状态或中断流量**（如果该服务已配置为 `STRICT` 模式以仅接收双向 TLS 流量） 。
+这可能会影响您的**安全状态或中断流量**（如果该服务已配置为 `STRICT` 模式以仅接收双向 TLS 流量）。
 
 当前，自动双向 TLS 还处于 Alpha 阶段，请注意其风险以及 TLS 加密的额外 CPU 成本。
 
-我们正在考虑将此功能设置为默认启用。当您使用自动双向 TLS 使，请考虑通过 GitHub 发送您的反馈或遇到的问题。
+我们正在考虑将此功能设置为默认启用。当您使用自动双向 TLS 时，请考虑通过 GitHub 发送您的反馈或遇到的问题。
