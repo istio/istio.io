@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.0
+title: Istio 1.0 发布公告
 linktitle: "1.0"
-subtitle: The production ready service mesh
-description: Istio is ready for production use with its 1.0 release.
+subtitle: service mesh 生产就绪
+description: Istio 1.0 已经生产就绪。
 publishdate: 2018-07-31
 release: 1.0.0
 aliases:
@@ -13,145 +13,115 @@ aliases:
     - /zh/news/announcing-1.0
 ---
 
-Today, we’re excited to announce Istio 1.0! It’s been a little over a year since our initial 0.1 release. Since then, Istio has evolved significantly with the help of a thriving and growing community of contributors and users. We’ve now reached the point where many companies have successfully adopted Istio in production and have gotten real value from the insight and control it provides over their deployments. We’ve helped large enterprises and fast-moving startups like [eBay](https://www.ebay.com/), [Auto Trader UK](https://www.autotrader.co.uk/), [Descartes Labs](http://www.descarteslabs.com/), [HP FitStation](https://www.fitstation.com/), [JUSPAY](https://juspay.in), [Namely](https://www.namely.com/), [PubNub](https://www.pubnub.com/) and [Trulia](https://www.trulia.com/) use Istio to connect, manage and secure their services from the ground up. Shipping this release as 1.0 is recognition that we’ve built a core set of functionality that our users can rely on for production use.
+今天，我们激动的宣布，Istio 1.0 正式发布！自我们最初发布 0.1 版以来已经一年多了。从那时起，一个由贡献者和用户组成的蓬勃发展的社区，使得 Istio 有了长足的发展。现在，许多公司已成功将 Istio 投入生产，并从 Istio 对部署的洞察力和控制力中获得了真正的价值。我们帮助了很多大型企业和快速发展的初创企业，例如：[eBay](https://www.ebay.com/)、[Auto Trader UK](https://www.autotrader.co.uk/)、[Descartes Labs](http://www.descarteslabs.com/)、[HP FitStation](https://www.fitstation.com/)、[JUSPAY](https://juspay.in)、[Namely](https://www.namely.com/)、[PubNub](https://www.pubnub.com/) 和 [Trulia](https://www.trulia.com/) 已经使用 Istio 从头开始连接、管理和保护其服务。将此版本发布为 1.0 表示我们已经建立了一套核心功能，可供用户在生产中使用。
 
 {{< relnote >}}
 
-## Ecosystem
+## 生态系统{#ecosystem}
 
-We’ve seen substantial growth in Istio's ecosystem in the last year. [Envoy](https://www.envoyproxy.io/) continues its impressive growth and added numerous
-features that are crucial for a production quality service mesh. Observability providers like [Datadog](https://www.datadoghq.com/),
-[SolarWinds](https://www.solarwinds.com/), [Sysdig](https://sysdig.com/blog/monitor-istio/), [Google Stackdriver](https://cloud.google.com/stackdriver/) and
-[Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) have written plugins to integrate Istio with their products.
-[Tigera](https://www.tigera.io/resources/using-network-policy-concert-istio-2/), [Aporeto](https://www.aporeto.com/), [Cilium](https://cilium.io/)
-and [Styra](https://styra.com/) built extensions to our policy enforcement and networking capabilities. [Red Hat](https://www.redhat.com/en) built [Kiali](https://www.kiali.io) to wrap a nice user-experience around mesh management and observability. [Cloud Foundry](https://www.cloudfoundry.org/) is building on  Istio for it’s next generation traffic routing stack, the recently announced [Knative](https://github.com/knative/docs) serverless project is doing the same and [Apigee](https://apigee.com/) announced that they plan to use it in their API management solution. These are just some of the integrations the community has added in the last year.
+去年，我们发现 Istio 的生态系统有了大幅增长。
+[Envoy](https://www.envoyproxy.io/) 继续保持惊人的增长，并增加了许多对服务网格生产质量至关重要的功能。
+诸如 [Datadog](https://www.datadoghq.com/)、[SolarWinds](https://www.solarwinds.com/)、[Sysdig](https://sysdig.com/blog/monitor-istio/)、[Google Stackdriver](https://cloud.google.com/stackdriver/) 和 [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) 之类的可观察性提供商已经编写了将 Istio 与他们的产品集成的插件。
+[Tigera](https://www.tigera.io/resources/using-network-policy-concert-istio-2/)、[Aporeto](https://www.aporeto.com/)、[Cilium](https://cilium.io/) 和 [Styra](https://styra.com/) 为我们的策略执行和网络功能构建了扩展。
+[Red Hat](https://www.redhat.com/en) 构建了 [Kiali](https://www.kiali.io)，以围绕网格管理和可观察性提供不错的用户体验。
+[Cloud Foundry](https://www.cloudfoundry.org/) 基于 Istio 的下一代流量路由栈，
+最近宣布的 [Knative](https://github.com/knative/docs) serverless 项目也在做同样的事情，并且 [Apigee](https://apigee.com/) 宣布他们计划在其 API 管理中使用它。
+这些只是社区去年添加集成中的一部分。
 
-## Features
+## 特性{#features}
 
-Since the 0.8 release we’ve added some important new features and more importantly marked many of our existing features as Beta signaling that they’re ready for production use.
-Here are some highlights:
+自 0.8 版以来，我们添加了一些重要的新功能，更重要的是将许多现有功能标记为 Beta，表明它们已可以投入生产。以下是一些要点：
 
-- Multiple Kubernetes clusters can now be [added to a single mesh](/zh/docs/setup/install/multicluster/) and enabling cross-cluster communication and consistent policy enforcement. Multicluster support is now Beta.
+- 现在可以将多个 Kubernetes 集群 [添加到单个网格](/zh/docs/setup/install/multicluster/) 中，并实现跨集群通信和一致的策略实施。多群集支持现在为 Beta。
 
-- Networking APIs that enable fine grained control over the flow of traffic through a mesh are now Beta. Explicitly modeling ingress and egress concerns using Gateways allows operators to [control the network topology](/zh/blog/2018/v1alpha3-routing/) and meet access security requirements at the edge.
+- 现在，可以对通过网状网络的流量进行细粒度控制的网络 API 已成为 Beta。使用网关对进入和退出问题进行显式建模，使运维人员可以 [控制网络拓扑](/zh/blog/2018/v1alpha3-routing/) 并满足边缘的访问安全性要求。
 
-- Mutual TLS can now be [rolled out incrementally](/zh/docs/tasks/security/authentication/mtls-migration) without requiring all clients of a service to be updated. This is a critical feature that unblocks adoption in-place by existing production deployments.
+- 双向 TLS 现在 [以增量方式推出]，无需更新服务的所有客户端。这是一项关键功能，现有生产部署可以无障碍的就地采用。
 
-- Mixer now has support for [developing out-of-process adapters](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide). This will become the default way to extend Mixer over the coming releases and makes building adapters much simpler.
+- Mixer 开始支持 [开发进程外适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)。这将成为在未来发行版中扩展 Mixer 的默认方法，并使构建适配器更加简单。
 
-- [Authorization policies](/zh/docs/concepts/security/#authorization) which control access to services are now entirely evaluated locally in Envoy increasing
-their performance and reliability.
+- 现在，由 Envoy 完全控制本地控制访问服务的 [授权策略](/zh/docs/concepts/security/#authorization)，以提高其性能和可靠性。
 
-- [Helm chart installation](/zh/docs/setup/install/helm/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
+- 现在建议使用 [Helm chart 安装](/zh/docs/setup/install/helm/) 方法，该方法提供了丰富的自定义选项，可以按您的意愿采用 Istio。
 
-- We’ve put a lot of effort into performance including continuous regression testing, large scale environment simulation and targeted fixes. We’re very happy with the results and will share more on this in detail in the coming weeks.
+- 我们已经在性能上做出了很多努力，包括连续回归测试，大规模环境模拟和目标修复。我们对结果感到非常满意，并将在未来几周内详细分享更多信息。
 
-## What’s next?
+## 接下来呢？{#what-is-next}
 
-While this is a significant milestone for the project there’s lots more to do. In working with adopters we’ve gotten a lot of great feedback about what to focus next. We’ve heard consistent themes around support for hybrid-cloud, install modularity, richer networking features and scalability for massive deployments. We’ve already taken some of this feedback into account in the 1.0 release and we’ll continue to aggressively tackle this work in the coming months.
+尽管这是该项目的重要里程碑，但还有很多工作要做。通过与使用者合作，我们获得了很多有关下一步重点的反馈。我们听到了围绕以下功能的一致诉求：混合云、安装模块化、更丰富的网络功能和大规模部署的可伸缩性。我们已经在 1.0 版本中考虑了其中一些反馈，并且在接下来的几个月中我们将继续积极地解决这项工作。
 
-## Getting started
+## 开始之前{#getting-started}
 
-If you’re new to Istio and looking to use it for your deployment we’d love to hear from you. Take a look at [our docs](/zh/docs/) or stop by our
-[chat forum](https://discuss.istio.io). If you’d like
-to go deeper and [contribute to the project](/zh/about/community) come to one of our community meetings and say hello.
+如果您是 Istio 的新手，并希望将其用于您的部署，我们很乐意听取您的意见。
+可以看看 [我们的文档](/zh/docs/) 或者移步我们的 [聊天室](https://discuss.istio.io)。
+如果您想更深入地 [为项目做贡献](/zh/about/community)，请参加一个我们的社区会议，并打个招呼。
 
-## Thanks
+## 感谢{#thanks}
 
-The Istio team would like to give huge thanks to everyone who has made a contribution to the project. It wouldn’t be where it is today without your help. The last year has been pretty amazing and we look forward to the next one with excitement about what we can achieve together as a community.
+Istio 团队非常感谢为该项目做出贡献的每个人。没有您的帮助，就没有 Istio 的今天。这一年真的太神奇了，我们非常期待接下来的一年，我们共同构成的社区又可以取得什么样的成就。
 
-## Release notes
+## 发行说明{#release-notes}
 
-### Networking
+### 网络{#networking}
 
-- **SNI Routing using Virtual Services**. Newly introduced `TLS` sections in
-[`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) can be used to route TLS traffic
-based on SNI values. Service ports named as TLS/HTTPS can be used in conjunction with
-virtual service TLS routes. TLS/HTTPS ports without an accompanying virtual service will be treated as opaque TCP.
+- **使用虚拟服务的 SNI 路由**。[`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) 新引入的 `TLS` 部分，可用于基于 SNI 值的路由 TLS 流量。可以将名为 TLS/HTTPS 的服务端口与虚拟服务 TLS 路由结合使用。没有附带虚拟服务的 TLS/HTTPS 端口将被视为不透明的 TCP。
 
-- **Streaming gRPC Restored**. Istio 0.8 caused periodic termination of long running streaming gRPC connections. This has been fixed in 1.0.
+- **恢复流式 gRPC**。Istio 0.8 导致长时间运行的流式 gRPC 连接的定期终止。此问题已在 1.0 中修复。
 
-- **Old (v1alpha1) Networking APIs Removed**. Support for the old `v1alpha1` traffic management model
-has been removed.
+- **移除旧的（v1alpha1）网络 API**。对旧的 `v1alpha1` 流量管理模型的支持已被删除。
 
-- **Istio Ingress Deprecated**. The old Istio ingress is deprecated and disabled by default. We encourage users to use [gateways](/zh/docs/concepts/traffic-management/#gateways) instead.
+- **弃用 Istio Ingress**。默认情况下，旧的 Istio Ingress 已被弃用并禁用。我们鼓励用户改用 [gateway](/zh/docs/concepts/traffic-management/#gateways)。
 
-### Policy and telemetry
+### 策略和遥测{#policy-and-telemetry}
 
-- **Updated Attributes**. The set of [attributes](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) used to describe the source and
-destination of traffic have been completely revamped in order to be more
-precise and comprehensive.
+- **更新的属性**。用于描述流量来源和目的地的一组 [属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) 已被彻底修改，变得更加精确和全面。
 
-- **Policy Check Cache**. Mixer now features a large level 2 cache for policy checks, complementing the level 1 cache
-present in the sidecar proxy. This further reduces the average latency of externally-enforced
-policy checks.
+- **策略检查缓存**。Mixer 现在具有了用于策略检查的大型 2 级缓存，补充了 sidecar 代理中存在的1级缓存。这进一步减少了外部强制策略检查的平均延迟。
 
-- **Telemetry Buffering**. Mixer now buffers report calls before dispatching to adapters, which gives an opportunity for
-adapters to process telemetry data in bigger chunks, reducing overall computational overhead
-in Mixer and its adapters.
+- **遥测缓冲**。Mixer 现在可以在将调用报告分配给适配器之前先缓冲调用报告，这为适配器提供了机会以更大的块处理遥测数据，从而减少了 Mixer 及其适配器的总体计算开销。
 
-- **Out of Process Adapters**. Mixer now includes initial support for out-of-process adapters. This will
-be the recommended approach moving forward for integrating with Mixer. Initial documentation on
-how to build an out-of-process adapter is provided by the
-[Out Of Process Adapter Dev Guide](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide)
-and the [Out Of Process Adapter Walk-through](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Walkthrough).
+- **进程外适配器**。Mixer 现在包括对进程外适配器的初始支持。这将是与 Mixer 集成的推荐方法。[进程外适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) 和[进程外适配器遍历](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Walkthrough) 提供了有关如何构建进程外适配器的初始文档。
 
-- **Client-Side Telemetry**. It's now possible to collect telemetry from the client of an interaction,
-in addition to the server-side telemetry.
+- **客户端遥测**。现在，除了服务器端遥测之外，还可以从交互的客户端收集遥测。
 
-#### Adapters
+#### 适配器{#adapters}
 
-- **SignalFX**. There is a new `signalfx` adapter.
+- **SignalFX**。新的 `signalfx` 适配器。
 
-- **Stackdriver**. The [`stackdriver`](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) adapter has been substantially enhanced in this
-release to add new features and improve performance.
+- **Stackdriver**。[`stackdriver`](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) 适配器在此发行版中得到大幅增强，添加了新功能并提高性能。
 
-### Security
+### 安全{#security}
 
-- **Authorization**. We've reimplemented our [authorization functionality](/zh/docs/concepts/security/#authorization).
-RPC-level authorization policies can now be implemented without the need for Mixer and Mixer adapters.
+- **授权**。我们已经重新实现了 [授权功能] 的 RPC 级授权策略，此功能现在的实现，不再需要使用 Mixer 和 Mixer 适配器。
 
-- **Improved Mutual TLS Authentication Control**. It's now easier to [control mutual TLS authentication](/zh/docs/concepts/security/#authentication) between services. We provide 'PERMISSIVE' mode so that you can
-[incrementally turn on mutual TLS](/zh/docs/tasks/security/authentication/mtls-migration/) for your services.
-We removed service annotations and have a [unique approach to turn on mutual TLS](/zh/docs/tasks/security/authentication/authn-policy/),
-coupled with client-side [destination rules](/zh/docs/concepts/traffic-management/#destination-rules).
+- **改进双向 TLS 身份认证控制**。现在，可以更轻松地控制服务之间的 [双向 TLS 身份认证](/zh/docs/concepts/security/#authentication)。我们提供 `PERMISSIVE` 模式，以便您可以为您的服务 [递增地启用双向TLS](/zh/docs/tasks/security/authentication/mtls-migration/)。我们移除了服务注释，采用 [独特的方法来启用双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/)，并结合了客户端 [目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。
 
-- **JWT Authentication**. We now support [JWT authentication](/zh/docs/concepts/security/#authentication) which can
-be configured using [authentication policies](/zh/docs/concepts/security/#authentication-policies).
+- **JWT 授权**。现在支持 [JWT 身份验证](/zh/docs/concepts/security/#authentication)，可以使用 [身份验证策略](/zh/docs/concepts/security/#authentication-policies) 对其进行配置。
 
 ### `istioctl`
 
-- Added the [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
+- 添加 [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check) 命令。
 
-- Added the [`istioctl proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) command.
+- 添加 [`istioctl proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) 命令。
 
-- Added the `istioctl experimental convert-ingress` command.
+- 添加 `istioctl experimental convert-ingress` 命令。
 
-- Removed the `istioctl experimental convert-networking-config` command.
+- 移除 `istioctl experimental convert-networking-config` 命令。
 
-- Enhancements and bug fixes:
+- 改进和 bug 修复：
 
-    - Align `kubeconfig` handling with `kubectl`
+    - 使 `kubeconfig` handle 与 `kubectl` 对齐。
 
-    - `istioctl get all` returns all types of networking and authentication configuration.
+    - `istioctl get all` 返回所有类型的网络和身份验证配置。
 
-    - Added the `--all-namespaces` flag to `istioctl get` to retrieve resources across all namespaces.
+    - 在 `istioctl get` 中添加了 `--all-namespaces` 标志，用于检索所有命名空间中的资源。
 
-### Known issues with 1.0
+### 1.0 已知问题{#known-issues-with-1-0}
 
-- Amazon's EKS service does not implement automatic sidecar injection.  Istio can be used in Amazon's
-  EKS by using [manual injection](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) for
-  sidecars and turning off galley using the [Helm parameter](/zh/docs/setup/install/helm)
-  `--set galley.enabled=false`.
+- Amazon EKS 服务未实现 sidecar 自动注入。在 Amazon EKS 中使用 Istio 需要为 sidecar 使用 [手动注入](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) 并通过 [Helm 参数](/zh/docs/setup/install/helm) `--set galley.enabled=false` 关闭 galley。
 
-- In a [multicluster deployment](/zh/docs/setup/install/multicluster) the mixer-telemetry
-  and mixer-policy components do not connect to the Kubernetes API endpoints of any of the remote
-  clusters.  This results in a loss of telemetry fidelity as some of the metadata associated
-  with workloads on remote clusters is incomplete.
+- 在[多集群部署](/zh/docs/setup/install/multicluster) 中，mixer-telemetry 和 mixer-policy 组件不会连接到任何远程集群的 Kubernetes API 端点。由于与远程集群上的工作负载相关的某些元数据不完整，这会导致遥测保真度的损失。
 
-- There are Kubernetes manifests available for using Citadel standalone or with Citadel health checking enabled.
-  There is not a Helm implementation of these modes.  See [Issue 6922](https://github.com/istio/istio/issues/6922)
-  for more details.
+- 有的 Kubernetes 清单，可用于独立使用 Citadel 或启用 Citadel 运行状况检查。Helm 没有实现这些模式。有关更多详细信息，请参见 [Issue 6922](https://github.com/istio/istio/issues/6922)。
 
-- Mesh expansion functionality, which lets you add raw VMs to a mesh is broken in 1.0. We're expecting to produce a
-patch that fixes this problem within a few days.
+- 网格扩展功能，使您可以将原始 VM 添加到网格，此功能在 1.0 中已被破坏。我们预计将在几天内产生可解决此问题的补丁。
