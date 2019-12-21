@@ -207,7 +207,7 @@ response code: 200
 response code: 200
 {{< /text >}}
 
-如果不使用自动双向 TLS，您必须跟踪 Sidecar 迁移完成，然后显式的配置目标规则，使客户端发送双向 TLS 流量到 `httpbin.full`。
+如果不使用自动双向 TLS，您必须跟踪 Sidecar 迁移完成情况，然后显式的配置目标规则，使客户端发送双向 TLS 流量到 `httpbin.full`。
 
 ### 锁定双向 TLS 为 STRICT 模式{#lock-down-mutual-TLS-to-STRICT}
 
