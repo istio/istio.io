@@ -12,10 +12,10 @@ aliases:
     - /zh/news/announcing-1.0.9
 ---
 
-We're pleased to announce the availability of Istio 1.0.9. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.0.9 现已正式发布。下面是更新详情。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix crash in Istio's JWT Envoy filter caused by malformed JWT ([Issue 15084](https://github.com/istio/istio/issues/15084)).
+- 修复了由格式错误的 JWT 导致 Istio JWT Envoy 过滤器崩溃的问题（[Issue 15084](https://github.com/istio/istio/issues/15084)）。
