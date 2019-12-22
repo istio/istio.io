@@ -54,5 +54,5 @@ Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot a
 
 This feature is experimental and only enabled for outbound traffic by default. It can be turned on by providing the following install options:
 
-* `--set values.pilot.enableProtocolSniffingForOutbound=true` to enable protocol detection for outbound listeners whose port protocol is not specified or unsupported.
-* `--set values.pilot.enableProtocolSniffingForInbound=true` to enable protocol detection for inbound listeners whose port protocol is not specified or unsupported.
+- `--set values.pilot.enableProtocolSniffingForOutbound=true` to enable protocol detection for outbound listeners whose port protocol is not specified or unsupported.
+- `--set values.pilot.enableProtocolSniffingForInbound=true` to enable protocol detection for inbound listeners whose port protocol is not specified or unsupported.
