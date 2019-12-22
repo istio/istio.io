@@ -16,14 +16,14 @@ aliases:
 
 ## Bug 修复{#bug-fixes}
 
-- **修复** 在升级过程中错误的导致 secret 清理任务执行做的的问题（[Issue 16873](https://github.com/istio/istio/issues/16873)）。
+- **修复** 在升级过程中错误的导致 secret 清理任务执行错误的问题（[Issue 16873](https://github.com/istio/istio/issues/16873)）。
 - **修复** 默认配置禁用 Kubernetes Ingress 支持的问题（[Issue 17148](https://github.com/istio/istio/issues/17148)）。
 - **修复** 在 Stackdriver 日志记录适配器中处理无效 `UTF-8` 字符的问题（[Issue 16966](https://github.com/istio/istio/issues/16966)）。
-- **修复** HTTP 指标中没有为 `BlackHoleCluster` and `PassThroughCluster` 设置 `destination_service` 标签的问题（[Issue 16629](https://github.com/istio/istio/issues/16629)）。
+- **修复** HTTP 指标中没有为 `BlackHoleCluster` 和 `PassThroughCluster` 设置 `destination_service` 标签的问题（[Issue 16629](https://github.com/istio/istio/issues/16629)）。
 - **修复** 由于 `destination_service` 标签问题导致 `istio_tcp_connections_closed_total` 和 `istio_tcp_connections_opened_total` 指标不能被正确设置（[Issue 17234](https://github.com/istio/istio/issues/17234)）。
 - **修复** Istio 1.2.4 引入的 Envoy 崩溃问题（[Issue 16357](https://github.com/istio/istio/issues/16357)）。
-- **修复** 在节点上禁用 IPv6 时，Istio CNI Sidecar 初始化的问题 （[Issue 15895](https://github.com/istio/istio/issues/15895)）。
-- **修复** 影响 JWTS 中 RS384 和 RS512 算法支持问题（[Issue 15380](https://github.com/istio/istio/issues/15380)）。
+- **修复** 在节点上禁用 IPv6 时，Istio CNI Sidecar 初始化的问题（[Issue 15895](https://github.com/istio/istio/issues/15895)）。
+- **修复** 影响 JWT 中 RS384 和 RS512 算法支持问题（[Issue 15380](https://github.com/istio/istio/issues/15380)）。
 
 ## 小的增强{#minor-enhancements}
 

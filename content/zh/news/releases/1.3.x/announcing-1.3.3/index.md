@@ -16,7 +16,7 @@ aliases:
 
 ## Bug 修复{#bug-fixes}
 
-- **Fixed** 当时用 `istioctl x manifest apply` 时导致 Prometheus 安装不正确的问题。（[Issue 16970](https://github.com/istio/istio/issues/16970)）
+- **Fixed** 当使用 `istioctl x manifest apply` 时导致 Prometheus 安装不正确的问题。（[Issue 16970](https://github.com/istio/istio/issues/16970)）
 - **Fixed** 本地负载均衡不能从本地节点读取位置信息的错误。 （[Issue 17337](https://github.com/istio/istio/issues/17337)）
 - **Fixed** 当侦听器在没有任何用户配置更改的情况下进行重新配置时，Envoy 代理会删除长连接。 （[Issue 17383](https://github.com/istio/istio/issues/17383)，[Issue 17139](https://github.com/istio/istio/issues/17139)）
 - **Fixed** `istioctl x analyze` 命令的崩溃问题。（[Issue 17449](https://github.com/istio/istio/issues/17449)）

@@ -54,7 +54,8 @@ Istio 团队每发布几个版本，都会在可用性、API 和整体系统性�
 
 您可以从这两个方面中获得优势：
 
-利用 Istio 与 Kubernetes 集成，并以高效的方式处理大量 Envoy，同时还可以自定义生成的 Envoys 配置，以满足基础设施内的特定需求。
+利用 Istio 与 Kubernetes 集成，并以高效的方式处理大量 Envoy，同时还可以自定义生成
+的 Envoy 配置，以满足基础设施内的特定需求。
 
 ## 其他增强{#other-enhancements}
 
@@ -80,6 +81,6 @@ Istio 团队每发布几个版本，都会在可用性、API 和整体系统性�
 上午 11 点加入我们。
 
 Istio 的成长和成功归功于其 300 多家公司的 400 多个贡献者。
-加入我们的[Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)，帮助我们使 Istio 变得更好。
+加入我们的 [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)，帮助我们使 Istio 变得更好。
 
 要加入讨论，请使用您的 GitHub 账号登录 [discuss.istio.io](https://discuss.istio.io) 并加入我们！
