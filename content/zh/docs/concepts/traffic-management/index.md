@@ -220,7 +220,7 @@ spec:
 
 ### 负载均衡选项 {#load-balancing-options}
 
-默认情况下，Istio 使用轮询的负载均衡策略，实例池中的每个实例依次获取请求。Istio 同时支持如下的负载均衡模型，可以在 DestinationRule 中为流向某个特定服务或服务子集的流量指定这些模型。
+默认情况下，Istio 使用轮询的负载均衡策略，实例池中的每个实例依次获取请求。Istio 同时支持如下的负载均衡模型，可以在 `DestinationRule` 中为流向某个特定服务或服务子集的流量指定这些模型。
 
 -   随机：请求以随机的方式转到池中的实例。
 -   权重：请求根据指定的百分比转到实例。
@@ -314,7 +314,7 @@ spec:
 
 ## 服务入口 {#service-entries}
 
-使用[服务入口（ServiceEntry）](/zh/docs/reference/config/networking/service-entry/#ServiceEntry)来添加一个入口到 Istio 内部维护的服务注册中心。添加了服务入口后，Envoy 代理可以向服务发送流量，就好像它是网格内部的服务一样。配置服务入口允许您管理运行在网格外的服务的流量，它包括以下几种能力：
+使用[服务入口（Service Entry）](/zh/docs/reference/config/networking/service-entry/#ServiceEntry)来添加一个入口到 Istio 内部维护的服务注册中心。添加了服务入口后，Envoy 代理可以向服务发送流量，就好像它是网格内部的服务一样。配置服务入口允许您管理运行在网格外的服务的流量，它包括以下几种能力：
 
 -   为外部目标 redirect 和转发请求，例如来自 web 端的 API 调用，或者流向遗留老系统的服务。
 -   为外部目标定义[重试](#retries)、[超时](#timeouts)和[故障注入](#fault-injection)策略。
