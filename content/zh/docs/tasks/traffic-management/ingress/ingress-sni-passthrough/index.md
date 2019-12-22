@@ -1,18 +1,18 @@
 ---
-title: 没有 TLS 终止的 Ingress Gateway
-description: 说明了如何为一个 ingress gateway 配置 SNI 直通.
+title: 无 TLS 终止的 Ingress Gateway
+description: 说明了如何为一个 ingress gateway 配置 SNI 直通。
 weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
   - /zh/docs/examples/advanced-gateways/ingress-sni-passthrough/
 ---
 
-[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何配置对 HTTP 服务的 HTTPS 入口访问。
-而本示例将说明如何配置对 HTTPS 服务的 HTTPS 入口访问，即配置 Ingress Gateway 以执行 SNI 直通，而不是对传入请求进行 TLS 终止。
+[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。
+而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 直通，而不是对传入请求进行 TLS 终止。
 
 本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。
 在接下来的步骤中，你会先在你的 Kubernetes 集群中创建一个 NGINX 服务。
-然后，通过网关给这个服务配置一个域名是 `nginx.example.com` 的入口访问。
+然后，通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
 
 ## 生成客户端和服务端的证书和密钥
 
@@ -178,7 +178,7 @@ aliases:
 
 ## 配置 ingress gateway
 
-1.  定义一个 `server` 部分的端口为 443 的 `Gateway`. 注意，`PASSTHROUGH tls mode` 指示 gateway 按原样通过入口流量，而不终止 TLS。
+1.  定义一个 `server` 部分的端口为 443 的 `Gateway`。 注意，`PASSTHROUGH tls mode` 指示 gateway 按原样通过入口流量，而不终止 TLS。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
