@@ -40,7 +40,7 @@ Istio 团队每发布几个版本，都会在可用性、API 和整体系统性�
 ## 不再需要容器端口{#container-ports-are-no-longer-required}
 
 以前的版本中，作为一项安全措施，要求 Pod 明确声明每个容器的 `containerPort`。Istio 1.3 有一种安全和简单的方法，可以将任何端口上的所有入站流量处
-理为 {{< gose "workload" >}}工作负载实例{{< /gose >}}，而无需声明 `containerPort`。当工作负载实例向自己发送流量时，我们还完全消除了 IP 表
+理为 {{< gloss "workload instance" >}}工作负载实例{{< /gloss >}}，而无需声明 `containerPort`。当工作负载实例向自己发送流量时，我们还完全消除了 IP 表
 规则中造成的无限循环。
 
 ## 完全自定义生成 Envoy 配置{#fully-customize-generated-Envoy-configuration}
@@ -54,7 +54,7 @@ Istio 团队每发布几个版本，都会在可用性、API 和整体系统性�
 
 您可以从这两个方面中获得优势：
 
-利用 Istio 与 Kubernetes 集成，并以高效的方式处理大量 Envoy，同时还可以自定义生成的 Envoys 配置，以满足基础设施内的特定需求。		
+利用 Istio 与 Kubernetes 集成，并以高效的方式处理大量 Envoy，同时还可以自定义生成的 Envoys 配置，以满足基础设施内的特定需求。
 
 ## 其他增强{#other-enhancements}
 
