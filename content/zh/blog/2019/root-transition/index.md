@@ -1,22 +1,16 @@
 ---
-title: Extending Istio Self-Signed Root Certificate Lifetime
-description: Learn how to extend the lifetime of Istio self-signed root certificate.
+title: 延长 Istio 自签名根证书的有效期
+description: 了解如何延长 Istio 自签名根证书的有效期。
 publishdate: 2019-06-07
 attribution: Oliver Liu
 keywords: [security, PKI, certificate, Citadel]
 target_release: 1.1
 ---
 
-Istio self-signed certificates have historically had a 1 year default lifetime.
-If you are using Istio self-signed certificates,
-you need to schedule regular root transitions before they expire.
-An expiration of a root certificate may lead to an unexpected cluster-wide outage.
-The issue affects new clusters created with versions up to 1.0.7 and 1.1.7.
+Istio 自签名证书的默认有效期为 1 年。如果您正在使用 Istio 自签名证书，您需要在到期前安排定期根转换。根证书到期可能会导致整个群集意外中断。此问题会影响使用 1.0.7 和 1.1.7 版本创建的新群集。
 
-See [Extending Self-Signed Certificate Lifetime](/zh/docs/ops/configuration/security/root-transition/) for
-information on how to gauge the age of your certificates and how to perform rotation.
+有关如何判断证书年龄和如何执行轮换的信息，请参见[延长 Istio 自签名证书的有效期](/zh/docs/ops/configuration/security/root-transition/)。
 
 {{< tip >}}
-We strongly recommend you rotate root keys and root certificates annually as a security best practice.
-We will send out instructions for root key/cert rotation soon.
+我们强烈建议您每年轮换根密钥和根证书作为最佳安全实践。我们将尽快发出有关根密钥/证书轮换的说明。
 {{< /tip >}}
