@@ -9,7 +9,7 @@ weight: 30
 
 This module shows you an application composed of four microservices written in different programming languages: `productpage`, `details`, `ratings` and `reviews`. We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/docs/examples/bookinfo) page.
 
-The [Bookinfo example](/docs/examples/bookinfo) page shows the final state of the application, in which the `reviews` microservice has three versions: `v1`, `v2`, `v3`. In this module, the application only uses the `v1` version of the
+The [Bookinfo example](/docs/examples/bookinfo) shows the final state of the application, in which the `reviews` microservice has three versions: `v1`, `v2`, `v3`. In this module, the application only uses the `v1` version of the
 `reviews` microservice. The next modules enhance the application by deploying newer versions of the `reviews`
 microservice.
 
