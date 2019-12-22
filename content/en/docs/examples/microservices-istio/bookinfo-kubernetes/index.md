@@ -145,7 +145,7 @@ service/productpage patched
 
 1.  Append the output of the following command to `/etc/hosts`. You should have a
     [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use
-    [`sudo`](https://en.wikipedia.org/wiki/Sudo) to run the command.
+    [`sudo`](https://en.wikipedia.org/wiki/Sudo) to edit `/etc/hosts`.
 
     {{< text bash >}}
     $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
