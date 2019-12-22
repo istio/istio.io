@@ -3,7 +3,7 @@ title: 延长 Istio 自签名根证书的有效期
 description: 了解如何延长 Istio 自签名根证书的有效期。
 publishdate: 2019-06-07
 attribution: Oliver Liu
-keywords: [安全, PKI, 证书, Citadel]
+keywords: [security, PKI, certificate, Citadel]
 target_release: 1.1
 ---
 
