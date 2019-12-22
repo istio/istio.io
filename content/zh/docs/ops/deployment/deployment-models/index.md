@@ -217,7 +217,7 @@ Istio 网格使用{{< gloss "control plane">}}控制平面{{< /gloss >}}来配�
 ### 网格之间的信任{#trust-between-meshes}
 
 如果网格中的服务需要另一个网格中的服务，则必须在两个网格之间联合身份和信任。要在不同网格之间联合身份和信任，必须交换网格的 **trust bundle**。
-您可以使用像[SPIFFE 信任域联邦](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit)
+您可以使用像 [SPIFFE 信任域联邦](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit)
 之类的协议手动或自动交换 **trust bundle**，将 **trust bundle** 导入网格后，即可为这些身份配置本地策略。
 
 {{< image width="50%"
@@ -234,7 +234,7 @@ Istio 支持将您的所有服务都放在一个{{< gloss "service mesh" >}}服�
 
 ### 单一网格{#single-mesh}
 
-最简单的 Istio 部署是单一网格网格。网格内，服务名称是唯一的。例如，在命名空间 `foo` 中只能存在一个名为 `mysvc` 的服务。
+最简单的 Istio 部署是单一网格。网格内，服务名称是唯一的。例如，在命名空间 `foo` 中只能存在一个名为 `mysvc` 的服务。
 此外，工作负载实例具有相同的标识，因为服务帐户名称在命名空间中也是唯一的，就像服务名称一样。
 
 单一网格可以跨越[一个或多个集群](#cluster-models)和[一个或多个网络](#network-models)。
