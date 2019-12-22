@@ -15,7 +15,7 @@ microservice.
 
 ## Deploy the application and a testing pod
 
-1.  Set the `MYHOST` environmental variable to hold the URL of the application:
+1.  Set the `MYHOST` environment variable to hold the URL of the application:
 
     {{< text bash >}}
     $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
