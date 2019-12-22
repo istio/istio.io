@@ -53,7 +53,7 @@ and run it locally:
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/package.json -o package.json
     {{< /text >}}
 
-1. Skim the service's code and note the following elements on the code:
+1. Skim the service's code and note the following elements:
     - The web server's features:
         - listening to a port
         - handling requests and responses
