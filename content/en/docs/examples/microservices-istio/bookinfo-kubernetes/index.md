@@ -102,13 +102,11 @@ below successfully, you can access the application from your laptop's browser.
 
 {{< warning >}}
 
-If your cluster runs on GKE, change the `productpage` service type to `LoadBalancer` before you create your Kubernetes ingress, as shown in this example:
+If your cluster runs on GKE, change the `productpage` service type to `LoadBalancer`:
 
-{{< text yaml >}}
-selector:
-app: productpage
-sessionAffinity: None
-type: LoadBalancer
+{{< text bash >}}
+$ kubectl patch svc productpage -p '{"spec": {"type": "LoadBalancer"}}'
+service/productpage patched
 {{< /text >}}
 
 {{< /warning >}}
