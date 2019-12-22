@@ -168,6 +168,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
         route:
         - destination:
             host: edition.cnn.com
+            subset: tls-origination
             port:
               number: 443
     ---
@@ -177,14 +178,16 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
       name: edition-cnn-com
     spec:
       host: edition.cnn.com
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+      subsets:
+      - name: tls-origination
+        trafficPolicy:
+          loadBalancer:
+            simple: ROUND_ROBIN
+          portLevelSettings:
+          - port:
+              number: 443
+            tls:
+              mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -213,6 +216,17 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
     Note that you used the same command as in the previous section. For applications that access external services
     programmatically, the code does not need to be changed. You get the benefits of TLS origination by configuring Istio,
     without changing a line of code.
+
+1.  Note that the applications that used HTTPS to access the external service continue to work as before:
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    ...
+    Content-Length: 151654
+    ...
+    {{< /text >}}
 
 ## Additional security considerations
 

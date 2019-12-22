@@ -1,39 +1,25 @@
 ---
-title: Why does Istio need Mixer?
+title: 为什么 Istio 需要 Mixer?
 weight: 1
 ---
 
-Mixer provides a rich intermediation layer between the Istio components as well as Istio-based services,
-and the infrastructure backends used to perform access control checks and telemetry capture. This
-layer enables operators to have rich insights and control over service behavior without requiring
-changes to service binaries.
+Mixer 为 Istio 组件和基于 Istio 的服务之间提供了丰富的中介层。Mixer 作为基础设施后端服务可用于访问控制检查控制和遥测数据采集。Mixer 提供的中介层可在不修改服务二进制的情况下，帮助运维人员获得对服务内部机制的洞悉力和控制力。
 
-Mixer is designed as a stand-alone component, distinct from Envoy. This has numerous benefits:
+Mixer 被设计为独立组件，这与 Envoy 不同。这样的设计有很多好处：
 
-- *Scalability*.
-The work that Mixer and Envoy do is very different in nature, leading to different scalability
-requirements. Keeping the components separate enables independent component-appropriate scaling.
+- *可伸缩性*.
+Mixer 和 Envoy 的功能在本质上有很大不同，这也导致了它们各自对于可伸缩性要求不同。保持组件分离可以实现独立的组件适当伸缩。
 
-- *Resource Usage*.
-Istio depends on being able to deploy many instances of its proxy, making it important to minimize the
-cost of each individual instance. Moving Mixer's complex logic into a distinct component makes it
-possible for Envoy to remain svelte and agile.
+- *资源使用*.
+Istio 依赖于能够被部署的代理实例，因此最小化每个代理实例的成本是非常重要的。将 Mixer 的复杂逻辑移动到独立的组件中让 Envoy 保持轻量和灵活变为可能。
 
-- *Reliability*.
-Mixer and its open-ended extensibility model represents the most complex parts of the
-data path processing pipeline. By hosting this functionality in Mixer rather than Envoy,
-it creates distinct failure domains which enables Envoy to continue operating even if Mixer
-fails, preventing outages.
+- *可靠性*.
+Mixer 及其开放式扩展性模型代表了数据路径处理流水线最复杂部分。之所以在 Mixer 而不是在 Envoy 中实现此功能，是因为这样可以创建不同的故障域，使得 Envoy 即使在 Mixer 发生故障的情况下也能继续运行，从而避免了宕机。
 
-- *Isolation*.
-Mixer provides a level of insulation between Istio and the infrastructure backends. Each Envoy instance can be configured to have a
-very narrow scope of interaction, limiting the impact of potential attacks.
+- *隔离性*.
+Mixer 在 Istio 和 基础设施后端之间提供了一定程度的隔离。每个 Envoy 实例都可配置为在非常小范围内进行交互操作，从而限制了潜在攻击的影响。
 
-- *Extensibility*.
-It was imperative to design a simple extensibility model to allow Istio to interoperate
-with as widest breath of backends as possible. Due to its design and language choice, Mixer is inherently
-easier to extend than Envoy is. The separation of concerns also makes it possible to use
-Istio policy and telemetry processing with different proxies, just as a mix of Envoy and NGINX.
+- *可扩展性*.
+必须设计一个简单的可扩展性模型，使得 Istio 尽可能广泛地与后端进行交互操作。由于其设计和语言选择，Mixer 比 Envoy 具备更好的扩展性。功能点的分离也使得 Istio 策略和遥测处理的功能可以采用不同的代理一起实现，例如 Envoy 和 NGINX 的混合。
 
-Envoy implements sophisticated caching, batching, and prefetching, to largely mitigate the
-latency impact of needing to interact with Mixer on the request path.
+Envoy 实现了复杂的缓存，批处理和预取策略，从而在很大程度上减轻了在请求路径上与 Mixer 交互的延迟影响。

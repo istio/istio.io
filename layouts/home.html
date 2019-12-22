@@ -17,22 +17,22 @@
 {{ else }}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('panel1').style.opacity = "1";
+            getById('panel1').style.opacity = "1";
 
             window.setTimeout(function() {
-                document.getElementById('panel2').style.opacity = "1";
+                getById('panel2').style.opacity = "1";
             }, 375);
 
             window.setTimeout(function() {
-                document.getElementById('panel3').style.opacity = "1";
+                getById('panel3').style.opacity = "1";
             }, 750);
 
             window.setTimeout(function() {
-                document.getElementById('panel4').style.opacity = "1";
+                getById('panel4').style.opacity = "1";
             }, 1125);
 
             window.setTimeout(function() {
-                document.getElementById('buttons').style.opacity = "1";
+                getById('buttons').style.opacity = "1";
             }, 1500);
         });
     </script>

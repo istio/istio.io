@@ -94,7 +94,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     sidecar requests that will be directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.
@@ -102,11 +102,11 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     policy enforcement based on that identity.
     {{< /idea >}}
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -146,13 +146,13 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
               mode: ISTIO_MUTUAL
               sni: edition.cnn.com
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -178,7 +178,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       subsets:
       - name: cnn
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 

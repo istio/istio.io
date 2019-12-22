@@ -16,8 +16,36 @@
 
 set -e
 
-if [[ "$2" == "-no_minify" ]]; then
-    hugo --baseURL "$1"
-else
-    hugo --minify --baseURL "$1"
-fi
+mkdir -p generated/css generated/js generated/img tmp/js
+
+sass src/sass/_all.scss all.css -s compressed --no-source-map
+mv all.css* generated/css
+tsc
+
+babel --source-maps --minified --no-comments --presets minify \
+  tmp/js/constants.js \
+  tmp/js/utils.js \
+  tmp/js/feedback.js \
+  tmp/js/kbdnav.js \
+  tmp/js/themes.js \
+  tmp/js/menu.js \
+  tmp/js/header.js \
+  tmp/js/sidebar.js \
+  tmp/js/tabset.js \
+  tmp/js/prism.js \
+  tmp/js/codeBlocks.js \
+  tmp/js/links.js \
+  tmp/js/readTracking.js \
+  tmp/js/resizeObserver.js \
+  tmp/js/scroll.js \
+  tmp/js/overlays.js \
+  tmp/js/lang.js \
+  tmp/js/callToAction.js \
+  tmp/js/events.js \
+  --out-file generated/js/all.min.js
+
+babel --source-maps --minified --no-comments \
+  tmp/js/themes_init.js \
+  --out-file generated/js/themes_init.min.js
+
+svgstore -o generated/img/icons.svg src/icons/**/*.svg

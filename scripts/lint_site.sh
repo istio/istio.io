@@ -121,6 +121,23 @@ find ./public -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
     fi
 done
 
+find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
+    if grep -H -n -E -e "- (/docs|/about|/blog|/faq|/news)" "${f}"; then
+        echo "Ensure translated content doesn't include aliases for English content"
+        FAILED=1
+    fi
+
+    if grep -H -n -E -e '"(/docs|/about|/blog|/faq|/news)' "${f}"; then
+        echo "Ensure translated content doesn't include references to English content"
+        FAILED=1
+    fi
+
+    if grep -H -n -E -e '\((/docs|/about|/blog|/faq|/news)' "${f}"; then
+        echo "Ensure translated content doesn't include references to English content"
+        FAILED=1
+    fi
+done
+
 if ! htmlproofer ./public --assume-extension --http-status-ignore "0" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/"; then
     FAILED=1
 fi

@@ -32,6 +32,10 @@ us. Please feel free to borrow these:
       <td class="logo"><img style="background-color: lightgrey" src="/img/istio-bluelogo-nobackground-framed.svg" alt="'Istio Blue` logo with no background, square container"></td>
       <td class="desc"><i>Istio Blue</i> logo in square container, with and without white background</td>
     </tr>
+    <tr>
+      <td class="logo" colspan="2"><img src="/img/istio-embroideredlogo.png" alt="Embroidered Istio logo"></td>
+      <td class="desc">If you're interested in sticking an Istio logo on some physical goods, check out this <a href="/misc/embroidering_logo_instructions.zip">zip file</a> with embroidering instructions.</td>
+    </tr>
   </tbody>
 </table>
 

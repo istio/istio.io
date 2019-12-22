@@ -17,7 +17,7 @@ necessary.
 
 ## Invalid configuration is accepted
 
-Verify the `istio-galley` `validationwebhookconfiguration` exists and
+Verify the `istio-galley validationwebhookconfiguration` exists and
 is correct. The `apiVersion`, `apiGroup`, and `resource` of the
 invalid configuration should be listed in one of the two `webhooks`
 entries.
@@ -148,7 +148,7 @@ webhooks:
 {{< /text >}}
 
 If the `validatingwebhookconfiguration` doesn’t exist, verify the
-`istio-galley-configuration` `configmap` exists. `istio-galley` uses
+`istio-galley-configuration configmap` exists. `istio-galley` uses
 the data from this configmap to create and update the
 `validatingwebhookconfiguration`.
 
@@ -196,7 +196,7 @@ typically caused by an empty `caBundle` in the webhook
 configuration. Verify that it is not empty (see [verify webhook
 configuration](#invalid-configuration-is-accepted)). The
 `istio-galley` deployment consciously reconciles webhook configuration
-used the `istio-galley-configuration` `configmap` and root certificate
+used the `istio-galley-configuration configmap` and root certificate
 mounted from `istio.istio-galley-service-account` secret in the
 `istio-system` namespace.
 
@@ -265,7 +265,7 @@ mounted from `istio.istio-galley-service-account` secret in the
     {{< /text >}}
 
     `istio-galley` needs `validatingwebhookconfigurations` write access to
-    create and update the `istio-galley` `validatingwebhookconfiguration`.
+    create and update the `istio-galley validatingwebhookconfiguration`.
 
 ## Creating configuration fails with `no such hosts` or `no endpoints available` errors
 
@@ -284,7 +284,7 @@ istio-galley-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-galley
 NAME           ENDPOINTS                          AGE
-istio-galley   10.48.6.108:10514,10.48.6.108:443   3d
+istio-galley   10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and

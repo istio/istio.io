@@ -35,6 +35,23 @@
             </nav>
         {{ end }}
 
+        {{ if .Scratch.Get "getFeedback" }}
+            <div id="feedback">
+                <div id="feedback-initial">
+                    {{ i18n "feedback_title" }}<br>
+                    <button class="btn feedback" onclick="sendFeedback('{{.Site.Language}}', 1)">{{ i18n "feedback_yes" }}</button>
+                    <button class="btn feedback" onclick="sendFeedback('{{.Site.Language}}', 0)">{{ i18n "feedback_no" }}</button>
+                </div>
+                <div id="feedback-comment">
+                    {{ i18n "feedback_ask_for_comment" }}<br><br>
+                    <input id="feedback-textbox" type="text" placeholder='{{ i18n "feedback_comment_placeholder"}}' data-lang='{{.Site.Language}}'/>
+                </div>
+                <div id="feedback-thankyou">
+                    {{ i18n "feedback_thankyou" }}
+                </div>
+            </div>
+        {{ end }}
+
         <div id="endnotes-container" aria-hidden="true">
             <h2>{{ i18n "links" }}</h2>
             <ol id="endnotes"></ol>

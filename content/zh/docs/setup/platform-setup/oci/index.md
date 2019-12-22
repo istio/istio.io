@@ -1,17 +1,17 @@
 ---
 title: Oracle Cloud Infrastructure
-description: Instructions to setup an OKE cluster for Istio.
+description: 为 Istio 配置 OKE 集群环境的说明。
 weight: 27
 skip_seealso: true
 aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/oci/
-    - /docs/setup/kubernetes/platform-setup/oci/
+    - /zh/docs/setup/kubernetes/prepare/platform-setup/oci/
+    - /zh/docs/setup/kubernetes/platform-setup/oci/
 keywords: [platform-setup,kubernetes,oke,oci,oracle]
 ---
 
-Follow these instructions to prepare an OKE cluster for Istio.
+根据如下介绍，为 Istio 配置 OKE 集群环境。
 
-1. Create a new OKE cluster within your OCI tenancy. The simplest way to do this is by using the 'Quick Cluster' option within the [web console](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm). You may also use the [OCI cli](https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/cliinstall.htm) as shown below.
+1. 在您的 OCI 租户中，创建一个新的 OKE 集群。最简单的方式就是使用 [web 控制台](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm) 中的 'Quick Cluster' 选项。您也可以使用下面的 [OCI cli](https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/cliinstall.htm) 命令:
 
     {{< text bash >}}
     $ oci ce cluster create --name oke-cluster1 \
@@ -21,7 +21,7 @@ Follow these instructions to prepare an OKE cluster for Istio.
         ..
     {{< /text >}}
 
-1. Retrieve your credentials for `kubectl` using the OCI cli.
+1. 使用 OCI cli 为您的 `kubectl` 获取凭据:
 
     {{< text bash >}}
     $ oci ce cluster create-kubeconfig \
@@ -29,7 +29,7 @@ Follow these instructions to prepare an OKE cluster for Istio.
         --cluster-id <cluster-ocid>
     {{< /text >}}
 
-1. Grant cluster administrator (admin) permissions to the current user. To create the necessary RBAC rules for Istio, the current user requires admin permissions.
+1. 向当前用户授予集群管理员（admin）权限。要为 Istio 创建必要的 RBAC 规则，当前用户需要拥有管理员权限。
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding \

@@ -1,7 +1,7 @@
 ---
 title: 配置分析消息
 description: 记录配置分析期间产生的各个错误和警告消息。
-weight: 40
+weight: 70
 layout: analysis-landing
 ---
 

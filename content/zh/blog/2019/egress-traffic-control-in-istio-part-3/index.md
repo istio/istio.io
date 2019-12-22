@@ -9,9 +9,9 @@ target_release: 1.2
 ---
 
 Welcome to part 3 in our series about secure control of egress traffic in Istio.
-In [the first part in the series](/blog/2019/egress-traffic-control-in-istio-part-1/), I presented the attacks involving
+In [the first part in the series](/zh/blog/2019/egress-traffic-control-in-istio-part-1/), I presented the attacks involving
 egress traffic and the requirements we collected for a secure control system for egress traffic.
-In [the second part in the series](/blog/2019/egress-traffic-control-in-istio-part-2/), I presented the Istio way of
+In [the second part in the series](/zh/blog/2019/egress-traffic-control-in-istio-part-2/), I presented the Istio way of
 securing egress traffic and showed how you can prevent the attacks using Istio.
 
 In this installment, I compare secure control of egress traffic in Istio with alternative solutions such as using Kubernetes
@@ -20,10 +20,10 @@ secure control of egress traffic in Istio.
 
 ## Alternative solutions for egress traffic control
 
-First, let's remember the [requirements for egress traffic control](/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control) we previously collected:
+First, let's remember the [requirements for egress traffic control](/zh/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control) we previously collected:
 
 1.  Support of [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or of [TLS origination](/docs/reference/glossary/#tls-origination).
+    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or of [TLS origination](/zh/docs/reference/glossary/#tls-origination).
 1.  **Monitor** SNI and the source workload of every egress access.
 1.  Define and enforce **policies per cluster**.
 1.  Define and enforce **policies per source**, _Kubernetes-aware_.
@@ -69,7 +69,7 @@ are not transparent and not Kubernetes-aware.
 
 Istio egress traffic control is **secure**: it is based on the strong identity of Istio and, when you
 apply
-[additional security measures](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations),
+[additional security measures](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations),
 Istio's traffic control is resilient to tampering.
 
 Additionally, Istio's egress traffic control provides the following advantages:
@@ -79,7 +79,7 @@ Additionally, Istio's egress traffic control provides the following advantages:
 -  Out-of-the-Box integration of Istio's egress traffic control with Istio's policy and observability adapters.
 -  Write the adapters to use external monitoring or access control systems with Istio only once and
    apply them for all types of traffic: ingress, egress, and in-cluster.
--  Use Istio's [traffic management features](/docs/concepts/traffic-management/) for egress traffic:
+-  Use Istio's [traffic management features](/zh/docs/concepts/traffic-management/) for egress traffic:
    load balancing, passive and active health checking, circuit breaker, timeouts, retries, fault injection, and others.
 
 We refer to a system with the advantages above as **Istio-aware**.
@@ -102,14 +102,14 @@ Traffic passes through two proxies:
 - The application's sidecar proxy
 - The egress gateway's proxy
 
-If you use [TLS egress traffic to wildcard domains](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
+If you use [TLS egress traffic to wildcard domains](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/),
 you must add
-[an additional proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)
+[an additional proxy](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)
 between the application and the external service. Since the traffic between the egress gateway's proxy and
 the proxy needed for the configuration of arbitrary domains using wildcards is on the pod's local
 network, that traffic shouldn't have a significant impact on latency.
 
-See a [performance evaluation](/blog/2019/egress-performance/) of different Istio configurations set to control egress
+See a [performance evaluation](/zh/blog/2019/egress-performance/) of different Istio configurations set to control egress
 traffic. I would encourage you to carefully measure different configurations with your own applications and your own
 external services, before you decide whether you can afford the performance overhead for your use cases. You should weigh the
 required level of security versus your performance requirements and compare the performance overhead of all
@@ -143,10 +143,10 @@ Istio is the only solution I'm aware of that lets you:
 
 In my opinion, secure control of egress traffic is a great choice if you are looking for your first Istio use case.
 In this case, Istio already provides you some benefits even before you start using all other Istio features:
-[traffic management](/docs/tasks/traffic-management/), [security](/docs/tasks/security/),
-[policies](/docs/tasks/policy-enforcement/) and [observability](/docs/tasks/observability/), applied to traffic between
+[traffic management](/zh/docs/tasks/traffic-management/), [security](/zh/docs/tasks/security/),
+[policies](/zh/docs/tasks/policy-enforcement/) and [observability](/zh/docs/tasks/observability/), applied to traffic between
 microservices inside the cluster.
 
-So, if you haven't had the chance to work with Istio yet, [install Istio](/docs/setup/install/) on your cluster
-and check our [egress traffic control tasks](/docs/tasks/traffic-management/egress/) and the tasks for the other
-[Istio features](/docs/tasks/). We also want to hear from you, please join us at [discuss.istio.io](https://discuss.istio.io).
+So, if you haven't had the chance to work with Istio yet, [install Istio](/zh/docs/setup/install/) on your cluster
+and check our [egress traffic control tasks](/zh/docs/tasks/traffic-management/egress/) and the tasks for the other
+[Istio features](/zh/docs/tasks/). We also want to hear from you, please join us at [discuss.istio.io](https://discuss.istio.io).

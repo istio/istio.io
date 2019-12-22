@@ -15,9 +15,10 @@
 
         .header {
             color: $textBrandColor;
-            background-color: $boxBorderColor;
-            padding: .75rem 1.25rem;
+            background-color: $mainBrandColor;
+            padding: .35rem 1.25rem;
             border-bottom: 1px solid rgba(0, 0, 0, .125);
+            text-align: center;
         }
 
         .body {

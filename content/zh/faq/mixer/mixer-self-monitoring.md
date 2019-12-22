@@ -3,7 +3,7 @@ title: Mixer 是否提供内部监控？
 weight: 30
 ---
 
-Mixer 提供了监控端点（默认端口：`10514`）。Mixer 提供的性能和审计功能的服务路径如下：
+Mixer 提供了监控端点（默认端口：`15014`）。Mixer 提供的性能和审计功能的服务路径如下：
 
 - `/metrics` 提供有关 Mixer 处理的 Prometheus 指标、API 调用相关的 gRPC 指标和 adapter 调度指标。
 - `/debug/pprof` 提供了性能剖析相关的数据，格式为 [pprof](https://golang.org/pkg/net/http/pprof/)。

@@ -33,7 +33,7 @@ addons to require authentication when exposing them externally.
 
 1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
 
-1. [Install Istio](/docs/setup/install/operator) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
+1. [Install Istio](/docs/setup/install/istioctl) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
 the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration).
 
     To install Istio accordingly, use the following installation options:
@@ -370,7 +370,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 ### Option 2: Insecure access (HTTP)
 
-1. [Install Istio](/docs/setup/install/operator) in your cluster with your desired telemetry addons.
+1. [Install Istio](/docs/setup/install/istioctl) in your cluster with your desired telemetry addons.
 
     To additionally install the telemetry addons, use the following installation options:
 

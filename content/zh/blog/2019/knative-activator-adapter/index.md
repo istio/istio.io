@@ -8,7 +8,7 @@ keywords: [mixer,adapter,knative,scale-from-zero]
 target_release: 1.3
 ---
 
-This post demonstrates how you can use [Mixer](/faq/mixer/) to push application logic
+This post demonstrates how you can use [Mixer](/zh/faq/mixer/) to push application logic
 into Istio. It describes a Mixer adapter which implements the [Knative](https://knative.dev/) scale-from-zero logic
 with simple code and similar performance to the original implementation.
 
@@ -34,7 +34,7 @@ Once the application is up and running again, Knative restores the routing from 
 
 ## Mixer adapter
 
-[Mixer](/faq/mixer/) provides a rich intermediation layer between the Istio components and infrastructure backends.
+[Mixer](/zh/faq/mixer/) provides a rich intermediation layer between the Istio components and infrastructure backends.
 It is designed as a stand-alone component, separate from [Envoy](https://www.envoyproxy.io/), and has a simple extensibility model
 to enable Istio to interoperate with a wide breadth of backends. Mixer is inherently easier to extend
 than Envoy is.

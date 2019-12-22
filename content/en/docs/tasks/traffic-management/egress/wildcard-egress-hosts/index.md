@@ -419,17 +419,17 @@ The SNI proxy will forward the traffic to port `443`.
     traffic destined for _*.wikipedia.org_ through the gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS to let the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that identity.
     {{< /idea >}}
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -540,13 +540,13 @@ The SNI proxy will forward the traffic to port `443`.
         filterType: NETWORK
         filterConfig: {}
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -611,7 +611,7 @@ The SNI proxy will forward the traffic to port `443`.
              number: 8443
          weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
@@ -671,7 +671,7 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl delete --ignore-not-found=true envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
-1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
+1.  Delete the configuration items for the `egressgateway-with-sni-proxy` deployment:
 
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy

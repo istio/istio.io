@@ -121,7 +121,7 @@ keywords: [traffic-management,mirroring]
 1.  创建一个默认路由规则，将所有流量路由到服务的 `v1`：
 
     {{< warning >}}
-    如果安装/配置 Istio 的时候开启了 TLS 认证，在应用 `DestinationRule` 之前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，如[设置目标规则后出现 503 错误](/zh/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule)所述。
+    如果安装/配置 Istio 的时候开启了 TLS 认证，在应用 `DestinationRule` 之前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，如[设置目标规则后出现 503 错误](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule)所述。
     {{< /warning >}}
 
     {{< text bash >}}

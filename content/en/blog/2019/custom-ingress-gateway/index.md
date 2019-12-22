@@ -39,7 +39,7 @@ The creation of custom ingress gateway could be used in order to have different 
 1. To create the cluster's issuer, apply the following configuration:
 
     {{< tip >}}
-    Change the cluster's [issuer](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html#issuers) provider with your own configuration values. The example uses the values under `route53`.
+    Change the cluster's [issuer](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html) provider with your own configuration values. The example uses the values under `route53`.
     {{< /tip >}}
 
     {{< text yaml >}}

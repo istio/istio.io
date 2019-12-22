@@ -3,8 +3,8 @@ title: Style Guide
 description: Explains the dos and donts of writing Istio documentation.
 weight: 20
 aliases:
-    - /docs/welcome/contribute/style-guide.html
-    - /docs/reference/contribute/style-guide.html
+    - /zh/docs/welcome/contribute/style-guide.html
+    - /zh/docs/reference/contribute/style-guide.html
 keywords: [contribute]
 ---
 
@@ -215,6 +215,6 @@ be considered new in a few months.
 
 ### Minimize use of callouts
 
-[Callouts](/about/contribute/creating-and-editing-pages/#callouts) let you highlight some particular content in your pages, but
+[Callouts](/zh/about/contribute/creating-and-editing-pages/#callouts) let you highlight some particular content in your pages, but
 they need to be used sparingly. Callouts are intended for special notes to the user and over-using them
 throughout the site neutralizes their special attention-grabbing nature.

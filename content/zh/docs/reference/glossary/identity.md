@@ -2,42 +2,27 @@
 title: Identity
 ---
 
-Identity is a fundamental security infrastructure concept. The Istio identity
-model is based on a first-class workload identity. At the beginning of
-service-to-service communication, the two parties exchange credentials with
-their identity information for mutual authentication purposes.
+身份是基本的安全基础结构概念。Istio 的身份模型是基于第一阶级的工作负载身份。在服务之间的通信开始时，双方使用身份信息交换证书来实现相互认证的目的。
 
-Clients check the server’s identity against their secure naming information to
-determine if the server is authorized to run the service.
+客户端根据其安全的命名信息检查服务器的身份，以便确定服务器是否被授权运行服务。
 
-Servers check the client's identity to determine what information the client can
-access. Servers base that determination on the configured authorization
-policies.
+服务器检查客户端的身份，以确定客户端可以访问的信息。服务器基于客户端的身份，来确定配置的策略。
 
-Using identity, servers can audit the time information was accessed and what
-information was accessed by a specific client. They can also charge clients
-based on the services they use and reject any clients that failed to pay their
-bill from accessing the services.
+通过使用身份，服务器可以审核访问信息的时间和特定客户端访问的信息内容。还可以根据客户使用的服务向他们收费，并拒绝任何未付款的客户访问服务。
 
-The Istio identity model is flexible and granular enough to represent a human
-user, an individual service, or a group of services. On platforms without
-first-class service identity, Istio can use other identities that can group
-service instances, such as service names.
+Istio 身份模型非常灵活，粒度足以代表单个用户、单个服务，或者一组服务。在没有第一阶级服务身份的平台，Istio 可以使用其他的身份为服务实例进行分组，例如服务名称。
 
-Istio supports the following service identities on different platforms:
+Istio 在不同的平台上支持以下服务身份：
 
-- Kubernetes: Kubernetes service account
+- Kubernetes: Kubernetes 服务账户
 
-- GKE/GCE: GCP service account
+- GKE/GCE: GCP 服务账户
 
-- GCP: GCP service account
+- GCP: GCP 服务账户
 
-- AWS: AWS IAM user/role account
+- AWS: AWS IAM 用户/角色 账户
 
-- On-premises (non-Kubernetes): user account, custom service account, service
-  name, Istio service account, or GCP service account. The custom service
-  account refers to the existing service account just like the identities that
-  the customer’s Identity Directory manages.
+- 本地 （非 Kubernetes）：用户账户、客户服务账户、服务名称、Istio 服务账户，或者 GCP 服务账户。
+  客户服务账户指现有的服务账户，就像客户身份目录中管理的身份。
 
-Typically, the [trust domain](/docs/reference/glossary/#trust-domain) specifies
-the mesh the identity belongs to.
+通常，[信任域](/zh/docs/reference/glossary/#trust-domain) 指定身份所属的网格。
