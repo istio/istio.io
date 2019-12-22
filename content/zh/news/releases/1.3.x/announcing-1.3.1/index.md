@@ -14,7 +14,7 @@ aliases:
 
 {{< relnote >}}
 
-## Bug 修复
+## Bug 修复{#bug-fixes}
 
 - **修复** 在升级过程中错误的导致 secret 清理任务执行做的的问题 ([Issue 16873](https://github.com/istio/istio/issues/16873))。
 - **修复** 默认配置禁用 Kubernetes Ingress 支持的问题 ([Issue 17148](https://github.com/istio/istio/issues/17148))。
@@ -25,7 +25,7 @@ aliases:
 - **修复** 在节点上禁用 IPv6 时，Istio CNI Sidecar 初始化的问题 ([Issue 15895](https://github.com/istio/istio/issues/15895))。
 - **修复** 影响 JWTS 中 RS384 和 RS512 算法支持问题([Issue 15380](https://github.com/istio/istio/issues/15380))。
 
-## 小的增强
+## 小的增强{#minor-enhancements}
 
 - **增加** `.Values.global.priorityClassName` 对遥测部署的支持。
 - **增加** 对 Datadog 的支持。
