@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.3.1
+title: Istio 1.3.1 发布公告
 linktitle: 1.3.1
-subtitle: Patch Release
-description: Istio 1.3.1 patch release.
+subtitle: 补丁发布
+description: Istio 1.3.1 补丁发布。
 publishdate: 2019-09-27
 release: 1.3.1
 aliases:
@@ -10,26 +10,26 @@ aliases:
     - /zh/news/announcing-1.3.1
 ---
 
-This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.3.0 and Istio 1.3.1.
+此版本包含一些错误修复程序，以提高稳定性。此发行说明描述了 Istio 1.3.0 和 Istio 1.3.1 之间的区别。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- **Fixed** an issue which caused the secret cleanup job to erroneously run during upgrades ([Issue 16873](https://github.com/istio/istio/issues/16873)).
-- **Fixed** an issue where the default configuration disabled Kubernetes Ingress support ([Issue 17148](https://github.com/istio/istio/issues/17148))
-- **Fixed** an issue with handling invalid `UTF-8` characters in the Stackdriver logging adapter ([Issue 16966](https://github.com/istio/istio/issues/16966)).
-- **Fixed** an issue which caused the `destination_service` label in HTTP metrics not to be set for `BlackHoleCluster` and `PassThroughCluster` ([Issue 16629](https://github.com/istio/istio/issues/16629)).
-- **Fixed** an issue with the `destination_service` label in the `istio_tcp_connections_closed_total` and `istio_tcp_connections_opened_total` metrics which caused them to not be set correctly ([Issue 17234](https://github.com/istio/istio/issues/17234)).
-- **Fixed** an Envoy crash introduced in Istio 1.2.4 ([Issue 16357](https://github.com/istio/istio/issues/16357)).
-- **Fixed** Istio CNI sidecar initialization when IPv6 is disabled on the node ([Issue 15895](https://github.com/istio/istio/issues/15895)).
-- **Fixed** a regression affecting support of RS384 and RS512 algorithms in JWTs ([Issue 15380](https://github.com/istio/istio/issues/15380)).
+- **修复** 在升级过程中错误的导致 secret 清理任务执行错误的问题（[Issue 16873](https://github.com/istio/istio/issues/16873)）。
+- **修复** 默认配置禁用 Kubernetes Ingress 支持的问题（[Issue 17148](https://github.com/istio/istio/issues/17148)）。
+- **修复** 在 Stackdriver 日志记录适配器中处理无效 `UTF-8` 字符的问题（[Issue 16966](https://github.com/istio/istio/issues/16966)）。
+- **修复** HTTP 指标中没有为 `BlackHoleCluster` 和 `PassThroughCluster` 设置 `destination_service` 标签的问题（[Issue 16629](https://github.com/istio/istio/issues/16629)）。
+- **修复** 由于 `destination_service` 标签问题导致 `istio_tcp_connections_closed_total` 和 `istio_tcp_connections_opened_total` 指标不能被正确设置（[Issue 17234](https://github.com/istio/istio/issues/17234)）。
+- **修复** Istio 1.2.4 引入的 Envoy 崩溃问题（[Issue 16357](https://github.com/istio/istio/issues/16357)）。
+- **修复** 在节点上禁用 IPv6 时，Istio CNI Sidecar 初始化的问题（[Issue 15895](https://github.com/istio/istio/issues/15895)）。
+- **修复** 影响 JWT 中 RS384 和 RS512 算法支持问题（[Issue 15380](https://github.com/istio/istio/issues/15380)）。
 
-## Minor enhancements
+## 小的增强{#minor-enhancements}
 
-- **Added** support for `.Values.global.priorityClassName` to the telemetry deployment.
-- **Added** annotations for Datadog tracing that controls extra features in sidecars.
-- **Added** the `pilot_xds_push_time` metric to report Pilot xDS push time.
-- **Added** `istioctl experimental analyze` to support multi-resource analysis and validation.
-- **Added** support for running metadata exchange and stats extensions in a WebAssembly sandbox. Follow [these](/zh/docs/ops/configuration/telemetry/in-proxy-service-telemetry/) instructions to try it out.
-- **Removed** time diff info in the proxy-status command.
+- **增加** `.Values.global.priorityClassName` 对遥测部署的支持。
+- **增加** 对 Datadog 的支持。
+- **增加** `pilot_xds_push_time` 指标以报告 Pilot xDS 推送时间。
+- **增加** `istioctl experimental analyze` 以支持多资源分析和验证。
+- **增加** 对在 WebAssembly 沙箱中运行元数据交换和统计信息扩展的支持。请按照[以下](/zh/docs/ops/configuration/telemetry/in-proxy-service-telemetry/)说明进行尝试。
+- **删除**  proxy-status 命令中的时间差异信息。
