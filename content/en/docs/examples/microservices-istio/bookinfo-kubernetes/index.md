@@ -97,8 +97,8 @@ microservice.
 
 ## Enable external access to the application
 
-Once your application is running, enable clients from outside the cluster to access it. Such clients are known as mesh-external clients. Once you
-configure the steps below successfully, you can access the application from your laptop's browser.
+Once your application is running, enable clients from outside the cluster to access it. Once you configure the steps
+below successfully, you can access the application from your laptop's browser.
 
 {{< warning >}}
 
