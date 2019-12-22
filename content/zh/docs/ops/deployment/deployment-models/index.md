@@ -1,6 +1,6 @@
 ---
-title: Deployment Models
-description: Describes the options and considerations when configuring your Istio deployment.
+title: 部署模型
+description: 描述 Istio 部署中的选择和建议。
 weight: 20
 keywords:
   - single-cluster
@@ -18,409 +18,324 @@ aliases:
   - /zh/docs/ops/prep/deployment-models
 ---
 
-When configuring a production deployment of Istio, you need to answer a number of questions.
-Will the mesh be confined to a single {{< gloss >}}cluster{{< /gloss >}} or distributed across
-multiple clusters? Will all the services be located in a single fully connected network, or will
-gateways be required to connect services across multiple networks? Is there a single
-{{< gloss >}}control plane{{< /gloss >}}, potentially shared across clusters,
-or are there multiple control planes deployed to ensure high availability (HA)?
-If there is more than one cluster being deployed, and more specifically in isolated networks,
-are they going to be connected into a single {{< gloss >}}multicluster{{< /gloss >}}
-service mesh or will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+当您将 Istio 用于生产环境部署时，需要回答一系列的问题。
+网格将被限制在单个 {{< gloss "cluster">}}集群{{< /gloss >}} 中还是分布在多个集群中？
+是将所有服务都放置在单个完全连接的网络中，还是需要网关来跨多个网络连接服务？
+是否存在单个{{< gloss "control plane">}}控制平面{{< /gloss >}}（可能在集群之间共享），或者是否部署了多个控制平面以确保高可用（HA）？
+如果要部署多个集群（更具体地说是在隔离的网络中），是否要将它们连接到单个{{< gloss "multicluster">}}多集群{{< /gloss >}}服务网格中，
+还是将它们联合到一个 {{< gloss "multi-mesh">}}多网格{{< /gloss >}} 部署中？
 
-All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
+所有这些问题，都代表了 Istio 部署的独立配置维度。
 
-1. single or multiple cluster
-1. single or multiple network
-1. single or multiple control plane
-1. single or multiple mesh
+1. 单一或多个集群
+1. 单一或多个网络
+1. 单一或多控制平面
+1. 单一或多个网格
 
-All combinations are possible, although some are more common than others and
-some are clearly not very interesting (for example, multiple mesh in a single cluster).
+所有组合都是可能的，尽管某些组合比其他组合更常见，并且某些组合显然不是很有趣（例如，单一集群中有多个网格）。
 
-In a production deployment involving multiple clusters, the deployment may use a
-mix of patterns. For example, having more than one control plane is recommended for HA,
-but you could achieve this for a 3 cluster deployment by deploying 2 clusters with
-a single shared control plane and then adding the third cluster with a second
-control plane in a different network. All three clusters could then be configured
-to share both control planes so that all the clusters have 2 sources of control
-to ensure HA.
+在涉及多个集群的生产环境部署中，部署可能使用多种模式。
+例如，基于 3 个集群实现多控制平面的高可用部署，您可以通过使用单一控制平面部署 2 个集群，然后再添加第 3 个集群和
+第 2 个控制平面来实现这一点，最后，再将所有 3 个集群配置为共享 2 个控制平面，以确保所有集群都有 2 个控制源来确保 HA。
 
-Choosing the right deployment model depends on the isolation, performance,
-and HA requirements for your use case. This guide describes the various options and
-considerations when configuring your Istio deployment.
+如何选择正确的部署模型，取决于您对隔离性、性能和 HA 的要求。本指南介绍了配置 Istio 部署时的各种选择和注意事项。
 
-## Cluster models
+## 集群模型{#cluster-models}
 
-The workload instances of your application run in one or more
-{{< gloss "cluster" >}}clusters{{< /gloss >}}. For isolation, performance, and
-high availability, you can confine clusters to availability zones and regions.
+应用程序的工作负载实例运行在一个或多个{{< gloss "cluster" >}}集群{{< /gloss >}}中。
+针对隔离性、性能和高可用的需求，您还可以将集群限制在可用区和地域中。
 
-Production systems, depending on their requirements, can run across multiple
-clusters spanning a number of zones or regions, leveraging cloud load balancers
-to handle things like locality and zonal or regional fail over.
+根据需求，生产系统可以跨多个集群（基于多可用区、多地域）运行，
+借助云负载均衡器来处理诸如本地、区域或地域性故障转移之类的问题。
 
-In most cases, clusters represent boundaries for configuration and endpoint
-discovery. For example, each Kubernetes cluster has an API Server which manages
-the configuration for the cluster as well as serving
-{{< gloss >}}service endpoint{{< /gloss >}} information as pods are brought up
-or down. Since Kubernetes configures this behavior on a per-cluster basis, this
-approach helps limit the potential problems caused by incorrect configurations.
+大多数情况下，集群代表着配置和端点发现的边界。
+例如，每个 Kubernetes 集群都有一个 API 服务器，该服务器管理集群的配置，
+在 Pod 变化时提供 {{< gloss "service endpoint">}}服务端点{{< /gloss >}} 信息。
+Kubernetes 在每个集群都默认配置此行为，这有助于限制由错误配置引起的潜在风险。
 
-In Istio, you can configure a single service mesh to span any number of
-clusters.
+在 Istio 中，您可以配置单一服务网格以跨越任意数量的集群。
 
-### Single cluster
+### 单一集群{#single-cluster}
 
-In the simplest case, you can confine an Istio mesh to a single
-{{< gloss >}}cluster{{< /gloss >}}. A cluster usually operates over a
-[single network](#single-network), but it varies between infrastructure
-providers. A single cluster and single network model includes a control plane,
-which results in the simplest Istio deployment.
+在最简单的情况下，您可以将 Istio 网格限制为单一{{< gloss "cluster" >}}集群{{< /gloss >}}。
+集群通常在[单一网络](#single-network)上运行，但是在不同的基础架构之间会有所不同。
+单一集群和单一网络模型包括一个控制平面，这是最简单的 Istio 部署。
 
 {{< image width="50%"
     link="single-cluster.svg"
-    alt="A service mesh with a single cluster"
-    title="Single cluster"
-    caption="A service mesh with a single cluster"
+    alt="单一集群服务网格"
+    title="单一集群"
+    caption="单一集群服务网格"
     >}}
 
-Single cluster deployments offer simplicity, but lack other features, for
-example, fault isolation and fail over. If you need higher availability, you
-should use multiple clusters.
+单一集群部署提供了简单性，但缺少更多的功能，例如，故障隔离和故障转移。
+如果您需要高可用性，则应使用多个集群。
 
-### Multiple clusters
+### 多集群{#multiple-clusters}
 
-You can configure a single mesh to include
-multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}. Using a
-{{< gloss >}}multicluster{{< /gloss >}} deployment within a single mesh affords
-the following capabilities beyond that of a single cluster deployment:
+您可以将单个网格配置为包括多{{< gloss "cluster" >}}集群{{< /gloss >}}。
+在单一网格中使用{{< gloss "multicluster">}}多集群{{< /gloss >}}部署，与单一集群部署相比其具备以下更多能力：
 
-- Fault isolation and fail over: `cluster-1` goes down, fail over to `cluster-2`.
-- Location-aware routing and fail over: Send requests to the nearest service.
-- Various [control plane models](#control-plane-models): Support different
-  levels of availability.
-- Team or project isolation: Each team runs its own set of clusters.
+- 故障隔离和故障转移：当 `cluster-1` 下线，业务将转移至 `cluster-2`。
+- 位置感知路由和故障转移：将请求发送到最近的服务。
+- 多种[控制平面](#control-plane-models)模型：支持不同级别的可用性。
+- 团队或项目隔离：每个团队仅运行自己的集集群。
 
 {{< image width="75%"
     link="multi-cluster.svg"
-    alt="A service mesh with multiple clusters"
-    title="Multicluster"
-    caption="A service mesh with multiple clusters"
+    alt="多集群服务网格"
+    title="多集群"
+    caption=多集群服务网格"
     >}}
 
-Multicluster deployments give you a greater degree of isolation and
-availability but increase complexity. If your systems have high availability
-requirements, you likely need clusters across multiple zones and regions. You
-can canary configuration changes or new binary releases in a single cluster,
-where the configuration changes only affect a small amount of user traffic.
-Additionally, if a cluster has a problem, you can temporarily route traffic to
-nearby clusters until you address the issue.
+多集群部署可为您提供更大程度的隔离和可用性，但会增加复杂性。
+如果您的系统具有高可用性要求，则可能需要集群跨多个可用区和地域。
+对于应用变更或新的版本，您可以在一个集群中配置金丝雀发布，这有助于把对用户的影响降到最低。
+此外，如果某个集群有问题，您可以暂时将流量路由到附近的集群，直到解决该问题为止。
 
-You can configure inter-cluster communication based on the
-[network](#network-models) and the options supported by your cloud provider. For
-example, if two clusters reside on the same underlying network, you can enable
-cross-cluster communication by simply configuring firewall rules.
+您可以根据[网络](#network-models)和云提供商所支持的选项来配置集群间通信。
+例如，若两个集群位于同一基础网络，则可以通过简单地配置防火墙规则来启用跨集群通信。
 
-## Network models
+## 网络模型{#network-models}
 
-Many production systems require multiple networks or subnets for isolation
-and high availability. Istio supports spanning a service mesh over a variety of
-network topologies. This approach allows you to select the network model that
-fits your existing network topology.
+许多生产系统需要多个网络或子网来实现隔离和高可用性。
+Istio 支持跨多种网络拓扑扩展服务网格。
+这使您可以选择适合您现有网络拓扑的网络模型。
 
-### Single network
+### 单一网络{#single-network}
 
-In the simplest case, a service mesh operates over a single fully connected
-network. In a single network model, all
-{{< gloss "workload instance" >}}workload instances{{< /gloss >}}
-can reach each other directly without an Istio gateway.
+在最简单的情况下，服务网格在单个完全连接的网络上运行。
+在单一网络模型中， {{< gloss "workload instance" >}}工作负载实例{{< /gloss >}}
+都可以直接相互访问，而无需 Istio 网关。
 
-A single network allows Istio to configure service consumers in a uniform
-way across the mesh with the ability to directly address workload instances.
+单一网络模型允许 Istio 以统一的方式在网格上配置服务使用者，从而能够直接处理工作负载实例。
 
 {{< image width="50%"
     link="single-net.svg"
-    alt="A service mesh with a single network"
-    title="Single network"
-    caption="A service mesh with a single network"
+    alt="单一网络服务网格"
+    title="单一网络"
+    caption="单一网络服务网格"
     >}}
 
-### Multiple networks
+### 多网络{#multiple-networks}
 
-You can span a single service mesh across multiple networks; such a
-configuration is known as **multi-network**.
+您可以配置单个服务网格跨多个网络，这样的配置称为**多网络**。
 
-Multiple networks afford the following capabilities beyond that of single networks:
+多网络模型提供了单一网络之外的以下功能：
 
-- Overlapping IP or VIP ranges for **service endpoints**
-- Crossing of administrative boundaries
-- Fault tolerance
-- Scaling of network addresses
-- Compliance with standards that require network segmentation
+- **服务端点**范围的 IP 或 VIP 重叠
+- 跨越管理边界
+- 容错能力
+- 网络地址扩展
+- 符合网络分段要求的标准
 
-In this model, the workload instances in different networks can only reach each
-other through one or more [Istio gateways](/zh/docs/concepts/traffic-management/#gateways).
-Istio uses **partitioned service discovery** to provide consumers a different
-view of {{< gloss >}}service endpoint{{< /gloss >}}s. The view depends on the
-network of the consumers.
+在此模型中，不同网络中的工作负载实例只能通过一个或多个 Istio 网关相互访问。Istio 使用 **分区服务发现** 为消
+费者提供 {{< gloss "service endpoint">}}服务端点{{< /gloss >}} 的不同视图。该视图取决于消费者的网络。
 
 {{< image width="50%"
     link="multi-net.svg"
-    alt="A service mesh with multiple networks"
-    title="Multi-network deployment"
-    caption="A service mesh with multiple networks"
+    alt="多网络服务网格"
+    title="多网络部署"
+    caption="多网络服务网格"
     >}}
 
-## Control plane models
+## 控制平面模型{#control-plane-models}
 
-An Istio mesh uses the {{< gloss >}}control plane{{< /gloss >}} to configure all
-communication between workload instances within the mesh. You can replicate the
-control plane, and workload instances connect to any control plane instance to
-get their configuration.
+Istio 网格使用{{< gloss "control plane">}}控制平面{{< /gloss >}}来配置网格内工作负载实例之间的所有通信。
+您可以复制控制平面，工作负载实例可以连接到任何一个控制平面实例以获取其配置。
 
-In the simplest case, you can run your mesh with a control plane on a single
-cluster.
+在最简单的情况下，可以在单一集群上使用控制平面运行网格。
 
 {{< image width="50%"
     link="single-cluster.svg"
-    alt="A service mesh with a control plane"
-    title="Single control plane"
-    caption="A service mesh with a control plane"
+    alt="单一控制平面服务网格"
+    title="单一控制平面"
+    caption="单一控制平面服务网格"
     >}}
 
-Multicluster deployments can also share control plane instances. In this case,
-the control plane instances can reside in one or more clusters.
+多集群部署也可以共享控制平面实例。在这种情况下，控制平面实例可以驻留在一个或多个集群中。
 
 {{< image width="75%"
     link="shared-control.svg"
-    alt="A service mesh with two clusters sharing a control plane"
-    title="Shared control plane"
-    caption="A service mesh with two clusters sharing a control plane"
+    alt="跨两个集群共享控制平面的服务网格"
+    title="共享控制平面"
+    caption="跨两个集群共享控制平面的服务网格"
     >}}
 
-For high availability, you should deploy a control plane across multiple
-clusters, zones, or regions.
+为了获得高可用性，您应该在多个集群、区或地域之间部署控制平面。
 
 {{< image width="75%"
     link="multi-control.svg"
-    alt="A service mesh with control plane instances for each region"
-    title="Multiple control planes"
-    caption="A service mesh with control plane instances for each region"
+    alt="每个地域都有控制平面实例的服务网格"
+    title="多控制平面"
+    caption="每个地域都有控制平面实例的服务网格"
     >}}
 
-This model affords the following benefits:
+该模型具有以下优点：
 
-- Improved availability: If a control plane becomes unavailable, the scope of
-  the outage is limited to only that control plane.
+- 更强的可用性：如果控制平面不可用，则中断范围仅限于该控制平面。
 
-- Configuration isolation: You can make configuration changes in one cluster,
-  zone, or region without impacting others.
+- 配置隔离：您可以在一个集群、区域或地域中进行配置更改，而不会影响其他集群、区或或地域。
 
-You can improve control plane availability through fail over. When a control
-plane instance becomes unavailable, workload instances can connect to
-another available control plane instance. Fail over can happen across clusters,
-zones, or regions.
+您可以通过故障转移来提高控制平面的可用性。当控制平面实例不可用时，工作负载实例可以连接到另一个可用的控制平面实例。
+故障转移可能发生在集群、区域或地域之间。
 
 {{< image width="50%"
     link="failover.svg"
-    alt="A service mesh after a control plane instance fails"
-    title="Control plane fail over"
-    caption="A service mesh after a control plane instance fails"
+    alt="控制平面实例失败后的服务网格"
+    title="控制平面故障转移"
+    caption="控制平面实例失败后的服务网格"
     >}}
 
-The following list ranks control plane deployment examples by availability:
+以下列表按可用性对控制平面部署进行了排名：
 
-- One cluster per region (**lowest availability**)
-- Multiple clusters per region
-- One cluster per zone
-- Multiple clusters per zone
-- Each cluster (**highest availability**)
+- 每个地域一个集群（**最低可用性**）
+- 每个地域多个集群
+- 每个区域一个集群
+- 每个区域多个集群
+- 每个集群（**最高可用性**）
 
-## Identity and trust models
+## 身份和信任模型{#identity-and-trust-models}
 
-When a workload instance is created within a service mesh, Istio assigns the
-workload an {{< gloss >}}identity{{< /gloss >}}.
+在服务网格中创建工作负载实例时，Istio 会为工作负载分配一个{{< gloss "identity">}}身份标识{{< /gloss >}}。
 
-The Certificate Authority (CA) creates and signs the certificates used to verify
-the identities used within the mesh. You can verify the identity of the message sender
-with the public key of the CA that created and signed the certificate
-for that identity. A **trust bundle** is the set of all CA public keys used by
-an Istio mesh. With a mesh's trust bundle, anyone can verify the sender of any
-message coming from that mesh.
+证书颁发机构（CA）创建并签名身份标识的证书，以用于验证网格中的使用者身份，您可以使用其公钥来验证消息发送者的身份。
+**trust bundle** 是一组在 Istio 网格使用的所有 CA 公钥的集合。使用 **trust bundle** 任何人都可以验证来自该网格的任何消息发送者。
 
-### Trust within a mesh
+### 网格内的信任{#trust-within-a-mesh}
 
-Within a single Istio mesh, Istio ensures each workload instance has an
-appropriate certificate representing its own identity, and the trust bundle
-necessary to recognize all identities within the mesh and any federated meshes.
-The CA only creates and signs the certificates for those identities. This model
-allows workload instances in the mesh to authenticate each other when
-communicating.
+在单一 Istio 网格中，Istio 确保每个工作负载实例都有一个表示自己身份的适当证书，以及用于识别网格及网格联邦中所有身份
+信息的 **trust bundle**。CA 只为这些身份标识创建和签名证书。该模型允许网格中的工作负载实例通信时相互认证。
 
 {{< image width="50%"
     link="single-trust.svg"
-    alt="A service mesh with a certificate authority"
-    title="Trust within a mesh"
-    caption="A service mesh with a certificate authority"
+    alt="具有证书颁发机构的服务网格"
+    title="网格内的信任模型"
+    caption="具有证书颁发机构的服务网格"
     >}}
 
-### Trust between meshes
+### 网格之间的信任{#trust-between-meshes}
 
-If a service in a mesh requires a service in another, you must federate identity
-and trust between the two meshes. To federate identity and trust, you must
-exchange the trust bundles of the meshes. You can exchange the trust bundles
-either manually or automatically using a protocol such as [SPIFFE Trust Domain Federation](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit).
-Once you import a trust bundle to a mesh, you can configure local policies for
-those identities.
+如果网格中的服务需要另一个网格中的服务，则必须在两个网格之间联合身份和信任。要在不同网格之间联合身份和信任，必须交换网格的 **trust bundle**。
+您可以使用像 [SPIFFE 信任域联邦](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit)
+之类的协议手动或自动交换 **trust bundle**，将 **trust bundle** 导入网格后，即可为这些身份配置本地策略。
 
 {{< image width="50%"
     link="multi-trust.svg"
-    alt="Multiple service meshes with certificate authorities"
-    title="Trust between meshes"
-    caption="Multiple service meshes with certificate authorities"
+    alt="具有证书颁发机构的多服务网格"
+    title="网格之间的信任模型"
+    caption="具有证书颁发机构的多服务网格"
     >}}
 
-## Mesh models
+## 网格模型{#mesh-models}
 
-Istio supports having all of your services in a
-{{< gloss "service mesh" >}}mesh{{< /gloss >}}, or federating multiple meshes
-together, which is also known as {{< gloss >}}multi-mesh{{< /gloss >}}.
+Istio 支持将您的所有服务都放在一个{{< gloss "service mesh" >}}服务网格{{< /gloss >}}中，
+或者将多个网格联合在一起，这也称为{{< gloss "multi-mesh">}}多网格{{< /gloss >}}。
 
-### Single mesh
+### 单一网格{#single-mesh}
 
-The simplest Istio deployment is a single mesh. Within a mesh, service names are
-unique. For example, only one service can have the name `mysvc` in the `foo`
-namespace. Additionally, workload instances share a common identity since
-service account names are unique within a namespace, just like service names.
+最简单的 Istio 部署是单一网格。网格内，服务名称是唯一的。例如，在命名空间 `foo` 中只能存在一个名为 `mysvc` 的服务。
+此外，工作负载实例具有相同的标识，因为服务帐户名称在命名空间中也是唯一的，就像服务名称一样。
 
-A single mesh can span [one or more clusters](#cluster-models) and
-[one or more networks](#network-models). Within a mesh,
-[namespaces](#namespace-tenancy) are used for [tenancy](#tenancy-models).
+单一网格可以跨越[一个或多个集群](#cluster-models)和[一个或多个网络](#network-models)。
+网格内部，[命名空间](#namespace-tenancy)用于[多租户](#tenancy-models)。
 
-### Multiple meshes
+### 多网格{#multiple-meshes}
 
-Multiple mesh deployments result from {{< gloss >}}mesh federation{{< /gloss >}}.
+通过{{< gloss "mesh federation">}}网格联邦{{< /gloss >}}可以实现多网格部署。
 
-Multiple meshes afford the following capabilities beyond that of a single mesh:
+与单一网格相比，多网格具备以下更多功能：
 
-- Organizational boundaries: lines of business
-- Service name or namespace reuse: multiple distinct uses of the `default`
-  namespace
-- Stronger isolation: isolating test workloads from production workloads
+- 组织边界：业务范围
+- 服务名称或命名空间复用：比如 `default` 的使用
+- 加强隔离：将测试工作负载与生产工作负载隔离
 
-You can enable inter-mesh communication with {{< gloss >}}mesh federation{{<
-/gloss >}}. When federating, each mesh can expose a set of services and
-identities, which all participating meshes can recognize.
+您可以使用{{< gloss "mesh federation">}}网格联邦{{</gloss >}}启用网格间通信。
+联合时，每个网格可以公开一组服务和身份，它们可以被所有参与的网格都可以识别。
 
 {{< image width="50%"
     link="multi-mesh.svg"
-    alt="Multiple service meshes"
-    title="Multi-mesh"
-    caption="Multiple service meshes"
+    alt="多服务网格"
+    title="多服务网格"
+    caption="多服务网格"
     >}}
 
-To avoid service naming collisions, you can give each mesh a globally unique
-**mesh ID**, to ensure that the fully qualified domain
-name (FQDN) for each service is distinct.
+为避免服务命名冲突，可以为每个网格赋予全局唯一的 **mesh ID**，以确保每个服务的完全限定域名（FQDN）是不同的。
 
-When federating two meshes that do not share the same
-{{< gloss >}}trust domain{{< /gloss >}}, you must
-{{< gloss "mesh federation">}}federate{{< /gloss >}}
-{{< gloss >}}identity{{< /gloss >}} and **trust bundles** between them. See the
-section on [Multiple Trust Domains](#trust-between-meshes) for an overview.
+联合两个不共享同一{{< gloss "trust domain">}}信任域{{< /gloss >}}的网格时， 必须{{< gloss "mesh federation">}}
+联合{{< /gloss >}}身份标识和它们之间的 **trust bundles**。有关概述请参考[多信任域](#trust-between-meshes)部分。
 
-## Tenancy models
+## 租户模型{#tenancy-models}
 
-In Istio, a **tenant** is a group of users that share
-common access and privileges to a set of deployed workloads. Generally, you
-isolate the workload instances from multiple tenants from each other through
-network configuration and policies.
+在 Istio 中，**租户**是一组用户，它们共享对一组已部署工作负载的公共访问权限。通常，您可以通过网络配置和策略将工作负载实例与多个租户彼此隔离。
 
-You can configure tenancy models to satisfy the following organizational
-requirements for isolation:
+您可以配置租户模型以满足以下组织隔离要求：
 
-- Security
-- Policy
-- Capacity
-- Cost
-- Performance
+- 安全
+- 策略
+- 容量(Capacity)
+- 成本(Cost)
+- 性能
 
-Istio supports two types of tenancy models:
+Istio 支持两种类型的租赁模型：
 
-- [Namespace tenancy](#namespace-tenancy)
-- [Cluster tenancy](#cluster-tenancy)
+- [命名空间租赁](#namespace-tenancy)
+- [集群租赁](#cluster-tenancy)
 
-### Namespace tenancy
+### 命名空间租赁{#namespace-tenancy}
 
-Istio uses [namespaces](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-namespace)
-as a unit of tenancy within a mesh. Istio also works in environments that don't
-implement namespace tenancy. In environments that do, you can grant a team
-permission to deploy their workloads only to a given namespace or set of
-namespaces. By default, services from multiple tenant namespaces can communicate
-with each other.
+Istio 使用[命名空间](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-namespace)作为网格内的租赁单位。
+Istio 还可以在未实现命名空间租用的环境中使用。在这样的环境中，您可以授予团队权限，以仅允许其将工作负载部署到给定的或一组命名空间。
+默认情况下，来自多个租赁命名空间的服务可以相互通信。
 
 {{< image width="50%"
     link="iso-ns.svg"
-    alt="A service mesh with two isolated namespaces"
-    title="Isolated namespaces"
-    caption="A service mesh with two isolated namespaces"
+    alt="具有两个隔离的命名空间的服务网格"
+    title="独立命名空间"
+    caption="具有两个隔离的命名空间的服务网格"
     >}}
 
-To improve isolation, you can selectively choose which services to expose to
-other namespaces. You can configure authorization policies for exposed services
-to restrict access to only the appropriate callers.
+为提高隔离性，您可以有选择地将部分服务公开给其他命名空间。您可以为公开服务配置授权策略，以将访问权限仅交给适当的调用者。
 
 {{< image width="50%"
     link="exp-ns.svg"
-    alt="A service mesh with two namespaces and an exposed service"
-    title="Namespaces with an exposed service"
-    caption="A service mesh with two namespaces and an exposed service"
+    alt="具有两个命名空间和一个公开服务的服务网格"
+    title="具有两个命名空间和一个公开服务的服务网格"
+    caption="具有两个命名空间和一个公开服务的服务网格"
     >}}
 
-When using [multiple clusters](#multiple-clusters), the namespaces in each
-cluster sharing the same name are considered the same namespace. For example,
-`Service B` in the `foo` namespace of `cluster-1` and `Service B` in the
-`foo` namespace of `cluster-2` refer to the same service, and Istio merges their
-endpoints for service discovery and load balancing.
+在[多集群](#multiple-clusters)场景中，不同集群中名字相同的命名空间，被认为是相同的命名空间。
+例如，集群 `cluster-1` 中命名空间 `foo` 下的服务 `Service B` 与集群 `cluster-2` 中命名空间 `foo` 下的服务 `Service B`，
+指向的是相同的服务，Istio 会合并这些服务端点，用于服务发现和负载均衡。
 
 {{< image width="50%"
     link="cluster-ns.svg"
-    alt="A service mesh with two clusters with the same namespace"
-    title="Multicluster namespaces"
-    caption="A service mesh with clusters with the same namespace"
+    alt="具有相同命名空间的多集群服务网格"
+    title="多集群命名空间"
+    caption="具有相同命名空间的多集群服务网格"
     >}}
 
-### Cluster tenancy
+### 集群租户模型{#cluster-tenancy}
 
-Istio supports using clusters as a unit of tenancy. In this case, you can give
-each team a dedicated cluster or set of clusters to deploy their
-workloads. Permissions for a cluster are usually limited to the members of the
-team that owns it. You can set various roles for finer grained control, for
-example:
+Istio 还支持使用集群作为租赁单位。在这种情况下，您可以为每个团队提供一个专用集群或一组集群来部署其工作负载。
+集群的权限通常仅限于拥有它的团队和成员。您可以设置各种角色以实现更精细的控制，例如：
 
-- Cluster administrator
-- Developer
+- 集群管理员
+- 开发者
 
-To use cluster tenancy with Istio, you configure each cluster as an independent
-mesh. Alternatively, you can use Istio to implement a group of clusters as a
-single tenant. Then, each team can own one or more clusters, but you configure
-all their clusters as a single mesh. To connect the meshes of the various teams
-together, you can federate the meshes into a multi-mesh deployment.
+要在 Istio 中使用集群租用，请将每个集群配置为一个独立的网格。或者，您可以使用 Istio 将一组集群实现为单一租户。
+然后，每个团队可以拥有一个或多个集群，但是您可以将所有集群配置为单一网格。
+要将各个团队的网格连接在一起，可以将网格联合成一个多网格部署。
 
 {{< image width="50%"
     link="cluster-iso.svg"
-    alt="Two isolated service meshes with two clusters and two namespaces"
-    title="Cluster isolation"
-    caption="Two isolated service meshes with two clusters and two namespaces"
+    alt="具有两个集群和两个命名空间的隔离的服务网格"
+    title="集群隔离"
+    caption="具有两个集群和两个命名空间的隔离的服务网格"
     >}}
 
-Since a different team or organization operates each mesh, service naming
-is rarely distinct. For example, the `mysvc` in the `foo` namespace of
-`cluster-1` and the `mysvc` service in the `foo` namespace of
-`cluster-2` do not refer to the same service. The most common example is the
-scenario in Kubernetes where many teams deploy their workloads to the `default`
-namespace.
+由于每个网格都由不同的团队或组织来管理，因此服务命名不需要担心冲突。
+例如，集群 `cluster-1` 中命名空间 `foo` 下的服务 `mysvc` 与集群 `cluster-2` 中命名空间 `foo` 下的服务 `mysvc`，
+不是指相同的服务。最常见的示例是在 Kubernetes 中的场景，其中许多团队将其工作负载部署到 `default` 命名空间。
 
-When each team has their own mesh, cross-mesh communication follows the
-concepts described in the [multiple meshes](#multiple-meshes) model.
+当每个团队都有自己的网格时，跨网格通信遵循[多网格模型](#multiple-meshes)中描述的概念。
