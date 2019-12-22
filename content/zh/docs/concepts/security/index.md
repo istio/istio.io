@@ -54,13 +54,9 @@ Istio 中的安全性涉及多个组件：
 
 ## Istio 身份{#istio-identity}
 
-身份是任何安全基础架构的基本概念。在服务间通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。
-在客户端，根据[安全命名](/zh/docs/concepts/security/#secure-naming)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。
-在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#authorization-policy)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费他们使用并拒绝任何未能支付账单的客户访问服务。
+身份是任何安全基础架构的基本概念。在服务间通信开始时，双方必须与其身份信息交换凭证以用于相互认证目的。在客户端，根据[安全命名](/zh/docs/concepts/security/#secure-naming)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#authorization-policy)确定客户端可以访问哪些信息，审核谁在什么时间访问了什么，根据服务向客户收费并拒绝任何未能支付账单的客户访问服务。
 
-在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。
-这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。
-在没有此类身份的平台上，Istio 可以使用可以对服务实例进行分组的其他身份，例如服务名称。
+在 Istio 身份模型中，Istio 使用一流的服务标识来确定服务的身份。这为表示人类用户，单个服务或一组服务提供了极大的灵活性和粒度。在没有此类身份的平台上，Istio 可以使用可以对服务实例进行分组的其他身份，例如服务名称。
 
 不同平台上的 Istio 服务标识：
 
@@ -70,7 +66,7 @@ Istio 中的安全性涉及多个组件：
 
 - **GCP**： GCP 服务帐户
 
-- **AWS**： AWS IAM 用户/角色 帐户
+- **AWS**： AWS IAM 用户/角色帐户
 
 - **本地（非 Kubernetes）**： 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
 
@@ -80,8 +76,7 @@ Istio 中的安全性涉及多个组件：
 
 [SPIFFE](https://spiffe.io/) 标准提供了一个框架规范，该框架能够跨异构环境引导和向服务发布身份。
 
-Istio 和 SPIFFE 共享相同的身份文件：[SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md)（SPIFFE 可验证身份证件）。
-例如，在 Kubernetes 中，X.509 证书的 URI 字段格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`。
+Istio 和 SPIFFE 共享相同的身份文件：[SVID](https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md)（SPIFFE 可验证身份证件）。例如，在 Kubernetes 中，X.509 证书的 URI 字段格式为 `spiffe://<domain>/ns/<namespace>/sa/<serviceaccount>`。
 这使 Istio 服务能够建立和接受与其他 SPIFFE 兼容系统的连接。
 
 Istio 安全性和 [SPIRE](https://spiffe.io/spire/)，它是 SPIFFE 的实现，在 PKI 实现细节上有所不同。
@@ -90,18 +85,15 @@ Istio 提供更全面的安全解决方案，包括身份验证、授权和审�
 
 ## PKI{#PKI}
 
-Istio PKI 建立在 Istio Citadel 之上，可为每个工作负载安全地提供强大的工作负载标识。
-Istio 使用 X.509 证书来携带 [SPIFFE](https://spiffe.io/) 格式的身份。
-PKI 还可以大规模自动化密钥和证书轮换。
+Istio PKI 建立在 Istio Citadel 之上，可为每个工作负载安全地提供强大的工作负载标识。Istio 使用 X.509 证书来携带 [SPIFFE](https://spiffe.io/) 格式的身份。PKI 还可用于大规模自动化密钥和证书轮换。
 
-Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。
-目前，我们为每个方案使用不同的证书密钥配置机制。
+Istio 支持在 Kubernetes pod 和本地计算机上运行的服务。目前，我们为每个方案使用不同的证书密钥配置机制。
 
 ### Kubernetes 方案{#Kubernetes-scenario}
 
 1. Citadel 监视 Kubernetes `apiserver`，为每个现有和新的服务帐户创建 SPIFFE 证书和密钥对。Citadel 将证书和密钥对存储为 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/)。
 
-1. 创建 pod 时，Kubernetes 会根据其服务帐户通过 [Kubernetes secret volume](https://kubernetes.io/docs/concepts/storage/volumes/#secret) 将证书和密钥对挂载到 pod。
+1. 创建 pod 时，Kubernetes 会根据其服务帐户通过 [Kubernetes secret volume](https://kubernetes.io/docs/concepts/storage/volumes/#secret) 将证书和密钥对挂载到 pod 上。
 
 1. Citadel 监视每个证书的生命周期，并通过重写 Kubernetes secret 自动轮换证书。
 
@@ -140,28 +132,28 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 1. 上述 CSR 过程会定期重复进行证书和密钥轮换。
 
 {{< idea >}}
-使用节点代理调试端点可以查看节点代理当前正在为其客户端代理提供服务的  secrets。访问代理程序端口 `8080` 上的 `/debug/sds/workload` 以获取当前工作负载 secrets，或访问 `/debug/sds/gateway` 以获取当前网关 secrets。
+使用节点代理调试端点可以查看节点代理当前正在为其客户端代理提供服务的  secret。访问代理程序 `8080` 端口上的 `/debug/sds/workload` 以获取当前工作负载 secret，或访问 `/debug/sds/gateway` 以获取当前网关 secret。
 {{< /idea >}}
 
 ## 认证{#authentication}
 
 Istio 提供两种类型的身份验证：
 
-- **传输身份验证**，也称为**服务到服务身份验证**：验证建立连接的直接客户端。
+- **传输身份验证**，也称为**服务间身份验证**：验证建立连接的直接客户端。
   Istio 提供 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
   您可以轻松打开此功能，而无需更改服务代码。这个解决方案：
 
     - 为每个服务提供强大的身份，表示其角色，以实现跨群集和云的互操作性。
-    - 保护服务到服务通信和最终用户到服务通信。
+    - 保护服务到服务通信和最终用户到服务的通信。
     - 提供密钥管理系统，以自动执行密钥和证书生成，分发和轮换。
 
-- **来源身份认证**，也称为**最终用户身份验证**：验证作为最终用户或设备发出请求的原始客户端。Istio 通过 JSON Web Token（JWT）验证和 [ORY Hydra](https://www.ory.sh)、[Keycloak](https://www.keycloak.org)，[Auth0](https://auth0.com/)、[Firebase Auth](https://firebase.google.com/docs/auth/)、[Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
+- **来源身份认证**，也称为**最终用户身份验证**：验证作为最终用户或设备发出请求的原始客户端。Istio 通过 JSON Web Token（JWT）验证和 [ORY Hydra](https://www.ory.sh)、[Keycloak](https://www.keycloak.org)、[Auth0](https://auth0.com/)、[Firebase Auth](https://firebase.google.com/docs/auth/)、[Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect) 和自定义身份验证来简化开发人员体验，并且轻松实现请求级别的身份验证。
 
-在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 `Istio 配置存储`中。 Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在宽容模式下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
+在这两种情况下，Istio 都通过自定义 Kubernetes API 将身份认证策略存储在 Istio 配置存储中。Pilot 会在适当的时候为每个代理保持最新状态以及密钥。此外，Istio 支持在宽容模式（permissive mode）下进行身份验证，以帮助您了解策略更改在其生效之前如何影响您的安全状态。
 
 ### 双向 TLS 认证{#mutual-TLS-authentication}
 
-Istio 隧道通过客户端和服务器端进行服务到服务通信 [Envoy 代理](https://envoyproxy.github.io/envoy/)。为了使客户端通过双向 TLS 调用服务端，请遵循以下步骤：
+Istio 隧道通过客户端和服务器端进行服务间（service-to-service）通信 [Envoy 代理](https://envoyproxy.github.io/envoy/)。为了使客户端通过双向 TLS 调用服务端，请遵循以下步骤：
 
 1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
 
@@ -177,7 +169,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 在运维人员希望将服务移植到启用了双向 TLS 的 Istio 上时，许多非 Istio 客户端和非 Istio 服务端通信时会产生问题。通常情况下，运维人员无法同时为所有客户端安装 Istio sidecar，甚至没有这样做的权限。即使在服务端上安装了 Istio sidecar，运维人员也无法在不中断现有连接的情况下启用双向 TLS。
 
-启用宽容模式后，服务同时接受纯文本和双向 TLS 流量。这个模式为入门提供了极大的灵活性。服务中安装的 Istio sidecar 立即接受双向 TLS 流量而不会打断现有的纯文本流量。因此，运维人员可以逐步安装和配置客户端 Istio sidecars 发送双向 TLS 流量。一旦客户端配置完成，运维人员便可以将服务端配置为仅 TLS 模式。更多信息请访问[双向 TLS 迁移向导](/zh/docs/tasks/security/authentication/mtls-migration)。
+启用宽容模式后，服务可以同时接受纯文本和双向 TLS 流量。这个模式为入门提供了极大的灵活性。服务中安装的 Istio sidecar 立即接受双向 TLS 流量而不会打断现有的纯文本流量。因此，运维人员可以逐步安装和配置客户端 Istio sidecar 发送双向 TLS 流量。一旦客户端配置完成，运维人员便可以将服务端配置为仅 TLS 模式。更多信息请访问[双向 TLS 迁移向导](/zh/docs/tasks/security/authentication/mtls-migration)。
 
 #### 安全命名{#secure-naming}
 
@@ -191,7 +183,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 ### 认证架构{#authentication-architecture}
 
-您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 `Istio Config Store`。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#PKI)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
+您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#PKI)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
 发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
@@ -246,14 +238,14 @@ Istio 可以在命名空间范围或网络范围存储中存储身份认证策�
       - mtls: {}
     {{< /text >}}
 
-命名空间范围存储中的策略只能影响同一命名空间中的服务。网格范围内的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网状范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets:` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#target-selectors)中找到更多信息。
+命名空间范围存储中的策略只能影响同一命名空间中的服务。网格范围内的策略可以影响网格中的所有服务。为防止冲突和滥用，只能在网格范围存储中定义一个策略。该策略必须命名为 `default` 并且有一个空的 `targets:` 部分。您可以在我们的[目标选择器部分](/zh/docs/concepts/security/#target-selectors)中找到更多信息。
 
 #### 目标选择器{#target-selectors}
 
 身份认证策略的目标指定策略适用的服务。以下示例展示的是一个 `targets:` 部分，指定该策略适用于：
 
 - 任何端口上的 `product-page` 服务。
-- 端口 `9000` 上的评论服务。
+- `9000` 端口上的 reviews 服务。
 
 {{< text yaml >}}
 targets:
@@ -297,7 +289,7 @@ peers:
 
 #### 来源身份认证{#origin-authentication}
 
-`origins:` 部分定义了原始身份验证支持的身份验证方法和相关参数。Istio 仅支持 JWT 原始身份验证。但是，策略可以列出不同发行者的多个 JWT。与传输身份验证类似，只有一种列出的方法必须满足身份验证才能通过。
+`origins:` 部分定义了原始身份验证支持的身份验证方法和相关参数。Istio 仅支持 JWT 原始身份验证。但是，策略可以列出不同发行者的多个 JWT。与传输身份验证类似，要想通过身份验证必须通过其中的一个。
 
 以下示例策略为原始身份验证指定了一个 `origin:` 部分，该部分接受 Google 发布的 JWT。路径的 JWT 身份验证 `/health` 已禁用。
 
@@ -369,7 +361,7 @@ Istio 的授权功能为 Istio 网格中的工作负载提供网格级别、命�
 
 ### 授权策略{#authorization-policy}
 
-要配置 Istio 授权策略，请创建一个 [`AuthorizationPolicy` resource](/zh/docs/reference/config/security/authorization-policy/)。
+要配置 Istio 授权策略，请创建一个 [`AuthorizationPolicy` 资源](/zh/docs/reference/config/security/authorization-policy/)。
 
 授权策略包括选择器和规则列表。
 选择器指定策略所适用的**目标**，而规则指定什么**条件**下允许**谁**做**什么**。
