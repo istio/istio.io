@@ -15,18 +15,6 @@ microservice.
 
 ## Deploy the application and a testing pod
 
-1.  Set the value of the `NAMESPACE` environmental variable to `tutorial`:
-
-    {{< text bash >}}
-    $ export NAMESPACE=tutorial
-    {{< /text >}}
-
-1.  Set the value of the `KUBECONFIG` environmental variable to the path of file you created in the previous module:
-
-    {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
-    {{< /text >}}
-
 1.  Set the `MYHOST` environmental variable to hold the URL of the application:
 
     {{< text bash >}}
