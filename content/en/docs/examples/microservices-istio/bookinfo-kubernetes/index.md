@@ -25,7 +25,7 @@ microservice.
 1.  Skim [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml).
     This is the Kubernetes deployment spec of the app. Notice the services and the deployments.
 
-1.  Deploy the application to your Kubernetes cluster on the `tutorial` namespace:
+1.  Deploy the application to your Kubernetes cluster:
 
     {{< text bash >}}
     $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
