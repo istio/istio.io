@@ -17,6 +17,7 @@ keywords: [traffic-management,ingress,https,http]
 
 1.  定义一个入口网关，在 `servers:` 配置中配置 `80` 和 `443` 端口。
     在对端口 `443` 的配置终确定 `tls:` 的 `mode:` 配置为 `PASSTHROUGH`，这配置网关直接透传流量而且不终止 TLS。
+
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -79,7 +80,7 @@ keywords: [traffic-management,ingress,https,http]
     {{< /text >}}
 
 1.  创建一个服务，并且为 `localhost` 服务配置目的规则。在下一步中，需要这个服务作为网格内部应用流量到外部服务的目的地，而且要隔断从网格内部的流量。在此例中把 Istio 用作外部应用和外部服务间的代理。
-   
+
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
