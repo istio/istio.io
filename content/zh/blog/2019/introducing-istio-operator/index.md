@@ -6,10 +6,9 @@ subtitle:
 attribution: Martin Ostrowski (Google), Frank Budinsky (IBM)
 keywords: [install,configuration,istioctl,operator]
 target_release: 1.4
-
 ---
 
-Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) 提供了一种将人类操作知识编码到软件中的模式，是一种简化软件基础结构组件管理的流行方法。Istio 是自动 operator 的理想选择，因为它的管理具有挑战性。
+Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) 提供了一种将人类运维知识编码到软件中的模式，是一种简化软件基础结构组件管理的流行方法。Istio 是自动 operator 的理想选择，因为它的管理具有挑战性。
 
 到目前为止，[Helm](https://github.com/helm/helm) 一直是安装和升级 Istio 的主要工具。Istio 1.4 引入了一种新的[使用{{< istioctl >}}安装](/zh/docs/setup/install/istioctl/)方法。这种新的安装方法建立在 Helm 的优势之上，并添加了以下内容:
 
@@ -18,7 +17,7 @@ Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/oper
 - 不在 API 中的小型定制不需要更改 chart 或 API
 - 版本特定的升级 hook 可以很容易和稳健地实现
 
-[Helm 安装](/zh/docs/setup/install/helm/)方法正在弃用中。从 Istio 1.4 升级到一个默认没有安装Helm的版本也会被一个新的[{{< istioctl >}} 升级特性](/zh/docs/setup/upgrade/istioctl-upgrade/)所取代。
+[Helm 安装](/zh/docs/setup/install/helm/)方法正在弃用中。从 Istio 1.4 升级到一个默认没有安装 Helm 的版本也会被一个新的[{{< istioctl >}} 升级特性](/zh/docs/setup/upgrade/istioctl-upgrade/)所取代。
 
 新的 `istioctl` 安装命令使用一个[自定义资源](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)来配置安装。自定义资源是新的 Istio operator 实现的一部分，该实现旨在简化安装、升级和复杂的 Istio 配置更改等常见管理任务。安装和升级的验证和检查与工具紧密集成，以防止常见错误并简化故障排除。
 
