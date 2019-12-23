@@ -20,6 +20,7 @@ weight: 10
 - **Added** experimental support for [authorization policy trust domain migration](/docs/tasks/security/authorization/authz-td-migration/).
 - **Added** experimental [DNS certificate management](/blog/2019/dns-cert/) to securely provision and manage DNS certificates signed by the Kubernetes CA.
 - **Improved** Citadel to periodically check and rotate the expired root certificate when running in self-sign CA mode.
+- **Updated** JWT authentication to treat [space-delimited claim](https://github.com/istio/istio/issues/13565) as a list of claims.
 
 ## Telemetry
 
