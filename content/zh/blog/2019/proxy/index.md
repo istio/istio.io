@@ -7,7 +7,7 @@ attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,ingress,https,http]
 ---
 
-在网格内如何配置一个入口网关来把内部服务暴露出去，让外部可以访问，在这两篇文章中有介绍[控制入口流量](/zh/docs/tasks/traffic-management/ingress/ingress-control/)和[无 TLS 终止的入口网关](/zh/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/)。可以是 HTTP 服务 或者 HTTPS 服务。如果是 HTTPS，网关透传流量，不会终止 TLS。
+在网格内如何配置一个入口网关来把内部服务暴露出去，让外部可以访问，在这两篇文章中有介绍[控制入口流量](/zh/docs/tasks/traffic-management/ingress/ingress-control/)和[无 TLS 终止的入口网关](/zh/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/)。这些服务可以是 HTTP 或者 HTTPS。如果是 HTTPS，网关会透传流量，而不终止 TLS。
 
 这篇博客介绍如何使用 Istio 的入口网关机制来访问外部服务，而不是网格内应用。这样，Istio 整个作为一个代理服务，具有可观测性、流量管理和策略执行的附加价值。
 
