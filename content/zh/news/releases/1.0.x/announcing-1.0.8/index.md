@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.0.8
+title: Istio 1.0.8 发布公告
 linktitle: 1.0.8
-subtitle: Patch Release
-description: Istio 1.0.8 patch release.
+subtitle: 补丁发布
+description: Istio 1.0.8 补丁发布。
 publishdate: 2019-06-07
 release: 1.0.8
 aliases:
@@ -12,14 +12,14 @@ aliases:
     - /zh/news/announcing-1.0.8
 ---
 
-We're pleased to announce the availability of Istio 1.0.8. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.0.8 现已正式发布。下面是更新详情。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix issue where Citadel could generate a new root CA if it cannot contact the Kubernetes API server, causing mutual TLS verification to incorrectly fail ([Issue 14512](https://github.com/istio/istio/issues/14512)).
+- 修复了 Citadel 如果无法联系 Kubernetes API 服务器可能会生成新的根 CA 的问题，该问题会导致双向 TLS 验证失败（[Issue 14512](https://github.com/istio/istio/issues/14512)）。
 
-## Small enhancements
+## 小的改进{#small-enhancements}
 
-- Update Citadel's default root CA certificate TTL from 1 year to 10 years.
+- 将 Citadel 默认根 CA 证书的 TTL 从 1 年更新为 10 年。
