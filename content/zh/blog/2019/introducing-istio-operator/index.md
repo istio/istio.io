@@ -50,7 +50,7 @@ spec:
     enabled: false
 {{< /text >}}
 
-## 通过{{< istioctl >}}安装{#install-with-Istio-ctl}
+## 通过{{< istioctl >}}安装{#install-with-Istio}
 
 使用 Istio operator API 的推荐方法是通过一组新的 `istioctl` 命令。例如，要在集群中安装 Istio：
 
