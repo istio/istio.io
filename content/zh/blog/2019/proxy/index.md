@@ -240,7 +240,7 @@ keywords: [traffic-management,ingress,https,http]
     [2019-01-31T13:40:11.076Z] "- - -" 0 - 589 17798 1644 - "-" "-" "-" "-" "172.217.31.132:443" outbound|443||edition.cnn.com 172.30.230.33:54508 172.30.230.33:443 10.127.220.75:49467 edition.cnn.com
     {{< /text >}}
 
-## 清除 {#cleanup}
+## 清除{#cleanup}
 
 删除网关、虚拟服务和服务入口：
 
