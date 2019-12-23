@@ -38,7 +38,7 @@ Mixer 是高度模块化和可扩展的组件。它的主要功能之一是抽�
 使 Istio 的其余部分可以不关注这些后端。
 
 Mixer 处理不同基础架构后端的灵活性来自其通用插件模型。
-每个插件都被称为*适配器*，它们允许 Mixer 与提供基础功能（例如日志记录、监视、配额、ACL 检查等）的不同基础架构后端进行交互。运行时使用的适配器的确切集合是通过配置确定的，可以轻松扩展以针对新的或定制的基础架构后端。
+每个插件都被称为 *适配器* ，它们允许 Mixer 与提供基础功能（例如日志记录、监视、配额、ACL 检查等）的不同基础架构后端进行交互。运行时使用的适配器的确切集合是通过配置确定的，可以轻松扩展以针对新的或定制的基础架构后端。
 
 {{< image width="80%" link="./adapters.svg"
     alt="Showing Mixer with adapters."
@@ -103,15 +103,15 @@ Istio 的策略和遥测功能通过通用模型进行配置，该模型旨在�
 
 控制策略和遥测功能涉及配置三种类型的资源：
 
-* 配置一组 *handlers*，用来确定正在使用的适配器集及其运行方式。如 handler 配置的示例：为 Statsd 后端提供带有 IP 地址的 `statsd` 适配器。
+* 配置一组 *handlers* ，用来确定正在使用的适配器集及其运行方式。如 handler 配置的示例：为 Statsd 后端提供带有 IP 地址的 `statsd` 适配器。
 
-* 配置一组 *instances*，用来描述如何将请求属性映射到适配器输入中。
+* 配置一组 *instances* ，用来描述如何将请求属性映射到适配器输入中。
 Instances 代表一个或多个适配器将在其上操作的数据块。例如。操作员可以从如 `destination.service.host` 和 `response.code` 属性中生成 `requestcount` 指标实例。
 
-* 配置一组 *rules*，用来描述何时调用特定的适配器以及给定某个 instance。
+* 配置一组 *rules* ，用来描述何时调用特定的适配器以及给定某个 instance。
 Rules 由 *match* 表达式和 *actions* 组成。该匹配表达式控制何时调用适配器，而 action 确定提供适配器的实例集。例如，rule 可能会将生成的 `requestcount` 指标实例发送到 `statsd` 适配器。
 
-配置是基于 *adapters* 和 *templates*：
+配置是基于 *adapters* 和 *templates* ：
 
 * **Adapters** 封装了 Mixer 与特定基础架构后端交互所需的逻辑。
 

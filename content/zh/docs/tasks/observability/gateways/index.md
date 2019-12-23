@@ -13,7 +13,7 @@ aliases:
 
 配置对遥测插件的远程访问有多种不同的方式。
 该任务涵盖了两种基本访问方式：安全（通过 HTTPS）和不安全（通过 HTTP）。
-对于任何生产或敏感环境，*强烈建议*通过安全方式访问。
+对于任何生产或敏感环境，*强烈建议* 通过安全方式访问。
 不安全访问易于设置，但是无法保护在集群外传输的任何凭据或数据。
 
 ### 方式 1：安全访问（HTTPS）{#option-one-secure-access-HTTPS}
@@ -23,7 +23,7 @@ aliases:
 您也可以使用自签名证书。访问[配置使用 SDS 通过 HTTPS 访问的安全网关任务](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/)以了解使用自签名证书访问集群内服务的详情。
 
 {{< warning >}}
-本方式*只*涵盖了传输层的安全。您还应该配置遥测插件，使其在外部公开时需要身份验证。
+本方式 *只* 涵盖了传输层的安全。您还应该配置遥测插件，使其在外部公开时需要身份验证。
 {{< /warning >}}
 
 1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以自动管理证书。

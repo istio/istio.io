@@ -3,7 +3,7 @@ title: 如何查看 Mixer 配置？
 weight: 10
 ---
 
-*instances*、*handlers* 和 *rules* 的相关配置以 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 的方式进行存储。其配置可以使用 `kubectl` 访问 Kubernetes API server 获得。
+*instances* 、*handlers* 和 *rules* 的相关配置以 Kubernetes [CRD](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 的方式进行存储。其配置可以使用 `kubectl` 访问 Kubernetes API server 获得。
 
 ## Rules
 
