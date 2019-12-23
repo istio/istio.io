@@ -215,7 +215,7 @@ keywords: [traffic-management,ingress,https,http]
     $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'httpbin.org'
     {{< /text >}}
 
-1.  使用如下方法检索入口服务的日志：
+1.  检索日志找到类似如下内容：
 
     {{< text plain >}}
     [2019-01-31T14:40:18.645Z] "GET /status/418 HTTP/1.1" 418 - 0 135 187 186 "10.127.220.75" "curl/7.54.0" "28255618-6ca5-9d91-9634-c562694a3625" "httpbin.org" "34.232.181.106:80" outbound|80||httpbin.org - 172.30.230.33:80 10.127.220.75:52077 -
@@ -234,7 +234,7 @@ keywords: [traffic-management,ingress,https,http]
     $ kubectl logs -l istio=ingressgateway -c istio-proxy -n istio-system | grep 'edition.cnn.com'
     {{< /text >}}
 
-1. 使用如下方法检索入口服务的日志：
+1. 检索日志找到类似如下内容：
 
     {{< text plain >}}
     [2019-01-31T13:40:11.076Z] "- - -" 0 - 589 17798 1644 - "-" "-" "-" "-" "172.217.31.132:443" outbound|443||edition.cnn.com 172.30.230.33:54508 172.30.230.33:443 10.127.220.75:49467 edition.cnn.com
