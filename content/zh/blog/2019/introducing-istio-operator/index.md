@@ -22,7 +22,7 @@ Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/oper
 
 新的 `istioctl` 安装命令使用一个[自定义资源](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)来配置安装。自定义资源是新的 Istio operator 实现的一部分，该实现旨在简化安装、升级和复杂的 Istio 配置更改等常见管理任务。安装和升级的验证和检查与工具紧密集成，以防止常见错误并简化故障排除。
 
-## Operator API{#the-operator-api}
+## Operator API{#the-Operator-API}
 
 每个 operator 实现都需要一个[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 来定义它的自定义资源，即它的API。Istio 的 operator API 由 [`IstioControlPlane` CRD](/zh/docs/reference/config/istio.operator.v1alpha12.pb/) 定义，它是由一个 [`IstioControlPlane` 原型](https://github.com/istio/operator/blob/{{< source_branch_name >}}/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)生成的。API 支持所有 Istio 当前的[配置文件](/zh/docs/setup/additional-setup/config-profiles/) ，通过使用一个字段来选择 profile。例如，下面的 `IstioControlPlane` 资源使用 `demo` profile 配置 Istio：
 
@@ -50,7 +50,7 @@ spec:
     enabled: false
 {{< /text >}}
 
-## 通过{{< istioctl >}}安装{#installing-with-istioctl}
+## 通过{{< istioctl >}}安装{#installing-with-istio-ctl}
 
 使用 Istio operator API 的推荐方法是通过一组新的 `istioctl` 命令。例如，要在集群中安装 Istio：
 
@@ -80,7 +80,7 @@ $ istioctl manifest apply --set telemetry.enabled=false
 
 Operator 实现使用 Kubernetes controller 来持续监控它们的自定义资源并应用相应的配置更改。Istio controller 监控一个 `IstioControlPlane` 资源，并通过更新相应集群中的 Istio 安装配置来响应更改。
 
-在 1.4 版中，Istio controller 处于开发的 alpha 阶段，没有完全集成到 `istioctl` 中。但是，可以使用 `kubectl` 命令来做[实验](/zh/docs/setup/install/standone-operator/)。例如，要将 controller 和默认版本的 Istio 安装到集群中，请运行以下命令:
+在 1.4 版中，Istio controller 处于开发的 alpha 阶段，没有完全集成到 `istioctl` 中。但是，可以使用 `kubectl` 命令来做[实验](/zh/docs/setup/install/standalone-operator/)。例如，要将 controller 和默认版本的 Istio 安装到集群中，请运行以下命令:
 
 {{< text bash >}}
 $ kubectl apply -f https://<repo URL>/operator.yaml
