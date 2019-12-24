@@ -18,7 +18,7 @@ keywords: [contribute]
 
 当您对代码或配置文件中的原始内容进行引用时，不要随意调整大小写，请确保与其原始风格一致。
 在被引用的内容周围需使用反引号 \`\` 包括，以明确表示内容原自代码或配置。例如，使用 `IstioRoleBinding`，而不是 `Istio Role Binding` 或 `istio role binding`。
-		
+
 如果您不是直接引用值或代码，请使用常规的大写字母，例如，"The Istio role binding configuration takes place
 in a YAML file."。
 
@@ -41,12 +41,12 @@ in a YAML file."。
 | 点击 **Fork**。 | 点击 "Fork"。
 | 选择 **Other**。| 选择 'Other'。
 
-### 使用_斜体_书写定义或专用术语{#use-italics-to-define-or-introduce-new-terms}
+### 使用斜体书写定义或专用术语{#use-italics-to-define-or-introduce-new-terms}
 
 | 正确做法                                    | 错误做法
 |-------------------------------------------|---
-| _集群_是一组节点……          | "集群"是一组节点……
-| 这些组件构成_控制平面_。 | 这些组件构成**控制平面**。
+| *集群* 是一组节点……          | "集群"是一组节点……
+| 这些组件构成 *控制平面* 。 | 这些组件构成**控制平面**。
 
 ### 使用`代码`风格书写文件名、目录和路径{#use-code-style-for-filenames-directories-and-paths}
 
@@ -67,7 +67,7 @@ in a YAML file."。
 
 | 正确做法                                            | 错误做法
 |-----------------------------------------------------------------|------
-| 在配置文件中设置 `ports` 字段。 | 在配置文件中设置 "ports" 字段。 
+| 在配置文件中设置 `ports` 字段。 | 在配置文件中设置 "ports" 字段。
 | `rule` 字段的值是一个 `Rule` 对象。 | "rule" 字段的值是一个 `Rule` 对象。
 
 ### 字段 `title:` 的大写规则{#use-title-capitalization-for-title-front-matter}
@@ -157,7 +157,7 @@ in a YAML file."。
 
 ### 创建语义清晰的链接{#create-useful-links}
 
-链接有语义清晰也有不是最佳做法的。如：在 _此处_ 或 _单击此处_ 打开链接的常见做法就是不好的链接示例。 
+链接有语义清晰也有不是最佳做法的。如：在 *此处* 或 *单击此处* 打开链接的常见做法就是不好的链接示例。
 请查看[这篇出色的文章](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021)，
 其中解释了什么是好的超链接，并在创建或查看网站内容时牢记这些准则。
 
@@ -169,7 +169,7 @@ in a YAML file."。
 |------------------------------------------|------
 | 1.4 版本中包括…                | 在 1.4 版本中，我们添加了…
 | Istio 为 … 提供了一项新功能。 | 我们提供了一个新功能……
-| 该页面教您如何使用 Pdd。 | 在此页面中，我们将学习 Pod。
+| 该页面教您如何使用 Pod。 | 在此页面中，我们将学习 Pod。
 
 ### 避免行话和成语{#avoid-jargon-and-idioms}
 
