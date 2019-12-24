@@ -26,9 +26,7 @@ which enables policy checks by default.
 
     If policy enforcement is enabled (`disablePolicyChecks` is false), no further action is needed.
 
-1. Edit the `istio` configmap to enable policy checks.
-
-    Execute the following command from the root Istio directory:
+1. Execute the following command from the root Istio directory:
 
     {{< text bash >}}
     $ istioctl manifest apply --set values.global.disablePolicyChecks=false
