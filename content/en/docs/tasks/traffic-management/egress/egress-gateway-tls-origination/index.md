@@ -509,6 +509,11 @@ to hold the configuration of the NGINX server:
     $ kubectl create secret generic istio-egressgateway-ca-certs --from-file=example.com.crt -n istio-system
     {{< /text >}}
 
+    {{< warning >}}
+    The secrets **must** be named `istio-egressgateway-certs` and `istio-egressgateway-ca-certs` in the `istio-system`
+    namespace to align with the configuration of the Istio default egress gateway used in this task.
+    {{< /warning >}}
+
 1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
 
     {{< text bash >}}
