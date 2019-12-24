@@ -57,15 +57,15 @@ aliases:
 
 新增配置控制 Mixer 的三项功能：
 
-1. 基于 Istio 的属性信息，生成*实例* （本示例中，指的是日志项）。
+1. 基于 Istio 的属性信息，生成 *实例* （本示例中，指的是日志项）。
 
-1. 创建 *handler* （配置好的 Mixer 适配器），处理生成的*实例*。
+1. 创建 *handler* （配置好的 Mixer 适配器），处理生成的 *实例* 。
 
-1. 根据一组*规则*，将*实例*分配给 *handler*。
+1. 根据一组 *规则* ，将 *实例* 分配给 *handler* 。
 
-日志配置文件指示 Mixer 将日志项发送到标准输出。其中使用了三段（或块）配置：*实例*配置，*handler* 配置以及*规则*配置。
+日志配置文件指示 Mixer 将日志项发送到标准输出。其中使用了三段（或块）配置：*实例* 配置，*handler* 配置以及 *规则* 配置。
 
-配置段 `kind: instance` 为生成的日志项（或*实例*）定义了一个模式，名为 `newlog`。实例配置通知 Mixer 如何基于 Envoy 报告的属性信息，为请求生成日志项。
+配置段 `kind: instance` 为生成的日志项（或 *实例* ）定义了一个模式，名为 `newlog`。实例配置通知 Mixer 如何基于 Envoy 报告的属性信息，为请求生成日志项。
 
 参数 `severity` 用于为生成的 `logentry` 标识日志级别。在本示例中，使用了一个字面表达，值为 “warn”。`logentry` *handler* 将把该字面值映射为其支持的日志级别。
 
@@ -73,9 +73,9 @@ aliases:
 
 参数 `variables` 允许运维人员配置应该在每个 `logentry` 中显示的信息。一组表达式负责管理从 Istio 属性值和字面值到构成 `logentry` 对应值的映射关系。在本示例中，每个 `logentry` 实例都包含一个域名 `latency`，其对应着属性 `response.duration` 的值。如果没有已知的 `response.duration` 属性值，则将 `latency` 域值设置为 `0ms`。
 
-配置段 `kind: handler` 定义了一个名为 `newloghandler` 的 *handler*。Handler `spec` 负责配置 `stdio` 编译的适配器代码如何处理接收到的 `logentry` 实例。参数 `severity_levels` 负责管理 `logentry` 的 `severity` 域值如何映射到所支持的日志级别。本示例中，“warn” 映射为日志级别 “WARNING”。参数 `outputAsJson` 指示适配器生成 JSON 格式的日志行。
+配置段 `kind: handler` 定义了一个名为 `newloghandler` 的 *handler* 。Handler `spec` 负责配置 `stdio` 编译的适配器代码如何处理接收到的 `logentry` 实例。参数 `severity_levels` 负责管理 `logentry` 的 `severity` 域值如何映射到所支持的日志级别。本示例中，“warn” 映射为日志级别 “WARNING”。参数 `outputAsJson` 指示适配器生成 JSON 格式的日志行。
 
-配置段 `kind: rule` 定义了一个新*规则*，名为 `newlogstdio`。该规则指示 Mixer 将所有 `newlog` 实例发送给 handler `newloghandler`。由于参数 `match` 被设置为 `true`，该规则对网格中的所有请求都生效。
+配置段 `kind: rule` 定义了一个新 *规则* ，名为 `newlogstdio`。该规则指示 Mixer 将所有 `newlog` 实例发送给 handler `newloghandler`。由于参数 `match` 被设置为 `true`，该规则对网格中的所有请求都生效。
 
 规则规范中的 `match: true` 表达式无需对所有请求配置一个执行规则。删掉 `spec` 中的 `match` 参数等价于设置了 `match: true`。本案例中将其包含在 `spec` 中，是为了说明如何使用 `match` 表达式来控制执行规则。
 

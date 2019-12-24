@@ -1,86 +1,80 @@
 ---
-title: Remotely Accessing Telemetry Addons
-description: This task shows you how to configure external access to the set of Istio telemetry addons.
+title: 远程访问遥测插件
+description: 此任务向您展示如何配置从外部访问 Istio 遥测插件。
 weight: 99
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /zh/docs/tasks/telemetry/gateways/
 ---
 
-This task shows how to configure Istio to expose and access the telemetry addons outside of
-a cluster.
+此任务说明如何配置 Istio 以显示和访问集群外部的遥测插件。
 
-## Configuring remote access
+## 配置远程访问{#configuring-remote-access}
 
-Remote access to the telemetry addons can be configured in a number of different ways. This task covers
-two basic access methods: secure (via HTTPS) and insecure (via HTTP). The secure method is *strongly
-recommended* for any production or sensitive environment. Insecure access is simpler to set up, but
-will not protect any credentials or data transmitted outside of your cluster.
+远程访问遥测插件的方式有很多种。
+该任务涵盖了两种基本访问方式：安全的（通过 HTTPS）和不安全的（通过 HTTP）。
+对于任何生产或敏感环境，*强烈建议* 通过安全方式访问。
+不安全访问易于设置，但是无法保护在集群外传输的任何凭据或数据。
 
-### Option 1: Secure access (HTTPS)
+### 方式 1：安全访问（HTTPS）{#option-one-secure-access-HTTPS}
 
-A server certificate is required for secure access. Follow these steps to install and configure
-server certificates for a domain that you control.
+安全访问需要一个服务器证书。按照这些步骤来为您的域名安装并配置服务器证书。
 
-You may use self-signed certificates instead. Visit our
-[Securing Gateways with HTTPS Using Secret Discovery Service task](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/)
-for general information on using self-signed certificates to access in-cluster services.
+您也可以使用自签名证书。访问[配置使用 SDS 通过 HTTPS 访问的安全网关任务](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/)以了解使用自签名证书访问集群内服务的详情。
 
 {{< warning >}}
-This option covers securing the transport layer *only*. You should also configure the telemetry
-addons to require authentication when exposing them externally.
+本方式 *只* 涵盖了传输层的安全。您还应该配置遥测插件，使其暴露在外部时需要身份验证。
 {{< /warning >}}
 
-1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
+1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以自动管理证书。
 
-1. [Install Istio](/zh/docs/setup/install/istioctl) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
-the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration).
+1. [安装 Istio](/zh/docs/setup/install/istioctl) 到您的集群并启用 `cert-manager` 标志且配置 `istio-ingressgateway` 使用 [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)。
 
-    To install Istio accordingly, use the following installation options:
+    要安装相应的 Istio，使用下列安装选项：
 
     * `--set values.gateways.enabled=true`
     * `--set values.gateways.istio-ingressgateway.enabled=true`
     * `--set values.gateways.istio-ingressgateway.sds.enabled=true`
 
-    To additionally install the telemetry addons, use the following installation options:
+    要额外安装遥测插件，使用下列安装选项：
 
     * Grafana: `--set values.grafana.enabled=true`
     * Kiali: `--set values.kiali.enabled=true`
     * Prometheus: `--set values.prometheus.enabled=true`
     * Tracing: `--set values.tracing.enabled=true`
 
-1. Configure the DNS records for your domain.
+1. 为您的域名配置 DNS 记录。
 
-    1. Get the external IP address of the `istio-ingressgateway`.
+    1. 获取 `istio-ingressgateway` 的外部 IP 地址。
 
         {{< text bash >}}
         $ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
         <IP ADDRESS OF CLUSTER INGRESS>
         {{< /text >}}
 
-    1. Set an environment variable to hold your target domain.
+    1. 设置环境变量保存目标域名：
 
         {{< text bash >}}
         $ TELEMETRY_DOMAIN=<your.desired.domain>
         {{< /text >}}
 
-    1. Point your desired domain at that external IP address via your domain provider.
+    1. 通过您的域名提供商将所需的域名指向该外部 IP 地址。
 
-        The mechanism for achieving this step varies by provider. Here are a few example documentation links:
+        实现此步骤的机制因提供商而异。以下是一些示例文档链接：
 
-        * Bluehost: [DNS Management Add Edit or Delete DNS Entries](https://my.bluehost.com/hosting/help/559)
-        * GoDaddy: [Add an A record](https://www.godaddy.com/help/add-an-a-record-19238)
-        * Google Domains: [Resource Records](https://support.google.com/domains/answer/3290350?hl=en)
-        * Name.com: [Adding an A record](https://www.name.com/support/articles/115004893508-Adding-an-A-record)
+        * Bluehost: [DNS 管理增改删 DNS 条目](https://my.bluehost.com/hosting/help/559)
+        * GoDaddy: [添加 A 记录](https://www.godaddy.com/help/add-an-a-record-19238)
+        * Google Domains: [资源记录](https://support.google.com/domains/answer/3290350?hl=en)
+        * Name.com: [添加 A 记录](https://www.name.com/support/articles/115004893508-Adding-an-A-record)
 
-    1. Verify that the DNS records are correct.
+    1. 验证 DNS 记录无误。
 
         {{< text bash >}}
         $ dig +short $TELEMETRY_DOMAIN
         <IP ADDRESS OF CLUSTER INGRESS>
         {{< /text >}}
 
-1. Generate a server certificate
+1. 生成服务器证书
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -108,16 +102,16 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     certificate.certmanager.k8s.io "telemetry-gw-cert" created
     {{< /text >}}
 
-1. Wait until the server certificate is ready.
+1. 等待服务器证书准备就绪。
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}{end}{end}' && kubectl -n istio-system get certificates -o jsonpath="$JSONPATH"
     telemetry-gw-cert:Ready=True
     {{< /text >}}
 
-1. Apply networking configuration for the telemetry addons.
+1. 应用遥测插件的网络配置。
 
-    1. Apply the following configuration to expose Grafana:
+    1. 应用以下配置以暴露 Grafana：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -178,7 +172,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "grafana" configured
         {{< /text >}}
 
-    1. Apply the following configuration to expose Kiali:
+    1. 应用以下配置以暴露 Kiali：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -239,7 +233,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "kiali" configured
         {{< /text >}}
 
-    1. Apply the following configuration to expose Prometheus:
+    1. 应用以下配置以暴露 Prometheus：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -300,7 +294,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "prometheus" configured
         {{< /text >}}
 
-    1. Apply the following configuration to expose the tracing service:
+    1. 应用以下配置以暴露跟踪服务：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -361,27 +355,27 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "tracing" configured
         {{< /text >}}
 
-1. Visit the telemetry addons via your browser.
+1. 通过浏览器访问这些遥测插件。
 
     * Kiali: `https://$TELEMETRY_DOMAIN:15029/`
     * Prometheus: `https://$TELEMETRY_DOMAIN:15030/`
     * Grafana: `https://$TELEMETRY_DOMAIN:15031/`
     * Tracing: `https://$TELEMETRY_DOMAIN:15032/`
 
-### Option 2: Insecure access (HTTP)
+### 方式 2：不安全访问（HTTP）{#option-two-insecure-access-HTTP}
 
-1. [Install Istio](/zh/docs/setup/install/istioctl) in your cluster with your desired telemetry addons.
+1. [安装 Istio](/zh/docs/setup/install/istioctl) 到您的集群并启用您所需要的遥测插件。
 
-    To additionally install the telemetry addons, use the following installation options:
+    要额外安装这些遥测插件，使用下列安装选项：
 
     * Grafana: `--set values.grafana.enabled=true`
     * Kiali: `--set values.kiali.enabled=true`
     * Prometheus: `--set values.prometheus.enabled=true`
     * Tracing: `--set values.tracing.enabled=true`
 
-1. Apply networking configuration for the telemetry addons.
+1. 应用遥测插件的网络配置。
 
-    1. Apply the following configuration to expose Grafana:
+    1. 应用以下配置以暴露 Grafana：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -437,7 +431,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "grafana" configured
         {{< /text >}}
 
-    1. Apply the following configuration to expose Kiali:
+    1. 应用以下配置以暴露 Kiali：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -493,7 +487,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "kiali" configured
         {{< /text >}}
 
-    1. Apply the following configuration to expose Prometheus:
+    1. 应用以下配置以暴露 Prometheus：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -549,7 +543,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "prometheus" configured
         {{< /text >}}
 
-    1. Apply the following configuration to expose the tracing service:
+    1. 应用以下配置以暴露跟踪服务：
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
@@ -605,16 +599,16 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
         destinationrule.networking.istio.io "tracing" configured
         {{< /text >}}
 
-1. Visit the telemetry addons via your browser.
+1. 通过浏览器访问这些遥测插件。
 
     * Kiali: `http://<IP ADDRESS OF CLUSTER INGRESS>:15029/`
     * Prometheus: `http://<IP ADDRESS OF CLUSTER INGRESS>:15030/`
     * Grafana: `http://<IP ADDRESS OF CLUSTER INGRESS>:15031/`
     * Tracing: `http://<IP ADDRESS OF CLUSTER INGRESS>:15032/`
 
-## Cleanup
+## 清除{#cleanup}
 
-* Remove all related Gateways:
+* 移除所有相关的网关：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete gateway grafana-gateway kiali-gateway prometheus-gateway tracing-gateway
@@ -624,7 +618,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     gateway.networking.istio.io "tracing-gateway" deleted
     {{< /text >}}
 
-* Remove all related Virtual Services:
+* 移除所有相关的 Virtual Services：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete virtualservice grafana-vs kiali-vs prometheus-vs tracing-vs
@@ -634,7 +628,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     virtualservice.networking.istio.io "tracing-vs" deleted
     {{< /text >}}
 
-* If installed, remove the gateway certificate:
+* 如果安装了网关证书，移除它：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete certificate telemetry-gw-cert
