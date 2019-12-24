@@ -10,11 +10,11 @@ aliases:
 [安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。
 而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 直通，而不是对传入请求进行 TLS 终止。
 
-本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。
+本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。
 在接下来的步骤中，你会先在你的 Kubernetes 集群中创建一个 NGINX 服务。
 然后，通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
 
-## 生成客户端和服务端的证书和密钥
+## 生成客户端和服务端的证书和密钥(#Generate-client-and-server-certificates-and-keys)
 
 1. 克隆仓库 <https://github.com/nicholasjackson/mtls-go-example>:
 
@@ -48,7 +48,7 @@ aliases:
     $ popd
     {{< /text >}}
 
-## 部署一个 NGINX 服务
+## 部署一个 NGINX 服务(#deploy-an-nginx-server)
 
 1.  创建一个 Kubernetes 的 [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 资源来保存服务的证书：
 
@@ -176,7 +176,7 @@ aliases:
     ...
     {{< /text >}}
 
-## 配置 ingress gateway
+## 配置 ingress gateway(#configure-an-ingress-gateway)
 
 1.  定义一个 `server` 部分的端口为 443 的 `Gateway`。 注意，`PASSTHROUGH tls mode` 指示 gateway 按原样通过入口流量，而不终止 TLS。
 
@@ -249,7 +249,7 @@ aliases:
       <title>Welcome to nginx!</title>
     {{< /text >}}
 
-## 清除
+## 清除(#cleanup)
 
 1.  删除已创建的 Kubernetes 资源：
 
