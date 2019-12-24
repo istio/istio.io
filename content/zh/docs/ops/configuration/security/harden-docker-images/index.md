@@ -9,8 +9,8 @@ aliases:
 为了简化加固 docker 镜像的过程，Istio 提供了一系列基于[非发行版镜像](https://github.com/GoogleContainerTools/distroless)的镜像
 
 {{< warning >}}
-*非发行版镜像*的工作还在进行中。
-下列镜像尚未支持*非发行版*：
+*非发行版镜像* 的工作还在进行中。
+下列镜像尚未支持 *非发行版* ：
 
 - `proxyproxy`
 - `proxy_debug`
@@ -23,7 +23,7 @@ aliases:
 ## 安装非发行版镜像{#install-distroless-images}
 
 按照[安装步骤](/zh/docs/setup/install/istioctl/)来设置 Istio。
-添加 `--set tag={{< istio_full_version >}}-distroless` 选项以使用*非发行版镜像*。
+添加 `--set tag={{< istio_full_version >}}-distroless` 选项以使用 *非发行版镜像* 。
 
 ## 效果{#benefits}
 

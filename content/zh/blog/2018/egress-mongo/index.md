@@ -709,7 +709,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 有时，您希望将 egress 流量配置为来自同一域的多个主机名，例如到 `*.<your company domain>.com` 中的所有 MongoDB service。
 您不希望创建多个配置项，而是一个用于公司中所有 MongoDB service 的通用配置项。
-要想通过一个配置来控制到所有相同域中的外部服务的访问，您需要使用*通配符*主机。
+要想通过一个配置来控制到所有相同域中的外部服务的访问，您需要使用 *通配符* 主机。
 
 在本节中，您将为通配符域名配置 egress gateway。我在 `composedb.com` 处使用了 MongoDB instance，
 因此为 `*.com` 配置出口流量对我有效（我也可以使用`*.composedb.com`）。
