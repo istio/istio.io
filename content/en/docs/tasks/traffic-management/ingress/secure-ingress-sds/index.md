@@ -586,7 +586,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=k
     $ kubectl delete --ignore-not-found=true virtualservice helloworld-v1
     {{< /text >}}
 
-1.  Delete the directories of the certificates and the repository used to generate them:
+1.  Delete the certificates and keys:
 
     {{< text bash >}}
     $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr helloworld-v1.example.com.crt helloworld-v1.example.com.key helloworld-v1.example.com.csr client.example.com.crt client.example.com.csr client.example.com.key ./new_certificates
