@@ -45,7 +45,7 @@ If you want to enable security on top of the `default` profile, you can set the
 security related configuration parameters:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+$ istioctl manifest apply --set values.global.mtls.enabled=true
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
