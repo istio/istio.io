@@ -1,5 +1,5 @@
 ---
-title: Knative 的 Mixer 适配器
+title: 适用于 Knative 的 Mixer 适配器
 subtitle: 本文演示 Mixer 进程外适配器实现 Knative scale-from-zero 逻辑的具体过程
 description: 本文演示 Mixer 进程外适配器实现 Knative scale-from-zero 逻辑的具体过程。
 publishdate: 2019-09-18
@@ -8,17 +8,17 @@ keywords: [mixer,adapter,knative,scale-from-zero]
 target_release: 1.3
 ---
 
-这篇文章演示了如何使用 [Mixer](/zh/faq/mixer/)把应用逻辑放进 Istio。这篇文章描述了一个 Mixer 适配器，该适配器用简单的代码实现了 Knative scale-from-zero 的逻辑，并且和原有实现的性能相差无几。
+这篇文章演示了如何使用 [Mixer](/zh/faq/mixer/) 把应用逻辑放进 Istio。它描述了一个用简单的代码实现了 Knative scale-from-zero 逻辑的 Mixer 适配器，该适配器和原有实现的性能相差无几。
 
 ## Knative serving{#Knative-serving}
 
-[Knative Serving](https://knative.dev/docs/serving/) 建立在 [Kubernetes](https://kubernetes.io/) 之上来支持 serverless 应用的部署和服务（serving）。一个 serverless 平台的核心功能就是 scale-to-zero，该功能可减少资源使用量和非活动工作负载的成本。当空闲应用收到新请求时，需要一种新的机制来 scale-from-zero。
+[Knative Serving](https://knative.dev/docs/serving/) 基于 [Kubernetes](https://kubernetes.io/) 来支持 serverless 应用的部署和服务（serving）。一个 serverless 平台的核心功能就是 scale-to-zero，该功能可减少非活动工作负载的资源使用量和成本。当空闲应用收到新请求时，需要一种新的机制来 scale-from-zero。
 
 下图表示当前 Knative scale-from-zero 的架构。
 
 {{< image width="60%" link="knative-activator.png" caption="Knative scale-from-zero" >}}
 
-通过使用配置 Istio 中的 `VirtualServices` 和 `DestinationRules` 可以将空闲应用的流量重定向到 **Activator** 组件。当 **Activator** 接受新请求的是时候，它
+通过配置 Istio 中的 `VirtualServices` 和 `DestinationRules` 可以将空闲应用的流量重定向到 **Activator** 组件。当 **Activator** 接受新请求的是时候，它：
 
 1. 缓存进来的请求
 1. 触发 **Autoscaler**
@@ -50,6 +50,6 @@ Istio 的 Mixer 适配器模式使得我们可以用更简单的方式实现原�
 
 ## 总结{#summary}
 
-我将 Knative 原有的参考架构的冷启动（cold-start）时间与新的 Istio Mixer 适配器参考架构进行了比较。结果显示了相似的冷启动时间。使用 Mixer 适配器的实现更加简单。处理基于底层网络的机制是没有必要的，因为这些机制是由 Envoy 处理的。
+我将 Knative 原有的参考架构的冷启动（cold-start）时间与新的 Istio Mixer 适配器参考架构进行了比较。结果显示它们的冷启动时间很接近。使用 Mixer 适配器的实现更加简单。无需处理基于底层网络的机制，因为这些机制是由 Envoy 处理的。
 
-下一步是把这个 Mixer 适配器放到一个特定的 Envoy（Envoy-specific） 过滤器中，该过滤器是在 ingress gateway 内运行。这将进一​​步改善响应时间（不再调用 **Mixer** 和适配器），并消除对 Istio Mixer 的依赖。
+下一步是把这个 Mixer 适配器放到一个特定的 Envoy（Envoy-specific）过滤器中，该过滤器是在 ingress gateway 内运行。这将进一步改善响应时间（不再调用 **Mixer** 和适配器），并消除对 Istio Mixer 的依赖。
