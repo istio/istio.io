@@ -13,7 +13,7 @@ keywords: [policies]
 
 或者，也可以[按示例配置安装 Istio](/zh/docs/setup/getting-started/)，其中策略检查功能已默认开启。
 
-## 对于已经安装的 Istio 网格{#for-an-existing-istio-mesh}
+## 对于已经安装的 Istio 网格{#for-an-existing-Istio-mesh}
 
 1. 检查该网格中策略检查功能的状态。
 
