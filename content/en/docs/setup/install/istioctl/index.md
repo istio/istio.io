@@ -259,7 +259,7 @@ The configuration parameters in this API can be set individually using `--set` o
 line. For example, to enable the security feature in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+$ istioctl manifest apply --set values.global.mtls.enabled=true
 {{< /text >}}
 
 Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
