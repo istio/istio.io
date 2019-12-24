@@ -21,7 +21,7 @@ aliases:
 - **修复** 入站侦听器重载间隔为 5 分钟。([Issue #18138](https://github.com/istio/istio/issues/18088)）
 - **修复** 密钥和证书轮换的验证问题。（[Issue #17718](https://github.com/istio/istio/issues/17718)）
 - **修复** 无效的内部资源垃圾回收问题。（[Issue #16818](https://github.com/istio/istio/issues/16818)）
-- **修复** 在失败时不更新 webhooks 的问题。（[Pull Request #17820](https://github.com/istio/istio/pull/17820)）
+- **修复** 在失败时不更新 webhook 的问题。（[Pull Request #17820](https://github.com/istio/istio/pull/17820)）
 - **Improved** OpenCensus 跟踪适配器的性能问题。([Issue #18042](https://github.com/istio/istio/issues/18042)）
 
 ## 小的增强{#minor-enhancements}
