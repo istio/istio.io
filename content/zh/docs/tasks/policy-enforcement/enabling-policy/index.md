@@ -1,41 +1,39 @@
 ---
-title: Enabling Policy Enforcement
-description: This task shows you how to enable Istio policy enforcement.
+title: 启用策略检查功能  
+description: 这个任务将告诉你如何开启 Istio 的策略检查功能。  
 weight: 1
 keywords: [policies]
 ---
 
-This task shows you how to enable Istio policy enforcement.
+这个任务将告诉你如何开启 Istio 的策略检查功能。
 
-## At install time
+## 安装阶段{#at-install-time}
 
-In the default Istio installation profile, policy enforcement is disabled. To install Istio
-with policy enforcement on, use the `--set values.global.disablePolicyChecks=false` install option.
+在默认的 Istio 安装配置中，策略检查功能是关闭的。若要开启策略检查功能，需在安装选项中加入`--set values.global.disablePolicyChecks=false`。
 
-Alternatively, you may [install Istio using the demo profile](/zh/docs/setup/getting-started/),
-which enables policy checks by default.
+或者，也可以[按示例配置安装 Istio](/zh/docs/setup/getting-started/)，其中策略检查功能已默认开启。
 
-## For an existing Istio mesh
+## 对于已经安装的 Istio 网格{#for-an-existing-Istio-mesh}
 
-1. Check the status of policy enforcement for your mesh.
+1. 检查该网格中策略检查功能的状态。
 
     {{< text bash >}}
     $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | grep disablePolicyChecks
     disablePolicyChecks: true
     {{< /text >}}
 
-    If policy enforcement is enabled (`disablePolicyChecks` is false), no further action is needed.
+    如果策略检查功能已开启（`disablePolicyChecks`置为 false），则无需再做什么。
 
-1. Edit the `istio` configmap to enable policy checks.
+1. 修改 `istio` configmap，开启策略检查功能。
 
-    Execute the following command from the root Istio directory:
+    在 Istio 根目录执行以下指令：
 
     {{< text bash >}}
     $ istioctl manifest apply --set values.global.disablePolicyChecks=false
     configmap "istio" replaced
     {{< /text >}}
 
-1. Validate that policy enforcement is now enabled.
+1. 验证策略检查功能是否已启用。
 
     {{< text bash >}}
     $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | grep disablePolicyChecks
