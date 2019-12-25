@@ -34,6 +34,10 @@ Helm 的安装方法已被弃用。
 1. 检查 [Pod 和服务的要求](/zh/docs/ops/deployment/requirements/)。
 1. [安装高于 2.10 版本的 Helm 客户端](https://github.com/helm/helm#install)。
 
+    {{< warning >}}
+    请使用 2.x 版本的 Helm。不支持 Helm 3。
+    {{< /warning >}}
+
 ## 添加 Helm chart 仓库
 
 本指南的以下命令使用了包含 Istio 发行版镜像的 Helm charts。

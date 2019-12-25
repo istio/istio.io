@@ -27,6 +27,10 @@ keywords: [traffic-management,mirroring]
       name: httpbin-v1
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v1
       template:
         metadata:
           labels:
@@ -53,6 +57,10 @@ keywords: [traffic-management,mirroring]
       name: httpbin-v2
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v2
       template:
         metadata:
           labels:
@@ -101,6 +109,9 @@ keywords: [traffic-management,mirroring]
       name: sleep
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: sleep
       template:
         metadata:
           labels:

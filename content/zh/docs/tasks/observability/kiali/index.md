@@ -33,10 +33,17 @@ aliases:
 
 在 Istio 命名空间中创建一个 Secret，作为 Kiali 的身份验证凭据。
 
-首先，定义要用作 Kiali 用户名和密码的凭据：
+首先，定义要用作 Kiali 用户名和密码的凭据。
+
+当提示出现时输入 Kiali 用户名：
 
 {{< text bash >}}
 $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
+{{< /text >}}
+
+当提示出现时输入 Kiali 密码：
+
+{{< text bash >}}
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
 {{< /text >}}
 

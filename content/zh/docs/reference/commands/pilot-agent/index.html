@@ -23,11 +23,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -47,7 +47,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -67,10 +67,6 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>--applicationPorts &lt;stringSlice&gt;</code></td>
-<td>Ports exposed by the application. Used to determine that Envoy is configured and ready to receive traffic.  (default `[]`)</td>
-</tr>
 <tr>
 <td><code>--binaryPath &lt;string&gt;</code></td>
 <td>Path to the proxy binary  (default `/usr/local/bin/envoy`)</td>
@@ -161,11 +157,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -185,7 +181,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -194,6 +190,10 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--mixerIdentity &lt;string&gt;</code></td>
 <td>The identity used as the suffix for mixer&#39;s spiffe SAN. This would only be used by pilot all other proxy would get this value from pilot  (default ``)</td>
+</tr>
+<tr>
+<td><code>--outlierLogPath &lt;string&gt;</code></td>
+<td>The log path for outlier detection  (default ``)</td>
 </tr>
 <tr>
 <td><code>--parentShutdownDuration &lt;duration&gt;</code></td>
@@ -221,7 +221,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--serviceregistry &lt;string&gt;</code></td>
-<td>Select the platform for service registry, options are {Kubernetes, Consul, Mock}  (default `Kubernetes`)</td>
+<td>Select the platform for service registry, options are {Kubernetes, Consul, MCP, Mock}  (default `Kubernetes`)</td>
 </tr>
 <tr>
 <td><code>--statsdUdpAddress &lt;string&gt;</code></td>
@@ -263,11 +263,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -287,7 +287,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -316,12 +316,12 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, default, model, rbac, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -346,7 +346,7 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, default, model, rbac, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, cacheLog, citadelClientLog, configMapController, default, googleCAClientLog, model, rbac, sdsServiceLog, secretFetcherLog, stsClientLog, validation, vaultClientLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -378,10 +378,58 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 </thead>
 <tbody>
 <tr>
+<td><code>CA_ADDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>CA_PROVIDER</code></td>
+<td>String</td>
+<td><code>Citadel</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ENABLE_INGRESS_GATEWAY_SDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>GKE_CLUSTER_URL</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The url of GKE cluster</td>
+</tr>
+<tr>
+<td><code>INGRESS_GATEWAY_FALLBACK_SECRET</code></td>
+<td>String</td>
+<td><code>gateway-fallback</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>INGRESS_GATEWAY_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>INITIAL_BACKOFF_MSEC</code></td>
+<td>Integer</td>
+<td><code>10</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>INSTANCE_IP</code></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>ISTIOD_ADDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
 </tr>
 <tr>
 <td><code>ISTIO_AUTO_MTLS_ENABLED</code></td>
@@ -456,6 +504,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>NAMESPACE</code></td>
+<td>String</td>
+<td><code>istio-system</code></td>
+<td>namespace that nodeagent/citadel run in</td>
+</tr>
+<tr>
 <td><code>PILOT_BLOCK_HTTP_ON_443</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -504,6 +558,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, Pilot will assign meaningful nonces to each Envoy configuration message, and allow users to interrogate which envoy has which config from the debug interface.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_CRD_VALIDATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -530,7 +590,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
@@ -618,6 +678,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
 </tr>
 <tr>
+<td><code>PLUGINS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>POD_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -640,6 +706,30 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code>unix:/var/run/sds/uds_path</code></td>
 <td>SDS address</td>
+</tr>
+<tr>
+<td><code>SECRET_GRACE_DURATION</code></td>
+<td>Time Duration</td>
+<td><code>1h0m0s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SECRET_JOB_RUN_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>10m0s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SECRET_TTL</code></td>
+<td>Time Duration</td>
+<td><code>24h0m0s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SECRET_WATCHER_RESYNC_PERIOD</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>STACKDRIVER_TRACING_DEBUG</code></td>
@@ -672,10 +762,22 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Sets the max number of message events for stackdriver</td>
 </tr>
 <tr>
+<td><code>STALED_CONNECTION_RECYCLE_RUN_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5m0s</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
 <td>Integer</td>
 <td><code>5</code></td>
 <td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
+</tr>
+<tr>
+<td><code>TRUST_DOMAIN</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>USE_ISTIO_JWT_FILTER</code></td>
@@ -693,15 +795,16 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tbody>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
+<tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
+<tr><td><code>num_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of total outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
+<tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
+<tr><td><code>outgoing_latency</code></td><td><code>Sum</code></td><td>The latency of outgoing requests (e.g. to a token exchange server, CA, etc.) in milliseconds.</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_https</code></td><td><code>LastValue</code></td><td>Number of conflicting HTTP listeners with well known HTTPS ports</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
-<tr><td><code>pilot_discovery_calls</code></td><td><code>Sum</code></td><td>Individual method calls in Pilot</td></tr>
-<tr><td><code>pilot_discovery_errors</code></td><td><code>Sum</code></td><td>Errors encountered during a given method call within Pilot</td></tr>
-<tr><td><code>pilot_discovery_resources</code></td><td><code>Distribution</code></td><td>Returned resource counts per method by Pilot</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
@@ -711,5 +814,10 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
+<tr><td><code>total_active_connections</code></td><td><code>Sum</code></td><td>The total number of active SDS connections.</td></tr>
+<tr><td><code>total_push_errors</code></td><td><code>Sum</code></td><td>The total number of failed SDS pushes.</td></tr>
+<tr><td><code>total_pushes</code></td><td><code>Sum</code></td><td>The total number of SDS pushes.</td></tr>
+<tr><td><code>total_secret_update_failures</code></td><td><code>Sum</code></td><td>The total number of dynamic secret update failures reported by proxy.</td></tr>
+<tr><td><code>total_stale_connections</code></td><td><code>Sum</code></td><td>The total number of stale SDS connections.</td></tr>
 </tbody>
 </table>

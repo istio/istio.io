@@ -1,7 +1,7 @@
 ---
 title: 使用 Kubernetes 和 Istio 学习微服务
 description: 该模块化教程为新用户提供了一步步将 Istio 应用于常见微服务场景的动手经验。
-weight: 40
+weight: 100
 icon: classroom
 simple_list: true
 content_above: true
