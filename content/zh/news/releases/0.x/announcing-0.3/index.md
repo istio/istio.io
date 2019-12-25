@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 0.3
+title: Istio 0.3 发布公告
 linktitle: 0.3
-subtitle: Major Update
-description: Istio 0.3 announcement.
+subtitle: 重大更新
+description: Istio 0.3 发布公告。
 publishdate: 2017-11-29
 release: 0.3.0
 aliases:
@@ -13,41 +13,32 @@ aliases:
     - /zh/news/announcing-0.3
 ---
 
-We're pleased to announce the availability of Istio 0.3. Please see below for what's changed.
+我们很高兴的宣布 Istio 0.3 现已正式发布。下面是更新详情。
 
 {{< relnote >}}
 
-## General
+## 概况{#general}
 
-Starting with 0.3, Istio is switching to a monthly release cadence. We hope this will help accelerate our ability
-to deliver timely improvements. See [here](/zh/about/feature-stages/) for information on the state of individual features
-for this release.
+从 0.3 开始，Istio 的发布节奏切换为月度更新。我们希望这将有助于提高我们及时提供改进的能力。有关此版本的各个功能的状态，请参见 [here](/zh/about/feature-stages/)。
 
-This is a fairly modest release in terms of new features as the team put emphasis on internal
-infrastructure work to improve our velocity. Many bugs and smaller issues have been addressed and
-overall performance has been improved in a number of areas.
+团队将重点放在内部基础设施工作上，以提高我们的速度，所以在新功能方面，这是一个相当适中的发布。解决了许多错误和较小的问题，并在许多方面提高了整体性能。
 
-## Security
+## 安全{#security}
 
-- **Secure Control Plane Communication**. Mixer and Pilot are now secured with mutual TLS, just like all services in a mesh.
+- **安全的控制平面通信**。Mixer 和 Pilot 现在由双向 TLS 保障安全，就像网格中的所有服务一样。
 
-- **Selective Authentication**. You can now control authentication on a per-service basis via service annotations,
-which helps with incremental migration to Istio.
+- **选择性认证**。现在，您可以通过服务注释在每个服务的基础上控制身份验证，这有助于逐步迁移到 Istio。
 
-## Networking
+## 网络{#networking}
 
-- **Egress rules for TCP**. You can now specify egress rules that affect TCP-level traffic.
+- **TCP Egress 规则**。现在，您可以指定影响 TCP 级别流量的 Egress 规则。
 
-## Policy enforcement and telemetry
+## 策略执行和遥测{#policy-enforcement-and-telemetry}
 
-- **Improved Caching**. Caching between Envoy and Mixer has gotten substantially better, resulting in a
-significant drop in average latency for authorization checks.
+- **改善缓存**。Envoy 和 Mixer 之间的缓存得到了很大改善，大大降低了授权检查的平均延迟。
 
-- **Improved list Adapter**. The Mixer 'list' adapter now supports regular expression matching. See the adapter's
-[configuration options](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) for details.
+- **改进的列表适配器**。Mixer “列表” 适配器现在支持正则表达式匹配。有关详细信息，请参见适配器的[配置选项](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)。
 
-- **Configuration Validation**. Mixer does more extensive validation of configuration state in order to catch problems earlier.
-We expect to invest more in this area in coming releases.
+- **配置校验**。Mixer 对配置状态进行更广泛的验证，以便更早发现问题。我们希望在即将发布的版本中，投入更多的精力在此功能上。
 
-If you're into the nitty-gritty details, you can see our more detailed low-level
-release notes [here](https://github.com/istio/istio/wiki/v0.3.0).
+如果您想了解细节，可以在[这里](https://github.com/istio/istio/wiki/v0.3.0)查看我们更详细的低级发行说明。
