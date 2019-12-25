@@ -140,7 +140,18 @@ any other unintentional accesses.
 
 ### Access an external HTTP service
 
-1.  Create a `ServiceEntry` to allow access to an external HTTP service:
+1.  Create a `ServiceEntry` to allow access to an external HTTP service.
+
+    {{< warning >}}
+    The `DNS` resolution is used in the service entry below as a security measure. If the resolution were `NONE`,
+    malicious clients could set the hostname of the allowed external service, in this case, `httpbin.org`, and use an IP
+    address of some other site. The Istio sidecar proxy would think that the traffic is allowed, since the HOST header
+    matches the hostname of the allowed external service, and let the traffic proceed to some IP address of some other
+    (not-allowed) external service.
+
+    With the `DNS` resolution, the sidecar proxy will ignore the original destination IP address and direct the traffic
+    to `httpbin.org`, performing a DNS query to get an IP address of `httpbin.org`.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
