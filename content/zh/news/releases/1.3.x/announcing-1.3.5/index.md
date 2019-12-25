@@ -3,7 +3,7 @@ title: Istio 1.3.5 发布公告
 linktitle: 1.3.5
 description: Istio 1.3.5 补丁发布。
 publishdate: 2019-11-11
-subtitle: Patch Release
+subtitle: 补丁发布
 release: 1.3.5
 aliases:
     - /zh/news/2019/announcing-1.3.5
