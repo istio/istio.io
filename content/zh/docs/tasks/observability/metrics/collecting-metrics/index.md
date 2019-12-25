@@ -90,7 +90,7 @@ aliases:
 Dimensions 提供了一种根据不同需求和查询方向来切分、汇总和分析指标数据的方法。
 例如，在对应用程序行为进行问题排查时，可能仅需考虑对特定目标服务的请求。
 
-该配置指示 Mixer 根据属性值和文字值来填充这些纬度的值。
+该配置指示 Mixer 根据属性值和文字值来填充这些 dimension 的值。
 例如，对于 `source` dimension，新配置要求从 `source.workload.name` 属性中获取该值。
 如果未填充该属性值，则该规则指示 Mixer 使用默认值 `"unknown"`。
 对于 `message` dimension，所有 instances 将使用文字值 `"twice the fun!"`。
