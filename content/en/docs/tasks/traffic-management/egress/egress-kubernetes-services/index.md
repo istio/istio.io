@@ -84,7 +84,8 @@ Kubernetes Services for egress traffic work with other protocols as well.
     my-httpbin   ExternalName   <none>       httpbin.org   80/TCP    4s
     {{< /text >}}
 
-1.  Access `httpbin.org` via the Kubernetes service's hostname from the source pod without Istio sidecar:
+1.  Access `httpbin.org` via the Kubernetes service's hostname from the source pod without Istio sidecar.
+    Note that the _curl_ command below uses the [Kubernetes DNS format for services](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records): `<service name>.<namespace>.svc.cluster.local`.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
