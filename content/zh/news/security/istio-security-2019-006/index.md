@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-006
 subtitle: 安全公告
-description: CVE-2019-18817 所披露的安全漏洞。
+description: 拒绝服务。
 cve: [CVE-2019-18817]
 publishdate: 2019-11-07
 keywords: [CVE]
