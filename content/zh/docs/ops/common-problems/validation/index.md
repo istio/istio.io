@@ -15,7 +15,7 @@ aliases:
 
 ## 接受无效配置 {#invalid-configuration-is-accepted}
 
-验证 `istio-galley`和`validationwebhookconfiguration` 配置是否存在并且是正确的。 无效的 `apiVersion`、 `apiGroup`和 `resource` 配置应该在两个 `webhook` 其中之一被列举出来。
+验证 `istio-galley validationwebhookconfiguration` 配置是否存在并且是正确的。 无效的 `apiVersion`、`apiGroup` 和 `resource` 配置应该在两个 `webhook` 其中之一被列举出来。
 
 {{< text bash yaml >}}
 $ kubectl get validatingwebhookconfiguration istio-galley -o yaml
@@ -143,7 +143,7 @@ webhooks:
 {{< /text >}}
 
 如果 `validatingwebhookconfiguration` 不存在，那就验证
-`istio-galley-configuration` `configmap` 是否存在。`istio-galley` 使用 configmap 的数据来创建或更新 `validatingwebhookconfiguration`。
+`istio-galley-configuration configmap` 是否存在。`istio-galley` 使用 configmap 的数据来创建或更新 `validatingwebhookconfiguration`。
 
 {{< text bash yaml >}}
 $ kubectl -n istio-system get configmap istio-galley-configuration -o jsonpath='{.data}'
@@ -176,7 +176,7 @@ webhooks:
 
 ## 创建配置失败报错： x509 certificate errors {#x509-certificate-errors}
 
-`x509: certificate signed by unknown authority` 错误通常和 webhook 配置中的空 `caBundle` 有关，所以要确认它不为空 (请查阅 [验证 webhook 配置](#invalid-configuration-is-accepted))。在部署 `istio-galley` 的时候要有意识地调整 webhook 配置，使用 `istio-galley-configuration` `configmap` 和安装自 `istio-system` 命名空间私有 `istio.istio-galley-service-account` 的根证书。
+`x509: certificate signed by unknown authority` 错误通常和 webhook 配置中的空 `caBundle` 有关，所以要确认它不为空 (请查阅 [验证 webhook 配置](#invalid-configuration-is-accepted))。在部署 `istio-galley` 的时候要有意识地调整 webhook 配置，使用 `istio-galley-configuration configmap` 和安装自 `istio-system` 命名空间私有 `istio.istio-galley-service-account` 的根证书。
 
 1. 验证 `istio-galley` pod  是否在运行：
 
@@ -238,7 +238,7 @@ webhooks:
       - get
     {{< /text >}}
 
-    `istio-galley` 需要 `validatingwebhookconfigurations` 的权限来创建和更新 `istio-galley` `validatingwebhookconfiguration` 配置项。
+    `istio-galley` 需要 `validatingwebhookconfigurations` 的权限来创建和更新 `istio-galley validatingwebhookconfiguration` 配置项。
 
 ## 创建配置报错：`no such hosts` 、 `no endpoints available` {#creating-configuration-fail}
 

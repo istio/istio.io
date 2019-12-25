@@ -58,9 +58,10 @@ aliases:
 
     {{< text bash >}}
     $ kubectl get destinationrule --all-namespaces
-    NAMESPACE      NAME              AGE
-    istio-system   istio-policy      25m
-    istio-system   istio-telemetry   25m
+    NAMESPACE      NAME                                 HOST                                             AGE
+    istio-system   istio-multicluster-destinationrule   *.global                                         35s
+    istio-system   istio-policy                         istio-policy.istio-system.svc.cluster.local      35s
+    istio-system   istio-telemetry                      istio-telemetry.istio-system.svc.cluster.local   33s
     {{< /text >}}
 
 ## 配置客户端发送双向 TLS 请求{#configure-clients-to-send-mutual-TLS-traffic}
@@ -95,7 +96,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 也可以指定一部分客户端使用 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 中设置的 `ISTIO_MUTUAL` 双向 TLS 通信模式。
 检查 [Grafana to monitor](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) 验证设置起效后，再扩大作用范围，最终应用到所有的 Istio 客户端服务。
 
-## 锁定为双向 TLS （可选）{#lock-down-to-mutual-TLS-optional}
+## 锁定为双向 TLS{#lock-down-to-mutual-TLS}
 
 当所有客户端服务都成功迁移至 Istio 之后，注入 Envoy sidecar，便可以锁定 `httpbin.foo` 只接收双向 TLS 请求。
 
