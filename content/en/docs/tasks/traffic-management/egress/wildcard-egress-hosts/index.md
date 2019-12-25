@@ -35,7 +35,13 @@ When calling services directly (i.e., not via an egress gateway), the configurat
 a wildcard host is no different than that of any other (e.g., fully qualified) host,
 only much more convenient when there are many hosts within the common domain.
 
-1.  Define a `ServiceEntry` and corresponding `VirtualSevice` for `*.wikipedia.org`:
+{{< warning >}}
+Note that the configuration below can be easily bypassed by a malicious application. For a secure egress traffic control,
+direct the traffic through an egress gateway.
+{{< /warning >}}
+
+1.  Define a `ServiceEntry` for `*.wikipedia.org`:
+
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -50,24 +56,6 @@ only much more convenient when there are many hosts within the common domain.
       - number: 443
         name: tls
         protocol: TLS
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: wikipedia
-    spec:
-      hosts:
-      - "*.wikipedia.org"
-      tls:
-      - match:
-        - port: 443
-          sni_hosts:
-          - "*.wikipedia.org"
-        route:
-        - destination:
-            host: "*.wikipedia.org"
-            port:
-              number: 443
     EOF
     {{< /text >}}
 
