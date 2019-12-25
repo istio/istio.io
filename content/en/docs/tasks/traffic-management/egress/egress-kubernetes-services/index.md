@@ -58,7 +58,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
 
 1.  Create a Kubernetes
     [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) service
-    for `httpbin.org`:
+    for `httpbin.org` in the default namespace:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
