@@ -182,7 +182,7 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
-## Direct the traffic to the external proxy through an egress gateway.
+## Direct the traffic to the external proxy through an egress gateway
 
 1.  Define the `EGRESS_GATEWAY_PROXY_PORT` environment variable to hold some port for directing traffic through
     the egress gateway, e.g. `7777`. You must select a port that is not used for any other service in the mesh.
