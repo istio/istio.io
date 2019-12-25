@@ -8,8 +8,6 @@ aliases:
  - /zh/docs/ops/troubleshooting/istioctl
 ---
 
-## 概述 {#overview}
-
 您可以通过检查各个组件的[日志](/zh/docs/ops/diagnostic-tools/component-logging/)或者通过[自检](/zh/docs/ops/diagnostic-tools/controlz/)机制来了解其功能。如果还不够的话，以下步骤将会告诉您如何深入了解。
 
 [`Istioctl`](/zh/docs/reference/commands/istioctl) 是一个允许服务管理者调试和诊断服务网格应用的命令行配置工具。Istio 项目还提供了两个在 Bash 和 ZSH 环境下用于自动补全 `istioctl` 命令的脚本。这两个脚本均支持当前可用的 `istioctl` 命令。
@@ -18,7 +16,34 @@ aliases:
 `Istioctl` 只对没有弃用的命令开启了自动补全的功能。
 {{< /tip >}}
 
-### 网格概览 {#get-an-overview-of-your-mesh}
+## 开始之前 {#before-you-begin}
+
+我们建议您使用与 Istio 控制平面相匹配的 `istioctl` 版本。
+使用相匹配的版本有助于避免产生意外的问题。
+
+{{< tip >}}
+如果您已经[下载 Istio 发行版](/zh/docs/setup/getting-started/#download)，则应该已经具有 `istioctl`，而无需再次安装。
+{{< /tip >}}
+
+## 安装 {{< istioctl >}}
+
+用 `curl` 安装 `istioctl` 二进制文件:
+
+1. 使用以下命令下载最新版本:
+
+    {{< text bash >}}
+    $ curl -sL https://istio.io/downloadIstioctl | sh -
+    {{< /text >}}
+
+1. 在 macOS 或 Linux 系统上，将 `istioctl` 添加到您的环境变量 PATH 中:
+
+    {{< text bash >}}
+    $ export PATH=$PATH:$HOME/.istioctl/bin
+    {{< /text >}}
+
+1. 使用 bash 或 ZSH 控制台时，可以选择启用[命令自动补全选项](#enabling-auto-completion)。
+
+## 网格概览 {#get-an-overview-of-your-mesh}
 
 您可以使用 `proxy-status` 命令概览您的网格：
 
@@ -28,7 +53,7 @@ $ istioctl proxy-status
 
 如果输出列表中缺少某个代理则意味着它当前未连接到 Polit 实例，所以它无法接收到任何配置。此外，如果它被标记为 stale，则意味着存在网络问题或者需要扩展 Pilot。
 
-### 代理配置 {#get-proxy-configuration}
+## 代理配置 {#get-proxy-configuration}
 
 [`Istioctl`](/zh/docs/reference/commands/istioctl) 允许你使用 `proxy-config` 或者 `pc` 命令检索代理的配置信息。
 
