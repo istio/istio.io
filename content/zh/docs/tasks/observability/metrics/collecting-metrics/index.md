@@ -99,7 +99,7 @@ Dimensions 提供了一种根据不同需求和查询方向来切分、汇总和
 Handler 的 `spec` 字段配置了 Prometheus 适配器代码是如何将收到的指标 instances 转换为 Prometheus 格式（Prometheus 后端可以处理）的值。
 此配置指定了一个名为 `double_request_count` 的新 Prometheus 指标。
 Prometheus 适配器在所有指标名称之前都添加了 `istio_` 命名空间，因此该指标将在 Prometheus 中显示为 `istio_double_request_count`。
-该指标具有三个标签，这些标签与为 `doublerequestcount` instance 配置的维度相匹配。
+该指标具有三个标签，这些标签与为 `doublerequestcount` instance 配置的 dimension 相匹配。
 
 Mixer instances 通过 `instance_name` 参数与 Prometheus 指标匹配。
 `instance_name` 值必须是 Mixer instances 的标准名称（例如：`doublerequestcount.instance.istio-system`）。
