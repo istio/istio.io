@@ -9,7 +9,7 @@ aliases:
     - /zh/help/ops/troubleshooting/proxy-cmd
 ---
 
-Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置相关的问题，[`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status)和 [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config)命令。`proxy-status` 命令容许您获取网格的概况，并识别出导致问题的代理。`proxy-config` 可以被用于检查 Envoy 配置和诊断问题。
+Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置相关的问题，[`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) 命令。`proxy-status` 命令容许您获取网格的概况，并识别出导致问题的代理。`proxy-config` 可以被用于检查 Envoy 配置和诊断问题。
 
 如果您想尝试以下的命令，需要：
 
@@ -21,7 +21,7 @@ Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置�
 
 * 使用类似的命令在 Kubernetes 集群中运行您自己的应用。
 
-## 获取网格概况 {#get-an-overview-of-your-mesh}
+## 获取网格概况{#get-an-overview-of-your-mesh}
 
 `proxy-status` 命令容许您获取网格的概况。如果您怀疑某一个 sidecar 没有接收到配置或配置不同步时，`proxy-status` 将告诉您原因。
 
@@ -43,7 +43,7 @@ reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYN
 
 * `SYNCED` 意思是 Envoy 知晓了 Pilot 已经将最新的配置发送给了它。
 * `NOT SENT` 意思是 Pilot 没有发送任何信息给 Envoy。这通常是因为 Pilot 没什么可发送的。
-* `STALE` 意思是 Pilot 已经发送了一个更新到 Envoy，但还没有收到应答。这通常意味着 Envoy 和 Pilot 之间存在网络问题，或者 Istio 自身的bug。
+* `STALE` 意思是 Pilot 已经发送了一个更新到 Envoy，但还没有收到应答。这通常意味着 Envoy 和 Pilot 之间存在网络问题，或者 Istio 自身的 bug。
 
 ## 检查 Envoy 和 Istio Pilot 的差异{#retrieve-diffs-between-envoy-and-Istio-pilot}
 
@@ -113,13 +113,13 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 ...
 {{< /text >}}
 
-为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints 以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config` 命令，并过滤出确定从 `productpage` pod 发送到 `reviews` pod `9080` 端口的请求的 Envoy。
+为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints 以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config` 命令，根据标志过滤出并跟随特定的 Envoy，它将请求从 productpage pod 发送到 reviews pod 9080 端口。
 
 1. 如果您在一个 Pod 上查询监听器概要信息，您将注意到 Istio 生成了下面的监听器：
     *  `0.0.0.0:15001` 监听器接收所有进出 Pod 的流量，然后转发请求给一个虚拟监听器。
     * 每个服务 IP 一个虚拟监听器，针对每一个非 HTTP 的外部 TCP/HTTPS 流量。
     * Pod IP 上的虚拟监听器，针对内部流量暴露的端口。
-    * `0.0.0.0`监听器，针对外部 HTTP 流量的每个 HTTP 端口。
+    * `0.0.0.0` 监听器，针对外部 HTTP 流量的每个 HTTP 端口。
 
 {{< text bash >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
@@ -236,7 +236,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
     ...
     {{< /text >}}
 
-1. 此集群配置为从 Pilot （通过 ADS）检索关联的 endpoints。所以 Envoy 会使用 `serviceName` 字段作为主键，来检查 endpoints 列表并把请求代理到其中之一。
+1. 此集群配置为从 Pilot（通过 ADS）检索关联的 endpoints。所以 Envoy 会使用 `serviceName` 字段作为主键，来检查 endpoint 列表并把请求代理到其中之一。
 
     {{< text bash json >}}
     $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
@@ -260,7 +260,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
     ]
     {{< /text >}}
 
-1. 要查看此集群当前可用的 endpoints，请使用 `proxy-config` endpoints 命令。
+1. 要查看此集群当前可用的 endpoint，请使用 `proxy-config` endpoints 命令。
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
