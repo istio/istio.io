@@ -1,65 +1,62 @@
 ---
-title: Ingress Gateway without TLS Termination
-description: Describes how to configure SNI passthrough for an ingress gateway.
+title: 无 TLS 终止的 Ingress Gateway
+description: 说明了如何为一个 ingress gateway 配置 SNI 直通。
 weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
   - /zh/docs/examples/advanced-gateways/ingress-sni-passthrough/
 ---
 
-The [Securing Gateways with HTTPS](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/) task describes how to configure HTTPS
-ingress access to an HTTP service. This example describes how to configure HTTPS ingress access to an HTTPS service,
-i.e., configure an ingress gateway to perform SNI passthrough, instead of TLS termination on incoming requests.
+[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。
+而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 直通，而不是对传入请求进行 TLS 终止。
 
-The example HTTPS service used for this task is a simple [NGINX](https://www.nginx.com) server.
-In the following steps you first deploy the NGINX service in your Kubernetes cluster.
-Then you configure a gateway to provide ingress access to the service via host `nginx.example.com`.
+本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。
+在接下来的步骤中，你会先在你的 Kubernetes 集群中创建一个 NGINX 服务。
+然后，通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
 
-## Generate client and server certificates and keys
+## 生成客户端和服务端的证书和密钥{#generate-client-and-server-certificates-and-keys}
 
-1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
+1. 克隆仓库 <https://github.com/nicholasjackson/mtls-go-example>:
 
     {{< text bash >}}
     $ git clone https://github.com/nicholasjackson/mtls-go-example
     {{< /text >}}
 
-1.  Change directory to the cloned repository:
+1. 进入仓库的目录：
 
     {{< text bash >}}
     $ pushd mtls-go-example
     {{< /text >}}
 
-1.  Generate the certificates for `nginx.example.com`.
-    Use any password with the following command:
+1. 使用 password 为 `nginx.example.com` 生成证书：
 
     {{< text bash >}}
     $ ./generate.sh nginx.example.com <password>
     {{< /text >}}
 
-    When prompted, select `y` for all the questions.
+    出现提示时，为所有问题选择 `y`。
 
-1.  Move the certificates into the `nginx.example.com` directory:
+1.  将证书移动到目录 `nginx.example.com`:
 
     {{< text bash >}}
     $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
     {{< /text >}}
 
-1.  Return to the root directory:
+1.  回到根目录：
 
     {{< text bash >}}
     $ popd
     {{< /text >}}
 
-## Deploy an NGINX server
+## 部署一个 NGINX 服务{#deploy-an-nginx-server}
 
-1. Create a Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's
-   certificate.
+1.  创建一个 Kubernetes 的 [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 资源来保存服务的证书：
 
     {{< text bash >}}
     $ kubectl create secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
     {{< /text >}}
 
-1.  Create a configuration file for the NGINX server:
+1.  为 NGINX 服务创建一个配置文件：
 
     {{< text bash >}}
     $ cat <<EOF > ./nginx.conf
@@ -87,14 +84,13 @@ Then you configure a gateway to provide ingress access to the service via host `
     EOF
     {{< /text >}}
 
-1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
-to hold the configuration of the NGINX server:
+1.  创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
-1.  Deploy the NGINX server:
+1.  部署 NGINX 服务
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
@@ -147,9 +143,7 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-1.  To test that the NGINX server was deployed successfully, send a request to the server from its sidecar proxy
-    without checking the server's certificate (use the `-k` option of `curl`). Ensure that the server's certificate is
-    printed correctly, i.e., `common name` is equal to `nginx.example.com`.
+1.  要测试 NGINX 服务是否已成功部署，需要从其 sidecar 代理发送请求，并忽略检查服务端的证书（使用 curl 的 -k 选项）。确保正确打印服务端的证书，即 `common name` 等于 `nginx.example.com`。
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
@@ -182,10 +176,9 @@ to hold the configuration of the NGINX server:
     ...
     {{< /text >}}
 
-## Configure an ingress gateway
+## 配置 ingress gateway{#configure-an-ingress-gateway}
 
-1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` `tls` `mode` which instructs
-    the gateway to pass the ingress traffic AS IS, without terminating TLS.
+1.  定义一个 `server` 部分的端口为 443 的 `Gateway`。 注意，`PASSTHROUGH tls mode` 指示 gateway 按原样通过入口流量，而不终止 TLS。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -208,7 +201,7 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-1.  Configure routes for traffic entering via the `Gateway`:
+1.  配置通过 `Gateway` 进入的流量的路由：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -234,12 +227,9 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-1.  Follow the instructions in
-    [Determining the ingress IP and ports](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)
-    to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
+1.  根据 [确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的指令来定义环境变量  `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
 
-1.  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and
-    it is successfully verified (_SSL certificate verify ok_ is printed).
+1.  从集群外访问 NGINX 服务。注意，服务端返回了正确的证书，并且该证书已成功验证（输出了 _SSL certificate verify ok_ ）。
 
     {{< text bash >}}
     $ curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert nginx.example.com/2_intermediate/certs/ca-chain.cert.pem https://nginx.example.com:$SECURE_INGRESS_PORT
@@ -259,9 +249,9 @@ to hold the configuration of the NGINX server:
       <title>Welcome to nginx!</title>
     {{< /text >}}
 
-## Cleanup
+## 清除{#cleanup}
 
-1.  Remove created Kubernetes resources:
+1.  删除已创建的 Kubernetes 资源：
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs
@@ -272,13 +262,13 @@ to hold the configuration of the NGINX server:
     $ kubectl delete virtualservice nginx
     {{< /text >}}
 
-1.  Delete the directory containing the certificates and the repository used to generate them:
+1.  删除含有证书的目录以及用于生成证书的仓库
 
     {{< text bash >}}
     $ rm -rf nginx.example.com mtls-go-example
     {{< /text >}}
 
-1.  Delete the generated configuration files used in this example:
+1.  删除本示例中生成的配置文件：
 
     {{< text bash >}}
     $ rm -f ./nginx.conf
