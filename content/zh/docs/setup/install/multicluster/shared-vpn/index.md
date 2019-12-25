@@ -101,7 +101,7 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
 | `values.global.remoteTelemetryAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的 telemetry Pod IP 地址或远程集群 DNS 可解析的主机名 |
 | `values.sidecarInjectorWebhook.enabled` | true, false | true | 指定是否在远程集群上启用自动 sidecar 注入 |
 | `values.global.remotePilotCreateSvcEndpoint` | true, false | false | 如果设置，将使用 `remotePilotAddress` IP 创建用于 `istio-pilot` 的无选择器的服务和端点，以确保 `istio-pilot.<namespace>` 在远程集群上可通过 DNS 解析。 |
-| `values.global.createRemoteSvcEndpoints` | true, false | false | 如果设置，`istio-pilot`、`istio-telemetry` 和 `istio-policy` 的 selector-less 服务和端点将用相应的远程 IPs：`remotePilotAddress`、`remoteTelmetryAddress` 和 `remotePolicyAddress` 分别创建，这样确保在远程集群中服务名可以通过 DNS 解析。 |
+| `values.global.createRemoteSvcEndpoints` | true, false | false | 如果设置，`istio-pilot`、`istio-telemetry` 和 `istio-policy` 的 selector-less 服务和端点将用相应的远程 IP：`remotePilotAddress`、`remoteTelmetryAddress` 和 `remotePolicyAddress` 分别创建，这样确保在远程集群中服务名可以通过 DNS 解析。 |
 
 ## 为远程集群创建配置文件{#kubeconfig}
 

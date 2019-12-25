@@ -15,7 +15,7 @@ aliases:
 
 ## 接受无效配置 {#invalid-configuration-is-accepted}
 
-验证 `istio-galley validationwebhookconfiguration` 配置是否存在并且是正确的。 无效的 `apiVersion`、 `apiGroup`和 `resource` 配置应该在两个 `webhook` 其中之一被列举出来。
+验证 `istio-galley validationwebhookconfiguration` 配置是否存在并且是正确的。 无效的 `apiVersion`、`apiGroup` 和 `resource` 配置应该在两个 `webhook` 其中之一被列举出来。
 
 {{< text bash yaml >}}
 $ kubectl get validatingwebhookconfiguration istio-galley -o yaml
