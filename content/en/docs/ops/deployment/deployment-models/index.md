@@ -12,6 +12,7 @@ keywords:
   - trust
   - single-mesh
   - multiple-meshes
+  - mesh-expansion
 aliases:
   - /docs/concepts/multicluster-deployments
   - /docs/concepts/deployment-models
@@ -27,6 +28,7 @@ or are there multiple control planes deployed to ensure high availability (HA)?
 If there is more than one cluster being deployed, and more specifically in isolated networks,
 are they going to be connected into a single {{< gloss >}}multicluster{{< /gloss >}}
 service mesh or will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+Will services on virtual machines or bare metal computers be connected to the mesh?
 
 All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
 
@@ -34,6 +36,7 @@ All of these questions, among others, represent independent dimensions of config
 1. single or multiple network
 1. single or multiple control plane
 1. single or multiple mesh
+1. mesh expansion (integration with VMs/bare metal)
 
 All combinations are possible, although some are more common than others and
 some are clearly not very interesting (for example, multiple mesh in a single cluster).
@@ -424,3 +427,21 @@ namespace.
 
 When each team has their own mesh, cross-mesh communication follows the
 concepts described in the [multiple meshes](#multiple-meshes) model.
+
+## Mesh expansion
+
+In same cases you might have to deploy some of the services on virtual machines or bare metal computers. The
+reasons for deployments on VMs/bare metal computers could be special hardware requirements, tighter isolation, tighter integration with the host's OS, legacy deployments.
+
+Having some of the services on VMs/bare metal, you may want to connect the services into a mesh and benefit from all the
+service mesh features: traffic management, security, observability, and others. You can deploy the Istio control plane(s)
+on some of your clusters and expand the mesh of the cluster(s) by adding VMs/bare metal computers into the mesh.
+
+The VMs/bare metal computers can share the same network with the clusters of the mesh, or they can be on
+different networks. In the latter case, [Istio gateways](/docs/concepts/traffic-management/#gateways) can be used to
+provide reachability between the VMs/bare metal and the clusters.
+
+Adding a VM/bare metal computer to a mesh means installing an Istio sidecar and a Node agent on the machine and
+configuring them to communicate with the control plane(s) on some of the clusters. Once you add a VMs/bare metal
+computers to a mesh, you can configure the control plane(s) of the mesh to control communication between services on the
+clusters and on the machines (from a cluster to a VM, from a VM to a cluster, from a VM to another VM in the mesh).
