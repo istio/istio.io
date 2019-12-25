@@ -113,9 +113,9 @@ aliases:
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
     {{< /text >}}
 
-    使用 [Prometheus 界面](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D) 浏览新的指标值。
-
-    上面的连接会打开 Promethe 界面，并执行了对 `istio_mongo_received_bytes` 指标的查询。**Console** 标签页中包含了大致如下的内容：
+    在 Prometheus 浏览器窗口查看新指标的值。选择 **Graph**。
+    输入 `istio_mongo_received_bytes` 指标并选择 **Execute**。
+    在 **Console** 标签页中显示的表格包含了类似如下的内容：
 
     {{< text plain >}}
     istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
