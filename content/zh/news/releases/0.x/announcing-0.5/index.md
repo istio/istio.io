@@ -22,7 +22,7 @@ aliases:
 
 - **自动注入 Proxy**。我们利用 Kubernetes 1.9 的新 [muting webhook 特性](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#api-machinery) 提供 Pod 级的自动注入。自动注入需要 Kubernetes 1.9 或更高版本，因此不适用于旧版本。不再支持 alpha 初始化机制。[了解更多](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 
-- **修改流量规则**。根据用户反馈，我们对 Istio 的流量管理（路由规则，目标规则等）进行了重大更改。在接下来的几周中，我们会不断完善您的反馈，希望我们能继续为您提供帮助。
+- **改进流量规则**。根据用户反馈，我们对 Istio 的流量管理（路由规则，目标规则等）进行了重大更改。在接下来的几周中，我们会不断完善您的反馈，希望我们能继续为您提供帮助。
 
 ## Mixer 适配器{#mixer-adapters}
 
@@ -46,7 +46,7 @@ aliases:
 
 - **发行版二进制文件**。我们已将版本和安装默认值切换至发行版，以提高性能和安全性，
 
-- **日志组件**。Istio 组件现在提供了一组丰富的命令行选项来控制本地日志记录，包括对日志轮换的通用支持。
+- **组件日志**。Istio 组件现在提供了一组丰富的命令行选项来控制本地日志记录，包括对日志轮换的通用支持。
 
 - **一致的版本报告**。Istio 组件现在提供了一致的命令行界面来报告其版本信息。
 
