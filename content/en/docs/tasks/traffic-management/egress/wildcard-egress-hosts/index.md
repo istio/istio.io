@@ -40,6 +40,11 @@ Note that the configuration below can be easily bypassed by a malicious applicat
 direct the traffic through an egress gateway.
 {{< /warning >}}
 
+{{< warning >}}
+Note that the `DNS` resolution cannot be used for wildcard hosts. This is why the `NONE` resolution (omitted since it is
+the default) is used in the service entry below.
+{{< /warning >}}
+
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
 
