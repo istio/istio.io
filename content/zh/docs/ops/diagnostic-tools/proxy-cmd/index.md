@@ -1,6 +1,6 @@
 ---
-title: Debugging Envoy and Pilot
-description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
+title: 调试 Envoy 和 Pilot
+description: 描述诊断与流量管理相关的 Envoy 配置问题的工具和技术。
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
 aliases:
@@ -9,26 +9,21 @@ aliases:
     - /zh/help/ops/troubleshooting/proxy-cmd
 ---
 
-Istio provides two very valuable commands to help diagnose traffic management configuration problems,
-the [`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status)
-and [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
-allows you to get an overview of your mesh and identify the proxy causing the problem. Then `proxy-config` can be used
-to inspect Envoy configuration and diagnose the issue.
+Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置相关的问题，[`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) 命令。`proxy-status` 命令容许您获取网格的概况，并识别出导致问题的代理。`proxy-config` 可以被用于检查 Envoy 配置和诊断问题。
 
-If you want to try the commands described below, you can either:
+如果您想尝试以下的命令，需要：
 
-* Have a Kubernetes cluster with Istio and Bookinfo installed (as described in
-[installation steps](/zh/docs/setup/getting-started/) and
-[Bookinfo installation steps](/zh/docs/examples/bookinfo/#deploying-the-application)).
+* 有一个安装了 Istio 和 Bookinfo 应用的 Kubernetes 集群（正如在
+[安装步骤](/zh/docs/setup/getting-started/) 和
+[Bookinfo 安装步骤](/zh/docs/examples/bookinfo/#deploying-the-application)所描述的那样）。
 
-OR
+或者
 
-* Use similar commands against your own application running in a Kubernetes cluster.
+* 使用类似的命令在 Kubernetes 集群中运行您自己的应用。
 
-## Get an overview of your mesh
+## 获取网格概况{#get-an-overview-of-your-mesh}
 
-The `proxy-status` command allows you to get an overview of your mesh. If you suspect one of your sidecars isn't
-receiving configuration or is out of sync then `proxy-status` will tell you this.
+`proxy-status` 命令容许您获取网格的概况。如果您怀疑某一个 sidecar 没有接收到配置或配置不同步时，`proxy-status` 将告诉您原因。
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -44,19 +39,15 @@ reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYN
 reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
 {{< /text >}}
 
-If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be
-receiving any configuration.
+如果列表中缺少代理，这意味着它目前没有连接到 Pilot 实例，因此不会接收任何配置。
 
-* `SYNCED` means that Envoy has acknowledged the last configuration Pilot has sent to it.
-* `NOT SENT` means that Pilot hasn't sent anything to Envoy. This usually is because Pilot has nothing to send.
-* `STALE` means that Pilot has sent an update to Envoy but has not received an acknowledgement. This usually indicates
-a networking issue between Envoy and Pilot or a bug with Istio itself.
+* `SYNCED` 意思是 Envoy 知晓了 Pilot 已经将最新的配置发送给了它。
+* `NOT SENT` 意思是 Pilot 没有发送任何信息给 Envoy。这通常是因为 Pilot 没什么可发送的。
+* `STALE` 意思是 Pilot 已经发送了一个更新到 Envoy，但还没有收到应答。这通常意味着 Envoy 和 Pilot 之间存在网络问题，或者 Istio 自身的 bug。
 
-## Retrieve diffs between Envoy and Istio Pilot
+## 检查 Envoy 和 Istio Pilot 的差异{#retrieve-diffs-between-envoy-and-Istio-pilot}
 
-The `proxy-status` command can also be used to retrieve a diff between the configuration Envoy has loaded and the
-configuration Pilot would send, by providing a proxy ID. This can help you determine exactly what is out of sync and
-where the issue may lie.
+通过提供代理 ID，`proxy-status` 命令还可以用来检查 Envoy 已加载的配置和 Pilot 发送给它的配置有什么异同，这可以帮您准确定位哪些配置是不同步的，以及问题出在哪里。
 
 {{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
@@ -104,14 +95,11 @@ Listeners Match
 Routes Match
 {{< /text >}}
 
-Here you can see that the listeners and routes match but the clusters are out of sync.
+从这儿可以看到，监听器和路由是匹配的，但集群不同步。
 
-## Deep dive into Envoy configuration
+## 深入 Envoy 配置{#deep-dive-into-envoy-configuration}
 
-The `proxy-config` command can be used to see how a given Envoy instance is configured. This can then be used to
-pinpoint any issues you are unable to detect by just looking through your Istio configuration and custom resources.
-To get a basic summary of clusters, listeners or routes for a given pod use the command as follows (changing clusters
-for listeners or routes when required):
+`proxy-config` 命令可以用来查看给定的 Envoy 是如何配置的。这样就可以通过 Istio 配置和自定义资源来查明任何您无法检测到的问题。下面的命令为给定 Pod 提供了集群、监听器或路由的基本概要（当需要时可以为监听器或路由改变集群）：
 
 {{< text bash >}}
 $ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -125,18 +113,15 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 ...
 {{< /text >}}
 
-In order to debug Envoy you need to understand Envoy clusters/listeners/routes/endpoints and how they all interact.
-We will use the `proxy-config` command with the `-o json` and filtering flags to follow Envoy as it determines where
-to send a request from the `productpage` pod to the `reviews` pod at `reviews:9080`.
+为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints 以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config` 命令，根据标志过滤出并跟随特定的 Envoy，它将请求从 `productpage` pod 发送到 `reviews` pod 9080 端口。
 
-1. If you query the listener summary on a pod you will notice Istio generates the following listeners:
-    * A listener on `0.0.0.0:15001` that receives all traffic into and out of the pod, then hands the request over to
-    a virtual listener.
-    * A virtual listener per service IP, per each non-HTTP for outbound TCP/HTTPS traffic.
-    * A virtual listener on the pod IP for each exposed port for inbound traffic.
-    * A virtual listener on `0.0.0.0` per each HTTP port for outbound HTTP traffic.
+1. 如果您在一个 Pod 上查询监听器概要信息，您将注意到 Istio 生成了下面的监听器：
+    *  `0.0.0.0:15001` 监听器接收所有进出 Pod 的流量，然后转发请求给一个虚拟监听器。
+    * 每个服务 IP 一个虚拟监听器，针对每一个非 HTTP 的外部 TCP/HTTPS 流量。
+    * Pod IP 上的虚拟监听器，针对内部流量暴露的端口。
+    * `0.0.0.0` 监听器，针对外部 HTTP 流量的每个 HTTP 端口。
 
-    {{< text bash >}}
+{{< text bash >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
     ADDRESS            PORT      TYPE
     172.21.252.250     15005     TCP <--+
@@ -170,10 +155,7 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
     172.30.164.190     9080      HTTP   // Receives all inbound traffic on 9080 from listener `0.0.0.0_15001`
     {{< /text >}}
 
-1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15001` which is where
-IP tables routes all inbound and outbound pod traffic to. This listener has `useOriginalDst` set to true which means
-it hands the request over to the listener that best matches the original destination of the request.
-If it can't find any matching virtual listeners it sends the request to the `PassthroughCluster` which connects to the destination directly.
+1. 从上面的信息可以看到，每一个 sidecar 有一个绑定到 `0.0.0.0:15001` 的监听器，来确定 IP 表将所有进出 Pod 的流量路由到哪里。监听器设置 `useOriginalDst` 为 true 意味着它将请求传递给最适合原始请求目的地的监听器。如果找不到匹配的虚拟监听器，它会将请求发送到直接连接到目的地的 `PassthroughCluster`。
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
@@ -204,9 +186,7 @@ If it can't find any matching virtual listeners it sends the request to the `Pas
     ]
     {{< /text >}}
 
-1. Our request is an outbound HTTP request to port `9080` this means it gets handed off to the `0.0.0.0:9080` virtual
-listener. This listener then looks up the route configuration in its configured RDS. In this case it will be looking
-up route `9080` in RDS configured by Pilot (via ADS).
+1. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080` 的虚拟监听器。这一监听器将检索在它配置的 RDS 里的路由配置。在这个例子中它将寻找 Pilot（通过 ADS）配置在 RDS 中的路由 `9080`。
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
@@ -220,11 +200,7 @@ up route `9080` in RDS configured by Pilot (via ADS).
     ...
     {{< /text >}}
 
-1. The `9080` route configuration only has a virtual host for each service. Our request is heading to the reviews
-service so Envoy will select the virtual host to which our request matches a domain. Once matched on domain Envoy
-looks for the first route that matches the request. In this case we don't have any advanced routing so there is only
-one route that matches on everything. This route tells Envoy to send the request to the
-`outbound|9080||reviews.default.svc.cluster.local` cluster.
+1. 对每个服务，`9080` 路由配置只有一个虚拟主机。我们的请求会走到 reviews 服务，因此 Envoy 将选择一个虚拟主机把请求匹配到一个域。一旦匹配到，Envoy 会寻找请求匹配到的第一个路由。本例中我们没有设置任何高级路由规则，因此路由会匹配任何请求。这一路由告诉 Envoy 发送请求到 `outbound|9080||reviews.default.svc.cluster.local` 集群。
 
     {{< text bash json >}}
     $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
@@ -260,8 +236,7 @@ one route that matches on everything. This route tells Envoy to send the request
     ...
     {{< /text >}}
 
-1. This cluster is configured to retrieve the associated endpoints from Pilot (via ADS). So Envoy will then use the
-`serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
+1. 此集群配置为从 Pilot（通过 ADS）检索关联的 endpoints。所以 Envoy 会使用 `serviceName` 字段作为主键，来检查 endpoint 列表并把请求代理到其中之一。
 
     {{< text bash json >}}
     $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
@@ -285,7 +260,7 @@ one route that matches on everything. This route tells Envoy to send the request
     ]
     {{< /text >}}
 
-1. To see the endpoints currently available for this cluster use the `proxy-config` endpoints command.
+1. 要查看此集群当前可用的 endpoint，请使用 `proxy-config` endpoints 命令。
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
@@ -295,10 +270,9 @@ one route that matches on everything. This route tells Envoy to send the request
     172.17.0.5:9080      HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
-## Inspecting bootstrap configuration
+## 检查 bootstrap 配置{#inspecting-bootstrap-configuration}
 
-So far we have looked at configuration retrieved (mostly) from Pilot, however Envoy requires some bootstrap configuration that
-includes information like where Pilot can be found. To view this use the following command:
+到目前为止，我们已经查看了从 Pilot 检索到的配置（大部分），然而 Envoy 需要一些 bootstrap 配置，其中包括诸如在何处可以找到 Pilot 之类的信息。使用下面的命令查看：
 
 {{< text bash json >}}
 $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -316,39 +290,39 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 ...
 {{< /text >}}
 
-## Verifying connectivity to Istio Pilot
+## 验证到 Istio Pilot 的连通性{#verifying-connectivity-to-Istio-pilot}
 
-Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
+验证与 Pilot 的连通性是一个有用的故障排除步骤。服务网格内的每个代理容器都应该能和 Pilot 通信。这可以通过几个简单的步骤来实现：
 
-1.  Get the name of the Istio Ingress pod:
+1.  获取 Istio Ingress pod 的名称：
 
     {{< text bash >}}
     $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingressgateway\- | awk '{print$1}'); echo ${INGRESS_POD_NAME};
     {{< /text >}}
 
-1.  Exec into the Istio Ingress pod:
+1.  通过 exec 进入 Istio Ingress pod：
 
     {{< text bash >}}
     $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
     {{< /text >}}
 
-1.  Test connectivity to Pilot using `curl`. The following example invokes the v1 registration API using default Pilot configuration parameters and mutual TLS enabled:
+1.  使用 `curl` 测试与 Pilot 的连通性。下面的示例使用了默认的 Pilot 配置参数和开启双向 TLS 来调用 v1 注册 API：
 
     {{< text bash >}}
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:8080/debug/edsz
     {{< /text >}}
 
-    If mutual TLS is disabled:
+    如果双向 TLS 是关闭的：
 
     {{< text bash >}}
     $ curl http://istio-pilot:8080/debug/edsz
     {{< /text >}}
 
-You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
+对网格内的每个服务，您将会收到一个响应，列举了 "service-key" 和 "hosts"。
 
-## What Envoy version is Istio using?
+## Istio 使用的 Envoy 版本是什么？{#what-envoy-version-is-Istio-using}
 
-To find out the Envoy version used in deployment, you can `exec` into the container and query the `server_info` endpoint:
+要在部署中找出 Envoy 的版本，您可以通过 `exec` 进入容器并查询 `server_info` endpoint：
 
 {{< text bash >}}
 $ kubectl exec -it PODNAME -c istio-proxy -n NAMESPACE pilot-agent request GET server_info
