@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 0.4
+title: Istio 0.4 发布公告
 linktitle: 0.4
-subtitle: Major Update
-description: Istio 0.4 announcement.
+subtitle: 重大更新
+description: Istio 0.4 发布公告。
 publishdate: 2017-12-18
 release: 0.4.0
 aliases:
@@ -13,25 +13,20 @@ aliases:
     - /zh/news/announcing-0.4
 ---
 
-This release has only got a few weeks' worth of changes, as we stabilize our monthly release process.
-In addition to the usual pile of bug fixes and performance improvements, this release includes the items
-below.
+随着我们稳定的每月发布流程，此版本只进行了几周的更改。除了普通的错误修复和性能改进之外，此版本还包含以下项。
 
 {{< relnote >}}
 
 ## General
 
-- **Cloud Foundry**. Added minimum Pilot support for the [Cloud Foundry](https://www.cloudfoundry.org) platform, making it
-possible for Pilot to discover CF services and service instances.
+- **Cloud Foundry**。增加了对 [Cloud Foundry](https://www.cloudfoundry.org) 平台的最低 Pilot 支持，使 Pilot 可以发现 CF 服务和服务实例。
 
-- **Circonus**. Mixer now includes an adapter for the [Circonus](https://www.circonus.com) analytics and monitoring platform.
+- **Circonus**。Mixer 现在包含了用于 [Circonus](https://www.circonus.com) 分析和监控平台的适配器。
 
-- **Pilot Metrics**. Pilot now collects metrics for diagnostics.
+- **Pilot 指标**。Pilot 现在会收集诊断指标。
 
-- **Helm Charts**. We now provide Helm charts to install Istio.
+- **Helm Chart**。现在，我们提供了 Helm Chart 安装 Istio 的方式。
 
-- **Enhanced Attribute Expressions**. Mixer's expression language gained a few new functions
-to make it easier to write policy rules. [Learn more](/zh/docs/reference/config/policy-and-telemetry/expression-language/)
+- **增强的属性表达式**。Mixer 的表达语言获得了一些新功能，使编写策略规则变得更加容易。[学到更多](/zh/docs/reference/config/policy-and-telemetry/expression-language/)
 
-If you're into the nitty-gritty details, you can see our more detailed low-level
-release notes [here](https://github.com/istio/istio/wiki/v0.4.0).
+如果您想了解细节，可以在 [此处](https://github.com/istio/istio/wiki/v0.4.0) 查看我们更详细的低级发行说明。
