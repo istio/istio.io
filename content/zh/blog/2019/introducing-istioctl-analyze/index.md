@@ -1,6 +1,6 @@
 ---
-title: Introducing istioctl analyze
-description: Analyze your Istio configuration to detect potential issues and get general insights.
+title: istioctl analyze 介绍
+description: 通过分析 Istio 配置来发现潜在问题和一般问题。
 publishdate: 2019-11-14
 subtitle:
 attribution: David Ebbo (Google)
@@ -8,43 +8,33 @@ keywords: [debugging,istioctl,configuration]
 target_release: 1.4
 ---
 
-Istio 1.4 introduces an experimental new tool to help you analyze and debug your clusters running Istio.
+Istio 1.4 引入了一个实验性的新工具，可以帮助分析和调试正在运行 Istio 的集群。
 
-[`istioctl analyze`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-analyze) is a diagnostic tool that detects potential issues with your
-Istio configuration, as well as gives general insights to improve your configuration.
-It can run against a live cluster or a set of local configuration files.
-It can also run against a combination of the two, allowing you to catch problems before you
-apply changes to a cluster.
+[`istioctl analyze`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-analyze) 是一个诊断工具，来发现 Istio 配置的潜在问题，也会给出一些改进配置的意见。
+它可以针对一个正在运行的集群或者是一堆本地配置文件。
+还可以是这两种方式的组合，让您在对集群应用更改之前发现问题。
 
-To get started with it in just minutes, head over to the [documentation](/zh/docs/ops/diagnostic-tools/istioctl-analyze/).
+开始之前，先看看这里的[文档](/zh/docs/ops/diagnostic-tools/istioctl-analyze/)。
 
-## Designed to be approachable for novice users
+## 专为新手用户设计 {#designed-to-be-approachable-for-novice-users}
 
-One of the key design goals that we followed for this feature is to make it extremely approachable.
-This is achieved by making the command useful without having to pass any required complex parameters.
+我们遵循的其中一个关键设计目标就是要非常容易使用，就是不需要传复杂参数而让命令又很有用。
 
-In practice, here are some of the scenarios that it goes after:
+实际中，下面是这个工具要应对的一些场景：
 
-- *"There is some problem with my cluster, but I have no idea where to start"*
-- *"Things are generally working, but I'm wondering if there is anything I could improve"*
+- *“集群有问题，但是不知该从何入手”*
+- *“运行起来没问题，但是不知道是否还有优化空间”*
 
-In that sense, it is very different from some of the more advanced diagnostic tools, which go
-after scenarios along the lines of (taking `istioctl proxy-config` as an example):
+从这个意义上讲，它与某些更高级的诊断工具有很大的不同，后者适合以下场景（以 `istioctl proxy-config` 为例）：
 
-- *"Show me the Envoy configuration for this specific pod so I can see if anything looks wrong"*
+- *“列出指定 pod 的 Envoy 配置，来看看有没有问题”*
 
-This can be very useful for advanced debugging, but it requires a lot of expertize before you
-can figure out that you need to run this specific command, and which pod to run it on.
+这对高级调试非常有用，但是这需要非常多的经验，你才能知道需要运行这条命令，以及在哪个 pod 上运行。
 
-So really, the one-line pitch for `analyze` is: just run it! It's completely safe, it takes no thinking,
-it might help you, and at worst, you'll have wasted a minute!
+因此，用一句话来说明 `analyze` 就是：尽管运行！它非常安全，不用考虑，可能会有帮助，最坏的情况就是浪费你一分钟！
 
-## Improving this tool over time
+## 这个工具在不断改进中 {#improving-this-tool-over-time}
 
-In Istio 1.4, `analyze` comes with a nice set of analyzers that can detect a number of common issues.
-But this is just the beginning, and we are planning to keep growing and fine tuning the analyzers with
-each release.
+在 Istio 1.4 中，`analyze` 有一组可以检测很多常见文档的好分析器。但这只是开始，我们计划在后期每个版本中不断增加和优化分析器。
 
-In fact, we would welcome suggestions from Istio users. Specifically, if you encounter a situation
-where you think an issue could be detected via configuration analysis, but is not currently flagged
-by `analyze`, please do let us know. The best way to do this is to [open an issue on GitHub](https://github.com/istio/istio/issues).
+事实上，我们欢迎 Istio 用户提建议。特别是遇到您认为可以用配置分析器检测的情况时，而 `analyze` 没有正确标出来，请告诉我们。最好的方式就是[在 GitHub 上建 issue](https://github.com/istio/istio/issues)。
