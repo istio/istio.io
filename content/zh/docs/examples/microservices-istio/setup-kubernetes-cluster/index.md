@@ -33,7 +33,7 @@ weight: 2
     如果您是一位讲师，可以为每个参与者分配独立的命名空间。本教程支持多个参与者在不同的命名空间下同时运行。
     {{< /tip >}}
 
-1.  安装 Istio 且启用双向 TLS。 TODO: 为讲师准备命令或要点。
+1.  [安装 Istio](/zh/docs/setup/) 并启用严格双向 TLS。
 
 1.  [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
 
@@ -196,6 +196,21 @@ weight: 2
     current-context: ${NAMESPACE}
     EOF
     {{< /text >}}
+
+1.  为 `${NAMESPACE}-user-config.yaml` 配置文件设置环境变量 `KUBECONFIG`：
+
+    {{< text bash >}}
+    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    {{< /text >}}
+
+1.  打印当前命名空间以确认配置文件已生效：
+
+    {{< text bash >}}
+    $ kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}"
+    tutorial
+    {{< /text >}}
+
+    在输出中可以看到命名空间的名字。
 
 1.  如果您为自己设置好了集群，复制前面步骤中提到的 `${NAMESPACE}-user-config.yaml` 文件到您的本地机器，`${NAMESPACE}` 就是前面步骤中的命名空间。比如，`tutorial-user-config.yaml`。
     教程中您将会再次用到这个文件。

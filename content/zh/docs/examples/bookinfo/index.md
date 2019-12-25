@@ -159,6 +159,10 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 
 * 如果**没有**启用双向 TLS，请执行以下命令：
 
+    {{< tip >}}
+    如果您是 Istio 的新手，并且使用了 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)，请选择此步。
+    {{< /tip >}}
+
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}

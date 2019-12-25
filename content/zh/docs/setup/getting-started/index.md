@@ -138,7 +138,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-如果您不确定要从哪开始，可以先[部署 Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application)，它会让您体验到 Istio 的流量路由、故障注入、速率限制等功能。
+如果您不确定要从哪开始，可以先[部署 Bookinfo 示例](/zh/docs/examples/bookinfo/)，它会让您体验到 Istio 的流量路由、故障注入、速率限制等功能。
 然后您可以根据您的兴趣浏览各种各样的[Istio 任务](/zh/docs/tasks/)。
 
 下列任务都是初学者开始学习的好入口：
