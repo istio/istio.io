@@ -501,17 +501,24 @@ The SNI proxy will forward the traffic to port `443`.
     metadata:
       name: forward-downstream-sni
     spec:
-      filters:
-      - listenerMatch:
-          portNumber: 443
-          listenerType: SIDECAR_OUTBOUND
-        filterName: forward_downstream_sni
-        filterType: NETWORK
-        filterConfig: {}
+      configPatches:
+      - applyTo: NETWORK_FILTER
+        match:
+          context: SIDECAR_OUTBOUND
+          listener:
+            portNumber: 443
+            filterChain:
+              filter:
+                name: mixer
+        patch:
+          operation: INSERT_BEFORE
+          value:
+             name: forward-downstream-sni
+             config: {}
     ---
     # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
-    # identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy).
-    # The filter prevents Mixer from being deceived by a malicious application: routing to one SNI while
+    # identical to the original SNI issued by the client (the SNI used for routing by the SNI proxy).
+    # The filter prevents Mixer from being deceived by a malicious client: routing to one SNI while
     # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection, the
     # filter will block the connection to the external service.
     apiVersion: networking.istio.io/v1alpha3
@@ -519,15 +526,23 @@ The SNI proxy will forward the traffic to port `443`.
     metadata:
       name: egress-gateway-sni-verifier
     spec:
-      workloadLabels:
-        app: istio-egressgateway-with-sni-proxy
-      filters:
-      - listenerMatch:
-          portNumber: 443
-          listenerType: GATEWAY
-        filterName: sni_verifier
-        filterType: NETWORK
-        filterConfig: {}
+      workloadSelector:
+        labels:
+          app: istio-egressgateway-with-sni-proxy
+      configPatches:
+      - applyTo: NETWORK_FILTER
+        match:
+          context: GATEWAY
+          listener:
+            portNumber: 15444
+            filterChain:
+              filter:
+                name: mixer
+        patch:
+          operation: INSERT_BEFORE
+          value:
+             name: sni_verifier
+             config: {}
     EOF
     {{< /text >}}
 
