@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.16
+title: Istio 1.1.16 发布公告
 linktitle: 1.1.16
-subtitle: Patch Release
-description: Istio 1.1.16 patch release.
+subtitle: 发布补丁
+description: Istio 1.1.16 版本发布公告。
 publishdate: 2019-10-08
 release: 1.1.16
 aliases:
@@ -10,15 +10,15 @@ aliases:
     - /zh/news/announcing-1.1.16
 ---
 
-We're pleased to announce the availability of Istio 1.1.16. Please see below for what's changed.
+我们很高兴地宣布 Istio 1.1.16 现在是可用的，详情请查看如下更改。
 
 {{< relnote >}}
 
-## Security update
+## 安全更新{#security-update}
 
-This release contains fixes for the security vulnerability described in [our October 8th, 2019 news post](/zh/news/security/istio-security-2019-005).  Specifically:
+此版本包含了我们在[2019年10月8日](/zh/news/security/istio-security-2019-005)的新闻中所阐述的修复程序的安全漏洞。特别是：
 
-__ISTIO-SECURITY-2019-005__:  A DoS vulnerability has been discovered by the Envoy community.
-  * __[CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)__: After investigation, the Istio team has found that this issue could be leveraged for a DoS attack in Istio if an attacker uses a high quantity of very small headers.
+__ISTIO-SECURITY-2019-005__:  `Envoy` 社区发现了一个 `DoS` 漏洞。
+  * __[CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)__: 经过调查，`Istio` 团队发现，如果攻击者使用大量非常小的 `header`，则可以利用此问题进行对 `Istio` 的 `DoS` 攻击。
 
-Nothing else is included in this release except for the above security fix.
+除了对上述程序的安全修复以外，此版本中不包含其他任何内容。
