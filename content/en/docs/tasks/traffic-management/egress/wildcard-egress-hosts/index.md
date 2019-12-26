@@ -47,7 +47,6 @@ the default) is used in the service entry below.
 
 1.  Define a `ServiceEntry` for `*.wikipedia.org`:
 
-
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
