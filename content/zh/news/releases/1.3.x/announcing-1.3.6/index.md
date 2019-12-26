@@ -1,9 +1,9 @@
 ---
-title: Announcing Istio 1.3.6
+title: Istio 1.3.6 发布公告
 linktitle: 1.3.6
-description: Istio 1.3.6 patch release.
+description: Istio 1.3.6 补丁发布。
 publishdate: 2019-12-10
-subtitle: Patch Release
+subtitle: 补丁发布
 release: 1.3.6
 aliases:
     - /zh/news/announcing-1.3.6
