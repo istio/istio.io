@@ -340,12 +340,9 @@ The SNI proxy will forward the traffic to port `443`.
 
     {{< text bash >}}
     $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
-    serviceaccount "istio-egressgateway-with-sni-proxy-service-account" created
-    role "istio-egressgateway-with-sni-proxy-istio-system" created
-    rolebinding "istio-egressgateway-with-sni-proxy-istio-system" created
-    service "istio-egressgateway-with-sni-proxy" created
-    deployment "istio-egressgateway-with-sni-proxy" created
-    horizontalpodautoscaler "istio-egressgateway-with-sni-proxy" created
+    serviceaccount/istio-egressgateway-with-sni-proxy-service-account created
+    service/istio-egressgateway-with-sni-proxy created
+    deployment.apps/istio-egressgateway-with-sni-proxy created
     {{< /text >}}
 
 1.  Verify that the new egress gateway is running. Note that the pod has two containers (one is the Envoy proxy and the
