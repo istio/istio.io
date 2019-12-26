@@ -58,8 +58,8 @@ the default) is used in the service entry below.
       - "*.wikipedia.org"
       ports:
       - number: 443
-        name: tls
-        protocol: TLS
+        name: https
+        protocol: HTTPS
     EOF
     {{< /text >}}
 
@@ -114,8 +114,8 @@ the set of domains.
       servers:
       - port:
           number: 443
-          name: tls
-          protocol: TLS
+          name: https
+          protocol: HTTPS
         hosts:
         - "*.wikipedia.org"
         tls:
@@ -182,8 +182,8 @@ the set of domains.
       - www.wikipedia.org
       ports:
       - number: 443
-        name: tls
-        protocol: TLS
+        name: https
+        protocol: HTTPS
       resolution: DNS
     EOF
     {{< /text >}}
@@ -402,8 +402,8 @@ The SNI proxy will forward the traffic to port `443`.
       - "*.wikipedia.org"
       ports:
       - number: 443
-        name: tls
-        protocol: TLS
+        name: https
+        protocol: HTTPS
     EOF
     {{< /text >}}
 
@@ -433,8 +433,8 @@ The SNI proxy will forward the traffic to port `443`.
       servers:
       - port:
           number: 443
-          name: tls-egress
-          protocol: TLS
+          name: https-egress
+          protocol: HTTPS
         hosts:
         - "*.wikipedia.org"
         tls:
@@ -550,8 +550,8 @@ The SNI proxy will forward the traffic to port `443`.
      servers:
      - port:
          number: 443
-         name: tls
-         protocol: TLS
+         name: https
+         protocol: HTTPS
        hosts:
        - "*.wikipedia.org"
        tls:
