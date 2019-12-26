@@ -14,7 +14,7 @@ target_release: 1.3
 
 有了 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)，就可以使用任何 OAuth2/OIDC 提供商：IBM Cloud App ID, Auth0, Okta, Ping Identity, AWS Cognito, Azure AD B2C 和其它更多。身份和授权策略可以以高效的方式应用在所有环境（包括前端和后端应用程序），而无需修改代码或重新部署。
 
-## 了解 Istio 和其适配器 {#understanding-istio-and-the-adapter}
+## 了解 Istio 和其适配器 {#understanding-Istio-and-the-adapter}
 
 [Istio](/zh/docs/concepts/what-is-istio/) 是一个开源的服务网格，它对分布应用来说说一个透明层，它可以和 Kubernetes 无缝集成。为了降低布署复杂性 Istio 提供了对整个服务网格的行为洞察和操作控制。详见 [Istio 架构](/zh/docs/ops/deployment/architecture/)。
 
@@ -49,7 +49,6 @@ Web 应用程序通常是由 OpenID Connect (OIDC) 工作流保护，也被叫�
 开发者可以根据读取token信息调整应用程序的用户体验，比如显示用户名，根绝用户角色适配 UI 等。
 
 为了终止授权回话和清除令牌，亦或者用户登出，只要在服务保护之下简单重定向浏览器到 `/oidc/logout` endpoint 即可，比如如果 app 是在 `https://example.com/myapp` 这里服务的，重定向用户到 `https://example.com/myapp/oidc/logout` 即可。
-
 
 无论何时访问令牌过期了，刷新令牌是无需用户重新认证的，系统会自动获取一个新的访问和身份令牌。如果配置的身份认真提供商返回一个刷新的令牌，适配器将会持久保存起来，直到老令牌过期，用户又重新获取新的访问和身份令牌。
 
@@ -163,7 +162,6 @@ spec:
 当多云部署实施时，随着环境的发展和多样性，安全也会变得复杂起来。当云提供商提供协议和工具来确保其产品的安全性，开发团队仍然要负责应用程序级别的安全，比如用 OAuth2 的 API 访问控制，使用流量加密的中间人攻击，为服务访问控制提供双端 TLS 通信。但是在多云环境中，这会变得复杂，因为可能要为分别为每个服务定义它的安全策略。有了适当的安全协议，这些外部和内部的威胁就可以减轻了。
 
 开发团队花时间让服务能够移植到不同的云提供商，在同等情况下，安全应该更灵活而不依赖基础设施。
-
 
 Istio 和 APP 身份和访问适配器允许加固 Kubernetes app 的安全，而且绝对零代码变动或者重新部署而不用关心编程语言和编程框架。使用这种方式保证了 app 的最大可移植性，并且可以在多个环境中方便的去执行相同的安全策略。
 
