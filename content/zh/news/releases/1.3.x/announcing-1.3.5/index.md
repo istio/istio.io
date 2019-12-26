@@ -25,8 +25,8 @@ __[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817
 - **修复** TCP headless 服务的 Envoy 监听器配置。（[Issue #17748](https://github.com/istio/istio/issues/17748)）
 - **修复** 即使将 deployment 缩放到 0 个副本，过时的 endpoint 也会保留的问题。（[Issue #14436](https://github.com/istio/istio/issues/14336)）
 - **修复** 生成无效的 Envoy 配置时，Pilot 不会再崩溃。（[Issue 17266](https://github.com/istio/istio/issues/17266)）
-- **修复** 没有为与 BlackHole/Passthrough 群集相关的 TCP 度量填充 `destination_service_name` 标签的问题。（[Issue 17271](https://github.com/istio/istio/issues/17271)）
-- **修复** 调用遥测过滤器链时遥测不报告 BlackHole/Passthrough 群集指标的问题。该问题会在显示的为外部服务配置了 `ServiceEntries` 时发生的。
+- **修复** 没有为与 BlackHole/Passthrough 集群相关的 TCP 指标填充 `destination_service_name` 标签的问题。（[Issue 17271](https://github.com/istio/istio/issues/17271)）
+- **修复** 调用遥测过滤器链时遥测不报告 BlackHole/Passthrough 群集指标的问题。集群指标的问题。该问题会在为外部服务配置显示的 `ServiceEntries` 时发生的。
 （[Issue 17759](https://github.com/istio/istio/issues/17759)）
 
 ## 小的增强{#minor-enhancements}
