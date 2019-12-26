@@ -76,7 +76,6 @@ the default) is used in the service entry below.
 
 {{< text bash >}}
 $ kubectl delete serviceentry wikipedia
-$ kubectl delete virtualservice wikipedia
 {{< /text >}}
 
 ## Configure egress gateway traffic to a wildcard host
