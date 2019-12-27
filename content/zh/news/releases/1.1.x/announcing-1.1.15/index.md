@@ -18,8 +18,8 @@ aliases:
 
 Bug 修复{#bug-fixes}
 
-- 修复 `Istio 1.1.14` 中引入的 `Envoy` 崩溃([问题 16357](https://github.com/istio/istio/issues/16357))。
+- 修复 Istio 1.1.14 中引入的 Envoy 崩溃 bug([Issue 16357](https://github.com/istio/istio/issues/16357))。
 
 ## 小改进{#small-enhancements}
 
-- 暴露 `HTTP/2` 窗口大小作为 `Pilot` 环境变量 ([问题 17117](https://github.com/istio/istio/issues/17117))。
+- 暴露 `HTTP/2` 窗口大小作为 Pilot 环境变量 ([Issue 17117](https://github.com/istio/istio/issues/17117))。
