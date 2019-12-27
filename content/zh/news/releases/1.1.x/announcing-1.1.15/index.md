@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.15
+title: Istio 1.1.15 发布公告
 linktitle: 1.1.15
-subtitle: Patch Release
-description: Istio 1.1.15 patch release.
+subtitle: 发布补丁
+description: Istio 1.1.15 版本发布公告。
 publishdate: 2019-09-16
 release: 1.1.15
 aliases:
@@ -12,14 +12,14 @@ aliases:
     - /zh/news/announcing-1.1.15
 ---
 
-We're pleased to announce the availability of Istio 1.1.15. Please see below for what's changed.
+我们很高兴地宣布 Istio 1.1.15 现在是可用的，详情请查看如下更改。
 
 {{< relnote >}}
 
-## Bug fixes
+Bug 修复{#bug-fixes}
 
-- Fix an Envoy crash introduced in Istio 1.1.14 ([Issue 16357](https://github.com/istio/istio/issues/16357)).
+- 修复 Istio 1.1.14 中引入的 Envoy 崩溃 bug ([Issue 16357](https://github.com/istio/istio/issues/16357))。
 
-## Small enhancements
+## 小改进{#small-enhancements}
 
-- Expose `HTTP/2` window size settings as Pilot environment variables ([Issue 17117](https://github.com/istio/istio/issues/17117)).
+- 暴露 `HTTP/2` 窗口大小作为 Pilot 环境变量 ([Issue 17117](https://github.com/istio/istio/issues/17117))。
