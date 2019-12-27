@@ -6,7 +6,7 @@ keywords: [traffic-management,egress]
 aliases:
   - /docs/examples/advanced-gateways/http-proxy/
 ---
-The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example shows how to direct
+The [Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/) example shows how to direct
 traffic to external services from your mesh via an Istio edge component called _Egress Gateway_. However, some
 cases require an external, legacy (non-Istio) HTTPS proxy to access external services. For example, your
 company may already have such a proxy in place and all the applications within the organization may be required to
@@ -18,7 +18,7 @@ services.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 ## Deploy an HTTPS proxy
 

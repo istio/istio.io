@@ -7,7 +7,7 @@ aliases:
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
-The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
+The [Control Ingress Traffic task](/pt-br/docs/tasks/traffic-management/ingress)
 describes how to configure an ingress gateway to expose an HTTP
 service to external traffic. This task shows how to expose a secure HTTPS
 service using either simple or mutual TLS.
@@ -17,9 +17,9 @@ using the Secret Discovery Service (SDS).
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
-and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control) task. After performing
+1.  Perform the steps in the [Before you begin](/pt-br/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
+and [Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+sections of the [Control Ingress Traffic](/pt-br/docs/tasks/traffic-management/ingress/ingress-control) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
 and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
 
@@ -35,7 +35,7 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     a different implementation of `curl`, for example on a Linux machine.
 
 {{< tip >}}
-If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/ingress/secure-ingress-mount),
+If you configured an ingress gateway using the [file mount-based approach](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress-mount),
 and you want to migrate your ingress gateway to use the SDS approach, there are no
 extra steps required.
 {{< /tip >}}

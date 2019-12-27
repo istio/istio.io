@@ -19,7 +19,7 @@ Istio mesh deployed on Kubernetes.
 ## Prerequisites
 
 - You have already set up Istio on Kubernetes. If you haven't done so, you can
-  find out how in the [Installation guide](/docs/setup/getting-started/).
+  find out how in the [Installation guide](/pt-br/docs/setup/getting-started/).
 
 - Virtual machines (VMs) must have IP connectivity to the endpoints in the mesh.
   This typically requires a VPC or a VPN, as well as a container network that
@@ -48,7 +48,7 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/pt-br/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
     {{< warning >}}
     The root and intermediate certificate from the samples directory are widely
@@ -73,7 +73,7 @@ following commands on a machine with cluster admin privileges:
         {{< /text >}}
 
     For further details and customization options, refer to the
-    [installation instructions](/docs/setup/install/istioctl/).
+    [installation instructions](/pt-br/docs/setup/install/istioctl/).
 
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
@@ -84,8 +84,8 @@ following commands on a machine with cluster admin privileges:
     {{< /text >}}
 
 1. Determine and store the IP address of the Istio ingress gateway since the VMs
-   access [Citadel](/docs/concepts/security/) and
-   [Pilot](/docs/ops/deployment/architecture/#pilot) through this IP address.
+   access [Citadel](/pt-br/docs/concepts/security/) and
+   [Pilot](/pt-br/docs/ops/deployment/architecture/#pilot) through this IP address.
 
     {{< text bash >}}
     $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -195,7 +195,7 @@ After setup, the machine can access services running in the Kubernetes cluster
 or on other VMs.
 
 The following example shows accessing a service running in the Kubernetes cluster from a VM using
-`/etc/hosts/`, in this case using a service from the [Bookinfo example](/docs/examples/bookinfo/).
+`/etc/hosts/`, in this case using a service from the [Bookinfo example](/pt-br/docs/examples/bookinfo/).
 
 1.  First, on the cluster admin machine get the virtual IP address (`clusterIP`) for the service:
 
@@ -244,7 +244,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
     {{< tip >}}
-    Ensure you have added the `istioctl` client to your path, as described in the [download page](/docs/setup/getting-started/#download).
+    Ensure you have added the `istioctl` client to your path, as described in the [download page](/pt-br/docs/setup/getting-started/#download).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:

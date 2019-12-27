@@ -12,14 +12,14 @@ This guide installs Istio using the standalone Istio
 [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
 The only dependencies required are a supported Kubernetes cluster and the `kubectl` command.
 
-To install Istio for production use, we recommend [installing with {{< istioctl >}}](/docs/setup/install/istioctl/)
+To install Istio for production use, we recommend [installing with {{< istioctl >}}](/pt-br/docs/setup/install/istioctl/)
 instead.
 
 ## Prerequisites
 
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
+1. Perform any necessary [platform-specific setup](/pt-br/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
+1. Check the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/requirements/).
 
 1. Deploy the Istio operator:
 
@@ -36,7 +36,7 @@ instead.
 
 ## Install
 
-To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
+To install the Istio `demo` [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/)
 using the operator, run the following command:
 
 {{< text bash >}}
@@ -138,7 +138,7 @@ spec:
 EOF
 {{< /text >}}
 
-Refer to the [`IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+Refer to the [`IstioControlPlane` API](/pt-br/docs/reference/config/istio.operator.v1alpha12.pb/)
 for the complete set of configuration settings.
 
 ## Uninstall

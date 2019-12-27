@@ -18,8 +18,8 @@ We're pleased to announce the availability of Istio 1.2.5. Please see below for 
 
 ## Security update
 
-Following the previous fixes for the security vulnerabilities described in [ISTIO-SECURITY-2019-003](/news/security/istio-security-2019-003/)
-and [ISTIO-SECURITY-2019-004](/news/security/istio-security-2019-004), we are now addressing the internal control plane communication surface.
+Following the previous fixes for the security vulnerabilities described in [ISTIO-SECURITY-2019-003](/pt-br/news/security/istio-security-2019-003/)
+and [ISTIO-SECURITY-2019-004](/pt-br/news/security/istio-security-2019-004), we are now addressing the internal control plane communication surface.
 These security fixes were not available at the time of our previous security release, and we considered the control plane gRPC surface to be harder to exploit.
 
 You can find the gRPC vulnerability fix description on their mailing list (c.f.

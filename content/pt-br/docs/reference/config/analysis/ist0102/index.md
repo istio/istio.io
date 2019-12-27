@@ -4,7 +4,7 @@ layout: analysis-message
 ---
 
 This message occurs when you have a namespace that is missing the
-[annotation](/docs/reference/config/annotations/) to indicate whether the
+[annotation](/pt-br/docs/reference/config/annotations/) to indicate whether the
 namespace is auto-injected, for example `sidecar.istio.io/inject`.
 
 For example, you receive this error:

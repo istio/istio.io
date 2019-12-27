@@ -14,14 +14,14 @@ This task shows how to control access to a service using simple denials, attribu
 ## Before you begin
 
 * Set up Istio on Kubernetes by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 
     {{< warning >}}
     Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
-    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    [Enabling Policy Enforcement](/pt-br/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
     {{< /warning >}}
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application.
 
 * Initialize the application version routing to direct `reviews` service
   requests from test user "jason" to version v2 and requests from any other
@@ -47,7 +47,7 @@ This task shows how to control access to a service using simple denials, attribu
 Using Istio you can control access to a service based on any attributes that are available within Mixer.
 This simple form of access control is based on conditionally denying requests using Mixer selectors.
 
-Consider the [Bookinfo](/docs/examples/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
+Consider the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application where the `ratings` service is accessed by multiple versions
 of the `reviews` service. We would like to cut off access to version `v3` of the `reviews` service.
 
 1.  Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).
@@ -85,7 +85,7 @@ of the `reviews` service. We would like to cut off access to version `v3` of the
 
     This rule uses the `denier` adapter to deny requests coming from version `v3` of the reviews service.
     The adapter always denies requests with a preconfigured status code and message.
-    The status code and the message is specified in the [denier](/docs/reference/config/policy-and-telemetry/adapters/denier/)
+    The status code and the message is specified in the [denier](/pt-br/docs/reference/config/policy-and-telemetry/adapters/denier/)
     adapter configuration.
 
 1.  Refresh the `productpage` in your browser.
@@ -117,7 +117,7 @@ the `reviews` service.
 1.  Verify that when you access the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) without logging in, you see red stars.
     After performing the following steps you will no longer be able to see stars unless you are logged in as "jason".
 
-1.  Apply configuration for the [`list`](/docs/reference/config/policy-and-telemetry/adapters/list/)
+1.  Apply configuration for the [`list`](/pt-br/docs/reference/config/policy-and-telemetry/adapters/list/)
     adapter that white-lists versions `v1, v2`:
 
     {{< text bash >}}
@@ -146,7 +146,7 @@ subnet.
    `http://$GATEWAY_URL/productpage`. You won't be able to access it once you
    apply the rules below.
 
-1.  Apply configuration for the [list](/docs/reference/config/policy-and-telemetry/adapters/list/)
+1.  Apply configuration for the [list](/pt-br/docs/reference/config/policy-and-telemetry/adapters/list/)
     adapter that white-lists subnet `"10.57.0.0\16"` at the ingress gateway:
 
     {{< text bash >}}
@@ -207,5 +207,5 @@ subnet.
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.

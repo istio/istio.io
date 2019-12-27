@@ -37,8 +37,8 @@ and audit (AAA) tools to protect your services and data. The goals of Istio secu
 
 - **Zero-trust network**: build security solutions on untrusted networks
 
-Visit our [Mutual TLS Migration docs](/docs/tasks/security/authentication/mtls-migration/) to start using Istio security features with your deployed services.
-Visit our [Security Tasks](/docs/tasks/security/) for detailed instructions to use the security features.
+Visit our [Mutual TLS Migration docs](/pt-br/docs/tasks/security/authentication/mtls-migration/) to start using Istio security features with your deployed services.
+Visit our [Security Tasks](/pt-br/docs/tasks/security/) for detailed instructions to use the security features.
 
 ## High-level architecture
 
@@ -48,8 +48,8 @@ Security in Istio involves multiple components:
 
 - **Sidecar and perimeter proxies** to implement secure communication between clients and servers
 
-- **Pilot** to distribute [authentication policies](/docs/concepts/security/#authentication-policies)
-  and [secure naming information](/docs/concepts/security/#secure-naming) to the proxies
+- **Pilot** to distribute [authentication policies](/pt-br/docs/concepts/security/#authentication-policies)
+  and [secure naming information](/pt-br/docs/concepts/security/#secure-naming) to the proxies
 
 - **Mixer** to manage authorization and auditing
 
@@ -61,10 +61,10 @@ In the following sections, we introduce the Istio security features in detail.
 
 Identity is a fundamental concept of any security infrastructure. At the beginning of a service-to-service communication,
 the two parties must exchange credentials with their identity information for mutual authentication purposes.
-On the client side, the server's identity is checked against the [secure naming](/docs/concepts/security/#secure-naming)
+On the client side, the server's identity is checked against the [secure naming](/pt-br/docs/concepts/security/#secure-naming)
 information to see if it is an authorized runner of the service.
 On the server side, the server can determine what information the client can access based on the
-[authorization policies](/docs/concepts/security/#authorization-policy),
+[authorization policies](/pt-br/docs/concepts/security/#authorization-policy),
 audit who accessed what at what time, charge clients based on the services they used,
 and reject any clients who failed to pay their bill from accessing the services.
 
@@ -119,7 +119,7 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. Citadel watches the lifetime of each certificate, and automatically rotates the certificates by rewriting the Kubernetes secrets.
 
-1. Pilot generates the [secure naming](/docs/concepts/security/#secure-naming) information,
+1. Pilot generates the [secure naming](/pt-br/docs/concepts/security/#secure-naming) information,
    which defines what service account or accounts can run a certain service.
    Pilot then passes the secure naming information to the sidecar Envoy.
 
@@ -200,7 +200,7 @@ For a client to call a server with mutual TLS authentication:
 1. Istio re-routes the outbound traffic from a client to the client's local sidecar Envoy.
 
 1. The client side Envoy starts a mutual TLS handshake with the server side Envoy.
-   During the handshake, the client side Envoy also does a [secure naming](/docs/concepts/security/#secure-naming) check to verify that
+   During the handshake, the client side Envoy also does a [secure naming](/pt-br/docs/concepts/security/#secure-naming) check to verify that
    the service account presented in the server certificate is authorized to run the target service.
 
 1. The client side Envoy and the server side Envoy establish a mutual TLS connection,
@@ -230,7 +230,7 @@ result, the operator can gradually install and configure the client's
 Istio sidecars to send mutual TLS traffic. Once the configuration of the
 clients is complete, the operator can configure the server to mutual TLS
 only mode. For more information, visit the
-[Mutual TLS Migration tutorial](/docs/tasks/security/authentication/mtls-migration).
+[Mutual TLS Migration tutorial](/pt-br/docs/tasks/security/authentication/mtls-migration).
 
 #### Secure naming
 
@@ -270,7 +270,7 @@ the required authentication mechanisms. Pilot may fetch the public key and
 attach it to the configuration for JWT validation. Alternatively, Pilot
 provides the path to the keys and certificates the Istio system manages and
 installs them to the application pod for mutual TLS. You can find more info in
-the [PKI section](/docs/concepts/security/#pki).
+the [PKI section](/pt-br/docs/concepts/security/#pki).
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
 effect immediately on that pod.
@@ -278,28 +278,28 @@ effect immediately on that pod.
 Client services, those that send requests, are responsible for following
 the necessary authentication mechanism. For origin authentication (JWT), the
 application is responsible for acquiring and attaching the JWT credential to
-the request. For mutual TLS, Istio provides a [destination rule](/docs/concepts/traffic-management/#destination-rules).
+the request. For mutual TLS, Istio provides a [destination rule](/pt-br/docs/concepts/traffic-management/#destination-rules).
 The operator can use the destination rule to instruct client proxies to make
 initial connections using TLS with the certificates expected on the server
 side. You can find out more about how mutual TLS works in Istio in
-[Mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication).
+[Mutual TLS authentication](/pt-br/docs/concepts/security/#mutual-tls-authentication).
 
 {{< image width="60%" link="./authn.svg" caption="Authentication Architecture" >}}
 
 Istio outputs identities with both types of authentication, as well as other
 claims in the credential if applicable, to the next layer:
-[authorization](/docs/concepts/security/#authorization). Additionally,
+[authorization](/pt-br/docs/concepts/security/#authorization). Additionally,
 operators can specify which identity, either from transport or origin
 authentication, should Istio use as ‘the principal'.
 
 ### Authentication policies
 
 This section provides more details about how Istio authentication policies
-work. As you'll remember from the [Architecture section](/docs/concepts/security/#authentication-architecture),
+work. As you'll remember from the [Architecture section](/pt-br/docs/concepts/security/#authentication-architecture),
 authentication policies apply to requests that a service **receives**. To
 specify client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
-[TLS settings reference docs](/docs/reference/config/networking/destination-rule/#TLSSettings).
+[TLS settings reference docs](/pt-br/docs/reference/config/networking/destination-rule/#TLSSettings).
 Like other Istio configuration, you can specify authentication policies in
 `.yaml` files. You deploy policies using `kubectl`.
 
@@ -356,7 +356,7 @@ namespace. Policies in mesh-scope can affect all services in the mesh. To
 prevent conflict and misuse, only one policy can be defined in mesh-scope
 storage. That policy must be named `default` and have an empty
 `targets:` section. You can find more information on our
-[target selectors section](/docs/concepts/security/#target-selectors).
+[target selectors section](/pt-br/docs/concepts/security/#target-selectors).
 
 Kubernetes currently implements the Istio configuration on Custom Resource
 Definitions (CRDs). These CRDs correspond to namespace-scope and
@@ -428,7 +428,7 @@ peers:
 
 The mutual TLS setting has an optional `mode` parameter that defines the
 strictness of the peer transport authentication. These modes are documented
-in the [Authentication Policy reference document](/docs/reference/config/security/istio.authentication.v1alpha1/#MutualTls-Mode).
+in the [Authentication Policy reference document](/pt-br/docs/reference/config/security/istio.authentication.v1alpha1/#MutualTls-Mode).
 
 The default mutual TLS mode is `STRICT`. Therefore, `mode: STRICT` is equivalent to all of the following:
 
@@ -493,7 +493,7 @@ recommendations to avoid disruption when updating your authentication policies:
   types of traffic: plaintext and TLS. Thus, no request is dropped. Once all
   clients switch to the expected protocol, with or without mutual TLS, you can
   replace the `PERMISSIVE` policy with the final policy. For more information,
-  visit the [Mutual TLS Migration tutorial](/docs/tasks/security/authentication/mtls-migration).
+  visit the [Mutual TLS Migration tutorial](/pt-br/docs/tasks/security/authentication/mtls-migration).
 
 {{< text yaml >}}
 peers:
@@ -512,7 +512,7 @@ Istio's authorization feature provides mesh-level, namespace-level, and workload
 access control on workloads in an Istio Mesh. It provides:
 
 - **Workload-to-workload and end-user-to-workload authorization**.
-- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/docs/reference/config/security/authorization-policy/), which is easy to use and maintain.
+- **A Simple API**, it includes a single [`AuthorizationPolicy` CRD](/pt-br/docs/reference/config/security/authorization-policy/), which is easy to use and maintain.
 - **Flexible semantics**, operators can define custom conditions on Istio attributes.
 - **High performance**, as Istio authorization is enforced natively on Envoy.
 - **High compatibility**, supports HTTP, HTTPS and HTTP2 natively, as well as any plain TCP protocols.
@@ -549,7 +549,7 @@ multiple authorization policies apply to the same workload, the effect is additi
 ### Authorization policy
 
 To configure an Istio authorization policy, you create an
-[`AuthorizationPolicy` resource](/docs/reference/config/security/authorization-policy/).
+[`AuthorizationPolicy` resource](/pt-br/docs/reference/config/security/authorization-policy/).
 
 An authorization policy includes a selector and a list of rules. The selector
 specifies the **target** that the policy applies to, while the rules specify **who**
@@ -720,7 +720,7 @@ spec:
 {{< /text >}}
 
 The supported `key` values of a condition are listed in the
-[conditions page](/docs/reference/config/security/conditions/).
+[conditions page](/pt-br/docs/reference/config/security/conditions/).
 
 #### Authenticated and unauthenticated identity
 
@@ -777,7 +777,7 @@ These fields include:
 - The `request_principals` field in the source section of the authorization policy object
 - The `hosts`, `methods` and `paths` fields in the operation section of the authorization policy object
 
-The supported conditions are listed in the [conditions page](/docs/reference/config/security/conditions/).
+The supported conditions are listed in the [conditions page](/pt-br/docs/reference/config/security/conditions/).
 
 If you use any HTTP only fields for a TCP workload, Istio will ignore HTTP only fields in the
 authorization policy.
@@ -808,4 +808,4 @@ spec:
 
 While we strongly recommend using the Istio authorization mechanisms,
 Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
-To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/reference/config/policy-and-telemetry/adapters).
+To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/pt-br/docs/reference/config/policy-and-telemetry/adapters).

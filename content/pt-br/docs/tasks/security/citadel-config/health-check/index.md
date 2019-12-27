@@ -23,12 +23,12 @@ If the file is not updated for a period, Kubelet will restart the Citadel contai
 {{< tip >}}
 Since Citadel health checking currently only monitors the health status of CSR service API,
 this feature is not needed if the production setup is not using
-[SDS](/docs/tasks/security/citadel-config/auth-sds/) or [adding virtual machines](/docs/examples/virtual-machines/).
+[SDS](/pt-br/docs/tasks/security/citadel-config/auth-sds/) or [adding virtual machines](/pt-br/docs/examples/virtual-machines/).
 {{< /tip >}}
 
 ## Before you begin
 
-Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+Follow the [Istio installation guide](/pt-br/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ## Deploying Citadel with health checking
 

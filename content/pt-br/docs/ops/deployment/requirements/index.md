@@ -26,7 +26,7 @@ requirements:
 
 - **Named service ports**: Service ports must be named. The port name key/value
   pairs must have the following syntax: `name: <protocol>[-<suffix>]`. See
-  [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for
+  [Protocol Selection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/) for
   more details.
 
 - **Service association**: A pod must belong to at least one Kubernetes
@@ -52,7 +52,7 @@ requirements:
   with the user ID (UID) value of **1337**.
 
 - **`NET_ADMIN` capability**: If your cluster enforces pod security policies,
-  pods must allow the `NET_ADMIN` capability. If you use the [Istio CNI Plugin](/docs/setup/additional-setup/cni/),
+  pods must allow the `NET_ADMIN` capability. If you use the [Istio CNI Plugin](/pt-br/docs/setup/additional-setup/cni/),
   this requirement no longer applies. To learn more about the `NET_ADMIN`
   capability, see [Required pod capabilities](#required-pod-capabilities), below.
 

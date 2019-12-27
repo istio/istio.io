@@ -49,11 +49,11 @@ The SDS approach has the following benefits:
 
 ## Before you begin
 
-Follow the [Istio installation guide](/docs/setup/install/helm/) to set up Istio with SDS and global mutual TLS enabled.
+Follow the [Istio installation guide](/pt-br/docs/setup/install/helm/) to set up Istio with SDS and global mutual TLS enabled.
 
 ## Service-to-service mutual TLS using key/certificate provisioned through SDS
 
-Follow the [authentication policy task](/docs/tasks/security/authentication/authn-policy/) to
+Follow the [authentication policy task](/pt-br/docs/tasks/security/authentication/authn-policy/) to
 setup test services.
 
 {{< text bash >}}
@@ -353,7 +353,7 @@ To enable the pod security policy, perform the following steps:
 
 Currently, the SDS identity provision flow has the following caveats:
 
-* SDS support is currently in [Alpha](/about/feature-stages/#security-and-policy-enforcement).
+* SDS support is currently in [Alpha](/pt-br/about/feature-stages/#security-and-policy-enforcement).
 
 * Smoothly migrating a cluster from using secret volume mount to using
   SDS is a work in progress.

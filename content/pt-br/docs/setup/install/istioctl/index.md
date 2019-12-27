@@ -7,29 +7,29 @@ keywords: [istioctl,kubernetes]
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
 If you are new to Istio, and just want to try it out, follow the
-[quick start instructions](/docs/setup/getting-started) instead.
+[quick start instructions](/pt-br/docs/setup/getting-started) instead.
 
-This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
+This installation guide uses the [`istioctl`](/pt-br/docs/reference/commands/istioctl/) command line
 tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
 It has user input validation to help prevent installation errors and customization options to
 override any aspect of the configuration.
 
 Using these instructions, you can select any one of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/)
+[configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/getting-started/#download).
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
+1. [Download the Istio release](/pt-br/docs/setup/getting-started/#download).
+1. Perform any necessary [platform-specific setup](/pt-br/docs/setup/platform-setup/).
+1. Check the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/requirements/).
 
 ## Install Istio using the default profile
 
 The simplest option is to install the `default` Istio
-[configuration profile](/docs/setup/additional-setup/config-profiles/)
+[configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/)
 using the following command:
 
 {{< text bash >}}
@@ -49,7 +49,7 @@ $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.glo
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
-[Helm](/docs/setup/install/helm/). The only difference is you must
+[Helm](/pt-br/docs/setup/install/helm/). The only difference is you must
 prefix the setting paths with `values.` because this is the path to the Helm pass-through API, described below.
 
 ## Install from external charts
@@ -250,10 +250,10 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 ## Customizing the configuration
 
 In addition to installing any of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/),
+[configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/),
 `istioctl manifest` provides a complete API for customizing the configuration.
 
-- [The `IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+- [The `IstioControlPlane` API](/pt-br/docs/reference/config/istio.operator.v1alpha12.pb/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
 line. For example, to enable the security feature in a default configuration profile, use this command:
@@ -270,7 +270,7 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
-For backwards compatibility, the previous [Helm installation options](/docs/reference/config/installation-options/)
+For backwards compatibility, the previous [Helm installation options](/pt-br/docs/reference/config/installation-options/)
 are also fully supported. To set them on the command line, prepend the option name with "`values.`".
 For example, the following command overrides the `pilot.traceSampling` Helm configuration option:
 
@@ -374,7 +374,7 @@ namespaces:
 
 The `IstioControlPlane` API allows each component's Kubernetes settings to be customized in a consistent way.
 
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
+Each component has a [`KubernetesResourceSpec`](/pt-br/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
 which allows the following settings to be changed. Use this list to identify the setting to customize:
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
@@ -427,7 +427,7 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 
 ### Customize Istio settings using the Helm API
 
-The `IstioControlPlane` API includes a pass-through interface to the [Helm API](/docs/reference/config/installation-options/)
+The `IstioControlPlane` API includes a pass-through interface to the [Helm API](/pt-br/docs/reference/config/installation-options/)
 using the `values` field.
 
 The following YAML file configures global and Pilot settings through the Helm API:

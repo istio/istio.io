@@ -12,12 +12,12 @@ these webhooks manage their own configurations. From a
 security perspective, this default behavior is not recommended because a compromised webhook could then conduct
 privilege escalation attacks.
 
-This task shows how to use the new [{{< istioctl >}} x post-install webhook](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) command to
+This task shows how to use the new [{{< istioctl >}} x post-install webhook](/pt-br/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) command to
 securely manage the configurations of the webhooks.
 
 ## Getting started
 
-* Install Istio with [DNS certificates configured](/docs/tasks/security/dns-cert) and
+* Install Istio with [DNS certificates configured](/pt-br/docs/tasks/security/dns-cert) and
 `global.operatorManageWebhooks` set to `true`.
 
     {{< text bash >}}

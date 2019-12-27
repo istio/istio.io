@@ -14,6 +14,6 @@ To implement a new adapter for Mixer, please refer to the
 
 ## Templates
 
-The table below shows the set of [templates](/docs/reference/config/policy-and-telemetry/templates) that are implemented by each supported adapter.
+The table below shows the set of [templates](/pt-br/docs/reference/config/policy-and-telemetry/templates) that are implemented by each supported adapter.
 
 {{< adapter_table >}}

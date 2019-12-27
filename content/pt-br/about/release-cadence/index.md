@@ -21,7 +21,7 @@ offer technical assistance. Separately, 3rd parties and partners may offer longe
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
-You can find high-level releases notes for each LTS release [here](/news).
+You can find high-level releases notes for each LTS release [here](/pt-br/news).
 
 ## Naming scheme
 

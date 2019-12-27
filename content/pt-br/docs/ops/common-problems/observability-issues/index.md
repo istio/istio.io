@@ -23,13 +23,13 @@ The expected flow for metrics is:
 
 1. The backend storage systems record the metrics data.
 
-The Mixer default installations include a Prometheus adapter and the configuration to generate a [default set of metric values](/docs/reference/config/policy-and-telemetry/metrics/) and send them to the Prometheus adapter. The Prometheus adapter configuration enables a Prometheus instance to scrape Mixer for metrics.
+The Mixer default installations include a Prometheus adapter and the configuration to generate a [default set of metric values](/pt-br/docs/reference/config/policy-and-telemetry/metrics/) and send them to the Prometheus adapter. The Prometheus adapter configuration enables a Prometheus instance to scrape Mixer for metrics.
 
 If the Istio Dashboard or the Prometheus queries don’t show the expected metrics, any step of the flow above may present an issue. The following sections provide instructions to troubleshoot each step.
 
 ### Verify Istio CNI pods are running (if used)
 
-The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle’s network setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/ops/deployment/requirements/) for users deploying pods into the Istio mesh. The Istio CNI plugin replaces the functionality provided by the `istio-init` container.
+The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle’s network setup phase, thereby removing the [`NET_ADMIN` capability requirement](/pt-br/docs/ops/deployment/requirements/) for users deploying pods into the Istio mesh. The Istio CNI plugin replaces the functionality provided by the `istio-init` container.
 
 1. Verify that the `istio-cni-node` pods are running:
 
@@ -37,7 +37,7 @@ The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kube
     $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
     {{< /text >}}
 
-1. If `PodSecurityPolicy` is being enforced in your cluster, ensure the `istio-cni` service account can use a `PodSecurityPolicy` with the [`NET_ADMIN` capability requirement](/docs/ops/deployment/requirements/)
+1. If `PodSecurityPolicy` is being enforced in your cluster, ensure the `istio-cni` service account can use a `PodSecurityPolicy` with the [`NET_ADMIN` capability requirement](/pt-br/docs/ops/deployment/requirements/)
 ### Verify Mixer is receiving report calls
 
 Mixer generates metrics to monitor its own behavior. The first step is to check these metrics:
@@ -56,7 +56,7 @@ Mixer generates metrics to monitor its own behavior. The first step is to check 
 
     If you do not see any data for `grpc_io_server_completed_rpcs` with a `grpc_server_method="istio.mixer.v1.Mixer/Report"`, then Envoy is not calling Mixer to report telemetry.
 
-1. In this case, ensure you integrated the services properly into the mesh. You can achieve this task with either [automatic or manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/).
+1. In this case, ensure you integrated the services properly into the mesh. You can achieve this task with either [automatic or manual sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/).
 
 ### Verify the Mixer rules exist
 

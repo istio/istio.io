@@ -6,7 +6,7 @@ keywords: [mysql,mtls]
 ---
 
 You may find MySQL can't connect after installing Istio. This is because of `PERMISSIVE` mode,
-which is enabled in the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/),
+which is enabled in the `demo` [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/),
 does not work with MySQL.
 You may see error messages such as `ERROR 2013 (HY000): Lost connection to MySQL server at
 'reading initial communication packet', system error: 0`.

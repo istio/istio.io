@@ -47,12 +47,12 @@ Common Mixer policy statuses are:
 With the current Envoy sidecar implementation, up to 100 requests may be required for weighted
 version distribution to be observed.
 
-If route rules are working perfectly for the [Bookinfo](/docs/examples/bookinfo/) sample,
+If route rules are working perfectly for the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample,
 but similar version routing rules have no effect on your own application, it may be that
 your Kubernetes services need to be changed slightly.
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/ops/deployment/requirements/)
+Refer to the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/requirements/)
 for details.
 
 Another potential issue is that the route rules may simply be slow to take effect.
@@ -81,7 +81,7 @@ Otherwise, the mode defaults to `DISABLE` causing client proxy sidecars to make 
 instead of TLS encrypted requests. Thus, the requests conflict with the server proxy because the server proxy expects
 encrypted requests.
 
-To confirm there is a conflict, check whether the `STATUS` field in the output of the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command
+To confirm there is a conflict, check whether the `STATUS` field in the output of the [`istioctl authn tls-check`](/pt-br/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command
 is set to `CONFLICT` for your service. For example, a command similar to the following could be used to check
 for a conflict with the `httpbin` service:
 

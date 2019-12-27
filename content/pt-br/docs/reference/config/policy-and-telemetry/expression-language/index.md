@@ -10,7 +10,7 @@ This page describes how to use the Mixer configuration expression language (CEXL
 
 ## Background
 
-Mixer configuration uses an expression language (CEXL) to specify match expressions and [mapping expressions](/docs/reference/config/policy-and-telemetry/mixer-overview/#attribute-expressions). CEXL expressions map a set of typed [attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) and constants to a typed
+Mixer configuration uses an expression language (CEXL) to specify match expressions and [mapping expressions](/pt-br/docs/reference/config/policy-and-telemetry/mixer-overview/#attribute-expressions). CEXL expressions map a set of typed [attributes](/pt-br/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) and constants to a typed
 [value](https://github.com/istio/api/blob/{{< source_branch_name >}}/policy/v1beta1/value_type.proto).
 
 ## Syntax
@@ -50,7 +50,7 @@ CEXL supports the following functions.
 
 ## Type checking
 
-CEXL variables are attributes from the typed [attribute vocabulary](/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), constants are implicitly typed and, functions are explicitly typed.
+CEXL variables are attributes from the typed [attribute vocabulary](/pt-br/docs/reference/config/policy-and-telemetry/attribute-vocabulary/), constants are implicitly typed and, functions are explicitly typed.
 
 Mixer validates a CEXL expression and resolves it to a type during configuration validation.
 Selectors must resolve to a boolean value and mapping expressions must resolve to the type they are mapping into. Configuration validation fails if a selector fails to resolve to a boolean or if a mapping expression resolves to an incorrect type.

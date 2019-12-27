@@ -11,14 +11,14 @@ aliases:
 In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 is used to specify services that should be exposed outside the cluster.
 In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
-different configuration model, namely [Istio Gateway](/docs/reference/config/networking/gateway/).
+different configuration model, namely [Istio Gateway](/pt-br/docs/reference/config/networking/gateway/).
 A `Gateway` allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
 
 This task describes how to configure Istio to expose a service outside of the service mesh using an Istio `Gateway`.
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
 *   Make sure your current directory is the `istio` directory.
 
@@ -122,7 +122,7 @@ Setting the ingress IP depends on the cluster provider:
 
 ## Configuring ingress using an Istio gateway
 
-An ingress [Gateway](/docs/reference/config/networking/gateway/) describes a load balancer operating at the edge of the mesh that receives incoming HTTP/TCP connections.
+An ingress [Gateway](/pt-br/docs/reference/config/networking/gateway/) describes a load balancer operating at the edge of the mesh that receives incoming HTTP/TCP connections.
 It configures exposed ports, protocols, etc.
 but, unlike [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 does not include any traffic routing configuration. Traffic routing for ingress traffic is instead configured
@@ -178,11 +178,11 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     EOF
     {{< /text >}}
 
-    You have now created a [virtual service](/docs/reference/config/networking/virtual-service/)
+    You have now created a [virtual service](/pt-br/docs/reference/config/networking/virtual-service/)
     configuration for the `httpbin` service containing two route rules that allow traffic for paths `/status` and
     `/delay`.
 
-    The [gateways](/docs/reference/config/networking/virtual-service/#VirtualService-gateways) list
+    The [gateways](/pt-br/docs/reference/config/networking/virtual-service/#VirtualService-gateways) list
     specifies that only requests through your `httpbin-gateway` are allowed.
     All other external requests will be rejected with a 404 response.
 
@@ -192,7 +192,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     you can add the special value `mesh` to the list of `gateways`. Since the internal hostname for the
     service is probabaly different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
     you will also need to add it to the `hosts` list. Refer to the
-    [operations guide](/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)
+    [operations guide](/pt-br/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)
     for more details.
     {{< /warning >}}
 
@@ -307,7 +307,7 @@ they have valid values, according to the output of the following commands:
     {{< /text >}}
 
 1.  If you have an external load balancer and it does not work for you, try to
-    [access the gateway using its node port](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
+    [access the gateway using its node port](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
 
 ## Cleanup
 

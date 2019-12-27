@@ -7,8 +7,8 @@ aliases:
   - /docs/examples/advanced-gateways/wildcard-egress-hosts/
 ---
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task and
-the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example
+The [Control Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/) task and
+the [Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/) example
 describe how to configure egress traffic for specific hostnames, like `edition.cnn.com`.
 This example shows how to enable egress traffic for a set of hosts in a common domain, for
 example `*.wikipedia.org`, instead of configuring each and every host separately.
@@ -23,9 +23,9 @@ without the need to specify every language's site separately.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+*   [Deploy Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 ## Configure direct traffic to a wildcard host
 
@@ -419,7 +419,7 @@ The SNI proxy will forward the traffic to port `443`.
     traffic destined for _*.wikipedia.org_ through the gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS to let the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that identity.

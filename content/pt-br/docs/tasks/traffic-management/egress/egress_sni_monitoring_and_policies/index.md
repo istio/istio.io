@@ -7,24 +7,24 @@ aliases:
   - /docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 ---
 
-The [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example
+The [Configure Egress Traffic using Wildcard Hosts](/pt-br/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example
 describes how to enable TLS egress traffic for a set of hosts in a common domain, in that case `*.wikipedia.org`. This
 example extends that example to show how to configure SNI monitoring and apply policies on TLS egress traffic.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*  [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+*  [Deploy Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
-*  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*  [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 *  Configure traffic to `*.wikipedia.org` by following
-   [the steps](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in
-   [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example,
+   [the steps](/pt-br/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) in
+   [Configure Egress Traffic using Wildcard Hosts](/pt-br/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example,
    **with mutual TLS enabled**.
 
     {{< warning >}}
     Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
-    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    [Enabling Policy Enforcement](/pt-br/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
     {{< /warning >}}
 
 ## SNI monitoring and access policies
@@ -92,7 +92,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 
 ## Monitor the SNI and the source identity, and enforce access policies based on them
 
-Since you enabled mutual TLS between the sidecar proxies and the egress gateway, you can monitor the [service identity](/docs/ops/deployment/architecture/#citadel) of the applications that access external services, and enforce policies
+Since you enabled mutual TLS between the sidecar proxies and the egress gateway, you can monitor the [service identity](/pt-br/docs/ops/deployment/architecture/#citadel) of the applications that access external services, and enforce policies
 based on the identities of the traffic source.
 In Istio on Kubernetes, the identities are based on
 [Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/). In this
@@ -195,8 +195,8 @@ $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
 ## Cleanup
 
 1.  Perform
-    [the cleanup steps](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)
-    from [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)
+    [the cleanup steps](/pt-br/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)
+    from [Configure Egress Traffic using Wildcard Hosts](/pt-br/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)
     example.
 
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:

@@ -13,16 +13,16 @@ and export those logs to various configured sinks such as such as
 or [Cloud Pub/Sub](https://cloud.google.com/pubsub/). At the end of this post you can perform
 analytics on Istio data from your favorite places such as BigQuery, GCS or Cloud Pub/Sub.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used as the example
+The [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application is used as the example
 application throughout this task.
 
 ## Before you begin
 
-[Install Istio](/docs/setup/) in your cluster and deploy an application.
+[Install Istio](/pt-br/docs/setup/) in your cluster and deploy an application.
 
 ## Configuring Istio to export logs
 
-Istio exports logs using the `logentry` [template](/docs/reference/config/policy-and-telemetry/templates/logentry).
+Istio exports logs using the `logentry` [template](/pt-br/docs/reference/config/policy-and-telemetry/templates/logentry).
 This specifies all the variables that are available for analysis. It
 contains information like source service, destination service, auth
 metrics (coming..) among others. Following is a diagram of the pipeline:
@@ -48,7 +48,7 @@ Common setup for all sinks:
 1.  Record the ID of the dataset. It will be needed to configure the Stackdriver handler.
     It would be of the form `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` BigQuery Data Editor role in IAM.
-1.  If using [Google Kubernetes Engine](/docs/setup/platform-setup/gke/), make sure `bigquery` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
+1.  If using [Google Kubernetes Engine](/pt-br/docs/setup/platform-setup/gke/), make sure `bigquery` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 #### Google Cloud Storage (GCS)
 
@@ -63,12 +63,12 @@ Common setup for all sinks:
 1.  Recode the ID of the topic. It will be needed to configure Stackdriver.
     It would be of the form `pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`
 1.  Give [sink’s writer identity](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination): `cloud-logs@system.gserviceaccount.com` Pub/Sub Publisher role in IAM.
-1.  If using [Google Kubernetes Engine](/docs/setup/platform-setup/gke/), make sure `pubsub` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
+1.  If using [Google Kubernetes Engine](/pt-br/docs/setup/platform-setup/gke/), make sure `pubsub` [Scope](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create) is enabled on the cluster.
 
 ### Setting up Stackdriver
 
 A Stackdriver handler must be created to export data to Stackdriver. The configuration for
-a Stackdriver handler is described [here](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/).
+a Stackdriver handler is described [here](/pt-br/docs/reference/config/policy-and-telemetry/adapters/stackdriver/).
 
 1.  Save the following yaml file as `stackdriver.yaml`. Replace `<project_id>,
     <sink_id>, <sink_destination>, <log_filter>` with their specific values.
@@ -249,7 +249,7 @@ exported. In detail as follows:
     {{< /text >}}
 
 *   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions to shutdown
+    [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions to shutdown
     the application.
 
 ## Availability of logs in export sinks

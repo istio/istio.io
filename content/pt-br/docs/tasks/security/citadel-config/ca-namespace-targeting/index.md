@@ -6,15 +6,15 @@ aliases:
     - /docs/tasks/security/ca-namespace-targeting/
 ---
 
-A cluster operator might decide not to generate `ServiceAccount` secrets for some subset of namespaces, or to make `ServiceAccount` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here](/docs/ops/configuration/mesh/secret-creation/).
+A cluster operator might decide not to generate `ServiceAccount` secrets for some subset of namespaces, or to make `ServiceAccount` secret generation opt-in per namespace. This task describes how an operator can configure their cluster for these situations. Full documentation of the Citadel namespace targeting mechanism can be found [here](/pt-br/docs/ops/configuration/mesh/secret-creation/).
 
 ## Before you begin
 
 To complete this task, you should first take the following actions:
 
-* Read the [security concept](/docs/ops/configuration/mesh/secret-creation/).
+* Read the [security concept](/pt-br/docs/ops/configuration/mesh/secret-creation/).
 
-* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+* Follow the [Istio installation guide](/pt-br/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ### Deactivating service account secret generation for a single namespace
 

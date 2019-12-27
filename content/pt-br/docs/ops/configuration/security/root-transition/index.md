@@ -68,7 +68,7 @@ please follow the procedure and check whether you will be affected.
 
     If your sidecars are using versions lower than 1.0.8 and 1.1.8,
     please upgrade the Istio control plane and sidecars to versions no lower than 1.0.8 and 1.1.8.
-    To upgrade, follow the Istio [upgrade procedure](/docs/setup/upgrade/)
+    To upgrade, follow the Istio [upgrade procedure](/pt-br/docs/setup/upgrade/)
     or the procedure provided by your cloud service provider.
 
 1. Execute a root certificate transition:
@@ -85,7 +85,7 @@ please follow the procedure and check whether you will be affected.
     may cause disconnection between Pilot and Envoy.
     Please see [here](#how-can-i-check-if-pilot-has-a-sidecar) for how to check for this
     condition.
-    The [Istio upgrade guide](/docs/setup/upgrade/)
+    The [Istio upgrade guide](/pt-br/docs/setup/upgrade/)
     by default installs Pilot with a sidecar.
     {{< /warning >}}
 

@@ -43,7 +43,7 @@ in the [client go](https://github.com/istio/client-go) repository.
 Using the client set is very similar to using the [Kubernetes client
 go](https://github.com/kubernetes/client-go), here's a quick example of using
 the client to list all [Istio
-virtual services](/docs/reference/config/networking/virtual-service)
+virtual services](/pt-br/docs/reference/config/networking/virtual-service)
 in the passed namespace:
 
 {{< text go >}}

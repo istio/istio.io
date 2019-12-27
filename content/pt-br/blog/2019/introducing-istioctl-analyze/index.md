@@ -10,13 +10,13 @@ target_release: 1.4
 
 Istio 1.4 introduces an experimental new tool to help you analyze and debug your clusters running Istio.
 
-[`istioctl analyze`](/docs/reference/commands/istioctl/#istioctl-experimental-analyze) is a diagnostic tool that detects potential issues with your
+[`istioctl analyze`](/pt-br/docs/reference/commands/istioctl/#istioctl-experimental-analyze) is a diagnostic tool that detects potential issues with your
 Istio configuration, as well as gives general insights to improve your configuration.
 It can run against a live cluster or a set of local configuration files.
 It can also run against a combination of the two, allowing you to catch problems before you
 apply changes to a cluster.
 
-To get started with it in just minutes, head over to the [documentation](/docs/ops/diagnostic-tools/istioctl-analyze/).
+To get started with it in just minutes, head over to the [documentation](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/).
 
 ## Designed to be approachable for novice users
 

@@ -11,7 +11,7 @@ namespace to use throughout the tutorial.
 
 {{< warning >}}
 If you are in a workshop and the instructors provide a cluster for you,
-proceed to [setting up your local computer](/docs/examples/microservices-istio/setup-local-computer).
+proceed to [setting up your local computer](/pt-br/docs/examples/microservices-istio/setup-local-computer).
 {{</ warning >}}
 
 1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
@@ -38,9 +38,9 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  [Install Istio](/docs/setup/) with strict mutual TLS enabled.
+1.  [Install Istio](/pt-br/docs/setup/) with strict mutual TLS enabled.
 
-1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
+1.  [Enable Envoy's access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
 1.  Create a Kubernetes Ingress resource for these common Istio services using
     the `kubectl` command shown. It is not necessary to be familiar with each of
@@ -240,4 +240,4 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
 Congratulations, you configured your cluster for the tutorials!
 
-You are ready to [setup a local computer](/docs/examples/microservices-istio/setup-local-computer).
+You are ready to [setup a local computer](/pt-br/docs/examples/microservices-istio/setup-local-computer).

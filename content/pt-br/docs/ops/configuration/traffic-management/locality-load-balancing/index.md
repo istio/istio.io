@@ -36,7 +36,7 @@ As a result, Istio introduced the custom node label `topology.istio.io/subzone` 
 
 In order for Istio to determine locality, a Service must be associated with the caller.
 
-To determine when instances are unhealthy, the proxies require an [outlier detection](/docs/reference/config/networking/destination-rule/#OutlierDetection)
+To determine when instances are unhealthy, the proxies require an [outlier detection](/pt-br/docs/reference/config/networking/destination-rule/#OutlierDetection)
 configuration in a destination rule for each service.
 
 ## Locality-prioritized load balancing
@@ -74,7 +74,7 @@ endpoints across the globe when there are not enough healthy endpoints in the
 same region. This behavior is useful when sending fail-over traffic across regions
 would not improve service health or many other reasons including regulatory controls.
 To constrain traffic to a region, configure the `values.localityLbSetting` option during install. See the
-[Locality load balancing reference guide](/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
+[Locality load balancing reference guide](/pt-br/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
 for options.
 
 An example configuration:

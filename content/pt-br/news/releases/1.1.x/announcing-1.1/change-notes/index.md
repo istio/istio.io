@@ -10,15 +10,15 @@ aliases:
 
 In addition to the new features and improvements listed below, Istio 1.1 has introduced
 a number of significant changes from 1.0 that can alter the behavior of applications.
-A concise list of these changes can be found in the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes).
+A concise list of these changes can be found in the [upgrade notice](/pt-br/news/releases/1.1.x/announcing-1.1/upgrade-notes).
 
 ## Upgrades
 
 We recommend a manual upgrade of the control plane and data plane to 1.1. See
-the [upgrades documents](/docs/setup/upgrade/) for more information.
+the [upgrades documents](/pt-br/docs/setup/upgrade/) for more information.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes) for a
+Be sure to check out the [upgrade notice](/pt-br/news/releases/1.1.x/announcing-1.1/upgrade-notes) for a
 concise list of things you should know before upgrading your deployment to Istio 1.1.
 {{< /warning >}}
 
@@ -33,17 +33,17 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Installation Configuration Profiles**. Added several installation
   configuration profiles to simplify the installation process using well-known
   and well-tested patterns. Learn more about the better user experience
-  afforded by the [installation profile feature](/docs/setup/additional-setup/config-profiles/).
+  afforded by the [installation profile feature](/pt-br/docs/setup/additional-setup/config-profiles/).
 
 - **Improved Multicluster Integration**. Consolidated the 1.0 `istio-remote`
   chart previously used for
-  [multicluster VPN](/docs/setup/install/multicluster/shared-vpn/) and
-  [multicluster split horizon](/docs/setup/install/multicluster/shared-gateways/) remote cluster installation
+  [multicluster VPN](/pt-br/docs/setup/install/multicluster/shared-vpn/) and
+  [multicluster split horizon](/pt-br/docs/setup/install/multicluster/shared-gateways/) remote cluster installation
   into the Istio Helm chart simplifying the operational experience.
 
 ## Traffic management
 
-- **New `Sidecar` Resource**. The new [sidecar](/docs/concepts/traffic-management/#sidecars) resource
+- **New `Sidecar` Resource**. The new [sidecar](/pt-br/docs/concepts/traffic-management/#sidecars) resource
   enables more fine-grained control over the behavior of the sidecar proxies attached to workloads within a namespace.
   In particular it adds support to limit the set of services a sidecar will send traffic to.
   This reduces the amount of configuration computed and transmitted to
@@ -69,7 +69,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Locality-Aware Routing**. Added full support for routing to services in the
   same locality before picking services in other localities.
-  See [Locality Load Balancer Settings](/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
+  See [Locality Load Balancer Settings](/pt-br/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
 
 - **Refined Multicluster Routing**. Simplified the multicluster setup and
   enabled additional deployment modes. You can now connect multiple clusters
@@ -80,12 +80,12 @@ concise list of things you should know before upgrading your deployment to Istio
   solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio
-  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/)
+  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/pt-br/docs/tasks/traffic-management/ingress/ingress-certmgr/)
   example for more details on how to use Kubernetes Ingress resources with
-  [gateways](/docs/concepts/traffic-management/#gateways).
+  [gateways](/pt-br/docs/concepts/traffic-management/#gateways).
 
 - **Performance and Scalability Improvements**. Tuned the performance and
-  scalability of Istio and Envoy. Read more about [Performance and Scalability](/docs/ops/deployment/performance-and-scalability/)
+  scalability of Istio and Envoy. Read more about [Performance and Scalability](/pt-br/docs/ops/deployment/performance-and-scalability/)
   enhancements.
 
 - **Access Logging Off by Default**. Disabled the access logs for all Envoy
@@ -94,7 +94,7 @@ concise list of things you should know before upgrading your deployment to Istio
 ### Security
 
 - **Readiness and Liveness Probes**. Added support for Kubernetes' HTTP
-  [readiness and liveness probes](/faq/security/#k8s-health-checks) when
+  [readiness and liveness probes](/pt-br/faq/security/#k8s-health-checks) when
   mutual TLS is enabled.
 
 - **Cluster RBAC Configuration**. Replaced the `RbacConfig` resource with the
@@ -104,15 +104,15 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Identity Provisioning Through SDS**. Added SDS support to provide stronger
   security with on-node key generation and dynamic certificate rotation without
-  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/citadel-config/auth-sds)
+  restarting Envoy. See [Provisioning Identity through SDS](/pt-br/docs/tasks/security/citadel-config/auth-sds)
   for more information.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
-  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authorization/authz-tcp)
+  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/pt-br/docs/tasks/security/authorization/authz-tcp)
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/authorization/rbac-groups/)
+  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/pt-br/docs/tasks/security/authorization/rbac-groups/)
   for more information.
 
 - **External Certificate Management on Ingress Gateway Controller**.
@@ -127,12 +127,12 @@ concise list of things you should know before upgrading your deployment to Istio
 ## Policies and telemetry
 
 - **Policy Checks Off By Default**. Changed policy checks to be turned off by
-  default to improve performance for most customer scenarios. [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/)
+  default to improve performance for most customer scenarios. [Enabling Policy Enforcement](/pt-br/docs/tasks/policy-enforcement/enabling-policy/)
   details how to turn on Istio policy checks, if needed.
 
 - **Kiali**. Replaced the [Service Graph addon](https://github.com/istio/istio/issues/9066)
   with [Kiali](https://www.kiali.io) to provide a richer visualization
-  experience. See the [Kiali task](/docs/tasks/observability/kiali/) for more
+  experience. See the [Kiali task](/pt-br/docs/tasks/observability/kiali/) for more
   details.
 
 - **Reduced Overhead**. Added several performance and scale improvements
@@ -146,7 +146,7 @@ concise list of things you should know before upgrading your deployment to Istio
     - Improved the protocol between Envoy and Mixer.
 
 - **Control Headers and Routing**. Added the option to create adapters to
-  influence the headers and routing of an incoming request. See the [Control Headers and Routing](/docs/tasks/policy-enforcement/control-headers)
+  influence the headers and routing of an incoming request. See the [Control Headers and Routing](/pt-br/docs/tasks/policy-enforcement/control-headers)
   task for more information.
 
 - **Out of Process Adapters**. Added the out-of-process adapter functionality
@@ -159,7 +159,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
     - Trace ids are now 128 bit wide.
 
-    - Added support for sending trace data to [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/)
+    - Added support for sending trace data to [LightStep](/pt-br/docs/tasks/observability/distributed-tracing/lightstep/)
 
     - Added the option to disable tracing for Mixer-backed services entirely.
 
@@ -170,7 +170,7 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Reduced Load Balancer Requirements for Addons**. Stopped exposing addons
   via separate load balancers. Instead, addons are exposed via the Istio
   gateway. To expose addons externally using either HTTP or HTTPS protocols,
-  please use the [Addon Gateway documentation](/docs/tasks/observability/gateways/).
+  please use the [Addon Gateway documentation](/pt-br/docs/tasks/observability/gateways/).
 
 - **Secure Addon Credentials**. Changed storage of the addon credentials.
   Grafana, Kiali, and Jaeger passwords and username are now stored in
@@ -183,7 +183,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ### Configuration management
 
-- **Galley**. Added [Galley](/docs/ops/deployment/architecture/#galley) as the
+- **Galley**. Added [Galley](/pt-br/docs/ops/deployment/architecture/#galley) as the
   primary configuration ingestion and distribution mechanism within Istio. It
   provides a robust model to validate, transform, and distribute configuration
   states to Istio components insulating the Istio components from Kubernetes
@@ -195,10 +195,10 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ## `istioctl` and `kubectl`
 
-- **Validate Command**. Added the [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate)
+- **Validate Command**. Added the [`istioctl validate`](/pt-br/docs/reference/commands/istioctl/#istioctl-validate)
   command for offline validation of Istio Kubernetes resources.
 
-- **Verify-Install Command**. Added the [`istioctl verify-install`](/docs/reference/commands/istioctl/#istioctl-verify-install)
+- **Verify-Install Command**. Added the [`istioctl verify-install`](/pt-br/docs/reference/commands/istioctl/#istioctl-verify-install)
   command to verify the status of an Istio installation given a specified
   installation YAML file.
 
@@ -206,7 +206,7 @@ concise list of things you should know before upgrading your deployment to Istio
   replace`, `istioctl get`, and `istioctl delete` commands. Use the
   [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl)
   equivalents instead. Deprecated the `istioctl gen-deploy` command too. Use a
-  [`helm template`](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)
+  [`helm template`](/pt-br/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)
   instead. Release 1.2 will remove these commands.
 
 - **Short Commands**. Included short commands in `kubectl` for gateways,

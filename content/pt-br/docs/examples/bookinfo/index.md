@@ -39,7 +39,7 @@ for the `reviews` service.
 ## Before you begin
 
 If you haven't already done so, setup Istio by following the instructions
-in the [installation guide](/docs/setup/).
+in the [installation guide](/pt-br/docs/setup/).
 
 ## Deploying the application
 
@@ -63,7 +63,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
 1.  Change directory to the root of the Istio installation.
 
-1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+1.  The default Istio installation uses [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
     Label the namespace that will host the application with `istio-injection=enabled`:
 
     {{< text bash >}}
@@ -71,7 +71,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     {{< /text >}}
 
     {{< warning >}}
-    If you use OpenShift, make sure to give appropriate permissions to service accounts on the namespace as described in [OpenShift setup page](/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars).
+    If you use OpenShift, make sure to give appropriate permissions to service accounts on the namespace as described in [OpenShift setup page](/pt-br/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars).
     {{< /warning >}}
 
 1.  Deploy your application using the `kubectl` command:
@@ -83,7 +83,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     {{< warning >}}
     If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
     (/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
-    use the [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command to modify the `bookinfo.yaml`
+    use the [`istioctl kube-inject`](/pt-br/docs/reference/commands/istioctl/#istioctl-kube-inject) command to modify the `bookinfo.yaml`
     file before deploying your application.
 
     {{< text bash >}}
@@ -136,7 +136,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 ### Determine the ingress IP and port
 
 Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
-Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
+Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/pt-br/docs/concepts/traffic-management/#gateways)
 is used for this purpose.
 
 1.  Define the ingress gateway for the application:
@@ -153,7 +153,7 @@ is used for this purpose.
     bookinfo-gateway   32s
     {{< /text >}}
 
-1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
+1.  Follow [these instructions](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
 
 1.  Set `GATEWAY_URL`:
 
@@ -179,7 +179,7 @@ version routing.
 ## Apply default destination rules
 
 Before you can use Istio to control the Bookinfo version routing, you need to define the available
-versions, called *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules).
+versions, called *subsets*, in [destination rules](/pt-br/docs/concepts/traffic-management/#destination-rules).
 
 Run the following command to create default destination rules for the Bookinfo services:
 
@@ -187,7 +187,7 @@ Run the following command to create default destination rules for the Bookinfo s
 
     {{< tip >}}
     Choose this option if you are new to Istio and are using the `demo`
-    [configuration profile](/docs/setup/additional-setup/config-profiles/).
+    [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/).
     {{< /tip >}}
 
     {{< text bash >}}
@@ -212,8 +212,8 @@ $ kubectl get destinationrules -o yaml
 
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc.
-To proceed, refer to one or more of the [Istio Tasks](/docs/tasks),
-depending on your interest. [Configuring Request Routing](/docs/tasks/traffic-management/request-routing/)
+To proceed, refer to one or more of the [Istio Tasks](/pt-br/docs/tasks),
+depending on your interest. [Configuring Request Routing](/pt-br/docs/tasks/traffic-management/request-routing/)
 is a good place to start for beginners.
 
 ## Cleanup

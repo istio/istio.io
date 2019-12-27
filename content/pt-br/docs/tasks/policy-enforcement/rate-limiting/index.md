@@ -13,14 +13,14 @@ service.
 ## Before you begin
 
 1. Setup Istio in a Kubernetes cluster by following the instructions in the
-   [Installation Guide](/docs/setup/getting-started/).
+   [Installation Guide](/pt-br/docs/setup/getting-started/).
 
     {{< warning >}}
     Policy enforcement **must** be enabled in your cluster for this task. Follow the steps in
-    [Enabling Policy Enforcement](/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
+    [Enabling Policy Enforcement](/pt-br/docs/tasks/policy-enforcement/enabling-policy/) to ensure that policy enforcement is enabled.
     {{< /warning >}}
 
-1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+1. Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application.
 
     The Bookinfo sample deploys 3 versions of the `reviews` service:
 
@@ -43,12 +43,12 @@ of the originating client. You will use `X-Forwarded-For` request header as the 
 IP address. You will also use a conditional rate limit that exempts logged in users.
 
 For convenience, you configure the
-[memory quota](/docs/reference/config/policy-and-telemetry/adapters/memquota/)
+[memory quota](/pt-br/docs/reference/config/policy-and-telemetry/adapters/memquota/)
 (`memquota`) adapter to enable rate limiting. On a production system, however,
 you need [Redis](http://redis.io/), and you configure the [Redis
-quota](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+quota](/pt-br/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 (`redisquota`) adapter. Both the `memquota` and `redisquota` adapters support
-the [quota template](/docs/reference/config/policy-and-telemetry/templates/quota/),
+the [quota template](/pt-br/docs/reference/config/policy-and-telemetry/templates/quota/),
 so the configuration to enable rate limiting on both adapters is the same.
 
 1. Rate limit configuration is split into 2 parts.
@@ -95,8 +95,8 @@ so the configuration to enable rate limiting on both adapters is the same.
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-productpage-redis-quota-rolling-window.yaml@
     {{< /text >}}
 
-    _Note:_ Replace [rate_limit_algorithm](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm),
-    [redis_server_url](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) with values for your configuration.
+    _Note:_ Replace [rate_limit_algorithm](/pt-br/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm),
+    [redis_server_url](/pt-br/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params) with values for your configuration.
 
     The `redisquota` handler defines 4 different rate limit schemes. The default,
     if no overrides match, is `500` requests per one second (`1s`). It is using `ROLLING_WINDOW`
@@ -121,7 +121,7 @@ so the configuration to enable rate limiting on both adapters is the same.
     `destination` will be set to the first non-empty value in
     `destination.labels["app"]`, `destination.service.host`, or `"unknown"`. For
      more information on expressions, see [Expression
-    Language](/docs/reference/config/policy-and-telemetry/expression-language/).
+    Language](/pt-br/docs/reference/config/policy-and-telemetry/expression-language/).
 
 1. Confirm the `quota rule` was created:
 
@@ -214,7 +214,7 @@ returns status `HTTP 429` to the caller.
 The `memquota` adapter uses a sliding window of sub-second resolution to
 enforce rate limits.
 
-The `redisquota` adapter can be configured to use either the [`ROLLING_WINDOW` or `FIXED_WINDOW`](/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
+The `redisquota` adapter can be configured to use either the [`ROLLING_WINDOW` or `FIXED_WINDOW`](/pt-br/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
 algorithms to enforce rate limits.
 
 The `maxAmount` in the adapter configuration sets the default limit for all
@@ -257,5 +257,5 @@ namespace.
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the
-   [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+   [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
    to shutdown the application.

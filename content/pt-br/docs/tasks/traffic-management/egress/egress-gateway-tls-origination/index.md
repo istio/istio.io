@@ -7,9 +7,9 @@ aliases:
   - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
 ---
 
-The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
+The [TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/)
 example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
-for traffic to an external service. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/)
+for traffic to an external service. The [Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/)
 example shows how to configure Istio to direct egress traffic through a
 dedicated _egress gateway_ service. This example combines the previous two by
 describing how to configure an egress gateway to perform TLS origination for
@@ -17,12 +17,12 @@ traffic to external services.
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
     which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
+    If you have enabled [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -43,14 +43,14 @@ traffic to external services.
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-*   [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+*   [Deploy Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 ## Perform TLS origination with an egress gateway
 
 This section describes how to perform the same TLS origination as in the
-[TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
+[TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
 only this time using an egress gateway. Note that in this case the TLS origination will
 be done by the egress gateway, as opposed to by the sidecar in the previous example.
 
@@ -94,7 +94,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     sidecar requests that will be directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.
@@ -249,7 +249,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     ...
     {{< /text >}}
 
-    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
+    The output should be the same as in the [TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/)
     example, with TLS origination: without the _301 Moved Permanently_ message.
 
 1.  Check the log of the `istio-egressgateway` pod and you should see a line corresponding to our request.
@@ -334,7 +334,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
-    [enabled](/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
+    [enabled](/pt-br/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external

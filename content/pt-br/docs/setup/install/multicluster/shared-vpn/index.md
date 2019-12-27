@@ -9,14 +9,14 @@ aliases:
     - /docs/setup/kubernetes/install/multicluster/shared-vpn/
 ---
 
-Follow this guide to install an Istio [multicluster service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
+Follow this guide to install an Istio [multicluster service mesh](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters)
 where the Kubernetes cluster services and the applications in each cluster
 have the capability to expose their internal Kubernetes network to other
 clusters.
 
 In this configuration, multiple Kubernetes clusters running
 a remote configuration connect to a shared Istio
-[control plane](/docs/ops/deployment/deployment-models/#control-plane-models).
+[control plane](/pt-br/docs/ops/deployment/deployment-models/#control-plane-models).
 Once one or more remote Kubernetes clusters are connected to the
 Istio control plane, Envoy can then form a mesh network across multiple clusters.
 
@@ -26,7 +26,7 @@ Istio control plane, Envoy can then form a mesh network across multiple clusters
 
 * Two or more clusters running a supported Kubernetes version ({{< supported_kubernetes_versions >}}).
 
-* The ability to [deploy the Istio control plane](/docs/setup/install/istioctl/)
+* The ability to [deploy the Istio control plane](/pt-br/docs/setup/install/istioctl/)
   on **one** of the clusters.
 
 * A RFC1918 network, VPN, or an alternative more advanced network technique
@@ -44,7 +44,7 @@ remote configuration profile provided by Istio.
 
 ## Deploy the local control plane
 
-[Install the Istio control plane](/docs/setup/install/istioctl/)
+[Install the Istio control plane](/pt-br/docs/setup/install/istioctl/)
 on **one** Kubernetes cluster.
 
 ### Set environment variables {#environment-var}
@@ -253,7 +253,7 @@ To uninstall the cluster run the following command:
 The following example shows how to use the `istioctl manifest` command to generate
 the manifest for a remote cluster with the automatic sidecar injection
 disabled. Additionally, the example shows how to use the `configmaps` of the
-remote cluster with the [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command to generate any
+remote cluster with the [`istioctl kube-inject`](/pt-br/docs/reference/commands/istioctl/#istioctl-kube-inject) command to generate any
 application manifests for the remote cluster.
 
 Perform the following procedure against the remote cluster.
@@ -386,7 +386,7 @@ To enable control plane security follow these general steps:
     * The `citadel` certificate self signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
+      [Certificate Authority (CA) certificates](/pt-br/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
 
 1.  Deploy the Istio remote clusters with:
 
@@ -395,7 +395,7 @@ To enable control plane security follow these general steps:
     * The `citadel` certificate self signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
+      [CA certificates](/pt-br/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key).
       The Certificate Authority (CA) of the main cluster or a root CA must sign
       the CA certificate for the remote clusters too.
 
@@ -417,7 +417,7 @@ To enable mutual TLS for all application pods, follow these general steps:
     * The Citadel certificate self-signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+      [CA certificates](/pt-br/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
 
 1.  Deploy the Istio remote clusters with:
 
@@ -426,7 +426,7 @@ To enable mutual TLS for all application pods, follow these general steps:
     * The Citadel certificate self-signing disabled.
 
     * A secret named `cacerts` in the Istio control plane namespace with the
-      [CA certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
+      [CA certificates](/pt-br/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)
       The CA of the main cluster or a root CA must sign the CA certificate for
       the remote clusters too.
 

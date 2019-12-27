@@ -19,7 +19,7 @@ it. If you don't find your problem in the database, please open a [new
 issue](https://github.com/istio/istio/issues/new/choose) and let us know
 what's going on.
 
-If you think a bug is in fact a security vulnerability, please visit [Reporting Security Vulnerabilities](/about/security-vulnerabilities/)
+If you think a bug is in fact a security vulnerability, please visit [Reporting Security Vulnerabilities](/pt-br/about/security-vulnerabilities/)
 to learn what to do.
 
 ### Kubernetes cluster state archives

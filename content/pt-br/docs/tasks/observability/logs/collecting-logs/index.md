@@ -11,12 +11,12 @@ This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new log stream will be enabled
 for calls to services within your mesh.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used
+The [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster and deploy an
+* [Install Istio](/pt-br/docs/setup) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
@@ -134,5 +134,5 @@ here to illustrate how to use `match` expressions to control rule execution.
     {{< /text >}}
 
 *   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.

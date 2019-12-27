@@ -33,11 +33,11 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 ## Before you begin
 
 - Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/getting-started/).
+  [Installation guide](/pt-br/docs/setup/getting-started/).
 
-- Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
+- Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
-- Create a VM named 'vm-1' in the same project as the Istio cluster, and [join the mesh](/docs/examples/virtual-machines/single-network/).
+- Create a VM named 'vm-1' in the same project as the Istio cluster, and [join the mesh](/pt-br/docs/examples/virtual-machines/single-network/).
 
 ## Running MySQL on the VM
 
@@ -100,7 +100,7 @@ $ hostname -I
 
 ## Registering the mysql service with the mesh
 
-On a host with access to [`istioctl`](/docs/reference/commands/istioctl) commands, register the VM and mysql db service
+On a host with access to [`istioctl`](/pt-br/docs/reference/commands/istioctl) commands, register the VM and mysql db service
 
 {{< text bash >}}
 $ istioctl register -n vm mysqldb <ip-address-of-vm> 3306

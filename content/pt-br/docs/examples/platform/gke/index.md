@@ -9,7 +9,7 @@ aliases:
 ---
 
 This example shows how to configure a multicluster mesh with a
-[single-network deployment](/docs/ops/deployment/deployment-models/#single-network)
+[single-network deployment](/pt-br/docs/ops/deployment/deployment-models/#single-network)
 over 2 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) clusters.
 
 ## Before you begin
@@ -263,7 +263,7 @@ $ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
 ## Uninstalling
 
 The following should be done in addition to the uninstall of Istio as described in the
-[VPN-based multicluster uninstall section](/docs/setup/install/multicluster/shared-vpn/):
+[VPN-based multicluster uninstall section](/pt-br/docs/setup/install/multicluster/shared-vpn/):
 
 1.  Delete the Google Cloud firewall rule:
 

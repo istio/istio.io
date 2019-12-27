@@ -35,7 +35,7 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/pt-br/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
 
     {{< warning >}}
     The root and intermediate certificate from the samples directory are widely
@@ -61,7 +61,7 @@ following commands on a machine with cluster admin privileges:
         {{< /text >}}
 
     For further details and customization options, refer to the
-    [installation instructions](/docs/setup/install/istioctl/).
+    [installation instructions](/pt-br/docs/setup/install/istioctl/).
 
 1. Create `vm` namespace for the VM services.
 
@@ -87,8 +87,8 @@ following commands on a machine with cluster admin privileges:
     {{< /text >}}
 
 1. Determine and store the IP address of the Istio ingress gateway since the
-   VMs access [Citadel](/docs/concepts/security/) and
-   [Pilot](/docs/ops/deployment/architecture/#pilot) and workloads on cluster through
+   VMs access [Citadel](/pt-br/docs/concepts/security/) and
+   [Pilot](/pt-br/docs/ops/deployment/architecture/#pilot) and workloads on cluster through
    this IP address.
 
     {{< text bash >}}
@@ -121,7 +121,7 @@ following commands on a machine with cluster admin privileges:
 
 ### Setup DNS
 
-Reference [Setup DNS](/docs/setup/install/multicluster/gateways/#setup-dns) to set up DNS for the cluster.
+Reference [Setup DNS](/pt-br/docs/setup/install/multicluster/gateways/#setup-dns) to set up DNS for the cluster.
 
 ### Setting up the VM
 
@@ -316,7 +316,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     {{< /text >}}
 
     {{< tip >}}
-    Ensure you have added the `istioctl` client to your path, as described in the [download page](/docs/setup/getting-started/#download).
+    Ensure you have added the `istioctl` client to your path, as described in the [download page](/pt-br/docs/setup/getting-started/#download).
     {{< /tip >}}
 
 1. Deploy a pod running the `sleep` service in the Kubernetes cluster, and wait until it is ready:

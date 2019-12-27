@@ -20,7 +20,7 @@ To learn about the full set of features it supports,
 see the [Kiali website](http://kiali.io/documentation/features/).
 {{< /idea >}}
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout.
+This task uses the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application as the example throughout.
 
 ## Before you begin
 
@@ -32,7 +32,7 @@ To install Kiali without `istioctl`, follow the [Kiali installation instructions
 ### Create a secret
 
 {{< tip >}}
-If you plan on installing Kiali using the Istio demo profile as described in the [Istio Quick Start Installation Steps](/docs/setup/getting-started/) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
+If you plan on installing Kiali using the Istio demo profile as described in the [Istio Quick Start Installation Steps](/pt-br/docs/setup/getting-started/) then a default secret will be created for you with a username of `admin` and passphrase of `admin`. You can therefore skip this section.
 {{< /tip >}}
 
 Create a secret in your Istio namespace with the credentials that you use to
@@ -85,7 +85,7 @@ EOF
 ### Install via `istioctl`
 
 Once you create the Kiali secret, follow
-[the install instructions](/docs/setup/install/istioctl/) to install Kiali via `istioctl`.
+[the install instructions](/pt-br/docs/setup/install/istioctl/) to install Kiali via `istioctl`.
 For example:
 
 {{< text bash >}}
@@ -107,7 +107,7 @@ $ istioctl manifest apply \
 
 {{< /idea >}}
 
-Once you install Istio and Kiali, deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+Once you install Istio and Kiali, deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application.
 
 ### Running on OpenShift
 
@@ -128,7 +128,7 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
     $ kubectl -n istio-system get svc kiali
     {{< /text >}}
 
-1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 1.  To send traffic to the mesh, you have three options
 
@@ -364,7 +364,7 @@ convention.
 
 If you are not planning any follow-up tasks, remove the Bookinfo sample application and Kiali from your cluster.
 
-1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
+1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions.
 
 1. To remove Kiali from a Kubernetes environment, remove all components with the `app=kiali` label:
 

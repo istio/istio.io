@@ -85,11 +85,11 @@ the base functionality. We have identified several performance optimizations bas
 on our initial experimentation, and expect to continue to improve the performance
 and scalability of this feature as it develops.
 
-We won't consider this feature for promotion to **Beta** or **Stable** [status](/about/feature-stages/#feature-phase-definitions)
+We won't consider this feature for promotion to **Beta** or **Stable** [status](/pt-br/about/feature-stages/#feature-phase-definitions)
 until performance and scalability assessments and improvements have been made.
 
 The performance of your mesh depends on your configuration.
-To learn more, see our [performance best practices post](/blog/2019/performance-best-practices/).
+To learn more, see our [performance best practices post](/pt-br/blog/2019/performance-best-practices/).
 
 {{< /warning >}}
 
@@ -102,7 +102,7 @@ Here's what we've measured so far:
 - If you only use the `istio-telemetry` service to generate service-level metrics,
   you can switch off the `istio-telemetry` service. This could save up to ~0.5 vCPU per
   1000 rps of mesh traffic, and could halve the CPU consumed by Istio while collecting
-  [standard metrics](/docs/reference/config/policy-and-telemetry/metrics/).
+  [standard metrics](/pt-br/docs/reference/config/policy-and-telemetry/metrics/).
 
 ## Known limitations
 

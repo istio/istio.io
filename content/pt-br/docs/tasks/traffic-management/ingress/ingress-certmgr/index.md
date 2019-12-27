@@ -9,11 +9,11 @@ aliases:
 
 This example demonstrates the use of Istio as a secure Kubernetes Ingress controller with TLS certificates issued by [Let's Encrypt](https://letsencrypt.org/).
 
-You will start with a clean Istio installation, create an example service, expose it using the Kubernetes `Ingress` resource and get it secured by instructing cert-manager (bundled with Istio) to manage issuance and renewal of TLS certificates that will be further delivered to the Istio ingress [gateway](/docs/reference/config/networking/gateway) and hot-swapped as necessary via the means of [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret).
+You will start with a clean Istio installation, create an example service, expose it using the Kubernetes `Ingress` resource and get it secured by instructing cert-manager (bundled with Istio) to manage issuance and renewal of TLS certificates that will be further delivered to the Istio ingress [gateway](/pt-br/docs/reference/config/networking/gateway) and hot-swapped as necessary via the means of [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret).
 
 ## Before you begin
 
-1. [Install Istio](/docs/setup/) making sure to enable ingress [gateway](/docs/reference/config/networking/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Here's an example of how to do it:
+1. [Install Istio](/pt-br/docs/setup/) making sure to enable ingress [gateway](/pt-br/docs/reference/config/networking/gateway) with Kubernetes Ingress support, [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Here's an example of how to do it:
 
     {{< text bash >}}
     $ istioctl manifest apply \
@@ -43,7 +43,7 @@ Configure your DNS zone so that the domain you'd like to use for this example is
 $ INGRESS_DOMAIN=mysubdomain.mydomain.edu
 {{< /text >}}
 
-Your Istio installation contains an automatically generated [gateway](/docs/reference/config/networking/gateway) resource configured to serve the routes defined by the Kubernetes `Ingress` resources. By default it does not use [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret), so you need to modify it in order to enable the delivery of the TLS certificates to the `istio-ingressgateway` via [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret):
+Your Istio installation contains an automatically generated [gateway](/pt-br/docs/reference/config/networking/gateway) resource configured to serve the routes defined by the Kubernetes `Ingress` resources. By default it does not use [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret), so you need to modify it in order to enable the delivery of the TLS certificates to the `istio-ingressgateway` via [SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret):
 
 {{< text bash >}}
 $ kubectl -n istio-system edit gateway
@@ -164,7 +164,7 @@ spec:
 EOF
 {{< /text >}}
 
-Notice that the `secretName` matches the `credentialName` attribute value that you previously used while configuring the [gateway](/docs/reference/config/networking/gateway) resource. The `Certificate` resource will be processed by cert-manager and a new certificate will eventually be issued. Consult the status of the `Certificate` resource to check the progress:
+Notice that the `secretName` matches the `credentialName` attribute value that you previously used while configuring the [gateway](/pt-br/docs/reference/config/networking/gateway) resource. The `Certificate` resource will be processed by cert-manager and a new certificate will eventually be issued. Consult the status of the `Certificate` resource to check the progress:
 
 {{< text bash >}}
 $ kubectl -n istio-system describe certificate ingress-cert

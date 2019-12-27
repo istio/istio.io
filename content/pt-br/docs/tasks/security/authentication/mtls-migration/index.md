@@ -22,16 +22,16 @@ and mutual TLS traffic.
 You can configure Istio services to send mutual
 TLS traffic to that service while connections from legacy services will not
 lose communication. Moreover, you can use the
-[Grafana dashboard](/docs/tasks/observability/metrics/using-istio-dashboard/) to check which services are
+[Grafana dashboard](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/) to check which services are
 still sending plaintext traffic to the service in "PERMISSIVE" mode and choose to lock
 down once the migration is done.
 
 ## Before you begin
 
-* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
+* Understand Istio [authentication policy](/pt-br/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/pt-br/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in
-[installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
+[installation steps](/pt-br/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
 * For demo
     * Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them.
@@ -108,8 +108,8 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 {{< /text >}}
 
 You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
-[`DestinationRule`](/docs/reference/config/networking/destination-rule/).
-After verifying it works by checking [Grafana to monitor](/docs/tasks/observability/metrics/using-istio-dashboard/),
+[`DestinationRule`](/pt-br/docs/reference/config/networking/destination-rule/).
+After verifying it works by checking [Grafana to monitor](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/),
 then increase the rollout scope and finally apply to all Istio client services.
 
 ## Lock down to mutual TLS
@@ -143,7 +143,7 @@ $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sle
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
-We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
+We recommend you use [Istio Authorization](/pt-br/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
 ## Cleanup
 

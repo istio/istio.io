@@ -11,13 +11,13 @@ aliases:
 This example does not work in Minikube.
 {{</warning>}}
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task shows how to configure
+The [Control Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
 There, the external services are called directly from the client sidecar.
 This example also shows how to configure Istio to call external services, although this time
 indirectly via a dedicated _egress gateway_ service.
 
-Istio uses [ingress and egress gateways](/docs/reference/config/networking/gateway/)
+Istio uses [ingress and egress gateways](/pt-br/docs/reference/config/networking/gateway/)
 to configure load balancers executing at the edge of a service mesh.
 An ingress gateway allows you to define entry points into the mesh that all incoming traffic flows through.
 Egress gateway is a symmetrical concept; it defines exit points from the mesh. Egress gateways allow
@@ -37,7 +37,7 @@ controlled way.
 
 {{< boilerplate before-you-begin-egress >}}
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 ## Deploy Istio egress gateway
 
@@ -61,7 +61,7 @@ controlled way.
 The following instructions create a destination rule for the egress gateway in the `default` namespace
 and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
 If not, the destination rule will not be found on the
-[destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
+[destination rule lookup path](/pt-br/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
 and the client requests will fail.
 
 {{< /warning >}}
@@ -109,14 +109,14 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     {{< /text >}}
 
     The output should be the same as in the
-    [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
+    [TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
     without TLS origination.
 
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     traffic directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
     {{< tabset category-name="mtls" >}}
 
@@ -324,7 +324,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
     {{< tabset category-name="mtls" >}}
 
@@ -661,7 +661,7 @@ external service.
 1.  Create the same destination rule as for the `sleep` pod in the `default` namespace to direct the traffic through the egress gateway:
 
     Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
+    [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/mutual-tls/) enabled in Istio.
 
     {{< tabset category-name="mtls" >}}
 
@@ -745,12 +745,12 @@ external service.
 
 ## Troubleshooting
 
-1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) enabled in Istio, following the
-    steps in [Verify mutual TLS configuration](/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration).
+1.  Check if you have [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/mutual-tls/) enabled in Istio, following the
+    steps in [Verify mutual TLS configuration](/pt-br/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration).
     If mutual TLS is enabled, make sure you create the configuration
     items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 
-1.  If [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) is enabled, verify the correct certificate of the
+1.  If [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/mutual-tls/) is enabled, verify the correct certificate of the
     egress gateway:
 
     {{< text bash >}}

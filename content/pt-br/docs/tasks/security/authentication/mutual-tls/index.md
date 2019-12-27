@@ -9,11 +9,11 @@ aliases:
 
 Through this task, you can have closer look at mutual TLS and learn its settings. This task assumes:
 
-* You have completed the [authentication policy](/docs/tasks/security/authentication/authn-policy/) task.
+* You have completed the [authentication policy](/pt-br/docs/tasks/security/authentication/authn-policy/) task.
 * You are familiar with using authentication policy to enable mutual TLS.
-* Istio runs on Kubernetes with global mutual TLS enabled. You can follow our [instructions to install Istio](/docs/setup/).
-If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls).
-* You have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar in the `default` namespace. For example, below is the command to deploy those services with [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection):
+* Istio runs on Kubernetes with global mutual TLS enabled. You can follow our [instructions to install Istio](/pt-br/docs/setup/).
+If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/pt-br/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls).
+* You have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar in the `default` namespace. For example, below is the command to deploy those services with [manual sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection):
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@)
@@ -22,7 +22,7 @@ If you already have Istio installed, you can add or modify authentication polici
 
 ## Verify Citadel runs properly
 
-[Citadel](/docs/concepts/security/#pki) is Istio's key management service. Citadel must run properly for mutual TLS to work correctly. Verify the
+[Citadel](/pt-br/docs/concepts/security/#pki) is Istio's key management service. Citadel must run properly for mutual TLS to work correctly. Verify the
 cluster-level Citadel runs properly with the following command:
 
 {{< text bash >}}
@@ -67,11 +67,11 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-Please check [Istio identity](/docs/concepts/security/#istio-identity) for more information about  _service identity_ in Istio.
+Please check [Istio identity](/pt-br/docs/concepts/security/#istio-identity) for more information about  _service identity_ in Istio.
 
 ## Verify mutual TLS configuration
 
-Use [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
+Use [`istioctl authn tls-check`](/pt-br/docs/reference/commands/istioctl/#istioctl-authn-tls-check) to check if the mutual TLS settings are in effect. The `istioctl` command needs the client's pod because the destination rule depends on the client's namespace.
 You can also provide the destination service to filter the status to that service only.
 
 {{< tip >}}
@@ -190,7 +190,7 @@ To perform this task, you want to by-pass client proxy. A simplest way to do so 
 
 {{< tip >}}
 Istio uses [Kubernetes service accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) as service identity, which
-offers stronger security than service name (for more details, see [Istio identity](/docs/concepts/security/#istio-identity)). Thus, the certificates Istio uses do
+offers stronger security than service name (for more details, see [Istio identity](/pt-br/docs/concepts/security/#istio-identity)). Thus, the certificates Istio uses do
 not have service names, which is the information that `curl` needs to verify server identity. To prevent the `curl` client from aborting, we use `curl`
 with the `-k` option. The option prevents the client from verifying and looking for the server name, for example, `httpbin.default.svc.cluster.local` in the
 certificate provided by the server.

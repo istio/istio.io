@@ -18,7 +18,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 
 *   Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
 
@@ -139,7 +139,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< warning >}}
     If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it.
-    Otherwise requests will [generate 503 errors](/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
+    Otherwise requests will [generate 503 errors](/pt-br/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
     {{< /warning >}}
 
     {{< text bash >}}

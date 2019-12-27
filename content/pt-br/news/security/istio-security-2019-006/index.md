@@ -25,12 +25,12 @@ Both Istio gateways and sidecars are vulnerable to this issue. If you are runnin
 
 ## Mitigation
 
-* Workaround: The exploitation of that vulnerability can be prevented by customizing Istio installation (as described in [installation options](/docs/reference/config/installation-options/#pilot-options) ), using Helm to override the following options:
+* Workaround: The exploitation of that vulnerability can be prevented by customizing Istio installation (as described in [installation options](/pt-br/docs/reference/config/installation-options/#pilot-options) ), using Helm to override the following options:
 
     {{< text plain >}}
     --set pilot.env.PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT=0s --set global.proxy.protocolDetectionTimeout=0s
     {{< /text >}}
 
-* For Istio 1.3.x deployments: update to [Istio 1.3.5](/news/releases/1.3.x/announcing-1.3.5) or later.
+* For Istio 1.3.x deployments: update to [Istio 1.3.5](/pt-br/news/releases/1.3.x/announcing-1.3.5) or later.
 
 {{< boilerplate "security-vulnerability" >}}

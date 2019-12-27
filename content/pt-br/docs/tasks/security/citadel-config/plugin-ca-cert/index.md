@@ -15,7 +15,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 ## Before you begin
 
-Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+Follow the [Istio installation guide](/pt-br/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
 ## Plugging in the existing certificate and key
 
@@ -34,7 +34,7 @@ Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.
 These files are ready to use in the `samples/certs/` directory.
 
   {{< tip >}}
-  The default Citadel installation sets [command line options](/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `cacert`, root certificate in a file named `root-cert.pem`, Citadel key in `ca-key.pem`, etc.)
+  The default Citadel installation sets [command line options](/pt-br/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `cacert`, root certificate in a file named `root-cert.pem`, Citadel key in `ca-key.pem`, etc.)
   You must use these specific secret and file names, or reconfigure Citadel when you deploy it.
   {{< /tip >}}
 
@@ -68,7 +68,7 @@ The following steps enable plugging in the certificates and key into Citadel:
 In this section, we verify that the new workload certificates and root certificates are propagated.
 This requires you have `openssl` installed on your machine.
 
-1. Deploy the Bookinfo application following the [instructions](/docs/examples/bookinfo/).
+1. Deploy the Bookinfo application following the [instructions](/pt-br/docs/examples/bookinfo/).
 
 1.  Retrieve the mounted certificates.
     In the following, we take the ratings pod as an example, and verify the certificates mounted on the pod.
@@ -131,5 +131,5 @@ This requires you have `openssl` installed on your machine.
     $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
     {{< /text >}}
 
-*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.
+*   To remove the Istio components: follow the [uninstall instructions](/pt-br/docs/setup/getting-started/#uninstall) to remove.
 

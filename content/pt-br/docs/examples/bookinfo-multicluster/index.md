@@ -7,13 +7,13 @@ keywords: [multicluster]
 
 {{< boilerplate experimental-feature-warning >}}
 
-This example complements the [simplified multicluster setup procedure](/docs/setup/install/multicluster/simplified).
-It shows you how to deploy Istio's classic [Bookinfo](/docs/examples/bookinfo) sample application across
+This example complements the [simplified multicluster setup procedure](/pt-br/docs/setup/install/multicluster/simplified).
+It shows you how to deploy Istio's classic [Bookinfo](/pt-br/docs/examples/bookinfo) sample application across
 a multicluster mesh.
 
 ## Getting it running
 
-1. Start by following [these instructions](/docs/setup/install/multicluster/simplified) which will show you how to
+1. Start by following [these instructions](/pt-br/docs/setup/install/multicluster/simplified) which will show you how to
 configure a 3 cluster mesh.
 
 1. Download the [`setup-bookinfo.sh` script]({{< github_file >}}/samples/multicluster/setup-bookinfo.sh) and saved it into
@@ -47,7 +47,7 @@ $    kubectl --context=context-west-1 scale deployment ${DEPLOYMENT} --replicas=
 $ done
 {{< /text >}}
 
-Now use [Bookinfo normally](/docs/examples/bookinfo) to demonstrate that the multicluster deployment is working properly.
+Now use [Bookinfo normally](/pt-br/docs/examples/bookinfo) to demonstrate that the multicluster deployment is working properly.
 
 ## Clean up
 

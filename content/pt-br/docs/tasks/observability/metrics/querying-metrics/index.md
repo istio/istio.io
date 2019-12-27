@@ -11,12 +11,12 @@ aliases:
 This task shows you how to query for Istio Metrics using Prometheus. As part of
 this task, you will use the web-based interface for querying metric values.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
+The [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
 
-[Install Istio](/docs/setup/) in your cluster and deploy an
+[Install Istio](/pt-br/docs/setup/) in your cluster and deploy an
 application.
 
 ## Querying Istio metrics
@@ -41,7 +41,7 @@ application.
     {{< /text >}}
 
     {{< tip >}}
-    `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+    `$GATEWAY_URL` is the value set in the [Bookinfo](/pt-br/docs/examples/bookinfo/) example.
     {{< /tip >}}
 
 1.  Open the Prometheus UI.
@@ -115,5 +115,5 @@ docs](https://prometheus.io/docs/querying/basics/).
     {{< /text >}}
 
 -   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.

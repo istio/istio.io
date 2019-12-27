@@ -13,7 +13,7 @@ icon: helm
 
 {{< warning >}}
 The Helm installation approach will be deprecated in the future.
-We recommend [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/), instead.
+We recommend [Installing with {{< istioctl >}}](/pt-br/docs/setup/install/istioctl/), instead.
 {{< /warning >}}
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
@@ -26,16 +26,16 @@ using `kubectl apply`, or you can choose to use `helm install` and let
 completely manage the installation.
 
 Using these instructions, you can select any one of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/)
+[configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/getting-started/#download).
+1. [Download the Istio release](/pt-br/docs/setup/getting-started/#download).
 
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
+1. Perform any necessary [platform-specific setup](/pt-br/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
+1. Check the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/requirements/).
 
 1. [Install a Helm client](https://github.com/helm/helm#install) with a version higher than 2.10.
 
@@ -58,8 +58,8 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 Change directory to the root of the release and then
 choose one of the following two **mutually exclusive** options:
 
-1. To deploy Istio without using Tiller, follow the instructions for [option 1](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template).
-1. To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
+1. To deploy Istio without using Tiller, follow the instructions for [option 1](/pt-br/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template).
+1. To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/pt-br/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 {{< tip >}}
 Istio, by default, uses `LoadBalancer` service object types. Some platforms do not support `LoadBalancer`
@@ -89,13 +89,13 @@ deployed and you don't want to install it.
 
 1. {{< boilerplate verify-crds >}}
 
-1. Select a [configuration profile](/docs/setup/additional-setup/config-profiles/)
+1. Select a [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/)
     and then render and apply Istio's core components corresponding to your chosen profile.
     The **default** profile is recommended for production deployments:
 
     {{< tip >}}
     You can further customize the configuration by adding one or more `--set <key>=<value>`
-    [Installation Options](/docs/reference/config/installation-options/) to the helm command.
+    [Installation Options](/pt-br/docs/reference/config/installation-options/) to the helm command.
     {{< /tip >}}
 
 {{< tabset category-name="helm_profile" >}}
@@ -154,7 +154,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< tab name="Istio CNI enabled" category-value="cni" >}}
 
-Install the [Istio CNI](/docs/setup/additional-setup/cni/) components:
+Install the [Istio CNI](/pt-br/docs/setup/additional-setup/cni/) components:
 
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl apply -f -
@@ -201,13 +201,13 @@ to manage the lifecycle of Istio.
 
 1. {{< boilerplate verify-crds >}}
 
-1. Select a [configuration profile](/docs/setup/additional-setup/config-profiles/)
+1. Select a [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/)
     and then install the `istio` chart corresponding to your chosen profile.
     The **default** profile is recommended for production deployments:
 
     {{< tip >}}
     You can further customize the configuration by adding one or more `--set <key>=<value>`
-    [Installation Options](/docs/reference/config/installation-options/) to the helm command.
+    [Installation Options](/pt-br/docs/reference/config/installation-options/) to the helm command.
     {{< /tip >}}
 
 {{< tabset category-name="helm_profile" >}}
@@ -266,7 +266,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< tab name="Istio CNI enabled" category-value="cni" >}}
 
-Install the [Istio CNI](/docs/setup/additional-setup/cni/) chart:
+Install the [Istio CNI](/pt-br/docs/setup/additional-setup/cni/) chart:
 
 {{< text bash >}}
 $ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace kube-system
@@ -286,7 +286,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 ## Verifying the installation
 
 1. Referring to components table in
-    [configuration profiles](/docs/setup/additional-setup/config-profiles/),
+    [configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/),
     verify that the Kubernetes services corresponding to your selected profile have been deployed.
 
     {{< text bash >}}

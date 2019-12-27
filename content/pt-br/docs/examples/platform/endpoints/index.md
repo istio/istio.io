@@ -22,12 +22,12 @@ You may test the service using the following command:
 $ curl --request POST --header "content-type:application/json" --data '{"message":"hello world"}' "http://${EXTERNAL_IP}/echo?key=${ENDPOINTS_KEY}"
 {{< /text >}}
 
-To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/docs/setup/platform-setup/gke).
+To install Istio for GKE, follow our [Quick Start with Google Kubernetes Engine](/pt-br/docs/setup/platform-setup/gke).
 
 ## HTTP endpoints service
 
 1.  Inject the service and the deployment into the mesh using `--includeIPRanges` by following the
-[instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
+[instructions](/pt-br/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
 so that Egress is allowed to call external services directly.
 Otherwise, ESP will not be able to access Google cloud service control.
 
@@ -74,7 +74,7 @@ Otherwise, ESP will not be able to access Google cloud service control.
     EOF
     {{< /text >}}
 
-1.  Get the ingress gateway IP and port by following the [instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
+1.  Get the ingress gateway IP and port by following the [instructions](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
 You can verify accessing the Endpoints service through Istio ingress:
 
     {{< text bash >}}
@@ -92,11 +92,11 @@ The recommended way to securely access a mesh Endpoints service is through an in
     {{< /text >}}
 
 1.  Re-inject the service and the deployment into the mesh using `--includeIPRanges` by following the
-[instructions](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
+[instructions](/pt-br/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)
 so that Egress is allowed to call external services directly.
 Otherwise, ESP will not be able to access Google cloud service control.
 
 1.  After this, you will find access to `ENDPOINTS_IP` no longer works because the Istio proxy only accepts secure mesh connections.
 Accessing through Istio ingress should continue to work since the ingress proxy initiates mutual TLS connections within the mesh.
 
-1.  To secure the access at the ingress, follow the [instructions](/docs/tasks/traffic-management/ingress/secure-ingress-mount/).
+1.  To secure the access at the ingress, follow the [instructions](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress-mount/).

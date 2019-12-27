@@ -32,7 +32,7 @@ The following protocols are supported:
 - `udp`
 
 \* These protocols are disabled by default to avoid accidentally enabling experimental features.
-To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars).
+To enable them, configure the corresponding Pilot [environment variables](/pt-br/docs/reference/commands/pilot-discovery/#envvars).
 
 Below is an example of a Service that defines a `mysql` port and an `http` port:
 

@@ -55,7 +55,7 @@ skip_sitemap: true
     (/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
     use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
     file before deploying your application. For more information please
-    visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
+    visit the `istioctl` [reference documentation](/pt-br/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)

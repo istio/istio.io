@@ -27,7 +27,7 @@ mutual TLS enabled.
 ## Before you begin
 
 * Understand [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/), Istio
-[authentication policy](/docs/concepts/security/#authentication-policies) and [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
+[authentication policy](/pt-br/docs/concepts/security/#authentication-policies) and [mutual TLS authentication](/pt-br/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled.
 
@@ -95,14 +95,14 @@ We have two options to solve the problem: probe rewrites and separate ports.
 ### Probe rewrite
 
 This approach rewrites the application `PodSpec` readiness/liveness probe, such that the probe request will be sent to
-[Pilot agent](/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
+[Pilot agent](/pt-br/docs/reference/commands/pilot-agent/). Pilot agent then redirects the
 request to application, and strips the response body only returning the response code.
 
 You have two ways to enable Istio to rewrite the liveness HTTP probes.
 
 #### Enable globally via install option
 
-[Install Istio](/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
+[Install Istio](/pt-br/docs/setup/install/istioctl/) with `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
 
 **Alternatively**, update the configuration map of Istio sidecar injection:
 
@@ -122,7 +122,7 @@ The configuration changes above (by install or by the configuration map) effect 
 
 <!-- Add samples YAML or kubectl patch? -->
 
-Rather than install Istio with different options, you can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
+Rather than install Istio with different options, you can [annotate the pod](/pt-br/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "true"`. Make sure you add the annotation to the [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored anywhere else (for example, on an enclosing deployment resource).
 
 {{< text yaml >}}
 apiVersion: apps/v1

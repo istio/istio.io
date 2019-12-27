@@ -10,7 +10,7 @@ keywords: [platform-setup,openshift]
 ---
 
 {{< warning >}}
-OpenShift 4.1 and above use `nftables`, which is incompatible with the Istio `proxy-init` container. Make sure to use [CNI](/docs/setup/additional-setup/cni/) instead.
+OpenShift 4.1 and above use `nftables`, which is incompatible with the Istio `proxy-init` container. Make sure to use [CNI](/pt-br/docs/setup/additional-setup/cni/) instead.
 {{< /warning >}}
 
 Follow these instructions to prepare an OpenShift cluster for Istio.
@@ -24,7 +24,7 @@ deploying Istio in another namespace:
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n istio-system
 {{< /text >}}
 
-Now you can install Istio using the [CNI](/docs/setup/additional-setup/cni/) instructions.
+Now you can install Istio using the [CNI](/pt-br/docs/setup/additional-setup/cni/) instructions.
 
 After installation is complete, expose an OpenShift route for the ingress gateway.
 
@@ -38,7 +38,7 @@ $ oc -n istio-system expose svc/istio-ingressgateway --port=80
 This setup is not necessary if you are running OpenShift 4.1 or higher. If this is the case, skip to the next section.
 {{< /tip >}}
 
-Webhook and certificate signing requests support must be enabled for [automatic injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) to work. Modify the master configuration file on the master node for the cluster as follows.
+Webhook and certificate signing requests support must be enabled for [automatic injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) to work. Modify the master configuration file on the master node for the cluster as follows.
 
 {{< tip >}}
 By default, the master configuration file can be found in `/etc/origin/master/master-config.yaml`.

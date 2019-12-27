@@ -10,7 +10,7 @@ keywords: [kubernetes,multicluster]
 This guide describes how to configure an Istio mesh that includes multiple Kubernetes clusters using a simplified experimental approach.
 We hope to continue developing this functionality in coming releases, so we'd love your feedback on the overall flow.
 
-We focus here on the details of getting a multicluster mesh wired up, refer to [multicluster deployment model](/docs/ops/deployment/deployment-models/#multiple-clusters) for
+We focus here on the details of getting a multicluster mesh wired up, refer to [multicluster deployment model](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters) for
 additional background information. We'll show how to connect two clusters that are on the same network together, along
 with a third cluster that's on a different network.
 
@@ -31,7 +31,7 @@ For the sake of explanation, this guide assumes you have created three Kubernete
 
 These clusters shouldn't have Istio on them yet. The first two clusters are on the same network and have
 direct connectivity, while the third cluster is on a different network.
-Take a look at the [platform setup instructions](/docs/setup/platform-setup)
+Take a look at the [platform setup instructions](/pt-br/docs/setup/platform-setup)
 for any special instructions for your particular environment.
 
 ## Initial preparations
@@ -104,8 +104,8 @@ file which will be used to control the Istio configuration deployed on all the c
 ## Customizing Istio
 
 Preparing the mesh above created a file called `base.yaml` in your working directory. This file defines the
-basic [`IstioControlPlane`](/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlane) configuration that will be used when deploying Istio in your clusters (which will happen below). You
-can [customize the `base.yaml`](/docs/setup/install/istioctl/#configure-the-feature-or-component-settings) file
+basic [`IstioControlPlane`](/pt-br/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlane) configuration that will be used when deploying Istio in your clusters (which will happen below). You
+can [customize the `base.yaml`](/pt-br/docs/setup/install/istioctl/#configure-the-feature-or-component-settings) file
 to control exactly how Istio will be deployed in all the clusters.
 
 The only values that shouldn't be modified are:

@@ -3,7 +3,7 @@ title: How can I check whether mutual TLS is enabled for a service?
 weight: 11
 ---
 
-The [`istioctl`](/docs/reference/commands/istioctl) command provides an option for this purpose. You can do:
+The [`istioctl`](/pt-br/docs/reference/commands/istioctl) command provides an option for this purpose. You can do:
 
 {{< text bash >}}
 $ istioctl authn tls-check $CLIENT_POD httpbin.default.svc.cluster.local
@@ -13,4 +13,4 @@ httpbin.default.svc.cluster.local:8000     OK         STRICT     ISTIO_MUTUAL   
 
 Where `$CLIENT_POD` is the ID of one of the client service's pods.
 
-Refer to [Verify mutual TLS configuration](/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration) for more information.
+Refer to [Verify mutual TLS configuration](/pt-br/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration) for more information.

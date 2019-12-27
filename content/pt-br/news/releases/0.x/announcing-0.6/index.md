@@ -25,13 +25,13 @@ proxy. [Learn more](https://github.com/mandarjog/istioluawebhook)
 ## Mixer adapters
 
 - **SolarWinds**. Mixer can now interface to AppOptics and Papertrail.
-[Learn more](/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
+[Learn more](/pt-br/docs/reference/config/policy-and-telemetry/adapters/solarwinds/)
 
 - **Redis Quota**. Mixer now supports a Redis-based adapter for rate limit tracking.
-[Learn more](/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
+[Learn more](/pt-br/docs/reference/config/policy-and-telemetry/adapters/redisquota/)
 
 - **Datadog**. Mixer now provides an adapter to deliver metric data to a Datadog agent.
-[Learn more](/docs/reference/config/policy-and-telemetry/adapters/datadog/)
+[Learn more](/pt-br/docs/reference/config/policy-and-telemetry/adapters/datadog/)
 
 ## Other
 
@@ -42,7 +42,7 @@ functionality. This may be useful in large deployments for better scaling of Mix
 - **Monitoring Dashboards**. There are now preliminary Mixer & Pilot monitoring dashboard in Grafana.
 
 - **Liveness and Readiness Probes**. Istio components now provide canonical liveness and readiness
-probe support to help ensure mesh infrastructure health. [Learn more](/docs/tasks/security/citadel-config/health-check/)
+probe support to help ensure mesh infrastructure health. [Learn more](/pt-br/docs/tasks/security/citadel-config/health-check/)
 
 - **Egress Policy and Telemetry**. Istio can monitor traffic to external services defined by `EgressRule` or External Service. Istio can also apply
 Mixer policies on this traffic.

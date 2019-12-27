@@ -13,12 +13,12 @@ This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new metric will be enabled for
 calls to services within your mesh.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used
+The [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster and deploy an
+* [Install Istio](/pt-br/docs/setup) in your cluster and deploy an
   application. This task assumes that Mixer is setup in a default configuration
   (`--configDefaultNamespace=istio-system`). If you use a different
   value, update the configuration and commands in this task to match the value.
@@ -72,7 +72,7 @@ as the example application throughout this task.
     {{< /text >}}
 
     For more on querying Prometheus for metric values, see the
-    [Querying Istio Metrics](/docs/tasks/observability/metrics/querying-metrics/) task.
+    [Querying Istio Metrics](/pt-br/docs/tasks/observability/metrics/querying-metrics/) task.
 
 ## Understanding the metrics configuration
 
@@ -157,5 +157,5 @@ rule, and because the rule is in the configured default configuration namespace
     {{< /text >}}
 
 *   If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.

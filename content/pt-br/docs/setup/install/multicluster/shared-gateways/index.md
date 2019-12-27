@@ -10,7 +10,7 @@ aliases:
 ---
 
 Follow this guide to configure a multicluster mesh using a shared
-[control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
+[control plane](/pt-br/docs/ops/deployment/deployment-models/#control-plane-models)
 with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
 depending on the location of the request source.
@@ -29,7 +29,7 @@ No VPN connectivity nor direct network access between workloads in different clu
 
 * Two or more Kubernetes clusters with versions: {{< supported_kubernetes_versions >}}.
 
-* Authority to [deploy the Istio control plane](/docs/setup/install/istioctl/)
+* Authority to [deploy the Istio control plane](/pt-br/docs/setup/install/istioctl/)
 
 * Two Kubernetes clusters (referred to as `cluster1` and `cluster2`).
 
@@ -56,7 +56,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< warning >}}
     When you enable the additional components necessary for multicluster operation, the resource footprint
     of the Istio control plane may increase beyond the capacity of the default Kubernetes cluster you created when
-    completing the [Platform setup](/docs/setup/platform-setup/) steps.
+    completing the [Platform setup](/pt-br/docs/setup/platform-setup/) steps.
     If the Istio services aren't getting scheduled due to insufficient CPU or memory, consider
     adding more nodes to your cluster or upgrading to larger memory instances as necessary.
     {{< /warning >}}
@@ -130,7 +130,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         {{< /text >}}
 
     1.   Follow the instructions in
-        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        [Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
         to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
 
     1.  Restore the previous `kubectl` context:
@@ -217,7 +217,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         {{< /text >}}
 
     1.   Follow the instructions in
-        [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
+        [Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports),
         to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` environment variables.
 
     1.  Restore the previous `kubectl` context:

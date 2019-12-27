@@ -4,5 +4,5 @@ weight: 20
 ---
 
 Please see the [Expression Language
-Reference](/docs/reference/config/policy-and-telemetry/expression-language/) for
+Reference](/pt-br/docs/reference/config/policy-and-telemetry/expression-language/) for
 the full set of supported attribute expressions.

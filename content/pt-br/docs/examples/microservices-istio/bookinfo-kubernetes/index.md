@@ -7,7 +7,7 @@ weight: 30
 
 {{< boilerplate work-in-progress >}}
 
-This module shows you an application composed of four microservices written in different programming languages: `productpage`, `details`, `ratings` and `reviews`. We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/docs/examples/bookinfo) page.
+This module shows you an application composed of four microservices written in different programming languages: `productpage`, `details`, `ratings` and `reviews`. We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/pt-br/docs/examples/bookinfo) page.
 
 The version of the application used in the example can be viewed as the final version since the `reviews` microservice has three versions: `v1`, `v2`, `v3`.
 
@@ -207,4 +207,4 @@ type: LoadBalancer
     ...
     {{< /text >}}
 
-You are ready to [test the application](/docs/examples/microservices-istio/production-testing).
+You are ready to [test the application](/pt-br/docs/examples/microservices-istio/production-testing).

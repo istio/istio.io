@@ -15,7 +15,7 @@ This page shows how to create, test, and maintain Istio documentation topics.
 ## Before you begin
 
 Before you can work on Istio documentation, you first need to create a fork of the Istio documentation repository as described in
-[Working with GitHub](/about/contribute/github/).
+[Working with GitHub](/pt-br/about/contribute/github/).
 
 ## Choosing a page type
 
@@ -229,7 +229,7 @@ the hierarchy of the site:
 current hierarchy:
 
     {{< text markdown >}}
-    [see here](/docs/adir/afile/)
+    [see here](/pt-br/docs/adir/afile/)
     {{< /text >}}
 
 ### GitHub
@@ -855,6 +855,6 @@ $ make INTERNAL_ONLY=True lint
 
 ## Using GitHub
 
-Checkout [Working with GitHub](/about/contribute/github) to learn how to generally use GitHub to submit
-documentation changes. Of particular interest, see the [section on branching](/about/contribute/github#branching)
+Checkout [Working with GitHub](/pt-br/about/contribute/github) to learn how to generally use GitHub to submit
+documentation changes. Of particular interest, see the [section on branching](/pt-br/about/contribute/github#branching)
 to understand how we use branches and cherry picking.

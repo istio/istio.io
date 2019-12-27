@@ -36,7 +36,7 @@ To enable SDS in Istio, use Kubernetes 1.13 or above.
     {{< tip >}}
     The default installation of Mixer requires nodes with >1 vCPU. If you are
     installing with the
-    [demo configuration profile](/docs/setup/additional-setup/config-profiles/),
+    [demo configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/),
     you can remove the `--machine-type` argument to use the smaller `n1-standard-1` machine size instead.
     {{< /tip >}}
 

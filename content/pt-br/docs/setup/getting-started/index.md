@@ -20,7 +20,7 @@ To get started with Istio, just follow these three steps:
 Before you can install Istio, you need a {{< gloss >}}cluster{{< /gloss >}} running a compatible version of Kubernetes.
 Istio {{< istio_version >}} has been tested with Kubernetes releases {{< supported_kubernetes_versions >}}.
 
-Create a cluster by selecting the appropriate [platform-specific setup instructions](/docs/setup/platform-setup/).
+Create a cluster by selecting the appropriate [platform-specific setup instructions](/pt-br/docs/setup/platform-setup/).
 
 Some platforms provide a {{< gloss >}}managed control plane{{< /gloss >}} which you can use instead of
 installing Istio manually. If this is the case with your selected platform, and you choose to use it,
@@ -30,7 +30,7 @@ Refer to your platform service provider for further details and instructions.
 ## Download the release {#download}
 
 Download the Istio release which includes installation files, samples, and the
-[{{< istioctl >}}](/docs/reference/commands/istioctl/) command line utility.
+[{{< istioctl >}}](/pt-br/docs/reference/commands/istioctl/) command line utility.
 
 1.  Go to the [Istio release]({{< istio_release_url >}}) page to
     download the installation file corresponding to your OS. Alternatively, on a macOS or
@@ -52,7 +52,7 @@ Download the Istio release which includes installation files, samples, and the
 
     - Installation YAML files for Kubernetes in `install/kubernetes`
     - Sample applications in `samples/`
-    - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
+    - The [`istioctl`](/pt-br/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
       used when manually injecting Envoy as a sidecar proxy.
 
 1.  Add the `istioctl` client to your path, on a macOS or
@@ -62,16 +62,16 @@ Download the Istio release which includes installation files, samples, and the
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. You can optionally enable the [auto-completion option](/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+1. You can optionally enable the [auto-completion option](/pt-br/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
 
 ## Install Istio {#install}
 
 These instructions assume you are new to Istio, providing streamlined instruction to
-install Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
+install Istio's built-in `demo` [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/).
 This installation lets you quickly get started evaluating Istio.
 If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/docs/ops/deployment/deployment-models/),
-follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
+or a more advanced [deployment model](/pt-br/docs/ops/deployment/deployment-models/),
+follow the [installing with {{< istioctl >}} instructions](/pt-br/docs/setup/install/istioctl) instead.
 
 {{< warning >}}
 The demo configuration profile is not suitable for performance evaluation. It
@@ -147,7 +147,7 @@ traffic; HTTP/1.0 is not supported.
 {{< /warning >}}
 
 When you deploy your application using `kubectl apply`,
-the [Istio sidecar injector](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+the [Istio sidecar injector](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 will automatically inject Envoy containers into your
 application pods if they are started in namespaces labeled with `istio-injection=enabled`:
 
@@ -157,7 +157,7 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
 In namespaces without the `istio-injection` label, you can use
-[`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
+[`istioctl kube-inject`](/pt-br/docs/reference/commands/istioctl/#istioctl-kube-inject)
 to manually inject Envoy containers in your application pods before deploying
 them:
 
@@ -166,34 +166,34 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
 If you are not sure where to begin,
-[deploy the Bookinfo sample](/docs/examples/bookinfo/)
+[deploy the Bookinfo sample](/pt-br/docs/examples/bookinfo/)
 which will allow you to evaluate Istio's features for traffic routing, fault injection, rate
-limiting, etc. Then explore the various [Istio tasks](/docs/tasks/) that interest you.
+limiting, etc. Then explore the various [Istio tasks](/pt-br/docs/tasks/) that interest you.
 
 The following tasks are a good place for beginners to start:
 
-- [Request routing](/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Collecting logs](/docs/tasks/observability/logs/collecting-logs/)
-- [Rate limiting](/docs/tasks/policy-enforcement/rate-limiting/)
-- [Ingress gateways](/docs/tasks/traffic-management/ingress/ingress-control/)
-- [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/docs/tasks/observability/kiali/)
+- [Request routing](/pt-br/docs/tasks/traffic-management/request-routing/)
+- [Fault injection](/pt-br/docs/tasks/traffic-management/fault-injection/)
+- [Traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/)
+- [Querying metrics](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizing metrics](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Collecting logs](/pt-br/docs/tasks/observability/logs/collecting-logs/)
+- [Rate limiting](/pt-br/docs/tasks/policy-enforcement/rate-limiting/)
+- [Ingress gateways](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/)
+- [Accessing external services](/pt-br/docs/tasks/traffic-management/egress/egress-control/)
+- [Visualizing your mesh](/pt-br/docs/tasks/observability/kiali/)
 
 The next step is to customize Istio and deploy your own applications.
 Before you install and customize Istio to fit your platform and intended use,
 check out the following resources:
 
-- [Deployment models](/docs/ops/deployment/deployment-models/)
-- [Deployment best practices](/docs/ops/best-practices/deployment/)
-- [Pod requirements](/docs/ops/deployment/requirements/)
-- [General installation instructions](/docs/setup/)
+- [Deployment models](/pt-br/docs/ops/deployment/deployment-models/)
+- [Deployment best practices](/pt-br/docs/ops/best-practices/deployment/)
+- [Pod requirements](/pt-br/docs/ops/deployment/requirements/)
+- [General installation instructions](/pt-br/docs/setup/)
 
 As you continue to use Istio, we look forward to hearing from you and welcoming
-you to our [community](/about/community/join/).
+you to our [community](/pt-br/about/community/join/).
 
 ## Uninstall
 

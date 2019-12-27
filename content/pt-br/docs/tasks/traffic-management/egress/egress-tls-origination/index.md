@@ -7,9 +7,9 @@ aliases:
   - /docs/examples/advanced-gateways/egress-tls-origination/
 ---
 
-The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external, i.e., outside of the
+The [Control Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/) task demonstrates how external, i.e., outside of the
 service mesh, HTTP and HTTPS services can be accessed from applications inside the mesh. As described in that task,
-a [`ServiceEntry`](/docs/reference/config/networking/service-entry/) is used to configure Istio
+a [`ServiceEntry`](/pt-br/docs/reference/config/networking/service-entry/) is used to configure Istio
 to access external services in a controlled way.
 This example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
 for traffic to an external service. Istio will open HTTPS connections to the external service while the original
@@ -27,11 +27,11 @@ is that Istio can produce better telemetry and provide more routing control for 
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+* Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
 *   Start the [sleep]({{< github_tree >}}/samples/sleep) sample which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
+    If you have enabled [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -55,7 +55,7 @@ is that Istio can produce better telemetry and provide more routing control for 
 ## Configuring access to an external service
 
 First start by configuring access to an external service, `edition.cnn.com`,
-using the same technique shown in the [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task.
+using the same technique shown in the [Control Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/) task.
 This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS access to the service.
 
 1.  Create a `ServiceEntry` and `VirtualService` to enable access to `edition.cnn.com`:

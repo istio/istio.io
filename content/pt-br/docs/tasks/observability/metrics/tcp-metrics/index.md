@@ -12,12 +12,12 @@ This task shows how to configure Istio to automatically gather telemetry for TCP
 services in a mesh. At the end of this task, a new metric will be enabled for
 calls to a TCP service within your mesh.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used
+The [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application is used
 as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster and deploy an
+* [Install Istio](/pt-br/docs/setup) in your cluster and deploy an
 application.
 
 * This task assumes that the Bookinfo sample will be deployed in the `default`
@@ -141,7 +141,7 @@ automatically generate and report a new metric for all traffic to a TCP service
 within the mesh.
 
 Similar to the [Collecting Metrics and
-Logs](/docs/tasks/observability/metrics/collecting-metrics/) Task, the new
+Logs](/pt-br/docs/tasks/observability/metrics/collecting-metrics/) Task, the new
 configuration consisted of _instances_, a _handler_, and a _rule_. Please see
 that Task for a complete description of the components of metric collection.
 
@@ -180,5 +180,5 @@ protocols within policies.
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.

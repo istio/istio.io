@@ -69,4 +69,4 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     $ docker stop <the container ID from the output of docker ps>
     {{< /text >}}
 
-You are ready to [deploy the application](/docs/examples/microservices-istio/bookinfo-kubernetes).
+You are ready to [deploy the application](/pt-br/docs/examples/microservices-istio/bookinfo-kubernetes).

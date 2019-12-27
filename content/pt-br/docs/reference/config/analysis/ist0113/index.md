@@ -9,7 +9,7 @@ specify incompatible mutual TLS modes to be used; this conflict means traffic ma
 the destination rule to the specified host will be rejected.
 
 This message is only produced on service meshes that are not using [automatic mutual
-TLS](/docs/tasks/security/authentication/auto-mtls/).
+TLS](/pt-br/docs/tasks/security/authentication/auto-mtls/).
 
 ## An example
 
@@ -81,7 +81,7 @@ Destination rules are matched in the following order:
 1. A destination rule in the "root namespace" (which is, by default,
    `istio-system`) that matches `my-service.my-namespace.svc.cluster.local`. The
    root namespace is controlled by the `rootNamespace` property in the
-   [`MeshConfig` resource](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+   [`MeshConfig` resource](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
    Note that the `exportTo` field must specify that this resource is public
    (e.g. it has the value `"*"` or is not specified) in order for a match to
    occur.
@@ -114,12 +114,12 @@ You can fix the conflict by doing one of the following:
 * Modifying policy resource `my-namespace/my-policy` to require mutual TLS as an
   authentication mode. In general this is done by adding a `peers` attribute to
   the resource with a child of `mtls`. You can read more about how this is
-  achieved on the [reference page for policy objects](/docs/reference/config/security/istio.authentication.v1alpha1/#Policy).
+  achieved on the [reference page for policy objects](/pt-br/docs/reference/config/security/istio.authentication.v1alpha1/#Policy).
 * Modifying destination rule `istio-system/default-rule` to not use mutual TLS by
   removing the `ISTIO_MUTUAL` traffic policy. Note that `default-rule` is in the
   `istio-system` namespace - by default, the `istio-system` namespace is
   considered the "root namespace" for configuration (although this can be overridden via
-  the `rootNamespace` property in the [`MeshConfig` resource](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+  the `rootNamespace` property in the [`MeshConfig` resource](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
   That means that this destination rule potentially affects all other services
   in the mesh.
 * Add a new destination rule in the same namespace as the service (in this case,

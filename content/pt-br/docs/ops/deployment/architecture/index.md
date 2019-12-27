@@ -13,7 +13,7 @@ plane**.
 * The **data plane** is composed of a set of intelligent proxies
   ([Envoy](https://www.envoyproxy.io/)) deployed as sidecars. These proxies
   mediate and control all network communication between microservices along
-  with [Mixer](/docs/reference/config/policy-and-telemetry/), a general-purpose
+  with [Mixer](/pt-br/docs/reference/config/policy-and-telemetry/), a general-purpose
   policy and telemetry hub.
 
 * The **control plane** manages and configures the proxies to route traffic.
@@ -62,8 +62,8 @@ for example:
 * Rich metrics
 
 This sidecar deployment allows Istio to extract a wealth of signals about traffic behavior as
-[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
-Istio can, in turn, use these attributes in [Mixer](/docs/reference/config/policy-and-telemetry/)
+[attributes](/pt-br/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
+Istio can, in turn, use these attributes in [Mixer](/pt-br/docs/reference/config/policy-and-telemetry/)
 to enforce policy decisions, and send them to monitoring systems to provide
 information about the behavior of the entire mesh.
 
@@ -85,14 +85,14 @@ Some of the Istio features and tasks enabled by Envoy proxies include:
 
 ### Mixer
 
-[Mixer](/docs/reference/config/policy-and-telemetry/) is a platform-independent
+[Mixer](/pt-br/docs/reference/config/policy-and-telemetry/) is a platform-independent
 component. Mixer enforces access control and usage policies across the service
 mesh, and collects telemetry data from the Envoy proxy and other services. The
 proxy extracts request level
-[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes), and sends them
+[attributes](/pt-br/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes), and sends them
 to Mixer for evaluation. You can find more information on this attribute
 extraction and policy evaluation in our [Mixer Configuration
-documentation](/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model).
+documentation](/pt-br/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model).
 
 Mixer includes a flexible plugin model. This model enables Istio to interface
 with a variety of host environments and infrastructure backends. Thus, Istio
@@ -129,18 +129,18 @@ Consul, or Nomad, while maintaining the same operator interface for traffic
 management.
 
 You can use Istio's
-[Traffic Management API](/docs/concepts/traffic-management/#introducing-istio-traffic-management)
+[Traffic Management API](/pt-br/docs/concepts/traffic-management/#introducing-istio-traffic-management)
 to instruct Pilot to refine the Envoy configuration to exercise more granular control
 over the traffic in your service mesh.
 
 ### Citadel
 
-[Citadel](/docs/concepts/security/) enables strong service-to-service and
+[Citadel](/pt-br/docs/concepts/security/) enables strong service-to-service and
 end-user authentication with built-in identity and credential management. You
 can use Citadel to upgrade unencrypted traffic in the service mesh. Using
 Citadel, operators can enforce policies based on service identity rather than
 on relatively unstable layer 3 or layer 4 network identifiers. Starting from
-release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
+release 0.5, you can use [Istio's authorization feature](/pt-br/docs/concepts/security/#authorization)
 to control who can access your services.
 
 ### Galley

@@ -13,15 +13,15 @@ microservice.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-[Installation guide](/docs/setup/).
+[Installation guide](/pt-br/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application.
 
-* Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc. Before attempting this task, you should be familiar with important terms such as *destination rule*, *virtual service*, and *subset*.
+* Review the [Traffic Management](/pt-br/docs/concepts/traffic-management) concepts doc. Before attempting this task, you should be familiar with important terms such as *destination rule*, *virtual service*, and *subset*.
 
 ## About this task
 
-The Istio [Bookinfo](/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions.
+The Istio [Bookinfo](/pt-br/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions.
 Three different versions of one of the microservices, `reviews`, have been deployed and are running concurrently.
 To illustrate the problem this causes, access the Bookinfo app's `/productpage` in a browser and refresh several times.
 You’ll notice that sometimes the book review output contains star ratings and other times it does not.
@@ -37,7 +37,7 @@ To route to one version only, you apply virtual services that set the default ve
 In this case, the virtual services will route all traffic to `v1` of each microservice.
 
 {{< warning >}}
-If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+If you haven't already applied destination rules, follow the instructions in [Apply Default Destination Rules](/pt-br/docs/examples/bookinfo/#apply-default-destination-rules).
 {{< /warning >}}
 
 1.  Run the following command to apply the virtual services:
@@ -129,7 +129,7 @@ You can easily test the new configuration by once again refreshing the `/product
 of the Bookinfo app.
 
 1.  Open the Bookinfo site in your browser. The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+the [Bookinfo](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
     Notice that the reviews part of the page displays with no rating stars, no
     matter how many times you refresh. This is because you configured Istio to route
@@ -206,9 +206,9 @@ to the request by the `productpage` service.
 
 Note that Kubernetes services, like the Bookinfo ones used in this task, must
 adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/ops/deployment/requirements/) for details.
+Refer to the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/requirements/) for details.
 
-In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
+In the [traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting) task, you
 will follow the same basic pattern you learned here to configure route rules to
 gradually send traffic from one version of a service to another.
 
@@ -221,5 +221,5 @@ gradually send traffic from one version of a service to another.
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.
