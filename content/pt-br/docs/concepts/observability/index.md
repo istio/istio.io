@@ -140,7 +140,7 @@ More information about Distributed Tracing with Istio is found in our [FAQ on Di
 
 Example Istio-generated distributed trace for a single request:
 
-{{< image link="/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
+{{< image link="/pt-br/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
 
 ## Access logs
 

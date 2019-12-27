@@ -165,7 +165,7 @@ As a reminder, here is the end-to-end architecture of the application from the
 [Bookinfo sample application](/pt-br/docs/examples/bookinfo/).
 
 {{< image width="80%"
-    link="/docs/examples/bookinfo/withistio.svg"
+    link="/pt-br/docs/examples/bookinfo/withistio.svg"
     caption="The original Bookinfo application"
     >}}
 
