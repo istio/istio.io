@@ -1,0 +1,299 @@
+[download_desc]
+other = "Faça agora o download do Istio %s"
+
+[discuss_istio_io_desc]
+other = "Participe do quadro de discussão do Istio para participar de discussões e obter ajuda na solução de problemas"
+
+[twitter_desc]
+other = "Siga-nos no Twitter para receber as últimas notícias"
+
+[stackoverflow_desc]
+other = "O Stack Overflow é onde você pode fazer perguntas e encontrar respostas selecionadas sobre a implantação, configuração e uso do Istio"
+
+[for_everyone]
+other = "para todos"
+
+[for_developers]
+other = "para desenvolvedores"
+
+[github_desc]
+other = "GitHub é onde ocorre o desenvolvimento de código do Istio"
+
+[team_drive_desc]
+other = "Acesse nossa equipe, se quiser dar uma olhada nos documentos de design técnico do Istio"
+
+[working_group_desc]
+other = "Se você deseja contribuir com o projeto Istio, considere participar de nossos grupos de trabalho"
+
+[slack_desc]
+other = "Discuta interativamente os problemas com a comunidade Istio no Slack"
+
+[report_site_bugs]
+other = "Informar erros no site"
+
+[edit_on_github]
+other = "Edite esta página no GitHub"
+
+[light_theme]
+other = "Tema Light"
+
+[dark_theme]
+other = "Tema Dark"
+
+[other_versions_of_site]
+other = "Outras versões deste site"
+
+[current_release]
+other = "Lançamento atual"
+
+[next_release]
+other = "Próxima versão"
+
+[archived_releases]
+other = "Versões mais antigas"
+
+[options_menu]
+other = "Opções e configurações"
+
+[search]
+other = "Procure este site"
+
+[search_label]
+other = "Procurar"
+
+[search_cancel]
+other = "Cancelar pesquisa"
+
+[footer_istio]
+other = "Istio"
+
+[footer_istio_preliminary]
+other = "Istio Preliminary"
+
+[footer_istio_archive]
+other = "Arquivo Istio"
+
+[footer_archived_on]
+other = "Arquivado em %s"
+
+[footer_last_modified]
+other = "Página modificada pela última vez: %s"
+
+[footer_date_format]
+other = "2 de janeiro de 2006"
+
+[footer_privacy_policy]
+other = "Política de Privacidade"
+
+[page_publish_date_format]
+other = "2 de janeiro de 2006"
+
+[page_last_update_format]
+other = "(atualizado em %s)"
+
+[page_word_count]
+other = "%d palavras"
+
+[page_reading_time]
+other = "%v minutos lidos"
+
+[relnote_update_advice]
+other = "Antes de baixar %s, você deve saber que há uma versão mais recente do patch com as últimas correções de bugs e melhorias de desempenho."
+
+[relnote_update_button]
+other = "APRENDA SOBRE ISTIO %s"
+
+[relnote_update_notice]
+other = "Aviso de atualização"
+
+[relnote_change_notes_title]
+other = "MUDAR NOTAS"
+
+[relnote_change_notes_detail]
+other = "Obtenha uma lista detalhada do que mudou."
+
+[relnote_before_you_upgrade_title]
+other = "ANTES DE ATUALIZAR"
+
+[relnote_before_you_upgrade_detail]
+other = "Coisas para saber e preparar antes da atualização."
+
+[relnote_download_title]
+other = "BAIXAR"
+
+[relnote_download_detail]
+other = "Baixe e instale esta versão."
+
+[relnote_docs_title]
+other = "DOCS"
+
+[relnote_docs_detail]
+other = "Visite a documentação para esta versão."
+
+[relnote_helm_changes_title]
+other = "ALTERAÇÕES NO HELM"
+
+[relnote_helm_changes_detail]
+other = "Aprenda sobre as alterações nas nossas opções de instalação do Helm."
+
+[relnote_source_changes_title]
+other = "ALTERAÇÕES NO SOURCE"
+
+[relnote_source_changes_detail]
+other = "Inspecione o conjunto completo de alterações no código fonte."
+
+[page_attribution]
+other = "Por "
+
+[button_copy]
+other = "Copiar para o clipboard"
+
+[button_print]
+other = "Impressão"
+
+[button_download]
+other = "Baixar"
+
+[button_top]
+other = "De volta ao topo"
+
+[button_sidenav]
+other = "Alternar a barra de navegação"
+
+[partner_component_notice]
+other = "Este componente foi criado e é mantido por um parceiro Istio. Envie as perguntas de suporte diretamente ao parceiro."
+
+[partner_component_partner]
+other = "Parceiro"
+
+[partner_component_contact]
+other = "Contato"
+
+[partner_component_support_site]
+other = "Site de Suporte"
+
+[partner_component_source_code]
+other = "Código fonte"
+
+[partner_component_latest_release]
+other = "Último lançamento"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "Testado por %s com estas versões do Istio"
+
+[partner_component_supported_templates]
+other = "Modelos suportados"
+
+[adapter]
+other = "Adaptador"
+
+[supported_templates]
+other = "Modelos suportados"
+
+[adapters]
+other = "Adaptadores"
+
+[template]
+other = "Modelo"
+
+[subscribe]
+other = "Se inscrever"
+
+[see_also]
+other = "Veja também"
+
+[links]
+other = "Links"
+
+[generated_file]
+other = "Este é um arquivo gerado automaticamente, edite a fonte no repositório %s."
+
+[switch_lang]
+other = "Alternar idioma"
+
+[advisory]
+other = "-"
+
+[syntax_coloring]
+other = "Exemplos de cores"
+
+[analysis_name]
+other = "Nome da mensagem"
+
+[analysis_code]
+other = "Código da mensagem"
+
+[analysis_description]
+other = "Descrição"
+
+[analysis_level]
+other = "Nível"
+
+[target_release]
+other = "Esta postagem no blog foi escrita assumindo o Istio %v, portanto, parte desse conteúdo pode estar desatualizada."
+
+[security_disclosure]
+other = "Divulgação"
+
+[security_related]
+other = "Relacionado"
+
+[security_date]
+other = "Data"
+
+[security_affected_releases]
+other = "Lançamentos afetados"
+
+[security_impact_score]
+other = "Pontuação de impacto"
+
+[mark_all_as_read]
+other = "Marcar tudo como lido"
+
+[security_bulletin_title]
+other = "Detalhes da divulgação"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "Pontuação de impacto CVSS"
+
+[security_bulletin_affected_releases]
+other = "Lançamentos afetados"
+
+[feedback_title]
+other = "Esta informação foi útil?"
+
+[feedback_yes]
+other = "Sim"
+
+[feedback_no]
+other = "Não"
+
+[feedback_ask_for_comment]
+other = "Você tem alguma sugestão de melhoria?"
+
+[feedback_thankyou]
+other = "Obrigado pelo seu feedback!"
+
+[feedback_comment_placeholder]
+other = "Ajude-nos a melhorar..."
+
+[log_month_format]
+other = "janeiro de 2006"
+
+[log_change_format]
+other = "02/01/2006"
+
+[log_when]
+other = "Quando"
+
+[log_doc]
+other = "Documento"
+
+[log_change]
+other = "Mudança"
