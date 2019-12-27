@@ -1,0 +1,4307 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
+source_repo: https://github.com/istio/api
+title: Global Mesh Options
+description: Configuration affecting the service mesh as a whole.
+location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
+layout: protoc-gen-docs
+generator: protoc-gen-docs
+weight: 20
+number_of_entries: 73
+---
+<p>Configuration affecting the service mesh as a whole.</p>
+
+<h2 id="Affinity">Affinity</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Affinity-nodeAffinity">
+<td><code>nodeAffinity</code></td>
+<td><code><a href="#NodeAffinity">NodeAffinity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Affinity-podAffinity">
+<td><code>podAffinity</code></td>
+<td><code><a href="#PodAffinity">PodAffinity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Affinity-podAntiAffinity">
+<td><code>podAntiAffinity</code></td>
+<td><code><a href="#PodAntiAffinity">PodAntiAffinity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="AuthenticationPolicy">AuthenticationPolicy</h2>
+<section>
+<p>AuthenticationPolicy defines authentication policy. It can be set for
+different scopes (mesh, service …), and the most narrow scope with
+non-INHERIT value will be used.
+Mesh policy cannot be INHERIT.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="AuthenticationPolicy-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>Do not encrypt Envoy to Envoy traffic.</p>
+
+</td>
+</tr>
+<tr id="AuthenticationPolicy-MUTUAL_TLS">
+<td><code>MUTUAL_TLS</code></td>
+<td>
+<p>Envoy to Envoy traffic is wrapped into mutual TLS connections.</p>
+
+</td>
+</tr>
+<tr id="AuthenticationPolicy-INHERIT">
+<td><code>INHERIT</code></td>
+<td>
+<p>Use the policy defined by the parent scope. Should not be used for mesh
+policy.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Certificate">Certificate</h2>
+<section>
+<p>Certificate configures the provision of a certificate and its key.
+Example 1: key and cert stored in a secret
+&lbrace; secretName: galley-cert
+  secretNamespace: istio-system
+  dnsNames:
+    - galley.istio-system.svc
+    - galley.mydomain.com
+}
+Example 2: key and cert stored in a directory
+&lbrace; dnsNames:
+    - pilot.istio-system
+    - pilot.istio-system.svc
+    - pilot.mydomain.com
+}</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Certificate-secret_name">
+<td><code>secretName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name of the secret the certificate and its key will be stored into.
+If it is empty, it will not be stored into a secret.
+Instead, the certificate and its key will be stored into a hard-coded directory.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Certificate-dns_names">
+<td><code>dnsNames</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The DNS names for the certificate. A certificate may contain
+multiple DNS names.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ClientIPConfig">ClientIPConfig</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ClientIPConfig-timeoutSeconds">
+<td><code>timeoutSeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ComponentSpec">ComponentSpec</h2>
+<section>
+<p>Configuration for internal components.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ComponentSpec-enabled">
+<td><code>enabled</code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td>
+<p>Selects whether this component is installed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ComponentSpec-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Namespace for the component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ComponentSpec-hub">
+<td><code>hub</code></td>
+<td><code>string</code></td>
+<td>
+<p>Hub for the component (overrides top level hub setting).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ComponentSpec-tag">
+<td><code>tag</code></td>
+<td><code>string</code></td>
+<td>
+<p>Tag for the component (overrides top level tag setting).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ComponentSpec-spec">
+<td><code>spec</code></td>
+<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td>
+<p>Arbitrary install time configuration for the component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ComponentSpec-k8s">
+<td><code>k8s</code></td>
+<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
+<td>
+<p>Kubernetes resource spec.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ConfigMapKeySelector">ConfigMapKeySelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ConfigMapKeySelector-localObjectReference">
+<td><code>localObjectReference</code></td>
+<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigMapKeySelector-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigMapKeySelector-optional">
+<td><code>optional</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ConfigSource">ConfigSource</h2>
+<section>
+<p>ConfigSource describes information about a configuration store inside a
+mesh. A single control plane instance can interact with one or more data
+sources.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ConfigSource-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the server implementing the Istio Mesh Configuration
+protocol (MCP). Can be IP address or a fully qualified DNS name.
+Use fs:/// to specify a file-based backend with absolute path to the directory.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigSource-tls_settings">
+<td><code>tlsSettings</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#TLSSettings">TLSSettings</a></code></td>
+<td>
+<p>Use the tls<em>settings to specify the tls mode to use. If the MCP server
+uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+mode as ISTIO</em>MUTUAL.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigSource-subscribed_resources">
+<td><code>subscribedResources</code></td>
+<td><code><a href="#Resource">Resource[]</a></code></td>
+<td>
+<p>Describes the source of configuration, if nothing is specified default is MCP</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="DeploymentStrategy">DeploymentStrategy</h2>
+<section>
+<p>Mirrors k8s.io.api.apps.v1.DeploymentStrategy for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="DeploymentStrategy-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="DeploymentStrategy-rollingUpdate">
+<td><code>rollingUpdate</code></td>
+<td><code><a href="#RollingUpdateDeployment">RollingUpdateDeployment</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvVar">EnvVar</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvVar-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-valueFrom">
+<td><code>valueFrom</code></td>
+<td><code><a href="#EnvVarSource">EnvVarSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvVarSource">EnvVarSource</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvVarSource-fieldRef">
+<td><code>fieldRef</code></td>
+<td><code><a href="#ObjectFieldSelector">ObjectFieldSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-resourceFieldRef">
+<td><code>resourceFieldRef</code></td>
+<td><code><a href="#ResourceFieldSelector">ResourceFieldSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-configMapKeyRef">
+<td><code>configMapKeyRef</code></td>
+<td><code><a href="#ConfigMapKeySelector">ConfigMapKeySelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-secretKeyRef">
+<td><code>secretKeyRef</code></td>
+<td><code><a href="#SecretKeySelector">SecretKeySelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ExecAction">ExecAction</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.ExecAction for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ExecAction-command">
+<td><code>command</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ExternalComponentSpec">ExternalComponentSpec</h2>
+<section>
+<p>Configuration for external components.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ExternalComponentSpec-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Namespace for the component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalComponentSpec-spec">
+<td><code>spec</code></td>
+<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td>
+<p>Arbitrary install time configuration for the component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalComponentSpec-chart_path">
+<td><code>chartPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Chart path for addon components.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalComponentSpec-schema">
+<td><code>schema</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any">Any</a></code></td>
+<td>
+<p>Optional schema to validate spec against.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalComponentSpec-k8s">
+<td><code>k8s</code></td>
+<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
+<td>
+<p>Kubernetes resource spec.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="GatewaySpec">GatewaySpec</h2>
+<section>
+<p>Configuration for gateways.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="GatewaySpec-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Namespace for the gateway.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name for the gateway.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-label">
+<td><code>label</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Labels for the gateway.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-hub">
+<td><code>hub</code></td>
+<td><code>string</code></td>
+<td>
+<p>Hub for the component (overrides top level hub setting).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-tag">
+<td><code>tag</code></td>
+<td><code>string</code></td>
+<td>
+<p>Tag for the component (overrides top level tag setting).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-k8s">
+<td><code>k8s</code></td>
+<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
+<td>
+<p>Kubernetes resource spec.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPGetAction">HTTPGetAction</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.HTTPGetAction for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPGetAction-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-port">
+<td><code>port</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-host">
+<td><code>host</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-scheme">
+<td><code>scheme</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-httpHeaders">
+<td><code>httpHeaders</code></td>
+<td><code><a href="#HTTPHeader">HTTPHeader[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPHeader">HTTPHeader</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.HTTPHeader for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPHeader-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPHeader-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IstioComponentSetSpec">IstioComponentSetSpec</h2>
+<section>
+<p>IstioComponentSpec defines the desired installed state of Istio components.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioComponentSetSpec-pilot">
+<td><code>pilot</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-proxy">
+<td><code>proxy</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-sidecar_injector">
+<td><code>sidecarInjector</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-policy">
+<td><code>policy</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-telemetry">
+<td><code>telemetry</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-citadel">
+<td><code>citadel</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-node_agent">
+<td><code>nodeAgent</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-galley">
+<td><code>galley</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-cni">
+<td><code>cni</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-core_dNS">
+<td><code>coreDNS</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-ingress_gateways">
+<td><code>ingressGateways</code></td>
+<td><code><a href="#GatewaySpec">GatewaySpec[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-egress_gateways">
+<td><code>egressGateways</code></td>
+<td><code><a href="#GatewaySpec">GatewaySpec[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-extra_components">
+<td><code>extraComponents</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<td>
+<p>Extra addon components which are not explicitly specified above.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IstioOperatorSpec">IstioOperatorSpec</h2>
+<section>
+<p>IstioOperatorSpec defines the desired installed state of Istio components.
+The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
+Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
+component values.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioOperatorSpec-profile">
+<td><code>profile</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path or name for the profile e.g.
+    - minimal (looks in profiles dir for a file called minimal.yaml)
+    - /tmp/istio/install/values/custom/custom-install.yaml (local file path)
+default profile is used if this field is unset.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-install_package_path">
+<td><code>installPackagePath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path for the install package. e.g.
+    - /tmp/istio-installer/nightly (local file path)</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-hub">
+<td><code>hub</code></td>
+<td><code>string</code></td>
+<td>
+<p>Root for docker image paths e.g. docker.io/istio</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-tag">
+<td><code>tag</code></td>
+<td><code>string</code></td>
+<td>
+<p>Version tag for docker images e.g. 1.0.6</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-resource_suffix">
+<td><code>resourceSuffix</code></td>
+<td><code>string</code></td>
+<td>
+<p>Resource suffix is appended to all resources installed by each component. Used in upgrade scenarios where two
+Istio control planes must exist in the same namespace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-mesh_config">
+<td><code>meshConfig</code></td>
+<td><code><a href="#MeshConfig">MeshConfig</a></code></td>
+<td>
+<p>Config used by control plane components internally.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-components">
+<td><code>components</code></td>
+<td><code><a href="#IstioComponentSetSpec">IstioComponentSetSpec</a></code></td>
+<td>
+<p>Kubernetes resource settings, enablement and component-specific settings that are not internal to the
+component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-values">
+<td><code>values</code></td>
+<td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
+<td>
+<p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
+See the Helm installation options for schema details: https://istio.io/docs/reference/config/installation-options/.
+Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
+includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-unvalidated_values">
+<td><code>unvalidatedValues</code></td>
+<td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
+<td>
+<p>Unvalidated overrides for default values.yaml. Used for custom templates where new parameters are added.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-status">
+<td><code>status</code></td>
+<td><code><a href="#IstioOperatorSpec-Status">Status</a></code></td>
+<td>
+<p>Overall status of all components controlled by the operator.
+- If all components have status NONE, overall status is NONE.
+- If all components are HEALTHY, overall status is HEALTHY.
+- If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
+- If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
+- If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
+- If any component is in ERROR state, overall status is ERROR.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-component_status">
+<td><code>componentStatus</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#IstioOperatorSpec-VersionStatus">VersionStatus</a>&gt;</code></td>
+<td>
+<p>Individual status of each component controlled by the operator. The map key is the name of the component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IstioOperatorSpec-Status">IstioOperatorSpec.Status</h2>
+<section>
+<p>Status describes the current state of a component.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioOperatorSpec-Status-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>Component is not present.</p>
+
+</td>
+</tr>
+<tr id="IstioOperatorSpec-Status-UPDATING">
+<td><code>UPDATING</code></td>
+<td>
+<p>Component is being updated to a different version.</p>
+
+</td>
+</tr>
+<tr id="IstioOperatorSpec-Status-RECONCILING">
+<td><code>RECONCILING</code></td>
+<td>
+<p>Controller has started but not yet completed reconciliation loop for the component.</p>
+
+</td>
+</tr>
+<tr id="IstioOperatorSpec-Status-HEALTHY">
+<td><code>HEALTHY</code></td>
+<td>
+<p>Component is healthy.</p>
+
+</td>
+</tr>
+<tr id="IstioOperatorSpec-Status-ERROR">
+<td><code>ERROR</code></td>
+<td>
+<p>Component is in an error state.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IstioOperatorSpec-VersionStatus">IstioOperatorSpec.VersionStatus</h2>
+<section>
+<p>VersionStatus is the status and version of a component.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioOperatorSpec-VersionStatus-version">
+<td><code>version</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-VersionStatus-status">
+<td><code>status</code></td>
+<td><code><a href="#IstioOperatorSpec-Status">Status</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-VersionStatus-status_string">
+<td><code>statusString</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-VersionStatus-error">
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="K8sObjectOverlay">K8sObjectOverlay</h2>
+<section>
+<p>Patch for an existing k8s resource.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="K8sObjectOverlay-api_version">
+<td><code>apiVersion</code></td>
+<td><code>string</code></td>
+<td>
+<p>Resource API version.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="K8sObjectOverlay-kind">
+<td><code>kind</code></td>
+<td><code>string</code></td>
+<td>
+<p>Resource kind.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="K8sObjectOverlay-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name of resource.
+Namespace is always the component namespace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="K8sObjectOverlay-patches">
+<td><code>patches</code></td>
+<td><code><a href="#K8sObjectOverlay-PathValue">PathValue[]</a></code></td>
+<td>
+<p>List of patches to apply to resource.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="K8sObjectOverlay-PathValue">K8sObjectOverlay.PathValue</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="K8sObjectOverlay-PathValue-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path of the form a.b:c.e.:f
+Where b:c is a list element selector of the form key:value and :f is a list selector of the form :value.
+All path intermediate nodes must exist.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="K8sObjectOverlay-PathValue-value">
+<td><code>value</code></td>
+<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td>
+<p>Value to add, delete or replace.
+For add, the path should be a new leaf.
+For delete, value should be unset.
+For replace, path should reference an existing node.
+All values are strings but are converted into appropriate type based on schema.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="KubernetesResourcesSpec">KubernetesResourcesSpec</h2>
+<section>
+<p>KubernetesResourcesConfig is a common set of k8s resource configs for components.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="KubernetesResourcesSpec-affinity">
+<td><code>affinity</code></td>
+<td><code><a href="#Affinity">Affinity</a></code></td>
+<td>
+<p>k8s affinity.
+https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-env">
+<td><code>env</code></td>
+<td><code><a href="#EnvVar">EnvVar[]</a></code></td>
+<td>
+<p>Deployment environment variables.
+https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-hpa_spec">
+<td><code>hpaSpec</code></td>
+<td><code><a href="#k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</a></code></td>
+<td>
+<p>k8s HorizontalPodAutoscaler settings.
+https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-image_pull_policy">
+<td><code>imagePullPolicy</code></td>
+<td><code>string</code></td>
+<td>
+<p>k8s imagePullPolicy.
+https://kubernetes.io/docs/concepts/containers/images/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-node_selector">
+<td><code>nodeSelector</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>k8s nodeSelector.
+https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-pod_disruption_budget">
+<td><code>podDisruptionBudget</code></td>
+<td><code><a href="#PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</a></code></td>
+<td>
+<p>k8s PodDisruptionBudget settings.
+https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-pod_annotations">
+<td><code>podAnnotations</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>k8s pod annotations.
+https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-priority_class_name">
+<td><code>priorityClassName</code></td>
+<td><code>string</code></td>
+<td>
+<p>k8s priority<em>class</em>name. Default for all resources unless overridden.
+https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-readiness_probe">
+<td><code>readinessProbe</code></td>
+<td><code><a href="#ReadinessProbe">ReadinessProbe</a></code></td>
+<td>
+<p>k8s readinessProbe settings.
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+k8s.io.api.core.v1.Probe readiness_probe = 9;</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-replica_count">
+<td><code>replicaCount</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>k8s Deployment replicas setting.
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-resources">
+<td><code>resources</code></td>
+<td><code><a href="#Resources">Resources</a></code></td>
+<td>
+<p>k8s resources settings.
+https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-service">
+<td><code>service</code></td>
+<td><code><a href="#ServiceSpec">ServiceSpec</a></code></td>
+<td>
+<p>k8s Service settings.
+https://kubernetes.io/docs/concepts/services-networking/service/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-strategy">
+<td><code>strategy</code></td>
+<td><code><a href="#DeploymentStrategy">DeploymentStrategy</a></code></td>
+<td>
+<p>k8s deployment strategy.
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-tolerations">
+<td><code>tolerations</code></td>
+<td><code><a href="#Toleration">Toleration</a></code></td>
+<td>
+<p>k8s toleration
+https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-overlays">
+<td><code>overlays</code></td>
+<td><code><a href="#K8sObjectOverlay">K8sObjectOverlay[]</a></code></td>
+<td>
+<p>Overlays for k8s resources in rendered manifests.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LocalObjectReference">LocalObjectReference</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LocalObjectReference-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig">MeshConfig</h2>
+<section>
+<p>MeshConfig defines mesh-wide variables shared by all Envoy instances in the
+Istio service mesh.</p>
+
+<p>NOTE: This configuration type should be used for the low-level global
+configuration, such as component addresses and port numbers. It should not
+be used for the features of the mesh that can be scoped by service or by
+namespace. Some of the fields in the mesh config are going to be deprecated
+and replaced with several individual configuration types (for example,
+tracing configuration).</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-mixer_check_server">
+<td><code>mixerCheckServer</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the server that will be used by the proxies for policy
+check calls. By using different names for mixerCheckServer and
+mixerReportServer, it is possible to have one set of Mixer servers handle
+policy check calls while another set of Mixer servers handle telemetry
+calls.</p>
+
+<p>NOTE: Omitting mixerCheckServer while specifying mixerReportServer is
+equivalent to setting disablePolicyChecks to true.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-mixer_report_server">
+<td><code>mixerReportServer</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the server that will be used by the proxies for policy report
+calls.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-disable_policy_checks">
+<td><code>disablePolicyChecks</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Disable policy checks by the Mixer service. Default
+is false, i.e. Mixer policy check is enabled by default.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-policy_check_fail_open">
+<td><code>policyCheckFailOpen</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Allow all traffic in cases when the Mixer policy service cannot be reached.
+Default is false which means the traffic is denied when the client is unable
+to connect to Mixer.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-sidecar_to_telemetry_session_affinity">
+<td><code>sidecarToTelemetrySessionAffinity</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Enable session affinity for Envoy Mixer reports so that calls from a proxy will
+always target the same Mixer instance.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-proxy_listen_port">
+<td><code>proxyListenPort</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Port on which Envoy should listen for incoming connections from
+other services.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-proxy_http_port">
+<td><code>proxyHttpPort</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Port on which Envoy should listen for HTTP PROXY requests if set.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-connect_timeout">
+<td><code>connectTimeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Connection timeout used by Envoy. (MUST BE &gt;=1ms)</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-protocol_detection_timeout">
+<td><code>protocolDetectionTimeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Automatic protocol detection uses a set of heuristics to
+determine whether the connection is using TLS or not (on the
+server side), as well as the application protocol being used
+(e.g., http vs tcp). These heuristics rely on the client sending
+the first bits of data. For server first protocols like MySQL,
+MongoDB, etc., Envoy will timeout on the protocol detection after
+the specified period, defaulting to non mTLS plain TCP
+traffic. Set this field to tweak the period that Envoy will wait
+for the client to send the first bits of data. (MUST BE &gt;=1ms)</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-tcp_keepalive">
+<td><code>tcpKeepalive</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
+<td>
+<p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ingress_class">
+<td><code>ingressClass</code></td>
+<td><code>string</code></td>
+<td>
+<p>Class of ingress resources to be processed by Istio ingress
+controller. This corresponds to the value of
+&ldquo;kubernetes.io/ingress.class&rdquo; annotation.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ingress_service">
+<td><code>ingressService</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name of theKubernetes service used for the istio ingress controller.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ingress_controller_mode">
+<td><code>ingressControllerMode</code></td>
+<td><code><a href="#MeshConfig-IngressControllerMode">IngressControllerMode</a></code></td>
+<td>
+<p>Defines whether to use Istio ingress controller for annotated or all ingress resources.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-enable_tracing">
+<td><code>enableTracing</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Flag to control generation of trace spans and request IDs.
+Requires a trace span collector defined in the proxy configuration.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-access_log_file">
+<td><code>accessLogFile</code></td>
+<td><code>string</code></td>
+<td>
+<p>File address for the proxy access log (e.g. /dev/stdout).
+Empty value disables access logging.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-access_log_format">
+<td><code>accessLogFormat</code></td>
+<td><code>string</code></td>
+<td>
+<p>Format for the proxy access log
+Empty value results in proxy&rsquo;s default access log format</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-access_log_encoding">
+<td><code>accessLogEncoding</code></td>
+<td><code><a href="#MeshConfig-AccessLogEncoding">AccessLogEncoding</a></code></td>
+<td>
+<p>Encoding for the proxy access log (text or json).
+Default value is text.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-enable_envoy_access_log_service">
+<td><code>enableEnvoyAccessLogService</code></td>
+<td><code>bool</code></td>
+<td>
+<p>This flag enables Envoy&rsquo;s gRPC Access Log Service.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log Service</a>
+for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-default_config">
+<td><code>defaultConfig</code></td>
+<td><code><a href="#ProxyConfig">ProxyConfig</a></code></td>
+<td>
+<p>Default proxy config used by the proxy injection mechanism operating in the mesh
+(e.g. Kubernetes admission controller)
+In case of Kubernetes, the proxy config is applied once during the injection process,
+and remain constant for the duration of the pod. The rest of the mesh config can be changed
+at runtime and config gets distributed dynamically.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-outbound_traffic_policy">
+<td><code>outboundTrafficPolicy</code></td>
+<td><code><a href="#MeshConfig-OutboundTrafficPolicy">OutboundTrafficPolicy</a></code></td>
+<td>
+<p>Set the default behavior of the sidecar for handling outbound traffic
+from the application.  If your application uses one or more external
+services that are not known apriori, setting the policy to ALLOW<em>ANY
+will cause the sidecars to route any unknown traffic originating from
+the application to its requested destination.  Users are strongly
+encouraged to use ServiceEntries to explicitly declare any external
+dependencies, instead of using allow</em>any, so that traffic to these
+services can be monitored.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-enable_client_side_policy_check">
+<td><code>enableClientSidePolicyCheck</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Enables client side policy checks.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-config_sources">
+<td><code>configSources</code></td>
+<td><code><a href="#ConfigSource">ConfigSource[]</a></code></td>
+<td>
+<p>ConfigSource describes a source of configuration data for networking
+rules, and other Istio configuration artifacts. Multiple data sources
+can be configured for a single control plane.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-enable_auto_mtls">
+<td><code>enableAutoMtls</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>This flag is used to enable mutual TLS automatically for service to service communication
+within the mesh, default false.
+If set to true, and a given service does not have a corresponding DestinationRule configured,
+or its DestinationRule does not have TLSSettings specified, Istio configures client side
+TLS configuration appropriately. More specifically,
+If the upstream authentication policy is in STRICT mode, use Istio provisioned certificate
+for mutual TLS to connect to upstream.
+If upstream service is in plain text mode, use plain text.
+If the upstream authentication policy is in PERMISSIVE mode, Istio configures clients to use
+mutual TLS when server sides are capable of accepting mutual TLS traffic.
+If service DestinationRule exists and has TLSSettings specified, that is always used instead.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-trust_domain">
+<td><code>trustDomain</code></td>
+<td><code>string</code></td>
+<td>
+<p>The trust domain corresponds to the trust root of a system.
+Refer to <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md#21-trust-domain">SPIFFE-ID</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-trust_domain_aliases">
+<td><code>trustDomainAliases</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The trust domain aliases represent the aliases of <code>trust_domain</code>.
+For example, if we have</p>
+
+<pre><code class="language-yaml">trustDomain: td1
+trustDomainAliases: [&quot;td2&quot;, &quot;td3&quot;]
+</code></pre>
+
+<p>Any service with the identity <code>td1/ns/foo/sa/a-service-account</code>, <code>td2/ns/foo/sa/a-service-account</code>,
+or <code>td3/ns/foo/sa/a-service-account</code> will be treated the same in the Istio mesh.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-default_service_export_to">
+<td><code>defaultServiceExportTo</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The default value for the ServiceEntry.export_to field and services
+imported through container registry integrations, e.g. this applies to
+Kubernetes Service resources. The value is a list of namespace names and
+reserved namespace aliases. The allowed namespace aliases are:</p>
+
+<ul>
+<li>- All Namespaces
+. - Current Namespace
+~ - No Namespace</li>
+</ul>
+
+<p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
+services are exported to all namespaces.</p>
+
+<p>&lsquo;All namespaces&rsquo; is a reasonable default for implementations that don&rsquo;t
+need to restrict access or visibility of services across namespace
+boundaries. If that requirement is present it is generally good practice to
+make the default &lsquo;Current namespace&rsquo; so that services are only visible
+within their own namespaces by default. Operators can then expand the
+visibility of services to other namespaces as needed. Use of &lsquo;No Namespace&rsquo;
+is expected to be rare but can have utility for deployments where
+dependency management needs to be precise even within the scope of a single
+namespace.</p>
+
+<p>For further discussion see the reference documentation for ServiceEntry,
+Sidecar, and Gateway.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-default_virtual_service_export_to">
+<td><code>defaultVirtualServiceExportTo</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The default value for the VirtualService.export<em>to field. Has the same
+syntax as &lsquo;default</em>service<em>export</em>to&rsquo;.</p>
+
+<p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
+virtual services are exported to all namespaces</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-default_destination_rule_export_to">
+<td><code>defaultDestinationRuleExportTo</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The default value for the DestinationRule.export<em>to field. Has the same
+syntax as &lsquo;default</em>service<em>export</em>to&rsquo;.</p>
+
+<p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
+destination rules are exported to all namespaces</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-root_namespace">
+<td><code>rootNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>The namespace to treat as the administrative root namespace for
+Istio configuration. When processing a leaf namespace Istio will search for
+declarations in that namespace first and if none are found it will
+search in the root namespace. Any matching declaration found in the root
+namespace is processed as if it were declared in the leaf namespace.</p>
+
+<p>The precise semantics of this processing are documented on each resource
+type.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-locality_lb_setting">
+<td><code>localityLbSetting</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></code></td>
+<td>
+<p>Locality based load balancing distribution or failover settings.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-dns_refresh_rate">
+<td><code>dnsRefreshRate</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Configures DNS refresh rate for Envoy clusters of type STRICT_DNS</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-disable_report_batch">
+<td><code>disableReportBatch</code></td>
+<td><code>bool</code></td>
+<td>
+<p>The flag to disable report batch.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-report_batch_max_entries">
+<td><code>reportBatchMaxEntries</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>When disable<em>report</em>batch is false, this value specifies the maximum number
+of requests that are batched in report. If left unspecified, the default value
+of report<em>batch</em>max_entries == 0 will use the hardcoded defaults of
+istio::mixerclient::ReportOptions.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-report_batch_max_time">
+<td><code>reportBatchMaxTime</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>When disable<em>report</em>batch is false, this value specifies the maximum elapsed
+time a batched report will be sent after a user request is processed. If left
+unspecified, the default report<em>batch</em>max_time == 0 will use the hardcoded
+defaults of istio::mixerclient::ReportOptions.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-h2_upgrade_policy">
+<td><code>h2UpgradePolicy</code></td>
+<td><code><a href="#MeshConfig-H2UpgradePolicy">H2UpgradePolicy</a></code></td>
+<td>
+<p>Specify if http1.1 connections should be upgraded to http2 by default.
+if sidecar is installed on all pods in the mesh, then this should be set to UPGRADE.
+If one or more services or namespaces do not have sidecar(s), then this should be set to DO<em>NOT</em>UPGRADE.
+It can be enabled by destination using the destinationRule.trafficPolicy.connectionPool.http.h2UpgradePolicy override.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-inbound_cluster_stat_name">
+<td><code>inboundClusterStatName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name to be used while emitting statistics for inbound clusters.
+By default, Istio emits statistics with the pattern <code>inbound|&lt;port&gt;|&lt;port-name&gt;|&lt;service-FQDN&gt;</code>.
+For example <code>inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
+
+<p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
+
+<ul>
+<li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
+<li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
+<li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
+<li><code>%SERVICE_PORT_NAME%</code> - Will be substituted with port name of the service.</li>
+</ul>
+
+<p>Following are some examples of supported patterns for reviews:</p>
+
+<ul>
+<li><code>%SERVICE_FQDN%_%SERVICE_PORT%</code> will use reviews.prod.svc.cluster.local_7443 as the stats name.</li>
+<li><code>%SERVICE%</code> will use reviews.prod as the stats name.</li>
+</ul>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-outbound_cluster_stat_name">
+<td><code>outboundClusterStatName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name to be used while emitting statistics for outbound clusters.
+By default, Istio emits statistics with the pattern <code>outbound|&lt;port&gt;|&lt;subsetname&gt;|&lt;service-FQDN&gt;</code>.
+For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
+
+<p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
+
+<ul>
+<li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
+<li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
+<li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
+<li><code>%SERVICE_PORT_NAME%</code> - Will be substituted with port name of the service.</li>
+<li><code>%SUBSET_NAME%</code> - Will be substituted with subset.</li>
+</ul>
+
+<p>Following are some examples of supported patterns for reviews:</p>
+
+<ul>
+<li><code>%SERVICE_FQDN%_%SERVICE_PORT%</code> will use reviews.prod.svc.cluster.local_7443 as the stats name.</li>
+<li><code>%SERVICE%</code> will use reviews.prod as the stats name.</li>
+</ul>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-certificates">
+<td><code>certificates</code></td>
+<td><code><a href="#Certificate">Certificate[]</a></code></td>
+<td>
+<p>Configure the provision of certificates.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-AccessLogEncoding">MeshConfig.AccessLogEncoding</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-AccessLogEncoding-TEXT">
+<td><code>TEXT</code></td>
+<td>
+</td>
+</tr>
+<tr id="MeshConfig-AccessLogEncoding-JSON">
+<td><code>JSON</code></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-H2UpgradePolicy">MeshConfig.H2UpgradePolicy</h2>
+<section>
+<p>Default Policy for upgrading http1.1 connections to http2.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-H2UpgradePolicy-DO_NOT_UPGRADE">
+<td><code>DO_NOT_UPGRADE</code></td>
+<td>
+<p>Do not upgrade connections to http2.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-H2UpgradePolicy-UPGRADE">
+<td><code>UPGRADE</code></td>
+<td>
+<p>Upgrade the connections to http2.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-IngressControllerMode">MeshConfig.IngressControllerMode</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-IngressControllerMode-OFF">
+<td><code>OFF</code></td>
+<td>
+<p>Disables Istio ingress controller.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-IngressControllerMode-DEFAULT">
+<td><code>DEFAULT</code></td>
+<td>
+<p>Istio ingress controller will act on ingress resources that do not
+contain any annotation or whose annotations match the value
+specified in the ingress_class parameter described earlier. Use this
+mode if Istio ingress controller will be the default ingress
+controller for the entireKubernetes cluster.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-IngressControllerMode-STRICT">
+<td><code>STRICT</code></td>
+<td>
+<p>Istio ingress controller will only act on ingress resources whose
+annotations match the value specified in the ingress_class parameter
+described earlier. Use this mode if Istio ingress controller will be
+a secondary ingress controller (e.g., in addition to a
+cloud-provided ingress controller).</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-OutboundTrafficPolicy">MeshConfig.OutboundTrafficPolicy</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-OutboundTrafficPolicy-mode">
+<td><code>mode</code></td>
+<td><code><a href="#MeshConfig-OutboundTrafficPolicy-Mode">Mode</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-OutboundTrafficPolicy-Mode">MeshConfig.OutboundTrafficPolicy.Mode</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-OutboundTrafficPolicy-Mode-REGISTRY_ONLY">
+<td><code>REGISTRY_ONLY</code></td>
+<td>
+<p>outbound traffic will be restricted to services defined in the
+service registry as well as those defined through ServiceEntries</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-OutboundTrafficPolicy-Mode-ALLOW_ANY">
+<td><code>ALLOW_ANY</code></td>
+<td>
+<p>outbound traffic to unknown destinations will be allowed, in case
+there are no services or ServiceEntries for the destination port</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshNetworks">MeshNetworks</h2>
+<section>
+<p>MeshNetworks (config map) provides information about the set of networks
+inside a mesh and how to route to endpoints in each network. For example</p>
+
+<p>MeshNetworks(file/config map):</p>
+
+<pre><code class="language-yaml">networks:
+  network1:
+  - endpoints:
+    - fromRegistry: registry1 #must match kubeconfig name in Kubernetes secret
+    - fromCidr: 192.168.100.0/22 #a VM network for example
+    gateways:
+    - registryServiceName: istio-ingressgateway.istio-system.svc.cluster.local
+      port: 15443
+      locality: us-east-1a
+    - address: 192.168.100.1
+      port: 15443
+      locality: us-east-1a
+</code></pre>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshNetworks-networks">
+<td><code>networks</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#Network">Network</a>&gt;</code></td>
+<td>
+<p>The set of networks inside this mesh. Each network should
+have a unique name and information about how to infer the endpoints in
+the network as well as the gateways associated with the network.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Network">Network</h2>
+<section>
+<p>Network provides information about the endpoints in a routable L3
+network. A single routable L3 network can have one or more service
+registries. Note that the network has no relation to the locality of the
+endpoint. The endpoint locality will be obtained from the service
+registry.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Network-endpoints">
+<td><code>endpoints</code></td>
+<td><code><a href="#Network-NetworkEndpoints">NetworkEndpoints[]</a></code></td>
+<td>
+<p>The list of endpoints in the network (obtained through the
+constituent service registries or from CIDR ranges). All endpoints in
+the network are directly accessible to one another.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Network-gateways">
+<td><code>gateways</code></td>
+<td><code><a href="#Network-IstioNetworkGateway">IstioNetworkGateway[]</a></code></td>
+<td>
+<p>Set of gateways associated with the network.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Network-IstioNetworkGateway">Network.IstioNetworkGateway</h2>
+<section>
+<p>The gateway associated with this network. Traffic from remote networks
+will arrive at the specified gateway:port. All incoming traffic must
+use mTLS.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Network-IstioNetworkGateway-registry_service_name" class="oneof oneof-start">
+<td><code>registryServiceName</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>A fully qualified domain name of the gateway service.  Pilot will
+lookup the service from the service registries in the network and
+obtain the endpoint IPs of the gateway from the service
+registry. Note that while the service name is a fully qualified
+domain name, it need not be resolvable outside the orchestration
+platform for the registry. e.g., this could be
+istio-ingressgateway.istio-system.svc.cluster.local.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Network-IstioNetworkGateway-address" class="oneof">
+<td><code>address</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>IP address or externally resolvable DNS address associated with the gateway.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Network-IstioNetworkGateway-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>The port associated with the gateway.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Network-IstioNetworkGateway-locality">
+<td><code>locality</code></td>
+<td><code>string</code></td>
+<td>
+<p>The locality associated with an explicitly specified gateway (i.e. ip)</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Network-NetworkEndpoints">Network.NetworkEndpoints</h2>
+<section>
+<p>NetworkEndpoints describes how the network associated with an endpoint
+should be inferred. An endpoint will be assigned to a network based on
+the following rules:</p>
+
+<ol>
+<li><p>Implicitly: If the registry explicitly provides information about
+the network to which the endpoint belongs to. In some cases, its
+possible to indicate the network associated with the endpoint by
+adding the <code>ISTIO_META_NETWORK</code> environment variable to the sidecar.</p></li>
+
+<li><p>Explicitly:</p></li>
+</ol>
+
+<p>a. By matching the registry name with one of the &ldquo;fromRegistry&rdquo;
+   in the mesh config. A &ldquo;from_registry&rdquo; can only be assigned to a
+   single network.</p>
+
+<p>b. By matching the IP against one of the CIDR ranges in a mesh
+   config network. The CIDR ranges must not overlap and be assigned to
+   a single network.</p>
+
+<p>(2) will override (1) if both are present.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Network-NetworkEndpoints-from_cidr" class="oneof oneof-start">
+<td><code>fromCidr</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>A CIDR range for the set of endpoints in this network. The CIDR
+ranges for endpoints from different networks must not overlap.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Network-NetworkEndpoints-from_registry" class="oneof">
+<td><code>fromRegistry</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>Add all endpoints from the specified registry into this network.
+The names of the registries should correspond to the kubeconfig file name
+inside the secret that was used to configure the registry (Kubernetes
+multicluster) or supplied by MCP server.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NodeAffinity">NodeAffinity</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NodeAffinity-requiredDuringSchedulingIgnoredDuringExecution">
+<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#NodeSelector">NodeSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="NodeAffinity-preferredDuringSchedulingIgnoredDuringExecution">
+<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#PreferredSchedulingTerm">PreferredSchedulingTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NodeSelector">NodeSelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NodeSelector-nodeSelectorTerms">
+<td><code>nodeSelectorTerms</code></td>
+<td><code><a href="#NodeSelectorTerm">NodeSelectorTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NodeSelectorRequirement">NodeSelectorRequirement</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NodeSelectorRequirement-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="NodeSelectorRequirement-operator">
+<td><code>operator</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="NodeSelectorRequirement-values">
+<td><code>values</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NodeSelectorTerm">NodeSelectorTerm</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NodeSelectorTerm-matchExpressions">
+<td><code>matchExpressions</code></td>
+<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="NodeSelectorTerm-matchFields">
+<td><code>matchFields</code></td>
+<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ObjectFieldSelector">ObjectFieldSelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ObjectFieldSelector-apiVersion">
+<td><code>apiVersion</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectFieldSelector-fieldPath">
+<td><code>fieldPath</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ObjectMeta">ObjectMeta</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ObjectMeta-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>From k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMeta-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodAffinity">PodAffinity</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodAffinity-requiredDuringSchedulingIgnoredDuringExecution">
+<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAffinity-preferredDuringSchedulingIgnoredDuringExecution">
+<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodAffinityTerm">PodAffinityTerm</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodAffinityTerm-labelSelector">
+<td><code>labelSelector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAffinityTerm-namespaces">
+<td><code>namespaces</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAffinityTerm-topologyKey">
+<td><code>topologyKey</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodAntiAffinity">PodAntiAffinity</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodAntiAffinity-requiredDuringSchedulingIgnoredDuringExecution">
+<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAntiAffinity-preferredDuringSchedulingIgnoredDuringExecution">
+<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</h2>
+<section>
+<p>Mirrors k8s.io.api.policy.v1beta1.PodDisruptionBudget for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodDisruptionBudgetSpec-minAvailable">
+<td><code>minAvailable</code></td>
+<td><code>uint32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodDisruptionBudgetSpec-selector">
+<td><code>selector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodDisruptionBudgetSpec-maxUnavailable">
+<td><code>maxUnavailable</code></td>
+<td><code>uint32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PreferredSchedulingTerm">PreferredSchedulingTerm</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PreferredSchedulingTerm-weight">
+<td><code>weight</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PreferredSchedulingTerm-preference">
+<td><code>preference</code></td>
+<td><code><a href="#NodeSelectorTerm">NodeSelectorTerm</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig">ProxyConfig</h2>
+<section>
+<p>ProxyConfig defines variables for individual Envoy instances.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-config_path">
+<td><code>configPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the generated configuration file directory.
+Proxy agent generates the actual configuration and stores it in this directory.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-binary_path">
+<td><code>binaryPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the proxy binary</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-service_cluster">
+<td><code>serviceCluster</code></td>
+<td><code>string</code></td>
+<td>
+<p>Service cluster defines the name for the service_cluster that is
+shared by all Envoy instances. This setting corresponds to
+<em>&ndash;service-cluster</em> flag in Envoy.  In a typical Envoy deployment, the
+<em>service-cluster</em> flag is used to identify the caller, for
+source-based routing scenarios.</p>
+
+<p>Since Istio does not assign a local service/service version to each
+Envoy instance, the name is same for all of them.  However, the
+source/caller&rsquo;s identity (e.g., IP address) is encoded in the
+<em>&ndash;service-node</em> flag when launching Envoy.  When the RDS service
+receives API calls from Envoy, it uses the value of the <em>service-node</em>
+flag to compute routes that are relative to the service instances
+located at that IP address.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-drain_duration">
+<td><code>drainDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The time in seconds that Envoy will drain connections during a hot
+restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-parent_shutdown_duration">
+<td><code>parentShutdownDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The time in seconds that Envoy will wait before shutting down the
+parent process during a hot restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>).
+MUST BE greater than <em>drain</em>duration_ parameter.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-discovery_address">
+<td><code>discoveryAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the discovery service exposing xDS with mTLS connection.
+The inject configuration may override this value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-connect_timeout">
+<td><code>connectTimeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Connection timeout used by Envoy for supporting services. (MUST BE &gt;=1ms)</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-statsd_udp_address">
+<td><code>statsdUdpAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>IP Address and Port of a statsd UDP listener (e.g. <em>10.75.241.127:9125</em>).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-proxy_admin_port">
+<td><code>proxyAdminPort</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Port on which Envoy should listen for administrative commands.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-control_plane_auth_policy">
+<td><code>controlPlaneAuthPolicy</code></td>
+<td><code><a href="#AuthenticationPolicy">AuthenticationPolicy</a></code></td>
+<td>
+<p>Authentication policy defines the global switch to control authentication
+for Envoy-to-Envoy communication for istio components Mixer and Pilot.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-custom_config_file">
+<td><code>customConfigFile</code></td>
+<td><code>string</code></td>
+<td>
+<p>File path of custom proxy configuration, currently used by proxies
+in front of Mixer and Pilot.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-stat_name_length">
+<td><code>statNameLength</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Maximum length of name field in Envoy&rsquo;s metrics. The length of the name field
+is determined by the length of a name field in a service and the set of labels that
+comprise a particular version of the service. The default value is set to 189 characters.
+Envoy&rsquo;s internal metrics take up 67 characters, for a total of 256 character name per metric.
+Increase the value of this field if you find that the metrics from Envoys are truncated.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-concurrency">
+<td><code>concurrency</code></td>
+<td><code>int32</code></td>
+<td>
+<p>The number of worker threads to run. Default value is number of cores on the machine.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-proxy_bootstrap_template_path">
+<td><code>proxyBootstrapTemplatePath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the proxy bootstrap template file</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-interception_mode">
+<td><code>interceptionMode</code></td>
+<td><code><a href="#ProxyConfig-InboundInterceptionMode">InboundInterceptionMode</a></code></td>
+<td>
+<p>The mode used to redirect inbound traffic to Envoy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-tracing">
+<td><code>tracing</code></td>
+<td><code><a href="#Tracing">Tracing</a></code></td>
+<td>
+<p>Tracing configuration to be used by the proxy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-sds">
+<td><code>sds</code></td>
+<td><code><a href="#SDS">SDS</a></code></td>
+<td>
+<p>secret discovery service(SDS) configuration to be used by the proxy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-envoy_access_log_service">
+<td><code>envoyAccessLogService</code></td>
+<td><code><a href="#RemoteService">RemoteService</a></code></td>
+<td>
+<p>Address of the service to which access logs from Envoys should be
+sent. (e.g. accesslog-service:15000). See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log
+Service</a>
+for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-envoy_metrics_service">
+<td><code>envoyMetricsService</code></td>
+<td><code><a href="#RemoteService">RemoteService</a></code></td>
+<td>
+<p>Address of the Envoy Metrics Service implementation (e.g. metrics-service:15000).
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto">Metric Service</a>
+for details about Envoy&rsquo;s Metrics Service API.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-zipkin_address" class="deprecated ">
+<td><code>zipkinAddress</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).
+DEPRECATED: Use <a href="#ProxyConfig-tracing">tracing</a> instead.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-InboundInterceptionMode">ProxyConfig.InboundInterceptionMode</h2>
+<section>
+<p>The mode used to redirect inbound traffic to Envoy.
+This setting has no effect on outbound traffic: iptables REDIRECT is always used for
+outbound connections.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-InboundInterceptionMode-REDIRECT">
+<td><code>REDIRECT</code></td>
+<td>
+<p>The REDIRECT mode uses iptables REDIRECT to NAT and redirect to Envoy. This mode loses
+source IP addresses during redirection.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-InboundInterceptionMode-TPROXY">
+<td><code>TPROXY</code></td>
+<td>
+<p>The TPROXY mode uses iptables TPROXY to redirect to Envoy. This mode preserves both the
+source and destination IP addresses and ports, so that they can be used for advanced
+filtering and manipulation. This mode also configures the sidecar to run with the
+CAP<em>NET</em>ADMIN capability, which is required to use TPROXY.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ReadinessProbe">ReadinessProbe</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.Probe for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ReadinessProbe-exec">
+<td><code>exec</code></td>
+<td><code><a href="#ExecAction">ExecAction</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ReadinessProbe-httpGet">
+<td><code>httpGet</code></td>
+<td><code><a href="#HTTPGetAction">HTTPGetAction</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ReadinessProbe-tcpSocket">
+<td><code>tcpSocket</code></td>
+<td><code><a href="#TCPSocketAction">TCPSocketAction</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ReadinessProbe-initialDelaySeconds">
+<td><code>initialDelaySeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ReadinessProbe-timeoutSeconds">
+<td><code>timeoutSeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ReadinessProbe-periodSeconds">
+<td><code>periodSeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ReadinessProbe-successThreshold">
+<td><code>successThreshold</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ReadinessProbe-failureThreshold">
+<td><code>failureThreshold</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="RemoteService">RemoteService</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="RemoteService-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of a remove service used for various purposes (access log
+receiver, metrics receiver, etc.). Can be IP address or a fully
+qualified DNS name.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="RemoteService-tls_settings">
+<td><code>tlsSettings</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#TLSSettings">TLSSettings</a></code></td>
+<td>
+<p>Use the tls_settings to specify the tls mode to use. If the remote service
+uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+mode as <code>ISTIO_MUTUAL</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="RemoteService-tcp_keepalive">
+<td><code>tcpKeepalive</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
+<td>
+<p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Resource">Resource</h2>
+<section>
+<p>Resource describes the source of configuration</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Resource-SERVICE_REGISTRY">
+<td><code>SERVICE_REGISTRY</code></td>
+<td>
+<p>Set to only receive service entries that are generated by the platform.
+These auto generated service entries are combination of services and endpoints
+that are generated by a specific platform e.g. k8</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ResourceFieldSelector">ResourceFieldSelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ResourceFieldSelector-containerName">
+<td><code>containerName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceFieldSelector-resource">
+<td><code>resource</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceFieldSelector-divisor">
+<td><code>divisor</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Resources">Resources</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.ResourceRequirements for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Resources-limits">
+<td><code>limits</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Resources-requests">
+<td><code>requests</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="RollingUpdateDeployment">RollingUpdateDeployment</h2>
+<section>
+<p>Mirrors k8s.io.api.apps.v1.RollingUpdateDeployment for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="RollingUpdateDeployment-maxUnavailable">
+<td><code>maxUnavailable</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="RollingUpdateDeployment-maxSurge">
+<td><code>maxSurge</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SDS">SDS</h2>
+<section>
+<p>SDS defines secret discovery service(SDS) configuration to be used by the proxy.
+For workload, its values are set in sidecar injector(passed as arguments to istio-proxy container).
+For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilot/mixer deployment yaml files directly.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SDS-enabled">
+<td><code>enabled</code></td>
+<td><code>bool</code></td>
+<td>
+<p>True if SDS is enabled.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SDS-k8s_sa_jwt_path">
+<td><code>k8sSaJwtPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path of k8s service account JWT path.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SecretKeySelector">SecretKeySelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SecretKeySelector-localObjectReference">
+<td><code>localObjectReference</code></td>
+<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SecretKeySelector-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SecretKeySelector-optional">
+<td><code>optional</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServicePort">ServicePort</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServicePort-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-port">
+<td><code>port</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-targetPort">
+<td><code>targetPort</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-util-intstr-IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-nodePort">
+<td><code>nodePort</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServiceSpec">ServiceSpec</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceSpec-ports">
+<td><code>ports</code></td>
+<td><code><a href="#ServicePort">ServicePort[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-selector">
+<td><code>selector</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-clusterIP">
+<td><code>clusterIP</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-externalIPs">
+<td><code>externalIPs</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-sessionAffinity">
+<td><code>sessionAffinity</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-loadBalancerIP">
+<td><code>loadBalancerIP</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-loadBalancerSourceRanges">
+<td><code>loadBalancerSourceRanges</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-externalName">
+<td><code>externalName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-externalTrafficPolicy">
+<td><code>externalTrafficPolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-healthCheckNodePort">
+<td><code>healthCheckNodePort</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-publishNotReadyAddresses">
+<td><code>publishNotReadyAddresses</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-sessionAffinityConfig">
+<td><code>sessionAffinityConfig</code></td>
+<td><code><a href="#SessionAffinityConfig">SessionAffinityConfig</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SessionAffinityConfig">SessionAffinityConfig</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SessionAffinityConfig-clientIP">
+<td><code>clientIP</code></td>
+<td><code><a href="#ClientIPConfig">ClientIPConfig</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TCPSocketAction">TCPSocketAction</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.TCPSocketAction for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TCPSocketAction-port">
+<td><code>port</code></td>
+<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TCPSocketAction-host">
+<td><code>host</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Toleration">Toleration</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Toleration-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-operator">
+<td><code>operator</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-effect">
+<td><code>effect</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-tolerationSeconds">
+<td><code>tolerationSeconds</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing">Tracing</h2>
+<section>
+<p>Tracing defines configuration for the tracing performed by Envoy instances.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-zipkin" class="oneof oneof-start">
+<td><code>zipkin</code></td>
+<td><code><a href="#Tracing-Zipkin">Zipkin (oneof)</a></code></td>
+<td>
+<p>Use a Zipkin tracer.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Tracing-lightstep" class="oneof">
+<td><code>lightstep</code></td>
+<td><code><a href="#Tracing-Lightstep">Lightstep (oneof)</a></code></td>
+<td>
+<p>Use a LightStep tracer.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Tracing-datadog" class="oneof">
+<td><code>datadog</code></td>
+<td><code><a href="#Tracing-Datadog">Datadog (oneof)</a></code></td>
+<td>
+<p>Use a Datadog tracer.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Tracing-stackdriver" class="oneof">
+<td><code>stackdriver</code></td>
+<td><code><a href="#Tracing-Stackdriver">Stackdriver (oneof)</a></code></td>
+<td>
+<p>Use a Stackdriver tracer.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Datadog">Tracing.Datadog</h2>
+<section>
+<p>Datadog defines configuration for a Datadog tracer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-Datadog-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Datadog Agent.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Lightstep">Tracing.Lightstep</h2>
+<section>
+<p>Defines configuration for a LightStep tracer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-Lightstep-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the LightStep Satellite pool.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-Lightstep-access_token">
+<td><code>accessToken</code></td>
+<td><code>string</code></td>
+<td>
+<p>The LightStep access token.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-Lightstep-secure">
+<td><code>secure</code></td>
+<td><code>bool</code></td>
+<td>
+<p>True if a secure connection should be used when communicating with the pool.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-Lightstep-cacert_path">
+<td><code>cacertPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the trusted cacert used to authenticate the pool.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Stackdriver">Tracing.Stackdriver</h2>
+<section>
+<p>Stackdriver defines configuration for a Stackdriver tracer.
+See <a href="https://github.com/census-instrumentation/opencensus-proto/blob/master/src/opencensus/proto/trace/v1/trace_config.proto">Opencensus trace config</a> for details.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-Zipkin">Tracing.Zipkin</h2>
+<section>
+<p>Zipkin defines configuration for a Zipkin tracer.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-Zipkin-address">
+<td><code>address</code></td>
+<td><code>string</code></td>
+<td>
+<p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TypeBoolValueForPB">TypeBoolValueForPB</h2>
+<section>
+<p>GOTYPE: *BoolValueForPB</p>
+
+</section>
+<h2 id="TypeIntOrStringForPB">TypeIntOrStringForPB</h2>
+<section>
+<p>GOTYPE: *IntOrStringForPB</p>
+
+</section>
+<h2 id="TypeInterface">TypeInterface</h2>
+<section>
+<p>GOTYPE: interface&lbrace;}</p>
+
+</section>
+<h2 id="TypeMapStringInterface">TypeMapStringInterface</h2>
+<section>
+<p>GOTYPE: map[string]interface&lbrace;}</p>
+
+</section>
+<h2 id="WeightedPodAffinityTerm">WeightedPodAffinityTerm</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WeightedPodAffinityTerm-weight">
+<td><code>weight</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WeightedPodAffinityTerm-podAffinityTerm">
+<td><code>podAffinityTerm</code></td>
+<td><code><a href="#PodAffinityTerm">PodAffinityTerm</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec">k8s.io.api.autoscaling.v2beta1.HorizontalPodAutoscalerSpec</h2>
+<section>
+<p>HorizontalPodAutoscalerSpec describes the desired functionality of the HorizontalPodAutoscaler.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec-scaleTargetRef">
+<td><code>scaleTargetRef</code></td>
+<td><code><a href="#k8s-io-api-autoscaling-v2beta1-CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
+<td>
+<p>scaleTargetRef points to the target resource to scale, and is used to the pods for which metrics
+should be collected, as well as to actually change the replica count.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec-minReplicas">
+<td><code>minReplicas</code></td>
+<td><code>int32</code></td>
+<td>
+<p>minReplicas is the lower limit for the number of replicas to which the autoscaler
+can scale down.  It defaults to 1 pod.  minReplicas is allowed to be 0 if the
+alpha feature gate HPAScaleToZero is enabled and at least one Object or External
+metric is configured.  Scaling is active as long as at least one metric value is
+available.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec-maxReplicas">
+<td><code>maxReplicas</code></td>
+<td><code>int32</code></td>
+<td>
+<p>maxReplicas is the upper limit for the number of replicas to which the autoscaler can scale up.
+It cannot be less that minReplicas.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-autoscaling-v2beta1-HorizontalPodAutoscalerSpec-metrics">
+<td><code>metrics</code></td>
+<td><code><a href="#k8s-io-api-autoscaling-v2beta1-MetricSpec">MetricSpec[]</a></code></td>
+<td>
+<p>metrics contains the specifications for which to use to calculate the
+desired replica count (the maximum replica count across all metrics will
+be used).  The desired replica count is calculated multiplying the
+ratio between the target value and the current value by the current
+number of pods.  Ergo, metrics used must decrease as the pod count is
+increased, and vice-versa.  See the individual metric source types for
+more information about how each type of metric must respond.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-apimachinery-pkg-api-resource-Quantity">k8s.io.apimachinery.pkg.api.resource.Quantity</h2>
+<section>
+<p>Quantity is a fixed-point representation of a number.
+It provides convenient marshaling/unmarshaling in JSON and YAML,
+in addition to String() and Int64() accessors.</p>
+
+<p>The serialization format is:</p>
+
+<p><quantity>        ::= <signedNumber><suffix>
+  (Note that <suffix> may be empty, from the &ldquo;&rdquo; case in <decimalSI>.)
+<digit>           ::= 0 | 1 | &hellip; | 9
+<digits>          ::= <digit> | <digit><digits>
+<number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits>
+<sign>            ::= &ldquo;+&rdquo; | &ldquo;-&rdquo;
+<signedNumber>    ::= <number> | <sign><number>
+<suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI>
+<binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
+  (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
+<decimalSI>       ::= m | &ldquo;&rdquo; | k | M | G | T | P | E
+  (Note that 1024 = 1Ki but 1000 = 1k; I didn&rsquo;t choose the capitalization.)
+<decimalExponent> ::= &ldquo;e&rdquo; <signedNumber> | &ldquo;E&rdquo; <signedNumber></p>
+
+<p>No matter which of the three exponent forms is used, no quantity may represent
+a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal
+places. Numbers larger or more precise will be capped or rounded up.
+(E.g.: 0.1m will rounded up to 1m.)
+This may be extended in the future if we require larger or smaller quantities.</p>
+
+<p>When a Quantity is parsed from a string, it will remember the type of suffix
+it had, and will use the same type again when it is serialized.</p>
+
+<p>Before serializing, Quantity will be put in &ldquo;canonical form&rdquo;.
+This means that Exponent/suffix will be adjusted up or down (with a
+corresponding increase or decrease in Mantissa) such that:
+  a. No precision is lost
+  b. No fractional digits will be emitted
+  c. The exponent (or suffix) is as large as possible.
+The sign will be omitted unless the number is negative.</p>
+
+<p>Examples:
+  1.5 will be serialized as &ldquo;1500m&rdquo;
+  1.5Gi will be serialized as &ldquo;1536Mi&rdquo;</p>
+
+<p>Note that the quantity will NEVER be internally represented by a
+floating point number. That is the whole point of this exercise.</p>
+
+<p>Non-canonical values will still parse as long as they are well formed,
+but will be re-emitted in their canonical form. (So always use canonical
+form, or don&rsquo;t diff.)</p>
+
+<p>This format is intended to make it difficult to use these numbers without
+writing some sort of special handling code in the hopes that that will
+cause implementors to also use a fixed point implementation.</p>
+
+<p>+protobuf=true
++protobuf.embed=string
++protobuf.options.marshal=false
++protobuf.options.(gogoproto.goproto_stringer)=false
++k8s:deepcopy-gen=true
++k8s:openapi-gen=true</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-apimachinery-pkg-api-resource-Quantity-string">
+<td><code>string</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
+<section>
+<p>A label selector is a label query over a set of resources. The result of matchLabels and
+matchExpressions are ANDed. An empty label selector matches all objects. A null
+label selector matches no objects.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchLabels">
+<td><code>matchLabels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>matchLabels is a map of &lbrace;key,value} pairs. A single &lbrace;key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchExpressions">
+<td><code>matchExpressions</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
+<td>
+<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-apimachinery-pkg-util-intstr-IntOrString">k8s.io.apimachinery.pkg.util.intstr.IntOrString</h2>
+<section>
+<p>IntOrString is a type that can hold an int32 or a string.  When used in
+JSON or YAML marshalling and unmarshalling, it produces or consumes the
+inner type.  This allows you to have, for example, a JSON field that can
+accept a name or number.
+TODO: Rename to Int32OrString</p>
+
+<p>+protobuf=true
++protobuf.options.(gogoproto.goproto_stringer)=false
++k8s:openapi-gen=true</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-apimachinery-pkg-util-intstr-IntOrString-type">
+<td><code>type</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-apimachinery-pkg-util-intstr-IntOrString-intVal">
+<td><code>intVal</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-apimachinery-pkg-util-intstr-IntOrString-strVal">
+<td><code>strVal</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
