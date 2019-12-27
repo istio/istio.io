@@ -18,7 +18,7 @@ aliases:
 
 Bug 修复{#bug-fixes}
 
-- 修复 Istio 1.1.14 中引入的 Envoy 崩溃 bug([Issue 16357](https://github.com/istio/istio/issues/16357))。
+- 修复 Istio 1.1.14 中引入的 Envoy 崩溃 bug ([Issue 16357](https://github.com/istio/istio/issues/16357))。
 
 ## 小改进{#small-enhancements}
 
