@@ -1,6 +1,6 @@
 ---
 title: 使用 Fluentd 进行日志收集
-description: 此任务向您展示如何配置 Istio 以连接到 Fluentd 守护程序。
+description: 此任务向您展示如何配置 Istio 以连接到 Fluentd 守护程序进行日志收集。
 weight: 90
 keywords: [telemetry,logging]
 aliases:
