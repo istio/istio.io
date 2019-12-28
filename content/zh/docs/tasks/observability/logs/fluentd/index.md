@@ -41,7 +41,7 @@ Fluentd 是一个开源的日志收集器，它支持许多[数据输出](https:
 
 将 Mixer 连接到所有可能的 Fluentd 配置的完整细节不在此任务的讨论范围。
 
-### 示例堆栈 Fluentd、Elasticsearch、Kibana{example-Fluentd-Elasticsearch-Kibana-Stack}
+### 示例堆栈 Fluentd、Elasticsearch、Kibana{#example-Fluentd-Elasticsearch-Kibana-Stack}
 
 出于此任务的目的，您可以部署提供的示例堆栈。该堆栈包括 Fluentd，Elasticsearch 和 Kibana，
 它们位于非生产就绪的一组 [Services](https://kubernetes.io/docs/concepts/services-networking/service/) 和 [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) 中，
