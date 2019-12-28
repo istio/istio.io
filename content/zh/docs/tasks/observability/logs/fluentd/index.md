@@ -44,8 +44,7 @@ Fluentd 是一个开源的日志收集器，它支持许多[数据输出](https:
 ### 示例堆栈 Fluentd、Elasticsearch、Kibana{example-Fluentd-Elasticsearch,-Kibana-Stack}
 
 出于此任务的目的，您可以部署提供的示例堆栈。该堆栈包括 Fluentd，Elasticsearch 和 Kibana，
-它们位于非生产就绪的一组 [Services](https://kubernetes.io/docs/concepts/services-networking/service/) 
-和 [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) 中，
+它们位于非生产就绪的一组 [Services](https://kubernetes.io/docs/concepts/services-networking/service/) 和 [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) 中，
 其全部部署到一个名为 `logging` 的新 [Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) 中。
 
 将以下内容另存为 `logging-stack.yaml`。
