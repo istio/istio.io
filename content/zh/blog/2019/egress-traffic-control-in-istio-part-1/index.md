@@ -7,8 +7,8 @@ attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress,security]
 ---
 
-这是我计划发布的关于 Istio 中出口流量安全管控系列文章中的第一部分。在这一期中，会阐述为什么集群需要应用出口流量管控，要防止的出口流量相关的攻击，出口流量管控系统的要求。
-一旦统一集群的出口流量应该被管控，那么就出现了下面的问题：出口流量安全管控系统需要什么？针对这些要求的最佳解决方案是什么？（捣乱分子：以我之见 Istio 是最佳解决方案）
+这是我计划发布的关于 Istio 中出口流量安全管控系列文章中的第一部分。在这一期中，会阐述为什么集群需要应用出口流量管控，要防止的出口流量相关的攻击有哪些，以及出口流量管控系统的要求有哪些。
+一旦同意集群的出口流量应该被管控，那么就会出现下面的问题：出口流量安全管控系统需要什么？针对这些要求的最佳解决方案是什么？（捣乱分子：以我之见 Istio 是最佳解决方案）
 下一期将阐述 [Istio 中实现出口流量的安全管控](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)，并和其它方案进行对比。
 
 对于服务网格来说入口流量才是最重要的安全问题。一定要防止入侵者通过入口 API 渗透集群。既然这么说，流出服务网格的安全同样非常重要。一旦集群被攻破，你必须要有预案，尽可能的减少损害，并且要阻止攻击者使用集群对集群外的服务和已有系统进行进一步攻击。要达到这么目标，需要出口流量的安全管控。
@@ -98,4 +98,4 @@ Istio 1.1 满足所有的收集要求：
 
 ## 总结 {#summary}
 
-希望您确信对于集群安全来说出口流量管控是非常重要的。在In [这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/) 我讲述了使用 Istio 实现出口流量安全管控的方法。在[这个系列文章的第三部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/) 我和其它方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)以及已有的其它出口代理/防火墙。
+希望您确信对于集群安全来说出口流量管控是非常重要的。在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/) 我讲述了使用 Istio 实现出口流量安全管控的方法。在[这个系列文章的第三部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/) 我和其它方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)以及已有的其它出口代理/防火墙方案。
