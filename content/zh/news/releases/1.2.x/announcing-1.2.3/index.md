@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.2.3
+title: Istio 1.2.3 发布公告
 linktitle: 1.2.3
-subtitle: Patch Release
-description: Istio 1.2.3 patch release.
+subtitle: 补丁发布
+description: Istio 1.2.3 补丁发布。
 publishdate: 2019-08-02
 release: 1.2.3
 aliases:
@@ -12,21 +12,21 @@ aliases:
     - /zh/news/announcing-1.2.3
 ---
 
-We're pleased to announce the availability of Istio 1.2.3. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.2.3 现在是可用的，具体更新内容如下。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix a bug where the sidecar could infinitely forward requests to itself when pod defines a port undefined for service ([Issue 14443](https://github.com/istio/istio/issues/14443)) and ([Issue 14242](https://github.com/istio/istio/issues/14242))
-- Fix a bug where Stackdriver adapter shuts down after telemetry is started.
-- Fix Redis connectivity issues.
-- Fix case-sensitivity in regex-based HTTP URI matching for Virtual Service ([Issue 14983](https://github.com/istio/istio/issues/14983))
-- Fix HPA and CPU settings for demo profile ([Issue 15338](https://github.com/istio/istio/issues/15338))
-- Relax Keep-Alive enforcement policy to avoid dropping connections under load ([Issue 15088](https://github.com/istio/istio/issues/15088))
-- When SDS is not used, skip Kubernetes JWT authentication to mitigate the risk of compromised (untrustworthy) JWTs being used.
+- 修复了一个错误，当 pod 定义了一个端口，而服务未定义该端口时，sidecar 会将请求无限转发给自身（[Issue 14443](https://github.com/istio/istio/issues/14443)）和（[Issue 14242](https://github.com/istio/istio/issues/14242)）
+- 修复了启动遥测后 Stackdriver 适配器会关闭的 bug。
+- 修复 Redis 连接问题。
+- 修复虚拟服务基于正则表达式匹配 HTTP URI 区分大小写的问题（[Issue 14983](https://github.com/istio/istio/issues/14983)）
+- 修复 demo 配置文件的 HPA 和 CPU 设置（[Issue 15338](https://github.com/istio/istio/issues/15338)）
+- 放宽 Keep-Alive 实施策略，避免在轻负载下断开连接（[Issue 15088](https://github.com/istio/istio/issues/15088)）
+- 当未使用 SDS 时，跳过Kubernetes JWT身份验证，以降低使用受损（不可信）JWT 的风险。
 
-## Tests upgrade
+## 测试升级{#tests-upgrade}
 
-- Update base image version for Bookinfo reviews sample app ([Issue 15477](https://github.com/istio/istio/issues/15477))
-- Bookinfo samples image qualification ([Issue 14237](https://github.com/istio/istio/issues/14237))
+- 更新 Bookinfo 评论示例应用程序的基础镜像版本（[Issue 15477](https://github.com/istio/istio/issues/15477)）
+- Bookinfo 示例镜像鉴定（[Issue 14237](https://github.com/istio/istio/issues/14237)）
