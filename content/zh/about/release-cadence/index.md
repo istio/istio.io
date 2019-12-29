@@ -25,7 +25,7 @@ LTS 版本的命名模式为：
 <major>.<minor>.<LTS patch level>
 {{< /text >}}
 
-其中`<minor>`针对每个 LTS 版本递增，`<LTS patch level>`为当前 LTS 版本补丁总数。补丁相对于 LTS 通常是较小变更。
+其中 `<minor>` 针对每个 LTS 版本递增，`<LTS patch level>`为当前 LTS 版本补丁总数。补丁相对于 LTS 通常是较小变更。
 
 对于 snapshot 版本，命名模式为：
 
