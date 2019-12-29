@@ -29,7 +29,7 @@ LTS 版本的命名模式为：
 
 对于 snapshot 版本，命名模式为：
 
-{{< text plain >}} 
+{{< text plain >}}
 <major>.<minor>-alpha.<sha>
 {{< /text >}}
 
