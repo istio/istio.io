@@ -1,5 +1,5 @@
 ---
-title: 构建 & 发布节奏 {#build-release-cadence}
+title: 构建 & 发布节奏
 description: 管理、编号和支持 Istio 发布的方式。
 weight: 15
 icon: cadence
@@ -17,7 +17,7 @@ icon: cadence
 
 您可以在[发布页面](https://github.com/istio/istio/releases)上找到可用的版本，如果您想了解、体验最新特性，您可以在[开发构建 wiki](https://github.com/istio/istio/wiki/Dev%20Builds) 上了解我们的开发构建版本。您可以在[此处](/zh/news)找到每个 LTS 版本的简要发行说明。
 
-## 命名模式
+## 命名模式{#naming-scheme}
 
 LTS 版本的命名模式为：
 
@@ -30,7 +30,7 @@ LTS 版本的命名模式为：
 对于 snapshot 版本，命名模式为：
 
 {{< text plain >}} 
-<major>.<minor>.<sha> 
+<major>.<minor>-alpha.<sha>
 {{< /text >}}
 
-其中`<major>.<minor>`代表下一个LTS，`<sha>`代表此版本构建基于的git提交。
+其中 `<major>.<minor>` 代表下一个LTS，`<sha>` 代表此版本构建基于的git提交。
