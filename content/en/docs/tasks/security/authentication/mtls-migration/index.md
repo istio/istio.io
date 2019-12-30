@@ -155,7 +155,8 @@ We recommend you use [Istio Authorization](/docs/tasks/security/authorization/au
 You can run the following commands to enforce mutual TLS for the entire cluster.
 
 {< warning >}}
-Before doing this, please make sure all of your services have sidecars.
+Before doing this, please make sure all of your services have sidecars,
+and their network protocols are compatible with istio mutual TLS.
 {{< /warning >}}
 
 {{< text bash >}}
@@ -198,7 +199,9 @@ Namespaces foo bar legacy deleted.
 {{< /text >}}
 
 If you have
-[enabled mutual TLS for the entire cluster](/docs/tasks/security/authentication/authn-policy/#globally-enabling-mutual-tls-for-the-cluster)
+[enabled mutual TLS for the entire cluster](/docs/tasks/security/authentication/authn-policy/#globally-enabling-mutual-tls-for-the-cluster),
+clean up the configuration as follows.
+
 * To disable mutual TLS for the entire cluster:
 
   {{< text bash >}}
