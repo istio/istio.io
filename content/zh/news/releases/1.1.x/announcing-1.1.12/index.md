@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.12
+title: Istio 1.1.12 发布公告
 linktitle: 1.1.12
-subtitle: Patch Release
-description: Istio 1.1.12 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.12 补丁发布。
 publishdate: 2019-08-02
 release: 1.1.12
 aliases:
@@ -12,10 +12,10 @@ aliases:
     - /zh/news/announcing-1.1.12
 ---
 
-We're pleased to announce the availability of Istio 1.1.12. Please see below for what's changed.
+我们非常高兴的宣布 Istio 1.1.12 已经可用。请浏览下面的变更说明。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix a bug where the sidecar could infinitely forward requests to itself when a `Pod` resource defines a port that isn't defined for a service ([Issue 14443](https://github.com/istio/istio/issues/14443)) and ([Issue 14242](https://github.com/istio/istio/issues/14242))
+- 修复了一个错误，当 `Pod` 资源定义了一个端口，但 service 中未定义时，sidecar 可以将请求无限转发给自己（[Issue 14443](https://github.com/istio/istio/issues/14443)）和（[Issue 14242](https://github.com/istio/istio/issues/14242)）
