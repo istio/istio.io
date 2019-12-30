@@ -40,7 +40,7 @@ $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.glo
 {{< /text >}}
 
 通常，您可以像使用 [helm](/zh/docs/setup/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
-唯一的区别是必须为配置路径增加 `values.` 前缀，因为这是 Helm 直通 API 的路径，如下所述。
+唯一的区别是必须为配置路径增加 `values.` 前缀，因为这是 Helm 透传 API 的路径，如下所述。
 
 ## 从外部 Chart 安装{#install-from-external-charts}
 
