@@ -14,7 +14,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 总体而言，我们发现 Istio [sidecar 代理](/zh/docs/ops/deployment/architecture/#envoy) 的延迟取决于并发连接数。以每秒 1000 个请求（RPS）的速度，通过 16 个连接，Istio 延迟在 50% 时增加 **3 毫秒**，在 99% 时增加 **10 毫秒**。
 
-在[Istio Tools 库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark) 中，您将找到用于测量 Istio 数据平面性能的脚本和说明，以及有关如何使用另一服务网格实现 [Linkerd](https://linkerd.io) 运行脚本的其他说明。在我们详细介绍性能测试框架的每个步骤的一些最佳实践时，请[遵循](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup)。
+在[Istio Tools 仓库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark) 中，您将找到用于测量 Istio 数据平面性能的脚本和说明，以及有关如何使用另一服务网格实现 [Linkerd](https://linkerd.io) 运行脚本的其他说明。在我们详细介绍性能测试框架的每个步骤的一些最佳实践时，请[遵循](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup)。
 
 ## 1. 使用生产就绪的 Istio 安装{#1-use-a-production-ready-Istio-installation}
 
@@ -41,7 +41,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 最后，我们的测试环境可以测量两个 pod 之间少量的请求。客户端 pod 是 [Fortio](http://fortio.org/)，它将流量发送到服务端 pod。
 
-为什么只用两个吊舱测试？因为增加吞吐量（RPS）和连接（线程）对 Envoy 的性能的影响比增加服务注册表的总大小（或 Kubernetes 集群中 Pod 和服务的总数）更大。当服务注册表的大小增加时，Envoy 必须跟踪更多的端点，并且每个请求的查找时间确实增加了，但是增加了一个很小的常数。如果您有许多服务，并且此常数成为延迟问题，则 Istio 提供 [Sidecar 资源](/zh/docs/reference/config/networking/sidecar/)，它使您可以限制每个 Envoy 知道的服务。
+为什么只用两个 pod 测试？因为增加吞吐量（RPS）和连接（线程）对 Envoy 的性能的影响比增加服务注册表的总大小（或 Kubernetes 集群中 Pod 和服务的总数）更大。当服务注册表的大小增加时，Envoy 必须跟踪更多的端点，并且每个请求的查找时间确实增加了，但是增加了一个很小的常数。如果您有许多服务，并且此常数成为延迟问题，则 Istio 提供 [Sidecar 资源](/zh/docs/reference/config/networking/sidecar/)，它使您可以限制每个 Envoy 知道的服务。
 
 ## 3. 有/无 度量的代理{#3-measure-with-and-without-proxies}
 
@@ -61,8 +61,8 @@ keywords: [performance,scalability,scale,benchmarks]
 
 {{< image  width="75%" ratio="60%"
     link="./latency_p50.png"
-    alt="Istio sidecar proxy, 50th percentile latency"
-    title="Istio sidecar proxy, 50th percentile latency"
+    alt="Istio sidecar 代理, 50% 时的延迟"
+    title="Istio sidecar 代理, 50% 时的延迟"
     caption=""
     >}}
 
@@ -70,8 +70,8 @@ keywords: [performance,scalability,scale,benchmarks]
 
 {{< image width="75%" ratio="60%"
     link="./latency_p90.png"
-    alt="Istio sidecar proxy, 90th percentile latency"
-    title="Istio sidecar proxy, 90th percentile latency"
+    alt="Istio sidecar 代理, 90% 时的延迟"
+    title="Istio sidecar 代理, 90% 时的延迟"
     caption=""
     >}}
 
@@ -79,8 +79,8 @@ keywords: [performance,scalability,scale,benchmarks]
 
 {{< image  width="75%" ratio="60%"
     link="./latency_p99.png"
-    alt="Istio sidecar proxy, 99th percentile latency"
-    title="Istio sidecar proxy, 99th percentile latency"
+    alt="Istio sidecar 代理, 99% 时的延迟"
+    title="Istio sidecar 代理, 99% 时的延迟"
     caption=""
     >}}
 
@@ -88,8 +88,8 @@ keywords: [performance,scalability,scale,benchmarks]
 
 {{< image  width="75%" ratio="60%"
     link="./cpu_max.png"
-    alt="Istio sidecar proxy, max CPU usage"
-    title="Istio sidecar proxy, max CPU usage"
+    alt="Istio sidecar 代理，最大 CPU 使用率"
+    title="Istio sidecar 代理，最大 CPU 使用率"
     caption=""
     >}}
 
