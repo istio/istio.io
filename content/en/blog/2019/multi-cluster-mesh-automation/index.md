@@ -2,29 +2,29 @@
 title: Multi-mesh configuration and service discovery using Admiral
 subtitle: Configuration automation for Istio multi-mesh.
 description: Automating Istio configuration for Istio deployments (clusters) that work as a single mesh.
-publishdate: 2019-12-28
+publishdate: 2019-12-30
 attribution: Anil Attuluri (Intuit), Jason Webb (Intuit)
 keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,gateway,federated,globalidentifer]
 target_release: 1.5
 ---
 
-When we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](https://istio.io/blog/2019/isolated-clusters/) we could immediately relate to some of the problems mentioned and how we are using [Admiral](https://github.com/istio-ecosystem/admiral), an open source project under istio-ecosystem to solve these.
+When we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](https://istio.io/blog/2019/isolated-clusters/) we could immediately relate to some of the problems mentioned, and we thought we could share how we are using [Admiral](https://github.com/istio-ecosystem/admiral), an open source project under istio-ecosystem to solve those.
 
 ## Background
 
-We were off to a good start with Istio but quickly realized the configuration for multi-cluster was complicated and would be challenging to maintain over time. We picked an opinionated version of [Multi-Cluster Istio Service Mesh with local control planes](https://istio.io/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) for scalability and other operational reasons. Having picked this model, we had the following  key requirements to solve for before allowing wide adoption of Istio Service Mesh:
+We were off to a good start with Istio but quickly realized the configuration for multi-cluster was complicated and would be challenging to maintain over time. We picked an opinionated version of [Multi-Cluster Istio Service Mesh with local control planes](https://istio.io/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) for scalability and other operational reasons. Having selected this model, we had the following  key requirements to solve for before allowing wide adoption of Istio Service Mesh:
 - Creation of service DNS decoupled from the namespace (Uniform service naming mentioned [here](https://istio.io/blog/2019/isolated-clusters/#features-of-multi-mesh-deployments))
 - Service Discovery across many clusters
-- Support Active-Active & HA/DR deployments with services being deployed in globally unique namespaces in clusters in different regions.
+- Support Active-Active & HA/DR deployments. We also needed to support these critical resiliency patterns with services being deployed in globally unique namespaces across discrete clusters.
 
-We have over 160 k8s clusters and the namespace naming schema utilized created a globally unique name across these clusters for every namespace. This meant the same service binary deployed in different regions would be run in namespaces with different names. This would mean that `foo.namespace.global` (routing strategy mentioned in [Multicluster version routing](https://istio.io/blog/2019/multicluster-version-routing/) name would no longer work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique k8s FQDN. (Example: `foo.global` would resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if foo is running in two k8s clusters with unique namespaces)
+We have over 160 k8s clusters and we use a globally unique namespace name across all clusters. This meant the same service workload deployed in different regions would be run in namespaces with different names. This would mean that `foo.namespace.global` (routing strategy mentioned in [Multicluster version routing](https://istio.io/blog/2019/multicluster-version-routing/) name would no longer work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique k8s FQDN. (Example: `foo.global` would resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if foo is running in two k8s clusters with unique namespaces)
 Also, in our case, services needed additional DNS names with different resolution and global routing properties. For example, `default.payments.global` would resolve locally first, and then route to a remote instance (using topology routing) while `default.payments-west.global` and `default.payments-east.global` would always resolve to the respective regions (such names were needed for testing).
 
 ## Contextual Configuration
-As we investigated how to solve the aforementioned issues, it became apparent that configuration needed to be contextual. By contextual, the configuration would be different depending on where the services and their clients are deployed.
+As we investigated how to solve the aforementioned issues, it became apparent that configuration needed to be contextual. In other words, each cluster would need to be delivered a configuration that was specifically tailored for its view of the world.
 
 Here is an example:
-We have a payments service consumed by orders and reports. The payments service has a HA/DR deployment across us-east (cluster 3) and us-west (cluster 2). Payments service is deployed in namespaces with different names in each region. The orders service is deployed in different cluster as payments in us-west (cluster 1). The reports service is deployed in the same cluster as payments in us-west (cluster 2).
+We have a payments service consumed by orders and reports. The payments service has a HA/DR deployment across us-east (cluster 3) and us-west (cluster 2). Payments service is deployed in namespaces with different names in each region. The orders service is deployed in a different cluster as payments in us-west (cluster 1). The reports service is deployed in the same cluster as payments in us-west (cluster 2).
 
 In the diagram below, the Istio Service Entry yaml for payments service in Cluster 1 and Cluster2 illustrates the contextual configuration needed for other services to consume payments service:
 
