@@ -1,7 +1,7 @@
 ---
 title: Multi-mesh configuration and service discovery using Admiral
-subtitle: Configuration automation for Istio multi-mesh.
-description: Automating Istio configuration for Istio deployments (clusters) that work as a single mesh.
+subtitle: Configuration automation for Istio multi-mesh
+description: Automating Istio configuration for Istio deployments (clusters) that work as a single mesh
 publishdate: 2019-12-30
 attribution: Anil Attuluri (Intuit), Jason Webb (Intuit)
 keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,gateway,federated,globalidentifer]
