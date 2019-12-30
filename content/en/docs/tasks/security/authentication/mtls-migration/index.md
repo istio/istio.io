@@ -26,6 +26,11 @@ lose communication. Moreover, you can use the
 still sending plaintext traffic to the service in "PERMISSIVE" mode and choose to lock
 down once the migration is done.
 
+{{< tip >}}
+You can enforce Istio mutual TLS for the entire cluster by following
+[this section](/docs/tasks/security/authentication/authn-policy/#globally-enabling-mutual-tls-for-the-cluster)
+{{< /tip >}}
+
 ## Before you begin
 
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
@@ -145,11 +150,72 @@ If you can't migrate all your services to Istio (injecting Envoy sidecar), you h
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
 We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
+## Globally enabling mutual TLS for the cluster
+
+You can run the following commands to enforce mutual TLS for the entire cluster.
+
+{< warning >}}
+Before doing this, please make sure all of your services have sidecars.
+{{< /warning >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "default"
+  namespace: "istio-system"
+spec:
+  host: "*.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+
+$ kubectl apply -f - <<EOF
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "MeshPolicy"
+metadata:
+  name: "default"
+spec:
+  peers:
+  - mtls: {}
+EOF
+{{< /text >}}
+
+For more details, please read the
+[Authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls)
+task.
+
 ## Cleanup
 
-Remove all resources.
+To remove all temperary resources created in this task, without the global
+policies:
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
 Namespaces foo bar legacy deleted.
 {{< /text >}}
+
+If you have
+[enabled mutual TLS for the entire cluster](/docs/tasks/security/authentication/authn-policy/#globally-enabling-mutual-tls-for-the-cluster)
+* To disable mutual TLS for the entire cluster:
+
+  {{< text bash >}}
+  $ kubectl delete meshpolicy default
+  $ kubectl delete destinationrule default -n istio-system
+  {{< /text >}}
+
+* To fallback to PERMISSIVE mode for the entire cluster:
+  {{< text bash >}}
+  $ kubectl apply -f - <<EOF
+  apiVersion: "authentication.istio.io/v1alpha1"
+  kind: "MeshPolicy"
+  metadata:
+    name: "default"
+  spec:
+    peers:
+    - mtls:
+        mode: PERMISSIVE
+  EOF
+  {{< /text >}} 
