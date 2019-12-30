@@ -17,10 +17,11 @@ This release includes bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issues where Mixer creates too many watches, overloading the apiserver ([Issue 19481](https://github.com/istio/istio/issues/19481)).
 - **Fixed** issue with injection when pod has multiple containers without exposed ports ([Issue 18594](https://github.com/istio/istio/issues/18594)).
-- **Fixed** `istioctl` install to properly send logs to `stderr` ([Issue 17743](https://github.com/istio/istio/issues/17743)).
 - **Fixed** overly restrictive validation of `regex` field ([Issue 19212](https://github.com/istio/istio/pull/19212)).
 - **Fixed** an upgrade issue with `regex` field ([Issue 19665](https://github.com/istio/istio/pull/19665)).
-
+- **Fixed** `istioctl` install to properly send logs to `stderr` ([Issue 17743](https://github.com/istio/istio/issues/17743)).
+- **Fixed** an issue where a file and profile could not be specified for `istioctl` installs ([Issue 19503](https://github.com/istio/istio/issues/19503)).
+- **Fixed** an issue preventing certain objects from being installed for `istioctl` installs ([Issue 19371](https://github.com/istio/istio/issues/19371)).
 
 ## Improvements
 
