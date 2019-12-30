@@ -1,6 +1,6 @@
 ---
-title: "Best Practices: Benchmarking Service Mesh Performance"
-description: "Tools and guidance for evaluating Istio's data plane performance."
+title: "最佳实践：Service Mesh 基准性能测试"
+description: "评估 Istio 数据平面性能的工具和指南。"
 publishdate: 2019-07-09
 last_update: 2019-09-05
 subtitle:
@@ -8,106 +8,104 @@ attribution: Megan O'Keefe (Google), John Howard (Google), Mandar Jog (Google)
 keywords: [performance,scalability,scale,benchmarks]
 ---
 
-Service meshes add a lot of functionality to application deployments, including [traffic policies](/zh/docs/concepts/what-is-istio/#traffic-management), [observability](/zh/docs/concepts/what-is-istio/#observability), and [secure communication](/zh/docs/concepts/what-is-istio/#security). But adding a service mesh to your environment comes at a cost, whether that's time (added latency) or resources (CPU cycles). To make an informed decision on whether a service mesh is right for your use case, it's important to evaluate how your application performs when deployed with a service mesh.
+服务网格为应用部署增加了很多功能，包括[流量策略](/zh/docs/concepts/what-is-istio/#traffic-management)、[可观察性](/zh/docs/concepts/what-is-istio/#observability)和[安全通信](/zh/docs/concepts/what-is-istio/#security)。但是，无论是时间（增加的延迟）还是资源（CPU 周期），向环境中添加服务网格都是有代价的。要就服务网格是否适合您的情况做出明智的决定，评估应用与服务网格一起部署时的性能非常重要。
 
-Earlier this year, we published a [blog post](/zh/blog/2019/istio1.1_perf/) on Istio's performance improvements in version 1.1. Following the release of [Istio 1.2](/zh/news/releases/1.2.x/announcing-1.2), we want to provide guidance and tools to help you benchmark Istio's data plane performance in a production-ready Kubernetes environment.
+今年早些时候，我们发布了关于 Istio 1.1 性能改进的 [博客](/zh/blog/2019/istio1.1_perf/)。在发布 [Istio 1.2](/zh/news/releases/1.2.x/announcing-1.2) 之后，我们希望提供指导和工具，以帮助您在可用于生产的 Kubernetes 环境中对 Istio 的数据平面性能进行基准测试。
 
-Overall, we found that Istio's [sidecar proxy](/zh/docs/ops/deployment/architecture/#envoy) latency scales with the number of concurrent connections. At 1000 requests per second (RPS), across 16 connections, Istio adds **3 milliseconds** per request in the 50th percentile, and **10 milliseconds** in the 99th percentile.
+总体而言，我们发现 Istio [sidecar 代理](/zh/docs/ops/deployment/architecture/#envoy) 的延迟取决于并发连接数。以每秒 1000 个请求（RPS）的速度，通过 16 个连接，Istio 延迟在 50% 时增加 **3 毫秒**，在 99% 时增加 **10 毫秒**。
 
-In the [Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark), you’ll find scripts and instructions for measuring Istio's data plane performance, with additional instructions on how to run the scripts with [Linkerd](https://linkerd.io), another service mesh implementation. [Follow along](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup) as we detail some best practices for each step of the performance test framework.
+在[Istio Tools 仓库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark) 中，您将找到用于测量 Istio 数据平面性能的脚本和说明，以及有关如何使用另一服务网格实现 [Linkerd](https://linkerd.io) 运行脚本的其他说明。在我们详细介绍性能测试框架的每个步骤的一些最佳实践时，请[遵循](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup)。
 
-## 1. Use a production-ready Istio installation
+## 1. 使用生产就绪的 Istio 安装{#1-use-a-production-ready-Istio-installation}
 
-To accurately measure the performance of a service mesh at scale, it's important to use an [adequately-sized](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install#istio-setup) Kubernetes cluster. We test using three worker nodes, each with at least 4 vCPUs and 15 GB of memory.
+为了准确地大规模度量服务网格的性能，使用 [适当大小的](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install#istio-setup) Kubernetes 集群很重要。我们使用三个工作节点进行测试，每个工作节点至少具有 4 vCPU 和 15 GB 的内存。
 
-Then, it's important to use a production-ready Istio **installation profile** on that cluster. This lets us achieve performance-oriented settings such as control plane pod autoscaling, and ensures that resource limits are appropriate for heavy traffic load. The [default](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio installation is suitable for most benchmarking use cases. For extensive performance benchmarking, with thousands of proxy-injected services, we also provide [a tuned Istio install](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml) that allocates extra memory and CPU to the Istio control plane.
+然后，在该群集上使用可用于生产的 Istio **安装配置文件** 很重要。这使我们能够实现面向性能的设置，例如控制平面 pod 自动伸缩，并确保资源限制适用于繁重的流量负荷。[默认](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio 安装适用于大多数基准测试用例。为了进行广泛的性能基准测试，并提供数千种注入代理的服务，我们还提供了 [调整后的 Istio 安装](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml)，可为 Istio 控制平面分配额外的内存和 CPU。
 
-{{< warning_icon >}} Istio's [demo installation](/zh/docs/setup/getting-started/) is not suitable for performance testing, because it is designed to be deployed on a small trial cluster, and has full tracing and access logs enabled to showcase Istio's features.
+{{< warning_icon >}} Istio 的 [demo 安装](/zh/docs/setup/getting-started/) 不适合进行性能测试，因为它被设计为部署在小型试用群集中，并且具有完整的跟踪和访问日志，可显示 Istio 的功能。
 
-## 2. Focus on the data plane
+## 2. 专注于数据平面{#2-focus-on-the-data-plane}
 
-Our benchmarking scripts focus on evaluating the Istio data plane: the {{<gloss>}}Envoy{{</gloss>}} proxies that mediate traffic between application containers. Why focus on the data plane? Because at scale, with lots of application containers, the data plane’s **memory** and **CPU** usage quickly eclipses that of the Istio control plane. Let's look at an example of how this happens:
+我们的基准测试脚本专注于评估 Istio 数据平面：{{<gloss>}}Envoy{{</gloss>}} 代理，可在应用容器之间进行流量调度。为什么要关注数据平面？因为在大规模使用大量应用容器时，数据平面的 **内存** 和 **CPU** 使用率很快就会超过 Istio 控制平面。让我们看一个具体的例子：
 
-Say you run 2,000 Envoy-injected pods, each handling 1,000 requests per second. Each proxy is using 50 MB of memory, and to configure all these proxies, Pilot is using 1 vCPU and 1.5 GB of memory. All together, the Istio data plane (the sum of all the Envoy proxies) is using 100 GB of memory, compared to Pilot's 1.5 GB.
+假设您运行了 2,000 个注入 Envoy 的 pod，每个 pod 每秒处理 1,000 个请求。每个代理使用 50 MB 的内存，并且要配置所有这些代理，Pilot 使用 1 vCPU 和 1.5 GB 的内存。所有的资源中，Istio 数据平面（所有 Envoy 代理的总和）使用了 100 GB 的内存，而 Pilot 只使用了 1.5 GB。
 
-It is also important to focus on data plane performance for **latency** reasons. This is because most application requests move through the Istio data plane, not the control plane. There are two exceptions:
+考虑到 **延迟**，关注数据平面性能也很重要。这是因为大多数应用的请求会通过 Istio 数据平面，而不是通过控制平面。但是，有两个例外：
 
-1.  **Telemetry reporting:** Each proxy sends raw telemetry data to {{<gloss>}}Mixer{{</gloss>}}, which Mixer processes into metrics, traces, and other telemetry. The raw telemetry data is similar to access logs, and therefore comes at a cost. Access log processing consumes CPU and keeps a worker thread from picking up the next unit of work. At higher throughput, it is more likely that the next unit of work is waiting in the queue to be picked up by the worker. This can lead to long-tail (99th percentile) latency for Envoy.
-1.  **Custom policy checks:** When using [custom Istio policy adapters](/zh/docs/concepts/observability/), policy checks are on the request path. This means that request headers and metadata on the data path will be sent to the control plane (Mixer), resulting in higher request latency. **Note:** These policy checks are [disabled by default](/zh/docs/reference/config/installation-options/#global-options), as the most common policy use case ([RBAC](/zh/docs/reference/config/security/istio.rbac.v1alpha1)) is performed entirely by the Envoy proxies.
+1. **遥测报告：** 每个代理将原始遥测数据发送到 {{<gloss>}}Mixer{{</gloss>}}，Mixer 将其处理为度量，跟踪和其他遥测。原始遥测数据类似于访问日志，因此要付出一定的代价。访问日志处理会消耗 CPU，并使工作线程无法处理下一个工作单元。在更高的吞吐量场景下，下一个工作单元更有可能在队列中等待被工作者接走。这可能导致 Envoy 的长尾延迟（99%）。
+1. **自定义策略检查：** 当使用[自定义 Istio 策略适配器](/zh/docs/concepts/observability/)时，策略检查位于请求路径上。这意味着数据路径上的请求 header 和 metadata 将被发送到控制平面（Mixer），从而导致更高的请求延迟。**注意：** 这些策略检查[默认情况下处于禁用状态](/zh/docs/reference/config/installation-options/#global-options)，因为最常见的策略用例（[RBAC](/zh/docs/reference/config/security/istio.rbac.v1alpha1)）完全由 Envoy 代理执行。
 
-Both of these exceptions will go away in a future Istio release, when [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) moves all policy and telemetry features directly into the proxies.
+当 [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) 将所有策略和遥测功能直接移到代理中时，这两个例外都会在将来的 Istio 版本中消失。
 
-Next, when testing Istio's data plane performance at scale, it's important to test not only at increasing requests per second, but also against an increasing number of **concurrent** connections. This is because real-world, high-throughput traffic comes from multiple clients. The [provided scripts](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests) allow you to perform the same load test with any number of concurrent connections, at increasing RPS.
+接下来，在大规模测试 Istio 的数据平面性能时，不仅要以每秒递增的请求进行测试，而且还要以越来越多的 **并发** 连接进行测试，这一点很重要。这是因为现实世界中的高吞吐量流量来自多个客户端。我们 [提供了脚本](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests) 允许您以递增的 RPS 对任意数量的并发连接执行相同的负载测试。
 
-Lastly, our test environment measures requests between two pods, not many. The client pod is [Fortio](http://fortio.org/), which sends traffic to the server pod.
+最后，我们的测试环境可以测量两个 pod 之间少量的请求。客户端 pod 是 [Fortio](http://fortio.org/)，它将流量发送到服务端 pod。
 
-Why test with only two pods? Because scaling up throughput (RPS) and connections (threads) has a greater effect on Envoy's performance than increasing the total size of the service registry — or, the total number of pods and services in the Kubernetes cluster. When the size of the service registry grows, Envoy does have to keep track of more endpoints, and lookup time per request does increase, but by a tiny constant. If you have many services, and this constant becomes a latency concern, Istio provides a [Sidecar resource](/zh/docs/reference/config/networking/sidecar/), which allows you to limit which services each Envoy knows about.
+为什么只用两个 pod 测试？因为增加吞吐量（RPS）和连接（线程）对 Envoy 的性能的影响比增加服务注册表的总大小（或 Kubernetes 集群中 Pod 和服务的总数）更大。当服务注册表的大小增加时，Envoy 必须跟踪更多的端点，并且每个请求的查找时间确实增加了，但是增加了一个很小的常数。如果您有许多服务，并且此常数成为延迟问题，则 Istio 提供 [Sidecar 资源](/zh/docs/reference/config/networking/sidecar/)，它使您可以限制每个 Envoy 知道的服务。
 
-## 3. Measure with and without proxies
+## 3. 有/无 度量的代理{#3-measure-with-and-without-proxies}
 
-While many Istio features, such as [mutual TLS authentication](/zh/docs/concepts/security/#mutual-TLS-authentication), rely on an Envoy proxy next to an application pod, you can [selectively disable](/zh/docs/setup/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook) sidecar proxy injection for some of your mesh services. As you scale up Istio for production, you may want to incrementally add the sidecar proxy to your workloads.
+尽管 Istio 的许多特性，例如 [双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)，都依赖于应用 pod 的 Envoy 代理，但是您可以[选择性地禁用](/zh/docs/setup/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook)一些网格服务的 sidecar 代理注入。在扩展 Istio 以进行生产时，您可能需要将 sidecar 代理增量添加到工作负载中。
 
-To that end, the test scripts provide [three different modes](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests). These modes analyze Istio's performance when a request goes through both the client and server proxies (`both`), just the server proxy (`serveronly`), and neither proxy (`baseline`).
+为此，测试脚本提供了[三种不同模式](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests)。当请求同时通过客户端和服务器代理（`both`）、仅通过服务器代理（`serveronly`）和都不通过代理（`baseline`）时，这些模式将分析 Istio 的性能。
 
-You can also disable [Mixer](/zh/docs/concepts/observability/) to stop Istio's telemetry during the performance tests, which provides results in line with the performance we expect when the Mixer V2 work is completed. Istio also supports [Envoy native telemetry](https://github.com/istio/istio/wiki/Envoy-native-telemetry), which performs similarly to having Istio's telemetry disabled.
+您还可以在性能测试期间禁用 [Mixer](/zh/docs/concepts/observability/) 以停止 Istio 的遥测，这将得到与 Mixer V2 工作完成时我们期望的性能相符的结果。Istio 还支持 [Envoy 本地遥测](https://github.com/istio/istio/wiki/Envoy-native-telemetry)，其功能类似于禁用 Istio 的遥测。
 
-## Istio 1.2 Performance
+## Istio 1.2 性能{#Istio-1-2-performance}
 
-Let's see how to use this test environment to analyze the data plane performance of Istio 1.2. We also provide instructions to run the [same performance tests for the Linkerd data plane](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark/linkerd). Currently, only latency benchmarking is supported for Linkerd.
+让我们看看如何使用该测试环境来分析 Istio 1.2 数据平面的性能。我们还提供了运行 [Linkerd 数据平面的相同性能测试](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark/linkerd)的说明。Linkerd 目前仅支持延迟基准测试。
 
-For measuring Istio's sidecar proxy latency, we look at the 50th, 90th, and 99th percentiles for an increasing number of concurrent connections,keeping request throughput (RPS) constant.
+为了衡量 Istio sidecar 的代理延迟，我们考虑在 50%、90% 和 99% 时不断增加并发连接数量，从而保持了请求吞吐量（RPS）不变。
 
-We found that with 16 concurrent connections and 1000 RPS, Istio adds **3ms** over the baseline (P50) when a request travels through both a client and server proxy. (Subtract the pink line, `base`, from the green line, `both`.) At 64 concurrent connections, Istio adds **12ms** over the baseline, but with Mixer disabled (`nomixer_both`), Istio only adds **7ms**.
+我们发现，通过 16 个并发连接和 1000 RPS，当请求同时通过客户端和服务器代理传输时，Istio 会在基线（P50）上增加 **3ms**。（从绿色线 `both` 中减去粉红色线 `base`）在 64 个并发连接上，Istio 在基线上增加了 **12ms**，但是禁用 Mixer（`nomixer_both`）后，Istio 仅增加了 **7ms**。
 
 {{< image  width="75%" ratio="60%"
     link="./latency_p50.png"
-    alt="Istio sidecar proxy, 50th percentile latency"
-    title="Istio sidecar proxy, 50th percentile latency"
+    alt="Istio sidecar 代理, 50% 时的延迟"
+    title="Istio sidecar 代理, 50% 时的延迟"
     caption=""
     >}}
 
-In the 90th percentile, with 16 concurrent connections, Istio adds **6ms**; with 64 connections, Istio adds **20ms**.
+在 90% 时，有 16 个并发连接，Istio 增加 **6ms**；在 64 个连接的情况下，Istio 增加了 **20ms**。
 
 {{< image width="75%" ratio="60%"
     link="./latency_p90.png"
-    alt="Istio sidecar proxy, 90th percentile latency"
-    title="Istio sidecar proxy, 90th percentile latency"
+    alt="Istio sidecar 代理, 90% 时的延迟"
+    title="Istio sidecar 代理, 90% 时的延迟"
     caption=""
     >}}
 
-Finally, in the 99th percentile, with 16 connections, Istio adds **10ms** over the baseline. At 64 connections, Istio adds **25ms** with Mixer, or **10ms** without Mixer.
+最后，在具有 16 个连接的 99% 时，Istio 在基线之上增加了 **10ms**。在 64 个连接处，Istio 使用 Mixer 增加 **25ms**，不使用 Mixer 则增加 **10ms**。
 
 {{< image  width="75%" ratio="60%"
     link="./latency_p99.png"
-    alt="Istio sidecar proxy, 99th percentile latency"
-    title="Istio sidecar proxy, 99th percentile latency"
+    alt="Istio sidecar 代理, 99% 时的延迟"
+    title="Istio sidecar 代理, 99% 时的延迟"
     caption=""
     >}}
 
-For CPU usage, we measured with an increasing request throughput (RPS), and a constant number of concurrent connections. We found that Envoy's maximum CPU usage at 3000 RPS, with Mixer enabled, was **1.2 vCPUs**. At 1000 RPS, one Envoy uses approximately half of a CPU.
+对于 CPU 使用率，我们以不断增加的请求吞吐量（RPS）和恒定数量的并发连接进行了测量。我们发现启用了 Mixer 的 Envoy 在 3000 RPS 时的最大 CPU 使用率是 **1.2 vCPU**。在 1000 RPS 时，一个 Envoy 大约使用了 50% 的 CPU。
 
 {{< image  width="75%" ratio="60%"
     link="./cpu_max.png"
-    alt="Istio sidecar proxy, max CPU usage"
-    title="Istio sidecar proxy, max CPU usage"
+    alt="Istio sidecar 代理，最大 CPU 使用率"
+    title="Istio sidecar 代理，最大 CPU 使用率"
     caption=""
     >}}
 
-## Summary
+## 总结{#summary}
 
-In the process of benchmarking Istio's performance, we learned several key lessons:
+在对 Istio 的性能进行基准测试的过程中，我们吸取了一些重要的经验教训：
 
-- Use an environment that mimics production.
-- Focus on data plane traffic.
-- Measure against a baseline.
-- Increase concurrent connections as well as total throughput.
+- 使用模仿生产的环境。
+- 专注于数据平面流量。
+- 基于基准进行测量。
+- 增加并发连接以及总吞吐量。
 
-For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds just **3 milliseconds** of latency over the baseline, in the 50th percentile.
+对于在 16 个连接上具有 1000 RPS 的网格，Istio 1.2 仅在 50% 的基础上增加了 **3 毫秒** 的基准延迟。
 
 {{< tip >}}
-Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark).
+Istio 的性能取决于您的具体设置和流量负载情况。由于存在这种差异，请确保您的测试设置能够准确反映您的生产工作负载。要试用基准测试脚本，请转到 [Istio Tools 库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark)。
 {{< /tip >}}
 
-Also check out the [Istio Performance and Scalability guide](/zh/docs/ops/deployment/performance-and-scalability) for the most up-to-date performance data.
-
-Thank you for reading, and happy benchmarking!
+另外，请查阅 [Istio 性能和可伸缩性指南](/zh/docs/ops/deployment/performance-and-scalability) 获取最新的性能数据。感谢您的阅读，祝您基准测试愉快！
