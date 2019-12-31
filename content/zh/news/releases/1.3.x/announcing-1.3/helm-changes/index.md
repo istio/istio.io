@@ -86,10 +86,10 @@ aliases:
 | `global.proxy.envoyAccessLogService.tcpKeepalive.probes` | `3` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.time` | `10s` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.interval` | `10s` |  |
-| `global.proxy.protocolDetectionTimeout` | `10ms` | ` 在服务端，自动协议检测使用一组启发式方法来确定连接是否正在使用 TLS，以及所使用的应用协议（例如，http vs tcp）。 这些试探法依赖于客户端发送第一次请求数。对于一些优先发现的协议，如 MySQL 协议，MongoDB 协议等等，Envoy 在完成协议检测超时情况下，默认为非 mTLS 的普通 TCP 流量。 设置此字段可调整 Envoy 等待客户端发送第一次请求数据时间。（必须 >= 1ms）` |
-| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `当 "enableCoreDump" 设置为 true 的时候，启动核心存储的镜像` |
-| `global.defaultTolerations` | `[]` | `节点的默认 tolerations 将应用于所有部署，以便可以将所有 Pod 调度到具有匹配 taints 的特定节点。每个组件都可以通过在下面的相关部分中添加其 tolerations block 并设置所需的值来覆盖这些默认值。如果希望将 Istio 控制平面的所有 Pod 都调度到具有指定 taints 的特定节点，请配置此字段。` |
-| `global.meshID` | `""` | `MeshID表示 Mesh 标识符。在可能会彼此交互的 mesh 之间，它应该是唯一的，但是并不需要是全局唯一的。例如，如果满足以下任一条件，则两个 mesh 必须具有不同的 MeshID：- Mesh 将遥测聚集在同一个地方。- Mesh 将联合在一起。- 策略将被另一个 Mesh 引用。管理员希望这些条件中的任何一种将来可能成为现实，因此应确保为其 Mesh 分配了不同的 MeshID。在多群集 Mesh 中，每个群集必须（手动或自动）配置为具有相同的 MeshID 值。如果现有群集“加入”到多群集 Mesh 则需要将其迁移到新的 MeshID。迁移的详细信息待定，并且在安装后更改 MeshID 可能是一项破坏性操作。如果 Mesh 管理者未指定值，则 Istio 将使用 Mesh “信任域”的值。最佳实践是选择适当的“信任域”值。` |
+| `global.proxy.protocolDetectionTimeout` | `10ms` |`在服务端，自动协议检测使用一组启发式方法来确定连接是否正在使用 TLS，以及所使用的应用协议（例如，http vs tcp）。 这些试探法依赖于客户端发送第一次请求数。对于一些优先发现的协议，如 MySQL 协议，MongoDB 协议等等，Envoy 在完成协议检测超时情况下，默认为非 mTLS 的普通 TCP 流量。 设置此字段可调整 Envoy 等待客户端发送第一次请求数据时间。（必须 >= 1ms）`|
+| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` |`当 "enableCoreDump" 设置为 true 的时候，启动核心存储的镜像`|
+| `global.defaultTolerations` | `[]` |`节点的默认 tolerations 将应用于所有部署，以便可以将所有 Pod 调度到具有匹配 taints 的特定节点。每个组件都可以通过在下面的相关部分中添加其 tolerations block 并设置所需的值来覆盖这些默认值。如果希望将 Istio 控制平面的所有 Pod 都调度到具有指定 taints 的特定节点，请配置此字段。`|
+| `global.meshID` | `""` |`MeshID表示 Mesh 标识符。在可能会彼此交互的 mesh 之间，它应该是唯一的，但是并不需要是全局唯一的。例如，如果满足以下任一条件，则两个 mesh 必须具有不同的 MeshID：- Mesh 将遥测聚集在同一个地方。- Mesh 将联合在一起。- 策略将被另一个 Mesh 引用。管理员希望这些条件中的任何一种将来可能成为现实，因此应确保为其 Mesh 分配了不同的 MeshID。在多群集 Mesh 中，每个群集必须（手动或自动）配置为具有相同的 MeshID 值。如果现有群集“加入”到多群集 Mesh 则需要将其迁移到新的 MeshID。迁移的详细信息待定，并且在安装后更改 MeshID 可能是一项破坏性操作。如果 Mesh 管理者未指定值，则 Istio 将使用 Mesh “信任域”的值。最佳实践是选择适当的“信任域”值。`|
 | `global.localityLbSetting.enabled` | `true` |  |
 
 ### 添加 `galley` 键/值对{#new-key-value-pairs}
