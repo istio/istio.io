@@ -1,42 +1,29 @@
 ---
-title: Upgrade Notes
-description: Important changes operators must understand before upgrading to Istio 1.2.
+title: 升级说明
+description: 运维人员在升级至 Istio 1.2 版本前必须理解的的重要变化。
 weight: 20
 ---
 
-This page describes changes you need to be aware of when upgrading from
-Istio 1.1 to 1.2.  Here, we detail cases where we intentionally broke backwards
-compatibility.  We also mention cases where backwards compatibility was
-preserved but new behavior was introduced that would be surprising to someone
-familiar with the use and operation of Istio 1.1.
+本页描述了您在从 Istio 1.1.x 升级至 1.2.x 版本时的注意事项。这里我们详细描述了向后不兼容的情况。同时介绍那些向后兼容但引入了新行为的情况，这对于熟悉 Istio 1.1 使用和操作的人来说可能令人惊讶。
 
-For an overview of new features introduced with Istio 1.2, please refer
-to the [1.2 release notes](/zh/news/releases/1.2.x/announcing-1.2/change-notes).
-
-## Installation and upgrade
+## 安装与升级{#installation-and-upgrade}
 
 {{< tip >}}
-The configuration model for Mixer has been simplified. Support for
-adapter-specific and template-specific Custom Resources has been
-removed by default in 1.2 and will be removed entirely in 1.3.
-Please move to the new configuration model.
+Mixer 的配置模型得以简化。面向适配器、面向模板的定制资源支持在 1.2 中默认被删除，并会在 1.3 中完全删除。请迁移到新的配置模型。
 {{< /tip >}}
 
-Most Mixer CRDs were removed from the system to simplify the configuration
-model, improve performance of Mixer when used with Kubernetes, and improve
-reliability in a variety of Kubernetes environments.
+为简化配置模型、提高 Mixer 与 Kubernetes 一起使用时的性能以及在各种 Kubernetes 环境中的可靠性，大部分 Mixer CRD 被删除。
 
-The following CRDs remain:
+以下 CRD 保留：
 
-| Custom Resource Definition name | Purpose |
+| 定制资源定义名称 | 目的 |
 | --- | --- |
-| `adapter`| Specification of Istio extension declarations |
-| `attributemanifest` | Specification of Istio extension declarations |
-| `template` | Specification of Istio extension declarations |
-| `handler` | Specification of extension invocations |
-| `rule` | Specification of extension invocations |
-| `instance` | Specification of extension invocations |
+| `adapter`| Istio 扩展声明规范 |
+| `attributemanifest` | Istio 扩展声明规范 |
+| `template` | Istio 扩展声明规范 |
+| `handler` | Istio 扩展声明规范 |
+| `rule` | Istio 扩展声明规范 |
+| `instance` | Istio 扩展声明规范 |
 
-In the event you are using the removed mixer configuration schemas, set
-the following Helm flags during upgrade of the main Helm chart:
+如果您在使用已被删除的 Mixer 配置模式，在升级 Helm chart 时需设置以下 Helm 标志:
 `--set mixer.templates.useTemplateCRDs=true --set mixer.adapters.useAdapterCRDs=true`
