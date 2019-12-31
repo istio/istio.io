@@ -1,118 +1,118 @@
 ---
-title: Helm Changes
-description: Details the Helm chart installation options differences between Istio 1.2 and Istio 1.3.
+title: Helm 安装参数变动表
+description: 本文详细介绍了 Istio 1.2 系列到 Istio 1.3 系列之间的安装参数变化详情。
 weight: 30
 keywords: [kubernetes, helm, install, options]
 aliases:
     - /zh/docs/reference/config/installation-options-changes
 ---
 
-The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.2 and Istio 1.3. The tables are grouped in to three different categories:
+下表显示了在 Istio 1.2 版本到 Istio 1.3 版本之间使用 Helm 自定义安装 Istio 时参数变更，主要包含了三种类型的变更：
 
-- The installation options already in the previous release but whose values have been modified in the new release.
-- The new installation options added in the new release.
-- The installation options removed from the new release.
+- 安装参数在 1.2 版本之前已经存在，但是值在新发布的 1.3 版本中进行了修改。
+- 1.3 版本新加的参数。
+- 1.3 版本删除的参数。
 
-<!-- Run python scripts/tablegen.py to generate this table -->
+<!-- 下表是运行 python 脚本 scripts/tablegen.py 自动生成 -->
 
-<!-- AUTO-GENERATED-START -->
+<!-- 自动生成开始 -->
 
-## Modified configuration options
+## 修改的配置选项{#modified-configuration-options}
 
-### Modified `kiali` key/value pairs
+### 修改 `kiali` 键/值对{#modified-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+|  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
 | `kiali.tag` | `v0.20` | `v1.1.0` |  |  |
 
-### Modified `global` key/value pairs
+### 修改 `global` 键/值对{#modified-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+|  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
-| `global.tag` | `1.2.0-rc.3` | `release-1.3-latest-daily` | `Default tag for Istio images.`  | `Default tag for Istio images.` |
+| `global.tag` | `1.2.0-rc.3` | `release-1.3-latest-daily` | `Istio 镜像默认tag。` | `Istio 镜像默认tag。` |
 
-### Modified `gateways` key/value pairs
+### 修改 `gateways` 键/值对{#modified-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+|  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
 | `gateways.istio-egressgateway.resources.limits.memory` | `256Mi` | `1024Mi` |  |  |
 
-### Modified `tracing` key/value pairs
+### 修改 `tracing` 键/值对{#modified-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+|  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
 | `tracing.jaeger.tag` | `1.9` | `1.12` |  |  |
 | `tracing.zipkin.tag` | `2` | `2.14.2` |  |  |
 
-## New configuration options
+## 新加的配置选项{#new-configuration-options}
 
-### New `tracing` key/value pairs
+### 添加 `tracing` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `tracing.tolerations` | `[]` |  |
 | `tracing.jaeger.image` | `all-in-one` |  |
-| `tracing.jaeger.spanStorageType` | `badger` | `spanStorageType value can be "memory" and "badger" for all-in-one image` |
+| `tracing.jaeger.spanStorageType` | `badger` | `对于 all-in-one 模式镜像 spanStorageType 值可以是“memory”和“badger”`|
 | `tracing.jaeger.persist` | `false` |  |
 | `tracing.jaeger.storageClassName` | `""` |  |
 | `tracing.jaeger.accessMode` | `ReadWriteMany` |  |
 | `tracing.zipkin.image` | `zipkin` |  |
 
-### New `sidecarInjectorWebhook` key/value pairs
+### 添加 `sidecarInjectorWebhook` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `sidecarInjectorWebhook.rollingMaxSurge` | `100%` |  |
 | `sidecarInjectorWebhook.rollingMaxUnavailable` | `25%` |  |
 | `sidecarInjectorWebhook.tolerations` | `[]` |  |
 
-### New `global` key/value pairs
+### 添加 `global` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `global.proxy.init.resources.limits.cpu` | `100m` |  |
 | `global.proxy.init.resources.limits.memory` | `50Mi` |  |
 | `global.proxy.init.resources.requests.cpu` | `10m` |  |
 | `global.proxy.init.resources.requests.memory` | `10Mi` |  |
 | `global.proxy.envoyAccessLogService.enabled` | `false` |  |
-| `global.proxy.envoyAccessLogService.host` | `` | `example: accesslog-service.istio-system` |
-| `global.proxy.envoyAccessLogService.port` | `` | `example: 15000` |
+| `global.proxy.envoyAccessLogService.host` | `` | `例如：accesslog-service.istio-system` |
+| `global.proxy.envoyAccessLogService.port` | `` | `例如：15000` |
 | `global.proxy.envoyAccessLogService.tlsSettings.mode` | `DISABLE` | `DISABLE, SIMPLE, MUTUAL, ISTIO_MUTUAL` |
-| `global.proxy.envoyAccessLogService.tlsSettings.clientCertificate` | `` | `example: /etc/istio/als/cert-chain.pem` |
-| `global.proxy.envoyAccessLogService.tlsSettings.privateKey` | `` | `example: /etc/istio/als/key.pem` |
-| `global.proxy.envoyAccessLogService.tlsSettings.caCertificates` | `` | `example: /etc/istio/als/root-cert.pem` |
-| `global.proxy.envoyAccessLogService.tlsSettings.sni` | `` | `example: als.somedomain` |
+| `global.proxy.envoyAccessLogService.tlsSettings.clientCertificate` | `` | `例如: /etc/istio/als/cert-chain.pem` |
+| `global.proxy.envoyAccessLogService.tlsSettings.privateKey` | `` | `例如：/etc/istio/als/key.pem` |
+| `global.proxy.envoyAccessLogService.tlsSettings.caCertificates` | `` | `例如：/etc/istio/als/root-cert.pem` |
+| `global.proxy.envoyAccessLogService.tlsSettings.sni` | `` | `例如： als.somedomain` |
 | `global.proxy.envoyAccessLogService.tlsSettings.subjectAltNames` | `[]` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.probes` | `3` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.time` | `10s` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.interval` | `10s` |  |
-| `global.proxy.protocolDetectionTimeout` | `10ms` | `Automatic protocol detection uses a set of heuristics to determine whether the connection is using TLS or not (on the server side), as well as the application protocol being used (e.g., http vs tcp). These heuristics rely on the client sending the first bits of data. For server first protocols like MySQL, MongoDB, etc., Envoy will timeout on the protocol detection after the specified period, defaulting to non mTLS plain TCP traffic. Set this field to tweak the period that Envoy will wait for the client to send the first bits of data. (MUST BE >=1ms)` |
-| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `Image used to enable core dumps. This is only used, when "enableCoreDump" is set to true.` |
-| `global.defaultTolerations` | `[]` | `Default node tolerations to be applied to all deployments so that all pods can be scheduled to a particular nodes with matching taints. Each component can overwrite these default values by adding its tolerations block in the relevant section below and setting the desired values. Configure this field in case that all pods of Istio control plane are expected to be scheduled to particular nodes with specified taints.` |
-| `global.meshID` | `""` | `Mesh ID means Mesh Identifier. It should be unique within the scope where meshes will interact with each other, but it is not required to be globally/universally unique. For example, if any of the following are true, then two meshes must have different Mesh IDs: - Meshes will have their telemetry aggregated in one place - Meshes will be federated together - Policy will be written referencing one mesh from the other If an administrator expects that any of these conditions may become true in the future, they should ensure their meshes have different Mesh IDs assigned. Within a multicluster mesh, each cluster must be (manually or auto) configured to have the same Mesh ID value. If an existing cluster 'joins' a multicluster mesh, it will need to be migrated to the new mesh ID. Details of migration TBD, and it may be a disruptive operation to change the Mesh ID post-install. If the mesh admin does not specify a value, Istio will use the value of the mesh's Trust Domain. The best practice is to select a proper Trust Domain value.` |
+| `global.proxy.protocolDetectionTimeout` | `10ms` |`在服务端，自动协议检测使用一组启发式方法来确定连接是否正在使用 TLS，以及所使用的应用协议（例如，http vs tcp）。 这些试探法依赖于客户端发送第一次请求数。对于一些优先发现的协议，如 MySQL 协议，MongoDB 协议等等，Envoy 在完成协议检测超时情况下，默认为非 mTLS 的普通 TCP 流量。 设置此字段可调整 Envoy 等待客户端发送第一次请求数据时间。（必须 >= 1ms）`|
+| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` |`当 "enableCoreDump" 设置为 true 的时候，启动核心存储的镜像`|
+| `global.defaultTolerations` | `[]` |`节点的默认 tolerations 将应用于所有部署，以便可以将所有 Pod 调度到具有匹配 taints 的特定节点。每个组件都可以通过在下面的相关部分中添加其 tolerations block 并设置所需的值来覆盖这些默认值。如果希望将 Istio 控制平面的所有 Pod 都调度到具有指定 taints 的特定节点，请配置此字段。`|
+| `global.meshID` | `""` |`MeshID表示 Mesh 标识符。在可能会彼此交互的 mesh 之间，它应该是唯一的，但是并不需要是全局唯一的。例如，如果满足以下任一条件，则两个 mesh 必须具有不同的 MeshID：- Mesh 将遥测聚集在同一个地方。- Mesh 将联合在一起。- 策略将被另一个 Mesh 引用。管理员希望这些条件中的任何一种将来可能成为现实，因此应确保为其 Mesh 分配了不同的 MeshID。在多群集 Mesh 中，每个群集必须（手动或自动）配置为具有相同的 MeshID 值。如果现有群集“加入”到多群集 Mesh 则需要将其迁移到新的 MeshID。迁移的详细信息待定，并且在安装后更改 MeshID 可能是一项破坏性操作。如果 Mesh 管理者未指定值，则 Istio 将使用 Mesh “信任域”的值。最佳实践是选择适当的“信任域”值。`|
 | `global.localityLbSetting.enabled` | `true` |  |
 
-### New `galley` key/value pairs
+### 添加 `galley` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `galley.rollingMaxSurge` | `100%` |  |
 | `galley.rollingMaxUnavailable` | `25%` |  |
 
-### New `mixer` key/value pairs
+### 添加 `mixer` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `mixer.policy.rollingMaxSurge` | `100%` |  |
 | `mixer.policy.rollingMaxUnavailable` | `25%` |  |
 | `mixer.telemetry.rollingMaxSurge` | `100%` |  |
 | `mixer.telemetry.rollingMaxUnavailable` | `25%` |  |
-| `mixer.telemetry.reportBatchMaxEntries` | `100` | `Set reportBatchMaxEntries to 0 to use the default batching behavior (i.e., every 100 requests). A positive value indicates the number of requests that are batched before telemetry data is sent to the mixer server` |
-| `mixer.telemetry.reportBatchMaxTime` | `1s` | `Set reportBatchMaxTime to 0 to use the default batching behavior (i.e., every 1 second). A positive time value indicates the maximum wait time since the last request will telemetry data be batched before being sent to the mixer server` |
+| `mixer.telemetry.reportBatchMaxEntries` | `100` | `将 reportBatchMaxEntries 设置为 0 表示使用默认的批处理行为（即每 100 个批处理一次）。 正值表示遥测数据发送到 mixer 服务器之前已批处理的请求数` |
+| `mixer.telemetry.reportBatchMaxTime` | `1s` | `将 reportBatchMaxTime 设置为 0 以使用默认的批处理行为（即每 1 秒批处理一次）。 正值表示处理完上次请求并将遥测数据发送到 mixer 服务器后，进行下次批处理前的最大等待时间` |
 
-### New `grafana` key/value pairs
+### 添加 `grafana` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `grafana.env` | `{}` |  |
 | `grafana.envSecrets` | `{}` |  |
@@ -127,15 +127,15 @@ The tables below show changes made to the installation options used to customize
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-### New `prometheus` key/value pairs
+### 添加 `prometheus` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `prometheus.image` | `prometheus` |  |
 
-### New `gateways` key/value pairs
+### 添加 `gateways` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `gateways.istio-ingressgateway.rollingMaxSurge` | `100%` |  |
 | `gateways.istio-ingressgateway.rollingMaxUnavailable` | `25%` |  |
@@ -144,67 +144,67 @@ The tables below show changes made to the installation options used to customize
 | `gateways.istio-ilbgateway.rollingMaxSurge` | `100%` |  |
 | `gateways.istio-ilbgateway.rollingMaxUnavailable` | `25%` |  |
 
-### New `certmanager` key/value pairs
+### 添加 `certmanager` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `certmanager.image` | `cert-manager-controller` |  |
 
-### New `kiali` key/value pairs
+### 添加 `kiali` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `kiali.image` | `kiali` |  |
 | `kiali.tolerations` | `[]` |  |
-| `kiali.dashboard.auth.strategy` | `login` | `Can be anonymous, login, or openshift` |
+| `kiali.dashboard.auth.strategy` | `login` | `可以通过匿名，登录，或者是 openshift 方式` |
 | `kiali.security.enabled` | `true` |  |
 | `kiali.security.cert_file` | `/kiali-cert/cert-chain.pem` |  |
 | `kiali.security.private_key_file` | `/kiali-cert/key.pem` |  |
 
-### New `istiocoredns` key/value pairs
+### 添加 `istiocoredns` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `istiocoredns.rollingMaxSurge` | `100%` |  |
 | `istiocoredns.rollingMaxUnavailable` | `25%` |  |
 
-### New `security` key/value pairs
+### 添加 `security` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `security.replicaCount` | `1` |  |
 | `security.rollingMaxSurge` | `100%` |  |
 | `security.rollingMaxUnavailable` | `25%` |  |
 | `security.workloadCertTtl` | `2160h` | `90*24hour = 2160h` |
-| `security.enableNamespacesByDefault` | `true` | `Determines Citadel default behavior if the ca.istio.io/env or ca.istio.io/override labels are not found on a given namespace. For example: consider a namespace called "target", which has neither the "ca.istio.io/env" nor the "ca.istio.io/override" namespace labels. To decide whether or not to generate secrets for service accounts created in this "target" namespace, Citadel will defer to this option. If the value of this option is "true" in this case, secrets will be generated for the "target" namespace. If the value of this option is "false" Citadel will not generate secrets upon service account creation.` |
+| `security.enableNamespacesByDefault` | `true` | `如果在给定命名空间上找不到 ca.istio.io/env 或 ca.istio.io/override 标签，则确定 Citadel 默认行为。 例如：考虑一个名为 “target” 的命名空间，该命名空间既没有 ca.istio.io/env 也没有 ca.istio.io/override 命名空间标签，为了确定是否为在 “target” 命名空间中创建的服务帐户生成 secret，Citadel 将采用此选项。如果在这种情况下此选项的值为 “true”，则将为 “target” 命名空间生成 secret。 如果此选项的值为“false”，则 Citadel 在创建服务帐户时不会生成机密信息。` |
 
-### New `pilot` key/value pairs
+### 添加 `pilot` 键/值对{#new-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `pilot.rollingMaxSurge` | `100%` |  |
 | `pilot.rollingMaxUnavailable` | `25%` |  |
-| `pilot.enableProtocolSniffing` | `false` | `if protocol sniffing is enabled. Default to false.` |
+| `pilot.enableProtocolSniffing` | `false` | `如果启用了协议嗅探。默认为 false。`|
 
-## Removed configuration options
+## 删除的配置选项{#removed-configuration-options}
 
-### Removed `global` key/value pairs
+### 删除 `global` 键/值对{#removed-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `global.sds.useTrustworthyJwt` | `false` |  |
 | `global.sds.useNormalJwt` | `false` |  |
 | `global.localityLbSetting` | `{}` |  |
 
-### Removed `mixer` key/value pairs
+### 删除 `mixer` 键/值对{#removed-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
-| `mixer.templates.useTemplateCRDs` | `false` |  |
+| `mixer.templates.seTemplateCRDs` | `false` |  |
 
-### Removed `grafana` key/value pairs
+### 删除 `grafana` 键/值对{#removed-key-value-pairs}
 
-| Key | Default Value | Description |
+|  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `grafana.dashboardProviders.dashboardproviders.providers.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.type` | `file` |  |
@@ -217,4 +217,4 @@ The tables below show changes made to the installation options used to customize
 | `grafana.datasources.datasources.datasources.editable` | `true` |  |
 | `grafana.datasources.datasources.datasources.orgId` | `1` |  |
 
-<!-- AUTO-GENERATED-END -->
+<!-- 自动生成结束-->
