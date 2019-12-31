@@ -1,7 +1,7 @@
 ---
 title: Istio 中的安全管控出口流量，第二部分
-subtitle: 使用 istio 的出口流量管控来防止相关出口流量攻击
-description: 使用 istio 的出口流量管控来防止相关出口流量攻击。
+subtitle: 使用 istio 的出口流量管控来阻止相关出口流量攻击
+description: 使用 istio 的出口流量管控来阻止相关出口流量攻击。
 publishdate: 2019-07-10
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress,security,gateway,tls]
@@ -10,7 +10,7 @@ target_release: 1.2
 
 欢迎来看在 Istio 对出口流量进行安全管控系列文章的第 2 部分。
 在[这个系列文章的第一步](/zh/blog/2019/egress-traffic-control-in-istio-part-1/),我提出了出口流量相关攻击和针对出口流量进行安全管控我们收集的要求点。
-在这一期中，我会讲述对出口流量进行安全管控的 Istio 方式，并且展示 Istio 如何帮你防止攻击。
+在这一期中，我会讲述对出口流量进行安全管控的 Istio 方式，并且展示 Istio 如何帮你阻止攻击。
 
 ## Secure control of egress traffic in Istio
 ## Istio 中的出口流量安全管控 {#secure-control-of-egress-traffic-in-Istio}
@@ -45,9 +45,9 @@ target_release: 1.2
 
 可以简单的配置 L3 防火墙，使它只允许通过 Istio 入口网关来的流量，并且只允许通过 Istio 出口网关出去的流量。网关的 Istio 代理执行策略，并且和在网格中其它所有代理一样上报检测信息。
 
-现在我们来测试一下可能的攻击，并且我会给你们展示 Istio 中的出口流量安全管控是怎么防止攻击的。
+现在我们来测试一下可能的攻击，并且我会给你们展示 Istio 中的出口流量安全管控是怎么阻止攻击的。
 
-## 防止可能的攻击 {#preventing-possible-attacks}
+## 阻止可能的攻击 {#preventing-possible-attacks}
 
 参考以下出口流量的安全策略：
 
@@ -68,24 +68,15 @@ target_release: 1.2
 - 阻止攻击者从集群中访问 `mongo1.composedb.com`，Istio 会正确的检测流量的源，如这个例子中应用程序 **A**，根据上面提到的安全策略验证它是不是被允许访问 `mongo1.composedb.com`。
 
 Having failed to achieve their goals in a straightforward way, the malicious actors may resort to advanced attacks:
+直接攻击失败的话，恶意攻击者可能会使用高级攻击方式：
 
-- **Bypass the container's sidecar proxy** to be able to access any external service directly, without the sidecar's
-  policy enforcement and reporting. This attack is prevented by a Kubernetes Network Policy or by an L3 firewall that
-  allow egress traffic to exit the mesh only from the egress gateway.
-- **Compromise the egress gateway** to be able to force it to send fake information to the monitoring system or to
-  disable enforcement of the security policies. This attack is prevented by applying the special security measures to
-  the egress gateway pods.
-- **Impersonate as application B** since application **B** is allowed to access `mongo1.composedb.com`. This attack,
-  fortunately, is prevented by Istio's [strong identity support](/zh/docs/concepts/security/#istio-identity).
+- **绕过容器的 sidecar 代理** 就可能直接访问任何外部服务，而且没有了 sidecar 的策略执行和上报。这种攻击可以通过 Kubernetes 网络策略或者 L3 防火墙来阻止，因为它们可以让出网格的流量只通过出口网关。
+- **破坏出口网关** 就可以强制它发送假信息给监控系统或禁止执行安全策略。这种攻击可以通过在出口网关 pod 上应用特殊的安全策略。
+- **冒充应用程序 B**，因为允许应用程序 **B** 访问 `mongo1.composedb.com`。幸运的是，这种攻击可以用 Istio 的[强身份认证支持](/zh/docs/concepts/security/#istio-identity)来阻止。
 
-As far as we can see, all the forbidden access is prevented, or at least is monitored and can be prevented later.
-If you see other attacks that involve egress traffic or security holes in the current design, we would be happy
-[to hear about it](https://discuss.istio.io).
+据我们所见，所有禁止的访问都可以阻止，或者至少可以监控到，在以后可以被阻止。
+如果看到当前设计中涉及出口流量或安全漏洞的其它攻击，我们将很高兴[听到它]（https://discus.istio.io）。
 
-## Summary
+## 总结 {#summary}
 
-Hopefully, I managed to convince you that Istio is an effective tool to prevent attacks involving egress
-traffic. In [the next part of this series](/zh/blog/2019/egress-traffic-control-in-istio-part-3/), I compare secure control of egress traffic in Istio with alternative
-solutions such as
-[Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
-egress proxies/firewalls.
+希望我能说服你：Istio 在阻止相关出口流量攻击上是一个非常高效的工具。在[这个系列文章的下一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/)，我对 Istio 出口流量安全管控方案和其它的方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)和已有的出口代理/防火墙。
