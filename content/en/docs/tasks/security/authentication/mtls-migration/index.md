@@ -102,9 +102,9 @@ Now we confirm all requests to `httpbin.foo` still succeed.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
-200
-200
-200
+sleep.foo to httpbin.foo: 200
+sleep.bar to httpbin.foo: 200
+sleep.legacy to httpbin.foo: 200
 {{< /text >}}
 
 You can also specify a subset of the clients' request to use `ISTIO_MUTUAL` mutual TLS in
@@ -136,9 +136,9 @@ Now you should see the request from `sleep.legacy` fails.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
-200
-200
-503
+sleep.foo to httpbin.foo: 200
+sleep.bar to httpbin.foo: 200
+sleep.legacy to httpbin.foo: 503
 {{< /text >}}
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
