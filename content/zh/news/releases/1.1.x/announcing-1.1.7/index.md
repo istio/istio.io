@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.7
+title: Istio 1.1.7 发布公告
 linktitle: 1.1.7
-subtitle: Patch Release
-description: Istio 1.1.7 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.7 补丁发布。
 publishdate: 2019-05-17
 release: 1.1.7
 aliases:
@@ -12,22 +12,22 @@ aliases:
     - /zh/news/announcing-1.1.7
 ---
 
-We're pleased to announce the availability of Istio 1.1.7. Please see below for what's changed.
+我们非常高兴的宣布 Istio 1.1.7 已经可用。请浏览下面的变更说明。
 
 {{< relnote >}}
 
-## Security update
+## 安全更新{#security-update}
 
-This release fixes [CVE 2019-12243](/zh/news/security/istio-security-2019-001).
+该版本修复了 [CVE 2019-12243](/zh/news/security/istio-security-2019-001)。
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix issue where two gateways with overlapping hosts, created at the same second, can cause Pilot to fail to generate routes correctly and lead to Envoy listeners stuck indefinitely at startup in a warming state.
-- Improve the robustness of the SDS node agent: if Envoy sends a SDS request with an empty `ResourceNames`, ignore it and wait for the next request instead of closing the connection ([Issue 13853](https://github.com/istio/istio/issues/13853)).
-- In prior releases Pilot automatically injected the experimental `envoy.filters.network.mysql_proxy` filter into the outbound filter chain if the service port name is `mysql`.  This was surprising and caused issues for some operators, so Pilot will now automatically inject the `envoy.filters.network.mysql_proxy` filter only if the `PILOT_ENABLE_MYSQL_FILTER` environment variable is set to `1` ([Issue 13998](https://github.com/istio/istio/issues/13998)).
-- Fix issue where Mixer policy checks were incorrectly disabled for TCP ([Issue 13868](https://github.com/istio/istio/issues/13868)).
+- 修复了在同一秒创建的具有重叠主机的两个网关可能导致 Pilot 无法正确生成路由并导致 Envoy 侦听器在启动时无限期卡死的问题。
+- 提高 SDS 节点代理的健壮性：如果 Envoy 发送带有空的 `ResourceNames` 的 SDS 请求，请忽略它并等待下一个请求，而不是关闭连接（[Issue 13853](https://github.com/istio/istio/issues/13853)）。
+- 在以前的版本中，如果服务端口名称是 `mysql`，Pilot 会自动将实验性的 `envoy.filters.network.mysql_proxy` 过滤器注入到出站过滤器链中。这是令人惊讶的，并给某些运维人员造成了问题，因此，现在仅当将 `PILOT_ENABLE_MYSQL_FILTER` 环境变量设置为 `1` 时，Pilot 才会自动注入 `envoy.filters.network.mysql_proxy` 过滤器（[Issue 13998](https://github.com/istio/istio/issues/13998)）。
+- 解决了错误地为 TCP 禁用 Mixer 策略检查的问题（[Issue 13868](https://github.com/istio/istio/issues/13868)）。
 
-## Small enhancements
+## 小改进{#small-enhancements}
 
-- Add `--applicationPorts` option to the `ingressgateway` Helm charts.  When set to a comma-delimited list of ports, readiness checks will fail until all the ports become active.  When configured, traffic will not be sent to Envoys stuck in the warming state.
-- Increase memory limit in the `ingressgateway` Helm chart to 1GB and add resource `request` and `limits` to the SDS node agent container to support HPA autoscaling.
+- 新增 `--applicationPorts` 选项到  `ingressgateway` Helm charts。当设置为以逗号分隔的端口列表时，就绪检查将失败，直到所有端口都变为活动状态为止。配置后，流量将不会发送到处于预热状态的 Envoy。
+- 将 `ingressgateway` Helm chart 中的内存限制增加到 1GB，并向 SDS 节点代理容器添加资源 `request` 和 `limits` 以支持 HPA 自动缩放。

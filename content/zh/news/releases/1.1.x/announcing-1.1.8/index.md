@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.8
+title: Istio 1.1.8 发布公告
 linktitle: 1.1.8
-subtitle: Patch Release
-description: Istio 1.1.8 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.8 补丁发布。
 publishdate: 2019-06-06
 release: 1.1.8
 aliases:
@@ -12,26 +12,26 @@ aliases:
     - /zh/news/announcing-1.1.8
 ---
 
-We're pleased to announce the availability of Istio 1.1.8. Please see below for what's changed.
+我们非常高兴的宣布 Istio 1.1.8 已经可用。请浏览下面的变更说明。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix `PASSTHROUGH` `DestinationRules` for CDS clusters ([Issue 13744](https://github.com/istio/istio/issues/13744)).
-- Make the `appVersion` and `version` fields in the Helm charts display the correct Istio version ([Issue 14290](https://github.com/istio/istio/issues/14290)).
-- Fix Mixer crash affecting both policy and telemetry servers ([Issue 14235](https://github.com/istio/istio/issues/14235)).
-- Fix multicluster issue where two pods in different clusters could not share the same IP address ([Issue 14066](https://github.com/istio/istio/issues/14066)).
-- Fix issue where Citadel could generate a new root CA if it cannot contact the Kubernetes API server, causing mutual TLS verification to incorrectly fail ([Issue 14512](https://github.com/istio/istio/issues/14512)).
-- Improve Pilot validation to reject different `VirtualServices` with the same domain since Envoy will not accept them ([Issue 13267](https://github.com/istio/istio/issues/13267)).
-- Fix locality load balancing issue where only one replica in a locality would receive traffic ([13994](https://github.com/istio/istio/issues/13994)).
-- Fix issue where Pilot Agent might not notice a TLS certificate rotation ([Issue 14539](https://github.com/istio/istio/issues/14539)).
-- Fix a `LuaJIT` panic in Envoy ([Envoy Issue 6994](https://github.com/envoyproxy/envoy/pull/6994)).
-- Fix a race condition where Envoy might reuse a HTTP/1.1 connection after the downstream peer had already closed the TCP connection, causing 503 errors and retries ([Issue 14037](https://github.com/istio/istio/issues/14037)).
-- Fix a tracing issue in Mixer's Zipkin adapter causing missing spans ([Issue 13391](https://github.com/istio/istio/issues/13391)).
+- 修复 CDS 集群的 `PASSTHROUGH` `DestinationRules`（[Issue 13744](https://github.com/istio/istio/issues/13744)）。
+- 使 Helm charts 中的 `appVersion` 和 `version` 字段显示正确的 Istio 版本（[Issue 14290](https://github.com/istio/istio/issues/14290)）。
+- 修复 Mixer 崩溃同时影响策略和遥测服务（[Issue 14235](https://github.com/istio/istio/issues/14235)）。
+- 修复多集群时不同集群中的两个 pod 无法共享同一个 IP 地址的问题（[Issue 14066](https://github.com/istio/istio/issues/14066)）。
+- 修复当 Citadel 无法连接 Kubernetes API 服务时重新生成新的根 CA 导致双向 TLS 验证失败的问题（[Issue 14512](https://github.com/istio/istio/issues/14512)）。
+- 改进 Pilot 验证以拒绝相同域名的不同 `VirtualServices`，因为 Envoy 不会接受（[Issue 13267](https://github.com/istio/istio/issues/13267)）。
+- 修复了本地负载均衡问题，即本地中只有一个副本会接收流量（[13994](https://github.com/istio/istio/issues/13994)）。
+- 修复了 Pilot Agent 可能不会注意到 TLS 证书轮换的问题（[Issue 14539](https://github.com/istio/istio/issues/14539)）。
+- 修复 Envoy 中一个 `LuaJIT` 崩溃问题（[Envoy Issue 6994](https://github.com/envoyproxy/envoy/pull/6994)）。
+- 修复一个资源竞争问题：Envoy 可能在下游连接已经关闭 TCP 连接后重用 HTTP/1.1 连接，从而导致 503 错误和重试（[Issue 14037](https://github.com/istio/istio/issues/14037)）。
+- 修复了 Mixer 的 Zipkin 适配器中的跟踪问题，该问题导致 spans 丢失（[Issue 13391](https://github.com/istio/istio/issues/13391)）。
 
-## Small enhancements
+## 小改进{#small-enhancements}
 
-- Reduce Pilot log spam by logging the `the endpoints within network ... will be ignored for no network configured` message at `DEBUG`.
-- Make it easier to rollback by making pilot-agent ignore unknown flags.
-- Update Citadel's default root CA certificate TTL from 1 year to 10 years.
+- 通过在 `DEBUG` 模式下记录 `the endpoints within network ... will be ignored for no network configured` 消息减少 Pilot 日志信息。
+- 使 pilot-agent 忽略未知标记以更容易回滚。
+- 将 Citadel 的默认根 CA 证书 TTL 从 1 年更新为 10 年。
