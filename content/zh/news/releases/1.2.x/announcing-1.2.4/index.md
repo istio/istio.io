@@ -21,7 +21,7 @@ aliases:
 此版本包含了在 [ISTIO-SECURITY-2019-003](/zh/news/security/istio-security-2019-003/)] 和 [ISTIO-SECURITY-2019-004](/zh/news/security/istio-security-2019-004/) 中所阐述的安全漏洞程序的修复。特别是：
 
 __ISTIO-SECURITY-2019-003__: 一位 Envoy 用户公开报告了一个正则表达式的匹配问题 (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728))，该问题可使 Envoy 出现非常严重的 URI 崩溃。
-  * __[CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)__: 经调查，Istio 小组发现，当用户正在使用 Istio Api 中一些像 `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding` 的正则表达式时，会被利发起 Istio DoS 攻击。
+  * __[CVE-2019-14993](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-14993)__: 经调查，Istio 小组发现，当用户正在使用 `Istio Api` 中一些像 `JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding` 的正则表达式时，会被利用而发起 `Istio DoS` 攻击。
 
 __ISTIO-SECURITY-2019-004__: Envoy 和之后的 Istio 更容易受到一系列基于 HTTP/2 的 DoS 攻击：
   * __[CVE-2019-9512](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9512)__: 使用 `PING` 帧和响应 `PING` ACK 帧的 HTTP/2 流，会导致无限的内存增长（这可能导致内存不足的原因）。
