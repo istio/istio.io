@@ -24,7 +24,7 @@ aliases:
 
 ## Bug 修复{#bug-fixes}
 
-- 删除 Istio 1.1.2 中用于修复 [`CVE-2019-9900`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [`CVE-2019-9901`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901) 问题的 Envoy 补丁程序特定于 Istio 的后端端口，更新后的 Envoy 已包含相关修复程序的最终版本。
+- 删除了 Istio 1.1.2 对 Envoy 某个补丁的反向移植，该补丁用于修复 [`CVE-2019-9900`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [`CVE-2019-9901`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901)。以便更新包含了最终版本补丁的 Envoy。
 
 - 修复分割水平 `EDS` 的负载均衡权重设置。
 
