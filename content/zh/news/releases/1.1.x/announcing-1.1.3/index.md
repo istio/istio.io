@@ -12,21 +12,21 @@ aliases:
     - /zh/news/announcing-1.1.3
 ---
 
-我们很高兴的宣布 Istio 1.1.3 发布，下面介绍了相关变更信息。
+我们很高兴的宣布 Istio 1.1.3 发布，下面介绍相关更新信息。
 
 {{< relnote >}}
 
-## 1.1.3 版本的已知问题{#known-issues-with-1-1-3}
+## 1.1.3 版本已知问题{#known-issues-with-1-1-3}
 
-- Istio 1.1.3 中，在启用了 alpha-quality SDS 证书轮换功能的群集中，存在[节点代理恐慌](https://github.com/istio/istio/issues/13325)问题。
-由于这是我们首次将 SDS 证书轮换纳入长期运行的测试版本中，因此我们不知道这是潜在的错误还是新的回归。
+- 在启用了 alpha-quality SDS 证书轮换功能的集群中，存在[节点代理恐慌](https://github.com/istio/istio/issues/13325)问题。
+由于这是我们首次将 SDS 证书轮换纳入长期运行的测试版本，因此我们不知道这是潜在的错误还是新的回归。
 考虑到 SDS 证书轮换为 alpha 版本，我们决定带着这个问题发布 1.1.3 版本，在 1.1.4 版本中我们将解决此问题。
 
 ## Bug 修复{#bug-fixes}
 
-- 删除在 Istio 1.1.2 中修复 [`CVE-2019-9900`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [`CVE-2019-9901`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901) 的 Envoy 补丁，以包含补丁最终版本的新版 Envoy 取代。
+- 删除 Istio 1.1.2 中用于修复 [`CVE-2019-9900`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [`CVE-2019-9901`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901) 问题的 Envoy 补丁程序特定于 Istio 的后端端口，更新后的 Envoy 已包含相关修复程序的最终版本。
 
-- 修复负载均衡权重设置的水平分割 `EDS`。
+- 修复分割水平 `EDS` 的负载均衡权重设置。
 
 - 修复 Envoy 默认日志格式中的错字。（[Issue 12232](https://github.com/istio/istio/issues/12232)）
 
@@ -34,9 +34,9 @@ aliases:
 
 - 恢复意外删除的 Kiali 设置。（[Issue 3660](https://github.com/istio/istio/issues/3660)）
 
-- 修复当具有相同目标端口的服务存在时导致重复入站侦听的问题。（[Issue 9504](https://github.com/istio/istio/issues/9504)）
+- 修复当具有相同目标端口的服务存在时导致的重复入站侦听问题。（[Issue 9504](https://github.com/istio/istio/issues/9504)）
 
-- 通过自动绑定到 `Sidecar` 侦听器的服务，解决为 `istio-system` 以外的命名空间配置 `Sidecar` `egress` 端口的问题，从而生成 `BlackHoleCluster` 的 `envoy.tcp_proxy` 过滤器。（[Issue 12536](https://github.com/istio/istio/issues/12536)）
+- 通过自动绑定到 `Sidecar` 侦听器的服务，解决为 `istio-system` 以外命名空间配置 `Sidecar` `egress` 端口的问题，从而生成 `BlackHoleCluster` 的 `envoy.tcp_proxy` 过滤器。（[Issue 12536](https://github.com/istio/istio/issues/12536)）
 
 - 通过支持更准确的主机匹配来修正网关 `vhost` 配置生成问题。（[Issue 12655](https://github.com/istio/istio/issues/12655)）
 
@@ -44,19 +44,19 @@ aliases:
 
 - 修复验证逻辑，现在 `port.name` 不再是有效的 `PortSelection`。
 
-- 修复 [`istioctl proxy-config cluster`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config-cluster) 命令的集群类型列渲染。（[Issue 12455](https://github.com/istio/istio/issues/12455)）
+- 修复 [`istioctl proxy-config cluster`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config-cluster) 命令输出结果中集群类型列的渲染问题。（[Issue 12455](https://github.com/istio/istio/issues/12455)）
 
 - 修复 SDS secret 的挂载配置。
 
 - 修复 Helm chart 中错误的 Istio 版本。
 
-- 修复在存在重叠端口时的 DNS 故障。（[Issue 11658](https://github.com/istio/istio/issues/11658)）
+- 修复当存在重叠端口时出现的 DNS 故障。（[Issue 11658](https://github.com/istio/istio/issues/11658)）
 
 - 修复 Helm `podAntiAffinity` 模板错误。（[Issue 12790](https://github.com/istio/istio/issues/12790)）
 
 - 修复源目标服务发现不使用源目标负载均衡器的问题。
 
-- 修复当存在无效或丢失密钥时的 SDS 内存泄漏问题。（[Issue 13197](https://github.com/istio/istio/issues/13197)）
+- 修复当存在无效或丢失密钥时出现的 SDS 内存泄漏问题。（[Issue 13197](https://github.com/istio/istio/issues/13197)）
 
 ## 小的增强{#small-enhancements}
 
@@ -110,7 +110,7 @@ aliases:
 
 - 通过将 15020 设置为 `ingressgateway` 服务中列出的第一个端口来提高 AWS ELB 的互操作性。（[Issue 12502](https://github.com/istio/istio/issues/12503)）
 
-- 将异常检测用于故障转移模式，而不能用于分布模式，以进行局部加权负载平衡。（[Issues 12965](https://github.com/istio/istio/issues/12961)）
+- 对故障转移模式使用异常值检测，但不用于局部加权负载均衡的分布模式。（[Issues 12965](https://github.com/istio/istio/issues/12961)）
 
 - 对于 Istio 1.1.0+ Sidecar，使用 `filter_enabled` 字段取代 `CorsPolicy` 中的 `enabled` 字段。
 
