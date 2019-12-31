@@ -2,7 +2,7 @@
 title: Multicluster Istio configuration and service discovery using Admiral
 subtitle: Configuration automation for Istio multicluster deployments
 description: Automating Istio configuration for Istio deployments (clusters) that work as a single mesh.
-publishdate: 2019-12-30
+publishdate: 2019-12-31
 attribution: Anil Attuluri (Intuit), Jason Webb (Intuit)
 keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,gateway,federated,globalidentifer]
 target_release: 1.5
@@ -17,14 +17,14 @@ We were off to a good start with Istio but quickly realized the configuration fo
 - Service Discovery across many clusters
 - Support Active-Active & HA/DR deployments. We also needed to support these critical resiliency patterns with services being deployed in globally unique namespaces across discrete clusters.
 
-We have over 160 Kubernetes clusters and we use a globally unique namespace name across all clusters. This meant the same service workload deployed in different regions would be run in namespaces with different names. This would mean that `foo.namespace.global` (routing strategy mentioned in [Multicluster version routing](../../2019/multicluster-version-routing) name would no longer work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique Kubernetes FQDN. (Example: `foo.global` would resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if foo is running in two Kubernetes clusters with unique namespaces)
-Also, in our case, services needed additional DNS names with different resolution and global routing properties. For example, `default.payments.global` would resolve locally first, and then route to a remote instance (using topology routing) while `default.payments-west.global` and `default.payments-east.global` would always resolve to the respective regions (such names were needed for testing).
+We have over 160 Kubernetes clusters and we use a globally unique namespace name across all clusters. This meant the same service workload deployed in different regions would be run in namespaces with different names. This would mean that `foo.namespace.global` (routing strategy mentioned in [Multicluster version routing](../../2019/multicluster-version-routing)) name would no longer work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique Kubernetes FQDN. (Example: `foo.global` should resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if foo is running in two Kubernetes clusters with different names)
+Also, in our case, services needed additional DNS names with different resolution and global routing properties. For example, `foo.global` should resolve locally first, and then route to a remote instance (using topology routing) while `foo-west.global` and `foo-east.global` should always resolve to the respective regions (such names are needed for testing).
 
 ## Contextual Configuration
 
 As we investigated how to solve the aforementioned issues, it became apparent that configuration needed to be contextual. In other words, each cluster would need to be delivered a configuration that was specifically tailored for its view of the world.
 
-Here is an example:
+Here is a realistic example:
 We have a payments service consumed by orders and reports. The payments service has a HA/DR deployment across `us-east` (cluster 3) and `us-west` (cluster 2). Payments service is deployed in namespaces with different names in each region. The orders service is deployed in a different cluster as payments in `us-west` (cluster 1). The reports service is deployed in the same cluster as payments in `us-west` (cluster 2).
 
 {{< image width="75%"
@@ -41,7 +41,7 @@ Cluster 1 Service Entry
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: default.payments.global-se
+  name: payments.global-se
 spec:
   addresses:
   - 240.0.0.10
@@ -55,7 +55,7 @@ spec:
     ports:
       http: 15443
   hosts:
-  - default.payments.global
+  - payments.global
   location: MESH_INTERNAL
   ports:
   - name: http
@@ -70,7 +70,7 @@ Cluster 2 Service Entry
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: default.payments.global-se
+  name: payments.global-se
 spec:
   addresses:
   - 240.0.0.10
@@ -84,7 +84,7 @@ spec:
     ports:
       http: 80
   hosts:
-  - default.payments.global
+  - payments.global
   location: MESH_INTERNAL
   ports:
   - name: http
@@ -113,11 +113,13 @@ _Admiral is a controller of Istio control planes._
     caption="Cross cluster workload communication with Istio and Admiral"
     >}}
 
-Admiral provides automatic configuration for Istio mesh spanning multiple clusters to work as a single mesh. It also provides automatic provisioning and syncing of Istio configuration across clusters. This removes the burden on developers and mesh operators which helps scale beyond a few clusters.
+Admiral provides automatic configuration for Istio mesh spanning multiple clusters to work as a single mesh based on `a unique service identifier` that pins workloads running on multiple clusters to a service. It also provides automatic provisioning and syncing of Istio configuration across clusters. This removes the burden on developers and mesh operators which helps scale beyond a few clusters.
 
-## Admiral's new CRD - Global Traffic Routing
+## Admiral CRDs
 
-With Admiral’s global traffic policy CRD, now the payments service can update regional traffic weights and Admiral takes care of updating the Istio configuration in all clusters where payments service is being consumed from.
+### Global Traffic Routing
+
+With Admiral’s global traffic policy CRD, the payments service can update regional traffic weights and Admiral takes care of updating the Istio configuration in all clusters where payments service is being consumed from.
 
 {{< text yaml >}}
 apiVersion: admiral.io/v1alpha1
@@ -141,8 +143,29 @@ In the example above, 90% of the payments service traffic is routed to the `us-e
 
 This Global Traffic Routing feature relies on Istio's locality load-balancing per service available in Istio 1.5 or above
 
+### Dependency
+
+Admiral `Dependency` CRD allows to specify a service's dependencies based on a service identifier. This helps optimize the delivery of Admiral generated configuration only to the required clusters where the dependent clients of a service are running (instead of writing it to all clusters). Admiral also helps configure and/or update the Sidecar Istio CRD in the client's workload namespace to limit the Istio configuration to only its dependencies. We use service to service authorization information recorded elsewhere to generate this `dependency` records for Admiral to use.
+
+A sample `dependency` for `orders` service:
+
+{{< text yaml >}}
+apiVersion: admiral.io/v1alpha1
+kind: Dependency
+metadata:
+  name: dependency
+  namespace: admiral
+spec:
+  source: orders
+  identityLabel: identity
+  destinations:
+    - payments
+{{< /text >}}
+
+`Dependency` is optional and a missing dependency for a service will result in Istio configuration for that service pushed to all clusters.
+
 ## Summary
 
 Istio [multi-cluster deployment with local control planes](../../../docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) poses some configuration challenges at scale. Admiral provides a new Global Traffic Routing and unique service naming functionality that helps address some of these challenges. It removes the need for manual configuration synchronization between clusters, and generates contextual configuration for each cluster. This makes operating a Service Mesh composed of as many Kubernetes clusters possible!
 
-We think Istio/Service Mesh community would benefit from Admiral and hence [open sourced](https://github.com/istio-ecosystem/admiral) it, we would love your feedback and support.
+We think Istio/Service Mesh community would benefit from this approach and hence [open sourced Admiral](https://github.com/istio-ecosystem/admiral), we would love your feedback and support.
