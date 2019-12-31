@@ -9,14 +9,14 @@ target_release: 1.2
 ---
 
 欢迎来看在 Istio 对出口流量进行安全管控系列文章的第 3 部分。
-在[这个系列文章的第一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)，我提出了出口流量相关攻击和针对出口流量进行安全管控我们收集的要求点。
+在[这个系列文章的第一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)，我提出了出口流量相关攻击和我们针对出口流量进行安全管控收集的要求点。
 在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)，我展示了 Istio 的对安全出口流量方案，并且展示了使用 Istio 如何来阻止攻击。
 
 在这一期中，我对 Istio 出口流量安全管控方案和其它的方案进行了对比，比如使用 Kubernetes 网络策略和已有的出口代理和防火墙。最后我讲述了 Istio 中安全管控出口流量的性能因素。
 
 ## 出口流量管控的其它解决方案 {#alternative-solutions-for-egress-traffic-control}
 
-首先，我们回想一下我们之前收集的[出口流量管控要求r](/zh/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control)：
+首先，我们回想一下我们之前收集的[出口流量管控要求](/zh/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control)：
 
 1. 用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 或者用 [TLS 源](/zh/docs/reference/glossary/#tls-origination)来支持 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)。
 1. **监控** SNI 和每个出口访问的 workload 源。
@@ -25,7 +25,7 @@ target_release: 1.2
 1. **阻止篡改**。
 1. 对应用程序来说流量管控是 **透明的**。
 
-接下来，将会介绍2中出口流量管控的备选方案：Kubernetes 网络策略和出口代理与防火墙。展示了上述要求中哪些是它们满足的，更重要的是那些要求是它们不能满足的。
+接下来，将会介绍两种出口流量管控的备选方案：Kubernetes 网络策略和出口代理与防火墙。展示了上述要求中哪些是它们满足的，更重要的是那些要求是它们不能满足的。
 
 Kubernetes 通过[网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)提供了一个流量管控的原生方案，特别是对出口流量管控。使用这些网络策略，集群运维人员可以配置那个 pod 可以访问指定的外部服务。
 集群运维人员可以通过 pod 标签、命名空间标签或者 IP 范围来识别 pod。集群运维人员可以使用 IP 范围来明确外部服务，但是不能使用像 `cnn.com` 这样的域名来指定外部服务。因为 **Kubernetes 网络策略对 DNS 无感知**。
@@ -39,18 +39,18 @@ Kubernetes 通过[网络策略](https://kubernetes.io/docs/concepts/services-net
 
 ## Istio 出口流量管控的优势 {#advantages-of-Istio-egress-traffic-control}
 
-Istio 出口流量管控是 **DNS 可感知的**：你可以基于 URL 或者泛域名（像 `*.ibm.com`）来定义策略。从这个点上说，Isito 的方案比不能 DNS 感知的 Kubernetes 网络策略方案要好。
+Istio 出口流量管控是 **DNS 可感知的**：你可以基于 URL 或者泛域名（像 `*.ibm.com`）来定义策略。从这个点上说，Istio 的方案比不能 DNS 感知的 Kubernetes 网络策略方案要好。
 
 Istio 出口流量管控对 TLS 流量是 **透明的**，因为 Istio 是透明的：不需要改变应用程序或者配置容器。
 对于有 TLS 源的 HTTP 流量，你必须配置网格中的应用程序配置使用 HTTP，不能使用 HTTPS。
 
 Istio 出口流量管控是 **Kubernetes 可感知的**：出口流量源的身份是基于 Kubernetes 服务账号的。Istio 出口流量管控比现有的 DNS 感知的代理或者防火墙要好，因为它们都是不透明的，也不是 Kubernetes 可感知的。
 
-Istio 出口流量管控是 **安全的**：它基于 Istio 的强身份认证， 当使用[附加安全措施](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)时，Istio 的流量管控对对篡改是有反抗力的。
+Istio 出口流量管控是 **安全的**：它基于 Istio 的强身份认证， 当使用[附加安全措施](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)时，Istio 的流量管控具有防篡改功能。
 
-另外，Istio 的出口流量管控提供了一下的优势：
+另外，Istio 的出口流量管控提供了以下的优势：
 
-- 对入口、出口和集群内流量用同一种语言定义访问策略。对所有累心的流量只需要学习一种策略和配置语言。
+- 对入口、出口和集群内流量用同一种语言定义访问策略。对所有类型的流量只需要学习一种策略和配置语言。
 - 集成了 Istio 策略的出口流量管控功能和可观测性适配器，开箱即用。
 - 用于外部监控或者访问管控系统的 Istio 适配器只需要编写一次，就可以把他们应用在所有类型的流量上：入口，出口和集群内。
 - 对出口流量使用 Istio [流量管理特性](/zh/docs/concepts/traffic-management/)：负载均衡，被动和主动的健康检查，熔断，超时，重试，故障注入等等。
@@ -69,7 +69,7 @@ Istio 出口流量管控是 **安全的**：它基于 Istio 的强身份认证�
 ## 性能因素 {#performance-considerations}
 
 使用 Istio 管控出口流量有一个代价：增加对外部服务调用的延时和集群 pod 的 CPU 使用率。
-流量穿过了2层代理：
+流量穿过了两层代理：
 
 - 应用程序的 sidecar 代理
 - 出口网关的代理
@@ -90,8 +90,8 @@ Istio 出口流量管控是 **安全的**：它基于 Istio 的强身份认证�
 
 ## 总结 {#summary}
 
-希望读完这个系列的文章，可以说服你对于集群安全来说管控出口流量是非常重要的。
-更希望，我可以说服你 Istio 对安全的管控出口流量是一个非常有用的工具，并且 Istio 比其它备选方案有很多优势。
+希望读完这个系列的文章，可以说服你认同，对于集群安全来说管控出口流量是非常重要的。
+更希望，我可以说服你认同 Istio 对安全的管控出口流量是一个非常有用的工具，并且 Istio 比其它备选方案有很多优势。
 Istio 是我所知的唯一解决方案，它可以让你：
 
 - 以安全和透明的方式管控出口流量
