@@ -52,7 +52,7 @@ disablePolicyChecks: true
 ## 防范{#mitigation}
 
 * Istio 1.0.x 用户未受影响。
-* 对 Istio 1.1.x 部署请升级至 [Istio 1.1.7](/zh/news/releases/1.1.x/announcing-1.1.7) 或后续版本。 
+* 对 Istio 1.1.x 部署请升级至 [Istio 1.1.7](/zh/news/releases/1.1.x/announcing-1.1.7) 或后续版本。
 
 ## 致谢{#credit}
 
