@@ -27,11 +27,17 @@ As we investigated how to solve the aforementioned issues, it became apparent th
 Here is an example:
 We have a payments service consumed by orders and reports. The payments service has a HA/DR deployment across `us-east` (cluster 3) and `us-west` (cluster 2). Payments service is deployed in namespaces with different names in each region. The orders service is deployed in a different cluster as payments in `us-west` (cluster 1). The reports service is deployed in the same cluster as payments in `us-west` (cluster 2).
 
-In the diagram below, the Istio `ServiceEntry` yaml for payments service in Cluster 1 and Cluster2 illustrates the contextual configuration needed for other services to consume payments service:
+{{< image width="75%"
+    link="./Istio_mesh_example.svg"
+    alt="Example of calling a workload in istio multicluster"
+    caption="Cross cluster workload communication with Istio"
+    >}}
+
+ Istio `ServiceEntry` yaml for payments service in Cluster 1 and Cluster2 below illustrates the contextual configuration needed for other services to consume payments service:
 
 Cluster 1 Service Entry
 
-{{< text bash >}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -60,7 +66,7 @@ spec:
 
 Cluster 2 Service Entry
 
-{{< text bash >}}
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -101,13 +107,19 @@ This would require the payments service to change configurations in all of their
 
 _Admiral is a controller of Istio control planes._
 
+{{< image width="75%"
+    link="./Istio_mesh_example_with_admiral.svg"
+    alt="Example of calling a workload in istio multicluster with Admiral"
+    caption="Cross cluster workload communication with Istio and Admiral"
+    >}}
+
 Admiral provides automatic configuration for Istio mesh spanning multiple clusters to work as a single mesh. It also provides automatic provisioning and syncing of Istio configuration across clusters. This removes the burden on developers and mesh operators which helps scale beyond a few clusters.
 
 ## Admiral's new CRD - Global Traffic Routing
 
 With Admiral’s global traffic policy CRD, now the payments service can update regional traffic weights and Admiral takes care of updating the istio configuration in all clusters where payments service is being consumed from.
 
-{{< text bash >}}
+{{< text yaml >}}
 apiVersion: admiral.io/v1alpha1
 kind: GlobalTrafficPolicy
 metadata:
