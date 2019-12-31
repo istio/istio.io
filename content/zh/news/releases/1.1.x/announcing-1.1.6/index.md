@@ -19,7 +19,7 @@ aliases:
 ## Bug 修复{#bug-fixes}
 
 - 修复 Galley Helm charts 使得 `validatingwebhookconfiguration` 可以部署到其它命名空间（非 `istio-system`）中（[Issue 13625](https://github.com/istio/istio/issues/13625)）。
-- 另外的支持 anti-affinity 的 Helm chart 修复：修复 `gatewaypodAntiAffinityRequiredDuringScheduling` 和 `podAntiAffinityLabelSelector` 匹配表达式以及修复 `podAntiAffinityLabelSelector` 的默认值（[Issue 13892](https://github.com/istio/istio/issues/13892)）。
+- 为反亲和性支持提供额外的 Helm chart 修复：修复 `gatewaypodAntiAffinityRequiredDuringScheduling` 和 `podAntiAffinityLabelSelector` 匹配表达式以及修复 `podAntiAffinityLabelSelector` 的默认值（[Issue 13892](https://github.com/istio/istio/issues/13892)）。
 - 使 Pilot 处理以下情况：在侦听器还在回收时，Envoy 持续请求已删除网关的路由（[Issue 13739](https://github.com/istio/istio/issues/13739)）。
 
 ## 小改进{#small-enhancements}
