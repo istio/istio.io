@@ -459,8 +459,7 @@ and endpoint to allow the remote sidecars to resolve the
     {{< text bash >}}
     $ istioctl manifest apply \
       --set values.global.mtls.enabled=true \
-      --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true
+      --set values.security.selfSigned=false
     {{< /text >}}
 
 #### Remote cluster: deploy Istio components
@@ -486,7 +485,6 @@ and endpoint to allow the remote sidecars to resolve the
       --set profile=remote \
       --set values.global.mtls.enabled=true \
       --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${PILOT_POD_IP} \
