@@ -12,9 +12,9 @@ weight: 20
 Mixer 的配置模型得以简化。面向适配器、面向模板的定制资源支持在 1.2 中默认被删除，并会在 1.3 中完全删除。请迁移到新的配置模型。
 {{< /tip >}}
 
-为简化配置模型、提高和 Kubernetes 使用时 Mixer 性能以及在各种 Kubernetes 环境中可靠性，大部分 Mixer CRDs 被删除.
+为简化配置模型、提高 Mixer 与 Kubernetes 一起使用时的性能以及在各种 Kubernetes 环境中的可靠性，大部分 Mixer CRD 被删除。
 
-以下 CRDs 保留：
+以下 CRD 保留：
 
 | 定制资源定义名称 | 目的 |
 | --- | --- |
