@@ -1,178 +1,101 @@
 ---
-title: Secure Control of Egress Traffic in Istio, part 1
-subtitle: Attacks involving egress traffic and requirements for egress traffic control
-description: Attacks involving egress traffic and requirements for egress traffic control.
+title: Istio 中的安全管控出口流量，第一部分
+subtitle: 涉及出口流量攻击和出口流量管控要求
+description: 涉及出口流量攻击和出口流量管控要求。
 publishdate: 2019-05-22
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,egress,security]
 ---
 
-This is part 1 in a new series about secure control of egress traffic in Istio that I am going to publish.
-In this installment, I explain why you should apply egress traffic control to your cluster, the attacks
-involving egress traffic you want to prevent, and the requirements for a system for egress traffic control
-to do so.
-Once you agree that you should control the egress traffic coming from your cluster, the following questions arise:
-What is required from a system for secure control of egress traffic? Which is the best solution to fulfill
-these requirements? (spoiler: Istio in my opinion)
-Future installments will describe
-[the implementation of the secure control of egress traffic in Istio](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)
-and compare it with other solutions.
+这是我计划发布的关于 Istio 中出口流量安全管控系列文章中的第一部分。在这一期，会阐述为什么集群需要应用出口流量管控，要防止的出口流量相关的攻击有哪些，以及出口流量管控系统的要求有哪些。
+一旦同意集群的出口流量应该被管控，那么就会出现下面的问题：出口流量安全管控系统需要什么？针对这些要求的最佳解决方案是什么？（捣乱分子：以我之见 Istio 是最佳解决方案）
+下一期将阐述 [Istio 中实现出口流量的安全管控](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)，并和其它方案进行对比。
 
-The most important security aspect for a service mesh is probably ingress traffic. You definitely must prevent attackers
-from penetrating the cluster through ingress APIs. Having said that, securing
-the traffic leaving the mesh is also very important. Once your cluster is compromised, and you must be
-prepared for that scenario, you want to reduce the damage as much as possible and prevent the attackers from using the
-cluster for further attacks on external services and legacy systems outside of the cluster. To achieve that goal,
-you need secure control of egress traffic.
+对于服务网格来说入口流量才是最重要的安全问题。一定要防止入侵者通过入口 API 渗透集群。既然这么说，流出服务网格的安全同样非常重要。一旦集群被攻破，你必须要有预案，尽可能的减少损害，并且要阻止攻击者使用集群对集群外的服务和已有系统进行进一步攻击。要达到这么目标，需要出口流量的安全管控。
 
-Compliance requirements are another reason to implement secure control of egress traffic. For example, the [Payment Card
-Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/) requires that inbound
-and outbound traffic must be restricted to that which is necessary:
+合规要求是要实施出口流量安全管控的另外一个原因。例如，[支付卡行业 (PCI) 数据安全标准](https://www.pcisecuritystandards.org/pci_security/)进出流量都必须限制在必要的范围之内：
 
 {{< quote >}}
-_1.2.1 Restrict inbound and outbound traffic to that which is necessary for the cardholder data environment, and specifically deny all other traffic._
+_1.2.1 将入口和出口流量限制为持卡人数据环境所必需的流量，并明确拒绝所有其他流量。_
 {{< /quote >}}
 
-And specifically regarding outbound traffic:
+特别是对出口流量：
 
 {{< quote >}}
-_1.3.4 Do not allow unauthorized outbound traffic from the cardholder data environment to the Internet... All traffic outbound from the cardholder data environment should be evaluated to ensure that it follows established, authorized rules. Connections should be inspected to restrict traffic to only authorized communications (for example by restricting source/destination addresses/ports, and/or blocking of content)._
+_1.3.4 不允许持卡人数据环境没有授权的出站流量进入互联网。。。持卡人数据环境流出的所有流量应该做评估，以保证流量符合既定的授权规则。应该检查链接上的流量并限制只允许认证过的通信（例如：通过限制源/目的的地址/端口，包括限制传输内容）。_
 {{< /quote >}}
 
-Let's start with the attacks that involve egress traffic.
+我们从涉及出口流量的攻击开始。
 
-## The attacks
+## 流量攻击 {#the-attacks}
 
-An IT organization must assume it will be attacked if it hasn't been attacked already, and that
-part of its infrastructure could already be compromised or become compromised in the future.
-Once attackers are able to penetrate an application in a cluster, they can proceed to attack external services:
-legacy systems, external web services and databases. The attackers may want to steal the data of the application and to
-transfer it to their external servers. Attackers' malware may require access to attackers' servers to download
-updates. The attackers may use pods in the cluster to perform DDOS attacks or to break into external systems.
-Even though you [cannot know](https://en.wikipedia.org/wiki/There_are_known_knowns) all the possible types of
-attacks, you want to reduce possibilities for any attacks, both for known and unknown ones.
+在还没有被攻击的时候 IT 部门就必须要假设会被攻击，并且它的部分基础设施可能已经损坏或者未来会出现损坏。一旦攻击者能渗透集群中的应用程序，他们就可以继续攻击外部服务了：已有系统，外部 web 服务和数据库。攻击者可能想偷取应用程序的数据并且发送到他们的外部服务上。攻击者的恶意程序会访问攻击者的服务器来下载更新。攻击者可能使用集群中的 pod 执行 DDOS 攻击或者闯入外部系统。即便您[不知道](https://en.wikipedia.org/wiki/There_are_known_knowns)攻击的所有可能类型，你还是想减少任何攻击的可能性，无论是已知还是未知的攻击。
 
-The external attackers gain access to the application’s container from outside the mesh through a
-bug in the application but attackers can also be internal, for example, malicious DevOps people inside the
-organization.
+外部攻击者通过应用程序的缺陷从服务网格外部访问到应用程序的容器进行攻击，但是攻击者同样也可能来自内部，比如：组织内部的恶意 DevOps 人员。
 
-To prevent the attacks described above, some form of egress traffic control must be applied. Let me present egress
-traffic control in the following section.
+为了防止以上所说的攻击，必须应用一些出口流量管控策略。我们在下一节介绍出口流量管控。
 
-## The solution: secure control of egress traffic
+## 出口流量安全管控解决方案 {#the-solution-secure-control-of-egress-traffic}
 
-Secure control of egress traffic means monitoring the egress traffic and enforcing all the security policies regarding
-the egress traffic.
-Monitoring the egress traffic, enables you to analyze it, possibly offline, and detect the attacks even if
-you were unable to prevent them in real time.
-Another good practice to reduce possibilities of attacks is to specify policies that limit access following the
-[Need to know](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) principle: only the applications that
-need external services should be allowed to access the external services they need.
+出口流量安全管控的意思是监控出口流量并且针对出口流量应用所有的安全策略。
+监控出口流量，可以对它进行分析（可能是离线的），即便你无法实时阻止攻击，也要检测攻击事件。
+另外一个减少攻击可能性的方法是遵循[需要知道](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) 的原则进行指定限制访问策略。
 
-Let me now turn to the requirements for egress traffic control we collected.
+现在来看看已经收集到的出口流量管控要求。
 
-## Requirements for egress traffic control
+## 出口流量管控要求 {#requirements-for-egress-traffic-control}
 
-My colleagues at IBM and I collected requirements for secure control of egress traffic from several customers, and
-combined them with the
-[egress traffic control requirements from Kubernetes Network Special Interest Group](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg).
+我的同事（在 IBM）和我从一些客户那里收集了一些出口流量安全管控的要求，并把它们和 [Kubernetes 网络特定兴趣小组的出口流量管控要求](https://docs.google.com/document/d/1-Cq_Y-yuyNklvdnaZF9Qngl3xe0NnArT7Xt_Wno9beg)做了整合。
 
-Istio 1.1 satisfies all gathered requirements:
+Istio 1.1 满足所有的收集要求：
 
-1.  Support for [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) with
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) or for [TLS origination](/zh/docs/reference/glossary/#tls-origination) by Istio.
+1.  使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 支持 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) 或者用 Istio 支持 [TLS 源](/zh/docs/reference/glossary/#tls-origination)
 
-1.  **Monitor** SNI and the source workload of every egress access.
+1.  **监视器** SNI 和每个出口访问的源 workload。
 
-1.  Define and enforce **policies per cluster**, e.g.:
+1.  定义和执行 **每个集群的策略**，比如：
 
-    * all applications in the cluster may access `service1.foo.com` (a specific host)
+    * 集群中所有应用程序可能访问 `service1.foo.com` （指定的主机）
 
-    * all applications in the cluster may access any host of the form `*.bar.com` (a wildcarded domain)
+    * 集群中所有的应用程序可能访问  `*.bar.com` (泛域名) 下的任何主机
 
-     All unspecified access must be blocked.
+     必须阻止所有未明确的访问。
 
-1.  Define and enforce **policies per source**, _Kubernetes-aware_:
+1.  定义和执行**每个源的策略**， _Kubernetes 可感知_：
 
-    * application `A` may access `*.foo.com`.
+    * 应用 `A` 可能访问 `*.foo.com`。
 
-    * application `B` may access `*.bar.com`.
+    * 应用 `B` 可能访问 `*.bar.com`。
 
-    All other access must be blocked, in particular access of application `A` to `service1.bar.com`.
+    必须阻止其他访问，尤其是应用 `A` 到 `service1.bar.com` 的访问。
 
-1.  **Prevent tampering**. In case an application pod is compromised, prevent the compromised pod from escaping
-    monitoring, from sending fake information to the monitoring system, and from breaking the egress policies.
+1.  **防篡改*。万一有一个应用的 pod 被破坏了，要防止受损的 pod 逃离监控，防止发送假信息给监控系统，防止破坏出口策略。
 
-1.  Nice to have: traffic control is **transparent** to the applications.
+1.  有这点就更好：流量管控对应用程序要**透明**。
 
-Let me explain each requirement in more detail. The first requirement states that only TLS traffic to the external
-services must be supported.
-The requirement emerged upon observation that all the traffic that leaves the cluster must be encrypted.
-This means that either the applications perform TLS origination or Istio must perform TLS origination
-for them.
-Note that in the case an application performs TLS origination, the Istio proxies cannot see the original traffic,
-only the encrypted one, so the proxies see the TLS protocol only. For the proxies it does not matter if the original
-protocol is HTTP or MongoDB, all the Istio proxies can see is TLS traffic.
+对每个要求我来详细介绍以下。第一个要求指出，必须支持对外服务访问只能使用 TLS。在看到所有出集群的流量都必须加密后，这个要求就出现了。这意味着要么是应用程序执行 TLS，要么是 Istio 必须为应用程序执行 TLS。
+注意如果应用程序执行了 TLS，Istio 代理是无法看到原始的流量的，只能看到加密后的，所以代理只能看到 TLS 协议。对代理来说它不关心原始协议是 HTTP 还是 MongoDB ，所有的 Istio 代理只能看到 TLS 流量。
 
-The second requirement states that SNI and the source of the traffic must be monitored. Monitoring is the first step to
-prevent attacks. Even if attackers would be able to access external services from the cluster, if the access is
-monitored, there is a chance to discover the suspicious traffic and take a corrective action.
+第二个要求指出：必须监控 SNI 和流量源。监控是防止攻击的第一步。即使攻击者可以从集群内访问外部服务，如果监控了访问请求，就会有机会发现可疑流量并且采取纠正措施。
 
-Note that in the case of TLS originated by an application, the Istio sidecar proxies can only see TCP traffic and a
-TLS handshake that includes SNI.
-A label of the source pod could identify the source of the traffic but a service account of the pod or some
-other source identifier could be used. We call this property of an egress control system as _being Kubernetes-aware_:
-the system must understand Kubernetes artifacts like pods and service accounts. If the system is not Kubernetes-aware,
-it can only monitor the IP address as the identifier of the source.
+注意如果是应用程序发起的 TLS，Istio 的 sidecar 代理就只能看到 TCP 流量和包含 SNI 的 TLS 握手。 源 pod 的标签可以识别出流量来源，但是 pod 的服务账号或者其它源识标识符也可以用来识别流量。我们把出口流量管控系统的这个特性叫做 _Kubernetes 可感知_：这个系统必须理解 Kubernetes 组件，比如 pod 和服务账号。如果这个系统不是 Kubernetes 可感知的，那它只能监控 IP 地址，并把它作为源的标示。
 
-The third requirement states that Istio operators must be able to define policies for egress traffic for the entire
-cluster.
-The policies state which external services may be accessed by any pod in the cluster. The external services can be
-identified either by a [Fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the
-service, e.g. `www.ibm.com` or by a wildcarded domain, e.g. `*.ibm.com`. Only the specified external services may be
-accessed, all other egress traffic is blocked.
+第三个要求指出：Istio 运维人员必须能为整个集群所有的出口流量定规策略。策略指出集群中的 pod 可能会访问哪些外部服务。外部服务可以通过服务的[全域名](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) （比如 `www.ibm.com`）或者泛域名（比如：`*.ibm.com`）进行标示。只有指定的外部服务可以访问，其它所有的出口流量都要被阻止。
 
-This requirement originates from the need to prevent
-attackers from accessing malicious sites, for example for downloading updates/instructions for their malware. You also
-want to limit the number of external sites that the attackers can access and attack.
-You want to allow access only to the external services that the applications in the cluster need to
-access and to block access to all the other services, this way you reduce the
-[attack surface](https://en.wikipedia.org/wiki/Attack_surface). While the external services
-can have their own security mechanisms, you want to exercise [Defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and to have multiple security layers: a security layer in your cluster in addition to
-the security layers in the external systems.
+这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了[攻击面](https://en.wikipedia.org/wiki/Attack_surface)。当外部服务有了它们自己的安全机制，你想使用[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。
 
-This requirement means that the external services must be identifiable by domain names. We call this property
-of an egress control system as _being DNS-aware_.
-If the system is not DNS-aware, the external services must be specified by IP addresses.
-Using IP addresses is not convenient and often is not feasible, since the IP addresses of a service can change. Sometimes
-all the IP addresses of a service are not even known, for example in the case of
-[CDNs](https://en.wikipedia.org/wiki/Content_delivery_network).
+这个要求意味着外部服务必须能用域名来标示。我们把出口管控系统的这个特性叫做 DNS 感知。如果系统不是 DNS 可感知的，外部服务必须用 IP 地址标示。
+使用 IP 地址不方便而且经常不灵活，因为服务的 IP 地址会变的。有时候服务的所有 IP 地址甚至都不知道，比如：[CDN](https://en.wikipedia.org/wiki/Content_delivery_network)。
 
-The fourth requirement states that the source of the egress traffic must be added to the policies effectively extending
-the third requirement.
-Policies can specify which source can access which external service and the source must be identified just as in the
-second requirement, for example, by a label of the source pod or by service account of the pod.
-It means that policy enforcement must also be _Kubernetes-aware_.
-If policy enforcement is not Kubernetes-aware, the policies must identify the source of traffic by
-the IP of the pod, which is not convenient, especially since the pods can come and go so their IPs are not static.
+第四个要求指出：出口流量的源都必须添加策略，以高效扩展第三个要求。策略能明确那个源可以访问那个外部服务，并且就像第二个要求一样源必须要标示，例如：通过源 pod 的标签或者通过 pod 的服务账号。
+这意味这策略的执行也必须是 Kubernetes 可感知的。如果策略执行不是 Kubernetes 可感知的，策略必须通过 pod 的 IP 来标示流量的源头，使用 pod 的 IP 是不方便的，特别是 pod 启动和销毁，而它们的 IP 是不固定的。
 
-The fifth requirement states that even if the cluster is compromised and the attackers control some of the pods, they
-must not be able to cheat the monitoring or to violate policies of the egress control system. We say that such a
-system provides _secure_ control of egress traffic.
+第五个要求指出：即使集群被攻破并且攻击者管控了一些 pod，他们也必须不能欺骗监控或者违反出口管控系统的策略。我们才能说这样的系统提供了出口流量的安全管控。
 
-The sixth requirement states that the traffic control should be provided without changing the application containers, in
-particular without changing the code of the applications and without changing the environment of the containers.
-We call such a control of egress traffic _transparent_.
+第六个要求指出：提供的流量管控服务要不能改变应用程序容器，特别是不能修改应用程序代码和不能修改容器环境。我们把这样的做法称为透明出口流量管控。
 
-In the next posts I will show that Istio can function as an example of an egress traffic control system that satisfies
-all of these requirements, in particular it is transparent, DNS-aware, and Kubernetes-aware.
+在下一篇文章中，我将展示 Istio 作为出口流量管控系统的示例，由此说明它可以满足所有这些要求，特别是它的透明性、DNS 感知能力和 Kubernetes 感知能力。
 
-## Summary
+## 总结 {#summary}
 
-I hope that you are convinced that controlling egress traffic is important for the security of your cluster. In [the
-part 2 of this series](/zh/blog/2019/egress-traffic-control-in-istio-part-2/) I describe the Istio way to perform secure
-control of egress traffic. In
-[the
-part 3 of this series](/zh/blog/2019/egress-traffic-control-in-istio-part-3/) I compare it with alternative solutions such as
-[Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) and legacy
-egress proxies/firewalls.
+希望您确信对于集群安全来说出口流量管控是非常重要的。在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/) 我讲述了使用 Istio 实现出口流量安全管控的方法。在[这个系列文章的第三部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/) 我和其它方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)以及已有的其它出口代理/防火墙方案。
