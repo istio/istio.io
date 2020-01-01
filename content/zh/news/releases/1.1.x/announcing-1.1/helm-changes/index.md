@@ -135,7 +135,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.proxy.concurrency` | `2` | 控制代理工作线程的数量，如果设置为 0（默认值），则为每个 CPU 线程/核心。 |
 | `global.proxy.accessLogFormat` | `""` | 配置 `sidecar` 访问日志中显示方式和字段的显示方式，设置空字符串将导致成为默认的日志格式。 |
 | `global.proxy.accessLogEncoding` | `TEXT` | 将 `Sidecar` 的访问日志配置为 `JSON` 或 `TEXT` 格式。 |
-| `global.proxy.dnsRefreshRate` | `5s` | 为类型为 `STRICT_DNS` 的 `Envoy` 集群配置 `DNS` 的刷新频率为 5s，是 `Envoy` 使用的默认刷新频率。 |
+| `global.proxy.dnsRefreshRate` | `5s` | 为类型为 `STRICT_DNS` 的 Envoy 集群配置 DNS 的刷新频率为 `5s`，是 Envoy 使用的默认刷新频率。 |
 | `global.proxy.privileged` | `false` | 如果设置为 `true`，则 `istio-proxy` 容器将具有特权 `securityContext`。 |
 | `global.proxy.statusPort` | `15020` | `Pilot` 代理运行状况检查的默认端口，设置为 0 将禁用运行状况检查。 |
 | `global.proxy.readinessInitialDelaySeconds` | `1` | 准备就绪探测的初始延迟（以秒为单位）。 |
@@ -157,7 +157,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.meshExpansion.useILB` | `false` | 如果设置为 `true`，则将在内部网关上暴露 `pilot` 和 `citadel mtls` 以及 `plain text pilot portswill`。 |
 | `global.multiCluster.enabled` | `false` | 当每个集群中的 `Pod` 无法直接相互通信时，设置为 `true` 可通过它们各自的 `ressgateway` 服务连接两个 `kubernetes` 集群，所有群集都应使用 `Istio mTLS`，并且必须具有共享的根证书才能使该模型正常工作。 |
 | `global.defaultPodDisruptionBudget.enabled` | `true` |  |
-| `global.useMCP` | `true` | 使用网格控制协议（MCP）来配置 `Mixer` 和 `Pilot`。 需要 galley (--设置 galley.enabled=true)。 |
+| `global.useMCP` | `true` | 使用网格控制协议（MCP）来配置 Mixer 和 Pilot。 需要 galley (--设置 `galley.enabled=true`)。 |
 | `global.trustDomain` | `""` |  |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
 | `global.sds.enabled` | `false` | 已启用 `SDS`。 如果设置为 `true`，则将通过 `SecretDiscoveryService` 分发用于 `sidecars` 的 `mTLS` 证书，而不是使用 `K8S secrets` 来挂载证书。 |
