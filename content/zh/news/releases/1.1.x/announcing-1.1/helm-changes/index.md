@@ -4,7 +4,7 @@ description: 详细介绍在 Istio 1.0 和 Istio 1.1 中安装 Helm chart 的不
 weight: 30
 keywords: [kubernetes, helm, install, options]
 ---
-下表显示了使用 Helm 在 Istio 1.0 和 Istio 1.1 中自定义安装 Istio 时的选项所做的更改。这个表分为三个不同的类别：
+下表显示了使用 Helm 在 Istio 1.0 和 Istio 1.1 中自定义安装 Istio 时的选项所做的更改，这个表分为三个不同的类别：
 
 - 安装选项在以前的发行版中已经存在，但是有些值或描述在新的发行版本中进行了修改。
 - 新版本中增加了安装选项。
@@ -82,7 +82,7 @@ keywords: [kubernetes, helm, install, options]
 | `pilot.autoscaleMax` | `1` | `5` |  |  |
 | `pilot.traceSampling` | `100.0` | `1.0` |  |  |
 
-## 新的配置选项{new-configuration-options}
+## 新的配置选项{#new-configuration-options}
 
 ### 新增 `istio_cni` 键/值对
 
