@@ -1,35 +1,34 @@
 ---
-title: Helm Changes
-description: Details the Helm chart installation options differences between Istio 1.0 and Istio 1.1.
+title: Helm 的变化
+description: 详细介绍在 Istio 1.0 和 Istio 1.1 中安装 Helm chart 的不同选项。
 weight: 30
 keywords: [kubernetes, helm, install, options]
 ---
+下表显示了使用 Helm 在 Istio 1.0 和 Istio 1.1 中自定义安装 Istio 时的选项所做的更改。这个表分为三个不同的类别：
 
-The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.0 and Istio 1.1. The tables are grouped in to three different categories:
-
-- The installation options already in the previous release but whose values or descriptions have been modified in the new release.
-- The new installation options added in the new release.
-- The installation options removed from the new release.
+- 安装选项在以前的发行版中已经存在，但是有些值或描述在新的发行版本中进行了修改。
+- 新版本中增加了安装选项。
+- 新版本中删除了安装选项。
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 
 <!-- AUTO-GENERATED-START -->
 
-## Modified configuration options
+## 修改配置选项{#modified-configuration-options}
 
-### Modified `servicegraph` key/value pairs
+### 修改 `servicegraph` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
-| `servicegraph.ingress.hosts` | `servicegraph.local` | `servicegraph.local` |  | `Used to create an Ingress record.` |
+| `servicegraph.ingress.hosts` | `servicegraph.local` | `servicegraph.local` |  |用来创建一个 `Ingress record`。 |
 
-### Modified `tracing` key/value pairs
+### 修改 `tracing` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
 | `tracing.jaeger.tag` | `1.5` | `1.9` |  |  |
 
-### Modified `global` key/value pairs
+### 修改 `global` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
@@ -50,7 +49,7 @@ The tables below show changes made to the installation options used to customize
 | `global.oneNamespace` | `false` | `false` |  | `Whether to restrict the applications namespace the controller manages;If not set, controller watches all namespaces` |
 | `global.configValidation` | `true` | `true` |  | `Whether to perform server-side validation of configuration.` |
 
-### Modified `gateways` key/value pairs
+### 修改 `gateways` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
@@ -58,46 +57,46 @@ The tables below show changes made to the installation options used to customize
 | `gateways.istio-egressgateway.enabled` | `true` | `false` |  |  |
 | `gateways.istio-egressgateway.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` | `ClusterIP` |  | `change to NodePort or LoadBalancer if need be` |
 
-### Modified `certmanager` key/value pairs
+### 修改 `certmanager` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
 | `certmanager.tag` | `v0.3.1` | `v0.6.2` |  |  |
 
-### Modified `kiali` key/value pairs
+### 修改 `kiali` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
 | `kiali.tag` | `istio-release-1.0` | `v0.14` |  |  |
 
-### Modified `security` key/value pairs
+### 修改 `security` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
 | `security.selfSigned` | `true # indicate if self-signed CA is used.` | `true` |  | `indicate if self-signed CA is used.` |
 
-### Modified `pilot` key/value pairs
+### 修改 `pilot` 键值对
 
 | Key | Old Default Value | New Default Value | Old Description | New Description |
 | --- | --- | --- | --- | --- |
 | `pilot.autoscaleMax` | `1` | `5` |  |  |
 | `pilot.traceSampling` | `100.0` | `1.0` |  |  |
 
-## New configuration options
+## 新的配置选项{new-configuration-options}
 
-### New `istio_cni` key/value pairs
+### 新增 `istio_cni` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `istio_cni.enabled` | `false` |  |
 
-### New `servicegraph` key/value pairs
+### 新增 `servicegraph` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `servicegraph.nodeSelector` | `{}` |  |
 
-### New `tracing` key/value pairs
+### 新增 `tracing` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -114,67 +113,67 @@ The tables below show changes made to the installation options used to customize
 | `tracing.zipkin.maxSpans` | `500000` |  |
 | `tracing.zipkin.node.cpus` | `2` |  |
 
-### New `sidecarInjectorWebhook` key/value pairs
+### 新增 `sidecarInjectorWebhook` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `sidecarInjectorWebhook.nodeSelector` | `{}` |  |
-| `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | `If true, webhook or istioctl injector will rewrite PodSpec for livenesshealth check to redirect request to sidecar. This makes liveness check workeven when mTLS is enabled.` |
+| `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | 如果设置为 `true`，则 `webhook` 或 `istioctl injector` 将重写 `PodSpec` 进行 `livenesshealth` 检查，以将请求重定向到 `Sidecar`，即使启用了 `mTLS`，也可以进行活动检查。 |
 
-### New `global` key/value pairs
+### 新增 `global` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `global.monitoringPort` | `15014` | `monitoring port used by mixer, pilot, galley` |
+| `global.monitoringPort` | `15014` | 监控被 `mixer`, `pilot` 和 `galley` 所使用的端口。 |
 | `global.k8sIngress.enabled` | `false` |  |
-| `global.k8sIngress.gatewayName` | `ingressgateway` | `Gateway used for k8s Ingress resources. By default it isusing 'istio:ingressgateway' that will be installed by setting'gateways.enabled' and 'gateways.istio-ingressgateway.enabled'flags to true.` |
-| `global.k8sIngress.enableHttps` | `false` | `enableHttps will add port 443 on the ingress.It REQUIRES that the certificates are installed  in theexpected secrets - enabling this option without certificateswill result in LDS rejection and the ingress will not work.` |
-| `global.proxy.clusterDomain` | `"cluster.local"` | `cluster domain. Default value is "cluster.local".` |
+| `global.k8sIngress.gatewayName` | `ingressgateway` | 用于 `k8s` 入口资源的网关，默认情况下，它使用的是 `istio：ingressgateway`，将 `gateways.enabled` 和 `gateways.istio-ingressgateway.enabled` 标志设置为 `true` 即可安装。 |
+| `global.k8sIngress.enableHttps` | `false` | `enableHttps` 将在入口处添加 `443` 端口，它要求将证书安装在预期的 `secrets` 中，启用不带证书的此选项将导致 `LDS` 拒绝，并且入口将不起作用。 |
+| `global.proxy.clusterDomain` | `"cluster.local"` | 集群域，默认值为 `cluster.local`。 |
 | `global.proxy.resources.requests.memory` | `128Mi` |  |
 | `global.proxy.resources.limits.cpu` | `2000m` |  |
 | `global.proxy.resources.limits.memory` | `128Mi` |  |
-| `global.proxy.concurrency` | `2` | `Controls number of Proxy worker threads.If set to 0 (default), then start worker thread for each CPU thread/core.` |
-| `global.proxy.accessLogFormat` | `""` | `Configure how and what fields are displayed in sidecar access log. Setting toempty string will result in default log format` |
-| `global.proxy.accessLogEncoding` | `TEXT` | `Configure the access log for sidecar to JSON or TEXT.` |
-| `global.proxy.dnsRefreshRate` | `5s` | `Configure the DNS refresh rate for Envoy cluster of type STRICT_DNS5 seconds is the default refresh rate used by Envoy` |
-| `global.proxy.privileged` | `false` | `If set to true, istio-proxy container will have privileged securityContext` |
-| `global.proxy.statusPort` | `15020` | `Default port for Pilot agent health checks. A value of 0 will disable health checking.` |
-| `global.proxy.readinessInitialDelaySeconds` | `1` | `The initial delay for readiness probes in seconds.` |
-| `global.proxy.readinessPeriodSeconds` | `2` | `The period between readiness probes.` |
-| `global.proxy.readinessFailureThreshold` | `30` | `The number of successive failed probes before indicating readiness failure.` |
-| `global.proxy.kubevirtInterfaces` | `""` | `pod internal interfaces` |
+| `global.proxy.concurrency` | `2` | 控制代理工作线程的数量，如果设置为 0（默认值），则为每个 CPU 线程/核心。 |
+| `global.proxy.accessLogFormat` | `""` | 配置 `sidecar` 访问日志中显示方式和字段的显示方式，设置空字符串将导致成为默认的日志格式。 |
+| `global.proxy.accessLogEncoding` | `TEXT` | 将 `Sidecar` 的访问日志配置为 `JSON` 或 `TEXT` 格式。 |
+| `global.proxy.dnsRefreshRate` | `5s` | 为类型为 `STRICT_DNS` 的 `Envoy` 集群配置 `DNS` 的刷新频率为 5s，是 `Envoy` 使用的默认刷新频率。 |
+| `global.proxy.privileged` | `false` | 如果设置为 `true`，则 `istio-proxy` 容器将具有特权 `securityContext`。 |
+| `global.proxy.statusPort` | `15020` | `Pilot` 代理运行状况检查的默认端口，设置为 0 将禁用运行状况检查。 |
+| `global.proxy.readinessInitialDelaySeconds` | `1` | 准备就绪探测的初始延迟（以秒为单位）。 |
+| `global.proxy.readinessPeriodSeconds` | `2` | 准备就绪探测之间的时间间隔。 |
+| `global.proxy.readinessFailureThreshold` | `30` | 指示准备就绪失败之前，连续失败的探测数。 |
+| `global.proxy.kubevirtInterfaces` | `""` | `pod` 的内部接口。 |
 | `global.proxy.envoyMetricsService.enabled` | `false` |  |
-| `global.proxy.envoyMetricsService.host` | `` | `example: metrics-service.istio-system` |
-| `global.proxy.envoyMetricsService.port` | `` | `example: 15000` |
-| `global.proxy.tracer` | `"zipkin"` | `Specify which tracer to use. One of: lightstep, zipkin` |
-| `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen allows traffic in cases when the mixer policy service cannot be reached.Default is false which means the traffic is denied when the client is unable to connect to Mixer.` |
-| `global.tracer.lightstep.address` | `""` | `example: lightstep-satellite:443` |
-| `global.tracer.lightstep.accessToken` | `""` | `example: abcdefg1234567` |
-| `global.tracer.lightstep.secure` | `true` | `example: true\|false` |
-| `global.tracer.lightstep.cacertPath` | `""` | `example: /etc/lightstep/cacert.pem` |
+| `global.proxy.envoyMetricsService.host` | `` | 例如：`metrics-service.istio-system` |
+| `global.proxy.envoyMetricsService.port` | `` | 例如：`15000` |
+| `global.proxy.tracer` | `"zipkin"` | 指定要使用的跟踪器，`lightstep` 和 `zipkin` 其中之一。 |
+| `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen` 允许在无法访问 `mixer` 策略的情况下进行通信，默认值为 `false`，这意味着在客户端无法连接到 `Mixer` 时拒绝通信。 |
+| `global.tracer.lightstep.address` | `""` | 例如：`lightstep-satellite:443` |
+| `global.tracer.lightstep.accessToken` | `""` | 例如：`abcdefg1234567` |
+| `global.tracer.lightstep.secure` | `true` | 例如：`true\|false` |
+| `global.tracer.lightstep.cacertPath` | `""` | 例如：`/etc/lightstep/cacert.pem` |
 | `global.tracer.zipkin.address` | `""` |  |
-| `global.defaultNodeSelector` | `{}` | `Default node selector to be applied to all deployments so that all pods can beconstrained to run a particular nodes. Each component can overwrite these defaultvalues by adding its node selector block in the relevant section below and settingthe desired values.` |
+| `global.defaultNodeSelector` | `{}` | 默认 `node selector` 将应用于所有部署，以便可以限制所有特定的 `Pod` 节点，每个组件都可以通过在下面的相关部分中添加 `node selector block` 并设置所需的值来覆盖这些默认值。 |
 | `global.meshExpansion.enabled` | `false` |  |
-| `global.meshExpansion.useILB` | `false` | `If set to true, the pilot and citadel mtls and the plain text pilot portswill be exposed on an internal gateway` |
-| `global.multiCluster.enabled` | `false` | `Set to true to connect two kubernetes clusters via their respectiveingressgateway services when pods in each cluster cannot directlytalk to one another. All clusters should be using Istio mTLS and musthave a shared root CA for this model to work.` |
+| `global.meshExpansion.useILB` | `false` | 如果设置为 `true`，则将在内部网关上暴露 `pilot` 和 `citadel mtls` 以及 `plain text pilot portswill`。 |
+| `global.multiCluster.enabled` | `false` | 当每个集群中的 `Pod` 无法直接相互通信时，设置为 `true` 可通过它们各自的 `ressgateway` 服务连接两个 `kubernetes` 集群，所有群集都应使用 `Istio mTLS`，并且必须具有共享的根证书才能使该模型正常工作。 |
 | `global.defaultPodDisruptionBudget.enabled` | `true` |  |
-| `global.useMCP` | `true` | `Use the Mesh Control Protocol (MCP) for configuring Mixer andPilot. Requires galley (--set galley.enabled=true).` |
+| `global.useMCP` | `true` | 使用网格控制协议（MCP）来配置 `Mixer` 和 `Pilot`。 需要 galley (--设置 galley.enabled=true)。 |
 | `global.trustDomain` | `""` |  |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
-| `global.sds.enabled` | `false` | `SDS enabled. IF set to true, mTLS certificates for the sidecars will bedistributed through the SecretDiscoveryService instead of using K8S secrets to mount the certificates.` |
+| `global.sds.enabled` | `false` | 已启用 `SDS`。 如果设置为 `true`，则将通过 `SecretDiscoveryService` 分发用于 `sidecars` 的 `mTLS` 证书，而不是使用 `K8S secrets` 来挂载证书。 |
 | `global.sds.udsPath` | `""` |  |
 | `global.sds.useTrustworthyJwt` | `false` |  |
 | `global.sds.useNormalJwt` | `false` |  |
 | `global.meshNetworks` | `{}` |  |
-| `global.enableHelmTest` | `false` | `Specifies whether helm test is enabled or not.This field is set to false by default, so 'helm template ...'will ignore the helm test yaml files when generating the template` |
+| `global.enableHelmTest` | `false` | 指定是否启 `helm` 测试，默认情况下，此字段默认设置为 `false`，因此 'helm template ...' 将在生成模板时忽略 `helm` 测试的 `yaml` 文件。 |
 
-### New `mixer` key/value pairs
+### 新增 `mixer` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `mixer.env.GODEBUG` | `gctrace=1` |  |
 | `mixer.env.GOMAXPROCS` | `"6"` | `max procs should be ceil(cpu limit + 1)` |
-| `mixer.policy.enabled` | `false` | `if policy is enabled, global.disablePolicyChecks has affect.` |
+| `mixer.policy.enabled` | `false` | 如果启用了策略，则 `global.disablePolicyChecks` 将生效。 |
 | `mixer.policy.replicaCount` | `1` |  |
 | `mixer.policy.autoscaleEnabled` | `true` |  |
 | `mixer.policy.autoscaleMin` | `1` |  |
@@ -187,11 +186,11 @@ The tables below show changes made to the installation options used to customize
 | `mixer.telemetry.autoscaleMax` | `5` |  |
 | `mixer.telemetry.cpu.targetAverageUtilization` | `80` |  |
 | `mixer.telemetry.sessionAffinityEnabled` | `false` |  |
-| `mixer.telemetry.loadshedding.mode` | `enforce` | `disabled, logonly or enforce` |
-| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `based on measurements 100ms p50 translates to p99 of under 1s. This is ok for telemetry which is inherently async.` |
+| `mixer.telemetry.loadshedding.mode` | `enforce` | 设置成 `disabled`，仅用来登录或强制执行。 |
+| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | 基于 `100ms` 的测量，`p50` 转换为 `p99` 不到 `1s`，对于本质上是异步的遥测来说是没问题的。 |
 | `mixer.telemetry.resources.requests.cpu` | `1000m` |  |
 | `mixer.telemetry.resources.requests.memory` | `1G` |  |
-| `mixer.telemetry.resources.limits.cpu` | `4800m` | `It is best to do horizontal scaling of mixer using moderate cpu allocation.We have experimentally found that these values work well.` |
+| `mixer.telemetry.resources.limits.cpu` | `4800m` | 最好使用适度的 `cpu` 进行分配使 `mixer` 水平缩放。我们通过实验发现这些值效果很好。 |
 | `mixer.telemetry.resources.limits.memory` | `4G` |  |
 | `mixer.podAnnotations` | `{}` |  |
 | `mixer.nodeSelector` | `{}` |  |
@@ -200,16 +199,16 @@ The tables below show changes made to the installation options used to customize
 | `mixer.adapters.stdio.outputAsJson` | `true` |  |
 | `mixer.adapters.prometheus.enabled` | `true` |  |
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
-| `mixer.adapters.useAdapterCRDs` | `true` | `Setting this to false sets the useAdapterCRDs mixer startup argument to false` |
+| `mixer.adapters.useAdapterCRDs` | `true` | 如果设置为 `false`， 会将 `useAdapterCRDs mixer` 的启动参数设置为 `false`。 |
 
-### New `grafana` key/value pairs
+### 新增 `grafana` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `grafana.image.repository` | `grafana/grafana` |  |
 | `grafana.image.tag` | `5.4.0` |  |
 | `grafana.ingress.enabled` | `false` |  |
-| `grafana.ingress.hosts` | `grafana.local` | `Used to create an Ingress record.` |
+| `grafana.ingress.hosts` | `grafana.local` | 用来创建一个 `Ingress record`。 |
 | `grafana.persist` | `false` |  |
 | `grafana.storageClassName` | `""` |  |
 | `grafana.accessMode` | `ReadWriteMany` |  |
@@ -233,24 +232,24 @@ The tables below show changes made to the installation options used to customize
 | `grafana.dashboardProviders.dashboardproviders.providers.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-### New `prometheus` key/value pairs
+### 新增 `prometheus` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `prometheus.retention` | `6h` |  |
 | `prometheus.nodeSelector` | `{}` |  |
-| `prometheus.scrapeInterval` | `15s` | `Controls the frequency of prometheus scraping` |
+| `prometheus.scrapeInterval` | `15s` | 控制 `prometheus` 在 `scraping` 时的频率。 |
 | `prometheus.contextPath` | `/prometheus` |  |
 | `prometheus.ingress.enabled` | `false` |  |
-| `prometheus.ingress.hosts` | `prometheus.local` | `Used to create an Ingress record.` |
+| `prometheus.ingress.hosts` | `prometheus.local` | 用来创建一个 `Ingress record`。 |
 | `prometheus.security.enabled` | `true` |  |
 
-### New `gateways` key/value pairs
+### 新增 `gateways` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `gateways.istio-ingressgateway.sds.enabled` | `false` | `If true, ingress gateway fetches credentials from SDS server to handle TLS connections.` |
-| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` | `SDS server that watches kubernetes secrets and provisions credentials to ingress gateway.This server runs in the same pod as ingress gateway.` |
+| `gateways.istio-ingressgateway.sds.enabled` | `false` | 如果设置为 `true`，则入口网关从 `SDS` 服务器获取凭据以处理 `TLS` 连接。 |
+| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` | 监视 `kubernetes` 的 `secrets` 并向入口网关提供凭据的 `SDS` 服务器，该服务器与入口网关服务器在同一容器中运行。 |
 | `gateways.istio-ingressgateway.autoscaleEnabled` | `true` |  |
 | `gateways.istio-ingressgateway.cpu.targetAverageUtilization` | `80` |  |
 | `gateways.istio-ingressgateway.loadBalancerSourceRanges` | `[]` |  |
@@ -274,7 +273,7 @@ The tables below show changes made to the installation options used to customize
 | `gateways.istio-ingressgateway.meshExpansionPorts.name` | `tcp-citadel-grpc-tls` |  |
 | `gateways.istio-ingressgateway.meshExpansionPorts.targetPort` | `853` |  |
 | `gateways.istio-ingressgateway.meshExpansionPorts.name` | `tcp-dns-tls` |  |
-| `gateways.istio-ingressgateway.env.ISTIO_META_ROUTER_MODE` | `"sni-dnat"` | `A gateway with this mode ensures that pilot generates an additionalset of clusters for internal services but without Istio mTLS, toenable cross cluster routing.` |
+| `gateways.istio-ingressgateway.env.ISTIO_META_ROUTER_MODE` | `"sni-dnat"` | 具有此模式的网关可确保 `pilot` 为内部服务生成集群中的 `additionalset`，但无需 `Istio mTLS`，即可启用跨群集路由。 |
 | `gateways.istio-ingressgateway.nodeSelector` | `{}` |  |
 | `gateways.istio-egressgateway.autoscaleEnabled` | `true` |  |
 | `gateways.istio-egressgateway.cpu.targetAverageUtilization` | `80` |  |
@@ -288,20 +287,20 @@ The tables below show changes made to the installation options used to customize
 | `gateways.istio-ilbgateway.podAnnotations` | `{}` |  |
 | `gateways.istio-ilbgateway.nodeSelector` | `{}` |  |
 
-### New `kiali` key/value pairs
+### 新增 `kiali` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `kiali.contextPath` | `/kiali` |  |
 | `kiali.nodeSelector` | `{}` |  |
-| `kiali.ingress.hosts` | `kiali.local` | `Used to create an Ingress record.` |
+| `kiali.ingress.hosts` | `kiali.local` | 用来创建一个 `Ingress record`。 |
 | `kiali.dashboard.secretName` | `kiali` |  |
 | `kiali.dashboard.usernameKey` | `username` |  |
 | `kiali.dashboard.passphraseKey` | `passphrase` |  |
 | `kiali.prometheusAddr` | `http://prometheus:9090` |  |
-| `kiali.createDemoSecret` | `false` | `When true, a secret will be created with a default username and password. Useful for demos.` |
+| `kiali.createDemoSecret` | `false` | 设置为 `true` 时，将使用默认的用户名和密码创建一个 `secret`， 对一些 `demo` 有用。 |
 
-### New `istiocoredns` key/value pairs
+### 新增 `istiocoredns` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -311,7 +310,7 @@ The tables below show changes made to the installation options used to customize
 | `istiocoredns.coreDNSPluginImage` | `istio/coredns-plugin:0.2-istio-1.1` |  |
 | `istiocoredns.nodeSelector` | `{}` |  |
 
-### New `security` key/value pairs
+### 新增 `security` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -319,18 +318,18 @@ The tables below show changes made to the installation options used to customize
 | `security.createMeshPolicy` | `true` |  |
 | `security.nodeSelector` | `{}` |  |
 
-### New `nodeagent` key/value pairs
+### 新增 `nodeagent` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `nodeagent.enabled` | `false` |  |
 | `nodeagent.image` | `node-agent-k8s` |  |
-| `nodeagent.env.CA_PROVIDER` | `""` | `name of authentication provider.` |
-| `nodeagent.env.CA_ADDR` | `""` | `CA endpoint.` |
-| `nodeagent.env.Plugins` | `""` | `names of authentication provider's plugins.` |
+| `nodeagent.env.CA_PROVIDER` | `""` | `provider` 的名称。 |
+| `nodeagent.env.CA_ADDR` | `""` | `CA` 地址。 |
+| `nodeagent.env.Plugins` | `""` | 鉴别 `provider` 插件的名称。 |
 | `nodeagent.nodeSelector` | `{}` |  |
 
-### New `pilot` key/value pairs
+### 新增 `pilot` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -339,11 +338,11 @@ The tables below show changes made to the installation options used to customize
 | `pilot.env.GODEBUG` | `gctrace=1` |  |
 | `pilot.cpu.targetAverageUtilization` | `80` |  |
 | `pilot.nodeSelector` | `{}` |  |
-| `pilot.keepaliveMaxServerConnectionAge` | `30m` | `The following is used to limit how long a sidecar can be connectedto a pilot. It balances out load across pilot instances at the cost ofincreasing system churn.` |
+| `pilot.keepaliveMaxServerConnectionAge` | `30m` | 用于限制 `sidecar` 可以被 `pilot` 连接多久，平衡了 `pilot` 实例的负载，以损失系统资源为代价。 |
 
-## Removed configuration options
+## 移除的配置选项{removed-configuration-options}
 
-### Removed `ingress` key/value pairs
+### 移除了 `ingress` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -359,7 +358,7 @@ The tables below show changes made to the installation options used to customize
 | `ingress.replicaCount` | `1` |  |
 | `ingress.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
 
-### Removed `servicegraph` key/value pairs
+### 移除了 `servicegraph` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -367,7 +366,7 @@ The tables below show changes made to the installation options used to customize
 | `servicegraph.ingress` | `servicegraph.local` |  |
 | `servicegraph.service.internalPort` | `8088` |  |
 
-### Removed `telemetry-gateway` key/value pairs
+### 移除了 `telemetry-gateway` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -375,7 +374,7 @@ The tables below show changes made to the installation options used to customize
 | `telemetry-gateway.gatewayName` | `ingressgateway` |  |
 | `telemetry-gateway.grafanaEnabled` | `false` |  |
 
-### Removed `global` key/value pairs
+### 移除了 `global` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -387,7 +386,7 @@ The tables below show changes made to the installation options used to customize
 | `global.k8sIngressSelector` | `ingress` |  |
 | `global.meshExpansionILB` | `false` |  |
 
-### Removed `mixer` key/value pairs
+### 移除了 `mixer` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -405,7 +404,7 @@ The tables below show changes made to the installation options used to customize
 | `mixer.istio-policy.autoscaleMin` | `1` |  |
 | `mixer.istio-policy.autoscaleMax` | `5` |  |
 
-### Removed `grafana` key/value pairs
+### 移除了 `grafana` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -414,7 +413,7 @@ The tables below show changes made to the installation options used to customize
 | `grafana.security.adminPassword` | `admin` |  |
 | `grafana.security.adminUser` | `admin` |  |
 
-### Removed `gateways` key/value pairs
+### 移除了 `gateways` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -428,7 +427,7 @@ The tables below show changes made to the installation options used to customize
 | `gateways.istio-ingressgateway.ports.targetPort` | `15011` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `8060` |  |
 
-### Removed `tracing` key/value pairs
+### 移除了 `tracing` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
@@ -443,14 +442,14 @@ The tables below show changes made to the installation options used to customize
 | `tracing.ingress.hosts` | `tracing.local` |  |
 | `tracing.jaeger.ui.port` | `16686` |  |
 
-### Removed `kiali` key/value pairs
+### 移除了 `kiali` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
 | `kiali.dashboard.username` | `admin` |  |
 | `kiali.dashboard.passphrase` | `admin` |  |
 
-### Removed `pilot` key/value pairs
+### 移除了 `pilot` 键/值对
 
 | Key | Default Value | Description |
 | --- | --- | --- |
