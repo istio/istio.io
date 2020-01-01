@@ -88,7 +88,7 @@ $ istioctl authn tls-check \<YOUR\_POD\> -n \<YOUR\_NAMESPACE\>
 
 {{< /tip >}}
 
-In the following, the task will be divided into two parts.
+In the following, the task is divided into two parts.
 
 * If you want to enable mutual TLS for your workloads one after one, you can go to
 [this section](/docs/tasks/security/authentication/mtls-migration/#enable-mutual-tls-for-a-service),
@@ -218,8 +218,7 @@ We recommend you use [Istio Authorization](/docs/tasks/security/authorization/au
 
 ### Cleanup
 
-To remove all temperary resources created in this task, without the global
-policies:
+To remove all temperary resources created in this task:
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
@@ -229,14 +228,18 @@ Namespaces foo bar legacy deleted.
 
 ## Globally enable mutual TLS for the cluster
 
-### Apply the configuration for all clients and servers
+This section describes how to apply the cluster-wide DestinationRule and MeshPolicy to enforce
+mutual TLS for a cluster.
 
-You can run the following commands to enforce mutual TLS for the entire cluster.
-
-{< warning >}}
-Before doing this, please make sure all of your services have sidecars,
-and their network protocols are compatible with istio mutual TLS.
+{{< warning >}}
+This approach is _risky_ if you have complex TLS setups.
+If you have special TLS configurations for your services or you have
+services without Envoy sidecars, we recommend you to enable mutual TLS service by service.
 {{< /warning >}}
+
+### Configure all clients to send mutual TLS traffic
+
+Run the following command to enable all Envoy sidecars to send mutual TLS traffic to the servers.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -251,7 +254,15 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 EOF
+{{< /text >}}
 
+The connections between services should not be interrupted.
+
+### Lock down to mTLS for the entire cluster
+
+Run the following command to enforce all Envoy sidecars to only receive mutual TLS traffic.
+
+{{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "MeshPolicy"
@@ -263,6 +274,7 @@ spec:
 EOF
 {{< /text >}}
 
+The connections between services should not be interrupted.
 For more details, please read the
 [Authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls)
 task.
@@ -271,14 +283,15 @@ task.
 
 Clean up the configuration as follows.
 
-* To disable mutual TLS for the entire cluster:
+* To disable the global mutual TLS configuration:
 
   {{< text bash >}}
   $ kubectl delete meshpolicy default
   $ kubectl delete destinationrule default -n istio-system
   {{< /text >}}
 
-* To fallback to PERMISSIVE mode for the entire cluster:
+* To fallback to PERMISSIVE mode for the cluster:
+
   {{< text bash >}}
   $ kubectl apply -f - <<EOF
   apiVersion: "authentication.istio.io/v1alpha1"
