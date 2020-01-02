@@ -33,6 +33,6 @@ aliases:
 
 项目中还有更多正在进行的内容。我们知道 Istio 有很多活动部件，可以承担很多责任。为了解决这个问题，我们最近成立了一个[可用性工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings)（欢迎随时加入）。[社区会议](https://github.com/istio/community#community-meeting)（星期四，上午 11 点）和[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)中也发生了很多事情。如果您尚未加入 [discuss.istio.io](https://discuss.istio.io) 上的对话，请直接使用 GitHub 凭据登录并加入我们！
 
-我们感谢在过去几个月中为 Istio 努力工作的每个人。他们修补了 1.0，为 1.1 添加了功能，最近又对 1.1 进行了大量测试。特别感谢在早期版本，与我们一起完成安装和升级方面的工作，并帮助我们在发布之前发现问题的那些公司和用户。
+我们感谢在过去几个月中为了 Istio 的发展而努力工作的每个人。他们修补了 1.0 版本，并为 1.1 版本增加了许多新功能，最近又对 1.1 版本进行了大量的测试。特别感谢在早期版本，与我们一起完成安装和升级方面的工作，并帮助我们在发布之前发现问题的那些公司和用户。
 
 现在：时机已到！就是 1.1，查看[更新文档](/zh/docs/)、[安装它](/zh/docs/setup/)，然后...happy meshing!
