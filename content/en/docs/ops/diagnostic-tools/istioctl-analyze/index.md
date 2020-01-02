@@ -97,6 +97,12 @@ the kind of information you should provide.
 
       The set of [configuration analysis messages](/docs/reference/config/analysis/) contains descriptions of each message along with suggested fixes.
 
+- **What permissions are needed to run this tool?**
+
+      `istioctl analyze` needs cluster-level read permissions on resources that can be analyzed, which includes all Istio resources as well as many Kubernetes resources.
+      A Kubernetes `ClusterRole` named `istio-analyze` defines the required permissions and is included with the Istio installation.
+      This `ClusterRole` can be bound to a user or service account as needed.
+
 ## Advanced
 
 ### Getting the latest version of `istioctl analyze`
