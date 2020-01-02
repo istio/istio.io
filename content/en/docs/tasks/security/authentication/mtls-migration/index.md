@@ -286,22 +286,22 @@ Clean up the configuration as follows.
 
 * To disable the global mutual TLS configuration:
 
-  {{< text bash >}}
-  $ kubectl delete meshpolicy default
-  $ kubectl delete destinationrule default -n istio-system
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete meshpolicy default
+    $ kubectl delete destinationrule default -n istio-system
+    {{< /text >}}
 
 * To fallback to PERMISSIVE mode for the cluster:
 
-  {{< text bash >}}
-  $ kubectl apply -f - <<EOF
-  apiVersion: "authentication.istio.io/v1alpha1"
-  kind: "MeshPolicy"
-  metadata:
-    name: "default"
-  spec:
-    peers:
-    - mtls:
-        mode: PERMISSIVE
-  EOF
-  {{< /text >}} 
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "MeshPolicy"
+    metadata:
+      name: "default"
+    spec:
+      peers:
+      - mtls:
+          mode: PERMISSIVE
+    EOF
+    {{< /text >}}
