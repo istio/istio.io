@@ -16,7 +16,7 @@ Istio 1.4 引入了 [`v1beta1` 授权策略](/zh/docs/reference/config/security/
 * 支持更多用例（例如，Ingress/Egress 网关支持），而不会增加复杂性。
 
 该 `v1beta1` 策略不向后兼容，需要一次转换。Istio 提供了一个工具来自动执行此过程。
-Istio 1.6以后将不再支持先前的配置资源 `ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding`。
+Istio 1.6 以后将不再支持先前的配置资源 `ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding`。
 
 本文描述了新的 `v1beta1` 授权策略模型、设计目标和从 `v1alpha1` RBAC 策略的迁移。
 有关 `v1beta1` 授权策略的详细说明，请参见 [authorization concept](/zh/docs/concepts/security/#authorization) 页面。
@@ -29,7 +29,7 @@ Istio 1.6以后将不再支持先前的配置资源 `ClusterRbacConfig`、`Servi
 对 {{< gloss "service" >}}服务{{< /gloss >}} 实施访问控制。使用此 API，用户可以在网格级别、命名空间级别和服务级别强
 制实施访问控制。与其他 RBAC 策略一样，Istio RBAC 使用相同的角色和绑定概念来授予身份权限。
 
-尽管 Istio RBAC 一直工作稳定可靠，但我们还是发现了许多改进空间。
+尽管 Istio RBAC 一直稳定可靠的工作着，但我们还是发现了许多改进空间。
 
 例如，用户错误地假定访问控制实施发生在服务级别，因为 `ServiceRole` 使用服务指定在何处应用策略，但是，策略实际上应用于
 {{< gloss "workload" >}}工作负载{{< /gloss >}}，该服务仅用于查找相应的工作负载。当多个服务引用相同的工作负载时，
@@ -278,7 +278,7 @@ spec:
 
 ## 未来的 `v1alpha1` 策略{#future-of-the-v1alpha1-policy}
 
-`v1alpha1` RBAC 策略（`ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding`）将通过 `v1beta1` 授权策略弃用。
+`v1alpha1` RBAC 策略（`ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding`）将被 `v1beta1` 授权策略替代并弃用。
 
 Istio 1.4 继续支持 `v1alpha1` RBAC 策略，以便使您有足够的时间完成迁移。
 
