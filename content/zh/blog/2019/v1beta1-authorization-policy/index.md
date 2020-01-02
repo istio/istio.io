@@ -1,6 +1,6 @@
 ---
-title: Introducing the Istio v1beta1 Authorization Policy
-description: Introduction, motivation and design principles for the Istio v1beta1 Authorization Policy.
+title: Istio v1beta1 授权策略概述
+description: Istio v1beta1 授权策略的设计原则、基本概述及迁移操作。
 publishdate: 2019-11-14
 subtitle:
 attribution: Yangmin Zhu (Google)
@@ -8,93 +8,64 @@ keywords: [security, RBAC, access control, authorization]
 target_release: 1.4
 ---
 
-Istio 1.4 introduces the
-[`v1beta1` authorization policy](/zh/docs/reference/config/security/authorization-policy/),
-which is a major update to the previous `v1alpha1` role-based access control
-(RBAC) policy. The new policy provides these improvements:
+Istio 1.4 引入了 [`v1beta1` 授权策略](/zh/docs/reference/config/security/authorization-policy/)，这是对
+以前 `v1alpha1` 的基于角色的访问控制（RBAC）策略的重要更新。包括以下改进：
 
-* Aligns with Istio configuration model.
-* Improves the user experience by simplifying the API.
-* Supports more use cases (e.g. Ingress/Egress gateway support) without
-  added complexity.
+* 符合 Istio 配置模型。
+* 通过简化 API 改善用户体验。
+* 支持更多用例（例如，Ingress/Egress 网关支持），而不会增加复杂性。
 
-The `v1beta1` policy is not backward compatible and requires a one time
-conversion. A tool is provided to automate this process. The previous
-configuration resources `ClusterRbacConfig`, `ServiceRole`, and
-`ServiceRoleBinding` will not be supported from Istio 1.6 onwards.
+该 `v1beta1` 策略不向后兼容，需要一次转换。Istio 提供了一个工具来自动执行此过程。
+Istio 1.6 以后将不再支持先前的配置资源 `ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding`。
 
-This post describes the new `v1beta1` authorization policy model, its
-design goals and the migration from `v1alpha1` RBAC policies. See the
-[authorization concept page](/zh/docs/concepts/security/#authorization)
-for a detailed in-depth explanation of the `v1beta1` authorization policy.
+本文描述了新的 `v1beta1` 授权策略模型、设计目标和从 `v1alpha1` RBAC 策略的迁移。
+有关 `v1beta1` 授权策略的详细说明，请参见 [authorization concept](/zh/docs/concepts/security/#authorization) 页面。
 
-We welcome your feedback about the `v1beta1` authorization policy at
-[discuss.istio.io](https://discuss.istio.io/c/security).
+我们欢迎您在 [discuss.istio.io](https://discuss.istio.io/c/security) 上反馈有关 `v1beta1` 授权策略的相关信息。
 
-## Background
+## 背景{#background}
 
-To date, Istio provided RBAC policies to enforce access control on
-{{< gloss "service" >}}services{{< /gloss >}} using three configuration
-resources: `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`.
-With this API, users have been able to enforce control access at mesh-level,
-namespace-level and service-level. Like other RBAC policies, Istio RBAC uses
-the same concept of role and binding for granting permissions to identities.
+迄今为止，Istio 提供了 RBAC 策略，以便使用 `ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding` 配置资源
+对 {{< gloss "service" >}}服务{{< /gloss >}} 实施访问控制。使用此 API，用户可以在网格级别、命名空间级别和服务级别强
+制实施访问控制。与其他 RBAC 策略一样，Istio RBAC 使用相同的角色和绑定概念来授予身份权限。
 
-Although Istio RBAC has been working reliably, we've found that many
-improvements were possible.
+尽管 Istio RBAC 一直稳定可靠的工作着，但我们还是发现了许多改进空间。
 
-For example, users have mistakenly assumed that access control enforcement
-happens at service-level because `ServiceRole` uses service to specify where
-to apply the policy, however, the policy is actually applied on
-{{< gloss "workload" >}}workloads{{< /gloss >}}, the service is only used to
-find the corresponding workload. This nuance is significant when multiple
-services are referring to the same workload. A `ServiceRole` for service A
-will also affect service B if the two services are referring to the same
-workload, which can cause confusion and incorrect configuration.
+例如，用户错误地假定访问控制实施发生在服务级别，因为 `ServiceRole` 使用服务指定在何处应用策略，但是，策略实际上应用于
+{{< gloss "workload" >}}工作负载{{< /gloss >}}，该服务仅用于查找相应的工作负载。当多个服务引用相同的工作负载时，
+这种细微差别非常重要。如果两个服务引用相同的工作负载，则服务 A 的 `ServiceRole` 也会影响服务 B，这可能会导致混淆和不
+正确的配置。
 
-An other example is that it's proven difficult for users to maintain and
-manage the Istio RBAC configurations because of the need to deeply understand
-three related resources.
+另一个示例是，由于需要深入了解三个相关资源，用户很难维护和管理 Istio RBAC 配置。
 
-## Design goals
+## 设计目标{#design-goals}
 
-The new `v1beta1` authorization policy had several design goals:
+新的 `v1beta1` 授权策略具有几个设计目标：
 
-* Align with [Istio Configuration Model](https://goo.gl/x3STjD) for better
-  clarity on the policy target. The configuration model provides a unified
-  configuration hierarchy, resolution and target selection.
+* 与 [Istio 配置模型](https://goo.gl/x3STjD)保持一致，以便更清楚地了解策略目标。
+  配置模型提供统一的配置层次结构、解决方案和目标选择。
 
-* Improve the user experience by simplifying the API. It's easier to manage
-  one custom resource definition (CRD) that includes all access control
-  specifications, instead of multiple CRDs.
+* 通过简化 API 改善用户体验。管理一个包含所有访问控制规范的 CRD（自定义资源定义）比管理多个 CRD 更容易。
 
-* Support more use cases without added complexity. For example, allow the
-  policy to be applied on Ingress/Egress gateway to enforce access control
-  for traffic entering/exiting the mesh.
+* 支持更多用例，而不会增加复杂性。例如，允许在 Ingress/Egress 网关上应用策略，以对进出网格的流量实施访问控制。
 
-## `AuthorizationPolicy`
+## `AuthorizationPolicy`{#authorization-policy}
 
-An [`AuthorizationPolicy` custom resource](/zh/docs/reference/config/security/authorization-policy/)
-enables access control on workloads. This section gives an overview of the
-changes in the `v1beta1` authorization policy.
+通过 [`AuthorizationPolicy` 自定义资源](/zh/docs/reference/config/security/authorization-policy/)启用对工作
+负载的访问控制。本节介绍 `v1beta1` 授权策略中的变化。
 
-An `AuthorizationPolicy` includes a `selector` and a list of `rule`.
-The `selector` specifies on which workload to apply the policy and the
-list of `rule` specifies the detailed access control rule for the workload.
+`AuthorizationPolicy` 包括 `selector` 和一个 `rule` 列表。`selector` 指定应用策略的工作负载，`rule` 列表指定工作
+负载的详细访问控制规则。
 
-The `rule` is additive, which means a request is allowed if any `rule`
-allows the request. Each `rule` includes a list of `from`, `to` and
-`when`, which specifies **who** is allowed to do **what** under which
-**conditions**.
+`rule` 是累加的，这意味着如果任何 `rule` 允许请求，则请求将被允许。每个 `rule` 都包含 `from`、`to` 和 `when` 的定义，
+其指定了允许**谁**在哪些**条件**下执行哪些**操作**。
 
-The `selector` replaces the functionality provided by `ClusterRbacConfig`
-and the `services` field in `ServiceRole`. The `rule` replaces the other
-fields in the `ServiceRole` and `ServiceRoleBinding`.
+`selector` 将替换 `ClusterRbacConfig` 和 `ServiceRole` 中的 `services` 字段提供的功能。
+`rule` 将替换 `ServiceRoleBinding` 和 `ServiceRole` 中的其他字段。
 
-### Example
+### 示例{#example}
 
-The following authorization policy applies to workloads with `app: httpbin`
-and `version: v1` label in the `foo` namespace:
+以下授权策略适用于 `foo` 命名空间中含有 `app: httpbin` 和 `version: v1` 标签的工作负载：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -119,12 +90,10 @@ spec:
      values: ["v1", "v2"]
 {{< /text >}}
 
-The policy allows principal `cluster.local/ns/default/sa/sleep` to access the
-workload using the `GET` method when the request includes a `version` header
-of value `v1` or `v2`. Any requests not matched with the policy will be denied
-by default.
+当来自 `cluster.local/ns/default/sa/sleep` 的请求头中包含值为 `v1` 或 `v2` 的 `version` 字段时，
+该策略将允许其通过 `GET` 请求访问工作负载。默认情况下，任何与策略不匹配的请求都将被拒绝。
 
-Assuming the `httpbin` service is defined as:
+假设 `httpbin` 服务定义为：
 
 {{< text yaml >}}
 apiVersion: v1
@@ -140,8 +109,7 @@ spec:
     # omitted
 {{< /text >}}
 
-You would need to configure three resources to achieve the same result in
-`v1alpha1`:
+如果要在 `v1alpha1` 中实现相同的目的，您需要配置三个资源：
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -179,21 +147,15 @@ spec:
     name: "httpbin"
 {{< /text >}}
 
-### Workload selector
+### 工作负载选择器{#workload-selector}
 
-A major change in the `v1beta1` authorization policy is that it now uses
-workload selector to specify where to apply the policy. This is the same
-workload selector used in the `Gateway`, `Sidecar` and `EnvoyFilter`
-configurations.
+`v1beta1` 授权策略中的一个主要更改是，它现在使用工作负载选择器指定应该在何处应用策略。
+这与 `Gateway`、`Sidecar` 和 `EnvoyFilter` 配置中使用的工作负载选择器相同。
 
-The workload selector makes it clear that the policy is applied and enforced
-on workloads instead of services. If a policy applies to a workload that is
-used by multiple different services, the same policy will affect the traffic
-to all the different services.
+工作负载选择器显式的表明，策略是在工作负载（而不是服务）上应用和强制执行的。
+如果策略适用于由多个不同服务使用的工作负载，则同一策略将影响所有不同服务的流量。
 
-You can simply leave the `selector` empty to apply the policy to all
-workloads in a namespace. The following policy applies to all workloads in
-the namespace `bar`:
+只需将 `selector` 留空，即可将策略应用于命名空间中的所有工作负载。以下策略适用于命名空间 `bar` 中的所有工作负载：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -206,18 +168,15 @@ spec:
  # omitted
 {{< /text >}}
 
-### Root namespace
+### 根命名空间{#root-namespace}
 
-A policy in the root namespace applies to all workloads in the mesh in every
-namespaces. The root namespace is configurable in the
-[`MeshConfig`](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)
-and has the default value of `istio-system`.
+根命名空间中的策略应用于网格中每个命名空间中的所有工作负载。
+根命名空间可在 [`MeshConfig`](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) 中配置，
+其默认值为 `istio-system`。
 
-For example, you installed Istio in `istio-system` namespace and deployed
-workloads in `default` and `bookinfo` namespace. The root namespace is
-changed to `istio-config` from the default value. The following policy will
-apply to workloads in every namespace including `default`, `bookinfo` and
-the `istio-system`:
+例如，您在 `istio-system` 命名空间中安装了 Istio，并在 `default` 和 `bookinfo` 命名空间中部署了工作负载。
+把根命名空间从默认值更改为 `istio-config` 后，以下策略将应用于每个命名空间中的工作负载，
+包括 `default`、`bookinfo` 和 `istio-system`：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -230,15 +189,12 @@ spec:
  # omitted
 {{< /text >}}
 
-### Ingress/Egress Gateway support
+### Ingress/Egress 网关支持{#ingress-egress-gateway-support}
 
-The `v1beta1` authorization policy can also be applied on ingress/egress
-gateway to enforce access control on traffic entering/leaving the mesh,
-you only need to change the `selector` to make select the ingress/egress
-workload.
+`v1beta1` 授权策略也可以应用于 ingress/egress 网关，以对进入或离开网格的流量实施访问控制，
+您只需更改 `selector` 即可选择入口或出口工作负载。
 
-The following policy applies to workloads with the
-`app: istio-ingressgateway` label:
+以下策略适用于具有 `app: istio-ingressgateway` 标签的工作负载：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -254,129 +210,110 @@ spec:
  # omitted
 {{< /text >}}
 
-Remember the authorization policy only applies to workloads in the same
-namespace as the policy, unless the policy is applied in the root namespace:
+请注意，授权策略仅适用于与策略相同的命名空间中的工作负载，除非在根命名空间中应用该策略：
 
-* If you don't change the default root namespace value (i.e. `istio-system`),
-  the above policy will apply to workloads with the `app: istio-ingressgateway`
-  label in **every** namespace.
+* 如果不更改根命名空间的默认值（即 `istio-system`），上述策略将应用于**每个**命名空间中
+  含有 `app: istio-ingressgateway` 标签的工作负载。
 
-* If you have changed the root namespace to a different value, the above
-  policy will only apply to workloads with the `app: istio-ingressgateway`
-  label **only** in the `istio-system` namespace.
+* 如果将根命名空间更改为其他值，则上述策略将**仅适用**于 `istio-system` 命名空间中
+  含有 `app: istio-ingressgateway` 标签的工作负载。
 
-### Comparison
+### 比较{#comparison}
 
-The following table highlights the key differences between the old `v1alpha1`
-RBAC policies and the new `v1beta1` authorization policy.
+下表突出显示了旧的 `v1alpha1` RBAC 策略和新的 `v1beta1` 授权策略之间的主要区别。
 
-#### Feature
+#### 特性{#feature}
 
-| Feature | `v1alpha1` RBAC policy | `v1beta1` Authorization Policy |
+| 特性 | `v1alpha1` RBAC 策略 | `v1beta1` 授权策略 |
 |---------|------------------------|--------------------------------|
-| API stability | `alpha`: **No** backward compatible | `beta`: backward compatible **guaranteed** |
-| Number of CRDs | Three: `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding` | Only One: `AuthorizationPolicy` |
-| Policy target | **service** | **workload** |
-| Deny-by-default behavior | Enabled **explicitly** by configuring `ClusterRbacConfig` | Enabled **implicitly** with `AuthorizationPolicy` |
-| Ingress/Egress gateway support | Not supported | Supported |
-| The `"*"` value in policy | Match all contents (empty and non-empty) | Match non-empty contents only |
+| API 稳定性 | `alpha`：**不** 向后兼容 | `beta`：**确保**向后兼容 |
+| CRD 数量 | 三个：`ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding` | 一个：`AuthorizationPolicy` |
+| 策略目标 | **service** | **workload** |
+| 默认拒绝行为 | 通过**显式**的配置 `ClusterRbacConfig` 启用 | **隐式**的通过 `AuthorizationPolicy` 启用 |
+| Ingress/Egress 网关支持 | 不支持 | 支持 |
+| 策略中的 `"*"` 值 | 匹配所有内容（空和非空） | 仅匹配非空内容 |
 
-The following tables show the relationship between the `v1alpha1` and `v1beta1` API.
+下表显示了 `v1alpha1` 和 `v1beta1` API 之间的关系。
 
 #### `ClusterRbacConfig`
 
 | `ClusterRbacConfig.Mode` | `AuthorizationPolicy` |
 |---------------------|-----------------------|
-| `OFF` | No policy applied |
-| `ON` | A deny-all policy applied in root namespace |
-| `ON_WITH_INCLUSION` | policies should be applied to namespaces or workloads included by `ClusterRbacConfig` |
-| `ON_WITH_EXCLUSION` | policies should be applied to namespaces or workloads excluded by `ClusterRbacConfig` |
+| `OFF` | 未应用策略 |
+| `ON` | 在根命名空间中应用的全部拒绝策略 |
+| `ON_WITH_INCLUSION` | 策略应用于 `ClusterRbacConfig` 中包含的命名空间或工作负载  |
+| `ON_WITH_EXCLUSION` | 策略应用于 `ClusterRbacConfig` 中包含的命名空间或工作负载  |
 
 #### `ServiceRole`
 
 | `ServiceRole` | `AuthorizationPolicy` |
 |---------------|-----------------------|
 | `services` | `selector` |
-| `paths` | `paths` in `to` |
-| `methods` | `methods` in `to` |
-| `destination.ip` in constraint | Not supported |
-| `destination.port` in constraint | `ports` in `to` |
-| `destination.labels` in constraint | `selector` |
-| `destination.namespace` in constraint | Replaced by the namespace of the policy, i.e. the `namespace` in metadata |
-| `destination.user` in constraint | Not supported |
-| `experimental.envoy.filters` in constraint | `experimental.envoy.filters` in `when` |
-| `request.headers` in constraint | `request.headers` in `when` |
+| `paths` | `to` 字段下的 `paths` |
+| `methods` | `to` 字段下的 `methods` |
+| 在约束中的 `destination.ip` | 不支持 |
+| 在约束中的 `destination.port` |  `to` 字段下的 `ports` |
+| 在约束中的 `destination.labels` | `selector` |
+| 在约束中的 `destination.namespace` | 替换为策略的命名空间，即元数据中的 `namespace` |
+| 在约束中的 `destination.user` | 不支持 |
+| 在约束中的 `experimental.envoy.filters` | `when` 字段下的 `experimental.envoy.filters` |
+| 在约束中的 `request.headers` | `when` 字段下的 `request.headers` |
 
 #### `ServiceRoleBinding`
 
 | `ServiceRoleBinding` | `AuthorizationPolicy` |
 |----------------------|-----------------------|
-| `user`  | `principals` in `from` |
-| `group` | `paths` in `to` |
-| `source.ip` in property | `ipBlocks` in `from` |
-| `source.namespace` in property | `namespaces` in `from` |
-| `source.principal` in property | `principals` in `from` |
-| `request.headers` in property | `request.headers` in `when` |
-| `request.auth.principal` in property | `requestPrincipals` in `from` or `request.auth.principal` in `when` |
-| `request.auth.audiences` in property | `request.auth.audiences` in `when` |
-| `request.auth.presenter` in property | `request.auth.presenter` in `when` |
-| `request.auth.claims` in property | `request.auth.claims` in `when` |
+| `user`  | `from` 字段下的 `principals`  |
+| `group` | `to` 字段下的 `paths` |
+| `source.ip` 属性 | `from` 字段下的 `ipBlocks` |
+| `source.namespace` 属性 | `from` 字段下的 `namespaces` |
+| `source.principal` 属性 | `from` 字段下的 `principals`  |
+| `request.headers` 属性 | `when` 字段下的 `request.headers` |
+| `request.auth.principal` 属性 | `from` 字段下的 `requestPrincipals` 或 `when` 字段下的 `request.auth.principal` |
+| `request.auth.audiences` 属性 | `when` 字段下的 `request.auth.audiences` |
+| `request.auth.presenter` 属性 | `when` 字段下的 `request.auth.presenter` |
+| `request.auth.claims` 属性 | `when` 字段下的 `request.auth.claims` |
 
-Beyond all the differences, the `v1beta1` policy is enforced by the same
-engine in Envoy and supports the same authenticated identity (mutual TLS or
-JWT), condition and other primitives (e.g. IP, port and etc.) as the
-`v1alpha1` policy.
+除了所有差异之外，与 `v1alpha1` 类似，`v1beta1` 策略也由 Envoy 引擎强制执行，并支持同样的身份验证（双向 TLS 或 JWT）、条件和其他基元（如 IP、端口等）。
 
-## Future of the `v1alpha1` policy
+## 未来的 `v1alpha1` 策略{#future-of-the-v1alpha1-policy}
 
-The `v1alpha1` RBAC policy (`ClusterRbacConfig`, `ServiceRole`, and
-`ServiceRoleBinding`) is deprecated by the `v1beta1` authorization policy.
+`v1alpha1` RBAC 策略（`ClusterRbacConfig`、`ServiceRole` 和 `ServiceRoleBinding`）将被 `v1beta1` 授权策略替代并弃用。
 
-Istio 1.4 continues to support the `v1alpha1` RBAC policy to give you
-enough time to move away from the alpha policies.
+Istio 1.4 继续支持 `v1alpha1` RBAC 策略，以便使您有足够的时间完成迁移。
 
-## Migration from the `v1alpha1` policy
+## 从 `v1alpha1` 策略迁移{#migration-from-the-v1alpha1-policy}
 
-Istio only supports one of the two versions for a given workload:
+对于给定的工作负载，Istio 仅支持两个版本之一：
 
-* If there is only `v1beta1` policy for a workload, the `v1beta1` policy
-  will be used.
-* If there is only `v1alpha1` policy for a workload, the `v1alpha1` policy
-  will be used.
-* If there are both `v1beta1` and `v1alpha1` policies for a workload,
-  only the `v1beta1` policy will be used and the the `v1alpha1` policy
-  will be ignored.
+* 如果仅为工作负载配置 `v1beta1` 策略，则 `v1beta1` 策略生效。
+* 如果仅为工作负载配置 `v1alpha1` 策略，则 `v1alpha1` 策略生效。
+* 如果同时为工作负载配置 `v1beta1` 和 `v1alpha1` 策略，则仅 `v1beta1` 策略生效，`v1alpha1` 策略将被忽略。
 
-### General Guideline
+### 一般准则{#general-guideline}
 
 {{< warning >}}
-When migrating to use `v1beta1` policy for a given workload, make sure the
-new `v1beta1` policy covers all the existing `v1alpha1` policies applied
-for the workload, because the `v1alpha1` policies applied for the workload
-will be ignored after you applied the `v1beta1` policies.
+迁移时，对给定工作负载使用 `v1beta1` 策略时，请确保新的 `v1beta1` 策略涵盖应用于工作负载的所有现有 `v1alpha1` 策略，
+因为在应用 `v1beta1` 后，将忽略应用于工作负载的 `v1alpha1` 策略。
 {{< /warning >}}
 
-The typical flow of migrating to `v1beta1` policy is to start by checking the
-`ClusterRbacConfig` to decide which namespace or service is enabled with RBAC.
+迁移到 `v1beta1` 策略的典型流程是首先检查 `ClusterRbacConfig`，以确定哪些命名空间或服务启用了 RBAC。
 
-For each service enabled with RBAC:
+对于启用了 RBAC 的每个服务：
 
-1. Get the workload selector from the service definition.
-1. Create a `v1beta1` policy with the workload selector.
-1. Update the `v1beta1` policy for each `ServiceRole` and `ServiceRoleBinding`
-   applied to the service.
-1. Apply the `v1beta1` policy and monitor the traffic to make sure the
-   policy is working as expected.
-1. Repeat the process for the next service enabled with RBAC.
+1. 从服务定义中获取工作负载选择器。
+1. 使用工作负载选择器创建一个 `v1beta1` 策略。
+1. 根据应用与服务的每个 `ServiceRole` 和 `ServiceRoleBinding` 更新 `v1beta1` 策略。
+1. 应用该 `v1beta1` 策略并监视流量，以确保该策略按预期工作。
+1. 对启用了 RBAC 的下一个服务重复该过程。
 
-For each namespace enabled with RBAC:
+对于启用了 RBAC 的每个命名空间：
 
-1. Apply a `v1beta1` policy that denies all traffic to the given namespace.
+1. 把拒绝所有流量的 `v1beta1` 策略应用到给定的命名空间。
 
-### Migration Example
+### 迁移示例{#migration-example}
 
-Assume you have the following `v1alpha1` policies for the `httpbin` service
-in the `foo` namespace:
+假设在 `foo` 命名空间中您有以下 `v1alpha1` 策略用于 `httpbin` 服务：
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -411,9 +348,9 @@ spec:
     name: "httpbin"
 {{< /text >}}
 
-Migrate the above policies to `v1beta1` in the following ways:
+以下述方式将上面的策略迁移到 `v1beta1`：
 
-1. Assume the `httpbin` service has the following workload selector:
+1. 假设 `httpbin` 服务具有以下工作负载选择器：
 
     {{< text yaml >}}
     selector:
@@ -421,7 +358,7 @@ Migrate the above policies to `v1beta1` in the following ways:
       version: v1
     {{< /text >}}
 
-1. Create a `v1beta1` policy with the workload selector:
+1. 通过工作负载创建 `v1beta1` 策略：
 
     {{< text yaml >}}
     apiVersion: security.istio.io/v1beta1
@@ -436,8 +373,7 @@ Migrate the above policies to `v1beta1` in the following ways:
          version: v1
     {{< /text >}}
 
-1. Update the `v1beta1` policy with each `ServiceRole` and `ServiceRoleBinding`
-applied to the service:
+1. 根据服务所应用的 `ServiceRole` 和 `ServiceRoleBinding` 更新 `v1beta1` 策略：
 
     {{< text yaml >}}
     apiVersion: security.istio.io/v1beta1
@@ -459,11 +395,9 @@ applied to the service:
            methods: ["GET"]
     {{< /text >}}
 
-1. Apply the `v1beta1` policy and monitor the traffic to make sure it works
-as expected.
+1. 应用 `v1beta1` 策略并监视流量，以确保该策略按预期工作。
 
-1. Apply the following `v1beta1` policy that denies all traffic to the
-`foo` namespace because the `foo` namespace is enabled with RBAC:
+1. 应用下面的 `v1beta1` 策略，该策略拒绝所有到达 `foo` 命名空间的流量，因为命名空间 `foo` 启用了 RBAC：
 
     {{< text yaml >}}
     apiVersion: security.istio.io/v1beta1
@@ -475,19 +409,13 @@ as expected.
      {}
     {{< /text >}}
 
-Make sure the `v1beta1` policy is working as expected and then you can delete
-the `v1alpha1` policies from the cluster.
+确保 `v1beta1` 策略按预期工作，然后可以从集群中删除 `v1alpha1` 策略。
 
-### Automation of the Migration
+### 自动化迁移{#automation-of-the-migration}
 
-To help ease the migration, the `istioctl experimental authz convert`
-command is provided to automatically convert the `v1alpha1` policies to
-the `v1beta1` policy.
+为了帮助简化迁移，可通 `istioctl experimental authz convert` 转换命令自动将 `v1alpha1` 策略
+转换为 `v1beta1` 策略。
 
-You can evaluate the command but it is experimental in Istio 1.4 and doesn't
-support the full `v1alpha1` semantics as of the date of this blog post.
+迁移时您可以考虑该命令，但它在 Istio 1.4 中是实验性的，并且截至此博客文章发布，其还不能够完整支持 v1alpha1 的全部语义。
 
-The command to support the full `v1alpha1` semantics is expected in a patch
-release following Istio 1.4.
-
-
+支持完整 v1alpha1 语义的命令预计在 Istio 1.4 之后的修补程序版本中发布。
