@@ -85,14 +85,14 @@ $ istioctl authn tls-check \<YOUR\_POD\> -n \<YOUR\_NAMESPACE\>
 
 In the following, the task is divided into two parts.
 
-* If you want to enable mutual TLS for your workloads one after one, you can go to
-[this section](/docs/tasks/security/authentication/mtls-migration/#enable-mutual-tls-for-a-service),
+* If you want to enable mutual TLS for your workloads one after one, you can go to the section
+[gradually enable mutual TLS for services](/docs/tasks/security/authentication/mtls-migration/#option-1-gradually-enable-mutual-tls-for-services),
 which instructs the process using simple examples.
 
-* Or, if you want to enable mutual TLS for the entire cluster, you can go to
-[this section](/docs/tasks/security/authentication/mtls-migration/#globally-enable-mutual-tls-for-the-cluster).
+* Or, if you want to enable mutual TLS for the entire cluster, you can go to the section
+[globally enable mutual TLS for the cluster](/docs/tasks/security/authentication/mtls-migration/#option-2-globally-enable-mutual-tls-for-the-cluster).
 
-## Enable mutual TLS for a service
+## Option 1: gradually enable mutual TLS for services
 
 In this section, you can try out the migration process by creating sample workloads and modifying
 the DestinationPolicies and MeshPolicies to enforce STRICT mutual TLS between the workloads.
@@ -209,7 +209,7 @@ If you can't migrate all your services to Istio (injecting Envoy sidecar), you h
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
 We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
-### Cleanup
+### Cleanup the example
 
 To remove all temperary resources created in this task:
 
@@ -218,7 +218,7 @@ $ kubectl delete ns foo bar legacy
 Namespaces foo bar legacy deleted.
 {{< /text >}}
 
-## Globally enable mutual TLS for the cluster
+## Option 2: globally enable mutual TLS for the cluster
 
 This section describes how to apply the cluster-wide DestinationRule and MeshPolicy to enforce
 mutual TLS for a cluster. For more details, please read the
@@ -227,7 +227,8 @@ task.
 
 {{< warning >}}
 If you have special TLS configurations for your services or you have
-services without Envoy sidecars, we recommend you to enable mutual TLS service by service.
+services without Envoy sidecars, we recommend you to
+[enable mutual TLS service by service](/docs/tasks/security/authentication/mtls-migration/#option-1-gradually-enable-mutual-tls-for-services).
 {{< /warning >}}
 
 ### Configure all clients to send mutual TLS traffic
@@ -269,7 +270,7 @@ EOF
 
 The connections between services should not be interrupted.
 
-### Cleanup
+### Cleanup global mTLS configuration
 
 Choose either of the following approachs depending on the status you want to switch to:
 
