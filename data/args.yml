@@ -34,9 +34,9 @@ supported_kubernetes_versions: ["1.13", "1.14", "1.15"]
 ####### Static values
 
 # we use different search engines for each incarnation of the site
-main_search_engine_id: "013699703217164175118:veyyqmfmpj4"
-preliminary_search_engine_id: "013699703217164175118:dmevwrvc6os"
-archive_search_engine_id: "013699703217164175118:iwwf17ikgf4"
+main_search_engine_id: "002184991200833970123:veyyqmfmpj4"
+preliminary_search_engine_id: "002184991200833970123:dmevwrvc6os"
+archive_search_engine_id: "002184991200833970123:iwwf17ikgf4"
 
 # we use different site analytics ids for each incarnation of the site
 main_analytics_id: "UA-98480406-1"
