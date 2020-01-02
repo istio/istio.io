@@ -1,19 +1,19 @@
 ---
-title: Helm 的变化
-description: 详细介绍在 Istio 1.0 和 Istio 1.1 中安装 Helm chart 的不同选项。
+title: Helm 安装参数变动表
+description: 本文详细介绍了 Istio 1.0 系列到 Istio 1.1 系列之间的安装参数变化详情。
 weight: 30
 keywords: [kubernetes, helm, install, options]
 ---
 
 下表显示了在 Istio 1.0 版本到 Istio 1.1 版本之间使用 Helm 自定义安装 Istio 时参数变更，主要包含了三种类型的变更：
 
-- 安装参数在 1.0 版本之前已经存在，但是对应值在新发布的 1.1 版本中进行了更改。
-- 1.3 版本新加的参数。
-- 1.3 版本删除的参数。
+- 安装参数在 1.0 版本之前已经存在，但是值在新发布的 1.1 版本中进行了修改。
+- 1.1 版本新加的参数。
+- 1.1 版本删除的参数。
 
-<!-- Run python scripts/tablegen.py to generate this table -->
+<!-- 下表是运行 python 脚本 scripts/tablegen.py 自动生成 -->
 
-<!-- AUTO-GENERATED-START -->
+<!-- 自动生成开始 -->
 
 ## 修改配置选项{#modified-configuration-options}
 
