@@ -8,7 +8,7 @@ keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,g
 target_release: 1.5
 ---
 
-At Intuit, we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](../../2019/isolated-clusters/) and immediately related to some of the problems mentioned. This blog post explains how we solved these problems using [Admiral](https://github.com/istio-ecosystem/admiral), an open source project in under `istio-ecosystem` in GitHub.
+At Intuit, we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](../../2019/isolated-clusters/) and immediately related to some of the problems mentioned. This blog post explains how we solved these problems using [Admiral](https://github.com/istio-ecosystem/admiral), an open source project under `istio-ecosystem` in GitHub.
 
 ## Background
 
