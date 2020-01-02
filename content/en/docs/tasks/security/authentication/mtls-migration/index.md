@@ -26,11 +26,6 @@ lose communication. Moreover, you can use the
 still sending plaintext traffic to the service in "PERMISSIVE" mode and choose to lock
 down once the migration is done.
 
-{{< tip >}}
-You can enforce Istio mutual TLS for the entire cluster by following
-[this section](/docs/tasks/security/authentication/authn-policy/#globally-enabling-mutual-tls-for-the-cluster)
-{{< /tip >}}
-
 ## Before you begin
 
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
@@ -42,7 +37,7 @@ You can enforce Istio mutual TLS for the entire cluster by following
 [installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
 * You need to make sure your cluster is in PERMISSIVE mode before migrating to mutual TLS.
-  Run the following command to check if your cluster has enabled PERMISSIVE mode:
+  Run the following command to check:
 
     {{< text bash >}}
     $ kubectl get meshpolicy default -o yaml
@@ -55,15 +50,15 @@ You can enforce Istio mutual TLS for the entire cluster by following
 
   If you find the output same as above, you can skip the next step. Otherwise, move to the next step.
 
-* Run the following command to enable PERMISSIVE mode. In general, this operation does not cause any
-  interruption your your workloads, but also see the warning message below.
+* Run the following command to enable PERMISSIVE mode for the cluster. In general, this operation
+  does not cause any interruption your your workloads, but also see the warning message below.
 
     {{< warning >}}
-    In PERMISSIVE mode, the Envoy sidecar relies on the _Istio_
-    [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) to decide whether to
-    terminate the mutual TLS traffic. If your workloads (without Envoy sidecar) have enabled mutual
-    TLS directly to the services with Envoy sidecars, enabling PERMISSIVE mode may cause these
-    connections to fail.
+    In PERMISSIVE mode, the Envoy sidecar relies on the
+    [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) value _istio_ to
+    decide whether to terminate the mutual TLS traffic. If your workloads (without Envoy sidecar)
+    have enabled mutual TLS directly to the services with Envoy sidecars, enabling PERMISSIVE mode
+    may cause these connections to fail.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -94,15 +89,13 @@ In the following, the task is divided into two parts.
 [this section](/docs/tasks/security/authentication/mtls-migration/#enable-mutual-tls-for-a-service),
 which instructs the process using simple examples.
 
-* Or, if you want to enfoce mutual TLS for the entire cluster, you can go to
+* Or, if you want to enable mutual TLS for the entire cluster, you can go to
 [this section](/docs/tasks/security/authentication/mtls-migration/#globally-enable-mutual-tls-for-the-cluster).
-
 
 ## Enable mutual TLS for a service
 
-In this section, you can try out the migration process by deploying a cluster with PERMISSIVE mode,
-creating sample workloads and modifying the DestinationPolicies and MeshPolicies to enforce STRICT
-mutual TLS between the workloads.
+In this section, you can try out the migration process by creating sample workloads and modifying
+the DestinationPolicies and MeshPolicies to enforce STRICT mutual TLS between the workloads.
 
 ### Set up the cluster
 
@@ -226,14 +219,14 @@ $ kubectl delete ns foo bar legacy
 Namespaces foo bar legacy deleted.
 {{< /text >}}
 
-
 ## Globally enable mutual TLS for the cluster
 
 This section describes how to apply the cluster-wide DestinationRule and MeshPolicy to enforce
-mutual TLS for a cluster.
+mutual TLS for a cluster. For more details, please read the
+[Authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls)
+task.
 
 {{< warning >}}
-This approach is _risky_ if you have complex TLS setups.
 If you have special TLS configurations for your services or you have
 services without Envoy sidecars, we recommend you to enable mutual TLS service by service.
 {{< /warning >}}
@@ -276,22 +269,12 @@ EOF
 {{< /text >}}
 
 The connections between services should not be interrupted.
-For more details, please read the
-[Authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls)
-task.
 
 ### Cleanup
 
-Clean up the configuration as follows.
+Choose either of the following approachs depending on the status you want to switch to:
 
-* To disable the global mutual TLS configuration:
-
-    {{< text bash >}}
-    $ kubectl delete meshpolicy default
-    $ kubectl delete destinationrule default -n istio-system
-    {{< /text >}}
-
-* To fallback to PERMISSIVE mode for the cluster:
+* To switch to PERMISSIVE mode for the cluster:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -304,4 +287,11 @@ Clean up the configuration as follows.
       - mtls:
           mode: PERMISSIVE
     EOF
+    {{< /text >}}
+
+* To disable the global mutual TLS and switch to plaintext only:
+
+    {{< text bash >}}
+    $ kubectl delete meshpolicy default
+    $ kubectl delete destinationrule default -n istio-system
     {{< /text >}}
