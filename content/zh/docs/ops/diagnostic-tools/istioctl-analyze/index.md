@@ -117,7 +117,7 @@ $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl 
 
 {{< /tabset >}}
 
-## 为资源状态启用验证消息{#enabling-validation-messages-for-resource-status}
+### 为资源状态启用验证消息{#enabling-validation-messages-for-resource-status}
 
 从 Istio 1.4 开始，可以通过 `galley.enableAnalysis` 标志将 Galley 设置为与主要负责的配置分发一起执行配置分析。该分析使用与 `istioctl analyze` 相同的逻辑和错误消息。来自分析的验证消息将写入受影响的 Istio 资源的状态子资源。
 
