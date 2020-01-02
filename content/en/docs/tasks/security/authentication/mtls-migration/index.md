@@ -44,40 +44,40 @@ You can enforce Istio mutual TLS for the entire cluster by following
 * You need to make sure your cluster is in PERMISSIVE mode before migrating to mutual TLS.
   Run the following command to check if your cluster has enabled PERMISSIVE mode:
 
-  {{< text bash >}}
-  $ kubectl get meshpolicy default -o yaml
-  ...
-  spec:
-    peers:
-    - mtls:
-        mode: PERMISSIVE
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get meshpolicy default -o yaml
+    ...
+    spec:
+      peers:
+      - mtls:
+          mode: PERMISSIVE
+    {{< /text >}}
 
   If you find the output same as above, you can skip the next step. Otherwise, move to the next step.
 
 * Run the following command to enable PERMISSIVE mode. In general, this operation does not cause any
   interruption your your workloads, but also see the warning message below.
 
-  {{< warning >}}
-  In PERMISSIVE mode, the Envoy sidecar relies on the _Istio_
-  [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) to decide whether to
-  terminate the mutual TLS traffic. If your workloads (without Envoy sidecar) have enabled mutual
-  TLS directly to the services with Envoy sidecars, enabling PERMISSIVE mode may cause these
-  connections to fail.
-  {{< /warning >}}
+    {{< warning >}}
+    In PERMISSIVE mode, the Envoy sidecar relies on the _Istio_
+    [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) to decide whether to
+    terminate the mutual TLS traffic. If your workloads (without Envoy sidecar) have enabled mutual
+    TLS directly to the services with Envoy sidecars, enabling PERMISSIVE mode may cause these
+    connections to fail.
+    {{< /warning >}}
 
-  {{< text bash >}}
-  $ kubectl apply -f - <<EOF
-  apiVersion: "authentication.istio.io/v1alpha1"
-  kind: "MeshPolicy"
-  metadata:
-    name: "default"
-  spec:
-    peers:
-    - mtls:
-        mode: PERMISSIVE
-  EOF
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: "authentication.istio.io/v1alpha1"
+    kind: "MeshPolicy"
+    metadata:
+      name: "default"
+    spec:
+      peers:
+      - mtls:
+          mode: PERMISSIVE
+    EOF
+    {{< /text >}}
 
 {{< tip >}}
 Use _istioctl authn tls-check_ to show the mTLS configuration of all connections from one pod:
