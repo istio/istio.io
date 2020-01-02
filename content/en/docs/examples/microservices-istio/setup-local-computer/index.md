@@ -8,18 +8,6 @@ weight: 3
 
 In this module you prepare your local computer for the tutorial.
 
-1.  On your local computer, create an environment variable to store the name
-    of the namespace used when you run the tutorial commands.
-    You can use any name, for example `tutorial`.
-
-    {{< text bash >}}
-    $ export NAMESPACE=tutorial
-    {{< /text >}}
-
-1.  On your local computer, locate the `${NAMESPACE}-user-config.yaml` file you
-    created earlier in the tutorial, where `${NAMESPACE}` is the name of your
-    namespace. For example `tutorial-user-config.yaml`.
-
 1.  Install [`curl`](https://curl.haxx.se/download.html).
 
 1.  Install [Node.js](https://nodejs.org/en/download/).
@@ -28,11 +16,11 @@ In this module you prepare your local computer for the tutorial.
 
 1.  Install [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
-1.  Set the `KUBECONFIG` environment variable for the `${NAMESPACE}-user-config.yaml`
-    configuration file:
+1.  Set the `KUBECONFIG` environment variable for the configuration file you received from the tutorial instructors, or
+    created yourself in the previous module.
 
     {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    $ export KUBECONFIG=<the file you recieved or created in the previous module>
     {{< /text >}}
 
 1.  Verify that the configuration took effect by printing the current namespace:
@@ -42,7 +30,8 @@ In this module you prepare your local computer for the tutorial.
     tutorial
     {{< /text >}}
 
-    You should see the name of your namespace in the output.
+    You should see in the output the name of the namespace, allocated for you by the instructors or allocated by
+    yourself in the previous module.
 
 1.  Download one of the [Istio release archives](https://github.com/istio/istio/releases) and extract
     the `istioctl` command line tool from the `bin` directory, and verify that you

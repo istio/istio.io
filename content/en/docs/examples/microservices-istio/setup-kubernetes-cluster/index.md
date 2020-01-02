@@ -18,7 +18,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     You can use the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
     [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
-1.  Connect to your cluster and create an environment variable to store the name
+1.  Create an environment variable to store the name
     of a namespace that you will use when you run the tutorial commands.
     You can use any name, for example `tutorial`.
 
@@ -38,7 +38,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  [Install Istio](/docs/setup/) with strict mutual TLS enabled.
+1.  [Install Istio](/docs/setup/).
 
 1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
@@ -76,7 +76,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
           - path: /
             backend:
               serviceName: tracing
-              servicePort: 80
+              servicePort: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
@@ -236,8 +236,8 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     You will need this file later in the tutorial.
 
     If you are an instructor, send the generated configuration files to each
-    participant who should copy it to their local computer.
+    participant. The participants must copy their configuration file to their local computer.
 
-Congratulations, you configured your cluster for the tutorials!
+Congratulations, you configured your cluster for the tutorial!
 
 You are ready to [setup a local computer](/docs/examples/microservices-istio/setup-local-computer).
