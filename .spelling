@@ -231,6 +231,7 @@ Fluentd
 foo.yaml
 fortio
 FQDNs
+FQDN
 frontend
 gbd
 GCP
@@ -294,6 +295,7 @@ IPv6
 Istio
 istio-identity
 istio-mixer
+istio-ingressgateway
 ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
 ISTIO-SECURITY-2019-005
