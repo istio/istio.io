@@ -25,7 +25,7 @@ aliases:
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-    这条命令会 `istio-operator` 命名空间中创建以下资源并开始运行 Istio operator :
+    这条命令会在 `istio-operator` 命名空间中创建以下资源并运行 Istio operator :
 
     - Istio operator 依赖的 custom resource definition
     - Istio operator 对应的控制器
