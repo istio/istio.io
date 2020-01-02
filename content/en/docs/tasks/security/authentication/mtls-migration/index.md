@@ -75,7 +75,7 @@ down once the migration is done.
     {{< /text >}}
 
 {{< tip >}}
-Use _istioctl authn tls-check_ to show the mTLS configuration of all connections from one pod:
+Use the following command to show the mutual TLS configuration of all connections from one pod:
 
 {{< text bash >}}
 $ istioctl authn tls-check \<YOUR\_POD\> -n \<YOUR\_NAMESPACE\>
@@ -95,7 +95,7 @@ which instructs the process using simple examples.
 ## Option 1: gradually enable mutual TLS for services
 
 In this section, you can try out the migration process by creating sample workloads and modifying
-the DestinationPolicies and MeshPolicies to enforce STRICT mutual TLS between the workloads.
+the policies to enforce STRICT mutual TLS between the workloads.
 
 ### Set up the cluster
 
@@ -210,9 +210,9 @@ If you can't migrate all your services to Istio (injecting Envoy sidecar), you h
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
 We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
-### Cleanup the example
+### Clean up the example
 
-To remove all temperary resources created in this task:
+To remove all resources created in this section:
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
@@ -221,8 +221,8 @@ Namespaces foo bar legacy deleted.
 
 ## Option 2: globally enable mutual TLS for the cluster
 
-This section describes how to apply the cluster-wide DestinationRule and MeshPolicy to enforce
-mutual TLS for a cluster. For more details, please read the
+This section describes how to apply the configuration to enforce mutual TLS for a cluster. For more
+details, please read the
 [Authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls)
 task.
 
@@ -253,7 +253,7 @@ EOF
 
 The connections between services should not be interrupted.
 
-### Lock down to mTLS for the entire cluster
+### Lock down to mutual TLS for the entire cluster
 
 Run the following command to enforce all Envoy sidecars to only receive mutual TLS traffic.
 
@@ -271,9 +271,9 @@ EOF
 
 The connections between services should not be interrupted.
 
-### Cleanup global mTLS configuration
+### Clean up global mutual TLS configuration
 
-Choose either of the following approachs depending on the status you want to switch to:
+Choose either of the following approaches depending on the status you want to switch to:
 
 * To switch to PERMISSIVE mode for the cluster:
 
