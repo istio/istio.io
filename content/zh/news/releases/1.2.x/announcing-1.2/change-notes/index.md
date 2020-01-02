@@ -23,14 +23,14 @@ aliases:
 ## 安全 {#security}
 
 - **改进** 将自签名 Citadel 根证书的默认生存期延长到10年。
-- **增加** 通过[标注](/zh/docs/ops/configuration/mesh/app-health-check/#use-annotations-on-pod) `PodSpec` 中`sidecar.istio.io/rewriteAppHTTPProbers: "true"` 字段 Kubernetes 的健康检查探测器会重写每个 deployment。
-- **增加** 支持给 Istio 双边 TLS 证书配置密钥路径。 更多信息请看[这里](https://github.com/istio/istio/issues/11984)。
+- **增加** 通过[标注](/zh/docs/ops/configuration/mesh/app-health-check/#use-annotations-on-pod) `PodSpec` 中`sidecar.istio.io/rewriteAppHTTPProbers: "true"` 字段，Kubernetes 的健康检查探测器会重写每个 deployment。
+- **增加** 支持给 Istio 双向 TLS 证书配置密钥路径。 更多信息请看[这里](https://github.com/istio/istio/issues/11984)。
 - **增加** 通过启用 Citadel 上的 `pkcs8-keys` 来支持 workload 使用 [PKCS 8](https://en.wikipedia.org/wiki/PKCS_8) 私钥。
 - **改进** JWT 公钥获取逻辑在网络失败的时候更可靠。
 - **修复** workload 证书中的 [SAN](https://tools.ietf.org/html/rfc5280#section-4.2.1.6) 字段设置为 `critical`。这是修复了一些自定义证书验证服务无法验证 Istio 证书的问题。
-- **修复** 重写了 HTTPS 的双边 TLS 探测。
+- **修复** 重写了 HTTPS 的双向 TLS 探测。
 - **毕业** [入口网关多证书支持的 SNI](/zh/docs/reference/config/networking/gateway/) 从 Alpha 版本发展到了稳定版。
-- **毕业** [入口网的证书管理](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/) 从 Alpha 版本发展到了 Beta 版。
+- **毕业** [入口网关证书管理](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/) 从 Alpha 版本发展到了 Beta 版。
 
 ## 遥测 {#telemetry}
 
@@ -44,14 +44,14 @@ aliases:
 - **修复** [基于 Mixer](https://github.com/istio/istio/issues/13868) 的 TCP 策略执行。
 - **毕业** [认证 (RBAC)](/zh/docs/reference/config/security/istio.rbac.v1alpha1/) 从 Alpha 版本发展到 Alpha API 和 Beta 运行时。
 
-## 配置管理 {#configuration management}
+## 配置管理 {#configuration-management}
 
 - **改进** 对策略和 CRD 遥测的验证。
 - **毕业** 基本资源配置验证从 Alpha 版本发展到了 Beta 版。
 
 ## 安装和升级 {#installation-and-upgrade}
 
-- **更新** 默认大力内存大小限制 (`global.proxy.resources.limits.memory`) 从 `128Mi` 扩大到 `1024Mi`，以此保证代理有充足的内存。
+- **更新** 默认代理内存大小限制 (`global.proxy.resources.limits.memory`) 从 `128Mi` 扩大到 `1024Mi`，以此保证代理有充足的内存。
 - **增加** pod 的[反亲和性](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)和[容错](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)功能支持了所有的控制平面组件。
 - **增加** `sidecarInjectorWebhook.neverInjectSelector` 和 `sidecarInjectorWebhook.alwaysInjectSelector` 配置，通过标签选择器让用户可以进一步控制 workload 是否应该自动注入 sidecar。
 - **增加** `global.logging.level` 和 `global.proxy.logLevel` 配置，允许用户方便的给控制平面和数据平面组件全局的配置日志。
@@ -72,7 +72,7 @@ aliases:
 
 ## 杂项 {#miscellaneous}
 
-- **增加** [Istio CNI 支持](/zh/docs/setup/additional-setup/cni/) 设置 sidecar 网络重定向，并且删除使用 需要 `NET_ADMIN` 功能的 `istio-init` 容器。
+- **增加** [Istio CNI 支持](/zh/docs/setup/additional-setup/cni/) 以设置 sidecar 网络重定向，并移除需要 `NET_ADMIN` 功能的 `istio-init` 容器。
 - **增加** 新实验功能 ['a-la-carte' Istio 安装器](https://github.com/istio/installer/wiki) 可以让用户以所希望的独立和安全的方式安装和升级 Istio。
 - **增加** 除了命令行参数外，[支持以环境变量和配置文件](https://docs.google.com/document/d/1M-qqBMNbhbAxl3S_8qQfaeOLAiRqSBpSgfWebFBRuu8/edit)的方式来配置 Galley。
 - **增加** [ControlZ](/zh/docs/ops/diagnostic-tools/controlz/) 支持在 Galley 中可视化 MCP 服务的状态。
