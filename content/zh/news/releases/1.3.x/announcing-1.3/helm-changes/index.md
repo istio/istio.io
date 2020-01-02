@@ -25,19 +25,19 @@ aliases:
 | --- | --- | --- | --- | --- |
 | `kiali.tag` | `v0.20` | `v1.1.0` |  |  |
 
-### 修改 `global` 键/值对{#modified-key-value-pairs}
+### 修改 `global` 键/值对{#modified-global-key-value-pairs}
 
 |  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
 | `global.tag` | `1.2.0-rc.3` | `release-1.3-latest-daily` | `Istio 镜像默认tag。` | `Istio 镜像默认tag。` |
 
-### 修改 `gateways` 键/值对{#modified-key-value-pairs}
+### 修改 `gateways` 键/值对{#modified-gateways-key-value-pairs}
 
 |  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
 | `gateways.istio-egressgateway.resources.limits.memory` | `256Mi` | `1024Mi` |  |  |
 
-### 修改 `tracing` 键/值对{#modified-key-value-pairs}
+### 修改 `tracing` 键/值对{#modified-tracing-key-value-pairs}
 
 |  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
@@ -46,7 +46,7 @@ aliases:
 
 ## 新加的配置选项{#new-configuration-options}
 
-### 添加 `tracing` 键/值对{#new-key-value-pairs}
+### 添加 `tracing` 键/值对{#new-tracing-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -58,7 +58,7 @@ aliases:
 | `tracing.jaeger.accessMode` | `ReadWriteMany` |  |
 | `tracing.zipkin.image` | `zipkin` |  |
 
-### 添加 `sidecarInjectorWebhook` 键/值对{#new-key-value-pairs}
+### 添加 `sidecarInjectorWebhook` 键/值对{#new-sidecar-injector-webhook-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -66,7 +66,7 @@ aliases:
 | `sidecarInjectorWebhook.rollingMaxUnavailable` | `25%` |  |
 | `sidecarInjectorWebhook.tolerations` | `[]` |  |
 
-### 添加 `global` 键/值对{#new-key-value-pairs}
+### 添加 `global` 键/值对{#new-global-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -92,14 +92,14 @@ aliases:
 | `global.meshID` | `""` |`MeshID表示 Mesh 标识符。在可能会彼此交互的 mesh 之间，它应该是唯一的，但是并不需要是全局唯一的。例如，如果满足以下任一条件，则两个 mesh 必须具有不同的 MeshID：- Mesh 将遥测聚集在同一个地方。- Mesh 将联合在一起。- 策略将被另一个 Mesh 引用。管理员希望这些条件中的任何一种将来可能成为现实，因此应确保为其 Mesh 分配了不同的 MeshID。在多群集 Mesh 中，每个群集必须（手动或自动）配置为具有相同的 MeshID 值。如果现有群集“加入”到多群集 Mesh 则需要将其迁移到新的 MeshID。迁移的详细信息待定，并且在安装后更改 MeshID 可能是一项破坏性操作。如果 Mesh 管理者未指定值，则 Istio 将使用 Mesh “信任域”的值。最佳实践是选择适当的“信任域”值。`|
 | `global.localityLbSetting.enabled` | `true` |  |
 
-### 添加 `galley` 键/值对{#new-key-value-pairs}
+### 添加 `galley` 键/值对{#new-galley-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `galley.rollingMaxSurge` | `100%` |  |
 | `galley.rollingMaxUnavailable` | `25%` |  |
 
-### 添加 `mixer` 键/值对{#new-key-value-pairs}
+### 添加 `mixer` 键/值对{#new-mixer-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -110,7 +110,7 @@ aliases:
 | `mixer.telemetry.reportBatchMaxEntries` | `100` | `将 reportBatchMaxEntries 设置为 0 表示使用默认的批处理行为（即每 100 个批处理一次）。 正值表示遥测数据发送到 mixer 服务器之前已批处理的请求数` |
 | `mixer.telemetry.reportBatchMaxTime` | `1s` | `将 reportBatchMaxTime 设置为 0 以使用默认的批处理行为（即每 1 秒批处理一次）。 正值表示处理完上次请求并将遥测数据发送到 mixer 服务器后，进行下次批处理前的最大等待时间` |
 
-### 添加 `grafana` 键/值对{#new-key-value-pairs}
+### 添加 `grafana` 键/值对{#new-1-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -127,13 +127,13 @@ aliases:
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-### 添加 `prometheus` 键/值对{#new-key-value-pairs}
+### 添加 `prometheus` 键/值对{#new-2-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `prometheus.image` | `prometheus` |  |
 
-### 添加 `gateways` 键/值对{#new-key-value-pairs}
+### 添加 `gateways` 键/值对{#new-gateways-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -144,13 +144,13 @@ aliases:
 | `gateways.istio-ilbgateway.rollingMaxSurge` | `100%` |  |
 | `gateways.istio-ilbgateway.rollingMaxUnavailable` | `25%` |  |
 
-### 添加 `certmanager` 键/值对{#new-key-value-pairs}
+### 添加 `certmanager` 键/值对{#new-cert-manager-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `certmanager.image` | `cert-manager-controller` |  |
 
-### 添加 `kiali` 键/值对{#new-key-value-pairs}
+### 添加 `kiali` 键/值对{#new-3-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -161,14 +161,14 @@ aliases:
 | `kiali.security.cert_file` | `/kiali-cert/cert-chain.pem` |  |
 | `kiali.security.private_key_file` | `/kiali-cert/key.pem` |  |
 
-### 添加 `istiocoredns` 键/值对{#new-key-value-pairs}
+### 添加 `istiocoredns` 键/值对{#new-4-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
 | `istiocoredns.rollingMaxSurge` | `100%` |  |
 | `istiocoredns.rollingMaxUnavailable` | `25%` |  |
 
-### 添加 `security` 键/值对{#new-key-value-pairs}
+### 添加 `security` 键/值对{#new-security-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -178,7 +178,7 @@ aliases:
 | `security.workloadCertTtl` | `2160h` | `90*24hour = 2160h` |
 | `security.enableNamespacesByDefault` | `true` | `如果在给定命名空间上找不到 ca.istio.io/env 或 ca.istio.io/override 标签，则确定 Citadel 默认行为。 例如：考虑一个名为 “target” 的命名空间，该命名空间既没有 ca.istio.io/env 也没有 ca.istio.io/override 命名空间标签，为了确定是否为在 “target” 命名空间中创建的服务帐户生成 secret，Citadel 将采用此选项。如果在这种情况下此选项的值为 “true”，则将为 “target” 命名空间生成 secret。 如果此选项的值为“false”，则 Citadel 在创建服务帐户时不会生成机密信息。` |
 
-### 添加 `pilot` 键/值对{#new-key-value-pairs}
+### 添加 `pilot` 键/值对{#new-pilot-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -188,7 +188,7 @@ aliases:
 
 ## 删除的配置选项{#removed-configuration-options}
 
-### 删除 `global` 键/值对{#removed-key-value-pairs}
+### 删除 `global` 键/值对{#removed-global-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -196,7 +196,7 @@ aliases:
 | `global.sds.useNormalJwt` | `false` |  |
 | `global.localityLbSetting` | `{}` |  |
 
-### 删除 `mixer` 键/值对{#removed-key-value-pairs}
+### 删除 `mixer` 键/值对{#removed-mixer-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
