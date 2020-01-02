@@ -52,4 +52,5 @@ spec:
 
 Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
 
-This feature is experimental and off by default. It can be turned on by providing the install option `--set values.pilot.enableProtocolSniffing=true`.
+This feature is experimental and on for outbound traffic, off for inbound traffic by default.
+It can be turned on for inbound traffic by providing the install options `--set values.pilot.enableProtocolSniffingForInbound=true` or turned off for outbound traffic by providing the install options `--set values.pilot.enableProtocolSniffingForOutbound=false`.
