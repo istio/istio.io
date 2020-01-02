@@ -5,11 +5,11 @@ weight: 30
 keywords: [kubernetes, helm, install, options]
 ---
 
-下表显示了使用 Helm 在 Istio 1.0 到 Istio 1.1 中自定义安装 Istio 时的选项所做的更改，这个表分为三个不同的类别：
+下表显示了在 Istio 1.0 版本到 Istio 1.1 版本之间使用 Helm 自定义安装 Istio 时参数变更，主要包含了三种类型的变更：
 
 - 安装参数在 1.0 版本之前已经存在，但是值在新发布的 1.1 版本中进行了修改。
-- 1.1 版本新增的参数。
-- 1.1 版本删除的参数。
+- 1.3 版本新加的参数。
+- 1.3 版本删除的参数。
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 
