@@ -25,12 +25,12 @@ aliases:
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-    This command runs the operator by creating the following resources in the `istio-operator` namespace:
+    这条命令会 `istio-operator` 命名空间中创建以下资源并开始运行 Istio operator :
 
-    - The operator custom resource definition
-    - The operator controller deployment
-    - A service to access operator metrics
-    - Necessary Istio operator RBAC rules
+    - Istio operator 依赖的 custom resource definition
+    - Istio operator 对应的控制器
+    - 访问 Istio operator 指标信息的 service
+    - Istio operator 必要的 RBAC 资源
 
 ## 安装{#install}
 
