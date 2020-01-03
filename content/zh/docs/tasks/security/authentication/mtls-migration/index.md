@@ -88,9 +88,9 @@ EOF
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
-200
-200
-200
+sleep.foo to httpbin.foo: 200
+sleep.bar to httpbin.foo: 200
+sleep.legacy to httpbin.foo: 200
 {{< /text >}}
 
 也可以指定一部分客户端使用 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 中设置的 `ISTIO_MUTUAL` 双向 TLS 通信模式。
@@ -120,9 +120,9 @@ EOF
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
-200
-200
-503
+sleep.foo to httpbin.foo: 200
+sleep.bar to httpbin.foo: 200
+sleep.legacy to httpbin.foo: 503
 {{< /text >}}
 
 若无法将所有服务迁移至 Istio （注入 Envoy sidecar），则必须开启 `PERMISSIVE` 模式。

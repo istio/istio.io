@@ -92,7 +92,7 @@ aliases:
 1. 检查 CA 证书和运维人员指定的是否一致
 
     {{< text bash >}}
-    $ tail -n 22 /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
+    $ sed '0,/^-----END CERTIFICATE-----/d' /tmp/pod-cert-chain.pem > /tmp/pod-cert-chain-ca.pem
     $ openssl x509 -in @samples/certs/ca-cert.pem@ -text -noout > /tmp/ca-cert.crt.txt
     $ openssl x509 -in /tmp/pod-cert-chain-ca.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
     $ diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
@@ -114,6 +114,7 @@ aliases:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
+    $ istioctl manifest apply --set values.global.mtls.enabled=true
     {{< /text >}}
 
 * 移除 Istio 组件：按照 [卸载说明](/zh/docs/setup/getting-started/#uninstall) 进行删除。

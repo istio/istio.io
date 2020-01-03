@@ -390,8 +390,7 @@ Istio Pilot 用该服务和端点以让远程 sidecars 可以通过 Istio 的本
     {{< text bash >}}
     $ istioctl manifest apply \
       --set values.global.mtls.enabled=true \
-      --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true
+      --set values.security.selfSigned=false
     {{< /text >}}
 
 #### 远程集群：部署 Istio 组件{#remote-cluster-deploy-Istio-components}
@@ -412,7 +411,6 @@ Istio Pilot 用该服务和端点以让远程 sidecars 可以通过 Istio 的本
       --set profile=remote \
       --set values.global.mtls.enabled=true \
       --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${PILOT_POD_IP} \
