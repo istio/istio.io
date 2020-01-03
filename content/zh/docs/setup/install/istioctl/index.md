@@ -238,10 +238,7 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 $ istioctl manifest apply --set values.global.mtls.enabled=true
 {{< /text >}}
 
-Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
-`istioctl` using the `-f` option:
-
-或者，可以在YAML文件中指定 `IstioControlPlane` 配置，并使用 `-f` 选项将其传递给 `istioctlt`：
+或者，可以在 YAML 文件中指定 `IstioControlPlane` 配置，并使用 `-f` 选项将其传给 `istioctl`：
 
 {{< text bash >}}
 $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
