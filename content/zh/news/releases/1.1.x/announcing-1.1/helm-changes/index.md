@@ -37,7 +37,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.tag` | `release-1.0-latest-daily` | `release-1.1-latest-daily` |  | `Istio 镜像的默认标签` |
 | `global.proxy.resources.requests.cpu` | `10m` | `100m` |  |  |
 | `global.proxy.accessLogFile` | `"/dev/stdout"` | `""` |  |  |
-| `global.proxy.enableCoreDump` | `false` | `false` |  | `如果设置，新注入的 sidecars 将启用 core dumps ` |
+| `global.proxy.enableCoreDump` | `false` | `false` |  | `如果设置，新注入的 sidecars 将启用 core dumps。` |
 | `global.proxy.autoInject` | `enabled` | `enabled` |  | `可以控制 sidecar 的注入策略。` |
 | `global.proxy.envoyStatsd.enabled` | `true` | `false` |  | `如果设置为 true，则还须提供主机地址和端口。 Istio不再提供 statsd 收集器。` |
 | `global.proxy.envoyStatsd.host` | `istio-statsd-prom-bridge` | `` |  | `例如: statsd-svc.istio-system` |
