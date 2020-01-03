@@ -141,7 +141,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.proxy.statusPort` | `15020` | `Pilot 代理运行状况检查的默认端口，设置为 0 将禁用运行状况检查。` |
 | `global.proxy.readinessInitialDelaySeconds` | `1` | `准备就绪探测的初始延迟（以秒为单位）。` |
 | `global.proxy.readinessPeriodSeconds` | `2` | `准备就绪探测之间的时间间隔。` |
-| `global.proxy.readinessFailureThreshold` | `30` | 指`示准备就绪失败之前，连续失败的探测数。` |
+| `global.proxy.readinessFailureThreshold` | `30` | `指示准备就绪失败之前，连续失败的探测数。` |
 | `global.proxy.kubevirtInterfaces` | `""` | `pod 的内部接口。` |
 | `global.proxy.envoyMetricsService.enabled` | `false` |  |
 | `global.proxy.envoyMetricsService.host` | `` | `例如：metrics-service.istio-system` |
