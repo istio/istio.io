@@ -48,14 +48,14 @@ them down once the migration is done.
           mode: PERMISSIVE
     {{< /text >}}
 
-  If the output is the same as above, you can skip the next step. Otherwise, perform the next step.
+    If the output is the same as above, you can skip the next step.
 
 * Run the following command to enable `PERMISSIVE` mode for the cluster. In general, this operation
-  does not cause any interruption to your workloads, but also see the warning message below.
+  does not cause any interruption to your workloads, but note the warning message below.
 
     {{< warning >}}
     In `PERMISSIVE` mode, the Envoy sidecar relies on the
-    [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) value `_istio_` to
+    [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) value `istio` to
     decide whether to terminate the mutual TLS traffic. If your workloads (without Envoy sidecar)
     have enabled mutual TLS directly to the services with Envoy sidecars, enabling `PERMISSIVE` mode
     may cause these connections to fail.
@@ -75,7 +75,7 @@ them down once the migration is done.
     {{< /text >}}
 
 {{< tip >}}
-Use the following command to show the mutual TLS configuration of all connections from one pod:
+You can use the following command to show the mutual TLS configuration of all connections from one pod:
 
 {{< text bash >}}
 $ istioctl authn tls-check <YOUR_POD> -n <YOUR_NAMESPACE>
@@ -83,13 +83,13 @@ $ istioctl authn tls-check <YOUR_POD> -n <YOUR_NAMESPACE>
 
 {{< /tip >}}
 
-In the following, the task is divided into two parts.
+The rest of this task is divided into two parts.
 
-* If you want to enable mutual TLS for your workloads one after one, you can go to the section
+* If you want to enable mutual TLS for your workloads one by one, refer to
 [gradually enable mutual TLS for services](/docs/tasks/security/authentication/mtls-migration/#option-1-gradually-enable-mutual-tls-for-services),
-which instructs the process using simple examples.
+which describes the process using simple examples.
 
-* Or, if you want to enable mutual TLS for the entire cluster, you can go to the section
+* If you want to enable mutual TLS for the entire cluster, refer to
 [globally enable mutual TLS for the cluster](/docs/tasks/security/authentication/mtls-migration/#option-2-globally-enable-mutual-tls-for-the-cluster).
 
 ## Option 1: gradually enable mutual TLS for services
@@ -99,11 +99,11 @@ the policies to enforce STRICT mutual TLS between the workloads.
 
 ### Set up the cluster
 
-* Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecar on both of them.
+* Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecars on both of them.
     * `foo`
     * `bar`
 
-* Create the following namespace and deploy [sleep]({{< github_tree >}}/samples/sleep) without sidecar
+* Create the following namespace and deploy [sleep]({{< github_tree >}}/samples/sleep) without a sidecar
     * `legacy`
 
     {{< text bash >}}
@@ -273,7 +273,7 @@ The connections between services should not be interrupted.
 
 ### Clean up global mutual TLS configuration
 
-Choose either of the following approaches depending on the status you want to switch to:
+Choose one of the following, depending on the mode you want to switch to:
 
 * To switch to `PERMISSIVE` mode for the cluster:
 
