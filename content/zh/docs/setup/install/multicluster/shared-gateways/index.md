@@ -167,14 +167,13 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
       --set values.global.mtls.enabled=true \
       --set values.gateways.enabled=true \
       --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
       --set values.global.remotePolicyAddress=${LOCAL_GW_ADDR} \
       --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-      --set values.global.network="network2"  \
+      --set values.global.network="network2" \
       --set autoInjection.enabled=true
     {{< /text >}}
 
@@ -408,7 +407,6 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.mtls.enabled=true \
   --set values.gateways.enabled=true \
   --set values.security.selfSigned=false \
-  --set values.global.controlPlaneSecurityEnabled=true \
   --set values.global.createRemoteSvcEndpoints=true \
   --set values.global.remotePilotCreateSvcEndpoint=true \
   --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
@@ -419,7 +417,6 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set autoInjection.enabled=true | kubectl --context=$CTX_CLUSTER2 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
 $ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT LOCAL_GW_ADDR
-
 {{< /text >}}
 
 清除集群 `cluster1`：
