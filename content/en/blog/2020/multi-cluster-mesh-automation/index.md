@@ -8,16 +8,20 @@ keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,g
 target_release: 1.5
 ---
 
-At Intuit, we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](../../2019/isolated-clusters/) and immediately related to some of the problems mentioned. This blog post explains how we solved these problems using [Admiral](https://github.com/istio-ecosystem/admiral), an open source project under `istio-ecosystem` in GitHub.
+At Intuit, we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](/blog/2019/isolated-clusters/) and immediately related to some of the problems mentioned.
+We realized that even though we wanted to configure a single multi-cluster mesh, instead of a federation of multiple meshes
+as described in the blog post, the same non-uniform naming issues also applied in our environment.
+This blog post explains how we solved these problems using [Admiral](https://github.com/istio-ecosystem/admiral), an open source project under `istio-ecosystem` in GitHub.
 
 ## Background
 
-Using Istio, we realized the configuration for multi-cluster was complex and challenging to maintain over time. As a result, we chose the model described in [Multi-Cluster Istio Service Mesh with local control planes](../../../docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) for scalability and other operational reasons. Following this model, we had to solve these key requirements before widely adopting an Istio service mesh:
-- Creation of service DNS entries decoupled from the namespace, as described in [Features of multi-mesh deployments](../../2019/isolated-clusters/#features-of-multi-mesh-deployments))
-- Service discovery across many clusters
+Using Istio, we realized the configuration for multi-cluster was complex and challenging to maintain over time. As a result, we chose the model described in [Multi-Cluster Istio Service Mesh with replicated control planes](/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) for scalability and other operational reasons. Following this model, we had to solve these key requirements before widely adopting an Istio service mesh:
+
+- Creation of service DNS entries decoupled from the namespace, as described in [Features of multi-mesh deployments](/blog/2019/isolated-clusters/#features-of-multi-mesh-deployments).
+- Service discovery across many clusters.
 - Supporting active-active & HA/DR deployments. We also had to support these crucial resiliency patterns with services being deployed in globally unique namespaces across discrete clusters.
 
-We have over 160 Kubernetes clusters with a globally unique namespace name across all clusters. In this configuration, we can have the same service workload deployed in different regions running in namespaces with different names. As a result, following the routing strategy mentioned in [Multicluster version routing](../../2019/multicluster-version-routing)), the example name `foo.namespace.global` wouldn't work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique Kubernetes FQDN. For example, `foo.global` should resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if `foo` is running in two Kubernetes clusters with different names.
+We have over 160 Kubernetes clusters with a globally unique namespace name across all clusters. In this configuration, we can have the same service workload deployed in different regions running in namespaces with different names. As a result, following the routing strategy mentioned in [Multicluster version routing](/blog/2019/multicluster-version-routing), the example name `foo.namespace.global` wouldn't work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique Kubernetes FQDN. For example, `foo.global` should resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if `foo` is running in two Kubernetes clusters with different names.
 Also, our services need additional DNS names with different resolution and global routing properties. For example, `foo.global` should resolve locally first, then route to a remote instance using topology routing, while `foo-west.global` and `foo-east.global` (names used for testing) should always resolve to the respective regions.
 
 ## Contextual Configuration
@@ -60,7 +64,7 @@ spec:
   - name: http
     number: 80
     protocol: http
-  resolution: DNS}}
+  resolution: DNS
 {{< /text >}}
 
 Cluster 2 Service Entry
@@ -92,7 +96,7 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-The payments `ServiceEntry` (Istio CRD) from the point of view of the reports service in Cluster 2, would set the locality `us-west` pointing to the local Kubernetes FQDN and locality `us-east` pointing to the istio-ingressgateway (load balancer) for Cluster 3.
+The payments `ServiceEntry` (Istio CRD) from the point of view of the reports service in Cluster 2, would set the locality `us-west` pointing to the local Kubernetes FQDN and locality `us-east` pointing to the `istio-ingressgateway` (load balancer) for Cluster 3.
 The payments `ServiceEntry` from the point of view of the orders service in Cluster 1, will set the locality `us-west` pointing to Cluster 2 `istio-ingressgateway` and locality `us-east` pointing to the `istio-ingressgateway` for Cluster 3.
 
 But wait, there's even more complexity: What if the payment services want to move traffic to the `us-east` region for a planned maintenance in `us-west`? This would require the payments service to change the Istio configuration in all of their clients' clusters. This would be nearly impossible to do without automation.
@@ -153,13 +157,13 @@ spec:
   source: orders
   identityLabel: identity
   destinations:
-    - payments
+  - payments
 {{< /text >}}
 
 `Dependency` is optional and a missing dependency for a service will result in an Istio configuration for that service pushed to all clusters.
 
 ## Summary
 
-Admiral provides a new Global Traffic Routing and unique service naming functionality to address some challenges posed by the Istio model described in [multi-cluster deployment with local control planes](../../../docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster). It removes the need for manual configuration synchronization between clusters and generates contextual configuration for each cluster. This makes it possible to operate a Service Mesh composed of many Kubernetes clusters.
+Admiral provides a new Global Traffic Routing and unique service naming functionality to address some challenges posed by the Istio model described in [multi-cluster deployment with replicated control planes](/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster). It removes the need for manual configuration synchronization between clusters and generates contextual configuration for each cluster. This makes it possible to operate a Service Mesh composed of many Kubernetes clusters.
 
 We think Istio/Service Mesh community would benefit from this approach, so we [open sourced Admiral](https://github.com/istio-ecosystem/admiral) and would love your feedback and support!
