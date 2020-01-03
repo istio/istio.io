@@ -96,7 +96,7 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-The payments `ServiceEntry` (Istio CRD) from the point of view of the reports service in Cluster 2, would set the locality `us-west` pointing to the local Kubernetes FQDN and locality `us-east` pointing to the istio-ingressgateway (load balancer) for Cluster 3.
+The payments `ServiceEntry` (Istio CRD) from the point of view of the reports service in Cluster 2, would set the locality `us-west` pointing to the local Kubernetes FQDN and locality `us-east` pointing to the `istio-ingressgateway` (load balancer) for Cluster 3.
 The payments `ServiceEntry` from the point of view of the orders service in Cluster 1, will set the locality `us-west` pointing to Cluster 2 `istio-ingressgateway` and locality `us-east` pointing to the `istio-ingressgateway` for Cluster 3.
 
 But wait, there's even more complexity: What if the payment services want to move traffic to the `us-east` region for a planned maintenance in `us-west`? This would require the payments service to change the Istio configuration in all of their clients' clusters. This would be nearly impossible to do without automation.
