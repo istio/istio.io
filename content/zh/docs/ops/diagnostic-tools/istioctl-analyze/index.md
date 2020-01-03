@@ -91,7 +91,7 @@ $ istioctl analyze *.yaml
 
 ## 高级功能{#advanced}
 
-### 获取最新版本的 `istioctl analyze`{#getting-the-latest-version-of-istioctl-analyze}
+### 获取最新版本的 `istioctl analyze`{#getting-the-latest-version-of-`istioctl`-analyze}
 
 虽然 `istioctl analyze` 是包含在了 Istio 1.4 以及更高级的版本中，还是可以直接下载最新版本到集群中使用的。最新版本可能不稳定，但是会有最完整和最新的分析程序集，并且可能会发现旧版本遗漏的问题。
 
