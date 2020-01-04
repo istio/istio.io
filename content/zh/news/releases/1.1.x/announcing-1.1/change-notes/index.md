@@ -1,213 +1,118 @@
 ---
-title: Change Notes
-description: Istio 1.1 release notes.
+title: 变更说明
+description: Istio 1.1 发行说明。
 weight: 10
 aliases:
     - /zh/about/notes/1.1
 ---
 
-## Incompatible changes from 1.0
+## 从 1.0 开始的不兼容变更{#incompatible-changes-from-1-0}
 
-In addition to the new features and improvements listed below, Istio 1.1 has introduced
-a number of significant changes from 1.0 that can alter the behavior of applications.
-A concise list of these changes can be found in the [upgrade notice](/zh/news/releases/1.1.x/announcing-1.1/upgrade-notes).
+除了下面列出的新功能和改进之外，Istio 从 1.0 开始就引入了许多重要改进，这些改进可以更改应用程序的行为。在[升级说明](/zh/news/releases/1.1.x/announcing-1.1/upgrade-notes)中可以找到这些改进的简明清单。
 
-## Upgrades
+## 升级{#upgrades}
 
-We recommend a manual upgrade of the control plane and data plane to 1.1. See
-the [upgrades documents](/zh/docs/setup/upgrade/) for more information.
+我们建议手动将控制平面和数据平面升级到 1.1。有关更多信息，请参见[升级文档](/zh/docs/setup/upgrade/)。
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/zh/news/releases/1.1.x/announcing-1.1/upgrade-notes) for a
-concise list of things you should know before upgrading your deployment to Istio 1.1.
+在将 deployment 升级到 Istio 1.1 之前，请务必查看[升级说明](/zh/news/releases/1.1.x/announcing-1.1/upgrade-notes)以获得您应该了解的简要清单。
 {{< /warning >}}
 
-## Installation
+## 安装{#installation}
 
-- **CRD Install Separated from Istio Install**.  Placed Istio’s Custom Resource
-  Definitions (CRDs) into the `istio-init` Helm chart. Placing the CRDs in
-  their own Helm chart preserves the data continuity of the custom resource
-  content during the upgrade process and further enables Istio to evolve beyond
-  a Helm-based installation.
+- **将 CRD 安装从 Istio 安装中分离出来**。将 Istio 的自定义资源（CRD）放入 `istio-init` Helm chart 中。将 CRD 放置在自己的 Helm chart 中，可以在升级过程中保留自定义资源内容的数据连续性，并进一步使 Istio 能够超越基于 Helm 的安装。
 
-- **Installation Configuration Profiles**. Added several installation
-  configuration profiles to simplify the installation process using well-known
-  and well-tested patterns. Learn more about the better user experience
-  afforded by the [installation profile feature](/zh/docs/setup/additional-setup/config-profiles/).
+- **安装配置文件**。添加了几个安装配置文件，以便使用成熟的且经过测试的方式简化安装过程。[安装配置文件功能](/zh/docs/setup/additional-setup/config-profiles/)为用户提供了更好的体验，以便您详细了解。
 
-- **Improved Multicluster Integration**. Consolidated the 1.0 `istio-remote`
-  chart previously used for
-  [multicluster VPN](/zh/docs/setup/install/multicluster/shared-vpn/) and
-  [multicluster split horizon](/zh/docs/setup/install/multicluster/shared-gateways/) remote cluster installation
-  into the Istio Helm chart simplifying the operational experience.
+- **改进多集群集成**。将 `istio-remote` chart 1.0 合并到 Istio Helm chart 中，从而简化操作体验，其先前用于[多集群 VPN](/zh/docs/setup/install/multicluster/shared-vpn/) 和[多集群水平拆分](/zh/docs/setup/install/multicluster/shared-gateways/)远程集群安装。
 
-## Traffic management
+## 流量管理{#traffic-management}
 
-- **New `Sidecar` Resource**. The new [sidecar](/zh/docs/concepts/traffic-management/#sidecars) resource
-  enables more fine-grained control over the behavior of the sidecar proxies attached to workloads within a namespace.
-  In particular it adds support to limit the set of services a sidecar will send traffic to.
-  This reduces the amount of configuration computed and transmitted to
-  the proxy, improving startup time, resource consumption and control-plane scalability.
-  For large deployments, we recommend adding a sidecar resource per namespace. Controls are also
-  provided for ports, protocols and traffic capture for advanced use-cases.
+- **新的 `Sidecar` 资源**。通过新的 [sidecar](/zh/docs/concepts/traffic-management/#sidecars) 资源，可以更精细地控制附加到命名空间中工作负载的 sidecar 代理的行为。特别是，它增加了对限制 sidecar 向其发送流量的服务集的支持。这减少了计算和传输给代理的配置量，从而改善了启动时间、资源消耗和控制平面可伸缩性。对于复杂部署，我们建议为每个命名空间添加 sidecar 资源。我们还为高级用例的端口、协议和流量捕获提供了控件。
 
-- **Restrict Visibility of Services**. Added the new `exportTo` feature which allows
-  service owners to control which namespaces can reference their services. This feature is
-  added to `ServiceEntry`, `VirtualService` and is also supported on a Kubernetes Service via the
-  `networking.istio.io/exportTo` annotation.
+- **限制服务的可见性**。添加了新的 `exportTo` 功能，该功能允许服务所有者控制哪些命名空间可以引用其服务。此功能已添加到`ServiceEntry`，`VirtualService` 中，并且 Kubernetes 服务也通过 `networking.istio.io/exportTo` 批注支持该功能。
 
-- **Namespace Scoping**. When referring to a `VirtualService` in a Gateway we use DNS based name matching
-  in our configuration model. This can be ambiguous when more than one namespace defines a virtual service
-  for the same host name. To resolve ambiguity it is now possible to explicitly scope these references
-  by namespace using a syntax of the form **`[{namespace-name}]/{hostname-match}`** in the `hosts` field.
-  The equivalent capability is also available in `Sidecar` for egress.
+- **命名空间范围**。当在网关中引用 `VirtualService` 时，我们在配置模型中使用基于 DNS 的名称匹配。当多个命名空间为同一主机名定义虚拟服务时，这会造成模棱两可的情况。为了解决歧义，现在可以在 `hosts` 字段中使用 **`[{namespace-name}]/{hostname-match}`** 形式的语法按命名空间显式定义这些引用的范围。在 egress `Sidecar` 中也可以使用相同功能。
 
-- **Updates to `ServiceEntry` Resources**. Added support to specify the
-  locality of a service and the associated SAN to use with mutual TLS. Service
-  entries with HTTPS ports no longer need an additional virtual service to
-  enable SNI-based routing.
+- **更新 `ServiceEntry` 资源**。现在支持指定，与双向 TLS 一起使用的服务及相关 SAN 的位置。具有 HTTPS 端口的服务条目不再需要其他虚拟服务来启用基于 SNI 的路由。
 
-- **Locality-Aware Routing**. Added full support for routing to services in the
-  same locality before picking services in other localities.
-  See [Locality Load Balancer Settings](/zh/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
+- **位置感知路由**。添加了对在选择其他地区的服务之前路由到相同地区的服务的完整支持。请参阅[本地负载均衡器设置](/zh/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
 
-- **Refined Multicluster Routing**. Simplified the multicluster setup and
-  enabled additional deployment modes. You can now connect multiple clusters
-  simply using their ingress gateways without needing pod-level VPNs, deploy
-  control planes in each cluster for high-availability cases, and span a
-  namespace across several clusters to create global namespaces. Locality-aware
-  routing is enabled by default in the high-availability control plane
-  solution.
+- **完善多集群路由**。简化了多集群设置并启用了其他部署模式。现在，您可以简单地使用它们的入口网关连接多个集群，而无需 Pod 级的 VPN，针对高可用性情况在每个集群中部署控制平面，并跨多个集群创建命名空间以实现创建全局命名空间。高可用控制平面解决方案默认启用位置感知路由。
 
-- **Istio Ingress Deprecated**. Removed the previously deprecated Istio
-  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/zh/docs/tasks/traffic-management/ingress/ingress-certmgr/)
-  example for more details on how to use Kubernetes Ingress resources with
-  [gateways](/zh/docs/concepts/traffic-management/#gateways).
+- **弃用 Istio Ingress**。删除了以前不推荐使用的 Istio ingress。有关如何在[网关](/zh/docs/concepts/traffic-management/#gateways)中使用 Kubernetes Ingress 资源的更多详细信息，请参考[使用 Cert-Manager 保护 Kubernetes Ingress](/zh/docs/tasks/traffic-management/ingress/ingress-certmgr/) 示例。
 
-- **Performance and Scalability Improvements**. Tuned the performance and
-  scalability of Istio and Envoy. Read more about [Performance and Scalability](/zh/docs/ops/deployment/performance-and-scalability/)
-  enhancements.
+- **改进性能和可伸缩性**。调整 Istio 和 Envoy 的性能和可伸缩性。阅读[性能和可伸缩性](/zh/docs/ops/deployment/performance-and-scalability/)获取更多信息。
 
-- **Access Logging Off by Default**. Disabled the access logs for all Envoy
-  sidecars by default to improve performance.
+- **默认关闭访问日志**。默认情况下，禁用所有 Envoy sidecar 的访问日志以提高性能。
 
-### Security
+### 安全{#security}
 
-- **Readiness and Liveness Probes**. Added support for Kubernetes' HTTP
-  [readiness and liveness probes](/zh/faq/security/#k8s-health-checks) when
-  mutual TLS is enabled.
+- **就绪和存活探针**。添加了对 Kubernetes HTTP [就绪和存活探针](/zh/faq/security/#k8s-health-checks) 的支持（启用双向 TLS 时）。
 
-- **Cluster RBAC Configuration**. Replaced the `RbacConfig` resource with the
-  `ClusterRbacConfig` resource to implement the correct cluster scope. See
-  [Migrating `RbacConfig` to `ClusterRbacConfig`](https://archive.istio.io/v1.1/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig).
-  for migration instructions.
+- **群集 RBAC 配置**。用 `ClusterRbacConfig` 资源替换了 `RbacConfig` 资源，以实现正确的集群范围。关于迁移说明，请参见[将 `RbacConfig` 迁移到 `ClusterRbacConfig`](https://archive.istio.io/v1.1/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig)。
 
-- **Identity Provisioning Through SDS**. Added SDS support to provide stronger
-  security with on-node key generation and dynamic certificate rotation without
-  restarting Envoy. See [Provisioning Identity through SDS](/zh/docs/tasks/security/citadel-config/auth-sds)
-  for more information.
+- **通过 SDS 进行身份认证**。添加了 SDS 支持，通过节点密钥生成以及动态证书轮换，来提供更强的安全性，并且无需重启 Envoy。有关更多信息，请参见[通过 SDS 进行身份认证](/zh/docs/tasks/security/citadel-config/auth-sds)。
 
-- **Authorization for TCP Services**. Added support of authorization for TCP
-  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/zh/docs/tasks/security/authorization/authz-tcp)
-  for more information.
+- **TCP 服务授权**。除了 HTTP 和 gRPC 服务之外，还增加了对 TCP 服务的授权支持。有关更多信息，请参见[TCP服务授权](/zh/docs/tasks/security/authorization/authz-tcp)。
 
-- **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/zh/docs/tasks/security/authorization/rbac-groups/)
-  for more information.
+- **终端用户组的授权**。添加了基于 `组` 声明或 JWT 中任何列表类型声明的授权。有关更多信息，请参见[组和列表声明的授权](/zh/docs/tasks/security/authorization/rbac-groups/)。
 
-- **External Certificate Management on Ingress Gateway Controller**.
-  Added a controller to dynamically load and rotate external certificates.
+- **Ingress Gateway 控制器的外部证书管理**。添加了一个控制器以动态加载和轮转外部证书。
 
-- **Custom PKI Integration**. Added Vault PKI integration with support for
-  Vault-protected signing keys and ability to integrate with existing Vault PKIs.
+- **自定义 PKI 集成**。添加了 Vault PKI 集成，并支持受 Vault 保护的签名密钥，并能直接与现有的 Vault PKI 集成。
 
-- **Customized (non `cluster.local`) Trust Domains**. Added support for
-  organization- or cluster-specific trust domains in the identities.
+- **自定义信任域（非`cluster.local`）**。在标识中增加了对特定于组织或群集的信任域的支持。
 
-## Policies and telemetry
+## 策略和遥测{#policies-and-telemetry}
 
-- **Policy Checks Off By Default**. Changed policy checks to be turned off by
-  default to improve performance for most customer scenarios. [Enabling Policy Enforcement](/zh/docs/tasks/policy-enforcement/enabling-policy/)
-  details how to turn on Istio policy checks, if needed.
+- **默认关闭策略检查**。默认情况下，修改后的策略检查是关闭的，以提高大多数客户方案的性能。[启用策略执行](/zh/docs/tasks/policy-enforcement/enabling-policy/)详细说明了如何根据需要开启 Istio 策略检查。
 
-- **Kiali**. Replaced the [Service Graph addon](https://github.com/istio/istio/issues/9066)
-  with [Kiali](https://www.kiali.io) to provide a richer visualization
-  experience. See the [Kiali task](/zh/docs/tasks/observability/kiali/) for more
-  details.
+- **Kiali**。用 [Kiali](https://www.kiali.io) 替换了 [Service Graph addon](https://github.com/istio/istio/issues/9066)，以提供更丰富的可视化体验。有关更多详细信息，请参见[Kiali 任务](/zh/docs/tasks/observability/kiali/)。
 
-- **Reduced Overhead**. Added several performance and scale improvements
-  including:
+- **减少开销**。添加了一些性能和规模改进，包括：
 
-    - Significant reduction in default collection of Envoy-generated
-      statistics.
+    - 大大减少了 Envoy 默认收集生成的统计信息的开销。
 
-    - Added load-shedding functionality to Mixer workloads.
+    - 为 Mixer 工作负载添加了负载削减功能。
 
-    - Improved the protocol between Envoy and Mixer.
+    - 改进了 Envoy 和 Mixer 之间的协议。
 
-- **Control Headers and Routing**. Added the option to create adapters to
-  influence the headers and routing of an incoming request. See the [Control Headers and Routing](/zh/docs/tasks/policy-enforcement/control-headers)
-  task for more information.
+- **请求头和路由控制**。添加了创建适配器以影响传入请求 header 和路由的选项。有关更多信息，请参见[请求头和路由控制](/zh/docs/tasks/policy-enforcement/control-headers)任务。
 
-- **Out of Process Adapters**. Added the out-of-process adapter functionality
-  for production use. As a result, we deprecated the in-process adapter model
-  in this release. All new adapter development should use the out-of-process
-  model moving forward.
+- **进程外适配器**。添加了生产可用的进程外适配器功能。然后，我们在此版本中弃用了进程内适配器模型。所有新的适配器开发都应使用进程外模型。
 
-- **Tracing Improvements**. Performed many improvements in our overall tracing
-  story:
+- **追踪改进**。在我们的总体追踪故事中进行了许多改进：
 
-    - Trace ids are now 128 bit wide.
+    - 跟踪 ID 的位宽现在是 128。
 
-    - Added support for sending trace data to [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)
+    - 现在支持将追踪数据发送到 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)。
 
-    - Added the option to disable tracing for Mixer-backed services entirely.
+    - 添加了一个选项，可用于完全禁用由 Mixer 支持的服务的跟踪功能。
 
-    - Added policy decision-aware tracing.
+    - 添加了策略 decision-aware 跟踪。
 
-- **Default TCP Metrics**. Added default metrics for tracking TCP connections.
+- **默认的 TCP 指标**。为追踪 TCP 连接增加默认指标
 
-- **Reduced Load Balancer Requirements for Addons**. Stopped exposing addons
-  via separate load balancers. Instead, addons are exposed via the Istio
-  gateway. To expose addons externally using either HTTP or HTTPS protocols,
-  please use the [Addon Gateway documentation](/zh/docs/tasks/observability/gateways/).
+- **降低插件的负载均衡的要求**。不再通过单独的负载均衡公开插件。而是通过 Istio 网关公开插件。要使用 HTTP 或 HTTPS 协议从外部公开插件，请使用 [Addon Gateway 文档](/zh/docs/tasks/observability/gateways/)。
 
-- **Secure Addon Credentials**. Changed storage of the addon credentials.
-  Grafana, Kiali, and Jaeger passwords and username are now stored in
-  [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
-  for improved security and compliance.
+- **附加安全凭证**。更改了附加凭证的存储。为了提高安全性与合规性，Grafana、Kiali 以及 Jaeger 的用户名密码现在存储在 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 中。
 
-- **More Flexibility with `statsd` Collector**. Removed the built-in `statsd`
-  collector. Istio now supports bring your own `statsd` for
-  improved flexibility with existing Kubernetes deployments.
+- **更加灵活的 `statsd` 收集器**。删除了内置的 `statsd` 收集器。Istio 现在支持您自己的 `statsd`，以提高现有 Kubernetes 部署的灵活性。
 
-### Configuration management
+### 配置管理{#configuration-management}
 
-- **Galley**. Added [Galley](/zh/docs/ops/deployment/architecture/#galley) as the
-  primary configuration ingestion and distribution mechanism within Istio. It
-  provides a robust model to validate, transform, and distribute configuration
-  states to Istio components insulating the Istio components from Kubernetes
-  details. Galley uses the [Mesh Configuration Protocol](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp)
-  to interact with components.
+- **Galley**。添加 [Galley](/zh/docs/ops/deployment/architecture/#galley) 作为 Istio 主要的配置收集和分发装置。它提供了一个健壮的模型来验证，转换配置状态并将其分配给 Istio 组件，从而将 Istio 组件与 Kubernetes 详细信息隔离开来。Galley 使用[网格配置协议](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp)与组件进行交互。
 
-- **Monitoring Port**. Changed Galley's default monitoring port from 9093 to
-  15014.
+- **监听端口**。将 Galley 的默认监听端口从 9093 修改为 15014。
 
-## `istioctl` and `kubectl`
+## `istioctl` 和 `kubectl`{#Istio-and-Kube}
 
-- **Validate Command**. Added the [`istioctl validate`](/zh/docs/reference/commands/istioctl/#istioctl-validate)
-  command for offline validation of Istio Kubernetes resources.
+- **验证命名**。添加 [`istioctl validate`](/zh/docs/reference/commands/istioctl/#istioctl-validate) 命令，用于 Istio Kubernetes 资源的离线验证。
 
-- **Verify-Install Command**. Added the [`istioctl verify-install`](/zh/docs/reference/commands/istioctl/#istioctl-verify-install)
-  command to verify the status of an Istio installation given a specified
-  installation YAML file.
+- **安装验证命令**。添加 [`istioctl verify-install`](/zh/docs/reference/commands/istioctl/#istioctl-verify-install) 命令，用于验证指定了 YAML 文件的 Istio 安装的状态。
 
-- **Deprecated Commands**. Deprecated the `istioctl create`, `istioctl
-  replace`, `istioctl get`, and `istioctl delete` commands. Use the
-  [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl)
-  equivalents instead. Deprecated the `istioctl gen-deploy` command too. Use a
-  [`helm template`](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)
-  instead. Release 1.2 will remove these commands.
+- **弃用命令**。弃用 `istioctl create`、`istioctl replace`、`istioctl get` 和 `istioctl delete` 命令。
+请使用 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) 替代。`istioctl gen-deploy` 命令也被弃用。请改用 [`helm template`](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)。这些命令将在 1.2 版被删除。
 
-- **Short Commands**. Included short commands in `kubectl` for gateways,
-  virtual services, destination rules and service entries.
+- **短命令**。`kubectl` 包含了一些简短命令，可用于 gateway，虚拟服务，目标规则和服务条目。
