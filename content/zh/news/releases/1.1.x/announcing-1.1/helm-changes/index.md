@@ -17,7 +17,7 @@ keywords: [kubernetes, helm, install, options]
 
 ## 修改配置选项{#modified-configuration-options}
 
-### 修改 `servicegraph` 键值对{#modified-servicegraph-key-value-pairs}
+### 修改 `servicegraph` 键值对{#modified-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
@@ -58,13 +58,13 @@ keywords: [kubernetes, helm, install, options]
 | `gateways.istio-egressgateway.enabled` | `true` | `false` |  |  |
 | `gateways.istio-egressgateway.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` | `ClusterIP` |  | `如果需要，请更改为节点端口或者负载地址。` |
 
-### 修改 `certmanager` 键值对{#modified-certmanager-key-value-pairs}
+### 修改 `certmanager` 键值对{#modified--key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `certmanager.tag` | `v0.3.1` | `v0.6.2` |  |  |
 
-### 修改 `kiali` 键值对{#modified-kiali-key-value-pairs}
+### 修改 `kiali` 键值对{#modified-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
@@ -85,13 +85,13 @@ keywords: [kubernetes, helm, install, options]
 
 ## 新的配置选项{#new-configuration-options}
 
-### 新增 `istio_cni` 键/值对{#new-istio-cni-key-value-pairs}
+### 新增 `istio_cni` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `istio_cni.enabled` | `false` |  |
 
-### 新增 `servicegraph` 键/值对{#new-servicegraph-key-value-pairs}
+### 新增 `servicegraph` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -114,7 +114,7 @@ keywords: [kubernetes, helm, install, options]
 | `tracing.zipkin.maxSpans` | `500000` |  |
 | `tracing.zipkin.node.cpus` | `2` |  |
 
-### 新增 `sidecarInjectorWebhook` 键/值对{#new-sidecarInjectorWebhook-key-value-pairs}
+### 新增 `sidecarInjectorWebhook` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -202,7 +202,7 @@ keywords: [kubernetes, helm, install, options]
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
 | `mixer.adapters.useAdapterCRDs` | `true` | `如果设置为 false， 会将 useAdapterCRDs mixer 的启动参数设置为 false。` |
 
-### 新增 `grafana` 键/值对{#new-grafana-key-value-pairs}
+### 新增 `grafana` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -233,7 +233,7 @@ keywords: [kubernetes, helm, install, options]
 | `grafana.dashboardProviders.dashboardproviders.providers.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-### 新增 `prometheus` 键/值对{#new-prometheus-key-value-pairs}
+### 新增 `prometheus` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -288,7 +288,7 @@ keywords: [kubernetes, helm, install, options]
 | `gateways.istio-ilbgateway.podAnnotations` | `{}` |  |
 | `gateways.istio-ilbgateway.nodeSelector` | `{}` |  |
 
-### 新增 `kiali` 键/值对{#new-kiali-key-value-pairs}
+### 新增 `kiali` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -301,7 +301,7 @@ keywords: [kubernetes, helm, install, options]
 | `kiali.prometheusAddr` | `http://prometheus:9090` |  |
 | `kiali.createDemoSecret` | `false` | `设置为 true 时，将使用默认的用户名和密码创建一个 secret， 对一些 demo 有用。` |
 
-### 新增 `istiocoredns` 键/值对{#new-istiocoredns-key-value-pairs}
+### 新增 `istiocoredns` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -319,7 +319,7 @@ keywords: [kubernetes, helm, install, options]
 | `security.createMeshPolicy` | `true` |  |
 | `security.nodeSelector` | `{}` |  |
 
-### 新增 `nodeagent` 键/值对{#new-nodeagent-key-value-pairs}
+### 新增 `nodeagent` 键/值对{#new-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -359,7 +359,7 @@ keywords: [kubernetes, helm, install, options]
 | `ingress.replicaCount` | `1` |  |
 | `ingress.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
 
-### 移除 `servicegraph` 键/值对{#removed-servicegraph-key-value-pairs}
+### 移除 `servicegraph` 键/值对{#removed-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -405,7 +405,7 @@ keywords: [kubernetes, helm, install, options]
 | `mixer.istio-policy.autoscaleMin` | `1` |  |
 | `mixer.istio-policy.autoscaleMax` | `5` |  |
 
-### 移除 `grafana` 键/值对{#removed-grafana-key-value-pairs}
+### 移除 `grafana` 键/值对{#removed-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
