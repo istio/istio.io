@@ -39,14 +39,14 @@ keywords: [kubernetes, helm, install, options]
 | `global.proxy.accessLogFile` | `"/dev/stdout"` | `""` |  |  |
 | `global.proxy.enableCoreDump` | `false` | `false` |  | `如果设置，新注入的 sidecars 将启用 core dumps。` |
 | `global.proxy.autoInject` | `enabled` | `enabled` |  | `可以控制 sidecar 的注入策略。` |
-| `global.proxy.envoyStatsd.enabled` | `true` | `false` |  | `如果设置为 true，则还须提供主机地址和端口。 Istio不再提供 statsd 收集器。` |
+| `global.proxy.envoyStatsd.enabled` | `true` | `false` |  | `如果设置为 true，则还须提供主机地址和端口。Istio不再提供 statsd 收集器。` |
 | `global.proxy.envoyStatsd.host` | `istio-statsd-prom-bridge` | `` |  | `例如: statsd-svc.istio-system` |
 | `global.proxy.envoyStatsd.port` | `9125` | `` |  | `例如: 9125` |
 | `global.proxy_init.image` | `proxy_init` | `proxy_init` |  | `proxy_init 容器的基本名称，用于配置 iptables。` |
-| `global.controlPlaneSecurityEnabled` | `false` | `false` |  | `启用 controlPlaneMtls。在传播机密信息时，将导致 Pod 的延迟启动，不建议用于测试。` |
-| `global.disablePolicyChecks` | `false` | `true` |  | `disablePolicyChecks 禁用 mixer 策略检查。如果 mixer.policy.enabled==true 则 disablePolicyChecks 已生效。将在 istio 配置映射中设置相同名称的值 - pilot 需要重新启动才能生效。` |
-| `global.enableTracing` | `true` | `true` |  | `EnableTracing 在 istio 配置中设置具有相同名称的值，需要重新启动 pilot 才能生效。` |
-| `global.mtls.enabled` | `false` | `false` |  | `服务到服务间的 mtls 的默认设置。 可以使用目标规则或服务注释来显式设置。` |
+| `global.controlPlaneSecurityEnabled` | `false` | `false` |  | `启用 controlPlaneMtls。在传播 secret 时，将导致 Pod 的延迟启动，不建议用于测试。` |
+| `global.disablePolicyChecks` | `false` | `true` |  | `disablePolicyChecks 禁用 mixer 策略检查。如果 mixer.policy.enabled==true 则 disablePolicyChecks 已生效。将在 istio ConfigMap 设置相同名称的值 - pilot 需要重新启动才能生效。` |
+| `global.enableTracing` | `true` | `true` |  | `EnableTracing 在 istio ConfigMap 设置具有相同名称的值，需要重新启动 pilot 才能生效。` |
+| `global.mtls.enabled` | `false` | `false` |  | `服务到服务间的 mtls 的默认设置。可以使用目标规则或服务注释来显式设置。` |
 | `global.oneNamespace` | `false` | `false` |  | `是否限制控制器管理的应用程序的名称空间；如果未设置，则控制器将监控所有名称空间。` |
 | `global.configValidation` | `true` | `true` |  | `是否执行服务器端配置验证。` |
 
@@ -125,10 +125,10 @@ keywords: [kubernetes, helm, install, options]
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
-| `global.monitoringPort` | `15014` | `监控被 mixer, pilot 和 galley 所使用的端口。` |
+| `global.monitoringPort` | `15014` | `监控被 mixer、pilot 和 galley 所使用的端口。` |
 | `global.k8sIngress.enabled` | `false` |  |
 | `global.k8sIngress.gatewayName` | `ingressgateway` | `用于 k8s 入口资源的网关，默认情况下，它使用的是 istio：ingressgateway，将 gateways.enabled 和 gateways.istio-ingressgateway.enabled 标志设置为 true 即可安装。` |
-| `global.k8sIngress.enableHttps` | `false` | `enableHttps 将在入口处添加 443 端口，它要求将证书安装在预期的 secrets 中，启用不带证书的此选项将导致 LDS 拒绝，并且入口将不起作用。` |
+| `global.k8sIngress.enableHttps` | `false` | `enableHttps 将在入口处添加 443 端口，它要求将证书安装在预期的 secret 中，启用不带证书的此选项将导致 LDS 拒绝，并且入口将不起作用。` |
 | `global.proxy.clusterDomain` | `"cluster.local"` | `集群域，默认值为 cluster.local。` |
 | `global.proxy.resources.requests.memory` | `128Mi` |  |
 | `global.proxy.resources.limits.cpu` | `2000m` |  |
@@ -156,17 +156,17 @@ keywords: [kubernetes, helm, install, options]
 | `global.defaultNodeSelector` | `{}` | `默认 node selector 将应用于所有部署，以便可以限制所有特定的 Pod 节点，每个组件都可以通过在下面的相关部分中添加 node selector block 并设置所需的值来覆盖这些默认值。` |
 | `global.meshExpansion.enabled` | `false` |  |
 | `global.meshExpansion.useILB` | `false` | `如果设置为 true，则将在内部网关上暴露 pilot 和 citadel mtls 以及 plain text pilot portswill。` |
-| `global.multiCluster.enabled` | `false` | `当每个集群中的 Pod 无法直接相互通信时，设置为 true 可通过它们各自的 ressgateway 服务连接两个 kubernetes 集群，所有群集都应使用 Istio mTLS，并且必须具有共享的根证书才能使该模型正常工作。` |
+| `global.multiCluster.enabled` | `false` | `当每个集群中的 Pod 无法直接相互通信时，设置为 true 可通过它们各自的 ingress gateway 服务连接两个 kubernetes 集群，所有群集都应使用 Istio mTLS，并且必须具有共享的根证书才能使该模型正常工作。` |
 | `global.defaultPodDisruptionBudget.enabled` | `true` |  |
-| `global.useMCP` | `true` | `使用网格控制协议（MCP）来配置 Mixer 和 Pilot。 需要 galley (--设置 galley.enabled=true)。` |
+| `global.useMCP` | `true` | `使用网格控制协议（MCP）来配置 Mixer 和 Pilot。需要 galley (--设置 galley.enabled=true)。` |
 | `global.trustDomain` | `""` |  |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
-| `global.sds.enabled` | `false` | `已启用 SDS。 如果设置为 true，则将通过 SecretDiscoveryService 分发用于 sidecars 的 mTLS 证书，而不是使用 K8S secrets 来挂载证书。` |
+| `global.sds.enabled` | `false` | `是否启用 SDS。如果设置为 true，则将通过 SecretDiscoveryService 分发用于 sidecars 的 mTLS 证书，而不是使用 K8S secrets 来挂载证书。` |
 | `global.sds.udsPath` | `""` |  |
 | `global.sds.useTrustworthyJwt` | `false` |  |
 | `global.sds.useNormalJwt` | `false` |  |
 | `global.meshNetworks` | `{}` |  |
-| `global.enableHelmTest` | `false` | `指定是否启 helm 测试，默认情况下，此字段默认设置为 false，因此 helm template ... 将在生成模板时忽略 helm 测试的 yaml 文件。` |
+| `global.enableHelmTest` | `false` | `指定是否启 helm 测试，默认情况下，此字段默认设置为 false，因此 `helm template ...` 将在生成模板时忽略 helm 测试的 yaml 文件。` |
 
 ### 新增 `mixer` 键/值对{#new-key-value-pairs}
 
@@ -187,7 +187,7 @@ keywords: [kubernetes, helm, install, options]
 | `mixer.telemetry.autoscaleMax` | `5` |  |
 | `mixer.telemetry.cpu.targetAverageUtilization` | `80` |  |
 | `mixer.telemetry.sessionAffinityEnabled` | `false` |  |
-| `mixer.telemetry.loadshedding.mode` | `enforce` | `设置成 disabled，仅用来登录或强制执行。` |
+| `mixer.telemetry.loadshedding.mode` | `enforce` | `禁用，仅用于登录或强制执行。` |
 | `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `基于 100ms 的测量，p50 转换为 p99 不到 1s，对于本质上是异步的遥测来说是没问题的。` |
 | `mixer.telemetry.resources.requests.cpu` | `1000m` |  |
 | `mixer.telemetry.resources.requests.memory` | `1G` |  |
@@ -250,7 +250,7 @@ keywords: [kubernetes, helm, install, options]
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `gateways.istio-ingressgateway.sds.enabled` | `false` | `如果设置为 true，则入口网关从 SDS 服务器获取凭据以处理 TLS 连接。` |
-| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` | `监视 kubernetes 的 secrets 并向入口网关提供凭据的 SDS 服务器，该服务器与入口网关服务器在同一容器中运行。` |
+| `gateways.istio-ingressgateway.sds.image` | `node-agent-k8s` | `监视 kubernetes 的 secret 并向入口网关提供凭据的 SDS 服务器，该服务器与入口网关服务器在同一容器中运行。` |
 | `gateways.istio-ingressgateway.autoscaleEnabled` | `true` |  |
 | `gateways.istio-ingressgateway.cpu.targetAverageUtilization` | `80` |  |
 | `gateways.istio-ingressgateway.loadBalancerSourceRanges` | `[]` |  |
