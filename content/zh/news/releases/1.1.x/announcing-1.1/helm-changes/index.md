@@ -34,7 +34,7 @@ keywords: [kubernetes, helm, install, options]
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `global.hub` | `gcr.io/istio-release` | `gcr.io/istio-release` |  | `Istio 镜像的默认仓库。已发布版本的 Istio 镜像已经推送到了 docker hub 中的 istio 项目下，白天会从 gcr.io 进行构建，夜晚会从 docker.io/istionightly 上进行构建。` |
-| `global.tag` | `release-1.0-latest-daily` | `release-1.1-latest-daily` |  | `Istio 镜像的默认标签` |
+| `global.tag` | `release-1.0-latest-daily` | `release-1.1-latest-daily` |  | `Istio 镜像的默认标签。` |
 | `global.proxy.resources.requests.cpu` | `10m` | `100m` |  |  |
 | `global.proxy.accessLogFile` | `"/dev/stdout"` | `""` |  |  |
 | `global.proxy.enableCoreDump` | `false` | `false` |  | `如果设置，新注入的 sidecars 将启用 core dumps。` |
