@@ -17,19 +17,19 @@ keywords: [kubernetes, helm, install, options]
 
 ## 修改配置选项{#modified-configuration-options}
 
-### 修改 `servicegraph` 键值对{#modified-key-value-pairs}
+### 修改 `servicegraph` 键值对{#modified-servicegraph-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `servicegraph.ingress.hosts` | `servicegraph.local` | `servicegraph.local` |  | `用来创建一个 Ingress record。` |
 
-### 修改 `tracing` 键值对{#modified-key-value-pairs}
+### 修改 `tracing` 键值对{#modified-tracing-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `tracing.jaeger.tag` | `1.5` | `1.9` |  |  |
 
-### 修改 `global` 键值对{#modified-key-value-pairs}
+### 修改 `global` 键值对{#modified-global-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
@@ -50,7 +50,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.oneNamespace` | `false` | `false` |  | `是否限制控制器管理的应用程序的名称空间；如果未设置，则控制器将监控所有名称空间。` |
 | `global.configValidation` | `true` | `true` |  | `是否执行服务器端配置验证。` |
 
-### 修改 `gateways` 键值对{#modified-key-value-pairs}
+### 修改 `gateways` 键值对{#modified-gateways-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
@@ -58,25 +58,25 @@ keywords: [kubernetes, helm, install, options]
 | `gateways.istio-egressgateway.enabled` | `true` | `false` |  |  |
 | `gateways.istio-egressgateway.type` | `ClusterIP #change to NodePort or LoadBalancer if need be` | `ClusterIP` |  | `如果需要，请更改为节点端口或者负载地址。` |
 
-### 修改 `certmanager` 键值对{#modified-key-value-pairs}
+### 修改 `certmanager` 键值对{#modified-certmanager-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `certmanager.tag` | `v0.3.1` | `v0.6.2` |  |  |
 
-### 修改 `kiali` 键值对{#modified-key-value-pairs}
+### 修改 `kiali` 键值对{#modified-kiali-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `kiali.tag` | `istio-release-1.0` | `v0.14` |  |  |
 
-### 修改 `security` 键值对{#modified-key-value-pairs}
+### 修改 `security` 键值对{#modified-security-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `security.selfSigned` | `true # indicate if self-signed CA is used.` | `true` |  | `是否使用自签名 CA 证书。` |
 
-### 修改 `pilot` 键值对{#modified-key-value-pairs}
+### 修改 `pilot` 键值对{#modified-pilot-key-value-pairs}
 
 | 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
@@ -85,19 +85,19 @@ keywords: [kubernetes, helm, install, options]
 
 ## 新的配置选项{#new-configuration-options}
 
-### 新增 `istio_cni` 键/值对{#new-key-value-pairs}
+### 新增 `istio_cni` 键/值对{#new-istio-cni-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `istio_cni.enabled` | `false` |  |
 
-### 新增 `servicegraph` 键/值对{#new-key-value-pairs}
+### 新增 `servicegraph` 键/值对{#new-servicegraph-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `servicegraph.nodeSelector` | `{}` |  |
 
-### 新增 `tracing` 键/值对{#new-key-value-pairs}
+### 新增 `tracing` 键/值对{#new-tracing-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -114,14 +114,14 @@ keywords: [kubernetes, helm, install, options]
 | `tracing.zipkin.maxSpans` | `500000` |  |
 | `tracing.zipkin.node.cpus` | `2` |  |
 
-### 新增 `sidecarInjectorWebhook` 键/值对{#new-key-value-pairs}
+### 新增 `sidecarInjectorWebhook` 键/值对{#new-sidecarInjectorWebhook-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `sidecarInjectorWebhook.nodeSelector` | `{}` |  |
 | `sidecarInjectorWebhook.rewriteAppHTTPProbe` | `false` | `如果设置为 true，则 webhook 或 istioctl injector 将重写 PodSpec 进行 livenesshealth 检查，以将请求重定向到 Sidecar，即使启用了 mTLS，也可以进行活动检查。` |
 
-### 新增 `global` 键/值对{#new-key-value-pairs}
+### 新增 `global` 键/值对{#new-global-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -168,7 +168,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.meshNetworks` | `{}` |  |
 | `global.enableHelmTest` | `false` | `指定是否启 helm 测试，默认情况下，此字段默认设置为 false，因此 `helm template ...` 将在生成模板时忽略 helm 测试的 yaml 文件。` |
 
-### 新增 `mixer` 键/值对{#new-key-value-pairs}
+### 新增 `mixer` 键/值对{#new-mixer-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -202,7 +202,7 @@ keywords: [kubernetes, helm, install, options]
 | `mixer.adapters.prometheus.metricsExpiryDuration` | `10m` |  |
 | `mixer.adapters.useAdapterCRDs` | `true` | `如果设置为 false， 会将 useAdapterCRDs mixer 的启动参数设置为 false。` |
 
-### 新增 `grafana` 键/值对{#new-key-value-pairs}
+### 新增 `grafana` 键/值对{#new-grafana-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -233,7 +233,7 @@ keywords: [kubernetes, helm, install, options]
 | `grafana.dashboardProviders.dashboardproviders.providers.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-### 新增 `prometheus` 键/值对{#new-key-value-pairs}
+### 新增 `prometheus` 键/值对{#new-prometheus-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -245,7 +245,7 @@ keywords: [kubernetes, helm, install, options]
 | `prometheus.ingress.hosts` | `prometheus.local` | `用来创建一个 Ingress record。` |
 | `prometheus.security.enabled` | `true` |  |
 
-### 新增 `gateways` 键/值对{#new-key-value-pairs}
+### 新增 `gateways` 键/值对{#new-gateways-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -288,7 +288,7 @@ keywords: [kubernetes, helm, install, options]
 | `gateways.istio-ilbgateway.podAnnotations` | `{}` |  |
 | `gateways.istio-ilbgateway.nodeSelector` | `{}` |  |
 
-### 新增 `kiali` 键/值对{#new-key-value-pairs}
+### 新增 `kiali` 键/值对{#new-kiali-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -301,7 +301,7 @@ keywords: [kubernetes, helm, install, options]
 | `kiali.prometheusAddr` | `http://prometheus:9090` |  |
 | `kiali.createDemoSecret` | `false` | `设置为 true 时，将使用默认的用户名和密码创建一个 secret， 对一些 demo 有用。` |
 
-### 新增 `istiocoredns` 键/值对{#new-key-value-pairs}
+### 新增 `istiocoredns` 键/值对{#new-istiocoredns-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -311,7 +311,7 @@ keywords: [kubernetes, helm, install, options]
 | `istiocoredns.coreDNSPluginImage` | `istio/coredns-plugin:0.2-istio-1.1` |  |
 | `istiocoredns.nodeSelector` | `{}` |  |
 
-### 新增 `security` 键/值对{#new-key-value-pairs}
+### 新增 `security` 键/值对{#new-security-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -319,7 +319,7 @@ keywords: [kubernetes, helm, install, options]
 | `security.createMeshPolicy` | `true` |  |
 | `security.nodeSelector` | `{}` |  |
 
-### 新增 `nodeagent` 键/值对{#new-key-value-pairs}
+### 新增 `nodeagent` 键/值对{#new-nodeagent-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -330,7 +330,7 @@ keywords: [kubernetes, helm, install, options]
 | `nodeagent.env.Plugins` | `""` | `鉴别 provider 插件的名称。` |
 | `nodeagent.nodeSelector` | `{}` |  |
 
-### 新增 `pilot` 键/值对{#new-key-value-pairs}
+### 新增 `pilot` 键/值对{#new-pilot-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -343,7 +343,7 @@ keywords: [kubernetes, helm, install, options]
 
 ## 移除的配置选项{#removed-configuration-options}
 
-### 移除 `ingress` 键/值对{#removed-key-value-pairs}
+### 移除 `ingress` 键/值对{#removed-ingress-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -359,7 +359,7 @@ keywords: [kubernetes, helm, install, options]
 | `ingress.replicaCount` | `1` |  |
 | `ingress.service.type` | `LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be` |  |
 
-### 移除 `servicegraph` 键/值对{#removed-key-value-pairs}
+### 移除 `servicegraph` 键/值对{#removed-servicegraph-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -367,7 +367,7 @@ keywords: [kubernetes, helm, install, options]
 | `servicegraph.ingress` | `servicegraph.local` |  |
 | `servicegraph.service.internalPort` | `8088` |  |
 
-### 移除 `telemetry-gateway` 键/值对{#removed-key-value-pairs}
+### 移除 `telemetry-gateway` 键/值对{#removed-telemetry-gateway-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -375,7 +375,7 @@ keywords: [kubernetes, helm, install, options]
 | `telemetry-gateway.gatewayName` | `ingressgateway` |  |
 | `telemetry-gateway.grafanaEnabled` | `false` |  |
 
-### 移除 `global` 键/值对{#removed-key-value-pairs}
+### 移除 `global` 键/值对{#removed-global-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -387,7 +387,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.k8sIngressSelector` | `ingress` |  |
 | `global.meshExpansionILB` | `false` |  |
 
-### 移除 `mixer` 键/值对{#removed-key-value-pairs}
+### 移除 `mixer` 键/值对{#removed-mixer-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -405,7 +405,7 @@ keywords: [kubernetes, helm, install, options]
 | `mixer.istio-policy.autoscaleMin` | `1` |  |
 | `mixer.istio-policy.autoscaleMax` | `5` |  |
 
-### 移除 `grafana` 键/值对{#removed-key-value-pairs}
+### 移除 `grafana` 键/值对{#removed-grafana-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -414,7 +414,7 @@ keywords: [kubernetes, helm, install, options]
 | `grafana.security.adminPassword` | `admin` |  |
 | `grafana.security.adminUser` | `admin` |  |
 
-### 移除 `gateways` 键/值对{#removed-key-value-pairs}
+### 移除 `gateways` 键/值对{#removed-gateways-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -428,7 +428,7 @@ keywords: [kubernetes, helm, install, options]
 | `gateways.istio-ingressgateway.ports.targetPort` | `15011` |  |
 | `gateways.istio-ingressgateway.ports.targetPort` | `8060` |  |
 
-### 移除 `tracing` 键/值对{#removed-key-value-pairs}
+### 移除 `tracing` 键/值对{#removed-tracing-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
@@ -443,14 +443,14 @@ keywords: [kubernetes, helm, install, options]
 | `tracing.ingress.hosts` | `tracing.local` |  |
 | `tracing.jaeger.ui.port` | `16686` |  |
 
-### 移除 `kiali` 键/值对{#removed-key-value-pairs}
+### 移除 `kiali` 键/值对{#removed-kiali-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `kiali.dashboard.username` | `admin` |  |
 | `kiali.dashboard.passphrase` | `admin` |  |
 
-### 移除 `pilot` 键/值对{#removed-key-value-pairs}
+### 移除 `pilot` 键/值对{#removed-pilot-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
