@@ -443,7 +443,7 @@ keywords: [kubernetes, helm, install, options]
 | `tracing.ingress.hosts` | `tracing.local` |  |
 | `tracing.jaeger.ui.port` | `16686` |  |
 
-### 移除 `kiali` 键/值对{#removed-kiali-key-value-pairs}
+### 移除 `kiali` 键/值对{#removed-key-value-pairs}
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
