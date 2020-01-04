@@ -45,7 +45,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.proxy_init.image` | `proxy_init` | `proxy_init` |  | `proxy_init 容器的基本名称，用于配置 iptables。` |
 | `global.controlPlaneSecurityEnabled` | `false` | `false` |  | `启用 controlPlaneMtls。在传播 secret 时，将导致 Pod 的延迟启动，不建议用于测试。` |
 | `global.disablePolicyChecks` | `false` | `true` |  | `disablePolicyChecks 禁用 mixer 策略检查。如果 mixer.policy.enabled==true 则 disablePolicyChecks 已生效。将在 istio ConfigMap 设置相同名称的值 - pilot 需要重新启动才能生效。` |
-| `global.enableTracing` | `true` | `true` |  | `EnableTracing 在 istio ConfigMap 设置具有相同名称的值，需要重新启动 pilot 才能生效。` |
+| `global.enableTracing` | `true` | `true` |  | `EnableTracing 在 istio ConfigMap 中具有相同名称的值，需要重新启动 pilot 才能生效。` |
 | `global.mtls.enabled` | `false` | `false` |  | `服务到服务间的 mtls 的默认设置。可以使用目标规则或服务注释来显式设置。` |
 | `global.oneNamespace` | `false` | `false` |  | `是否限制控制器管理的应用程序的名称空间；如果未设置，则控制器将监控所有名称空间。` |
 | `global.configValidation` | `true` | `true` |  | `是否执行服务器端配置验证。` |
@@ -125,7 +125,7 @@ keywords: [kubernetes, helm, install, options]
 
 | 键 | 默认值 | 描述 |
 | --- | --- | --- |
-| `global.monitoringPort` | `15014` | `监控被 mixer、pilot 和 galley 所使用的端口。` |
+| `global.monitoringPort` | `15014` | `监控被 mixer、 pilot 和 galley 所使用的端口。` |
 | `global.k8sIngress.enabled` | `false` |  |
 | `global.k8sIngress.gatewayName` | `ingressgateway` | `用于 k8s 入口资源的网关，默认情况下，它使用的是 istio：ingressgateway，将 gateways.enabled 和 gateways.istio-ingressgateway.enabled 标志设置为 true 即可安装。` |
 | `global.k8sIngress.enableHttps` | `false` | `enableHttps 将在入口处添加 443 端口，它要求将证书安装在预期的 secret 中，启用不带证书的此选项将导致 LDS 拒绝，并且入口将不起作用。` |
@@ -161,7 +161,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.useMCP` | `true` | `使用网格控制协议（MCP）来配置 Mixer 和 Pilot。需要 galley (--设置 galley.enabled=true)。` |
 | `global.trustDomain` | `""` |  |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
-| `global.sds.enabled` | `false` | `是否启用 SDS。如果设置为 true，则将通过 SecretDiscoveryService 分发用于 sidecars 的 mTLS 证书，而不是使用 K8S secrets 来挂载证书。` |
+| `global.sds.enabled` | `false` | `是否启用 SDS。如果设置为 true，则将通过 SecretDiscoveryService 分发用于 sidecars 的 mTLS 证书，而不是使用 K8S secret 来挂载证书。` |
 | `global.sds.udsPath` | `""` |  |
 | `global.sds.useTrustworthyJwt` | `false` |  |
 | `global.sds.useNormalJwt` | `false` |  |
