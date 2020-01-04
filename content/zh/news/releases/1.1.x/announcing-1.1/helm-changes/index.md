@@ -166,7 +166,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.sds.useTrustworthyJwt` | `false` |  |
 | `global.sds.useNormalJwt` | `false` |  |
 | `global.meshNetworks` | `{}` |  |
-| `global.enableHelmTest` | `false` | `指定是否启 helm 测试，默认情况下，此字段默认设置为 false，因此 `helm template ...` 将在生成模板时忽略 helm 测试的 yaml 文件。` |
+| `global.enableHelmTest` | `false` | `指定是否启 helm 测试，默认情况下，此字段默认设置为 false，因此 'helm template ...' 将在生成模板时忽略 helm 测试的 yaml 文件。` |
 
 ### 新增 `mixer` 键/值对{#new-mixer-key-value-pairs}
 
