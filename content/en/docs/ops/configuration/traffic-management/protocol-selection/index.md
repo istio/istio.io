@@ -48,11 +48,11 @@ spec:
     name: http-web
 {{< /text >}}
 
-## Automatic protocol selection (experimental)
+## Automatic protocol selection
 
 Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
 
-This feature is experimental and only enabled for outbound traffic by default. It can be turned on by providing the following install options:
+This feature is enabled by default. It can be turned off by providing the following install options:
 
-- `--set values.pilot.enableProtocolSniffingForOutbound=true` to enable protocol detection for outbound listeners whose port protocol is not specified or unsupported.
-- `--set values.pilot.enableProtocolSniffingForInbound=true` to enable protocol detection for inbound listeners whose port protocol is not specified or unsupported.
+- `--set values.pilot.enableProtocolSniffingForOutbound=false` to disable protocol detection for outbound listeners whose port protocol is not specified or unsupported.
+- `--set values.pilot.enableProtocolSniffingForInbound=false` to disable protocol detection for inbound listeners whose port protocol is not specified or unsupported.
