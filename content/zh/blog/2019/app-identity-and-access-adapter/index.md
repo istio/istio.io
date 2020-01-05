@@ -1,7 +1,7 @@
 ---
 title: APP 身份和访问适配器
-subtitle: 使用 Istio 零代码实现多云 Kubernetes 应用安全
-description: 使用 Istio 零代码实现多云 Kubernetes 应用安全。
+subtitle: 使用 Istio 可以不用更改代码实现多云 Kubernetes 集群应用安全
+description: 使用 Istio 可以不用更改代码实现多云 Kubernetes 集群应用安全。
 publishdate: 2019-09-18
 attribution: Anton Aleksandrov (IBM)
 keywords: [security,oidc,jwt,policies]
@@ -10,17 +10,17 @@ target_release: 1.3
 
 如果在 Kubernetes 以容器化的方式运行应用，就可以使用 App 身份和访问适配器获得抽象级别的安全性，而无需更改或重新部署代码。
 
-无论您的运行环境是单云提供商，多个云提供商的组合，还是遵循混合云方法，集中式身份管理都可以帮助您维护现有基础设施并避免供被应商绑定。
+无论您的运行环境是单云提供商，还是多个云提供商的组合或者遵循混合云的方式，集中式身份管理都可以帮助您维护现有基础设施并避免被云供应商绑定。
 
-有了 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)，就可以使用任何 OAuth2/OIDC 提供商：IBM Cloud App ID, Auth0, Okta, Ping Identity, AWS Cognito, Azure AD B2C 和其它更多。身份和授权策略可以以高效的方式应用在所有环境（包括前端和后端应用程序），而无需修改代码或重新部署。
+有了 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)，就可以使用以下 OAuth2/OIDC 提供商：IBM Cloud App ID、Auth0、Okta、Ping Identity、AWS Cognito、Azure AD B2 等。身份和授权策略可以以高效的方式应用在所有环境（包括前端和后端应用程序），而无需修改代码或重新部署。
 
 ## 了解 Istio 和其适配器 {#understanding-Istio-and-the-adapter}
 
-[Istio](/zh/docs/concepts/what-is-istio/) 是一个开源的服务网格，它对分布应用来说说一个透明层，它可以和 Kubernetes 无缝集成。为了降低布署复杂性 Istio 提供了对整个服务网格的行为洞察和操作控制。详见 [Istio 架构](/zh/docs/ops/deployment/architecture/)。
+[Istio](/zh/docs/concepts/what-is-istio/) 是一个开源的服务网格，它对分布应用来说是一个透明层，它可以和 Kubernetes 无缝集成。为了降低布署复杂性 Istio 提供了对整个服务网格的行为洞察和操作控制。详见 [Istio 架构](/zh/docs/ops/deployment/architecture/)。
 
-在服务网格中 Istio 使用 [Envoy 代理边车](/zh/blog/2019/data-plane-setup/)为所有的 pod 协调进出流量。Istio 从 Envoy 边车中抽取检测信息并发送给 [Mixer](/zh/docs/ops/deployment/architecture/#mixer)，Istio 的组件负责收集检测数据并执行策略。
+Istio 使用 [Envoy sidecar 代理] 来调整服务网格中所有 Pod 的入站和出站流量。Istio 从 Envoy sidecar 中提取遥测数据，并将其发送到负责收集遥测数据和执行策略的 Istio 组件 [Mixer](/zh/docs/ops/deployment/architecture/#mixer)。
 
-APP 身份和访问适配器通过分析针对服务网格上各种访问控制策略的检测信息（属性），以便扩展 Mixer 的功能。访问控制策略可以关联到具体的 Kubernetes 服务，并且可以微调指定的服务 endpoint。关于策略和检测信息的详情请看 Istio 的文档。
+APP 身份和访问适配器通过分析针对服务网格上各种访问控制策略的遥测数据（属性）扩展 Mixer 的功能。访问控制策略可以关联到具体的 Kubernetes 服务，并且可以微调到特定的服务端点。关于策略和遥测信息的详情请看 Istio 的文档。
 
 当 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter) 结合到 Istio 中后，为多云架构提供可扩展的、集成身份和访问解决方案，而且不需要修改任何应用程序代码。
 
@@ -33,7 +33,7 @@ $ helm repo add appidentityandaccessadapter https://raw.githubusercontent.com/ib
 $ helm install --name appidentityandaccessadapter appidentityandaccessadapter/appidentityandaccessadapter
 {{< /text >}}
 
-另外，可以从 `github.com` 仓库 clone 下来，用 Helm chart 进行本地安装。
+另外，可以通过以下命令从 `github.com` 仓库 clone 下来，在本地用 Helm chart 进行安装。
 
 {{< text bash >}}
 $ git clone git@github.com:ibm-cloud-security/app-identity-and-access-adapter.git
@@ -42,15 +42,15 @@ $ helm install ./helm/appidentityandaccessadapter --name appidentityandaccessada
 
 ## 保护 web 应用程序 {#protecting-web-applications}
 
-Web 应用程序通常是由 OpenID Connect (OIDC) 工作流保护，也被叫做 `authorization_code`。当检测到未经认证/未经授权的用户时，会自动重定向到所选择的身份服务并展示认证页面。当认证完成，浏览器会重定向回到被适配器截获的隐含 `/oidc/callback` endpoint。在这一服务点上，适配器从身份服务获取访问和身份令牌，并且将用户重定向回到 web 应用最初请求的 URL。
+Web 应用程序通常是由 OpenID Connect (OIDC) 工作流保护，也被叫做 `authorization_code`。当检测到未经认证或未经授权的用户时，它们会自动重定向到所选择的身份服务并展示认证页面。身份验证完成后，浏览器将重定向回适配器拦截的隐式 `/oidc/callback` 端点。此时，适配器从身份服务获取访问和身份令牌，然后将用户重定向回 Web 应用程序中最初请求的 URL。
 
 身份状态和令牌是由适配器维护管理的。适配器处理的每个请求会包含访问和身份令牌的认证头，其格式是：`Authorization: Bearer <access_token> <id_token>`。
 
-开发者可以根据读取token信息调整应用程序的用户体验，比如显示用户名，根绝用户角色适配 UI 等。
+开发者可以根据读取令牌（token）信息调整应用程序的用户体验，比如显示用户名，根据用户角色适配用户界面等。
 
-为了终止授权回话和清除令牌，亦或者用户登出，只要在服务保护之下简单重定向浏览器到 `/oidc/logout` endpoint 即可，比如如果 app 是在 `https://example.com/myapp` 这里服务的，重定向用户到 `https://example.com/myapp/oidc/logout` 即可。
+为了终止经过身份验证的会话并且清除令牌（即用户注销），只需将浏览器重定向到受保护服务下的 `/oidc/logout` 端点即可。例如，从 `https://example.com/myapp` 中将应用程序重定向到 `https://example.com/myapp/oidc/logout`。
 
-无论何时访问令牌过期了，刷新令牌是无需用户重新认证的，系统会自动获取一个新的访问和身份令牌。如果配置的身份认真提供商返回一个刷新的令牌，适配器将会持久保存起来，直到老令牌过期，用户又重新获取新的访问和身份令牌。
+无论何时访问令牌过期了，刷新令牌是无需用户重新认证的，系统会自动获取一个新的访问和身份令牌。如果配置的身份认证提供商返回一个刷新后的令牌，适配器将会持久化保存起来，直到旧令牌过期，用户又重新获取新的访问和身份令牌
 
 ### 应用 web 应用程序保护 {#applying-web-application-protection}
 
@@ -102,7 +102,7 @@ spec:
 
 ## 保护后端应用程序和 API {#protecting-backend-application-and-APIs}
 
-后端应用程序和 API的保护是使用 Bearer Token 工作流，对特定的策略验证传入的令牌。Bearer Token 授权流程需要在请求中包含 `Authorization` 头，这个头以 JWT 格式包含了玉箫的访问令牌。需要的头结构是：`Authorization: Bearer {access_token}`。如果令牌验证成功请求会被发往被请求的服务。如果令牌验证失败会给客户端返回 HTTP 401 信息，并且返回访问这个API所需要的能力列表。
+后端应用程序和 API 的保护是使用 Bearer Token 工作流，对特定的策略验证传入的令牌。Bearer Token 授权流程需要在请求中包含 `Authorization` 头，这个头以 JWT 格式包含了有效的访问令牌。需要的头结构是：`Authorization: Bearer {access_token}`。如果令牌验证成功请求会被发往被请求的服务。如果令牌验证失败会给客户端返回 HTTP 401 信息，并且返回访问这个API所需要的能力列表。
 
 ### 应用后端程序和 API 保护 {#applying-backend-application-and-APIs-protection}
 
