@@ -1,6 +1,6 @@
 ---
 title: 配置验证 Webhook
-description: 描述 Istio 使用 Kubernetes webhook 来进行服务端配置验证。
+description: 描述 Istio 如何使用 Kubernetes webhook 来进行服务端配置验证。
 weight: 40
 aliases:
   - /zh/help/ops/setup/validation
