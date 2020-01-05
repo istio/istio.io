@@ -49,10 +49,10 @@ weight: 10
         - 状态码
 
     {{< tip >}}
-    在 Node.js 中, web 服务器的功能嵌入在应用程序的代码中。 一个 Node.js web 应用程序作为一个独立进程运行。
+    在 Node.js 中，web 服务器的功能嵌入在应用程序的代码中。 一个 Node.js web 应用程序作为一个独立进程运行。
     {{< /tip >}}
 
-1. Node.js 应用程序是用 JavaScript 编写的， 这意味着没有显式编译步骤。 相反，它们
+1. Node.js 应用程序是用 JavaScript 编写的，这意味着没有显式编译步骤。相反，它们
 使用 [just-in-time 即时编译](https://zh.wikipedia.org/wiki/%E5%8D%B3%E6%97%B6%E7%BC%96%E8%AF%91)。要
 构建 Node.js 应用程序， 则意味着要安装其依赖库。 将 `rating` 服务的依赖库安装在存储服务代码和 package 文件的同一目录下：
 
