@@ -67,7 +67,7 @@ $ istioctl analyze *.yaml
 
       和其它 `istioctl` 工具一样，我们通常建议下载一个和您集群中部署版本相匹配的版本来使用。
 
-      就目前而言，analysis 是向后兼容的，所以你可以在运行 Istio 1.1 的集群上使用 1.4 版本的 `istioctl analyze`，并且会得到有用的反馈。跳过对旧版本的 Istio 分析，这样的分析规则是无意义的。
+      就目前而言，analysis 是向后兼容的，所以你可以在运行 Istio 1.1 的集群上使用 1.4 版本的 `istioctl analyze`，并且会得到有用的反馈。对老版本 Istio 没有意义的分析规则将被跳过。
 
       如果你决定使用最新的 `istioctl` 来对一个运行老版本 Istio 的集群进行分析，我们建议您将其保存在一个独立的目录中，和用于部署 Istio 的二进制文件分开。
 
@@ -91,9 +91,9 @@ $ istioctl analyze *.yaml
 
 ## 高级功能{#advanced}
 
-### 获取最新版本的 `istioctl analyze`{#getting-the-latest-version-of-`istioctl`-analyze}
+### 获取最新版本的 `istioctl analyze`{#getting-the-latest-version-of-Istio-analyze}
 
-虽然 `istioctl analyze` 是包含在了 Istio 1.4 以及更高级的版本中，还是可以直接下载最新版本到集群中使用的。最新版本可能不稳定，但是会有最完整和最新的分析程序集，并且可能会发现旧版本遗漏的问题。
+虽然 `istioctl analyze` 是包含在了 Istio 1.4 以及更高级的版本中，但是还可以直接下载最新版本到集群中使用的。最新版本可能不稳定，但是会有最完整和最新的分析程序集，并且可能会发现旧版本遗漏的问题。
 
 可以使用下面的命令下载最新的 `istioctl` 到当前目录：
 
