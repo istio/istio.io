@@ -17,37 +17,20 @@ Then you configure a gateway to provide ingress access to the service via host `
 
 ## Generate client and server certificates and keys
 
-1.  Clone the <https://github.com/nicholasjackson/mtls-go-example> repository:
+For this task you can use your favorite tool to generate certificates and keys. The commands below use
+[openssl](https://man.openbsd.org/openssl.1)
+
+1.  Create a root certificate and private key to sign the certificate for your services:
 
     {{< text bash >}}
-    $ git clone https://github.com/nicholasjackson/mtls-go-example
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
     {{< /text >}}
 
-1.  Change directory to the cloned repository:
+1.  Create a certificate and a private key for `nginx.example.com`:
 
     {{< text bash >}}
-    $ pushd mtls-go-example
-    {{< /text >}}
-
-1.  Generate the certificates for `nginx.example.com`.
-    Use any password with the following command:
-
-    {{< text bash >}}
-    $ ./generate.sh nginx.example.com <password>
-    {{< /text >}}
-
-    When prompted, select `y` for all the questions.
-
-1.  Move the certificates into the `nginx.example.com` directory:
-
-    {{< text bash >}}
-    $ mkdir ../nginx.example.com && mv 1_root 2_intermediate 3_application 4_client ../nginx.example.com
-    {{< /text >}}
-
-1.  Return to the root directory:
-
-    {{< text bash >}}
-    $ popd
+    $ openssl req -out nginx.example.com.csr -newkey rsa:2048 -nodes -keyout nginx.example.com.key -subj "/CN=nginx.example.com/O=some organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in nginx.example.com.csr -out nginx.example.com.crt
     {{< /text >}}
 
 ## Deploy an NGINX server
@@ -56,7 +39,7 @@ Then you configure a gateway to provide ingress access to the service via host `
    certificate.
 
     {{< text bash >}}
-    $ kubectl create secret tls nginx-server-certs --key nginx.example.com/3_application/private/nginx.example.com.key.pem --cert nginx.example.com/3_application/certs/nginx.example.com.cert.pem
+    $ kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
     {{< /text >}}
 
 1.  Create a configuration file for the NGINX server:
@@ -162,10 +145,10 @@ to hold the configuration of the NGINX server:
       server certificate activation date OK
       certificate public key: RSA
       certificate version: #3
-      subject: C=US,ST=Denial,L=Springfield,O=Dis,CN=nginx.example.com
+      subject: CN=nginx.example.com; O=some organization
       start date: Wed, 15 Aug 2018 07:29:07 GMT
       expire date: Sun, 25 Aug 2019 07:29:07 GMT
-      issuer: C=US,ST=Denial,O=Dis,CN=nginx.example.com
+      issuer: O=example Inc.; CN=example.com
 
     > GET / HTTP/1.1
     > User-Agent: curl/7.35.0
@@ -242,13 +225,12 @@ to hold the configuration of the NGINX server:
     it is successfully verified (_SSL certificate verify ok_ is printed).
 
     {{< text bash >}}
-    $ curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert nginx.example.com/2_intermediate/certs/ca-chain.cert.pem https://nginx.example.com:$SECURE_INGRESS_PORT
+    $ curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://nginx.example.com:$SECURE_INGRESS_PORT
     Server certificate:
-      subject: C=US; ST=Denial; L=Springfield; O=Dis; CN=nginx.example.com
-      start date: Aug 15 07:29:07 2018 GMT
-      expire date: Aug 25 07:29:07 2019 GMT
-      common name: nginx.example.com (matched)
-      issuer: C=US; ST=Denial; O=Dis; CN=nginx.example.com
+      subject: CN=nginx.example.com; O=some organization
+      start date: Wed, 15 Aug 2018 07:29:07 GMT
+      expire date: Sun, 25 Aug 2019 07:29:07 GMT
+      issuer: O=example Inc.; CN=example.com
       SSL certificate verify ok.
 
       < HTTP/1.1 200 OK
@@ -272,14 +254,14 @@ to hold the configuration of the NGINX server:
     $ kubectl delete virtualservice nginx
     {{< /text >}}
 
-1.  Delete the directory containing the certificates and the repository used to generate them:
+1.  Delete the certificates and keys:
 
     {{< text bash >}}
-    $ rm -rf nginx.example.com mtls-go-example
+    $ rm example.com.crt example.com.key nginx.example.com.crt nginx.example.com.key nginx.example.com.csr
     {{< /text >}}
 
 1.  Delete the generated configuration files used in this example:
 
     {{< text bash >}}
-    $ rm -f ./nginx.conf
+    $ rm ./nginx.conf
     {{< /text >}}
