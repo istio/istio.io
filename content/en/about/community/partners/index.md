@@ -23,6 +23,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.huaweicloud.com" logo="./huawei.png" alt="Huawei Cloud" >}}
     {{< company_logo link="https://www.ibm.com/cloud/" logo="./ibm-cloud.svg" alt="IBM Cloud" tagline="Built for all your applications. AI ready. Secure to the core." >}}
     {{< company_logo link="https://github.com/knative/docs" logo="./knative.png" alt="Knative" >}}
+     {{< company_logo link="https://layer5.io/" logo="https://raw.githubusercontent.com/layer5io/layer5/master/assets/images/layer5/layer5-tag-community-white-bg.png" alt="Layer5" tagline="The Service Mesh Community - characterizing and contrasting service mesh projects and related technologies" >}}
     {{< company_logo link="https://pivotal.io" logo="./pivotal.svg" alt="Pivotal" tagline="The way the future gets built" >}}
     {{< company_logo link="https://www.redhat.com" logo="./redhat.svg" alt="Red Hat" tagline="We make open source technologies for the enterprise" >}}
     {{< company_logo link="https://www.solarwinds.com" logo="./solarwinds.png" alt="SolarWinds" tagline="Solve your toughest IT management problem, today" >}}
@@ -32,7 +33,6 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.tigera.io" logo="./tigera.svg" alt="Tigera" tagline="Zero Trust Network Security & Continuous Compliance for Kubernetes Platforms" >}}
     {{< company_logo link="https://www.vmware.com" logo="./vmware.svg" alt="VMware" >}}
     {{< company_logo link="https://wso2.com" logo="./wso2.svg" alt="WSO2" tagline="The #1 Open Source API Management and Integration Platform" >}}
-    {{< company_logo link="https://layer5.io/" logo="https://raw.githubusercontent.com/layer5io/layer5/master/assets/images/layer5/layer5-tag-community-white-bg.png" alt="Layer5" tagline="The Service Mesh Community - characterizing and contrasting service mesh projects and related technologies" >}}
-</div>
+    </div>   
 
 Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).
