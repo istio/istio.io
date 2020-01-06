@@ -1,33 +1,22 @@
 ---
-title: Deployment Best Practices
-description: General best practices when setting up an Istio service mesh.
+title: Deployment 最佳实践
+description: 设置 Istio 服务网格时的最佳实践。
 force_inline_toc: true
 weight: 10
 aliases:
   - /zh/docs/ops/prep/deployment
 ---
 
-We have identified the following general principles to help you get the most
-out of your Istio deployments. These best practices aim to limit the impact of
-bad configuration changes and make managing your deployments easier.
+我们确定了以下大体原则，以帮助您充分利用 Istio deployment。这些最佳实践旨在限制不良配置带来的影响，并使 deployment 管理变得更加轻松。
 
-## Deploy fewer clusters
+## 部署较少的集群{#deploy-fewer-clusters}
 
-Deploy Istio across a small number of large clusters, rather than a large number
-of small clusters. Instead of adding clusters to your deployment, the best
-practice is to use [namespace tenancy](/zh/docs/ops/deployment/deployment-models/#namespace-tenancy)
-to manage large clusters. Following this approach, you can deploy Istio across
-one or two clusters per zone or region. You can then deploy a control plane on
-one cluster per region or zone for added reliability.
+应该在少量的大型集群（而不是大量的小型集群）中部署 Istio。最好的做法是使用[命名空间租赁](/zh/docs/ops/deployment/deployment-models/#namespace-tenancy)来管理大型集群，而不是将集群添加到部署中。按照这种方法，您可以在每个区域或区域中的一两个集群上部署 Istio。然后，您可以在每个区域或区域的一个集群上部署控制平面，以提高可靠性。
 
-## Deploy clusters near your users
+## 在靠近用户的地方部署集群{#deploy-clusters-near-your-users}
 
-Include clusters in your deployment across the globe for **geographic
-proximity to end-users**. Proximity helps your deployment have low latency.
+在全球部署集群，实现 **在地理位置上靠近终端用户**。这有助于降低 deployment 的延迟。
 
-## Deploy across multiple availability zones
+## 跨多个可用区域进行部署{#deploy-across-multiple-availability-zones}
 
-Include clusters in your deployment **across multiple availability regions
-and zones** within each geographic region. This approach limits the size of the
-{{< gloss "failure domain" >}}failure domains{{< /gloss >}} of your deployment,
-and helps you avoid global failures.
+跨多个地域以及相同地域下不同区域部署集群。这种方法可以限制部署 {{< gloss "failure domain" >}}故障域{{< /gloss >}}的大小，有助于避免全局故障。
