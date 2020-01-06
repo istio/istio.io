@@ -5,118 +5,118 @@ weight: 30
 keywords: [kubernetes, helm, install, options]
 ---
 
-The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.1 and Istio 1.2. The tables are grouped in to three different categories:
+下面的表格展示了 Istio 1.2 相比于 Istio 1.1 在使用 Helm 安装时关于自定义安装选项的一些变化。表格分为三类：
 
-- The installation options already in the previous release but whose values have been modified in the new release.
-- The new installation options added in the new release.
-- The installation options removed from the new release.
+- 安装选项在之前发行版本中就已经有了，但是在新发行版本中对其值作了修改。
+- 在新发行版本中增加的安装选项。
+- 在新发行版本中被移除的安装选项。
 
 <!-- Run python scripts/tablegen.py to generate this table -->
 
 <!-- AUTO-GENERATED-START -->
 
-## Modified configuration options
+## 作了修改的配置选项{#modified-configuration-options}
 
-### Modified `kiali` key/value pairs
+### 修改 `kiali` 键值对{#modified-Kiali-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+| 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `kiali.hub` | `docker.io/kiali` | `quay.io/kiali` |  |  |
 | `kiali.tag` | `v0.14` | `v0.20` |  |  |
 
-### Modified `prometheus` key/value pairs
+### 修改 `prometheus` 键值对{#modified-Prometheus-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+| 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `prometheus.tag` | `v2.3.1` | `v2.8.0` |  |  |
 
-### Modified `global` key/value pairs
+### 修改 `global` 键值对{#modified-global-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+| 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
-| `global.tag` | `release-1.1-latest-daily` | `1.2.0-rc.3` | `Default tag for Istio images.`  | `Default tag for Istio images.` |
+| `global.tag` | `release-1.1-latest-daily` | `1.2.0-rc.3` | `Istio 镜像的默认标签。` | `Istio 镜像的默认标签。` |
 | `global.proxy.resources.limits.memory` | `128Mi` | `1024Mi` |  |  |
-| `global.proxy.dnsRefreshRate` | `5s` | `300s` | `Configure the DNS refresh rate for Envoy cluster of type STRICT_DNS 5 seconds is the default refresh rate used by Envoy`  | `Configure the DNS refresh rate for Envoy cluster of type STRICT_DNS This must be given it terms of seconds. For example, 300s is valid but 5m is invalid.` |
+| `global.proxy.dnsRefreshRate` | `5s` | `300s` | `配置 STRICT_DNS 类型的 Envoy 集群的 DNS 刷新速率，默认值为 5 秒` | `配置 STRICT_DNS 类型的 Envoy 集群的 DNS 刷新速率，单位必须为秒。例如，可以 设为 300s，不能设为 5m` |
 
-### Modified `mixer` key/value pairs
+### 修改 `mixer` 键值对{#modified-mixer-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+| 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
-| `mixer.adapters.useAdapterCRDs` | `true` | `false` | `Setting this to false sets the useAdapterCRDs mixer startup argument to false`  | `Setting this to false sets the useAdapterCRDs mixer startup argument to false` |
+| `mixer.adapters.useAdapterCRDs` | `true` | `false` | `如果设这个值为 false，则 useAdapterCRDs mixer 的起始参数为 false` | `如果设这个值为 false，则 useAdapterCRDs mixer 的起始参数为 false` |
 
-### Modified `grafana` key/value pairs
+### 修改 `grafana` 键值对{#modified-Grafana-key-value-pairs}
 
-| Key | Old Default Value | New Default Value | Old Description | New Description |
+| 键 | 旧默认值 | 新默认值 | 旧描述 | 新描述 |
 | --- | --- | --- | --- | --- |
 | `grafana.image.tag` | `5.4.0` | `6.1.6` |  |  |
 
-## New configuration options
+## 新增的配置选项{#new-configuration-options}
 
-### New `tracing` key/value pairs
+### 新增 `tracing` 键值对{#new-tracing-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `tracing.podAntiAffinityLabelSelector` | `[]` |  |
 | `tracing.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `sidecarInjectorWebhook` key/value pairs
+### 新增 `sidecarInjectorWebhook` 键值对{#new-sidecar-injector-webhook-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `sidecarInjectorWebhook.podAntiAffinityLabelSelector` | `[]` |  |
 | `sidecarInjectorWebhook.podAntiAffinityTermLabelSelector` | `[]` |  |
-| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `You can use the field called alwaysInjectSelector and neverInjectSelector which will always inject the sidecar or always skip the injection on pods that match that label selector, regardless of the global policy. See https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
+| `sidecarInjectorWebhook.neverInjectSelector` | `[]` | `你可以用alwaysInjectSelector 和 neverInjectSelector 两个值，分别表示强制注入 sidecar 和无视全局策略，跳过符合标签过滤条件的 pod。请查看 https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/more-control-adding-exceptions` |
 | `sidecarInjectorWebhook.alwaysInjectSelector` | `[]` |  |
 
-### New `global` key/value pairs
+### 新增 `global` 键值对{#new-global-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `global.logging.level` | `"default:info"` |  |
-| `global.proxy.logLevel` | `""` | `Log level for proxy, applies to gateways and sidecars.  If left empty, "warning" is used. Expected values are: trace\|debug\|info\|warning\|error\|critical\|off` |
-| `global.proxy.componentLogLevel` | `""` | `Per Component log level for proxy, applies to gateways and sidecars. If a component level is not set, then the global "logLevel" will be used. If left empty, "misc:error" is used.` |
+| `global.proxy.logLevel` | `""` | `代理的 log 等级，用于 gateway 和 sidecar。如果值为空，则使用 "warning"。可选的值为：trace\|debug\|info\|warning\|error\|critical\|off` |
+| `global.proxy.componentLogLevel` | `""` | `代理的每一个组件的 log 等级，用于 gateway 和 sidecar。如果组件等级未设置，则使用全局的 "logLevel"。如果设置值为空，则使用 "misc:error"。` |
 | `global.proxy.excludeOutboundPorts` | `""` |  |
 | `global.tracer.datadog.address` | `"$(HOST_IP):8126"` |  |
-| `global.imagePullSecrets` | `[]` | `Lists the secrets you need to use to pull Istio images from a secure registry.` |
+| `global.imagePullSecrets` | `[]` | `列出你从一个安全的镜像仓库拉取 Istio 镜像时需要用的 secret` |
 | `global.localityLbSetting` | `{}` |  |
 
-### New `galley` key/value pairs
+### 新增 `galley` 键值对{#new-galley-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `galley.nodeSelector` | `{}` |  |
 | `galley.tolerations` | `[]` |  |
 | `galley.podAntiAffinityLabelSelector` | `[]` |  |
 | `galley.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `mixer` key/value pairs
+### 新增 `mixer` 键值对
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `mixer.tolerations` | `[]` |  |
 | `mixer.podAntiAffinityLabelSelector` | `[]` |  |
 | `mixer.podAntiAffinityTermLabelSelector` | `[]` |  |
 | `mixer.templates.useTemplateCRDs` | `false` |  |
 
-### New `grafana` key/value pairs
+### 新增 `grafana` 键值对{#new-Grafana-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `grafana.tolerations` | `[]` |  |
 | `grafana.podAntiAffinityLabelSelector` | `[]` |  |
 | `grafana.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `prometheus` key/value pairs
+### 新增 `prometheus` 键值对{#new-Prometheus-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `prometheus.tolerations` | `[]` |  |
 | `prometheus.podAntiAffinityLabelSelector` | `[]` |  |
 | `prometheus.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `gateways` key/value pairs
+### 新增 `gateways` 键值对{#new-gateways-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `gateways.istio-ingressgateway.sds.resources.requests.cpu` | `100m` |  |
 | `gateways.istio-ingressgateway.sds.resources.requests.memory` | `128Mi` |  |
@@ -139,9 +139,9 @@ The tables below show changes made to the installation options used to customize
 | `gateways.istio-egressgateway.podAntiAffinityTermLabelSelector` | `[]` |  |
 | `gateways.istio-ilbgateway.tolerations` | `[]` |  |
 
-### New `certmanager` key/value pairs
+### 新增 `certmanager` 键值对{#new-cert-manager-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `certmanager.replicaCount` | `1` |  |
 | `certmanager.nodeSelector` | `{}` |  |
@@ -149,77 +149,77 @@ The tables below show changes made to the installation options used to customize
 | `certmanager.podAntiAffinityLabelSelector` | `[]` |  |
 | `certmanager.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `kiali` key/value pairs
+### 新增 `kiali` 键值对{#new-Kiali-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `kiali.podAntiAffinityLabelSelector` | `[]` |  |
 | `kiali.podAntiAffinityTermLabelSelector` | `[]` |  |
-| `kiali.dashboard.viewOnlyMode` | `false` | `Bind the service account to a role with only read access` |
+| `kiali.dashboard.viewOnlyMode` | `false` | `将一个服务账户与一个只读的角色绑定` |
 
-### New `istiocoredns` key/value pairs
+### 新增 `istiocoredns` 键值对{#new-Istio-CoreDNS-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `istiocoredns.tolerations` | `[]` |  |
 | `istiocoredns.podAntiAffinityLabelSelector` | `[]` |  |
 | `istiocoredns.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `security` key/value pairs
+### 新增 `security` 键值对{#new-security-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `security.tolerations` | `[]` |  |
 | `security.citadelHealthCheck` | `false` |  |
 | `security.podAntiAffinityLabelSelector` | `[]` |  |
 | `security.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `nodeagent` key/value pairs
+### 新增 `nodeagent` 键值对{#new-node-agent-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `nodeagent.tolerations` | `[]` |  |
 | `nodeagent.podAntiAffinityLabelSelector` | `[]` |  |
 | `nodeagent.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-### New `pilot` key/value pairs
+### 新增 `pilot` 键值对{#new-pilot-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `pilot.tolerations` | `[]` |  |
 | `pilot.podAntiAffinityLabelSelector` | `[]` |  |
 | `pilot.podAntiAffinityTermLabelSelector` | `[]` |  |
 
-## Removed configuration options
+## 被移除的配置选项{#removed-configuration-options}
 
-### Removed `kiali` key/value pairs
+### 移除 `kiali` 键值对{#removed-Kiali-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
-| `kiali.dashboard.usernameKey` | `username` | `This is the key name within the secret whose value is the actual username.`  |
-| `kiali.dashboard.passphraseKey` | `passphrase` | `This is the key name within the secret whose value is the actual passphrase.`  |
+| `kiali.dashboard.usernameKey` | `username` | `secret 中用户名的键名。` |
+| `kiali.dashboard.passphraseKey` | `passphrase` | `secret 中密码的键名。` |
 
-### Removed `security` key/value pairs
+### 移除 `security` 键值对{#removed-security-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `security.replicaCount` | `1` |  |
 
-### Removed `gateways` key/value pairs
+### 移除 `gateways` 键值对{#removed-gateways-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `gateways.istio-ingressgateway.resources` | `{}` |  |
 
-### Removed `mixer` key/value pairs
+### 移除 `mixer` 键值对{#removed-mixer-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `mixer.enabled` | `true` |  |
 
-### Removed `servicegraph` key/value pairs
+### 移除 `servicegraph` 键值对{#removed-service-graph-key-value-pairs}
 
-| Key | Default Value | Description |
+| 键 | 默认值 | 描述 |
 | --- | --- | --- |
 | `servicegraph.ingress.enabled` | `false` |  |
 | `servicegraph.service.name` | `http` |  |
@@ -229,7 +229,7 @@ The tables below show changes made to the installation options used to customize
 | `servicegraph.enabled` | `false` |  |
 | `servicegraph.image` | `servicegraph` |  |
 | `servicegraph.service.externalPort` | `8088` |  |
-| `servicegraph.ingress.hosts` | `servicegraph.local` | `Used to create an Ingress record.`  |
+| `servicegraph.ingress.hosts` | `servicegraph.local` | `用来创建一条进入记录` |
 | `servicegraph.nodeSelector` | `{}` |  |
 | `servicegraph.prometheusAddr` | `http://prometheus:9090` |  |
 
