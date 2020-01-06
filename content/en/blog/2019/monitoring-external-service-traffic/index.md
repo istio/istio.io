@@ -98,7 +98,7 @@ This is where the BlackHole and Passthrough clusters are used.
     }
   {{< /text >}}
 
-  The route is setup as [direct response](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#envoy-api-msg-route-directresponseaction)
+  The route is setup as [direct response](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto)
   with `502` response code which means if no other routes match the Envoy proxy
   will directly return a `502` HTTP status code.
 
