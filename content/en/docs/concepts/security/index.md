@@ -804,6 +804,21 @@ spec:
        ports: ["27017"]
 {{< /text >}}
 
+### Dependency on mutual TLS
+
+Istio uses mutual TLS to securely pass some information from the client to the
+server. Mutual TLS must be enabled before using any of the following fields in
+the authorization policy:
+
+- the `principals` field under the `source` section
+- the `namespaces` field under the `source` section
+- the `source.principal` custom condition
+- the `source.namespace` custom condition
+- the `connection.sni` custom condition
+
+Mutual TLS is not required if you don't use any of the above fields in the
+authorization policy.
+
 ### Using other authorization mechanisms
 
 While we strongly recommend using the Istio authorization mechanisms,
