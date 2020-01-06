@@ -27,10 +27,10 @@ aliases:
 
     这条命令会在 `istio-operator` 命名空间中创建以下资源并运行 Istio operator :
 
-    - Istio operator 依赖的 custom resource definition
-    - Istio operator 对应的控制器
-    - 访问 Istio operator 指标信息的 service
-    - Istio operator 必要的 RBAC 资源
+    - operator 自定义资源
+    - operator 控制器 deployment
+    - operator 指标信息 service
+    - operator 必要的 RBAC 规则
 
 ## 安装{#install}
 
