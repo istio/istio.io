@@ -36,7 +36,7 @@ All of these questions, among others, represent independent dimensions of config
 1. single or multiple network
 1. single or multiple control plane
 1. single or multiple mesh
-1. mesh expansion (integration with VMs/bare metal)
+1. integration with VMs/bare metal
 
 All combinations are possible, although some are more common than others and
 some are clearly not very interesting (for example, multiple mesh in a single cluster).
