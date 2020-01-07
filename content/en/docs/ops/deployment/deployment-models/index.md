@@ -435,7 +435,7 @@ reasons for deployments on VMs/bare metal computers could be special hardware re
 
 Having some of the services on VMs/bare metal, you may want to connect the services into a mesh and benefit from all the
 service mesh features: traffic management, security, observability, and others. You can deploy the Istio control plane(s)
-on some of your clusters and expand the mesh of the cluster(s) by adding VMs/bare metal computers into the mesh.
+on some of your clusters and integrate your VMs/bare metal computers with the mesh.
 
 The VMs/bare metal computers can share the same network with the clusters of the mesh, or they can be on
 different networks. In the latter case, [Istio gateways](/docs/concepts/traffic-management/#gateways) can be used to
