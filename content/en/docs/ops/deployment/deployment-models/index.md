@@ -28,7 +28,7 @@ or are there multiple control planes deployed to ensure high availability (HA)?
 If there is more than one cluster being deployed, and more specifically in isolated networks,
 are they going to be connected into a single {{< gloss >}}multicluster{{< /gloss >}}
 service mesh or will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
-Will services on virtual machines or bare metal computers be connected to the mesh?
+Will services running on virtual machines or bare metal computers be part of the mesh?
 
 All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
 
