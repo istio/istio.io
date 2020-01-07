@@ -19,44 +19,10 @@ metrics that Mixer currently generates:
 
 ## Enable service-level metrics generation in Envoy
 
-To generate service-level metrics directly in the Envoy proxies, follow these steps:
-
-Option 1:
+To generate service-level metrics directly in the Envoy proxies, set the following values:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v2.enabled=true
-    {{< /text >}}
-
-Option 2:
-
-Follow these steps manually:
-
-1. To disable Mixer http reporting, set `disableMixerHttpReports` to true in your mesh configuration
-
-    Check the existing status:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | grep disableMixerHttpReports
-    disableMixerHttpReports: true
-    {{< /text >}}
-
-    If disableMixerHttpReports is set to false, update your mesh configuration:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system get cm istio -o yaml | sed -e 's/disableMixerHttpReports: false/disableMixerHttpReports: true/g' | kubectl replace -f -
-    {{< /text >}}
-
-1. To generate service-level metrics, the proxies must exchange {{< gloss >}}workload{{< /gloss >}} metadata.
-   A custom filter handles this exchange. Enable the metadata exchange filter with the following command:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/metadata_exchange_filter.yaml@
-    {{< /text >}}
-
-1. To actually generate the service-level metrics, you must apply the custom stats filter.
-
-    {{< text bash >}}
-    $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/stats_filter.yaml@
+    $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v1.enabled=false,values.telemetry.v2.enabled=true,values.telemetry.v2.prometheus.enabled=true
     {{< /text >}}
 
 Go to the **Istio Mesh** Grafana dashboard. Verify that the dashboard displays the same telemetry as before but without
