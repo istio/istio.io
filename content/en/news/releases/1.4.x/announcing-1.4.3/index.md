@@ -22,6 +22,7 @@ This release includes bug fixes to improve robustness and user experience. This 
 - **Fixed** `istioctl` install to properly send logs to `stderr` ([Issue 17743](https://github.com/istio/istio/issues/17743)).
 - **Fixed** an issue where a file and profile could not be specified for `istioctl` installs ([Issue 19503](https://github.com/istio/istio/issues/19503)).
 - **Fixed** an issue preventing certain objects from being installed for `istioctl` installs ([Issue 19371](https://github.com/istio/istio/issues/19371)).
+- **Fixed** an issue preventing using certain JWKS with EC keys in JWT policy ([Issue 19424](https://github.com/istio/istio/issues/19424)).
 
 ## Improvements
 
