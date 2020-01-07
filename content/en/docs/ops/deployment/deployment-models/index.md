@@ -12,7 +12,7 @@ keywords:
   - trust
   - single-mesh
   - multiple-meshes
-  - mesh-expansion
+  - virtual-machines
 aliases:
   - /docs/concepts/multicluster-deployments
   - /docs/concepts/deployment-models
