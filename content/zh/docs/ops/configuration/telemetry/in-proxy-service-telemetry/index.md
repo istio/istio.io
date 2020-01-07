@@ -23,7 +23,6 @@ Istio 1.4 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
     $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v1.enabled=false,values.telemetry.v2.enabled=true,values.telemetry.v2.prometheus.enabled=true
     {{< /text >}}
 
-
 打开 **Istio Mesh** Grafana 面板。可以验证在没有任何请求经过 Istio Mixer 的情况下仍然显示和之前一样的遥测指标。
 
 ## 和基于 Mixer 生成遥测指标的区别{#differences-with-mixer-based-generation}
