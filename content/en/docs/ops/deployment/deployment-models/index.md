@@ -437,10 +437,6 @@ Having some of the services on VMs/bare metal, you may want to connect the servi
 service mesh features: traffic management, security, observability, and others. You can deploy the Istio control plane(s)
 on some of your clusters and integrate your VMs/bare metal computers with the mesh.
 
-The VMs/bare metal computers can share the same network with the clusters of the mesh, or they can be on
-different networks. In the latter case, [Istio gateways](/docs/concepts/traffic-management/#gateways) can be used to
-provide reachability between the VMs/bare metal and the clusters.
-
 Adding a VM/bare metal computer to a mesh means installing an Istio sidecar and a Node agent on the machine and
 configuring them to communicate with the control plane(s) on some of the clusters. Once you add a VMs/bare metal
 computers to a mesh, you can configure the control plane(s) of the mesh to control communication between services on the
