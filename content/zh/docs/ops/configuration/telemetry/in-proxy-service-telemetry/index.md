@@ -17,43 +17,10 @@ Istio 1.4 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
 
 ## 在 Envoy 中启用服务级别指标生成功能{#enable-service-level-metrics-generation-in-envoy}
 
-要直接在 Envoy 代理中生成服务级别的指标，请按照下列步骤操作：
-
-选项 1：
+要直接在 Envoy 代理中生成服务级别的指标，请配置以下选项：
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v2.enabled=true
-    {{< /text >}}
-
-选项 2：
-
-手动执行以下步骤：
-
-1. 要禁用 Mixer http 报告，请在您的网格配置中将 `disableMixerHttpReports` 设置为 true
-
-    检查现有状态：
-
-    {{< text bash >}}
-    $ kubectl -n istio-system get cm istio -o jsonpath="{@.data.mesh}" | grep disableMixerHttpReports
-    disableMixerHttpReports: true
-    {{< /text >}}
-
-    如果 disableMixerHttpReports 被设置为 false，更新您的网格配置：
-
-    {{< text bash >}}
-    $ kubectl -n istio-system get cm istio -o yaml | sed -e 's/disableMixerHttpReports: false/disableMixerHttpReports: true/g' | kubectl replace -f -
-    {{< /text >}}
-
-1. 为了生成服务级别的指标，代理必须交换 {{< gloss >}}workload{{< /gloss >}} 元数据。有一个自定义的过滤器可以来处理元数据交换。请使用如下命令来启用元数据交换过滤器：
-
-    {{< text bash >}}
-    $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/metadata_exchange_filter.yaml@
-    {{< /text >}}
-
-1. 为了最终生成服务级别的指标，你必须应用一个自定义的统计过滤器。
-
-    {{< text bash >}}
-    $ kubectl -n istio-system apply -f @tests/integration/telemetry/stats/prometheus/testdata/stats_filter.yaml@
+    $ istioctl manifest apply --set values.telemetry.enabled=true,values.telemetry.v1.enabled=false,values.telemetry.v2.enabled=true,values.telemetry.v2.prometheus.enabled=true
     {{< /text >}}
 
 打开 **Istio Mesh** Grafana 面板。可以验证在没有任何请求经过 Istio Mixer 的情况下仍然显示和之前一样的遥测指标。
