@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1
+title: Istio 1.1 发布公告
 linktitle: 1.1
-subtitle: Major Update
-description: Istio 1.1 release announcement.
+subtitle: 重大更新
+description: Istio 1.1 发布公告。
 publishdate: 2019-03-19
 release: 1.1.0
 skip_list: true
@@ -13,65 +13,26 @@ aliases:
     - /zh/news/announcing-1.1
 ---
 
-We are pleased to announce the release of Istio 1.1!
+我们很高兴的宣布 Istio 1.1 正式发布！
 
 {{< relnote >}}
 
-Since we released 1.0 back in July, we’ve done a lot of work to help people get
-into production. Not surprisingly, we had to do some [patch releases](/zh/news)
-(6 so far!), but we’ve also been hard at work adding new features to the
-product.
+自 7 月份发布 1.0 版本以来，我们已经做了很多工作来帮助人们投入生产。理所当然，我们不得不做一些[补丁发布](/zh/news)（到目前为止有 6 个！），但是我们也一直在努力为产品添加新功能。
 
-The theme for 1.1 is Enterprise Ready. We’ve been very pleased to see more and
-more companies using Istio in production, but as some larger companies tried to
-adopt Istio they hit some limits.
+1.1 的主题是企业就绪。我们很高兴看到越来越多的公司在生产中使用 Istio，但是一些大型公司在尝试使用 Istio 的过程中，遇到了一些瓶颈。
 
-One of our prime areas of focus has been [performance and scalability](/zh/docs/ops/deployment/performance-and-scalability/).
-As people moved into production with larger clusters running more services at
-higher volume, they hit some scaling and performance issues. The
-[sidecars](/zh/docs/concepts/traffic-management/#sidecars) took too many resources
-and added too much latency. The control plane (especially
-[Pilot](/zh/docs/ops/deployment/architecture/#pilot)) was overly
-resource hungry.
+我们关注的主要领域之一是 [性能和可伸缩性](/zh/docs/ops/deployment/performance-and-scalability/)。随着人们进入生产环境，大型集群以更高的容量运行更多的服务，他们遇到了一些扩展和性能问题。[sidecar](/zh/docs/concepts/traffic-management/#sidecars) 占用了太多资源，并增加了太多延迟。控制平面（尤其是 [Pilot](/zh/docs/ops/deployment/architecture/#pilot)）过于浪费资源。
 
-We’ve done a lot of work to make both the data plane and the control plane more
-efficient. You can find the details of our 1.1 performance testing and the
-results in our updated [performance ans scalability concept](/zh/docs/ops/deployment/performance-and-scalability/).
+我们已经做了很多工作，以提高数据平面和控制平面的使用效率。您可以在本次更新的 [性能和可扩展性概念](/zh/docs/ops/deployment/performance-and-scalability/) 中找到我们对 1.1 性能测试的详细信息和测试结果。
 
-We’ve done work around namespace isolation as well. This lets you use
-Kubernetes namespaces to enforce boundaries of control, and ensures that your
-teams cannot interfere with each other.
+我们还完成了有关命名空间隔离的工作。这使您可以使用 Kubernetes 命名空间来强制控制边界，并确保您的团队和另一个团队之间不会相互干扰。
 
-We have also improved the [multicluster capabilities and usability](/zh/docs/ops/deployment/deployment-models/).
-We listened to the community and improved defaults for traffic control and
-policy. We introduced a new component called
-[Galley](/zh/docs/ops/deployment/architecture/#galley). Galley validates that sweet,
-sweet YAML, reducing the chance of configuration errors. Galley will also be
-instrumental in [multicluster setups](/zh/docs/setup/install/multicluster/),
-gathering service discovery information from each Kubernetes cluster. We are
-also supporting additional multicluster topologies including different
-[control plane models](/zh/docs/ops/deployment/deployment-models/#control-plane-models)
-topologies without requiring a flat network.
+我们还改进了[多集群的功能及可用性](/zh/docs/ops/deployment/deployment-models/)。我们听取了社区的意见，并改进了流量控制和策略的默认设置。我们引入了一个名为 [Galley](/zh/docs/ops/deployment/architecture/#galley) 的新组件。Galley 验证了 YAML 配置，从而减少了配置错误的机会。Galley 还将在[多集群设置](/zh/docs/setup/install/multicluster/)中发挥作用，从每个 Kubernetes 集群收集服务发现信息。我们还支持其他多集群拓扑，包括不同的[控制平面模型](/zh/docs/ops/deployment/deployment-models/#control-plane-models)拓扑，而无需使用扁平网络。
 
-There is lots more -- see the [change notes](./change-notes) for complete
-details.
+有关更多、更完整的信息请参见[变更说明](./change-notes)。
 
-There is more going on in the project as well. We know that Istio has a lot of
-moving parts and can be a lot to take on. To help address that, we recently
-formed a [Usability Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings)
-(feel free to join). There is also a lot happening in the [Community
-Meeting](https://github.com/istio/community#community-meeting) (Thursdays at
-`11 a.m.`) and in the [Working
-Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md). And
-if you haven’t yet joined the conversation at
-[discuss.istio.io](https://discuss.istio.io), head over, log in with your
-GitHub credentials and join us!
+项目中还有更多正在进行的内容。我们知道 Istio 有很多活动部件，可以承担很多责任。为了解决这个问题，我们最近成立了一个[可用性工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings)（欢迎随时加入）。[社区会议](https://github.com/istio/community#community-meeting)（星期四，上午 11 点）和[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)中也发生了很多事情。如果您尚未加入 [discuss.istio.io](https://discuss.istio.io) 上的对话，请直接使用 GitHub 凭据登录并加入我们！
 
-We are grateful to everyone who has worked hard on Istio over the last few
-months -- patching 1.0, adding features to 1.1, and, lately, doing tons of
-testing on 1.1. Thanks especially to those companies and users who worked with
-us installing and upgrading to the early builds and helping us catch problems
-before the release.
+我们感谢在过去几个月中为了 Istio 的发展而努力工作的每个人。他们修补了 1.0 版本，并为 1.1 版本增加了许多新功能，最近又对 1.1 版本进行了大量的测试。特别感谢在早期版本，与我们一起完成安装和升级方面的工作，并帮助我们在发布之前发现问题的那些公司和用户。
 
-So: now’s the time! Grab 1.1, check out [the updated documentation](/zh/docs/),
-[install it](/zh/docs/setup/) and...happy meshing!
+现在：时机已到！就是 1.1，查看[更新文档](/zh/docs/)、[安装它](/zh/docs/setup/)，然后...happy meshing!

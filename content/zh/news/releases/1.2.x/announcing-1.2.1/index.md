@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.2.1
+title: Istio 1.2.1 发布公告
 linktitle: 1.2.1
-subtitle: Patch Release
-description: Istio 1.2.1 patch release.
+subtitle: 补丁发布
+description: Istio 1.2.1 补丁发布。
 publishdate: 2019-06-27
 release: 1.2.1
 aliases:
@@ -12,20 +12,20 @@ aliases:
     - /zh/news/announcing-1.2.1
 ---
 
-We're pleased to announce the availability of Istio 1.2.1. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.2.1 现在是可用的，具体更新内容如下。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix duplicate CRD being generated in the install ([Issue 14976](https://github.com/istio/istio/issues/14976))
-- Fix Mixer unable to start when Galley is disabled ([Issue 14841](https://github.com/istio/istio/issues/14841))
-- Fix environment variable shadowing (NAMESPACE is used for listened namespaces and overwrites Citadel storage namespace (istio-system))
-- Fix cause of 'TLS error: Secret is not supplied by SDS' errors during upgrade ([Issue 15020](https://github.com/istio/istio/issues/15020))
+- 修复在安装中生成重复 CRD 的问题（[Issue 14976](https://github.com/istio/istio/issues/14976)）
+- 修复禁用 Galley 时无法启动 Mixer 的问题（[Issue 14841](https://github.com/istio/istio/issues/14841)）
+- 修复环境变量遮蔽的问题（NAMESPACE 用于监控的命名空间覆盖了 Citadel 的存储命名空间（istio-system））
+- 修复升级过程中的 'TLS error: Secret is not supplied by SDS' 错误（[Issue 15020](https://github.com/istio/istio/issues/15020)）
 
-## Minor enhancements
+## 次要改进{#minor-enhancements}
 
-- Allow users to disable Istio default retries by setting retries to 0 ([Issue 14900](https://github.com/istio/istio/issues/14900))
-- Introduction of a Redis filter (this feature is guarded with the environment feature flag `PILOT_ENABLE_REDIS_FILTER`, disabled by default)
-- Add HTTP/1.0 support to gateway configuration generation ([Issue 13085](https://github.com/istio/istio/issues/13085))
-- Add [toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) for Istio components ([Pull Request 15081](https://github.com/istio/istio/pull/15081))
+- 通过将重试设置为 0，允许用户禁用 Istio 的默认重试（[Issue 14900](https://github.com/istio/istio/issues/14900)）
+- 引入 Redis 过滤器（此功能由环境特性标志 `PILOT_ENABLE_REDIS_FILTER` 保护，默认情况下处于禁用状态）
+- 将 HTTP/1.0 支持添加到网关配置生成（[Issue 13085](https://github.com/istio/istio/issues/13085)）
+- 为 Istio 组件添加了[容忍](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)（[Pull Request 15081](https://github.com/istio/istio/pull/15081)）

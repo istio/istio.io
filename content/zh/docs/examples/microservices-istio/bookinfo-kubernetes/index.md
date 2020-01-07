@@ -200,4 +200,4 @@ type: LoadBalancer
     ...
     {{< /text >}}
 
-您已经准备好[测试应用](/docs/examples/microservices-istio/production-testing)了。
+您已经准备好[测试应用](/zh/docs/examples/microservices-istio/production-testing)了。

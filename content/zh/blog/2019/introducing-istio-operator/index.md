@@ -98,7 +98,7 @@ Operator controller 和 `istioctl` 命令共享相同的实现。重要的区别
 
 ## 从 Helm 迁移{#migration-from-helm}
 
-为了方便从使用 Helm 过渡，`istioctl` 和 controller 支持对 Helm 安装 API 的直通访问。
+为了方便从使用 Helm 过渡，`istioctl` 和 controller 支持对 Helm 安装 API 的透传访问。
 
 您可以使用 `istioctl --set` 来传递 Helm 配置选项，方法是将字符串 `values.` 放在配置选项前面。例如，对于这个 Helm 命令：
 

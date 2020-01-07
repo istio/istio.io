@@ -128,7 +128,7 @@ This requires you have `openssl` installed on your machine.
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
-    $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+    $ istioctl manifest apply --set values.global.mtls.enabled=true
     {{< /text >}}
 
 *   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.

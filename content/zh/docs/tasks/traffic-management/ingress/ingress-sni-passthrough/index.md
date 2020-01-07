@@ -1,6 +1,6 @@
 ---
 title: 无 TLS 终止的 Ingress Gateway
-description: 说明了如何为一个 ingress gateway 配置 SNI 直通。
+description: 说明了如何为一个 ingress gateway 配置 SNI 透传。
 weight: 30
 keywords: [traffic-management,ingress,https]
 aliases:
@@ -8,7 +8,7 @@ aliases:
 ---
 
 [安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。
-而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 直通，而不是对传入请求进行 TLS 终止。
+而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
 
 本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。
 在接下来的步骤中，你会先在你的 Kubernetes 集群中创建一个 NGINX 服务。

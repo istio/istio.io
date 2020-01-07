@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.11
+title: Istio 1.1.11 发布公告
 linktitle: 1.1.11
-subtitle: Patch Release
-description: Istio 1.1.11 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.11 补丁发布。
 publishdate: 2019-07-03
 release: 1.1.11
 aliases:
@@ -12,10 +12,10 @@ aliases:
     - /zh/news/announcing-1.1.11
 ---
 
-We're pleased to announce the availability of Istio 1.1.11. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.1.11 现在是可用的。更新详情如下。
 
 {{< relnote >}}
 
-## Small enhancements
+## 小改进{#small-enhancements}
 
-- Add ability to enable `HTTP/1.0` support in ingress gateway ([Issue 13085](https://github.com/istio/istio/issues/13085)).
+- 添加了一个功能，以在入口网关启用 `HTTP/1.0` 支持（[Issue 13085](https://github.com/istio/istio/issues/13085)）。

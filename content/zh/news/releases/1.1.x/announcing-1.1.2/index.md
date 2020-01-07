@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.2 with Important Security Update
+title: 包含重要安全更新的 Istio 1.1.2 发布公告
 linktitle: 1.1.2
-subtitle: Patch Release
-description: Istio 1.1.2 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.2 补丁发布。
 publishdate: 2019-04-05
 release: 1.1.2
 aliases:
@@ -12,73 +12,61 @@ aliases:
     - /zh/news/announcing-1.1.2
 ---
 
-We're announcing immediate availability of Istio 1.1.2 which contains some important security updates. Please see below for details.
+我们宣布 Istio 1.1.2 现已可用，其包含了一些重要的安全更新。请参阅下面的详细资料。
 
 {{< relnote >}}
 
-## Security update
+## 安全更新{#security-update}
 
-Two security vulnerabilities have recently been identified in the Envoy proxy
-([CVE 2019-9900](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) and [CVE 2019-9901](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901)). The
-vulnerabilities have now been patched in Envoy version 1.9.1, and correspondingly in the Envoy builds
-embedded in Istio 1.1.2 and Istio 1.0.7. Since Envoy is an integral part of Istio, users are advised to update Istio
-immediately to mitigate security risks arising from these vulnerabilities.
+最近在 Envoy 代理中发现了两个安全漏洞 ([CVE 2019-9900](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [CVE 2019-9901](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901))。
+此漏洞已在 Envoy 1.9.1 版中被修复，相应地，也对 Istio 1.1.2 和 Istio 1.0.7 内置的 Envoy 进行了修复。
+由于 Envoy 是 Istio 不可或缺的一部分，因此建议用户立即更新 Istio，以防范由这些漏洞引起的安全风险。
 
-The vulnerabilities are centered on the fact that Envoy did not normalize HTTP URI paths and did not fully validate HTTP/1.1 header values. These
-vulnerabilities impact Istio features that rely on Envoy to enforce any of authorization, routing, or rate limiting.
+漏洞实际上是这样导致的：Envoy 没有规范化 HTTP URI 路径，也没有完全验证 HTTP/1.1 header 值。这些漏洞影响了依赖于 Envoy 强制执行授权、路由和速率限制的 Istio 特性。
 
-## Affected Istio releases
+## 受影响的 Istio 版本{#affected-Istio-releases}
 
-The following Istio releases are vulnerable:
+以下 Istio 版本容易受到攻击：
 
 - 1.1, 1.1.1
-    - These releases can be patched to Istio 1.1.2.
-    - 1.1.2 is built from the same source as 1.1.1 with the addition of Envoy patches minimally sufficient to address the CVEs.
+    - 这些版本可以升级至 Istio 1.1.2。
+    - 1.1.2 与 1.1.1 是基于相同源码构建的，仅添加了解决 CVE 的 Envoy 补丁。
 
 - 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6
-    - These releases can be patched to Istio 1.0.7
-    - 1.0.7 is built from the same source as 1.0.6 with the addition of Envoy patches minimally sufficient to address the CVEs.
+    - 这些版本可以升级至 Istio 1.0.7。
+    - 1.0.6 与 1.0.7 是基于相同源码构建的，仅添加了解决 CVE 的 Envoy 补丁。
 
 - 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8
-    - These releases are no longer supported and will not be patched. Please upgrade to a supported release with the necessary fixes.
+    - 这些发行版不再受支持，也不会进行修补。 请升级到受支持的版本，以获取必要的修复程序。
 
-## Vulnerability impact
+## 漏洞影响{#vulnerability-impact}
 
-[CVE 2019-9900](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) and [CVE 2019-9901](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901)
-allow remote attackers access to unauthorized resources by using specially crafted request URI paths (9901) and NUL bytes in
-HTTP/1.1 headers (9900), potentially circumventing DoS prevention systems such as rate limiting, or routing to a unexposed upstream system. Refer to
-[issue 6434](https://github.com/envoyproxy/envoy/issues/6434)
-and [issue 6435](https://github.com/envoyproxy/envoy/issues/6435) for more information.
+[CVE 2019-9900](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [CVE 2019-9901](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901)
+允许远程攻击者使用特制的请求 URI 路径（9901）和 HTTP/1.1 header 中的 NUL 字节（9900）来访问未经授权的资源，并可能绕过速率限制等 DoS 防御系统，或路由至未暴露的上游系统。
+参阅 [issue 6434](https://github.com/envoyproxy/envoy/issues/6434) 和 [issue 6435](https://github.com/envoyproxy/envoy/issues/6435) 获取更多信息。
 
-As Istio is based on Envoy, Istio customers can be affected by these vulnerabilities based on whether paths and request headers are used within Istio
-policies or routing rules and how the backend HTTP implementation resolves them. If prefix path matching rules are used by Mixer or by Istio authorization
-policies or the routing rules, an attacker could exploit these vulnerabilities to gain access to unauthorized paths on certain HTTP backends.
+由于 Istio 基于 Envoy，因此 Istio 客户可能会受到这些漏洞的影响，具体取决于 Istio 策略和路由规则中是否使用了路径和请求 header 以及后端 HTTP 实现是如何解析它们的。如果 Mixer 或 Istio 的授权策略或路由规则使用前缀路径匹配规则，则攻击者可能利用这些漏洞来访问某些 HTTP 后端上的未授权路径。
 
-## Mitigation
+## 防范{#mitigation}
 
-Eliminating the vulnerabilities requires updating to a corrected version of Envoy. We’ve incorporated the necessary updates in the latest Istio patch releases.
+消除漏洞需要更新到正确的 Envoy 版本。我们已经在最新的 Istio 修补程序版本中合并了必要的更新。
 
-For Istio 1.1.x deployments: update to a minimum of [Istio 1.1.2](/zh/news/releases/1.1.x/announcing-1.1.2)
+对于 Istio 1.1.x deployment：至少升级至 [Istio 1.1.2](/zh/news/releases/1.1.x/announcing-1.1.2)
 
-For Istio 1.0.x deployments: update to a minimum of [Istio 1.0.7](/zh/news/releases/1.0.x/announcing-1.0.7)
+对于 Istio 1.0.x deployment：至少升级至 [Istio 1.0.7](/zh/news/releases/1.0.x/announcing-1.0.7)
 
-While Envoy 1.9.1 requires opting in to path normalization to address CVE 2019-9901, the version of Envoy embedded in Istio 1.1.2 and 1.0.7 enables path
-normalization by default.
+尽管 Envoy 1.9.1 需要选择路径规范化以解决 CVE 2019-9901，但默认情况下，Istio 1.1.2 和 1.0.7 中内置的 Envoy 版本已经启用了路径规范化。
 
-## Detection of NUL header exploit
+## 检测 NUL header 漏洞{#detection-of-NUL-header-exploit}
 
-Based on current information, this only affects HTTP/1.1 traffic. If this is not structurally possible in your network or configuration, then it is unlikely
-that this vulnerability applies.
+根据目前的信息，这只会影响 HTTP/1.1 的流量。如果您的网络或配置不是这种结构，那么此漏洞不太可能影响到您。
 
-File-based access logging uses the `c_str()` representation for header values, as does gRPC access logging, so there will be no trivial detection via
-Envoy’s access logs by scanning for NUL. Instead, operators might look for inconsistencies in logs between the routing that Envoy performs and the logic
-intended in the `RouteConfiguration`.
+基于文件的访问日志记录与 gRPC 访问日志记录一样，使用 `c_str()` 表示 header 值，因此扫描 NUL，不会发现通过 Envoy 的访问日志的任何异常。
 
-External authorization and rate limit services can check for NULs in headers. Backend servers might have sufficient logging to detect NULs or unintended
-access; it’s likely that many will simply reject NULs in this scenario via 400 Bad Request, as per RFC 7230.
+相反，运维人员可能会在 Envoy 执行的路由和 `RouteConfiguration` 预期的逻辑之间的日志中寻找不一致之处。
 
-## Detection of path traversal exploit
+外部授权和速率限制服务可以检查 header 中的 NUL。后端服务器可能具有足够的日志记录来检测 NUL 或意外访问；根据 RFC 7230，在这种情况下，很可能会通过 400 bad request 简单地拒绝 NUL。
 
-Envoy’s access logs (whether file-based or gRPC) will contain the unnormalized path, so it is possible to examine these logs to detect suspicious patterns and
-requests that are incongruous with the intended operator configuration intent. In addition, unnormalized paths are available at `ext_authz`, rate limiting
-and backend servers for log inspection.
+## 检测路径遍历漏洞{#detection-of-path-traversal-exploit}
+
+Envoy 的访问日志（基于文件或 gRPC ）将包含非规范化路径，因此可以检查这些日志以检测可疑的模式和与预期的运维人员配置意图不一致的请求。此外，在 `ext_authz`、速率限制和后端服务器上可以使用非规范化路径进行日志检查。

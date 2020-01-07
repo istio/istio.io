@@ -1,147 +1,76 @@
 ---
-title: Multi-mesh deployments for isolation and boundary protection
-subtitle: Separate applications that require isolation into multiple meshes using mesh federation to enable inter-mesh communication
-description: Deploy environments that require isolation into separate meshes and enable inter-mesh communication by mesh federation.
+title: 用于隔离和边界保护的多网格部署
+subtitle: 使用网格联邦将其隔离成多个网格以实现网格间通信的独立应用程序
+description: 将需要隔离的环境部署到单独的网格中，并通过网格联邦启用网格间通信。
 publishdate: 2019-10-02
 attribution: Vadim Eisenberg (IBM)
 keywords: [traffic-management,multicluster,security,gateway,tls]
 target_release: 1.3
 ---
 
-Various compliance standards require protection of sensitive data environments. Some of the important standards and the
-types of sensitive data they protect appear in the following table:
+各种合规性标准要求保护敏感数据环境。下表列出了一些重要的标准及其保护的敏感数据的类型：
 
-|Standard|Sensitive data|
+|标准  |敏感数据类型|
 | --- | --- |
-|[PCI DSS](https://www.pcisecuritystandards.org/pci_security)|payment card data|
-|[FedRAMP](https://www.fedramp.gov)|federal information, data and metadata|
-|[HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736)|personal health data|
-|[GDPR](https://gdpr-info.eu)| personal data|
+|[PCI DSS](https://www.pcisecuritystandards.org/pci_security)| 支付卡数据|
+|[FedRAMP](https://www.fedramp.gov)|联邦信息，数据和元数据|
+|[HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736)|个人健康数据|
+|[GDPR](https://gdpr-info.eu)| 个人资料|
 
-[PCI DSS](https://www.pcisecuritystandards.org/pci_security), for example, recommends putting cardholder data
-environment on a network, separate from the rest of the system. It also requires using a [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)),
-and setting firewalls between the public Internet and the DMZ, and between the DMZ and the internal network.
+[PCI DSS](https://www.pcisecuritystandards.org/pci_security)，例如，建议将持卡人数据环境放置在和系统其它部分不同的网络上。它还需要使用 [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing))，并在公网和 DMZ 之间以及 DMZ 和内部网络之间设置防火墙。
 
-Isolation of sensitive data environments from other information systems can reduce the scope of the compliance checks
-and improve the security of the sensitive data. Reducing the scope reduces the risks of failing a compliance check and
-reduces the costs of compliance since there are less components to check and secure, according to compliance
-requirements.
+将敏感数据环境与其他信息系统隔离可以减少合规性检查的范围并提高敏感数据的安全性。缩小范围可降低合规性检查失败的风险，并降低合规性成本，因为根据合规性要求，要检查和保护的组件较少。
 
-You can achieve isolation of sensitive data by separating the parts of the application that process that data
-into a separate service mesh, preferably on a separate network, and then connect the meshes with different
-compliance requirements together in a {{< gloss >}}multi-mesh{{< /gloss >}} deployment.
-The process of connecting inter-mesh
-applications is called {{< gloss >}}mesh federation{{< /gloss >}}.
+通过将处理数据的应用程序各部分分离到单独的服务网格中（最好也是在单独的网络上），然后将具有不同合规性要求的网格连接到 {{< gloss "multi-mesh" >}}多网格{{< /gloss >}} 部署中，可以实现敏感数据的隔离。 连接网间应用程序的过程称为 {{< gloss "mesh federation" >}}网格联邦{{< /gloss >}}。
 
-Note that using mesh federation to create a multi-mesh deployment is very different than creating a
-{{< gloss >}}multicluster{{< /gloss >}} deployment, which defines a single service mesh composed from services spanning more than one cluster. Unlike multi-mesh, a multicluster deployment is not suitable for
-applications that require isolation and boundary protection.
+请注意，使用网格联邦来创建多网格部署与创建 {{< gloss "multicluster" >}}多集群{{< /gloss >}} 部署非常不同，后者定义了一个由跨多个群集的服务组成的单个服务网格。与多网格不同，多群集部署不适用于需要隔离和边界保护的应用程序。
 
-In this blog post I describe the requirements for isolation and boundary protection, and outline the principles of
-multi-mesh deployments. Finally, I touch on the current state of mesh-federation support and automation work under way for
-Istio.
+在此博客文章中，我描述了隔离和边界保护的要求，并概述了多网格部署的原理。最后，我介绍了 Istio 当前在网格联邦支持和自动化工作的状态。
 
-## Isolation and boundary protection
+## 隔离和边界保护{#isolation-and-boundary-protection}
 
-Isolation and boundary protection mechanisms are explained in the
-[NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
-_Appendix F, Security Control Catalog, SC-7 Boundary Protection_.
+隔离和边界保护机制在 [NIST 特殊出版物 800-53，修订4，联邦信息系统和组织的安全和隐私控制](http://dx.doi.org/10.6028/NIST.SP.800-53r4)，_附录 F，安全控制目录，SC-7 边界保护中进行了说明_。
 
-In particular, the _Boundary protection, isolation of information system components_ control enhancement:
+特别是 _边界保护，隔离信息系统组件_ 控制增强：
 
 {{< quote >}}
-Organizations can isolate information system components performing different missions and/or business functions.
-Such isolation limits unauthorized information flows among system components and also provides the opportunity to deploy
-greater levels of protection for selected components. Separating system components with boundary protection mechanisms
-provides the capability for increased protection of individual components and to more effectively control information
-flows between those components. This type of enhanced protection limits the potential harm from cyber attacks and
-errors. The degree of separation provided varies depending upon the mechanisms chosen. Boundary protection mechanisms
-include, for example, routers, gateways, and firewalls separating system components into physically separate networks or
-subnetworks, cross-domain devices separating subnetworks, virtualization techniques, and encrypting information flows
-among system components using distinct encryption keys.
+组织可以隔离执行不同任务和/或业务功能的信息系统组件。这种隔离限制了系统组件之间未经授权的信息流，并且还提供了为所选组件部署更高级别的保护的机会。使用边界保护机制将系统组件分开提供了增强对单个组件的保护并更有效地控制这些组件之间的信息流的能力。这种类型的增强保护可限制网络攻击和错误带来的潜在危害。提供的分离程度取决于所选的机制。边界保护机制包括，路由器、网关和防火墙等，将系统组件分离为物理上分离的网络或子网；跨域设备将子网分离；虚拟化技术；以及使用不同的加密密钥对系统组件之间的信息流进行加密。
 {{< /quote >}}
 
-Various compliance standards recommend isolating environments that process sensitive data from the rest of the
-organization.
-The [Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/)
-recommends implementing network isolation for _cardholder data_ environment and requires isolating this environment from
-the [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)).
-[FedRAMP Authorization Boundary Guidance](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf)
-describes _authorization boundary_ for federal information and data, while
-[NIST Special Publication 800-37, Revision 2, Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy](https://doi.org/10.6028/NIST.SP.800-37r2)
-recommends protecting of such a boundary in _Appendix G, Authorization Boundary Considerations_:
+各种合规性标准隔离建议，用于处理组织其余部分的敏感数据的环境。[支付卡行业（PCI）数据安全标准](https://www.pcisecuritystandards.org/pci_security/)建议为 _持卡人数据_ 环境实现网络隔离，并要求将此环境与 [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)) 隔离。[FedRAMP 边界授权指南](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf) 描述了联邦信息和数据的 _授权边界_，而 [NIST 特别出版物 800-37，修订版 2，信息系统和组织的风险管理框架：用于安全性和隐私的系统生命周期方法](https://doi.org/10.6028/NIST.SP.800-37r2) _附录 G，授权边界注意事项_ 建议保护这样的边界：
 
 {{< quote >}}
-Dividing a system into subsystems (i.e., divide and conquer) facilitates a targeted application of controls to achieve
-adequate security, protection of individual privacy, and a cost-effective risk management process. Dividing complex
-systems into subsystems also supports the important security concepts of domain separation and network segmentation,
-which can be significant when dealing with high value assets. When systems are divided into subsystems, organizations
-may choose to develop individual subsystem security and privacy plans or address the system and subsystems in the same
-security and privacy plans.
-Information security and privacy architectures play a key part in the process of dividing complex systems into
-subsystems. This includes monitoring and controlling communications at internal boundaries among subsystems and
-selecting, allocating, and implementing controls that meet or exceed the security and privacy requirements of the
-constituent subsystems.
+将系统划分为子系统（即分而治之）有助于针对性地应用控制措施，以实现足够的安全性，保护个人隐私和具有成本效益的风险管理流程。将复杂的系统划分为子系统也支持域分离和网络分段的重要安全概念，这在处理高价值资产时可能非常重要。将系统划分为子系统时，组织可以选择制定单独的子系统安全和隐私计划，也可以选择在相同的安全和隐私计划中处理系统和子系统。
+信息安全和隐私体系结构在将复杂系统划分为子系统的过程中起着关键作用。这包括在子系统之间的内部边界监视和控制通信，以及选择，分配和实施满足或超过组成子系统的安全性和隐私要求的控件。
 {{< /quote >}}
 
-Boundary protection, in particular, means:
+边界保护意味着：
 
-- put an access control mechanism at the boundary (firewall, gateway, etc.)
-- monitor the incoming/outgoing traffic at the boundary
-- all the access control mechanisms must be _deny-all_ by default
-- do not expose private IP addresses from the boundary
-- do not let components from outside the boundary to impact security inside the boundary
+- 在边界（防火墙，网关等）上设置访问控制机制
+- 监视边界处的出/入流量
+- 默认情况下，所有访问控制机制都必须为 _deny-all_
+- 不要通过边界暴露私有 IP 地址
+- 不要让边界外的组件影响边界内的安全性
 
-Multi-mesh deployments facilitate division of a system into subsystems with different
-security and compliance requirements, and facilitate the boundary protection.
-You put each subsystem into a separate service mesh, preferably on a separate network.
-You connect the Istio meshes using gateways. The gateways monitor and control cross-mesh traffic at the boundary of
-each mesh.
+多网格部署有助于将系统划分为具有不同安全性和合规性要求的子系统，有助于边界保护。您将每个子系统放入单独的服务网格中，最好放在单独的网络中。使用网关连接 Istio 网格。网关在每个网格的边界监视和控制跨网格流量。
 
-## Features of multi-mesh deployments
+## 多网格部署的特性{#features-of-multi-mesh-deployments}
 
-- **non-uniform naming**. The `withdraw` service in the `accounts` namespace in one mesh might have
-different functionality and API than the `withdraw` services in the `accounts` namespace in other meshes.
-Such situation could happen in an organization where there is no uniform policy on naming of namespaces and services, or
-when the meshes belong to different organizations.
-- **expose-nothing by default**. None of the services in a mesh are exposed by default, the mesh owners must
-explicitly specify which services are exposed.
-- **boundary protection**. The access control of the traffic must be enforced at the ingress gateway, which stops
-forbidden traffic from entering the mesh. This requirement implements
-[Defense-in-depth principle](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) and is part of some compliance
-standards, such as the
-[Payment Card Industry (PCI) Data Security Standard](https://www.pcisecuritystandards.org/pci_security/).
-- **common trust may not exist**. The Istio sidecars in one mesh may not trust the Citadel certificates in other
-meshes, due to some security requirement or due to the fact that the mesh owners did not initially plan to federate
-the meshes.
+- **非统一命名**。一个网格 `accounts` 命名空间中的 `withdraw` 服务可能与其他网格 `accounts` 命名空间中的 `withdraw` 服务具有不同的功能和 API。这种情况可能发生在没有统一命名空间和服务命名策略的组织中，或者当网格属于不同组织时。
+- **默认不暴露任何内容**。默认情况下，网格中没有任何暴露的服务，网格所有者必须明确指定要暴露的服务。
+- **边界保护**。流量的访问控制必须在入口网关上执行，这将阻止未经允许的流量进入网格。该要求实现了[纵深防御原则](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))，并且是某些合规性标准的一部分，例如[支付卡行业（PCI）数据安全标准](https://www.pcisecuritystandards.org/pci_security/)。
+- **可能不存在共同信任**。由于某些安全要求或由于网格所有者最初未计划网格联邦，可能会出现一个网格中的 Istio sidecar 不信任其他网格中的 Citadel 证书的情况。
 
-While **expose-nothing by default** and **boundary protection** are required to facilitate compliance and improve
-security, **non-uniform naming** and **common trust may not exist** are required when connecting
-meshes of different organizations, or of an organization that cannot enforce uniform naming or cannot or may not
-establish common trust between the meshes.
+必需通过 **默认不暴露任何内容** 和 **边界保护** 来促进合规性并提高安全性。连接不同组织的网格，或者组织不能执行统一命名，或者不能建立网格之间的公共信任，**非统一命名** 和 **可能不存在共同信任** 也是必需的。
 
-An optional feature that you may want to use is **service location transparency**: consuming services send requests
-to the exposed services in remote meshes using local service names. The consuming services are oblivious to the fact
-that some of the destinations are in remote meshes and some are local services. The access is uniform, using the local
-service names, for example, in Kubernetes, `reviews.default.svc.cluster.local`.
-**Service location transparency** is useful in the cases when you want to be able to change the location of the
-consumed services, for example when some service is migrated from private cloud to public cloud, without changing the
-code of your applications.
+您可能要使用的一个可选功能是 `服务位置透传`：使用服务的请求使用本地服务名称将请求发送到远程网格中的公开服务。消费服务忽略了以下事实：某些目的地位于远程网格中，而某些目的地是本地服务。访问使用本地服务名称是统一的，例如在 Kubernetes 中是 `reviews.default.svc.cluster.local`。**服务位置透传** 在您希望能够更改使用的服务的位置的情况下很有用，例如，某些服务从私有云迁移到公共云而无需更改应用程序代码的情况。
 
-## The current mesh-federation work
+## 网格联邦目前的工作{#the-current-mesh-federation-work}
 
-While you can perform mesh federation using standard Istio configurations already today,
-it requires writing a lot of boilerplate YAML files and is error-prone. There is an effort under way to automate
-the mesh federation process. In the meantime, you can look at these
-[multi-mesh deployment examples](https://github.com/istio-ecosystem/multi-mesh-examples)
-to get an idea of what a generated federation might include.
+尽管您现在已经可以使用标准 Istio 配置完成网格联邦，但是它需要编写大量 YAML 文件模板，并且容易出错。我们正在努力使网格联邦过程自动化。同时，您可以查看这些[多网格部署示例](https://github.com/istio-ecosystem/multi-mesh-examples)，以了解生成的联邦可能包括的内容。
 
-## Summary
+## 总结{#summary}
 
-In this blog post I described the requirements for isolation and boundary protection of sensitive data environments by
-using Istio multi-mesh deployments. I outlined the principles of Istio
-multi-mesh deployments and reported the current work on
-mesh federation in Istio.
+在此博客中，我描述了使用 Istio 多网格部署对敏感数据环境进行隔离和边界保护的要求。概述了 Istio 多网格部署的原理，并报告了 Istio 中有关网格联邦的最新工作。
 
-I will be happy to hear your opinion about {{< gloss >}}multi-mesh{{< /gloss >}} and
-{{< gloss >}}multicluster{{< /gloss >}} at [discuss.istio.io](https://discuss.istio.io).
+我很高兴在 [discuss.istio.io](https://discuss.istio.io) 听到您对 {{< gloss "multi-mesh" >}}多网格{{< /gloss >}} 和 {{< gloss "multicluster" >}}多集群{{< /gloss >}} 的意见。

@@ -182,7 +182,6 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set values.global.mtls.enabled=true \
       --set values.gateways.enabled=true \
       --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
@@ -431,7 +430,6 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.mtls.enabled=true \
   --set values.gateways.enabled=true \
   --set values.security.selfSigned=false \
-  --set values.global.controlPlaneSecurityEnabled=true \
   --set values.global.createRemoteSvcEndpoints=true \
   --set values.global.remotePilotCreateSvcEndpoint=true \
   --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
