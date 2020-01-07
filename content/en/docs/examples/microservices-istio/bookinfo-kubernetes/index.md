@@ -138,6 +138,10 @@ service/productpage patched
             backend:
               serviceName: productpage
               servicePort: 9080
+          - path: /static
+            backend:
+              serviceName: productpage
+              servicePort: 9080
     EOF
     {{< /text >}}
 
