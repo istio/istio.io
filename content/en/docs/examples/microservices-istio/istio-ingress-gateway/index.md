@@ -5,9 +5,10 @@ weight: 71
 
 ---
 
-Until now you used a Kubernetes Ingress to access your application from the outside.
-In this module you configure the traffic to enter through an Istio Ingress Gateway, in order to apply Istio
-control already at the ingress point, even before the traffic reaches your microservices.
+Until now, you used a Kubernetes Ingress to access your application from the
+outside. In this module, you configure the traffic to enter through an Istio
+Ingress Gateway, in order to apply Istio control at the ingress point before
+traffic reaches your microservices.
 
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
     You will need it to recognize your microservices in the logs:
@@ -72,17 +73,14 @@ control already at the ingress point, even before the traffic reaches your micro
     EOF
     {{< /text >}}
 
-1.  Follow the instructions in the
-    [Istio Ingress Configuration task, Determining the Ingress IP and ports section](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-    to set `INGRESS_HOST` and `INGRESS_PORT`.
+1.  Set `INGRESS_HOST` and `INGRESS_PORT` using the instructions in the
+    [Determining the Ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) section.
 
-1.  Echo the line you will add to your `/etc/hosts` file:
+1.  Add the output of this command to your `/etc/hosts` file:
 
     {{< text bash >}}
     $ echo $INGRESS_HOST $MY_INGRESS_GATEWAY_HOST
     {{< /text >}}
-
-1.  Add the output of the previous command to your `/etc/hosts` file.
 
 1.  Access the application's home page from the command line:
 
@@ -97,8 +95,8 @@ control already at the ingress point, even before the traffic reaches your micro
     $ echo http://$MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage
     {{< /text >}}
 
-1.  Set an infinite loop in a separate terminal window to send traffic to your application. It will simulate the
-    constant user traffic in the real world:
+1.  Simulate real-world user traffic to your application by setting an infinite
+    loop in a new terminal window:
 
     {{< text bash >}}
     $ while :; do curl -s <output of the previous command> | grep -o "<title>.*</title>"; sleep 1; done
@@ -109,24 +107,27 @@ control already at the ingress point, even before the traffic reaches your micro
     ...
     {{< /text >}}
 
-1.  Check your Kiali console,
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console), the graph of your namespace.
-    (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
+1.  Check the graph of your namespace in the Kiali console
+    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console).
+    (The `my-kiali.io` URL should be in your `/etc/hosts` file that you set
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
-    This time you can see that the traffic arrives from two sources, `unknown` (the Kubernetes Ingress) and from
-    `istio-ingressgateway istio-system` (the Istio Ingress Gateway).
+    This time, you can see that traffic arrives from two sources, `unknown` (the
+    Kubernetes Ingress) and from `istio-ingressgateway istio-system` (the Istio
+    Ingress Gateway).
 
     {{< image width="80%"
         link="kiali-ingress-gateway.png"
         caption="Kiali Graph Tab with Istio Ingress Gateway"
         >}}
 
-1.  At this point you can stop sending requests through the Kubernetes Ingress and use Istio Ingress Gateway only.
-    Stop the infinite loop (`Ctrl-C` in the terminal window) you set
+1.  At this point you can stop sending requests through the Kubernetes Ingress
+    and use Istio Ingress Gateway only. Stop the infinite loop (`Ctrl-C` in the
+    terminal window) you set
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#access-your-application).
-    In the real life, that would mean updating the DNS entry of your application to contain the IP of Istio Ingress
-    Gateway or configuring your external Load Balancer.
+    In a real production environment, you would update the DNS entry of your
+    application to contain the IP of Istio Ingress Gateway or configure your
+    external Load Balancer.
 
 1.  Delete the Kubernetes Ingress resource:
 
@@ -135,10 +136,13 @@ control already at the ingress point, even before the traffic reaches your micro
     ingress.extensions "bookinfo" deleted
     {{< /text >}}
 
-1.  Check your graph at the Kiali console. After several seconds you will see the Istio Ingress Gateway as a single source
-    of traffic for your application.
+1.  Check your graph in the Kiali console. After several seconds, you will see
+    the Istio Ingress Gateway as a single source of traffic for your
+    application.
 
     {{< image width="80%"
         link="kiali-ingress-gateway-only.png"
         caption="Kiali Graph Tab with Istio Ingress Gateway as a single source of traffic"
         >}}
+
+You are ready to configure [logging with Istio](/docs/examples/microservices-istio/logs-istio).

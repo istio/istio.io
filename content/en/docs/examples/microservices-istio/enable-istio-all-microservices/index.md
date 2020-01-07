@@ -5,20 +5,23 @@ weight: 70
 
 ---
 
-Previously you enabled Istio on a single microservice, `productpage`.
-You can proceed to enable Istio on the microservices incrementally, one by one, to get the functionality provided by
-Istio for more and more microservices. For the purpose of this tutorial, you will just enable Istio on the remaining
-microservices in one stroke.
+Previously, you enabled Istio on a single microservice, `productpage`. You can
+proceed to enable Istio on the microservices incrementally to get the Istio
+functionality for more microservices. For the purpose of this tutorial, you will
+only enable Istio on all the remaining microservices in one step.
 
-1.  For the sake of the tutorial (for simplicity) scale the deployments of microservices down to 1:
+1.  For the purpose of this tutorial, scale the deployments of microservices
+    down to 1:
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 1
     {{< /text >}}
 
-1.  Redeploy the Bookinfo application, Istio-enabled. `productpage` will not be redeployed since it already has Istio
-    injected, its pods will not be changed. This time you will use only a single replica of a microservice,
-    scaling of the microservices is orthogonal to the demonstrated Istio features.
+1.  Redeploy the Bookinfo application, Istio-enabled. `productpage` will not be
+    redeployed since it already has Istio injected, its pods will not be
+    changed. This time you will use only a single replica of a microservice,
+    scaling of the microservices is orthogonal to the demonstrated Istio
+    features.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
@@ -32,13 +35,14 @@ microservices in one stroke.
     deployment "reviews-v2" configured
     {{< /text >}}
 
-1.  Access the application's webpage several times. Note that Istio was added **transparently**, the original
-    application did not change.
-    It was added on the fly, without the need to undeploy and redeploy the whole application, without hurting the
-    application's availability.
+1.  Access the application's webpage several times. Note that Istio was added
+    **transparently**, the original application did not change. It was added on
+    the fly, without the need to undeploy and redeploy the whole application,
+    without hurting the application's availability.
 
 1.  Check the application pods and verify that now each pod has two containers.
-    One container is the microservice itself, the other is the sidecar proxy attached to it:
+    One container is the microservice itself, the other is the sidecar proxy
+    attached to it:
 
     {{< text bash >}}
     $ kubectl get pods
@@ -92,5 +96,5 @@ microservices in one stroke.
         caption="Kiali Graph Tab"
         >}}
 
-Now, once you enabled Istio on your whole application, you can explore the Istio functionality in its full potential.
-You will do it in the following modules.
+You are ready to
+[configure the Istio Ingress Gateway](/docs/examples/microservices-istio/istio-ingress-gateway).

@@ -6,11 +6,12 @@ weight: 72
 
 ---
 
-Logs and monitoring are a very important aspect of microservices architecture. It is so important that it is considered one of the three prerequisites for transition to the microservices architecture style. No monitoring - no transition. (The other two requirements are _rapid provisioning_ and _rapid deployment_, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html)).
+Logs and monitoring are important aspects of microservices architecture and are prerequisites for transitioning to the microservices architecture style. Other requirements include rapid provisioning and rapid deployment, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html).
 
-With Istio, you gain monitoring and logging of the traffic between microservices out of the box.
-You saw the Istio Dashboard already, you can use it for monitoring your microservices in real time.
-In this module you will see how you can inspect and query logs related to the traffic between your microservices.
+With Istio, you gain monitoring and logging of the traffic between microservices by default.
+You can use the Istio Dashboard for monitoring your microservices in real time.
+
+In this module, you will learn how to inspect and query logs related to the traffic between your microservices.
 
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
     You will need it to recognize your microservices in the logs:
@@ -21,7 +22,7 @@ In this module you will see how you can inspect and query logs related to the tr
     tutorial
     {{< /text >}}
 
-1.  Print Mixer access log entries, related to your namespace:
+1.  View the Mixer access log entries, related to your namespace:
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"instance":"accesslog.instance.istio-system"' | grep "\"destinationNamespace\":\"$NAMESPACE\"" | grep '"reporter":"destination"'
@@ -53,7 +54,7 @@ traffic-related metrics and provides
 
 See below several examples of Prometheus Istio-related queries.
 
-1.  Access Prometheus UI at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
+1.  Access the Prometheus UI at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
 (The `my-istio-logs-database.io` URL should be in your /etc/hosts file, you set it
 [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
 
@@ -95,3 +96,5 @@ other metrics, in particular, the ones of Envoy ([Envoy](https://www.envoyproxy.
 can see the collected metrics in the _insert metric at cursor_ drop-down menu.
 
 You can even [define your own metrics](/docs/tasks/observability/metrics/collecting-metrics/).
+
+You are ready to [enable mutual TLS authentication with Istio](/docs/examples/microservices-istio/add-mtls).
