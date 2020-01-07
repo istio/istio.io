@@ -32,7 +32,7 @@ which enables policy checks by default.
 
     {{< text bash >}}
     $ istioctl manifest apply --set values.global.disablePolicyChecks=false --set values.pilot.policy.enabled=true
-    configmap "istio" replaced
+    configuration "istio" replaced
     {{< /text >}}
 
 1. Validate that policy enforcement is now enabled.
