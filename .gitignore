@@ -3,6 +3,7 @@
 .pydevproject
 *.iml
 .idea/
+.vscode
 tmp/
 *.bak
 .DS_Store
