@@ -23,7 +23,7 @@ Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/oper
 
 ## Operator API{#the-Operator-API}
 
-每个 operator 实现都需要一个[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 来定义它的自定义资源，即它的API。Istio 的 operator API 由 [`IstioControlPlane` CRD](/zh/docs/reference/config/istio.operator.v1alpha12.pb/) 定义，它是由一个 [`IstioControlPlane` 原型](https://github.com/istio/operator/blob/{{< source_branch_name >}}/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)生成的。API 支持所有 Istio 当前的[配置文件](/zh/docs/setup/additional-setup/config-profiles/) ，通过使用一个字段来选择 profile。例如，下面的 `IstioControlPlane` 资源使用 `demo` profile 配置 Istio：
+每个 operator 实现都需要一个[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 来定义它的自定义资源，即它的API。Istio 的 operator API 由 [`IstioControlPlane` CRD](/zh/docs/reference/config/istio.operator.v1alpha12.pb/) 定义，它是由一个 [`IstioControlPlane` 原型](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)生成的。API 支持所有 Istio 当前的[配置文件](/zh/docs/setup/additional-setup/config-profiles/) ，通过使用一个字段来选择 profile。例如，下面的 `IstioControlPlane` 资源使用 `demo` profile 配置 Istio：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
