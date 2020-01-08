@@ -1,83 +1,83 @@
 ---
-title: Change Notes
-description: Istio 1.3 release notes.
+title: 变更说明
+description: Istio 1.3 发行说明。
 weight: 10
 aliases:
     - /zh/about/notes/1.3
 ---
 
-## Installation
+## 安装{#installation}
 
-- **Added** experimental [manifest and profile commands](/zh/docs/setup/install/istioctl/) to install and manage the Istio control plane for evaluation.
+- **添加** 实验性的[清单和配置文件命令](/zh/docs/setup/install/istioctl/)，用于安装和管理 Istio 控制平面，以便进行评估。
 
-## Traffic management
+## 流量管理{#traffic-management}
 
-- **Added** [automatic protocol determination](/zh/docs/ops/configuration/traffic-management/protocol-selection/) of HTTP or TCP for outbound traffic when ports are not named according to Istio’s [conventions](/zh/docs/ops/deployment/requirements/).
-- **Added** a mode to the Gateway API for mutual TLS operation.
-- **Fixed** issues present when a service communicates over the network first in permissive mutual TLS mode for protocols like MySQL and MongoDB.
-- **Improved** Envoy proxy readiness checks. They now check Envoy's readiness status.
-- **Improved** container ports are no longer required in the pod spec. All ports are [captured by default](/zh/faq/traffic-management/#controlling-inbound-ports).
-- **Improved** the `EnvoyFilter` API. You can now add or update all configurations.
-- **Improved** the Redis load balancer to now default to [`MAGLEV`](https://www.envoyproxy.io/docs/envoy/v1.6.0/intro/arch_overview/load_balancing#maglev) when using the Redis proxy.
-- **Improved** load balancing to direct traffic to the [same region and zone](/zh/faq/traffic-management/#controlling-inbound-ports) by default.
-- **Improved** Pilot by reducing CPU utilization. The reduction approaches 90% depending on the specific deployment.
-- **Improved** the `ServiceEntry` API to allow for the same hostname in different namespaces.
-- **Improved** the [Sidecar API](/zh/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy) to customize the `OutboundTrafficPolicy` policy.
+- **添加**。当未根据 Istio 的[约定](/zh/docs/ops/deployment/requirements/)命名端口时，添加了对 HTTP、TCP 出站流量[自动检测协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/)的功能。
+- **添加**。为实现双向 TLS 操作，添加了一个模型至 Gateway API。
+- **修复**。修复了当服务第一次使用宽容双向 TLS 模式，与 MySQL 和 MongoDB 之类的协议进行网络通信时会出现的问题。
+- **改进**。改进了 Envoy 代理的就绪检查。现在会检查 Envoy 的就绪状态。
+- **改进**。pod spec 中不再需要的容器端口，所有端口均为[默认捕获](/zh/faq/traffic-management/#controlling-inbound-ports)。
+- **改进**。改进了 `EnvoyFilter` API。您现在可以添加或更新所有配置。
+- **改进**。使用 Redis 代理时，改进了 Redis 负载均衡，现在默认为 [`MAGLEV`](https://www.envoyproxy.io/docs/envoy/v1.6.0/intro/arch_overview/load_balancing#maglev)。
+- **改进**。改进了负载均衡，默认会直接将流量导向[相同的地区和区域](/zh/faq/traffic-management/#controlling-inbound-ports)。
+- **改进**。改进了 Pilot 的 CPU 利用率。在特殊部署场景，减少幅度接近 90%。
+- **改进**。改进了 `ServiceEntry` API，允许在不同命名空间中使用相同的主机名。
+- **改进**。针对自定义 `OutboundTrafficPolicy` 策略，改进了 [Sidecar API](/zh/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy)。
 
-## Security
+## 安全{#security}
 
-- **Added** trust domain validation for services using mutual TLS. By default, the server only authenticates the requests from the same trust domain.
-- **Added** [labels](/zh/docs/ops/configuration/mesh/secret-creation/) to control service account secret generation by namespace.
-- **Added** SDS support to deliver the private key and certificates to each Istio control plane service.
-- **Added** support for [introspection](/zh/docs/ops/diagnostic-tools/controlz/) to Citadel.
-- **Added** metrics to the `/metrics` endpoint of Citadel Agent on port 15014 to monitor the SDS service.
-- **Added** diagnostics to the Citadel Agent using the `/debug/sds/workload` and `/debug/sds/gateway` on port 8080.
-- **Improved** the ingress gateway to [load the trusted CA certificate from a separate secret](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/#configure-a-mutual-TLS-ingress-gateway) when using SDS.
-- **Improved** SDS security by enforcing the usage of [Kubernetes Trustworthy JWTs](/zh/blog/2019/trustworthy-jwt-sds).
-- **Improved** Citadel Agent logs by unifying the logging pattern.
-- **Removed** support for Istio SDS when using [Kubernetes versions earlier than 1.13](/zh/blog/2019/trustworthy-jwt-sds).
-- **Removed** integration with Vault CA temporarily. SDS requirements caused the temporary removal but we will reintroduce Vault CA integration in a future release.
-- **Enabled** the Envoy JWT filter by default to improve security and reliability.
+- **添加**。为使用双向 TLS 的服务添加了信任域验证。默认情况下，服务器仅对来自同一信任域的请求进行身份验证。
+- **添加**。添加了一些[标签](/zh/docs/ops/configuration/mesh/secret-creation/)，其用于按命名空间控制服务帐户密码的生成。
+- **添加**。添加了 SDS 支持，以实现向每个 Istio 控制平面服务传递私钥和证书。
+- **添加**。为 Citadel 添加了对[自检](/zh/docs/ops/diagnostic-tools/controlz/)支持。
+- **添加**。为 15014 端口的 Citadel Agent 的 `/metrics`  endpoint 添加了指标，用于监控 SDS 服务。
+- **添加**。使用 8080 端口上的 `/debug/sds/workload` 和 `/debug/sds/gateway` 向 Citadel Agent 添加了诊断程序。
+- **改进**。改进了 ingress gateway，以实现使用 SDS 时[从另一个 secret 加载受信任的 CA 证书](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/#configure-a-mutual-TLS-ingress-gateway)。
+- **改进**。通过强制使用 [Kubernetes Trustworthy JWT](/zh/blog/2019/trustworthy-jwt-sds) 改进了 SDS 的安全性。
+- **改进**。通过统一日志记录模式，改进了 Citadel Agent 日志记录。
+- **移除**。移除对 [Kubernetes 1.13 之前版本](/zh/blog/2019/trustworthy-jwt-sds) 的 Istio SDS 支持。
+- **移除**。暂时移除与 Vault CA 的集成。SDS 的一些要求导致了本次临时移除，但我们将在之后的版本中重新引入 Vault CA 集成。
+- **启用**。默认情况下启用 Envoy JWT 过滤器以提高安全性和可靠性。
 
-## Telemetry
+## 遥测{#telemetry}
 
-- **Added** Access Log Service [ALS](https://www.envoyproxy.io/docs/envoy/latest/api-v2/service/accesslog/v2/als.proto#grpc-access-log-service-als) support for Envoy gRPC.
-- **Added** a Grafana dashboard for Citadel monitoring.
-- **Added** [metrics](/zh/docs/reference/commands/sidecar-injector/#metrics) for monitoring the sidecar injector webhook.
-- **Added** control plane metrics to monitor Istio's configuration state.
-- **Added** telemetry reporting for traffic destined to the `Passthrough` and `BlackHole` clusters.
-- **Added** alpha support for in-proxy generation of service metrics using Prometheus.
-- **Added** alpha support for environmental metadata in Envoy node metadata.
-- **Added** alpha support for Proxy Metadata Exchange.
-- **Added** alpha support for the OpenCensus trace driver.
-- **Improved** reporting for external services by removing requirements to add a service entry.
-- **Improved** the mesh dashboard to provide monitoring of Istio's configuration state.
-- **Improved** the Pilot dashboard to expose additional key metrics to more clearly identify errors.
-- **Removed** deprecated `Adapter` and `Template` custom resource definitions (CRDs).
-- **Deprecated** the HTTP API spec used to produce API attributes. We will remove support for producing API attributes in Istio 1.4.
+- **添加**。为 Envoy gRPC 添加了访问日志服务 [ALS](https://www.envoyproxy.io/docs/envoy/latest/api-v2/service/accesslog/v2/als.proto#grpc-access-log-service-als) 的支持。
+- **添加**。为 Citadel 监控添加了一个 Grafana 仪表盘。
+- **添加**。为 sidecar 注入 webhook 监控添加了[指标](/zh/docs/reference/commands/sidecar-injector/#metrics)。
+- **添加**。添加了控制平面指标，用于监控 Istio 的配置状态。
+- **添加**。添加了流向目标是 `Passthrough` 和 `BlackHole` 集群的流量的遥测报告。
+- **添加**。添加了对使用 Prometheus 代理生成服务指标的 alpha 支持。
+- **添加**。在 Envoy 节点 metadata 中添加了对环境 metadata 的 alpha 支持。
+- **添加**。添加了对代理 Metadata 交换的 alpha 支持。
+- **添加**。添加了对 OpenCensus 追踪驱动的 alpha 支持。
+- **改进**。通过移除添加服务条目的要求，改进了对外部服务的报告。
+- **改进**。改进了网格仪表板，以提供对 Istio 配置状态的监控。
+- **改进**。改进了 Pilot 仪表板，以显示更多的关键指标，并能更清楚地识别错误。
+- **移除**。移除了不推荐使用的 `Adapter` 和 `Template` 自定义资源（CRD）。
+- **弃用**。弃用可用于产生 API 属性的 HTTP API 规范。我们将在 Istio 1.4 中移除对生成 API 属性的支持。
 
-## Policy
+## 策略{#policy}
 
-- **Improved** rate limit enforcement to allow communication when the quota backend is unavailable.
+- **改进**。改进了速率限制的实现，当配额后端不可用时，仍允许通信。
 
-## Configuration management
+## 配置管理{#configuration-management}
 
-- **Fixed** Galley to stop too many gRPC pings from closing connections.
-- **Improved** Galley to avoid control plane upgrade failures.
+- **修复**。修复了阻止过多 gRPC ping 关闭连接的情况。
+- **改进**。改进了 Galley，以避免控制平面升级失败。
 
 ## `istioctl`
 
-- **Added** [`istioctl experimental manifest`](/zh/docs/reference/commands/istioctl/#istioctl-manifest) to manage the new experimental install manifests.
-- **Added** [`istioctl experimental profile`](/zh/docs/reference/commands/istioctl/#istioctl-profile) to manage the new experimental install profiles.
-- **Added** [`istioctl experimental metrics`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-metrics)
-- **Added** [`istioctl experimental describe pod`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod) to describe an Istio pod's configuration.
-- **Added** [`istioctl experimental add-to-mesh`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-add-to-mesh) to add Kubernetes services or virtual machines to an existing Istio service mesh.
-- **Added** [`istioctl experimental remove-from-mesh`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-remove-from-mesh) to remove Kubernetes services or virtual machines from an existing Istio service mesh.
-- **Promoted** the [`istioctl experimental convert-ingress`](/zh/docs/reference/commands/istioctl/#istioctl-convert-ingress) command to `istioctl convert-ingress`.
-- **Promoted** the [`istioctl experimental dashboard`](/zh/docs/reference/commands/istioctl/#istioctl-dashboard) command to `istioctl dashboard`.
+- **添加**。添加了 [`istioctl` 实验清单](/zh/docs/reference/commands/istioctl/#istioctl-manifest) 来管理新的实验安装清单。
+- **添加**。添加了 [`istioctl` 实验配置文件](/zh/docs/reference/commands/istioctl/#istioctl-profile) 来管理新的实验安装配置文件。
+- **添加**。添加了[`istioctl experimental metrics`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-metrics)
+- **添加**。添加了 [`istioctl experimental describe pod`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod)，其用于描述 Istio pod 的配置。
+- **添加**。添加了 [`istioctl experimental add-to-mesh`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-add-to-mesh)，其用于将 Kubernetes 服务或虚拟机添加到现有 Istio 服务网格中。
+- **添加**。添加了 [`istioctl experimental remove-from-mesh`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-remove-from-mesh)，其用于从已存在的 Istio 服务网格中移除 Kubernetes 服务或虚拟机。
+- **提升**。将命令 [`istioctl experimental convert-ingress`](/zh/docs/reference/commands/istioctl/#istioctl-convert-ingress) 提升为 `istioctl convert-ingress`。
+- **提升**。将命令 [`istioctl experimental dashboard`](/zh/docs/reference/commands/istioctl/#istioctl-dashboard) 提升为 `istioctl dashboard`。
 
-## Miscellaneous
+## 杂项{#miscellaneous}
 
-- **Added** new images based on [distroless](/zh/docs/ops/configuration/security/harden-docker-images/) base images.
-- **Improved** the Istio CNI Helm chart to have consistent versions with Istio.
-- **Improved** Kubernetes Jobs behavior. Kubernetes Jobs now exit correctly when the job manually calls the `/quitquitquit` endpoint.
+- **添加**。添加了基于 [distroless](/zh/docs/ops/configuration/security/harden-docker-images/) 基础镜像的新镜像。
+- **改进**。改进了 Istio CNI Helm 图表，使其具有与 Istio 一致的版本。
+- **改进**。改进了 Kubernetes Job 的行为。当 Job 手动调用 `/quitquitquit` endpoint 时，Kubernetes Job 现在可以正常退出。
