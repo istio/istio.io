@@ -6,7 +6,7 @@ aliases:
     - /zh/docs/reference/config/security/conditions/
 ---
 
-此页面描述了可以用作[授权策略](/zh/docs/reference/config/security/authorization-policy/) `when` 字段中所支持的键和值的格式。
+此页面描述了可以用作[授权策略](/zh/docs/reference/config/security/authorization-policy/#Condition) `when` 字段中所支持的键和值的格式。
 
 {{< warning >}}
 不支持的键和值将被忽略。
