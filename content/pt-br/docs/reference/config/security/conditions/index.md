@@ -7,7 +7,7 @@ aliases:
 ---
 
 This page describes the supported keys and value formats you can use as conditions
-in the `when` field of [authorization policy resources](/pt-br/docs/reference/config/security/authorization-policy/).
+in the `when` field of an [authorization policy rule](/pt-br/docs/reference/config/security/authorization-policy/#Rule).
 
 {{< warning >}}
 Unsupported keys and values are silently ignored.
