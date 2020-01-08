@@ -1,6 +1,6 @@
 ---
-title: Traffic Management Best Practices
-description: Configuration best practices to avoid networking or traffic management issues.
+title: 流量管理最佳实践
+description: 避免网络或流量管理问题的配置最佳实践。
 force_inline_toc: true
 weight: 20
 aliases:
@@ -9,30 +9,18 @@ aliases:
   - /zh/docs/ops/traffic-management/deploy-guidelines
 ---
 
-This section provides specific deployment or configuration guidelines to avoid networking or traffic management issues.
+本节提供特定的部署或配置准则，以避免网络或流量管理问题。
 
-## Set default routes for services
+## 为服务设置默认路由{#set-default-routes-for-services}
 
-Although the default Istio behavior conveniently sends traffic from any
-source to all versions of a destination service without any rules being set,
-creating a `VirtualService` with a default route for every service,
-right from the start, is generally considered a best practice in Istio.
+尽管默认的 Istio 行为就可以在没有配置任何规则的情况下，将任何来源的流量发送到目标服务的所有版本。
+但是，在 Istio 里的最佳做法是，从一开始就为每一个服务创建具有默认路由的 `VirtualService`。
 
-Even if you initially have only one version of a service, as soon as you decide
-to deploy a second version, you need to have a routing rule in place **before**
-the new version is started, to prevent it from immediately receiving traffic
-in an uncontrolled way.
+即使最初您的服务只有一个版本，但是一旦你想要部署第二个版本，为了防止其以不受控制的方式接收流量，你需要在启用新版本 **之前** 配置路由规则。
 
-Another potential issue when relying on Istio's default round-robin routing is
-due to a subtlety in Istio's destination rule evaluation algorithm.
-When routing a request, Envoy first evaluates route rules in virtual services
-to determine if a particular subset is being routed to.
-If so, only then will it activate any destination rule policies corresponding to the subset.
-Consequently, Istio only applies the policies you define for specific subsets if
-you **explicitly** routed traffic to the corresponding subset.
+依赖 Istio 默认循环路由的另一个潜在问题，在于 Istio 的目标规则评估算法的微妙之处。路由请求时，Envoy 首先评估虚拟服务中的路由规则，以决定是否路由特定子集。当且仅当这样才能激活与该子集相对应的目标规则策略。因此，如果您将流量 **明确地** 路由到相应的子集，则 Istio 应该只应用您为特定子集定义的策略。
 
-For example, consider the following destination rule as the one and only configuration defined for the
-*reviews* service, that is, there are no route rules in a corresponding `VirtualService` definition:
+例如，将以下目标规则视为 *reviews* 服务定义的唯一配置，即相应的 `VirtualService` 定义中没有路由规则：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -51,12 +39,9 @@ spec:
           maxConnections: 100
 {{< /text >}}
 
-Even if Istio’s default round-robin routing calls "v1" instances on occasion,
-maybe even always if "v1" is the only running version, the above traffic policy
-will never be invoked.
+即使 Istio 的默认轮询路由有时会调用“v1”实例，即使“v1”永远是唯一运行的版本，也永远不会调用上述流量策略。
 
-You can fix the above example in one of two ways. You can either move the
-traffic policy up a level in the `DestinationRule` to make it apply to any version:
+您可以通过以下两种方法之一来修复上面的示例。您可以在 `DestinationRule` 中将流量策略上移以使其适用于任何版本：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -75,8 +60,7 @@ spec:
       version: v1
 {{< /text >}}
 
-Or, better yet, define a proper route rule for the service in the `VirtualService` definition.
-For example, add a simple route rule for "reviews:v1":
+更好的方法是，在 `VirtualService` 定义中为服务定义适当的路由规则。例如，为“reviews:v1”添加一个简单的路由规则：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -93,14 +77,10 @@ spec:
         subset: v1
 {{< /text >}}
 
-## Control configuration sharing across namespaces {#cross-namespace-configuration}
+## 控制配置在命名空间之间的共享{#cross-namespace-configuration}
 
-You can define virtual services, destination rules, or service entries
-in one namespace and then reuse them in other namespaces, if they are exported
-to those namespaces.
-Istio exports all traffic management resources to all namespaces by default,
-but you can override the visibility with the `exportTo` field.
-For example, only clients in the same namespace can use the following virtual service:
+您可以在一个命名空间中定义虚拟服务，目标规则或服务条目，然后将它们导出到其他命名空间，然后在其他命名空间中重用它们。
+Istio 默认情况下会将所有流量管理资源导出到所有命名空间，但是您可以使用 `exportTo` 字段覆盖可见性。例如，只有相同命名空间中的客户端可以使用以下虚拟服务：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -119,19 +99,16 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-You can similarly control the visibility of a Kubernetes `Service` using the `networking.istio.io/exportTo` annotation.
+您可以像使用 `networking.istio.io/exportTo` 批注一样控制 Kubernetes `Service` 的可见性。
 {{< /tip >}}
 
-Setting the visibility of destination rules in a particular namespace doesn't
-guarantee the rule is used. Exporting a destination rule to other namespaces enables you to use it
-in those namespaces, but to actually be applied during a request the namespace also needs to be
-on the destination rule lookup path:
+在特定命名空间中设置目标规则的可见性并不能保证会使用该规则。将目标规则导出到其他命名空间可以使您在其它命名空间中使用它，但是要在请求时真正应用该目标规则，命名空间也必须位于目标规则查找路径上：
 
-1. client namespace
-1. service namespace
-1. Istio configuration root (`istio-system` by default)
+1. 客户端命名空间
+1. 服务命名空间
+1. Istio 根配置命名空间（默认是 `istio-system`）
 
-For example, consider the following destination rule:
+例如，有以下目标规则：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -146,47 +123,26 @@ spec:
         maxConnections: 100
 {{< /text >}}
 
-Let's assume you create this destination rule in namespace `ns1`.
+假设您在命名空间 `ns1` 中创建此目标规则。
 
-If you send a request to the `myservice` service from a client in `ns1`, the destination
-rule would be applied, because it is in the first namespace on the lookup path, that is,
-in the client namespace.
+如果从 `ns1` 中的客户端向 `myservice` 服务发送请求，则将应用目标规则，因为它在查找路径的第一个命名空间中，即在客户端命名空间中。
 
-If you now send the request from a different namespace, for example `ns2`,
-the client is no longer in the same namespace as the destination rule, `ns1`.
-Because the corresponding service, `myservice.default.svc.cluster.local`, is also not in `ns1`,
-but rather in the `default` namespace, the destination rule will also not be found in
-the second namespace of the lookup path, the service namespace.
+如果现在从另一个命名空间（例如 `ns2`）发送请求，则客户端将不再与目标规则 `ns1` 处于相同的命名空间。因为相应的服务 `myservice.default.svc.cluster.local` 也不在 `ns1` 中，而是在 `default` 命名空间中，所以在查找路径的第二个命名空间中也找不到目标规则 ，即服务命名空间。
 
-Even if the `myservice` service is exported to all namespaces and therefore visible
-in `ns2` and the destination rule is also exported to all namespaces, including `ns2`,
-it will not be applied during the request from `ns2` because it's not in any
-of the namespaces on the lookup path.
+即使将 `myservice` 服务导出到所有命名空间，并因此在 `ns2` 中可见，并且目标规则也导出到包括 `ns2` 在内的所有命名空间。来自 `ns2` 的请求依然不会应用该规则，因为它不在查找路径上的任何命名空间中。
 
-You can avoid this problem by creating the destination rule in the same namespace as
-the corresponding service, `default` in this example. It would then get applied to requests
-from clients in any namespace.
-You can also move the destination rule to the `istio-system` namespace, the third namespace on
-the lookup path, although this isn't recommended unless the destination rule is really a global
-configuration that is applicable in all namespaces, and it would require administrator authority.
+您可以通过在与相应服务相同的命名空间（在此示例中为 `default`）中创建目标规则来避免此问题。然后，它将应用于任何命名空间中的客户端请求。您也可以将目标规则移至 `istio-system` 命名空间，即查找路径上的第三个命名空间，尽管不建议这样做，除非目标规则是适用于所有命名空间的全局配置，并且这需要管理员权限。
 
-Istio uses this restricted destination rule lookup path for two reasons:
+Istio 使用这种受限制的目标规则查找路径有两个原因：
 
-1. Prevent destination rules from being defined that can override the behavior of services
-   in completely unrelated namespaces.
-1. Have a clear lookup order in case there is more than one destination rule for
-   the same host.
+1. 防止定义覆盖完全不相关的命名空间中的服务行为的目标规则。
+1. 当同一主机有多个目标规则时，可以有一个清晰的查找顺序。
 
-## Split large virtual services and destination rules into multiple resources {#split-virtual-services}
+## 将大型虚拟服务和目标规则拆分为多个资源{#split-virtual-services}
 
-In situations where it is inconvenient to define the complete set of route rules or policies for a particular
-host in a single `VirtualService` or `DestinationRule` resource, it may be preferable to incrementally specify
-the configuration for the host in multiple resources.
-Pilot will merge such destination rules
-and merge such virtual services if they are bound to a gateway.
+当不方便在单个 `VirtualService` 或 `DestinationRule` 资源中为特定主机定义完整的路由规则或策略集时，最好在多个资源中递增地指定主机的配置。如果将这些目标规则绑定到网关，Pilot 会合并这些目标规则和虚拟服务。
 
-Consider the case of a `VirtualService` bound to an ingress gateway exposing an application host which uses
-path-based delegation to several implementation services, something like this:
+考虑绑定到入口网关的 `VirtualService` 的情况，该应用程序暴露了使用基于路径的委派给多个实现服务的应用程序主机，如下所示：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -215,14 +171,9 @@ spec:
     ...
 {{< /text >}}
 
-The downside of this kind of configuration is that other configuration (e.g., route rules) for any of the
-underlying microservices, will need to also be included in this single configuration file, instead of
-in separate resources associated with, and potentially owned by, the individual service teams.
-See [Route rules have no effect on ingress gateway requests](/zh/docs/ops/common-problems/network-issues/#route-rules-have-no-effect-on-ingress-gateway-requests)
-for details.
+这种配置的缺点是，任何底层微服务的其他配置（例如，路由规则）也将需要包含在这个配置文件中，而不是包含在与各个服务团队关联或可能由各个服务团队拥有的单独资源中。有关详细信息，请参见[路由规则没有对 ingress gateway 请求生效](/zh/docs/ops/common-problems/network-issues/#route-rules-have-no-effect-on-ingress-gateway-requests)。
 
-To avoid this problem, it may be preferable to break up the configuration of `myapp.com` into several
-`VirtualService` fragments, one per backend service. For example:
+为避免此问题，最好将 `myapp.com` 的配置分解为多个 `VirtualService`，每个后端服务一个。例如：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -265,57 +216,40 @@ metadata:
   name: myapp-...
 {{< /text >}}
 
-When a second and subsequent `VirtualService` for an existing host is applied, `istio-pilot` will merge
-the additional route rules into the existing configuration of the host. There are, however, several
-caveats with this feature that must be considered carefully when using it.
+当为现有主机应用第二个及更多的 `VirtualService`时，`istio-pilot` 会将附加的路由规则合并到主机的现有配置中。但是，在使用此功能时，有一些注意事项。
 
-1. Although the order of evaluation for rules in any given source `VirtualService` will be retained,
-   the cross-resource order is UNDEFINED. In other words, there is no guaranteed order of evaluation
-   for rules across the fragment configurations, so it will only have predictable behavior if there
-   are no conflicting rules or order dependency between rules across fragments.
-1. There should only be one "catch-all" rule (i.e., a rule that matches any request path or header) in the fragments.
-   All such "catch-all" rules will be moved to the end of the list in the merged configuration, but
-   since they catch all requests, whichever is applied first will essentially override and disable any others.
-1. A `VirtualService` can only be fragmented this way if it is bound to a gateway.
-   Host merging is not supported in sidecars.
+1. 尽管会保留任何给定源 `VirtualService` 中规则的评估顺序，但跨资源的顺序是 UNDEFINED。换句话说，无法保证片段配置中规则的评估顺序，因此，只有在片段规则之间没有冲突的规则或者顺序依赖性时，它才具有可预测的行为。
+1.片段中应该只有一个“catch-all”规则（即与任何请求路径或 header 都匹配的规则）。所有这些“catch-all”规则将在合并配置中移至列表的末尾，但是由于它们捕获了所有请求，因此，首先应用的那个规则，实际上会覆盖并禁用其它的规则。
+1. 如果想将 `VirtualService` 绑定到网关，则只能以这种方式进行分段。sidecar 不支持主机合并。
 
-A `DestinationRule` can also be fragmented with similar merge semantic and restrictions.
+也可以使用类似的合并语义和限制将 `DestinationRule` 分段。
 
-1. There should only be one definition of any given subset across multiple destination rules for the same host.
-   If there is more than one with the same name, the first definition is used and any following duplicates are discarded.
-   No merging of subset content is supported.
-1. There should only be one top-level `trafficPolicy` for the same host.
-   When top-level traffic policies are defined in multiple destination rules, the first one will be used.
-   Any following top-level `trafficPolicy` configuration is discarded.
-1. Unlike virtual service merging, destination rule merging works in both sidecars and gateways.
+1. 在这里，它应该只是同一主机的多个目标规则中任何给定子集的一种定义。如果有多个同名，则使用第一个定义，并丢弃随后的所有重复项。不支持子集内容的合并。
+1. 同一主机只能有一个顶级的 `trafficPolicy`。在多个目标规则中定义了顶级 `trafficPolicy` 时，将使用第一个策略。之后的所有顶级 `trafficPolicy` 配置都将被丢弃。
+1. 与虚拟服务合并不同，目标规则合并在 sidecar 和 gateway 中均有效。
 
-## Avoid 503 errors while reconfiguring service routes
+## 避免重新配置服务路由时出现 503 错误{#avoid-5-0-3-errors-while-reconfiguring-service-routes}
 
-When setting route rules to direct traffic to specific versions (subsets) of a service, care must be taken to ensure
-that the subsets are available before they are used in the routes. Otherwise, calls to the service may return
-503 errors during a reconfiguration period.
+在设置路由规则以将流量定向到服务的某个版本（子集）时，必须注意确保子集在路由中使用之前是可用的。否则，在重新配置期间，对服务的调用可能返回 503 错误。
 
-Creating both the `VirtualServices` and `DestinationRules` that define the corresponding subsets using a single `kubectl`
-call (e.g., `kubectl apply -f myVirtualServiceAndDestinationRule.yaml` is not sufficient because the
-resources propagate (from the configuration server, i.e., Kubernetes API server) to the Pilot instances in an eventually consistent manner. If the
-`VirtualService` using the subsets arrives before the `DestinationRule` where the subsets are defined, the Envoy configuration generated by Pilot would refer to non-existent upstream pools. This results in HTTP 503 errors until all configuration objects are available to Pilot.
+使用单个 `kubectl` 调用（例如，`kubectl apply -f myVirtualServiceAndDestinationRule.yaml`）创建定义相应子集的 `VirtualServices` 和 `DestinationRules` 是不够的，因为资源（是从配置服务器传播的，即 Kubernetes API 服务器）以最终一致的方式添加到 Pilot 实例的。如果 `VirtualService` 在定义的子集 `DestinationRule` 到达之前使用了子集，则 Pilot 生成的 Envoy 配置将引用不存在的上游池。结果就是出现 HTTP 503 错误，直到对于 Pilot 来说所有配置对象都是可用的。
 
-To make sure services will have zero down-time when configuring routes with subsets, follow a "make-before-break" process as described below:
+为保证服务在配置带有子集的路由时的停机时间为零，请按照下述“先接后断”的流程进行操作：
 
-* When adding new subsets:
+* 添加新子集时：
 
-    1. Update `DestinationRules` to add a new subset first, before updating any `VirtualServices` that use it. Apply the rule using `kubectl` or any platform-specific tooling.
+    1. 更新 `DestinationRules`，首先添加一个新的子集，然后更新会使用它的所有 `VirtualServices`，再使用 `kubectl` 或平台对应的工具应用规则。
 
-    1. Wait a few seconds for the `DestinationRule` configuration to propagate to the Envoy sidecars
+    1. 等待几秒钟，使 `DestinationRule` 配置传播到 Envoy sidecar。
 
-    1. Update the `VirtualService` to refer to the newly added subsets.
+    1. 更新 `VirtualService` 以引用新添加的子集。
 
-* When removing subsets:
+* 移除子集时：
 
-    1. Update `VirtualServices` to remove any references to a subset, before removing the subset from a `DestinationRule`.
+    1. 在从 `DestinationRule` 中删除子集之前，更新 `VirtualServices` 以删除对该子集的所有引用。
 
-    1. Wait a few seconds for the `VirtualService` configuration to propagate to the Envoy sidecars.
+    1. 等待几秒钟，使 `VirtualService` 配置传播到 Envoy sidecar。
 
-    1. Update the `DestinationRule` to remove the unused subsets.
+    1. 更新 `DestinationRule` 以删除未使用的子集。
 
 
