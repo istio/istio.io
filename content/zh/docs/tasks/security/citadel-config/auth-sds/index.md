@@ -37,7 +37,7 @@ aliases:
 
 ## 开始之前{## before-you-begin}
 
-参考[Istio 安装指南](/zh/docs/setup/install/helm/) 来设置启动 SDS 和全局双向 TLS 。
+参考[Istio 安装指南](/zh/docs/setup/install/istioctl/) 使用 SDS 配置文件设置 Istio。
 
 ## 通过 SDS 使用密钥/证书为服务到服务提供双向 TLS{## service-to-service-mutual-TLS-using key/certificate-provisioned-through-SDS}
 
