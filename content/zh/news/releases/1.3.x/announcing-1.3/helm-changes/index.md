@@ -19,7 +19,7 @@ aliases:
 
 ## 修改的配置选项{#modified-configuration-options}
 
-### 修改 `kiali` 键/值对{#modified-key-value-pairs}
+### 修改 `kiali` 键/值对{#modified-Kiali-key-value-pairs}
 
 |  键   |  老的默认值    |   新的默认值     |   老的说明     |     新的说明    |
 | --- | --- | --- | --- | --- |
@@ -52,7 +52,7 @@ aliases:
 | --- | --- | --- |
 | `tracing.tolerations` | `[]` |  |
 | `tracing.jaeger.image` | `all-in-one` |  |
-| `tracing.jaeger.spanStorageType` | `badger` | `对于 all-in-one 模式镜像 spanStorageType 值可以是“memory”和“badger”`|
+| `tracing.jaeger.spanStorageType` | `badger` | `对于 all-in-one 模式镜像 spanStorageType 值可以是“memory”和“badger”` |
 | `tracing.jaeger.persist` | `false` |  |
 | `tracing.jaeger.storageClassName` | `""` |  |
 | `tracing.jaeger.accessMode` | `ReadWriteMany` |  |
@@ -86,10 +86,10 @@ aliases:
 | `global.proxy.envoyAccessLogService.tcpKeepalive.probes` | `3` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.time` | `10s` |  |
 | `global.proxy.envoyAccessLogService.tcpKeepalive.interval` | `10s` |  |
-| `global.proxy.protocolDetectionTimeout` | `10ms` |`在服务端，自动协议检测使用一组启发式方法来确定连接是否正在使用 TLS，以及所使用的应用协议（例如，http vs tcp）。 这些试探法依赖于客户端发送第一次请求数。对于一些优先发现的协议，如 MySQL 协议，MongoDB 协议等等，Envoy 在完成协议检测超时情况下，默认为非 mTLS 的普通 TCP 流量。 设置此字段可调整 Envoy 等待客户端发送第一次请求数据时间。（必须 >= 1ms）`|
-| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` |`当 "enableCoreDump" 设置为 true 的时候，启动核心存储的镜像`|
-| `global.defaultTolerations` | `[]` |`节点的默认 tolerations 将应用于所有部署，以便可以将所有 Pod 调度到具有匹配 taints 的特定节点。每个组件都可以通过在下面的相关部分中添加其 tolerations block 并设置所需的值来覆盖这些默认值。如果希望将 Istio 控制平面的所有 Pod 都调度到具有指定 taints 的特定节点，请配置此字段。`|
-| `global.meshID` | `""` |`MeshID表示 Mesh 标识符。在可能会彼此交互的 mesh 之间，它应该是唯一的，但是并不需要是全局唯一的。例如，如果满足以下任一条件，则两个 mesh 必须具有不同的 MeshID：- Mesh 将遥测聚集在同一个地方。- Mesh 将联合在一起。- 策略将被另一个 Mesh 引用。管理员希望这些条件中的任何一种将来可能成为现实，因此应确保为其 Mesh 分配了不同的 MeshID。在多群集 Mesh 中，每个群集必须（手动或自动）配置为具有相同的 MeshID 值。如果现有群集“加入”到多群集 Mesh 则需要将其迁移到新的 MeshID。迁移的详细信息待定，并且在安装后更改 MeshID 可能是一项破坏性操作。如果 Mesh 管理者未指定值，则 Istio 将使用 Mesh “信任域”的值。最佳实践是选择适当的“信任域”值。`|
+| `global.proxy.protocolDetectionTimeout` | `10ms` | `在服务端，自动协议检测使用一组启发式方法来确定连接是否正在使用 TLS，以及所使用的应用协议（例如，http vs tcp）。 这些试探法依赖于客户端发送第一次请求数。对于一些优先发现的协议，如 MySQL 协议，MongoDB 协议等等，Envoy 在完成协议检测超时情况下，默认为非 mTLS 的普通 TCP 流量。 设置此字段可调整 Envoy 等待客户端发送第一次请求数据时间。（必须 >= 1ms）` |
+| `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `当 "enableCoreDump" 设置为 true 的时候，启动核心存储的镜像` |
+| `global.defaultTolerations` | `[]` | `节点的默认 tolerations 将应用于所有部署，以便可以将所有 Pod 调度到具有匹配 taints 的特定节点。每个组件都可以通过在下面的相关部分中添加其 tolerations block 并设置所需的值来覆盖这些默认值。如果希望将 Istio 控制平面的所有 Pod 都调度到具有指定 taints 的特定节点，请配置此字段。` |
+| `global.meshID` | `""` | `MeshID表示 Mesh 标识符。在可能会彼此交互的 mesh 之间，它应该是唯一的，但是并不需要是全局唯一的。例如，如果满足以下任一条件，则两个 mesh 必须具有不同的 MeshID：- Mesh 将遥测聚集在同一个地方。- Mesh 将联合在一起。- 策略将被另一个 Mesh 引用。管理员希望这些条件中的任何一种将来可能成为现实，因此应确保为其 Mesh 分配了不同的 MeshID。在多集群 Mesh 中，每个集群必须（手动或自动）配置为具有相同的 MeshID 值。如果现有集群“加入”到多集群 Mesh 则需要将其迁移到新的 MeshID。迁移的详细信息待定，并且在安装后更改 MeshID 可能是一项破坏性操作。如果 Mesh 管理者未指定值，则 Istio 将使用 Mesh “信任域”的值。最佳实践是选择适当的“信任域”值。` |
 | `global.localityLbSetting.enabled` | `true` |  |
 
 ### 添加 `galley` 键/值对{#new-galley-key-value-pairs}
@@ -110,7 +110,7 @@ aliases:
 | `mixer.telemetry.reportBatchMaxEntries` | `100` | `将 reportBatchMaxEntries 设置为 0 表示使用默认的批处理行为（即每 100 个批处理一次）。 正值表示遥测数据发送到 mixer 服务器之前已批处理的请求数` |
 | `mixer.telemetry.reportBatchMaxTime` | `1s` | `将 reportBatchMaxTime 设置为 0 以使用默认的批处理行为（即每 1 秒批处理一次）。 正值表示处理完上次请求并将遥测数据发送到 mixer 服务器后，进行下次批处理前的最大等待时间` |
 
-### 添加 `grafana` 键/值对{#new-1-key-value-pairs}
+### 添加 `grafana` 键/值对{#new-Grafana-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -127,7 +127,7 @@ aliases:
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-### 添加 `prometheus` 键/值对{#new-2-key-value-pairs}
+### 添加 `prometheus` 键/值对{#new-Prometheus-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -150,7 +150,7 @@ aliases:
 | --- | --- | --- |
 | `certmanager.image` | `cert-manager-controller` |  |
 
-### 添加 `kiali` 键/值对{#new-3-key-value-pairs}
+### 添加 `kiali` 键/值对{#new-Kiali-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -161,7 +161,7 @@ aliases:
 | `kiali.security.cert_file` | `/kiali-cert/cert-chain.pem` |  |
 | `kiali.security.private_key_file` | `/kiali-cert/key.pem` |  |
 
-### 添加 `istiocoredns` 键/值对{#new-4-key-value-pairs}
+### 添加 `istiocoredns` 键/值对{#new-Istio-core-DNS-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
@@ -184,7 +184,7 @@ aliases:
 | --- | --- | --- |
 | `pilot.rollingMaxSurge` | `100%` |  |
 | `pilot.rollingMaxUnavailable` | `25%` |  |
-| `pilot.enableProtocolSniffing` | `false` | `如果启用了协议嗅探。默认为 false。`|
+| `pilot.enableProtocolSniffing` | `false` | `如果启用了协议嗅探。默认为 false。` |
 
 ## 删除的配置选项{#removed-configuration-options}
 
@@ -202,7 +202,7 @@ aliases:
 | --- | --- | --- |
 | `mixer.templates.seTemplateCRDs` | `false` |  |
 
-### 删除 `grafana` 键/值对{#removed-key-value-pairs}
+### 删除 `grafana` 键/值对{#removed-Grafana-key-value-pairs}
 
 |  键   |         默认值     |        说明       |
 | --- | --- | --- |
