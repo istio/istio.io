@@ -1,64 +1,60 @@
 ---
-title: App Identity and Access Adapter
-subtitle: Using Istio to secure multi-cloud Kubernetes applications with zero code changes
-description: Using Istio to secure multi-cloud Kubernetes applications with zero code changes.
+title: APP 身份和访问适配器
+subtitle: 使用 Istio 实现零代码改动保护多云 Kubernetes 应用
+description: 使用 Istio 实现零代码改动保护多云 Kubernetes 应用。
 publishdate: 2019-09-18
 attribution: Anton Aleksandrov (IBM)
 keywords: [security,oidc,jwt,policies]
 target_release: 1.3
 ---
 
-If you are running your containerized applications on Kubernetes, you can benefit from using the App Identity and Access Adapter for an abstracted level of security with zero code changes or redeploys.
+如果在 Kubernetes 以容器化的方式运行应用，就可以使用 App 身份和访问适配器获得抽象级别的安全性，而无需更改代码或重新部署。
 
-Whether your computing environment is based on a single cloud provider, a combination of multiple cloud providers, or following a hybrid cloud approach, having a centralized identity management can help you to preserve existing infrastructure and avoid vendor lock-in.
+无论您的运行环境是单云提供商，还是多个云提供商的组合或者遵循混合云的方式，集中式身份管理都可以帮助您维护现有基础设施并避免被云供应商绑定。
 
-With the [App Identity and Access Adapter](https://github.com/ibm-cloud-security/app-identity-and-access-adapter), you can use any OAuth2/OIDC provider: IBM Cloud App ID, Auth0, Okta, Ping Identity, AWS Cognito, Azure AD B2C and more. Authentication and authorization policies can be applied in a streamlined way in all environments — including frontend and backend applications — all without code changes or redeploys.
+有了 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)，就可以使用以下 OAuth2/OIDC 提供商：IBM Cloud App ID、Auth0、Okta、Ping Identity、AWS Cognito、Azure AD B2 等。身份和授权策略可以以高效的方式应用在所有环境（包括前端和后端应用程序），而无需修改代码或重新部署。
 
-## Understanding Istio and the adapter
+## 了解 Istio 和其适配器 {#understanding-Istio-and-the-adapter}
 
-[Istio](/zh/docs/concepts/what-is-istio/) is an open source service mesh that
-transparently layers onto distributed applications and seamlessly integrates
-with Kubernetes. To reduce the complexity of deployments Istio provides
-behavioral insights and operational control over the service mesh as a whole.
-See the [Istio Architecture](/zh/docs/ops/deployment/architecture/) for more details.
+[Istio](/zh/docs/concepts/what-is-istio/) 是一个开源的服务网格，它对分布式应用来说是一个透明层，它可以和 Kubernetes 无缝集成。为了降低布署复杂性 Istio 提供了对整个服务网格的行为洞察和操作控制。详见 [Istio 架构](/zh/docs/ops/deployment/architecture/)。
 
-Istio uses [Envoy proxy sidecars](/zh/blog/2019/data-plane-setup/) to mediate inbound and outbound traffic for all pods in the service mesh. Istio extracts telemetry from the Envoy sidecars and sends it to [Mixer](/zh/docs/ops/deployment/architecture/#mixer), the Istio component responsible for collecting telemetry and enforcing policy.
+Istio 使用 [Envoy sidecar 代理] 来调整服务网格中所有 Pod 的入站和出站流量。Istio 从 Envoy sidecar 中提取遥测数据，并将其发送到负责收集遥测数据和执行策略的 Istio 组件 [Mixer](/zh/docs/ops/deployment/architecture/#mixer)。
 
-The App Identity and Access adapter extends the Mixer functionality by analyzing the telemetry (attributes) against various access control policies across the service mesh. The access control policies can be linked to a particular Kubernetes services and can be finely tuned to specific service endpoints. For more information about policies and telemetry, see the Istio documentation.
+APP 身份和访问适配器通过分析针对服务网格上各种访问控制策略的遥测数据（属性）扩展 Mixer 的功能。访问控制策略可以关联到具体的 Kubernetes 服务，并且可以微调到特定的服务端点。关于策略和遥测信息的详情请看 Istio 的文档。
 
-When [App Identity and Access Adapter](https://github.com/ibm-cloud-security/app-identity-and-access-adapter) is combined with Istio, it provides a scalable, integrated identity and access solution for multicloud architectures that does not require any custom application code changes.
+当 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter) 结合到 Istio 中后，为多云架构提供可扩展的、集成身份和访问解决方案，而且不需要修改任何应用程序代码。
 
-## Installation
+## 安装 {#installation}
 
-App Identity and Access adapter can be installed using Helm directly from the `github.com` repository
+可以直接使用 `github.com` 仓库中的 Helm 来安装 APP 身份和访问适配器。
 
 {{< text bash >}}
 $ helm repo add appidentityandaccessadapter https://raw.githubusercontent.com/ibm-cloud-security/app-identity-and-access-adapter/master/helm/appidentityandaccessadapter
 $ helm install --name appidentityandaccessadapter appidentityandaccessadapter/appidentityandaccessadapter
 {{< /text >}}
 
-Alternatively, you can clone the repository and install the Helm chart locally
+另外，可以从 `github.com` 仓库 clone 下来，在本地用 Helm chart 进行安装。
 
 {{< text bash >}}
 $ git clone git@github.com:ibm-cloud-security/app-identity-and-access-adapter.git
 $ helm install ./helm/appidentityandaccessadapter --name appidentityandaccessadapter.
 {{< /text >}}
 
-## Protecting web applications
+## 保护 web 应用程序 {#protecting-web-applications}
 
-Web applications are most commonly protected by the OpenID Connect (OIDC) workflow called `authorization_code`. When an unauthenticated/unauthorized user is detected, they are automatically redirected to the identity service of your choice and presented with the authentication page. When authentication completes, the browser is redirected back to an implicit `/oidc/callback` endpoint intercepted by the adapter. At this point, the adapter obtains access and identity tokens from the identity service and then redirects users back to their originally requested URL in the web app.
+Web 应用程序通常是由 OpenID Connect (OIDC) 工作流保护，也被叫做 `authorization_code`。当检测到未经认证或未经授权的用户时，它们会自动重定向到所选择的身份服务并展示认证页面。身份验证完成后，浏览器将重定向回适配器拦截的隐式 `/oidc/callback` 端点。此时，适配器从身份服务获取访问和身份令牌，然后将用户重定向回 Web 应用程序中最初请求的 URL。
 
-Authentication state and tokens are maintained by the adapter. Each request processed by the adapter will include the Authorization header bearing both access and identity tokens in the following format `Authorization: Bearer <access_token> <id_token>`
+身份状态和令牌是由适配器维护管理的。适配器处理的每个请求会包含访问和身份令牌的认证头，其格式是：`Authorization: Bearer <access_token> <id_token>`。
 
-Developers can read leverage the tokens for application experience adjustments, e.g. displaying user name, adjusting UI based on user role etc.
+开发者可以根据读取令牌（token）信息调整应用程序的用户体验，比如显示用户名，根据用户角色适配用户界面等。
 
-In order to terminate the authenticated session and wipe tokens, aka user logout, simply redirect browser to the `/oidc/logout` endpoint under the protected service, e.g. if you're serving your app from `https://example.com/myapp`, redirect users to `https://example.com/myapp/oidc/logout`
+为了终止经过身份验证的会话并且清除令牌（即用户注销），只需将浏览器重定向到受保护服务下的 `/oidc/logout` 端点即可。例如，从 `https://example.com/myapp` 中将应用程序重定向到 `https://example.com/myapp/oidc/logout`。
 
-Whenever access token expires, a refresh token is used to automatically acquire new access and identity tokens without your user's needing to re-authenticate. If the configured identity provider returns a refresh token, it is persisted by the adapter and used to retrieve new access and identity tokens when the old ones expire.
+无论何时访问令牌过期了，系统都会通过刷新令牌自动获取一个新的访问和身份令牌，而无需重新进行身份验证。如果已配置的身份认证提供商返回一个刷新令牌，适配器会将其持久保存，用于老令牌过期时，重新获取新的访问和身份令牌。
 
-### Applying web application protection
+### 应用 web 应用程序保护 {#applying-web-application-protection}
 
-Protecting web applications requires creating two types of resources - use `OidcConfig` resources to define various OIDC providers, and `Policy` resources to define the web app protection policies.
+保护 web 应用程序需要创建 2 种类型的资源 - `OidcConfig` 资源用于定义各种 OIDC 服务提供商，`Policy` 资源用于定义 web 应用保护策略。
 
 {{< text yaml >}}
 apiVersion: "security.cloud.ibm.com/v1"
@@ -102,15 +98,15 @@ spec:
                     - openid
 {{< /text >}}
 
-[Read more about protecting web applications](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)
+[阅读更多关于如何保护 web 应用程序](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)。
 
-## Protecting backend application and APIs
+## 保护后端应用程序和 API {#protecting-backend-application-and-APIs}
 
-Backend applications and APIs are protected using the Bearer Token flow, where an incoming token is validated against a particular policy. The Bearer Token authorization flow expects a request to contain the `Authorization` header with a valid access token in JWT format. The expected header structure is `Authorization: Bearer {access_token}`. In case token is successfully validated request will be forwarded to the requested service. In case token validation fails the HTTP 401 will be returned back to the client with a list of scopes that are required to access the API.
+后端应用程序和 API 的保护是使用 Bearer Token 工作流，对特定的策略验证传入的令牌。Bearer Token 授权流程需要在请求中包含 `Authorization` 头，这个头以 JWT 格式包含了有效的访问令牌。需要的头结构是：`Authorization: Bearer {access_token}`。如果令牌验证成功请求会被发往被请求的服务。如果令牌验证失败会给客户端返回 HTTP 401 以及访问这个 API 所需要的权限列表。
 
-### Applying backend application and APIs protection
+### 应用后端程序和 API 保护 {#applying-backend-application-and-APIs-protection}
 
-Protecting backend applications and APIs requires creating two types of resources - use `JwtConfig` resources to define various JWT providers, and `Policy` resources to define the backend app protection policies.
+保护后端程序和 API 需要创建 2 种类型的资源 - `JwtConfig` 用于定义各种 JWT 服务提供者，`Policy` 用于定义后端应用保护策略。
 
 {{< text yaml >}}
 apiVersion: "security.cloud.ibm.com/v1"
@@ -151,22 +147,22 @@ spec:
                     - files.write
 {{< /text >}}
 
-[Read more about protecting backend applications](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)
+[阅读更多如何保护后端应用程序](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)。
 
-## Known limitations
+## 已知的局限性 {#known-limitations}
 
-At the time of writing this blog there are two known limitations of the App Identity and Access adapter:
+在写这篇博客的时候，有 2 个关于 APP 身份和访问适配器的已知局限性问题：
 
-- If you use the App Identity and Access adapter for Web Applications you should not create more than a single replica of the adapter. Due to the way Envoy Proxy was handling HTTP headers it was impossible to return multiple `Set-Cookie` headers from Mixer back to Envoy. Therefore we couldn't set all the cookies required for handling Web Application scenarios. The issue was recently addressed in Envoy and Mixer and we're planning to address this in future versions of our adapter. **Note that this only affects Web Applications, and doesn't affect Backend Apps and APIs in any way**.
+- 如果在 Web 应用程序上启用 APP 身份和访问适配器，只能创建 1 个适配器的副本。由于 Envoy 代理处理 HTTP 头的方式，Mixer 有可能给 Envoy 返回多个 `Set-Cookie` 头。因此，不能设置 Web 应用程序想要设置的所有 cookie。这个问题最近在 Envoy 和 Mixer 的开发上被讨论，计划在后期适配器的版本中解决。**注意这个问题只影响 Web 应用程序，并不会以任何方式影响后端 APP 和 API**。
 
-- As a general best practice you should always consider using mutual-tls for any in-cluster communications. At the moment the communications channel between Mixer and App Identity and Access adapter currently does not use mutual-tls. In future we plan to address this by implementing an approach described in the [Mixer Adapter developer guide](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter).
+- 作为一般最佳实践，集群内通信应该永远考虑使用双向 TLS 通信。现在 Mixer 与 APP 身份和访问适配器之间的通信通道并没有使用双端 TLS 通信。未来计划根据 [Mixer 适配器开发指引](https://github.com/istio/istio/wiki/Mixer-Out-of-Process-Adapter-Walkthrough#step-7-encrypt-connection-between-mixer-and-grpc-adapter)实现解决这个问题。
 
-## Summary
+## 总结 {#summary}
 
-When a multicloud strategy is in place, security can become complicated as the environment grows and diversifies. While cloud providers supply protocols and tools to ensure their offerings are safe, the development teams are still responsible for the application-level security, such as API access control with OAuth2, defending against man-in-the-middle attacks with traffic encryption, and providing mutual TLS for service access control. However, this becomes complex in a multicloud environment since you might need to define those security details for each service separately. With proper security protocols in place, those external and internal threats can be mitigated.
+当多云部署实施时，随着环境的发展和多样性，安全也会变得复杂起来。当云提供商提供协议和工具来确保其产品的安全性，开发团队仍然要负责应用程序级别的安全，比如基于 OAuth2 的 API 访问控制，通过流量加密防御中间人攻击以及为服务访问控制提供双向 TLS。但是在多云环境中，这会变得复杂，因为可能要为分别为每个服务定义它的安全策略。有了适当的安全协议，这些外部和内部的威胁就可以减轻了。
 
-Development teams have spent time making their services portable to different cloud providers, and in the same regard, the security in place should be flexible and not infrastructure-dependent.
+开发团队花时间让服务能够移植到不同的云提供商，在同等情况下，安全应该更灵活而不依赖基础设施。
 
-Istio and App Identity and Access Adapter allow you to secure your Kubernetes apps with absolutely zero code changes or redeployments regardless of which programming language and which frameworks you use. Following this approach ensures maximum portability of your apps, and ability to easily enforce same security policies across multiple environments.
+Istio 和 APP 身份和访问适配器可以加固 Kubernetes app 的安全性，并且无关编程语言和框架，不需要修改任何一行代码并重新部署。使用这种方式保证了 app 的最大可移植性，并且可以在多个环境中方便的去执行相同的安全策略。
 
-You can read more about the App Identity and Access Adapter in the [release blog](https://www.ibm.com/cloud/blog/using-istio-to-secure-your-multicloud-kubernetes-applications-with-zero-code-change).
+可以在[发布博客](https://www.ibm.com/cloud/blog/using-istio-to-secure-your-multicloud-kubernetes-applications-with-zero-code-change)上阅读更多关于 APP 身份和访问适配器的信息。
