@@ -1,106 +1,88 @@
 ---
 title: Istio
-description: Connect, secure, control, and observe services.
+description: Conecte, proteja, controle e observe os serviços.
 ---
 
 <main class="landing">
-  <div id="banner">
-    {{< inline_image "landing/istio-logo.svg" >}}
-    <div id="hero-text">
-      <h1 id="hero-label">Istio</h1>
-      <h1 id="hero-lead">Connect, secure, control, and observe services.</h1>
-    </div>
-  </div>
-
-  <div id="panels">
-    <div id="panel1" class="panel">
-      <a href="/pt-br/docs/concepts/traffic-management/">
-        <div class="panel-img-top">
-          {{< inline_image "landing/routing-and-load-balancing.svg" >}}
+    <div id="banner">
+        {{< inline_image "landing/istio-logo.svg" >}}
+        <div id="hero-text">
+            <h1 id="hero-label">Istio</h1>
+            <h1 id="hero-lead">Conecte, proteja, controle e observe os serviços.</h1>
         </div>
-        <div class="panel-body">
-          <hr class="panel-line" />
-          <h5 class="panel-title">Connect</h5>
-          <hr class="panel-line" />
-          <p class="panel-text">
-            Intelligently control the flow of traffic and API calls between
-            services, conduct a range of tests, and upgrade gradually with
-            red/black deployments.
-          </p>
-        </div>
-      </a>
     </div>
 
-    <div id="panel2" class="panel">
-      <a href="/pt-br/docs/concepts/security/">
-        <div class="panel-img-top">
-          {{< inline_image "landing/resiliency.svg" >}}
+    <div id="panels">
+        <div id="panel1" class="panel">
+            <a href="/pt-br/docs/concepts/traffic-management/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/routing-and-load-balancing.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Conecte</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        Controle de forma inteligente o fluxo de tráfego e chamadas de API entre serviços, realize uma série de testes e atualize gradualmente com
+                        deployments red/black.
+                    </p>
+                </div>
+            </a>
         </div>
-        <div class="panel-body">
-          <hr class="panel-line" />
-          <h5 class="panel-title">Secure</h5>
-          <hr class="panel-line" />
-          <p class="panel-text">
-            Automatically secure your services through managed authentication,
-            authorization, and encryption of communication between services.
-          </p>
+
+        <div id="panel2" class="panel">
+            <a href="/pt-br/docs/concepts/security/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/resiliency.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Proteja</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        Proteja seus serviços automaticamente através de autenticação e criptografia de comunicação entre
+                        serviços.
+                    </p>
+                </div>
+            </a>
         </div>
-      </a>
+
+        <div id="panel3" class="panel">
+            <a href="/pt-br/docs/reference/config/policy-and-telemetry/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/policy-enforcement.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Controle</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        Aplique políticas e garanta que elas sejam aplicadas e que os recursos sejam distribuídos de maneira justa entre os consumidores.
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <div id="panel4" class="panel">
+            <a href="/pt-br/docs/reference/config/policy-and-telemetry/">
+                <div class="panel-img-top">
+                    {{< inline_image "landing/telemetry-and-reporting.svg" >}}
+                </div>
+                <div class="panel-body">
+                    <hr class="panel-line">
+                    <h5 class="panel-title">Observe</h5>
+                    <hr class="panel-line">
+                    <p class="panel-text">
+                        Veja o que está acontecendo com rastreamento, monitoramento e registro automáticos avançados de todos os seus serviços.
+                  </p>
+                </div>
+            </a>
+        </div>
     </div>
 
-    <div id="panel3" class="panel">
-      <a href="/pt-br/docs/reference/config/policy-and-telemetry/">
-        <div class="panel-img-top">
-          {{< inline_image "landing/policy-enforcement.svg" >}}
-        </div>
-        <div class="panel-body">
-          <hr class="panel-line" />
-          <h5 class="panel-title">Control</h5>
-          <hr class="panel-line" />
-          <p class="panel-text">
-            Apply policies and ensure that they’re enforced, and that resources
-            are fairly distributed among consumers.
-          </p>
-        </div>
-      </a>
+    <div id="buttons">
+        <a title="Instale o Istio no Kubernetes hoje." class="btn" href="/pt-br/docs/setup/getting-started/">INICIAR</a>
+        <a title="Mergule mais fundo para entender o que é o Istio e como ele funciona." class="btn" href="/pt-br/docs/concepts/what-is-istio/">SABER MAIS</a>
+        <a title="Faça o download da versão mais recente." class="btn" href="/pt-br/docs/setup/getting-started/#download">DOWNLOAD {{< istio_release_name >}}</a>
     </div>
-
-    <div id="panel4" class="panel">
-      <a href="/pt-br/docs/reference/config/policy-and-telemetry/">
-        <div class="panel-img-top">
-          {{< inline_image "landing/telemetry-and-reporting.svg" >}}
-        </div>
-        <div class="panel-body">
-          <hr class="panel-line" />
-          <h5 class="panel-title">Observe</h5>
-          <hr class="panel-line" />
-          <p class="panel-text">
-            See what's happening with rich automatic tracing, monitoring, and
-            logging of all your services.
-          </p>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <div id="buttons">
-    <a
-      title="Install Istio on Kubernetes today."
-      class="btn"
-      href="/pt-br/docs/setup/getting-started/"
-      >GET STARTED</a
-    >
-    <a
-      title="Dive deeper to understand what Istio is and how it works."
-      class="btn"
-      href="/pt-br/docs/concepts/what-is-istio/"
-      >LEARN MORE</a
-    >
-    <a
-      title="Download the latest release."
-      class="btn"
-      href="/pt-br/docs/setup/getting-started/#download"
-      >DOWNLOAD {{< istio_release_name >}}</a
-    >
-  </div>
 </main>
