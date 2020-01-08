@@ -7,28 +7,16 @@ weight: 30
 
 {{< boilerplate work-in-progress >}}
 
-This module shows you an application composed of four microservices written in different programming languages: `productpage`, `details`, `ratings` and `reviews`. We call the composed application `Bookinfo`, and you can learn more about it in the [Bookinfo example](/docs/examples/bookinfo) page.
+This module shows you an application composed of four microservices written in different programming languages: `productpage`, `details`, `ratings` and `reviews`. We call the composed application `Bookinfo`, and you can learn more about it on the
+[Bookinfo example](/docs/examples/bookinfo) page.
 
-The version of the application used in the example can be viewed as the final version since the `reviews` microservice has three versions: `v1`, `v2`, `v3`.
-
-In this module, the application only uses the `v1` version of the `reviews` microservice.
-The next modules enhance the application with multiple versions of the `reviews` microservice.
+The [Bookinfo example](/docs/examples/bookinfo) shows the final state of the application, in which the `reviews` microservice has three versions: `v1`, `v2`, `v3`. In this module, the application only uses the `v1` version of the
+`reviews` microservice. The next modules enhance the application by deploying newer versions of the `reviews`
+microservice.
 
 ## Deploy the application and a testing pod
 
-1.  Set the value of the `NAMESPACE` environmental variable to `tutorial`:
-
-    {{< text bash >}}
-    $ export NAMESPACE=tutorial
-    {{< /text >}}
-
-1.  Set the value of the `KUBECONFIG` environmental variable to the path of file you created in the previous module:
-
-    {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
-    {{< /text >}}
-
-1.  Set the `MYHOST` environmental variable to hold the URL of the application:
+1.  Set the `MYHOST` environment variable to hold the URL of the application:
 
     {{< text bash >}}
     $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
@@ -37,7 +25,7 @@ The next modules enhance the application with multiple versions of the `reviews`
 1.  Skim [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml).
     This is the Kubernetes deployment spec of the app. Notice the services and the deployments.
 
-1.  Deploy the application to your Kubernetes cluster on the `tutorial` namespace:
+1.  Deploy the application to your Kubernetes cluster:
 
     {{< text bash >}}
     $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
@@ -109,18 +97,16 @@ The next modules enhance the application with multiple versions of the `reviews`
 
 ## Enable external access to the application
 
-Once your application is running, enable clients from outside the cluster to access it. Such clients are known as mesh-external clients. Once you
-configure the steps below successfully, you can access the application from your laptop's browser.
+Once your application is running, enable clients from outside the cluster to access it. Once you configure the steps
+below successfully, you can access the application from your laptop's browser.
 
 {{< warning >}}
 
-If your cluster runs on GKE, change the `productpage` service type to `LoadBalancer` before you create your Kubernetes ingress, as shown in this example:
+If your cluster runs on GKE, change the `productpage` service type to `LoadBalancer`:
 
-{{< text yaml >}}
-selector:
-app: productpage
-sessionAffinity: None
-type: LoadBalancer
+{{< text bash >}}
+$ kubectl patch svc productpage -p '{"spec": {"type": "LoadBalancer"}}'
+service/productpage patched
 {{< /text >}}
 
 {{< /warning >}}
@@ -152,6 +138,10 @@ type: LoadBalancer
             backend:
               serviceName: productpage
               servicePort: 9080
+          - path: /static
+            backend:
+              serviceName: productpage
+              servicePort: 9080
     EOF
     {{< /text >}}
 
@@ -159,7 +149,7 @@ type: LoadBalancer
 
 1.  Append the output of the following command to `/etc/hosts`. You should have a
     [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use
-    [`sudo`](https://en.wikipedia.org/wiki/Sudo) to run the command.
+    [`sudo`](https://en.wikipedia.org/wiki/Sudo) to edit `/etc/hosts`.
 
     {{< text bash >}}
     $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
