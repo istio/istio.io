@@ -15,9 +15,9 @@ is enabled.
 
 ## Environment Setup
 
-Many performance benchmark blogs have been published earlier, e.g., [best practices and Istio 1.2 performance](/blog/2019/performance-best-practices/),
+Many performance benchmark blogs have been published earlier, e.g., [best practices and Istio 1.2 performance](/blog/2019/performance-best-practices),
 [Istio 1.1 performance](/blog/2019/istio1.1_perf). The environment setup in this blog will follow settings
-in [this blog]((/blog/2019/performance-best-practices/)). 
+in [this blog]((/blog/2019/performance-best-practices)). 
 
 We benchmarked the performance with different application protocols, such as HTTP/1.1 and gRPC. In order to
 benchmark the auto protocol detection with [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication),
@@ -32,21 +32,21 @@ Mixer is also disabled because it doesn't affect the performance of auto protoco
 
 We found that when mTLS is enabled, the performance gap is trivial between system enabling auto protocol detection and disabling auto protocol detection.
 
-{{< image  width="75%" ratio="60%"
+{{< image  width="60%" ratio="40%"
     link="./mtls_latency_p50.png"
     alt="Istio sidecar proxy, 50th percentile latency, HTTP"
     title="Istio sidecar proxy, 50th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="75%" ratio="60%"
+{{< image  width="60%" ratio="40%"
     link="./mtls_latency_p90.png"
     alt="Istio sidecar proxy, 90th percentile latency, HTTP"
     title="Istio sidecar proxy, 90th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="75%" ratio="60%"
+{{< image  width="60%" ratio="40%"
     link="./mtls_latency_p99.png"
     alt="Istio sidecar proxy, 99th percentile latency, HTTP"
     title="Istio sidecar proxy, 99th percentile latency, HTTP"
@@ -55,23 +55,23 @@ We found that when mTLS is enabled, the performance gap is trivial between syste
 
 The reason is that sniffing happens on client side using [alpn filter](https://github.com/airbnb/istio-api/blob/master/envoy/config/filter/http/alpn/v2alpha1/config.proto) when mTLS is enabled and the cost is trivial.
 
-For plaintext, we found that with 64 concurrent connections and 1000 RPS, Istio adds **1ms** when a request travels through both a client and server proxy. 
+For plaintext, we found that with 64 concurrent connections and 1000 QPS, Istio adds **1ms** in the request path. 
 
-{{< image  width="75%" ratio="60%"
+{{< image  width="60%" ratio="40%"
     link="./pt_latency_p50.png"
     alt="Istio sidecar proxy, 50th percentile latency, HTTP"
     title="Istio sidecar proxy, 50th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="75%" ratio="60%"
+{{< image  width="60%" ratio="40%"
     link="./pt_latency_p90.png"
     alt="Istio sidecar proxy, 90th percentile latency, HTTP"
     title="Istio sidecar proxy, 90th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="75%" ratio="60%"
+{{< image  width="60%" ratio="40%"
     link="./pt_latency_p99.png"
     alt="Istio sidecar proxy, 99th percentile latency, HTTP"
     title="Istio sidecar proxy, 99th percentile latency, HTTP"
