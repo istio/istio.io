@@ -435,7 +435,7 @@ reasons for deployments on VMs/bare metal computers could be special hardware re
 
 Adding the workloads running on VMs or bare metal systems to a mesh, you can benefit from all the
 service mesh features: traffic management, security, observability, and others. You can deploy the Istio control plane(s)
-on some of your clusters and integrate your VMs/bare metal computers with the mesh.
+on your cluster or clusters, you can add your VMs or bare metal systems to the mesh.
 
 Adding a VM/bare metal computer to a mesh means installing an Istio sidecar and a Node agent on the machine and
 configuring them to communicate with the control plane(s) on some of the clusters. Once you add a VMs/bare metal
