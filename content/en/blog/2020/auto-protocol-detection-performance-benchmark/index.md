@@ -1,11 +1,11 @@
 ---
 title: "Auto Protocol Detection Proformance Benchmark"
-description: "Performance benchmark for auto protocol detection"
+description: "Performance benchmark for auto protocol detection."
 publishdate: 2020-01-07
-last_update: 2019-01-07
+last_update: 2020-01-07
 subtitle:
 attribution: Yan Xue (Google)
-keywords: [performance,benchmarks,auto]
+keywords: [performance,benchmarks,protocol]
 ---
 
 Auto protocol detection introduces protocol inspection in ingress and egress path, which could potentially 
