@@ -440,6 +440,6 @@ on your cluster or clusters, you can add your VMs or bare metal systems to the m
 Adding a VM or a bare metal system to a mesh requires the following steps:
 
 1. Install an Istio sidecar and a Node agent on the VM or bare metal system.
-configuring them to communicate with the control plane(s) on some of the clusters. Once you add a VMs/bare metal
+1. Configure the sidecar and the agent to communicate with the control plane or planes in your deployment.
 computers to a mesh, you can configure the control plane(s) of the mesh to control communication between services on the
 clusters and on the machines (from a cluster to a VM, from a VM to a cluster, from a VM to another VM in the mesh).
