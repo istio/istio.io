@@ -428,7 +428,7 @@ namespace.
 When each team has their own mesh, cross-mesh communication follows the
 concepts described in the [multiple meshes](#multiple-meshes) model.
 
-## Virtual machines and bare metal
+## Virtual machines and bare metal systems
 
 In same cases you might have to deploy some of the services on virtual machines or bare metal computers. The
 reasons for deployments on VMs/bare metal computers could be special hardware requirements, tighter isolation, tighter integration with the host's OS, legacy deployments.
