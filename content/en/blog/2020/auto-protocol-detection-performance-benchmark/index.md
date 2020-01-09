@@ -17,7 +17,7 @@ is enabled.
 
 Many performance benchmark blogs have been published earlier, e.g., [best practices and Istio 1.2 performance](/blog/2019/performance-best-practices),
 [Istio 1.1 performance](/blog/2019/istio1.1_perf). The environment setup in this blog will follow settings
-in [this blog]((/blog/2019/performance-best-practices)). 
+in [this blog](/blog/2019/performance-best-practices). 
 
 We benchmarked the performance with different application protocols, such as HTTP/1.1 and gRPC. In order to
 benchmark the auto protocol detection with [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication),
@@ -32,21 +32,21 @@ Mixer is also disabled because it doesn't affect the performance of auto protoco
 
 We found that when mTLS is enabled, the performance gap is trivial between system enabling auto protocol detection and disabling auto protocol detection.
 
-{{< image  width="60%" ratio="40%"
+{{< image  width="75%" ratio="60%"
     link="./mtls_latency_p50.png"
     alt="Istio sidecar proxy, 50th percentile latency, HTTP"
     title="Istio sidecar proxy, 50th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="60%" ratio="40%"
+{{< image  width="75%" ratio="60%"
     link="./mtls_latency_p90.png"
     alt="Istio sidecar proxy, 90th percentile latency, HTTP"
     title="Istio sidecar proxy, 90th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="60%" ratio="40%"
+{{< image  width="75%" ratio="60%"
     link="./mtls_latency_p99.png"
     alt="Istio sidecar proxy, 99th percentile latency, HTTP"
     title="Istio sidecar proxy, 99th percentile latency, HTTP"
@@ -57,28 +57,46 @@ The reason is that sniffing happens on client side using [alpn filter](https://g
 
 For plaintext, we found that with 64 concurrent connections and 1000 QPS, Istio adds **1ms** in the request path. 
 
-{{< image  width="60%" ratio="40%"
+{{< image  width="75%" ratio="60%"
     link="./pt_latency_p50.png"
     alt="Istio sidecar proxy, 50th percentile latency, HTTP"
     title="Istio sidecar proxy, 50th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="60%" ratio="40%"
+In the 90th percentile and 99th percentile, with all connections, Istio adds less than **1ms** overhead.
+
+{{< image  width="75%" ratio="60%"
     link="./pt_latency_p90.png"
     alt="Istio sidecar proxy, 90th percentile latency, HTTP"
     title="Istio sidecar proxy, 90th percentile latency, HTTP"
     caption=""
     >}}
 
-{{< image  width="60%" ratio="40%"
+{{< image  width="75%" ratio="60%"
     link="./pt_latency_p99.png"
     alt="Istio sidecar proxy, 99th percentile latency, HTTP"
     title="Istio sidecar proxy, 99th percentile latency, HTTP"
     caption=""
     >}}    
 
-In the 90th percentile and 99th percentile, with all connections, Istio adds less than **1ms** overhead.
+For CPU usage, we measured with an increasing QPS, and a constant number of concurrent connections.
+
+Both enabling and disabling auto protocol detection use less than **1vCPU** at maximum 3000 QPS. The performance degradation is also trivial. It's same for both enabling and disabling mutual TLS authentication.
+
+{{< image  width="75%" ratio="60%"
+    link="./mtls_cpu.png"
+    alt="Istio sidecar proxy, max CPU usage"
+    title="Istio sidecar proxy, max CPU usage"
+    caption=""
+    >}}  
+
+ {{< image  width="75%" ratio="60%"
+    link="./pt_cpu.png"
+    alt="Istio sidecar proxy, max CPU usage"
+    title="Istio sidecar proxy, max CPU usage"
+    caption=""
+    >}}     
 
 ## Conclusion
 
