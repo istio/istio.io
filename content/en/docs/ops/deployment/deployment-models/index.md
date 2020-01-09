@@ -433,7 +433,7 @@ concepts described in the [multiple meshes](#multiple-meshes) model.
 In same cases you might have to deploy some of the services on virtual machines or bare metal computers. The
 reasons for deployments on VMs/bare metal computers could be special hardware requirements, tighter isolation, tighter integration with the host's OS, legacy deployments.
 
-Having some of the services on VMs/bare metal, you may want to connect the services into a mesh and benefit from all the
+Adding the workloads running on VMs or bare metal systems to a mesh, you can benefit from all the
 service mesh features: traffic management, security, observability, and others. You can deploy the Istio control plane(s)
 on some of your clusters and integrate your VMs/bare metal computers with the mesh.
 
