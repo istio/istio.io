@@ -27,6 +27,6 @@ This release includes bug fixes to improve robustness and user experience. This 
 ## Improvements
 
 - **Improved** injection template to fully specify `securityContext`, allowing `PodSecurityPolicies` to properly validate injected deployments ([Issue 17318](https://github.com/istio/istio/issues/17318)).
-- **Improved** telemetry v2 configuration to support Stackdriver and forward compatibility ([Issue 591](https://github.com/istio/installer/pull/591).
-- **Improved** output of `istioctl` installation ([Issue 19451](https://github.com/istio/istio/issues/19451).
+- **Improved** telemetry v2 configuration to support Stackdriver and forward compatibility ([Issue 591](https://github.com/istio/installer/pull/591)).
+- **Improved** output of `istioctl` installation ([Issue 19451](https://github.com/istio/istio/issues/19451)).
 - **Improved** `istioctl` installation to set exit code upon failure ([Issue 19747](https://github.com/istio/istio/issues/19747)).
