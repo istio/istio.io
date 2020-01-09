@@ -72,7 +72,7 @@ and that the certificate contains the configured DNS names, you need to get the 
 decode it, and view its text output with the following command:
 
 {{< text bash >}}
-$ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+$ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in /dev/stdin -text -noout
 {{< /text >}}
 
 The text output should include:
@@ -98,7 +98,7 @@ contains the configured DNS names, you need to get the secret from Kubernetes, p
 and view its text output with the following command:
 
     {{< text bash >}}
-    $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+    $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in /dev/stdin -text -noout
     {{< /text >}}
 
 The output should include:

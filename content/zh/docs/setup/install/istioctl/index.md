@@ -36,7 +36,7 @@ $ istioctl manifest apply
 如果要在 `default` 配置文件之上启用安全性，可以设置与安全相关的配置参数：
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+$ istioctl manifest apply --set values.global.mtls.enabled=true
 {{< /text >}}
 
 通常，您可以像使用 [helm](/zh/docs/setup/install/helm/) 一样在 `istioctl` 中配置 `--set` 标志。
@@ -235,13 +235,10 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 可以使用命令上的 `--set` 选项分别设置此 API 中的配置参数。 例如，要在默认配置文件中禁用遥测功能，请使用以下命令：
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+$ istioctl manifest apply --set values.global.mtls.enabled=true
 {{< /text >}}
 
-Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
-`istioctl` using the `-f` option:
-
-或者，可以在YAML文件中指定 `IstioControlPlane` 配置，并使用 `-f` 选项将其传递给 `istioctlt`：
+或者，可以在 YAML 文件中指定 `IstioControlPlane` 配置，并使用 `-f` 选项将其传给 `istioctl`：
 
 {{< text bash >}}
 $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
