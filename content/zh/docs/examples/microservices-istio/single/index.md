@@ -7,7 +7,7 @@ weight: 10
 {{< boilerplate work-in-progress >}}
 
 在微服务架构出现之前，开发团队会将整个应用程序作为一个大型软件进行构建、部署和运行。想要测试模块中一个微小的改变，
-开发人员不仅要通过单元测试，他们必须重新构建整个程序。因此，构建花费了大量的时间。完成构建后，
+开发人员不仅要通过单元测试，他们必须重新构建整个程序。因此，构建需要花费大量的时间。完成构建后，
 开发人员将应用程序版本部署到测试服务器上。他们会把服务跑在远程或本地计算机中。在后一种情况下，开发者会在他们
 的本地计算机上安装并管理一个相当复杂的环境。
 
@@ -20,17 +20,15 @@ weight: 10
   `ratings` 服务是用 [Node.js](https://nodejs.org/zh-cn/) 编写的一个可以单独运行的小型 web 应用程序。
  它与其他 web 应用程序执行类似的操作：
 
-- 侦听它作为参数接受的端口。
-- 期待在 `/ratings/{productID}` 路径上的 `HTTP GET` 请求，并返回与客户端指定的 `productID`
+- 监听它作为参数接受的端口。
+- 接受在 `/ratings/{productID}` 路径上的 `HTTP GET` 请求，并返回与客户端指定的 `productID`
   的值所匹配的产品的评级。
-- 期待在 `/ratings/{productID}` 路径上的 `HTTP POST` 请求，并更新与您指定的 `productID`
+- 接受在 `/ratings/{productID}` 路径上的 `HTTP POST` 请求，并更新与您指定的 `productID`
   的值所匹配的产品的评级。
 
 请按照下列步骤下载应用程序的代码，安装其依赖项，然后在本地运行它：
 
-1. 将
-    [服务代码]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
-    和
+1. 将 [服务代码]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js) 和
     [其 package 文件]({{< github_blob >}}/samples/bookinfo/src/ratings/package.json)
     下载到一个单独的目录中：
 
@@ -51,11 +49,10 @@ weight: 10
         - 状态码
 
     {{< tip >}}
-    在 Node.js 中, web 服务器的功能嵌入在应用程序的代码中。 一个 Node.js
-    web 应用程序作为一个独立进程运行。
+    在 Node.js 中，web 服务器的功能嵌入在应用程序的代码中。 一个 Node.js web 应用程序作为一个独立进程运行。
     {{< /tip >}}
 
-1. Node.js 应用程序是用 JavaScript 编写的， 这意味着没有显式编译步骤。 相反，它们
+1. Node.js 应用程序是用 JavaScript 编写的，这意味着没有显式编译步骤。相反，它们
 使用 [just-in-time 即时编译](https://zh.wikipedia.org/wiki/%E5%8D%B3%E6%97%B6%E7%BC%96%E8%AF%91)。要
 构建 Node.js 应用程序， 则意味着要安装其依赖库。 将 `rating` 服务的依赖库安装在存储服务代码和 package 文件的同一目录下：
 
@@ -82,8 +79,7 @@ weight: 10
 该 `ratings` 服务是一个 web 应用程序，您可以像访问其他 web 应用程序那样访问它。
  您可以使用浏览器或者像
  [`curl`](https://curl.haxx.se) 或 [`Wget`](https://www.gnu.org/software/wget/)
-的命令行 web 客户端。由于您在本地运行了 `rating` 服务，因此您也可以通过 `localhost`
-主机名访问它。
+的命令行 web 客户端。由于您在本地运行了 `rating` 服务，因此您也可以通过 `localhost` 主机名访问它。
 {{< /tip >}}
 
 1. 在浏览器中打开 [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) 或者使用 `curl` 命令来访问 `ratings`：
@@ -93,7 +89,7 @@ weight: 10
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
-1. 使用 curl 命令的 POST 方法将产品的评级设置为 1 ：
+1. 打开另一个终端 session，使用 curl 命令的 POST 方法将产品的评级设置为 1 ：
 
     {{< text bash >}}
     $ curl -X POST localhost:9080/ratings/7 -d '{"Reviewer1":1,"Reviewer2":1}'
@@ -111,4 +107,4 @@ weight: 10
 
 恭喜, 您现在可以在本地计算机上构建、测试和运行服务了！
 
-您已经做好了学习如何打包服务到容器的准备了。
+您已经做好了[如何打包服务](/zh/docs/examples/microservices-istio/package-service)到容器的准备了。
