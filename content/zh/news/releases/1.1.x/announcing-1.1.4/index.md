@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.4
+title: Istio 1.1.4 发布
 linktitle: 1.1.4
-subtitle: Patch Release
-description: Istio 1.1.4 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.4 补丁发布.
 publishdate: 2019-04-24
 release: 1.1.4
 aliases:
@@ -12,49 +12,47 @@ aliases:
     - /zh/news/announcing-1.1.4
 ---
 
-We're pleased to announce the availability of Istio 1.1.4. Please see below for what's changed.
+我们很高心的宣布最新的 Istio 1.1.4 版本已经发布 ，具体更改如下。
 
 {{< relnote >}}
 
-## Behavior change
+## 行为变更 {#behavior-change}
 
-- Changed the default behavior for Pilot to allow traffic to outside the mesh, even if it is on the same port as an internal service.
-This behavior can be controlled by the `PILOT_ENABLE_FALLTHROUGH_ROUTE` environment variable.
+- 更改了 Pilot 的默认行为，以允许流量流向网格外部，即使该流量与内部服务位于同一端口上也是如此，此行为可由 `PILOT_ENABLE_FALLTHROUGH_ROUTE`  环境变量控制。
 
-## Bug fixes
+## Bug 修复 {#bug-fixes}
 
-- Fixed egress route generation for services of type `ExternalName`.
+- 修复了 `ExternalName` 类型服务的出口路由的生成。
 
-- Added support for configuring Envoy's idle connection timeout, which prevents running out of
-memory or IP ports over time ([Issue 13355](https://github.com/istio/istio/issues/13355)).
+- 添加了对配置 Envoy 的空闲连接超时的支持，预防内存或者 IP 端口耗尽 ([Issue 13355](https://github.com/istio/istio/issues/13355)).
 
-- Fixed a crashing bug in Pilot in failover handling of locality-based load balancing.
+- 修复了基于本地负载均衡的故障转移处理中的 Pilot 崩溃错误。
 
-- Fixed a crashing bug in Pilot when it was given custom certificate paths.
+- 修复了在 Pilot 获得自定义证书路径时崩溃的错误。
 
-- Fixed a bug in Pilot where it was ignoring short names used as service entry hosts ([Issue 13436](https://github.com/istio/istio/issues/13436)).
+- 修复了 Pilot 中的一个错误，该错误忽略了用作服务条目主机的短名称 ([Issue 13436](https://github.com/istio/istio/issues/13436))。
 
-- Added missing `https_protocol_options` to the envoy-metrics-service cluster configuration.
+- 向 envoy-metrics-service 集群配置中添加了缺失的 `https_protocol_options`。
 
-- Fixed a bug in Pilot where it didn't handle https traffic correctly in the fall through route case ([Issue 13386](https://github.com/istio/istio/issues/13386)).
+- 修复了 Pilot 中的一个错误，当路由 fall through 时，Pilot 无法正确处理 https 流量 ([Issue 13386](https://github.com/istio/istio/issues/13386))。
 
-- Fixed a bug where Pilot didn't remove endpoints from Envoy after they were removed from Kubernetes ([Issue 13402](https://github.com/istio/istio/issues/13402)).
+- 修复了之前遗留的一个问题，从 Kubernetes 移除端点后，Pilot 并未从 Envoy 移除端点 ([Issue 13402](https://github.com/istio/istio/issues/13402))。
 
-- Fixed a crashing bug in the node agent ([Issue 13325](https://github.com/istio/istio/issues/13325)).
+- 修复了节点代理中的崩溃错误 ([Issue 13325](https://github.com/istio/istio/issues/13325))。
 
-- Added missing validation to prevent gateway names from containing dots ([Issue 13211](https://github.com/istio/istio/issues/13211)).
+- 添加了缺少的验证，以防止网关名称包含点（.） ([Issue 13211](https://github.com/istio/istio/issues/13211))。
 
-- Fixed bug where [`ConsistentHashLB.minimumRingSize`](/zh/docs/reference/config/networking/destination-rule#LoadBalancerSettings-ConsistentHashLB)
-was defaulting to 0 instead of the documented 1024 ([Issue 13261](https://github.com/istio/istio/issues/13261)).
+- 修复了 [`ConsistentHashLB.minimumRingSize`](/zh/docs/reference/config/networking/destination-rule#LoadBalancerSettings-ConsistentHashLB)
+默认为0而不是记录的1024 ([Issue 13261](https://github.com/istio/istio/issues/13261))。
 
-## Small enhancements
+## 小改进 {#small-enhancements}
 
-- Updated to the latest version of the [Kiali](https://www.kiali.io) add-on.
+- 更新了 [Kiali](https://www.kiali.io) 附加组件的最新版本。
 
-- Updated to the latest version of [Grafana](https://grafana.com).
+- 更新了最新版本的 [Grafana](https://grafana.com)。
 
-- Added validation to ensure Citadel is only deployed with a single replica ([Issue 13383](https://github.com/istio/istio/issues/13383)).
+- 添加了验证以确保仅使用单个副本部署 Citadel ([Issue 13383](https://github.com/istio/istio/issues/13383))。
 
-- Added support to configure the logging level of the proxy and Istio control plane (([Issue 11847](https://github.com/istio/istio/issues/11847)).
+- 添加了对配置代理和 Istio 控制平面的日志记录级别的支持 (([Issue 11847](https://github.com/istio/istio/issues/11847))。
 
-- Allow sidecars to bind to any loopback address and not just 127.0.0.1 ([Issue 13201](https://github.com/istio/istio/issues/13201)).
+- 允许 Sidecar 绑定到任何环回地址，而不仅限于 127.0.0.1 ([Issue 13201](https://github.com/istio/istio/issues/13201))。
