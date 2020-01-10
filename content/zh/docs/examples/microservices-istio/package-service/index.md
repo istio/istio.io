@@ -16,14 +16,14 @@ weight: 20
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/Dockerfile -o Dockerfile
     {{< /text >}}
 
-1.  观察这个`Dockerfile`.
+1.  观察这个`Dockerfile`。
 
     {{< text bash >}}
     $ cat Dockerfile
     {{< /text >}}
 
     请注意，它将文件复制到容器的文件系统中，然后执行你在上一个模块中执行过的 `npm install` 命令。
-    `CMD` 命令指示 Docker 在端口 `9080` 上运行 `ratings` 服务。
+    `CMD` 命令指示 Docker 在 `9080` 端口上运行 `ratings` 服务。
 
 1.  根据 `Dockerfile` 构建出一个镜像：
 
@@ -38,7 +38,7 @@ weight: 20
     {{< /text >}}
 
 1.  在 Docker 中运行 `ratings` 服务. 接下来的 [docker run](https://docs.docker.com/engine/reference/commandline/run/) 命令
-    指示 Docker 将容器的端口 `9080` 暴露到计算机的端口 `9081`，从而允许你访问端口 `9081` 上的 `ratings` 微服务。
+    指示 Docker 将容器的 `9080` 端口暴露到计算机的 `9081` 端口，从而允许你访问 `9081` 端口上的 `ratings` 微服务。
 
     {{< text bash >}}
     $ docker run -d -p 9081:9080 $USER/ratings
