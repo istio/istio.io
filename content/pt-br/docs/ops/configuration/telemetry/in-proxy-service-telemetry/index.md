@@ -26,7 +26,7 @@ To generate service-level metrics directly in the Envoy proxies, set the followi
     {{< /text >}}
 
 Go to the **Istio Mesh** Grafana dashboard. Verify that the dashboard displays the same telemetry as before but without
-any requests flowing through Istio's Mixer.
+    any requests flowing through Istio's Mixer.
 
 ## Differences with Mixer-based generation
 

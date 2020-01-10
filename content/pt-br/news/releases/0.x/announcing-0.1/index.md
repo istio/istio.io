@@ -60,7 +60,7 @@ community and our partners towards these goals, following our [roadmap](/pt-br/a
 
 Visit [here](https://github.com/istio/istio/releases) to get the latest released bits.
 
-View the [presentation](/talks/istio_talk_gluecon_2017.pdf) from GlueCon 2017, where Istio was unveiled.
+View the [presentation](/pt-br/talks/istio_talk_gluecon_2017.pdf) from GlueCon 2017, where Istio was unveiled.
 
 ## Community
 

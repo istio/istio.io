@@ -130,6 +130,10 @@ kind: Deployment
 metadata:
   name: liveness-http
 spec:
+  selector:
+    matchLabels:
+      app: liveness-http
+      version: v1
   template:
     metadata:
       labels:
