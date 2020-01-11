@@ -6,16 +6,14 @@ weight: 60
 
 ---
 
-As you saw in the previous module, Kubernetes does not provide you all the
-functionality you need to effectively operate your microservices. Istio comes to
-your help.
+As you saw in the previous module, Istio enhances Kubernetes by giving you the
+functionality to more effectively operate your microservices.
 
 In this module you enable Istio on a single microservice, `productpage`. The
 rest of the application will continue to operate as previously. Note that you
-can enable Istio gradually, microservice by microservice. Bear in mind that
-Istio is enabled transparently to the microservices, you do not change the
-microservices code. Observe that you enable Istio without disrupting your
-application, it continues to run and serve user requests.
+can enable Istio gradually, microservice by microservice. Istio is enabled
+transparently to the microservices, you do not change the microservices code or
+disrupt your application, it continues to run and serve user requests.
 
 1.  Disable mutual TLS authentication in your namespace (will be explained later):
 
@@ -139,4 +137,4 @@ a single microservice, you will learn how to apply Istio on the whole
 application to realize its full potential.
 
 You are ready to
-[Enable Istio on all the microservices](/docs/examples/microservices-istio/enable-istio-all-microservices).
+[enable Istio on all the microservices](/docs/examples/microservices-istio/enable-istio-all-microservices).

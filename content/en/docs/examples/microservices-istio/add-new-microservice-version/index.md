@@ -126,24 +126,28 @@ deployment.
     Accessing the web page of the application will return reviews with black
     stars only.
 
-In the previous steps, you performed the update of `reviews` pretty well. First,
-you deployed the new version without directing to it any production traffic. You
-tested it in the production environment, on test traffic. You checked that the
+In the previous steps, you performed the update of `reviews`. First,
+you deployed the new version without directing sending it production traffic. You
+tested it in the production environment using test traffic. You checked that the
 new version provides correct results. You released the new version, gradually
 increasing the production traffic to it. Finally, you decommissioned the old
 version.
 
-From here, you can improve your deployment strategy. First, allow your testers
-to test the new version end-to-end in production. This requires the ability to
-drive traffic to your new version using request parameters, for example using
-the user name stored in a cookie. In addition, perform shadowing of the
-production traffic to your new version and check if your new version provides
-incorrect results or produces errors. Finally, gain more detailed control of the
-rollout by deploying your new version to 10% of the users and then increase it
-by 10%. Kubernetes is unable to help with any of these tasks in a
-straightforward way.
+From here, you can improve your deployment strategy. First, test the new version
+end-to-end in production. This requires the ability to drive traffic to your new
+version using request parameters, for example using the user name stored in a
+cookie. In addition, perform shadowing of the production traffic to your new
+version and check if your new version provides incorrect results or produces
+errors. Finally, gain more detailed control of the rollout by deploying your new
+version to 10% of the users and then increase it by 10%. Istio enhances the
+value of Kubernetes by helping you perform these tasks in a straightforward way.
 
 From here, you have two choices:
+
+1. Use a _service mesh_. In a service mesh, you put all the reporting, routing,
+   policies, security logic in _sidecar_ proxies, injected *transparently* into
+   your application pods. The business logic remains in the code of the
+   application, no changes are required to the application code.
 
 1. Implement the required functionality in the application code. Most of the
    functionality is already available in various libraries, for example in the
@@ -152,16 +156,11 @@ From here, you have two choices:
    libraries. You have to put additional effort, your code will bloat, business
    logic will be mixed with reporting, routing, policies, networking logic.
    Since your microservices use different programming languages, you have to
-   learn, use, update multiple libraries. You are not happy with this option.
-
-1. Use a _service mesh_. In a service mesh, you put all the reporting, routing,
-   policies, security logic in _sidecar_ proxies, injected *transparently* into
-   your application pods. The business logic remains in the code of the
-   application, no changes are required to the application code.
+   learn, use, update multiple libraries.
 
 See [Istio service mesh](/docs/concepts/what-is-istio/#what-is-a-service-mesh)
 to learn how Istio can perform the tasks mentioned here and more. In the
-next modules, you explore various features Istio provides.
+next modules, you explore various Istio features.
 
 You are ready to
 [enable Istio on productpage](/docs/examples/microservices-istio/add-istio/).
