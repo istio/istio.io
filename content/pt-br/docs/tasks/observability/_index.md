@@ -1,8 +1,5 @@
 ---
-title: Observability
-description: Demonstrates how to collect telemetry information from the mesh.
+title: Observabilidade
+description: Demonstra como coletar informações de telemetria do mesh.
 weight: 30
-aliases:
- - /docs/examples/telemetry/
- - /docs/tasks/telemetry/
 ---

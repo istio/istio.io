@@ -1,5 +1,5 @@
 ---
 title: Policies
-description: Demonstrates policy enforcement features.
+description: Demostra recursos de imposição de polices.
 weight: 20
 ---

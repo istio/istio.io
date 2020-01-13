@@ -1,6 +1,6 @@
 ---
 title: Upgrade
-description: Choose the upgrade guide that corresponds to the approach you previously used to install Istio.
+description: Escolha o guia de atualização que corresponde à abordagem usada anteriormente para instalar o Istio.
 weight: 25
 keywords: [kubernetes,upgrading]
 ---

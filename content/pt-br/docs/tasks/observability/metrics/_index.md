@@ -1,7 +1,5 @@
 ---
-title: Metrics
-description: Demonstrates the configuration, collection, and processing of Istio mesh metrics.
+title: Métricas
+description: Demostra a configuração, coleta e processamento das métricas do Istio mesh.
 weight: 1
-aliases:
- - /docs/tasks/telemetry/metrics/
 ---

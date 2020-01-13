@@ -1,8 +1,6 @@
 ---
-title: Distributed Tracing
-description: This task shows you how to configure Istio-enabled applications to collect trace spans.
+title: Tracing Distribuído
+description: Esta tarefa mostra como configurar aplicativos ativados pelo Istio para coletar extensões de rastreamento.
 weight: 30
 keywords: [telemetry,tracing]
-aliases:
- - /docs/tasks/telemetry/distributed-tracing/
 ---

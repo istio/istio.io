@@ -1,13 +1,10 @@
 ---
 title: FAQ
-description: Frequently Asked Questions about Istio.
+description: Perguntas frequentes sobre o Istio.
 weight: 1
 layout: faq-landing
 aliases:
-  - /docs/welcome/faq.html
-  - /docs/reference/faq.html
-  - /help/faq/
 icon: faq
 ---
 
-You've got questions? We've got answers!
+Você tem perguntas? Temos respostas!
