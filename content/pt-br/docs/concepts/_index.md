@@ -1,6 +1,6 @@
 ---
-title: Concepts
-description: Learn about the different parts of the Istio system and the abstractions it uses.
+title: Conceitos
+description: Aprenda sobre as diferentes partes do sistema Istio e as abstrações que ela usa.
 weight: 10
 icon: concepts
 ---

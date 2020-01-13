@@ -1,12 +1,6 @@
 ---
-title: Operations
-description: Concepts, tools, and techniques to deploy and manage an Istio mesh.
+title: Operações
+description: Conceitos, ferramentas e técnicas para implantar e gerenciar Istio mesh.
 weight: 32
-aliases:
-    - /troubleshooting.html
-    - /troubleshooting/index.html
-    - /help/troubleshooting/index.html
-    - /help/ops
-    - /help
 icon: guide
 ---

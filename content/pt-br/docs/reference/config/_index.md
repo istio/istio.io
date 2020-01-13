@@ -1,5 +1,5 @@
 ---
-title: Configuration
-description: Detailed information on configuration options.
+title: Configurações
+description: Informações detalhadas sobre as opções de configurações.
 weight: 10
 ---

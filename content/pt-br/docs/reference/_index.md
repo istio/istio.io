@@ -1,6 +1,6 @@
 ---
-title: Reference
-description: Detailed authoritative reference material such as command-line options, configuration options, and API calling parameters.
+title: Referência
+description: Material de referência oficial detalhado, como opções de linha de comando, opções de configuração e parâmetros de chamada de API.
 weight: 60
 icon: reference
 ---

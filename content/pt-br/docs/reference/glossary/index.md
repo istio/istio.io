@@ -1,11 +1,7 @@
 ---
-title: Glossary
-description: A glossary of common Istio terms.
+title: Glossário
+description: Um glossário de termos comuns do Istio.
 weight: 30
 layout: glossary
-aliases:
-  - /glossary
-  - /docs/welcome/glossary.html
-  - /help/glossary
 icon: glossary
 ---

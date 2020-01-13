@@ -1,8 +1,6 @@
 ---
-title: Security
-description: Helps you manage the security aspects of a running mesh.
+title: Segurança
+description: Ajuda a gerenciar os aspectos de segurança do mesh em execução.
 weight: 30
 keywords: [ops,security]
-aliases:
-    - /help/ops/security
 ---

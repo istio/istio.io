@@ -1,13 +1,11 @@
 ---
-title: Installation Guides
-linktitle: Install
-description: Choose the guide that best suits your needs and platform.
+title: Guia de Instalação
+linktitle: Instalar
+description: Escolha o guia que melhor se adpte às suas necessidades e plataforma.
 weight: 20
-aliases:
-    - /docs/setup/kubernetes/install/
 ---
 
 {{< tip >}}
-Istio {{< istio_version >}} has been tested with these Kubernetes releases:
+Istio {{< istio_version >}} foi testado com estas versões do Kubernetes:
 {{< supported_kubernetes_versions >}}.
 {{< /tip >}}

@@ -1,8 +1,6 @@
 ---
-title: Traffic Management
-description: Helps you manage the networking aspects of a running mesh.
+title: Gestão de Tráfego
+description: Ajuda a gerenciar os aspectos de rede do mesh em execução.
 weight: 20
 keywords: [ops,traffic-management]
-aliases:
-    - /help/ops/traffic-management
 ---

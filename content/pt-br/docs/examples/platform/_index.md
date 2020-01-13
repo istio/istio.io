@@ -1,10 +1,10 @@
 ---
-title: Platform-specific Examples (Deprecated)
-description: Examples for specific platform installations of Istio.
+title: Exemplos específicos de plataforma (Descontinuados)
+description: Exemplos para instalações de plataforma específicas do Istio.
 weight: 110
 keywords: [multicluster]
 ---
 
 {{< warning >}}
-These examples are platform-specific and deprecated. They will be removed in the next release.
+Esses exemplos são específicos da plataforma e foram descontinuados. Eles serão removidos na próxima versão.
 {{< /warning >}}

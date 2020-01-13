@@ -1,8 +1,6 @@
 ---
-title: Configuration
-description: Advanced concepts and features for configuring a running Istio mesh.
+title: Configurações
+description: Conceitos e recursos avançados para configurar Istio mesh em execução.
 weight: 20
 keywords: [ops,setup]
-aliases:
-    - /help/ops/setup
 ---

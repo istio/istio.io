@@ -1,11 +1,7 @@
 ---
-title: Virtual Machines
-description: Examples that add workloads running on virtual machines to an Istio mesh.
+title: Maquinas Virtuais
+description: Exemplos que adicionam cargas de trabalho em execução em máquinas virtuais ao Istio mesh.
 weight: 30
-aliases:
-- /docs/examples/mesh-expansion/
-- /docs/examples/mesh-expansion
-- /docs/tasks/virtual-machines
 keywords:
 - kubernetes
 - vms

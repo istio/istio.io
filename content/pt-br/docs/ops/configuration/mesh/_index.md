@@ -1,6 +1,6 @@
 ---
-title: Mesh Configuration
-description: Helps you manage the global mesh configuration.
+title: Configurações do Mesh
+description: Ajuda a gerenciar a configuração do mesh global.
 weight: 10
 keywords: [ops,mesh]
 ---

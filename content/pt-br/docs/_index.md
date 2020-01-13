@@ -1,14 +1,14 @@
 ---
 title: Docs
 linktitle: Docs
-description: Learn how to deploy, use, and operate Istio.
+description: Aprenda a implantar, usar e operar Istio.
 weight: 1
 sidebar_multicard: true
 icon: docs
 ---
 
-In addition to the above documentation links, please consider the following resources:
+Além dos links acima da documentação, considere os seguintes recursos:
 
-- [Frequently Asked Questions](/pt-br/faq)
-- [Glossary](/pt-br/docs/reference/glossary)
-- [Documentation Archive](https://archive.istio.io/), which contains snapshots of the documentation for prior releases.
+- [Perguntas frequentes](/pt-br/faq)
+- [Glossário](/pt-br/docs/reference/glossary)
+- [Documentação Arquivada](https://archive.istio.io/), que contém snapshots da documentação de versões anteriores.
