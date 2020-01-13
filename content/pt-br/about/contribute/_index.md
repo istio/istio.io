@@ -1,8 +1,6 @@
 ---
-title: Contributing to the Docs
-description: Learn how to contribute to improve and expand the Istio documentation.
+title: Contribuindo para a Documentação
+description: Aprenda como contribuir para melhorar e expandir a documentação do Istio.
 weight: 100
-aliases:
-    - /docs/welcome/contribute/index.html
 icon: contribute
 ---

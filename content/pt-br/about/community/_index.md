@@ -1,9 +1,7 @@
 ---
-title: Our Community
-linktitle: Our Community
-description: Learn about our community, our customers, and our partners.
+title: Nossa comunidade
+linktitle: Nossa comunidade
+description: Conheça nossa comunidade, nossos clientes e nossos parceiros.
 weight: 5
-aliases:
-    - /community
 icon: community
 ---

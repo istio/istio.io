@@ -1,12 +1,12 @@
 ---
-title: Website Content Changes
-description: List of recent changes to this website.
+title: Alterações no conteúdo do site
+description: Lista de alterações recentes no site.
 weight: 110
 icon: log
 skip_seealso: true
 skip_byline: true
 ---
 
-This page shows you the most recent changes to this website's content.
+Esta página mostra as alterações mais recentes no conteúdo deste site.
 
 {{< change_log >}}
