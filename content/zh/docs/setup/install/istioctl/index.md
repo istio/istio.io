@@ -232,7 +232,7 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 - [`IstioControlPlane` API](/zh/docs/reference/config/istio.operator.v1alpha12.pb/)
 
-可以使用命令上的 `--set` 选项分别设置此 API 中的配置参数。 例如，要在默认配置文件中禁用遥测功能，请使用以下命令：
+可以使用命令上的 `--set` 选项分别设置此 API 中的配置参数。 例如，要在 `default` 配置文件之上启用安全性，请使用以下命令：
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.global.mtls.enabled=true
