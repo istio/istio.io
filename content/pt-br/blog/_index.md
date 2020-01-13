@@ -1,12 +1,10 @@
 ---
 title: Istio Blog
-description: Posts about using Istio.
+description: Posts sobre o uso do Istio.
 linktitle: Blog
 sidebar_multicard: true
 icon: blog
 decoration: pill
-aliases:
-    - /blog/posts/index.html
 outputs:
     - html
     - rss    

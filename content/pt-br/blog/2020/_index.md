@@ -1,6 +1,6 @@
 ---
 title: 2020 Posts
-description: Blog posts for 2020.
+description: Publicações do Blog de 2020.
 weight: 8
 icon: blog
 decoration: dot
