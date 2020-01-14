@@ -8,12 +8,12 @@ target_release: 1.3
 ---
 
 了解，控制和保护外部服务访问权限是你能够从 Istio 这样的服务网格中获得的主要好处之一。
-从安全和操作的角度来看，监控哪些外部服务流量被阻止是非常重要的；因为如果程序试图与不合适的服务进行通信，它们可能会出现了错误配置或安全漏洞。
+从安全和操作的角度来看，监控哪些外部服务流量被阻止是非常重要的；因为如果程序试图与不合适的服务进行通信，它们可能会出现错误配置或安全漏洞。
 同样，如果你现在有允许任何外部服务访问的策略，那么你可以根据对流量的监控，逐步地添加明确的 Istio 配置来限制访问并提高集群的安全性。
 在任何情况下，通过遥测了解这种流量都非常有帮助，因为你可以根据它来创建警报和仪表板，并更好地了解安全状况。
 这是 Istio 的生产用户强烈要求的功能，我们很高兴在版本 1.3 中添加了对此功能的支持。
 
-为了实现此功能，Istio 的[默认监控指标](/zh/docs/reference/config/policy-and-telemetry/metrics)增加了显式标签，以捕获被阻止和通过的外部服务流量。
+为了实现此功能，Istio 的[默认监控指标](/zh/docs/reference/config/policy-and-telemetry/metrics)增加了显式标签，以捕获被阻止和透传的外部服务流量。
 这篇博客将介绍如何使用这些增强指标来监视所有外部服务流量。
 
 Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来配置 sidecar 代理，它们的作用分别是阻止和通过所有流量。
@@ -128,7 +128,7 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
 要捕获两种情况（ BlackHole 或 Passthrough）中的所有外部服务流量，你将需要监控 `istio_requests_total` 和 `istio_tcp_connections_closed_total` 指标。
 根据 Envoy 监听器的类型，即被调用的 TCP 代理或 HTTP 代理，将增加相应的指标。
 
-此外，如果使用 TCP 代理监听器以查看被 BlackHole 阻止或被 Passthrough 通过的外部服务的 IP 地址，
+此外，如果使用 TCP 代理监听器以查看被 BlackHole 阻止或被 Passthrough 透传的外部服务的 IP 地址，
 则需要将 `destination_ip` 标签添加到 `istio_tcp_connections_closed_total` 指标。
 在这种情况下，不会捕获外部服务的主机名。默认情况下不添加此标签，但是可以通过扩展 Istio 配置以生成属性和 Prometheus 处理程序，轻松地添加此标签。
 如果你有许多服务的 IP 地址不稳定，则应注意时序的基数爆炸。
