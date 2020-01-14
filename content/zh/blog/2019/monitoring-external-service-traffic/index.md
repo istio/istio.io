@@ -1,6 +1,6 @@
 ---
-title: "监控被阻止的和通过的外部服务流量"
-description: "如何使用 Istio 去监控被阻止的和通过的外部服务流量。"
+title: "监控被阻止的和透传的外部服务流量"
+description: "如何使用 Istio 去监控被阻止的和透传的外部服务流量。"
 publishdate: 2019-09-28
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [monitoring,blackhole,passthrough]
@@ -16,7 +16,6 @@ target_release: 1.3
 为了实现此功能，Istio 的[默认监控指标](/zh/docs/reference/config/policy-and-telemetry/metrics)增加了显式标签，以捕获被阻止和通过的外部服务流量。
 这篇博客将介绍如何使用这些增强指标来监视所有外部服务流量。
 
-Istio 控制平面使用名为 BlackHoleCluster 和 Passthrough 的预定义群集配置边车代理，它们分别阻止或允许所有流量。
 Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来配置 sidecar 代理，它们的作用分别是阻止和通过所有流量。
 为了了解这些集群，让我们先从外部和内部服务在 Istio 服务网格的意义开始。
 
@@ -51,7 +50,7 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
 
   如你所见，这个集群是静态的且没有任何的 endpoints，所以所有的流量都会被丢弃。
   此外，Istio 会为平台服务的每个端口/协议组合创建唯一的监听器，如果对同一端口上的外部服务发出了请求，则监听器将会取代虚拟监听器。
-  在这种情况下，Envoy 中每个虚拟路由的路由配置都会增加添加 BlackHoleCluster，如下所示：
+  在这种情况下，Envoy 中每个虚拟路由的路由配置都会被扩展，以添加 BlackHoleCluster，如下所示：
 
   {{< text json >}}
     {
@@ -75,7 +74,7 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
   该路由被设置为响应码是 502 的 [直接响应](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-field-route-route-direct-response)，这意味着如果没有其他路由匹配，则 Envoy 代理将直接返回 502 HTTP 状态代码。
 
 * **PassthroughCluster** - 当将 `global.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY` 时，
-  PassthroughCluster 是在 Envoy 配置中创建的虚拟集群。在此模式下，允许流向任何外部服务的所有流量。
+  PassthroughCluster 是在 Envoy 配置中创建的虚拟集群。在此模式下，允许流向外部服务的所有流量。
   为了实现此目的，将使用 `SO_ORIGINAL_DST` 且监听 `0.0.0.0:15001` 的默认虚拟出站监听器设置为 TCP 代理，并将 PassthroughCluster 作为静态集群。
    PassthroughCluster 的配置如下所示：
 
@@ -96,10 +95,10 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
     }
   {{< /text >}}
 
-  该集群使用[原始目标负载平衡策略](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)，
-  该策略将 Envoy 配置为将流量发送到原始目标，即直通。
+  该集群使用[原始目标负载均衡策略](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)，
+  该策略将 Envoy 配置为将流量发送到原始目标，即透传。
 
-  与 BlackHoleCluster 类似，对于每个基于端口/协议的监听器，虚拟路由配置都会增强添加 PassthroughCluster 以作为默认路由：
+  与 BlackHoleCluster 类似，对于每个基于端口/协议的监听器，虚拟路由配置都会添加 PassthroughCluster 以作为默认路由：
 
   {{< text json >}}
     {
@@ -120,14 +119,14 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
     }
   {{< /text >}}
 
-在 Istio 1.3 之前，没有流量报告，或者如果流量报告到达这些群集时，则没有报告明确的标签设置，从而导致流经网格的流量缺乏可见性。
+在 Istio 1.3 之前，没有流量报告，即使流量报告到达这些群集，也没有报告明确的标签设置，从而导致流经网格的流量缺乏可见性。
 
 下一节将介绍如何利用此增强功能，因为发出的指标和标签取决于是否命中了虚拟出站或显式端口/协议监听器。
 
 ## 使用增强指标{#using-the-augmented-metrics}
 
 要捕获两种情况（ BlackHole 或 Passthrough）中的所有外部服务流量，你将需要监控 `istio_requests_total` 和 `istio_tcp_connections_closed_total` 指标。
-根据 Envoy 监听器的类型，即被调用的 TCP 代理或 HTTP 代理，相应的指标将增加。
+根据 Envoy 监听器的类型，即被调用的 TCP 代理或 HTTP 代理，将增加相应的指标。
 
 此外，如果使用 TCP 代理监听器以查看被 BlackHole 阻止或被 Passthrough 通过的外部服务的 IP 地址，
 则需要将 `destination_ip` 标签添加到 `istio_tcp_connections_closed_total` 指标。
@@ -226,7 +225,7 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
 
 ### BlackHoleCluster 指标{#black-hole-cluster-metrics}
 
-与 类似，本节将说明基于被 Envoy 调用的监听器类型的指标和发出的标签。
+与 PassthroughCluster 类似，本节将说明基于被 Envoy 调用的监听器类型的指标和发出的标签。
 
 * HTTP 代理监听器: 这种情况发生在外部服务的端口与群集中定义的服务端口之一相同时。
   在这种情况下，如果命中了 BlackHoleCluster，标签 `istio_requests_total` 会增加类似以下的内容：
