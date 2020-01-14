@@ -177,6 +177,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER2 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
+    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
     $ istioctl manifest apply --context=$CTX_CLUSTER2 \
       --set profile=remote \
       --set values.global.mtls.enabled=true \
@@ -189,6 +190,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
       --set values.global.network="network2" \
+      --set values.global.multiCluster.clusterName=${CLUSTER_NAME} \
       --set autoInjection.enabled=true
     {{< /text >}}
 
