@@ -1,68 +1,44 @@
 ---
-title: "Monitoring blocked and passthrough external service traffic"
-description: "How can you use Istio to monitor blocked and passthrough external traffic."
+title: "监控被阻止的和透传的外部服务流量"
+description: "如何使用 Istio 去监控被阻止的和透传的外部服务流量。"
 publishdate: 2019-09-28
 attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [monitoring,blackhole,passthrough]
 target_release: 1.3
 ---
 
-Understanding, controlling and securing your external service access is one
-of the key benefits that you get from a service mesh like Istio. From a security
-and operations point of view, it is critical to monitor what external service traffic
-is getting blocked as they might surface possible misconfigurations or a
-security vulnerability if an application is attempting to communicate with a
-service that it should not be allowed to. Similarly, if you currently have a
-policy of allowing any external service access, it is beneficial to monitor
-the traffic so you can incrementally add explicit Istio configuration to allow
-access and better secure your cluster. In either case, having visibility into this
-traffic via telemetry is quite helpful as it enables you to create alerts and
-dashboards, and better reason about your security posture. This was a highly
-requested feature by production users of Istio and we are excited that the
-support for this was added in release 1.3.
+了解，控制和保护外部服务访问权限是你能够从 Istio 这样的服务网格中获得的主要好处之一。
+从安全和操作的角度来看，监控哪些外部服务流量被阻止是非常重要的；因为如果程序试图与不合适的服务进行通信，它们可能会出现错误配置或安全漏洞。
+同样，如果你现在有允许任何外部服务访问的策略，那么你可以根据对流量的监控，逐步地添加明确的 Istio 配置来限制访问并提高集群的安全性。
+在任何情况下，通过遥测了解这种流量都非常有帮助，因为你可以根据它来创建警报和仪表板，并更好地了解安全状况。
+这是 Istio 的生产用户强烈要求的功能，我们很高兴在版本 1.3 中添加了对此功能的支持。
 
-To implement this, the Istio [default
-metrics](/zh/docs/reference/config/policy-and-telemetry/metrics) are augmented with
-explicit labels to capture blocked and passthrough external service traffic.
-This blog will cover how you can use these augmented metrics to monitor all
-external service traffic.
+为了实现此功能，Istio 的[默认监控指标](/zh/docs/reference/config/policy-and-telemetry/metrics)增加了显式标签，以捕获被阻止和透传的外部服务流量。
+这篇博客将介绍如何使用这些增强指标来监视所有外部服务流量。
 
-The Istio control plane configures the sidecar proxy with
-predefined clusters called BlackHoleCluster and Passthrough which block or
-allow all traffic respectively. To understand these clusters, let's start with
-what external and internal services mean in the context of Istio service mesh.
+Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来配置 sidecar 代理，它们的作用分别是阻止和通过所有流量。
+为了了解这些集群，让我们先从外部和内部服务在 Istio 服务网格的意义开始。
 
-## External and internal services
+## 外部和内部服务{#external-and-internal-services}
 
-Internal services are defined as services which are part of your platform
-and are considered to be in the mesh. For internal services, Istio control
-plane provides all the required configuration to the sidecars by default.
-For example, in Kubernetes clusters, Istio configures the sidecars for all
-Kubernetes services to preserve the default Kubernetes behavior of all
-services being able to communicate with other.
+内部服务被定义为平台中的一部分，并被视为在网格中。对于内部服务，默认情况下，Istio 控制平面为 sidecars 提供所有必需的配置。
+例如，在 Kubernetes 集群中，Istio 会为所有 Kubernetes 服务配置 sidecar，以保留所有能够与其他服务通信的服务的默认 Kubernetes 行为。
 
-External services are services which are not part of your platform i.e. services
-which are outside of the mesh. For external services, Istio provides two
-options, first to block all external service access (enabled  by setting
-`global.outboundTrafficPolicy.mode` to `REGISTRY_ONLY`) and
-second to allow all access to external service (enabled  by setting
-`global.outboundTrafficPolicy.mode` to `ALLOW_ANY`). The default option for this
-setting (as of Istio 1.3) is to allow all external service access. This
-option can be configured via [mesh configuration](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode).
+外部服务是不属于平台的服务，即不在网格内的服务。
+对于外部服务，Istio提供了两个选项，一个是阻止所有外部服务访问（通过将 `global.outboundTrafficPolicy.mode` 设置
+为 `REGISTRY_ONLY` 启用）,另一个是允许所有对外部服务的访问（通过将 `global.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY` 启用）。
+从Istio 1.3开始，此设置的默认选项是允许所有外部服务访问。此选项可以通过[网格配置](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode)进行配置。
 
-This is where the BlackHole and Passthrough clusters are used.
+这就是使用 BlackHole 和 Passthrough 集群的地方。
 
-## What are BlackHole and Passthrough clusters?
+## 什么是 BlackHole 和 Passthrough 集群？{#what-are-black-hole-and-pass-through-clusters}
 
-* **BlackHoleCluster** - The BlackHoleCluster is a virtual cluster created
-  in the Envoy configuration when `global.outboundTrafficPolicy.mode` is set to
-  `REGISTRY_ONLY`. In this mode, all traffic to external service is blocked unless
-  [service entries](/zh/docs/reference/config/networking/service-entry)
-  are explicitly added for each service. To implement this, the default virtual
-  outbound listener at `0.0.0.0:15001` which uses
-  [original destination](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)
-  is setup as a TCP Proxy with the BlackHoleCluster as the static cluster.
-  The configuration for the BlackHoleCluster looks like this:
+* **BlackHoleCluster** - 当将 `global.outboundTrafficPolicy.mode` 设置为 `REGISTRY_ONLY` 时，BlackHoleCluster 是
+  在 Envoy 配置中创建的虚拟集群。在这种模式下，除非为每个服务显式添加了
+  [service entries](/zh/docs/reference/config/networking/service-entry)，否则
+  所有到外部服务的流量都会被阻止。为了实现此目的，
+  将使用了 [original destination](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination) 且在 `0.0.0.0:15001` 的默认虚拟出站监听器设置为以 BlackHoleCluster 为静态集群的 TCP 代理。
+  BlackHoleCluster 的配置如下所示：
 
   {{< text json >}}
     {
@@ -72,12 +48,9 @@ This is where the BlackHole and Passthrough clusters are used.
     }
   {{< /text >}}
 
-  As you can see, this cluster is static with no endpoints so all the traffic
-  will be dropped. Additionally, Istio creates unique listeners for every
-  port/protocol combination of platform services which gets hit instead of the
-  virtual listener if the request is made to an external service on the same port.
-  In that case, the route configuration of every virtual route in Envoy is augmented to
-  add the BlackHoleCluster like this:
+  如你所见，这个集群是静态的且没有任何的 endpoints，所以所有的流量都会被丢弃。
+  此外，Istio 会为平台服务的每个端口/协议组合创建唯一的监听器，如果对同一端口上的外部服务发出了请求，则监听器将会取代虚拟监听器。
+  在这种情况下，Envoy 中每个虚拟路由的路由配置都会被扩展，以添加 BlackHoleCluster，如下所示：
 
   {{< text json >}}
     {
@@ -98,17 +71,12 @@ This is where the BlackHole and Passthrough clusters are used.
     }
   {{< /text >}}
 
-  The route is setup as [direct response](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-field-route-route-direct-response)
-  with `502` response code which means if no other routes match the Envoy proxy
-  will directly return a `502` HTTP status code.
+  该路由被设置为响应码是 502 的 [直接响应](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-field-route-route-direct-response)，这意味着如果没有其他路由匹配，则 Envoy 代理将直接返回 502 HTTP 状态代码。
 
-* **PassthroughCluster** - The PassthroughCluster is a virtual cluster created
-  in the Envoy configuration when `global.outboundTrafficPolicy.mode` is set to
-  `ALLOW_ANY`. In this mode, all traffic to any external service external is allowed.
-  To implement this, the default virtual outbound listener at `0.0.0.0:15001`
-  which uses `SO_ORIGINAL_DST`, is setup as a TCP Proxy with the PassthroughCluster
-  as the static cluster.
-  The configuration for the PassthroughCluster looks like this:
+* **PassthroughCluster** - 当将 `global.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY` 时，
+  PassthroughCluster 是在 Envoy 配置中创建的虚拟集群。在此模式下，允许流向外部服务的所有流量。
+  为了实现此目的，将使用 `SO_ORIGINAL_DST` 且监听 `0.0.0.0:15001` 的默认虚拟出站监听器设置为 TCP 代理，并将 PassthroughCluster 作为静态集群。
+   PassthroughCluster 的配置如下所示：
 
   {{< text json >}}
     {
@@ -127,13 +95,10 @@ This is where the BlackHole and Passthrough clusters are used.
     }
   {{< /text >}}
 
-  This cluster uses the [original destination load balancing](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)
-  policy which configures Envoy to send the traffic to the
-  original destination i.e. passthrough.
+  该集群使用[原始目标负载均衡策略](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/service_discovery#original-destination)，
+  该策略将 Envoy 配置为将流量发送到原始目标，即透传。
 
-  Similar to the BlackHoleCluster, for every port/protocol based listener the
-  virtual route configuration is augmented to add the PassthroughCluster as the
-  default route:
+  与 BlackHoleCluster 类似，对于每个基于端口/协议的监听器，虚拟路由配置都会添加 PassthroughCluster 以作为默认路由：
 
   {{< text json >}}
     {
@@ -154,40 +119,26 @@ This is where the BlackHole and Passthrough clusters are used.
     }
   {{< /text >}}
 
-Prior to Istio 1.3, there were no metrics reported or if metrics were reported
-there were no explicit labels set when traffic hit these clusters, resulting in
-lack of visibility in traffic flowing through the mesh.
+在 Istio 1.3 之前，没有流量报告，即使流量报告到达这些群集，也没有报告明确的标签设置，从而导致流经网格的流量缺乏可见性。
 
-The next section covers how to take advantage of this enhancement as the metrics
-and labels emitted are conditional on whether the virtual outbound or explicit port/protocol
-listener is being hit.
+下一节将介绍如何利用此增强功能，因为发出的指标和标签取决于是否命中了虚拟出站或显式端口/协议监听器。
 
-## Using the augmented metrics
+## 使用增强指标{#using-the-augmented-metrics}
 
-To capture all external service traffic in either of the cases (BlackHole or
-Passthrough), you will need to monitor `istio_requests_total` and
-`istio_tcp_connections_closed_total` metrics. Depending upon the Envoy listener
-type i.e. TCP proxy or HTTP proxy that gets invoked, one of these metrics
-will be incremented.
+要捕获两种情况（ BlackHole 或 Passthrough）中的所有外部服务流量，你将需要监控 `istio_requests_total` 和 `istio_tcp_connections_closed_total` 指标。
+根据 Envoy 监听器的类型，即被调用的 TCP 代理或 HTTP 代理，将增加相应的指标。
 
-Additionally, in case of a TCP proxy listener in order to see the IP address of
-the external service that is blocked or allowed via BlackHole or Passthrough
-cluster, you will need to add the `destination_ip` label to the
-`istio_tcp_connections_closed_total` metric. In this scenario, the host name of
-the external service is not captured. This label is not added by default and can
-be easily added by augmenting the Istio configuration for attribute generation
-and Prometheus handler. You should be careful about cardinality explosion in
-time series if you have many services with non-stable IP addresses.
+此外，如果使用 TCP 代理监听器以查看被 BlackHole 阻止或被 Passthrough 透传的外部服务的 IP 地址，
+则需要将 `destination_ip` 标签添加到 `istio_tcp_connections_closed_total` 指标。
+在这种情况下，不会捕获外部服务的主机名。默认情况下不添加此标签，但是可以通过扩展 Istio 配置以生成属性和 Prometheus 处理程序，轻松地添加此标签。
+如果你有许多服务的 IP 地址不稳定，则应注意时序的基数爆炸。
 
-### PassthroughCluster metrics
+### PassthroughCluster 指标{#pass-through-cluster-metrics}
 
-This section explains the metrics and the labels emitted based on the listener
-type invoked in Envoy.
+本节将说明基于被 Envoy 调用的监听器类型的指标和发出的标签。
 
-* HTTP proxy listener: This happens when the port of the external service is
-  same as one of the service ports defined in the cluster. In this scenario,
-  when the PassthroughCluster is hit, `istio_requests_total` will get increased
-  like this:
+* HTTP 代理监听器: 当外部服务的端口与集群中定义的服务端口之一相同时，就会触发这种情况。
+  在这种情况下，当命中 PassthroughCluster 时，指标 `istio_requests_total` 会增加类似以下内容：
 
   {{< text json >}}
     {
@@ -223,13 +174,10 @@ type invoked in Envoy.
     }
   {{< /text >}}
 
-  Note that the `destination_service_name` label is set to PassthroughCluster to
-  indicate that this cluster was hit and the `destination_service` is set to the
-  host of the external service.
+  请注意，标签 `destination_service_name` 设置为 PassthroughCluster，以表明已命中该集群，而 `destination_service` 设置为外部服务的主机。
 
-* TCP proxy virtual listener - If the external service port doesn't map to any
-  HTTP based service ports within the cluster, this listener is invoked and
-  `istio_tcp_connections_closed_total` is the metric that will be increased:
+* TCP 代理虚拟监听器 - 如果外部服务端口未映射到集群中任何基于 HTTP 的服务端口，则将调用此监听器，
+  并且会增加指标 `istio_tcp_connections_closed_total`:
 
   {{< text json >}}
     {
@@ -270,23 +218,17 @@ type invoked in Envoy.
     }
   {{< /text >}}
 
-  In this case, `destination_service_name` is set to PassthroughCluster and
-  the `destination_ip` is set to the IP address of the external service.
-  The `destination_ip` label can be used to do a reverse DNS lookup and
-  get the host name of the external service. As this cluster is passthrough,
-  other TCP related metrics like `istio_tcp_connections_opened_total`,
-  `istio_tcp_received_bytes_total` and `istio_tcp_sent_bytes_total` are also
-  updated.
+  在这种情况下，`destination_service_name` 设置为 PassthroughCluster，而 `destination_ip` 设置为外部服务的 IP 地址。
+  标签 `destination_ip` 可用于执行反向 DNS 查找并获取外部服务的主机名。
+  在通过该集群时，还将更新其他与 TCP 相关的指标，例如 `istio_tcp_connections_opened_total`，
+  `istio_tcp_received_bytes_total` 和 `istio_tcp_sent_bytes_total`。
 
-### BlackHoleCluster metrics
+### BlackHoleCluster 指标{#black-hole-cluster-metrics}
 
-Similar to the PassthroughCluster, this section explains the metrics and the
-labels emitted based on the listener type invoked in Envoy.
+与 PassthroughCluster 类似，本节将说明基于被 Envoy 调用的监听器类型的指标和发出的标签。
 
-* HTTP proxy listener: This happens when the port of the external service is same
-  as one of the service ports defined in the cluster.
-  In this scenario, when the BlackHoleCluster is hit,
-  `istio_requests_total` will get increased like this:
+* HTTP 代理监听器: 这种情况发生在外部服务的端口与群集中定义的服务端口之一相同时。
+  在这种情况下，如果命中了 BlackHoleCluster，标签 `istio_requests_total` 会增加类似以下的内容：
 
   {{< text json >}}
     {
@@ -322,13 +264,11 @@ labels emitted based on the listener type invoked in Envoy.
     }
   {{< /text >}}
 
-  Note the `destination_service_name` label is set to BlackHoleCluster and the
-  `destination_service` to the host name of the external service. The response
-  code should always be `502` in this case.
+  请注意，标签 `destination_service_name` 设置为 BlackHoleCluster，而 `destination_service` 设置为外部服务的主机名。
+  在这种情况下，响应码应始终为 502。
 
-* TCP proxy virtual listener - If the external service port doesn't map to any
-  HTTP based service ports within the cluster, this listener is invoked and
-  `istio_tcp_connections_closed_total` is the metric that will be increased:
+* TCP 代理虚拟监听器 - 如果外部服务端口未映射到集群中任何基于 HTTP 的服务端口，则会调用此监听器，
+  并增加指标 `istio_tcp_connections_closed_total`：
 
   {{< text json >}}
     {
@@ -361,12 +301,7 @@ labels emitted based on the listener type invoked in Envoy.
     }
   {{< /text >}}
 
-  Note the `destination_ip` label represents the IP address of the external
-  service and the `destination_service_name` is set to BlackHoleCluster
-  to indicate that this traffic was blocked by the mesh. Is is interesting to
-  note that for the BlackHole cluster case, other TCP related metrics like
-  `istio_tcp_connections_opened_total` are not increased as there's no
-  connection that is ever established.
+  请注意，标签 `destination_ip` 表示外部服务的 IP 地址，而 `destination_service_name` 设置为 BlackHoleCluster，表示此流量已被网格阻止。
+  有趣的是，对于 BlackHole 集群，由于未建立任何连接，因此其他与 TCP 相关的指标（例如 `istio_tcp_connections_opened_total`）不会增加。
 
-Monitoring these metrics can help operators easily understand all the external
-services consumed by the applications in their cluster.
+监控这些指标可以帮助管理员轻松了解其集群中的应用程序接收的所有外部服务。
