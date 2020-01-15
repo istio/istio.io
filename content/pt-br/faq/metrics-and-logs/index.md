@@ -1,11 +1,8 @@
 ---
-title: Metrics and Logs FAQ
-linktitle: Metrics and Logs
-description: Metrics and Logs Q & A.
+title: FAQ Métricas e Logs
+linktitle: Métricas e Logs
+description: Q & A Métricas e Logs.
 weight: 45
 layout: faq
 icon: faq
-aliases:
- - /help/faq/telemetry
- - /help/faq/metrics-and-logs
 ---

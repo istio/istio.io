@@ -1,7 +1,5 @@
 ---
-title: Traffic Management
-description: Tasks that demonstrate Istio's traffic routing features.
+title: Gestão de Tráfego
+description: Tarefas que desmotram os recursos de roteamento de tráfego do Istio.
 weight: 15
-aliases:
-    - /docs/examples/intelligent-routing/
 ---

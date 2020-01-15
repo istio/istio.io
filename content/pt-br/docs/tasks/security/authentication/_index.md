@@ -1,5 +1,5 @@
 ---
-title: Authentication
-description: Controlling mutual TLS and end-user authentication for mesh services.
+title: Autenticação
+description: Controlando TLS mútuo e autenticação de usuário final para serviços do mesh.
 weight: 10
 ---

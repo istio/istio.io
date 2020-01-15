@@ -1,10 +1,8 @@
 ---
-title: Traffic Management FAQ
-linktitle: Traffic Management
-description: Traffic Management Q & A.
+title: FAQ de Gerenciamento de Tráfego
+linktitle: Gerenciamento de Tráfego
+description: Q & A Gerenciamento de Tráfego.
 weight: 50
 layout: faq
 icon: faq
-aliases:
-  - /help/faq/traffic-management
 ---

@@ -1,20 +1,16 @@
 ---
-title: Multicluster Installation
-description: Configure an Istio mesh spanning multiple Kubernetes clusters.
+title: Instalação Multicluster
+description: Configure um mesh do Istio abrangendo vários clusters do Kubernetes.
 weight: 30
-aliases:
-    - /docs/setup/kubernetes/multicluster-install/
-    - /docs/setup/kubernetes/multicluster/
-    - /docs/setup/kubernetes/install/multicluster/
 keywords: [kubernetes,multicluster]
 ---
 
 {{< tip >}}
-Note that these instructions are not mutually exclusive.
-In a large multicluster deployment, composed from more than two clusters,
-a combination of the approaches can be used. For example,
-two clusters might share a control plane while a third has its own.
+Observe que essas instruções não sào mutuamente exclusivas.
+Em uma grande deployment multicluster, composta por mais de dois clusters,
+uma combinação das abordagens pode ser usada. Por exemplo,
+dois clusters podem compartilhar um plano de controle enquanto um terceiro possui o seu.
 {{< /tip >}}
 
-Refer to the [multicluster deployment model](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters)
-concept documentation for more information.
+Consulte a documentação do conceito de [modelo de deployment multicluster](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters)
+para obter mais informações.

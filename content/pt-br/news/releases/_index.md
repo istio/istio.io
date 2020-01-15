@@ -1,6 +1,6 @@
 ---
-title: Release Announcements
-description: Announcements for all of Istio's major releases and patch releases.
+title: Anúncios de Lançamentos
+description: Anúncios para todos os principais lançamentos e atualizações de patch do Istio.
 weight: 8
 decoration: pill
 ---

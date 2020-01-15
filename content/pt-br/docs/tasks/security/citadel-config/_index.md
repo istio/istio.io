@@ -1,5 +1,5 @@
 ---
-title: Citadel Configuration
-description: Customizing the Citadel certificate authority.
+title: Configuração Citadel
+description: Customizando a autoridade de certificação do Citadel.
 weight: 30
 ---

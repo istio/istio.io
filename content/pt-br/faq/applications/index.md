@@ -1,7 +1,7 @@
 ---
-title: Applications FAQ
-linktitle: Applications
-description: Application Specific Q & A.
+title: FAQ Aplicações
+linktitle: Aplicações
+description: Q & A específicas do aplicativo.
 weight: 30
 layout: faq
 icon: faq

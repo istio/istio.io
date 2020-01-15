@@ -1,8 +1,5 @@
 ---
-title: Security
-description: Demonstrates how to secure the mesh.
+title: Segurança
+description: Demonstra como proteger o mesh.
 weight: 19
-aliases:
-    - /docs/tasks/istio-auth.html
-    - /docs/tasks/security/authz-permissive
 ---

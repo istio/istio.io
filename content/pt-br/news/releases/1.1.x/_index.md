@@ -1,6 +1,6 @@
 ---
 title: 1.1.x Releases
-description: Announcements for the 1.1 release and its associated patch releases.
+description: Anúncios para a versão 1.1 e suas correções associadas.
 weight: 28
 list_by_publishdate: true
 layout: release-grid

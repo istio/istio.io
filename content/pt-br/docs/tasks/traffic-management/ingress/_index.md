@@ -1,5 +1,5 @@
 ---
 title: Ingress
-description: Controlling ingress traffic for an Istio service mesh.
+description: Controlando o tráfego de entrada para um mesh de serviço do Istio.
 weight: 70
 ---

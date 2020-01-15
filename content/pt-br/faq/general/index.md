@@ -1,10 +1,8 @@
 ---
-title: General FAQ
-linktitle: General
-description: General Q & A.
+title: FAQ Geral
+linktitle: Geral
+description: Q & A Geral.
 weight: 10
 layout: faq
 icon: faq
-aliases:
-  - /help/faq/general
 ---
