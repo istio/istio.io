@@ -15,11 +15,11 @@ In order to take advantage of all of Istio's features, pods in the mesh must be 
 
 The following sections describe two
 ways of injecting the Istio sidecar into a pod: manually using the [`istioctl`](/docs/reference/commands/istioctl)
-command or automatically using the Istio sidecar injector.
+command or enabling the automatic Istio sidecar injector using a namespace label.
 
 Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
 
-Automatic injection injects at pod creation time using an admission controller.
+When enabled, automatic injection injects at pod creation time using an admission controller.
 
 Injection occurs by applying a template defined in the `istio-sidecar-injector` ConfigMap.
 
@@ -58,16 +58,16 @@ NAME                     READY   STATUS    RESTARTS   AGE
 sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 {{< /text >}}
 
-### Automatic sidecar injection
+### Enabling automatic sidecar injection
 
-Sidecars can be automatically added to applicable Kubernetes pods using a
+When enabled with a namespace label, sidecars can be automatically added to applicable Kubernetes pods using a
 [mutating webhook admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) provided by Istio.
 
 {{< tip >}}
 While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
 {{< /tip >}}
 
-When the injection webhook is enabled, any new pods that are created will automatically have a sidecar added to them.
+When you set the `istio-injection=enabled` label on a namespace and the injection webhook is enabled, any new pods that are created will automatically have a sidecar added to them.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
