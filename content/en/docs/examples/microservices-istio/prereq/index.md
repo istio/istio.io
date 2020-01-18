@@ -18,7 +18,8 @@ computer.
 
 Ensure the following conditions are met:
 
-- You have administrator privileges on a Kubernetes cluster.
+- You have administrator privileges on a Kubernetes cluster named
+  `tutorial-cluster`.
 - You can create a namespace in the cluster for each participant.
 
 ## Local computer
