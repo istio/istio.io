@@ -301,19 +301,19 @@ $ istioctl manifest apply --set telemetry.enabled=false
 
 1. 创建一个文件 `telemetry_off.yaml` 文件并且写入以下内容：
 
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
-spec:
-  telemetry:
-    enabled: false
-{{< /text >}}
+    {{< text yaml >}}
+    apiVersion: install.istio.io/v1alpha2
+    kind: IstioControlPlane
+    spec:
+      telemetry:
+        enabled: false
+    {{< /text >}}
 
 1. 将 `telemetry_off.yaml` 覆盖文件与 `manifest apply` 命令一起使用：
 
-{{< text bash >}}
-$ istioctl manifest apply -f telemetry_off.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl manifest apply -f telemetry_off.yaml
+    {{< /text >}}
 
 您还可以使用这种方法来设置组件级配置，例如启用节点代理：
 
