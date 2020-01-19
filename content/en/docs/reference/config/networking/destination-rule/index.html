@@ -17,9 +17,9 @@ detection settings to detect and evict unhealthy hosts from the load
 balancing pool. For example, a simple load balancing policy for the
 ratings service would look as follows:</p>
 
-<p>&lbrace;&lbrace;&lt; tabset category-name=&ldquo;example&rdquo; &gt;}}</p>
+{{< tabset category-name=“example” >}}
 
-<p>&lbrace;&lbrace;&lt; tab name=&ldquo;v1alpha3&rdquo; category-value=&ldquo;v1alpha3&rdquo; &gt;}}</p>
+{{< tab name=“v1alpha3” category-value=“v1alpha3” >}}
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -32,9 +32,9 @@ spec:
       simple: LEAST_CONN
 </code></pre>
 
-<p>&lbrace;&lbrace;&lt; /tab &gt;}}</p>
+{{< /tab >}}
 
-<p>&lbrace;&lbrace;&lt; tab name=&ldquo;v1beta1&rdquo; category-value=&ldquo;v1beta1&rdquo; &gt;}}</p>
+{{< tab name=“v1beta1” category-value=“v1beta1” >}}
 
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
@@ -47,9 +47,9 @@ spec:
       simple: LEAST_CONN
 </code></pre>
 
-<p>&lbrace;&lbrace;&lt; /tab &gt;}}</p>
+{{< /tab >}}
 
-<p>&lbrace;&lbrace;&lt; /tabset &gt;}}</p>
+{{< /tabset >}}
 
 <p>Version specific policies can be specified by defining a named
 <code>subset</code> and overriding the settings specified at the service level. The
