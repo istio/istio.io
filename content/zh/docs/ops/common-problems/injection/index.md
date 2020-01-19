@@ -1,5 +1,5 @@
 ---
-title: sidecar 自动注入问题
+title: Sidecar 自动注入问题
 description: 解决 Istio 使用 Kubernetes Webhooks 进行 sidecar 自动注入的常见问题。
 force_inline_toc: true
 weight: 40
