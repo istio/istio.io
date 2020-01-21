@@ -19,7 +19,7 @@ command or by enabling automatic Istio sidecar injection in the pod's namespace.
 
 Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
 
-When enabled, automatic injection injects at pod creation time using an admission controller.
+When enabled in a pod's namespace, automatic injection injects the proxy configuration at pod creation time using an admission controller.
 
 Injection occurs by applying a template defined in the `istio-sidecar-injector` ConfigMap.
 
