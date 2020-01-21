@@ -67,7 +67,7 @@ When enabled with a namespace label, sidecars can be automatically added to appl
 While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
 {{< /tip >}}
 
-When you set the `istio-injection=enabled` label on a namespace and the injection webhook is enabled, any new pods that are created will automatically have a sidecar added to them.
+When you set the `istio-injection=enabled` label on a namespace and the injection webhook is enabled, any new pods that are created in that namespace will automatically have a sidecar added to them.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
 
