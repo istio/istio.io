@@ -60,7 +60,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 
 ### Automatic sidecar injection
 
-When enabled with a namespace label, sidecars can be automatically added to applicable Kubernetes pods using a
+Sidecars can be automatically added to applicable Kubernetes pods using a
 [mutating webhook admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) provided by Istio.
 
 {{< tip >}}
