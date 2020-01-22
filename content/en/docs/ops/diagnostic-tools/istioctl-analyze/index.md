@@ -206,7 +206,7 @@ $ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --sup
 
 ### Ignoring specific analyzer messages via annotations
 
-You can also ignore specific analyzer messages using an annotation on the resource. For example, to ignore code IST0107 (MisplacedAnnotation) on resource `deployment/my-deployment`:
+You can also ignore specific analyzer messages using an annotation on the resource. For example, to ignore code IST0107 (`MisplacedAnnotation`) on resource `deployment/my-deployment`:
 
 {{< text plain >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107
