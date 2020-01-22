@@ -72,28 +72,28 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       - host: my-istio-dashboard.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: grafana
               servicePort: 3000
       - host: my-istio-tracing.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: tracing
               servicePort: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: prometheus
               servicePort: 9090
       - host: my-kiali.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: kiali
               servicePort: 20001

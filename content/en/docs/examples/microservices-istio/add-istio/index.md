@@ -93,7 +93,7 @@ disrupt your application, it continues to run and serve user requests.
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
     (The `my-istio-dashboard.io` URL should be in your /etc/hosts file, you set
     it
-    [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
+    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
 
     In the top left drop-down menu, select _Istio Mesh Dashboard_.
 
@@ -110,8 +110,7 @@ disrupt your application, it continues to run and serve user requests.
         caption="Istio Mesh Dashboard"
         >}}
 
-1.  Select _Istio Service Dashboard_ from the top left drop-down menu, and then
-    select your `productpage` service from the drop-down menu of services.
+1.  In the _Istio Mesh Dashboard_, under the `Service` column, click the `productpage` service.
 
     {{< image width="80%"
         link="dashboard-service-select-productpage.png"
