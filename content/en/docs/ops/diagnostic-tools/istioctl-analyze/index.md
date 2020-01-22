@@ -213,6 +213,7 @@ $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST
 {{< /text >}}
 
 To ignore multiple codes for a resource, separate each code with a comma:
+
 {{< text plain >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}
