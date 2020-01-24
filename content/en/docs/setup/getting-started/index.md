@@ -9,7 +9,7 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-This guide is intended for users who are new to Istio and lets you quickly evaluate Istio by installing the 
+This guide is intended for users who are new to Istio and lets you quickly evaluate Istio by installing the
 `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
 
 If you are already familiar with Istio or interested in installing other configuration profiles
