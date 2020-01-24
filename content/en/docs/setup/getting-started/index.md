@@ -80,7 +80,7 @@ Download the Istio release which includes installation files, samples, and the
 
 ## Install Istio {#install}
 
-Follow these steps to install Istio using the `demo` profile on your chosen platform.
+Follow these steps to install Istio using the `demo` configuration profile on your chosen platform.
 
 1. Install the `demo` profile
 
