@@ -251,7 +251,7 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `global.controlPlaneSecurityEnabled` | `false` | `controlPlaneSecurityEnabled enabled. Will result in delays starting the pods while secrets are propagated, not recommended for tests.` |
 | `global.disablePolicyChecks` | `true` | `disablePolicyChecks disables mixer policy checks. if mixer.policy.enabled==true then disablePolicyChecks has affect. Will set the value with same name in istio config map - pilot needs to be restarted to take effect.` |
 | `global.policyCheckFailOpen` | `false` | `policyCheckFailOpen allows traffic in cases when the mixer policy service cannot be reached. Default is false which means the traffic is denied when the client is unable to connect to Mixer.` |
-| `global.enableTracing` | `true` | `EnableTracing sets the value with same name in istio config map, requires pilot restart to take effect.` |
+| `global.enableTracing` | `true` | `enableTracing enables the generation of trace spans and request IDs. Requires a trace span collector defined in the proxy configuration. enableTracing sets the value with same name in the Istio config map, requires pilot restart to take effect.` |
 | `global.tracer.lightstep.address` | `""` | `example: lightstep-satellite:443` |
 | `global.tracer.lightstep.accessToken` | `""` | `example: abcdefg1234567` |
 | `global.tracer.lightstep.secure` | `true` | `example: true\|false` |
