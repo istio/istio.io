@@ -89,7 +89,7 @@ the data from this configmap to create and update the
 `validatingwebhookconfiguration`.
 
 {{< text bash yaml >}}
-$ kubectl -n istio-system get configmap istio-validation` `-o jsonpath='{.data}'
+$ kubectl -n istio-system get configmap istio-validation -o jsonpath='{.data}'
 map[config:apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
