@@ -9,6 +9,19 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
+This guide is intended for users who are new to Istio and lets you quickly evaluate Istio by installing the
+`demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
+
+If you are already familiar with Istio or interested in installing other configuration profiles
+or a more advanced [deployment model](/docs/ops/deployment/deployment-models/),
+follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
+
+{{< warning >}}
+The demo configuration profile is not suitable for performance evaluation. It
+is designed to showcase Istio functionality with high levels of tracing and
+access logging.
+{{< /warning >}}
+
 To get started with Istio, just follow these three steps:
 
 1. [Set up your platform](#platform)
@@ -66,18 +79,7 @@ Download the Istio release which includes installation files, samples, and the
 
 ## Install Istio {#install}
 
-These instructions assume you are new to Istio, providing streamlined instruction to
-install Istio's built-in `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/).
-This installation lets you quickly get started evaluating Istio.
-If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/docs/ops/deployment/deployment-models/),
-follow the [installing with {{< istioctl >}} instructions](/docs/setup/install/istioctl) instead.
-
-{{< warning >}}
-The demo configuration profile is not suitable for performance evaluation. It
-is designed to showcase Istio functionality with high levels of tracing and
-access logging.
-{{< /warning >}}
+Follow these steps to install Istio using the `demo` configuration profile on your chosen platform.
 
 1. Install the `demo` profile
 
