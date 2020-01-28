@@ -9,22 +9,42 @@ generator: protoc-gen-docs
 schema: istio.security.v1beta1.AuthorizationPolicy
 weight: 20
 aliases: [/docs/reference/config/authorization/authorization-policy]
-number_of_entries: 7
+number_of_entries: 8
 ---
 <p>Istio Authorization Policy enables access control on workloads in the mesh.</p>
 
-<p>For example, the following authorization policy applies to workloads matched with
-label selector &ldquo;app: httpbin, version: v1&rdquo;.</p>
+<p>Authorization policy supports both allow and deny policies. When allow and
+deny policies are used for a workload at the same time, the deny policies are
+evaluated first. The evaluation is determined by the following rules:</p>
 
-<p>It allows requests from:
-- service account &ldquo;cluster.local/ns/default/sa/sleep&rdquo; or
-- namespace &ldquo;test&rdquo;
-to access the workload with:
-- &ldquo;GET&rdquo; method at paths of prefix &ldquo;/info&rdquo; or,
-- &ldquo;POST&rdquo; method at path &ldquo;/data&rdquo;.
-when the request has a valid JWT token issued by &ldquo;https://accounts.google.com&rdquo;.</p>
+<ol>
+<li>If there are any DENY policies that match the request, deny the request.</li>
+<li>If there are no ALLOW policies for the workload, allow the request.</li>
+<li>If any of the ALLOW policies match the request, allow the request.</li>
+<li>Deny the request.</li>
+</ol>
 
-<p>Any other requests will be rejected.</p>
+<p>For example, the following authorization policy sets the <code>action</code> to &ldquo;ALLOW&rdquo;
+to create an allow policy. The default action is &ldquo;ALLOW&rdquo; but it is useful
+to be explicit in the policy.</p>
+
+<p>It allows requests from:</p>
+
+<ul>
+<li>service account &ldquo;cluster.local/ns/default/sa/sleep&rdquo; or</li>
+<li>namespace &ldquo;test&rdquo;</li>
+</ul>
+
+<p>to access the workload with:</p>
+
+<ul>
+<li>&ldquo;GET&rdquo; method at paths of prefix &ldquo;/info&rdquo; or,</li>
+<li>&ldquo;POST&rdquo; method at path &ldquo;/data&rdquo;.</li>
+</ul>
+
+<p>when the request has a valid JWT token issued by &ldquo;https://accounts.google.com&rdquo;.</p>
+
+<p>Any other requests will be denied.</p>
 
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -32,10 +52,7 @@ metadata:
  name: httpbin
  namespace: foo
 spec:
- selector:
-   matchLabels:
-     app: httpbin
-     version: v1
+ action: ALLOW
  rules:
  - from:
    - source:
@@ -54,19 +71,34 @@ spec:
      values: [&quot;https://accounts.google.com&quot;]
 </code></pre>
 
-<p>Access control is enabled on a workload if there is any authorization policies selecting
-the workload. When access control is enabled, the default behavior is deny (deny-by-default)
-which means requests to the workload will be rejected if the request is not allowed by any of
-the authorization policies selecting the workload.</p>
+<p>The following is another example that sets <code>action</code> to &ldquo;DENY&rdquo; to create a deny policy.
+It denies requests from the &ldquo;dev&rdquo; namespace to the &ldquo;POST&rdquo; method on all workloads
+in the &ldquo;foo&rdquo; namespace.</p>
 
-<p>Currently AuthorizationPolicy only supports &ldquo;ALLOW&rdquo; action. This means that
-if multiple authorization policies apply to the same workload, the effect is additive.</p>
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ action: DENY
+ rules:
+ - from:
+   - source:
+       namespaces: [&quot;dev&quot;]
+   to:
+   - operation:
+       methods: [&quot;POST&quot;]
+</code></pre>
 
 <p>Authorization Policy scope (target) is determined by &ldquo;metadata/namespace&rdquo; and
-an optional &ldquo;selector&rdquo;.
-- &ldquo;metadata/namespace&rdquo; tells which namespace the policy applies. If set to root
-namespace, the policy applies to all namespaces in a mesh.
-- workload &ldquo;selector&rdquo; can be used to further restrict where a policy applies.</p>
+an optional &ldquo;selector&rdquo;.</p>
+
+<ul>
+<li>&ldquo;metadata/namespace&rdquo; tells which namespace the policy applies. If set to root
+namespace, the policy applies to all namespaces in a mesh.</li>
+<li>workload &ldquo;selector&rdquo; can be used to further restrict where a policy applies.</li>
+</ul>
 
 <p>For example,</p>
 
@@ -92,6 +124,7 @@ metadata:
  name: policy
  namespace: foo
 spec:
+  &lbrace;}
 </code></pre>
 
 <p>The following authorization policy applies to workloads containing label
@@ -122,6 +155,7 @@ metadata:
  name: deny-all
  namespace: foo
 spec:
+  &lbrace;}
 </code></pre>
 
 <p>The following authorization policy allows all requests to workloads in namespace
@@ -164,13 +198,55 @@ No
 <td><code>rules</code></td>
 <td><code><a href="#Rule">Rule[]</a></code></td>
 <td>
-<p>Optional. A list of rules to specify the allowed access to the workload.</p>
+<p>Optional. A list of rules to match the request. A match occurs when at least
+one rule matches the request.</p>
 
-<p>If not set, access is denied unless explicitly allowed by other authorization policy.</p>
+<p>If not set, the match will never occur. This is equivalent to setting a
+default of deny for the target workloads.</p>
 
 </td>
 <td>
 No
+</td>
+</tr>
+<tr id="AuthorizationPolicy-action">
+<td><code>action</code></td>
+<td><code><a href="#AuthorizationPolicy-Action">Action</a></code></td>
+<td>
+<p>Optional. The action to take if the request is matched with the rules.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="AuthorizationPolicy-Action">AuthorizationPolicy.Action</h2>
+<section>
+<p>Action specifies the operation to take.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="AuthorizationPolicy-Action-ALLOW">
+<td><code>ALLOW</code></td>
+<td>
+<p>Allow a request only if it matches the rules. This is the default type.</p>
+
+</td>
+</tr>
+<tr id="AuthorizationPolicy-Action-DENY">
+<td><code>DENY</code></td>
+<td>
+<p>Deny a request if it matches any of the rules.</p>
+
 </td>
 </tr>
 </tbody>
@@ -195,7 +271,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>The name of an Istio attribute.
-See the <a href="/docs/reference/config/">full list of supported attributes</a>.</p>
+See the <a href="/docs/reference/config/security/conditions/">full list of supported attributes</a>.</p>
 
 </td>
 <td>
@@ -206,11 +282,24 @@ Yes
 <td><code>values</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The allowed values for the attribute.</p>
+<p>Optional. A list of allowed values for the attribute.
+Note: at least one of values or not_values must be set.</p>
 
 </td>
 <td>
-Yes
+No
+</td>
+</tr>
+<tr id="Condition-not_values">
+<td><code>notValues</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of values for the attribute.
+Note: at least one of values or not_values must be set.</p>
+
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -218,7 +307,16 @@ Yes
 </section>
 <h2 id="Operation">Operation</h2>
 <section>
-<p>Operation specifies the operations of a request.</p>
+<p>Operation specifies the operations of a request. Fields in the operation are
+ANDed together.</p>
+
+<p>For example, the following operation matches if the host has suffix &ldquo;.example.com&rdquo;
+and the method is &ldquo;GET&rdquo; or &ldquo;HEAD&rdquo; and the path doesn&rsquo;t have prefix &ldquo;/admin&rdquo;.</p>
+
+<pre><code class="language-yaml">hosts: [&quot;*.example.com&quot;]
+methods: [&quot;GET&quot;, &quot;HEAD&quot;]
+not_paths: [&quot;/admin*&quot;]
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -243,6 +341,17 @@ Yes
 No
 </td>
 </tr>
+<tr id="Operation-not_hosts">
+<td><code>notHosts</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of hosts.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="Operation-ports">
 <td><code>ports</code></td>
 <td><code>string[]</code></td>
@@ -250,6 +359,17 @@ No
 <p>Optional. A list of ports, which matches to the &ldquo;destination.port&rdquo; attribute.</p>
 
 <p>If not set, any port is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Operation-not_ports">
+<td><code>notPorts</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of ports.</p>
 
 </td>
 <td>
@@ -271,6 +391,17 @@ For gRPC service, this should be the fully-qualified name in the form of
 No
 </td>
 </tr>
+<tr id="Operation-not_methods">
+<td><code>notMethods</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of methods.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="Operation-paths">
 <td><code>paths</code></td>
 <td><code>string[]</code></td>
@@ -284,19 +415,34 @@ No
 No
 </td>
 </tr>
+<tr id="Operation-not_paths">
+<td><code>notPaths</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of paths.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
 <h2 id="Rule">Rule</h2>
 <section>
-<p>Rule allows access from a list of sources to perform a list of operations when
-the condition is matched.</p>
+<p>Rule matches requests from a list of sources that perform a list of operations subject to a
+list of conditions. A match occurs when at least one source, operation and condition
+matches the request. An empty rule is always matched.</p>
 
-<p>Any string field in the rule supports Exact, Prefix, Suffix and Presence match:
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.
-- Presence match: &ldquo;*&rdquo; will match when value is not empty.</p>
+<p>Any string field in the rule supports Exact, Prefix, Suffix and Presence match:</p>
+
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+<li>Presence match: &ldquo;*&rdquo; will match when value is not empty.</li>
+</ul>
 
 <table class="message-fields">
 <thead>
@@ -408,7 +554,16 @@ No
 </section>
 <h2 id="Source">Source</h2>
 <section>
-<p>Source specifies the source identities of a request.</p>
+<p>Source specifies the source identities of a request. Fields in the source are
+ANDed together.</p>
+
+<p>For example, the following source matches if the principal is &ldquo;admin&rdquo; or &ldquo;dev&rdquo;
+and the namespace is &ldquo;prod&rdquo; or &ldquo;test&rdquo; and the ip is not &ldquo;1.2.3.4&rdquo;.</p>
+
+<pre><code class="language-yaml">principals: [&quot;admin&quot;, &quot;dev&quot;]
+namespaces: [&quot;prod&quot;, &quot;test&quot;]
+not_ipblocks: [&quot;1.2.3.4&quot;]
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -425,9 +580,20 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of source peer identities (i.e. service account), which
-matches to the &ldquo;source.principal&rdquo; attribute.</p>
+matches to the &ldquo;source.principal&rdquo; attribute. This field requires mTLS enabled.</p>
 
 <p>If not set, any principal is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_principals">
+<td><code>notPrincipals</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of source peer identities.</p>
 
 </td>
 <td>
@@ -448,14 +614,36 @@ matches to the &ldquo;request.auth.principal&rdquo; attribute.</p>
 No
 </td>
 </tr>
+<tr id="Source-not_request_principals">
+<td><code>notRequestPrincipals</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of request identities.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="Source-namespaces">
 <td><code>namespaces</code></td>
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of namespaces, which matches to the &ldquo;source.namespace&rdquo;
-attribute.</p>
+attribute. This field requires mTLS enabled.</p>
 
 <p>If not set, any namespace is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_namespaces">
+<td><code>notNamespaces</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of namespaces.</p>
 
 </td>
 <td>
@@ -470,6 +658,17 @@ No
 Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
 
 <p>If not set, any IP is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_ip_blocks">
+<td><code>notIpBlocks</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of IP blocks.</p>
 
 </td>
 <td>
