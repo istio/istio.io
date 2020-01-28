@@ -142,13 +142,13 @@ spec:
 </tr>
 </thead>
 <tbody>
-<tr id="CorsPolicy-allow_origin">
-<td><code>allowOrigin</code></td>
-<td><code>string[]</code></td>
+<tr id="CorsPolicy-allow_origins">
+<td><code>allowOrigins</code></td>
+<td><code><a href="#StringMatch">StringMatch[]</a></code></td>
 <td>
-<p>The list of origins that are allowed to perform CORS requests. The
-content will be serialized into the Access-Control-Allow-Origin
-header. Wildcard * will allow all origins.</p>
+<p>String patterns that match allowed origins.
+An origin is allowed if any of the string matchers match.
+If a match is found, then the outgoing Access-Control-Allow-Origin would be set to the origin as provided by the client.</p>
 
 </td>
 <td>
@@ -370,9 +370,9 @@ instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpre
 the short name based on the namespace of the rule, not the service. A
 rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews will be
 interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
-the actual namespace associated with the reviews service. <em>To avoid
-potential misconfigurations, it is recommended to always use fully
-qualified domain names over short names.</em></p>
+the actual namespace associated with the reviews service. To avoid
+potential misconfiguration, it is recommended to always use fully
+qualified domain names over short names.</p>
 
 </td>
 <td>
@@ -512,19 +512,6 @@ Yes
 <td><code><a href="#Percent">Percent</a></code></td>
 <td>
 <p>Percentage of requests to be aborted with the error code provided.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPFaultInjection-Abort-percent" class="deprecated ">
-<td><code>percent</code></td>
-<td><code>int32</code></td>
-<td>
-<p>Percentage of requests to be aborted with the error code provided (0-100).
-Use of integer <code>percent</code> value is deprecated. Use the double <code>percentage</code>
-field instead.</p>
 
 </td>
 <td>
@@ -795,8 +782,21 @@ No
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
-gateways specified at the top, it must include the reserved gateway
+gateways specified in the top-level <code>gateways</code> field, it must include the reserved gateway
 <code>mesh</code> for this field to be applicable.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPMatchRequest-gateways">
+<td><code>gateways</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Names of gateways where the rule should be applied. Gateway names
+in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
+match is independent of sourceLabels.</p>
 
 </td>
 <td>
@@ -1357,54 +1357,6 @@ No
 No
 </td>
 </tr>
-<tr id="HTTPRouteDestination-remove_response_headers" class="deprecated ">
-<td><code>removeResponseHeaders</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Use of <code>remove_response_header</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPRouteDestination-append_response_headers" class="deprecated ">
-<td><code>appendResponseHeaders</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-<p>Use of <code>append_response_headers</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPRouteDestination-remove_request_headers" class="deprecated ">
-<td><code>removeRequestHeaders</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Use of <code>remove_request_headers</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPRouteDestination-append_request_headers" class="deprecated ">
-<td><code>appendRequestHeaders</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-<p>Use of <code>append_request_headers</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -1579,7 +1531,7 @@ No
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
-gateways specified at the top, it should include the reserved gateway
+gateways specified in the top-level <code>gateways</code> field, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
 
 </td>
@@ -1591,8 +1543,8 @@ No
 <td><code>gateways</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Names of gateways where the rule should be applied to. Gateway names
-at the top of the VirtualService (if any) are overridden. The gateway
+<p>Names of gateways where the rule should be applied. Gateway names
+in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
 
 </td>
@@ -1872,7 +1824,7 @@ No
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
-gateways specified at the top, it should include the reserved gateway
+gateways specified in the top-level <code>gateways</code> field, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
 
 </td>
@@ -1884,8 +1836,8 @@ No
 <td><code>gateways</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Names of gateways where the rule should be applied to. Gateway names
-at the top of the VirtualService (if any) are overridden. The gateway
+<p>Names of gateways where the rule should be applied. Gateway names
+in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
 
 </td>

@@ -386,10 +386,22 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
 </tr>
 <tr>
+<td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
+<td>Integer</td>
+<td><code>4194304</code></td>
+<td>Sets the max receive buffer size of gRPC stream in bytes.</td>
+</tr>
+<tr>
 <td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
 <td>Integer</td>
 <td><code>100000</code></td>
 <td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
+<td><code>JWT_POLICY</code></td>
+<td>String</td>
+<td><code>third-party-jwt</code></td>
+<td>The JWT validation policy.</td>
 </tr>
 <tr>
 <td><code>PILOT_BLOCK_HTTP_ON_443</code></td>
@@ -402,6 +414,12 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_PROVIDER</code></td>
+<td>String</td>
+<td><code>citadel</code></td>
+<td>the provider of Pilot DNS certificate.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
@@ -452,6 +470,12 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_EDS_FOR_HEADLESS_SERVICES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -488,10 +512,16 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_UNSAFE_REGEX</code></td>
+<td><code>PILOT_ENABLE_TCP_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, metadata exchange will be enabled for TCP using ALPN and Network Metadata Exchange filters in Envoy</td>
+</tr>
+<tr>
+<td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, pilot will generate Envoy configuration that does not use safe_regex but the older, deprecated regex field. This should only be enabled to support legacy deployments that have not yet been migrated to the new safe regular expressions.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>PILOT_HTTP10</code></td>
@@ -558,6 +588,12 @@ These environment variables affect the behavior of the <code>sidecar-injector</c
 <td>Floating-Point</td>
 <td><code>100</code></td>
 <td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
+</tr>
+<tr>
+<td><code>PILOT_USE_ENDPOINT_SLICE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
 </tr>
 <tr>
 <td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
