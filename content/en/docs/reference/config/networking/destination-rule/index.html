@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 19
+number_of_entries: 20
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -809,6 +809,18 @@ Note: if no OutlierDetection specified, this will not take effect.</p>
 No
 </td>
 </tr>
+<tr id="LocalityLoadBalancerSetting-enabled">
+<td><code>enabled</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>enable locality load balancing, this is DestinationRule-level and will override mesh wide settings in entirety.
+e.g. true means that turn on locality load balancing for this DestinationRule no matter what mesh wide settings is.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -952,15 +964,45 @@ spec:
 </tr>
 </thead>
 <tbody>
-<tr id="OutlierDetection-consecutive_errors">
-<td><code>consecutiveErrors</code></td>
-<td><code>int32</code></td>
+<tr id="OutlierDetection-consecutive_gateway_errors">
+<td><code>consecutiveGatewayErrors</code></td>
+<td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
-<p>Number of errors before a host is ejected from the connection
-pool. Defaults to 5. When the upstream host is accessed over HTTP, a
-502, 503, or 504 return code qualifies as an error. When the upstream host
-is accessed over an opaque TCP connection, connect timeouts and
-connection error/failure events qualify as an error.</p>
+<p>Number of gateway errors before a host is ejected from the connection pool.
+When the upstream host is accessed over HTTP, a 502, 503, or 504 return
+code qualifies as a gateway error. When the upstream host is accessed over
+an opaque TCP connection, connect timeouts and connection error/failure
+events qualify as a gateway error.
+This feature is disabled by default or when set to the value 0.</p>
+
+<p>Note that consecutive<em>gateway</em>errors and consecutive<em>5xx</em>errors can be
+used separately or together. Because the errors counted by
+consecutive<em>gateway</em>errors are also included in consecutive<em>5xx</em>errors,
+if the value of consecutive<em>gateway</em>errors is greater than or equal to
+the value of consecutive<em>5xx</em>errors, consecutive<em>gateway</em>errors will have
+no effect.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="OutlierDetection-consecutive_5xx_errors">
+<td><code>consecutive5xxErrors</code></td>
+<td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
+<td>
+<p>Number of 5xx errors before a host is ejected from the connection pool.
+When the upstream host is accessed over an opaque TCP connection, connect
+timeouts, connection error/failure and request failure events qualify as a
+5xx error.
+This feature defaults to 5 but can be disabled by setting the value to 0.</p>
+
+<p>Note that consecutive<em>gateway</em>errors and consecutive<em>5xx</em>errors can be
+used separately or together. Because the errors counted by
+consecutive<em>gateway</em>errors are also included in consecutive<em>5xx</em>errors,
+if the value of consecutive<em>gateway</em>errors is greater than or equal to
+the value of consecutive<em>5xx</em>errors, consecutive<em>gateway</em>errors will have
+no effect.</p>
 
 </td>
 <td>
@@ -1446,6 +1488,36 @@ No
 <td><code><a href="#TLSSettings">TLSSettings</a></code></td>
 <td>
 <p>TLS related settings for connections to the upstream service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="google-protobuf-UInt32Value">google.protobuf.UInt32Value</h2>
+<section>
+<p>Wrapper message for <code>uint32</code>.</p>
+
+<p>The JSON representation for <code>UInt32Value</code> is JSON number.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="google-protobuf-UInt32Value-value">
+<td><code>value</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>The uint32 value.</p>
 
 </td>
 <td>

@@ -1009,6 +1009,19 @@ of the list.</p>
 
 </td>
 </tr>
+<tr id="EnvoyFilter-Patch-Operation-INSERT_FIRST">
+<td><code>INSERT_FIRST</code></td>
+<td>
+<p>Insert operation on an array of named objects. This operation
+is typically useful only in the context of filters, where the
+order of filters matter. For clusters and virtual hosts,
+order of the element in the array does not matter. Insert
+first in the list based on the presence of selected filter or not.
+This is specifically useful when you want your filter first in the
+list based on a match condition specified in Match clause.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
