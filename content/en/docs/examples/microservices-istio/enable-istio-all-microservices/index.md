@@ -37,7 +37,7 @@ only enable Istio on all the remaining microservices in one step.
 
 1.  Access the application's webpage several times. Note that Istio was added
     **transparently**, the original application did not change. It was added on
-    the fly, without the need to undeploy and redeploy the whole application,
+    the fly, without the need to un-deploy and redeploy the whole application,
     without hurting the application's availability.
 
 1.  Check the application pods and verify that now each pod has two containers.
@@ -76,7 +76,7 @@ only enable Istio on all the remaining microservices in one step.
     [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)). If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
 
     Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
-    In the _Display_ drop-down menu mark the _Traffic Animation_ checkbox to see some cool traffic animation.
+    In the _Display_ drop-down menu mark the _Traffic Animation_ check box to see some cool traffic animation.
 
     {{< image width="80%"
         link="kiali-display-menu.png"

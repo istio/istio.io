@@ -82,7 +82,7 @@ deployment.
         >}}
 
 1.  If you encounter any problems with the new version in a real-world scenario,
-    you could quickly undeploy the new version, so only the old version will be
+    you could quickly un-deploy the new version, so only the old version will be
     used:
 
     {{< text bash >}}
@@ -163,4 +163,4 @@ to learn how Istio can perform the tasks mentioned here and more. In the
 next modules, you explore various Istio features.
 
 You are ready to
-[enable Istio on productpage](/docs/examples/microservices-istio/add-istio/).
+[enable Istio on `productpage`](/docs/examples/microservices-istio/add-istio/).

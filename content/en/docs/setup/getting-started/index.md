@@ -22,11 +22,11 @@ is designed to showcase Istio functionality with high levels of tracing and
 access logging.
 {{< /warning >}}
 
-
 1. [Set up your platform](#platform)
-1. [Download and install Istio](#install)
+1. [Download the release](#download)
+1. [Install Istio](#install)
 1. [Enable automatic sidecar injection](#sidecar-injection)
-1. [Deploy the Bookinfo sample application](#bookinfo)
+1. [Deploy the Bookinfo sample application](#Bookinfo)
 
 ## Set up your platform {#platform}
 
@@ -40,7 +40,7 @@ installing Istio manually. If this is the case with your selected platform, and 
 you will be finished installing Istio after creating the cluster, so you can skip the following instructions.
 For more information, see your platform service provider's documentation.
 
-## Download and install Istio {#install}
+## Download and install Istio {#download}
 
 Download the Istio release which includes installation files, samples, and the
 [{{< istioctl >}}](/docs/reference/commands/istioctl/) command line utility.
@@ -76,6 +76,8 @@ Download the Istio release which includes installation files, samples, and the
     {{< /text >}}
 
 1. You can optionally enable the [auto-completion option](/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+
+## Install Istio {#install}
 
 Follow these steps to install Istio using the `demo` configuration profile on your chosen platform.
 
@@ -156,7 +158,7 @@ Alternatively, you can manually inject Envoy containers in your application pods
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-## Deploy the Bookinfo sample application {#bookinfo}
+## Deploy the Bookinfo sample application {#Bookinfo}
 
 If you have an application ready to go, deploy it:
 
@@ -164,7 +166,7 @@ If you have an application ready to go, deploy it:
 $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-Alternatively, 
+Alternatively,
 [deploy the Bookinfo sample](/docs/examples/bookinfo/)
 to evaluate Istio's features for traffic routing,
 fault injection, rate limiting, etc. Then, explore the various
