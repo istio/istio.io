@@ -25,7 +25,7 @@ access logging.
 1. [Set up your platform](#platform)
 1. [Download the release](#download)
 1. [Install Istio](#install)
-1. [Enable automatic sidecar injection](#sidecar-injection)
+1. [Enable automatic sidecar injection](#enable-injection)
 1. [Deploy the Bookinfo sample application](#Bookinfo)
 
 ## Set up your platform {#platform}

@@ -82,7 +82,7 @@ deployment.
         >}}
 
 1.  If you encounter any problems with the new version in a real-world scenario,
-    you could quickly un-deploy the new version, so only the old version will be
+    you could quickly undeploy the new version, so only the old version will be
     used:
 
     {{< text bash >}}

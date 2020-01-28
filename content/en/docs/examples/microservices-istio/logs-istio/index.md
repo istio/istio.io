@@ -58,7 +58,7 @@ See below several examples of Prometheus Istio-related queries.
 
 1.  Access the Prometheus UI at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
 (The `my-istio-logs-database.io` URL should be in your /etc/hosts file, you set it
-[previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-file)).
+[previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
 
 {{< image width="80%"
     link="prometheus.png"
