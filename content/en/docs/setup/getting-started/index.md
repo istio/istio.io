@@ -203,7 +203,7 @@ see the following topics:
 We invite you to join our [community](/about/community/join/)
 and share your feedback and suggestions to improve Istio.
 
-## Uninstall Istio
+## Uninstall Istio {#uninstall}
 
 The uninstall deletes the `istio-system` namespace and the resources in it,
 including any associated RBAC permissions. The uninstall command might generate errors

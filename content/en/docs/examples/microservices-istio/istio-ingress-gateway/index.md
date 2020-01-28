@@ -110,7 +110,7 @@ traffic reaches your microservices.
 1.  Check the graph of your namespace in the Kiali console
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console).
     (The `my-kiali.io` URL should be in your `/etc/hosts` file that you set
-    [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
+    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-file)).
 
     This time, you can see that traffic arrives from two sources, `unknown` (the
     Kubernetes Ingress) and from `istio-ingressgateway istio-system` (the Istio
