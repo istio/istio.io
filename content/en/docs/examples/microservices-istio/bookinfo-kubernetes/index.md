@@ -150,7 +150,7 @@ service/productpage patched
 ### Update your `/etc/hosts` configuration file
 
 1.  Get the IP address for the Kubernetes ingress named `bookinfo`:
-    
+
     {{< text bash >}}
     $ kubectl get ingress bookinfo
     {{< /text >}}

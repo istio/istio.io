@@ -69,8 +69,8 @@ for the traffic between microservices in your namespace.
     EOF
     {{< /text >}}
 
-1.  Access your application's web page and verify that everything continues to
-    work as expected.
+1.  Access your application's web page to verify that everything continues to work as expected. Recall that you
+    recently changed the URL of the application, e.g. `http://istio.tutorial.bookinfo.com/productpage`).
 
 1.  Verify that your microservices do not accept unencrypted traffic anymore.
     Send an HTTP request to `ratings` from your testing pod, `sleep`:
@@ -101,6 +101,10 @@ for the traffic between microservices in your namespace.
 
     In the _Display_ drop-down menu mark the _Security_ checkbox to see locks
     that designate mutual TLS on the graph's edges.
+
+    {{< tip >}}
+    You might zoom in to the graph view to see the lock icons clearly.
+    {{< /tip >}}
 
     {{< image width="80%"
         link="kiali-mtls.png"

@@ -123,8 +123,7 @@ traffic reaches your microservices.
 
 1.  At this point you can stop sending requests through the Kubernetes Ingress
     and use Istio Ingress Gateway only. Stop the infinite loop (`Ctrl-C` in the
-    terminal window) you set
-    [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#access-your-application).
+    terminal window) you set in the previous steps.
     In a real production environment, you would update the DNS entry of your
     application to contain the IP of Istio Ingress Gateway or configure your
     external Load Balancer.
@@ -136,7 +135,9 @@ traffic reaches your microservices.
     ingress.extensions "bookinfo" deleted
     {{< /text >}}
 
-1.  Check your graph in the Kiali console. After several seconds, you will see
+1.  In a new terminal window, restart the real-world user traffic simulation as described in the previous steps.
+
+1.  Check your graph in the Kiali console. After about a minute, you will see
     the Istio Ingress Gateway as a single source of traffic for your
     application.
 

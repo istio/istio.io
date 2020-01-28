@@ -73,7 +73,7 @@ only enable Istio on all the remaining microservices in one step.
 1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console. Access
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console).
     (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
-    [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)).
+    [previously](/docs/tutorial/run-bookinfo-with-kubernetes/#update-your-etc-hosts-file)). If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
 
     Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
     In the _Display_ drop-down menu mark the _Traffic Animation_ checkbox to see some cool traffic animation.
