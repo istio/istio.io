@@ -108,7 +108,7 @@ traffic reaches your microservices.
     {{< /text >}}
 
 1.  Check the graph of your namespace in the Kiali console
-    `http://my-kiali.io/kiali/console`.
+    `my-kiali.io/kiali/console`.
     (The `my-kiali.io` URL should be in your `/etc/hosts` file that you set
     [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
 
