@@ -141,7 +141,7 @@ In order to have a certificate issued and managed by cert-manager you need to cr
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: ingress-cert
