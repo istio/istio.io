@@ -17,37 +17,37 @@ detection settings to detect and evict unhealthy hosts from the load
 balancing pool. For example, a simple load balancing policy for the
 ratings service would look as follows:</p>
 
-<p>{{<tabset category-name=example >}}
-  {{&lt; tab name=v1alpha3 category-value=v1alpha3 &gt;}}</p>
-  
-  <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-  kind: DestinationRule
-  metadata:
-    name: bookinfo-ratings
-  spec:
-    host: ratings.prod.svc.cluster.local
-    trafficPolicy:
-      loadBalancer:
-        simple: LEAST_CONN
-  </code></pre>
-  
-  <p>{{&lt; /tab &gt;}}</p>
-  
-  <p>{{&lt; tab name=v1beta1 category-value=v1beta1 &gt;}}</p>
-  
-  <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
-  kind: DestinationRule
-  metadata:
-    name: bookinfo-ratings
-  spec:
-    host: ratings.prod.svc.cluster.local
-    trafficPolicy:
-      loadBalancer:
-        simple: LEAST_CONN
-  </code></pre>
-  
-  <p>{{&lt; /tab &gt;}}
-  {{&lt; /tabset &gt;}}</p>
+<p>{{<tabset category-name=example>}}
+{{<tab name=v1alpha3 category-value=v1alpha3>}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+</code></pre>
+
+<p>{{</tab>}}</p>
+
+<p>{{<tab name=v1beta1 category-value=v1beta1>}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: bookinfo-ratings
+spec:
+  host: ratings.prod.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
 
 <p>Version specific policies can be specified by defining a named
 <code>subset</code> and overriding the settings specified at the service level. The
