@@ -37,6 +37,7 @@ REPOS=(
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
+    https://github.com/layer5io/layer5-istio-adapter.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
     https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
     https://github.com/newrelic/newrelic-istio-adapter.git@master
