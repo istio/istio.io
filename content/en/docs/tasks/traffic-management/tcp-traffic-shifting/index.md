@@ -29,6 +29,7 @@ weighted routing feature.
 1.  To get started, deploy the `v1` version of the `tcp-echo` microservice.
 
     *   First, create a namespace for testing TCP traffic shifting
+
         {{< text bash >}}
         $ kubectl create namespace istio-io-tcp-traffic-shifting
         {{< /text >}}
