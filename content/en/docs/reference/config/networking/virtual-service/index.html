@@ -756,7 +756,8 @@ e.g. <em>x-request-id</em>.</p>
 <li><p><code>regex: &quot;value&quot;</code> for ECMAscript style regex-based match</p></li>
 </ul>
 
-<p><strong>Note:</strong> The keys <code>uri</code>, <code>scheme</code>, <code>method</code>, and <code>authority</code> will be ignored.</p>
+<p>If the value is empty and only the name of header is specfied, presence of the header is checked.
+<strong>Note:</strong> The keys <code>uri</code>, <code>scheme</code>, <code>method</code>, and <code>authority</code> will be ignored.</p>
 
 </td>
 <td>
@@ -833,6 +834,18 @@ No
 
 <p><strong>Note:</strong> The case will be ignored only in the case of <code>exact</code> and <code>prefix</code>
 URI matches.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPMatchRequest-without_headers">
+<td><code>withoutHeaders</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</code></td>
+<td>
+<p>withoutHeader has the same syntax with the header, but has opposite meaning.
+If a header is matched with a matching rule among withoutHeader, the traffic becomes not matched one.</p>
 
 </td>
 <td>
