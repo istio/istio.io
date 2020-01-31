@@ -17,11 +17,11 @@ LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 
 1. 确保你有一个 LightStep 账户。这里可以免费[注册](https://lightstep.com/products/tracing/)试用 LightStep Tracing，或者[联系 LightStep](https://lightstep.com/contact/) 创建企业级的 LightStep [𝑥]PM 账户。
 
-1. 对于 [𝑥]PM 用户，确保你已有 satellite 池并且配置了 TLS 证书和一个暴露出来的安全 GRPC 端口。这里[配置 LightStep Satellite](https://docs.lightstep.com/docs/satellite-setup) 有配置 satellite 的详细说明。
+1. 对于 [𝑥]PM 用户，确保你已有 satellite 池并且配置了 TLS 证书和一个暴露出来的安全 GRPC 端口。这里[配置 LightStep Satellite](https://docs.lightstep.com/docs/install-and-configure-satellites) 有配置 satellite 的详细说明。
 
    对于 LightStep Tracing 的用户，你的 satellites 是已经配置好的。
 
-1.  确保你有 LightStep 的[访问令牌](https://docs.lightstep.com/docs/project-access-tokens)。
+1.  确保你有 LightStep 的[访问令牌](https://docs.lightstep.com/docs/create-and-manage-access-tokens)。
 
 1.  需要使用你的 satellite 地址来部署 Istio。
     对于 [𝑥]PM 用户，确保你可以使用 `<Host>:<Port>` 格式的地址访问 satellite 池，例如 `lightstep-satellite.lightstep:9292`。
@@ -49,7 +49,7 @@ LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务�
     {{< /text >}}
 
 1.  把 satellite 池证书颁发机构发的证书作为一个密钥存储在默认的命名空间下。
-    对于 LightStep Tracing 用户，要在这里下载并使用[这个证书](https://docs.lightstep.com/docs/use-istio-as-your-service-mesh-with-lightstep)。
+    对于 LightStep Tracing 用户，要在这里下载并使用[这个证书](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh)。
     如果你把 Bookinfo 应用程序部署在了其它的命名空间下，就要在对的应命名空间下创建相应的密钥证书。
 
     {{< text bash >}}
