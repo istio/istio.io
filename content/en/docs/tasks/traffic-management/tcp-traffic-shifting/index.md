@@ -58,13 +58,13 @@ weighted routing feature.
         $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
         {{< /text >}}
 
-2.  Next, route all TCP traffic to the `v1` version of the `tcp-echo` microservice.
+1.  Next, route all TCP traffic to the `v1` version of the `tcp-echo` microservice.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-3.  Confirm that the `tcp-echo` service is up and running.
+1.  Confirm that the `tcp-echo` service is up and running.
 
     The `$INGRESS_HOST` variable below is the External IP address of the ingress, as explained in
 the [Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) doc. To obtain the
