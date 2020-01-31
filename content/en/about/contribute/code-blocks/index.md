@@ -1,11 +1,11 @@
 ---
-title: Adding Code Blocks
+title: Add Code Blocks
 description: Explains how to include code in your documentation.
 weight: 7
 keywords: [contribute, documentation, guide, code-block]
 ---
 
-Every code block in the Istio documentation is an embedded preformatted block of
+Code blocks in the Istio documentation are embedded preformatted block of
 content. We use Hugo to build our website, and it uses the `text` and
 `text_import` shortcodes to add code to a page.
 
@@ -81,7 +81,7 @@ Your {{<gloss workload>}}workloads{{</gloss>}} can be coded in various
 programming languages. Therefore, we have implemented support for multiple
 combinations of syntax highlighting in code blocks.
 
-## Syntax highlighting
+## Add syntax highlighting
 
 Let's start with the following "Hello World" example:
 
@@ -207,8 +207,9 @@ As you can see, the content is rendered in the same way as before:
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" >}}
 
-If the file is from a different origin site, CORS should be enabled on that site. Note that the
-GitHub raw content site (`raw.githubusercontent.com`) may be used here.
+If the file is from a different origin site, CORS should be enabled on that
+site. Note the GitHub raw content site (`raw.githubusercontent.com`) may be used
+here.
 
 ### Import a code snippet from a larger file {#snippets}
 
@@ -286,7 +287,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
 ## Advanced features
 
 To use the more advanced features for preformatted content which are described
-in the following sections, you must use the extended form of the `text` sequence
+in the following sections, use the extended form of the `text` sequence
 rather than the simplified form shown so far. The expanded form uses normal HTML
 attributes:
 

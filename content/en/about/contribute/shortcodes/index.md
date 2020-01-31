@@ -1,5 +1,5 @@
 ---
-title: Implemented Shortcodes
+title: Use Shortcodes
 description: Explains the shortcodes available and how to use them.
 weight: 8
 aliases:
@@ -10,14 +10,14 @@ aliases:
 keywords: [contribute]
 ---
 
-To provide you with all the tools you need to create great content, we have
-implemented many Hugo shortcodes. They allow you to create dynamic content,
-include images and icons, link to other pages, and layout your content.
+Hugo shortcodes are special placeholders with a certain syntax that you can add
+to your content  to create dynamic content experiences, such as tabs,
+images and icons, links to other pages, and special content layouts.
 
-This page explains the implemented shortcodes and how to use them for your
+This page explains the available shortcodes and how to use them for your
 content.
 
-## Adding images
+## Add images
 
 Place image files in the same directory as the markdown file using them. To make
 localization easier and enhance accessibility, the preferred image
@@ -31,7 +31,7 @@ fields needed to add an image:
     */>}}
 {{< /text >}}
 
-The `link` and `caption` fields are required, but the shortcode supports
+The `link` and `caption` fields are required, but the shortcode also supports
 optional fields, for example:
 
 {{< text html >}}
@@ -47,7 +47,7 @@ If you don't include the `title` field, Hugo uses the text set in `caption`. If
 you don't include the `alt` field, Hugo uses the text in `title` or in `caption`
 if `title` is also not defined.
 
-The `width` field sets size of the image relative to the surrounding text and
+The `width` field sets the size of the image relative to the surrounding text and
 has a default of 100%.
 
 The `ratio` field sets the height of the image relative to its width. Hugo
@@ -55,7 +55,7 @@ calculates this value automatically for image files in the folder.
 However, you must calculate it manually for external images.
 Set the value of `ratio` to `([image height]/[image width]) * 100`.
 
-## Adding icons
+## Add icons
 
 You can embed common icons in your content with the following content:
 
@@ -70,14 +70,14 @@ You can embed common icons in your content with the following content:
 The icons are rendered within the text. For example: {{< warning_icon >}},
 {{< idea_icon >}}, {{< checkmark_icon >}}, {{< cancel_icon >}} and {{< tip_icon >}}.
 
-## Adding links to other pages
+## Add links to other pages
 
 The Istio documentation supports three types of links depending on their target.
-Each type uses different syntax to express the target.
+Each type uses a different syntax to express the target.
 
-- **External links**. These links target pages outside of the Istio
-  documentation or the Istio GitHub repositories. Use the standard MarkDown
-  syntax to include the URL. Favor using the HTTPS protocol, to reference files
+- **External links**. These are links to pages outside of the Istio
+  documentation or the Istio GitHub repositories. Use the standard Markdown
+  syntax to include the URL. Use the HTTPS protocol, when you reference files
   on the Internet, for example:
 
     {{< text markdown >}}
@@ -103,7 +103,7 @@ Each type uses different syntax to express the target.
 Regardless of type, links do not point to the `index.md` file with the content,
 but to the folder containing it.
 
-### Adding links to content on GitHub
+### Add links to content on GitHub
 
 There are a few ways to reference content or files on GitHub:
 
@@ -130,21 +130,21 @@ There are a few ways to reference content or files on GitHub:
     {{< /text >}}
 
 The shortcodes above produce links to the appropriate branch in GitHub, based on
-the branch that the documentation is currently targeting. To verify which branch
+the branch the documentation is currently targeting. To verify which branch
 is currently targeted, you can use the `{{</* source_branch_name */>}}`
 shortcode to get the name of the currently targeted branch.
 
 ## Version information
 
-To get the current Istio version documented on the web site, you can use the
-following shortcodes:
+To display the current Istio version in your content by retrieving the current
+version from the web site, use the following shortcodes:
 
 - `{{</* istio_version */>}}`, which renders as {{< istio_version >}}
 - `{{</* istio_full_version */>}}`, which renders as {{< istio_full_version >}}
 
 ## Glossary terms
 
-When you first introduce a specialized Istio term in a page, the supplemental
+When you introduce a specialized Istio term in a page, the supplemental
 acceptance criteria for contributions require you include the term in the
 glossary and markup its first instance using the `{{</* gloss */>}}` shortcode.
 The shortcode produces a special rendering that invites readers to click on the
@@ -154,7 +154,7 @@ term to get a pop-up with the definition. For example:
 Mixer uses {{</*gloss*/>}}adapters{{</*/gloss*/>}} to interface to backends.
 {{< /text >}}
 
-Is then rendered as follows:
+Is rendered as follows:
 
 Mixer uses {{< gloss >}}adapters{{< /gloss >}} to interface to backends.
 
@@ -215,9 +215,9 @@ Use callouts sparingly. Each type of callout serves a specific purpose and
 over-using them negates their intended purposes and their efficacy. Generally,
 you should not include more than one callout per content file.
 
-## Boilerplate text
+## Use boilerplate text
 
-To enable content reuse, we have implemented boilerplate shortcodes. To embed
+To reuse content while maintaining a single source for it, use boilerplate shortcodes. To embed
 boilerplate text into any content file, use the `boilerplate` shortcode as follows:
 
 {{< text markdown >}}
@@ -225,24 +225,24 @@ boilerplate text into any content file, use the `boilerplate` shortcode as follo
 {{< /text >}}
 
 The shortcode above includes the following content from the `example.md`
-MarkDown file in the `/content/en/boilerplates/` folder:
+Markdown file in the `/content/en/boilerplates/` folder:
 
 {{< boilerplate example >}}
 
-The example shows that you need to include the filename of the MarkDown file
+The example shows that you need to include the filename of the Markdown file
 with the content you wish to insert at the current location. You can find the existing
 boilerplate files are located in the `/content/en/boilerplates` directory.
 
-## Using tabs
+## Use tabs
 
-To display content that has multiple options or formats, we implemented tab sets
+To display content that has multiple options or formats, use tab sets
 and tabs. For example:
 
 - Equivalent commands for different platforms
 - Equivalent code samples in different languages
 - Alternative configurations
 
-To insert tabbed content, you must combine the `tabset` and `tabs` shortcodes,
+To insert tabbed content, combine the `tabset` and `tabs` shortcodes,
 for example:
 
 {{< text markdown >}}
@@ -282,7 +282,7 @@ THREE
 {{< /tabset >}}
 
 The value of the `name` attribute of each tab contains the text displayed for
-the tab. Within each tab, you can have normal MarkDown content, but tabs have [limitations](#tab-limitations).
+the tab. Within each tab, you can have normal Markdown content, but tabs have [limitations](#tab-limitations).
 
 The `category-name` and `category-value` attributes are optional and make the
 selected tab to stick across visits to the page. For example, a visitor selects
@@ -299,7 +299,7 @@ throughout all tab sets across the website automatically.
 
 ### Tab limitations
 
-You can use almost any MarkDown in a tab, with the following exceptions:
+You can use almost any Markdown in a tab, with the following exceptions:
 
 - *Headers*. Headers in a tab appear in the table of contents but
   clicking on the link in the table of contents won't automatically select
@@ -308,7 +308,7 @@ You can use almost any MarkDown in a tab, with the following exceptions:
 - *Nested tab sets*. Don't nest tab sets. Doing so leads to a terrible reading
   experience and can cause significant confusion.
 
-## Banners and stickers
+## Use banners and stickers
 
 To advertise upcoming events, or publicize something
 new, you can automatically insert time-sensitive banners and stickers into the
@@ -324,8 +324,8 @@ generated site in order. We've implemented the following shortcodes for promotio
   on March 30". Banners are full-screen slices displayed to readers during the
   event period.
 
-To create banners and stickers, you create MarkDown files in either the
-`events/banners` or `events/stickers` folders. You must create one MarkDown file
+To create banners and stickers, you create Markdown files in either the
+`events/banners` or `events/stickers` folders. Create one Markdown file
 per event with dedicated front-matter fields to control their behavior. The
 following table explains the available options:
 
@@ -345,7 +345,7 @@ following table explains the available options:
             <td><code>period_start</code></td>
             <td>The starting date at which to start displaying the item in <code>YYYY-MM-DD</code> format.
             Instead of a date, this can also be the value <code>latest_release</code>, which then uses the latest known
-            Istio release as the start date. This is useful when creating a banner saying "Istio x.y.z has just been relesed".
+            Istio release as the start date. This is useful when creating a banner saying "Istio x.y.z has just been released".
             </td>
         </tr>
         <tr>
@@ -363,8 +363,8 @@ following table explains the available options:
         <tr>
             <td><code>max_impressions</code></td>
             <td>How many times to show the content to the user during
-                the event's period. A value of 3 would mean that the first three pages visited by the user during the period will display
-                the content, and the content will be hidden on subsequent page loads. A value of 0, or ommiting the field completely,
+                the event's period. A value of 3 would mean the first three pages visited by the user during the period will display
+                the content, and the content will be hidden on subsequent page loads. A value of 0, or omitting the field completely,
                 results in the content being displayed on all page visits during the period.
             </td>
         </tr>
@@ -374,7 +374,7 @@ following table explains the available options:
         </tr>
         <tr>
             <td><code>link</code></td>
-            <td>You can specify a URL, which turns the whole item into a clickable target. Once the user clicks on the item,
+            <td>You can specify a URL, which turns the whole item into a clickable target. When the user clicks on the item,
             the item is no longer shown to the user. The special value `latest_release` can be used here to introduce a link
             to the current release's announcement page.
             </td>

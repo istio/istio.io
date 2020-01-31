@@ -8,7 +8,7 @@ keywords: [metadata,navigation,table-of-contents]
 The front matter is YAML code in between triple-dashed lines at the top of each
 file and provides important management options for our content. For example, the
 front matter allows us to ensure that existing links continue to work for pages
-that are moved or deleted entirely. This page details all the features currently
+that are moved or deleted entirely. This page explains the features currently
 available for front matters in Istio.
 
 The following example shows a front matter with all the required fields
@@ -38,17 +38,17 @@ The following table shows descriptions for all the **required** fields:
 |`description`      | A one-line description of the content on the page.
 |`weight`           | The order of the page relative to the other pages in the directory.
 |`keywords`         | The keywords on the page. Hugo uses this list to create the links under "See Also".
-|`aliases`          | Past URLs where the page was published. See [Renaming, moving, or deleting pages](#renaming-moving-or-deleting-pages) below for details on this item
+|`aliases`          | Past URLs where the page was published. See [Renaming, moving, or deleting pages](#rename-move-or-delete-pages) below for details on this item
 
-### Renaming, moving, or deleting pages
+### Rename, move, or delete pages
 
 When you move pages or delete them completely, you must ensure that the existing
 links to those pages continue to work. The `aliases` field in the front matter
-helps you meet this requirement. Adding the path to the page before the move or
+helps you meet this requirement. Add the path to the page before the move or
 deletion to the `aliases` field. Hugo implements automatic redirects from the
 old URL to the new URL for our users.
 
-In the _target page_, which is the page where you want users to land, add the `<path>`
+On the _target page_, which is the page where you want users to land, add the `<path>`
 of the _original page_ to the front-matter as follows:
 
 {{< text plain >}}
@@ -111,13 +111,13 @@ The following table shows the fields and explains how to use them:
 |`remove_toc_prefix` | Hugo removes this string from the beginning of every entry in the ToC
 
 Some front matter fields only apply to so-called _bundle pages_. You can
-identify bundle pages because their filenames begin with an underscore `_`, for
+identify bundle pages because their file names begin with an underscore `_`, for
 example `_index.md`. In Istio, we use bundle pages as our section landing pages.
 The following table shows the front matter fields pertinent to bundle pages.
 
 |Field                 | Description
 |----------------------|------------
-|`skip_list`           | If true, Hugo doesn't auto-generate the tiles of content of a section page.
+|`skip_list`           | If true, Hugo doesn't auto-generate the content tiles of a section page.
 |`simple_list`         | If true, Hugo uses a simple list for the auto-generated content of a section page.
 |`list_below`          | If true, Hugo inserts the auto-generated content below the manually-written content.
 |`list_by_publishdate` | If true, Hugo sorts the auto-generated content by publication date, instead of by weight.

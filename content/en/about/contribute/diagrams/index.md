@@ -33,9 +33,9 @@ To create your diagrams, follow these steps:
 If you create the diagram in Google Draw, follow these steps:
 
 1. Put your diagram in our [team drive](https://drive.google.com/corp/drive/u/0/folders/1jczscJueUBR3IOvH30q9HAZX0jC7GSyW).
-1. Once the diagram is complete, export it as SVG and include the SVG
+1. When the diagram is complete, export it as SVG and include the SVG
    file in your PR.
-1. Leave a comment in the MarkDown file containing the diagram with the
+1. Leave a comment in the Markdown file containing the diagram with the
    URL to the Google Draw file.
 
 If your diagram depicts a process, **do not add the descriptions of the steps**

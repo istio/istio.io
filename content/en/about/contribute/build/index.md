@@ -1,11 +1,11 @@
 ---
-title: Building and serving the website locally
+title: Build and serve the website locally
 description: Explains how to locally build, test, serve, and preview the website.
 weight: 5
 keywords: [contribute, serve, Docker, Hugo, build]
 ---
 
-After making your contribution to our website, you must ensure the changes
+After making your contribution to our website, ensure the changes
 render as you expect. To ensure you can preview your changes locally, we have
 tools that let you build and view them easily. We use automated tests to check
 the quality of all contributions. Before submitting your changes in a Pull
@@ -13,14 +13,14 @@ Request (PR), you should run the tests locally too.
 
 ## Before you begin
 
-To guarantee that the tests you run locally use the same versions as the tests
+To guarantee the tests you run locally use the same versions as the tests
 running on the Istio Continuous Integration (CI), we provide a Docker image with
 all the tools needed, including our site generator: [Hugo](https://gohugo.io/).
 
 To build, test, and preview the site locally, you need to install
 [Docker](https://www.docker.com/get-started) on your system.
 
-## Previewing your changes
+## Preview your changes
 
 To preview your changes to the site, go to the root of your fork of
 `istio/istio.io` and run the following command:
@@ -41,23 +41,23 @@ example:
 $ make ISTIO_SERVE_DOMAIN=192.168.7.105 serve
 {{< /text >}}
 
-The example builds the site and starts a web server hosting the site on the
-remote server found at the `192.168.7.105` IP address. Like before, you can then
+The example builds the site and starts a web server, which hosts the site on the
+remote server at the `192.168.7.105` IP address. Like before, you can then
 connect to the web server at `http://192.168.7.105:1313`.
 
-### Testing your changes
+### Test your changes
 
 We use linters and tests to ensure a quality baseline for the site's content
 through automated checks. These checks must pass without failure for us to
 approve your contribution. Make sure you run the checks locally before you
-submit your changes into the repository through a PR. We perform the following
+submit your changes to the repository through a PR. We perform the following
 automated checks:
 
 - HTML proofing: ensures all links are valid along with other checks.
 
 - Spell check: ensures content is spelled correctly.
 
-- MarkDown Style check: ensures the markup used complies with our MarkDown style
+- Markdown Style check: ensures the markup used complies with our Markdown style
   rules.
 
 To run these checks locally, use the following command:
@@ -66,15 +66,15 @@ To run these checks locally, use the following command:
 $ make lint
 {{< /text >}}
 
-If the spellchecker reports errors, the following are the most likely causes:
+If the spell checker reports errors, the following are the most likely causes:
 
-- A real typo: Fix the typo on your MarkDown files.
+- A real typo: Fix the typo on your Markdown files.
 
 - The error is reported for a command, field, or symbol name: Place
   \`back-ticks\` around the content with the error.
 
 - The error is reported for a correct word or proper name not present in the
-  tool's dictionary: Add the word to the `.spelling` file in the root of the
+  tool's dictionary: Add the word to the `.spelling` file at the root of the
   `istio/istio.io` repository.
 
 Due to poor Internet connectivity, you could have trouble with the link checker.
@@ -86,6 +86,6 @@ when running the linter, for example:
 $ make INTERNAL_ONLY=True lint
 {{< /text >}}
 
-Once your content passes all the checks, submit it to the repository through a
-PR. Visit our [Working with GitHub guide](/about/contribute/github) for more
+When your content passes all the checks, submit it to the repository through a
+PR. Visit [Working with GitHub](/about/contribute/github) for more
 information.

@@ -1,5 +1,5 @@
 ---
-title: Working with GitHub
+title: Work with GitHub
 description: Shows you how to use GitHub to contribute to the Istio documentation.
 weight: 2
 aliases:
@@ -16,9 +16,9 @@ The Istio documentation follows the standard [GitHub collaboration flow](https:/
 for Pull Requests (PRs). This well-established collaboration model helps open
 source projects manage the following types of contributions:
 
-- [Adding](/about/contribute/add-content) new files to the repository.
-- [Editing](#quick-edit) existing files.
-- [Reviewing](/about/contribute/review) the files added or modified.
+- [Add](/about/contribute/add-content) new files to the repository.
+- [Edit](#quick-edit) existing files.
+- [Review](/about/contribute/review) the added or modified files.
 - Manage multiple release or development [branches](#branching-strategy).
 
 The contribution guides assume you can complete the following tasks:
@@ -42,16 +42,16 @@ To contribute to the Istio documentation, you need to:
 The Istio documentation is published under the
 [Apache 2.0](https://github.com/istio/community/blob/master/LICENSE) license.
 
-## Performing quick edits {#quick-edit}
+## Perform quick edits {#quick-edit}
 
-Anyone with a GitHub account and that has signed the CLA can contribute a quick
+Anyone with a GitHub account who signs the CLA can contribute a quick
 edit to any page on the Istio website. The process is very simple:
 
 1. Visit the page you wish to edit.
 1. Add `preliminary` to the beginning of the URL. For example, to edit
    `https://istio.io/about`, the new URL should be
    `https://preliminary.istio.io/about`
-1. Click the pencil icon on the lower right corner.
+1. Click the pencil icon in the lower right corner.
 1. Perform your edits on the GitHub UI.
 1. Submit a Pull Request with your changes.
 
@@ -63,7 +63,7 @@ substantial changes.
 
 Active content development takes place using the master branch of the
 `istio/istio.io` repository. On the day of an Istio release, we create a release
-branch from master for that release. The following button takes you to the
+branch of master for that release. The following button takes you to the
 repository on GitHub:
 
 <a class="btn"
@@ -79,17 +79,17 @@ release, see the [archive page](https://archive.istio.io/).
 
 This branching strategy allows us to provide the following Istio online resources:
 
-- The [public site](/docs/): shows the content from the current
+- The [public site](/docs/) shows the content from the current
   release branch.
 
 - The preliminary site at `https://preliminary.istio.io` shows the content from
   the master branch.
 
-- The [archive sites](https://archive.istio.io) shows the content from all prior
+- The [archive site](https://archive.istio.io) shows the content from all prior
   release branches.
 
 Given how branching works, if you submit a change into the master branch,
-that change doesn't appear on `istio.io` until the next major Istio release
+that change won't appear on `istio.io` until the next major Istio release
 happens. If your documentation change is relevant to the current Istio release,
 then it's probably worth also applying your change to the current release branch.
 You can do this easily and automatically by using the special cherry-pick labels
@@ -97,7 +97,7 @@ on your documentation PR. For example, if you introduce a correction in a PR to
 the master branch, you can apply the `cherrypick/release-1.4` label in order to
 merge this change to the `release-1.4` branch.
 
-Once your initial PR is merged, automation creates a new PR in the release
+When your initial PR is merged, automation creates a new PR in the release
 branch which includes your changes. You may need to add a comment to the PR
 that reads `@googlebot I consent` in order to satisfy the `CLA` bot that we
 use.

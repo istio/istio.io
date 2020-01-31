@@ -1,5 +1,5 @@
 ---
-title: Adding New Documentation
+title: Add New Documentation
 description: Details how to contribute new documentation to Istio.
 weight: 3
 aliases:
@@ -12,6 +12,7 @@ keywords: [contribute]
 
 To contribute new documentation to Istio, just follow these steps:
 
+1. Identify the audience and intended use for the information.
 1. Choose the [type of content](#content-types) you wish to contribute.
 1. [Choose a title](#choosing-a-title).
 1. Write your contribution following our [documentation contribution guides](/about/contribute).
@@ -19,13 +20,51 @@ To contribute new documentation to Istio, just follow these steps:
 1. Follow our [review process](/about/contribute/review) until your contribution
    is merged.
 
+## Identify the audience and intended use
+
+The best documentation starts by knowing the intended readers, their knowledge,
+and what you expect them to do with the information. Otherwise, you cannot
+determine the appropriate scope and depth of information to provide, its ideal
+structure, or the necessary supporting information. The following examples show
+this principle in action:
+
+- The reader needs to perform a specific task: Tell them how to recognize when
+  the task is necessary and provide the task itself as a list of numbered steps,
+  don’t simply describe the task in general terms.
+
+- The reader must understand a concept before they can perform a task: Before
+  the task, tell them about the prerequisite information and provide a link to
+  it.
+
+- The reader needs to make a decision: Provide the conceptual information
+  necessary to know when to make the decision, the available options, and when
+  to choose one option instead of the other.
+
+- The reader is an administrator but not a SWE: Provide a script,
+  not a link to a code sample in a developer’s guide.
+
+- The reader needs to extend the features of the product: Provide an example of
+  how to extend the feature, using a simplified scenario for illustration
+  purposes.
+
+- The reader needs to understand complex feature relationships: Provide a
+  diagram showing the relationships, rather than writing multiple pages of
+  content that is tedious to read and understand.
+
+The most important thing to avoid is the common mistake of simply
+giving readers all the information you have, because you are unsure about
+what information they need.
+
+If you need help identifying the audience for you content, we are happy to help
+and answer all your questions during the [Docs Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#istio-working-groups)
+biweekly meetings.
+
 ## Content types
 
-Different audiences need different types of information. To provide readers with
-the information they need to be successful, you need to choose the right type of
-content to address their needs. To make it easy for you to choose, the following
-table shows the supported content types, their intended audiences, and the goals
-each type tries to achieve:
+When you understand the audience and the intended use for the information you
+provide, you can choose content type that best addresses their needs. To make it
+easy for you to choose, the following table shows the supported content types,
+their intended audiences, and the goals each type strives to achieve:
 
 <table>
     <thead>
@@ -52,7 +91,7 @@ each type tries to achieve:
       base and tested for accuracy.
       </td>
       <td>Readers with advanced and deep technical knowledge of the project that
-      need specific bits of information to complete advanced tasks.</td>
+      needs specific bits of information to complete advanced tasks.</td>
     </tr>
     <tr>
       <td>Examples</td>
@@ -77,7 +116,7 @@ each type tries to achieve:
     <tr>
       <td>Setup pages</td>
       <td>Focus on the installation steps needed to complete an Istio
-      deployment. Setup pages must include automated tests since they tested and maintained for technical accuracy.
+      deployment. Setup pages must include automated tests since they are tested and maintained for technical accuracy.
       </td>
       <td>New and existing Istio users that want to complete a deployment.</td>
     </tr>
@@ -91,7 +130,7 @@ each type tries to achieve:
         <li>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</li>
         </ul>
       </td>
-      <td>Readers with basic understanding of the project that want to learn
+      <td>Readers with a basic understanding of the project who want to learn
       about it in an anecdotal, experiential, and more informal way.</td>
     </tr>
     <tr>
@@ -109,7 +148,7 @@ each type tries to achieve:
         concepts. Instead, they provide practical advice or insights. Answers
         must link to tasks, concepts, or examples in the documentation for readers to learn more.
       </td>
-      <td>Readers with specific questions that are looking for brief answers and
+      <td>Readers with specific questions who are looking for brief answers and
       resources to learn more.</td>
     </tr>
     <tr>
@@ -127,7 +166,7 @@ each type tries to achieve:
 Choose a title for your topic that has the keywords you want search engines to
 find. All content files in Istio are named `index.md`, but each content file is
 within a folder that uses the keywords in the topic's title,
-separated by hyphens, all in lower case. Keep folder names as short as possible
+separated by hyphens, all in lowercase. Keep folder names as short as possible
 to make cross-references easier to create and maintain.
 
 ## Submit your contribution to GitHub

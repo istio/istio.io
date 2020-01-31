@@ -5,12 +5,12 @@ weight: 6
 keywords: [contribute,community,github,pr,documentation,review, approval]
 ---
 
-The maintainers and working group leads of the Istio Docs Working Group approve
+The maintainers and working group leads of the Istio Docs Working Group (WG) approve
 all changes to the [Istio website](/docs/).
 
 A **documentation reviewer** is a trusted contributor that approves content that
 meets the acceptance criteria described in the [review criteria](#review-criteria).
-All content reviews follow the process described in [Reviewing content PRs](#reviewing-content-prs).
+All content reviews follow the process described in [Reviewing content PRs](#review-content-prs).
 
 Only Docs Maintainers and WG Leads can merge content into the [istio.io repository](https://github.com/istio/istio.io).
 
@@ -20,31 +20,31 @@ number of reviewers make the prioritization of content reviews necessary to
 function at scale. This page provides clear review criteria to ensure all review
 work happens **consistently**, **reliably** and follows the **same quality standards**.
 
-## Reviewing content PRs
+## Review content PRs
 
 Documentation reviewers, maintainers, and WG leads follow a clear process to
 review content PRs to ensure all reviews are consistent. The process is as
 follows:
 
-1. A **Contributor** submits a new content PR to the istio.io repository.
-1. A **Reviewer** performs a review of the content and determines if the
-   acceptance criteria are met.
-1. A **Reviewer** adds any technical WG pertinent for the content if the
+1. The **Contributor** submits a new content PR to the istio.io repository.
+1. The **Reviewer** performs a review of the content and determines if it meets the
+   acceptance criteria.
+1. The **Reviewer** adds any technical WG pertinent for the content if the
    contributor hasn't already.
-1. The **Contributor** and the **Reviewer** work together until all required
-   acceptance criteria are met and the issues are addressed.
+1. The **Contributor** and the **Reviewer** work together until the content
+   meets all required acceptance criteria and the issues are addressed.
 1. If the content is urgent and meeting the supplemental acceptance criteria
-   requires a significant effort, the **Reviewer** files a follow up issue on
+   requires significant effort, the **Reviewer** files a follow up issue on
    the istio.io repository to address the problems at a later date.
 1. The **Contributor** addresses all required and supplemental feedback as
-   agreed between reviewer and contributor. Any feedback filed in the follow up
+   agreed by the Reviewer and Contributor. Any feedback filed in the follow up
    issues is addressed later.
-1. Once a **technical** WG lead or maintainer has approved the content PR, the
+1. When a **technical** WG lead or maintainer approves the content PR, the
    **Reviewer** can approve the PR.
-1. If a Docs WG maintainer or lead reviewed the content, they can approve and
-   merge the content. Otherwise, they are automatically notified of the
-   **Reviewer's** approval and prioritize reviewing and merging the already
-   reviewed content.
+1. If a Docs WG maintainer or lead reviewed the content, they not only approve,
+   but they also merge the content. Otherwise, maintainers and leads are automatically
+   notified of the **Reviewer's** approval and prioritize approving and merging
+   the already reviewed content.
 
 The following diagram depicts the process:
 
@@ -61,11 +61,11 @@ The following diagram depicts the process:
 ## Follow up issues
 
 When a **Reviewer** files a follow up issue as part of the
-[review process](#reviewing-content-prs), the GitHub issue must include the
+[review process](#review-content-prs), the GitHub issue must include the
 following information:
 
 - Details about the [supplemental acceptance criteria](#supplemental-acceptance-criteria)
-  that the content failed to meet.
+  the content failed to meet.
 - Link to the original PR.
 - Username of the technical Subject Matter Experts (SMEs).
 - Labels to sort the issues.
@@ -75,11 +75,12 @@ following information:
 
 ## Review criteria
 
-To ensure PRs are reviewed transparently, consistently, and equitably, clear
-acceptance criteria are needed. We have grouped the criteria in two tiers:
-required and supplemental.
+Our review process supports our [code of conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct)
+by making our review criteria transparent and applying it to all content contributions.
 
-### Required Acceptance Criteria
+Criteria has two tiers: required and supplemental.
+
+### Required acceptance criteria
 
 - Technical accuracy: At least one technical WG lead or maintainer reviews and
   approves the content.
@@ -90,7 +91,7 @@ required and supplemental.
   style guide.
 - Links and navigation: The content has no broken links and the site builds properly.
 
-### Supplemental Acceptance Criteria
+### Supplemental acceptance criteria
 
 - Content structure: Information structure enhances the readers' experience.
 - Consistency: Content adheres to all recommendations in the
@@ -98,6 +99,6 @@ required and supplemental.
 - Style: Content adheres to the [Google developer style guide](https://developers.google.com/style).
 - Graphic assets: Diagrams follow the Istio [diagram creation guide](/about/contribute/diagrams/).\
 - Code samples: Content provides relevant, testable, and working code samples.
-- Boilerplate: Content follows a content reusability strategy through
+- Content reuse: Any repeatable content follows a reusability strategy using
   boilerplate text.
 - Glossary: New terms are added to the glossary with clear definitions.

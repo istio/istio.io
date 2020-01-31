@@ -1,5 +1,5 @@
 ---
-title: Formatting Standards
+title: Follow Formatting Standards
 description: Explains the standard markup used to format Istio documentation.
 weight: 9
 aliases:
@@ -7,7 +7,7 @@ keywords: [contribute]
 ---
 
 This page shows the formatting standards for the Istio documentation. Istio uses
-MarkDown to markup the content and Hugo to build the website. To ensure
+Markdown to markup the content and Hugo to build the website. To ensure
 consistency across our documentation, we have agreed on these formatting standards.
 
 ## Don't use capitalization for emphasis
@@ -54,7 +54,7 @@ what the placeholder represents. For example:
 
 Use the `gloss` shortcode and add glossary entries for new terms.
 
-## Use `back-ticks` around filenames, directories, and paths
+## Use `back-ticks` around file names, directories, and paths
 
 |Do                                   | Don't
 |-------------------------------------|------
