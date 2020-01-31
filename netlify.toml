@@ -5,3 +5,9 @@
     HUGO_VERSION = "0.61.0"
     NODE_VERSION = "12.8.0"
     BUILD_WITH_CONTAINER = "0"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
