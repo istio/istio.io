@@ -20,11 +20,11 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 1.  Ensure you have a LightStep account. [Sign up](https://lightstep.com/products/tracing/) for a free trial of LightStep Tracing, or [Contact LightStep](https://lightstep.com/contact/) to create an enterprise-level LightStep [𝑥]PM account.
 
 1.  For [𝑥]PM users, ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
-    [LightStep Satellite Setup](https://docs.lightstep.com/docs/satellite-setup) for details about setting up satellites.
+    [LightStep Satellite Setup](https://docs.lightstep.com/docs/install-and-configure-satellites) for details about setting up satellites.
 
     For LightStep Tracing users, your satellites are already configured.
 
-1.  Ensure sure you have a LightStep [access token](https://docs.lightstep.com/docs/project-access-tokens).
+1.  Ensure sure you have a LightStep [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens).
 
 1.  You'll need to deploy Istio with your satellite address.
     For [𝑥]PM users, ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
@@ -53,7 +53,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     {{< /text >}}
 
 1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
-    For LightStep Tracing users, download and use [this certificate](https://docs.lightstep.com/docs/use-istio-as-your-service-mesh-with-lightstep).
+    For LightStep Tracing users, download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh).
     If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
 
     {{< text bash >}}
