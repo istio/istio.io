@@ -126,7 +126,7 @@ spec:
              -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
              local headers, body = request_handle:httpCall(
               &quot;lua_cluster&quot;,
-              &lbrace;
+              {
                [&quot;:method&quot;] = &quot;POST&quot;,
                [&quot;:path&quot;] = &quot;/acl&quot;,
                [&quot;:authority&quot;] = &quot;internal.org.net&quot;
