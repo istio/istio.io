@@ -33,6 +33,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.tigera.io" logo="./tigera.svg" alt="Tigera" tagline="Zero Trust Network Security & Continuous Compliance for Kubernetes Platforms" >}}
     {{< company_logo link="https://www.vmware.com" logo="./vmware.svg" alt="VMware" >}}
     {{< company_logo link="https://wso2.com" logo="./wso2.svg" alt="WSO2" tagline="The #1 Open Source API Management and Integration Platform" >}}
+    {{< company_logo link="https://github.com/kubesphere/kubesphere" logo="./kubesphere.svg" alt="KubeSphere" tagline="KubeSphere Container Platform Provides Service Mesh Based On Istio" >}}
 </div>
 
 Want your logo up there? Just submit a [pull request](https://github.com/istio/istio.io/pulls).
