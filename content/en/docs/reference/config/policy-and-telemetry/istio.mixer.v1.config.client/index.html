@@ -174,13 +174,13 @@ spec:
         api.operation:
           stringValue: findPetById
     httpMethod: GET
-    uriTemplate: /api/pets/&lbrace;id}
+    uriTemplate: /api/pets/{id}
   - attributes:
       attributes:
         api.operation:
           stringValue: deletePet
     httpMethod: DELETE
-    uriTemplate: /api/pets/&lbrace;id}
+    uriTemplate: /api/pets/{id}
   apiKeys:
   - query: api-key
 </code></pre>
@@ -358,9 +358,9 @@ No
 following are valid URI templates:</p>
 
 <pre><code>/pets
-/pets/&lbrace;id}
-/dictionary/&lbrace;term:1}/&lbrace;term}
-/search&lbrace;?q*,lang}
+/pets/{id}
+/dictionary/{term:1}/{term}
+/search{?q*,lang}
 </code></pre>
 
 </td>
@@ -375,7 +375,7 @@ Yes
 <p>EXPERIMENTAL:</p>
 
 <p>ecmascript style regex-based match as defined by
-<a href="http://en.cppreference.com/w/cpp/regex">EDCA-262</a>. For
+<a href="http://en.cppreference.com/w/cpp/regex/ecmascript">EDCA-262</a>. For
 example,</p>
 
 <pre><code>&quot;^/pets/(.*?)?&quot;
