@@ -1,7 +1,7 @@
 ---
 title: Diagram Creation Guidelines
 description: Provides assets and instructions to create diagrams for the Istio documentation.
-weight: 40
+weight: 12
 keywords: [contribute,diagram,documentation,guide]
 ---
 
@@ -27,15 +27,15 @@ To create your diagrams, follow these steps:
 1. Connect the shapes with the appropriate style of line.
 1. Label the shapes and lines with descriptive yet short text.
 1. Add a legend for any labels that apply multiple times.
-1. [Contribute](/about/contribute/github/#add) you diagram to our
+1. [Contribute](/about/contribute/add-content) your diagram to our
    documentation.
 
 If you create the diagram in Google Draw, follow these steps:
 
 1. Put your diagram in our [team drive](https://drive.google.com/corp/drive/u/0/folders/1jczscJueUBR3IOvH30q9HAZX0jC7GSyW).
-1. Once the diagram is complete, export it as SVG and include the SVG
+1. When the diagram is complete, export it as SVG and include the SVG
    file in your PR.
-1. Leave a comment in the MarkDown file containing the diagram with the
+1. Leave a comment in the Markdown file containing the diagram with the
    URL to the Google Draw file.
 
 If your diagram depicts a process, **do not add the descriptions of the steps**
