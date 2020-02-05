@@ -10,7 +10,7 @@ As you saw in the previous module, Istio enhances Kubernetes by giving you the
 functionality to more effectively operate your microservices.
 
 In this module you enable Istio on a single microservice, `productpage`. The
-rest of the application will continue to operate as previously. Note that you
+rest of the application will continue to operate as before. Note that you
 can enable Istio gradually, microservice by microservice. Istio is enabled
 transparently to the microservices, you do not change the microservices code or
 disrupt your application, it continues to run and serve user requests.

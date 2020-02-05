@@ -1,6 +1,6 @@
 ---
 title: Add a new version of reviews
-overview: Deploy and release a new version of a microservice.
+overview: Deploy a new version of a microservice.
 
 weight: 50
 
@@ -127,7 +127,7 @@ deployment.
     stars only.
 
 In the previous steps, you performed the update of `reviews`. First,
-you deployed the new version without directing sending it production traffic. You
+you deployed the new version without sending it production traffic. You
 tested it in the production environment using test traffic. You checked that the
 new version provides correct results. You released the new version, gradually
 increasing the production traffic to it. Finally, you decommissioned the old

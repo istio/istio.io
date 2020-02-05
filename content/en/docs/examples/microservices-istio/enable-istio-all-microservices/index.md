@@ -8,9 +8,9 @@ weight: 70
 Previously, you enabled Istio on a single microservice, `productpage`. You can
 proceed to enable Istio on the microservices incrementally to get the Istio
 functionality for more microservices. For the purpose of this tutorial, you will
-only enable Istio on all the remaining microservices in one step.
+enable Istio on all the remaining microservices in one step.
 
-1.  For the purpose of this tutorial, scale the deployments of microservices
+1.  For the purpose of this tutorial, scale the deployments of the microservices
     down to 1:
 
     {{< text bash >}}
@@ -18,7 +18,7 @@ only enable Istio on all the remaining microservices in one step.
     {{< /text >}}
 
 1.  Redeploy the Bookinfo application, Istio-enabled. `productpage` will not be
-    redeployed since it already has Istio injected, its pods will not be
+    redeployed since it already has Istio injected, and its pods will not be
     changed. This time you will use only a single replica of a microservice,
     scaling of the microservices is orthogonal to the demonstrated Istio
     features.

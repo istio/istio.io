@@ -82,7 +82,7 @@ microservice.
     {{< /text >}}
 
 1.  After the services achieve the `Running` status, deploy a testing pod,
-    [sleep]({{< github_tree >}}/samples/sleep), to use it for sending requests
+    [sleep]({{< github_tree >}}/samples/sleep), to use for sending requests
     to your microservices:
 
     {{< text bash >}}
