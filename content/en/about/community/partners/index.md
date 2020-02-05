@@ -23,6 +23,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://www.huaweicloud.com" logo="./huawei.png" alt="Huawei Cloud" >}}
     {{< company_logo link="https://www.ibm.com/cloud/" logo="./ibm-cloud.svg" alt="IBM Cloud" tagline="Built for all your applications. AI ready. Secure to the core." >}}
     {{< company_logo link="https://github.com/knative/docs" logo="./knative.png" alt="Knative" >}}
+    {{< company_logo link="https://github.com/kubesphere/kubesphere" logo="./kubesphere.svg" alt="KubeSphere" tagline="KubeSphere Container Platform Provides Service Mesh Based On Istio" >}}
     {{< company_logo link="https://layer5.io/" logo="./layer5.svg" alt="Layer5" tagline="The service mesh company" >}}
     {{< company_logo link="https://pivotal.io" logo="./pivotal.svg" alt="Pivotal" tagline="The way the future gets built" >}}
     {{< company_logo link="https://www.redhat.com" logo="./redhat.svg" alt="Red Hat" tagline="We make open source technologies for the enterprise" >}}
