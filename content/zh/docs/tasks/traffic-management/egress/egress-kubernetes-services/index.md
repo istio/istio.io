@@ -41,7 +41,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
 
 ## Kubernetes ExternalName 服务访问外部服务{#ks-external-name-service-to-access-an-external-service}
 
-1.  为 `httpbin.org` 创建一个 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务：
+1.  在默认命名空间中，为 `httpbin.org` 创建一个 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -67,7 +67,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     my-httpbin   ExternalName   <none>       httpbin.org   80/TCP    4s
     {{< /text >}}
 
-1.  从没有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`：
+1.  从没有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。注意下面的 _curl_ 命令使用 [Kubernetes DNS 格式用于服务](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records)：`<service name>.<namespace>.svc.cluster.local`。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
