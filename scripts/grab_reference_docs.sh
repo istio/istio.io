@@ -52,7 +52,7 @@ COMPONENTS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/istio_ca@istio_ca
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/node_agent@node_agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@galley/cmd/galley@galley
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@operator/cmd/manager@operator
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@operator/cmd/operator@operator
 )
 
 # The repo to fetch config analysis message data from
