@@ -8,14 +8,6 @@ weight: 3
 
 在本模块中，您将为教程准备本地计算机
 
-1. 在本地计算机上，创建一个环境变量保存命名空间的名字，它将用于教程的命令中。您可以使用任意名字，如 `tutorial`。
-
-    {{< text bash >}}
-    $ export NAMESPACE=tutorial
-    {{< /text >}}
-
-1. 在本地计算机上，找到之前在教程中创建的 `${NAMESPACE}-user-config.yaml` 文件，`${NAMESPACE}` 是命名空间的名字。例如 `tutorial-user-config.yaml` 。
-
 1. 安装 [`curl`](https://curl.haxx.se/download.html)。
 
 1. 安装 [Node.js](https://nodejs.org/en/download/)。
@@ -24,10 +16,10 @@ weight: 3
 
 1. 安装 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/)。
 
-1. 为配置文件 `${NAMESPACE}-user-config.yaml` 设置环境变量 `KUBECONFIG`：
+1. 为您从教程中收到的配置文件或者在上一个模块自己创建的配置文件设置环境变量 `KUBECONFIG`。
 
     {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    $ export KUBECONFIG=<the file you recieved or created in the previous module>
     {{< /text >}}
 
 1. 通过打印当前命名空间来验证配置是否生效：
@@ -37,7 +29,7 @@ weight: 3
     tutorial
     {{< /text >}}
 
-    您应该在输出中看到之前配置的命名空间的名称。
+    您应该在输出中看到命名空间的名称，该命名空间由讲师分配或者在上一个模块中由您自己分配。
 
 1. 下载一个 [Istio 发行版](https://github.com/istio/istio/releases) ，从 `bin` 目录下提出命令行工具 `istioctl`， 使用下边的命令验证 `istioctl` 是否可以正常使用：
 
