@@ -1164,6 +1164,19 @@ If a header is matched with a matching rule among withoutHeader, the traffic bec
 No
 </td>
 </tr>
+<tr id="HTTPMatchRequest-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -2007,6 +2020,19 @@ match is independent of sourceLabels.</p>
 No
 </td>
 </tr>
+<tr id="L4MatchAttributes-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -2321,6 +2347,19 @@ No
 <p>Names of gateways where the rule should be applied. Gateway names
 in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TLSMatchAttributes-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
 
 </td>
 <td>
