@@ -31,6 +31,10 @@ aliases:
 如果没有在浏览器中看到预期的输出，请过几秒钟重试，因为缓存和其他传输开销会导致一些延迟。
 {{< /tip >}}
 
+{{< warning >}}
+此任务需要启用双向 TLS，因为以下示例使用策略中的主体和命名空间。
+{{< /warning >}}
+
 ## 为 HTTP 流量的工作负载配置访问控制 {#configure-access-control-for-workloads-using-http-traffic}
 
 使用 Istio，您可以轻松地为网格中的{{< gloss "workload" >}}workloads{{< /gloss >}}设置访问控制。本任务向您展示如何使用 Istio 授权设置访问控制。首先，配置一个简单的 `deny-all` 策略，来拒绝工作负载的所有请求，然后逐渐地、增量地授予对工作负载更多的访问权。
