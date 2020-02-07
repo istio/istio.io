@@ -32,8 +32,14 @@ keywords: [security,health-check]
 
 首先，您需要配置健康检查并开启双向 TLS 认证。
 
-要为默认命名空间中的服务开启双向 TLS 认证，必须配置验证策略和目标规则。
+要为服务开启双向 TLS 认证，必须配置验证策略和目标规则。
 按照以下步骤来完成配置：
+
+运行下面的命令创建命名空间：
+
+{{< text bash >}}
+$ kubectl create ns istio-io-health
+{{< /text >}}
 
 1. 配置验证策略，并运行：
 
@@ -43,7 +49,7 @@ keywords: [security,health-check]
     kind: "Policy"
     metadata:
       name: "default"
-      namespace: "default"
+      namespace: "istio-io-health"
     spec:
       peers:
       - mtls: {}
@@ -58,7 +64,7 @@ keywords: [security,health-check]
     kind: "DestinationRule"
     metadata:
       name: "default"
-      namespace: "default"
+      namespace: "istio-io-health"
     spec:
       host: "*.default.svc.cluster.local"
       trafficPolicy:
@@ -70,13 +76,13 @@ keywords: [security,health-check]
 运行以下命令来部署服务：
 
 {{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+$ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
 重复使用检查状态的命令来验证 Liveness 探针是否正常工作：
 
 {{< text bash >}}
-$ kubectl get pod
+$ kubectl -n istio-io-health get pod
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
@@ -124,6 +130,10 @@ kind: Deployment
 metadata:
   name: liveness-http
 spec:
+  selector:
+    matchLabels:
+      app: liveness-http
+      version: v1
   template:
     metadata:
       labels:
@@ -193,4 +203,5 @@ liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< text bash >}}
 $ kubectl delete policies default
 $ kubectl delete destinationrules default
+$ kubectl delete ns istio-io-health
 {{< /text >}}
