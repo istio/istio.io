@@ -1,6 +1,6 @@
 ---
-title: Helm Changes
-description: Details the Helm chart installation options differences between Istio 1.1 and Istio 1.2.
+title: Helm 变更
+description: 关于 Istio 1.1 和 Istio 1.2 之间的 Helm chart 安装选项的变更。
 weight: 30
 keywords: [kubernetes, helm, install, options]
 ---

@@ -115,8 +115,8 @@ Brooks
 bt
 Budinsky
 c.f.
+callout
 callouts
-Callouts
 camelCase
 canaried
 canarying
@@ -245,6 +245,7 @@ GKE-Istio
 GKE-Workloads
 GlueCon
 Gmail
+GoLang
 googleapis.com
 googlegroups.com
 Grafana
@@ -327,6 +328,7 @@ Kube
 kubebuilder
 KubeCon
 kubeconfig
+kubectl
 Kubelet
 kubelet
 Kubernetes
@@ -472,6 +474,7 @@ reimplemented
 reinject
 repurposed
 rethink
+reusability
 Reviewer1
 Reviewer2
 roadmap
@@ -502,12 +505,15 @@ sha256
 sharded
 Sharding
 sharding
+shortcode
+shortcodes
 Shriram
 sidecar
 sidecar.env
 SignalFX
 sinkInfo
 SLOs
+SMEs
 Snell-Feikema
 SNI
 SolarWinds
@@ -551,6 +557,7 @@ timeframe
 timestamp
 TLS
 TLS-secured
+ToC
 touchpoints
 Trulia
 trustability

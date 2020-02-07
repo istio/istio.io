@@ -28,11 +28,17 @@ weighted routing feature.
 
 1.  To get started, deploy the `v1` version of the `tcp-echo` microservice.
 
+    *   First, create a namespace for testing TCP traffic shifting
+
+        {{< text bash >}}
+        $ kubectl create namespace istio-io-tcp-traffic-shifting
+        {{< /text >}}
+
     *   If you are using [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
         use the following command
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@) -n istio-io-tcp-traffic-shifting
         {{< /text >}}
 
         The [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command is used to manually modify the `tcp-echo-services.yaml`
@@ -40,22 +46,22 @@ weighted routing feature.
 
     *   If you are using a cluster with
         [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-        enabled, label the `default` namespace with `istio-injection=enabled`
+        enabled, label the `istio-io-tcp-traffic-shifting` namespace with `istio-injection=enabled`
 
         {{< text bash >}}
-        $ kubectl label namespace default istio-injection=enabled
+        $ kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
         {{< /text >}}
 
         Then simply deploy the services using `kubectl`
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@
+        $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
         {{< /text >}}
 
 1.  Next, route all TCP traffic to the `v1` version of the `tcp-echo` microservice.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@
+    $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
 1.  Confirm that the `tcp-echo` service is up and running.
@@ -96,7 +102,7 @@ was routed to the `v1` version of the `tcp-echo` service.
 1.  Transfer 20% of the traffic from `tcp-echo:v1` to `tcp-echo:v2` with the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/tcp-echo/tcp-echo-20-v2.yaml@
+    $ kubectl apply -f @samples/tcp-echo/tcp-echo-20-v2.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
     Wait a few seconds for the new rules to propagate.
@@ -104,7 +110,7 @@ was routed to the `v1` version of the `tcp-echo` service.
 1. Confirm that the rule was replaced:
 
     {{< text bash yaml >}}
-    $ kubectl get virtualservice tcp-echo -o yaml
+    $ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -175,6 +181,7 @@ article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 1. Remove the `tcp-echo` application and routing rules:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/tcp-echo/tcp-echo-all-v1.yaml@
-    $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@
+    $ kubectl delete -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl delete namespace istio-io-tcp-traffic-shifting
     {{< /text >}}

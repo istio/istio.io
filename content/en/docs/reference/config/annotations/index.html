@@ -31,6 +31,16 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
+					<td><code>galley.istio.io/analyze-suppress</code></td>
+					<td>[Any]</td>
+					<td>A comma separated list of configuration analysis message codes to suppress when Istio analyzers are run. For example, to suppress reporting of IST0103 (PodMissingProxy) and IST0108 (UnknownAnnotation) on a resource, apply the annotation 'galley.istio.io/analyze-suppress=IST0108,IST0103'. If the value is '*', then all configuration analysis messages are suppressed.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
 					<td><code>install.operator.istio.io/chart-owner</code></td>
 					<td>[Any]</td>
 					<td>Represents the name of the chart used to create this resource.</td>
@@ -212,6 +222,16 @@ Istio supports to control its behavior.
 					<td><code>sidecar.istio.io/discoveryAddress</code></td>
 					<td>[Pod]</td>
 					<td>Specifies the XDS discovery address to be used by the Envoy sidecar.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>sidecar.istio.io/enableCoreDump</code></td>
+					<td>[Pod]</td>
+					<td>Specifies whether or not an Envoy sidecar should enable core dump.</td>
 				</tr>
 			
 		

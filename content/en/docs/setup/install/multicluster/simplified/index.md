@@ -95,7 +95,7 @@ that will be used to secure communication between the clusters in the mesh, alon
 file which will be used to control the Istio configuration deployed on all the clusters:
 
     {{< text bash >}}
-    $ ./setup-mesh.sh prep
+    $ ./setup-mesh.sh prep-mesh
     {{< /text >}}
 
     Note that this step doesn't actually do anything to the clusters, it is merely cresting a number of files within your
@@ -132,9 +132,9 @@ mesh_id: mymeshname
 contexts:
   context-east-1:
     network: network-east
-  content-east-2:
+  context-east-2:
     network: network-east
-  content-west-1:
+  context-west-1:
     network: network-west
 {{< /text >}}
 
@@ -143,7 +143,7 @@ Once the file has been saved, you can now create the mesh. This will deploy Isti
 cluster and configure each instance to be able to securely communicate with one another:
 
 {{< text bash >}}
-$ ./setup-mesh apply
+$ ./setup-mesh.sh apply
 {{< /text >}}
 
 To add and remove clusters from the mesh, just update the topology file accordingly and reapply the changes.

@@ -1,6 +1,6 @@
 ---
-title: Ingress Gateways
-description: 描述如何配置一个 Istio gateway，以将服务暴露至服务网格之外。
+title: Ingress Gateway
+description: 描述如何配置 Istio gateway，以将服务暴露至服务网格之外。
 weight: 10
 keywords: [traffic-management,ingress]
 aliases:
@@ -9,7 +9,7 @@ aliases:
 ---
 
 在 Kubernetes 环境中，使用 [Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/) 来指定需要暴露到集群外的服务。
-在 Istio 服务网格中，一个更好的选择（同样适用于 Kubernetes 及其他环境）是使用一种新的配置模型，名为 [Istio Gateway](/zh/docs/reference/config/networking/gateway/)。
+在 Istio 服务网格中，更好的选择（同样适用于 Kubernetes 及其他环境）是使用一种新的配置模型，名为 [Istio Gateway](/zh/docs/reference/config/networking/gateway/)。
 `Gateway` 允许应用一些诸如监控和路由规则的 Istio 特性来管理进入集群的流量。
 
 本任务描述了如何配置 Istio，以使用 Istio `Gateway` 来将服务暴露至服务网格之外。
@@ -34,7 +34,7 @@ NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)  
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 {{< /text >}}
 
-如果 `EXTERNAL-IP` 值已设置，说明环境正在使用一个外部负载均衡，可以用其为 ingress gateway 提供服务。
+如果 `EXTERNAL-IP` 值已设置，说明环境正在使用外部负载均衡，可以用其为 ingress gateway 提供服务。
 如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`）， 说明环境没有提供外部负载均衡，无法使用 ingress gateway。
 在这种情况下，你可以使用服务的 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 访问网关。
 
@@ -56,7 +56,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 {{< warning >}}
 在特定的环境下，可能会使用主机名指代负载均衡器，而不是 IP 地址。
-此时，ingress 网关的 `EXTERNAL-IP` 值将不再是一个 IP 地址，而是一个主机名。前文设置 `INGRESS_HOST` 环境变量的命令将执行失败。
+此时，ingress 网关的 `EXTERNAL-IP` 值将不再是 IP 地址，而是主机名。前文设置 `INGRESS_HOST` 环境变量的命令将执行失败。
 使用下面的命令更正 `INGRESS_HOST` 值：
 
 {{< text bash >}}
@@ -116,15 +116,15 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 {{< /tabset >}}
 
-## 使用一个 Istio Gateway 配置 ingress{#configuring-ingress-using-an-Istio-gateway}
+## 使用 Istio Gateway 配置 ingress{#configuring-ingress-using-an-Istio-gateway}
 
-一个 ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述一个运行在网格边界的负载均衡器，负责接收入口 HTTP/TCP 连接。
+Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在网格边界的负载均衡器，负责接收入口 HTTP/TCP 连接。
 其中配置了对外暴露的端口、协议等。
 但是，不像 [Kubernetes Ingress 资源](https://kubernetes.io/docs/concepts/services-networking/ingress/)，ingress Gateway 不包含任何流量路由配置。Ingress 流量的路由使用 Istio 路由规则来配置，和内部服务请求完全一样。
 
-让我们一起来看如何为 HTTP 流量在80端口上配置一个 `Gateway`。
+让我们一起来看如何为 HTTP 流量在80端口上配置 `Gateway`。
 
-1.  创建一个 Istio `Gateway`：
+1.  创建 Istio `Gateway`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -172,10 +172,10 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
     EOF
     {{< /text >}}
 
-    已为 `httpbin` 服务创建了一个[虚拟服务](/zh/docs/reference/config/networking/virtual-service/) 配置，包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
+    已为 `httpbin` 服务创建了[虚拟服务](/zh/docs/reference/config/networking/virtual-service/) 配置，包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
 
     [gateways](/zh/docs/reference/config/networking/virtual-service/#VirtualService-gateways) 列表规约了哪些请求允许通过 `httpbin-gateway` 网关。
-    所有其他外部请求均被拒绝并返回一个 404 响应。
+    所有其他外部请求均被拒绝并返回 404 响应。
 
     {{< warning >}}
     来自网格内部其他服务的内部请求无需遵循这些规则，而是默认遵守轮询调度路由规则。
@@ -201,7 +201,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
     注意上文命令使用 `-H` 标识将 HTTP头部参数 _Host_ 设置为 "httpbin.example.com"。
     该操作为必须操作，因为 ingress `Gateway` 已被配置用来处理 "httpbin.example.com" 的服务请求，而在测试环境中并没有为该主机绑定 DNS 而是简单直接地向 ingress IP 发送请求。
 
-1.  访问其他没有被显式暴露的 URL 时，将看到一个 HTTP 404 错误：
+1.  访问其他没有被显式暴露的 URL 时，将看到 HTTP 404 错误：
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -213,7 +213,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 ## 通过浏览器访问 ingress 服务{#accessing-ingress-services-using-a-browser}
 
-在浏览器中输入 `httpbin` 服务的URL 不能获得有效的响应，因为无法像 `curl` 那样，将请求头部参数 _Host_ 传给浏览器。在现实场景中，这并不是一个问题，因为你需要合理配置被请求的主机及可解析的 DNS，从而在 URL 中使用主机的域名，譬如： `https://httpbin.example.com/status/200`。
+在浏览器中输入 `httpbin` 服务的URL 不能获得有效的响应，因为无法像 `curl` 那样，将请求头部参数 _Host_ 传给浏览器。在现实场景中，这并不是问题，因为你需要合理配置被请求的主机及可解析的 DNS，从而在 URL 中使用主机的域名，譬如： `https://httpbin.example.com/status/200`。
 
 为了在简单的测试和演示中绕过这个问题，请在 `Gateway` 和 `VirtualService` 配置中使用通配符 `*`。譬如，修改 ingress 配置如下：
 
@@ -261,7 +261,7 @@ EOF
 
 `Gateway` 配置资源允许外部流量进入 Istio 服务网格，并对边界服务实施流量管理和 Istio 可用的策略特性。
 
-事先，在服务网格中创建一个服务并向外部流量暴露该服务的一个 HTTP 端点。
+事先，在服务网格中创建一个服务并向外部流量暴露该服务的 HTTP 端点。
 
 ## 问题排查{#troubleshooting}
 
