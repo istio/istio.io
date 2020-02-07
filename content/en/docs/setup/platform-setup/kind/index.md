@@ -1,7 +1,7 @@
 ---
 title: kind
 description: Instructions to setup kind for Istio.
-weight: 21
+weight: 17
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
 ---
@@ -12,13 +12,13 @@ Follow these instructions to prepare kind for Istio installation.
 
 ## Prerequisites
 
-- Please use latest Go version, ideally Go 1.13 or greater.
+- Please use the latest Go version, ideally Go 1.13 or greater.
 - To use kind, you will also need to [install docker](https://docs.docker.com/install/).
 - Install the latest version of [kind](https://kind.sigs.k8s.io/docs/user/quick-start/).
 
 ## Installation steps
 
-1.  Create cluster with the following command:
+1.  Create a cluster with the following command:
 
     {{< text bash >}}
     $ kind create cluster --name istio-testing
@@ -26,14 +26,14 @@ Follow these instructions to prepare kind for Istio installation.
 
     `--name` is used to assign specific name to the cluster. By default, the cluster will be given the name `kind`.
 
-1.  When you want to see the list of kind clusters, use following command:
+1.  To see the list of kind clusters, use the following command:
 
     {{< text bash >}}
     $ kind get clusters
     istio-testing
     {{< /text >}}
 
-1.  You can also check list of available local cluster contexts using following command.
+1.  To list the local Kubernetes contexts, use the following command.
 
     {{< text bash >}}
     $ kubectl config get-contexts
@@ -70,13 +70,13 @@ Follow these instructions to prepare kind for Istio installation.
 kind does not have in built dashboard UI like minikube. But you can still setup and view your cluster.
 Follow these instruction to setup dashboard UI for kind.
 
-1.  The dashboard UI is not deployed by default. To deploy it, run the following command:
+1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
     {{< /text >}}
 
-1.  Verify that the dashboard is deployed and running.
+1.  Verify that the Dashboard is deployed and running.
 
     {{< text bash >}}
     $ kubectl get pod -n kubernetes-dashboard
@@ -85,32 +85,32 @@ Follow these instruction to setup dashboard UI for kind.
     kubernetes-dashboard-b7ffbc8cb-zl8zg         1/1     Running   0          39s
     {{< /text >}}
 
-1.  Create `ClusterRoleBinding` to provide admin access to the newly created cluster.
+1.  Create a `ClusterRoleBinding` to provide admin access to the newly created cluster.
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
     {{< /text >}}
 
-1.  In order to login to the dashboard UI you need a token. Use following command to store token in variable.
+1.  In order to login to the Dashboard UI you need a token. Use the following command to store token in variable.
 
     {{< text bash >}}
     $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 -d)
     {{< /text >}}
 
-    Display token using the echo command and copy it so you can use it to login to dashboard.
+    Display the token using the `echo` command and copy it to use for logging into Dashboard.
 
     {{< text bash >}}
     $ echo $token
     {{< /text >}}
 
-1.  You can access dashboard using the kubectl command-line tool by running the following command:
+1.  You can access Dashboard using the kubectl command-line tool by running the following command:
 
     {{< text bash >}}
     $ kubectl proxy
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    Click [Kubernetes dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) to
+    Click [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) to
     view your deployments and services.
 
     {{< warning >}}
