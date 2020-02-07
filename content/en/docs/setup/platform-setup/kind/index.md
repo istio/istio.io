@@ -26,44 +26,43 @@ Follow these instructions to prepare kind for Istio installation.
 
     `--name` is used to assign specific name to the cluster. By default, the cluster will be given the name `kind`.
 
-1.  When you want to see the list of clusters, use following command:
+1.  When you want to see the list of kind clusters, use following command:
 
     {{< text bash >}}
     $ kind get clusters
-    kind-istio-testing
+    istio-testing
+    {{< /text >}}
+
+1.  You can also check list of available local cluster contexts using following command.
+
+    {{< text bash >}}
+    $ kubectl config get-contexts
+    CURRENT   NAME                 CLUSTER              AUTHINFO             NAMESPACE
+    *         kind-istio-testing   kind-istio-testing   kind-istio-testing
+              minikube             minikube             minikube
     {{< /text >}}
 
     {{< tip >}}
     `kind` is automatically prefixed in cluster name `kind-istio-testing`
     {{< /tip >}}
 
-1.  In order to interact with a specific cluster, you only need to specify the cluster name as a context in kubectl:
-
-    {{< text bash >}}
-    $ kubectl cluster-info --context kind-istio-testing
-    Kubernetes master is running at https://127.0.0.1:32773
-    KubeDNS is running at https://127.0.0.1:32773/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-    {{< /text >}}
-
-1.  In case you already have another local cluster, you must set kind as current cluster in order to use it.
-    View local cluster configuration using following command
-
-    {{< text bash >}}
-    $ kubectl config view
-    {{< /text >}}
-
-    Make sure that the `current-context` is set to `kind-istio-testing`. If it is set to another cluster like minikube,
-    You can set kind as a current cluster using the following command.
+1.  If you run multiple clusters, you need to choose which cluster `kubectl` talks to. You can set a default cluster
+    for `kubectl` by setting the current context in [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) file. Additionally you can run following command
+    to set the current context for `kubectl`.
 
     {{< text bash >}}
     $ kubectl config use-context kind-istio-testing
-    kubectl config use-context kind-istio-testing
+    Switched to context "kind-istio-testing".
     {{< /text >}}
+
+    Once you are done setting up local cluster, you can proceed to [setup Istio](/docs/setup/getting-started/#download)
+    on it.
 
 1.  When you are done experimenting and you want to delete existing cluster, use the following command:
 
     {{< text bash >}}
     $ kind delete cluster --name istio-testing
+    Deleting cluster "istio-testing" ...
     {{< /text >}}
 
 ## Setup Dashboard UI for kind
@@ -111,7 +110,8 @@ Follow these instruction to setup dashboard UI for kind.
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    Kubectl will make dashboard available at [localhost:8001](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/).
+    Click [Kubernetes dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) to
+    view your deployments and services.
 
     {{< warning >}}
     You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to login to your dashboard.
