@@ -24,7 +24,7 @@ the components you want (e.g, Pilot+Ingress only as the minimal Istio install). 
 information on customized Istio deployments.
 
 - **Automatic Proxy Injection**. We leverage Kubernetes 1.9's new
-[mutating webhook feature](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#api-machinery) to provide automatic
+[mutating webhook feature](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.9.md#api-machinery) to provide automatic
 pod-level proxy injection. Automatic injection requires Kubernetes 1.9 or beyond and
 therefore doesn't work on older versions. The alpha initializer mechanism is no longer supported.
 [Learn more](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
