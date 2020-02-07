@@ -35,8 +35,14 @@ mutual TLS enabled.
 
 First, you need to configure health checking with mutual TLS enabled.
 
-To enable mutual TLS for services in the default namespace, you must configure an authentication policy and a destination rule.
+To enable mutual TLS for services, you must configure an authentication policy and a destination rule.
 Follow these steps to complete the configuration:
+
+Run the following command to create namespace:
+
+{{< text bash >}}
+$ kubectl create ns istio-io-health
+{{< /text >}}
 
 1. To configure the authentication policy, run:
 
@@ -46,7 +52,7 @@ Follow these steps to complete the configuration:
     kind: "Policy"
     metadata:
       name: "default"
-      namespace: "default"
+      namespace: "istio-io-health"
     spec:
       peers:
       - mtls: {}
@@ -61,7 +67,7 @@ Follow these steps to complete the configuration:
     kind: "DestinationRule"
     metadata:
       name: "default"
-      namespace: "default"
+      namespace: "istio-io-health"
     spec:
       host: "*.default.svc.cluster.local"
       trafficPolicy:
@@ -73,13 +79,13 @@ Follow these steps to complete the configuration:
 Run the following command to deploy the service:
 
 {{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+$ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
 Repeat the check status command to verify that the liveness probes work:
 
 {{< text bash >}}
-$ kubectl get pod
+$ kubectl -n istio-io-health get pod
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
@@ -204,4 +210,5 @@ Remove the mutual TLS policy and corresponding destination rule added in the ste
 {{< text bash >}}
 $ kubectl delete policies default
 $ kubectl delete destinationrules default
+$ kubectl delete ns istio-io-health
 {{< /text >}}

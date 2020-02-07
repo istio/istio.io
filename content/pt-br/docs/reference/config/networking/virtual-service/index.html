@@ -6,8 +6,8 @@ description: Configuration affecting label/content routing, sni routing, etc.
 location: https://istio.io/docs/reference/config/networking/virtual-service.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
-schema: istio.networking.v1alpha3.VirtualService
-aliases: [/docs/reference/config/networking/v1alpha3/virtual-service]
+schema: istio.networking.v1beta1.VirtualService
+aliases: [/docs/reference/config/networking/v1beta1/virtual-service]
 number_of_entries: 23
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
@@ -52,7 +52,7 @@ pods of the reviews service with label &ldquo;version: v1&rdquo;. In addition,
 HTTP requests with path starting with /wpcatalog/ or /consumercatalog/ will
 be rewritten to /newcatalog and sent to pods with label &ldquo;version: v2&rdquo;.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -83,7 +83,7 @@ spec:
 to a named service subset which must be declared in a corresponding
 <code>DestinationRule</code>.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: reviews-destination
@@ -108,7 +108,7 @@ from example.com domain using HTTP POST/GET, and sets the
 <code>Access-Control-Allow-Credentials</code> header to false. In addition, it only
 exposes <code>X-Foo-bar</code> header and sets an expiry period of 1 day.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -142,13 +142,13 @@ spec:
 </tr>
 </thead>
 <tbody>
-<tr id="CorsPolicy-allow_origin">
-<td><code>allowOrigin</code></td>
-<td><code>string[]</code></td>
+<tr id="CorsPolicy-allow_origins">
+<td><code>allowOrigins</code></td>
+<td><code><a href="#StringMatch">StringMatch[]</a></code></td>
 <td>
-<p>The list of origins that are allowed to perform CORS requests. The
-content will be serialized into the Access-Control-Allow-Origin
-header. Wildcard * will allow all origins.</p>
+<p>String patterns that match allowed origins.
+An origin is allowed if any of the string matchers match.
+If a match is found, then the outgoing Access-Control-Allow-Origin would be set to the origin as provided by the client.</p>
 
 </td>
 <td>
@@ -242,7 +242,7 @@ domain names over short names.</em></p>
 of the reviews service with label &ldquo;version: v1&rdquo; (i.e., subset v1), and
 some to subset v2, in a Kubernetes environment.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -270,7 +270,7 @@ spec:
 
 <p>And the associated DestinationRule</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: reviews-destination
@@ -296,7 +296,7 @@ qualified domain name of the productpage service,
 productpage.prod.svc.cluster.local. Therefore the rule&rsquo;s namespace does
 not have an impact in resolving the name of the productpage service.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: my-productpage-rule
@@ -317,7 +317,7 @@ ServiceEntry resource. VirtualServices can then be defined to control traffic
 bound to these external services. For example, the following rules define a
 Service for wikipedia.org and set a timeout of 5s for HTTP requests.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: external-svc-wikipedia
@@ -331,7 +331,7 @@ spec:
     protocol: HTTP
   resolution: DNS
 
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: my-wiki-rule
@@ -370,9 +370,9 @@ instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpre
 the short name based on the namespace of the rule, not the service. A
 rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews will be
 interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
-the actual namespace associated with the reviews service. <em>To avoid
-potential misconfigurations, it is recommended to always use fully
-qualified domain names over short names.</em></p>
+the actual namespace associated with the reviews service. To avoid
+potential misconfiguration, it is recommended to always use fully
+qualified domain names over short names.</p>
 
 </td>
 <td>
@@ -462,7 +462,7 @@ No
 pre-specified error code. The following example will return an HTTP 400
 error code for 1 out of every 1000 requests to the &ldquo;ratings&rdquo; service &ldquo;v1&rdquo;.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -518,19 +518,6 @@ Yes
 No
 </td>
 </tr>
-<tr id="HTTPFaultInjection-Abort-percent" class="deprecated ">
-<td><code>percent</code></td>
-<td><code>int32</code></td>
-<td>
-<p>Percentage of requests to be aborted with the error code provided (0-100).
-Use of integer <code>percent</code> value is deprecated. Use the double <code>percentage</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -541,7 +528,7 @@ forwarding path. The following example will introduce a 5 second delay
 in 1 out of every 1000 requests to the &ldquo;v1&rdquo; version of the &ldquo;reviews&rdquo;
 service from all pods with label env: prod</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -624,7 +611,7 @@ restricts the rule to match only requests where the URL path
 starts with /ratings/v2/ and the request contains a custom <code>end-user</code> header
 with value <code>jason</code>.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -795,8 +782,21 @@ No
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
-gateways specified at the top, it must include the reserved gateway
+gateways specified in the top-level <code>gateways</code> field, it must include the reserved gateway
 <code>mesh</code> for this field to be applicable.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPMatchRequest-gateways">
+<td><code>gateways</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Names of gateways where the rule should be applied. Gateway names
+in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
+match is independent of sourceLabels.</p>
 
 </td>
 <td>
@@ -839,6 +839,19 @@ URI matches.</p>
 No
 </td>
 </tr>
+<tr id="HTTPMatchRequest-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -850,7 +863,7 @@ the specified values. For example, the following rule redirects
 requests for /v1/getProductRatings API on the ratings service to
 /v1/bookRatings provided by the bookratings service.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -923,7 +936,7 @@ No
 example, the following rule sets the maximum number of retries to 3 when
 calling ratings:v1 service, with a 2s timeout per retry attempt.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -1001,7 +1014,7 @@ be used only with HTTPRouteDestination. The following example
 demonstrates how to rewrite the URL prefix for api call (/ratings) to
 ratings service before making the actual API call.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -1253,7 +1266,7 @@ following rule will route 25% of traffic for the &ldquo;reviews&rdquo; service t
 instances with the &ldquo;v2&rdquo; tag and the remaining traffic (i.e., 75%) to
 &ldquo;v1&rdquo;.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -1274,7 +1287,7 @@ spec:
 
 <p>And the associated DestinationRule</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: reviews-destination
@@ -1293,7 +1306,7 @@ spec:
 having to define new subsets. For example, the following rule forwards 25% of
 traffic to reviews.com to dev.reviews.com</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: reviews-route-two-domains
@@ -1357,54 +1370,6 @@ No
 No
 </td>
 </tr>
-<tr id="HTTPRouteDestination-remove_response_headers" class="deprecated ">
-<td><code>removeResponseHeaders</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Use of <code>remove_response_header</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPRouteDestination-append_response_headers" class="deprecated ">
-<td><code>appendResponseHeaders</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-<p>Use of <code>append_response_headers</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPRouteDestination-remove_request_headers" class="deprecated ">
-<td><code>removeRequestHeaders</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Use of <code>remove_request_headers</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPRouteDestination-append_request_headers" class="deprecated ">
-<td><code>appendRequestHeaders</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-<p>Use of <code>append_request_headers</code> is deprecated. Use the <code>headers</code>
-field instead.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -1418,7 +1383,7 @@ to requests that are routed to any <code>reviews</code> service destination.
 It also romoves the <code>foo</code> response header, but only from responses
 coming from the <code>v1</code> subset (version) of the <code>reviews</code> service.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -1579,7 +1544,7 @@ No
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
-gateways specified at the top, it should include the reserved gateway
+gateways specified in the top-level <code>gateways</code> field, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
 
 </td>
@@ -1591,9 +1556,22 @@ No
 <td><code>gateways</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Names of gateways where the rule should be applied to. Gateway names
-at the top of the VirtualService (if any) are overridden. The gateway
+<p>Names of gateways where the rule should be applied. Gateway names
+in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="L4MatchAttributes-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
 
 </td>
 <td>
@@ -1757,7 +1735,7 @@ Yes
 following routing rule forwards traffic arriving at port 27017 for
 mongo.prod.svc.cluster.local to another Mongo server on port 5555.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: bookinfo-Mongo
@@ -1872,7 +1850,7 @@ No
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
-gateways specified at the top, it should include the reserved gateway
+gateways specified in the top-level <code>gateways</code> field, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
 
 </td>
@@ -1884,9 +1862,22 @@ No
 <td><code>gateways</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Names of gateways where the rule should be applied to. Gateway names
-at the top of the VirtualService (if any) are overridden. The gateway
+<p>Names of gateways where the rule should be applied. Gateway names
+in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TLSMatchAttributes-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
 
 </td>
 <td>
@@ -1903,7 +1894,7 @@ traffic (TLS/HTTPS) The following routing rule forwards unterminated TLS
 traffic arriving at port 443 of gateway called &ldquo;mygateway&rdquo; to internal
 services in the mesh based on the SNI value.</p>
 
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: bookinfo-sni
