@@ -9,7 +9,7 @@ weight: 30
 
 该模块显示了一个应用程序，它由四种以不同编程语言编写的微服务组成：`productpage`、`details`、`ratings` 和 `reviews`。我们将组成的应用程序称为 `Bookinfo`，您可以在 [Bookinfo 示例](/zh/docs/examples/bookinfo)页面中了解更多信息。
 
-`reviews` 微服务具有三个版本：`v1`、`v2`、`v3`，而 [Bookinfo 示例](/docs/examples/bookinfo)展示的是该应用的最终版本。在此模块中，应用程序仅使用 `reviews` 微服务的 `v1` 版本。接下来的模块通过多个版本的 `reviews` 微服务增强了应用程序。
+`reviews` 微服务具有三个版本：`v1`、`v2`、`v3`，而 [Bookinfo 示例](/zh/docs/examples/bookinfo)展示的是该应用的最终版本。在此模块中，应用程序仅使用 `reviews` 微服务的 `v1` 版本。接下来的模块通过多个版本的 `reviews` 微服务增强了应用程序。
 
 ## 部署应用程序及测试 pod{#deploy-the-application-and-a-testing-pod}
 
@@ -136,7 +136,7 @@ service/productpage patched
           - path: /static
             backend:
               serviceName: productpage
-              servicePort: 9080              
+              servicePort: 9080
     EOF
     {{< /text >}}
 

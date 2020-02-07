@@ -32,7 +32,7 @@ aliases:
     * 如果使用[手动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)，请使用下面命令：
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@) -n istio-io-tcp-traffic-shifting        
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@) -n istio-io-tcp-traffic-shifting
         {{< /text >}}
 
         [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在创建 deployments 之前
