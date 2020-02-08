@@ -162,6 +162,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER2 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
+    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
     $ istioctl manifest apply --context=$CTX_CLUSTER2 \
       --set profile=remote \
       --set values.global.mtls.enabled=true \
@@ -174,6 +175,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
       --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
       --set values.global.network="network2" \
+      --set values.global.multiCluster.clusterName=${CLUSTER_NAME} \
       --set autoInjection.enabled=true
     {{< /text >}}
 
