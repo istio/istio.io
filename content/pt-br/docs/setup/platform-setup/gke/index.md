@@ -19,7 +19,7 @@ for more information.
 Follow these instructions to prepare a GKE cluster for Istio.
 
 {{< warning >}}
-To enable SDS in Istio, use Kubernetes 1.13 or above.
+To enable the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration) (SDS) in Istio, use Kubernetes 1.13 or above.
 {{< /warning >}}
 
 1. Create a new cluster.

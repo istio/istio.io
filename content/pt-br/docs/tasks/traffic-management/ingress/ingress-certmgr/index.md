@@ -141,7 +141,7 @@ In order to have a certificate issued and managed by cert-manager you need to cr
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: ingress-cert
@@ -186,7 +186,7 @@ Now to switch to the production `letsencrypt` issuer.  First we'll reapply the c
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: ingress-cert
@@ -210,7 +210,7 @@ EOF
 {{< /text >}}
 
 {{< text plain>}}
-certificate.certmanager.k8s.io/ingress-cert configured
+certificate.cert-manager.io/ingress-cert configured
 {{< /text >}}
 
 Now delete the secret to force cert-manager to request a new certificate from the production issuer:

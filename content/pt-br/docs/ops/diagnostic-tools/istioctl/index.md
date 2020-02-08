@@ -47,7 +47,7 @@ Install the `istioctl` binary with `curl`:
 
 ## Get an overview of your mesh
 
-You can get an overview of your mesh using the `proxy-status` command:
+You can get an overview of your mesh using the `proxy-status` or `ps` command:
 
 {{< text bash >}}
 $ istioctl proxy-status

@@ -85,11 +85,11 @@ remove_toc_prefix: 'istio_ca '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -109,7 +109,7 @@ remove_toc_prefix: 'istio_ca '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -219,11 +219,11 @@ remove_toc_prefix: 'istio_ca '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -243,7 +243,7 @@ remove_toc_prefix: 'istio_ca '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -286,12 +286,12 @@ remove_toc_prefix: 'istio_ca '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -316,7 +316,7 @@ remove_toc_prefix: 'istio_ca '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, caSecretController, configMapController, default, k8sController, monitor, pkiCaLog, rootCertRotator, serverCaLog] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, configmapcontroller, default, monitor, pkica, rootcertrotator, secretcontroller, serverca] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -382,6 +382,12 @@ These environment variables affect the behavior of the <code>istio_ca</code> com
 <td>Time Duration</td>
 <td><code>10m0s</code></td>
 <td>The minimum workload certificate rotation grace period.</td>
+</tr>
+<tr>
+<td><code>JWT_POLICY</code></td>
+<td>String</td>
+<td><code>third-party-jwt</code></td>
+<td>The JWT validation policy.</td>
 </tr>
 <tr>
 <td><code>NAMESPACE</code></td>

@@ -7,7 +7,7 @@ keywords: [security,webhook]
 
 {{< boilerplate experimental-feature-warning >}}
 
-Istio has two webhooks: Galley and the sidecar injector. By default,
+Istio has two webhooks: validation and sidecar injection. By default,
 these webhooks manage their own configurations. From a
 security perspective, this default behavior is not recommended because a compromised webhook could then conduct
 privilege escalation attacks.
