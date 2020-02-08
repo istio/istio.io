@@ -37,7 +37,6 @@ We suggest you to disable and stop the firewall, instead, if your network config
     {{< text bash >}}
     $ curl -L https://kubesphere.io/download/stable/v2.1.0 > installer.tar.gz \
     && tar -zxf installer.tar.gz && cd kubesphere-all-v2.1.0/scripts
-    $ ./install.sh
     {{< /text >}}
 
 1. Run the following script and choose **"1) All-in-one"** to start.
