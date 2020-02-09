@@ -7,7 +7,7 @@ keywords: [security,webhook]
 
 {{< boilerplate experimental-feature-warning >}}
 
-Istio 有两个 webhooks：Galley 和 sidecar 注入器。
+Istio 有两个 webhooks：validation 和 sidecar 注入器。
 默认情况下，这些 webhooks 自己管理自己的配置。
 从安全角度来看，不建议使用此默认行为，因为被侵入的 webhook 随后可能会进行提权攻击。
 
