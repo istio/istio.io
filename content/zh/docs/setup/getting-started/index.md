@@ -9,10 +9,10 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-本指南面向 Istio 的新用户，让您通过安装 `demo` [配置文件](/docs/setup/additional-setup/config-profiles/) 快速评估 Istio。
+本指南面向 Istio 的新用户，让您通过安装 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 快速评估 Istio。
 
-如果您已经熟悉 Istio 或对安装其他配置文件或更高级的[部署模型](/docs/ops/deployment/deployment-models/)感兴趣，
-请遵循[使用 {{< istioctl >}} 的安装说明文档](/docs/setup/install/istioctl)。
+如果您已经熟悉 Istio 或对安装其他配置文件或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，
+请遵循[使用 {{< istioctl >}} 的安装说明文档](/zh/docs/setup/install/istioctl)。
 
 {{< warning >}}
 此 demo 配置文件不适用于性能评估。它旨在展示 Istio 高水平跟踪和访问日志的功能。
