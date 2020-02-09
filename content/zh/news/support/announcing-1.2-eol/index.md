@@ -1,14 +1,14 @@
 ---
-title: Support for Istio 1.2 ends on December 13th, 2019
-subtitle: Support Announcement
-description: Upcoming Istio 1.2 end of life announcement.
+title: 对 Istio 1.2 的支持将于 2019 年 12 月 13 日终止
+subtitle: 版本维护公告
+description: Istio 1.2 生命周期终止公告。
 publishdate: 2019-11-11
 aliases:
     - /zh/news/2019/announcing-1.2-eol
 ---
 
-According to Istio's [support policy](/zh/about/release-cadence/), LTS releases like 1.2 are supported for three months after the next LTS release. Since [1.3 was released on September 12th](/zh/news/releases/1.3.x/announcing-1.3/), support for 1.2 will end on December 13th, 2019.
+根据 Istio 的[支持策略](/zh/about/release-cadence/)，在下一个 LTS 版本发布后，1.2 版本会继续得到三个月的支持。由于 [1.3 已经在 9 月12 日发布](/zh/news/releases/1.3.x/announcing-1.3/)，对 1.2 版本的支持将于 2019 年 12 月 13 日终止。
 
-At that point we will stop back-porting fixes for security issues and critical bugs to 1.2, so we encourage you to upgrade to the latest version of Istio ({{<istio_release_name>}}).  If you don't do this you may put yourself in the position of having to do a major upgrade on a short timeframe to pick up a critical fix.
+届时，我们将停止为 1.2 提供针对安全问题和关键错误的修复程序，因此我们建议您升级到最新版本的 Istio ({{<istio_release_name>}})。如果您不这样做，可能会使自己处于必须在短时间内完成重大升级才能获取关键修复程序的地步。
 
-We care about you and your clusters, so please be kind to yourself and upgrade.
+我们非常关注您和您的集群，所以请参照我们的建议并进行升级。
