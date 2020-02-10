@@ -24,7 +24,7 @@ Follow these instructions to prepare a kind cluster for Istio installation.
     $ kind create cluster --name istio-testing
     {{< /text >}}
 
-    `--name` is used to assign specific name to the cluster. By default, the cluster will be given the name `kind`.
+    `--name` is used to assign a specific name to the cluster. By default, the cluster will be given the name `kind`.
 
 1.  To see the list of kind clusters, use the following command:
 
@@ -76,7 +76,7 @@ Follow these instructions to setup Dashboard for kind.
     $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
     {{< /text >}}
 
-1.  Verify that the Dashboard is deployed and running.
+1.  Verify that Dashboard is deployed and running.
 
     {{< text bash >}}
     $ kubectl get pod -n kubernetes-dashboard
@@ -114,6 +114,6 @@ Follow these instructions to setup Dashboard for kind.
     view your deployments and services.
 
     {{< warning >}}
-    You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to login to your dashboard.
+    You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to login to your Dashboard.
     {{< /warning >}}
 
