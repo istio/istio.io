@@ -8,7 +8,7 @@ keywords: [platform-setup,kubernetes,kind]
 
 [kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container `nodes`.
 kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI.
-Follow these instructions to prepare kind for Istio installation.
+Follow these instructions to prepare a kind cluster for Istio installation.
 
 ## Prerequisites
 
@@ -43,11 +43,11 @@ Follow these instructions to prepare kind for Istio installation.
     {{< /text >}}
 
     {{< tip >}}
-    `kind` is automatically prefixed in cluster name `kind-istio-testing`
+    `kind` is prefixed to the context and cluster names, for example: `kind-istio-testing`
     {{< /tip >}}
 
 1.  If you run multiple clusters, you need to choose which cluster `kubectl` talks to. You can set a default cluster
-    for `kubectl` by setting the current context in [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) file. Additionally you can run following command
+    for `kubectl` by setting the current context in the [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) file. Additionally you can run following command
     to set the current context for `kubectl`.
 
     {{< text bash >}}
@@ -55,10 +55,10 @@ Follow these instructions to prepare kind for Istio installation.
     Switched to context "kind-istio-testing".
     {{< /text >}}
 
-    Once you are done setting up local cluster, you can proceed to [setup Istio](/docs/setup/getting-started/#download)
+    Once you are done setting up a kind cluster, you can proceed to [install Istio](/docs/setup/getting-started/#download)
     on it.
 
-1.  When you are done experimenting and you want to delete existing cluster, use the following command:
+1.  When you are done experimenting and you want to delete the existing cluster, use the following command:
 
     {{< text bash >}}
     $ kind delete cluster --name istio-testing
@@ -67,8 +67,8 @@ Follow these instructions to prepare kind for Istio installation.
 
 ## Setup Dashboard UI for kind
 
-kind does not have in built dashboard UI like minikube. But you can still setup and view your cluster.
-Follow these instruction to setup dashboard UI for kind.
+kind does not have a built in Dashboard UI like minikube. But you can still setup Dashboard, a web based Kubernetes UI, to view your cluster.
+Follow these instructions to setup Dashboard for kind.
 
 1.  To deploy Dashboard, run the following command:
 
@@ -91,7 +91,7 @@ Follow these instruction to setup dashboard UI for kind.
     $ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
     {{< /text >}}
 
-1.  In order to login to the Dashboard UI you need a token. Use the following command to store token in variable.
+1.  To login to Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
 
     {{< text bash >}}
     $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 -d)
@@ -103,7 +103,7 @@ Follow these instruction to setup dashboard UI for kind.
     $ echo $token
     {{< /text >}}
 
-1.  You can access Dashboard using the kubectl command-line tool by running the following command:
+1.  You can Access Dashboard using the kubectl command-line tool by running the following command:
 
     {{< text bash >}}
     $ kubectl proxy
