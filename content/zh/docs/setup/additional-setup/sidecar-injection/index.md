@@ -13,11 +13,11 @@ aliases:
 
 为了充分利用 Istio 的所有特性，网格中的 pod 必须运行一个 Istio sidecar 代理。
 
-下面的章节描述了向 pod 中注入 Istio sidecar 的两种方法：使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或使用 Istio sidecar 注入器自动注入。
+下面的章节描述了向 pod 中注入 Istio sidecar 的两种方法：使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或启用 pod 所属命名空间的 Istio sidecar 注入器自动注入。
 
 手动注入直接修改配置，如 deployment，并将代理配置注入其中。
 
-使用准入控制器在 pod 创建时自动注入。
+当 pod 所属命名空间启用自动注入后，自动注入器会使用准入控制器在创建 Pod 时自动注入代理配置。
 
 通过应用 `istio-sidecar-injector` ConfigMap 中定义的模版进行注入。
 
@@ -64,7 +64,7 @@ sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
 虽然准入控制器默认情况下是启动的，但一些 Kubernetes 发行版会禁用他们。如果出现这种情况，根据说明来[启用准入控制器](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller)。
 {{< /tip >}}
 
-当注入 webhook 被启用后，任何新的 pod 都有将在创建时自动添加 sidecar。
+当你在一个命名空间中设置了 `istio-injection=enabled` 标签，且 injection webhook 被启用后，任何新的 pod 都有将在创建时自动添加 sidecar。
 
 请注意，区别于手动注入，自动注入发生在 pod 层面。你将看不到 deployment 本身有任何更改。取而代之，需要检查单独的 pod（使用 `kubectl describe`）来查询被注入的代理。
 
