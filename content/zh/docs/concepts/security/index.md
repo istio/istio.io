@@ -600,6 +600,18 @@ spec:
        ports: ["27017"]
 {{< /text >}}
 
+### 对双向 TLS 的依赖{#dependency-on-mutual-TLS}
+
+Istio 使用双向 TLS 将某些信息从客户端安全地传递到服务器。在使用授权策略中的以下任何字段之前，必须先启用双向 TLS：
+
+- `source` 部分下的 `principals` 字段
+- `source` 部分下的 `namespaces` 字段
+- `source.principal` 自定义条件
+- `source.namespace` 自定义条件
+- `connection.sni` 自定义条件
+
+如果您不使用授权策略中的上述任何字段，则双向 TLS 不是必须的。
+
 ### 使用其他授权机制{#using-other-authorization-mechanisms}
 
 虽然我们强烈建议使用 Istio 授权机制，但 Istio 足够灵活，允许您通过 Mixer 组件插入自己的身份验证和授权机制。
