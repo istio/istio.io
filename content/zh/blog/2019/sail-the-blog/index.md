@@ -10,7 +10,7 @@ target_release: 1.3
 
 欢迎来到 Istio 博客！
 
-为了让你更方便的在我们的网站上发表博客，我们[更新了内容类型指南](/zh/about/contribute/creating-and-editing-pages/#choosing-a-page-type)。
+为了让你更方便的在我们的网站上发表博客，我们[更新了内容类型指南](/zh/about/contribute/add-content/#content-types)。
 
 这次更新的目标是对内容进行更方便的分享和搜索。
 
@@ -22,6 +22,6 @@ target_release: 1.3
 -  文章中着重介绍了 Istio 的功能。
 -  文章中详细讲解了使用 Istio 完成一个任务或者满足特定用例需求的相关内容。
 
-仅需[提交一个 PR](/zh/about/contribute/github/#how-to-contribute) 就可以发表您的博客，如果需要，可以[申请评审](/zh/about/contribute/github/#review)。
+仅需[提交一个 PR](/zh/about/contribute/github/) 就可以发表您的博客，如果需要，可以[申请评审](/zh/about/contribute/review)。
 
 我们期待能够很快就能在博客上看到你的 Istio 体验！

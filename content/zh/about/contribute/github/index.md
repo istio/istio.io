@@ -78,7 +78,7 @@ keywords: [contribute,community,github,pr]
 
 1.  发布评论后，大家经过讨论一致同意合并 PR，请在文本上留下：`/hold cancel`。该命令将取消阻止 PR 合并。
 
-## 预览工作{#previewing-your-work}
+## 分支策略{#branching-strategy}
 
 当您提交 pull request 时，您在 GitHub 上的 PR 页面会显示一个指向为您的 PR 自动构建的登入站点的链接，这对于您查看最终用户的最终页面看起来很有用。这个临时的网站，可以确保页面预览看起来正常。
 
