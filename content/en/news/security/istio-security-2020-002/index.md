@@ -28,6 +28,6 @@ To be vulnerable, Istio must have Mixer Policy enabled and used in the specified
 
 ## Credit
 
-The Istio team would like to thank Krishnan Anantheswaran and Eric Zhang of [splunk](https://www.splunk.com/) for the private bug report.
+The Istio team would like to thank Krishnan Anantheswaran and Eric Zhang of [Splunk](https://www.splunk.com/) for the private bug report.
 
 {{< boilerplate "security-vulnerability" >}}
