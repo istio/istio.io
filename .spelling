@@ -41,6 +41,7 @@
 3ms
 3s
 404s
+4GB
 4ms
 4s
 5000qps
@@ -122,6 +123,7 @@ canaried
 canarying
 CAs
 CDNs
+CentOS
 Chrony
 CIDRs
 Cilium
@@ -148,6 +150,8 @@ ControlZ
 CoreDNS
 coreos
 Costin
+CPU
+CPUs
 CRD
 CRDs
 CSRs
@@ -176,6 +180,7 @@ datapath
 dataset
 datastore
 Datawire
+Debian
 debian
 decapsulated
 Delayering
@@ -331,9 +336,11 @@ Kubelet
 kubelet
 Kubernetes
 kubernetes.default
+KubeSphere
 L3-4
 L4-L6
 learnings
+LTS
 LibreSSL
 lifecycle
 LightStep
@@ -452,6 +459,7 @@ quo
 radis
 Rajagopalan
 ratelimit-handler
+RAM
 RawVM
 rbac
 re-applied
@@ -474,6 +482,7 @@ repurposed
 rethink
 Reviewer1
 Reviewer2
+RHEL
 roadmap
 roadmaps
 RocketChat
@@ -555,6 +564,7 @@ touchpoints
 Trulia
 trustability
 tunneling
+Ubuntu
 UID
 UIDs
 ulimit
@@ -637,5 +647,3 @@ Zipkin
 searchresults
 gcse
 MB
-CPU
-CPUs
