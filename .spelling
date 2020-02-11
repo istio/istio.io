@@ -122,6 +122,7 @@ canaried
 canarying
 CAs
 CDNs
+CentOS
 Chrony
 CIDRs
 Cilium
@@ -234,6 +235,7 @@ FQDNs
 FQDN
 frontend
 gbd
+GB
 GCP
 GCP-IAM
 GCP_OPTS
@@ -331,6 +333,7 @@ Kubelet
 kubelet
 Kubernetes
 kubernetes.default
+KubeSphere
 L3-4
 L4-L6
 learnings
