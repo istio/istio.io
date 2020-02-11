@@ -17,11 +17,9 @@ enable Istio on all the remaining microservices in one step.
     $ kubectl scale deployments --all --replicas 1
     {{< /text >}}
 
-1.  Redeploy the Bookinfo application, Istio-enabled. `productpage` will not be
+1.  Redeploy the Bookinfo application, Istio-enabled. The service `productpage` will not be
     redeployed since it already has Istio injected, and its pods will not be
-    changed. This time you will use only a single replica of a microservice,
-    scaling of the microservices is orthogonal to the demonstrated Istio
-    features.
+    changed. This time you will use only a single replica of a microservice.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | kubectl apply -l app!=reviews -f -
@@ -37,8 +35,7 @@ enable Istio on all the remaining microservices in one step.
 
 1.  Access the application's webpage several times. Note that Istio was added
     **transparently**, the original application did not change. It was added on
-    the fly, without the need to undeploy and redeploy the whole application,
-    without hurting the application's availability.
+    the fly, without the need to undeploy and redeploy the whole application.
 
 1.  Check the application pods and verify that now each pod has two containers.
     One container is the microservice itself, the other is the sidecar proxy
@@ -70,7 +67,8 @@ enable Istio on all the remaining microservices in one step.
         caption="Istio Service Dashboard"
         >}}
 
-1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console. Access
+1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console, which is not a part of Istio.
+    Access
     [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console).
     (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)). If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.

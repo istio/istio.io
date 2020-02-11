@@ -7,7 +7,7 @@ weight: 71
 
 Until now, you used a Kubernetes Ingress to access your application from the
 outside. In this module, you configure the traffic to enter through an Istio
-Ingress Gateway, in order to apply Istio control on traffic to your microservices.
+ingress gateway, in order to apply Istio control on traffic to your microservices.
 
 1.  Store the name of your namespace in the `NAMESPACE` environment variable.
     You will need it to recognize your microservices in the logs:
@@ -26,7 +26,7 @@ Ingress Gateway, in order to apply Istio control on traffic to your microservice
     istio.tutorial.bookinfo.com
     {{< /text >}}
 
-1.  Configure an Istio Ingress Gateway:
+1.  Configure an Istio ingress gateway:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -124,7 +124,7 @@ Ingress Gateway, in order to apply Istio control on traffic to your microservice
     and use Istio Ingress Gateway only. Stop the infinite loop (`Ctrl-C` in the
     terminal window) you set in the previous steps.
     In a real production environment, you would update the DNS entry of your
-    application to contain the IP of Istio Ingress Gateway or configure your
+    application to contain the IP of Istio ingress gateway or configure your
     external Load Balancer.
 
 1.  Delete the Kubernetes Ingress resource:

@@ -1,12 +1,10 @@
 ---
 title: Logging with Istio
 overview: Collecting and querying logs.
-
 weight: 72
-
 ---
 
-Logs and monitoring are important aspects of microservices architecture and are crucial to support transitioning to the microservices architecture style. Other requirements include rapid provisioning and rapid deployment, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html).
+Logs and monitoring are important aspects of microservice architecture and are crucial to support transitioning to the microservices architecture style. Other requirements include rapid provisioning and rapid deployment, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html).
 
 With Istio, you gain monitoring and logging of the traffic between microservices by default.
 You can use the Istio Dashboard for monitoring your microservices in real time.
@@ -22,7 +20,7 @@ In this module, you will learn how to inspect and query logs related to the traf
     tutorial
     {{< /text >}}
 
-1.  View the Mixer access log entries, related to your namespace:
+1.  View the access log entries, related to your namespace:
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep "accesslog.instance.istio-system" | grep "\"destinationNamespace\": \"$NAMESPACE\"" | grep '"reporter": "destination"'
@@ -33,7 +31,7 @@ In this module, you will learn how to inspect and query logs related to the traf
     {"level":"info","time":"2019-02-17T06:49:14.071252Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"none","destinationApp":"productpage","destinationIp":"AAAAAAAAAAAAAP//rB5tTg==","destinationName":"productpage-v1-59b4f9f8d5-5z6r9","destinationNamespace":"tutorial","destinationOwner":"kubernetes://apis/apps/v1/namespaces/tutorial/deployments/productpage-v1","destinationPrincipal":"","destinationServiceHost":"productpage.tutorial.svc.cluster.local","destinationWorkload":"productpage-v1","grpcMessage":"","grpcStatus":"","httpAuthority":"tutorial.bookinfo.com","latency":"30.980332ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":737,"referer":"","reporter":"destination","requestId":"b2094a51-367f-9e6c-8cfb-9f9a1166076c","requestSize":0,"requestedServerName":"","responseCode":200,"responseFlags":"-","responseSize":5845,"responseTimestamp":"2019-02-17T06:49:14.102102Z","sentBytes":6062,"sourceApp":"","sourceIp":"AAAAAAAAAAAAAP//AAAAAA==","sourceName":"unknown","sourceNamespace":"default","sourceOwner":"unknown","sourcePrincipal":"","sourceWorkload":"unknown","url":"/productpage","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15","xForwardedFor":"10.127.220.66"}
     {{< /text >}}
 
-    Notice the `sourceName` and `destinationName` attributes that tell you who called whom, for example `productpage`
+    Notice the `sourceName` and `destinationName` attributes that identify who called whom, for example `productpage`
     called `reviews`. (For `productpage`, `sourceName` is a pod of `istio-ingressgateway`).
     Notice the HTTP-related attributes: `responseCode`, `url`, `method`.
     Also observe general communication attributes: `responseSize`, `responseTimestamp`, `latency`.
@@ -41,8 +39,7 @@ In this module, you will learn how to inspect and query logs related to the traf
     Note that the log entries from all of Bookinfo microservices appear in one place.
     You do not have to go after each and every microservice and to display their logs one by one.
 
-While you can dump the log in the textual format and search for the relevant
-entries, you can do something smarter. Instead of working with logs as text, use
+While you can work with logs as text files, you can do something smarter. Use
 a log database, where you can query your logs, similar to querying structured
 data in SQL databases. Querying a database is more efficient than searching
 text, so you can run sophisticated queries to quickly get precise results. You

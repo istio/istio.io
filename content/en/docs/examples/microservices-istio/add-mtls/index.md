@@ -5,10 +5,8 @@ weight: 75
 
 ---
 
-In your current configuration, microservices communicate using HTTP. The traffic
-is not encrypted and if your cluster is compromised, the attackers can eavesdrop
-on the traffic. In addition, in some environments, there are regulations that
-require that all the traffic inside the cluster must be encrypted.
+In your current configuration, microservices communicate using HTTP, which means the traffic
+is not encrypted.
 
 Istio helps solve this problem by encrypting the traffic between the
 sidecars. This leaves only the traffic inside the application pods, and traffic
@@ -42,8 +40,7 @@ for the traffic between microservices in your namespace.
     {{< /text >}}
 
     {{< warning >}}
-
-    In case you did not enable the Istio Ingress Gateway, run the following command, in addition to the command above:
+    In case you did not enable the Istio Ingress Gateway, run the following command, in addition to the command above.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -82,10 +79,9 @@ for the traffic between microservices in your namespace.
     {{< /text >}}
 
     The last command failed as expected because your testing pod has no Istio
-    sidecar and it sent unencrypted HTTP request to your service that requires
-    mutual TLS Authentication. Now you can communicate with your microservices
-    only from pods with Istio sidecars injected and only if the traffic is
-    encrypted by the sidecar.
+    sidecar and it sent an unencrypted HTTP request to your service that requires
+    mutual TLS Authentication. Now communication is limited between services
+    where Istio sidecars are injected and only if the traffic is encrypted by the sidecar.
 
 1.  Access the Istio dashboard at
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard). Check `ratings` in _Istio Service Dashboard_. Notice that now a lock icon with text `mTLS` appears in

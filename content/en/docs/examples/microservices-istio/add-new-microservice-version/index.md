@@ -6,11 +6,10 @@ weight: 50
 
 ---
 
-In this module, you deploy a new version of the `reviews` microservice, _v2_,
+In this module, you deploy a new version of the `reviews` service, `_v2_`,
 which will return the number and star color of ratings provided by reviewers. In
-a real-world scenario, you would perform lint tests, unit tests, integration
-tests, end-to-end tests and tests in a staging environment, before the
-deployment.
+a real-world scenario, before you deploy, you would perform static analysis tests, unit tests, integration
+tests, end-to-end tests and tests in a staging environment.
 
 1.  Deploy the new version of the `reviews` microservice without the
     `app=reviews` label. Without that label, the new version will not be
@@ -57,9 +56,9 @@ deployment.
         {{< /text >}}
 
 1.  The previous steps ensure that your new version of `reviews` will work
-    and you can deploy it. You will deploy a single replica of it into
+    and you can deploy it. You will deploy a single replica of the service into
     production so the real production traffic will start to arrive to your new
-    version. With the current setting, 75% of the traffic will arrive to the old
+    service version. With the current setting, 75% of the traffic will arrive to the old
     version (three pods of the old version) and 25% will arrive to the new
     version (a single pod).
 
@@ -92,10 +91,11 @@ deployment.
     pod "reviews-v2-79c8c8c7c5-4p4mn" deleted
     {{< /text >}}
 
-    Access your application's webpage several times and see that now black stars
-    do not appear anymore.
+    Allow time for the configuration change to propagate through the system. Then,
+    access your application's webpage several times and see that now black stars
+    do not appear.
 
-    To put the new version back:
+    To restore the new version:
 
     {{< text bash >}}
     $ kubectl apply -l app=reviews,version=v2 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
@@ -127,20 +127,24 @@ deployment.
     stars only.
 
 In the previous steps, you performed the update of `reviews`. First,
-you deployed the new version without sending it production traffic. You
+you deployed the new version without sending it simulated production traffic. You
 tested it in the production environment using test traffic. You checked that the
 new version provides correct results. You released the new version, gradually
 increasing the production traffic to it. Finally, you decommissioned the old
 version.
 
-From here, you can improve your deployment strategy. First, test the new version
-end-to-end in production. This requires the ability to drive traffic to your new
-version using request parameters, for example using the user name stored in a
-cookie. In addition, perform shadowing of the production traffic to your new
-version and check if your new version provides incorrect results or produces
-errors. Finally, gain more detailed control of the rollout by deploying your new
-version to 10% of the users and then increase it by 10%. Istio enhances the
-value of Kubernetes by helping you perform these tasks in a straightforward way.
+From here, you can improve your deployment strategy using the following example
+tasks. First, test the new version end-to-end in production. This requires the
+ability to drive traffic to your new version using request parameters, for
+example using the user name stored in a cookie. In addition, perform shadowing
+of the production traffic to your new version and check if your new version
+provides incorrect results or produces errors. Finally, gain more detailed
+control of the rollout. As an example, you can deploy at 1%, then increase by 1%
+an hour as long as there does not appear to be degradation in the service. Istio
+enhances the value of Kubernetes by helping you perform these tasks in a
+straightforward way. For more detailed information and best practices about
+deployment, see
+[Deployment models](/docs/ops/deployment/deployment-models/).
 
 From here, you have two choices:
 

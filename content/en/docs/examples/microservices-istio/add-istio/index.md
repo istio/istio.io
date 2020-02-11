@@ -12,10 +12,10 @@ functionality to more effectively operate your microservices.
 In this module you enable Istio on a single microservice, `productpage`. The
 rest of the application will continue to operate as before. Note that you
 can enable Istio gradually, microservice by microservice. Istio is enabled
-transparently to the microservices, you do not change the microservices code or
+transparently to the microservices. You do not change the microservices code or
 disrupt your application, it continues to run and serve user requests.
 
-1.  Disable mutual TLS authentication in your namespace (will be explained later):
+1.  Disable mutual TLS authentication in your namespace, which will be explained later in the tutorial:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -31,17 +31,22 @@ disrupt your application, it continues to run and serve user requests.
 
 1.  Redeploy the `productpage` microservice, Istio-enabled:
 
+    {{< tip >}}
+    This tutorial step demonstrates manual sidecar injection to enable Istio for instructional purposes,
+    however [Automatic sidecar injection](/docs/ops/configuration/mesh/injection-concepts/) is more convenient.
+    {{< /tip >}}
+
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | sed 's/replicas: 1/replicas: 3/g' | kubectl apply -l app=productpage,version=v1 -f -
     deployment "productpage-v1" configured
     {{< /text >}}
 
 1.  Access the application's webpage and verify that the application continues
-    to work. Note that Istio was added **transparently**, the code of the
-    original application did not change.
+    to work. Istio was added without changing the code of the
+    original application.
 
 1.  Check the the `productpage`'s pods and see that now each replica has two
-    containers. The first container is the microservice itself, the second one
+    containers. The first container is the microservice itself and the second one
     is the sidecar proxy attached to it:
 
     {{< text bash >}}
@@ -61,15 +66,13 @@ disrupt your application, it continues to run and serve user requests.
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-1.  Note that Kubernetes replaced the original pods of `productpage` with the
-    Istio-enabled pods, transparently and incrementally,  performing what is
-    called a
+1.  Kubernetes replaced the original pods of `productpage` with the
+    Istio-enabled pods, transparently and incrementally, performing a
     [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/).
     Kubernetes terminated an old pod only when a new pod started to run, and it
-    transparently switched the traffic to the new pods, one by one. (To be more
-    precise, it did not terminate more than one pod before a new pod was
-    started.) All this was done to prevent disruption of your application, so it
-    continued to work during the injection of Istio.
+    transparently switched the traffic to the new pods, one by one. That is, it did not
+    terminate more than one pod before it stated a new pod. All this was done to prevent
+    disruption of your application, so it continued to work during the injection of Istio.
 
 1.  Check the logs of the Istio sidecar of `productpage`:
 
@@ -89,11 +92,9 @@ disrupt your application, it continues to run and serve user requests.
     tutorial
     {{< /text >}}
 
-1.  Check the Istio dashboard, access
+1.  Check the Istio dashboard, using the custom URL you set in your `/etc/hosts` file
+    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)):
     [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
-    (The `my-istio-dashboard.io` URL should be in your /etc/hosts file, you set
-    it
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
 
     In the top left drop-down menu, select _Istio Mesh Dashboard_.
 
@@ -126,7 +127,7 @@ disrupt your application, it continues to run and serve user requests.
         >}}
 
 This is the immediate benefit of applying Istio on a single microservice. You
-can get logs of traffic to and from the microservice, including time, HTTP
+receive logs of traffic to and from the microservice, including time, HTTP
 method, path, and response code. You can monitor your microservice using the
 Istio dashboard.
 
