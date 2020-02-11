@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2020-001
 subtitle: Security Bulletin
-description: Heap overflow and improper input validation in Envoy.
+description: Authentication Policy bypass.
 cves: [CVE-2020-8595]
 cvss: "9.0"
 vector: "AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H"
