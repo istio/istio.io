@@ -52,7 +52,7 @@ In Istio 1.3, we are taking advantage of improvements in Kubernetes to issue
 certificates for workload instances more securely.
 
 Kubernetes 1.12 introduces `trustworthy` JWTs to solve these issues.
-[Kubernetes 1.13](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.13.md)
+[Kubernetes 1.13](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.13.md)
 introduced the ability to change the value of the `aud` field to a value other
 than the API server. The `aud` field represents the audience in Kubernetes. To
 better secure the mesh, Istio 1.3 only supports `trustworthy` JWTs and requires
