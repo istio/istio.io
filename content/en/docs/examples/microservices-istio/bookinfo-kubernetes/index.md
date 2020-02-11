@@ -81,14 +81,16 @@ microservice.
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-1.  Deploy a testing pod, [sleep]({{< github_tree >}}/samples/sleep), to use it for sending
-    requests to your microservices:
+1.  After the services achieve the `Running` status, deploy a testing pod,
+    [sleep]({{< github_tree >}}/samples/sleep), to use for sending requests
+    to your microservices:
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
-1.  To confirm that the Bookinfo application is running, send a request to it with a curl command from your testing pod:
+1.  To confirm that the Bookinfo application is running, send a request to it
+    with a curl command from your testing pod:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
@@ -138,7 +140,7 @@ service/productpage patched
             backend:
               serviceName: productpage
               servicePort: 9080
-          - path: /static
+          - path: /static/*
             backend:
               serviceName: productpage
               servicePort: 9080
@@ -147,9 +149,16 @@ service/productpage patched
 
 ### Update your `/etc/hosts` configuration file
 
-1.  Append the output of the following command to `/etc/hosts`. You should have a
-    [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably use
-    [`sudo`](https://en.wikipedia.org/wiki/Sudo) to edit `/etc/hosts`.
+1.  Get the IP address for the Kubernetes ingress named `bookinfo`:
+
+    {{< text bash >}}
+    $ kubectl get ingress bookinfo
+    {{< /text >}}
+
+1.  In your `/etc/hosts` file, add the previous IP address to the host entries
+    provided by the following command. You should have a
+    [Superuser](https://en.wikipedia.org/wiki/Superuser) privilege and probably
+    use [`sudo`](https://en.wikipedia.org/wiki/Sudo) to edit `/etc/hosts`.
 
     {{< text bash >}}
     $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')

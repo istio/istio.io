@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Download, install, and learn how to evaluate and try Istio’s basic features quickly.
+description: Try Istio’s features quickly and easily.
 weight: 5
 aliases:
     - /docs/setup/kubernetes/getting-started/
@@ -22,11 +22,11 @@ is designed to showcase Istio functionality with high levels of tracing and
 access logging.
 {{< /warning >}}
 
-To get started with Istio, just follow these three steps:
-
 1. [Set up your platform](#platform)
 1. [Download the release](#download)
 1. [Install Istio](#install)
+1. [Enable automatic sidecar injection](#enable-injection)
+1. [Deploy the Bookinfo sample application](#Bookinfo)
 
 ## Set up your platform {#platform}
 
@@ -38,9 +38,9 @@ Create a cluster by selecting the appropriate [platform-specific setup instructi
 Some platforms provide a {{< gloss >}}managed control plane{{< /gloss >}} which you can use instead of
 installing Istio manually. If this is the case with your selected platform, and you choose to use it,
 you will be finished installing Istio after creating the cluster, so you can skip the following instructions.
-Refer to your platform service provider for further details and instructions.
+For more information, see your platform service provider's documentation.
 
-## Download the release {#download}
+## Download and install Istio {#download}
 
 Download the Istio release which includes installation files, samples, and the
 [{{< istioctl >}}](/docs/reference/commands/istioctl/) command line utility.
@@ -112,9 +112,9 @@ Follow these steps to install Istio using the `demo` configuration profile on yo
     {{< /text >}}
 
     {{< tip >}}
-    If your cluster is running in an environment that does not
+    If your cluster runs in an environment that does not
     support an external load balancer (e.g., minikube), the
-    `EXTERNAL-IP` of `istio-ingressgateway` will say
+    `EXTERNAL-IP` of `istio-ingressgateway` will display
     `<pending>`. To access the gateway, use the service's
     `NodePort`, or use port-forwarding instead.
     {{< /tip >}}
@@ -138,41 +138,44 @@ Follow these steps to install Istio using the `demo` configuration profile on yo
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## Next steps
+## Enable automatic sidecar injection {#enable-injection}
 
-With Istio installed, you can now deploy your own application or one of the sample applications
-provided with the installation.
+A benefit of Istio is automatic sidecar injection, which allows your applications to work in the service mesh without modification. To take advantage of this feature, enable sidecar injection by adding the `istio-injection=enabled` label to the Kubernetes namespaces in which you plan to deploy your applications. For more information, see [Istio sidecar injector](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
 
 {{< warning >}}
 The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
 traffic; HTTP/1.0 is not supported.
 {{< /warning >}}
 
-When you deploy your application using `kubectl apply`,
-the [Istio sidecar injector](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-will automatically inject Envoy containers into your
-application pods if they are started in namespaces labeled with `istio-injection=enabled`:
-
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
-$ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-In namespaces without the `istio-injection` label, you can use
-[`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject)
-to manually inject Envoy containers in your application pods before deploying
-them:
+Alternatively, you can manually inject Envoy containers in your application pods before deploying them, using
+[`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
 
 {{< text bash >}}
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-If you are not sure where to begin,
-[deploy the Bookinfo sample](/docs/examples/bookinfo/)
-which will allow you to evaluate Istio's features for traffic routing, fault injection, rate
-limiting, etc. Then explore the various [Istio tasks](/docs/tasks/) that interest you.
+## Deploy the Bookinfo sample application {#Bookinfo}
 
-The following tasks are a good place for beginners to start:
+If you have an application ready to go, deploy it:
+
+{{< text bash >}}
+$ kubectl create -n <namespace> -f <your-app-spec>.yaml
+{{< /text >}}
+
+Alternatively,
+[deploy the Bookinfo sample](/docs/examples/bookinfo/)
+to evaluate Istio's features for traffic routing,
+fault injection, rate limiting, etc. Then, explore the various
+[Istio tasks](/docs/tasks/) that interest you.
+
+## Next evaluation steps
+
+After installing Istio and deploying an application,
+see the following topics to explore more Istio features:
 
 - [Request routing](/docs/tasks/traffic-management/request-routing/)
 - [Fault injection](/docs/tasks/traffic-management/fault-injection/)
@@ -185,23 +188,26 @@ The following tasks are a good place for beginners to start:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
-The next step is to customize Istio and deploy your own applications.
-Before you install and customize Istio to fit your platform and intended use,
-check out the following resources:
+## Prepare for production deployment
+
+Before you install and customize Istio for production use,
+see the following topics:
 
 - [Deployment models](/docs/ops/deployment/deployment-models/)
 - [Deployment best practices](/docs/ops/best-practices/deployment/)
 - [Pod requirements](/docs/ops/deployment/requirements/)
 - [General installation instructions](/docs/setup/)
 
-As you continue to use Istio, we look forward to hearing from you and welcoming
-you to our [community](/about/community/join/).
+## Engage with the community
 
-## Uninstall
+We invite you to join our [community](/about/community/join/)
+and share your feedback and suggestions to improve Istio.
 
-The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
-all resources hierarchically under it. It is safe to ignore errors for
-non-existent resources because they may have been deleted hierarchically.
+## Uninstall Istio {#uninstall}
+
+The uninstall deletes the `istio-system` namespace and the resources in it,
+including any associated RBAC permissions. The uninstall command might generate errors
+about non-existent resources, which you can ignore:
 
 {{< text bash >}}
 $ istioctl manifest generate --set profile=demo | kubectl delete -f -
