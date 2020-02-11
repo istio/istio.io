@@ -14,8 +14,11 @@ If you are in a workshop and the instructors provide a cluster for you,
 proceed to [setting up your local computer](/docs/examples/microservices-istio/setup-local-computer).
 {{</ warning >}}
 
-1.  Ensure you have access to a [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
-    You can use the [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) or the
+1.  Ensure you have access to a
+    [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
+    You can use the
+    [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart)
+    or the
     [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
 1.  Create an environment variable to store the name
@@ -38,9 +41,12 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  [Install Istio](/docs/setup/).
+1.  [Install Istio](/docs/setup/getting-started/) using the `demo` profile.
 
-1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
+1.  Next, enable Envoy's access logging as described in
+    [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#before-you-begin).
+    Skip the clean up and delete steps, because you need the sleep
+    application for later tutorial modules.
 
 1.  Create a Kubernetes Ingress resource for these common Istio services using
     the `kubectl` command shown. It is not necessary to be familiar with each of
@@ -66,28 +72,28 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       - host: my-istio-dashboard.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: grafana
               servicePort: 3000
       - host: my-istio-tracing.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: tracing
               servicePort: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: prometheus
               servicePort: 9090
       - host: my-kiali.io
         http:
           paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: kiali
               servicePort: 20001
@@ -182,6 +188,10 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     The `kubectl` command uses the configuration file to operate on the cluster.
 
     Generate a Kubernetes configuration file for each participant:
+
+    {{< tip >}}
+    This command assumes your cluster is named `tutorial-cluster`. If your cluster is named differently, replace all references with the name of your cluster.
+    {{</ tip >}}
 
     {{< text bash >}}
     $ cat <<EOF > ./${NAMESPACE}-user-config.yaml

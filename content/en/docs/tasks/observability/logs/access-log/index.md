@@ -21,8 +21,12 @@ The standard output of Envoy's containers can then be printed by the `kubectl lo
 
 Edit the `istio` configuration map:
 
+{{< tip >}}
+In the example below, replace `demo` with the name of the profile you used when you installed Istio.
+{{< /tip >}}
+
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.proxy.accessLogFile="/dev/stdout"
+$ istioctl manifest apply --set profile=demo --set values.global.proxy.accessLogFile="/dev/stdout"
 configmap "istio" replaced
 {{< /text >}}
 
