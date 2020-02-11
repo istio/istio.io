@@ -113,12 +113,17 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [yaml log json]  (default `log`)</td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
 <td></td>
 <td>The severity level of analysis at which to display messages. Valid values: [Info Warn Error]  (default `Info`)</td>
+</tr>
+<tr>
+<td><code>--recursive</code></td>
+<td><code>-R</code></td>
+<td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
 </tr>
 <tr>
 <td><code>--suppress &lt;stringArray&gt;</code></td>
@@ -148,10 +153,13 @@ debug and diagnose their Istio mesh.
 istioctl analyze
 
 # Analyze the current live cluster, simulating the effect of applying additional yaml files
-istioctl analyze a.yaml b.yaml
+istioctl analyze a.yaml b.yaml my-app-config/
+
+# Analyze the current live cluster, simulating the effect of applying a directory of config recursively
+istioctl analyze --recursive my-istio-config/
 
 # Analyze yaml files without connecting to a live cluster
-istioctl analyze --use-kube=false a.yaml b.yaml
+istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
 
 # Analyze the current live cluster and suppress PodMissingProxy for pod mypod in namespace &#39;testing&#39;.
 istioctl analyze -S &#34;IST0103=Pod mypod.testing&#34;
@@ -1173,6 +1181,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>The severity level of analysis at which to display messages. Valid values: [Info Warn Error]  (default `Info`)</td>
 </tr>
 <tr>
+<td><code>--recursive</code></td>
+<td><code>-R</code></td>
+<td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
+</tr>
+<tr>
 <td><code>--suppress &lt;stringArray&gt;</code></td>
 <td><code>-S</code></td>
 <td>Suppress reporting a message code on a specific resource. Values are supplied in the form &lt;code&gt;=&lt;resource&gt; (e.g. &#39;--suppress &#34;IST0102=DestinationRule primary-dr.default&#34;&#39;). Can be repeated. You can include the wildcard character &#39;*&#39; to support a partial match (e.g. &#39;--suppress &#34;IST0102=DestinationRule *.default&#34; ).  (default `[]`)</td>
@@ -1200,10 +1213,13 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 istioctl analyze
 
 # Analyze the current live cluster, simulating the effect of applying additional yaml files
-istioctl analyze a.yaml b.yaml
+istioctl analyze a.yaml b.yaml my-app-config/
+
+# Analyze the current live cluster, simulating the effect of applying a directory of config recursively
+istioctl analyze --recursive my-istio-config/
 
 # Analyze yaml files without connecting to a live cluster
-istioctl analyze --use-kube=false a.yaml b.yaml
+istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
 
 # Analyze the current live cluster and suppress PodMissingProxy for pod mypod in namespace &#39;testing&#39;.
 istioctl analyze -S &#34;IST0103=Pod mypod.testing&#34;
@@ -2554,7 +2570,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioControlPlane CustomResource  (default `[]`)</td>
+<td>Path to file containing IstioOperator custom resource  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--force</code></td>
@@ -2867,7 +2883,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -3044,7 +3060,7 @@ e.g.
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -3276,7 +3292,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default ``)</td>
 </tr>
 <tr>
@@ -3362,7 +3378,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default ``)</td>
 </tr>
 <tr>
@@ -3480,6 +3496,10 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
+<h3 id="istioctl-profile Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl profile list
+istioctl manifest apply --set profile=demo  # Use a profile from the list
+</code></pre>
 <h2 id="istioctl-profile-diff">istioctl profile diff</h2>
 <p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
 <pre class="language-bash"><code>istioctl profile diff &lt;file1.yaml&gt; &lt;file2.yaml&gt; [flags]
@@ -3566,7 +3586,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -4391,7 +4411,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioControlPlane CustomResource  (default `[]`)</td>
+<td>Path to file containing IstioOperator custom resource  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--force</code></td>

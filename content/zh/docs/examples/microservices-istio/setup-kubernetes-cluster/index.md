@@ -16,7 +16,7 @@ weight: 2
     您可以使用 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) 或
      [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started)。
 
-1.  连接到您的集群且生成一个环境变量用于存储运行教程指令要用到的命名空间的名字。
+1.  生成一个环境变量用于存储运行教程指令要用到的命名空间的名字。
     可以用任何名字，比如 `tutorial`。
 
     {{< text bash >}}
@@ -33,7 +33,7 @@ weight: 2
     如果您是一位讲师，可以为每个参与者分配独立的命名空间。本教程支持多个参与者在不同的命名空间下同时运行。
     {{< /tip >}}
 
-1.  [安装 Istio](/zh/docs/setup/) 并启用严格双向 TLS。
+1.  [安装 Istio](/zh/docs/setup/)。
 
 1.  [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
 
@@ -68,7 +68,7 @@ weight: 2
           - path: /
             backend:
               serviceName: tracing
-              servicePort: 80
+              servicePort: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
@@ -215,7 +215,7 @@ weight: 2
 1.  如果您为自己设置好了集群，复制前面步骤中提到的 `${NAMESPACE}-user-config.yaml` 文件到您的本地机器，`${NAMESPACE}` 就是前面步骤中的命名空间。比如，`tutorial-user-config.yaml`。
     教程中您将会再次用到这个文件。
 
-    如果您是讲师，发送生成的文件给每个需要复制到本地机器的参与者。
+    如果您是讲师，则将生成的配置文件发送给每个学员。学员必须将该配置文件复制到自己本地的计算机。
 
 恭喜, 您为您的教程设置好了集群！
 

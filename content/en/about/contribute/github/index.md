@@ -1,7 +1,7 @@
 ---
-title: Working with GitHub
-description: Shows you how to use GitHub to work on Istio documentation.
-weight: 30
+title: Work with GitHub
+description: Shows you how to use GitHub to contribute to the Istio documentation.
+weight: 2
 aliases:
     - /docs/welcome/contribute/creating-a-pull-request.html
     - /docs/welcome/contribute/staging-your-changes.html
@@ -12,128 +12,84 @@ aliases:
 keywords: [contribute,community,github,pr]
 ---
 
-We're excited that you're interested in contributing to improve and expand
-our docs! Please take a few moments to get familiar with our procedures before
-you get started.
+The Istio documentation follows the standard [GitHub collaboration flow](https://guides.github.com/introduction/flow/)
+for Pull Requests (PRs). This well-established collaboration model helps open
+source projects manage the following types of contributions:
 
-To work on Istio documentation, you need to:
+- [Add](/about/contribute/add-content) new files to the repository.
+- [Edit](#quick-edit) existing files.
+- [Review](/about/contribute/review) the added or modified files.
+- Manage multiple release or development [branches](#branching-strategy).
+
+The contribution guides assume you can complete the following tasks:
+
+- Fork the [Istio documentation repository](https://github.com/istio/istio.io).
+- Create a branch for your changes.
+- Add commits to that branch.
+- Open a PR to share your contribution.
+
+## Before you begin
+
+To contribute to the Istio documentation, you need to:
 
 1. Create a [GitHub account](https://github.com).
 
-1. Sign the [Contributor License
-   Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements).
+1. Sign the [Contributor License Agreement](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements).
 
-The documentation is published under the [Apache
-2.0](https://github.com/istio/community/blob/master/LICENSE) license.
+1. Install [Docker](https://www.docker.com/get-started) on your authoring system
+   to preview and test your changes.
 
-## How to contribute
+The Istio documentation is published under the
+[Apache 2.0](https://github.com/istio/community/blob/master/LICENSE) license.
 
-There are three ways you can contribute to the Istio documentation:
+## Perform quick edits {#quick-edit}
 
-* If you want to edit an existing page, you can open up the page in your
-  browser and select the **Edit This Page on GitHub** option from the gear menu
-  at the top right of each page. This takes you to GitHub to edit and
-  submit the changes.
+Anyone with a GitHub account who signs the CLA can contribute a quick
+edit to any page on the Istio website. The process is very simple:
 
-* If you want to work on the site in general, follow the steps in our
-  [How to add content section](#add).
+1. Visit the page you wish to edit.
+1. Add `preliminary` to the beginning of the URL. For example, to edit
+   `https://istio.io/about`, the new URL should be
+   `https://preliminary.istio.io/about`
+1. Click the pencil icon in the lower right corner.
+1. Perform your edits on the GitHub UI.
+1. Submit a Pull Request with your changes.
 
-* If you want to review an existing pull request (PR), follow the steps in our
-  [How to review content section](#review)
+Please see our guides on how to [contribute new content](/about/contribute/add-content)
+or [review content](/about/contribute/review) to learn more about submitting more
+substantial changes.
 
-Once your changes are merged, they show up immediately on
-`preliminary.istio.io`. However, the changes only
-show up on `istio.io` the next time we produce a new
-release, which happens around once a quarter.
+## Branching strategy
 
-### How to add content {#add}
-
-To add content you must create a fork of the repository and submit a PR from
-your fork to the docs main repository. The following steps describe the
-process:
+Active content development takes place using the master branch of the
+`istio/istio.io` repository. On the day of an Istio release, we create a release
+branch of master for that release. The following button takes you to the
+repository on GitHub:
 
 <a class="btn"
 href="https://github.com/istio/istio.io/">Browse this site's source
 code</a>
 
-1.  Click the button above to visit the GitHub repository.
+The Istio documentation repository uses multiple branches to publish
+documentation for all Istio releases. Each Istio release has a corresponding
+documentation branch. For example, there are branches called `release-1.0`,
+`release-1.1`, `release-1.2` and so forth. These branches were created on the
+day of the corresponding release. To view the documentation for a specific
+release, see the [archive page](https://archive.istio.io/).
 
-1.  Click the **Fork** button in the upper-right corner of the screen to
-    create a copy of our repository in your GitHub account.
+This branching strategy allows us to provide the following Istio online resources:
 
-1.  Create a clone of your fork and make any changes you want.
+- The [public site](/docs/) shows the content from the current
+  release branch.
 
-1.  When you are ready to send those changes to us, push the changes to your
-    fork.
+- The preliminary site at `https://preliminary.istio.io` shows the content from
+  the master branch.
 
-1.  Go to the index page for your fork, and click **New Pull Request** to let
-    us know about it.
-
-### How to review content {#review}
-
-If your review is small, simply comment on the PR directly. If you review the
-content in detail, follow these steps:
-
-1.  Leave a comment on the PR with the text `/hold`. This command prevents the
-    PR from being merged before you are able to complete your review.
-
-1.  Perform your detailed review. When possible leave specific comments
-    directly on the files and lines affected.
-
-1.  Provide suggestions to the PR owner in your comments when appropriate. For
-    example:
-
-    {{< text markdown >}}
-    Use present tense to avoid verb congruence issues and
-    to make the text easier to understand:
-
-    &96;&96;&96;suggestion
-
-    Pilot maintains an abstract model of the mesh.
-
-    &96;&96;&96;
-    {{< /text >}}
-
-1.  Publish your review to share your comments and suggestions with us and the
-    PR owner. Request changes as the review warrants.
-
-    {{< warning >}}
-    If you don't publish your review, the PR owner and
-    the community cannot see your comments.
-    {{< /warning >}}
-
-1.  Once you publish your review, leave a comment with the text:
-    `/hold cancel`. That command unblocks the PR from being merged.
-
-## Previewing your work
-
-When you submit a pull request, your PR page on GitHub shows a link to a
-staging site built automatically for your PR. This is useful for you to see
-what the final page looks like to end-users. Folks reviewing your
-pull request also use this staging site to make sure everything looks good.
-
-If you created a fork of the repository, you can preview your changes locally.
-See this
-[README](https://github.com/istio/istio.io/blob/master/README.md) for
-instructions.
-
-## Branching
-
-We use multiple branches to track documentation for different versions of Istio.
-The master branch is where active doc work takes place, this is where you should
-generally be making changes.
-
-On the day of an Istio release, a release branch is created from master for that
-release. For example, there are branches called `release-1.0`, `release-1.1`,
-`release-1.2` and so forth.
-
-The `istio.io` public site is produced by processing content from the current
-release branch. The `preliminary.istio.io` site is produced by processing
-content from the master branch. And the `archive.istio.io` site is
-produced by processing content from all prior release branches.
+- The [archive site](https://archive.istio.io) shows the content from all prior
+  release branches.
 
 Given how branching works, if you submit a change into the master branch,
-that change will not appear on `istio.io` until the next major Istio release
+that change won't appear on `istio.io` until the next major Istio release
 happens. If your documentation change is relevant to the current Istio release,
 then it's probably worth also applying your change to the current release branch.
 You can do this easily and automatically by using the special cherry-pick labels
@@ -141,14 +97,14 @@ on your documentation PR. For example, if you introduce a correction in a PR to
 the master branch, you can apply the `cherrypick/release-1.4` label in order to
 merge this change to the `release-1.4` branch.
 
-Once your initial PR is merged, automation will create a new PR in the release
+When your initial PR is merged, automation creates a new PR in the release
 branch which includes your changes. You may need to add a comment to the PR
 that reads `@googlebot I consent` in order to satisfy the `CLA` bot that we
 use.
 
 On rare occasions, automatic cherry picks don't work. When that happens, the
-automation will leave a note in the original PR indicating it failed. When
-that happens, you will need to manually create the cherry pick and deal
+automation leaves a note in the original PR indicating it failed. When
+that happens, you must manually create the cherry pick and deal
 with the merge issues that prevented the process from working automatically.
 
 Note that we only ever cherry pick changes into the current release branch,

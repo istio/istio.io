@@ -320,11 +320,11 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-## `istio_cni` 选项 {#Istio-CNI-options}
+## `cni` 选项 {#CNI-options}
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
-| `istio_cni.enabled` | `false` |  |
+| `cni.enabled` | `false` |  |
 
 ## `istiocoredns` 选项 {#Istio-CoreDNS-options}
 

@@ -86,7 +86,7 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Standalone Operator](/docs/setup/install/standalone-operator/) | Alpha
+| [Standalone Operator](/docs/setup/install/standalone-operator/) | Beta
 | [Kubernetes: Envoy Installation and Traffic Interception](/docs/setup/) | Stable
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/) | Stable

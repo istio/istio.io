@@ -9,23 +9,9 @@ weight: 30
 
 该模块显示了一个应用程序，它由四种以不同编程语言编写的微服务组成：`productpage`、`details`、`ratings` 和 `reviews`。我们将组成的应用程序称为 `Bookinfo`，您可以在 [Bookinfo 示例](/zh/docs/examples/bookinfo)页面中了解更多信息。
 
-可以将示例中使用的应用程序版本视为最终版本，因为 `reviews` 微服务具有三个版本：`v1`、`v2`、`v3`。
-
-在此模块中，应用程序仅使用 `reviews` 微服务的 `v1` 版本。接下来的模块通过多个版本的 `reviews` 微服务增强了应用程序。
+`reviews` 微服务具有三个版本：`v1`、`v2`、`v3`，而 [Bookinfo 示例](/zh/docs/examples/bookinfo)展示的是该应用的最终版本。在此模块中，应用程序仅使用 `reviews` 微服务的 `v1` 版本。接下来的模块通过多个版本的 `reviews` 微服务增强了应用程序。
 
 ## 部署应用程序及测试 pod{#deploy-the-application-and-a-testing-pod}
-
-1.  设置环境变量 `NAMESPACE` 的值为 `tutorial`：
-
-    {{< text bash >}}
-    $ export NAMESPACE=tutorial
-    {{< /text >}}
-
-1.  设置环境变量 `KUBECONFIG` 的值为之前的模块中创建的文件的路径：
-
-    {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
-    {{< /text >}}
 
 1.  设置环境变量 `MYHOST` 的值为应用程序的 URL：
 
@@ -36,7 +22,7 @@ weight: 30
 1.  浏览 [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml)。
     这是该应用的 Kubernetes 部署规范。注意 services 和 deployments。
 
-1.  部署应用到 Kubernetes 集群的 `tutorial` 命名空间：
+1.  部署应用到 Kubernetes 集群：
 
     {{< text bash >}}
     $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
@@ -107,17 +93,15 @@ weight: 30
 
 ## 启用对应用的外部访问{#enable-external-access-to-the-application}
 
-应用程序运行后，使集群外部的客户端可以访问它。这样的客户端称为 mesh-external 客户端。成功配置以下步骤后，即可从笔记本电脑的浏览器访问该应用程序。
+应用程序运行后，使集群外部的客户端可以访问它。成功配置以下步骤后，即可从笔记本电脑的浏览器访问该应用程序。
 
 {{< warning >}}
 
-如果您的集群运行于 GKE，请在创建 Kubernetes ingress 之前将 `productpage` service 的类型修改为 `LoadBalancer`，如以下示例所示：
+如果您的集群运行于 GKE，请将 `productpage` service 的类型修改为 `LoadBalancer`，如以下示例所示：
 
-{{< text yaml >}}
-selector:
-  app: productpage
-sessionAffinity: None
-type: LoadBalancer
+{{< text bash >}}
+$ kubectl patch svc productpage -p '{"spec": {"type": "LoadBalancer"}}'
+service/productpage patched
 {{< /text >}}
 
 {{< /warning >}}
@@ -149,12 +133,16 @@ type: LoadBalancer
             backend:
               serviceName: productpage
               servicePort: 9080
+          - path: /static
+            backend:
+              serviceName: productpage
+              servicePort: 9080
     EOF
     {{< /text >}}
 
 ### 更新 `/etc/hosts` 配置文件{#update-your-etc-hosts-configuration-file}
 
-1.  将以下命令的输出内容追加到 `/etc/hosts` 文件。您应当具有[超级用户](https://en.wikipedia.org/wiki/Superuser)权限，并且可能需要使用 [`sudo`](https://en.wikipedia.org/wiki/Sudo) 来运行命令。
+1.  将以下命令的输出内容追加到 `/etc/hosts` 文件。您应当具有[超级用户](https://en.wikipedia.org/wiki/Superuser)权限，并且可能需要使用 [`sudo`](https://en.wikipedia.org/wiki/Sudo) 来编辑 `/etc/hosts`。
 
     {{< text bash >}}
     $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')

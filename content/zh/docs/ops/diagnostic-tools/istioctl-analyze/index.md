@@ -165,3 +165,42 @@ status:
 {{< text bash >}}
 $ istioctl manifest apply --set values.galley.enableAnalysis=true
 {{< /text >}}
+
+### 通过 CLI 忽略特定的分析器消息{#ignoring-specific-analyzer-messages-via-cli}
+
+有时候你可能会发现，在某些情况下隐藏或忽略分析器消息很有用。例如，假设出现这样一种情况，其发出有关您无权更新资源的消息：
+
+{{< text bash >}}
+$ istioctl analyze -k --all-namespaces
+Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
+Error: Analyzers found issues.
+See https://istio.io/docs/reference/config/analysis for more information about causes and resolutions.
+{{< /text >}}
+
+因为您没有更新命名空间的权限，所以无法通过注释命名空间来解析消息。相反，您可以直接使用 `istioctl analyze` 来抑制上述资源中的消息：
+
+{{< text bash >}}
+$ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod"
+✔ No validation issues found.
+{{< /text >}}
+
+用于抑制的语法与引用资源时在整个 `istioctl` 中使用的语法相同：`<kind> <name>.<namespace>`。或只是 `<kind> <name>` 用于集群范围内的资源，例如，`Namespace`。如果要抑制多个对象，则可以重复使用 `--suppress` 参数或使用通配符：
+
+{{< text bash >}}
+$ # Suppress code IST0102 on namespace frod and IST0107 on all pods in namespace baz
+$ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --suppress "IST0107=Pod *.baz"
+{{< /text >}}
+
+### 通过注释忽略特定的分析器消息{#ignoring-specific-analyzer-messages-via-annotations}
+
+您还可以使用资源上的注释忽略特定的分析器消息。例如，忽略资源 `deployment/my-deployment` 上的代码 IST0107（`MisplacedAnnotation`）：
+
+{{< text bash >}}
+$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107
+{{< /text >}}
+
+要忽略资源的多处代码，请用逗号分隔每处代码：
+
+{{< text bash >}}
+$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
+{{< /text >}}

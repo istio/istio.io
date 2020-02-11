@@ -9,6 +9,15 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
+本指南面向 Istio 的新用户，让您通过安装 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 快速评估 Istio。
+
+如果您已经熟悉 Istio 或对安装其他配置文件或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，
+请遵循[使用 {{< istioctl >}} 的安装说明文档](/zh/docs/setup/install/istioctl)。
+
+{{< warning >}}
+此 demo 配置文件不适用于性能评估。它旨在展示 Istio 高水平跟踪和访问日志的功能。
+{{< /warning >}}
+
 要开始使用 Istio，只需遵循以下三个步骤：
 
 1. [搭建平台](#platform)
@@ -57,13 +66,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
 ## 安装 Istio {#install}
 
-本指南可以让您快速尝鲜 Istio ，这对初学者来说是一个理想的起点。首先，下载并安装 Istio 的内建 `demo` [配置](/zh/docs/setup/additional-setup/config-profiles/)。
-
-本指南让您快速开始认识 Istio。如果您已经熟悉 Istio 或对其他配置内容或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，请参考 [使用 {{< istioctl >}} 命令安装](/zh/docs/setup/install/istioctl)。
-
-{{< warning >}}
-演示用的配置不适合用于性能评估。它仅用来展示 Istio 的链路追踪和访问记录功能。
-{{< /warning >}}
+请按照以下步骤在您所选的平台上使用 `demo` 配置文件安装 Istio。
 
 1. 安装 `demo` 配置
 
