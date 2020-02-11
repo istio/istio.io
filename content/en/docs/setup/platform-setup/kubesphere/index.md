@@ -14,7 +14,7 @@ KubeSphere provides [All-in-One](https://kubesphere.io/docs/v2.1/en/installation
 
 ## Prerequisites
 
-A new Linux machine (64 bit), supports virtual machine or bare metal, at least 2 CPUs and 4 GB of memory. The following operating systems are supported:
+A new Linux machine (64 bit), supports virtual machine or bare metal. At least 2 CPUs and 4GB of memory. The following operating systems are supported:
 
 - CentOS 7.4 ~ 7.7
 - Ubuntu 16.04/18.04 LTS
