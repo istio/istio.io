@@ -150,6 +150,8 @@ ControlZ
 CoreDNS
 coreos
 Costin
+CPU
+CPUs
 CRD
 CRDs
 CSRs
@@ -476,6 +478,7 @@ reimplemented
 reinject
 repurposed
 rethink
+RAM
 Reviewer1
 Reviewer2
 roadmap
@@ -644,5 +647,3 @@ Zipkin
 searchresults
 gcse
 MB
-CPU
-CPUs
