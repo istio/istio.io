@@ -190,9 +190,6 @@ sidecar container into an example pod with the following commands:
       name: invalid-gateway
     spec:
       selector:
-        # DO NOT CHANGE THESE LABELS
-        # The ingressgateway is defined in install/kubernetes/helm/istio/values.yaml
-        # with these labels
         istio: ingressgateway
     EOF
     {{< /text >}}
