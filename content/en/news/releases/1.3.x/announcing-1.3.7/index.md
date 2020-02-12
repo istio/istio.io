@@ -26,3 +26,9 @@ This release includes bug fixes to improve robustness. This release note describ
 * **Improved** injection template to fully specify `securityContext`, allowing `PodSecurityPolicies` to properly validate injected deployments ([Issue 17318](https://github.com/istio/istio/issues/17318)).
 * **Added** support for setting the `lifecycle` for proxy containers.
 * **Added** support for setting the Mesh UID in the Stackdriver Mixer adapter ([Issue 17952](https://github.com/istio/istio/issues/17952)).
+
+## Security update
+
+* [**ISTIO-SECURITY-2020-002**](/news/security/istio-security-2020-002) Mixer policy check bypass caused by improperly accepting certain request headers.
+
+__[CVE-2020-8843](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8843)__: Under certain circumstances it is possible to bypass a specifically configured Mixer policy. Istio-proxy accepts `x-istio-attributes` header at ingress that can be used to affect policy decisions when Mixer policy selectively applies to source equal to ingress. Istio 1.3 to 1.3.6 is vulnerable.
