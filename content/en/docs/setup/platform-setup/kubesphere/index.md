@@ -17,7 +17,7 @@ KubeSphere provides [All-in-One](https://kubesphere.io/docs/v2.1/en/installation
 A new Linux machine, supports virtual machine or bare metal, the minimum requirements are listed:
 
 * Hardware
-  * CPU: at least 2 Cores
+  * `CPU`: at least 2 Cores
   * Memory: at least 4 `GB`
 * Operating Systems
   * CentOS 7.4 ~ 7.7 (`64-bit`)
