@@ -41,7 +41,6 @@
 3ms
 3s
 404s
-4GB
 4ms
 4s
 5000qps
@@ -150,8 +149,6 @@ ControlZ
 CoreDNS
 coreos
 Costin
-CPU
-CPUs
 CRD
 CRDs
 CSRs
@@ -238,7 +235,6 @@ FQDNs
 FQDN
 frontend
 gbd
-GB
 GCP
 GCP-IAM
 GCP_OPTS
@@ -480,7 +476,6 @@ reimplemented
 reinject
 repurposed
 rethink
-RAM
 reusability
 Reviewer1
 Reviewer2
@@ -589,9 +584,6 @@ user
 user1
 UTF-8
 v1
-v1.13
-v1.14
-v1.15
 v1.7.4
 v1.7.6_coreos.0
 v1.9
@@ -654,3 +646,5 @@ Zipkin
 searchresults
 gcse
 MB
+CPU
+CPUs
