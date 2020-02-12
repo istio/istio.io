@@ -20,7 +20,6 @@ An [issue was raised](https://github.com/istio/istio/issues/12063) and [fixed](h
 
 * __[CVE-2020-8843](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8843)__: Under certain circumstances it is possible to bypass a specifically configured Mixer policy. Istio-proxy accepts `x-istio-attributes` header at ingress that can be used to affect policy decisions when Mixer policy selectively applies to source equal to ingress.
 To be vulnerable, Istio must have Mixer Policy enabled and used in the specified way. This feature is disabled by default in Istio 1.3 and 1.4.
-    * CVSS Score: 7.4 [AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N&version=3.1)
 
 ## Mitigation
 
