@@ -20,10 +20,10 @@ A new Linux machine, supports virtual machine or bare metal, the minimum require
    - CPU：at least 2 Cores
    - Memory：at least 4 `GB`
 - Operating Systems
-   - CentOS 7.4 ~ 7.7 (64-bit)
-   - Ubuntu 16.04/18.04 LTS (64-bit)
-   - RHEL 7.4 (64-bit)
-   - Debian Stretch 9.5 (64-bit)
+   - CentOS 7.4 ~ 7.7 (`64-bit`)
+   - Ubuntu 16.04/18.04 LTS (`64-bit`)
+   - RHEL 7.4 (`64-bit`)
+   - Debian Stretch 9.5 (`64-bit`)
 
 
 
@@ -31,7 +31,7 @@ A new Linux machine, supports virtual machine or bare metal, the minimum require
 Disable the firewall or ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2.1/en/installation/port-firewall/).
 {{< /tip >}}
 
-## Provisioning Kubernetes Cluster
+## Provisioning a Kubernetes cluster
 
 1. Download KubeSphere to your Linux machine, it can help you to create a standard Kubernetes cluster (1.15 by default, KubeSphere also supports 1.13 and 1.14):
 
