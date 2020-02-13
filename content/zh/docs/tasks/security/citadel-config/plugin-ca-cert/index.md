@@ -41,7 +41,7 @@ aliases:
 1. `global.mtls.enabled` 设置为 `true`，`security.selfSigned` 设置为 `false`，重新部署 Citadel。
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.mtls.enabled=true,values.security.selfSigned=false
+    $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.security.selfSigned=false
     {{< /text >}}
 
 1. 为了确定工作负载获取了正确的证书，删除 Citadel 生成的 Secret（命名为 `istio.\*`）。在本例中就是 `istio.default`。Citadel 会签发新的证书给工作负载。
