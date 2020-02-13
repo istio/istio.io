@@ -27,6 +27,10 @@ keywords: [traffic-management,mirroring]
       name: httpbin-v1
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v1
       template:
         metadata:
           labels:
@@ -53,6 +57,10 @@ keywords: [traffic-management,mirroring]
       name: httpbin-v2
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v2
       template:
         metadata:
           labels:
@@ -101,6 +109,9 @@ keywords: [traffic-management,mirroring]
       name: sleep
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: sleep
       template:
         metadata:
           labels:
@@ -245,8 +256,8 @@ keywords: [traffic-management,mirroring]
 
     {{< text bash >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ export V1_POD_IP=$(kubectl get pod -l app=httpbin -l version=v1 -o jsonpath={.items..status.podIP})
-    $ export V2_POD_IP=$(kubectl get pod -l app=httpbin -l version=v2 -o jsonpath={.items..status.podIP})
+    $ export V1_POD_IP=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..status.podIP})
+    $ export V2_POD_IP=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..status.podIP})
     $ kubectl exec -it $SLEEP_POD -c istio-proxy -- sudo tcpdump -A -s 0 host $V1_POD_IP or host $V2_POD_IP
     tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
     listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes

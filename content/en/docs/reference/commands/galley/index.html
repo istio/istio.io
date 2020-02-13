@@ -31,12 +31,12 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -61,7 +61,7 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -101,12 +101,12 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -131,7 +131,7 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -271,12 +271,12 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -301,7 +301,7 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -384,11 +384,6 @@ remove_toc_prefix: 'galley '
 <td>File containing the x509 private key matching --tlsCertFile.  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
-<td><code>--useOldProcessor</code></td>
-<td></td>
-<td>Use the old processing pipeline for config processing </td>
-</tr>
-<tr>
 <td><code>--validation-port &lt;uint&gt;</code></td>
 <td></td>
 <td>HTTPS port of the validation service.  (default `9443`)</td>
@@ -401,17 +396,17 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--validation.tls.caCertificates &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the caBundle that signed the cert/key specified by --validation.tls.clientCertificate and --validation.tls.privateKey.  (default ``)</td>
+<td>File containing the caBundle that signed the cert/key specified by --validation.tls.clientCertificate and --validation.tls.privateKey.  (default `/etc/certs/root-cert.pem`)</td>
 </tr>
 <tr>
 <td><code>--validation.tls.clientCertificate &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 Certificate for HTTPS validation.  (default ``)</td>
+<td>File containing the x509 Certificate for HTTPS validation.  (default `/etc/certs/cert-chain.pem`)</td>
 </tr>
 <tr>
 <td><code>--validation.tls.privateKey &lt;string&gt;</code></td>
 <td></td>
-<td>File containing the x509 private key matching --validation.tls.clientCertificate.  (default ``)</td>
+<td>File containing the x509 private key matching --validation.tls.clientCertificate.  (default `/etc/certs/key.pem`)</td>
 </tr>
 <tr>
 <td><code>--watchConfigFiles</code></td>
@@ -478,12 +473,12 @@ validation:
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -508,7 +503,7 @@ validation:
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, conversions, default, grpcAdapter, kube, kube-converter, mcp, meshconfig, model, processing, rbac, resource, runtime, server, source, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, analysis, attributes, default, grpcAdapter, mcp, model, processing, rbac, resource, server, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -551,6 +546,30 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <td><code>1m0s</code></td>
 <td></td>
 </tr>
+<tr>
+<td><code>MCP_SOURCE_REQ_BURST_SIZE</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>MCP_SOURCE_REQ_FREQ</code></td>
+<td>Time Duration</td>
+<td><code>1s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SOURCE_SERVER_STREAM_BURST_SIZE</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SOURCE_SERVER_STREAM_FREQ</code></td>
+<td>Time Duration</td>
+<td><code>1s</code></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h2 id="metrics">Exported metrics</h2>
@@ -575,6 +594,7 @@ These environment variables affect the behavior of the <code>galley</code> comma
 <tr><td><code>galley_source_kube_event_success_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source successfully handled an event</td></tr>
 <tr><td><code>galley_validation_cert_key_update_errors</code></td><td><code>Count</code></td><td>Galley validation webhook certificate updates errors</td></tr>
 <tr><td><code>galley_validation_cert_key_updates</code></td><td><code>Count</code></td><td>Galley validation webhook certificate updates</td></tr>
+<tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
 <tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
 <tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>

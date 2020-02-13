@@ -43,11 +43,11 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -67,7 +67,7 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -119,11 +119,6 @@ remove_toc_prefix: 'pilot-discovery '
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
-<td><code>--disable-install-crds</code></td>
-<td></td>
-<td>Disable discovery service from verifying the existence of CRDs at startup and then installing if not detected.  It is recommended to be disable for highly available setups. </td>
-</tr>
-<tr>
 <td><code>--domain &lt;string&gt;</code></td>
 <td></td>
 <td>DNS domain suffix  (default `cluster.local`)</td>
@@ -137,6 +132,11 @@ remove_toc_prefix: 'pilot-discovery '
 <td><code>--httpAddr &lt;string&gt;</code></td>
 <td></td>
 <td>Discovery service HTTP address  (default `:8080`)</td>
+</tr>
+<tr>
+<td><code>--httpsAddr &lt;string&gt;</code></td>
+<td></td>
+<td>Injection and validation service HTTPS address  (default `:15017`)</td>
 </tr>
 <tr>
 <td><code>--keepaliveInterval &lt;duration&gt;</code></td>
@@ -166,12 +166,12 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -196,7 +196,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -251,7 +251,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--registries &lt;stringSlice&gt;</code></td>
 <td></td>
-<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, MCP, Mock})  (default `[Kubernetes]`)</td>
+<td>Comma separated list of platform service registries to read from (choose one or more from {Kubernetes, Consul, Mock})  (default `[Kubernetes]`)</td>
 </tr>
 <tr>
 <td><code>--resync &lt;duration&gt;</code></td>
@@ -308,11 +308,11 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -332,7 +332,7 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -386,12 +386,12 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -416,7 +416,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, caSecretController, configMapController, default, k8sController, mcp, model, pkiCaLog, rbac, rootCertRotator, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, attributes, authn, configmapcontroller, default, grpcAdapter, mcp, model, pkica, rbac, rootcertrotator, secretcontroller, serverca, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -448,16 +448,100 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 </thead>
 <tbody>
 <tr>
+<td><code>AUDIENCE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Expected audience in the tokens. </td>
+</tr>
+<tr>
+<td><code>BYPASS_OOP_MTLS_SAN_VERIFICATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether or not to validate SANs for out-of-process adapters auth.</td>
+</tr>
+<tr>
+<td><code>CITADEL_ENABLE_JITTER_FOR_ROOT_CERT_ROTATOR</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, set up a jitter to start root cert rotator. Jitter selects a backoff time in seconds to start root cert rotator, and the back off time is below root cert check interval.</td>
+</tr>
+<tr>
+<td><code>CITADEL_SELF_SIGNED_CA_CERT_TTL</code></td>
+<td>Time Duration</td>
+<td><code>87600h0m0s</code></td>
+<td>The TTL of self-signed CA root certificate.</td>
+</tr>
+<tr>
+<td><code>CITADEL_SELF_SIGNED_ROOT_CERT_CHECK_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>1h0m0s</code></td>
+<td>The interval that self-signed CA checks its root certificate expiration time and rotates root certificate. Setting this interval to zero or a negative value disables automated root cert check and rotation. This interval is suggested to be larger than 10 minutes.</td>
+</tr>
+<tr>
+<td><code>CITADEL_SELF_SIGNED_ROOT_CERT_GRACE_PERIOD_PERCENTILE</code></td>
+<td>Integer</td>
+<td><code>20</code></td>
+<td>Grace period percentile for self-signed root cert.</td>
+</tr>
+<tr>
+<td><code>DEFER_VALIDATION_TO_DEPLOYMENT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>When set, the controller defers reconciling the validatingwebhookconfiguration to the named deployment.</td>
+</tr>
+<tr>
+<td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istio-sidecar-injector</code></td>
+<td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
+</tr>
+<tr>
+<td><code>ISTIOD_ADDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
+</tr>
+<tr>
+<td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
+<td>Integer</td>
+<td><code>4194304</code></td>
+<td>Sets the max receive buffer size of gRPC stream in bytes.</td>
+</tr>
+<tr>
 <td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
 <td>Integer</td>
 <td><code>100000</code></td>
 <td>Sets the maximum number of concurrent grpc streams.</td>
 </tr>
 <tr>
+<td><code>ISTIO_LANG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Selects the attribute expression language runtime for Mixer.</td>
+</tr>
+<tr>
+<td><code>JWT_POLICY</code></td>
+<td>String</td>
+<td><code>third-party-jwt</code></td>
+<td>The JWT validation policy.</td>
+</tr>
+<tr>
 <td><code>K8S_INGRESS_NS</code></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>KUBERNETES_SERVICE_HOST</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Kuberenetes service host, set automatically when running in-cluster</td>
+</tr>
+<tr>
+<td><code>MAX_WORKLOAD_CERT_TTL</code></td>
+<td>Time Duration</td>
+<td><code>2160h0m0s</code></td>
+<td>The max TTL of issued workload certificates.</td>
 </tr>
 <tr>
 <td><code>PILOT_BLOCK_HTTP_ON_443</code></td>
@@ -470,6 +554,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_PROVIDER</code></td>
+<td>String</td>
+<td><code>citadel</code></td>
+<td>the provider of Pilot DNS certificate.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
@@ -490,12 +580,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
 <td>Time Duration</td>
 <td><code>1m0s</code></td>
@@ -508,10 +592,22 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, Pilot will assign meaningful nonces to each Envoy configuration message, and allow users to interrogate which envoy has which config from the debug interface.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_CRD_VALIDATION</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will validate CRDs while retrieving CRDs from kubernetes cache.Use this flag to enable validation of CRDs in Pilot, especially in deployments that do not have galley installed.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_FOR_HEADLESS_SERVICES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
@@ -550,10 +646,16 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_UNSAFE_REGEX</code></td>
+<td><code>PILOT_ENABLE_TCP_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, metadata exchange will be enabled for TCP using ALPN and Network Metadata Exchange filters in Envoy</td>
+</tr>
+<tr>
+<td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, pilot will generate Envoy configuration that does not use safe_regex but the older, deprecated regex field. This should only be enabled to support legacy deployments that have not yet been migrated to the new safe regular expressions.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>PILOT_HTTP10</code></td>
@@ -622,6 +724,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 100, not recommended for production use.</td>
 </tr>
 <tr>
+<td><code>PILOT_USE_ENDPOINT_SLICE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
+</tr>
+<tr>
 <td><code>POD_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -634,16 +742,46 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
+<td><code>ROOT_CA_DIR</code></td>
+<td>String</td>
+<td><code>./etc/cacerts</code></td>
+<td>Location of a local or mounted CA root</td>
+</tr>
+<tr>
+<td><code>SERVICE_ACCOUNT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>
 <td>Integer</td>
 <td><code>5</code></td>
 <td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
 </tr>
 <tr>
+<td><code>TOKEN_ISSUER</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>OIDC token issuer. If set, will be used to check the tokens.</td>
+</tr>
+<tr>
 <td><code>USE_ISTIO_JWT_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Use the Istio JWT filter for JWT token verification.</td>
+</tr>
+<tr>
+<td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istiod-${namespace}</code></td>
+<td>Name of validatingwegbhookconfiguration to patch, if istioctl is not used.</td>
+</tr>
+<tr>
+<td><code>WORKLOAD_CERT_TTL</code></td>
+<td>Time Duration</td>
+<td><code>2160h0m0s</code></td>
+<td>The TTL of issued workload certificates.</td>
 </tr>
 </tbody>
 </table>
@@ -658,7 +796,24 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>citadel_secret_controller_secret_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates recreated due to secret deletion (service account still exists).</td></tr>
 <tr><td><code>citadel_secret_controller_svc_acc_created_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates created due to service account creation.</td></tr>
 <tr><td><code>citadel_secret_controller_svc_acc_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates deleted due to service account deletion.</td></tr>
+<tr><td><code>citadel_server_authentication_failure_count</code></td><td><code>Sum</code></td><td>The number of authentication failures.</td></tr>
+<tr><td><code>citadel_server_csr_count</code></td><td><code>Sum</code></td><td>The number of CSRs received by Citadel server.</td></tr>
+<tr><td><code>citadel_server_csr_parsing_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when parsing the CSR.</td></tr>
+<tr><td><code>citadel_server_csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
+<tr><td><code>citadel_server_id_extraction_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when extracting the ID from CSR.</td></tr>
+<tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel root cert will expire. We set it to negative in case of internal error.</td></tr>
+<tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>galley_validation_cert_key_update_errors</code></td><td><code>Count</code></td><td>Galley validation webhook certificate updates errors</td></tr>
+<tr><td><code>galley_validation_cert_key_updates</code></td><td><code>Count</code></td><td>Galley validation webhook certificate updates</td></tr>
+<tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
+<tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
+<tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
+<tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
+<tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
+<tr><td><code>galley_validation_failed</code></td><td><code>Count</code></td><td>Resource validation failed</td></tr>
+<tr><td><code>galley_validation_http_error</code></td><td><code>Count</code></td><td>Resource validation http serve errors</td></tr>
+<tr><td><code>galley_validation_passed</code></td><td><code>Count</code></td><td>Resource is valid</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
 <tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>
@@ -667,6 +822,31 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>istio_mcp_request_acks_total</code></td><td><code>Sum</code></td><td>The number of request acks received by the source.</td></tr>
 <tr><td><code>istio_mcp_request_nacks_total</code></td><td><code>Sum</code></td><td>The number of request nacks received by the source.</td></tr>
 <tr><td><code>istio_mcp_send_failures_total</code></td><td><code>Sum</code></td><td>The number of send failures in the source.</td></tr>
+<tr><td><code>mixer_config_adapter_info_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the adapter info configuration.</td></tr>
+<tr><td><code>mixer_config_adapter_info_configs_total</code></td><td><code>LastValue</code></td><td>The number of known adapters in the current config.</td></tr>
+<tr><td><code>mixer_config_attributes_total</code></td><td><code>LastValue</code></td><td>The number of known attributes in the current config.</td></tr>
+<tr><td><code>mixer_config_handler_configs_total</code></td><td><code>LastValue</code></td><td>The number of known handlers in the current config.</td></tr>
+<tr><td><code>mixer_config_handler_validation_error_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered because handler validation returned error.</td></tr>
+<tr><td><code>mixer_config_instance_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the instance configuration.</td></tr>
+<tr><td><code>mixer_config_instance_configs_total</code></td><td><code>LastValue</code></td><td>The number of known instances in the current config.</td></tr>
+<tr><td><code>mixer_config_rule_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the rule configuration.</td></tr>
+<tr><td><code>mixer_config_rule_config_match_error_total</code></td><td><code>LastValue</code></td><td>The number of rule conditions that was not parseable.</td></tr>
+<tr><td><code>mixer_config_rule_configs_total</code></td><td><code>LastValue</code></td><td>The number of known rules in the current config.</td></tr>
+<tr><td><code>mixer_config_template_config_errors_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered during processing of the template configuration.</td></tr>
+<tr><td><code>mixer_config_template_configs_total</code></td><td><code>LastValue</code></td><td>The number of known templates in the current config.</td></tr>
+<tr><td><code>mixer_config_unsatisfied_action_handler_total</code></td><td><code>LastValue</code></td><td>The number of actions that failed due to handlers being unavailable.</td></tr>
+<tr><td><code>mixer_dispatcher_destinations_per_request</code></td><td><code>Distribution</code></td><td>Number of handlers dispatched per request by Mixer</td></tr>
+<tr><td><code>mixer_dispatcher_destinations_per_variety_total</code></td><td><code>LastValue</code></td><td>Number of Mixer adapter destinations by template variety type</td></tr>
+<tr><td><code>mixer_dispatcher_instances_per_request</code></td><td><code>Distribution</code></td><td>Number of instances created per request by Mixer</td></tr>
+<tr><td><code>mixer_handler_closed_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were closed during config transition.</td></tr>
+<tr><td><code>mixer_handler_daemons_total</code></td><td><code>LastValue</code></td><td>The current number of active daemon routines in a given adapter environment.</td></tr>
+<tr><td><code>mixer_handler_handler_build_failures_total</code></td><td><code>LastValue</code></td><td>The number of handlers that failed creation during config transition.</td></tr>
+<tr><td><code>mixer_handler_handler_close_failures_total</code></td><td><code>LastValue</code></td><td>The number of errors encountered while closing handlers during config transition.</td></tr>
+<tr><td><code>mixer_handler_new_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were newly created during config transition.</td></tr>
+<tr><td><code>mixer_handler_reused_handlers_total</code></td><td><code>LastValue</code></td><td>The number of handlers that were re-used during config transition.</td></tr>
+<tr><td><code>mixer_handler_workers_total</code></td><td><code>LastValue</code></td><td>The current number of active worker routines in a given adapter environment.</td></tr>
+<tr><td><code>mixer_runtime_dispatch_duration_seconds</code></td><td><code>Distribution</code></td><td>Duration in seconds for adapter dispatches handled by Mixer.</td></tr>
+<tr><td><code>mixer_runtime_dispatches_total</code></td><td><code>Count</code></td><td>Total number of adapter dispatches handled by Mixer.</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_http_over_https</code></td><td><code>LastValue</code></td><td>Number of conflicting HTTP listeners with well known HTTPS ports</td></tr>
@@ -681,20 +861,23 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
+<tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
 <tr><td><code>pilot_k8s_object_errors</code></td><td><code>LastValue</code></td><td>Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
+<tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
 <tr><td><code>pilot_rds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of RDS messages with an expired nonce.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
+<tr><td><code>pilot_total_k8s_object_errors</code></td><td><code>Sum</code></td><td>Total Errors converting k8s CRDs</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
 <tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
 <tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
 <tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
-<tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CSD configs.</td></tr>
+<tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
 <tr><td><code>pilot_xds_eds_all_locality_endpoints</code></td><td><code>LastValue</code></td><td>Network endpoints for each cluster(across all localities), as of last push. Zero endpoints is an error.</td></tr>
 <tr><td><code>pilot_xds_eds_instances</code></td><td><code>LastValue</code></td><td>Instances for each cluster(grouped by locality), as of last push. Zero instances is an error.</td></tr>
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>

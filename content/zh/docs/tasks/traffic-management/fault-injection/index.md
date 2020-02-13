@@ -191,4 +191,4 @@ Istio 的故障注入规则可以帮助您识别此类异常，而不会影响�
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。
+1. 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。

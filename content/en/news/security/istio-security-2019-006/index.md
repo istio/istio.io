@@ -1,8 +1,11 @@
 ---
 title: ISTIO-SECURITY-2019-006
 subtitle: Security Bulletin
-description: Security vulnerability disclosure for CVE-2019-18817.
-cve: [CVE-2019-18817]
+description: Denial of service.
+cves: [CVE-2019-18817]
+cvss: "7.5"
+vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C"
+releases: ["1.3 to 1.3.4"]
 publishdate: 2019-11-07
 keywords: [CVE]
 skip_seealso: true
@@ -10,13 +13,7 @@ aliases:
     - /news/2019/istio-security-2019-006
 ---
 
-| Information       | &nbsp;
-|-------------------|--------
-| CVE               | [CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)
-| CVSS Impact Score | 7.5 [CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C&version=3.1)
-| Affected Releases | 1.3 to 1.3.4
-
-## Context
+{{< security_bulletin >}}
 
 Envoy, and subsequently Istio, are vulnerable to the following DoS attack.
 An infinite loop can be triggered in Envoy if the option `continue_on_listener_filters_timeout` is set to `True`. This has been the case for Istio since the introduction of the Protocol Detection feature in Istio 1.3

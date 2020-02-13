@@ -5,7 +5,7 @@ weight: 20
 ---
 
 This page describes changes you need to be aware of when upgrading from
-Istio 1.3 to 1.4.  Here, we detail cases where we intentionally broke backwards
+Istio 1.3.x to 1.4.x.  Here, we detail cases where we intentionally broke backwards
 compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.3.
@@ -22,7 +22,7 @@ If you depend on this behavior, there are a few options:
 * Change the protocol from type `http` to type `tcp`
 * Specify the environment variable `PILOT_BLOCK_HTTP_ON_443=false` to the Pilot deployment. Note: this may be removed in future releases.
 
-See [Protocol Selection](/docs/ops/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
+See [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
 
 ### Regex Engine Changes
 
@@ -43,3 +43,17 @@ To help with your upgrade, here are some steps you could take:
 * In addition to structural validation, you can also use `istioctl x analyze` to help you detect other potential issues with your Istio configurations. Refer to [here](/docs/ops/diagnostic-tools/istioctl-analyze/) for more details.
 
 If you choose to ignore the validation errors, add `--validate=false` to your `kubectl` command when you create or modify Istio resources. We strongly discourage doing so however, since it is willingly introducing incorrect configuration.
+
+## Leftover CRD
+
+Istio 1.4 introduces a new CRD `authorizationpolicies.security.istio.io` for the
+[authorization policy](/docs/reference/config/security/authorization-policy/).
+Your cluster may have an interim leftover CRD `authorizationpolicies.rbac.istio.io`
+due to an internal implementation detail before Istio 1.4.
+
+The leftover CRD is unused and you can safely remove it from the cluster using
+this command:
+
+{{< text bash >}}
+$ kubectl delete crd authorizationpolicies.rbac.istio.io --ignore-not-found=true
+{{< /text >}}

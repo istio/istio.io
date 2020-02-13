@@ -1,5 +1,7 @@
-*                @geeknoid
+*                @istio/wg-docs-maintainers-infra
 /.spelling       @istio/wg-docs-maintainers-english
 /content/en/     @istio/wg-docs-maintainers-english
 /content/zh/     @istio/wg-docs-maintainers-chinese
+/i18n/en.toml    @istio/wg-docs-maintainers-english
+/i18n/zh.toml    @istio/wg-docs-maintainers-chinese
 /static/         @istio/wg-docs-maintainers-english

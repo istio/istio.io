@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/api
 title: Resource Annotations
 description: Resource annotations used by Istio.
 location: https://istio.io/docs/reference/config/annotations.html
-weight: 29
+weight: 60
 ---
 <p>
 This page presents the various <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">resource annotations</a> that
@@ -25,6 +25,16 @@ Istio supports to control its behavior.
 		
 			
 		
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>galley.istio.io/analyze-suppress</code></td>
+					<td>[Any]</td>
+					<td>A comma separated list of configuration analysis message codes to suppress when Istio analyzers are run. For example, to suppress reporting of IST0103 (PodMissingProxy) and IST0108 (UnknownAnnotation) on a resource, apply the annotation 'galley.istio.io/analyze-suppress=IST0108,IST0103'. If the value is '*', then all configuration analysis messages are suppressed.</td>
+				</tr>
 			
 		
 			
@@ -212,6 +222,16 @@ Istio supports to control its behavior.
 					<td><code>sidecar.istio.io/discoveryAddress</code></td>
 					<td>[Pod]</td>
 					<td>Specifies the XDS discovery address to be used by the Envoy sidecar.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>sidecar.istio.io/enableCoreDump</code></td>
+					<td>[Pod]</td>
+					<td>Specifies whether or not an Envoy sidecar should enable core dump.</td>
 				</tr>
 			
 		

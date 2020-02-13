@@ -11,6 +11,7 @@ footer {
     display: grid;
     grid-template-columns: [user-links] 60% [info] 40% [dev-links] 0;
     grid-template-rows: 100%;
+    z-index: $footer-z;
 
     @media print {
         display: none;

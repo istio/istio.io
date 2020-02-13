@@ -36,6 +36,11 @@ If you don't see the expected output in the browser as you follow the task, retr
 because some delay is possible due to caching and other propagation overhead.
 {{< /tip >}}
 
+{{< warning >}}
+This task requires mutual TLS enabled because the following examples use principal
+and namespace in the policies.
+{{< /warning >}}
+
 ## Configure access control for a TCP workload
 
 By default, the [Bookinfo](/docs/examples/bookinfo/) example application only uses the HTTP protocol.
@@ -45,9 +50,9 @@ which talks to a MongoDB backend using TCP, and then apply the authorization pol
 
 1. Install `v2` of the `ratings` workload with the `bookinfo-ratings-v2` service account:
 
-    {{< tabset cookie-name="sidecar" >}}
+    {{< tabset category-name="sidecar" >}}
 
-    {{< tab name="With automatic sidecar injection" cookie-value="auto" >}}
+    {{< tab name="With automatic sidecar injection" category-value="auto" >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
@@ -55,7 +60,7 @@ which talks to a MongoDB backend using TCP, and then apply the authorization pol
 
     {{< /tab >}}
 
-    {{< tab name="With manual sidecar injection" cookie-value="manual" >}}
+    {{< tab name="With manual sidecar injection" category-value="manual" >}}
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
@@ -88,9 +93,9 @@ which talks to a MongoDB backend using TCP, and then apply the authorization pol
 
 1. Deploy the MongoDB workload:
 
-    {{< tabset cookie-name="sidecar" >}}
+    {{< tabset category-name="sidecar" >}}
 
-    {{< tab name="With automatic sidecar injection" cookie-value="auto" >}}
+    {{< tab name="With automatic sidecar injection" category-value="auto" >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
@@ -98,7 +103,7 @@ which talks to a MongoDB backend using TCP, and then apply the authorization pol
 
     {{< /tab >}}
 
-    {{< tab name="With manual sidecar injection" cookie-value="manual" >}}
+    {{< tab name="With manual sidecar injection" category-value="manual" >}}
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)

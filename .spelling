@@ -8,9 +8,17 @@
 0.2.x
 0.8.x
 1.0.x
+1.0.x.
 1.1.x
+1.1.x.
 1.2.x
+1.2.x.
 1.3.x
+1.3.x.
+1.4.x
+1.4.x.
+1.5.x
+1.5.x.
 1.x
 10ms
 10s
@@ -40,10 +48,12 @@
 5ms
 6ms
 6s
+7.5
 72.96ms
 7Mb
 7ms
 7s
+8.5
 8ms
 8x
 9ms
@@ -67,6 +77,7 @@ AKS-Engine
 Alibaba
 alt
 analytics
+Anantheswaran
 ANDed
 Ansible
 API
@@ -105,8 +116,8 @@ Brooks
 bt
 Budinsky
 c.f.
+callout
 callouts
-Callouts
 camelCase
 canaried
 canarying
@@ -122,6 +133,7 @@ CloudWatch
 CNI
 cnn.com
 Cognito
+codec
 colocate
 colocated
 colocating
@@ -143,15 +155,24 @@ CSRs
 Ctrl
 Customizable
 CVE
+CVE-2019-12243
+CVE-2019-12995
 CVE-2019-14993
 CVE-2019-15226
+CVE-2019-18801
+CVE-2019-18802
 CVE-2019-18817
+CVE-2019-18838
 CVE-2019-9512
 CVE-2019-9513
 CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
+CVE-2020-8595
+CVE-2020-8843
 CVEs
+cves
+cvss
 cyber
 Datadog
 datapath
@@ -163,6 +184,7 @@ decapsulated
 Delayering
 Demailly
 deployment
+dereferenced
 deserialize
 deserializing
 dev
@@ -212,6 +234,7 @@ Fluentd
 foo.yaml
 fortio
 FQDNs
+FQDN
 frontend
 gbd
 GCP
@@ -225,6 +248,7 @@ GKE-Istio
 GKE-Workloads
 GlueCon
 Gmail
+GoLang
 googleapis.com
 googlegroups.com
 Grafana
@@ -279,6 +303,9 @@ ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
 ISTIO-SECURITY-2019-005
 ISTIO-SECURITY-2019-006
+ISTIO-SECURITY-2019-007
+ISTIO-SECURITY-2020-001
+ISTIO-SECURITY-2020-002
 istio-system
 istio.io
 istio.io.
@@ -301,11 +328,13 @@ Kiali
 Kibana
 Knative
 Kops
+Krishnan
 Kuat
 Kube
 kubebuilder
-Kubecon
+KubeCon
 kubeconfig
+kubectl
 Kubelet
 kubelet
 Kubernetes
@@ -451,6 +480,7 @@ reimplemented
 reinject
 repurposed
 rethink
+reusability
 Reviewer1
 Reviewer2
 roadmap
@@ -470,6 +500,7 @@ schemas
 SDKs
 sds
 Secura
+security_bulletin
 selinux
 serverless
 serviceaccount
@@ -480,15 +511,19 @@ sha256
 sharded
 Sharding
 sharding
+shortcode
+shortcodes
 Shriram
 sidecar
 sidecar.env
 SignalFX
 sinkInfo
 SLOs
+SMEs
 Snell-Feikema
 SNI
 SolarWinds
+Splunk
 SPIFFE
 SPIFFE-compliant
 SREs
@@ -529,6 +564,7 @@ timeframe
 timestamp
 TLS
 TLS-secured
+ToC
 touchpoints
 Trulia
 trustability
@@ -539,6 +575,7 @@ ulimit
 uncomment
 uncommented
 Undeploy
+undeploy
 unencrypted
 unmanaged
 Unmarshalers
@@ -589,6 +626,7 @@ Websockets
 WebSphere
 whitelist
 whitelists
+whitespace
 Wikipedia
 wikipedia.org
 wildcard
@@ -608,6 +646,7 @@ yamls
 Yessenov
 yournamespace
 Zack
+Zhang
 Zipkin
 
  - search.md

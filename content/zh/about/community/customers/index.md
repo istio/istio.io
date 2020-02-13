@@ -17,9 +17,10 @@ skip_seealso: true
     {{< company_logo link="https://www.daocloud.io" logo="./daocloud.svg" alt="DaoCloud" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="./descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="./ebay.png" alt="eBay" >}}
-    {{< company_logo link="https://www.flexe.com/" logo="/about/community/customers/flexe.svg" alt="FLEXE" >}}
+    {{< company_logo link="https://www.flexe.com/" logo="./flexe.svg" alt="FLEXE" >}}
     {{< company_logo link="https://www.fitstation.com" logo="./fitstation.png" alt="FitStation" >}}
     {{< company_logo link="https://www.getyourguide.com/" logo="./getyourguide.svg" alt="GetYourGuide" >}}
+    {{< company_logo link="https://cloud.inspur.com/" logo="./inspurcloud.png" alt="Inspur Cloud" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
     {{< company_logo link="https://loblawdigital.co" logo="./loblaw-digital.png" alt="Loblaw Digital" >}}
     {{< company_logo link="https://www.namely.com" logo="./namely.svg" alt="Namely" >}}

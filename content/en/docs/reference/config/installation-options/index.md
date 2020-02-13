@@ -326,11 +326,11 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.disableDeletion` | `false` |  |
 | `grafana.dashboardProviders.dashboardproviders.providers.orgId.options.path` | `/var/lib/grafana/dashboards/istio` |  |
 
-## `istio_cni` options
+## `cni` options
 
 | Key | Default Value | Description |
 | --- | --- | --- |
-| `istio_cni.enabled` | `false` |  |
+| `cni.enabled` | `false` |  |
 
 ## `istiocoredns` options
 

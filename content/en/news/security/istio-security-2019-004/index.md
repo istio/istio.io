@@ -1,20 +1,17 @@
 ---
 title: ISTIO-SECURITY-2019-004
 subtitle: Security Bulletin
-description: Security vulnerability disclosure for multiple CVEs.
-cve: [CVE-2019-9512, CVE-2019-9513, CVE-2019-9514, CVE-2019-9515, CVE-2019-9518]
+description: Multiple denial of service vulnerabilities related to HTTP2 support in Envoy.
+cves: [CVE-2019-9512, CVE-2019-9513, CVE-2019-9514, CVE-2019-9515, CVE-2019-9518]
+cvss: "7.5"
+vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+releases: ["1.1 to 1.1.12", "1.2 to 1.2.3"]
 publishdate: 2019-08-13
 keywords: [CVE]
 skip_seealso: true
 ---
 
-| Information       | &nbsp;
-|-------------------|--------
-| CVE               | [CVE-2019-9512](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9512), [CVE-2019-9513](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9513), [CVE-2019-9514](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9514), [CVE-2019-9515](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9515), [CVE-2019-9518](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9518)
-| CVSS Impact Score | 7.5 [CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H)
-| Affected Releases | 1.1 to 1.1.12<br>1.2 to 1.2.3
-
-## Context
+{{< security_bulletin >}}
 
 Envoy, and subsequently Istio are vulnerable to a series of trivial HTTP/2-based DoS attacks:
 

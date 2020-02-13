@@ -114,7 +114,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-### 确定 Ingress 的 IP 和端口{#determine-the-ingress-i-p-and-port}
+### 确定 Ingress 的 IP 和端口{#determine-the-ingress-IP-and-port}
 
 现在 Bookinfo 服务启动并运行中，您需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。可以用 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 来实现这个目标。
 
@@ -158,6 +158,10 @@ $ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
 运行以下命令为 Bookinfo 服务创建的默认的目标规则：
 
 * 如果**没有**启用双向 TLS，请执行以下命令：
+
+    {{< tip >}}
+    如果您是 Istio 的新手，并且使用了 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)，请选择此步。
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@

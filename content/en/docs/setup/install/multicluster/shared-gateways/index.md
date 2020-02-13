@@ -10,7 +10,7 @@ aliases:
 ---
 
 Follow this guide to configure a multicluster mesh using a shared
-[control plane](/docs/ops/prep/deployment-models/#control-plane-models)
+[control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
 with gateways to connect network-isolated clusters.
 Istio's location-aware service routing feature is used to route requests to different endpoints,
 depending on the location of the request source.
@@ -146,7 +146,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         $ echo The ingress gateway of cluster1: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
         {{< /text >}}
 
-1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
+1.  Update the gateway address in the mesh network configuration. Edit the `istio ConfigMap`:
 
     {{< text bash >}}
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
@@ -177,12 +177,12 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER2 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
+    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
     $ istioctl manifest apply --context=$CTX_CLUSTER2 \
       --set profile=remote \
       --set values.global.mtls.enabled=true \
       --set values.gateways.enabled=true \
       --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
@@ -190,6 +190,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
       --set values.global.network="network2" \
+      --set values.global.multiCluster.clusterName=${CLUSTER_NAME} \
       --set autoInjection.enabled=true
     {{< /text >}}
 
@@ -233,7 +234,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
         $ echo The ingress gateway of cluster2: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
         {{< /text >}}
 
-1.  Update the gateway address in the mesh network configuration. Edit the `istio` `ConfigMap`:
+1.  Update the gateway address in the mesh network configuration. Edit the `istio ConfigMap`:
 
     {{< text bash >}}
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
@@ -431,7 +432,6 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.mtls.enabled=true \
   --set values.gateways.enabled=true \
   --set values.security.selfSigned=false \
-  --set values.global.controlPlaneSecurityEnabled=true \
   --set values.global.createRemoteSvcEndpoints=true \
   --set values.global.remotePilotCreateSvcEndpoint=true \
   --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
@@ -441,6 +441,7 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.network="network2" \
   --set autoInjection.enabled=true | kubectl --context=$CTX_CLUSTER2 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
+$ rm n2-k8s-config
 $ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT LOCAL_GW_ADDR
 {{< /text >}}
 
@@ -451,5 +452,4 @@ $ istioctl manifest generate --context=$CTX_CLUSTER1 \
   -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-primary.yaml | kubectl --context=$CTX_CLUSTER1 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER1 ns sample
 $ unset CTX_CLUSTER1
-$ rm n2-k8s-config
 {{< /text >}}

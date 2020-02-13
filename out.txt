@@ -1,6 +1,0 @@
-Building with the build container: gcr.io/istio-testing/build-tools:2019-10-24T14-05-17.
-Using docker credential directory /Users/mtail/.docker.
-Using gcr credential directory /Users/mtail/.config/gcloud.
-^CMakefile.core.mk:12: recipe for target 'gen' failed
-make: *** [gen] Interrupt
-make: *** wait: No child processes.  Stop.

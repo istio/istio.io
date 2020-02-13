@@ -16,7 +16,7 @@ let trackedPages: any = null;
 let visitedPages: any = null;
 
 function loadVisitedPages(): void {
-    const blob = localStorage.getItem("visitedPages");
+    const blob = readLocalStorage("visitedPages");
     if (blob != null) {
         visitedPages = JSON.parse(blob);
     }
@@ -81,7 +81,7 @@ function setDots(): void {
 }
 
 function setMarkAllRead(): void {
-    const button = document.getElementById("mark-all-read");
+    const button = getById("mark-all-read");
     if (button != null) {
         const prefix = button.dataset.prefix;
         if (prefix === undefined) {
@@ -137,7 +137,7 @@ function handleReadTracking(): void {
                 let dirty = false;
                 if (visitedPages === null) {
                     // if we didn't find any list of visited pages, initialize it to the set of tracked pages
-                    visitedPages = new Map();
+                    visitedPages = {};
 
                     for (const trackedPage in trackedPages) {
                         if (trackedPages.hasOwnProperty(trackedPage)) {
@@ -150,7 +150,7 @@ function handleReadTracking(): void {
                     for (const visitedPage in visitedPages) {
                         if (visitedPages.hasOwnProperty(visitedPage)) {
                             if (trackedPages[visitedPage] === undefined) {
-                                visitedPages.delete(visitedPage);
+                                delete visitedPages[visitedPage];
                                 dirty = true;
                             }
                         }

@@ -17,7 +17,7 @@ aliases:
 
 1. 执行必要的[平台特定设置](/zh/docs/setup/platform-setup/)。
 
-1. 检查 [Pods 和 Services 需求](/zh/docs/setup/additional-setup/requirements/)。
+1. 检查 [Pods 和 Services 需求](/zh/docs/ops/deployment/requirements/)。
 
 1. 部署 Istio operator：
 
@@ -25,12 +25,12 @@ aliases:
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-    This command runs the operator by creating the following resources in the `istio-operator` namespace:
+    这条命令会在 `istio-operator` 命名空间中创建以下资源并运行 Istio operator :
 
-    - The operator custom resource definition
-    - The operator controller deployment
-    - A service to access operator metrics
-    - Necessary Istio operator RBAC rules
+    - operator 自定义资源
+    - operator 控制器 deployment
+    - operator 指标信息 service
+    - operator 必要的 RBAC 规则
 
 ## 安装{#install}
 

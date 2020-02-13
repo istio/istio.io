@@ -1,29 +1,13 @@
 ---
-title: Can I run Casandra inside an Istio mesh?
-description: How to run Cassandra with Istio.
+title: 可以在 Istio mesh 中运行 Casandra 吗？
+description: 如何在 Istio 上运行 Cassandra。
 weight: 50
 keywords: [cassandra]
 ---
 
-By default, Cassandra broadcasts the address it uses for binding
-(accepting connections) to other Cassandra nodes as its address. This
-is usually the pod IP address and works fine without a service
-mesh. However, with a service mesh this configuration does not
-work. Istio and other service meshes require `localhost`
-(`127.0.0.1`) to be the address for binding.
+默认情况下，Cassandra 广播用于绑定（接受连接）到其他 Cassandra 节点的地址作为其地址。这通常是 Pod IP 地址，无需服务网格即可正常工作。但是，对于服务网格，此配置不起作用。Istio 和其他服务网格需要 `localhost` （`127.0.0.1`） 作为绑定地址。
 
-There are two configuration parameters to pay attention to:
-[`listen_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#listen-address)
-and
-[`broadcast_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#broadcast-address). For
-running Cassandra in an Istio mesh,
-the `listen_address` parameter should be set to `127.0.0.1` and the
-`broadcast_address` parameter should be set to the pod IP address.
+有两个配置参数要注意：
+[`listen_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#listen-address) 和 [`broadcast_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#broadcast-address)。为了在 Istio 网格中运行 Cassandra，应该将 `listen_address` 参数设置为 `127.0.0.1`，将 `broadcast_address` 参数设置为 Pod IP 地址。
 
-These configuration parameters are defined in `cassandra.yaml` in the
-Cassandra configuration directory (e.g. `/etc/cassandra`).  There are
-various startup scripts (and yaml files) used for starting Cassandra
-and care should be given to how these parameters are set by these
-scripts. For example, some scripts used to configure and start
-Cassandra use the value of the environment variable
-`CASSANDRA_LISTEN_ADDRESS` for setting `listen_address`.
+这些配置参数在 Cassandra 配置目录（例如 `/etc/cassandra`）的 `cassandra.yaml` 中定义。有多种用于启动 Cassandra 的脚本（和 yaml 文件），应注意这些脚本如何设置这些参数。例如，一些用于配置和启动 Cassandra 的脚本使用环境变量 `CASSANDRA_LISTEN_ADDRESS` 的值来设置 `listen_address`。

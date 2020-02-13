@@ -12,7 +12,7 @@ aliases:
 
 ## Traffic management
 
-- **Added** [automatic protocol determination](/docs/ops/traffic-management/protocol-selection/) of HTTP or TCP for outbound traffic when ports are not named according to Istio’s [conventions](/docs/ops/prep/requirements/).
+- **Added** [automatic protocol determination](/docs/ops/configuration/traffic-management/protocol-selection/) of HTTP or TCP for outbound traffic when ports are not named according to Istio’s [conventions](/docs/ops/deployment/requirements/).
 - **Added** a mode to the Gateway API for mutual TLS operation.
 - **Fixed** issues present when a service communicates over the network first in permissive mutual TLS mode for protocols like MySQL and MongoDB.
 - **Improved** Envoy proxy readiness checks. They now check Envoy's readiness status.
@@ -27,7 +27,7 @@ aliases:
 ## Security
 
 - **Added** trust domain validation for services using mutual TLS. By default, the server only authenticates the requests from the same trust domain.
-- **Added** [labels](/docs/concepts/security/#how-citadel-determines-whether-to-create-service-account-secrets) to control service account secret generation by namespace.
+- **Added** [labels]((/docs/ops/configuration/mesh/secret-creation/) to control service account secret generation by namespace.
 - **Added** SDS support to deliver the private key and certificates to each Istio control plane service.
 - **Added** support for [introspection](/docs/ops/diagnostic-tools/controlz/) to Citadel.
 - **Added** metrics to the `/metrics` endpoint of Citadel Agent on port 15014 to monitor the SDS service.
@@ -78,6 +78,6 @@ aliases:
 
 ## Miscellaneous
 
-- **Added** new images based on [distroless](/docs/ops/security/harden-docker-images/) base images.
+- **Added** new images based on [distroless](/docs/ops/configuration/security/harden-docker-images/) base images.
 - **Improved** the Istio CNI Helm chart to have consistent versions with Istio.
 - **Improved** Kubernetes Jobs behavior. Kubernetes Jobs now exit correctly when the job manually calls the `/quitquitquit` endpoint.

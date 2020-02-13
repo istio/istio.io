@@ -7,7 +7,7 @@ aliases:
   - /zh/docs/examples/advanced-gateways/ingress-certmgr/
 ---
 
-这个例子演示了在 Istio 中使用 [Let's Encrypt](https://letsencrypt.org/) 签发 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。Istio 中的 [gateway](/zh/docs/reference/config/networking/gateway) 和 [virtual service](/zh/docs/reference/config/networking/virtual-service) 提供了高级的流量管理功能，虽然他们的功能很强大，但是 Istio 本身也对 Kubernetes Ingress 提供支持，这样就可以降低将传统解决方案和第三方解决方案集成到服务网格中的难度，并且使其受益于 Istio 提供的遥测和跟踪功能。
+这个例子演示了在 Istio 中使用 [Let's Encrypt](https://letsencrypt.org/) 签发 TLS 证书为 Kubernetes Ingress controller 提供安全加固的过程。
 
 您将从全新的 Istio 安装开始，创建示例服务，使用 Kubernetes Ingress 把它开放出去，并使用 cert-manager（与 Istio 捆绑在一起）管理 TLS 证书的签发和续订来确保它的安全，这个证书之后会给 Istio ingress [gateway](/zh/docs/reference/config/networking/gateway) 使用，并根据需要通过 [Secrets Discovery Service (SDS)](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 提供 hot-swapped 功能。
 

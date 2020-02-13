@@ -5,8 +5,6 @@ weight: 40
 keywords: [istioctl, debugging, kubernetes]
 ---
 
-{{< boilerplate experimental-feature-warning >}}
-
 `istioctl analyze` is a diagnostic tool that can detect potential issues with your
 Istio configuration. It can run against a live cluster or a set of local configuration files.
 It can also run against a combination of the two, allowing you to catch problems before you
@@ -17,7 +15,7 @@ apply changes to a cluster.
 You can analyze your current Kubernetes cluster by running:
 
 {{< text bash >}}
-$ ./istioctl x analyze -k
+$ istioctl analyze
 {{< /text >}}
 
 And that’s it! It’ll give you any recommendations that apply.
@@ -28,31 +26,31 @@ For example, if you forgot to enable Istio injection (a very common issue), you 
 Warn [IST0102](Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection
 {{< /text >}}
 
-Note that `x` in the command is because this is currently an experimental feature.
-
 ## Analyzing live clusters, local files, or both
 
-The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local yaml configuration files, or on a combination of local files and a live cluster.
+The example above is doing analysis on a live cluster. But the tool also supports performing analysis of a set of local Kubernetes yaml configuration files,
+or on a combination of local files and a live cluster. When analyzing a set of local files, the file set is expected to be fully self-contained.
+Typically, this is used to analyze the entire set of configuration files that are intended to be deployed to a cluster.
 
-Analyze a specific set of local files:
+Analyze a specific set of local Kubernetes yaml files:
 
 {{< text bash >}}
-$ ./istioctl x analyze a.yaml b.yaml
+$ istioctl analyze --use-kube=false a.yaml b.yaml
 {{< /text >}}
 
 Analyze all yaml files in the current folder:
 
 {{< text bash >}}
-$ ./istioctl x analyze *.yaml
+$ istioctl analyze --use-kube=false *.yaml
 {{< /text >}}
 
 Simulate applying the files in the current folder to the current cluster:
 
 {{< text bash >}}
-$ ./istioctl x analyze -k *.yaml
+$ istioctl analyze *.yaml
 {{< /text >}}
 
-You can run `./istioctl x analyze --help` to see the full set of options.
+You can run `istioctl analyze --help` to see the full set of options.
 
 ## Helping us improve this tool
 
@@ -109,9 +107,9 @@ of analyzers and may find issues that older versions miss.
 
 You can download the latest `istioctl` into the current folder using the following command:
 
-{{< tabset cookie-name="platform" >}}
+{{< tabset category-name="platform" >}}
 
-{{< tab name="Mac" cookie-value="macos" >}}
+{{< tab name="Mac" category-value="macos" >}}
 
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
@@ -119,7 +117,7 @@ $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl 
 
 {{< /tab >}}
 
-{{< tab name="Linux" cookie-value="linux" >}}
+{{< tab name="Linux" category-value="linux" >}}
 
 {{< text bash >}}
 $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
@@ -179,4 +177,43 @@ You can enable this feature with:
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.galley.enableAnalysis=true
+{{< /text >}}
+
+### Ignoring specific analyzer messages via CLI
+
+Sometimes you might find it useful to hide or ignore analyzer messages in certain cases. For example, imagine a situation where a message is emitted about a resource you don't have permissions to update:
+
+{{< text bash >}}
+$ istioctl analyze -k --all-namespaces
+Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
+Error: Analyzers found issues.
+See https://istio.io/docs/reference/config/analysis for more information about causes and resolutions.
+{{< /text >}}
+
+Because you don't have permissions to update the namespace, you cannot resolve the message by annotating the namespace. Instead, you can direct `istioctl analyze` to suppress the above message on the resource:
+
+{{< text bash >}}
+$ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod"
+✔ No validation issues found.
+{{< /text >}}
+
+The syntax used for suppression is the same syntax used throughout `istioctl` when referring to resources: `<kind> <name>.<namespace>`, or just `<kind> <name>` for cluster-scoped resources like `Namespace`. If you want to suppress multiple objects, you can either repeat the `--suppress` argument or use wildcards:
+
+{{< text bash >}}
+$ # Suppress code IST0102 on namespace frod and IST0107 on all pods in namespace baz
+$ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --suppress "IST0107=Pod *.baz"
+{{< /text >}}
+
+### Ignoring specific analyzer messages via annotations
+
+You can also ignore specific analyzer messages using an annotation on the resource. For example, to ignore code IST0107 (`MisplacedAnnotation`) on resource `deployment/my-deployment`:
+
+{{< text bash >}}
+$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107
+{{< /text >}}
+
+To ignore multiple codes for a resource, separate each code with a comma:
+
+{{< text bash >}}
+$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}

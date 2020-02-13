@@ -1,7 +1,7 @@
 ---
-title: Traffic Management FAQ
-linktitle: Traffic Management
-description: Traffic Management Q & A.
+title: 流量管理的常见问题
+linktitle: 流量管理
+description: 流量管理的常见问题。
 weight: 50
 layout: faq
 icon: faq

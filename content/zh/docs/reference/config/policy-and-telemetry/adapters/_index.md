@@ -13,6 +13,6 @@ aliases:
 
 ## 模板
 
-下表显示了由每个支持的适配器实现的[模板](/docs/reference/config/policy-and-telemetry/templates)。
+下表显示了由每个支持的适配器实现的[模板](/zh/docs/reference/config/policy-and-telemetry/templates)。
 
 {{< adapter_table >}}

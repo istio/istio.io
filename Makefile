@@ -28,10 +28,15 @@
 # figure out all the tools you need in your environment to make that work.
 export BUILD_WITH_CONTAINER ?= 0
 
+# Version of image used within build container
+IMAGE_VERSION ?= master-2020-01-30T23-36-53
+
 LOCAL_ARCH := $(shell uname -m)
 ifeq ($(LOCAL_ARCH),x86_64)
     TARGET_ARCH ?= amd64
 else ifeq ($(shell echo $(LOCAL_ARCH) | head -c 5),armv8)
+    TARGET_ARCH ?= arm64
+else ifeq ($(LOCAL_ARCH),aarch64)
     TARGET_ARCH ?= arm64
 else ifeq ($(shell echo $(LOCAL_ARCH) | head -c 4),armv)
     TARGET_ARCH ?= arm
@@ -51,12 +56,14 @@ else
 endif
 
 export TARGET_OUT ?= $(shell pwd)/out/$(TARGET_OS)_$(TARGET_ARCH)
+export TARGET_OUT_LINUX ?= $(shell pwd)/out/linux_amd64
 
 ifeq ($(BUILD_WITH_CONTAINER),1)
 export TARGET_OUT = /work/out/$(TARGET_OS)_$(TARGET_ARCH)
+export TARGET_OUT_LINUX = /work/out/linux_amd64
 CONTAINER_CLI ?= docker
 DOCKER_SOCKET_MOUNT ?= -v /var/run/docker.sock:/var/run/docker.sock
-IMG ?= gcr.io/istio-testing/build-tools:2019-10-24T14-05-17
+IMG ?= gcr.io/istio-testing/build-tools:$(IMAGE_VERSION)
 UID = $(shell id -u)
 GID = `grep docker /etc/group | cut -f3 -d:`
 PWD = $(shell pwd)
@@ -71,14 +78,29 @@ TIMEZONE=`readlink $(READLINK_FLAGS) /etc/localtime | sed -e 's/^.*zoneinfo\///'
 # Determine the docker.push credential bind mounts.
 # Docker and GCR are supported credentials. At this time docker.push may
 # not work well on Docker-For-Mac. This will be handled in a follow-up PR.
-DOCKER_CREDS_MOUNT:=
+CONDITIONAL_HOST_MOUNTS:=
+
 ifneq (,$(wildcard $(HOME)/.docker))
 $(info Using docker credential directory $(HOME)/.docker.)
-DOCKER_CREDS_MOUNT+=--mount type=bind,source="$(HOME)/.docker",destination="/config/.docker",readonly
+CONDITIONAL_HOST_MOUNTS+=--mount type=bind,source="$(HOME)/.docker",destination="/config/.docker",readonly
 endif
+
 ifneq (,$(wildcard $(HOME)/.config/gcloud))
 $(info Using gcr credential directory $(HOME)/.config/gcloud.)
-DOCKER_CREDS_MOUNT+=--mount type=bind,source="$(HOME)/.config/gcloud",destination="/config/.config/gcloud",readonly
+CONDITIONAL_HOST_MOUNTS+=--mount type=bind,source="$(HOME)/.config/gcloud",destination="/config/.config/gcloud",readonly
+endif
+
+ifneq (,$(wildcard $(HOME)/.kube))
+$(info Using local Kubernetes configuration $(HOME)/.kube)
+CONDITIONAL_HOST_MOUNTS+=--mount type=bind,source="$(HOME)/.kube",destination="/home/.kube"
+endif
+
+ENV_VARS:=
+ifdef HUB
+ENV_VARS+=-e HUB="$(HUB)"
+endif
+ifdef TAG
+ENV_VARS+=-e TAG="$(TAG)"
 endif
 
 RUN = $(CONTAINER_CLI) run -t -i --sig-proxy=true -u $(UID):$(GID) --rm \
@@ -87,15 +109,17 @@ RUN = $(CONTAINER_CLI) run -t -i --sig-proxy=true -u $(UID):$(GID) --rm \
 	-e TARGET_ARCH="$(TARGET_ARCH)" \
 	-e TARGET_OS="$(TARGET_OS)" \
 	-e TARGET_OUT="$(TARGET_OUT)" \
-	-e HUB="$(HUB)" \
-	-e TAG="$(TAG)" \
+	-e TARGET_OUT_LINUX="$(TARGET_OUT_LINUX)" \
+	-e USER="${USER}" \
+	-e IMAGE_VERSION="$(IMAGE_VERSION)" \
+	$(ENV_VARS) \
 	-v /etc/passwd:/etc/passwd:ro \
 	$(DOCKER_SOCKET_MOUNT) \
 	$(CONTAINER_OPTIONS) \
 	--mount type=bind,source="$(PWD)",destination="/work" \
 	--mount type=volume,source=go,destination="/go" \
 	--mount type=volume,source=gocache,destination="/gocache" \
-	$(DOCKER_CREDS_MOUNT) \
+	$(CONDITIONAL_HOST_MOUNTS) \
 	-w /work $(IMG)
 
 MAKE = $(RUN) make --no-print-directory -e -f Makefile.core.mk
@@ -111,7 +135,7 @@ default:
 else
 
 $(info Building with your local toolchain.)
-GOBIN ?= $(GOPATH)/bin
+export GOBIN ?= $(GOPATH)/bin
 include Makefile.core.mk
 
 endif

@@ -608,11 +608,11 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
     the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
     identity.)
 
-    {{< tabset cookie-name="mtls" >}}
+    {{< tabset category-name="mtls" >}}
 
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
+    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -687,13 +687,13 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
+    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
 
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -757,7 +757,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
               number: $MONGODB_PORT
           weight: 100
     EOF
-    {{< /text_hack >}}
+    {{< /text >}}
 
     {{< /tab >}}
 
@@ -1129,7 +1129,7 @@ section.
     $ kubectl delete envoyfilter forward-downstream-sni egress-gateway-sni-verifier
     {{< /text >}}
 
-1.  Delete the configuration items for the `egressgateway-with-sni-proxy` `Deployment`:
+1.  Delete the configuration items for the `egressgateway-with-sni-proxy` deployment:
 
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy

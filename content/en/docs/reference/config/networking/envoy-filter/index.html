@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/networking/envoy-filter.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.EnvoyFilter
-aliases: [/docs/reference/config/networking/v1alpha3/envoy-filter.html]
+aliases: [/docs/reference/config/networking/v1alpha3/envoy-filter]
 number_of_entries: 21
 ---
 <p><code>EnvoyFilter</code> provides a mechanism to customize the Envoy
@@ -23,22 +23,20 @@ in the config <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">r
 namespace</a>,
 followed by all matching EnvoyFilters in the workload&rsquo;s namespace.</p>
 
-<p><strong>NOTE 1</strong>: Since this is break glass configuration, there will not
-be any backward compatibility across different Istio releases. In
-other words, this configuration is subject to change based on
-internal implementation of Istio networking subsystem.</p>
-
-<p><strong>NOTE 2</strong>: The envoy configuration provided through this mechanism
-should be carefully monitored across Istio proxy version upgrades,
-to ensure that deprecated fields are removed and replaced
+<p><strong>NOTE 1</strong>: Some aspects of this API is deeply tied to the internal
+implementation in Istio networking subsystem as well as Envoy&rsquo;s XDS
+API. While the EnvoyFilter API by itself will maintain backward
+compatibility, any envoy configuration provided through this
+mechanism should be carefully monitored across Istio proxy version
+upgrades, to ensure that deprecated fields are removed and replaced
 appropriately.</p>
 
-<p><strong>NOTE 3</strong>: When multiple EnvoyFilters are bound to the same
+<p><strong>NOTE 2</strong>: When multiple EnvoyFilters are bound to the same
 workload in a given namespace, all patches will be processed
 sequentially in order of creation time.  The behavior is undefined
 if multiple EnvoyFilter configurations conflict with each other.</p>
 
-<p><strong>NOTE 4</strong>: *_To apply an EnvoyFilter resource to all workloads
+<p><strong>NOTE 3</strong>: *_To apply an EnvoyFilter resource to all workloads
 (sidecars and gateways) in the system, define the resource in the
 config <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">root
 namespace</a>,
@@ -69,6 +67,7 @@ spec:
     patch:
       operation: INSERT_BEFORE
       value:
+        # This is the full filter config including the name and config or typed_config section.
         name: &quot;envoy.config.filter.network.custom_protocol&quot;
         config:
          ...
@@ -82,6 +81,7 @@ spec:
     patch:
       operation: MERGE
       value:
+        name: &quot;envoy.http_connection_manager&quot;
         typed_config:
           &quot;@type&quot;: &quot;type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager&quot;
           idle_timeout: 30s
@@ -119,13 +119,14 @@ spec:
       operation: INSERT_BEFORE
       value: # lua filter specification
        name: envoy.lua
-       config:
+       typed_config:
+          &quot;@type&quot;: &quot;type.googleapis.com/envoy.config.filter.http.lua.v2.Lua&quot;
          inlineCode: |
            function envoy_on_request(request_handle)
              -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
              local headers, body = request_handle:httpCall(
               &quot;lua_cluster&quot;,
-              &lbrace;
+              {
                [&quot;:method&quot;] = &quot;POST&quot;,
                [&quot;:path&quot;] = &quot;/acl&quot;,
                [&quot;:authority&quot;] = &quot;internal.org.net&quot;
@@ -1006,6 +1007,19 @@ order of the element in the array does not matter. Insert
 after the selected filter or sub filter. If no filter is
 selected, the specified filter will be inserted at the end
 of the list.</p>
+
+</td>
+</tr>
+<tr id="EnvoyFilter-Patch-Operation-INSERT_FIRST">
+<td><code>INSERT_FIRST</code></td>
+<td>
+<p>Insert operation on an array of named objects. This operation
+is typically useful only in the context of filters, where the
+order of filters matter. For clusters and virtual hosts,
+order of the element in the array does not matter. Insert
+first in the list based on the presence of selected filter or not.
+This is specifically useful when you want your filter first in the
+list based on a match condition specified in Match clause.</p>
 
 </td>
 </tr>

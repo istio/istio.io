@@ -32,7 +32,7 @@ aliases:
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 在浏览器中打开 Bookinfo 站点。网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是 ingress 的外部 IP 地址，其描述参见 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-i-p-and-port) 文档。
+1. 在浏览器中打开 Bookinfo 站点。网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是 ingress 的外部 IP 地址，其描述参见 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port) 文档。
 
     请注意，不管刷新多少次，页面的评论部分都不会显示评级星号。
     这是因为 Istio 被配置为将 reviews 服务的的所有流量都路由到了 `reviews:v1` 版本，

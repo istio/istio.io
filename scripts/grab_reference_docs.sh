@@ -33,10 +33,10 @@ fi
 REPOS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/istio/api.git@"${SOURCE_BRANCH_NAME}"
-    https://github.com/istio/operator.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
+    https://github.com/layer5io/layer5-istio-adapter.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
     https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
     https://github.com/newrelic/newrelic-istio-adapter.git@master
@@ -52,7 +52,7 @@ COMPONENTS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/istio_ca@istio_ca
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/node_agent@node_agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@galley/cmd/galley@galley
-    https://github.com/istio/operator.git@"${SOURCE_BRANCH_NAME}"@cmd/manager@operator
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@operator/cmd/operator@operator
 )
 
 # The repo to fetch config analysis message data from

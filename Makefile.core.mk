@@ -34,16 +34,16 @@ serve: gen
 netlify_install:
 	@npm init -y
 	@npm install --production --global \
-	    sass@v1.22.10 \
-	    typescript@v3.5.3 \
+	    sass@v1.23.7 \
+	    typescript@v3.7.2 \
 	    svgstore-cli@v1.3.1 \
-		@babel/core@v7.5.5 \
-		@babel/cli@v7.5.5 \
-		@babel/preset-env@v7.5.5
+		@babel/core@v7.7.4 \
+		@babel/cli@v7.7.4 \
+		@babel/preset-env@v7.7.4
 	@npm install --production --save-dev \
 		babel-preset-minify@v0.5.1
 	@npm install --save-dev \
-		@babel/polyfill@v7.4.4
+		@babel/polyfill@v7.7.0
 
 netlify: netlify_install
 	@scripts/gen_site.sh
@@ -60,10 +60,10 @@ update_ref_docs:
 update_operator_yamls:
 	@scripts/grab_operator_yamls.sh $(SOURCE_BRANCH_NAME)
 
-update_examples:
-	@scripts/grab_examples.sh $(SOURCE_BRANCH_NAME)
+update_all: update_ref_docs update_operator_yamls update_examples
 
-update_all: update_ref_docs update_examples
+foo2:
+	hugo version
 
 include common/Makefile.common.mk
 

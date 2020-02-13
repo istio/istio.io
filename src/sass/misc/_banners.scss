@@ -1,0 +1,58 @@
+.banner-container {
+    display: none;
+
+    @media screen AND (min-width: $bp-md) {
+        display: block;
+        position: relative;
+        top: -.8rem;
+        width: 100%;
+        text-align: center;
+        color: $bannerTextColor;
+        background-color: $bannerBackgroundColor;
+        font-size: 1.25rem;
+
+        .banner {
+            display: none;
+            position: relative;
+            width: 100%;
+        }
+
+        .frame {
+            top: 2px;
+            left: 6rem;
+            border-color: transparent;
+            border-top: $bannerBorderColor 1px solid;
+            border-bottom: $bannerBorderColor 1px solid;
+            background: transparent;
+            width: calc(100% - 12rem);
+            height: calc(100% - 4px);
+            position: absolute;
+        }
+
+        .content {
+            top: 0;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        a {
+            color: $bannerLinkColor;
+        }
+
+        a:hover, a:focus {
+            color: $bannerLinkHoverColor;
+            text-decoration: none;
+        }
+
+        a.disabled {
+            color: $bannerLinkDisabledColor;
+        }
+
+        a.active {
+            color: $bannerLinkActiveColor;
+            text-decoration: none;
+        }
+    }
+}
