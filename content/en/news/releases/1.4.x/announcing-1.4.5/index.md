@@ -11,7 +11,7 @@ aliases:
 
 This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.4.3 and Istio 1.4.4.
 
-The fixes below focus on various bugs occurring during node restarts. If you use Istio CNI, or have nodes that restart (such as pre-emptible nodes), you are highly encouraged to upgrade.
+The fixes below focus on various bugs occurring during node restarts. If you use Istio CNI, or have nodes that restart, you are highly encouraged to upgrade.
 
 {{< relnote >}}
 
