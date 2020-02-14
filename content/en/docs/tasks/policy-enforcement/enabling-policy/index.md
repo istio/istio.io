@@ -5,6 +5,11 @@ weight: 1
 keywords: [policies]
 ---
 
+{{< warning >}}
+The mixer policy is deprecated in Istio 1.5 and not recommended for production usage. Please use
+the [Authorization Policy](/docs/concepts/security/#authorization) for enforcing access control to a workload.
+{{< /warning >}}
+
 This task shows you how to enable Istio policy enforcement.
 
 ## At install time

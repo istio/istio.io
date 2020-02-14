@@ -9,6 +9,11 @@ aliases:
     - /docs/tasks/security/secure-access-control/index.html
 ---
 
+{{< warning >}}
+The mixer policy is deprecated in Istio 1.5 and not recommended for production usage. Please use
+the [Authorization Policy](/docs/concepts/security/#authorization) for enforcing access control to a workload.
+{{< /warning >}}
+
 This task shows how to control access to a service using simple denials, attribute-based white or black listing, or IP-based white or black listing.
 
 ## Before you begin
