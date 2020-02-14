@@ -11,7 +11,7 @@ between servers. Istio and other service meshes require `localhost`
 
 There is a configuration parameter that can be used to change this
 default behavior:
-[`quorumListenOnAllIPs`](https://zookeeper.apache.org/doc/r3.5.6/zookeeperAdmin.html).
+[`quorumListenOnAllIPs`](https://zookeeper.apache.org/doc/r3.5.7/zookeeperAdmin.html).
 This option allows Zookeeper to listen on all addresses including the
 `localhost`. Set this parameter to `true` by using the
 following command where `$ZK_CONFIG_FILE` is your Zookeeper
