@@ -138,7 +138,7 @@ Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: ingress-cert
@@ -183,7 +183,7 @@ Hello version: v1, instance: helloworld-5d498979b6-jp2mf
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: ingress-cert
@@ -207,7 +207,7 @@ EOF
 {{< /text >}}
 
 {{< text plain>}}
-certificate.certmanager.k8s.io/ingress-cert configured
+certificate.cert-manager.io/ingress-cert configured
 {{< /text >}}
 
 现在删除 secret 来强制 cert-manager 从生产 ACME-endpoints 请求新证书：
