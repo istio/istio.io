@@ -45,7 +45,7 @@ aliases:
 
 ## 网格概览 {#get-an-overview-of-your-mesh}
 
-您可以使用 `proxy-status` 命令概览您的网格：
+您可以使用 `proxy-status` 或 `ps` 命令概览您的网格：
 
 {{< text bash >}}
 $ istioctl proxy-status
