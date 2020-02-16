@@ -182,7 +182,7 @@ service is currently unavailable` message.
         route:
         - destination:
             host: ratings
-            subset: v1
+            subset: v2
       - route:
         - destination:
             host: ratings
