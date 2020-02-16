@@ -19,7 +19,7 @@ Google 为 GKE 提供了一个插件，
 依照以下操作指南为安装 Istio 准备一个 GKE 集群。
 
 {{< warning >}}
-需要在 Istio 中启用 SDS，请使用 Kubernetes 1.13 或更高版本。
+需要在 Istio 中启用[秘钥发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)（SDS），请使用 Kubernetes 1.13 或更高版本。
 {{< /warning >}}
 
 1. 创建一个新集群。
