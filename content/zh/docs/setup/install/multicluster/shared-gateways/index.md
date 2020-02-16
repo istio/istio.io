@@ -418,6 +418,7 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.network="network2" \
   --set autoInjection.enabled=true | kubectl --context=$CTX_CLUSTER2 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
+$ rm n2-k8s-config
 $ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT LOCAL_GW_ADDR
 {{< /text >}}
 
