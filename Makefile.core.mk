@@ -65,6 +65,8 @@ update_all: update_ref_docs update_operator_yamls update_examples
 foo2:
 	hugo version
 
+include tests/tests.mk
+
 include common/Makefile.common.mk
 
 .PHONY: gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all

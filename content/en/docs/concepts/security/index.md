@@ -468,9 +468,9 @@ origins:
 The principal binding key-value pair defines the principal authentication for a
 policy. By default, Istio uses the authentication configured in the `peers:`
 section. If no authentication is configured in the `peers:` section, Istio
-leaves the authentication unset. Policy writers can overwrite this behavior
+leaves the authentication unset. Policy writers can override this behavior
 with the `USE_ORIGIN` value. This value configures Istio to use the origin's
-authentication as the principal authentication instead. In future, we will
+authentication as the principal authentication instead. In the future, we will
 support conditional binding, for example: `USE_PEER` when peer is X, otherwise
 `USE_ORIGIN`.
 
@@ -537,7 +537,7 @@ authorization result, `ALLOW` or `DENY`.
 There is no need to explicitly enable Istio's authorization feature, you just apply
 the `AuthorizationPolicy` on **workloads** to enforce access control.
 
-If no `AuthorizationPolicy` applies to a workload, no access control will be enforced,
+If no `AuthorizationPolicy` applies to a workload, no access control will be enforced.
 In other words, all requests will be allowed.
 
 If any `AuthorizationPolicy` applies to a workload, access to that workload is

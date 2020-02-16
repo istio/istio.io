@@ -1,7 +1,7 @@
 ---
 title: 创建图表指南
 description: 为 Istio 文档创建图表提供素材和说明。
-weight: 40
+weight: 12
 keywords: [contribute,diagram,documentation,guide]
 ---
 
@@ -27,7 +27,7 @@ keywords: [contribute,diagram,documentation,guide]
 
 1. 将您的图表放入到我们的 [team drive](https://drive.google.com/corp/drive/u/0/folders/1jczscJueUBR3IOvH30q9HAZX0jC7GSyW)。
 1. 图表绘制完成后，将其导出为 SVG 并将该文件提交在您的 PR 中。
-1. 在包含图表的 MarkDown 中留下带有 Google Draw 文件 URL 的注释。
+1. 在包含图表的 Markdown 中留下带有 Google Draw 文件 URL 的注释。
 
 如果您的图表包含了步骤，**不要在** 图表中 **为步骤添加描述**。
 仅需将步骤的编号添加到图表中，并在文档中为步骤的编号添加描述，请确保两者的编号是匹配的。
