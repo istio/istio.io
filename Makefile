@@ -29,7 +29,7 @@
 export BUILD_WITH_CONTAINER ?= 0
 
 # Version of image used within build container
-IMAGE_VERSION ?= master-2020-01-30T23-36-53
+IMAGE_VERSION ?= master-2020-02-14T13-09-14
 
 LOCAL_ARCH := $(shell uname -m)
 ifeq ($(LOCAL_ARCH),x86_64)
@@ -65,7 +65,7 @@ CONTAINER_CLI ?= docker
 DOCKER_SOCKET_MOUNT ?= -v /var/run/docker.sock:/var/run/docker.sock
 IMG ?= gcr.io/istio-testing/build-tools:$(IMAGE_VERSION)
 UID = $(shell id -u)
-GID = `grep docker /etc/group | cut -f3 -d:`
+GID = `grep '^docker:' /etc/group | cut -f3 -d:`
 PWD = $(shell pwd)
 
 $(info Building with the build container: $(IMG).)
