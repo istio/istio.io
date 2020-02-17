@@ -14,14 +14,14 @@ KubeSphere provides [All-in-One](https://kubesphere.io/docs/v2.1/en/installation
 
 ## Prerequisites
 
-A new Linux machine, supports virtual machine or bare metal, the minimum requirements are listed:
+A Linux machine that is either a virtual machine or bare metal. This machine requires at a minimum:
 
-- Hardware
+- Hardware:
 
     - CPU: at least 2 Cores
     - Memory: at least 4 `GB`
 
-- Operating Systems
+- Operating Systems:
 
     - CentOS 7.4 ~ 7.7 (`64-bit`)
     - Ubuntu 16.04/18.04 LTS (`64-bit`)
@@ -29,12 +29,12 @@ A new Linux machine, supports virtual machine or bare metal, the minimum require
     - Debian Stretch 9.5 (`64-bit`)
 
 {{< tip >}}
-Disable the firewall or ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2.1/en/installation/port-firewall/).
+Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2.1/en/installation/port-firewall/). If this is not immediately feasible, you may evaluate Istio and KubeSphere by disabling the firewall as documented in your distribution.
 {{< /tip >}}
 
 ## Provisioning a Kubernetes cluster
 
-1. Download KubeSphere to your Linux machine, it can help you to create a standard Kubernetes cluster (1.15 by default, KubeSphere also supports 1.13 and 1.14):
+1. Download KubeSphere to your Linux machine, it will create a standard Kubernetes cluster (1.15 by default, KubeSphere also supports 1.13 and 1.14):
 
     {{< text bash >}}
     $ curl -L https://kubesphere.io/download/stable/v2.1.0 > installer.tar.gz
