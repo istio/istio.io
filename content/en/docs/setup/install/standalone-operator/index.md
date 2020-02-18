@@ -38,8 +38,9 @@ To install the Istio `demo` [configuration profile](/docs/setup/additional-setup
 using the operator, run the following command:
 
 {{< text bash >}}
+$ kubectl create ns istio-system
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: istio-system
@@ -103,9 +104,8 @@ For example, you can switch the installation to the `default`
 profile with the following command:
 
 {{< text bash >}}
-$ kubectl create ns istio-system
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: istio-system
@@ -120,7 +120,7 @@ For example, to enable the `Grafana` component and increase pilot memory request
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: istio-system

@@ -37,8 +37,9 @@ aliases:
 运行以下命令用 operator 安装 Istio `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)：
 
 {{< text bash >}}
+$ kubectl create ns istio-system
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
@@ -99,7 +100,7 @@ prometheus-67cdb66cbb-9w2hm                                    1/1     Running  
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
@@ -114,7 +115,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
