@@ -493,14 +493,14 @@ Normally, links will point to the current release branch of the `istio/istio` re
 that points to a different Istio repository instead, you can use the `repo` attribute:
 
 {{< text markdown >}}
-{{</* text syntax="bash" repo="operator" */>}}
+{{</* text syntax="bash" repo="api" */>}}
 $ cat @README.md@
 {{</* /text */>}}
 {{< /text >}}
 
 which renders as:
 
-{{< text syntax="bash" repo="operator" >}}
+{{< text syntax="bash" repo="api" >}}
 $ cat @README.md@
 {{< /text >}}
 

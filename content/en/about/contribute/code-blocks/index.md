@@ -264,14 +264,14 @@ repository. For the link to point to a different Istio repository
 instead, you can use the `repo` attribute, for example:
 
 {{< text markdown >}}
-{{</* text syntax="bash" repo="operator" */>}}
+{{</* text syntax="bash" repo="api" */>}}
 $ cat @README.md@
 {{</* /text */>}}
 {{< /text >}}
 
-The path renders as a link to the `README.md` file of the `istio/operator` repository:
+The path renders as a link to the `README.md` file of the `istio/api` repository:
 
-{{< text syntax="bash" repo="operator" >}}
+{{< text syntax="bash" repo="api" >}}
 $ cat @README.md@
 {{< /text >}}
 
