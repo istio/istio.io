@@ -39,22 +39,15 @@ export TEST_ENV=kind
 # See https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster
 export PULL_POLICY=IfNotPresent
 
-export HUB=${HUB:-"istio-testing"}
-export TAG="${TAG:-"istio-testing"}"
+export HUB=${HUB:-"gcr.io/istio-testing"}
+export TAG="${TAG:-"latest"}"
 
 # Setup junit report and verbose logging
 export T="${T:-"-v"}"
 export CI="true"
 
-make init
-
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   time setup_kind_cluster "${NODE_IMAGE:-}"
-fi
-
-if [[ -z "${SKIP_BUILD:-}" ]]; then
-  time build_images
-  time kind_load_images ""
 fi
 
 # If a variant is defined, update the tag accordingly
@@ -62,4 +55,4 @@ if [[ "${VARIANT:-}" != "" ]]; then
   export TAG="${TAG}-${VARIANT}"
 fi
 
-make "${PARAMS[*]}"
+make "${@}"
