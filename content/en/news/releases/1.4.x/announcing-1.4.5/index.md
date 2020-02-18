@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.4.5
 ---
 
-This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.4.3 and Istio 1.4.4.
+This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.4.4 and Istio 1.4.5.
 
 The fixes below focus on various bugs occurring during node restarts. If you use Istio CNI, or have nodes that restart, you are highly encouraged to upgrade.
 
