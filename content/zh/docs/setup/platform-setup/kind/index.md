@@ -64,7 +64,7 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
     Deleting cluster "istio-testing" ...
     {{< /text >}}
 
-## 为 kind 设置操作界面{#setup-Dashboard-UI-for-kind}
+## 为 kind 设置操作界面{#setup-Dashboard-for-kind}
 
 kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个基于网页的 Kubernetes 界面，以查看集群。
 参考以下说明来为 kind 设置操作界面。
