@@ -1,16 +1,14 @@
 ---
-title: Standalone Operator Install [Experimental]
+title: Standalone Operator Install
 description: Instructions to install Istio in a Kubernetes cluster using the Istio operator.
 weight: 25
 keywords: [kubernetes, operator]
 aliases:
 ---
 
-{{< boilerplate experimental-feature-warning >}}
-
 This guide installs Istio using the standalone Istio
 [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
-The only dependencies required are a supported Kubernetes cluster and the `kubectl` command.
+The only dependencies required are a supported Kubernetes cluster, the `kubectl` and the `istioctl` command at the release version.
 
 To install Istio for production use, we recommend [installing with {{< istioctl >}}](/docs/setup/install/istioctl/)
 instead.
@@ -24,7 +22,7 @@ instead.
 1. Deploy the Istio operator:
 
     {{< text bash >}}
-    $ kubectl apply -f https://istio.io/operator.yaml
+    $ istioctl operator init
     {{< /text >}}
 
     This command runs the operator by creating the following resources in the `istio-operator` namespace:
@@ -42,21 +40,21 @@ using the operator, run the following command:
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+kind: IstioOperator
 metadata:
-  namespace: istio-operator
+  namespace: istio-system
   name: example-istiocontrolplane
 spec:
   profile: demo
 EOF
 {{< /text >}}
 
-The controller will detect the `IstioControlPlane` resource and then install the Istio
+The controller will detect the `IstioOperator` resource and then install the Istio
 components corresponding to the specified (`demo`) configuration.
 
 {{< tip >}}
 The Istio operator controller begins the process of installing Istio within 90 seconds of
-the creation of the `IstioControlPlane` resource. The Istio installation completes within 120
+the creation of the `IstioOperator` resource. The Istio installation completes within 120
 seconds.
 {{< /tip >}}
 
@@ -64,89 +62,111 @@ You can confirm the Istio control plane services have been deployed with the fol
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system
-NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                                                                                                      AGE
-grafana                  ClusterIP      10.106.149.76    <none>          3000/TCP                                                                                                                     2m
-istio-citadel            ClusterIP      10.111.189.16    <none>          8060/TCP,15014/TCP                                                                                                           2m
-istio-egressgateway      ClusterIP      10.97.119.223    <none>          80/TCP,443/TCP,15443/TCP                                                                                                     2m
-istio-galley             ClusterIP      10.106.200.132   <none>          443/TCP,15014/TCP,9901/TCP,15019/TCP                                                                                         2m
-istio-ingressgateway     LoadBalancer   10.107.91.133    192.168.7.130   15020:30729/TCP,80:32583/TCP,443:30117/TCP,15029:30696/TCP,15030:31442/TCP,15031:30091/TCP,15032:31346/TCP,15443:30067/TCP   2m
-istio-pilot              ClusterIP      10.109.79.164    <none>          15010/TCP,15011/TCP,8080/TCP,15014/TCP                                                                                       2m
-istio-policy             ClusterIP      10.105.198.243   <none>          9091/TCP,15004/TCP,15014/TCP                                                                                                 2m
-istio-sidecar-injector   ClusterIP      10.107.11.188    <none>          443/TCP                                                                                                                      2m
-istio-telemetry          ClusterIP      10.104.68.42     <none>          9091/TCP,15004/TCP,15014/TCP,42422/TCP                                                                                       2m
-jaeger-agent             ClusterIP      None             <none>          5775/UDP,6831/UDP,6832/UDP                                                                                                   2m
-jaeger-collector         ClusterIP      10.109.110.61    <none>          14267/TCP,14268/TCP,14250/TCP                                                                                                2m
-jaeger-query             ClusterIP      10.97.1.46       <none>          16686/TCP                                                                                                                    2m
-kiali                    ClusterIP      10.99.4.200      <none>          20001/TCP                                                                                                                    2m
-prometheus               ClusterIP      10.99.185.175    <none>          9090/TCP                                                                                                                     2m
-tracing                  ClusterIP      10.104.66.2      <none>          9411/TCP                                                                                                                     2m
-zipkin                   ClusterIP      10.99.242.51     <none>          9411/TCP                                                                                                                     2m
+NAME                                    READY   STATUS    RESTARTS   AGE
+NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                                                                                                      AGE
+grafana                     ClusterIP      10.47.246.242   <none>         3000/TCP                                                                                                                     64m
+istio-egressgateway         ClusterIP      10.47.244.203   <none>         80/TCP,443/TCP,15443/TCP                                                                                                     64m
+istio-ingressgateway        LoadBalancer   10.47.247.221   34.69.50.226   15020:31649/TCP,80:30012/TCP,443:31723/TCP,15029:31857/TCP,15030:31621/TCP,15031:31290/TCP,15032:30334/TCP,15443:31754/TCP   64m
+istio-pilot                 ClusterIP      10.47.247.195   <none>         15010/TCP,15011/TCP,15012/TCP,8080/TCP,15014/TCP,443/TCP                                                                     64m
+istio-policy                ClusterIP      10.47.241.120   <none>         9091/TCP,15004/TCP,15014/TCP                                                                                                 64m
+istiod                      ClusterIP      10.47.247.6     <none>         15012/TCP,443/TCP                                                                                                            64m
+jaeger-agent                ClusterIP      None            <none>         5775/UDP,6831/UDP,6832/UDP                                                                                                   64m
+jaeger-collector            ClusterIP      10.47.244.102   <none>         14267/TCP,14268/TCP,14250/TCP                                                                                                64m
+jaeger-collector-headless   ClusterIP      None            <none>         14250/TCP                                                                                                                    64m
+jaeger-query                ClusterIP      10.47.253.168   <none>         16686/TCP                                                                                                                    64m
+kiali                       ClusterIP      10.47.246.119   <none>         20001/TCP                                                                                                                    64m
+prometheus                  ClusterIP      10.47.240.52    <none>         9090/TCP                                                                                                                     64m
+tracing                     ClusterIP      10.47.251.85    <none>         80/TCP                                                                                                                       64m
+zipkin                      ClusterIP      10.47.244.132   <none>         9411/TCP                                                                                                                     64m                                                                                                         2m
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
-NAME                                      READY   STATUS    RESTARTS   AGE
-grafana-5f798469fd-72hk6                  1/1     Running   0          1m
-istio-citadel-7dfd85d968-q2h5t            1/1     Running   0          1m
-istio-egressgateway-7f9b4f8b6b-nr889      1/1     Running   0          1m
-istio-galley-7474b7b86-jgc6h              1/1     Running   0          1m
-istio-ingressgateway-5d97687586-9v4sw     1/1     Running   0          1m
-istio-pilot-76dcbf686c-2z98w              1/1     Running   0          1m
-istio-policy-7f7f7758c5-h5x8z             1/1     Running   3          1m
-istio-sidecar-injector-7795bb5888-l5w6g   1/1     Running   0          1m
-istio-telemetry-7f5bfccf69-ld65r          1/1     Running   2          1m
-istio-tracing-cd67ddf8-w97mg              1/1     Running   0          1m
-kiali-7964898d8c-9gfs4                    1/1     Running   0          1m
-prometheus-586d4445c7-ctxlg               1/1     Running   0          1m
+NAME                                    READY   STATUS    RESTARTS   AGE
+grafana-78bc994d79-gwkfd                1/1     Running   0          63m
+istio-egressgateway-5fc6f84745-8f98z    1/1     Running   0          63m
+istio-ingressgateway-5b89fc6c98-vkwb5   1/1     Running   0          63m
+istio-policy-55d767c454-jggkz           2/2     Running   8          63m
+istio-tracing-c7b59f68f-dgqb8           1/1     Running   0          63m
+istiod-5448f74684-gmd5w                 1/1     Running   0          52m
+kiali-fb5f485fb-2l4r6                   1/1     Running   0          63m
+prometheus-7b8875c479-7zsnf             1/1     Running   0          63m
 {{< /text >}}
 
 ## Update
 
 Now, with the controller running, you can change the Istio configuration by editing or replacing
-the `IstioControlPlane` resource. The controller will detect the change and respond by updating
+the `IstioOperator` resource. The controller will detect the change and respond by updating
 the Istio installation correspondingly.
 
 For example, you can switch the installation to the `default`
 profile with the following command:
 
 {{< text bash >}}
+$ kubectl create ns istio-system
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+kind: IstioOperator
 metadata:
-  namespace: istio-operator
+  namespace: istio-system
   name: example-istiocontrolplane
 spec:
   profile: default
 EOF
 {{< /text >}}
 
-You can also enable or disable specific features or components.
-For example, to disable the telemetry feature:
+You can also enable or disable components and modify resource settings.
+For example, to enable the `Grafana` component and increase pilot memory requests:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+kind: IstioOperator
 metadata:
-  namespace: istio-operator
+  namespace: istio-system
   name: example-istiocontrolplane
 spec:
   profile: default
-  telemetry:
-    enabled: false
+  components:
+    grafana:
+      enabled: true
+  pilot:
+    k8s:
+      resources:
+        requests:
+          memory: 3072Mi
 EOF
 {{< /text >}}
 
-Refer to the [`IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+You can observe the changes that the controller makes in the cluster in response to `IstioOperator` CR updates by
+checking the operator controller logs:
+
+{{< text bash >}}
+$ kubectl logs -f -n istio-operator $(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')
+{{< /text >}}
+
+Refer to the [`IstioOperator` API](https://github.com/istio/api/blob/release-1.5/operator/v1alpha1/operator.proto/)
 for the complete set of configuration settings.
 
 ## Uninstall
 
-Delete the Istio operator and Istio deployment:
+Delete the Istio deployment:
 
 {{< text bash >}}
-$ kubectl -n istio-operator get IstioControlPlane example-istiocontrolplane -o=json | jq '.metadata.finalizers = null' | kubectl delete -f -
-$ kubectl delete ns istio-operator --grace-period=0 --force
-$ kubectl delete ns istio-system --grace-period=0 --force
+$ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
 {{< /text >}}
+
+Wait until Istio is uninstalled - this may take some time.
+Delete the Istio operator:
+
+{{< text bash >}}
+$ kubectl delete ns istio-operator --grace-period=0 --force
+{{< /text >}}
+
+Note that deleting the operator before Istio is fully removed may result in leftover Istio resources.
+To clean up anything not removed by the operator:
+
+{{< text bash >}}
+$ istioctl manifest generate | kubectl delete -f -
+$ kubectl delete ns istio-system --grace-period=0 --force
+ {{< /text >}}
