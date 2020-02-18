@@ -77,6 +77,7 @@ AKS-Engine
 Alibaba
 alt
 analytics
+Anantheswaran
 ANDed
 Ansible
 API
@@ -122,6 +123,7 @@ canaried
 canarying
 CAs
 CDNs
+CentOS
 Chrony
 CIDRs
 Cilium
@@ -168,6 +170,7 @@ CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
 CVE-2020-8595
+CVE-2020-8843
 CVEs
 cves
 cvss
@@ -303,6 +306,7 @@ ISTIO-SECURITY-2019-005
 ISTIO-SECURITY-2019-006
 ISTIO-SECURITY-2019-007
 ISTIO-SECURITY-2020-001
+ISTIO-SECURITY-2020-002
 istio-system
 istio.io
 istio.io.
@@ -325,6 +329,7 @@ Kiali
 Kibana
 Knative
 Kops
+Krishnan
 Kuat
 Kube
 kubebuilder
@@ -335,6 +340,7 @@ Kubelet
 kubelet
 Kubernetes
 kubernetes.default
+KubeSphere
 L3-4
 L4-L6
 learnings
@@ -519,6 +525,7 @@ SMEs
 Snell-Feikema
 SNI
 SolarWinds
+Splunk
 SPIFFE
 SPIFFE-compliant
 SREs
@@ -570,6 +577,7 @@ ulimit
 uncomment
 uncommented
 Undeploy
+undeploy
 unencrypted
 unmanaged
 Unmarshalers
@@ -640,6 +648,7 @@ yamls
 Yessenov
 yournamespace
 Zack
+Zhang
 Zipkin
 
  - search.md

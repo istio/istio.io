@@ -36,7 +36,7 @@ Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
     任何非默认设置都需要参考[托管 Kubernetes 设置](#hosted-Kubernetes-settings)。
 
 1. 使用 `istioctl` 安装 Istio CNI 和 Istio。
-    参考 [Istio 安装](/zh/docs/setup/install/istioctl/)的说明，并设置 `--set cni.enabled=true` 和 `--set cni.components.cni.enabled=true` 选项。
+    参考 [Istio 安装](/zh/docs/setup/install/istioctl/)的说明，并设置 `--set components.cni.enabled=true` 和 `--set cni.components.cni.enabled=true` 选项。
     在上一步中，如果 `istio-cni` 不是按照默认设置安装的，还需要设置 `--set values.cni.cniBinDir=...` 和 `--set values.cni.cniConfDir=...` 选项。
 
 ### Helm chart 参数{#helm-chart-parameters}
@@ -90,12 +90,12 @@ Istio CNI 方案并非普遍应用的。一些平台，尤其是托管 Kubernete
 
 | 集群托管类型 | 所需要的 Istio CNI 设置覆盖 | 所需要的 Platform 设置覆盖 |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (详情见下面的 [GKE 设置](#google-Kubernetes-engine-setup)| `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/home/kubernetes/bin` | 启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| GKE 1.9+ (详情见下面的 [GKE 设置](#google-Kubernetes-engine-setup)| `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/home/kubernetes/bin` | 启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
 | IKS (IBM cloud) | _(无)_ | _(无)_ |
 | EKS (AWS) | _(无)_ | _(无)_ |
 | AKS (Azure) | _(无)_ | _(无)_ |
 | Red Hat OpenShift 3.10+ | _(无)_ | _(无)_ |
-| Red Hat OpenShift 4.2+ | `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(无)_ |
+| Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(无)_ |
 
 ### GKE 设置{#google-Kubernetes-engine-setup}
 

@@ -1,5 +1,5 @@
 ---
-title: Testing in production
+title: Test in production
 overview: Testing a new version of a microservice in production.
 
 weight: 40
@@ -92,9 +92,12 @@ the pods' status with `kubectl get pods`.
     restarted once. You may experience the `Error` and the
     `CrashLoopBackOff` statuses until the pods reach `Running` status.
 
-In both cases, the application did not crash. The crash in the
-`details` microservice did not cause other microservices to fail. This behavior means you
+In both cases, the application did not crash. The crash in the `details`
+microservice did not cause other microservices to fail. This behavior means you
 did not have a **cascading failure** in this situation. Instead, you had
 **gradual service degradation**: despite one microservice crashing, the
-application could still provide useful functionality. It displayed the reviews and the
-basic information about the book.
+application could still provide useful functionality. It displayed the reviews
+and the basic information about the book.
+
+You are ready to
+[add a new version of the reviews application](/docs/examples/microservices-istio/add-new-microservice-version).

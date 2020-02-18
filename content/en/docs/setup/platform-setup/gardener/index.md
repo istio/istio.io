@@ -1,7 +1,7 @@
 ---
 title: Kubernetes Gardener
 description: Instructions to setup a Gardener cluster for Istio.
-weight: 19
+weight: 18
 aliases:
     - /docs/setup/kubernetes/platform-setup/gardener/
 skip_seealso: true

@@ -1,7 +1,7 @@
 ---
 title: IBM Cloud 快速开始
 description: 在 IBM 公有云或私有云上快速搭建 Istio 服务。
-weight: 18
+weight: 16
 skip_seealso: true
 aliases:
     - /zh/docs/setup/kubernetes/prepare/platform-setup/ibm/

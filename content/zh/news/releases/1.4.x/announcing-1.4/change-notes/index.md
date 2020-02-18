@@ -20,6 +20,7 @@ weight: 10
 - **新增了** 对 [authorization policy trust domain migration](/zh/docs/tasks/security/authorization/authz-td-migration/) 的实验性支持。
 - **新增了** 实验性的 [DNS certificate management](/zh/blog/2019/dns-cert/) 以安全地配置和管理 `Kubernetes CA` 签名的 `DNS` 证书。
 - **改进了** `Citadel` ，以在自签名 `CA` 模式下运行时定期检查和更换过期的根证书。
+- **更新了** JWT 身份验证，将[以空格分隔的声明](https://github.com/istio/istio/issues/13565)视为声明列表。
 
 ## 遥测{#telemetry}
 
@@ -41,7 +42,7 @@ weight: 10
 
 - **新增了** 对 `Istio` 动态安装更新的实验性 [operator controller](/zh/docs/setup/install/standalone-operator/)。
 - **移除了** `proxy_init` 镜像，`istio-init` 容器重新使用 `proxyv2` 镜像。
-- **更新了** 基础镜像为 `ubunutu:bionic`。
+- **更新了** 基础镜像为 `ubuntu:bionic`。
 
 ## `istioctl`
 
