@@ -116,7 +116,7 @@ EOF
 {{< /text >}}
 
 You can also enable or disable components and modify resource settings.
-For example, to enable the grafana component and increase pilot memory requests:
+For example, to enable the `Grafana` component and increase pilot memory requests:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -138,7 +138,7 @@ spec:
 EOF
 {{< /text >}}
 
-You can observe the changes that the controller makes in the cluster in response to IstioOperator CR updates by
+You can observe the changes that the controller makes in the cluster in response to `IstioOperator` CR updates by
 checking the operator controller logs:
 
 {{< text bash >}}
