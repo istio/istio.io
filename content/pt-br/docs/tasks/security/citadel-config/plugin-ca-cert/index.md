@@ -52,7 +52,7 @@ The following steps enable plugging in the certificates and key into Citadel:
     Citadel will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.mtls.enabled=true,values.security.selfSigned=false
+    $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.security.selfSigned=false
     {{< /text >}}
 
 1.  To make sure the workloads obtain the new certificates promptly,
