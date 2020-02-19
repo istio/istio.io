@@ -40,8 +40,9 @@ To install the Istio `demo` [configuration profile](/pt-br/docs/setup/additional
 using the operator, run the following command:
 
 {{< text bash >}}
+$ kubectl create ns istio-system
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
@@ -111,7 +112,7 @@ profile with the following command:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
@@ -126,7 +127,7 @@ For example, to disable the telemetry feature:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
