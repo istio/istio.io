@@ -190,7 +190,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     Internal requests from other services in the mesh are not subject to these rules
     but instead will default to round-robin routing. To apply these rules to internal calls as well,
     you can add the special value `mesh` to the list of `gateways`. Since the internal hostname for the
-    service is probabaly different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
+    service is probably different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
     you will also need to add it to the `hosts` list. Refer to the
     [operations guide](/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)
     for more details.
