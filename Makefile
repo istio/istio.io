@@ -68,6 +68,7 @@ UID = $(shell id -u)
 GID = `grep '^docker:' /etc/group | cut -f3 -d:`
 PWD = $(shell pwd)
 
+$(info If you suffer an unexpected failure, please reference: https://github.com/istio/istio/wiki/Troubleshooting-Development-Environment)
 $(info Building with the build container: $(IMG).)
 
 # Determine the timezone across various platforms to pass into the
