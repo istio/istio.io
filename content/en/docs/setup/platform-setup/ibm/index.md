@@ -37,7 +37,7 @@ To prepare a cluster before manually installing Istio, proceed as follows:
     {{< /tip >}}
 
     {{< text bash >}}
-    $ ibmcloud ks cluster-create --zone <zone-name> --machine-type b3c.4x16 \
+    $ ibmcloud ks cluster create classic --zone <zone-name> --machine-type b3c.4x16 \
       --workers 3 --name <cluster-name>
     {{< /text >}}
 
@@ -51,7 +51,7 @@ To prepare a cluster before manually installing Istio, proceed as follows:
     set the `KUBECONFIG` environment variable as specified in the command output.
 
     {{< text bash >}}
-    $ ibmcloud ks cluster-config <cluster-name>
+    $ ibmcloud ks cluster config --cluster <cluster-name>
     {{< /text >}}
 
     {{< warning >}}
