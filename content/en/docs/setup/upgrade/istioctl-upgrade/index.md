@@ -100,14 +100,12 @@ For example, if you are downgrading from Istio 1.5 to 1.4.4, use `istioctl`
 version 1.4.4.
 
 
-### Downgrade to Istio 1.4.4 and lower versions steps
+## Downgrade to Istio 1.4.4 and lower versions steps
 
-You can also use `istioctl upgrade` to downgrade versions. The process steps are
+You can use `istioctl experimental upgrade` to downgrade versions. The process steps are
 identical to the upgrade process mentioned in the previous section, only use the
-`istioctl` binary corresponding to the lower version. When completed, the
-process will restore Istio back to the Istio version that was installed before
-you ran `istioctl upgrade`.
-
+`istioctl` binary corresponding to the lower version (e.g., 1.4.4). When completed, the
+process will restore Istio back to the Istio version that was installed before.
 
 This command installs the same Istio control plane as `istioctl upgrade`,
 but does not perform any checks. For example, default values applied to the cluster
