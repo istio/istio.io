@@ -174,7 +174,7 @@ The following example updates the `/etc/hosts` file with the Istio gateway addre
     $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Verify the node agent works:
+1.  Verify the Istio Agent works:
 
     {{< text bash >}}
     $ sudo node_agent
@@ -312,7 +312,7 @@ The following are some basic troubleshooting steps for common VM-related issues.
     html output
     {{< /text >}}
 
--    Check the status of the node agent and sidecar:
+-    Check the status of the Istio Agent and sidecar:
 
     {{< text bash >}}
     $ sudo systemctl status istio-auth-node-agent
