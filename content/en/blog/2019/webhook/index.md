@@ -37,4 +37,5 @@ will not be able to alter the webhook configurations.
 and that the certificate chain used by the webhook server is valid. This reduces the errors
 that can occur before a server is ready or if a server has invalid certificates.
 
-To try this new feature, refer to the [Istio webhook management task](/docs/tasks/security/webhook).
+To try this Istio 1.4 feature, refer to the Istio webhook management task
+under [security tasks](/docs/tasks/security) of Istio 1.4 [documentation](https://archive.istio.io).
