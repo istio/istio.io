@@ -18,7 +18,8 @@ import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/istioio"
+
+	"istio.io/istio.io/pkg/test/istioio"
 )
 
 //https://istio.io/docs/tasks/security/mtls-migration/

@@ -18,7 +18,8 @@ import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/istioio"
+
+	"istio.io/istio.io/pkg/test/istioio"
 )
 
 // https://preliminary.istio.io/docs/tasks/traffic-management/mirroring/

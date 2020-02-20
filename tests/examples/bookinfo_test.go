@@ -17,8 +17,9 @@ package security
 import (
 	"testing"
 
+	"istio.io/istio.io/pkg/test/istioio"
+
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/istioio"
 )
 
 //https://istio.io/docs/examples/bookinfo/
