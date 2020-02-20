@@ -105,7 +105,8 @@ Follow these steps to install Istio using the `demo` configuration profile on yo
     kiali                       ClusterIP      172.21.192.82    <none>           20001/TCP                                                                                                                    11s
     prometheus                  ClusterIP      172.21.30.218    <none>           9090/TCP                                                                                                                     11s
     tracing                     ClusterIP      172.21.126.166   <none>           80/TCP                                                                                                                       11s
-    zipkin                      ClusterIP      172.21.122.59    <none>           9411/TCP                                                                                                                     11s    {{< /text >}}
+    zipkin                      ClusterIP      172.21.122.59    <none>           9411/TCP                                                                                                                     11s
+    {{< /text >}}
 
     {{< tip >}}
     If your cluster runs in an environment that does not
@@ -118,6 +119,7 @@ Follow these steps to install Istio using the `demo` configuration profile on yo
     Also ensure corresponding Kubernetes pods are deployed and have a `STATUS` of `Running`:
 
     {{< text bash >}}
+    $ kubectl get pods -n istio-system
     NAME                                    READY   STATUS    RESTARTS   AGE
     grafana-5cc7f86765-lqdzk                1/1     Running   0          2m25s
     istio-egressgateway-97445fd58-vx9s9     1/1     Running   0          2m29s
@@ -148,7 +150,7 @@ Alternatively, you can manually inject Envoy containers in your application pods
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-## Deploy a sample or the Bookinfo application {#Bookinfo}
+## Deploy an application or the Bookinfo sample {#Bookinfo}
 
 If you have an application ready to go, deploy it:
 
