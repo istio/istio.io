@@ -301,7 +301,7 @@ The `IstioOperator` API defines components as shown in the table below:
 `egressGateways` |
 `cni` |
 
-In addition to the core Istio components, third-party addon components are also available. These can 
+In addition to the core Istio components, third-party addon components are also available. These can
 be enabled and configured through the `addonComponents` spec of the `IstioOperator` API or using the Helm pass-through API:
 
 {{< text yaml >}}
