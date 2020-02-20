@@ -107,6 +107,6 @@ identical to the upgrade process mentioned in the previous section, only use the
 `istioctl` binary corresponding to the lower version (e.g., 1.4.4). When completed, the
 process will restore Istio back to the Istio version that was installed before.
 
-This command installs the same Istio control plane as `istioctl upgrade`,
+This command installs the same Istio control plane as `istioctl experimental upgrade`,
 but does not perform any checks. For example, default values applied to the cluster
 for a configuration profile may change without warning.
