@@ -302,7 +302,7 @@ The `IstioOperator` API defines components as shown in the table below:
 `cni` |
 
 In addition to the core Istio components, third-party addon components are also available. These can 
-be enabled and configured through the addonComponents spec of `IstioOperator` API or Helm pass-through API:
+be enabled and configured through the `addonComponents` spec of the `IstioOperator` API or using the Helm pass-through API:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -408,24 +408,24 @@ settings for Pilot:
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-    components:
-      pilot:
-        k8s:
-          resources:
-            requests:
-              cpu: 1000m # override from default 500m
-              memory: 4096Mi # ... default 2048Mi
-          hpaSpec:
-            maxReplicas: 10 # ... default 5
-            minReplicas: 2  # ... default 1
-          nodeSelector:
-            master: "true"
-          tolerations:
-          - key: dedicated
-            operator: Exists
-            effect: NoSchedule
-          - key: CriticalAddonsOnly
-            operator: Exists
+  components:
+    pilot:
+      k8s:
+        resources:
+          requests:
+            cpu: 1000m # override from default 500m
+            memory: 4096Mi # ... default 2048Mi
+        hpaSpec:
+          maxReplicas: 10 # ... default 5
+          minReplicas: 2  # ... default 1
+        nodeSelector:
+          master: "true"
+        tolerations:
+        - key: dedicated
+          operator: Exists
+          effect: NoSchedule
+        - key: CriticalAddonsOnly
+          operator: Exists
 {{< /text >}}
 
 Use `manifest apply` to apply the modified settings to the cluster:
