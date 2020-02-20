@@ -38,10 +38,17 @@ If you plan on installing Kiali using the Istio demo profile as described in the
 Create a secret in your Istio namespace with the credentials that you use to
 authenticate to Kiali.
 
-First, define the credentials you want to use as the Kiali username and passphrase:
+First, define the credentials you want to use as the Kiali username and passphrase.
+
+Enter a Kiali username when prompted:
 
 {{< text bash >}}
 $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
+{{< /text >}}
+
+Enter a Kiali passphrase when prompted:
+
+{{< text bash >}}
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
 {{< /text >}}
 
