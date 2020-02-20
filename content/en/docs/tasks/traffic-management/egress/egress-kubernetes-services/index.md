@@ -156,7 +156,6 @@ $ kubectl delete service my-httpbin
       ports:
       - protocol: TCP
         port: 443
-        name: tls
     EOF
     {{< /text >}}
 
@@ -174,7 +173,6 @@ $ kubectl delete service my-httpbin
           - ip: 198.35.26.96
         ports:
           - port: 443
-            name: tls
     EOF
     {{< /text >}}
 
