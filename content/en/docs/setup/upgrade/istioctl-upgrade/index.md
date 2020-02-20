@@ -1,27 +1,25 @@
 ---
-title: Upgrade Istio using istioctl [Experimental]
+title: Upgrade Istio using istioctl
 description: Upgrade or downgrade Istio using the istioctl upgrade command.
 weight: 25
 keywords: [kubernetes,upgrading]
 ---
 
-{{< boilerplate experimental-feature-warning >}}
-
-The `istioctl experimental upgrade` command performs an upgrade of Istio. Before performing
+The `istioctl upgrade` command performs an upgrade of Istio. Before performing
 the upgrade, it checks that the Istio installation meets the upgrade eligibility
 criteria. Also, it alerts the user if it detects any changes in the profile
 default values between Istio versions.
 
 The upgrade command can also perform a downgrade of Istio.
 
-See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-experimental-upgrade)
-for all the options provided by the `istioctl experimental upgrade` command.
+See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
+for all the options provided by the `istioctl upgrade` command.
 
 ## Upgrade prerequisites
 
 Ensure you meet these requirements before starting the upgrade process:
 
-* Istio version 1.3.3 or higher is installed.
+* Istio version 1.4.4 or higher is installed.
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
@@ -56,7 +54,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
 1. Begin the upgrade by running this command:
 
     {{< text bash >}}
-    $ istioctl experimental upgrade -f `<your-custom-configuration-file>`
+    $ istioctl upgrade -f `<your-custom-configuration-file>`
     {{< /text >}}
 
     `<your-custom-configuration-file>` is the
@@ -92,29 +90,23 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
 Ensure you meet these requirements before starting the downgrade process:
 
-* Istio version 1.4 or higher is installed.
+* Istio version 1.5 or higher is installed.
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
 * Downgrade must be done using the `istioctl` binary version that
 corresponds to the Istio version that you intend to downgrade to.
-For example, if you are downgrading from Istio 1.4 to 1.3.3, use `istioctl`
-version 1.3.3.
+For example, if you are downgrading from Istio 1.5 to 1.4.4, use `istioctl`
+version 1.4.4.
 
-## Downgrade to Istio 1.4 and higher versions steps
+## Downgrade to Istio 1.4.4 and lower versions steps
 
-You can also use `istioctl upgrade` to downgrade versions. The process steps are
-identical to the upgrade process mentioned in the previous section, only use the
-`istioctl` binary corresponding to the lower version. When completed, the
-process will restore Istio back to the Istio version that was installed before
-you ran `istioctl experimental upgrade`.
+You can use `istioctl experimental upgrade` to downgrade to 1.4 versions. Please
+notice that you need to use the `istioctl` binary corresponding to the lower
+version (e.g., 1.4.4), and `upgrade` is experimental in 1.4. The process steps are
+identical to the upgrade process mentioned in the previous section. When completed,
+the process will restore Istio back to the Istio version that was installed before.
 
-### Downgrade to Istio 1.3.3 and lower versions steps
-
-The `istioctl experimental upgrade` command is not available in Istio 1.3.3 and lower.
-Therefore, downgrade must be performed using the
-`istioctl experimental manifest apply` command.
-
-This command installs the same Istio control plane as `istioctl experimental upgrade`,
-but does not perform any checks. For example, default values applied to the cluster
-for a configuration profile may change without warning.
+`istioctl manifest apply` also installs the same Istio control plane, but does not
+perform any checks. For example, default values applied to the cluster for a configuration
+profile may change without warning.
