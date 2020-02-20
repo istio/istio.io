@@ -102,7 +102,7 @@ version 1.4.4.
 
 ## Downgrade to Istio 1.4.4 and lower versions steps
 
-You can use `istioctl experimental upgrade` to downgrade versions. The process steps are
+You can use `istioctl upgrade` to downgrade versions. The process steps are
 identical to the upgrade process mentioned in the previous section, only use the
 `istioctl` binary corresponding to the lower version (e.g., 1.4.4). When completed, the
 process will restore Istio back to the Istio version that was installed before.
