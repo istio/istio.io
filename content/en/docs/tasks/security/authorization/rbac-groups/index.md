@@ -1,6 +1,6 @@
 ---
 title: Authorization for groups and list claims
-description: Tutorial on how to configure the groups-base authorization and configure the authorization of list-typed claims in Istio.
+description: Tutorial on how to configure the groups-based authorization and configure the authorization of list-typed claims in Istio.
 weight: 30
 keywords: [security,authorization]
 aliases:
@@ -167,6 +167,8 @@ wait until the newly defined authorization policy to take effect.
       {}
     EOF
     {{< /text >}}
+    
+    Wait for the newly defined policy to take effect.
 
 1.  Once the policy takes effect, verify that Istio rejected the curl
 connection to the `httpbin` workload:
