@@ -1,3 +1,62 @@
+# Get the source directory for this project
+ISTIOIO_GO := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+export ISTIOIO_GO
+SHELL := /bin/bash -o pipefail
+
+VERSION ?= latest
+
+export GO111MODULE ?= on
+export GOPROXY ?= https://proxy.golang.org
+export GOSUMDB ?= sum.golang.org
+
+# If GOPATH is not set by the env, set it to a sane value
+GOPATH ?= $(shell cd ${ISTIOIO_GO}/../../..; pwd)
+export GOPATH
+
+# Set the directory for Istio source.
+ISTIO_GO ?= "${GOPATH}/src/istio.io/istio"
+export ISTIO_GO
+
+# If GOPATH is made up of several paths, use the first one for our targets in this Makefile
+GO_TOP := $(shell echo ${GOPATH} | cut -d ':' -f1)
+export GO_TOP
+
+GO ?= go
+
+GOARCH_LOCAL := $(TARGET_ARCH)
+GOOS_LOCAL := $(TARGET_OS)
+
+HUB?=istio
+ifeq ($(HUB),)
+  $(error "HUB cannot be empty")
+endif
+
+# If tag not explicitly set in users' .istiorc.mk or command line, default to the git sha.
+TAG ?= $(shell git rev-parse --verify HEAD)
+ifeq ($(TAG),)
+  $(error "TAG cannot be empty")
+endif
+
+# Environment for tests, the directory containing istio and deps binaries.
+# Typically same as GOPATH/bin, so tests work seemlessly with IDEs.
+
+export ISTIO_BIN=$(GOBIN)
+# Using same package structure as pkg/
+
+export ISTIO_BIN=$(GOBIN)
+export ISTIO_OUT:=$(TARGET_OUT)
+export ISTIO_OUT_LINUX:=$(TARGET_OUT_LINUX)
+
+export ARTIFACTS ?= $(ISTIO_OUT)
+export JUNIT_OUT ?= $(ARTIFACTS)/junit.xml
+export REPO_ROOT := $(shell git rev-parse --show-toplevel)
+
+# Make directories needed by the build system
+$(shell mkdir -p $(ISTIO_OUT))
+$(shell mkdir -p $(dir $(JUNIT_OUT)))
+
+JUNIT_REPORT := $(shell which go-junit-report 2> /dev/null || echo "${ISTIO_BIN}/go-junit-report")
+
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
@@ -65,7 +124,14 @@ update_all: update_ref_docs update_operator_yamls update_examples
 foo2:
 	hugo version
 
+.PHONY: init
+init:
+	bin/init.sh
+
 include tests/tests.mk
+
+# make lint-yaml seems to fail with pipefail, so remove now.
+SHELL = /bin/bash
 
 include common/Makefile.common.mk
 
