@@ -60,7 +60,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
     {{< /text >}}
 
     `<your-custom-configuration-file>` is the
-    [IstioControlPlane API Custom Resource Definition](/docs/setup/install/istioctl/#configure-the-feature-or-component-settings)
+    [IstioOperator API Configuration](/docs/setup/install/istioctl/#configure-the-component-settings)
     file you used to customize the installation of the currently-running version of Istio.
 
     {{< warning >}}
