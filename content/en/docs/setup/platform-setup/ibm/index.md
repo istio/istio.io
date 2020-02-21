@@ -42,7 +42,7 @@ To prepare a cluster before manually installing Istio, proceed as follows:
     {{< /text >}}
 
     {{< tip >}}
-    If you already have a private and a public VLAN, you can specify them in the above command
+    If you already have a private or a public VLAN, you must specify them in the above command
     using the `--private-vlan` and `--public-vlan` options. Otherwise, they will be automatically created for you.
     You can view your available VLANs by running `ibmcloud ks vlans --zone <zone-name>`.
     {{< /tip >}}
