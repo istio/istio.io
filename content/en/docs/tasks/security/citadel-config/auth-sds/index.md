@@ -27,7 +27,7 @@ This approach has the following minor drawbacks:
 These issues can be addressed by enabling the SDS identity provision flow.
 This workflow can be described as follows:
 
-1. The workload sidecar Envoy requests the key and certificates from Istio
+1. The workload sidecar Envoy requests the key and certificates from the Istio
    Agent: Istio Agent is the SDS server.
    In the request, Envoy passes a Kubernetes service account JWT to the agent.
 
