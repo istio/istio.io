@@ -315,12 +315,12 @@ new, you can automatically insert time-sensitive banners and stickers into the
 generated site in order. We've implemented the following shortcodes for promotions:
 
 - **Countdown stickers**: They show how much time is left before a big event
-  For example: "2 days until Istio 1.5". Stickers have minimal visual impact for
-  readers during the event.
+  For example: "37 days left until ServiceMeshCon on March 30". Stickers have some visual
+  impact for readers prior to the event and should be used sparingly.
 
 - **Banners**: They show a prominent message to readers about a
   significant event that is about to take place, is taking place, or has taken place.
-  For example "Istio 1.5 has been released, download it today!" or "Join us at KubeCon
+  For example "Istio 1.5 has been released, download it today!" or "Join us at ServiceMeshCon
   on March 30". Banners are full-screen slices displayed to readers during the
   event period.
 
