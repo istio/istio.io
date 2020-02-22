@@ -59,9 +59,7 @@ endpoints.
 Set the environment variables with the following commands:
 
 {{< text bash >}}
-$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')
-$ export POLICY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=policy -o jsonpath='{.items[0].status.podIP}')
-$ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=telemetry -o jsonpath='{.items[0].status.podIP}')
+$ export PILOT_POD_IP=$(kubectl -n istio-system get pod -l istio=pilot -o jsonpath='{.items[0].status.podIP}')jsonpath='{.items[0].status.podIP}')
 {{< /text >}}
 
 Normally, automatic sidecar injection on the remote clusters is enabled. To
@@ -78,39 +76,26 @@ cluster. You can install the component in one of two ways:
     {{< text bash >}}
     $ istioctl manifest apply \
     --set profile=remote \
-    --set values.global.controlPlaneSecurityEnabled=false \
-    --set values.global.createRemoteSvcEndpoints=true \
-    --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
-    --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
-    --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-    --set gateways.enabled=false \
-    --set autoInjection.enabled=true
     {{< /text >}}
 
     {{< tip >}}
     All clusters must have the same namespace for the Istio
-    components. It is possible to override the `istio-system` name on the main
-    cluster as long as the namespace is the same for all Istio components in
-    all clusters.
+    components.
     {{< /tip >}}
 
-1.  The following command example labels the `default` namespace. Use similar
-    commands to label all the remote cluster's namespaces requiring automatic
-    sidecar injection.
+1.  Label all namespaces in both clusters that need to setup automatic 
+    sidecar injection. Do not label the `istio-system` namespace.
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
-    Repeat for all Kubernetes namespaces that need to setup automatic sidecar
-    injection.
-
 ### Installation configuration parameters
 
 You must configure the remote cluster's sidecars interaction with the Istio
 control plane including the following endpoints in the `istio-remote` profile:
-`pilot`, `policy`, `telemetry` and tracing service.  The profile
+`pilot` and tracing service.  The profile
 enables automatic sidecar injection in the remote cluster by default. You can
 disable the automatic sidecar injection via a separate setting.
 
@@ -119,116 +104,30 @@ The following table shows the `istioctl` configuration values for remote cluster
 | Install setting | Accepted Values | Default | Purpose of Value |
 | --- | --- | --- | --- |
 | `values.global.remotePilotAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's pilot Pod IP address or remote cluster DNS resolvable hostname |
-| `values.global.remotePolicyAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's policy Pod IP address or remote cluster DNS resolvable hostname |
-| `values.global.remoteTelemetryAddress` | A valid IP address or hostname | None | Specifies the Istio control plane's telemetry Pod IP address or remote cluster DNS resolvable hostname |
-| `values.sidecarInjectorWebhook.enabled` | true, false | true | Specifies whether to enable automatic sidecar injection on the remote cluster |
 | `values.global.remotePilotCreateSvcEndpoint` | true, false | false | If set, a selector-less service and endpoint for `istio-pilot` are created with the `remotePilotAddress` IP, which ensures the `istio-pilot.<namespace>` is DNS resolvable in the remote cluster. |
-| `values.global.createRemoteSvcEndpoints` | true, false | false | If set, selector-less services and endpoints for `istio-pilot`, `istio-telemetry`, `istio-policy` are created with the corresponding remote IPs: `remotePilotAddress`, `remoteTelmetryAddress`, `remotePolicyAddress`, which ensures the service names are DNS resolvable in the remote cluster. |
+| `values.global.createRemoteSvcEndpoints` | true, false | false | If set, selector-less services and endpoints for `istio-pilot` are created with the corresponding remote IPs: `remotePilotAddress` which ensures the service names are DNS resolvable in the remote cluster. |
 
-## Generate configuration files for remote clusters {#kubeconfig}
+## Generate configuration files for remote clusters
 
 The Istio control plane requires access to all clusters in the mesh to
-discover services, endpoints, and pod attributes. The following steps
-describe how to generate a `kubeconfig` configuration file for the Istio control plane to use a remote cluster.
+discover services, endpoints, and pod attributes. Create a configuration
+file for each remote cluster and install it in the main cluster's istio-system
+namespace. This configuration uses the credentials of the `istio-reader-service-account`
+service account in each cluster.
 
-Perform this procedure on each remote cluster to add the cluster to the service
-mesh. This procedure requires the `cluster-admin` user access permission to
+    export REMOTE_CLUSTER_KUBECONFIG=<....>
+    export REMOTE_CLUSTER_NAME=<...>
+    export MAIN_CLUSTER_KUBECONFIG=<....>
+    istioctl x create-remote-secret --kubeconfig ${REMOTE_CLUSTER_KUBECONFIG} --name ${REMOTE_CLUSTER_NAME} |
+        kubectl --kubeconfig ${MAIN_CLUSTER_KUBECONFIG} apply -f -
+
+This procedure requires the `cluster-admin` user access permission to
 the remote cluster.
 
-1.  Set the environment variables needed to build the `kubeconfig` file for the
-    `istio-reader-service-account` service account with the following commands:
-
-    {{< text bash >}}
-    $ export WORK_DIR=$(pwd)
-    $ CLUSTER_NAME=$(kubectl config view --minify=true -o jsonpath='{.clusters[].name}')
-    $ export KUBECFG_FILE=${WORK_DIR}/${CLUSTER_NAME}
-    $ SERVER=$(kubectl config view --minify=true -o jsonpath='{.clusters[].cluster.server}')
-    $ NAMESPACE=istio-system
-    $ SERVICE_ACCOUNT=istio-reader-service-account
-    $ SECRET_NAME=$(kubectl get sa ${SERVICE_ACCOUNT} -n ${NAMESPACE} -o jsonpath='{.secrets[].name}')
-    $ CA_DATA=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['ca\.crt']}")
-    $ TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data['token']}" | base64 --decode)
-    {{< /text >}}
-
-    {{< tip >}}
-    An alternative to `base64 --decode` is `openssl enc -d -base64 -A` on many systems.
-    {{< /tip >}}
-
-1. Create a `kubeconfig` file in the working directory for the
-    `istio-reader-service-account` service account with the following command:
-
-    {{< text bash >}}
-    $ cat <<EOF > ${KUBECFG_FILE}
-    apiVersion: v1
-    clusters:
-       - cluster:
-           certificate-authority-data: ${CA_DATA}
-           server: ${SERVER}
-         name: ${CLUSTER_NAME}
-    contexts:
-       - context:
-           cluster: ${CLUSTER_NAME}
-           user: ${CLUSTER_NAME}
-         name: ${CLUSTER_NAME}
-    current-context: ${CLUSTER_NAME}
-    kind: Config
-    preferences: {}
-    users:
-       - name: ${CLUSTER_NAME}
-         user:
-           token: ${TOKEN}
-    EOF
-    {{< /text >}}
-
-1. _(Optional)_  Create file with environment variables to create the remote cluster's secret:
-
-    {{< text bash >}}
-    $ cat <<EOF > remote_cluster_env_vars
-    export CLUSTER_NAME=${CLUSTER_NAME}
-    export KUBECFG_FILE=${KUBECFG_FILE}
-    export NAMESPACE=${NAMESPACE}
-    EOF
-    {{< /text >}}
-
-At this point, you created the remote clusters' `kubeconfig` files in the
-current directory. The filename of the `kubeconfig` file is the same as the
-original cluster name.
-
-## Instantiate the credentials {#credentials}
-
-Perform this procedure on the cluster running the Istio control plane. This
-procedure uses the `WORK_DIR`, `CLUSTER_NAME`, and `NAMESPACE` environment
-values set and the file created for the remote cluster's secret from the
-[previous section](#kubeconfig).
-
-If you created the environment variables file for the remote cluster's
-secret, source the file with the following command:
-
-{{< text bash >}}
-$ source remote_cluster_env_vars
-{{< /text >}}
-
-You can install Istio in a different namespace. This procedure uses the
-`istio-system` namespace.
-
 {{< warning >}}
-Do not store and label the secrets for the local cluster
+Do not create a remote secret for the local cluster running the local cluster
 running the Istio control plane. Istio is always aware of the local cluster's
 Kubernetes credentials.
-{{< /warning >}}
-
-Create a secret and label it properly for each remote cluster:
-
-{{< text bash >}}
-$ kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n ${NAMESPACE}
-$ kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
-{{< /text >}}
-
-{{< warning >}}
-The Kubernetes secret data keys must conform with the
-`DNS-1123 subdomain` [format](https://tools.ietf.org/html/rfc1123#page-13). For
-example, the filename can't have underscores.  Resolve any issue with the
-filename simply by changing the filename to conform with the format.
 {{< /warning >}}
 
 ## Uninstalling the remote cluster
@@ -238,58 +137,8 @@ To uninstall the cluster run the following command:
 {{< text bash >}}
     $ istioctl manifest generate \
     --set profile=remote \
-    --set values.global.controlPlaneSecurityEnabled=false \
-    --set values.global.createRemoteSvcEndpoints=true \
-    --set values.global.remotePilotCreateSvcEndpoint=true \
-    --set values.global.remotePilotAddress=${PILOT_POD_IP} \
-    --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
-    --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-    --set gateways.enabled=false \
-    --set autoInjection.enabled=true | kubectl delete -f -
-{{< /text >}}
-
-## Manual sidecar injection example {#manual-sidecar}
-
-The following example shows how to use the `istioctl manifest` command to generate
-the manifest for a remote cluster with the automatic sidecar injection
-disabled. Additionally, the example shows how to use the `configmaps` of the
-remote cluster with the [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command to generate any
-application manifests for the remote cluster.
-
-Perform the following procedure against the remote cluster.
-
-Before you begin, set the endpoint IP environment variables as described in the
-[set the environment variables section](#environment-var)
-
-1. Install the Istio remote profile:
-
-    {{< text bash >}}
-    $ istioctl manifest apply \
-    --set profile=remote \
-    --set values.global.controlPlaneSecurityEnabled=false \
-    --set values.global.createRemoteSvcEndpoints=true \
-    --set values.global.remotePilotCreateSvcEndpoint=true \
-    --set values.global.remotePilotAddress=${PILOT_POD_IP} \
-    --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
-    --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-    --set gateways.enabled=false \
-    --set autoInjection.enabled=false
-    {{< /text >}}
-
-1. [Generate](#kubeconfig) the `kubeconfig` configuration file for each remote
-   cluster.
-
-1. [Instantiate the credentials](#credentials) for each remote cluster.
-
-### Manually inject the sidecars into the application manifests
-
-The following example `istioctl` command injects the sidecars into the
-application manifests. Run the following commands in a shell with the
-`kubeconfig` context set up for the remote cluster.
-
-{{< text bash >}}
-$ ORIGINAL_SVC_MANIFEST=mysvc-v1.yaml
-$ istioctl kube-inject --injectConfigMapName istio-sidecar-injector --meshConfigMapName istio -f ${ORIGINAL_SVC_MANIFEST} | kubectl apply -f -
+    --set values.global.remotePilotAddress=${PILOT_POD_IP} | \
+    kubectl delete -f -
 {{< /text >}}
 
 ## Access services from different clusters
@@ -347,8 +196,6 @@ services' endpoint IPs to configure the remote clusters. You may need load
 balancer IPs for these Istio services:
 
 * `istio-pilot`
-* `istio-telemetry`
-* `istio-policy`
 
 Currently, the Istio installation doesn't provide an option to specify service
 types for the Istio services. You can manually specify the service types in the
