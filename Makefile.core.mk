@@ -67,7 +67,7 @@ endif
 # Which branch of the Istio source code do we fetch stuff from
 SOURCE_BRANCH_NAME ?= master
 
-gen:
+gen: mirror-licenses
 	@scripts/gen_site.sh
 
 build: gen
