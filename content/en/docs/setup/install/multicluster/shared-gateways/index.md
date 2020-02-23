@@ -191,7 +191,6 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
       --set values.global.network="network2" \
       --set values.global.multiCluster.clusterName=${CLUSTER_NAME} \
-      --set autoInjection.enabled=true
     {{< /text >}}
 
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
@@ -438,8 +437,7 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.remotePolicyAddress=${LOCAL_GW_ADDR} \
   --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
   --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-  --set values.global.network="network2" \
-  --set autoInjection.enabled=true | kubectl --context=$CTX_CLUSTER2 delete -f -
+  --set values.global.network="network2" | kubectl --context=$CTX_CLUSTER2 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
 $ rm n2-k8s-config
 $ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT LOCAL_GW_ADDR
