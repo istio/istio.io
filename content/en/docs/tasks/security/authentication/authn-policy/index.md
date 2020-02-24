@@ -69,19 +69,11 @@ $ kubectl get peerauthentication --all-namespaces
 No resources found.
 {{< /text >}}
 
-{{< text bash >}}
-$ kubectl get meshpolicies.authentication.istio.io
-NAME      AGE
-default   3m
-{{< /text >}}
-
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
  existing destination rules and make sure they do not match. For example:
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
-    host: istio-policy.istio-system.svc.cluster.local
-    host: istio-telemetry.istio-system.svc.cluster.local
 {{< /text >}}
 
 {{< tip >}}
@@ -89,9 +81,26 @@ Depending on the version of Istio, you may see destination rules for hosts other
 `bar` and `legacy` namespace, nor is the match-all wildcard `*`
 {{< /tip >}}
 
-## Globally enabling Istio mutual TLS
+## Auto mTLS
 
-To set a mesh-wide authentication policy that enables mutual TLS, submit peer authentication policy in the *root namespace* like below:
+By default, Istio tracks the server workloads migrated to Istio sidecar, and configures client sidecar to send mutual TLS traffic to those workloads automatically, and send plain text traffic to workloads without sidecars.
+
+As a result, all traffic between workloads with sidecar will be in mTLS, without you do anything. To demonstrate that, we examine the response from request to `httpbin/header`. When mTLS is in used, `X-Forwarded-Client-Cert` header will be injected by proxy sidecar to the upstream request to backend. Thus, exisent of that header is an evidence that mTLS is used. For example:
+
+{{< text bash >}}
+$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert
+"X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>"
+{{< /text >}}
+
+On the contrary, if the server doesn't have sidecar, that header doesn't exist, implying request is in plaintext.
+
+{{< text bash >}}
+$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
+{{< /text >}}
+
+## Globally enabling Istio mutual TLS in STRICT mode
+
+As showing in the last section, while Istio automatically upgrade all traffic to mTLS between services with sidecar, it still allows services to receive plaintext traffic. If you want to prevent non-mTLS for the whole mesh, you can set a mesh-wide peer authentication policy to set mTLS mode to `STRICT`. Mesh-wide peer authentication policy must have empty `selector`, and defined in the *root namespace* like. For example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -110,11 +119,7 @@ EOF
 The example above assumes the root namespace is `istio-system`. Please change it to the value you use with your Istio installation.
  {{< /tip >}}
 
-This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. As you can see, this authentication policy contains no `selector` specification (as it is intended to apply to all services in the mesh).
-
-This policy directly instructs Pilot to program sidecar proxy to accept only mutual TLS inbound traffic. With `auto mTLS` feature enabled (see more [here](/docs/tasks/security/auto-mtls)), it will also try to configure client to use mTLS when possible. Also note, the authentication policy doesn't have effect on workload that doesn't have sidecar (e.g `httpbin.legacy`). However, `auto mTLS` also takes that into account and does not apply mTLS to the outbound traffic to the legacy service.
-
-If you run the test command above, you will see all requests still succeed, except for those from client that doesn't have sidecar (`sleep.legacy`) to server with sidecar (`httpbin.foo` or `httpbin.bar`). This is expected, as the mTLS is now strictly required, but the workload without sidecar cannot comply.
+This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. If you run the test command above, you will see all requests still succeed, except for those from client that doesn't have sidecar (`sleep.legacy`) to server with sidecar (`httpbin.foo` or `httpbin.bar`). This is expected, as the the workload without sidecar cannot use mTLS.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -129,13 +134,6 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
-{{< /text >}}
-
-Using `httpbin` functionality, you can also verify that traffic from `sleep.foo` to `httpbin.foo` is indeed in mTLS:
-
-{{< text bash >}}
-$ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert
-"X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>"
 {{< /text >}}
 
 ### Cleanup part 1
