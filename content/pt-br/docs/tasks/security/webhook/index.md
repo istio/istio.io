@@ -22,8 +22,8 @@ securely manage the configurations of the webhooks.
 
     {{< text bash >}}
     $ cat <<EOF > ./istio.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
     spec:
       values:
         global:

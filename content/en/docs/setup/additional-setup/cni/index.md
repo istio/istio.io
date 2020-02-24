@@ -91,11 +91,12 @@ Use the following command to render and apply Istio CNI components and override 
 Create a `IstioControlPlane` CR yaml locally with your override to install `istio`, e.g. `cni.yaml`
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 spec:
-  cni:
-    enabled: true
+  components:
+    cni:
+      enabled: true
   values:
     cni:
       excludeNamespaces:
@@ -103,8 +104,6 @@ spec:
        - kube-system
        - foo_ns
        - bar_ns
-  unvalidatedValues:
-    cni:
       logLevel: info
 {{< /text >}}
 

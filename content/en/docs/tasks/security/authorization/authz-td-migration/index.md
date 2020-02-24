@@ -21,8 +21,8 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
 
     {{< text bash >}}
     $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
     spec:
       values:
         global:
@@ -96,8 +96,8 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 
     {{< text bash >}}
     $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
     spec:
       values:
         global:
@@ -157,8 +157,8 @@ you don't need to follow this step. Learn more about [Provisioning Identity thro
 
     {{< text bash >}}
     $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
     spec:
       values:
         global:
