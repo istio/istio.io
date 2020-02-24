@@ -694,7 +694,7 @@ There are two types of promotions supported:
 Stickers have minimal visuals displayed to the user during the event period.
 
 - **Banners** that display a prominent message to the user to let them know a significant event is about to take place,
-is taking place, or has taken place. (e.g. "Istio 1.5 has been released, download it today!" or "Join us at KubeCon on March 30").
+is taking place, or has taken place. (e.g. "Istio 1.5 has been released, download it today!" or "Join us at ServiceMeshCon on March 30").
 Banners are full-screen slices displayed to the user during the event period.
 
 To create banners and stickers, you add files to the `events/banners` or `events/stickers` directories. You create one normal markdown
