@@ -13,3 +13,6 @@ public
 resources
 node_modules
 generated
+install
+samples
+out
