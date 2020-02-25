@@ -1,0 +1,62 @@
+---
+title: Provision a certificate through a sidecar [Experimental]
+description: Provision a certificate through a sidecar.
+weight: 100
+keywords: [certificate,sidecar]
+---
+
+{{< boilerplate experimental-feature-warning >}}
+
+Istio sidecars can obtain certificates through
+the secret discovery service.
+For an application without a sidecar to get a certificate,
+it may deploy a sidecar to generate a certificate through
+the secret discovery service and share the certificate with the application
+through a shared memory.
+This task uses Prometheus as an example application to show provisioning
+a certificate through such mechanism.
+
+## Getting started
+
+Install Istio:
+
+{{< text bash >}}
+$ istioctl manifest apply
+{{< /text >}}
+
+## Provision a key and certificate for an application
+
+In the example application (i.e., Prometheus), a sidecar is added to the
+Prometheus deployment when the flag `.Values.prometheus.provisionPrometheusCert`
+is set to `true` (this flag is set as true by default in an Istio installation).
+The sidecar requests for a certificate and shares the
+certificate with Prometheus.
+
+If you want to use the mechanism in this tutorial to provision a certificate
+to an application, you can imitate the example application and add a sidecar
+like [the one in the example application]({{< github_blob >}}/manifests/istio-telemetry/prometheus/templates/deployment.yaml)
+to your application.
+
+## Check certificate provisioned for the example application
+
+The key and certificate provisioned for the example application
+are mounted to the directory `/etc/istio-certs/`.
+To list the key and certificate provisioned for the example application,
+run the following command:
+
+{{< text bash >}}
+$ kubectl exec -it `kubectl get pod -l app=prometheus -n istio-system -o jsonpath='{.items[0].metadata.name}'` -c prometheus -n istio-system -- ls -la /etc/istio-certs/
+{{< /text >}}
+
+The output from the above command should include non-empty key and certificate files. The following
+is an example output:
+
+{{< text plain >}}
+-rwxr-xr-x    1 root     root          2209 Feb 25 13:06 cert-chain.pem
+-rwxr-xr-x    1 root     root          1679 Feb 25 13:06 key.pem
+-rwxr-xr-x    1 root     root          1054 Feb 25 13:06 root-cert.pem
+{{< /text >}}
+
+## Cleanup
+
+You can delete the example Istio installed in this tutorial.
