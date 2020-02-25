@@ -683,22 +683,26 @@ table of contents will not automatically select the tab.
 
 - *No nested tab sets*. Don't try it, it's horrible.
 
-## Banners and stickers
+## Use Banners and stickers
 
-You can automatically insert time-sensitive banners and stickers into the generated site in order
-to advertise upcoming events, or publicize something new.
+To advertise upcoming events, or publicize something
+new, you can automatically insert time-sensitive banners and stickers into the
+generated site in order. We've implemented the following shortcodes for promotions:
 
-There are two types of promotions supported:
+- **Countdown stickers**: They show how much time is left before a big event
+  For example: "37 days left until ServiceMeshCon on March 30". Stickers have some visual
+  impact for readers prior to the event and should be used sparingly.
 
-- **Countdown stickers** that show how much time is left before something big happens. (e.g. "2 days until Istio 1.5").
-Stickers have minimal visuals displayed to the user during the event period.
+- **Banners**: They show a prominent message to readers about a
+  significant event that is about to take place, is taking place, or has taken place.
+  For example "Istio 1.5 has been released, download it today!" or "Join us at ServiceMeshCon
+  on March 30". Banners are full-screen slices displayed to readers during the
+  event period.
 
-- **Banners** that display a prominent message to the user to let them know a significant event is about to take place,
-is taking place, or has taken place. (e.g. "Istio 1.5 has been released, download it today!" or "Join us at KubeCon on March 30").
-Banners are full-screen slices displayed to the user during the event period.
-
-To create banners and stickers, you add files to the `events/banners` or `events/stickers` directories. You create one normal markdown
-file per event. Within these files, you use the following dedicated front-matter fields to control various features:
+To create banners and stickers, you create Markdown files in either the
+`events/banners` or `events/stickers` folders. Create one Markdown file
+per event with dedicated front-matter fields to control their behavior. The
+following table explains the available options:
 
 <table>
     <thead>
@@ -716,7 +720,7 @@ file per event. Within these files, you use the following dedicated front-matter
             <td><code>period_start</code></td>
             <td>The starting date at which to start displaying the item in <code>YYYY-MM-DD</code> format.
             Instead of a date, this can also be the value <code>latest_release</code>, which then uses the latest known
-            Istio release as the start date. This is useful when creating a banned that says "Istio x.y.z has just been relesed".
+            Istio release as the start date. This is useful when creating a banner saying "Istio x.y.z has just been released".
             </td>
         </tr>
         <tr>
@@ -734,8 +738,8 @@ file per event. Within these files, you use the following dedicated front-matter
         <tr>
             <td><code>max_impressions</code></td>
             <td>How many times to show the content to the user during
-                the event's period. A value of 3 would mean that the first three pages visited by the user during the period will display
-                the content, and the content will be hidden on subsequent page loads. A value of 0, or ommiting the field completely,
+                the event's period. A value of 3 would mean the first three pages visited by the user during the period will display
+                the content, and the content will be hidden on subsequent page loads. A value of 0, or omitting the field completely,
                 results in the content being displayed on all page visits during the period.
             </td>
         </tr>
@@ -745,7 +749,7 @@ file per event. Within these files, you use the following dedicated front-matter
         </tr>
         <tr>
             <td><code>link</code></td>
-            <td>You can specify a URL, which turns the whole item into a clickable target. Once the user clicks on the item,
+            <td>You can specify a URL, which turns the whole item into a clickable target. When the user clicks on the item,
             the item is no longer shown to the user. The special value `latest_release` can be used here to introduce a link
             to the current release's announcement page.
             </td>
