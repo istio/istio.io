@@ -68,6 +68,7 @@ The following table shows all the options that the `istio-cni` configuration sup
 | `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
 | `psp_cluster_role` | | | This value refers to a `ClusterRole` and can be used to create a `RoleBinding` in the namespace of `istio-cni`. This is useful if you use [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy) and want to allow `istio-cni` to run as `priviliged` Pods. |
 | `podAnnotations` | | `{}` | Additional custom annotations to be set on pod level. |
+| `chained` | `true` or `false` | `true` | Whether to deploy the configuration file as a plugin chain or as a standalone file in `cni-conf-dir`. Some Kubernetes flavors (e.g. OpenShift) do not support the chain approach, set to `false` if this is the case. |
 
 These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
 or the corresponding path in a custom overlay file.
@@ -125,7 +126,7 @@ The following table shows the required settings for many common Kubernetes envir
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
-| Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
+| Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf"` | _(none)_ |
 
 ### GKE setup
 

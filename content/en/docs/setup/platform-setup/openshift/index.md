@@ -21,7 +21,7 @@ by running the command below. Make sure to replace `istio-system` if you are
 deploying Istio in another namespace:
 
 {{< text bash >}}
-$ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n istio-system
+$ oc adm policy add-scc-to-group anyuid system:serviceaccounts:istio-system
 {{< /text >}}
 
 Now you can install Istio using the [CNI](/docs/setup/additional-setup/cni/) instructions.
@@ -75,13 +75,32 @@ $ master-restart controllers
 The Istio sidecar injected into each application pod runs with user ID 1337, which is not allowed by default in OpenShift. To allow this user ID to be used, execute the following commands. Replace `<target-namespace>` with the appropriate namespace.
 
 {{< text bash >}}
-$ oc adm policy add-scc-to-group privileged system:serviceaccounts -n <target-namespace>
-$ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n <target-namespace>
+$ oc adm policy add-scc-to-group privileged system:serviceaccounts:<target-namespace>
+$ oc adm policy add-scc-to-group anyuid system:serviceaccounts:<target-namespace>
 {{< /text >}}
 
 When removing your application, remove the permissions as follows.
 
 {{< text bash >}}
-$ oc adm policy remove-scc-from-group privileged system:serviceaccounts -n <target-namespace>
-$ oc adm policy remove-scc-from-group anyuid system:serviceaccounts -n <target-namespace>
+$ oc adm policy remove-scc-from-group privileged system:serviceaccounts:<target-namespace>
+$ oc adm policy remove-scc-from-group anyuid system:serviceaccounts:<target-namespace>
+{{< /text >}}
+
+## Additional requirements for the application namespace
+
+CNI on OpenShift is managed by `Multus`, and it requires a `NetworkAttachmentDefinition` to be present in the application namespace in order to invoke the `istio-cni` plugin. Execute the following commands. Replace `<target-namespace>` with the appropriate namespace.
+
+{{< text bash >}}
+$ cat <<EOF | oc -n <target-namespace> create -f -
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: istio-cni
+EOF
+{{< /text >}}
+
+When removing your application, remove the `NetworkAttachmentDefinition` as follows.
+
+{{< text bash >}}
+$ oc -n <target-namespace> delete NetworkAttachmentDefinition istio-cni
 {{< /text >}}
