@@ -1,7 +1,7 @@
 ---
 title: Authorization Policy Trust Domain Migration
 description: Shows how to migrate from one trust domain to another without changing authorization policy.
-weight: 40
+weight: 50
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
 ---
 
