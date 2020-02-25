@@ -127,7 +127,7 @@ spec:
   mtls:
     mode: STRICT
 EOF
-{{ /text }}
+{{< /text >}}
 
 Now you can see both `foo` `bar` namespaces enforcing mutual TLS only traffic, thus requests from `sleep.legacy`
 failing at both.
