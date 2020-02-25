@@ -21,7 +21,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 
 ### Setup
 
-Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar proxy. We also use second
+Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar. We also use second
 instances of `httpbin` and `sleep` running without the sidecar  in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
 run the following:
 
@@ -85,7 +85,7 @@ Depending on the version of Istio, you may see destination rules for hosts other
 
 By default, Istio tracks the server workloads migrated to Istio sidecar, and configures client sidecar to send mutual TLS traffic to those workloads automatically, and send plain text traffic to workloads without sidecars.
 
-As a result, all traffic between workloads with sidecar will be in mTLS, without you do anything. To demonstrate that, we examine the response from request to `httpbin/header`. When mTLS is in used, `X-Forwarded-Client-Cert` header will be injected by proxy sidecar to the upstream request to backend. Thus, exisent of that header is an evidence that mTLS is used. For example:
+As a result, all traffic between workloads with sidecar will be in mTLS, without you do anything. To demonstrate that, let's examine the response from request to `httpbin/header`. When mTLS is in used, `X-Forwarded-Client-Cert` header will be injected by proxy sidecar to the upstream request to backend. Thus, exisent of that header is an evidence that mTLS is used. For example:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert
@@ -330,8 +330,7 @@ $ kubectl delete destinationrules httpbin -n bar
 
 ## End-user authentication
 
-To experiment with this feature, you need a valid JWT. The JWT must correspond to the JWKS endpoint you want to use for the demo. In
-this tutorial, we use this [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and this
+To experiment with this feature, you need a valid JWT. The JWT must correspond to the JWKS endpoint you want to use for the demo. This tutorial use the test token [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and
 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
 Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
@@ -393,7 +392,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 Now, add a policy that requires end-user JWT for `ingressgateway`.
 
 {{< text bash >}}
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "RequestAuthentication"
 metadata:
