@@ -116,7 +116,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-The example above assumes the root namespace is `istio-system`. Please change it to the value you use with your Istio installation.
+The example assumes `istio-system` is the root namespace. If you used a different value during your installation, replace `istio-system` with the value you used.
  {{< /tip >}}
 
 This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. If you run the test command above, you will see all requests still succeed, except for those from client that doesn't have sidecar (`sleep.legacy`) to server with sidecar (`httpbin.foo` or `httpbin.bar`). This is expected, as the the workload without sidecar cannot use mTLS.
