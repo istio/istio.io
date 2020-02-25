@@ -168,7 +168,8 @@ wait until the newly defined authorization policy to take effect.
     EOF
     {{< /text >}}
 
-    Wait for the newly defined policy to take effect.
+    Wait for the newly defined policy to take effect, which could take up
+    to a minute or more depending on your environment.
 
 1.  Once the policy takes effect, verify that Istio rejected the curl
 connection to the `httpbin` workload:
