@@ -62,7 +62,7 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-You should also verify that there is no peer authentication policy in the system, which you can do as follows:
+Verify there is no peer authentication policy in the system with the following command:
 
 {{< text bash >}}
 $ kubectl get peerauthentication --all-namespaces
@@ -155,7 +155,7 @@ $ kubectl delete peerauthentication -n istio-system default
 
 ### Namespace-wide policy
 
-If you only want to change mTLS for all workloads within a particular namespace, you can use a namespace-wide policy. The spec of the policy is the same as the mesh-wide policy, except it should be submitted to the namespace on whicy you want to applied. For example, to enable mTLS strict for namespace `foo`, you can do:
+To change mTLS for all workloads within a particular namespace, use a namespace-wide policy. The specification of the policy is the same as for a mesh-wide policy, but you specify the namespace it applies to under `metadata`. For example, the following peer authentication policy enables strict mTLS  for the `foo` namespace:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
