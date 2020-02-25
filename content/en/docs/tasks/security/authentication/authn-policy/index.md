@@ -172,7 +172,7 @@ spec:
 EOF
 {{< /text >}}
 
-As this policy is applied on services in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
+As this policy is applied on workloads in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -255,7 +255,7 @@ spec:
 EOF
 {{< /text >}}
 
-As before, you also need a destination rule, for example:
+As before, you also need a destination rule:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -276,8 +276,8 @@ spec:
 EOF
 {{< /text >}}
 
-- The port value in the peer authentication policy is the container's port. The value the destination rule is the service's port.
-- You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
+1. The port value in the peer authentication policy is the container's port. The value the destination rule is the service's port.
+1. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
 
 ### Policy precedence
 
@@ -415,7 +415,7 @@ spec:
 EOF
 {{< /text >}}
 
-Submit the policy in the same namespace as the workload it selects, `ingressgateway` in this case. The namespace you need to specify is then `istio-system`.
+Apply the policy to the namespace of the workload it selects, `ingressgateway` in this case. The namespace you need to specify is then `istio-system`.
 
 If you provide a token in the authorization header, its implicitly default location, Istio validates the token using the [public key set]({{< github_file >}}/security/tools/jwt/samples/jwks.json), and rejects requests if the bearer token is invalid. However, requests without tokens are accepted. To observe this behavior, retry the request without a token, with a bad token, and with a valid token:
 
