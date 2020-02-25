@@ -1,6 +1,6 @@
 ---
 title: Authorization for HTTP traffic
-description: Shows how to set up role-based access control for HTTP traffic.
+description: Shows how to set up access control for HTTP traffic.
 weight: 10
 keywords: [security,access-control,rbac,authorization]
 aliases:
