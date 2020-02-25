@@ -21,7 +21,7 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 
 ### Setup
 
-Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy sidecar. We also use second
+Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy proxy. We also use second
 instances of `httpbin` and `sleep` running without the sidecar  in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
 run the following:
 
@@ -83,16 +83,20 @@ Depending on the version of Istio, you may see destination rules for hosts other
 
 ## Auto mTLS
 
-By default, Istio tracks the server workloads migrated to Istio sidecar, and configures client sidecar to send mutual TLS traffic to those workloads automatically, and send plain text traffic to workloads without sidecars.
+By default, Istio tracks the server workloads migrated to Istio proxies, and configures client proxies to send mutual TLS traffic to those workloads automatically, and to send plain text traffic to workloads without sidecars.
 
-As a result, all traffic between workloads with sidecar will be in mTLS, without you do anything. To demonstrate that, let's examine the response from request to `httpbin/header`. When mTLS is in used, `X-Forwarded-Client-Cert` header will be injected by proxy sidecar to the upstream request to backend. Thus, exisent of that header is an evidence that mTLS is used. For example:
+Thus, all traffic between workloads with proxies uses mTLS, without you doing
+anything. For example, take the response from a request to `httpbin/header`.
+When using mTLS, the proxy injects the `X-Forwarded-Client-Cert` header to the
+upstream request to the backend. That header's presence is evidence that mTLS is
+used. For example:
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert
 "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>"
 {{< /text >}}
 
-On the contrary, if the server doesn't have sidecar, that header doesn't exist, implying request is in plaintext.
+When the server doesn't have sidecar, the `X-Forwarded-Client-Cert` header is not there, which implies requests are in plain text.
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
