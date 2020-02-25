@@ -34,62 +34,6 @@ them down once the migration is done.
 
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in
 [installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
-<!-- 
-* Ensure that your cluster is in `PERMISSIVE` mode before migrating to mutual TLS.
-  Run the following command to check:
-
-    {{< text bash >}}
-    $ kubectl get meshpolicy default -o yaml
-    ...
-    spec:
-      peers:
-      - mtls:
-          mode: PERMISSIVE
-    {{< /text >}}
-
-    If the output is the same as above, you can skip the next step.
-
-* Run the following command to enable `PERMISSIVE` mode for the cluster. In general, this operation
-  does not cause any interruption to your workloads, but note the warning message below.
-
-    {{< warning >}}
-    In `PERMISSIVE` mode, the Envoy sidecar relies on the
-    [ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) value `istio` to
-    decide whether to terminate the mutual TLS traffic. If your workloads (without Envoy sidecar)
-    have enabled mutual TLS directly to the services with Envoy sidecars, enabling `PERMISSIVE` mode
-    may cause these connections to fail.
-    {{< /warning >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "MeshPolicy"
-    metadata:
-      name: "default"
-    spec:
-      peers:
-      - mtls:
-          mode: PERMISSIVE
-    EOF
-    {{< /text >}}
-
-{{< tip >}}
-You can use the following command to show the mutual TLS configuration of all connections from one pod:
-
-{{< text bash >}}
-$ istioctl authn tls-check <YOUR_POD> -n <YOUR_NAMESPACE>
-{{< /text >}}
-
-{{< /tip >}} -->
-
-<!-- The rest of this task is divided into two parts.
-
-* If you want to enable mutual TLS for your workloads one by one, refer to
-[gradually enable mutual TLS for services](/docs/tasks/security/authentication/mtls-migration/#option-1-gradually-enable-mutual-tls-for-services),
-which describes the process using simple examples.
-
-* If you want to enable mutual TLS for the entire cluster, refer to
-[globally enable mutual TLS for the cluster](/docs/tasks/security/authentication/mtls-migration/#option-2-globally-enable-mutual-tls-for-the-cluster). -->
 
 ## Option 1: gradually enable mutual TLS by namespace
 
@@ -166,8 +110,7 @@ sleep.bar to httpbin.foo: 200
 sleep.bar to httpbin.bar: 200
 sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200{{< text bash >}}
-
+sleep.legacy to httpbin.bar: 200
 {{< /text >}}
 
 If you can't migrate all your services to Istio (injecting Envoy sidecar), you have to stay at `PERMISSIVE` mode.
