@@ -12,7 +12,7 @@ text to mutual TLS without breaking live traffic.
 
 In the scenario where there are many services communicating over the network, it
 may be desirable to gradually migrate them to Istio. During the migration, some workloads have Envoy
-sidecars while some do not. For workloads with a sidecar, if you enforce
+sidecars while some do not. For workloads with sidecars, if you enforce
 mutual TLS, the connections from legacy clients (i.e., clients without
 sidecars) will lose communication since they do not have Envoy sidecars and client certificates.
 To solve this issue, Istio authentication policy provides a `PERMISSIVE` mode to solve
@@ -20,7 +20,7 @@ this problem. When `PERMISSIVE` mode is enabled, a service can take both HTTP
 and mutual TLS traffic.
 
 You can use the [Grafana dashboard](/docs/tasks/observability/metrics/using-istio-dashboard/) to
-check which services are still sending plaintext traffic to the service in `PERMISSIVE` mode and choose to lock
+check which workloads are still sending plaintext traffic to the workloads in `PERMISSIVE` mode and choose to lock
 them down once the migration is done.
 
 ## Before you begin
@@ -35,12 +35,10 @@ them down once the migration is done.
 * Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in
 [installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
 
-## Option 1: gradually enable mutual TLS by namespace
-
 In this section, you can try out the migration process by creating sample workloads and modifying
 the policies to enforce STRICT mutual TLS between the workloads.
 
-### Set up the cluster
+## Set up the cluster
 
 * Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecars on both of them.
     * `foo`
@@ -84,9 +82,9 @@ the policies to enforce STRICT mutual TLS between the workloads.
     No resources found
     {{< /text >}}
 
-### Lock down to mutual TLS
+## Lock down to mutual TLS
 
-After migrating all clients to Istio services and injecting the Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
+After migrating all clients to Istio and injecting the Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
 
 {{< text bash >}}
 $ kubectl apply -n foo -f - << EOF
@@ -117,7 +115,7 @@ If you can't migrate all your services to Istio (injecting Envoy sidecar), you h
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
 We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
-### Lockdown mutual TLS for entire mesh
+## Lockdown mutual TLS for entire mesh
 
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - << EOF
@@ -131,13 +129,14 @@ spec:
 EOF
 {{ /text }}
 
-Now you can see both `foo` `bar` namespaces enforce mutual TLS only traffic, thus requests from `sleep.legacy` fail at both.
+Now you can see both `foo` `bar` namespaces enforcing mutual TLS only traffic, thus requests from `sleep.legacy`
+failing at both.
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 {{< /text >}}
 
-### Clean up the example
+## Clean up the example
 
 To remove all resources created in this section:
 
