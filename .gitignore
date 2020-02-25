@@ -13,3 +13,12 @@ public
 resources
 node_modules
 generated
+
+# install generated files
+install/**
+
+# contains samples to demo Istio 
+samples/**
+
+# contains the built artifacts
+out/**
