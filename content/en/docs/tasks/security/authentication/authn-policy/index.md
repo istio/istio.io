@@ -62,7 +62,7 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-You should also verify that there is no peer authentication policy in the system, which you can do as follows:
+Verify there is no peer authentication policy in the system with the following command:
 
 {{< text bash >}}
 $ kubectl get peerauthentication --all-namespaces
