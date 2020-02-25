@@ -12,7 +12,7 @@ Through this task, you can have closer look at mutual TLS and learn its settings
 * You have completed the [authentication policy](/docs/tasks/security/authentication/authn-policy/) task.
 * You are familiar with using authentication policy to enable mutual TLS.
 * Istio runs on Kubernetes with global mutual TLS enabled. You can follow our [instructions to install Istio](/docs/setup/).
-If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls).
+If you already have Istio installed, you can add or modify authentication policies and destination rules to enable mutual TLS as described in this [task](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode).
 * You have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with Envoy sidecar in the `default` namespace. For example, below is the command to deploy those services with [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection):
 
     {{< text bash >}}
