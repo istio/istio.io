@@ -3,13 +3,20 @@ title: MTLSPolicyConflict
 layout: analysis-message
 ---
 
+{{< warning >}}
+istioctl analyze only detects mutual TLS conflicts when auto mutual TLS is disabled and when
+using `v1alpha1` security apis. If auto mutual TLS is turned on, or if you're using `beta`
+security apis such as peer authentication, please see PLACEHOLDER for an explanation of
+how the new API works.
+{{< /warning >}}
+
 This message occurs when a destination rule resource and a policy resource are
 in conflict with regards to mutual TLS. The two resources are in conflict if they each
 specify incompatible mutual TLS modes to be used; this conflict means traffic matching
 the destination rule to the specified host will be rejected.
 
-This message is only produced on service meshes that are not using [automatic mutual
-TLS](/docs/tasks/security/authentication/auto-mtls/).
+This message is only produced on service meshes that are not using automatic mutual
+TLS.
 
 ## An example
 
