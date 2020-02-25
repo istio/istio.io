@@ -18,7 +18,11 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-set -x
+export ISTIO_BRANCH=${ISTIO_BRANCH:-master}
+
+echo "ISTIOIO_GO=${ISTIOIO_GO}"
+echo "ISTIO_GO=${ISTIO_GO}"
+echo "ISTIO_BRANCH=${ISTIO_BRANCH}"
 
 # Download the Istio source if not available.
 if [[ ! -d "${ISTIO_GO}" ]]
@@ -26,9 +30,7 @@ then
     git clone https://github.com/istio/istio.git "${ISTIO_GO}"
 fi
 
-export ISTIO_BRANCH=${ISTIO_BRANCH:-master}
-
-# Switch to the selected branch and build/install istioctl
+# Build and install istioctl
 pushd "${ISTIO_GO}"
 git checkout "${ISTIO_BRANCH}"
 go install ./istioctl/cmd/istioctl
