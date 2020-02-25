@@ -84,8 +84,7 @@ cluster. You can install the component in one of two ways:
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
     --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-    --set gateways.enabled=false \
-    --set autoInjection.enabled=true
+    --set gateways.enabled=false
     {{< /text >}}
 
     {{< tip >}}
@@ -244,8 +243,7 @@ To uninstall the cluster run the following command:
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
     --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-    --set gateways.enabled=false \
-    --set autoInjection.enabled=true | kubectl delete -f -
+    --set gateways.enabled=false | kubectl delete -f -
 {{< /text >}}
 
 ## Manual sidecar injection example {#manual-sidecar}
@@ -272,8 +270,7 @@ Before you begin, set the endpoint IP environment variables as described in the
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
     --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-    --set gateways.enabled=false \
-    --set autoInjection.enabled=false
+    --set gateways.enabled=false
     {{< /text >}}
 
 1. [Generate](#kubeconfig) the `kubeconfig` configuration file for each remote
@@ -490,8 +487,7 @@ and endpoint to allow the remote sidecars to resolve the
       --set values.global.remotePilotAddress=${PILOT_POD_IP} \
       --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
       --set values.global.remoteTelemetryAddress=${TELEMETRY_POD_IP} \
-      --set gateways.enabled=false \
-      --set autoInjection.enabled=true
+      --set gateways.enabled=false
     {{< /text >}}
 
 1. To generate the `kubeconfig` configuration file for the remote cluster,
