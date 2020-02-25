@@ -81,14 +81,14 @@ Depending on the version of Istio, you may see destination rules for hosts other
 `bar` and `legacy` namespace, nor is the match-all wildcard `*`
 {{< /tip >}}
 
-## Auto mTLS
+## Auto mutual TLS
 
 By default, Istio tracks the server workloads migrated to Istio proxies, and configures client proxies to send mutual TLS traffic to those workloads automatically, and to send plain text traffic to workloads without sidecars.
 
-Thus, all traffic between workloads with proxies uses mTLS, without you doing
+Thus, all traffic between workloads with proxies uses mutual TLS, without you doing
 anything. For example, take the response from a request to `httpbin/header`.
-When using mTLS, the proxy injects the `X-Forwarded-Client-Cert` header to the
-upstream request to the backend. That header's presence is evidence that mTLS is
+When using mutual TLS, the proxy injects the `X-Forwarded-Client-Cert` header to the
+upstream request to the backend. That header's presence is evidence that mutual TLS is
 used. For example:
 
 {{< text bash >}}
@@ -104,7 +104,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 ## Globally enabling Istio mutual TLS in STRICT mode
 
-As showing in the last section, while Istio automatically upgrade all traffic to mTLS between services with sidecar, it still allows services to receive plaintext traffic. If you want to prevent non-mTLS for the whole mesh, you can set a mesh-wide peer authentication policy to set mTLS mode to `STRICT`. Mesh-wide peer authentication policy must have empty `selector`, and defined in the *root namespace* like. For example:
+As showing in the last section, while Istio automatically upgrade all traffic to mutual TLS between services with sidecar, it still allows services to receive plaintext traffic. If you want to prevent non-mutual TLS for the whole mesh, you can set a mesh-wide peer authentication policy to set mutual TLS mode to `STRICT`. Mesh-wide peer authentication policy must have empty `selector`, and defined in the *root namespace* like. For example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -143,7 +143,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-You see requests still succeed, except for those from the client that doesn't have proxy, `sleep.legacy`, to the server with a proxy, `httpbin.foo` or `httpbin.bar`. This is expected because mTLS is now strictly required, but the workload without sidecar cannot comply.
+You see requests still succeed, except for those from the client that doesn't have proxy, `sleep.legacy`, to the server with a proxy, `httpbin.foo` or `httpbin.bar`. This is expected because mutual TLS is now strictly required, but the workload without sidecar cannot comply.
 
 ### Cleanup part 1
 
@@ -157,7 +157,7 @@ $ kubectl delete peerauthentication -n istio-system default
 
 ### Namespace-wide policy
 
-To change mTLS for all workloads within a particular namespace, use a namespace-wide policy. The specification of the policy is the same as for a mesh-wide policy, but you specify the namespace it applies to under `metadata`. For example, the following peer authentication policy enables strict mTLS  for the `foo` namespace:
+To change mutual TLS for all workloads within a particular namespace, use a namespace-wide policy. The specification of the policy is the same as for a mesh-wide policy, but you specify the namespace it applies to under `metadata`. For example, the following peer authentication policy enables strict mutual TLS  for the `foo` namespace:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -190,9 +190,9 @@ sleep.legacy to httpbin.legacy: 200
 
 ### Enable mutual TLS per workload
 
-To set a peer authentication policy for a specific workload, you must configure the `selector` section and specify the labels that match the desired workload. However, Istio cannot aggregate workload-level policies for outbound mTLS traffic to a service. Configure a destination rule to manage that behavior.
+To set a peer authentication policy for a specific workload, you must configure the `selector` section and specify the labels that match the desired workload. However, Istio cannot aggregate workload-level policies for outbound mutual TLS traffic to a service. Configure a destination rule to manage that behavior.
 
-For example, the following peer authentication policy and destination rule enable strict mTLS for the `httpbin.bar` workload:
+For example, the following peer authentication policy and destination rule enable strict mutual TLS for the `httpbin.bar` workload:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -234,7 +234,7 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-To refine the mTLS settings per port, you must configure the `portLevelMtls` section. For example, the following peer authentication policy requires mTLS on all ports, except port `80`:
+To refine the mutual TLS settings per port, you must configure the `portLevelMtls` section. For example, the following peer authentication policy requires mutual TLS on all ports, except port `80`:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -477,7 +477,7 @@ This is often used to define a JWT policy for all services bound to the gateway,
 
 ### Require a valid token
 
-To reject requests without valid tokens, add an authorization rule specifying a `DENY` action for requests without request principals, shown as `notRequestPrincipals: ["*"]`. Request principals are available only when valid JWT tokens are provided. The rule therefore denies requests without valid tokens as seen in the following example:
+To reject requests without valid tokens, add an authorization policy with a rule specifying a `DENY` action for requests without request principals, shown as `notRequestPrincipals: ["*"]` in the following example. Request principals are available only when valid JWT tokens are provided. The rule therefore denies requests without valid tokens.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
