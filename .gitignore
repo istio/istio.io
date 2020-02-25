@@ -21,4 +21,7 @@ install/**
 samples/**
 
 # contains the built artifacts
-out/**
+out/** 
+
+# contains cloned istio repository
+go/**
