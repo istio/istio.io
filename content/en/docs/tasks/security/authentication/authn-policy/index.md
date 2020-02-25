@@ -510,7 +510,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 To refine authorization with a token requirement per host, path, or method, change the authorization policy to only require JWT on `/headers`. When this authorization rule takes effect, requests to `$INGRESS_HOST/headers` fail with the error code `403`. Requests to all other paths succeed, for example `$INGRESS_HOST/ip`.
 
 {{< text bash >}}
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "AuthorizationPolicy"
 metadata:
