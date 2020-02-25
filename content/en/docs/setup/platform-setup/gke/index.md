@@ -18,10 +18,6 @@ for more information.
 
 Follow these instructions to prepare a GKE cluster for Istio.
 
-{{< warning >}}
-To enable the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration) (SDS) in Istio, use Kubernetes 1.13 or above.
-{{< /warning >}}
-
 1. Create a new cluster.
 
     {{< text bash >}}
@@ -34,7 +30,7 @@ To enable the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/la
     {{< /text >}}
 
     {{< tip >}}
-    The default installation of Mixer requires nodes with >1 vCPU. If you are
+    The default installation of Istio requires nodes with >1 vCPU. If you are
     installing with the
     [demo configuration profile](/docs/setup/additional-setup/config-profiles/),
     you can remove the `--machine-type` argument to use the smaller `n1-standard-1` machine size instead.
