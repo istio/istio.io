@@ -143,9 +143,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-
 You see requests still succeed, except for those from the client that doesn't have proxy, `sleep.legacy`, to the server with a proxy, `httpbin.foo` or `httpbin.bar`. This is expected because mTLS is now strictly required, but the workload without sidecar cannot comply.
-
 
 ### Cleanup part 1
 
@@ -419,9 +417,7 @@ EOF
 
 Submit the policy in the same namespace as the workload it selects, `ingressgateway` in this case. The namespace you need to specify is then `istio-system`.
 
-
 If you provide a token in the authorization header, its implicitly default location, Istio validates the token using the [public key set]({{< github_file >}}/security/tools/jwt/samples/jwks.json), and rejects requests if the bearing token is invalid. However, requests without tokens are accepted. To observe this behavior, retry the request without a token, with a bad token, and with a valid token:
-
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
@@ -534,7 +530,6 @@ spec:
         paths: ["/headers"]
 EOF
 {{< /text >}}
-
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
