@@ -41,3 +41,33 @@ control in [Istio Mixer](/docs/reference/config/policy-and-telemetry/) such that
 In this setup, Kubernetes can isolate the operator privileges on managing the services.
 Istio manages certificates and keys in all namespaces
 and enforces different access control rules to the services.
+
+## Configure third party service account tokens
+
+To authenticate with the Istio control plane, the Istio proxy will use a Service Account token. Kubernetes supports two forms of these tokens:
+
+* Third party tokens, which have a scoped audience and expiration.
+* First party tokens, which have no expiration and are mounted into all pods.
+
+Because the properties of the first party token are less secure, Istio will default to using third party tokens. However, this feature is not enabled on all Kubernetes platforms.
+
+If you are using `istioctl` to install, support will be automatically detected. This can be done manually as well, and configured by passing `--set values.global.jwtPolicy=third-party-jwt` or `--set values.global.jwtPolicy=first-party-jwt`.
+
+To determine if your cluster supports third party tokens, look for the `TokenRequest` API:
+
+    {{< text bash >}}
+    $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceaccounts/token"))'
+    {
+        "name": "serviceaccounts/token",
+        "singularName": "",
+        "namespaced": true,
+        "group": "authentication.k8s.io",
+        "version": "v1",
+        "kind": "TokenRequest",
+        "verbs": [
+            "create"
+        ]
+    }
+    {{< /text >}}
+
+While most cloud providers support this feature now, many local development tools and custom installations may not. To enable this feature, please refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection).

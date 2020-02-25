@@ -849,7 +849,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <pre class="language-bash"><code>istioctl experimental add-to-mesh deployment productpage-v1
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and\ 
+<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and\
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.
 THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
@@ -1423,7 +1423,7 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <pre class="language-bash"><code>  # Convert the v1alpha1 RBAC policy in the current cluster:
   istioctl x authz convert &gt; authorization-policies.yaml
 
-  # Convert the v1alpha1 RBAC policy in the given file: 
+  # Convert the v1alpha1 RBAC policy in the given file:
   istioctl x authz convert -f v1alpha1-policy-1.yaml,v1alpha1-policy-2.yaml
   -s my-services.yaml -r my-root-namespace &gt; authorization-policies.yaml
 
@@ -1799,10 +1799,10 @@ kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kube
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system 
+<p>This command finds a Prometheus pod running in the specified istio system
 namespace. It then executes a series of queries per requested workload to
 find the following top-level workload metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The 
+error rate, and request latency at p50, p90, and p99 percentiles. The
 query results are printed to the console, organized by workload name.</p>
 <p>All metrics returned are from server-side reports. This means that latencies
 and error rates are from the perspective of the service itself and not of an
@@ -2287,11 +2287,11 @@ because in previous versions webhooks manage their own configurations.</p>
 <h3 id="istioctl-experimental-post-install-webhook-enable Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Enable the webhook configuration of Galley with the given webhook configuration
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml
 
 # Enable the webhook configuration of Galley with the given webhook configuration and CA certificate
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml --ca-bundle-file ./k8s-ca-cert.pem
 
 </code></pre>
@@ -2360,7 +2360,7 @@ istioctl experimental post-install webhook enable --validation --webhook-secret 
 # Display the webhook configuration of Galley
 istioctl experimental post-install webhook status --validation --validation-config istio-galley
 # Display the webhook configuration of Galley and Sidecar Injector
-istioctl experimental post-install webhook status --validation --validation-config istio-galley 
+istioctl experimental post-install webhook status --validation --validation-config istio-galley
   --injection --injection-config istio-sidecar-injector
 
 </code></pre>
@@ -2453,7 +2453,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment productpage-v1
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-external-service">istioctl experimental remove-from-mesh external-service</h2>
-<p>istioctl experimental remove-from-mesh external-service remove the ServiceEntry and\ 
+<p>istioctl experimental remove-from-mesh external-service remove the ServiceEntry and\
 the kubernetes Service for the specified external service(eg:services running on VM) from Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.
 THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
@@ -2925,14 +2925,14 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio 
-settings (--set values.global.mtls.enabled=true). See documentation for more info: 
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.global.controlPlaneSecurityEnabled=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
-<td>skipConfirmation determines whether the user is prompted for confirmation. 
+<td>skipConfirmation determines whether the user is prompted for confirmation.
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
@@ -2952,7 +2952,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl manifest apply
 
   # Enable security
-  istioctl manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+  istioctl manifest apply --set values.global.controlPlaneSecurityEnabled=true
 
   # Generate the demo profile and don&#39;t wait for confirmation
   istioctl manifest apply --set profile=demo --skip-confirmation
@@ -3110,8 +3110,8 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio 
-settings (--set values.global.mtls.enabled=true). See documentation for more info: 
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.global.mtls.enabled=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -4546,7 +4546,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Validate bookinfo-gateway.yaml
 		istioctl validate -f bookinfo-gateway.yaml
-		
+
 		# Validate current deployments under &#39;default&#39; namespace within the cluster
 		kubectl get deployments -o yaml |istioctl validate -f -
 
@@ -4623,7 +4623,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Verify that Istio can be freshly installed
 		istioctl verify-install
-		
+
 		# Verify the deployment matches a custom Istio deployment configuration
 		istioctl verify-install -f $HOME/istio.yaml
 

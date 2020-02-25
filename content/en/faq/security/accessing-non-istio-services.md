@@ -3,9 +3,7 @@ title: How can services that use Istio access non-Istio services?
 weight: 40
 ---
 
-When mutual TLS is globally enabled, the *global* destination rule matches all services in the cluster, whether or not these services have an Istio sidecar.
-This includes the Kubernetes API server, as well as any non-Istio services in the cluster. To communicate with such services from services that have an Istio
-sidecar, you need to set a destination rule to exempt the service. For example:
+Istio detects if the destination workload has an Envoy proxy and drops mutual TLS if it doesn't. Set an explicit destination rule to disable mutual TLS. For example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -20,10 +18,3 @@ spec:
      mode: DISABLE
 EOF
 {{< /text >}}
-
-{{< tip >}}
-This destination rule is already added to the system when
-Istio is installed with mutual TLS enabled.
-{{< /tip >}}
-
-Similarly, you can add destination rules for other non-Istio services. For more examples, see [task](/docs/tasks/security/authentication/authn-policy/#request-from-istio-services-to-non-istio-services).
