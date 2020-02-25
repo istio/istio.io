@@ -480,7 +480,7 @@ This is often used to define a JWT policy for all services bound to the gateway,
 To reject requests without valid tokens, add an authorization rule specifying a `DENY` action for requests without request principals, shown as `notRequestPrincipals: ["*"]` in the following example. Request principals are available only when valid JWT tokens are provided. The rule therefore denies requests without valid tokens.
 
 {{< text bash >}}
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "AuthorizationPolicy"
 metadata:
