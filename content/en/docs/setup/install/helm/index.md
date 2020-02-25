@@ -126,15 +126,6 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tab >}}
 
-{{< tab name="sds" category-value="sds" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml | kubectl apply -f -
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="Mutual TLS enabled" category-value="mtls" >}}
 
 Enable mutual TLS in Istio by setting options `global.controlPlaneSecurityEnabled=true`
@@ -238,15 +229,6 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 {{< /tab >}}
 
-{{< tab name="sds" category-value="sds" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< tab name="Mutual TLS enabled" category-value="mtls" >}}
 
 Enable mutual TLS in Istio by setting options `global.controlPlaneSecurityEnabled=true`
@@ -329,16 +311,6 @@ $ kubectl delete namespace istio-system
 {{< text bash >}}
 $ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-minimal.yaml | kubectl delete -f -
-$ kubectl delete namespace istio-system
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="sds" category-value="sds" >}}
-
-{{< text bash >}}
-$ helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-sds-auth.yaml | kubectl delete -f -
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
