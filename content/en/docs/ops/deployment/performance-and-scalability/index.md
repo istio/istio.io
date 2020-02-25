@@ -38,7 +38,7 @@ After running the tests using Istio {{< istio_release_name >}}, we get the follo
 - The Envoy proxy uses **0.5 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
 - The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second.
 - Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 6.3 ms to the 90th percentile latency.
+- The Envoy proxy adds 2.8 ms to the 90th percentile latency.
 
 ## Control plane performance
 
@@ -130,7 +130,7 @@ This will decrease the amount data flowing through the system, which will in tur
 
 - `baseline` Client pod directly calls the server pod, no sidecars are present.
 - `none-both` Istio proxy with no Istio specific filters configured.
-- `telemetryv2-both` Client and server sidecars are present with telemetry v2 `nullvm` configured. This is a default case inside the mesh from Istio release 1.5 and is targeted to perform the same as **none-both** in the future.
+- `telemetryv2-both` **Istio 1.5 default** client and server sidecars are present with telemetry v2 `nullvm` configured.
 - `mixer-both` Client and server sidecars are present with mixer configured.
 
 ### Benchmarking tools
