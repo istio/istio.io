@@ -3,7 +3,7 @@ title: How can services that use Istio access non-Istio services?
 weight: 40
 ---
 
-Istio will try to detect whether the destination workload have Envoy proxy or not, and drop mutual TLS if it doesn't. You can also set the destination rule explicitly to disable mutual TLS. For example:
+Istio detects if the destination workload has an Envoy proxy and drops mutual TLS if it doesn't. Set an explicit destination rule to disable mutual TLS. For example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
