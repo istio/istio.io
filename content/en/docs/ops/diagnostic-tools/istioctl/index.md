@@ -144,7 +144,7 @@ To enable `istioctl` completion on your system, follow the steps for your prefer
 
 Installing the bash auto-completion file
 
-If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
+If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. To download the full release (which contains the `tools` directory), select the appropriate download from the [Istio Releases](https://github.com/istio/istio/releases/) page. To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
 
 {{< text bash >}}
 $ source ~/istioctl.bash
