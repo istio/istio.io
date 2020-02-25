@@ -115,7 +115,7 @@ If you can't migrate all your services to Istio (injecting Envoy sidecar), you h
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
 We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
-## Lockdown mutual TLS for entire mesh
+## Lock down mutual TLS for entire mesh
 
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - << EOF
