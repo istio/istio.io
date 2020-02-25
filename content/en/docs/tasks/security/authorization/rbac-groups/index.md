@@ -7,7 +7,7 @@ aliases:
     - /docs/tasks/security/rbac-groups/
 ---
 
-This tutorial walks you through examples to configure the groups-base
+This tutorial walks you through examples to configure the groups-based
 authorization and the authorization of list-typed claims in Istio.
 
 ## Before you begin
