@@ -21,7 +21,7 @@ Before tackling this task you must perform the following actions:
     This task uses two workloads, httpbin and sleep, deployed on one namespace, foo.
     Both workloads run with an Envoy proxy in front of each. Deploy the example namespace
     and workloads with the following command:
-    
+
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
