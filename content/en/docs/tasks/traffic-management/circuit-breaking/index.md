@@ -90,7 +90,15 @@ delays for outgoing HTTP calls. You will use this client to "trip" the circuit b
 policies you set in the `DestinationRule`. 
 
 1. Inject the client with the Istio sidecar proxy so network interactions are
-governed by Istio:
+governed by Istio.
+
+    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `fortio` service:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/httpbin/sample-client/fortio-deploy.yaml@
+    {{< /text >}}
+
+    Otherwise, you have to manually inject the sidecar before deploying the `fortio` application:
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/sample-client/fortio-deploy.yaml@)
