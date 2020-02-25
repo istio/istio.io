@@ -104,7 +104,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 
 ## Globally enabling Istio mutual TLS in STRICT mode
 
-As showing in the last section, while Istio automatically upgrade all traffic to mutual TLS between services with sidecar, it still allows services to receive plaintext traffic. If you want to prevent non-mutual TLS for the whole mesh, you can set a mesh-wide peer authentication policy to set mutual TLS mode to `STRICT`. Mesh-wide peer authentication policy must have empty `selector`, and defined in the *root namespace* like. For example:
+While Istio automatically upgrades all traffic between the proxies and the workloads to mutual TLS between, workloads can still receive plain text traffic. To prevent non-mutual TLS for the whole mesh, set a mesh-wide peer authentication policy to set mutual TLS mode to `STRICT`. The mesh-wide peer authentication policy shouldn't have a `selector` section, and it must apply to the **root namespace**, for example:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
