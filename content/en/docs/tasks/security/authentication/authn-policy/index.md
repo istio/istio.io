@@ -119,7 +119,10 @@ EOF
 The example assumes `istio-system` is the root namespace. If you used a different value during your installation, replace `istio-system` with the value you used.
  {{< /tip >}}
 
-This policy specifies that all workloads in the mesh will only accept encrypted requests using TLS. If you run the test command above, you will see all requests still succeed, except for those from client that doesn't have sidecar (`sleep.legacy`) to server with sidecar (`httpbin.foo` or `httpbin.bar`). This is expected, as the the workload without sidecar cannot use mTLS.
+This peer authentication policy has the following effects:
+-  It configures all workloads in the mesh to only accept requests encrypted with TLS. Since it doesn't specify a value for the `selector` field, the policy applies to all workloads in the mesh.
+
+Run the test command again:
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -135,6 +138,10 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
+
+
+You see requests still succeed, except for those from the client that doesn't have proxy, `sleep.legacy`, to the server with a proxy, `httpbin.foo` or `httpbin.bar`. This is expected because mTLS is now strictly required, but the workload without sidecar cannot comply.
+
 
 ### Cleanup part 1
 
@@ -181,9 +188,9 @@ sleep.legacy to httpbin.legacy: 200
 
 ### Enable mutual TLS per workload
 
-You can also set peer authentication policy for a specific workload by setting the `selector` to match to the desired workload (by labels). However, Istio cannot aggregate workload-level policies when programming the outbound mTLS to a service, you will also need to provide a DestinationRule to specify that.
+To set a peer authentication policy for a specific workload, you must configure the `selector` section and specify the labels that match the desired workload. However, Istio cannot aggregate workload-level policies for outbound mTLS traffic to a service. Configure a destination rule to manage that behavior.
 
-For example, to set mTLS strict for `httpbin.bar`, you will need to set both peer authentication policy as well as destination rule like below:
+For example, the following peer authentication policy and destination rule enable strict mTLS for the `httpbin.bar` workload:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -225,7 +232,7 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-You can further refine the mTLS settings per port. Our demo `httpbin` doesn't have multiple ports. But imagine that it does, then the following policy requires mTLS on all ports, except port `80` .
+To refine the mTLS settings per port, you must configure the `portLevelMtls` section. For example, the following peer authentication policy requires mTLS on all ports, except port `80`:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -246,7 +253,7 @@ spec:
 EOF
 {{< /text >}}
 
-As before, it should come with a destination rule:
+As before, you also need a destination rule, for example:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -267,14 +274,12 @@ spec:
 EOF
 {{< /text >}}
 
-{{< tip >}}
-- Port value in peer authentication policy is the *container port*, whereas in destination rule, it is the *service port*
-- Only port that is binded to some service can be used in port-level Mtls. It will be ignored otherwise.
-{{< /tip >}}
+- The port value in the peer authentication policy is the container's port. The value the destination rule is the service's port.
+- You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
 
 ### Policy precedence
 
-To illustrate how a workload-specific policy takes precedence over namespace-wide policy, you can add a policy to disable mutual TLS for `httpbin.foo` as below.
+A workload-specific peer authentication policy takes precedence over a namespace-wide policy. You can test this behavior if you add a policy to disable mutual TLS for the `httpbin.foo` workload, for example.
 Note that you've already created a namespace-wide policy that enables mutual TLS for all services in namespace `foo` and observe that requests from
 `sleep.legacy` to `httpbin.foo` are failing (see above).
 
@@ -389,7 +394,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-Now, add a policy that requires end-user JWT for `ingressgateway`.
+Now, add a request authentication policy that requires end-user JWT for the ingress gateway.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -408,11 +413,10 @@ spec:
 EOF
 {{< /text >}}
 
-{{< tip >}}
-- The policy need to be submitted in the same namespace as the workload it selects (`ingressgateway`). In this case, it is `istio-system`.
-{{< /tip >}}
+Submit the policy in the same namespace as the workload it selects, `ingressgateway` in this case. The namespace you need to specify is then `istio-system`.
 
-The policy above means if a token is provided in the Authorization header (implicitly default location), then it will be validated using the public key set at "{{< github_file >}}/security/tools/jwt/samples/jwks.json". Request will be rejected if the bearing token is invalid. Howerver, request without token is still accepted. To verify this behavior, retry the request without token, with bad token and with a valid token as followed:
+
+If you provide a token in the authorization header, its implicitly default location, Istio validates the token using the [public key set]({{< github_file >}}/security/tools/jwt/samples/jwks.json), and rejects requests if the bearing token is invalid. However, requests without tokens are accepted. To observe this behavior, retry the request without a token, with a bad token, and with a valid token:
 
 
 {{< text bash >}}
@@ -471,9 +475,9 @@ $ for i in `seq 1 10`; do curl --header "Authorization: Bearer $TOKEN" $INGRESS_
 You can also add a JWT policy to an ingress gateway (e.g., service `istio-ingressgateway.istio-system.svc.cluster.local`).
 This is often used to define a JWT policy for all services bound to the gateway, instead of for individual services.
 
-### Enforce valid token must be presented.
+### Require a valid token
 
-To reject request without valid token, you will need to add an authorization rule to `deny` request without `requestPrincipal` as below. Request principal is available only when a valid JWT token is provided, so the rule is equivalent to deny requests without valid token.
+To reject requests without valid tokens, add an authorization rule specifying a `DENY` action for requests without request principals, shown as `notRequestPrincipals: ["*"]` in the following example. Request principals are available only when valid JWT tokens are provided. The rule therefore denies requests without valid tokens.
 
 {{< text bash >}}
 kubectl apply -f - <<EOF
@@ -482,8 +486,6 @@ kind: "AuthorizationPolicy"
 metadata:
   name: "frontend-ingress"
   namespace: istio-system
-  labels:
-    demo.istio.io: security
 spec:
   selector:
     matchLabels:
@@ -496,16 +498,16 @@ spec:
 EOF
 {{< /text >}}
 
-Retry request without token, you should see it now fail with error code 403.
+Retry the request without a token. The request now fails with error code `403`:
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 403
 {{< /text >}}
 
-### Enforce valid token per-path
+### Require valid tokens per-path
 
-You can also refine the requirement per host, path, method etc with authorization. For example, you can change the authorization policy in the last section to only require JWT on `/headers`. After applying this authorization rule, request to `$INGRESS_HOST/headers` will fail with 403 code. But for all other path, e.g `$INGRESS_HOST/ip`, it should succeed. Please see other [tasks with authorization]() to learn more about other ways to refine access control with authoriation policy.
+To refine authorization with a token requirement per host, path, or method, change the authorization policy to only require JWT on `/headers`. When this authorization rule takes effect, requests to `$INGRESS_HOST/headers` fail with the error code `403`. Requests to all other paths succeed, for example `$INGRESS_HOST/ip`.
 
 {{< text bash >}}
 kubectl apply -f - <<EOF
@@ -514,8 +516,6 @@ kind: "AuthorizationPolicy"
 metadata:
   name: "frontend-ingress"
   namespace: istio-system
-  labels:
-    demo.istio.io: security
 spec:
   selector:
     matchLabels:
@@ -531,12 +531,29 @@ spec:
 EOF
 {{< /text >}}
 
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
+403
+{{< /text >}}
+
+{{< text bash >}}
+$ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
+200
+{{< /text >}}
+
 ### Cleanup part 3
 
 1. Remove authentication policy:
 
     {{< text bash >}}
     $ kubectl -n istio-system delete requestauthentication jwt-example
+    {{< /text >}}
+
+1. Remove authorization policy:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system delete authorization frontend-ingress
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.
