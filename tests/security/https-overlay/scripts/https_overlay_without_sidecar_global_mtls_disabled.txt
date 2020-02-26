@@ -44,7 +44,6 @@ my-nginx-[0-9a-z]* *1/1 *Running *0
 sleep-[0-9a-z]*-[0-9a-z]* *2/2 *Running *0
 # $endsnippet
 
-
 # $snippet welcome_to_nginx_wo_sidecar_mtls_disabled outputis="text"
 $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -s https://my-nginx -k
 # $verify verifier="contains"
