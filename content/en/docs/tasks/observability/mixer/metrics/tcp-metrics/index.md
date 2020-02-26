@@ -140,8 +140,7 @@ In this task, you added Istio configuration that instructed Mixer to
 automatically generate and report a new metric for all traffic to a TCP service
 within the mesh.
 
-Similar to the [Collecting Metrics and
-Logs](/docs/tasks/observability/metrics/collecting-metrics/) Task, the new
+Similar to the [Collecting Metrics](/docs/tasks/observability/mixer/metrics/collecting-metrics/) Task, the new
 configuration consisted of _instances_, a _handler_, and a _rule_. Please see
 that Task for a complete description of the components of metric collection.
 

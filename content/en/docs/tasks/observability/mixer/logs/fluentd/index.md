@@ -1,9 +1,10 @@
 ---
-title: Logging with Fluentd
+title: Logging with Mixer and Fluentd
 description: This task shows you how to configure Istio to log to a Fluentd daemon.
 weight: 90
 keywords: [telemetry,logging]
 aliases:
+    - /docs/tasks/observability/logs/fluentd/
     - /docs/tasks/telemetry/fluentd/
     - /docs/tasks/telemetry/logs/fluentd/
 ---

@@ -7,6 +7,7 @@ aliases:
     - /docs/tasks/metrics-logs.html
     - /docs/tasks/telemetry/metrics-logs/
     - /docs/tasks/telemetry/metrics/collecting-metrics/
+    - /docs/tasks/observability/metrics/collecting-metrics/
 ---
 
 This task shows how to configure Istio to automatically gather telemetry for

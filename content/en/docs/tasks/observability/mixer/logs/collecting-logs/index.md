@@ -1,9 +1,10 @@
 ---
-title: Collecting Logs
+title: Collecting Logs with Mixer
 description: This task shows you how to configure Istio to collect and customize logs.
 weight: 10
 keywords: [telemetry,logs]
 aliases:
+ - /docs/tasks/observability/logs/collecting-logs/
  - /docs/tasks/telemetry/logs/collecting-logs/
 ---
 
