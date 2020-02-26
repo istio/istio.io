@@ -69,6 +69,20 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 * Black Hole telemetry for TCP and HTTP protocols is not supported.
 * Histogram buckets are [significantly different](https://github.com/istio/istio/issues/20483) than Mixer Telemetry and cannot be changed.
 
+## Authentication policy
+
+Istio 1.5 introduces [`PeerAuthentication`](/docs/reference/config/security/todo-link/) and [`RequestAuthentication`](/docs/reference/config/security/todo-linke/) that is going to replace alpha Authentication API. For more information how to use the new API, see the [authentication policy](/docs/tasks/security/authentication/authn-policy) tutorial.
+
+* After upgrading Istio, existing alpha authentication policies still in use.
+* You should start replacing alpha policies with the equivalent `PeerAuthentication` and `RequestAuthentication`. It is recommended to start with the most specific scope (workload-wide), then namespace-wide and finally mesh-wide.
+* Once the new API is added for workload/namespace/mesh, alpha API will be ignored in that scope and can be safely remove.
+* After finish migrating to new authentication APIs, you can delete all alpha policies, if you haven't done so, with this command:
+
+{{< text bash >}}
+$ kubectl delete policies.authentication.istio.io --all-namespaces --all
+$ kubectl delete meshpolicies.authentication.istio.io --all
+{{< /text >}}
+
 ## Istio workload key and certificate provisioning
 
 * We have stabilized the SDS certificate and key provisioning flow. Now the Istio workloads are using SDS to provision certificates. The secret volume mount approach is deprecated.
@@ -93,3 +107,4 @@ Istio 1.5.0 multicluster setup has several known issues ([27102](https://github.
 ## Helm upgrade
 
 If you used `helm upgrade` to update your cluster to newer Istio versions, we recommend you to switch to use [`istioctl upgrade`](/docs/setup/upgrade/istioctl-upgrade/) or follow the [helm template](/docs/setup/upgrade/cni-helm-upgrade/) steps.
+
