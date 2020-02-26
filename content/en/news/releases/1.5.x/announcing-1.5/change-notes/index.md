@@ -40,20 +40,12 @@ weight: 10
 - **Added** support for Istio Canonical Service.
 - **Improved** stability of v2 telemetry pipeline.
 - **Added** alpha-level support for configurable telemetry in v2 telemetry.
-
-Triage done:
 - **Added** support for populating AWS platform metadata in Envoy node metadata.
 - **Improved** Updated the Stackdriver adapter for Mixer to support configurable flush intervals for tracing data.
 - **Added** support for a headless collector service to the Jaeger addon.
-- Fixed `kubernetesenv` adapter to provide proper support for pods that contain a dot in their name.
-- Updated the Fluentd adapter for Mixer to provide millisecond-resolution in exported timestamps.
+- **Fixed** `kubernetesenv` adapter to provide proper support for pods that contain a dot in their name.
+- **Improved** the Fluentd adapter for Mixer to provide millisecond-resolution in exported timestamps.
 
-- fix(bootstrap): add time-bounded platform detection logic with fail-fast #19971.
-- mixer: remove explicit flush in OpenCensus tracing adapter #18074.
-- mixer: Allow configuration of trace flush interval #18109.
-- Added jaeger-collector-headless service #18278.
-- Fix mixer source namespace attribute when dot in pod name  #19022.
-- Let Fluentd adapter encode timestamp with millisecond #19093.
 
 ## Configuration management
 
