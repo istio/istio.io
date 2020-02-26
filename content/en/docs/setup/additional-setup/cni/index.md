@@ -68,6 +68,14 @@ The following table shows all the options that the `istio-cni` configuration sup
 | `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
 | `psp_cluster_role` | | | This value refers to a `ClusterRole` and can be used to create a `RoleBinding` in the namespace of `istio-cni`. This is useful if you use [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy) and want to allow `istio-cni` to run as `priviliged` Pods. |
 | `podAnnotations` | | `{}` | Additional custom annotations to be set on pod level. |
+| `repair.enabled` | `boolean` | `true` | Enable or disable the [CNI Race Condition](https://github.com/istio/istio/issues/14327) detection and repair functionality. This injects an `istio-validation` init container into every injected pod, which checks if Istio CNI correctly initialized the pod's networking configuration. It also enables a new container in the CNI `DaemonSet` which monitors for pods and either labels or deletes them, per the values below.|
+| `repair.hub` | | | The container registry to pull the `install-cni` image for the repair container. Defaults to the same as `hub`. |
+| `repair.tag` | | | The container tag to use to pull the `install-cni` image for the repair container. Defaults to the same as `tag`. |
+| `repair.initContainerName` | | `istio-validation` | An override for the init container name inspected by the repair controller, if you are using a non-standard pod injection configuration. |
+| `repair.labelPods` | `boolean` | `true` | Enable the repair controller to label pods it detects as uninitialized. Ignored if `deletePods` is true. |
+| `repair.deletePods` | `boolean` | `true` | Enable the repair controller to delete pods it detects as uninitialized. It will continue deleting those pods until CNI initializes them correctly. |
+| `repair.brokenPodLabelKey` | | `cni.istio.io/uninitialized` | The key portion of the label to add to broken pods when `labelPods` is true. |
+| `repair.brokenPodLabelValue` | | `true` | The value portion of the label to add to broken pods when `labelPods` is true.|
 | `chained` | `true` or `false` | `true` | Whether to deploy the configuration file as a plugin chain or as a standalone file in `cni-conf-dir`. Some Kubernetes flavors (e.g. OpenShift) do not support the chain approach, set to `false` if this is the case. |
 
 These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
