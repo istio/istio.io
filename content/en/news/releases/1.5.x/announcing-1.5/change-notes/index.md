@@ -48,15 +48,11 @@ Triage done:
 - Fixed `kubernetesenv` adapter to provide proper support for pods that contain a dot in their name.
 - Updated the Fluentd adapter for Mixer to provide millisecond-resolution in exported timestamps.
 
-- Update Stackdriver dependency to `v0.12.8` #19784.
-- fix(Stackdriver mesh id): pull mesh id from GCE metadata when available #18251.
 - fix(bootstrap): add time-bounded platform detection logic with fail-fast #19971.
 - mixer: remove explicit flush in OpenCensus tracing adapter #18074.
 - mixer: Allow configuration of trace flush interval #18109.
 - Added jaeger-collector-headless service #18278.
-- Use variables to render envoy telemetry template #18734.
 - Fix mixer source namespace attribute when dot in pod name  #19022.
-- Fix invalid links to mixer's template docs #19261.
 - Let Fluentd adapter encode timestamp with millisecond #19093.
 
 ## Configuration management
