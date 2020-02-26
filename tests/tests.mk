@@ -31,11 +31,8 @@ endif
 # $(INTEGRATION_TEST_KUBECONFIG) specifies the kube config file to be used. If not specified, then
 # ~/.kube/config is used.
 # TODO: This probably needs to be more intelligent and take environment variables into account.
-ifneq ($(KUBECONFIG),)
-	_INTEGRATION_TEST_FLAGS += --istio.test.kube.config=$(KUBECONFIG)
-else
-	_INTEGRATION_TEST_FLAGS += --istio.test.kube.config=~/.kube/config
-endif
+KUBECONFIG ?= ~/.kube/config
+_INTEGRATION_TEST_FLAGS += --istio.test.kube.config=$(KUBECONFIG)
 
 test.kube.presubmit: init
 	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/... -timeout 30m \
