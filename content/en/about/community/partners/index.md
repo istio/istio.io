@@ -17,6 +17,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://aspenmesh.io" logo="./aspenmesh.svg" alt="Aspen Mesh" tagline="Service Mesh Made Easy" >}}
     {{< company_logo link="https://cilium.io" logo="./cilium.png" alt="Cilium" tagline="API-aware Networking and Security" >}}
     {{< company_logo link="https://www.cisco.com" logo="./cisco.svg" alt="Cisco" >}}
+    {{< company_logo link="https://www.daocloud.io" logo="./daocloud.svg" alt="DaoCloud" >}}
     {{< company_logo link="https://www.datadoghq.com" logo="./datadog.png" alt="Datadog" tagline="Modern monitoring & analytics" >}}
     {{< company_logo link="https://www.envoyproxy.io" logo="./envoy.svg" alt="Envoy" tagline="An open source edge and service proxy, designed for cloud-native applications" >}}
     {{< company_logo link="https://cloud.google.com" logo="./gcp.svg" alt="Google Cloud Platform" tagline="Make your next move here" >}}

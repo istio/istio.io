@@ -42,44 +42,20 @@ extra steps required.
 
 ## Generate client and server certificates and keys
 
-For this task you can use your favorite tool to generate certificates and keys.
-This example uses [a script](https://github.com/nicholasjackson/mtls-go-example/blob/master/generate.sh)
-from the <https://github.com/nicholasjackson/mtls-go-example> repository.
+For this task you can use your favorite tool to generate certificates and keys. The commands below use
+[openssl](https://man.openbsd.org/openssl.1)
 
-1.  Clone the [example's repository](https://github.com/nicholasjackson/mtls-go-example):
+1.  Create a root certificate and private key to sign the certificates for your services:
 
     {{< text bash >}}
-    $ git clone https://github.com/nicholasjackson/mtls-go-example
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
     {{< /text >}}
 
-1.  Go to the cloned repository:
+1.  Create a certificate and a private key for `httpbin.example.com`:
 
     {{< text bash >}}
-    $ pushd mtls-go-example
-    {{< /text >}}
-
-1.  Generate the certificates for `httpbin.example.com`. Replace `<password>` with
-    any value in the following command:
-
-    {{< text bash >}}
-    $ ./generate.sh httpbin.example.com <password>
-    {{< /text >}}
-
-    When prompted, answer `y` to all the questions. The command generates
-    four directories: `1_root`, `2_intermediate`, `3_application`, and
-    `4_client` containing the client and server certificates to use in the
-    procedures below.
-
-1.  Move the certificates into a directory named `httpbin.example.com`:
-
-    {{< text bash >}}
-    $ mkdir ../httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.example.com
-    {{< /text >}}
-
-1.  Go back to your previous directory:
-
-    {{< text bash >}}
-    $ popd
+    $ openssl req -out httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
     {{< /text >}}
 
 ## Configure a TLS ingress gateway using SDS
@@ -169,9 +145,8 @@ need to create secrets for multiple hosts and update the gateway definitions.
 1.  Create a secret for the ingress gateway:
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret generic httpbin-credential \
-    --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
-    --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
+    $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com.key \
+    --from-file=cert=httpbin.example.com.crt
     {{< /text >}}
 
     {{< warning >}}
@@ -199,9 +174,9 @@ need to create secrets for multiple hosts and update the gateway definitions.
           protocol: HTTPS
         tls:
           mode: SIMPLE
-          credentialName: "httpbin-credential" # must be the same as secret
+          credentialName: httpbin-credential # must be the same as secret
         hosts:
-        - "httpbin.example.com"
+        - httpbin.example.com
     EOF
     {{< /text >}}
 
@@ -236,10 +211,8 @@ need to create secrets for multiple hosts and update the gateway definitions.
 1.  Send an HTTPS request to access the `httpbin` service through HTTPS:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com \
-    --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
-    https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     {{< /text >}}
 
     The `httpbin` service will return the
@@ -253,22 +226,20 @@ need to create secrets for multiple hosts and update the gateway definitions.
     {{< /text >}}
 
     {{< text bash >}}
-    $ pushd mtls-go-example
-    $ ./generate.sh httpbin.example.com <password>
-    $ mkdir ../httpbin.new.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.new.example.com
-    $ popd
+    $ mkdir new_certificates
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout new_certificates/example.com.key -out new_certificates/example.com.crt
+    $ openssl req -out new_certificates/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout new_certificates/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
+    $ openssl x509 -req -days 365 -CA new_certificates/example.com.crt -CAkey new_certificates/example.com.key -set_serial 0 -in new_certificates/httpbin.example.com.csr -out new_certificates/httpbin.example.com.crt
     $ kubectl create -n istio-system secret generic httpbin-credential \
-    --from-file=key=httpbin.new.example.com/3_application/private/httpbin.example.com.key.pem \
-    --from-file=cert=httpbin.new.example.com/3_application/certs/httpbin.example.com.cert.pem
+    --from-file=key=new_certificates/httpbin.example.com.key \
+    --from-file=cert=new_certificates/httpbin.example.com.crt
     {{< /text >}}
 
-1.  Access the `httpbin` service using `curl`
+1.  Access the `httpbin` service using `curl` using the new certificate chain:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com \
-    --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert httpbin.new.example.com/2_intermediate/certs/ca-chain.cert.pem \
-    https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    --cacert new_certificates/example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     HTTP/2 418
     ...
@@ -286,16 +257,14 @@ need to create secrets for multiple hosts and update the gateway definitions.
 1. If you try to access `httpbin` with the previous certificate chain, the attempt now fails.
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com \
-    --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
-    https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     ...
     * TLSv1.2 (OUT), TLS handshake, Client hello (1):
     * TLSv1.2 (IN), TLS handshake, Server hello (2):
     * TLSv1.2 (IN), TLS handshake, Certificate (11):
     * TLSv1.2 (OUT), TLS alert, Server hello (2):
-    * SSL certificate problem: unable to get local issuer certificate
+    * curl: (35) error:04FFF06A:rsa routines:CRYPTO_internal:block type is not 01
     {{< /text >}}
 
 ### Configure a TLS ingress gateway for multiple hosts
@@ -309,8 +278,8 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
     $ kubectl create -n istio-system secret generic httpbin-credential \
-    --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
-    --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
+    --from-file=key=httpbin.example.com.key \
+    --from-file=cert=httpbin.example.com.crt
     {{< /text >}}
 
 1.  Start the `helloworld-v1` sample
@@ -358,17 +327,18 @@ retrieves unique credentials corresponding to a specific `credentialName`.
     EOF
     {{< /text >}}
 
-1.  Create a secret for the ingress gateway. If you created the `httpbin-credential`
-    secret already, you can now create the `helloworld-credential` secret.
+1.  Generate a certificate and a private key for `helloworld-v1.example.com`:
 
     {{< text bash >}}
-    $ pushd mtls-go-example
-    $ ./generate.sh helloworld-v1.example.com <password>
-    $ mkdir ../helloworld-v1.example.com && mv 1_root 2_intermediate 3_application 4_client ../helloworld-v1.example.com
-    $ popd
-    $ kubectl create -n istio-system secret generic helloworld-credential \
-    --from-file=key=helloworld-v1.example.com/3_application/private/helloworld-v1.example.com.key.pem \
-    --from-file=cert=helloworld-v1.example.com/3_application/certs/helloworld-v1.example.com.cert.pem
+    $ openssl req -out helloworld-v1.example.com.csr -newkey rsa:2048 -nodes -keyout helloworld-v1.example.com.key -subj "/CN=helloworld-v1.example.com/O=helloworld organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in helloworld-v1.example.com.csr -out helloworld-v1.example.com.crt
+    {{< /text >}}
+
+1.  Create the `helloworld-credential` secret:
+
+    {{< text bash >}}
+    $ kubectl create -n istio-system secret generic helloworld-credential --from-file=key=helloworld-v1.example.com.key \
+    --from-file=cert=helloworld-v1.example.com.crt
     {{< /text >}}
 
 1.  Define a gateway with two server sections for port 443. Set the value of
@@ -391,18 +361,18 @@ retrieves unique credentials corresponding to a specific `credentialName`.
           protocol: HTTPS
         tls:
           mode: SIMPLE
-          credentialName: "httpbin-credential"
+          credentialName: httpbin-credential
         hosts:
-        - "httpbin.example.com"
+        - httpbin.example.com
       - port:
           number: 443
           name: https-helloworld
           protocol: HTTPS
         tls:
           mode: SIMPLE
-          credentialName: "helloworld-credential"
+          credentialName: helloworld-credential
         hosts:
-        - "helloworld-v1.example.com"
+        - helloworld-v1.example.com
     EOF
     {{< /text >}}
 
@@ -417,7 +387,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
       name: helloworld-v1
     spec:
       hosts:
-      - "helloworld-v1.example.com"
+      - helloworld-v1.example.com
       gateways:
       - mygateway
       http:
@@ -435,20 +405,16 @@ retrieves unique credentials corresponding to a specific `credentialName`.
 1. Send an HTTPS request to `helloworld-v1.example.com`:
 
     {{< text bash >}}
-    $ curl -v -HHost:helloworld-v1.example.com \
-    --resolve helloworld-v1.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert helloworld-v1.example.com/2_intermediate/certs/ca-chain.cert.pem \
-    https://helloworld-v1.example.com:$SECURE_INGRESS_PORT/hello
+    $ curl -v -HHost:helloworld-v1.example.com --resolve helloworld-v1.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    --cacert example.com.crt https://helloworld-v1.example.com:$SECURE_INGRESS_PORT/hello
     HTTP/2 200
     {{< /text >}}
 
 1. Send an HTTPS request to `httpbin.example.com` and still get a teapot in return:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com \
-    --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
-    https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
         -=[ teapot ]=-
 
            _...._
@@ -470,10 +436,8 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
 
 {{< text bash >}}
 $ kubectl -n istio-system delete secret httpbin-credential
-$ kubectl create -n istio-system secret generic httpbin-credential  \
---from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
---from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem \
---from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
+$ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com.key \
+--from-file=cert=httpbin.example.com.crt --from-file=cacert=example.com.crt
 {{< /text >}}
 
 1. Change the gateway's definition to set the TLS mode to `MUTUAL`.
@@ -494,19 +458,17 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
          protocol: HTTPS
        tls:
          mode: MUTUAL
-         credentialName: "httpbin-credential" # must be the same as secret
+         credentialName: httpbin-credential # must be the same as secret
        hosts:
-       - "httpbin.example.com"
+       - httpbin.example.com
     EOF
     {{< /text >}}
 
 1. Attempt to send an HTTPS request using the prior approach and see how it fails:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com \
-    --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
-    https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
     * TLSv1.3 (OUT), TLS handshake, Client hello (1):
     * TLSv1.3 (IN), TLS handshake, Server hello (2):
     * TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
@@ -521,16 +483,20 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     * OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
     {{< /text >}}
 
+1.  Generate client certificate and private key:
+
+    {{< text bash >}}
+    $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
+    $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+    {{< /text >}}
+
 1. Pass a client certificate and private key to `curl` and resend the request.
    Pass your client's certificate with the `--cert` flag and your private key
    with the `--key` flag to `curl`.
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com \
-    --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
-    --cert httpbin.example.com/4_client/certs/httpbin.example.com.cert.pem \
-    --key httpbin.example.com/4_client/private/httpbin.example.com.key.pem \
+    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    --cacert example.com.crt --cert client.example.com.crt --key client.example.com.key \
     https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
 
         -=[ teapot ]=-
@@ -555,10 +521,9 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
     $ kubectl create -n istio-system secret generic httpbin-credential  \
-    --from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
-    --from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
+    --from-file=key=httpbin.example.com.key --from-file=cert=httpbin.example.com.crt
     $ kubectl create -n istio-system secret generic httpbin-credential-cacert  \
-    --from-file=cacert=httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem
+    --from-file=cacert=example.com.crt
     {{< /text >}}
 
 ## Troubleshooting
@@ -621,10 +586,10 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     $ kubectl delete --ignore-not-found=true virtualservice helloworld-v1
     {{< /text >}}
 
-1.  Delete the directories of the certificates and the repository used to generate them:
+1.  Delete the certificates and keys:
 
     {{< text bash >}}
-    $ rm -rf httpbin.example.com helloworld-v1.example.com mtls-go-example
+    $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr helloworld-v1.example.com.crt helloworld-v1.example.com.key helloworld-v1.example.com.csr client.example.com.crt client.example.com.csr client.example.com.key ./new_certificates
     {{< /text >}}
 
 1.  Remove the file you used for redeployment of the ingress gateway.
@@ -636,6 +601,6 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
 1. Shutdown the `httpbin` and `helloworld-v1` services:
 
     {{< text bash >}}
-    $ kubectl delete service --ignore-not-found=true helloworld-v1
-    $ kubectl delete service --ignore-not-found=true httpbin
+    $ kubectl delete deployment --ignore-not-found=true httpbin helloworld-v1
+    $ kubectl delete service --ignore-not-found=true httpbin helloworld-v1
     {{< /text >}}

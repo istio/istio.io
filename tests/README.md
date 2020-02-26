@@ -48,7 +48,8 @@ To write an `istio.io` follow these steps:
 "istio.io/istio/pkg/test/framework"
 "istio.io/istio/pkg/test/framework/components/environment"
 "istio.io/istio/pkg/test/framework/components/istio"
-"istio.io/istio/pkg/test/istioio"
+
+"istio.io/istio.io/pkg/test/istioio"
 ```
 
 1. Create a function called `TestMain`, following the example below. This
@@ -185,7 +186,7 @@ You can execute all istio.io tests using make.
 
 ```bash
 export KUBECONFIG=~/.kube/config
-make test.integration.istioio.kube.presubmit
+make test.kube.presubmit
 ```
 
 ## Running Tests: go test
@@ -193,7 +194,8 @@ make test.integration.istioio.kube.presubmit
 You can execute individual tests using Go test as shown below.
 
 ```bash
-go test ./tests/integration/istioio/... -p 1  --istio.test.env kube \
+make init
+go test ./tests/... -p 1  --istio.test.env kube \
     --istio.test.ci --istio.test.work_dir <my_dir>
 ```
 

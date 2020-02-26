@@ -76,6 +76,8 @@ The following table shows all the options that the `istio-cni` configuration sup
 | `repair.deletePods` | `boolean` | `true` | Enable the repair controller to delete pods it detects as uninitialized. It will continue deleting those pods until CNI initializes them correctly. |
 | `repair.brokenPodLabelKey` | | `cni.istio.io/uninitialized` | The key portion of the label to add to broken pods when `labelPods` is true. |
 | `repair.brokenPodLabelValue` | | `true` | The value portion of the label to add to broken pods when `labelPods` is true.|
+| `chained` | `true` or `false` | `true` | Whether to deploy the configuration file as a plugin chain or as a standalone file in `cni-conf-dir`. Some Kubernetes flavors (e.g. OpenShift) do not support the chain approach, set to `false` if this is the case. |
+
 These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
 or the corresponding path in a custom overlay file.
 
@@ -98,11 +100,12 @@ Use the following command to render and apply Istio CNI components and override 
 Create a `IstioControlPlane` CR yaml locally with your override to install `istio`, e.g. `cni.yaml`
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 spec:
-  cni:
-    enabled: true
+  components:
+    cni:
+      enabled: true
   values:
     cni:
       excludeNamespaces:
@@ -110,8 +113,6 @@ spec:
        - kube-system
        - foo_ns
        - bar_ns
-  unvalidatedValues:
-    cni:
       logLevel: info
 {{< /text >}}
 
@@ -133,7 +134,7 @@ The following table shows the required settings for many common Kubernetes envir
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
-| Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
+| Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf"` | _(none)_ |
 
 ### GKE setup
 

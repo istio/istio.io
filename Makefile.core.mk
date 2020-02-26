@@ -14,7 +14,7 @@ GOPATH ?= $(shell cd ${ISTIOIO_GO}/../../..; pwd)
 export GOPATH
 
 # Set the directory for Istio source.
-ISTIO_GO ?= "${GOPATH}/src/istio.io/istio"
+ISTIO_GO ?= ${GOPATH}/src/istio.io/istio
 export ISTIO_GO
 
 # If GOPATH is made up of several paths, use the first one for our targets in this Makefile
@@ -26,13 +26,12 @@ GO ?= go
 GOARCH_LOCAL := $(TARGET_ARCH)
 GOOS_LOCAL := $(TARGET_OS)
 
-HUB?=istio
+HUB ?= gcr.io/istio-testing
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
 endif
 
-# If tag not explicitly set in users' .istiorc.mk or command line, default to the git sha.
-TAG ?= $(shell git rev-parse --verify HEAD)
+TAG ?= latest
 ifeq ($(TAG),)
   $(error "TAG cannot be empty")
 endif

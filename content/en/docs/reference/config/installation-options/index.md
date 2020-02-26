@@ -12,13 +12,13 @@ configuration options when [installing Istio with {{< istioctl >}}](/docs/setup/
 by prepending the string "`values.`" to the option name. For example, instead of this `helm` command:
 
 {{< text bash >}}
-$ helm template ... --set global.mtls.enabled=true
+$ helm template ... --set global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
 You can use this `istioctl` command:
 
 {{< text bash >}}
-$ istioctl manifest generate ... --set values.global.mtls.enabled=true
+$ istioctl manifest generate ... --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
 Refer to [customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration) for details.

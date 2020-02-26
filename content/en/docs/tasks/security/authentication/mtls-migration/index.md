@@ -223,7 +223,7 @@ Namespaces foo bar legacy deleted.
 
 This section describes how to apply the configuration to enforce mutual TLS for a cluster. For more
 details, see the
-[Authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls)
+[Authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
 task.
 
 {{< warning >}}

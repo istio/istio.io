@@ -127,21 +127,21 @@ Currently we use different certificate key provisioning mechanisms for each scen
 
 1. Citadel creates a gRPC service to take [Certificate Signing Requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 
-1. Node agent generates a private key and CSR, and sends the CSR with its credentials to Citadel for signing.
+1. The Istio Agent generates a private key and CSR, and sends the CSR with its credentials to Citadel for signing.
 
 1. Citadel validates the credentials carried with the CSR, and signs the CSR to generate the certificate.
 
-1. The node agent sends both the certificate received from Citadel and the
+1. The Istio Agent sends both the certificate received from Citadel and the
    private key to Envoy.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
-### Node agent in Kubernetes
+### The Istio Agent in Kubernetes
 
-Istio provides the option of using node agent in Kubernetes for certificate and key provisioning, as shown in the figure below.
+Istio provides the option of using the Istio Agent in Kubernetes for certificate and key provisioning, as shown in the figure below.
 Note that the identity provisioning flow for on-premises machines will be similar in the near future, we only describe the Kubernetes scenario here.
 
-{{< image width="80%" link="./node_agent.svg" caption="PKI with node agents in Kubernetes"  >}}
+{{< image width="80%" link="./node_agent.svg" caption="PKI with the Istio Agent in Kubernetes"  >}}
 
 The flow goes as follows:
 
@@ -149,16 +149,16 @@ The flow goes as follows:
 
 1. Envoy sends a certificate and key request via Envoy secret discovery service (SDS) API.
 
-1. Upon receiving the SDS request, the node agent creates the private key and CSR before sending the CSR with its credentials to Citadel for signing.
+1. Upon receiving the SDS request, the Istio Agent creates the private key and CSR before sending the CSR with its credentials to Citadel for signing.
 
 1. Citadel validates the credentials carried in the CSR and signs the CSR to generate the certificate.
 
-1. The node agent sends the certificate received from Citadel and the private key to Envoy via the Envoy SDS API.
+1. The Istio Agent sends the certificate received from Citadel and the private key to Envoy via the Envoy SDS API.
 
 1. The above CSR process repeats periodically for certificate and key rotation.
 
 {{< idea >}}
-Use the node agent debug endpoint to view the secrets a node agent is actively serving to its client proxies. Navigate to `/debug/sds/workload` on the agent's port `8080` to dump active workload secrets, or `/debug/sds/gateway` to dump active gateway secrets.
+Use the Istio Agent debug endpoint to view the secrets an Istio Agent is actively serving to its client proxies. Navigate to `/debug/sds/workload` on the agent's port `8080` to dump active workload secrets, or `/debug/sds/gateway` to dump active gateway secrets.
 {{< /idea >}}
 
 ## Authentication
