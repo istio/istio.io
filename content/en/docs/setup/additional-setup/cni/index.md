@@ -141,7 +141,7 @@ The following table shows the required settings for many common Kubernetes envir
     For example, the following `istioctl manifest` command sets the `cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set cniBinDir=/home/kubernetes/bin
+    $ istioctl manifest apply --set values.cni.cniBinDir=/home/kubernetes/bin --set components.cni.enabled=true
     {{< /text >}}
 
 ## Sidecar injection compatibility
