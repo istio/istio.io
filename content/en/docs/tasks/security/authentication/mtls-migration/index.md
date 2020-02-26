@@ -82,9 +82,10 @@ the policies to enforce STRICT mutual TLS between the workloads.
     No resources found
     {{< /text >}}
 
-## Lock down to mutual TLS
+## Lock down to mutual TLS by namespace
 
-After migrating all clients to Istio and injecting the Envoy sidecar, we can lock down the `httpbin.foo` to only accept mutual TLS traffic.
+After migrating all clients to Istio and injecting the Envoy sidecar, we can lock down workloads in `foo` namespace
+to only accept mutual TLS traffic.
 
 {{< text bash >}}
 $ kubectl apply -n foo -f - << EOF
