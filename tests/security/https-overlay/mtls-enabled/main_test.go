@@ -41,9 +41,5 @@ func setupConfig(cfg *istio.Config) {
 		return
 	}
 
-	cfg.Values["global.controlPlaneSecurityEnabled"] = "true"
 	cfg.Values["global.mtls.enabled"] = "true"
-	// cfg.Values["global.mtls.auto"] = "false"
-	// cfg.Values["pilot.enableProtocolSniffingForOutbound"] = "false"
-	// cfg.Values["pilot.enableProtocolSniffingForInbound"] = "false"
 }
