@@ -6,7 +6,7 @@ weight: 72
 
 Monitoring is crucial to support transitioning to the microservices architecture style. Other requirements include rapid provisioning and rapid deployment, according to [this article](https://aadrake.com/posts/2017-05-20-enough-with-the-microservices.html).
 
-With Istio, you gain monitoring of the traffic between microservices by default. 
+With Istio, you gain monitoring of the traffic between microservices by default.
 You can use the Istio Dashboard for monitoring your microservices in real time.
 
 Istio is integrated out-of-the-box with

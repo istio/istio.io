@@ -87,7 +87,7 @@ Other queries to try:
 
 ### About the Prometheus add-on
 
-The Prometheus add-on is a Prometheus server that comes preconfigured to scrape 
+The Prometheus add-on is a Prometheus server that comes preconfigured to scrape
 Istio endpoints to collect metrics. It provides a mechanism for persistent storage and querying
 of Istio metrics.
 
