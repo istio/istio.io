@@ -92,10 +92,6 @@ Istio’s robust tracing, monitoring, and logging features give you deep insight
 impacts things upstream and downstream with Istio’s monitoring features, while its custom dashboards provide visibility into the performance of all your
 services and let you see how that performance is affecting your other processes.
 
-Istio’s Mixer component is responsible for policy controls and telemetry collection. It provides backend abstraction and intermediation, insulating the rest of
-Istio from the implementation details of individual infrastructure backends, and giving operators fine-grained control over all interactions between the mesh
-and infrastructure backends.
-
 All these features let you more effectively set, monitor, and enforce SLOs on services. Of course, the bottom line is that you can detect and fix issues quickly
 and efficiently.
 
