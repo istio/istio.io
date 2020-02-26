@@ -7,17 +7,12 @@ aliases:
     - /docs/tasks/security/mtls-migration/
 ---
 
-This task shows how to migrate your existing Istio services' traffic from plain
-text to mutual TLS without breaking live traffic.
+This task shows how to ensure your workloads only communicate in mutual TLS as they are migrated to
+Istio. 
 
-In the scenario where there are many services communicating over the network, it
-may be desirable to gradually migrate them to Istio. During the migration, some workloads have Envoy
-sidecars while some do not. For workloads with sidecars, if you enforce
-mutual TLS, the connections from legacy clients (i.e., clients without
-sidecars) will lose communication since they do not have Envoy sidecars and client certificates.
-To solve this issue, Istio authentication policy provides a `PERMISSIVE` mode to solve
-this problem. When `PERMISSIVE` mode is enabled, a service can take both HTTP
-and mutual TLS traffic.
+Istio by default automatically configures workloads between sidecars in [mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls). By default, Istio configures workloads as `PERMISSIVE` mode.
+When `PERMISSIVE` mode is enabled, a service can take both plain text and mutual TLS traffic. In order to only allow
+mutual TLS traffic, we need to change to `STRICT` mode, 
 
 You can use the [Grafana dashboard](/docs/tasks/observability/metrics/using-istio-dashboard/) to
 check which workloads are still sending plaintext traffic to the workloads in `PERMISSIVE` mode and choose to lock
