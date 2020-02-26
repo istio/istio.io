@@ -180,7 +180,6 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
     $ istioctl manifest apply --context=$CTX_CLUSTER2 \
       --set profile=remote \
-      --set values.global.mtls.enabled=true \
       --set values.gateways.enabled=true \
       --set values.security.selfSigned=false \
       --set values.global.createRemoteSvcEndpoints=true \
@@ -428,7 +427,6 @@ Cleanup the `cluster2` cluster:
 {{< text bash >}}
 $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set profile=remote \
-  --set values.global.mtls.enabled=true \
   --set values.gateways.enabled=true \
   --set values.security.selfSigned=false \
   --set values.global.createRemoteSvcEndpoints=true \
