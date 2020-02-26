@@ -19,7 +19,7 @@ set -u
 set -o pipefail
 
 # $snippet my_nginx_app_wo_sidecar_mtls_disabled_apply syntax="bash" outputis="text"
-$ kubectl apply -f <(istioctl @samples/https/nginx-app.yaml@)
+$ kubectl apply -f <(istioctl kube-inject -f @samples/https/nginx-app.yaml@)
 # $verify
 service/my-nginx created
 replicationcontroller/my-nginx created
