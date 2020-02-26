@@ -39,7 +39,7 @@ is tightly integrated with the tools to prevent common errors and simplify troub
 Every operator implementation requires a
 [custom resource definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 to define its custom resource, that is, its API. Istio's operator API is defined by the
-[`IstioControlPlane` CRD](/docs/reference/config/istio.operator.v1alpha12.pb/),
+[`IstioControlPlane` CRD](https://github.com/istio/istio.io/blob/release-1.4/content/en/docs/reference/config/istio.operator.v1alpha12.pb/index.html),
 which is generated from an
 [`IstioControlPlane` proto](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
 The API supports all of Istio's current [configuration profiles](/docs/setup/additional-setup/config-profiles/)

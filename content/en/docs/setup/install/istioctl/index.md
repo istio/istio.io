@@ -252,7 +252,7 @@ In addition to installing any of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/),
 `istioctl manifest` provides a complete API for customizing the configuration.
 
-- [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+- [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
 line. For example, to enable the security feature in a default configuration profile, use this command:
@@ -379,7 +379,7 @@ namespaces:
 
 The `IstioOperator` API allows each component's Kubernetes settings to be customized in a consistent way.
 
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
+Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
 which allows the following settings to be changed. Use this list to identify the setting to customize:
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
