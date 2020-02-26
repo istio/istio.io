@@ -1,13 +1,21 @@
 ---
-title: Enabling Policy Enforcement
+title: Enabling Policy Enforcement (Deprecated)
 description: This task shows you how to enable Istio policy enforcement.
 weight: 1
 keywords: [policies]
 ---
 
 {{< warning >}}
-The mixer policy is deprecated in Istio 1.5 and not recommended for production usage. Please use
-the [Authorization Policy](/docs/concepts/security/#authorization) for enforcing access control to a workload.
+The mixer policy is deprecated in Istio 1.5 and not recommended for production usage.
+
+* Rate limiting: Consider using Envoy native rate limiting instead of mixer rate limiting.
+Istio will add support for native rate limiting API through the Istio extensions API.
+
+* Control headers and routing: Consider using Envoy `Ext-Auth`, `lua` filter, or write a filter using the
+[`Envoy-wasm` sandbox](https://github.com/envoyproxy/envoy-wasm/tree/master/test/extensions/filters/http/wasm/test_data).
+
+* Denials and White/Black Listing: Please use the [Authorization Policy](/docs/concepts/security/#authorization) for
+enforcing access control to a workload.
 {{< /warning >}}
 
 This task shows you how to enable Istio policy enforcement.
