@@ -206,7 +206,6 @@ service/sleep created
 deployment.apps/sleep created
 {{< /text >}}
 
-
 Make sure the pod is up and running
 
 {{< text bash >}}
