@@ -37,7 +37,7 @@ as the example application throughout this task.
     components:
       telemetry:
         enabled: true
-    {{< / text >}}
+    {{< /text >}}
 
     Please see the guide on [Customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration)
     for information on how to apply these settings.
@@ -47,7 +47,7 @@ as the example application throughout this task.
     $ kubectl get service istio-telemetry
     NAME              TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                  AGE
     istio-telemetry   ClusterIP   10.4.31.226   <none>        9091/TCP,15004/TCP,15014/TCP,42422/TCP   80s
-    {{< / text >}}
+    {{< /text >}}
 
 * This task assumes that the Bookinfo sample will be deployed in the `default`
 namespace. If you use a different namespace, you will need to update the
