@@ -6,21 +6,18 @@ weight: 10
 
 ## Traffic management
 
-- service entry: optimize service entry updates #19305.
-- fix readiness probe inconsistency #18164.
-- xDS push optimize #18354.
-- Override locality load balancer settings per host #18406.
-- eds: do not trigger continuous full pushes when a pod is in crash loop #18574.
-- Disable redirect calls to app itself via envoy #19308.
-- add an `iptables` failure detector, default off #19534.
-- Istio: add consecutive `5xx` and gateway errors for outlier detection #19771.
+- **Improved** performance of `ServiceEntry` updates #19305.
+- **Improved**fix readiness probe inconsistency #18164.
+- **Improved** performance of configuration updates by sending partial updates where possible #18354.
+- **Added** an option to control locality load balancer settings per host #18406.
+- **Fixed** an issue where pods crashing would trigger excessive configuration pushes #18574.
+- **Fixed** issues with applications that call themselves #19308.
+- **Added** detection of `iptables` failure when using Istio CNI #19534.
+- **Added** `consecutive_5xx` and `gateway_errors` as outlier detection options #19771.
 - **Improved** `EnvoyFilter` matching performance optimization #19786.
-- handle http proxy while generating routes #19919.
-- Allow non-intercepting proxies `CAP_NET_BIND_SERVICE` via annotation #20378.
-- Initial support for custom Istio topology label kind/enhancement #19192.
-- `istio-iptables`: Use `iptables-restore` by default #18847.
-- Pilot-agent for in-process Ingress SDS  #18999.
-- turn on protocol sniffing for inbound #18666.
+- **Added** support for `HTTP_PROXY` protocol #19919.
+- **Improved** `iptables` setup to use `iptables-restore` by default #18847.
+- **Enabled** [automatic protocol detection](https://istio.io/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection-experimental) by default #18666.
 
 ## Security
 
@@ -29,8 +26,8 @@ weight: 10
 - **Added** Auto mutual TLS is in Beta. The feature is enabled by default.
 - **Added** SDS is in Stable. SDS is enabled by default for identity provisioning.
 - **Improved** Node agent is merged with Pilot agent. This removes the requirement of pod security policy and improves security posture.
-- **Improved** Support two providers for Pilot (`istiod`) certificate: Kubernetes CA and Citadel.
-- **Improved** Support two types of JWT for CSR authentication: `first-party-jwt` and `third-party-jwt`.
+- **Improved** Merge Citadel certificate provisioning functionality into Pilot.
+- **Improved** Support Kubernetes `first-party-jwt` as a fallback token for CSR authentication in clusters that `third-party-jwt` is not supported.
 - **Improved** Provision key and cert to Prometheus through Istio Agent.
 
 ## Telemetry
@@ -39,7 +36,7 @@ weight: 10
 - **Added** gRPC response status code support in metrics/logs.
 - **Added** support for Istio Canonical Service.
 - **Improved** stability of v2 telemetry pipeline.
-- **Added** alpha-level support for configurable telemetry in v2 telemetry.
+- **Added** alpha-level support for configurability in v2 telemetry.
 - **Added** support for populating AWS platform metadata in Envoy node metadata.
 - **Improved** Updated the Stackdriver adapter for Mixer to support configurable flush intervals for tracing data.
 - **Added** support for a headless collector service to the Jaeger addon.
@@ -106,29 +103,16 @@ weight: 10
 - **Added** add `PortNameAnalyzer` #19375.
 - **Added** more validation rules for `RequestAuthentication` #19369.
 
-- Allow multiple ICPS's as `istioctl` manifest/upgrade/profile input #20190.
-- Translate ICP into IOP when `istioctl` upgrade gets ICP as input. #20252.
-
-- Use different exit code on `istioctl` parse error #18131.
-- `istioctl analyze -L` shows all analyzers #19200.
-- Allow `istioctl analyze` to suppress messages via command line #19673.
-- Add timeout for `istioctl analyze` getting resources #19890.
-- Add annotation for `enableCoreDump` #20096.
-- Check resources for analyze suppression codes #20174.
-- Make it possible to run `bookinfo` without root and with `readOnlyFilesystem` #16326.
-- Add `--output-threshold` flag to `istioctl analyze` #18438.
-- Add structured format options to `istioctl analyze` #18700.
+- **Added** support for multiple input files to `istioctl manifest` #20190.
+- **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
+- **Added** `istioctl analyze -L` to show a list of all analyzers available #19200.
+- **Added** the ability to suppress messages from `istioctl analyze` #19673.
+- **Improved** the `bookinfo` demo to run without root permissions #16326.
+- **Added** structured format options to `istioctl analyze` #18700.
 - Use annotation methods provided by Istio API in analyzer #18829.
 - Fix bug where analyzer suppressed cluster-level resource messages. #18935.
-- Analysis output includes doc links #19105.
+- **Added** links to relevant documentation to `istioctl analyze` output #19105.
 - add selector for `istioctl` dashboard #19191.
-- Add `--all-namespaces` support to `istioctl analyze` #19209.
-- Add a reference marker to analyzer message doc URL #19327.
-- Allow analyzing content passed via `stdin` #19393.
-- Graduate `istioctl analyze` out of experimental  #19488.
-- Describe examples explicitly for `istioctl` wait #19558.
-- Update operator --set help text #20204 #20342.
-- fix script rename in consul README #19613.
-- Add location to generated `ServiceEntry` #19677.
-- `istioctl`: Add explicit namespace to `SvcDescribeCmd`test #19698.
-- Add link for how to set HUB and TAG #20053.
+- **Added** a new flag `--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
+- **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
+- **Graduated** `istioctl analyze` out of experimental  #19488.
