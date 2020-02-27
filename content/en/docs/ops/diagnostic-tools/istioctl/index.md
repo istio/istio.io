@@ -138,13 +138,17 @@ Once the `bash-completion` package has been installed on your Linux system, add 
 
 To enable `istioctl` completion on your system, follow the steps for your preferred shell:
 
+{{< warning >}}
+You will need to download the full Istio release containing the auto-completion files (in the `/tools` directory). If you haven't already done so, [download the full release](/docs/setup/getting-started/#download) now.
+{{< /warning >}}
+
 {{< tabset category-name="profile" >}}
 
 {{< tab name="Bash" category-value="bash" >}}
 
 Installing the bash auto-completion file
 
-If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. To download the full release (which contains the `tools` directory), select the appropriate download from the [Istio Releases](https://github.com/istio/istio/releases) page. To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
+If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory. To use it, copy the `istioctl.bash` file to your home directory, then add the following line to source the `istioctl` tab completion file from your `.bashrc` file:
 
 {{< text bash >}}
 $ source ~/istioctl.bash
