@@ -29,7 +29,7 @@
 export BUILD_WITH_CONTAINER ?= 0
 
 # Version of image used within build container
-IMAGE_VERSION ?= master-2020-02-26T14-59-03
+IMAGE_VERSION ?= master-2020-02-14T13-09-14
 
 LOCAL_ARCH := $(shell uname -m)
 ifeq ($(LOCAL_ARCH),x86_64)
