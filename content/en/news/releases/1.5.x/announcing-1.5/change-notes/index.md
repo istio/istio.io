@@ -66,22 +66,32 @@ weight: 10
 - Build a docker image for `istioctl` #19079.
 
 ## `istioctl`
-- **Added** Introduce mutual TLS analyzer #18917.
-- **Added** `ServiceAssociation` Analyzer #19383.
-- **Added** add `PortNameAnalyzer` #19375.
-- **Added** more validation rules for `RequestAuthentication` #19369.
+- **Added** mTLS analyzer - #18350
+- **Added** JwtAnalyzer - #20812
+- **Added** ServiceAssociationAnalyzer #19383
+- **Added** SercretAnalyaer #19583
+- **Added** sidecar ImageAnalyzer  #20929
+- **Added** PortNameAnalyzer #19375
+- **Added** Policy DeprecatedAnalyzer #20919
+- **Updated** more validation rules for `RequestAuthentication` #19369.
+
+- **Graduated** `istioctl analyze` out of experimental  #19488.
+
+- **Added** a new flag `-A|--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
+- **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
+- **Added** `istioctl analyze -L` to show a list of all analyzers available #19200.
+- **Added** the ability to suppress messages from `istioctl analyze` #19673.
+- **Added** structured format options to `istioctl analyze` #18700.
+- **Added** links to relevant documentation to `istioctl analyze` output #19105.
+- **Updated** annotation methods provided by Istio API in analyzer #18829.
+- **Updated** istioctl analyze now loads files from a directory #20718
+- **Updated** istioctl analyze to try to associate message with their source filename
+- **Updated** istioctl analyze to print the namespace that is being analyzed #20515
+- **Updated** istioctl analyze to analyze in-cluster resources by default. #19647
+- **Fixed** bug where analyzer suppressed cluster-level resource messages. #18935.
+
 
 - **Added** support for multiple input files to `istioctl manifest` #20190.
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
-- **Added** `istioctl analyze -L` to show a list of all analyzers available #19200.
-- **Added** the ability to suppress messages from `istioctl analyze` #19673.
-- **Improved** the `bookinfo` demo to run without root permissions #16326.
-- **Added** structured format options to `istioctl analyze` #18700.
-- Use annotation methods provided by Istio API in analyzer #18829.
-- Fix bug where analyzer suppressed cluster-level resource messages. #18935.
-- **Added** links to relevant documentation to `istioctl analyze` output #19105.
-- add selector for `istioctl` dashboard #19191.
-- **Added** a new flag `--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
-- **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
-- **Graduated** `istioctl analyze` out of experimental  #19488.
+- **Added** selector for `istioctl` dashboard #19191.
 - **Added** support for slices and lists in `istioctl manifest --set` flag #20631.
