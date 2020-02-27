@@ -16,7 +16,7 @@ In Istio 1.5, we have moved towards a new deployment model for the control plane
 
 ## Istiod
 
-In Istio 1.5, there will be a new deployment, `istiod`. This component is the core of the control plane, and will handle config and certificate distribution, sidecar injection, and more.
+In Istio 1.5, there will be a new deployment, `istiod`. This component is the core of the control plane, and will handle configuration and certificate distribution, sidecar injection, and more.
 
 ## Sidecar Injection
 
@@ -24,9 +24,9 @@ Previously, sidecar injection was handled by a mutating webhook that was process
 
 ## Galley
 
-* Config Validation - this functionality remains the same, but is now handled by the `istiod` deployment.
+* Configuration Validation - this functionality remains the same, but is now handled by the `istiod` deployment.
 * MCP Server - the MCP server has been disabled by default. For most users, this is an implementation detail. If you do explicitly depend on this functionality, you will need to run the `istio-galley` deployment.
-* Experimental features (such as config analysis) - These features will require the `istio-galley` deployment.
+* Experimental features (such as configuration analysis) - These features will require the `istio-galley` deployment.
 
 ## Citadel
 
@@ -46,12 +46,23 @@ There have been no changes to the deployment of `istio-cni`.
 
 ## Pilot
 
-The `istio-pilot` deployment has been removed in favor of the `istiod` deployment, which contains all functionality that Pilot once had. For backwards compatbility, there are still some references to Pilot.
+The `istio-pilot` deployment has been removed in favor of the `istiod` deployment, which contains all functionality that Pilot once had. For backwards compatibility, there are still some references to Pilot.
+
+# Mixer Deprecation
+
+Mixer is deprecated in Istio 1.5. The default profile in Istio 1.5 switches off `mixer` completely. Telemetry V2 is the default in Istio 1.5 and it does not require `mixer`.
+
+If you depend on specific Mixer features like out of process adapters, you may re-enable Mixer. Mixer will continue receiving bug fixes and security fixes until Istio 1.7.
+Many features supported by `mixer` have alternatives as specified in the [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) document including the [in-proxy extensions](https://github.com/istio/proxy/tree/master/extensions) based on the Wasm sandbox API.
+
+If you rely on a Mixer feature that does not have an equivalent, we encourage you to open issues and discuss in the community.
+
+Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice for details.
 
 # Control Plane Security
 
 As part of the Istiod effort, we have changed how proxies securely communicate with the control plane. In previous versions, proxies would connect to the control plane securely when the setting `values.global.controlPlaneSecurityEnabled=true` was configured, which was the default for Istio 1.4. Each control plane component ran a sidecar with Citadel certificates, and proxies connected to Pilot over port 15011.
 
-In Istio 1.5, this is no longer the recommended or default way to connect the proxies with the control plane; instead, DNS certificates, which can be signed by Kubernetes or istiod, will be used without a sidecar. Proxies connect to pilot over port 15012.
+In Istio 1.5, this is no longer the recommended or default way to connect the proxies with the control plane; instead, DNS certificates, which can be signed by Kubernetes or Istiod, will be used without a sidecar. Proxies connect to pilot over port 15012.
 
 Note: despite the naming, in Istio 1.5 when `controlPlaneSecurityEnabled` is set to `false`, communication between the control plane will be secure by default.
