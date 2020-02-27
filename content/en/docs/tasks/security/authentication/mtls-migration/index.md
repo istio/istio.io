@@ -34,12 +34,7 @@ the policies to enforce STRICT mutual TLS between the workloads.
 
 ## Set up the cluster
 
-* Create the following namespaces and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecars on both of them.
-    * `foo`
-    * `bar`
-
-* Create the following namespace and deploy [sleep]({{< github_tree >}}/samples/sleep) without a sidecar
-    * `legacy`
+* Create two namespaces, `foo` and `bar`, and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecars on both of them:
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -48,6 +43,11 @@ the policies to enforce STRICT mutual TLS between the workloads.
     $ kubectl create ns bar
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n bar
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
+    {{< /text >}}
+
+* Create another namespace, `legacy`, and deploy [sleep]({{< github_tree >}}/samples/sleep) without a sidecar:
+
+    {{< text bash >}}
     $ kubectl create ns legacy
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
