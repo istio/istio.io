@@ -34,11 +34,11 @@ instead.
 
     Alternatively, you can deploy using `kubectl` from a pre-rendered manifest, which will install the latest released
     version of the operator:
-    
+
     {{< text bash >}}
     $ kubectl apply -f https://istio.io/operator.yaml
     {{< /text >}}
-    
+
 ## Install
 
 To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
