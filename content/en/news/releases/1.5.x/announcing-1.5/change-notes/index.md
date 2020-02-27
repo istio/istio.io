@@ -29,6 +29,7 @@ weight: 10
 - **Improved** Merge Citadel certificate provisioning functionality into Pilot.
 - **Improved** Support Kubernetes `first-party-jwt` as a fallback token for CSR authentication in clusters that `third-party-jwt` is not supported.
 - **Improved** Provision key and cert to Prometheus through Istio Agent.
+- **Improved** Support Citadel to provision the control plane certificate.
 
 ## Telemetry
 
