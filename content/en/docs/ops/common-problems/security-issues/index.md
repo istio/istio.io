@@ -535,11 +535,6 @@ is applied and the right destination rules are in place.
 ## Citadel is not behaving properly {#repairing-citadel}
 
 {{< warning >}}
-Citadel does not support multiple instances. Running multiple Citadel instances
-may introduce race conditions and lead to system outages.
-{{< /warning >}}
-
-{{< warning >}}
 Workloads with new Kubernetes service accounts can not be started when Citadel is
 disabled for maintenance since they can't get their certificates generated.
 {{< /warning >}}
