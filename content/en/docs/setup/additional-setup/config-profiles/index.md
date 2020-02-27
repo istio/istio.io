@@ -14,7 +14,7 @@ You can start with one of Istio’s built-in configuration profiles and then fur
 your specific needs. The following built-in configuration profiles are currently available:
 
 1. **default**: enables components according to the default settings of the
-    [`IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+    [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
     (recommend for production deployments).
     You can display the default setting by running the command `istioctl profile dump`.
 
