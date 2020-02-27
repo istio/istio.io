@@ -47,44 +47,11 @@ weight: 10
 
 ## Configuration management
 
-- Simplify CRD files #18340.
-- Adding `ServiceRoleServicesAnalyzer` #18160.
-- Add analyzers for Sidecar workload selectors #18600.
-- Add analyzer rules for `VirtualService` destination ports #18674.
-- Use `k8s.io/apimachinery` yaml decoder in `kubesource` #19045.
-- Local analysis gets mesh configuration from the cluster (if available) or a specific file if provided #19055.
-- Order analyzer tests by package name, not name #19243.
-- Analysis functions for getting mesh configuration #19274.
-- Add analyzer for missing `credentialName` on Gateway #19583.
-- Remove --discovery flag and default `--use-kube` to true #19647.
-- Add default resource definition support for analyzers #19808.
-- Refactor messages to track resource rather than origin #20006.
-- Add Envoy filter types so `typed_config` can be used when configuring `EnvoyFilters` #20156.
-- Add Kubernetes dry-run test for galley #18145.
-- Include `virtualservice` mirror destinations in analysis #18476.
-- minor cleanup & added more tests for `resource.Name` #18524.
-- Remove endpoints/ingresses/nodes from annotations analyzer  #18930.
-- Skip Analyzers that require inputs not in the current snapshot  #18961.
-- Fix `mcpc` tools error #19032.
-- Use specific message when sidecar is missing #19428.
-- Update analyzer `IsIstioControlPlane` filter to also look for `release=istio` #19906.
-- Fixing race conditions in Analyzing Distributor tests  #20136.
-- Implement extra environment variables from `ProxyMetadata` #20447.
-- Check for err when adding policy in tests #18478.
-- Add unit test for validation analyzer wrapper #18801.
-- Require the namespace for the webhook secret #18901.
-- add test to help enforce that new analyzers are added to All() #19239.
-- Analyzer test harness supports custom mesh configuration, add test case for … #19508.
-- Don't validate `credentialName` in gateway secrets analyzer if it isn't specified  #19905.
-- Make headless service passthrough resolution optional #19992.
-- Put chunk count back into error message in `kubesource` #19358.
-- clean up logging for service port conversion  #19479.
-- Fix typo in analyzer name #19557.
-- Don't instruct users to delete the pod  #19584.
-- Update analysis `readme` to match #19729 #19760.
-- add quotation marks for PATH #19433  #19774.
-- Allow re-use of `base.yaml` #19858.
+## Operator
 
+**Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
+**Added** `istioctl operator init` and `istioctl operator remove` commands istio/operator#643.
+**Improved** reconciliation speed with caching #20344.
 
 ## `area/perf and scalability`
 
@@ -117,3 +84,4 @@ weight: 10
 - **Added** a new flag `--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
 - **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
 - **Graduated** `istioctl analyze` out of experimental  #19488.
+- **Added** support for slices and lists in `istioctl manifest --set` flag #20631.
