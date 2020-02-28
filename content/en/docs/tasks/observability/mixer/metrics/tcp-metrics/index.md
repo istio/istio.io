@@ -46,7 +46,7 @@ as the example application throughout this task.
     Once the configuration has been applied, confirm a telemetry-focused instance of Mixer is running:
 
     {{< text bash >}}
-    $ kubectl get service istio-telemetry
+    $ kubectl -n istio-system get service istio-telemetry
     NAME              TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                  AGE
     istio-telemetry   ClusterIP   10.4.31.226   <none>        9091/TCP,15004/TCP,15014/TCP,42422/TCP   80s
     {{< /text >}}
