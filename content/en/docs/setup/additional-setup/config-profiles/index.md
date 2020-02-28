@@ -34,6 +34,12 @@ your specific needs. The following built-in configuration profiles are currently
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) with a
     [shared control plane](/docs/setup/install/multicluster/shared-vpn/) configuration.
 
+1. **preview**: this profile enables experimental features that may not meet the same level of stability, performance, and security as the default profiles.
+
+1. **empty**: deploys nothing. This can be useful as a base profile for custom configuration.
+
+1. **separate**: this enables the legacy microservices deployment model. This is not recommended, and will be removed in future releases.
+
 The components marked as **X** are installed within each profile:
 
 |     | default | demo | minimal | remote |
