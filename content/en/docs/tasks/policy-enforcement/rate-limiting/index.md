@@ -1,11 +1,18 @@
 ---
-title: Enabling Rate Limits
+title: Enabling Rate Limits (Deprecated)
 description: This task shows you how to use Istio to dynamically limit the traffic to a service.
 weight: 10
 keywords: [policies,quotas]
 aliases:
     - /docs/tasks/rate-limiting.html
 ---
+
+{{< warning >}}
+The mixer policy is deprecated in Istio 1.5 and not recommended for production usage.
+
+Consider using [Envoy native rate limiting](https://www.envoyproxy.io/docs/envoy/v1.13.0/intro/arch_overview/other_features/global_rate_limiting)
+instead of mixer rate limiting. Istio will add support for native rate limiting API through the Istio extensions API.
+{{< /warning >}}
 
 This task shows you how to use Istio to dynamically limit the traffic to a
 service.
