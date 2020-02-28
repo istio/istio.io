@@ -9,6 +9,7 @@ aliases:
     - /docs/concepts/security/mutual-tls/
     - /docs/concepts/security/rbac/
     - /docs/concepts/security/mutual-tls.html
+    - /docs/concepts/policies/
 ---
 
 Breaking down a monolithic application into atomic services offers various benefits, including better agility, better scalability
@@ -818,9 +819,3 @@ the authorization policy:
 
 Mutual TLS is not required if you don't use any of the above fields in the
 authorization policy.
-
-### Using other authorization mechanisms
-
-While we strongly recommend using the Istio authorization mechanisms,
-Istio is flexible enough to allow you to plug in your own authentication and authorization mechanisms via the Mixer component.
-To use and configure plugins in Mixer, visit our [policies and telemetry adapters docs](/docs/reference/config/policy-and-telemetry/adapters).

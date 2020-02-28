@@ -74,18 +74,6 @@ secure {{<gloss>}}pod{{</gloss>}}-to-pod or service-to-service communication at 
 
 Refer to the [Security concepts guide](/docs/concepts/security/) for more details.
 
-### Policies
-
-Istio lets you configure custom policies for your application to enforce rules at runtime such as:
-
-* Rate limiting to dynamically limit the traffic to a service
-* Denials, whitelists, and blacklists, to restrict access to services
-* Header rewrites and redirects
-
-Istio also lets you create your own [policy adapters](/docs/tasks/policy-enforcement/control-headers) to add, for example, your own custom authorization behavior.
-
-Refer to the [Policies concepts guide](/docs/concepts/policies/) for more details.
-
 ### Observability
 
 Istio’s robust tracing, monitoring, and logging features give you deep insights into your service mesh deployment. Gain a real understanding of how service performance
