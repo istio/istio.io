@@ -109,6 +109,7 @@ BlackHoleCluster
 BluePerf
 boilerplates
 Bookinfo
+bookinfo
 boolean
 bring-your-own-CA
 bring-your-own-identity
@@ -293,6 +294,7 @@ interoperation
 intra-cluster
 intrahost
 ip_address
+ip
 IPs
 iptables
 IPv4
