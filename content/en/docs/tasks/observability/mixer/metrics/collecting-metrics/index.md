@@ -13,7 +13,7 @@ aliases:
 {{< warning >}}
 Mixer is deprecated. The functionality provided by Mixer is being moved into the Envoy proxies.
 Use of Mixer with Istio will only be supported through the 1.7 release of Istio.
-{{</ warning>}}
+{{< /warning>}}
 
 This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new metric will be enabled for
@@ -28,6 +28,7 @@ as the example application throughout this task.
   application.
 
     The *custom* configuration needed to use Mixer for telemetry is:
+
     {{< text yaml >}}
     values:
       prometheus:
@@ -46,6 +47,7 @@ as the example application throughout this task.
     for information on how to apply these settings.
 
     Once the configuration has been applied, confirm a telemetry-focused instance of Mixer is running:
+
     {{< text bash >}}
     $ kubectl get service istio-telemetry
     NAME              TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                  AGE
