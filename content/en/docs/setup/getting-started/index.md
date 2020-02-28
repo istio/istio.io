@@ -278,7 +278,7 @@ _GKE:_
 $ export INGRESS_HOST=<workerNodeAddress>
 {{< /text >}}
 
-You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
+You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
 Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
 
 {{< text bash >}}
