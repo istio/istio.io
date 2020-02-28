@@ -9,7 +9,7 @@ aliases:
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh
-traffic. As part of this task, you will use the Grafana Istio add-on and
+traffic. As part of this task, you will use the Grafana Istio addon and
 the web-based interface for viewing service mesh traffic data.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
