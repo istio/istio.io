@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Download, install, and learn how to evaluate and try Istio’s basic features quickly.
+description: Try Istio’s features quickly and easily.
 weight: 5
 aliases:
     - /docs/setup/kubernetes/getting-started/
@@ -52,6 +52,14 @@ Follow these steps to get started with Istio:
     $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
+    The installation directory contains:
+
+    - Installation YAML files for Kubernetes in `install/kubernetes`
+    - Sample applications in `samples/`
+    - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the
+      `bin/` directory. `istioctl` is used if you choose to manually inject
+      Envoy as a sidecar proxy.
+
 1.  Add the `istioctl` client to your path (Linux or macOS):
 
     {{< text bash >}}
@@ -60,9 +68,10 @@ Follow these steps to get started with Istio:
 
 ## Install Istio {#install}
 
-1.  For this installation, we use the `demo` profile. It's selected to have a good set
-    of defaults for testing, but there are other profiles for production or
-    performance testing.
+1.  For this installation, we use the `demo`
+    [configuration profile](/docs/setup/additional-setup/config-profiles/). It's
+    selected to have a good set of defaults for testing, but there are other
+    profiles for production or performance testing.
 
     {{< text bash >}}
     $ istioctl manifest apply --set profile=demo
