@@ -23,12 +23,12 @@ continue.
 
 Follow these steps to get started with Istio:
 
-1. [Install Istio](#download)
+1. [Download and install Istio](#download)
 1. [Deploy the sample application](#bookinfo)
 1. [Open the application to outside traffic](#ip)
 1. [View the dashboard](#dashboard)
 
-## Install Istio {#download}
+## Download Istio {#download}
 
 1.  Go to the [Istio release]({{< istio_release_url >}}) page to
     download the installation file for your OS, or download and
@@ -58,7 +58,9 @@ Follow these steps to get started with Istio:
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1.  For this tutorial, we use the `demo` profile. It's selected to have a good set
+## Install Istio {#install}
+
+1.  For this installation, we use the `demo` profile. It's selected to have a good set
     of defaults for testing, but there are other profiles for production or
     performance testing.
 
@@ -342,9 +344,10 @@ displaying the topology and indicates the health of your mesh.
 
 ## Next steps
 
-Congratulations on completing the installation!
+Congratulations on completing the evaluation installation!
 
-These tasks are a great place for beginners to start using Istio features:
+These tasks are a great place for beginners to further evaluate Istio's
+features usisng this `demo` installation:
 
 - [Request routing](/docs/tasks/traffic-management/request-routing/)
 - [Fault injection](/docs/tasks/traffic-management/fault-injection/)
@@ -355,8 +358,7 @@ These tasks are a great place for beginners to start using Istio features:
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
 
-Before you customize Istio to fit your platform and intended use,
-see these resources:
+Before you customize Istio for production use, see these resources:
 
 - [Deployment models](/docs/ops/deployment/deployment-models/)
 - [Deployment best practices](/docs/ops/best-practices/deployment/)
