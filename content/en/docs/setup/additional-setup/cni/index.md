@@ -16,7 +16,7 @@ By default Istio injects an `initContainer`, `istio-init`, in pods deployed in
 the mesh.  The `istio-init` container sets up the pod network traffic
 redirection to/from the Istio sidecar proxy.  This requires the user or
 service-account deploying pods to the mesh to have sufficient Kubernetes RBAC
-permissions to deploy [`NET_ADMIN` containers](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
+permissions to deploy [containers with the `NET_ADMIN` and `NET_RAW` capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
 Requiring Istio users to have elevated Kubernetes RBAC permissions is
 problematic for some organizations' security compliance.  The Istio CNI plugin
 is a replacement for the `istio-init` container that performs the same
@@ -24,7 +24,7 @@ networking functionality but without requiring Istio users to enable elevated
 Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/ops/deployment/requirements/)
+setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/)
 for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
@@ -238,8 +238,8 @@ Avoid this traffic loss with one or both of the following settings:
 
 ### Compatibility with other CNI plugins
 
-The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current `NET_ADMIN`
-`istio-init` container.
+The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current
+`istio-init` container which requires the `NET_ADMIN` and `NET_RAW` capabilities.
 
 The Istio CNI plugin operates as a chained CNI plugin.  This means its configuration is added to the existing
 CNI plugins configuration as a new configuration list element.  See the
