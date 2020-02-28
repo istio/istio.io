@@ -196,6 +196,9 @@ Ensure a port was successfully assigned to each environment variable:
 {{< text bash >}}
 $ echo $INGRESS_PORT
 32194
+{{< /text >}}
+
+{{< text bash >}}
 $ echo $SECURE_INGRESS_PORT
 31632
 {{< /text >}}
@@ -271,29 +274,29 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 
 _GKE:_
 
-    {{< text bash >}}
-    $ export INGRESS_HOST=<workerNodeAddress>
-    {{< /text >}}
+{{< text bash >}}
+$ export INGRESS_HOST=<workerNodeAddress>
+{{< /text >}}
 
-    You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
-    Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
+You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
+Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
 
-    {{< text bash >}}
-    $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
-    $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
-    {{< /text >}}
+{{< text bash >}}
+$ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
+$ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
+{{< /text >}}
 
 _Docker For Desktop:_
 
-    {{< text bash >}}
-    $ export INGRESS_HOST=127.0.0.1
-    {{< /text >}}
+{{< text bash >}}
+$ export INGRESS_HOST=127.0.0.1
+{{< /text >}}
 
 _Other environments (e.g., IBM Cloud Private, etc.):_
 
-    {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
-    {{< /text >}}
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -348,7 +351,6 @@ These tasks are a great place for beginners to start using Istio features:
 - [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
 - [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
 - [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Collecting logs](/docs/tasks/observability/logs/collecting-logs/)
 - [Rate limiting](/docs/tasks/policy-enforcement/rate-limiting/)
 - [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
 - [Visualizing your mesh](/docs/tasks/observability/kiali/)
