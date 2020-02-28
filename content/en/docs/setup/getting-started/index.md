@@ -169,7 +169,7 @@ you need to create an
 [Istio Ingress Gateway](/docs/concepts/traffic-management/#gateways), which maps a path to a
 route at the edge of your mesh.
 
-1.  Connect this application to be published by the Istio gateway:
+1.  Associate this application with the Istio gateway:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
