@@ -32,6 +32,13 @@ instead.
     - A service to access operator metrics
     - Necessary Istio operator RBAC rules
 
+    Alternatively, you can deploy using `kubectl` from a pre-rendered manifest, which will install the latest released
+    version of the operator:
+
+    {{< text bash >}}
+    $ kubectl apply -f https://istio.io/operator.yaml
+    {{< /text >}}
+
 ## Install
 
 To install the Istio `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/)
@@ -128,13 +135,14 @@ metadata:
 spec:
   profile: default
   components:
+    pilot:
+      k8s:
+        resources:
+          requests:
+            memory: 3072Mi
+  addonComponents:
     grafana:
       enabled: true
-  pilot:
-    k8s:
-      resources:
-        requests:
-          memory: 3072Mi
 EOF
 {{< /text >}}
 
