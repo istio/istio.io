@@ -11,15 +11,11 @@ keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 
 This guide lets you quickly evaluate Istio.
 
-These steps assume you are using
-[Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and have a
-{{< gloss >}}cluster{{< /gloss >}} running a compatible version of Kubernetes.
-Minikube is a tool that makes it easy to run Kubernetes locally with a
-single-node Kubernetes cluster inside a Virtual Machine (VM) on your computer.
-
-To use a cluster on a different platform or in the cloud, follow the appropriate
-[platform-specific setup instructions](/docs/setup/platform-setup/) before you
-continue.
+These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
+compatible version of Kubernetes. You can use any supported platform, for
+example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
+others specified by the
+[platform-specific setup instructions](/docs/setup/platform-setup/).
 
 Follow these steps to get started with Istio:
 
@@ -57,8 +53,7 @@ Follow these steps to get started with Istio:
     - Installation YAML files for Kubernetes in `install/kubernetes`
     - Sample applications in `samples/`
     - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the
-      `bin/` directory. `istioctl` is used if you choose to manually inject
-      Envoy as a sidecar proxy.
+      `bin/` directory.
 
 1.  Add the `istioctl` client to your path (Linux or macOS):
 
@@ -236,7 +231,7 @@ $ minikube tunnel
 
 {{< /tab >}}
 
-{{< tab name="Other" category-value="node-port" >}}
+{{< tab name="Other platforms" category-value="node-port" >}}
 
 Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers:
 
@@ -329,7 +324,11 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 ### Verify external access {#confirm}
 
 Confirm that the Bookinfo application is accessible from outside the cluster by
-navigating in your browser to `http://<your $GATEWAY_URL value>/productpage`.
+navigating in your browser to:
+
+{{< text plain >}}
+ `http://<your $GATEWAY_URL value>/productpage`
+{{< /text >}}
 
 ## View the dashboard {#dashboard}
 
@@ -356,7 +355,7 @@ displaying the topology and indicates the health of your mesh.
 Congratulations on completing the evaluation installation!
 
 These tasks are a great place for beginners to further evaluate Istio's
-features usisng this `demo` installation:
+features using this `demo` installation:
 
 - [Request routing](/docs/tasks/traffic-management/request-routing/)
 - [Fault injection](/docs/tasks/traffic-management/fault-injection/)
