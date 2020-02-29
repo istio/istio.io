@@ -71,7 +71,7 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 
 ## Authentication policy
 
-Istio 1.5 introduces [`PeerAuthentication`](/docs/reference/config/security/todo-link/) and [`RequestAuthentication`](/docs/reference/config/security/todo-linke/) that is going to replace alpha Authentication API. For more information how to use the new API, see the [authentication policy](/docs/tasks/security/authentication/authn-policy) tutorial.
+Istio 1.5 introduces [`PeerAuthentication`](/docs/reference/config/security/todo-link/) and [`RequestAuthentication`](/docs/reference/config/security/todo-link/), which are replacing the alpha version of the Authentication API. For more information about how to use the new API, see the [authentication policy](/docs/tasks/security/authentication/authn-policy) tutorial.
 
 * After upgrading Istio, existing alpha authentication policies still in use.
 * You should start replacing alpha policies with the equivalent `PeerAuthentication` and `RequestAuthentication`. It is recommended to start with the most specific scope (workload-wide), then namespace-wide and finally mesh-wide.
