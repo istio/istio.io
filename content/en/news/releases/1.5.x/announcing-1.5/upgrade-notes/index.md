@@ -73,10 +73,8 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 
 Istio 1.5 introduces [`PeerAuthentication`](/docs/reference/config/security/todo-link/) and [`RequestAuthentication`](/docs/reference/config/security/todo-link/), which are replacing the alpha version of the Authentication API. For more information about how to use the new API, see the [authentication policy](/docs/tasks/security/authentication/authn-policy) tutorial.
 
-* After upgrading Istio, existing alpha authentication policies still in use.
-* You should start replacing alpha policies with the equivalent `PeerAuthentication` and `RequestAuthentication`. It is recommended to start with the most specific scope (workload-wide), then namespace-wide and finally mesh-wide.
-* Once the new API is added for workload/namespace/mesh, alpha API will be ignored in that scope and can be safely remove.
-* After finish migrating to new authentication APIs, you can delete all alpha policies, if you haven't done so, with this command:
+* After you upgrade Istio, your alpha authentication policies remain in place until you replace them with the equivalent `PeerAuthentication` and `RequestAuthentication`. We recommend starting with workload-wide (the most specific scope), then namespace-wide, and finally mesh-wide.
+* After you replace policies for workload, namespace, and mesh, you can safely remove the alpha authentication policies. To delete the alpha policies, use this command:
 
 {{< text bash >}}
 $ kubectl delete policies.authentication.istio.io --all-namespaces --all
