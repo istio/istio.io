@@ -463,7 +463,7 @@ Istio provides some preconfigured gateway proxy deployments
 (`istio-ingressgateway` and `istio-egressgateway`) that you can use - both are
 deployed if you use our [demo installation](/docs/setup/getting-started/),
 while just the ingress gateway is deployed with our
-[default or sds profiles.](/docs/setup/additional-setup/config-profiles/) You
+[default profile.](/docs/setup/additional-setup/config-profiles/) You
 can apply your own gateway configurations to these deployments or deploy and
 configure your own gateway proxies.
 
