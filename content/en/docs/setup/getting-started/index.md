@@ -327,7 +327,7 @@ Confirm that the Bookinfo application is accessible from outside the cluster by
 navigating in your browser to:
 
 {{< text plain >}}
- `http://<your $GATEWAY_URL value>/productpage`
+`http://<your $GATEWAY_URL value>/productpage`
 {{< /text >}}
 
 ## View the dashboard {#dashboard}
