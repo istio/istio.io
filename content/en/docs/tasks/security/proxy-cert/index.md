@@ -1,6 +1,6 @@
 ---
-title: Provision a certificate through a sidecar [Experimental]
-description: Provision a certificate through a sidecar.
+title: Provision a certificate and key to your application through files [Experimental]
+description: Provision a certificate and key to your application through files.
 weight: 100
 keywords: [certificate,sidecar]
 ---
@@ -10,21 +10,24 @@ keywords: [certificate,sidecar]
 Istio sidecars can obtain certificates through
 the secret discovery service.
 For an application without a sidecar to get a certificate,
-it may deploy a sidecar to generate a certificate through
-the secret discovery service and share the certificate with the application
-through a shared memory.
+it may deploy a sidecar to provision the private key and certificates through
+the CSR flow from the CA and share the certificate with the application
+through a mounted file in `tmpfs`.
 This task uses Prometheus as an example application to show provisioning
 a certificate through such mechanism.
 
 ## Getting started
 
-Install Istio:
+Install Istio with the `global.mtls.enabled` option set to false
+and `global.mtls.auto` set to true. For example, using the demo configuration profile:
 
 {{< text bash >}}
-$ istioctl manifest apply
+$ istioctl manifest apply --set profile=demo
+--set values.global.mtls.auto=true
+--set values.global.mtls.enabled=false
 {{< /text >}}
 
-## Provision a key and certificate for an application
+## Deliver key and certificate to application via files
 
 In the example application (i.e., Prometheus), a sidecar is added to the
 Prometheus deployment when the flag `.Values.prometheus.provisionPrometheusCert`
