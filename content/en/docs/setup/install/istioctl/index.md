@@ -44,7 +44,7 @@ is intended for evaluating a broad set of Istio features.
 If you want to enable `grafana` dashboard on top of the `default` profile, you can set the `grafana` related configuration parameters:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.grafana.enabled=true
+$ istioctl manifest apply --set addonComponents.grafana.enabled=true
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
