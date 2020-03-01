@@ -12,11 +12,11 @@ aliases:
 keywords: [contribute,community,github,pr]
 ---
 
-Istio 文档遵循标准 [GitHub 协作流](https://guides.github.com/introduction/flow/)。这种成熟的协作模式有助于开源项目管理以下类型的贡献：
+Istio 文档协作遵循标准的 [GitHub 协作流](https://guides.github.com/introduction/flow/)。这种成熟的协作模式有助于开源项目管理以下类型的贡献：
 
-- [添加](/about/contribute/add-content)新文件到存储库。
+- [添加](/zh/about/contribute/add-content)新文件到存储库。
 - [编辑](#quick-edit)现有文件。
-- [审阅](/about/contribute/review)添加或修改的文件。
+- [审阅](/zh/about/contribute/review)添加或修改的文件。
 - 管理多个发布或开发[分支](#branching-strategy)。
 
 该贡献指南假定您可以完成以下任务：
@@ -24,7 +24,7 @@ Istio 文档遵循标准 [GitHub 协作流](https://guides.github.com/introducti
 - Fork [Istio 文档存储库](https://github.com/istio/istio.io)。
 - 为您的更改创建分支。
 - 向该分支添加提交。
-- 打开公关分享您的贡献。
+- 打开一个 PR 分享您的贡献。
 
 ## 开始之前{#how-to-contribute}
 
@@ -34,13 +34,13 @@ Istio 文档遵循标准 [GitHub 协作流](https://guides.github.com/introducti
 
 1. 签署 [贡献者许可协议](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements)。
 
-1. 安装 [Docker]（https：//www.docker.com/入门），以预览和测试您的文档更改。
+1. 安装 [Docker](https：//www.docker.com/入门)，以预览和测试您的文档更改。
 
 文档是根据 [Apache 2.0](https://github.com/istio/istio.io/blob/master/LICENSE) 协议许可发布的。
 
 ## 快速编辑 {#quick-edit}
 
-任何签署了 CLA 的 GitHub 帐户，都可以对 Istio 网站上的任何页面进行修改病提交贡献。这个过程非常简单：
+任何签署了 CLA 的 GitHub 帐户，都可以对 Istio 网站上的任何页面进行修改并提交贡献。这个过程非常简单：
 
 1. 访问您要编辑的页面。
 1. 将 `preliminary` 添加到 URL 的开头。例如，要编辑 `https://istio.io/about`，新 URL 应为 `https://preliminary.istio.io/about`。
@@ -48,7 +48,8 @@ Istio 文档遵循标准 [GitHub 协作流](https://guides.github.com/introducti
 1. 在 GitHub UI 上进行编辑。
 1. 创建 Pull Request 提交您的修改。
 
-请参阅我们在[贡献新内容](/about/contribute/add-content)或[内容审查](/about/contribute/review)中的指南，以了解有关提交更多实质性更改的更多详细信息。
+请参阅我们在[贡献新内容](/zh/about/contribute/add-content)或[内容审查](/zh/about/contribute/review)中的指南，
+以了解有关提交更多实质性更改的详细信息。
 
 ## 分支策略{#branching-strategy}
 
