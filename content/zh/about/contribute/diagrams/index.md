@@ -21,7 +21,7 @@ keywords: [contribute,diagram,documentation,guide]
 1. 用适当的线条连接 shape。
 1. 用简短的描述性文字标记 shape 和线条。
 1. 为多次应用的标签添加图例。
-1. 将您的图表 [贡献](/zh/about/contribute/github/#add) 给我们的文档。
+1. 将您的图表 [贡献](/zh/about/contribute/add-content) 给我们的文档。
 
 如果您是在 Google Draw 中创建图表，请参照下面的步骤：
 
