@@ -30,11 +30,11 @@ Istio 文档协作遵循标准的 [GitHub 协作流](https://guides.github.com/i
 
 要为 Istio 贡献文档，您需要：
 
-1. 创建 [GitHub 帐户](https：//github.com)。
+1. 创建 [GitHub 帐户](https://github.com)。
 
 1. 签署 [贡献者许可协议](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements)。
 
-1. 安装 [Docker](https：//www.docker.com/入门)，以预览和测试您的文档更改。
+1. 安装 [Docker](https://www.docker.com/入门)，以预览和测试您的文档更改。
 
 文档是根据 [Apache 2.0](https://github.com/istio/istio.io/blob/master/LICENSE) 协议许可发布的。
 
@@ -61,7 +61,7 @@ Istio 文档存储库使用多个分支发布所有 Istio 版本的文档。每�
 
 这种分支策略允许我们提供以下 Istio 在线资源：
 
-- [发布站点](/docs/zh) 提供当前最新发布分支的内容。
+- [发布站点](/zh/docs/) 提供当前最新发布分支的内容。
 
 - 预备站点 `https://preliminary.istio.io` 发布了当前 Master 分支上的最新内容。
 
