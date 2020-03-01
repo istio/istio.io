@@ -25,7 +25,7 @@ keywords: [contribute, documentation, guide, code-block]
 
 ## Envoy {#envoy}
 
-相比 “proxy” 我们更喜欢使用 “Enovy” 这个词，因为它更具体，并且如果在整个文档中都使用一致的术语，更容易让大家理解。
+相比 “proxy” 我们更喜欢使用 “Envoy” 这个词，因为它更具体，并且如果在整个文档中都使用一致的术语，更容易让大家理解。
 
 
 同义词：
