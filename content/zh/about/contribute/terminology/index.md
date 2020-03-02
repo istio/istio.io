@@ -36,9 +36,6 @@ keywords: [contribute, documentation, guide, code-block]
 
 相关术语：
 
-- Proxy agent  - This is a minor infrastructural component and should only show
-  up in low-level detail documentation. It is not a proper noun.
-
 - Proxy agent  - 这是一个较小的基础设施组件，应该只出现在低层的详细文档中。它不是专有名词。
 
 ## 其它 {#miscellaneous}
