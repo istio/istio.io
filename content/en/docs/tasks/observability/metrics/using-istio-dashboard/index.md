@@ -85,7 +85,7 @@ the example application throughout this task.
     From the Grafana dashboard's left hand corner navigation menu, you can navigate to Istio Service Dashboard or visit
     [http://localhost:3000/dashboard/db/istio-service-dashboard](http://localhost:3000/dashboard/db/istio-service-dashboard) in your web browser.
 
-    {{</* tip */>}}
+    {{< tip >}}
     You may need to select a service in the Service dropdown.
     {{< /tip >}}
 
