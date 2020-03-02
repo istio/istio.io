@@ -1,53 +1,46 @@
 ---
-title: Terminology Standards
-description: Explains the terminology standards used in the Istio documentation.
+title: 术语标准
+description: 解释 Istio 文档中使用的术语标准。
 weight: 11
 aliases:
-    - /docs/welcome/contribute/style-guide.html
-    - /docs/reference/contribute/style-guide.html
+    - /zh/docs/welcome/contribute/style-guide.html
+    - /zh/docs/reference/contribute/style-guide.html
 keywords: [contribute, documentation, guide, code-block]
 ---
 
-To provide clarity to our users, use the standard terms in this section
-consistently within the documentation.
+为了给我们的用户提供清晰的信息，请在文档中都使用本节中定义的标准术语。
 
-## Service
+## Service {#service}
 
-Avoid using the term **service**. Research shows that different folks understand
-different things under that term. The following table shows acceptable
-alternatives that provide greater specificity and clarity to readers:
+避免使用 **service** 这个说法。调查显示不同人对这个词的理解是不一样的。下面的表格展示了对读者更明确和清晰的说法：
 
-|Do                                          | Don't
+| 应该使用                                    | 不要使用
 |--------------------------------------------|-----------------------------------------
-| Workload A sends a request to Workload B.  | Service A sends a request to Service B.
-| New workload instances start when ...      | New service instances start when ...
-| The application consists of two workloads. | The service consists of two services.
+| Workload A 发送一个请求到 Workload B.         | Service A 发送一个请求到 Service B.
+| 当 。。。。。。的时候，新 workload 实例启动了    | 当 。。。。。。的时候，新 service 实例启动了
+| 这个应用程序包含 2 个 workload。              | 这个服务包含了 2 个 service。
 
-Our glossary establishes the agreed-upon terminology, and provides definitions to
-avoid confusion.
+我们的术语表建立了商定的术语，并给出了避免混淆的定义。
 
-## Envoy
+## Envoy {#envoy}
 
-We prefer to use "Envoy” as it’s a more concrete term than "proxy" and
-resonates if used consistently throughout the docs.
+相比 “proxy” 我们更喜欢使用 “Envoy” 这个词，因为它更具体，并且如果在整个文档中都使用一致的术语，更容易让大家理解。
 
-Synonyms:
+同义词：
 
-- "Envoy sidecar” - ok
-- "Envoy proxy” - ok
-- "The Istio proxy” -- best to avoid unless you’re talking about advanced
-  scenarios where another proxy might be used.
-- "Sidecar”  -- mostly restricted to conceptual docs
-- "Proxy" -- only if context is obvious
+- “Envoy sidecar” - 这样说没问题
+- “Envoy proxy” - 这样说没问题
+- “The Istio proxy” -- 最好避免这样说，除非说的是另外一个可能使用其它代理的高级场景。
+- “Sidecar”  -- 大多时候仅限于概念文档中使用
+- “Proxy” -- 只有在上下文非常容易理解的时候
 
-Related Terms:
+相关术语：
 
-- Proxy agent  - This is a minor infrastructural component and should only show
-  up in low-level detail documentation. It is not a proper noun.
+- Proxy agent  - 这是一个较小的基础设施组件，应该只出现在低层的详细文档中。它不是专有名词。
 
-## Miscellaneous
+## 其它 {#miscellaneous}
 
-|Do              | Don't
+|应该使用         | 不要使用
 |----------------|------
 | addon          | `add-on`
 | Bookinfo       | `BookInfo`, `bookinfo`
