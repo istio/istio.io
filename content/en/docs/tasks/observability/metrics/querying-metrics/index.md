@@ -52,16 +52,25 @@ application.
     $ istioctl dashboard prometheus
     {{< /text >}}
 
-    Click **Graph** in Prometheus.
+    Click **Graph** to the right of Prometheus in the header.
 
 1.  Execute a Prometheus query.
 
     In the "Expression" input box at the top of the web page, enter the text:
-    `istio_requests_total`. Then, click the **Execute** button.
+
+    {{< text plain >}}
+    istio_requests_total
+    {{< /text >}}
+
+    Then, click the **Execute** button.
 
 The results will be similar to:
 
 {{< image link="./prometheus_query_result.png" caption="Prometheus Query Result" >}}
+
+You can also see the query results graphically by selecting the Graph tab underneath the **Execute** button.
+
+{{< image link="./prometheus_query_result_graphical.png" caption="Prometheus Query Result - Graphical" >}}
 
 Other queries to try:
 
@@ -85,9 +94,9 @@ Other queries to try:
     rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
     {{< /text >}}
 
-### About the Prometheus add-on
+### About the Prometheus addon
 
-The Prometheus add-on is a Prometheus server that comes preconfigured to scrape
+The Prometheus addon is a Prometheus server that comes preconfigured to scrape
 Istio endpoints to collect metrics. It provides a mechanism for persistent storage and querying
 of Istio metrics.
 
