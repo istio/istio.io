@@ -6,10 +6,10 @@ keywords: [security,access-control,rbac,authorization,ingress,ip,whitelist,black
 ---
 
 This task shows you how to enforce access control on an Istio ingress gateway
-using an authorization policy. 
+using an authorization policy.
 
-The authorization policy supports IP-based whitelists or blacklists and
-attribute-based whitelists or blacklists previously provided by the Mixer policy.
+The authorization policy supports IP-based allow list or deny list and
+attribute-based allow list or deny list previously provided by the Mixer policy.
 The Mixer policy is deprecated in 1.5 and not recommended for production use.
 
 ## Before you begin
@@ -21,7 +21,7 @@ Before you begin this task, perform the following actions:
 * Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
 
 * Deploy a workload, `httpbin` in a namespace named, for example, `foo` and expose it
-through the Istio ingress gateway with this command:
+through the Istio ingress gateway with this command.
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -31,22 +31,23 @@ through the Istio ingress gateway with this command:
 
 * Update the ingress gateway to set `externalTrafficPolicy: local` to preserve the
 original client source IP on the ingress gateway using the following command.
-See [Source IP for Services with Type=NodePort](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)
+See [Source IP for Services with `Type=NodePort`](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)
 for more information.
 
     {{< text bash >}}
     $ kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
     {{< /text >}}
- 
+
 * Verify that the `httpbin` workload and ingress gateway are working as expected using this command.
+
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
- 
+
 * Verify the ingress gateway receives the original client source IP address, which
-will be used in the authorization policy in this task:
+will be used in the authorization policy in this task.
 
     {{< text bash >}}
     $ CLIENT_IP=$(curl $INGRESS_HOST/ip -s | grep "origin" | cut -d'"' -f 4) && echo $CLIENT_IP
@@ -58,7 +59,7 @@ If you don’t see the expected output as you follow the task, retry after a few
 Caching and propagation overhead can cause some delay.
 {{< /warning >}}
 
-## IP-based whitelists and blacklists
+## IP-based allow list and deny list
 
 1. The following command creates the authorization policy, `ingress-policy`, for
 the Istio ingress gateway. The following policy sets the `action` field to `ALLOW` to
