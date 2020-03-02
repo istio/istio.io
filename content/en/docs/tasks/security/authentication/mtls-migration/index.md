@@ -136,7 +136,7 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(
 1. To remove all authentication policies
 {{< text bash >}}
 $ kubectl delete peerauthentication --all-namespaces --all
-{{< text >}}
+{{< /text >}}
 
 1. 1. If you are not planning to explore any follow-on tasks, you can remove all test namespaces.
 
