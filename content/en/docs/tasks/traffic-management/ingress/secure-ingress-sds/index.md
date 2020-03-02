@@ -541,7 +541,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=k
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
-    -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
+    -n istio-system -o jsonpath='{.items[0].metadata.name}')
     {{< /text >}}
 
 *   If using macOS, verify you are using `curl` compiled with the [LibreSSL](http://www.libressl.org)
@@ -562,7 +562,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=k
 
     {{< text bash >}}
     $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
-    -n istio-system -o jsonpath='{.items[0].metadata.name}') -c ingress-sds
+    -n istio-system -o jsonpath='{.items[0].metadata.name}')
     {{< /text >}}
 
     The log should show that the `httpbin-credential` secret was added. If using mutual
