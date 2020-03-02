@@ -27,7 +27,7 @@ them down once the migration is done.
 * Read the [authentication policy task](/docs/tasks/security/authentication/authn-policy) to
   learn how to configure authentication policy.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in [installation steps](/docs/setup/getting-started).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (e.g use the demo configuration profile as described in [installation steps](/docs/setup/getting-started)).
 
 In this task, you can try out the migration process by creating sample workloads and modifying
 the policies to enforce STRICT mutual TLS between the workloads.
@@ -82,7 +82,7 @@ After migrating all clients to Istio and injecting the Envoy sidecar, you can lo
 to only accept mutual TLS traffic.
 
 {{< text bash >}}
-$ kubectl apply -n foo -f - << EOF
+$ kubectl apply -n foo -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "PeerAuthentication"
 metadata:
@@ -113,7 +113,7 @@ We recommend you use [Istio Authorization](/docs/tasks/security/authorization/au
 ## Lock down mutual TLS for the entire mesh
 
 {{< text bash >}}
-$ kubectl apply -n istio-system -f - << EOF
+$ kubectl apply -n istio-system -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
 kind: "PeerAuthentication"
 metadata:
@@ -133,10 +133,15 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(
 
 ## Clean up the example
 
-To remove all resources created in this task:
+1. To remove all authentication policies
+
+{{< text bash >}}
+$ kubectl delete peerauthentication --all-namespaces --all
+{{< /text >}}
+
+1. If you are not planning to explore any follow-on tasks, you can remove all test namespaces.
 
 {{< text bash >}}
 $ kubectl delete ns foo bar legacy
 Namespaces foo bar legacy deleted.
-$ kubectl delete peerauthentication --all-namespaces --all
 {{< /text >}}
