@@ -286,7 +286,7 @@ Note that you've already created a namespace-wide policy that enables mutual TLS
 `sleep.legacy` to `httpbin.foo` are failing (see above).
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -n bar -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "security.istio.io/v1beta1"
 kind: "PeerAuthentication"
 metadata:
