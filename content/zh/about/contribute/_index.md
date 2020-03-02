@@ -16,10 +16,8 @@ icon: contribute
 
 欢迎使用 Istio 文档贡献指南。本节包含撰写文档、博客和其他类型的[内容](/zh/about/contribute/add-content/#content-types)所需的所有信息。
 
-The Istio content is multilingual. Within the `content` folder, you can find the following folders for the available languages:
 Istio 的内容是多语言的。在 `content` 文件夹中，您可以找到以下可用语言的文件夹：
 
-- The English original content is in the `en` folder.
 - 原始的英文内容在 `en` 文件夹下.
 - 简体中文的翻译内容在 `zh` 文件夹下.
 - 葡萄牙语的翻译内容在 `pt-br` 文件夹下.
