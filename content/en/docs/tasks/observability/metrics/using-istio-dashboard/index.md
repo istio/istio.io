@@ -87,7 +87,7 @@ the example application throughout this task.
 
     {{</* tip */>}}
     You may need to select a service in the Service dropdown.
-    {{</* /tip */>}}
+    {{< /tip >}}
 
     The Istio Service Dashboard will look similar to:
 
