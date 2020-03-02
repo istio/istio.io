@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# Copyright 2020 Istio Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+set -u
+set -o pipefail
+
+# Export HOST, PORT and URL
+# $snippet export_gateway_url_2.sh syntax="bash"
+$ export INGRESS_HOST={{ .ingressHostCom }}
+$ export INGRESS_PORT={{ .ingressPortCom }}
+$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+# $endsnippet
+
+# Step 1: add a half second request timeout for calls to the reviews service
+# $snippet delay_reviews.sh syntax="bash"
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v2
+    timeout: 0.5s
+EOF
+# $endsnippet
+
+# $snippet wait_for_reviews_virtual_service_1.sh syntax="bash"
+$ istioctl experimental wait --for=distribution VirtualService reviews.default --timeout=60s
+# $endsnippet
+
+echo "sending request delay to $INGRESS_HOST:$INGRESS_PORT"
+
+# Step 2: Verify product reviews are unavailable
+# $snippet verify_ratings_2.sh syntax="bash"
+$ curl -sS http://"${GATEWAY_URL}"/productpage | grep -o "<p>Sorry.*</p>"
+sleep 1
+# $verify verifier="contains"
+<p>Sorry, product reviews are currently unavailable for this book.</p>
+# $endsnippet
