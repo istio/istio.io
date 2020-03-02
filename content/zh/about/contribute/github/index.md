@@ -34,7 +34,7 @@ Istio 文档协作遵循标准的 [GitHub 协作流](https://guides.github.com/i
 
 1. 签署 [贡献者许可协议](https://github.com/istio/community/blob/master/CONTRIBUTING.md#contributor-license-agreements)。
 
-1. 安装 [Docker](https://www.docker.com/入门)，以预览和测试您的文档更改。
+1. 安装 [Docker](https://www.docker.com/get-started)，以预览和测试您的文档更改。
 
 文档是根据 [Apache 2.0](https://github.com/istio/istio.io/blob/master/LICENSE) 协议许可发布的。
 
