@@ -41,10 +41,10 @@ Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-If you want to secure Istio control plane service endpoints on top of the `default` profile, you can set the security related configuration parameters:
+If you want to enable mesh wide mutual TLS on top of the `default` profile, you can set the security related configuration parameters:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.controlPlaneSecurityEnabled=true
+$ istioctl manifest apply --set values.global.mtls.enabled=true
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
