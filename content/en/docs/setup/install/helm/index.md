@@ -241,7 +241,7 @@ For example, to configure the **demo** profile with mutual TLS enabled:
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
     --values install/kubernetes/helm/istio/values-istio-demo.yaml \
     --set global.controlPlaneSecurityEnabled=true \
-    --set global.mtls.enabled=true | kubectl apply -f -
+    --set global.mtls.enabled=true
 {{< /text >}}
 
 {{< /tab >}}
