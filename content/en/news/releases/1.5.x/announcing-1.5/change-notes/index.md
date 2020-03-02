@@ -27,9 +27,8 @@ weight: 10
 - **Added** SDS is in Stable. SDS is enabled by default for identity provisioning.
 - **Improved** Node agent is merged with Pilot agent. This removes the requirement of pod security policy and improves security posture.
 - **Improved** Merge Citadel certificate provisioning functionality into Pilot.
-- **Improved** Support Kubernetes `first-party-jwt` as a fallback token for CSR authentication in clusters that `third-party-jwt` is not supported.
+- **Improved** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters that [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
 - **Improved** Provision key and cert to Prometheus through Istio Agent.
-- **Improved** Support Citadel to provision the control plane certificate.
 
 ## Telemetry
 
