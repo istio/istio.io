@@ -38,7 +38,7 @@ your specific needs. The following built-in configuration profiles are currently
 
 1. **empty**: deploys nothing. This can be useful as a base profile for custom configuration.
 
-1. **separate**: this enables the legacy microservices deployment model. This is not recommended, and will be removed in future releases.
+1. **separate**: deploys Istio following the legacy micro-services model. This profile is not recommended because it won't be supported in future releases.
 
 The components marked as **X** are installed within each profile:
 
