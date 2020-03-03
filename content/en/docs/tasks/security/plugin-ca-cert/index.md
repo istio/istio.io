@@ -1,41 +1,41 @@
 ---
-title: Plugging in External CA Key and Certificate
-description: Shows how operators can configure Citadel with existing root certificate, signing certificate and key.
-weight: 10
+title: Plugging in existing CA Certificates
+description: Shows how system administrators can configure Istio's CA with an existing root certificate, signing certificate and key.
+weight: 80
 keywords: [security,certificates]
 aliases:
     - /docs/tasks/security/plugin-ca-cert/
 ---
 
-This task shows how operators can configure Citadel with existing root certificate, signing certificate and key.
+This task shows how administrators can configure the Istio certificate authority with an existing root certificate, signing certificate and key.
 
-By default, Citadel generates self-signed root certificate and key, and uses them to sign the workload certificates.
-Citadel can also use the operator-specified certificate and key to sign workload certificates, with
-operator-specified root certificate. This task demonstrates an example to plug certificates and key into Citadel.
+By default, Istio's CA generates a self-signed root certificate and key, and uses them to sign the workload certificates.
+Istio's CA can also sign workload certificates using an administrator-specified certificate and key, and with an
+administrator-specified root certificate. This task demonstrates how to plug such certificates and key into Istio's CA.
 
-## Plugging in the existing certificate and key
+## Plugging in existing certificates and key
 
-Suppose we want to have Citadel use the existing signing (CA) certificate `ca-cert.pem` and key `ca-key.pem`.
+Suppose we want to have Istio's CA use an existing signing (CA) certificate `ca-cert.pem` and key `ca-key.pem`.
 Furthermore, the certificate `ca-cert.pem` is signed by the root certificate `root-cert.pem`.
 We would like to use `root-cert.pem` as the root certificate for Istio workloads.
 
 In the following example,
-Citadel's signing (CA) certificate (`ca-cert.pem`) is different from root certificate (`root-cert.pem`),
+Istio CA's signing (CA) certificate (`ca-cert.pem`) is different from the root certificate (`root-cert.pem`),
 so the workload cannot validate the workload certificates directly from the root certificate.
 The workload needs a `cert-chain.pem` file to specify the chain of trust,
 which should include the certificates of all the intermediate CAs between the workloads and the root CA.
-In our example, it contains Citadel's signing certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
+In our example, it contains Istio CA's signing certificate, so `cert-chain.pem` is the same as `ca-cert.pem`.
 Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.pem` file should be empty.
 
 These files are ready to use in the `samples/certs/` directory.
 
   {{< tip >}}
-  The default Citadel installation sets [command line options](/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `cacert`, root certificate in a file named `root-cert.pem`, Citadel key in `ca-key.pem`, etc.)
-  You must use these specific secret and file names, or reconfigure Citadel when you deploy it.
+  The default Istio's CA installation sets [command line options](/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `cacert`, root certificate in a file named `root-cert.pem`, Citadel key in `ca-key.pem`, etc.)
+  You must use these specific secret and file names, or reconfigure Istio's CA when you deploy it.
   {{< /tip >}}
 
 The following steps plug in the certificates and key into a Kubernetes secret,
-which will be read by Citadel:
+which will be read by Istio's CA:
 
 1.  Create a secret `cacerts` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
 
@@ -46,8 +46,9 @@ which will be read by Citadel:
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1.  Deploy Citadel with `global.mtls.enabled` set to `true` and the `demo` profile.
-    Citadel will read certificates and key from the secret-mount files.
+1.  Deploy Istio using the `demo` profile and with `global.mtls.enabled` set to `true`.
+
+    Istio's CA will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
     $ istioctl manifest apply --set profile=demo --set values.global.mtls.enabled=true
@@ -55,10 +56,10 @@ which will be read by Citadel:
 
 ## Verifying the certificates
 
-In this section, we verify that the workload certificates signed by the root certificates plugged in.
+In this section, we verify that workload certificates are signed by the certificates that we plugged into the CA.
 This requires you have `openssl` installed on your machine.
 
-1. Deploy the `httpbin` and `sleep` example applications.
+1. Deploy the `httpbin` and `sleep` sample services.
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -72,11 +73,11 @@ This requires you have `openssl` installed on your machine.
     $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
     {{< /text >}}
 
-    Open `httpbin-proxy-cert.txt` created in the above command and save the three certificates in it
+    Open `httpbin-proxy-cert.txt`, which was created with the above command, and save the three certificates in it
     to `proxy-cert-0.pem`, `proxy-cert-1.pem`, and `proxy-cert-2.pem`, respectively.
     A certificate starts with `-----BEGIN CERTIFICATE-----` and ends with `-----END CERTIFICATE-----`.
 
-1.  Verify the root certificate is the same as the one specified by operator:
+1.  Verify the root certificate is the same as the one specified by the administrator:
 
     {{< text bash >}}
     $ openssl x509 -in @samples/certs/root-cert.pem@ -text -noout > /tmp/root-cert.crt.txt
@@ -86,7 +87,7 @@ This requires you have `openssl` installed on your machine.
 
     Expect the output to be empty.
 
-1.  Verify the CA certificate is the same as the one specified by operator:
+1.  Verify the CA certificate is the same as the one specified by the administrator:
 
     {{< text bash >}}
     $ openssl x509 -in @samples/certs/ca-cert.pem@ -text -noout > /tmp/ca-cert.crt.txt
@@ -99,14 +100,13 @@ This requires you have `openssl` installed on your machine.
 1.  Verify the certificate chain from the root certificate to the workload certificate:
 
     {{< text bash >}}
-    $ head -n 21 ./proxy-cert-0.pem > /tmp/pod-cert-chain-workload.pem
-    $ openssl verify -CAfile <(cat @samples/certs/ca-cert.pem@ @samples/certs/root-cert.pem@) /tmp/pod-cert-chain-workload.pem
-    /tmp/pod-cert-chain-workload.pem: OK
+    $ openssl verify -CAfile <(cat @samples/certs/ca-cert.pem@ @samples/certs/root-cert.pem@) ./proxy-cert-0.pem
+    ./proxy-cert-0.pem: OK
     {{< /text >}}
 
 ## Cleanup
 
-*   To remove the secret `cacerts` and redeploy Citadel with self-signed root certificate:
+*   To remove the secret `cacerts` and redeploy Istio's CA with self-signed root certificate:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
