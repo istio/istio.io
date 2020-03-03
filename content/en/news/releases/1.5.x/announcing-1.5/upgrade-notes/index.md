@@ -10,45 +10,45 @@ compatibility.  We also mention cases where backwards compatibility was
 preserved but new behavior was introduced that would be surprising to someone
 familiar with the use and operation of Istio 1.4.
 
-# Control Plane Restructuring
+## Control Plane Restructuring
 
 In Istio 1.5, we have moved towards a new deployment model for the control plane, with many components consolidated. The following describes where various functionality has been moved to.
 
-## Istiod
+### Istiod
 
 In Istio 1.5, there will be a new deployment, `istiod`. This component is the core of the control plane, and will handle configuration and certificate distribution, sidecar injection, and more.
 
-## Sidecar Injection
+### Sidecar Injection
 
 Previously, sidecar injection was handled by a mutating webhook that was processed by a deployment named `istio-sidecar-injector`. In Istio 1.5, the same mutating webhook remains, but it will now point to the `istiod` deployment. All injection logic remains the same.
 
-## Galley
+### Galley
 
 * Configuration Validation - this functionality remains the same, but is now handled by the `istiod` deployment.
 * MCP Server - the MCP server has been disabled by default. For most users, this is an implementation detail. If you do explicitly depend on this functionality, you will need to run the `istio-galley` deployment.
 * Experimental features (such as configuration analysis) - These features will require the `istio-galley` deployment.
 
-## Citadel
+### Citadel
 
 Previously, Citadel served two functionalities: writing certificates to secrets in each namespace, and serving secrets to the `nodeagent` over `gRPC` when SDS is used. In Istio 1.5, secrets are no longer written to each namespace. Instead, they are only served over gRPC. This functionality has been moved to the `istiod` deployment.
 
-## SDS Node Agent
+### SDS Node Agent
 
 The `nodeagent` deployment has been removed. This functionality now exists in the Sidecar
 
-## Sidecar
+### Sidecar
 
 Previously, the sidecar was able to access certificates in two ways: through secrets mounted as files, or over SDS (through the `nodeagent` deployment). In Istio 1.5, this has been simplified. All secrets will be served over a locally run SDS server. For most users, these secrets will be fetched from the `istiod` deployment. For users with a custom CA, file mounted secrets can still be used, however, these will still be served by the local SDS server. This means that certificate rotations will no longer require Envoy to restart.
 
-## CNI
+### CNI
 
 There have been no changes to the deployment of `istio-cni`.
 
-## Pilot
+### Pilot
 
 The `istio-pilot` deployment has been removed in favor of the `istiod` deployment, which contains all functionality that Pilot once had. For backwards compatibility, there are still some references to Pilot.
 
-# Mixer Deprecation
+## Mixer Deprecation
 
 Mixer is deprecated in Istio 1.5. The default profile in Istio 1.5 switches off `mixer` completely. Telemetry V2 is the default in Istio 1.5 and it does not require `mixer`.
 
@@ -59,7 +59,7 @@ If you rely on a Mixer feature that does not have an equivalent, we encourage yo
 
 Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice for details.
 
-# Control Plane Security
+## Control Plane Security
 
 As part of the Istiod effort, we have changed how proxies securely communicate with the control plane. In previous versions, proxies would connect to the control plane securely when the setting `values.global.controlPlaneSecurityEnabled=true` was configured, which was the default for Istio 1.4. Each control plane component ran a sidecar with Citadel certificates, and proxies connected to Pilot over port 15011.
 
