@@ -9,7 +9,11 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-This guide lets you quickly evaluate Istio.
+This guide lets you quickly evaluate Istio. If you are already familiar with
+Istio or interested in installing other configuration profiles or
+advanced [deployment models](/docs/ops/deployment/deployment-models/), see
+[customizable install with istioctl](/docs/setup/install/istioctl/) instructions
+instead.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
 compatible version of Kubernetes. You can use any supported platform, for
@@ -323,11 +327,11 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 
 ### Verify external access {#confirm}
 
-Confirm that the Bookinfo application is accessible from outside the cluster by
-navigating in your browser to:
+Confirm that the Bookinfo application is accessible from outside. Copy the
+output of this comamnd and paste into your browser:
 
-{{< text plain >}}
-`http://<your $GATEWAY_URL value>/productpage`
+{{< text bash >}}
+$ echo http://$GATEWAY_URL/productpage
 {{< /text >}}
 
 ## View the dashboard {#dashboard}
