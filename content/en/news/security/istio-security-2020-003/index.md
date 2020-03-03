@@ -38,7 +38,7 @@ Envoy, and subsequently Istio are vulnerable to four newly discovered vulnerabil
 
     If the output contains:
 
-    {{< text >}}
+    {{< text plain>}}
     -  name: SDS_ENABLED
     value: “true”
     {{< /text >}}
@@ -53,7 +53,7 @@ Envoy, and subsequently Istio are vulnerable to four newly discovered vulnerabil
 
     If the output contains:
 
-    {{< text >}}
+    {{< text plain>}}
     --
     trafficPolicy:
     tls:
