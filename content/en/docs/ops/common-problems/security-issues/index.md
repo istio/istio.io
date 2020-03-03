@@ -34,7 +34,9 @@ With Istio, you can enable authentication for end users through [request authent
 
 1. Verify the Envoy proxy configuration of the target workload.
 
-    For example, if the authentication policy is enforced on the `httpbin` workload in the namespace `foo`, use the command below to fetch the `listener` configuration on the inbound port 80.
+1. Verify the Envoy proxy configuration of the target workload using `istioctl proxy-config` command.
+
+    For the above example policy, use the command below to check the `listener` configuration on the inbound port 80. You should see `envoy.filters.http.jwt_authn` filter with setting matching the issuer and JWKS as specified in the policy.
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=httpbin -n foo -o jsonpath={.items..metadata.name})
