@@ -32,9 +32,7 @@ With Istio, you can enable authentication for end users through [request authent
 
 1. If the JWT token is placed in the Authorization header in http requests, make sure the JWT token is valid (not expired, etc). The fields in a JWT token can be decoded by using online JWT parsing tools, e.g., [jwt.io](https://jwt.io/).
 
-1. Verify the Envoy proxy configuration of the target workload.
-
-1. Verify the Envoy proxy configuration of the target workload using `istioctl proxy-config` command.
+s1. Verify the Envoy proxy configuration of the target workload using `istioctl proxy-config` command.
 
     For the above example policy, use the command below to check the `listener` configuration on the inbound port 80. You should see `envoy.filters.http.jwt_authn` filter with setting matching the issuer and JWKS as specified in the policy.
 
