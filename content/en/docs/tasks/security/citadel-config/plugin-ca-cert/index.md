@@ -17,7 +17,7 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 1. Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
 
-1. Enable mutual TLS in STRICT mode as show in [authentication policy](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode). This step is optional as the default mode (`PERMISSIVE`) already supports mutual TLS.
+1. **Optional:** Enable mutual TLS in `STRICT` mode as show in the [authentication policy task](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode). The default `PERMISSIVE` mode already supports mutual TLS traffic.
 
 ## Plugging in the existing certificate and key
 
@@ -134,4 +134,3 @@ This requires you have `openssl` installed on your machine.
     {{< /text >}}
 
 *   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.
-
