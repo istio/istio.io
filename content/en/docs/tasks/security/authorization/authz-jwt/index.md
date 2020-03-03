@@ -1,5 +1,5 @@
 ---
-title: Authorization for JWT
+title: Authorization with JWT
 description: How to set up access control with JWT in Istio.
 weight: 30
 keywords: [security,authorization,jwt,claim]
