@@ -41,7 +41,7 @@ Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-If you want to enable `grafana` dashboard on top of the `default` profile, you can set the `grafana` related configuration parameters:
+To enable the Grafana dashboard on top of the `default` profile, set the `addonComponents.grafana.enabled` configuration parameter with the following command:
 
 {{< text bash >}}
 $ istioctl manifest apply --set addonComponents.grafana.enabled=true
