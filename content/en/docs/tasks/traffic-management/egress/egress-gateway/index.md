@@ -745,8 +745,7 @@ external service.
 
 ## Troubleshooting
 
-1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) enabled in Istio, following the
-    steps in [Verify mutual TLS configuration](/docs/tasks/security/authentication/authn-policy/#verify-mutual-tls-configuration).
+1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) enabled in Istio.
     If mutual TLS is enabled, make sure you create the configuration
     items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
 
