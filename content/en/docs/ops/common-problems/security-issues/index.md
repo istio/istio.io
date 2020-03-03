@@ -119,30 +119,6 @@ successfully. To verify, follow these steps:
    You can disable Pilot's authorization plug-in if there is an error pushing
    authorization policy to Envoy.
 
-1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
-   to find out the exact cause.
-
-## Ensure authorization is enabled correctly
-
-The `ClusterRbacConfig` default cluster level singleton custom resource controls the authorization functionality globally.
-
-1. Run the following command to list existing `ClusterRbacConfig`:
-
-    {{< text bash >}}
-    $ kubectl get clusterrbacconfigs.rbac.istio.io --all-namespaces
-    {{< /text >}}
-
-1. Verify there is only **one** instance of `ClusterRbacConfig` with name `default`. Otherwise, Istio disables the
-authorization functionality and ignores all policies.
-
-    {{< text plain >}}
-    NAMESPACE   NAME      AGE
-    default     default   1d
-    {{< /text >}}
-
-1. If there is more than one `ClusterRbacConfig` instance, remove any additional `ClusterRbacConfig` instances and
-ensure **only one** instance is named `default`.
-
 ## Ensure Pilot accepts the policies
 
 Pilot converts and distributes your authorization policies to the proxies. The following steps help
