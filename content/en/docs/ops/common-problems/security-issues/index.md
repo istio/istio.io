@@ -96,9 +96,6 @@ for TCP services. Otherwise, Istio ignores the policies as if they didn't exist.
 `default` namespace (`metadata/namespace` line should be `default`). For non-Kubernetes environments, all `ServiceRoles` and `ServiceRoleBindings`
 for a mesh should be in the same namespace.
 
-1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
-   to find out the exact cause.
-
 ## Authorization is too permissive
 
 If authorization checks are enabled for a service and yet requests to the
