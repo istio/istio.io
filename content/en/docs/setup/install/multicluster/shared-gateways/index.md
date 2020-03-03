@@ -79,14 +79,9 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER1 -n istio-system
     NAME                                      READY   STATUS    RESTARTS   AGE
-    istio-citadel-55d8b59798-6hnx4            1/1     Running   0          83s
-    istio-galley-c74b77787-lrtr5              2/2     Running   0          82s
-    istio-ingressgateway-684f5df677-shzhm     1/1     Running   0          83s
-    istio-pilot-5495bc8885-2rgmf              2/2     Running   0          82s
-    istio-policy-69cdf5db4c-x4sct             2/2     Running   2          83s
-    istio-sidecar-injector-5749cf7cfc-pgd95   1/1     Running   0          82s
-    istio-telemetry-646db5ddbd-gvp6l          2/2     Running   1          83s
-    prometheus-685585888b-4tvf7               1/1     Running   0          83s
+    istio-ingressgateway-7dfd7cd889-m9r2w   1/1     Running   0          7m31s
+    istiod-864fdfdbb5-9r6bh                 1/1     Running   0          7m49s
+    prometheus-6d4d7bc78c-4fcq5             2/2     Running   0          7m31s
     {{< /text >}}
 
 1. Create an ingress gateway to access service(s) in `cluster2`:
