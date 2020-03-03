@@ -1,3 +1,4 @@
+---
 title: 文章头
 description: 介绍了文档中使用的文章头及其可用字段。
 weight: 4
@@ -9,7 +10,6 @@ keywords: [metadata, navigation, table-of-contents]
 下面是一个文章头的示例，其中所有必填字段都由占位符填充：
 
 {{< text yaml >}}
-
 ---
 title: <title>
 description: <description>
@@ -18,7 +18,6 @@ keywords: [<keyword1>,<keyword2>,...]
 aliases:
     - <previously-published-at-this-URL>
 ---
-
 {{< /text >}}
 
 您可以复制上面的示例，并用您页面中相应的值替换所有占位符。
@@ -43,16 +42,13 @@ The following table shows descriptions for all the **required** fields:
 在 _target page_（您想让用户访问的页面）上，将 _original page_ 的 `<path>` 添加到文章头中，如下所示：
 
 {{< text plain >}}
-
 aliases:
     - <path>
-
 {{< /text >}}
 
 例如，在以前，您可以在 `/zh/help/faq` 下找到我们的 FAQ 页面。为了使用户更方便的找到 FAQ 页面，我们将该页面上移了一个级别至 `/zh/faq/`，并对文章头做了一下更改：
 
 {{< text plain >}}
-
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently.
@@ -60,7 +56,6 @@ weight: 12
 aliases:
     - /zh/help/faq
 ---
-
 {{< /text >}}
 
 上面的更改允许所有用户通过 `https://istio.io/zh/faq/` 或者 `https://istio.io/zh/help/faq/` 都能访问到 FAQ 页面。
@@ -68,7 +63,6 @@ aliases:
 不仅是一个，该字段支持多个重定向，例如：
 
 {{< text plain >}}
-
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently.
@@ -78,7 +72,6 @@ aliases:
     - /zh/faq2
     - /zh/faq3
 ---
-
 {{< /text >}}
 
 ## 可选字段{#optional-front-matter-fields}
