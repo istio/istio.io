@@ -12,7 +12,7 @@ keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
 advanced [deployment models](/docs/ops/deployment/deployment-models/), see
-[customizable install with `istioctl`](/docs/setup/install/istioctl/)
+[Customizable Install with `istioctl`](/docs/setup/install/istioctl/)
 instead.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
