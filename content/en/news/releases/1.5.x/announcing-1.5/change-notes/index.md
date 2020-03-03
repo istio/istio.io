@@ -24,11 +24,11 @@ weight: 10
 - **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into `PeerAuthentication` and `RequestAuthentication` respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
 - **Added** Authorization Policy supports deny action and exclusion semantics.
 - **Added** auto mutual TLS. This beta feature is enabled by default.
-- **Added** SDS is in Stable. SDS is enabled by default for identity provisioning.
 - **Improved** node agent by merging with Pilot agent. This improves the security posture by removing the requirement of a pod security policy.
 - **Improved** Istio by including certificate provisioning functionality within Pilot.
 - **Improved** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters that [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
 - **Improved** Istio's Pilot Agent by provisioning key and certificates for Prometheus consumption.
+- **Graduated** SDS which provides identity provisioning for Istio.
 
 ## Telemetry
 
