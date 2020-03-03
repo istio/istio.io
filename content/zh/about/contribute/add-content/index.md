@@ -1,6 +1,6 @@
 ---
-title: Add New Documentation
-description: Details how to contribute new documentation to Istio.
+title: 添加新文档
+description: 介绍如何为 Istio 贡献新文档。
 weight: 3
 aliases:
     - /zh/docs/welcome/contribute/writing-a-new-topic.html
@@ -10,170 +10,130 @@ aliases:
 keywords: [contribute]
 ---
 
-To contribute new documentation to Istio, just follow these steps:
+贡献新文档到 Istio，请执行以下步骤：
 
-1. Identify the audience and intended use for the information.
-1. Choose the [type of content](#content-types) you wish to contribute.
-1. [Choose a title](#choosing-a-title).
-1. Write your contribution following our [documentation contribution guides](/zh/about/contribute).
-1. Submit your contribution to our [GitHub repository](https://github.com/istio/istio.io).
-1. Follow our [review process](/zh/about/contribute/review) until your contribution
-   is merged.
+1. 确定受众和信息的预期用途。
+1. 选择您想要贡献的[内容类型](#content-types)。
+1. [命名标题](#choosing-a-title)。
+1. 按照[文档贡献指南](/zh/about/contribute)撰写您的贡献。
+1. 将您的贡献提交到 [GitHub 存储库](https://github.com/istio/istio.io)。
+1. 执行[审核流程](/zh/about/contribute/review)，直到您的贡献被合并。
 
-## Identify the audience and intended use
+## 确定受众和信息的预期用途{#identify-the-audience-and-intended-use}
 
-The best documentation starts by knowing the intended readers, their knowledge,
-and what you expect them to do with the information. Otherwise, you cannot
-determine the appropriate scope and depth of information to provide, its ideal
-structure, or the necessary supporting information. The following examples show
-this principle in action:
+好的文档始于了解目标读者，这包括他们的知识以及您希望他们对该信息做什么出什么反馈。否则，您无法确定要提供的信息的范围和深度、
+其理想结构或必要的支持信息。以下示例描述如何在实际操作中践行该准则：
 
-- The reader needs to perform a specific task: Tell them how to recognize when
-  the task is necessary and provide the task itself as a list of numbered steps,
-  don’t simply describe the task in general terms.
+- 读者需要执行特定的任务：告诉他们如何识别何时需要执行任务，并以编号步骤列表的形式提供任务细节，而不是简单地概括性地描述任务。
 
-- The reader must understand a concept before they can perform a task: Before
-  the task, tell them about the prerequisite information and provide a link to
-  it.
+- 读者在执行任务之前必须理解一个概念：在执行任务之前，请向他们介绍先决条件信息并提供指向该信息的链接。
 
-- The reader needs to make a decision: Provide the conceptual information
-  necessary to know when to make the decision, the available options, and when
-  to choose one option instead of the other.
+- 读者需要做出决定：提供必要的概念性信息，以了解何时做出决定，可用选项以及何时选择一个选项而不是另一个。
 
-- The reader is an administrator but not a SWE: Provide a script,
-  not a link to a code sample in a developer’s guide.
+- 读者是运维人员，而不是软件工程师（SWE）：提供执行脚本，而不是开发人员指南中的代码示例链接。
 
-- The reader needs to extend the features of the product: Provide an example of
-  how to extend the feature, using a simplified scenario for illustration
-  purposes.
+- 读者需要扩展产品的功能：提供一个如何扩展功能的示例，并使用简化方案进行说明。
 
-- The reader needs to understand complex feature relationships: Provide a
-  diagram showing the relationships, rather than writing multiple pages of
-  content that is tedious to read and understand.
+- 读者需要理解复杂的功能关系：提供一个显示关系的图表，而不是编写大量文字信息供阅读理解。
 
-The most important thing to avoid is the common mistake of simply
-giving readers all the information you have, because you are unsure about
-what information they need.
+要避免的最重要也是最常见的错误，是简单地向读者提供您拥有的所有信息，因为您不确定他们需要什么信息。
 
-If you need help identifying the audience for you content, we are happy to help
-and answer all your questions during the [Docs Working Group](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#istio-working-groups)
-biweekly meetings.
+如果您需要帮助特定内容的受众，我们很乐意在 [文档工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#istio-working-groups) 每两周一次的会议上帮助您并回答您的所有问题。
 
-## Content types
+## 内容类型{#content-types}
 
-When you understand the audience and the intended use for the information you
-provide, you can choose content type that best addresses their needs. To make it
-easy for you to choose, the following table shows the supported content types,
-their intended audiences, and the goals each type strives to achieve:
+了解受众和所提供信息的预期用途后，您可以选择最能满足他们需求的内容类型。为了方便您选择，
+下表提供了受支持的内容类型、预期受众及每种类型文档的实施目标：
 
 <table>
     <thead>
         <tr>
-            <th>Content type</th>
-            <th>Goals</th>
-            <th>Audiences</th>
+            <th>内容类型</th>
+            <th>目标</th>
+            <th>受众</th>
         </tr>
     </thead>
     <tr>
-      <td>Concepts</td>
-      <td>Explain some significant aspect of Istio. For example, a concept page
-      describes the configuration model of a feature and explains its functionality.
-      Concept pages don't include sequences of steps. Instead, provide links to
-      corresponding tasks.</td>
-      <td>Readers that want to understand how features work with only basic
-      knowledge of the project.</td>
+      <td>概念</td>
+      <td>解释 Istio 相关内容。例如，概念页面描述功能的配置模型并解释其功能。概念页面不包含步骤序列。而是提供指向相应任务的链接。</td>
+      <td>想要了解功能的工作原理的读者仅需具备项目的基本知识。</td>
     </tr>
     <tr>
-      <td>Reference pages</td>
-      <td>Provide exhaustive and detailed technical information. Common examples
-      include API parameters, command-line options, configuration settings, and
-      advanced procedures. Reference content is generated from the Istio code
-      base and tested for accuracy.
+      <td>参考页面</td>
+      <td>提供详尽的技术信息。常见示例包括 API 参数、命令行选项、配置设置和高级过程。参考内容是从 Istio 代码库生成的，并经过
+      了准确性测试。
       </td>
-      <td>Readers with advanced and deep technical knowledge of the project that
-      needs specific bits of information to complete advanced tasks.</td>
+      <td>具有项目高级和深入技术知识的读者，需要特定的信息来完成高级任务。</td>
     </tr>
     <tr>
-      <td>Examples</td>
-      <td>Describe a working and stand-alone example that highlights a set of
-      features, an integration of Istio with other projects, or an end-to-end
-      solution for a use case. Examples must use an existing Istio setup as a
-      starting point. Examples must include an automated test since they are maintained for technical accuracy.
-      </td>
-      <td>Readers that want to quickly run the example themselves and
-      experiment. Ideally, readers should be able to easily change the example
-      to produce their own solutions.</td>
-    </tr>
-    <tr>
-      <td>Tasks</td>
-      <td>Shows how to achieve a single goal using Istio features. Tasks contain procedures written
-      as a sequence of steps. Tasks provide minimal
-      explanation of the features, but include links to the concepts that
-      provide the related background and knowledge. Tasks must include automated
-      tests since they are tested and maintained for technical accuracy.</td>
-      <td>Readers that want to use Istio features.</td>
-    </tr>
-    <tr>
-      <td>Setup pages</td>
-      <td>Focus on the installation steps needed to complete an Istio
-      deployment. Setup pages must include automated tests since they are tested and maintained for technical accuracy.
-      </td>
-      <td>New and existing Istio users that want to complete a deployment.</td>
-    </tr>
-    <tr>
-      <td>Blog posts</td>
+      <td>例子</td>
       <td>
-        Focus on Istio or products and technologies related to it. Blog posts fall in one of the following three categories:
+      描述一个工作的独立示例，该示例突出显示一组功能特性，Istio 与其他项目的集成或用例的端到端解决方案。
+      示例必须使用现有的 Istio 安装作为起点。示例必须包括自动测试，因为它们是为技术准确性而维护的。
+      </td>
+      <td>希望自己快速运行示例并进行实验的读者。理想情况下，读者应该能够轻松更改示例以产生自己的解决方案。</td>
+    </tr>
+    <tr>
+      <td>任务</td>
+      <td>
+      显示如何使用 Istio 功能实现单个目标。任务包含按步骤序列编写的过程。
+      任务仅提供对功能的最少说明，但包括指向提供相关背景和知识的概念的链接。
+      任务必须包括自动化测试，因为它们已经过测试和维护以确保技术准确性。
+      </td>
+      <td>想要使用 Istio 功能的读者。</td>
+    </tr>
+    <tr>
+      <td>安装页面</td>
+      <td>
+      着重于完成 Istio 部署所需的安装步骤。安装页面必须包括自动测试，因为它们已经过测试和维护以确保技术准确性。
+      </td>
+      <td>想要完成部署的新旧Istio用户。</td>
+    </tr>
+    <tr>
+      <td>博客文章</td>
+      <td>
+        专注于 Istio 或与其相关的产品和技术。博客文章属于以下三个类别之一：
         <ul>
-        <li>Posts detailing the author’s experience using and configuring Istio, especially those that articulate a novel experience or perspective.</li>
-        <li>Posts highlighting Istio features.</li>
-        <li>Posts detailing how to accomplish a task or fulfill a specific use case using Istio. Unlike Tasks and Examples, the technical accuracy of blog posts is not maintained and tested after publication.</li>
+        <li>文章详细介绍了作者使用和配置 Istio 的经验，尤其是那些表达新颖经验或观点的经验。</li>
+        <li>突出 Istio 功能的文章。</li>
+        <li>文章详细介绍了如何使用 Istio 完成任务或实现特定用例。与任务和示例不同，博客文章的技术准确性在发布后不会得到维护和测试。</li>
         </ul>
       </td>
-      <td>Readers with a basic understanding of the project who want to learn
-      about it in an anecdotal, experiential, and more informal way.</td>
+      <td>对项目有基本了解的读者想以更加无拘束的方式，通过案例、实践来了解它。</td>
     </tr>
     <tr>
-      <td>News entries</td>
+      <td>新闻条目</td>
       <td>
-        Focus on timely information about Istio and related events. News entries typically announce new releases or upcoming events.
+        关注有关 Istio 和相关事件的及时信息。新闻条目通常会宣布新版本或即将发生的事件。
       </td>
-      <td>Readers that want to quickly learn what's new and what's happening in
-      the Istio community.</td>
+      <td>希望快速了解 Istio 社区中的新变化和新事物的读者。</td>
     </tr>
     <tr>
-      <td>FAQ entries</td>
+      <td>常见问题解答</td>
       <td>
-        Provide quick answers to common questions. Answers don't introduce any
-        concepts. Instead, they provide practical advice or insights. Answers
-        must link to tasks, concepts, or examples in the documentation for readers to learn more.
+        提供常见问题的快速解答。答案没有介绍任何概念。相反，他们提供了实用的建议或见解。
+        答案必须链接到文档中的任务，概念或示例，以使读者了解更多信息。
       </td>
-      <td>Readers with specific questions who are looking for brief answers and
-      resources to learn more.</td>
+      <td>有特定问题的读者正在寻找简要答案和资源以了解更多信息。</td>
     </tr>
     <tr>
-      <td>Operation guides</td>
-      <td>
-        Focus on practical solutions that address specific problems encountered while running Istio in a real-world setting.
+      <td>操作指南</td>
+      <td>着重于解决在实际环境中运行 Istio 时遇到的特定问题的实用解决方案。
       </td>
-      <td>Service mesh operators that want to fix problems or implement
-      solutions for running Istio deployments.</td>
+      <td>
+      想要解决有关运行 Istio 或服务网格操作的问题及实现方案。</td>
     </tr>
   </table>
 
-## Choosing a title
+## 命名标题{#choosing-a-title}
 
-Choose a title for your topic that has the keywords you want search engines to
-find. All content files in Istio are named `index.md`, but each content file is
-within a folder that uses the keywords in the topic's title,
-separated by hyphens, all in lowercase. Keep folder names as short as possible
-to make cross-references easier to create and maintain.
+为您的主题选择一个标题，该标题具有您希望搜索引擎查找的关键字。Istio 中的所有内容文件都被命名为 `index.md`，
+但是每个内容文件都存放在用标题关键字命名的文件夹中，并用连字符分隔，所有字母均小写。文件夹名称应尽可能短，
+以使交叉引用更易于创建和维护。
 
-## Submit your contribution to GitHub
+## 将您的贡献提交到 GitHub{#submit-your-contribution-to-GitHub}
 
-If you are not familiar with GitHub, see our [working with GitHub guide](/zh/about/contribute/github)
-to learn how to submit documentation changes.
+如果您不熟悉GitHub，请参阅 [使用 GitHub 参与社区活动](/zh/about/contribute/github)，以了解如何提交文档更改。
 
-If you want to learn more about how and when your contributions are published,
-see the [section on branching](/zh/about/contribute/github#branching-strategy) to understand
-how we use branches and cherry picking to publish our content.
+如果您想了解有关发表文稿的方式和时间的更多信息，请参阅 [分支策略](/zh/about/contribute/github#branching-strategy)，
+以了解我们如何使用分支和 `cherry picking` 来发布我们的内容。
