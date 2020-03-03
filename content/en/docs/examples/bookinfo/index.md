@@ -12,7 +12,7 @@ This example deploys a sample application composed of four separate microservice
 to demonstrate various Istio features.
 
 {{< tip >}}
-If you installed Istio using the [Getting Started](/setup/getting-started/)
+If you installed Istio using the [Getting Started](/docs/setup/getting-started/)
 instructions, you already have Bookinfo installed and you can skip these steps.
 {{< /tip >}}
 
