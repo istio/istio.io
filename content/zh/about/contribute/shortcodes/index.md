@@ -1,6 +1,6 @@
 ---
-title: 使用短代码
-description: 介绍可用的短代码及其用法。
+title: 使用 Shortcode 
+description: 介绍可用的 shortcode 及其用法。
 weight: 8
 aliases:
     - /zh/docs/welcome/contribute/writing-a-new-topic.html
@@ -10,13 +10,13 @@ aliases:
 keywords: [contribute]
 ---
 
-Hugo 的短代码是具有特定语法的特殊占位符，您可以将其添加到内容中以创建动态内容体验，例如选项卡、图片、图标、指向另一个页面的链接以及特殊内容布局。
+Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添加到内容中以创建动态内容体验，例如选项卡、图片、图标、指向另一个页面的链接以及特殊内容布局。
 
-本页面介绍了可用的短代码及其用法。
+本页面介绍了可用的 shortcode 及其用法。
 
 ## 添加图片{#add-images}
 
-将图片文件跟 markdown 文件放在相同的目录。为了增强其可读性，以及方便本地化，首选的图片格式是 SVG。下面的示例展示了添加带有图片的短代码，所需的必填字段：
+将图片文件跟 markdown 文件放在相同的目录。为了增强其可读性，以及方便本地化，首选的图片格式是 SVG。下面的示例展示了添加带有图片的 shortcode ，所需的必填字段：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -25,7 +25,7 @@ Hugo 的短代码是具有特定语法的特殊占位符，您可以将其添加
     */>}}
 {{< /text >}}
 
-`link` 和 `caption` 字段是必填字段，短代码还支持可选字段，例如：
+`link` 和 `caption` 字段是必填字段， shortcode 还支持可选字段，例如：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -40,7 +40,7 @@ Hugo 的短代码是具有特定语法的特殊占位符，您可以将其添加
 
 `width` 字段设置图像相对于周围文本的大小，默认为 100％。
 
-`比例` 字段设置图像相对于其宽度的高度。Hugo 会自动为目录中的图片计算该值。但是，对于外部图片，您必须手动为其计算。将 `ratio` 的值设置为 `([图片高度]/[图片宽度]) * 100`。
+`Ratio` 字段设置图像相对于其宽度的高度。Hugo 会自动为目录中的图片计算该值。但是，对于外部图片，您必须手动为其计算。将 `ratio` 的值设置为 `([图片高度]/[图片宽度]) * 100`。
 
 ## 添加图标{#add-icons}
 
@@ -84,36 +84,36 @@ Hugo 的短代码是具有特定语法的特殊占位符，您可以将其添加
 
 有几种方法可以引用 GitHub 的内容或文件：
 
-- **{{</* github_file */>}}**，用于引用 GitHub 中的单个文件（例如 yaml 文件）。该短代码会渲染为 `https://raw.githubusercontent.com/istio/istio*`，例如：
+- **{{</* github_file */>}}**，用于引用 GitHub 中的单个文件（例如 yaml 文件）。该 shortcode 会渲染为 `https://raw.githubusercontent.com/istio/istio*`，例如：
 
     {{< text markdown >}}
     [liveness]({{</* github_file */>}}/samples/health-check/liveness-command.yaml)
     {{< /text >}}
 
-- **{{</* github_tree */>}}**，用于引用 GitHub 中的一个目录。该短代码会渲染为 `https://github.com/istio/istio/tree*`，例如：
+- **{{</* github_tree */>}}**，用于引用 GitHub 中的一个目录。该 shortcode 会渲染为 `https://github.com/istio/istio/tree*`，例如：
 
     {{< text markdown >}}
     [httpbin]({{</* github_tree */>}}/samples/httpbin)
     {{< /text >}}
 
-- **{{</* github_blob */>}}**，用于引用 GitHub 中的单个文件，该短代码会渲染为 `https://github.com/istio/istio/blob*`，例如：
+- **{{</* github_blob */>}}**，用于引用 GitHub 中的单个文件，该 shortcode 会渲染为 `https://github.com/istio/istio/blob*`，例如：
 
     {{< text markdown >}}
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-上面的短代码会根据文档当前的目标分支，生成指向 GitHub 中对应分支的链接。要查看当前目标分支的名称，可以使用 `{{</* source_branch_name */>}}` 短代码来获取当前目标分支的名称。
+上面的 shortcode 会根据文档当前的目标分支，生成指向 GitHub 中对应分支的链接。要查看当前目标分支的名称，可以使用 `{{</* source_branch_name */>}}`  shortcode 来获取当前目标分支的名称。
 
 ## 版本信息{#version-information}
 
-想要通过从网站检索，在您的内容中显示 Istio 的当前版本，请使用以下短代码：
+想要通过从网站检索，在您的内容中显示 Istio 的当前版本，请使用以下 shortcode ：
 
 - `{{</* istio_version */>}}`，渲染结果为：{{< istio_version >}}
 - `{{</* istio_full_version */>}}`，渲染结构为：{{< istio_full_version >}}
 
 ## 术语表{#glossary-terms}
 
-当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用短代码 `{{</* gloss */>}}` 标记它的第一个实例。短代码会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
+当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用 shortcode  `{{</* gloss */>}}` 标记它的第一个实例。 shortcode 会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
 
 {{< text markdown >}}
 Mixer 使用 {{</*gloss*/>}}adapters{{</*/gloss*/>}} 与后端进行交互。
@@ -123,7 +123,7 @@ Mixer 使用 {{</*gloss*/>}}adapters{{</*/gloss*/>}} 与后端进行交互。
 
 Mixer 使用 {{< gloss >}}adapters{{< /gloss >}} 与后端进行交互。
 
-如果你想在您的文本中使用该术语的其它形式，您依然可以使用该短代码。要修改显示文本，只需在短代码中包含对应的术语条目即可。例如：
+如果你想在您的文本中使用该术语的其它形式，您依然可以使用该 shortcode 。要修改显示文本，只需在 shortcode 中包含对应的术语条目即可。例如：
 
 {{< text markdown >}}
 Mixer 使用 {{</*gloss adapters*/>}}适配器{{</*/gloss*/>}} 与后端进行交互。
@@ -135,7 +135,7 @@ Mixer 使用 {{< gloss adapters >}}适配器{{</ gloss >}} 与后端进行交互
 
 ## 标注{#callouts}
 
-想要强调部分内容，可以将它们设置为警告，提示，建议或引用。所有标注都使用了非常相似的短代码：
+想要强调部分内容，可以将它们设置为警告，提示，建议或引用。所有标注都使用了非常相似的 shortcode ：
 
 {{< text markdown >}}
 {{</* warning */>}}
@@ -155,7 +155,7 @@ Mixer 使用 {{< gloss adapters >}}适配器{{</ gloss >}} 与后端进行交互
 {{</* /quote */>}}
 {{< /text >}}
 
-上面的短代码渲染结果如下：
+上面的 shortcode 渲染结果如下：
 
 {{< warning >}}
 这是一个重要的警告
@@ -177,13 +177,13 @@ Mixer 使用 {{< gloss adapters >}}适配器{{</ gloss >}} 与后端进行交互
 
 ## 使用样板文本{#use-boilerplate-text}
 
-要想在保持内容单一来源的情况下重用内容，请使用样板短代码。要将样板文本嵌入任何内容文件中，请使用 `boilerplate` 短代码，如下所示：
+要想在保持内容单一来源的情况下重用内容，请使用样板 shortcode 。要将样板文本嵌入任何内容文件中，请使用 `boilerplate`  shortcode ，如下所示：
 
 {{< text markdown >}}
 {{</* boilerplate example */>}}
 {{< /text >}}
 
-下面的短代码包含了 `/content/zh/boilerplates/` 目录下 `example.md` 文件的内容：
+下面的 shortcode 包含了 `/content/zh/boilerplates/` 目录下 `example.md` 文件的内容：
 
 {{< boilerplate example >}}
 
@@ -197,7 +197,7 @@ Mixer 使用 {{< gloss adapters >}}适配器{{</ gloss >}} 与后端进行交互
 - 不同语言的等效代码
 - 替代的配置
 
-要添加选项卡式内容，请组合使用短代码 `tabset` 和 `tabs`，例如：
+要添加选项卡式内容，请组合使用 shortcode  `tabset` 和 `tabs`，例如：
 
 {{< text markdown >}}
 {{</* tabset category-name="platform" */>}}
@@ -217,7 +217,7 @@ THREE
 {{</* /tabset */>}}
 {{< /text >}}
 
-上面的短代码，渲染效果如下：
+上面的 shortcode ，渲染效果如下：
 
 {{< tabset category-name="platform" >}}
 
@@ -251,7 +251,7 @@ THREE
 
 ## 使用横幅和标签{#use-banners-and-stickers}
 
-要通告即将发生的事件或发布新消息，您可以按顺序自动地将对时间敏感的横幅和标签（banners and stickers）添加至生成的网站。我们为通告实现了以下短代码：
+要通告即将发生的事件或发布新消息，您可以按顺序自动地将对时间敏感的横幅和标签（banners and stickers）添加至生成的网站。我们为通告实现了以下 shortcode ：
 
 - **倒计时标签**：它会显示现在距离事件发生还有多少时间，例如：“距 3 月 30 日 ServiceMeshCon 还剩 37 天”。标签在活动开始前会对读者产生视觉影响，应谨慎使用。
 
