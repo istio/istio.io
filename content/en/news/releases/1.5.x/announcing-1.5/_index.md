@@ -29,17 +29,17 @@ goal. Users are getting more new functionality faster than ever!
 Here’s some of what’s coming to you in today's release:
 
 
-### Introducing istiod
+### Introducing `istiod`
 
 We are dramatically simplifying the experience of installing, running, and
 upgrading Istio by “embracing the monolith” and consolidating our control plane
 into a single new binary - `istiod`. Operators' lives will get much easier with
 fewer moving parts which are easier to debug and understand.  For mesh users,
-istiod doesn’t change any of their experience: all APIs and runtime
+`istiod` doesn’t change any of their experience: all APIs and runtime
 characteristics are consistent with the previous components.
 
-Keep your eyes out for a blog post in the coming days devoted to istiod, and the
-benefits of moving to a simpler deployment model.
+Keep your eyes out for a blog post in the coming days devoted to `istiod`, and
+the benefits of moving to a simpler deployment model.
 
 ### A new model for extensibility
 
@@ -64,14 +64,14 @@ particular has some cool enhancements. Command line installation of Istio using
 [`istioctl`](/docs/reference/commands/istioctl) is now beta for installation and
 will work for most customers in most use cases. Managing your installation via
 an Operator is still alpha, but we continue to improve it with a new
-[IstioOperator API](/docs/reference/config/istio.operator.v1alpha12.pb).
+[`IstioOperator API`](/docs/reference/config/istio.operator.v1alpha12.pb).
 
 Speaking of `istioctl`, it has over a dozen improvements -- new items it can
 analyze, better validation rules, and better ability to integrate with CI
 systems (look for examples coming soon!). It is
 now an essential tool for understanding the state of a running Istio system and
-for ensuring that config changes are safe. And `istioctl analyze` has graduated
-from the Experimental to the Alpha stage.
+for ensuring that configuration changes are safe. And `istioctl analyze` has
+graduated from the Experimental to the Alpha stage.
 
 ### More secure
 
@@ -79,9 +79,9 @@ As always, we are working to make Istio more secure with every release. Some
 highlights with this release:
 [Auto mutual-TLS](docs/tasks/security/authentication/auto-mtls/) has reached the
 Beta stage, and SDS is now stable. We have combined the Node agent and the Pilot
-agent into a single binary, which means we no longer require PodSecurityPolicy.
-We have a new beta version of the Authentication policies as well (see
-`PeerAuthenticationMethod` and `RequestAuthentication` in
+agent into a single binary, which means we no longer require
+`PodSecurityPolicy`. We have a new beta version of the Authentication policies
+as well (see `PeerAuthenticationMethod` and `RequestAuthentication` in
 [AuthenticationPolicy](/docs/reference/config/security/istio.authentication.v1alpha1/).
 
 ### Better visibility

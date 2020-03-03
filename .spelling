@@ -92,6 +92,7 @@ archive.istio.io
 archive.istio.io.
 args.yaml
 Auth0
+AuthenticationPolicy
 AuthPolicy
 autoscaler
 Autoscalers
@@ -311,6 +312,7 @@ istio-system
 istio.io
 istio.io.
 Istiofied
+istiod
 IstioMesh
 iter8
 jason
@@ -526,6 +528,7 @@ SMEs
 Snell-Feikema
 SNI
 SolarWinds
+Solo.io
 Splunk
 SPIFFE
 SPIFFE-compliant
@@ -619,6 +622,7 @@ VMware
 VPN
 VPNs
 Warman
+Wasm
 WeaveWorks
 WebAssembly
 webhook
