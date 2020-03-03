@@ -74,8 +74,6 @@ weight: 10
 - **Added** Policy DeprecatedAnalyzer #20919
 - **Updated** more validation rules for `RequestAuthentication` #19369.
 
-- **Graduated** `istioctl analyze` out of experimental  #19488.
-
 - **Added** a new flag `-A|--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
 - **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
 - **Added** `istioctl analyze -L` to show a list of all analyzers available #19200.
@@ -88,9 +86,8 @@ weight: 10
 - **Updated** istioctl analyze to print the namespace that is being analyzed #20515
 - **Updated** istioctl analyze to analyze in-cluster resources by default. #19647
 - **Fixed** bug where analyzer suppressed cluster-level resource messages. #18935.
-
-
 - **Added** support for multiple input files to `istioctl manifest` #20190.
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
 - **Added** selector for `istioctl` dashboard #19191.
-- **Added** support for slices and lists in `istioctl manifest --set` flag #20631.
+- **Added** support for slices and lists in `istioctl manifest --set` flag #20631.\
+- **Graduated** `istioctl analyze` out of experimental  #19488.
