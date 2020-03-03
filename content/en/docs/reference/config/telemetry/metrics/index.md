@@ -8,7 +8,6 @@ The following are the standard service level metrics exported by Istio.
 Istio standard metrics are directly exported by the Envoy proxy since Istio 1.5.
 In prior Istio releases Mixer produced these metrics.
 
-
 ## Metrics
 
 For HTTP, HTTP/2, and GRPC traffic, Istio generates the following metrics:
