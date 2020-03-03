@@ -7,7 +7,7 @@ weight: 10
 ## Traffic management
 
 - **Improved** performance of `ServiceEntry` updates #19305.
-- **Improved**fix readiness probe inconsistency #18164.
+- **Improved** fix readiness probe inconsistency #18164.
 - **Improved** performance of configuration updates by sending partial updates where possible #18354.
 - **Added** an option to control locality load balancer settings per host #18406.
 - **Fixed** an issue where pods crashing would trigger excessive configuration pushes #18574.
@@ -21,14 +21,14 @@ weight: 10
 
 ## Security
 
-- **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into `PeerAuthentication` and `RequestAuthenticaiton` respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
+- **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into `PeerAuthentication` and `RequestAuthentication` respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
 - **Added** Authorization Policy supports deny action and exclusion semantics.
-- **Added** Auto mutual TLS is in Beta. The feature is enabled by default.
+- **Added** auto mutual TLS. This beta feature is enabled by default.
 - **Added** SDS is in Stable. SDS is enabled by default for identity provisioning.
-- **Improved** Node agent is merged with Pilot agent. This removes the requirement of pod security policy and improves security posture.
-- **Improved** Merge Citadel certificate provisioning functionality into Pilot.
+- **Improved** node agent by merging with Pilot agent. This improves the security posture by removing the requirement of a pod security policy.
+- **Improved** Istio by including certificate provisioning functionality within Pilot.
 - **Improved** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters that [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
-- **Improved** Provision key and cert to Prometheus through Istio Agent.
+- **Improved** Istio's Pilot Agent by provisioning key and certificates for Prometheus consumption.
 
 ## Telemetry
 
@@ -38,7 +38,7 @@ weight: 10
 - **Improved** stability of v2 telemetry pipeline.
 - **Added** alpha-level support for configurability in v2 telemetry.
 - **Added** support for populating AWS platform metadata in Envoy node metadata.
-- **Improved** Updated the Stackdriver adapter for Mixer to support configurable flush intervals for tracing data.
+- **Improved** Stackdriver adapter for Mixer to support configurable flush intervals for tracing data.
 - **Added** support for a headless collector service to the Jaeger addon.
 - **Fixed** `kubernetesenv` adapter to provide proper support for pods that contain a dot in their name.
 - **Improved** the Fluentd adapter for Mixer to provide millisecond-resolution in exported timestamps.
@@ -48,7 +48,7 @@ weight: 10
 
 ## Operator
 
-**Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
+- **Improved** the alpha `IstioControlPlane` API by replacing with the `IstioOperator` API.
 **Added** `istioctl operator init` and `istioctl operator remove` commands istio/operator#643.
 **Improved** reconciliation speed with caching #20344.
 
@@ -60,9 +60,9 @@ weight: 10
 - The declaration of err overrides #19473.
 - create slice with capacity, when capacity is known #18504.
 
-## `area/test and release` - Triage done
+## `area/test and release`
 
-- Build a docker image for `istioctl` #19079.
+- **Added** Publish a `docker/istioctl` image #19079.
 
 ## `istioctl`
 - **Added** mTLS analyzer - #18350
