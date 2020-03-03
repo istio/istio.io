@@ -472,7 +472,7 @@ and endpoint to allow the remote sidecars to resolve the
    in the [setting environment variables section](#environment-var).
 
 1. The following command deploys the remote cluster's components with security
-   enabled for the control plane and enables the
+   features for the control plane enabled, and enables the
    creation of the an Istio Pilot selector-less service and endpoint to get a
    DNS entry in the remote cluster.
 
