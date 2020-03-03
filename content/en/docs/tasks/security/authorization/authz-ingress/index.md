@@ -14,14 +14,14 @@ The Mixer policy is deprecated in 1.5 and not recommended for production use.
 
 ## Before you begin
 
-Before you begin this task, perform the following actions:
+Before you begin this task, do the following:
 
 * Read the [Authorization conceptual documentation](/docs/concepts/security/#authorization).
 
 * Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
 
-* Deploy a workload, `httpbin` in a namespace named, for example, `foo` and expose it
-through the Istio ingress gateway with this command.
+* Deploy a workload, `httpbin` in a namespace, for example `foo`, and expose it
+through the Istio ingress gateway with this command:
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -46,8 +46,7 @@ for more information.
     200
     {{< /text >}}
 
-* Verify the ingress gateway receives the original client source IP address, which
-will be used in the authorization policy in this task.
+* Verify the output of the following command to ensure the ingress gateway receives the original client source IP address, which will be used in the authorization policy.
 
     {{< text bash >}}
     $ CLIENT_IP=$(curl $INGRESS_HOST/ip -s | grep "origin" | cut -d'"' -f 4) && echo $CLIENT_IP
@@ -55,15 +54,15 @@ will be used in the authorization policy in this task.
     {{< /text >}}
 
 {{< warning >}}
-If you don’t see the expected output as you follow the task, retry after a few seconds.
-Caching and propagation overhead can cause some delay.
+If you don’t see the expected output, retry after a few seconds.
+Caching and propagation overhead can cause a delay.
 {{< /warning >}}
 
 ## IP-based allow list and deny list
 
 1. The following command creates the authorization policy, `ingress-policy`, for
 the Istio ingress gateway. The following policy sets the `action` field to `ALLOW` to
-allow the IP addresses specified in the `ipBlocks` to access the ingress gateway,
+allow the IP addresses specified in the `ipBlocks` to access the ingress gateway.
 IP addresses not in the list will be denied, also known as whitelist-style access control.
 The `ipBlocks` supports both single IP address and CIDR notation.
 
@@ -151,7 +150,7 @@ not allowed to access the ingress gateway, also known as blacklist-style access 
     403
     {{< /text >}}
 
-1. You could use an online proxy service to access the ingress gateway that uses a
+1. You could use an online proxy service to access the ingress gateway using a
 different client IP to verify the request is allowed.
 
 ## Clean up
