@@ -60,7 +60,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 `installPackagePath` to a local file system path:
 
 {{< text bash >}}
-$ istioctl manifest apply --set installPackagePath=~/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
+$ istioctl manifest apply --set installPackagePath=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
 {{< /text >}}
 
 If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl manifest apply` alone, because it points to the
@@ -86,9 +86,10 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
+    empty
     minimal
     remote
-    sds
+    separate
     default
     demo
 {{< /text >}}
