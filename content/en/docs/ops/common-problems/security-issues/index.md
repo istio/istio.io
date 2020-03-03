@@ -12,7 +12,7 @@ aliases:
 
 ## End-user authentication fails
 
-With Istio, you can enable authentication for end users using [`RequestAuthentication` policy](/docs/tasks/security/authentication/authn-policy/#end-user-authentication). The following is a guide for troubleshooting the policy specification.
+With Istio, you can enable authentication for end users through [request authentication policies](/docs/tasks/security/authentication/authn-policy/#end-user-authentication). Follow these steps to troubleshoot the policy specification.
 
 1. If `jwksUri` isn’t set, make sure the JWT issuer is of url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if the JWT issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in a browser.
 
