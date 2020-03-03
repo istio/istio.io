@@ -176,16 +176,12 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     $ istioctl manifest apply --context=$CTX_CLUSTER2 \
       --set profile=remote \
       --set values.global.mtls.enabled=true \
-      --set values.gateways.enabled=true \
-      --set values.security.selfSigned=false \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
-      --set values.global.remotePolicyAddress=${LOCAL_GW_ADDR} \
-      --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-      --set values.global.network="network2" \
-      --set values.global.multiCluster.clusterName=${CLUSTER_NAME} \
+      --set values.global.network="network2" \                                      
+      --set values.global.multiCluster.clusterName=${CLUSTER_NAME}  
     {{< /text >}}
 
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
