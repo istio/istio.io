@@ -328,7 +328,7 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 ### Verify external access {#confirm}
 
 Confirm that the Bookinfo application is accessible from outside. Copy the
-output of this comamnd and paste into your browser:
+output of this command and paste into your browser:
 
 {{< text bash >}}
 $ echo http://$GATEWAY_URL/productpage
