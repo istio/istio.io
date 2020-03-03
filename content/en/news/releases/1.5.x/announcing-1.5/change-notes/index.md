@@ -73,7 +73,6 @@ weight: 10
 - **Added** PortNameAnalyzer #19375
 - **Added** Policy DeprecatedAnalyzer #20919
 - **Updated** more validation rules for `RequestAuthentication` #19369.
-
 - **Added** a new flag `-A|--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
 - **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
 - **Added** `istioctl analyze -L` to show a list of all analyzers available #19200.
