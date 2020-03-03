@@ -9,7 +9,7 @@ aliases:
 ---
 
 This task shows you how to set up an Istio authorization policy to enforce access
-based on the JSON Web Token (JWT). An Istio authorization policy supports both string typed
+based on a JSON Web Token (JWT). An Istio authorization policy supports both string typed
 and list-of-string typed JWT claims.
 
 ## Before you begin
