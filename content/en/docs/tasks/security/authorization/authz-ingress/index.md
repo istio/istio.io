@@ -8,7 +8,7 @@ keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denyl
 This task shows you how to enforce access control on an Istio ingress gateway
 using an authorization policy.
 
-The authorization policy supports IP-based allow list or deny list and
+An Istio authorization policy supports IP-based allow lists or deny lists as well as
 attribute-based allow list or deny list previously provided by the Mixer policy.
 The Mixer policy is deprecated in 1.5 and not recommended for production use.
 
