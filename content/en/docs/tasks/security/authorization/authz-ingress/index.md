@@ -9,7 +9,7 @@ This task shows you how to enforce access control on an Istio ingress gateway
 using an authorization policy.
 
 An Istio authorization policy supports IP-based allow lists or deny lists as well as
-attribute-based allow list or deny list previously provided by the Mixer policy.
+the attribute-based allow lists or deny lists previously provided by Mixer policy.
 The Mixer policy is deprecated in 1.5 and not recommended for production use.
 
 ## Before you begin
