@@ -55,9 +55,9 @@ Security in Istio involves multiple components:
 - A Certificate Authority (CA) for key and certificate management
 - Istiod distributes to the proxies:
 
-    -[authentication policies](/docs/concepts/security/#authentication-policies)
-    -[authorization policies](/docs/concepts/security/#authorization-policies)
-    -[secure naming information](/docs/concepts/security/#secure-naming)
+    - [authentication policies](/docs/concepts/security/#authentication-policies)
+    - [authorization policies](/docs/concepts/security/#authorization-policies)
+    - [secure naming information](/docs/concepts/security/#secure-naming)
 
 - Sidecar and perimeter proxies work as Policy Enforcement Points (PEPs) to
    secure communication between clients and servers.
