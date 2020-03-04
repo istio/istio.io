@@ -18,7 +18,7 @@ target_release: 1.5
 - 跨集群的服务发现。
 - 支持双活以及 HA/DR 部署。我们还必须通过在分散的群集中的全局唯一命名空间中部署服务来支持这些关键的弹性模式。
 
-我们拥有超过 160 个的 Kubernetes 集群以及跨集群的全局唯一命名空间。基于这样的配置，我们可用根据命名空间名称，将相同的服务 workload 部署到不同区域中。
+我们拥有超过 160 个的 Kubernetes 集群以及跨集群的全局唯一命名空间。基于这样的配置，我们可以根据命名空间名称，将相同的服务 workload 部署到不同区域中。
 结果是，我们根据[多集群网格中的分版本路由](/zh/blog/2019/multicluster-version-routing)中的路由策略，示例中的 `foo.namespace.global` 无法跨集群工作。我们需要通过全局唯一的、可发现的 service DNS，该 DNS 可以解析多个群集中的服务实例，每个实例都可以使用其唯一 Kubernetes FQDN 进行寻址/运行。
 例如，如果 `foo` 以不同的名称，同时运行在两个 Kubernetes 集群中，则 `foo.global` 应该同时解析为 `foo.uswest2.svc.cluster.local` 和 `foo.useast2.svc.cluster.local`。并且，我们的服务需要其他具有不同解析度和全局路由属性的 DNS 名称。例如，`foo.global` 应首先在本地解析，然后使用拓扑路由，将其路由到远程实例，而`foo-west.global` 和 `foo-east.global`（用于测试的名称）始终应解析到相应地区。
 
