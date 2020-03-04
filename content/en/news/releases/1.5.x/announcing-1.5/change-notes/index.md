@@ -63,21 +63,21 @@ weight: 10
 - **Added** `PortNameAnalyzer` #19375
 - **Added** `Policy DeprecatedAnalyzer` #20919
 - **Updated** more validation rules for `RequestAuthentication` #19369.
-- **Added** a new flag `-A|--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
-- **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
-- **Added** `istioctl analyze -L` to show a list of all analyzers available #19200.
-- **Added** the ability to suppress messages from `istioctl analyze` #19673.
-- **Added** structured format options to `istioctl analyze` #18700.
-- **Added** links to relevant documentation to `istioctl analyze` output #19105.
-- **Updated** annotation methods provided by Istio API in analyzer #18829.
-- **Updated** `istioctl analyze` now loads files from a directory #20718
-- **Updated** `istioctl analyze` to try to associate message with their source filename
-- **Updated** `istioctl analyze` to print the namespace that is being analyzed #20515
-- **Updated** `istioctl analyze` to analyze in-cluster resources by default. #19647
-- **Fixed** bug where analyzer suppressed cluster-level resource messages. #18935.
+- **Added** a new flag `-A|--all-namespaces` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze the entire cluster #19209.
+- **Added** support for analyzing content passed via `stdin` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Added** [`istioctl analyze -L`](/docs/ops/diagnostic-tools/istioctl-analyze/) to show a list of all analyzers available.
+- **Added** the ability to suppress messages from [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Added** structured format options to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Added** links to relevant documentation to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) output.
+- **Updated** annotation methods provided by Istio API in [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) now loads files from a directory.
+- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to try to associate message with their source filename.
+- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to print the namespace that is being analyzed.
+- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze in-cluster resources by default.
+- **Fixed** bug where [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) suppressed cluster-level resource messages.
 - **Added** support for multiple input files to `istioctl manifest` #20190.
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
 - **Added** selector for `istioctl` dashboard #19191.
 - **Added** support for slices and lists in `istioctl manifest --set` flag #20631.\
-- **Graduated** `istioctl analyze` out of experimental  #19488.
+- **Graduated** [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) out of experimental.
 - **Added** a `docker/istioctl` image #19079.
