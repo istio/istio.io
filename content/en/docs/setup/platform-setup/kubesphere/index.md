@@ -39,7 +39,7 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2
     {{< text bash >}}
     $ curl -L https://kubesphere.io/download/stable/latest > installer.tar.gz
     $ tar -xzf installer.tar.gz
-    $ cd kubesphere-all-v2.1.1/scripts
+    $ cd kubesphere-all-${version}/scripts
     {{< /text >}}
 
 1. Execute the installation script. Select the **"1) All-in-one"** option when prompted:
