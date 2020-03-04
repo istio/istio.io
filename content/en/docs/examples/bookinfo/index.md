@@ -9,7 +9,14 @@ aliases:
 ---
 
 This example deploys a sample application composed of four separate microservices used
-to demonstrate various Istio features. The application displays information about a
+to demonstrate various Istio features.
+
+{{< tip >}}
+If you installed Istio using the [Getting Started](/docs/setup/getting-started/)
+instructions, you already have Bookinfo installed and you can skip these steps.
+{{< /tip >}}
+
+The application displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
