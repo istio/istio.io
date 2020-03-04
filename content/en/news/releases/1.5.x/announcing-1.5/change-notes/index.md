@@ -29,7 +29,7 @@ weight: 10
 - **Improved** Istio by including certificate provisioning functionality within istiod.
 - **Improved** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters that [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
 - **Improved** Istio's Pilot Agent by provisioning key and certificates for Prometheus consumption.
-- **Graduated** SDS which provides identity provisioning for Istio.
+- **Graduated** SDS to stable and enabled by default. It provides identity provisioning for Istio Envoy proxies.
 
 ## Telemetry
 
