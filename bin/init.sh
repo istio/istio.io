@@ -35,6 +35,7 @@ else
   git clone https://github.com/istio/istio.git "${ISTIO_GO}"
 fi
 
+# Run the following commands from the Istio source directory.
 pushd "${ISTIO_GO}" > /dev/null
 
 REMOTE_BRANCH="${ISTIO_REMOTE}/${ISTIO_BRANCH}"
