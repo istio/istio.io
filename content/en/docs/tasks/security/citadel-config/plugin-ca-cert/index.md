@@ -15,7 +15,9 @@ operator-specified root certificate. This task demonstrates an example to plug c
 
 ## Before you begin
 
-Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+1. Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
+
+1. **Optional:** Enable mutual TLS in `STRICT` mode as show in the [authentication policy task](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode). The default `PERMISSIVE` mode already supports mutual TLS traffic.
 
 ## Plugging in the existing certificate and key
 
@@ -48,11 +50,11 @@ The following steps enable plugging in the certificates and key into Citadel:
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1.  Redeploy Citadel with `global.mtls.enabled` set to `true` and `security.selfSigned` to `false`.
+1.  Redeploy Citadel with `security.selfSigned`set to `false`.
     Citadel will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.mtls.enabled=true --set values.security.selfSigned=false
+    $ istioctl manifest apply --set values.security.selfSigned=false
     {{< /text >}}
 
 1.  To make sure the workloads obtain the new certificates promptly,
@@ -128,8 +130,7 @@ This requires you have `openssl` installed on your machine.
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
-    $ istioctl manifest apply --set values.global.mtls.enabled=true
+    $ istioctl manifest apply
     {{< /text >}}
 
 *   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.
-

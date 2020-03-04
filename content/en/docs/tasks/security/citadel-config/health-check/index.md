@@ -35,7 +35,7 @@ Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install 
 To enable health checking, redeploy Citadel:
 
 {{< text bash >}}
-$ istioctl manifest generate --set values.global.mtls.enabled=true,values.security.citadelHealthCheck=true > citadel-health-check.yaml
+$ istioctl manifest generate --set values.security.citadelHealthCheck=true > citadel-health-check.yaml
 $ kubectl apply -f citadel-health-check.yaml
 {{< /text >}}
 
@@ -100,6 +100,6 @@ continuously failed health checks.
 *   To disable health checking on Citadel:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.mtls.enabled=true
+    $ istioctl manifest apply --set values.security.citadelHealthCheck=false
     {{< /text >}}
 
