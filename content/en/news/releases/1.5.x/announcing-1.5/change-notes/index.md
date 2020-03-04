@@ -7,17 +7,17 @@ weight: 10
 ## Traffic management
 
 - **Improved** performance of `ServiceEntry` updates #19305.
-- **Improved** fix readiness probe inconsistency #18164.
+- **Improved** Envoy sidecar readiness probe to more accurate determine readiness #18164.
 - **Improved** performance of configuration updates by sending partial updates where possible #18354.
-- **Added** an option to control locality load balancer settings per host #18406.
+- **Added** an option to control locality load balancer settings for each Service #18406.
 - **Fixed** an issue where pods crashing would trigger excessive configuration pushes #18574.
 - **Fixed** issues with applications that call themselves #19308.
 - **Added** detection of `iptables` failure when using Istio CNI #19534.
 - **Added** `consecutive_5xx` and `gateway_errors` as outlier detection options #19771.
-- **Improved** `EnvoyFilter` matching performance optimization #19786.
+- **Improved** `EnvoyFilter` matching performance #19786.
 - **Added** support for `HTTP_PROXY` protocol #19919.
 - **Improved** `iptables` setup to use `iptables-restore` by default #18847.
-- **Enabled** [automatic protocol detection](https://istio.io/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection-experimental) by default #18666.
+- **Improved** Gateway performance by filtering unused clusters. This setting is disabled by default #20124.
 
 ## Security
 
@@ -49,20 +49,9 @@ weight: 10
 ## Operator
 
 - **Improved** the alpha `IstioControlPlane` API by replacing with the `IstioOperator` API.
-**Added** `istioctl operator init` and `istioctl operator remove` commands istio/operator#643.
-**Improved** reconciliation speed with caching #20344.
+- **Added** `istioctl operator init` and `istioctl operator remove` commands istio/operator#643.
+- **Improved** reconciliation speed with caching #20344.
 
-## `area/perf and scalability`
-
-- **Improved** Skip unused services while generate clusters for the gateways #20124.
-- **Improved** Skip calling `updateEDS` for headless service #18952.
-- disable `SNI-DNAT` at ingress gateway by default #18431.
-- The declaration of err overrides #19473.
-- create slice with capacity, when capacity is known #18504.
-
-## `area/test and release`
-
-- **Added** Publish a `docker/istioctl` image #19079.
 
 ## `istioctl`
 - **Added** mTLS analyzer - #18350
@@ -90,3 +79,4 @@ weight: 10
 - **Added** selector for `istioctl` dashboard #19191.
 - **Added** support for slices and lists in `istioctl manifest --set` flag #20631.\
 - **Graduated** `istioctl analyze` out of experimental  #19488.
+- **Added** a `docker/istioctl` image #19079.
