@@ -164,7 +164,7 @@ used the `istio-validation` `configmap` and root certificate.
     done
     {{< /text >}}
 
-1. If the patching failed, verify the RBAC configuration for `Istiod`:
+1. If the patching failed, verify the RBAC configuration for Istiod:
 
     {{< text bash yaml >}}
     $ kubectl get clusterrole istiod-istio-system -o yaml
