@@ -28,7 +28,6 @@ goal. Users are getting more new functionality faster than ever!
 
 Here’s some of what’s coming to you in today's release:
 
-
 ### Introducing `istiod`
 
 We are dramatically simplifying the experience of installing, running, and
