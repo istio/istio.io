@@ -96,7 +96,7 @@ You can then decide to [configure access to external services](#controlled-acces
 Congratulations! You successfully sent egress traffic from your mesh.
 
 This simple approach to access external services, has the drawback that you lose Istio monitoring and control
-for traffic to external services. The next section shows you how to monitor and control your mesh's access to 
+for traffic to external services. The next section shows you how to monitor and control your mesh's access to
 external services.
 
 ## Controlled access to external services
@@ -410,7 +410,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 {{< /text >}}
 
 Unlike accessing external services through HTTP or HTTPS, you don't see any headers related to the Istio sidecar and the
-requests sent to external services do not appear in the log of the sidecar. Bypassing the Istio sidecars means you can 
+requests sent to external services do not appear in the log of the sidecar. Bypassing the Istio sidecars means you can
 no longer monitor the access to external services.
 
 ### Cleanup the direct access to external services
