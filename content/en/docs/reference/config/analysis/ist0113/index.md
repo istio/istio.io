@@ -8,8 +8,7 @@ in conflict with regards to mutual TLS. The two resources are in conflict if the
 specify incompatible mutual TLS modes to be used; this conflict means traffic matching
 the destination rule to the specified host will be rejected.
 
-This message is only produced on service meshes that are not using [automatic mutual
-TLS](/docs/tasks/security/authentication/auto-mtls/).
+This message is deprecated and only produced on service meshes that are using alpha authentication policy.
 
 ## An example
 
