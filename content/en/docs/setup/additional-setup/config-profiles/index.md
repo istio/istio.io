@@ -28,6 +28,8 @@ your specific needs. The following built-in configuration profiles are currently
     This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
     {{< /warning >}}
 
+1. **empty**: The empty profile has everything disabled. This is useful as a base for custom user configuration.
+
 1. **minimal**: the minimal set of components necessary to use Istio's [traffic management](/docs/tasks/traffic-management/) features.
 
 1. **sds**: similar to the **default** profile, but also enables Istio's [SDS (secret discovery service)](/docs/tasks/security/citadel-config/auth-sds).
