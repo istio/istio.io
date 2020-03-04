@@ -28,7 +28,7 @@ goal. Users are getting more new functionality faster than ever!
 
 Here’s some of what’s coming to you in today's release:
 
-### Introducing `istiod`
+## Introducing `istiod`
 
 We are dramatically simplifying the experience of installing, running, and
 upgrading Istio by “embracing the monolith” and consolidating our control plane
@@ -40,7 +40,7 @@ characteristics are consistent with the previous components.
 Keep your eyes out for a blog post in the coming days devoted to `istiod`, and
 the benefits of moving to a simpler deployment model.
 
-### A new model for extensibility
+## A new model for extensibility
 
 Istio has long been the most extensible service mesh, with Mixer plugins
 allowing custom policy and telemetry support and Envoy extensions allowing data
@@ -56,7 +56,7 @@ deployments).
 Look for blog posts here and from Google, Solo.io and the Envoy community for
 much more detail about this exciting work!
 
-### Easier to use
+## Easier to use
 
 We’re always making Istio easier to adopt and use, and this release in
 particular has some cool enhancements. Command line installation of Istio using
@@ -72,18 +72,29 @@ now an essential tool for understanding the state of a running Istio system and
 for ensuring that configuration changes are safe. And `istioctl analyze` has
 graduated from the Experimental to the Alpha stage.
 
-### More secure
+We have made numerous enhancements to Istio security to make it easier to use.
+mTLS configuration is simplified and automated with the Beta launch of auto
+mTLS.  We have simplified access control by removing indirection and
+consolidating to a single CRD with the beta launch of authorization policy in
+Istio 1.4.
 
-As always, we are working to make Istio more secure with every release. Some
-highlights with this release:
-[Auto mutual-TLS](docs/tasks/security/authentication/auto-mtls/) has reached the
-Beta stage, and SDS is now stable. We have combined the Node agent and the Pilot
-agent into a single binary, which means we no longer require
-`PodSecurityPolicy`. We have a new beta version of the Authentication policies
-as well (see `PeerAuthenticationMethod` and `RequestAuthentication` in
-[AuthenticationPolicy](/docs/reference/config/security/istio.authentication.v1alpha1/).
+## More secure
 
-### Better visibility
+As always, we are working to make Istio more secure with every release. With
+1.5, all security policies including
+[Auto mutual-TLS](docs/tasks/security/authentication/auto-mtls/),
+[AuthenicationPoli
+y](/docs/reference/config/security/istio.authentication.v1alpha1/)
+(PeerAuthentication and RequestAuthentication) and authorization are now in
+Beta. SDS is now stable. Authorization now supports Deny semantics to enforce
+mandatory controls that cannot be overridden. We have combined the Node agent
+and the Istio agent into a single binary, which means we no longer require
+PodSecurityPolicy.
+
+Look for blog posts in the coming days for a deeper dive on Istio security and
+the threats that it helps mitigate.
+
+## Better observability
 
 We continue to invest in making Istio the best way to understand your
 distributed applications. Telemetry v2 now reports metrics for raw TCP
