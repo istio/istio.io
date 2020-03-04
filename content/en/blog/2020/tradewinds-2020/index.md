@@ -30,7 +30,6 @@ We have ambitious goals for Istio in 2020 and there are many major efforts
 underway, but at the same time we strongly believe that good infrastructure
 should be "boring." Using Istio in production should be a seamless experience;
 performance should not be a concern, upgrades should be a non-event and complex
-
 tasks should be automated away. With our investment in a more powerful
 extensibility story we think the pace of innovation in the service mesh space
 can increase while Istio focuses on being gloriously dull.
@@ -74,7 +73,7 @@ modules built into Envoy.
 
 We're working with the Envoy community on ways to discover and distribute these
 extensions. We want to make WebAssembly extensions as easy to install and run as
-containers. Many of our partners have written Mixer l, and together we
+containers. Many of our partners have written Mixer adapters, and together we
 are getting them ported to Wasm. We are also developing guides and codelabs on
 how to write your own extensions for custom integrations.
 
@@ -96,11 +95,11 @@ become a separately released add-on to Istio that is part of the
 
 We are also simplifying the deployment of the rest of the control plane. To
 that end, we combined several of the control plane components into a single
-binary: `istiod`. This binary includes the features of Pilot, Citadel, Galley,
+component: Istiod. This binary includes the features of Pilot, Citadel, Galley,
 and the sidecar injector. This approach improves many aspects of installing and
 managing Istio -- reducing installation and configuration complexity,
 maintenance effort, and issue diagnosis time while increasing responsiveness.
-Read more about istiod in
+Read more about Istiod in
 [this post from Christian Posta](https://blog.christianposta.com/microservices/istio-as-an-example-of-when-not-to-do-microservices/).
 
 We are shipping istiod as the default for all profiles in 1.5.
@@ -151,7 +150,7 @@ workload identity, robust access policies and comprehensive audit logging. We’
 stabilizing APIs for these features; many Alpha APIs are moving to Beta in 1.5,
 and we expect them to all be v1 by the end of 2020. To learn more about the
 status of our APIs, see our
-[features page](about/feature-stages/#istio-features).
+[features page](/about/feature-stages/#istio-features).
 
 Network traffic is also becoming more secure by default. After many users
 enabled it in preview,
@@ -181,7 +180,7 @@ powered by Istio are currently available from 15 vendors, including Google, IBM,
 Red Hat, VMware, Alibaba and Huawei
 - More investment in `istioctl` and its ability to help diagnose problems
 - Better integration of VM-based workloads into meshes
-- Continued work towards make multi-cluster and multi-network meshes easier to
+- Continued work towards making multi-cluster and multi-network meshes easier to
 configure, maintain, and run
 - Integration with more service discovery systems, including
 Functions-as-a-Service
