@@ -261,7 +261,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--secureGrpcAddr &lt;string&gt;</code></td>
 <td></td>
-<td>Discovery service grpc address, with https  (default `:15012`)</td>
+<td>Discovery service grpc address, with https and spiffe certificates.  (default `:15011`)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
@@ -532,6 +532,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Kuberenetes service host, set automatically when running in-cluster</td>
 </tr>
 <tr>
+<td><code>MASTER_ELECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enable master election</td>
+</tr>
+<tr>
 <td><code>MAX_WORKLOAD_CERT_TTL</code></td>
 <td>Time Duration</td>
 <td><code>2160h0m0s</code></td>
@@ -552,7 +558,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
-<td><code>citadel</code></td>
+<td><code>istiod</code></td>
 <td>the provider of Pilot DNS certificate.</td>
 </tr>
 <tr>
@@ -569,6 +575,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 </tr>
 <tr>
 <td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td></td>
@@ -644,12 +656,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, metadata exchange will be enabled for TCP using ALPN and Network Metadata Exchange filters in Envoy</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
