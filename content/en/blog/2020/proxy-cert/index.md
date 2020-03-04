@@ -1,8 +1,10 @@
 ---
 title: Provision a certificate and key to your application through files [Experimental]
 description: Provision a certificate and key to your application through files.
-weight: 100
+publishdate: 2020-02-20
+attribution: Lei Tang (Google)
 keywords: [certificate,sidecar]
+target_release: 1.5
 ---
 
 {{< boilerplate experimental-feature-warning >}}
@@ -13,7 +15,7 @@ For an application without a sidecar to get a certificate,
 it may deploy a sidecar to provision the private key and certificates through
 the CSR flow from the CA and share the certificate with the application
 through a mounted file in `tmpfs`.
-This task uses Prometheus as an example application to show provisioning
+This tutorial uses Prometheus as an example application to show provisioning
 a certificate through such mechanism.
 
 ## Getting started
