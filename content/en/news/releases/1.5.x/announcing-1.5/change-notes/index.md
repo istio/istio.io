@@ -77,7 +77,7 @@ weight: 10
 - **Fixed** bug where [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) suppressed cluster-level resource messages.
 - **Added** support for multiple input files to `istioctl manifest` #20190.
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
-- **Added** selector for `istioctl` dashboard #19191.
+- **Added** selector for [`istioctl dashboard`](/docs/reference/commands/istioctl/#istioctl-dashboard).
 - **Added** support for slices and lists in `istioctl manifest --set` flag #20631.\
 - **Graduated** [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) out of experimental.
 - **Added** a `docker/istioctl` image #19079.
