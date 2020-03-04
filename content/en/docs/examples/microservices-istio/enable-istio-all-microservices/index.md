@@ -51,7 +51,7 @@ enable Istio on all the remaining microservices in one step.
     {{< /text >}}
 
 1.  Access the Istio dashboard using the custom URL you set in your `/etc/hosts` file
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)):
+    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
@@ -72,9 +72,11 @@ enable Istio on all the remaining microservices in one step.
         caption="Istio Service Dashboard"
         >}}
 
-1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console, which is not a part of Istio.
+1.  Visualize your application's topology by using the
+    [Kiali](https://www.kiali.io) console, which is not a part of Istio, but is
+    installed as part of the `demo` configuration.
     Access the dashboard using the custom URL you set in your `/etc/hosts` file
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)):
+    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
 
     {{< text plain >}}
     http://my-kiali.io/kiali/console
