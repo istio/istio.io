@@ -34,7 +34,7 @@ endif
 KUBECONFIG ?= ~/.kube/config
 _INTEGRATION_TEST_FLAGS += --istio.test.kube.config=$(KUBECONFIG)
 
-test.kube.presubmit: init
+test.kube.presubmit: init | $(JUNIT_REPORT)
 	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/... -timeout 30m \
 	--istio.test.select -postsubmit,-flaky \
 	--istio.test.env kube \
