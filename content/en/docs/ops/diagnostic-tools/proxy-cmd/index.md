@@ -320,28 +320,17 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 
 Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
 
-1.  Get the name of the Istio Ingress pod:
+1.  Create a `sleep` pod:
 
     {{< text bash >}}
-    $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingressgateway\- | awk '{print$1}'); echo ${INGRESS_POD_NAME};
-    {{< /text >}}
-
-1.  Exec into the Istio Ingress pod:
-
-    {{< text bash >}}
-    $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
+    $ kubectl create namespace foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
     {{< /text >}}
 
 1.  Test connectivity to Pilot using `curl`. The following example invokes the v1 registration API using default Pilot configuration parameters and mutual TLS enabled:
 
     {{< text bash >}}
-    $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:8080/debug/edsz
-    {{< /text >}}
-
-    If mutual TLS is disabled:
-
-    {{< text bash >}}
-    $ curl http://istio-pilot:8080/debug/edsz
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl istio-pilot.istio-system:8080/debug/edsz
     {{< /text >}}
 
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
