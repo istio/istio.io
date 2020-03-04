@@ -26,7 +26,7 @@ We're pleased to announce the availability of Istio 1.0.3. Please see below for 
 
 ## Networking
 
-- [Mutual TLS](/docs/tasks/security/authentication/mutual-tls) Permissive mode is enabled by default.
+- Mutual TLS Permissive mode is enabled by default.
 
 - Pilot performance and scalability has been greatly enhanced. Pilot now delivers endpoint updates to 500 sidecars in under 1 second.
 
