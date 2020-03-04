@@ -27,7 +27,7 @@ $ oc adm policy add-scc-to-group anyuid system:serviceaccounts -n istio-system
 安装完成后，为 ingress 网关暴露一个 OpenShift 路由。
 
 {{< text bash >}}
-$ oc -n istio-system expose svc/istio-ingressgateway --port=http2
+$ oc -n istio-system expose svc/istio-ingressgateway --port=80
 {{< /text >}}
 
 ## 自动 sidecar 注入{#automatic-sidecar-injection}

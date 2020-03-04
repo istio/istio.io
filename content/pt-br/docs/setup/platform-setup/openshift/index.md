@@ -29,7 +29,7 @@ Now you can install Istio using the [CNI](/pt-br/docs/setup/additional-setup/cni
 After installation is complete, expose an OpenShift route for the ingress gateway.
 
 {{< text bash >}}
-$ oc -n istio-system expose svc/istio-ingressgateway --port=http2
+$ oc -n istio-system expose svc/istio-ingressgateway --port=80
 {{< /text >}}
 
 ## Automatic sidecar injection
