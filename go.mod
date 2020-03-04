@@ -12,8 +12,16 @@ replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.2019101121
 
 require (
 	github.com/Masterminds/semver v1.4.2
+	github.com/alessio/shellescape v1.2.2 // indirect
 	github.com/jstemmer/go-junit-report v0.9.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/spf13/cobra v0.0.6 // indirect
+	golang.org/x/sys v0.0.0-20200302150141-5c8b2ff67527 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200121175148-a6ecf24a6d71 // indirect
 	istio.io/istio v0.0.0-20200314140522-cbeb7a9d4e9f
+	k8s.io/apimachinery v0.17.3 // indirect
+	sigs.k8s.io/kind v0.7.0 // indirect
+	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
 replace github.com/Azure/go-autorest/autorest => github.com/Azure/go-autorest/autorest v0.9.0
