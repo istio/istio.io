@@ -36,8 +36,6 @@ If you have installed or are planning to install [Istio CNI](/docs/setup/additio
 choose one of the following **mutually exclusive** options to check whether
 Istio CNI is already installed and to upgrade it:
 
-{{< tabset category-name="controlplaneupdate" >}}
-
 You can use Kubernetes’ rolling update mechanism to upgrade the Istio CNI components.
 This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
 
@@ -62,16 +60,12 @@ This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
     $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=kube-system | kubectl apply -f -
     {{< /text >}}
 
-
-{{< /tabset >}}
-
 ### Control plane upgrade
 
 Pilot, Galley, Policy, Telemetry and Sidecar injector.
 Choose one of the following **mutually exclusive** options
 to update the control plane:
 
-{{< tabset category-name="controlplaneupdate" >}}
 You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
 including configurations generated using
@@ -100,8 +94,6 @@ After this process finishes, your Istio control plane should be updated to the n
 Your existing application should continue to work without any change. If there is any
 critical issue with the new control plane, you can rollback the changes by applying the
 yaml files from the old version.
-
-{{< /tabset >}}
 
 ### Sidecar upgrade
 
