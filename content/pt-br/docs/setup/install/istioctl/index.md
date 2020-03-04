@@ -87,9 +87,10 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
+    empty
     minimal
     remote
-    sds
+    separate
     default
     demo
 {{< /text >}}
