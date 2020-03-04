@@ -137,12 +137,15 @@ CNI
 cnn.com
 Cognito
 codec
+codelab
+codelabs
 colocate
 colocated
 colocating
 Composability
 composability
 composable
+config
 ConfigMap
 configmap
 configmap
@@ -305,7 +308,8 @@ iptables
 IPv4
 IPv6
 Istio
-Istiod
+istio-agent
+istio-ecosystem
 istio-identity
 istio-mixer
 ISTIO-SECURITY-2019-003
@@ -319,8 +323,12 @@ ISTIO-SECURITY-2020-003
 istio-system
 istio.io
 istio.io.
+istioctl
+istiod
+Istiod
 Istiofied
 IstioMesh
+IstioOperator
 iter8
 jason
 Jog
@@ -442,8 +450,10 @@ platform-specific
 pluggability
 pluggable
 png
+Posta
 pprof
 pre-connected
+pre-release
 pre-specified
 preconfigured
 prefetching
@@ -507,6 +517,7 @@ runtime
 runtimes
 sa
 Salesforce
+sandboxed
 sayin
 schemas
 SDKs
@@ -630,6 +641,7 @@ VMware
 VPN
 VPNs
 Warman
+Wasm
 WeaveWorks
 WebAssembly
 webhook

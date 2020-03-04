@@ -40,7 +40,7 @@ Envoy, and subsequently Istio are vulnerable to four newly discovered vulnerabil
 
     {{< text plain>}}
     -  name: SDS_ENABLED
-    value: “true”
+    value: "true"
     {{< /text >}}
 
     your system has SDS enabled.
