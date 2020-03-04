@@ -88,7 +88,7 @@ As always, we are working to make Istio more secure with every release. With
 Beta. SDS is now stable. Authorization now supports Deny semantics to enforce
 mandatory controls that cannot be overridden. We have combined the Node agent
 and the Istio agent into a single binary, which means we no longer require
-PodSecurityPolicy.
+configuration of a PodSecurityPolicy.
 
 Look for blog posts in the coming days for a deeper dive on Istio security and
 the threats that it helps mitigate.
@@ -97,8 +97,8 @@ the threats that it helps mitigate.
 
 We continue to invest in making Istio the best way to understand your
 distributed applications. Telemetry v2 now reports metrics for raw TCP
-connections, and we’ve enhanced the support for gRPC workloads by adding
-response status codes in telemetry and logs.
+connections (in addition to HTTP), and we’ve enhanced the support for gRPC
+workloads by adding response status codes in telemetry and logs.
 
 The new telemetry system cuts latency in half - 90th percentile latency has been
 reduced from 7ms to 3.3 ms. Not only that, but the elimination of Mixer has
