@@ -70,7 +70,7 @@ analyze, better validation rules, and better ability to integrate with CI
 systems (look for examples coming soon!). It is
 now an essential tool for understanding the state of a running Istio system and
 for ensuring that configuration changes are safe. And `istioctl analyze` has
-graduated from the Experimental to the Alpha stage.
+graduated from the Experimental stage.
 
 We have made numerous enhancements to Istio security to make it easier to use.
 mTLS configuration is simplified and automated with the Beta launch of auto
