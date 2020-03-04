@@ -83,12 +83,12 @@ Istio 1.4.
 As always, we are working to make Istio more secure with every release. With
 1.5, all security policies including
 [Auto m TLS](/docs/tasks/security/authentication/auto-mtls/),
-[AuthenicationPolicy](/docs/reference/config/security/istio.authentication.v1alpha1/)
-(PeerAuthentication and RequestAuthentication) and authorization are now in
+[`AuthenticationPolicy`](/docs/reference/config/security/istio.authentication.v1alpha1/)
+(`PeerAuthentication` and `RequestAuthentication`) and authorization are now in
 Beta. SDS is now stable. Authorization now supports Deny semantics to enforce
 mandatory controls that cannot be overridden. We have combined the Node agent
 and the Istio agent into a single binary, which means we no longer require
-configuration of a PodSecurityPolicy.
+configuration of a `PodSecurityPolicy`.
 
 Look for blog posts in the coming days for a deeper dive on Istio security and
 the threats that it helps mitigate.
