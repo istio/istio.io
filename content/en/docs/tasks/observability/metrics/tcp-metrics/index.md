@@ -91,7 +91,7 @@ example configuration and commands.
 
 1.  Send traffic to the sample application.
 
-    Set $GATEWAY_URL using [these instructions](docs/setup/getting-started/#determining-the-ingress-ip-and-ports)
+    Set `$GATEWAY_URL` using [these instructions](docs/setup/getting-started/#determining-the-ingress-ip-and-ports)
 
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
     browser or use the following command:
