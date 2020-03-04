@@ -50,7 +50,7 @@ The following steps enable plugging in the certificates and key into Citadel:
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1.  Redeploy Citadel with `security.selfSigned` to `false`.
+1.  Redeploy Citadel with `security.selfSigned`set to `false`.
     Citadel will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
