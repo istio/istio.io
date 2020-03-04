@@ -5,7 +5,6 @@ description: A vision statement and roadmap for Istio in 2020.
 publishdate: 2020-03-03
 attribution: Istio Team
 keywords: [roadmap,security,performance,operator]
-target_release: 1.4
 ---
 
 Istio solves real problems that people encounter running microservices. Even
