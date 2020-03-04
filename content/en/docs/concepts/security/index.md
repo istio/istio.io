@@ -748,8 +748,8 @@ spec:
   - {}
 {{< /text >}}
 
-The example following example shows a simple  `deny-all` policy that denies any
-access to all workloads in the `admin` namespace.
+The following example shows a policy that doesn't allow any access to all
+workloads in the `admin` namespace.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
