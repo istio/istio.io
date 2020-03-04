@@ -50,7 +50,9 @@ The `istio-pilot` deployment has been removed in favor of the `istiod` deploymen
 
 ## Mixer Deprecation
 
-Mixer is deprecated in Istio 1.5. The default profile in Istio 1.5 switches off `mixer` completely. Telemetry V2 is the default in Istio 1.5 and it does not require `mixer`.
+`Mixer`, the process behind the `istio-telemetry` and `istio-policy` deployments, has been deprecated with the 1.5 release. `istio-policy` was disabled by default since Istio 1.3 and `istio-telemetry` is disabled by default in Istio 1.5.
+
+Telemetry is collected using an in-proxy extension mechanism (Telemetry V2) that does not require `Mixer`.
 
 If you depend on specific Mixer features like out of process adapters, you may re-enable Mixer. Mixer will continue receiving bug fixes and security fixes until Istio 1.7.
 Many features supported by `mixer` have alternatives as specified in the [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) document including the [in-proxy extensions](https://github.com/istio/proxy/tree/master/extensions) based on the WebAssembly sandbox API.
@@ -58,6 +60,14 @@ Many features supported by `mixer` have alternatives as specified in the [Mixer 
 If you rely on a Mixer feature that does not have an equivalent, we encourage you to open issues and discuss in the community.
 
 Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice for details.
+
+### Feature Gaps between Telemetry V2 and Mixer Telemetry
+
+* Out of mesh telemetry is not supported. Some telemetry is missing if source or the destination of traffic is not sidecar injected.
+* Egress gateway telemetry is [not supported](https://github.com/istio/istio/issues/19385).
+* TCP telemetry is only supported with `mtls`.
+* Black Hole telemetry for TCP and HTTP protocols is not supported.
+* Histogram buckets are [significantly different](https://github.com/istio/istio/issues/20483) than Mixer Telemetry and cannot be changed.
 
 ## Control Plane Security
 
