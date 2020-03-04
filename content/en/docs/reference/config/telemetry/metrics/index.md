@@ -160,3 +160,13 @@ For TCP traffic, Istio generates the following metrics:
     {{< text yaml >}}
     response_flags: context.proxy_error_code | "-"
     {{< /text >}}
+
+*   **Canonical Service**: A workload belongs to exactly one canonical service, whereas it can belong to multiple services.
+    A canonical service has a name and a revision so it results in the following labels.
+
+    {{< text yaml >}}
+    source_canonical_service
+    source_canonical_revision
+    destination_canonical_service
+    destination_canonical_revision
+    {{< /text >}}
