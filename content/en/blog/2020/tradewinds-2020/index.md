@@ -1,5 +1,5 @@
 ---
-title: Istio in 2020: Following the Trade Winds
+title: Istio in 2020--Following the Trade Winds
 subtitle: Istio continues to get faster and easier to use in the 2020 roadmap
 description: A vision statement and roadmap for Istio in 2020
 publishdate: 2020-03-03
