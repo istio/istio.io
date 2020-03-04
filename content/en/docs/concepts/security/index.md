@@ -53,7 +53,7 @@ instructions to use the security features.
 Security in Istio involves multiple components:
 
 - A Certificate Authority (CA) for key and certificate management
-- Istiod distributes to the proxies:
+- The configuration API server distributes to the proxies:
 
     - [authentication policies](/docs/concepts/security/#authentication-policies)
     - [authorization policies](/docs/concepts/security/#authorization-policies)
@@ -121,12 +121,12 @@ following diagram shows the identity provisioning flow.
 Istio provisions identities through the secret discovery service (SDS) using the
 following flow:
 
-1. The CA offers a gRPC service to take CSR requests.
-1. Envoy sends a certificate and key request via Envoy secret discovery
+1. The CA offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
+1. Envoy sends a certificate and key request via the Envoy secret discovery
    service (SDS) API.
 1. Upon receiving the SDS request, the Istio agent creates the private key
    and CSR before sending the CSR with its credentials to the Istio CA for signing.
-1. The CAt validates the credentials carried in the CSR and signs the CSR to
+1. The CA validates the credentials carried in the CSR and signs the CSR to
    generate the certificate.
 1. The Istio agent sends the certificate received from the Istio CA and the
    private key to Envoy via the Envoy SDS API.
@@ -643,9 +643,9 @@ Most fields in authorization policies support all the following matching
 schemas:
 
 - Exact match: exact string match.
-- Prefix match: A string with an ending `"*"`. For example, `"test.abc.*"`
+- Prefix match: a string with an ending `"*"`. For example, `"test.abc.*"`
    matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
-- Suffix match: A string with a starting `"*"`. For example, `"*.abc.com"`
+- Suffix match: a string with a starting `"*"`. For example, `"*.abc.com"`
    matches `"eng.abc.com"`, `"test.eng.abc.com"`, etc.
 - Presence match: `*` is used to specify anything but not empty. To specify
    that a field must be present, use the `fieldname: ["*"]`format. This is
@@ -659,7 +659,7 @@ match:
 - The `ipBlocks` under the `source` section
 - The `ports` field under the `to` section
 
-The following example policy allows access at paths with the  `/test/*` prefix
+The following example policy allows access at paths with the `/test/*` prefix
 or the `*/info` suffix.
 
 {{< text yaml >}}
