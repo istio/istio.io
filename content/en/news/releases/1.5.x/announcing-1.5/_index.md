@@ -3,7 +3,7 @@ title: Announcing Istio 1.5
 linktitle: 1.5
 subtitle: Major Update
 description: Istio 1.5 release announcement.
-publishdate: 2020-o2-11
+publishdate: 2020-03-05
 release: 1.5.0
 skip_list: true
 aliases:
@@ -82,9 +82,8 @@ Istio 1.4.
 
 As always, we are working to make Istio more secure with every release. With
 1.5, all security policies including
-[Auto mutual-TLS](docs/tasks/security/authentication/auto-mtls/),
-[AuthenicationPoli
-y](/docs/reference/config/security/istio.authentication.v1alpha1/)
+[Auto m TLS](/docs/tasks/security/authentication/auto-mtls/),
+[AuthenicationPolicy](/docs/reference/config/security/istio.authentication.v1alpha1/)
 (PeerAuthentication and RequestAuthentication) and authorization are now in
 Beta. SDS is now stable. Authorization now supports Deny semantics to enforce
 mandatory controls that cannot be overridden. We have combined the Node agent
