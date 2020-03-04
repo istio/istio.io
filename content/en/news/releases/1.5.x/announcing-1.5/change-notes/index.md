@@ -50,18 +50,18 @@ weight: 10
 ## Operator
 
 - **Improved** the alpha `IstioControlPlane` API by replacing with the `IstioOperator` API.
-- **Added** `istioctl operator init` and `istioctl operator remove` commands istio/operator#643.
+- **Added** `istioctl operator init` and `istioctl operator remove` commands.
 - **Improved** reconciliation speed with caching #20344.
 
 
 ## `istioctl`
-- **Added** mTLS analyzer - #18350
-- **Added** JwtAnalyzer - #20812
-- **Added** ServiceAssociationAnalyzer #19383
-- **Added** SercretAnalyaer #19583
-- **Added** sidecar ImageAnalyzer  #20929
-- **Added** PortNameAnalyzer #19375
-- **Added** Policy DeprecatedAnalyzer #20919
+- **Added** mutual TLS analyzer - #18350
+- **Added** `JwtAnalyzer` - #20812
+- **Added** `ServiceAssociationAnalyzer` #19383
+- **Added** `SercretAnalyzer` #19583
+- **Added** sidecar `ImageAnalyzer`  #20929
+- **Added** `PortNameAnalyzer` #19375
+- **Added** `Policy DeprecatedAnalyzer` #20919
 - **Updated** more validation rules for `RequestAuthentication` #19369.
 - **Added** a new flag `-A|--all-namespaces` to `istioctl analyze` to analyze the entire cluster #19209.
 - **Added** support for analyzing content passed via `stdin` to `istioctl analyze` #19393.
@@ -70,10 +70,10 @@ weight: 10
 - **Added** structured format options to `istioctl analyze` #18700.
 - **Added** links to relevant documentation to `istioctl analyze` output #19105.
 - **Updated** annotation methods provided by Istio API in analyzer #18829.
-- **Updated** istioctl analyze now loads files from a directory #20718
-- **Updated** istioctl analyze to try to associate message with their source filename
-- **Updated** istioctl analyze to print the namespace that is being analyzed #20515
-- **Updated** istioctl analyze to analyze in-cluster resources by default. #19647
+- **Updated** `istioctl analyze` now loads files from a directory #20718
+- **Updated** `istioctl analyze` to try to associate message with their source filename
+- **Updated** `istioctl analyze` to print the namespace that is being analyzed #20515
+- **Updated** `istioctl analyze` to analyze in-cluster resources by default. #19647
 - **Fixed** bug where analyzer suppressed cluster-level resource messages. #18935.
 - **Added** support for multiple input files to `istioctl manifest` #20190.
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.

@@ -145,6 +145,7 @@ ConfigMap
 configmap
 configmap
 configmaps
+configurability
 containerID
 ControlZ
 CoreDNS
@@ -310,6 +311,7 @@ ISTIO-SECURITY-2020-002
 istio-system
 istio.io
 istio.io.
+istiod
 Istiofied
 IstioMesh
 iter8
