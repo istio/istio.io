@@ -55,15 +55,15 @@ weight: 10
 
 
 ## `istioctl`
-- **Added** mutual TLS analyzer - #18350
-- **Added** `JwtAnalyzer` - #20812
-- **Added** `ServiceAssociationAnalyzer` #19383
-- **Added** `SercretAnalyzer` #19583
-- **Added** sidecar `ImageAnalyzer`  #20929
-- **Added** `PortNameAnalyzer` #19375
-- **Added** `Policy DeprecatedAnalyzer` #20919
-- **Updated** more validation rules for `RequestAuthentication` #19369.
-- **Added** a new flag `-A|--all-namespaces` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze the entire cluster #19209.
+- **Added** mutual TLS analyzer.
+- **Added** `JwtAnalyzer`.
+- **Added** `ServiceAssociationAnalyzer`.
+- **Added** `SercretAnalyzer`.
+- **Added** sidecar `ImageAnalyzer`.
+- **Added** `PortNameAnalyzer`.
+- **Added** `Policy DeprecatedAnalyzer`.
+- **Updated** more validation rules for `RequestAuthentication`.
+- **Added** a new flag `-A|--all-namespaces` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze the entire cluster.
 - **Added** support for analyzing content passed via `stdin` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
 - **Added** [`istioctl analyze -L`](/docs/ops/diagnostic-tools/istioctl-analyze/) to show a list of all analyzers available.
 - **Added** the ability to suppress messages from [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
@@ -75,9 +75,9 @@ weight: 10
 - **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to print the namespace that is being analyzed.
 - **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze in-cluster resources by default.
 - **Fixed** bug where [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) suppressed cluster-level resource messages.
-- **Added** support for multiple input files to `istioctl manifest` #20190.
+- **Added** support for multiple input files to `istioctl manifest`.
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
 - **Added** selector for [`istioctl dashboard`](/docs/reference/commands/istioctl/#istioctl-dashboard).
-- **Added** support for slices and lists in `istioctl manifest --set` flag #20631.\
+- **Added** support for slices and lists in [`istioctl manifest --set`](/docs/reference/commands/istioctl/#istioctl-manifest) flag.
 - **Graduated** [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) out of experimental.
 - **Added** a `docker/istioctl` image #19079.
