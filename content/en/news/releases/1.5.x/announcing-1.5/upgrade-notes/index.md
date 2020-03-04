@@ -34,7 +34,7 @@ Previously, Citadel served two functionalities: writing certificates to secrets 
 
 ### SDS Node Agent
 
-The `nodeagent` deployment has been removed. This functionality now exists in the Sidecar
+The `nodeagent` deployment has been removed. This functionality now exists in the Envoy sidecar.
 
 ### Sidecar
 
@@ -73,6 +73,6 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 
 As part of the Istiod effort, we have changed how proxies securely communicate with the control plane. In previous versions, proxies would connect to the control plane securely when the setting `values.global.controlPlaneSecurityEnabled=true` was configured, which was the default for Istio 1.4. Each control plane component ran a sidecar with Citadel certificates, and proxies connected to Pilot over port 15011.
 
-In Istio 1.5, this is no longer the recommended or default way to connect the proxies with the control plane; instead, DNS certificates, which can be signed by Kubernetes or Istiod, will be used without a sidecar. Proxies connect to pilot over port 15012.
+In Istio 1.5, this is no longer the recommended or default way to connect the proxies with the control plane; instead, DNS certificates, which can be signed by Kubernetes or Istiod, will be used to connect to Istiod over port 15012.
 
 Note: despite the naming, in Istio 1.5 when `controlPlaneSecurityEnabled` is set to `false`, communication between the control plane will be secure by default.
