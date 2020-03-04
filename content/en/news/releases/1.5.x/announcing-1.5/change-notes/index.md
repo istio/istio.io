@@ -26,7 +26,7 @@ weight: 10
 - **Added** auto mutual TLS. This beta feature is enabled by default.
 - **Improved** node level citadel agent by merging with pod level Istio agent. This improves the security posture by removing the requirement of a pod security policy.
 - **Graduated** SDS to Stable and enabled it by default.
-- **Improved** Istio by including certificate provisioning functionality within Pilot.
+- **Improved** Istio by including certificate provisioning functionality within istiod.
 - **Improved** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters that [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
 - **Improved** Istio's Pilot Agent by provisioning key and certificates for Prometheus consumption.
 - **Graduated** SDS which provides identity provisioning for Istio.
