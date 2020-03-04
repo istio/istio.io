@@ -33,11 +33,7 @@ and change directory to the new release directory.
 ### Istio CNI upgrade
 
 If you have installed or are planning to install [Istio CNI](/docs/setup/additional-setup/cni/),
-choose one of the following **mutually exclusive** options to check whether
-Istio CNI is already installed and to upgrade it:
-
-You can use Kubernetes’ rolling update mechanism to upgrade the Istio CNI components.
-This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
+you can check whether Istio CNI is already installed and to upgrade it. You can use Kubernetes’ rolling update mechanism to upgrade the Istio CNI components. This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
 
 1. To check whether `istio-cni` is installed, search for `istio-cni-node` pods
    and in which namespace they are running (typically, `kube-system` or `istio-system`):
@@ -61,10 +57,6 @@ This is suitable for cases where `kubectl apply` was used to deploy Istio CNI.
     {{< /text >}}
 
 ### Control plane upgrade
-
-Pilot, Galley, Policy, Telemetry and Sidecar injector.
-Choose one of the following **mutually exclusive** options
-to update the control plane:
 
 You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
