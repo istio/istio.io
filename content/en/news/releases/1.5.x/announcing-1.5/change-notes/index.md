@@ -6,14 +6,14 @@ weight: 10
 
 ## Traffic management
 
-- **Improved** performance of `ServiceEntry` updates #19305.
+- **Improved** performance of the `ServiceEntry` resource by avoiding unnecessary full pushes #19305.
 - **Improved** Envoy sidecar readiness probe to more accurate determine readiness #18164.
-- **Improved** performance of configuration updates by sending partial updates where possible #18354.
-- **Added** an option to control locality load balancer settings for each Service #18406.
-- **Fixed** an issue where pods crashing would trigger excessive configuration pushes #18574.
-- **Fixed** issues with applications that call themselves #19308.
+- **Improved** performance of Envoy proxy configuration updates via xDS by sending partial updates where possible #18354.
+- **Added** an option to configure locality load balancing settings for each targeted service via destination rule #18406.
+- **Fixed** an issue where pods crashing would trigger excessive Envoy proxy configuration pushes #18574.
+- **Fixed** issues with applications such as headless services to call themselves directly without going through Envoy proxy #19308.
 - **Added** detection of `iptables` failure when using Istio CNI #19534.
-- **Added** `consecutive_5xx` and `gateway_errors` as outlier detection options #19771.
+- **Added** `consecutiveGatewayErrors` and `consecutive5xxErrors` as outlier detection options within destination rule #19771.
 - **Improved** `EnvoyFilter` matching performance #19786.
 - **Added** support for `HTTP_PROXY` protocol #19919.
 - **Improved** `iptables` setup to use `iptables-restore` by default #18847.
@@ -22,13 +22,13 @@ weight: 10
 ## Security
 
 - **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into `PeerAuthentication` and `RequestAuthentication` respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
-- **Added** Authorization Policy supports deny action and exclusion semantics.
-- **Added** auto mutual TLS. This beta feature is enabled by default.
+- **Added** [deny semantics](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto#L28) to Authorization Policy
+- **Graduated** [auto mutual TLS](/docs/tasks/security/authentication/auto-mtls/) from alpha to beta. This feature is now enabled by default.
 - **Improved** node level citadel agent by merging with pod level Istio agent. This improves the security posture by removing the requirement of a pod security policy.
-- **Graduated** SDS to Stable and enabled it by default.
 - **Improved** Istio by including certificate provisioning functionality within istiod.
 - **Improved** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters that [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
-- **Improved** Istio's Pilot Agent by provisioning key and certificates for Prometheus consumption.
+- **Added** Support Istio CA and Kubernetes CA to provision certificates for the control plane.
+- **Added** Istio Agent provisions a key and certificates for Prometheus.
 - **Graduated** SDS to stable and enabled by default. It provides identity provisioning for Istio Envoy proxies.
 
 ## Telemetry
