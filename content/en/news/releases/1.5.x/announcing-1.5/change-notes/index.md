@@ -49,9 +49,9 @@ weight: 10
 
 ## Operator
 
-- **Replaced** the alpha `IstioControlPlane` API with the new `[IstioOperator]`(/docs/reference/config/istio.operator.v1alpha1/) API to align with existing MeshConfig API.
+- **Replaced** the alpha `IstioControlPlane` API with the new [`IstioOperator`](/docs/reference/config/istio.operator.v1alpha1/) API to align with existing MeshConfig API.
 - **Added** `istioctl operator init` and `istioctl operator remove` commands.
-- **Improved** reconciliation speed with caching #20344.
+- **Improved** reconciliation speed with caching [operator#667](https://github.com/istio/operator/pull/667).
 
 
 ## `istioctl`
