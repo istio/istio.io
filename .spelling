@@ -305,6 +305,7 @@ iptables
 IPv4
 IPv6
 Istio
+Istiod
 istio-identity
 istio-mixer
 ISTIO-SECURITY-2019-003
