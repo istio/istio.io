@@ -1,7 +1,7 @@
 ---
-title: Istio in 2020--Following the Trade Winds
+title: Istio in 2020 - Following the Trade Winds
 subtitle: Istio continues to get faster and easier to use in the 2020 roadmap
-description: A vision statement and roadmap for Istio in 2020
+description: A vision statement and roadmap for Istio in 2020.
 publishdate: 2020-03-03
 attribution: Istio Team
 keywords: [roadmap,security,performance,operator]
@@ -47,7 +47,7 @@ required extensions to be out-of-process. So, we're moving to a model that
 enables extension directly in the proxies instead.
 
 Most of Mixer’s use cases for policy enforcement are already addressed with
-Istio's [authentication ](/docs/concepts/security/#authentication-policies)
+Istio's [authentication](/docs/concepts/security/#authentication-policies)
 and [authorization](/docs/concepts/security/#authorization) policies, which
 allow you to control workload-to-workload and end-user-to-workload authorization
 directly in the proxy. Common monitoring use cases have already moved into the
@@ -137,7 +137,7 @@ installation. We introduced the
 
 - Human-triggered: use istioctl to apply the settings to the cluster.
 - Machine-triggered: use a controller that is continually watching for changes
-in that CRD and affecting those in real time.  
+in that CRD and affecting those in real time.
 
 In 2020 upgrades will getting easier too.  We will add support for “canarying”
 new versions of the Istio control plane, which allows you to run a new version
@@ -168,29 +168,29 @@ intercepted by other workloads on the machine. This mode will become the default
 in 1.5.
 
 Getting rid of the node-agent not only simplifies the deployment, but also
-removes the requirement for a cluster-wide PodSecurityPolicy, further improving
-the security posture of your cluster.
+removes the requirement for a cluster-wide `PodSecurityPolicy`, further
+improving the security posture of your cluster.
 
 ## Other features
 
 Here's a snapshot of some more exciting things you can expect from Istio in
 2020:
 
-*   Integration with more hosted Kubernetes environments - service meshes
+- Integration with more hosted Kubernetes environments - service meshes
 powered by Istio are currently available from 15 vendors, including Google, IBM,
 Red Hat, VMware, Alibaba and Huawei
-*   More investment in `istioctl` and its ability to help diagnose problems
-*   Better integration of VM-based workloads into meshes
-*   Continued work towards make multi-cluster and multi-network meshes easier to
+- More investment in `istioctl` and its ability to help diagnose problems
+- Better integration of VM-based workloads into meshes
+- Continued work towards make multi-cluster and multi-network meshes easier to
 configure, maintain, and run
-*   Integration with more service discovery systems, including
+- Integration with more service discovery systems, including
 Functions-as-a-Service
-*   Implementation of the new
+- Implementation of the new
 [Kubernetes service APIs](https://kubernetes-sigs.github.io/service-apis/),
 which are currently in development
-*   An [enhancement repository](https://github.com/istio/enhancements/),
+- An [enhancement repository](https://github.com/istio/enhancements/),
 to track feature development
-*   Making it easier to run Istio without needing Kubernetes!
+- Making it easier to run Istio without needing Kubernetes!
 
 From the seas to [the skies](https://www.youtube.com/watch?v=YjZ4AZ7hRM0),
 we're excited to see where you take Istio next.
