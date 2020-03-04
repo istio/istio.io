@@ -1,9 +1,10 @@
 ---
 title: Istio in 2020: Following the Trade Winds
-description: Istio continues to get much faster and easier to use in the 2020 roadmap
+subtitle: Istio continues to get faster and easier to use in the 2020 roadmap
+description: A vision statement and roadmap for Istio in 2020
 publishdate: 2020-03-03
 attribution: Istio Team
-keywords: [roadmap, security, performance, operator]
+keywords: [roadmap,security,performance,operator]
 target_release: 1.4
 ---
 
@@ -35,7 +36,7 @@ extensibility story we think the pace of innovation in the service mesh space
 can increase while Istio focuses on being gloriously dull.
 More details on our major efforts in 2020 below.
 
-### Sleeker, smoother and faster
+## Sleeker, smoother and faster
 
 Istio provided for extensibility from day one, implemented by a component called
 Mixer. Mixer is a platform that allows custom
@@ -58,8 +59,7 @@ Our benchmarking shows that the new telemetry model reduces our latency
 dramatically and gives us industry-leading performance, with 50% reductions in
 both latency and CPU consumption.
 
-
-### A new model for Istio extensibility
+## A new model for Istio extensibility
 
 The model that replaces Mixer uses extensions in Envoy to provide even more
 capability. The Istio community is leading the implementation of a
@@ -92,7 +92,7 @@ You can keep Mixer installed and enabled if you need it. Eventually Mixer will
 become a separately released add-on to Istio that is part of the
 [istio-ecosystem](https://github.com/istio-ecosystem/).
 
-### Fewer moving parts
+## Fewer moving parts
 
 We are also simplifying the deployment of the rest of the control plane. To
 that end, we combined several of the control plane components into a single
@@ -109,8 +109,6 @@ To reduce the per-node footprint, we are getting rid of the node-agent, used to
 distribute certificates, and moving its functionality to the istio-agent, which
 already runs in each Pod. For those of you who like pictures we are moving from
 this ...
-
-
 
 {{< image width="75%"
     link="./architecture-pre-istiod.svg"
@@ -130,8 +128,7 @@ In 2020, we will continue to invest in onboarding to achieve our goal of a
 “zero config” default that doesn’t require you to change any of your
 application's configuration to take advantage of most Istio features.
 
-
-### Improved lifecycle management
+## Improved lifecycle management
 
 To improve Istio’s life-cycle management, we moved to an
 [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)-based
@@ -147,7 +144,7 @@ new versions of the Istio control plane, which allows you to run a new version
 alongside the existing version and gradually switch your data plane over to use
 the new one.
 
-### Secure By Default
+## Secure By Default
 
 Istio already provides the fundamentals for strong service security: reliable
 workload identity, robust access policies and comprehensive audit logging. We’re
