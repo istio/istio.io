@@ -22,6 +22,10 @@ external service and according to the way your workload accesses the external se
 HTTP requests and the external service requires TLS, you may want to perform TLS origination by Istio. If your workload
 already uses TLS, the traffic is already encrypted and you can just disable Istio's mutual TLS.
 
+     {{< warning >}}
+     This page describes how Istio can integrate with existing Kubernetes configurations. For new deployments, we recommend following [Accessing Egress Services](/docs/tasks/traffic-management/egress/egress-control/).
+     {{< /warning >}}
+
 While the examples in this task use HTTP protocols,
 Kubernetes Services for egress traffic work with other protocols as well.
 
@@ -117,7 +121,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     {{< /text >}}
 
 1.  Access `httpbin.org` via the Kubernetes service's hostname from the source pod with Istio sidecar. Notice the
-    headers added by Istio sidecar, for example, `X-Istio-Attributes` and `X-Envoy-Decorator-Operation`. Also note that
+    headers added by Istio sidecar, for example `X-Envoy-Decorator-Operation`. Also note that
     the `Host` header equals to your service's hostname.
 
     {{< text bash >}}
@@ -125,13 +129,15 @@ Kubernetes Services for egress traffic work with other protocols as well.
     {
       "headers": {
         "Accept": "*/*",
+        "Content-Length": "0",
         "Host": "my-httpbin.default.svc.cluster.local",
-        "User-Agent": "curl/7.55.0",
+        "User-Agent": "curl/7.64.0",
         "X-B3-Sampled": "0",
-        "X-B3-Spanid": "5b68b3f953945a08",
-        "X-B3-Traceid": "0847ba2513aa0ffc5b68b3f953945a08",
+        "X-B3-Spanid": "5795fab599dca0b8",
+        "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
         "X-Envoy-Decorator-Operation": "my-httpbin.default.svc.cluster.local:80/*",
-        "X-Istio-Attributes": "CigKGGRlc3RpbmF0aW9uLnNlcnZpY2UubmFtZRIMEgpteS1odHRwYmluCioKHWRlc3RpbmF0aW9uLnNlcnZpY2UubmFtZXNwYWNlEgkSB2RlZmF1bHQKOwoKc291cmNlLnVpZBItEitrdWJlcm5ldGVzOi8vc2xlZXAtNjZjOGQ3OWZmNS04aG1neC5kZWZhdWx0CkAKF2Rlc3RpbmF0aW9uLnNlcnZpY2UudWlkEiUSI2lzdGlvOi8vZGVmYXVsdC9zZXJ2aWNlcy9teS1odHRwYmluCkIKGGRlc3RpbmF0aW9uLnNlcnZpY2UuaG9zdBImEiRteS1odHRwYmluLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw="
+        "X-Envoy-Peer-Metadata": "...",
+        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
       }
     }
     {{< /text >}}

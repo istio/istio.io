@@ -28,7 +28,7 @@ the product - culminating in us being
 
 We have ambitious goals for Istio in 2020 and there are many major efforts
 underway, but at the same time we strongly believe that good infrastructure
-should be “boring.” Using Istio in production should be a seamless experience;
+should be "boring." Using Istio in production should be a seamless experience;
 performance should not be a concern, upgrades should be a non-event and complex
 
 tasks should be automated away. With our investment in a more powerful
@@ -52,7 +52,7 @@ and [authorization](/docs/concepts/security/#authorization) policies, which
 allow you to control workload-to-workload and end-user-to-workload authorization
 directly in the proxy. Common monitoring use cases have already moved into the
 proxy too - we have
-[introduced in-proxy support](https://istio.io/docs/ops/configuration/telemetry/in-proxy-service-telemetry/)
+[introduced in-proxy support]/docs/ops/configuration/telemetry/in-proxy-service-telemetry/)
 for sending telemetry to Prometheus and Stackdriver.
 
 Our benchmarking shows that the new telemetry model reduces our latency
@@ -74,7 +74,7 @@ modules built into Envoy.
 
 We're working with the Envoy community on ways to discover and distribute these
 extensions. We want to make WebAssembly extensions as easy to install and run as
-containers. Many of our partners have written Mixer adapters, and together we
+containers. Many of our partners have written Mixer l, and together we
 are getting them ported to Wasm. We are also developing guides and codelabs on
 how to write your own extensions for custom integrations.
 
@@ -125,7 +125,7 @@ to this...
     >}}
 
 In 2020, we will continue to invest in onboarding to achieve our goal of a
-“zero config” default that doesn’t require you to change any of your
+"zero config" default that doesn’t require you to change any of your
 application's configuration to take advantage of most Istio features.
 
 ## Improved lifecycle management
@@ -139,7 +139,7 @@ installation. We introduced the
 - Machine-triggered: use a controller that is continually watching for changes
 in that CRD and affecting those in real time.
 
-In 2020 upgrades will getting easier too.  We will add support for “canarying”
+In 2020 upgrades will getting easier too.  We will add support for "canarying"
 new versions of the Istio control plane, which allows you to run a new version
 alongside the existing version and gradually switch your data plane over to use
 the new one.
@@ -151,11 +151,11 @@ workload identity, robust access policies and comprehensive audit logging. We’
 stabilizing APIs for these features; many Alpha APIs are moving to Beta in 1.5,
 and we expect them to all be v1 by the end of 2020. To learn more about the
 status of our APIs, see our
-[features page](https://istio.io/about/feature-stages/#istio-features).
+[features page](about/feature-stages/#istio-features).
 
 Network traffic is also becoming more secure by default. After many users
 enabled it in preview,
-[automated rollout of mutual TLS](https://istio.io/docs/tasks/security/authentication/auto-mtls/)
+[automated rollout of mutual TLS](/docs/tasks/security/authentication/auto-mtls/)
 is becoming the recommended practice in Istio 1.5.
 
 In addition we will make Istio require fewer privileges and simplify its

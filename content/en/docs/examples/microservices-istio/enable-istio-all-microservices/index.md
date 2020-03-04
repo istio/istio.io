@@ -51,7 +51,7 @@ enable Istio on all the remaining microservices in one step.
     {{< /text >}}
 
 1.  Access the Istio dashboard at
-    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
+    [`http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
     In the top left drop-down menu, select _Istio Mesh Dashboard_. Note that now all the services from your namespace
     appear in the list of services.
 
@@ -69,7 +69,7 @@ enable Istio on all the remaining microservices in one step.
 
 1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console, which is not a part of Istio.
     Access
-    [http://my-kiali.io/kiali/console](http://my-kiali.io/kiali/console).
+    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console).
     (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
     [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)). If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
 
