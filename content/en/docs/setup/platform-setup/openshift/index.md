@@ -29,7 +29,7 @@ Now you can install Istio using the [CNI](/docs/setup/additional-setup/cni/) ins
 After installation is complete, expose an OpenShift route for the ingress gateway.
 
 {{< text bash >}}
-$ oc -n istio-system expose svc/istio-ingressgateway --port=80
+$ oc -n istio-system expose svc/istio-ingressgateway --port=http2
 {{< /text >}}
 
 ## Automatic sidecar injection
@@ -102,5 +102,5 @@ EOF
 When removing your application, remove the `NetworkAttachmentDefinition` as follows.
 
 {{< text bash >}}
-$ oc -n <target-namespace> delete NetworkAttachmentDefinition istio-cni
+$ oc -n <target-namespace> delete network-attachment-definition istio-cni
 {{< /text >}}
