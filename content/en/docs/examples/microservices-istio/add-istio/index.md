@@ -94,7 +94,10 @@ disrupt your application, it continues to run and serve user requests.
 
 1.  Check the Istio dashboard, using the custom URL you set in your `/etc/hosts` file
     [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)):
-    [http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
+
+    {{< text plain >}}
+    http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
+    {{< /text >}}
 
     In the top left drop-down menu, select _Istio Mesh Dashboard_.
 
