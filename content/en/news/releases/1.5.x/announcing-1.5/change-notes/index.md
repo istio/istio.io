@@ -52,6 +52,7 @@ weight: 10
 - **Improved** reconciliation speed with caching [`operator#667`](https://github.com/istio/operator/pull/667).
 
 ## `istioctl`
+
 - **Graduated** [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) out of experimental.
 - **Added** various analyzers: mutual TLS, JWT, `ServiceAssociation`, Secret, sidecar image, port name and policy deprecated analyzers.
 - **Updated** more validation rules for `RequestAuthentication`.
