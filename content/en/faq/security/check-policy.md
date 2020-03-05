@@ -12,5 +12,3 @@ httpbin.default.svc.cluster.local:8000     OK         STRICT     ISTIO_MUTUAL   
 {{< /text >}}
 
 Where `$CLIENT_POD` is the ID of one of the client service's pods.
-
-Refer to [Verify mutual TLS configuration](/docs/tasks/security/authentication/mutual-tls/#verify-mutual-tls-configuration) for more information.

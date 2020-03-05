@@ -37,9 +37,6 @@ behaviors such as the overall volume of traffic, the error rates within the traf
 In addition to monitoring the behavior of services within a mesh, it is also important to monitor the behavior of the mesh itself. Istio components export
 metrics on their own internal behaviors to provide insight on the health and function of the mesh control plane.
 
-Istio metrics collection is driven by operator configuration. Operators select how and when to collect metrics, as well as how detailed the metrics themselves
-should be. This enables operators to flexibly tune metrics collection to meet their individual needs.
-
 ### Proxy-level metrics
 
 Istio metrics collection begins with the sidecar proxies (Envoy). Each proxy generates a rich set of metrics about all traffic passing through the proxy (both
@@ -77,11 +74,8 @@ In addition to the proxy-level metrics, Istio provides a set of service-oriented
 basic service monitoring needs: latency, traffic, errors, and saturation. Istio ships with a default set of
 [dashboards](/docs/tasks/observability/metrics/using-istio-dashboard/) for monitoring service behaviors based on these metrics.
 
-The [default Istio metrics](/docs/reference/config/policy-and-telemetry/metrics/) are defined by a set of configuration artifacts that ship with Istio and are
-exported to [Prometheus](/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default. Operators are free to modify the
-shape and content of these metrics, as well as to change their collection mechanism, to meet their individual monitoring needs.
-
-The [Collecting Metrics](/docs/tasks/observability/metrics/collecting-metrics/) task provides more information on customizing Istio metrics generation.
+The [standard Istio metrics](/docs/reference/config/policy-and-telemetry/metrics/) are
+exported to [Prometheus](/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default.
 
 Use of the service-level metrics is entirely optional. Operators may choose to turn off generation and collection of these metrics to meet their individual
 needs.
@@ -92,6 +86,8 @@ Example service-level metric:
 istio_requests_total{
   connection_security_policy="mutual_tls",
   destination_app="details",
+  destination_canonical_service="details",
+  destination_canonical_revision="v1",
   destination_principal="cluster.local/ns/default/sa/default",
   destination_service="details.default.svc.cluster.local",
   destination_service_name="details",
@@ -104,6 +100,8 @@ istio_requests_total{
   response_code="200",
   response_flags="-",
   source_app="productpage",
+  source_canonical_service="productpage",
+  source_canonical_revision="v1",
   source_principal="cluster.local/ns/default/sa/default",
   source_version="v1",
   source_workload="productpage-v1",
@@ -148,10 +146,6 @@ Access logs provide a way to monitor and understand behavior from the perspectiv
 
 Istio can generate access logs for service traffic in a configurable set of formats, providing operators with full control of the how, what, when and where of
 logging. Istio exposes a full set of source and destination metadata to the access logging mechanisms, allowing detailed audit of network transactions.
-
-Access logs may be generated locally or exported to custom backends, including [Fluentd](/docs/tasks/observability/logs/fluentd/).
-
-More information on access logging is provided in the [Collecting Logs](/docs/tasks/observability/logs/collecting-logs/) and the [Getting Envoy's Access Logs](/docs/tasks/observability/logs/access-log/) tasks.
 
 Example Istio access log (formatted in JSON):
 

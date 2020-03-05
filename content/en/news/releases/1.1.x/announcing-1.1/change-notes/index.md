@@ -112,7 +112,7 @@ concise list of things you should know before upgrading your deployment to Istio
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/authorization/rbac-groups/)
+  claim or any list-typed claims in JWT. See [Authorization for JWT](/docs/tasks/security/authorization/authz-jwt/)
   for more information.
 
 - **External Certificate Management on Ingress Gateway Controller**.

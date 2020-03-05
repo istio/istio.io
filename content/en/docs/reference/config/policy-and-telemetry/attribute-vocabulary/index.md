@@ -1,5 +1,5 @@
 ---
-title: Attribute Vocabulary
+title: Attribute Vocabulary (Deprecated)
 description: Describes the base attribute vocabulary used for policy and control.
 weight: 10
 aliases:

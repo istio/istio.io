@@ -94,7 +94,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     sidecar requests that will be directed to the egress gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.

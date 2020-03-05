@@ -14,7 +14,7 @@ GOPATH ?= $(shell cd ${ISTIOIO_GO}/../../..; pwd)
 export GOPATH
 
 # Set the directory for Istio source.
-ISTIO_GO ?= ${GOPATH}/src/istio.io/istio
+ISTIO_GO ?= $(GOPATH)/src/istio.io/istio
 export ISTIO_GO
 
 # If GOPATH is made up of several paths, use the first one for our targets in this Makefile

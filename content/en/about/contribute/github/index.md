@@ -59,7 +59,7 @@ Please see our guides on how to [contribute new content](/about/contribute/add-c
 or [review content](/about/contribute/review) to learn more about submitting more
 substantial changes.
 
-## Branching strategy
+## Branching strategy {#branching-strategy}
 
 Active content development takes place using the master branch of the
 `istio/istio.io` repository. On the day of an Istio release, we create a release

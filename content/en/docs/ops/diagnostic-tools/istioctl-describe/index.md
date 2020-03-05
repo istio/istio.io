@@ -18,7 +18,7 @@ verify its configuration.
 The basic usage of the command is as follows:
 
 {{< text bash >}}
-$ istioctl experimental describe <pod-name>[.<namespace>]
+$ istioctl experimental describe pod <pod-name>[.<namespace>]
 {{< /text >}}
 
 Appending a namespace to the pod name has the same affect as using the `-n` option

@@ -450,12 +450,11 @@ and endpoint to allow the remote sidecars to resolve the
     $ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1. Deploy the Istio control plane with security enabled for the control plane
-   and the application pod:
+1. Deploy the Istio control plane with its security features enabled:
 
     {{< text bash >}}
     $ istioctl manifest apply \
-      --set values.global.mtls.enabled=true \
+      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.security.selfSigned=false
     {{< /text >}}
 
@@ -473,14 +472,14 @@ and endpoint to allow the remote sidecars to resolve the
    in the [setting environment variables section](#environment-var).
 
 1. The following command deploys the remote cluster's components with security
-   enabled for the control plane and the application pod and enables the
+   features for the control plane enabled, and enables the
    creation of the an Istio Pilot selector-less service and endpoint to get a
    DNS entry in the remote cluster.
 
     {{< text bash >}}
     $ istioctl manifest apply \
       --set profile=remote \
-      --set values.global.mtls.enabled=true \
+      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.security.selfSigned=false \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \

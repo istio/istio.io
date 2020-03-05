@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2020-002
-subtitle: Security Bulletin
-description: Mixer policy check bypass caused by improperly accepting certain request headers.
+subtitle: 安全公告
+description: 由于不正确地接受某些请求 header 导致 Mixer 策略检查被绕过。
 cves: [CVE-2020-8843]
 cvss: "7.4"
 vector: "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
@@ -13,20 +13,19 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-Istio 1.3 to 1.3.6 contain a vulnerability affecting Mixer policy checks.
+Istio 1.3 到 1.3.6 包含了影响 Mixer 策略检查的漏洞。
 
-Note: We regret that the vulnerability was silently fixed in Istio 1.4.0 and Istio 1.3.7.
-An [issue was raised](https://github.com/istio/istio/issues/12063) and [fixed](https://github.com/istio/istio/pull/17692) in Istio 1.4.0 as a non-security issue. We reclassified the issue as a vulnerability in Dec 2019.
+注意：我们在 Istio 1.4.0 以及 Istio 1.3.7 中默认地修复了该漏洞。
+Istio 1.4.0 中的一个 [问题](https://github.com/istio/istio/issues/12063) 及其 [修复](https://github.com/istio/istio/pull/17692) 是一个非安全性问题。我们在 2019 年 12 月将该问题重新分类为漏洞。
+__[CVE-2020-8843](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8843)__：在某些情况下，可以绕过特定配置的 Mixer 策略。Istio-proxy 在 ingress 处接受 `x-istio-attributes` header，当 Mixer 策略有选择地应用至 source 时，等价于应用至 ingress，其可能会影响策略决策。
+为了避免这种情况，Istio 必须启用并以指定方式使用 Mixer 策略。在 Istio 1.3 和 1.4 中，默认情况下未启用此功能。
 
-* __[CVE-2020-8843](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8843)__: Under certain circumstances it is possible to bypass a specifically configured Mixer policy. Istio-proxy accepts `x-istio-attributes` header at ingress that can be used to affect policy decisions when Mixer policy selectively applies to source equal to ingress.
-To be vulnerable, Istio must have Mixer Policy enabled and used in the specified way. This feature is disabled by default in Istio 1.3 and 1.4.
+## 防范{#mitigation}
 
-## Mitigation
+* 对于 Istio 1.3.x 部署: 请升级至 [Istio 1.3.7](/zh/news/releases/1.3.x/announcing-1.3.7) 或更高的版本。
 
-* For Istio 1.3.x deployments: update to [Istio 1.3.7](/zh/news/releases/1.3.x/announcing-1.3.7) or later.
+## 鸣谢{#credit}
 
-## Credit
-
-The Istio team would like to thank Krishnan Anantheswaran and Eric Zhang of [Splunk](https://www.splunk.com/) for the private bug report.
+Istio 团队在此对 [Splunk](https://www.splunk.com/) 的 Krishnan Anantheswaran 和 Eric Zhang 提供的私人 bug 报告表示感谢。
 
 {{< boilerplate "security-vulnerability" >}}

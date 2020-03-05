@@ -16,8 +16,12 @@ the underlying concepts in the [authentication overview](/docs/concepts/security
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related
 [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Install Istio on a Kubernetes cluster with global mutual TLS disabled (e.g, use the demo configuration profile, as described in
-[installation steps](/docs/setup/getting-started), or set the `global.mtls.enabled` installation option to false).
+* Install Istio on a Kubernetes cluster with the `default` configuration profile, as described in
+[installation steps](/docs/setup/getting-started).
+
+{{< text bash >}}
+$ istioctl manifest apply
+{{< /text >}}
 
 ### Setup
 
@@ -286,7 +290,7 @@ Note that you've already created a namespace-wide policy that enables mutual TLS
 `sleep.legacy` to `httpbin.foo` are failing (see above).
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -n bar -f -
+$ cat <<EOF | kubectl apply -n foo -f -
 apiVersion: "security.istio.io/v1beta1"
 kind: "PeerAuthentication"
 metadata:
