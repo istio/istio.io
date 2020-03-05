@@ -107,9 +107,7 @@ or on other VMs.
 The following example shows accessing a service running in the Kubernetes cluster from a VM using
 `/etc/hosts/`, in this case using a service from the [Bookinfo example](/docs/examples/bookinfo/).
 
-
-1.  Connect to the productpage service from VM as in the
-    example below:
+1.  Connect to the cluster service from VM as in the example below:
 
     {{< text bash >}}
 $ curl -v ${GWIP}/productpage

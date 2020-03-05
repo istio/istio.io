@@ -74,14 +74,12 @@ following commands on a machine with cluster admin privileges:
     For further details and customization options, refer to the
     [installation instructions](/docs/setup/install/istioctl/).
    
-   Alternatively, the user can create an explicit Service of type LoadBalancer and use
-    [Internal Load Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
+   Alternatively, the user can create an explicit service of type `LoadBalancer` and use
+    [internal load balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
     type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and
     multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment,
-     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned
-     into istiod deployment, defaulting to 'istiod.istio-system.svc'
-   
-
+    and for the DNS name associated with the assigned load balancer address to match the certificate provisioned
+    into istiod deployment, defaulting to 'istiod.istio-system.svc'
    
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
@@ -107,7 +105,7 @@ following commands on a machine with cluster admin privileges:
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
-    
+
     $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
     
@@ -134,8 +132,8 @@ following commands on a machine with cluster admin privileges:
 
     It is recommended to follow the instructions for "Plugging in External CA Key and Certificates", and use a
      separate intermediary CA for provisioning the VM. There are many tools and procedures for managing
-     certificates for VMs - Istio requirement is that the VM will get a certificate with a Istio-compatible
-     SPIFEE SAN, with the correct trust domain, namespace and service account the VM will uperate as.
+     certificates for VMs - Istio requirement is that the VM will get a certificate with an Istio-compatible
+     SPIFEE SAN, with the correct trust domain, namespace and service account.
 
     As an example, for very simple demo setups, you can also use:
   
