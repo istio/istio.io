@@ -6,6 +6,8 @@ weight: 50
 
 The following are the standard service level metrics exported by Istio.
 Istio standard metrics are directly exported by the Envoy proxy since Istio 1.5.
+The telemetry component is [implemented](https://github.com/istio/proxy/tree/release-1.5/extensions/stats) as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
+
 In prior Istio releases Mixer produced these metrics.
 
 ## Metrics
@@ -14,7 +16,7 @@ For HTTP, HTTP/2, and GRPC traffic, Istio generates the following metrics:
 
 *   **Request Count** (`istio_requests_total`): This is a `COUNTER` incremented for every request handled by an Istio proxy.
 
-*   **Request Duration** (`istio_request_duration_seconds`): This is a `DISTRIBUTION` which measures the duration of requests.
+*   **Request Duration** (`istio_request_duration_milliseconds`): This is a `DISTRIBUTION` which measures the duration of requests.
 
 *   **Request Size** (`istio_request_bytes`): This is a `DISTRIBUTION` which measures HTTP request body sizes.
 
