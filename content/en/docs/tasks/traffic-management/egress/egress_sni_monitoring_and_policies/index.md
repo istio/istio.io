@@ -11,7 +11,7 @@ aliases:
 The mixer policy is deprecated in Istio 1.5 and not recommended for production usage.
 
 * Rate limiting: Consider using [Envoy native rate limiting](https://www.envoyproxy.io/docs/envoy/v1.13.0/intro/arch_overview/other_features/global_rate_limiting)
-instead of mixer rate limiting. Istio will add support for native rate limiting API through the Istio extensions API.
+instead of mixer rate limiting. Istio will add support for the native rate limiting API through the Istio extensions API.
 
 * Control headers and routing: Consider using Envoy [`ext_authz` filter](https://www.envoyproxy.io/docs/envoy/v1.13.0/intro/arch_overview/security/ext_authz_filter),
 [`lua` filter](https://www.envoyproxy.io/docs/envoy/v1.13.0/configuration/http/http_filters/lua_filter),
