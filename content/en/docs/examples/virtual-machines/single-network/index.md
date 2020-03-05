@@ -65,32 +65,37 @@ following commands on a machine with cluster admin privileges:
         --from-file=@samples/certs/cert-chain.pem@
     {{< /text >}}
 
-1. Deploy Istio control plane into the cluster
+1. For a simple setup, deploy Istio control plane into the cluster
 
         {{< text bash >}}
-        $ istioctl manifest apply \
-            -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
+        $ istioctl manifest apply
         {{< /text >}}
 
     For further details and customization options, refer to the
     [installation instructions](/docs/setup/install/istioctl/).
 
+   Alternatively, the user can create an explicit service of type `LoadBalancer` and use
+    [internal load balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
+    type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and
+    multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment,
+    and for the DNS name associated with the assigned load balancer address to match the certificate provisioned
+    into istiod deployment, defaulting to 'istiod.istio-system.svc'
+
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
-   match the namespace you use in the configuration files later on.
+   match the namespace you use in the configuration files later on, and the identity encoded in the certificates.
 
     {{< text bash >}}
-    $ export SERVICE_NAMESPACE="default"
+    $ export SERVICE_NAMESPACE="vm"
     {{< /text >}}
 
-1. Determine and store the IP address of the Istio ingress gateway since the VMs
-   access [Citadel](/docs/concepts/security/) and
-   [Pilot](/docs/ops/deployment/architecture/#pilot) through this IP address.
+1. Determine and store the IP address of the Istiod since the VMs
+   access [Istiod](/docs/ops/deployment/architecture/#pilot) through this IP address.
 
     {{< text bash >}}
-    $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    $ echo $GWIP
-    35.232.112.158
+    $ export IstiodIP=$(kubectl get -n istio-system service istiod -o jsonpath='{.spec.clusterIP}')
+    $ echo $IstiodIP
+    10.55.240.12
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
@@ -100,14 +105,17 @@ following commands on a machine with cluster admin privileges:
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
-    $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
+    $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
+
+    It is also possible to intercept all traffic, as is done for pods. Depending on vendor and installation mechanism
+    you may use different commands to determine the IP range used for services and pods. Multiple ranges can be
+    specified if the VM is making requests to multiple K8S clusters.
 
 1. Check the contents of the generated `cluster.env` file. It should be similar to the following example:
 
     {{< text bash >}}
     $ cat cluster.env
-    ISTIO_CP_AUTH=MUTUAL_TLS
     ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
 
@@ -118,15 +126,20 @@ following commands on a machine with cluster admin privileges:
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
 
-1. Extract the initial keys the service account needs to use on the VMs.
+1. In order to use mesh expansion, the VM must be provisioned with certificates signed by the same root CA as
+    the rest of the mesh.
+
+    It is recommended to follow the instructions for "Plugging in External CA Key and Certificates", and use a
+     separate intermediary CA for provisioning the VM. There are many tools and procedures for managing
+     certificates for VMs - Istio requirement is that the VM will get a certificate with an Istio-compatible
+     SPIFEE SAN, with the correct trust domain, namespace and service account.
+
+    As an example, for very simple demo setups, you can also use:
 
     {{< text bash >}}
-    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-        -o jsonpath='{.data.root-cert\.pem}' |base64 --decode > root-cert.pem
-    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-        -o jsonpath='{.data.key\.pem}' |base64 --decode > key.pem
-    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-          -o jsonpath='{.data.cert-chain\.pem}' |base64 --decode > cert-chain.pem
+    $ go run istio.io/istio/security/tools/generate_cert \
+          -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
+    $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem
     {{< /text >}}
 
 ### Setting up the VM
@@ -148,12 +161,16 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
-The following example updates the `/etc/hosts` file with the Istio gateway address:
+1.  Add the IP address of the Istiod to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
+The following example updates the `/etc/hosts` file with the Istiod address:
 
     {{< text bash >}}
-    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" | sudo tee -a /etc/hosts
+    $ echo "${IstiodIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts
     {{< /text >}}
+
+   A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using
+   /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
+   the scope of this document.
 
 1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
 
@@ -162,30 +179,23 @@ The following example updates the `/etc/hosts` file with the Istio gateway addre
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
+1.  Install `root-cert.pem` under `/var/run/secrets/istio/`.
+
 1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
     $ sudo cp cluster.env /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
+1.  Transfer ownership of the files in `/etc/certs/` , `/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
-    {{< /text >}}
-
-1.  Verify the Istio Agent works:
-
-    {{< text bash >}}
-    $ sudo node_agent
-    ....
-    CSR is approved successfully. Will renew cert in 1079h59m59.84568493s
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /var/run/secrets/istio/
     {{< /text >}}
 
 1.  Start Istio using `systemctl`.
 
     {{< text bash >}}
-    $ sudo systemctl start istio-auth-node-agent
     $ sudo systemctl start istio
     {{< /text >}}
 
@@ -315,7 +325,6 @@ The following are some basic troubleshooting steps for common VM-related issues.
 -    Check the status of the Istio Agent and sidecar:
 
     {{< text bash >}}
-    $ sudo systemctl status istio-auth-node-agent
     $ sudo systemctl status istio
     {{< /text >}}
 
@@ -324,10 +333,9 @@ The following are some basic troubleshooting steps for common VM-related issues.
 
     {{< text bash >}}
     $ ps aux | grep istio
-    root      6941  0.0  0.2  75392 16820 ?        Ssl  21:32   0:00 /usr/local/istio/bin/node_agent --logtostderr
-    root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
+    root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=vm exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
     istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
-    istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
+    istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.vm-vm.svc.cluster.local
     {{< /text >}}
 
 -    Check the Envoy access and error logs:
