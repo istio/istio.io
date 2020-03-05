@@ -34,8 +34,6 @@ your specific needs. The following built-in configuration profiles are currently
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) with a
     [shared control plane](/docs/setup/install/multicluster/shared-vpn/) configuration.
 
-1. **preview**: enables experimental features that lack the stability, performance, and security of features in the default profiles.
-
 1. **empty**: deploys nothing. This can be useful as a base profile for custom configuration.
 
 1. **separate**: deploys Istio following the legacy micro-services model. This profile is not recommended because it won't be supported in future releases.
