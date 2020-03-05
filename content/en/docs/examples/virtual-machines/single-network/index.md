@@ -77,20 +77,17 @@ following commands on a machine with cluster admin privileges:
    
    This option will expose Istio control plane on the default cluster gateway, as a public address. 
    
-   Alternatively, the user can create an explicit Service of type LoadBalancer or use
+   Alternatively, the user can create an explicit Service of type LoadBalancer and use
     [Internal Load Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) 
-    type. User can also deploying a separate ingress Gateway with internal load balancer type for mesh expansion and 
-    multicluster.  The main requirement is for exposed address used to use TCP load balancing to Istiod deployment, 
-     and the DNS name set fo the load balancer to match the certificate provisioned into istiod deployment, defaulting
-     to 'istiod.istio-system.svc'
+    type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and 
+    multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment, 
+     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned 
+     into istiod deployment, defaulting to 'istiod.istio-system.svc'
    
    The address of the Service or Gateway will need to be configured in the DNS server used by the VM, or 
    in /etc/hosts for simple cases. Istiod expects to use port 15012 with mTLS authentication - it is recommended to 
-   use the default port if using the self-generated certificates for Istio. 
+   use the default port if using the default install. 
    
-   Users can also provision ACME or other public certificates. In this mode it is recommended to not use port 15012
-   for the istiod service, to avoid confusion.  
-
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
    match the namespace you use in the configuration files later on, and the identity encoded in the certificates.
