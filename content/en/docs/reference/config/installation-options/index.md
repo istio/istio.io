@@ -593,5 +593,4 @@ To get the exact set of supported options, please see the [Helm charts]({{< gith
 | `tracing.service.externalPort` | `80` |  |
 | `tracing.ingress.enabled` | `false` |  |
 
-
 <!-- AUTO-GENERATED-END -->
