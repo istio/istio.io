@@ -59,8 +59,8 @@ Security in Istio involves multiple components:
     - [authorization policies](/docs/concepts/security/#authorization-policies)
     - [secure naming information](/docs/concepts/security/#secure-naming)
 
-- Sidecar and perimeter proxies work as Policy Enforcement Points (PEPs) to
-   secure communication between clients and servers.
+- Sidecar and perimeter proxies work as [Policy Enforcement Points](https://www.jerichosystems.com/technology/glossaryterms/policy_enforcement_point.html)
+    (PEPs) to  secure communication between clients and servers.
 - A set of Envoy proxy extensions to manage telemetry and auditing
 
 The control plane handles configuration from the API server and
@@ -77,25 +77,27 @@ In the following sections, we introduce the Istio security features in detail.
 ## Istio identity
 
 Identity is a fundamental concept of any security infrastructure. At the
-beginning of a service-to-service communication, the two parties must exchange
+beginning of a workload-to-workload communication, the two parties must exchange
 credentials with their identity information for mutual authentication purposes.
 On the client side, the server's identity is checked against the
 [secure naming](/docs/concepts/security/#secure-naming)
-information to see if it is an authorized runner of the service. On the server
+information to see if it is an authorized runner of the workload. On the server
 side, the server can determine what information the client can access based on
 the
 [authorization policies](/docs/concepts/security/#authorization-policies),
-audit who accessed what at what time, charge clients based on the services they
+audit who accessed what at what time, charge clients based on the workloads they
 used, and reject any clients who failed to pay their bill from accessing the
-services.
+workloads.
 
-In the Istio identity model, Istio uses the first-class service identity to
-determine the identity of a service. This gives great flexibility and
-granularity to represent a human user, an individual service, or a group of
-services. On platforms that do not have such identity available, Istio can use
-other identities that can group service instances, such as service names.
+The Istio identity model uses the first-class `service identity` to
+determine the identity of a request's origin. This model allows for great
+flexibility and granularity for service identities to represent a human user, an
+individual workload, or a group of workloads. On platforms without a service
+identity, Istio can use other identities that can group workload
+instances, such as service names.
 
-Use Istio service identities on different platforms:
+The following list shows examples of service identities that you can use on different
+platforms:
 
 - Kubernetes: Kubernetes service account
 - GKE/GCE: GCP service account
@@ -106,7 +108,7 @@ Use Istio service identities on different platforms:
    service account refers to the existing service account just like the
    identities that the customer's Identity Directory manages.
 
-## PKI
+## Public Key Infrastructure (PKI)
 
 The Istio PKI securely provisions strong identities to every workload with X.509
 certificates. To automate key and certificate rotation at scale, the PKI runs an
