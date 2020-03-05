@@ -93,6 +93,7 @@ archive.istio.io
 archive.istio.io.
 args.yaml
 Auth0
+AuthenticationPolicy
 AuthPolicy
 autoscaler
 Autoscalers
@@ -393,6 +394,7 @@ misordered
 Mitigations
 MongoDB
 mongodb
+mTLS
 Multicast
 Multicloud
 multicloud
@@ -548,6 +550,7 @@ SMEs
 Snell-Feikema
 SNI
 SolarWinds
+Solo.io
 Splunk
 SPIFFE
 SPIFFE-compliant
