@@ -68,14 +68,12 @@ following commands on a machine with cluster admin privileges:
 1. For a simple setup, deploy Istio control plane into the cluster
 
         {{< text bash >}}
-        $ istioctl manifest apply \
-            -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
+        $ istioctl manifest apply 
         {{< /text >}}
 
     For further details and customization options, refer to the
     [installation instructions](/docs/setup/install/istioctl/).
    
-   This option will expose Istio control plane on the default cluster gateway, as a public address. 
    
    Alternatively, the user can create an explicit Service of type LoadBalancer and use
     [Internal Load Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) 
@@ -84,9 +82,7 @@ following commands on a machine with cluster admin privileges:
      and for the DNS name associated with the assigned load balancer address to match the certificate provisioned 
      into istiod deployment, defaulting to 'istiod.istio-system.svc'
    
-   The address of the Service or Gateway will need to be configured in the DNS server used by the VM, or 
-   in /etc/hosts for simple cases. Istiod expects to use port 15012 with mTLS authentication - it is recommended to 
-   use the default port if using the default install. 
+
    
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
@@ -96,17 +92,15 @@ following commands on a machine with cluster admin privileges:
     $ export SERVICE_NAMESPACE="vm"
     {{< /text >}}
 
-1. If using the default gateway, determine and store the IP address of the Istio ingress gateway since the VMs
-   access [Pilot](/docs/ops/deployment/architecture/#pilot) through this IP address.
+1. Determine and store the IP address of the Istid since the VMs
+   access [Istiod](/docs/ops/deployment/architecture/#pilot) through this IP address.
 
     {{< text bash >}}
-    $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    $ echo $GWIP
-    35.232.112.158
+    $ export IstiodIP=$(kubectl get -n istio-system service istiod -o jsonpath='{.spec.clusterIP}')
+    $ echo $IstiodIP
+    10.55.240.12
     {{< /text >}}
     
-    If using a dedicated gateway or Service, use a similar command to determine the IP address, and configure the 
-    DNS resolver with the address.
 
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
     to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
@@ -149,7 +143,7 @@ following commands on a machine with cluster admin privileges:
       {{< text bash >}}
     
         $ go run istio.io/istio/security/tools/generate_cert \
-          --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
+          -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
         $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem
         
       {{< /text >}}
@@ -173,11 +167,11 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
-The following example updates the `/etc/hosts` file with the Istio gateway address:
+1.  Add the IP address of the Istiod to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
+The following example updates the `/etc/hosts` file with the Istiod address:
 
     {{< text bash >}}
-    $ echo "${GWIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts
+    $ echo "${IstiodIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts
     {{< /text >}}
 
    A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using 
