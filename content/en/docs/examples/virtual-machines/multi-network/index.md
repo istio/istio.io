@@ -32,92 +32,10 @@ Setup consists of preparing the mesh for expansion and installing and configurin
 
 The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
-that let VMs connect to the mesh. Prepare the cluster for the VM with the
-following commands on a machine with cluster admin privileges:
+that let VMs connect to the mesh. 
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
-
-    {{< warning >}}
-    The root and intermediate certificate from the samples directory are widely
-    distributed and known.  Do **not** use these certificates in production as
-    your clusters would then be open to security vulnerabilities and compromise.
-    {{< /warning >}}
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=@samples/certs/ca-cert.pem@ \
-        --from-file=@samples/certs/ca-key.pem@ \
-        --from-file=@samples/certs/root-cert.pem@ \
-        --from-file=@samples/certs/cert-chain.pem@
-    {{< /text >}}
-
-1. Deploy Istio control plane into the cluster
-
-        {{< text bash >}}
-        $ istioctl manifest apply \
-            -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion-gateways.yaml \
-            --set coreDNS.enabled=true
-        {{< /text >}}
-
-    For further details and customization options, refer to the
-    [installation instructions](/docs/setup/install/istioctl/).
-
-1. Create `vm` namespace for the VM services.
-
-    {{< text bash >}}
-    $ kubectl create ns vm
-    {{< /text >}}
-
-1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE` environment variable to store the namespace. The value of this variable must match the namespace you use in the configuration files later on.
-
-    {{< text bash >}}
-    $ export SERVICE_NAMESPACE="vm"
-    {{< /text >}}
-
-1. Extract the initial keys the service account needs to use on the VMs.
-
-    {{< text bash >}}
-    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-        -o jsonpath='{.data.root-cert\.pem}' | base64 --decode > root-cert.pem
-    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-        -o jsonpath='{.data.key\.pem}' | base64 --decode > key.pem
-    $ kubectl -n $SERVICE_NAMESPACE get secret istio.default  \
-          -o jsonpath='{.data.cert-chain\.pem}' | base64 --decode > cert-chain.pem
-    {{< /text >}}
-
-1. Determine and store the IP address of the Istio ingress gateway since the
-   VMs access [Citadel](/docs/concepts/security/) and
-   [Pilot](/docs/ops/deployment/architecture/#pilot) and workloads on cluster through
-   this IP address.
-
-    {{< text bash >}}
-    $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    $ echo $GWIP
-    35.232.112.158
-    {{< /text >}}
-
-1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
-    to intercept and redirect via Envoy.
-
-    {{< text bash >}}
-    $ echo -e "ISTIO_CP_AUTH=MUTUAL_TLS\nISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
-    {{< /text >}}
-
-1. Check the contents of the generated `cluster.env` file. It should be similar to the following example:
-
-    {{< text bash >}}
-    $ cat cluster.env
-    ISTIO_CP_AUTH=MUTUAL_TLS
-    ISTIO_SERVICE_CIDR=172.21.0.0/16
-    {{< /text >}}
-
-1. If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes
-    to the `cluster.env` file with the following command. You can change the ports later if necessary.
-
-    {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=8888" >> cluster.env
-    {{< /text >}}
+1. Follow the same steps as [setting up single-network](/...) configuration for the initial setup of the 
+   cluster and certificates.
 
 ### Setup DNS
 
@@ -127,47 +45,7 @@ Reference [Setup DNS](/docs/setup/install/multicluster/gateways/#setup-dns) to s
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
-1.  Copy the previously created `cluster.env` and `*.pem` files to the VM.
-
-1.  Install the Debian package with the Envoy sidecar.
-
-    {{< text bash >}}
-    $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
-    $ sudo dpkg -i istio-sidecar.deb
-    {{< /text >}}
-
-1.  Add the IP address of the Istio gateway to `/etc/hosts`. Revisit the [Customized installation of Istio on the Cluster](#customized-installation-of-istio-on-the-cluster) section to learn how to obtain the IP address.
-The following example updates the `/etc/hosts` file with the Istio gateway address:
-
-    {{< text bash >}}
-    $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" | sudo tee -a /etc/hosts
-    {{< /text >}}
-
-1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
-
-    {{< text bash >}}
-    $ sudo mkdir -p /etc/certs
-    $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
-    {{< /text >}}
-
-1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
-
-    {{< text bash >}}
-    $ sudo cp cluster.env /var/lib/istio/envoy
-    {{< /text >}}
-
-1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
-
-    {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
-    {{< /text >}}
-
-1.  Start Istio using `systemctl`.
-
-    {{< text bash >}}
-    $ sudo systemctl start istio-auth-node-agent
-    $ sudo systemctl start istio
-    {{< /text >}}
+1. Follow the same steps as [setting up single-network](/...)
 
 ## Added Istio resources
 

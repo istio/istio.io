@@ -85,14 +85,18 @@ following commands on a machine with cluster admin privileges:
      to 'istiod.istio-system.svc'
    
    The address of the Service or Gateway will need to be configured in the DNS server used by the VM, or 
-   in /etc/hosts for simple cases.
+   in /etc/hosts for simple cases. Istiod expects to use port 15012 with mTLS authentication - it is recommended to 
+   use the default port if using the self-generated certificates for Istio. 
+   
+   Users can also provision ACME or other public certificates. In this mode it is recommended to not use port 15012
+   for the istiod service, to avoid confusion.  
 
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
-   match the namespace you use in the configuration files later on.
+   match the namespace you use in the configuration files later on, and the identity encoded in the certificates.
 
     {{< text bash >}}
-    $ export SERVICE_NAMESPACE="default"
+    $ export SERVICE_NAMESPACE="vm"
     {{< /text >}}
 
 1. If using the default gateway, determine and store the IP address of the Istio ingress gateway since the VMs
@@ -116,6 +120,10 @@ following commands on a machine with cluster admin privileges:
     $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
     $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
+    
+    It is also possible to intercept all traffic, as is done for pods. Depending on vendor and installation mechanism
+    you may use different commands to determine the IP range used for services and pods. Multiple ranges can be 
+    specified if the VM is making requests to multiple K8S clusters.
 
 1. Check the contents of the generated `cluster.env` file. It should be similar to the following example:
 
@@ -172,11 +180,12 @@ Next, run the following commands on each machine that you want to add to the mes
 The following example updates the `/etc/hosts` file with the Istio gateway address:
 
     {{< text bash >}}
-    $ echo "35.232.112.158 istiod.istio-system.svc" | sudo tee -a /etc/hosts
+    $ echo "${GWIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts
     {{< /text >}}
 
-   A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. 
-   It is also possible to use a real DNS and certificate for Istiod.
+   A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using 
+   /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
+   the scope of this document.
 
 1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
 
@@ -337,9 +346,9 @@ The following are some basic troubleshooting steps for common VM-related issues.
 
     {{< text bash >}}
     $ ps aux | grep istio
-    root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=default exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
+    root      6955  0.0  0.0  49344  3048 ?        Ss   21:32   0:00 su -s /bin/bash -c INSTANCE_IP=10.150.0.5 POD_NAME=demo-vm-1 POD_NAMESPACE=vm exec /usr/local/bin/pilot-agent proxy > /var/log/istio/istio.log istio-proxy
     istio-p+  7016  0.0  0.1 215172 12096 ?        Ssl  21:32   0:00 /usr/local/bin/pilot-agent proxy
-    istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.default~default.svc.cluster.local
+    istio-p+  7094  4.0  0.3  69540 24800 ?        Sl   21:32   0:37 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev1.json --restart-epoch 1 --drain-time-s 2 --parent-shutdown-time-s 3 --service-cluster istio-proxy --service-node sidecar~10.150.0.5~demo-vm-1.vm-vm.svc.cluster.local
     {{< /text >}}
 
 -    Check the Envoy access and error logs:
