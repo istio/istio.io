@@ -110,7 +110,7 @@ platforms:
 
 ## Public Key Infrastructure (PKI) {#pki}
 
-The Istio Public Key Infrastructure (PKI) securely provisions strong identities
+The Istio PKI securely provisions strong identities
 to every workload with X.509 certificates. To automate key and certificate
 rotation at scale, the PKI runs an Istio agent alongside each Envoy proxy for
 certificate and key provisioning. The following diagram shows the identity
