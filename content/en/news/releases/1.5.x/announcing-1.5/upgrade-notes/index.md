@@ -69,6 +69,11 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 * Black Hole telemetry for TCP and HTTP protocols is not supported.
 * Histogram buckets are [significantly different](https://github.com/istio/istio/issues/20483) than Mixer Telemetry and cannot be changed.
 
+## Istio workload key and certificate provisioning
+
+* We have stabilized the SDS certificate and key provisioning flow. Now the Istio workloads are using SDS to provision certificates. The secret volume mount approach is deprecated.
+* Please note when mutual TLS is enabled, Prometheus deployment needs to be manually modified to monitor the workloads. The details are described in this [issue](https://github.com/istio/istio/issues/21843). This is not required in 1.5.1.
+
 ## Control plane security
 
 As part of the Istiod effort, we have changed how proxies securely communicate with the control plane. In previous versions, proxies would connect to the control plane securely when the setting `values.global.controlPlaneSecurityEnabled=true` was configured, which was the default for Istio 1.4. Each control plane component ran a sidecar with Citadel certificates, and proxies connected to Pilot over port 15011.
