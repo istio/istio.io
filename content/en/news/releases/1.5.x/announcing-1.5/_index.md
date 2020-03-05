@@ -28,16 +28,16 @@ goal. Users are getting more new functionality faster than ever!
 
 Here’s some of what’s coming to you in today's release:
 
-## Introducing `istiod`
+## Introducing Istiod
 
 We are dramatically simplifying the experience of installing, running, and
 upgrading Istio by "embracing the monolith" and consolidating our control plane
-into a single new binary - `istiod`. Operators' lives will get much easier with
+into a single new binary - Istiod. Operators' lives will get much easier with
 fewer moving parts which are easier to debug and understand.  For mesh users,
-`istiod` doesn’t change any of their experience: all APIs and runtime
+Istiod doesn’t change any of their experience: all APIs and runtime
 characteristics are consistent with the previous components.
 
-Keep your eyes out for a blog post in the coming days devoted to `istiod`, and
+Keep your eyes out for a blog post in the coming days devoted to Istiod, and
 the benefits of moving to a simpler deployment model.
 
 ## A new model for extensibility
