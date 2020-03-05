@@ -21,7 +21,10 @@ set -e
 BASEURL="$1"
 
 # List of name:tagOrBranch
+# This is a list of archived versions
+# TODO: rename TOBUILD to ARCHIVED_VERSIONS
 TOBUILD=(
+  v1.4:release-1.4
   v1.3:release-1.3
   v1.2:release-1.2
   v1.1:release-1.1
