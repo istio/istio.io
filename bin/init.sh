@@ -21,10 +21,14 @@ set -o pipefail
 export ISTIO_REMOTE=${ISTIO_REMOTE:-origin}
 export ISTIO_BRANCH=${ISTIO_BRANCH:-master}
 
+# Determine the SHA for the Istio dependency by parsing the go.mod file.
+export ISTIO_SHA=${ISTIO_SHA:-$(< go.mod grep 'istio.io/istio v' | cut -d'-' -f3)}
+
 echo "ISTIOIO_GO=${ISTIOIO_GO}"
 echo "ISTIO_GO=${ISTIO_GO}"
 echo "ISTIO_REMOTE=${ISTIO_REMOTE}"
 echo "ISTIO_BRANCH=${ISTIO_BRANCH}"
+echo "ISTIO_SHA=${ISTIO_SHA}"
 
 # Download the Istio source if not available.
 if [[ -d "${ISTIO_GO}" ]]
@@ -37,34 +41,11 @@ fi
 
 pushd "${ISTIO_GO}" > /dev/null
 
-REMOTE_BRANCH="${ISTIO_REMOTE}/${ISTIO_BRANCH}"
+# Get updates to the remote repository
+git fetch "$ISTIO_REMOTE"
 
-# Switch to latest for requested branch if possible
-if [ -z "$(git status --porcelain)" ]; then
-  # Get updates to the remote repository
-  git fetch "$ISTIO_REMOTE"
-
-  # Switch to the desired local branch (create if necessary)
-  git checkout -B "${ISTIO_BRANCH}"
-
-  LOCAL_REV=$(git rev-parse @)
-  REMOTE_REV=$(git rev-parse "${REMOTE_BRANCH}")
-  BASE_REV=$(git merge-base @ "${REMOTE_BRANCH}")
-
-  if [[ "${LOCAL_REV}" == "${REMOTE_REV}" ]]; then
-    echo "Istio already up-to-date with ${REMOTE_BRANCH}"
-  elif [[ "${LOCAL_REV}" == "${BASE_REV}" ]]; then
-    echo "WARNING: Istio is out-of-date with ${REMOTE_BRANCH}. Merging remote changes."
-    git pull "${ISTIO_REMOTE}" "${ISTIO_BRANCH}"
-  elif [[ "${REMOTE_REV}" == "${BASE_REV}" ]]; then
-    echo "WARNING: Istio is ahead of ${REMOTE_BRANCH}. Using local branch."
-  else
-    echo "WARNING: Istio has diverged with ${REMOTE_BRANCH}. Using local branch."
-  fi
-
-else
-  echo "WARNING: Istio has uncommitted changes. To use latest from ${REMOTE_BRANCH} clear your local changes."
-fi
+# Checkout the Istio version from the git dependency.
+git checkout "$ISTIO_SHA"
 
 # Build and install istioctl
 go install ./istioctl/cmd/istioctl
