@@ -1,6 +1,6 @@
 ---
 title: Authorization for TCP traffic
-description: Shows how to set up access control for TCP traffic.
+description: How to set up access control for TCP traffic.
 weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
 aliases:
@@ -8,192 +8,194 @@ aliases:
 ---
 
 This task shows you how to set up Istio authorization for TCP traffic in an Istio mesh.
-You can learn more about the Istio authorization in the
-[authorization concept page](/docs/concepts/security/#authorization).
 
 ## Before you begin
 
-The activities in this task assume that you:
+Before you begin this task, do the following:
 
-* Read the [authorization concept](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+* Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+* Deploy two workloads named `sleep` and `tcp-echo` together in a namespace, for example `foo`.
+Both workloads run with an Envoy proxy in front of each. The `tcp-echo` workload listens on port
+9000, 9001 and 9002 and echoes back any traffic it received with a prefix `hello`.
+For example, if you send "world" to `tcp-echo`, it will reply with `hello world`.
+The `tcp-echo` Kubernetes service object only declares the ports 9000 and 9001, and
+omits the port 9002. A pass-through filter chain will handle port 9002 traffic.
+Deploy the example namespace and workloads using the following command:
 
-After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
-the product page, you can see the following sections:
+    {{< text bash >}}
+    $ kubectl create ns foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    {{< /text >}}
 
-* **Book Details** on the lower left side, which includes: book type, number of
-  pages, publisher, etc.
-* **Book Reviews** on the lower right of the page.
+* Verify that `sleep` successfully communicates with `tcp-echo`on ports 9000 and 9001
+using the following command:
 
-When you refresh the page, the app shows different versions of reviews in the product page.
-The app presents the reviews in a round robin style: red stars, black stars, or no stars.
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9000
+    connection succeeded
+    {{< /text >}}
 
-{{< tip >}}
-If you don't see the expected output in the browser as you follow the task, retry in a few seconds
-because some delay is possible due to caching and other propagation overhead.
-{{< /tip >}}
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9001
+    connection succeeded
+    {{< /text >}}
+
+* Verify that `sleep` successfully communicates with `tcp-echo` on port 9002.
+You need to send the traffic directly to the pod IP of `tcp-echo` because the port 9002 is not
+defined in the Kubernetes service object of `tcp-echo`.
+Get the pod IP address and send the request with the following command:
+
+    {{< text bash >}}
+    $ TCP_ECHO_IP=$(kubectl get pod $(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name}) -o jsonpath={.status.podIP})
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9002
+    connection succeeded
+    {{< /text >}}
 
 {{< warning >}}
-This task requires mutual TLS enabled because the following examples use principal
-and namespace in the policies.
+If you don’t see the expected output, retry after a few seconds. Caching and propagation can cause a delay.
 {{< /warning >}}
 
 ## Configure access control for a TCP workload
 
-By default, the [Bookinfo](/docs/examples/bookinfo/) example application only uses the HTTP protocol.
-To showcase the authorization of TCP traffic, you must update the application to use TCP.
-The following steps deploy the Bookinfo application and update its `ratings` workload to the `v2` version,
-which talks to a MongoDB backend using TCP, and then apply the authorization policy to the MongoDB workload.
-
-1. Install `v2` of the `ratings` workload with the `bookinfo-ratings-v2` service account:
-
-    {{< tabset category-name="sidecar" >}}
-
-    {{< tab name="With automatic sidecar injection" category-value="auto" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="With manual sidecar injection" category-value="manual" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
-
-1. Create the appropriate destination rules:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    {{< /text >}}
-
-    Since the subset referenced in the virtual service rules relies on the destination rules,
-    wait a few seconds for the destination rules to propagate before adding the virtual service rules.
-
-1. After the destination rules propagate, update the `reviews` workload to only use the `v2` of the `ratings` workload:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
-    {{< /text >}}
-
-1. Go to the Bookinfo product page at (`http://$GATEWAY_URL/productpage`).
-
-    On the product page, you can see an error message on the **Book Reviews** section.
-    The message reads: **"Ratings service is currently unavailable."**. The message appears because we
-    now use the `v2` subset of the `ratings` workload but we haven't deployed the MongoDB workload.
-
-1. Deploy the MongoDB workload:
-
-    {{< tabset category-name="sidecar" >}}
-
-    {{< tab name="With automatic sidecar injection" category-value="auto" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="With manual sidecar injection" category-value="manual" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
-
-1. Go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`.
-
-1. Verify that the **Book Reviews** section shows the reviews.
-
-    With the MongoDB workload deployed and before we configure authorization to only allow authorized requests,
-    we need to apply a default `deny-all` policy for the workload to ensure that all requests to the MongoDB
-    workload are denied by default.
-
-1. Apply a default `deny-all` policy for the MongoDB workload:
+1. Create the `tcp-policy` authorization policy for the `tcp-echo` workload in the `foo` namespace.
+Run the following command to apply the policy to allow requests to port 9000 and 9001:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: security.istio.io/v1beta1
     kind: AuthorizationPolicy
     metadata:
-      name: deny-all
+      name: tcp-policy
+      namespace: foo
     spec:
       selector:
         matchLabels:
-          app: mongodb
-    EOF
-    {{< /text >}}
-
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`).  You should see:
-
-    * The **Book Details** section on the lower left of the page includes book type, number of pages, publisher, etc.
-    * The **Book Reviews** section on the lower right of the page includes an error message **"Ratings service is
-      currently unavailable"**.
-
-    After configuring that all requests be denied by default, we need to create a `bookinfo-ratings-v2`
-    policy that lets requests coming from the `cluster.local/ns/default/sa/bookinfo-ratings-v2` service account
-    through to the MongoDB workload at port `27017`. We grant access to the service account, because
-    requests coming from the `ratings-v2` workload are issued using the `cluster.local/ns/default/sa/bookinfo-ratings-v2`
-    service account.
-
-1. Enforce workload-level access control for TCP traffic coming from the
-`cluster.local/ns/default/sa/bookinfo-ratings-v2` service account:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
-    kind: AuthorizationPolicy
-    metadata:
-      name: bookinfo-ratings-v2
-    spec:
-      selector:
-        matchLabels:
-          app: mongodb
+          app: tcp-echo
+      action: ALLOW
       rules:
-      - from:
-        - source:
-            principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
-        to:
+      - to:
         - operation:
-            ports: ["27017"]
+           ports: ["9000", "9001"]
     EOF
     {{< /text >}}
 
-    Point your browser at the Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`),
-    you should see now the following sections working as intended:
-
-    * **Book Details** on the lower left side, which includes: book type, number of pages, publisher, etc.
-    * **Book Reviews** on the lower right side, which includes: red stars.
-
-    **Congratulations!** You successfully deployed a workload communicating over TCP traffic and applied
-    both a mesh-level and a workload-level authorization policy to enforce access control for the requests.
-
-## Cleanup
-
-1. Remove Istio authorization policy configuration:
+1. Verify that requests to port 9000 are allowed using the following command:
 
     {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/deny-all
-    $ kubectl delete authorizationpolicy.security.istio.io/bookinfo-ratings-v2
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9000
+    connection succeeded
     {{< /text >}}
 
-1. Remove `v2` of the ratings workload and the MongoDB deployment:
+1. Verify that requests to port 9001 are allowed using the following command:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
-    $ kubectl delete -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
-    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
-    $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9001
+    connection succeeded
+    {{< /text >}}
+
+1. Verify that requests to port 9002 are denied. This is enforced by the authorization
+policy which also applies to the pass through filter chain, even if the port is not declared
+explicitly in the `tcp-echo` Kubernetes service object. Run the following command and verify the output:
+
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. Update the policy to add an HTTP-only field named `methods` for port 9000 using the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: tcp-policy
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: tcp-echo
+      action: ALLOW
+      rules:
+      - to:
+        - operation:
+            methods: ["GET"]
+            ports: ["9000"]
+    EOF
+    {{< /text >}}
+
+1. Verify that requests to port 9000 are denied. This occurs because the rule becomes invalid when
+it uses an HTTP-only field (`methods`) for TCP traffic. Istio ignores the invalid ALLOW rule.
+The final result is that the request is rejected, because it does not match any ALLOW rules.
+Run the following command and verify the output:
+
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. Verify that requests to port 9001 are denied. This occurs because the requests do not match any
+ALLOW rules. Run the following command and verify the output:
+
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. Update the policy to a DENY policy using the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: tcp-policy
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: tcp-echo
+      action: DENY
+      rules:
+      - to:
+        - operation:
+            methods: ["GET"]
+            ports: ["9000"]
+    EOF
+    {{< /text >}}
+
+1. Verify that requests to port 9000 are denied. This occurs because Istio ignores the
+HTTP-only fields in an invalid DENY rule. This is different from an invalid ALLOW rule,
+which causes Istio to ignore the entire rule. The final result is that only the `ports`
+field is used by Istio and the requests are denied because they match with the `ports`:
+
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. Verify that requests to port 9001 are allowed. This occurs because the requests do not match
+the `ports` in the DENY policy:
+
+    {{< text bash >}}
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    hello port 9001
+    connection succeeded
+    {{< /text >}}
+
+## Clean up
+
+1. Remove the namespace foo:
+
+    {{< text bash >}}
+    $ kubectl delete namespace foo
     {{< /text >}}
