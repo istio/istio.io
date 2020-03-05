@@ -1,5 +1,5 @@
 ---
-title: WebAssembly (Wasm) Plugins
+title: Extensibility
 description: Describes Istio's WebAssembly Plugin system.
 weight: 25
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter]
