@@ -1,11 +1,25 @@
 ---
-title: Monitoring and Policies for TLS Egress
+title: Monitoring and Policies for TLS Egress with Mixer (Deprecated)
 description: Describes how to configure SNI monitoring and apply policies on TLS egress traffic.
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
 aliases:
   - /docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 ---
+
+{{< warning >}}
+The mixer policy is deprecated in Istio 1.5 and not recommended for production usage.
+
+* Rate limiting: Consider using [Envoy native rate limiting](https://www.envoyproxy.io/docs/envoy/v1.13.0/intro/arch_overview/other_features/global_rate_limiting)
+instead of mixer rate limiting. Istio will add support for the native rate limiting API through the Istio extensions API.
+
+* Control headers and routing: Consider using Envoy [`ext_authz` filter](https://www.envoyproxy.io/docs/envoy/v1.13.0/intro/arch_overview/security/ext_authz_filter),
+[`lua` filter](https://www.envoyproxy.io/docs/envoy/v1.13.0/configuration/http/http_filters/lua_filter),
+or write a filter using the [`Envoy-wasm` sandbox](https://github.com/envoyproxy/envoy-wasm/tree/master/test/extensions/filters/http/wasm/test_data).
+
+* Denials and White/Black Listing: Please use the [Authorization Policy](/docs/concepts/security/#authorization) for
+enforcing access control to a workload.
+{{< /warning >}}
 
 The [Configure Egress Traffic using Wildcard Hosts](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) example
 describes how to enable TLS egress traffic for a set of hosts in a common domain, in that case `*.wikipedia.org`. This

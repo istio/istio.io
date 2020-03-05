@@ -745,11 +745,8 @@ external service.
 
 ## Troubleshooting
 
-1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) enabled in Istio.
-    If mutual TLS is enabled, make sure you create the configuration
-    items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
-
-1.  If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, verify the correct certificate of the egress gateway:
+1.  If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, verify the correct certificate of the
+    egress gateway:
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1

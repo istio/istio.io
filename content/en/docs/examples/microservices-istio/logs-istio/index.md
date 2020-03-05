@@ -54,4 +54,30 @@ The queries above use the `istio_requests_total` metric, which is a standard Ist
 other metrics, in particular, the ones of Envoy ([Envoy](https://www.envoyproxy.io) is the sidecar proxy of Istio). You
 can see the collected metrics in the _insert metric at cursor_ drop-down menu.
 
-You are ready to [enable mutual TLS authentication with Istio](/docs/examples/microservices-istio/add-mtls).
+## Next steps
+
+Congratulations on completing the tutorial!
+
+These tasks are a great place for beginners to further evaluate Istio's
+features using this `demo` installation:
+
+- [Request routing](/docs/tasks/traffic-management/request-routing/)
+- [Fault injection](/docs/tasks/traffic-management/fault-injection/)
+- [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
+- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Rate limiting](/docs/tasks/policy-enforcement/rate-limiting/)
+- [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
+- [Visualizing your mesh](/docs/tasks/observability/kiali/)
+
+Before you customize Istio for production use, see these resources:
+
+- [Deployment models](/docs/ops/deployment/deployment-models/)
+- [Deployment best practices](/docs/ops/best-practices/deployment/)
+- [Pod requirements](/docs/ops/deployment/requirements/)
+- [General installation instructions](/docs/setup/)
+
+## Join the Istio community
+
+We welcome you to ask questions and give us feedback by joining the
+[Istio community](/about/community/join/).

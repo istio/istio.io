@@ -94,6 +94,7 @@ archive.istio.io.
 args.yaml
 AssemblyScript
 Auth0
+AuthenticationPolicy
 AuthPolicy
 autoscaler
 Autoscalers
@@ -151,6 +152,7 @@ ConfigMap
 configmap
 configmap
 configmaps
+configurability
 containerID
 ControlZ
 CoreDNS
@@ -330,6 +332,7 @@ Istiod
 Istiofied
 IstioMesh
 IstioOperator
+Istiod
 iter8
 jason
 Jog
@@ -393,6 +396,7 @@ misordered
 Mitigations
 MongoDB
 mongodb
+mTLS
 Multicast
 Multicloud
 multicloud
@@ -446,6 +450,7 @@ pem
 pipelined
 PKI
 PKIs
+pki
 plaintext
 platform-specific
 pluggability
@@ -549,6 +554,7 @@ SMEs
 Snell-Feikema
 SNI
 SolarWinds
+Solo.io
 Splunk
 SPIFFE
 SPIFFE-compliant
@@ -588,6 +594,7 @@ test-api
 Tigera
 timeframe
 timestamp
+timestamps
 TLS
 TLS-secured
 ToC

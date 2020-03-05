@@ -3,8 +3,6 @@ ISTIOIO_GO := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 export ISTIOIO_GO
 SHELL := /bin/bash -o pipefail
 
-VERSION ?= latest
-
 export GO111MODULE ?= on
 export GOPROXY ?= https://proxy.golang.org
 export GOSUMDB ?= sum.golang.org
@@ -26,12 +24,21 @@ GO ?= go
 GOARCH_LOCAL := $(TARGET_ARCH)
 GOOS_LOCAL := $(TARGET_OS)
 
+# ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
+# For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
+ISTIO_IMAGE_VERSION ?= 1.6-alpha
+export ISTIO_IMAGE_VERSION
+
+# Determine the SHA for the Istio dependency by parsing the go.mod file.
+ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
+export ISTIO_SHA
+
 HUB ?= gcr.io/istio-testing
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
 endif
 
-TAG ?= latest
+TAG ?= $(shell echo "${ISTIO_IMAGE_VERSION}.${ISTIO_SHA}")
 ifeq ($(TAG),)
   $(error "TAG cannot be empty")
 endif
@@ -125,12 +132,15 @@ foo2:
 
 .PHONY: init
 init:
+	@echo "ISTIO_SHA = ${ISTIO_SHA}"
+	@echo "HUB = ${HUB}"
+	@echo "TAG = ${TAG}"
 	bin/init.sh
 
 include tests/tests.mk
 
 # make lint-yaml seems to fail with pipefail, so remove now.
-SHELL = /bin/bash
+#SHELL = /bin/bash
 
 include common/Makefile.common.mk
 
