@@ -76,3 +76,11 @@ As part of the Istiod effort, we have changed how proxies securely communicate w
 In Istio 1.5, this is no longer the recommended or default way to connect the proxies with the control plane; instead, DNS certificates, which can be signed by Kubernetes or Istiod, will be used to connect to Istiod over port 15012.
 
 Note: despite the naming, in Istio 1.5 when `controlPlaneSecurityEnabled` is set to `false`, communication between the control plane will be secure by default.
+
+## Multicluster Setup
+
+{{< warning >}}
+We recommend that you **do not upgrade** to Istio 1.5.0 if you are using a multicluster setup.
+
+Istio 1.5.0 multicluster setup has several known issues ([27102](https://github.com/istio/istio/issues/21702), [21676](https://github.com/istio/istio/issues/21676)) that make it unusable in both shared control plane and replicated control plane deployments. These issues will be resolved in Istio 1.5.1.
+{{< /warning >}}
