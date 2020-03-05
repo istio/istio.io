@@ -1,5 +1,5 @@
 ---
-title: Monitoring and Policies for TLS Egress (Deprecated)
+title: Monitoring and Policies for TLS Egress with Mixer (Deprecated)
 description: Describes how to configure SNI monitoring and apply policies on TLS egress traffic.
 keywords: [traffic-management,egress,telemetry,policies]
 weight: 51
