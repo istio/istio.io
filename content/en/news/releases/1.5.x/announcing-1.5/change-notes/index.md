@@ -20,6 +20,7 @@ weight: 10
 - **Improved** Gateway performance by filtering unused clusters. This setting is disabled by default [#20124](https://github.com/istio/istio/pull/20124).
 
 ## Security
+
 - **Graduated** SDS to stable and enabled by default. It provides identity provisioning for Istio Envoy proxies.
 - **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into [`PeerAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto) and [`RequestAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/request_authentication.proto) respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
 - **Added** [deny semantics](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto#L28) to Authorization Policy
