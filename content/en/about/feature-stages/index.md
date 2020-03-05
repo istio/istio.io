@@ -69,17 +69,19 @@ Below is our list of existing features and their current phases. This informatio
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
-| [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
+| [SDS based key and certificate provisioning](/docs/concepts/security/#the-istio-agent-in-kubernetes)  | Stable
+| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Stable
+| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
+| [Authorization](/docs/concepts/security/#authorization)   | Beta
+| [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Beta
+| [Automatic mutual TLS](/docs/tasks/security/authentication/auto-mtls/) | Beta
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/authentication/mtls-migration)    | Beta
-| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
-| [Authorization](/docs/concepts/security/#authorization)   | Beta
-| [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
-| [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
+| [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Deprecated
+| [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Deprecated
+| [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Deprecated
 
 ### Core
 
