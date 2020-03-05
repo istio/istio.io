@@ -31,7 +31,7 @@ Here’s some of what’s coming to you in today's release:
 ## Introducing `istiod`
 
 We are dramatically simplifying the experience of installing, running, and
-upgrading Istio by “embracing the monolith” and consolidating our control plane
+upgrading Istio by "embracing the monolith" and consolidating our control plane
 into a single new binary - `istiod`. Operators' lives will get much easier with
 fewer moving parts which are easier to debug and understand.  For mesh users,
 `istiod` doesn’t change any of their experience: all APIs and runtime
@@ -82,13 +82,18 @@ Istio 1.4.
 
 As always, we are working to make Istio more secure with every release. With
 1.5, all security policies including
-[Auto m TLS](/docs/tasks/security/authentication/auto-mtls/),
+[Auto mTLS](/docs/tasks/security/authentication/auto-mtls/),
 [`AuthenticationPolicy`](/docs/reference/config/security/istio.authentication.v1alpha1/)
 (`PeerAuthentication` and `RequestAuthentication`) and authorization are now in
 Beta. SDS is now stable. Authorization now supports Deny semantics to enforce
 mandatory controls that cannot be overridden. We have combined the Node agent
 and the Istio agent into a single binary, which means we no longer require
 configuration of a `PodSecurityPolicy`.
+
+The improvements don't stop there. We no longer need to mount certificates on
+every pod nor have to restart Envoy when certificates change. Certificates are
+delivered directly from Istiod to every pod. And whats more, each pod gets a
+unique certificate.
 
 Look for blog posts in the coming days for a deeper dive on Istio security and
 the threats that it helps mitigate.
@@ -98,7 +103,8 @@ the threats that it helps mitigate.
 We continue to invest in making Istio the best way to understand your
 distributed applications. Telemetry v2 now reports metrics for raw TCP
 connections (in addition to HTTP), and we’ve enhanced the support for gRPC
-workloads by adding response status codes in telemetry and logs.
+workloads by adding response status codes in telemetry and logs. Telemetry v2
+is now used by default.
 
 The new telemetry system cuts latency in half - 90th percentile latency has been
 reduced from 7ms to 3.3 ms. Not only that, but the elimination of Mixer has
