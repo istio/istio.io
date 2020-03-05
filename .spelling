@@ -150,6 +150,7 @@ ConfigMap
 configmap
 configmap
 configmaps
+configurability
 containerID
 ControlZ
 CoreDNS
@@ -586,6 +587,7 @@ test-api
 Tigera
 timeframe
 timestamp
+timestamps
 TLS
 TLS-secured
 ToC
