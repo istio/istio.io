@@ -71,7 +71,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-SOURCE_BRANCH_NAME ?= master
+SOURCE_BRANCH_NAME ?= release-1.5
 
 gen:
 	@scripts/gen_site.sh

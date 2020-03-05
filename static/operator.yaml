@@ -25,7 +25,7 @@ spec:
     singular: istiooperator
     shortNames:
     - iop
-
+...
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -196,7 +196,7 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: docker.io/istio/operator:1.5.0-beta.4
+          image: gcr.io/istio-testing/operator:1.5-dev
           command:
           - operator
           - server
