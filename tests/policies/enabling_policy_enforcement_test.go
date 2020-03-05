@@ -18,11 +18,13 @@ import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/istioio"
+
+	"istio.io/istio.io/pkg/test/istioio"
 )
 
 // https://preliminary.istio.io/docs/tasks/policy-enforcement/enabling-policy/
 func TestEnablingPolicyEnforcement(t *testing.T) {
+	t.Skip("https://github.com/istio/istio.io/issues/6733")
 	framework.
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__policy_enforcement__enabling_policy").
