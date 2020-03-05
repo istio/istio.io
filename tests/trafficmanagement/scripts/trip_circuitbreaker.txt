@@ -42,9 +42,13 @@ function check_percentage_bounds() {
   for code_line in "${code_lines[@]}"; do
     local status_code=$(echo $code_line | cut -d' ' -f2)
     local percentage_req=$(echo $code_line | cut -d' ' -f5 | sed "s/[\(]//g")
+
+    local status_lower_bound=${lower_bounds[$status_code]}
+    local status_upper_bound=${upper_bounds[$status_code]}
+    echo "status $status_code: actual=$percentage_req % low=${status_lower_bound}, high=${status_upper_bound}"
   
-    local is_lower_bound_breached=$(bc <<< "scale=2; $percentage_req < ${lower_bounds[$status_code]}")
-    local is_upper_bound_breached=$(bc <<< "scale=2; $percentage_req > ${upper_bounds[$status_code]}")
+    local is_lower_bound_breached=$(bc <<< "scale=2; $percentage_req < $status_lower_bound")
+    local is_upper_bound_breached=$(bc <<< "scale=2; $percentage_req > $status_upper_bound")
  
     if (($is_lower_bound_breached || $is_upper_bound_breached)); then
       echo "percentage_requests=$percentage_req for status=$status_code bounds breached"
@@ -78,4 +82,11 @@ $ kubectl -n istio-io-circuitbreaker exec {{ .inputTerminalFlag }} $FORTIO_POD -
 # $snippet print_statistics_after_tripping.sh syntax="bash" outputis="text"
 $ kubectl -n istio-io-circuitbreaker exec {{ .inputTerminalFlag }} $FORTIO_POD -c istio-proxy -- \
     pilot-agent request GET stats | grep httpbin | grep pending {{ .outputRedirectionCmd }}
+# $verify
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.default.rq_pending_open: ?
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.high.rq_pending_open: ?
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_active: ?
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_failure_eject: ?
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_overflow: ?
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ?
 # $endsnippet
