@@ -14,23 +14,7 @@ Follow these instructions to prepare an AWS cluster with Kops for Istio.
 When you install a new cluster with Kubernetes version 1.9+, the prerequisite to
 enable `admissionregistration.k8s.io/v1beta1` is covered.
 
-For Kubernetes clusters <=1.15 , you must update the list of admission controllers.
-
-1. Open the configuration file:
-
-    {{< text bash >}}
-    $ kops edit cluster $YOURCLUSTER
-    {{< /text >}}
-
-1. Add the following in the configuration file:
-
-    {{< text yaml >}}
-    kubeAPIServer:
-        admissionControl:
-        - NodeRestriction
-    {{< /text >}}
-
-For Kubernetes clusters >=1.16 , you must update the list of admission controllers.
+For Kubernetes clusters <1.13 , you must update the list of admission controllers.
 
 1. Open the configuration file:
 
@@ -118,7 +102,8 @@ If you have made any changes to the cluser config:
     $ kops rolling-update cluster --yes
     {{< /text >}}
 
-1. For clusters <=1.15, Validate the update with the `kubectl` client on the `kube-api` pod, you
+For kubernetes clusters <1.13:
+1. Validate the update with the `kubectl` client on the `kube-api` pod, you
    should see new admission controller:
 
     {{< text bash >}}
