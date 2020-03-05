@@ -40,6 +40,8 @@ For Kubernetes clusters <1.13 , you must update the list of admission controller
         - Priority
     {{< /text >}}
 
+To enable the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration) (SDS) for your mesh, you must add [extra configurations](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) to your Kubernetes deployment.
+
 If you wish to run Istio SDS in version 1.3+ on kubernetes 1.11, you must enable service account token projection volumes in the api-server, as well as the feature gates.
 
 1. Open the configuration file:
