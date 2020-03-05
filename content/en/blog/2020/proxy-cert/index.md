@@ -20,13 +20,10 @@ a certificate through such mechanism.
 
 ## Getting started
 
-Install Istio with the `global.mtls.enabled` option set to false
-and `global.mtls.auto` set to true. For example, using the demo configuration profile:
+Install Istio with the demo configuration profile:
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=demo
---set values.global.mtls.auto=true
---set values.global.mtls.enabled=false
 {{< /text >}}
 
 ## Deliver key and certificate to application via files
