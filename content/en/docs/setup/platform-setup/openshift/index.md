@@ -1,7 +1,7 @@
 ---
 title: OpenShift
 description: Instructions to setup an OpenShift cluster for Istio.
-weight: 24
+weight: 55
 skip_seealso: true
 aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/openshift/
