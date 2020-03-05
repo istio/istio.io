@@ -108,12 +108,13 @@ platforms:
    service account refers to the existing service account just like the
    identities that the customer's Identity Directory manages.
 
-## Public Key Infrastructure (PKI)
+## Public Key Infrastructure
 
-The Istio PKI securely provisions strong identities to every workload with X.509
-certificates. To automate key and certificate rotation at scale, the PKI runs an
-Istio agent alongside each Envoy proxy for certificate and key provisioning. The
-following diagram shows the identity provisioning flow.
+The Istio Public Key Infrastructure (PKI) securely provisions strong identities
+to every workload with X.509 certificates. To automate key and certificate
+rotation at scale, the PKI runs an Istio agent alongside each Envoy proxy for
+certificate and key provisioning. The following diagram shows the identity
+provisioning flow.
 
 {{< image width="75%"
     link="./id-prov.svg"
@@ -255,7 +256,7 @@ configuration telling the PEP how to perform the required authentication
 mechanisms. The control plane may fetch the public key and attach it to the
 configuration for JWT validation. Alternatively, Istiod provides the path to the
 keys and certificates the Istio system manages and installs them to the
-application pod for mutual TLS. You can find more info in the [PKI section](/docs/concepts/security/#pki).
+application pod for mutual TLS. You can find more info in the [PKI section](/docs/concepts/security/#public-key-infrastructure).
 
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
