@@ -637,6 +637,6 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 * If installed, remove the gateway certificate:
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete certificate telemetry-gw-cert
-    certificate.certmanager.k8s.io "telemetry-gw-cert" deleted
+    $ kubectl -n istio-system delete certificates.cert-manager.io telemetry-gw-cert
+    certificate.cert-manager.io "telemetry-gw-cert" deleted
     {{< /text >}}
