@@ -172,6 +172,104 @@ istioctl analyze -S &#34;IST0103=Pod *.testing&#34; -S &#34;IST0107=Deployment f
 istioctl analyze -L
 
 </code></pre>
+<h2 id="istioctl-authn">istioctl authn</h2>
+<p>
+A group of commands used to interact with Istio authentication policies.
+  tls-check
+</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-authn Examples">Examples</h3>
+<pre class="language-bash"><code># Check whether TLS setting are matching between authentication policy and destination rules:
+istioctl authn tls-check
+</code></pre>
+<h2 id="istioctl-authn-tls-check">istioctl authn tls-check</h2>
+<p>
+Check what authentication policies and destination rules pilot uses to config a proxy instance,
+and check if TLS settings are compatible between them.
+</p>
+<pre class="language-bash"><code>istioctl authn tls-check &lt;pod-name[.namespace]&gt; [&lt;service&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-authn-tls-check Examples">Examples</h3>
+<pre class="language-bash"><code>
+# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default:
+istioctl authn tls-check foo-656bd7df7c-5zp4s.default
+
+# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default, filtered on destination
+service &#34;bar&#34; :
+istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
+
+</code></pre>
 <h2 id="istioctl-authz">istioctl authz</h2>
 <p>(authz is experimental. Use `istioctl experimental authz`)</p>
 <pre class="language-bash"><code>istioctl authz [flags]
@@ -849,7 +947,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <pre class="language-bash"><code>istioctl experimental add-to-mesh deployment productpage-v1
 </code></pre>
 <h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and\
+<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and\ 
 a Service without selector for the specified external service in Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.
 THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
@@ -1075,7 +1173,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [log json yaml]  (default `log`)</td>
+<td>Output format: one of [yaml log json]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -1132,104 +1230,6 @@ istioctl analyze -S &#34;IST0103=Pod *.testing&#34; -S &#34;IST0107=Deployment f
 
 # List available analyzers
 istioctl analyze -L
-
-</code></pre>
-<h2 id="istioctl-authn">istioctl authn</h2>
-<p>
-A group of commands used to interact with Istio authentication policies.
-  tls-check
-</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-authn Examples">Examples</h3>
-<pre class="language-bash"><code># Check whether TLS setting are matching between authentication policy and destination rules:
-istioctl authn tls-check
-</code></pre>
-<h2 id="istioctl-authn-tls-check">istioctl authn tls-check</h2>
-<p>
-Check what authentication policies and destination rules pilot uses to config a proxy instance,
-and check if TLS settings are compatible between them.
-</p>
-<pre class="language-bash"><code>istioctl authn tls-check &lt;pod-name[.namespace]&gt; [&lt;service&gt;] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-authn-tls-check Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default:
-istioctl authn tls-check foo-656bd7df7c-5zp4s.default
-
-# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default, filtered on destination
-service &#34;bar&#34; :
-istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
 
 </code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
@@ -1423,7 +1423,7 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <pre class="language-bash"><code>  # Convert the v1alpha1 RBAC policy in the current cluster:
   istioctl x authz convert &gt; authorization-policies.yaml
 
-  # Convert the v1alpha1 RBAC policy in the given file:
+  # Convert the v1alpha1 RBAC policy in the given file: 
   istioctl x authz convert -f v1alpha1-policy-1.yaml,v1alpha1-policy-2.yaml
   -s my-services.yaml -r my-root-namespace &gt; authorization-policies.yaml
 
@@ -1470,7 +1470,7 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 </table>
 <h2 id="istioctl-experimental-create-remote-secret">istioctl experimental create-remote-secret</h2>
 <p>Create a secret with credentials to allow Istio to access remote Kubernetes apiservers</p>
-<pre class="language-bash"><code>istioctl experimental create-remote-secret &lt;cluster-name&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental create-remote-secret [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -1517,6 +1517,11 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the local cluster whose credentials are stored in the secret. If a name is not specified the kube-system namespace&#39;s UUID of the local cluster will be used.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1531,15 +1536,15 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <h3 id="istioctl-experimental-create-remote-secret Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
-istioctl --Kubeconfig=c0.yaml x create-remote-secret \
+istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 \
     | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
 
 # Delete a secret that was previously installed in c1
-istioctl --Kubeconfig=c0.yaml x create-remote-secret \
+istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 \
     | kubectl -n istio-system --Kubeconfig=c1.yaml delete -f -
 
-# Create a secret  access a remote cluster with an auth plugin
-istioctl --Kubeconfig=c0.yaml x create-remote-secret --auth-type=plugin --auth-plugin-name=gcp \
+# Create a secret access a remote cluster with an auth plugin
+istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
     | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
 
 </code></pre>
@@ -1799,10 +1804,10 @@ kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kube
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
-<p>This command finds a Prometheus pod running in the specified istio system
+<p>This command finds a Prometheus pod running in the specified istio system 
 namespace. It then executes a series of queries per requested workload to
 find the following top-level workload metrics: total requests per second,
-error rate, and request latency at p50, p90, and p99 percentiles. The
+error rate, and request latency at p50, p90, and p99 percentiles. The 
 query results are printed to the console, organized by workload name.</p>
 <p>All metrics returned are from server-side reports. This means that latencies
 and error rates are from the perspective of the service itself and not of an
@@ -2287,11 +2292,11 @@ because in previous versions webhooks manage their own configurations.</p>
 <h3 id="istioctl-experimental-post-install-webhook-enable Examples">Examples</h3>
 <pre class="language-bash"><code>
 # Enable the webhook configuration of Galley with the given webhook configuration
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml
 
 # Enable the webhook configuration of Galley with the given webhook configuration and CA certificate
-istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley
+istioctl experimental post-install webhook enable --validation --webhook-secret istio.webhook.galley 
     --namespace istio-system --validation-path validatingwebhookconfiguration.yaml --ca-bundle-file ./k8s-ca-cert.pem
 
 </code></pre>
@@ -2360,7 +2365,7 @@ istioctl experimental post-install webhook enable --validation --webhook-secret 
 # Display the webhook configuration of Galley
 istioctl experimental post-install webhook status --validation --validation-config istio-galley
 # Display the webhook configuration of Galley and Sidecar Injector
-istioctl experimental post-install webhook status --validation --validation-config istio-galley
+istioctl experimental post-install webhook status --validation --validation-config istio-galley 
   --injection --injection-config istio-sidecar-injector
 
 </code></pre>
@@ -2453,7 +2458,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment productpage-v1
 </code></pre>
 <h2 id="istioctl-experimental-remove-from-mesh-external-service">istioctl experimental remove-from-mesh external-service</h2>
-<p>istioctl experimental remove-from-mesh external-service remove the ServiceEntry and\
+<p>istioctl experimental remove-from-mesh external-service remove the ServiceEntry and\ 
 the kubernetes Service for the specified external service(eg:services running on VM) from Istio service mesh.
 The typical usage scenario is Mesh Expansion on VMs.
 THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
@@ -2883,7 +2888,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource
+<td>Path to file containing IstioOperator CustomResource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -2926,7 +2931,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.global.controlPlaneSecurityEnabled=true). See documentation for more info:
+settings (--set values.grafana.enabled=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -2951,8 +2956,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <pre class="language-bash"><code>  # Apply a default Istio installation
   istioctl manifest apply
 
-  # Enable security
-  istioctl manifest apply --set values.global.controlPlaneSecurityEnabled=true
+  # Enable grafana dashboard
+  istioctl manifest apply --set values.grafana.enabled=true
 
   # Generate the demo profile and don&#39;t wait for confirmation
   istioctl manifest apply --set profile=demo --skip-confirmation
@@ -3068,7 +3073,7 @@ e.g.
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource
+<td>Path to file containing IstioOperator CustomResource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -3111,7 +3116,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
-settings (--set values.global.mtls.enabled=true). See documentation for more info:
+settings (--set values.grafana.enabled=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
 </tr>
 <tr>
@@ -3125,8 +3130,8 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <pre class="language-bash"><code>  # Generate a default Istio installation
   istioctl manifest generate
 
-  # Enable security
-  istioctl manifest generate --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+  # Enable grafana dashboard
+  istioctl manifest generate --set values.grafana.enabled=true
 
   # Generate the demo profile
   istioctl manifest generate --set profile=demo
@@ -3196,7 +3201,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 </tbody>
 </table>
 <h2 id="istioctl-manifest-versions">istioctl manifest versions</h2>
-<p>List the versions of Istio recommended for use or supported for upgrade by this version of istioctl.</p>
+<p>List the versions of Istio recommended for use or supported for upgrade by this version of the operator binary.</p>
 <pre class="language-bash"><code>istioctl manifest versions [flags]
 </code></pre>
 <table class="command-flags">
@@ -3319,7 +3324,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource
+<td>Path to file containing IstioOperator CustomResource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default ``)</td>
 </tr>
 <tr>
@@ -3405,7 +3410,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource
+<td>Path to file containing IstioOperator CustomResource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default ``)</td>
 </tr>
 <tr>
@@ -3523,10 +3528,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-profile Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl profile list
-istioctl manifest apply --set profile=demo  # Use a profile from the list
-</code></pre>
 <h2 id="istioctl-profile-diff">istioctl profile diff</h2>
 <p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
 <pre class="language-bash"><code>istioctl profile diff &lt;file1.yaml&gt; &lt;file2.yaml&gt; [flags]
@@ -3613,7 +3614,7 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource
+<td>Path to file containing IstioOperator CustomResource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -4546,7 +4547,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Validate bookinfo-gateway.yaml
 		istioctl validate -f bookinfo-gateway.yaml
-
+		
 		# Validate current deployments under &#39;default&#39; namespace within the cluster
 		kubectl get deployments -o yaml |istioctl validate -f -
 
@@ -4623,7 +4624,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <pre class="language-bash"><code>
 		# Verify that Istio can be freshly installed
 		istioctl verify-install
-
+		
 		# Verify the deployment matches a custom Istio deployment configuration
 		istioctl verify-install -f $HOME/istio.yaml
 
@@ -4776,7 +4777,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
-<td><code>citadel</code></td>
+<td><code>istiod</code></td>
 <td>the provider of Pilot DNS certificate.</td>
 </tr>
 <tr>
@@ -4793,6 +4794,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </tr>
 <tr>
 <td><code>PILOT_DEBUG_ADSZ_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td></td>
@@ -4868,12 +4875,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, metadata exchange will be enabled for TCP using ALPN and Network Metadata Exchange filters in Envoy</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
 </tr>
 <tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
@@ -4952,6 +4953,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
+</tr>
+<tr>
+<td><code>PROV_CERT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Set to a directory containing provisioned certs, for VMs</td>
 </tr>
 <tr>
 <td><code>SECRET_WATCHER_RESYNC_PERIOD</code></td>
