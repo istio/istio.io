@@ -9,7 +9,7 @@ WebAssembly is a sandboxing technology which can be used to extend the Istio pro
 
 WebAssembly sandbox goals:
 
-- **Efficiency** - An extension adds low latency, CPU, and memory overhead. 
+- **Efficiency** - An extension adds low latency, CPU, and memory overhead.
 - **Function** - An extension can enforce policy, collect telemetry, and perform payload mutations.
 - **Isolation** - A programming error or crash in one plugin does affect other plugins.
 - **Configuration** - The plugins are configured using an API that is consistent with other Istio APIs. An extension can be configured dynamically.
