@@ -419,7 +419,7 @@ The SNI proxy will forward the traffic to port `443`.
     traffic destined for _*.wikipedia.org_ through the gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
+    [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) between the source pod and the egress gateway.
 
     {{< idea >}}
     You may want to enable mutual TLS to let the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that identity.

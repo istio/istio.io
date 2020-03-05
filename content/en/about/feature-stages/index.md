@@ -54,7 +54,7 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase
 |-------------------|-------------------
 | [Prometheus Integration](/docs/tasks/observability/metrics/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/docs/tasks/observability/logs/collecting-logs/) | Stable
+| [Local Logging (STDIO)](/docs/tasks/observability/mixer/logs/collecting-logs/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Client and Server Telemetry Reporting](/docs/reference/config/policy-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
@@ -62,7 +62,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Distributed Tracing](/docs/tasks/observability/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
-| [Logging with Fluentd](/docs/tasks/observability/logs/fluentd/) | Beta
+| [Logging with Fluentd](/docs/tasks/observability/mixer/logs/fluentd/) | Beta
 | [Trace Sampling](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
 
 ### Security and policy enforcement
@@ -71,7 +71,7 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/citadel-config/plugin-ca-cert/)        | Stable
+| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
@@ -80,7 +80,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Authorization](/docs/concepts/security/#authorization)   | Beta
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [SDS Integration](/docs/tasks/security/citadel-config/auth-sds/) | Alpha
 
 ### Core
 

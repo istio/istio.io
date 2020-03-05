@@ -41,10 +41,10 @@ Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
 
-If you want to secure Istio control plane service endpoints on top of the `default` profile, you can set the security related configuration parameters:
+To enable the Grafana dashboard on top of the `default` profile, set the `addonComponents.grafana.enabled` configuration parameter with the following command:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.controlPlaneSecurityEnabled=true
+$ istioctl manifest apply --set addonComponents.grafana.enabled=true
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
@@ -60,7 +60,7 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 `installPackagePath` to a local file system path:
 
 {{< text bash >}}
-$ istioctl manifest apply --set installPackagePath=~/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
+$ istioctl manifest apply --set installPackagePath=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
 {{< /text >}}
 
 If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl manifest apply` alone, because it points to the
@@ -86,11 +86,12 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
-    minimal
     remote
-    sds
+    separate
     default
     demo
+    empty
+    minimal
 {{< /text >}}
 
 ## Display the configuration of a profile
@@ -252,13 +253,13 @@ In addition to installing any of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/),
 `istioctl manifest` provides a complete API for customizing the configuration.
 
-- [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+- [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
-line. For example, to enable the security feature in a default configuration profile, use this command:
+line. For example, to enable the control plane security feature in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.global.mtls.enabled=true
+$ istioctl manifest apply --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
 Alternatively, the `IstioOperator` configuration can be specified in a YAML file and passed to
@@ -379,7 +380,7 @@ namespaces:
 
 The `IstioOperator` API allows each component's Kubernetes settings to be customized in a consistent way.
 
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
+Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
 which allows the following settings to be changed. Use this list to identify the setting to customize:
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)

@@ -41,6 +41,7 @@
 3ms
 3s
 404s
+4Kb
 4ms
 4s
 5000qps
@@ -109,6 +110,7 @@ BlackHoleCluster
 BluePerf
 boilerplates
 Bookinfo
+bookinfo
 boolean
 bring-your-own-CA
 bring-your-own-identity
@@ -135,12 +137,15 @@ CNI
 cnn.com
 Cognito
 codec
+codelab
+codelabs
 colocate
 colocated
 colocating
 Composability
 composability
 composable
+config
 ConfigMap
 configmap
 configmap
@@ -171,6 +176,10 @@ CVE-2019-9515
 CVE-2019-9518
 CVE-2020-8595
 CVE-2020-8843
+CVE-2020-8659
+CVE-2020-8660
+CVE-2020-8661
+CVE-2020-8664
 CVEs
 cves
 cvss
@@ -293,11 +302,14 @@ interoperation
 intra-cluster
 intrahost
 ip_address
+ip
 IPs
 iptables
 IPv4
 IPv6
 Istio
+istio-agent
+istio-ecosystem
 istio-identity
 istio-mixer
 ISTIO-SECURITY-2019-003
@@ -307,11 +319,16 @@ ISTIO-SECURITY-2019-006
 ISTIO-SECURITY-2019-007
 ISTIO-SECURITY-2020-001
 ISTIO-SECURITY-2020-002
+ISTIO-SECURITY-2020-003
 istio-system
 istio.io
 istio.io.
+istioctl
+istiod
+Istiod
 Istiofied
 IstioMesh
+IstioOperator
 iter8
 jason
 Jog
@@ -425,6 +442,7 @@ Passthrough
 PassthroughCluster
 peek
 pem
+pipelined
 PKI
 PKIs
 plaintext
@@ -432,8 +450,10 @@ platform-specific
 pluggability
 pluggable
 png
+Posta
 pprof
 pre-connected
+pre-release
 pre-specified
 preconfigured
 prefetching
@@ -497,6 +517,7 @@ runtime
 runtimes
 sa
 Salesforce
+sandboxed
 sayin
 schemas
 SDKs
@@ -577,6 +598,7 @@ UIDs
 ulimit
 uncomment
 uncommented
+unconfigured
 Undeploy
 undeploy
 unencrypted
@@ -619,6 +641,7 @@ VMware
 VPN
 VPNs
 Warman
+Wasm
 WeaveWorks
 WebAssembly
 webhook

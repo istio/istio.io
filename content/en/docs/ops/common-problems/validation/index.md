@@ -147,24 +147,24 @@ configuration. Verify that it is not empty (see [verify webhook
 configuration](#invalid-configuration-is-accepted)). Istio consciously reconciles webhook configuration
 used the `istio-validation` `configmap` and root certificate.
 
-1. Verify the `istio-pilot` pod(s) are running:
+1. Verify the `istiod` pod(s) are running:
 
     {{< text bash >}}
-    $  kubectl -n istio-system get pod -lapp=pilot
+    $  kubectl -n istio-system get pod -lapp=istiod
     NAME                            READY     STATUS    RESTARTS   AGE
-    istio-pilot-5dbbbdb746-d676g   1/1       Running   0          2d
+    istiod-5dbbbdb746-d676g   1/1       Running   0          2d
     {{< /text >}}
 
 1. Check the pod logs for errors. Failing to patch the
        `caBundle` should print an error.
 
     {{< text bash >}}
-    $ for pod in $(kubectl -n istio-system get pod -lapp=pilot -o jsonpath='{.items[*].metadata.name}'); do \
+    $ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
         kubectl -n istio-system logs ${pod} \
     done
     {{< /text >}}
 
-1. If the patching failed, verify the RBAC configuration for Pilot:
+1. If the patching failed, verify the RBAC configuration for Istiod:
 
     {{< text bash yaml >}}
     $ kubectl get clusterrole istiod-istio-system -o yaml
@@ -185,22 +185,22 @@ used the `istio-validation` `configmap` and root certificate.
 
 ## Creating configuration fails with `no such hosts` or `no endpoints available` errors
 
-Validation is fail-close. If the `istio-pilot` pod is not ready,
+Validation is fail-close. If the `istiod` pod is not ready,
 configuration cannot be created and updated.  In such cases you’ll see
 an error about `no endpoints available`.
 
-Verify the `istio-pilot` pod(s) are running and endpoints are ready.
+Verify the `istiod` pod(s) are running and endpoints are ready.
 
 {{< text bash >}}
-$  kubectl -n istio-system get pod -lapp=pilot
+$  kubectl -n istio-system get pod -lapp=istiod
 NAME                            READY     STATUS    RESTARTS   AGE
-istio-pilot-5dbbbdb746-d676g   1/1       Running   0          2d
+istiod-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n istio-system get endpoints istio-pilot
+$ kubectl -n istio-system get endpoints istiod
 NAME           ENDPOINTS                          AGE
-istio-pilot   10.48.6.108:15014,10.48.6.108:443   3d
+istiod         10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and
@@ -208,13 +208,13 @@ status for any indication about why the webhook pod is failing to start
 and serve traffic.
 
 {{< text bash >}}
-$ for pod in $(kubectl -n istio-system get pod -lapp=pilot -o jsonpath='{.items[*].metadata.name}'); do \
+$ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
     kubectl -n istio-system logs ${pod} \
 done
 {{< /text >}}
 
 {{< text bash >}}
-$ for pod in $(kubectl -n istio-system get pod -lapp=pilot -o name); do \
+$ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o name); do \
     kubectl -n istio-system describe ${pod} \
 done
 {{< /text >}}

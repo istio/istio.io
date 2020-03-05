@@ -4,6 +4,10 @@ description: Describes how Citadel determines whether to create service account 
 weight: 30
 ---
 
+    {{< warning >}}
+    This document describes the behavior of Citadel, which is not enabled by default.
+    {{< /warning >}}
+
 When a Citadel instance notices that a `ServiceAccount` is created in a namespace, it must decide whether
 it should generate an `istio.io/key-and-cert` secret for that `ServiceAccount`.
 In order to make that decision, Citadel considers three inputs (note: there can be multiple Citadel instances

@@ -196,9 +196,9 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: gcr.io/istio-testing/operator:1.6-dev
+          image: docker.io/istio/operator:1.5.0-beta.4
           command:
-          - manager
+          - operator
           - server
           imagePullPolicy: IfNotPresent
           resources:
@@ -210,7 +210,7 @@ spec:
               memory: 128Mi
           env:
             - name: WATCH_NAMESPACE
-              value: "istio-operator"
+              value: "istio-system"
             - name: LEADER_ELECTION_NAMESPACE
               valueFrom:
                 fieldRef:

@@ -1,20 +1,13 @@
 ---
 title: Google Kubernetes Engine
 description: Instructions to setup a Google Kubernetes Engine cluster for Istio.
-weight: 15
+weight: 20
 skip_seealso: true
 aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/gke/
     - /docs/setup/kubernetes/platform-setup/gke/
 keywords: [platform-setup,kubernetes,gke,google]
 ---
-
-{{< tip >}}
-Google offers an add-on for GKE,
-which you can use instead of installing Istio manually.
-To determine if the add-on is right for you, refer to [Istio on GKE](https://cloud.google.com/istio/docs/istio-on-gke/overview)
-for more information.
-{{< /tip >}}
 
 Follow these instructions to prepare a GKE cluster for Istio.
 

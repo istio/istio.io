@@ -18,29 +18,43 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+export ISTIO_REMOTE=${ISTIO_REMOTE:-origin}
 export ISTIO_BRANCH=${ISTIO_BRANCH:-master}
+
+# Determine the SHA for the Istio dependency by parsing the go.mod file.
+export ISTIO_SHA=${ISTIO_SHA:-$(< go.mod grep 'istio.io/istio v' | cut -d'-' -f3)}
 
 echo "ISTIOIO_GO=${ISTIOIO_GO}"
 echo "ISTIO_GO=${ISTIO_GO}"
+echo "ISTIO_REMOTE=${ISTIO_REMOTE}"
 echo "ISTIO_BRANCH=${ISTIO_BRANCH}"
+echo "ISTIO_SHA=${ISTIO_SHA}"
 
 # Download the Istio source if not available.
-if [[ ! -d "${ISTIO_GO}" ]]
+if [[ -d "${ISTIO_GO}" ]]
 then
-    git clone https://github.com/istio/istio.git "${ISTIO_GO}"
+  echo "${ISTIO_GO} already exists. Using existing repository ..."
+else
+  echo "${ISTIO_GO} not found. Cloning Istio repository ..."
+  git clone https://github.com/istio/istio.git "${ISTIO_GO}"
 fi
 
+pushd "${ISTIO_GO}" > /dev/null
+
+# Get updates to the remote repository
+git fetch "$ISTIO_REMOTE"
+
+# Checkout the Istio version from the git dependency.
+git checkout "$ISTIO_SHA"
+
 # Build and install istioctl
-pushd "${ISTIO_GO}"
-git checkout "${ISTIO_BRANCH}"
 go install ./istioctl/cmd/istioctl
-popd
+
+popd > /dev/null
 
 # Copy install/samples files over from Istio. These are needed by the tests.
-rm -rf "${ISTIOIO_GO}/install"
+rm -rf "${ISTIOIO_GO}/install" "${ISTIOIO_GO}/samples"
 cp -a "${ISTIO_GO}/install" "${ISTIOIO_GO}/install"
-
-rm -rf "${ISTIOIO_GO}/samples"
 cp -a "${ISTIO_GO}/samples" "${ISTIOIO_GO}/samples"
 
 # For generating junit.xml files
