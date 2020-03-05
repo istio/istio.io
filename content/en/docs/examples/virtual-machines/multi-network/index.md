@@ -126,13 +126,11 @@ following commands on a machine with cluster admin privileges:
 
     As an example, for very simple demo setups, you can also use:   
   
-      {{< text bash >}}
-    
-        $ go run istio.io/istio/security/tools/generate_cert \
+    {{< text bash >}}
+    $ go run istio.io/istio/security/tools/generate_cert \
           -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
-        $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem
-        
-      {{< /text >}}
+    $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem 
+    {{< /text >}}
 
 ### Setting up the VM
 
