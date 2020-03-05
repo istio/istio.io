@@ -1,5 +1,5 @@
 ---
-title: KOPS on AWS
+title: Kops
 description: Instructions to setup Kops for use with Istio.
 weight: 20
 skip_seealso: true
@@ -105,6 +105,7 @@ If you have made any changes to the cluser config:
     {{< /text >}}
 
 For kubernetes clusters <1.13:
+
 1. Validate the update with the `kubectl` client on the `kube-api` pod, you
    should see new admission controller:
 
