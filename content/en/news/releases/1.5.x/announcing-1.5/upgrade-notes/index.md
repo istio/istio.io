@@ -89,3 +89,6 @@ We recommend that you **do not upgrade** to Istio 1.5.0 if you are using a multi
 
 Istio 1.5.0 multicluster setup has several known issues ([27102](https://github.com/istio/istio/issues/21702), [21676](https://github.com/istio/istio/issues/21676)) that make it unusable in both shared control plane and replicated control plane deployments. These issues will be resolved in Istio 1.5.1.
 {{< /warning >}}
+
+## Helm upgrade
+If you used `helm upgrade` to update your cluster to newer Istio versions, we recommend you to switch to use [`istioctl upgrade`](docs/setup/upgrade/istioctl-upgrade/) or follow the [helm template](/docs/setup/upgrade/cni-helm-upgrade/) steps. 
