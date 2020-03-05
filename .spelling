@@ -92,6 +92,7 @@ AppSwitch
 archive.istio.io
 archive.istio.io.
 args.yaml
+AssemblyScript
 Auth0
 AuthPolicy
 autoscaler
@@ -518,6 +519,7 @@ runtimes
 sa
 Salesforce
 sandboxed
+sandboxing
 sayin
 schemas
 SDKs
