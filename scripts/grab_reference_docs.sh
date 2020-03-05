@@ -48,7 +48,6 @@ COMPONENTS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@istioctl/cmd/istioctl@istioctl
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-agent@pilot-agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-discovery@pilot-discovery
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@sidecar-injector/cmd/sidecar-injector@sidecar-injector
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/istio_ca@istio_ca
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/node_agent@node_agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@galley/cmd/galley@galley
