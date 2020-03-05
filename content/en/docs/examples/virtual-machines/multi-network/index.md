@@ -32,9 +32,9 @@ bare metal and the clusters.
 
 The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
-that let VMs connect to the mesh. 
+that let VMs connect to the mesh.
 
-1. Follow the same steps as [setting up single-network](/...) configuration for the initial setup of the 
+1. Follow the same steps as [setting up single-network](/...) configuration for the initial setup of the
    cluster and certificates with the change of how you deploy Istio control plane:
 
     {{< text bash >}}
@@ -68,7 +68,7 @@ The following example updates the `/etc/hosts` file with the Istiod address:
     $ echo "${GWIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts
     {{< /text >}}
 
-   A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using 
+   A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using
    /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
    the scope of this document.
 
@@ -108,7 +108,7 @@ The following example shows accessing a service running in the Kubernetes cluste
 `/etc/hosts/`, in this case using a service from the [Bookinfo example](/docs/examples/bookinfo/).
 
 
-1.  On the added VM connect to the productpage service as in the
+1.  Connect to the productpage service from VM as in the
     example below:
 
     {{< text bash >}}
@@ -116,7 +116,7 @@ $ curl -v ${GWIP}/productpage
 < HTTP/1.1 200 OK
 < content-type: text/html; charset=utf-8
 < content-length: 1836
-< server: envoy
+< server: istio-envoy
 ... html content ...
     {{< /text >}}
 

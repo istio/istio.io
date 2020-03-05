@@ -68,18 +68,17 @@ following commands on a machine with cluster admin privileges:
 1. For a simple setup, deploy Istio control plane into the cluster
 
         {{< text bash >}}
-        $ istioctl manifest apply 
+        $ istioctl manifest apply
         {{< /text >}}
 
     For further details and customization options, refer to the
     [installation instructions](/docs/setup/install/istioctl/).
    
-   
    Alternatively, the user can create an explicit Service of type LoadBalancer and use
-    [Internal Load Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) 
-    type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and 
-    multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment, 
-     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned 
+    [Internal Load Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
+    type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and
+    multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment,
+     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned
      into istiod deployment, defaulting to 'istiod.istio-system.svc'
    
 
@@ -92,7 +91,7 @@ following commands on a machine with cluster admin privileges:
     $ export SERVICE_NAMESPACE="vm"
     {{< /text >}}
 
-1. Determine and store the IP address of the Istid since the VMs
+1. Determine and store the IP address of the Istiod since the VMs
    access [Istiod](/docs/ops/deployment/architecture/#pilot) through this IP address.
 
     {{< text bash >}}
@@ -100,7 +99,6 @@ following commands on a machine with cluster admin privileges:
     $ echo $IstiodIP
     10.55.240.12
     {{< /text >}}
-    
 
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
     to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
@@ -109,6 +107,7 @@ following commands on a machine with cluster admin privileges:
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
+    
     $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
     
@@ -131,19 +130,20 @@ following commands on a machine with cluster admin privileges:
     {{< /text >}}
 
 1. In order to use mesh expansion, the VM must be provisioned with certificates signed by the same root CA as 
-    the rest of the mesh. 
+    the rest of the mesh.
 
-    It is recommended to follow the instructions for "Plugging in External CA Key and Certificates", and use a 
-     separate intermediary CA for provisioning the VM. There are many tools and procedures for managing 
-     certificates for VMs - Istio requirement is that the VM will get a certificate with a Istio-compatible 
-     Spifee SAN, with the correct trust domain, namespace and service account the VM will uperate as.
+    It is recommended to follow the instructions for "Plugging in External CA Key and Certificates", and use a
+     separate intermediary CA for provisioning the VM. There are many tools and procedures for managing
+     certificates for VMs - Istio requirement is that the VM will get a certificate with a Istio-compatible
+     SPIFEE SAN, with the correct trust domain, namespace and service account the VM will uperate as.
 
-    As an example, for very simple demo setups, you can also use:   
+    As an example, for very simple demo setups, you can also use:
   
     {{< text bash >}}
     $ go run istio.io/istio/security/tools/generate_cert \
           -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
-    $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem 
+
+    $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem
     {{< /text >}}
 
 ### Setting up the VM
