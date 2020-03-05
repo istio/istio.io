@@ -18,19 +18,19 @@ In Istio 1.5, we have moved towards a new deployment model for the control plane
 
 In Istio 1.5, there will be a new deployment, `istiod`. This component is the core of the control plane, and will handle configuration and certificate distribution, sidecar injection, and more.
 
-### Sidecar Injection
+### Sidecar injection
 
 Previously, sidecar injection was handled by a mutating webhook that was processed by a deployment named `istio-sidecar-injector`. In Istio 1.5, the same mutating webhook remains, but it will now point to the `istiod` deployment. All injection logic remains the same.
 
 ### Galley
 
 * Configuration Validation - this functionality remains the same, but is now handled by the `istiod` deployment.
-* MCP Server - the MCP server has been disabled by default. For most users, this is an implementation detail. If you do explicitly depend on this functionality, you will need to run the `istio-galley` deployment.
+* MCP Server - the MCP server has been disabled by default. For most users, this is an implementation detail. If you depend on this functionality, you will need to run the `istio-galley` deployment.
 * Experimental features (such as configuration analysis) - These features will require the `istio-galley` deployment.
 
 ### Citadel
 
-Previously, Citadel served two functionalities: writing certificates to secrets in each namespace, and serving secrets to the `nodeagent` over `gRPC` when SDS is used. In Istio 1.5, secrets are no longer written to each namespace. Instead, they are only served over gRPC. This functionality has been moved to the `istiod` deployment.
+Previously, Citadel served two functions: writing certificates to secrets in each namespace, and serving secrets to the `nodeagent` over `gRPC` when SDS is used. In Istio 1.5, secrets are no longer written to each namespace. Instead, they are only served over gRPC. This functionality has been moved to the `istiod` deployment.
 
 ### SDS Node Agent
 
@@ -48,7 +48,7 @@ There have been no changes to the deployment of `istio-cni`.
 
 The `istio-pilot` deployment has been removed in favor of the `istiod` deployment, which contains all functionality that Pilot once had. For backwards compatibility, there are still some references to Pilot.
 
-## Mixer Deprecation
+## Mixer deprecation
 
 Mixer, the process behind the `istio-telemetry` and `istio-policy` deployments, has been deprecated with the 1.5 release. `istio-policy` was disabled by default since Istio 1.3 and `istio-telemetry` is disabled by default in Istio 1.5.
 
@@ -61,15 +61,15 @@ If you rely on a Mixer feature that does not have an equivalent, we encourage yo
 
 Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice for details.
 
-### Feature Gaps between Telemetry V2 and Mixer Telemetry
+### Feature gaps between Telemetry V2 and Mixer Telemetry
 
-* Out of mesh telemetry is not supported. Some telemetry is missing if source or the destination of traffic is not sidecar injected.
+* Out of mesh telemetry is not supported. Some telemetry is missing if the traffic source or destination is not sidecar injected.
 * Egress gateway telemetry is [not supported](https://github.com/istio/istio/issues/19385).
 * TCP telemetry is only supported with `mtls`.
 * Black Hole telemetry for TCP and HTTP protocols is not supported.
 * Histogram buckets are [significantly different](https://github.com/istio/istio/issues/20483) than Mixer Telemetry and cannot be changed.
 
-## Control Plane Security
+## Control plane security
 
 As part of the Istiod effort, we have changed how proxies securely communicate with the control plane. In previous versions, proxies would connect to the control plane securely when the setting `values.global.controlPlaneSecurityEnabled=true` was configured, which was the default for Istio 1.4. Each control plane component ran a sidecar with Citadel certificates, and proxies connected to Pilot over port 15011.
 
@@ -77,7 +77,7 @@ In Istio 1.5, this is no longer the recommended or default way to connect the pr
 
 Note: despite the naming, in Istio 1.5 when `controlPlaneSecurityEnabled` is set to `false`, communication between the control plane will be secure by default.
 
-## Multicluster Setup
+## Multicluster setup
 
 {{< warning >}}
 We recommend that you **do not upgrade** to Istio 1.5.0 if you are using a multicluster setup.
