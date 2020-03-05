@@ -4,7 +4,7 @@ description: How to enable Telemetry V2 with Wasm runtime (experimental).
 weight: 60
 ---
 
-In Istio 1.5, by default Telemetry V2 is enabled as compiled in Istio proxy filters. The same filters are also compiled into WebAssembly (Wasm) modules and shipped with Istio proxy. To enable Telemetry V2 with Wasm runtime, apply the following configuration, which is a drop-in replacement for the default Telemetry V2 installation:
+In Istio 1.5, by default Telemetry V2 is enabled as compiled in Istio proxy filters. The same filters are also compiled to WebAssembly (Wasm) modules and shipped with Istio proxy. To enable Telemetry V2 with Wasm runtime, apply the following configuration, which is a drop-in replacement for the default Telemetry V2 installation:
 
 {{< text bash >}}
 $ kubectl apply -f https://raw.githubusercontent.com/istio/proxy/{{< source_branch_name >}}/extensions/stats/testdata/telemetry-v2-wasm.yaml
