@@ -50,12 +50,12 @@ The `istio-pilot` deployment has been removed in favor of the `istiod` deploymen
 
 ## Mixer Deprecation
 
-`Mixer`, the process behind the `istio-telemetry` and `istio-policy` deployments, has been deprecated with the 1.5 release. `istio-policy` was disabled by default since Istio 1.3 and `istio-telemetry` is disabled by default in Istio 1.5.
+Mixer, the process behind the `istio-telemetry` and `istio-policy` deployments, has been deprecated with the 1.5 release. `istio-policy` was disabled by default since Istio 1.3 and `istio-telemetry` is disabled by default in Istio 1.5.
 
-Telemetry is collected using an in-proxy extension mechanism (Telemetry V2) that does not require `Mixer`.
+Telemetry is collected using an in-proxy extension mechanism (Telemetry V2) that does not require Mixer.
 
 If you depend on specific Mixer features like out of process adapters, you may re-enable Mixer. Mixer will continue receiving bug fixes and security fixes until Istio 1.7.
-Many features supported by `mixer` have alternatives as specified in the [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) document including the [in-proxy extensions](https://github.com/istio/proxy/tree/master/extensions) based on the WebAssembly sandbox API.
+Many features supported by Mixer have alternatives as specified in the [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) document including the [in-proxy extensions](https://github.com/istio/proxy/tree/master/extensions) based on the WebAssembly sandbox API.
 
 If you rely on a Mixer feature that does not have an equivalent, we encourage you to open issues and discuss in the community.
 
