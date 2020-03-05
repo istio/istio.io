@@ -96,8 +96,8 @@ You can then decide to [configure access to external services](#controlled-acces
 Congratulations! You successfully sent egress traffic from your mesh.
 
 This simple approach to access external services, has the drawback that you lose Istio monitoring and control
-for traffic to external services; calls to external services will not appear in the Mixer log, for example.
-The next section shows you how to monitor and control your mesh's access to external services.
+for traffic to external services. The next section shows you how to monitor and control your mesh's access to
+external services.
 
 ## Controlled access to external services
 
@@ -187,17 +187,6 @@ any other unintentional accesses.
 
     Note the entry related to your HTTP request to `httpbin.org/headers`.
 
-1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
-    {"level":"info","time":"2019-01-24T12:17:11.855496Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"unknown","destinationApp":"","destinationIp":"I60GXg==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"httpbin.org","destinationWorkload":"unknown","grpcMessage":"","grpcStatus":"","httpAuthority":"httpbin.org","latency":"214.661667ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":270,"referer":"","reporter":"source","requestId":"17fde8f7-fa62-9b39-8999-302324e6def2","requestSize":0,"requestedServerName":"","responseCode":200,"responseSize":599,"responseTimestamp":"2019-01-24T12:17:11.855521Z","sentBytes":806,"sourceApp":"sleep","sourceIp":"AAAAAAAAAAAAAP//rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","url":"/headers","userAgent":"curl/7.60.0","xForwardedFor":"0.0.0.0"}
-    {{< /text >}}
-
-    Note that the `destinationServiceHost` attribute is equal to `httpbin.org`. Also notice the HTTP-related attributes:
-    `method`, `url`, `responseCode` and others. Using Istio egress traffic control, you can monitor access to external
-    HTTP services, including the HTTP-related information of each access.
-
 ### Access an external HTTPS service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
@@ -235,21 +224,6 @@ any other unintentional accesses.
     {{< /text >}}
 
     Note the entry related to your HTTPS request to `www.google.com`.
-
-1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'www.google.com'
-    {"level":"info","time":"2019-01-24T12:48:56.266553Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"1.289085134s","connectionEvent":"close","connection_security_policy":"unknown","destinationApp":"","destinationIp":"rNmhJA==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"www.google.com","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":601,"reporter":"source","requestedServerName":"www.google.com","sentBytes":17766,"sourceApp":"sleep","sourceIp":"rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","totalReceivedBytes":601,"totalSentBytes":17766}
-    {{< /text >}}
-
-    Note that the `requestedServerName` attribute is equal to `www.google.com`. Using Istio egress traffic control, you
-    can monitor access to external HTTPS services, in particular the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) and the number of sent and received bytes. Note that in
-    HTTPS all the HTTP-related information like method, URL path, response code, is encrypted so Istio cannot see and
-    cannot monitor that information for HTTPS. If you need to monitor HTTP-related information in access to external
-    HTTPS services, you may want to let your applications issue HTTP requests and
-    [configure Istio to perform TLS origination](/docs/tasks/traffic-management/egress/egress-tls-origination/).
 
 ### Manage traffic to external services
 
@@ -436,8 +410,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 {{< /text >}}
 
 Unlike accessing external services through HTTP or HTTPS, you don't see any headers related to the Istio sidecar and the
-requests sent to external services appear neither in the log of the sidecar nor in the Mixer log.
-Bypassing the Istio sidecars means you can no longer monitor the access to external services.
+requests sent to external services do not appear in the log of the sidecar. Bypassing the Istio sidecars means you can
+no longer monitor the access to external services.
 
 ### Cleanup the direct access to external services
 
