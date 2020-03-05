@@ -1,18 +1,13 @@
 ---
-title: Front matter
-description: Explains the front matter used in our documentation and the fields available.
+title: 文章头
+description: 介绍了文档中使用的文章头及其可用字段。
 weight: 4
-keywords: [metadata,navigation,table-of-contents]
+keywords: [metadata, navigation, table-of-contents]
 ---
 
-The front matter is YAML code in between triple-dashed lines at the top of each
-file and provides important management options for our content. For example, the
-front matter allows us to ensure that existing links continue to work for pages
-that are moved or deleted entirely. This page explains the features currently
-available for front matters in Istio.
+文章头（front matter）是每个文件顶部用三点划线包裹的 YAML 代码，它为我们的内容提供了重要的管理选项。例如，文章头允许我们确保现有链接对于已经完全移动或删除的页面继续有效。本页说明了 Istio 中的文章头目前可用的功能。
 
-The following example shows a front matter with all the required fields
-filled by placeholders:
+下面是一个文章头的示例，其中所有必填字段都由占位符填充：
 
 {{< text yaml >}}
 ---
@@ -25,38 +20,33 @@ aliases:
 ---
 {{< /text >}}
 
-You can copy the example above and replace all the placeholders with the
-appropriate values for your page.
+您可以复制上面的示例，并用您页面中相应的值替换所有占位符。
 
-## Required front matter fields
+## 必填字段{#required-front-matter-fields}
 
 The following table shows descriptions for all the **required** fields:
+下表列举了所有的 **必填** 字段及其说明：
 
-|Field              | Description
+|字段                | 说明
 |-------------------|------------
-|`title`            | The page's title.
-|`description`      | A one-line description of the content on the page.
-|`weight`           | The order of the page relative to the other pages in the directory.
-|`keywords`         | The keywords on the page. Hugo uses this list to create the links under "See Also".
-|`aliases`          | Past URLs where the page was published. See [Renaming, moving, or deleting pages](#rename-move-or-delete-pages) below for details on this item
+|`title`            | 该页面的标题
+|`description`      | 对其该页面内容的一个简单结束
+|`weight`           | 该页面相对于当前目录中其他页面的顺序。
+|`keywords`         | 页面上的关键字。Hugo 根据此列表在页面末尾生成“相关内容”链接。
+|`aliases`          | 页面以前发布过的 URL。有关此字段的详细信息，请参见下面的[重命名、移动或删除页面](#rename-move-or-delete-pages)。
 
-### Rename, move, or delete pages
+### 重命名、移动或删除页面{#rename-move-or-delete-pages}
 
-When you move pages or delete them completely, you must ensure that the existing
-links to those pages continue to work. The `aliases` field in the front matter
-helps you meet this requirement. Add the path to the page before the move or
-deletion to the `aliases` field. Hugo implements automatic redirects from the
-old URL to the new URL for our users.
+移动或完全删除页面时，必须确保指向这些页面的现有链接继续有效。文章头中的 `aliases` 字段可帮助您满足此要求。在移动或删除页面之前，将现有路径添加到 `aliases` 字段中。Hugo 自动为我们的用户实现了从旧 URL 到新 URL 的重定向。
 
-On the _target page_, which is the page where you want users to land, add the `<path>`
-of the _original page_ to the front-matter as follows:
+在 _target page_（您想让用户访问的页面）上，将 _original page_ 的 `<path>` 添加到文章头中，如下所示：
 
 {{< text plain >}}
 aliases:
     - <path>
 {{< /text >}}
 
-For example, you could find our FAQ page in the past under `/help/faq`. To help our users find the FAQ page, we moved the page one level up to `/faq/` and changed the front matter as follows:
+例如，在以前，您可以在 `/zh/help/faq` 下找到我们的 FAQ 页面。为了使用户更方便的找到 FAQ 页面，我们将该页面上移了一个级别至 `/zh/faq/`，并对文章头做了以下更改：
 
 {{< text plain >}}
 ---
@@ -64,13 +54,13 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /help/faq
+    - /zh/help/faq
 ---
 {{< /text >}}
 
-The change above allows any user to access the FAQ when they visit `https://istio.io/faq/` or `https://istio.io/help/faq/`.
+上面的更改允许所有用户通过 `https://istio.io/zh/faq/` 或者 `https://istio.io/zh/help/faq/` 都能访问到 FAQ 页面。
 
-Multiple redirects are supported, for example:
+不仅是一个，该字段支持多个重定向，例如：
 
 {{< text plain >}}
 ---
@@ -78,57 +68,51 @@ title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 12
 aliases:
-    - /faq
-    - /faq2
-    - /faq3
+    - /zh/faq
+    - /zh/faq2
+    - /zh/faq3
 ---
 {{< /text >}}
 
-## Optional front matter fields
+## 可选字段{#optional-front-matter-fields}
 
-However, Hugo supports many front matter fields and this page only covers those
-implemented on istio.io.
+Hugo 支持非常多的文章头字段，而此页面仅列举了在 istio.io 中实现的字段。
 
-The following table shows the most commonly used **optional** fields:
+下表列举了最常用的 **可选** 字段：
 
-|Field              | Description
+|字段                | 描述
 |-------------------|------------
-|`linktitle`        | A shorter version of the title that is used for links to the page.
-|`subtitle`         | A subtitle displayed below the main title.
-|`icon`             | A path to the image that appears next to the title.
-|`draft`            | If true, the page is not shown in the site's navigation.
-|`skip_byline`      | If true, Hugo doesn't show a byline under the main title.
-|`skip_seealso`     | If true, Hugo doesn't generate a  "See also" section for the page.
+|`linktitle`        | 短标题，常用于链接到页面。
+|`subtitle`         | 主标题下方显示的子标题。
+|`icon`             | 标题旁边显示图标的路径。
+|`draft`            | 如果为 true，该页面不会出现在网站中。
+|`skip_byline`      | 如果为 true，不会在主标题下显示下划线。
+|`skip_seealso`     | 如果为 true， Hugo 不会为该页面生成“相关内容”链接。
 
-Some front matter fields control the auto-generated table of contents (ToC).
-The following table shows the fields and explains how to use them:
+一些文章头字段可用于控制自动生成的目录（ToC）。下表列举了这些字段并说明了如何使用：
 
-|Field               | Description
+|字段                 | 描述
 |--------------------|------------
-|`skip_toc`          | If true, Hugo doesn't generate a ToC for the page.
-|`force_inline_toc`  | If true, Hugo inserts an auto-generated ToC in the text instead of in the sidebar to the right.
-|`max_toc_level`     | Sets the heading levels used in the ToC. Values can go from 2 to 6.
-|`remove_toc_prefix` | Hugo removes this string from the beginning of every entry in the ToC
+|`skip_toc`          | 如果为 true，Hugo 不会为该页面生成目录
+|`force_inline_toc`  | 如果为 true，Hugo 会强制在文本中插入自动生成的目录，而不是右侧的边栏。
+|`max_toc_level`     | 设置目录中使用的标题级别。值可以从 2 到 6。
+|`remove_toc_prefix` | Hugo 从目录中每个条目的前缀中删除此字符串。
 
-Some front matter fields only apply to so-called _bundle pages_. You can
-identify bundle pages because their file names begin with an underscore `_`, for
-example `_index.md`. In Istio, we use bundle pages as our section landing pages.
-The following table shows the front matter fields pertinent to bundle pages.
+某些文章头字段仅适用于所谓的 _bundle page_。您可以辨别 _bundle page_，因为它们的文件名都是以下划线 `_` 开头，例如 `_index.md`。在 Istio 中，我们使用 _bundle page_ 作为我们的部分着陆页面。下表列举了与 _bundle page_ 相关的文章头字段。
 
-|Field                 | Description
+|字段                   | 描述
 |----------------------|------------
-|`skip_list`           | If true, Hugo doesn't auto-generate the content tiles of a section page.
-|`simple_list`         | If true, Hugo uses a simple list for the auto-generated content of a section page.
-|`list_below`          | If true, Hugo inserts the auto-generated content below the manually-written content.
-|`list_by_publishdate` | If true, Hugo sorts the auto-generated content by publication date, instead of by weight.
+|`skip_list`           | 如果为 true，Hugo 不会自动生成该部分页面的内容图块。
+|`simple_list`         | 如果为 true，Hugo 使用一个简单列表列出该部分页面的自动生成内容。
+|`list_below`          | 如果为 true，Hugo 会将自动生成的内容追加到手动编写的内容后面。
+|`list_by_publishdate` | 如果为 true，Hugo 会按照 `publishdate` 而不是 `weight`，对自动生成的内容进行排序。
 
-Similarly, some front matter fields apply specifically to blog posts. The
-following table shows those fields:
+类似的，某些文章头字段仅适用于博客文章。下表列举了这些字段：
 
-|Field            | Description
+|字段              | 描述
 |-----------------|------------
-|`publishdate`    | Date of the post's original publication
-|`last_update`    | Date when the post last received a major revision
-|`attribution`    | Optional name of the post's author
-|`twitter`        | Optional Twitter handle of the post's author
-|`target_release` | The release used on this blog. Normally, this value is the current major Istio release at the time the blog is authored or updated.
+|`publishdate`    | 博客的原始发布日期
+|`last_update`    | 最近一次进行重大修改的日期
+|`attribution`    | 可选的，作者的姓名
+|`twitter`        | 可选的，作者的 Twitter
+|`target_release` | 此博客内容中所使用的 Istio 版本。通常，该值是在创作或更新该博客时，当时最新的主要 Istio 版本。
