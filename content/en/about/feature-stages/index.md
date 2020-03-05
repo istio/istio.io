@@ -76,7 +76,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Authorization](/docs/concepts/security/#authorization)   | Beta
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Beta
-| [Automatic mutual TLS](/docs/tasks/security/authentication/auto-mtls/) | Beta
+| [Automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) | Beta
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/authentication/mtls-migration)    | Beta
 | [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Deprecated
