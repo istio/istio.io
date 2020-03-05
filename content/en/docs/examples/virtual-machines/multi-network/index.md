@@ -37,11 +37,10 @@ that let VMs connect to the mesh.
 1. Follow the same steps as [setting up single-network](/...) configuration for the initial setup of the 
    cluster and certificates with the change of how you deploy Istio control plane:
 
-   {{< text bash >}}
-   $ istioctl manifest apply \
-      -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
-   {{< /text >}}
-
+    {{< text bash >}}
+    $ istioctl manifest apply \
+       -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
+    {{< /text >}}
 
 ### Setting up the VM
 
