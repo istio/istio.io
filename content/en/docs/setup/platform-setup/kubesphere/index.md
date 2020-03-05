@@ -34,15 +34,15 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2
 
 ## Provisioning a Kubernetes cluster
 
-1. Download KubeSphere to your Linux machine, it will create a standard Kubernetes cluster (1.15 by default, KubeSphere also supports 1.13 and 1.14):
+1. Download KubeSphere to your Linux machine, move to the KubeSphere directory. For example, if the created directory is `kubesphere-all-v2.1.1`:
 
     {{< text bash >}}
-    $ curl -L https://kubesphere.io/download/stable/v2.1.0 > installer.tar.gz
+    $ curl -L https://kubesphere.io/download/stable/latest > installer.tar.gz
     $ tar -xzf installer.tar.gz
-    $ cd kubesphere-all-v2.1.0/scripts
+    $ cd kubesphere-all-v2.1.1/scripts
     {{< /text >}}
 
-1. Execute the installation script. Select the **"1) All-in-one"** option when prompted:
+1. Execute the installation script, it will create a standard Kubernetes cluster. Select the **"1) All-in-one"** option when prompted:
 
     {{< text bash >}}
     $ ./install.sh
@@ -60,11 +60,11 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2
     {{< /text >}}
 
     {{< tip >}}
-    At the same time, Kubernetes 1.15 has been installed into your environment.
+    At the same time, Kubernetes has been installed into your environment.
     {{< /tip >}}
 
     ![KubeSphere Console](images/kubesphere-console.png)
 
 ## Enable installing Istio on Kubernetes
 
-KubeSphere will install Istio within Kubernetes. Reference [Enable Service Mesh](https://kubesphere.io/docs/v2.1/en/installation/install-servicemesh/) for further information.
+KubeSphere will install Istio within Kubernetes. Now reference [Enable Service Mesh](https://kubesphere.io/docs/v2.1/en/installation/install-servicemesh/) to enable Istio.
