@@ -9,55 +9,10 @@ generator: protoc-gen-docs
 schema: istio.authentication.v1alpha1.Policy
 weight: 10
 aliases: [/docs/reference/config/istio.authentication.v1alpha1]
-number_of_entries: 4
+number_of_entries: 2
 ---
 <p>This package defines user-facing authentication policy.</p>
 
-<h2 id="MutualTls">MutualTls</h2>
-<section>
-<p>TLS authentication params.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="MutualTls-mode">
-<td><code>mode</code></td>
-<td><code><a href="#MutualTls-Mode">Mode</a></code></td>
-<td>
-<p>Defines the mode of mTLS authentication.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MutualTls-allow_tls" class="deprecated ">
-<td><code>allowTls</code></td>
-<td><code>bool</code></td>
-<td>
-<p>Deprecated. Please use mode = PERMISSIVE instead.
-If set, will translate to <code>TLS_PERMISSIVE</code> mode.
-Set this flag to true to allow regular TLS (i.e without client x509
-certificate). If request carries client certificate, identity will be
-extracted and used (set to peer identity). Otherwise, peer identity will
-be left unset.
-When the flag is false (default), request must have client certificate.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="MutualTls-Mode">MutualTls.Mode</h2>
 <section>
 <p>Defines the acceptable connection TLS mode.</p>
@@ -82,37 +37,6 @@ No
 <td>
 <p>Connection can be either plaintext or TLS with Client cert.</p>
 
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="PeerAuthenticationMethod">PeerAuthenticationMethod</h2>
-<section>
-<p>PeerAuthenticationMethod defines one particular type of authentication. Only mTLS is supported
-at the moment.
-The type can be progammatically determine by checking the type of the
-&ldquo;params&rdquo; field.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PeerAuthenticationMethod-mtls" class="oneof oneof-start">
-<td><code>mtls</code></td>
-<td><code><a href="#MutualTls">MutualTls (oneof)</a></code></td>
-<td>
-<p>Set if mTLS is used.</p>
-
-</td>
-<td>
-Yes
 </td>
 </tr>
 </tbody>
@@ -201,21 +125,6 @@ spec:
 </tr>
 </thead>
 <tbody>
-<tr id="Policy-peers">
-<td><code>peers</code></td>
-<td><code><a href="#PeerAuthenticationMethod">PeerAuthenticationMethod[]</a></code></td>
-<td>
-<p>List of authentication methods that can be used for peer authentication.
-They will be evaluated in order; the first validate one will be used to
-set peer identity (source.user) and other peer attributes. If none of
-these methods pass, request will be rejected with authentication failed error (401).
-Leave the list empty if peer authentication is not required</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="Policy-targets" class="deprecated ">
 <td><code>targets</code></td>
 <td><code><a href="#TargetSelector">TargetSelector[]</a></code></td>
