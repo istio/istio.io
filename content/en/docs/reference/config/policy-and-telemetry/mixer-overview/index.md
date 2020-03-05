@@ -1,5 +1,5 @@
 ---
-title: Mixer Configuration Model 
+title: Mixer Configuration Model (Deprecated)
 description: Describes the configuration model for Istio's policy enforcement and telemetry mechanisms.
 weight: 5
 keywords: [policies,telemetry,control,config]

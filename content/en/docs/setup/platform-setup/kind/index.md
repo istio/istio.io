@@ -1,7 +1,7 @@
 ---
 title: kind
 description: Instructions to setup kind for Istio.
-weight: 17
+weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
 ---
