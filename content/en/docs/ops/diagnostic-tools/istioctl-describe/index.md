@@ -49,6 +49,8 @@ pod is not part of the service mesh because it has no sidecar:
 $ export DASHBOARD_POD=$(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
 $ istioctl x describe pod -n kube-system $DASHBOARD_POD
 WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; no Istio sidecar
+--------------------
+Error: failed to execute command on sidecar: error execing into kubernetes-dashboard-7996b848f4-nbns2/kube-system istio-proxy container: container istio-proxy is not valid for pod kubernetes-dashboard-7996b848f4-nbns2
 {{< /text >}}
 
 The command will not produce such a warning for a pod that is part of the mesh,
