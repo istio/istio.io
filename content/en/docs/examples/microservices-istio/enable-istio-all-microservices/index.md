@@ -50,9 +50,14 @@ enable Istio on all the remaining microservices in one step.
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-1.  Access the Istio dashboard at
-    [`http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard`](http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard).
-    In the top left drop-down menu, select _Istio Mesh Dashboard_. Note that now all the services from your namespace
+1.  Access the Istio dashboard using the custom URL you set in your `/etc/hosts` file
+    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
+
+    {{< text plain >}}
+    http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
+    {{< /text >}}
+
+1.  In the top left drop-down menu, select _Istio Mesh Dashboard_. Note that now all the services from your namespace
     appear in the list of services.
 
     {{< image width="80%"
@@ -67,13 +72,19 @@ enable Istio on all the remaining microservices in one step.
         caption="Istio Service Dashboard"
         >}}
 
-1.  Visualize your application's topology by using the [Kiali](https://www.kiali.io) console, which is not a part of Istio.
-    Access
-    [`http://my-kiali.io/kiali/console`](http://my-kiali.io/kiali/console).
-    (The `my-kiali.io` URL should be in your /etc/hosts file, you set it
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)). If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
+1.  Visualize your application's topology by using the
+    [Kiali](https://www.kiali.io) console, which is not a part of Istio, but is
+    installed as part of the `demo` configuration.
+    Access the dashboard using the custom URL you set in your `/etc/hosts` file
+    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
 
-    Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
+    {{< text plain >}}
+    http://my-kiali.io/kiali/console
+    {{< /text >}}
+
+    If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
+
+1.  Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
     In the _Display_ drop-down menu mark the _Traffic Animation_ check box to see some cool traffic animation.
 
     {{< image width="80%"
@@ -81,7 +92,7 @@ enable Istio on all the remaining microservices in one step.
         caption="Kiali Graph Tab, display drop-down menu"
         >}}
 
-    Try different options in the _Edge Labels_ drop-down menu. Hover with the mouse over the nodes and edges of the
+1.  Try different options in the _Edge Labels_ drop-down menu. Hover with the mouse over the nodes and edges of the
     graph. Notice the traffic metrics on the right.
 
     {{< image width="80%"
