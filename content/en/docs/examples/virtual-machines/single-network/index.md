@@ -183,16 +183,18 @@ The following example updates the `/etc/hosts` file with the Istiod address:
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
+1.  Install `root-cert.pem` under `/var/run/secrets/istio/`.
+
 1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
     $ sudo cp cluster.env /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
+1.  Transfer ownership of the files in `/etc/certs/` , `/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /var/run/secrets/istio/
     {{< /text >}}
 
 1.  Start Istio using `systemctl`.

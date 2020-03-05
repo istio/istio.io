@@ -26,111 +26,22 @@ bare metal and the clusters.
 
 - Services in the cluster must be accessible through the Ingress gateway.
 
+## Installation steps
+
 ### Preparing the Kubernetes cluster for VMs
 
 The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
-that let VMs connect to the mesh. Prepare the cluster for the VM with the
-following commands on a machine with cluster admin privileges:
+that let VMs connect to the mesh. 
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) for more details.
+1. Follow the same steps as [setting up single-network](/...) configuration for the initial setup of the 
+   cluster and certificates with the change of how you deploy Istio control plane:
 
-    {{< warning >}}
-    The root and intermediate certificate from the samples directory are widely
-    distributed and known.  Do **not** use these certificates in production as
-    your clusters would then be open to security vulnerabilities and compromise.
-    {{< /warning >}}
+   {{< text bash >}}
+   $ istioctl manifest apply \
+      -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
+   {{< /text >}}
 
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=@samples/certs/ca-cert.pem@ \
-        --from-file=@samples/certs/ca-key.pem@ \
-        --from-file=@samples/certs/root-cert.pem@ \
-        --from-file=@samples/certs/cert-chain.pem@
-    {{< /text >}}
-
-1. For a simple setup, deploy Istio control plane into the cluster
-
-        {{< text bash >}}
-        $ istioctl manifest apply \
-            -f install/kubernetes/operator/examples/vm/values-istio-meshexpansion.yaml
-        {{< /text >}}
-
-    For further details and customization options, refer to the
-    [installation instructions](/docs/setup/install/istioctl/).
-   
-   
-   Alternatively, the user can create an explicit Service of type LoadBalancer and use
-    [Internal Load Balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) 
-    type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and 
-    multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment, 
-     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned 
-     into istiod deployment, defaulting to 'istiod.istio-system.svc'
-   
-
-   
-1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
-   environment variable to store the namespace. The value of this variable must
-   match the namespace you use in the configuration files later on, and the identity encoded in the certificates.
-
-    {{< text bash >}}
-    $ export SERVICE_NAMESPACE="vm"
-    {{< /text >}}
-
-1. Determine and store the IP address of the Istio ingress gateway since the VMs
-   access [Istiod](/docs/ops/deployment/architecture/#pilot) through this IP address.
-
-    {{< text bash >}}
-    $ export GWIP=$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    $ echo $GWIP
-    35.232.112.158
-    {{< /text >}}
-    
-
-1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
-    to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
-    Replace `$MY_ZONE` and `$MY_PROJECT` in the following example commands with the appropriate values to obtain the CIDR
-    after installation:
-
-    {{< text bash >}}
-    $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
-    $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
-    {{< /text >}}
-    
-    It is also possible to intercept all traffic, as is done for pods. Depending on vendor and installation mechanism
-    you may use different commands to determine the IP range used for services and pods. Multiple ranges can be 
-    specified if the VM is making requests to multiple K8S clusters.
-
-1. Check the contents of the generated `cluster.env` file. It should be similar to the following example:
-
-    {{< text bash >}}
-    $ cat cluster.env
-    ISTIO_SERVICE_CIDR=10.55.240.0/20
-    {{< /text >}}
-
-1. If the VM only calls services in the mesh, you can skip this step. Otherwise, add the ports the VM exposes
-    to the `cluster.env` file with the following command. You can change the ports later if necessary.
-
-    {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
-    {{< /text >}}
-
-1. In order to use mesh expansion, the VM must be provisioned with certificates signed by the same root CA as 
-    the rest of the mesh. 
-
-    It is recommended to follow the instructions for "Plugging in External CA Key and Certificates", and use a 
-     separate intermediary CA for provisioning the VM. There are many tools and procedures for managing 
-     certificates for VMs - Istio requirement is that the VM will get a certificate with a Istio-compatible 
-     Spifee SAN, with the correct trust domain, namespace and service account the VM will uperate as.
-
-    As an example, for very simple demo setups, you can also use:   
-  
-    {{< text bash >}}
-    $ go run istio.io/istio/security/tools/generate_cert \
-          -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
-    $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem 
-    {{< /text >}}
 
 ### Setting up the VM
 
@@ -169,16 +80,18 @@ The following example updates the `/etc/hosts` file with the Istiod address:
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
+1.  Install `root-cert.pem` under `/var/run/secrets/istio/`.
+
 1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
     $ sudo cp cluster.env /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
+1.  Transfer ownership of the files in `/etc/certs/` , `/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /var/run/secrets/istio/
     {{< /text >}}
 
 1.  Start Istio using `systemctl`.
