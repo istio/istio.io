@@ -86,12 +86,12 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
-    empty
-    minimal
     remote
     separate
     default
     demo
+    empty
+    minimal
 {{< /text >}}
 
 ## Display the configuration of a profile
