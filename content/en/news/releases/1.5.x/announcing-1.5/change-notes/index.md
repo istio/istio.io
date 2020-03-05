@@ -24,9 +24,9 @@ weight: 10
 - **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into [`PeerAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto) and [`RequestAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/request_authentication.proto) respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
 - **Added** [deny semantics](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto#L28) to Authorization Policy
 - **Graduated** [auto mutual TLS](/docs/tasks/security/authentication/auto-mtls/) from alpha to beta. This feature is now enabled by default.
-- **Improved** node level citadel agent by merging with pod level Istio agent. This improves the security posture by removing the requirement of a pod security policy.
+- **Improved** [SDS security](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) by merging Node Agent with Pilot Agent as Istio Agent and removing cross-pod UDS, which no longer requires users to deploy Kubernetes pod security policies for UDS connections.
 - **Improved** Istio by including certificate provisioning functionality within istiod.
-- **Improved** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters that [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
+- **Added** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters where [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
 - **Added** Support Istio CA and Kubernetes CA to provision certificates for the control plane, configurable via `values.global.pilotCertProvider`.
 - **Added** Istio Agent provisions a key and certificates for Prometheus.
 
@@ -55,7 +55,7 @@ weight: 10
 
 ## `istioctl`
 - **Graduated** [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) out of experimental.
-- **Added** various analyzers: mutual TLS, JWT, ServiceAssociation, Secret, sidecar image, port name and policy deprecated analyzers.
+- **Added** various analyzers: mutual TLS, JWT, `ServiceAssociation`, Secret, sidecar image, port name and policy deprecated analyzers.
 - **Updated** more validation rules for `RequestAuthentication`.
 - **Added** a new flag `-A|--all-namespaces` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze the entire cluster.
 - **Added** support for analyzing content passed via `stdin` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
