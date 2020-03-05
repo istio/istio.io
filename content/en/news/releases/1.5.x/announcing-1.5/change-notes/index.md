@@ -43,7 +43,6 @@ weight: 10
 - **Fixed** `kubernetesenv` adapter to provide proper support for pods that contain a dot in their name.
 - **Improved** the Fluentd adapter for Mixer to provide millisecond-resolution in exported timestamps.
 
-
 ## Configuration management
 
 ## Operator
