@@ -73,14 +73,14 @@ following commands on a machine with cluster admin privileges:
 
     For further details and customization options, refer to the
     [installation instructions](/docs/setup/install/istioctl/).
-   
+
    Alternatively, the user can create an explicit service of type `LoadBalancer` and use
     [internal load balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
     type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and
     multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment,
     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned
     into istiod deployment, defaulting to 'istiod.istio-system.svc'
-   
+
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must
    match the namespace you use in the configuration files later on, and the identity encoded in the certificates.
@@ -105,12 +105,11 @@ following commands on a machine with cluster admin privileges:
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
-
     $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
-    
+
     It is also possible to intercept all traffic, as is done for pods. Depending on vendor and installation mechanism
-    you may use different commands to determine the IP range used for services and pods. Multiple ranges can be 
+    you may use different commands to determine the IP range used for services and pods. Multiple ranges can be
     specified if the VM is making requests to multiple K8S clusters.
 
 1. Check the contents of the generated `cluster.env` file. It should be similar to the following example:
@@ -127,7 +126,7 @@ following commands on a machine with cluster admin privileges:
     $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
     {{< /text >}}
 
-1. In order to use mesh expansion, the VM must be provisioned with certificates signed by the same root CA as 
+1. In order to use mesh expansion, the VM must be provisioned with certificates signed by the same root CA as
     the rest of the mesh.
 
     It is recommended to follow the instructions for "Plugging in External CA Key and Certificates", and use a
@@ -136,11 +135,10 @@ following commands on a machine with cluster admin privileges:
      SPIFEE SAN, with the correct trust domain, namespace and service account.
 
     As an example, for very simple demo setups, you can also use:
-  
+
     {{< text bash >}}
     $ go run istio.io/istio/security/tools/generate_cert \
           -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
-
     $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem
     {{< /text >}}
 
@@ -170,7 +168,7 @@ The following example updates the `/etc/hosts` file with the Istiod address:
     $ echo "${IstiodIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts
     {{< /text >}}
 
-   A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using 
+   A better options is to configure the DNS resolver of the VM to resolve the address, using a split-DNS server. Using
    /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
    the scope of this document.
 
