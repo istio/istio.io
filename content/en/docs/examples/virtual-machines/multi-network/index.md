@@ -34,7 +34,7 @@ The first step when adding non-Kubernetes services to an Istio mesh is to
 configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh.
 
-1. Follow the same steps as [setting up single-network](/docs/examples/mesh-expansion/single-network) configuration for the initial setup of the
+1. Follow the same steps as [setting up single-network](/docs/examples/virtual-machines/single-network) configuration for the initial setup of the
    cluster and certificates with the change of how you deploy Istio control plane:
 
     {{< text bash >}}
