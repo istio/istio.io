@@ -18,7 +18,7 @@ extensibility to the Envoy proxy using [WebAssembly](https://webassembly.org/). 
 share that work with the world today, as well as
 unveiling [WebAssembly (Wasm) for Proxies](https://github.com/proxy-wasm/spec) (Proxy-Wasm): an ABI,
 which we intend to standardize; SDKs; and its first major implementation, the new,
-lower-latency [Istio telemetry system](https://istio.io/docs/reference/config/telemetry).
+lower-latency [Istio telemetry system](/docs/reference/config/telemetry).
 
 We have also worked closely with the community to ensure that there is a great developer experience
 for users to get started quickly. The Google team has been working closely with the team
@@ -34,7 +34,7 @@ so they can start experimenting with the tremendous possibilities this opens up.
 
 The need for extensibility has been a founding tenet of both the Istio and Envoy projects,
 but the two projects took different approaches. Istio project focused on enabling a generic
-out-of-process extension model called [Mixer](https://istio.io/docs/reference/config/policy-and-telemetry/mixer-overview/)
+out-of-process extension model called [Mixer](/docs/reference/config/policy-and-telemetry/mixer-overview/)
 with a lightweight developer experience, while Envoy focused on in-proxy [extensions](https://www.envoyproxy.io/docs/envoy/latest/extending/extending).
 
 Each approach has its share of pros and cons. The Istio model led to significant resource
@@ -50,7 +50,7 @@ percentage of deployments, just to piggyback on its release mechanisms.
 
 Over time some of the most performance-sensitive features of Istio have been upstreamed
 into Envoy - [policy checks on traffic](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/rbac_filter),
-and [telemetry reporting](https://istio.io/docs/reference/config/telemetry/metrics/), for example.
+and [telemetry reporting](/docs/reference/config/telemetry/metrics/), for example.
 Still, we have always wanted to converge on a single stack for extensibility that imposes fewer
 tradeoffs: something that decouples Envoy releases from its extension ecosystem, enables
 developers to work in their languages of choice, and enables Istio to reliably roll out new
@@ -79,7 +79,7 @@ at the W3C, with a sample implementation, which provides an OS-like abstraction 
 [Over the past 18 months](https://github.com/envoyproxy/envoy/issues/4272), we have been working
 with the Envoy community to build Wasm extensibility into Envoy and contribute it upstream.
 We're pleased to announce it is available as Alpha in the Envoy build shipped
-with [Istio 1.5](https://istio.io/news/releases/1.5.x/announcing-1.5/), with source in
+with [Istio 1.5](/news/releases/1.5.x/announcing-1.5/), with source in
 the [`envoy-wasm`](https://github.com/envoyproxy/envoy-wasm/) development fork and work ongoing to
 merge it into the main Envoy tree. The implementation uses the WebAssembly runtime built into
 Google's high performance [V8 engine](https://v8.dev/).
@@ -149,13 +149,13 @@ however, this has given us a lot of confidence in our general approach and in th
 environment, ABI and SDKs that have been developed.
 
 We have also been careful to ensure that the Istio control plane and
-its [Envoy configuration APIs](https://istio.io/docs/reference/config/networking/envoy-filter/) are Wasm-ready.
+its [Envoy configuration APIs](/docs/reference/config/networking/envoy-filter/) are Wasm-ready.
 We have samples to show how several common customizations such as custom header decoding or
 programmatic routing can be performed which are common asks from users. As we move this support to
 Beta, you will see documentation showing best practices for using Wasm with Istio.
 
 Finally, we are working with the many vendors who have
-written [Mixer adapters](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/),
+written [Mixer adapters](/docs/reference/config/policy-and-telemetry/adapters/),
 to help them with a migration to Wasm --- if that is the best path forward. Mixer will move to a
 community project in a future release, where it will remain available for legacy use cases.
 
