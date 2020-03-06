@@ -25,6 +25,10 @@ $ kubectl -n istio-io-circuitbreaker exec {{ .inputTerminalFlag }} $FORTIO_POD -
 200 OK
 # $endsnippet
 
+function ruby_eval() {
+  ruby -e "p $1"
+}
+
 # check_percentage_bounds take 4 arguments as input. It must be invoked as follows
 #
 # $ check_percentage_bounds <percentage-lower-bound-200> <percentage-upper-bound-200> \
@@ -45,13 +49,13 @@ function check_percentage_bounds() {
 
     local status_lower_bound=${lower_bounds[$status_code]}
     local status_upper_bound=${upper_bounds[$status_code]}
-    echo "status $status_code: actual=$percentage_req % low=${status_lower_bound}, high=${status_upper_bound}"
   
-    local is_lower_bound_breached=$(bc <<< "scale=2; $percentage_req < $status_lower_bound")
-    local is_upper_bound_breached=$(bc <<< "scale=2; $percentage_req > $status_upper_bound")
+    local is_lower_bound_breached=$(ruby_eval "$percentage_req < $status_lower_bound")
+    local is_upper_bound_breached=$(ruby_eval "$percentage_req > $status_upper_bound")
  
-    if (($is_lower_bound_breached || $is_upper_bound_breached)); then
-      echo "percentage_requests=$percentage_req for status=$status_code bounds breached"
+    if [[ $is_lower_bound_breached == "true" || $is_upper_bound_breached == "true" ]]; then
+      echo "either lower bound or upper bound is breached"
+      echo "status=$status_code actual=$percentage_req, low=$status_lower_bound high=$status_upper_bound"
       exit 1
     fi
   done
