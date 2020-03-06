@@ -121,7 +121,7 @@ be configured using [authentication policies](/docs/concepts/security/#authentic
 
 ### `istioctl`
 
-- Added the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
+- Added the [`istioctl authn tls-check`](/docs/reference/commands/istioctl) command.
 
 - Added the [`istioctl proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) command.
 
