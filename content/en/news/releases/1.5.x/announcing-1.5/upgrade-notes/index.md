@@ -86,6 +86,10 @@ $ kubectl delete meshpolicies.authentication.istio.io --all
 * We have stabilized the SDS certificate and key provisioning flow. Now the Istio workloads are using SDS to provision certificates. The secret volume mount approach is deprecated.
 * Please note when mutual TLS is enabled, Prometheus deployment needs to be manually modified to monitor the workloads. The details are described in this [issue](https://github.com/istio/istio/issues/21843). This is not required in 1.5.1.
 
+## Automatic mutual TLS
+
+Automatic mutual TLS is now enabled by default. Traffic between sidecars is automatically configured as mutual TLS. You can disable this explicitly if you worry about the encryption overhead by adding the option `-- set values.global.mtls.auto=false` during install. For more details, refer to [automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls).
+
 ## Control plane security
 
 As part of the Istiod effort, we have changed how proxies securely communicate with the control plane. In previous versions, proxies would connect to the control plane securely when the setting `values.global.controlPlaneSecurityEnabled=true` was configured, which was the default for Istio 1.4. Each control plane component ran a sidecar with Citadel certificates, and proxies connected to Pilot over port 15011.
