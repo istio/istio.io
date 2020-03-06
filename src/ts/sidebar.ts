@@ -1,4 +1,4 @@
-// Copyright 2019 Istio Authors
+/// Copyright 2019 Istio Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,6 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+declare type Callback = (element: HTMLElement) => void;
+
+/* tslint:disable */
+interface Window {
+    observeResize(el: HTMLElement, callback: Callback): void;
+}
+/* tslint:enable */
 
 // Attach the event handlers to support the sidebar
 function handleSidebar(): void {
@@ -46,6 +54,12 @@ function handleSidebar(): void {
                 el.style.maxHeight = el.scrollHeight + "px";
             });
         });
+
+        window.observeResize(body, el => {
+            if ((el.style.maxHeight !== null) && (el.style.maxHeight !== "")) {
+                el.style.maxHeight = el.scrollHeight + "px";
+            }
+        });
     });
 
     const headers: HTMLElement[] = [];
@@ -69,7 +83,7 @@ function handleSidebar(): void {
             body.style.maxHeight = body.scrollHeight + "px";
         } else {
             // if was expanded, reset this
-            body.style.maxHeight = null;
+            body.style.maxHeight = "";
         }
     }
 
