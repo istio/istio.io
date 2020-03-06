@@ -231,7 +231,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default ``)</td>
+<td>Select a namespace where the controller resides. If not set, uses ${POD_NAMESPACE} environment variable  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--networksConfig &lt;string&gt;</code></td>
@@ -261,7 +261,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--secureGrpcAddr &lt;string&gt;</code></td>
 <td></td>
-<td>Discovery service grpc address, with https and spiffe certificates.  (default `:15011`)</td>
+<td>Discovery service grpc address, with https  (default ``)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
@@ -496,6 +496,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
 </tr>
 <tr>
+<td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Default Http and gRPC Request timeout</td>
+</tr>
+<tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
 <td>Integer</td>
 <td><code>4194304</code></td>
@@ -530,12 +536,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td>Kuberenetes service host, set automatically when running in-cluster</td>
-</tr>
-<tr>
-<td><code>MASTER_ELECTION</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>Enable master election</td>
 </tr>
 <tr>
 <td><code>MAX_WORKLOAD_CERT_TTL</code></td>
@@ -580,16 +580,16 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
 <td>Time Duration</td>
 <td><code>1m0s</code></td>
 <td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. This feature is currently experimental, and is off by default.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code></td>
@@ -614,12 +614,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
@@ -658,6 +652,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, metadata exchange will be enabled for TCP using ALPN and Network Metadata Exchange filters in Envoy</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
+</tr>
+<tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -688,12 +688,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
-<td><code>PILOT_RESPECT_DNS_TTL</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, DNS based clusters will respect the TTL of the DNS, rather than polling at a fixed rate. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
-</tr>
-<tr>
 <td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -704,12 +698,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
-</tr>
-<tr>
-<td><code>PILOT_SCOPE_PUSHES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, pilot will attempt to limit unnecessary pushes by determining what proxies a config or endpoint update will impact.</td>
 </tr>
 <tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
@@ -744,7 +732,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>POD_NAMESPACE</code></td>
 <td>String</td>
-<td><code></code></td>
+<td><code>istio-system</code></td>
 <td></td>
 </tr>
 <tr>

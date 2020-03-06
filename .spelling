@@ -19,6 +19,8 @@
 1.4.x.
 1.5.x
 1.5.x.
+1.6.x
+1.6.x.
 1.x
 10ms
 10s
@@ -119,6 +121,8 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+bytecode
+BytecodeAlliance
 c.f.
 callout
 callouts
@@ -291,6 +295,7 @@ hypervisor
 Hystrix
 i.e.
 ILBs
+incentivized
 Incrementality
 initializer
 initializers
@@ -390,6 +395,7 @@ microservices
 middleboxes
 middleware
 minikube
+misconfiguration
 misconfigurations
 misconfigured
 misordered
@@ -453,6 +459,7 @@ PKIs
 pki
 plaintext
 platform-specific
+Plevyak
 pluggability
 pluggable
 png
@@ -598,7 +605,9 @@ timestamps
 TLS
 TLS-secured
 ToC
+toolchain
 touchpoints
+tradeoffs
 Trulia
 trustability
 tunneling
@@ -610,6 +619,7 @@ uncommented
 unconfigured
 Undeploy
 undeploy
+undeployed
 unencrypted
 unmanaged
 Unmarshalers
@@ -617,6 +627,8 @@ Unmarshaling
 unnormalized
 unsampled
 untrusted
+upstreamed
+upstreaming
 uptime
 URIs
 url
@@ -680,6 +692,7 @@ yaml
 yamls
 Yessenov
 yournamespace
+Youtube
 Zack
 Zhang
 Zipkin
