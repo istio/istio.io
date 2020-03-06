@@ -1,5 +1,5 @@
 ---
-title: Redefining extensibility in proxies - introducing WebAssembly to Envoy and Istio.
+title: Redefining extensibility in proxies - introducing WebAssembly to Envoy and Istio
 subtitle: A new interface for extending proxy servers allows moving Istio extensibility from the control plane into the sidecar proxies themselves
 description: The future of Istio extensibility using WASM.
 publishdate: 2020-03-05
