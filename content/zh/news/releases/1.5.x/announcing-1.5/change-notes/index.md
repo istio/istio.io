@@ -27,7 +27,7 @@ weight: 10
 [`RequestAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/request_authentication.proto) 中。
 两个新 API 都是面向工作负载的，在 alpha 版本的 `AuthenticationPolicy` 中它们是面向服务的。
 - **新增** 在授权策略中添加[拒绝语义](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto#L28)。
-- **毕业** [自动双向 TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) 从 alpha 转到 beta。该特性现在默认启用。
+- **毕业** [自动双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) 从 alpha 转到 beta。该特性现在默认启用。
 - **改进** 通过将 Node Agent 与 Pilot Agent 作为 Istio Agent 合并，并删除跨 Pod UDS，从而提高了 [SDS 安全性](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) ，不再需要用户为 UDS 连接部署 Kubernetes Pod 安全策略。
 - **改进** 通过在 istiod 中包含证书来改进 Istio。
 - **新增** [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) 在 [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) 不支持的集群中添加了支持 Kubernetes 作为 CSR 身份验证的后备令牌。
@@ -51,29 +51,29 @@ weight: 10
 
 ## Operator
 
-- **替换** 将 Alpha `IstioControlPlane` API 替换为新的 [`IstioOperator`](/docs/reference/config/istio.operator.v1alpha1/) API，以便与现有的 `MeshConfig` API 保持一致。
+- **替换** 将 Alpha `IstioControlPlane` API 替换为新的 [`IstioOperator`](/zh/docs/reference/config/istio.operator.v1alpha1/) API，以便与现有的 `MeshConfig` API 保持一致。
 - **新增** `istioctl operator init` 和 `istioctl operator remove` 命令。
 - **改进** 使用缓存 [`operator#667`](https://github.com/istio/operator/pull/667) 提高对帐速度。
 
 ## `istioctl`
 
-- **毕业** [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/)。
+- **毕业** [`Istioctl Analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/)。
 - **新增** 各种分析器：双向 TLS、JWT、`ServiceAssociation`、Secret、sidecar 镜像、端口名称和不建议使用的分析器。
 - **更新** 支持更多针对 `RequestAuthentication` 的验证规则。
-- **新增** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 添加新参数 `-A|--all-namespaces` 以分析整个集群。
-- **新增** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 通过传递 stdin 给的内容进行分析的支持。
-- **新增** [`istioctl analyze -L`](/docs/ops/diagnostic-tools/istioctl-analyze/) 打印全部分析变量。
-- **新增** 功能抑制来自 [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 的消息。
-- **新增** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 添加结构化格式选项。
-- **新增** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 输出中添加指向相关内容的链接。
-- **更新** Istio API 在 [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 中提供的更新注释方法。
-- **更新** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 现在可从目录加载文件。
-- **更新** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 以尝试将消息与其源文件名关联。
-- **更新** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 打印正在分析的命名空间。
-- **更新** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 默认情况下分析群集内资源。
-- **修复** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) 抑制群集级资源消息的错误。
+- **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 添加新参数 `-A|--all-namespaces` 以分析整个集群。
+- **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 通过传递 stdin 给的内容进行分析的支持。
+- **新增** [`istioctl analyze -L`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 打印全部分析变量。
+- **新增** 功能抑制来自 [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 的消息。
+- **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 添加结构化格式选项。
+- **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 输出中添加指向相关内容的链接。
+- **更新** Istio API 在 [`Istioctl Analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 中提供的更新注释方法。
+- **更新** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 现在可从目录加载文件。
+- **更新** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 以尝试将消息与其源文件名关联。
+- **更新** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 打印正在分析的命名空间。
+- **更新** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 默认情况下分析群集内资源。
+- **修复** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 抑制群集级资源消息的错误。
 - **新增** `istioctl manifest` 对多个输入文件的支持。
 - **替换** 使用 `IstioOperator` API 替换 `IstioControlPlane` API。
-- **新增** [`istioctl dashboard`](/docs/reference/commands/istioctl/#istioctl-dashboard) 选择器。
-- **新增** [`istioctl manifest --set`](/docs/reference/commands/istioctl/#istioctl-manifest) 支持切片和列表。
+- **新增** [`istioctl dashboard`](/zh/docs/reference/commands/istioctl/#istioctl-dashboard) 选择器。
+- **新增** [`istioctl manifest --set`](/zh/docs/reference/commands/istioctl/#istioctl-manifest) 支持切片和列表。
 - **新增** `docker/istioctl` Docker 镜像（#19079）。
