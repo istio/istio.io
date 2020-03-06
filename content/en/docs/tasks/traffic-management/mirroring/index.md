@@ -137,12 +137,6 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
 1.  Create a default route rule to route all traffic to `v1` of the service:
 
-    {{< tip >}}
-    Starting in 1.5, Istio automatically configures workload sidecars to use mutual TLS when calling other workloads so the
-    same Destination Rule can be used whether Istio was with deployed with `global.mtls.enabled` true or false. To understand
-    more about Istio mutual TLS, read about [automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls).
-    {{< /tip >}}
-
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
