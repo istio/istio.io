@@ -77,7 +77,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 * Gateway 代理能够监视多个密钥/证书对。只需要为每个主机名创建 `Secret` 并更新 Gateway 定义就可以了。
 
 1. 在 Ingress Gateway 上启用 SDS，并部署 Ingress Gateway 代理。
-    这个功能缺省是禁用的，因此需要在 Helm 中打开 [`istio-ingressgateway.sds.enabled` 开关]({{<github_blob>}}/install/kubernetes/helm/istio/charts/gateways/values.yaml)，然后生成 `istio-ingressgateway.yaml` 文件：
+    这个功能缺省是禁用的，因此需要在 Helm 中打开 [`istio-ingressgateway.sds.enabled` 开关]({{<github_blob>}}/manifests/UPDATING-CHARTS.md)，然后生成 `istio-ingressgateway.yaml` 文件：
 
     {{< text bash >}}
     $ istioctl manifest generate \
