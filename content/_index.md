@@ -64,7 +64,7 @@ title: Istio
             {{< inline_image "landing/istio-logo.svg" >}}
             <div class="hero-text">
                 <h1 class="hero-label">Istio</h1>
-                <h1 class="hero-lead">Connect, secure, control, and observe services.
+                <h1 class="hero-lead">Connect, secure, control, and observe services.</h1>
             </div>
         </div>
     </div>
