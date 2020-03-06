@@ -659,19 +659,6 @@ https, and the TLS modes to use.</p>
 No
 </td>
 </tr>
-<tr id="Server-default_endpoint">
-<td><code>defaultEndpoint</code></td>
-<td><code>string</code></td>
-<td>
-<p>The loopback IP endpoint or Unix domain socket to which traffic should
-be forwarded to by default. Format should be <code>127.0.0.1:PORT</code> or
-<code>unix:///path/to/socket</code> or <code>unix://@foobar</code> (Linux abstract namespace).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -691,8 +678,9 @@ No
 <td><code>httpsRedirect</code></td>
 <td><code>bool</code></td>
 <td>
-<p>If set to true, the load balancer will send a 301 redirect for all
-http connections, asking the clients to use HTTPS.</p>
+<p>If set to true, the load balancer will send a 301 redirect for
+all http connections, asking the clients to use HTTPS. Not
+applicable in Sidecar API.</p>
 
 </td>
 <td>
@@ -756,18 +744,18 @@ No
 <p>The credentialName stands for a unique identifier that can be used
 to identify the serverCertificate and the privateKey. The
 credentialName appended with suffix &ldquo;-cacert&rdquo; is used to identify
-the CaCertificates associated with this server. Gateway workloads
+the CaCertificates associated with this server. Proxies
 capable of fetching credentials from a remote credential store such
 as Kubernetes secrets, will be configured to retrieve the
 serverCertificate and the privateKey using credentialName, instead
 of using the file system paths specified above. If using mutual TLS,
-gateway workload instances will retrieve the CaCertificates using
+proxy instances will retrieve the CaCertificates using
 credentialName-cacert. The semantics of the name are platform
 dependent.  In Kubernetes, the default Istio supplied credential
 server expects the credentialName to match the name of the
 Kubernetes secret that holds the server certificate, the private
 key, and the CA certificate (if using mutual TLS). Set the
-<code>ISTIO_META_USER_SDS</code> metadata variable in the gateway&rsquo;s proxy to
+<code>ISTIO_META_USER_SDS</code> metadata variable in the proxy to
 enable the dynamic credential fetching feature.</p>
 
 </td>
@@ -920,9 +908,11 @@ No
 <tr id="Server-TLSOptions-TLSmode-PASSTHROUGH">
 <td><code>PASSTHROUGH</code></td>
 <td>
-<p>The SNI string presented by the client will be used as the match
-criterion in a VirtualService TLS route to determine the
-destination service from the service registry.</p>
+<p>The SNI string presented by the client will be used as the
+match criterion in a VirtualService TLS route to determine
+the destination service from the service registry. On a
+sidecar, TLS traffic will be forwarded as is to the default
+endpoint defined in the Ingress Listener.</p>
 
 </td>
 </tr>
@@ -936,36 +926,38 @@ destination service from the service registry.</p>
 <tr id="Server-TLSOptions-TLSmode-MUTUAL">
 <td><code>MUTUAL</code></td>
 <td>
-<p>Secure connections to the downstream using mutual TLS by presenting
-server certificates for authentication.</p>
+<p>Secure connections to the downstream using mutual TLS by
+presenting server certificates for authentication.</p>
 
 </td>
 </tr>
 <tr id="Server-TLSOptions-TLSmode-AUTO_PASSTHROUGH">
 <td><code>AUTO_PASSTHROUGH</code></td>
 <td>
-<p>Similar to the passthrough mode, except servers with this TLS mode
-do not require an associated VirtualService to map from the SNI
-value to service in the registry. The destination details such as
-the service/subset/port are encoded in the SNI value. The proxy
-will forward to the upstream (Envoy) cluster (a group of
-endpoints) specified by the SNI value. This server is typically
-used to provide connectivity between services in disparate L3
-networks that otherwise do not have direct connectivity between
-their respective endpoints. Use of this mode assumes that both the
-source and the destination are using Istio mTLS to secure traffic.</p>
+<p>Similar to the passthrough mode, except servers with this TLS
+mode do not require an associated VirtualService to map from
+the SNI value to service in the registry. The destination
+details such as the service/subset/port are encoded in the
+SNI value. The proxy will forward to the upstream (Envoy)
+cluster (a group of endpoints) specified by the SNI
+value. This server is typically used to provide connectivity
+between services in disparate L3 networks that otherwise do
+not have direct connectivity between their respective
+endpoints. Use of this mode assumes that both the source and
+the destination are using Istio mTLS to secure traffic. Not
+applicable in Sidecar API.</p>
 
 </td>
 </tr>
 <tr id="Server-TLSOptions-TLSmode-ISTIO_MUTUAL">
 <td><code>ISTIO_MUTUAL</code></td>
 <td>
-<p>Secure connections from the downstream using mutual TLS by presenting
-server certificates for authentication.
-Compared to Mutual mode, this mode uses certificates, representing
-gateway workload identity, generated automatically by Istio for
-mTLS authentication. When this mode is used, all other fields in
-<code>TLSOptions</code> should be empty.</p>
+<p>Secure connections from the downstream using mutual TLS by
+presenting server certificates for authentication.  Compared
+to Mutual mode, this mode uses certificates, representing
+gateway workload identity, generated automatically by Istio
+for mTLS authentication. When this mode is used, all other
+fields in <code>TLSOptions</code> should be empty.</p>
 
 </td>
 </tr>

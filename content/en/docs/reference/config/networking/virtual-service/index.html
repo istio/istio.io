@@ -1068,7 +1068,8 @@ e.g. <em>x-request-id</em>.</p>
 <li><p><code>regex: &quot;value&quot;</code> for ECMAscript style regex-based match</p></li>
 </ul>
 
-<p><strong>Note:</strong> The keys <code>uri</code>, <code>scheme</code>, <code>method</code>, and <code>authority</code> will be ignored.</p>
+<p>If the value is empty and only the name of header is specfied, presence of the header is checked.
+<strong>Note:</strong> The keys <code>uri</code>, <code>scheme</code>, <code>method</code>, and <code>authority</code> will be ignored.</p>
 
 </td>
 <td>
@@ -1145,6 +1146,31 @@ No
 
 <p><strong>Note:</strong> The case will be ignored only in the case of <code>exact</code> and <code>prefix</code>
 URI matches.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPMatchRequest-without_headers">
+<td><code>withoutHeaders</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</code></td>
+<td>
+<p>withoutHeader has the same syntax with the header, but has opposite meaning.
+If a header is matched with a matching rule among withoutHeader, the traffic becomes not matched one.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPMatchRequest-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
 
 </td>
 <td>
@@ -1351,6 +1377,18 @@ No
 One or more policies can be specified using a ‘,’ delimited list.
 See the <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on">retry policies</a>
 and <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on">gRPC retry policies</a> for more details.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRetry-retry_remote_localities">
+<td><code>retryRemoteLocalities</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Flag to specify whether the retries should retry to other localities.
+See the <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http/http_connection_management#retry-plugin-configuration">retry plugin configuration</a> for more details.</p>
 
 </td>
 <td>
@@ -1994,6 +2032,19 @@ match is independent of sourceLabels.</p>
 No
 </td>
 </tr>
+<tr id="L4MatchAttributes-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -2308,6 +2359,19 @@ No
 <p>Names of gateways where the rule should be applied. Gateway names
 in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
 match is independent of sourceLabels.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TLSMatchAttributes-source_namespace">
+<td><code>sourceNamespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Source namespace constraining the applicability of a rule to workloads in that namespace.
+If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
+it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
 
 </td>
 <td>

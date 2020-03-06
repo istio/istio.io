@@ -153,7 +153,7 @@ status of our APIs, see our
 
 Network traffic is also becoming more secure by default. After many users
 enabled it in preview,
-[automated rollout of mutual TLS](/docs/tasks/security/authentication/auto-mtls/)
+[automated rollout of mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)
 is becoming the recommended practice in Istio 1.5.
 
 In addition we will make Istio require fewer privileges and simplify its

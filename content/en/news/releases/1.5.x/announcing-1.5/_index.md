@@ -82,7 +82,7 @@ Istio 1.4.
 
 As always, we are working to make Istio more secure with every release. With
 1.5, all security policies including
-[Auto mTLS](/docs/tasks/security/authentication/auto-mtls/),
+[Auto mTLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls),
 [`AuthenticationPolicy`](/docs/reference/config/security/istio.authentication.v1alpha1/)
 (`PeerAuthentication` and `RequestAuthentication`) and authorization are now in
 Beta. SDS is now stable. Authorization now supports Deny semantics to enforce

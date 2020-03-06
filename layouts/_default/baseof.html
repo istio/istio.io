@@ -136,9 +136,9 @@
         <!-- our own stuff -->
         <script src="/js/all.min.js" data-manual defer></script>
 
-        {{ partial "events.html" (dict "page" . "kind" "sticker") }}
+        
         {{ partial "header.html" . }}
-        {{ partial "events.html" (dict "page" . "kind" "banner") }}
+        
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
 
