@@ -137,7 +137,7 @@ $ kubectl get pods -n istio-system
     {{< text bash >}}
     $ helm template install/kubernetes/helm/istio \
       --namespace istio-system --name istio-remote \
-      --values @install/kubernetes/helm/istio/values-istio-remote.yaml@ \
+      --values @manifests/UPDATING-CHARTS.md@ \
       --set global.remotePilotAddress=${PILOT_POD_IP} \
       --set global.remotePolicyAddress=${POLICY_POD_IP} \
       --set global.remoteTelemetryAddress=${TELEMETRY_POD_IP} > $HOME/istio-remote.yaml
