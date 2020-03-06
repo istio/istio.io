@@ -71,7 +71,7 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
-| [SDS based key and certificate provisioning](/docs/concepts/security/#the-istio-agent-in-kubernetes)  | Stable
+| [SDS based key and certificate provisioning](/docs/concepts/security/#pki)  | Stable
 | [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Stable
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Authorization](/docs/concepts/security/#authorization)   | Beta
