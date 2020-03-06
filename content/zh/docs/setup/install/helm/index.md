@@ -155,7 +155,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
    如果还没有定义，请执行下面命令创建：
 
     {{< text bash >}}
-    $ kubectl apply -f @install/kubernetes/helm/helm-service-account.yaml@
+    $ kubectl apply -f @manifests/UPDATING-CHARTS.md@
     {{< /text >}}
 
 1. 使用 Service Account 在集群上安装 Tiller：
