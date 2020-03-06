@@ -332,7 +332,6 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     EOF
     {{< /text >}}
 
-
 1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
     The output should be the same as before.
 
