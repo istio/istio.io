@@ -162,7 +162,7 @@ community project in a future release, where it will remain available for legacy
 ## Developer Experience
 
 Powerful tooling is nothing without a great developer experience. Solo.io
-[recently announced](https://medium.com/solo-io/introducing-the-webassembly-hub-a-service-for-building-deploying-sharing-and-discovering-wasm-d461719383ca)
+[recently announced](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)
 the release of [WebAssembly Hub](https://webassemblyhub.io/), a set of tools and repository for
 building, deploying, sharing and discovering Envoy Proxy Wasm extensions for Envoy and Istio.
 

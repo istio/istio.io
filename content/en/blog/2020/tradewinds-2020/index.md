@@ -50,7 +50,7 @@ and [authorization](/docs/concepts/security/#authorization) policies, which
 allow you to control workload-to-workload and end-user-to-workload authorization
 directly in the proxy. Common monitoring use cases have already moved into the
 proxy too - we have
-[introduced in-proxy support]/docs/ops/configuration/telemetry/in-proxy-service-telemetry/)
+[introduced in-proxy support](/docs/reference/config/telemetry/metrics)
 for sending telemetry to Prometheus and Stackdriver.
 
 Our benchmarking shows that the new telemetry model reduces our latency
