@@ -9,7 +9,7 @@ aliases:
 ---
 
 This task shows you how to setup and use the Istio Dashboard to monitor mesh
-traffic. As part of this task, you will use the Grafana Istio add-on and
+traffic. As part of this task, you will use the Grafana Istio addon and
 the web-based interface for viewing service mesh traffic data.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
@@ -111,7 +111,7 @@ the example application throughout this task.
 ### About the Grafana addon
 
 The Grafana addon is a preconfigured instance of Grafana. The base image
-([`grafana/grafana:5.2.3`](https://hub.docker.com/r/grafana/grafana/)) has been
+([`grafana/grafana`](https://hub.docker.com/r/grafana/grafana/)) has been
 modified to start with both a Prometheus data source and the Istio Dashboard
 installed. The base install files for Istio, and Mixer in particular, ship with
 a default configuration of global (used for every service) metrics. The Istio
