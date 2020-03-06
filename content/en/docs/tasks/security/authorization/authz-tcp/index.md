@@ -1,5 +1,5 @@
 ---
-title: Authorization for TCP traffic
+title: TCP traffic
 description: How to set up access control for TCP traffic.
 weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]

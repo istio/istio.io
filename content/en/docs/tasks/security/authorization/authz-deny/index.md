@@ -1,5 +1,5 @@
 ---
-title: Authorization policies with a deny action
+title: Deny policy
 description: Shows how to set up access control to deny traffic explicitly.
 weight: 40
 keywords: [security,access-control,rbac,authorization,deny]
@@ -24,8 +24,8 @@ Before tackling this task you must perform the following actions:
 
     {{< text bash >}}
     $ kubectl create ns foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
     {{< /text >}}
 
 * Verify that `sleep` talks to `httpbin` with the following command:
