@@ -33,7 +33,7 @@ $ istioctl manifest apply
 此命令将在您配置的 Kubernetes 集群上安装 `default` 配置文件。
 `default` 配置文件建立生产环境的良好起点，这与旨在评估广泛的 Istio 功能特性的较大的 `demo` 配置文件不同。
 
-如果要在 `default` 配置文件之上启用Grafana dashboard，用下面的命令设置`addonComponents.grafana.enabled`配置参数：
+如果要在 `default` 配置文件之上启用 Grafana dashboard，用下面的命令设置 `addonComponents.grafana.enabled` 配置参数：
 
 {{< text bash >}}
 $ istioctl manifest apply --set addonComponents.grafana.enabled=true
@@ -137,7 +137,7 @@ k8s:
 
 `profile diff` 子命令可用于显示配置文件之间的差异，在将更改应用于集群之前，这对于检查自定义的效果很有用。
 
-您可以使用以下命令显示default和demo配置文件之间的差异：
+您可以使用以下命令显示 default 和 demo 配置文件之间的差异：
 
 {{< text bash >}}
 $ istioctl profile diff default demo
@@ -257,7 +257,7 @@ $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 
 ### 标识 Istio 功能或组件{#identify-an-Istio-feature-or-component}
 
-`IstioOperator` API 定义的components如下表所示：
+`IstioOperator` API 定义的 components 如下表所示：
 
 | Components |
 | ------------|
@@ -274,7 +274,7 @@ $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 `egressGateways` |
 `cni` |
 
-除了核心的 Istio 组件之外，还提供了第三方附加功能和组件。它们可以通过配置`IstioOperator` API的`addonComponents` spec，或者使用Helm来启动。
+除了核心的 Istio 组件之外，还提供了第三方附加功能和组件。它们可以通过配置 `IstioOperator` API 的 `addonComponents` spec，或者使用 Helm 透传 API 来启动。
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -293,9 +293,6 @@ spec:
     grafana:
       enabled: true
 {{< /text >}}
-
-可以启用或禁用功能，这可以启用或禁用作为功能一部分的所有组件。
-可以通过组件，功能部件或全局设置组件安装到的命名空间。
 
 ### 配置功能或组件设置{#configure-the-feature-or-component-settings}
 
@@ -331,12 +328,6 @@ spec:
 $ istioctl manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
-您还可以使用这种方法来设置组件级配置，例如启用节点代理：
-
-{{< text bash >}}
-$ istioctl manifest apply --set security.components.nodeAgent.enabled=true
-{{< /text >}}
-
 另一个定制是为功能部件和组件选择不同的命名空间。
 以下是一个定制命名空间的例子：
 
@@ -350,7 +341,6 @@ spec:
     citadel:
       namespace: istio-citadel
 {{< /text >}}
-
 
 安装此文件将应用默认配置文件，并将组件安装到以下命名空间中：
 
@@ -415,7 +405,7 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 
 ### 使用 Helm API 自定义 Istio 设置{#customize-Istio-settings-using-the-helm-API}
 
-`IstioOperator` API 使用 `values` 字段直接调用 [Helm API](/zh/docs/reference/config/installation-options/) 的接口对于字段进行设值。
+`IstioOperator` API 使用 `values` 字段直接调用 [Helm API](/zh/docs/reference/config/installation-options/) 的接口对字段进行设值。
 
 下面的 YAML 文件可以通过 Helm API 配置全局和 Pilot 配置：
 
