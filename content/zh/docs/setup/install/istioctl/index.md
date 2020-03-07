@@ -371,7 +371,7 @@ spec:
 
 所有这些 Kubernetes 设置都使用 Kubernetes API 定义，因此 [Kubernetes文档](https://kubernetes.io/docs/concepts/) 可以用作参考。
 
-以下示例覆盖文件调整了 Pilot 的 resources 和 hpa 设置：
+以下示例覆盖文件调整了 Pilot 的 resource 和 pod 水平自动伸缩的设置：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
