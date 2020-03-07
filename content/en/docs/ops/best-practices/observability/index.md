@@ -119,7 +119,7 @@ will help with controlling metrics cardinality via federation, you may want to f
 to match your existing dashboards, alerts, and ad-hoc queries.
 
 For more information on tailoring your recording rules, see the section on
-[Optimizing metrics collection with recording rules](optimizing-metrics-collection-with-recording-rules).
+[Optimizing metrics collection with recording rules](#optimizing-metrics-collection-with-recording-rules).
 {{< /tip >}}
 
 ### Federation using workload-level aggregated metrics
@@ -254,14 +254,15 @@ groups:
 {{< /text>}}
 
 Then configure your production instance of Prometheus to federate from the Istio instance with a
-match clause of `'{__name__=~"istio:(.*)"}'` and a relabeling with a regex of `'workload:(.*)'`.
+match clause of `'{__name__=~"istio:(.*)"}'` and a metrics relabeling with `regex: 'workload:(.*)'`.
 
 Finally, update your dashboards to replace the original queries with:
 
   * `istio_requests:by_destination_service:rate1m`
+
   * `istio_request_duration_milliseconds_bucket:p95:rate1m`
 
 {{< tip >}}
-A detailed write-up on [metrics collection optimization in production at Autotrader](https://karlstoney.com/2020/02/25/federated-prometheus-to-reduce-metric-cardinality/)
+A detailed write-up on [metrics collection optimization in production at AutoTrader](https://karlstoney.com/2020/02/25/federated-prometheus-to-reduce-metric-cardinality/)
 provides a more fleshed out example of aggregating directly to the queries that power dashboards and alerts.
 {{< /tip >}}
