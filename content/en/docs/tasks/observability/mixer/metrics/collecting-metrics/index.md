@@ -1,6 +1,6 @@
 ---
-title: Collecting Metrics
-description: This task shows you how to configure Istio to collect and customize metrics.
+title: Collecting Metrics With Mixer
+description: This task shows you how to configure Istio's Mixer to collect and customize metrics.
 weight: 10
 keywords: [telemetry,metrics]
 aliases:
@@ -9,6 +9,11 @@ aliases:
     - /docs/tasks/telemetry/metrics/collecting-metrics/
     - /docs/tasks/observability/metrics/collecting-metrics/
 ---
+
+{{< warning >}}
+Mixer is deprecated. The functionality provided by Mixer is being moved into the Envoy proxies.
+Use of Mixer with Istio will only be supported through the 1.7 release of Istio.
+{{< /warning>}}
 
 This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new metric will be enabled for
@@ -19,10 +24,37 @@ as the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster and deploy an
-  application. This task assumes that Mixer is setup in a default configuration
-  (`--configDefaultNamespace=istio-system`). If you use a different
-  value, update the configuration and commands in this task to match the value.
+* [Install Istio](/docs/setup) with Mixer enabled in your cluster and deploy an
+  application.
+
+    The *custom* configuration needed to use Mixer for telemetry is:
+
+    {{< text yaml >}}
+    values:
+      prometheus:
+        enabled: true
+      telemetry:
+        v1:
+          enabled: true
+        v2:
+          enabled: false
+    components:
+      citadel:
+        enabled: true
+      telemetry:
+        enabled: true
+    {{< /text >}}
+
+    Please see the guide on [Customizing the configuration](/docs/setup/install/istioctl/#customizing-the-configuration)
+    for information on how to apply these settings.
+
+    Once the configuration has been applied, confirm a telemetry-focused instance of Mixer is running:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get service istio-telemetry
+    NAME              TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                  AGE
+    istio-telemetry   ClusterIP   10.4.31.226   <none>        9091/TCP,15004/TCP,15014/TCP,42422/TCP   80s
+    {{< /text >}}
 
 ## Collecting new metrics
 

@@ -19,6 +19,8 @@
 1.4.x.
 1.5.x
 1.5.x.
+1.6.x
+1.6.x.
 1.x
 10ms
 10s
@@ -529,6 +531,7 @@ runtimes
 sa
 Salesforce
 sandboxed
+sandboxing
 sayin
 schemas
 SDKs

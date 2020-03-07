@@ -81,7 +81,7 @@ Otherwise, the mode defaults to `DISABLE` causing client proxy sidecars to make 
 instead of TLS encrypted requests. Thus, the requests conflict with the server proxy because the server proxy expects
 encrypted requests.
 
-To confirm there is a conflict, check whether the `STATUS` field in the output of the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command
+To confirm there is a conflict, check whether the `STATUS` field in the output of the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-experimental-authz-check) command
 is set to `CONFLICT` for your service. For example, a command similar to the following could be used to check
 for a conflict with the `httpbin` service:
 

@@ -43,7 +43,7 @@ aliases:
 
 - **Added** Access Log Service [ALS](https://www.envoyproxy.io/docs/envoy/latest/api-v2/service/accesslog/v2/als.proto#grpc-access-log-service-als) support for Envoy gRPC.
 - **Added** a Grafana dashboard for Citadel monitoring.
-- **Added** [metrics](/docs/reference/commands/sidecar-injector/#metrics) for monitoring the sidecar injector webhook.
+- **Added** [metrics](https://archive.istio.io/v1.3/docs/reference/commands/sidecar-injector/#metrics) for monitoring the sidecar injector webhook.
 - **Added** control plane metrics to monitor Istio's configuration state.
 - **Added** telemetry reporting for traffic destined to the `Passthrough` and `BlackHole` clusters.
 - **Added** alpha support for in-proxy generation of service metrics using Prometheus.

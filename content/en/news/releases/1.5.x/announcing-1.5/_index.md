@@ -53,8 +53,9 @@ body of a message. It will be more flexible and more efficient, eliminating the
 need for running a Mixer component separately (which also simplifies
 deployments).
 
-Look for blog posts here and from Google, Solo.io and the Envoy community for
-much more detail about this exciting work!
+[Read our Wasm blog post](/blog/2020/wasm-announce/), and look out for posts
+from Google, Solo.io and the Envoy community for much more detail about this
+exciting work!
 
 ## Easier to use
 

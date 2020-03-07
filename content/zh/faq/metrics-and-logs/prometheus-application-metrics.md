@@ -3,7 +3,7 @@ title: 我可以使用 Prometheus 配合 Istio 抓取应用程序指标吗？
 weight: 90
 ---
 
-是的。Istio 附带 [Prometheus 的配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/prometheus/templates/configmap.yaml)，在启用或禁用双向 TLS 时启动收集应用程序指标的功能。
+是的。Istio 附带 [Prometheus 的配置]({{< github_file >}}/manifests/UPDATING-CHARTS.md)，在启用或禁用双向 TLS 时启动收集应用程序指标的功能。
 
 `kubernetes-pods` job 从没有双向 TLS 环境中的 pod 收集应用程序指标。当为 Istio 启用双向 TLS 时，`kubernetes-pods-istio-secure` job 从应用程序的 pod 中收集指标。
 
