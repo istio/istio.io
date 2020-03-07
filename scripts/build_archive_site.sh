@@ -63,7 +63,7 @@ for rel in "${TOBUILD[@]}"; do
   scripts/gen_site.sh "${URL}"
 
   if [[ "${TAG}" != "release-0.8" && "${TAG}" != "release-1.0" && "${TAG}" != "release-1.1" && "${TAG}" != "release-1.2" && "${TAG}" != "release-1.3" ]]; then
-    scripts/build_site.sh
+    scripts/build_site.sh "${URL}"
   fi
 
   mv public "${TMP}/archive/${NAME}"
