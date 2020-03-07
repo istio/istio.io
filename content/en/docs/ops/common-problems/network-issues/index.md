@@ -65,7 +65,9 @@ order of seconds.
 
 ## 503 errors after setting destination rule
 
-You should only see this error when you disable [automatic mutual](docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) TLS during install.
+{{< tip >}}
+You should only see this error if you disabled [automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) during install.
+{{< /tip >}}
 
 If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
 and the errors continue until you remove or revert the `DestinationRule`, then the `DestinationRule` is probably
