@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+# Copyright 2020 Istio Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+set -u
+set -o pipefail
+
+# Setup port-forwarding to Kiali pod as it is not accessible from outside
+# the cluster, but commands are run from outside the cluster.
+function setup_kiali_port_forwarding() {
+  local local_port=$1
+  local kiali_pod=$(kubectl get pod -l app=kiali -n istio-system | grep 'kiali' | head -1 | awk '{ print $1 }')
+  local kiali_port=$(kubectl get service kiali -n istio-system -o jsonpath='{.spec.ports[?(@.name=="http-kiali")].targetPort}')
+
+  echo "Setting up port-forwarding for Kiali at local port $local_port"
+  kubectl port-forward $kiali_pod $local_port:$kiali_port -n istio-system &
+  KIALI_PORT_FORWARD_PID=$!
+  KIALI_LOCAL_URL="http://localhost:$local_port/kiali/api"
+}
+
+function cleanup_kiali_port_forwarding() {
+  local exit_code=$?
+  echo "Exited with $exit_code"
+  echo "Stopping port-forward for Kiali"
+  if [ -z $KIALI_PORT_FORWARD_PID ]; then
+    echo 'It seems that Kiali port-forward PID is not set up properly'
+    kill $(netstat -ntpl | grep '127.0.0.1:8888' | awk '{ print $7 }' | cut -d'/' -f1)
+  else
+    kill $KIALI_PORT_FORWARD_PID
+  fi
+  exit $exit_code
+}
+
+## Setup port-forwarding for Kiali and register trap
+## for cleaning up on exit
+echo "Setting up port forwarding from 8888 to Kiali's API port"
+setup_kiali_port_forwarding 8888 # TODO: Pick a random unused port
+
+echo "Register clean up task for Kiali port-forward on exit"
+trap cleanup_kiali_port_forwarding EXIT
+
+# Allow port-forwarding to be setup in the background
+sleep 4
+
+
+## Login to Kiali using demo secret and save the token
+echo "Obtain token for accessing Kiali API"
+DEMO_SECRET='YWRtaW46YWRtaW4='
+API_TOKEN=$(curl -H "Authorization: Basic $DEMO_SECRET" $KIALI_LOCAL_URL/authenticate | jq -r '.token')
+if [ -z $API_TOKEN ]; then
+  echo 'Failed to obtain auth token for Kiali'
+  exit 1
+fi
+
+
+# Attaches JWT obtained from Kiali and send
+# API request to Kiali 
+function curl_with_kiali_cred() {
+  local api_path=$1
+  curl -H "Authorization: Bearer $API_TOKEN" $KIALI_LOCAL_URL/$api_path
+}
+
+## Determine Kiali's state
+echo "Checking Kiali state. Make sure it is running"
+KIALI_STATE=$(curl_with_kiali_cred status | jq -r '.status."Kiali state"') 
+if [ $KIALI_STATE != "running" ]; then 
+  echo "kiali is not running. So no point in proceeding further"
+  exit 1; 
+fi
+
+
+## Get ingress host and port
+echo "Determine ingress host and port"
+export INGRESS_HOST={{ .ingressHostCommand }}
+export INGRESS_PORT={{ .ingressPortCommand }}
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+echo "Ingress gateway URL = $GATEWAY_URL"
+
+## Send a few requests to bookinfo application
+echo "Send a few requests to bookinfo application"
+for i in {1..20}; do
+  STATUS_CODE=$(curl -w '%{http_code}' http://$GATEWAY_URL/productpage)
+  if (($STATUS_CODE != 200)); then
+    echo "expected status 200, but got $STATUS_CODE"
+    exit 1
+  fi
+done
+
+## STEP 1:
+## Obtain namespace graph for istio-io-bookinfo namespace
+## It should show services and the pods that back it along
+## with their version
+NAMESPACE_GRAPH=$(curl_with_kiali_cred 'graph?graphType=versionedApp&namespaces=istio-io-bookinfo')
+
+EXPECTED_WORKLOADS=('details-v1' 'istio-ingressgateway' 'productpage-v1' 'ratings-v1' 'reviews-v1' 'reviews-v2' 'reviews-v3')
+WORKLOADS_PATH='.elements.nodes[].data.workload'
+ACTUAL_WORKLOADS=($(echo "${NAMESPACE_GRAPH}" | jq -r $WORKLOADS_PATH))
+EXPECTED_WORKLOADS_STR="${EXPECTED_WORKLOADS[@]}"
+ACTUAL_WORKLOADS_STR="${ACTUAL_WORKLOADS[@]}"
+if [ "$EXPECTED_WORKLOADS_STR" != "$ACTUAL_WORKLOADS_STR" ]; then
+  echo "mismatch in workloads list"
+  echo "expected: $EXPECTED_WORKLOADS_STR"
+  echo "  actual: $ACTUAL_WORKLOADS_STR"
+  exit 1
+fi
+
+## STEP 2:
+## Obtain App graph which aggregates all versions of an app
+## to a single node.
+
+
+
+## STEP 3:
+## Obtain versioned App graph which shows a node for each
+## version of an app, but all versions are grouped together
+
+
+
+## STEP 4:
+## Workload graph shows a node for each workload in service
+## mesh. It does not require usage of "app" and "version" labels
+
+
+
+## STEP 5:
+## Obtain service graph which shows a node for each service in
+## the mesh but excludes all apps and workloads from the graph.
+
+
+
+## STEP 6:
+## Examining Istio configuration
+
+
+
+## STEP 7:
+## Creating weighted routes
+
+
+
+## STEP 8:
+## Validating Istio configuration
+
+
+
+## STEP 9:
+## Viewing and editing Istio configuration YAML
+
