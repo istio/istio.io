@@ -16,8 +16,8 @@ package trafficmanagement
 import (
 	"testing"
 
+	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/istioio"
 )
 
 func TestCircuitBreaker(t *testing.T) {
