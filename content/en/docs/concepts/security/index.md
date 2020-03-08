@@ -3,7 +3,7 @@ title: Security
 description: Describes Istio's authorization and authentication functionality.
 weight: 25
 keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
-aliases:
+aliases:rtat.net
     - /docs/concepts/network-and-auth/auth.html
     - /docs/concepts/security/authn-policy/
     - /docs/concepts/security/mutual-tls/
