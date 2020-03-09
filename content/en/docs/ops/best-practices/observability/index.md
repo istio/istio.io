@@ -224,7 +224,7 @@ For example, imagine a custom monitoring dashboard that used the following Prome
     )
     {{< /text >}}
 
-The following set of recording rules could then be added to the Istio Prometheus configuration, using the `istio` prefix
+The following set of recording rules could be added to the Istio Prometheus configuration, using the `istio` prefix
 to make identifying these metrics for federation simple.
 
 {{< text yaml >}}
@@ -253,14 +253,17 @@ groups:
       )
 {{< /text>}}
 
-Then configure your production instance of Prometheus to federate from the Istio instance with a
-match clause of `'{__name__=~"istio:(.*)"}'` and use `regex: 'istio:(.*)'` in the metrics relabeling config.
+The production instance of Prometheus would then be updated to federate from the Istio instance with:
 
-Finally, update your dashboards to replace the original queries.
+* match clause of `{__name__=~"istio:(.*)"}`
 
-* `istio_requests:by_destination_service:rate1m`
+* metric relabeling config with: `regex: "istio:(.*)"`
 
-* `avg(istio_request_duration_milliseconds_bucket:p95:rate1m)`
+The original queries would then be replaced with:
+
+* istio_requests:by_destination_service:rate1m
+
+* avg(istio_request_duration_milliseconds_bucket:p95:rate1m)
 
 {{< tip >}}
 A detailed write-up on [metrics collection optimization in production at AutoTrader](https://karlstoney.com/2020/02/25/federated-prometheus-to-reduce-metric-cardinality/)
