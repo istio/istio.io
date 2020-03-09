@@ -65,6 +65,10 @@ order of seconds.
 
 ## 503 errors after setting destination rule
 
+{{< tip >}}
+You should only see this error if you disabled [automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) during install.
+{{< /tip >}}
+
 If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
 and the errors continue until you remove or revert the `DestinationRule`, then the `DestinationRule` is probably
 causing a TLS conflict for the service.
@@ -80,16 +84,6 @@ trafficPolicy:
 Otherwise, the mode defaults to `DISABLE` causing client proxy sidecars to make plain HTTP requests
 instead of TLS encrypted requests. Thus, the requests conflict with the server proxy because the server proxy expects
 encrypted requests.
-
-To confirm there is a conflict, check whether the `STATUS` field in the output of the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-experimental-authz-check) command
-is set to `CONFLICT` for your service. For example, a command similar to the following could be used to check
-for a conflict with the `httpbin` service:
-
-{{< text bash >}}
-$ istioctl authn tls-check istio-ingressgateway-db454d49b-lmtg8.istio-system httpbin.default.svc.cluster.local
-HOST:PORT                                  STATUS       SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
-httpbin.default.svc.cluster.local:8000     CONFLICT     mTLS       HTTP       default/         httpbin/default
-{{< /text >}}
 
 Whenever you apply a `DestinationRule`, ensure the `trafficPolicy` TLS mode matches the global server configuration.
 
