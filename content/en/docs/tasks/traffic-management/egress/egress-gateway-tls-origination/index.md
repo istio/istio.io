@@ -93,65 +93,6 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and a destination rule for
     sidecar requests that will be directed to the egress gateway.
 
-    Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) between the source pod and the egress gateway.
-
-    {{< idea >}}
-    You may want to enable mutual TLS so the traffic between the source pod and the egress gateway will be encrypted.
-    In addition, mutual TLS will allow the egress gateway to monitor the identity of the source pods and enable Mixer
-    policy enforcement based on that identity.
-    {{< /idea >}}
-
-    {{< tabset category-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" category-value="enabled" >}}
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 80
-          name: https
-          protocol: HTTPS
-        hosts:
-        - edition.cnn.com
-        tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 80
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: edition.cnn.com
-    EOF
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" category-value="disabled" >}}
-
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -179,10 +120,6 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
       - name: cnn
     EOF
     {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
 
 1.  Define a `VirtualService` to direct the traffic through the egress gateway, and a `DestinationRule`
     to perform TLS origination for requests to `edition.cnn.com`:
@@ -543,6 +480,9 @@ to hold the configuration of the NGINX server:
       name: sleep
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: sleep
       template:
         metadata:
           labels:
@@ -631,38 +571,64 @@ to hold the configuration of the NGINX server:
     $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=nginx.example.com/2_intermediate/certs/ca-chain.cert.pem
     {{< /text >}}
 
-1.  Generate the `istio-egressgateway` deployment with a volume to be mounted from the new secrets. Use the same options
-    you used for generating your `istio.yaml`:
+1.  To include a volume mounted from the new created secret, update the `istio-egressgateway` deployment.
+    To patch the `istio-egressgateway` deployment, create the following `gateway-patch.json` file:
 
     {{< text bash >}}
-    $ istioctl manifest generate --set values.gateways.istio-ingressgateway.enabled=false \
-    --set values.gateways.istio-egressgateway.enabled=true \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[0].name'=egressgateway-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[0].secretName'=istio-egressgateway-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[0].mountPath'=/etc/istio/egressgateway-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[1].name'=egressgateway-ca-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[1].secretName'=istio-egressgateway-ca-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[1].mountPath'=/etc/istio/egressgateway-ca-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[2].name'=nginx-client-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[2].secretName'=nginx-client-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[2].mountPath'=/etc/nginx-client-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[3].name'=nginx-ca-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[3].secretName'=nginx-ca-certs \
-    --set 'values.gateways.istio-egressgateway.secretVolumes[3].mountPath'=/etc/nginx-ca-certs > \
-    ./istio-egressgateway.yaml
+    $ cat > gateway-patch.json <<EOF
+    [{
+      "op": "add",
+      "path": "/spec/template/spec/containers/0/volumeMounts/0",
+      "value": {
+        "mountPath": "/etc/istio/nginx-client-certs",
+        "name": "nginx-client-certs",
+        "readOnly": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spec/template/spec/volumes/0",
+      "value": {
+      "name": "nginx-client-certs",
+        "secret": {
+          "secretName": "nginx-client-certs",
+          "optional": true
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spec/template/spec/containers/0/volumeMounts/1",
+      "value": {
+        "mountPath": "/etc/istio/nginx-ca-certs",
+        "name": "nginx-ca-certs",
+        "readOnly": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/spec/template/spec/volumes/1",
+      "value": {
+      "name": "nginx-ca-certs",
+        "secret": {
+          "secretName": "nginx-ca-certs",
+          "optional": true
+        }
+      }
+    }]
+    EOF
     {{< /text >}}
 
-1.  Redeploy `istio-egressgateway`:
+1.  Apply `istio-egressgateway` deployment patch with the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f ./istio-egressgateway.yaml
-    deployment "istio-egressgateway" configured
+    $ kubectl -n istio-system patch --type=json deploy istio-egressgateway -p "$(cat gateway-patch.json)"
     {{< /text >}}
 
 1.  Verify that the key and the certificate are successfully loaded in the `istio-egressgateway` pod:
 
     {{< text bash >}}
-    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/nginx-client-certs /etc/nginx-ca-certs
+    $ kubectl exec -it -n istio-system $(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}') -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
     {{< /text >}}
 
     `tls.crt` and `tls.key` should exist in `/etc/istio/nginx-client-certs`, while `ca-chain.cert.pem` in
@@ -768,9 +734,9 @@ to hold the configuration of the NGINX server:
             number: 443
           tls:
             mode: MUTUAL
-            clientCertificate: /etc/nginx-client-certs/tls.crt
-            privateKey: /etc/nginx-client-certs/tls.key
-            caCertificates: /etc/nginx-ca-certs/ca-chain.cert.pem
+            clientCertificate: /etc/istio/nginx-client-certs/tls.crt
+            privateKey: /etc/istio/nginx-client-certs/tls.key
+            caCertificates: /etc/istio/nginx-ca-certs/ca-chain.cert.pem
             sni: nginx.example.com
     EOF
     {{< /text >}}
