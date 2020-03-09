@@ -32,7 +32,7 @@ export BUILD_WITH_CONTAINER ?= 0
 
 ifeq ($(BUILD_WITH_CONTAINER),1)
 
-$(shell $(PWD)/common/scripts/setup_env.sh)
+$(shell $(shell pwd)/common/scripts/setup_env.sh)
 
 RUN = ./common/scripts/run.sh
 
