@@ -49,8 +49,8 @@ incentivized developers to upstream extensions into Envoy that were used by only
 percentage of deployments, just to piggyback on its release mechanisms.
 
 Over time some of the most performance-sensitive features of Istio have been upstreamed
-into Envoy - [policy checks on traffic](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/rbac_filter),
-and [telemetry reporting](/docs/reference/config/telemetry/metrics/), for example.
+into Envoy - [policy checks on traffic](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/rbac_filter), and
+[JWT authentication](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/jwt_authn_filter), for example.
 Still, we have always wanted to converge on a single stack for extensibility that imposes fewer
 tradeoffs: something that decouples Envoy releases from its extension ecosystem, enables
 developers to work in their languages of choice, and enables Istio to reliably roll out new
