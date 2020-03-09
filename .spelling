@@ -121,6 +121,7 @@ bt
 Budinsky
 bytecode
 BytecodeAlliance
+by_destination_service
 c.f.
 callout
 callouts
@@ -189,7 +190,6 @@ CVEs
 cves
 cvss
 cyber
-dashboards
 Datadog
 datapath
 dataset
@@ -315,6 +315,8 @@ iptables
 IPv4
 IPv6
 istio
+istio_requests
+istio_request_duration_milliseconds_bucket
 Istio
 istio-agent
 istio-ecosystem
@@ -444,6 +446,7 @@ OpenTracing
 OS-level
 Ostrowski
 p50
+p95
 p99
 PaaS
 Papertrail
@@ -495,6 +498,7 @@ quay.io
 quo
 radis
 Rajagopalan
+rate1m
 ratelimit-handler
 RawVM
 rbac
