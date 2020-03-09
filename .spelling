@@ -191,6 +191,7 @@ CVEs
 cves
 cvss
 cyber
+dashboards
 Datadog
 datapath
 dataset
@@ -315,6 +316,7 @@ IPs
 iptables
 IPv4
 IPv6
+istio
 Istio
 istio-agent
 istio-ecosystem

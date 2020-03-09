@@ -37,7 +37,7 @@ the following recording rules:
 {{< text yaml >}}
 groups:
 - name: "istio.recording-rules"
-  interval: 30s
+  interval: 5s
   rules:
   - record: "workload:istio_requests_total"
     expr: |
@@ -199,19 +199,19 @@ addition to faster query performance.
 
 For example, imagine a custom monitoring dashboard that used the following Prometheus queries:
 
-  * Total rate of requests averaged over the past minute by destination service name and namespace
+* Total rate of requests averaged over the past minute by destination service name and namespace
 
-    {{< text json >}}
-    sum(irate(istio_requests_total{reporter="destination"}[1m]))
+    {{< text plain >}}
+    sum(irate(istio_requests_total{reporter="source"}[1m]))
     by (
         destination_canonical_service,
         destination_workload_namespace
     )
     {{< /text >}}
 
-  * P95 client latency averaged over the past minute by source and destination service names and namespace
+* P95 client latency averaged over the past minute by source and destination service names and namespace
 
-    {{< text json >}}
+    {{< text plain >}}
     histogram_quantile(0.95,
       sum(irate(istio_request_duration_milliseconds_bucket{reporter="source"}[1m]))
       by (
@@ -221,7 +221,7 @@ For example, imagine a custom monitoring dashboard that used the following Prome
         source_workload_namespace,
         le
       )
-    ) >= 0
+    )
     {{< /text >}}
 
 The following set of recording rules could then be added to the Istio Prometheus configuration, using the `istio` prefix
@@ -230,7 +230,7 @@ to make identifying these metrics for federation simple.
 {{< text yaml >}}
 groups:
 - name: "istio.recording-rules"
-  interval: 30s
+  interval: 5s
   rules:
   - record: "istio:istio_requests:by_destination_service:rate1m"
     expr: |
@@ -250,17 +250,17 @@ groups:
           source_workload_namespace,
           le
         )
-      ) >= 0
+      )
 {{< /text>}}
 
 Then configure your production instance of Prometheus to federate from the Istio instance with a
-match clause of `'{__name__=~"istio:(.*)"}'` and a metrics relabeling with `regex: 'workload:(.*)'`.
+match clause of `'{__name__=~"istio:(.*)"}'` and use `regex: 'istio:(.*)'` in the metrics relabeling config.
 
-Finally, update your dashboards to replace the original queries with:
+Finally, update your dashboards to replace the original queries.
 
-  * `istio_requests:by_destination_service:rate1m`
+* `istio_requests:by_destination_service:rate1m`
 
-  * `istio_request_duration_milliseconds_bucket:p95:rate1m`
+* `avg(istio_request_duration_milliseconds_bucket:p95:rate1m)`
 
 {{< tip >}}
 A detailed write-up on [metrics collection optimization in production at AutoTrader](https://karlstoney.com/2020/02/25/federated-prometheus-to-reduce-metric-cardinality/)
