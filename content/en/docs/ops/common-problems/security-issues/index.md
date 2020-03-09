@@ -147,7 +147,7 @@ you ensure Istiod is working as expected:
 1. Check the output and verify:
 
     - There are no errors.
-    - There is a `building v1beta1 policy` message which means the filter is generated
+    - There is a `building v1beta1 policy` message which indicates the filter was generated
       for the target workload.
 
 1. For example, you might see something similar to the following:
