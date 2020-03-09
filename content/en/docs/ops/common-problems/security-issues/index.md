@@ -169,7 +169,7 @@ you ensure Istiod is working as expected:
     2020-03-05T23:43:21.623648Z   debug   rbac   added TCP filter to filter chain 1
     {{< /text >}}
 
-    It means istiod generated:
+    This shows that Istiod generated:
 
     - An HTTP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
 
