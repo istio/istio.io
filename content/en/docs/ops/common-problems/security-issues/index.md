@@ -86,9 +86,13 @@ matching requests should flow through. If all requests continue to be denied, yo
 
 1. Avoid enabling authorization for istiod. Istio authorization policy is designed for authorizing access to workloads in Istio Mesh. Enabling it for istiod may cause unexpected behavior.
 
-1. Make sure that your authorization policies are in the right same namespace (by checking "metadata"/”namespace” line).
+1. Make sure that your authorization policies are in the right namespace (by checking "metadata"/”namespace” line).
 
-1. Make sure that your authorization policies don't use any HTTP only fields for TCP traffic. Otherwise, Istio ignores the policies as if they didn't exist.
+1. Make sure that your authorization policies with ALLOW action don't use any HTTP only fields for TCP traffic.
+Otherwise, Istio ignores the ALLOW policies as if they don't exist.
+
+1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
+Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
 
 ## Authorization is too permissive
 
