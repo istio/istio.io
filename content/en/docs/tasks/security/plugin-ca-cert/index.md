@@ -30,18 +30,18 @@ Note that if your `ca-cert.pem` is the same as `root-cert.pem`, the `cert-chain.
 These files are ready to use in the `samples/certs/` directory.
 
   {{< tip >}}
-  The default Istio's CA installation sets [command line options](/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `cacert`, root certificate in a file named `root-cert.pem`, Istio CA's key in `ca-key.pem`, etc.)
+  The default Istio's CA installation sets [command line options](/docs/reference/commands/istio_ca/index.html) to configure the location of certificates and keys based on the predefined secret and file names used in the command below (i.e., secret named `istio-ca-secret`, root certificate in a file named `root-cert.pem`, Istio CA's key in `ca-key.pem`, etc.)
   You must use these specific secret and file names, or reconfigure Istio's CA when you deploy it.
   {{< /tip >}}
 
 The following steps plug in the certificates and key into a Kubernetes secret,
 which will be read by Istio's CA:
 
-1.  Create a secret `cacerts` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
+1.  Create a secret `istio-ca-secret` including all the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`:
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem \
+    $ kubectl create secret generic istio-ca-secret -n istio-system --from-file=samples/certs/ca-cert.pem \
         --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem \
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
@@ -106,10 +106,10 @@ This requires you have `openssl` installed on your machine.
 
 ## Cleanup
 
-*   To remove the secret `cacerts` and redeploy Istio's CA with self-signed root certificate:
+*   To remove the secret `istio-ca-secret` and redeploy Istio's CA with self-signed root certificate:
 
     {{< text bash >}}
-    $ kubectl delete secret cacerts -n istio-system
+    $ kubectl delete secret istio-ca-secret -n istio-system
     $ istioctl manifest apply
     {{< /text >}}
 
