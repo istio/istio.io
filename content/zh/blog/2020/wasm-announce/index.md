@@ -18,7 +18,7 @@ extensibility to the Envoy proxy using [WebAssembly](https://webassembly.org/). 
 share that work with the world today, as well as
 unveiling [WebAssembly (Wasm) for Proxies](https://github.com/proxy-wasm/spec) (Proxy-Wasm): an ABI,
 which we intend to standardize; SDKs; and its first major implementation, the new,
-lower-latency [Istio telemetry system](/zh/docs/reference/config/telemetry).
+lower-latency [Istio telemetry system](/docs/reference/config/telemetry).
 
 We have also worked closely with the community to ensure that there is a great developer experience
 for users to get started quickly. The Google team has been working closely with the team
@@ -155,7 +155,7 @@ programmatic routing can be performed which are common asks from users. As we mo
 Beta, you will see documentation showing best practices for using Wasm with Istio.
 
 Finally, we are working with the many vendors who have
-written [Mixer adapters](/zh/docs/reference/config/policy-and-telemetry/adapters/),
+written [Mixer adapters](/docs/reference/config/policy-and-telemetry/adapters/),
 to help them with a migration to Wasm --- if that is the best path forward. Mixer will move to a
 community project in a future release, where it will remain available for legacy use cases.
 
