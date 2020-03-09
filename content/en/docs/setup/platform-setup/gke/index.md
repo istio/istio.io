@@ -36,6 +36,20 @@ Follow these instructions to prepare a GKE cluster for Istio.
     the `gcloud container clusters create` command.
     {{< /warning >}}
 
+    {{< warning >}}
+    For private GKE Clusters, the firewall rule created does not open ports (9443, 15017) needed by validation webhooks.
+    
+    To review this firewall rule for master access:
+        {{< text bash >}}
+        $ gcloud compute firewall-rules list --filter="name~gke-<cluster-name>-[0-9a-z]\*-master" --format="value(name)"
+        {{< /text >}}
+    
+    This will replace existing rule:
+        {{< text bash >}}
+        $ gcloud compute firewall-rules update <firewall-rule> --allow tcp:10250,tcp:443,tcp:9443,tcp:15017
+        {{< /text >}}
+    {{< /warning >}}
+
 1. Retrieve your credentials for `kubectl`.
 
     {{< text bash >}}
