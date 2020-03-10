@@ -84,17 +84,15 @@ matching requests should flow through. If all requests continue to be denied, yo
 
 1. Make sure there is no typo in your policy YAML file.
 
-1. Avoid enabling authorization for Istio Control Planes Components, including Mixer, Pilot, Ingress. Istio authorization policy is designed for authorizing access to services in Istio Mesh. Enabling it for Istio Control Planes Components may cause unexpected behavior.
+1. Avoid enabling authorization for istiod. Istio authorization policy is designed for authorizing access to workloads in Istio Mesh. Enabling it for istiod may cause unexpected behavior.
 
-1. Make sure that your `ServiceRoleBinding` and referred `ServiceRole` objects are in the same namespace (by checking "metadata"/”namespace” line).
+1. Make sure that your authorization policies are in the right namespace (as specified in `metadata/namespace` field).
 
-1. Make sure that your service role and service role binding policies don't use any HTTP only fields
-for TCP services. Otherwise, Istio ignores the policies as if they didn't exist.
+1. Make sure that your authorization policies with ALLOW action don't use any HTTP only fields for TCP traffic.
+Otherwise, Istio ignores the ALLOW policies as if they don't exist.
 
-1. In Kubernetes environment, make sure all services in a `ServiceRole` object are in the same namespace as the
-`ServiceRole` itself. For example, if a service in a `ServiceRole` object is `a.default.svc.cluster.local`, the `ServiceRole` must be in the
-`default` namespace (`metadata/namespace` line should be `default`). For non-Kubernetes environments, all `ServiceRoles` and `ServiceRoleBindings`
-for a mesh should be in the same namespace.
+1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
+Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
 
 ## Authorization is too permissive
 
@@ -105,26 +103,22 @@ successfully. To verify, follow these steps:
 1. Check the [authorization concept documentation](/docs/concepts/security/#authorization)
    to correctly apply Istio authorization.
 
-1. Avoid enabling authorization for Istio Control Planes Components, including
-   Mixer, Pilot and Ingress. The Istio authorization features are designed for
-   authorizing access to services in an Istio Mesh. Enabling the authorization
-   features for the Istio Control Planes components can cause unexpected
-   behavior.
+1. Make sure there is no typo in your policy YAML file. Especially check to make sure the authorization policy is applied
+to the right workload and namespace.
 
-1. In your Kubernetes environment, check deployments in all namespaces to make
-   sure there is no legacy deployment left that can cause an error in Pilot.
-   You can disable Pilot's authorization plug-in if there is an error pushing
-   authorization policy to Envoy.
+1. Avoid enabling authorization for istiod. The Istio authorization features are designed for
+   authorizing access to workloads in an Istio Mesh. Enabling the authorization
+   features for istiod can cause unexpected behavior.
 
-## Ensure Pilot accepts the policies
+## Ensure Istiod accepts the policies
 
-Pilot converts and distributes your authorization policies to the proxies. The following steps help
-you ensure Pilot is working as expected:
+Istiod converts and distributes your authorization policies to the proxies. The following steps help
+you ensure Istiod is working as expected:
 
-1. Run the following command to export the Pilot `ControlZ`:
+1. Run the following command to export the Istiod `ControlZ`:
 
     {{< text bash >}}
-    $ kubectl port-forward $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
+    $ kubectl port-forward $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
     {{< /text >}}
 
 1. Verify you see the following output:
@@ -139,7 +133,7 @@ you ensure Pilot is working as expected:
 
 1. Use `Ctrl+C` in the terminal you started in step 1 to stop the port-forward command.
 
-1. Print the log of Pilot and search for `rbac` with the following command:
+1. Print the log of Istiod and search for `rbac` with the following command:
 
     {{< tip >}}
     You probably need to first delete and then re-apply your authorization policies so that
@@ -147,41 +141,41 @@ you ensure Pilot is working as expected:
     {{< /tip >}}
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
+    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
     {{< /text >}}
 
 1. Check the output and verify:
 
     - There are no errors.
-    - There is a `"built filter config for ..."` message which means the filter is generated
-      for the target service.
+    - There is a `building v1beta1 policy` message which indicates the filter was generated
+      for the target workload.
 
 1. For example, you might see something similar to the following:
 
     {{< text plain >}}
-    2018-07-26T22:25:41.009838Z debug rbac building filter config for {sleep.foo.svc.cluster.local map[app:sleep pod-template-hash:3326367878] map[destination.name:sleep destination.namespace:foo destination.user:default]}
-    2018-07-26T22:25:41.009915Z info  rbac no service role in namespace foo
-    2018-07-26T22:25:41.009957Z info  rbac no service role binding in namespace foo
-    2018-07-26T22:25:41.010000Z debug rbac generated filter config: { }
-    2018-07-26T22:25:41.010114Z info  rbac built filter config for sleep.foo.svc.cluster.local
-    2018-07-26T22:25:41.182400Z debug rbac building filter config for {productpage.default.svc.cluster.local map[pod-template-hash:2600844901 version:v1 app:productpage] map[destination.name:productpage destination.namespace:default destination.user:bookinfo-productpage]}
-    2018-07-26T22:25:41.183131Z debug rbac checking role app2-grpc-viewer
-    2018-07-26T22:25:41.183214Z debug rbac role skipped for no AccessRule matched
-    2018-07-26T22:25:41.183255Z debug rbac checking role productpage-viewer
-    2018-07-26T22:25:41.183281Z debug rbac matched AccessRule[0]
-    2018-07-26T22:25:41.183390Z debug rbac generated filter config: {policies:<key:"productpage-viewer" value:<permissions:<and_rules:<rules:<or_rules:<rules:<header:<name:":method" exact_match:"GET" > > > > > > principals:<and_ids:<ids:<any:true > > > > >  }
-    2018-07-26T22:25:41.184407Z info  rbac built filter config for productpage.default.svc.cluster.local
+    2020-03-05T23:43:21.621339Z   debug   rbac   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
+    2020-03-05T23:43:21.621348Z   debug   rbac   building filter for HTTP listener protocol
+    2020-03-05T23:43:21.621351Z   debug   rbac   building v1beta1 policy
+    2020-03-05T23:43:21.621399Z   debug   rbac   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
+    2020-03-05T23:43:21.621528Z   info    ads    LDS: PUSH for node:sleep-6bdb595bcb-vmchz.foo listeners:38
+    2020-03-05T23:43:21.621997Z   debug   rbac   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<metadata:<filter:"istio_authn" path:<key:"source.principal" > value:<string_match:<exact:"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > > >
+    2020-03-05T23:43:21.622052Z   debug   rbac   added HTTP filter to filter chain 0
+    2020-03-05T23:43:21.623532Z   debug   rbac   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
+    2020-03-05T23:43:21.623543Z   debug   rbac   building filter for TCP listener protocol
+    2020-03-05T23:43:21.623546Z   debug   rbac   building v1beta1 policy
+    2020-03-05T23:43:21.623572Z   debug   rbac   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
+    2020-03-05T23:43:21.623625Z   debug   rbac   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<authenticated:<principal_name:<exact:"spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > >
+    2020-03-05T23:43:21.623645Z   debug   rbac   added TCP filter to filter chain 0
+    2020-03-05T23:43:21.623648Z   debug   rbac   added TCP filter to filter chain 1
     {{< /text >}}
 
-    It means Pilot generated:
+    This shows that Istiod generated:
 
-    - An empty config for `sleep.foo.svc.cluster.local` as there is no authorization policies matched
-      and Istio denies all requests sent to this service by default.
+    - An HTTP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
 
-    - An config for `productpage.default.svc.cluster.local` and Istio will allow anyone to access it
-      with GET method.
+    - A TCP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
 
-## Ensure Pilot distributes policies to proxies correctly
+## Ensure Istiod distributes policies to proxies correctly
 
 Pilot distributes the authorization policies to proxies. The following steps help you ensure Pilot
 is working as expected:
