@@ -175,7 +175,7 @@ you ensure Istiod is working as expected:
 
     - A TCP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
 
-## Ensure Pilot distributes policies to proxies correctly
+## Ensure Istiod distributes policies to proxies correctly
 
 Pilot distributes the authorization policies to proxies. The following steps help you ensure Pilot
 is working as expected:
