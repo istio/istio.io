@@ -249,7 +249,7 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-kubectl --context=${MAIN_CLUSTER_CTX} apply -f control-plane-gateway-config.yaml
+$ kubectl --context=${MAIN_CLUSTER_CTX} apply -f control-plane-gateway-config.yaml
 {{< /text >}}
 
 ## Deploy Istio in the remote cluster
@@ -315,8 +315,8 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-kubectl --context ${MAIN_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
-kubectl --context ${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
+$ kubectl --context ${MAIN_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
+$ kubectl --context ${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 {{< /text >}}
 
 * Configure the cross-cluster service registry
