@@ -6,7 +6,7 @@ weight: 50
 
 The following are the standard service level metrics exported by Istio.
 Istio standard metrics are directly exported by the Envoy proxy since Istio 1.5.
-The telemetry component is [implemented](https://github.com/istio/proxy/tree/release-1.5/extensions/stats) as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
+The telemetry component is [implemented](https://github.com/istio/proxy/tree/master/extensions/stats) as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
 
 In prior Istio releases Mixer produced these metrics.
 
@@ -38,130 +38,63 @@ For TCP traffic, Istio generates the following metrics:
 
 *   **Reporter**: This identifies the reporter of the request. It is set to `destination`
     if report is from a server Istio proxy and `source` if report is from a client
-    Istio proxy.
-
-    {{< text yaml >}}
-    reporter: conditional((context.reporter.kind | "inbound") == "outbound", "source", "destination")
-    {{< /text >}}
+    Istio proxy or a gateway.
 
 *   **Source Workload**: This identifies the name of source workload which
-    controls the source.
-
-    {{< text yaml >}}
-    source_workload: source.workload.name | "unknown"
-    {{< /text >}}
+    controls the source, or "unknown" if the source information is missing.
 
 *   **Source Workload Namespace**: This identifies the namespace of the source
-    workload.
-
-    {{< text yaml >}}
-    source_workload_namespace: source.workload.namespace | "unknown"
-    {{< /text >}}
+    workload, or "unknown" if the source information is missing.
 
 *   **Source Principal**: This identifies the peer principal of the traffic source.
     It is set when peer authentication is used.
 
-    {{< text yaml >}}
-    source_principal: source.principal | "unknown"
-    {{< /text >}}
+*   **Source App**: This identifies the source application based on `app` label
+    of the source workload, or "unknown" if the source information is missing.
 
-*   **Source App**: This identifies the source app based on `app` label of the
-    source workload.
+*   **Source Version**: This identifies the version of the source workload, or
+    "unknown" if the source information is missing.
 
-    {{< text yaml >}}
-    source_app: source.labels["app"] | "unknown"
-    {{< /text >}}
+*   **Destination Workload**: This identifies the name of destination workload,
+    or "unknown" if the destination information is missing.
 
-*   **Source Version**: This identifies the version of the source workload.
-
-    {{< text yaml >}}
-    source_version: source.labels["version"] | "unknown"
-    {{< /text >}}
-
-*   **Destination Workload**: This identifies the name of destination workload.
-
-    {{< text yaml >}}
-    destination_workload: destination.workload.name | "unknown"
-    {{< /text >}}
-
-*   **Destination Workload Namespace**: This identifies the namespace of the destination
-    workload.
-
-    {{< text yaml >}}
-    destination_workload_namespace: destination.workload.namespace | "unknown"
-    {{< /text >}}
+*   **Destination Workload Namespace**: This identifies the namespace of the
+    destination workload, or "unknown" if the destination information is
+    missing.
 
 *   **Destination Principal**: This identifies the peer principal of the traffic destination.
     It is set when peer authentication is used.
 
-    {{< text yaml >}}
-    destination_principal: destination.principal | "unknown"
-    {{< /text >}}
+*   **Destination App**: This identifies the destination application based on
+    `app` label of the destination workload, or "unknown" if the destination
+    information is missing.
 
-*   **Destination App**: This identifies the destination app based on `app` label of the
-    destination workload.
-
-    {{< text yaml >}}
-    destination_app: destination.labels["app"] | "unknown"
-    {{< /text >}}
-
-*   **Destination Version**: This identifies the version of the destination workload.
-
-    {{< text yaml >}}
-    destination_version: destination.labels["version"] | "unknown"
-    {{< /text >}}
+*   **Destination Version**: This identifies the version of the destination workload,
+    or "unknown" if the destination information is missing.
 
 *   **Destination Service**: This identifies destination service host responsible
     for an incoming request. Ex: `details.default.svc.cluster.local`.
 
-    {{< text yaml >}}
-    destination_service: destination.service.host | "unknown"
-    {{< /text >}}
-
 *   **Destination Service Name**: This identifies the destination service name.
     Ex: "details".
-
-    {{< text yaml >}}
-    destination_service_name: destination.service.name | "unknown"
-    {{< /text >}}
 
 *   **Destination Service Namespace**: This identifies the namespace of
     destination service.
 
-    {{< text yaml >}}
-    destination_service_namespace: destination.service.namespace | "unknown"
-    {{< /text >}}
-
 *   **Request Protocol**: This identifies the protocol of the request. It is set
-    to API protocol if provided, otherwise request or connection protocol.
-
-    {{< text yaml >}}
-    request_protocol: api.protocol | context.protocol | "unknown"
-    {{< /text >}}
+    to request or connection protocol.
 
 *   **Response Code**: This identifies the response code of the request. This
     label is present only on HTTP metrics.
-
-    {{< text yaml >}}
-    response_code: response.code | 200
-    {{< /text >}}
 
 *   **Connection Security Policy**: This identifies the service authentication policy of
     the request. It is set to `mutual_tls` when Istio is used to make communication
     secure and report is from destination. It is set to `unknown` when report is from
     source since security policy cannot be properly populated.
 
-    {{< text yaml >}}
-    connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
-    {{< /text >}}
-
 *   **Response Flags**: Additional details about the response or connection from proxy.
     In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)
     for more detail.
-
-    {{< text yaml >}}
-    response_flags: context.proxy_error_code | "-"
-    {{< /text >}}
 
 *   **Canonical Service**: A workload belongs to exactly one canonical service, whereas it can belong to multiple services.
     A canonical service has a name and a revision so it results in the following labels.
