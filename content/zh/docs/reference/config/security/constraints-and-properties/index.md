@@ -18,7 +18,7 @@ RBAC 策略中的约束和属性已经被 `AuthorizationPolicy` 中的条件取�
 不支持的键和值将被忽略。
 {{< /warning >}}
 
-有关更多信息，请参阅 [授权概念页面](/zh/docs/concepts/security/#authorization)。
+有关更多信息，请参阅[授权概念页面](/zh/docs/concepts/security/#authorization)。
 
 ## 支持的约束{#supported-constraints}
 

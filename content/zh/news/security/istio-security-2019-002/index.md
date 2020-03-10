@@ -36,7 +36,7 @@ Epoch 0 terminated with an error: signal: segmentation fault (core dumped)
 如果满足以下两个条件，则 Envoy 将很容易受到攻击：
 
 * 使用了 JWT 身份认证策略。
-* 使 JWT issuer(由 `jwksUri` 发行)使用 RSA 算法进行签名认证。
+* 使 JWT issuer(由 `jwksUri` 发行) 使用 RSA 算法进行签名认证。
 
 {{< tip >}}
 用于签名认证的 RSA 算法不包含任何已知的安全漏洞。 仅当使用此算法时才触发此 CVE，但与系统的安全性无关。

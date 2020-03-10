@@ -25,9 +25,9 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
 例如，在 Kubernetes 集群中，Istio 会为所有 Kubernetes 服务配置 sidecar，以保留所有能够与其他服务通信的服务的默认 Kubernetes 行为。
 
 外部服务是不属于平台的服务，即不在网格内的服务。
-对于外部服务，Istio提供了两个选项，一个是阻止所有外部服务访问（通过将 `global.outboundTrafficPolicy.mode` 设置
-为 `REGISTRY_ONLY` 启用）,另一个是允许所有对外部服务的访问（通过将 `global.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY` 启用）。
-从Istio 1.3开始，此设置的默认选项是允许所有外部服务访问。此选项可以通过[网格配置](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode)进行配置。
+对于外部服务，Istio 提供了两个选项，一个是阻止所有外部服务访问（通过将 `global.outboundTrafficPolicy.mode` 设置
+为 `REGISTRY_ONLY` 启用）, 另一个是允许所有对外部服务的访问（通过将 `global.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY` 启用）。
+从 Istio 1.3 开始，此设置的默认选项是允许所有外部服务访问。此选项可以通过[网格配置](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode)进行配置。
 
 这就是使用 BlackHole 和 Passthrough 集群的地方。
 
@@ -71,7 +71,7 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
     }
   {{< /text >}}
 
-  该路由被设置为响应码是 502 的 [直接响应](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-field-route-route-direct-response)，这意味着如果没有其他路由匹配，则 Envoy 代理将直接返回 502 HTTP 状态代码。
+  该路由被设置为响应码是 502 的[直接响应](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route_components.proto#envoy-api-field-route-route-direct-response)，这意味着如果没有其他路由匹配，则 Envoy 代理将直接返回 502 HTTP 状态代码。
 
 * **PassthroughCluster** - 当将 `global.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY` 时，
   PassthroughCluster 是在 Envoy 配置中创建的虚拟集群。在此模式下，允许流向外部服务的所有流量。

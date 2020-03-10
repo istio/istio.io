@@ -105,11 +105,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--discoveryAddress &lt;string&gt;</code></td>
-<td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default `istio-pilot:15010`)</td>
-</tr>
-<tr>
-<td><code>--dnsRefreshRate &lt;string&gt;</code></td>
-<td>The dns_refresh_rate for bootstrap STRICT_DNS clusters  (default `300s`)</td>
+<td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default ``)</td>
 </tr>
 <tr>
 <td><code>--domain &lt;string&gt;</code></td>
@@ -186,6 +182,10 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--meshConfig &lt;string&gt;</code></td>
+<td>File name for Istio mesh configuration. If not specified, a default mesh will be used. MESH_CONFIG environment variable takes precedence.  (default `/etc/istio/config/mesh`)</td>
 </tr>
 <tr>
 <td><code>--mixerIdentity &lt;string&gt;</code></td>
@@ -404,6 +404,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>GCP_METADATA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Pipe separted GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+</tr>
+<tr>
 <td><code>GKE_CLUSTER_URL</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -456,6 +462,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Default Http and gRPC Request timeout</td>
 </tr>
 <tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
@@ -556,7 +568,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
-<td><code>citadel</code></td>
+<td><code>istiod</code></td>
 <td>the provider of Pilot DNS certificate.</td>
 </tr>
 <tr>
@@ -584,6 +596,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. This feature is currently experimental, and is off by default.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -606,12 +624,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
@@ -686,12 +698,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
-<td><code>PILOT_RESPECT_DNS_TTL</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, DNS based clusters will respect the TTL of the DNS, rather than polling at a fixed rate. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
-</tr>
-<tr>
 <td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -702,12 +708,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
-</tr>
-<tr>
-<td><code>PILOT_SCOPE_PUSHES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, pilot will attempt to limit unnecessary pushes by determining what proxies a config or endpoint update will impact.</td>
 </tr>
 <tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
@@ -773,19 +773,19 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>SECRET_GRACE_DURATION</code></td>
 <td>Time Duration</td>
 <td><code>12h0m0s</code></td>
-<td></td>
+<td>The grace period for the cert rotation, by default it&#39;s half of the cert lifetime</td>
 </tr>
 <tr>
 <td><code>SECRET_JOB_RUN_INTERVAL</code></td>
 <td>Time Duration</td>
-<td><code>10m0s</code></td>
-<td></td>
+<td><code>1h12m0s</code></td>
+<td>The ticker to detect and rotate the certificates, by default it&#39;s 1/10 of the grace period</td>
 </tr>
 <tr>
 <td><code>SECRET_TTL</code></td>
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
-<td></td>
+<td>The cert lifetime requested by istio agent</td>
 </tr>
 <tr>
 <td><code>SECRET_WATCHER_RESYNC_PERIOD</code></td>
@@ -827,7 +827,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>STALED_CONNECTION_RECYCLE_RUN_INTERVAL</code></td>
 <td>Time Duration</td>
 <td><code>5m0s</code></td>
-<td></td>
+<td>The ticker to detect and close stale connections</td>
 </tr>
 <tr>
 <td><code>TERMINATION_DRAIN_DURATION_SECONDS</code></td>

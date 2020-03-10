@@ -28,7 +28,7 @@ aliases:
 ### 创建 secret{#create-a-secret}
 
 {{< tip >}}
-如果您打算按照 [Istio 快速入门](/zh/docs/setup/getting-started/) 说明使用 Istio 演示配置文件安装 Kiali，则会为您创建一个默认 secret，用户名为 `admin` ，密码为 `admin`。 因此，您可以跳过此部分。
+如果您打算按照 [Istio 快速入门](/zh/docs/setup/getting-started/)说明使用 Istio 演示配置文件安装 Kiali，则会为您创建一个默认 secret，用户名为 `admin` ，密码为 `admin`。 因此，您可以跳过此部分。
 {{< /tip >}}
 
 在 Istio 命名空间中创建一个 Secret，作为 Kiali 的身份验证凭据。
@@ -79,7 +79,7 @@ EOF
 
 ### 通过 `istioctl` 安装{#install-Via-`istioctl`}
 
-创建 Kiali secret 后，请参照 `istioctl` [安装说明](/zh/docs/setup/install/istioctl/) 来安装 Kiali。
+创建 Kiali secret 后，请参照 `istioctl` [安装说明](/zh/docs/setup/install/istioctl/)来安装 Kiali。
 例如：
 
 {{< text bash >}}

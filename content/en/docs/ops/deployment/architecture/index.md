@@ -12,13 +12,10 @@ plane**.
 
 * The **data plane** is composed of a set of intelligent proxies
   ([Envoy](https://www.envoyproxy.io/)) deployed as sidecars. These proxies
-  mediate and control all network communication between microservices along
-  with [Mixer](/docs/reference/config/policy-and-telemetry/), a general-purpose
-  policy and telemetry hub.
+  mediate and control all network communication between microservices. They
+  also collect and report telemetry on all mesh traffic.
 
 * The **control plane** manages and configures the proxies to route traffic.
-  Additionally, the control plane configures Mixers to enforce policies and
-  collect telemetry.
 
 The following diagram shows the different components that make up each plane:
 
@@ -63,9 +60,8 @@ for example:
 
 This sidecar deployment allows Istio to extract a wealth of signals about traffic behavior as
 [attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
-Istio can, in turn, use these attributes in [Mixer](/docs/reference/config/policy-and-telemetry/)
-to enforce policy decisions, and send them to monitoring systems to provide
-information about the behavior of the entire mesh.
+Istio can use these attributes to enforce policy decisions, and send them to monitoring systems
+to provide information about the behavior of the entire mesh.
 
 The sidecar proxy model also allows you to add Istio capabilities to an
 existing deployment with no need to rearchitect or rewrite code. You can read
@@ -83,20 +79,8 @@ Some of the Istio features and tasks enabled by Envoy proxies include:
 * Security and authentication features: enforce security policies and enforce
   access control and rate limiting defined through the configuration API.
 
-### Mixer
-
-[Mixer](/docs/reference/config/policy-and-telemetry/) is a platform-independent
-component. Mixer enforces access control and usage policies across the service
-mesh, and collects telemetry data from the Envoy proxy and other services. The
-proxy extracts request level
-[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes), and sends them
-to Mixer for evaluation. You can find more information on this attribute
-extraction and policy evaluation in our [Mixer Configuration
-documentation](/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model).
-
-Mixer includes a flexible plugin model. This model enables Istio to interface
-with a variety of host environments and infrastructure backends. Thus, Istio
-abstracts the Envoy proxy and Istio-managed services from these details.
+* Pluggable extensions model based on WebAssembly that allows for custom policy
+  enforcement and telemetry generation for mesh traffic.
 
 ### Pilot
 

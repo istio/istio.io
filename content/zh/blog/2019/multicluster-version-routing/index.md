@@ -8,11 +8,11 @@ keywords: [traffic-management,multicluster]
 target_release: 1.0
 ---
 
-如果花一点时间对 Istio 进行了解，你可能会注意到，大量的功能都可以在单一的 Kubernetes 集群中，用简单的 [任务](/zh/docs/tasks) 和 [示例](/zh/docs/examples/) 所表达的方式来运行。但是真实世界中的云计算和基于微服务的应用往往不是这么简单的，会需要在不止一个地点分布运行，用户难免会产生怀疑，生产环境中是否还能这样运行？
+如果花一点时间对 Istio 进行了解，你可能会注意到，大量的功能都可以在单一的 Kubernetes 集群中，用简单的[任务](/zh/docs/tasks)和[示例](/zh/docs/examples/)所表达的方式来运行。但是真实世界中的云计算和基于微服务的应用往往不是这么简单的，会需要在不止一个地点分布运行，用户难免会产生怀疑，生产环境中是否还能这样运行？
 
-幸运的是，Istio 提供了多种服务网格的配置方式，应用能够用近乎透明的方式加入一个跨越多个集群运行的服务网格之中，也就是 [多集群服务网格](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 。最简单的设置多集群网格的方式，就是使用 [多控制平面拓扑](/zh/docs/ops/deployment/deployment-models/#control-plane-models) ，这种方式不需要特别的网络依赖。在这种条件下，每个 Kubernetes 集群都有自己的控制平面，但是每个控制平面都是同步的，并接受统一的管理。
+幸运的是，Istio 提供了多种服务网格的配置方式，应用能够用近乎透明的方式加入一个跨越多个集群运行的服务网格之中，也就是[多集群服务网格](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 。最简单的设置多集群网格的方式，就是使用[多控制平面拓扑](/zh/docs/ops/deployment/deployment-models/#control-plane-models) ，这种方式不需要特别的网络依赖。在这种条件下，每个 Kubernetes 集群都有自己的控制平面，但是每个控制平面都是同步的，并接受统一的管理。
 
-本文中，我们会在多控制平面拓扑形式的多集群网格中尝试一下 Istio 的 [流量管理](/zh/docs/concepts/traffic-management/) 功能。我们会展示如何配置 Istio 路由规则，在多集群服务网格中部署 [Bookinfo 示例]({{<github_tree>}}/samples/bookinfo)，`reviews` 服务的 `v1` 版本运行在一个集群上，而 `v2` 和 `v3` 运行在另一个集群上，并完成远程服务调用。
+本文中，我们会在多控制平面拓扑形式的多集群网格中尝试一下 Istio 的[流量管理](/zh/docs/concepts/traffic-management/)功能。我们会展示如何配置 Istio 路由规则，在多集群服务网格中部署 [Bookinfo 示例]({{<github_tree>}}/samples/bookinfo)，`reviews` 服务的 `v1` 版本运行在一个集群上，而 `v2` 和 `v3` 运行在另一个集群上，并完成远程服务调用。
 
 ## 集群部署 {#setup-clusters}
 
@@ -250,7 +250,7 @@ EOF
 
 ## 在 `cluster1` 上为远端的 `reviews` 服务创建 `ServiceEntry` 以及 `DestinationRule`
 
-根据 [配置指南](/zh/docs/setup/install/multicluster/gateways/#setup-DNS) 中的介绍，远程服务可以用一个 `.global` 的 DNS 名称进行访问。在我们的案例中，就是 `reviews.default.global`，所以我们需要为这个主机创建 `ServiceEntry` 和 `DestinationRule`。`ServiceEntry` 会使用 `cluster2` 网关作为端点地址来访问服务。可以使用网关的 DNS 名称或者公共 IP：
+根据[配置指南](/zh/docs/setup/install/multicluster/gateways/#setup-DNS)中的介绍，远程服务可以用一个 `.global` 的 DNS 名称进行访问。在我们的案例中，就是 `reviews.default.global`，所以我们需要为这个主机创建 `ServiceEntry` 和 `DestinationRule`。`ServiceEntry` 会使用 `cluster2` 网关作为端点地址来访问服务。可以使用网关的 DNS 名称或者公共 IP：
 
 {{< text bash >}}
 $ export CLUSTER2_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
@@ -302,7 +302,7 @@ spec:
 EOF
 {{< /text >}}
 
-`ServiceEntry` 的地址 `240.0.0.3` 可以是任意的未分配 IP。在 `240.0.0.0/4` 的范围里面进行选择是个不错的主意。阅读 [通过网关进行连接的多集群](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services) 一文，能够获得更多相关信息。
+`ServiceEntry` 的地址 `240.0.0.3` 可以是任意的未分配 IP。在 `240.0.0.0/4` 的范围里面进行选择是个不错的主意。阅读[通过网关进行连接的多集群](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)一文，能够获得更多相关信息。
 
 注意 `DestinationRule` 中的 `subset` 的标签，`cluster: cluster2` 对应的是 `cluster2` 网关。一旦流量到达目标集群，就会由本地目的 `DestinationRule` 来鉴别实际的 Pod 标签（`version: v1` 或者 `version: v2`）
 

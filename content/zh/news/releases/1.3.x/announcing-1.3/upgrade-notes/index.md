@@ -35,6 +35,6 @@ Istio 现在默认情况下会捕获所有端口。如果您没有指定容器�
 在 Istio 1.3 中，我们正在利用 Kubernetes 的改进来更安全地为工作负载实例颁发证书。
 
 Kubernetes 1.12 引入了 `值得信赖的` JWTs 来解决这些问题。
-[Kubernetes 1.13](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.13.md)引入了将 `aud`  字段的值更改为 API server 以外的值的功能。`aud` 字段代表了 Kubernetes 的 audience 。为了更好地保护网格，Istio 1.3 仅支持 `值得信赖的` JWT，并且当您启用 SDS 后，要求 audience ，也就是 `aud` 字段的值，为 `istio-ca`。
+[Kubernetes 1.13](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.13.md) 引入了将 `aud`  字段的值更改为 API server 以外的值的功能。`aud` 字段代表了 Kubernetes 的 audience 。为了更好地保护网格，Istio 1.3 仅支持 `值得信赖的` JWT，并且当您启用 SDS 后，要求 audience ，也就是 `aud` 字段的值，为 `istio-ca`。
 
 在启用 SDS 的情况下升级到 Istio 1.3 之前，请参阅我们的博客文章[可信赖的 JWT 和 SDS](/zh/blog/2019/trustworthy-jwt-sds/)。

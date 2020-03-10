@@ -1,5 +1,5 @@
 ---
-title: Debugging Envoy and Pilot
+title: Debugging Envoy and Istiod
 description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
@@ -44,23 +44,23 @@ reviews-v2-686bbb668-99j76.default                     SYNCED     SYNCED     SYN
 reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYNCED     SYNCED       istio-pilot-75bdf98789-n2kqh     1.1.2
 {{< /text >}}
 
-If a proxy is missing from this list it means that it is not currently connected to a Pilot instance so will not be
+If a proxy is missing from this list it means that it is not currently connected to a Istiod instance so will not be
 receiving any configuration.
 
-* `SYNCED` means that Envoy has acknowledged the last configuration Pilot has sent to it.
-* `NOT SENT` means that Pilot hasn't sent anything to Envoy. This usually is because Pilot has nothing to send.
-* `STALE` means that Pilot has sent an update to Envoy but has not received an acknowledgement. This usually indicates
-a networking issue between Envoy and Pilot or a bug with Istio itself.
+* `SYNCED` means that Envoy has acknowledged the last configuration Istiod has sent to it.
+* `NOT SENT` means that Istiod hasn't sent anything to Envoy. This usually is because Istiod has nothing to send.
+* `STALE` means that Istiod has sent an update to Envoy but has not received an acknowledgement. This usually indicates
+a networking issue between Envoy and Istiod or a bug with Istio itself.
 
-## Retrieve diffs between Envoy and Istio Pilot
+## Retrieve diffs between Envoy and Istiod
 
 The `proxy-status` command can also be used to retrieve a diff between the configuration Envoy has loaded and the
-configuration Pilot would send, by providing a proxy ID. This can help you determine exactly what is out of sync and
+configuration Istiod would send, by providing a proxy ID. This can help you determine exactly what is out of sync and
 where the issue may lie.
 
 {{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
---- Pilot Clusters
+--- Istiod Clusters
 +++ Envoy Clusters
 @@ -374,36 +374,14 @@
              "edsClusterConfig": {
@@ -206,7 +206,7 @@ If it can't find any matching virtual listeners it sends the request to the `Pas
 
 1. Our request is an outbound HTTP request to port `9080` this means it gets handed off to the `0.0.0.0:9080` virtual
 listener. This listener then looks up the route configuration in its configured RDS. In this case it will be looking
-up route `9080` in RDS configured by Pilot (via ADS).
+up route `9080` in RDS configured by Istiod (via ADS).
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
@@ -260,7 +260,7 @@ one route that matches on everything. This route tells Envoy to send the request
     ...
     {{< /text >}}
 
-1. This cluster is configured to retrieve the associated endpoints from Pilot (via ADS). So Envoy will then use the
+1. This cluster is configured to retrieve the associated endpoints from Istiod (via ADS). So Envoy will then use the
 `serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
 
     {{< text bash json >}}
@@ -297,8 +297,8 @@ one route that matches on everything. This route tells Envoy to send the request
 
 ## Inspecting bootstrap configuration
 
-So far we have looked at configuration retrieved (mostly) from Pilot, however Envoy requires some bootstrap configuration that
-includes information like where Pilot can be found. To view this use the following command:
+So far we have looked at configuration retrieved (mostly) from Istiod, however Envoy requires some bootstrap configuration that
+includes information like where Istiod can be found. To view this use the following command:
 
 {{< text bash json >}}
 $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -316,32 +316,21 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 ...
 {{< /text >}}
 
-## Verifying connectivity to Istio Pilot
+## Verifying connectivity to Istiod
 
-Verifying connectivity to Pilot is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Pilot. This can be accomplished in a few simple steps:
+Verifying connectivity to Istiod is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Istiod. This can be accomplished in a few simple steps:
 
-1.  Get the name of the Istio Ingress pod:
+1.  Create a `sleep` pod:
 
     {{< text bash >}}
-    $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingressgateway\- | awk '{print$1}'); echo ${INGRESS_POD_NAME};
+    $ kubectl create namespace foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
     {{< /text >}}
 
-1.  Exec into the Istio Ingress pod:
+1.  Test connectivity to Istiod using `curl`. The following example invokes the v1 registration API using default Istiod configuration parameters and mutual TLS enabled:
 
     {{< text bash >}}
-    $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
-    {{< /text >}}
-
-1.  Test connectivity to Pilot using `curl`. The following example invokes the v1 registration API using default Pilot configuration parameters and mutual TLS enabled:
-
-    {{< text bash >}}
-    $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:8080/debug/edsz
-    {{< /text >}}
-
-    If mutual TLS is disabled:
-
-    {{< text bash >}}
-    $ curl http://istio-pilot:8080/debug/edsz
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl istio-pilot.istio-system:8080/debug/edsz
     {{< /text >}}
 
 You should receive a response listing the "service-key" and "hosts" for each service in the mesh.

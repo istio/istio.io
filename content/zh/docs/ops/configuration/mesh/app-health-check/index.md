@@ -20,11 +20,11 @@ keywords: [security,health-check]
 
 本节将阐述如何在启用了双向 TLS 的 Istio 中使用这三种方式。
 
-注意，无论是否启用了双向 TLS 认证，命令和 TCP 请求方式都可以与 Istio 一起使用。HTTP请求方式则要求启用了 TLS 的 Istio 使用不同的配置。
+注意，无论是否启用了双向 TLS 认证，命令和 TCP 请求方式都可以与 Istio 一起使用。HTTP 请求方式则要求启用了 TLS 的 Istio 使用不同的配置。
 
 ## 在学习本节之前{#before-you-begin}
 
-* 理解 Kubernetes 的 [Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio 的 [认证策略](/zh/docs/concepts/security/#authentication-policies) 和 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 概念。
+* 理解 Kubernetes 的 [Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio 的[认证策略](/zh/docs/concepts/security/#authentication-policies)和[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)概念。
 
 * 有一个安装了 Istio 的 Kubernetes 集群，并且未开启全局双向 TLS 认证。
 
@@ -172,7 +172,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
-默认情况下未启用此功能。 我们希望 [收到您的反馈](https://github.com/istio/istio/issues/10357)，
+默认情况下未启用此功能。 我们希望[收到您的反馈](https://github.com/istio/istio/issues/10357)，
 是否应将其更改为 Istio 安装过程中的默认行为。
 
 ### 端口分离{#separate-port}
@@ -194,7 +194,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< /text >}}
 
-请注意，[liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) 的镜像公开了两个端口：8001 和 8002 ([源码]({{< github_file >}}/samples/health-check/server.go))。在这个部署方式里面，端口8001用于常规流量，而端口8002给 Liveness 探针使用。
+请注意，[liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) 的镜像公开了两个端口：8001 和 8002 ([源码]({{< github_file >}}/samples/health-check/server.go))。在这个部署方式里面，端口 8001 用于常规流量，而端口 8002 给 Liveness 探针使用。
 
 ### 清除{#cleanup}
 

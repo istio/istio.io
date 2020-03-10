@@ -76,7 +76,6 @@ grafana                     ClusterIP      10.47.246.242   <none>         3000/T
 istio-egressgateway         ClusterIP      10.47.244.203   <none>         80/TCP,443/TCP,15443/TCP                                                                                                     64m
 istio-ingressgateway        LoadBalancer   10.47.247.221   34.69.50.226   15020:31649/TCP,80:30012/TCP,443:31723/TCP,15029:31857/TCP,15030:31621/TCP,15031:31290/TCP,15032:30334/TCP,15443:31754/TCP   64m
 istio-pilot                 ClusterIP      10.47.247.195   <none>         15010/TCP,15011/TCP,15012/TCP,8080/TCP,15014/TCP,443/TCP                                                                     64m
-istio-policy                ClusterIP      10.47.241.120   <none>         9091/TCP,15004/TCP,15014/TCP                                                                                                 64m
 istiod                      ClusterIP      10.47.247.6     <none>         15012/TCP,443/TCP                                                                                                            64m
 jaeger-agent                ClusterIP      None            <none>         5775/UDP,6831/UDP,6832/UDP                                                                                                   64m
 jaeger-collector            ClusterIP      10.47.244.102   <none>         14267/TCP,14268/TCP,14250/TCP                                                                                                64m
@@ -94,7 +93,6 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 grafana-78bc994d79-gwkfd                1/1     Running   0          63m
 istio-egressgateway-5fc6f84745-8f98z    1/1     Running   0          63m
 istio-ingressgateway-5b89fc6c98-vkwb5   1/1     Running   0          63m
-istio-policy-55d767c454-jggkz           2/2     Running   8          63m
 istio-tracing-c7b59f68f-dgqb8           1/1     Running   0          63m
 istiod-5448f74684-gmd5w                 1/1     Running   0          52m
 kiali-fb5f485fb-2l4r6                   1/1     Running   0          63m

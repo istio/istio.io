@@ -1,5 +1,5 @@
 ---
-title: Istio Webhook 管理 [实验性]
+title: Istio Webhook 管理[实验性]
 description: 如何在 Istio 中使用 istioctl 工具管理 webhooks。
 weight: 100
 keywords: [security,webhook]

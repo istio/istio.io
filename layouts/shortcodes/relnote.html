@@ -122,7 +122,7 @@
     {{ if eq $release_location "archive" }}
         {{ $doc_link = printf "https://archive.istio.io/v%s/docs" $version }}
     {{ else if eq $release_location "preliminary" }}
-        {{ $doc_link = printf "https://preliminry.istio.io%s/docs" $lang }}
+        {{ $doc_link = printf "https://preliminary.istio.io%s/docs" $lang }}
     {{ else if .Site.Data.args.preliminary }}
         {{ $doc_link = "https://istio.io/docs" }}
     {{ end }}

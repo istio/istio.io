@@ -13,11 +13,11 @@ target_release: 0.8
 
 ## 开始之前{#before-you-begin}
 
-在集群中[`安装 Istio`](/zh/docs/setup/) 并部署应用程序。
+在集群中 [`安装 Istio`](/zh/docs/setup/) 并部署应用程序。
 
 ## 配置 Istio 导出日志{#configuring-Istio-to-export-logs}
 
-Istio 使用 `logentry` [`模板`](/zh/docs/reference/config/policy-and-telemetry/templates/logentry)导出日志。这里指定了可用于分析的所有变量。它包含源服务、目标服务、`auth` 指标（即将实现......）等信息。以下是示意图：
+Istio 使用 `logentry` [`模板`](/zh/docs/reference/config/policy-and-telemetry/templates/logentry) 导出日志。这里指定了可用于分析的所有变量。它包含源服务、目标服务、`auth` 指标（即将实现......）等信息。以下是示意图：
 
 {{< image width="75%" link="./istio-analytics-using-stackdriver.png" caption="导出日志到 Stackdriver 进行分析的图释" >}}
 
@@ -29,33 +29,33 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 
 1. 为项目启用 [`Stackdriver Monitoring API`](https://cloud.google.com/monitoring/api/enable-api) 。
 1. 确保配置的接收器的 `principalEmail` 具有对项目写入的权限和日志管理员角色的权限。
-1. 确保已设置 `GOOGLE_APPLICATION_CREDENTIALS` 环境变量。请按照[`此处`](https://cloud.google.com/docs/authentication/getting-started)的说明进行设置。
+1. 确保已设置 `GOOGLE_APPLICATION_CREDENTIALS` 环境变量。请按照 [`此处`](https://cloud.google.com/docs/authentication/getting-started) 的说明进行设置。
 
 #### BigQuery{#big-query}
 
-1. [`创建 BigQuery 数据集`](https://cloud.google.com/bigquery/docs/datasets)作为日志导出的目标。
+1. [`创建 BigQuery 数据集`](https://cloud.google.com/bigquery/docs/datasets) 作为日志导出的目标。
 1. 记录数据集的 ID。 这里需要设置 Stackdriver 处理程序。它的格式为 `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
-1. 给[`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：cloud-logs@system.gserviceaccount.com。它具有 IAM 中的 BigQuery Data Editor 的角色。
+1. 给 [`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：cloud-logs@system.gserviceaccount.com。它具有 IAM 中的 BigQuery Data Editor 的角色。
 1. 如果使用 [`Google Kubernetes Engine`](/zh/docs/setup/platform-setup/gke/)，请确保在集群上启用了 `bigquery` [`Scope`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)。
 
 #### Google Cloud Storage (GCS){#google-cloud-storage}
 
 1. [`创建 GCS 存储桶`](https://cloud.google.com/storage/docs/creating-buckets)，希望导出日志到 GCS 中。
 1. 记录存储桶的 ID。这里需要配置 Stackdriver。它的形式为 `storage.googleapis.com/[BUCKET_ID]`。
-1. 给[`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：`cloud-logs @ system.gserviceaccount.com`。它具有 IAM 中的 Storage Object Creator 的角色。
+1. 给 [`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：`cloud-logs @ system.gserviceaccount.com`。它具有 IAM 中的 Storage Object Creator 的角色。
 
 #### Google Cloud Pub/Sub{#google-cloud-pub-sub}
 
-1. [`创建主题`](https://cloud.google.com/pubsub/docs/admin)，希望导出日志到Google Cloud Pub/Sub 中。
+1. [`创建主题`](https://cloud.google.com/pubsub/docs/admin)，希望导出日志到 Google Cloud Pub/Sub 中。
 1. 记录主题的 ID。这里需要配置 Stackdriver。它的形式为`pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]`。
-1. 给[`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：`cloud-logs @ system.gserviceaccount.com`。它具有 IAM 中的 Pub/Sub Publisher 角色。
+1. 给 [`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：`cloud-logs @ system.gserviceaccount.com`。它具有 IAM 中的 Pub/Sub Publisher 角色。
 1. 如果使用 [`Google Kubernetes Engine`](/zh/docs/setup/platform-setup/gke/)，请确保在集群中启动了 `pubsub` [`Scope`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)。
 
 ### 设置 Stackdriver{#setting-up-stack-driver}
 
-必须创建 Stackdriver 处理程序，将数据导出到 Stackdriver。Stackdriver 处理程序的配置在[`此处`](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/)描述。
+必须创建 Stackdriver 处理程序，将数据导出到 Stackdriver。Stackdriver 处理程序的配置在 [`此处`](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) 描述。
 
-1.  保存如下的yaml文件为 `stackdriver.yaml` 。并替换 `<project_id>,
+1.  保存如下的 yaml 文件为 `stackdriver.yaml` 。并替换 `<project_id>,
     <sink_id>, <sink_destination>, <log_filter>` 为相应的值。
 
     {{< text yaml >}}
@@ -189,7 +189,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
           filter: '<log_filter>'
     {{< /text >}}
 
-在上面的配置中，sinkInfo 包含有关日志导出到所需接收器的信息。有关如何填写不同接收器的更多信息，请参阅[`此处`](https://cloud.google.com/logging/docs/export/#sink-terms)。
+在上面的配置中，sinkInfo 包含有关日志导出到所需接收器的信息。有关如何填写不同接收器的更多信息，请参阅 [`此处`](https://cloud.google.com/logging/docs/export/#sink-terms)。
  
 1. 为 Stackdriver 添加规则
 
@@ -218,4 +218,4 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 
 ## 日志导出的可用性{#availability-of-logs-in-export-sinks}
 
-导出到 BigQuery 只需几分钟（可以认为是瞬间完成的），不过GCS要延迟2 至 12 小时，而Pub/Sub 则几乎没有延迟。
+导出到 BigQuery 只需几分钟（可以认为是瞬间完成的），不过 GCS 要延迟 2 至 12 小时，而 Pub/Sub 则几乎没有延迟。

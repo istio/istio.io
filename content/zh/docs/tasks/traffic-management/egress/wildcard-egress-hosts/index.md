@@ -7,7 +7,7 @@ aliases:
   - /zh/docs/examples/advanced-gateways/wildcard-egress-hosts/
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/) 任务和[配置一个 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/) 示例描述如何配置特定主机的 egress 流量，如：`edition.cnn.com`。本示例描述如何为通用域中的一组特定主机开启 egress 流量，譬如：`*.wikipedia.org`，无需单独配置每一台主机。
+[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务和[配置一个 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例描述如何配置特定主机的 egress 流量，如：`edition.cnn.com`。本示例描述如何为通用域中的一组特定主机开启 egress 流量，譬如：`*.wikipedia.org`，无需单独配置每一台主机。
 
 ## 背景{#background}
 
@@ -79,7 +79,7 @@ $ kubectl delete virtualservice wikipedia
 ## 配置访问 wildcard 主机的 egress 网关{#configure-egress-gateway-traffic-to-a-wildcard-host}
 
 能否配置通过 egress 网关访问 wildcard 主机取决于这组 wildcard 域名有唯一一个通用主机。
-以 _*.wikipedia.org_ 为例。每个语种特殊的站点都有自己的 _wikipedia.org_ 服务器。您可以向任意一个 _*.wikipedia.org_ 站点的 IP 发送请求，包括 _www.wikipedia.org_，该站点 [管理服务](https://en.wikipedia.org/wiki/Virtual_hosting) 所有特定主机。
+以 _*.wikipedia.org_ 为例。每个语种特殊的站点都有自己的 _wikipedia.org_ 服务器。您可以向任意一个 _*.wikipedia.org_ 站点的 IP 发送请求，包括 _www.wikipedia.org_，该站点[管理服务](https://en.wikipedia.org/wiki/Virtual_hosting)所有特定主机。
 
 通常情况下，通用域中的所有域名并不由一个唯一的 hosting server 提供服务。此时，需要一个更加复杂的配置。
 

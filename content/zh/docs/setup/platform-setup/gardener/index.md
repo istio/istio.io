@@ -34,7 +34,7 @@ keywords: [platform-setup,kubernetes,gardener,sap]
 
 ### 创建 Kubernetes 集群{#creating-a-Kubernetes-cluster}
 
-您可以通过提供集群规范 yaml 文件，使用 `kubectl` cli 创建集群。 您可以在 [这博客里](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml) 找到关于 GCP 的示例。
+您可以通过提供集群规范 yaml 文件，使用 `kubectl` cli 创建集群。 您可以在[这博客里](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml)找到关于 GCP 的示例。
 确保名称空间与您的项目名称空间匹配。然后只需将准备好的 "shoot" 群集 CRD 与 `kubectl` 配合使用：
 
 {{< text bash >}}

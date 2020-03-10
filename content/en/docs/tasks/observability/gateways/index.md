@@ -1,7 +1,7 @@
 ---
 title: Remotely Accessing Telemetry Addons
 description: This task shows you how to configure external access to the set of Istio telemetry addons.
-weight: 99
+weight: 98
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /docs/tasks/telemetry/gateways/
@@ -84,7 +84,7 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
-    apiVersion: certmanager.k8s.io/v1alpha1
+    apiVersion: cert-manager.io/v1alpha2
     kind: Certificate
     metadata:
       name: telemetry-gw-cert
@@ -105,13 +105,13 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           - $TELEMETRY_DOMAIN
     ---
     EOF
-    certificate.certmanager.k8s.io "telemetry-gw-cert" created
+    certificate.cert-manager.io "telemetry-gw-cert" created
     {{< /text >}}
 
 1. Wait until the server certificate is ready.
 
     {{< text syntax="bash" expandlinks="false" >}}
-    $ JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}{end}{end}' && kubectl -n istio-system get certificates -o jsonpath="$JSONPATH"
+    $ JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}{end}{end}' && kubectl -n istio-system get certificates.cert-manager.io -o jsonpath="$JSONPATH"
     telemetry-gw-cert:Ready=True
     {{< /text >}}
 
@@ -637,6 +637,6 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 * If installed, remove the gateway certificate:
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete certificate telemetry-gw-cert
-    certificate.certmanager.k8s.io "telemetry-gw-cert" deleted
+    $ kubectl -n istio-system delete certificates.cert-manager.io telemetry-gw-cert
+    certificate.cert-manager.io "telemetry-gw-cert" deleted
     {{< /text >}}

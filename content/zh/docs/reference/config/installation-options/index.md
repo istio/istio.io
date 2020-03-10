@@ -218,9 +218,9 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.proxy.logLevel` | `""` | `代理的日志级别，应用于网关和 sidecars。如果为空，则使用 "warning"。期望值是：trace\|debug\|info\|warning\|error\|critical\|off` |
 | `global.proxy.componentLogLevel` | `""` | `每个组件的代理日志级别，应用于网关和 sidecars。如果组件级别没设置，全局的 "logLevel" 将启用。如果为空，"misc:error" 将启用` |
 | `global.proxy.dnsRefreshRate` | `300s` | `配置类型为 STRICT_DNS 的 Envoy 集群的 DNS 刷新率，必须以秒为单位。例如：300s 是合法的但 5m 不合法。` |
-| `global.proxy.protocolDetectionTimeout` | `10ms` | `自动协议检测使用一组试探法来确定连接是否使用TLS（服务端），以及正在使用的应用程序协议（例如 http 和 tcp）。 试探法依赖于客户端发送的第一个数据位。对于像 Mysql，MongoDB 这样的服务器的第一协议来说，在指定的时间段之后，Envoy 将对协议检测超时，默认为非 mTLS 的 TCP 流量。设置此字段以调整 Envoy 将等待客户端发送第一个数据位的时间。（必须 >=1ms）` |
+| `global.proxy.protocolDetectionTimeout` | `10ms` | `自动协议检测使用一组试探法来确定连接是否使用 TLS（服务端），以及正在使用的应用程序协议（例如 http 和 tcp）。 试探法依赖于客户端发送的第一个数据位。对于像 Mysql，MongoDB 这样的服务器的第一协议来说，在指定的时间段之后，Envoy 将对协议检测超时，默认为非 mTLS 的 TCP 流量。设置此字段以调整 Envoy 将等待客户端发送第一个数据位的时间。（必须 >=1ms）` |
 | `global.proxy.privileged` | `false` | `如果设置为 true，istio-proxy 容器将享有 securityContext 的权限。` |
-| `global.proxy.enableCoreDump` | `false` | `如果设置，新注入的sidecars将启用 core dumps。` |
+| `global.proxy.enableCoreDump` | `false` | `如果设置，新注入的 sidecars 将启用 core dumps。` |
 | `global.proxy.enableCoreDumpImage` | `ubuntu:xenial` | `镜像用于开启 core dumps。仅在 "enableCoreDump" 设置为 true 时使用。` |
 | `global.proxy.statusPort` | `15020` | `Pilot 代理健康检查的默认端口。值为 0 将关闭健康检查。` |
 | `global.proxy.readinessInitialDelaySeconds` | `1` | `readiness 探针的初始延迟秒数。` |
@@ -240,7 +240,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.proxy.envoyMetricsService.host` | `` | `例：metrics-service.istio-system` |
 | `global.proxy.envoyMetricsService.port` | `` | `例：15000` |
 | `global.proxy.tracer` | `"zipkin"` | `指定使用以下哪一个追踪器：zipkin，lightstep， datadog，stackdriver。 如果使用外部 GCP 的 stackdriver 追踪器，设置环境变量 GOOGLE_APPLICATION_CREDENTIALS 为 GCP 的凭证文件。` |
-| `global.proxy_init.image` | `proxy_init` | `proxy_init 容器的基本名称，用于配置iptables。` |
+| `global.proxy_init.image` | `proxy_init` | `proxy_init 容器的基本名称，用于配置 iptables。` |
 | `global.imagePullPolicy` | `IfNotPresent` |  |
 | `global.controlPlaneSecurityEnabled` | `false` | `启用 controlPlaneSecurityEnabled enabled。当密钥被传输时，将导致启动 pod 的延迟，不建议用于测试。` |
 | `global.disablePolicyChecks` | `true` | `disablePolicyChecks 关闭 mixer 策略检查。如果 mixer.policy.enabled==true 那么 disablePolicyChecks 生效。当在 istio config map 中设置此值时 —— pilot 需要重启才能生效。` |
@@ -271,7 +271,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `global.trustDomain` | `""` |  |
 | `global.meshID` | `""` | `Mesh ID 意为 Mesh 标识符。在网格相互作用的范围内，它应该是唯一的，但不要求它是全局/普遍唯一的。例如，如果下面条件任意一个为真，那么两个网格必须有不同的 Mesh ID：—— 网格将遥测聚合在一个地方 —— 网格将连接在一起 —— 如果管理员期望这些条件中的任何一个在将来可能成为现实，那么策略将被从一个网格写入到另一个引用它的网格，他们需要保证这些网格被指定了不同的 Mesh ID。在一个多集群网格下，每一个集群必须（手动或自动）配置相同的 Mesh ID。如果一个存在的集群“加入”多集群网格，它需要被迁移到新的 mesh ID。详细的迁移还在制定中，在安装后更改 Mesh ID 可能会造成混乱。如果这个网格没有指定一个特定值，Istio 将使用该网格信任域的值。最佳实践是选择适当的信任域值。` |
 | `global.outboundTrafficPolicy.mode` | `ALLOW_ANY` |  |
-| `global.sds.enabled` | `false` | `启用 SDS。如果设置为 true，sidecars 的 mTLS 证书将通过 SecretDiscoveryService 分发，而不是使用 K8S secret来挂载。` |
+| `global.sds.enabled` | `false` | `启用 SDS。如果设置为 true，sidecars 的 mTLS 证书将通过 SecretDiscoveryService 分发，而不是使用 K8S secret 来挂载。` |
 | `global.sds.udsPath` | `""` |  |
 | `global.meshNetworks` | `{}` |  |
 | `global.localityLbSetting.enabled` | `true` |  |
@@ -345,7 +345,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 
 | 关键字 | 默认值 | 描述 |
 | --- | --- | --- |
-| `kiali.enabled` | `false` | `注意当通过 Helm 安装，使用 demo yaml时，默认值为 true。` |
+| `kiali.enabled` | `false` | `注意当通过 Helm 安装，使用 demo yaml 时，默认值为 true。` |
 | `kiali.replicaCount` | `1` |  |
 | `kiali.hub` | `quay.io/kiali` |  |
 | `kiali.image` | `kiali` |  |
@@ -393,7 +393,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `mixer.telemetry.rollingMaxUnavailable` | `25%` |  |
 | `mixer.telemetry.sessionAffinityEnabled` | `false` |  |
 | `mixer.telemetry.loadshedding.mode` | `enforce` | `disabled，logonly 或 enforce` |
-| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `根据测量值把100ms p50 转换成 1s 以下的 p99。这对于本质上是异步的遥测来说是可以接受的。` |
+| `mixer.telemetry.loadshedding.latencyThreshold` | `100ms` | `根据测量值把 100ms p50 转换成 1s 以下的 p99。这对于本质上是异步的遥测来说是可以接受的。` |
 | `mixer.telemetry.resources.requests.cpu` | `1000m` |  |
 | `mixer.telemetry.resources.requests.memory` | `1G` |  |
 | `mixer.telemetry.resources.limits.cpu` | `4800m` | `最好使用适当的 cpu 分配来实现 Mixer 的水平扩展。我们已经通过实验发现这些数值工作的很好。` |
@@ -482,7 +482,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `security.replicaCount` | `1` |  |
 | `security.rollingMaxSurge` | `100%` |  |
 | `security.rollingMaxUnavailable` | `25%` |  |
-| `security.enableNamespacesByDefault` | `true` | `确定名称空间没有被密钥创建的 Citadel 标记 ca.istio.io/env 和ca.istio.io/override 标签。` |
+| `security.enableNamespacesByDefault` | `true` | `确定名称空间没有被密钥创建的 Citadel 标记 ca.istio.io/env 和 ca.istio.io/override 标签。` |
 | `security.image` | `citadel` |  |
 | `security.selfSigned` | `true` | `表明自签名 CA 是否使用。` |
 | `security.createMeshPolicy` | `true` |  |
@@ -490,7 +490,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 | `security.tolerations` | `[]` |  |
 | `security.citadelHealthCheck` | `false` |  |
 | `security.workloadCertTtl` | `2160h` | `90*24 小时 = 2160h` |
-| `security.enableNamespacesByDefault` | `true` | `指定 Citadel 的默认行为，如果ca.istio.io/env 或 ca.istio.io/override 标签没有在给定的命名空间发现。例如：考虑一个叫 "target" 的命名空间，既没有 "ca.istio.io/env" 也没有 "ca.istio.io/override" 标签。决定是否为这个 “target” 命名空间的服务账号创建密钥，Citadel 讲参考这一选项。在这个例子中如果值为 "true"，密钥将为 "target" 命名空间生成。如果值是 "false"，Citadel 不会在创建服务账户时产生密钥。` |
+| `security.enableNamespacesByDefault` | `true` | `指定 Citadel 的默认行为，如果 ca.istio.io/env 或 ca.istio.io/override 标签没有在给定的命名空间发现。例如：考虑一个叫 "target" 的命名空间，既没有 "ca.istio.io/env" 也没有 "ca.istio.io/override" 标签。决定是否为这个 “target” 命名空间的服务账号创建密钥，Citadel 讲参考这一选项。在这个例子中如果值为 "true"，密钥将为 "target" 命名空间生成。如果值是 "false"，Citadel 不会在创建服务账户时产生密钥。` |
 | `security.podAntiAffinityLabelSelector` | `[]` |  |
 | `security.podAntiAffinityTermLabelSelector` | `[]` |  |
 

@@ -104,7 +104,7 @@ LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 
 这个截图显示了该追踪是由一组 span 组成。每一个 span 对应着在执行 `/productpage` 请求期间调用的一个 Bookinfo 服务。
 
-追踪中的两个 spans 表示一个 RPC请求。例如，从 `productpage` 到 `reviews` 的请求调用，以操作标签 `reviews.default.svc.cluster.local:9080/*` 和服务标签 `productpage.default: proxy client` 的 span 开始。该服务表示是这个调用的客户端 span。截图显示此次调用耗时 15.30 毫秒。第二个 span 标记有操作标签 `reviews.default.svc.cluster.local:9080/*` 操作和服务标签 `reviews.default: proxy server` 。第二个 span 是第一个 span 的下一级，表示调用的服务端 span。截图显示此次调用耗时 14.60 毫秒。
+追踪中的两个 spans 表示一个 RPC 请求。例如，从 `productpage` 到 `reviews` 的请求调用，以操作标签 `reviews.default.svc.cluster.local:9080/*` 和服务标签 `productpage.default: proxy client` 的 span 开始。该服务表示是这个调用的客户端 span。截图显示此次调用耗时 15.30 毫秒。第二个 span 标记有操作标签 `reviews.default.svc.cluster.local:9080/*` 操作和服务标签 `reviews.default: proxy server` 。第二个 span 是第一个 span 的下一级，表示调用的服务端 span。截图显示此次调用耗时 14.60 毫秒。
 
 {{< warning >}}
 集成后的 LightStep 当前无法捕获由 Istio 的内部操作组件（如 Mixer）生成的 span。
@@ -119,7 +119,7 @@ Istio 通过配置追踪采样百分比来捕获追踪信息。想了解如何�
 
 如果你不想继续执测试操作任务，可以从集群中删除 Bookinfo 示例应用程序和所有的 LightStep 密钥。
 
-1. 删除 Bookinfo 应用程序，请参阅[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup)说明。
+1. 删除 Bookinfo 应用程序，请参阅[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup) 说明。
 
 1. 删除给 LightStep 生成的密钥：
 

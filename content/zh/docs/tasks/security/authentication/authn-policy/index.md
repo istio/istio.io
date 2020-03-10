@@ -8,12 +8,12 @@ aliases:
     - /zh/docs/tasks/security/authn-policy/
 ---
 
-本任务涵盖了您在启用、配置和使用 Istio 认证策略时可能需要做的主要工作。更多基本概念介绍请查看 [认证总览](/zh/docs/concepts/security/#authentication)。
+本任务涵盖了您在启用、配置和使用 Istio 认证策略时可能需要做的主要工作。更多基本概念介绍请查看[认证总览](/zh/docs/concepts/security/#authentication)。
 
 ## 开始之前{#before-you-begin}
 
-* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies) 和 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 相关概念。
-* 在 Kubernetes 集群中安装 Istio 并禁用全局双向 TLS (例如，使用[安装步骤](/zh/docs/setup/getting-started) 提到的 demo 配置文件，或者设置 `global.mtls.enabled` 安装选项为 false )。
+* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)相关概念。
+* 在 Kubernetes 集群中安装 Istio 并禁用全局双向 TLS (例如，使用[安装步骤](/zh/docs/setup/getting-started)提到的 demo 配置文件，或者设置 `global.mtls.enabled` 安装选项为 false )。
 
 ### 设置{#setup}
 
@@ -112,7 +112,7 @@ sleep.bar to httpbin.foo: 503
 sleep.bar to httpbin.bar: 503
 {{< /text >}}
 
-配置客户端，您需要设置 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)来使用双向 TLS。也可以使用多 destination rules，为每个合适的服务（或命名空间）都配置一个。不过，更方便地方式是创建一个规则使用通配符 `*` 匹配所有服务，因此这也和网格范围的认证策略作用等同。
+配置客户端，您需要设置 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules) 来使用双向 TLS。也可以使用多 destination rules，为每个合适的服务（或命名空间）都配置一个。不过，更方便地方式是创建一个规则使用通配符 `*` 匹配所有服务，因此这也和网格范围的认证策略作用等同。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -464,7 +464,7 @@ $ kubectl delete destinationrules httpbin -n bar
 ## 终端用户认证{#end-user-authentication}
 
 为了体验这个特性，您需要一个有效的 JWT。该 JWT 必须和您用于该 demo 的 JWKS 终端对应。在这个教程中，我们使用来自 Istio 代码基础库的 [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) 和 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json)
-同时，为了方便，通过 `ingressgateway` 暴露 `httpbin.foo`（更多细节，查看[ingress 任务](/zh/docs/tasks/traffic-management/ingress/)）。
+同时，为了方便，通过 `ingressgateway` 暴露 `httpbin.foo`（更多细节，查看 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/)）。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -520,7 +520,7 @@ $ curl $INGRESS_HOST/headers -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-现在，为 `httpbin.foo` 添加一个要求配置终端用户 JWT 的策略。下面的命令假定 `httpbin.foo` 没有特定服务策略（如果您执行了[清除](#cleanup-part-2) 所述的操作，就会是这样）。您可以执行 `kubectl get policies.authentication.istio.io -n foo` 进行确认。
+现在，为 `httpbin.foo` 添加一个要求配置终端用户 JWT 的策略。下面的命令假定 `httpbin.foo` 没有特定服务策略（如果您执行了[清除](#cleanup-part-2)所述的操作，就会是这样）。您可以执行 `kubectl get policies.authentication.istio.io -n foo` 进行确认。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -554,7 +554,7 @@ $ curl --header "Authorization: Bearer $TOKEN" $INGRESS_HOST/headers -s -o /dev/
 200
 {{< /text >}}
 
-为了观察 JWT 验证的其它方面，使用脚本[`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) 生成新 tokens 带上不同的发行人、受众、有效期等等进行测试。这个脚本可以从 Istio 库下载：
+为了观察 JWT 验证的其它方面，使用脚本 [`gen-jwt.py`]({{< github_tree >}}/security/tools/jwt/samples/gen-jwt.py) 生成新 tokens 带上不同的发行人、受众、有效期等等进行测试。这个脚本可以从 Istio 库下载：
 
 {{< text bash >}}
 $ wget {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
@@ -568,10 +568,10 @@ $ wget {{< github_file >}}/security/tools/jwt/samples/key.pem
 {{< /text >}}
 
 {{< tip >}}
-下载[jwcrypto](https://pypi.org/project/jwcrypto) 库，如果您还没有在您的系统上安装的话。
+下载 [jwcrypto](https://pypi.org/project/jwcrypto) 库，如果您还没有在您的系统上安装的话。
 {{< /tip >}}
 
-例如，下述命令创建一个5秒钟过期的 token。如您所见，Istio 使用这个 token 刚开始认证请求成功，但是5秒后拒绝了它们。
+例如，下述命令创建一个 5 秒钟过期的 token。如您所见，Istio 使用这个 token 刚开始认证请求成功，但是 5 秒后拒绝了它们。
 
 {{< text bash >}}
 $ TOKEN=$(./gen-jwt.py ./key.pem --expire 5)
