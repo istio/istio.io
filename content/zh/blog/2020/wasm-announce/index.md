@@ -83,8 +83,8 @@ WebAssembly Hub 工具提供了功能强大的 CLI 和优雅且易于使用的�
 
 ## 了解更多 {#learn-more}
 
--   WebAssembly SF talk (视频): [网络代理扩展](https://www.youtube.com/watch?v=OIUPf8m7CGA), by John Plevyak
--   [Solo 博客](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)
+- WebAssembly SF talk (视频): [网络代理扩展](https://www.youtube.com/watch?v=OIUPf8m7CGA), by John Plevyak
+- [Solo 博客](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)
 - [Proxy-Wasm ABI 说明](https://github.com/proxy-wasm/spec)
 - [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md) 和其 [开发者文档](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)
