@@ -15,8 +15,9 @@ aliases:
 Setup a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters)
 across multiple clusters with a shared control plane. In this configuration, multiple Kubernetes clusters running
 a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
-running in a main cluster. Clusters may be on the same network or different networks as other
-clusters in the mesh. Once one or more remote Kubernetes clusters are connected to the Istio control plane, Envoy can then form a mesh.
+running in a main cluster. Clusters may be on the same network or different networks than other
+clusters in the mesh. Once one or more remote Kubernetes clusters are connected to the Istio control plane, 
+Envoy can then form a mesh.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
 
@@ -189,12 +190,12 @@ $ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system 
 {{< /text >}}
 
 You'll also need to apply the following configuration to the main cluster to expose the istiod
-service on the dedicated control plane gateway and route incoming traffic to the main istiod
+service on the dedicated control plane gateway and route incoming traffic to the main Istiod
 service. This assumes the gateway proxies are created in the istio-system namespace
 and have the `istio=istiod-gateway` label.
 
 {{< text yaml >}}
-cat <<EOF> control-plane-gateway.yaml
+cat <<EOF> control-plane-gateway-config.yaml
 main-cluster.yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -244,10 +245,11 @@ spec:
         number: 15012
       tls:
         mode: DISABLE
+EOF
 {{< /text >}}
 
 {{< text bash >}}
-kubectl --context=${MAIN_CLUSTER_CTX} apply -f control-plane-gateway.yaml
+kubectl --context=${MAIN_CLUSTER_CTX} apply -f control-plane-gateway-config.yaml
 {{< /text >}}
 
 ## Deploy Istio in the remote cluster
