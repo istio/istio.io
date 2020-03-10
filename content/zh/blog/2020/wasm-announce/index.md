@@ -33,7 +33,7 @@ Envoy 模型强化了单体构建过程，并要求使用 C++ 编写扩展，从
 
 ## 把 WebAssembly 引入 Envoy {#bringing-WebAssembly-to-Envoy}
 
-[在过去的18个月中](https://github.com/envoyproxy/envoy/issues/4272)，我们一直与 Envoy 社区合作把 Wasm 的扩展引入 Envoy，并其贡献到上游。我们很高兴地宣布，此特性在 [Istio 1.5](/news/releases/1.5.x/announcing-1.5/) 中带的 Envoy 中以 Alpha 版本可用了，其源代码在[`envoy-wasm`](https://github.com/envoyproxy/envoy-wasm/) 开发分支中，并且正在努力将其合并到 Envoy 主干上。该实现使用了 Google 高性能 [V8 引擎](https://v8.dev/) 中内置的 WebAssembly 运行时。
+[在过去的18个月中](https://github.com/envoyproxy/envoy/issues/4272)，我们一直与 Envoy 社区合作把 Wasm 的扩展引入 Envoy，并其贡献到上游。我们很高兴地宣布，此特性在 [Istio 1.5](/zh/news/releases/1.5.x/announcing-1.5/) 中带的 Envoy 中以 Alpha 版本可用了，其源代码在[`envoy-wasm`](https://github.com/envoyproxy/envoy-wasm/) 开发分支中，并且正在努力将其合并到 Envoy 主干上。该实现使用了 Google 高性能 [V8 引擎](https://v8.dev/) 中内置的 WebAssembly 运行时。
 
 除了构建底层的运行时，我们还构建了：
 
