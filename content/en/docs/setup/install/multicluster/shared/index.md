@@ -191,7 +191,7 @@ $ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system 
 
 You'll also need to apply the following configuration to the main cluster to expose the Istiod
 service on the dedicated control plane gateway and route incoming traffic to the main Istiod
-service. This assumes the gateway proxies are created in the istio-system namespace
+service. This assumes the gateway proxies are created in the `istio-system` namespace
 and have the `istio=istiod-gateway` label.
 
 {{< text yaml >}}
