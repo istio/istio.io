@@ -121,7 +121,7 @@ aliases:
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1. 添加 Istio gateway 的 IP 地址到 `/etc/hosts` 中。重新查看 [集群上定制化安装 Istio](#customized-installation-of-Istio-on-the-cluster) 部分学习怎样获取 IP 地址。
+1. 添加 Istio gateway 的 IP 地址到 `/etc/hosts` 中。重新查看[集群上定制化安装 Istio](#customized-installation-of-Istio-on-the-cluster) 部分学习怎样获取 IP 地址。
 下面的示例演示更新 `/etc/hosts` 文件中的 Istio gateway 地址：
 
     {{< text bash >}}

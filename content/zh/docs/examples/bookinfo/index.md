@@ -68,7 +68,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     {{< /text >}}
 
     {{< warning >}}
-    如果您在安装过程中禁用了 Sidecar 自动注入功能而选择[手动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)，请在部署应用之前使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)命令修改 `bookinfo.yaml` 文件。
+    如果您在安装过程中禁用了 Sidecar 自动注入功能而选择[手动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)，请在部署应用之前使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令修改 `bookinfo.yaml` 文件。
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)

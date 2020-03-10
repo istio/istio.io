@@ -1,5 +1,5 @@
 ---
-title: Kubernetes Egress流量服务
+title: Kubernetes Egress 流量服务
 description: 展示如何配置 Istio Kubernetes 外部服务。
 keywords: [traffic-management,egress]
 weight: 60
@@ -7,7 +7,7 @@ weight: 60
 
 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务和带 [Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors) 的 Kubernetes 服务使你可以创建一个外部服务的本地 DNS 别名。这个 DNS 别名与本地服务的 DNS 条目具有相同的形式，即 `<service name>.<namespace name>.svc.cluster.local`。DNS 别名为您的工作负载提供“位置透明性”：工作负载可以以相同的方式调用本地和外部服务。如果您决定在某个时间在集群内部部署外部服务，您只需更新其 Kubernetes 服务以引用本地版本即可。工作负载将继续运行，而不会有任何变化。
 
-这部分内容表明这些访问外部服务的 Kubernetes 机制在 Istio 中依然有效。您只需要配置使用 TLS 模式即可，并不需要 Istio 的[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)。因为外部服务不是 Istio 服务网格的一部分，所以它们无法执行 Istio 的双向 TLS。您在配置TLS 模式时，一要按照外部服务的 TLS 模式的要求、二要遵从您的工作负载访问外部服务的方式。当您的工作负载发起的是 HTTP 请求但是外部服务需要 TLS，你可以通过 Istio 发起 TLS。当您的工作负载已经使用 TLS 来加密流量，您可以禁用 Istio 的双向 TLS。
+这部分内容表明这些访问外部服务的 Kubernetes 机制在 Istio 中依然有效。您只需要配置使用 TLS 模式即可，并不需要 Istio 的[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)。因为外部服务不是 Istio 服务网格的一部分，所以它们无法执行 Istio 的双向 TLS。您在配置 TLS 模式时，一要按照外部服务的 TLS 模式的要求、二要遵从您的工作负载访问外部服务的方式。当您的工作负载发起的是 HTTP 请求但是外部服务需要 TLS，你可以通过 Istio 发起 TLS。当您的工作负载已经使用 TLS 来加密流量，您可以禁用 Istio 的双向 TLS。
 
 虽然此部分的示例使用 HTTP 协议，但是用于引导出口流量的 Kubernetes 服务也可以与其他协议一起使用。
 

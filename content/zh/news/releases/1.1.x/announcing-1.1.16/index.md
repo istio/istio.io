@@ -16,7 +16,7 @@ aliases:
 
 ## 安全更新{#security-update}
 
-此版本包含了我们在[2019年10月8日](/zh/news/security/istio-security-2019-005)的新闻中所阐述的修复程序的安全漏洞。特别是：
+此版本包含了我们在 [2019 年 10 月 8 日](/zh/news/security/istio-security-2019-005)的新闻中所阐述的修复程序的安全漏洞。特别是：
 
 __ISTIO-SECURITY-2019-005__:  `Envoy` 社区发现了一个 `DoS` 漏洞。
   * __[CVE-2019-15226](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-15226)__: 经过调查，`Istio` 团队发现，如果攻击者使用大量非常小的 `header`，则可以利用此问题进行对 `Istio` 的 `DoS` 攻击。

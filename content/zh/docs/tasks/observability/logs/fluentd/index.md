@@ -354,4 +354,4 @@ $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
     $ killall kubectl
     {{< /text >}}
 
-* 如果您不打算继续探索后续任务，请参考 [Bookinfo 清除](/zh/docs/examples/bookinfo/#cleanup) 以关闭应用程序。
+* 如果您不打算继续探索后续任务，请参考 [Bookinfo 清除](/zh/docs/examples/bookinfo/#cleanup)以关闭应用程序。

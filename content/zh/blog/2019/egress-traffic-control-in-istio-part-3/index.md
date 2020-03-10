@@ -101,4 +101,4 @@ Istio 是我所知的唯一解决方案，它可以让你：
 以我之见，如果你在寻找你的第一个 Istio 应用场景，安全管控出口流量是一个非常好的选择。在这个场景中，Istio 甚至在你使用它所有其它功能之前就已经为你提供了一些优势：
 [流量管理](/zh/docs/tasks/traffic-management/)，[安全性](/zh/docs/tasks/security/)，[策略](/zh/docs/tasks/policy-enforcement/)和[可观测性](/zh/docs/tasks/observability/)，上面的功能都可以用在在集群内的微服务之间的流量上。
 
-所以，如果你还没有机会使用 Istio，那就在你集群上[安装 Istio](/zh/docs/setup/install/) 并且检查[出口流量管控任务](/zh/docs/tasks/traffic-management/egress/) 再执行其它 [Istio 特性](/zh/docs/tasks/)的任务。我们也想收到你的反馈，请在[discuss.istio.io](https://discuss.istio.io)加入我们。
+所以，如果你还没有机会使用 Istio，那就在你集群上[安装 Istio](/zh/docs/setup/install/) 并且检查[出口流量管控任务](/zh/docs/tasks/traffic-management/egress/)再执行其它 [Istio 特性](/zh/docs/tasks/)的任务。我们也想收到你的反馈，请在 [discuss.istio.io](https://discuss.istio.io) 加入我们。

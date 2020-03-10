@@ -132,7 +132,7 @@ target_release: 1.0
 
 为了演示使用外部数据库的场景，你首先使用安装了 [Istio](/zh/docs/setup/getting-started/) 的 Kubernetes 集群，然后部署 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)、[应用默认的 destination rule](/zh/docs/examples/bookinfo/#apply-default-destination-rules) 并[将 Istio 默认策略修改为禁止 Egress](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
 
-此应用程序使用 `ratings` 微服务来获取书籍评级，评分在1到5之间。评级显示为每个评论的星号，有几个版本的 `ratings` 微服务。有些人使用 [MongoDB](https://www.mongodb.com)，有些使用 [MySQL](https://www.mysql.com) 作为他们的数据库。
+此应用程序使用 `ratings` 微服务来获取书籍评级，评分在 1 到 5 之间。评级显示为每个评论的星号，有几个版本的 `ratings` 微服务。有些人使用 [MongoDB](https://www.mongodb.com)，有些使用 [MySQL](https://www.mysql.com) 作为他们的数据库。
 
 这篇博客例子里的命令是以 Istio 0.8 以上版本为基础的，无论启用或不启用[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)。
 
@@ -145,7 +145,7 @@ target_release: 1.0
 
 ### 将数据库用于 Bookinfo 应用程序中的评级数据{#use-the-database-for-ratings-data-in-Bookinfo-application}
 
-1. 修改使用 MySQL 数据库的 _ratings_ 服务版本的 `deployment spec`，以使用你的数据库实例。该 `spec` 位于 Istio 发行档案的[`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml)中。编辑以下几行：
+1. 修改使用 MySQL 数据库的 _ratings_ 服务版本的 `deployment spec`，以使用你的数据库实例。该 `spec` 位于 Istio 发行档案的 [`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml) 中。编辑以下几行：
 
     {{< text yaml >}}
     - name: MYSQL_DB_HOST
@@ -260,9 +260,9 @@ target_release: 1.0
 
 ## TCP 流量的服务入口{#service-entries-for-tcp-traffic}
 
-启用到特定端口的 TCP 流量的服务入口必须指定 `TCP` 作为端口的协议，此外，对于 [MongoDB Wire协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为 `MONGO`，而不是 `TCP`。
+启用到特定端口的 TCP 流量的服务入口必须指定 `TCP` 作为端口的协议，此外，对于 [MongoDB Wire 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为 `MONGO`，而不是 `TCP`。
 
-对于服务入口配置的 `addresses` 字段，必须使用 [CIDR](https://tools.ietf.org/html/rfc2317)表示法中的 IP 块。注意在 TCP 服务入口配置中，`host` 字段会被忽略。
+对于服务入口配置的 `addresses` 字段，必须使用 [CIDR](https://tools.ietf.org/html/rfc2317) 表示法中的 IP 块。注意在 TCP 服务入口配置中，`host` 字段会被忽略。
 
 要通过其主机名启用到外部服务的 TCP 流量，必须指定主机名的所有 IP，每个 IP 必须由 CIDR 块指定。
 

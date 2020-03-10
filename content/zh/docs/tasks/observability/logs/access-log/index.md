@@ -8,7 +8,7 @@ aliases:
     - /zh/docs/tasks/telemetry/logs/access-log/
 ---
 
-Istio 最简单的日志类型是[Envoy 的访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log)。Envoy 代理打印访问信息到标准输出。Envoy 容器的标准输出能够通过 `kubectl logs` 命令打印出来。
+Istio 最简单的日志类型是 [Envoy 的访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log)。Envoy 代理打印访问信息到标准输出。Envoy 容器的标准输出能够通过 `kubectl logs` 命令打印出来。
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -77,7 +77,7 @@ configmap "istio" replaced
     [2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
     {{< /text >}}
 
-请注意，与请求相对应的信息分别出现在源（`sleep`）和目标（`httpbin`）的 Istio 代理日志中。您可以在日志中看到 HTTP 动词(`GET`)、HTTP 路径(`/status/418`)、响应码(`418`)和其他[请求相关信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules)。
+请注意，与请求相对应的信息分别出现在源（`sleep`）和目标（`httpbin`）的 Istio 代理日志中。您可以在日志中看到 HTTP 动词(`GET`)、HTTP 路径(`/status/418`)、响应码(`418`) 和其他[请求相关信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules)。
 
 ## 清除{#cleanup}
 

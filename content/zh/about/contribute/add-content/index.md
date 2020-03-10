@@ -38,7 +38,7 @@ keywords: [contribute]
 
 要避免的最重要也是最常见的错误，是简单地向读者提供您拥有的所有信息，因为您不确定他们需要什么信息。
 
-如果您需要帮助特定内容的受众，我们很乐意在 [文档工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#istio-working-groups) 每两周一次的会议上帮助您并回答您的所有问题。
+如果您需要帮助特定内容的受众，我们很乐意在[文档工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#istio-working-groups)每两周一次的会议上帮助您并回答您的所有问题。
 
 ## 内容类型{#content-types}
 
@@ -87,7 +87,7 @@ keywords: [contribute]
       <td>
       着重于完成 Istio 部署所需的安装步骤。安装页面必须包括自动测试，因为它们已经过测试和维护以确保技术准确性。
       </td>
-      <td>想要完成部署的新旧Istio用户。</td>
+      <td>想要完成部署的新旧 Istio 用户。</td>
     </tr>
     <tr>
       <td>博客文章</td>
@@ -133,7 +133,7 @@ keywords: [contribute]
 
 ## 将您的贡献提交到 GitHub{#submit-your-contribution-to-GitHub}
 
-如果您不熟悉GitHub，请参阅 [使用 GitHub 参与社区活动](/zh/about/contribute/github)，以了解如何提交文档更改。
+如果您不熟悉 GitHub，请参阅[使用 GitHub 参与社区活动](/zh/about/contribute/github)，以了解如何提交文档更改。
 
-如果您想了解有关发表文稿的方式和时间的更多信息，请参阅 [分支策略](/zh/about/contribute/github#branching-strategy)，
+如果您想了解有关发表文稿的方式和时间的更多信息，请参阅[分支策略](/zh/about/contribute/github#branching-strategy)，
 以了解我们如何使用分支和 `cherry picking` 来发布我们的内容。

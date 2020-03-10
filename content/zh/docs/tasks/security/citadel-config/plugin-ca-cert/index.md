@@ -13,7 +13,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-* 按照 [快速启动](/zh/docs/setup/install/istioctl/) 中的说明安装 Istio：
+* 按照[快速启动](/zh/docs/setup/install/istioctl/)中的说明安装 Istio：
 
 ## 插入现有密钥和证书{#plugging-in-the-existing-certificate-and-key}
 
@@ -117,4 +117,4 @@ aliases:
     $ istioctl manifest apply --set values.global.mtls.enabled=true
     {{< /text >}}
 
-* 移除 Istio 组件：按照 [卸载说明](/zh/docs/setup/getting-started/#uninstall) 进行删除。
+* 移除 Istio 组件：按照[卸载说明](/zh/docs/setup/getting-started/#uninstall)进行删除。

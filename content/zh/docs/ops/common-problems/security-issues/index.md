@@ -504,7 +504,7 @@ Citadel 不支持多个实例运行，否则会造成竞争状态并导致系统
 在 Citadel 维护禁用期间，带有新 ServiceAccount 的负载不能够启动，因为它不能从 Citadel 获取生成的证书。
 {{< /warning >}}
 
-Citadel 不是关键的数据平面组件。默认的工作负载证书有效期是3个月。证书在过期前会被 Citadel 轮换。如果在 Citadel 短暂的维护期间内，已经存在的 双向 TLS 不会受影响。
+Citadel 不是关键的数据平面组件。默认的工作负载证书有效期是 3 个月。证书在过期前会被 Citadel 轮换。如果在 Citadel 短暂的维护期间内，已经存在的 双向 TLS 不会受影响。
 
 如果您怀疑 Citadel 无法正常工作，请验证 `istio-citadel` pod 的状态：
 

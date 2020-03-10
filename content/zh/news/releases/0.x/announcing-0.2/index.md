@@ -14,11 +14,11 @@ aliases:
     - /zh/news/announcing-0.2
 ---
 
-我在2017年5月24日发布了 Istio ，它是一个用于连接、管理、监控和保护微服务的开放平台。看着饱含浓厚兴趣的开发者、运营商、合作伙伴和不断发展的社区，我们感到十分的欣慰。我们 0.1 版本的重点是展示 Istio 在 Kubernetes 中的所有概念。
+我在 2017 年 5 月 24 日发布了 Istio ，它是一个用于连接、管理、监控和保护微服务的开放平台。看着饱含浓厚兴趣的开发者、运营商、合作伙伴和不断发展的社区，我们感到十分的欣慰。我们 0.1 版本的重点是展示 Istio 在 Kubernetes 中的所有概念。
 
 今天我们十分高兴地宣布推出 0.2 版本，它提高了稳定性和性能、允许在 Kubernetes 集群中广泛部署并自动注入 sidecar 、为 TCP 服务添加策略和身份验证、同时保证扩展网格收录那些部署在虚拟机中的服务。此外，Istio 可以利用 Consul/Nomad 或 Eureka 在 Kubernetes 外部运行。 除了核心功能，Istio 的扩展已经准备由第三方公司和开发人员编写。
 
-## 0.2版本的亮点{#highlights-for-the-0.2-release}
+## 0.2 版本的亮点{#highlights-for-the-0.2-release}
 
 ### 可用性改进{#usability-improvements}
 
@@ -28,7 +28,7 @@ aliases:
 
 - _自动注入 sidecar_: 通过利用 Kubernetes 1.7 提供的 alpha  [初始化程序](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) ，当您的集群启用了该程序时，envoy sidecar 就可以自动注入到应用的 deployment 里。  这使得你可以使用  `kubectl` 命令部署微服务， 这与您通常在没有 Istio 的情况下部署微服务的命令完全相同。
 
-- _扩展 Istio_ : 改进的 Mixer 设计，可以允许供应商编写 Mixer 适配器以实现对其自身系统的支持，例如应用管理或策略实施。该 [Mixer 适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) 可以轻松的帮你将 Istio 集成于你的解决方案。
+- _扩展 Istio_ : 改进的 Mixer 设计，可以允许供应商编写 Mixer 适配器以实现对其自身系统的支持，例如应用管理或策略实施。该 [Mixer 适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide)可以轻松的帮你将 Istio 集成于你的解决方案。
 
 - _使用您自己的 CA 证书_: 允许用户提供自己的密钥和证书给 Istio CA 和永久 CA 密钥/证书存储，允许在持久化存储中提供签名密钥/证书，以便于 CA 重启。
 
@@ -36,7 +36,7 @@ aliases:
 
 ### 跨环境支持{#cross-environment-support}
 
-- _网格扩展_:  Istio 网格现在可以在 Kubernetes 之外跨服务 ——  就像那些运行在虚拟机中的服务一样，他们同时享受诸如自动双向 TLS认证、流量管理、遥测和跨网格策略实施带来的好处。
+- _网格扩展_:  Istio 网格现在可以在 Kubernetes 之外跨服务 ——  就像那些运行在虚拟机中的服务一样，他们同时享受诸如自动双向 TLS 认证、流量管理、遥测和跨网格策略实施带来的好处。
 
 - _运行在 Kubernetes 外部_: 我们知道许多客户使用其他的服务注册中心和 orchestration 解决方案（如 Consul/Nomad 和 Eureka）， Istio Pilot 可以在 Kubernetes 外部单独运行，同时从这些系统中获取信息，并在虚拟机或容器中管理 Envoy fleet 。
 
@@ -46,7 +46,7 @@ aliases:
 
 想要了解如何参与并为 Istio 的未来做出贡献，请查看我们在 GitHub 的[社区](https://github.com/istio/community)项目，它将会向您介绍我们的工作组，邮件列表，各种社区会议，常规流程和指南。
 
-我们要感谢为我们测试新版本、提交错误报告、贡献代码、帮助其他成员以及通过参与无数次富有成效的讨论塑造 Istio 的出色社区，这让我们的项目自启动以来在GitHub上累积了3000颗星，并且在 Istio 邮件列表上有着数百名活跃的社区成员。
+我们要感谢为我们测试新版本、提交错误报告、贡献代码、帮助其他成员以及通过参与无数次富有成效的讨论塑造 Istio 的出色社区，这让我们的项目自启动以来在 GitHub 上累积了 3000 颗星，并且在 Istio 邮件列表上有着数百名活跃的社区成员。
 
 谢谢
 
@@ -63,9 +63,9 @@ Istio 可以管理其他非系统名称空间中的服务。
 - **Mesh 扩展**。 初步支持将非 Kubernetes 服务（以 VM 和/或 物理机的形式）添加到网格中。
 这是此功能的早期版本，存在一些限制（例如，要求在容器和 VM 之间建立扁平网络）。
 
-- **多环境的支持**。初步支持将Istio与其他服务注册表（包括 Consul 和 Eureka ）结合使用。
+- **多环境的支持**。初步支持将 Istio 与其他服务注册表（包括 Consul 和 Eureka ）结合使用。
 
-- **自动注入 Sidecar**。 使用 Kubernetes 中的  [Initializers](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) alpha 功能，可以在部署后将Istio边车自动注入到Pod中。
+- **自动注入 Sidecar**。 使用 Kubernetes 中的  [Initializers](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) alpha 功能，可以在部署后将 Istio 边车自动注入到 Pod 中。
 
 ### 性能及品质{#performance-and-quality}
 
@@ -101,7 +101,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 - **新的 Mixer API**。Envoy 用于与 Mixer 进行交互的 API 已进行了完全重新设计，以提高健壮性，灵活性，并支持丰富的代理端缓存和批处理以提高性能。
 
 - **新的 Mixer Adapter 模型**。新的适配器组合模型通过模板添加全新的适配器类，使扩展 Mixer 更容易。这种新模型将作为将来许多功能的基础构建块。
-请参阅 [适配器开发者指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide) 以了解如何编写适配器。
+请参阅[适配器开发者指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide)以了解如何编写适配器。
 
 - **改进 Mixer 构建模型**。现在，构建包含自定义适配器的 Mixer 二进制文件变得更加容易。
 
@@ -117,15 +117,15 @@ Istio 可以管理其他非系统名称空间中的服务。
 - **VM 和物理机的身份配置**。Auth 支持使用每节点代理进行身份配置的新机制。
 该代理在每个节点（VM /物理机）上运行，并负责生成和发送 CSR（证书签名请求）以从 Istio CA 获取证书。
 
-- **使用自己的CA证书**。允许用户向 Istio CA 提供自己的密钥和证书。
+- **使用自己的 CA 证书**。允许用户向 Istio CA 提供自己的密钥和证书。
 
 - **永久性 CA 密钥/证书存储**。Istio CA 现在将签名密钥/证书持久化存储，以方便 CA 重新启动。
 
 ## 已知问题{#known-issues}
 
-- **用户访问应用程序时可能会收到 404**：我们注意到，Envoy有时无法正确获取路由，因此将 404 返回给用户。
-我们正在对此 [问题](https://github.com/istio/istio/issues/1038) 进行积极的工作。
+- **用户访问应用程序时可能会收到 404**：我们注意到，Envoy 有时无法正确获取路由，因此将 404 返回给用户。
+我们正在对此[问题](https://github.com/istio/istio/issues/1038)进行积极的工作。
 
-- **在真正准备就绪之前，Istio Ingress 或 Egress 就报告了准备就绪**：您可以在 `istio-system` 名称空间中检查 `istio-ingress` 和 `istio-egress` pod 的状态，并在所有 Istio pod 报告就绪状态后等待几秒钟。我们正在对此 [问题](https://github.com/istio/istio/pull/1055) 进行积极的工作。
+- **在真正准备就绪之前，Istio Ingress 或 Egress 就报告了准备就绪**：您可以在 `istio-system` 名称空间中检查 `istio-ingress` 和 `istio-egress` pod 的状态，并在所有 Istio pod 报告就绪状态后等待几秒钟。我们正在对此[问题](https://github.com/istio/istio/pull/1055)进行积极的工作。
 
 - **启用了 Istio Auth 的服务无法与一个非 Istio 服务通信**：此限制将在不久的将来消除。

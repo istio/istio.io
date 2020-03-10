@@ -14,7 +14,7 @@ Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置�
 如果您想尝试以下的命令，需要：
 
 * 有一个安装了 Istio 和 Bookinfo 应用的 Kubernetes 集群（正如在
-[安装步骤](/zh/docs/setup/getting-started/) 和
+[安装步骤](/zh/docs/setup/getting-started/)和
 [Bookinfo 安装步骤](/zh/docs/examples/bookinfo/#deploying-the-application)所描述的那样）。
 
 或者

@@ -9,14 +9,14 @@ keywords: [policies,routing]
 
 ## 开始之前{#before-you-begin}
 
-* 遵循 [安装指南](/zh/docs/setup/) 中的说明在 Kubernetes 集群上安装 Istio 。
+* 遵循[安装指南](/zh/docs/setup/)中的说明在 Kubernetes 集群上安装 Istio 。
 
     {{< warning >}}
-    **必须** 在你的集群上启用策略检查。请按照 [启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
+    **必须** 在你的集群上启用策略检查。请按照[启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
     中的步骤操作，以确保启用了策略检查 。
     {{< /warning >}}
 
-* 按照 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中的设置说明，使用 Gateway 配置 ingress。
+* 按照 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/)中的设置说明，使用 Gateway 配置 ingress。
 
 * 为 `httpbin` 服务定义一个包含两条路由规则的 [virtual service](/zh/docs/reference/config/networking/virtual-service/)，以接收来自路径 `/headers` 和 `/status` 的请求：
 
@@ -199,4 +199,4 @@ $ kubectl delete service keyval -n istio-system
 $ kubectl delete deployment keyval -n istio-system
 {{< /text >}}
 
-完成 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/) 中的清理说明。
+完成 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/)中的清理说明。

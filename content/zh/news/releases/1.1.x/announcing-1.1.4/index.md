@@ -43,7 +43,7 @@ aliases:
 - 添加了缺少的验证，以防止网关名称包含点（.） ([Issue 13211](https://github.com/istio/istio/issues/13211))。
 
 - 修复了 [`ConsistentHashLB.minimumRingSize`](/zh/docs/reference/config/networking/destination-rule#LoadBalancerSettings-ConsistentHashLB)
-默认为0而不是记录的1024 ([Issue 13261](https://github.com/istio/istio/issues/13261))。
+默认为 0 而不是记录的 1024 ([Issue 13261](https://github.com/istio/istio/issues/13261))。
 
 ## 小改进 {#small-enhancements}
 
