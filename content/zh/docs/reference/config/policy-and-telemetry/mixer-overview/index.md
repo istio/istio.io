@@ -45,7 +45,7 @@ Mixer 处理不同基础架构后端的灵活性来自其通用插件模型。
     caption="Mixer and its Adapters"
     >}}
 
-了解有关[适配器支持](/zh/docs/reference/config/policy-and-telemetry/adapters/) 的更多信息。
+了解有关[适配器支持](/zh/docs/reference/config/policy-and-telemetry/adapters/)的更多信息。
 
 ## 属性{#attributes}
 
@@ -72,11 +72,11 @@ Mixer 本质上是一种属性处理器。Envoy sidecar 为每个请求调用 Mi
 
 给定的 Istio deployment 具有它了解的固定属性词汇表。该特定词汇表由 deployment 中使用的一组属性生成器确定。尽管专用的 Mixer 适配器也可以生成属性，但 Istio 中主要的属性生成器是 Envoy。
 
-了解有关 [Istio 中大多数部署可用的通用基准属性集](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) 的更多信息。
+了解有关 [Istio 中大多数部署可用的通用基准属性集](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)的更多信息。
 
 ### 属性表达式{#attribute-expressions}
 
-当配置[实例](#instances) 时需要使用使用属性表达式。
+当配置[实例](#instances)时需要使用使用属性表达式。
 这是一个使用表达式的示例：
 
 {{< text yaml >}}
@@ -95,7 +95,7 @@ destination_version: destination.labels["version"] | "unknown"
 
 通过上述操作，`destination_version` 标签被分配的值为 `destination.labels["version"]`。 但是，如果属性不存在，将使用 `"unknown"` 值。
 
-有关更多信息，请参阅[属性表达式](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 页面。
+有关更多信息，请参阅[属性表达式](/zh/docs/reference/config/policy-and-telemetry/expression-language/)页面。
 
 ## 配置模型{#configuration-model}
 
@@ -121,7 +121,7 @@ Rules 由 *match* 表达式和 *actions* 组成。该匹配表达式控制何时
 ### Handlers{#handlers}
 
 适配器封装了 Mixer 与特定的外部基础结构后端例如 [Prometheus](https://prometheus.io) 或 [Stackdriver](https://cloud.google.com/logging) 交互所需的逻辑。
-_handler_ 是负责保存适配器所需的配置状态的资源。例如，一个日志适配器可能需要日志收集后端的IP地址和端口。
+_handler_ 是负责保存适配器所需的配置状态的资源。例如，一个日志适配器可能需要日志收集后端的 IP 地址和端口。
 
 这是一个示例，显示了如何为适配器创建 handler。`listchecker` 适配器对照列表检查输入值。
 如果将适配器配置为白名单，则在列表中找到输入值时，它将返回成功。
@@ -173,7 +173,7 @@ spec:
           bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 {{< /text >}}
 
-每个适配器定义自己的特定格式的配置数据。了解更多有关[全部适配器及其特定的配置格式](/zh/docs/reference/config/policy-and-telemetry/adapters/) 的信息。
+每个适配器定义自己的特定格式的配置数据。了解更多有关[全部适配器及其特定的配置格式](/zh/docs/reference/config/policy-and-telemetry/adapters/)的信息。
 
 ### Instances{#instances}
 
@@ -198,7 +198,7 @@ spec:
 {{< /text >}}
 
 请注意，需要在映射中指定了处理程序配置中期望的所有情况。
-模板定义了各个实例的特定必需内容。了解更多关于[模板及其特定的配置格式](/zh/docs/reference/config/policy-and-telemetry/templates/) 的信息。
+模板定义了各个实例的特定必需内容。了解更多关于[模板及其特定的配置格式](/zh/docs/reference/config/policy-and-telemetry/templates/)的信息。
 
 ### Rules{#rules}
 

@@ -140,7 +140,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 Istio 提供两种类型的身份验证：
 
 - **传输身份验证**，也称为**服务间身份验证**：验证建立连接的直接客户端。
-  Istio 提供 [双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
+  Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输身份验证的完整堆栈解决方案。
   您可以轻松打开此功能，而无需更改服务代码。这个解决方案：
 
     - 为每个服务提供强大的身份，表示其角色，以实现跨群集和云的互操作性。
@@ -185,7 +185,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 您可以使用身份认证策略为在 Istio 网格中接收请求的服务指定身份验证要求。网格操作者使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。Pilot、Istio 控制器监视配置存储。一有任何的策略变更，Pilot 会将新策略转换为适当的配置，告知 Envoy sidecar 代理如何执行所需的身份验证机制。Pilot 可以获取公钥并将其附加到 JWT 验证配置。或者，Pilot 提供 Istio 系统管理的密钥和证书的路径，并将它们挂载到应用程序 pod 以进行双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#PKI)中找到更多信息。Istio 异步发送配置到目标端点。代理收到配置后，新的身份验证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于源身份验证（JWT），应用程序负责获取 JWT 凭据并将其附加到请求。对于双向 TLS，Istio 提供[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。运维人员可以使用目标规则来指示客户端代理使用 TLS 与服务器端预期的证书进行初始连接。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)中找到有关双向 TLS 如何在 Istio 中工作的更多信息。
 
 {{< image width="60%" link="./auth.svg" caption="认证架构" >}}
 
@@ -493,8 +493,8 @@ spec:
 #### 自定义条件{#custom-conditions}
 
 您还可以使用 `when` 部分指定其他条件。
-例如，下面的 `AuthorizationPolicy` 定义包括以下条件：`request.headers[version]` 是 `v1` 或 `v2`。
-在这种情况下，key 是 `request.headers[version]`，它是 Istio 属性 `request.headers`（是个字典）中的一项。
+例如，下面的 `AuthorizationPolicy` 定义包括以下条件：`request.headers [version]` 是 `v1` 或 `v2`。
+在这种情况下，key 是 `request.headers [version]`，它是 Istio 属性 `request.headers`（是个字典）中的一项。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1

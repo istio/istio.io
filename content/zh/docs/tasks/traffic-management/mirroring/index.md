@@ -230,7 +230,7 @@ keywords: [traffic-management,mirroring]
 
     这个路由规则发送 100% 流量到 `v1`。最后一段表示你将镜像流量到 `httpbin:v2` 服务。当流量被镜像时，请求将发送到镜像服务中，并在 `headers` 中的 `Host/Authority` 属性值上追加 `-shadow`。例如 `cluster-1` 变为 `cluster-1-shadow`。
 
-    此外，重点注意这些被镜像的流量是『即发即弃』的，就是说镜像请求的响应会被丢弃。
+    此外，重点注意这些被镜像的流量是『 即发即弃』 的，就是说镜像请求的响应会被丢弃。
 
     您可以使用 `mirror_percent` 属性来设置镜像流量的百分比，而不是镜像全部请求。为了兼容老版本，如果这个属性不存在，将镜像所有流量。
 1. 发送流量：
@@ -362,7 +362,7 @@ keywords: [traffic-management,mirroring]
     ..t...|.
     {{< /text >}}
 
-    您可以看到流量​​的请求和响应内容。
+    您可以看到流量​​ 的请求和响应内容。
 
 ## 清理{#cleaning-up}
 

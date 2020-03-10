@@ -14,7 +14,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-在自身集群中 [安装 Istio](/zh/docs/setup/) 并部署一个应用。
+在自身集群中[安装 Istio](/zh/docs/setup/) 并部署一个应用。
 
 ## 查询 Istio 度量指标{#query-mesh-metrics}
 

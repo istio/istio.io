@@ -13,4 +13,4 @@ Istio 允许您为应用程序自定义策略，用以在运行时强制执行�
 
 Istio 还允许您创建自己的[策略适配器](/zh/docs/tasks/policy-enforcement/control-headers)，比如，您自定义的授权行为。
 
-您必须为您的服务网格[启用策略实施](/zh/docs/tasks/policy-enforcement/enabling-policy) 以后才能使用此功能。
+您必须为您的服务网格[启用策略实施](/zh/docs/tasks/policy-enforcement/enabling-policy)以后才能使用此功能。

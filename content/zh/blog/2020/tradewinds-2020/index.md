@@ -33,7 +33,7 @@ Istio 的[认证](/zh/docs/concepts/security/#authentication-policies)和[授权
 
 通过 `preview` 配置文件安装 Istio 1.5 不会再安装 Mixer。安全起见，如果您是从以前的版本升级，或通过 `default` 配置文件安装，我们仍会保留 Mixer。当使用 Prometheus  或 Stackdriver 进行度量时，建议您尝试新模式并查看性能提高了多少。
 
-如果有需要，您可以保持安装并启用 Mixer。最终，Mixer 将成为 Istio 单独的发行组件，成为 [istio-ecosystem](https://github.com/istio-ecosystem/)的一部分。
+如果有需要，您可以保持安装并启用 Mixer。最终，Mixer 将成为 Istio 单独的发行组件，成为 [istio-ecosystem](https://github.com/istio-ecosystem/) 的一部分。
 
 ## 减少移动部分{#fewer-moving-parts}
 
@@ -58,7 +58,7 @@ Istio 的[认证](/zh/docs/concepts/security/#authentication-policies)和[授权
     caption="Istio 2020 年的架构"
     >}}
 
-2020年，我们将继续专注于普及，实现默认 `零配置` 的目标，该默认设置不需要您更改应用程序的任何配置即可使用 Istio 的大多数功能。
+2020 年，我们将继续专注于普及，实现默认 `零配置` 的目标，该默认设置不需要您更改应用程序的任何配置即可使用 Istio 的大多数功能。
 
 ## 改进生命周期管理{#improved-lifecycle-management}
 

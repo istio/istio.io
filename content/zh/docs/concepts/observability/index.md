@@ -18,7 +18,7 @@ Istio 生成以下类型的遥测数据，以提供对整个服务网格的可�
 
 - [**指标**](#metrics)。Istio 基于 4 个监控的黄金标识（延迟、流量、错误、饱和）生成了一系列服务指标。Istio 还为[网格控制平面](/zh/docs/ops/deployment/architecture/)提供了更详细的指标。除此以外还提供了一组默认的基于这些指标的网格监控仪表板。
 - [**分布式追踪**](#distributed-traces)。Istio 为每个服务生成分布式追踪 span，运维人员可以理解网格内服务的依赖和调用流程。
-- [**访问日志**](#access-logs)。当流量流入网格中的服务时，Istio 可以生成每个请求的完整记录，包括源和目标的元数据。此信息使运维人员能够将服务行为的审查控制到单个[工作负载实例](/zh/docs/reference/glossary/#workload-instance) 的级别。
+- [**访问日志**](#access-logs)。当流量流入网格中的服务时，Istio 可以生成每个请求的完整记录，包括源和目标的元数据。此信息使运维人员能够将服务行为的审查控制到单个[工作负载实例](/zh/docs/reference/glossary/#workload-instance)的级别。
 
 ## 指标 {#metrics}
 

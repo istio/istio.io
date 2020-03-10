@@ -128,4 +128,4 @@ Mixer instances 通过 `instance_name` 参数与 Prometheus 指标匹配。
     $ killall kubectl
     {{< /text >}}
 
-*   如果您不打算继续浏览后续的任务，请参考 [Bookinfo 清除](/zh/docs/examples/bookinfo/#cleanup) 说明以关闭该应用。
+*   如果您不打算继续浏览后续的任务，请参考 [Bookinfo 清除](/zh/docs/examples/bookinfo/#cleanup)说明以关闭该应用。

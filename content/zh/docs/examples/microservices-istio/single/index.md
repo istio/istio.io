@@ -28,7 +28,7 @@ weight: 10
 
 请按照下列步骤下载应用程序的代码，安装其依赖项，然后在本地运行它：
 
-1. 将 [服务代码]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js) 和
+1. 将[服务代码]({{<github_blob >}}/samples/bookinfo/src/ratings/ratings.js) 和
     [其 package 文件]({{< github_blob >}}/samples/bookinfo/src/ratings/package.json)
     下载到一个单独的目录中：
 

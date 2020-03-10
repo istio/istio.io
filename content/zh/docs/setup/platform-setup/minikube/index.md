@@ -15,7 +15,7 @@ keywords: [platform-setup,kubernetes,minikube]
 
 - 运行 minikube 需要管理员权限。
 
-- 如果要启用 [秘钥发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)（SDS），需要为 Kubernetes deployment 添加[额外的配置](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)。
+- 如果要启用[秘钥发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)（SDS），需要为 Kubernetes deployment 添加[额外的配置](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)。
 访问 [`api-server` 参考文档](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/)查看最新的可选参数。
 
 ## 安装步骤{#installation-steps}

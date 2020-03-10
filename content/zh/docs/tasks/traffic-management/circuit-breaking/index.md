@@ -14,7 +14,7 @@ keywords: [traffic-management,circuit-breaking]
 
 ## 开始之前{#before-you-begin}
 
-* 跟随 [安装指南](/zh/docs/setup/) 安装 Istio。
+* 跟随[安装指南](/zh/docs/setup/)安装 Istio。
 
 {{< boilerplate start-httpbin-service >}}
 
@@ -22,11 +22,11 @@ keywords: [traffic-management,circuit-breaking]
 
 ## 配置熔断器{#configuring-the-circuit-breaker}
 
-1. 创建一个 [目标规则](/zh/docs/reference/config/networking/destination-rule/)，在调用 `httpbin`
+1. 创建一个[目标规则](/zh/docs/reference/config/networking/destination-rule/)，在调用 `httpbin`
 服务时应用熔断设置：
 
     {{< warning >}}
-    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule` 。否则请求将产生 503 错误，如 [这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule) 所述。
+    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule` 。否则请求将产生 503 错误，如[这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule)所述。
     {{< /warning >}}
 
     {{< text bash >}}

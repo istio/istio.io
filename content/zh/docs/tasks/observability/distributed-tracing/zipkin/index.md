@@ -12,11 +12,11 @@ aliases:
 
 本任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为示例应用程序。
 
-要了解 Istio 如何处理追踪，请访问此任务的 [概述](../overview/)。
+要了解 Istio 如何处理追踪，请访问此任务的[概述](../overview/)。
 
 ## 开始之前{#before-you-begin}
 
-1.  参考 [安装指南](/zh/docs/setup/install/istioctl) 中的说明，
+1.  参考[安装指南](/zh/docs/setup/install/istioctl)中的说明，
     使用如下配置安装 Istio：
 
     a) 通过配置 `--set values.tracing.enabled=true` 和 `--set values.tracing.provider=zipkin` 选项可以安装一个“开箱即用”的演示或测试环境。
@@ -32,7 +32,7 @@ aliases:
 
 ## 访问仪表盘{#accessing-the-dashboard}
 
-[远程访问遥测组件](/zh/docs/tasks/observability/gateways) 详细描述了如何通过配置网关以访问 Istio 组件。或者，如果要使用 Kubernetes ingress, 请在安装时配置 `--set values.tracing.ingress.enabled=true` 选项。
+[远程访问遥测组件](/zh/docs/tasks/observability/gateways)详细描述了如何通过配置网关以访问 Istio 组件。或者，如果要使用 Kubernetes ingress, 请在安装时配置 `--set values.tracing.ingress.enabled=true` 选项。
 
 对于测试（和临时访问），您也可以使用端口转发。假设已将 Zipkin 部署到 `istio-system` 命名空间，请使用以下方法：
 
@@ -69,6 +69,6 @@ $ istioctl dashboard zipkin
     {{< /text >}}
 
 1.  如果您不打算继续深入探索任何后续任务，请
-    参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 说明
+    参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明
     关闭应用程序。
 

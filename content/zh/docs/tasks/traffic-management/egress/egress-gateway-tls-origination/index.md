@@ -19,7 +19,7 @@ aliases:
 
 *   启动 [sleep]({{< github_tree >}}/samples/sleep) 样本应用，作为外部请求的测试源。
 
-    若已开启 [自动 sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，执行
+    若已开启[自动 sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，执行
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -46,7 +46,7 @@ aliases:
 
 ## 通过 egress 网关发起 TLS 连接{#perform-TLS-origination-with-an-egress-gateway}
 
-本节描述如何使用 egress 网关发起与示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 中一样的 TLS。
+本节描述如何使用 egress 网关发起与示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中一样的 TLS。
 注意，这种情况下，TLS 的发起过程由 egress 网关完成，而不是像之前示例演示的那样由 sidecar 完成。
 
 1.  为 `edition.cnn.com` 定义一个 `ServiceEntry`：
@@ -240,7 +240,7 @@ aliases:
     ...
     {{< /text >}}
 
-    输出将与在示例 [为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 中显示的一样，发起 TLS 连接后，不再显示 _301 Moved Permanently_ 消息。
+    输出将与在示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中显示的一样，发起 TLS 连接后，不再显示 _301 Moved Permanently_ 消息。
 
 1.  检查 `istio-egressgateway` pod 的日志，将看到一行与请求相关的记录。
     若 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
@@ -319,7 +319,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 为了模拟一个真实的支持双向 TLS 协议的外部服务，
 在 Kubernetes 集群中部署一个 [NGINX](https://www.nginx.com) 服务器，该服务器运行在 Istio 服务网格之外，譬如：运行在一个没有开启 Istio sidecar proxy 注入的命名空间中。
 
-1.  创建一个命名空间，表示 Istio 网格之外的服务， `mesh-external`。注意在这个命名空间中，sidecar 自动注入是没有[开启](/zh/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) 的，不会在 pods 中自动注入 sidecar proxy。
+1.  创建一个命名空间，表示 Istio 网格之外的服务， `mesh-external`。注意在这个命名空间中，sidecar 自动注入是没有[开启](/zh/docs/setup/additional-setup/sidecar-injection/#deploying-an-app)的，不会在 pods 中自动注入 sidecar proxy。
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external

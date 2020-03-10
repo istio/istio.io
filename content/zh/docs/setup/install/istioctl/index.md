@@ -6,12 +6,12 @@ keywords: [istioctl, kubernetes]
 ---
 
 请按照本指南安装和配置 Istio 网格，以进行深入评估或用于生产。
-如果您刚接触 Istio 或者只是要简单试用，请参考 [开始](/zh/docs/setup/getting-started) 文档进行操作。
+如果您刚接触 Istio 或者只是要简单试用，请参考[开始](/zh/docs/setup/getting-started)文档进行操作。
 
 本指南使用可以高度自定义 Istio 控制平面和数据平面的 [`istioctl`](/zh/docs/reference/commands/istioctl/) 命令行工具。
 该命令行工具具有用户输入校验功能，可以防止错误的安装和自定义选项。
 
-使用这些命令说明，您可以选择 Istio 的任何内置 [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 然后
+使用这些命令说明，您可以选择 Istio 的任何内置[配置文件](/zh/docs/setup/additional-setup/config-profiles/)然后
 根据您的特定需求进一步自定义配置。
 
 ## 前提条件{#prerequisites}
@@ -19,12 +19,12 @@ keywords: [istioctl, kubernetes]
 开始之前，请检查以下前提条件：
 
 1. [下载 Istio 发行版本](/zh/docs/setup/getting-started/#download)。
-1. 执行任何必要的 [特定于平台的设置](/zh/docs/setup/platform-setup/)。
+1. 执行任何必要的[特定于平台的设置](/zh/docs/setup/platform-setup/)。
 1. 检查 [Pods 和 Services 的要求](/zh/docs/ops/deployment/requirements/)。
 
 ## 使用默认配置文件安装 Istio{#install-Istio-using-the-default-profile}
 
-最简单的选择是安装 `default` Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 使用以下命令：
+最简单的选择是安装 `default` Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/)使用以下命令：
 
 {{< text bash >}}
 $ istioctl manifest apply
@@ -226,7 +226,7 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 ## 定制配置{#customizing-the-configuration}
 
-除了安装 Istio 的任何内置组件 [配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
+除了安装 Istio 的任何内置组件[配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
 `istioctl manifest` 提供了用于自定义配置的完整 API。
 
 - [The `IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)
@@ -369,7 +369,7 @@ spec:
 1. [Strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 1. [Env](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
 
-所有这些 Kubernetes 设置都使用 Kubernetes API 定义，因此 [Kubernetes文档](https://kubernetes.io/docs/concepts/) 可以用作参考。
+所有这些 Kubernetes 设置都使用 Kubernetes API 定义，因此 [Kubernetes 文档](https://kubernetes.io/docs/concepts/)可以用作参考。
 
 以下示例覆盖文件调整了 Pilot 的 resource 和 pod 水平自动伸缩的设置：
 

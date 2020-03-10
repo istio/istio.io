@@ -69,7 +69,7 @@ Istio 使用了如下的端口和协议。请确保没有 TCP Headless Service �
 
 ## 所需的 Pod 功能{#required-pod-capabilities}
 
-如果集群中的 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) 被[强制执行](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)，并且除非您使用 Istio CNI 插件，否则您的 Pod 必须具有允许的 `NET_ADMIN` 功能。Envoy 代理的初始化容器需要此功能。
+如果集群中的 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)被[强制执行](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)，并且除非您使用 Istio CNI 插件，否则您的 Pod 必须具有允许的 `NET_ADMIN` 功能。Envoy 代理的初始化容器需要此功能。
 
 要检查您的 Pod 是否支持 `NET_ADMIN` 功能，您需要检查其 [service account(服务账户)](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 是否可以使用允许 `NET_ADMIN` 功能的 Pod 安全策略。如果尚未在 Pod 的部署中指定服务帐户，则 Pod 将在其部署的命名空间中使用 `默认` 服务帐户运行。
 

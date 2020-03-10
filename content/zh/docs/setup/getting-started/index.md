@@ -9,7 +9,7 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-本指南面向 Istio 的新用户，让您通过安装 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/) 快速评估 Istio。
+本指南面向 Istio 的新用户，让您通过安装 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)快速评估 Istio。
 
 如果您已经熟悉 Istio 或对安装其他配置文件或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，
 请遵循[使用 {{< istioctl >}} 的安装说明文档](/zh/docs/setup/install/istioctl)。
@@ -32,7 +32,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
 - 通过选择合适的 [platform-specific setup instructions](/zh/docs/setup/platform-setup/) 来创建一个集群。
 
-有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装Istio。 如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
+有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装 Istio。 如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
 
 ## 下载 Istio {#download}
 
@@ -128,7 +128,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议用于 HTTP 通信；HTTP/1.0 不支持。
 {{< /warning >}}
 
-当使用 `kubectl apply` 来部署应用时，如果 pod 启动在标有 `istio-injection=enabled` 的命名空间中，那么，[Istio sidecar 注入器](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) 将自动注入 Envoy 容器到应用的 pod 中：
+当使用 `kubectl apply` 来部署应用时，如果 pod 启动在标有 `istio-injection=enabled` 的命名空间中，那么，[Istio sidecar 注入器](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)将自动注入 Envoy 容器到应用的 pod 中：
 
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
@@ -142,7 +142,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
 如果您不确定要从哪开始，可以先[部署 Bookinfo 示例](/zh/docs/examples/bookinfo/)，它会让您体验到 Istio 的流量路由、故障注入、速率限制等功能。
-然后您可以根据您的兴趣浏览各种各样的[Istio 任务](/zh/docs/tasks/)。
+然后您可以根据您的兴趣浏览各种各样的 [Istio 任务](/zh/docs/tasks/)。
 
 下列任务都是初学者开始学习的好入口：
 
@@ -164,7 +164,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 - [Pod 需求](/zh/docs/ops/deployment/requirements/)
 - [常规安装说明](/zh/docs/setup/)
 
-使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/)。
+使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的[社区](/zh/about/community/join/)。
 
 ## 卸载 {#uninstall}
 

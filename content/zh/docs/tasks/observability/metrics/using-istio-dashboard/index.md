@@ -14,7 +14,7 @@ aliases:
 
 ## 在开始之前{#before-you-begin}
 
-* 在集群中[安装 Istio](/zh/docs/setup)。如果在您选择的配置文件中未启用 Grafana 附加组件，您可以通过 `--set values.grafana.enabled=true` [选项](/zh/docs/reference/config/installation-options/) 启用。
+* 在集群中[安装 Istio](/zh/docs/setup)。如果在您选择的配置文件中未启用 Grafana 附加组件，您可以通过 `--set values.grafana.enabled=true` [选项](/zh/docs/reference/config/installation-options/)启用。
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用。
 
 ## 查看 Istio Dashboard{#viewing-the-Istio-dashboard}
@@ -118,4 +118,4 @@ Istio Dashboard 包括三个主要部分：
     $ killall kubectl
     {{< /text >}}
 
-* 如果不打算探索任何后续任务，请参阅 [清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup) 的说明来关闭应用。
+* 如果不打算探索任何后续任务，请参阅[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup) 的说明来关闭应用。

@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.3.6
 ---
 
-此版本包含了 [我们在 2019 年 12 月 10 日新闻](/zh/news/security/istio-security-2019-007) 中描述的安全漏洞的修复程序。此发行说明描述了 Istio 1.3.5 和 Istio 1.3.6 之间的区别。
+此版本包含了[我们在 2019 年 12 月 10 日新闻](/zh/news/security/istio-security-2019-007)中描述的安全漏洞的修复程序。此发行说明描述了 Istio 1.3.5 和 Istio 1.3.6 之间的区别。
 
 {{< relnote >}}
 
