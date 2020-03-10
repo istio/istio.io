@@ -1,0 +1,51 @@
+---
+title: Extended and Improved WebAssemblyHub to Bring the Power of WebASsembly to Envoy and Istio
+subtitle: A hub to build, publish, share and deploy WebAssembly Envoy repos.
+publishdate: 2020-03-12
+attribution: "Idit Levine (Solo.io)"
+keywords: [wasm,extensibility,alpha,performance,operator]
+---
+As users look to adopt Envoy-based infrastructure to help them solve challenges with microservices communication, they inevitably find themselves needing to customize some part of that infrastructure to fit within their organization’s constraints. [WebAssembly (Wasm)](https://webassembly.org/) has emerged as a safe, secure, and dynamic environment for platform extension.
+
+Last week's [announcement of Istio 1.5](https://istio.io/blog/2020/wasm-announce/), lays the foundation for  bringing WebAssembly to the popular Envoy proxy. At [Solo.io](https://solo.io), we have teamed up with Google and the Istio community to simplify the overall experience of creating, sharing, and deploying WebAssembly extensions to Envoy and Istio. We all remember how not-so-long-ago Google and others laid the foundation for containers, and Docker built a great user experience to make it consumable. Similarly, we are making Wasm consumable by building the best user experience for WebAssembly on Envoy.
+
+According to Sean Suchter, Director of Engineering for Istio and Anthos Service Mesh, “Powerful tooling is nothing without a great developer experience. This is one of the many reasons Google and the Istio community are so excited to collaborate with the team behind Solo.io, which created WebAssembly Hub, on this important project to deliver enhanced extensibility to Istio. “
+
+We began our efforts to provide a great developer experience for WebAssembly with Envoy back in December 2019 when we announced WebAssembly Hub. We created a workflow that allows developers to very quickly spin up a new WebAssembly project in C++ (we’re expanding this language choice, see below), build it using Bazel in Docker, and push it to an OCI-compliant registry. From there, operators had to  pull the module, and configure Envoy proxies themselves to load it from disk. We added beta support in Gloo, our API Gateway built on Envoy, to declaratively and dynamically load the module, but we wanted to bring the same effortless and secure  experience to other Envoy-based frameworks as well. 
+
+We’ve had a lot of interest in our innovation in this area, and we’ve been working hard to further the capabilities of WebAssembly Hub and the workflows it supports. Today we are thrilled to announce new enhancements to WebAssembly Hub that evolve the viability of WebAssembly+Envoy for production, improve the developer experience, and streamline using Wasm with Envoy in Istio. 
+
+## Evolving toward production
+The Envoy community is working hard to bring Wasm support into the upstream project (right now it lives on a working development fork), with Istio declaring Wasm support an Alpha feature. In [Gloo 1.0 we also announced](https://www.solo.io/blog/announcing-gloo-1-0-a-production-ready-envoy-based-api-gateway/) early, non-production support for Wasm. 
+
+Although it’s still maturing in each individual project, there are things we can do right now to improve the foundation for production support. 
+
+The first area we are targeting is standardizing what a WebAssembly extension for Envoy looks like. Together with Google and the Istio community, we’ve defined an open specification for bundling and distributing WebAssembly modules as OCI images. This specification provides a powerful model for distributing any type of Wasm module including Envoy extensions. 
+
+You can join the effort here: https://github.com/solo-io/wasm-image-spec
+
+We’re also improving the experience of deploying Wasm extensions into an Envoy-based framework running in production. In the Kubernetes ecosystem, it is considered best practice in production to use declarative CRD-based configuration to manage cluster configuration. The new [WebAssembly Hub Operator](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/) adds a single, declarative CRD which automatically deploys and configures Wasm filters to Envoy proxies running inside of a Kubernetes cluster. This operator enables GitOps workflows and cluster automation to manage Wasm filters without human intervention or imperative workflows.
+
+Lastly, the interactions between developers of Wasm extensions and the teams that deploy them need some kind of role-based access, organization management, and facilities to share, discover, and consume these extensions. The WebAssembly Hub adds team management features like permissions, organizations, user management, sharing and more. 
+
+## Improve developer experience
+As developers want to target more languages and runtimes, we want to keep the experience for them as simple and as productive as possible. Multi-language support and runtime ABI (Application Binary Interface) targets should be handled automatically in tooling. 
+
+One of the benefits of Wasm is the ability to write modules in many languages. We teamed up with Google to provide out-of-the-box support for Envoy filters written in C++, Rust and AssemblyScript. We will continue to add support for more languages in the near future.
+
+Wasm extensions utilize an Application Binary Interface (ABI) within the Envoy proxy to which they are deployed. The WebAssembly Hub provides strong ABI versioning guarantees between Envoy/Istio/Gloo to prevent unpredictable behavior and bugs. All you have to worry about is writing your extension code.
+
+Lastly, like Docker, the WebAssembly Hub stores and distributes Wasm extensions as OCI images. This makes pushing, pulling, and running extensions as easy as Docker containers. Wasm extension images are versioned and cryptographically secure, making it safe to run extensions locally the same way you would in production. This allows users to easily build and push as well as trust the source when they pull down and deploy images.
+
+## WebAssembly Hub with Istio
+
+The WebAssembly Hub now fully automates the process of deploying Wasm extensions to Istio, (as well as other Envoy-based frameworks like [Gloo API Gateway](https://https://docs.solo.io/gloo/latest/)) installed in Kubernetes. With this deployment feature, the WebAssembly Hub now relieves the operator or user from having to manually configure the Envoy proxy in their Istio service mesh  to use their WebAssembly modules.
+
+
+Take a look at the following video to see just how easy it is to get started with WebAssembly and Istio:
+
+* Part 1: https://www.youtube.com/watch?v=-XPTGXEpUp8
+* Part 2: https://youtu.be/vuJKRnjh1b8
+
+## Start extending Envoy today!
+We hope that the WebAssembly Hub will become a meeting place for the community to share, discover and distribute Wasm extensions. By providing a great user experience, we hope to make developing, installing and running Wasm easier and more rewarding. We invite you to join us at the [WebAssembly Hub](https://webassemblyhub.io), share your extensions and [ideas](https://https://slack.solo.io), and join an [upcoming webinar](https://solo.zoom.us/webinar/register/WN_i8MiDTIpRxqX-BjnXbj9Xw). 
