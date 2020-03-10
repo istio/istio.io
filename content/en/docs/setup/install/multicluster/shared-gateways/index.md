@@ -178,7 +178,7 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
       --set values.global.mtls.enabled=true \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
       --set values.global.network="network2" \
-      --set values.global.multiCluster.clusterName=${CLUSTER_NAME}  
+      --set values.global.multiCluster.clusterName=${CLUSTER_NAME}
     {{< /text >}}
 
     Wait for the Istio pods on `cluster2`, except for `istio-ingressgateway`, to become ready:
