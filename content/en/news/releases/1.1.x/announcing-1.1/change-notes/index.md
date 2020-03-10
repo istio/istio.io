@@ -37,8 +37,8 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Improved Multicluster Integration**. Consolidated the 1.0 `istio-remote`
   chart previously used for
-  [multicluster VPN](/docs/setup/install/multicluster/shared-vpn/) and
-  [multicluster split horizon](/docs/setup/install/multicluster/shared-gateways/) remote cluster installation
+  [multicluster VPN](/docs/setup/install/multicluster/shared/) and
+  [multicluster split horizon](/docs/setup/install/multicluster/shared/) remote cluster installation
   into the Istio Helm chart simplifying the operational experience.
 
 ## Traffic management

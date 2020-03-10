@@ -21,8 +21,8 @@ when installing both `istio-init` and Istio charts with either `template` or `ti
 - Many installation options have been added, removed, or changed. Refer to [Installation Options Changes](/news/releases/1.1.x/announcing-1.1/helm-changes/) for a detailed
 summary of the changes.
 
-- The 1.0 `istio-remote` chart used for [multicluster VPN](/docs/setup/install/multicluster/shared-vpn/) and
-[multicluster shared gateways](/docs/setup/install/multicluster/shared-gateways/) remote cluster installation has been consolidated into the Istio chart.  To generate
+- The 1.0 `istio-remote` chart used for [multicluster VPN](/docs/setup/install/multicluster/shared/) and
+[multicluster shared gateways](/docs/setup/install/multicluster/shared/) remote cluster installation has been consolidated into the Istio chart.  To generate
 an equivalent `istio-remote` chart, use the `--set global.istioRemote=true` flag.
 
 - Addons are no longer exposed via separate load balancers.  Instead addons can now be optionally exposed via the Ingress Gateway.  To expose an addon via the
