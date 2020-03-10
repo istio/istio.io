@@ -192,7 +192,7 @@ $ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX} -n istio-system g
 
 * Option (2) - Through the Istiod service using a cloud provider’s load balancer.
 
-If you selected this option set `ISTIOD_REMOTE` to the external IP address of the `istiod` service.
+If you selected this option set `ISTIOD_REMOTE` to the external IP address of the Istiod service.
 
 {{< text bash >}}
 $ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip')
