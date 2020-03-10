@@ -16,7 +16,7 @@ Setup a [multicluster Istio service mesh](/docs/ops/deployment/deployment-models
 across multiple clusters with a shared control plane. In this configuration, multiple Kubernetes clusters running
 a remote configuration connect to a shared Istio [control plane](/docs/ops/deployment/deployment-models/#control-plane-models)
 running in a main cluster. Clusters may be on the same network or different networks than other
-clusters in the mesh. Once one or more remote Kubernetes clusters are connected to the Istio control plane, 
+clusters in the mesh. Once one or more remote Kubernetes clusters are connected to the Istio control plane,
 Envoy can then form a mesh.
 
 {{< image width="80%" link="./multicluster-with-vpn.svg" caption="Istio mesh spanning multiple Kubernetes clusters with direct network access to remote pods over VPN" >}}
@@ -45,7 +45,7 @@ Envoy can then form a mesh.
 Generate intermediate CA certificates for each cluster's CA from your
 organization's root CA. The shared root CA enables mutual TLS communication
 across different clusters. For illustration purposes, the following instructions
-use the certificates from the Istio samples directory for both cluster. Run the 
+use the certificates from the Istio samples directory for both cluster. Run the
 following commands on each cluster in the mesh to install the certificates.
 See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/)
 for more details on configuring an external CA.
@@ -77,10 +77,10 @@ the remote clusters. Choose between **one** of the three options below:
 ### Naming
 
 Determine the name of the clusters and networks in the mesh. These names will be used
-in the mesh network configuration and when configuring the mesh's service registries. 
+in the mesh network configuration and when configuring the mesh's service registries.
 Assign a unique name to each cluster. The name must be a
-[DNS label name](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names). 
-In the example below the main cluster is called `main0` and the remote cluster is `remote0`. 
+[DNS label name](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names).
+In the example below the main cluster is called `main0` and the remote cluster is `remote0`.
 
 {{< text bash >}}
 $ export MAIN_CLUSTER_CTX=<...>
@@ -89,13 +89,15 @@ $ export REMOTE_CLUSTER_CTX=<...>
 $ export REMOTE_CLUSTER_NAME=remote0
 {{< /text >}}
 
-If the clusters are on different networks, assign a unique network name for each network. 
+If the clusters are on different networks, assign a unique network name for each network.
+
 {{< text bash >}}
 $ export MAIN_CLUSTER_NETWORK=network0
 $ export REMOTE_CLUSTER_NETWORK=network1
 {{< /text >}}
 
 If clusters are on the same network, the same network name is used for those clusters.
+
 {{< text bash >}}
 $ export MAIN_CLUSTER_NETWORK=network0
 $ export REMOTE_CLUSTER_NETWORK=network0
@@ -103,8 +105,9 @@ $ export REMOTE_CLUSTER_NETWORK=network0
 
 ## Deploy Istio in the main cluster
 
-Create the main cluster's configuration. Making the necessary changes based on the preparation above by replacing
-the v 
+Create the main cluster's configuration. Replace the variables below with the cluster
+and network names chosen earlier. Pick **one** of the three options for cross-cluster
+control plane access and delete the configuration for the other two options.
 
 {{< text yaml >}}
 cat <<EOF> istio-main-cluster.yaml
@@ -164,25 +167,25 @@ Apply the main cluster's configuration.
 $ istioctl --context ${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
 {{< /text >}}
 
-### Finish preparing cross-cluster control plane configuration.
- 
+### Finish preparing cross-cluster control plane configuration
+
 Wait for the control plane to be ready and for external IP(s) for load balancers and gateways to be allocated
 before proceeding. Set the `ISTIOD_REMOTE` environment variable based on which cross-cluster control plane
 configuration option was selected earlier:
 
-#### Option (1) - Through the existing `istio-ingressgateway` gateway shared with data traffic.
+#### Option (1) - Through the existing `istio-ingressgateway` gateway shared with data traffic
 
 {{< text bash >}}
 $ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip')
 {{< /text >}}
 
-#### Option (2) - Through the Istiod service using a cloud provider’s load balancer.
+#### Option (2) - Through the Istiod service using a cloud provider’s load balancer
 
 {{< text bash >}}
 $ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip')
 {{< /text >}}
 
-#### Option (3) - Through a gateway dedicated to control plane traffic.
+#### Option (3) - Through a gateway dedicated to control plane traffic
 
 {{< text bash >}}
 $ export CONTROL_PLANE_GATEWAY=<service name of dedicated gateway>
@@ -324,9 +327,9 @@ $ kubectl --context ${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 To enable cross-cluster load balancing the Istio control plane requires
 access to all clusters in the mesh to discover services, endpoints, and
 pod attributes. To configure access, create a secret for each remote
-cluster with credentials to access the cluster's `kube-apiserver` and 
-install it in the main cluster. This secret uses the credentials of the 
-`istio-reader-service-account` in the cluster. 
+cluster with credentials to access the cluster's `kube-apiserver` and
+install it in the main cluster. This secret uses the credentials of the
+`istio-reader-service-account` in the cluster.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret --context=${REMOTE_CLUSTER_CTX} --name ${REMOTE_CLUSTER_NAME} | \
