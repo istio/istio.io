@@ -481,6 +481,7 @@ protoc
 protos
 proxied
 proxy_http_version
+Proxy-wasm
 proxying
 proxyless
 Proxyless
