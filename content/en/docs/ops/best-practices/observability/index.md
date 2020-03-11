@@ -261,7 +261,7 @@ The production instance of Prometheus would then be updated to federate from the
 
 The original queries would then be replaced with:
 
-* istio_requests:by_destination_service:rate1m
+* `istio_requests:by_destination_service:rate1m`
 
 * avg(istio_request_duration_milliseconds_bucket:p95:rate1m)
 
