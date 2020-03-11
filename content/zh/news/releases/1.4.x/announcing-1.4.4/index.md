@@ -9,7 +9,7 @@ aliases:
     - /zh/news/announcing-1.4.4
 ---
 
-此版本包含一些错误修复程序，以改善健壮性和用户体验，并修复了[我们在 2020 年 2 月 11 日新闻](/zh/news/security/istio-security-2020-001)中描述的安全漏洞。[我们在 2020 年 2 月 11 日新闻](/zh/news/security/istio-security-2020-001) 中描述的安全漏洞的修复程序。此发行说明描述了 Istio 1.4.3 和 Istio 1.3.4 之间的区别。
+此版本包含一些错误修复程序，以改善健壮性和用户体验，并修复了[我们在 2020 年 2 月 11 日新闻](/zh/news/security/istio-security-2020-001)中描述的安全漏洞。[我们在 2020 年 2 月 11 日新闻](/zh/news/security/istio-security-2020-001)中描述的安全漏洞的修复程序。此发行说明描述了 Istio 1.4.3 和 Istio 1.3.4 之间的区别。
 
 {{< relnote >}}
 

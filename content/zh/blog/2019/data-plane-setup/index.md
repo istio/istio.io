@@ -10,7 +10,7 @@ target_release: 1.0
 ---
 Istio 服务网格体系结构的简单概述总是从控制平面和数据平面开始。
 
-从 [Istio 的文档](/zh/docs/ops/deployment/architecture/):
+从 [Istio 的文档](/zh/docs/ops/deployment/architecture/) :
 
 {{< quote >}}
 Istio 服务网格在逻辑上分为数据平面和控制平面。
@@ -33,7 +33,7 @@ Istio 服务网格在逻辑上分为数据平面和控制平面。
 简单来说，Sidecar 注入会将额外容器的配置添加到 Pod 模板中。Istio 服务网格目前所需的容器有：
 
 `istio-init`
-[init 容器](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) 用于设置 iptables 规则，以便将入站/出站流量通过 sidecar 代理。初始化容器与应用程序容器在以下方面有所不同：
+[init 容器](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)用于设置 iptables 规则，以便将入站/出站流量通过 sidecar 代理。初始化容器与应用程序容器在以下方面有所不同：
 
 - 它在启动应用容器之前运行，并一直运行直至完成。
 - 如果有多个初始化容器，则每个容器都应在启动下一个容器之前成功完成。
@@ -41,7 +41,7 @@ Istio 服务网格在逻辑上分为数据平面和控制平面。
 因此，您可以看到，对于不需要成为实际应用容器一部分的设置或初始化作业来说，这种容器是多么的完美。在这种情况下，`istio-init` 就是这样做并设置了 `iptables` 规则。
 
 `istio-proxy`
-这个容器是真正的 sidecar 代理（基于Envoy）。
+这个容器是真正的 sidecar 代理（基于 Envoy）。
 
 ### 手动注入{#manual-injection}
 
@@ -306,7 +306,7 @@ spec:
 - 默认策略（在 ConfigMap `istio-sidecar-injector` 中配置）
 - 每个 pod 的重载注解（`sidecar.istio.io/inject`）
 
-[注入状态表](/zh/docs/ops/common-problems/injection/) 根据上述变量的值清晰显示了最终注入状态。
+[注入状态表](/zh/docs/ops/common-problems/injection/)根据上述变量的值清晰显示了最终注入状态。
 
 ## 从应用容器到 Sidecar 代理的流量{#traffic-flow-from-application-container-to-sidecar-proxy}
 

@@ -22,9 +22,9 @@ aliases:
 
 - 修复了添加端口时，虚拟服务 host 不匹配的 bug。
 
-- 增加了对[合并同一主机的多个虚拟服务或目标规则定义](/zh/docs/ops/best-practices/traffic-management/#split-virtual-services) 的有限支持。
+- 增加了对[合并同一主机的多个虚拟服务或目标规则定义](/zh/docs/ops/best-practices/traffic-management/#split-virtual-services)的有限支持。
 
-- 使用HTTP时，允许连续的[异常](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/outlier_detection.proto)网关故障。
+- 使用 HTTP 时，允许连续的[异常](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/outlier_detection.proto)网关故障。
 
 ## 环境{#environment}
 

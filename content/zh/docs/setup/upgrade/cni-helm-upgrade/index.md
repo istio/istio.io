@@ -116,7 +116,7 @@ Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
       --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
-    您必须使用与首次 [安装 Istio](/zh/docs/setup/install/helm) 相同的配置。
+    您必须使用与首次[安装 Istio](/zh/docs/setup/install/helm) 相同的配置。
 
 滚动更新进程会将所有的部署组件和 configmap 升级到新版本。当此进程执行完毕后，您的 Istio 控制平面将会升级到新版本。
 

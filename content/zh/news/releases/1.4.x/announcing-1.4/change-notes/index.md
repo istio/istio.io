@@ -50,6 +50,6 @@ weight: 10
 - **更新了** 子命令 [`istioctl authn tls-check`](/zh/docs/reference/commands/istioctl/#istioctl-authn-tls-check)，以显示正在使用的策略。
 - **新增了** 实验性子命令 [`istioctl experimental wait`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-wait)，以使 `Istio` 等待，直到它已将配置推送到所有的 `Envoy sidecars`。
 - **新增了** 实验性子命令 [`istioctl experimental multicluster`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-multicluster)，以帮助跨集群管理 `Istio`。
-- **新增了** 实验性子命令 [`istioctl experimental post-install webhook`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) 去 [安全配管 webhook](/zh/blog/2019/webhook/)。
+- **新增了** 实验性子命令 [`istioctl experimental post-install webhook`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) 去[安全配管 webhook](/zh/blog/2019/webhook/)。
 - **新增了** 实验性子命令 [`istioctl experimental upgrade`](/zh/docs/setup/upgrade/istioctl-upgrade/) 去执行 `Istio` 的升级。
 - **改进了** 子命令 [`istioctl version`](/zh/docs/reference/commands/istioctl/#istioctl-version)，它现在显示的是 `Envoy proxy` 的版本。

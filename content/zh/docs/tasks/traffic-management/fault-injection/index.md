@@ -16,7 +16,7 @@ aliases:
 * 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)，并应用
   [默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)。
 
-* 在[流量管理](/zh/docs/concepts/traffic-management) 概念文档中查看有关故障注入的讨论。
+* 在[流量管理](/zh/docs/concepts/traffic-management)概念文档中查看有关故障注入的讨论。
 
 * 通过执行[配置请求路由](/zh/docs/tasks/traffic-management/request-routing/)任务或运行以下命令来初始化应用程序版本路由：
 
@@ -191,4 +191,4 @@ Istio 的故障注入规则可以帮助您识别此类异常，而不会影响�
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，请参阅[Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明以关闭应用程序。

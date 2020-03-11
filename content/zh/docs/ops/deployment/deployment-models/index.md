@@ -85,7 +85,7 @@ Kubernetes 在每个集群都默认配置此行为，这有助于限制由错误
     link="multi-cluster.svg"
     alt="多集群服务网格"
     title="多集群"
-    caption=多集群服务网格"
+    caption="多集群服务网格"
     >}}
 
 多集群部署可为您提供更大程度的隔离和可用性，但会增加复杂性。

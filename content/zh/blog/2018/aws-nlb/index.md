@@ -1,6 +1,6 @@
 ---
-title: 使用AWS NLB 配置 Istio Ingress
-description: 描述如何在AWS上使用网络负载均衡器配置 Istio Ingress。
+title: 使用 AWS NLB 配置 Istio Ingress
+description: 描述如何在 AWS 上使用网络负载均衡器配置 Istio Ingress。
 publishdate: 2018-04-20
 last_update: 2019-01-16
 subtitle: Ingress AWS 网络负载均衡器
@@ -13,9 +13,9 @@ target_release: 1.0
 本文已于 2019 年 1 月 16 日更新，其中包含一些使用警告。
 {{< /tip >}}
 
-本文提供了使用 [AWS 网络负载均衡器](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) 配置 ingress Istio 的说明。
+本文提供了使用 [AWS 网络负载均衡器](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html)配置 ingress Istio 的说明。
 
-可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。 你可以查看不同的 AWS `负载均衡器` 之间的 [比较](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons)以获取更多的解释。
+可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。 你可以查看不同的 AWS `负载均衡器` 之间的[比较](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons)以获取更多的解释。
 
 ## 先行条件{#prerequisites}
 

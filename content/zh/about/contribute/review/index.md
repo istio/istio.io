@@ -5,7 +5,7 @@ weight: 6
 keywords: [contribute,community,github,pr,documentation,review, approval]
 ---
 
-Istio 文档工作组（Docs WG）的维护者和工作组负责人审批针对 [Istio 网站](/zh/docs/) 的所有更改。
+Istio 文档工作组（Docs WG）的维护者和工作组负责人审批针对 [Istio 网站](/zh/docs/)的所有更改。
 
 **文档审阅者** 是一个受信任的贡献者，负责批准符合[审阅标准](#review-criteria)的内容。
 所有审阅都遵循 [PR 内容审阅](#review-content-prs)中描述的流程。
@@ -25,7 +25,7 @@ Istio 文档工作组（Docs WG）的维护者和工作组负责人审批针对 
 1. 如果贡献者尚未加入任何与贡献内相关的技术工作组，则**审阅者**可将其加入到相应工作组。
 1. **贡献者**和**审阅者**协同工作，直到内容符合所有[绝对验收标准](#required-acceptance-criteria)，且 Issue 得到完全解决。
 1. 如果内容非常紧急，且满足[补充验收标准](#required-acceptance-criteria)需要大量工作，**审阅者** 可在 istio.io 仓库提交[跟进 Issue](#follow-up-issues)，以在后续处理这些问题。
-1. **贡献者**根据审阅者和贡献者的意见，处理所有反馈。[跟进 Issue](#follow-up-issues)中提到的问题将在后续解决。
+1. **贡献者**根据审阅者和贡献者的意见，处理所有反馈。[跟进 Issue](#follow-up-issues) 中提到的问题将在后续解决。
 1. 当 **技术**工作组负责人或维护者批准 PR 内容，**审阅者** 可以批准 PR。
 1. 如果 Docs WG 维护者或负责人审阅了内容，则他们不仅会批准内容，还会对其进行合并。否则，维护者和负责人将自动收到**审阅者**的批准通知，并优先批准和合并已审阅的内容。
 

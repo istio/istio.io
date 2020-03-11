@@ -1,6 +1,6 @@
 ---
 title: Istio v1aplha3 路由 API 介绍
-description: Istio v1alpha3 路由 API 介绍,动机及其设计原则。
+description: Istio v1alpha3 路由 API 介绍, 动机及其设计原则。
 publishdate: 2018-04-25
 subtitle:
 attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
@@ -8,13 +8,13 @@ keywords: [traffic-management]
 target_release: 0.7
 ---
 
-到目前为止，Istio 提供了一个简单的API来进行流量管理，该API包括了四种资源：`RouteRule`，`DestinationPolicy`，`EgressRule` 和 （Kubernetes 的）`Ingress`。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等，所有这些功能都不必更改应用程序本身的代码。
+到目前为止，Istio 提供了一个简单的 API 来进行流量管理，该 API 包括了四种资源：`RouteRule`，`DestinationPolicy`，`EgressRule` 和 （Kubernetes 的）`Ingress`。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等，所有这些功能都不必更改应用程序本身的代码。
 
 虽然目前 API 的功能已被证明是 Istio 非常引人注目的一部分，但用户的反馈也表明，这个 API 确实有一些缺点，尤其是在使用它来管理包含数千个服务的非常大的应用程序，以及使用 HTTP 以外的协议时。 此外，使用 Kubernetes Ingress 资源来配置外部流量的方式已被证明不能满足需求。
 
-为了解决上述缺陷和其他的一些问题，Istio 引入了新的流量管理 API v1alpha3，新版本的 API 将完全取代之前的 API。 尽管 v1alpha3 和之前的模型在本质上是基本相同的，但它并不向后兼容的，基于旧API的模型需要进行手动转换。
+为了解决上述缺陷和其他的一些问题，Istio 引入了新的流量管理 API v1alpha3，新版本的 API 将完全取代之前的 API。 尽管 v1alpha3 和之前的模型在本质上是基本相同的，但它并不向后兼容的，基于旧 API 的模型需要进行手动转换。
 
-为了证明该非兼容升级的必要性，v1alpha3 API 经历了漫长而艰苦的社区评估过程，以希望新的API能够大幅改进，并经得起时间考验。 在本文中，我们将介绍新的配置模型，并试图解释影响这次变化的一些动机和设计原则。
+为了证明该非兼容升级的必要性，v1alpha3 API 经历了漫长而艰苦的社区评估过程，以希望新的 API 能够大幅改进，并经得起时间考验。 在本文中，我们将介绍新的配置模型，并试图解释影响这次变化的一些动机和设计原则。
 
 ## 设计原则{#design-principles}
 
@@ -31,7 +31,7 @@ target_release: 0.7
 {{< image width="80%"
     link="gateways.svg"
     alt="Role of gateways in the mesh"
-    caption="Istio服务网格中的网关"
+    caption="Istio 服务网格中的网关"
     >}}
 
 考虑到上述因素，`v1alpha3`引入了以下这些新的配置资源来控制进入网格，网格内部和离开网格的流量路由。
@@ -47,7 +47,7 @@ target_release: 0.7
 
 {{< image width="80%"
     link="virtualservices-destrules.svg"
-    caption="不同v1alpha3元素之间的关系"
+    caption="不同 v1alpha3 元素之间的关系"
     >}}
 
 ### `Gateway`
@@ -56,7 +56,7 @@ target_release: 0.7
 
 对于入口流量管理，您可能会问： _为什么不直接使用 Kubernetes Ingress API_ ？ 原因是 Ingress API 无法表达 Istio 的路由需求。 Ingress 试图在不同的 HTTP 代理之间取一个公共的交集，因此只能支持最基本的 HTTP 路由，最终导致需要将代理的其他高级功能放入到注解（annotation）中，而注解的方式在多个代理之间是不兼容的，无法移植。
 
-Istio `Gateway` 通过将 L4-L6 配置与L7配置分离的方式克服了 `Ingress` 的这些缺点。 `Gateway` 只用于配置 L4-L6 功能（例如，对外公开的端口，TLS 配置），所有主流的L7代理均以统一的方式实现了这些功能。 然后，通过在 `Gateway` 上绑定 `VirtualService` 的方式，可以使用标准的 Istio 规则来控制进入 `Gateway` 的 HTTP 和 TCP 流量。
+Istio `Gateway` 通过将 L4-L6 配置与 L7 配置分离的方式克服了 `Ingress` 的这些缺点。 `Gateway` 只用于配置 L4-L6 功能（例如，对外公开的端口，TLS 配置），所有主流的 L7 代理均以统一的方式实现了这些功能。 然后，通过在 `Gateway` 上绑定 `VirtualService` 的方式，可以使用标准的 Istio 规则来控制进入 `Gateway` 的 HTTP 和 TCP 流量。
 
 例如，下面这个简单的 `Gateway` 配置了一个 Load Balancer，以允许访问 host `bookinfo.com` 的 https 外部流量进入网格中：
 
@@ -198,7 +198,7 @@ spec:
         ...
 {{< /text >}}
 
-实际上在 `VirtualService` 中 hosts 部分设置只是虚拟的目的地,因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。
+实际上在 `VirtualService` 中 hosts 部分设置只是虚拟的目的地, 因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。 通过将 `VirtualService` 绑定到同一 Host 的 `Gateway` 配置（如前一节所述 ），可向网格外部暴露这些 Host。
 
 除了这个重大的重构之外， `VirtualService` 还包括其他一些重要的改变：
 
@@ -206,7 +206,7 @@ spec:
 
 1. 每个服务版本都有一个名称（称为服务子集）。 属于某个子集的一组 Pod/VM 在 `DestinationRule` 定义，具体定义参见下节。
 
-1. 通过使用带通配符前缀的 DNS 来指定 `VirtualService` 的 host，可以创建单个规则以作用于所有匹配的服务。 例如，在 Kubernetes 中，在 `VirtualService` 中使用 `*.foo.svc.cluster.local` 作为 host ,可以对 `foo` 命名空间中的所有服务应用相同的重写规则。
+1. 通过使用带通配符前缀的 DNS 来指定 `VirtualService` 的 host，可以创建单个规则以作用于所有匹配的服务。 例如，在 Kubernetes 中，在 `VirtualService` 中使用 `*.foo.svc.cluster.local` 作为 host , 可以对 `foo` 命名空间中的所有服务应用相同的重写规则。
 
 ### `DestinationRule`
 
@@ -267,7 +267,7 @@ spec:
 
 也就是说，`ServiceEntry` 比它的前身具有更多的功能。首先，`ServiceEntry` 不限于外部服务配置，它可以有两种类型：网格内部或网格外部。网格内部条目只是用于向网格显式添加服务，添加的服务与其他内部服务一样。采用网格内部条目，可以把原本未被网格管理的基础设施也纳入到网格中（例如，把虚机中的服务添加到基于 Kubernetes 的服务网格中）。网格外部条目则代表了网格外部的服务。对于这些外部服务来说，双向 TLS 身份验证是禁用的，并且策略是在客户端执行的，而不是在像内部服务请求一样在服务器端执行策略。
 
-由于 `ServiceEntry` 配置只是将服务添加到网格内部的服务注册表中，因此它可以像注册表中的任何其他服务一样,与 `VirtualService` 和/或 `DestinationRule` 一起使用。例如，以下 `DestinationRule` 可用于启动外部服务的 双向 TLS 连接：
+由于 `ServiceEntry` 配置只是将服务添加到网格内部的服务注册表中，因此它可以像注册表中的任何其他服务一样, 与 `VirtualService` 和/或 `DestinationRule` 一起使用。例如，以下 `DestinationRule` 可用于启动外部服务的 双向 TLS 连接：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -312,7 +312,7 @@ $ kubectl apply -f my-updated-rules-for-destination-abc.yaml
 
 ## 总结{#summary}
 
-Istio `v1alpha3` 路由 API 具有比其前身更多的功能，但不幸的是新的 API 并不向后兼容，旧的模型升级需要一次手动转换。 Istio 0.9以后将不再支持 `RouteRule`，`DesintationPolicy` 和 `EgressRule` 这些以前的配置资源 。Kubernetes 用户可以继续使用 `Ingress` 配置边缘负载均衡器来实现基本的路由。 但是，高级路由功能（例如，跨两个版本的流量分割）则需要使 `用Gateway` ，这是一种功能更强大，Istio 推荐的 `Ingress` 替代品。
+Istio `v1alpha3` 路由 API 具有比其前身更多的功能，但不幸的是新的 API 并不向后兼容，旧的模型升级需要一次手动转换。 Istio 0.9 以后将不再支持 `RouteRule`，`DesintationPolicy` 和 `EgressRule` 这些以前的配置资源 。Kubernetes 用户可以继续使用 `Ingress` 配置边缘负载均衡器来实现基本的路由。 但是，高级路由功能（例如，跨两个版本的流量分割）则需要使 `用 Gateway` ，这是一种功能更强大，Istio 推荐的 `Ingress` 替代品。
 
 ## 致谢{#acknowledgments}
 

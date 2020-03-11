@@ -19,7 +19,7 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
 {{< community_item logo="./slack.svg" alt="Slack" >}}
 如果您想与我们的社区成员进行实时互动，可以加入
 [Istio 的 Slack](https://istio.slack.com) 工作区。
-填写 [这个表格](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
+填写[这个表格](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
 加入我们。
 {{< /community_item >}}
 

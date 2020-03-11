@@ -29,8 +29,8 @@ Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域�
 
 ### 具有条件的基于角色的访问控制{#role-based-access-control-with-conditions}
 
-授权是[基于角色的访问控制（RBAC）](https://en.wikipedia.org/wiki/Role-based_access_control)系统，
-将此与[基于属性的访问控制（ABAC）](https://en.wikipedia.org/wiki/Attribute-based_access_control)系统对比。
+授权是[基于角色的访问控制（RBAC）](https://en.wikipedia.org/wiki/Role-based_access_control) 系统，
+将此与[基于属性的访问控制（ABAC）](https://en.wikipedia.org/wiki/Attribute-based_access_control) 系统对比。
 与 ABAC 相比，RBAC 具有以下优势：
 
 * **角色允许对属性进行分组。** 角色是权限组，用于指定允许的操作在系统上执行。用户根据组织内的角色进行分组。
@@ -56,13 +56,13 @@ Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域�
 除主要标识外，您还可以自己定义标识。例如，您可以将客户端标识指定为“用户 `Alice` 从 `Bookstore` 前端服务调用”，在这种情况下，
 你有一个调用服务（`Bookstore frontend`）和最终用户（`Alice`）的组合身份。
 
-要提高安全性，您应该启用[认证功能](/zh/docs/concepts/security/#authentication),并在授权策略中使用经过验证的身份。但是，
+要提高安全性，您应该启用[认证功能](/zh/docs/concepts/security/#authentication), 并在授权策略中使用经过验证的身份。但是，
 使用授权不强迫一定要有身份验证。Istio 授权可以使用或不使用身份。如果您正在使用遗留系统，您可能没有网格的双向 TLS 或 JWT 身份验证
 设置。在这种情况下，识别客户端的唯一方法是，例如，通过 IP。您仍然可以使用 Istio 授权来控制允许哪些 IP 地址或 IP 范围访问您的服务。
 
 ## 示例{#examples}
 
-[授权任务](/zh/docs/tasks/security/authorization/authz-http)通过 [Bookinfo 应用](/zh/docs/examples/bookinfo) 向您展示如何使用 Istio 的授权功能来控制命名空间级别
+[授权任务](/zh/docs/tasks/security/authorization/authz-http)通过 [Bookinfo 应用](/zh/docs/examples/bookinfo)向您展示如何使用 Istio 的授权功能来控制命名空间级别
 和服务级别的访问。在本节中，您将看到更多使用 Istio 授权进行权限细分的示例。
 
 ### 通过 RBAC + 条件进行命名空间级别细分{#namespace-level-segmentation-via-rbac-conditions}
@@ -124,7 +124,7 @@ spec:
 #### 使用经过身份验证的客户端身份{#using-authenticated-client-identities}
 
 假设你想把这个 `book-reader` 角色授予你的 `bookstore-frontend` 服务。如果您已启用
-您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication),您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
+您的网格的[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication), 您可以使用服务帐户，以识别您的 `bookstore-frontend` 服务。授予 `book-reader` 角色到 `bookstore-frontend` 服务可以通过创建一个 `ServiceRoleBinding` 来完成，如下所示：
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -179,4 +179,4 @@ spec:
 
 ## 概要{#summary}
 
-Istio 在命名空间级别，服务级别和方法级别粒度上提供授权功能。它采用“ RBAC + 条件”模型，使其成为易于使用和理解的 RBAC 系统，同时提供 ABAC 系统级别的灵活性。由于 Istio 授权在 Envoy 上本地运行，它有很高的性能。Istio 授权既可以与 [Istio 认证功能](/zh/docs/concepts/security/#authentication) 一起提供最佳的安全性，也可以用于为没有身份验证的旧系统提供访问控制。
+Istio 在命名空间级别，服务级别和方法级别粒度上提供授权功能。它采用“ RBAC + 条件”模型，使其成为易于使用和理解的 RBAC 系统，同时提供 ABAC 系统级别的灵活性。由于 Istio 授权在 Envoy 上本地运行，它有很高的性能。Istio 授权既可以与 [Istio 认证功能](/zh/docs/concepts/security/#authentication)一起提供最佳的安全性，也可以用于为没有身份验证的旧系统提供访问控制。
