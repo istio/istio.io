@@ -11,7 +11,7 @@ keywords: [kubernetes,upgrading]
 
 升级命令也可为 Istio 降级。
 
-查看 [`istioctl` 升级参考](/zh/docs/reference/commands/istioctl/#istioctl-experimental-upgrade) 来获取 `istioctl experimental upgrade` 命令的更多功能。
+查看 [`istioctl` 升级参考](/zh/docs/reference/commands/istioctl/#istioctl-experimental-upgrade)来获取 `istioctl experimental upgrade` 命令的更多功能。
 
 ## 升级前置条件{#upgrade-prerequisites}
 
@@ -19,7 +19,7 @@ keywords: [kubernetes,upgrading]
 
 * 已安装 Istio 1.3.3 或更高版本。
 
-* Istio 是 [使用 {{< istioctl >}}](/zh/docs/setup/install/istioctl/) 命令安装的。
+* Istio 是[使用 {{< istioctl >}}](/zh/docs/setup/install/istioctl/) 命令安装的。
 
 ## 升级步骤{#upgrade-steps}
 
@@ -77,7 +77,7 @@ keywords: [kubernetes,upgrading]
 
 * 已安装 Istio 1.4 或更高版本。
 
-* Istio 是 [使用 {{< istioctl >}}](/zh/docs/setup/install/istioctl/) 命令安装的。
+* Istio 是[使用 {{< istioctl >}}](/zh/docs/setup/install/istioctl/) 命令安装的。
 
 * 降级命令 `istioctl` 的版本需要与要降级到的 Istio 版本相对应。例如：要将 Istio 从版本 1.4 降级到 1.3.3，需要使用 1.3.3 版本的 `istioctl` 命令。
 

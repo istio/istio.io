@@ -31,7 +31,7 @@ Istio 的数据平面组件 Envoy 代理用来处理通过系统的数据流。�
 - 通过代理的 QPS 有 1000 时，Envoy 使用了 **0.5 vCPU** 和 **50 MB 内存**。
 - 网格总的 QPS 为 1000 时，`istio-telemetry` 服务使用了 **0.6 vCPU**。
 - Pilot 使用了 **1 vCPU** 和 1.5 GB 内存。
-- 90%的情况 Envoy 代理只增加了 6.3 ms 的延迟。
+- 90% 的情况 Envoy 代理只增加了 6.3 ms 的延迟。
 
 ## 控制平面性能 {#control-plane-performance}
 
@@ -43,7 +43,7 @@ Pilot 根据用户编写的配置文件和系统当前状态来配置 sidecar �
 - 配置改变的频率。
 - 连接到 Pilot 的代理数量。
 
-这部分本身是水平可伸缩的。当 [命名空间隔离](/zh/docs/reference/config/networking/sidecar/) 选项被打开，一个单一的 Pilot 实例仅用 1 vCPU 和 1.5 GB 的内存就可以支持 1000 个服务和 2000 个 sidecar。你可以增加 Pilot 实例的数量来降低它花在推送配置到所有代理的耗时。
+这部分本身是水平可伸缩的。当[命名空间隔离](/zh/docs/reference/config/networking/sidecar/)选项被打开，一个单一的 Pilot 实例仅用 1 vCPU 和 1.5 GB 的内存就可以支持 1000 个服务和 2000 个 sidecar。你可以增加 Pilot 实例的数量来降低它花在推送配置到所有代理的耗时。
 
 ## 数据平面性能 {#data-plane-performance}
 

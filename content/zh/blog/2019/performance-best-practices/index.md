@@ -10,19 +10,19 @@ keywords: [performance,scalability,scale,benchmarks]
 
 服务网格为应用部署增加了很多功能，包括[流量策略](/zh/docs/concepts/what-is-istio/#traffic-management)、[可观察性](/zh/docs/concepts/what-is-istio/#observability)和[安全通信](/zh/docs/concepts/what-is-istio/#security)。但是，无论是时间（增加的延迟）还是资源（CPU 周期），向环境中添加服务网格都是有代价的。要就服务网格是否适合您的情况做出明智的决定，评估应用与服务网格一起部署时的性能非常重要。
 
-今年早些时候，我们发布了关于 Istio 1.1 性能改进的 [博客](/zh/blog/2019/istio1.1_perf/)。在发布 [Istio 1.2](/zh/news/releases/1.2.x/announcing-1.2) 之后，我们希望提供指导和工具，以帮助您在可用于生产的 Kubernetes 环境中对 Istio 的数据平面性能进行基准测试。
+今年早些时候，我们发布了关于 Istio 1.1 性能改进的[博客](/zh/blog/2019/istio1.1_perf/)。在发布 [Istio 1.2](/zh/news/releases/1.2.x/announcing-1.2) 之后，我们希望提供指导和工具，以帮助您在可用于生产的 Kubernetes 环境中对 Istio 的数据平面性能进行基准测试。
 
-总体而言，我们发现 Istio [sidecar 代理](/zh/docs/ops/deployment/architecture/#envoy) 的延迟取决于并发连接数。以每秒 1000 个请求（RPS）的速度，通过 16 个连接，Istio 延迟在 50% 时增加 **3 毫秒**，在 99% 时增加 **10 毫秒**。
+总体而言，我们发现 Istio [sidecar 代理](/zh/docs/ops/deployment/architecture/#envoy)的延迟取决于并发连接数。以每秒 1000 个请求（RPS）的速度，通过 16 个连接，Istio 延迟在 50% 时增加 **3 毫秒**，在 99% 时增加 **10 毫秒**。
 
-在[Istio Tools 仓库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark) 中，您将找到用于测量 Istio 数据平面性能的脚本和说明，以及有关如何使用另一服务网格实现 [Linkerd](https://linkerd.io) 运行脚本的其他说明。在我们详细介绍性能测试框架的每个步骤的一些最佳实践时，请[遵循](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup)。
+在 [Istio Tools 仓库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark)中，您将找到用于测量 Istio 数据平面性能的脚本和说明，以及有关如何使用另一服务网格实现 [Linkerd](https://linkerd.io) 运行脚本的其他说明。在我们详细介绍性能测试框架的每个步骤的一些最佳实践时，请[遵循](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup)。
 
 ## 1. 使用生产就绪的 Istio 安装{#1-use-a-production-ready-Istio-installation}
 
-为了准确地大规模度量服务网格的性能，使用 [适当大小的](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install#istio-setup) Kubernetes 集群很重要。我们使用三个工作节点进行测试，每个工作节点至少具有 4 vCPU 和 15 GB 的内存。
+为了准确地大规模度量服务网格的性能，使用[适当大小的](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install#istio-setup) Kubernetes 集群很重要。我们使用三个工作节点进行测试，每个工作节点至少具有 4 vCPU 和 15 GB 的内存。
 
-然后，在该群集上使用可用于生产的 Istio **安装配置文件** 很重要。这使我们能够实现面向性能的设置，例如控制平面 pod 自动伸缩，并确保资源限制适用于繁重的流量负荷。[默认](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio 安装适用于大多数基准测试用例。为了进行广泛的性能基准测试，并提供数千种注入代理的服务，我们还提供了 [调整后的 Istio 安装](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml)，可为 Istio 控制平面分配额外的内存和 CPU。
+然后，在该群集上使用可用于生产的 Istio **安装配置文件** 很重要。这使我们能够实现面向性能的设置，例如控制平面 pod 自动伸缩，并确保资源限制适用于繁重的流量负荷。[默认](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template) Istio 安装适用于大多数基准测试用例。为了进行广泛的性能基准测试，并提供数千种注入代理的服务，我们还提供了[调整后的 Istio 安装](https://github.com/istio/tools/blob/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install/values.yaml)，可为 Istio 控制平面分配额外的内存和 CPU。
 
-{{< warning_icon >}} Istio 的 [demo 安装](/zh/docs/setup/getting-started/) 不适合进行性能测试，因为它被设计为部署在小型试用群集中，并且具有完整的跟踪和访问日志，可显示 Istio 的功能。
+{{< warning_icon >}} Istio 的 [demo 安装](/zh/docs/setup/getting-started/)不适合进行性能测试，因为它被设计为部署在小型试用群集中，并且具有完整的跟踪和访问日志，可显示 Istio 的功能。
 
 ## 2. 专注于数据平面{#2-focus-on-the-data-plane}
 
@@ -37,7 +37,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 当 [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) 将所有策略和遥测功能直接移到代理中时，这两个例外都会在将来的 Istio 版本中消失。
 
-接下来，在大规模测试 Istio 的数据平面性能时，不仅要以每秒递增的请求进行测试，而且还要以越来越多的 **并发** 连接进行测试，这一点很重要。这是因为现实世界中的高吞吐量流量来自多个客户端。我们 [提供了脚本](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests) 允许您以递增的 RPS 对任意数量的并发连接执行相同的负载测试。
+接下来，在大规模测试 Istio 的数据平面性能时，不仅要以每秒递增的请求进行测试，而且还要以越来越多的 **并发** 连接进行测试，这一点很重要。这是因为现实世界中的高吞吐量流量来自多个客户端。我们[提供了脚本](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests)允许您以递增的 RPS 对任意数量的并发连接执行相同的负载测试。
 
 最后，我们的测试环境可以测量两个 pod 之间少量的请求。客户端 pod 是 [Fortio](http://fortio.org/)，它将流量发送到服务端 pod。
 
@@ -45,7 +45,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 ## 3. 有/无 度量的代理{#3-measure-with-and-without-proxies}
 
-尽管 Istio 的许多特性，例如 [双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)，都依赖于应用 pod 的 Envoy 代理，但是您可以[选择性地禁用](/zh/docs/setup/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook)一些网格服务的 sidecar 代理注入。在扩展 Istio 以进行生产时，您可能需要将 sidecar 代理增量添加到工作负载中。
+尽管 Istio 的许多特性，例如[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)，都依赖于应用 pod 的 Envoy 代理，但是您可以[选择性地禁用](/zh/docs/setup/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook)一些网格服务的 sidecar 代理注入。在扩展 Istio 以进行生产时，您可能需要将 sidecar 代理增量添加到工作负载中。
 
 为此，测试脚本提供了[三种不同模式](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests)。当请求同时通过客户端和服务器代理（`both`）、仅通过服务器代理（`serveronly`）和都不通过代理（`baseline`）时，这些模式将分析 Istio 的性能。
 
@@ -108,4 +108,4 @@ keywords: [performance,scalability,scale,benchmarks]
 Istio 的性能取决于您的具体设置和流量负载情况。由于存在这种差异，请确保您的测试设置能够准确反映您的生产工作负载。要试用基准测试脚本，请转到 [Istio Tools 库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark)。
 {{< /tip >}}
 
-另外，请查阅 [Istio 性能和可伸缩性指南](/zh/docs/ops/deployment/performance-and-scalability) 获取最新的性能数据。感谢您的阅读，祝您基准测试愉快！
+另外，请查阅 [Istio 性能和可伸缩性指南](/zh/docs/ops/deployment/performance-and-scalability)获取最新的性能数据。感谢您的阅读，祝您基准测试愉快！

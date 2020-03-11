@@ -9,10 +9,10 @@ aliases:
 
 通过本任务，你可以进一步了解双向 TLS 以及如何配置。本任务假设：
 
-* 您已经完成[认证策略](/zh/docs/tasks/security/authentication/authn-policy/) 任务.
+* 您已经完成[认证策略](/zh/docs/tasks/security/authentication/authn-policy/)任务.
 * 您熟悉如何通过认证策略开启双向 TLS。
 * Istio 在 Kubernetes 上运行，并且开启全局双向 TLS。可以参考 [Istio 安装说明文档](/zh/docs/setup/)。
-如果已经安装 Istio，可以根据[为所有服务启用双向 TLS 认证](/zh//docs/tasks/security/authentication/authn-policy/#globally-enabling-Istio-mutual-TLS) 任务中说明，通过增加或者修改认证策略和目的规则来开启双向 TLS。
+如果已经安装 Istio，可以根据[为所有服务启用双向 TLS 认证](/zh//docs/tasks/security/authentication/authn-policy/#globally-enabling-Istio-mutual-TLS)任务中说明，通过增加或者修改认证策略和目的规则来开启双向 TLS。
 * [httpbin]({{< github_tree >}}/samples/httpbin) 和 [sleep]({{< github_tree >}}/samples/sleep) 已经部署在了 `default` namespace，并且这两个应用带有 Envoy sidecar. 例如，可以通过以下命令[手动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) 来完成服务的部署:
 
     {{< text bash >}}
@@ -22,7 +22,7 @@ aliases:
 
 ## 检查 Citadel 是否运行正常{#verify-citadel-runs-properly}
 
-[Citadel](/zh/docs/concepts/security/#PKI) 是Istio 的密钥管理服务，它必须正常运行才能使双向 TLS 正常工作。
+[Citadel](/zh/docs/concepts/security/#PKI) 是 Istio 的密钥管理服务，它必须正常运行才能使双向 TLS 正常工作。
 使用以下命令验证 Citadel 在集群中是否正确运行：
 
 {{< text bash >}}
@@ -65,7 +65,7 @@ $ kubectl exec $(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.na
             URI:spiffe://cluster.local/ns/default/sa/default
 {{< /text >}}
 
-请参阅 [Istio 认证](/zh/docs/concepts/security/#istio-identity) 一节，可以了解更多**服务身份**方面的内容。
+请参阅 [Istio 认证](/zh/docs/concepts/security/#istio-identity)一节，可以了解更多**服务身份**方面的内容。
 
 ## 验证双向 TLS 配置{#verify-mutual-TLS-configuration}
 

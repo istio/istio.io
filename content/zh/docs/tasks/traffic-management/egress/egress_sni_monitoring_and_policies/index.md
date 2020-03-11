@@ -7,7 +7,7 @@ aliases:
   - /zh/docs/examples/advanced-gateways/egress_sni_monitoring_and_policies/
 ---
 
-前面的任务 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 描述了如何为公共域 `*.wikipedia.org` 中的一组主机启用 Egress 流量，本文基于该任务，
+前面的任务[使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)描述了如何为公共域 `*.wikipedia.org` 中的一组主机启用 Egress 流量，本文基于该任务，
 演示如何为 TLS Egress 配置 SNI 监控和策略。
 
 {{< boilerplate before-you-begin-egress >}}
@@ -16,10 +16,10 @@ aliases:
 
 *  [开启 Envoy 的访问日志记录](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-*  参考 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务中的 [步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)，配置流量流向 `*.wikipedia.org`，且**启用双向 TLS**。
+*  参考[使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)任务中的[步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)，配置流量流向 `*.wikipedia.org`，且**启用双向 TLS**。
 
     {{< warning >}}
-    **必须** 在你的集群上启用策略检查。请按照 [启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
+    **必须** 在你的集群上启用策略检查。请按照[启用策略检查](/zh/docs/tasks/policy-enforcement/enabling-policy/)
     中的步骤操作，以确保策略检查已启用 。
     {{< /warning >}}
 
@@ -86,8 +86,8 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 
 ## 监控 SNI 和源身份标识，并基于它们执行访问策略{#monitor-the-SNI-and-the-source-identity-and-enforce-access-policies-based-on-them}
 
-由于您在 sidecar 代理和 egress 网关之间启用了双向 TLS，因此您可以监控访问外部服务的应用程序的 [服务标识](/zh/docs/ops/deployment/architecture/#citadel)，并根据流量来源的身份标识执行访问策略。
-在 Kubernetes 上的 Istio 中，源身份标识基于 [服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)。
+由于您在 sidecar 代理和 egress 网关之间启用了双向 TLS，因此您可以监控访问外部服务的应用程序的[服务标识](/zh/docs/ops/deployment/architecture/#citadel)，并根据流量来源的身份标识执行访问策略。
+在 Kubernetes 上的 Istio 中，源身份标识基于[服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)。
 本小节中，您将在 `sleep-us` 和 `sleep-canada` 服务账户下分别部署 `sleep-us` 和 `sleep-canada` 两个容器。
 然后定义一个策略，该策略允许具有 `sleep-us` 标识的应用访问 English 和 Spanish 版本的 Wikipedia 站点，并允许具有 `sleep-canada` 身份标识的应用访问 English 和 French 版本的 Wikipedia 站点。
 
@@ -180,7 +180,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
 
 ## 清除{#cleanup}
 
-1.  执行 [使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/) 任务的 [清除步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)。
+1.  执行[使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)任务的[清除步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)。
 
 1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
 

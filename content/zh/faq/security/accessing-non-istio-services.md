@@ -25,4 +25,4 @@ EOF
 如果安装 Istio 时就启用了双向 TLS，那这个目标规则已经添加到 system 了。
 {{< /tip >}}
 
-类似的，你也可以为其它非 Istio 服务添加目标规则。了解更多实例，参见 [任务](/zh/docs/tasks/security/authentication/authn-policy/#request-from-Istio-services-to-non-Istio-services)。
+类似的，你也可以为其它非 Istio 服务添加目标规则。了解更多实例，参见[任务](/zh/docs/tasks/security/authentication/authn-policy/#request-from-Istio-services-to-non-Istio-services)。

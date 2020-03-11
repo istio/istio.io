@@ -49,7 +49,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
 1. 在 `cluster1` 中部署 Istio：
 
     {{< warning >}}
-    当启用多集群所需的附加组件时，Istio 控制平面的资源占用量可能会增长，甚至超过 Kubernetes 集群安装[平台安装](/zh/docs/setup/platform-setup/) 步骤中的默认容量。
+    当启用多集群所需的附加组件时，Istio 控制平面的资源占用量可能会增长，甚至超过 Kubernetes 集群安装[平台安装](/zh/docs/setup/platform-setup/)步骤中的默认容量。
     如果因 CPU 或内存资源不足导致 Istio 服务无法调度，可以考虑在集群中添加更多节点，或按需升级为更大内存容量的实例。
     {{< /warning >}}
 
@@ -117,7 +117,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
         $ kubectl config use-context $CTX_CLUSTER1
         {{< /text >}}
 
-    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的说明，设置环境变量 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`。
+    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的说明，设置环境变量 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`。
 
     1.  恢复之前的 `kubectl` 上下文：
 
@@ -201,7 +201,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
         $ kubectl config use-context $CTX_CLUSTER2
         {{< /text >}}
 
-    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的说明，设置环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`。
+    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的说明，设置环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`。
 
     1.  恢复之前的 `kubectl` 上下文：
 

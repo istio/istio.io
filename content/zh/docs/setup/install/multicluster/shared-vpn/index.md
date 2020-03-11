@@ -222,7 +222,7 @@ Kubernetes secret 数据密钥必须符合 `DNS-1123 subdomain` [格式](https:/
 
 对远程集群执行下列步骤。
 
-在开始之前，请按照[设置环境变量部分](#environment-var)中的说明设置端点IP环境变量。
+在开始之前，请按照[设置环境变量部分](#environment-var)中的说明设置端点 IP 环境变量。
 
 1. 安装 Istio 远程配置文件：
 

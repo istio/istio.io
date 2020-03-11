@@ -8,7 +8,7 @@ aliases:
 keywords: [contribute]
 ---
 
-Istio 文档所有的内容都必须 **清晰明了** 且 **易于理解**。我们根据 Google 开发者风格指南中的 [重点](https://developers.google.com/style/highlights) 和 [通则](https://developers.google.com/style/tone) 定义了标准。关于您贡献的内容是如何被审核、接受的，请参见[审核页面](/zh/about/contribute/review)获取详情。
+Istio 文档所有的内容都必须 **清晰明了** 且 **易于理解**。我们根据 Google 开发者风格指南中的[重点](https://developers.google.com/style/highlights)和[通则](https://developers.google.com/style/tone)定义了标准。关于您贡献的内容是如何被审核、接受的，请参见[审核页面](/zh/about/contribute/review)获取详情。
 
 您可以在此通过 Istio 特有的示例，找到 Istio 遵循的基本风格与实践指南的所有场景。
 
