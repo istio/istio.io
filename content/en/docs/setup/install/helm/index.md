@@ -63,7 +63,13 @@ instead with the flags `--set gateways.istio-ingressgateway.type=NodePort`
 appended to the end of the Helm instructions in the installation steps below.
 {{< /tip >}}
 
+<<<<<<< HEAD
 Previously, this document described a Helm installation method that utilized the [Tiller](https://helm.sh/docs/topics/architecture/#components) component. [That installation method](https://archive.istio.io/v1.4/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) is no longer recommended. Instead, we recommend using `istioctl` as documented in [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/). If you want to use Helm, then you need to use the `helm template` method described below.
+=======
+{{< tip >}}
+The Helm installation method previously detailed here that used the [Tiller](https://helm.sh/docs/topics/architecture/#components) component has been removed. The preferred install path is to use `istioctl` as documented in [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/). If you still desire to use Helm, you'll need to leverage the `helm template` method detailed below.
+{{< /tip >}}
+>>>>>>> Restructured doc to remove Tiller references
 
 1. Create a namespace for the `istio-system` components:
 
