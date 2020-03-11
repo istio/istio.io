@@ -67,7 +67,7 @@ Envoy 模型强化了单体构建过程，并要求使用 C++ 编写扩展，从
 
 ## 开发者体验 {#developer-experience}
 
-没有出色的开发者体验，再强大的工具也毫无用处。 Solo.io[最近宣布]((https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/) )发布 [WebAssembly Hub](https://webassemblyhub.io/)，这是一套为 Envoy 和 Istio 做的，用于构建，部署，共享和发现 Envoy Proxy Wasm 扩展的工具和仓库。
+没有出色的开发者体验，再强大的工具也毫无用处。 Solo.io [最近宣布](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)发布 [WebAssembly Hub](https://webassemblyhub.io/)，这是一套为 Envoy 和 Istio 做的，用于构建，部署，共享和发现 Envoy Proxy Wasm 扩展的工具和仓库。
 
 WebAssembly Hub 把为开发和部署 Wasm 扩展所需的许多步骤都完全自动化了。 使用 WebAssembly Hub 工具，用户可以轻松地把任何受支持语言开发的代码编译为 Wasm 扩展。可以将这些扩展上传到 Hub 仓库，并且用单个命令就将其在 Istio 中部署和删除。
 
