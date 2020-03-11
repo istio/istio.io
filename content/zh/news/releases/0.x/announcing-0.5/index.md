@@ -20,7 +20,7 @@ aliases:
 
 - **渐进式部署 Istio**。（预览）现在，通过仅安装所需的组件（例如，仅 Pilot + Ingress 作为最小化的 Istio 安装），您可以比以前更轻松地逐步采用 Istio。请参考 `istioctl` CLI 工具，以生成有关自定义 Istio 部署的信息。
 
-- **自动注入 Proxy**。我们利用 Kubernetes 1.9 的新 [muting webhook 特性](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.9.md#api-machinery) 提供 Pod 级的自动注入。自动注入需要 Kubernetes 1.9 或更高版本，因此不适用于旧版本。不再支持 alpha 初始化机制。[了解更多](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+- **自动注入 Proxy**。我们利用 Kubernetes 1.9 的新 [muting webhook 特性](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.9.md#api-machinery)提供 Pod 级的自动注入。自动注入需要 Kubernetes 1.9 或更高版本，因此不适用于旧版本。不再支持 alpha 初始化机制。[了解更多](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 
 - **改进流量规则**。根据用户反馈，我们对 Istio 的流量管理（路由规则，目标规则等）进行了重大更改。在接下来的几周中，我们会不断完善您的反馈，希望我们能继续为您提供帮助。
 

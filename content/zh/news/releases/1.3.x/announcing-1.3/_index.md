@@ -35,7 +35,7 @@ Istio 团队每发布几个版本，都会在可用性、API 和整体系统性�
 
 是的，你看的没错！我们直接在 Envoy 中实实现了大多数常见的安全策略，例如 RBAC。我们以前默认关闭 `istio-policy` 服务，现在可以将大多数 Mixer 遥测功
 能迁移到 Envoy。在此版本中，我们增强了 Istio 代理，以直接向 Prometheus 发送 HTTP 指标，而无需该 `istio-telemetry` 服务来完善信息。如果您只关
-心 HTTP 服务的遥测，则此增强功能非常有用。请按照[无 Mixer 的 HTTP 遥测概述](https://github.com/istio/istio/wiki/Mixerless-HTTP-Telemetry) 进行操作，以试用此功能。在接下来的几个月里，我们将加强此功能，以便在您启用 Istio 双向 TLS 时增加对 TCP 服务的遥测支持。
+心 HTTP 服务的遥测，则此增强功能非常有用。请按照[无 Mixer 的 HTTP 遥测概述](https://github.com/istio/istio/wiki/Mixerless-HTTP-Telemetry)进行操作，以试用此功能。在接下来的几个月里，我们将加强此功能，以便在您启用 Istio 双向 TLS 时增加对 TCP 服务的遥测支持。
 
 ## 不再需要容器端口{#container-ports-are-no-longer-required}
 

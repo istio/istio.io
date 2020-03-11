@@ -17,7 +17,7 @@ aliases:
 ## 准备环境{#prerequisites}
 
 - 您已经在 Kubernetes 上部署了 Istio。如果尚未这样做，
-  则可以在[安装指南](/zh/docs/setup/getting-started/) 中找到方法。
+  则可以在[安装指南](/zh/docs/setup/getting-started/)中找到方法。
 
 - 虚拟机（VM）必须具有网格中 endpoint 的 IP 连接。
   这通常需要 VPC 或者 VPN，以及需要提供直接（没有 NAT 或者防火墙拒绝访问）
@@ -39,7 +39,7 @@ aliases:
 
 当将非 Kubernetes 服务添加到 Istio 网格中时，首先配置 Istio 它自己的设施，并生成配置文件使 VM 连接网格。在具有集群管理员特权的计算机上，使用以下命令为 VM 准备集群：
 
-1. 使用类似于以下的命令，为生成的 CA 证书创建 Kubernetes secret。请参阅[证书办法机构 (CA) 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) 获取更多的详细信息。
+1. 使用类似于以下的命令，为生成的 CA 证书创建 Kubernetes secret。请参阅[证书办法机构 (CA) 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)获取更多的详细信息。
 
     {{< warning >}}
     样本目录中的 root 证书和中间证书已经大范围分发并被识别。
@@ -99,7 +99,7 @@ aliases:
     ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
 
-1. 如果 VM 仅在网格中调用服务，您可以跳过这2一步骤。否则，使用以下命令为 VM 新增公开端口到 `cluster.env` 文件下。
+1. 如果 VM 仅在网格中调用服务，您可以跳过这 2 一步骤。否则，使用以下命令为 VM 新增公开端口到 `cluster.env` 文件下。
     如有必要，您可以稍后更改端口。
 
     {{< text bash >}}
@@ -136,7 +136,7 @@ aliases:
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  将 Istio 的网关 IP 地址添加到 `/etc/hosts`。重新访问 [集群准备](#preparing-the-Kubernetes-cluster-for-VMs) 部分以了解如何获取 IP 地址。
+1.  将 Istio 的网关 IP 地址添加到 `/etc/hosts`。重新访问[集群准备](#preparing-the-Kubernetes-cluster-for-VMs)部分以了解如何获取 IP 地址。
 以下示例使用 Istio 网关地址修改 `/etc/hosts` 文件：
 
     {{< text bash >}}
@@ -182,7 +182,7 @@ aliases:
 设置完后，机器可以访问运行在 Kubernetes 集群上的服务，或者其他的 VM。
 
 以下示例展示了使用 `/etc/hosts/` 如何从 VM 中访问 Kubernetes 集群上运行的服务，
-这里使用 [Bookinfo 示例](/zh/docs/examples/bookinfo/) 中的服务。
+这里使用 [Bookinfo 示例](/zh/docs/examples/bookinfo/)中的服务。
 
 1.  首先，在集群管理机器上获取服务的虚拟 IP 地址（`clusterIP`）：
 

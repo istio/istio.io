@@ -196,4 +196,4 @@ Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服�
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
-1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup) 的说明关闭应用程序。
+1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)的说明关闭应用程序。

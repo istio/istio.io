@@ -9,7 +9,7 @@ target_release: 1.2
 ---
 
 欢迎来看 Istio 对出口流量进行安全管控系列文章的第 2 部分。
-在[这个系列文章的第一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-1/),我提出了出口流量相关攻击和针对出口流量进行安全管控我们收集的要求点。
+在[这个系列文章的第一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-1/), 我提出了出口流量相关攻击和针对出口流量进行安全管控我们收集的要求点。
 在这一期中，我会讲述对出口流量进行安全管控的 Istio 方式，并且展示 Istio 如何帮你阻止攻击。
 
 ## Istio 中的出口流量安全管控 {#secure-control-of-egress-traffic-in-Istio}
@@ -23,7 +23,7 @@ target_release: 1.2
 如果应用程序发送 HTTP 请求，并且由出口网关发起执行 TLS，你就可以监控 HTTP 信息，像 HTTP 方法、HTTP 头和 URL 路径。也可以根据上面说的 HTTP 信息来[定义策略](/zh/blog/2018/egress-monitoring-access-control)。如果是由应用程序发起执行 TLS，你就可以对源 pod 的 TLS 流量的 [SNI 和服务账号进行监控](/zh/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/)，并且基于 SNI 和服务账号定义策略。
 
 你必须确保你集群到外部的流量不能绕过出口网关。Istio 不能给你确保这一点，所以你必需使用一些[附加的安全机制](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)或者 L3 防火墙。 看一个 [Kubernetes 网络策略配置](/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-Kubernetes-network-policies)的例子。
-根据[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 的概念，为同一个目标使用的安全机制越多越安全。
+根据[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))的概念，为同一个目标使用的安全机制越多越安全。
 
 你也必需也要确保 Istio 控制平面和出口网关不能被破坏。你的集群里面可能有成百上千的应用程序 pod，而只有十几个 Istio 控制平面 pod 和网关。
 你可以也应该聚焦在保护控制平面 pod 和网关，因为这比较容易（需要保护的 pod 数量很少），并且这对集群的安全性是最关键的。

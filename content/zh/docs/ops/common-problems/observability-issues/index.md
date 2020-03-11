@@ -75,7 +75,7 @@ istio-system   tcpkubeattrgenrulerule    4h
 
 如果输出没有命名为 `promhttp` 或 `promtcp` 的规则，则缺少将指标实例发送到 Prometheus adapter 的 Mixer 配置。你必须提供将 Mixer 指标实例连接到 Prometheus handler 的规则配置。
 
-作为参考，请参阅 [Prometheus 的默认规则]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
+作为参考，请参阅 [Prometheus 的默认规则]({{< github_file >}}/manifests/UPDATING-CHARTS.md)。
 
 ### 验证 Prometheus handler 配置是否存在{#verify-the-Prometheus-handler-configuration-exists}
 
@@ -98,7 +98,7 @@ istio-system   tcpkubeattrgenrulerule    4h
 
 1. 如果输出没有的 Prometheus handler 的配置，则必须重新使用合适的 handler 配置 Mixer。
 
-有关参考，请参阅 [Prometheus 的默认 handler 配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
+有关参考，请参阅 [Prometheus 的默认 handler 配置]({{< github_file >}}/manifests/UPDATING-CHARTS.md)。
 
 ### 验证 Mixer 指标实例配置是否存在{#verify-mixer-metric-instances-configuration-exists}
 
@@ -116,13 +116,13 @@ istio-system   tcpkubeattrgenrulerule    4h
 
 1. 如果输出未显示已配置的 Mixer 指标实例，则必须使用相应的实例配置重新配置 Mixer。
 
-有关参考，请参阅 [Mixer 指标的默认实例配置]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)。
+有关参考，请参阅 [Mixer 指标的默认实例配置]({{< github_file >}}/manifests/UPDATING-CHARTS.md)。
 
 ### 验证没有配置错误{#verify-there-are-no-known-configuration-errors}
 
 1. 与`istio-telemetry` 自监控端点建立连接，按照上文[确认 Mixer 可以收到指标报告的调用](#verify-mixer-is-receiving-report-calls)的描述设置一个到 `istio-telemetry` 自监控端口的转发。
 
-1. 确认以下的指标的最新的值是0：
+1. 确认以下的指标的最新的值是 0：
 
     * `mixer_config_adapter_info_config_errors_total`
 
@@ -142,7 +142,7 @@ istio-system   tcpkubeattrgenrulerule    4h
 
 在显示 Mixer 自监控 endpoint 的页面上，搜索上面列出的每个指标。如果所有配置正确，您应该不能找的那些指标值。
 
-如果存在某个指标值，请确认该指标值的最大配置 ID 是0。这可以验证 Mixer 在处理最近提供配置过程中没有发生任何错误。
+如果存在某个指标值，请确认该指标值的最大配置 ID 是 0。这可以验证 Mixer 在处理最近提供配置过程中没有发生任何错误。
 
 ### 验证 Mixer 可以将指标实例发送到 Prometheus 适配器{#verify-Mixer-is-sending-Metric-instances-to-the-Prometheus-adapter}
 

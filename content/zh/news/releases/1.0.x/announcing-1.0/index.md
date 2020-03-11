@@ -32,17 +32,17 @@ aliases:
 
 自 0.8 版以来，我们添加了一些重要的新功能，更重要的是将许多现有功能标记为 Beta，表明它们已可以投入生产。以下是一些要点：
 
-- 现在可以将多个 Kubernetes 集群 [添加到单个网格](/zh/docs/setup/install/multicluster/) 中，并实现跨集群通信和一致的策略实施。多群集支持现在为 Beta。
+- 现在可以将多个 Kubernetes 集群[添加到单个网格](/zh/docs/setup/install/multicluster/)中，并实现跨集群通信和一致的策略实施。多群集支持现在为 Beta。
 
-- 现在，可以对通过网状网络的流量进行细粒度控制的网络 API 已成为 Beta。使用网关对进入和退出问题进行显式建模，使运维人员可以 [控制网络拓扑](/zh/blog/2018/v1alpha3-routing/) 并满足边缘的访问安全性要求。
+- 现在，可以对通过网状网络的流量进行细粒度控制的网络 API 已成为 Beta。使用网关对进入和退出问题进行显式建模，使运维人员可以[控制网络拓扑](/zh/blog/2018/v1alpha3-routing/)并满足边缘的访问安全性要求。
 
-- 双向 TLS 现在 [以增量方式推出]，无需更新服务的所有客户端。这是一项关键功能，现有生产部署可以无障碍的就地采用。
+- 双向 TLS 现在[以增量方式推出]，无需更新服务的所有客户端。这是一项关键功能，现有生产部署可以无障碍的就地采用。
 
-- Mixer 开始支持 [开发进程外适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)。这将成为在未来发行版中扩展 Mixer 的默认方法，并使构建适配器更加简单。
+- Mixer 开始支持[开发进程外适配器](https://github.com/istio/istio/wiki/Out-Of-Process-gRPC-Adapter-Dev-Guide)。这将成为在未来发行版中扩展 Mixer 的默认方法，并使构建适配器更加简单。
 
-- 现在，由 Envoy 完全控制本地控制访问服务的 [授权策略](/zh/docs/concepts/security/#authorization)，以提高其性能和可靠性。
+- 现在，由 Envoy 完全控制本地控制访问服务的[授权策略](/zh/docs/concepts/security/#authorization)，以提高其性能和可靠性。
 
-- 现在建议使用 [Helm chart 安装](/zh/docs/setup/install/helm/) 方法，该方法提供了丰富的自定义选项，可以按您的意愿采用 Istio。
+- 现在建议使用 [Helm chart 安装](/zh/docs/setup/install/helm/)方法，该方法提供了丰富的自定义选项，可以按您的意愿采用 Istio。
 
 - 我们已经在性能上做出了很多努力，包括连续回归测试，大规模环境模拟和目标修复。我们对结果感到非常满意，并将在未来几周内详细分享更多信息。
 
@@ -53,8 +53,8 @@ aliases:
 ## 开始之前{#getting-started}
 
 如果您是 Istio 的新手，并希望将其用于您的部署，我们很乐意听取您的意见。
-可以看看 [我们的文档](/zh/docs/) 或者移步我们的 [聊天室](https://discuss.istio.io)。
-如果您想更深入地 [为项目做贡献](/zh/about/community)，请参加一个我们的社区会议，并打个招呼。
+可以看看[我们的文档](/zh/docs/)或者移步我们的[聊天室](https://discuss.istio.io)。
+如果您想更深入地[为项目做贡献](/zh/about/community)，请参加一个我们的社区会议，并打个招呼。
 
 ## 感谢{#thanks}
 
@@ -74,13 +74,13 @@ Istio 团队非常感谢为该项目做出贡献的每个人。没有您的帮�
 
 ### 策略和遥测{#policy-and-telemetry}
 
-- **更新的属性**。用于描述流量来源和目的地的一组 [属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/) 已被彻底修改，变得更加精确和全面。
+- **更新的属性**。用于描述流量来源和目的地的一组[属性](/zh/docs/reference/config/policy-and-telemetry/attribute-vocabulary/)已被彻底修改，变得更加精确和全面。
 
-- **策略检查缓存**。Mixer 现在具有了用于策略检查的大型 2 级缓存，补充了 sidecar 代理中存在的1级缓存。这进一步减少了外部强制策略检查的平均延迟。
+- **策略检查缓存**。Mixer 现在具有了用于策略检查的大型 2 级缓存，补充了 sidecar 代理中存在的 1 级缓存。这进一步减少了外部强制策略检查的平均延迟。
 
 - **遥测缓冲**。Mixer 现在可以在将调用报告分配给适配器之前先缓冲调用报告，这为适配器提供了机会以更大的块处理遥测数据，从而减少了 Mixer 及其适配器的总体计算开销。
 
-- **进程外适配器**。Mixer 现在包括对进程外适配器的初始支持。这将是与 Mixer 集成的推荐方法。[进程外适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) 和[进程外适配器遍历](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Walkthrough) 提供了有关如何构建进程外适配器的初始文档。
+- **进程外适配器**。Mixer 现在包括对进程外适配器的初始支持。这将是与 Mixer 集成的推荐方法。[进程外适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide)和[进程外适配器遍历](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Walkthrough)提供了有关如何构建进程外适配器的初始文档。
 
 - **客户端遥测**。现在，除了服务器端遥测之外，还可以从交互的客户端收集遥测。
 
@@ -92,11 +92,11 @@ Istio 团队非常感谢为该项目做出贡献的每个人。没有您的帮�
 
 ### 安全{#security}
 
-- **授权**。我们已经重新实现了 [授权功能] 的 RPC 级授权策略，此功能现在的实现，不再需要使用 Mixer 和 Mixer 适配器。
+- **授权**。我们已经重新实现了[授权功能] 的 RPC 级授权策略，此功能现在的实现，不再需要使用 Mixer 和 Mixer 适配器。
 
-- **改进双向 TLS 身份认证控制**。现在，可以更轻松地控制服务之间的 [双向 TLS 身份认证](/zh/docs/concepts/security/#authentication)。我们提供 `PERMISSIVE` 模式，以便您可以为您的服务 [递增地启用双向TLS](/zh/docs/tasks/security/authentication/mtls-migration/)。我们移除了服务注释，采用 [独特的方法来启用双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/)，并结合了客户端 [目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。
+- **改进双向 TLS 身份认证控制**。现在，可以更轻松地控制服务之间的[双向 TLS 身份认证](/zh/docs/concepts/security/#authentication)。我们提供 `PERMISSIVE` 模式，以便您可以为您的服务[递增地启用双向 TLS](/zh/docs/tasks/security/authentication/mtls-migration/)。我们移除了服务注释，采用[独特的方法来启用双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/)，并结合了客户端[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)。
 
-- **JWT 授权**。现在支持 [JWT 身份验证](/zh/docs/concepts/security/#authentication)，可以使用 [身份验证策略](/zh/docs/concepts/security/#authentication-policies) 对其进行配置。
+- **JWT 授权**。现在支持 [JWT 身份验证](/zh/docs/concepts/security/#authentication)，可以使用[身份验证策略](/zh/docs/concepts/security/#authentication-policies)对其进行配置。
 
 ### `istioctl`
 
@@ -118,9 +118,9 @@ Istio 团队非常感谢为该项目做出贡献的每个人。没有您的帮�
 
 ### 1.0 已知问题{#known-issues-with-1-0}
 
-- Amazon EKS 服务未实现 sidecar 自动注入。在 Amazon EKS 中使用 Istio 需要为 sidecar 使用 [手动注入](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) 并通过 [Helm 参数](/zh/docs/setup/install/helm) `--set galley.enabled=false` 关闭 galley。
+- Amazon EKS 服务未实现 sidecar 自动注入。在 Amazon EKS 中使用 Istio 需要为 sidecar 使用[手动注入](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)并通过 [Helm 参数](/zh/docs/setup/install/helm) `--set galley.enabled=false` 关闭 galley。
 
-- 在[多集群部署](/zh/docs/setup/install/multicluster) 中，mixer-telemetry 和 mixer-policy 组件不会连接到任何远程集群的 Kubernetes API 端点。由于与远程集群上的工作负载相关的某些元数据不完整，这会导致遥测保真度的损失。
+- 在[多集群部署](/zh/docs/setup/install/multicluster)中，mixer-telemetry 和 mixer-policy 组件不会连接到任何远程集群的 Kubernetes API 端点。由于与远程集群上的工作负载相关的某些元数据不完整，这会导致遥测保真度的损失。
 
 - 有的 Kubernetes 清单，可用于独立使用 Citadel 或启用 Citadel 运行状况检查。Helm 没有实现这些模式。有关更多详细信息，请参见 [Issue 6922](https://github.com/istio/istio/issues/6922)。
 

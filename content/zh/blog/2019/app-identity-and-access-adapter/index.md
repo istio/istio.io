@@ -22,7 +22,7 @@ Istio 使用 [Envoy sidecar 代理] 来调整服务网格中所有 Pod 的入站
 
 APP 身份和访问适配器通过分析针对服务网格上各种访问控制策略的遥测数据（属性）扩展 Mixer 的功能。访问控制策略可以关联到具体的 Kubernetes 服务，并且可以微调到特定的服务端点。关于策略和遥测信息的详情请看 Istio 的文档。
 
-当 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter) 结合到 Istio 中后，为多云架构提供可扩展的、集成身份和访问解决方案，而且不需要修改任何应用程序代码。
+当 [App 身份和访问适配器](https://github.com/ibm-cloud-security/app-identity-and-access-adapter)结合到 Istio 中后，为多云架构提供可扩展的、集成身份和访问解决方案，而且不需要修改任何应用程序代码。
 
 ## 安装 {#installation}
 

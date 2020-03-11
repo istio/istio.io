@@ -17,7 +17,7 @@ aliases:
 $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
-在默认的访问日志输出格式中，Envoy 响应标志和 Mixer 策略状态位于响应状态码之后，如果你使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%` 和 `%DYNAMIC_METADATA(istio.mixer:status)%`。
+在默认的访问日志输出格式中，Envoy 响应标志和 Mixer 策略状态位于响应状态码之后，如果你使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%` 和 `%DYNAMIC_METADATA(istio.mixer:status) %`。
 
 参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#config-access-log-format-response-flags)查看更多有关响应标志的细节。
 
@@ -254,7 +254,7 @@ server {
 - `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 gateway 配置为 `gw`
 - `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 gateway 配置为 `gw`
 
-## 在网关中配置多个TLS主机时端口冲突{#port-conflict-when-configuring-multiple-TLS-hosts-in-a-gateway}
+## 在网关中配置多个 TLS 主机时端口冲突{#port-conflict-when-configuring-multiple-TLS-hosts-in-a-gateway}
 
 如果您应用的 `Gateway` 配置与另一个现有的 `Gateway` 具有相同的 `selector` 标签，如果它们都暴露了相同的 HTTPS 端口，那您必须确保它们具有唯一的端口名。
 否则，该配置在应用时不会立即显示错误指示，但在运行时网关配置中将忽略该配置。

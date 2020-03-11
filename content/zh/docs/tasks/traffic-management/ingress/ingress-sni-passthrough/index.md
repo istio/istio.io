@@ -211,7 +211,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  根据 [确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的指令来定义环境变量  `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
+1.  根据[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的指令来定义环境变量  `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
 
 1.  从集群外访问 NGINX 服务。注意，服务端返回了正确的证书，并且该证书已成功验证（输出了 _SSL certificate verify ok_ ）。
 

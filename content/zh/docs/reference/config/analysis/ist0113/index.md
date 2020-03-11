@@ -87,7 +87,7 @@ object "my-namespace/my-policy" specifies Plaintext.
 
 * 修改策略资源 `my-namespace/my-policy` 以将双向 TLS 作为身份验证模式。
   通常，可以通过在资源中添加一个 `peer` 属性来实现，其子属性为 `mtls`。您可以在
-  [策略对象参考](/zh/docs/reference/config/security/istio.authentication.v1alpha1/#Policy) 中阅读有关策略对象的更多信息。
+  [策略对象参考](/zh/docs/reference/config/security/istio.authentication.v1alpha1/#Policy)中阅读有关策略对象的更多信息。
 * 修改目标规则 `istio-system/default-rule`，删除 `ISTIO_MUTUAL` 以不使用双向 TLS。
   请注意，`default-rule` 在 `istio-system` 命名空间中，
   默认情况下 `istio-system` 命名空间被认为是配置的根命名空间（尽管可以通过资源中的 `rootNamespace` 属性来覆盖它）。

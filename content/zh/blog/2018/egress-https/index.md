@@ -14,7 +14,7 @@ target_release: 1.1
 但是在迁移这些系统之前，必须让服务网格内的应用程序能访问它们。还有其他情况，
 应用程序使用外部组织提供的 Web 服务，通常是通过万维网提供的服务。
 
-在这篇博客文章中，我修改了[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)让它可以
+在这篇博客文章中，我修改了 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)让它可以
 从外部 Web 服务（[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) ）获取图书详细信息。
 我将展示如何使用 _mesh-external service entries_ 在 Istio 中启用外部 HTTPS 流量。最后，
 我解释了当前与 Istio 出口流量控制相关的问题。
@@ -41,7 +41,7 @@ target_release: 1.1
 
 ### Bookinfo 使用 HTTPS 访问 Google 图书网络服务{#Bookinfo-with-https-access-to-a-google-books-web-service}
 
-让我们添加一个新版本的 _details_ 微服务，_v2_，从[Google Books APIs](https://developers.google.com/books/docs/v1/getting_started)中获取图书详细信息。
+让我们添加一个新版本的 _details_ 微服务，_v2_，从 [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) 中获取图书详细信息。
 它设定了服务容器的 `DO_NOT_ENCRYPT` 环境变量为 `false`。此设置将指示已部署服务使用 HTTPS（而不是 HTTP ）来访问外部服务。
 
 {{< text bash >}}
@@ -68,7 +68,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 在[确定 ingress 的 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)之后，
 让我们访问应用程序的网页。
 
-糟糕...页面显示 _Error fetching product details_，而不是书籍详细信息：
+糟糕... 页面显示 _Error fetching product details_，而不是书籍详细信息：
 
 {{< image width="80%" link="errorFetchingBookDetails.png" caption="获取产品详细信息的错误消息" >}}
 
@@ -77,14 +77,14 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，
 应用程序仍然有用。
 
-那可能出了什么问题？ 啊......答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
+那可能出了什么问题？ 啊...... 答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
 默认情况下，Istio sidecar 代理（[Envoy proxies](https://www.envoyproxy.io)）
-**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义[mesh-external service entry](/zh/docs/reference/config/networking/service-entry/)。
+**阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义 [mesh-external service entry](/zh/docs/reference/config/networking/service-entry/)。
 
 ### 启用对 Google Books 网络服务的 HTTPS 访问{#enable-https-access-to-a-google-books-web-service}
 
 不用担心，让我们定义**网格外部 `ServiceEntry`** 并修复我们的应用程序。您还必须定义 _virtual
-service_ 使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)对外部服务执行路由。
+service_ 使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 对外部服务执行路由。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -161,7 +161,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 
 这个故事有一个警告。假设您要监视您的微服务使用 [Google API](https://developers.google.com/apis-explorer/) 的哪个特定集
 （[书籍](https://developers.google.com/books/docs/v1/getting_started)，[日历](https://developers.google.com/calendar/)，[任务](https://developers.google.com/tasks/)等）
-假设您要强制执行仅允许使用[图书 API](https://developers.google.com/books/docs/v1/getting_started)的策略。
+假设您要强制执行仅允许使用[图书 API](https://developers.google.com/books/docs/v1/getting_started) 的策略。
 假设您要监控您的微服务访问的标识符。对于这些监视和策略任务，您需要知道 URL 路径。
 考虑例如 URL [`www.googleapis.com/books/v1/volumes?q=isbn:0486424618`](https://www.googleapis.com/books/v1/volumes?q=isbn:0486424618)。
 在该网址中，路径段指定了[图书 API](https://developers.google.com/books/docs/v1/getting_started)
@@ -304,7 +304,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 
 ### Istio 双向 TLS 的关系{#relation-to-Istio-mutual-TLS}
 
-请注意，在这种情况下，TLS 的源与 Istio 应用的 [双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) 无关,
+请注意，在这种情况下，TLS 的源与 Istio 应用的[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) 无关,
 无论 Istio 双向 TLS 是否启用，外部服务的 TLS 源都将起作用 , 保证服务网**内**的服务到服务通信，
 并为每个服务提供强大的身份认证, 在此博客文章中的 **外部服务**的情况下，我们有**单向** TLS，
 这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，
@@ -313,7 +313,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 ## 结论{#conclusion}
 
 在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，
-Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用 mesh-external,必须为服务网格创建 `ServiceEntry` ,
+Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用 mesh-external, 必须为服务网格创建 `ServiceEntry` ,
 可以通过 HTTPS 访问外部站点，当微服务发出 HTTPS 请求时，流量是端到端加密的，但是 Istio 无法监视 HTTP 详细信息，
 例如请求的 URL 路径。当微服务发出 HTTP 请求时，Istio 可以监视请求的 HTTP 详细信息并强制执行基于 HTTP 的访问策略。
 但是，在这种情况下，微服务和 sidecar 代理之间的流量是未加密的。在具有非常严格的安全要求的组织中，

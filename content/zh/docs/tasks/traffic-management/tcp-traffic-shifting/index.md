@@ -17,7 +17,7 @@ aliases:
 
 * 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
-* 回顾[流量管理](/zh/docs/concepts/traffic-management) 概念文档。
+* 回顾[流量管理](/zh/docs/concepts/traffic-management)概念文档。
 
 ## 应用基于权重的 TCP 路由{#apply-weight-based-tcp-routing}
 

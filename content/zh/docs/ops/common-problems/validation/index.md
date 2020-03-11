@@ -11,7 +11,7 @@ aliases:
 
 ## 看似有效的配置不生效 {#valid-configuration-is-rejected}
 
-手动验证您的配置是否正确，当有必要的时候请参照[Istio API 文档](/zh/docs/reference/config) 。
+手动验证您的配置是否正确，当有必要的时候请参照 [Istio API 文档](/zh/docs/reference/config) 。
 
 ## 接受无效配置 {#invalid-configuration-is-accepted}
 
@@ -126,7 +126,7 @@ webhooks:
 
 ## 创建配置失败报错： x509 certificate errors {#x509-certificate-errors}
 
-`x509: certificate signed by unknown authority` 错误通常和 webhook 配置中的空 `caBundle` 有关，所以要确认它不为空 (请查阅 [验证 webhook 配置](#invalid-configuration-is-accepted))。Istio 有意识的使用 `istio-validation` `configmap` 和根证书，调整了 webhook 配置。
+`x509: certificate signed by unknown authority` 错误通常和 webhook 配置中的空 `caBundle` 有关，所以要确认它不为空 (请查阅[验证 webhook 配置](#invalid-configuration-is-accepted))。Istio 有意识的使用 `istio-validation` `configmap` 和根证书，调整了 webhook 配置。
 
 1. 验证 `istio-pilot` pod  是否在运行：
 

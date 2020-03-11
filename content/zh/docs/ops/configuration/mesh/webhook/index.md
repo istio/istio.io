@@ -19,7 +19,7 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
 ## 验证动态准入 Webhook 前置条件
 
-请参阅 [平台设置说明](/zh/docs/setup/platform-setup/)。如果集群配置错误，Webhook 将无法正常工作。集群配置后，当动态 Webhook 和相关特性不能正常工作时，你可以通过以下步骤进行检查。
+请参阅[平台设置说明](/zh/docs/setup/platform-setup/)。如果集群配置错误，Webhook 将无法正常工作。集群配置后，当动态 Webhook 和相关特性不能正常工作时，你可以通过以下步骤进行检查。
 
 1. 验证当前是否使用正确版本的 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 和 Kubernetes 服务
 
@@ -38,4 +38,4 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
 1. 验证 `kube-apiserver --enable-admission-plugins` 配置中插件 `MutatingAdmissionWebhook` 和 `ValidatingAdmissionWebhook` 是否被启用。通过检查[指定规范](/zh/docs/setup/platform-setup/)中的标志（`--enable-admission-plugins`）。
 
-1. 验证 Kubernetes api-server 与 Webhook 所在 Pod 的网络连通是否正常。例如错误配置 `http_proxy` 可能干扰 api-server 正常运行（详细信息请参阅[pr](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)和[issue](https://github.com/kubernetes/kubeadm/issues/666))。
+1. 验证 Kubernetes api-server 与 Webhook 所在 Pod 的网络连通是否正常。例如错误配置 `http_proxy` 可能干扰 api-server 正常运行（详细信息请参阅 [pr](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443) 和 [issue](https://github.com/kubernetes/kubeadm/issues/666))。

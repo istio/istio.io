@@ -86,20 +86,20 @@ target_release: 1.1
 ### Bookinfo 应用程序的初始设置{#Initial-setting-of-Bookinfo-application}
 
 为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/zh/docs/setup/getting-started/) 的 Kubernetes 集群。然后部署
-[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules)和[改变 Istio 到  blocking-egress-by-default 策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
+[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules) 和[改变 Istio 到  blocking-egress-by-default 策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
 
 此应用程序从 `ratings` 微服务获取书籍评级（1 到 5 的数字）。评级以星标形式显示每条评论。`ratings` 微服务有几个版本。在下一小节中，请部署使用 [MongoDB](https://www.mongodb.com)
 作为 ratings 数据库的版本。
 
 本博文中的示例命令适用于 Istio 1.0。
 
-作为提醒，这是 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/) 的端到端架构。
+作为提醒，这是 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)的端到端架构。
 
 {{< image width="80%" link="/zh/docs/examples/bookinfo/withistio.svg" caption="The original Bookinfo application" >}}
 
 ### 在 Bookinfo 应用程序中使用外部数据库{#use-the-external-database-in-Bookinfo-application}
 
-1.部署使用 MongoDB 数据库的 _ratings_ 微服务（_ratings v2_）：
+1. 部署使用 MongoDB 数据库的 _ratings_ 微服务（_ratings v2_）：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
@@ -199,7 +199,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1.  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
 
-1. 如果您未执行 [上一节](#control-TCP-egress-traffic-without-a-gateway) 中的步骤，则立即执行这些步骤。
+1. 如果您未执行[上一节](#control-TCP-egress-traffic-without-a-gateway)中的步骤，则立即执行这些步骤。
 
 1. 您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的 {{< gloss >}}mutual TLS Authentication{{< /gloss >}}，以使 egress gateway 监控来源 pod 的身份并基于该 identity     启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
    如果你不想开启双向 TLS，参考 [Mutual TLS between the sidecar proxies and the egress gateway](#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway) 小节
@@ -434,7 +434,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1.  再次刷新应用程序的网页，并验证等级是否仍正确显示。
 
-1.  [开启 Envoy访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1.  [开启 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1. 检查 egress gateway 的 Envoy 的统计数据，找到对应请求 MongoDB service 的 counter。如果 Istio 步骤在 `istio-system` namespace 中，打印 counter 的命令为：
 
@@ -877,7 +877,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     {{< /text >}}
 
 1. 为 *.com 创建一个 egress Gateway，使用 443 端口和 TLS 协议。创建一个 destination rule 来为 gateway 设置 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)。
-以及为 Envoy 过滤器，以防止恶意应用程序篡改SNI (过滤器验证这个应用程序发布的 SNI与报告给 Mixer 的 SNI是否相同)
+以及为 Envoy 过滤器，以防止恶意应用程序篡改 SNI (过滤器验证这个应用程序发布的 SNI 与报告给 Mixer 的 SNI 是否相同)
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

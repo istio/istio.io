@@ -319,7 +319,7 @@ $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_se
 
 ### 配置 `bookinfo.com` 主机的流量{#configure-traffic-for-the-book-info-host}
 
-1. 部署[Bookinfo 示例应用](/zh/docs/examples/bookinfo/)，但不要部署网关：
+1. 部署 [Bookinfo 示例应用](/zh/docs/examples/bookinfo/)，但不要部署网关：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@

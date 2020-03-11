@@ -16,4 +16,4 @@ Mixer：
 - 基于 *operator-supplied* 配置为每个请求生成跟踪的范围
 - 将生成的跟踪范围发送到 *operator-designated* 跟踪后端
 
-使用 Istio 的 [Stackdriver 跟踪集成](https://cloud.google.com/istio/docs/istio-on-gke/installing#tracing_and_logging) 是通过 Mixer 进行跟踪集成的一个示例。
+使用 Istio 的 [Stackdriver 跟踪集成](https://cloud.google.com/istio/docs/istio-on-gke/installing#tracing_and_logging)是通过 Mixer 进行跟踪集成的一个示例。

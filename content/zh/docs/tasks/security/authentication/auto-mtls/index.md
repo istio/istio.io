@@ -14,8 +14,8 @@ Istio 跟踪迁移到 sidecar 的服务端工作负载，并将客户端 sidecar
 
 ## 开始之前{#before-you-begin}
 
-* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies) 和关于
-[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 章节的内容。
+* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和关于
+[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)章节的内容。
 
 * 安装 Istio 时，配置 `global.mtls.enabled` 选项为 false，`global.mtls.auto` 选项为 true。
 以安装 `demo` 配置文件为例：
@@ -321,7 +321,7 @@ spec:
 EOF
 {{< /text >}}
 
-由于在前面的步骤中，我们已经禁用了 `httpbin.full` 的身份验证策略，以禁用双向TLS，现在应该看到来自 `sleep.full` 的流量开始失败。
+由于在前面的步骤中，我们已经禁用了 `httpbin.full` 的身份验证策略，以禁用双向 TLS，现在应该看到来自 `sleep.full` 的流量开始失败。
 
 {{< text bash >}}
 $ for from in "full" "legacy"; do for to in "full" "partial" "legacy"; do echo "sleep.${from} to httpbin.${to}";kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/headers  -s  -w "response code: %{http_code}\n" | egrep -o 'URI\=spiffe.*sa/[a-z]*|response.*$';  echo -n "\n"; done; done

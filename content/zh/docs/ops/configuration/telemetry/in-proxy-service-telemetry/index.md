@@ -43,7 +43,7 @@ Istio 1.4 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
 
 我们不考虑将这个特性提升到 **Beta** 或者 **Stable** [状态](/zh/about/feature-stages/#feature-phase-definitions)，直到我们完成性能和可扩展性的提升以及评估。
 
-你的网格的性能依赖于你的配置。要了解更多，请看我们的 [性能最佳实践帖](/zh/blog/2019/performance-best-practices/)。
+你的网格的性能依赖于你的配置。要了解更多，请看我们的[性能最佳实践帖](/zh/blog/2019/performance-best-practices/)。
 
 {{< /warning >}}
 
@@ -52,7 +52,7 @@ Istio 1.4 对直接在 Envoy 代理中生成服务级别的 HTTP 指标添加了
 - 在 `istio-proxy` 容器中所有的过滤器一起使用比运行 Mixer 过滤器减少了 10% 的 CPU 资源。
 - 和不配置遥测过滤器的 Envoy 代理相比，新增加的过滤器会导致在 1000 rps 时增加约 5ms P90 的时延。
 - 如果你只使用 `istio-telemetry` 服务来生成服务级别的指标，你可以关闭 `istio-telemetry` 服务。
-  这样网格中每 1000 rps 流量可以为你节省约 0.5 vCPU，并且可以在收集 [标准指标](/zh/docs/reference/config/policy-and-telemetry/metrics/) 时将 Istio 消耗的 CPU 减半。
+  这样网格中每 1000 rps 流量可以为你节省约 0.5 vCPU，并且可以在收集[标准指标](/zh/docs/reference/config/policy-and-telemetry/metrics/)时将 Istio 消耗的 CPU 减半。
 
 ## 已知的限制{#known-limitations}
 

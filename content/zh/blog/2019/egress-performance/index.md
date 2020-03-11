@@ -8,7 +8,7 @@ keywords: [performance,traffic-management,egress,mongo]
 target_release: 1.0
 ---
 
-为了从网格中访问外部服务（本例中使用的是 MongoDB），需要加入 Egress gateway，本次测试的主要目的就是调查这一行为对性能和资源使用造成的影响。在博客 [使用外部 MongoDB 服务](/zh/blog/2018/egress-mongo/) 中介绍了为外部 MongoDB 配置 Egress gateway 的具体步骤。
+为了从网格中访问外部服务（本例中使用的是 MongoDB），需要加入 Egress gateway，本次测试的主要目的就是调查这一行为对性能和资源使用造成的影响。在博客[使用外部 MongoDB 服务](/zh/blog/2018/egress-mongo/)中介绍了为外部 MongoDB 配置 Egress gateway 的具体步骤。
 
 本次测试中使用的应用是 Acmeair 的 Java 版，这个应用会模拟一个航空订票系统。在 Istio 的每日构建中会使用该应用来进行性能的回归测试，但是在回归测试过程中，这些应用会使用自己的 Sidecar 来访问外部的 MongoDB，而不是 Egress gateway。
 

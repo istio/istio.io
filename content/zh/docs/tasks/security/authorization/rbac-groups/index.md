@@ -59,7 +59,7 @@ aliases:
 
 您接下来应用的认证策略会强制要求访问 `httpbin` 服务需要具备有效的 JWT。
 策略中定义的 JSON Web 密钥集（ JWKS ）端点必须对 JWT 进行签名。
-本教程使用 Istio 代码库中的 [JWKS 端点]({{< github_file >}}/security/tools/jwt/samples/jwks.json)并使用[此示例 JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt)。
+本教程使用 Istio 代码库中的 [JWKS 端点]({{<github_file >}}/security/tools/jwt/samples/jwks.json) 并使用[此示例 JWT]({{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt)。
 示例 JWT 包含一个标识为 `groups` 的声明键和一个 [`"group1"`，`"group2"`] 字符串列表的声明值。
 JWT 声明值可以是字符串或字符串列表；两种类型都支持。
 

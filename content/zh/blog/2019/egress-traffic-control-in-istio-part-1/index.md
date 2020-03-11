@@ -39,7 +39,7 @@ _1.3.4 不允许持卡人数据环境没有授权的出站流量进入互联网�
 
 出口流量安全管控的意思是监控出口流量并且针对出口流量应用所有的安全策略。
 监控出口流量，可以对它进行分析（可能是离线的），即便你无法实时阻止攻击，也要检测攻击事件。
-另外一个减少攻击可能性的方法是遵循[需要知道](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) 的原则进行指定限制访问策略。
+另外一个减少攻击可能性的方法是遵循[需要知道](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology])的原则进行指定限制访问策略。
 
 现在来看看已经收集到的出口流量管控要求。
 
@@ -82,7 +82,7 @@ Istio 1.1 满足所有的收集要求：
 
 第三个要求指出：Istio 运维人员必须能为整个集群所有的出口流量定规策略。策略指出集群中的 pod 可能会访问哪些外部服务。外部服务可以通过服务的[全域名](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) （比如 `www.ibm.com`）或者泛域名（比如：`*.ibm.com`）进行标示。只有指定的外部服务可以访问，其它所有的出口流量都要被阻止。
 
-这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了[攻击面](https://en.wikipedia.org/wiki/Attack_surface)。当外部服务有了它们自己的安全机制，你想使用[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。
+这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了[攻击面](https://en.wikipedia.org/wiki/Attack_surface)。当外部服务有了它们自己的安全机制，你想使用[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。
 
 这个要求意味着外部服务必须能用域名来标示。我们把出口管控系统的这个特性叫做 DNS 感知。如果系统不是 DNS 可感知的，外部服务必须用 IP 地址标示。
 使用 IP 地址不方便而且经常不灵活，因为服务的 IP 地址会变的。有时候服务的所有 IP 地址甚至都不知道，比如：[CDN](https://en.wikipedia.org/wiki/Content_delivery_network)。
@@ -98,4 +98,4 @@ Istio 1.1 满足所有的收集要求：
 
 ## 总结 {#summary}
 
-希望您确信对于集群安全来说出口流量管控是非常重要的。在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/) 我讲述了使用 Istio 实现出口流量安全管控的方法。在[这个系列文章的第三部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/) 我和其它方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)以及已有的其它出口代理/防火墙方案。
+希望您确信对于集群安全来说出口流量管控是非常重要的。在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)我讲述了使用 Istio 实现出口流量安全管控的方法。在[这个系列文章的第三部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/)我和其它方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)以及已有的其它出口代理/防火墙方案。
