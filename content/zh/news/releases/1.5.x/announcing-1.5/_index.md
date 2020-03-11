@@ -16,7 +16,7 @@ aliases:
 {{< relnote >}}
 
 通过将 Istio 控制平面的组件整合为单个二进制文件，我们让 Istio 的安装和运行都变得更加简单。
-我们为整个行业的代理服务器引入了功能强大且快速的新扩展模型，并且我们将继专注于可用性、安全性  、遥测以及流量控制。
+我们为整个行业的代理服务器引入了功能强大且快速的新扩展模型，并且我们将继需专注于可用性、安全性 、遥测以及流量控制。
 
 经过一年 amazing 般的发展和学习，我们在本次发行版中打包了比 1.1 之后任何版本都多的软件包。一年前，我们决定转为每季度发布一次，我们很高兴地报告，这是我们连续第五次实现这一目标。用户也获得了比以往更快、更多的新功能！
 
@@ -24,7 +24,7 @@ aliases:
 
 ## Istiod 介绍{#introducing-Istiod}
 
-通过“拥抱单体”升级了 Istio，将控制平面整合为一个新的二进制文件——Istiod。我们极大地简化了安装、运行和升级 Istio 的体验。更少的活动组件可以让运维人员的头发变得茂密，这些部件易于调试和理解。对于网格用户，Istiod 不会改变他们的任何体验：所有 API 和运行时特性均与以前的组件一致。
+通过“拥抱单体”升级了 Istio，将控制平面整合为一个新的二进制文件——Istiod。我们极大地简化了安装、运行和升级 Istio 的流程。更少的活动组件让运维人员的调试和理解也变得更简单。对于网格用户，Istiod 不会改变他们的任何体验：所有 API 和运行时特性均与以前的组件一致。
 
 在接下来的几天里，请留意有关 Istiod 和转向简单部署模型好处的博客文章。
 
@@ -33,7 +33,7 @@ aliases:
 Istio 一直都是可扩展性最好的服务网格，其 Mixer 插件允许自定义策略和遥测，而 Envoy 扩展则允许数据平面自定义。在 Istio 1.5 中，我们发布了一个新模型，该模型使用 [WebAssembly](https://webassembly.org/)（Wasm）将 Istio 的可扩展性模型与 Envoy 统一。Wasm 将使开发人员能够安全地分发和执行 Envoy 代理中的代码，以便与遥测系统、策略系统、路由控制甚至是消息体转换（transform the body of a message）进行集成。它将更加灵活和高效，不再需要单独运行 Mixer 组件（这也简化了
 部署）。
 
-您可以在 Google、Solo.io 以及 Envoy 社区中查找相关文章，了解这项令人激动的工作的详细信息！
+[阅读我们的 Wasm 博客](/zh/blog/2020/wasm-announce/)，同时您可以在 Google、Solo.io 以及 Envoy 社区中查找相关文章，了解这项令人激动的工作的详细信息！
 
 ## 更简单{#easier-to-use}
 
@@ -49,7 +49,7 @@ Istio 一直都是可扩展性最好的服务网格，其 Mixer 插件允许自�
 
 我们一如既往的在努力使每个 Istio 发布版都更加安全。在 1.5 中，所有安全策略（包括 [自动 mTLS](/zh/docs/tasks/security/authentication/auto-mtls/)、[`AuthenticationPolicy`](/zh/docs/reference/config/security/istio.authentication.v1alpha1/)（`PeerAuthentication` 和 `RequestAuthentication`）以及授权现在都处于 Beta 版。SDS 现在是稳定的。授权现在支持 Deny 语义，以强制执行不可覆盖的强制性控件。我们已经将 Node 代理和 Istio 代理整合到一个二进制文件中，这意味着我们不再需要配置 `PodSecurityPolicy`。
 
-不仅如此，我们也不再需要在每个 Pod 上安装证书、不必在更换证书时重启 Envoy。证书直接从 Istiod 下发到每个 pod。而且，每个 pod 的证书都是唯一书。
+不仅如此，我们也不再需要在每个 Pod 上安装证书、不必在更换证书时重启 Envoy。证书直接从 Istiod 下发到每个 pod。而且，每个 pod 的证书都是唯一证书。
 
 想要更深入地了解 Istio 的安全性及其可防范的威胁，请留意未来几天的博客文章。
 
