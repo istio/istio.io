@@ -79,7 +79,7 @@ following commands on a machine with cluster admin privileges:
     type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and
     multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment,
     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned
-    into istiod deployment, defaulting to 'istiod.istio-system.svc'
+    into Istiod deployment, defaulting to `istiod.istio-system.svc`.
 
 1. Define the namespace the VM joins. This example uses the `SERVICE_NAMESPACE`
    environment variable to store the namespace. The value of this variable must

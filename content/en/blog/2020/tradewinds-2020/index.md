@@ -101,7 +101,7 @@ maintenance effort, and issue diagnosis time while increasing responsiveness.
 Read more about Istiod in
 [this post from Christian Posta](https://blog.christianposta.com/microservices/istio-as-an-example-of-when-not-to-do-microservices/).
 
-We are shipping istiod as the default for all profiles in 1.5.
+We are shipping Istiod as the default for all profiles in 1.5.
 
 To reduce the per-node footprint, we are getting rid of the node-agent, used to
 distribute certificates, and moving its functionality to the istio-agent, which
@@ -118,7 +118,7 @@ to this...
 
 {{< image width="75%"
     link="./architecture-post-istiod.svg"
-    alt="Istio architecture with istiod"
+    alt="Istio architecture with Istiod"
     caption="The Istio architecture in 2020"
     >}}
 
