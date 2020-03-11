@@ -63,9 +63,8 @@ instead with the flags `--set gateways.istio-ingressgateway.type=NodePort`
 appended to the end of the Helm instructions in the installation steps below.
 {{< /tip >}}
 
-{{< tip >}}
-The Helm installation method previously detailed here that used the [Tiller](https://helm.sh/docs/topics/architecture/#components) component has been removed. The preferred install path is to use `istioctl` as documented in [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/). If you still desire to use Helm, you'll need to leverage the `helm template` method detailed below.
-{{< /tip >}}
+Previously, this document described a Helm installation method that utilized the  [Tiller](https://helm.sh/docs/topics/architecture/#components) component. That installation method is no longer available. Instead, we recommend using `istioctl` as documented in [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/). If you want to use Helm, then you need to use the `helm template` method described below.
+
 
 1. Create a namespace for the `istio-system` components:
 
@@ -175,7 +174,7 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 ## Uninstall
 
-- The `helm template` command is also used in uninstalling Istio. Uninstall with these commands:
+- You can use the `helm template` command to uninstall Istio. Uninstall with these commands:
 
 {{< tabset category-name="helm_profile" >}}
 
