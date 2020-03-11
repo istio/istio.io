@@ -315,7 +315,6 @@ IPs
 iptables
 IPv4
 IPv6
-istio
 istio_requests
 istio_request_duration_milliseconds_bucket
 Istio
