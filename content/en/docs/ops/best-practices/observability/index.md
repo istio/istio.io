@@ -263,7 +263,7 @@ The original queries would then be replaced with:
 
 * `istio_requests:by_destination_service:rate1m`
 
-* avg(istio_request_duration_milliseconds_bucket:p95:rate1m)
+* `avg(istio_request_duration_milliseconds_bucket:p95:rate1m)`
 
 {{< tip >}}
 A detailed write-up on [metrics collection optimization in production at AutoTrader](https://karlstoney.com/2020/02/25/federated-prometheus-to-reduce-metric-cardinality/)
