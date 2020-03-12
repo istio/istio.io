@@ -21,9 +21,7 @@ Follow this guide to install and configure an Istio mesh for in-depth evaluation
 This installation guide uses [Helm](https://github.com/helm/helm) charts that provide rich
 customization of the Istio control plane and of the sidecars for the Istio data plane.
 You can simply use `helm template` to generate the configuration and then install it
-using `kubectl apply`, or you can choose to use `helm install` and let
-[Tiller](https://helm.sh/docs/topics/architecture/#components)
-completely manage the installation.
+using `kubectl apply`.
 
 Using these instructions, you can select any one of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/)
@@ -56,10 +54,7 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 ## Installation steps
 
 Change directory to the root of the release and then
-choose one of the following two **mutually exclusive** options:
-
-1. To deploy Istio without using Tiller, follow the instructions for [option 1](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template).
-1. To use [Helm's Tiller pod](https://helm.sh/) to manage your Istio release, follow the instructions for [option 2](/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install).
+follow the instructions below.
 
 {{< tip >}}
 Istio, by default, uses `LoadBalancer` service object types. Some platforms do not support `LoadBalancer`
@@ -68,10 +63,7 @@ instead with the flags `--set gateways.istio-ingressgateway.type=NodePort`
 appended to the end of the Helm instructions in the installation steps below.
 {{< /tip >}}
 
-### Option 1: Install with Helm via `helm template`
-
-Choose this option if your cluster doesn't have [Tiller](https://helm.sh/docs/topics/architecture/#components)
-deployed and you don't want to install it.
+Previously, this document described a Helm installation method that utilized the [Tiller](https://helm.sh/docs/topics/architecture/#components) component. [That installation method](https://archive.istio.io/v1.4/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install) is no longer recommended. Instead, we recommend using `istioctl` as documented in [Installing with {{< istioctl >}}](/docs/setup/install/istioctl/). If you want to use Helm, then you need to use the `helm template` method described below.
 
 1. Create a namespace for the `istio-system` components:
 
@@ -163,108 +155,6 @@ $ helm template install/kubernetes/helm/istio --name istio --namespace istio-sys
 
 {{< /tabset >}}
 
-### Option 2: Install with Helm and Tiller via `helm install`
-
-This option allows Helm and
-[Tiller](https://helm.sh/docs/topics/architecture/#components)
-to manage the lifecycle of Istio.
-
-{{< boilerplate helm-security-warning >}}
-
-1. Make sure you have a service account with the `cluster-admin` role defined for Tiller.
-   If not already defined, create one using following command:
-
-    {{< text bash >}}
-    $ kubectl apply -f @manifests/UPDATING-CHARTS.md@
-    {{< /text >}}
-
-1. Install Tiller on your cluster with the service account:
-
-    {{< text bash >}}
-    $ helm init --service-account tiller
-    {{< /text >}}
-
-1. Install the `istio-init` chart to bootstrap all the Istio's CRDs:
-
-    {{< text bash >}}
-    $ helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-    {{< /text >}}
-
-1. {{< boilerplate verify-crds >}}
-
-1. Select a [configuration profile](/docs/setup/additional-setup/config-profiles/)
-    and then install the `istio` chart corresponding to your chosen profile.
-    The **default** profile is recommended for production deployments:
-
-    {{< tip >}}
-    You can further customize the configuration by adding one or more `--set <key>=<value>`
-    [Installation Options](/docs/reference/config/installation-options/) to the helm command.
-    {{< /tip >}}
-
-{{< tabset category-name="helm_profile" >}}
-
-{{< tab name="default" category-value="default" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="demo" category-value="demo" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="minimal" category-value="minimal" >}}
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-minimal.yaml
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Mutual TLS enabled" category-value="mtls" >}}
-
-Enable mutual TLS in Istio by setting options `global.controlPlaneSecurityEnabled=true`
-and `global.mtls.enabled=true`, in addition to the specifying the Helm values file
-corresponding to your chosen profile.
-
-For example, to configure the **demo** profile with mutual TLS enabled:
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-demo.yaml \
-    --set global.controlPlaneSecurityEnabled=true \
-    --set global.mtls.enabled=true
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Istio CNI enabled" category-value="cni" >}}
-
-Install the [Istio CNI](/docs/setup/additional-setup/cni/) chart:
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio-cni --name istio-cni --namespace kube-system
-{{< /text >}}
-
-Enable CNI in Istio by setting `--set istio_cni.enabled=true` in addition to the settings for your chosen profile.
-For example, to configure the **default** profile:
-
-{{< text bash >}}
-$ helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set istio_cni.enabled=true
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
 ## Verifying the installation
 
 1. Referring to components table in
@@ -283,7 +173,7 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 
 ## Uninstall
 
-- If you installed Istio using the `helm template` command, uninstall with these commands:
+- You can use the `helm template` command to uninstall Istio. Uninstall with these commands:
 
 {{< tabset category-name="helm_profile" >}}
 
@@ -334,15 +224,6 @@ $ helm template install/kubernetes/helm/istio-cni --name=istio-cni --namespace=k
 {{< /tab >}}
 
 {{< /tabset >}}
-
-- If you installed Istio using Helm and Tiller, uninstall with these commands:
-
-    {{< text bash >}}
-    $ helm delete --purge istio
-    $ helm delete --purge istio-init
-    $ helm delete --purge istio-cni
-    $ kubectl delete namespace istio-system
-    {{< /text >}}
 
 ## Deleting CRDs and Istio Configuration
 
