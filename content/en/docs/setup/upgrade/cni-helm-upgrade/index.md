@@ -61,7 +61,7 @@ you can check whether Istio CNI is already installed and to upgrade it. You can 
 You can use Kubernetes’ rolling update mechanism to upgrade the control plane components.
 This is suitable for cases where `kubectl apply` was used to deploy the Istio components,
 including configurations generated using
-[helm template](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template).
+[helm template](/docs/setup/install/helm/#installation-steps).
 
 1. Use `kubectl apply` to upgrade all of Istio's CRDs.  Wait a few seconds for the Kubernetes
    API server to commit the upgraded CRDs:
