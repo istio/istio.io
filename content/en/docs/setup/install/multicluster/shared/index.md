@@ -176,7 +176,7 @@ configuration option was selected earlier:
 #### Option (1) - Through the existing `istio-ingressgateway` gateway shared with data traffic
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip')
+$ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
 #### Option (2) - Through the Istiod service using a cloud provider’s load balancer
