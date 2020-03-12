@@ -38,6 +38,7 @@ babel --source-maps --minified --no-comments \
   tmp/js/overlays.js \
   tmp/js/lang.js \
   tmp/js/callToAction.js \
+  tmp/js/resizeObserver.js \
   --out-file generated/js/all.min.js
 
 babel --source-maps --minified --no-comments \
