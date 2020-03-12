@@ -240,7 +240,7 @@ containers:
 
 有些情况下用户无法控制 pod 的创建，例如，这些用户是被其他人创建的。因此他们无法在 pod 中添加 `sidecar.istio.io/inject` 注解，来明确是否安装 sidecar。
 
-考虑在部署应用程序时创建辅助 pod 作为中间步骤。例如 [OpenShift Builds](https://docs.okd.io/latest/dev_guide/builds/index.html)，创建这样的 pod 用于构建应用程序的源代码。构建二进制工件后，应用程序 pod 就可以运行了，而用于辅助的 pod 则被丢弃。这些中间 pod 不应该有 Istio sidecar，即使策略被设置为 `enabled`，并且名称空间被正确标记为自动注入。
+考虑在部署应用程序时创建辅助 pod 作为中间步骤。例如 [OpenShift Source to Image Builds](https://docs.okd.io/latest/builds/understanding-image-builds.html#build-strategy-s2i_understanding-image-builds)，创建这样的 pod 用于构建应用程序的源代码。构建二进制工件后，应用程序 pod 就可以运行了，而用于辅助的 pod 则被丢弃。这些中间 pod 不应该有 Istio sidecar，即使策略被设置为 `enabled`，并且名称空间被正确标记为自动注入。
 
 对于这种情况，你可以根据 pod 上的标签，指示 Istio **不要**在那些 pod 中注入 sidecar。可以通过编辑 `istio-sidecar-injector` 的 ConfigMap 并添加 `neverInjectSelector` 条目来实现。它是一个 Kubernetes 标签选择器数组，使用 `OR'd`，在第一次匹配成功后则停止。看一个例子：
 
