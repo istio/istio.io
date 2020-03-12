@@ -15,31 +15,14 @@ For an application without a sidecar to get a certificate,
 it may deploy a sidecar to provision the private key and certificates through
 the CSR flow from the CA and share the certificate with the application
 through a mounted file in `tmpfs`.
-This tutorial uses Prometheus as an example application to show provisioning
+We use Prometheus as an example application to show provisioning
 a certificate through such mechanism.
-
-## Getting started
-
-Install Istio with the demo configuration profile:
-
-{{< text bash >}}
-$ istioctl manifest apply --set profile=demo
-{{< /text >}}
-
-## Deliver key and certificate to application via files
 
 In the example application (i.e., Prometheus), a sidecar is added to the
 Prometheus deployment when the flag `.Values.prometheus.provisionPrometheusCert`
 is set to `true` (this flag is set as true by default in an Istio installation).
 The sidecar requests for a certificate and shares the
 certificate with Prometheus.
-
-If you want to use the mechanism in this tutorial to provision a certificate
-to an application, you can imitate the example application and add a sidecar
-like [the one in the example application]({{< github_blob >}}/manifests/istio-telemetry/prometheus/templates/deployment.yaml)
-to your application.
-
-## Check certificate provisioned for the example application
 
 The key and certificate provisioned for the example application
 are mounted to the directory `/etc/istio-certs/`.
@@ -59,6 +42,7 @@ is an example output:
 -rwxr-xr-x    1 root     root          1054 Feb 25 13:06 root-cert.pem
 {{< /text >}}
 
-## Cleanup
-
-You can delete the example Istio installed in this tutorial.
+If you want to use the mechanism in this article to provision a certificate
+to an application, you can imitate the example application and add a sidecar
+like [the one in the example application]({{< github_blob >}}/manifests/istio-telemetry/prometheus/templates/deployment.yaml)
+to your application.
