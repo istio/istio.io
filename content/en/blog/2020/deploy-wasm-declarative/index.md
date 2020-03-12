@@ -14,22 +14,22 @@ As outlined in the [Istio 2020 Tradewinds blog](/blog/2020/tradewinds-2020/) and
 
 With the WebAssembly Hub tooling, we can use the `wasme` CLI to easily bootstrap a Wasm project for Envoy, push it to a repository, and then pull/deploy it to Istio. For example, to deploy a Wasm extension to Istio with `wasme` we can run the following:
 
-```
-wasme deploy istio webassemblyhub.io/ceposta/demo-add-header:v0.2 \
+{{< text bash >}}
+$  wasme deploy istio webassemblyhub.io/ceposta/demo-add-header:v0.2 \
   --id=myfilter \
   --namespace=bookinfo \
   --config 'tomorrow'
-```
+{{< /text >}}
 
 This will add the `demo-add-header` extension to all workloads running in the `bookinfo` namespace. We can get more fine-grained control over which workloads get the extension by using the `--labels` parameter:
 
-```
-wasme deploy istio webassemblyhub.io/ceposta/demo-add-header:v0.2 \
+{{< text bash >}}
+$  wasme deploy istio webassemblyhub.io/ceposta/demo-add-header:v0.2 \
   --id=myfilter  \
   --namespace=bookinfo  \
   --config 'tomorrow' \
   --labels app=details
-```
+{{< /text >}}
 
 This is a much easier experience than manually creating `EnvoyFilter` resources and trying to get the Wasm module to each of the pods that are part of the workload you're trying to target. However, this is a very imperative approach to interacting with Istio. Just like users typically don't use `kubectl` directly in production and prefer a declarative, resource-based workflow, we want the same for making customizations to our Istio proxies. 
 
@@ -37,7 +37,7 @@ This is a much easier experience than manually creating `EnvoyFilter` resources 
 
 The WebAssembly Hub tooling also includes [an operator for deploying Wasm extensions to Istio workloads](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/). The [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) allows users to define their WebAssembly extensions using a declarative format and leave it to the operator to rectify the deployment. For example, we use a `FilterDeployment` resource to define what image and workloads need the extension:
 
-```yaml
+{{< text yaml >}}
 apiVersion: wasme.io/v1
 kind: FilterDeployment
 metadata:
@@ -52,21 +52,20 @@ spec:
   filter:
     config: 'world'
     image: webassemblyhub.io/ceposta/demo-add-header:v0.2
-```
+{{< /text >}}
 
 We could then take this `FilterDeployment` document and version it with the rest of our Istio resources. You may be wondering why we need this Custom Resource to declaratively configure Istio's service proxy to use a Wasm extension when Istio already has the `EnvoyFilter` resource.
 
 Let's take a look at exactly how all of this works under the covers.
 
-
 ## How it works
 
 Under the covers the operator is doing a few things that aid in deploying and configuring a Wasm extension into the Istio service proxy (Envoy Proxy).
 
-* Set up local cache of wasm extensions
-* Pull desired Wasm extension into the local cache
-* Mount the `wasm-cache` into appropriate workloads
-* Configure Envoy with `EnvoyFilter` CRD to use the wasm filter
+- Set up local cache of wasm extensions
+- Pull desired Wasm extension into the local cache
+- Mount the `wasm-cache` into appropriate workloads
+- Configure Envoy with `EnvoyFilter` CRD to use the wasm filter
 
 {{< image width="75%"
     link="./how-it-works.png"
@@ -78,7 +77,7 @@ At the moment, the Wasm image needs to be published into a registry for the oper
 
 Once the Wasm module is cached correctly and mounted into the workload's service proxy, the operator then configures the `EnvoyFilter` resources. 
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -114,7 +113,7 @@ spec:
     labels:
       app: details
       version: v1
-```
+{{< /text >}}
 
 You can see the `EnvoyFilter` resource configures the proxy to add the `envoy.filter.http.wasm` filter and load the Wasm module from the `wasme-cache`. 
 
@@ -124,9 +123,9 @@ Once the Wasm extension is loaded into the Istio service proxy, it will extend t
 
 In this blog we explored options for installing Wasm extensions into Istio workloads. The easiest way to get started with WebAssembly on Istio is to use the `wasme` tool [to bootstrap a new Wasm project](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/) with C++, AssemblyScript [or Rust coming really soon!]. For example, to set up a C++ Wasm module, you can run:
 
-```
+{{< text bash >}}
 wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
-```
+{{< /text >}}
 
 If we didn't have the extra flags, `wasme init` would enter an interactive mode walking you through the correct values to choose. 
 
