@@ -251,7 +251,7 @@ groups:
           le
         )
       )
-{{< /text>}}
+{{< /text >}}
 
 The production instance of Prometheus would then be updated to federate from the Istio instance with:
 
