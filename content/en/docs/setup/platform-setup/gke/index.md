@@ -37,7 +37,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
     {{< /warning >}}
 
     {{< warning >}}
-    For private GKE Clusters, the firewall rule created does not open a port (15017) needed by validation webhook.
+    For private GKE clusters, the firewall rule that is created does not open the port (15017) needed by the validation webhook for master access.
     
     To review this firewall rule for master access:
         {{< text bash >}}
