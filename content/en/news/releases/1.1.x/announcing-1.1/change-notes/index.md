@@ -205,7 +205,7 @@ concise list of things you should know before upgrading your deployment to Istio
   replace`, `istioctl get`, and `istioctl delete` commands. Use the
   [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl)
   equivalents instead. Deprecated the `istioctl gen-deploy` command too. Use a
-  [`helm template`](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)
+  [`helm template`](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template)
   instead. Release 1.2 will remove these commands.
 
 - **Short Commands**. Included short commands in `kubectl` for gateways,
