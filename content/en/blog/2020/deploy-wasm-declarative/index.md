@@ -124,7 +124,7 @@ Once the Wasm extension is loaded into the Istio service proxy, it will extend t
 In this blog we explored options for installing Wasm extensions into Istio workloads. The easiest way to get started with WebAssembly on Istio is to use the `wasme` tool [to bootstrap a new Wasm project](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/) with C++, AssemblyScript [or Rust coming really soon!]. For example, to set up a C++ Wasm module, you can run:
 
 {{< text bash >}}
-wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
+$ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
 {{< /text >}}
 
 If we didn't have the extra flags, `wasme init` would enter an interactive mode walking you through the correct values to choose. 
