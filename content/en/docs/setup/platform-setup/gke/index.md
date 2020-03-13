@@ -50,6 +50,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
         {{< text bash >}}
         $ gcloud compute firewall-rules update <firewall-rule> --allow tcp:10250,tcp:443,tcp:15017
         {{< /text >}}
+
     {{< /warning >}}
 
 1. Retrieve your credentials for `kubectl`.
