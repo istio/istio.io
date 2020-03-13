@@ -7,7 +7,7 @@ attribution: "Christian Posta (Solo.io)"
 keywords: [wasm,extensibility,alpha,operator]
 ---
 
-As outlined in the [Istio 2020 Tradewinds blog](/blog/2020/tradewinds-2020/) and more recently [announced with Istio 1.5](/news/releases/1.5.x/announcing-1.5/), WebAssembly (Wasm) is now an (alpha) option for extending the functionality of the Istio service proxy (Envoy proxy). With Wasm, users can build support for new protocols, custom metrics, loggers, and other filters. Working closely with Google, we in the community ([Solo.io](https://solo.io)) have focused on the user experience of building, socializing, and deploying Wasm extensions to Istio. We've announced [WebAssembly Hub](https://webassemblyhub.io) and [associated tooling](https://docs.solo.io/web-assembly-hub/latest/installation/) to build a "docker-like" experience for working with Wasm. 
+As outlined in the [Istio 2020 trade winds blog](/blog/2020/tradewinds-2020/) and more recently [announced with Istio 1.5](/news/releases/1.5.x/announcing-1.5/), WebAssembly (Wasm) is now an (alpha) option for extending the functionality of the Istio service proxy (Envoy proxy). With Wasm, users can build support for new protocols, custom metrics, loggers, and other filters. Working closely with Google, we in the community ([Solo.io](https://solo.io)) have focused on the user experience of building, socializing, and deploying Wasm extensions to Istio. We've announced [WebAssembly Hub](https://webassemblyhub.io) and [associated tooling](https://docs.solo.io/web-assembly-hub/latest/installation/) to build a "docker-like" experience for working with Wasm. 
 
 
 ## Background
@@ -54,7 +54,7 @@ spec:
     image: webassemblyhub.io/ceposta/demo-add-header:v0.2
 {{< /text >}}
 
-We could then take this `FilterDeployment` document and version it with the rest of our Istio resources. You may be wondering why we need this Custom Resource to declaratively configure Istio's service proxy to use a Wasm extension when Istio already has the `EnvoyFilter` resource.
+We could then take this `FilterDeployment` document and version it with the rest of our Istio resources. You may be wondering why we need this Custom Resource to configure Istio's service proxy to use a Wasm extension when Istio already has the `EnvoyFilter` resource.
 
 Let's take a look at exactly how all of this works under the covers.
 
@@ -62,10 +62,10 @@ Let's take a look at exactly how all of this works under the covers.
 
 Under the covers the operator is doing a few things that aid in deploying and configuring a Wasm extension into the Istio service proxy (Envoy Proxy).
 
-- Set up local cache of wasm extensions
+- Set up local cache of Wasm extensions
 - Pull desired Wasm extension into the local cache
 - Mount the `wasm-cache` into appropriate workloads
-- Configure Envoy with `EnvoyFilter` CRD to use the wasm filter
+- Configure Envoy with `EnvoyFilter` CRD to use the Wasm filter
 
 {{< image width="75%"
     link="./how-it-works.png"
