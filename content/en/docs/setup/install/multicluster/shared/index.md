@@ -92,15 +92,15 @@ $ export REMOTE_CLUSTER_NAME=remote0
 If the clusters are on different networks, assign a unique network name for each network.
 
 {{< text bash >}}
-$ export MAIN_CLUSTER_NETWORK=network0
-$ export REMOTE_CLUSTER_NETWORK=network1
+$ export MAIN_CLUSTER_NETWORK=network1
+$ export REMOTE_CLUSTER_NETWORK=network2
 {{< /text >}}
 
 If clusters are on the same network, the same network name is used for those clusters.
 
 {{< text bash >}}
-$ export MAIN_CLUSTER_NETWORK=network0
-$ export REMOTE_CLUSTER_NETWORK=network0
+$ export MAIN_CLUSTER_NETWORK=network1
+$ export REMOTE_CLUSTER_NETWORK=network1
 {{< /text >}}
 
 ## Deploy Istio in the main cluster
@@ -116,6 +116,10 @@ kind: IstioOperator
 spec:
   values:
     global:
+      # required if istiod is disabled
+      security:
+        selfSigned: false
+
       multiCluster:
         clusterName: ${MAIN_CLUSTER_NAME}
       network: ${MAIN_CLUSTER_NETWORK}
