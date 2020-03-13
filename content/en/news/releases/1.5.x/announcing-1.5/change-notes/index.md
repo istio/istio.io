@@ -73,4 +73,5 @@ weight: 10
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
 - **Added** selector for [`istioctl dashboard`](/docs/reference/commands/istioctl/#istioctl-dashboard).
 - **Added** support for slices and lists in [`istioctl manifest --set`](/docs/reference/commands/istioctl/#istioctl-manifest) flag.
+- **Added** support for [`istioctl manifest`](/docs/reference/commands/istioctl/#istioctl-manifest) to read profiles from `stdin`.
 - **Added** a `docker/istioctl` image #19079.
