@@ -40,6 +40,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
     For private GKE clusters, the firewall rule that is created does not open the port (15017) needed by the validation webhook for master access.
     
     To review this firewall rule for master access:
+
         {{< text bash >}}
         $ gcloud compute firewall-rules list --filter="name~gke-<cluster-name>-[0-9a-z]\*-master" --format="value(name)"
         {{< /text >}}
