@@ -73,7 +73,7 @@ Under the covers the operator is doing a few things that aid in deploying and co
     caption="Understanding how wasme operator works"
     >}}
 
-At the moment, the Wasm image needs to be published into a registry for the operator to correctly cache it. The cache pods run as DaemonSet on each node so that the cache can be mounted into the Envoy container. This is being improved, as it's not the ideal mechanism, so stay tuned for updates. The mount is established by using the `sidecar.istio.io/userVolume` and `sidecar.istio.io/userVolumeMount` annotations. See [the docs on Istio Resource Annotations](/docs/reference/config/annotations/) for more about how that works. 
+At the moment, the Wasm image needs to be published into a registry for the operator to correctly cache it. The cache pods run as DaemonSet on each node so that the cache can be mounted into the Envoy container. This is being improved, as it's not the ideal mechanism. Ideally we wouldn't have to deal with mounting anything and could stream the module to the proxy directly over HTTP, so stay tuned for updates (should land within next few days). The mount is established by using the `sidecar.istio.io/userVolume` and `sidecar.istio.io/userVolumeMount` annotations. See [the docs on Istio Resource Annotations](/docs/reference/config/annotations/) for more about how that works. 
 
 Once the Wasm module is cached correctly and mounted into the workload's service proxy, the operator then configures the `EnvoyFilter` resources. 
 
