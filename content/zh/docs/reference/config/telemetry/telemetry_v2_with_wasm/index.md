@@ -4,7 +4,7 @@ description: 如何通过Wasm运行时启用Telemetry V2（实验性）。
 weight: 60
 ---
 
-从Istio 1.5开始，默认情况下Telemetry V2已启用，并被编译为Istio代理过滤器。 相同的过滤器也被编译为了WebAssembly（Wasm）模块，并随Istio代理一起提供。 要通过Wasm运行时启用Telemetry V2，请使用`preview`配置文件安装Istio：
+从Istio 1.5开始，默认情况下Telemetry V2已启用，并被编译成为Istio代理过滤器。 相同的过滤器也被编译为了WebAssembly（Wasm）模块，并随Istio代理一起提供。 要通过Wasm运行时启用Telemetry V2，请使用`preview`配置文件安装Istio：
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=preview
