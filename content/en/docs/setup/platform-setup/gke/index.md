@@ -46,6 +46,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
         {{< /text >}}
     
     To replace the existing rule and allow master access:
+
         {{< text bash >}}
         $ gcloud compute firewall-rules update <firewall-rule> --allow tcp:10250,tcp:443,tcp:15017
         {{< /text >}}
