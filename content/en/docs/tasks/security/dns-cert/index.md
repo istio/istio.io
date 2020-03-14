@@ -5,23 +5,14 @@ weight: 90
 keywords: [security,certificate]
 ---
 
-In Istio versions before 1.5, by default, the DNS certificates used by the webhooks of Galley and the sidecar
-injector are by default provisioned and managed by Citadel, which is a large component
-that maintains its own signing key and also acts as a CA for Istio.
-In certain deployments of Istio versions before 1.5, you may want to use your own certificate authority
-instead of Citadel. In those cases, Citadel ends up being used strictly for
-its DNS certificate provisioning functionality. Rather than having to deploy
-Citadel at all in this case, you can instead leverage Chiron, a lightweight
-component linked with Istiod that signs certificates using the Kubernetes CA APIs without maintaining its own private key.
-
 This task shows how to provision and manage DNS certificates
-through Chiron. Using this feature has the following advantages:
+using [Chiron](/blog/2019/dns-cert/), a lightweight component linked with Istiod that signs certificates
+using the Kubernetes CA APIs without maintaining its own private key.
+Using this feature has the following advantages:
 
-* More lightweight than Citadel.
+* Unlike Istiod, this feature doesn't require maintaining a private signing key, which enhances security.
 
-* Unlike Citadel, this feature doesn't require maintaining a private signing key, which enhances security.
-
-* Simplified root certificate distribution to TLS clients. Clients no longer need to wait for Citadel to generate and distribute its CA certificate.
+* Simplified root certificate distribution to TLS clients. Clients no longer need to wait for Istiod to generate and distribute its CA certificate.
 
 ## Before you begin
 
