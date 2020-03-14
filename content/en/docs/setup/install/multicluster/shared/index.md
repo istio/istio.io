@@ -168,7 +168,7 @@ EOF
 Apply the main cluster's configuration.
 
 {{< text bash >}}
-$ istioctl --context ${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
+$ istioctl --context=${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
 {{< /text >}}
 
 ### Finish preparing cross-cluster control plane configuration
@@ -180,20 +180,20 @@ configuration option was selected earlier:
 #### Option (1) - Through the existing `istio-ingressgateway` gateway shared with data traffic
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export ISTIOD_REMOTE=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
 #### Option (2) - Through the Istiod service using a cloud provider’s load balancer
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip')
+$ export ISTIOD_REMOTE=$(kubectl --context=${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
 #### Option (3) - Through a gateway dedicated to control plane traffic
 
 {{< text bash >}}
 $ export CONTROL_PLANE_GATEWAY=<service name of dedicated gateway>
-$ export ISTIOD_REMOTE=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system get svc ${CONTROL_PLANE_GATEWAY} -o jsonpath='{.status.loadBalancer.ingress[0].ip')
+$ export ISTIOD_REMOTE_EP=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system get svc ${CONTROL_PLANE_GATEWAY} -o jsonpath='{.status.loadBalancer.ingress[0].ip')
 {{< /text >}}
 
 You'll also need to apply the following configuration to the main cluster to expose the Istiod
@@ -203,7 +203,6 @@ and have the `istio=istiod-gateway` label.
 
 {{< text yaml >}}
 cat <<EOF> control-plane-gateway-config.yaml
-main-cluster.yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -273,11 +272,11 @@ spec:
       # The remote cluster's name and network name must match the values specified in the
       # mesh network configuration of the main cluster.
       multiCluster:
-        clusterName: remote0
-      network: network1
+        clusterName: ${REMOTE_CLUSTER_NAME}
+      network: ${REMOTE_CLUSTER_NETWORK}
 
       # Replace ${ISTIOD_REMOTE} with the the value of ${ISTIOD_REMOTE} set earlier.
-      remotePilotAddress: ${ISTIOD_REMOTE}
+      remotePilotAddress: ${ISTIOD_REMOTE_EP}
 EOF
 {{< /text >}}
 
@@ -322,8 +321,8 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl --context ${MAIN_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
-$ kubectl --context ${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
+$ kubectl --context=${MAIN_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
+$ kubectl --context=${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 {{< /text >}}
 
 * Configure the cross-cluster service registry
