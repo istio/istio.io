@@ -26,7 +26,7 @@ import (
 	"strconv"
 	"strings"
 
-	"istio.io/istio/pkg/test/framework/components/environment"
+	"istio.io/istio/pkg/test/framework/resource/environment"
 	"istio.io/istio/pkg/test/scopes"
 )
 
@@ -460,7 +460,7 @@ func (s Script) getEnv(ctx Context) []string {
 		testOutputDirEnvVar: ctx.WorkDir(),
 	}
 	ctx.Environment().Case(environment.Kube, func() {
-		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig
+		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
 	})
 	for k, v := range s.Env {
 		customVars[k] = v
