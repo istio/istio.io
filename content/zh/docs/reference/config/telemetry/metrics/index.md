@@ -4,8 +4,8 @@ description: 通过Istio遥测导出的Istio标准指标。
 weight: 50
 ---
 
-以下是Istio导出的标准服务级别指标。自Istio 1.5起，Istio标准指标由Envoy代理直接导出。
-
+以下是Istio导出的标准服务级别指标。
+自Istio 1.5起，Istio标准指标由Envoy代理直接导出。
 在先前的Istio版本中，Mixer生成了这些指标。
 
 ## 指标
