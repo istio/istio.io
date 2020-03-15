@@ -68,11 +68,10 @@ your clusters would then be open to security vulnerabilities and compromise.
 ### Cross-cluster control plane access
 
 Decide how to expose the main cluster's Istiod discovery service to
-the remote clusters. Choose between **one** of the three options below:
+the remote clusters. Choose between **one** of the two options below:
 
-* Option (1) - Through the existing `istio-ingressgateway` gateway shared with data traffic.
-* Option (2) - Through the Istiod service using a cloud provider’s load balancer.
-* Option (3) - Through a gateway dedicated to control plane traffic.
+* Option (1) - Use the `istio-ingressgateway` gateway shared with data traffic.
+* Option (2) - Use a cloud provider’s internal load balancer on the Istiod service.
 
 ### Naming
 
@@ -84,8 +83,11 @@ In the example below the main cluster is called `main0` and the remote cluster i
 
 {{< text bash >}}
 $ export MAIN_CLUSTER_CTX=<...>
-$ export MAIN_CLUSTER_NAME=main0
 $ export REMOTE_CLUSTER_CTX=<...>
+{{< /text >}}
+
+{{< text bash >}}
+$ export MAIN_CLUSTER_NAME=main0
 $ export REMOTE_CLUSTER_NAME=remote0
 {{< /text >}}
 
@@ -106,7 +108,7 @@ $ export REMOTE_CLUSTER_NETWORK=network1
 ## Deploy Istio in the main cluster
 
 Create the main cluster's configuration. Replace the variables below with the cluster
-and network names chosen earlier. Pick **one** of the three options for cross-cluster
+and network names chosen earlier. Pick **one** of the two options for cross-cluster
 control plane access and delete the configuration for the other two options.
 
 {{< text yaml >}}
@@ -115,11 +117,10 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
+    # required if istiod is disabled
+    security:
+      selfSigned: false
     global:
-      # required if istiod is disabled
-      security:
-        selfSigned: false
-
       multiCluster:
         clusterName: ${MAIN_CLUSTER_NAME}
       network: ${MAIN_CLUSTER_NETWORK}
@@ -148,20 +149,17 @@ spec:
       meshExpansion:
         enabled: true
 
-  # Option(2) - Use a cloud provider’s load balancer.
-  # Change the Istio service `type=LoadBalancer` and add the cloud provider specific annotations.
-  # The example below shows the configuration with GCP/GKE.
+  # Option(2) - Use a cloud provider’s internal load balancer.
+  # Change the Istio service `type=LoadBalancer` and add the cloud provider specific annotations. See
+  # https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer for more
+  # information. The example below shows the configuration for GCP/GKE.
   components:
     pilot:
       k8s:
         service:
           type: LoadBalancer
         service_annotations:
-          # See https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
           cloud.google.com/load-balancer-type: Internal
-
-  # Option(3) - Use a dedicated gateway
-  # TBD instructions for installing a dedicated gateway (see https://github.com/istio/istio/issues/21938).
 EOF
 {{< /text >}}
 
@@ -171,96 +169,26 @@ Apply the main cluster's configuration.
 $ istioctl --context=${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
 {{< /text >}}
 
-### Finish preparing cross-cluster control plane configuration
+### Cross-cluster plane configuration
 
-Wait for the control plane to be ready and for external IP(s) for load balancers and gateways to be allocated
-before proceeding. Set the `ISTIOD_REMOTE` environment variable based on which cross-cluster control plane
-configuration option was selected earlier:
+Wait for the control plane to be ready before proceeding. Set the `ISTIOD_REMOTE_EP` environment
+variable based on which remote control plane configuration option was selected earlier:
 
-#### Option (1) - Through the existing `istio-ingressgateway` gateway shared with data traffic
-
-{{< text bash >}}
-$ export ISTIOD_REMOTE=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-{{< /text >}}
-
-#### Option (2) - Through the Istiod service using a cloud provider’s load balancer
+* Option (1) - `istio-ingressgateway` gateway shared with data traffic
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE=$(kubectl --context=${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
-#### Option (3) - Through a gateway dedicated to control plane traffic
+* Option (2) - Use a cloud provider’s internal load balancer on the Istiod service.
 
 {{< text bash >}}
-$ export CONTROL_PLANE_GATEWAY=<service name of dedicated gateway>
-$ export ISTIOD_REMOTE_EP=$(kubectl --context ${MAIN_CLUSTER_CTX}  -n istio-system get svc ${CONTROL_PLANE_GATEWAY} -o jsonpath='{.status.loadBalancer.ingress[0].ip')
-{{< /text >}}
-
-You'll also need to apply the following configuration to the main cluster to expose the Istiod
-service on the dedicated control plane gateway and route incoming traffic to the main Istiod
-service. This assumes the gateway proxies are created in the `istio-system` namespace
-and have the `istio=istiod-gateway` label.
-
-{{< text yaml >}}
-cat <<EOF> control-plane-gateway-config.yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: istiod-gateway
-  namespace: istio-system
-spec:
-  selector:
-    istio: istiod-gateway
-  servers:
-    - port:
-        number: 15012
-        protocol: TCP
-        name: tcp-istiod
-      hosts:
-        - "*"
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: istiod-remote
-  namespace: istio-system
-spec:
-  hosts:
-  - istiod-remote.istio-system.svc
-  gateways:
-  - istiod-gateway
-  tcp:
-  - match:
-    - port: 15012
-    route:
-    - destination:
-        host: istiod.istio-system.svc.cluster.local
-        port:
-          number: 15012
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: istiod-remote
-  namespace: istio-system
-spec:
-  host: istiod.istio-system.svc.cluster.local
-  trafficPolicy:
-    portLevelSettings:
-    - port:
-        number: 15012
-      tls:
-        mode: DISABLE
-EOF
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl --context=${MAIN_CLUSTER_CTX} apply -f control-plane-gateway-config.yaml
+$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
 ## Deploy Istio in the remote cluster
 
-Create the custom remote cluster configuration.
+Create the remote cluster's configuration.
 
 {{< text yaml >}}
 cat <<EOF> istio-remote0-cluster.yaml
@@ -275,7 +203,7 @@ spec:
         clusterName: ${REMOTE_CLUSTER_NAME}
       network: ${REMOTE_CLUSTER_NETWORK}
 
-      # Replace ${ISTIOD_REMOTE} with the the value of ${ISTIOD_REMOTE} set earlier.
+      # Replace ISTIOD_REMOTE_EP with the the value of ISTIOD_REMOTE_EP set earlier.
       remotePilotAddress: ${ISTIOD_REMOTE_EP}
 EOF
 {{< /text >}}
@@ -283,14 +211,16 @@ EOF
 Apply the remote cluster configuration.
 
 {{< text bash >}}
-$ istioctl --context ${REMOTE_CLUSTER_CTX} manifest apply <istio-remote0-cluster.yaml>
+$ istioctl --context ${REMOTE_CLUSTER_CTX} manifest apply -f istio-remote0-cluster.yaml
 {{< /text >}}
 
 ## Enable cross-cluster load balancing
 
 * Configure the ingress gateway for secure cross-network traffic
 
-Cross-network traffic is securely routed through the destination cluster's ingress gateway. When clusters in a mesh are
+Skip this next step if both cluster are on the same network.
+
+Cross-network traffic is securely routed through each destination cluster's ingress gateway. When clusters in a mesh are
 on different networks you need to configure port 443 on the ingress gateway to pass incoming traffic through to the
 target service specified in a request's SNI header, for SNI values of the _local_
 top-level domain (i.e., the [Kubernetes DNS domain](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)).
@@ -327,12 +257,13 @@ $ kubectl --context=${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 
 * Configure the cross-cluster service registry
 
-To enable cross-cluster load balancing the Istio control plane requires
+To enable cross-cluster load balancing, the Istio control plane requires
 access to all clusters in the mesh to discover services, endpoints, and
 pod attributes. To configure access, create a secret for each remote
-cluster with credentials to access the cluster's `kube-apiserver` and
+cluster with credentials to access the remote cluster's `kube-apiserver` and
 install it in the main cluster. This secret uses the credentials of the
-`istio-reader-service-account` in the cluster.
+`istio-reader-service-account` in the remote cluster. The cluster name specified
+by`--name` must match the cluster name in main cluster's IstioOperator configuration.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret --context=${REMOTE_CLUSTER_CTX} --name ${REMOTE_CLUSTER_NAME} | \
