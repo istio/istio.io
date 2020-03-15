@@ -379,7 +379,7 @@ one in each cluster. The difference between the two instances is the version of
 
     {{< text bash >}}
     $ kubectl create --context=${REMOTE_CLUSTER_CTX} ns sample
-    $ kubectl label --context=$CTX_CLUSTER2 namespace sample istio-injection=enabled
+    $ kubectl label --context=${REMOTE_CLUSTER_CTX} namespace sample istio-injection=enabled
     {{< /text >}}
 
 1. Deploy `helloworld v2`:
