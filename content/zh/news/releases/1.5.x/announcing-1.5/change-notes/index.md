@@ -1,6 +1,6 @@
 ---
 title: 变更说明
-description: Istio 1.5 发行版说明
+description: Istio 1.5 发行版说明。
 weight: 10
 ---
 
