@@ -70,7 +70,6 @@ You can confirm the Istio control plane services have been deployed with the fol
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
 NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                                                                                                      AGE
 grafana                     ClusterIP      10.47.246.242   <none>         3000/TCP                                                                                                                     64m
 istio-egressgateway         ClusterIP      10.47.244.203   <none>         80/TCP,443/TCP,15443/TCP                                                                                                     64m
