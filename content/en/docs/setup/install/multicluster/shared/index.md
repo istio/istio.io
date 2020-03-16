@@ -169,7 +169,7 @@ Apply the main cluster's configuration.
 $ istioctl --context=${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
 {{< /text >}}
 
-### Cross-cluster plane configuration
+## Cross-cluster plane configuration
 
 Wait for the control plane to be ready before proceeding. Set the `ISTIOD_REMOTE_EP` environment
 variable based on which remote control plane configuration option was selected earlier:
@@ -216,9 +216,11 @@ $ istioctl --context ${REMOTE_CLUSTER_CTX} manifest apply -f istio-remote0-clust
 
 ## Enable cross-cluster load balancing
 
-* Configure the ingress gateway for secure cross-network traffic
+### Configure the ingress gateways
 
-Skip this next step if both cluster are on the same network.
+{{< tip >}}
+Skip this next step and move onto configuring the service registries if both cluster are on the same network.
+{{< /tip >}}
 
 Cross-network traffic is securely routed through each destination cluster's ingress gateway. When clusters in a mesh are
 on different networks you need to configure port 443 on the ingress gateway to pass incoming traffic through to the
@@ -255,15 +257,16 @@ $ kubectl --context=${MAIN_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 $ kubectl --context=${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 {{< /text >}}
 
-* Configure the cross-cluster service registry
+## Configure the cross-cluster service registry
 
 To enable cross-cluster load balancing, the Istio control plane requires
 access to all clusters in the mesh to discover services, endpoints, and
 pod attributes. To configure access, create a secret for each remote
 cluster with credentials to access the remote cluster's `kube-apiserver` and
 install it in the main cluster. This secret uses the credentials of the
-`istio-reader-service-account` in the remote cluster. The cluster name specified
-by`--name` must match the cluster name in main cluster's IstioOperator configuration.
+`istio-reader-service-account` in the remote cluster. `--name` specifies the
+remote cluster's name. It must match the cluster name in main cluster's IstioOperator
+configuration.
 
 {{< text bash >}}
 $ istioctl x create-remote-secret --context=${REMOTE_CLUSTER_CTX} --name ${REMOTE_CLUSTER_NAME} | \
@@ -275,10 +278,10 @@ Do not create a remote secret for the local cluster running the Istio control pl
 aware of the local cluster's Kubernetes credentials.
 {{< /warning >}}
 
-### Automatic injection
+## Automatic injection
 
 The Istiod service in each cluster provides automatic sidecar injection for proxies in its own cluster.
-Namespaces in must be labeled in each cluster following the
+Namespaces must be labeled in each cluster following the
 [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) guide
 
 ## Access services from different clusters
@@ -300,16 +303,15 @@ same root of trust.
 
 ## Deploy an example service
 
-As shown in the diagram, above, deploy two instances of the `helloworld` service,
-one in each cluster. The difference between the two instances is the version of
- their `helloworld` image.
+Deploy two instances of the `helloworld` service, one in each cluster. The difference
+between the two instances is the version of their `helloworld` image.
 
 ### Deploy helloworld v2 in the remote cluster
 
 1. Create a `sample` namespace with a sidecar auto-injection label:
 
     {{< text bash >}}
-    $ kubectl create --context=${REMOTE_CLUSTER_CTX} ns sample
+    $ kubectl create --context=${REMOTE_CLUSTER_CTX} namespace sample
     $ kubectl label --context=${REMOTE_CLUSTER_CTX} namespace sample istio-injection=enabled
     {{< /text >}}
 
@@ -323,7 +325,7 @@ one in each cluster. The difference between the two instances is the version of
 1. Confirm `helloworld v2` is running:
 
     {{< text bash >}}
-    $ kubectl get po --context=${REMOTE_CLUSTER_CTX} -n sample
+    $ kubectl get pod --context=${REMOTE_CLUSTER_CTX} -n sample
     NAME                             READY     STATUS    RESTARTS   AGE
     helloworld-v2-7dd57c44c4-f56gq   2/2       Running   0          35s
     {{< /text >}}
@@ -333,7 +335,7 @@ one in each cluster. The difference between the two instances is the version of
 1. Create a `sample` namespace with a sidecar auto-injection label:
 
     {{< text bash >}}
-    $ kubectl create --context=${MAIN_CLUSTER_CTX} ns sample
+    $ kubectl create --context=${MAIN_CLUSTER_CTX} namespace sample
     $ kubectl label --context=${MAIN_CLUSTER_CTX} namespace sample istio-injection=enabled
     {{< /text >}}
 
@@ -347,7 +349,7 @@ one in each cluster. The difference between the two instances is the version of
 1. Confirm `helloworld v1` is running:
 
     {{< text bash >}}
-    $ kubectl get po --context=${MAIN_CLUSTER_CTX} -n sample
+    $ kubectl get pod --context=${MAIN_CLUSTER_CTX} -n sample
     NAME                            READY     STATUS    RESTARTS   AGE
     helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
@@ -367,12 +369,12 @@ call the `helloworld` service from another in-mesh `sleep` service.
 1. Wait for the `sleep` service to start in each cluster:
 
     {{< text bash >}}
-    $ kubectl get po --context=${MAIN_CLUSTER_CTX} -n sample -l app=sleep
+    $ kubectl get pod --context=${MAIN_CLUSTER_CTX} -n sample -l app=sleep
     sleep-754684654f-n6bzf           2/2     Running   0          5s
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl get po --context=${REMOTE_CLUSTER_CTX} -n sample -l app=sleep
+    $ kubectl get pod --context=${REMOTE_CLUSTER_CTX} -n sample -l app=sleep
     sleep-754684654f-dzl9j           2/2     Running   0          5s
     {{< /text >}}
 
