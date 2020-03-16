@@ -61,7 +61,7 @@ weight: 10
 - **新增** 各种分析器：双向 TLS、JWT、`ServiceAssociation`、Secret、sidecar 镜像、端口名称和不建议使用的分析器。
 - **更新** 支持更多针对 `RequestAuthentication` 的验证规则。
 - **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 添加新参数 `-A|--all-namespaces` 以分析整个集群。
-- **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 通过传递 stdin 给的内容进行分析的支持。
+- **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 对 stdin 传递的内容进行分析的支持。
 - **新增** [`istioctl analyze -L`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 打印全部分析变量。
 - **新增** 功能抑制来自 [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 的消息。
 - **新增** [`istioctl analyze`](/zh/docs/ops/diagnostic-tools/istioctl-analyze/) 添加结构化格式选项。
