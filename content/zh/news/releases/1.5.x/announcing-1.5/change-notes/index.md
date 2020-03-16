@@ -53,7 +53,7 @@ weight: 10
 
 - **替换** 将 Alpha `IstioControlPlane` API 替换为新的 [`IstioOperator`](/zh/docs/reference/config/istio.operator.v1alpha1/) API，以便与现有的 `MeshConfig` API 保持一致。
 - **新增** `istioctl operator init` 和 `istioctl operator remove` 命令。
-- **改进** 使用缓存 [`operator#667`](https://github.com/istio/operator/pull/667) 提高对帐速度。
+- **改进** 使用缓存 [`operator#667`](https://github.com/istio/operator/pull/667) 提高协调速度。
 
 ## `istioctl`
 
