@@ -7,7 +7,7 @@ weight: 10
 ## 流量管理{#traffic-management}
 
 - **改进** 通过避免不必要的完全推送 [#19305](https://github.com/istio/istio/pull/18164)，提高 `ServiceEntry` 性能。
-- **改进** Envoy sidecar 准备状态探测，可以更加准确地确定准备状态 [#18164](https://github.com/istio/istio/pull/18164)。
+- **改进** Envoy sidecar 就绪状态探测，可以更加准确地确定就绪状态 [#18164](https://github.com/istio/istio/pull/18164)。
 - **改进** 在可能的情况下，通过 xDS 发送部分更新，以增强 Envoy 代理配置更新性能 [#18354](https://github.com/istio/istio/pull/18354)。
 - **新增** 可通过目标规则为每个目标服务配置本地负载均衡设置 [#18406](https://github.com/istio/istio/pull/18406)。
 - **修复** Pod 崩溃会触发过多 Envoy 代理配置推送的问题 [#18574](https://github.com/istio/istio/pull/18574)。
