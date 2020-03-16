@@ -84,7 +84,8 @@ spec:
         name: &quot;envoy.http_connection_manager&quot;
         typed_config:
           &quot;@type&quot;: &quot;type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager&quot;
-          idle_timeout: 30s
+          common_http_protocol_options:
+            idle_timeout: 30s
 </code></pre>
 
 <p>The following example enables Envoy&rsquo;s Lua filter for all inbound
@@ -180,7 +181,8 @@ spec:
     patch:
       operation: MERGE
       value:
-        idle_timeout: 30s
+        common_http_protocol_options:
+          idle_timeout: 30s
         xff_num_trusted_hops: 5
 </code></pre>
 

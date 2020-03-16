@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: pilot-agent
 description: Istio Pilot agent.
 generator: pkg-collateral-docs
-number_of_entries: 5
+number_of_entries: 7
 max_toc_level: 2
 remove_toc_prefix: 'pilot-agent '
 ---
@@ -55,6 +55,226 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 </tbody>
 </table>
+<h2 id="pilot-agent-istio-clean-iptables">pilot-agent istio-clean-iptables</h2>
+<p>Script responsible for cleaning up iptables rules</p>
+<pre class="language-bash"><code>pilot-agent istio-clean-iptables [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--dry-run</code></td>
+<td><code>-n</code></td>
+<td>Do not call any external dependencies like iptables </td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authn, cache, citadelclient, configmapcontroller, default, googleca, model, rbac, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authn, cache, citadelclient, configmapcontroller, default, googleca, model, rbac, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authn, cache, citadelclient, configmapcontroller, default, googleca, model, rbac, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pilot-agent-istio-iptables">pilot-agent istio-iptables</h2>
+<p>Script responsible for setting up port forwarding for Istio sidecar.</p>
+<pre class="language-bash"><code>pilot-agent istio-iptables [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--dry-run</code></td>
+<td><code>-n</code></td>
+<td>Do not call any external dependencies like iptables </td>
+</tr>
+<tr>
+<td><code>--envoy-port &lt;string&gt;</code></td>
+<td><code>-p</code></td>
+<td>Specify the envoy port to which redirect all TCP traffic (default $ENVOY_PORT = 15001)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--inbound-capture-port &lt;string&gt;</code></td>
+<td><code>-z</code></td>
+<td>Port to which all inbound TCP traffic to the pod/VM should be redirected to (default $INBOUND_CAPTURE_PORT = 15006)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--iptables-probe-port &lt;string&gt;</code></td>
+<td></td>
+<td>set listen port for failure detection  (default `15002`)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-interception-mode &lt;string&gt;</code></td>
+<td><code>-m</code></td>
+<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-ports &lt;string&gt;</code></td>
+<td><code>-b</code></td>
+<td>Comma separated list of inbound ports for which traffic is to be redirected to Envoy (optional). The wildcard character &#34;*&#34; can be used to configure redirection for all ports. An empty list will disable  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-tproxy-mark &lt;string&gt;</code></td>
+<td><code>-t</code></td>
+<td>  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-inbound-tproxy-route-table &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-local-exclude-ports &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Comma separated list of inbound ports to be excluded from redirection to Envoy (optional). Only applies  when all inbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_LOCAL_EXCLUDE_PORTS)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-local-outbound-ports-exclude &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Comma separated list of outbound ports to be excluded from redirection to Envoy  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-service-cidr &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Comma separated list of IP ranges in CIDR form to redirect to envoy (optional). The wildcard character &#34;*&#34; can be used to redirect all outbound traffic. An empty list will disable all outbound  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istio-service-exclude-cidr &lt;string&gt;</code></td>
+<td><code>-x</code></td>
+<td>Comma separated list of IP ranges in CIDR form to be excluded from redirection. Only applies when all  outbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_SERVICE_EXCLUDE_CIDR)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--kube-virt-interfaces &lt;string&gt;</code></td>
+<td><code>-k</code></td>
+<td>Comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, authn, cache, citadelclient, configmapcontroller, default, googleca, model, rbac, sds, secretfetcher, stsclient, stsserver, token, validation, vault]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, authn, cache, citadelclient, configmapcontroller, default, googleca, model, rbac, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate &lt;string&gt;</code></td>
+<td></td>
+<td>The path for the optional rotating log file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum age in days of a log file beyond which the file is rotated (0 indicates no limit)  (default `30`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
+</tr>
+<tr>
+<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
+<td></td>
+<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, authn, cache, citadelclient, configmapcontroller, default, googleca, model, rbac, sds, secretfetcher, stsclient, stsserver, token, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--probe-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>failure detection timeout  (default `5s`)</td>
+</tr>
+<tr>
+<td><code>--proxy-gid &lt;string&gt;</code></td>
+<td><code>-g</code></td>
+<td>Specify the GID of the user for which the redirection is not applied. (same default value as -u param)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--proxy-uid &lt;string&gt;</code></td>
+<td><code>-u</code></td>
+<td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container  (default ``)</td>
+</tr>
+<tr>
+<td><code>--restore-format</code></td>
+<td><code>-f</code></td>
+<td>Print iptables rules in iptables-restore interpretable format </td>
+</tr>
+<tr>
+<td><code>--run-validation</code></td>
+<td></td>
+<td>Validate iptables </td>
+</tr>
+<tr>
+<td><code>--skip-rule-apply</code></td>
+<td></td>
+<td>Skip iptables apply </td>
+</tr>
+</tbody>
+</table>
 <h2 id="pilot-agent-proxy">pilot-agent proxy</h2>
 <p>Envoy proxy agent</p>
 <pre class="language-bash"><code>pilot-agent proxy [flags]
@@ -80,14 +300,6 @@ remove_toc_prefix: 'pilot-agent '
 <td>Path to the generated configuration file directory  (default `/etc/istio/proxy`)</td>
 </tr>
 <tr>
-<td><code>--connectTimeout &lt;duration&gt;</code></td>
-<td>Connection timeout used by Envoy for supporting services  (default `10s`)</td>
-</tr>
-<tr>
-<td><code>--controlPlaneAuthPolicy &lt;string&gt;</code></td>
-<td>Control Plane Authentication Policy  (default `NONE`)</td>
-</tr>
-<tr>
 <td><code>--controlPlaneBootstrap</code></td>
 <td>Process bootstrap provided via templateFile to be used by control plane components. </td>
 </tr>
@@ -96,32 +308,12 @@ remove_toc_prefix: 'pilot-agent '
 <td>Path to the custom configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--datadogAgentAddress &lt;string&gt;</code></td>
-<td>Address of the Datadog Agent  (default ``)</td>
-</tr>
-<tr>
 <td><code>--disableInternalTelemetry</code></td>
 <td>Disable internal telemetry </td>
 </tr>
 <tr>
-<td><code>--discoveryAddress &lt;string&gt;</code></td>
-<td>Address of the discovery service exposing xDS (e.g. istio-pilot:8080)  (default ``)</td>
-</tr>
-<tr>
 <td><code>--domain &lt;string&gt;</code></td>
 <td>DNS domain suffix. If not provided uses ${POD_NAMESPACE}.svc.cluster.local  (default ``)</td>
-</tr>
-<tr>
-<td><code>--drainDuration &lt;duration&gt;</code></td>
-<td>The time in seconds that Envoy will drain connections during a hot restart  (default `45s`)</td>
-</tr>
-<tr>
-<td><code>--envoyAccessLogService &lt;string&gt;</code></td>
-<td>Settings of an Envoy gRPC Access Log Service API implementation  (default ``)</td>
-</tr>
-<tr>
-<td><code>--envoyMetricsService &lt;string&gt;</code></td>
-<td>Settings of an Envoy gRPC Metrics Service API implementation  (default ``)</td>
 </tr>
 <tr>
 <td><code>--id &lt;string&gt;</code></td>
@@ -130,22 +322,6 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--ip &lt;string&gt;</code></td>
 <td>Proxy IP address. If not provided uses ${INSTANCE_IP} environment variable.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--lightstepAccessToken &lt;string&gt;</code></td>
-<td>Access Token for LightStep Satellite pool  (default ``)</td>
-</tr>
-<tr>
-<td><code>--lightstepAddress &lt;string&gt;</code></td>
-<td>Address of the LightStep Satellite pool  (default ``)</td>
-</tr>
-<tr>
-<td><code>--lightstepCacertPath &lt;string&gt;</code></td>
-<td>Path to the trusted cacert used to authenticate the pool  (default ``)</td>
-</tr>
-<tr>
-<td><code>--lightstepSecure</code></td>
-<td>Should connection to the LightStep Satellite pool be secure </td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -196,10 +372,6 @@ remove_toc_prefix: 'pilot-agent '
 <td>The log path for outlier detection  (default ``)</td>
 </tr>
 <tr>
-<td><code>--parentShutdownDuration &lt;duration&gt;</code></td>
-<td>The time in seconds that Envoy will wait before shutting down the parent process during a hot restart  (default `1m0s`)</td>
-</tr>
-<tr>
 <td><code>--pilotIdentity &lt;string&gt;</code></td>
 <td>The identity used as the suffix for pilot&#39;s spiffe SAN   (default ``)</td>
 </tr>
@@ -224,14 +396,6 @@ remove_toc_prefix: 'pilot-agent '
 <td>Select the platform for service registry, options are {Kubernetes, Consul, Mock}  (default `Kubernetes`)</td>
 </tr>
 <tr>
-<td><code>--statsdUdpAddress &lt;string&gt;</code></td>
-<td>IP Address and Port of a statsd UDP listener (e.g. 10.75.241.127:9125)  (default ``)</td>
-</tr>
-<tr>
-<td><code>--statusPort &lt;uint16&gt;</code></td>
-<td>HTTP Port on which to serve pilot agent status. If zero, agent status will not be provided.  (default `0`)</td>
-</tr>
-<tr>
 <td><code>--stsPort &lt;int&gt;</code></td>
 <td>HTTP Port on which to serve Security Token Service (STS). If zero, STS service will not be provided.  (default `0`)</td>
 </tr>
@@ -246,10 +410,6 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
 <td>The domain to use for identities  (default ``)</td>
-</tr>
-<tr>
-<td><code>--zipkinAddress &lt;string&gt;</code></td>
-<td>Address of the Zipkin service (e.g. zipkin:9411)  (default ``)</td>
 </tr>
 </tbody>
 </table>
@@ -402,6 +562,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>ENVOY_USER</code></td>
+<td>String</td>
+<td><code>istio-proxy</code></td>
+<td>Envoy proxy username</td>
 </tr>
 <tr>
 <td><code>GCP_METADATA</code></td>
@@ -698,12 +864,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
-<td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, this will block inbound traffic from matching outbound listeners, which could result in an infinite loop of traffic. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
-</tr>
-<tr>
 <td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -792,36 +952,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
-</tr>
-<tr>
-<td><code>STACKDRIVER_TRACING_DEBUG</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set to true, enables trace output to stdout</td>
-</tr>
-<tr>
-<td><code>STACKDRIVER_TRACING_ENABLED</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, stackdriver will get configured as the tracer.</td>
-</tr>
-<tr>
-<td><code>STACKDRIVER_TRACING_MAX_NUMBER_OF_ANNOTATIONS</code></td>
-<td>Integer</td>
-<td><code>200</code></td>
-<td>Sets the max number of annotations for stackdriver</td>
-</tr>
-<tr>
-<td><code>STACKDRIVER_TRACING_MAX_NUMBER_OF_ATTRIBUTES</code></td>
-<td>Integer</td>
-<td><code>200</code></td>
-<td>Sets the max number of attributes for stackdriver</td>
-</tr>
-<tr>
-<td><code>STACKDRIVER_TRACING_MAX_NUMBER_OF_MESSAGE_EVENTS</code></td>
-<td>Integer</td>
-<td><code>200</code></td>
-<td>Sets the max number of message events for stackdriver</td>
 </tr>
 <tr>
 <td><code>STALED_CONNECTION_RECYCLE_RUN_INTERVAL</code></td>
