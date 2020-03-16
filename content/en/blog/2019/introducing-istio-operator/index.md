@@ -25,7 +25,7 @@ following:
 
 The [Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
 1.4 with a version not initially installed with Helm will also be replaced by a new
-[{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
+[{{< istioctl >}} upgrade feature](https://archive.istio.io/v1.4/docs/setup/upgrade/istioctl-upgrade/).
 
 The new `istioctl` installation commands use a
 [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
