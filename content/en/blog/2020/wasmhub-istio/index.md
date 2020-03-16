@@ -1,7 +1,7 @@
 ---
 title: Extended and Improved WebAssemblyHub to Bring the Power of WebAssembly to Envoy and Istio
-subtitle: A hub to build, publish, share and deploy WebAssembly Envoy extensions.
-description: Community partner tooling of Wasm for Istio by Solo.ioo
+subtitle: A hub to build, publish, share and deploy WebAssembly Envoy extensions
+description: Community partner tooling of Wasm for Istio by Solo.io.
 publishdate: 2020-03-13
 attribution: "Idit Levine (Solo.io)"
 keywords: [wasm,extensibility,alpha,performance,operator]
