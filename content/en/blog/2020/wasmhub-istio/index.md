@@ -24,7 +24,7 @@ Although it's still maturing in each individual project, there are things that c
 
 The first area is standardizing what a WebAssembly extension for Envoy looks like. Solo.io, Google, and the Istio community have defined an open specification for bundling and distributing WebAssembly modules as OCI images. This specification provides a powerful model for distributing any type of Wasm module including Envoy extensions. 
 
-This is open to the community - Join in the effort here: https://github.com/solo-io/wasm-image-spec
+To join the standardization effort, you can contribute to the [Wasm OCI image specification](https://github.com/solo-io/wasm-image-spec).
 
 The next area is improving the experience of deploying Wasm extensions into an Envoy-based framework running in production. In the Kubernetes ecosystem, it is considered best practice in production to use declarative CRD-based configuration to manage cluster configuration. The new [WebAssembly Hub Operator](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/) adds a single, declarative CRD which automatically deploys and configures Wasm filters to Envoy proxies running inside of a Kubernetes cluster. This operator enables GitOps workflows and cluster automation to manage Wasm filters without human intervention or imperative workflows. More info on the Operator coming soon on the blog. 
 
