@@ -40,7 +40,7 @@ Envoy can then form a mesh.
 
 ## Preparation
 
-### Certificate Authority certificates
+### Certificate Authority
 
 Generate intermediate CA certificates for each cluster's CA from your
 organization's root CA. The shared root CA enables mutual TLS communication
@@ -73,7 +73,7 @@ the remote clusters. Choose between **one** of the two options below:
 * Option (1) - Use the `istio-ingressgateway` gateway shared with data traffic.
 * Option (2) - Use a cloud provider’s internal load balancer on the Istiod service.
 
-### Naming
+### Cluster and network naming
 
 Determine the name of the clusters and networks in the mesh. These names will be used
 in the mesh network configuration and when configuring the mesh's service registries.
@@ -105,7 +105,9 @@ $ export MAIN_CLUSTER_NETWORK=network1
 $ export REMOTE_CLUSTER_NETWORK=network1
 {{< /text >}}
 
-## Deploy Istio in the main cluster
+## Deployment
+
+### Main cluster
 
 Create the main cluster's configuration. Replace the variables below with the cluster
 and network names chosen earlier. Pick **one** of the two options for cross-cluster
@@ -169,8 +171,6 @@ Apply the main cluster's configuration.
 $ istioctl --context=${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
 {{< /text >}}
 
-## Cross-cluster plane configuration
-
 Wait for the control plane to be ready before proceeding. Set the `ISTIOD_REMOTE_EP` environment
 variable based on which remote control plane configuration option was selected earlier:
 
@@ -186,7 +186,7 @@ $ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-syste
 $ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 {{< /text >}}
 
-## Deploy Istio in the remote cluster
+### Remote cluster
 
 Create the remote cluster's configuration.
 
@@ -214,9 +214,9 @@ Apply the remote cluster configuration.
 $ istioctl --context ${REMOTE_CLUSTER_CTX} manifest apply -f istio-remote0-cluster.yaml
 {{< /text >}}
 
-## Enable cross-cluster load balancing
+## Cross-cluster load balancing
 
-### Configure the ingress gateways
+### Configure ingress gateways
 
 {{< tip >}}
 Skip this next step and move onto configuring the service registries if both cluster are on the same network.
@@ -257,7 +257,7 @@ $ kubectl --context=${MAIN_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 $ kubectl --context=${REMOTE_CLUSTER_CTX} apply -f cluster-aware-gateway.yaml
 {{< /text >}}
 
-## Configure the cross-cluster service registry
+### Configure cross-cluster service registries
 
 To enable cross-cluster load balancing, the Istio control plane requires
 access to all clusters in the mesh to discover services, endpoints, and
@@ -277,29 +277,6 @@ $ istioctl x create-remote-secret --context=${REMOTE_CLUSTER_CTX} --name ${REMOT
 Do not create a remote secret for the local cluster running the Istio control plane. Istio is always
 aware of the local cluster's Kubernetes credentials.
 {{< /warning >}}
-
-## Automatic injection
-
-The Istiod service in each cluster provides automatic sidecar injection for proxies in its own cluster.
-Namespaces must be labeled in each cluster following the
-[automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) guide
-
-## Access services from different clusters
-
-Kubernetes resolves DNS on a cluster basis. Because the DNS resolution is tied
-to the cluster, you must define the service object in every cluster where a
-client runs, regardless of the location of the service's endpoints. To ensure
-this is the case, duplicate the service object to every cluster using
-`kubectl`. Duplication ensures Kubernetes can resolve the service name in any
-cluster. Since the service objects are defined in a namespace, you must define
-the namespace if it doesn't exist, and include it in the service definitions in
-all clusters.
-
-## Security
-
-The Istiod service in each cluster provides CA functionality to proxies in its own
-cluster. The CA setup earlier ensures proxies across clusters in the mesh have the
-same root of trust.
 
 ## Deploy an example service
 
@@ -421,6 +398,31 @@ the instance IP in remote cluster (`10.32.0.9:5000`) is logged when v2 was calle
 **Congratulations!**
 
 You have configured a multi-cluster Istio mesh, installed samples and verified cross cluster traffic routing.
+
+## Additional considerations
+
+### Automatic injection
+
+The Istiod service in each cluster provides automatic sidecar injection for proxies in its own cluster.
+Namespaces must be labeled in each cluster following the
+[automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) guide
+
+### Access services from different clusters
+
+Kubernetes resolves DNS on a cluster basis. Because the DNS resolution is tied
+to the cluster, you must define the service object in every cluster where a
+client runs, regardless of the location of the service's endpoints. To ensure
+this is the case, duplicate the service object to every cluster using
+`kubectl`. Duplication ensures Kubernetes can resolve the service name in any
+cluster. Since the service objects are defined in a namespace, you must define
+the namespace if it doesn't exist, and include it in the service definitions in
+all clusters.
+
+### Security
+
+The Istiod service in each cluster provides CA functionality to proxies in its own
+cluster. The CA setup earlier ensures proxies across clusters in the mesh have the
+same root of trust.
 
 ## Uninstalling the remote cluster
 
