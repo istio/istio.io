@@ -288,24 +288,8 @@ remove_toc_prefix: 'pilot-agent '
 </thead>
 <tbody>
 <tr>
-<td><code>--binaryPath &lt;string&gt;</code></td>
-<td>Path to the proxy binary  (default `/usr/local/bin/envoy`)</td>
-</tr>
-<tr>
 <td><code>--concurrency &lt;int&gt;</code></td>
 <td>number of worker threads to run  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--configPath &lt;string&gt;</code></td>
-<td>Path to the generated configuration file directory  (default `/etc/istio/proxy`)</td>
-</tr>
-<tr>
-<td><code>--controlPlaneBootstrap</code></td>
-<td>Process bootstrap provided via templateFile to be used by control plane components. </td>
-</tr>
-<tr>
-<td><code>--customConfigFile &lt;string&gt;</code></td>
-<td>Path to the custom configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--disableInternalTelemetry</code></td>
@@ -374,10 +358,6 @@ remove_toc_prefix: 'pilot-agent '
 <tr>
 <td><code>--pilotIdentity &lt;string&gt;</code></td>
 <td>The identity used as the suffix for pilot&#39;s spiffe SAN   (default ``)</td>
-</tr>
-<tr>
-<td><code>--proxyAdminPort &lt;uint16&gt;</code></td>
-<td>Port on which Envoy should listen for administrative commands  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--proxyComponentLogLevel &lt;string&gt;</code></td>
@@ -558,6 +538,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>CLUSTER_ID</code></td>
+<td>String</td>
+<td><code>Kubernetes</code></td>
+<td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
+</tr>
+<tr>
 <td><code>ENABLE_INGRESS_GATEWAY_SDS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -612,12 +598,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
 </tr>
 <tr>
-<td><code>ISTIO_AUTO_MTLS_ENABLED</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, auto mTLS is enabled, sidecar checks key/cert if SDS is not enabled.</td>
-</tr>
-<tr>
 <td><code>ISTIO_BOOTSTRAP</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -654,42 +634,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
-<td><code>ISTIO_META_TLS_CLIENT_CERT_CHAIN</code></td>
-<td>String</td>
-<td><code>/etc/certs/cert-chain.pem</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ISTIO_META_TLS_CLIENT_KEY</code></td>
-<td>String</td>
-<td><code>/etc/certs/key.pem</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ISTIO_META_TLS_CLIENT_ROOT_CERT</code></td>
-<td>String</td>
-<td><code>/etc/certs/root-cert.pem</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ISTIO_META_TLS_SERVER_CERT_CHAIN</code></td>
-<td>String</td>
-<td><code>/etc/certs/cert-chain.pem</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ISTIO_META_TLS_SERVER_KEY</code></td>
-<td>String</td>
-<td><code>/etc/certs/key.pem</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ISTIO_META_TLS_SERVER_ROOT_CERT</code></td>
-<td>String</td>
-<td><code>/etc/certs/root-cert.pem</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>ISTIO_NAMESPACE</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -714,10 +658,10 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>namespace that nodeagent/citadel run in</td>
 </tr>
 <tr>
-<td><code>OUTPUT_KEY_CERT_TO_DIRECTORY</code></td>
+<td><code>OUTPUT_CERTS</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>The output directory for the key and certificate. If empty, no output of key and certificate.</td>
+<td>The output directory for the key and certificate. If empty, key and certificate will not be saved. Must be set for VMs using provisioning certificates.</td>
 </tr>
 <tr>
 <td><code>PILOT_BLOCK_HTTP_ON_443</code></td>
@@ -918,16 +862,10 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
-<td><code>SDS_ENABLED</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>SDS_UDS_PATH</code></td>
+<td><code>PROV_CERT</code></td>
 <td>String</td>
-<td><code>unix:/var/run/sds/uds_path</code></td>
-<td>SDS address</td>
+<td><code></code></td>
+<td>Set to a directory containing provisioned certs, for VMs</td>
 </tr>
 <tr>
 <td><code>SECRET_GRACE_DURATION</code></td>
@@ -970,12 +908,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
-</tr>
-<tr>
-<td><code>USE_ISTIO_JWT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Use the Istio JWT filter for JWT token verification.</td>
 </tr>
 </tbody>
 </table>

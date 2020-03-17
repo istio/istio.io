@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 76
+number_of_entries: 77
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -38,7 +38,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -98,7 +98,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -203,7 +203,7 @@ istioctl analyze -L
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -248,7 +248,7 @@ istioctl analyze -L
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -300,7 +300,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -345,7 +345,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -393,7 +393,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -441,7 +441,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -484,7 +484,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -527,7 +527,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -570,7 +570,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -613,7 +613,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -656,7 +656,7 @@ istioctl d [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -698,7 +698,7 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -751,7 +751,7 @@ istioctl deregister my-svc 172.17.0.2
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -821,7 +821,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -903,7 +903,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -982,7 +982,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -1060,7 +1060,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -1075,7 +1075,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [log json yaml]  (default `log`)</td>
+<td>Output format: one of [yaml log json]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -1166,7 +1166,7 @@ istioctl analyze -L
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1233,7 +1233,7 @@ with authorization and the rules used in the authorization.</p>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1302,7 +1302,7 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1361,7 +1361,7 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1416,7 +1416,7 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -1439,15 +1439,15 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <pre class="language-bash"><code>
 # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
 istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
+    | kubectl --Kubeconfig=c1.yaml apply -f -
 
 # Delete a secret that was previously installed in c1
 istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml delete -f -
+    | kubectl --Kubeconfig=c1.yaml delete -f -
 
 # Create a secret access a remote cluster with an auth plugin
 istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
+    | kubectl --Kubeconfig=c1.yaml apply -f -
 
 </code></pre>
 <h2 id="istioctl-experimental-dashboard">istioctl experimental dashboard</h2>
@@ -1481,7 +1481,7 @@ istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1524,7 +1524,7 @@ istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1572,7 +1572,7 @@ the configuration objects that affect that pod.</p>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1626,7 +1626,7 @@ the configuration objects that affect that service.</p>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1677,7 +1677,7 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.</p>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1748,7 +1748,7 @@ calculated over a time interval of 1 minute.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1795,7 +1795,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1840,7 +1840,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1890,7 +1890,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1940,7 +1940,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1983,7 +1983,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2021,7 +2021,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2071,7 +2071,7 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2152,7 +2152,7 @@ because in previous versions webhooks manage their own configurations.</p>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2243,7 +2243,7 @@ istioctl experimental post-install webhook enable --validation --webhook-secret 
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2305,7 +2305,7 @@ istioctl experimental post-install webhook status --validation --validation-conf
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2347,7 +2347,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2394,7 +2394,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2439,7 +2439,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2497,7 +2497,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -2575,7 +2575,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2667,7 +2667,7 @@ kube-inject on deployments to get the most up-to-date changes.
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -2753,7 +2753,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -2819,7 +2819,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -2922,7 +2922,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3004,7 +3004,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3091,7 +3091,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3146,7 +3146,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3199,12 +3199,82 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-operator-dump">istioctl operator dump</h2>
+<p>The dump subcommand dumps the Istio operator controller manifest.</p>
+<pre class="language-bash"><code>istioctl operator dump [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--hub &lt;string&gt;</code></td>
+<td></td>
+<td>The hub for the operator controller image  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--operatorNamespace &lt;string&gt;</code></td>
+<td></td>
+<td>The namespace the operator controller is installed into  (default `istio-operator`)</td>
+</tr>
+<tr>
+<td><code>--tag &lt;string&gt;</code></td>
+<td></td>
+<td>The tag for the operator controller image  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
 </tr>
 </tbody>
 </table>
@@ -3254,7 +3324,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3344,7 +3414,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3417,7 +3487,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3476,7 +3546,7 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3542,7 +3612,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3602,7 +3672,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3650,7 +3720,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3707,7 +3777,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3780,7 +3850,7 @@ istioctl proxy-config c [&lt;pod-name[.namespace]&gt;] [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3869,7 +3939,7 @@ istioctl proxy-config ep [&lt;pod-name[.namespace]&gt;] [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3958,7 +4028,7 @@ istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4036,7 +4106,7 @@ istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4109,7 +4179,7 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -4182,7 +4252,7 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4243,7 +4313,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4311,7 +4381,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4371,7 +4441,7 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -4449,7 +4519,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4526,7 +4596,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4580,7 +4650,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, kube, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn,kube:error`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4621,6 +4691,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Whether or not to validate SANs for out-of-process adapters auth.</td>
+</tr>
+<tr>
+<td><code>CLUSTER_ID</code></td>
+<td>String</td>
+<td><code>Kubernetes</code></td>
+<td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
 <td><code>GKE_CLUSTER_URL</code></td>
@@ -4863,6 +4939,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
 </tr>
 <tr>
+<td><code>PROV_CERT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Set to a directory containing provisioned certs, for VMs</td>
+</tr>
+<tr>
 <td><code>SECRET_WATCHER_RESYNC_PERIOD</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -4879,12 +4961,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Integer</td>
 <td><code>5</code></td>
 <td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
-</tr>
-<tr>
-<td><code>USE_ISTIO_JWT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Use the Istio JWT filter for JWT token verification.</td>
 </tr>
 </tbody>
 </table>
