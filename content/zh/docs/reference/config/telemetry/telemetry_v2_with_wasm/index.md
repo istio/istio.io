@@ -1,26 +1,26 @@
 ---
-title: Telemetry V2 with Wasm runtime (Experimental)
-description: How to enable Telemetry V2 with Wasm runtime (experimental).
+title: 使用 Wasm 运行时的 Telemetry V2（实验性）
+description: 如何通过 Wasm 运行时启用 Telemetry V2（实验性）。
 weight: 60
 ---
 
-Since Istio 1.5, by default Telemetry V2 is enabled as compiled in Istio proxy filters. The same filters are also compiled to WebAssembly (Wasm) modules and shipped with Istio proxy. To enable Telemetry V2 with Wasm runtime, install Istio with the `preview` profile:
+从 Istio 1.5 开始，默认情况下 Telemetry V2 已启用，并被编译成为 Istio 代理过滤器。相同的过滤器也被编译为了 WebAssembly（Wasm）模块，并随 Istio 代理一起提供。要通过 Wasm 运行时启用 Telemetry V2，请使用 `preview` 配置文件安装 Istio：
 
 {{< text bash >}}
 $ istioctl manifest apply --set profile=preview
 {{< /text >}}
 
-Alternatively, set the following two values to enable Wasm based Telemetry v2 with the `default` profile:
+或者，在使用 `default` 配置文件的情况下，设置以下两个值以启用基于 Wasm 的 Telemetry V2：
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.telemetry.v2.metadataExchange.wasmEnabled=true --set values.telemetry.v2.prometheus.wasmEnabled=true
 {{< /text >}}
 
 {{< warning >}}
-There are several known limitations with Wasm based Telemetry V2:
+基于 Wasm 的 Telemetry V2 有几个已知的局限性：
 
-* Proxy CPU usage will spike during Wasm module loading time (i.e. when the aforementioned configuration is applied). Increasing proxy CPU resource limit will help to speed up loading.
-* Proxy baseline resource usage increases. Based on preliminary performance testing result, comparing to default Telemetry V2 installation, running Telemetry V2 with Wasm runtime will cost 30%~50% more CPU and double the memory usage.
+* 在 Wasm 模块加载期间（例如在应用上述配置时），代理的 CPU 使用量将激增。增加代理的 CPU 可用资源上限将有助于加快加载速度。
+* 代理的基准资源使用率增加。根据初步的性能测试结果，与默认的 Telemetry V2 安装相比，在 Wasm 运行时下运行 Telemetry V2 将使 CPU 用量增加 30％〜50％，内存使用量增加一倍。
 
-The performance will be continuously improved in the following releases.
+在后续版本中，性能将持续改进。
 {{</ warning>}}
