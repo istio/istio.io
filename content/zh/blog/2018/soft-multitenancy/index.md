@@ -60,7 +60,7 @@ istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0
 
 ### 区分通用资源和命名空间资源{#split-common-and-namespace-specific-resources}
 
-Istio 仓库中的清单文件中会创建两种资源，一种是能够被所有 Istio 控制面访问的通用资源，另一种是每个控制平面一份的专属资源。上面所说的在 yaml 文件中替换 `istio-system` 命名空间的方法自然是很简单的，更好的一种方法就是把 yaml 文件拆分为两块，一块是所有租户共享的通用部分；另一块就是租户自有的部分。根据 [CRD 资源定义（Custom Resource Definitions）](https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions)中的说法，角色和角色绑定资源需要从 Istio 文件中进行剥离。另外，清单文件中提供的角色和角色绑定的定义可能不适合多租户环境，还需要进一步的细化和定制。
+Istio 仓库中的清单文件中会创建两种资源，一种是能够被所有 Istio 控制面访问的通用资源，另一种是每个控制平面一份的专属资源。上面所说的在 yaml 文件中替换 `istio-system` 命名空间的方法自然是很简单的，更好的一种方法就是把 yaml 文件拆分为两块，一块是所有租户共享的通用部分；另一块就是租户自有的部分。根据 [CRD 资源定义（Custom Resource Definitions）](https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions) 中的说法，角色和角色绑定资源需要从 Istio 文件中进行剥离。另外，清单文件中提供的角色和角色绑定的定义可能不适合多租户环境，还需要进一步的细化和定制。
 
 ### Istio 控制面的 Kubernetes RBAC 设置{#Kubernetes-rbac-for-Istio-control-plane-resources}
 
@@ -259,7 +259,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 
 * 视频：[用 RBAC 和命名空间支持的多租户功能及安全模型](https://www.youtube.com/watch?v=ahwCkJGItkU), [幻灯片](https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf).
 * `Kubecon` 讨论，关于对“协同软性多租户”的支持 [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).
-* Kubernetes [RBAC 文档](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) 以及 [命名空间文档](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
+* Kubernetes [RBAC 文档](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)以及[命名空间文档](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/).
 * `Kubecon` 幻灯片 [Multi-tenancy Deep Dive](https://schd.ws/hosted_files/kccncna17/a9/kubecon-multitenancy.pdf).
 * Google 文档 [Multi-tenancy models for Kubernetes](https://docs.google.com/document/d/15w1_fesSUZHv-vwjiYa9vN_uyc--PySRoLKTuDhimjc). (需要授权)
 * Cloud Foundry 提出的文档：[Multi-cloud and Multi-tenancy](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)

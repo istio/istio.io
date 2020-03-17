@@ -29,7 +29,7 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 
 ## 开始之前{#before-you-begin}
 
-- 按照[安装指南](/zh/docs/setup/getting-started/) 中的说明安装 Istio。
+- 按照[安装指南](/zh/docs/setup/getting-started/)中的说明安装 Istio。
 
 - 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序（在 `bookinfo` 命名空间中）。
 

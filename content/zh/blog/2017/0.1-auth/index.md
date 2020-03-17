@@ -44,7 +44,7 @@ Istio Auth 基于双向 TLS 和 X.509 等行业标准。 此外，Google 还积�
 
 ### 强身份认证{#strong-identity}
 
-Istio Auth 使用了 [Kubernetes 服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 来识别服务运行的身份。 身份用于建立信任和定义服务级别访问策略。 身份在服务部署时分配，并在 X.509 证书的 SAN（主题备用名称）字段中进行编码。 使用服务帐户作为身份具有以下优点：
+Istio Auth 使用了 [Kubernetes 服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)来识别服务运行的身份。 身份用于建立信任和定义服务级别访问策略。 身份在服务部署时分配，并在 X.509 证书的 SAN（主题备用名称）字段中进行编码。 使用服务帐户作为身份具有以下优点：
 
 * 管理员可以使用 Kubernetes 1.6 中引入的 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) 功能配置谁有权访问服务帐户
 
@@ -72,7 +72,7 @@ Istio Auth 为每个集群提供 CA（证书颁发机构），并可对密钥和
 
 {{< image link="istio_auth_workflow.svg" caption="Istio Auth 工作流程" >}}
 
-Istio Auth 是更广泛的容器安全中的一部分。 Red Hat 是 Kubernetes 开发的合作伙伴，定义了 [10 层](https://www.redhat.com/en/resources/container-security-openshift-cloud-devops-whitepaper) 容器安全。 Istio 和 Istio Auth 解决了其中两个层：”网络隔离” 和 “API 和服务端点管理”。 随着集群联邦在 Kubernetes 和其他平台上的发展，我们的目的是让 Istio 对跨越多个联邦集群的服务间通信提供保护。
+Istio Auth 是更广泛的容器安全中的一部分。 Red Hat 是 Kubernetes 开发的合作伙伴，定义了 [10 层](https://www.redhat.com/en/resources/container-security-openshift-cloud-devops-whitepaper)容器安全。 Istio 和 Istio Auth 解决了其中两个层：”网络隔离” 和 “API 和服务端点管理”。 随着集群联邦在 Kubernetes 和其他平台上的发展，我们的目的是让 Istio 对跨越多个联邦集群的服务间通信提供保护。
 
 ## Istio Auth 的优点{#benefits-of-Istio-authentication}
 

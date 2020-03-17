@@ -53,7 +53,7 @@ $ istioctl analyze *.yaml
 如果您发现了一些 Istio 配置 “陷阱”，一些导致您的使用出现问题的棘手情况，请提出问题并告知我们。
 我们也许可以自动标记此问题，以便其他人可以提前发现并避免该问题。
 
-为此，请您 [开启一个 issue](https://github.com/istio/istio/issues) 来描述您的情况。例如：
+为此，请您[开启一个 issue](https://github.com/istio/istio/issues) 来描述您的情况。例如：
 
 - 查看所有 virtual services
 - 循环查看 virtual services 的 gateways 列表
@@ -73,7 +73,7 @@ $ istioctl analyze *.yaml
 
 - **现在支持哪些分析器？**
 
-      我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{<github_blob>}}/galley/pkg/config/analysis/analyzers) 中看到所有分析器。
+      我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{<github_blob>}}/galley/pkg/config/analysis/analyzers)中看到所有分析器。
 
       你还可以了解一下目前支持哪些[配置分析消息](/zh/docs/reference/config/analysis/)。
 
@@ -157,7 +157,7 @@ status:
 `enableAnalysis` 在后台运行，并将使资源的状态字段保持其当前验证状态的最新状态。请注意，这不能代替 `istioctl analyze`：
 
 - 并非所有资源都有自定义状态字段 (例如 Kubernetes `namespace` 资源)，因此附加到这些资源的消息将不会显示验证消息。
-- `enableAnalysis` 仅适用于从1.4开始的 Istio 版本，而 `istioctl analysis` 可以用于较早的版本。
+- `enableAnalysis` 仅适用于从 1.4 开始的 Istio 版本，而 `istioctl analysis` 可以用于较早的版本。
 - 尽管可以轻松查看特定资源的问题所在，但要在网格中全面了解验证状态更加困难。
 
 您可以通过以下方式启用此功能：

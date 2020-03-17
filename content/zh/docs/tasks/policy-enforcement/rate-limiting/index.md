@@ -186,7 +186,7 @@ Mixer 返回一个 `RESOURCE_EXHAUSTED` 消息给 Envoy 代理，然后 Envoy �
 
 `memquota` 适配器使用一个亚秒级的滑动窗口来执行速率限制。
 
-`redisquota` 适配器可以配置使用[`ROLLING_WINDOW` 或 `FIXED_WINDOW`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
+`redisquota` 适配器可以配置使用 [`ROLLING_WINDOW` 或 `FIXED_WINDOW`](/zh/docs/reference/config/policy-and-telemetry/adapters/redisquota/#Params-QuotaAlgorithm)
 算法之一来执行速率限制。
 
 适配器配置内的 `maxAmount` 为所有关联到 quota 实例的计数器设置了默认限制。这个默认限制应用在其他优先规则没有被匹配到的时候。

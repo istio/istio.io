@@ -29,7 +29,7 @@ target_release: 1.3
 
 ## 隔离和边界保护{#isolation-and-boundary-protection}
 
-隔离和边界保护机制在 [NIST 特殊出版物 800-53，修订4，联邦信息系统和组织的安全和隐私控制](http://dx.doi.org/10.6028/NIST.SP.800-53r4)，_附录 F，安全控制目录，SC-7 边界保护中进行了说明_。
+隔离和边界保护机制在 [NIST 特殊出版物 800-53，修订 4，联邦信息系统和组织的安全和隐私控制](http://dx.doi.org/10.6028/NIST.SP.800-53r4)，_附录 F，安全控制目录，SC-7 边界保护中进行了说明_。
 
 特别是 _边界保护，隔离信息系统组件_ 控制增强：
 
@@ -37,7 +37,7 @@ target_release: 1.3
 组织可以隔离执行不同任务和/或业务功能的信息系统组件。这种隔离限制了系统组件之间未经授权的信息流，并且还提供了为所选组件部署更高级别的保护的机会。使用边界保护机制将系统组件分开提供了增强对单个组件的保护并更有效地控制这些组件之间的信息流的能力。这种类型的增强保护可限制网络攻击和错误带来的潜在危害。提供的分离程度取决于所选的机制。边界保护机制包括，路由器、网关和防火墙等，将系统组件分离为物理上分离的网络或子网；跨域设备将子网分离；虚拟化技术；以及使用不同的加密密钥对系统组件之间的信息流进行加密。
 {{< /quote >}}
 
-各种合规性标准隔离建议，用于处理组织其余部分的敏感数据的环境。[支付卡行业（PCI）数据安全标准](https://www.pcisecuritystandards.org/pci_security/)建议为 _持卡人数据_ 环境实现网络隔离，并要求将此环境与 [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)) 隔离。[FedRAMP 边界授权指南](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf) 描述了联邦信息和数据的 _授权边界_，而 [NIST 特别出版物 800-37，修订版 2，信息系统和组织的风险管理框架：用于安全性和隐私的系统生命周期方法](https://doi.org/10.6028/NIST.SP.800-37r2) _附录 G，授权边界注意事项_ 建议保护这样的边界：
+各种合规性标准隔离建议，用于处理组织其余部分的敏感数据的环境。[支付卡行业（PCI）数据安全标准](https://www.pcisecuritystandards.org/pci_security/)建议为 _持卡人数据_ 环境实现网络隔离，并要求将此环境与 [DMZ](https://en.wikipedia.org/wiki/DMZ_(computing)) 隔离。[FedRAMP 边界授权指南](https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf)描述了联邦信息和数据的 _授权边界_，而 [NIST 特别出版物 800-37，修订版 2，信息系统和组织的风险管理框架：用于安全性和隐私的系统生命周期方法](https://doi.org/10.6028/NIST.SP.800-37r2) _附录 G，授权边界注意事项_ 建议保护这样的边界：
 
 {{< quote >}}
 将系统划分为子系统（即分而治之）有助于针对性地应用控制措施，以实现足够的安全性，保护个人隐私和具有成本效益的风险管理流程。将复杂的系统划分为子系统也支持域分离和网络分段的重要安全概念，这在处理高价值资产时可能非常重要。将系统划分为子系统时，组织可以选择制定单独的子系统安全和隐私计划，也可以选择在相同的安全和隐私计划中处理系统和子系统。

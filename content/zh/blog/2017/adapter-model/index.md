@@ -26,7 +26,7 @@ Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Isti
 
 ## 设计哲学{#philosophy}
 
-Mixer 本质上就是一个处理属性和路由的机器。代理将 [属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) 作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
+Mixer 本质上就是一个处理属性和路由的机器。代理将[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)作为预检和遥测报告的一部分发送出来，并且转换为一系列对适配器的调用。运维人员提供了用于描述如何将传入的属性映射为适配器的配置。
 
 {{< image width="60%"
     link="/zh/docs/reference/config/policy-and-telemetry/mixer-overview/machine.svg"
@@ -53,7 +53,7 @@ Mixer 使用的每个适配器都需要一些配置才能运行。一般来说�
 
 你可以通过创建 [*instances*](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#instances) 来决定哪些数据被传递给特定的适配器。Instances 决定了 Mixer 如何通过 [attributes](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes) 把来自代理的属性拆分为各种数据然后分发给不同的适配器。
 
-创建实例通常需要使用 [attribute expressions](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 。这些表达式的功能是使用属性和常量来生成结果数据，用于给instance字段进行赋值。
+创建实例通常需要使用 [attribute expressions](/zh/docs/reference/config/policy-and-telemetry/expression-language/) 。这些表达式的功能是使用属性和常量来生成结果数据，用于给 instance 字段进行赋值。
 
 在模板中定义的每个 instance 字段、每个属性、每个表达式都有一个 [type](https://github.com/istio/api/blob/{{< source_branch_name >}}/policy/v1beta1/value_type.proto)，只有兼容的数据类型才能进行赋值。例如不能把整型的表达式赋值给字符串类型。强类型设计的目的就是为了降低配置出错引发的风险。
 
@@ -75,4 +75,4 @@ Rule 中包含有匹配断言，这个断言是一个返回布尔值的属性表
 
 Handler 为各个适配器提供了配置数据，Template 用于在运行时确定不同的适配器所需的数据类型，Instance 让运维人员准备这些数据，Rule 将这些数据提交给一个或多个 Handler 进行处理。
 
-更多信息可以关注 [这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/)。更多关于 templates, handlers,和 rules 的内容可以关注 [这里](/zh/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{< github_tree >}}/samples/bookinfo) 找到对应的示例。
+更多信息可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/)。更多关于 templates, handlers, 和 rules 的内容可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{<github_tree >}}/samples/bookinfo) 找到对应的示例。

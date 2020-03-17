@@ -53,7 +53,7 @@ aliases:
     EOF
     {{< /text >}}
 
-    打开浏览器访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)页面。你将会看到 `"RBAC: access denied"`。该错误表明配置的 `deny-all` 策略按期望生效了，并且 Istio 没有任何规则允许对网格中的工作负载进行任何访问。
+    打开浏览器访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`) 页面。你将会看到 `"RBAC: access denied"`。该错误表明配置的 `deny-all` 策略按期望生效了，并且 Istio 没有任何规则允许对网格中的工作负载进行任何访问。
 
 1. 运行下面的命令创建一个 `productpage-viewer` 策略以容许通过 `GET` 方法访问 `productpage` 工作负载。该策略没有在 `rules` 中设置 `from` 字段，这意味着所有的请求源都被容许访问，包括所有的用户和工作负载：
 

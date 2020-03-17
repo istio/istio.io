@@ -4,7 +4,7 @@ weight: 50
 ---
 如果启用了双向 TLS 认证，则来自 kubelet 的 HTTP 和 TCP 健康检查将不能正常工作，因为 kubelet 没有 Istio 颁发的证书。
 
-从Istio 1.1 开始，我们提供了多种解决方案。
+从 Istio 1.1 开始，我们提供了多种解决方案。
 
 1. 使用 probe rewrite 将 liveness 和 readiness 的请求直接重定向到工作负载。有关更多信息，请参阅 [Probe Rewrite](/zh/docs/ops/configuration/mesh/app-health-check/#probe-rewrite)。
 

@@ -39,7 +39,7 @@ keywords: [kubernetes, helm, install, options]
 | `global.proxy.accessLogFile` | `"/dev/stdout"` | `""` |  |  |
 | `global.proxy.enableCoreDump` | `false` | `false` |  | `如果设置，新注入的 sidecars 将启用 core dumps。` |
 | `global.proxy.autoInject` | `enabled` | `enabled` |  | `可以控制 sidecar 的注入策略。` |
-| `global.proxy.envoyStatsd.enabled` | `true` | `false` |  | `如果设置为 true，则还须提供主机地址和端口。Istio不再提供 statsd 收集器。` |
+| `global.proxy.envoyStatsd.enabled` | `true` | `false` |  | `如果设置为 true，则还须提供主机地址和端口。Istio 不再提供 statsd 收集器。` |
 | `global.proxy.envoyStatsd.host` | `istio-statsd-prom-bridge` | `` |  | `例如: statsd-svc.istio-system` |
 | `global.proxy.envoyStatsd.port` | `9125` | `` |  | `例如: 9125` |
 | `global.proxy_init.image` | `proxy_init` | `proxy_init` |  | `proxy_init 容器的基本名称，用于配置 iptables。` |

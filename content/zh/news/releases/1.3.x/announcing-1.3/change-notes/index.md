@@ -35,7 +35,7 @@ aliases:
 - **改进**。改进了 ingress gateway，以实现使用 SDS 时[从另一个 secret 加载受信任的 CA 证书](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/#configure-a-mutual-TLS-ingress-gateway)。
 - **改进**。通过强制使用 [Kubernetes Trustworthy JWT](/zh/blog/2019/trustworthy-jwt-sds) 改进了 SDS 的安全性。
 - **改进**。通过统一日志记录模式，改进了 Citadel Agent 日志记录。
-- **移除**。移除对 [Kubernetes 1.13 之前版本](/zh/blog/2019/trustworthy-jwt-sds) 的 Istio SDS 支持。
+- **移除**。移除对 [Kubernetes 1.13 之前版本](/zh/blog/2019/trustworthy-jwt-sds)的 Istio SDS 支持。
 - **移除**。暂时移除与 Vault CA 的集成。SDS 的一些要求导致了本次临时移除，但我们将在之后的版本中重新引入 Vault CA 集成。
 - **启用**。默认情况下启用 Envoy JWT 过滤器以提高安全性和可靠性。
 
@@ -67,9 +67,9 @@ aliases:
 
 ## `istioctl`
 
-- **添加**。添加了 [`istioctl` 实验清单](/zh/docs/reference/commands/istioctl/#istioctl-manifest) 来管理新的实验安装清单。
-- **添加**。添加了 [`istioctl` 实验配置文件](/zh/docs/reference/commands/istioctl/#istioctl-profile) 来管理新的实验安装配置文件。
-- **添加**。添加了[`istioctl experimental metrics`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-metrics)
+- **添加**。添加了 [`istioctl` 实验清单](/zh/docs/reference/commands/istioctl/#istioctl-manifest)来管理新的实验安装清单。
+- **添加**。添加了 [`istioctl` 实验配置文件](/zh/docs/reference/commands/istioctl/#istioctl-profile)来管理新的实验安装配置文件。
+- **添加**。添加了 [`istioctl experimental metrics`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-metrics)
 - **添加**。添加了 [`istioctl experimental describe pod`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod)，其用于描述 Istio pod 的配置。
 - **添加**。添加了 [`istioctl experimental add-to-mesh`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-add-to-mesh)，其用于将 Kubernetes 服务或虚拟机添加到现有 Istio 服务网格中。
 - **添加**。添加了 [`istioctl experimental remove-from-mesh`](/zh/docs/reference/commands/istioctl/#istioctl-experimental-remove-from-mesh)，其用于从已存在的 Istio 服务网格中移除 Kubernetes 服务或虚拟机。
