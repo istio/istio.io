@@ -40,7 +40,7 @@ Istio 的[认证](/zh/docs/concepts/security/#authentication-policies)和[授权
 我们还将简化其余控制平面的 deployment。为此，我们将几个控制平面组件合并为一个组件：Istiod。该二进制文件包括 Pilot、Citadel、Galley 和 Sidecar 注入器的功能。这种方法从许多方面改善了 Istio 的安装和管理，降低了安装和配置的复杂性、维护工作量以及问题诊断时间，同时提高了响应速度。
 关于 Istiod 的更多内容请查看 [Christian Posta 的这篇博客](https://blog.christianposta.com/microservices/istio-as-an-example-of-when-not-to-do-microservices/)。
 
-我们将 istiod 作为 1.5 中所有配置文件的默认配置。
+我们将 Istiod 作为 1.5 中所有配置文件的默认配置。
 
 为了减少每个节点的占用空间，我们放弃了用于分发证书的节点代理，并将其功能迁移至已经在每个 Pod 中运行的 istio-agent 中。从图片来看，我们正在从这里：
 
@@ -54,7 +54,7 @@ Istio 的[认证](/zh/docs/concepts/security/#authentication-policies)和[授权
 
 {{< image width="75%"
     link="./architecture-post-istiod.svg"
-    alt="基于 istiod 的 Istio 架构"
+    alt="基于 Istiod 的 Istio 架构"
     caption="Istio 2020 年的架构"
     >}}
 
