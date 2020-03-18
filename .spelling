@@ -107,6 +107,7 @@ az
 backend
 backends
 base64
+Bazel
 BigQuery
 bitpipe
 BlackHole
@@ -260,9 +261,11 @@ GCP_OPTS
 gdb
 git
 GitHub
+GitOps
 GKE-IAM
 GKE-Istio
 GKE-Workloads
+Gloo
 GlueCon
 Gmail
 GoLang
@@ -426,6 +429,7 @@ NUL
 NULs
 OAuth2
 oc
+OCI-compliant
 ok
 Okta
 onboarding
