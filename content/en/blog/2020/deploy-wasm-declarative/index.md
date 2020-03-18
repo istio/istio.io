@@ -7,8 +7,7 @@ attribution: "Christian Posta (Solo.io)"
 keywords: [wasm,extensibility,alpha,operator]
 ---
 
-As outlined in the [Istio 2020 trade winds blog](/blog/2020/tradewinds-2020/) and more recently [announced with Istio 1.5](/news/releases/1.5.x/announcing-1.5/), WebAssembly (Wasm) is now an (alpha) option for extending the functionality of the Istio service proxy (Envoy proxy). With Wasm, users can build support for new protocols, custom metrics, loggers, and other filters. Working closely with Google, we in the community ([Solo.io](https://solo.io)) have focused on the user experience of building, socializing, and deploying Wasm extensions to Istio. We've announced [WebAssembly Hub](https://webassemblyhub.io) and [associated tooling](https://docs.solo.io/web-assembly-hub/latest/installation/) to build a "docker-like" experience for working with Wasm. 
-
+As outlined in the [Istio 2020 trade winds blog](/blog/2020/tradewinds-2020/) and more recently [announced with Istio 1.5](/news/releases/1.5.x/announcing-1.5/), WebAssembly (Wasm) is now an (alpha) option for extending the functionality of the Istio service proxy (Envoy proxy). With Wasm, users can build support for new protocols, custom metrics, loggers, and other filters. Working closely with Google, we in the community ([Solo.io](https://solo.io)) have focused on the user experience of building, socializing, and deploying Wasm extensions to Istio. We've announced [WebAssembly Hub](https://webassemblyhub.io) and [associated tooling](https://docs.solo.io/web-assembly-hub/latest/installation/) to build a "docker-like" experience for working with Wasm.
 
 ## Background
 
@@ -31,9 +30,9 @@ $  wasme deploy istio webassemblyhub.io/ceposta/demo-add-header:v0.2 \
   --labels app=details
 {{< /text >}}
 
-This is a much easier experience than manually creating `EnvoyFilter` resources and trying to get the Wasm module to each of the pods that are part of the workload you're trying to target. However, this is a very imperative approach to interacting with Istio. Just like users typically don't use `kubectl` directly in production and prefer a declarative, resource-based workflow, we want the same for making customizations to our Istio proxies. 
+This is a much easier experience than manually creating `EnvoyFilter` resources and trying to get the Wasm module to each of the pods that are part of the workload you're trying to target. However, this is a very imperative approach to interacting with Istio. Just like users typically don't use `kubectl` directly in production and prefer a declarative, resource-based workflow, we want the same for making customizations to our Istio proxies.
 
-## A declarative approach 
+## A declarative approach
 
 The WebAssembly Hub tooling also includes [an operator for deploying Wasm extensions to Istio workloads](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/). The [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) allows users to define their WebAssembly extensions using a declarative format and leave it to the operator to rectify the deployment. For example, we use a `FilterDeployment` resource to define what image and workloads need the extension:
 
@@ -73,9 +72,9 @@ Under the covers the operator is doing a few things that aid in deploying and co
     caption="Understanding how wasme operator works"
     >}}
 
-At the moment, the Wasm image needs to be published into a registry for the operator to correctly cache it. The cache pods run as DaemonSet on each node so that the cache can be mounted into the Envoy container. This is being improved, as it's not the ideal mechanism. Ideally we wouldn't have to deal with mounting anything and could stream the module to the proxy directly over HTTP, so stay tuned for updates (should land within next few days). The mount is established by using the `sidecar.istio.io/userVolume` and `sidecar.istio.io/userVolumeMount` annotations. See [the docs on Istio Resource Annotations](/docs/reference/config/annotations/) for more about how that works. 
+At the moment, the Wasm image needs to be published into a registry for the operator to correctly cache it. The cache pods run as DaemonSet on each node so that the cache can be mounted into the Envoy container. This is being improved, as it's not the ideal mechanism. Ideally we wouldn't have to deal with mounting anything and could stream the module to the proxy directly over HTTP, so stay tuned for updates (should land within next few days). The mount is established by using the `sidecar.istio.io/userVolume` and `sidecar.istio.io/userVolumeMount` annotations. See [the docs on Istio Resource Annotations](/docs/reference/config/annotations/) for more about how that works.
 
-Once the Wasm module is cached correctly and mounted into the workload's service proxy, the operator then configures the `EnvoyFilter` resources. 
+Once the Wasm module is cached correctly and mounted into the workload's service proxy, the operator then configures the `EnvoyFilter` resources.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -115,9 +114,9 @@ spec:
       version: v1
 {{< /text >}}
 
-You can see the `EnvoyFilter` resource configures the proxy to add the `envoy.filter.http.wasm` filter and load the Wasm module from the `wasme-cache`. 
+You can see the `EnvoyFilter` resource configures the proxy to add the `envoy.filter.http.wasm` filter and load the Wasm module from the `wasme-cache`.
 
-Once the Wasm extension is loaded into the Istio service proxy, it will extend the capabilities of the proxy with whatever custom code you introduced. 
+Once the Wasm extension is loaded into the Istio service proxy, it will extend the capabilities of the proxy with whatever custom code you introduced.
 
 ## Next Steps
 
@@ -127,7 +126,7 @@ In this blog we explored options for installing Wasm extensions into Istio workl
 $ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
 {{< /text >}}
 
-If we didn't have the extra flags, `wasme init` would enter an interactive mode walking you through the correct values to choose. 
+If we didn't have the extra flags, `wasme init` would enter an interactive mode walking you through the correct values to choose.
 
 Take a look at the [WebAssembly Hub wasme tooling](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/) to get started with Wasm on Istio.
 
