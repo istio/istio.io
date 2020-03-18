@@ -10,7 +10,7 @@ using [Chiron](/blog/2019/dns-cert/), a lightweight component linked with Istiod
 using the Kubernetes CA APIs without maintaining its own private key.
 Using this feature has the following advantages:
 
-* Unlike Istiod, this feature doesn't require maintaining a private signing key, which enhances security.
+* Unlike {{< gloss >}}Istiod{{< /gloss >}}, this feature doesn't require maintaining a private signing key, which enhances security.
 
 * Simplified root certificate distribution to TLS clients. Clients no longer need to wait for Istiod to generate and distribute its CA certificate.
 

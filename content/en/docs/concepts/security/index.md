@@ -162,7 +162,7 @@ Istio provides two types of authentication:
     - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
 
 In all cases, Istio stores the authentication policies in the `Istio config
-store` via a custom Kubernetes API. Istiod keeps them up-to-date for each proxy,
+store` via a custom Kubernetes API. {{< gloss >}}Istiod{{< /gloss >}} keeps them up-to-date for each proxy,
 along with the keys where appropriate. Additionally, Istio supports
 authentication in permissive mode to help you understand how a policy change can
 affect your security posture before it is enforced.

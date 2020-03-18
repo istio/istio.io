@@ -47,7 +47,7 @@ reviews-v3-7b9b5fdfd6-4r52s.default                    SYNCED     SYNCED     SYN
 If a proxy is missing from this list it means that it is not currently connected to a Istiod instance so will not be
 receiving any configuration.
 
-* `SYNCED` means that Envoy has acknowledged the last configuration Istiod has sent to it.
+* `SYNCED` means that Envoy has acknowledged the last configuration {{< gloss >}}Istiod{{< /gloss >}} has sent to it.
 * `NOT SENT` means that Istiod hasn't sent anything to Envoy. This usually is because Istiod has nothing to send.
 * `STALE` means that Istiod has sent an update to Envoy but has not received an acknowledgement. This usually indicates
 a networking issue between Envoy and Istiod or a bug with Istio itself.
