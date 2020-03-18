@@ -84,7 +84,7 @@ matching requests should flow through. If all requests continue to be denied, yo
 
 1. Make sure there is no typo in your policy YAML file.
 
-1. Avoid enabling authorization for Istiod. Istio authorization policy is designed for authorizing access to workloads in Istio Mesh. Enabling it for Istiod may cause unexpected behavior.
+1. Avoid enabling authorization for {{< gloss >}}Istiod{{< /gloss >}}. Istio authorization policy is designed for authorizing access to workloads in Istio Mesh. Enabling it for Istiod may cause unexpected behavior.
 
 1. Make sure that your authorization policies are in the right namespace (as specified in `metadata/namespace` field).
 

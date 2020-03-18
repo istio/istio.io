@@ -77,7 +77,7 @@ following commands on a machine with cluster admin privileges:
    Alternatively, the user can create an explicit service of type `LoadBalancer` and use
     [internal load balancer](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
     type. User can also deploy a separate ingress Gateway, with internal load balancer type for both mesh expansion and
-    multicluster.  The main requirement is for the exposed address to do TCP load balancing to the Istiod deployment,
+    multicluster.  The main requirement is for the exposed address to do TCP load balancing to the {{< gloss >}}Istiod{{< /gloss >}} deployment,
     and for the DNS name associated with the assigned load balancer address to match the certificate provisioned
     into Istiod deployment, defaulting to `istiod.istio-system.svc`.
 
