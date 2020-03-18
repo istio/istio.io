@@ -18,7 +18,7 @@ target_release: 1.3
 
 [Istio](/zh/docs/concepts/what-is-istio/) 是一个开源的服务网格，它对分布式应用来说是一个透明层，它可以和 Kubernetes 无缝集成。为了降低布署复杂性 Istio 提供了对整个服务网格的行为洞察和操作控制。详见 [Istio 架构](/zh/docs/ops/deployment/architecture/)。
 
-Istio 使用 [Envoy sidecar 代理] 来调整服务网格中所有 Pod 的入站和出站流量。Istio 从 Envoy sidecar 中提取遥测数据，并将其发送到负责收集遥测数据和执行策略的 Istio 组件 [Mixer](/zh/docs/ops/deployment/architecture/#mixer)。
+Istio 使用 [Envoy sidecar 代理] 来调整服务网格中所有 Pod 的入站和出站流量。Istio 从 Envoy sidecar 中提取遥测数据，并将其发送到负责收集遥测数据和执行策略的 Istio 组件 Mixer。
 
 APP 身份和访问适配器通过分析针对服务网格上各种访问控制策略的遥测数据（属性）扩展 Mixer 的功能。访问控制策略可以关联到具体的 Kubernetes 服务，并且可以微调到特定的服务端点。关于策略和遥测信息的详情请看 Istio 的文档。
 
