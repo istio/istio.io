@@ -192,6 +192,7 @@ CVEs
 cves
 cvss
 cyber
+DaemonSet
 Datadog
 datapath
 dataset
@@ -667,6 +668,7 @@ VPN
 VPNs
 Warman
 Wasm
+wasme
 WeaveWorks
 WebAssembly
 webhook
