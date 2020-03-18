@@ -679,8 +679,7 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If set to true, the load balancer will send a 301 redirect for
-all http connections, asking the clients to use HTTPS. Not
-applicable in Sidecar API.</p>
+all http connections, asking the clients to use HTTPS.</p>
 
 </td>
 <td>
@@ -741,22 +740,13 @@ No
 <td><code>credentialName</code></td>
 <td><code>string</code></td>
 <td>
-<p>The credentialName stands for a unique identifier that can be used
-to identify the serverCertificate and the privateKey. The
-credentialName appended with suffix &ldquo;-cacert&rdquo; is used to identify
-the CaCertificates associated with this server. Proxies
-capable of fetching credentials from a remote credential store such
-as Kubernetes secrets, will be configured to retrieve the
-serverCertificate and the privateKey using credentialName, instead
-of using the file system paths specified above. If using mutual TLS,
-proxy instances will retrieve the CaCertificates using
-credentialName-cacert. The semantics of the name are platform
-dependent.  In Kubernetes, the default Istio supplied credential
-server expects the credentialName to match the name of the
-Kubernetes secret that holds the server certificate, the private
-key, and the CA certificate (if using mutual TLS). Set the
-<code>ISTIO_META_USER_SDS</code> metadata variable in the proxy to
-enable the dynamic credential fetching feature.</p>
+<p>For gateways running on Kubernetes, the name of the secret that
+holds the TLS certs including the CA certificates. Applicable
+only on Kubernetes, and only if the dynamic credential fetching
+feature is enabled in the proxy by setting
+<code>ISTIO_META_USER_SDS</code> metadata variable.  The secret (of type
+<code>generic</code>) should contain the following keys and values: <code>key:
+&lt;privateKey&gt;</code>, <code>cert: &lt;serverCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.</p>
 
 </td>
 <td>
@@ -910,9 +900,7 @@ No
 <td>
 <p>The SNI string presented by the client will be used as the
 match criterion in a VirtualService TLS route to determine
-the destination service from the service registry. On a
-sidecar, TLS traffic will be forwarded as is to the default
-endpoint defined in the Ingress Listener.</p>
+the destination service from the service registry.</p>
 
 </td>
 </tr>
@@ -944,8 +932,7 @@ value. This server is typically used to provide connectivity
 between services in disparate L3 networks that otherwise do
 not have direct connectivity between their respective
 endpoints. Use of this mode assumes that both the source and
-the destination are using Istio mTLS to secure traffic. Not
-applicable in Sidecar API.</p>
+the destination are using Istio mTLS to secure traffic.</p>
 
 </td>
 </tr>
