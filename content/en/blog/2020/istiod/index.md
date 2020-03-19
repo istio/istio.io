@@ -41,7 +41,7 @@ Let's look at the benefits of the new packaging:
 
  - **Configuration becomes easier.** Many of the configuration options that Istio has today are ways to orchestrate the control plane components, and so are no longer needed. You also no longer need to change cluster-wide PodSecurityPolicies to deploy Istio.
 
- - **Using VMs becomes easier.** To add a workload to a mesh,you now just need to install one agent and the generated certificates. That agent connects back to only a single service.
+ - **Using VMs becomes easier.** To add a workload to a mesh, you now just need to install one agent and the generated certificates. That agent connects back to only a single service.
 
  - **Maintenance becomes easier.** Installing, upgrading, and removing Istio no longer require a complicated dance of version dependencies and startup orders. For example: To upgrade, you only need to start a new istiod version alongside your existing control plane, canary it, and then move all traffic over to it.
 
