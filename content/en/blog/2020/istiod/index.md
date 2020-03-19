@@ -1,7 +1,7 @@
 ---
 title: "Introducing istiod: simplifying the control plane"
 subtitle: Consolidating Istio components into ‘istiod’ simplifies mesh operability, while retaining Istio’s powerful functionality
-description: A vision statement and roadmap for Istio in 2020.
+description: istiod consolidates the Istio control plane components into a single binary.
 publishdate: 2020-03-19
 attribution: "Craig Box (Google)"
 keywords: [istiod,control plane,operator]
