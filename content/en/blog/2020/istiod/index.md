@@ -21,15 +21,15 @@ Istio's _control plane_ is, itself, a modern, cloud-native application. Thus, it
 
 Good teams look back upon their choices and, with the benefit of hindsight, revisit them. Generally, when a team adopts microservices and their inherent complexity, they look for improvements in other areas to justify the tradeoffs. Let's look at the Istio control plane through that lens.
 
- - **Microservices empower you to write in different languages.** The data plane (the Envoy proxy) is written in C++, and this boundary benefits from a clean separation in terms of the xDS APIs. However, all of the Istio control plane components are written in Go. We were able to choose the appropriate language for the appropriate job: highly performant C++ for the proxy, but accessible and speedy-development for everything else.
+- **Microservices empower you to write in different languages.** The data plane (the Envoy proxy) is written in C++, and this boundary benefits from a clean separation in terms of the xDS APIs. However, all of the Istio control plane components are written in Go. We were able to choose the appropriate language for the appropriate job: highly performant C++ for the proxy, but accessible and speedy-development for everything else.
 
- - **Microservices empower you to allow different teams to manage services individually.**. In the vast majority of Istio installations, all the components are installed and operated by a single team or individual. The componentization done within Istio is aligned along the boundaries of the development teams who build it.  This would make sense if the Istio components were delivered as a managed service by the people who wrote them, but this is not the case! Making life simpler for the development teams had an outsized impact of the usability for the orders-of-magnitude more users.
+- **Microservices empower you to allow different teams to manage services individually.**. In the vast majority of Istio installations, all the components are installed and operated by a single team or individual. The componentization done within Istio is aligned along the boundaries of the development teams who build it.  This would make sense if the Istio components were delivered as a managed service by the people who wrote them, but this is not the case! Making life simpler for the development teams had an outsized impact of the usability for the orders-of-magnitude more users.
 
- - **Microservices empower you to decouple versions, and release different components at different times.** All the components of the control plane have always been released at the same version, at the same time.  We have never tested or supported running different versions of (for example) Citadel and Pilot.
+- **Microservices empower you to decouple versions, and release different components at different times.** All the components of the control plane have always been released at the same version, at the same time.  We have never tested or supported running different versions of (for example) Citadel and Pilot.
 
- - **Microservices empower you to scale components independently.** In Istio 1.5, control plane costs are dominated by a single feature: serving the Envoy xDS APIs that program the data plane. Every other feature has a marginal cost, which means there is very little value to having those features in separately-scalable microservices.
+- **Microservices empower you to scale components independently.** In Istio 1.5, control plane costs are dominated by a single feature: serving the Envoy xDS APIs that program the data plane. Every other feature has a marginal cost, which means there is very little value to having those features in separately-scalable microservices.
 
- - **Microservices empower you to maintain security boundaries.** Another good reason to separate an application into different microservices is if they have different security roles. Multiple Istio microservices like the sidecar injector, the Envoy bootstrap, Citadel, and Pilot hold nearly equivalent permissions to change the proxy configuration. Therefore, exploiting any of these services would cause near equivalent damage. When you deploy Istio, all the components are installed by default into the same Kubernetes namespace, offering limited security isolation.
+- **Microservices empower you to maintain security boundaries.** Another good reason to separate an application into different microservices is if they have different security roles. Multiple Istio microservices like the sidecar injector, the Envoy bootstrap, Citadel, and Pilot hold nearly equivalent permissions to change the proxy configuration. Therefore, exploiting any of these services would cause near equivalent damage. When you deploy Istio, all the components are installed by default into the same Kubernetes namespace, offering limited security isolation.
 
 ## The benefit of consolidation: introducing istiod
 
@@ -37,21 +37,21 @@ Having established that many of the common benefits of microservices didn't appl
 
 Let's look at the benefits of the new packaging:
 
- - **Installation becomes easier.** Fewer Kubernetes deployments and associated configurations are required, so the set of configuration options and flags for Istio is reduced significantly. In the simplest case, **_you can start the Istio control plane, with all features enabled, by starting a single Pod._**
+- **Installation becomes easier.** Fewer Kubernetes deployments and associated configurations are required, so the set of configuration options and flags for Istio is reduced significantly. In the simplest case, **_you can start the Istio control plane, with all features enabled, by starting a single Pod._**
 
- - **Configuration becomes easier.** Many of the configuration options that Istio has today are ways to orchestrate the control plane components, and so are no longer needed. You also no longer need to change cluster-wide PodSecurityPolicies to deploy Istio.
+- **Configuration becomes easier.** Many of the configuration options that Istio has today are ways to orchestrate the control plane components, and so are no longer needed. You also no longer need to change cluster-wide PodSecurityPolicies to deploy Istio.
 
- - **Using VMs becomes easier.** To add a workload to a mesh, you now just need to install one agent and the generated certificates. That agent connects back to only a single service.
+- **Using VMs becomes easier.** To add a workload to a mesh, you now just need to install one agent and the generated certificates. That agent connects back to only a single service.
 
- - **Maintenance becomes easier.** Installing, upgrading, and removing Istio no longer require a complicated dance of version dependencies and startup orders. For example: To upgrade, you only need to start a new istiod version alongside your existing control plane, canary it, and then move all traffic over to it.
+- **Maintenance becomes easier.** Installing, upgrading, and removing Istio no longer require a complicated dance of version dependencies and startup orders. For example: To upgrade, you only need to start a new istiod version alongside your existing control plane, canary it, and then move all traffic over to it.
 
- - **Scalability becomes easier.** There is now only one component to scale.
+- **Scalability becomes easier.** There is now only one component to scale.
 
- - **Debugging becomes easier.** Fewer components means less cross-component environmental debugging.
+- **Debugging becomes easier.** Fewer components means less cross-component environmental debugging.
 
- - **Startup time goes down.** Components no longer need to wait for each other to start in a defined order.
+- **Startup time goes down.** Components no longer need to wait for each other to start in a defined order.
 
- - **Resource usage goes down and responsiveness goes up.** Communication between components becomes guaranteed, and not subject to gRPC size limits. Caches can be shared safely, which decreases the resource footprint as a result.
+- **Resource usage goes down and responsiveness goes up.** Communication between components becomes guaranteed, and not subject to gRPC size limits. Caches can be shared safely, which decreases the resource footprint as a result.
 
 istiod unifies functionality that Pilot, Galley, Citadel and the sidecar injector previously performed, into a single binary.
 
