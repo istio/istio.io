@@ -20,10 +20,10 @@ keywords: [platform-setup,kubernetes,minikube]
 
 ## 安装步骤{#installation-steps}
 
-1.  安装最新的 [minikube](https://kubernetes.io/docs/setup/minikube/)，版本 **1.1.1 或更高**，以及
+1. 安装最新的 [minikube](https://kubernetes.io/docs/setup/minikube/)，版本 **1.1.1 或更高**，以及
     [minikube 虚拟机驱动](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor)。
 
-1.  如果你没有使用默认的驱动，需要配置 minikube 虚拟机驱动。
+1. 如果你没有使用默认的驱动，需要配置 minikube 虚拟机驱动。
 
     比如，如果你安装了 KVM 虚拟机，使用如下命令设置 minikube 的 `vm-driver` 配置：
 
@@ -31,7 +31,7 @@ keywords: [platform-setup,kubernetes,minikube]
     $ minikube config set vm-driver kvm2
     {{< /text >}}
 
-1.  以 16384 `MB` 内存和 4 `CPUs` 启动 minikube。这个例子使用了 Kubernetes **1.14.2**。
+1. 以 16384 `MB` 内存和 4 `CPUs` 启动 minikube。这个例子使用了 Kubernetes **1.14.2**。
     你可以设置 `--kubernetes-version` 的值以指定任意 Istio 支持的 Kubernetes 版本：
 
     {{< text bash >}}
@@ -63,7 +63,7 @@ keywords: [platform-setup,kubernetes,minikube]
      bookinfo 的 VMWare Fusion 虚拟机中生成的。
     {{< /tip >}}
 
-1.  （可选，推荐）如果你希望 minikube 提供一个负载均衡给 Istio，你可以使用
+1. （可选，推荐）如果你希望 minikube 提供一个负载均衡给 Istio，你可以使用
     [minikube tunnel](https://minikube.sigs.k8s.io/docs/tasks/loadbalancer/#using-minikube-tunnel)。
     在另一个终端运行这个命令，因为 minikube tunnel 会阻塞的你的终端用于显示网络诊断信息：
 

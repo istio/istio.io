@@ -36,10 +36,10 @@ weight: 80
     $ kubectl get virtualservices
     {{< /text >}}
 
-* Mixer 访问日志： Mixer 的访问日志中包含了关于请求的信息。您可以通过这样获取：
+* Mixer 访问日志：Mixer 的访问日志中包含了关于请求的信息。您可以通过这样获取：
 
     {{< text plain >}}
-    # 将 <istio namespace> 处改为您自己的 Istio namespace。 比如： istio-system
+    # 将 <istio namespace> 处改为您自己的 Istio namespace。比如：istio-system
     $ TELEMETRY_POD=`kubectl get po -n <istio namespace> | grep istio-telemetry | awk '{print $1;}'`
     $ kubectl logs $TELEMETRY_POD -c mixer  -n istio-system  | grep accesslog
     {{< /text >}}

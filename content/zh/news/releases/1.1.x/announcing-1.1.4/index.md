@@ -18,7 +18,7 @@ aliases:
 
 ## 行为变更 {#behavior-change}
 
-- 更改了 Pilot 的默认行为，以允许流量流向网格外部，即使该流量与内部服务位于同一端口上也是如此，此行为可由 `PILOT_ENABLE_FALLTHROUGH_ROUTE`  环境变量控制。
+- 更改了 Pilot 的默认行为，以允许流量流向网格外部，即使该流量与内部服务位于同一端口上也是如此，此行为可由 `PILOT_ENABLE_FALLTHROUGH_ROUTE` 环境变量控制。
 
 ## Bug 修复 {#bug-fixes}
 
@@ -40,7 +40,7 @@ aliases:
 
 - 修复了节点代理中的崩溃错误 ([Issue 13325](https://github.com/istio/istio/issues/13325))。
 
-- 添加了缺少的验证，以防止网关名称包含点（.） ([Issue 13211](https://github.com/istio/istio/issues/13211))。
+- 添加了缺少的验证，以防止网关名称包含点（.）([Issue 13211](https://github.com/istio/istio/issues/13211))。
 
 - 修复了 [`ConsistentHashLB.minimumRingSize`](/zh/docs/reference/config/networking/destination-rule#LoadBalancerSettings-ConsistentHashLB)
 默认为 0 而不是记录的 1024 ([Issue 13261](https://github.com/istio/istio/issues/13261))。

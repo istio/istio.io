@@ -125,7 +125,7 @@ Istio 控制平面使用了预定义集群 BlackHoleCluster 和 Passthrough 来�
 
 ## 使用增强指标{#using-the-augmented-metrics}
 
-要捕获两种情况（ BlackHole 或 Passthrough）中的所有外部服务流量，你将需要监控 `istio_requests_total` 和 `istio_tcp_connections_closed_total` 指标。
+要捕获两种情况（BlackHole 或 Passthrough）中的所有外部服务流量，你将需要监控 `istio_requests_total` 和 `istio_tcp_connections_closed_total` 指标。
 根据 Envoy 监听器的类型，即被调用的 TCP 代理或 HTTP 代理，将增加相应的指标。
 
 此外，如果使用 TCP 代理监听器以查看被 BlackHole 阻止或被 Passthrough 透传的外部服务的 IP 地址，

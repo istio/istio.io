@@ -9,7 +9,7 @@ Istio 是一个开源项目，拥有一个支持其使用和持续开发的活�
 融入 Istio 社区有很多种方式：
 
 {{< community_item logo="./discourse.svg" alt="Discourse" >}}
-前往 [Istio discussion board](https://discuss.istio.io) 提出问题、参与讨论、获取故障排除的帮助。您可以使用 GitHub ID （或者 Google、Twitter 或 Yahoo） 登录！
+前往 [Istio discussion board](https://discuss.istio.io) 提出问题、参与讨论、获取故障排除的帮助。您可以使用 GitHub ID （或者 Google、Twitter 或 Yahoo）登录！
 {{< /community_item >}}
 
 {{< community_item logo="./stackoverflow.svg" alt="Stack Overflow" >}}

@@ -124,11 +124,11 @@ webhooks:
 
 校验配置如果失败会自动关闭，正常情况下配置存在并校验通过，webhook 将被调用。在资源创建或更新的时候，如果缺失 `caBundle`或者错误的证书，亦或网络连接问题都将会导致报错。如果你确信你的配置没有问题，webhook 没有被调用却看不到任何错误信息，你的集群配置肯定有问题。
 
-## 创建配置失败报错： x509 certificate errors {#x509-certificate-errors}
+## 创建配置失败报错：x509 certificate errors {#x509-certificate-errors}
 
 `x509: certificate signed by unknown authority` 错误通常和 webhook 配置中的空 `caBundle` 有关，所以要确认它不为空 (请查阅[验证 webhook 配置](#invalid-configuration-is-accepted))。Istio 有意识的使用 `istio-validation` `configmap` 和根证书，调整了 webhook 配置。
 
-1. 验证 `istio-pilot` pod  是否在运行：
+1. 验证 `istio-pilot` pod 是否在运行：
 
     {{< text bash >}}
     $  kubectl -n istio-system get pod -lapp=pilot
@@ -162,7 +162,7 @@ webhooks:
 
     Istio 需要 `validatingwebhookconfigurations` 的写权限来创建和更新 `istio-galley validatingwebhookconfiguration` 配置项。
 
-## 创建配置报错：`no such hosts` 、 `no endpoints available` {#creating-configuration-fail}
+## 创建配置报错：`no such hosts` 、`no endpoints available` {#creating-configuration-fail}
 
 如果 `istio-pilot` pod 没有准备就绪，配置是不会被创建或者更新的，在下面的例子里您可以看到关于 `no endpoints available` 的错误信息。
 

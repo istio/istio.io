@@ -208,7 +208,7 @@ spec:
 -   重写 URL。
 -   为调用这一目标地址的请求设置[重试策略](#retries)。
 
-想了解如何利用这些操作，查看  [`HTTPRoute` 参考](/zh/docs/reference/config/networking/virtual-service/#HTTPRoute)。
+想了解如何利用这些操作，查看 [`HTTPRoute` 参考](/zh/docs/reference/config/networking/virtual-service/#HTTPRoute)。
 
 ## 目标规则 {#destination-rules}
 
@@ -319,7 +319,7 @@ spec:
 -   为外部目标 redirect 和转发请求，例如来自 web 端的 API 调用，或者流向遗留老系统的服务。
 -   为外部目标定义[重试](#retries)、[超时](#timeouts)和[故障注入](#fault-injection)策略。
 -   添加一个运行在虚拟机的服务来[扩展您的网格](/zh/docs/examples/virtual-machines/single-network/#running-services-on-the-added-VM)。
--   从逻辑上添加来自不同集群的服务到网格，在 Kubernetes 上实现一个[多集群  Istio 网格](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)。
+-   从逻辑上添加来自不同集群的服务到网格，在 Kubernetes 上实现一个[多集群 Istio 网格](/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services)。
 
 您不需要为网格服务要使用的每个外部服务都添加服务入口。默认情况下，Istio 配置 Envoy 代理将请求传递给未知服务。但是，您不能使用 Istio 的特性来控制没有在网格中注册的目标流量。
 

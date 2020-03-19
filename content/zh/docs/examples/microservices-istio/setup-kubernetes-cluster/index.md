@@ -12,18 +12,18 @@ weight: 2
 如果您在培训班且讲师已准备好了集群，直接前往[设置本地机器](/zh/docs/examples/microservices-istio/setup-local-computer)。
 {{</ warning >}}
 
-1.  确保您有 [Kubernetes 集群](https://kubernetes.io/docs/tutorials/kubernetes-basics/)的访问权限。
+1. 确保您有 [Kubernetes 集群](https://kubernetes.io/docs/tutorials/kubernetes-basics/)的访问权限。
     您可以使用 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) 或
      [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started)。
 
-1.  生成一个环境变量用于存储运行教程指令要用到的命名空间的名字。
+1. 生成一个环境变量用于存储运行教程指令要用到的命名空间的名字。
     可以用任何名字，比如 `tutorial`。
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
-1.  创建命名空间：
+1. 创建命名空间：
 
     {{< text bash >}}
     $ kubectl create namespace $NAMESPACE
@@ -33,11 +33,11 @@ weight: 2
     如果您是一位讲师，可以为每个参与者分配独立的命名空间。本教程支持多个参与者在不同的命名空间下同时运行。
     {{< /tip >}}
 
-1.  [安装 Istio](/zh/docs/setup/)。
+1. [安装 Istio](/zh/docs/setup/)。
 
-1.  [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
+1. [启用 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
 
-1.  使用 `kubectl` 命令为这些通用 Istio 服务创建一个 Kubernetes Ingress 资源。在教程目前这个阶段要熟悉这些服务并不是必须的。
+1. 使用 `kubectl` 命令为这些通用 Istio 服务创建一个 Kubernetes Ingress 资源。在教程目前这个阶段要熟悉这些服务并不是必须的。
 
     - [Grafana](https://grafana.com/docs/guides/getting_started/)
     - [Jaeger](https://www.jaegertracing.io/docs/1.13/getting-started/)
@@ -86,7 +86,7 @@ weight: 2
     EOF
     {{< /text >}}
 
-1.  创建一个角色为 `istio-system` 命名空间提供读权限。要在下面的步骤中限制参与者的权限，这个角色是必须要有的。
+1. 创建一个角色为 `istio-system` 命名空间提供读权限。要在下面的步骤中限制参与者的权限，这个角色是必须要有的。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -102,7 +102,7 @@ weight: 2
     EOF
     {{< /text >}}
 
-1.  为每个参与者创建服务账号：
+1. 为每个参与者创建服务账号：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -114,7 +114,7 @@ weight: 2
     EOF
     {{< /text >}}
 
-1.  限制每个参与者的权限。在教程中，参与者只需要在他们自己的命名空间中创建资源以及从 `istio-system` 命名空间中读取资源。
+1. 限制每个参与者的权限。在教程中，参与者只需要在他们自己的命名空间中创建资源以及从 `istio-system` 命名空间中读取资源。
     即使使用您自己的集群，这也是一个好的实践，它可以避免影响您集群中的其他命名空间。
 
     创建一个角色为每个参与者的命名空间提供读写权限。为每个参与者赋予这个角色，以及读取 `istio-system` 资源的角色：
@@ -162,7 +162,7 @@ weight: 2
     EOF
     {{< /text >}}
 
-1.  每个参与者需要使用他们自己的 Kubernetes 配置文件。这个配置文件指明了集群的详细信息，服务账号，证书和参与者的命名空间。
+1. 每个参与者需要使用他们自己的 Kubernetes 配置文件。这个配置文件指明了集群的详细信息，服务账号，证书和参与者的命名空间。
     `kubectl` 命令使用这个配置文件在集群上操作。
 
     为每个参与者创建 Kubernetes 配置文件：
@@ -197,13 +197,13 @@ weight: 2
     EOF
     {{< /text >}}
 
-1.  为 `${NAMESPACE}-user-config.yaml` 配置文件设置环境变量 `KUBECONFIG`：
+1. 为 `${NAMESPACE}-user-config.yaml` 配置文件设置环境变量 `KUBECONFIG`：
 
     {{< text bash >}}
     $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
     {{< /text >}}
 
-1.  打印当前命名空间以确认配置文件已生效：
+1. 打印当前命名空间以确认配置文件已生效：
 
     {{< text bash >}}
     $ kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}"
@@ -212,7 +212,7 @@ weight: 2
 
     在输出中可以看到命名空间的名字。
 
-1.  如果您为自己设置好了集群，复制前面步骤中提到的 `${NAMESPACE}-user-config.yaml` 文件到您的本地机器，`${NAMESPACE}` 就是前面步骤中的命名空间。比如，`tutorial-user-config.yaml`。
+1. 如果您为自己设置好了集群，复制前面步骤中提到的 `${NAMESPACE}-user-config.yaml` 文件到您的本地机器，`${NAMESPACE}` 就是前面步骤中的命名空间。比如，`tutorial-user-config.yaml`。
     教程中您将会再次用到这个文件。
 
     如果您是讲师，则将生成的配置文件发送给每个学员。学员必须将该配置文件复制到自己本地的计算机。

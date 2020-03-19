@@ -32,19 +32,19 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
 - 通过选择合适的 [platform-specific setup instructions](/zh/docs/setup/platform-setup/) 来创建一个集群。
 
-有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装 Istio。 如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
+有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装 Istio。如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
 
 ## 下载 Istio {#download}
 
 下载 Istio，下载内容将包含：安装文件、示例和 [{{< istioctl >}}](/zh/docs/reference/commands/istioctl/) 命令行工具。
 
-1.  访问 [Istio release]({{< istio_release_url >}}) 页面下载与您操作系统对应的安装文件。在 macOS 或 Linux 系统中，也可以通过以下命令下载最新版本的 Istio：
+1. 访问 [Istio release]({{< istio_release_url >}}) 页面下载与您操作系统对应的安装文件。在 macOS 或 Linux 系统中，也可以通过以下命令下载最新版本的 Istio：
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
-1.  切换到 Istio 包所在目录下。例如：Istio 包名为 `istio-{{< istio_full_version >}}`，则：
+1. 切换到 Istio 包所在目录下。例如：Istio 包名为 `istio-{{< istio_full_version >}}`，则：
 
     {{< text bash >}}
     $ cd istio-{{< istio_full_version >}}
@@ -56,7 +56,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
     - `samples/` 目录下，有示例应用程序
     - `bin/` 目录下，包含 [`istioctl`](/zh/docs/reference/commands/istioctl) 的客户端文件。`istioctl` 工具用于手动注入 Envoy sidecar 代理。
 
-1.  将 `istioctl` 客户端路径增加到 path 环境变量中，macOS 或 Linux 系统的增加方式如下：
+1. 将 `istioctl` 客户端路径增加到 path 环境变量中，macOS 或 Linux 系统的增加方式如下：
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH

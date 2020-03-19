@@ -41,7 +41,7 @@ Google 为 GKE 提供了一个插件，
 
     {{< warning >}}
     如果需要使用 Istio CNI 功能，
-    需要在  `gcloud container clusters create`  命令中加入 `--enable-network-policy` 参数，
+    需要在 `gcloud container clusters create` 命令中加入 `--enable-network-policy` 参数，
     以启用 GKE 集群的 [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) 功能。
     {{< /warning >}}
 

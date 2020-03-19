@@ -50,7 +50,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-1. 创建一个 _collection_  来保存评级数据。以下命令将两个评级都设置为 `1`，以便在 Bookinfo _ratings_ service 使用数据库时提供视觉验证（默认 Bookinfo _ratings_
+1. 创建一个 _collection_ 来保存评级数据。以下命令将两个评级都设置为 `1`，以便在 Bookinfo _ratings_ service 使用数据库时提供视觉验证（默认 Bookinfo _ratings_
    为 `4` 和 `5`）
 
     {{< text bash >}}
@@ -86,7 +86,7 @@ target_release: 1.1
 ### Bookinfo 应用程序的初始设置{#Initial-setting-of-Bookinfo-application}
 
 为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/zh/docs/setup/getting-started/) 的 Kubernetes 集群。然后部署
-[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules) 和[改变 Istio 到  blocking-egress-by-default 策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
+[Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules) 和[改变 Istio 到 blocking-egress-by-default 策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
 
 此应用程序从 `ratings` 微服务获取书籍评级（1 到 5 的数字）。评级以星标形式显示每条评论。`ratings` 微服务有几个版本。在下一小节中，请部署使用 [MongoDB](https://www.mongodb.com)
 作为 ratings 数据库的版本。
@@ -107,7 +107,7 @@ target_release: 1.1
     deployment "ratings-v2" created
     {{< /text >}}
 
-1.  为你的 MongoDB 设置 `MONGO_DB_URL` 环境变量：
+1. 为你的 MongoDB 设置 `MONGO_DB_URL` 环境变量：
 
     {{< text bash >}}
     $ kubectl set env deployment/ratings-v2 "MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&ssl=true"
@@ -191,17 +191,17 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 请注意，和预期的一样，您会看到两个显示评论的一星评级。您将评级设置为一星，以作为外部数据库确实被使用了的视觉证据。
 
-1.  如果要通过出口网关引导流量，请继续下一节。否则，请执行 [cleanup](#cleanup-of-TCP-egress-traffic-control).
+1. 如果要通过出口网关引导流量，请继续下一节。否则，请执行 [cleanup](#cleanup-of-TCP-egress-traffic-control).
 
 ### 通过 egress gateway 定向 TCP Egress 流量{#direct-TCP-egress-traffic-through-an-egress-gateway}
 
 在本节中，您将处理通过 [egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
 
-1.  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
+1. [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
 
 1. 如果您未执行[上一节](#control-TCP-egress-traffic-without-a-gateway)中的步骤，则立即执行这些步骤。
 
-1. 您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的 {{< gloss >}}mutual TLS Authentication{{< /gloss >}}，以使 egress gateway 监控来源 pod 的身份并基于该 identity     启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
+1. 您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的 {{< gloss >}}mutual TLS Authentication{{< /gloss >}}，以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
    如果你不想开启双向 TLS，参考 [Mutual TLS between the sidecar proxies and the egress gateway](#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway) 小节
   否则，请继续以下部分。
 
@@ -432,9 +432,9 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 #### 验证 TCP egress 流量是否通过 egress gateway 定向{#verify-that-egress-traffic-is-directed-through-the-egress-gateway}
 
-1.  再次刷新应用程序的网页，并验证等级是否仍正确显示。
+1. 再次刷新应用程序的网页，并验证等级是否仍正确显示。
 
-1.  [开启 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1. [开启 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1. 检查 egress gateway 的 Envoy 的统计数据，找到对应请求 MongoDB service 的 counter。如果 Istio 步骤在 `istio-system` namespace 中，打印 counter 的命令为：
 
@@ -508,7 +508,7 @@ Sidecar 代理通过匹配 MongoDB 主机的 SNI，将 TLS 连接从 MongoDB 客
 Egress gateway 再将流量转发到 MongoDB 主机。请注意，sidecar 代理会将目的端口重写为 443。
 Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoDB 主机，并再次将端口重写为 MongoDB 服务器的端口。
 
-1.  [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
+1. [部署 Istio egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway).
 
 1. 为 MongoDB service 创建一个 `ServiceEntry`:
 
@@ -956,7 +956,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1.  将目的为 _*.com_ 的流量路由到 egress gateway，并从 egress gateway 路由到 SNI 代理.
+1. 将目的为 _*.com_ 的流量路由到 egress gateway，并从 egress gateway 路由到 SNI 代理.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -1000,7 +1000,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 
 1. 再次刷新应用程序的网页，验证评级数据仍然显示正确。
 
-1.  [开启 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1. [开启 Envoy 访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1. 检查 egress gateway 的 Envoy 的日志。如果 Istio 部署在 `istio-system` namespace 中，打印日志的的命令为：
 

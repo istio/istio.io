@@ -1,6 +1,6 @@
 ---
 title: 安全管理 Webhook
-description: 一种更安全管理 Istio webhook 的方法。 
+description: 一种更安全管理 Istio webhook 的方法。
 publishdate: 2019-11-14
 attribution: Lei Tang (Google)
 keywords: [security, kubernetes, webhook]

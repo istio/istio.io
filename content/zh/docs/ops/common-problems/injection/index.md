@@ -187,7 +187,7 @@ env:
     value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 
-使用这些设置，sidecar 自动注入就会失败。 相关的报错可以在 `kube-apiserver` 日志中找到：
+使用这些设置，sidecar 自动注入就会失败。相关的报错可以在 `kube-apiserver` 日志中找到：
 
 {{< text plain >}}
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
@@ -195,7 +195,7 @@ W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing 
 
 根据 `*_proxy` 相关的的环境变量设置，确保 pod 和 service CIDRs 是没有被代理的。检查 `kube-apiserver` 的运行日志验证是否有请求正在被代理。
 
-一种解决方法是在 `kube-apiserver` 的配置中删除代理设置，另一种解决方法是把 `istio-sidecar-injector.istio-system.svc` 或者 `.svc` 加到 `no_proxy` 的 `value` 里面。 每种解决方法都需要重新启动 `kube-apiserver`。
+一种解决方法是在 `kube-apiserver` 的配置中删除代理设置，另一种解决方法是把 `istio-sidecar-injector.istio-system.svc` 或者 `.svc` 加到 `no_proxy` 的 `value` 里面。每种解决方法都需要重新启动 `kube-apiserver`。
 
 Kubernetes 与此有关的一个 [issue](https://github.com/kubernetes/kubeadm/issues/666) 已被 [PR #58698](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443) 解决。
 

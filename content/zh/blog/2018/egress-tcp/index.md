@@ -62,7 +62,7 @@ target_release: 1.0
     $ mysql -u root -p --host $MYSQL_DB_HOST --port $MYSQL_DB_PORT -e "CREATE USER 'bookinfo' IDENTIFIED BY '<password you choose>'; GRANT SELECT ON test.ratings to 'bookinfo';"
     {{< /text >}}
 
-    在这里，你会应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege)，这意味着不在 Bookinfo 应用程序中使用 `admin` 用户。相反，你为应用程序 Bookinfo 创建了一个最小权限的特殊用户 `bookinfo`， 在这种情况下，`bookinfo` 用户只对单个表具有 `SELECT` 特权。
+    在这里，你会应用[最小特权原则](https://en.wikipedia.org/wiki/Principle_of_least_privilege)，这意味着不在 Bookinfo 应用程序中使用 `admin` 用户。相反，你为应用程序 Bookinfo 创建了一个最小权限的特殊用户 `bookinfo`，在这种情况下，`bookinfo` 用户只对单个表具有 `SELECT` 特权。
 
     在运行命令创建用户之后，你可能会想通过检查最后一个命令的编号并运行 `history -d <创建用户的命令编号>` 来清理我的 bash 历史记录。你可能不希望新用户的密码存储在 bash 历史记录中，如果你使用了 `mysql` 命令行工具，记得要删除 `~/.mysql_history` 文件中的最后一个命令。在 [MySQL 文档](https://dev.mysql.com/doc/refman/5.5/en/create-user.html)中阅读有关新创建用户的密码保护的更多信息。
 
@@ -158,7 +158,7 @@ target_release: 1.0
       value: password
     {{< /text >}}
 
-    替换上面代码段中的值，指定数据库主机，端口，用户和密码，请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是[使用 secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables)，仅对于此示例任务，你可能会在 deployment spec 中直接配置明文的密码， **切记！不要在真实环境中这样做**！我想你们应该也知道，`"password"` 这个值也不应该用作密码。
+    替换上面代码段中的值，指定数据库主机，端口，用户和密码，请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是 [使用 secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables)，仅对于此示例任务，你可能会在 deployment spec 中直接配置明文的密码，**切记！不要在真实环境中这样做**！我想你们应该也知道，`"password"` 这个值也不应该用作密码。
 
 1. 应用修改后的 `spec` 来部署使用外部数据库的 _ratings_ 服务，_v2-mysql_ 的版本。
 
@@ -189,7 +189,7 @@ target_release: 1.0
 
 在[确定入口 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)之后，访问应用程序的网页。
 
-你会发现问题，在每次审核下方都会显示消息 _"Ratings service is currently unavailable”_  而不是评级星标。
+你会发现问题，在每次审核下方都会显示消息 _"Ratings service is currently unavailable”_ 而不是评级星标。
 
 {{< image width="80%" link="errorFetchingBookRating.png" caption="Ratings 服务的错误信息" >}}
 
@@ -244,7 +244,7 @@ target_release: 1.0
 
 [下面](#service-entries-for-tcp-traffic)我将详细讨论 TCP 服务入口。现在先来验证我们添加的出口规则是否解决了问题。访问网页看看评星是否回来了。
 
-有效！ 访问应用程序的网页会显示评级而不会出现错误：
+有效！访问应用程序的网页会显示评级而不会出现错误：
 
 {{< image width="80%" link="externalMySQLRatings.png" caption="Book Ratings 显示正常" >}}
 
@@ -272,7 +272,7 @@ target_release: 1.0
 
 ## 与网格扩展的关系{#relation-to-virtual-machines-support}
 
-请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/virtual-machines/bookinfo/)示例中描述的网格扩展场景不同。 在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或 VM）上运行 ，MySQL 服务成为网格的一等公民，具有 Istio 的所有有益功能，除此之外，服务可以通过本地集群域名寻址，例如通过 `mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)保护与它的通信，无需创建服务入口来访问此服务; 但是，该服务必须在 Istio 注侧，要启用此类集成，必须在计算机上安装 Istio 组件（ _Envoy proxy_ ，_node-agent_ ，`_istio-agent_` ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_Citadel_ ）。有关详细信息，请参阅 [Istio VM 相关](/zh/docs/examples/virtual-machines/)。
+请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/virtual-machines/bookinfo/)示例中描述的网格扩展场景不同。在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或 VM）上运行 ，MySQL 服务成为网格的一等公民，具有 Istio 的所有有益功能，除此之外，服务可以通过本地集群域名寻址，例如通过 `mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)保护与它的通信，无需创建服务入口来访问此服务; 但是，该服务必须在 Istio 注侧，要启用此类集成，必须在计算机上安装 Istio 组件（_Envoy proxy_ ，_node-agent_ ，`_istio-agent_` ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_Citadel_ ）。有关详细信息，请参阅 [Istio VM 相关](/zh/docs/examples/virtual-machines/)。
 
 在这个的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置，无需集成机器
 与 Istio ，无需从机器访问 Istio 控制平面，在使用 MySQL 作为服务的情况下，运行 MySQL 的计算机可能无法访问，并且可能无法在其上安装必需的组件。在这个的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的，当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。
@@ -317,4 +317,4 @@ target_release: 1.0
 
 ## 结论{#conclusion}
 
-在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 TCP 使用外部服务，默认情况下，Istio 会阻止所有流量（TCP 和 HTTP）到集群外的主机， 要为 TCP 启用此类流量，必须为服务网格创建 TCP 网格外部服务入口。
+在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 TCP 使用外部服务，默认情况下，Istio 会阻止所有流量（TCP 和 HTTP）到集群外的主机，要为 TCP 启用此类流量，必须为服务网格创建 TCP 网格外部服务入口。

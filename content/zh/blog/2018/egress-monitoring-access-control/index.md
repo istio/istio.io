@@ -14,7 +14,7 @@ target_release: 1.1
 
 ## 用例{#use-case}
 
-考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和  [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问 edition.cnn.com 的权限](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
+考虑一个运行处理 _cnn.com_ 内容的应用程序的组织。应用程序被解耦为部署在 Istio 服务网格中的微服务。应用程序访问 _cnn.com_ 的各种话题页面：[edition.cnn.com/politics](https://edition.cnn.com/politics)，[edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health)。该组织[配置了访问 edition.cnn.com 的权限](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)，一切都正常运行。然而，在某一时刻，本组织决定移除政治话题。实际上，这意味着禁止访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) ，只允许访问 [edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health) 。该组织将根据具体情况，向个别应用程序和特定用户授予访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的权限。
 
 为了实现这一目标，组织的运维人员监控对外部服务的访问，并分析 Istio 日志，以验证没有向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送未经授权的请求。他们还配置了 Istio 来防止自动访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 。
 
@@ -51,7 +51,7 @@ target_release: 1.1
     caption="用于 egress 监视和访问策略的实例、规则和处理程序"
     >}}
 
-1.  创建 `logentry`、 `rules` 和 `handlers`。 注意您指定了 `context.reporter.uid` 作为
+1. 创建 `logentry`、`rules` 和 `handlers`。注意您指定了 `context.reporter.uid` 作为
     `kubernetes://istio-egressgateway` 在规则中只能从 egress 网关获取日志信息。
 
     {{< text bash >}}
@@ -124,7 +124,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-1.  发送三个 HTTP 请求到 _cnn.com_ 、 [edition.cnn.com/politics](https://edition.cnn.com/politics)、 [edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health)。
+1. 发送三个 HTTP 请求到 _cnn.com_ 、[edition.cnn.com/politics](https://edition.cnn.com/politics)、[edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health)。
 三个请求都应该返回 _200 OK_ 。
 
     {{< text bash >}}
@@ -134,7 +134,7 @@ target_release: 1.1
     200
     {{< /text >}}
 
-1.  查询 Mixer 日志，查看请求信息出现在日志中:
+1. 查询 Mixer 日志，查看请求信息出现在日志中:
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
@@ -147,7 +147,7 @@ target_release: 1.1
     您将看到与您的三个请求相关的四个日志条目。三个关于访问 _edition.cnn.com_ 的 _info_ 信息和一个关于访问 _edition.cnn.com/politics_ 的 _error_ 信息。服务网格 operators 可以查看所有访问实例，还可以搜索日志中表示禁止访问的 _error_ 日志。这是在自动地阻塞禁止访问之前可以应用的第一个安全措施，即将所有禁止访问实例记录为错误。在某些设置中，这可能是一个足够的安全措施。
 
     注意以下属性：
-      * `destination`、 `path`、 `responseCode` 和 `responseSize` 与请求的 HTTP 参数相关
+      * `destination`、`path`、`responseCode` 和 `responseSize` 与请求的 HTTP 参数相关
       * `sourcePrincipal`:`cluster.local/ns/default/sa/sleep` —— 表示 `default` 命名空间中的 `sleep` 服务帐户的字符串
       * `reporterUID`: `kubernetes://istio-egressgateway-747b6764b8-44rrh.istio-system` —— 报告 pod 的 UID，在本例中为 `istio-egressgateway-747b6764b8-44rrh`，位于 `istio-system` 命名空间中
 
@@ -155,7 +155,7 @@ target_release: 1.1
 
 启用对 _edition.cnn.com_ 的访问进行日志记录之后，自动执行访问策略，即只允许访问 _/health_ 和 _/sport_ URL 路径。这样一个简单的策略控制可以通过 Istio 路由实现。
 
-1.  为 _edition.cnn.com_ 重定义 `VirtualService` ：
+1. 为 _edition.cnn.com_ 重定义 `VirtualService` ：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -198,7 +198,7 @@ target_release: 1.1
 
     注意，您通过 `url` 添加添加了一个 `match`，该条件检查 URL 路径是 _/health_ 还是 _/sport_ 。还要注意，此条件已添加到 `VirtualService` 的 `istio-egressgateway` 部分，因为就安全性而言，egress 网关是一个经过加固的组件（请参阅 [egress 网关安全性注意事项](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)）。您一定不希望您的任何策略被篡改。
 
-1.  发送之前的三个 HTTP 请求到 _cnn.com_ ：
+1. 发送之前的三个 HTTP 请求到 _cnn.com_ ：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -207,7 +207,7 @@ target_release: 1.1
     200
     {{< /text >}}
 
-    向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送请求会返回 _404 Not Found_ ， 然而向
+    向 [edition.cnn.com/politics](https://edition.cnn.com/politics) 发送请求会返回 _404 Not Found_ ，然而向
       [edition.cnn.com/sport](https://edition.cnn.com/sport) 和
      [edition.cnn.com/health](https://edition.cnn.com/health) 发送请求，会像我们预想的那样返回 _200 OK_ 。
 
@@ -215,7 +215,7 @@ target_release: 1.1
     您可能需要等待几秒钟，等待 `VirtualService` 的更新传播到 egress 网关。
     {{< /tip >}}
 
-1.  查询 Mixer 日志，可以看到关于请求的信息再次出现在日志中：
+1. 查询 Mixer 日志，可以看到关于请求的信息再次出现在日志中：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
@@ -233,7 +233,7 @@ target_release: 1.1
 
 现在您移除在本节中使用的路由取消访问控制，在下一节将向您演示通过 Mixer 策略检查实现访问控制。
 
-1.  用之前[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-TLS-origination-with-an-egress-gateway)示例中的版本替换 _edition.cnn.com_ 的 `VirtualService`：
+1. 用之前[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-TLS-origination-with-an-egress-gateway)示例中的版本替换 _edition.cnn.com_ 的 `VirtualService`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -272,7 +272,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-1.  发送之前的三个 HTTP 请求到 _cnn.com_ ， 这一次您应该会收到三个 _200 OK_ 的响应：
+1. 发送之前的三个 HTTP 请求到 _cnn.com_ ，这一次您应该会收到三个 _200 OK_ 的响应：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -294,7 +294,7 @@ target_release: 1.1
     caption="用于 egress 监视和访问策略的实例、规则和处理程序"
     >}}
 
-1.  定义 `path-checker` 和 `request-path`：
+1. 定义 `path-checker` 和 `request-path`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
@@ -317,7 +317,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-1.  修改 `handle-cnn-access` 策略规则并发送 `request-path` 实例到 `path-checker`：
+1. 修改 `handle-cnn-access` 策略规则并发送 `request-path` 实例到 `path-checker`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -339,7 +339,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-1.  执行常规测试，将 HTTP 请求发送到 [edition.cnn.com/politics](https://edition.cnn.com/politics)， [edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health)。正如所料，对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的请求返回 _403_ （禁止）。
+1. 执行常规测试，将 HTTP 请求发送到 [edition.cnn.com/politics](https://edition.cnn.com/politics)，[edition.cnn.com/sport](https://edition.cnn.com/sport) 和 [edition.cnn.com/health](https://edition.cnn.com/health)。正如所料，对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的请求返回 _403_ （禁止）。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -352,7 +352,7 @@ target_release: 1.1
 
 在我们用例中的组织设法配置日志和访问控制之后，它决定扩展它的访问策略，允许具有特殊[服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)的应用程序访问 _cnn.com_ 的任何主题，而不受监控。您将看到如何在 Istio 中配置此需求。
 
-1.  使用 `politics` 服务账户开启 [sleep]({{< github_tree >}}/samples/sleep) 示例程序。
+1. 使用 `politics` 服务账户开启 [sleep]({{< github_tree >}}/samples/sleep) 示例程序。
 
     {{< text bash >}}
     $  sed 's/: sleep/: politics/g' samples/sleep/sleep.yaml | kubectl create -f -
@@ -361,13 +361,13 @@ target_release: 1.1
     deployment "politics" created
     {{< /text >}}
 
-1.  定义 `SOURCE_POD_POLITICS` shell 变量来保存带有 `politics` 服务帐户的源 pod 的名称，以便向外部服务发送请求。
+1. 定义 `SOURCE_POD_POLITICS` shell 变量来保存带有 `politics` 服务帐户的源 pod 的名称，以便向外部服务发送请求。
 
     {{< text bash >}}
     $ export SOURCE_POD_POLITICS=$(kubectl get pod -l app=politics -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-1.  执行常规测试，这次从 `SOURCE_POD_POLITICS` 发送三个 HTTP 请求。对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的请求返回 _403_ ，因为您没有为 _politics_ 命名空间配置异常。
+1. 执行常规测试，这次从 `SOURCE_POD_POLITICS` 发送三个 HTTP 请求。对 [edition.cnn.com/politics](https://edition.cnn.com/politics) 的请求返回 _403_ ，因为您没有为 _politics_ 命名空间配置异常。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_POLITICS -c politics -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -376,7 +376,7 @@ target_release: 1.1
     200
     {{< /text >}}
 
-1.  查询 Mixer 日志，可以看到来自 _politics_ 命名空间的请求信息出现在日志中：
+1. 查询 Mixer 日志，可以看到来自 _politics_ 命名空间的请求信息出现在日志中：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
@@ -388,7 +388,7 @@ target_release: 1.1
 
     注意 `sourcePrincipal` 是 `cluster.local/ns/default/sa/politics`，表示 `default` 命名空间中的 `politics` 服务帐户。
 
-1.  重新定义 `handle-cn-access` 和 `handl-politics` 策略规则，使 _politics_ 命名空间中的应用程序免受监控和策略强制。
+1. 重新定义 `handle-cn-access` 和 `handl-politics` 策略规则，使 _politics_ 命名空间中的应用程序免受监控和策略强制。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -423,7 +423,7 @@ target_release: 1.1
     EOF
     {{< /text >}}
 
-1.  从 `SOURCE_POD` 中执行常规测试：
+1. 从 `SOURCE_POD` 中执行常规测试：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -434,7 +434,7 @@ target_release: 1.1
 
     由于 `SOURCE_POD` 没有 `politics` 服务帐户，所以像以前一样访问 [edition.cnn.com/politics](https://edition.cnn.com/politics) 会被禁止。
 
-1.  从 `SOURCE_POD_POLITICS` 中执行之前的测试：
+1. 从 `SOURCE_POD_POLITICS` 中执行之前的测试：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_POLITICS -c politics -- sh -c 'curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/politics; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/sport; curl -sL -o /dev/null -w "%{http_code}\n" http://edition.cnn.com/health'
@@ -445,7 +445,7 @@ target_release: 1.1
 
     访问 _edition.cnn.com_ 的所有话题都是被允许的。
 
-1.  检查 Mixer 日志，查看是否有更多使用 `sourcePrincipal` 请求，能够匹配 `cluster.local/ns/default/sa/politics` 的内容出现在日志中。
+1. 检查 Mixer 日志，查看是否有更多使用 `sourcePrincipal` 请求，能够匹配 `cluster.local/ns/default/sa/politics` 的内容出现在日志中。
 
     {{< text bash >}}
     $  kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep egress-access | grep cnn | tail -4
@@ -455,7 +455,7 @@ target_release: 1.1
 
 在这个用例中，应用程序使用 HTTP 和 Istio Egress 网关为它们执行 TLS 初始化。或者，应用程序可以通过向 _edition.cnn.com_ 发出 HTTPS 请求来发起 TLS 本身。在本节中，我们将描述这两种方法及其优缺点。
 
-在 HTTP 方法中，请求在本地主机上不加密地发送，由 Istio sidecar 代理拦截并转发到 egress 网关。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS，因此流量会使 pod 加密。egress 网关解密流量，检查 URL 路径、 HTTP 方法和报头，报告遥测数据并执行策略检查。如果请求没有被某些策略检查阻止，那么 egress 网关将执行 TLS 发起到外部目的地（在我们的示例中是 _cnn.com_ ），因此请求将再次加密并发送到外部目的地。下图演示了这种方法的流程。网关内的 HTTP 协议根据解密后网关看到的协议来指定协议。
+在 HTTP 方法中，请求在本地主机上不加密地发送，由 Istio sidecar 代理拦截并转发到 egress 网关。由于您将 Istio 配置为在 sidecar 代理和 egress 网关之间使用相互的 TLS，因此流量会使 pod 加密。egress 网关解密流量，检查 URL 路径、HTTP 方法和报头，报告遥测数据并执行策略检查。如果请求没有被某些策略检查阻止，那么 egress 网关将执行 TLS 发起到外部目的地（在我们的示例中是 _cnn.com_ ），因此请求将再次加密并发送到外部目的地。下图演示了这种方法的流程。网关内的 HTTP 协议根据解密后网关看到的协议来指定协议。
 
 {{< image width="80%"
 link="http-to-gateway.svg"
@@ -481,9 +481,9 @@ caption="HTTPS egress 流量通过 egress 网关"
 
 ## 清理{#cleanup}
 
-1.  执行[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例的[清理](/zh/docs/tasks/traffic-management/egress/egress-gateway/#cleanup)部分中的说明。
+1. 执行[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例的[清理](/zh/docs/tasks/traffic-management/egress/egress-gateway/#cleanup)部分中的说明。
 
-1.  删除日志和策略检查配置：
+1. 删除日志和策略检查配置：
 
     {{< text bash >}}
     $ kubectl delete logentry egress-access -n istio-system
@@ -495,7 +495,7 @@ caption="HTTPS egress 流量通过 egress 网关"
     $ kubectl delete -n istio-system listentry request-path
     {{< /text >}}
 
-1.  删除 _politics_ 源 pod：
+1. 删除 _politics_ 源 pod：
 
     {{< text bash >}}
     $ sed 's/: sleep/: politics/g' samples/sleep/sleep.yaml | kubectl delete -f -

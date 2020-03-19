@@ -1,6 +1,6 @@
 ---
 title: Citadel 的健康检查
-description:  如何在 Kubernetes 中启用 Citadel 的健康检查。
+description: 如何在 Kubernetes 中启用 Citadel 的健康检查。
 weight: 20
 keywords: [security,health-check]
 aliases:
@@ -50,14 +50,14 @@ $ kubectl logs `kubectl get po -n istio-system | grep istio-citadel | awk '{prin
 ...
   - --liveness-probe-path=/tmp/ca.liveness # 存活健康检查状态文件的路径
   - --liveness-probe-interval=60s # 存活健康状态文件的更新周期
-  - --probe-check-interval=15s    # 健康检查的周期
+  - --probe-check-interval=15s # 健康检查的周期
 livenessProbe:
   exec:
     command:
     - /usr/local/bin/istio_ca
     - probe
     - --probe-path=/tmp/ca.liveness # 健康状态文件的路径
-    - --interval=125s               # 文件修改时间和当前系统时钟的最大时间差
+    - --interval=125s # 文件修改时间和当前系统时钟的最大时间差
   initialDelaySeconds: 60
   periodSeconds: 60
 ...

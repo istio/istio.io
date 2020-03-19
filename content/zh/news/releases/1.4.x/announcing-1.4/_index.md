@@ -38,7 +38,7 @@ aliases:
 
 ## 更好的 sidecar{#better-sidecar}
 
-我们一直在做大量工作来改善 `Envoy` 的功能和用户使用体验，`Envoy` 在崩溃时可以更正常地退出，它支持更多指标，并且可以将流量映射到一定的比例。它会报告流量的来源，并且可以更好地配置 `stat patterns`。最后，有一个新的[实验命令](/zh/docs/reference/commands/istioctl/#istioctl-experimental-wait)  ，可以告诉您将所有代理推送到网格中的时间。
+我们一直在做大量工作来改善 `Envoy` 的功能和用户使用体验，`Envoy` 在崩溃时可以更正常地退出，它支持更多指标，并且可以将流量映射到一定的比例。它会报告流量的来源，并且可以更好地配置 `stat patterns`。最后，有一个新的[实验命令](/zh/docs/reference/commands/istioctl/#istioctl-experimental-wait) ，可以告诉您将所有代理推送到网格中的时间。
 
 ## 其他增强功能{#other-enhancements}
 
