@@ -270,16 +270,19 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
-For backwards compatibility, the previous [Helm installation options](/docs/reference/config/installation-options/)
-are also fully supported. To set them on the command line, prepend the option name with "`values.`".
+For backwards compatibility, most of the previous [Helm installation options](/docs/reference/config/installation-options/)
+are also supported except for kubernetes resources. To set them on the command line, prepend the option name with "`values.`".
 For example, the following command overrides the `pilot.traceSampling` Helm configuration option:
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
-Helm values can also be set in an `IstioOperator` definition as described in
+Helm values can also be set in an `IstioOperator` YAML file as described in
 [Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api), below.
+
+If you want to set kubernetes resource settings, it is recommended to use `IstioOperator` API as described in
+ [Customize Kubernetes settings](#customize-kubernetes-settings)
 {{< /tip >}}
 
 ### Identify an Istio component
@@ -455,6 +458,10 @@ spec:
 Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
 namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
 consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+
+{{< tip >}}
+Helm API may not support some kubernetes settings, please use [Customize Kubernetes settings](#customize-kubernetes-settings)
+{{< /tip >}}
 
 ## Uninstall Istio
 
