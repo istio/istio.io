@@ -8,7 +8,7 @@ aliases:
 
 ## 通用功能 {#general}
 
-- **增加** `traffic.sidecar.istio.io/includeInboundPorts` 标注可以让服务所有者不需要在 deployment yaml 文件中配置 `containerPort` 字段。 这会是未来版本中的默认做法。
+- **增加** `traffic.sidecar.istio.io/includeInboundPorts` 标注可以让服务所有者不需要在 deployment yaml 文件中配置 `containerPort` 字段。这会是未来版本中的默认做法。
 - **增加** 对 Kubernetes 集群的 IPv6 试验性支持。
 
 ## 流量管理 {#traffic-management}
@@ -23,8 +23,8 @@ aliases:
 ## 安全 {#security}
 
 - **改进** 将自签名 Citadel 根证书的默认生存期延长到 10 年。
-- **增加** 通过[标注](/zh/docs/ops/configuration/mesh/app-health-check/#use-annotations-on-pod) `PodSpec` 中`sidecar.istio.io/rewriteAppHTTPProbers: "true"` 字段，Kubernetes 的健康检查探测器会重写每个 deployment。
-- **增加** 支持给 Istio 双向 TLS 证书配置密钥路径。 更多信息请看[这里](https://github.com/istio/istio/issues/11984)。
+- **增加** 通过 [标注](/zh/docs/ops/configuration/mesh/app-health-check/#use-annotations-on-pod) `PodSpec` 中`sidecar.istio.io/rewriteAppHTTPProbers: "true"` 字段，Kubernetes 的健康检查探测器会重写每个 deployment。
+- **增加** 支持给 Istio 双向 TLS 证书配置密钥路径。更多信息请看[这里](https://github.com/istio/istio/issues/11984)。
 - **增加** 通过启用 Citadel 上的 `pkcs8-keys` 来支持 workload 使用 [PKCS 8](https://en.wikipedia.org/wiki/PKCS_8) 私钥。
 - **改进** JWT 公钥获取逻辑在网络失败的时候更可靠。
 - **修复** workload 证书中的 [SAN](https://tools.ietf.org/html/rfc5280#section-4.2.1.6) 字段设置为 `critical`。这是修复了一些自定义证书验证服务无法验证 Istio 证书的问题。
@@ -56,7 +56,7 @@ aliases:
 - **增加** `sidecarInjectorWebhook.neverInjectSelector` 和 `sidecarInjectorWebhook.alwaysInjectSelector` 配置，通过标签选择器让用户可以进一步控制 workload 是否应该自动注入 sidecar。
 - **增加** `global.logging.level` 和 `global.proxy.logLevel` 配置，允许用户方便的给控制平面和数据平面组件全局的配置日志。
 - **增加** 支持通过设置 [`global.tracer.datadog.address`](/zh/docs/reference/config/installation-options/#global-options) 来配置 Datadog 的地址。
-- **移除** 默认情况下禁止使用早期[被弃用](https://discuss.istio.io/t/deprecation-notice-custom-mixer-adapter-crds/2055) 的适配器和 CRD 模版。可以使用 `mixer.templates.useTemplateCRDs=true` 和 `mixer.adapters.useAdapterCRDs=true` 安装配置项来重新启用这两个功能。
+- **移除** 默认情况下禁止使用早期[被弃用](https://discuss.istio.io/t/deprecation-notice-custom-mixer-adapter-crds/2055)的适配器和 CRD 模版。可以使用 `mixer.templates.useTemplateCRDs=true` 和 `mixer.adapters.useAdapterCRDs=true` 安装配置项来重新启用这两个功能。
 
 要看全部的变动，请参阅[安装选项变动页面](/zh/news/releases/1.2.x/announcing-1.2/helm-changes/)。
 

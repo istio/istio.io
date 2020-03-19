@@ -129,7 +129,7 @@ keywords: [traffic-management,mirroring]
 
 默认情况下，Kubernetes 在 `httpbin` 服务的两个版本之间进行负载均衡。在此步骤中会更改该行为，把所有流量都路由到 `v1`。
 
-1.  创建一个默认路由规则，将所有流量路由到服务的 `v1`：
+1. 创建一个默认路由规则，将所有流量路由到服务的 `v1`：
 
     {{< warning >}}
     如果安装/配置 Istio 的时候开启了 TLS 认证，在应用 `DestinationRule` 之前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，如[设置目标规则后出现 503 错误](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule)所述。
@@ -204,7 +204,7 @@ keywords: [traffic-management,mirroring]
 
 ## 镜像流量到 v2{#mirroring-traffic-to-v2}
 
-1.  改变流量规则将流量镜像到 v2：
+1. 改变流量规则将流量镜像到 v2：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -366,14 +366,14 @@ keywords: [traffic-management,mirroring]
 
 ## 清理{#cleaning-up}
 
-1.  删除规则：
+1. 删除规则：
 
     {{< text bash >}}
     $ kubectl delete virtualservice httpbin
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
+1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep

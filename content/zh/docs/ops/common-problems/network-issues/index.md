@@ -114,7 +114,7 @@ spec:
 
 此时你会发现，通过 ingress 网关访问 helloworld 服务的请求没有直接路由到服务实例子集 v1，而是仍然使用默认的轮询调度路由。
 
-Ingress 请求经由网关主机（如： `myapp.com`）进行路由，网关主机将激活 myapp `VirtualService` 中的规则，将请求路由至 helloworld 服务的任何一个实例端点。
+Ingress 请求经由网关主机（如：`myapp.com`）进行路由，网关主机将激活 myapp `VirtualService` 中的规则，将请求路由至 helloworld 服务的任何一个实例端点。
 只有通过主机 `helloworld.default.svc.cluster.local` 访问的内部请求才会使用 helloworld `VirtualService`，其中的规则直接将流量路由至服务实例子集 v1。
 
 为了控制从 gateway 过来的流量，你需要在 myapp `VirtualService` 的配置中包含 subset 规则配置：

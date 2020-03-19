@@ -88,7 +88,7 @@ Istio 本身不会为两个服务之间的请求使用 DNS。集群本地的服�
 
 要为远端集群的服务提供类似的配置，远端集群内的服务需要以 `<name>.<namespace>.global` 的格式命名。
 Istio 还附带了一个名为 CoreDNS 的服务，它可以为这些服务提供 DNS 解析。
-想要使用 CoreDNS，Kubernetes  DNS 的 `.global` 必须配置为 `stub a domain`。
+想要使用 CoreDNS，Kubernetes DNS 的 `.global` 必须配置为 `stub a domain`。
 
 {{< warning >}}
 一些云提供商的 Kubernetes 服务可能有不同的、特殊的 `DNS domain stub` 程序和功能。
@@ -350,7 +350,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 ### 通过 egress gateway 发送远程流量{#send-remote-traffic-via-an-egress-gateway}
 
 如果您想在 `cluster1` 中通过一个专用的 egress gateway 路由流量，而不是从 sidecars 直连。
-使用下面的 service entry 替换前面一节对  `httpbin.bar`  使用的配置。
+使用下面的 service entry 替换前面一节对 `httpbin.bar` 使用的配置。
 
 {{< tip >}}
 该配置中使用的 egress gateway 依然不能处理其它的、非 inter-cluster 的 egress 流量。

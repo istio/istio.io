@@ -1,6 +1,6 @@
 ---
 title: Pod 和 Service
-description:  在启用了 Istio 的集群中运行 Kubernetes 的 Pod 和 Service，您需要做些准备。
+description: 在启用了 Istio 的集群中运行 Kubernetes 的 Pod 和 Service，您需要做些准备。
 weight: 40
 keywords:
   - kubernetes
@@ -27,7 +27,7 @@ aliases:
 - **Service 关联**: 每个 Pod 必须至少属于一个 Kubernetes Service，不管这个 Pod 是否对外暴露端口。如果一个 Pod 同时属于多个 [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)，
   那么这些 Service 不能同时在一个端口号上使用不同的协议（比如：HTTP 和 TCP）。
 
-- **带有 app 和 version 标签（label） 的 Deployment**: 我们建议显式地给 Deployment 加上 `app` 和 `version` 标签。给使用 Kubernetes
+- **带有 app 和 version 标签（label）的 Deployment**: 我们建议显式地给 Deployment 加上 `app` 和 `version` 标签。给使用 Kubernetes
   `Deployment` 部署的 Pod 部署配置中增加这些标签，可以给 Istio 收集的指标和遥测信息中增加上下文信息。
 
     - `app` 标签：每个部署配置应该有一个不同的 `app` 标签并且该标签的值应该有一定意义。`app` label 用于在分布式追踪中添加上下文信息。

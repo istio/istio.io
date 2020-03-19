@@ -75,4 +75,4 @@ Rule 中包含有匹配断言，这个断言是一个返回布尔值的属性表
 
 Handler 为各个适配器提供了配置数据，Template 用于在运行时确定不同的适配器所需的数据类型，Instance 让运维人员准备这些数据，Rule 将这些数据提交给一个或多个 Handler 进行处理。
 
-更多信息可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/)。更多关于 templates, handlers, 和 rules 的内容可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{<github_tree >}}/samples/bookinfo) 找到对应的示例。
+更多信息可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/)。更多关于 templates, handlers, 和 rules 的内容可以关注[这里](/zh/docs/reference/config/policy-and-telemetry/)。你也可以在[这里]({{<github_tree>}}/samples/bookinfo)找到对应的示例。

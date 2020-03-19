@@ -45,7 +45,7 @@ $ istioctl analyze --use-kube=false *.yaml
 $ istioctl analyze *.yaml
 {{< /text >}}
 
-可以运行 `istioctl  analyze --help` 来查看完整的选项集。
+可以运行 `istioctl analyze --help` 来查看完整的选项集。
 
 ## 帮助我们改进此工具{#helping-us-improve-this-tool}
 

@@ -30,7 +30,7 @@ aliases:
 - **添加**。添加了一些[标签](/zh/docs/ops/configuration/mesh/secret-creation/)，其用于按命名空间控制服务帐户密码的生成。
 - **添加**。添加了 SDS 支持，以实现向每个 Istio 控制平面服务传递私钥和证书。
 - **添加**。为 Citadel 添加了对[自检](/zh/docs/ops/diagnostic-tools/controlz/)支持。
-- **添加**。为 15014 端口的 Citadel Agent 的 `/metrics`  endpoint 添加了指标，用于监控 SDS 服务。
+- **添加**。为 15014 端口的 Citadel Agent 的 `/metrics` endpoint 添加了指标，用于监控 SDS 服务。
 - **添加**。使用 8080 端口上的 `/debug/sds/workload` 和 `/debug/sds/gateway` 向 Citadel Agent 添加了诊断程序。
 - **改进**。改进了 ingress gateway，以实现使用 SDS 时[从另一个 secret 加载受信任的 CA 证书](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/#configure-a-mutual-TLS-ingress-gateway)。
 - **改进**。通过强制使用 [Kubernetes Trustworthy JWT](/zh/blog/2019/trustworthy-jwt-sds) 改进了 SDS 的安全性。

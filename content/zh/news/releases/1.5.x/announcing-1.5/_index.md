@@ -47,7 +47,7 @@ Istio 一直都是可扩展性最好的服务网格，其 Mixer 插件允许自�
 
 ## 更安全{#more-secure}
 
-我们一如既往的在努力使每个 Istio 发布版都更加安全。在 1.5 中，所有安全策略（包括 [自动 mTLS](/zh/docs/tasks/security/authentication/auto-mtls/)、[`AuthenticationPolicy`](/zh/docs/reference/config/security/istio.authentication.v1alpha1/)（`PeerAuthentication` 和 `RequestAuthentication`）以及授权现在都处于 Beta 版。SDS 现在是稳定的。授权现在支持 Deny 语义，以强制执行不可覆盖的强制性控件。我们已经将 Node 代理和 Istio 代理整合到一个二进制文件中，这意味着我们不再需要配置 `PodSecurityPolicy`。
+我们一如既往的在努力使每个 Istio 发布版都更加安全。在 1.5 中，所有安全策略（包括[自动 mTLS](/zh/docs/tasks/security/authentication/auto-mtls/)、[`AuthenticationPolicy`](/zh/docs/reference/config/security/istio.authentication.v1alpha1/)（`PeerAuthentication` 和 `RequestAuthentication`）以及授权现在都处于 Beta 版。SDS 现在是稳定的。授权现在支持 Deny 语义，以强制执行不可覆盖的强制性控件。我们已经将 Node 代理和 Istio 代理整合到一个二进制文件中，这意味着我们不再需要配置 `PodSecurityPolicy`。
 
 不仅如此，我们也不再需要在每个 Pod 上安装证书、不必在更换证书时重启 Envoy。证书直接从 Istiod 下发到每个 pod。而且，每个 pod 的证书都是唯一证书。
 
@@ -55,12 +55,12 @@ Istio 一直都是可扩展性最好的服务网格，其 Mixer 插件允许自�
 
 ## 更好的可观察性{#better-observability}
 
-我们将继续努力，使 Istio 成为您分布式应用的最佳选择。Telemetry v2 现在会报告原生 TCP 连接（除了HTTP）的度量标准，并且我们通过在遥测和日志中添加响应状态代码来增强了对 gRPC 工作负载的支持。现在默认使用 Telemetry v2。
+我们将继续努力，使 Istio 成为您分布式应用的最佳选择。Telemetry v2 现在会报告原生 TCP 连接（除了 HTTP）的度量标准，并且我们通过在遥测和日志中添加响应状态代码来增强了对 gRPC 工作负载的支持。现在默认使用 Telemetry v2。
 
 新的遥测系统将等待时间缩短了一半，90％ 的等待时间从 7 毫秒 降低至 3.3 毫秒。不仅如此，移除 Mixer 还使总的 CPU 消耗减少了 50％（0.55 vCPU，1000 个请求/每秒）。
 
 ## 加入 Istio 社区{#join-the-Istio-community}
 
-与往常一样，很多事情都发生在[社区会议](https://github.com/istio/community#community-meeting)；每隔一个星期四的太平洋时间上午 11 点加入我们。我们希望您可以通过 [Istio Discuss](https://discuss.istio.io) 加入对话，此外，也可以加入我们的[Slack频道](https://istio.slack.com)。
+与往常一样，很多事情都发生在[社区会议](https://github.com/istio/community#community-meeting)；每隔一个星期四的太平洋时间上午 11 点加入我们。我们希望您可以通过 [Istio Discuss](https://discuss.istio.io) 加入对话，此外，也可以加入我们的 [Slack 频道](https://istio.slack.com)。
 
-我们很荣幸成为 GitHub [成长最快](https://octoverse.github.com/#top-and-trending-projects) 的五个开源项目之一。想参与其中吗？加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一，帮助我们使 Istio 变得更好。
+我们很荣幸成为 GitHub [成长最快](https://octoverse.github.com/#top-and-trending-projects)的五个开源项目之一。想参与其中吗？加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一，帮助我们使 Istio 变得更好。

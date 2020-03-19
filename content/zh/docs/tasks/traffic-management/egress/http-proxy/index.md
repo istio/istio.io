@@ -24,7 +24,7 @@ aliases:
     $ kubectl create namespace external
     {{< /text >}}
 
-1.  为 Squid 代理创建配置文件。
+1. 为 Squid 代理创建配置文件。
 
     {{< text bash >}}
     $ cat <<EOF > ./proxy.conf
@@ -42,13 +42,13 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  创建 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 以保存代理的配置：
+1. 创建 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 以保存代理的配置：
 
     {{< text bash >}}
     $ kubectl create configmap proxy-configmap -n external --from-file=squid.conf=./proxy.conf
     {{< /text >}}
 
-1.  使用 Squid 部署容器：
+1. 使用 Squid 部署容器：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -79,32 +79,32 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  在 `external` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，而不进行 Istio 流量控制。
+1. 在 `external` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，而不进行 Istio 流量控制。
 
     {{< text bash >}}
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  获取代理 pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它：
+1. 获取代理 pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它：
 
     {{< text bash >}}
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
     {{< /text >}}
 
-1.  定义 `PROXY_PORT` 环境变量以存储代理的端口。本例子中 Squid 使用 3128 端口。
+1. 定义 `PROXY_PORT` 环境变量以存储代理的端口。本例子中 Squid 使用 3128 端口。
 
     {{< text bash >}}
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1.  从 `external` 命名空间中的 sleep pod 通过代理向外部服务发送请求：
+1. 从 `external` 命名空间中的 sleep pod 通过代理向外部服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  检查您请求的代理的访问日志：
+1. 检查您请求的代理的访问日志：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
@@ -120,7 +120,7 @@ aliases:
 
 ## 配置流量到外部 HTTPS 代理{#configure-traffic-to-external-https-proxy}
 
-1.  为 HTTPS 代理定义 TCP（不是 HTTP！）服务入口。尽管应用程序使用 HTTP CONNECT 方法与 HTTPS 代理建立连接，但必须为 TCP 通信而不是 HTTP 通信配置代理。一旦建立了连接，代理就简单地充当 TCP 隧道。
+1. 为 HTTPS 代理定义 TCP（不是 HTTP！）服务入口。尽管应用程序使用 HTTP CONNECT 方法与 HTTPS 代理建立连接，但必须为 TCP 通信而不是 HTTP 通信配置代理。一旦建立了连接，代理就简单地充当 TCP 隧道。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -141,21 +141,21 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  从 `external` 命名空间中的 sleep pod 发送请求。因为 sleep pod 有 Sidecar，可以让 Istio 控制其流量。
+1. 从 `external` 命名空间中的 sleep pod 发送请求。因为 sleep pod 有 Sidecar，可以让 Istio 控制其流量。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  查看您的请求的 Istio SideCar 代理的日志：
+1. 查看您的请求的 Istio SideCar 代理的日志：
 
     {{< text bash >}}
     $ kubectl logs $SOURCE_POD -c istio-proxy
     [2018-12-07T10:38:02.841Z] "- - -" 0 - 702 87599 92 - "-" "-" "-" "-" "172.30.109.95:3128" outbound|3128||my-company-proxy.com 172.30.230.52:44478 172.30.109.95:3128 172.30.230.52:44476 -
     {{< /text >}}
 
-1.  查看您请求的代理的访问日志：
+1. 查看您请求的代理的访问日志：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name}) -n external -- tail -f /var/log/squid/access.log
@@ -173,19 +173,19 @@ aliases:
 
 ## 清理{#cleanup}
 
-1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+1. 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  关闭 `external` 命名空间中的 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+1. 关闭 `external` 命名空间中的 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
     {{< /text >}}
 
-1.  关闭 Squid 代理，删除 ConfigMap 和配置文件：
+1. 关闭 Squid 代理，删除 ConfigMap 和配置文件：
 
     {{< text bash >}}
     $ kubectl delete -n external deployment squid
@@ -193,13 +193,13 @@ aliases:
     $ rm ./proxy.conf
     {{< /text >}}
 
-1.  删除 `external` 命名空间：
+1. 删除 `external` 命名空间：
 
     {{< text bash >}}
     $ kubectl delete namespace external
     {{< /text >}}
 
-1.  删除 Service Entry：
+1. 删除 Service Entry：
 
     {{< text bash >}}
     $ kubectl delete serviceentry proxy

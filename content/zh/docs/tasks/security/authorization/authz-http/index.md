@@ -128,7 +128,7 @@ aliases:
     EOF
     {{< /text >}}
 
-    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。现在你将看到 “Bookinfo Sample” 页面， “Book Details” 在左下方， “Book Reviews” 在右下方。但是在 “Book Reviews” 部分有 `Ratings service currently unavailable` 的错误。
+    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。现在你将看到 “Bookinfo Sample” 页面，“Book Details” 在左下方，“Book Reviews” 在右下方。但是在 “Book Reviews” 部分有 `Ratings service currently unavailable` 的错误。
 
     这是因为 `reviews` 工作负载没有权限访问 `ratings` 工作负载。为修复这个问题，你需要授权 `reviews` 工作负载可以访问 `ratings` 工作负载。下一步我们配置一个策略来容许 `reviews` 工作负载访问。
 

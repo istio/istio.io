@@ -231,7 +231,7 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 
 ## 问题{#issues}
 
-* 一个租户（例如， `istio-system` 命名空间）的 CA(Certificate Authority) 和 Mixer 的 Pod 中产生的 Log 包含了另一个租户（例如， `istio-system1` 命名空间）的控制面的 `info` 信息。
+* 一个租户（例如，`istio-system` 命名空间）的 CA(Certificate Authority) 和 Mixer 的 Pod 中产生的 Log 包含了另一个租户（例如，`istio-system1` 命名空间）的控制面的 `info` 信息。
 
 ## 其他多租户模型的挑战{#challenges-with-other-multi-tenancy-models}
 

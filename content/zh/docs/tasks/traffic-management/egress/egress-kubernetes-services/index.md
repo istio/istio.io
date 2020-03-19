@@ -41,7 +41,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
 
 ## Kubernetes ExternalName 服务访问外部服务{#ks-external-name-service-to-access-an-external-service}
 
-1.  在默认命名空间中，为 `httpbin.org` 创建一个 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务：
+1. 在默认命名空间中，为 `httpbin.org` 创建一个 Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) 服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -59,7 +59,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     EOF
     {{< /text >}}
 
-1.  观察您的服务。注意它没有集群 IP。
+1. 观察您的服务。注意它没有集群 IP。
 
     {{< text bash >}}
     $ kubectl get svc my-httpbin
@@ -67,7 +67,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     my-httpbin   ExternalName   <none>       httpbin.org   80/TCP    4s
     {{< /text >}}
 
-1.  从没有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。注意下面的 _curl_ 命令使用 [Kubernetes DNS 格式用于服务](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records)：`<service name>.<namespace>.svc.cluster.local`。
+1. 从没有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。注意下面的 _curl_ 命令使用 [Kubernetes DNS 格式用于服务](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records)：`<service name>.<namespace>.svc.cluster.local`。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
@@ -80,7 +80,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     }
     {{< /text >}}
 
-1.  在这个例子中，未加密的 HTTP 请求被发送到 `httpbin.org`。仅出于示例目的，您禁用 TLS 模式，并允许外部服务的未加密流量。在现实生活中，我们建议
+1. 在这个例子中，未加密的 HTTP 请求被发送到 `httpbin.org`。仅出于示例目的，您禁用 TLS 模式，并允许外部服务的未加密流量。在现实生活中，我们建议
     由 Istio 执行 [Egress TLS 起源](/zh/docs/tasks/traffic-management/egress/egress-tls-origination)。
 
     {{< text bash >}}
@@ -97,7 +97,7 @@ Kubernetes [ExternalName](https://kubernetes.io/docs/concepts/services-networkin
     EOF
     {{< /text >}}
 
-1.  通过带有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。注意 Istio Sidecar 添加的 headers，例如， `X-Istio-Attributes` 和 `X-Envoy-Decorator-Operation`。另请注意 `Host` header 等于您的服务的主机名。
+1. 通过带有 Istio Sidecar 的源 pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。注意 Istio Sidecar 添加的 headers，例如，`X-Istio-Attributes` 和 `X-Envoy-Decorator-Operation`。另请注意 `Host` header 等于您的服务的主机名。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl my-httpbin.default.svc.cluster.local/headers
@@ -124,7 +124,7 @@ $ kubectl delete service my-httpbin
 
 ## 使用带 endpoints 的 Kubernetes 服务来访问外部服务{#use-a-ks-service-with-endpoints-to-access-an-external-service}
 
-1.  为 Wikipedia 创建没有 selector 的 Kubernetes 服务：
+1. 为 Wikipedia 创建没有 selector 的 Kubernetes 服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -140,7 +140,7 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1.  为您的服务创建 endpoints。从 [Wikipedia 范围列表](https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses)中选择几个 IP。
+1. 为您的服务创建 endpoints。从 [Wikipedia 范围列表](https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses)中选择几个 IP。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -158,7 +158,7 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1.  观察您的服务。请注意，它具有一个群集 IP，您可以使用它访问 `wikipedia.org`。
+1. 观察您的服务。请注意，它具有一个群集 IP，您可以使用它访问 `wikipedia.org`。
 
     {{< text bash >}}
     $ kubectl get svc my-wikipedia
@@ -166,14 +166,14 @@ $ kubectl delete service my-httpbin
     my-wikipedia   ClusterIP   172.21.156.230   <none>        443/TCP   21h
     {{< /text >}}
 
-1.  从没有 Istio sidecar 的源 Pod 通过您的向您的 Kubernetes 服务集群 IP 来发送 HTTPS 请求到 `wikipedia.org`。使用 `curl` 的 `--resolve` 选项通过集群 IP 访问 `wikipedia.org`：
+1. 从没有 Istio sidecar 的源 Pod 通过您的向您的 Kubernetes 服务集群 IP 来发送 HTTPS 请求到 `wikipedia.org`。使用 `curl` 的 `--resolve` 选项通过集群 IP 访问 `wikipedia.org`：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD_WITHOUT_ISTIO -n without-istio -c sleep -- curl -s --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  在这种情况下，工作负载将 HTTPS 请求（开放 TLS 连接）发送到 `wikipedia.org`。流量已经通过工作负载加密，因此您可以安全地禁用 Istio 的双向 TLS：
+1. 在这种情况下，工作负载将 HTTPS 请求（开放 TLS 连接）发送到 `wikipedia.org`。流量已经通过工作负载加密，因此您可以安全地禁用 Istio 的双向 TLS：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -189,14 +189,14 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1.  使用 Istio Sidecar 从源 Pod 中通过 Kubernetes 服务的群集 IP 访问 `wikipedia.org`：
+1. 使用 Istio Sidecar 从源 Pod 中通过 Kubernetes 服务的群集 IP 访问 `wikipedia.org`：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -s --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1.  检查访问是否确实由群集 IP 完成。在 `curl -v` 的输出中注意这句话 `Connected to en.wikipedia.org   (172.21.156.230)`，其中提到了在您的服务输出中作为群集 IP 打印的 IP。
+1. 检查访问是否确实由群集 IP 完成。在 `curl -v` 的输出中注意这句话 `Connected to en.wikipedia.org (172.21.156.230)`，其中提到了在您的服务输出中作为群集 IP 打印的 IP。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -v --resolve en.wikipedia.org:443:$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}') https://en.wikipedia.org/wiki/Main_Page -o /dev/null
@@ -218,19 +218,19 @@ $ kubectl delete service my-wikipedia
 
 ## 清理{#cleanup}
 
-1.  停止服务 [sleep]({{< github_tree >}}/samples/sleep)：
+1. 停止服务 [sleep]({{< github_tree >}}/samples/sleep)：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  停止命名空间 `without-istio` 中的服务 [sleep]({{< github_tree >}}/samples/sleep)：
+1. 停止命名空间 `without-istio` 中的服务 [sleep]({{< github_tree >}}/samples/sleep)：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n without-istio
     {{< /text >}}
 
-1.  删除命名空间 `without-istio`：
+1. 删除命名空间 `without-istio`：
 
     {{< text bash >}}
     $ kubectl delete namespace without-istio

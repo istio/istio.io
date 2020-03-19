@@ -116,7 +116,7 @@ AppSwitch 提供了无需 root 特权就能重定向应用连接的方法。这�
 1. 发送 Socket 对中的一端给应用，应用会用这个 FD 进行读写。它还要确保应用始终视其为合法 Socket，以便于侵入所有对连接属性的查询。
 1. 另外一端会通过一个不同的用于开放守护进程 API 的 Unix Socket 发送给 Sidecar。原始目的之类的信息也会由相同的接口进行传输。
 
-{{< image width="50%" link="socket-delegation.png" alt="Socket 委托协议"  caption="基于 Socket 委托的连接重定向" >}}
+{{< image width="50%" link="socket-delegation.png" alt="Socket 委托协议" caption="基于 Socket 委托的连接重定向" >}}
 
 应用和 Sidecar 连接之后，接下来的事情就很普通了。Sidecar 初始化一个到上游服务器的连接，并在从守护进程接收到的 Socket 和连接到上游服务器的 Socket 之间充当数据代理。这里的主要区别在于，Sidecar 得到的连接不是通过 `accept(2)` 系统调用而来的，而是由守护进程的 Unix socket 来的。Sidecar 不再通过监听来自应用的 `accept(2)` 通道，而是连接到 AppSwitch 守护进程的 REST 端点获取到的 Socket。
 

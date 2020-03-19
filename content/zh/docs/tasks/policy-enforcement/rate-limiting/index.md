@@ -28,7 +28,7 @@ aliases:
 
     您需要指定其中一个版本为默认路由。否则，当您向 `reviews` 服务发送请求时，Istio 会随机路由到其中一个服务上，表现为有时显示星星，有时不会。
 
-1.  将所有服务的默认版本设置为 v1。
+1. 将所有服务的默认版本设置为 v1。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -104,7 +104,7 @@ aliases:
     {{< /text >}}
 
     `quota` 模板通过 `memquota` 或 `redisquota` 定义了三个维度以匹配特定的属性的方式设置优先规则。
-    `目标服务`会被设置为 `destination.labels["app"]`，`destination.service.host`，或 `"unknown"` 中的第一个非空值。
+    `目标服务`会被设置为 `destination.labels ["app"]`，`destination.service.host`，或 `"unknown"` 中的第一个非空值。
      表达式的更多信息，见 [Expression Language](/zh/docs/reference/config/policy-and-telemetry/expression-language/)。
 
 1. 确认 `quota rule` 已被创建：
@@ -132,7 +132,7 @@ aliases:
 
     `QuotaSpecBinding` 绑定了您上面创建的 `QuotaSpec` 与您想要生效的服务。`productpage` 显式的绑定了 `request-count`，
     注意您必须定义与 `QuotaSpecBinding` 不同的命名空间。
-    如果最后一行注释被打开， `service: '*'` 将绑定所有服务到 `QuotaSpec` 使得首个 entry 是冗余的。
+    如果最后一行注释被打开，`service: '*'` 将绑定所有服务到 `QuotaSpec` 使得首个 entry 是冗余的。
 
 1. 在浏览器上刷新 product 页面。
 
@@ -167,11 +167,11 @@ spec:
 `memquota` 或 `redisquota` 适配器现在只有请求中存在 `session=<sessionid>` cookie 才会被分发。
 这可以确保已登录的用户不会受限于这个 quota。
 
-1.  确认速率限制没有生效于已登录的用户。
+1. 确认速率限制没有生效于已登录的用户。
 
     以 `jason` 身份登录且反复刷新 `productpage` 页面。现在这样做不会出现任何问题。
 
-1.  确认速率限制 *生效* 于未登录的用户。
+1. 确认速率限制 *生效* 于未登录的用户。
 
     退出登录且反复刷新 `productpage` 页面。
     您将会再次看到 `RESOURCE_EXHAUSTED:Quota is exhausted for: requestcount`。

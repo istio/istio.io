@@ -36,7 +36,7 @@ aliases:
 
 ## 安全{#security}
 
-- **使用你自己的 CA**。多项针对 ‘使用你自己的 CA’ 特性的改进。[了解更多](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/)
+- **使用你自己的 CA**。多项针对 ‘使用你自己的 CA’特性的改进。[了解更多](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/)
 
 - **PKCS8**。将 PKCS8 密钥的支持添加到 Istio PKI。
 

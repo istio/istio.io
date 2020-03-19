@@ -7,7 +7,7 @@ aliases:
 ---
 
 {{< warning >}}
-RBAC 策略中的约束和属性已经被 `AuthorizationPolicy` 中的条件取代。 请使用 `AuthorizationPolicy` 资源中的条件，此页面仅供参考，以后将被删除。
+RBAC 策略中的约束和属性已经被 `AuthorizationPolicy` 中的条件取代。请使用 `AuthorizationPolicy` 资源中的条件，此页面仅供参考，以后将被删除。
 {{< /warning >}}
 
 本节包含支持格式化的键和值，你可以将其用作于服务角色和服务角色绑定配置对象中的约束和属性。约束和属性是额外的条件，你可以指定配置对象 `kind:` 字段的值为 `ServiceRole` 或 `ServiceRoleBinding`，以指定详细的访问控制要求。

@@ -21,7 +21,7 @@ aliases:
 这些问题都在 Istio 1.1 中通过提供 SDS 身份认证解决了。
 整个过程可以描述如下：
 
-1. workload 边车 Envoy 向 Citadel 代理请求密钥和证书：Citadel 代理是一个 SDS 服务，作为每个节点上的 `DaemonSet` 运行。 Envoy 在请求时会传一个 Kubernetes 服务帐号的 JWT 到代理。
+1. workload 边车 Envoy 向 Citadel 代理请求密钥和证书：Citadel 代理是一个 SDS 服务，作为每个节点上的 `DaemonSet` 运行。Envoy 在请求时会传一个 Kubernetes 服务帐号的 JWT 到代理。
 
 1. Citadel 代理产生密钥对并且发送 CSR 请求给 Citadel 服务：Citadel 服务验证收到的 JWT 并且向 Citadel 颁发证书。
 
@@ -74,7 +74,7 @@ $ kubectl exec -it $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..me
 
 ## 使用 pod 上的安全策略来保护 SDS {## securing-SDS-with-pod-security-policies}
 
-Istio 的密钥发现服务（SDS）使用 Citadel 代理通过 Unix domain 套接字来给 Envoy 边车分发证书。 所有在同一个 Kubernetes 节点上的 pod 通过 Unix domain 套接字共享同一个 Citadel 代理。
+Istio 的密钥发现服务（SDS）使用 Citadel 代理通过 Unix domain 套接字来给 Envoy 边车分发证书。所有在同一个 Kubernetes 节点上的 pod 通过 Unix domain 套接字共享同一个 Citadel 代理。
 
 为了防止对 Unix domain 套接字的意外修改，需要启用 [pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)来限制 pod 对 Unix domain 套接字的权限。否则，有权限修改 deployment 的恶意用户会劫持 Unix domain 套接字来断开 SDS 服务，或者会从运行在同一个 Kubernetes 节点上的其它 pod 那里偷取身份证书。
 
@@ -133,7 +133,7 @@ Istio 的密钥发现服务（SDS）使用 Citadel 代理通过 Unix domain 套�
     EOF
     {{< /text >}}
 
-1. 要阻止其它 pod 修改 Unix domain 套接字，就要修改配置项 `allowedHostPaths` ，读写权限配置为`readOnly: true`， 这个选项是 Citadel 代理用于配置 Unix domain 套接字路径的。
+1. 要阻止其它 pod 修改 Unix domain 套接字，就要修改配置项 `allowedHostPaths` ，读写权限配置为`readOnly: true`，这个选项是 Citadel 代理用于配置 Unix domain 套接字路径的。
 
     {{< warning >}}
    假设以下的 pod 安全策略是之前其它 pod 没有使用过的。如果你已经实施了其它的 pod 安全策略，则给已经存在的策略新增以下的配置值，而不是直接实施配置。
@@ -252,7 +252,7 @@ Istio 的密钥发现服务（SDS）使用 Citadel 代理通过 Unix domain 套�
     normal-64c6956774-ptpfh   2/2     Running   0          8s
     {{< /text >}}
 
-1. 启动一个恶意 pod， 这个 pod 会尝试挂载一个有写权限的 Unix domain 套接字。
+1. 启动一个恶意 pod，这个 pod 会尝试挂载一个有写权限的 Unix domain 套接字。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -325,4 +325,4 @@ Istio 的密钥发现服务（SDS）使用 Citadel 代理通过 Unix domain 套�
 
 * SDS 目前只支持 [Alpha](/zh/about/feature-stages/#security-and-policy-enforcement) 版本。
 
-* 目前还无法流畅的将群集从使用密钥卷装载方式迁移到使用 SDS ， 功能还在开发中。
+* 目前还无法流畅的将群集从使用密钥卷装载方式迁移到使用 SDS ，功能还在开发中。

@@ -34,7 +34,7 @@ Istio 1.5，会有一个新的 deployment：`istiod`。该组件是控制平面�
 
 ### Sidecar
 
-以前，sidecar 可以通过两种方式访问证书：通过作为文件挂载的 secret 或 SDS（通过 `nodeagent`）。在 Istio 1.5 中，已对此进行了简化。所有 secret 信息将通过本地运行的SDS 服务器提供。对于大多数用户而言，这些 secret 将从 `istiod` deployment 中获取。对于具有自定义 CA 的用户，仍可以使用文件挂载的 secret，但是，本地 SDS 服务器仍将提供这些 secret。这意味着证书轮换不再需要重启 Envoy。
+以前，sidecar 可以通过两种方式访问证书：通过作为文件挂载的 secret 或 SDS（通过 `nodeagent`）。在 Istio 1.5 中，已对此进行了简化。所有 secret 信息将通过本地运行的 SDS 服务器提供。对于大多数用户而言，这些 secret 将从 `istiod` deployment 中获取。对于具有自定义 CA 的用户，仍可以使用文件挂载的 secret，但是，本地 SDS 服务器仍将提供这些 secret。这意味着证书轮换不再需要重启 Envoy。
 
 ### CNI
 
@@ -66,7 +66,7 @@ Mixer，即 `istio-telemetry` 和 `istio-policy` deployment 背后的过程，�
 
 ## 认证策略{#authentication-policy}
 
-Istio 1.5 引入了 [`PeerAuthentication`](/zh/docs/reference/config/security/peer_authentication/) 和 [`RequestAuthentication`](/zh/docs/reference/config/security/request_authentication) （它们取代了 Authentication API 的 Alpha 版本）。有关新 API 的更多信息，请参见[authentication policy](/zh/docs/tasks/security/authentication/authn-policy)教程。
+Istio 1.5 引入了 [`PeerAuthentication`](/zh/docs/reference/config/security/peer_authentication/) 和 [`RequestAuthentication`](/zh/docs/reference/config/security/request_authentication) （它们取代了 Authentication API 的 Alpha 版本）。有关新 API 的更多信息，请参见 [authentication policy](/zh/docs/tasks/security/authentication/authn-policy) 教程。
 
 * 升级 Istio 后，您 Alpha 版的身份验证策略将被保留并继续使用。您可以逐步将它们替换为等效的 `PeerAuthentication` 和 `RequestAuthentication`。新策略将根据定义的范围内接管旧策略。我们建议从 workload（最具体的范围）开始替换，然后是命名空间，最后是整个网格范围。
 
@@ -86,7 +86,7 @@ $ kubectl delete meshpolicies.authentication.istio.io --all
 
 作为 Istiod 努力的一部分，我们已经更改了代理与控制平面安全通信的方式。在以前的版本中，当配置了 `values.global.controlPlaneSecurityEnabled=true` 设置时，代理将安全地连接到控制平面，这也是 Istio 1.4 的默认设置。每个控制平面组件都运行带有 Citadel 证书的 sidecar，并且代理通过端口 15011 连接到 Pilot。
 
-在 Istio 1.5中，代理与控制平面连接的推荐或默认方式不再是这样；相反，可以使用由 Kubernetes 或 Istiod 签名的 DNS 证书，通过 15012 端口连接到 Istiod。
+在 Istio 1.5 中，代理与控制平面连接的推荐或默认方式不再是这样；相反，可以使用由 Kubernetes 或 Istiod 签名的 DNS 证书，通过 15012 端口连接到 Istiod。
 
 注意：尽管如此，但在 Istio 1.5 中，将 `controlPlaneSecurityEnabled` 设置为 `false` 时，默认情况下控制平面之间的通信已经是安全的。
 
@@ -100,4 +100,4 @@ $ kubectl delete meshpolicies.authentication.istio.io --all
 
 ## Helm 升级{#helm-upgrade}
 
-如果您使用 `helm upgrade` 将群集更新到较新的 Istio 版本，则建议您使用 [`istioctl upgrade`](/zh/docs/setup/upgrade/istioctl-upgrade/) 或遵循[helm template](/zh/docs/setup/upgrade/cni-helm-upgrade/) 的步骤。
+如果您使用 `helm upgrade` 将群集更新到较新的 Istio 版本，则建议您使用 [`istioctl upgrade`](/zh/docs/setup/upgrade/istioctl-upgrade/) 或遵循 [helm template](/zh/docs/setup/upgrade/cni-helm-upgrade/) 的步骤。

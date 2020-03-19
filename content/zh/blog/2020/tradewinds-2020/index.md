@@ -31,7 +31,7 @@ Istio 的[认证](/zh/docs/concepts/security/#authentication-policies)和[授权
 
 更换扩展模型后，我们还可以删除数十个 CRD。与 Istio 集成的每个软件都不再需要唯一 CRD。
 
-通过 `preview` 配置文件安装 Istio 1.5 不会再安装 Mixer。安全起见，如果您是从以前的版本升级，或通过 `default` 配置文件安装，我们仍会保留 Mixer。当使用 Prometheus  或 Stackdriver 进行度量时，建议您尝试新模式并查看性能提高了多少。
+通过 `preview` 配置文件安装 Istio 1.5 不会再安装 Mixer。安全起见，如果您是从以前的版本升级，或通过 `default` 配置文件安装，我们仍会保留 Mixer。当使用 Prometheus 或 Stackdriver 进行度量时，建议您尝试新模式并查看性能提高了多少。
 
 如果有需要，您可以保持安装并启用 Mixer。最终，Mixer 将成为 Istio 单独的发行组件，成为 [istio-ecosystem](https://github.com/istio-ecosystem/) 的一部分。
 

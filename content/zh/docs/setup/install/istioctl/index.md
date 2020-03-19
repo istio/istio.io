@@ -81,7 +81,7 @@ Istio configuration profiles:
 
 ## 显示配置文件的配置{#display-the-configuration-of-a-profile}
 
-您可以查看配置文件的配置设置。 例如，通过以下命令查看 `default` 配置文件的设置：
+您可以查看配置文件的配置设置。例如，通过以下命令查看 `default` 配置文件的设置：
 
 {{< text bash >}}
 $ istioctl profile dump demo
@@ -231,7 +231,7 @@ $ istioctl verify-install -f $HOME/generated-manifest.yaml
 
 - [The `IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)
 
-可以使用命令上的 `--set` 选项分别设置此 API 中的配置参数。 例如，要在 `default` 配置文件之上启用控制面安全特性，请使用以下命令：
+可以使用命令上的 `--set` 选项分别设置此 API 中的配置参数。例如，要在 `default` 配置文件之上启用控制面安全特性，请使用以下命令：
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.global.controlPlaneSecurityEnabled=true
@@ -245,7 +245,7 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 
 {{< tip >}}
 为了向后兼容，还完全支持 [Helm 安装](/zh/docs/reference/config/installation-options/)。
-若要在命令行中设置它们，请在选项名称前面加上  "`values.`"。
+若要在命令行中设置它们，请在选项名称前面加上 "`values.`"。
 如下所示，下面命令就重写了 Helm 的 `pilot.traceSampling` 配置选项：
 
 {{< text bash >}}
@@ -421,7 +421,7 @@ spec:
 {{< /text >}}
 
 一些参数将在 Helm 和 `IstioOperator` API 中暂时存在，包括 Kubernetes 资源，
-命名空间和启用设置。 Istio 社区建议使用 `IstioOperator` API，因为它更专一，经过验证并遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist)。
+命名空间和启用设置。Istio 社区建议使用 `IstioOperator` API，因为它更专一，经过验证并遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist)。
 
 ## 卸载 Istio{#uninstall-Istio}
 

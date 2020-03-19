@@ -15,7 +15,7 @@ target_release: 1.0
 
 本文提供了使用 [AWS 网络负载均衡器](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html)配置 ingress Istio 的说明。
 
-可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。 你可以查看不同的 AWS `负载均衡器` 之间的[比较](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons)以获取更多的解释。
+可以使用网络负载均衡器 (NLB) 来代替传统的负载均衡器。你可以查看不同的 AWS `负载均衡器` 之间的[比较](https://aws.amazon.com/elasticloadbalancing/details/#Product_comparisons)以获取更多的解释。
 
 ## 先行条件{#prerequisites}
 
@@ -25,13 +25,13 @@ target_release: 1.0
 
 ## IAM Policy
 
-你需要在主角色上应用策略， 以便能够配置网络负载均衡器。
+你需要在主角色上应用策略，以便能够配置网络负载均衡器。
 
-1. 在 AWS  `iam`  控制台中，点击策略并单击“创建新策略”：
+1. 在 AWS `iam` 控制台中，点击策略并单击“创建新策略”：
 
     {{< image width="80%" link="./createpolicystart.png" caption="创建一个新的策略" >}}
 
-1. 选择  `json`:
+1. 选择 `json`:
 
     {{< image width="80%" link="./createpolicyjson.png" caption="选择 json" >}}
 

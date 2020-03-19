@@ -91,13 +91,13 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 
 本部分介绍，当双向 TLS 认证开启的时候，如何使用 HTTP 请求方式来做健康检查。
 
-Kubernetes 的 HTTP 健康检查是由 Kubelet 来发送的， 但是 Istio 并未颁发证书给 `liveness-http` 服务。 因此，当启用双向 TLS 认证之后，所有的健康检查请求将会失败。
+Kubernetes 的 HTTP 健康检查是由 Kubelet 来发送的，但是 Istio 并未颁发证书给 `liveness-http` 服务。因此，当启用双向 TLS 认证之后，所有的健康检查请求将会失败。
 
 有两种方式来解决此问题：探针重写和端口分离。
 
 ### 探针重写{#probe-rewrite}
 
-这种方式重写了应用程序的 `PodSpec` Readiness 和 Liveness 探针， 以便将探针请求发送给
+这种方式重写了应用程序的 `PodSpec` Readiness 和 Liveness 探针，以便将探针请求发送给
 [Pilot agent](/zh/docs/reference/commands/pilot-agent/). Pilot agent 将请求重定向到应用程序，剥离 response body ，只返回 response code 。
 
 有两种方式来让 Istio 重写 Liveness 探针。
@@ -122,7 +122,7 @@ $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rew
 
 <!-- Add samples YAML or kubectl patch? -->
 
-与安装 Istio 使用的参数方式相似，您也可以使用`sidecar.istio.io/rewriteAppHTTPProbers: "true"`来 [为 pod 添加 annotation](/zh/docs/reference/config/annotations/) 。确保 annotation 成功添加到了 [pod 资源](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) 因为在其他地方（比如封闭的部署资源上）， annotation 会被忽略。
+与安装 Istio 使用的参数方式相似，您也可以使用`sidecar.istio.io/rewriteAppHTTPProbers: "true"`来 [为 pod 添加 annotation](/zh/docs/reference/config/annotations/) 。确保 annotation 成功添加到了 [pod 资源](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) 因为在其他地方（比如封闭的部署资源上），annotation 会被忽略。
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -172,7 +172,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
-默认情况下未启用此功能。 我们希望[收到您的反馈](https://github.com/istio/istio/issues/10357)，
+默认情况下未启用此功能。我们希望[收到您的反馈](https://github.com/istio/istio/issues/10357)，
 是否应将其更改为 Istio 安装过程中的默认行为。
 
 ### 端口分离{#separate-port}
