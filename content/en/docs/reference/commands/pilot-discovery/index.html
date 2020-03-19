@@ -259,11 +259,6 @@ remove_toc_prefix: 'pilot-discovery '
 <td>Controller resync interval  (default `1m0s`)</td>
 </tr>
 <tr>
-<td><code>--secureGrpcAddr &lt;string&gt;</code></td>
-<td></td>
-<td>Discovery service grpc address, with https  (default ``)</td>
-</tr>
-<tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
 <td></td>
 <td>The domain serves to identify the system with spiffe  (default ``)</td>
@@ -488,6 +483,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code>Kubernetes</code></td>
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
+</tr>
+<tr>
+<td><code>DEFAULT_WORKLOAD_CERT_TTL</code></td>
+<td>Time Duration</td>
+<td><code>24h0m0s</code></td>
+<td>The default TTL of issued workload certificates. Applied when the client sets a non-positive TTL in the CSR.</td>
 </tr>
 <tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
@@ -776,12 +777,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code>istiod-${namespace}</code></td>
 <td>Name of validatingwegbhookconfiguration to patch, if istioctl is not used.</td>
-</tr>
-<tr>
-<td><code>WORKLOAD_CERT_TTL</code></td>
-<td>Time Duration</td>
-<td><code>2160h0m0s</code></td>
-<td>The TTL of issued workload certificates.</td>
 </tr>
 </tbody>
 </table>
