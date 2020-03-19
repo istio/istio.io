@@ -1,7 +1,7 @@
 ---
-title: Declarative WASM deployment for Istio
+title: Declarative WebAssembly deployment for Istio
 subtitle: Deploy extensions to Envoy in Istio using a declarative model to align with GitOps workflows
-description: Configuring WASM extensions for Envoy and Istio declaratively.
+description: Configuring Wasm extensions for Envoy and Istio declaratively.
 publishdate: 2020-03-16
 attribution: "Christian Posta (Solo.io)"
 keywords: [wasm,extensibility,alpha,operator]
