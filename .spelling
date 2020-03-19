@@ -148,6 +148,7 @@ codelabs
 colocate
 colocated
 colocating
+componentization
 Composability
 composability
 composable
@@ -217,6 +218,7 @@ Divya
 DNS
 docker-compose's
 docker.io
+dogfood
 Drucker
 Duggirala
 e.g.
@@ -333,6 +335,7 @@ istio-system
 istio.io
 istio.io.
 istioctl
+istiod
 Istiod
 Istiofied
 IstioMesh
@@ -442,6 +445,7 @@ openssl
 OpenTracing
 OS-level
 Ostrowski
+outsized
 p50
 p99
 PaaS
@@ -452,6 +456,7 @@ Passthrough
 PassthroughCluster
 peek
 pem
+performant
 pipelined
 PKI
 PKIs
@@ -606,6 +611,7 @@ timestamps
 TLS
 TLS-secured
 ToC
+toolbelt
 toolchain
 touchpoints
 tradeoffs
