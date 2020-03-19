@@ -2939,7 +2939,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td></td>
 <td>renameResources identifies renamed resources before comparison.
 The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
-e.g. Service:*:istio-pilot-&gt;Service:*:istio-control - rename istio-pilot service into istio-control  (default ``)</td>
+e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
 </tr>
 <tr>
 <td><code>--select &lt;string&gt;</code></td>
@@ -2948,7 +2948,7 @@ e.g. Service:*:istio-pilot-&gt;Service:*:istio-control - rename istio-pilot serv
 The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
 e.g.
     Deployment:istio-system:* - compare all deployments in istio-system namespace
-    Service:*:istio-pilot - compare Services called &#34;istio-pilot&#34; in all namespaces  (default `::`)</td>
+    Service:*:istiod - compare Services called &#34;istiod&#34; in all namespaces  (default `::`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
