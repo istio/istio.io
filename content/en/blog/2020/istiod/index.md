@@ -39,7 +39,7 @@ Let's look at the benefits of the new packaging:
 
 - **Installation becomes easier.** Fewer Kubernetes deployments and associated configurations are required, so the set of configuration options and flags for Istio is reduced significantly. In the simplest case, **_you can start the Istio control plane, with all features enabled, by starting a single Pod._**
 
-- **Configuration becomes easier.** Many of the configuration options that Istio has today are ways to orchestrate the control plane components, and so are no longer needed. You also no longer need to change cluster-wide PodSecurityPolicies to deploy Istio.
+- **Configuration becomes easier.** Many of the configuration options that Istio has today are ways to orchestrate the control plane components, and so are no longer needed. You also no longer need to change cluster-wide PodSecurityPolicy to deploy Istio.
 
 - **Using VMs becomes easier.** To add a workload to a mesh, you now just need to install one agent and the generated certificates. That agent connects back to only a single service.
 
