@@ -28,13 +28,13 @@ aliases:
 由于已将出口流量配置为流经 egress 网关，因此可以 **安全地** 对出口流量应用监控和访问策略检查。
 本节中，您将为流向 _*.wikipedia.org_ 的出口流量定义日志条目和访问策略。
 
-1.  创建日志记录配置：
+1. 创建日志记录配置：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/telemetry/sni-logging.yaml@
     {{< /text >}}
 
-1.  向 [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)
+1. 向 [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)
     发送 HTTPS 请求：
 
     {{< text bash >}}
@@ -43,19 +43,19 @@ aliases:
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-1.  检查 Mixer 日志。如果 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
+1. 检查 Mixer 日志。如果 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access'
     {{< /text >}}
 
-1.  定义一个策略，该策略允许访问除 `en.wikipedia.org` 以外的所有 `*.wikipedia.org` 主机：
+1. 定义一个策略，该策略允许访问除 `en.wikipedia.org` 以外的所有 `*.wikipedia.org` 主机：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/policy/sni-wikipedia.yaml@
     {{< /text >}}
 
-1.  向处于黑名单中的 [Wikipedia in English](https://en.wikipedia.org) 发送 https 请求：
+1. 向处于黑名单中的 [Wikipedia in English](https://en.wikipedia.org) 发送 https 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -v https://en.wikipedia.org/wiki/Main_Page'
@@ -66,7 +66,7 @@ aliases:
 
     根据您定义的策略，对 `en.wikipedia.org` 的访问被禁止了。
 
-1.  发送 HTTPS 请求到其它语言版本的 Wikipedia 站点，如 [https://es.wikipedia.org](https://es.wikipedia.org) 和
+1. 发送 HTTPS 请求到其它语言版本的 Wikipedia 站点，如 [https://es.wikipedia.org](https://es.wikipedia.org) 和
     [https://de.wikipedia.org](https://de.wikipedia.org)：
 
     {{< text bash >}}
@@ -91,7 +91,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 本小节中，您将在 `sleep-us` 和 `sleep-canada` 服务账户下分别部署 `sleep-us` 和 `sleep-canada` 两个容器。
 然后定义一个策略，该策略允许具有 `sleep-us` 标识的应用访问 English 和 Spanish 版本的 Wikipedia 站点，并允许具有 `sleep-canada` 身份标识的应用访问 English 和 French 版本的 Wikipedia 站点。
 
-1.  在 `sleep-us` 和 `sleep-canada` 服务账户下分别部署 `sleep-us` 和 `sleep-canada` 两个容器：
+1. 在 `sleep-us` 和 `sleep-canada` 服务账户下分别部署 `sleep-us` 和 `sleep-canada` 两个容器：
 
     {{< text bash >}}
     $ sed 's/: sleep/: sleep-us/g' @samples/sleep/sleep.yaml@ | kubectl apply -f -
@@ -104,13 +104,13 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
     deployment "sleep-canada" created
     {{< /text >}}
 
-1.  创建日志记录配置:
+1. 创建日志记录配置:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/telemetry/sni-logging.yaml@
     {{< /text >}}
 
-1.  从 `sleep-us` 发送 HTTPS 请求至 English、German、Spanish 和 French 版本的 Wikipedia 站点：
+1. 从 `sleep-us` 发送 HTTPS 请求至 English、German、Spanish 和 French 版本的 Wikipedia 站点：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep-us -o jsonpath='{.items[0].metadata.name}') -c sleep-us -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>"'
@@ -120,7 +120,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
     <title>Wikipédia, l'encyclopédie libre</title>
     {{< /text >}}
 
-1.  检查 Mixer 日志。如果 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
+1. 检查 Mixer 日志。如果 Istio 部署在 `istio-system` 命名空间中，打印日志的命令为：
 
     {{< text bash >}}
     $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'egress-access'
@@ -132,7 +132,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
 
     注意 `requestedServerName` 属性，并且 `sourcePrincipal` 必须为 `cluster.local/ns/default/sa/sleep-us`。
 
-1.  定义一个策略，允许使用服务帐户 `sleep-us` 的应用程序访问 English 和 Spanish 版本的 Wikipedia，
+1. 定义一个策略，允许使用服务帐户 `sleep-us` 的应用程序访问 English 和 Spanish 版本的 Wikipedia，
     允许使用服务帐户 `sleep-canada` 的应用程序访问访问 English 和 French 版本的 Wikipedia。
     如果这些应用尝试访问其他语种版本的 Wikipedia，访问将被阻止。
 
@@ -140,7 +140,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
     $ kubectl apply -f @samples/sleep/policy/sni-serviceaccount.yaml@
     {{< /text >}}
 
-1.  再次从 `sleep-us` 发送 HTTPS 请求到 English、German、Spanish 和 French 版本的 Wikipedia：
+1. 再次从 `sleep-us` 发送 HTTPS 请求到 English、German、Spanish 和 French 版本的 Wikipedia：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep-us -o jsonpath='{.items[0].metadata.name}') -c sleep-us -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>";:'
@@ -158,7 +158,7 @@ $ kubectl delete -f @samples/sleep/policy/sni-wikipedia.yaml@
     $ kubectl delete pod -n istio-system -l istio-mixer-type=policy
     {{< /text >}}
 
-1.  再次从 `sleep-canada` 发送 HTTPS 请求到 English、German、Spanish 和 French 站点：
+1. 再次从 `sleep-canada` 发送 HTTPS 请求到 English、German、Spanish 和 French 站点：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep-canada -o jsonpath='{.items[0].metadata.name}') -c sleep-canada -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"; curl -s https://es.wikipedia.org/wiki/Wikipedia:Portada | grep -o "<title>.*</title>"; curl -s https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal | grep -o "<title>.*</title>";:'
@@ -180,9 +180,9 @@ $ kubectl delete -f @samples/sleep/policy/sni-serviceaccount.yaml@
 
 ## 清除{#cleanup}
 
-1.  执行[使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)任务的[清除步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)。
+1. 执行[使用通配符主机配置 Egress 流量](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/)任务的[清除步骤](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#cleanup-wildcard-configuration-for-arbitrary-domains)。
 
-1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
+1. 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

@@ -28,7 +28,7 @@ weight: 10
 
 请按照下列步骤下载应用程序的代码，安装其依赖项，然后在本地运行它：
 
-1. 将[服务代码]({{<github_blob >}}/samples/bookinfo/src/ratings/ratings.js) 和
+1. 将[服务代码]({{<github_blob>}}/samples/bookinfo/src/ratings/ratings.js)和
     [其 package 文件]({{< github_blob >}}/samples/bookinfo/src/ratings/package.json)
     下载到一个单独的目录中：
 
@@ -49,12 +49,12 @@ weight: 10
         - 状态码
 
     {{< tip >}}
-    在 Node.js 中，web 服务器的功能嵌入在应用程序的代码中。 一个 Node.js web 应用程序作为一个独立进程运行。
+    在 Node.js 中，web 服务器的功能嵌入在应用程序的代码中。一个 Node.js web 应用程序作为一个独立进程运行。
     {{< /tip >}}
 
 1. Node.js 应用程序是用 JavaScript 编写的，这意味着没有显式编译步骤。相反，它们
 使用 [just-in-time 即时编译](https://zh.wikipedia.org/wiki/%E5%8D%B3%E6%97%B6%E7%BC%96%E8%AF%91)。要
-构建 Node.js 应用程序， 则意味着要安装其依赖库。 将 `rating` 服务的依赖库安装在存储服务代码和 package 文件的同一目录下：
+构建 Node.js 应用程序，则意味着要安装其依赖库。将 `rating` 服务的依赖库安装在存储服务代码和 package 文件的同一目录下：
 
     {{< text bash >}}
     $ npm install
@@ -66,7 +66,7 @@ weight: 10
     added 24 packages in 2.094s
     {{< /text >}}
 
-1. 通过传递 `9080` 参数来运行服务， 然后应用程序在 9080 端口上监听。
+1. 通过传递 `9080` 参数来运行服务，然后应用程序在 9080 端口上监听。
 
     {{< text bash >}}
     $ npm start 9080

@@ -7,7 +7,7 @@ weight: 10
 ## 流量管理{#traffic-management}
 
 - **新增了** 对 [mirroring](/zh/docs/tasks/traffic-management/mirroring/) 百分比的流量支持。
-- **改进了**  `Envoy sidecar`。当 `Envoy sidecar` 崩溃退出时，可以更轻松地查看 `Envoy sidecar` 的状态。
+- **改进了** `Envoy sidecar`。当 `Envoy sidecar` 崩溃退出时，可以更轻松地查看 `Envoy sidecar` 的状态。
 - **改进了** `Pilot` 的功能，当无需修改时，即可跳过向 `Envoy` 发送冗余配置的操作。
 - **改进了** `headless` 服务，以避免与同一端口上的不同服务发生冲突。
 - **禁用了** 默认的 [circuit breakers](/zh/docs/tasks/traffic-management/circuit-breaking/)。
@@ -15,7 +15,7 @@ weight: 10
 
 ## 安全{#security}
 
-- **新增了**  [`v1beta1` authorization policy model](/zh/blog/2019/v1beta1-authorization-policy/) 用于执行访问控制。 最终将取代 [`v1alpha1` RBAC policy](/zh/docs/reference/config/security/istio.rbac.v1alpha1/)。
+- **新增了** [`v1beta1` authorization policy model](/zh/blog/2019/v1beta1-authorization-policy/) 用于执行访问控制。最终将取代 [`v1alpha1` RBAC policy](/zh/docs/reference/config/security/istio.rbac.v1alpha1/)。
 - **新增了** [automatic mutual TLS](/zh/docs/tasks/security/authentication/auto-mtls/) 的实验性支持，以启用 `mutual TLS`，而无需配置目标规则。
 - **新增了** 对 [authorization policy trust domain migration](/zh/docs/tasks/security/authorization/authz-td-migration/) 的实验性支持。
 - **新增了** 实验性的 [DNS certificate management](/zh/blog/2019/dns-cert/) 以安全地配置和管理 `Kubernetes CA` 签名的 `DNS` 证书。

@@ -16,7 +16,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-1.  参考[安装指南](/zh/docs/setup/install/istioctl)中的说明，
+1. 参考[安装指南](/zh/docs/setup/install/istioctl)中的说明，
     使用如下配置安装 Istio：
 
     a) 通过配置 `--set values.tracing.enabled=true` 和 `--set values.tracing.provider=zipkin` 选项可以安装一个“开箱即用”的演示或测试环境。
@@ -28,7 +28,7 @@ aliases:
     默认采样率为 1%。
     {{< /warning >}}
 
-1.  部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例程序。
+1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例程序。
 
 ## 访问仪表盘{#accessing-the-dashboard}
 
@@ -42,33 +42,33 @@ $ istioctl dashboard zipkin
 
 ## 使用 Bookinfo 示例程序生成追踪报告{#generating-traces-using-the-Bookinfo-sample}
 
-1.  当 Bookinfo 程序启动并正常运行后，访问 `http://$GATEWAY_URL/productpage` 一次或多次，
+1. 当 Bookinfo 程序启动并正常运行后，访问 `http://$GATEWAY_URL/productpage` 一次或多次，
     以生成追踪信息。
 
     {{< boilerplate trace-generation >}}
 
-1.  在顶部面板中，从 **Service Name** 下拉列表中选择感兴趣的服务（或“全部”），
+1. 在顶部面板中，从 **Service Name** 下拉列表中选择感兴趣的服务（或“全部”），
     然后单击 **Find Traces**:
 
     {{< image link="./istio-tracing-list-zipkin.png" caption="Tracing Dashboard" >}}
 
-1.  单击顶部的最新追踪，查看与之对应的最新 `/productpage` 请求的详细信息：
+1. 单击顶部的最新追踪，查看与之对应的最新 `/productpage` 请求的详细信息：
 
     {{< image link="./istio-tracing-details-zipkin.png" caption="Detailed Trace View" >}}
 
-1.  追踪由一组 span 组成，
+1. 追踪由一组 span 组成，
     其中每个 span 对应一个 Bookinfo 服务，该服务在执行 `/productpage` 请求或 Istio 内部组件时被调用，
     例如：`istio-ingressgateway`。
 
 ## 清理{#cleanup}
 
-1.  删除所有可能仍在运行的 `istioctl` 进程，使用 control-C 或者：
+1. 删除所有可能仍在运行的 `istioctl` 进程，使用 control-C 或者：
 
     {{< text bash >}}
     $ killall istioctl
     {{< /text >}}
 
-1.  如果您不打算继续深入探索任何后续任务，请
+1. 如果您不打算继续深入探索任何后续任务，请
     参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)说明
     关闭应用程序。
 

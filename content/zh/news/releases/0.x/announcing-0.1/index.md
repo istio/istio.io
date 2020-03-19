@@ -15,7 +15,7 @@ aliases:
     - /zh/news/announcing-0.1
 ---
 
-Google、 IBM 和 Lyft 骄傲的宣布了 [Istio](/zh) 的首个公开版本。Istio 是一个以统一方式对微服务实施连接、管理、监控以及安全增强的开源项目。当前版本专注于支持 [Kubernetes](https://kubernetes.io/) 环境，我们计划在接下来的几个月添加诸如虚拟机和 Cloud Foundry 等环境的支持。
+Google、IBM 和 Lyft 骄傲的宣布了 [Istio](/zh) 的首个公开版本。Istio 是一个以统一方式对微服务实施连接、管理、监控以及安全增强的开源项目。当前版本专注于支持 [Kubernetes](https://kubernetes.io/) 环境，我们计划在接下来的几个月添加诸如虚拟机和 Cloud Foundry 等环境的支持。
 Istio 为微服务添加了流量管理能力，同时为比如安全、监控、路由、连接管理和策略等附加能力打下了基础。此软件构建于来自 Lyft 的经过实战检验的 [Envoy](https://envoyproxy.github.io/envoy/) 代理之上，能在 *无需改动任何应用代码* 的情况下赋予对应用流量的可见性和控制能力。Istio 为 CIO 们提供了一个在企业内加强安全、策略和合规性的强有力的工具。
 
 ## 背景{#background}

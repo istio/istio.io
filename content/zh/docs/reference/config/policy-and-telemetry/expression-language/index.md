@@ -11,7 +11,7 @@ aliases:
 ## 底层{#background}
 
 Mixer 配置使用了一种表达式语言(CEXL) 去描述 match expressions 以及 [mapping expressions](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attribute-expressions)。
-CEXL 表达式为有类型的[值](https://github.com/istio/api/blob/{{<source_branch_name >}}/policy/v1beta1/value_type.proto) 映射了一组带类型的[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)和常量。
+CEXL 表达式为有类型的[值](https://github.com/istio/api/blob/{{<source_branch_name>}}/policy/v1beta1/value_type.proto)映射了一组带类型的[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)和常量。
 
 ## 语法{#syntax}
 

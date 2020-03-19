@@ -3,7 +3,7 @@ title: 如何让 Istio 服务访问非 Istio 服务？
 weight: 40
 ---
 
-当启用了全局双向 TLS， *全局* 目标规则会匹配集群中的所有服务，无论这些服务是否具有 Istio sidecar。
+当启用了全局双向 TLS，*全局* 目标规则会匹配集群中的所有服务，无论这些服务是否具有 Istio sidecar。
 包括 Kubernetes API 服务器，以及群集中所有的非 Istio 服务。
 想要通过具有 Istio sidecar 的服务访问这些非 Istio 服务，你需要设置目标规则，以豁免该服务。例如：
 

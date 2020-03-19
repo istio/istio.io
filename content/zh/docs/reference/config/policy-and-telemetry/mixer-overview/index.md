@@ -64,7 +64,7 @@ source.ip: [192 168 0 1]
 destination.service.name: example
 {{< /text >}}
 
-Mixer 本质上是一种属性处理器。Envoy sidecar 为每个请求调用 Mixer，为 Mixer 提供一组属性，描述请求和请求所需环境。 根据其配置和给予的特定属性集，Mixer 生成对各种基础架构后端的调用。
+Mixer 本质上是一种属性处理器。Envoy sidecar 为每个请求调用 Mixer，为 Mixer 提供一组属性，描述请求和请求所需环境。根据其配置和给予的特定属性集，Mixer 生成对各种基础架构后端的调用。
 
 {{< image width="60%" link="./machine.svg" caption="Attribute Machine" >}}
 
@@ -93,7 +93,7 @@ destination_version: destination.labels["version"] | "unknown"
 destination_version: destination.labels["version"] | "unknown"
 {{< /text >}}
 
-通过上述操作，`destination_version` 标签被分配的值为 `destination.labels["version"]`。 但是，如果属性不存在，将使用 `"unknown"` 值。
+通过上述操作，`destination_version` 标签被分配的值为 `destination.labels ["version"]`。但是，如果属性不存在，将使用 `"unknown"` 值。
 
 有关更多信息，请参阅[属性表达式](/zh/docs/reference/config/policy-and-telemetry/expression-language/)页面。
 

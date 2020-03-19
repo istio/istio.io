@@ -17,6 +17,6 @@ aliases:
 
 - **ISTIO-SECURITY-2019-007** 在 Envoy 中发现了堆溢出和不正确的输入验证。
 
-__[CVE-2019-18801](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18801)__：修复了一个影响 Envoy 处理大型 HTTP/2 请求 header 的漏洞。 成功利用此漏洞可能导致拒绝服务、特权提升或信息泄露。
+__[CVE-2019-18801](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18801)__：修复了一个影响 Envoy 处理大型 HTTP/2 请求 header 的漏洞。成功利用此漏洞可能导致拒绝服务、特权提升或信息泄露。
 
 __[CVE-2019-18802](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18802)__：修复了 HTTP/1 header 值后的空格引起的漏洞，该漏洞可能使攻击者绕过 Istio 的策略检查，从而可能导致信息泄露或特权提升。

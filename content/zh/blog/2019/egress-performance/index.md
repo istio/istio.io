@@ -75,7 +75,7 @@ target_release: 1.0
 
 ## 环境{#environment}
 
-* Istio 版本： 1.0.2
+* Istio 版本：1.0.2
 * `K8s` 版本：`1.10.5_1517`
 * Acmeair 应用：4 个服务（每个服务一个实例），跨服务事务，外部 MongoDB，平均载荷：620 字节。
 

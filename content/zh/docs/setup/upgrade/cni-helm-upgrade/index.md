@@ -31,7 +31,7 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 
 您可以使用 Kubernetes 的滚动更新机制来升级 Istio CNI 组件。这适用于使用 `kubectl apply` 部署 Istio CNI 的情况。
 
-1. 检查是否已安装 `istio-cni`。 找到 `istio-cni-node` pod 以及它们运行的命名空间（通常是 `kube-system` 或 `istio-system`）：
+1. 检查是否已安装 `istio-cni`。找到 `istio-cni-node` pod 以及它们运行的命名空间（通常是 `kube-system` 或 `istio-system`）：
 
     {{< text bash >}}
     $ kubectl get pods -l k8s-app=istio-cni-node --all-namespaces

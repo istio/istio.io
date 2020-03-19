@@ -15,7 +15,7 @@ OpenShift 4.1 及以上版本使用的 `nftables` 与 Istio 的 `proxy-init` 容
 
 依照本指南对 OpenShift 集群进行配置以便安装运行 Istio。
 
-默认情况下，OpenShift 不允许容器使用 User ID（UID） 0 来运行。通过以下命令可以让 Istio 的服务账户（Service Accounts）以 UID 0 来运行容器
+默认情况下，OpenShift 不允许容器使用 User ID（UID）0 来运行。通过以下命令可以让 Istio 的服务账户（Service Accounts）以 UID 0 来运行容器
 （如果你将 Istio 部署到其它命名空间，请注意替换 `istio-system` ）：
 
 {{< text bash >}}

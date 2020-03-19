@@ -38,7 +38,7 @@ Mixer 是一个属性处理引擎，它使用面向操作员（operator-supplied
 
 {{< image width="60%" link="knative-mixer-adapter.png" caption="Knative scale-from-zero" >}}
 
-在这种设计中，无需像 Knative 原有的设置中那样为空闲应用程序更改到 **Activator** 的路由。当由 Istio 代理（ingress gateway）收到对空闲应用程序的新请求时，它将通知 Mixer，包括所有相关的元数据信息。 然后 Mixer 调用您的适配器，该适配器使用 Knative 原有的协议触发 Knative Autoscaler。
+在这种设计中，无需像 Knative 原有的设置中那样为空闲应用程序更改到 **Activator** 的路由。当由 Istio 代理（ingress gateway）收到对空闲应用程序的新请求时，它将通知 Mixer，包括所有相关的元数据信息。然后 Mixer 调用您的适配器，该适配器使用 Knative 原有的协议触发 Knative Autoscaler。
 
 {{< idea >}}
 通过使用这种设计，您不需要处理缓存，重试和负载平衡，因为 Istio 代理已经处理了这些。

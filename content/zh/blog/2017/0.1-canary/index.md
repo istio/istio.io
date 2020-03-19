@@ -231,4 +231,4 @@ EOF
 
 支持金丝雀部署的智能路由只是 Istio 的众多功能之一，它将使基于大型微服务的应用程序的生产部署变得更加简单。查看 [istio.io](/zh/) 了解更多信息。
 
-可在[此处]({{<github_tree >}}/samples/helloworld) 查看示例代码。
+可在[此处]({{<github_tree>}}/samples/helloworld)查看示例代码。

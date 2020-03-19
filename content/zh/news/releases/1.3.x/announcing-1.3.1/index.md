@@ -32,4 +32,4 @@ aliases:
 - **增加** `pilot_xds_push_time` 指标以报告 Pilot xDS 推送时间。
 - **增加** `istioctl experimental analyze` 以支持多资源分析和验证。
 - **增加** 对在 WebAssembly 沙箱中运行元数据交换和统计信息扩展的支持。请按照[以下](/zh/docs/ops/configuration/telemetry/in-proxy-service-telemetry/)说明进行尝试。
-- **删除**  proxy-status 命令中的时间差异信息。
+- **删除** proxy-status 命令中的时间差异信息。

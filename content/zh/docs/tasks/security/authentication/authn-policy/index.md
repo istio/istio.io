@@ -669,7 +669,7 @@ $ curl $INGRESS_HOST/user-agent -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-确认不带 JWT tokens 的 `/ip`  路径拒绝访问：
+确认不带 JWT tokens 的 `/ip` 路径拒绝访问：
 
 {{< text bash >}}
 $ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
@@ -729,7 +729,7 @@ EOF
 因此，您不需要添加这个 destination rule 。另外，您仍然需要添加 `mtls` 段到认证策略，因为特定服务策略将完全覆盖网格范围（或者命名空间范围）的策略。
 {{< /tip >}}
 
-修改这些后，从 Istio 服务，包括 ingress gateway， 到 `httpbin.foo` 的流量将使用双向 TLS。上述测试命令将仍然会正常工作。给定正确的 token，从 Istio 服务直接到 `httpbin.foo` 的请求也会正常工作：
+修改这些后，从 Istio 服务，包括 ingress gateway，到 `httpbin.foo` 的流量将使用双向 TLS。上述测试命令将仍然会正常工作。给定正确的 token，从 Istio 服务直接到 `httpbin.foo` 的请求也会正常工作：
 
 {{< text bash >}}
 $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s)

@@ -116,7 +116,7 @@ istio-egressgateway.istio-system.svc.cluster.local                              
 为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints 以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config` 命令，根据标志过滤出并跟随特定的 Envoy，它将请求从 `productpage` pod 发送到 `reviews` pod 9080 端口。
 
 1. 如果您在一个 Pod 上查询监听器概要信息，您将注意到 Istio 生成了下面的监听器：
-    *  `0.0.0.0:15001` 监听器接收所有进出 Pod 的流量，然后转发请求给一个虚拟监听器。
+    * `0.0.0.0:15001` 监听器接收所有进出 Pod 的流量，然后转发请求给一个虚拟监听器。
     * 每个服务 IP 一个虚拟监听器，针对每一个非 HTTP 的外部 TCP/HTTPS 流量。
     * Pod IP 上的虚拟监听器，针对内部流量暴露的端口。
     * `0.0.0.0` 监听器，针对外部 HTTP 流量的每个 HTTP 端口。
@@ -294,19 +294,19 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 
 验证与 Pilot 的连通性是一个有用的故障排除步骤。服务网格内的每个代理容器都应该能和 Pilot 通信。这可以通过几个简单的步骤来实现：
 
-1.  获取 Istio Ingress pod 的名称：
+1. 获取 Istio Ingress pod 的名称：
 
     {{< text bash >}}
     $ INGRESS_POD_NAME=$(kubectl get po -n istio-system | grep ingressgateway\- | awk '{print$1}'); echo ${INGRESS_POD_NAME};
     {{< /text >}}
 
-1.  通过 exec 进入 Istio Ingress pod：
+1. 通过 exec 进入 Istio Ingress pod：
 
     {{< text bash >}}
     $ kubectl exec -it $INGRESS_POD_NAME -n istio-system /bin/bash
     {{< /text >}}
 
-1.  使用 `curl` 测试与 Pilot 的连通性。下面的示例使用了默认的 Pilot 配置参数和开启双向 TLS 来调用 v1 注册 API：
+1. 使用 `curl` 测试与 Pilot 的连通性。下面的示例使用了默认的 Pilot 配置参数和开启双向 TLS 来调用 v1 注册 API：
 
     {{< text bash >}}
     $ curl -k --cert /etc/certs/cert-chain.pem --cacert /etc/certs/root-cert.pem --key /etc/certs/key.pem https://istio-pilot:8080/debug/edsz

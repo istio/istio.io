@@ -52,7 +52,7 @@ keywords: [traffic-management,circuit-breaking]
     EOF
     {{< /text >}}
 
-1.  验证目标规则是否已正确创建：
+1. 验证目标规则是否已正确创建：
 
     {{< text bash yaml >}}
     $ kubectl get destinationrule httpbin -o yaml
@@ -230,13 +230,13 @@ keywords: [traffic-management,circuit-breaking]
 
 ## 清理{#cleaning-up}
 
-1.  清理规则:
+1. 清理规则:
 
     {{< text bash >}}
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  下线 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
+1. 下线 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy

@@ -17,7 +17,7 @@ aliases:
 
 ## 收集新的日志数据{#collecting-new-logs-data}
 
-1.  为新日志流生效一个 YAML 配置文件，Istio 将自动生成并收集日志信息。
+1. 为新日志流生效一个 YAML 配置文件，Istio 将自动生成并收集日志信息。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/telemetry/log-entry.yaml@
@@ -32,7 +32,7 @@ aliases:
 
     {{< /warning >}}
 
-1.  向示例应用发送流量。
+1. 向示例应用发送流量。
 
     以 Bookinfo 为例，在浏览器中访问 `http://$GATEWAY_URL/productpage` 或执行如下命令：
 
@@ -40,7 +40,7 @@ aliases:
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  验证是否已经生成了日志流并且正向其中不断增添请求。
+1. 验证是否已经生成了日志流并且正向其中不断增添请求。
 
     在 Kubernetes 环境中，搜索 `istio-telemetry` pods 的日志信息，如下所示：
 

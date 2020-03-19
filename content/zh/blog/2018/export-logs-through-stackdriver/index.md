@@ -34,7 +34,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 #### BigQuery{#big-query}
 
 1. [`创建 BigQuery 数据集`](https://cloud.google.com/bigquery/docs/datasets) 作为日志导出的目标。
-1. 记录数据集的 ID。 这里需要设置 Stackdriver 处理程序。它的格式为 `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
+1. 记录数据集的 ID。这里需要设置 Stackdriver 处理程序。它的格式为 `bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET_ID]`
 1. 给 [`接收器授权`](https://cloud.google.com/logging/docs/api/tasks/exporting-logs#writing_to_the_destination)：cloud-logs@system.gserviceaccount.com。它具有 IAM 中的 BigQuery Data Editor 的角色。
 1. 如果使用 [`Google Kubernetes Engine`](/zh/docs/setup/platform-setup/gke/)，请确保在集群上启用了 `bigquery` [`Scope`](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)。
 
@@ -55,7 +55,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 
 必须创建 Stackdriver 处理程序，将数据导出到 Stackdriver。Stackdriver 处理程序的配置在 [`此处`](/zh/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) 描述。
 
-1.  保存如下的 yaml 文件为 `stackdriver.yaml` 。并替换 `<project_id>,
+1. 保存如下的 yaml 文件为 `stackdriver.yaml` 。并替换 `<project_id>,
     <sink_id>, <sink_destination>, <log_filter>` 为相应的值。
 
     {{< text yaml >}}
@@ -69,7 +69,7 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
       # pushInterval: 1m
       # 必须设置 Stacldriver 适配器 project_id 的值。
       project_id: "<project_id>"
-      # apiCredentials 和 apiKey 必须设置之一； 首选方法是`appCredentials`，它对应于 Google 应用程序默认凭据。
+      # apiCredentials 和 apiKey 必须设置之一；首选方法是`appCredentials`，它对应于 Google 应用程序默认凭据。
       # 如果没有提供，我们使用默认应用凭据。
       # appCredentials:
       # apiKey:
@@ -154,10 +154,10 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
 
 1. 验证日志是否正在通过 Stackdriver 流向配置的接收器。
 
-* Stackdriver：导航到项目的 [`Stackdriver Logs Viewer`](https://pantheon.corp.google.com/logs/viewer)，查看 “GKE Container” -> “Cluster Name” -> “Namespace Id”， 查看 Istio 访问日志。
+* Stackdriver：导航到项目的 [`Stackdriver Logs Viewer`](https://pantheon.corp.google.com/logs/viewer)，查看 “GKE Container” -> “Cluster Name” -> “Namespace Id”，查看 Istio 访问日志。
 * BigQuery：导航到项目的 [`BigQuery Interface`](https://bigquery.cloud.google.com/)，在接收器的数据集中找到一个前缀为 `accesslog_logentry_istio` 的表。
 * GCS：导航到项目的 [`Storage Brower`](https://pantheon.corp.google.com/storage/browser/)，在接收器的桶中找到一个名为 `accesslog.logentry.istio-system` 的桶。
-* Pub/Sub：导航到项目的 [`Pub/Sub 主题列表`](https://pantheon.corp.google.com/cloudpubsub/topicList)， 在接收器的主题中找到 `accesslog` 主题。
+* Pub/Sub：导航到项目的 [`Pub/Sub 主题列表`](https://pantheon.corp.google.com/cloudpubsub/topicList)，在接收器的主题中找到 `accesslog` 主题。
 
 ## 了解发生了什么{#understanding-what-happened}
 

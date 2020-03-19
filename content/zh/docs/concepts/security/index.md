@@ -25,13 +25,13 @@ Istio Security 尝试提供全面的安全解决方案来解决所有这些问�
 
 {{< image width="80%" link="./overview.svg" caption="Istio 安全概述" >}}
 
-Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密以及用于保护您的服务和数据的身份验证，授权和审计（AAA）工具。 Istio 安全的目标是：
+Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密以及用于保护您的服务和数据的身份验证，授权和审计（AAA）工具。Istio 安全的目标是：
 
-- **默认安全**： 应用程序代码和基础结构无需更改
+- **默认安全**：应用程序代码和基础结构无需更改
 
-- **深度防御**： 与现有安全系统集成，提供多层防御
+- **深度防御**：与现有安全系统集成，提供多层防御
 
-- **零信任网络**： 在不受信任的网络上构建安全解决方案
+- **零信任网络**：在不受信任的网络上构建安全解决方案
 
 请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration/)相关文章，开始在部署的服务中使用 Istio 安全功能。
 请访问我们的[安全任务](/zh/docs/tasks/security/)，以获取有关使用安全功能的详细说明。
@@ -60,15 +60,15 @@ Istio 中的安全性涉及多个组件：
 
 不同平台上的 Istio 服务标识：
 
-- **Kubernetes**： Kubernetes 服务帐户
+- **Kubernetes**：Kubernetes 服务帐户
 
-- **GKE/GCE**： 可以使用 GCP 服务帐户
+- **GKE/GCE**：可以使用 GCP 服务帐户
 
-- **GCP**： GCP 服务帐户
+- **GCP**：GCP 服务帐户
 
-- **AWS**： AWS IAM 用户/角色帐户
+- **AWS**：AWS IAM 用户/角色帐户
 
-- **本地（非 Kubernetes）**： 用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
+- **本地（非 Kubernetes）**：用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。
 
 自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 
@@ -132,7 +132,7 @@ Istio 提供了在 Kubernetes 中使用节点代理进行证书和密钥分配�
 1. 上述 CSR 过程会定期重复进行证书和密钥轮换。
 
 {{< idea >}}
-使用节点代理调试端点可以查看节点代理当前正在为其客户端代理提供服务的  secret。访问代理程序 `8080` 端口上的 `/debug/sds/workload` 以获取当前工作负载 secret，或访问 `/debug/sds/gateway` 以获取当前网关 secret。
+使用节点代理调试端点可以查看节点代理当前正在为其客户端代理提供服务的 secret。访问代理程序 `8080` 端口上的 `/debug/sds/workload` 以获取当前工作负载 secret，或访问 `/debug/sds/gateway` 以获取当前网关 secret。
 {{< /idea >}}
 
 ## 认证{#authentication}

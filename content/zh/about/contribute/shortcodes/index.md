@@ -25,7 +25,7 @@ Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添�
     */>}}
 {{< /text >}}
 
-`link` 和 `caption` 字段是必填字段， shortcode 还支持可选字段，例如：
+`link` 和 `caption` 字段是必填字段，shortcode 还支持可选字段，例如：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -102,7 +102,7 @@ Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添�
     [RawVM MySQL]({{</* github_blob */>}}/samples/rawvm/README.md)
     {{< /text >}}
 
-上面的 shortcode 会根据文档当前的目标分支，生成指向 GitHub 中对应分支的链接。要查看当前目标分支的名称，可以使用 `{{</* source_branch_name */>}}`  shortcode 来获取当前目标分支的名称。
+上面的 shortcode 会根据文档当前的目标分支，生成指向 GitHub 中对应分支的链接。要查看当前目标分支的名称，可以使用 `{{</* source_branch_name */>}}` shortcode 来获取当前目标分支的名称。
 
 ## 版本信息{#version-information}
 
@@ -113,7 +113,7 @@ Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添�
 
 ## 术语表{#glossary-terms}
 
-当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用 shortcode  `{{</* gloss */>}}` 标记它的第一个实例。 shortcode 会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
+当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用 shortcode `{{</* gloss */>}}` 标记它的第一个实例。shortcode 会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
 
 {{< text markdown >}}
 Mixer 使用 {{</*gloss*/>}}adapters{{</*/gloss*/>}} 与后端进行交互。
@@ -177,7 +177,7 @@ Mixer 使用 {{< gloss adapters >}}适配器{{</ gloss >}} 与后端进行交互
 
 ## 使用样板文本{#use-boilerplate-text}
 
-要想在保持内容单一来源的情况下重用内容，请使用样板 shortcode 。要将样板文本嵌入任何内容文件中，请使用 `boilerplate`  shortcode ，如下所示：
+要想在保持内容单一来源的情况下重用内容，请使用样板 shortcode 。要将样板文本嵌入任何内容文件中，请使用 `boilerplate` shortcode ，如下所示：
 
 {{< text markdown >}}
 {{</* boilerplate example */>}}
@@ -197,7 +197,7 @@ Mixer 使用 {{< gloss adapters >}}适配器{{</ gloss >}} 与后端进行交互
 - 不同语言的等效代码
 - 替代的配置
 
-要添加选项卡式内容，请组合使用 shortcode  `tabset` 和 `tabs`，例如：
+要添加选项卡式内容，请组合使用 shortcode `tabset` 和 `tabs`，例如：
 
 {{< text markdown >}}
 {{</* tabset category-name="platform" */>}}

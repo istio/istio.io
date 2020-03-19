@@ -32,7 +32,7 @@ Pilot、Citadel 和 Galley 具有它们自己的范围，你可以通过查看�
 1. info
 1. debug
 
-其中 `none` 不产生任何输出信息，并且 `debug` 产生的输出信息最多。 所有作用域的默认级别是 `info` ，为在正常情况下使用 Istio 提供大量的日志信息。
+其中 `none` 不产生任何输出信息，并且 `debug` 产生的输出信息最多。所有作用域的默认级别是 `info` ，为在正常情况下使用 Istio 提供大量的日志信息。
 
 要控制输出级别，也可以在命令行使用 `--log_output_level` 选项。例如：
 
@@ -44,15 +44,15 @@ $ mixs server --log_output_level attributes=debug,adapters=warning
 
 ## 控制输出{#controlling-output}
 
-日志信息通常发送到组件的标准输出。 `--log_target` 选项可以定向输出到许多不同的位置。你可以使用一个逗号分隔列表中的文件系统路径，以及分别表示标准输出和标准错误输出流的特殊值 `stdout` 和 `stderr` 。
+日志信息通常发送到组件的标准输出。`--log_target` 选项可以定向输出到许多不同的位置。你可以使用一个逗号分隔列表中的文件系统路径，以及分别表示标准输出和标准错误输出流的特殊值 `stdout` 和 `stderr` 。
 
-日志信息通常以友好的格式输出。 `--log_as_json` 选项可用于将输出强制转换为 JSON 格式，以便于更简单地被工具处理。
+日志信息通常以友好的格式输出。`--log_as_json` 选项可用于将输出强制转换为 JSON 格式，以便于更简单地被工具处理。
 
 ## 日志轮转{#log-rotation}
 
-Istio 组件可以自动管理日志的轮转，将庞大的日志分解为较小的日志文件。 `--log_rotate` 选项可以让你基于文件名进行轮转。派生名称将用于单个日志文件。
+Istio 组件可以自动管理日志的轮转，将庞大的日志分解为较小的日志文件。`--log_rotate` 选项可以让你基于文件名进行轮转。派生名称将用于单个日志文件。
 
-`--log_rotate_max_age` 选项可以在日志文件被轮转前指定最大天数，然而 `--log_rotate_max_size` 选项可以指定文件轮转之前的最大 size （以兆字节为单位）。最后， `--log_rotate_max_backups` 选项可以控制要保留的最大轮转文件数，较旧的文件将被自动删除。
+`--log_rotate_max_age` 选项可以在日志文件被轮转前指定最大天数，然而 `--log_rotate_max_size` 选项可以指定文件轮转之前的最大 size （以兆字节为单位）。最后，`--log_rotate_max_backups` 选项可以控制要保留的最大轮转文件数，较旧的文件将被自动删除。
 
 ## 组件调试{#component-debugging}
 

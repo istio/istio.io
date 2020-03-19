@@ -55,8 +55,8 @@ $ helm repo add istio.io https://storage.googleapis.com/istio-release/releases/{
 1. 如果您使用 [Helm 的 Tiller pod](https://helm.sh/) 来管理 Istio 发行版, 请查看[方案 2](/zh/docs/setup/install/helm/#option-2-install-with-helm-and-tiller-via-helm-install)。
 
 {{< tip >}}
-默认情况下，Istio 使用 `LoadBalancer` 服务类型。 而有些平台是不支持 `LoadBalancer`
-服务的。 对于不支持 `LoadBalancer` 服务类型的平台, 执行下面的步骤时，可以在 Helm 命令中加入 `--set gateways.istio-ingressgateway.type=NodePort` 选项，使用 `NodePort` 来替代 `LoadBalancer` 服务类型。
+默认情况下，Istio 使用 `LoadBalancer` 服务类型。而有些平台是不支持 `LoadBalancer`
+服务的。对于不支持 `LoadBalancer` 服务类型的平台, 执行下面的步骤时，可以在 Helm 命令中加入 `--set gateways.istio-ingressgateway.type=NodePort` 选项，使用 `NodePort` 来替代 `LoadBalancer` 服务类型。
 {{< /tip >}}
 
 ### 方案 1: 使用 `helm template` 命令安装{#option-1-install-with-helm-via-helm-template}

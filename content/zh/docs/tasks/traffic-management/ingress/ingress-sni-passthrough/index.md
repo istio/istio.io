@@ -19,13 +19,13 @@ aliases:
 对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。以下命令使用
 [openssl](https://man.openbsd.org/openssl.1)
 
-1.  创建根证书和私钥来为您的服务签名证书：
+1. 创建根证书和私钥来为您的服务签名证书：
 
     {{< text bash >}}
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
     {{< /text >}}
 
-1.  为 `nginx.example.com` 创建证书和私钥：
+1. 为 `nginx.example.com` 创建证书和私钥：
 
     {{< text bash >}}
     $ openssl req -out nginx.example.com.csr -newkey rsa:2048 -nodes -keyout nginx.example.com.key -subj "/CN=nginx.example.com/O=some organization"
@@ -34,13 +34,13 @@ aliases:
 
 ## 部署一个 NGINX 服务{#deploy-an-nginx-server}
 
-1.  创建一个 Kubernetes 的 [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 资源来保存服务的证书：
+1. 创建一个 Kubernetes 的 [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 资源来保存服务的证书：
 
     {{< text bash >}}
     $ kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
     {{< /text >}}
 
-1.  为 NGINX 服务创建一个配置文件：
+1. 为 NGINX 服务创建一个配置文件：
 
     {{< text bash >}}
     $ cat <<EOF > ./nginx.conf
@@ -68,13 +68,13 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
+1. 创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
-1.  部署 NGINX 服务
+1. 部署 NGINX 服务
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
@@ -127,7 +127,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  要测试 NGINX 服务是否已成功部署，需要从其 sidecar 代理发送请求，并忽略检查服务端的证书（使用 curl 的 -k 选项）。确保正确打印服务端的证书，即 `common name` 等于 `nginx.example.com`。
+1. 要测试 NGINX 服务是否已成功部署，需要从其 sidecar 代理发送请求，并忽略检查服务端的证书（使用 curl 的 -k 选项）。确保正确打印服务端的证书，即 `common name` 等于 `nginx.example.com`。
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name}) -c istio-proxy -- curl -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
@@ -162,7 +162,7 @@ aliases:
 
 ## 配置 ingress gateway{#configure-an-ingress-gateway}
 
-1.  定义一个 `server` 部分的端口为 443 的 `Gateway`。 注意，`PASSTHROUGH tls mode` 指示 gateway 按原样通过入口流量，而不终止 TLS。
+1. 定义一个 `server` 部分的端口为 443 的 `Gateway`。注意，`PASSTHROUGH tls mode` 指示 gateway 按原样通过入口流量，而不终止 TLS。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -185,7 +185,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  配置通过 `Gateway` 进入的流量的路由：
+1. 配置通过 `Gateway` 进入的流量的路由：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -211,9 +211,9 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  根据[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的指令来定义环境变量  `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
+1. 根据[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的指令来定义环境变量 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
 
-1.  从集群外访问 NGINX 服务。注意，服务端返回了正确的证书，并且该证书已成功验证（输出了 _SSL certificate verify ok_ ）。
+1. 从集群外访问 NGINX 服务。注意，服务端返回了正确的证书，并且该证书已成功验证（输出了 _SSL certificate verify ok_ ）。
 
     {{< text bash >}}
     $ curl -v --resolve nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST --cacert example.com.crt https://nginx.example.com:$SECURE_INGRESS_PORT
@@ -234,7 +234,7 @@ aliases:
 
 ## 清除{#cleanup}
 
-1.  删除已创建的 Kubernetes 资源：
+1. 删除已创建的 Kubernetes 资源：
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs
@@ -245,13 +245,13 @@ aliases:
     $ kubectl delete virtualservice nginx
     {{< /text >}}
 
-1.  删除证书和密钥：
+1. 删除证书和密钥：
 
     {{< text bash >}}
     $ rm example.com.crt example.com.key nginx.example.com.crt nginx.example.com.key nginx.example.com.csr
     {{< /text >}}
 
-1.  删除本示例中生成的配置文件：
+1. 删除本示例中生成的配置文件：
 
     {{< text bash >}}
     $ rm ./nginx.conf

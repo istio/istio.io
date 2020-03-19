@@ -9,7 +9,7 @@ keywords: [wasm,extensibility,alpha,performance,operator]
 
 自 2016 年使用 [Envoy](https://www.envoyproxy.io/) 以后，Istio 项目一直想提供一个平台，在此平台上可以构建丰富的扩展，以满足用户多样化的需求。有很多要向服务网格的数据平面增加功能的理由 --- 比如：支持更新的协议，与专有安全控件集成，或是通过自定义度量来增强可观察性。
 
-在过去的一年半中，我们在 Google 的团队一直在努力用 [WebAssembly](https://webassembly.org/) 来为 Envoy 代理添加动态扩展。今天我们很高兴与大家分享这项工作，并推出 [针对代理的 WebAssembly (Wasm)](https://github.com/proxy-wasm/spec) (Proxy-Wasm)：包括一个会标准化的 ABI，SDK，以及它的第一个重点实现：新的，低延迟的 [Istio 遥测系统](/zh/docs/reference/config/telemetry)。
+在过去的一年半中，我们在 Google 的团队一直在努力用 [WebAssembly](https://webassembly.org/) 来为 Envoy 代理添加动态扩展。今天我们很高兴与大家分享这项工作，并推出[针对代理的 WebAssembly (Wasm)](https://github.com/proxy-wasm/spec) (Proxy-Wasm)：包括一个会标准化的 ABI，SDK，以及它的第一个重点实现：新的，低延迟的 [Istio 遥测系统](/zh/docs/reference/config/telemetry)。
 
 我们还与社区紧密合作，以确保为用户提供良好的开发者体验，帮助他们快速上手。Google 团队一直与 [Solo.io](https://solo.io) 团队紧密合作，Solo 他们已经建立了 [WebAssembly Hub](https://webassemblyhub.io/) 服务，用于构建，共享，发现和部署 Wasm 扩展。有了 WebAssembly Hub，Wasm 扩展就会像容器一样易于管理，安装和运行。
 
@@ -33,7 +33,7 @@ Envoy 模型强化了单体构建过程，并要求使用 C++ 编写扩展，从
 
 ## 把 WebAssembly 引入 Envoy {#bringing-WebAssembly-to-Envoy}
 
-[在过去的18个月中](https://github.com/envoyproxy/envoy/issues/4272)，我们一直与 Envoy 社区合作把 Wasm 的扩展引入 Envoy，并将其贡献到上游。我们很高兴地宣布，此特性在 [Istio 1.5](/zh/news/releases/1.5.x/announcing-1.5/) 自带的 Envoy 中以 Alpha 版本可用了，其源代码在 [`envoy-wasm`](https://github.com/envoyproxy/envoy-wasm/) 开发分支中，并且正在努力将其合并到 Envoy 主干上。该实现使用了 Google 高性能 [V8 引擎](https://v8.dev/) 中内置的 WebAssembly 运行时。
+[在过去的 18 个月中](https://github.com/envoyproxy/envoy/issues/4272)，我们一直与 Envoy 社区合作把 Wasm 的扩展引入 Envoy，并将其贡献到上游。我们很高兴地宣布，此特性在 [Istio 1.5](/zh/news/releases/1.5.x/announcing-1.5/) 自带的 Envoy 中以 Alpha 版本可用了，其源代码在 [`envoy-wasm`](https://github.com/envoyproxy/envoy-wasm/) 开发分支中，并且正在努力将其合并到 Envoy 主干上。该实现使用了 Google 高性能 [V8 引擎](https://v8.dev/)中内置的 WebAssembly 运行时。
 
 除了构建底层的运行时，我们还构建了：
 
@@ -45,17 +45,17 @@ Envoy 模型强化了单体构建过程，并要求使用 C++ 编写扩展，从
 
 使用 Wasm 扩展 Envoy 带来了几个主要好处：
 
-- 敏捷性：可以用 Istio 控制平面在运行时下发和重载扩展。这就可以快速的进行扩展开发→测试→发布周期，而无需重启 Envoy。
+- 敏捷性：可以用 Istio 控制平面在运行时下发和重载扩展。这就可以快速的进行扩展开发→ 测试→ 发布周期，而无需重启 Envoy。
 - 发布库：一旦完成合并到主树中之后，Istio 和其它程序将能够使用 Envoy 的发布库，而不是自己构建。这也方便 Envoy 社区迁移某些内置扩展到这个模型，从而减少他们的工作。
 - 可靠性和隔离性：扩展部署在具有资源限制的沙箱中，这意味着它们现在可以崩溃或泄漏内存，但不会让整个 Envoy 挂掉。CPU 和内存使用率也可以受到限制。
 - 安全性：沙盒具有一个明确定义的 API，用于和 Envoy 通信，因此扩展只能访问和修改链接或者请求中有限数量的属性。此外，由于 Envoy 协调整个交互，因此它可以隐藏或清除扩展中的敏感信息（例如，HTTP 头中的 “Authorization”和“Cookie”，或者客户端的 IP 地址）。
 - 灵活性：[可以将超过 30 种编程语言编译为 WebAssembly](https://github.com/appcypher/awesome-wasm-langs)，可以让各种技术背景的开发人员都可以用他们选择的语言来编写 Envoy 扩展，比如：C++，Go，Rust，Java，TypeScript 等。
 
-“看到 Envoy 上支持了 WASM，我感到非常兴奋；这是 Envoy 可扩展的未来。Envoy 的 WASM 支持与社区驱动的 hub 相结合，将在服务网格和 API 网关用例中开启出令人难以置信的网络创新。 我迫不及待地想看到社区构建是如何向前发展的。” – Envoy 创造者 Matt Klein。
+“看到 Envoy 上支持了 WASM，我感到非常兴奋；这是 Envoy 可扩展的未来。Envoy 的 WASM 支持与社区驱动的 hub 相结合，将在服务网格和 API 网关用例中开启出令人难以置信的网络创新。我迫不及待地想看到社区构建是如何向前发展的。” – Envoy 创造者 Matt Klein。
 
 有关实现的技术细节，请关注即将在 [Envoy 博客](https://blog.envoyproxy.io/)上发的文章。
 
-主机环境和扩展之间的 [Proxy-Wasm](https://github.com/proxy-wasm)接口有意设计为代理无感知的。我们已将其内置到了 Envoy 中，但它是为其它代理供应商设计的。我们希望看为 Istio 和 Envoy 编写的扩展也可以在其它基础设施中运行。很快就会有更多相关的设计和实现了。
+主机环境和扩展之间的 [Proxy-Wasm](https://github.com/proxy-wasm) 接口有意设计为代理无感知的。我们已将其内置到了 Envoy 中，但它是为其它代理供应商设计的。我们希望看为 Istio 和 Envoy 编写的扩展也可以在其它基础设施中运行。很快就会有更多相关的设计和实现了。
 
 ## Istio 中的 WebAssembly 构建 {#building-on-WebAssembly-in-Istio}
 
@@ -83,10 +83,10 @@ WebAssembly Hub 工具提供了功能强大的 CLI 和优雅且易于使用的�
 
 ## 了解更多 {#learn-more}
 
-- WebAssembly SF talk (视频): [网络代理扩展](https://www.youtube.com/watch?v=OIUPf8m7CGA), by John Plevyak
+- WebAssembly SF talk (视频) : [网络代理扩展](https://www.youtube.com/watch?v=OIUPf8m7CGA), by John Plevyak
 - [Solo 博客](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)
 - [Proxy-Wasm ABI 说明](https://github.com/proxy-wasm/spec)
-- [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md) 和其 [开发者文档](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md)
+- [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md) 和其[开发者文档](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)
 - [Proxy-Wasm AssemblyScript SDK](https://github.com/solo-io/proxy-runtime)
 - [指南](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/)

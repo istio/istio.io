@@ -11,7 +11,7 @@ aliases:
 
 Istio 利用 [Envoy 的分布式追踪](https://www.envoyproxy.io/docs/envoy/v1.10.0/intro/arch_overview/tracing)功能提供了开箱即用的追踪集成。确切地说，Istio 提供了安装各种各种追踪后端服务的选项，并且通过配置代理来自动发送追踪 span 到追踪后端服务。
 
-请参阅 [Zipkin](../zipkin/)， [Jaeger](../jaeger/) 和 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 的任务文档来了解 Istio 如何与这些分布式追踪系统一起工作。
+请参阅 [Zipkin](../zipkin/)，[Jaeger](../jaeger/) 和 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 的任务文档来了解 Istio 如何与这些分布式追踪系统一起工作。
 
 ## 追踪上下文传递{#trace-context-propagation}
 
@@ -29,7 +29,7 @@ Istio 利用 [Envoy 的分布式追踪](https://www.envoyproxy.io/docs/envoy/v1.
 * `x-b3-flags`
 * `x-ot-span-context`
 
-例如，如果你看 Python 的 `productpage` 服务这个例子，可以看到这个应用程序使用了 [OpenTracing](https://opentracing.io/)  库从 HTTP 请求中提取所需的头信息：
+例如，如果你看 Python 的 `productpage` 服务这个例子，可以看到这个应用程序使用了 [OpenTracing](https://opentracing.io/) 库从 HTTP 请求中提取所需的头信息：
 
 {{< text python >}}
 def getForwardHeaders(request):

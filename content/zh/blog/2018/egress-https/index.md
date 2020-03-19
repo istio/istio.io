@@ -77,7 +77,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 仍然提供了应用程序的大多数功能, 我们有**优雅的服务降级**：正如您所看到的，评论和评级正确显示，
 应用程序仍然有用。
 
-那可能出了什么问题？ 啊...... 答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
+那可能出了什么问题？啊...... 答案是我忘了启用从网格内部到外部服务的流量，在本例中是 Google Book Web 服务。
 默认情况下，Istio sidecar 代理（[Envoy proxies](https://www.envoyproxy.io)）
 **阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义 [mesh-external service entry](/zh/docs/reference/config/networking/service-entry/)。
 
@@ -145,7 +145,7 @@ serviceentry "googleapis" deleted
 并在输出中看到删除了 `ServiceEntry`。
 
 删除 `ServiceEntry` 后访问网页会产生我们之前遇到的相同错误，即 _Error fetching product details_,
-正如我们所看到的，，与许多其他 Istio 配置一样，`ServiceEntry` 是**动态定义**的 , Istio 运算符可以动态决定
+正如我们所看到的，与许多其他 Istio 配置一样，`ServiceEntry` 是**动态定义**的 , Istio 运算符可以动态决定
 它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
 
 ### 清除对 Google 图书网络服务的 HTTPS 访问权限{#cleanup-of-https-access-to-a-google-books-web-service}
@@ -210,7 +210,7 @@ env:
 
 ## 具有 TLS 的 Bookinfo 起源于 Google Books 网络服务{#Bookinfo-with-TLS-origination-to-a-google-books-web-service}
 
-1.  部署 _details v2_ 版本，将 HTTP 请求发送到 [Google Books API](https://developers.google.com/books/docs/v1/getting_started)。
+1. 部署 _details v2_ 版本，将 HTTP 请求发送到 [Google Books API](https://developers.google.com/books/docs/v1/getting_started)。
     在 [`bookinfo-details-v2.yaml`]({{<github_file>}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml) 中，
     `DO_NOT_ENCRYPT` 变量设置为 true。
 
@@ -218,13 +218,13 @@ env:
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
     {{< /text >}}
 
-1.  将指向 _details_ 微服务的流量定向到 _details v2_。
+1. 将指向 _details_ 微服务的流量定向到 _details v2_。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
     {{< /text >}}
 
-1.  为 `www.google.apis` 创建网格外部 `ServiceEntry`，virtual service 将目标端口从 80 重写为 443，并执行 TLS 的 `destination rule`。
+1. 为 `www.google.apis` 创建网格外部 `ServiceEntry`，virtual service 将目标端口从 80 重写为 443，并执行 TLS 的 `destination rule`。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -277,11 +277,11 @@ env:
     EOF
     {{< /text >}}
 
-1.  访问应用程序的网页，并验证显示的书籍详细信息没有错误。
+1. 访问应用程序的网页，并验证显示的书籍详细信息没有错误。
 
-1.  [开启 Envoy 访问记录功能](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1. [开启 Envoy 访问记录功能](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-1.  检查 _details v2_ 的 sidecar 代理的日志，并查看 HTTP 请求。
+1. 检查 _details v2_ 的 sidecar 代理的日志，并查看 HTTP 请求。
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis

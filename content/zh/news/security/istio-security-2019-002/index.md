@@ -29,7 +29,7 @@ aliases:
 Epoch 0 terminated with an error: signal: segmentation fault (core dumped)
 {{< /text >}}
 
-无论 JWT 规范中的 `trigger_rules` 如何设置，Envoy 都可能因为格式错误的 JWT token (没有有效的签名) 崩溃，导致所有 URI 访问不受限制。 因此，这个 BUG 使 Envoy 容易受到潜在的 DoS 攻击。
+无论 JWT 规范中的 `trigger_rules` 如何设置，Envoy 都可能因为格式错误的 JWT token (没有有效的签名) 崩溃，导致所有 URI 访问不受限制。因此，这个 BUG 使 Envoy 容易受到潜在的 DoS 攻击。
 
 ## 影响范围{#impact-and-detection}
 
@@ -39,14 +39,14 @@ Epoch 0 terminated with an error: signal: segmentation fault (core dumped)
 * 使 JWT issuer(由 `jwksUri` 发行) 使用 RSA 算法进行签名认证。
 
 {{< tip >}}
-用于签名认证的 RSA 算法不包含任何已知的安全漏洞。 仅当使用此算法时才触发此 CVE，但与系统的安全性无关。
+用于签名认证的 RSA 算法不包含任何已知的安全漏洞。仅当使用此算法时才触发此 CVE，但与系统的安全性无关。
 {{< /tip >}}
 
 如果将 JWT 策略应用于 Istio ingress gateway。请注意，有权访问 Ingress gateway 的任何外部用户都可以通过单个 HTTP 请求导致它崩溃。
 
-如果仅将 JWT 策略应用 Sidecar， 请记住它仍然可能受到攻击。 例如，Istio ingress gateway 可能会将 JWT token 转发到 Sidecar，这可能是格式错误的 JWT token ，该 token 可能让 Sidecar 崩溃。
+如果仅将 JWT 策略应用 Sidecar，请记住它仍然可能受到攻击。例如，Istio ingress gateway 可能会将 JWT token 转发到 Sidecar，这可能是格式错误的 JWT token ，该 token 可能让 Sidecar 崩溃。
 
-易受攻击的 Envoy 将在处理 JWT token 格式错误的 HTTP 请求上崩溃。 当 Envoy 崩溃时，所有现有连接将立即断开连接。 `pilot-agent` 将自动重启崩溃的 Envoy，重启可能需要几秒钟到几分钟的时间。 崩溃超过十次后，pilot-agent 将停止重新启动 Envoy。 在这种情况下，Kubernetes 将重新部署 Pod，包括 Envoy 的工作负载。
+易受攻击的 Envoy 将在处理 JWT token 格式错误的 HTTP 请求上崩溃。当 Envoy 崩溃时，所有现有连接将立即断开连接。`pilot-agent` 将自动重启崩溃的 Envoy，重启可能需要几秒钟到几分钟的时间。崩溃超过十次后，pilot-agent 将停止重新启动 Envoy。在这种情况下，Kubernetes 将重新部署 Pod，包括 Envoy 的工作负载。
 
 要检测集群中是否应用了任何 JWT 身份认证策略，请运行以下命令，该命令将显示以下任一输出：
 
@@ -97,7 +97,7 @@ $ cd tools/examples/luacheck/
 $ ./setup.sh
 {{< /text >}}
 
-安装脚本使用 Helm 模板来生成一个 `envoyFilter` 资源，该资源将部署到 Gateway。 您可以将 Listener 类型更改为 `ANY`，以将其也应用到 Sidecar。只有当您在 Sidecar 上强制使用 JWT 身份认证策略，并在直接接收外部的请求，才应该这样做。
+安装脚本使用 Helm 模板来生成一个 `envoyFilter` 资源，该资源将部署到 Gateway。您可以将 Listener 类型更改为 `ANY`，以将其也应用到 Sidecar。只有当您在 Sidecar 上强制使用 JWT 身份认证策略，并在直接接收外部的请求，才应该这样做。
 
 ## 致谢{#credit}
 
