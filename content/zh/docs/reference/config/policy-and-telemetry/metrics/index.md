@@ -4,7 +4,7 @@ description: 通过 Mixer 从 Istio 导出的默认监控指标。
 weight: 50
 ---
 
-此页面展示使用初始配置时，Istio 收集的监控指标（metrics）的详细信息。这些指标是内置的，但您可以随时通过更改配置来添加和删除它们。您可以在[这个文件]({{<github_file >}}/manifests/UPDATING-CHARTS.md) 的 "kind: metric” 小节中找到它们。它使用了 [metric 模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)来定义指标。
+此页面展示使用初始配置时，Istio 收集的监控指标（metrics）的详细信息。这些指标是内置的，但您可以随时通过更改配置来添加和删除它们。您可以在[这个文件]({{<github_file>}}/manifests/UPDATING-CHARTS.md)的 "kind: metric” 小节中找到它们。它使用了 [metric 模板](/zh/docs/reference/config/policy-and-telemetry/templates/metric/)来定义指标。
 
 我们将首先描述监控指标，然后描述每个指标的标签。
 
@@ -134,7 +134,7 @@ Istio 为 HTTP、HTTP/2 和 GRPC 流量创建了下列指标：
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}
 
-* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)中的  `%RESPONSE_FLAGS%` 相关说明。
+* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)中的 `%RESPONSE_FLAGS%` 相关说明。
 
     {{< text yaml >}}
     response_flags: context.proxy_error_code | "-"

@@ -303,7 +303,7 @@ $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
 
 ## 查看新日志{#view-the-new-logs}
 
-1.  将流量发送到示例应用程序。
+1. 将流量发送到示例应用程序。
 
     对于 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port) 示例，
     请在您的浏览器中访问 `http://$GATEWAY_URL/productpage`，或使用以下命令在命令行中发送请求：
@@ -312,7 +312,7 @@ $ kubectl apply -f @samples/bookinfo/telemetry/fluentd-istio-crd.yaml@
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  在 Kubernetes 环境中，通过执行以下命令来设置 Kibana 的端口转发：
+1. 在 Kubernetes 环境中，通过执行以下命令来设置 Kibana 的端口转发：
 
     {{< text bash >}}
     $ kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &

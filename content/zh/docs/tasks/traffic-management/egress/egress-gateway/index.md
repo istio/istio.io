@@ -28,7 +28,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 ## 部署 Istio egress gateway{#deploy-Istio-egress-gateway}
 
-1.  检查 Istio egress gateway 是否已布署：
+1. 检查 Istio egress gateway 是否已布署：
 
     {{< text bash >}}
     $ kubectl get pod -l istio=egressgateway -n istio-system
@@ -36,7 +36,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     如果没有 pod 返回，通过接下来的步骤来部署 Istio egress gateway。
 
-1.  执行以下命令：
+1. 执行以下命令：
 
     {{< text bash >}}
     $ istioctl manifest apply --set values.global.istioNamespace=istio-system \
@@ -54,7 +54,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 首先创建一个 `ServiceEntry` 引导流和到一个外部服务。
 
-1.  为 `edition.cnn.com` 定义一个 `ServiceEntry`：
+1. 为 `edition.cnn.com` 定义一个 `ServiceEntry`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -76,7 +76,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
     EOF
     {{< /text >}}
 
-1.  发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，验证 `ServiceEntry` 是否已正确应用。
+1. 发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，验证 `ServiceEntry` 是否已正确应用。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -94,7 +94,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     不带 TLS 的输出应与 [Egress 流量的 TLS](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 任务中的输出相同。
 
-1.  为 `edition.cnn.com` 端口 80 创建 Egress gateway。除此之外还要创建一个 destination rule 来引导流量通过 Egress gateway 与外部服务通信。
+1. 为 `edition.cnn.com` 端口 80 创建 Egress gateway。除此之外还要创建一个 destination rule 来引导流量通过 Egress gateway 与外部服务通信。
 
     根据在 Istio 中是否启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
@@ -180,7 +180,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     {{< /tabset >}}
 
-1.  定义 `VirtualService` 来引导流量，从 Sidecar 到 Egress gateway 和 从 Egress gateway 到外部服务：
+1. 定义 `VirtualService` 来引导流量，从 Sidecar 到 Egress gateway 和 从 Egress gateway 到外部服务：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -219,7 +219,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
     EOF
     {{< /text >}}
 
-1.  将 HTTP 请求重新发送到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。
+1. 将 HTTP 请求重新发送到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -237,7 +237,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
     The output should be the same as in the step 2.
 
-1.  检查  `istio-egressgateway` pod 的日志，并查看与我们的请求对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
+1. 检查 `istio-egressgateway` pod 的日志，并查看与我们的请求对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
@@ -267,7 +267,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 接下来尝试使用 Egress Gateway 发起 HTTPS 请求（TLS 由应用程序发起）。您需要在相应的 `ServiceEntry` 中使用 `TLS` 协议指定的端口 443、egress `Gateway` 、`VirtualService`。
 
-1.  为 `edition.cnn.com` 定义 `ServiceEntry`：
+1. 为 `edition.cnn.com` 定义 `ServiceEntry`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -286,7 +286,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     EOF
     {{< /text >}}
 
-1.  发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，验证您的 `ServiceEntry` 是否已正确生效。
+1. 发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，验证您的 `ServiceEntry` 是否已正确生效。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -297,7 +297,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     ...
     {{< /text >}}
 
-1.  为 `edition.cnn.com` 创建 Egress Gateway。除此之外还创建了一个 destination rule 和一个 virtual service，这两个对象用来引导流量通过 Egress gateway 与外部服务通信。
+1. 为 `edition.cnn.com` 创建 Egress Gateway。除此之外还创建了一个 destination rule 和一个 virtual service，这两个对象用来引导流量通过 Egress gateway 与外部服务通信。
 
     根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
@@ -456,7 +456,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< /tabset >}}
 
-1.  发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。输出应用和之前一样。
+1. 发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。输出应用和之前一样。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -467,7 +467,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     ...
     {{< /text >}}
 
-1.  检查 `istio-egressgateway` pod 的日志，并查看与我们的请求相对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
+1. 检查 `istio-egressgateway` pod 的日志，并查看与我们的请求相对应的行。如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
     {{< text bash >}}
     $ kubectl logs -l istio=egressgateway -n istio-system
@@ -502,21 +502,21 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)来阻止绕过 Egress gateway 的外发流量。为了测试网络策略，首先创建一个 `test-egress` 命名空间，并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，然后尝试发送请求到一个网关安全的外部服务。
 
-1.  重复执行[通过 Egress gateway 进行 HTTPS 流量透传](#egress-gateway-for-http-traffic)一节的内容。
+1. 重复执行[通过 Egress gateway 进行 HTTPS 流量透传](#egress-gateway-for-http-traffic)一节的内容。
 
-1.  创建`test-egress` 命名空间：
+1. 创建`test-egress` 命名空间：
 
     {{< text bash >}}
     $ kubectl create namespace test-egress
     {{< /text >}}
 
-1.  在 `test-egress` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用：
+1. 在 `test-egress` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用：
 
     {{< text bash >}}
     $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1.  检查生成的 Pod，其中应该只有一个容器，也就是说没有注入 Istio Sidecar：
+1. 检查生成的 Pod，其中应该只有一个容器，也就是说没有注入 Istio Sidecar：
 
     {{< text bash >}}
     $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress
@@ -524,26 +524,26 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
     {{< /text >}}
 
-1.  从 `test-egress` 命名空间的 `sleep` Pod 中向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics) 发送 HTTPS 请求。因为没有任何限制，所以这一请求应该会成功：
+1. 从 `test-egress` 命名空间的 `sleep` Pod 中向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics) 发送 HTTPS 请求。因为没有任何限制，所以这一请求应该会成功：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
     200
     {{< /text >}}
 
-1.  给 Istio 组件（控制平面和 Gateway）所在的命名空间打上标签，例如 `istio-system`：
+1. 给 Istio 组件（控制平面和 Gateway）所在的命名空间打上标签，例如 `istio-system`：
 
     {{< text bash >}}
     $ kubectl label namespace istio-system istio=system
     {{< /text >}}
 
-1.  给 `kube-system` 命名空间打标签：
+1. 给 `kube-system` 命名空间打标签：
 
     {{< text bash >}}
     $ kubectl label ns kube-system kube-system=true
     {{< /text >}}
 
-1.  创建一个 `NetworkPolicy`，来限制 `test-egress` 命名空间的流量，只允许目标为 `kube-system` 的 DNS（端口 53）请求，以及目标为 `istio-system` 命名空间的所有请求：
+1. 创建一个 `NetworkPolicy`，来限制 `test-egress` 命名空间的流量，只允许目标为 `kube-system` 的 DNS（端口 53）请求，以及目标为 `istio-system` 命名空间的所有请求：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n test-egress -f -
@@ -570,7 +570,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     EOF
     {{< /text >}}
 
-1.  重新发送前面的 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。这次请求就不会成功了，这是因为流量被网络策略拦截了。测试 Pod 无法越过 `istio-egressgateway`。要访问 `edition.cnn.com`，只能通过 Istio Sidecar 将流量转给 `istio-egressgateway` 才能完成。这一设置演示了即使绕过了 Sidecar，也会被网络策略拦截，而无法访问到外部站点。
+1. 重新发送前面的 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。这次请求就不会成功了，这是因为流量被网络策略拦截了。测试 Pod 无法越过 `istio-egressgateway`。要访问 `edition.cnn.com`，只能通过 Istio Sidecar 将流量转给 `istio-egressgateway` 才能完成。这一设置演示了即使绕过了 Sidecar，也会被网络策略拦截，而无法访问到外部站点。
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -v https://edition.cnn.com/politics
@@ -587,27 +587,27 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     connect to 151.101.65.67 port 443 failed: Connection timed out
     {{< /text >}}
 
-1.  接下来在 `test-egress` 命名空间的 `sleep` Pod 上注入 Sidecar，启用 `test-egress` 命名空间的自动注入：
+1. 接下来在 `test-egress` 命名空间的 `sleep` Pod 上注入 Sidecar，启用 `test-egress` 命名空间的自动注入：
 
     {{< text bash >}}
     $ kubectl label namespace test-egress istio-injection=enabled
     {{< /text >}}
 
-1.  重新部署 `sleep`：
+1. 重新部署 `sleep`：
 
     {{< text bash >}}
     $ kubectl delete deployment sleep -n test-egress
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n test-egress
     {{< /text >}}
 
-1.  检查生成的 Pod，其中应该有了两个容器，其中包含了注入的 Sidecar（`istio-proxy`）：
+1. 检查生成的 Pod，其中应该有了两个容器，其中包含了注入的 Sidecar（`istio-proxy`）：
 
     {{< text bash >}}
     $ kubectl get pod $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -o jsonpath='{.spec.containers[*].name}'
     sleep istio-proxy
     {{< /text >}}
 
-1.  为 `default` 命名空间中为 `sleep` pod 创建一个相同的 destination rule 用来引导流量到 Egress gateway：
+1. 为 `default` 命名空间中为 `sleep` pod 创建一个相同的 destination rule 用来引导流量到 Egress gateway：
 
     根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
 
@@ -658,14 +658,14 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
     {{< /tabset >}}
 
-1.  向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics) 发送 HTTP 请求，这次会成功，原因是网络策略允许流量流向 `istio-system` 中的 `istio-egressgateway`，`istio-egressgateway` 最终把流量转发到 `edition.cnn.com`。
+1. 向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics) 发送 HTTP 请求，这次会成功，原因是网络策略允许流量流向 `istio-system` 中的 `istio-egressgateway`，`istio-egressgateway` 最终把流量转发到 `edition.cnn.com`。
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name}) -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
     200
     {{< /text >}}
 
-1.  检查 Egress gateway 中的代理统计数据，查看对 `edition.cnn.com` 的请求计数。如果 Istio 部署在 `istio-system` 命名空间，那么打印计数器的命令就是：
+1. 检查 Egress gateway 中的代理统计数据，查看对 `edition.cnn.com` 的请求计数。如果 Istio 部署在 `istio-system` 命名空间，那么打印计数器的命令就是：
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
@@ -674,7 +674,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ### 清理网络策略{#cleanup-network-policies}
 
-1.  删除本节中建立的资源：
+1. 删除本节中建立的资源：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
@@ -685,13 +685,13 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl delete namespace test-egress
     {{< /text >}}
 
-1.  执行[通过 Egress gateway 进行 HTTPS 流量透传](#egress-gateway-for-http-traffic)一节中的[清理工作](#cleanup-http-gateway)。
+1. 执行[通过 Egress gateway 进行 HTTPS 流量透传](#egress-gateway-for-http-traffic)一节中的[清理工作](#cleanup-http-gateway)。
 
 ## 故障排除{#troubleshooting}
 
-1.  检查是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/authentication/mutual-tls/#verify-mutual-TLS-configuration)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注**如果您在 Istio 中启用了双向 TLS 认证，则必须创建。**）。
+1. 检查是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/authentication/mutual-tls/#verify-mutual-TLS-configuration)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注**如果您在 Istio 中启用了双向 TLS 认证，则必须创建。**）。
 
-1.  如果[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)启用后，验证 Egress gateway 的证书：
+1. 如果[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)启用后，验证 Egress gateway 的证书：
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
@@ -699,7 +699,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
                 URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
     {{< /text >}}
 
-1.  HTTPS 透传流量情况，需要使用 `openssl` 命令测试流量。`openssl` 的 `-servername` 选项可以用来设置 SNI：
+1. HTTPS 透传流量情况，需要使用 `openssl` 命令测试流量。`openssl` 的 `-servername` 选项可以用来设置 SNI：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com

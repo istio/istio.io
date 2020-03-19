@@ -52,16 +52,16 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 如果运行的是 GKE，请确您的集群具有至少四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
 {{< /tip >}}
 
-1.  进入 Istio 安装目录。
+1. 进入 Istio 安装目录。
 
-1.  Istio 默认[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+1. Istio 默认[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
     请为 `default` 命名空间打上标签 `istio-injection=enabled`：
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
-1.  使用 `kubectl` 部署应用：
+1. 使用 `kubectl` 部署应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -82,7 +82,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     在实际部署中，微服务版本的启动过程需要持续一段时间，并不是同时完成的。
     {{< /tip >}}
 
-1.  确认所有的服务和 Pod 都已经正确的定义和启动：
+1. 确认所有的服务和 Pod 都已经正确的定义和启动：
 
     {{< text bash >}}
     $ kubectl get services
@@ -107,7 +107,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
     {{< /text >}}
 
-1.  要确认 Bookinfo 应用是否正在运行，请在某个 Pod 中用 `curl` 命令对应用发送请求，例如 `ratings`：
+1. 要确认 Bookinfo 应用是否正在运行，请在某个 Pod 中用 `curl` 命令对应用发送请求，例如 `ratings`：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
@@ -118,13 +118,13 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
 现在 Bookinfo 服务启动并运行中，您需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。可以用 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 来实现这个目标。
 
-1.  为应用程序定义 Ingress 网关：
+1. 为应用程序定义 Ingress 网关：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
     {{< /text >}}
 
-1.  确认网关创建完成：
+1. 确认网关创建完成：
 
     {{< text bash >}}
     $ kubectl get gateway
@@ -132,9 +132,9 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     bookinfo-gateway   32s
     {{< /text >}}
 
-1.  根据[文档](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
+1. 根据[文档](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
 
-1.  设置 `GATEWAY_URL`：
+1. 设置 `GATEWAY_URL`：
 
     {{< text bash >}}
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
@@ -190,13 +190,13 @@ $ kubectl get destinationrules -o yaml
 
 结束对 Bookinfo 示例应用的体验之后，就可以使用下面的命令来完成应用的删除和清理了：
 
-1.  删除路由规则，并销毁应用的 Pod
+1. 删除路由规则，并销毁应用的 Pod
 
     {{< text bash >}}
     $ @samples/bookinfo/platform/kube/cleanup.sh@
     {{< /text >}}
 
-1.  确认应用已经关停
+1. 确认应用已经关停
 
     {{< text bash >}}
     $ kubectl get virtualservices   #-- there should be no virtual services

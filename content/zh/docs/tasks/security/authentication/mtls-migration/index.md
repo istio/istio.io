@@ -39,7 +39,7 @@ aliases:
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
 
-* （使用 curl 命令）从每个 sleep pod （命名空间为 `foo`， `bar` 或 `legacy`） 分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
+* （使用 curl 命令）从每个 sleep pod （命名空间为 `foo`，`bar` 或 `legacy`）分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
 
     {{< text bash >}}
     $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done

@@ -79,7 +79,7 @@ aliases:
 
     而 `/tmp/pod-cert-chain.pem` 这个文件则包含了工作负载证书以及传播到 Pod 中的 CA 证书
 
-1.  检查根证书和运维人员指定的证书是否一致：
+1. 检查根证书和运维人员指定的证书是否一致：
 
     {{< text bash >}}
     $ openssl x509 -in @samples/certs/root-cert.pem@ -text -noout > /tmp/root-cert.crt.txt

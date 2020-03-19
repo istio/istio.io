@@ -20,7 +20,7 @@ aliases:
 
 ## 采集新的指标{#collecting-new-metrics}
 
-1.  应用配置新指标的 YAML 文件，该指标将由 Istio 自动生成和采集。
+1. 应用配置新指标的 YAML 文件，该指标将由 Istio 自动生成和采集。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/telemetry/metrics.yaml@
@@ -35,7 +35,7 @@ aliases:
 
     {{< /warning >}}
 
-1.  发送流量到示例应用。
+1. 发送流量到示例应用。
 
     对于 Bookinfo 示例，从浏览器访问 `http://$GATEWAY_URL/productpage` 或使用下列命令：
 
@@ -43,7 +43,7 @@ aliases:
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  确认新的指标已被生成并采集。
+1. 确认新的指标已被生成并采集。
 
     对于 Kubernetes 环境，执行以下命令为 Prometheus 设置端口转发：
 

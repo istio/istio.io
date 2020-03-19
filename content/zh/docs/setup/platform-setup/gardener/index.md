@@ -17,16 +17,16 @@ keywords: [platform-setup,kubernetes,gardener,sap]
 
 ### 安装并且配置 `kubectl`{#install-and-configure-Kubernetes}
 
-1.  如果您已经有 `kubectl` CLI，请运行 `kubectl version --short` 来检查版本。您需要 `v1.10` 或更高版本。
+1. 如果您已经有 `kubectl` CLI，请运行 `kubectl version --short` 来检查版本。您需要 `v1.10` 或更高版本。
     如果您的 `kubectl` 较旧，请按照下一步安装新版本。
 
-1.  [安装 `kubectl` CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+1. [安装 `kubectl` CLI](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
 ### 访问 Gardener{#access-gardener}
 
-1.  在 Gardener 仪表板中创建一个项目。 这实际上将创建一个名为 `garden-<my-project>` 的 Kubernetes 命名空间。
+1. 在 Gardener 仪表板中创建一个项目。这实际上将创建一个名为 `garden-<my-project>` 的 Kubernetes 命名空间。
 
-1.  [配置对您的 Gardener 项目的访问权限](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration)
+1. [配置对您的 Gardener 项目的访问权限](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration)
     使用 kubeconfig，如果您还不是 Gardener 管理员，则可以在 Gardener 仪表板中创建一个用户：转到 "Members" 部分并添加服务帐户。
     然后，您可以为您的项目下载 kubeconfig。如果使用用户界面创建集群，则可以跳过此步骤。
     只有通过程序访问才需要它，请确保在您的 shell 中设置`export KUBECONFIG=garden-my-project.yaml`。
@@ -34,7 +34,7 @@ keywords: [platform-setup,kubernetes,gardener,sap]
 
 ### 创建 Kubernetes 集群{#creating-a-Kubernetes-cluster}
 
-您可以通过提供集群规范 yaml 文件，使用 `kubectl` cli 创建集群。 您可以在[这博客里](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml)找到关于 GCP 的示例。
+您可以通过提供集群规范 yaml 文件，使用 `kubectl` cli 创建集群。您可以在[这博客里](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml)找到关于 GCP 的示例。
 确保名称空间与您的项目名称空间匹配。然后只需将准备好的 "shoot" 群集 CRD 与 `kubectl` 配合使用：
 
 {{< text bash >}}

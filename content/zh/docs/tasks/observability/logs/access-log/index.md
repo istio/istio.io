@@ -37,7 +37,7 @@ configmap "istio" replaced
 
 ## 测试访问日志{#test-the-access-log}
 
-1.  从 `sleep` 向 `httpbin` 发送一个请求:
+1. 从 `sleep` 向 `httpbin` 发送一个请求:
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -v httpbin:8000/status/418
@@ -63,14 +63,14 @@ configmap "istio" replaced
     * Connection #0 to host httpbin left intact
     {{< /text >}}
 
-1.  检查 `sleep` 的日志:
+1. 检查 `sleep` 的日志:
 
     {{< text bash >}}
     $ kubectl logs -l app=sleep -c istio-proxy
     [2019-03-06T09:31:27.354Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 11 10 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "172.30.146.73:80" outbound|8000||httpbin.default.svc.cluster.local - 172.21.13.94:8000 172.30.146.82:60290 -
     {{< /text >}}
 
-1.  检查 `httpbin` 的日志:
+1. 检查 `httpbin` 的日志:
 
     {{< text bash >}}
     $ kubectl logs -l app=httpbin -c istio-proxy

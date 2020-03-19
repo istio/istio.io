@@ -35,7 +35,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 {{< /text >}}
 
 如果 `EXTERNAL-IP` 值已设置，说明环境正在使用外部负载均衡，可以用其为 ingress gateway 提供服务。
-如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`）， 说明环境没有提供外部负载均衡，无法使用 ingress gateway。
+如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`），说明环境没有提供外部负载均衡，无法使用 ingress gateway。
 在这种情况下，你可以使用服务的 [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 访问网关。
 
 选择符合自身环境的指令执行：
@@ -106,7 +106,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-1.  _其他环境（如：IBM Cloud Private 等）：_
+1. _其他环境（如：IBM Cloud Private 等）：_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
@@ -124,7 +124,7 @@ Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在
 
 让我们一起来看如何为 HTTP 流量在 80 端口上配置 `Gateway`。
 
-1.  创建 Istio `Gateway`：
+1. 创建 Istio `Gateway`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -145,7 +145,7 @@ Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在
     EOF
     {{< /text >}}
 
-1.  为通过 `Gateway` 的入口流量配置路由：
+1. 为通过 `Gateway` 的入口流量配置路由：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -180,11 +180,11 @@ Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在
     {{< warning >}}
     来自网格内部其他服务的内部请求无需遵循这些规则，而是默认遵守轮询调度路由规则。
     你可以为 `gateways` 列表添加特定的 `mesh` 值，将这些规则同时应用到内部请求。
-    由于服务的内部主机名可能与外部主机名不一致（譬如： `httpbin.default.svc.cluster.local`），你需要同时将内部主机名添加到 `hosts` 列表中。
+    由于服务的内部主机名可能与外部主机名不一致（譬如：`httpbin.default.svc.cluster.local`），你需要同时将内部主机名添加到 `hosts` 列表中。
     详情请参考[操作指南](/zh/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)。
     {{< /warning >}}
 
-1.  使用 _curl_ 访问 _httpbin_ 服务：
+1. 使用 _curl_ 访问 _httpbin_ 服务：
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
@@ -201,7 +201,7 @@ Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在
     注意上文命令使用 `-H` 标识将 HTTP 头部参数 _Host_ 设置为 "httpbin.example.com"。
     该操作为必须操作，因为 ingress `Gateway` 已被配置用来处理 "httpbin.example.com" 的服务请求，而在测试环境中并没有为该主机绑定 DNS 而是简单直接地向 ingress IP 发送请求。
 
-1.  访问其他没有被显式暴露的 URL 时，将看到 HTTP 404 错误：
+1. 访问其他没有被显式暴露的 URL 时，将看到 HTTP 404 错误：
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
@@ -213,7 +213,7 @@ Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在
 
 ## 通过浏览器访问 ingress 服务{#accessing-ingress-services-using-a-browser}
 
-在浏览器中输入 `httpbin` 服务的 URL 不能获得有效的响应，因为无法像 `curl` 那样，将请求头部参数 _Host_ 传给浏览器。在现实场景中，这并不是问题，因为你需要合理配置被请求的主机及可解析的 DNS，从而在 URL 中使用主机的域名，譬如： `https://httpbin.example.com/status/200`。
+在浏览器中输入 `httpbin` 服务的 URL 不能获得有效的响应，因为无法像 `curl` 那样，将请求头部参数 _Host_ 传给浏览器。在现实场景中，这并不是问题，因为你需要合理配置被请求的主机及可解析的 DNS，从而在 URL 中使用主机的域名，譬如：`https://httpbin.example.com/status/200`。
 
 为了在简单的测试和演示中绕过这个问题，请在 `Gateway` 和 `VirtualService` 配置中使用通配符 `*`。譬如，修改 ingress 配置如下：
 
@@ -265,30 +265,30 @@ EOF
 
 ## 问题排查{#troubleshooting}
 
-1.  检查环境变量 `INGRESS_HOST` and `INGRESS_PORT`。确保环境变量的值有效，命令如下：
+1. 检查环境变量 `INGRESS_HOST` and `INGRESS_PORT`。确保环境变量的值有效，命令如下：
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     $ echo INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT
     {{< /text >}}
 
-1.  检查没有在相同的端口上定义其它 Istio ingress gateways：
+1. 检查没有在相同的端口上定义其它 Istio ingress gateways：
 
     {{< text bash >}}
     $ kubectl get gateway --all-namespaces
     {{< /text >}}
 
-1.  检查没有在相同的 IP 和端口上定义 Kubernetes Ingress 资源：
+1. 检查没有在相同的 IP 和端口上定义 Kubernetes Ingress 资源：
 
     {{< text bash >}}
     $ kubectl get ingress --all-namespaces
     {{< /text >}}
 
-1.  如果使用了外部负载均衡器，该外部负载均衡器无法正常工作，尝试[通过 node port 访问 gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)。
+1. 如果使用了外部负载均衡器，该外部负载均衡器无法正常工作，尝试[通过 node port 访问 gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)。
 
 ## 清除{#cleanup}
 
-删除 `Gateway` 和 `VirtualService` 配置， 并关闭服务 [httpbin]({{< github_tree >}}/samples/httpbin)：
+删除 `Gateway` 和 `VirtualService` 配置，并关闭服务 [httpbin]({{< github_tree >}}/samples/httpbin)：
 
 {{< text bash >}}
 $ kubectl delete gateway httpbin-gateway

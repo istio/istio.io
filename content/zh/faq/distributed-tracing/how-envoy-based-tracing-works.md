@@ -12,4 +12,4 @@ Envoy：
 - 将生成的跟踪范围发送到跟踪后端
 - 将跟踪头转发到代理的应用程序
 
-Istio 支持基于 Envoy 的 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 和 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/) 的集成， 以及所有与 Zipkin API 兼容的后端，包括 [Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)。
+Istio 支持基于 Envoy 的 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 和 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/) 的集成，以及所有与 Zipkin API 兼容的后端，包括 [Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)。

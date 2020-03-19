@@ -22,17 +22,17 @@ weight: 50
 
 对于 TCP 流量，Istio 生成以下指标：
 
-*   **Tcp发送字节数**（`istio_tcp_sent_bytes_total`）：这是一个用于测量在 TCP 连接下响应期间发送的总字节数的 `COUNTER` 指标。
+*   **Tcp 发送字节数**（`istio_tcp_sent_bytes_total`）：这是一个用于测量在 TCP 连接下响应期间发送的总字节数的 `COUNTER` 指标。
 
-*   **Tcp接收字节数**（`istio_tcp_received_bytes_total`）：这是一个用于测量在 TCP 连接下请求期间接收的总字节数的`COUNTER`指标。
+*   **Tcp 接收字节数**（`istio_tcp_received_bytes_total`）：这是一个用于测量在 TCP 连接下请求期间接收的总字节数的`COUNTER`指标。
 
-*   **Tcp打开连接数**（`istio_tcp_connections_opened_total`）：这是一个用于累加每个打开连接的 `COUNTER` 指标。
+*   **Tcp 打开连接数**（`istio_tcp_connections_opened_total`）：这是一个用于累加每个打开连接的 `COUNTER` 指标。
 
-*   **Tcp关闭连接数** (`istio_tcp_connections_closed_total`): 这是一个用于累加每个关闭连接的 `COUNTER` 指标。
+*   **Tcp 关闭连接数** (`istio_tcp_connections_closed_total`) : 这是一个用于累加每个关闭连接的 `COUNTER` 指标。
 
 ## 标签
 
-*   **报告者**：标识请求的报告者。如果报告来自服务端Istio代理，则设置为 `destination` ，如果报告来自客户端Istio代理，则设置为 `source` 。
+*   **报告者**：标识请求的报告者。如果报告来自服务端 Istio 代理，则设置为 `destination` ，如果报告来自客户端 Istio 代理，则设置为 `source` 。
 
     {{< text yaml >}}
     reporter: conditional((context.reporter.kind | "inbound") == "outbound", "source", "destination")
@@ -134,7 +134,7 @@ weight: 50
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}
 
-*   **响应标志**：有关来自代理的响应或连接的其他详细信息。如果使用 Envoy ，请参阅[Envoy访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)中的 `％RESPONSE_FLAGS％` 以获取更多详细信息。
+*   **响应标志**：有关来自代理的响应或连接的其他详细信息。如果使用 Envoy ，请参阅 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)中的 `％RESPONSE_FLAGS％` 以获取更多详细信息。
 
     {{< text yaml >}}
     response_flags: context.proxy_error_code | "-"

@@ -5,7 +5,7 @@ weight: 50
 keywords: [cassandra]
 ---
 
-默认情况下，Cassandra 广播用于绑定（接受连接）到其他 Cassandra 节点的地址作为其地址。这通常是 Pod IP 地址，无需服务网格即可正常工作。但是，对于服务网格，此配置不起作用。Istio 和其他服务网格需要 `localhost` （`127.0.0.1`） 作为绑定地址。
+默认情况下，Cassandra 广播用于绑定（接受连接）到其他 Cassandra 节点的地址作为其地址。这通常是 Pod IP 地址，无需服务网格即可正常工作。但是，对于服务网格，此配置不起作用。Istio 和其他服务网格需要 `localhost` （`127.0.0.1`）作为绑定地址。
 
 有两个配置参数要注意：
 [`listen_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#listen-address) 和 [`broadcast_address`](http://cassandra.apache.org/doc/latest/configuration/cassandra_config_file.html?highlight=listen_address#broadcast-address)。为了在 Istio 网格中运行 Cassandra，应该将 `listen_address` 参数设置为 `127.0.0.1`，将 `broadcast_address` 参数设置为 Pod IP 地址。

@@ -24,7 +24,7 @@ aliases:
     {{< /text >}}
 
     {{< tip >}}
-    默认情况下， `istio-ingressgateway` 会以 `LoadBalancer` 的服务类型开放出来。您可以根据自己的 Kubernetes 环境把 `gateways.istio-ingressgateway.type` 设置为 `NodePort`。
+    默认情况下，`istio-ingressgateway` 会以 `LoadBalancer` 的服务类型开放出来。您可以根据自己的 Kubernetes 环境把 `gateways.istio-ingressgateway.type` 设置为 `NodePort`。
     {{< /tip >}}
 
 1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以便实现证书的自动管理。

@@ -105,7 +105,7 @@ Istio 支持跨多种网络拓扑扩展服务网格。
 ### 单一网络{#single-network}
 
 在最简单的情况下，服务网格在单个完全连接的网络上运行。
-在单一网络模型中， {{< gloss "workload instance" >}}工作负载实例{{< /gloss >}}
+在单一网络模型中，{{< gloss "workload instance" >}}工作负载实例{{< /gloss >}}
 都可以直接相互访问，而无需 Istio 网关。
 
 单一网络模型允许 Istio 以统一的方式在网格上配置服务使用者，从而能够直接处理工作负载实例。
@@ -262,7 +262,7 @@ Istio 支持将您的所有服务都放在一个{{< gloss "service mesh" >}}服�
 
 为避免服务命名冲突，可以为每个网格赋予全局唯一的 **mesh ID**，以确保每个服务的完全限定域名（FQDN）是不同的。
 
-联合两个不共享同一{{< gloss "trust domain">}}信任域{{< /gloss >}}的网格时， 必须{{< gloss "mesh federation">}}
+联合两个不共享同一{{< gloss "trust domain">}}信任域{{< /gloss >}}的网格时，必须{{< gloss "mesh federation">}}
 联合{{< /gloss >}}身份标识和它们之间的 **trust bundles**。有关概述请参考[多信任域](#trust-between-meshes)部分。
 
 ## 租户模型{#tenancy-models}

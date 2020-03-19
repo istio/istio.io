@@ -193,7 +193,7 @@ aliases:
     因为 DNS 解析 `*.global` 域上的服务，您需要为这些服务分配一个 IP 地址。
 
     {{< tip >}}
-    各个服务（ `*.global` DNS 域中）必须在集群中有一个唯一的 IP。
+    各个服务（`*.global` DNS 域中）必须在集群中有一个唯一的 IP。
     {{< /tip >}}
 
     如果全局服务已经有真正的 VIPs，您可以使用它们，否则我们建议使用来自回环段 `127.0.0.0/8` 的还未分配的 IPs 。这些 IPs 在 pod 外不能路由。
@@ -219,7 +219,7 @@ aliases:
         protocol: http
       resolution: DNS
       addresses:
-      #  httpbin.bar.global 将会被解析至这个 IP 地址，它对于给定集群中的各个服务必须是唯一的。
+      # httpbin.bar.global 将会被解析至这个 IP 地址，它对于给定集群中的各个服务必须是唯一的。
       # 这个地址不需要可路由。这个 IP 的流量将会被 sidecar 捕获并路由到合适的地方。
       # 同时这个地址也会被添加到 VM 的 /etc/hosts 中
       - 127.255.0.3

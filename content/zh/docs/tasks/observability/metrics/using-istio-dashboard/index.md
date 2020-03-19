@@ -19,7 +19,7 @@ aliases:
 
 ## 查看 Istio Dashboard{#viewing-the-Istio-dashboard}
 
-1.  验证 `prometheus` 服务正在集群中运行。
+1. 验证 `prometheus` 服务正在集群中运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
@@ -29,7 +29,7 @@ aliases:
     prometheus   10.59.241.54   <none>        9090/TCP   2m
     {{< /text >}}
 
-1.  验证 Grafana 服务正在集群中运行。
+1. 验证 Grafana 服务正在集群中运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
@@ -39,7 +39,7 @@ aliases:
     grafana   10.59.247.103   <none>        3000/TCP   2m
     {{< /text >}}
 
-1.  通过 Grafana UI 打开 Istio Dashboard。
+1. 通过 Grafana UI 打开 Istio Dashboard。
 
     在 Kubernetes 环境中，执行以下命令：
 
@@ -53,7 +53,7 @@ aliases:
 
     {{< image link="./grafana-istio-dashboard.png" caption="Istio Dashboard" >}}
 
-1.  发送流量到网格。
+1. 发送流量到网格。
 
     对于 Bookinfo 示例，在浏览器中访问 `http://$GATEWAY_URL/productpage` 或者发出以下命令：
 
@@ -73,7 +73,7 @@ aliases:
 
     这提供了网格以及网格中的服务和工作负载的全局视图。可以通过导航到特定的仪表盘来获取更多关于服务和工作负载的详细信息，如下所述。
 
-1.  可视化服务仪表盘。
+1. 可视化服务仪表盘。
 
     从 Grafana 仪表盘左上角的导航菜单中，可以导航到 Istio Service Dashboard 或者在浏览器中访问
     [http://localhost:3000/dashboard/db/istio-service-dashboard](http://localhost:3000/dashboard/db/istio-service-dashboard)。
@@ -84,7 +84,7 @@ aliases:
 
     这里给出了服务，以及更进一步的服务的客户端工作负载（调用该服务的工作负载）和服务工作负载（提供该服务的工作负载）的详细指标。
 
-1.  可视化工作负载仪表盘。
+1. 可视化工作负载仪表盘。
 
     从 Grafana 仪表盘左上角的导航菜单中，可以导航到 Istio Workload Dashboard 或者在浏览器中访问
     [http://localhost:3000/dashboard/db/istio-workload-dashboard](http://localhost:3000/dashboard/db/istio-workload-dashboard)。

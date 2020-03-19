@@ -28,7 +28,7 @@ aliases:
 ### 创建 secret{#create-a-secret}
 
 {{< tip >}}
-如果您打算按照 [Istio 快速入门](/zh/docs/setup/getting-started/)说明使用 Istio 演示配置文件安装 Kiali，则会为您创建一个默认 secret，用户名为 `admin` ，密码为 `admin`。 因此，您可以跳过此部分。
+如果您打算按照 [Istio 快速入门](/zh/docs/setup/getting-started/)说明使用 Istio 演示配置文件安装 Kiali，则会为您创建一个默认 secret，用户名为 `admin` ，密码为 `admin`。因此，您可以跳过此部分。
 {{< /tip >}}
 
 在 Istio 命名空间中创建一个 Secret，作为 Kiali 的身份验证凭据。
@@ -87,7 +87,7 @@ $ istioctl manifest apply --set values.kiali.enabled=true
 {{< /text >}}
 
 {{< idea >}}
-该任务不讨论 Jaeger 和 Grafana。 如果已经在集群中安装了它们，并且想了解 Kiali 如何与它们集成，则必须将其他参数传递给 `helm` 命令，例如：
+该任务不讨论 Jaeger 和 Grafana。如果已经在集群中安装了它们，并且想了解 Kiali 如何与它们集成，则必须将其他参数传递给 `helm` 命令，例如：
 
 {{< text bash >}}
 $ istioctl manifest apply \
@@ -113,71 +113,71 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
 ## 生成服务图{#generating-a-service-graph}
 
-1.  要验证服务是否在您的群集中运行，请运行以下命令：
+1. 要验证服务是否在您的群集中运行，请运行以下命令：
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc kiali
     {{< /text >}}
 
-1.  要确定 Bookinfo URL，请按照说明确定 [Bookinfo ingress `GATEWAY_URL`](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port).
+1. 要确定 Bookinfo URL，请按照说明确定 [Bookinfo ingress `GATEWAY_URL`](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port).
 
-1.  要将流量发送到网格，您有三种选择
+1. 要将流量发送到网格，您有三种选择
 
-    *   在浏览器中访问 `http://$GATEWAY_URL/productpage`
+    * 在浏览器中访问 `http://$GATEWAY_URL/productpage`
 
-    *   多次使用以下命令：
+    * 多次使用以下命令：
 
         {{< text bash >}}
         $ curl http://$GATEWAY_URL/productpage
         {{< /text >}}
 
-    *   如果您在系统中安装了 `watch` 命令，请通过以下方式连续发送请求：
+    * 如果您在系统中安装了 `watch` 命令，请通过以下方式连续发送请求：
 
         {{< text bash >}}
         $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
         {{< /text >}}
 
-1.  要打开 Kiali UI，请在您的 Kubernetes 环境中执行以下命令：
+1. 要打开 Kiali UI，请在您的 Kubernetes 环境中执行以下命令：
 
     {{< text bash >}}
     $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  要登录 Kiali UI，请到 Kiali 登录界面，然后输入存储在 Kiali secret 中的用户名和密码。
+1. 要登录 Kiali UI，请到 Kiali 登录界面，然后输入存储在 Kiali secret 中的用户名和密码。
 
-1.  登录后立即显示的 **Overview** 页面中查看网格的概述。**Overview** 页面显示了网格中具有服务的所有名称空间。以下屏幕截图显示了类似的页面：
+1. 登录后立即显示的 **Overview** 页面中查看网格的概述。**Overview** 页面显示了网格中具有服务的所有名称空间。以下屏幕截图显示了类似的页面：
 
     {{< image width="75%" link="./kiali-overview.png" caption="Example Overview" >}}
 
-1.  要查看名称空间图，请单击 Bookinfo 名称空间卡中的 `bookinfo` 图标。 图形图标位于名称空间卡的左下角，看起来像是一组相连的圈子，页面类似于：
+1. 要查看名称空间图，请单击 Bookinfo 名称空间卡中的 `bookinfo` 图标。图形图标位于名称空间卡的左下角，看起来像是一组相连的圈子，页面类似于：
 
     {{< image width="75%" link="./kiali-graph.png" caption="Example Graph" >}}
 
-1.  要查看度量标准摘要，请选择图中的任何节点或边，以便在右侧的 summary details 面板中显示其度量的详细信息。
+1. 要查看度量标准摘要，请选择图中的任何节点或边，以便在右侧的 summary details 面板中显示其度量的详细信息。
 
-1.  要使用不同的图形类型查看服务网格，请从 **Graph Type** 下拉菜单中选择一种图形类型。有几种图形类型可供选择： **App**, **Versioned App**, **Workload**, **Service**。
+1. 要使用不同的图形类型查看服务网格，请从 **Graph Type** 下拉菜单中选择一种图形类型。有几种图形类型可供选择：**App**, **Versioned App**, **Workload**, **Service**。
 
-    *   **App** 图形类型将一个应用程序的所有版本聚合到一个图形节点中。以下示例显示了一个单独的 **reviews** 节点，它代表了评论应用程序的三个版本。
+    * **App** 图形类型将一个应用程序的所有版本聚合到一个图形节点中。以下示例显示了一个单独的 **reviews** 节点，它代表了评论应用程序的三个版本。
 
         {{< image width="75%" link="./kiali-app.png" caption="Example App Graph" >}}
 
-    *   **Versioned App** 图类型显示每个应用程序版本的节点，但是特定应用程序的所有版本都组合在一起。
+    * **Versioned App** 图类型显示每个应用程序版本的节点，但是特定应用程序的所有版本都组合在一起。
         下面的示例显示 **reviews** 组框，其中包含三个节点，这些节点代表了评论应用程序的三个版本。
 
         {{< image width="75%" link="./kiali-versionedapp.png" caption="Example Versioned App Graph" >}}
 
-    *   **Workload** 图类型显示了服务网格中每个工作负载的节点。
-        这种图类型不需要您使用 `app` 和 `version` 标签，因此，如果您选择在组件上不使用这些标签， 这是您将使用的图形类型。
+    * **Workload** 图类型显示了服务网格中每个工作负载的节点。
+        这种图类型不需要您使用 `app` 和 `version` 标签，因此，如果您选择在组件上不使用这些标签，这是您将使用的图形类型。
 
         {{< image width="70%" link="./kiali-workload.png" caption="Example Workload Graph" >}}
 
-    *   **Service** 图类型显示网格中每个服务的节点，但从图中排除所有应用程序和工作负载。
+    * **Service** 图类型显示网格中每个服务的节点，但从图中排除所有应用程序和工作负载。
 
         {{< image width="70%" link="./kiali-service-graph.png" caption="Example Service Graph" >}}
 
 ## 检查 Istio 配置{#examining-Istio-configuration}
 
-1.  要检查有关 Istio 配置的详细信息，请单击左侧菜单栏上的 **Applications**，**Workloads** 和 **Services** 菜单图标。
+1. 要检查有关 Istio 配置的详细信息，请单击左侧菜单栏上的 **Applications**，**Workloads** 和 **Services** 菜单图标。
     以下屏幕截图显示了 Bookinfo 应用程序信息：
 
     {{< image width="80%" link="./kiali-services.png" caption="Example Details" >}}
@@ -186,41 +186,41 @@ $ oc patch clusterrole kiali -p '[{"op":"add", "path":"/rules/-", "value":{"apiG
 
 您可以使用 Kiali 加权路由转发来定义特定百分比的请求流量以路由到两个或多个工作负载。
 
-1.  查看 `bookinfo` 图的 **Versioned app graph**。
+1. 查看 `bookinfo` 图的 **Versioned app graph**。
 
-    *   确保已经在 **Edge Labels** 下拉菜单中选择了 **Requests percentage** ，以查看路由到每个工作负载的流量百分比。
+    * 确保已经在 **Edge Labels** 下拉菜单中选择了 **Requests percentage** ，以查看路由到每个工作负载的流量百分比。
 
-    *   确保已经选中 **Display** 下拉菜单中的 **Service Nodes** 复选框，以便在图中查看服务节点。
+    * 确保已经选中 **Display** 下拉菜单中的 **Service Nodes** 复选框，以便在图中查看服务节点。
 
     {{< image width="80%" link="./kiali-wiz0-graph-options.png" caption="Bookinfo Graph Options" >}}
 
-1.  通过单击 `ratings` 服务 (triangle) 节点，将关注点放在 `bookinfo` 图内的 `ratings` 服务上。
+1. 通过单击 `ratings` 服务 (triangle) 节点，将关注点放在 `bookinfo` 图内的 `ratings` 服务上。
     注意，`ratings` 服务流量平均分配给两个 `ratings` 服务 `v1` 和 `v2`（每台服务被路由 50％ 的请求）。
 
     {{< image width="80%" link="./kiali-wiz1-graph-ratings-percent.png" caption="Graph Showing Percentage of Traffic" >}}
 
-1.  点击侧面板上的 **ratings** 链接，进入 `ratings` 服务的服务视图。
+1. 点击侧面板上的 **ratings** 链接，进入 `ratings` 服务的服务视图。
 
-1.  从 **Action** 下拉菜单中，选择 **Create Weighted Routing** 以访问加权路由向导。
+1. 从 **Action** 下拉菜单中，选择 **Create Weighted Routing** 以访问加权路由向导。
 
     {{< image width="80%" link="./kiali-wiz2-ratings-service-action-menu.png" caption="Service Action Menu" >}}
 
-1.  拖动滑块以指定要路由到每个服务的流量百分比。
-    对于 `ratings-v1`，将其设置为 10％； 对于 `ratings-v2` ，请将其设置为 90％。
+1. 拖动滑块以指定要路由到每个服务的流量百分比。
+    对于 `ratings-v1`，将其设置为 10％；对于 `ratings-v2` ，请将其设置为 90％。
 
     {{< image width="80%" link="./kiali-wiz3-weighted-routing-wizard.png" caption="Weighted Routing Wizard" >}}
 
-1.  单击 **Create** 按钮以创建新的路由。
+1. 单击 **Create** 按钮以创建新的路由。
 
-1.  点击左侧导航栏中的 **Graph** 以返回到 `bookinfo` 图表。
+1. 点击左侧导航栏中的 **Graph** 以返回到 `bookinfo` 图表。
 
-1.  发送请求到 `bookinfo` 应用程序。例如，要每秒发送一个请求，如果您的系统上装有 `watch`，则可以执行以下命令：
+1. 发送请求到 `bookinfo` 应用程序。例如，要每秒发送一个请求，如果您的系统上装有 `watch`，则可以执行以下命令：
 
     {{< text bash >}}
     $ watch -n 1 curl -o /dev/null -s -w %{http_code} $GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  几分钟后，您会注意到流量百分比将反映新的流量路由，从而确认您的新流量路由已成功将所有流量请求的 90％ 路由到 `ratings-v2`。
+1. 几分钟后，您会注意到流量百分比将反映新的流量路由，从而确认您的新流量路由已成功将所有流量请求的 90％ 路由到 `ratings-v2`。
 
     {{< image width="80%" link="./kiali-wiz4-ratings-weighted-route-90-10.png" caption="90% Ratings Traffic Routed to ratings-v2" >}}
 
@@ -234,27 +234,27 @@ Istio 1.4 引入了 `istioctl analyze`，它使您能够以在 CI 管道中使�
 
 强制对服务端口名称进行无效配置，以查看 Kiali 如何报告验证错误。
 
-1.  将 `details` 服务的端口名从 `http` 更改为 `foo`：
+1. 将 `details` 服务的端口名从 `http` 更改为 `foo`：
 
     {{< text bash >}}
     $ kubectl patch service details -n bookinfo --type json -p '[{"op":"replace","path":"/spec/ports/0/name", "value":"foo"}]'
     {{< /text >}}
 
-1.  通过单击左侧导航栏上的 **Services**，导航到 **Services** 列表。
+1. 通过单击左侧导航栏上的 **Services**，导航到 **Services** 列表。
 
-1.  如果尚未选择，请从 **Namespace** 下拉菜单中选择 `bookinfo`。
+1. 如果尚未选择，请从 **Namespace** 下拉菜单中选择 `bookinfo`。
 
-1.  注意在 `details` 行的 **Configuration** 列中显示的错误图标。
+1. 注意在 `details` 行的 **Configuration** 列中显示的错误图标。
 
     {{< image width="80%" link="./kiali-validate1-list.png" caption="Services List Showing Invalid Configuration" >}}
 
-1.  单击 **Name** 列中的 **details** 链接，以导航到服务详细信息视图。
+1. 单击 **Name** 列中的 **details** 链接，以导航到服务详细信息视图。
 
-1.  将鼠标悬停在错误图标上可以显示描述错误的提示。
+1. 将鼠标悬停在错误图标上可以显示描述错误的提示。
 
     {{< image width="80%" link="./kiali-validate2-errormsg.png" caption="Service Details Describing the Invalid Configuration" >}}
 
-1.  将端口名称改回 `http` 以更正配置，并将 `bookinfo` 返回其正常状态。
+1. 将端口名称改回 `http` 以更正配置，并将 `bookinfo` 返回其正常状态。
 
     {{< text bash >}}
     $ kubectl patch service details -n bookinfo --type json -p '[{"op":"replace","path":"/spec/ports/0/name", "value":"http"}]'
@@ -266,46 +266,46 @@ Istio 1.4 引入了 `istioctl analyze`，它使您能够以在 CI 管道中使�
 
 Kiali 提供了一个 YAML 编辑器，用于查看和编辑 Istio 配置资源。当检测到错误的配置时，YAML 编辑器还将提供验证消息。
 
-1.  创建 Bookinfo 目标规则：
+1. 创建 Bookinfo 目标规则：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
     {{< /text >}}
 
-1.  单击左侧导航栏上的 `Istio Config` 以导航到 Istio 配置列表。
+1. 单击左侧导航栏上的 `Istio Config` 以导航到 Istio 配置列表。
 
-1.  如果尚未选择，请从 **Namespace** 下拉菜单中选择 `bookinfo`。
+1. 如果尚未选择，请从 **Namespace** 下拉菜单中选择 `bookinfo`。
 
-1.  请注意错误消息以及错误警告图标，它们会警告您一些配置问题。
+1. 请注意错误消息以及错误警告图标，它们会警告您一些配置问题。
 
     {{< image width="80%" link="./kiali-istioconfig0-errormsgs.png" caption="Istio Config List Incorrect Configuration Messages" >}}
 
-1.  将鼠标悬停在 `details` 行的 **Configuration** 列中的错误图标上，以查看其他消息。
+1. 将鼠标悬停在 `details` 行的 **Configuration** 列中的错误图标上，以查看其他消息。
 
     {{< image width="80%" link="./kiali-istioconfig1-tooltip.png" caption="Istio Config List Incorrect Configuration Tool Tips" >}}
 
-1.  单击 **Name** 列中的 **details** 链接，以导航到 `details` 目标规则视图。
+1. 单击 **Name** 列中的 **details** 链接，以导航到 `details` 目标规则视图。
 
-1.  请注意消息和图标，它们提醒您一些失败的验证规则。
+1. 请注意消息和图标，它们提醒您一些失败的验证规则。
 
     {{< image width="80%" link="./kiali-istioconfig2-details-errormsgs.png" caption="Istio Configuration Details View Showing Errors" >}}
 
-1.  单击 **YAML** 选项卡以查看此 Istio 目标规则资源的 YAML。
+1. 单击 **YAML** 选项卡以查看此 Istio 目标规则资源的 YAML。
 
-1.  请注意未通过验证检查的行颜色会突出显示和异常图标。
+1. 请注意未通过验证检查的行颜色会突出显示和异常图标。
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml1.png" caption="YAML Editor Showing Validation Errors and Warnings" >}}
 
-1.  将鼠标悬停在黄色图标上可以查看工具提示消息，该消息提示您触发了警告的验证检查。
+1. 将鼠标悬停在黄色图标上可以查看工具提示消息，该消息提示您触发了警告的验证检查。
     有关警告起因和解决方法的更多详细信息，请在 [Kiali Validations page](http://kiali.io/documentation/validations/) 上查找验证警告消息。
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml2.png" caption="YAML Editor Showing Warning Tool Tip" >}}
 
-1.  将鼠标悬停在红色图标上可以查看工具提示消息，该消息提示您触发错误的验证检查。有关错误原因和解决方法的更多详细信息，请在 [Kiali Validations page](http://kiali.io/documentation/validations/) 上查找验证错误消息。
+1. 将鼠标悬停在红色图标上可以查看工具提示消息，该消息提示您触发错误的验证检查。有关错误原因和解决方法的更多详细信息，请在 [Kiali Validations page](http://kiali.io/documentation/validations/) 上查找验证错误消息。
 
     {{< image width="80%" link="./kiali-istioconfig3-details-yaml3.png" caption="YAML Editor Showing Error Tool Tip" >}}
 
-1.  删除目标规则，使 `bookinfo` 返回其原始状态。
+1. 删除目标规则，使 `bookinfo` 返回其原始状态。
 
     {{< text bash >}}
     $ kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml
@@ -319,7 +319,7 @@ Kiali 提供了一个 YAML 编辑器，用于查看和编辑 Istio 配置资源�
 
 Kiali Public API 建立在 Prometheus 查询之上，并且取决于标准的 Istio 度量配置。
 它还会调用 Kubernetes API 以获取有关您的服务的其他详细信息。
-为了获得使用 Kiali 的最佳体验，请在应用程序组件上使用元数据标签 `app` 和 `version`。 作为模板，Bookinfo 示例应用程序遵循此约定。
+为了获得使用 Kiali 的最佳体验，请在应用程序组件上使用元数据标签 `app` 和 `version`。作为模板，Bookinfo 示例应用程序遵循此约定。
 
 ## 清理{#cleanup}
 

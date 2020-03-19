@@ -102,7 +102,7 @@ aliases:
 
 ### 配置管理{#configuration-management}
 
-- **Galley**。添加 [Galley](/zh/docs/ops/deployment/architecture/#galley) 作为 Istio 主要的配置收集和分发装置。它提供了一个健壮的模型来验证，转换配置状态并将其分配给 Istio 组件，从而将 Istio 组件与 Kubernetes 详细信息隔离开来。Galley 使用[网格配置协议](https://github.com/istio/api/tree/{{<source_branch_name >}}/mcp) 与组件进行交互。
+- **Galley**。添加 [Galley](/zh/docs/ops/deployment/architecture/#galley) 作为 Istio 主要的配置收集和分发装置。它提供了一个健壮的模型来验证，转换配置状态并将其分配给 Istio 组件，从而将 Istio 组件与 Kubernetes 详细信息隔离开来。Galley 使用[网格配置协议](https://github.com/istio/api/tree/{{<source_branch_name>}}/mcp)与组件进行交互。
 
 - **监听端口**。将 Galley 的默认监听端口从 9093 修改为 15014。
 

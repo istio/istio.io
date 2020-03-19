@@ -360,7 +360,7 @@ EOF
 
 ## 创建 `VirtualService` 来路由 `reviews` 服务的流量{#create-a-destination-rule-on-both-clusters-for-the-local-reviews-service}
 
-目前所有调用 `reviews` 服务的流量都会进入本地的 `reviews` Pod，也就是 `v1`，如果查看一下远吗，会发现 `productpage` 的实现只是简单的对  `http://reviews:9080` （也就是 `reviews.default.svc.cluster.local`）发起了请求，也就是本地版本。对应的远程服务名称为 `reviews.default.global`，所以需要用路由规则来把请求转发到远端集群。
+目前所有调用 `reviews` 服务的流量都会进入本地的 `reviews` Pod，也就是 `v1`，如果查看一下远吗，会发现 `productpage` 的实现只是简单的对 `http://reviews:9080` （也就是 `reviews.default.svc.cluster.local`）发起了请求，也就是本地版本。对应的远程服务名称为 `reviews.default.global`，所以需要用路由规则来把请求转发到远端集群。
 
 {{< tip >}}
 注意如果所有版本的 `reviews` 服务都在远端，也就是说本地没有 `reviews` 服务，那么 DNS 就会把 `reviews` 直接解析到 `reviews.default.global`，在本文的环境里，无需定义任何路由规则就可以发起对远端集群的请求。

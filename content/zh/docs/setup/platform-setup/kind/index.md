@@ -18,7 +18,7 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
 
 ## 安装步骤{#installation-steps}
 
-1.  使用下列命令创建一个集群：
+1. 使用下列命令创建一个集群：
 
     {{< text bash >}}
     $ kind create cluster --name istio-testing
@@ -26,14 +26,14 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
 
     `--name` 用于为集群指定一个名字。默认情况下，该集群将会名为 `kind`。
 
-1.  使用下列命令查看 kind 集群列表：
+1. 使用下列命令查看 kind 集群列表：
 
     {{< text bash >}}
     $ kind get clusters
     istio-testing
     {{< /text >}}
 
-1.  使用下列命令查看本地 Kubernetes 环境：
+1. 使用下列命令查看本地 Kubernetes 环境：
 
     {{< text bash >}}
     $ kubectl config get-contexts
@@ -46,7 +46,7 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
     `kind` 会作为前缀加到环境和集群名上，如：`kind-istio-testing`
     {{< /tip >}}
 
-1.  如果运行了多套集群，还需要选择 `kubectl` 将要操作哪一套。
+1. 如果运行了多套集群，还需要选择 `kubectl` 将要操作哪一套。
     可以在 [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件中设置当前环境来指定一个默认集群。
     另外，还可以运行下列命令来为 `kubectl` 设置当前环境：
 
@@ -57,7 +57,7 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
 
     kind 集群设置完成后，就可以开始在它上面[安装 Istio](/zh/docs/setup/getting-started/#download) 了。
 
-1.  当体验过后，想删除集群时，可以使用以下命令：
+1. 当体验过后，想删除集群时，可以使用以下命令：
 
     {{< text bash >}}
     $ kind delete cluster --name istio-testing
@@ -69,13 +69,13 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
 kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个基于网页的 Kubernetes 界面，以查看集群。
 参考以下说明来为 kind 设置操作界面。
 
-1.  运行以下命令以部署操作界面：
+1. 运行以下命令以部署操作界面：
 
     {{< text bash >}}
     $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
     {{< /text >}}
 
-1.  验证操作界面已经部署并且正在运行。
+1. 验证操作界面已经部署并且正在运行。
 
     {{< text bash >}}
     $ kubectl get pod -n kubernetes-dashboard
@@ -84,13 +84,13 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
     kubernetes-dashboard-b7ffbc8cb-zl8zg         1/1     Running   0          39s
     {{< /text >}}
 
-1.  创建 `ClusterRoleBinding` 以提供对新创建的集群的管理权限访问。
+1. 创建 `ClusterRoleBinding` 以提供对新创建的集群的管理权限访问。
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
     {{< /text >}}
 
-1.  需要用 Bearer Token 来登录到操作界面。使用以下命令将 token 保存到变量。
+1. 需要用 Bearer Token 来登录到操作界面。使用以下命令将 token 保存到变量。
 
     {{< text bash >}}
     $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 -d)
@@ -102,7 +102,7 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
     $ echo $token
     {{< /text >}}
 
-1.  使用 kubectl 命令行工具运行以下命令以访问操作界面：
+1. 使用 kubectl 命令行工具运行以下命令以访问操作界面：
 
     {{< text bash >}}
     $ kubectl proxy

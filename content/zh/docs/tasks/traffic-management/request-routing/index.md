@@ -120,7 +120,7 @@ Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服�
 
 您可以通过再次刷新 Bookinfo 应用程序的 `/productpage` 轻松测试新配置。
 
-1. 在浏览器中打开 Bookinfo 站点。 网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是外部的入口 IP 地址，如 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port) 文档中所述。
+1. 在浏览器中打开 Bookinfo 站点。网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是外部的入口 IP 地址，如 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port) 文档中所述。
 
     请注意，无论您刷新多少次，页面的评论部分都不会显示评级星标。这是因为您将 Istio 配置为
     将评论服务的所有流量路由到版本 `reviews:v1`，而此版本的服务不访问星级评分服务。
@@ -131,7 +131,7 @@ Istio [Bookinfo](/zh/docs/examples/bookinfo/) 示例包含四个独立的微服�
 
 接下来，您将更改路由配置，以便将来自特定用户的所有流量路由到特定服务版本。在这，来自名为 Jason 的用户的所有流量将被路由到服务 `reviews:v2`。
 
-请注意，Istio 对用户身份没有任何特殊的内置机制。事实上， `productpage` 服务在所有到 `reviews` 服务的 HTTP 请求中都增加了一个自定义的 `end-user` 请求头，从而达到了本例子的效果。
+请注意，Istio 对用户身份没有任何特殊的内置机制。事实上，`productpage` 服务在所有到 `reviews` 服务的 HTTP 请求中都增加了一个自定义的 `end-user` 请求头，从而达到了本例子的效果。
 
 请记住，`reviews:v2` 是包含星级评分功能的版本。
 
