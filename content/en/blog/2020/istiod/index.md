@@ -7,7 +7,7 @@ attribution: "Craig Box (Google)"
 keywords: [istiod,control plane,operator]
 ---
 
-Microservices are a great pattern when they map services to disparate teams that deliver them, or when the value of independent rollout and the value of independent scale are greater than the cost of orchestration. We regularly talk to customers and teams running Istio in the real world, and they told us that none of these were the case for the Istio control plane. So, in Istio 1.5, we've changed how Istio is packaged, consolidating the control plane functionality into a single binary called **`istiod`**.
+Microservices are a great pattern when they map services to disparate teams that deliver them, or when the value of independent rollout and the value of independent scale are greater than the cost of orchestration. We regularly talk to customers and teams running Istio in the real world, and they told us that none of these were the case for the Istio control plane. So, in Istio 1.5, we've changed how Istio is packaged, consolidating the control plane functionality into a single binary called **istiod**.
 
 ## History of the Istio control plane
 
@@ -31,9 +31,9 @@ Good teams look back upon their choices and, with the benefit of hindsight, revi
 
  - **Microservices empower you to maintain security boundaries.** Another good reason to separate an application into different microservices is if they have different security roles. Multiple Istio microservices like the sidecar injector, the Envoy bootstrap, Citadel, and Pilot hold nearly equivalent permissions to change the proxy configuration. Therefore, exploiting any of these services would cause near equivalent damage. When you deploy Istio, all the components are installed by default into the same Kubernetes namespace, offering limited security isolation.
 
-## The benefit of consolidation: introducing `istiod`
+## The benefit of consolidation: introducing istiod
 
-Having established that many of the common benefits of microservices didn't apply to the Istio control plane, we decided to unify them into a single binary: **`istiod`** (the 'd' is for [daemon](https://en.wikipedia.org/wiki/Daemon_%28computing%29)).
+Having established that many of the common benefits of microservices didn't apply to the Istio control plane, we decided to unify them into a single binary: **istiod** (the 'd' is for [daemon](https://en.wikipedia.org/wiki/Daemon_%28computing%29)).
 
 Let's look at the benefits of the new packaging:
 
@@ -43,7 +43,7 @@ Let's look at the benefits of the new packaging:
 
  - **Using VMs becomes easier.** To add a workload to a mesh, you now just need to install one agent and the generated certificates. That agent connects back to only a single service.
 
- - **Maintenance becomes easier.** Installing, upgrading, and removing Istio no longer require a complicated dance of version dependencies and startup orders. For example: To upgrade, you only need to start a new `istiod` version alongside your existing control plane, canary it, and then move all traffic over to it.
+ - **Maintenance becomes easier.** Installing, upgrading, and removing Istio no longer require a complicated dance of version dependencies and startup orders. For example: To upgrade, you only need to start a new istiod version alongside your existing control plane, canary it, and then move all traffic over to it.
 
  - **Scalability becomes easier.** There is now only one component to scale.
 
@@ -53,7 +53,7 @@ Let's look at the benefits of the new packaging:
 
  - **Resource usage goes down and responsiveness goes up.** Communication between components becomes guaranteed, and not subject to gRPC size limits. Caches can be shared safely, which decreases the resource footprint as a result.
 
-`istiod` unifies functionality that Pilot, Galley, Citadel and the sidecar injector previously performed, into a single binary.
+istiod unifies functionality that Pilot, Galley, Citadel and the sidecar injector previously performed, into a single binary.
 
 A separate component, the istio-agent, helps each sidecar connect to the mesh by securely passing configuration and secrets to the Envoy proxies. While the agent, strictly speaking, is still part of the control plane, it runs on a per-pod basis. We’ve further simplified by rolling per-node functionality that used to run as a DaemonSet, into that per-pod agent.
 
@@ -65,8 +65,8 @@ Some users might want to use a Certificate Authority (CA) outside the mesh, and 
 
 ## Moving forward
 
-At its heart, `istiod` is just a packaging and optimization change.  It's built on the same code and API contracts as the separate components, and remains covered by our comprehensive test suite.  This gives us confidence in making it the default in Istio 1.5. The service is now called `istiod` - you’ll see an `istio-pilot` for existing proxies as the upgrade process completes.
+At its heart, istiod is just a packaging and optimization change.  It's built on the same code and API contracts as the separate components, and remains covered by our comprehensive test suite.  This gives us confidence in making it the default in Istio 1.5. The service is now called `istiod` - you’ll see an `istio-pilot` for existing proxies as the upgrade process completes.
 
-While the move to `istiod` may seem like a big change, and is a huge improvement for the people who _administer_ and _maintain_ the mesh, it won’t make the day-to-day life of _using_ Istio any different. `istiod` is not changing any of the APIs used to configure your mesh, so your existing processes will all stay the same.
+While the move to istiod may seem like a big change, and is a huge improvement for the people who _administer_ and _maintain_ the mesh, it won’t make the day-to-day life of _using_ Istio any different. istiod is not changing any of the APIs used to configure your mesh, so your existing processes will all stay the same.
 
 Does this change imply that microservice are a mistake for _all_ workloads and architectures? Of course not. They are a tool in a toolbelt, and they work best when they are reflected in your organizational reality. Instead, this change shows a willingness in the project to change based on user feedback, and a continued focus on simplification for all users. Microservices have to be right sized, and we believe we have found the right size for Istio.
