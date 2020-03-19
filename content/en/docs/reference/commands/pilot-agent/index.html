@@ -868,16 +868,16 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Set to a directory containing provisioned certs, for VMs</td>
 </tr>
 <tr>
-<td><code>SECRET_GRACE_DURATION</code></td>
-<td>Time Duration</td>
-<td><code>12h0m0s</code></td>
-<td>The grace period for the cert rotation, by default it&#39;s half of the cert lifetime</td>
+<td><code>SECRET_GRACE_PERIOD_RATIO</code></td>
+<td>Floating-Point</td>
+<td><code>0.5</code></td>
+<td>The grace period ratio for the cert rotation, by default 0.5.</td>
 </tr>
 <tr>
-<td><code>SECRET_JOB_RUN_INTERVAL</code></td>
+<td><code>SECRET_ROTATION_CHECK_INTERVAL</code></td>
 <td>Time Duration</td>
-<td><code>1h12m0s</code></td>
-<td>The ticker to detect and rotate the certificates, by default it&#39;s 1/10 of the grace period</td>
+<td><code>5m0s</code></td>
+<td>The ticker to detect and rotate the certificates, by default 5 minutes</td>
 </tr>
 <tr>
 <td><code>SECRET_TTL</code></td>
