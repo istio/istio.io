@@ -327,7 +327,7 @@ The difference between the two instances is the version of their `helloworld` im
 1. Confirm `helloworld v2` is running:
 
     {{< text bash >}}
-    $ kubectl get po --context=$CTX_CLUSTER2 -n sample
+    $ kubectl get pod --context=$CTX_CLUSTER2 -n sample
     NAME                             READY     STATUS    RESTARTS   AGE
     helloworld-v2-7dd57c44c4-f56gq   2/2       Running   0          35s
     {{< /text >}}
@@ -351,7 +351,7 @@ The difference between the two instances is the version of their `helloworld` im
 1. Confirm `helloworld v1` is running:
 
     {{< text bash >}}
-    $ kubectl get po --context=$CTX_CLUSTER1 -n sample
+    $ kubectl get pod --context=$CTX_CLUSTER1 -n sample
     NAME                            READY     STATUS    RESTARTS   AGE
     helloworld-v1-d4557d97b-pv2hr   2/2       Running   0          40s
     {{< /text >}}
@@ -371,12 +371,12 @@ call the `helloworld` service from another in-mesh `sleep` service.
 1. Wait for the `sleep` service to start in each cluster:
 
     {{< text bash >}}
-    $ kubectl get po --context=$CTX_CLUSTER1 -n sample -l app=sleep
+    $ kubectl get pod --context=$CTX_CLUSTER1 -n sample -l app=sleep
     sleep-754684654f-n6bzf           2/2     Running   0          5s
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl get po --context=$CTX_CLUSTER2 -n sample -l app=sleep
+    $ kubectl get pod --context=$CTX_CLUSTER2 -n sample -l app=sleep
     sleep-754684654f-dzl9j           2/2     Running   0          5s
     {{< /text >}}
 
