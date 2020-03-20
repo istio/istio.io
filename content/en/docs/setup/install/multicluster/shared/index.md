@@ -74,8 +74,8 @@ the remote clusters. Choose between **one** of the two options below:
 * Option (1) - Use the `istio-ingressgateway` gateway shared with data traffic.
 
 * Option (2) - Use a cloud provider’s internal load balancer on the Istiod service. See
-https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer and your cloud provider's
-documentation for additional requirements and restrictions that may apply when using an internal load balancer
+[Kubernetes Internal Load Balancer docs](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
+and your cloud provider's documentation for additional requirements and restrictions that may apply when using an internal load balancer
 between clusters.
 
 ### Cluster and network naming
@@ -228,7 +228,6 @@ istio-ingressgateway-7c8dd65766-lv9ck   1/1     Running   0          136m
 istiod-f756bbfc4-thkmk                  1/1     Running   0          136m
 prometheus-b54c6f66b-q8hbt              2/2     Running   0          136m
 {{< /text >}}
-
 
 Set the `ISTIOD_REMOTE_EP` environment variable based on which remote control
 plane configuration option was selected earlier.
