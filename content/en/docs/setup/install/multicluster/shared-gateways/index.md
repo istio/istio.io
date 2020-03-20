@@ -169,7 +169,12 @@ This will be used to access pilot on `cluster1` securely using the ingress gatew
     This command sets the value to the gateway's public IP and displays it.
 
     {{< warning >}}
-    The command fails if the load balancer configuration doesn't include an IP address. The implementation of DNS name support is pending.
+    The command fails if the load balancer configuration doesn't include an IP address. The implementation of DNS name support is pending. In this case, you can use the following command:
+
+    {{< text bash >}}
+    $ export LOCAL_GW_ADDR=$INGRESS_HOST && echo ${LOCAL_GW_ADDR}
+    {{< /text >}}
+
     {{< /warning >}}
 
 1. Deploy Istio to `cluster2`:
