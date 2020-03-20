@@ -58,7 +58,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
     {{< /text >}}
 
     `<your-custom-configuration-file>` is the
-    [IstioOperator API Configuration](/docs/setup/install/istioctl/#configure-the-component-settings)
+    [IstioOperator API Configuration](/docs/setup/install/istioctl/#configure-component-settings)
     file you used to customize the installation of the currently-running version of Istio.
 
     {{< warning >}}
