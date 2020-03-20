@@ -372,7 +372,7 @@ running in a second cluster. Before you begin:
 
     The configurations above will result in all traffic in `cluster1` for
     `httpbin.bar.global` on *any port* to be routed to the endpoint
-    `CLUSTER2_GW_ADDR:15443` over a mutual TLS connection.
+    `$CLUSTER2_GW_ADDR:15443` over a mutual TLS connection.
 
     The gateway for port 15443 is a special SNI-aware Envoy
     preconfigured and installed when you deployed the Istio control plane in the cluster.
