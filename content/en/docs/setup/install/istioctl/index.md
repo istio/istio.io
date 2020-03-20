@@ -19,8 +19,7 @@ Using these instructions, you can select any one of Istio's built-in
 and then further customize the configuration for your specific needs.
 
 Full customization of the installation can be done through the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
-(also see [protobuf format](https://github.com/istio/api/blob/release-1.5/operator/v1alpha1/operator.proto)).
+[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
 
 ## Prerequisites
 
