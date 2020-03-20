@@ -4,7 +4,7 @@ description: Information on how to integrate with cert-manager.
 weight: 20
 keywords: [integration,cert-manager]
 aliases:
-  - /docs/tasks/traffic-management/ingress/ingress-certmgr
+  - /docs/tasks/traffic-management/ingress/ingress-certmgr/
   - /docs/examples/advanced-gateways/ingress-certmgr/
 ---
 
