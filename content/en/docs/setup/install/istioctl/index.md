@@ -387,7 +387,7 @@ namespaces:
 ### Configure gateways
 
 Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type. 
+[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
 The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
 for this gateway:
 
