@@ -72,7 +72,11 @@ Decide how to expose the main cluster's Istiod discovery service to
 the remote clusters. Choose between **one** of the two options below:
 
 * Option (1) - Use the `istio-ingressgateway` gateway shared with data traffic.
-* Option (2) - Use a cloud provider’s internal load balancer on the Istiod service.
+
+* Option (2) - Use a cloud provider’s internal load balancer on the Istiod service. See
+https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer and your cloud provider's
+documentation for additional requirements and restrictions that may apply when using an internal load balancer
+between clusters.
 
 ### Cluster and network naming
 
@@ -268,8 +272,16 @@ spec:
         clusterName: ${REMOTE_CLUSTER_NAME}
       network: ${REMOTE_CLUSTER_NETWORK}
 
-      # Replace ISTIOD_REMOTE_EP with the the value of ISTIOD_REMOTE_EP set earlier.
+      # Replaces ISTIOD_REMOTE_EP with the the value of ISTIOD_REMOTE_EP set earlier.
       remotePilotAddress: ${ISTIOD_REMOTE_EP}
+
+  ## The ingressgateway is not required in the remote cluster if both clusters are on
+  ## the same network. Uncomment the lines below to disable the ingress-gateway component.
+  #
+  # components:
+  #  ingressGateways:
+  #  - name: istio-ingressgateway
+  #    enabled: false
 EOF
 {{< /text >}}
 
@@ -461,9 +473,9 @@ You can also verify the IP addresses used to access the endpoints with `istioctl
 
 {{< text bash >}}
 $ kubectl --context=${MAIN_CLUSTER_CTX} -n sample get pod -l app=sleep -o name | cut -f2 -d'/' | \
-    xargs -I{} istioctl --context=${MAIN_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local
-ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER                                                                                                                                                                                  │  }
-10.10.0.90:5000      HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local                                                                                                                                       │}
+    xargs -I{} istioctl --context=${MAIN_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
+ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
+10.10.0.90:5000      HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 192.23.120.32:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
@@ -472,9 +484,9 @@ the helloworld pod IP in the main cluster (`10.10.0.90:5000`).
 
 {{< text bash >}}
 $ kubectl --context=${REMOTE_CLUSTER_CTX} -n sample get pod -l app=sleep -o name | cut -f2 -d'/' | \
-    xargs -I{} istioctl --context=${REMOTE_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local
-ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER                                                                                                                                                                                  │  }
-10.32.0.9:5000       HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local                                                                                                                                       │}
+    xargs -I{} istioctl --context=${REMOTE_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
+ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
+10.32.0.9:5000       HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 192.168.1.246:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
