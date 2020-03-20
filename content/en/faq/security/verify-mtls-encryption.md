@@ -6,7 +6,7 @@ weight: 40
 Once you turned on the mutual TLS, traffic is encrypted. We will show that through `tcpdump` in the
 sidecar container.
 
-To enable tcpdump, you need to install Istio with proxy priviledged enabled
+To enable tcpdump, you need to install Istio with proxy priviledged enabled.
 
 {{< text bash >}}
 $ istioctl manifest apply --set values.global.proxy.privileged=true
