@@ -459,10 +459,6 @@ Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs
 namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
 consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
 
-{{< tip >}}
-Helm API may not support some kubernetes settings, please use [Customize Kubernetes settings](#customize-kubernetes-settings)
-{{< /tip >}}
-
 ## Uninstall Istio
 
 To uninstall Istio, run the following command:
