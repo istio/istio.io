@@ -69,14 +69,15 @@ your clusters would then be open to security vulnerabilities and compromise.
 ### Cross-cluster control plane access
 
 Decide how to expose the main cluster's Istiod discovery service to
-the remote clusters. Choose between **one** of the two options below:
+the remote clusters. Pick one of the two options:
 
 * Option (1) - Use the `istio-ingressgateway` gateway shared with data traffic.
 
-* Option (2) - Use a cloud provider’s internal load balancer on the Istiod service. See
-[Kubernetes Internal Load Balancer docs](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
-and your cloud provider's documentation for additional requirements and restrictions that may apply when using an internal load balancer
-between clusters.
+* Option (2) - Use a cloud provider’s internal load balancer on the Istiod
+  service. For additional requirements and restrictions that may apply when using
+  an internal load balancer between clusters, see
+  [Kubernetes internal load balancer documentation](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
+  and your cloud provider's documentation.
 
 ### Cluster and network naming
 
@@ -126,7 +127,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
-    # selfSigned is required if Citadel is enabled (i.e. when values.global.istiod.enabled=false)
+    # selfSigned is required if Citadel is enabled, that is when values.global.istiod.enabled is false.
     security:
       selfSigned: false
 
@@ -246,7 +247,7 @@ $ echo "ISTIOD_REMOTE_EP is ${ISTIOD_REMOTE_EP}"
 {{< tab name="Internal Load Balancer" category-value="internal-load-balancer" >}}
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ echo "ISTIOD_REMOTE_EP is ${ISTIOD_REMOTE_EP}"
 {{< /text >}}
 
@@ -271,11 +272,11 @@ spec:
         clusterName: ${REMOTE_CLUSTER_NAME}
       network: ${REMOTE_CLUSTER_NETWORK}
 
-      # Replaces ISTIOD_REMOTE_EP with the the value of ISTIOD_REMOTE_EP set earlier.
+      # Replace ISTIOD_REMOTE_EP with the the value of ISTIOD_REMOTE_EP set earlier.
       remotePilotAddress: ${ISTIOD_REMOTE_EP}
 
-  ## The ingressgateway is not required in the remote cluster if both clusters are on
-  ## the same network. Uncomment the lines below to disable the ingress-gateway component.
+  ## The istio-ingressgateway is not required in the remote cluster if both clusters are on
+  ## the same network. To disable the istio-ingressgateway component, uncomment the lines below.```
   #
   # components:
   #  ingressGateways:
@@ -303,7 +304,7 @@ prometheus-c6df65594-pdxc4              2/2     Running   0          91m
 {{< tip >}}
 The istiod deployment running in the remote cluster is providing automatic sidecar injection and CA
 services to the remote cluster's pods. These services were previously provided by the sidecar injector
-and Citadel deployments which no longer exist with Istiod. The remote cluster's pods are
+and Citadel deployments, which no longer exist with Istiod. The remote cluster's pods are
 getting configuration from the main cluster's Istiod for service discovery.
 {{< /tip >}}
 
@@ -490,7 +491,7 @@ ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
 {{< /text >}}
 
 In the remote cluster, the endpoints are the gateway IP of the main cluster (`192.168.1.246:443`) and
-pod IP in the main cluster (`10.32.0.9:5000`).
+the pod IP in the main cluster (`10.32.0.9:5000`).
 
 **Congratulations!**
 
@@ -523,7 +524,7 @@ same root of trust.
 
 ## Uninstalling the remote cluster
 
-To uninstall the remote cluster run the following command:
+To uninstall the remote cluster, run the following command:
 
 {{< text bash >}}
 $ istioctl --context=${REMOTE_CLUSTER_CTX} manifest generate -f istio-remote0-cluster.yaml | \
@@ -536,7 +537,7 @@ $ unset REMOTE_CLUSTER_CTX REMOTE_CLUSTER_NAME REMOTE_CLUSTER_NETWORK
 $ rm istio-remote0-cluster.yaml
 {{< /text >}}
 
-To uninstall the main cluster run the following command:
+To uninstall the main cluster, run the following command:
 
 {{< text bash >}}
 $ istioctl --context=${MAIN_CLUSTER_CTX} manifest generate -f istio-main-cluster.yaml | \
