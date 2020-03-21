@@ -276,7 +276,7 @@ spec:
       remotePilotAddress: ${ISTIOD_REMOTE_EP}
 
   ## The istio-ingressgateway is not required in the remote cluster if both clusters are on
-  ## the same network. To disable the istio-ingressgateway component, uncomment the lines below.```
+  ## the same network. To disable the istio-ingressgateway component, uncomment the lines below.
   #
   # components:
   #  ingressGateways:
