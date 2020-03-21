@@ -46,10 +46,10 @@ $ istioctl manifest apply --set addonComponents.grafana.enabled=true
 
 通常，`istioctl` 使用内置 Chart 生成安装清单。这些 Chart 与 `istioctl` 一起发布，用于审核和自定义，它们
 放置在 `install/kubernetes/operator/charts` 目录下。
-除了使用内置 Chart 外，`istioctl` 还可以使用外部 Chart 生成安装清单。要选择外部 Chart ，请配置 `installPackagePath` 参数（接收本地文件系统路径）：
+除了使用内置 Chart 外，`istioctl` 还可以使用外部 Chart 生成安装清单。要选择外部 Chart ，请配置 `profile` 和 `install_package_path` 参数（接收本地文件系统路径）：
 
 {{< text bash >}}
-$ istioctl manifest apply --set installPackagePath=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
+$ istioctl manifest apply --set profile=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/profiles/default.yaml --set install_package_path=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
 {{< /text >}}
 
 如果使用 `istioctl` {{< istio_full_version >}} 二进制文件，该命令执行结果与通过 `istioctl manifest apply` 安装相同，因为它指向的 Chart 与内置 Chart 相同。
