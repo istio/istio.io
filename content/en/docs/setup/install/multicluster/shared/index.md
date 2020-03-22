@@ -527,14 +527,13 @@ same root of trust.
 To uninstall the remote cluster, run the following command:
 
 {{< text bash >}}
+$ istioctl --context=${REMOTE_CLUSTER_CTX} x create-remote-secret --name ${REMOTE_CLUSTER_NAME} | \
+    kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
 $ istioctl --context=${REMOTE_CLUSTER_CTX} manifest generate -f istio-remote0-cluster.yaml | \
     kubectl delete -f - --context=${REMOTE_CLUSTER_CTX}
-
-$ istioctl x create-remote-secret --context=${REMOTE_CLUSTER_CTX} --name ${REMOTE_CLUSTER_NAME} | \
-    kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
-
 $ unset REMOTE_CLUSTER_CTX REMOTE_CLUSTER_NAME REMOTE_CLUSTER_NETWORK
 $ rm istio-remote0-cluster.yaml
+$ kubectl --context=${REMOTE_CLUSTER_CTX} delete namespace sample
 {{< /text >}}
 
 To uninstall the main cluster, run the following command:
@@ -542,7 +541,7 @@ To uninstall the main cluster, run the following command:
 {{< text bash >}}
 $ istioctl --context=${MAIN_CLUSTER_CTX} manifest generate -f istio-main-cluster.yaml | \
     kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
-
-$ unset MAIN_CLUSTER_CTX MAIN_CLUSTER_NAME MAIN_CLUSTER_NETWORK
-$ rm istio-main-cluster.yaml
+$ unset MAIN_CLUSTER_CTX MAIN_CLUSTER_NAME MAIN_CLUSTER_NETWORK ISTIOD_REMOTE_EP
+$ rm istio-main-cluster.yaml cluster-aware-gateway.yaml 2>/dev/null
+$ kubectl --context=${MAIN_CLUSTER_CTX} delete namespace sample
 {{< /text >}}
