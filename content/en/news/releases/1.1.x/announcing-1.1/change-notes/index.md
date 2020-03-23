@@ -80,7 +80,7 @@ concise list of things you should know before upgrading your deployment to Istio
   solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio
-  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/)
+  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/ops/integrations/certmanager/)
   example for more details on how to use Kubernetes Ingress resources with
   [gateways](/docs/concepts/traffic-management/#gateways).
 

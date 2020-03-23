@@ -3,6 +3,9 @@ title: cert-manager
 description: Information on how to integrate with cert-manager.
 weight: 20
 keywords: [integration,cert-manager]
+aliases:
+  - /docs/tasks/traffic-management/ingress/ingress-certmgr/
+  - /docs/examples/advanced-gateways/ingress-certmgr/
 ---
 
 [cert-manager](https://cert-manager.io/) is a tool that automates certificate management. This can be integrated with Istio gateways to manage TLS certificates
