@@ -1,7 +1,7 @@
 ---
 title: Istio 1.5 发布公告
 linktitle: 1.5
-subtitle: 更大更新
+subtitle: 重大更新
 description: Istio 1.5 版本发布公告。
 publishdate: 2020-03-05
 release: 1.5.0
