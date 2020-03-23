@@ -121,6 +121,7 @@ spec:
 ## 下一步
 
 在此博客中，我们探讨了将 Wasm 扩展安装到 Istio 工作负载中的选项。在 Istio 上开始使用 WebAssembly 的最简单方法是使用 `wasme` 工具[创建一个新的 Wasm 项目](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/)，可使用 C++，AssemblyScript [或Rust，即将推出！]。例如，要设置 C++ Wasm 模块，可以运行：
+
 {{< text bash >}}
 $ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
 {{< /text >}}
