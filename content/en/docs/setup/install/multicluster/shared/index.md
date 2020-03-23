@@ -45,8 +45,9 @@ Envoy can then form a mesh.
 Generate intermediate CA certificates for each cluster's CA from your
 organization's root CA. The shared root CA enables mutual TLS communication
 across different clusters. For illustration purposes, the following instructions
-use the certificates from the Istio samples directory for both cluster. Run the
-following commands on each cluster in the mesh to install the certificates.
+use the certificates from the Istio samples directory for both clusters.
+
+Run the following commands on each cluster in the mesh to install the certificates.
 See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/)
 for more details on configuring an external CA.
 
@@ -68,10 +69,15 @@ your clusters would then be open to security vulnerabilities and compromise.
 ### Cross-cluster control plane access
 
 Decide how to expose the main cluster's Istiod discovery service to
-the remote clusters. Choose between **one** of the two options below:
+the remote clusters. Pick one of the two options:
 
 * Option (1) - Use the `istio-ingressgateway` gateway shared with data traffic.
-* Option (2) - Use a cloud provider’s internal load balancer on the Istiod service.
+
+* Option (2) - Use a cloud provider’s internal load balancer on the Istiod
+  service. For additional requirements and restrictions that may apply when using
+  an internal load balancer between clusters, see
+  [Kubernetes internal load balancer documentation](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer)
+  and your cloud provider's documentation.
 
 ### Cluster and network naming
 
@@ -109,9 +115,11 @@ $ export REMOTE_CLUSTER_NETWORK=network1
 
 ### Main cluster
 
-Create the main cluster's configuration. Replace the variables below with the cluster
-and network names chosen earlier. Pick **one** of the two options for cross-cluster
-control plane access and delete the configuration for the other two options.
+Create the main cluster's configuration. Pick one of the two options for cross-cluster
+control plane access.
+
+{{< tabset category-name="platform" >}}
+{{< tab name="istio-ingressgateway" category-value="istio-ingressgateway" >}}
 
 {{< text yaml >}}
 cat <<EOF> istio-main-cluster.yaml
@@ -119,15 +127,17 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
-    # required if istiod is disabled
+    # selfSigned is required if Citadel is enabled, that is when values.global.istiod.enabled is false.
     security:
       selfSigned: false
+
     global:
       multiCluster:
         clusterName: ${MAIN_CLUSTER_NAME}
       network: ${MAIN_CLUSTER_NETWORK}
 
-# Mesh network configuration. This is optional and may be omitted if all clusters are on the same network.
+      # Mesh network configuration. This is optional and may be omitted if
+      # all clusters are on the same network.
       meshNetworks:
         ${MAIN_CLUSTER_NETWORK}:
           endpoints:
@@ -144,14 +154,49 @@ spec:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
 
-  # Configure cross-cluster control plane access. Choose one of the three
-  # options below and delete the other two option's configuration.
-
-  # Option(1) - Use the existing istio-ingressgateway.
+      # Use the existing istio-ingressgateway.
       meshExpansion:
         enabled: true
+EOF
+{{< /text >}}
 
-  # Option(2) - Use a cloud provider’s internal load balancer.
+{{< /tab >}}
+
+{{< tab name="Internal Load Balancer" category-value="internal-load-balancer" >}}
+
+{{< text yaml >}}
+cat <<EOF> istio-main-cluster.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    # selfSigned is required if Citadel is enabled (i.e. when values.global.istiod.enabled=false)
+    security:
+      selfSigned: false
+
+    global:
+      multiCluster:
+        clusterName: ${MAIN_CLUSTER_NAME}
+      network: ${MAIN_CLUSTER_NETWORK}
+
+      # Mesh network configuration. This is optional and may be omitted if
+      # all clusters are on the same network.
+      meshNetworks:
+        ${MAIN_CLUSTER_NETWORK}:
+          endpoints:
+          # Always use Kubernetes as the registry name for the main cluster in the mesh network configuration
+          - fromRegistry: Kubernetes
+          gateways:
+          - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
+            port: 443
+
+        ${REMOTE_CLUSTER_NETWORK}:
+          endpoints:
+          - fromRegistry: ${REMOTE_CLUSTER_NAME}
+          gateways:
+          - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
+            port: 443
+
   # Change the Istio service `type=LoadBalancer` and add the cloud provider specific annotations. See
   # https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer for more
   # information. The example below shows the configuration for GCP/GKE.
@@ -165,26 +210,50 @@ spec:
 EOF
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< /tabset >}}
+
 Apply the main cluster's configuration.
 
 {{< text bash >}}
 $ istioctl --context=${MAIN_CLUSTER_CTX} manifest apply -f istio-main-cluster.yaml
 {{< /text >}}
 
-Wait for the control plane to be ready before proceeding. Set the `ISTIOD_REMOTE_EP` environment
-variable based on which remote control plane configuration option was selected earlier:
+Wait for the control plane to be ready before proceeding.
 
-* Option (1) - `istio-ingressgateway` gateway shared with data traffic
+{{< text bash >}}
+$ kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get pod
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-ingressgateway-7c8dd65766-lv9ck   1/1     Running   0          136m
+istiod-f756bbfc4-thkmk                  1/1     Running   0          136m
+prometheus-b54c6f66b-q8hbt              2/2     Running   0          136m
+{{< /text >}}
+
+Set the `ISTIOD_REMOTE_EP` environment variable based on which remote control
+plane configuration option was selected earlier.
+
+{{< tabset category-name="platform" >}}
+
+{{< tab name="istio-ingressgateway" category-value="istio-ingressgateway" >}}
 
 {{< text bash >}}
 $ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ echo "ISTIOD_REMOTE_EP is ${ISTIOD_REMOTE_EP}"
 {{< /text >}}
 
-* Option (2) - Use a cloud provider’s internal load balancer on the Istiod service.
+{{< /tab >}}
+
+{{< tab name="Internal Load Balancer" category-value="internal-load-balancer" >}}
 
 {{< text bash >}}
-$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX}  -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export ISTIOD_REMOTE_EP=$(kubectl --context=${MAIN_CLUSTER_CTX} -n istio-system get svc istiod -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ echo "ISTIOD_REMOTE_EP is ${ISTIOD_REMOTE_EP}"
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ### Remote cluster
 
@@ -205,6 +274,14 @@ spec:
 
       # Replace ISTIOD_REMOTE_EP with the the value of ISTIOD_REMOTE_EP set earlier.
       remotePilotAddress: ${ISTIOD_REMOTE_EP}
+
+  ## The istio-ingressgateway is not required in the remote cluster if both clusters are on
+  ## the same network. To disable the istio-ingressgateway component, uncomment the lines below.
+  #
+  # components:
+  #  ingressGateways:
+  #  - name: istio-ingressgateway
+  #    enabled: false
 EOF
 {{< /text >}}
 
@@ -213,6 +290,23 @@ Apply the remote cluster configuration.
 {{< text bash >}}
 $ istioctl --context ${REMOTE_CLUSTER_CTX} manifest apply -f istio-remote0-cluster.yaml
 {{< /text >}}
+
+Wait for the remote cluster to be ready.
+
+{{< text bash >}}
+$ kubectl --context=${REMOTE_CLUSTER_CTX} -n istio-system get pod
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-ingressgateway-55f784779d-s5hwl   1/1     Running   0          91m
+istiod-7b4bfd7b4f-fwmks                 1/1     Running   0          91m
+prometheus-c6df65594-pdxc4              2/2     Running   0          91m
+{{< /text >}}
+
+{{< tip >}}
+The istiod deployment running in the remote cluster is providing automatic sidecar injection and CA
+services to the remote cluster's pods. These services were previously provided by the sidecar injector
+and Citadel deployments, which no longer exist with Istiod. The remote cluster's pods are
+getting configuration from the main cluster's Istiod for service discovery.
+{{< /tip >}}
 
 ## Cross-cluster load balancing
 
@@ -375,25 +469,29 @@ Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 {{< /text >}}
 
-You can also verify the IP addresses used to access the endpoints by printing the log of the sleep's `istio-proxy` container.
+You can also verify the IP addresses used to access the endpoints with `istioctl proxy-config`.
 
 {{< text bash >}}
-$ kubectl logs --context=${MAIN_CLUSTER_CTX} -n sample $(kubectl get pod --context=${MAIN_CLUSTER_CTX} -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
-[2018-11-25T12:37:52.077Z] "GET /hello HTTP/1.1" 200 - 0 60 190 189 "-" "curl/7.60.0" "6e096efe-f550-4dfa-8c8c-ba164baf4679" "helloworld.sample:5000" "192.23.120.32:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59496 -
-[2018-11-25T12:38:06.745Z] "GET /hello HTTP/1.1" 200 - 0 60 171 170 "-" "curl/7.60.0" "6f93c9cc-d32a-4878-b56a-086a740045d2" "helloworld.sample:5000" "10.10.0.90:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.20.194.146:5000 10.10.0.89:59646 -
+$ kubectl --context=${MAIN_CLUSTER_CTX} -n sample get pod -l app=sleep -o name | cut -f2 -d'/' | \
+    xargs -I{} istioctl --context=${MAIN_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
+ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
+10.10.0.90:5000      HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
+192.23.120.32:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-In the main cluster, the gateway IP of the remote cluster (`192.23.120.32:15443`) is logged when v2 was called and
-the instance IP in the main cluster (`10.10.0.90:5000`) is logged when v1 was called.
+In the main cluster, the endpoints are the gateway IP of the remote cluster (`192.23.120.32:443`) and
+the helloworld pod IP in the main cluster (`10.10.0.90:5000`).
 
 {{< text bash >}}
-$ kubectl logs --context=${REMOTE_CLUSTER_CTX} -n sample $(kubectl get pod --context=${REMOTE_CLUSTER_CTX} -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}') istio-proxy
-[2019-05-25T08:06:11.468Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 177 176 "-" "curl/7.60.0" "58cfb92b-b217-4602-af67-7de8f63543d8" "helloworld.sample:5000" "192.168.1.246:15443" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36840 -
-[2019-05-25T08:06:12.834Z] "GET /hello HTTP/1.1" 200 - "-" 0 60 181 180 "-" "curl/7.60.0" "ce480b56-fafd-468b-9996-9fea5257cb1e" "helloworld.sample:5000" "10.32.0.9:5000" outbound|5000||helloworld.sample.svc.cluster.local - 10.107.117.235:5000 10.32.0.10:36886 -
+$ kubectl --context=${REMOTE_CLUSTER_CTX} -n sample get pod -l app=sleep -o name | cut -f2 -d'/' | \
+    xargs -I{} istioctl --context=${REMOTE_CLUSTER_CTX} -n sample proxy-config endpoints {} --cluster "outbound|5000||helloworld.sample.svc.cluster.local"
+ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
+10.32.0.9:5000       HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
+192.168.1.246:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-In the remote cluster, the gateway IP of the main cluster (`192.168.1.246:15443`) is logged when v1 was called and
-the instance IP in remote cluster (`10.32.0.9:5000`) is logged when v2 was called.
+In the remote cluster, the endpoints are the gateway IP of the main cluster (`192.168.1.246:443`) and
+the pod IP in the main cluster (`10.32.0.9:5000`).
 
 **Congratulations!**
 
@@ -426,12 +524,24 @@ same root of trust.
 
 ## Uninstalling the remote cluster
 
-To uninstall the remote cluster run the following command:
+To uninstall the remote cluster, run the following command:
 
 {{< text bash >}}
-$ istioctl --context=${REMOTE_CLUSTER_CTX} manifest generate <your original remote configuration> | \
-    kubectl delete -f -
-
-$ istioctl x create-remote-secret --context=${REMOTE_CLUSTER_CTX} --name ${REMOTE_CLUSTER_NAME} | \
+$ istioctl --context=${REMOTE_CLUSTER_CTX} x create-remote-secret --name ${REMOTE_CLUSTER_NAME} | \
     kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
+$ istioctl --context=${REMOTE_CLUSTER_CTX} manifest generate -f istio-remote0-cluster.yaml | \
+    kubectl delete -f - --context=${REMOTE_CLUSTER_CTX}
+$ unset REMOTE_CLUSTER_CTX REMOTE_CLUSTER_NAME REMOTE_CLUSTER_NETWORK
+$ rm istio-remote0-cluster.yaml
+$ kubectl --context=${REMOTE_CLUSTER_CTX} delete namespace sample
+{{< /text >}}
+
+To uninstall the main cluster, run the following command:
+
+{{< text bash >}}
+$ istioctl --context=${MAIN_CLUSTER_CTX} manifest generate -f istio-main-cluster.yaml | \
+    kubectl delete -f - --context=${MAIN_CLUSTER_CTX}
+$ unset MAIN_CLUSTER_CTX MAIN_CLUSTER_NAME MAIN_CLUSTER_NETWORK ISTIOD_REMOTE_EP
+$ rm istio-main-cluster.yaml cluster-aware-gateway.yaml 2>/dev/null
+$ kubectl --context=${MAIN_CLUSTER_CTX} delete namespace sample
 {{< /text >}}
