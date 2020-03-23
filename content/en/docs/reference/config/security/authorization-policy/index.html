@@ -142,6 +142,35 @@ spec:
      version: v1
 </code></pre>
 
+<h2 id="AuthorizationPolicy-Action">AuthorizationPolicy.Action</h2>
+<section>
+<p>Action specifies the operation to take.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="AuthorizationPolicy-Action-ALLOW">
+<td><code>ALLOW</code></td>
+<td>
+<p>Allow a request only if it matches the rules. This is the default type.</p>
+
+</td>
+</tr>
+<tr id="AuthorizationPolicy-Action-DENY">
+<td><code>DENY</code></td>
+<td>
+<p>Deny a request if it matches any of the rules.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="AuthorizationPolicy">AuthorizationPolicy</h2>
 <section>
 <p>AuthorizationPolicy enables access control on workloads.</p>
@@ -223,38 +252,20 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="AuthorizationPolicy-Action">AuthorizationPolicy.Action</h2>
+<h2 id="Rule">Rule</h2>
 <section>
-<p>Action specifies the operation to take.</p>
+<p>Rule matches requests from a list of sources that perform a list of operations subject to a
+list of conditions. A match occurs when at least one source, operation and condition
+matches the request. An empty rule is always matched.</p>
 
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="AuthorizationPolicy-Action-ALLOW">
-<td><code>ALLOW</code></td>
-<td>
-<p>Allow a request only if it matches the rules. This is the default type.</p>
+<p>Any string field in the rule supports Exact, Prefix, Suffix and Presence match:</p>
 
-</td>
-</tr>
-<tr id="AuthorizationPolicy-Action-DENY">
-<td><code>DENY</code></td>
-<td>
-<p>Deny a request if it matches any of the rules.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Condition">Condition</h2>
-<section>
-<p>Condition specifies additional required attributes.</p>
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+<li>Presence match: &ldquo;*&rdquo; will match when value is not empty.</li>
+</ul>
 
 <table class="message-fields">
 <thead>
@@ -266,36 +277,165 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="Condition-key">
-<td><code>key</code></td>
-<td><code>string</code></td>
+<tr id="Rule-from">
+<td><code>from</code></td>
+<td><code><a href="#Rule-From">From[]</a></code></td>
 <td>
-<p>The name of an Istio attribute.
-See the <a href="/docs/reference/config/security/conditions/">full list of supported attributes</a>.</p>
+<p>Optional. from specifies the source of a request.</p>
 
-</td>
-<td>
-Yes
-</td>
-</tr>
-<tr id="Condition-values">
-<td><code>values</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of allowed values for the attribute.
-Note: at least one of values or not_values must be set.</p>
+<p>If not set, any source is allowed.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="Condition-not_values">
-<td><code>notValues</code></td>
+<tr id="Rule-to">
+<td><code>to</code></td>
+<td><code><a href="#Rule-To">To[]</a></code></td>
+<td>
+<p>Optional. to specifies the operation of a request.</p>
+
+<p>If not set, any operation is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Rule-when">
+<td><code>when</code></td>
+<td><code><a href="#Condition">Condition[]</a></code></td>
+<td>
+<p>Optional. when specifies a list of additional conditions of a request.</p>
+
+<p>If not set, any condition is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Source">Source</h2>
+<section>
+<p>Source specifies the source identities of a request. Fields in the source are
+ANDed together.</p>
+
+<p>For example, the following source matches if the principal is &ldquo;admin&rdquo; or &ldquo;dev&rdquo;
+and the namespace is &ldquo;prod&rdquo; or &ldquo;test&rdquo; and the ip is not &ldquo;1.2.3.4&rdquo;.</p>
+
+<pre><code class="language-yaml">principals: [&quot;admin&quot;, &quot;dev&quot;]
+namespaces: [&quot;prod&quot;, &quot;test&quot;]
+not_ipblocks: [&quot;1.2.3.4&quot;]
+</code></pre>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Source-principals">
+<td><code>principals</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of negative match of values for the attribute.
-Note: at least one of values or not_values must be set.</p>
+<p>Optional. A list of source peer identities (i.e. service account), which
+matches to the &ldquo;source.principal&rdquo; attribute. This field requires mTLS enabled.</p>
+
+<p>If not set, any principal is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_principals">
+<td><code>notPrincipals</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of source peer identities.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-request_principals">
+<td><code>requestPrincipals</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of request identities (i.e. &ldquo;iss/sub&rdquo; claims), which
+matches to the &ldquo;request.auth.principal&rdquo; attribute.</p>
+
+<p>If not set, any request principal is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_request_principals">
+<td><code>notRequestPrincipals</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of request identities.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-namespaces">
+<td><code>namespaces</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of namespaces, which matches to the &ldquo;source.namespace&rdquo;
+attribute. This field requires mTLS enabled.</p>
+
+<p>If not set, any namespace is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_namespaces">
+<td><code>notNamespaces</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of namespaces.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-ip_blocks">
+<td><code>ipBlocks</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of IP blocks, which matches to the &ldquo;source.ip&rdquo; attribute.
+Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
+
+<p>If not set, any IP is allowed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Source-not_ip_blocks">
+<td><code>notIpBlocks</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of negative match of IP blocks.</p>
 
 </td>
 <td>
@@ -430,20 +570,9 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="Rule">Rule</h2>
+<h2 id="Condition">Condition</h2>
 <section>
-<p>Rule matches requests from a list of sources that perform a list of operations subject to a
-list of conditions. A match occurs when at least one source, operation and condition
-matches the request. An empty rule is always matched.</p>
-
-<p>Any string field in the rule supports Exact, Prefix, Suffix and Presence match:</p>
-
-<ul>
-<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
-<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
-<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
-<li>Presence match: &ldquo;*&rdquo; will match when value is not empty.</li>
-</ul>
+<p>Condition specifies additional required attributes.</p>
 
 <table class="message-fields">
 <thead>
@@ -455,39 +584,36 @@ matches the request. An empty rule is always matched.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="Rule-from">
-<td><code>from</code></td>
-<td><code><a href="#Rule-From">From[]</a></code></td>
+<tr id="Condition-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
 <td>
-<p>Optional. from specifies the source of a request.</p>
+<p>The name of an Istio attribute.
+See the <a href="/docs/reference/config/security/conditions/">full list of supported attributes</a>.</p>
 
-<p>If not set, any source is allowed.</p>
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Condition-values">
+<td><code>values</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional. A list of allowed values for the attribute.
+Note: at least one of values or not_values must be set.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="Rule-to">
-<td><code>to</code></td>
-<td><code><a href="#Rule-To">To[]</a></code></td>
+<tr id="Condition-not_values">
+<td><code>notValues</code></td>
+<td><code>string[]</code></td>
 <td>
-<p>Optional. to specifies the operation of a request.</p>
-
-<p>If not set, any operation is allowed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Rule-when">
-<td><code>when</code></td>
-<td><code><a href="#Condition">Condition[]</a></code></td>
-<td>
-<p>Optional. when specifies a list of additional conditions of a request.</p>
-
-<p>If not set, any condition is allowed.</p>
+<p>Optional. A list of negative match of values for the attribute.
+Note: at least one of values or not_values must be set.</p>
 
 </td>
 <td>
@@ -544,132 +670,6 @@ No
 <td><code><a href="#Operation">Operation</a></code></td>
 <td>
 <p>Operation specifies the operation of a request.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Source">Source</h2>
-<section>
-<p>Source specifies the source identities of a request. Fields in the source are
-ANDed together.</p>
-
-<p>For example, the following source matches if the principal is &ldquo;admin&rdquo; or &ldquo;dev&rdquo;
-and the namespace is &ldquo;prod&rdquo; or &ldquo;test&rdquo; and the ip is not &ldquo;1.2.3.4&rdquo;.</p>
-
-<pre><code class="language-yaml">principals: [&quot;admin&quot;, &quot;dev&quot;]
-namespaces: [&quot;prod&quot;, &quot;test&quot;]
-not_ipblocks: [&quot;1.2.3.4&quot;]
-</code></pre>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Source-principals">
-<td><code>principals</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of source peer identities (i.e. service account), which
-matches to the &ldquo;source.principal&rdquo; attribute. This field requires mTLS enabled.</p>
-
-<p>If not set, any principal is allowed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Source-not_principals">
-<td><code>notPrincipals</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of negative match of source peer identities.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Source-request_principals">
-<td><code>requestPrincipals</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of request identities (i.e. &ldquo;iss/sub&rdquo; claims), which
-matches to the &ldquo;request.auth.principal&rdquo; attribute.</p>
-
-<p>If not set, any request principal is allowed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Source-not_request_principals">
-<td><code>notRequestPrincipals</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of negative match of request identities.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Source-namespaces">
-<td><code>namespaces</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of namespaces, which matches to the &ldquo;source.namespace&rdquo;
-attribute. This field requires mTLS enabled.</p>
-
-<p>If not set, any namespace is allowed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Source-not_namespaces">
-<td><code>notNamespaces</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of negative match of namespaces.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Source-ip_blocks">
-<td><code>ipBlocks</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of IP blocks, which matches to the &ldquo;source.ip&rdquo; attribute.
-Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.</p>
-
-<p>If not set, any IP is allowed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Source-not_ip_blocks">
-<td><code>notIpBlocks</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>Optional. A list of negative match of IP blocks.</p>
 
 </td>
 <td>

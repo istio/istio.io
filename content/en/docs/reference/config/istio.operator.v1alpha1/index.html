@@ -11,6 +11,91 @@ number_of_entries: 60
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
+<h2 id="InstallStatus-Status">InstallStatus.Status</h2>
+<section>
+<p>Status describes the current state of a component.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="InstallStatus-Status-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>Component is not present.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-UPDATING">
+<td><code>UPDATING</code></td>
+<td>
+<p>Component is being updated to a different version.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-RECONCILING">
+<td><code>RECONCILING</code></td>
+<td>
+<p>Controller has started but not yet completed reconciliation loop for the component.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-HEALTHY">
+<td><code>HEALTHY</code></td>
+<td>
+<p>Component is healthy.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-ERROR">
+<td><code>ERROR</code></td>
+<td>
+<p>Component is in an error state.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Resources">Resources</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.ResourceRequirements for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Resources-limits">
+<td><code>limits</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Resources-requests">
+<td><code>requests</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="Affinity">Affinity</h2>
 <section>
 <p>Mirrors k8s.io.api.core.v1.</p>
@@ -55,10 +140,8 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="BaseComponentSpec">BaseComponentSpec</h2>
+<h2 id="NodeAffinity">NodeAffinity</h2>
 <section>
-<p>Configuration for base component.</p>
-
 <table class="message-fields">
 <thead>
 <tr>
@@ -69,35 +152,18 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="BaseComponentSpec-enabled">
-<td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<tr id="NodeAffinity-requiredDuringSchedulingIgnoredDuringExecution">
+<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#NodeSelector">NodeSelector</a></code></td>
 <td>
-<p>Selects whether this component is installed.</p>
-
 </td>
 <td>
 No
 </td>
 </tr>
-</tbody>
-</table>
-</section>
-<h2 id="ClientIPConfig">ClientIPConfig</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ClientIPConfig-timeoutSeconds">
-<td><code>timeoutSeconds</code></td>
-<td><code>int32</code></td>
+<tr id="NodeAffinity-preferredDuringSchedulingIgnoredDuringExecution">
+<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#PreferredSchedulingTerm">PreferredSchedulingTerm[]</a></code></td>
 <td>
 </td>
 <td>
@@ -107,10 +173,8 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="ComponentSpec">ComponentSpec</h2>
+<h2 id="NodeSelector">NodeSelector</h2>
 <section>
-<p>Configuration for internal components.</p>
-
 <table class="message-fields">
 <thead>
 <tr>
@@ -121,67 +185,10 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="ComponentSpec-enabled">
-<td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<tr id="NodeSelector-nodeSelectorTerms">
+<td><code>nodeSelectorTerms</code></td>
+<td><code><a href="#NodeSelectorTerm">NodeSelectorTerm[]</a></code></td>
 <td>
-<p>Selects whether this component is installed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ComponentSpec-namespace">
-<td><code>namespace</code></td>
-<td><code>string</code></td>
-<td>
-<p>Namespace for the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ComponentSpec-hub">
-<td><code>hub</code></td>
-<td><code>string</code></td>
-<td>
-<p>Hub for the component (overrides top level hub setting).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ComponentSpec-tag">
-<td><code>tag</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
-<td>
-<p>Tag for the component (overrides top level tag setting).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ComponentSpec-spec">
-<td><code>spec</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
-<td>
-<p>Arbitrary install time configuration for the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ComponentSpec-k8s">
-<td><code>k8s</code></td>
-<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
-<td>
-<p>Kubernetes resource spec.</p>
-
 </td>
 <td>
 No
@@ -190,7 +197,7 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="ConfigMapKeySelector">ConfigMapKeySelector</h2>
+<h2 id="NodeSelectorTerm">NodeSelectorTerm</h2>
 <section>
 <table class="message-fields">
 <thead>
@@ -202,16 +209,40 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="ConfigMapKeySelector-localObjectReference">
-<td><code>localObjectReference</code></td>
-<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
+<tr id="NodeSelectorTerm-matchExpressions">
+<td><code>matchExpressions</code></td>
+<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="ConfigMapKeySelector-key">
+<tr id="NodeSelectorTerm-matchFields">
+<td><code>matchFields</code></td>
+<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NodeSelectorRequirement">NodeSelectorRequirement</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NodeSelectorRequirement-key">
 <td><code>key</code></td>
 <td><code>string</code></td>
 <td>
@@ -220,9 +251,18 @@ No
 No
 </td>
 </tr>
-<tr id="ConfigMapKeySelector-optional">
-<td><code>optional</code></td>
-<td><code>bool</code></td>
+<tr id="NodeSelectorRequirement-operator">
+<td><code>operator</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="NodeSelectorRequirement-values">
+<td><code>values</code></td>
+<td><code>string[]</code></td>
 <td>
 </td>
 <td>
@@ -232,7 +272,7 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="CrossVersionObjectReference">CrossVersionObjectReference</h2>
+<h2 id="PodAffinity">PodAffinity</h2>
 <section>
 <table class="message-fields">
 <thead>
@@ -244,26 +284,92 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="CrossVersionObjectReference-kind">
-<td><code>kind</code></td>
-<td><code>string</code></td>
+<tr id="PodAffinity-requiredDuringSchedulingIgnoredDuringExecution">
+<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="CrossVersionObjectReference-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
+<tr id="PodAffinity-preferredDuringSchedulingIgnoredDuringExecution">
+<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="CrossVersionObjectReference-apiVersion">
-<td><code>apiVersion</code></td>
+</tbody>
+</table>
+</section>
+<h2 id="PodAntiAffinity">PodAntiAffinity</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodAntiAffinity-requiredDuringSchedulingIgnoredDuringExecution">
+<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAntiAffinity-preferredDuringSchedulingIgnoredDuringExecution">
+<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodAffinityTerm">PodAffinityTerm</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodAffinityTerm-labelSelector">
+<td><code>labelSelector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAffinityTerm-namespaces">
+<td><code>namespaces</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAffinityTerm-topologyKey">
+<td><code>topologyKey</code></td>
 <td><code>string</code></td>
 <td>
 </td>
@@ -274,9 +380,75 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="DeploymentStrategy">DeploymentStrategy</h2>
+<h2 id="WeightedPodAffinityTerm">WeightedPodAffinityTerm</h2>
 <section>
-<p>Mirrors k8s.io.api.apps.v1.DeploymentStrategy for unmarshaling.</p>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WeightedPodAffinityTerm-weight">
+<td><code>weight</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WeightedPodAffinityTerm-podAffinityTerm">
+<td><code>podAffinityTerm</code></td>
+<td><code><a href="#PodAffinityTerm">PodAffinityTerm</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PreferredSchedulingTerm">PreferredSchedulingTerm</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PreferredSchedulingTerm-weight">
+<td><code>weight</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PreferredSchedulingTerm-preference">
+<td><code>preference</code></td>
+<td><code><a href="#NodeSelectorTerm">NodeSelectorTerm</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ReadinessProbe">ReadinessProbe</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.Probe for unmarshaling.</p>
 
 <table class="message-fields">
 <thead>
@@ -288,111 +460,72 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="DeploymentStrategy-type">
-<td><code>type</code></td>
-<td><code>string</code></td>
+<tr id="ReadinessProbe-exec">
+<td><code>exec</code></td>
+<td><code><a href="#ExecAction">ExecAction</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="DeploymentStrategy-rollingUpdate">
-<td><code>rollingUpdate</code></td>
-<td><code><a href="#RollingUpdateDeployment">RollingUpdateDeployment</a></code></td>
+<tr id="ReadinessProbe-httpGet">
+<td><code>httpGet</code></td>
+<td><code><a href="#HTTPGetAction">HTTPGetAction</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-</tbody>
-</table>
-</section>
-<h2 id="EnvVar">EnvVar</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="EnvVar-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
+<tr id="ReadinessProbe-tcpSocket">
+<td><code>tcpSocket</code></td>
+<td><code><a href="#TCPSocketAction">TCPSocketAction</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="EnvVar-value">
-<td><code>value</code></td>
-<td><code>string</code></td>
+<tr id="ReadinessProbe-initialDelaySeconds">
+<td><code>initialDelaySeconds</code></td>
+<td><code>int32</code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="EnvVar-valueFrom">
-<td><code>valueFrom</code></td>
-<td><code><a href="#EnvVarSource">EnvVarSource</a></code></td>
+<tr id="ReadinessProbe-timeoutSeconds">
+<td><code>timeoutSeconds</code></td>
+<td><code>int32</code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-</tbody>
-</table>
-</section>
-<h2 id="EnvVarSource">EnvVarSource</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="EnvVarSource-fieldRef">
-<td><code>fieldRef</code></td>
-<td><code><a href="#ObjectFieldSelector">ObjectFieldSelector</a></code></td>
+<tr id="ReadinessProbe-periodSeconds">
+<td><code>periodSeconds</code></td>
+<td><code>int32</code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="EnvVarSource-resourceFieldRef">
-<td><code>resourceFieldRef</code></td>
-<td><code><a href="#ResourceFieldSelector">ResourceFieldSelector</a></code></td>
+<tr id="ReadinessProbe-successThreshold">
+<td><code>successThreshold</code></td>
+<td><code>int32</code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="EnvVarSource-configMapKeyRef">
-<td><code>configMapKeyRef</code></td>
-<td><code><a href="#ConfigMapKeySelector">ConfigMapKeySelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="EnvVarSource-secretKeyRef">
-<td><code>secretKeyRef</code></td>
-<td><code><a href="#SecretKeySelector">SecretKeySelector</a></code></td>
+<tr id="ReadinessProbe-failureThreshold">
+<td><code>failureThreshold</code></td>
+<td><code>int32</code></td>
 <td>
 </td>
 <td>
@@ -420,234 +553,6 @@ No
 <td><code>command</code></td>
 <td><code>string[]</code></td>
 <td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ExternalComponentSpec">ExternalComponentSpec</h2>
-<section>
-<p>Configuration for external components.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ExternalComponentSpec-enabled">
-<td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
-<td>
-<p>Selects whether this component is installed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-namespace">
-<td><code>namespace</code></td>
-<td><code>string</code></td>
-<td>
-<p>Namespace for the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-spec">
-<td><code>spec</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
-<td>
-<p>Arbitrary install time configuration for the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-chart_path">
-<td><code>chartPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Chart path for addon components.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-schema">
-<td><code>schema</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any">Any</a></code></td>
-<td>
-<p>Optional schema to validate spec against.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-k8s">
-<td><code>k8s</code></td>
-<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
-<td>
-<p>Kubernetes resource spec.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ExternalMetricSource">ExternalMetricSource</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ExternalMetricSource-metricName">
-<td><code>metricName</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalMetricSource-metricSelector">
-<td><code>metricSelector</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalMetricSource-targetValue">
-<td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalMetricSource-targetAverageValue">
-<td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="GatewaySpec">GatewaySpec</h2>
-<section>
-<p>Configuration for gateways.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="GatewaySpec-enabled">
-<td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
-<td>
-<p>Selects whether this gateway is installed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="GatewaySpec-namespace">
-<td><code>namespace</code></td>
-<td><code>string</code></td>
-<td>
-<p>Namespace for the gateway.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="GatewaySpec-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-<p>Name for the gateway.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="GatewaySpec-label">
-<td><code>label</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-<p>Labels for the gateway.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="GatewaySpec-hub">
-<td><code>hub</code></td>
-<td><code>string</code></td>
-<td>
-<p>Hub for the component (overrides top level hub setting).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="GatewaySpec-tag">
-<td><code>tag</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
-<td>
-<p>Tag for the component (overrides top level tag setting).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="GatewaySpec-k8s">
-<td><code>k8s</code></td>
-<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
-<td>
-<p>Kubernetes resource spec.</p>
-
 </td>
 <td>
 No
@@ -753,6 +658,706 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="TCPSocketAction">TCPSocketAction</h2>
+<section>
+<p>Mirrors k8s.io.api.core.v1.TCPSocketAction for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TCPSocketAction-port">
+<td><code>port</code></td>
+<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TCPSocketAction-host">
+<td><code>host</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</h2>
+<section>
+<p>Mirrors k8s.io.api.policy.v1beta1.PodDisruptionBudget for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodDisruptionBudgetSpec-minAvailable">
+<td><code>minAvailable</code></td>
+<td><code>uint32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodDisruptionBudgetSpec-selector">
+<td><code>selector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodDisruptionBudgetSpec-maxUnavailable">
+<td><code>maxUnavailable</code></td>
+<td><code>uint32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="DeploymentStrategy">DeploymentStrategy</h2>
+<section>
+<p>Mirrors k8s.io.api.apps.v1.DeploymentStrategy for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="DeploymentStrategy-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="DeploymentStrategy-rollingUpdate">
+<td><code>rollingUpdate</code></td>
+<td><code><a href="#RollingUpdateDeployment">RollingUpdateDeployment</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="RollingUpdateDeployment">RollingUpdateDeployment</h2>
+<section>
+<p>Mirrors k8s.io.api.apps.v1.RollingUpdateDeployment for unmarshaling.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="RollingUpdateDeployment-maxUnavailable">
+<td><code>maxUnavailable</code></td>
+<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="RollingUpdateDeployment-maxSurge">
+<td><code>maxSurge</code></td>
+<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ObjectMeta">ObjectMeta</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ObjectMeta-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>From k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMeta-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvVar">EnvVar</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvVar-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-valueFrom">
+<td><code>valueFrom</code></td>
+<td><code><a href="#EnvVarSource">EnvVarSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvVarSource">EnvVarSource</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvVarSource-fieldRef">
+<td><code>fieldRef</code></td>
+<td><code><a href="#ObjectFieldSelector">ObjectFieldSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-resourceFieldRef">
+<td><code>resourceFieldRef</code></td>
+<td><code><a href="#ResourceFieldSelector">ResourceFieldSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-configMapKeyRef">
+<td><code>configMapKeyRef</code></td>
+<td><code><a href="#ConfigMapKeySelector">ConfigMapKeySelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-secretKeyRef">
+<td><code>secretKeyRef</code></td>
+<td><code><a href="#SecretKeySelector">SecretKeySelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ObjectFieldSelector">ObjectFieldSelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ObjectFieldSelector-apiVersion">
+<td><code>apiVersion</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectFieldSelector-fieldPath">
+<td><code>fieldPath</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ResourceFieldSelector">ResourceFieldSelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ResourceFieldSelector-containerName">
+<td><code>containerName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceFieldSelector-resource">
+<td><code>resource</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceFieldSelector-divisor">
+<td><code>divisor</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ConfigMapKeySelector">ConfigMapKeySelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ConfigMapKeySelector-localObjectReference">
+<td><code>localObjectReference</code></td>
+<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigMapKeySelector-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigMapKeySelector-optional">
+<td><code>optional</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SecretKeySelector">SecretKeySelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SecretKeySelector-localObjectReference">
+<td><code>localObjectReference</code></td>
+<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SecretKeySelector-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SecretKeySelector-optional">
+<td><code>optional</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LocalObjectReference">LocalObjectReference</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LocalObjectReference-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServiceSpec">ServiceSpec</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceSpec-ports">
+<td><code>ports</code></td>
+<td><code><a href="#ServicePort">ServicePort[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-selector">
+<td><code>selector</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-clusterIP">
+<td><code>clusterIP</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-externalIPs">
+<td><code>externalIPs</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-sessionAffinity">
+<td><code>sessionAffinity</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-loadBalancerIP">
+<td><code>loadBalancerIP</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-loadBalancerSourceRanges">
+<td><code>loadBalancerSourceRanges</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-externalName">
+<td><code>externalName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-externalTrafficPolicy">
+<td><code>externalTrafficPolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-healthCheckNodePort">
+<td><code>healthCheckNodePort</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-publishNotReadyAddresses">
+<td><code>publishNotReadyAddresses</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceSpec-sessionAffinityConfig">
+<td><code>sessionAffinityConfig</code></td>
+<td><code><a href="#SessionAffinityConfig">SessionAffinityConfig</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServicePort">ServicePort</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServicePort-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-port">
+<td><code>port</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-targetPort">
+<td><code>targetPort</code></td>
+<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-nodePort">
+<td><code>nodePort</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SessionAffinityConfig">SessionAffinityConfig</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SessionAffinityConfig-clientIP">
+<td><code>clientIP</code></td>
+<td><code><a href="#ClientIPConfig">ClientIPConfig</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ClientIPConfig">ClientIPConfig</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ClientIPConfig-timeoutSeconds">
+<td><code>timeoutSeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</h2>
 <section>
 <table class="message-fields">
@@ -804,10 +1409,8 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="InstallStatus">InstallStatus</h2>
+<h2 id="CrossVersionObjectReference">CrossVersionObjectReference</h2>
 <section>
-<p>Observed state of IstioOperator</p>
-
 <table class="message-fields">
 <thead>
 <tr>
@@ -818,103 +1421,8 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="InstallStatus-status">
-<td><code>status</code></td>
-<td><code><a href="#InstallStatus-Status">Status</a></code></td>
-<td>
-<p>Overall status of all components controlled by the operator.
-- If all components have status NONE, overall status is NONE.
-- If all components are HEALTHY, overall status is HEALTHY.
-- If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
-- If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
-- If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
-- If any component is in ERROR state, overall status is ERROR.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-component_status">
-<td><code>componentStatus</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#InstallStatus-VersionStatus">VersionStatus</a>&gt;</code></td>
-<td>
-<p>Individual status of each component controlled by the operator. The map key is the name of the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="InstallStatus-Status">InstallStatus.Status</h2>
-<section>
-<p>Status describes the current state of a component.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-Status-NONE">
-<td><code>NONE</code></td>
-<td>
-<p>Component is not present.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-UPDATING">
-<td><code>UPDATING</code></td>
-<td>
-<p>Component is being updated to a different version.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-RECONCILING">
-<td><code>RECONCILING</code></td>
-<td>
-<p>Controller has started but not yet completed reconciliation loop for the component.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-HEALTHY">
-<td><code>HEALTHY</code></td>
-<td>
-<p>Component is healthy.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-ERROR">
-<td><code>ERROR</code></td>
-<td>
-<p>Component is in an error state.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="InstallStatus-VersionStatus">InstallStatus.VersionStatus</h2>
-<section>
-<p>VersionStatus is the status and version of a component.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-VersionStatus-version">
-<td><code>version</code></td>
+<tr id="CrossVersionObjectReference-kind">
+<td><code>kind</code></td>
 <td><code>string</code></td>
 <td>
 </td>
@@ -922,17 +1430,410 @@ No
 No
 </td>
 </tr>
-<tr id="InstallStatus-VersionStatus-status">
-<td><code>status</code></td>
-<td><code><a href="#InstallStatus-Status">Status</a></code></td>
+<tr id="CrossVersionObjectReference-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="InstallStatus-VersionStatus-error">
-<td><code>error</code></td>
+<tr id="CrossVersionObjectReference-apiVersion">
+<td><code>apiVersion</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MetricSpec">MetricSpec</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MetricSpec-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricSpec-object">
+<td><code>object</code></td>
+<td><code><a href="#ObjectMetricSource">ObjectMetricSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricSpec-pods">
+<td><code>pods</code></td>
+<td><code><a href="#PodsMetricSource">PodsMetricSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricSpec-resource">
+<td><code>resource</code></td>
+<td><code><a href="#ResourceMetricSource">ResourceMetricSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricSpec-external">
+<td><code>external</code></td>
+<td><code><a href="#ExternalMetricSource">ExternalMetricSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ObjectMetricSource">ObjectMetricSource</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ObjectMetricSource-target">
+<td><code>target</code></td>
+<td><code><a href="#CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricSource-metricName">
+<td><code>metricName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricSource-targetValue">
+<td><code>targetValue</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricSource-selector">
+<td><code>selector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricSource-averageValue">
+<td><code>averageValue</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PodsMetricSource">PodsMetricSource</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodsMetricSource-metricName">
+<td><code>metricName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodsMetricSource-targetAverageValue">
+<td><code>targetAverageValue</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodsMetricSource-selector">
+<td><code>selector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ResourceMetricSource">ResourceMetricSource</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ResourceMetricSource-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceMetricSource-targetAverageUtilization">
+<td><code>targetAverageUtilization</code></td>
+<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceMetricSource-targetAverageValue">
+<td><code>targetAverageValue</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ExternalMetricSource">ExternalMetricSource</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ExternalMetricSource-metricName">
+<td><code>metricName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-metricSelector">
+<td><code>metricSelector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-targetValue">
+<td><code>targetValue</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-targetAverageValue">
+<td><code>targetAverageValue</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TypeIntOrStringForPB">TypeIntOrStringForPB</h2>
+<section>
+<p>GOTYPE: *IntOrStringForPB</p>
+
+</section>
+<h2 id="TypeInterface_kubernetes">TypeInterface_kubernetes</h2>
+<section>
+<p>GOTYPE: interface{}</p>
+
+</section>
+<h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
+<section>
+<p>A label selector is a label query over a set of resources. The result of matchLabels and
+matchExpressions are ANDed. An empty label selector matches all objects. A null
+label selector matches no objects.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchLabels">
+<td><code>matchLabels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchExpressions">
+<td><code>matchExpressions</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
+<td>
+<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-apimachinery-pkg-api-resource-Quantity">k8s.io.apimachinery.pkg.api.resource.Quantity</h2>
+<section>
+<p>Quantity is a fixed-point representation of a number.
+It provides convenient marshaling/unmarshaling in JSON and YAML,
+in addition to String() and Int64() accessors.</p>
+
+<p>The serialization format is:</p>
+
+<p><quantity>        ::= <signedNumber><suffix>
+  (Note that <suffix> may be empty, from the &ldquo;&rdquo; case in <decimalSI>.)
+<digit>           ::= 0 | 1 | &hellip; | 9
+<digits>          ::= <digit> | <digit><digits>
+<number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits>
+<sign>            ::= &ldquo;+&rdquo; | &ldquo;-&rdquo;
+<signedNumber>    ::= <number> | <sign><number>
+<suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI>
+<binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
+  (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
+<decimalSI>       ::= m | &ldquo;&rdquo; | k | M | G | T | P | E
+  (Note that 1024 = 1Ki but 1000 = 1k; I didn&rsquo;t choose the capitalization.)
+<decimalExponent> ::= &ldquo;e&rdquo; <signedNumber> | &ldquo;E&rdquo; <signedNumber></p>
+
+<p>No matter which of the three exponent forms is used, no quantity may represent
+a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal
+places. Numbers larger or more precise will be capped or rounded up.
+(E.g.: 0.1m will rounded up to 1m.)
+This may be extended in the future if we require larger or smaller quantities.</p>
+
+<p>When a Quantity is parsed from a string, it will remember the type of suffix
+it had, and will use the same type again when it is serialized.</p>
+
+<p>Before serializing, Quantity will be put in &ldquo;canonical form&rdquo;.
+This means that Exponent/suffix will be adjusted up or down (with a
+corresponding increase or decrease in Mantissa) such that:
+  a. No precision is lost
+  b. No fractional digits will be emitted
+  c. The exponent (or suffix) is as large as possible.
+The sign will be omitted unless the number is negative.</p>
+
+<p>Examples:
+  1.5 will be serialized as &ldquo;1500m&rdquo;
+  1.5Gi will be serialized as &ldquo;1536Mi&rdquo;</p>
+
+<p>Note that the quantity will NEVER be internally represented by a
+floating point number. That is the whole point of this exercise.</p>
+
+<p>Non-canonical values will still parse as long as they are well formed,
+but will be re-emitted in their canonical form. (So always use canonical
+form, or don&rsquo;t diff.)</p>
+
+<p>This format is intended to make it difficult to use these numbers without
+writing some sort of special handling code in the hopes that that will
+cause implementors to also use a fixed point implementation.</p>
+
+<p>+protobuf=true
++protobuf.embed=string
++protobuf.options.marshal=false
++protobuf.options.(gogoproto.goproto_stringer)=false
++k8s:deepcopy-gen=true
++k8s:openapi-gen=true</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-apimachinery-pkg-api-resource-Quantity-string">
+<td><code>string</code></td>
 <td><code>string</code></td>
 <td>
 </td>
@@ -1068,12 +1969,9 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="IstioOperatorSpec">IstioOperatorSpec</h2>
+<h2 id="BaseComponentSpec">BaseComponentSpec</h2>
 <section>
-<p>IstioOperatorSpec defines the desired installed state of Istio components.
-The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
-Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
-component values.</p>
+<p>Configuration for base component.</p>
 
 <table class="message-fields">
 <thead>
@@ -1085,131 +1983,94 @@ component values.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="IstioOperatorSpec-profile">
-<td><code>profile</code></td>
-<td><code>string</code></td>
+<tr id="BaseComponentSpec-enabled">
+<td><code>enabled</code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
-<p>Path or name for the profile e.g.
-    - minimal (looks in profiles dir for a file called minimal.yaml)
-    - /tmp/istio/install/values/custom/custom-install.yaml (local file path)
-default profile is used if this field is unset.</p>
+<p>Selects whether this component is installed.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-install_package_path">
-<td><code>installPackagePath</code></td>
-<td><code>string</code></td>
+</tbody>
+</table>
+</section>
+<h2 id="ComponentSpec">ComponentSpec</h2>
+<section>
+<p>Configuration for internal components.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ComponentSpec-enabled">
+<td><code>enabled</code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
-<p>Path for the install package. e.g.
-    - /tmp/istio-installer/nightly (local file path)</p>
+<p>Selects whether this component is installed.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-hub">
-<td><code>hub</code></td>
-<td><code>string</code></td>
-<td>
-<p>Root for docker image paths e.g. docker.io/istio</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-tag">
-<td><code>tag</code></td>
-<td><code><a href="#TypeInterface2">TypeInterface2</a></code></td>
-<td>
-<p>Version tag for docker images e.g. 1.0.6</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-namespace">
+<tr id="ComponentSpec-namespace">
 <td><code>namespace</code></td>
 <td><code>string</code></td>
 <td>
-<p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
-as the IstioOperator CR.</p>
+<p>Namespace for the component.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-revision">
-<td><code>revision</code></td>
+<tr id="ComponentSpec-hub">
+<td><code>hub</code></td>
 <td><code>string</code></td>
 <td>
-<p>Identify the revision this installation is associated with.
-This option is currently experimental.</p>
+<p>Hub for the component (overrides top level hub setting).</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-mesh_config">
-<td><code>meshConfig</code></td>
-<td><code><a href="/docs/reference/config/istio.mesh.v1alpha1.html#MeshConfig">MeshConfig</a></code></td>
+<tr id="ComponentSpec-tag">
+<td><code>tag</code></td>
+<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
 <td>
-<p>Config used by control plane components internally.</p>
+<p>Tag for the component (overrides top level tag setting).</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-components">
-<td><code>components</code></td>
-<td><code><a href="#IstioComponentSetSpec">IstioComponentSetSpec</a></code></td>
+<tr id="ComponentSpec-spec">
+<td><code>spec</code></td>
+<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
 <td>
-<p>Kubernetes resource settings, enablement and component-specific settings that are not internal to the
-component.</p>
+<p>Arbitrary install time configuration for the component.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-addon_components">
-<td><code>addonComponents</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<tr id="ComponentSpec-k8s">
+<td><code>k8s</code></td>
+<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
 <td>
-<p>Extra addon components which are not explicitly specified above.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-values">
-<td><code>values</code></td>
-<td><code><a href="#TypeMapStringInterface2">TypeMapStringInterface2</a></code></td>
-<td>
-<p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
-See the Helm installation options for schema details: https://istio.io/docs/reference/config/installation-options/.
-Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
-includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-unvalidated_values">
-<td><code>unvalidatedValues</code></td>
-<td><code><a href="#TypeMapStringInterface2">TypeMapStringInterface2</a></code></td>
-<td>
-<p>Unvalidated overrides for default values.yaml. Used for custom templates where new parameters are added.</p>
+<p>Kubernetes resource spec.</p>
 
 </td>
 <td>
@@ -1219,9 +2080,9 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="K8sObjectOverlay">K8sObjectOverlay</h2>
+<h2 id="ExternalComponentSpec">ExternalComponentSpec</h2>
 <section>
-<p>Patch for an existing k8s resource.</p>
+<p>Configuration for external components.</p>
 
 <table class="message-fields">
 <thead>
@@ -1233,89 +2094,160 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="K8sObjectOverlay-api_version">
-<td><code>apiVersion</code></td>
-<td><code>string</code></td>
+<tr id="ExternalComponentSpec-enabled">
+<td><code>enabled</code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
 <td>
-<p>Resource API version.</p>
+<p>Selects whether this component is installed.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="K8sObjectOverlay-kind">
-<td><code>kind</code></td>
+<tr id="ExternalComponentSpec-namespace">
+<td><code>namespace</code></td>
 <td><code>string</code></td>
 <td>
-<p>Resource kind.</p>
+<p>Namespace for the component.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="K8sObjectOverlay-name">
+<tr id="ExternalComponentSpec-spec">
+<td><code>spec</code></td>
+<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td>
+<p>Arbitrary install time configuration for the component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalComponentSpec-chart_path">
+<td><code>chartPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Chart path for addon components.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalComponentSpec-schema">
+<td><code>schema</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any">Any</a></code></td>
+<td>
+<p>Optional schema to validate spec against.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalComponentSpec-k8s">
+<td><code>k8s</code></td>
+<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
+<td>
+<p>Kubernetes resource spec.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="GatewaySpec">GatewaySpec</h2>
+<section>
+<p>Configuration for gateways.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="GatewaySpec-enabled">
+<td><code>enabled</code></td>
+<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td>
+<p>Selects whether this gateway is installed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Namespace for the gateway.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-name">
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Name of resource.
-Namespace is always the component namespace.</p>
+<p>Name for the gateway.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="K8sObjectOverlay-patches">
-<td><code>patches</code></td>
-<td><code><a href="#K8sObjectOverlay-PathValue">PathValue[]</a></code></td>
+<tr id="GatewaySpec-label">
+<td><code>label</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>List of patches to apply to resource.</p>
+<p>Labels for the gateway.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-</tbody>
-</table>
-</section>
-<h2 id="K8sObjectOverlay-PathValue">K8sObjectOverlay.PathValue</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="K8sObjectOverlay-PathValue-path">
-<td><code>path</code></td>
+<tr id="GatewaySpec-hub">
+<td><code>hub</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path of the form a.[key1:value1].b.[:value2]
-Where [key1:value1] is a selector for a key-value pair to identify a list element and [:value] is a value
-selector to identify a list element in a leaf list.
-All path intermediate nodes must exist.</p>
+<p>Hub for the component (overrides top level hub setting).</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="K8sObjectOverlay-PathValue-value">
-<td><code>value</code></td>
+<tr id="GatewaySpec-tag">
+<td><code>tag</code></td>
 <td><code><a href="#TypeInterface">TypeInterface</a></code></td>
 <td>
-<p>Value to add, delete or replace.
-For add, the path should be a new leaf.
-For delete, value should be unset.
-For replace, path should reference an existing node.
-All values are strings but are converted into appropriate type based on schema.</p>
+<p>Tag for the component (overrides top level tag setting).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GatewaySpec-k8s">
+<td><code>k8s</code></td>
+<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
+<td>
+<p>Kubernetes resource spec.</p>
 
 </td>
 <td>
@@ -1534,8 +2466,10 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="LocalObjectReference">LocalObjectReference</h2>
+<h2 id="K8sObjectOverlay">K8sObjectOverlay</h2>
 <section>
+<p>Patch for an existing k8s resource.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1546,482 +2480,46 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="LocalObjectReference-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="MetricSpec">MetricSpec</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="MetricSpec-type">
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MetricSpec-object">
-<td><code>object</code></td>
-<td><code><a href="#ObjectMetricSource">ObjectMetricSource</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MetricSpec-pods">
-<td><code>pods</code></td>
-<td><code><a href="#PodsMetricSource">PodsMetricSource</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MetricSpec-resource">
-<td><code>resource</code></td>
-<td><code><a href="#ResourceMetricSource">ResourceMetricSource</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MetricSpec-external">
-<td><code>external</code></td>
-<td><code><a href="#ExternalMetricSource">ExternalMetricSource</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="NodeAffinity">NodeAffinity</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="NodeAffinity-requiredDuringSchedulingIgnoredDuringExecution">
-<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#NodeSelector">NodeSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="NodeAffinity-preferredDuringSchedulingIgnoredDuringExecution">
-<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#PreferredSchedulingTerm">PreferredSchedulingTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="NodeSelector">NodeSelector</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="NodeSelector-nodeSelectorTerms">
-<td><code>nodeSelectorTerms</code></td>
-<td><code><a href="#NodeSelectorTerm">NodeSelectorTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="NodeSelectorRequirement">NodeSelectorRequirement</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="NodeSelectorRequirement-key">
-<td><code>key</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="NodeSelectorRequirement-operator">
-<td><code>operator</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="NodeSelectorRequirement-values">
-<td><code>values</code></td>
-<td><code>string[]</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="NodeSelectorTerm">NodeSelectorTerm</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="NodeSelectorTerm-matchExpressions">
-<td><code>matchExpressions</code></td>
-<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="NodeSelectorTerm-matchFields">
-<td><code>matchFields</code></td>
-<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ObjectFieldSelector">ObjectFieldSelector</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ObjectFieldSelector-apiVersion">
+<tr id="K8sObjectOverlay-api_version">
 <td><code>apiVersion</code></td>
 <td><code>string</code></td>
 <td>
+<p>Resource API version.</p>
+
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="ObjectFieldSelector-fieldPath">
-<td><code>fieldPath</code></td>
+<tr id="K8sObjectOverlay-kind">
+<td><code>kind</code></td>
 <td><code>string</code></td>
 <td>
+<p>Resource kind.</p>
+
 </td>
 <td>
 No
 </td>
 </tr>
-</tbody>
-</table>
-</section>
-<h2 id="ObjectMeta">ObjectMeta</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ObjectMeta-name">
+<tr id="K8sObjectOverlay-name">
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>From k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta.</p>
+<p>Name of resource.
+Namespace is always the component namespace.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="ObjectMeta-namespace">
-<td><code>namespace</code></td>
-<td><code>string</code></td>
+<tr id="K8sObjectOverlay-patches">
+<td><code>patches</code></td>
+<td><code><a href="#K8sObjectOverlay-PathValue">PathValue[]</a></code></td>
 <td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ObjectMetricSource">ObjectMetricSource</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ObjectMetricSource-target">
-<td><code>target</code></td>
-<td><code><a href="#CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ObjectMetricSource-metricName">
-<td><code>metricName</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ObjectMetricSource-targetValue">
-<td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ObjectMetricSource-selector">
-<td><code>selector</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ObjectMetricSource-averageValue">
-<td><code>averageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="PodAffinity">PodAffinity</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PodAffinity-requiredDuringSchedulingIgnoredDuringExecution">
-<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodAffinity-preferredDuringSchedulingIgnoredDuringExecution">
-<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="PodAffinityTerm">PodAffinityTerm</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PodAffinityTerm-labelSelector">
-<td><code>labelSelector</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodAffinityTerm-namespaces">
-<td><code>namespaces</code></td>
-<td><code>string[]</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodAffinityTerm-topologyKey">
-<td><code>topologyKey</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="PodAntiAffinity">PodAntiAffinity</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PodAntiAffinity-requiredDuringSchedulingIgnoredDuringExecution">
-<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodAntiAffinity-preferredDuringSchedulingIgnoredDuringExecution">
-<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</h2>
-<section>
-<p>Mirrors k8s.io.api.policy.v1beta1.PodDisruptionBudget for unmarshaling.</p>
+<p>List of patches to apply to resource.</p>
 
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PodDisruptionBudgetSpec-minAvailable">
-<td><code>minAvailable</code></td>
-<td><code>uint32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodDisruptionBudgetSpec-selector">
-<td><code>selector</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodDisruptionBudgetSpec-maxUnavailable">
-<td><code>maxUnavailable</code></td>
-<td><code>uint32</code></td>
-<td>
 </td>
 <td>
 No
@@ -2030,625 +2528,9 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="PodsMetricSource">PodsMetricSource</h2>
+<h2 id="TypeMapStringInterface">TypeMapStringInterface</h2>
 <section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PodsMetricSource-metricName">
-<td><code>metricName</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodsMetricSource-targetAverageValue">
-<td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodsMetricSource-selector">
-<td><code>selector</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="PreferredSchedulingTerm">PreferredSchedulingTerm</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PreferredSchedulingTerm-weight">
-<td><code>weight</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PreferredSchedulingTerm-preference">
-<td><code>preference</code></td>
-<td><code><a href="#NodeSelectorTerm">NodeSelectorTerm</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ReadinessProbe">ReadinessProbe</h2>
-<section>
-<p>Mirrors k8s.io.api.core.v1.Probe for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ReadinessProbe-exec">
-<td><code>exec</code></td>
-<td><code><a href="#ExecAction">ExecAction</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ReadinessProbe-httpGet">
-<td><code>httpGet</code></td>
-<td><code><a href="#HTTPGetAction">HTTPGetAction</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ReadinessProbe-tcpSocket">
-<td><code>tcpSocket</code></td>
-<td><code><a href="#TCPSocketAction">TCPSocketAction</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ReadinessProbe-initialDelaySeconds">
-<td><code>initialDelaySeconds</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ReadinessProbe-timeoutSeconds">
-<td><code>timeoutSeconds</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ReadinessProbe-periodSeconds">
-<td><code>periodSeconds</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ReadinessProbe-successThreshold">
-<td><code>successThreshold</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ReadinessProbe-failureThreshold">
-<td><code>failureThreshold</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ResourceFieldSelector">ResourceFieldSelector</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ResourceFieldSelector-containerName">
-<td><code>containerName</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ResourceFieldSelector-resource">
-<td><code>resource</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ResourceFieldSelector-divisor">
-<td><code>divisor</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ResourceMetricSource">ResourceMetricSource</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ResourceMetricSource-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ResourceMetricSource-targetAverageUtilization">
-<td><code>targetAverageUtilization</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ResourceMetricSource-targetAverageValue">
-<td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Resources">Resources</h2>
-<section>
-<p>Mirrors k8s.io.api.core.v1.ResourceRequirements for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Resources-limits">
-<td><code>limits</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Resources-requests">
-<td><code>requests</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="RollingUpdateDeployment">RollingUpdateDeployment</h2>
-<section>
-<p>Mirrors k8s.io.api.apps.v1.RollingUpdateDeployment for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="RollingUpdateDeployment-maxUnavailable">
-<td><code>maxUnavailable</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="RollingUpdateDeployment-maxSurge">
-<td><code>maxSurge</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="SecretKeySelector">SecretKeySelector</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="SecretKeySelector-localObjectReference">
-<td><code>localObjectReference</code></td>
-<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="SecretKeySelector-key">
-<td><code>key</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="SecretKeySelector-optional">
-<td><code>optional</code></td>
-<td><code>bool</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ServicePort">ServicePort</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ServicePort-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-protocol">
-<td><code>protocol</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-port">
-<td><code>port</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-targetPort">
-<td><code>targetPort</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-nodePort">
-<td><code>nodePort</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ServiceSpec">ServiceSpec</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ServiceSpec-ports">
-<td><code>ports</code></td>
-<td><code><a href="#ServicePort">ServicePort[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-selector">
-<td><code>selector</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-clusterIP">
-<td><code>clusterIP</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-type">
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-externalIPs">
-<td><code>externalIPs</code></td>
-<td><code>string[]</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-sessionAffinity">
-<td><code>sessionAffinity</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-loadBalancerIP">
-<td><code>loadBalancerIP</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-loadBalancerSourceRanges">
-<td><code>loadBalancerSourceRanges</code></td>
-<td><code>string[]</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-externalName">
-<td><code>externalName</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-externalTrafficPolicy">
-<td><code>externalTrafficPolicy</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-healthCheckNodePort">
-<td><code>healthCheckNodePort</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-publishNotReadyAddresses">
-<td><code>publishNotReadyAddresses</code></td>
-<td><code>bool</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServiceSpec-sessionAffinityConfig">
-<td><code>sessionAffinityConfig</code></td>
-<td><code><a href="#SessionAffinityConfig">SessionAffinityConfig</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="SessionAffinityConfig">SessionAffinityConfig</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="SessionAffinityConfig-clientIP">
-<td><code>clientIP</code></td>
-<td><code><a href="#ClientIPConfig">ClientIPConfig</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="TCPSocketAction">TCPSocketAction</h2>
-<section>
-<p>Mirrors k8s.io.api.core.v1.TCPSocketAction for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="TCPSocketAction-port">
-<td><code>port</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="TCPSocketAction-host">
-<td><code>host</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="TypeBoolValueForPB">TypeBoolValueForPB</h2>
-<section>
-<p>GOTYPE: *BoolValueForPB</p>
-
-</section>
-<h2 id="TypeIntOrStringForPB">TypeIntOrStringForPB</h2>
-<section>
-<p>GOTYPE: *IntOrStringForPB</p>
+<p>GOTYPE: map[string]interface{}</p>
 
 </section>
 <h2 id="TypeInterface">TypeInterface</h2>
@@ -2656,28 +2538,12 @@ No
 <p>GOTYPE: interface{}</p>
 
 </section>
-<h2 id="TypeInterface2">TypeInterface2</h2>
+<h2 id="TypeBoolValueForPB">TypeBoolValueForPB</h2>
 <section>
-<p>GOTYPE: interface{}</p>
+<p>GOTYPE: *BoolValueForPB</p>
 
 </section>
-<h2 id="TypeInterface_kubernetes">TypeInterface_kubernetes</h2>
-<section>
-<p>GOTYPE: interface{}</p>
-
-</section>
-<h2 id="TypeMapStringInterface">TypeMapStringInterface</h2>
-<section>
-<p>GOTYPE: map[string]interface{}</p>
-
-</section>
-<h2 id="TypeMapStringInterface2">TypeMapStringInterface2</h2>
-<section>
-<p>This is required because synthetic type definition has file rather than package scope.
-GOTYPE: map[string]interface{}</p>
-
-</section>
-<h2 id="WeightedPodAffinityTerm">WeightedPodAffinityTerm</h2>
+<h2 id="K8sObjectOverlay-PathValue">K8sObjectOverlay.PathValue</h2>
 <section>
 <table class="message-fields">
 <thead>
@@ -2689,19 +2555,30 @@ GOTYPE: map[string]interface{}</p>
 </tr>
 </thead>
 <tbody>
-<tr id="WeightedPodAffinityTerm-weight">
-<td><code>weight</code></td>
-<td><code>int32</code></td>
+<tr id="K8sObjectOverlay-PathValue-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
 <td>
+<p>Path of the form a.[key1:value1].b.[:value2]
+Where [key1:value1] is a selector for a key-value pair to identify a list element and [:value] is a value
+selector to identify a list element in a leaf list.
+All path intermediate nodes must exist.</p>
+
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="WeightedPodAffinityTerm-podAffinityTerm">
-<td><code>podAffinityTerm</code></td>
-<td><code><a href="#PodAffinityTerm">PodAffinityTerm</a></code></td>
+<tr id="K8sObjectOverlay-PathValue-value">
+<td><code>value</code></td>
+<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
 <td>
+<p>Value to add, delete or replace.
+For add, the path should be a new leaf.
+For delete, value should be unset.
+For replace, path should reference an existing node.
+All values are strings but are converted into appropriate type based on schema.</p>
+
 </td>
 <td>
 No
@@ -2797,66 +2674,12 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="k8s-io-apimachinery-pkg-api-resource-Quantity">k8s.io.apimachinery.pkg.api.resource.Quantity</h2>
+<h2 id="IstioOperatorSpec">IstioOperatorSpec</h2>
 <section>
-<p>Quantity is a fixed-point representation of a number.
-It provides convenient marshaling/unmarshaling in JSON and YAML,
-in addition to String() and Int64() accessors.</p>
-
-<p>The serialization format is:</p>
-
-<p><quantity>        ::= <signedNumber><suffix>
-  (Note that <suffix> may be empty, from the &ldquo;&rdquo; case in <decimalSI>.)
-<digit>           ::= 0 | 1 | &hellip; | 9
-<digits>          ::= <digit> | <digit><digits>
-<number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits>
-<sign>            ::= &ldquo;+&rdquo; | &ldquo;-&rdquo;
-<signedNumber>    ::= <number> | <sign><number>
-<suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI>
-<binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
-  (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
-<decimalSI>       ::= m | &ldquo;&rdquo; | k | M | G | T | P | E
-  (Note that 1024 = 1Ki but 1000 = 1k; I didn&rsquo;t choose the capitalization.)
-<decimalExponent> ::= &ldquo;e&rdquo; <signedNumber> | &ldquo;E&rdquo; <signedNumber></p>
-
-<p>No matter which of the three exponent forms is used, no quantity may represent
-a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal
-places. Numbers larger or more precise will be capped or rounded up.
-(E.g.: 0.1m will rounded up to 1m.)
-This may be extended in the future if we require larger or smaller quantities.</p>
-
-<p>When a Quantity is parsed from a string, it will remember the type of suffix
-it had, and will use the same type again when it is serialized.</p>
-
-<p>Before serializing, Quantity will be put in &ldquo;canonical form&rdquo;.
-This means that Exponent/suffix will be adjusted up or down (with a
-corresponding increase or decrease in Mantissa) such that:
-  a. No precision is lost
-  b. No fractional digits will be emitted
-  c. The exponent (or suffix) is as large as possible.
-The sign will be omitted unless the number is negative.</p>
-
-<p>Examples:
-  1.5 will be serialized as &ldquo;1500m&rdquo;
-  1.5Gi will be serialized as &ldquo;1536Mi&rdquo;</p>
-
-<p>Note that the quantity will NEVER be internally represented by a
-floating point number. That is the whole point of this exercise.</p>
-
-<p>Non-canonical values will still parse as long as they are well formed,
-but will be re-emitted in their canonical form. (So always use canonical
-form, or don&rsquo;t diff.)</p>
-
-<p>This format is intended to make it difficult to use these numbers without
-writing some sort of special handling code in the hopes that that will
-cause implementors to also use a fixed point implementation.</p>
-
-<p>+protobuf=true
-+protobuf.embed=string
-+protobuf.options.marshal=false
-+protobuf.options.(gogoproto.goproto_stringer)=false
-+k8s:deepcopy-gen=true
-+k8s:openapi-gen=true</p>
+<p>IstioOperatorSpec defines the desired installed state of Istio components.
+The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
+Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
+component values.</p>
 
 <table class="message-fields">
 <thead>
@@ -2868,10 +2691,132 @@ cause implementors to also use a fixed point implementation.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="k8s-io-apimachinery-pkg-api-resource-Quantity-string">
-<td><code>string</code></td>
+<tr id="IstioOperatorSpec-profile">
+<td><code>profile</code></td>
 <td><code>string</code></td>
 <td>
+<p>Path or name for the profile e.g.
+    - minimal (looks in profiles dir for a file called minimal.yaml)
+    - /tmp/istio/install/values/custom/custom-install.yaml (local file path)
+default profile is used if this field is unset.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-install_package_path">
+<td><code>installPackagePath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path for the install package. e.g.
+    - /tmp/istio-installer/nightly (local file path)</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-hub">
+<td><code>hub</code></td>
+<td><code>string</code></td>
+<td>
+<p>Root for docker image paths e.g. docker.io/istio</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-tag">
+<td><code>tag</code></td>
+<td><code><a href="#TypeInterface2">TypeInterface2</a></code></td>
+<td>
+<p>Version tag for docker images e.g. 1.0.6</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
+as the IstioOperator CR.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-revision">
+<td><code>revision</code></td>
+<td><code>string</code></td>
+<td>
+<p>Identify the revision this installation is associated with.
+This option is currently experimental.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-mesh_config">
+<td><code>meshConfig</code></td>
+<td><code><a href="/docs/reference/config/istio.mesh.v1alpha1.html#MeshConfig">MeshConfig</a></code></td>
+<td>
+<p>Config used by control plane components internally.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-components">
+<td><code>components</code></td>
+<td><code><a href="#IstioComponentSetSpec">IstioComponentSetSpec</a></code></td>
+<td>
+<p>Kubernetes resource settings, enablement and component-specific settings that are not internal to the
+component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-addon_components">
+<td><code>addonComponents</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<td>
+<p>Extra addon components which are not explicitly specified above.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-values">
+<td><code>values</code></td>
+<td><code><a href="#TypeMapStringInterface2">TypeMapStringInterface2</a></code></td>
+<td>
+<p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
+See the Helm installation options for schema details: https://istio.io/docs/reference/config/installation-options/.
+Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
+includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-unvalidated_values">
+<td><code>unvalidatedValues</code></td>
+<td><code><a href="#TypeMapStringInterface2">TypeMapStringInterface2</a></code></td>
+<td>
+<p>Unvalidated overrides for default values.yaml. Used for custom templates where new parameters are added.</p>
+
 </td>
 <td>
 No
@@ -2880,11 +2825,9 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
+<h2 id="InstallStatus">InstallStatus</h2>
 <section>
-<p>A label selector is a label query over a set of resources. The result of matchLabels and
-matchExpressions are ANDed. An empty label selector matches all objects. A null
-label selector matches no objects.</p>
+<p>Observed state of IstioOperator</p>
 
 <table class="message-fields">
 <thead>
@@ -2896,27 +2839,84 @@ label selector matches no objects.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchLabels">
-<td><code>matchLabels</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<tr id="InstallStatus-status">
+<td><code>status</code></td>
+<td><code><a href="#InstallStatus-Status">Status</a></code></td>
 <td>
-<p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
-map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
-operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
-+optional</p>
+<p>Overall status of all components controlled by the operator.
+- If all components have status NONE, overall status is NONE.
+- If all components are HEALTHY, overall status is HEALTHY.
+- If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
+- If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
+- If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
+- If any component is in ERROR state, overall status is ERROR.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchExpressions">
-<td><code>matchExpressions</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
+<tr id="InstallStatus-component_status">
+<td><code>componentStatus</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#InstallStatus-VersionStatus">VersionStatus</a>&gt;</code></td>
 <td>
-<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
-+optional</p>
+<p>Individual status of each component controlled by the operator. The map key is the name of the component.</p>
 
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TypeMapStringInterface2">TypeMapStringInterface2</h2>
+<section>
+<p>This is required because synthetic type definition has file rather than package scope.
+GOTYPE: map[string]interface{}</p>
+
+</section>
+<h2 id="TypeInterface2">TypeInterface2</h2>
+<section>
+<p>GOTYPE: interface{}</p>
+
+</section>
+<h2 id="InstallStatus-VersionStatus">InstallStatus.VersionStatus</h2>
+<section>
+<p>VersionStatus is the status and version of a component.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="InstallStatus-VersionStatus-version">
+<td><code>version</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-VersionStatus-status">
+<td><code>status</code></td>
+<td><code><a href="#InstallStatus-Status">Status</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-VersionStatus-error">
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>
 </td>
 <td>
 No

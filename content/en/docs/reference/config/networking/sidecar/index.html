@@ -399,6 +399,35 @@ spec:
 <p>{{</tab>}}
 {{</tabset>}}</p>
 
+<h2 id="OutboundTrafficPolicy-Mode">OutboundTrafficPolicy.Mode</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="OutboundTrafficPolicy-Mode-REGISTRY_ONLY">
+<td><code>REGISTRY_ONLY</code></td>
+<td>
+<p>Outbound traffic will be restricted to services defined in the
+service registry as well as those defined through <code>ServiceEntry</code> configurations.</p>
+
+</td>
+</tr>
+<tr id="OutboundTrafficPolicy-Mode-ALLOW_ANY">
+<td><code>ALLOW_ANY</code></td>
+<td>
+<p>Outbound traffic to unknown destinations will be allowed, in case
+there are no services or <code>ServiceEntry</code> configurations for the destination port.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="CaptureMode">CaptureMode</h2>
 <section>
 <p><code>CaptureMode</code> describes how traffic to a listener is expected to be
@@ -435,6 +464,157 @@ domain socket. When used in an ingress listener, care needs to be taken
 to ensure that the listener port is not in use by other processes on
 the host.</p>
 
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Sidecar">Sidecar</h2>
+<section>
+<p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
+inbound and outbound communication of the workload instance to which it is
+attached.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Sidecar-workload_selector">
+<td><code>workloadSelector</code></td>
+<td><code><a href="#WorkloadSelector">WorkloadSelector</a></code></td>
+<td>
+<p>Criteria used to select the specific set of pods/VMs on which this
+<code>Sidecar</code> configuration should be applied. If omitted, the <code>Sidecar</code>
+configuration will be applied to all workload instances in the same namespace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sidecar-ingress">
+<td><code>ingress</code></td>
+<td><code><a href="#IstioIngressListener">IstioIngressListener[]</a></code></td>
+<td>
+<p>Ingress specifies the configuration of the sidecar for processing
+inbound traffic to the attached workload instance. If omitted, Istio will
+automatically configure the sidecar based on the information about the workload
+obtained from the orchestration platform (e.g., exposed ports, services,
+etc.). If specified, inbound ports are configured if and only if the
+workload instance is associated with a service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sidecar-egress">
+<td><code>egress</code></td>
+<td><code><a href="#IstioEgressListener">IstioEgressListener[]</a></code></td>
+<td>
+<p>Egress specifies the configuration of the sidecar for processing
+outbound traffic from the attached workload instance to other
+services in the mesh. If not specified, inherits the system
+detected defaults from the namespace-wide or the global default Sidecar.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sidecar-outbound_traffic_policy">
+<td><code>outboundTrafficPolicy</code></td>
+<td><code><a href="#OutboundTrafficPolicy">OutboundTrafficPolicy</a></code></td>
+<td>
+<p>Configuration for the outbound traffic policy.  If your
+application uses one or more external services that are not known
+apriori, setting the policy to <code>ALLOW_ANY</code> will cause the
+sidecars to route any unknown traffic originating from the
+application to its requested destination. If not specified,
+inherits the system detected defaults from the namespace-wide or
+the global default Sidecar.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IstioIngressListener">IstioIngressListener</h2>
+<section>
+<p><code>IstioIngressListener</code> specifies the properties of an inbound
+traffic listener on the sidecar proxy attached to a workload instance.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioIngressListener-port">
+<td><code>port</code></td>
+<td><code><a href="/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
+<td>
+<p>The port associated with the listener.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="IstioIngressListener-bind">
+<td><code>bind</code></td>
+<td><code>string</code></td>
+<td>
+<p>The IP to which the listener should be bound. Must be in the
+format <code>x.x.x.x</code>. Unix domain socket addresses are not allowed in
+the bind field for ingress listeners. If omitted, Istio will
+automatically configure the defaults based on imported services
+and the workload instances to which this configuration is applied
+to.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioIngressListener-capture_mode">
+<td><code>captureMode</code></td>
+<td><code><a href="#CaptureMode">CaptureMode</a></code></td>
+<td>
+<p>The captureMode option dictates how traffic to the listener is
+expected to be captured (or not).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioIngressListener-default_endpoint">
+<td><code>defaultEndpoint</code></td>
+<td><code>string</code></td>
+<td>
+<p>The loopback IP endpoint or Unix domain socket to which
+traffic should be forwarded to. This configuration can be used to
+redirect traffic arriving at the bind <code>IP:Port</code> on the sidecar to a <code>localhost:port</code>
+or Unix domain socket where the application workload instance is listening for
+connections. Format should be <code>127.0.0.1:PORT</code> or <code>unix:///path/to/socket</code></p>
+
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
@@ -553,10 +733,15 @@ Yes
 </tbody>
 </table>
 </section>
-<h2 id="IstioIngressListener">IstioIngressListener</h2>
+<h2 id="WorkloadSelector">WorkloadSelector</h2>
 <section>
-<p><code>IstioIngressListener</code> specifies the properties of an inbound
-traffic listener on the sidecar proxy attached to a workload instance.</p>
+<p><code>WorkloadSelector</code> specifies the criteria used to determine if the <code>Gateway</code>,
+<code>Sidecar</code>, or <code>EnvoyFilter</code> configuration can be applied to a proxy. The matching criteria
+includes the metadata associated with a proxy, workload instance info such as
+labels attached to the pod/VM, or any other info that the proxy provides
+to Istio during the initial handshake. If multiple conditions are
+specified, all conditions need to match in order for the workload instance to be
+selected. Currently, only label based selection mechanism is supported.</p>
 
 <table class="message-fields">
 <thead>
@@ -568,54 +753,14 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="IstioIngressListener-port">
-<td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
+<tr id="WorkloadSelector-labels">
+<td><code>labels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>The port associated with the listener.</p>
-
-</td>
-<td>
-Yes
-</td>
-</tr>
-<tr id="IstioIngressListener-bind">
-<td><code>bind</code></td>
-<td><code>string</code></td>
-<td>
-<p>The IP to which the listener should be bound. Must be in the
-format <code>x.x.x.x</code>. Unix domain socket addresses are not allowed in
-the bind field for ingress listeners. If omitted, Istio will
-automatically configure the defaults based on imported services
-and the workload instances to which this configuration is applied
-to.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioIngressListener-capture_mode">
-<td><code>captureMode</code></td>
-<td><code><a href="#CaptureMode">CaptureMode</a></code></td>
-<td>
-<p>The captureMode option dictates how traffic to the listener is
-expected to be captured (or not).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioIngressListener-default_endpoint">
-<td><code>defaultEndpoint</code></td>
-<td><code>string</code></td>
-<td>
-<p>The loopback IP endpoint or Unix domain socket to which
-traffic should be forwarded to. This configuration can be used to
-redirect traffic arriving at the bind <code>IP:Port</code> on the sidecar to a <code>localhost:port</code>
-or Unix domain socket where the application workload instance is listening for
-connections. Format should be <code>127.0.0.1:PORT</code> or <code>unix:///path/to/socket</code></p>
+<p>One or more labels that indicate a specific set of pods/VMs
+on which this <code>Sidecar</code> configuration should be applied. The scope of
+label search is restricted to the configuration namespace in which the
+the resource is present.</p>
 
 </td>
 <td>
@@ -654,151 +799,6 @@ services can be monitored.</p>
 </td>
 <td>
 No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="OutboundTrafficPolicy-Mode">OutboundTrafficPolicy.Mode</h2>
-<section>
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="OutboundTrafficPolicy-Mode-REGISTRY_ONLY">
-<td><code>REGISTRY_ONLY</code></td>
-<td>
-<p>Outbound traffic will be restricted to services defined in the
-service registry as well as those defined through <code>ServiceEntry</code> configurations.</p>
-
-</td>
-</tr>
-<tr id="OutboundTrafficPolicy-Mode-ALLOW_ANY">
-<td><code>ALLOW_ANY</code></td>
-<td>
-<p>Outbound traffic to unknown destinations will be allowed, in case
-there are no services or <code>ServiceEntry</code> configurations for the destination port.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Sidecar">Sidecar</h2>
-<section>
-<p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
-inbound and outbound communication of the workload instance to which it is
-attached.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Sidecar-workload_selector">
-<td><code>workloadSelector</code></td>
-<td><code><a href="#WorkloadSelector">WorkloadSelector</a></code></td>
-<td>
-<p>Criteria used to select the specific set of pods/VMs on which this
-<code>Sidecar</code> configuration should be applied. If omitted, the <code>Sidecar</code>
-configuration will be applied to all workload instances in the same namespace.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Sidecar-ingress">
-<td><code>ingress</code></td>
-<td><code><a href="#IstioIngressListener">IstioIngressListener[]</a></code></td>
-<td>
-<p>Ingress specifies the configuration of the sidecar for processing
-inbound traffic to the attached workload instance. If omitted, Istio will
-automatically configure the sidecar based on the information about the workload
-obtained from the orchestration platform (e.g., exposed ports, services,
-etc.). If specified, inbound ports are configured if and only if the
-workload instance is associated with a service.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Sidecar-egress">
-<td><code>egress</code></td>
-<td><code><a href="#IstioEgressListener">IstioEgressListener[]</a></code></td>
-<td>
-<p>Egress specifies the configuration of the sidecar for processing
-outbound traffic from the attached workload instance to other
-services in the mesh. If not specified, inherits the system
-detected defaults from the namespace-wide or the global default Sidecar.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Sidecar-outbound_traffic_policy">
-<td><code>outboundTrafficPolicy</code></td>
-<td><code><a href="#OutboundTrafficPolicy">OutboundTrafficPolicy</a></code></td>
-<td>
-<p>Configuration for the outbound traffic policy.  If your
-application uses one or more external services that are not known
-apriori, setting the policy to <code>ALLOW_ANY</code> will cause the
-sidecars to route any unknown traffic originating from the
-application to its requested destination. If not specified,
-inherits the system detected defaults from the namespace-wide or
-the global default Sidecar.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="WorkloadSelector">WorkloadSelector</h2>
-<section>
-<p><code>WorkloadSelector</code> specifies the criteria used to determine if the <code>Gateway</code>,
-<code>Sidecar</code>, or <code>EnvoyFilter</code> configuration can be applied to a proxy. The matching criteria
-includes the metadata associated with a proxy, workload instance info such as
-labels attached to the pod/VM, or any other info that the proxy provides
-to Istio during the initial handshake. If multiple conditions are
-specified, all conditions need to match in order for the workload instance to be
-selected. Currently, only label based selection mechanism is supported.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="WorkloadSelector-labels">
-<td><code>labels</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-<p>One or more labels that indicate a specific set of pods/VMs
-on which this <code>Sidecar</code> configuration should be applied. The scope of
-label search is restricted to the configuration namespace in which the
-the resource is present.</p>
-
-</td>
-<td>
-Yes
 </td>
 </tr>
 </tbody>

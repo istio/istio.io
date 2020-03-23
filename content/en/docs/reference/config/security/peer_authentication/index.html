@@ -10,6 +10,47 @@ schema: istio.security.v1beta1.PeerAuthentication
 aliases: [/docs/reference/config/security/v1beta1/peer_authentication]
 number_of_entries: 3
 ---
+<h2 id="PeerAuthentication-MutualTLS-Mode">PeerAuthentication.MutualTLS.Mode</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PeerAuthentication-MutualTLS-Mode-UNSET">
+<td><code>UNSET</code></td>
+<td>
+<p>Inherit from parent, if has one. Otherwise treated as PERMISSIVE.</p>
+
+</td>
+</tr>
+<tr id="PeerAuthentication-MutualTLS-Mode-DISABLE">
+<td><code>DISABLE</code></td>
+<td>
+<p>Connection is not tunneled.</p>
+
+</td>
+</tr>
+<tr id="PeerAuthentication-MutualTLS-Mode-PERMISSIVE">
+<td><code>PERMISSIVE</code></td>
+<td>
+<p>Connection can be either plaintext or mTLS tunnel.</p>
+
+</td>
+</tr>
+<tr id="PeerAuthentication-MutualTLS-Mode-STRICT">
+<td><code>STRICT</code></td>
+<td>
+<p>Connection is an mTLS tunnel (TLS with client cert must be presented).</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="PeerAuthentication">PeerAuthentication</h2>
 <section>
 <p>PeerAuthentication defines how traffic will be tunneled (or not) to the sidecar.</p>
@@ -163,47 +204,6 @@ No
 </td>
 <td>
 No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="PeerAuthentication-MutualTLS-Mode">PeerAuthentication.MutualTLS.Mode</h2>
-<section>
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PeerAuthentication-MutualTLS-Mode-UNSET">
-<td><code>UNSET</code></td>
-<td>
-<p>Inherit from parent, if has one. Otherwise treated as PERMISSIVE.</p>
-
-</td>
-</tr>
-<tr id="PeerAuthentication-MutualTLS-Mode-DISABLE">
-<td><code>DISABLE</code></td>
-<td>
-<p>Connection is not tunneled.</p>
-
-</td>
-</tr>
-<tr id="PeerAuthentication-MutualTLS-Mode-PERMISSIVE">
-<td><code>PERMISSIVE</code></td>
-<td>
-<p>Connection can be either plaintext or mTLS tunnel.</p>
-
-</td>
-</tr>
-<tr id="PeerAuthentication-MutualTLS-Mode-STRICT">
-<td><code>STRICT</code></td>
-<td>
-<p>Connection is an mTLS tunnel (TLS with client cert must be presented).</p>
-
 </td>
 </tr>
 </tbody>
