@@ -7,7 +7,7 @@ attribution: "Craig Box (Google)"
 keywords: [istiod,control plane,operator]
 ---
 
-当服务需要由不同的团队交付，或者单独部署及扩展的成本小于编排的成本时，微服务是一种很好的模式。我们定期与在现实世界中运行 Istio 的客户和团队进行交流，他们告诉我们，对于 Istio 控制平面而言，情况并非如此。因此，在 Istio 1.5 中，我们更改了 Istio 的打包方式，将控制平面功能合并为一个被称为 **istiod** 的二进制文件。
+当服务需要由不同的团队交付，或者单独部署及扩展的价值高于编排的成本时，微服务是一种很好的模式。我们定期与在现实世界中运行 Istio 的客户和团队进行交流，他们告诉我们，对于 Istio 控制平面而言，情况并非如此。因此，在 Istio 1.5 中，我们更改了 Istio 的打包方式，将控制平面功能合并为一个被称为 **istiod** 的二进制文件。
 
 ## Istio 控制平面的历史{#history-of-the-istio-control-plane}
 
