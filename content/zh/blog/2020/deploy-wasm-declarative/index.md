@@ -7,9 +7,9 @@ attribution: "Christian Posta (Solo.io)"
 keywords: [wasm,extensibility,alpha,operator]
 ---
 
-正如 [Istio 2020——为了商用](/zh/blog/2020/tradewinds-2020/)以及最近的 [Istio 1.5 发布公告](/zh/news/releases/1.5.x/announcing-1.5/)中指出的那样，WebAssembly (Wasm) 现在是用于扩展 Istio 服务代理（ Envoy 代理）功能的（alpha）选项。使用 Wasm，用户可以建立对新协议、自定义指标、日志和其他过滤器的支持。 我们的社区（[Solo.io](https://solo.io)) 与 Google 紧密合作，专注于提升为 Istio 构建、交流和部署 Wasm 扩展的用户体验。 我们发布了 [WebAssembly Hub](https://webassemblyhub.io) 和[相关工具](https://docs.solo.io/web-assembly-hub/latest/installation/)，以在使用 Wasm 时提供“类似 docker ”的体验。
+正如 [Istio 2020——为了商用](/zh/blog/2020/tradewinds-2020/)以及最近的 [Istio 1.5 发布公告](/zh/news/releases/1.5.x/announcing-1.5/)中指出的那样，WebAssembly (Wasm) 现在是用于扩展 Istio 服务代理（ Envoy 代理）功能的（alpha）选项。使用 Wasm，用户可以建立对新协议、自定义指标、日志和其他过滤器的支持。我们的社区（[Solo.io](https://solo.io)) 与 Google 紧密合作，专注于提升为 Istio 构建、交流和部署 Wasm 扩展的用户体验。我们发布了 [WebAssembly Hub](https://webassemblyhub.io) 和[相关工具](https://docs.solo.io/web-assembly-hub/latest/installation/)，以便在使用 Wasm 时可以获得“类似 docker ”的体验。
 
-## 背景
+## 背景{#background}
 
 借助 WebAssembly Hub 工具，我们可以使用 `wasme` CLI 轻松为 Envoy 创建一个 Wasm 项目，将其推送到存储库，然后将其提取或部署到 Istio。例如，要使用 `wasme` 将 Wasm 扩展部署到 Istio，我们可以运行以下命令：
 
@@ -32,9 +32,9 @@ $  wasme deploy istio webassemblyhub.io/ceposta/demo-add-header:v0.2 \
 
 这比手动创建 `EnvoyFilter` 资源并尝试将 Wasm 模块发送到每个 pod（您的目标工作负载的一部分）要容易得多。不管怎么说，这是与 Istio 进行交互的非常必要的方法。就像用户通常不直接在生产环境中使用 `kubectl` ，而是喜欢声明式的、基于资源的工作流一样，我们也希望对 Istio 代理进行自定义。
 
-## 声明式方法
+## 声明式方法{#a-declarative-approach}
 
-WebAssembly Hub 工具还包括[用于将 Wasm 扩展部署到 Istio 工作负载的 operator](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/)。 [operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/)允许用户使用声明性格式定义其 WebAssembly 扩展，并将其留给 operator 以修正部署状态。例如，我们使用 `FilterDeployment` 资源来定义需要扩展的镜像和工作负载：
+WebAssembly Hub 工具还包括[用于将 Wasm 扩展部署到 Istio 工作负载的 operator](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/)。[operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/)允许用户使用声明式的格式定义其 WebAssembly 扩展，并将其交给 operator 以修正部署状态。例如，我们使用 `FilterDeployment` 资源来定义需要扩展的镜像和工作负载：
 
 {{< text yaml >}}
 apiVersion: wasme.io/v1
@@ -57,7 +57,7 @@ spec:
 
 让我们来看看所有这一切在幕后的工作原理。
 
-## 工作原理
+## 工作原理{#how-it-works}
 
 在后台，operator 正在做一些有助于将 Wasm 扩展部署和配置到 Istio 服务代理（ Envoy 代理）中的事情。
 
@@ -68,11 +68,11 @@ spec:
 
 {{< image width="75%"
     link="./how-it-works.png"
-    alt="How the wasme operator works"
-    caption="Understanding how wasme operator works"
+    alt="wasme operator 工作原理"
+    caption="理解 wasme operator 的工作原理"
     >}}
 
-目前，Wasm 镜像需要发布到一个注册表中，以便 operator 能够正确缓存它。缓存 pods 在每个节点上均作为 DaemonSet 运行，以便可以将缓存挂载到 Envoy 容器中。由于它并不是最理想的机制，因此正在改进。理想情况下，我们无需处理任何挂载，而是可以直接通过 HTTP 将模块流式传输到代理，因此请随时关注更新（应在接下来的几天内完成）。使用 `sidecar.istio.io/userVolume` 和 `sidecar.istio.io/userVolumeMount` 注释后，挂载将会建立。有关其工作原理的更多信息，请参见[有关 Istio 资源注释的文档](/zh/docs/reference/config/annotations/)。
+目前，Wasm 镜像需要发布到一个 registry 中，以便 operator 能够正确缓存它。缓存 pod 作为 DaemonSet 运行在每个节点上，以便可以将缓存挂载到 Envoy 容器中。它并不是最理想的机制，我们正在对其进行改进。理想情况下，我们无需处理任何挂载，而是可以直接通过 HTTP 将模块流式传输到代理，因此请随时关注更新（应在接下来的几天内完成）。使用 `sidecar.istio.io/userVolume` 和 `sidecar.istio.io/userVolumeMount` 注释后，挂载将会建立。有关其工作原理的更多信息，请参见[有关 Istio 资源注释的文档](/zh/docs/reference/config/annotations/)。
 
 一旦 Wasm 模块被正确缓存并挂载入工作负载的服务代理中，operator 即可配置 `EnvoyFilter` 资源。
 
@@ -118,9 +118,9 @@ spec:
 
 一旦将 Wasm 扩展加载到 Istio 服务代理，它将使用您引入的任意自定义代码来扩展代理的功能。
 
-## 下一步
+## 下一步{#next-steps}
 
-在此博客中，我们探讨了将 Wasm 扩展安装到 Istio 工作负载中的选项。在 Istio 上开始使用 WebAssembly 的最简单方法是使用 `wasme` 工具[创建一个新的 Wasm 项目](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/)，可使用 C++，AssemblyScript [或Rust，即将推出！]。例如，要设置 C++ Wasm 模块，可以运行：
+在此博客中，我们探讨了将 Wasm 扩展安装到 Istio 工作负载中的选项。在 Istio 上开始使用 WebAssembly 的最简单方法是使用 `wasme` 工具[创建一个新的 Wasm 项目](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/)，可使用 C++，AssemblyScript [或即将推出的 Rust！]。例如，要设置 C++ Wasm 模块，可以运行：
 
 {{< text bash >}}
 $ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
@@ -130,7 +130,7 @@ $ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
 
 查看 [WebAssembly Hub wasme 工具](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/getting_started/)，以在 Istio 上开始使用 Wasm。
 
-## 了解更多
+## 了解更多{#learn-more}
 
 -   [重新定义代理的扩展性](/zh/blog/2020/wasm-announce/)
 
@@ -138,7 +138,7 @@ $ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
 
 -   [Solo 博客](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)
 
--   [Proxy-Wasm ABI specification](https://github.com/proxy-wasm/spec)
+-   [Proxy-Wasm ABI 规范](https://github.com/proxy-wasm/spec)
 
 -   [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md) 以及 [开发者文档](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/blob/master/docs/wasm_filter.md)
 
@@ -148,4 +148,4 @@ $ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
 
 -   [教程](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/)
 
--   Videos on the [Solo.io Youtube Channel](https://www.youtube.com/channel/UCuketWAG3WqYjjxtQ9Q8ApQ)
+-   [Solo.io 的 Youtube 频道](https://www.youtube.com/channel/UCuketWAG3WqYjjxtQ9Q8ApQ)里的视频
