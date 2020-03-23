@@ -22,9 +22,7 @@ weight: 10
 ## 安全{#security}
 
 - **毕业** SDS 稳定，并默认启用。它为 Istio Envoy 代理提供身份配置。
-- **新增** Beta 身份认证 API。新的 API 将对等体（即双向 TLS）和源（JWT）身份验证分别分离到 
-[`PeerAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto) 和 
-[`RequestAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/request_authentication.proto) 中。
+- **新增** Beta 身份认证 API。新的 API 将对等体（即双向 TLS）和源（JWT）身份验证分别分离到 [`PeerAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto) 和 [`RequestAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/request_authentication.proto) 中。
 两个新 API 都是面向工作负载的，在 alpha 版本的 `AuthenticationPolicy` 中它们是面向服务的。
 - **新增** 在授权策略中添加[拒绝语义](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto#L28)。
 - **毕业** [自动双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) 从 alpha 转到 beta。该特性现在默认启用。

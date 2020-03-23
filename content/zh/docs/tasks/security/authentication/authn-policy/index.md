@@ -80,7 +80,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 您可能会看到 destination rules 配置了除上面显示以外的其他 hosts，这依赖于 Istio 的版本。但是，应该没有 destination rules 配置 `foo`、`bar` 和 `legacy` 命名空间中的 hosts，也没有配置通配符 `*`
 {{< /tip >}}
 
-## 自动双向 TLS{#auto-mutual-tls}
+## 自动双向 TLS{#auto-mutual-TLS}
 
 默认情况下，Istio 跟踪迁移到 Istio 代理的服务器工作负载，并配置客户端代理以自动将双向 TLS 流量发送到这些工作负载，并将纯文本流量发送到没有 sidecar 的工作负载。
 
@@ -97,7 +97,6 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
 {{< /text >}}
-
 
 ## 全局启用 Istio 双向 TLS{#globally-enabling-Istio-mutual-TLS}
 
