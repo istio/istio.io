@@ -32,7 +32,7 @@ Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/t
 `--set global.envoyStatsd.enabled=true` flag.
 
 - The `ingress` series of options for configuring a Kubernetes Ingress have been removed.  Kubernetes Ingress is still functional and can be enabled using the
-`--set global.k8sIngress.enabled=true` flag.  Check out [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/)
+`--set global.k8sIngress.enabled=true` flag.  Check out [Securing Kubernetes Ingress with Cert-Manager](/docs/ops/integrations/certmanager/)
 to learn how to secure your Kubernetes ingress resources.
 
 ## Traffic management
