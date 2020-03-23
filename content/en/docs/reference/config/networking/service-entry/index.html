@@ -658,6 +658,100 @@ spec:
 <p>{{</tab>}}
 {{</tabset>}}</p>
 
+<h2 id="ServiceEntry-Location">ServiceEntry.Location</h2>
+<section>
+<p>Location specifies whether the service is part of Istio mesh or
+outside the mesh.  Location determines the behavior of several
+features, such as service-to-service mTLS authentication, policy
+enforcement, etc. When communicating with services outside the mesh,
+Istio&rsquo;s mTLS authentication is disabled, and policy enforcement is
+performed on the client-side as opposed to server-side.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntry-Location-MESH_EXTERNAL">
+<td><code>MESH_EXTERNAL</code></td>
+<td>
+<p>Signifies that the service is external to the mesh. Typically used
+to indicate external services consumed through APIs.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntry-Location-MESH_INTERNAL">
+<td><code>MESH_INTERNAL</code></td>
+<td>
+<p>Signifies that the service is part of the mesh. Typically used to
+indicate services added explicitly as part of expanding the service
+mesh to include unmanaged infrastructure (e.g., VMs added to a
+Kubernetes based service mesh).</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServiceEntry-Resolution">ServiceEntry.Resolution</h2>
+<section>
+<p>Resolution determines how the proxy will resolve the IP addresses of
+the network endpoints associated with the service, so that it can
+route to one of them. The resolution mode specified here has no impact
+on how the application resolves the IP address associated with the
+service. The application may still have to use DNS to resolve the
+service to an IP so that the outbound traffic can be captured by the
+Proxy. Alternatively, for HTTP services, the application could
+directly communicate with the proxy (e.g., by setting HTTP_PROXY) to
+talk to these services.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntry-Resolution-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>Assume that incoming connections have already been resolved (to a
+specific destination IP address). Such connections are typically
+routed via the proxy using mechanisms such as IP table REDIRECT/
+eBPF. After performing any routing related transformations, the
+proxy will forward the connection to the IP address to which the
+connection was bound.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntry-Resolution-STATIC">
+<td><code>STATIC</code></td>
+<td>
+<p>Use the static IP addresses specified in endpoints (see below) as the
+backing instances associated with the service.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntry-Resolution-DNS">
+<td><code>DNS</code></td>
+<td>
+<p>Attempt to resolve the IP address by querying the ambient DNS,
+during request processing. If no endpoints are specified, the proxy
+will resolve the DNS address specified in the hosts field, if
+wildcards are not used. If endpoints are specified, the DNS
+addresses specified in the endpoints will be resolved to determine
+the destination IP address.  DNS resolution cannot be used with Unix
+domain socket endpoints.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="ServiceEntry">ServiceEntry</h2>
 <section>
 <p>ServiceEntry enables adding additional entries into Istio&rsquo;s internal
@@ -925,100 +1019,6 @@ with higher weights will receive proportionally higher traffic.</p>
 </td>
 <td>
 No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ServiceEntry-Location">ServiceEntry.Location</h2>
-<section>
-<p>Location specifies whether the service is part of Istio mesh or
-outside the mesh.  Location determines the behavior of several
-features, such as service-to-service mTLS authentication, policy
-enforcement, etc. When communicating with services outside the mesh,
-Istio&rsquo;s mTLS authentication is disabled, and policy enforcement is
-performed on the client-side as opposed to server-side.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ServiceEntry-Location-MESH_EXTERNAL">
-<td><code>MESH_EXTERNAL</code></td>
-<td>
-<p>Signifies that the service is external to the mesh. Typically used
-to indicate external services consumed through APIs.</p>
-
-</td>
-</tr>
-<tr id="ServiceEntry-Location-MESH_INTERNAL">
-<td><code>MESH_INTERNAL</code></td>
-<td>
-<p>Signifies that the service is part of the mesh. Typically used to
-indicate services added explicitly as part of expanding the service
-mesh to include unmanaged infrastructure (e.g., VMs added to a
-Kubernetes based service mesh).</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ServiceEntry-Resolution">ServiceEntry.Resolution</h2>
-<section>
-<p>Resolution determines how the proxy will resolve the IP addresses of
-the network endpoints associated with the service, so that it can
-route to one of them. The resolution mode specified here has no impact
-on how the application resolves the IP address associated with the
-service. The application may still have to use DNS to resolve the
-service to an IP so that the outbound traffic can be captured by the
-Proxy. Alternatively, for HTTP services, the application could
-directly communicate with the proxy (e.g., by setting HTTP_PROXY) to
-talk to these services.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ServiceEntry-Resolution-NONE">
-<td><code>NONE</code></td>
-<td>
-<p>Assume that incoming connections have already been resolved (to a
-specific destination IP address). Such connections are typically
-routed via the proxy using mechanisms such as IP table REDIRECT/
-eBPF. After performing any routing related transformations, the
-proxy will forward the connection to the IP address to which the
-connection was bound.</p>
-
-</td>
-</tr>
-<tr id="ServiceEntry-Resolution-STATIC">
-<td><code>STATIC</code></td>
-<td>
-<p>Use the static IP addresses specified in endpoints (see below) as the
-backing instances associated with the service.</p>
-
-</td>
-</tr>
-<tr id="ServiceEntry-Resolution-DNS">
-<td><code>DNS</code></td>
-<td>
-<p>Attempt to resolve the IP address by querying the ambient DNS,
-during request processing. If no endpoints are specified, the proxy
-will resolve the DNS address specified in the hosts field, if
-wildcards are not used. If endpoints are specified, the DNS
-addresses specified in the endpoints will be resolved to determine
-the destination IP address.  DNS resolution cannot be used with Unix
-domain socket endpoints.</p>
-
 </td>
 </tr>
 </tbody>
