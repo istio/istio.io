@@ -82,7 +82,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 
 ## 自动双向 TLS{#auto-mutual-tls}
 
-默认情况下，Istio 跟踪迁移到 Istio 代理的服务器工作负载，并配置客户端代理以自动将双向 TLS 流量发送到这些工作负载，并将纯文本流量发送到没有 Sidecar 的工作负载。
+默认情况下，Istio 跟踪迁移到 Istio 代理的服务器工作负载，并配置客户端代理以自动将双向 TLS 流量发送到这些工作负载，并将纯文本流量发送到没有 sidecar 的工作负载。
 
 因此，具有代理的工作负载之间的所有流量都使用双向 TLS，而无需执行任何操作。例如，检查 `httpbin/header` 请求的响应。
 使用双向 TLS 时，代理会将 `X-Forwarded-Client-Cert` 标头注入到后端的上游请求。存在该标头说明流量使用双向 TLS。例如：
@@ -92,7 +92,7 @@ $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metada
 "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>"
 {{< /text >}}
 
-当服务器没有 sidecar 时， `X-Forwarded-Client-Cert` 标头将不存在，这意味着请求是纯文本的。
+当服务器没有 sidecar 时， `X-Forwarded-Client-Cert` 标头将不会存在，这意味着请求是纯文本的。
 
 {{< text bash >}}
 $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
