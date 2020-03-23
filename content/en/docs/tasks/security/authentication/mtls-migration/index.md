@@ -106,7 +106,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 {{< /text >}}
 
-Optionally, you can verify that traffic is encrypted by running tcpdump in a proxy container, but only in an Istio installation with `values.global.proxy.privileged=true`. And you then can determine whether traffic is in plaintext
+Optionally, you can verify that traffic is encrypted by running `tcpdump` in a proxy container, but only in an Istio installation with `values.global.proxy.privileged=true`. And you then can determine whether traffic is in plaintext
 or encrypted.
 
 {{< text bash >}}
