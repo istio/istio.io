@@ -7,7 +7,7 @@ attribution: "Idit Levine (Solo.io)"
 keywords: [wasm,extensibility,alpha,performance,operator]
 ---
 
-*[Originally posted on the Solo.io blog](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)*
+[*Originally posted on the Solo.io blog*](https://www.solo.io/blog/an-extended-and-improved-webassembly-hub-to-helps-bring-the-power-of-webassembly-to-envoy-and-istio/)
 
 As organizations adopt Envoy-based infrastructure like Istio to help solve challenges with microservices communication, they inevitably find themselves needing to customize some part of that infrastructure to fit within their organization's constraints. [WebAssembly (Wasm)](https://webassembly.org/) has emerged as a safe, secure, and dynamic environment for platform extension.
 
