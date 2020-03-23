@@ -107,6 +107,7 @@ az
 backend
 backends
 base64
+Bazel
 BigQuery
 bitpipe
 BlackHole
@@ -200,6 +201,7 @@ datastore
 Datawire
 debian
 decapsulated
+declaratively
 Delayering
 Demailly
 deployment
@@ -263,10 +265,12 @@ GCP_OPTS
 gdb
 git
 GitHub
+GitOps
 GKE-IAM
 GKE-Istio
 GKE-Workloads
 GlueCon
+Gloo
 Gmail
 GoLang
 googleapis.com
@@ -430,6 +434,7 @@ NUL
 NULs
 OAuth2
 oc
+OCI-compliant
 ok
 Okta
 onboarding
