@@ -26,7 +26,9 @@ Refer to [customizing the configuration](/docs/setup/install/istioctl/#customizi
 
 {{< warning >}}
 This document is unfortunately out of date with the latest changes in the set of supported options.
+<!--
 To get the exact set of supported options, please see the [Helm charts]({{< github_tree >}}/install/kubernetes/helm/istio).
+-->
 {{< /warning >}}
 
 <!-- Run python scripts/tablegen.py to generate this table -->
