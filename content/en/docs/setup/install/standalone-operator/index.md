@@ -32,11 +32,24 @@ instead.
     - A service to access operator metrics
     - Necessary Istio operator RBAC rules
 
+    See the available `istioctl operator init` flags to control which namespaces the controller and Istio are installed
+    into and the installed Istio image sources and versions.
+
     Alternatively, you can deploy using `kubectl` from a pre-rendered manifest, which will install the latest released
     version of the operator:
 
     {{< text bash >}}
     $ kubectl apply -f https://istio.io/operator.yaml
+    {{< /text >}}
+
+    Another alternative method of deployment is using Helm:
+
+    {{< text bash >}}
+    $ helm template install/kubernetes/operator/operator-chart/ \
+      --set hub=docker.io/istio \
+      --set tag=1.5.1 \
+      --set operatorNamespace=istio-operator \
+      --set istioNamespace=istio-system | kubectl apply -f -
     {{< /text >}}
 
 ## Install
@@ -163,6 +176,12 @@ $ kubectl delete istiooperators.install.istio.io -n istio-system example-istioco
 
 Wait until Istio is uninstalled - this may take some time.
 Delete the Istio operator:
+
+{{< text bash >}}
+$ istioctl operator remove
+{{< /text >}}
+
+Or:
 
 {{< text bash >}}
 $ kubectl delete ns istio-operator --grace-period=0 --force
