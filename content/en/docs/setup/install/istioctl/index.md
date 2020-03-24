@@ -270,7 +270,7 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
-For backwards compatibility, the previous [Helm installation options](/docs/reference/config/installation-options/)
+For backwards compatibility, the previous [Helm installation options](/docs/reference/config/installation-options/), with the exception of Kubernetes resource settings,
 are also fully supported. To set them on the command line, prepend the option name with "`values.`".
 For example, the following command overrides the `pilot.traceSampling` Helm configuration option:
 
@@ -278,8 +278,11 @@ For example, the following command overrides the `pilot.traceSampling` Helm conf
 $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
-Helm values can also be set in an `IstioOperator` definition as described in
+Helm values can also be set in an `IstioOperator` CR (YAML file) as described in
 [Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api), below.
+
+If you want to set Kubernetes resource settings, use the `IstioOperator` API as described in
+ [Customize Kubernetes settings](#customize-kubernetes-settings).
 {{< /tip >}}
 
 ### Identify an Istio component
