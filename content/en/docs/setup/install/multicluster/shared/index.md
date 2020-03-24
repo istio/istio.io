@@ -288,7 +288,7 @@ EOF
 Apply the remote cluster configuration.
 
 {{< text bash >}}
-$ istioctl --context ${REMOTE_CLUSTER_CTX} manifest apply -f istio-remote0-cluster.yaml
+$ istioctl --context=${REMOTE_CLUSTER_CTX} manifest apply -f istio-remote0-cluster.yaml
 {{< /text >}}
 
 Wait for the remote cluster to be ready.
