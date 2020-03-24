@@ -49,7 +49,7 @@ instead.
       --set hub=docker.io/istio \
       --set tag=1.5.1 \
       --set operatorNamespace=istio-operator \
-      --set istioNamespace=istio-system | kc apply -f -
+      --set istioNamespace=istio-system | kubectl apply -f -
     {{< /text >}}
 
 ## Install
