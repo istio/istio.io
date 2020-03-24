@@ -41,7 +41,7 @@ instead.
     {{< text bash >}}
     $ kubectl apply -f https://istio.io/operator.yaml
     {{< /text >}}
-    
+
     Another alternative method of deployment is using Helm:
 
     {{< text bash >}}
