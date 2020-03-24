@@ -60,7 +60,7 @@
                 {{ if and (eq $parentDir $pageLocation)  (not .Params.draft) }}
 
                     {{- $info := "" -}}
-                    {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                    {{ if or .Params.attribution (gt .Page.ReadingTime 1) }}
                         {{- if .Params.attribution -}}
                             {{- $info = printf "%s %s" (i18n "page_attribution") .Params.attribution -}}
                         {{- end -}}
