@@ -1,7 +1,6 @@
 ---
-title: How can I verify Istio mTLS indeed encrypt the traffic?
-weight: 40
+title: How can I verify that traffic is using mutual TLS encryption?
+weight: 25
 ---
 
-See [Istio mutual TLS migration](/docs/tasks/security/authentication/mtls-migration), where we
-provide instructions on how to use `tcpdump` to determine encryption status.
+If you installed Istio with `values.global.proxy.privildeged=true`, you can use `tcpdump` to determine encryption status. See [Istio mutual TLS migration](/docs/tasks/security/authentication/mtls-migration) for instructions.
