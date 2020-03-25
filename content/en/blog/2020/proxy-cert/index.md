@@ -24,13 +24,13 @@ a certificate using this mechanism.
 In the example application (i.e., Prometheus), a sidecar is added to the
 Prometheus deployment by setting the flag `.Values.prometheus.provisionPrometheusCert`
 to `true` (this flag is set to true by default in an Istio installation).
-The sidecar requests for a certificate and shares the
+This deployed sidecar will then request and share a
 certificate with Prometheus.
 
 The key and certificate provisioned for the example application
-are mounted to the directory `/etc/istio-certs/`.
-To list the key and certificate provisioned for the example application,
-run the following command:
+are mounted in the directory `/etc/istio-certs/`.
+We can list the key and certificate provisioned for the application by
+running the following command:
 
 {{< text bash >}}
 $ kubectl exec -it `kubectl get pod -l app=prometheus -n istio-system -o jsonpath='{.items[0].metadata.name}'` -c prometheus -n istio-system -- ls -la /etc/istio-certs/
