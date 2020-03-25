@@ -36,8 +36,7 @@ running the following command:
 $ kubectl exec -it `kubectl get pod -l app=prometheus -n istio-system -o jsonpath='{.items[0].metadata.name}'` -c prometheus -n istio-system -- ls -la /etc/istio-certs/
 {{< /text >}}
 
-The output from the above command should include non-empty key and certificate files. The following
-is an example output:
+The output from the above command should include non-empty key and certificate files, similar to the following:
 
 {{< text plain >}}
 -rwxr-xr-x    1 root     root          2209 Feb 25 13:06 cert-chain.pem
@@ -45,7 +44,7 @@ is an example output:
 -rwxr-xr-x    1 root     root          1054 Feb 25 13:06 root-cert.pem
 {{< /text >}}
 
-If you want to use the mechanism in this article to provision a certificate
+If you want to use this mechanism to provision a certificate
 to an application, you can imitate the example application and add a sidecar
 like [the one in the example application]({{< github_blob >}}/manifests/istio-telemetry/prometheus/templates/deployment.yaml)
 to your application.
