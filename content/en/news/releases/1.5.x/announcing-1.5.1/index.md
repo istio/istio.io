@@ -18,7 +18,7 @@ This release contains bug fixes to improve robustness and fixes for the security
 - **ISTIO-SECURITY-2020-004** Istio uses a hard coded `signing_key` for Kiali.
 
 __[CVE-2020-1764](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1764)__: Istio uses a default `signing key` to install Kiali. This can allow an attacker with access to Kiali to bypass authentication and gain administrative privileges over Istio.
-In addition, another CVE is fixed in this release, described in the Kiali 1.15.1 [release](https://github.com/kiali/kiali/releases/tag/v1.15.1).
+In addition, another CVE is fixed in this release, described in the Kiali 1.15.1 [release](https://kiali.io/news/security-bulletins/kiali-security-001/).
 
 ## Changes
 
