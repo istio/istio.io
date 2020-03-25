@@ -50,7 +50,7 @@ $ kubectl get cm kiali -n istio-system -o yaml | grep signing_key
 ## Mitigation
 
 * For Istio 1.4.x deployments: update to [Istio 1.4.7](/news/releases/1.4.x/announcing-1.4.7) or later.
-* For Istio 1.5.x deployments: update to [Istio 1.5.1](/news/releases/1.4.x/announcing-1.5.1) or later.
+* For Istio 1.5.x deployments: update to [Istio 1.5.1](/news/releases/1.5.x/announcing-1.5.1) or later.
 * Workaround: You can manually update the signing key to a random token using the following command:
 
     {{< text bash >}}
@@ -58,4 +58,3 @@ $ kubectl get cm kiali -n istio-system -o yaml | grep signing_key
     signing_key: $(tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 20 | head -n 1)\\\nserver:/" \
     | kubectl apply -f - ; kubectl delete pod -l app=kiali -n istio-system
     {{< /text >}}
-
