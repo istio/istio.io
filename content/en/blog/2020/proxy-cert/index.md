@@ -1,7 +1,7 @@
 ---
-title: Provision a certificate and key to your application through files [Experimental]
-description: Provision a certificate and key to your application through files.
-publishdate: 2020-02-20
+title: Provision a certificate and key for an application without sidecars [Experimental]
+description: A mechanism to acquire and share an application certificate and key through mounted files.
+publishdate: 2020-03-25
 attribution: Lei Tang (Google)
 keywords: [certificate,sidecar]
 target_release: 1.5
@@ -9,7 +9,7 @@ target_release: 1.5
 
 {{< boilerplate experimental-feature-warning >}}
 
-Istio sidecars can obtain certificates through
+Istio sidecars obtain their certificates using
 the secret discovery service.
 A service in the service mesh may not need an Envoy sidecar
 to handle its TLS/mTLS connections. Instead, the service wants
