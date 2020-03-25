@@ -303,7 +303,6 @@ spec:
     route:
     - destination:
         host: ratings
-...
 {{< /text >}}
 
 For some match conditions, you can also choose to select them using the exact
