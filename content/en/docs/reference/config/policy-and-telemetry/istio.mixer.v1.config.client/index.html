@@ -14,36 +14,6 @@ number_of_entries: 20
 ---
 <p>Describes the configuration state for the Mixer client library that&rsquo;s built into Envoy.</p>
 
-<h2 id="NetworkFailPolicy-FailPolicy">NetworkFailPolicy.FailPolicy</h2>
-<section>
-<p>Describes the policy.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="NetworkFailPolicy-FailPolicy-FAIL_OPEN">
-<td><code>FAIL_OPEN</code></td>
-<td>
-<p>If network connection fails, request is allowed and delivered to the
-service.</p>
-
-</td>
-</tr>
-<tr id="NetworkFailPolicy-FailPolicy-FAIL_CLOSE">
-<td><code>FAIL_CLOSE</code></td>
-<td>
-<p>If network connection fails, request is rejected.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="IstioService">IstioService</h2>
 <section>
 <p>IstioService identifies a service and optionally service version.
@@ -212,7 +182,7 @@ case-sensitive.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="StringMatch-prefix" class="oneof">
@@ -223,7 +193,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="StringMatch-regex" class="oneof">
@@ -234,7 +204,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -580,7 +550,7 @@ following are valid URI templates:</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="HTTPAPISpecPattern-regex" class="oneof">
@@ -591,7 +561,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -630,7 +600,7 @@ following request:</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="APIKey-header" class="oneof">
@@ -649,7 +619,7 @@ X-API-Key: abcdef12345
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="APIKey-cookie" class="oneof">
@@ -668,7 +638,7 @@ Cookie: X-API-KEY=abcdef12345
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -1342,6 +1312,36 @@ should not be less than 1 second, otherwise it will be reset to 1 second.</p>
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="NetworkFailPolicy-FailPolicy">NetworkFailPolicy.FailPolicy</h2>
+<section>
+<p>Describes the policy.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NetworkFailPolicy-FailPolicy-FAIL_OPEN">
+<td><code>FAIL_OPEN</code></td>
+<td>
+<p>If network connection fails, request is allowed and delivered to the
+service.</p>
+
+</td>
+</tr>
+<tr id="NetworkFailPolicy-FailPolicy-FAIL_CLOSE">
+<td><code>FAIL_CLOSE</code></td>
+<td>
+<p>If network connection fails, request is rejected.</p>
+
 </td>
 </tr>
 </tbody>

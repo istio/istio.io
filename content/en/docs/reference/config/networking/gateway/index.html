@@ -345,124 +345,6 @@ spec:
 <p>{{</tab>}}
 {{</tabset>}}</p>
 
-<h2 id="Server-TLSOptions-TLSmode">Server.TLSOptions.TLSmode</h2>
-<section>
-<p>TLS modes enforced by the proxy</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Server-TLSOptions-TLSmode-PASSTHROUGH">
-<td><code>PASSTHROUGH</code></td>
-<td>
-<p>The SNI string presented by the client will be used as the
-match criterion in a VirtualService TLS route to determine
-the destination service from the service registry.</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSmode-SIMPLE">
-<td><code>SIMPLE</code></td>
-<td>
-<p>Secure connections with standard TLS semantics.</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSmode-MUTUAL">
-<td><code>MUTUAL</code></td>
-<td>
-<p>Secure connections to the downstream using mutual TLS by
-presenting server certificates for authentication.</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSmode-AUTO_PASSTHROUGH">
-<td><code>AUTO_PASSTHROUGH</code></td>
-<td>
-<p>Similar to the passthrough mode, except servers with this TLS
-mode do not require an associated VirtualService to map from
-the SNI value to service in the registry. The destination
-details such as the service/subset/port are encoded in the
-SNI value. The proxy will forward to the upstream (Envoy)
-cluster (a group of endpoints) specified by the SNI
-value. This server is typically used to provide connectivity
-between services in disparate L3 networks that otherwise do
-not have direct connectivity between their respective
-endpoints. Use of this mode assumes that both the source and
-the destination are using Istio mTLS to secure traffic.</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSmode-ISTIO_MUTUAL">
-<td><code>ISTIO_MUTUAL</code></td>
-<td>
-<p>Secure connections from the downstream using mutual TLS by
-presenting server certificates for authentication.  Compared
-to Mutual mode, this mode uses certificates, representing
-gateway workload identity, generated automatically by Istio
-for mTLS authentication. When this mode is used, all other
-fields in <code>TLSOptions</code> should be empty.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</h2>
-<section>
-<p>TLS protocol versions.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Server-TLSOptions-TLSProtocol-TLS_AUTO">
-<td><code>TLS_AUTO</code></td>
-<td>
-<p>Automatically choose the optimal TLS version.</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_0">
-<td><code>TLSV1_0</code></td>
-<td>
-<p>TLS version 1.0</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_1">
-<td><code>TLSV1_1</code></td>
-<td>
-<p>TLS version 1.1</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_2">
-<td><code>TLSV1_2</code></td>
-<td>
-<p>TLS version 1.2</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_3">
-<td><code>TLSV1_3</code></td>
-<td>
-<p>TLS version 1.3</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Gateway">Gateway</h2>
 <section>
 <p>Gateway describes a load balancer operating at the edge of the mesh
@@ -946,6 +828,124 @@ Otherwise default to the default cipher list supported by Envoy.</p>
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Server-TLSOptions-TLSmode">Server.TLSOptions.TLSmode</h2>
+<section>
+<p>TLS modes enforced by the proxy</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Server-TLSOptions-TLSmode-PASSTHROUGH">
+<td><code>PASSTHROUGH</code></td>
+<td>
+<p>The SNI string presented by the client will be used as the
+match criterion in a VirtualService TLS route to determine
+the destination service from the service registry.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSmode-SIMPLE">
+<td><code>SIMPLE</code></td>
+<td>
+<p>Secure connections with standard TLS semantics.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSmode-MUTUAL">
+<td><code>MUTUAL</code></td>
+<td>
+<p>Secure connections to the downstream using mutual TLS by
+presenting server certificates for authentication.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSmode-AUTO_PASSTHROUGH">
+<td><code>AUTO_PASSTHROUGH</code></td>
+<td>
+<p>Similar to the passthrough mode, except servers with this TLS
+mode do not require an associated VirtualService to map from
+the SNI value to service in the registry. The destination
+details such as the service/subset/port are encoded in the
+SNI value. The proxy will forward to the upstream (Envoy)
+cluster (a group of endpoints) specified by the SNI
+value. This server is typically used to provide connectivity
+between services in disparate L3 networks that otherwise do
+not have direct connectivity between their respective
+endpoints. Use of this mode assumes that both the source and
+the destination are using Istio mTLS to secure traffic.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSmode-ISTIO_MUTUAL">
+<td><code>ISTIO_MUTUAL</code></td>
+<td>
+<p>Secure connections from the downstream using mutual TLS by
+presenting server certificates for authentication.  Compared
+to Mutual mode, this mode uses certificates, representing
+gateway workload identity, generated automatically by Istio
+for mTLS authentication. When this mode is used, all other
+fields in <code>TLSOptions</code> should be empty.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</h2>
+<section>
+<p>TLS protocol versions.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Server-TLSOptions-TLSProtocol-TLS_AUTO">
+<td><code>TLS_AUTO</code></td>
+<td>
+<p>Automatically choose the optimal TLS version.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_0">
+<td><code>TLSV1_0</code></td>
+<td>
+<p>TLS version 1.0</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_1">
+<td><code>TLSV1_1</code></td>
+<td>
+<p>TLS version 1.1</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_2">
+<td><code>TLSV1_2</code></td>
+<td>
+<p>TLS version 1.2</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_3">
+<td><code>TLSV1_3</code></td>
+<td>
+<p>TLS version 1.3</p>
+
 </td>
 </tr>
 </tbody>

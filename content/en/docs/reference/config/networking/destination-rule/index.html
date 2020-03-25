@@ -155,143 +155,6 @@ spec:
 <p>{{</tab>}}
 {{</tabset>}}</p>
 
-<h2 id="LoadBalancerSettings-SimpleLB">LoadBalancerSettings.SimpleLB</h2>
-<section>
-<p>Standard load balancing algorithms that require no tuning.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="LoadBalancerSettings-SimpleLB-ROUND_ROBIN">
-<td><code>ROUND_ROBIN</code></td>
-<td>
-<p>Round Robin policy. Default</p>
-
-</td>
-</tr>
-<tr id="LoadBalancerSettings-SimpleLB-LEAST_CONN">
-<td><code>LEAST_CONN</code></td>
-<td>
-<p>The least request load balancer uses an O(1) algorithm which selects
-two random healthy hosts and picks the host which has fewer active
-requests.</p>
-
-</td>
-</tr>
-<tr id="LoadBalancerSettings-SimpleLB-RANDOM">
-<td><code>RANDOM</code></td>
-<td>
-<p>The random load balancer selects a random healthy host. The random
-load balancer generally performs better than round robin if no health
-checking policy is configured.</p>
-
-</td>
-</tr>
-<tr id="LoadBalancerSettings-SimpleLB-PASSTHROUGH">
-<td><code>PASSTHROUGH</code></td>
-<td>
-<p>This option will forward the connection to the original IP address
-requested by the caller without doing any form of load
-balancing. This option must be used with care. It is meant for
-advanced use cases. Refer to Original Destination load balancer in
-Envoy for further details.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy">ConnectionPoolSettings.HTTPSettings.H2UpgradePolicy</h2>
-<section>
-<p>Policy for upgrading http1.1 connections to http2.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-DEFAULT">
-<td><code>DEFAULT</code></td>
-<td>
-<p>Use the global default.</p>
-
-</td>
-</tr>
-<tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-DO_NOT_UPGRADE">
-<td><code>DO_NOT_UPGRADE</code></td>
-<td>
-<p>Do not upgrade the connection to http2.
-This opt-out option overrides the default.</p>
-
-</td>
-</tr>
-<tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-UPGRADE">
-<td><code>UPGRADE</code></td>
-<td>
-<p>Upgrade the connection to http2.
-This opt-in option overrides the default.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="TLSSettings-TLSmode">TLSSettings.TLSmode</h2>
-<section>
-<p>TLS connection mode</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="TLSSettings-TLSmode-DISABLE">
-<td><code>DISABLE</code></td>
-<td>
-<p>Do not setup a TLS connection to the upstream endpoint.</p>
-
-</td>
-</tr>
-<tr id="TLSSettings-TLSmode-SIMPLE">
-<td><code>SIMPLE</code></td>
-<td>
-<p>Originate a TLS connection to the upstream endpoint.</p>
-
-</td>
-</tr>
-<tr id="TLSSettings-TLSmode-MUTUAL">
-<td><code>MUTUAL</code></td>
-<td>
-<p>Secure connections to the upstream using mutual TLS by presenting
-client certificates for authentication.</p>
-
-</td>
-</tr>
-<tr id="TLSSettings-TLSmode-ISTIO_MUTUAL">
-<td><code>ISTIO_MUTUAL</code></td>
-<td>
-<p>Secure connections to the upstream using mutual TLS by presenting
-client certificates for authentication.
-Compared to Mutual mode, this mode uses certificates generated
-automatically by Istio for mTLS authentication. When this mode is
-used, all other fields in <code>TLSSettings</code> should be empty.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="DestinationRule">DestinationRule</h2>
 <section>
 <p>DestinationRule defines policies that apply to traffic intended for a service
@@ -681,7 +544,7 @@ the User cookie as the hash key.</p>
 <td>
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="LoadBalancerSettings-consistent_hash" class="oneof">
@@ -690,7 +553,7 @@ Yes
 <td>
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="LoadBalancerSettings-locality_lb_setting">
@@ -1386,7 +1249,7 @@ service.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-http_cookie" class="oneof">
@@ -1397,7 +1260,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-use_source_ip" class="oneof">
@@ -1408,7 +1271,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-http_query_parameter_name" class="oneof">
@@ -1419,7 +1282,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-minimum_ring_size">
@@ -1805,6 +1668,143 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-SimpleLB">LoadBalancerSettings.SimpleLB</h2>
+<section>
+<p>Standard load balancing algorithms that require no tuning.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-SimpleLB-ROUND_ROBIN">
+<td><code>ROUND_ROBIN</code></td>
+<td>
+<p>Round Robin policy. Default</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-LEAST_CONN">
+<td><code>LEAST_CONN</code></td>
+<td>
+<p>The least request load balancer uses an O(1) algorithm which selects
+two random healthy hosts and picks the host which has fewer active
+requests.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-RANDOM">
+<td><code>RANDOM</code></td>
+<td>
+<p>The random load balancer selects a random healthy host. The random
+load balancer generally performs better than round robin if no health
+checking policy is configured.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-PASSTHROUGH">
+<td><code>PASSTHROUGH</code></td>
+<td>
+<p>This option will forward the connection to the original IP address
+requested by the caller without doing any form of load
+balancing. This option must be used with care. It is meant for
+advanced use cases. Refer to Original Destination load balancer in
+Envoy for further details.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy">ConnectionPoolSettings.HTTPSettings.H2UpgradePolicy</h2>
+<section>
+<p>Policy for upgrading http1.1 connections to http2.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-DEFAULT">
+<td><code>DEFAULT</code></td>
+<td>
+<p>Use the global default.</p>
+
+</td>
+</tr>
+<tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-DO_NOT_UPGRADE">
+<td><code>DO_NOT_UPGRADE</code></td>
+<td>
+<p>Do not upgrade the connection to http2.
+This opt-out option overrides the default.</p>
+
+</td>
+</tr>
+<tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-UPGRADE">
+<td><code>UPGRADE</code></td>
+<td>
+<p>Upgrade the connection to http2.
+This opt-in option overrides the default.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TLSSettings-TLSmode">TLSSettings.TLSmode</h2>
+<section>
+<p>TLS connection mode</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TLSSettings-TLSmode-DISABLE">
+<td><code>DISABLE</code></td>
+<td>
+<p>Do not setup a TLS connection to the upstream endpoint.</p>
+
+</td>
+</tr>
+<tr id="TLSSettings-TLSmode-SIMPLE">
+<td><code>SIMPLE</code></td>
+<td>
+<p>Originate a TLS connection to the upstream endpoint.</p>
+
+</td>
+</tr>
+<tr id="TLSSettings-TLSmode-MUTUAL">
+<td><code>MUTUAL</code></td>
+<td>
+<p>Secure connections to the upstream using mutual TLS by presenting
+client certificates for authentication.</p>
+
+</td>
+</tr>
+<tr id="TLSSettings-TLSmode-ISTIO_MUTUAL">
+<td><code>ISTIO_MUTUAL</code></td>
+<td>
+<p>Secure connections to the upstream using mutual TLS by presenting
+client certificates for authentication.
+Compared to Mutual mode, this mode uses certificates generated
+automatically by Istio for mTLS authentication. When this mode is
+used, all other fields in <code>TLSSettings</code> should be empty.</p>
+
 </td>
 </tr>
 </tbody>

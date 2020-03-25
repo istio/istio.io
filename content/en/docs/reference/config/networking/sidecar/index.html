@@ -399,76 +399,6 @@ spec:
 <p>{{</tab>}}
 {{</tabset>}}</p>
 
-<h2 id="OutboundTrafficPolicy-Mode">OutboundTrafficPolicy.Mode</h2>
-<section>
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="OutboundTrafficPolicy-Mode-REGISTRY_ONLY">
-<td><code>REGISTRY_ONLY</code></td>
-<td>
-<p>Outbound traffic will be restricted to services defined in the
-service registry as well as those defined through <code>ServiceEntry</code> configurations.</p>
-
-</td>
-</tr>
-<tr id="OutboundTrafficPolicy-Mode-ALLOW_ANY">
-<td><code>ALLOW_ANY</code></td>
-<td>
-<p>Outbound traffic to unknown destinations will be allowed, in case
-there are no services or <code>ServiceEntry</code> configurations for the destination port.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="CaptureMode">CaptureMode</h2>
-<section>
-<p><code>CaptureMode</code> describes how traffic to a listener is expected to be
-captured. Applicable only when the listener is bound to an IP.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="CaptureMode-DEFAULT">
-<td><code>DEFAULT</code></td>
-<td>
-<p>The default capture mode defined by the environment.</p>
-
-</td>
-</tr>
-<tr id="CaptureMode-IPTABLES">
-<td><code>IPTABLES</code></td>
-<td>
-<p>Capture traffic using IPtables redirection.</p>
-
-</td>
-</tr>
-<tr id="CaptureMode-NONE">
-<td><code>NONE</code></td>
-<td>
-<p>No traffic capture. When used in an egress listener, the application is
-expected to explicitly communicate with the listener port or Unix
-domain socket. When used in an ingress listener, care needs to be taken
-to ensure that the listener port is not in use by other processes on
-the host.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Sidecar">Sidecar</h2>
 <section>
 <p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
@@ -735,13 +665,15 @@ Yes
 </section>
 <h2 id="WorkloadSelector">WorkloadSelector</h2>
 <section>
-<p><code>WorkloadSelector</code> specifies the criteria used to determine if the <code>Gateway</code>,
-<code>Sidecar</code>, or <code>EnvoyFilter</code> configuration can be applied to a proxy. The matching criteria
-includes the metadata associated with a proxy, workload instance info such as
-labels attached to the pod/VM, or any other info that the proxy provides
-to Istio during the initial handshake. If multiple conditions are
-specified, all conditions need to match in order for the workload instance to be
-selected. Currently, only label based selection mechanism is supported.</p>
+<p><code>WorkloadSelector</code> specifies the criteria used to determine if the
+<code>Gateway</code>, <code>Sidecar</code>, or <code>EnvoyFilter</code> or <code>ServiceEntry</code>
+configuration can be applied to a proxy. The matching criteria
+includes the metadata associated with a proxy, workload instance
+info such as labels attached to the pod/VM, or any other info that
+the proxy provides to Istio during the initial handshake. If
+multiple conditions are specified, all conditions need to match in
+order for the workload instance to be selected. Currently, only
+label based selection mechanism is supported.</p>
 
 <table class="message-fields">
 <thead>
@@ -758,7 +690,7 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
 <p>One or more labels that indicate a specific set of pods/VMs
-on which this <code>Sidecar</code> configuration should be applied. The scope of
+on which the configuration should be applied. The scope of
 label search is restricted to the configuration namespace in which the
 the resource is present.</p>
 
@@ -799,6 +731,76 @@ services can be monitored.</p>
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="OutboundTrafficPolicy-Mode">OutboundTrafficPolicy.Mode</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="OutboundTrafficPolicy-Mode-REGISTRY_ONLY">
+<td><code>REGISTRY_ONLY</code></td>
+<td>
+<p>Outbound traffic will be restricted to services defined in the
+service registry as well as those defined through <code>ServiceEntry</code> configurations.</p>
+
+</td>
+</tr>
+<tr id="OutboundTrafficPolicy-Mode-ALLOW_ANY">
+<td><code>ALLOW_ANY</code></td>
+<td>
+<p>Outbound traffic to unknown destinations will be allowed, in case
+there are no services or <code>ServiceEntry</code> configurations for the destination port.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="CaptureMode">CaptureMode</h2>
+<section>
+<p><code>CaptureMode</code> describes how traffic to a listener is expected to be
+captured. Applicable only when the listener is bound to an IP.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="CaptureMode-DEFAULT">
+<td><code>DEFAULT</code></td>
+<td>
+<p>The default capture mode defined by the environment.</p>
+
+</td>
+</tr>
+<tr id="CaptureMode-IPTABLES">
+<td><code>IPTABLES</code></td>
+<td>
+<p>Capture traffic using IPtables redirection.</p>
+
+</td>
+</tr>
+<tr id="CaptureMode-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>No traffic capture. When used in an egress listener, the application is
+expected to explicitly communicate with the listener port or Unix
+domain socket. When used in an ingress listener, care needs to be taken
+to ensure that the listener port is not in use by other processes on
+the host.</p>
+
 </td>
 </tr>
 </tbody>
