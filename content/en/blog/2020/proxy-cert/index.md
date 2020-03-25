@@ -11,9 +11,12 @@ target_release: 1.5
 
 Istio sidecars can obtain certificates through
 the secret discovery service.
-For an application without a sidecar to get a certificate,
-it may deploy a sidecar to provision the private key and certificates through
-the CSR flow from the CA and share the certificate with the application
+A service in the service mesh may not need an Envoy sidecar
+to handle its TLS/mTLS connections. Instead, the service wants
+to obtain a certificate and handle the TLS/mTLS connections itself.
+For a service not needing a sidecar to get a certificate,
+it may deploy a sidecar only to provision the private key and certificates through
+the CSR flow from the CA and share the certificate with the service
 through a mounted file in `tmpfs`.
 We use Prometheus as an example application to show provisioning
 a certificate through such mechanism.
