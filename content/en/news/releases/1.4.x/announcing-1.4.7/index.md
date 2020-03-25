@@ -3,7 +3,7 @@ title: Announcing Istio 1.4.7
 linktitle: 1.4.7
 subtitle: Patch Release
 description: Istio 1.4.7 patch release.
-publishdate: 2020-03-03
+publishdate: 2020-03-25
 release: 1.4.7
 aliases:
     - /news/announcing-1.4.7
