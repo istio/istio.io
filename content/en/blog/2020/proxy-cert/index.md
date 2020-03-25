@@ -18,12 +18,12 @@ For a service with no need of a sidecar to manage its traffic, a sidecar can nev
 deployed only to provision the private key and certificates through
 the CSR flow from the CA and then share the certificate with the service
 through a mounted file in `tmpfs`.
-We use Prometheus as an example application to show provisioning
-a certificate through such mechanism.
+We have used Prometheus as our example application for provisioning
+a certificate using this mechanism.
 
 In the example application (i.e., Prometheus), a sidecar is added to the
-Prometheus deployment when the flag `.Values.prometheus.provisionPrometheusCert`
-is set to `true` (this flag is set as true by default in an Istio installation).
+Prometheus deployment by setting the flag `.Values.prometheus.provisionPrometheusCert`
+to `true` (this flag is set to true by default in an Istio installation).
 The sidecar requests for a certificate and shares the
 certificate with Prometheus.
 
