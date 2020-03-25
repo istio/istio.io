@@ -3,7 +3,7 @@ title: Announcing Istio 1.5.1
 linktitle: 1.5.1
 subtitle: Patch Release
 description: Istio 1.5.1 patch release.
-publishdate: 2020-03-26
+publishdate: 2020-03-25
 release: 1.5.1
 aliases:
     - /news/announcing-1.5.1
