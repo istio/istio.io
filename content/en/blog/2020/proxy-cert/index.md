@@ -1,5 +1,5 @@
 ---
-title: Provision a certificate and key for an application without sidecars [Experimental]
+title: Provision a certificate and key for an application without sidecars
 description: A mechanism to acquire and share an application certificate and key through mounted files.
 publishdate: 2020-03-25
 attribution: Lei Tang (Google)
@@ -14,6 +14,7 @@ the secret discovery service.
 A service in the service mesh may not need (or want) an Envoy sidecar
 to handle its traffic. In this case, the service will need
 to obtain a certificate itself if it wants to connect to other TLS or mutual TLS secured services.
+
 For a service with no need of a sidecar to manage its traffic, a sidecar can nevertheless still be
 deployed only to provision the private key and certificates through
 the CSR flow from the CA and then share the certificate with the service
