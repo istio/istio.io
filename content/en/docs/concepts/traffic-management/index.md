@@ -304,13 +304,6 @@ spec:
     - destination:
         host: ratings
 ...
-
-  http:
-  - match:
-    - sourceLabels:
-        app: reviews
-    route:
-...
 {{< /text >}}
 
 For some match conditions, you can also choose to select them using the exact
