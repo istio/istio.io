@@ -11,56 +11,6 @@ number_of_entries: 60
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
-<h2 id="InstallStatus-Status">InstallStatus.Status</h2>
-<section>
-<p>Status describes the current state of a component.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-Status-NONE">
-<td><code>NONE</code></td>
-<td>
-<p>Component is not present.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-UPDATING">
-<td><code>UPDATING</code></td>
-<td>
-<p>Component is being updated to a different version.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-RECONCILING">
-<td><code>RECONCILING</code></td>
-<td>
-<p>Controller has started but not yet completed reconciliation loop for the component.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-HEALTHY">
-<td><code>HEALTHY</code></td>
-<td>
-<p>Component is healthy.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-ERROR">
-<td><code>ERROR</code></td>
-<td>
-<p>Component is in an error state.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Resources">Resources</h2>
 <section>
 <p>Mirrors k8s.io.api.core.v1.ResourceRequirements for unmarshaling.</p>
@@ -2920,6 +2870,56 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="InstallStatus-Status">InstallStatus.Status</h2>
+<section>
+<p>Status describes the current state of a component.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="InstallStatus-Status-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>Component is not present.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-UPDATING">
+<td><code>UPDATING</code></td>
+<td>
+<p>Component is being updated to a different version.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-RECONCILING">
+<td><code>RECONCILING</code></td>
+<td>
+<p>Controller has started but not yet completed reconciliation loop for the component.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-HEALTHY">
+<td><code>HEALTHY</code></td>
+<td>
+<p>Component is healthy.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-ERROR">
+<td><code>ERROR</code></td>
+<td>
+<p>Component is in an error state.</p>
+
 </td>
 </tr>
 </tbody>

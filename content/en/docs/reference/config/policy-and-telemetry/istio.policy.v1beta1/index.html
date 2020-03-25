@@ -12,512 +12,6 @@ number_of_entries: 26
 ---
 <p>Describes the rules used to configure Mixer&rsquo;s policy and telemetry features.</p>
 
-<h2 id="ValueType">ValueType</h2>
-<section>
-<p>ValueType describes the types that values in the Istio system can take. These
-are used to describe the type of Attributes at run time, describe the type of
-the result of evaluating an expression, and to describe the runtime type of
-fields of other descriptors.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ValueType-VALUE_TYPE_UNSPECIFIED">
-<td><code>VALUE_TYPE_UNSPECIFIED</code></td>
-<td>
-<p>Invalid, default value.</p>
-
-</td>
-</tr>
-<tr id="ValueType-STRING">
-<td><code>STRING</code></td>
-<td>
-<p>An undiscriminated variable-length string.</p>
-
-</td>
-</tr>
-<tr id="ValueType-INT64">
-<td><code>INT64</code></td>
-<td>
-<p>An undiscriminated 64-bit signed integer.</p>
-
-</td>
-</tr>
-<tr id="ValueType-DOUBLE">
-<td><code>DOUBLE</code></td>
-<td>
-<p>An undiscriminated 64-bit floating-point value.</p>
-
-</td>
-</tr>
-<tr id="ValueType-BOOL">
-<td><code>BOOL</code></td>
-<td>
-<p>An undiscriminated boolean value.</p>
-
-</td>
-</tr>
-<tr id="ValueType-TIMESTAMP">
-<td><code>TIMESTAMP</code></td>
-<td>
-<p>A point in time.</p>
-
-</td>
-</tr>
-<tr id="ValueType-IP_ADDRESS">
-<td><code>IP_ADDRESS</code></td>
-<td>
-<p>An IP address.</p>
-
-</td>
-</tr>
-<tr id="ValueType-EMAIL_ADDRESS">
-<td><code>EMAIL_ADDRESS</code></td>
-<td>
-<p>An email address.</p>
-
-</td>
-</tr>
-<tr id="ValueType-URI">
-<td><code>URI</code></td>
-<td>
-<p>A URI.</p>
-
-</td>
-</tr>
-<tr id="ValueType-DNS_NAME">
-<td><code>DNS_NAME</code></td>
-<td>
-<p>A DNS name.</p>
-
-</td>
-</tr>
-<tr id="ValueType-DURATION">
-<td><code>DURATION</code></td>
-<td>
-<p>A span between two points in time.</p>
-
-</td>
-</tr>
-<tr id="ValueType-STRING_MAP">
-<td><code>STRING_MAP</code></td>
-<td>
-<p>A map string -&gt; string, typically used by headers.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="HttpStatusCode">HttpStatusCode</h2>
-<section>
-<p>HTTP response codes.
-For more details: http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="HttpStatusCode-Empty">
-<td><code>Empty</code></td>
-<td>
-<p>Empty - This code not part of the HTTP status code specification, but it is needed for proto
-<code>enum</code> type.</p>
-
-</td>
-</tr>
-<tr id="HttpStatusCode-Continue">
-<td><code>Continue</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-OK">
-<td><code>OK</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Created">
-<td><code>Created</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Accepted">
-<td><code>Accepted</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NonAuthoritativeInformation">
-<td><code>NonAuthoritativeInformation</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NoContent">
-<td><code>NoContent</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-ResetContent">
-<td><code>ResetContent</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-PartialContent">
-<td><code>PartialContent</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-MultiStatus">
-<td><code>MultiStatus</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-AlreadyReported">
-<td><code>AlreadyReported</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-IMUsed">
-<td><code>IMUsed</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-MultipleChoices">
-<td><code>MultipleChoices</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-MovedPermanently">
-<td><code>MovedPermanently</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Found">
-<td><code>Found</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-SeeOther">
-<td><code>SeeOther</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NotModified">
-<td><code>NotModified</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-UseProxy">
-<td><code>UseProxy</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-TemporaryRedirect">
-<td><code>TemporaryRedirect</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-PermanentRedirect">
-<td><code>PermanentRedirect</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-BadRequest">
-<td><code>BadRequest</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Unauthorized">
-<td><code>Unauthorized</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-PaymentRequired">
-<td><code>PaymentRequired</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Forbidden">
-<td><code>Forbidden</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NotFound">
-<td><code>NotFound</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-MethodNotAllowed">
-<td><code>MethodNotAllowed</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NotAcceptable">
-<td><code>NotAcceptable</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-ProxyAuthenticationRequired">
-<td><code>ProxyAuthenticationRequired</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-RequestTimeout">
-<td><code>RequestTimeout</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Conflict">
-<td><code>Conflict</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Gone">
-<td><code>Gone</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-LengthRequired">
-<td><code>LengthRequired</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-PreconditionFailed">
-<td><code>PreconditionFailed</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-PayloadTooLarge">
-<td><code>PayloadTooLarge</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-URITooLong">
-<td><code>URITooLong</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-UnsupportedMediaType">
-<td><code>UnsupportedMediaType</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-RangeNotSatisfiable">
-<td><code>RangeNotSatisfiable</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-ExpectationFailed">
-<td><code>ExpectationFailed</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-MisdirectedRequest">
-<td><code>MisdirectedRequest</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-UnprocessableEntity">
-<td><code>UnprocessableEntity</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-Locked">
-<td><code>Locked</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-FailedDependency">
-<td><code>FailedDependency</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-UpgradeRequired">
-<td><code>UpgradeRequired</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-PreconditionRequired">
-<td><code>PreconditionRequired</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-TooManyRequests">
-<td><code>TooManyRequests</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-RequestHeaderFieldsTooLarge">
-<td><code>RequestHeaderFieldsTooLarge</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-InternalServerError">
-<td><code>InternalServerError</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NotImplemented">
-<td><code>NotImplemented</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-BadGateway">
-<td><code>BadGateway</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-ServiceUnavailable">
-<td><code>ServiceUnavailable</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-GatewayTimeout">
-<td><code>GatewayTimeout</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-HTTPVersionNotSupported">
-<td><code>HTTPVersionNotSupported</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-VariantAlsoNegotiates">
-<td><code>VariantAlsoNegotiates</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-InsufficientStorage">
-<td><code>InsufficientStorage</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-LoopDetected">
-<td><code>LoopDetected</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NotExtended">
-<td><code>NotExtended</code></td>
-<td>
-</td>
-</tr>
-<tr id="HttpStatusCode-NetworkAuthenticationRequired">
-<td><code>NetworkAuthenticationRequired</code></td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Rule-HeaderOperationTemplate-Operation">Rule.HeaderOperationTemplate.Operation</h2>
-<section>
-<p>Header operation type.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Rule-HeaderOperationTemplate-Operation-REPLACE">
-<td><code>REPLACE</code></td>
-<td>
-<p>Replace a header by name.</p>
-
-</td>
-</tr>
-<tr id="Rule-HeaderOperationTemplate-Operation-REMOVE">
-<td><code>REMOVE</code></td>
-<td>
-<p>Remove a header by name. Values are ignored.</p>
-
-</td>
-</tr>
-<tr id="Rule-HeaderOperationTemplate-Operation-APPEND">
-<td><code>APPEND</code></td>
-<td>
-<p>Append values to the existing header values.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="FractionalPercent-DenominatorType">FractionalPercent.DenominatorType</h2>
-<section>
-<p>Fraction percentages support several fixed denominator values.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="FractionalPercent-DenominatorType-HUNDRED">
-<td><code>HUNDRED</code></td>
-<td>
-<p>100.</p>
-
-<p><strong>Example</strong>: <sup>1</sup>&frasl;<sub>100</sub> = 1%.</p>
-
-</td>
-</tr>
-<tr id="FractionalPercent-DenominatorType-TEN_THOUSAND">
-<td><code>TEN_THOUSAND</code></td>
-<td>
-<p>10,000.</p>
-
-<p><strong>Example</strong>: <sup>1</sup>&frasl;<sub>10000</sub> = 0.01%.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Tls-AuthHeader">Tls.AuthHeader</h2>
-<section>
-<p>AuthHeader specifies how to pass access token with authorization header.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tls-AuthHeader-PLAIN">
-<td><code>PLAIN</code></td>
-<td>
-<p>Access token is passed in authorization header as what it is
-(authorization: some-token).</p>
-
-</td>
-</tr>
-<tr id="Tls-AuthHeader-BEARER">
-<td><code>BEARER</code></td>
-<td>
-<p>Access token is passed to adapter as bearer token (i.e. authorization:
-bearer some-token).</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Value">Value</h2>
 <section>
 <p>An instance field of type Value denotes that the expression for the field is of dynamic type and can evaluate to any
@@ -548,7 +42,7 @@ the equivalent oneof field in <code>Value</code> is populated by Mixer and passe
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-int64_value" class="oneof">
@@ -559,7 +53,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-double_value" class="oneof">
@@ -570,7 +64,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-bool_value" class="oneof">
@@ -581,7 +75,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-ip_address_value" class="oneof">
@@ -592,7 +86,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-timestamp_value" class="oneof">
@@ -603,7 +97,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-duration_value" class="oneof">
@@ -614,7 +108,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-email_address_value" class="oneof">
@@ -625,7 +119,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-dns_name_value" class="oneof">
@@ -636,7 +130,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-uri_value" class="oneof">
@@ -647,7 +141,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Value-string_map_value" class="oneof">
@@ -658,7 +152,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -1477,7 +971,7 @@ in each call for client authentication.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Authentication-mutual" class="oneof">
@@ -1489,7 +983,7 @@ client certificates for authentication.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -1531,7 +1025,7 @@ key, etc).</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Tls-oauth" class="oneof">
@@ -1542,7 +1036,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Tls-auth_header" class="oneof oneof-start">
@@ -1553,7 +1047,7 @@ Yes
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Tls-custom_header" class="oneof">
@@ -1565,7 +1059,7 @@ passed as what it is.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="Tls-server_name">
@@ -1861,6 +1355,512 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ValueType">ValueType</h2>
+<section>
+<p>ValueType describes the types that values in the Istio system can take. These
+are used to describe the type of Attributes at run time, describe the type of
+the result of evaluating an expression, and to describe the runtime type of
+fields of other descriptors.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ValueType-VALUE_TYPE_UNSPECIFIED">
+<td><code>VALUE_TYPE_UNSPECIFIED</code></td>
+<td>
+<p>Invalid, default value.</p>
+
+</td>
+</tr>
+<tr id="ValueType-STRING">
+<td><code>STRING</code></td>
+<td>
+<p>An undiscriminated variable-length string.</p>
+
+</td>
+</tr>
+<tr id="ValueType-INT64">
+<td><code>INT64</code></td>
+<td>
+<p>An undiscriminated 64-bit signed integer.</p>
+
+</td>
+</tr>
+<tr id="ValueType-DOUBLE">
+<td><code>DOUBLE</code></td>
+<td>
+<p>An undiscriminated 64-bit floating-point value.</p>
+
+</td>
+</tr>
+<tr id="ValueType-BOOL">
+<td><code>BOOL</code></td>
+<td>
+<p>An undiscriminated boolean value.</p>
+
+</td>
+</tr>
+<tr id="ValueType-TIMESTAMP">
+<td><code>TIMESTAMP</code></td>
+<td>
+<p>A point in time.</p>
+
+</td>
+</tr>
+<tr id="ValueType-IP_ADDRESS">
+<td><code>IP_ADDRESS</code></td>
+<td>
+<p>An IP address.</p>
+
+</td>
+</tr>
+<tr id="ValueType-EMAIL_ADDRESS">
+<td><code>EMAIL_ADDRESS</code></td>
+<td>
+<p>An email address.</p>
+
+</td>
+</tr>
+<tr id="ValueType-URI">
+<td><code>URI</code></td>
+<td>
+<p>A URI.</p>
+
+</td>
+</tr>
+<tr id="ValueType-DNS_NAME">
+<td><code>DNS_NAME</code></td>
+<td>
+<p>A DNS name.</p>
+
+</td>
+</tr>
+<tr id="ValueType-DURATION">
+<td><code>DURATION</code></td>
+<td>
+<p>A span between two points in time.</p>
+
+</td>
+</tr>
+<tr id="ValueType-STRING_MAP">
+<td><code>STRING_MAP</code></td>
+<td>
+<p>A map string -&gt; string, typically used by headers.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HttpStatusCode">HttpStatusCode</h2>
+<section>
+<p>HTTP response codes.
+For more details: http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HttpStatusCode-Empty">
+<td><code>Empty</code></td>
+<td>
+<p>Empty - This code not part of the HTTP status code specification, but it is needed for proto
+<code>enum</code> type.</p>
+
+</td>
+</tr>
+<tr id="HttpStatusCode-Continue">
+<td><code>Continue</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-OK">
+<td><code>OK</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Created">
+<td><code>Created</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Accepted">
+<td><code>Accepted</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NonAuthoritativeInformation">
+<td><code>NonAuthoritativeInformation</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NoContent">
+<td><code>NoContent</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-ResetContent">
+<td><code>ResetContent</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-PartialContent">
+<td><code>PartialContent</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-MultiStatus">
+<td><code>MultiStatus</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-AlreadyReported">
+<td><code>AlreadyReported</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-IMUsed">
+<td><code>IMUsed</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-MultipleChoices">
+<td><code>MultipleChoices</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-MovedPermanently">
+<td><code>MovedPermanently</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Found">
+<td><code>Found</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-SeeOther">
+<td><code>SeeOther</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NotModified">
+<td><code>NotModified</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-UseProxy">
+<td><code>UseProxy</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-TemporaryRedirect">
+<td><code>TemporaryRedirect</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-PermanentRedirect">
+<td><code>PermanentRedirect</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-BadRequest">
+<td><code>BadRequest</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Unauthorized">
+<td><code>Unauthorized</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-PaymentRequired">
+<td><code>PaymentRequired</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Forbidden">
+<td><code>Forbidden</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NotFound">
+<td><code>NotFound</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-MethodNotAllowed">
+<td><code>MethodNotAllowed</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NotAcceptable">
+<td><code>NotAcceptable</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-ProxyAuthenticationRequired">
+<td><code>ProxyAuthenticationRequired</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-RequestTimeout">
+<td><code>RequestTimeout</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Conflict">
+<td><code>Conflict</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Gone">
+<td><code>Gone</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-LengthRequired">
+<td><code>LengthRequired</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-PreconditionFailed">
+<td><code>PreconditionFailed</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-PayloadTooLarge">
+<td><code>PayloadTooLarge</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-URITooLong">
+<td><code>URITooLong</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-UnsupportedMediaType">
+<td><code>UnsupportedMediaType</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-RangeNotSatisfiable">
+<td><code>RangeNotSatisfiable</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-ExpectationFailed">
+<td><code>ExpectationFailed</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-MisdirectedRequest">
+<td><code>MisdirectedRequest</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-UnprocessableEntity">
+<td><code>UnprocessableEntity</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-Locked">
+<td><code>Locked</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-FailedDependency">
+<td><code>FailedDependency</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-UpgradeRequired">
+<td><code>UpgradeRequired</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-PreconditionRequired">
+<td><code>PreconditionRequired</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-TooManyRequests">
+<td><code>TooManyRequests</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-RequestHeaderFieldsTooLarge">
+<td><code>RequestHeaderFieldsTooLarge</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-InternalServerError">
+<td><code>InternalServerError</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NotImplemented">
+<td><code>NotImplemented</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-BadGateway">
+<td><code>BadGateway</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-ServiceUnavailable">
+<td><code>ServiceUnavailable</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-GatewayTimeout">
+<td><code>GatewayTimeout</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-HTTPVersionNotSupported">
+<td><code>HTTPVersionNotSupported</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-VariantAlsoNegotiates">
+<td><code>VariantAlsoNegotiates</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-InsufficientStorage">
+<td><code>InsufficientStorage</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-LoopDetected">
+<td><code>LoopDetected</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NotExtended">
+<td><code>NotExtended</code></td>
+<td>
+</td>
+</tr>
+<tr id="HttpStatusCode-NetworkAuthenticationRequired">
+<td><code>NetworkAuthenticationRequired</code></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Rule-HeaderOperationTemplate-Operation">Rule.HeaderOperationTemplate.Operation</h2>
+<section>
+<p>Header operation type.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Rule-HeaderOperationTemplate-Operation-REPLACE">
+<td><code>REPLACE</code></td>
+<td>
+<p>Replace a header by name.</p>
+
+</td>
+</tr>
+<tr id="Rule-HeaderOperationTemplate-Operation-REMOVE">
+<td><code>REMOVE</code></td>
+<td>
+<p>Remove a header by name. Values are ignored.</p>
+
+</td>
+</tr>
+<tr id="Rule-HeaderOperationTemplate-Operation-APPEND">
+<td><code>APPEND</code></td>
+<td>
+<p>Append values to the existing header values.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="FractionalPercent-DenominatorType">FractionalPercent.DenominatorType</h2>
+<section>
+<p>Fraction percentages support several fixed denominator values.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="FractionalPercent-DenominatorType-HUNDRED">
+<td><code>HUNDRED</code></td>
+<td>
+<p>100.</p>
+
+<p><strong>Example</strong>: <sup>1</sup>&frasl;<sub>100</sub> = 1%.</p>
+
+</td>
+</tr>
+<tr id="FractionalPercent-DenominatorType-TEN_THOUSAND">
+<td><code>TEN_THOUSAND</code></td>
+<td>
+<p>10,000.</p>
+
+<p><strong>Example</strong>: <sup>1</sup>&frasl;<sub>10000</sub> = 0.01%.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tls-AuthHeader">Tls.AuthHeader</h2>
+<section>
+<p>AuthHeader specifies how to pass access token with authorization header.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tls-AuthHeader-PLAIN">
+<td><code>PLAIN</code></td>
+<td>
+<p>Access token is passed in authorization header as what it is
+(authorization: some-token).</p>
+
+</td>
+</tr>
+<tr id="Tls-AuthHeader-BEARER">
+<td><code>BEARER</code></td>
+<td>
+<p>Access token is passed to adapter as bearer token (i.e. authorization:
+bearer some-token).</p>
+
 </td>
 </tr>
 </tbody>
