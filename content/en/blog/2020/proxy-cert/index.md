@@ -11,9 +11,9 @@ target_release: 1.5
 
 Istio sidecars obtain their certificates using
 the secret discovery service.
-A service in the service mesh may not need an Envoy sidecar
-to handle its TLS/mTLS connections. Instead, the service wants
-to obtain a certificate and handle the TLS/mTLS connections itself.
+A service in the service mesh may not need (or want) an Envoy sidecar
+to handle its traffic. In this case, the service will need
+to obtain a certificate itself if it wants to connect to other TLS or mutual TLS secured services.
 For a service not needing a sidecar to get a certificate,
 it may deploy a sidecar only to provision the private key and certificates through
 the CSR flow from the CA and share the certificate with the service
