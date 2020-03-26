@@ -26,4 +26,4 @@ target_release: 1.4
 
 1. 在配置 `Webhook` 前, `istioctl` 将验证 `Webhook` 服务器是否已启动和该 `Webhook` 服务器使用的证书链是否有效。这样可以减少在服务器就绪之前或服务器证书失效时可能发生的错误。
 
-要尝试此新功能，请参阅 [Istio Webhook 管理内容](/zh/docs/tasks/security/webhook)。
+要尝试此新功能，请参阅 [Istio Webhook 管理内容](https://archive.istio.io/1.4/zh/docs/tasks/security/webhook)。
