@@ -283,24 +283,24 @@ Istio 会根据 request 认证策略中的规则检查提供的令牌（如果�
 
 #### Principals{#principals}
 
-使用 peer 认证策略和双向 TLS 时，Istio 将身份从 peer 认证提取到 `source.principal` 中。同样，当您使用 request 认证策略时，Istio 会将 JWT 中的身份赋值给 `request.auth.principal`。使用这些 principals 设置授权策略和作为遥测输出。
+使用 peer 认证策略和双向 TLS 时，Istio 将身份从 peer 认证提取到 `source.principal` 中。同样，当您使用 request 认证策略时，Istio 会将 JWT 中的身份赋值给 `request.auth.principal`。使用这些 principals 设置授权策略和作为遥测的输出。
 
 ### 更新认证策略{#updating-authentication-policies}
 
 您可以随时更改认证策略，Istio 几乎实时将新策略推送到工作负载。但是，Istio 无法保证所有工作负载都同时收到新政策。以下建议有助于避免在更新认证策略时造成干扰：
 
 - 将 peer 认证策略的模式从 `DISABLE` 更改为 `STRICT` 时，请使用 `PERMISSIVE` 模式来过渡，反之亦然。当所有工作负载成功切换到所需模式时，您可以将策略应用于最终模式。您可以使用 Istio 遥测技术来验证工作负载已成功切换。
-- 将 request 认证策略从一个 JWT 迁移到另一个 JWT 时，将新 JWT 的规则添加到该策略中，而不删除旧规则。这样，工作负载接受两种类型的 JWT，并且当所有流量都切换到新的 JWT 时，您可以删除旧规则。但是，每个 JWT 必须使用不同的位置。
+- 将 request 认证策略从一个 JWT 迁移到另一个 JWT 时，将新 JWT 的规则添加到该策略中，而不删除旧规则。这样，工作负载接受两种类型的 JWT，当所有流量都切换到新的 JWT 时，您可以删除旧规则。但是，每个 JWT 必须使用不同的位置。
 
 ## 授权{#authorization}
 
-Istio 的授权功能为 Istio 网格中的工作负载提供网格级别、命名空间级别和工作负载级别的访问控制。它提供了：
+Istio 的授权功能为网格中的工作负载提供网格、命名空间和工作负载级别的访问控制。这种控制层级提供了以下优点：
 
-- **工作负载间和最终用户到工作负载的授权**。
-- **一个简单的 API**，它包括一个单独的并且很容易使用和维护的 [`AuthorizationPolicy` CRD](/zh/docs/reference/config/security/authorization-policy/)。
-- **灵活的语义**，运维人员可以在 Istio 属性上自定义条件。
-- **高性能**，因为 Istio 授权是在 Envoy 本地强制执行的。
-- **高兼容性**，原生支持 HTTP、HTTPS 和 HTTP2，以及任意普通 TCP 协议。
+- 工作负载间和最终用户到工作负载的授权。
+- 一个简单的 API：它包括一个单独的并且很容易使用和维护的 [`AuthorizationPolicy` CRD](/zh/docs/reference/config/security/authorization-policy/)。
+- 灵活的语义：运维人员可以在 Istio 属性上定义自定义条件，并使用 DENY 和 ALLOW 动作。
+- 高性能：Istio 授权是在 Envoy 本地强制执行的。
+- 高兼容性：原生支持 HTTP、HTTPS 和 HTTP2，以及任意普通 TCP 协议。
 
 ### 授权架构{#authorization-architecture}
 
@@ -314,42 +314,27 @@ Istio 的授权功能为 Istio 网格中的工作负载提供网格级别、命�
 
 ### 隐式启用{#implicit-enablement}
 
-无需显式启用 Istio 的授权功能，只需在**工作负载**上应用 `AuthorizationPolicy` 即可实现访问控制。
+您无需显式启用 Istio 的授权功能。只需将授权策略应用于工作负载即可实施访问控制。对于未应用授权策略的工作负载，Istio 不会执行访问控制，放行所有请求。
 
-如果没有对工作负载应用 `AuthorizationPolicy`，则不会执行访问控制，也就是说，将允许所有请求。
-
-如果有任何 `AuthorizationPolicy` 应用到工作负载，则默认情况下将拒绝对该工作负载的访问，除非策略中声明的规则明确允许了。
-
-目前，`AuthorizationPolicy` 仅支持 `ALLOW` 动作。
-这意味着，如果将多个授权策略应用于同一工作负载，它们的效果是累加的。
+授权策略支持 `ALLOW` 和 `DENY` 动作。 拒绝策略优先于允许策略。如果将任何允许策略应用于工作负载，则默认情况下将拒绝对该工作负载的访问，除非策略中的规则明确允许。当您将多个授权策略应用于相同的工作负载时，Istio 会累加地应用它们。
 
 ### 授权策略{#authorization-policies}
 
+To configure an authorization policy, you create an
+[`AuthorizationPolicy` custom resource](/docs/reference/config/security/authorization-policy/).
+An authorization policy includes a selector, an action, and a list of rules:
+
 要配置授权策略，请创建一个 [`AuthorizationPolicy` 自定义资源](/zh/docs/reference/config/security/authorization-policy/)。
-一个授权策略包括一个 `selector`，一个 `action` 和一个 `rules` 列表：
+一个授权策略包括选择器（selector），动作（action） 和一个规则（rules）列表：
 
-- `selector` 字段指定策略所适用的目标
-- `action` 字段指定允许或者拒绝请求
-- `rules` 指定何时触发 action
-    - `from` field in the `rules` specifies the sources of the request
-    - `to` field in the `rules` specifies the operations of the request
-    - `when` field specifies the conditions needed to apply the rule
+- `selector` 字段指定策略的目标
+- `action` 字段指定允许还是拒绝请求
+- `rules` 指定何时触发动作
+    - `rules` 下的 `from` 字段指定请求的来源
+    - `rules` 下的 `to` 字段指定请求的操作
+    - `rules` 下的 `when` 字段指定应用规则所需的条件
 
-选择器指定策略所适用的**目标**，而规则指定什么**条件**下允许**谁**做**什么**。
-具体来说：
-
-- **目标** 请参考 `AuthorizationPolicy` 中的 `selector` 部分。
-- **谁** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `from` 部分。
-- **什么** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `to` 部分。
-- **条件** 请参考 `AuthorizationPolicy` 的 `rule` 中的 `when` 部分。
-
-每个规则都有以下标准字段：
-
-- **`from`**：来源列表。
-- **`to`**：操作列表。
-- **`when`**：自定义条件列表。
-
-下例显示了一个 `AuthorizationPolicy`，它允许两个来源（服务帐户 `cluster.local/ns/default/sa/sleep` 和命名空间 `dev`）在使用有效的 JWT 令牌发送请求时，可以访问命名空间 foo 中的带有标签 `app: httpbin` 和 `version: v1` 的工作负载。
+以下示例显示了一个授权策略，该策略允许两个源（服务帐号 `cluster.local/ns/default/sa/sleep` 和命名空间 `dev`），在使用有效的 JWT 令牌发送请求时，可以访问命名空间 foo 中的带有标签 `app: httpbin` 和 `version: v1` 的工作负载。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -377,7 +362,7 @@ spec:
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
-下例显示了一个 `AuthorizationPolicy`，如果请求来源不是命名空间 `foo`，请求将被拒绝。
+下例显示了一个授权策略，如果请求来源不是命名空间 `foo`，请求将被拒绝。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -401,15 +386,15 @@ spec:
 
 #### 策略目标{#policy-target}
 
-策略范围（目标）由 `metadata/namespace` 和可选的 `selector` 确定。
+您可以通过 `metadata/namespace` 字段和可选的 `selector` 字段来指定策略的范围或目标。`metadata/namespace` 告诉该策略适用于哪个命名空间。如果将其值设置为根名称空间，则该策略将应用于网格中的所有名称空间。根命名空间的值是可配置的，默认值为 `istio-system`。如果设置为任何其他名称空间，则该策略仅适用于指定的名称空间。
 
-`metadata/namespace` 告诉该策略适用于哪个命名空间。如果设置为根命名空间，则该策略将应用于网格中的所有命名空间。根命名空间的值是可配置的，默认值为 `istio-system`。
-如果设置为普通命名空间，则该策略将仅适用于指定的命名空间。
+You can use a `selector` field to further restrict policies to apply to specific
+workloads. The `selector` uses labels to select the target workload. The
+selector contains a list of `{key: value}` pairs, where the `key` is the name of
+the label. If not set, the authorization policy applies to all workloads in the
+same namespace as the authorization policy.
 
-工作负载 `selector` 可用于进一步限制策略的应用范围。
-`selector` 使用 pod 标签来选择目标工作负载。
-工作负载选择器包含 `{key: value}` 对的列表，其中 `key` 是标签的名称。
-如果未设置，则授权策略将应用于与授权策略相同的命名空间中的所有工作负载。
+您可以使用 `selector` 字段来进一步限制策略以应用于特定工作负载。`selector` 使用标签选择目标工作负载。`slector` 包含 `{key: value}`对的列表，其中 `key` 是标签的名称。如果未设置，则授权策略将应用于与授权策略相同的命名空间中的所有工作负载。
 
 以下示例策略 `allow-read` 允许对 `default` 命名空间中带有标签 `app: products` 的工作负载的 `"GET"` 和 `"HEAD"` 访问。
 
@@ -432,15 +417,32 @@ spec:
 
 #### 值匹配{#value-matching}
 
-大部分字段都支持完全匹配、前缀匹配、后缀匹配和存在匹配，但有一些例外情况（例如，`when` 部分下的`key` 字段，`source` 部分下的 `ipBlocks` 和 `to` 部分下的 `ports` 字段仅支持完全匹配）。
+授权策略中的大多数字段都支持以下所有匹配模式：
 
-- **完全匹配**。即完整的字符串匹配。
-- **前缀匹配**。`"*"` 结尾的字符串。例如，`"test.abc.*"` 匹配 `"test.abc.com"`、`"test.abc.com.cn"`、`"test.abc.org"` 等等。
-- **后缀匹配**。`"*"` 开头的字符串。例如，`"*.abc.com"` 匹配 `"eng.abc.com"`、`"test.eng.abc.com"` 等等。
-- **存在匹配**。`*` 用于指定非空的任意内容。您可以使用格式 `fieldname: ["*"]` 指定必须存在的字段。
-这意味着该字段可以匹配任意内容，但是不能为空。请注意这与不指定字段不同，后者意味着包括空的任意内容。
+- Exact match: exact string match.
+- Prefix match: a string with an ending `"*"`. For example, `"test.abc.*"`
+   matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
+- Suffix match: a string with a starting `"*"`. For example, `"*.abc.com"`
+   matches `"eng.abc.com"`, `"test.eng.abc.com"`, etc.
+- Presence match: `*` is used to specify anything but not empty. To specify
+   that a field must be present, use the `fieldname: ["*"]`format. This is
+   different from leaving a field unspecified, which means match anything,
+   including empty.
+- 完全匹配：即完整的字符串匹配。
+- 前缀匹配：`"*"` 结尾的字符串。例如，`"test.abc.*"` 匹配 `"test.abc.com"`、`"test.abc.com.cn"`、`"test.abc.org"` 等等。
+- 后缀匹配：`"*"` 开头的字符串。例如，`"*.abc.com"` 匹配 `"eng.abc.com"`、`"test.eng.abc.com"` 等等。
+- 存在匹配：`*` 用于指定非空的任意内容。您可以使用格式 `fieldname: ["*"]` 指定必须存在的字段。这意味着该字段可以匹配任意内容，但是不能为空。请注意这与不指定字段不同，后者意味着包括空的任意内容。
 
-以下示例策略允许访问前缀为 `"/test/"` 或后缀为 `"/info"` 的路径。
+There are a few exceptions. For example, the following fields only support exact
+match:
+
+有一些例外。 例如，以下字段仅支持完全匹配：
+
+- `when` 部分下的 `key` 字段
+- `source` 部分下 的 `ipBlocks`
+- `to` 部分下的 `ports` 字段
+
+以下示例策略允许访问前缀为 `/test/*` 或后缀为 `*/info` 的路径。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -459,9 +461,58 @@ spec:
         paths: ["/test/*", "*/info"]
 {{< /text >}}
 
-#### 全部允许和全部拒绝{#allow-all-and-deny-all}
+#### 排除匹配{#exclusion-matching}
 
-下例展示了一个简单的策略 `allow-all`，它允许到 `default` 命名空间的所有工作负载的全部访问。
+为了匹配诸如 `when` 字段中的 `notValues`，`source` 字段中的 `notIpBlocks`，`to` 字段中的 `notPorts` 之类的否定条件，Istio 支持排除匹配。
+
+以下示例：如果请求路径不是 `/healthz`，则要求从请求的 JWT 认证中导出的主体是有效的。
+因此，该策略从 JWT 身份验证中排除对 `/healthz` 路径的请求：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: disable-jwt-for-healthz
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        notPaths: ["/healthz"]
+    from:
+    - source:
+        requestPrincipals: ["*"]
+{{< /text >}}
+
+下面的示例拒绝到 `/admin` 路径且不带请求主体的请求：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: enable-jwt-for-admin
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        paths: ["/admin"]
+    from:
+    - source:
+        notRequestPrincipals: ["*"]
+{{< /text >}}
+
+#### 全部允许和默认全部拒绝授权策略{#allow-all-and-default-deny-all-authorization-policies}
+
+以下示例显示了一个简单的 `allow-all` 授权策略，该策略允许完全访问 `default` 命名空间中的所有工作负载。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -475,7 +526,7 @@ spec:
   - {}
 {{< /text >}}
 
-下例展示了一个简单的策略 `deny-all`，它拒绝对 `admin` 命名空间的所有工作负载的任意访问。
+以下示例显示了一个策略，该策略不允许任何对 `admin` 命名空间工作负载的访问。
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -521,8 +572,7 @@ spec:
 
 #### 认证与未认证身份{#authenticated-and-unauthenticated-identity}
 
-如果要使工作负载可公开访问，则需要将 `source` 部分留空。
-这允许来自**所有（经过身份验证和未经身份验证）**的用户和工作负载的源，例如：
+如果要使工作负载可公开访问，则需要将 `source` 部分留空。这允许来自所有（经过认证和未经认证）的用户和工作负载的源，例如：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -542,7 +592,7 @@ spec:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-要仅允许**经过身份验证**的用户，请将 `principal` 设置为 `"*"`，例如：
+要仅允许经过认证的用户，请将 `principal` 设置为 `"*"`，例如：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -579,7 +629,7 @@ Istio 授权支持工作负载使用任意普通 TCP 协议，如 MongoDB。
 
 如果您在授权策略中对 TCP 工作负载使用了任何只适用于 HTTP 的字段，Istio 将会忽略它们。
 
-假设您在端口 27017 上有一个 MongoDB 服务，下例配置了一个授权策略，只允许 Istio 网格中的 `bookinfo-ratings-v2` 服务访问该 MongoDB 工作负载。
+假设您在端口 `27017` 上有一个 MongoDB 服务，下例配置了一个授权策略，只允许 Istio 网格中的 `bookinfo-ratings-v2` 服务访问该 MongoDB 工作负载。
 
 {{< text yaml >}}
 apiVersion: "security.istio.io/v1beta1"
