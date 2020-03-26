@@ -125,10 +125,7 @@ archive:
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME)
 
-update_operator_yamls:
-	@scripts/grab_operator_yamls.sh $(SOURCE_BRANCH_NAME)
-
-update_all: update_ref_docs update_operator_yamls update_examples
+update_all: update_ref_docs update_examples
 
 foo2:
 	hugo version
