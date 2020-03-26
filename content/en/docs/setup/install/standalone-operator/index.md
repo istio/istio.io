@@ -35,14 +35,7 @@ instead.
     See the available `istioctl operator init` flags to control which namespaces the controller and Istio are installed
     into and the installed Istio image sources and versions.
 
-    Alternatively, you can deploy using `kubectl` from a pre-rendered manifest, which will install the latest released
-    version of the operator:
-
-    {{< text bash >}}
-    $ kubectl apply -f https://istio.io/operator.yaml
-    {{< /text >}}
-
-    Another alternative method of deployment is using Helm:
+    Alternatively, you can deploy using Helm:
 
     {{< text bash >}}
     $ helm template install/kubernetes/operator/operator-chart/ \
