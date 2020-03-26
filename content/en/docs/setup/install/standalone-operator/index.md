@@ -19,6 +19,8 @@ instead.
 
 1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
+1. Download the [{{< istioctl >}} command](/docs/ops/diagnostic-tools/istioctl/).
+
 1. Deploy the Istio operator:
 
     {{< text bash >}}
@@ -35,14 +37,7 @@ instead.
     See the available `istioctl operator init` flags to control which namespaces the controller and Istio are installed
     into and the installed Istio image sources and versions.
 
-    Alternatively, you can deploy using `kubectl` from a pre-rendered manifest, which will install the latest released
-    version of the operator:
-
-    {{< text bash >}}
-    $ kubectl apply -f https://istio.io/operator.yaml
-    {{< /text >}}
-
-    Another alternative method of deployment is using Helm:
+    Alternatively, you can deploy using Helm:
 
     {{< text bash >}}
     $ helm template install/kubernetes/operator/operator-chart/ \
