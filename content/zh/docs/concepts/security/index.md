@@ -59,9 +59,9 @@ Istio 中的安全性涉及多个组件：
 
 ## Istio 身份{#istio-identity}
 
-身份是任何安全基础架构的基本概念。在工作负载间通信开始时，双方必须交换包含身份信息的凭证以进行双向验证。在客户端，根据[安全命名](/zh/docs/concepts/security/#secure-naming)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#authorization-policies)确定客户端可以访问哪些信息，审计谁在什么时间访问了什么，根据服务向客户收费并拒绝任何未能支付账单的客户访问服务。
+身份是任何安全基础架构的基本概念。在工作负载间通信开始时，双方必须交换包含身份信息的凭证以进行双向验证。在客户端，根据[安全命名](/zh/docs/concepts/security/#secure-naming)信息检查服务器的标识，以查看它是否是该服务的授权运行程序。在服务器端，服务器可以根据[授权策略](/zh/docs/concepts/security/#authorization-policies)确定客户端可以访问哪些信息，审计谁在什么时间访问了什么，根据他们使用的工作负载向客户收费，并拒绝任何未能支付账单的客户访问工作负载。
 
-Istio 身份模型使用的 `service identity` （服务身份）来确定一个请求源端的身份。这种模型有极好的灵活性和粒度，可以用服务身份来标识人类用户、单个工作负载或一组工作负载。在没有服务身份的平台上，Istio 可以使用其它可以对服务实例进行分组的身份，例如服务名称。
+Istio 身份模型使用 `service identity` （服务身份）来确定一个请求源端的身份。这种模型有极好的灵活性和粒度，可以用服务身份来标识人类用户、单个工作负载或一组工作负载。在没有服务身份的平台上，Istio 可以使用其它可以对服务实例进行分组的身份，例如服务名称。
 
 下面的列表展示了在不同平台上可以使用的服务身份：
 
@@ -87,7 +87,7 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
 
 Istio 供应身份是通过 secret discovery service（SDS）来实现的，具体流程如下：
 
-1. CA 提供 gRPC 服务以接受[证书签名请求]（https://en.wikipedia.org/wiki/Certificate_signing_request）（CSRs）。
+1. CA 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSRs）。
 1. Envoy 通过 Envoy 秘密发现服务（SDS）API 发送证书和密钥请求。
 1. 在收到 SDS 请求后，`istio-agent` 创建私钥和 CSR，然后将 CSR 及其凭据发送到 Istio CA 进行签名。
 1. CA 验证 CSR 中携带的凭据并签署 CSR 以生成证书。
@@ -114,7 +114,7 @@ Istio 提供两种类型的认证：
 
 ### 双向 TLS 认证{#mutual-TLS-authentication}
 
-Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道，PEPs 被实现为[Envoy 代理]（https://envoyproxy.github.io/envoy/）。当一个工作负载使用双向 TLS 认证向另一个工作负载发送请求时，该请求的处理方式如下：
+Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道，PEPs 被实现为[Envoy 代理](https://envoyproxy.github.io/envoy/)。当一个工作负载使用双向 TLS 认证向另一个工作负载发送请求时，该请求的处理方式如下：
 
 1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
 1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，以验证服务器证书中显示的服务帐户是否被授权运行目标服务。
@@ -123,7 +123,7 @@ Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道�
 
 #### 宽容模式{#permissive-mode}
 
-Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 同时接受纯文本流量和双向 TLS 流量。这个功能极大的提升了双向 TLS 的入门体验。
+Istio 双向 TLS 具有一个宽容模式（permissive mode），允许服务同时接受纯文本流量和双向 TLS 流量。这个功能极大的提升了双向 TLS 的入门体验。
 
 在运维人员希望将服务移植到启用了双向 TLS 的 Istio 上时，许多非 Istio 客户端和非 Istio 服务端通信时会产生问题。通常情况下，运维人员无法同时为所有客户端安装 Istio sidecar，甚至没有这样做的权限。即使在服务端上安装了 Istio sidecar，运维人员也无法在不中断现有连接的情况下启用双向 TLS。
 
@@ -143,11 +143,11 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许 service 
 
 您可以使用 peer 和 request 认证策略为在 Istio 网格中接收请求的工作负载指定认证要求。网格运维人员使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。Istio 控制器监视配置存储。
 
-一有任何的策略变更，新策略都会转换为适当的配置，告知 PEP 如何执行所需的认证机制。控制平面可以获取公共密钥，并将其附加到配置中以进行 JWT 验证。或者，Istiod 提供了 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序 pod 用于双向 TLS。您可以在[PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。
+一有任何的策略变更，新策略都会转换为适当的配置，告知 PEP 如何执行所需的认证机制。控制平面可以获取公共密钥，并将其附加到配置中以进行 JWT 验证。或者，Istiod 提供了 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序 pod 用于双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#pki)中找到更多信息。
 
 Istio 异步发送配置到目标端点。代理收到配置后，新的认证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的认证机制。对于 peer authentication，应用程序负责获取 JWT 凭证并将其附加到请求。对于双向 TLS，Istio会自动将两个 PEPs 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，则Istio将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用[destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication) 中找到有关双向 TLS 如何工作的更多信息。
+发送请求的客户端服务负责遵循必要的认证机制。对于 peer authentication，应用程序负责获取 JWT 凭证并将其附加到请求。对于双向 TLS，Istio 会自动将两个 PEPs 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，则 Istio 将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication) 中找到有关双向 TLS 如何工作的更多信息。
 
 {{< image width="75%"
     link="./authn.svg"
@@ -161,7 +161,7 @@ Istio 将两种类型的身份验证以及凭证中的其他声明（如果适�
 本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security/#authentication-architecture)中所说的，认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，需要在 `DetinationRule` 中设置 `TLSSettings`。[TLS 设置参考文档](/zh/docs/reference/config/networking/destination-rule/#TLSSettings)中有更多这方面的信息。
 
 和其他的 Istio 配置一样，可以用 `.yaml` 文件的形式来编写认证策略。部署策略使用 `kubectl`。
-下面例子中的认证策略要求：与带有 `app:reviews` label 的工作负载的传输层认证，必须使用双向 TLS：
+下面例子中的认证策略要求：与带有 `app:reviews` 标签的工作负载的传输层认证，必须使用双向 TLS：
 
 {{< text yaml >}}
 apiVersion: "security.istio.io/v1beta1"
@@ -183,9 +183,9 @@ Istio 将网格范围的策略存储在根命名空间。这些策略使用一�
 
 Peer 和 request 认证策略用 kind 字段区分，分别是 `PeerAuthentication` 和 `RequestAuthentication`。
 
-#### Selector field{#selector-field}
+#### Selector 字段{#selector-field}
 
-Peer 和 request 认证策略使用 `selector` 字段来指定该策略适用的工作负载的 label。以下示例显示适用于带有 `app：product-page` label 的工作负载的策略的 selector 字段：
+Peer 和 request 认证策略使用 `selector` 字段来指定该策略适用的工作负载的标签。以下示例显示适用于带有 `app：product-page` 标签的工作负载的策略的 selector 字段：
 
 {{< text yaml >}}
 selector:
@@ -320,10 +320,6 @@ Istio 的授权功能为网格中的工作负载提供网格、命名空间和�
 
 ### 授权策略{#authorization-policies}
 
-To configure an authorization policy, you create an
-[`AuthorizationPolicy` custom resource](/docs/reference/config/security/authorization-policy/).
-An authorization policy includes a selector, an action, and a list of rules:
-
 要配置授权策略，请创建一个 [`AuthorizationPolicy` 自定义资源](/zh/docs/reference/config/security/authorization-policy/)。
 一个授权策略包括选择器（selector），动作（action） 和一个规则（rules）列表：
 
@@ -388,12 +384,6 @@ spec:
 
 您可以通过 `metadata/namespace` 字段和可选的 `selector` 字段来指定策略的范围或目标。`metadata/namespace` 告诉该策略适用于哪个命名空间。如果将其值设置为根名称空间，则该策略将应用于网格中的所有名称空间。根命名空间的值是可配置的，默认值为 `istio-system`。如果设置为任何其他名称空间，则该策略仅适用于指定的名称空间。
 
-You can use a `selector` field to further restrict policies to apply to specific
-workloads. The `selector` uses labels to select the target workload. The
-selector contains a list of `{key: value}` pairs, where the `key` is the name of
-the label. If not set, the authorization policy applies to all workloads in the
-same namespace as the authorization policy.
-
 您可以使用 `selector` 字段来进一步限制策略以应用于特定工作负载。`selector` 使用标签选择目标工作负载。`slector` 包含 `{key: value}`对的列表，其中 `key` 是标签的名称。如果未设置，则授权策略将应用于与授权策略相同的命名空间中的所有工作负载。
 
 以下示例策略 `allow-read` 允许对 `default` 命名空间中带有标签 `app: products` 的工作负载的 `"GET"` 和 `"HEAD"` 访问。
@@ -419,22 +409,10 @@ spec:
 
 授权策略中的大多数字段都支持以下所有匹配模式：
 
-- Exact match: exact string match.
-- Prefix match: a string with an ending `"*"`. For example, `"test.abc.*"`
-   matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
-- Suffix match: a string with a starting `"*"`. For example, `"*.abc.com"`
-   matches `"eng.abc.com"`, `"test.eng.abc.com"`, etc.
-- Presence match: `*` is used to specify anything but not empty. To specify
-   that a field must be present, use the `fieldname: ["*"]`format. This is
-   different from leaving a field unspecified, which means match anything,
-   including empty.
 - 完全匹配：即完整的字符串匹配。
 - 前缀匹配：`"*"` 结尾的字符串。例如，`"test.abc.*"` 匹配 `"test.abc.com"`、`"test.abc.com.cn"`、`"test.abc.org"` 等等。
 - 后缀匹配：`"*"` 开头的字符串。例如，`"*.abc.com"` 匹配 `"eng.abc.com"`、`"test.eng.abc.com"` 等等。
 - 存在匹配：`*` 用于指定非空的任意内容。您可以使用格式 `fieldname: ["*"]` 指定必须存在的字段。这意味着该字段可以匹配任意内容，但是不能为空。请注意这与不指定字段不同，后者意味着包括空的任意内容。
-
-There are a few exceptions. For example, the following fields only support exact
-match:
 
 有一些例外。 例如，以下字段仅支持完全匹配：
 
