@@ -19,6 +19,8 @@ instead.
 
 1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
+1. Download the [{{< istioctl >}} command](/docs/ops/diagnostic-tools/istioctl/).
+
 1. Deploy the Istio operator:
 
     {{< text bash >}}
