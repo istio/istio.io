@@ -22,7 +22,6 @@ In addition, another CVE is fixed in this release, described in the Kiali 1.15.1
 
 ## Changes
 
-- **Fixed** Gateway Helm chart for Helm 3 ([Issue 22295](https://github.com/istio/istio/pull/22295))
 - **Fixed** an issue where Istio Operator instance deletion hangs for  in-cluster operator ([Issue 22280](https://github.com/istio/istio/issues/22280))
 - **Fixed** istioctl proxy-status should not list differences if just the order of the routes have changed ([Issue 21709](https://github.com/istio/istio/issues/21709))
 - **Fixed** Incomplete support for array notation in "istioctl manifest apply —set" ([Issue 20950](https://github.com/istio/istio/issues/20950))
@@ -41,6 +40,7 @@ In addition, another CVE is fixed in this release, described in the Kiali 1.15.1
 - **Fixed** Operator status enumeration not being rendered as a string ([Issue 21554](https://github.com/istio/istio/issues/21554))
 - **Fixed** in-cluster operator fails to install control plane after having deleted a prior control plane ([Issue 21467](https://github.com/istio/istio/issues/21467))
 - **Improved** Add option to enable V8 runtime for telemetry V2 ([Issue 21846](https://github.com/istio/istio/pull/21846))
-- **Improved** Add a simple helm chart to install operator ([Issue 21861](https://github.com/istio/istio/issues/21861))
+- **Improved** compatibility of Helm gateway chart ([Issue 22295](https://github.com/istio/istio/pull/22295))
+- **Improved** operator by adding a Helm installation chart ([Issue 21861](https://github.com/istio/istio/issues/21861))
 - **Improved** Support custom CA on istio-agent ([Issue 22113](https://github.com/istio/istio/pull/22113))
 - **Improved** Add a flag that supports passing GCP metadata to STS ([Issue 21904](https://github.com/istio/istio/issues/21904))
