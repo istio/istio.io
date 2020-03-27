@@ -57,6 +57,12 @@ rm -rf "${ISTIOIO_GO}/install" "${ISTIOIO_GO}/samples"
 cp -a "${ISTIO_GO}/install" "${ISTIOIO_GO}/install"
 cp -a "${ISTIO_GO}/samples" "${ISTIOIO_GO}/samples"
 
+# Copy the default configuration over from Istio.
+DEFAULTS_YAML="iop-integration-test-defaults.yaml"
+
+mkdir -p "${ISTIOIO_GO}/tests/integration"
+cp -a "${ISTIO_GO}/tests/integration/${DEFAULTS_YAML}" "${ISTIOIO_GO}/tests/integration"
+
 # For generating junit.xml files
 echo "Installing go-junit-report..."
 unset GOOS && unset GOARCH && CGO_ENABLED=1 go get github.com/jstemmer/go-junit-report
