@@ -18,7 +18,7 @@ provides micro-segmentation for services in an Istio mesh. It features:
 * High performance, as it is enforced natively on Envoy.
 * Role-based semantics, which makes it easy to use.
 * High flexibility as it allows users to define conditions using
-[combinations of attributes](/docs/reference/config/security/constraints-and-properties/).
+[combinations of attributes](/docs/reference/config/security/conditions/).
 
 In this blog post, you'll learn about the main authorization features and how to use them in different situations.
 
@@ -49,7 +49,7 @@ frontend service.
 duplicate configurations in multiple places and later forget to update some of them when you need to make changes.
 
 On the other hand, Istio's authorization system is not a traditional RBAC system. It also allows users to define **conditions** using
-[combinations of attributes](/docs/reference/config/security/constraints-and-properties/). This gives Istio
+[combinations of attributes](/docs/reference/config/security/conditions/). This gives Istio
 flexibility to express complex access control policies. In fact, **the "RBAC + conditions” model
 that Istio authorization adopts, has all the benefits an RBAC system has, and supports the level of flexibility that
 normally an ABAC system provides.** You'll see some [examples](#examples) below.
