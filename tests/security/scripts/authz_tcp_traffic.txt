@@ -45,7 +45,7 @@ $ istioctl experimental wait --for=distribution DestinationRule productpage.defa
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
 # $endsnippet
 
-# Step 4: Verify ratings is unavailable
+# Step 4: Verify that the ratings service is unavailable
 # $snippet verify_book_reviews_1.sh syntax="bash"
 $ curl -sS http://"${GATEWAY_URL}"/productpage | grep -o "<p><i>Ratings service.*</i></p>"
 # $verify verifier="contains"
@@ -83,7 +83,7 @@ spec:
 EOF
 # $endsnippet
 
-# Step 8: Verify ratings is unavailable again
+# Step 8: Verify that the ratings service is unavailable
 # $snippet verify_book_reviews_3.sh syntax="bash"
 $ curl -sS http://"${GATEWAY_URL}"/productpage | grep -o "<p><i>Ratings service.*</i></p>"
 # $verify verifier="contains"

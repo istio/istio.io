@@ -18,7 +18,7 @@ set -e
 set -u
 set -o pipefail
 
-# Step 1: setup bookinfo & sleep pods
+# Step 1: Set up bookinfo & sleep pods
 kubectl label namespace default istio-injection=enabled --overwrite || true
 
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
