@@ -19,7 +19,7 @@ instead.
 
 1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
-1. Download the [{{< istioctl >}} command](/docs/ops/diagnostic-tools/istioctl/).
+1. Install the [{{< istioctl >}} command](/docs/ops/diagnostic-tools/istioctl/).
 
 1. Deploy the Istio operator:
 
@@ -37,15 +37,20 @@ instead.
     See the available `istioctl operator init` flags to control which namespaces the controller and Istio are installed
     into and the installed Istio image sources and versions.
 
-    Alternatively, you can deploy using Helm:
+    {{< tip >}}
+    You can alternatively deploy the operator using Helm:
 
     {{< text bash >}}
     $ helm template install/kubernetes/operator/operator-chart/ \
       --set hub=docker.io/istio \
-      --set tag=1.5.1 \
+      --set tag={{< istio_full_version >}} \
       --set operatorNamespace=istio-operator \
       --set istioNamespace=istio-system | kubectl apply -f -
     {{< /text >}}
+
+    Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
+    to run the above command.
+    {{< /tip >}}
 
 ## Install
 
