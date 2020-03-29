@@ -52,4 +52,4 @@ Take a look at the following video to see just how easy it is to get started wit
 
 ## Get Started
 
-We hope that the WebAssembly Hub will become a meeting place for the community to share, discover, and distribute Wasm extensions. By providing a great user experience, we hope to make developing, installing, and running Wasm easier and more rewarding. Join us at the [WebAssembly Hub](https://webassemblyhub.io), share your extensions and [ideas](https://https://slack.solo.io), and join an [upcoming webinar](https://solo.zoom.us/webinar/register/WN_i8MiDTIpRxqX-BjnXbj9Xw).
+We hope that the WebAssembly Hub will become a meeting place for the community to share, discover, and distribute Wasm extensions. By providing a great user experience, we hope to make developing, installing, and running Wasm easier and more rewarding. Join us at the [WebAssembly Hub](https://webassemblyhub.io), share your extensions and [ideas](https://slack.solo.io), and join an [upcoming webinar](https://solo.zoom.us/webinar/register/WN_i8MiDTIpRxqX-BjnXbj9Xw).
