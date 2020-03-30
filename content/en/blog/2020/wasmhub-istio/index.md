@@ -43,7 +43,7 @@ Lastly, like Docker, the WebAssembly Hub stores and distributes Wasm extensions 
 
 ## WebAssembly Hub with Istio
 
-The WebAssembly Hub now fully automates the process of deploying Wasm extensions to Istio, (as well as other Envoy-based frameworks like [Gloo API Gateway](https://https://docs.solo.io/gloo/latest/)) installed in Kubernetes. With this deployment feature, the WebAssembly Hub relieves the operator or end user from having to manually configure the Envoy proxy in their Istio service mesh to use their WebAssembly modules.
+The WebAssembly Hub now fully automates the process of deploying Wasm extensions to Istio, (as well as other Envoy-based frameworks like [Gloo API Gateway](https://docs.solo.io/gloo/latest/)) installed in Kubernetes. With this deployment feature, the WebAssembly Hub relieves the operator or end user from having to manually configure the Envoy proxy in their Istio service mesh to use their WebAssembly modules.
 
 Take a look at the following video to see just how easy it is to get started with WebAssembly and Istio:
 
@@ -52,4 +52,4 @@ Take a look at the following video to see just how easy it is to get started wit
 
 ## Get Started
 
-We hope that the WebAssembly Hub will become a meeting place for the community to share, discover, and distribute Wasm extensions. By providing a great user experience, we hope to make developing, installing, and running Wasm easier and more rewarding. Join us at the [WebAssembly Hub](https://webassemblyhub.io), share your extensions and [ideas](https://https://slack.solo.io), and join an [upcoming webinar](https://solo.zoom.us/webinar/register/WN_i8MiDTIpRxqX-BjnXbj9Xw).
+We hope that the WebAssembly Hub will become a meeting place for the community to share, discover, and distribute Wasm extensions. By providing a great user experience, we hope to make developing, installing, and running Wasm easier and more rewarding. Join us at the [WebAssembly Hub](https://webassemblyhub.io), share your extensions and [ideas](https://slack.solo.io), and join an [upcoming webinar](https://solo.zoom.us/webinar/register/WN_i8MiDTIpRxqX-BjnXbj9Xw).
