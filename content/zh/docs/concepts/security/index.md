@@ -71,7 +71,7 @@ Istio 身份模型使用 `service identity` （服务身份）来确定一个请
 - AWS: AWS IAM user/role account
 - 本地（非 Kubernetes）：用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 
-## 公钥基础设施 (PKI) {#pki}
+## 公钥基础设施 (PKI) {#PKI}
 
 Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识。可以大规模进行自动化密钥和证书轮换，伴随每个 Envoy 代理都运行着一个 `istio-agent` 负责证书和密钥的供应。下图显示了这个机制的运行流程。
 
@@ -147,7 +147,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许服务同
 
 Istio 异步发送配置到目标端点。代理收到配置后，新的认证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的认证机制。对于 peer authentication，应用程序负责获取 JWT 凭证并将其附加到请求。对于双向 TLS，Istio 会自动将两个 PEPs 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，则 Istio 将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication) 中找到有关双向 TLS 如何工作的更多信息。
+发送请求的客户端服务负责遵循必要的认证机制。对于 peer authentication，应用程序负责获取 JWT 凭证并将其附加到请求。对于双向 TLS，Istio 会自动将两个 PEPs 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，则 Istio 将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 中找到有关双向 TLS 如何工作的更多信息。
 
 {{< image width="75%"
     link="./authn.svg"
