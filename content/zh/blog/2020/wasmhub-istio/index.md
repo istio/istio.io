@@ -41,7 +41,7 @@ Wasm 扩展使用 Envoy 代理内的 Application Binary Interface（ABI）。Web
 
 最后，像 Docker 一样，WebAssembly Hub 使用 OCI 镜像来存储和分发 Wasm 扩展。这使得推送、拉取和运行扩展就像 Docker 容器一样容易。Wasm 扩展的镜像经版本控制和加密保护，从而可以像在生产中一样安全地在本地运行扩展。这样，当您构建和推送镜像，或者他们拉取并部署镜像时，双方可以建立互信。
 
-## 在 Istio 中使用 WebAssembly Hub{#webAssembly-hub-with-istio}
+## 在 Istio 中使用 WebAssembly Hub{#webassembly-hub-with-Istio}
 
 对于安装于 Kubernetes 环境中的 Istio，现在 WebAssembly Hub 可以使得 Wasm 扩展部署到 Istio （以及其他基于 Envoy 的框架，例如 [Gloo API 网关](https://docs.solo.io/gloo/latest/)）的过程完全自动化。通过此部署功能，WebAssembly Hub 使 operator 或最终用户无需在 Istio 服务网格中手动配置 Envoy 代理，即可使用其 WebAssembly 模块。
 
