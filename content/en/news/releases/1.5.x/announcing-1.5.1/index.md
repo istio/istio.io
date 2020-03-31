@@ -39,6 +39,7 @@ In addition, another CVE is fixed in this release, described in the Kiali 1.15.1
 - **Fixed** Segmentation fault in Pilot with beta mutual TLS ([Issue 21816](https://github.com/istio/istio/issues/21816))
 - **Fixed** Operator status enumeration not being rendered as a string ([Issue 21554](https://github.com/istio/istio/issues/21554))
 - **Fixed** in-cluster operator fails to install control plane after having deleted a prior control plane ([Issue 21467](https://github.com/istio/istio/issues/21467))
+- **Fixed** TCP metrics for BlackHole clusters does not work with Telemetry v2 ([Issue 21566](https://github.com/istio/istio/issues/21566))
 - **Improved** Add option to enable V8 runtime for telemetry V2 ([Issue 21846](https://github.com/istio/istio/pull/21846))
 - **Improved** compatibility of Helm gateway chart ([Issue 22295](https://github.com/istio/istio/pull/22295))
 - **Improved** operator by adding a Helm installation chart ([Issue 21861](https://github.com/istio/istio/issues/21861))
