@@ -8,11 +8,7 @@ aliases:
     - /docs/tasks/ingress
 ---
 
-In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-is used to specify services that should be exposed outside the cluster.
-In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
-different configuration model, namely [Istio Gateway](/docs/reference/config/networking/gateway/).
-A `Gateway` allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
+Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), Istio offers another configuration model, [Istio Gateway](/docs/reference/config/networking/gateway/). A `Gateway` provides more extensive customization and flexibility than `Ingress`, and allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
 
 This task describes how to configure Istio to expose a service outside of the service mesh using an Istio `Gateway`.
 
