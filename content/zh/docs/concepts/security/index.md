@@ -77,7 +77,7 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
 
 {{< tip >}}
 译者注：这里用 `istio-agent` 来表述，是因为下图及对图的相关解读中反复用到了 “Istio agent” 这个术语，这样的描述更容易理解。
-另外，在实现层面，`istio-agent` 是指 sidecar 容器中的 `pilot-agent` 进程，它有很多功能，这里不表，只特别提一下：它通过 unix socket 的方式在本地提供 SDS 服务供 Envoy 使用，这个信息对了解 Envoy 与 SDS 之间的交互有意义。
+另外，在实现层面，`istio-agent` 是指 sidecar 容器中的 `pilot-agent` 进程，它有很多功能，这里不表，只特别提一下：它通过 Unix socket 的方式在本地提供 SDS 服务供 Envoy 使用，这个信息对了解 Envoy 与 SDS 之间的交互有意义。
 {{< /tip >}}
 
 {{< image width="75%"
