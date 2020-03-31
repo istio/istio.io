@@ -143,7 +143,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
     The `kubernetes.io/ingress.class` annotation is required to tell Istio that it should handle this `Ingress`, otherwise it will be ignored.
 
-2.  Access the _httpbin_ service using _curl_:
+1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
@@ -161,7 +161,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
     "httpbin.example.com". This is needed because the `Ingress` is configured to handle "httpbin.example.com",
     but in your test environment you have no DNS binding for that host and are simply sending your request to the ingress IP.
 
-3.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
+1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     {{< text bash >}}
     $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
