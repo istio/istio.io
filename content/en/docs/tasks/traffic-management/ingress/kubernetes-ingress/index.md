@@ -183,9 +183,9 @@ By default, Istio will treat paths as exact matches, unless they end in `/*` or 
 
 In Kubernetes 1.18, a new field, `pathType`, was added. This allows explicitly declaring a path as `Exact` or `Prefix`
 
-### Specifying IngressClass
+### Specifying `IngressClass`
 
-In Kubneretes 1.18, and a new object, `IngressClass`, was added, replacing the `kubernetes.io/ingress.class` annotation on the `Ingress` object. If you are using this object, you will need to set the `controller` field to `istio.io/ingress-controller`. For example,
+In Kubneretes 1.18, a new object, `IngressClass`, was added, replacing the `kubernetes.io/ingress.class` annotation on the `Ingress` object. If you are using this object, you will need to set the `controller` field to `istio.io/ingress-controller`. For example,
 
 {{< text yaml >}}
 apiVersion: networking.k8s.io/v1beta1
