@@ -32,7 +32,7 @@ echo "sending traffic to $INGRESS_HOST:$INGRESS_PORT"
 # $snippet send_traffic_to_echo_v1.sh
 $ for i in {1..20}; do \
 docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT \
-  --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST:$INGRESS_PORT"
+  --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
 done
 # $verify verifier="notContains"
 two
@@ -71,7 +71,7 @@ spec:
 # $snippet more_tcp_traffic_to_echos.sh
 $ for i in {1..20}; do \
 docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT \
-  --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST:$INGRESS_PORT"
+  --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
 done
 # $verify verifier="contains"
 two

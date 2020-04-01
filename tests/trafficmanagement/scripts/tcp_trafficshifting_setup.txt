@@ -32,3 +32,12 @@ $ kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
 # $snippet deploy_tcp_echo_v1.sh
 $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
 # $endsnippet
+
+# Add the TCP port to the ingress-gateway
+kubectl -n istio-system patch service istio-ingressgateway --patch "
+spec:
+  ports:
+    - port: 31400
+      targetPort: 31400
+      name: tcp
+"
