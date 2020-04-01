@@ -167,12 +167,12 @@ if [[ ${SKIP_LINK_CHECK:-} != "true" ]]; then
     if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
         printf -v ignore_files "/^.\/public\/%s/," "${SKIP_LANGS[@]}"; ignore_files="${ignore_files%,}"
     fi
-    if [[ ${SKIP_EXTERNAL_LINK_CHECK:-} != "false" ]]; then
-        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-opengraph --timeframe 2d --storage-dir .htmlproofer --disable-external; then
+    if [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
+        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/archive.istio.io/,/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/,/docs.okd.io/,/www.aporeto.com/"; then
             FAILED=1
         fi
     else
-        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/archive.istio.io/,/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/,/docs.okd.io/,/www.aporeto.com/"; then
+        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-opengraph --timeframe 2d --storage-dir .htmlproofer --disable-external; then
             FAILED=1
         fi
     fi
