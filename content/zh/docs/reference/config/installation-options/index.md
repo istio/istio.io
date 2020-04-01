@@ -23,7 +23,7 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /warning >}}
 
 {{< warning >}}
-不幸的是，由于支持的选项集有最新的变化，此文档已经过时。获取准确的支持的选项集，请参阅 [Helm charts]({{< github_tree >}}/install/kubernetes/helm/istio)。
+不幸的是，由于支持的选项集有最新的变化，此文档已经过时。获取准确的支持的选项集，请参阅 [Install charts]({{< github_tree >}}/manifests)。
 {{< /warning >}}
 
 ## `certmanager` 选项 {#cert-manager-options}

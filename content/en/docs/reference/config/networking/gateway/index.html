@@ -389,59 +389,6 @@ Yes
 </tbody>
 </table>
 </section>
-<h2 id="Port">Port</h2>
-<section>
-<p>Port describes the properties of a specific port of a service.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Port-number">
-<td><code>number</code></td>
-<td><code>uint32</code></td>
-<td>
-<p>A valid non-negative integer port number.</p>
-
-</td>
-<td>
-Yes
-</td>
-</tr>
-<tr id="Port-protocol">
-<td><code>protocol</code></td>
-<td><code>string</code></td>
-<td>
-<p>The protocol exposed on the port.
-MUST BE one of HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS.
-TLS implies the connection will be routed based on the SNI header to
-the destination without terminating the TLS connection.</p>
-
-</td>
-<td>
-Yes
-</td>
-</tr>
-<tr id="Port-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-<p>Label assigned to the port.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Server">Server</h2>
 <section>
 <p><code>Server</code> describes the properties of the proxy on a given load balancer
@@ -662,6 +609,59 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="Port">Port</h2>
+<section>
+<p>Port describes the properties of a specific port of a service.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Port-number">
+<td><code>number</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>A valid non-negative integer port number.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Port-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+<p>The protocol exposed on the port.
+MUST BE one of HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS.
+TLS implies the connection will be routed based on the SNI header to
+the destination without terminating the TLS connection.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="Port-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Label assigned to the port.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="Server-TLSOptions">Server.TLSOptions</h2>
 <section>
 <table class="message-fields">
@@ -833,56 +833,6 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</h2>
-<section>
-<p>TLS protocol versions.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Server-TLSOptions-TLSProtocol-TLS_AUTO">
-<td><code>TLS_AUTO</code></td>
-<td>
-<p>Automatically choose the optimal TLS version.</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_0">
-<td><code>TLSV1_0</code></td>
-<td>
-<p>TLS version 1.0</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_1">
-<td><code>TLSV1_1</code></td>
-<td>
-<p>TLS version 1.1</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_2">
-<td><code>TLSV1_2</code></td>
-<td>
-<p>TLS version 1.2</p>
-
-</td>
-</tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_3">
-<td><code>TLSV1_3</code></td>
-<td>
-<p>TLS version 1.3</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Server-TLSOptions-TLSmode">Server.TLSOptions.TLSmode</h2>
 <section>
 <p>TLS modes enforced by the proxy</p>
@@ -945,6 +895,56 @@ to Mutual mode, this mode uses certificates, representing
 gateway workload identity, generated automatically by Istio
 for mTLS authentication. When this mode is used, all other
 fields in <code>TLSOptions</code> should be empty.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</h2>
+<section>
+<p>TLS protocol versions.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Server-TLSOptions-TLSProtocol-TLS_AUTO">
+<td><code>TLS_AUTO</code></td>
+<td>
+<p>Automatically choose the optimal TLS version.</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_0">
+<td><code>TLSV1_0</code></td>
+<td>
+<p>TLS version 1.0</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_1">
+<td><code>TLSV1_1</code></td>
+<td>
+<p>TLS version 1.1</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_2">
+<td><code>TLSV1_2</code></td>
+<td>
+<p>TLS version 1.2</p>
+
+</td>
+</tr>
+<tr id="Server-TLSOptions-TLSProtocol-TLSV1_3">
+<td><code>TLSV1_3</code></td>
+<td>
+<p>TLS version 1.3</p>
 
 </td>
 </tr>

@@ -13,35 +13,6 @@ number_of_entries: 2
 ---
 <p>This package defines user-facing authentication policy.</p>
 
-<h2 id="MutualTls-Mode">MutualTls.Mode</h2>
-<section>
-<p>Defines the acceptable connection TLS mode.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="MutualTls-Mode-STRICT">
-<td><code>STRICT</code></td>
-<td>
-<p>Client cert must be presented, connection is in TLS.</p>
-
-</td>
-</tr>
-<tr id="MutualTls-Mode-PERMISSIVE">
-<td><code>PERMISSIVE</code></td>
-<td>
-<p>Connection can be either plaintext or TLS with Client cert.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Policy">Policy</h2>
 <section>
 <p>Policy defines what authentication methods can be accepted on workload(s),
@@ -205,6 +176,35 @@ reject request.</p>
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MutualTls-Mode">MutualTls.Mode</h2>
+<section>
+<p>Defines the acceptable connection TLS mode.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MutualTls-Mode-STRICT">
+<td><code>STRICT</code></td>
+<td>
+<p>Client cert must be presented, connection is in TLS.</p>
+
+</td>
+</tr>
+<tr id="MutualTls-Mode-PERMISSIVE">
+<td><code>PERMISSIVE</code></td>
+<td>
+<p>Connection can be either plaintext or TLS with Client cert.</p>
+
 </td>
 </tr>
 </tbody>

@@ -13,7 +13,7 @@
                     {{/* do nothing */}}
                 {{- else -}}
                     {{- $latest_release := "" -}}
-                    {{- if or (eq .Params.period_start "latest_release") (eq $.Params.link "latest_release") -}}
+                    {{- if or (eq .Params.period_start "latest_release") (eq .Params.link "latest_release") -}}
                         {{- range where .Site.Pages ".Page.Params.release" .Site.Data.args.full_version -}}
                             {{- if not .Page.Params.draft -}}
                                 {{- $latest_release = . -}}
@@ -21,7 +21,7 @@
                         {{- end -}}
                     {{- end -}}
 
-                    {{- if and (or (eq .Params.period_start "latest_release") (eq $.Params.link "latest_release")) (not $latest_release) -}}
+                    {{- if and (or (eq .Params.period_start "latest_release") (eq .Params.link "latest_release")) (not $latest_release) -}}
                         {{/* do nothing */}}
                     {{- else -}}
                         {{- $periodStart := $now -}}

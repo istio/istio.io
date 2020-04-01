@@ -5,7 +5,7 @@ weight: 50
 ---
 
 This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this
-is the built-in set. They can be found [here]({{< github_file >}}/manifests/UPDATING-CHARTS.md)
+is the built-in set. They can be found [here]({{< github_file >}}/manifests/istio-telemetry/mixer-telemetry/templates/config.yaml)
 under the section with "kind: metric”. It uses [metric
 template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 

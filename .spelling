@@ -107,6 +107,7 @@ az
 backend
 backends
 base64
+Bazel
 BigQuery
 bitpipe
 BlackHole
@@ -182,6 +183,7 @@ CVE-2019-9513
 CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
+CVE-2020-1764
 CVE-2020-8595
 CVE-2020-8843
 CVE-2020-8659
@@ -200,6 +202,7 @@ datastore
 Datawire
 debian
 decapsulated
+declaratively
 Delayering
 Demailly
 deployment
@@ -263,10 +266,12 @@ GCP_OPTS
 gdb
 git
 GitHub
+GitOps
 GKE-IAM
 GKE-Istio
 GKE-Workloads
 GlueCon
+Gloo
 Gmail
 GoLang
 googleapis.com
@@ -331,6 +336,7 @@ ISTIO-SECURITY-2019-007
 ISTIO-SECURITY-2020-001
 ISTIO-SECURITY-2020-002
 ISTIO-SECURITY-2020-003
+ISTIO-SECURITY-2020-004
 istio-system
 istio.io
 istio.io.
@@ -430,6 +436,7 @@ NUL
 NULs
 OAuth2
 oc
+OCI-compliant
 ok
 Okta
 onboarding

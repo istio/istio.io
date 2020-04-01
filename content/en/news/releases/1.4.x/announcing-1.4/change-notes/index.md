@@ -51,5 +51,5 @@ weight: 10
 - **Added** the experimental [`istioctl experimental wait`](/docs/reference/commands/istioctl/#istioctl-experimental-wait) sub-command to have Istio wait until it has pushed a configuration to all Envoy sidecars.
 - **Added** the experimental [`istioctl experimental multicluster`](/docs/reference/commands/istioctl/#istioctl-experimental-multicluster) sub-command to help manage Istio across multiple clusters.
 - **Added** the experimental [`istioctl experimental post-install webhook`](/docs/reference/commands/istioctl/#istioctl-experimental-post-install-webhook) sub-command to [securely manage webhook configurations](/blog/2019/webhook/).
-- **Added** the experimental [`istioctl experimental upgrade`](/docs/setup/upgrade/istioctl-upgrade/) sub-command to perform upgrades of Istio.
+- **Added** the experimental [`istioctl experimental upgrade`](https://archive.istio.io/v1.4/docs/setup/upgrade/istioctl-upgrade/) sub-command to perform upgrades of Istio.
 - **Improved** the [`istioctl version`](/docs/reference/commands/istioctl/#istioctl-version) sub-command. It now shows the Envoy proxy versions.

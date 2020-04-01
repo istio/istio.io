@@ -106,6 +106,18 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 {{< /text >}}
 
+If you installed Istio with `values.global.proxy.privildeged=true`, you can use `tcpdump` to verify
+traffic is encrypted or not.
+
+{{< text bash >}}
+$ kubectl exec -nfoo $(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name}) -c istio-proxy -it -- sudo tcpdump dst port 80  -A
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+{{< /text >}}
+
+You will see plain text and encrypted text in the output when requests are sent from `sleep.legacy` and `sleep.foo`
+respectively.
+
 If you can't migrate all your services to Istio (i.e., inject Envoy sidecar in all of them), you will need to continue to use `PERMISSIVE` mode.
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
 We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.

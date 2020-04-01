@@ -3,7 +3,7 @@ title: Can I use Prometheus to scrape application metrics with Istio?
 weight: 90
 ---
 
-Yes. Istio ships with [configuration for Prometheus]({{< github_file >}}/manifests/UPDATING-CHARTS.md)
+Yes. Istio ships with [configuration for Prometheus]({{< github_file >}}/manifests/istio-telemetry/prometheus/templates/configmap.yaml)
 that enables collection of application metrics when mutual TLS is enabled or disabled.
 
 The `kubernetes-pods` job collects application metrics from pods in environments without mutual TLS. The `kubernetes-pods-istio-secure` job collects metrics
