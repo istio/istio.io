@@ -18,6 +18,12 @@ set -e
 
 FAILED=0
 
+if [[ "$#" -ne 0 ]]; then
+    LANGS="$*"
+else
+    LANGS="en zh"
+fi
+
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
 # into classic markdown ``` code blocks, so that the linters aren't confused
@@ -97,52 +103,78 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-check_content content/en --en-us
-# only check English words in Chinese docs
-check_content content/zh --en-us
-# only check English words in Portuguese Brazil docs
-check_content content/pt-br --en-us
+SKIP_LANGS=( en zh pt-br )
+for lang in $LANGS; do
+    for i in "${!SKIP_LANGS[@]}"; do
+       if [[ "${SKIP_LANGS[$i]}" = "${lang}" ]]; then
+           unset SKIP_LANGS["${i}"]
+       fi
+    done
+    SKIP_LANGS=( "${SKIP_LANGS[@]}" )
 
-find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
-    if grep -H -n -e '“' "${f}"; then
-        # shellcheck disable=SC1111
-        echo "Ensure content only uses standard quotation marks and not “"
-        FAILED=1
+    if [[ "$lang" == "en" ]]; then
+        check_content "content/$lang" --en-us
+
+        while IFS= read -r -d '' f; do
+            if grep -H -n -e '“' "${f}"; then
+                # shellcheck disable=SC1111
+                echo "Ensure content only uses standard quotation marks and not “"
+                FAILED=1
+            fi
+        done < <(find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0)
+    elif [[ "$lang" == "zh" ]]; then
+        # only check English words in Chinese docs
+        check_content "content/$lang" --en-us
+
+        while IFS= read -r -d '' f; do
+            if grep -H -n -E -e "- (/docs|/about|/blog|/faq|/news)" "${f}"; then
+                echo "Ensure translated content doesn't include aliases for English content"
+                FAILED=1
+            fi
+
+            if grep -H -n -E -e '"(/docs|/about|/blog|/faq|/news)' "${f}"; then
+                echo "Ensure translated content doesn't include references to English content"
+                FAILED=1
+            fi
+
+            if grep -H -n -E -e '\((/docs|/about|/blog|/faq|/news)' "${f}"; then
+                echo "Ensure translated content doesn't include references to English content"
+                FAILED=1
+            fi
+        done < <(find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0)
+    elif [[ "$lang" == "pt-br" ]]; then
+        # only check English words in Portuguese Brazil docs
+        check_content "content/$lang" --en-us
     fi
 done
 
-find ./public -type f -name '*.html' -print0 | while IFS= read -r -d '' f; do
+if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
+    printf -v find_exclude " -name %s -prune -o" "${SKIP_LANGS[@]}"; read -r -a find_exclude <<< "$find_exclude"
+fi
+while IFS= read -r -d '' f; do
     if grep -H -n -i -e blockquote "${f}"; then
         echo "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
         FAILED=1
     fi
 
     if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
-        echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
-        FAILED=1
+        echo "WARNING: content shoudn't use links to specific lines in GitHub files as those are too brittle"
+        #FAILED=1
     fi
-done
+done < <(find ./public "${find_exclude[@]}" -type f -name '*.html' -print0)
 
-find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0 | while IFS= read -r -d '' f; do
-    if grep -H -n -E -e "- (/docs|/about|/blog|/faq|/news)" "${f}"; then
-        echo "Ensure translated content doesn't include aliases for English content"
-        FAILED=1
+if [[ ${SKIP_LINK_CHECK:-} != "true" ]]; then
+    if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
+        printf -v ignore_files "/^.\/public\/%s/," "${SKIP_LANGS[@]}"; ignore_files="${ignore_files%,}"
     fi
-
-    if grep -H -n -E -e '"(/docs|/about|/blog|/faq|/news)' "${f}"; then
-        echo "Ensure translated content doesn't include references to English content"
-        FAILED=1
-    fi
-
-    if grep -H -n -E -e '\((/docs|/about|/blog|/faq|/news)' "${f}"; then
-        echo "Ensure translated content doesn't include references to English content"
-        FAILED=1
-    fi
-done
-
-if [[ ${SKIP_LINK_CHECK:-} == "" ]]; then
-    if ! htmlproofer ./public --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/archive.istio.io/,/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/,/docs.okd.io/,/www.aporeto.com/"; then
-        FAILED=1
+    if [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
+        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/archive.istio.io/,/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/,/docs.okd.io/,/www.aporeto.com/"; then
+            FAILED=1
+        fi
+    else
+        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-opengraph --timeframe 2d --storage-dir .htmlproofer --disable-external; then
+            FAILED=1
+        fi
     fi
 fi
 
