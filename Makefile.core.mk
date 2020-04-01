@@ -89,7 +89,7 @@ clean:
 	@rm -fr resources .htmlproofer tmp generated public
 
 lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
-	@SKIP_EXTERNAL_LINK_CHECK=false scripts/lint_site.sh
+	@scripts/lint_site.sh
 
 lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh en
