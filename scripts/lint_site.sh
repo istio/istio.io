@@ -167,7 +167,7 @@ if [[ ${SKIP_LINK_CHECK:-} != "true" ]]; then
     if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
         printf -v ignore_files "/^.\/public\/%s/," "${SKIP_LANGS[@]}"; ignore_files="${ignore_files%,}"
     fi
-    if [[ ${SKIP_EXTERNAL_LINK_CHECK:-} == "true" ]]; then
+    if [[ ${SKIP_EXTERNAL_LINK_CHECK:-} != "false" ]]; then
         if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-opengraph --timeframe 2d --storage-dir .htmlproofer --disable-external; then
             FAILED=1
         fi
