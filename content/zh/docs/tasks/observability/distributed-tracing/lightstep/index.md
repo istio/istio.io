@@ -7,7 +7,7 @@ aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/lightstep/
 ---
 
-此任务介绍如何配置 Istio 才能收集追踪 span ，并且把收集到的 span 发送到 [LightStep Tracing](https://lightstep.com/products/) 或 [LightStep [𝑥]PM](https://lightstep.com/products/)。
+此任务介绍如何配置 Istio 才能收集追踪 span ，并且把收集到的 span 发送到 [LightStep Tracing](https://lightstep.com/product/) 或 [LightStep [𝑥]PM](https://lightstep.com/product/)。
 LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务数据，并做出容易理解的的分布式追踪和指标信息，这有助于解释性能行为和并加速根因分析。
 在此任务的结尾，Istio 将追踪 span 从代理发送到 LightStep Satellite 池，以让它们在 web UI 上展示。
 
