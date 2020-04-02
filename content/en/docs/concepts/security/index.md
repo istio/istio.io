@@ -108,7 +108,7 @@ platforms:
    service account refers to the existing service account just like the
    identities that the customer's Identity Directory manages.
 
-## Identity Issuance {#pki}
+## Identity and certificate management {#pki}
 
 Istio securely provisions strong identities
 to every workload with X.509 certificates. The Istio agent running alongside 
