@@ -256,7 +256,7 @@ configuration telling the PEP how to perform the required authentication
 mechanisms. The control plane may fetch the public key and attach it to the
 configuration for JWT validation. Alternatively, Istiod provides the path to the
 keys and certificates the Istio system manages and installs them to the
-application pod for mutual TLS. You can find more info in the [Identity Issuance section](/docs/concepts/security/#pki).
+application pod for mutual TLS. You can find more info in the [Identity and certificate management section](#pki).
 
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
