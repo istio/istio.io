@@ -108,12 +108,12 @@ platforms:
    service account refers to the existing service account just like the
    identities that the customer's Identity Directory manages.
 
-## Public Key Infrastructure (PKI) {#pki}
+## Identity and certificate management {#pki}
 
-The Istio PKI securely provisions strong identities
-to every workload with X.509 certificates. To automate key and certificate
-rotation at scale, the PKI runs an Istio agent alongside each Envoy proxy for
-certificate and key provisioning. The following diagram shows the identity
+Istio securely provisions strong identities
+to every workload with X.509 certificates. Istio agents, running alongside each Envoy proxy,
+work together with `istiod` to automate key and certificate
+rotation at scale. The following diagram shows the identity
 provisioning flow.
 
 {{< image width="75%"
@@ -124,14 +124,14 @@ provisioning flow.
 Istio provisions identities through the secret discovery service (SDS) using the
 following flow:
 
-1. The CA offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
+1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 1. Envoy sends a certificate and key request via the Envoy secret discovery
    service (SDS) API.
 1. Upon receiving the SDS request, the Istio agent creates the private key
-   and CSR before sending the CSR with its credentials to the Istio CA for signing.
+   and CSR before sending the CSR with its credentials to `istiod` for signing.
 1. The CA validates the credentials carried in the CSR and signs the CSR to
    generate the certificate.
-1. The Istio agent sends the certificate received from the Istio CA and the
+1. The Istio agent sends the certificate received from `istiod` and the
    private key to Envoy via the Envoy SDS API.
 1. The above CSR process repeats periodically for certificate and key rotation.
 
@@ -256,7 +256,7 @@ configuration telling the PEP how to perform the required authentication
 mechanisms. The control plane may fetch the public key and attach it to the
 configuration for JWT validation. Alternatively, Istiod provides the path to the
 keys and certificates the Istio system manages and installs them to the
-application pod for mutual TLS. You can find more info in the [PKI section](/docs/concepts/security/#pki).
+application pod for mutual TLS. You can find more info in the [Identity and certificate management section](#pki).
 
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
