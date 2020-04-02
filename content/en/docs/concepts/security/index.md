@@ -110,7 +110,7 @@ platforms:
 
 ## Identity Issuance {#pki}
 
-The Istio securely provisions strong identities
+Istio securely provisions strong identities
 to every workload with X.509 certificates. The Istio agent running alongside 
 each Envoy proxy automates key and certificate
 rotation at scale. The following diagram shows the identity
