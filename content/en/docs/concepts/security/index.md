@@ -128,7 +128,7 @@ following flow:
 1. Envoy sends a certificate and key request via the Envoy secret discovery
    service (SDS) API.
 1. Upon receiving the SDS request, the Istio agent creates the private key
-   and CSR before sending the CSR with its credentials to the `istiod` for signing.
+   and CSR before sending the CSR with its credentials to `istiod` for signing.
 1. The CA validates the credentials carried in the CSR and signs the CSR to
    generate the certificate.
 1. The Istio agent sends the certificate received from `istiod` and the
