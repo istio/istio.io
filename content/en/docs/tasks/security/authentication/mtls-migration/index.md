@@ -106,7 +106,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 {{< /text >}}
 
-If you installed Istio with `values.global.proxy.privildeged=true`, you can use `tcpdump` to verify
+If you installed Istio with `values.global.proxy.privileged=true`, you can use `tcpdump` to verify
 traffic is encrypted or not.
 
 {{< text bash >}}
