@@ -487,7 +487,7 @@ policies:
   workloads  switch successfully to the desired mode, you can apply the policy
   with the final mode. You can use Istio telemetry to verify that workloads
   have switched successfully.
-- When migrating peer authentication policies from one JWT to another, add
+- When migrating request authentication policies from one JWT to another, add
   the rule for the new JWT to the policy without removing the old rule.
   Workloads then accept both types of JWT, and you can remove the old rule
   when all traffic switches to the new JWT. However, each JWT has to use a
