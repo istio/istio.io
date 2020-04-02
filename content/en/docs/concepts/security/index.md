@@ -112,7 +112,7 @@ platforms:
 
 Istio securely provisions strong identities
 to every workload with X.509 certificates. Istio agents, running alongside each Envoy proxy, 
-each Envoy proxy automates key and certificate
+work together with `istiod` to automate key and certificate
 rotation at scale. The following diagram shows the identity
 provisioning flow.
 
