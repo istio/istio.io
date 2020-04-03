@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.Sidecar
 aliases: [/docs/reference/config/networking/v1alpha3/sidecar]
-number_of_entries: 7
+number_of_entries: 8
 ---
 <p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
 inbound and outbound communication to the workload instance it is attached to. By
@@ -475,6 +475,22 @@ the global default Sidecar.</p>
 No
 </td>
 </tr>
+<tr id="Sidecar-localhost">
+<td><code>localhost</code></td>
+<td><code><a href="#Localhost">Localhost</a></code></td>
+<td>
+<p><code>Localhost</code> describes the sidecar settings related to the
+communication between the sidecar and the workload it is attached to
+in a Kubernetes Pod or a VM. These settings apply to all ingress
+and egress listeners in a sidecar unless overridden. There are no
+built in defaults for this setting. If not specified, the
+features will be disabled.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -545,6 +561,21 @@ connections. Format should be <code>127.0.0.1:PORT</code> or <code>unix:///path/
 </td>
 <td>
 Yes
+</td>
+</tr>
+<tr id="IstioIngressListener-localhost_client_tls">
+<td><code>localhostClientTls</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td>
+<p>TLS settings to be used by the sidecar (client) when forwarding
+traffic from the sidecar to the workload (server) on the
+localhost. Overrides the <code>localhost</code> level <code>clientTls</code> settings.</p>
+
+<p><strong>NOTE</strong>: DISABLE, SIMPLE and MUTUAL are the only valid TLS modes.</p>
+
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -660,6 +691,25 @@ in a future Istio release.</p>
 Yes
 </td>
 </tr>
+<tr id="IstioEgressListener-localhost_server_tls">
+<td><code>localhostServerTls</code></td>
+<td><code><a href="/docs/reference/config/networking/gateway.html#ServerTLSSettings">ServerTLSSettings</a></code></td>
+<td>
+<p>TLS settings to be used by the sidecar (server) when receiving
+traffic from the workload (client) on the
+localhost. Overrides the <code>localhost</code> level <code>serverTls</code> settings.</p>
+
+<p><strong>NOTE</strong>: SIMPLE and MUTUAL are the only valid TLS
+modes. <code>httpsRedirect</code> and <code>credentialName</code> (for fetching
+certificates from Kubernetes secrets) are not valid. All
+certificates must be mounted as files inside the sidecar
+container.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -728,6 +778,118 @@ services can be monitored.</p>
 <td><code>mode</code></td>
 <td><code><a href="#OutboundTrafficPolicy-Mode">Mode</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Localhost">Localhost</h2>
+<section>
+<p><code>Localhost</code> describes the sidecar settings related to the
+communication between the sidecar and the workload it is attached
+to in a Kubernetes Pod or a VM. These settings apply by default to all
+ingress and egress listeners in a sidecar unless overridden.</p>
+
+<p>The following example configures the sidecars on pods of the
+reviews service to use TLS for traffic to/from the sidecar to the
+workload in the same pod, assuming the appropriate
+certificates are mounted in the sidecar.</p>
+
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: reviews-localhost-tls
+  namespace: prod-us1
+spec:
+  workloadSelector:
+    labels:
+      app: reviews
+  localhost:
+    clientTls:
+      mode: SIMPLE
+      caCertificates: /etc/legacy/ca.pem
+    serverTls:
+      mode: SIMPLE
+      serverCertificate: /etc/legacy/server.pem
+      privateKey: /etc/legacy/private.pem
+  egress:
+  - hosts:
+    - &quot;./&quot;
+</code></pre>
+
+<p>{{</tab>}}</p>
+
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: reviews-localhost-tls
+  namespace: prod-us1
+spec:
+  workloadSelector:
+    labels:
+      app: reviews
+  localhost:
+    clientTls:
+      mode: SIMPLE
+      caCertificates: /etc/legacy/ca.pem
+    serverTls:
+      mode: SIMPLE
+      serverCertificate: /etc/legacy/server.pem
+      privateKey: /etc/legacy/private.pem
+  egress:
+  - hosts:
+    - &quot;./&quot;
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Localhost-client_tls">
+<td><code>clientTls</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td>
+<p>TLS settings to be used by the sidecar (client) when forwarding
+traffic from the sidecar to the workload it is attached to
+(server) on the localhost.</p>
+
+<p><strong>NOTE</strong>: DISABLE, SIMPLE and MUTUAL are the only valid TLS modes.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Localhost-server_tls">
+<td><code>serverTls</code></td>
+<td><code><a href="/docs/reference/config/networking/gateway.html#ServerTLSSettings">ServerTLSSettings</a></code></td>
+<td>
+<p>TLS settings to be used by the sidecar (server) when receiving
+traffic from the workload (client) on the localhost.</p>
+
+<p><strong>NOTE</strong>: SIMPLE and MUTUAL are the only valid TLS
+modes. <code>httpsRedirect</code> and <code>credentialName</code> (for fetching
+certificates from Kubernetes secrets) are not valid. All
+certificates must be mounted as files inside the sidecar
+container.</p>
+
 </td>
 <td>
 No

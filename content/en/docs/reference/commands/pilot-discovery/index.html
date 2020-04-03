@@ -43,11 +43,11 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -67,7 +67,7 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -166,12 +166,12 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -196,7 +196,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -303,11 +303,11 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -327,7 +327,7 @@ remove_toc_prefix: 'pilot-discovery '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -381,12 +381,12 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -411,7 +411,7 @@ remove_toc_prefix: 'pilot-discovery '
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, rbac, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, authorization, configmapcontroller, default, grpcAdapter, kube, mcp, model, pkica, processing, resource, rootcertrotator, secretcontroller, server, serverca, source, validation, validationController, validationServer] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -828,11 +828,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>citadel_secret_controller_csr_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when creating the CSR.</td></tr>
-<tr><td><code>citadel_secret_controller_csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
-<tr><td><code>citadel_secret_controller_secret_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates recreated due to secret deletion (service account still exists).</td></tr>
-<tr><td><code>citadel_secret_controller_svc_acc_created_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates created due to service account creation.</td></tr>
-<tr><td><code>citadel_secret_controller_svc_acc_deleted_cert_count</code></td><td><code>Sum</code></td><td>The number of certificates deleted due to service account deletion.</td></tr>
 <tr><td><code>citadel_server_authentication_failure_count</code></td><td><code>Sum</code></td><td>The number of authentication failures.</td></tr>
 <tr><td><code>citadel_server_csr_count</code></td><td><code>Sum</code></td><td>The number of CSRs received by Citadel server.</td></tr>
 <tr><td><code>citadel_server_csr_parsing_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when parsing the CSR.</td></tr>

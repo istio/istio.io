@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 76
+number_of_entries: 77
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -103,7 +103,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [json yaml log]  (default `log`)</td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -263,6 +263,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -282,6 +287,11 @@ istioctl d [flags]
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="istioctl-dashboard-controlz">istioctl dashboard controlz</h2>
@@ -297,6 +307,11 @@ istioctl d [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -323,6 +338,11 @@ istioctl d [flags]
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--selector &lt;string&gt;</code></td>
 <td><code>-l</code></td>
 <td>label selector  (default ``)</td>
@@ -346,6 +366,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -364,6 +389,11 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -389,6 +419,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -407,6 +442,11 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -427,6 +467,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -445,6 +490,11 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -465,6 +515,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -483,6 +538,11 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -503,6 +563,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -521,6 +586,11 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -541,6 +611,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -559,6 +634,11 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -759,6 +839,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>control plane revision  (default ``)</td>
+</tr>
+<tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
 <td>injection values configuration filename.  (default ``)</td>
@@ -908,6 +993,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>control plane revision  (default ``)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
@@ -2383,6 +2473,105 @@ istioctl experimental wait --for=distribution virtualservice bookinfo.default
 istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
 
 </code></pre>
+<h2 id="istioctl-install">istioctl install</h2>
+<p>The install generates an Istio install manifest and applies it to a cluster.</p>
+<pre class="language-bash"><code>istioctl install [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;stringSlice&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioOperator custom resource
+This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td>Proceed even with validation errors </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--readiness-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum seconds to wait for all Istio resources to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.grafana.enabled=true). See documentation for more info:
+https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--skip-confirmation</code></td>
+<td><code>-y</code></td>
+<td>skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+<tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-install Examples">Examples</h3>
+<pre class="language-bash"><code>  # Apply a default Istio installation
+  istioctl install
+
+  # Enable grafana dashboard
+  istioctl install --set values.grafana.enabled=true
+
+  # Generate the demo profile and don&#39;t wait for confirmation
+  istioctl install --set profile=demo --skip-confirmation
+
+  # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
+  istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
+
+</code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p></p>
 <p>kube-inject manually injects the Envoy sidecar into Kubernetes
@@ -2458,6 +2647,11 @@ kube-inject on deployments to get the most up-to-date changes.
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Modified output Kubernetes resource filename  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>control plane revision  (default ``)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>

@@ -210,17 +210,6 @@ The inject configuration may override this value.</p>
 No
 </td>
 </tr>
-<tr id="ProxyConfig-connect_timeout">
-<td><code>connectTimeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>Connection timeout used by Envoy for supporting services. (MUST BE &gt;=1ms)</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="ProxyConfig-statsd_udp_address">
 <td><code>statsdUdpAddress</code></td>
 <td><code>string</code></td>
@@ -417,7 +406,7 @@ No
 </tr>
 <tr id="RemoteService-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule.html#TLSSettings">TLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tls_settings to specify the tls mode to use. If the remote service
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
@@ -894,14 +883,14 @@ No
 <p>This flag is used to enable mutual TLS automatically for service to service communication
 within the mesh, default false.
 If set to true, and a given service does not have a corresponding DestinationRule configured,
-or its DestinationRule does not have TLSSettings specified, Istio configures client side
+or its DestinationRule does not have ClientTLSSettings specified, Istio configures client side
 TLS configuration appropriately. More specifically,
 If the upstream authentication policy is in STRICT mode, use Istio provisioned certificate
 for mutual TLS to connect to upstream.
 If upstream service is in plain text mode, use plain text.
 If the upstream authentication policy is in PERMISSIVE mode, Istio configures clients to use
 mutual TLS when server sides are capable of accepting mutual TLS traffic.
-If service DestinationRule exists and has TLSSettings specified, that is always used instead.</p>
+If service DestinationRule exists and has ClientTLSSettings specified, that is always used instead.</p>
 
 </td>
 <td>
@@ -1215,7 +1204,7 @@ No
 </tr>
 <tr id="ConfigSource-tls_settings">
 <td><code>tlsSettings</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule.html#TLSSettings">TLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tls<em>settings to specify the tls mode to use. If the MCP server
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS

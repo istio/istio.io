@@ -595,7 +595,7 @@ Yes
 </tr>
 <tr id="Server-tls">
 <td><code>tls</code></td>
-<td><code><a href="#Server-TLSOptions">TLSOptions</a></code></td>
+<td><code><a href="#ServerTLSSettings">ServerTLSSettings</a></code></td>
 <td>
 <p>Set of TLS related options that govern the server&rsquo;s behavior. Use
 these options to control if all http requests should be redirected to
@@ -662,7 +662,7 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="Server-TLSOptions">Server.TLSOptions</h2>
+<h2 id="ServerTLSSettings">ServerTLSSettings</h2>
 <section>
 <table class="message-fields">
 <thead>
@@ -674,7 +674,7 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="Server-TLSOptions-https_redirect">
+<tr id="ServerTLSSettings-https_redirect">
 <td><code>httpsRedirect</code></td>
 <td><code>bool</code></td>
 <td>
@@ -686,9 +686,9 @@ all http connections, asking the clients to use HTTPS.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-mode">
+<tr id="ServerTLSSettings-mode">
 <td><code>mode</code></td>
-<td><code><a href="#Server-TLSOptions-TLSmode">TLSmode</a></code></td>
+<td><code><a href="#ServerTLSSettings-TLSmode">TLSmode</a></code></td>
 <td>
 <p>Optional: Indicates whether connections to this port should be
 secured using TLS. The value of this field determines how TLS is
@@ -699,7 +699,7 @@ enforced.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-server_certificate">
+<tr id="ServerTLSSettings-server_certificate">
 <td><code>serverCertificate</code></td>
 <td><code>string</code></td>
 <td>
@@ -711,7 +711,7 @@ holding the server-side TLS certificate to use.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-private_key">
+<tr id="ServerTLSSettings-private_key">
 <td><code>privateKey</code></td>
 <td><code>string</code></td>
 <td>
@@ -723,7 +723,7 @@ holding the server&rsquo;s private key.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-ca_certificates">
+<tr id="ServerTLSSettings-ca_certificates">
 <td><code>caCertificates</code></td>
 <td><code>string</code></td>
 <td>
@@ -736,7 +736,7 @@ client side certificate.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-credential_name">
+<tr id="ServerTLSSettings-credential_name">
 <td><code>credentialName</code></td>
 <td><code>string</code></td>
 <td>
@@ -753,7 +753,7 @@ feature is enabled in the proxy by setting
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-subject_alt_names">
+<tr id="ServerTLSSettings-subject_alt_names">
 <td><code>subjectAltNames</code></td>
 <td><code>string[]</code></td>
 <td>
@@ -765,7 +765,7 @@ certificate presented by the client.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-verify_certificate_spki">
+<tr id="ServerTLSSettings-verify_certificate_spki">
 <td><code>verifyCertificateSpki</code></td>
 <td><code>string[]</code></td>
 <td>
@@ -780,7 +780,7 @@ certificate being accepted.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-verify_certificate_hash">
+<tr id="ServerTLSSettings-verify_certificate_hash">
 <td><code>verifyCertificateHash</code></td>
 <td><code>string[]</code></td>
 <td>
@@ -796,9 +796,9 @@ certificate being accepted.</p>
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-min_protocol_version">
+<tr id="ServerTLSSettings-min_protocol_version">
 <td><code>minProtocolVersion</code></td>
-<td><code><a href="#Server-TLSOptions-TLSProtocol">TLSProtocol</a></code></td>
+<td><code><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></code></td>
 <td>
 <p>Optional: Minimum TLS protocol version.</p>
 
@@ -807,9 +807,9 @@ No
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-max_protocol_version">
+<tr id="ServerTLSSettings-max_protocol_version">
 <td><code>maxProtocolVersion</code></td>
-<td><code><a href="#Server-TLSOptions-TLSProtocol">TLSProtocol</a></code></td>
+<td><code><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></code></td>
 <td>
 <p>Optional: Maximum TLS protocol version.</p>
 
@@ -818,7 +818,7 @@ No
 No
 </td>
 </tr>
-<tr id="Server-TLSOptions-cipher_suites">
+<tr id="ServerTLSSettings-cipher_suites">
 <td><code>cipherSuites</code></td>
 <td><code>string[]</code></td>
 <td>
@@ -833,7 +833,7 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="Server-TLSOptions-TLSmode">Server.TLSOptions.TLSmode</h2>
+<h2 id="ServerTLSSettings-TLSmode">ServerTLSSettings.TLSmode</h2>
 <section>
 <p>TLS modes enforced by the proxy</p>
 
@@ -845,7 +845,7 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="Server-TLSOptions-TLSmode-PASSTHROUGH">
+<tr id="ServerTLSSettings-TLSmode-PASSTHROUGH">
 <td><code>PASSTHROUGH</code></td>
 <td>
 <p>The SNI string presented by the client will be used as the
@@ -854,14 +854,14 @@ the destination service from the service registry.</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSmode-SIMPLE">
+<tr id="ServerTLSSettings-TLSmode-SIMPLE">
 <td><code>SIMPLE</code></td>
 <td>
 <p>Secure connections with standard TLS semantics.</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSmode-MUTUAL">
+<tr id="ServerTLSSettings-TLSmode-MUTUAL">
 <td><code>MUTUAL</code></td>
 <td>
 <p>Secure connections to the downstream using mutual TLS by
@@ -869,7 +869,7 @@ presenting server certificates for authentication.</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSmode-AUTO_PASSTHROUGH">
+<tr id="ServerTLSSettings-TLSmode-AUTO_PASSTHROUGH">
 <td><code>AUTO_PASSTHROUGH</code></td>
 <td>
 <p>Similar to the passthrough mode, except servers with this TLS
@@ -886,7 +886,7 @@ the destination are using Istio mTLS to secure traffic.</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSmode-ISTIO_MUTUAL">
+<tr id="ServerTLSSettings-TLSmode-ISTIO_MUTUAL">
 <td><code>ISTIO_MUTUAL</code></td>
 <td>
 <p>Secure connections from the downstream using mutual TLS by
@@ -901,7 +901,7 @@ fields in <code>TLSOptions</code> should be empty.</p>
 </tbody>
 </table>
 </section>
-<h2 id="Server-TLSOptions-TLSProtocol">Server.TLSOptions.TLSProtocol</h2>
+<h2 id="ServerTLSSettings-TLSProtocol">ServerTLSSettings.TLSProtocol</h2>
 <section>
 <p>TLS protocol versions.</p>
 
@@ -913,35 +913,35 @@ fields in <code>TLSOptions</code> should be empty.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="Server-TLSOptions-TLSProtocol-TLS_AUTO">
+<tr id="ServerTLSSettings-TLSProtocol-TLS_AUTO">
 <td><code>TLS_AUTO</code></td>
 <td>
 <p>Automatically choose the optimal TLS version.</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_0">
+<tr id="ServerTLSSettings-TLSProtocol-TLSV1_0">
 <td><code>TLSV1_0</code></td>
 <td>
 <p>TLS version 1.0</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_1">
+<tr id="ServerTLSSettings-TLSProtocol-TLSV1_1">
 <td><code>TLSV1_1</code></td>
 <td>
 <p>TLS version 1.1</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_2">
+<tr id="ServerTLSSettings-TLSProtocol-TLSV1_2">
 <td><code>TLSV1_2</code></td>
 <td>
 <p>TLS version 1.2</p>
 
 </td>
 </tr>
-<tr id="Server-TLSOptions-TLSProtocol-TLSV1_3">
+<tr id="ServerTLSSettings-TLSProtocol-TLSV1_3">
 <td><code>TLSV1_3</code></td>
 <td>
 <p>TLS version 1.3</p>
