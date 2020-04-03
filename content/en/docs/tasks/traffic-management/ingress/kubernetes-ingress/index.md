@@ -43,7 +43,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
     EOF
     {{< /text >}}
 
-    The `kubernetes.io/ingress.class` annotation is required to tell Istio that it should handle this `Ingress`, otherwise it will be ignored.
+    The `kubernetes.io/ingress.class` annotation is required to tell the Istio gateway controller that it should handle this `Ingress`, otherwise it will be ignored.
 
 1.  Access the _httpbin_ service using _curl_:
 
@@ -83,7 +83,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
 By default, Istio will treat paths as exact matches, unless they end in `/*` or `.*`, in which case they will become prefix matches. Other regular expressions are not supported.
 
-In Kubernetes 1.18, a new field, `pathType`, was added. This allows explicitly declaring a path as `Exact` or `Prefix`
+In Kubernetes 1.18, a new field, `pathType`, was added. This allows explicitly declaring a path as `Exact` or `Prefix`.
 
 ### Specifying `IngressClass`
 
@@ -103,7 +103,7 @@ metadata:
   name: ingress
 spec:
   ingressClassName: istio
-  ... 
+  ...
 {{< /text >}}
 
 ## Cleanup
