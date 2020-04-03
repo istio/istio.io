@@ -20,56 +20,38 @@ set -o pipefail
 
 # $snippet curl_foo_bar_legacy syntax="bash" outputis="text"
 #nolint
-$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 # $verify
 sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
 sleep.legacy to httpbin.foo: 200
+sleep.legacy to httpbin.bar: 200
 # $endsnippet
 
-# $snippet verify_initial_policies syntax="bash" outputis="text"
-$ kubectl get policies.authentication.istio.io --all-namespaces
+# $snippet verify_initial_peerauthentications syntax="bash" outputis="text"
+$ kubectl get peerauthentication --all-namespaces
 # $verify
-NAMESPACE      NAME                          AGE
-istio-system   grafana-ports-mtls-disabled   ?
+No resources found.
 # $endsnippet
 
-# $snippet configure_mtls_destinationrule syntax="bash"
-$ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "example-httpbin-istio-client-mtls"
-spec:
-  host: httpbin.foo.svc.cluster.local
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-EOF
-# $endsnippet
-
-# $snippet curl_foo_bar_legacy_post_dr syntax="bash" outputis="text"
-#nolint
-$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
+# $snippet verify_initial_destinationrules syntax="bash" outputis="text"
+$ kubectl get destinationrule --all-namespaces
 # $verify
-sleep.foo to httpbin.foo: 200
-sleep.bar to httpbin.foo: 200
-sleep.legacy to httpbin.foo: 200
+No resources found.
 # $endsnippet
 
-# $snippet httpbin_foo_mtls_only syntax="bash"
-$ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+
+# $snippet configure_mtls_foo_peerauthentication syntax="bash"
+$ kubectl apply -n foo -f - <<EOF
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
 metadata:
-  name: "example-httpbin-strict"
-  namespace: foo
+  name: "default"
 spec:
-  targets:
-  - name: httpbin
-  peers:
-  - mtls:
-      mode: STRICT
+  mtls:
+    mode: STRICT
 EOF
 # $endsnippet
 
@@ -77,13 +59,56 @@ EOF
 set +e
 set +o pipefail
 
-# $snippet curl_foo_bar_legacy_httpbin_foo_mtls syntax="bash" outputis="text"
+# NOTE: The output below is not in the order it would be displayed on a
+# console because the snippet runner appends stderr to stdout.
+
+# $snippet curl_foo_bar_legacy_post_pa syntax="bash" outputis="text"
 #nolint
-$ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 # $verify
 sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
 sleep.legacy to httpbin.foo: 000
+sleep.legacy to httpbin.bar: 200
+command terminated with exit code 56
+# $endsnippet
+
+# Restore error handling
+set -e
+set -o pipefail
+
+# $snippet configure_mtls_entire_mesh syntax="bash"
+$ kubectl apply -n istio-system -f - <<EOF
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "default"
+spec:
+  mtls:
+    mode: STRICT
+EOF
+# $endsnippet
+
+# Disable errors, since the next command is expected to return an error.
+set +e
+set +o pipefail
+
+# NOTE: The output below is not in the order it would be displayed on a
+# console because the snippet runner appends stderr to stdout.
+
+# $snippet curl_foo_bar_legacy_httpbin_foo_mtls syntax="bash" outputis="text"
+#nolint
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+# $verify
+sleep.foo to httpbin.foo: 200
+sleep.foo to httpbin.bar: 200
+sleep.bar to httpbin.foo: 200
+sleep.bar to httpbin.bar: 200
+sleep.legacy to httpbin.foo: 000
+sleep.legacy to httpbin.bar: 000
+command terminated with exit code 56
 command terminated with exit code 56
 # $endsnippet
 
