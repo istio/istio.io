@@ -63,16 +63,6 @@ Cross-cluster communication occurs over the Istio gateways of the respective clu
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
     configuration in all of them.
 
-    {{< tip >}}
-    Make sure that the current user has cluster administrator (`cluster-admin`) permissions and grant them if not.
-    On the GKE platform, for example, the following command can be used:
-
-    {{< text bash >}}
-    $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user="$(gcloud config get-value core/account)"
-    {{< /text >}}
-
-    {{< /tip >}}
-
     * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/) for more details.
 
         {{< warning >}}
