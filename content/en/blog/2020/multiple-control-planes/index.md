@@ -9,7 +9,7 @@ keywords: [install,upgrade,revision,control plane]
 
 Canary deployments are a core feature of Istio. Users rely on Istio's traffic management features to safely control the rollout of new versions of their applications, while making use of Istio's rich telemetry to compare the performance of canaries. However, when it came to upgrading Istio, there was not an easy way to canary the upgrade, and due to the in-place nature of the upgrade, issues or changes found affect the entire mesh at once.
 
-In Istio 1.6, we will support a new upgrade model to safely canary new versions of Istio itself. In this new model, proxies will associate with a specific control plane that they want to use. This allows a new version to deploy to the cluster with much lower risk -- no proxies will connect to the new version until the user explicitly chooses to. This allows gradually migrating workloads to the new control plane, while monitoring changes using Istio telemetry to investigate any issues - just like using `VirtualService` for workloads. Each independent control plane is referred to as a "revision" and has an `istio.io/rev` label.
+Istio 1.6 will support a new upgrade model to safely canary new versions of Istio. In this new model, proxies will associate with a specific control plane that they use. This allows a new version to deploy to the cluster with less risk -- no proxies connect to the new version until the user explicitly chooses to. This allows gradually migrating workloads to the new control plane, while monitoring changes using Istio telemetry to investigate any issues - just like using `VirtualService` for workloads. Each independent control plane is referred to as a "revision" and has an `istio.io/rev` label.
 
 ## Understanding upgrades
 
@@ -19,6 +19,6 @@ Upgrading Istio is a complicated process. During the transition period between t
 
 ## Configuring
 
-Control plane selection is done based on the sidecar injection webhook. Each control plane is configured to select objects with a matching `istio.io/rev` label on the namespace. These pods will then be configured to connect to a control plane specific to that revision. Unlike in the current model, this means that a given proxy connects to the same revision during its lifetime. This avoids subtle issues that might arise when a proxy switches what control plane it is connected to.
+Control plane selection is done based on the sidecar injection webhook. Each control plane is configured to select objects with a matching `istio.io/rev` label on the namespace. Then, the upgrade process configures the pods to connect to a control plane specific to that revision. Unlike in the current model, this means that a given proxy connects to the same revision during its lifetime. This avoids subtle issues that might arise when a proxy switches what control plane it is connected to.
 
 The new `istio.io/rev` label will replace the `istio-injection=enabled` label when using revisions. For example, if we had a revision named canary, we would label our namespaces that we want to use this revision with istio.io/rev=canary. See the [upgrade guide](/docs/setup/upgrade) for more information.

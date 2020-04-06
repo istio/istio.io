@@ -8,19 +8,19 @@ keywords: [kubernetes,upgrading]
 ## Canary upgrades
 
 The recommended upgrade method is to do a canary deployment of the control plane,
-and slowly migrate traffic over to the new version. This allows making safe changes
-and monitoring the impact on the mesh before moving all traffic over.
+and slowly migrate traffic to the new version. This allows making safe changes
+and monitor the impact on the mesh before moving all traffic over.
 
-To support canary deployments, Istio has an installation setting `revision`.
-By using this option, we can deploy two control planes that are independent from each other.
+To support canary deployments, Istio has an installation setting named `revision`.
+Using this option, you can deploy independent control planes.
 Each revision will have its own Deployment, Service, etc.
 
 ### Control plane
 
-If we want to install a new revision, which we call `canary`, we can must set the `revision` field:
+To install a new revision, named `canary` for example, set the `revision` field:
 `istioctl install --set revision=canary`.
 
-Once this has run, we can see we have two deployments running side-by-side:
+After this runs, see there are two deployments running side-by-side:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -31,17 +31,17 @@ istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
 
 ### Data plane
 
-Just installing the new revision will have no impact on our existing proxies. In order to upgrade these,
-we need to configure them to point to the new control plane. This is controlled during sidecar injection
-based on the namespace label `istio.io/rev`. If we want to upgrade our namespace `test-ns`, we can relabel it
-to point to the canary revision: `kubectl label namespace default istio-injection- istio.io/rev=canary`. Note that
-we are also removing the `istio-injection` label, which will take precedence over the `istio.io/rev` label
+Simply installing the new revision has no impact on the existing proxies. To upgrade these,
+configure them to point to the new control plane. This is controlled during sidecar injection
+based on the namespace label `istio.io/rev`. To upgrade the namespace `test-ns`, relabel it
+to point to the canary revision: `kubectl label namespace default istio-injection- istio.io/rev=canary`. Note the removal
+of the `istio-injection` label, which takes precedence over the `istio.io/rev` label
 for backwards compatibility.
 
-Once our namespace has been updated, we need to restart our pods to trigger a re-injection. One way to do
+After the namespace updates, restart the pods to trigger a re-injection. One way to do
 this is using `kubectl rollout restart deployment -n test-ns`.
 
-When the pod is re-injected, it will be configured to point to the `istiod-canary` control plane. We can verify this by
+When the pod is re-injected, it will be configured to point to the `istiod-canary` control plane. You can verify this by
 looking at the pod labels. For example, `kubectl get pods -n test-ns -l istio.io/rev=canary` will show all
 pods using the `canary` revision.
 
