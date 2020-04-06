@@ -1,9 +1,51 @@
 ---
-title: Upgrade Istio using istioctl
-description: Upgrade or downgrade Istio using the istioctl upgrade command.
+title: Upgrade Istio
+description: Upgrade or downgrade Istio.
 weight: 25
 keywords: [kubernetes,upgrading]
 ---
+
+## Canary upgrades
+
+The recommended upgrade method is to do a canary deployment of the control plane,
+and slowly migrate traffic over to the new version. This allows making safe changes
+and monitoring the impact on the mesh before moving all traffic over.
+
+To support canary deployments, Istio has an installation setting `revision`.
+By using this option, we can deploy two control planes that are independent from each other.
+Each revision will have its own Deployment, Service, etc.
+
+### Control plane
+
+If we want to install a new revision, which we call `canary`, we can must set the `revision` field:
+`istioctl install --set revision=canary`.
+
+Once this has run, we can see we have two deployments running side-by-side:
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system
+NAME                                    READY   STATUS    RESTARTS   AGE
+istiod-786779888b-p9s5n                 1/1     Running   0          114m
+istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
+{{< /text >}}
+
+### Data plane
+
+Just installing the new revision will have no impact on our existing proxies. In order to upgrade these,
+we need to configure them to point to the new control plane. This is controlled during sidecar injection
+based on the namespace label `istio.io/rev`. If we want to upgrade our namespace `test-ns`, we can relabel it
+to point to the canary revision: `kubectl label namespace default istio-injection- istio.io/rev=canary`. Note that
+we are also removing the `istio-injection` label, which will take precedence over the `istio.io/rev` label
+for backwards compatibility.
+
+Once our namespace has been updated, we need to restart our pods to trigger a re-injection. One way to do
+this is using `kubectl rollout restart deployment -n test-ns`.
+
+When the pod is re-injected, it will be configured to point to the `istiod-canary` control plane. We can verify this by
+looking at the pod labels. For example, `kubectl get pods -n test-ns -l istio.io/rev=canary` will show all
+pods using the `canary` revision.
+
+## In place upgrades
 
 The `istioctl upgrade` command performs an upgrade of Istio. Before performing
 the upgrade, it checks that the Istio installation meets the upgrade eligibility
@@ -15,7 +57,7 @@ The upgrade command can also perform a downgrade of Istio.
 See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
 for all the options provided by the `istioctl upgrade` command.
 
-## Upgrade prerequisites
+### Upgrade prerequisites
 
 Ensure you meet these requirements before starting the upgrade process:
 
@@ -23,7 +65,7 @@ Ensure you meet these requirements before starting the upgrade process:
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
-## Upgrade steps
+### Upgrade steps
 
 {{< warning >}}
 Traffic disruption may occur during the upgrade process. To minimize the disruption, ensure
@@ -86,7 +128,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
     $ kubectl rollout restart deployment
     {{< /text >}}
 
-## Downgrade prerequisites
+### Downgrade prerequisites
 
 Ensure you meet these requirements before starting the downgrade process:
 
@@ -99,7 +141,7 @@ corresponds to the Istio version that you intend to downgrade to.
 For example, if you are downgrading from Istio 1.5 to 1.4.4, use `istioctl`
 version 1.4.4.
 
-## Downgrade to Istio 1.4.4 and lower versions steps
+### Downgrade to Istio 1.4.4 and lower versions steps
 
 You can use `istioctl experimental upgrade` to downgrade to 1.4 versions. Please
 notice that you need to use the `istioctl` binary corresponding to the lower
