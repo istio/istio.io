@@ -113,7 +113,7 @@ You can fix the conflict by doing one of the following:
 * Modifying policy resource `my-namespace/my-policy` to require mutual TLS as an
   authentication mode. In general this is done by adding a `peers` attribute to
   the resource with a child of `mtls`. You can read more about how this is
-  achieved on the [reference page for policy objects](/docs/reference/config/security/istio.authentication.v1alpha1/#Policy).
+  achieved on the [reference page for policy objects](https://archive.istio.io/1.4/docs/reference/config/security/istio.authentication.v1alpha1/#Policy).
 * Modifying destination rule `istio-system/default-rule` to not use mutual TLS by
   removing the `ISTIO_MUTUAL` traffic policy. Note that `default-rule` is in the
   `istio-system` namespace - by default, the `istio-system` namespace is
