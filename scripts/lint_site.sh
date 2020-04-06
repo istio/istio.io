@@ -157,10 +157,10 @@ while IFS= read -r -d '' f; do
         FAILED=1
     fi
 
-    if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
-        echo "WARNING: content shoudn't use links to specific lines in GitHub files as those are too brittle"
-        #FAILED=1
-    fi
+    #if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
+    #    echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
+    #    FAILED=1
+    #fi
 done < <(find ./public "${find_exclude[@]}" -type f -name '*.html' -print0)
 
 if [[ ${SKIP_LINK_CHECK:-} != "true" ]]; then
