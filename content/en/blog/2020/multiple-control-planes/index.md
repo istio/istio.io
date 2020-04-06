@@ -7,7 +7,7 @@ attribution: "John Howard (Google)"
 keywords: [install,upgrade,revision,control plane]
 ---
 
-Canary deployments have been a core feature of Istio from its beginnings. Users rely on Istio's traffic management features to safely control the rollout of new versions of their applications, while making use of Istio's rich telemetry to compare the performance of canaries. However, when it came to upgrading Istio, there was not an easy way to canary the upgrade, and due to  the in place nature of the upgrade, any issues or changes found will impact the entire mesh at once.
+Canary deployments have been a core feature of Istio from its beginnings. Users rely on Istio's traffic management features to safely control the rollout of new versions of their applications, while making use of Istio's rich telemetry to compare the performance of canaries. However, when it came to upgrading Istio, there was not an easy way to canary the upgrade, and due to the in place nature of the upgrade, any issues or changes found will impact the entire mesh at once.
 
 In Istio 1.6, we will support a new upgrade model to safely canary new versions of Istio itself. In this new model, proxies will be tied to a specific control plane that they want to use. This allows a new version to be deployed to the cluster with much lower risk -- no proxies will connect to the new version until the user explicitly chooses to. This allows gradually migrating workloads to the new control plane, while monitoring changes using Istio telemetry to investigate any issues - just like using `VirtualService` for workloads. Each independent control plane is referred to as a "revision" and will be identified by a `istio.io/rev` label.
 
