@@ -300,7 +300,7 @@ No
 </tr>
 <tr id="TrafficPolicy-tls">
 <td><code>tls</code></td>
-<td><code><a href="#TLSSettings">TLSSettings</a></code></td>
+<td><code><a href="#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>TLS related settings for connections to the upstream service.</p>
 
@@ -390,7 +390,7 @@ a route rule explicitly sends traffic to this subset.</p>
 <p>One or more labels are typically required to identify the subset destination,
 however, when the corresponding DestinationRule represents a host that
 supports multiple SNI hosts (e.g., an egress gateway), a subset without labels
-may be meaningful. In this case a traffic policy with <a href="#TLSSettings">TLSSettings</a>
+may be meaningful. In this case a traffic policy with <a href="#ClientTLSSettings">ClientTLSSettings</a>
 can be used to identify a specific SNI host corresponding to the named subset.</p>
 
 <table class="message-fields">
@@ -839,7 +839,7 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="TLSSettings">TLSSettings</h2>
+<h2 id="ClientTLSSettings">ClientTLSSettings</h2>
 <section>
 <p>SSL/TLS related settings for upstream connections. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto.html">TLS
 context</a>
@@ -966,9 +966,9 @@ spec:
 </tr>
 </thead>
 <tbody>
-<tr id="TLSSettings-mode">
+<tr id="ClientTLSSettings-mode">
 <td><code>mode</code></td>
-<td><code><a href="#TLSSettings-TLSmode">TLSmode</a></code></td>
+<td><code><a href="#ClientTLSSettings-TLSmode">TLSmode</a></code></td>
 <td>
 <p>Indicates whether connections to this port should be secured
 using TLS. The value of this field determines how TLS is enforced.</p>
@@ -978,7 +978,7 @@ using TLS. The value of this field determines how TLS is enforced.</p>
 Yes
 </td>
 </tr>
-<tr id="TLSSettings-client_certificate">
+<tr id="ClientTLSSettings-client_certificate">
 <td><code>clientCertificate</code></td>
 <td><code>string</code></td>
 <td>
@@ -991,7 +991,7 @@ Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 No
 </td>
 </tr>
-<tr id="TLSSettings-private_key">
+<tr id="ClientTLSSettings-private_key">
 <td><code>privateKey</code></td>
 <td><code>string</code></td>
 <td>
@@ -1004,7 +1004,7 @@ Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 No
 </td>
 </tr>
-<tr id="TLSSettings-ca_certificates">
+<tr id="ClientTLSSettings-ca_certificates">
 <td><code>caCertificates</code></td>
 <td><code>string</code></td>
 <td>
@@ -1018,7 +1018,7 @@ Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 No
 </td>
 </tr>
-<tr id="TLSSettings-subject_alt_names">
+<tr id="ClientTLSSettings-subject_alt_names">
 <td><code>subjectAltNames</code></td>
 <td><code>string[]</code></td>
 <td>
@@ -1033,7 +1033,7 @@ from the ServiceEntry.</p>
 No
 </td>
 </tr>
-<tr id="TLSSettings-sni">
+<tr id="ClientTLSSettings-sni">
 <td><code>sni</code></td>
 <td><code>string</code></td>
 <td>
@@ -1210,7 +1210,7 @@ No
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-tls">
 <td><code>tls</code></td>
-<td><code><a href="#TLSSettings">TLSSettings</a></code></td>
+<td><code><a href="#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>TLS related settings for connections to the upstream service.</p>
 
@@ -1762,7 +1762,7 @@ This opt-in option overrides the default.</p>
 </tbody>
 </table>
 </section>
-<h2 id="TLSSettings-TLSmode">TLSSettings.TLSmode</h2>
+<h2 id="ClientTLSSettings-TLSmode">ClientTLSSettings.TLSmode</h2>
 <section>
 <p>TLS connection mode</p>
 
@@ -1774,21 +1774,21 @@ This opt-in option overrides the default.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="TLSSettings-TLSmode-DISABLE">
+<tr id="ClientTLSSettings-TLSmode-DISABLE">
 <td><code>DISABLE</code></td>
 <td>
 <p>Do not setup a TLS connection to the upstream endpoint.</p>
 
 </td>
 </tr>
-<tr id="TLSSettings-TLSmode-SIMPLE">
+<tr id="ClientTLSSettings-TLSmode-SIMPLE">
 <td><code>SIMPLE</code></td>
 <td>
 <p>Originate a TLS connection to the upstream endpoint.</p>
 
 </td>
 </tr>
-<tr id="TLSSettings-TLSmode-MUTUAL">
+<tr id="ClientTLSSettings-TLSmode-MUTUAL">
 <td><code>MUTUAL</code></td>
 <td>
 <p>Secure connections to the upstream using mutual TLS by presenting
@@ -1796,14 +1796,14 @@ client certificates for authentication.</p>
 
 </td>
 </tr>
-<tr id="TLSSettings-TLSmode-ISTIO_MUTUAL">
+<tr id="ClientTLSSettings-TLSmode-ISTIO_MUTUAL">
 <td><code>ISTIO_MUTUAL</code></td>
 <td>
 <p>Secure connections to the upstream using mutual TLS by presenting
 client certificates for authentication.
 Compared to Mutual mode, this mode uses certificates generated
 automatically by Istio for mTLS authentication. When this mode is
-used, all other fields in <code>TLSSettings</code> should be empty.</p>
+used, all other fields in <code>ClientTLSSettings</code> should be empty.</p>
 
 </td>
 </tr>
