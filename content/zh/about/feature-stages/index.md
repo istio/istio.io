@@ -71,7 +71,7 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Deny Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
 | [List Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/)        | Stable
+| [Pluggable Key/Cert Support for Istio CA](/zh/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/zh/docs/concepts/security/#PKI)   | Stable
 | [VM: Service Credential Distribution](/zh/docs/concepts/security/#PKI)         | Beta
