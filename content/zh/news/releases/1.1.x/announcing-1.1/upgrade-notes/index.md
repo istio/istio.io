@@ -23,7 +23,7 @@ weight: 20
 
 - 内置的 Istio Statsd 收集器已经被删除。Istio 保留了与您自己的 Statsd 收集器集成的功能，可以使用 `--set global.envoyStatsd.enabled=true` 标志。
 
-- 用于配置 Kubernetes 入口的一系列 `ingress` 选项已经被删除。使用 `--set global.k8sIngress.enabled=true` 标志依然可以开启并使用 Kubernetes Ingress。请参阅[使用 Cert-Manager 确保 Kubernetes Ingress 安全](/zh/docs/tasks/traffic-management/ingress/ingress-certmgr/)的文档了解如何保护 Kubernetes 入口资源。
+- 用于配置 Kubernetes 入口的一系列 `ingress` 选项已经被删除。使用 `--set global.k8sIngress.enabled=true` 标志依然可以开启并使用 Kubernetes Ingress。请参阅[使用 Cert-Manager 确保 Kubernetes Ingress 安全](/zh/docs/ops/integrations/certmanager/)的文档了解如何保护 Kubernetes 入口资源。
 
 ## 流量管理{#traffic-management}
 

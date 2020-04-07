@@ -40,7 +40,7 @@ aliases:
 
 - **完善多集群路由**。简化了多集群设置并启用了其他部署模式。现在，您可以简单地使用它们的入口网关连接多个集群，而无需 Pod 级的 VPN，针对高可用性情况在每个集群中部署控制平面，并跨多个集群创建命名空间以实现创建全局命名空间。高可用控制平面解决方案默认启用位置感知路由。
 
-- **弃用 Istio Ingress**。删除了以前不推荐使用的 Istio ingress。有关如何在[网关](/zh/docs/concepts/traffic-management/#gateways)中使用 Kubernetes Ingress 资源的更多详细信息，请参考[使用 Cert-Manager 保护 Kubernetes Ingress](/zh/docs/tasks/traffic-management/ingress/ingress-certmgr/) 示例。
+- **弃用 Istio Ingress**。删除了以前不推荐使用的 Istio ingress。有关如何在[网关](/zh/docs/concepts/traffic-management/#gateways)中使用 Kubernetes Ingress 资源的更多详细信息，请参考[使用 Cert-Manager 保护 Kubernetes Ingress](/zh/docs/ops/integrations/certmanager/) 示例。
 
 - **改进性能和可伸缩性**。调整 Istio 和 Envoy 的性能和可伸缩性。阅读[性能和可伸缩性](/zh/docs/ops/deployment/performance-and-scalability/)获取更多信息。
 
