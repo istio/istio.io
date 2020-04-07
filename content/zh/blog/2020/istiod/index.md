@@ -61,7 +61,7 @@ istiod 将先前由 Pilot，Galley，Citadel 和 sidecar 注入器执行的功�
 
 在某些情况下，您可能仍然想要独立运行 Istio 组件或替换某些组件。
 
-一些用户可能想在网格外部使用证书颁发机构（CA），我们有[如何执行此操作的文档](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/)。如果您使用其他工具进行证书设置，则可以使用它代替内置 CA。
+一些用户可能想在网格外部使用证书颁发机构（CA），我们有[如何执行此操作的文档](/zh/docs/tasks/security/plugin-ca-cert/)。如果您使用其他工具进行证书设置，则可以使用它代替内置 CA。
 
 ## 进阶{#moving-forward}
 

@@ -39,7 +39,7 @@ aliases:
 
 当将非 Kubernetes 服务添加到 Istio 网格中时，首先配置 Istio 它自己的设施，并生成配置文件使 VM 连接网格。在具有集群管理员特权的计算机上，使用以下命令为 VM 准备集群：
 
-1. 使用类似于以下的命令，为生成的 CA 证书创建 Kubernetes secret。请参阅[证书办法机构 (CA) 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)获取更多的详细信息。
+1. 使用类似于以下的命令，为生成的 CA 证书创建 Kubernetes secret。请参阅[证书办法机构 (CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)获取更多的详细信息。
 
     {{< warning >}}
     样本目录中的 root 证书和中间证书已经大范围分发并被识别。
