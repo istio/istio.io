@@ -27,22 +27,8 @@ func TestCircuitBreaker(t *testing.T) {
 			Add(
 				istioio.Script{Input: istioio.Path("scripts/circuitbreaker_test_setup.txt")},
 				istioio.MultiPodWait("istio-io-circuitbreaker"),
-				istioio.Script{
-					Input: istioio.Evaluate(istioio.Path("scripts/trip_circuitbreaker.txt"), map[string]interface{}{
-						"isSnippet":                false,
-						"inputTerminalFlag":        "",
-						"beforeCircuitBreakVerify": " 2>&1 | verify_circuit_breaking 60 100 0 40",
-						"afterCircuitBreakVerify":  " 2>&1 | verify_circuit_breaking 20 80 20 80",
-						"outputRedirectionCmd":     "2>&1",
-					}),
-					SnippetInput: istioio.Evaluate(istioio.Path("scripts/trip_circuitbreaker.txt"), map[string]interface{}{
-						"isSnippet":                true,
-						"inputTerminalFlag":        "-it",
-						"beforeCircuitBreakVerify": "",
-						"afterCircuitBreakVerify":  "",
-						"outputRedirectionCmd":     "",
-					}),
-				}).
+				istioio.Script{Input: istioio.Path("scripts/trip_circuitbreaker.txt")},
+			).
 			Defer(istioio.Script{Input: istioio.Path("scripts/circuitbreaker_test_cleanup.txt")}).
 			Build())
 }
