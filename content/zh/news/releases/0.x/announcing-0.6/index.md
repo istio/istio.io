@@ -34,6 +34,6 @@ aliases:
 
 - **监控仪表盘**。Grafana 现在有了初步的 Mixer&Pilot 监控仪表盘。
 
-- **存活及就绪检测**。Istio 组件现在提供了规范的存活及就绪检测支持，以帮助确保网格基础结构的健康。[了解更多](/zh/docs/tasks/security/citadel-config/health-check/)
+- **存活及就绪检测**。Istio 组件现在提供了规范的存活及就绪检测支持，以帮助确保网格基础结构的健康。
 
 - **Egress 策略和遥测**。Istio 可以监控由 `EgressRule` 或 External Service 定义的外部服务的流量。也可以将 Mixer 策略应用于该流量。
