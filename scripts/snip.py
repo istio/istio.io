@@ -24,7 +24,7 @@ multiline_cmd = False
 output_started = False
 snippets = []
 
-HEADER="""####################################################################################################
+HEADER = """####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE
 ####################################################################################################
 """
@@ -43,10 +43,10 @@ if len(sys.argv) > 2:
     snipdir = sys.argv[2]
 else:
     snipdir = os.path.dirname(markdown)
-   
+
 snipfile = markdown.split('/')[-2] + "_snip.txt"
 
-with open (markdown, 'rt') as mdfile:
+with open(markdown, 'rt') as mdfile:
     for line in mdfile:
         linenum += 1
         match = startsnip.match(line)
@@ -64,11 +64,11 @@ with open (markdown, 'rt') as mdfile:
                 script = "\n%s() {\n" % id
             else:
                 script = "\n! read -r -d '' %s <<ENDSNIP\n" % id
-            current_snip = { "start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script] }
+            current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
             snippets.append(current_snip)
         elif current_snip != None:
             if current_snip["indent"]:
-                _,line = line.split(current_snip["indent"], 1)
+                _, line = line.split(current_snip["indent"], 1)
             if "{{< /text >}}" in line:
                 if current_snip["kind"] == "bash" and not output_started:
                     script = "}\n"
