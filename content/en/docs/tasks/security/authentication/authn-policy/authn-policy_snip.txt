@@ -448,4 +448,3 @@ kubectl -n istio-system delete authorization frontend-ingress
 snip_line_565() {
 kubectl delete ns foo bar legacy
 }
-

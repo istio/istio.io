@@ -1,3 +1,19 @@
+#!/usr/bin/python
+
+# Copyright Istio Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import sys
 import re
 import os
@@ -11,10 +27,9 @@ snippets = []
 HEADER="""####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE
 ####################################################################################################
-
 """
 
-startsnip = re.compile(r"^(\s*){{< text (\w+) .*>}}$")
+startsnip = re.compile(r"^(\s*){{< text ([\w=]+) .*>}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
 githubfile = re.compile("^([^@]*)@([\w\.\-_/]+)@([^@]*)$")
 
@@ -38,15 +53,17 @@ with open (markdown, 'rt') as mdfile:
         if match:
             indent = match.group(1)
             kind = match.group(2)
+            if kind.startswith("syntax="):
+                kind = kind[len("syntax="):]
             match = snippetid.search(line)
             if match:
                 id = match.group(1)
             else:
                 id = "snip_line_%d" % linenum
             if kind == "bash":
-                script = "%s() {\n" % id
+                script = "\n%s() {\n" % id
             else:
-                script = "! read -r -d '' %s <<ENDSNIP\n" % id
+                script = "\n! read -r -d '' %s <<ENDSNIP\n" % id
             current_snip = { "start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script] }
             snippets.append(current_snip)
         elif current_snip != None:
@@ -54,9 +71,9 @@ with open (markdown, 'rt') as mdfile:
                 _,line = line.split(current_snip["indent"], 1)
             if "{{< /text >}}" in line:
                 if current_snip["kind"] == "bash" and not output_started:
-                    script = "}\n\n"
+                    script = "}\n"
                 else:
-                    script = "ENDSNIP\n\n"
+                    script = "ENDSNIP\n"
                 current_snip["script"].append(script)
                 current_snip = None
                 multiline_cmd = False
@@ -65,16 +82,20 @@ with open (markdown, 'rt') as mdfile:
                 if current_snip["kind"] == "bash":
                     if line.startswith("$ "):
                         line = line[2:]
-                        match = githubfile.match(line)
-                        if match:
-                           line = match.group(1) + match.group(2) + match.group(3)
-                        if "<<EOF" in line:
-                            multiline_cmd = True
-                    elif not multiline_cmd:
-                        # command output
-                        if not output_started:
-                            current_snip["script"].append("}\n\n! read -r -d '' %s_out <<ENDSNIP\n" % id)
-                            output_started = True
+                    else:
+                        if multiline_cmd:
+                            if line == "EOF\n":
+                                multiline_cmd = False
+                        elif not current_snip["script"][-1].endswith("\\\n"):
+                            # command output
+                            if not output_started:
+                                current_snip["script"].append("}\n\n! read -r -d '' %s_out <<ENDSNIP\n" % id)
+                                output_started = True
+                    match = githubfile.match(line)
+                    if match:
+                        line = match.group(1) + match.group(2) + match.group(3)
+                    if "<<EOF" in line:
+                        multiline_cmd = True
                 current_snip["script"].append(line)
 
 with open(os.path.join(snipdir, snipfile), 'w') as f:

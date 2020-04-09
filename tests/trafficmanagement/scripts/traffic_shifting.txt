@@ -120,7 +120,7 @@ verify_traffic_shift 50
 
 # Step 6: route 100% traffic to v3
 
-# $snippet route_100_percent_v3 syntax="bash" outputis="text" outputsnippet="true"
+# $snippet
 config_100_v3()
 # $endsnippet
 

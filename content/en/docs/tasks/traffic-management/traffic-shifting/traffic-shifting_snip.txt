@@ -42,4 +42,3 @@ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 cleanup() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }
-
