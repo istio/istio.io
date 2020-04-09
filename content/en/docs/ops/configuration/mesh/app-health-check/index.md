@@ -113,7 +113,7 @@ You have two ways to enable Istio to rewrite the liveness HTTP probes.
 **Alternatively**, update the configuration map of Istio sidecar injection:
 
 {{< text bash >}}
-$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe":false/"rewriteAppHTTPProbe":true/' | kubectl apply -f -
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": false/"rewriteAppHTTPProbe": true/' | kubectl apply -f -
 {{< /text >}}
 
 The above installation option and configuration map, each instruct the sidecar injection process to automatically
