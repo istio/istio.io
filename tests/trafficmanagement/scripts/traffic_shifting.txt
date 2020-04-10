@@ -81,7 +81,7 @@ function verify_traffic_shift() {
 # Step 1
 
 # $snippet
-config_all_v1()
+snip_config_all_v1()
 # $verify
 virtualservice.networking.istio.io/productpage created
 virtualservice.networking.istio.io/reviews created
@@ -95,7 +95,7 @@ verify_traffic_shift 0
 # Step 3: switch 50% traffic to v3
 
 # $snippet
-config_50_v3()
+snip_config_50_v3()
 # $verify
 virtualservice.networking.istio.io/reviews configured
 # $endsnippet
@@ -105,7 +105,7 @@ istioctl experimental wait --for=distribution VirtualService reviews.default
 # Step 4: Confirm the rule was replaced
 
 # $snippet
-verify_config_50_v3()
+snip_verify_config_50_v3()
 # $verify verifier="contains"
 subset: v3
 # $endsnippet
@@ -120,7 +120,7 @@ verify_traffic_shift 50
 # Step 6: route 100% traffic to v3
 
 # $snippet
-config_100_v3()
+snip_config_100_v3()
 # $endsnippet
 
 verify_traffic_shift 100
