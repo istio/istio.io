@@ -174,9 +174,9 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: "cluster.local/ns/default/sa/bookstore-frontend”
+  - user: "cluster.local/ns/default/sa/bookstore-frontend"
     properties:
-      request.auth.claims[group]: "qualified-reviewer”
+      request.auth.claims[group]: "qualified-reviewer"
   roleRef:
     kind: ServiceRole
     name: "book-reader"
