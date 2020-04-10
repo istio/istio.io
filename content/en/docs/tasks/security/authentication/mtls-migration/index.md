@@ -5,6 +5,7 @@ weight: 40
 keywords: [security,authentication,migration]
 aliases:
     - /docs/tasks/security/mtls-migration/
+test: true
 ---
 
 This task shows how to ensure your workloads only communicate using mutual TLS as they are migrated to

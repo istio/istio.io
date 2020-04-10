@@ -1,20 +1,23 @@
+#!/usr/bin/python
+
 ####################################################################################################
-# WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE
+# WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
+#          /docs/tasks/traffic-management/traffic-shifting/index.md
 ####################################################################################################
 
-config_all_v1() {
+snip_config_all_v1() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }
 
-config_50_v3() {
+snip_config_50_v3() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
 }
 
-verify_config_50_v3() {
+snip_verify_config_50_v3() {
 kubectl get virtualservice reviews -o yaml
 }
 
-! read -r -d '' verify_config_50_v3_out <<ENDSNIP
+! read -r -d '' snip_verify_config_50_v3_out <<ENDSNIP
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -35,10 +38,10 @@ spec:
       weight: 50
 ENDSNIP
 
-config_100_v3() {
+snip_config_100_v3() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 }
 
-cleanup() {
+snip_cleanup() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }

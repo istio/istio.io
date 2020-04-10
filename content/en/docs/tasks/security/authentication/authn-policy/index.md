@@ -6,7 +6,6 @@ keywords: [security,authentication]
 aliases:
     - /docs/tasks/security/istio-auth.html
     - /docs/tasks/security/authn-policy/
-test: true
 ---
 
 This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about

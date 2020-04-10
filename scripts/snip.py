@@ -24,12 +24,15 @@ multiline_cmd = False
 output_started = False
 snippets = []
 
-HEADER = """####################################################################################################
-# WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE
+HEADER = """#!/usr/bin/python
+
+####################################################################################################
+# WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
+#          %s
 ####################################################################################################
 """
 
-startsnip = re.compile(r"^(\s*){{< text ([\w=]+) .*>}}$")
+startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
 githubfile = re.compile("^([^@]*)@([\w\.\-_/]+)@([^@]*)$")
 
@@ -44,7 +47,7 @@ if len(sys.argv) > 2:
 else:
     snipdir = os.path.dirname(markdown)
 
-snipfile = markdown.split('/')[-2] + "_snip.txt"
+snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
 
 with open(markdown, 'rt') as mdfile:
     for line in mdfile:
@@ -52,12 +55,10 @@ with open(markdown, 'rt') as mdfile:
         match = startsnip.match(line)
         if match:
             indent = match.group(1)
-            kind = match.group(2)
-            if kind.startswith("syntax="):
-                kind = kind[len("syntax="):]
+            kind = match.group(3)
             match = snippetid.search(line)
             if match:
-                id = match.group(1)
+                id = "snip_" + match.group(1)
             else:
                 id = "snip_line_%d" % linenum
             if kind == "bash":
@@ -99,7 +100,7 @@ with open(markdown, 'rt') as mdfile:
                 current_snip["script"].append(line)
 
 with open(os.path.join(snipdir, snipfile), 'w') as f:
-    f.write(HEADER)
+    f.write(HEADER % markdown.split("content/en")[1] if "content/en" in markdown else markdown)
     for snippet in snippets:
         lines = snippet["script"]
         for line in lines:
