@@ -13,7 +13,6 @@ traffic to the new version. This is much safer than doing an in place upgrade an
 
 When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation with its own `Deployment`, `Service`, etc.
 
-
 ### Control plane
 
 If we want to install a new revision, which we call `canary`, we can must set the `revision` field:
@@ -37,7 +36,7 @@ Simply installing the new revision has no impact on the existing proxies. To upg
 you must configure them to point to the new control plane. This is controlled during sidecar injection
 based on the namespace label `istio.io/rev`.
 
-To upgrade the namespace `test-ns`, relabel it to point to the canary revision: 
+To upgrade the namespace `test-ns`, relabel it to point to the canary revision:
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection- istio.io/rev=canary
