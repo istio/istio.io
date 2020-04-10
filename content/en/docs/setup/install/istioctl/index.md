@@ -191,7 +191,7 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
 Inspect the manifest as needed, then apply the manifest using this command:
 
 {{< text bash >}}
-$ kubectl apply -f $HOME/generated-manifest.yaml
+$ istioctl manifest apply -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
 {{< tip >}}
