@@ -52,7 +52,7 @@ aliases:
 
 - **群集 RBAC 配置**。用 `ClusterRbacConfig` 资源替换了 `RbacConfig` 资源，以实现正确的集群范围。关于迁移说明，请参见[将 `RbacConfig` 迁移到 `ClusterRbacConfig`](https://archive.istio.io/v1.1/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig)。
 
-- **通过 SDS 进行身份认证**。添加了 SDS 支持，通过节点密钥生成以及动态证书轮换，来提供更强的安全性，并且无需重启 Envoy。有关更多信息，请参见[通过 SDS 进行身份认证](/zh/docs/tasks/security/citadel-config/auth-sds)。
+- **通过 SDS 进行身份认证**。添加了 SDS 支持，通过节点密钥生成以及动态证书轮换，来提供更强的安全性，并且无需重启 Envoy。
 
 - **TCP 服务授权**。除了 HTTP 和 gRPC 服务之外，还增加了对 TCP 服务的授权支持。有关更多信息，请参见 [TCP 服务授权](/zh/docs/tasks/security/authorization/authz-tcp)。
 

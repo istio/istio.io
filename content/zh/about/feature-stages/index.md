@@ -80,7 +80,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Authorization](/zh/docs/concepts/security/#authorization)   | Beta
 | [End User (JWT) Authentication](/zh/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [SDS Integration](/zh/docs/tasks/security/citadel-config/auth-sds/) | Alpha
 
 ### Core
 
