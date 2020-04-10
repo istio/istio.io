@@ -189,8 +189,8 @@ Peer 和 request 认证策略使用 `selector` 字段来指定该策略适用的
 
 {{< text yaml >}}
 selector:
-     matchLabels:
-       app:product-page
+  matchLabels:
+    app: product-page
 {{< /text >}}
 
 如果您没有为 `selector` 字段提供值，则 Istio 会将策略与策略存储范围内的所有工作负载进行匹配。因此，`selector` 字段可帮助您指定策略的范围：

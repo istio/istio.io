@@ -333,8 +333,8 @@ the selector field of a policy that applies to workloads with the
 
 {{< text yaml >}}
 selector:
-     matchLabels:
-       app:product-page
+  matchLabels:
+    app: product-page
 {{< /text >}}
 
 If you don't provide a value for the `selector` field, Istio matches the policy
