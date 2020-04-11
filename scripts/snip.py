@@ -24,7 +24,21 @@ multiline_cmd = False
 output_started = False
 snippets = []
 
-HEADER = """#!/usr/bin/python
+HEADER = """##!/bin/bash
+
+# Copyright Istio Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
@@ -48,6 +62,8 @@ else:
     snipdir = os.path.dirname(markdown)
 
 snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
+
+print("generating snips: " + os.path.join(snipdir, snipfile))
 
 with open(markdown, 'rt') as mdfile:
     for line in mdfile:
@@ -100,7 +116,7 @@ with open(markdown, 'rt') as mdfile:
                 current_snip["script"].append(line)
 
 with open(os.path.join(snipdir, snipfile), 'w') as f:
-    f.write(HEADER % markdown.split("content/en")[1] if "content/en" in markdown else markdown)
+    f.write(HEADER % markdown.split("content/en/")[1] if "content/en/" in markdown else markdown)
     for snippet in snippets:
         lines = snippet["script"]
         for line in lines:
