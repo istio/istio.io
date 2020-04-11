@@ -24,7 +24,7 @@ multiline_cmd = False
 output_started = False
 snippets = []
 
-HEADER = """##!/bin/bash
+HEADER = """#!/bin/bash
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -80,7 +80,7 @@ with open(markdown, 'rt') as mdfile:
             if kind == "bash":
                 script = "\n%s() {\n" % id
             else:
-                script = "\n! read -r -d '' %s <<ENDSNIP\n" % id
+                script = "\n# shellcheck disable=SC2034\n! read -r -d '' %s <<ENDSNIP\n" % id
             current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
             snippets.append(current_snip)
         elif current_snip != None:
@@ -106,7 +106,7 @@ with open(markdown, 'rt') as mdfile:
                         elif not current_snip["script"][-1].endswith("\\\n"):
                             # command output
                             if not output_started:
-                                current_snip["script"].append("}\n\n! read -r -d '' %s_out <<ENDSNIP\n" % id)
+                                current_snip["script"].append("}\n\n# shellcheck disable=SC2034\n! read -r -d '' %s_out <<ENDSNIP\n" % id)
                                 output_started = True
                     match = githubfile.match(line)
                     if match:
