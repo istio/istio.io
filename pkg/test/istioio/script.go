@@ -398,7 +398,7 @@ func (s Script) createSnippets(ctx Context) {
 			// No snippet to generate, just verifying output.
 			continue
 		}
-		
+
 		// Verify the output, if configured to do so.
 		snippetOutput := ""
 		if sinfo.outputIs != "" {
