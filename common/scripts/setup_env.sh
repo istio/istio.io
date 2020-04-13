@@ -26,7 +26,7 @@ set -e
 LOCAL_ARCH=$(uname -m)
 export LOCAL_ARCH
 # Pass environment set target architecture to build system
-if [[ -z ${TARGET_ARCH} ]]; then
+if [[ ${TARGET_ARCH} ]]; then
     export TARGET_ARCH
 elif [[ ${LOCAL_ARCH} == x86_64 ]]; then
     export TARGET_ARCH=amd64
@@ -44,7 +44,7 @@ fi
 LOCAL_OS=$(uname)
 export LOCAL_OS
 # Pass environment set target operating-system to build system
-if [[ -z ${TARGET_OS} ]]; then
+if [[ ${TARGET_OS} ]]; then
     export TARGET_OS
 elif [[ $LOCAL_OS == Linux ]]; then
     export TARGET_OS=linux
