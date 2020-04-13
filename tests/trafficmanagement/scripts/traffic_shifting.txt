@@ -18,7 +18,7 @@ set -e
 set -u
 set -o pipefail
 
-source ${DOC_ROOT_DIR}/docs/tasks/traffic-management/traffic-shifting/snips.sh
+source ${REPO_ROOT}/docs/tasks/traffic-management/traffic-shifting/snips.sh
 
 # setup bookinfo & sleep pods
 kubectl label namespace default istio-injection=enabled --overwrite || true

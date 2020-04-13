@@ -62,7 +62,6 @@ const (
 	commandLinePrefix      = "$ "
 	testOutputDirEnvVar    = "TEST_OUTPUT_DIR"
 	kubeConfigEnvVar       = "KUBECONFIG"
-	docRootDirEnvVar       = "DOC_ROOT_DIR"
 	outputSnippetExtension = "_output"
 	stdoutExtension        = ".stdout.txt"
 	stderrExtension        = ".stderr.txt"
@@ -323,7 +322,9 @@ func (s Script) runCommand(ctx Context) {
 				if sinfo.name != "" { // No snippet name -> snippet commands are proper bash syntax
 					snippetCommand = filterCommandLine(snippetCommand)
 				}
-				commandLines = append(commandLines, snippetCommand)
+				//TODO commandLines = append(commandLines, snippetCommand) // Commands outside of snippets should be proper bash
+				//TODO Need to fix some tests that are incorrectly annotating commands outside of snippets.
+				commandLines = append(commandLines, filterCommandLine(snippetCommand))
 			}
 		} else {
 			// Not a snippet, just copy the line directly to the command.
@@ -467,7 +468,6 @@ func (s Script) getEnv(ctx Context) []string {
 	customVars := map[string]string{
 		// Set the output dir for the test.
 		testOutputDirEnvVar: ctx.WorkDir(),
-		docRootDirEnvVar:    ctx.WorkDir() + "/..",
 	}
 	ctx.Environment().Case(environment.Kube, func() {
 		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
