@@ -56,7 +56,7 @@ aliases:
 
 - **TCP 服务授权**。除了 HTTP 和 gRPC 服务之外，还增加了对 TCP 服务的授权支持。有关更多信息，请参见 [TCP 服务授权](/zh/docs/tasks/security/authorization/authz-tcp)。
 
-- **终端用户组的授权**。添加了基于 `组` 声明或 JWT 中任何列表类型声明的授权。有关更多信息，请参见[组和列表声明的授权](/zh/docs/tasks/security/authorization/rbac-groups/)。
+- **终端用户组的授权**。添加了基于 `组` 声明或 JWT 中任何列表类型声明的授权。有关更多信息，请参见[基于 JWT 授权](/zh/docs/tasks/security/authorization/authz-jwt)。
 
 - **Ingress Gateway 控制器的外部证书管理**。添加了一个控制器以动态加载和轮转外部证书。
 
