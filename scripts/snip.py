@@ -19,6 +19,9 @@ import re
 import os
 
 linenum = 0
+snipnum = 0
+section = ""
+
 current_snip = None
 multiline_cmd = False
 output_started = False
@@ -48,7 +51,9 @@ HEADER = """#!/bin/bash
 
 startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
-githubfile = re.compile("^([^@]*)@([\w\.\-_/]+)@([^@]*)$")
+githubfile = re.compile(r"^([^@]*)@([\w\.\-_/]+)@([^@]*)$")
+sectionhead = re.compile(r"^##+ (.*)$")
+invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
 if len(sys.argv) < 2:
     print("usage: python snip.py mdfile [ snipdir ]")
@@ -68,22 +73,32 @@ print("generating snips: " + os.path.join(snipdir, snipfile))
 with open(markdown, 'rt') as mdfile:
     for line in mdfile:
         linenum += 1
+
+        match = sectionhead.match(line)
+        if match:
+            snipnum = 0
+            section = invalidchar.sub('', match.group(1).replace(" ", "_")).lower()
+            continue
+
         match = startsnip.match(line)
         if match:
+            snipnum += 1
             indent = match.group(1)
             kind = match.group(3)
             match = snippetid.search(line)
             if match:
                 id = "snip_" + match.group(1)
             else:
-                id = "snip_line_%d" % linenum
+                id = "snip_%s_%d" % (section, snipnum)
             if kind == "bash":
                 script = "\n%s() {\n" % id
             else:
                 script = "\n# shellcheck disable=SC2034\n! read -r -d '' %s <<ENDSNIP\n" % id
             current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
             snippets.append(current_snip)
-        elif current_snip != None:
+            continue
+
+        if current_snip != None:
             if current_snip["indent"]:
                 _, line = line.split(current_snip["indent"], 1)
             if "{{< /text >}}" in line:
