@@ -1,9 +1,66 @@
 ---
-title: Upgrade Istio using istioctl
-description: Upgrade or downgrade Istio using the istioctl upgrade command.
+title: Upgrade Istio
+description: Upgrade or downgrade Istio.
 weight: 25
 keywords: [kubernetes,upgrading]
 ---
+
+## Canary upgrades
+
+Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you
+to monitor the effect of the upgrade with a small percentage of the workloads, before migrating all of the
+traffic to the new version. This is much safer than doing an in place upgrade and is the recommended upgrade method.
+
+When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane next to the old one, using a different `revision` setting. Each revision is a full Istio control plane implementation with its own `Deployment`, `Service`, etc.
+
+### Control plane
+
+To install a new revision called `canary`, you would set the `revision` field as follows:
+
+{{< text bash >}}
+$ istioctl install --set revision=canary
+{{< /text >}}
+
+After running the command, you will have two control plane deployments running side-by-side:
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system
+NAME                                    READY   STATUS    RESTARTS   AGE
+istiod-786779888b-p9s5n                 1/1     Running   0          114m
+istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
+{{< /text >}}
+
+### Data plane
+
+Simply installing the new revision has no impact on the existing proxies. To upgrade these,
+you must configure them to point to the new control plane. This is controlled during sidecar injection
+based on the namespace label `istio.io/rev`.
+
+To upgrade the namespace `test-ns`, relabel it to point to the canary revision:
+
+{{< text bash >}}
+$ kubectl label namespace default istio-injection- istio.io/rev=canary
+{{< /text >}}
+
+Note that the above command is also removing the `istio-injection` label because otherwise
+it would take precedence over the `istio.io/rev` label (for backward compatibility).
+
+After the namespace updates, you need to restart the pods to trigger re-injection. One way to do
+this is using:
+
+{{< text bash >}}
+$ kubectl rollout restart deployment -n test-ns
+{{< /text >}}
+
+When the pods are re-injected, they will be configured to point to the `istiod-canary` control plane. You can verify this by looking at the pod labels.
+
+For example, the following command will show all the pods using the `canary` revision:
+
+{{< text bash >}}
+$ kubectl get pods -n test-ns -l istio.io/rev=canary
+{{< /text >}}
+
+## In place upgrades
 
 The `istioctl upgrade` command performs an upgrade of Istio. Before performing
 the upgrade, it checks that the Istio installation meets the upgrade eligibility
@@ -15,7 +72,7 @@ The upgrade command can also perform a downgrade of Istio.
 See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
 for all the options provided by the `istioctl upgrade` command.
 
-## Upgrade prerequisites
+### Upgrade prerequisites
 
 Ensure you meet these requirements before starting the upgrade process:
 
@@ -23,7 +80,7 @@ Ensure you meet these requirements before starting the upgrade process:
 
 * Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
 
-## Upgrade steps
+### Upgrade steps
 
 {{< warning >}}
 Traffic disruption may occur during the upgrade process. To minimize the disruption, ensure
@@ -86,7 +143,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
     $ kubectl rollout restart deployment
     {{< /text >}}
 
-## Downgrade prerequisites
+### Downgrade prerequisites
 
 Ensure you meet these requirements before starting the downgrade process:
 
@@ -99,7 +156,7 @@ corresponds to the Istio version that you intend to downgrade to.
 For example, if you are downgrading from Istio 1.5 to 1.4.4, use `istioctl`
 version 1.4.4.
 
-## Downgrade to Istio 1.4.4 and lower versions steps
+### Downgrade to Istio 1.4.4 and lower versions steps
 
 You can use `istioctl experimental upgrade` to downgrade to 1.4 versions. Please
 notice that you need to use the `istioctl` binary corresponding to the lower
