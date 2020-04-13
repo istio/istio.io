@@ -319,16 +319,16 @@ func (s Script) runCommand(ctx Context) {
 
 			// Copy the commands from the snippet.
 			for _, snippetCommand := range snippetCommands {
-				if sinfo.name != "" { // No snippet name -> snippet commands are proper bash syntax
+				if sinfo.name != "" {
 					snippetCommand = filterCommandLine(snippetCommand)
 				}
-				//TODO commandLines = append(commandLines, snippetCommand) // Commands outside of snippets should be proper bash
-				//TODO Need to fix some tests that are incorrectly annotating commands outside of snippets.
-				commandLines = append(commandLines, filterCommandLine(snippetCommand))
+				commandLines = append(commandLines, snippetCommand)
 			}
 		} else {
 			// Not a snippet, just copy the line directly to the command.
-			commandLines = append(commandLines, line)
+			// TODO commandLines = append(commandLines, line) // Commands outside of snippets should be proper bash
+			// TODO Need to fix some tests that are incorrectly annotating commands outside of snippets.
+			commandLines = append(commandLines, filterCommandLine(line))
 		}
 	}
 
