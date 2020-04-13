@@ -1,5 +1,5 @@
 ---
-title: "Multiple Control Planes"
+title: "Safely Upgrade Istio using a Canary Control Plane Deployment"
 subtitle: Simplifying Istio upgrades by offering safe canary deployments of the control plane
 description: Simplifying Istio upgrades by offering safe canary deployments of the control plane.
 publishdate: 2020-05-19

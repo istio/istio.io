@@ -15,7 +15,7 @@ When installing Istio, the `revision` installation setting can be used to deploy
 
 ### Control plane
 
-If we want to install a new revision, which we call `canary`, we can must set the `revision` field:
+To install a new revision called `canary`, you would set the `revision` field as follows:
 
 {{< text bash >}}
 $ istioctl install --set revision=canary
