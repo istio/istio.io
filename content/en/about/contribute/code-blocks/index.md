@@ -1,7 +1,7 @@
 ---
 title: Add Code Blocks
 description: Explains how to include code in your documentation.
-weight: 7
+weight: 8
 keywords: [contribute, documentation, guide, code-block]
 ---
 

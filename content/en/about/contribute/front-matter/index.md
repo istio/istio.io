@@ -1,7 +1,7 @@
 ---
 title: Front matter
 description: Explains the front matter used in our documentation and the fields available.
-weight: 4
+weight: 6
 keywords: [metadata,navigation,table-of-contents]
 ---
 
@@ -62,7 +62,7 @@ For example, you could find our FAQ page in the past under `/help/faq`. To help 
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently.
-weight: 12
+weight: 13
 aliases:
     - /help/faq
 ---
@@ -76,7 +76,7 @@ Multiple redirects are supported, for example:
 ---
 title: Frequently Asked Questions
 description: Questions Asked Frequently.
-weight: 12
+weight: 13
 aliases:
     - /faq
     - /faq2

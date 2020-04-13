@@ -1,7 +1,7 @@
 ---
 title: Use Shortcodes
 description: Explains the shortcodes available and how to use them.
-weight: 8
+weight: 9
 aliases:
     - /docs/welcome/contribute/writing-a-new-topic.html
     - /docs/reference/contribute/writing-a-new-topic.html

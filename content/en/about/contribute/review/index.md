@@ -1,7 +1,7 @@
 ---
 title: Documentation Review Process
 description: Shows you how changes to the Istio documentation and website are reviewed and approved.
-weight: 6
+weight: 7
 keywords: [contribute,community,github,pr,documentation,review, approval]
 ---
 
