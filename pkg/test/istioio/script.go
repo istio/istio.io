@@ -62,6 +62,7 @@ const (
 	commandLinePrefix      = "$ "
 	testOutputDirEnvVar    = "TEST_OUTPUT_DIR"
 	kubeConfigEnvVar       = "KUBECONFIG"
+	docRootDirEnvVar       = "DOC_ROOT_DIR"
 	outputSnippetExtension = "_output"
 	stdoutExtension        = ".stdout.txt"
 	stderrExtension        = ".stderr.txt"
@@ -319,11 +320,14 @@ func (s Script) runCommand(ctx Context) {
 
 			// Copy the commands from the snippet.
 			for _, snippetCommand := range snippetCommands {
-				commandLines = append(commandLines, filterCommandLine(snippetCommand))
+				if sinfo.name != "" { // No snippet name -> snippet commands are proper bash syntax
+					snippetCommand = filterCommandLine(snippetCommand)
+				}
+				commandLines = append(commandLines, snippetCommand)
 			}
 		} else {
 			// Not a snippet, just copy the line directly to the command.
-			commandLines = append(commandLines, filterCommandLine(line))
+			commandLines = append(commandLines, line)
 		}
 	}
 
@@ -390,6 +394,11 @@ func (s Script) createSnippets(ctx Context) {
 		// Verify the output for this snippet.
 		sinfo.verify()
 
+		if sinfo.name == "" {
+			// No snippet to generate, just verifying output.
+			continue
+		}
+		
 		// Verify the output, if configured to do so.
 		snippetOutput := ""
 		if sinfo.outputIs != "" {
@@ -458,6 +467,7 @@ func (s Script) getEnv(ctx Context) []string {
 	customVars := map[string]string{
 		// Set the output dir for the test.
 		testOutputDirEnvVar: ctx.WorkDir(),
+		docRootDirEnvVar:    ctx.WorkDir() + "/..",
 	}
 	ctx.Environment().Case(environment.Kube, func() {
 		customVars[kubeConfigEnvVar] = ctx.KubeEnv().Settings().KubeConfig[0]
@@ -495,8 +505,9 @@ func parseSnippet(ctx Context, lineIndex *int, lines []string) snippetInfo {
 			continue
 		}
 
-		// Assume the first non-empty argument to be the snippet name.
-		if info.name == "" {
+		// Assume the first unkeyed argument to be the snippet name.
+		// If no snippet name is set, the framework will run the commands/verifiers without generating snippets.
+		if !strings.Contains(arg, "=") && info.name == "" {
 			info.name = arg
 			continue
 		}
@@ -527,10 +538,6 @@ func parseSnippet(ctx Context, lineIndex *int, lines []string) snippetInfo {
 		default:
 			ctx.Fatalf("unsupported snippet attribute: %s", key)
 		}
-	}
-
-	if info.name == "" {
-		ctx.Fatalf("snippet missing name")
 	}
 
 	if info.outputIs == "" && info.outputSnippet {
