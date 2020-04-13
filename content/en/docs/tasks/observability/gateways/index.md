@@ -372,6 +372,21 @@ addons to require authentication when exposing them externally.
     * Prometheus: `--set values.prometheus.enabled=true`
     * Tracing: `--set values.tracing.enabled=true`
 
+1. Setup the domain to expose addons. In this example, we will expose each addon on a subdomain, such as `grafana.example.com`.
+
+  * If you have an existing domain pointing to the external IP address of `istio-ingressgateway`:
+
+    {{< text bash >}}
+    $ export INGRESS_DOMAIN=<your.desired.domain>
+    {{< /text >}}
+
+  * If you do not have a domain, you may use [xip.io](xip.io) which will automatically resolve to the IP address provided
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export INGRESS_DOMAIN=${INGRESS_HOST}.xip.io
+    {{< /text >}}
+
 1. Apply networking configuration for the telemetry addons.
 
     1. Apply the following configuration to expose Grafana:
@@ -388,11 +403,11 @@ addons to require authentication when exposing them externally.
             istio: ingressgateway
           servers:
           - port:
-              number: 15031
+              number: 80
               name: http-grafana
               protocol: HTTP
             hosts:
-            - "*"
+            - "grafana.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -401,13 +416,11 @@ addons to require authentication when exposing them externally.
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "grafana.${INGRESS_DOMAIN}"
           gateways:
           - grafana-gateway
           http:
-          - match:
-            - port: 15031
-            route:
+          - route:
             - destination:
                 host: grafana
                 port:
@@ -600,10 +613,10 @@ addons to require authentication when exposing them externally.
 
 1. Visit the telemetry addons via your browser.
 
-    * Kiali: `http://<IP ADDRESS OF CLUSTER INGRESS>:15029/`
-    * Prometheus: `http://<IP ADDRESS OF CLUSTER INGRESS>:15030/`
-    * Grafana: `http://<IP ADDRESS OF CLUSTER INGRESS>:15031/`
-    * Tracing: `http://<IP ADDRESS OF CLUSTER INGRESS>:15032/`
+    * Kiali: `http://kiali.${INGRESS_DOMAIN}`
+    * Prometheus: `http://prometheus.${INGRESS_DOMAIN}`
+    * Grafana: `http://grafana.${INGRESS_DOMAIN}`
+    * Tracing: `http://tracing.${INGRESS_DOMAIN}`
 
 ## Cleanup
 
