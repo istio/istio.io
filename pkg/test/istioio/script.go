@@ -395,7 +395,7 @@ func (s Script) createSnippets(ctx Context) {
 		// Verify the output for this snippet.
 		sinfo.verify()
 
-		if sinfo.name == "" {
+		if strings.HasPrefix(sinfo.name, "_NOGEN_") {
 			// No snippet to generate, just verifying output.
 			continue
 		}
@@ -505,9 +505,8 @@ func parseSnippet(ctx Context, lineIndex *int, lines []string) snippetInfo {
 			continue
 		}
 
-		// Assume the first unkeyed argument to be the snippet name.
-		// If no snippet name is set, the framework will run the commands/verifiers without generating snippets.
-		if !strings.Contains(arg, "=") && info.name == "" {
+		// Assume the first non-empty argument to be the snippet name.
+		if info.name == "" {
 			info.name = arg
 			continue
 		}
@@ -538,6 +537,11 @@ func parseSnippet(ctx Context, lineIndex *int, lines []string) snippetInfo {
 		default:
 			ctx.Fatalf("unsupported snippet attribute: %s", key)
 		}
+	}
+
+	if info.name == "" {
+		// If no snippet name is set, the framework will run the commands/verifiers without generating snippets.
+		info.name = fmt.Sprintf("_NOGEN_%d", *lineIndex)
 	}
 
 	if info.outputIs == "" && info.outputSnippet {
