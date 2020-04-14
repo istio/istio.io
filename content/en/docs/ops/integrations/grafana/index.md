@@ -5,11 +5,11 @@ weight: 20
 keywords: [integration,grafana]
 ---
 
-[Grafana](https://grafana.com/) is an open source monitoring solution that can be used to configure dashboards for Istio. This allows monitoring the health of Istio itself, as well as of applications within the mesh.
+[Grafana](https://grafana.com/) is an open source monitoring solution that can be used to configure dashboards for Istio. You can use Grafana to monitor the health of Istio and of applications within the service mesh.
 
 ## Configuration
 
-While you can build your own dashboards, Istio offers a set of preconfigured dashboards for all of the most important metrics in the mesh.
+While you can build your own dashboards, Istio offers a set of preconfigured dashboards for all of the most important metrics for the mesh and for the control plane.
 
 * [Mesh Dashboard](https://grafana.com/grafana/dashboards/7639) provides an overview of all services in the mesh.
 * [Service Dashboard](https://grafana.com/grafana/dashboards/7636) provides a detailed breakdown of metrics for a service.
@@ -19,26 +19,26 @@ While you can build your own dashboards, Istio offers a set of preconfigured das
 
 There are a few ways to configure Grafana to use these dashboards:
 
-### Use the built in Grafana deployment
+### Use the built-in Grafana deployment
 
-To deploy the built in Grafana, follow the [Install Guide](/docs/setup/install/istioctl/) and pass `--set values.grafana.enabled` during installation.
+The built-in deployment of Grafana is bundled with all of the Istio dashboards already installed. To deploy the built-in Grafana instance, follow the steps in [Customizable Install with Istioctl](/docs/setup/install/istioctl/) to install Istio and pass `--set values.grafana.enabled=true` during installation.
 
-This is intended for new users quickly getting started, but does not offer advanced customization like persistence or authentication. However, it comes bundled with all of the Istio dashboards already installed.
+This built-in deployment of Grafana is intended for new users quickly getting started. However, it does not offer advanced customization, like persistence or authentication.
 
 ### Import from `grafana.com`
 
-Using the links above, you can quickly import these dashboards to your Grafana instance. This can be done through the [`Import` button in the UI](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard). Please note you will need to select a Prometheus data source to use when importing.
+To quickly import the Istio dashboards to an existing Grafana instance, you can use the [**Import** button in the Grafana UI](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) to add the dashboard links above. When you import the dashboards, note that you must select a Prometheus data source.
 
-This can also be done through a script to import all dashboards at once. For example:
+You can also use a script to import all dashboards at once. For example:
 
 {{< text plain >}}
-# Address of grafana
+# Address of Grafana
 GRAFANA_HOST="http://localhost:3000"
 # Login credentials, if authentication is used
 GRAFANA_CRED="USER:PASSWORD"
-# The name of the prometheus data source to use
+# The name of the Prometheus data source to use
 GRAFANA_DATASOURCE="Prometheus"
-# The version of Istio we are deploying
+# The version of Istio to deploy
 VERSION={{< istio_version >}}
 # Import all Istio dashboards
 for DASHBOARD in 7639 11829 7636 7630 7642 7645; do
@@ -56,11 +56,13 @@ for DASHBOARD in 7639 11829 7636 7630 7642 7645; do
 done
 {{< /text >}}
 
-Please note that there will be a new revision of the dashboard for each version of Istio. It is recommended that you select the appropriate revision to ensure compatibility.
+{{< tip >}}
+A new revision of the dashboards is created for each version of Istio. To ensure compatibility, it is recommended that you select the appropriate revision for the Istio version you are deploying.
+{{< /tip >}}
 
-### Implementation specific methods
+### Implementation-specific methods
 
-There are many ways to install and configure Grafana which all have different ways to configure dashboards. To use these, please refer to the documentation of the installation method you have chosen. For example:
+Grafana can be installed and configured through other methods. To import Istio dashboards, refer to the documentation for the installation method. For example:
 
 * [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards) official documentation.
 * [Importing dashboards](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards) for the `stable/grafana` Helm chart.
