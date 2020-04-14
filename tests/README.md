@@ -94,13 +94,13 @@ istioio.Script{
 ```
 
 Your script must include the `snip.sh` file for the document being tested. For example,
-a test for the traffic-shifting task would have the following line in the script:
+a test for the traffic-shifting task will have the following line in the script:
 
 ```sh
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh
 ```
 
-You can then invoke the commands from your test script by simply calling snip functions:
+Your test script can then invoke the commands by simply calling snip functions:
 
 ```sh
 snip_config_50_v3 # Step 3: switch 50% traffic to v3
@@ -119,7 +119,7 @@ To verify the output, you currently have two choices:
     # $endsnippet
     ```
 
-    Note that `# $snippet`, without a following name, will simply run and verify the commend(s)
+    Note that `# $snippet`, without a following name, will simply run and verify the commands
     in the snippet section, i.e., no output is generated.
 
     Refer to [verifier.go](../pkg/test/istioio/verifier.go) for supported verifiers.
