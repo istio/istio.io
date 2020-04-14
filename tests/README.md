@@ -1,7 +1,7 @@
 # Testing istio.io Content
 
 This folder contains tests for the content on [istio.io](http://istio.io).
-More specifically, these test confirm that examples and task documents, which contain
+More specifically, these test confirm that example and task documents, which contain
 instructions in the form of bash commands and expected output, are working as documented.
 
 Generated bash scripts, containing the set of commands and expected output for corresponding
@@ -23,7 +23,7 @@ To write an `istio.io` test, follow these steps:
    a new file, `snips.sh`, next to the `index.md` file that you modified in the previous step.
 
    Each bash command in `index.md` (i.e., `{{< text bash >}}` code block) will produce a bash
-   function in `snips.sh` containing the same command as in the document. Other types of code blocks,
+   function in `snips.sh` containing the same command(s) as in the document. Other types of code blocks,
    e.g., `{{< text yaml >}}`, will produce a bash variable containing the block content.
 
    By default, the bash function or variable will be named `snip_<section>_<code block number>`.
@@ -42,43 +42,43 @@ To write an `istio.io` test, follow these steps:
 
 1. Add the following imports to your GoLang file:
 
-```golang
-"istio.io/istio/pkg/test/framework"
-"istio.io/istio/pkg/test/framework/components/environment"
-"istio.io/istio/pkg/test/framework/components/istio"
+    ```golang
+    "istio.io/istio/pkg/test/framework"
+    "istio.io/istio/pkg/test/framework/components/environment"
+    "istio.io/istio/pkg/test/framework/components/istio"
 
-"istio.io/istio.io/pkg/test/istioio"
-```
+    "istio.io/istio.io/pkg/test/istioio"
+    ```
 
 1. Create a function called `TestMain`, following the example below. This
    function sets up the Istio environment that the test uses. The `Setup`
    function accepts an optional function to customize the Istio environment
    deployed.
 
-```golang
-func TestMain(m *testing.M) {
-framework.NewSuite("my-istioio-test", m).
-    SetupOnEnv(environment.Kube, istio.Setup(&ist, nil)).
-    RequireEnvironment(environment.Kube).
-    Run()
-}
-```
+    ```golang
+    func TestMain(m *testing.M) {
+    framework.NewSuite("my-istioio-test", m).
+        SetupOnEnv(environment.Kube, istio.Setup(&ist, nil)).
+        RequireEnvironment(environment.Kube).
+        Run()
+    }
+    ```
 
 1. To create a test, you use `istioio.Builder` to build a series of steps that will
 be run as part of the resulting test function:
 
-```golang
-func TestCombinedMethods(t *testing.T) {
-    framework.
-        NewTest(t).
-        Run(istioio.NewBuilder("tasks__security__my_task").
-            Add(istioio.Script{
-                Input:         istioio.Path("myscript.sh"),
-            },
-            istioio.MultiPodWait("foo"),
-            istioio.Script{
-                Input:         istioio.Path("myotherscript.sh"),
-            }).Build())
+    ```golang
+    func TestCombinedMethods(t *testing.T) {
+        framework.
+            NewTest(t).
+            Run(istioio.NewBuilder("tasks__security__my_task").
+                Add(istioio.Script{
+                    Input:         istioio.Path("myscript.sh"),
+                },
+                istioio.MultiPodWait("foo"),
+                istioio.Script{
+                    Input:         istioio.Path("myotherscript.sh"),
+                }).Build())
 }
 ```
 
@@ -96,14 +96,13 @@ istioio.Script{
 Your script must include the `snip.sh` file for the document being tested. For example,
 a test for the traffic-shifting task would have the following line in the script:
 
-```
+```sh
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh
-
 ```
 
 You can then invoke the commands from your test script by simply calling snip functions:
 
-```
+```sh
 snip_config_50_v3 // Step 3: switch 50% traffic to v3
 ```
 
