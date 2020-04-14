@@ -20,6 +20,9 @@ install/**
 # contains samples to demo Istio 
 samples/**
 
+# copied from istio repository
+tests/integration/**
+
 # contains the built artifacts
 out/** 
 
