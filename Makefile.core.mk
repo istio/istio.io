@@ -86,7 +86,7 @@ opt:
 	@scripts/opt_site.sh
 
 clean:
-	@rm -fr resources .htmlproofer tmp generated public
+	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/
 
 lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
