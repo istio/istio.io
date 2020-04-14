@@ -32,7 +32,7 @@ aliases:
 - **Added** support for [introspection](/docs/ops/diagnostic-tools/controlz/) to Citadel.
 - **Added** metrics to the `/metrics` endpoint of Citadel Agent on port 15014 to monitor the SDS service.
 - **Added** diagnostics to the Citadel Agent using the `/debug/sds/workload` and `/debug/sds/gateway` on port 8080.
-- **Improved** the ingress gateway to [load the trusted CA certificate from a separate secret](/docs/tasks/traffic-management/ingress/secure-ingress-sds/#configure-a-mutual-tls-ingress-gateway) when using SDS.
+- **Improved** the ingress gateway to [load the trusted CA certificate from a separate secret](https://archive.istio.io/v1.3/docs/tasks/traffic-management/ingress/secure-ingress-sds/#configure-a-mutual-tls-ingress-gateway) when using SDS.
 - **Improved** SDS security by enforcing the usage of [Kubernetes Trustworthy JWTs](/blog/2019/trustworthy-jwt-sds).
 - **Improved** Citadel Agent logs by unifying the logging pattern.
 - **Removed** support for Istio SDS when using [Kubernetes versions earlier than 1.13](/blog/2019/trustworthy-jwt-sds).

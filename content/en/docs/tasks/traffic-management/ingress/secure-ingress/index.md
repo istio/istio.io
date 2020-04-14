@@ -4,6 +4,7 @@ description: Expose a service outside of the service mesh over TLS or mTLS.
 weight: 21
 aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
+    - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
@@ -14,7 +15,7 @@ service using either simple or mutual TLS.
 
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
+1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin).
 and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
@@ -51,7 +52,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
 
 ### Configure a TLS ingress gateway for a single host
 
-1.  Ensure you have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) service.
+1.  Ensure you have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) service from [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin).
 
 1.  Create a secret for the ingress gateway:
 
@@ -419,11 +420,11 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
 
     {{< /text >}}
 
-Istio supports reading a few different formats, to support integration with various tools such as [cert-manager](docs/ops/integrations/certmanager/):
+Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
 
-* A Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
-* A Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
-* A Secret with keys `key` and `cert`. For mutual TLS, a separate Secret named `<secret>-cacert`, with a `cacret` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
+* A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
+* A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
+* A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacret` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
 
 ## Troubleshooting
 
