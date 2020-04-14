@@ -103,7 +103,7 @@ source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/sn
 You can then invoke the commands from your test script by simply calling snip functions:
 
 ```sh
-snip_config_50_v3 // Step 3: switch 50% traffic to v3
+snip_config_50_v3 # Step 3: switch 50% traffic to v3
 ```
 
 To verify the output, you currently have two choices:
