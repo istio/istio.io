@@ -23,7 +23,7 @@ A server certificate is required for secure access. Follow these steps to instal
 server certificates for a domain that you control.
 
 You may use self-signed certificates instead. Visit our
-[Securing Gateways with HTTPS Using Secret Discovery Service task](/docs/tasks/traffic-management/ingress/secure-ingress-sds/)
+[Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/)
 for general information on using self-signed certificates to access in-cluster services.
 
 {{< warning >}}
@@ -31,16 +31,9 @@ This option covers securing the transport layer *only*. You should also configur
 addons to require authentication when exposing them externally.
 {{< /warning >}}
 
-1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
+1. [Install cert-manager](/docs/ops/integrations/certmanager/) to manage certificates automatically.
 
-1. [Install Istio](/docs/setup/install/istioctl) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
-the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration).
-
-    To install Istio accordingly, use the following installation options:
-
-    * `--set values.gateways.enabled=true`
-    * `--set values.gateways.istio-ingressgateway.enabled=true`
-    * `--set values.gateways.istio-ingressgateway.sds.enabled=true`
+1. [Install Istio](/docs/setup/install/istioctl) in your cluster.
 
     To additionally install the telemetry addons, use the following installation options:
 

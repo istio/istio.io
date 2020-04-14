@@ -30,7 +30,7 @@ aliases:
 - **Fixed** [SAN](https://tools.ietf.org/html/rfc5280#section-4.2.1.6) field in workload certificates is set as `critical`. This fixes the issue that some custom certificate verifiers cannot verify Istio certificates.
 - **Fixed** mutual TLS probe rewrite for HTTPS probes.
 - **Graduated** [SNI with multiple certificates support at ingress gateway](/docs/reference/config/networking/gateway/) from Alpha to Stable.
-- **Graduated** [certification management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds/) from Alpha to Beta.
+- **Graduated** [certification management on Ingress Gateway](https://archive.istio.io/v1.2/docs/tasks/traffic-management/ingress/secure-ingress-sds/) from Alpha to Beta.
 
 ## Telemetry
 
