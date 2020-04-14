@@ -19,14 +19,17 @@
 #          docs/tasks/traffic-management/traffic-shifting/index.md
 ####################################################################################################
 
+# shellcheck disable=SC2046
 snip_config_all_v1() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }
 
+# shellcheck disable=SC2046
 snip_config_50_v3() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
 }
 
+# shellcheck disable=SC2046
 snip_verify_config_50_v3() {
 kubectl get virtualservice reviews -o yaml
 }
@@ -53,10 +56,12 @@ spec:
       weight: 50
 ENDSNIP
 
+# shellcheck disable=SC2046
 snip_config_100_v3() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 }
 
+# shellcheck disable=SC2046
 snip_cleanup() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }

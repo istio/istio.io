@@ -91,7 +91,7 @@ with open(markdown, 'rt') as mdfile:
             else:
                 id = "snip_%s_%d" % (section, snipnum)
             if kind == "bash":
-                script = "\n%s() {\n" % id
+                script = "\n# shellcheck disable=SC2046\n%s() {\n" % id
             else:
                 script = "\n# shellcheck disable=SC2034\n! read -r -d '' %s <<ENDSNIP\n" % id
             current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
