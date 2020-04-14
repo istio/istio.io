@@ -319,10 +319,15 @@ func (s Script) runCommand(ctx Context) {
 
 			// Copy the commands from the snippet.
 			for _, snippetCommand := range snippetCommands {
-				commandLines = append(commandLines, filterCommandLine(snippetCommand))
+				if sinfo.name != "" {
+					snippetCommand = filterCommandLine(snippetCommand)
+				}
+				commandLines = append(commandLines, snippetCommand)
 			}
 		} else {
 			// Not a snippet, just copy the line directly to the command.
+			// TODO commandLines = append(commandLines, line) // Commands outside of snippets should be proper bash
+			// TODO Need to fix some tests that are incorrectly annotating commands outside of snippets.
 			commandLines = append(commandLines, filterCommandLine(line))
 		}
 	}
@@ -389,6 +394,11 @@ func (s Script) createSnippets(ctx Context) {
 
 		// Verify the output for this snippet.
 		sinfo.verify()
+
+		if strings.HasPrefix(sinfo.name, "_NOGEN_") {
+			// No snippet to generate, just verifying output.
+			continue
+		}
 
 		// Verify the output, if configured to do so.
 		snippetOutput := ""
@@ -530,7 +540,8 @@ func parseSnippet(ctx Context, lineIndex *int, lines []string) snippetInfo {
 	}
 
 	if info.name == "" {
-		ctx.Fatalf("snippet missing name")
+		// If no snippet name is set, the framework will run the commands/verifiers without generating snippets.
+		info.name = fmt.Sprintf("_NOGEN_%d", *lineIndex)
 	}
 
 	if info.outputIs == "" && info.outputSnippet {
