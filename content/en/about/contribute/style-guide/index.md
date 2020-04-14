@@ -1,7 +1,7 @@
 ---
 title: Style Guide
 description: Explains the style conventions used in the Istio documentation.
-weight: 10
+weight: 11
 aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html

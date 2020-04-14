@@ -1,7 +1,7 @@
 ---
 title: Terminology Standards
 description: Explains the terminology standards used in the Istio documentation.
-weight: 11
+weight: 12
 aliases:
     - /docs/welcome/contribute/style-guide.html
     - /docs/reference/contribute/style-guide.html
