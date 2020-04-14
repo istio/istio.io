@@ -36,7 +36,7 @@ For both options, first follow these steps:
     $ export INGRESS_DOMAIN=<your.desired.domain>
     {{< /text >}}
 
-    * If you do not have a domain, you may use [`nip.io`](nip.io) which will automatically resolve to the IP address provided. This is not recommended for production usage.
+    * If you do not have a domain, you may use [`nip.io`](https://nip.io/) which will automatically resolve to the IP address provided. This is not recommended for production usage.
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
