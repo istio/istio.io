@@ -110,10 +110,6 @@ snip_verify_config_50_v3
 subset: v3
 # $endsnippet
 
-#TODO The above verify could instead test the doc output snippet if we add a suitable yaml verifier
-#TODO # $verify verifier="yaml-subset"
-#TODO echo "$verify_config_50_v3_out"
-
 # Step 5: verify rating stars visible 50% of the time
 verify_traffic_shift 50
 

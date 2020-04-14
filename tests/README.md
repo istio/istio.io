@@ -79,8 +79,8 @@ be run as part of the resulting test function:
                 istioio.Script{
                     Input:         istioio.Path("myotherscript.sh"),
                 }).Build())
-}
-```
+    }
+    ```
 
 ## Running Shell Commands
 
