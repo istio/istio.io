@@ -34,7 +34,7 @@ To write an `istio.io` test, follow these steps:
    For example `{{< text syntax=bash snip_id=config_all_v1 >}}` will generate `snip_config_all_v1()`.
 
    If a bash code block contains both commands and output, the `snips.sh` script will include
-   both a bash function and variable containing the expected output. The name of the variable
+   both a bash function and a variable containing the expected output. The name of the variable
    will be the same as the function, only with `_out` appended.
 
 1. Pick an appropriate location under the `tests/` directory and create a directory for your new
@@ -133,7 +133,7 @@ To verify the output, you currently have two choices:
     fi
     ```
 
-    TODO: add built-in verifier functions that can used instead of simple string compare.
+    TODO: add built-in verifier functions that can be used instead of simple string compare.
 
 ## Builder
 
