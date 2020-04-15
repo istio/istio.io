@@ -26,7 +26,7 @@ aliases:
 
 ## 网络{#networking}
 
-- [双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls) 宽容模式现在是默认启用的。
+- [双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS) 宽容模式现在是默认启用的。
 
 - Pilot 性能和可扩展性已大大增强。Pilot 现在可以在不到 1 秒的时间内向 500 个 sidecar 提供 endpoint 更新。
 

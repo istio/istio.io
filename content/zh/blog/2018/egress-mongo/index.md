@@ -537,7 +537,7 @@ Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoD
 
 1. 为您的 MongoDB service 创建一个 egress `Gateway`、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。
 
-   如果您希望启用 sidecar 代理和应用程序 pod 以及 egress gateway 之间的[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，可以使用下面的命令。（您可能希望启用双向 TLS 以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。）
+   如果您希望启用 sidecar 代理和应用程序 pod 以及 egress gateway 之间的[双向 TLS 认证](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，可以使用下面的命令。（您可能希望启用双向 TLS 以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。）
 
     {{< tabset category-name="mtls" >}}
 

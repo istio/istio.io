@@ -96,7 +96,7 @@ Ingress gateway 使您可以定义所有输入流量流经的网格的入口点�
 
 1. 为 `edition.cnn.com` 端口 80 创建 Egress gateway。除此之外还要创建一个 destination rule 来引导流量通过 Egress gateway 与外部服务通信。
 
-    根据在 Istio 中是否启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
+    根据在 Istio 中是否启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，选择相应的说明。
 
     {{< tabset category-name="mtls" >}}
 
@@ -299,7 +299,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1. 为 `edition.cnn.com` 创建 Egress Gateway。除此之外还创建了一个 destination rule 和一个 virtual service，这两个对象用来引导流量通过 Egress gateway 与外部服务通信。
 
-    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
+    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，选择相应的说明。
 
     {{< tabset category-name="mtls" >}}
 
@@ -609,7 +609,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 1. 为 `default` 命名空间中为 `sleep` pod 创建一个相同的 destination rule 用来引导流量到 Egress gateway：
 
-    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的说明。
+    根据在 Istio 中是否启用了[双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，选择相应的说明。
 
     {{< tabset category-name="mtls" >}}
 
@@ -689,9 +689,9 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ## 故障排除{#troubleshooting}
 
-1. 检查是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/authentication/mutual-tls/#verify-mutual-TLS-configuration)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注**如果您在 Istio 中启用了双向 TLS 认证，则必须创建。**）。
+1. 检查是否在 Istio 中启用了[双向 TLS 认证](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，然后执行以下步骤：[验证 Istio 的双向 TLS 认证设置](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)。如果启用了双向 TLS，请确保创建相应的项目配置（请注意备注**如果您在 Istio 中启用了双向 TLS 认证，则必须创建。**）。
 
-1. 如果[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)启用后，验证 Egress gateway 的证书：
+1. 如果[双向 TLS 认证](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)启用后，验证 Egress gateway 的证书：
 
     {{< text bash >}}
     $ kubectl exec -i -n istio-system $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1

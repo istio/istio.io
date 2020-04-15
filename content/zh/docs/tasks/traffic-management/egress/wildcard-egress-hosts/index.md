@@ -377,7 +377,7 @@ SNI 代理将监听在端口 `8443` 上，您可以绑定任意其它端口，eg
 1. 为 _*.wikipedia.org_ 创建一个 egress `Gateway`，端口 443，协议 TLS，以及一个虚拟服务负责引导目标为 _*.wikipedia.org_ 的流量流经网关。
 
     根据您是否希望在源 pod 与 egress 网关之间开启
-    [双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，选择指令。
+    [双向 TLS 认证](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，选择指令。
 
     {{< idea >}}
     您可能希望开启双向 TLS 以使得 egress 网关得以监控源 pods 的身份标识并基于身份标识信息启用 Mixer 的强制策略。

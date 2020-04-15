@@ -87,7 +87,7 @@ aliases:
 
 1. 为 _edition.cnn.com_ 创建一个 egress `Gateway`，端口 443，以及一个 sidecar 请求的目标规则，sidecar 请求被直接导向 egress 网关。
 
-    根据需要开启源 pod 与 egress 网关之间的[双向 TLS 认证](/zh/docs/tasks/security/authentication/mutual-tls/)，选择相应的命令。
+    根据需要开启源 pod 与 egress 网关之间的[双向 TLS 认证](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)，选择相应的命令。
 
     {{< idea >}}
     若开启双向 TLS ，则源 pod 与 egress 网关之间的流量为加密状态。
