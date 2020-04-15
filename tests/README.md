@@ -64,7 +64,7 @@ To write an `istio.io` test, follow these steps:
     }
     ```
 
-1. To create a test, you use `istioio.Builder` to build a series of steps that will
+1. To create a test, you use `istioio.NewBuilder` to build a series of steps that will
    be run as part of the resulting test function:
 
     ```golang
