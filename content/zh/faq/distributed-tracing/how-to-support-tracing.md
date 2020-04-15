@@ -9,7 +9,7 @@ Istio 允许报告服务网格中工作负载到工作负载间通信的追踪 s
 
 - `x-request-id`
 - `x-b3-traceid`
-- `x-b3-spanid`
+- `x-b3-spanId`
 - `x-b3-parentspanid`
 - `x-b3-sampled`
 - `x-b3-flags`
