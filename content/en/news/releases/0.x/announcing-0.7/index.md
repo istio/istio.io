@@ -24,5 +24,5 @@ change in 0.8 and beyond.
 
 Known Issues:
 
-Our [Helm chart](/docs/setup/install/helm)
+Our [Helm chart](https://archive.istio.io/0.7/docs/setup/install/helm)
 currently requires some workaround to apply the chart correctly, see [4701](https://github.com/istio/istio/issues/4701) for details.

@@ -23,7 +23,7 @@ following:
 - Small customizations not in the API don't require chart or API changes
 - Version specific upgrade hooks can be easily and robustly implemented
 
-The [Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
+The [Helm installation](https://archive.istio.io/1.4/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
 1.4 with a version not initially installed with Helm will also be replaced by a new
 [{{< istioctl >}} upgrade feature](https://archive.istio.io/v1.4/docs/setup/upgrade/istioctl-upgrade/).
 
