@@ -127,9 +127,9 @@ To verify the output, you currently have two choices:
 1. Capture the command output and compare it to a variable containing the expected output:
 
     ```sh
-    out = $(snip_set_up_the_cluster_3())
+    out=$(snip_set_up_the_cluster_3 2>&1)
     if [ "$out" != "$snip_set_up_the_cluster_3_out" ]; then
-        echo "FAILED snip_set_up_the_cluster_3"; exit 1
+        echo "FAILED snip_set_up_the_cluster_3: $out"; exit 1
     fi
     ```
 
