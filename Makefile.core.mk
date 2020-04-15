@@ -97,6 +97,9 @@ lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml
 lint-fast:
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
+snips:
+	@scripts/gen_snips.sh
+
 serve: gen
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 

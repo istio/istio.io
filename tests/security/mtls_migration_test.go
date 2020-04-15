@@ -36,16 +36,10 @@ func TestMutualTLSMigration(t *testing.T) {
 set -e
 set -u
 set -o pipefail
-# $snippet create_ns_foo_bar_legacy.sh syntax="bash"
-$ kubectl create ns foo
-$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
-$ kubectl create ns bar
-$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n bar
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
-$ kubectl create ns legacy
-$ kubectl apply -f samples/sleep/sleep.yaml -n legacy
-# $endsnippet`,
+source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
+# create_ns_foo_bar_legacy
+snip_set_up_the_cluster_1
+snip_set_up_the_cluster_2`,
 				},
 			}).
 
@@ -61,9 +55,8 @@ $ kubectl apply -f samples/sleep/sleep.yaml -n legacy
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
-# $snippet cleanup.sh syntax="bash" outputis="text"
-$ kubectl delete ns foo bar legacy
-# $endsnippet`,
+source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
+snip_clean_up_the_example_2`,
 				},
 			}).
 			Build())
