@@ -73,10 +73,6 @@ The following ports and protocols are used by Istio.
 | 8080 | HTTP | Istiod | Debug interface |
 | 443 | HTTPS | Istiod | Webhooks |
 | 15014 | HTTP | Citadel, Citadel agent, Galley, Mixer, Istiod, Sidecar Injector | Control plane monitoring |
-| 15029 | HTTP | Kiali | Kiali User Interface |
-| 15030 | HTTP | Prometheus | Prometheus User Interface |
-| 15031 | HTTP | Grafana | Grafana User Interface |
-| 15032 | HTTP | Tracing | Tracing User Interface |
 | 15443 | TLS | Ingress and Egress Gateways | SNI |
 | 9090 | HTTP |  Prometheus | Prometheus |
 | 42422 | TCP | Mixer | Telemetry - Prometheus |
