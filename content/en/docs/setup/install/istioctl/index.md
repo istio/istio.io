@@ -51,7 +51,7 @@ $ istioctl manifest apply --set addonComponents.grafana.enabled=true
 {{< /text >}}
 
 In general, you can use the `--set` flag in `istioctl` as you would with
-[Helm](/docs/setup/install/helm/). The only difference is you must
+Helm. The only difference is you must
 prefix the setting paths with `values.` because this is the path to the Helm pass-through API in the
 [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
 
