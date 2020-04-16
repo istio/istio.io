@@ -18,10 +18,13 @@ set -e
 set -u
 set -o pipefail
 
+source ${REPO_ROOT}/content/en/docs/examples/bookinfo/snips.sh
+
 # Step 1: setup bookinfo & sleep pods
 kubectl label namespace default istio-injection=enabled --overwrite || true
 
-kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+snip_start_the_application_services_2
+
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 kubectl apply -f samples/sleep/sleep.yaml
@@ -32,13 +35,3 @@ for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v
     exit 1
   fi
 done
-
-# Step 2
-# $snippet route_all_v1.sh syntax="bash" outputis="text" outputsnippet="true"
-$ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-# $verify
-virtualservice.networking.istio.io/productpage created
-virtualservice.networking.istio.io/reviews created
-virtualservice.networking.istio.io/ratings created
-virtualservice.networking.istio.io/details created
-# $endsnippet

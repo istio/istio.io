@@ -21,24 +21,20 @@ set -o pipefail
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-timeouts/snips.sh
 
 # Export HOST, PORT and URL
-# $snippet export_gateway_url_2.sh syntax="bash"
-$ export INGRESS_HOST={{ .ingressHostCom }}
-$ export INGRESS_PORT={{ .ingressPortCom }}
-$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
-# $endsnippet
+export INGRESS_HOST={{ .ingressHostCom }}
+export INGRESS_PORT={{ .ingressPortCom }}
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 
 # Step 1: add a half second request timeout for calls to the reviews service
-# $snippet
 snip_request_timeouts_3
-# $endsnippet
 
 istioctl experimental wait --for=distribution VirtualService reviews.default
 
 echo "sending request delay to $INGRESS_HOST:$INGRESS_PORT"
 
 # Step 2: Verify product reviews are unavailable
-# $snippet verify_ratings_2.sh syntax="bash"
-$ curl -sS http://"${GATEWAY_URL}"/productpage | grep -o "<p>Sorry.*</p>"
+# $snippet
+curl -sS http://"${GATEWAY_URL}"/productpage | grep -o "<p>Sorry.*</p>"
 sleep 1
 # $verify verifier="contains"
 <p>Sorry, product reviews are currently unavailable for this book.</p>

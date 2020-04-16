@@ -21,31 +21,35 @@ set -o pipefail
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-timeouts/snips.sh
 
 # Export HOST, PORT and URL
-# $snippet export_gateway_url_1.sh syntax="bash"
-$ export INGRESS_HOST={{ .ingressHostCom }}
-$ export INGRESS_PORT={{ .ingressPortCom }}
-$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+export INGRESS_HOST={{ .ingressHostCom }}
+export INGRESS_PORT={{ .ingressPortCom }}
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+
+# Step 0: route all to v1
+# $snippet
+snip_before_you_begin_1
+# $verify
+virtualservice.networking.istio.io/productpage created
+virtualservice.networking.istio.io/reviews created
+virtualservice.networking.istio.io/ratings created
+virtualservice.networking.istio.io/details created
 # $endsnippet
 
 # Step 1: Route requests to v2 of the reviews service
-# $snippet
 snip_request_timeouts_1
-# $endsnippet
 
 istioctl experimental wait --for=distribution VirtualService reviews.default
 
 # Step 2: Add a 2 second delay to calls to the ratings service
-# $snippet
 snip_request_timeouts_2
-# $endsnippet
 
 istioctl experimental wait --for=distribution VirtualService ratings.default
 
 echo "sending request to $GATEWAY_URL"
 
 # Step 3: Verify 2s delay with ratings stars displayed
-# $snippet verify_ratings_1.sh syntax="bash"
-$ curl -sS http://"${GATEWAY_URL}"/productpage | grep -o ".*Reviewer1"
+# $snippet
+curl -sS http://"${GATEWAY_URL}"/productpage | grep -o ".*Reviewer1"
 sleep 2
 # $verify verifier="contains"
 <small>Reviewer1
