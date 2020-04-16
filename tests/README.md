@@ -119,8 +119,9 @@ To verify the output, you currently have two choices:
     # $endsnippet
     ```
 
-    Note that `# $snippet`, without a following name, will simply run and verify the commands
-    in the snippet section, i.e., no output is generated.
+    **Note**: There should be no other fields on the line following the `# $snippet` directive.
+    The `# $snippet`, without a following name, will simply run and verify the commands
+    in the snippet section, i.e., no output snippet will be generated.
 
     Refer to [verifier.go](../pkg/test/istioio/verifier.go) for supported verifiers.
 
@@ -133,7 +134,8 @@ To verify the output, you currently have two choices:
     fi
     ```
 
-    TODO: add built-in verifier functions that can be used instead of simple string compare.
+    TODO: Add built-in verifier functions that can be used instead of simple string compare.
+    Once this is available, we can deprecate the `# $verify` approach.
 
 ## Builder
 
