@@ -18,6 +18,8 @@ set -e
 set -u
 set -o pipefail
 
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-timeouts/snips.sh
+
 # Export HOST, PORT and URL
 # $snippet export_gateway_url_2.sh syntax="bash"
 $ export INGRESS_HOST={{ .ingressHostCom }}
@@ -26,27 +28,11 @@ $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 # $endsnippet
 
 # Step 1: add a half second request timeout for calls to the reviews service
-# $snippet delay_reviews.sh syntax="bash"
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews
-spec:
-  hosts:
-  - reviews
-  http:
-  - route:
-    - destination:
-        host: reviews
-        subset: v2
-    timeout: 0.5s
-EOF
+# $snippet
+snip_request_timeouts_3
 # $endsnippet
 
-# $snippet wait_for_reviews_virtual_service_1.sh syntax="bash"
-$ istioctl experimental wait --for=distribution VirtualService reviews.default --timeout=60s
-# $endsnippet
+istioctl experimental wait --for=distribution VirtualService reviews.default
 
 echo "sending request delay to $INGRESS_HOST:$INGRESS_PORT"
 

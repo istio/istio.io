@@ -5,6 +5,7 @@ weight: 40
 aliases:
     - /docs/tasks/request-timeouts.html
 keywords: [traffic-management,timeouts]
+test: true
 ---
 
 This task shows you how to setup request timeouts in Envoy using Istio.
