@@ -37,6 +37,16 @@ To write an `istio.io` test, follow these steps:
    both a bash function and a variable containing the expected output. The name of the variable
    will be the same as the function, only with `_out` appended.
 
+1. Run `make lint-fast` to check for script errors.
+
+   If there are any lint errors in the generated `snip.sh` file,
+   it means that a command in the `index.md` file is not following `bash` best practices.
+   Because we are extracting the commands from the markdown file into a script file, we get the
+   added benefit of lint checking of the commands that appear in the docs.
+
+   Fix the errors, if any, by updating the corresponding command in the `index.md` file and
+   then regenerate the snips.
+
 1. Pick an appropriate location under the `tests/` directory and create a directory for your new
    test.
 
