@@ -92,7 +92,7 @@ the `verify error:num=19:self signed certificate in certificate chain` error ret
 openssl command is expected.
 
     {{< text bash >}}
-    $ sleep 20; kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
+    $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
     {{< /text >}}
 
 1.  Parse the certificates on the certificate chain.
@@ -129,10 +129,11 @@ openssl command is expected.
 
 ## Cleanup
 
-*   To remove the secret `cacerts`:
+*   To remove the secret `cacerts`, and the `foo` and `istio-system` namespaces:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
+    $ kubectl delete ns foo istio-system
     {{< /text >}}
 
 *   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.

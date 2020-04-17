@@ -19,7 +19,6 @@
 #          docs/tasks/security/authentication/mtls-migration/index.md
 ####################################################################################################
 
-# shellcheck disable=SC2046
 snip_set_up_the_cluster_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
@@ -29,13 +28,11 @@ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n bar
 }
 
-# shellcheck disable=SC2046
 snip_set_up_the_cluster_2() {
 kubectl create ns legacy
 kubectl apply -f samples/sleep/sleep.yaml -n legacy
 }
 
-# shellcheck disable=SC2046
 snip_set_up_the_cluster_3() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
@@ -50,7 +47,6 @@ sleep.legacy to httpbin.foo: 200
 sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
-# shellcheck disable=SC2046
 snip_set_up_the_cluster_4() {
 kubectl get peerauthentication --all-namespaces
 }
@@ -60,7 +56,6 @@ kubectl get peerauthentication --all-namespaces
 No resources found.
 ENDSNIP
 
-# shellcheck disable=SC2046
 snip_set_up_the_cluster_5() {
 kubectl get destinationrule --all-namespaces
 }
@@ -70,7 +65,6 @@ kubectl get destinationrule --all-namespaces
 No resources found.
 ENDSNIP
 
-# shellcheck disable=SC2046
 snip_lock_down_to_mutual_tls_by_namespace_1() {
 kubectl apply -n foo -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
@@ -83,7 +77,6 @@ spec:
 EOF
 }
 
-# shellcheck disable=SC2046
 snip_lock_down_to_mutual_tls_by_namespace_2() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
@@ -99,7 +92,6 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
-# shellcheck disable=SC2046
 snip_lock_down_to_mutual_tls_by_namespace_3() {
 kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -it -- sudo tcpdump dst port 80  -A
 }
@@ -110,7 +102,6 @@ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 ENDSNIP
 
-# shellcheck disable=SC2046
 snip_lock_down_mutual_tls_for_the_entire_mesh_1() {
 kubectl apply -n istio-system -f - <<EOF
 apiVersion: "security.istio.io/v1beta1"
@@ -123,17 +114,14 @@ spec:
 EOF
 }
 
-# shellcheck disable=SC2046
 snip_lock_down_mutual_tls_for_the_entire_mesh_2() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-# shellcheck disable=SC2046
 snip_clean_up_the_example_1() {
 kubectl delete peerauthentication --all-namespaces --all
 }
 
-# shellcheck disable=SC2046
 snip_clean_up_the_example_2() {
 kubectl delete ns foo bar legacy
 }
