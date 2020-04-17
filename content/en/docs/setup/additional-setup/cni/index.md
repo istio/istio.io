@@ -143,16 +143,17 @@ OpenShift 4.2+ you will need to create a file and pass that into istioctl:
 
 cni-annotations.yaml
 ```yaml
-global:
-  sidecarInjectorWebhook:
-    injectedAnnotations:
-      "k8s.v1.cni.cncf.io/networks": istio-cni
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    sidecarInjectorWebhook:
+      injectedAnnotations:
+        "k8s.v1.cni.cncf.io/networks": istio-cni
 ```
 
-Then installing
-{{< text bash >}}
-` -f cni-annotations.yaml --set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf"` | _(none)_
-{{< /text >}}
+Then passing in the arguments
+` -f cni-annotations.yaml --set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf"`
 
 ### GKE setup
 
