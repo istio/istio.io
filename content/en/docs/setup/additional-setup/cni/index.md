@@ -146,14 +146,22 @@ cni-annotations.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  components:
+    cni:
+      enabled: true
+      namespace: kube-system
   values:
+    cni:
+      chained: false
+      cniBinDir: /var/lib/cni/bin
+      cniConfDir: /etc/cni/multus/net.d
+      cniConfFileName: istio-cni.conf
     sidecarInjectorWebhook:
       injectedAnnotations:
         "k8s.v1.cni.cncf.io/networks": istio-cni
 ```
 
-Then passing in the arguments
-` -f cni-annotations.yaml --set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf"`
+Then passing in the file in as an argument `-f cni-annotations.yaml`
 
 ### GKE setup
 
