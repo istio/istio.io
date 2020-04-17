@@ -70,7 +70,7 @@ snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.spl
 
 print("generating snips: " + os.path.join(snipdir, snipfile))
 
-with open(markdown, 'rt') as mdfile:
+with open(markdown, 'rt', encoding='utf-8') as mdfile:
     for line in mdfile:
         linenum += 1
 
@@ -130,7 +130,7 @@ with open(markdown, 'rt') as mdfile:
                         multiline_cmd = True
                 current_snip["script"].append(line)
 
-with open(os.path.join(snipdir, snipfile), 'w') as f:
+with open(os.path.join(snipdir, snipfile), 'w', encoding='utf-8') as f:
     f.write(HEADER % markdown.split("content/en/")[1] if "content/en/" in markdown else markdown)
     for snippet in snippets:
         lines = snippet["script"]
