@@ -61,7 +61,7 @@ reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
 ENDSNIP
 
 snip_start_the_application_services_6() {
-kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+kubectl exec -it "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
 # shellcheck disable=SC2034
@@ -88,7 +88,7 @@ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
 snip_confirm_the_app_is_accessible_from_outside_the_cluster_1() {
-curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 }
 
 # shellcheck disable=SC2034

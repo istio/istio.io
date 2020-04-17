@@ -137,7 +137,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     example from `ratings`:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec -it "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -174,7 +174,7 @@ is used for this purpose.
 To confirm that the Bookinfo application is accessible from outside the cluster, run the following `curl` command:
 
 {{< text bash >}}
-$ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+$ curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
