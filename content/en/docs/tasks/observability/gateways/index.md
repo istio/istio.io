@@ -17,103 +17,54 @@ two basic access methods: secure (via HTTPS) and insecure (via HTTP). The secure
 recommended* for any production or sensitive environment. Insecure access is simpler to set up, but
 will not protect any credentials or data transmitted outside of your cluster.
 
+For both options, first follow these steps:
+
+1. [Install Istio](/docs/setup/install/istioctl) in your cluster.
+
+    To additionally install the telemetry addons, use the following installation options:
+
+    * Grafana: `--set values.grafana.enabled=true`
+    * Kiali: `--set values.kiali.enabled=true`
+    * Prometheus: `--set values.prometheus.enabled=true`
+    * Tracing: `--set values.tracing.enabled=true`
+
+1. Set up the domain to expose addons. In this example, you expose each addon on a subdomain, such as `grafana.example.com`.
+
+    * If you have an existing domain pointing to the external IP address of `istio-ingressgateway`:
+
+    {{< text bash >}}
+    $ export INGRESS_DOMAIN=<your.desired.domain>
+    {{< /text >}}
+
+    * If you do not have a domain, you may use [`nip.io`](https://nip.io/) which will automatically resolve to the IP address provided. This is not recommended for production usage.
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export INGRESS_DOMAIN=${INGRESS_HOST}.nip.io
+    {{< /text >}}
+
 ### Option 1: Secure access (HTTPS)
 
 A server certificate is required for secure access. Follow these steps to install and configure
 server certificates for a domain that you control.
-
-You may use self-signed certificates instead. Visit our
-[Securing Gateways with HTTPS Using Secret Discovery Service task](/docs/tasks/traffic-management/ingress/secure-ingress-sds/)
-for general information on using self-signed certificates to access in-cluster services.
 
 {{< warning >}}
 This option covers securing the transport layer *only*. You should also configure the telemetry
 addons to require authentication when exposing them externally.
 {{< /warning >}}
 
-1. [Install cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) to manage certificates automatically.
+This example uses self-signed certificates, which may not be appropriate for production usages. For these cases, consider using [cert-manager](/docs/ops/integrations/certmanager/) or other tools to provision certificates. You may also visit the [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/) task for general information on using HTTPS on the gateway.
 
-1. [Install Istio](/docs/setup/install/istioctl) in your cluster and enable the `cert-manager` flag and configure `istio-ingressgateway` to use
-the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration).
+1. Setup the certificates. This example uses `openssl` to self sign.
 
-    To install Istio accordingly, use the following installation options:
-
-    * `--set values.gateways.enabled=true`
-    * `--set values.gateways.istio-ingressgateway.enabled=true`
-    * `--set values.gateways.istio-ingressgateway.sds.enabled=true`
-
-    To additionally install the telemetry addons, use the following installation options:
-
-    * Grafana: `--set values.grafana.enabled=true`
-    * Kiali: `--set values.kiali.enabled=true`
-    * Prometheus: `--set values.prometheus.enabled=true`
-    * Tracing: `--set values.tracing.enabled=true`
-
-1. Configure the DNS records for your domain.
-
-    1. Get the external IP address of the `istio-ingressgateway`.
-
-        {{< text bash >}}
-        $ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
-        <IP ADDRESS OF CLUSTER INGRESS>
-        {{< /text >}}
-
-    1. Set an environment variable to hold your target domain.
-
-        {{< text bash >}}
-        $ TELEMETRY_DOMAIN=<your.desired.domain>
-        {{< /text >}}
-
-    1. Point your desired domain at that external IP address via your domain provider.
-
-        The mechanism for achieving this step varies by provider. Here are a few example documentation links:
-
-        * Bluehost: [DNS Management Add Edit or Delete DNS Entries](https://my.bluehost.com/hosting/help/559)
-        * GoDaddy: [Add an A record](https://www.godaddy.com/help/add-an-a-record-19238)
-        * Google Domains: [Resource Records](https://support.google.com/domains/answer/3290350?hl=en)
-        * Name.com: [Adding an A record](https://www.name.com/support/articles/115004893508-Adding-an-A-record)
-
-    1. Verify that the DNS records are correct.
-
-        {{< text bash >}}
-        $ dig +short $TELEMETRY_DOMAIN
-        <IP ADDRESS OF CLUSTER INGRESS>
-        {{< /text >}}
-
-1. Generate a server certificate
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    apiVersion: cert-manager.io/v1alpha2
-    kind: Certificate
-    metadata:
-      name: telemetry-gw-cert
-      namespace: istio-system
-    spec:
-      secretName: telemetry-gw-cert
-      issuerRef:
-        name: letsencrypt
-        kind: ClusterIssuer
-      commonName: $TELEMETRY_DOMAIN
-      dnsNames:
-      - $TELEMETRY_DOMAIN
-      acme:
-        config:
-        - http01:
-            ingressClass: istio
-          domains:
-          - $TELEMETRY_DOMAIN
-    ---
-    EOF
-    certificate.cert-manager.io "telemetry-gw-cert" created
-    {{< /text >}}
-
-1. Wait until the server certificate is ready.
-
-    {{< text syntax="bash" expandlinks="false" >}}
-    $ JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}{end}{end}' && kubectl -n istio-system get certificates.cert-manager.io -o jsonpath="$JSONPATH"
-    telemetry-gw-cert:Ready=True
-    {{< /text >}}
+{{< text bash >}}
+$ CERT_DIR=/tmp/certs
+$ mkdir -p ${CERT_DIR}
+$ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=*.${INGRESS_DOMAIN}' -keyout ${CERT_DIR}/ca.key -out ${CERT_DIR}/ca.crt
+$ openssl req -out ${CERT_DIR}/cert.csr -newkey rsa:2048 -nodes -keyout ${CERT_DIR}/tls.key -subj "/CN=*.${INGRESS_DOMAIN}/O=example organization"
+$ openssl x509 -req -days 365 -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -set_serial 0 -in ${CERT_DIR}/cert.csr -out ${CERT_DIR}/tls.crt
+$ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/tls.key --cert=${CERT_DIR}/tls.crt
+{{< /text >}}
 
 1. Apply networking configuration for the telemetry addons.
 
@@ -131,16 +82,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15031
+              number: 443
               name: https-grafana
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "grafana.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -149,13 +98,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "grafana.${INGRESS_DOMAIN}"
           gateways:
           - grafana-gateway
           http:
-          - match:
-            - port: 15031
-            route:
+          - route:
             - destination:
                 host: grafana
                 port:
@@ -192,16 +139,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15029
+              number: 443
               name: https-kiali
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "kiali.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -210,13 +155,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "kiali.${INGRESS_DOMAIN}"
           gateways:
           - kiali-gateway
           http:
-          - match:
-            - port: 15029
-            route:
+          - route:
             - destination:
                 host: kiali
                 port:
@@ -253,16 +196,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15030
+              number: 443
               name: https-prom
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "prometheus.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -271,13 +212,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "prometheus.${INGRESS_DOMAIN}"
           gateways:
           - prometheus-gateway
           http:
-          - match:
-            - port: 15030
-            route:
+          - route:
             - destination:
                 host: prometheus
                 port:
@@ -314,16 +253,14 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15032
+              number: 443
               name: https-tracing
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "tracing.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -332,13 +269,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "tracing.${INGRESS_DOMAIN}"
           gateways:
           - tracing-gateway
           http:
-          - match:
-            - port: 15032
-            route:
+          - route:
             - destination:
                 host: tracing
                 port:
@@ -363,21 +298,16 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 1. Visit the telemetry addons via your browser.
 
-    * Kiali: `https://$TELEMETRY_DOMAIN:15029/`
-    * Prometheus: `https://$TELEMETRY_DOMAIN:15030/`
-    * Grafana: `https://$TELEMETRY_DOMAIN:15031/`
-    * Tracing: `https://$TELEMETRY_DOMAIN:15032/`
+    {{< warning >}}
+    If you used self signed certificates, your browser will likely mark them as insecure.
+    {{< /warning >}}
+
+    * Kiali: `https://kiali.${INGRESS_DOMAIN}`
+    * Prometheus: `https://prometheus.${INGRESS_DOMAIN}`
+    * Grafana: `https://grafana.${INGRESS_DOMAIN}`
+    * Tracing: `https://tracing.${INGRESS_DOMAIN}`
 
 ### Option 2: Insecure access (HTTP)
-
-1. [Install Istio](/docs/setup/install/istioctl) in your cluster with your desired telemetry addons.
-
-    To additionally install the telemetry addons, use the following installation options:
-
-    * Grafana: `--set values.grafana.enabled=true`
-    * Kiali: `--set values.kiali.enabled=true`
-    * Prometheus: `--set values.prometheus.enabled=true`
-    * Tracing: `--set values.tracing.enabled=true`
 
 1. Apply networking configuration for the telemetry addons.
 
@@ -395,11 +325,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15031
+              number: 80
               name: http-grafana
               protocol: HTTP
             hosts:
-            - "*"
+            - "grafana.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -408,13 +338,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "grafana.${INGRESS_DOMAIN}"
           gateways:
           - grafana-gateway
           http:
-          - match:
-            - port: 15031
-            route:
+          - route:
             - destination:
                 host: grafana
                 port:
@@ -451,11 +379,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15029
+              number: 80
               name: http-kiali
               protocol: HTTP
             hosts:
-            - "*"
+            - "kiali.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -464,13 +392,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "kiali.${INGRESS_DOMAIN}"
           gateways:
           - kiali-gateway
           http:
-          - match:
-            - port: 15029
-            route:
+          - route:
             - destination:
                 host: kiali
                 port:
@@ -507,11 +433,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15030
+              number: 80
               name: http-prom
               protocol: HTTP
             hosts:
-            - "*"
+            - "prometheus.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -520,13 +446,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "prometheus.${INGRESS_DOMAIN}"
           gateways:
           - prometheus-gateway
           http:
-          - match:
-            - port: 15030
-            route:
+          - route:
             - destination:
                 host: prometheus
                 port:
@@ -563,11 +487,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
             istio: ingressgateway
           servers:
           - port:
-              number: 15032
+              number: 80
               name: http-tracing
               protocol: HTTP
             hosts:
-            - "*"
+            - "tracing.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -576,13 +500,11 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "tracing.${INGRESS_DOMAIN}"
           gateways:
           - tracing-gateway
           http:
-          - match:
-            - port: 15032
-            route:
+          - route:
             - destination:
                 host: tracing
                 port:
@@ -607,10 +529,10 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
 
 1. Visit the telemetry addons via your browser.
 
-    * Kiali: `http://<IP ADDRESS OF CLUSTER INGRESS>:15029/`
-    * Prometheus: `http://<IP ADDRESS OF CLUSTER INGRESS>:15030/`
-    * Grafana: `http://<IP ADDRESS OF CLUSTER INGRESS>:15031/`
-    * Tracing: `http://<IP ADDRESS OF CLUSTER INGRESS>:15032/`
+    * Kiali: `http://kiali.${INGRESS_DOMAIN}`
+    * Prometheus: `http://prometheus.${INGRESS_DOMAIN}`
+    * Grafana: `http://grafana.${INGRESS_DOMAIN}`
+    * Tracing: `http://tracing.${INGRESS_DOMAIN}`
 
 ## Cleanup
 
@@ -632,11 +554,4 @@ the [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/confi
     virtualservice.networking.istio.io "kiali-vs" deleted
     virtualservice.networking.istio.io "prometheus-vs" deleted
     virtualservice.networking.istio.io "tracing-vs" deleted
-    {{< /text >}}
-
-* If installed, remove the gateway certificate:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system delete certificates.cert-manager.io telemetry-gw-cert
-    certificate.cert-manager.io "telemetry-gw-cert" deleted
     {{< /text >}}

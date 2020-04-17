@@ -5,6 +5,7 @@ weight: 40
 keywords: [security,authentication,migration]
 aliases:
     - /docs/tasks/security/mtls-migration/
+test: true
 ---
 
 This task shows how to ensure your workloads only communicate using mutual TLS as they are migrated to
@@ -55,7 +56,7 @@ the policies to enforce STRICT mutual TLS between the workloads.
 * Verify setup by sending an http request (using curl command) from any sleep pod (among those in namespace `foo`, `bar` or `legacy`) to `httpbin.foo`.  All requests should success with HTTP code 200.
 
     {{< text bash >}}
-    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
     sleep.foo to httpbin.foo: 200
     sleep.foo to httpbin.bar: 200
     sleep.bar to httpbin.foo: 200
@@ -68,12 +69,12 @@ the policies to enforce STRICT mutual TLS between the workloads.
 
     {{< text bash >}}
     $ kubectl get peerauthentication --all-namespaces
-    No resources found
+    No resources found.
     {{< /text >}}
 
     {{< text bash >}}
     $ kubectl get destinationrule --all-namespaces
-    No resources found
+    No resources found.
     {{< /text >}}
 
 ## Lock down to mutual TLS by namespace
@@ -96,7 +97,7 @@ EOF
 Now, you should see the request from `sleep.legacy` to `httpbin.foo` failing.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
@@ -110,7 +111,7 @@ If you installed Istio with `values.global.proxy.privileged=true`, you can use `
 traffic is encrypted or not.
 
 {{< text bash >}}
-$ kubectl exec -nfoo $(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name}) -c istio-proxy -it -- sudo tcpdump dst port 80  -A
+$ kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -it -- sudo tcpdump dst port 80  -A
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 {{< /text >}}
@@ -140,7 +141,7 @@ Now, both the `foo` and `bar` namespaces enforce mutual TLS only traffic, so you
 failing for both.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 {{< /text >}}
 
 ## Clean up the example

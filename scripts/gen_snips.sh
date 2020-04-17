@@ -1,4 +1,6 @@
-# Copyright 2019 Istio Authors
+#!/bin/bash
+
+# Copyright Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# expose port 1313 from the container in order to support 'make serve' which runs a Hugo web server
-CONTAINER_OPTIONS = -p 1313:1313 ${ADDITIONAL_CONTAINER_OPTIONS}
+set -e
 
-# this repo is on the container plan by default
-BUILD_WITH_CONTAINER ?= 1
+find content/en -name '*.md' -exec grep --quiet '^test: true$' {} \; -exec python3 scripts/snip.py {} \;

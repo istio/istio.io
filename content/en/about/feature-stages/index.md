@@ -71,8 +71,7 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
-| [SDS based key and certificate provisioning](/docs/concepts/security/#pki)  | Stable
-| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Stable
+| [Certificate management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress) | Stable
 | [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Authorization](/docs/concepts/security/#authorization)   | Beta
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Beta
@@ -92,7 +91,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
 | Mixer Out-of-Process Adapter Authoring Model | Beta
-| [Helm](/docs/setup/install/helm/) | Beta
 | [Multicluster Mesh over VPN](/docs/setup/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/) | Beta
 | Consul Integration | Alpha

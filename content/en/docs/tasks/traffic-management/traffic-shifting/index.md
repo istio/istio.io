@@ -5,6 +5,7 @@ weight: 30
 keywords: [traffic-management,traffic-shifting]
 aliases:
     - /docs/tasks/traffic-management/version-migration.html
+test: true
 ---
 
 This task shows you how to gradually migrate traffic from one version of a
@@ -35,7 +36,7 @@ If you haven't already applied destination rules, follow the instructions in [Ap
 1.  To get started, run this command to route all traffic to the `v1` version of
 each microservice.
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=config_all_v1 >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 
@@ -49,7 +50,7 @@ the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
 1.  Transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=config_50_v3 >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
     {{< /text >}}
 
@@ -57,7 +58,7 @@ the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
 1. Confirm the rule was replaced:
 
-    {{< text bash yaml >}}
+    {{< text syntax=bash outputis=yaml snip_id=verify_config_50_v3 >}}
     $ kubectl get virtualservice reviews -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
@@ -92,7 +93,7 @@ the star ratings service, but the `v1` version does not.
 1.  Assuming you decide that the `reviews:v3` microservice is stable, you can
 route 100% of the traffic to `reviews:v3` by applying this virtual service:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=config_100_v3 >}}
     $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
     {{< /text >}}
 
@@ -112,7 +113,7 @@ article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 
 1. Remove the application routing rules:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=cleanup >}}
     $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
     {{< /text >}}
 

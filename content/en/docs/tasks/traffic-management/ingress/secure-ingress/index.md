@@ -1,9 +1,10 @@
 ---
-title: Secure Gateways (SDS)
-description: Expose a service outside of the service mesh over TLS or mTLS using the secret discovery service (SDS).
+title: Secure Gateways
+description: Expose a service outside of the service mesh over TLS or mTLS.
 weight: 21
 aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
+    - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
@@ -12,12 +13,9 @@ describes how to configure an ingress gateway to expose an HTTP
 service to external traffic. This task shows how to expose a secure HTTPS
 service using either simple or mutual TLS.
 
-The TLS required private key, server certificate, and root certificate, are configured
-using the Secret Discovery Service (SDS).
-
 ## Before you begin
 
-1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)
+1.  Perform the steps in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin).
 and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 sections of the [Control Ingress Traffic](/docs/tasks/traffic-management/ingress/ingress-control) task. After performing
 those steps you should have Istio and the [httpbin]({{< github_tree >}}/samples/httpbin) service deployed,
@@ -33,12 +31,6 @@ and the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT` set.
     If the previous command outputs a version of LibreSSL  as shown, your `curl` command
     should work correctly with the instructions in this task. Otherwise, try
     a different implementation of `curl`, for example on a Linux machine.
-
-{{< tip >}}
-If you configured an ingress gateway using the [file mount-based approach](/docs/tasks/traffic-management/ingress/secure-ingress-mount),
-and you want to migrate your ingress gateway to use the SDS approach, there are no
-extra steps required.
-{{< /tip >}}
 
 ## Generate client and server certificates and keys
 
@@ -58,95 +50,14 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in httpbin.example.com.csr -out httpbin.example.com.crt
     {{< /text >}}
 
-## Configure a TLS ingress gateway using SDS
-
-You can configure a TLS ingress gateway to fetch credentials
- from the ingress gateway agent via secret discovery service (SDS). The ingress
- gateway agent runs in the same pod as the ingress gateway and watches the
- credentials created in the same namespace as the ingress gateway. Enabling SDS
- at ingress gateway brings the following benefits.
-
-* The ingress gateway can dynamically add, delete, or update its
-key/certificate pairs and its root certificate. You do not have to restart the ingress
-gateway.
-
-* No secret volume mount is needed. Once you create a `kubernetes`
-secret, that secret is captured by the gateway agent and sent to ingress gateway
- as key/certificate or root certificate.
-
-* The gateway agent can watch multiple key/certificate pairs. You only
-need to create secrets for multiple hosts and update the gateway definitions.
-
-1.  Enable SDS at ingress gateway and deploy the ingress gateway agent.
-    Since this feature is disabled by default, you need to enable the
-    `istio-ingressgateway.sds.enabled` installation option and generate the `istio-ingressgateway.yaml` file:
-
-    {{< text bash >}}
-    $ istioctl manifest generate \
-    --set values.gateways.istio-egressgateway.enabled=false \
-    --set values.gateways.istio-ingressgateway.sds.enabled=true > \
-    $HOME/istio-ingressgateway.yaml
-    $ kubectl apply -f $HOME/istio-ingressgateway.yaml
-    {{< /text >}}
-
-1.  Set the environment variables `INGRESS_HOST` and `SECURE_INGRESS_PORT`:
-
-    {{< text bash >}}
-    $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system \
-    get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-    $ export INGRESS_HOST=$(kubectl -n istio-system \
-    get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    {{< /text >}}
-
 ### Configure a TLS ingress gateway for a single host
 
-1.  Start the `httpbin` sample:
-
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: httpbin
-      labels:
-        app: httpbin
-    spec:
-      ports:
-      - name: http
-        port: 8000
-      selector:
-        app: httpbin
-    ---
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: httpbin
-    spec:
-      replicas: 1
-      selector:
-        matchLabels:
-          app: httpbin
-          version: v1
-      template:
-        metadata:
-          labels:
-            app: httpbin
-            version: v1
-        spec:
-          containers:
-          - image: docker.io/citizenstig/httpbin
-            imagePullPolicy: IfNotPresent
-            name: httpbin
-            ports:
-            - containerPort: 8000
-    EOF
-    {{< /text >}}
+1.  Ensure you have deployed the [httpbin]({{< github_tree >}}/samples/httpbin) service from [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin).
 
 1.  Create a secret for the ingress gateway:
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com.key \
-    --from-file=cert=httpbin.example.com.crt
+    $ kubectl create -n istio-system secret tls httpbin-credential --key=httpbin.example.com.key --cert=httpbin.example.com.crt
     {{< /text >}}
 
     {{< warning >}}
@@ -230,9 +141,9 @@ need to create secrets for multiple hosts and update the gateway definitions.
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout new_certificates/example.com.key -out new_certificates/example.com.crt
     $ openssl req -out new_certificates/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout new_certificates/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
     $ openssl x509 -req -days 365 -CA new_certificates/example.com.crt -CAkey new_certificates/example.com.key -set_serial 0 -in new_certificates/httpbin.example.com.csr -out new_certificates/httpbin.example.com.crt
-    $ kubectl create -n istio-system secret generic httpbin-credential \
-    --from-file=key=new_certificates/httpbin.example.com.key \
-    --from-file=cert=new_certificates/httpbin.example.com.crt
+    $ kubectl create -n istio-system secret tls httpbin-credential \
+    --key=new_certificates/httpbin.example.com.key \
+    --cert=new_certificates/httpbin.example.com.crt
     {{< /text >}}
 
 1.  Access the `httpbin` service using `curl` using the new certificate chain:
@@ -277,9 +188,9 @@ retrieves unique credentials corresponding to a specific `credentialName`.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
-    $ kubectl create -n istio-system secret generic httpbin-credential \
-    --from-file=key=httpbin.example.com.key \
-    --from-file=cert=httpbin.example.com.crt
+    $ kubectl create -n istio-system secret tls httpbin-credential \
+    --key=httpbin.example.com.key \
+    --cert=httpbin.example.com.crt
     {{< /text >}}
 
 1.  Start the `helloworld-v1` sample
@@ -337,8 +248,7 @@ retrieves unique credentials corresponding to a specific `credentialName`.
 1.  Create the `helloworld-credential` secret:
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret generic helloworld-credential --from-file=key=helloworld-v1.example.com.key \
-    --from-file=cert=helloworld-v1.example.com.crt
+    $ kubectl create -n istio-system secret tls helloworld-credential --key=helloworld-v1.example.com.key --cert=helloworld-v1.example.com.crt
     {{< /text >}}
 
 1.  Define a gateway with two server sections for port 443. Set the value of
@@ -436,8 +346,8 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
 
 {{< text bash >}}
 $ kubectl -n istio-system delete secret httpbin-credential
-$ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com.key \
---from-file=cert=httpbin.example.com.crt --from-file=cacert=example.com.crt
+$ kubectl create -n istio-system secret generic httpbin-credential --from-file=tls.key=httpbin.example.com.key \
+--from-file=tls.crt=httpbin.example.com.crt --from-file=ca.crt=example.com.crt
 {{< /text >}}
 
 1. Change the gateway's definition to set the TLS mode to `MUTUAL`.
@@ -510,21 +420,11 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=k
 
     {{< /text >}}
 
-1. Instead of creating a `httpbin-credential` secret to hold all the credentials, you can
-   create two separate secrets:
+Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
 
-    * `httpbin-credential` holds the server's key and certificate
-    * `httpbin-credential-cacert` holds the client's CA certificate and must have the `-cacert` suffix
-
-    Create the two separate secrets with the following commands:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system delete secret httpbin-credential
-    $ kubectl create -n istio-system secret generic httpbin-credential  \
-    --from-file=key=httpbin.example.com.key --from-file=cert=httpbin.example.com.crt
-    $ kubectl create -n istio-system secret generic httpbin-credential-cacert  \
-    --from-file=cacert=example.com.crt
-    {{< /text >}}
+* A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
+* A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
+* A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacret` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
 
 ## Troubleshooting
 
@@ -590,12 +490,6 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=k
 
     {{< text bash >}}
     $ rm -rf example.com.crt example.com.key httpbin.example.com.crt httpbin.example.com.key httpbin.example.com.csr helloworld-v1.example.com.crt helloworld-v1.example.com.key helloworld-v1.example.com.csr client.example.com.crt client.example.com.csr client.example.com.key ./new_certificates
-    {{< /text >}}
-
-1.  Remove the file you used for redeployment of the ingress gateway.
-
-    {{< text bash >}}
-    $ rm -f $HOME/istio-ingressgateway.yaml
     {{< /text >}}
 
 1. Shutdown the `httpbin` and `helloworld-v1` services:

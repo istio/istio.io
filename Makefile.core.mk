@@ -73,20 +73,27 @@ endif
 # Which branch of the Istio source code do we fetch stuff from
 SOURCE_BRANCH_NAME ?= master
 
-gen:
+site:
 	@scripts/gen_site.sh
 
-build: gen
+snips:
+	@scripts/gen_snips.sh
+
+gen: snips
+
+gen-check: gen check-clean-repo
+
+build: site
 	@scripts/build_site.sh ""
 
-build_nominify: gen
+build_nominify: site
 	@scripts/build_site.sh "" -no_minify
 
 opt:
 	@scripts/opt_site.sh
 
 clean:
-	@rm -fr resources .htmlproofer tmp generated public
+	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/
 
 lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh
@@ -97,7 +104,7 @@ lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml
 lint-fast:
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
-serve: gen
+serve: site
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
 
 # used by netlify.com when building the site. The tool versions should correspond
@@ -147,4 +154,4 @@ include tests/tests.mk
 
 include common/Makefile.common.mk
 
-.PHONY: gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_examples update_all

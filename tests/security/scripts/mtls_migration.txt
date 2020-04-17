@@ -18,99 +18,65 @@ set -e
 set -u
 set -o pipefail
 
-# $snippet curl_foo_bar_legacy syntax="bash" outputis="text"
-#nolint
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-# $verify
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.legacy to httpbin.foo: 200
-sleep.legacy to httpbin.bar: 200
-# $endsnippet
+source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
 
-# $snippet verify_initial_peerauthentications syntax="bash" outputis="text"
-$ kubectl get peerauthentication --all-namespaces
-# $verify
-No resources found.
-# $endsnippet
+# curl_foo_bar_legacy
+out=$(snip_set_up_the_cluster_3 2>&1)
+if [ "$out" != "$snip_set_up_the_cluster_3_out" ]; then
+    echo "FAILED snip_set_up_the_cluster_3: $out"; exit 1
+fi
 
-# $snippet verify_initial_destinationrules syntax="bash" outputis="text"
-$ kubectl get destinationrule --all-namespaces
-# $verify
-No resources found.
-# $endsnippet
+# verify_initial_peerauthentications
+out=$(snip_set_up_the_cluster_4 2>&1)
+if [ "$out" != "$snip_set_up_the_cluster_4_out" ]; then
+    echo "FAILED snip_set_up_the_cluster_4: $out"; exit 1
+fi
 
+# verify_initial_destinationrules
+out=$(snip_set_up_the_cluster_4 2>&1)
+if [ "$out" != "$snip_set_up_the_cluster_4_out" ]; then
+    echo "FAILED snip_set_up_the_cluster_4: $out"; exit 1
+fi
 
-# $snippet configure_mtls_foo_peerauthentication syntax="bash"
-$ kubectl apply -n foo -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
-metadata:
-  name: "default"
-spec:
-  mtls:
-    mode: STRICT
-EOF
-# $endsnippet
+# configure_mtls_foo_peerauthentication
+snip_lock_down_to_mutual_tls_by_namespace_1
 
 # Disable errors, since the next command is expected to return an error.
 set +e
 set +o pipefail
 
-# NOTE: The output below is not in the order it would be displayed on a
-# console because the snippet runner appends stderr to stdout.
-
-# $snippet curl_foo_bar_legacy_post_pa syntax="bash" outputis="text"
-#nolint
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-# $verify
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.legacy to httpbin.foo: 000
-sleep.legacy to httpbin.bar: 200
-command terminated with exit code 56
-# $endsnippet
+# curl_foo_bar_legacy_post_pa
+out=$(snip_lock_down_to_mutual_tls_by_namespace_2 2>&1)
+if [ "$out" != "$snip_lock_down_to_mutual_tls_by_namespace_2_out" ]; then
+    echo "FAILED snip_lock_down_to_mutual_tls_by_namespace_2: $out"; exit 1
+fi
 
 # Restore error handling
 set -e
 set -o pipefail
 
-# $snippet configure_mtls_entire_mesh syntax="bash"
-$ kubectl apply -n istio-system -f - <<EOF
-apiVersion: "security.istio.io/v1beta1"
-kind: "PeerAuthentication"
-metadata:
-  name: "default"
-spec:
-  mtls:
-    mode: STRICT
-EOF
-# $endsnippet
+# configure_mtls_entire_mesh
+snip_lock_down_mutual_tls_for_the_entire_mesh_1
 
 # Disable errors, since the next command is expected to return an error.
 set +e
 set +o pipefail
 
-# NOTE: The output below is not in the order it would be displayed on a
-# console because the snippet runner appends stderr to stdout.
-
-# $snippet curl_foo_bar_legacy_httpbin_foo_mtls syntax="bash" outputis="text"
-#nolint
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-# $verify
+# curl_foo_bar_legacy_httpbin_foo_mtls
+! read -r -d '' expected <<ENDSNIP # No expected output in doc, so declare it here.
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
 sleep.bar to httpbin.bar: 200
 sleep.legacy to httpbin.foo: 000
+command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
-command terminated with exit code 56
-# $endsnippet
+ENDSNIP
+out=$(snip_lock_down_mutual_tls_for_the_entire_mesh_2 2>&1)
+if [ "$out" != "$expected" ]; then
+    echo "FAILED snip_lock_down_mutual_tls_for_the_entire_mesh_2: $out"; exit 1
+fi
 
 # Restore error handling
 set -e
