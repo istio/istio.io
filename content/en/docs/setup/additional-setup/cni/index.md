@@ -136,13 +136,13 @@ The following table shows the required settings for many common Kubernetes envir
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
 | Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf" --set values.sidecarInjectorWebhook.injectedAnnotations."k8s\.v1\.cni\.cncf\.io/networks"=istio-cni` | _(none)_ |
 
-#### Istioctl support in 1.4.8+ for OpenShift 4.2+
+#### Instructions for Istio 1.4 and OpenShift
 
-Istioctl in 1.4.8+ does not support [escaping strings](https://github.com/istio/istio/issues/19196). To install on
-OpenShift 4.2+ you will need to create a file and pass that into istioctl:
+Due to a [limitation](https://github.com/istio/istio/issues/19196) in istioctl 1.4, you will need to create a file and
+pass that file to istioctl.
 
-cni-annotations.yaml
-```yaml
+{{< text yaml >}}
+cat <<'EOF' > cni-annotations.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -159,9 +159,11 @@ spec:
     sidecarInjectorWebhook:
       injectedAnnotations:
         "k8s.v1.cni.cncf.io/networks": istio-cni
-```
+EOF
+{{< /text >}}
 
-Then passing in the file in as an argument `-f cni-annotations.yaml`
+Then passing in the file in as an argument to istioctl: `-f cni-annotations.yaml`. The use of `--set` with custom
+variables can be appended to your istioctl.
 
 ### GKE setup
 
