@@ -138,8 +138,8 @@ The following table shows the required settings for many common Kubernetes envir
 
 #### Instructions for Istio 1.4 and OpenShift
 
-Due to a [limitation](https://github.com/istio/istio/issues/19196) in istioctl 1.4, you will need to create a file and
-pass that file to istioctl. The documentation for istio 1.4 is out of date for OpenShift installation.
+Due to a [limitation](https://github.com/istio/istio/issues/19196) in `istioctl` 1.4, you will need to create a file and
+pass that file to `istioctl`. The documentation for istio 1.4 is out of date for OpenShift installation.
 
 {{< text yaml >}}
 cat <<'EOF' > cni-annotations.yaml
