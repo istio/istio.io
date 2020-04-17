@@ -5,6 +5,7 @@ weight: 80
 keywords: [security,certificates]
 aliases:
     - /docs/tasks/security/plugin-ca-cert/
+test: true
 ---
 
 This task shows how administrators can configure the Istio certificate authority with an existing root certificate, signing certificate and key.
@@ -48,18 +49,15 @@ which will be read by Istio's CA:
         --from-file=samples/certs/cert-chain.pem
     {{< /text >}}
 
-1.  Deploy Istio using the `demo` profile and with `global.mtls.enabled` set to `true`.
+1.  Deploy Istio using the `demo` profile.
 
     Istio's CA will read certificates and key from the secret-mount files.
 
     {{< text bash >}}
-    $ istioctl manifest apply --set profile=demo --set values.global.mtls.enabled=true
+    $ istioctl manifest apply --set profile=demo
     {{< /text >}}
 
-## Verifying the certificates
-
-In this section, we verify that workload certificates are signed by the certificates that we plugged into the CA.
-This requires you have `openssl` installed on your machine.
+## Deploying example services
 
 1. Deploy the `httpbin` and `sleep` sample services.
 
@@ -69,50 +67,73 @@ This requires you have `openssl` installed on your machine.
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
     {{< /text >}}
 
-1.  Retrieve the certificate chain of `httpbin`.
+1. Deploy a policy for workloads in the `foo` namespace to only accept mutual TLS traffic.
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
+    $ kubectl apply -n foo -f - <<EOF
+    apiVersion: "security.istio.io/v1beta1"
+    kind: "PeerAuthentication"
+    metadata:
+      name: "default"
+    spec:
+      mtls:
+        mode: STRICT
+    EOF
     {{< /text >}}
 
-    Open `httpbin-proxy-cert.txt`, which was created with the above command, and save the three certificates in it
-    to `proxy-cert-0.pem`, `proxy-cert-1.pem`, and `proxy-cert-2.pem`, respectively.
-    A certificate starts with `-----BEGIN CERTIFICATE-----` and ends with `-----END CERTIFICATE-----`.
+## Verifying the certificates
+
+In this section, we verify that workload certificates are signed by the certificates that we plugged into the CA.
+This requires you have `openssl` installed on your machine.
+
+1.  Sleep 20 seconds for the mTLS policy to take effect before retrieving the certificate chain
+of `httpbin`. As the CA certificate used in this example is self-signed,
+the `verify error:num=19:self signed certificate in certificate chain` error returned by the
+openssl command is expected.
+
+    {{< text bash >}}
+    $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
+    {{< /text >}}
+
+1.  Parse the certificates on the certificate chain.
+
+    {{< text bash >}}
+    $ sed -n '/-----BEGIN CERTIFICATE-----/{:start /-----END CERTIFICATE-----/!{N;b start};/.*/p}' httpbin-proxy-cert.txt > certs.pem
+    $ awk 'BEGIN {counter=0;} /BEGIN CERT/{counter++} { print > "proxy-cert-" counter ".pem"}' < certs.pem
+    {{< /text >}}
 
 1.  Verify the root certificate is the same as the one specified by the administrator:
 
     {{< text bash >}}
-    $ openssl x509 -in @samples/certs/root-cert.pem@ -text -noout > /tmp/root-cert.crt.txt
-    $ openssl x509 -in ./proxy-cert-2.pem -text -noout > /tmp/pod-root-cert.crt.txt
-    $ diff /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
+    $ openssl x509 -in samples/certs/root-cert.pem -text -noout > /tmp/root-cert.crt.txt
+    $ openssl x509 -in ./proxy-cert-3.pem -text -noout > /tmp/pod-root-cert.crt.txt
+    $ diff -s /tmp/root-cert.crt.txt /tmp/pod-root-cert.crt.txt
+    Files /tmp/root-cert.crt.txt and /tmp/pod-root-cert.crt.txt are identical
     {{< /text >}}
-
-    Expect the output to be empty.
 
 1.  Verify the CA certificate is the same as the one specified by the administrator:
 
     {{< text bash >}}
-    $ openssl x509 -in @samples/certs/ca-cert.pem@ -text -noout > /tmp/ca-cert.crt.txt
-    $ openssl x509 -in ./proxy-cert-1.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
-    $ diff /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
+    $ openssl x509 -in samples/certs/ca-cert.pem -text -noout > /tmp/ca-cert.crt.txt
+    $ openssl x509 -in ./proxy-cert-2.pem -text -noout > /tmp/pod-cert-chain-ca.crt.txt
+    $ diff -s /tmp/ca-cert.crt.txt /tmp/pod-cert-chain-ca.crt.txt
+    Files /tmp/ca-cert.crt.txt and /tmp/pod-cert-chain-ca.crt.txt are identical
     {{< /text >}}
-
-    Expect the output to be empty.
 
 1.  Verify the certificate chain from the root certificate to the workload certificate:
 
     {{< text bash >}}
-    $ openssl verify -CAfile <(cat @samples/certs/ca-cert.pem@ @samples/certs/root-cert.pem@) ./proxy-cert-0.pem
-    ./proxy-cert-0.pem: OK
+    $ openssl verify -CAfile <(cat samples/certs/ca-cert.pem samples/certs/root-cert.pem) ./proxy-cert-1.pem
+    ./proxy-cert-1.pem: OK
     {{< /text >}}
 
 ## Cleanup
 
-*   To remove the secret `cacerts` and redeploy Istio's CA with self-signed root certificate:
+*   To remove the secret `cacerts`, and the `foo` and `istio-system` namespaces:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
-    $ istioctl manifest apply
+    $ kubectl delete ns foo istio-system
     {{< /text >}}
 
 *   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.
