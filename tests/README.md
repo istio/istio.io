@@ -45,7 +45,7 @@ To write an `istio.io` test, follow these steps:
    added benefit of lint checking of the commands that appear in the docs.
 
    Fix the errors, if any, by updating the corresponding command in the `index.md` file and
-   regenerating the snips.
+   then regenerate the snips.
 
 1. Pick an appropriate location under the `tests/` directory and create a directory for your new
    test.
