@@ -136,6 +136,24 @@ The following table shows the required settings for many common Kubernetes envir
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
 | Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf" --set values.sidecarInjectorWebhook.injectedAnnotations."k8s\.v1\.cni\.cncf\.io/networks"=istio-cni` | _(none)_ |
 
+#### Istioctl support in 1.4.8+ for OpenShift 4.2+
+
+Istioctl in 1.4.8+ does not support [escaping strings](https://github.com/istio/istio/issues/19196). To install on
+OpenShift 4.2+ you will need to create a file and pass that into istioctl:
+
+cni-annotations.yaml
+```yaml
+global:
+  sidecarInjectorWebhook:
+    injectedAnnotations:
+      "k8s.v1.cni.cncf.io/networks": istio-cni
+```
+
+Then installing
+{{< text bash >}}
+` -f cni-annotations.yaml --set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf"` | _(none)_
+{{< /text >}}
+
 ### GKE setup
 
 1.  Refer to the procedure to [prepare a GKE cluster for Istio](/docs/setup/platform-setup/gke/) and
