@@ -3,6 +3,7 @@ title: Istio DNS Certificate Management
 description: Shows how to provision and manage DNS certificates in Istio.
 weight: 90
 keywords: [security,certificate]
+test: true
 ---
 
 This task shows how to provision and manage DNS certificates
@@ -35,8 +36,6 @@ EOF
 $ istioctl manifest apply -f ./istio.yaml
 {{< /text >}}
 
-* Install [`jq`](https://stedolan.github.io/jq/) for validating the results from running the task.
-
 ## DNS certificate provisioning and management
 
 Istio provisions the DNS names and secret names for the DNS certificates based on configuration you provide.
@@ -60,14 +59,14 @@ and that the certificate contains the configured DNS names, you need to get the 
 decode it, and view its text output with the following command:
 
 {{< text bash >}}
-$ kubectl get secret dns.example1-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in /dev/stdin -text -noout
+$ kubectl get secret dns.example1-service-account -n istio-system -o jsonpath="{.data['cert-chain\.pem']}" | base64 --decode | openssl x509 -in /dev/stdin -text -noout
 {{< /text >}}
 
 The text output should include:
 
 {{< text plain >}}
-X509v3 Subject Alternative Name:
-  DNS:example1.istio-system.svc, DNS:example1.istio-system
+            X509v3 Subject Alternative Name:
+                DNS:example1.istio-system.svc, DNS:example1.istio-system
 {{< /text >}}
 
 ## Regenerating a DNS certificate
@@ -86,12 +85,20 @@ contains the configured DNS names, you need to get the secret from Kubernetes, p
 and view its text output with the following command:
 
     {{< text bash >}}
-    $ kubectl get secret dns.example1-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in /dev/stdin -text -noout
+    $ sleep 10; kubectl get secret dns.example1-service-account -n istio-system -o jsonpath="{.data['cert-chain\.pem']}" | base64 --decode | openssl x509 -in /dev/stdin -text -noout
     {{< /text >}}
 
 The output should include:
 
 {{< text plain >}}
-X509v3 Subject Alternative Name:
-  DNS:example1.istio-system.svc, DNS:example1.istio-system
+            X509v3 Subject Alternative Name:
+                DNS:example1.istio-system.svc, DNS:example1.istio-system
 {{< /text >}}
+
+## Cleanup
+
+*   To remove the `istio-system` namespace:
+
+    {{< text bash >}}
+    $ kubectl delete ns istio-system
+    {{< /text >}}
