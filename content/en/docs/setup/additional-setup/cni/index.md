@@ -163,16 +163,13 @@ spec:
 EOF
 {{< /text >}}
 
-Then passing in the file in as an argument to istioctl: `-f cni-annotations.yaml`. The use of `--set` with custom
-variables can be appended to your use of istioctl.
-
-Then pass in this file as an argument to istioctl, for example:
+Then pass in this file as an argument to `istioctl`, for example:
 
 {{< text bash >}}
 $ istioctl manifest apply -f cni-annotations.yaml
 {{< /text >}}
 
-You can still pass other command line arguments with --set if you need to.
+You can still pass other command line arguments with `--set` if you need to.
 
 {{< warning >}}
 In order to deploy Istio 1.4 on OpenShift with CNI you need to use at least Istio 1.4.8.
