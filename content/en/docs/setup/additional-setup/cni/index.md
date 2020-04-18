@@ -146,10 +146,11 @@ cat <<'EOF' > cni-annotations.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  components:
-    cni:
-      enabled: true
-      namespace: kube-system
+  cni:
+    enabled: true
+    components:
+      cni:
+        namespace: kube-system
   values:
     cni:
       chained: false
@@ -164,6 +165,18 @@ EOF
 
 Then passing in the file in as an argument to istioctl: `-f cni-annotations.yaml`. The use of `--set` with custom
 variables can be appended to your use of istioctl.
+
+Then pass in this file as an argument to istioctl, for example:
+
+{{< text bash >}}
+$ istioctl manifest apply -f cni-annotations.yaml
+{{< /text >}}
+
+You can still pass other command line arguments with --set if you need to.
+
+{{< warning >}}
+In order to deploy Istio 1.4 on OpenShift with CNI you need to use at least Istio 1.4.8.
+{{< /warning >}}
 
 ### GKE setup
 
