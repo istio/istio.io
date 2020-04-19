@@ -17,7 +17,7 @@ the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster. If not enabled in your chosen configuration profile, enable the Grafana addon `--set values.grafana.enabled=true` [option](/docs/reference/config/installation-options/).
+* [Install Istio](/docs/setup) in your cluster. If not enabled in your chosen configuration profile, enable the Grafana addon `--set values.grafana.enabled=true` [option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/).
 * Deploy [Bookinfo](/docs/examples/bookinfo/) application.
 
 ## Viewing the Istio dashboard

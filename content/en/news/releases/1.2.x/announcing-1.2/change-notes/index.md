@@ -14,10 +14,10 @@ aliases:
 ## Traffic management
 
 - **Improved** [locality based routing](/docs/ops/configuration/traffic-management/locality-load-balancing/) in multicluster environments.
-- **Improved** outbound traffic policy in [`ALLOW_ANY` mode](/docs/reference/config/installation-options/#global-options). Traffic for unknown HTTP/HTTPS hosts on an existing port will be [forwarded as is](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services). Unknown traffic will be logged in Envoy access logs.
+- **Improved** outbound traffic policy in [`ALLOW_ANY` mode](https://archive.istio.io/v1.2/docs/reference/config/installation-options/#global-options). Traffic for unknown HTTP/HTTPS hosts on an existing port will be [forwarded as is](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services). Unknown traffic will be logged in Envoy access logs.
 - **Added** support for setting HTTP idle timeouts to upstream services.
 - **Improved** Sidecar support for [NONE mode](/docs/reference/config/networking/sidecar/#CaptureMode) (without iptables) .
-- **Added** ability to configure the [DNS refresh rate](/docs/reference/config/installation-options/#global-options) for sidecar Envoys, to reduce the load on the DNS servers.
+- **Added** ability to configure the [DNS refresh rate](https://archive.istio.io/v1.2/docs/reference/config/installation-options/#global-options) for sidecar Envoys, to reduce the load on the DNS servers.
 - **Graduated** [Sidecar API](/docs/reference/config/networking/sidecar/) from Alpha to Alpha API and Beta runtime.
 
 ## Security
@@ -55,7 +55,7 @@ aliases:
 - **Added** pod [anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) and [toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) support to all of our control plane components.
 - **Added** `sidecarInjectorWebhook.neverInjectSelector` and `sidecarInjectorWebhook.alwaysInjectSelector` to allow users to further refine whether workloads should have sidecar automatically injected or not, based on label selectors.
 - **Added** `global.logging.level` and `global.proxy.logLevel` to allow users to easily configure logs for control plane and data plane components globally.
-- **Added** support to configure the Datadog location via [`global.tracer.datadog.address`](/docs/reference/config/installation-options/#global-options).
+- **Added** support to configure the Datadog location via [`global.tracer.datadog.address`](https://archive.istio.io/v1.2/docs/reference/config/installation-options/#global-options).
 - **Removed** Previously [deprecated]( https://discuss.istio.io/t/deprecation-notice-custom-mixer-adapter-crds/2055) Adapter and Template CRDs are disabled by default. Use  `mixer.templates.useTemplateCRDs=true` and `mixer.adapters.useAdapterCRDs=true` install options to re-enable them.
 
 Refer to the [installation option change page](/news/releases/1.2.x/announcing-1.2/helm-changes/) to view the complete list of changes.
