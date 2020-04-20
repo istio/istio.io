@@ -116,7 +116,7 @@ Your test script can then invoke the commands by simply calling snip functions:
 snip_config_50_v3 # Step 3: switch 50% traffic to v3
 ```
 
-For commands that produce output that must be verified, capture the command output
+For commands that produce output that needs to be verified, capture the command output
 in a variable and compare it to the expected output. For example:
 
 ```sh
@@ -124,21 +124,21 @@ out=$(snip_set_up_the_cluster_3 2>&1)
 _verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
 ```
 
-The framework includes the following built-in verify function:
+The framework includes the following built-in verify functions:
 
-1. `_verify_same <out> <expected> <msg>`
+1. `**_verify_same** out expected msg`
 
-   Verify that `<out>` is exactly the same as `<expected>`. Failure messages will include
-   the specified `<msg>`.
+   Verify that `out` is exactly the same as `expected`. Failure messages will include
+   the specified `msg`.
 
-1. `_verify_contains <out> <expected> <msg>`
+1. `**_verify_contains** out expected msg`
 
-   Verify that `<out>` contains the substring `<expected>`. Failure messages will include
-   the specified `<msg>`.
+   Verify that `out` contains the substring `expected`. Failure messages will include
+   the specified `msg`.
 
-1. `_verify_like <out> <expected> <msg>`
+1. `**_verify_like** out expected msg`
 
-   Verify that `<out>` is "like" `<expected>`. Like implies:
+   Verify that `out` is "like" `expected`. Like implies:
 
    - Same number of lines
    - Same number of whitespace-seperated tokens per line
@@ -146,7 +146,7 @@ The framework includes the following built-in verify function:
 
      1. different elapsed time values (e.g., `30s`)
      1. different ip values (e.g., `172.21.0.1`)
-     1. prefix match ending with a `-` (dash) character
+     1. prefix match ending with a dash character (e.g., `reviews-v1-<anything>`)
 
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
