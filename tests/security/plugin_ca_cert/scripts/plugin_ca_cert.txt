@@ -35,16 +35,10 @@ set -o pipefail
 snip_verifying_the_certificates_2
 
 out=$(snip_verifying_the_certificates_3 2>&1)
-if [ "$out" != "$snip_verifying_the_certificates_3_out" ]; then
-    echo "FAILED snip_verifying_the_certificates_3: $out"; exit 1
-fi
+_verify_same "$out" "$snip_verifying_the_certificates_3_out" "snip_verifying_the_certificates_3"
 
 out=$(snip_verifying_the_certificates_4 2>&1)
-if [ "$out" != "$snip_verifying_the_certificates_4_out" ]; then
-    echo "FAILED snip_verifying_the_certificates_4: $out"; exit 1
-fi
+_verify_same "$out" "$snip_verifying_the_certificates_4_out" "snip_verifying_the_certificates_4"
 
 out=$(snip_verifying_the_certificates_5 2>&1)
-if [ "$out" != "$snip_verifying_the_certificates_5_out" ]; then
-    echo "FAILED snip_verifying_the_certificates_5: $out"; exit 1
-fi
+_verify_same "$out" "$snip_verifying_the_certificates_5_out" "snip_verifying_the_certificates_5"

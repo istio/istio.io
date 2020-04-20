@@ -22,21 +22,15 @@ source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration
 
 # curl_foo_bar_legacy
 out=$(snip_set_up_the_cluster_3 2>&1)
-if [ "$out" != "$snip_set_up_the_cluster_3_out" ]; then
-    echo "FAILED snip_set_up_the_cluster_3: $out"; exit 1
-fi
+_verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
 
 # verify_initial_peerauthentications
 out=$(snip_set_up_the_cluster_4 2>&1)
-if [ "$out" != "$snip_set_up_the_cluster_4_out" ]; then
-    echo "FAILED snip_set_up_the_cluster_4: $out"; exit 1
-fi
+_verify_same "$out" "$snip_set_up_the_cluster_4_out" "snip_set_up_the_cluster_4"
 
 # verify_initial_destinationrules
-out=$(snip_set_up_the_cluster_4 2>&1)
-if [ "$out" != "$snip_set_up_the_cluster_4_out" ]; then
-    echo "FAILED snip_set_up_the_cluster_4: $out"; exit 1
-fi
+out=$(snip_set_up_the_cluster_5 2>&1)
+_verify_same "$out" "$snip_set_up_the_cluster_5_out" "snip_set_up_the_cluster_5"
 
 # configure_mtls_foo_peerauthentication
 snip_lock_down_to_mutual_tls_by_namespace_1
@@ -47,9 +41,7 @@ set +o pipefail
 
 # curl_foo_bar_legacy_post_pa
 out=$(snip_lock_down_to_mutual_tls_by_namespace_2 2>&1)
-if [ "$out" != "$snip_lock_down_to_mutual_tls_by_namespace_2_out" ]; then
-    echo "FAILED snip_lock_down_to_mutual_tls_by_namespace_2: $out"; exit 1
-fi
+_verify_same "$out" "$snip_lock_down_to_mutual_tls_by_namespace_2_out" "snip_lock_down_to_mutual_tls_by_namespace_2"
 
 # Restore error handling
 set -e
@@ -63,20 +55,16 @@ set +e
 set +o pipefail
 
 # curl_foo_bar_legacy_httpbin_foo_mtls
-! read -r -d '' expected <<ENDSNIP # No expected output in doc, so declare it here.
-sleep.foo to httpbin.foo: 200
+out=$(snip_lock_down_mutual_tls_for_the_entire_mesh_2 2>&1)
+expected="sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
 sleep.bar to httpbin.bar: 200
 sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
-command terminated with exit code 56
-ENDSNIP
-out=$(snip_lock_down_mutual_tls_for_the_entire_mesh_2 2>&1)
-if [ "$out" != "$expected" ]; then
-    echo "FAILED snip_lock_down_mutual_tls_for_the_entire_mesh_2: $out"; exit 1
-fi
+command terminated with exit code 56"
+_verify_same "$out" "$expected" "snip_lock_down_mutual_tls_for_the_entire_mesh_2"
 
 # Restore error handling
 set -e

@@ -300,7 +300,7 @@ func (s Script) runCommand(ctx Context) {
 	}
 
 	// Generate the body of the command.
-	commandLines := make([]string, 0)
+	commandLines := []string{"source ${REPO_ROOT}/tests/util/verify.sh"}
 	lines := strings.Split(content, "\n")
 	for index := 0; index < len(lines); index++ {
 		line := lines[index]
