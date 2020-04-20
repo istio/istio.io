@@ -35,7 +35,6 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/) for more details.
 
 1. Follow the same steps as [setting up single-network](/docs/examples/virtual-machines/single-network) configuration for the initial setup of the
    cluster and certificates with the change of how you deploy Istio control plane:
@@ -49,22 +48,16 @@ following commands on a machine with cluster admin privileges:
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
-1.  Copy the previously created `cluster.env` and `*.pem` files to the VM. For example:
-
-    {{< text bash >}}
-    $ export GCE_NAME="your-gce-instance"
-    $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
-    {{< /text >}}
+1.  Copy the previously created `cluster.env` and `*.pem` files to the VM. 
 
 1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
-    $ gcloud compute ssh --project=${MY_PROJECT} --zone=${MY_ZONE} "${GCE_NAME}"
     $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of Istio gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
+1.  Add the IP address of Istio ingress gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
 The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod{{< /gloss >}} address:
 
     {{< text bash >}}
@@ -75,6 +68,16 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
    /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
    the scope of this document.
 
+2. Obtain `tcp-istiod` port for Istio ingress gateway and export it as `CAPORT`. Add it into `/var/lib/istio/envoy/sidecar.env`.  Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the `tcp-istiod` port.
+
+    {{< text bash >}}
+    $ echo "CA_ADDR=istiod.istio-system.svc:$CAPORT" >> cluster.env
+    {{< /text >}}
+
+    {{< tip >}}
+    Ensure you have used @.name=="tcp-istiod" to extract the `tcp-istiod` port for Istio ingress gateway
+    {{< /tip >}}
+
 1.  Install `root-cert.pem`, `key.pem` and `cert-chain.pem` under `/etc/certs/`.
 
     {{< text bash >}}
@@ -82,7 +85,6 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
-1.  Install `root-cert.pem` under `/var/run/secrets/istio/`.
 
 1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
@@ -90,7 +92,7 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
     $ sudo cp cluster.env /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Transfer ownership of the files in `/etc/certs/` , `/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
+1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
 
     {{< text bash >}}
     $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /var/run/secrets/istio/
@@ -195,4 +197,3 @@ $ istioctl experimental remove-from-mesh -n ${SERVICE_NAMESPACE} vmhttp
 Kubernetes Service "vmhttp.vm" has been deleted for external service "vmhttp"
 Service Entry "mesh-expansion-vmhttp" has been deleted for external service "vmhttp"
 {{< /text >}}
-
