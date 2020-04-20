@@ -19,7 +19,7 @@ _err_exit() {
     exit 1
 }
 
-# Verify that $out is the same as $expected.	
+# Verify that $out is the same as $expected.
 _verify_same() {
     local out=$1
     local expected=$2
@@ -68,8 +68,8 @@ _verify_like() {
         fi
 
         for i in "${!olines[@]}"; do
-          	local oline=${olines[i]}
-           	local eline=${elines[i]}
+            local oline=${olines[i]}
+            local eline=${elines[i]}
 
             if [[ "$oline" == "$eline" ]]; then
                 continue
@@ -82,9 +82,9 @@ _verify_like() {
                 _err_exit "$msg" "$out"
             fi
 
-	        for i in "${!otokens[@]}"; do
-                local otok=${otokens[i]}
-                local etok=${etokens[i]}
+            for j in "${!otokens[@]}"; do
+                local otok=${otokens[j]}
+                local etok=${etokens[j]}
 
                 if [[ "$otok" == "$etok" ]]; then
                     continue
@@ -99,14 +99,13 @@ _verify_like() {
                 fi
 
                 local comm=""
-                for ((i=0; i < ${#otok}; i++)) do 
-                    if [ ${otok:$i:1} = ${etok:$i:1} ]; then 
-                        comm=${comm}${otok:$i:1}
+                for ((k=0; k < ${#otok}; k++)) do
+                    if [ "${otok:$k:1}" = "${etok:$k:1}" ]; then
+                        comm=${comm}${otok:$k:1}
                     else
-  	                    if [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
+                        if [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
                             break
                         fi
-                        echo "failed"
                         _err_exit "$msg" "$out"
                     fi
                 done
