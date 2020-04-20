@@ -90,7 +90,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     Your `ServiceEntry` was configured correctly if you see _301 Moved Permanently_ in the output.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and a destination rule for
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     sidecar requests that will be directed to the egress gateway.
 
     {{< text bash >}}
