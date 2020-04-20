@@ -91,7 +91,7 @@ To retrieve information about endpoint configuration for the Envoy instance in a
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-See [Debugging Envoy and Pilot](/docs/ops/diagnostic-tools/proxy-cmd/) for more advice on interpreting this information.
+See [Debugging Envoy and Istiod](/docs/ops/diagnostic-tools/proxy-cmd/) for more advice on interpreting this information.
 
 ## `istioctl` auto-completion
 
