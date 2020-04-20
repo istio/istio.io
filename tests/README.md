@@ -126,17 +126,17 @@ _verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
 
 The framework includes the following built-in verify functions:
 
-1. `**_verify_same** out expected msg`
+1. **`_verify_same`** `out` `expected` `msg`
 
    Verify that `out` is exactly the same as `expected`. Failure messages will include
    the specified `msg`.
 
-1. `**_verify_contains** out expected msg`
+1. **`_verify_contains`** `out` `expected` `msg`
 
    Verify that `out` contains the substring `expected`. Failure messages will include
    the specified `msg`.
 
-1. `**_verify_like** out expected msg`
+1. **`_verify_like`** `out` `expected` `msg`
 
    Verify that `out` is "like" `expected`. Like implies:
 
