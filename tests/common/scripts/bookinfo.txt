@@ -20,16 +20,16 @@ set -o pipefail
 
 source ${REPO_ROOT}/content/en/docs/examples/bookinfo/snips.sh
 
-# Step 1: setup bookinfo & sleep pods
+# Step 1: setup bookinfo
 kubectl label namespace default istio-injection=enabled --overwrite || true
 
 snip_start_the_application_services_2
 
 snip_determine_the_ingress_ip_and_port_1
-snip_apply_default_destination_rules_1
-kubectl apply -f samples/sleep/sleep.yaml
 
-for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3" "sleep"; do
+snip_apply_default_destination_rules_1
+
+for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
   if ! kubectl rollout status deployment "$deploy" --timeout 5m; then
     echo "$deploy deployment rollout status check failed"
     exit 1
