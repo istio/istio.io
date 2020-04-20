@@ -25,8 +25,8 @@ kubectl label namespace default istio-injection=enabled --overwrite || true
 
 snip_start_the_application_services_2
 
-kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+snip_determine_the_ingress_ip_and_port_1
+snip_apply_default_destination_rules_1
 kubectl apply -f samples/sleep/sleep.yaml
 
 for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3" "sleep"; do
