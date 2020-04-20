@@ -48,22 +48,6 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/) for more details.
-
-    {{< warning >}}
-    The root and intermediate certificate from the samples directory are widely
-    distributed and known.  Do **not** use these certificates in production as
-    your clusters would then be open to security vulnerabilities and compromise.
-    {{< /warning >}}
-
-    {{< text bash >}}
-    $ kubectl create namespace istio-system
-    $ kubectl create secret generic cacerts -n istio-system \
-        --from-file=@samples/certs/ca-cert.pem@ \
-        --from-file=@samples/certs/ca-key.pem@ \
-        --from-file=@samples/certs/root-cert.pem@ \
-        --from-file=@samples/certs/cert-chain.pem@
-    {{< /text >}}
 
 1. For a simple setup, deploy Istio control plane into the cluster
 
@@ -100,13 +84,6 @@ following commands on a machine with cluster admin privileges:
 
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
     to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
-    Replace `$MY_ZONE` and `$MY_PROJECT` in the following example commands with the appropriate values to obtain the CIDR
-    after installation:
-
-    {{< text bash >}}
-    $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
-    $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
-    {{< /text >}}
 
     It is also possible to intercept all traffic, as is done for pods. Depending on vendor and installation mechanism
     you may use different commands to determine the IP range used for services and pods. Multiple ranges can be
@@ -148,15 +125,10 @@ Next, run the following commands on each machine that you want to add to the mes
 
 1.  Copy the previously created `cluster.env` and `*.pem` files to the VM. For example:
 
-    {{< text bash >}}
-    $ export GCE_NAME="your-gce-instance"
-    $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
-    {{< /text >}}
 
 1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
-    $ gcloud compute ssh --project=${MY_PROJECT} --zone=${MY_ZONE} "${GCE_NAME}"
     $ curl -L https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb > istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
@@ -179,7 +151,6 @@ The following example updates the `/etc/hosts` file with the Istiod address:
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
-1.  Install `root-cert.pem` under `/var/run/secrets/istio/`.
 
 1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
@@ -187,10 +158,10 @@ The following example updates the `/etc/hosts` file with the Istiod address:
     $ sudo cp cluster.env /var/lib/istio/envoy
     {{< /text >}}
 
-1.  Transfer ownership of the files in `/etc/certs/` , `/var/lib/istio/envoy/` and `/var/run/secrets/istio/`to the Istio proxy.
+1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /var/run/secrets/istio/
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy 
     {{< /text >}}
 
 1.  Start Istio using `systemctl`.
