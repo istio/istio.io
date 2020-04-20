@@ -116,36 +116,40 @@ Your test script can then invoke the commands by simply calling snip functions:
 snip_config_50_v3 # Step 3: switch 50% traffic to v3
 ```
 
-To verify the output, you currently have two choices:
+For commands that produce output that needs to be verified, capture the command output
+in a variable and compare it to the expected output. For example:
 
-1. Surround the call with `# $snippet` and `# $endsnippet` comments,
-    including `# $verify` followed by the expected output:
+```sh
+out=$(snip_set_up_the_cluster_3 2>&1)
+_verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
+```
 
-    ```sh
-    # $snippet
-    snip_config_50_v3
-    # $verify
-    virtualservice.networking.istio.io/reviews configured
-    # $endsnippet
-    ```
+The framework includes the following built-in verify functions:
 
-    **Note**: There should be no other fields on the line following the `# $snippet` directive.
-    The `# $snippet`, without a following name, will simply run and verify the commands
-    in the snippet section, i.e., no output snippet will be generated.
+1. **`_verify_same`** `out` `expected` `msg`
 
-    Refer to [verifier.go](../pkg/test/istioio/verifier.go) for supported verifiers.
+   Verify that `out` is exactly the same as `expected`. Failure messages will include
+   the specified `msg`.
 
-1. Capture the command output and compare it to a variable containing the expected output:
+1. **`_verify_contains`** `out` `expected` `msg`
 
-    ```sh
-    out=$(snip_set_up_the_cluster_3 2>&1)
-    if [ "$out" != "$snip_set_up_the_cluster_3_out" ]; then
-        echo "FAILED snip_set_up_the_cluster_3: $out"; exit 1
-    fi
-    ```
+   Verify that `out` contains the substring `expected`. Failure messages will include
+   the specified `msg`.
 
-    TODO: Add built-in verifier functions that can be used instead of simple string compare.
-    Once this is available, we can deprecate the `# $verify` approach.
+1. **`_verify_like`** `out` `expected` `msg`
+
+   Verify that `out` is "like" `expected`. Like implies:
+
+   - Same number of lines
+   - Same number of whitespace-seperated tokens per line
+   - Tokens can only differ in the following ways:
+
+     1. different elapsed time values (e.g., `30s`)
+     1. different ip values (e.g., `172.21.0.1`)
+     1. prefix match ending with a dash character (e.g., `reviews-v1-<anything>`)
+
+   This function is useful for comparing the output of commands that include some run-specific
+   values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
 ## Builder
 

@@ -78,45 +78,37 @@ function verify_traffic_shift() {
   fi
 }
 
-# Step 1
+# Step 1 configure all traffic to v1
 
-# $snippet
-snip_config_all_v1
-# $verify
-virtualservice.networking.istio.io/productpage created
+out=$(snip_config_all_v1 2>&1)
+expected="virtualservice.networking.istio.io/productpage created
 virtualservice.networking.istio.io/reviews created
 virtualservice.networking.istio.io/ratings created
-virtualservice.networking.istio.io/details created
-# $endsnippet
+virtualservice.networking.istio.io/details created"
+_verify_same "$out" "$expected" "snip_config_all_v1"
 
 # Step 2: verify no rating stars visible, (reviews-v3 traffic=0%)
+
 verify_traffic_shift 0
 
 # Step 3: switch 50% traffic to v3
 
-# $snippet
-snip_config_50_v3
-# $verify
-virtualservice.networking.istio.io/reviews configured
-# $endsnippet
+out=$(snip_config_50_v3 2>&1)
+_verify_same "$out" "virtualservice.networking.istio.io/reviews configured" "snip_config_50_v3"
 
 istioctl experimental wait --for=distribution VirtualService reviews.default
 
 # Step 4: Confirm the rule was replaced
 
-# $snippet
-snip_verify_config_50_v3
-# $verify verifier="contains"
-subset: v3
-# $endsnippet
+out=$(snip_verify_config_50_v3 2>&1)
+_verify_contains "$out" "subset: v3" "snip_verify_config_50_v3"
 
 # Step 5: verify rating stars visible 50% of the time
+
 verify_traffic_shift 50
 
 # Step 6: route 100% traffic to v3
 
-# $snippet
 snip_config_100_v3
-# $endsnippet
 
 verify_traffic_shift 100
