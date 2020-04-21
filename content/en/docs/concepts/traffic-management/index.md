@@ -533,7 +533,7 @@ to control the traffic to destinations that aren't registered in the mesh.
 
 ### Service entry example {#service-entry-example}
 
-The following example mesh-external service entry adds the `ext-resource`
+The following example mesh-external service entry adds the `ext-svc.example.com`
 external dependency to Istio’s service registry:
 
 {{< text yaml >}}
