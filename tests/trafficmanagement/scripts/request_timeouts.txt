@@ -26,14 +26,12 @@ export INGRESS_PORT={{ .ingressPortCom }}
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 
 # Step 0: route all to v1
-# $snippet
-snip_before_you_begin_1
-# $verify
-virtualservice.networking.istio.io/productpage created
+out=$(snip_before_you_begin_1 2>&1)
+expected="virtualservice.networking.istio.io/productpage created
 virtualservice.networking.istio.io/reviews created
 virtualservice.networking.istio.io/ratings created
-virtualservice.networking.istio.io/details created
-# $endsnippet
+virtualservice.networking.istio.io/details created"
+_verify_same "$out" "$expected" "snip_before_you_begin_1"
 
 # Step 1: Route requests to v2 of the reviews service
 snip_request_timeouts_1
@@ -48,9 +46,5 @@ istioctl experimental wait --for=distribution VirtualService ratings.default
 echo "sending request to $GATEWAY_URL"
 
 # Step 3: Verify 2s delay with ratings stars displayed
-# $snippet
-curl -sS http://"${GATEWAY_URL}"/productpage | grep -o ".*Reviewer1"
-sleep 2
-# $verify verifier="contains"
-<small>Reviewer1
-# $endsnippet
+out=$(curl -sS http://"${GATEWAY_URL}"/productpage | grep -o ".*Reviewer1" 2>&1)
+_verify_contains "$out" "<small>Reviewer1" "delay_with_ratings_displayed"

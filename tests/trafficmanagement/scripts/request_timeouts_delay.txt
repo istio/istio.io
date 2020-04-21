@@ -33,9 +33,5 @@ istioctl experimental wait --for=distribution VirtualService reviews.default
 echo "sending request delay to $INGRESS_HOST:$INGRESS_PORT"
 
 # Step 2: Verify product reviews are unavailable
-# $snippet
-curl -sS http://"${GATEWAY_URL}"/productpage | grep -o "<p>Sorry.*</p>"
-sleep 1
-# $verify verifier="contains"
-<p>Sorry, product reviews are currently unavailable for this book.</p>
-# $endsnippet
+out=$(curl -sS http://"${GATEWAY_URL}"/productpage | grep -o "<p>Sorry.*</p>" 2>&1)
+_verify_contains "$out" "<p>Sorry, product reviews are currently unavailable for this book.</p>" "verify_reviews_unavailable"

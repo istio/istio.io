@@ -49,8 +49,7 @@ func TestRequestTimeouts(t *testing.T) {
 kubectl delete -n default -f samples/bookinfo/platform/kube/bookinfo.yaml || true
 kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml || true
-kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
-kubectl delete -f samples/sleep/sleep.yaml || true`,
+kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true`,
 					},
 				}).
 				BuildAndRun(ctx)
