@@ -48,7 +48,7 @@ You may also want to customize the
 [format](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#format-rules) of the access log by editing `accessLogFormat`.
 
 {{< tip >}}
-All three of these parameters may also be configured via [install options](/docs/reference/config/installation-options/):
+All three of these parameters may also be configured via [install options](https://archive.istio.io/v1.4/docs/reference/config/installation-options/):
 {{< /tip >}}
 
 * `values.global.proxy.accessLogFile`
