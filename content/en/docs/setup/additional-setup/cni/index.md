@@ -169,7 +169,7 @@ Then pass in this file as an argument to `istioctl`, for example:
 $ istioctl manifest apply -f cni-annotations.yaml
 {{< /text >}}
 
-You can still pass other command line arguments with `--set` if you need to.
+You can pass other command line arguments with `--set` if necessary.
 
 {{< warning >}}
 In order to deploy Istio 1.4 on OpenShift with CNI you need to use at least Istio 1.4.8.
