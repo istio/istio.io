@@ -226,7 +226,7 @@ make test.kube.presubmit
 
 ### Notes:
 
-There is an issue with the TAG (#7081) so one needs to set TAG to `latest` to mimic to
+There is an issue with the TAG (#7081) so one needs to set TAG to `latest` to mimic the
 pipeline.
 
 In the case of using `kind` clusters on the Mac, an extra env var is needed,
