@@ -35,7 +35,6 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-
 1. Follow the same steps as [setting up single-network](/docs/examples/virtual-machines/single-network) configuration for the initial setup of the
    cluster and certificates with the change of how you deploy Istio control plane:
 
@@ -48,7 +47,7 @@ following commands on a machine with cluster admin privileges:
 
 Next, run the following commands on each machine that you want to add to the mesh:
 
-1.  Copy the previously created `cluster.env` and `*.pem` files to the VM. 
+1.  Copy the previously created `cluster.env` and `*.pem` files to the VM.
 
 1.  Install the Debian package with the Envoy sidecar.
 
@@ -68,7 +67,7 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
    /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
    the scope of this document.
 
-2. Obtain `tcp-istiod` port for Istio ingress gateway and export it as `CAPORT`. Add it into `/var/lib/istio/envoy/sidecar.env`.  Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the `tcp-istiod` port.
+1. Obtain `tcp-istiod` port for Istio ingress gateway and export it as `CAPORT`. Add it into `/var/lib/istio/envoy/sidecar.env`.  Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the `tcp-istiod` port.
 
     {{< text bash >}}
     $ echo "CA_ADDR=istiod.istio-system.svc:$CAPORT" >> cluster.env
@@ -85,7 +84,6 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
     $ sudo mkdir -p /etc/certs
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
-
 
 1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
@@ -134,7 +132,7 @@ The `server: istio-envoy` header indicates that the sidecar intercepted the traf
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-1. Determine the VM instance's IP address. 
+1. Determine the VM instance's IP address.
 
 1. Add VM services to the mesh
 

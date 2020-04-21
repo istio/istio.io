@@ -125,7 +125,6 @@ Next, run the following commands on each machine that you want to add to the mes
 
 1.  Copy the previously created `cluster.env` and `*.pem` files to the VM. For example:
 
-
 1.  Install the Debian package with the Envoy sidecar.
 
     {{< text bash >}}
@@ -151,7 +150,6 @@ The following example updates the `/etc/hosts` file with the Istiod address:
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
-
 1.  Install `cluster.env` under `/var/lib/istio/envoy/`.
 
     {{< text bash >}}
@@ -161,7 +159,7 @@ The following example updates the `/etc/hosts` file with the Istiod address:
 1.  Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy 
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
     {{< /text >}}
 
 1.  Start Istio using `systemctl`.
@@ -209,7 +207,7 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-1. Determine the VM instance's IP address. 
+1. Determine the VM instance's IP address.
 
 1. Add VM services to the mesh
 
