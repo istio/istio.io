@@ -224,6 +224,16 @@ export KUBECONFIG=~/.kube/config
 make test.kube.presubmit
 ```
 
+### Notes:
+
+There is an issue with the TAG (#7081) so one needs to set TAG to `latest` to mimic the
+pipeline.
+
+In the case of using `kind` clusters on the Mac, an extra env var is needed,
+ADDITIONAL_CONTAINER_OPTIONS="--network host". If one makes sure HUB is not set, then the
+command `TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit`
+has been successful.
+
 ## Running Tests: go test
 
 You can execute individual tests using Go test as shown below.
