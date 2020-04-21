@@ -23,15 +23,11 @@ source ${REPO_ROOT}/content/en/docs/tasks/security/dns-cert/snips.sh
 out=$(snip_check_the_provisioning_of_dns_certificates_1 2>&1)
 # Remove trailing spaces
 out=$(echo "$out" | sed 's/[ ]*$//')
-if [[ "$out" != *"$snip_check_the_provisioning_of_dns_certificates_2"* ]]; then
-    echo "FAILED snip_check_the_provisioning_of_dns_certificates_1:$out"; exit 1
-fi
+_verify_contains "$out" "$snip_check_the_provisioning_of_dns_certificates_2" "snip_check_the_provisioning_of_dns_certificates_1"
 
 snip_regenerating_a_dns_certificate_1
 
 out=$(snip_regenerating_a_dns_certificate_2 2>&1)
 # Remove trailing spaces
 out=$(echo "$out" | sed 's/[ ]*$//')
-if [[ "$out" != *"$snip_regenerating_a_dns_certificate_3"* ]]; then
-    echo "FAILED snip_regenerating_a_dns_certificate_2:$out"; exit 1
-fi
+_verify_contains "$out" "$snip_regenerating_a_dns_certificate_3" "snip_regenerating_a_dns_certificate_2"
