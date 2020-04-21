@@ -120,7 +120,7 @@ $ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl 
 {{< tab name="Linux" category-value="linux" >}}
 
 {{< text bash >}}
-$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
+$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux-amd64.tar.gz | tar xvz
 {{< /text >}}
 
 {{< /tab >}}
