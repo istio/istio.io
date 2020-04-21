@@ -52,7 +52,7 @@ defined in the Kubernetes service object of `tcp-echo`.
 Get the pod IP address and send the request with the following command:
 
     {{< text bash >}}
-    $ TCP_ECHO_IP=$(kubectl get pod $(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name}) -o jsonpath={.status.podIP})
+    $ TCP_ECHO_IP=$(kubectl get pod $(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name}) -n foo -o jsonpath={.status.podIP})
     $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- sh -c "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9002
     connection succeeded
