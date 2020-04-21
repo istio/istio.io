@@ -48,7 +48,6 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-
 1. For a simple setup, deploy Istio control plane into the cluster
 
         {{< text bash >}}
