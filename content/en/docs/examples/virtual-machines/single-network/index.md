@@ -115,7 +115,7 @@ following commands on a machine with cluster admin privileges:
 
     {{< text bash >}}
     $ go run istio.io/istio/security/tools/generate_cert \
-          -client -host spiffee://cluster.local/vm/vmname --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
+          -client -server -host spiffe://cluster.local/ns/vm/sa/default  --out-priv key.pem --out-cert cert-chain.pem  -mode citadel
     $ kubectl -n istio-system get cm istio-ca-root-cert -o jsonpath='{.data.root-cert\.pem}' > root-cert.pem
     {{< /text >}}
 
@@ -206,17 +206,10 @@ The `server: envoy` header indicates that the sidecar intercepted the traffic.
 1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8080:
 
     {{< text bash >}}
-    $ gcloud compute ssh ${GCE_NAME}
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-1. Determine the VM instance's IP address. For example, find the IP address
-    of the GCE instance with the following commands:
-
-    {{< text bash >}}
-    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe ${GCE_NAME})
-    $ echo ${GCE_IP}
-    {{< /text >}}
+1. Determine the VM instance's IP address. 
 
 1. Add VM services to the mesh
 

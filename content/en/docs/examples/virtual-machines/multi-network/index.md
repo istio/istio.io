@@ -72,6 +72,7 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
 
     {{< text bash >}}
     $ echo "CA_ADDR=istiod.istio-system.svc:$CAPORT" >> cluster.env
+    $ echo "ISTIO_PILOT_PORT=$CAPORT >> cluster.env
     {{< /text >}}
 
     {{< tip >}}
@@ -130,17 +131,10 @@ The `server: istio-envoy` header indicates that the sidecar intercepted the traf
 1. Setup an HTTP server on the VM instance to serve HTTP traffic on port 8080:
 
     {{< text bash >}}
-    $ gcloud compute ssh ${GCE_NAME}
     $ python -m SimpleHTTPServer 8080
     {{< /text >}}
 
-1. Determine the VM instance's IP address. For example, find the IP address
-    of the GCE instance with the following commands:
-
-    {{< text bash >}}
-    $ export GCE_IP=$(gcloud --format="value(networkInterfaces[0].networkIP)" compute instances describe ${GCE_NAME})
-    $ echo ${GCE_IP}
-    {{< /text >}}
+1. Determine the VM instance's IP address. 
 
 1. Add VM services to the mesh
 
