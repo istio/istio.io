@@ -6,12 +6,13 @@ keywords: [telemetry,tracing]
 ---
 
 Istio provides advanced capability to configure tracing options as of Istio 1.6.
-The following tracing configurations are considered experimental.
+Previously, the only customization for tracing was the amount of randomly sampled requests.
+All of these are considered experimental.
 
 ## Create a MeshConfig with trace settings
 
-Configuration options discussed in this document need to be configured at installation.
-We recommend you create a single yaml file to pass to `istioctl` to simplify installation.
+All tracing options are configured by using MeshConfig during Istio installation.
+To simplify configuration, create a single YAML file to pass to `istioctl`.
 
 {{< text yaml >}}
 cat <<'EOF' > tracing.yaml
@@ -108,7 +109,7 @@ Client request headers:
 
 ## Customizing tracing tag length
 
-By default, the maximum length the request path included as part of the `HttpUrl` span tag is 256.
+By default, the maximum length for the request path included as part of the `HttpUrl` span tag is 256.
 
 To modify this maximum length, add the following to your `tracing.yaml` file.
 
