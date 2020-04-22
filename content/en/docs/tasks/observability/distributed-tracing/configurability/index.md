@@ -67,7 +67,7 @@ Tags can be added to spans based on literals, environmental variables and
 client request headers.
 
 {{ warning }}
-There is no limit to the amount of custom tags that you can add. However, the only caveat their names be unique.
+There is no limit on the number of custom tags that you can add, but tag names must be unique.
 {{ /warning }}
 
 To add custom tags to your spans you must add the following yaml to your `tracing.yaml file`.
