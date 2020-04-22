@@ -44,7 +44,7 @@ suggested in this document.
 In the event that both are specified, the value specified in the `MeshConfig` will override any other setting.
 {{ /warning }}
 
-To modify the default random sampling, which is defaulted to a value of 1, you must add the following to your
+To modify the default random sampling, which is defaulted to a value of 1, add the following to your
 `tracing.yaml file`.
 
 {{< text yaml >}}
