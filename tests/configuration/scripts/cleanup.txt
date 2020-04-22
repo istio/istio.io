@@ -18,11 +18,8 @@ set -e
 set -u
 set -o pipefail
 
-# $snippet cleanup.sh syntax="bash"
-$ kubectl -n istio-io-health delete policies default
-$ kubectl -n istio-io-health delete destinationrules default
-$ kubectl delete ns istio-io-health
-$ kubectl delete ns health-global
-$ kubectl delete ns health-annotate
-$ kubectl delete ns health-sepport
-# $endsnippet
+source ${REPO_ROOT}/content/en/docs/ops/configuration/mesh/app-health-check/snips.sh
+
+snip_cleanup_1
+
+kubectl delete ns health-annotate
