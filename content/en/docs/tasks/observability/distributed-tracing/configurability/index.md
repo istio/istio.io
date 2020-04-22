@@ -5,9 +5,9 @@ weight: 60
 keywords: [telemetry,tracing]
 ---
 
-Istio provides advanced capability to configure tracing options as of Istio 1.6.
-Previously, the only customization for tracing was the amount of randomly sampled requests.
-All of these are considered experimental.
+Istio provides the ability to configure advanced tracing options,
+including sampling rates and span tags. All of these features are considered
+experimental for this release.
 
 ## Create a `MeshConfig` with trace settings
 
@@ -36,23 +36,30 @@ dashboard. This sampling rate is suitable for a test or low traffic
 mesh. For a high traffic mesh you can lower the trace sampling
 percentage in one of two ways:
 
-{{ warning }}
+{{< warning >}}
 Previously, the recommended method was to change the `values.pilot.traceSampling` setting during the mesh setup
- or to change the `PILOT_TRACE_SAMPLE` environment variable in the pilot or istiod deployment.
+or to change the `PILOT_TRACE_SAMPLE` environment variable in the pilot or istiod deployment.
 While this method to alter sampling continues to work, the following method
 is strongly recommended instead.
 
 In the event that both are specified, the value specified in the `MeshConfig` will override any other setting.
-{{ /warning }}
+{{< /warning >}}
 
-To modify the default random sampling, which is defaulted to a value of 1, add the following to your
-`tracing.yaml` file.
+To modify the default random sampling, which is defaulted to a value of 100 in the demo profile
+and 1 for the default profile, add the following to your `tracing.yaml` file.
 
 {{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      tracing:
         sampling: <VALUE>
 {{< /text >}}
 
 Where the `<VALUE>` should be in the range of 0.0 to 100.0 with a precision of 0.01.
+For example, to trace 5 requests out of every 10000, use 0.05 as the value here.
 
 ## Customizing tracing tags
 
@@ -61,15 +68,21 @@ The ability to add custom tracing tags to spans has also been implemented.
 Tags can be added to spans based on literals, environmental variables and
 client request headers.
 
-{{ warning }}
+{{< warning >}}
 There is no limit on the number of custom tags that you can add, but tag names must be unique.
-{{ /warning }}
+{{< /warning >}}
 
 To add custom tags to your spans, add the following to your `tracing.yaml` file.
 
 Literals:
 
 {{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      tracing:
         custom_tags:
           tag_literal:                   # user-defined name
             literal:
@@ -79,6 +92,12 @@ Literals:
 Environmental variables:
 
 {{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      tracing:
         custom_tags:
           tag_env:
             environment:                 # user-defined name
@@ -86,14 +105,20 @@ Environmental variables:
               defaultValue: <VALUE>      # optional
 {{< /text >}}
 
-{{ warning }}
+{{< warning >}}
 In order to add custom tags based on environmental variables, you must
-to modify the `istio-sidecar-injector` ConfigMap in your root Istio system namespace.
-{{ /warning }}
+modify the `istio-sidecar-injector` ConfigMap in your root Istio system namespace.
+{{< /warning >}}
 
 Client request headers:
 
 {{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      tracing:
         custom_tags:
           tag_header:                    # user-defined name
             header:
@@ -108,5 +133,11 @@ By default, the maximum length for the request path included as part of the `Htt
 To modify this maximum length, add the following to your `tracing.yaml` file.
 
 {{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      tracing:
         max_path_tag_length: <VALUE>
 {{< /text >}}
