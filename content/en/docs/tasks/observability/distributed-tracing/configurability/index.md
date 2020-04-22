@@ -6,7 +6,7 @@ keywords: [telemetry,tracing]
 ---
 
 Istio provides advanced capability to configure tracing options as of Istio 1.6.
-Previously, the only customization for sampling. All of these are considered experimental.
+The following tracing configurations are considered experimental.
 
 ## Create a MeshConfig with trace settings
 
