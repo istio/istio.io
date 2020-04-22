@@ -209,7 +209,5 @@ Note that the image in [liveness-http]({{< github_file >}}/samples/health-check/
 Remove the mutual TLS policy and corresponding destination rule added in the steps above:
 
 {{< text bash >}}
-$ kubectl delete policies default
-$ kubectl delete destinationrules default
 $ kubectl delete ns istio-io-health istio-same-port istio-sep-port
 {{< /text >}}

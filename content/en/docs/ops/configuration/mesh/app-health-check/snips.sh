@@ -132,7 +132,5 @@ liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 ENDSNIP
 
 snip_cleanup_1() {
-kubectl delete policies default
-kubectl delete destinationrules default
 kubectl delete ns istio-io-health istio-same-port istio-sep-port
 }
