@@ -81,7 +81,7 @@ snips:
 
 gen: snips
 
-gen-check: gen
+gen-check: gen check-clean-repo
 
 build: site
 	@scripts/build_site.sh ""
