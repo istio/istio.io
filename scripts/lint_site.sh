@@ -21,7 +21,13 @@ FAILED=0
 if [[ "$#" -ne 0 ]]; then
     LANGS="$*"
 else
-    LANGS="en zh"
+    files_changed=$(git diff --name-only --diff-filter=b $(git merge-base HEAD $BRANCH))
+    if (echo "${files_changed}" | grep -q /en/); then
+        LANGS+="en "
+    fi
+    if (echo "${files_changed}" | grep -q /zh/); then
+        LANGS+="zh"
+    fi
 fi
 
 # This performs spell checking and style checking over markdown files in a content
