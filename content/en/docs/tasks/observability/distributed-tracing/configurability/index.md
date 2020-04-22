@@ -56,13 +56,7 @@ Where the `<VALUE>` should be in the range of 0.0 to 100.0 with a precision of 0
 
 ## Customizing tracing tags
 
-{{ warning }}
-The ability to add tracing tags to spans works for sidecar proxies and gateways.
-If you are concerned about rogue external client requests we do not recommend you
-utilize this feature.
-{{ /warning }}
-
-The ability to add tracing tags to spans has been implemented.
+The ability to add custom tracing tags to spans has also been implemented.
 
 Tags can be added to spans based on literals, environmental variables and
 client request headers.
