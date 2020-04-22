@@ -18,10 +18,12 @@ set -e
 
 FAILED=0
 
+BRANCH="${BRANCH:-master}"
+
 if [[ "$#" -ne 0 ]]; then
     LANGS="$*"
 else
-    files_changed=$(git diff --name-only --diff-filter=b $(git merge-base HEAD $BRANCH))
+    files_changed="$(git diff --name-only --diff-filter=b "$(git merge-base HEAD "$BRANCH")")"
     if (echo "${files_changed}" | grep -q /en/); then
         LANGS+="en "
     fi
