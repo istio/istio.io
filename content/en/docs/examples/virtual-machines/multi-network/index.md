@@ -56,7 +56,7 @@ Next, run the following commands on each machine that you want to add to the mes
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  Add the IP address of Istio ingress gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
+1.  Add the IP address of Istio ingress gateway to `/etc/hosts`. Revisit the instructions in the [Determining the Ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) section to learn how to obtain the IP address.
 The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod{{< /gloss >}} address:
 
     {{< text bash >}}
@@ -67,10 +67,10 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
    /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
    the scope of this document.
 
-1. Obtain `tcp-istiod` port for Istio ingress gateway and export it as `CAPORT`. Add it into `/var/lib/istio/envoy/sidecar.env`.  Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the `tcp-istiod` port.
+1. Obtain `tcp-istiod` port for Istio ingress gateway and export it as `CAPORT`. Add it into `/var/lib/istio/envoy/sidecar.env`. Revisit the instructions in the
+[Determining the Ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) section section to learn how to obtain the `tcp-istiod` port.
 
     {{< text bash >}}
-    $ echo "CA_ADDR=istiod.istio-system.svc:$CAPORT" >> cluster.env
     $ echo "ISTIO_PILOT_PORT=$CAPORT >> cluster.env
     {{< /text >}}
 
