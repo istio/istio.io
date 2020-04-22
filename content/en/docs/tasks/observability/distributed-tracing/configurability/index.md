@@ -92,7 +92,7 @@ Environmental variables:
 {{< /text >}}
 
 {{ warning }}
-In order to add custom tags based on environmental variables you will have
+In order to add custom tags based on environmental variables, you must
 to modify the `istio-sidecar-injector` ConfigMap in your root Istio system namespace.
 {{ /warning }}
 
