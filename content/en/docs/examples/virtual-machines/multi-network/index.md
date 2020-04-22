@@ -67,7 +67,7 @@ The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod
    /etc/hosts is an easy to use example. It is also possible to use a real DNS and certificate for Istiod, this is beyond
    the scope of this document.
 
-1. Obtain `tcp-istiod` port for Istio ingress gateway and export it as `CAPORT`. Add it into `/var/lib/istio/envoy/sidecar.env`. Revisit the instructions in the
+1.  Obtain `tcp-istiod` port for Istio ingress gateway and export it as `CAPORT`. Add it into `/var/lib/istio/envoy/sidecar.env`. Revisit the instructions in the
 [Determining the Ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) section section to learn how to obtain the `tcp-istiod` port.
 
     {{< text bash >}}
