@@ -39,7 +39,7 @@ percentage in one of two ways:
 Previously, we recommended that during the mesh setup the user should change the `values.pilot.traceSampling`
  or to change the `PILOT_TRACE_SAMPLE` environment variable in the pilot or istiod deployment.
 While this method to alter sampling continues to work, the following method
-suggested in this document.
+is strongly recommended instead.
 
 In the event that both are specified, the value specified in the `MeshConfig` will override any other setting.
 {{ /warning }}
