@@ -49,7 +49,6 @@ To modify the default random sampling, which is defaulted to a value of 1, you m
 
 {{< text yaml >}}
         sampling: <VALUE>
-EOF
 {{< /text >}}
 
 Where the `<VALUE>` should be in the range of 0.0 to 100.0 with a precision of 0.01.
