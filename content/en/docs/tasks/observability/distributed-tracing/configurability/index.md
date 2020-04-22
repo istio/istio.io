@@ -11,7 +11,7 @@ All of these are considered experimental.
 
 ## Create a `MeshConfig` with trace settings
 
-All tracing options are configured by using `MeshConfig` during Istio installation.
+All tracing options are configured by using `MeshConfig` during Istio *installation*.
 To simplify configuration, create a single YAML file to pass to `istioctl`.
 
 {{< text yaml >}}
