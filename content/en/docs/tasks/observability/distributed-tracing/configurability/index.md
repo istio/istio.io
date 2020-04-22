@@ -96,6 +96,7 @@ to modify the `istio-sidecar-injector` ConfigMap in your root istio system names
 {{ /warning }}
 
 Client request headers:
+
 {{< text yaml >}}
           tag_header:                    # user-defined name
             header:
