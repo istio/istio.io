@@ -163,7 +163,7 @@ spec:
 EOF
 {{< /text >}}
 
-Then pass in this file as an argument to `istioctl`, for example:
+Then pass this file as an argument to `istioctl`, for example:
 
 {{< text bash >}}
 $ istioctl manifest apply -f cni-annotations.yaml
