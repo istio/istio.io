@@ -144,9 +144,9 @@ The framework includes the following built-in verify functions:
    - Same number of whitespace-seperated tokens per line
    - Tokens can only differ in the following ways:
 
-     1. different elapsed time values (e.g., `30s`)
-     1. different ip values (e.g., `172.21.0.1`)
-     1. prefix match ending with a dash character (e.g., `reviews-v1-<anything>`)
+     1. different elapsed time values (e.g., `30s` is like `5m`)
+     1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`)
+     1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
 
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.

@@ -102,7 +102,7 @@ _verify_like() {
                     continue
                 fi
 
-                if [[ "$otok" =~ ^[0-9]+[smhd]$ && "$etok" =~ ^[0-9]+[smhd]$ ]]; then
+                if [[ "$otok" =~ ^([0-9]+[smhd])+$ && "$etok" =~ ^([0-9]+[smhd])+$ ]]; then
                     continue
                 fi
 

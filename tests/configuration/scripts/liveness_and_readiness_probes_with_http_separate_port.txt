@@ -18,21 +18,13 @@ set -e
 set -u
 set -o pipefail
 
-$ kubectl create ns health-sepport
+source ${REPO_ROOT}/content/en/docs/ops/configuration/mesh/app-health-check/snips.sh
 
-# $snippet with_separate_port.sh syntax="bash"
-$ kubectl -n health-sepport apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
-# $endsnippet
+snip_separate_port_1
 
-$ kubectl -n health-sepport rollout status deployment liveness-http --timeout 60s
+kubectl -n istio-sep-port rollout status deployment liveness-http --timeout 60s
 
-# $snippet separate_port_check_status.sh syntax="bash" outputis="text"
-$ kubectl -n health-sepport get pod
-# $verify verifier="lineRegex"
-NAME *READY *STATUS *RESTARTS *AGE
-liveness-http-[0-9a-z]*-[0-9a-z]* *2/2 *Running *0 ?
-# $endsnippet
+out=$(snip_separate_port_2 2>&1)
+_verify_like "$out" "$snip_separate_port_2_out" "snip_separate_port_2"
 
-# $snippet delete_with_separate_port.sh syntax="bash"
-$ kubectl -n health-sepport delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
-# $endsnippet
+kubectl -n istio-sep-port delete -f samples/health-check/liveness-http.yaml
