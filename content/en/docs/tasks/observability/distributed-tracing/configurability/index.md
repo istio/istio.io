@@ -24,7 +24,7 @@ spec:
 EOF
 {{< /text >}}
 
-For any configuration option you wish to add you will append this to the `tracing.yaml` file.
+Then, you can append any configuration options to the `tracing.yaml` file.
 
 ## Trace sampling
 
