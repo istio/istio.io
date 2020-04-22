@@ -40,12 +40,13 @@ kubectl apply -f samples/tcp-echo/tcp-echo-all-v1.yaml -n istio-io-tcp-traffic-s
 }
 
 snip_apply_weightbased_tcp_routing_6() {
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+export INGRESS_PORT
 }
 
 snip_apply_weightbased_tcp_routing_7() {
-for i in {1..10}; do \
-docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+for ((i=0; i<10; ++i)); do \
+docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
 done
 }
 
@@ -99,8 +100,8 @@ spec:
 ENDSNIP
 
 snip_apply_weightbased_tcp_routing_10() {
-for i in {1..10}; do \
-docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+for ((i=0; i<10; ++i)); do \
+docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
 done
 }
 
