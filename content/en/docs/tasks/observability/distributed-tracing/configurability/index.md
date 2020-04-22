@@ -9,9 +9,9 @@ Istio provides advanced capability to configure tracing options as of Istio 1.6.
 Previously, the only customization for tracing was the amount of randomly sampled requests.
 All of these are considered experimental.
 
-## Create a MeshConfig with trace settings
+## Create a `MeshConfig` with trace settings
 
-All tracing options are configured by using MeshConfig during Istio installation.
+All tracing options are configured by using `MeshConfig` during Istio installation.
 To simplify configuration, create a single YAML file to pass to `istioctl`.
 
 {{< text yaml >}}
