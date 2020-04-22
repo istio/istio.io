@@ -35,6 +35,7 @@ const (
 )
 
 func TestRequestTimeouts(t *testing.T) {
+	t.Skip("https://github.com/istio/istio.io/issues/7124")
 	framework.
 		NewTest(t).
 		Run(func(ctx framework.TestContext) {
