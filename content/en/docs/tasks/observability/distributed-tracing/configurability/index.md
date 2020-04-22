@@ -70,7 +70,7 @@ client request headers.
 There is no limit on the number of custom tags that you can add, but tag names must be unique.
 {{ /warning }}
 
-To add custom tags to your spans you must add the following yaml to your `tracing.yaml file`.
+To add custom tags to your spans, add the following to your `tracing.yaml` file.
 
 Literals:
 
