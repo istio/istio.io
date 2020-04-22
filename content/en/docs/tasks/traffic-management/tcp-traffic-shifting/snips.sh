@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2153
+# shellcheck disable=SC2034
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -50,7 +52,6 @@ docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it -
 done
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_apply_weightbased_tcp_routing_7_out <<ENDSNIP
 one Mon Nov 12 23:24:57 UTC 2018
 one Mon Nov 12 23:25:00 UTC 2018
@@ -72,7 +73,6 @@ snip_apply_weightbased_tcp_routing_9() {
 kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_apply_weightbased_tcp_routing_9_out <<ENDSNIP
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -105,7 +105,6 @@ docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it -
 done
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_apply_weightbased_tcp_routing_10_out <<ENDSNIP
 one Mon Nov 12 23:38:45 UTC 2018
 two Mon Nov 12 23:38:47 UTC 2018
