@@ -8,14 +8,14 @@ aliases:
 ---
 
 此任务介绍如何配置 Istio 才能收集追踪 span ，并且把收集到的 span 发送到 [Lightstep](https://lightstep.com) 或 [Lightstep](https://lightstep.com)。
-LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务数据，并做出容易理解的的分布式追踪和指标信息，这有助于解释性能行为和并加速根因分析。
-在此任务的结尾，Istio 将追踪 span 从代理发送到 LightStep Satellite 池，以让它们在 web UI 上展示。
+Lightstep 可以分析来自大规模生产级软件的 100% 未采样的事务数据，并做出容易理解的的分布式追踪和指标信息，这有助于解释性能行为和并加速根因分析。
+在此任务的结尾，Istio 将追踪 span 从代理发送到 Lightstep Satellite 池，以让它们在 web UI 上展示。
 
 此任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 的样例代码作为示例。
 
 ## 开始之前{#before-you-begin}
 
-1. 确保你有一个 Lightstep 账户。这里可以免费[注册](https://go.lightstep.com/trial)试用 LightStep Tracing，或者[联系 Lightstep](https://lightstep.com/contact/) 创建企业级的 LightStep [𝑥]PM 账户。
+1. 确保你有一个 Lightstep 账户。这里可以免费[注册](https://go.lightstep.com/trial)试用 Lightstep Tracing，或者[联系 Lightstep](https://lightstep.com/contact/) 创建企业级的 Lightstep [𝑥]PM 账户。
 
 1. 对于 [𝑥]PM 用户，确保你已有 satellite 池并且配置了 TLS 证书和一个暴露出来的安全 GRPC 端口。这里[配置 Lightstep Satellite](https://docs.lightstep.com/docs/install-and-configure-satellites) 有配置 satellite 的详细说明。
 
@@ -113,11 +113,11 @@ LightStep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 ## 追踪采样{#trace-sampling}
 
 Istio 通过配置追踪采样百分比来捕获追踪信息。想了解如何修改追踪采样百分比，请访问[分布式追踪追踪采样部分](../overview/#trace-sampling)。
-使用 LightStep 时，我们不建议将追踪采样的百分比降低到 100% 以下。要处理高流量的网格，请考虑扩大您的 satellite 池的大小。
+使用 Lightstep 时，我们不建议将追踪采样的百分比降低到 100% 以下。要处理高流量的网格，请考虑扩大您的 satellite 池的大小。
 
 ## 清除{#cleanup}
 
-如果你不想继续执测试操作任务，可以从集群中删除 Bookinfo 示例应用程序和所有的 LightStep 密钥。
+如果你不想继续执测试操作任务，可以从集群中删除 Bookinfo 示例应用程序和所有的 Lightstep 密钥。
 
 1. 删除 Bookinfo 应用程序，请参阅[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup) 说明。
 

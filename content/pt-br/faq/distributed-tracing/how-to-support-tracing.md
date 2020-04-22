@@ -15,7 +15,7 @@ In particular, Istio relies on applications to [propagate the B3 trace headers](
 - `x-b3-flags`
 - `b3`
 
-If you are using LightStep, you will also need to forward the following headers:
+If you are using Lightstep, you will also need to forward the following headers:
 
 - `x-ot-span-context`
 
