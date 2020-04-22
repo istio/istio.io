@@ -73,6 +73,7 @@ There is no limit to the amount of custom tags that you can add. However, the on
 To add custom tags to your spans you must add the following yaml to your `tracing.yaml file`.
 
 Literals:
+
 {{< text yaml >}}
         custom_tags:
           tag_literal:                   # user-defined name
