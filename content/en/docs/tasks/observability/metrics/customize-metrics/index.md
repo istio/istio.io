@@ -1,0 +1,133 @@
+---
+title: Customizing Istio Metrics
+description: This task shows you how to customize the Istio metrics.
+weight: 25
+keywords: [telemetry,metrics,customize]
+---
+
+This task shows you how to customize the Istio metrics.
+
+Istio generates telemetry that various dashboards consume to help you visualize
+your mesh. For example, dashboards that support Istio include:
+
+* [Grafana](https://istio.io/docs/tasks/observability/metrics/using-istio-dashboard/)
+* [Kiali](https://istio.io/docs/tasks/observability/kiali/)
+* [Prometheus](https://istio.io/docs/tasks/observability/metrics/querying-metrics/)
+
+By default, Istio defines and generates a set of standard metrics (e.g.
+`requests_total`), but you can also customize and create new metrics.
+
+## Custom statistics configuration
+
+Istio uses the Envoy proxy to generate metrics, so you configure it by editing
+the EnvoyFilter file:
+[`manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml`]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_1.6.yaml).
+
+Configuring custom statistics involves modifying two sections of the
+configuration file: `definitions` and `metrics`. The `definitions` section
+supports creating new metrics by name, the expected value expression, and the
+metric type (`counter`, `gauge`, and `histogram`). The `metrics` section
+provides values for the metric dimensions as expressions, and allows you to
+remove or override the existing metric dimensions. You can modify the standard
+metrics using `tags_to_remove` or by re-defining a dimension.
+
+## Before you begin
+
+[Install Istio](/docs/setup/) in your cluster and deploy an
+application.
+
+## Enable custom metrics
+
+Edit the the EnvoyFilter to add or modify dimensions and metrics. Then, add
+annotations to all the Istio-enbled pods to extract the new or modified
+dimensions.
+
+1. Locate the `envoy.wasm.stats` extension configuration. The default
+   configuration is in the `configuration` section and typically looks like:
+
+    {{< text yaml >}}
+    {
+        "debug": "false",
+        "stat_prefix": "istio"
+    }
+    {{< /text >}}
+
+1. Modify the configuration section for each instance of the extension
+   configuration. For example, to add `destination_port` and `request_host`
+   dimensions to the standard `requests_total` metric, change the configuration
+   section to look like the following. Istio automatically prefixes all metric
+   names with `istio_`, so omit the prefix from the name field in the metric
+   specification.
+
+    {{< text yaml >}}
+    {
+       "debug": "false",
+       "stat_prefix": "istio",
+       "metrics": [
+          {
+            "name": "requests_total",
+            "dimensions": {
+               "destination_port": "destination.port",
+               "request_host": "request.host"
+            }
+          }
+       ]
+    }
+    {{< /text >}}
+
+1. Apply the following annotation to all injected pods with the list of the
+   dimensions to extract into a Prometheus [time
+   series](https://en.wikipedia.org/wiki/Time_series), using the following
+   command:
+
+    {{< text yaml >}}
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    spec:
+    template:
+        metadata:
+        annotations:
+            sidecar.istio.io/extraStatTags: destination_port,request_host
+    {{< /text >}}
+
+## Verify the results
+
+Use the following command to verify that Istio generates the data for your new
+or modified dimensions:
+
+{{< text bash >}}
+$ kubectl exec <pod-name> -c istio-proxy -- curl 'localhost:15000/metrics’ | grep istio
+{{< /text >}}
+
+For example, in the output, locate the metric `istio_requests_total` and
+verify it contains your new dimension.
+
+## Use expressions for values
+
+The values in the metric configuration are common expressions, which means you
+must double-quote strings in JSON, e.g. "`some_string_value`". Unlike Mixer
+expression language, there is no support for the pipe (`|`) operator, but you
+can be emulate it with either the `has` or `in` operator, for example:
+
+{{< text plain >}}
+has(request.host) ? request.host : "unknown"
+{{< /text >}}
+
+Istio exposes all standard Envoy attributes. Additionally, you can use the
+following extra attributes.
+
+|Attribute   | Type  | Value |
+|---|---|---|
+| `listener_direction` | int64 | Enum value for [listener direction](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#envoy-api-enum-core-trafficdirection) |
+| `listener_metadata` | [metadata](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-metadata) | Per-listener metadata |
+| `route_metadata` | [metadata](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-metadata) | Per-route metadata |
+| `cluster_metadata` | [metadata](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-metadata) | Per-cluster metadata |
+| `node` | [node](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-node) | Node description |
+| `cluster_name` | string | Upstream cluster name |
+| `route_name` | string | Route name |
+| `filter_state` | map<string, bytes> | Per-filter state blob |
+| `plugin_name` | string | Wasm extension name |
+| `plugin_root_id` | string | Wasm root instance ID |
+| `plugin_vm_id` | string | Wasm VM ID |
+
+For more information, see [configuration reference](/docs/reference/config/telemetry/).
