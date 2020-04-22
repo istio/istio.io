@@ -8,10 +8,10 @@ keywords: [telemetry,tracing]
 Istio provides advanced capability to configure tracing options as of Istio 1.6.
 Previously, the only customization for sampling. All of these are considered experimental.
 
-## Create a MeshConfig with tracing settings
+## Create a MeshConfig with trace settings
 
-All the settings talked in this document are configured with MeshConfig at installation time.
-To simplify configuration, we recommend you create a single yaml file to pass to `istioctl`.
+Configuration options discussed in this document need to be configured at installation.
+We recommend you create a single yaml file to pass to `istioctl` to simplify installation.
 
 {{< text yaml >}}
 cat <<'EOF' > tracing.yaml
@@ -41,7 +41,7 @@ setting, or the user should modify the `PILOT_TRACE_SAMPLE` environment variable
 While that method of altering the sampling continues to work, we strongly recommend that you do the method
 suggested in this document.
 
-In the event that both are specified, the value specified in the MeshConfig will override any other setting.
+In the event that both are specified, the value specified in the `MeshConfig` will override any other setting.
 {{ /warning }}
 
 To modify the default random sampling, which is defaulted to a value of 1, you must add the following to your
@@ -93,7 +93,7 @@ Environmental variables:
 
 {{ warning }}
 In order to add custom tags based on environmental variables you will have
-to modify the `istio-sidecar-injector` ConfigMap in your root istio system namespace.
+to modify the `istio-sidecar-injector` ConfigMap in your root Istio system namespace.
 {{ /warning }}
 
 Client request headers:
@@ -108,7 +108,7 @@ Client request headers:
 
 ## Customizing tracing tag length
 
-By default, the maximum length the request path included as part of the HttpUrl span tag is 256.
+By default, the maximum length the request path included as part of the `HttpUrl` span tag is 256.
 
 To modify this, add the following to your `tracing.yaml file`.
 
