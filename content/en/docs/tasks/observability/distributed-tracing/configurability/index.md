@@ -110,7 +110,7 @@ Client request headers:
 
 By default, the maximum length the request path included as part of the `HttpUrl` span tag is 256.
 
-To modify this, add the following to your `tracing.yaml file`.
+To modify this maximum length, add the following to your `tracing.yaml` file.
 
 {{< text yaml >}}
         max_path_tag_length: <VALUE>
