@@ -83,6 +83,7 @@ Literals:
 Environmental variables:
 
 {{< text yaml >}}
+        custom_tags:
           tag_env:
             environment:                 # user-defined name
               name: <ENV_VARIABLE_NAME>
@@ -97,6 +98,7 @@ to modify the `istio-sidecar-injector` ConfigMap in your root istio system names
 Client request headers:
 
 {{< text yaml >}}
+        custom_tags:
           tag_header:                    # user-defined name
             header:
               name: <CLIENT-HEADER>
