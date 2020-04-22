@@ -36,7 +36,7 @@ mesh. For a high traffic mesh you can lower the trace sampling
 percentage in one of two ways:
 
 {{ warning }}
-Previously, we recommended that during the mesh setup the user should change the `values.pilot.traceSampling`
+Previously, the recommended method was to change the `values.pilot.traceSampling` setting during the mesh setup
  or to change the `PILOT_TRACE_SAMPLE` environment variable in the pilot or istiod deployment.
 While this method to alter sampling continues to work, the following method
 is strongly recommended instead.
