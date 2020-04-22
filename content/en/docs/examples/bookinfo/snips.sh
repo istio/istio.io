@@ -37,12 +37,12 @@ kubectl get services
 
 # shellcheck disable=SC2034
 ! read -r -d '' snip_start_the_application_services_4_out <<ENDSNIP
-NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
-details                    10.0.0.31    <none>        9080/TCP             6m
-kubernetes                 10.0.0.1     <none>        443/TCP              7d
-productpage                10.0.0.120   <none>        9080/TCP             6m
-ratings                    10.0.0.15    <none>        9080/TCP             6m
-reviews                    10.0.0.170   <none>        9080/TCP             6m
+NAME          TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
+details       ClusterIP   10.0.0.31    <none>        9080/TCP   6m
+kubernetes    ClusterIP   10.0.0.1     <none>        443/TCP    7d
+productpage   ClusterIP   10.0.0.120   <none>        9080/TCP   6m
+ratings       ClusterIP   10.0.0.15    <none>        9080/TCP   6m
+reviews       ClusterIP   10.0.0.170   <none>        9080/TCP   6m
 ENDSNIP
 
 snip_start_the_application_services_5() {
@@ -51,13 +51,13 @@ kubectl get pods
 
 # shellcheck disable=SC2034
 ! read -r -d '' snip_start_the_application_services_5_out <<ENDSNIP
-NAME                                        READY     STATUS    RESTARTS   AGE
-details-v1-1520924117-48z17                 2/2       Running   0          6m
-productpage-v1-560495357-jk1lz              2/2       Running   0          6m
-ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
-reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
-reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
-reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
+NAME                             READY     STATUS    RESTARTS   AGE
+details-v1-1520924117-48z17      2/2       Running   0          6m
+productpage-v1-560495357-jk1lz   2/2       Running   0          6m
+ratings-v1-734492171-rnr5l       2/2       Running   0          6m
+reviews-v1-874083890-f0qf0       2/2       Running   0          6m
+reviews-v2-1343845940-b34q5      2/2       Running   0          6m
+reviews-v3-1813607990-8ch52      2/2       Running   0          6m
 ENDSNIP
 
 snip_start_the_application_services_6() {
