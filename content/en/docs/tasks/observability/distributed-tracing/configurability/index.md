@@ -32,7 +32,7 @@ Then, you can append any configuration options to the `tracing.yaml` file.
 Istio captures a trace for all requests by default when installing with the demo profile.
 For example, when using the Bookinfo sample application, every time you access
 `/productpage` you see a corresponding trace in the
-dashboard. This sampling rate is suitable for a test or low traffic
+[dashboard](../jaeger/). This sampling rate is suitable for a test or low traffic
 mesh. For a high traffic mesh you can lower the trace sampling
 percentage in one of two ways:
 
