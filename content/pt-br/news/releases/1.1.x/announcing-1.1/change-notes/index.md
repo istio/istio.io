@@ -159,7 +159,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
     - Trace ids are now 128 bit wide.
 
-    - Added support for sending trace data to [Lightstep](/pt-br/docs/tasks/observability/distributed-tracing/lightstep/)
+    - Added support for sending trace data to [LightStep](/pt-br/docs/tasks/observability/distributed-tracing/lightstep/)
 
     - Added the option to disable tracing for Mixer-backed services entirely.
 

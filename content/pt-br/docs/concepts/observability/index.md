@@ -132,7 +132,7 @@ Istio supports distributed tracing through the Envoy proxies. The proxies automa
 requiring only that the applications forward the appropriate request context.
 
 Istio supports a number of tracing backends, including [Zipkin](/pt-br/docs/tasks/observability/distributed-tracing/zipkin/),
-[Jaeger](/pt-br/docs/tasks/observability/distributed-tracing/jaeger/), [Lightstep](/pt-br/docs/tasks/observability/distributed-tracing/lightstep/), and
+[Jaeger](/pt-br/docs/tasks/observability/distributed-tracing/jaeger/), [LightStep](/pt-br/docs/tasks/observability/distributed-tracing/lightstep/), and
 [Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/). Operators control the sampling rate for trace generation (that is, the rate at
 which tracing data is generated per request). This allows operators to control the amount and rate of tracing data being produced for their mesh.
 
