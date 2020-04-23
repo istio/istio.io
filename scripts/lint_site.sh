@@ -28,8 +28,12 @@ else
         LANGS+="en "
     fi
     if (echo "${files_changed}" | grep -q /zh/); then
-        LANGS+="zh"
+        LANGS+="zh "
     fi
+    if (echo "${files_changed}" | grep -q /pt-br/); then
+        LANGS+="pt-br "
+    fi
+
 fi
 
 # This performs spell checking and style checking over markdown files in a content
