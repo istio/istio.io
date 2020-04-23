@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2153
+# shellcheck disable=SC2034
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -25,14 +27,14 @@ kubectl create ns istio-io-health
 
 snip_liveness_and_readiness_probes_with_command_option_2() {
 kubectl apply -f - <<EOF
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
 metadata:
   name: "default"
   namespace: "istio-io-health"
 spec:
-  peers:
-  - mtls: {}
+  mtls:
+    mode: STRICT
 EOF
 }
 
@@ -59,7 +61,6 @@ snip_liveness_and_readiness_probes_with_command_option_5() {
 kubectl -n istio-io-health get pod
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_liveness_and_readiness_probes_with_command_option_5_out <<ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
@@ -69,7 +70,6 @@ snip_enable_globally_via_install_option_1() {
 kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": false/"rewriteAppHTTPProbe": true/' | kubectl apply -f -
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_use_annotations_on_pod_1 <<ENDSNIP
 apiVersion: apps/v1
 kind: Deployment
@@ -110,7 +110,6 @@ snip_redeploy_the_liveness_health_check_app_2() {
 kubectl -n istio-same-port get pod
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_redeploy_the_liveness_health_check_app_2_out <<ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
@@ -125,7 +124,6 @@ snip_separate_port_2() {
 kubectl -n istio-sep-port get pod
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_separate_port_2_out <<ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m

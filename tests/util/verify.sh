@@ -24,6 +24,7 @@ _verify_same() {
     local out=$1
     local expected=$2
     local msg=$3
+
     if [ "$out" != "$expected" ]; then
         _err_exit "$msg" "$out"
     fi
@@ -34,8 +35,19 @@ _verify_contains() {
     local out=$1
     local expected=$2
     local msg=$3
-    
+
     if [[ "$out" != *"$expected"* ]]; then
+        _err_exit "$msg" "$out"
+    fi
+}
+
+# Verify that $out does not contains the substring $expected.
+_verify_not_contains() {
+    local out=$1
+    local expected=$2
+    local msg=$3
+
+    if [[ "$out" == *"$expected"* ]]; then
         _err_exit "$msg" "$out"
     fi
 }
@@ -51,7 +63,7 @@ _verify_like() {
     local out=$1
     local expected=$2
     local msg=$3
-    
+
     if [[ "$out" != "$expected" ]]; then
         local olines=()
         while read -r line; do
@@ -77,7 +89,7 @@ _verify_like() {
 
             read -r -a otokens <<< "$oline"
             read -r -a etokens <<< "$eline"
-            
+
             if [[ ${#otokens[@]} -ne ${#etokens[@]} ]]; then
                 _err_exit "$msg" "$out"
             fi

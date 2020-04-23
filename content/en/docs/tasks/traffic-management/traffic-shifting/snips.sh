@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC2153
+# shellcheck disable=SC2034
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -31,7 +33,6 @@ snip_verify_config_50_v3() {
 kubectl get virtualservice reviews -o yaml
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_verify_config_50_v3_out <<ENDSNIP
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
