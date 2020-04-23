@@ -240,6 +240,7 @@ You can execute individual tests using Go test as shown below.
 
 ```bash
 make init
+export REPO_ROOT=$(git rev-parse --show-toplevel)
 go test ./tests/... -p 1  --istio.test.env kube \
     --istio.test.ci --istio.test.work_dir <my_dir>
 ```
