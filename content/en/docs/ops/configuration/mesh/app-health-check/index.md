@@ -49,14 +49,14 @@ $ kubectl create ns istio-io-health
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
+    apiVersion: "security.istio.io/v1beta1"
+    kind: "PeerAuthentication"
     metadata:
       name: "default"
       namespace: "istio-io-health"
     spec:
-      peers:
-      - mtls: {}
+      mtls:
+        mode: STRICT
     EOF
     {{< /text >}}
 
