@@ -199,12 +199,6 @@ spec:
   commonName: $INGRESS_DOMAIN
   dnsNames:
   - $INGRESS_DOMAIN
-  acme:
-    config:
-    - http01:
-        ingressClass: istio
-      domains:
-      - $INGRESS_DOMAIN
 ---
 EOF
 {{< /text >}}
