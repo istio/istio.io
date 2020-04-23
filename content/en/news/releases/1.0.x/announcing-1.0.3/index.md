@@ -30,7 +30,7 @@ We're pleased to announce the availability of Istio 1.0.3. Please see below for 
 
 - Pilot performance and scalability has been greatly enhanced. Pilot now delivers endpoint updates to 500 sidecars in under 1 second.
 
-- Default [trace sampling](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) is set to 1%.
+- Default [trace sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) is set to 1%.
 
 ## Policy and telemetry
 
