@@ -34,5 +34,6 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** Prometheus scraping failing in CNI injected pods because the default `excludeInboundPort` configuration does not include port 15090 ([Issue 23038](https://github.com/istio/istio/issues/23038))
 - **Fixed** `Lightstep` secret volume issue causing the bundled Prometheus to not install correctly with Istio operator ([Issue 23078](https://github.com/istio/istio/issues/23078))
 - **Fixed** Avoid using host header to extract destination service name at gateway in default Telemetry V2 configuration.
+- **Fixed** Zipkin: Fix wrongly rendered timestamp value ([Issue 22968](https://github.com/istio/istio/issues/22968))
 - **Improved** Add annotations for setting CPU/memory limits on sidecar ([Issue 16126](https://github.com/istio/istio/issues/16126))
 - **Improved** Enable `rewriteAppHTTPProbe` annotation for liveness probe rewrite by default([Issue 10357](https://github.com/istio/istio/issues/10357))
