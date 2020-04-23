@@ -80,7 +80,7 @@ the [Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/#d
 
     {{< text bash >}}
     $ for i in {1..10}; do \
-    docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
+    docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
     done
     one Mon Nov 12 23:24:57 UTC 2018
     one Mon Nov 12 23:25:00 UTC 2018
@@ -142,7 +142,7 @@ was routed to the `v1` version of the `tcp-echo` service.
 
     {{< text bash >}}
     $ for i in {1..10}; do \
-    docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
+    docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
     done
     one Mon Nov 12 23:38:45 UTC 2018
     two Mon Nov 12 23:38:47 UTC 2018
