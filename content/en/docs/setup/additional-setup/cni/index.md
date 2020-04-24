@@ -138,8 +138,8 @@ The following table shows the required settings for many common Kubernetes envir
 
 #### Instructions for Istio 1.4.x and OpenShift
 
-Due to a [limitation](https://github.com/istio/istio/issues/19196) in `istioctl` 1.4.x, CNI will not work properly with the
-default installation of Istio on OpenShift. To work around this problem, create the following YAML file:
+Due to a [limitation](https://github.com/istio/istio/issues/19196) in `istioctl` 1.4.x using `--set` with
+escaped strings, a YAML file is necessary to set `values.sidecarInjectorWebhook.injectedAnnotations` to install Istio on OpenShift. Create the YAML file:
 
 {{< text yaml >}}
 cat <<'EOF' > cni-annotations.yaml
