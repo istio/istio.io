@@ -20,9 +20,6 @@ set -o pipefail
 
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh
 
-# remove the injection label because this task uses manual injection
-kubectl label namespace default istio-injection-
-
 snip_before_you_begin_1
 
 snip_before_you_begin_2

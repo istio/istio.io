@@ -30,7 +30,7 @@ func TestMirror(t *testing.T) {
 			Add(istioio.Script{
 				Input: istioio.Path("scripts/mirror_deploy.txt"),
 			}).
-			Add(istioio.MultiPodWait("istio-io-mirror")).
+			Add(istioio.MultiPodWait("default")).
 			Add(istioio.Script{
 				Input: istioio.Path("scripts/mirror_traffic.txt"),
 			}).
