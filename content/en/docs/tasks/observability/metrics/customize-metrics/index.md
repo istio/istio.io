@@ -108,7 +108,7 @@ verify it contains your new dimension.
 The values in the metric configuration are common expressions, which means you
 must double-quote strings in JSON, e.g. "`some_string_value`". Unlike Mixer
 expression language, there is no support for the pipe (`|`) operator, but you
-can be emulate it with the `has` or `in` operator, for example:
+can emulate it with the `has` or `in` operator, for example:
 
 {{< text plain >}}
 has(request.host) ? request.host : "unknown"
@@ -126,7 +126,7 @@ following extra attributes.
 | `node` | [node](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#core-node) | Node description |
 | `cluster_name` | string | Upstream cluster name |
 | `route_name` | string | Route name |
-| `filter_state` | map<string, bytes> | Per-filter state blob |
+| `filter_state` | map[string, bytes] | Per-filter state blob |
 | `plugin_name` | string | Wasm extension name |
 | `plugin_root_id` | string | Wasm root instance ID |
 | `plugin_vm_id` | string | Wasm VM ID |
