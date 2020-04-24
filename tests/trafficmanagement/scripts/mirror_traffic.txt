@@ -21,8 +21,8 @@ set -o pipefail
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh
 
 # TODO: Should use snip_creating_a_default_routing_policy_2 here. Problem is it uses -it options.
-export SLEEP_POD=$(kubectl -n istio-io-mirror get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl -n istio-io-mirror exec ${SLEEP_POD} -c sleep -- curl -o /dev/null -s -w "%{http_code}\n" http://httpbin:8000/ISTIO_IO_MIRROR_TEST_1
+export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+kubectl exec ${SLEEP_POD} -c sleep -- curl -o /dev/null -s -w "%{http_code}\n" http://httpbin:8000/ISTIO_IO_MIRROR_TEST_1
 
 out=$(snip_creating_a_default_routing_policy_3 2>&1)
 _verify_contains "$out" "ISTIO_IO_MIRROR_TEST_1" "snip_creating_a_default_routing_policy_3"
@@ -36,7 +36,7 @@ snip_mirroring_traffic_to_v2_1
 sleep 10
 
 # TODO: Should use snip_mirroring_traffic_to_v2_2 here. Problem is it uses -it options.
-kubectl -n istio-io-mirror exec ${SLEEP_POD} -c sleep -- curl --retry 3 -o /dev/null -s -w "%{http_code}\n" http://httpbin:8000/ISTIO_IO_MIRROR_TEST_2
+kubectl exec ${SLEEP_POD} -c sleep -- curl --retry 3 -o /dev/null -s -w "%{http_code}\n" http://httpbin:8000/ISTIO_IO_MIRROR_TEST_2
 
 out=$(snip_mirroring_traffic_to_v2_3 2>&1)
 _verify_contains "$out" "ISTIO_IO_MIRROR_TEST_2" "snip_mirroring_traffic_to_v2_3"
