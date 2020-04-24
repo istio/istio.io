@@ -22,6 +22,7 @@ source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh
 
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 
+kubectl get pods
 echo "SLEEP_POD: $SLEEP_POD"
 
 # TODO: Should use snip_creating_a_default_routing_policy_2 here. Problem is it uses -it options.
