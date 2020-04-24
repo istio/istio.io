@@ -532,3 +532,10 @@ To uninstall Istio, run the following command:
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -
 {{< /text >}}
+
+The control plane namespace (e.g. `istio-system`) is not removed for safety reasons.
+If you desire you can remove it as an additional uninstall step:
+
+{{< text bash >}}
+$ kubectl delete namespace istio-system
+{{< /text >}}
