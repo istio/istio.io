@@ -396,9 +396,8 @@ resources because they may have been deleted hierarchically.
 $ istioctl manifest generate --set profile=demo | kubectl delete -f -
 {{< /text >}}
 
-The `istio-system` namespace is not removed so you can inspect the contents,
-in case the previous command didn't function as expected. If you desire
-you can remove it as an additional uninstall step:
+The `istio-system` namespace is not removed by default.
+If no longer needed, use the following command to remove it:
 
 {{< text bash >}}
 $ kubectl delete namespace istio-system
