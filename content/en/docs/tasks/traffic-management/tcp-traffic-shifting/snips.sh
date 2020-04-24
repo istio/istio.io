@@ -42,8 +42,7 @@ kubectl apply -f samples/tcp-echo/tcp-echo-all-v1.yaml -n istio-io-tcp-traffic-s
 }
 
 snip_apply_weightbased_tcp_routing_6() {
-INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
-export INGRESS_PORT
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
 }
 
 snip_apply_weightbased_tcp_routing_7() {

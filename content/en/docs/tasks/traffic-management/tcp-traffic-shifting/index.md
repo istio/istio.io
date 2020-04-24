@@ -72,8 +72,7 @@ the [Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/#d
 `$INGRESS_PORT` value, use the following command.
 
     {{< text bash >}}
-    $ INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
-    $ export INGRESS_PORT
+    $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
     {{< /text >}}
 
     Send some TCP traffic to the `tcp-echo` microservice.
