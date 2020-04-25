@@ -30,7 +30,7 @@ func TestMirror(t *testing.T) {
 			Add(istioio.Script{
 				Input: istioio.Path("scripts/mirror_deploy.txt"),
 			}).
-			Add(istioio.MultiPodWait("default")).
+			Add(istioio.MultiPodWait("istio-io-mirror")).
 			Add(istioio.Script{
 				Input: istioio.Path("scripts/mirror_traffic.txt"),
 			}).
@@ -41,6 +41,7 @@ func TestMirror(t *testing.T) {
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh
 snip_cleaning_up_1
 snip_cleaning_up_2
+kubectl delete ns istio-io-mirror
 `,
 				},
 			}).
