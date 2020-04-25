@@ -3,6 +3,7 @@ title: Mirroring
 description: This task demonstrates the traffic mirroring/shadowing capabilities of Istio.
 weight: 60
 keywords: [traffic-management,mirroring]
+test: true
 ---
 
 This task demonstrates the traffic mirroring capabilities of Istio.
@@ -175,7 +176,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash json >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
+    $ kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {
       "headers": {
         "Accept": "*/*",
@@ -195,13 +196,13 @@ log entries for `v1` and none for `v2`:
 
     {{< text bash >}}
     $ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
-    $ kubectl logs -f $V1_POD -c httpbin
+    $ kubectl logs -f "$V1_POD" -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     {{< /text >}}
 
     {{< text bash >}}
     $ export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
-    $ kubectl logs -f $V2_POD -c httpbin
+    $ kubectl logs -f "$V2_POD" -c httpbin
     <none>
     {{< /text >}}
 
@@ -245,20 +246,20 @@ log entries for `v1` and none for `v2`:
 1. Send in traffic:
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
+    $ kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
     {{< /text >}}
 
     Now, you should see access logging for both `v1` and `v2`. The access logs
     created in `v2` are the mirrored requests that are actually going to `v1`.
 
     {{< text bash >}}
-    $ kubectl logs -f $V1_POD -c httpbin
+    $ kubectl logs -f "$V1_POD" -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl logs -f $V2_POD -c httpbin
+    $ kubectl logs -f "$V2_POD" -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
     {{< /text >}}
 

@@ -1,6 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2153
-# shellcheck disable=SC2034
+# shellcheck disable=SC2034,SC2153,SC2155
 
 # Copyright Istio Authors. All Rights Reserved.
 #
