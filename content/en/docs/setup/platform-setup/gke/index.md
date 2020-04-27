@@ -14,12 +14,17 @@ Follow these instructions to prepare a GKE cluster for Istio.
 1. Create a new cluster.
 
     {{< text bash >}}
-    $ gcloud container clusters create <cluster-name> \
+    $ export PROJECT_ID=`gcloud config get-value project` && \
+      export M_TYPE=n1-standard-2 && \
+      export ZONE=us-west2-a && \
+      export CLUSTER_NAME=${PROJECT_ID}-${RANDOM} && \
+      gcloud services enable container.googleapis.com && \
+      gcloud container clusters create $CLUSTER_NAME \
       --cluster-version latest \
-      --machine-type=n1-standard-2 \
+      --machine-type=$M_TYPE \
       --num-nodes 4 \
-      --zone <zone> \
-      --project <project-id>
+      --zone $ZONE \
+      --project $PROJECT_ID
     {{< /text >}}
 
     {{< tip >}}
@@ -44,7 +49,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
     To review this firewall rule for master access:
 
     {{< text bash >}}
-    $ gcloud compute firewall-rules list --filter="name~gke-<cluster-name>-[0-9a-z]*-master"
+    $ gcloud compute firewall-rules list --filter="name~gke-${CLUSTER_NAME}-[0-9a-z]*-master"
     {{< /text >}}
 
     To replace the existing rule and allow master access:
@@ -58,9 +63,9 @@ Follow these instructions to prepare a GKE cluster for Istio.
 1. Retrieve your credentials for `kubectl`.
 
     {{< text bash >}}
-    $ gcloud container clusters get-credentials <cluster-name> \
-        --zone <zone> \
-        --project <project-id>
+    $ gcloud container clusters get-credentials $CLUSTER_NAME \
+        --zone $ZONE \
+        --project $PROJECT_ID
     {{< /text >}}
 
 1. Grant cluster administrator (admin) permissions to the current user. To
