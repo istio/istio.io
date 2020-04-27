@@ -54,67 +54,67 @@ spec:
 <ul>
 <li>The next example shows how to set a different JWT requirement for a different <code>host</code>. The <code>RequestAuthentication</code>
 declares it can accpet JWTs issuer by either <code>issuer-foo</code> or <code>issuer-bar</code> (the public key set is implicitly
-set from the OpenID Connect spec).
-&ldquo;`yaml
-apiVersion: security.istio.io/v1beta1
+set from the OpenID Connect spec).</li>
+</ul>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
-name: httpbin
-namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
-selector:
-matchLabels:
-  app: httpbin
-jwtRules:
+  selector:
+    matchLabels:
+      app: httpbin
+  jwtRules:
+  - issuer: &quot;issuer-foo&quot;
+  - issuer: &quot;issuer-bar&quot;
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+ rules:
+ - from:
+   - source:
+       requestPrincipals: [&quot;issuer-foo/*&quot;]
+   to:
+     hosts: [&quot;example.com&quot;]
+ - from:
+   - source:
+       requestPrincipals: [&quot;issuer-bar/*&quot;]
+   to:
+     hosts: [&quot;another-host.com&quot;]
+</code></pre>
 
 <ul>
-<li>issuer: &ldquo;issuer-foo&rdquo;</li>
-<li>issuer: &ldquo;issuer-bar&rdquo;
-&mdash;
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-name: httpbin
-namespace: foo
-spec:
-selector:
-matchLabels:
-app: httpbin
-rules:</li>
-<li>from:</li>
-<li>source:
-requestPrincipals: [&ldquo;issuer-foo/*&rdquo;]
-to:
-hosts: [&ldquo;example.com&rdquo;]</li>
-<li>from:</li>
-<li>source:
-requestPrincipals: [&ldquo;issuer-bar/<em>&rdquo;]
-to:
-hosts: [&ldquo;another-host.com&rdquo;]
-<code>
-- You can fine tune the authorization policy to set different requirement per path. For example,
-to require JWT on all paths, except /healthz, the same `RequestAuthentication` can be used, but the
-authorization policy could be:
-</code>yaml
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-name: httpbin
-namespace: foo
-spec:
-selector:
-matchLabels:
-app: httpbin
-rules:
-- from:
-- source:
-requestPrincipals: [&rdquo;</em>&rdquo;]
-- to:
-- operation:
-paths: [&ldquo;/healthz]
-&ldquo;`</li>
-</ul></li>
+<li>You can fine tune the authorization policy to set different requirement per path. For example,
+to require JWT on all paths, except /healthz, the same <code>RequestAuthentication</code> can be used, but the
+authorization policy could be:</li>
 </ul>
+
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+ rules:
+ - from:
+   - source:
+       requestPrincipals: [&quot;*&quot;]
+ - to:
+   - operation:
+       paths: [&quot;/healthz]
+</code></pre>
 
 <table class="message-fields">
 <thead>
