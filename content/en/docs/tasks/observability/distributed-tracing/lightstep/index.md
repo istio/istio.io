@@ -90,7 +90,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Load the Lightstep [web UI](https://app.lightstep.com/). You'll see the three Bookfinder services listed in the Service Directory.
+1.  Load the Lightstep [web UI](https://app.lightstep.com/). You'll see the three Bookinfo services listed in the Service Directory.
 
     {{< image link="./istio-services.png" caption="Bookfinder services in the Service Directory" >}}
 
