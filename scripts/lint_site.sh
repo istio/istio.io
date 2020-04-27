@@ -148,32 +148,35 @@ for lang in $LANGS; do
     fi
 done
 
-if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
-    printf -v find_exclude " -name %s -prune -o" "${SKIP_LANGS[@]}"; read -r -a find_exclude <<< "$find_exclude"
-fi
-while IFS= read -r -d '' f; do
-    if grep -H -n -i -e blockquote "${f}"; then
-        echo "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
-        FAILED=1
-    fi
-
-    #if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
-    #    echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
-    #    FAILED=1
-    #fi
-done < <(find ./public "${find_exclude[@]}" -type f -name '*.html' -print0)
-
-if [[ ${SKIP_LINK_CHECK:-} != "true" ]]; then
+if [ -d ./public ]; then
     if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
-        printf -v ignore_files "/^.\/public\/%s/," "${SKIP_LANGS[@]}"; ignore_files="${ignore_files%,}"
+        printf -v find_exclude " -name %s -prune -o" "${SKIP_LANGS[@]}"; read -r -a find_exclude <<< "$find_exclude"
     fi
-    if [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
-        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/archive.istio.io/,/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/,/docs.okd.io/,/www.aporeto.com/"; then
+
+    while IFS= read -r -d '' f; do
+        if grep -H -n -i -e blockquote "${f}"; then
+            echo "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
             FAILED=1
         fi
-    else
-        if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-opengraph --timeframe 2d --storage-dir .htmlproofer --disable-external; then
-            FAILED=1
+
+        #if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
+        #    echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
+        #    FAILED=1
+        #fi
+    done < <(find ./public "${find_exclude[@]}" -type f -name '*.html' -print0)
+
+    if [[ ${SKIP_LINK_CHECK:-} != "true" ]]; then
+        if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
+            printf -v ignore_files "/^.\/public\/%s/," "${SKIP_LANGS[@]}"; ignore_files="${ignore_files%,}"
+        fi
+        if [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
+            if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/archive.istio.io/,/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/,/docs.okd.io/,/www.aporeto.com/"; then
+                FAILED=1
+            fi
+        else
+            if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-opengraph --timeframe 2d --storage-dir .htmlproofer --disable-external; then
+                FAILED=1
+            fi
         fi
     fi
 fi
