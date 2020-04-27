@@ -18,11 +18,7 @@ set -e
 
 FAILED=0
 
-BRANCH="${BRANCH:-master}"
-
-if [[ "$#" -ne 0 ]]; then
-    LANGS="$*"
-else
+if [[ -n "${BRANCH}" ]]; then
     files_changed="$(git diff --name-only --diff-filter=b "$(git merge-base HEAD "$BRANCH")")"
     if (echo "${files_changed}" | grep -q /en/); then
         LANGS+="en "
@@ -33,7 +29,11 @@ else
     if (echo "${files_changed}" | grep -q /pt-br/); then
         LANGS+="pt-br "
     fi
-
+elif [[ "$#" -ne 0 ]]; then
+    LANGS="$*"
+else
+    echo "if BRANCH is set to the source branch, ie. master, the linter will only check languages within the PR."
+    LANGS="en zh"
 fi
 
 # This performs spell checking and style checking over markdown files in a content
