@@ -31,6 +31,8 @@ provides values for the metric dimensions as expressions, and allows you to
 remove or override the existing metric dimensions. You can modify the standard
 metrics using `tags_to_remove` or by re-defining a dimension.
 
+For more information, see [Stats Config reference](/docs/reference/config/proxy_extensions/stats/).
+
 ## Before you begin
 
 [Install Istio](/docs/setup/) in your cluster and deploy an application.
