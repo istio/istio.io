@@ -31,7 +31,7 @@ To prepare a cluster before manually installing Istio, proceed as follows:
     available zone.
 
     {{< tip >}}
-    You can display your available zones by running `ibmcloud ks zones`.
+    You can display your available zones by running `ibmcloud ks zones --provider classic`.
     The IBM Cloud Kubernetes Service [Locations Reference Guide](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones)
     describes the available zones and how to specify them.
     {{< /tip >}}
@@ -47,8 +47,7 @@ To prepare a cluster before manually installing Istio, proceed as follows:
     You can view your available VLANs by running `ibmcloud ks vlans --zone <zone-name>`.
     {{< /tip >}}
 
-1.  Run the following command to download your cluster configuration for `kubectl` and then
-    set the `KUBECONFIG` environment variable as specified in the command output.
+1.  Run the following command to download your cluster configuration.
 
     {{< text bash >}}
     $ ibmcloud ks cluster config --cluster <cluster-name>
