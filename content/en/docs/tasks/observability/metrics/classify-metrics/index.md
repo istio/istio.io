@@ -329,7 +329,7 @@ You can classify responses using a similar process as requests.
 Use the following command to verify that Istio generates the data for your new dimension:
 
 {{< text bash >}}
-kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/metrics' | grep istio_
+$ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/metrics' | grep istio_
 {{< /text >}}
 
 In the output, locate the metric (e.g. `istio_requests_total`) and verify the presence of the new or changed dimension.
@@ -347,5 +347,5 @@ $ kubectl log pod-name -c istio-proxy | grep “Config Error”
 Additionally, ensure that there are no Envoy proxy crashes by looking for signs of restarts in the output of the following command:  
 
 {{< text bash >}}
-kubectl get pods pod-name
+$ kubectl get pods pod-name
 {{< /text >}}
