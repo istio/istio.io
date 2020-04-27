@@ -19,6 +19,8 @@ instead.
 
 1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
+1. Install the [{{< istioctl >}} command](/docs/ops/diagnostic-tools/istioctl/).
+
 1. Deploy the Istio operator:
 
     {{< text bash >}}
@@ -32,12 +34,23 @@ instead.
     - A service to access operator metrics
     - Necessary Istio operator RBAC rules
 
-    Alternatively, you can deploy using `kubectl` from a pre-rendered manifest, which will install the latest released
-    version of the operator:
+    See the available `istioctl operator init` flags to control which namespaces the controller and Istio are installed
+    into and the installed Istio image sources and versions.
+
+    {{< tip >}}
+    You can alternatively deploy the operator using Helm:
 
     {{< text bash >}}
-    $ kubectl apply -f https://istio.io/operator.yaml
+    $ helm template install/kubernetes/operator/operator-chart/ \
+      --set hub=docker.io/istio \
+      --set tag={{< istio_full_version >}} \
+      --set operatorNamespace=istio-operator \
+      --set istioNamespace=istio-system | kubectl apply -f -
     {{< /text >}}
+
+    Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
+    to run the above command.
+    {{< /tip >}}
 
 ## Install
 
@@ -70,7 +83,6 @@ You can confirm the Istio control plane services have been deployed with the fol
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
 NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                                                                                                      AGE
 grafana                     ClusterIP      10.47.246.242   <none>         3000/TCP                                                                                                                     64m
 istio-egressgateway         ClusterIP      10.47.244.203   <none>         80/TCP,443/TCP,15443/TCP                                                                                                     64m
@@ -164,6 +176,12 @@ $ kubectl delete istiooperators.install.istio.io -n istio-system example-istioco
 
 Wait until Istio is uninstalled - this may take some time.
 Delete the Istio operator:
+
+{{< text bash >}}
+$ istioctl operator remove
+{{< /text >}}
+
+Or:
 
 {{< text bash >}}
 $ kubectl delete ns istio-operator --grace-period=0 --force

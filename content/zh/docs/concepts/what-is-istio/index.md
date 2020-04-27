@@ -57,18 +57,6 @@ Istio 是独立于平台的，可以与 Kubernetes（或基础设施）的网络
 
 请参考[安全文档](/zh/docs/concepts/security/)获取更多细节。
 
-### 策略{#policies}
-
-Istio 允许您为应用程序配置自定义的策略并在运行时执行规则，例如：
-
-* 速率限制能动态的限制访问服务的流量
-* Denials、白名单和黑名单用来限制对服务的访问
-* Header 的重写和重定向
-
-Istio 还容许你创建自己的[策略适配器](/zh/docs/tasks/policy-enforcement/control-headers)来添加诸如自定义的授权行为。
-
-请参考[策略文档](/zh/docs/concepts/policies/)获取更多细节。
-
 ### 可观察性{#observability}
 
 Istio 健壮的追踪、监控和日志特性让您能够深入的了解服务网格部署。通过 Istio 的监控能力，可以真正的了解到服务的性能是如何影响上游和下游的；而它的定制 Dashboard 提供了对所有服务性能的可视化能力，并让您看到它如何影响其他进程。

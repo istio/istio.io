@@ -18,49 +18,19 @@ set -e
 set -u
 set -o pipefail
 
-$ kubectl create ns istio-io-health
+source ${REPO_ROOT}/content/en/docs/ops/configuration/mesh/app-health-check/snips.sh
 
-# $snippet auth_policy.sh syntax="bash"
-$ kubectl apply -f - <<EOF
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: "default"
-  namespace: "istio-io-health"
-spec:
-  peers:
-  - mtls: {}
-EOF
-# $endsnippet
+snip_liveness_and_readiness_probes_with_command_option_1
 
-# $snippet destination_rule.sh syntax="bash"
-$ kubectl apply -f - <<EOF
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "default"
-  namespace: "istio-io-health"
-spec:
-  host: "*.default.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-EOF
-# $endsnippet
+snip_liveness_and_readiness_probes_with_command_option_2
 
-# $snippet deploy_service.sh syntax="bash"
-$ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
-# $endsnippet
+snip_liveness_and_readiness_probes_with_command_option_3
 
-$ kubectl -n istio-io-health rollout status deployment liveness --timeout 60s
+snip_liveness_and_readiness_probes_with_command_option_4
 
-# $snippet liveness_check_status.sh syntax="bash" outputis="text"
-$ kubectl -n istio-io-health get pod
-# $verify verifier="lineRegex"
-NAME *READY *STATUS *RESTARTS *AGE
-liveness-[0-9a-z]*-[0-9a-z]* *2/2 *Running *0 ?
-# $endsnippet
+kubectl -n istio-io-health rollout status deployment liveness --timeout 60s
 
-# $snippet delete_liveness_service.sh syntax="bash"
-$ kubectl -n istio-io-health delete -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
-# $endsnippet
+out=$(snip_liveness_and_readiness_probes_with_command_option_5 2>&1)
+_verify_like "$out" "$snip_liveness_and_readiness_probes_with_command_option_5_out" "snip_liveness_and_readiness_probes_with_command_option_5"
+
+kubectl -n istio-io-health delete -f samples/health-check/liveness-command.yaml

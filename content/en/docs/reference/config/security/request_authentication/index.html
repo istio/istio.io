@@ -26,8 +26,8 @@ Examples:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
- name: httpbin
- namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
   selector:
     matchLabels:
@@ -39,16 +39,16 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: httpbin
- namespace: foo
+  name: httpbin
+  namespace: foo
 spec:
- selector:
-   matchLabels:
-     app: httpbin
- rules:
- - from:
-   - source:
-       requestPrincipals: [&quot;*&quot;]
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+  - from:
+    - source:
+        requestPrincipals: [&quot;*&quot;]
 </code></pre>
 
 <ul>

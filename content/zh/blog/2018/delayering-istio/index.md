@@ -30,7 +30,7 @@ Sidecar proxy 模式成就了很多奇迹。Sidecar 身处微服务的数据路�
 
 ## AppSwitch
 
-和容器运行时相比，AppSwitch 由客户端和一个守护进程组成，二者通过 HTTP 协议的 REST API 进行通信。客户端和守护进程构建为一个自包含的二进制文件 `ax`。客户端透明的注入s应用程序，并追踪网络相关的系统调用，随后通知守护进程。例如一个应用进行了 `connect(2)` 系统调用，目标是一个 Kubernetes 服务的 IP。AppSwitch 客户端拦截这一调用并令其失效，然后把这一事件及其参数和上下文环境告知守护进程。守护进程会处理系统调用，例如代表应用程序直接连接到上游服务器的 Pod IP。
+和容器运行时相比，AppSwitch 由客户端和一个守护进程组成，二者通过 HTTP 协议的 REST API 进行通信。客户端和守护进程构建为一个自包含的二进制文件 `ax`。客户端透明的注入 s 应用程序，并追踪网络相关的系统调用，随后通知守护进程。例如一个应用进行了 `connect(2)` 系统调用，目标是一个 Kubernetes 服务的 IP。AppSwitch 客户端拦截这一调用并令其失效，然后把这一事件及其参数和上下文环境告知守护进程。守护进程会处理系统调用，例如代表应用程序直接连接到上游服务器的 Pod IP。
 
 值得注意的一点是，AppSwitch 的客户端和服务器之间不做任何数据转发。它们中间会通过 Unix socket 交换文件描述符，从而避免数据拷贝。另外客户端也不是独立进程，而是运行在应用本身的上下文之中的，因此应用和 AppSwitch 之间也不存在数据拷贝的操作。
 
@@ -116,7 +116,7 @@ AppSwitch 提供了无需 root 特权就能重定向应用连接的方法。这�
 1. 发送 Socket 对中的一端给应用，应用会用这个 FD 进行读写。它还要确保应用始终视其为合法 Socket，以便于侵入所有对连接属性的查询。
 1. 另外一端会通过一个不同的用于开放守护进程 API 的 Unix Socket 发送给 Sidecar。原始目的之类的信息也会由相同的接口进行传输。
 
-{{< image width="50%" link="socket-delegation.png" alt="Socket 委托协议"  caption="基于 Socket 委托的连接重定向" >}}
+{{< image width="50%" link="socket-delegation.png" alt="Socket 委托协议" caption="基于 Socket 委托的连接重定向" >}}
 
 应用和 Sidecar 连接之后，接下来的事情就很普通了。Sidecar 初始化一个到上游服务器的连接，并在从守护进程接收到的 Socket 和连接到上游服务器的 Socket 之间充当数据代理。这里的主要区别在于，Sidecar 得到的连接不是通过 `accept(2)` 系统调用而来的，而是由守护进程的 Unix socket 来的。Sidecar 不再通过监听来自应用的 `accept(2)` 通道，而是连接到 AppSwitch 守护进程的 REST 端点获取到的 Socket。
 

@@ -1,88 +1,155 @@
 # Testing istio.io Content
 
 This folder contains tests for the content on [istio.io](http://istio.io).
+More specifically, these tests confirm that the example and task documents, which contain
+instructions in the form of bash commands and expected output, are working as documented.
 
-The content on `istio.io` will be generated from the output of these tests.
-This means that we verify that the content actually works before we publish it.
+Generated bash scripts, containing the set of commands and expected output for corresponding
+istio.io markdown files, are used by test programs to invoke the commands and verify the output.
+This means that we extract and test the exact same commands that are published in the documents.
 
 These tests use the framework defined in the `istioio` package, which is a thin wrapper
 around the [Istio test framework](https://github.com/istio/istio/wiki/Istio-Test-Framework).
 
-## Output
-
-When you run an `istio.io` test, it outputs snippets according to the
-[istio.io syntax](https://istio.io/about/contribute/creating-and-editing-pages) and are ready for
-import to `istio.io`. For example:
-
-```text
-$snippet enabling_istio_authorization.sh syntax="bash"
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
-$endsnippet
-
-$snippet enforcing_namespace_level_access_control_apply.sh syntax="bash"
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
-$endsnippet
-```
-
-Snippets are written to a file in the working directory of the test with the extension
-`.snippets.txt`. The name of the file (minus the extension) is specified when creating
-the `Builder`.
-
-For example, `istioio.NewBuilder("path__to__my_istioio_content")` would
-generate the file `path__to__my_istioio_content.snippets.txt`.
-
-By convention, the file name should generally indicate the path to the content on `istio.io`.
-This helps to simplify collection and processing of these files later on.
-
-For example, the snippets for the page
-`Tasks->Secuity->Mutual TLS Migration` might be stored in
-`tasks__security__mutual_tls_migration.snippets.txt`.
-
 ## Test Authoring Overview
 
-To write an `istio.io` follow these steps:
+To write an `istio.io` test, follow these steps:
+
+1. Add a field `test: true` to the metadata at the top of the `index.md` file to be tested.
+   This field is used to indicate that the markdown file will be tested and therefore requires
+   a generated bash script containing the commands described in the document.
+
+1. Run `make snips` to generate the bash script. After the command completes, you should see
+   a new file, `snips.sh`, next to the `index.md` file that you modified in the previous step.
+
+   Each bash command in `index.md` (i.e., `{{< text bash >}}` code block) will produce a bash
+   function in `snips.sh` containing the same command(s) as in the document. Other types of code blocks,
+   e.g., `{{< text yaml >}}`, will produce a bash variable containing the block content.
+
+   By default, the bash function or variable will be named `snip_<section>_<code block number>`.
+   For example, the first `{{< text bash >}}` code block in a section titled
+   `## Apply weight-based routing` will generate a bash function named `snip_apply_weightbased_routing_1()`.
+
+   You can override the default name by adding `snip_id=<some name>` to the corresponding text block attributes.
+   For example `{{< text syntax=bash snip_id=config_all_v1 >}}` will generate `snip_config_all_v1()`.
+
+   If a bash code block contains both commands and output, the `snips.sh` script will include
+   both a bash function and a variable containing the expected output. The name of the variable
+   will be the same as the function, only with `_out` appended.
+
+1. Run `make lint-fast` to check for script errors.
+
+   If there are any lint errors in the generated `snip.sh` file,
+   it means that a command in the `index.md` file is not following `bash` best practices.
+   Because we are extracting the commands from the markdown file into a script file, we get the
+   added benefit of lint checking of the commands that appear in the docs.
+
+   Fix the errors, if any, by updating the corresponding command in the `index.md` file and
+   then regenerate the snips.
+
+1. Pick an appropriate location under the `tests/` directory and create a directory for your new
+   test.
 
 1. Add the following imports to your GoLang file:
 
-```golang
-"istio.io/istio/pkg/test/framework"
-"istio.io/istio/pkg/test/framework/components/environment"
-"istio.io/istio/pkg/test/framework/components/istio"
+    ```golang
+    "istio.io/istio/pkg/test/framework"
+    "istio.io/istio/pkg/test/framework/components/environment"
+    "istio.io/istio/pkg/test/framework/components/istio"
 
-"istio.io/istio.io/pkg/test/istioio"
-```
+    "istio.io/istio.io/pkg/test/istioio"
+    ```
 
 1. Create a function called `TestMain`, following the example below. This
    function sets up the Istio environment that the test uses. The `Setup`
    function accepts an optional function to customize the Istio environment
    deployed.
 
+    ```golang
+    func TestMain(m *testing.M) {
+    framework.NewSuite("my-istioio-test", m).
+        SetupOnEnv(environment.Kube, istio.Setup(&ist, nil)).
+        RequireEnvironment(environment.Kube).
+        Run()
+    }
+    ```
+
+1. To create a test, you use `istioio.NewBuilder` to build a series of steps that will
+   be run as part of the resulting test function:
+
+    ```golang
+    func TestCombinedMethods(t *testing.T) {
+        framework.
+            NewTest(t).
+            Run(istioio.NewBuilder("tasks__security__my_task").
+                Add(istioio.Script{
+                    Input:         istioio.Path("myscript.sh"),
+                },
+                istioio.MultiPodWait("foo"),
+                istioio.Script{
+                    Input:         istioio.Path("myotherscript.sh"),
+                }).Build())
+    }
+    ```
+
+## Running Shell Commands
+
+Your test will include one or more test steps that run shell scripts that call
+the commands in the generated `snips.sh` file.
+
 ```golang
-func TestMain(m *testing.M) {
-framework.NewSuite("my-istioio-test", m).
-    SetupOnEnv(environment.Kube, istio.Setup(&ist, nil)).
-    RequireEnvironment(environment.Kube).
-    Run()
+istioio.Script{
+    Input:   istioio.Path("myscript.sh"),
 }
 ```
 
-1. To create a test, you use `istioio.Builder` to build a series of steps that will
-be run as part of the resulting test function:
+Your script must include the `snip.sh` file for the document being tested. For example,
+a test for the traffic-shifting task will have the following line in the script:
 
-```golang
-func TestCombinedMethods(t *testing.T) {
-    framework.
-        NewTest(t).
-        Run(istioio.NewBuilder("tasks__security__my_task").
-            Add(istioio.Script{
-                Input:         istioio.Path("myscript.sh"),
-            },
-            istioio.MultiPodWait("foo"),
-            istioio.Script{
-                Input:         istioio.Path("myotherscript.sh"),
-            }).Build())
-}
+```sh
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/traffic-shifting/snips.sh
 ```
+
+Your test script can then invoke the commands by simply calling snip functions:
+
+```sh
+snip_config_50_v3 # Step 3: switch 50% traffic to v3
+```
+
+For commands that produce output that needs to be verified, capture the command output
+in a variable and compare it to the expected output. For example:
+
+```sh
+out=$(snip_set_up_the_cluster_3 2>&1)
+_verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
+```
+
+The framework includes the following built-in verify functions:
+
+1. **`_verify_same`** `out` `expected` `msg`
+
+   Verify that `out` is exactly the same as `expected`. Failure messages will include
+   the specified `msg`.
+
+1. **`_verify_contains`** `out` `expected` `msg`
+
+   Verify that `out` contains the substring `expected`. Failure messages will include
+   the specified `msg`.
+
+1. **`_verify_like`** `out` `expected` `msg`
+
+   Verify that `out` is "like" `expected`. Like implies:
+
+   - Same number of lines
+   - Same number of whitespace-seperated tokens per line
+   - Tokens can only differ in the following ways:
+
+     1. different elapsed time values (e.g., `30s` is like `5m`)
+     1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`)
+     1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
+
+   This function is useful for comparing the output of commands that include some run-specific
+   values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
 ## Builder
 
@@ -139,38 +206,6 @@ istioio.IfMinikube{
 }
 ```
 
-## Running Shell Commands
-
-You can create a test step that will run a shell script and automatically generate
-snippets with `istioio.Script`:
-
-```golang
-istioio.Script{
-    Input:   istioio.Path("myscript.sh"),
-}
-```
-
-See [istioio.Script](../../../pkg/test/istioio/script.go) for the available
-configuration options.
-
-## YAML Snippets
-
-You can generate snippets for individual resources within a given YAML file:
-
-```golang
-istioio.YamlResources{
-    BaseName:      "mysnippet",
-    Input:         istioio.BookInfo("rbac/namespace-policy.yaml"),
-    ResourceNames: []string{"service-viewer", "bind-service-viewer"},
-}
-```
-
-The step `istioio.YamlResources` parses the  given `Input` and generates a
-snippet for each named resource. You can configure the prefix of the generated
-snippet names with the `BaseName` parameter. The snippet for the `service-viewer`
-resource, for example, would be named `mysnippet_service-viewer.txt`. If not
-specified, `BaseName` will be derived from the `Input` name.
-
 ## Waiting for Pods to Start
 
 You can create a test step that waits for one or more pods to start before continuing.
@@ -189,12 +224,23 @@ export KUBECONFIG=~/.kube/config
 make test.kube.presubmit
 ```
 
+### Notes:
+
+There is an issue with the TAG (#7081) so one needs to set TAG to `latest` to mimic the
+pipeline.
+
+In the case of using `kind` clusters on the Mac, an extra env var is needed,
+ADDITIONAL_CONTAINER_OPTIONS="--network host". If one makes sure HUB is not set, then the
+command `TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit`
+has been successful.
+
 ## Running Tests: go test
 
 You can execute individual tests using Go test as shown below.
 
 ```bash
 make init
+export REPO_ROOT=$(git rev-parse --show-toplevel)
 go test ./tests/... -p 1  --istio.test.env kube \
     --istio.test.ci --istio.test.work_dir <my_dir>
 ```
@@ -208,13 +254,3 @@ Make sure to have the `HUB` and `TAG` [environment variables set](https://github
 your Istio Docker images.
 
 You can find the complete list of arguments on [the test framework wiki page](https://github.com/istio/istio/wiki/Istio-Test-Framework).
-
-## The pipeline
-
-Tests produce outputs during a test run. As part of a postsubmit job, all snippets output by tests are copied to a
-well-knwon GCS bucket by the CI system, in a folder named with the SHA of the specific change.
-
-In istio.io, `make update_examples` looks at commits in the right branch of the istio/istio repo. The process looks for the latest
-SHA it can find in the GCS bucket. Once it's found the right folder, it copies the content into the istio.io expo, in the examples
-folder. Markdown content in istio.io can then reference the individual snippets from the individual files within the
-examples folder. To learn how to do this, check out <https://preliminary.istio.io/about/contribute/creating-and-editing-pages/#snippets>

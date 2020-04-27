@@ -17,7 +17,7 @@ aliases:
 $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
-在默认的访问日志输出格式中，Envoy 响应标志和 Mixer 策略状态位于响应状态码之后，如果你使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%` 和 `%DYNAMIC_METADATA(istio.mixer:status)%`。
+在默认的访问日志输出格式中，Envoy 响应标志和 Mixer 策略状态位于响应状态码之后，如果你使用自定义日志输出格式，请确保包含 `%RESPONSE_FLAGS%` 和 `%DYNAMIC_METADATA(istio.mixer:status) %`。
 
 参考 [Envoy 响应标志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#config-access-log-format-response-flags)查看更多有关响应标志的细节。
 
@@ -114,7 +114,7 @@ spec:
 
 此时你会发现，通过 ingress 网关访问 helloworld 服务的请求没有直接路由到服务实例子集 v1，而是仍然使用默认的轮询调度路由。
 
-Ingress 请求经由网关主机（如： `myapp.com`）进行路由，网关主机将激活 myapp `VirtualService` 中的规则，将请求路由至 helloworld 服务的任何一个实例端点。
+Ingress 请求经由网关主机（如：`myapp.com`）进行路由，网关主机将激活 myapp `VirtualService` 中的规则，将请求路由至 helloworld 服务的任何一个实例端点。
 只有通过主机 `helloworld.default.svc.cluster.local` 访问的内部请求才会使用 helloworld `VirtualService`，其中的规则直接将流量路由至服务实例子集 v1。
 
 为了控制从 gateway 过来的流量，你需要在 myapp `VirtualService` 的配置中包含 subset 规则配置：
@@ -254,7 +254,7 @@ server {
 - `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 gateway 配置为 `gw`
 - `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 gateway 配置为 `gw`
 
-## 在网关中配置多个TLS主机时端口冲突{#port-conflict-when-configuring-multiple-TLS-hosts-in-a-gateway}
+## 在网关中配置多个 TLS 主机时端口冲突{#port-conflict-when-configuring-multiple-TLS-hosts-in-a-gateway}
 
 如果您应用的 `Gateway` 配置与另一个现有的 `Gateway` 具有相同的 `selector` 标签，如果它们都暴露了相同的 HTTPS 端口，那您必须确保它们具有唯一的端口名。
 否则，该配置在应用时不会立即显示错误指示，但在运行时网关配置中将忽略该配置。

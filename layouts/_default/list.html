@@ -60,16 +60,9 @@
                 {{ if and (eq $parentDir $pageLocation)  (not .Params.draft) }}
 
                     {{- $info := "" -}}
-                    {{ if or .Params.attribution (gt .Page.ReadingTime 1) (ne .PublishDate.Year 0001) }}
+                    {{ if or .Params.attribution (gt .Page.ReadingTime 1) }}
                         {{- if .Params.attribution -}}
                             {{- $info = printf "%s %s" (i18n "page_attribution") .Params.attribution -}}
-                        {{- end -}}
-
-                        {{- if ne .PublishDate.Year 0001 -}}
-                            {{- if gt (len $info) 0 -}}
-                                {{- $info = printf "%s\n" $info -}}
-                            {{- end -}}
-                            {{- $info = printf "%s%s" $info (.PublishDate.Format (i18n "page_publish_date_format")) -}}
                         {{- end -}}
 
                         {{- if gt .Page.ReadingTime 1 -}}
@@ -80,9 +73,9 @@
                         {{- end -}}
                     {{ end }}
 
-                    <div class="entry">
+                    <div class="entry" title="{{ $info }}">
                         <h5>
-                            <a title="{{ $info }}" href="{{ .Permalink }}">
+                            <a href="{{ .Permalink }}">
                                 {{- if .Params.icon -}}<i class="page-icon">{{- partial "icon.html" .Params.icon -}}</i>{{- end -}}{{- .Title -}}
 
                                 {{- if $decoration -}}
@@ -90,6 +83,9 @@
                                 {{- end -}}
                             </a>
                         </h5>
+                        {{- if ne .PublishDate.Year 0001 -}}
+                            <em>{{- printf "%s" (.PublishDate.Format (i18n "page_publish_date_format")) -}}</em>
+                        {{- end -}}
                         <p>{{ .Description }}</p>
                     </div>
                 {{ end }}

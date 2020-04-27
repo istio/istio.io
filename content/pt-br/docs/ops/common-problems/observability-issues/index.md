@@ -1,5 +1,5 @@
 ---
-title: Observability Problems 
+title: Observability Problems
 description: Dealing with telemetry collection issues.
 force_inline_toc: true
 weight: 30
@@ -75,7 +75,7 @@ istio-system   tcpkubeattrgenrulerule    4h
 
 If the output shows no rules named `promhttp` or `promtcp`, then the Mixer configuration for sending metric instances to the Prometheus adapter is missing. You must supply the configuration for rules connecting the Mixer metric instances to a Prometheus handler.
 
-For reference, please consult the [default rules for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml).
+For reference, please consult the [default rules for Prometheus]({{< github_file >}}/manifests/UPDATING-CHARTS.md).
 
 ### Verify the Prometheus handler configuration exists
 
@@ -98,7 +98,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
 1. If the output shows no configured Prometheus handlers, you must reconfigure Mixer with the appropriate handler configuration.
 
-    For reference, please consult the [default handler configuration for Prometheus]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml).
+    For reference, please consult the [default handler configuration for Prometheus]({{< github_file >}}/manifests/UPDATING-CHARTS.md).
 
 ### Verify Mixer metric instances configuration exists
 
@@ -116,7 +116,7 @@ For reference, please consult the [default rules for Prometheus]({{< github_file
 
 1. If the output shows no configured metric instances, you must reconfigure Mixer with the appropriate instance configuration.
 
-    For reference, please consult the [default instances configuration for metrics]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml).
+    For reference, please consult the [default instances configuration for metrics]({{< github_file >}}/manifests/UPDATING-CHARTS.md).
 
 ### Verify there are no known configuration errors
 

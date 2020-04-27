@@ -22,7 +22,7 @@ _1.2.1 将入口和出口流量限制为持卡人数据环境所必需的流量�
 特别是对出口流量：
 
 {{< quote >}}
-_1.3.4 不允许持卡人数据环境没有授权的出站流量进入互联网。。。持卡人数据环境流出的所有流量应该做评估，以保证流量符合既定的授权规则。应该检查链接上的流量并限制只允许认证过的通信（例如：通过限制源/目的的地址/端口，包括限制传输内容）。_
+_1.3.4 不允许持卡人数据环境没有授权的出站流量进入互联网。持卡人数据环境流出的所有流量应该做评估，以保证流量符合既定的授权规则。应该检查链接上的流量并限制只允许认证过的通信（例如：通过限制源/目的的地址/端口，包括限制传输内容）。_
 {{< /quote >}}
 
 我们从涉及出口流量的攻击开始。
@@ -39,7 +39,7 @@ _1.3.4 不允许持卡人数据环境没有授权的出站流量进入互联网�
 
 出口流量安全管控的意思是监控出口流量并且针对出口流量应用所有的安全策略。
 监控出口流量，可以对它进行分析（可能是离线的），即便你无法实时阻止攻击，也要检测攻击事件。
-另外一个减少攻击可能性的方法是遵循[需要知道](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology]) 的原则进行指定限制访问策略。
+另外一个减少攻击可能性的方法是遵循[需要知道](https://en.wikipedia.org/wiki/Need_to_know#In_computer_technology])的原则进行指定限制访问策略。
 
 现在来看看已经收集到的出口流量管控要求。
 
@@ -49,19 +49,19 @@ _1.3.4 不允许持卡人数据环境没有授权的出站流量进入互联网�
 
 Istio 1.1 满足所有的收集要求：
 
-1.  使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 支持 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) 或者用 Istio 支持 [TLS 源](/zh/docs/reference/glossary/#tls-origination)
+1. 使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 支持 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) 或者用 Istio 支持 [TLS 源](/zh/docs/reference/glossary/#tls-origination)
 
-1.  **监视器** SNI 和每个出口访问的源 workload。
+1. **监视器** SNI 和每个出口访问的源 workload。
 
-1.  定义和执行 **每个集群的策略**，比如：
+1. 定义和执行 **每个集群的策略**，比如：
 
     * 集群中所有应用程序可能访问 `service1.foo.com` （指定的主机）
 
-    * 集群中所有的应用程序可能访问  `*.bar.com` (泛域名) 下的任何主机
+    * 集群中所有的应用程序可能访问 `*.bar.com` (泛域名) 下的任何主机
 
      必须阻止所有未明确的访问。
 
-1.  定义和执行**每个源的策略**， _Kubernetes 可感知_：
+1. 定义和执行**每个源的策略**，_Kubernetes 可感知_：
 
     * 应用 `A` 可能访问 `*.foo.com`。
 
@@ -69,20 +69,20 @@ Istio 1.1 满足所有的收集要求：
 
     必须阻止其他访问，尤其是应用 `A` 到 `service1.bar.com` 的访问。
 
-1.  **防篡改*。万一有一个应用的 pod 被破坏了，要防止受损的 pod 逃离监控，防止发送假信息给监控系统，防止破坏出口策略。
+1. **防篡改*。万一有一个应用的 pod 被破坏了，要防止受损的 pod 逃离监控，防止发送假信息给监控系统，防止破坏出口策略。
 
-1.  有这点就更好：流量管控对应用程序要**透明**。
+1. 有这点就更好：流量管控对应用程序要**透明**。
 
 对每个要求我来详细介绍以下。第一个要求指出，必须支持对外服务访问只能使用 TLS。在看到所有出集群的流量都必须加密后，这个要求就出现了。这意味着要么是应用程序执行 TLS，要么是 Istio 必须为应用程序执行 TLS。
 注意如果应用程序执行了 TLS，Istio 代理是无法看到原始的流量的，只能看到加密后的，所以代理只能看到 TLS 协议。对代理来说它不关心原始协议是 HTTP 还是 MongoDB ，所有的 Istio 代理只能看到 TLS 流量。
 
 第二个要求指出：必须监控 SNI 和流量源。监控是防止攻击的第一步。即使攻击者可以从集群内访问外部服务，如果监控了访问请求，就会有机会发现可疑流量并且采取纠正措施。
 
-注意如果是应用程序发起的 TLS，Istio 的 sidecar 代理就只能看到 TCP 流量和包含 SNI 的 TLS 握手。 源 pod 的标签可以识别出流量来源，但是 pod 的服务账号或者其它源识标识符也可以用来识别流量。我们把出口流量管控系统的这个特性叫做 _Kubernetes 可感知_：这个系统必须理解 Kubernetes 组件，比如 pod 和服务账号。如果这个系统不是 Kubernetes 可感知的，那它只能监控 IP 地址，并把它作为源的标示。
+注意如果是应用程序发起的 TLS，Istio 的 sidecar 代理就只能看到 TCP 流量和包含 SNI 的 TLS 握手。源 pod 的标签可以识别出流量来源，但是 pod 的服务账号或者其它源识标识符也可以用来识别流量。我们把出口流量管控系统的这个特性叫做 _Kubernetes 可感知_：这个系统必须理解 Kubernetes 组件，比如 pod 和服务账号。如果这个系统不是 Kubernetes 可感知的，那它只能监控 IP 地址，并把它作为源的标示。
 
 第三个要求指出：Istio 运维人员必须能为整个集群所有的出口流量定规策略。策略指出集群中的 pod 可能会访问哪些外部服务。外部服务可以通过服务的[全域名](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) （比如 `www.ibm.com`）或者泛域名（比如：`*.ibm.com`）进行标示。只有指定的外部服务可以访问，其它所有的出口流量都要被阻止。
 
-这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了[攻击面](https://en.wikipedia.org/wiki/Attack_surface)。当外部服务有了它们自己的安全机制，你想使用[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。
+这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了[攻击面](https://en.wikipedia.org/wiki/Attack_surface)。当外部服务有了它们自己的安全机制，你想使用[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。
 
 这个要求意味着外部服务必须能用域名来标示。我们把出口管控系统的这个特性叫做 DNS 感知。如果系统不是 DNS 可感知的，外部服务必须用 IP 地址标示。
 使用 IP 地址不方便而且经常不灵活，因为服务的 IP 地址会变的。有时候服务的所有 IP 地址甚至都不知道，比如：[CDN](https://en.wikipedia.org/wiki/Content_delivery_network)。
@@ -98,4 +98,4 @@ Istio 1.1 满足所有的收集要求：
 
 ## 总结 {#summary}
 
-希望您确信对于集群安全来说出口流量管控是非常重要的。在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/) 我讲述了使用 Istio 实现出口流量安全管控的方法。在[这个系列文章的第三部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/) 我和其它方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)以及已有的其它出口代理/防火墙方案。
+希望您确信对于集群安全来说出口流量管控是非常重要的。在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)我讲述了使用 Istio 实现出口流量安全管控的方法。在[这个系列文章的第三部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/)我和其它方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)以及已有的其它出口代理/防火墙方案。

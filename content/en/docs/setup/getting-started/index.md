@@ -327,12 +327,16 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 
 ### Verify external access {#confirm}
 
-Confirm that the Bookinfo application is accessible from outside. Copy the
-output of this command and paste into your browser:
+Confirm that the Bookinfo application is accessible from outside
+by viewing the Bookinfo product page using a browser.
 
-{{< text bash >}}
-$ echo http://$GATEWAY_URL/productpage
-{{< /text >}}
+1.  Run the following command to retrieve the external address of the Bookinfo application.
+
+    {{< text bash >}}
+    $ echo http://$GATEWAY_URL/productpage
+    {{< /text >}}
+
+1.  Paste the output from the previous command into your web browser and confirm that the Bookinfo product page is displayed.
 
 ## View the dashboard {#dashboard}
 
@@ -384,12 +388,19 @@ We welcome you to ask questions and give us feedback by joining the
 
 ## Uninstall
 
-The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
-all resources hierarchically under it. It is safe to ignore errors for
-non-existent resources because they may have been deleted hierarchically.
+The uninstall deletes the RBAC permissions and all resources hierarchically
+under the `istio-system` namespace. It is safe to ignore errors for non-existent
+resources because they may have been deleted hierarchically.
 
 {{< text bash >}}
 $ istioctl manifest generate --set profile=demo | kubectl delete -f -
+{{< /text >}}
+
+The `istio-system` namespace is not removed by default.
+If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl delete namespace istio-system
 {{< /text >}}
 
 To delete the `Bookinfo` sample application and its configuration, see

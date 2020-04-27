@@ -29,4 +29,4 @@ aliases:
 
 - **增强的属性表达式**。Mixer 的表达语言获得了一些新功能，使编写策略规则变得更加容易。[学到更多](/zh/docs/reference/config/policy-and-telemetry/expression-language/)
 
-如果您想了解细节，可以在 [此处](https://github.com/istio/istio/wiki/v0.4.0) 查看我们更详细的低级发行说明。
+如果您想了解细节，可以在[此处](https://github.com/istio/istio/wiki/v0.4.0)查看我们更详细的低级发行说明。

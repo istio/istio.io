@@ -51,7 +51,7 @@ This task shows you how to access external services in three different ways:
 
 ## Envoy passthrough to external services
 
-Istio has an [installation option](/docs/reference/config/installation-options/),
+Istio has an [installation option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/),
 `global.outboundTrafficPolicy.mode`, that configures the sidecar handling
 of external services, that is, those services that are not defined in Istio's internal service registry.
 If this option is set to `ALLOW_ANY`, the Istio proxy lets calls to unknown services pass through.
@@ -236,8 +236,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep sh
-    $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec -it $SOURCE_POD -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     200
 
     real    0m5.024s
@@ -247,7 +246,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
     The request should return 200 (OK) in approximately 5 seconds.
 
-1.  Exit the source pod and use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
+1.  Use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -295,7 +294,7 @@ If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/)
 external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
-or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
+or the `global.proxy.excludeIPRanges` [configuration option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/) and
 update the `istio-sidecar-injector` configuration map using the `kubectl apply` command. This can also
 be configured on a pod by setting corresponding [annotations](/docs/reference/config/annotations/) such as
 `traffic.sidecar.istio.io/includeOutboundIPRanges`.

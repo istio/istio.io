@@ -12,7 +12,7 @@ weight: 40
 
 ## 测试单个微服务{#testing-individual-microservices}
 
-1.  从测试 pod 中向服务之一发起 HTTP 请求：
+1. 从测试 pod 中向服务之一发起 HTTP 请求：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
@@ -24,13 +24,13 @@ weight: 40
 进行每次混乱的操作后，请访问应用程序的网页，查看是否有任何更改。
 使用 `kubectl get pods` 检查 pods 状态。
 
-1.  在 `details` 服务的一个 pod 中终止它。
+1. 在 `details` 服务的一个 pod 中终止它。
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
     {{< /text >}}
 
-1.  检查 pods 状态：
+1. 检查 pods 状态：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -52,13 +52,13 @@ weight: 40
 
     请注意第一个 pod 重启了一次。
 
-1.  在 `details` 的所有 pods 中终止它：
+1. 在 `details` 的所有 pods 中终止它：
 
     {{< text bash >}}
     $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating $pod; kubectl exec -it $pod -- pkill ruby; done
     {{< /text >}}
 
-1.  检查应用的页面：
+1. 检查应用的页面：
 
     {{< image width="80%"
         link="bookinfo-details-unavailable.png"
@@ -67,7 +67,7 @@ weight: 40
 
     请注意详情部分显示的是错误信息而不是书籍详情。
 
-1.  检查 pods 状态：
+1. 检查 pods 状态：
 
     {{< text bash >}}
     $ kubectl get pods

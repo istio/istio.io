@@ -95,7 +95,7 @@ $ istioctl proxy-config endpoints <pod-name> [flags]
 
 {{< tab name="macOS" category-value="macos" >}}
 
-如果您使用的是 macOS 操作系统的Bash终端，确认已安装 `bash-completion` 包。使用 macOS 下 [brew](https://brew.sh) 包管理器，您可以通过以下命令检查 `bash-completion` 包是否已经安装：
+如果您使用的是 macOS 操作系统的 Bash 终端，确认已安装 `bash-completion` 包。使用 macOS 下 [brew](https://brew.sh) 包管理器，您可以通过以下命令检查 `bash-completion` 包是否已经安装：
 
 {{< text bash >}}
 $ brew info bash-completion
@@ -140,7 +140,7 @@ $ brew install bash-completion
 
 安装 bash 自动补全文件
 
-如果您使用 bash，`istioctl` 自动补全的文件位于 `tools` 目录。通过复制 `istioctl.bash` 文件到您的 home 目录，然后添加下行内容到您的 `.bashrc` 文件执行 `istioctl` tab补全文件：
+如果您使用 bash，`istioctl` 自动补全的文件位于 `tools` 目录。通过复制 `istioctl.bash` 文件到您的 home 目录，然后添加下行内容到您的 `.bashrc` 文件执行 `istioctl` tab 补全文件：
 
 {{< text bash >}}
 $ source ~/istioctl.bash

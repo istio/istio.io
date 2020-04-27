@@ -31,7 +31,7 @@ weight: 3
 
     您应该在输出中看到命名空间的名称，该命名空间由讲师分配或者在上一个模块中由您自己分配。
 
-1. 下载一个 [Istio 发行版](https://github.com/istio/istio/releases) ，从 `bin` 目录下提出命令行工具 `istioctl`， 使用下边的命令验证 `istioctl` 是否可以正常使用：
+1. 下载一个 [Istio 发行版](https://github.com/istio/istio/releases) ，从 `bin` 目录下提出命令行工具 `istioctl`，使用下边的命令验证 `istioctl` 是否可以正常使用：
 
     {{< text bash >}}
     $ istioctl version

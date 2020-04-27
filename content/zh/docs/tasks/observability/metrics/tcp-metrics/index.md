@@ -35,9 +35,9 @@ aliases:
 
     {{< /warning >}}
 
-1.  设置 Bookinfo 使用 Mongodb。
+1. 设置 Bookinfo 使用 Mongodb。
 
-    1.  安装 `ratings` 服务的 `v2` 版本。
+    1. 安装 `ratings` 服务的 `v2` 版本。
 
         如果使用的是启用了 Sidecar 自动注入的集群，可以简单使用 `kubectl` 进行服务部署：
 
@@ -68,7 +68,7 @@ aliases:
         deployment "mongodb-v1" configured
         {{< /text >}}
 
-    1.  Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则定义每个版本对应的服务子集，以及每个子集的负载均衡策略。
+    1. Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则定义每个版本对应的服务子集，以及每个子集的负载均衡策略。
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@

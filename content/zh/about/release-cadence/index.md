@@ -33,4 +33,4 @@ LTS 版本的命名模式为：
 <major>.<minor>-alpha.<sha>
 {{< /text >}}
 
-其中 `<major>.<minor>` 代表下一个LTS，`<sha>` 代表此版本构建基于的git提交。
+其中 `<major>.<minor>` 代表下一个 LTS，`<sha>` 代表此版本构建基于的 git 提交。

@@ -29,5 +29,5 @@ aliases:
 
 ## 小改进{#small-enhancements}
 
-- 新增 `--applicationPorts` 选项到  `ingressgateway` Helm charts。当设置为以逗号分隔的端口列表时，就绪检查将失败，直到所有端口都变为活动状态为止。配置后，流量将不会发送到处于预热状态的 Envoy。
+- 新增 `--applicationPorts` 选项到 `ingressgateway` Helm charts。当设置为以逗号分隔的端口列表时，就绪检查将失败，直到所有端口都变为活动状态为止。配置后，流量将不会发送到处于预热状态的 Envoy。
 - 将 `ingressgateway` Helm chart 中的内存限制增加到 1GB，并向 SDS 节点代理容器添加资源 `request` 和 `limits` 以支持 HPA 自动缩放。

@@ -206,7 +206,7 @@ The file has three separate snippets: `SNIP1`, `SNIP2`, and `SNIP3`. The convent
 
 ## 链接 GitHub 上的文件{#link-2-files}
 
-有些代码块需要引用 [Istio 的 GitHub 仓库](https://github.com/istio/istio) 中的文件。其中最常见的情况就是引用 YAML 配置文件。无需将 YAML 文件的全部内容复制到您的代码块中，您可以使用 `@` 符号将文件的相对路径名括起来。此标记会将路径渲染为指向 GitHub 中当前发行版本分支的文件的链接，例如：
+有些代码块需要引用 [Istio 的 GitHub 仓库](https://github.com/istio/istio)中的文件。其中最常见的情况就是引用 YAML 配置文件。无需将 YAML 文件的全部内容复制到您的代码块中，您可以使用 `@` 符号将文件的相对路径名括起来。此标记会将路径渲染为指向 GitHub 中当前发行版本分支的文件的链接，例如：
 
 {{< text markdown >}}
 {{</* text bash */>}}
@@ -265,8 +265,8 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 |`url`         | 在代码块中显示的文档的 URL。
 |`syntax`      | 代码块的语法。
 |`outputis`    | 当语法为 bash 时，该属性指定命令输出结果的语法。
-|`downloadas`  | 当用户 [下载该代码块时](#download-name) 默认的文件名。
-|`expandlinks` | 是否在代码块中为 [GitHub 文件引用](#link-2-files) 开启链接扩展。
+|`downloadas`  | 当用户[下载该代码块时](#download-name)默认的文件名。
+|`expandlinks` | 是否在代码块中为 [GitHub 文件引用](#link-2-files)开启链接扩展。
 |`snippet`     | 要从代码块中提取的内容的 [snippet](#snippets) 名称。
 |`repo`        | The repository to use for [GitHub links](#link-2-files) embedded in preformatted blocks.
 |`repo`        | 嵌入代码块中的仓库的 [GitHub 链接](#link-2-files)。
@@ -288,4 +288,4 @@ func HelloWorld() {
 
 - 对于内联内容，使用的当前页面的标题
 - 导入代码的源文件的名称
-- 导入代码的源的URL
+- 导入代码的源的 URL

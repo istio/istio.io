@@ -19,6 +19,8 @@
 1.4.x.
 1.5.x
 1.5.x.
+1.6.x
+1.6.x.
 1.x
 10ms
 10s
@@ -92,6 +94,7 @@ AppSwitch
 archive.istio.io
 archive.istio.io.
 args.yaml
+AssemblyScript
 Auth0
 AuthenticationPolicy
 AuthPolicy
@@ -104,6 +107,7 @@ az
 backend
 backends
 base64
+Bazel
 BigQuery
 bitpipe
 BlackHole
@@ -118,6 +122,8 @@ bring-your-own-identity
 Brooks
 bt
 Budinsky
+bytecode
+BytecodeAlliance
 c.f.
 callout
 callouts
@@ -143,6 +149,7 @@ codelabs
 colocate
 colocated
 colocating
+componentization
 Composability
 composability
 composable
@@ -176,6 +183,7 @@ CVE-2019-9513
 CVE-2019-9514
 CVE-2019-9515
 CVE-2019-9518
+CVE-2020-1764
 CVE-2020-8595
 CVE-2020-8843
 CVE-2020-8659
@@ -186,6 +194,7 @@ CVEs
 cves
 cvss
 cyber
+DaemonSet
 Datadog
 datapath
 dataset
@@ -193,6 +202,7 @@ datastore
 Datawire
 debian
 decapsulated
+declaratively
 Delayering
 Demailly
 deployment
@@ -211,6 +221,7 @@ Divya
 DNS
 docker-compose's
 docker.io
+dogfood
 Drucker
 Duggirala
 e.g.
@@ -255,10 +266,12 @@ GCP_OPTS
 gdb
 git
 GitHub
+GitOps
 GKE-IAM
 GKE-Istio
 GKE-Workloads
 GlueCon
+Gloo
 Gmail
 GoLang
 googleapis.com
@@ -290,6 +303,7 @@ hypervisor
 Hystrix
 i.e.
 ILBs
+incentivized
 Incrementality
 initializer
 initializers
@@ -322,6 +336,7 @@ ISTIO-SECURITY-2019-007
 ISTIO-SECURITY-2020-001
 ISTIO-SECURITY-2020-002
 ISTIO-SECURITY-2020-003
+ISTIO-SECURITY-2020-004
 istio-system
 istio.io
 istio.io.
@@ -331,7 +346,6 @@ Istiod
 Istiofied
 IstioMesh
 IstioOperator
-Istiod
 iter8
 jason
 Jog
@@ -389,6 +403,7 @@ microservices
 middleboxes
 middleware
 minikube
+misconfiguration
 misconfigurations
 misconfigured
 misordered
@@ -421,6 +436,7 @@ NUL
 NULs
 OAuth2
 oc
+OCI-compliant
 ok
 Okta
 onboarding
@@ -436,6 +452,7 @@ openssl
 OpenTracing
 OS-level
 Ostrowski
+outsized
 p50
 p99
 PaaS
@@ -446,12 +463,14 @@ Passthrough
 PassthroughCluster
 peek
 pem
+performant
 pipelined
 PKI
 PKIs
 pki
 plaintext
 platform-specific
+Plevyak
 pluggability
 pluggable
 png
@@ -475,6 +494,7 @@ protoc
 protos
 proxied
 proxy_http_version
+Proxy-wasm
 proxying
 proxyless
 Proxyless
@@ -495,6 +515,7 @@ reachability
 rearchitect
 recomposition
 redeployments
+relabeling
 RedHat
 Redis
 redis
@@ -523,6 +544,7 @@ runtimes
 sa
 Salesforce
 sandboxed
+sandboxing
 sayin
 schemas
 SDKs
@@ -596,7 +618,10 @@ timestamps
 TLS
 TLS-secured
 ToC
+toolbelt
+toolchain
 touchpoints
+tradeoffs
 Trulia
 trustability
 tunneling
@@ -608,6 +633,7 @@ uncommented
 unconfigured
 Undeploy
 undeploy
+undeployed
 unencrypted
 unmanaged
 Unmarshalers
@@ -615,6 +641,9 @@ Unmarshaling
 unnormalized
 unsampled
 untrusted
+upstreamed
+upstreaming
+upstreams
 uptime
 URIs
 url
@@ -649,6 +678,7 @@ VPN
 VPNs
 Warman
 Wasm
+wasme
 WeaveWorks
 WebAssembly
 webhook
@@ -678,6 +708,7 @@ yaml
 yamls
 Yessenov
 yournamespace
+Youtube
 Zack
 Zhang
 Zipkin

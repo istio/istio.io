@@ -14,7 +14,7 @@ keywords: [traffic-management,circuit-breaking]
 
 ## 开始之前{#before-you-begin}
 
-* 跟随 [安装指南](/zh/docs/setup/) 安装 Istio。
+* 跟随[安装指南](/zh/docs/setup/)安装 Istio。
 
 {{< boilerplate start-httpbin-service >}}
 
@@ -22,11 +22,11 @@ keywords: [traffic-management,circuit-breaking]
 
 ## 配置熔断器{#configuring-the-circuit-breaker}
 
-1. 创建一个 [目标规则](/zh/docs/reference/config/networking/destination-rule/)，在调用 `httpbin`
+1. 创建一个[目标规则](/zh/docs/reference/config/networking/destination-rule/)，在调用 `httpbin`
 服务时应用熔断设置：
 
     {{< warning >}}
-    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule` 。否则请求将产生 503 错误，如 [这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule) 所述。
+    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule` 。否则请求将产生 503 错误，如[这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule)所述。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -52,7 +52,7 @@ keywords: [traffic-management,circuit-breaking]
     EOF
     {{< /text >}}
 
-1.  验证目标规则是否已正确创建：
+1. 验证目标规则是否已正确创建：
 
     {{< text bash yaml >}}
     $ kubectl get destinationrule httpbin -o yaml
@@ -230,13 +230,13 @@ keywords: [traffic-management,circuit-breaking]
 
 ## 清理{#cleaning-up}
 
-1.  清理规则:
+1. 清理规则:
 
     {{< text bash >}}
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  下线 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
+1. 下线 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy

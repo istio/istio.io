@@ -1,6 +1,6 @@
 ---
-title: 启用策略检查功能  
-description: 这个任务将告诉你如何开启 Istio 的策略检查功能。  
+title: 启用策略检查功能 
+description: 这个任务将告诉你如何开启 Istio 的策略检查功能。
 weight: 1
 keywords: [policies]
 ---

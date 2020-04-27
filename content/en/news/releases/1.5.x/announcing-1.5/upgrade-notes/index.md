@@ -69,10 +69,26 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 * Black Hole telemetry for TCP and HTTP protocols is not supported.
 * Histogram buckets are [significantly different](https://github.com/istio/istio/issues/20483) than Mixer Telemetry and cannot be changed.
 
+## Authentication policy
+
+Istio 1.5 introduces [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/) and [`RequestAuthentication`](/docs/reference/config/security/request_authentication/), which are replacing the alpha version of the Authentication API. For more information about how to use the new API, see the [authentication policy](/docs/tasks/security/authentication/authn-policy) tutorial.
+
+* After you upgrade Istio, your alpha authentication policies remain in place and being used. You can gradually replace them with the equivalent `PeerAuthentication` and `RequestAuthentication`. The new policy will take over the old policy in the scope it is defined. We recommend starting with workload-wide (the most specific scope), then namespace-wide, and finally mesh-wide.
+* After you replace policies for workload, namespace, and mesh, you can safely remove the alpha authentication policies. To delete the alpha policies, use this command:
+
+{{< text bash >}}
+$ kubectl delete policies.authentication.istio.io --all-namespaces --all
+$ kubectl delete meshpolicies.authentication.istio.io --all
+{{< /text >}}
+
 ## Istio workload key and certificate provisioning
 
 * We have stabilized the SDS certificate and key provisioning flow. Now the Istio workloads are using SDS to provision certificates. The secret volume mount approach is deprecated.
 * Please note when mutual TLS is enabled, Prometheus deployment needs to be manually modified to monitor the workloads. The details are described in this [issue](https://github.com/istio/istio/issues/21843). This is not required in 1.5.1.
+
+## Automatic mutual TLS
+
+Automatic mutual TLS is now enabled by default. Traffic between sidecars is automatically configured as mutual TLS. You can disable this explicitly if you worry about the encryption overhead by adding the option `-- set values.global.mtls.auto=false` during install. For more details, refer to [automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls).
 
 ## Control plane security
 
@@ -92,4 +108,5 @@ Istio 1.5.0 multicluster setup has several known issues ([27102](https://github.
 
 ## Helm upgrade
 
-If you used `helm upgrade` to update your cluster to newer Istio versions, we recommend you to switch to use [`istioctl upgrade`](/docs/setup/upgrade/istioctl-upgrade/) or follow the [helm template](/docs/setup/upgrade/cni-helm-upgrade/) steps.
+If you used `helm upgrade` to update your cluster to newer Istio versions, we recommend you to switch to use [`istioctl upgrade`](https://archive.istio.io/v1.5/docs/setup/upgrade/istioctl-upgrade/) or follow the [helm template](https://archive.istio.io/1.4/docs/setup/upgrade/cni-helm-upgrade/) steps.
+

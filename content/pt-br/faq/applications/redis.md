@@ -28,5 +28,5 @@ Also, add the following under the `command` subsection:
 
 {{< text yaml >}}
 echo "" >> /opt/bitnami/redis/etc/replica.conf
-echo "replica-announce-ip $POD_IP" >> /opt/bitna
+echo "replica-announce-ip $POD_IP" >> /opt/bitnami/redis/etc/replica.conf
 {{< /text >}}

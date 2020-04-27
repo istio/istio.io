@@ -9,8 +9,8 @@ aliases:
 
 Istio 服务网格从逻辑上分为数据平面和控制平面。
 
-- **数据平面**由一组智能代理（[Envoy](https://www.envoyproxy.io/)）组成，被部署为 sidecar。这些代理通过一个通用的策略和遥测中心（[Mixer](/zh/docs/reference/config/policy-and-telemetry/)）传递和控制微服务之间的所有网络通信。
-- **控制平面**管理并配置代理来进行流量路由。此外，控制平面配置 Mixer 来执行策略和收集遥测数据。
+- **数据平面** 由一组智能代理（[Envoy](https://www.envoyproxy.io/)）组成，被部署为 sidecar。这些代理负责协调和控制微服务之间的所有网络通信。他们还收集和报告所有网格流量的遥测数据。
+- **控制平面** 管理并配置代理来进行流量路由。
 
 下图展示了组成每个平面的不同组件：
 
@@ -38,7 +38,7 @@ Envoy 代理被部署为服务的 sidecar，在逻辑上为服务增加了 Envoy
 - 故障注入
 - 丰富的指标
 
-这种 sidecar 部署允许 Istio 提取大量关于流量行为的信号作为[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)。反之，Istio 可以在 [Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中使用这些属性来执行决策，并将它们发送到监控系统，以提供整个网格的行为信息。
+这种 sidecar 部署允许 Istio 提取大量关于流量行为的信号作为[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)。Istio 可以使用这些属性来实施策略决策，并将其发送到监视系统以提供有关整个网格行为的信息。
 
 sidecar 代理模型还允许您向现有的部署添加 Istio 功能，而不需要重新设计架构或重写代码。您可以在[设计目标](#design-goals)中读到更多关于为什么我们选择这种方法的信息。
 
@@ -47,12 +47,7 @@ sidecar 代理模型还允许您向现有的部署添加 Istio 功能，而不�
 - 流量控制功能：通过丰富的 HTTP、gRPC、WebSocket 和 TCP 流量路由规则来执行细粒度的流量控制。
 - 网络弹性特性：重试设置、故障转移、熔断器和故障注入。
 - 安全性和身份验证特性：执行安全性策略以及通过配置 API 定义的访问控制和速率限制。
-
-### Mixer{#mixer}
-
-[Mixer](/zh/docs/reference/config/policy-and-telemetry/) 是一个平台无关的组件。Mixer 在整个服务网格中执行访问控制和策略使用，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级别[属性](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes)，并将其发送到 Mixer 进行评估。您可以在我们的 [Mixer 配置文档](/zh/docs/reference/config/policy-and-telemetry/mixer-overview/#configuration-model)中找到更多关于属性提取和策略评估的信息。
-
-Mixer 包括一个灵活的插件模型。该模型使 Istio 能够与各种主机环境和后端基础设施进行交互。因此，Istio 从这些细节中抽象出 Envoy 代理和 Istio 管理的服务。
+- 基于 WebAssembly 的可插拔扩展模型，允许通过自定义策略实施和生成网格流量的遥测。
 
 ### Pilot{#pilot}
 

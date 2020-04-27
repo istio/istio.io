@@ -35,13 +35,13 @@ Google 为 GKE 提供了一个插件，
 
     {{< tip >}}
     默认安装 Mixer 要求节点的 vCPU 大于 1。
-    如果您要使用 [演示配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
+    如果您要使用[演示配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
     您可以删除 `--machine-type` 参数，以使用较小 `n1-standard-1` 机器配置代替。
     {{< /tip >}}
 
     {{< warning >}}
     如果需要使用 Istio CNI 功能，
-    需要在  `gcloud container clusters create`  命令中加入 `--enable-network-policy` 参数，
+    需要在 `gcloud container clusters create` 命令中加入 `--enable-network-policy` 参数，
     以启用 GKE 集群的 [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) 功能。
     {{< /warning >}}
 

@@ -1,9 +1,9 @@
 ---
 title: Workload Instance
 ---
-工作负载实例是[工作负载](#workload)的一个二进制实例化对象。
-一个工作负载实例可以开放零个或多个[服务 endpoint](#service-endpoint)，
-也可以消费零个或多个[服务](#service)。
+工作负载实例是[工作负载](/zh/docs/reference/glossary/#workload)的一个二进制实例化对象。
+一个工作负载实例可以开放零个或多个[服务 endpoint](/zh/docs/reference/glossary/#service-endpoint)，
+也可以消费零个或多个[服务](/zh/docs/reference/glossary/#service)。
 
 工作负载实例具有许多属性：
 

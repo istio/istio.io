@@ -16,4 +16,4 @@ aliases:
 
 ## Bug 修复{#bug-fixes}
 
-- 修复了一个由 [10 月 8 日安全补丁](/zh/news/security/istio-security-2019-005)引入的bug，它错误地计算 HTTP 头和请求体大小（[Issue 17735](https://github.com/istio/istio/issues/17735)）。
+- 修复了一个由 [10 月 8 日安全补丁](/zh/news/security/istio-security-2019-005)引入的 bug，它错误地计算 HTTP 头和请求体大小（[Issue 17735](https://github.com/istio/istio/issues/17735)）。

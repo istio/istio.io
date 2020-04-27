@@ -101,7 +101,7 @@ Istio 中除了 Envoy 是首要的属性生产者外，Mixer 和服务也会产�
 
 时间戳属性以 RFC 3339 格式表示。
 应用 timestamp 属性时，可以使用 [CEXL](/zh/docs/reference/config/policy-and-telemetry/expression-language/)
-中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为  `TIMESTAMP` 类型，
+中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为 `TIMESTAMP` 类型，
 例如：`request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`。
 
 持续时间属性表示时间量，表示为一系列十进制数，其中可选的小数部分用句点表示，以及单位值。

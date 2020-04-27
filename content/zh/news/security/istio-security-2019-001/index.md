@@ -56,6 +56,6 @@ disablePolicyChecks: true
 
 ## 致谢{#credit}
 
-Istio 团队非常感谢 `Haim Helman`  报告该缺陷。
+Istio 团队非常感谢 `Haim Helman` 报告该缺陷。
 
 {{< boilerplate "security-vulnerability" >}}

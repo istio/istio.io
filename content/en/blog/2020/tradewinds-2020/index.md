@@ -50,7 +50,7 @@ and [authorization](/docs/concepts/security/#authorization) policies, which
 allow you to control workload-to-workload and end-user-to-workload authorization
 directly in the proxy. Common monitoring use cases have already moved into the
 proxy too - we have
-[introduced in-proxy support]/docs/ops/configuration/telemetry/in-proxy-service-telemetry/)
+[introduced in-proxy support](/docs/reference/config/telemetry/metrics)
 for sending telemetry to Prometheus and Stackdriver.
 
 Our benchmarking shows that the new telemetry model reduces our latency
@@ -101,7 +101,7 @@ maintenance effort, and issue diagnosis time while increasing responsiveness.
 Read more about Istiod in
 [this post from Christian Posta](https://blog.christianposta.com/microservices/istio-as-an-example-of-when-not-to-do-microservices/).
 
-We are shipping istiod as the default for all profiles in 1.5.
+We are shipping Istiod as the default for all profiles in 1.5.
 
 To reduce the per-node footprint, we are getting rid of the node-agent, used to
 distribute certificates, and moving its functionality to the istio-agent, which
@@ -118,7 +118,7 @@ to this...
 
 {{< image width="75%"
     link="./architecture-post-istiod.svg"
-    alt="Istio architecture with istiod"
+    alt="Istio architecture with Istiod"
     caption="The Istio architecture in 2020"
     >}}
 
@@ -153,7 +153,7 @@ status of our APIs, see our
 
 Network traffic is also becoming more secure by default. After many users
 enabled it in preview,
-[automated rollout of mutual TLS](/docs/tasks/security/authentication/auto-mtls/)
+[automated rollout of mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)
 is becoming the recommended practice in Istio 1.5.
 
 In addition we will make Istio require fewer privileges and simplify its

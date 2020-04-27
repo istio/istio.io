@@ -1,7 +1,7 @@
 ---
 title: Security
 description: Describes Istio's authorization and authentication functionality.
-weight: 25
+weight: 30
 keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
 aliases:
     - /docs/concepts/network-and-auth/auth.html
@@ -108,12 +108,12 @@ platforms:
    service account refers to the existing service account just like the
    identities that the customer's Identity Directory manages.
 
-## Public Key Infrastructure (PKI) {#pki}
+## Identity and certificate management {#pki}
 
-The Istio PKI securely provisions strong identities
-to every workload with X.509 certificates. To automate key and certificate
-rotation at scale, the PKI runs an Istio agent alongside each Envoy proxy for
-certificate and key provisioning. The following diagram shows the identity
+Istio securely provisions strong identities
+to every workload with X.509 certificates. Istio agents, running alongside each Envoy proxy,
+work together with `istiod` to automate key and certificate
+rotation at scale. The following diagram shows the identity
 provisioning flow.
 
 {{< image width="75%"
@@ -124,14 +124,14 @@ provisioning flow.
 Istio provisions identities through the secret discovery service (SDS) using the
 following flow:
 
-1. The CA offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
+1. `istiod` offers a gRPC service to take [certificate signing requests](https://en.wikipedia.org/wiki/Certificate_signing_request) (CSRs).
 1. Envoy sends a certificate and key request via the Envoy secret discovery
    service (SDS) API.
 1. Upon receiving the SDS request, the Istio agent creates the private key
-   and CSR before sending the CSR with its credentials to the Istio CA for signing.
+   and CSR before sending the CSR with its credentials to `istiod` for signing.
 1. The CA validates the credentials carried in the CSR and signs the CSR to
    generate the certificate.
-1. The Istio agent sends the certificate received from the Istio CA and the
+1. The Istio agent sends the certificate received from `istiod` and the
    private key to Envoy via the Envoy SDS API.
 1. The above CSR process repeats periodically for certificate and key rotation.
 
@@ -162,7 +162,7 @@ Istio provides two types of authentication:
     - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
 
 In all cases, Istio stores the authentication policies in the `Istio config
-store` via a custom Kubernetes API. Istiod keeps them up-to-date for each proxy,
+store` via a custom Kubernetes API. {{< gloss >}}Istiod{{< /gloss >}} keeps them up-to-date for each proxy,
 along with the keys where appropriate. Additionally, Istio supports
 authentication in permissive mode to help you understand how a policy change can
 affect your security posture before it is enforced.
@@ -256,7 +256,7 @@ configuration telling the PEP how to perform the required authentication
 mechanisms. The control plane may fetch the public key and attach it to the
 configuration for JWT validation. Alternatively, Istiod provides the path to the
 keys and certificates the Istio system manages and installs them to the
-application pod for mutual TLS. You can find more info in the [PKI section](/docs/concepts/security/#pki).
+application pod for mutual TLS. You can find more info in the [Identity and certificate management section](#pki).
 
 Istio sends configurations to the targeted endpoints asynchronously. Once the
 proxy receives the configuration, the new authentication requirement takes
@@ -290,7 +290,7 @@ As you'll remember from the
 authentication policies apply to requests that a service receives. To specify
 client-side authentication rules in mutual TLS, you need to specify the
 `TLSSettings` in the `DestinationRule`. You can find more information in our
-[TLS settings reference docs](/docs/reference/config/networking/destination-rule/#TLSSettings).
+[TLS settings reference docs](/docs/reference/config/networking/destination-rule#ClientTLSSettings).
 
 Like other Istio configurations, you can specify authentication policies in
 `.yaml` files. You deploy policies using `kubectl`.
@@ -333,8 +333,8 @@ the selector field of a policy that applies to workloads with the
 
 {{< text yaml >}}
 selector:
-     matchLabels:
-       app:product-page
+  matchLabels:
+    app: product-page
 {{< /text >}}
 
 If you don't provide a value for the `selector` field, Istio matches the policy
@@ -487,7 +487,7 @@ policies:
   workloads  switch successfully to the desired mode, you can apply the policy
   with the final mode. You can use Istio telemetry to verify that workloads
   have switched successfully.
-- When migrating peer authentication policies from one JWT to another, add
+- When migrating request authentication policies from one JWT to another, add
   the rule for the new JWT to the policy without removing the old rule.
   Workloads then accept both types of JWT, and you can remove the old rule
   when all traffic switches to the new JWT. However, each JWT has to use a

@@ -119,7 +119,6 @@ For more information on which metrics are maintained, please refer to the refere
 - [Pilot](/docs/reference/commands/pilot-discovery/#metrics)
 - [Galley](/docs/reference/commands/galley/#metrics)
 - [Mixer](/docs/reference/commands/mixs/#metrics)
-- [Citadel](/docs/reference/commands/istio_ca/#metrics)
 
 ## Distributed traces
 

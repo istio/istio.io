@@ -27,7 +27,7 @@ __ISTIO-SECURITY-2019-004__: Envoy 和之后的 Istio 更容易受到一系列�
   * __[CVE-2019-9512](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9512)__: 使用 `PING` 帧和响应 `PING` ACK 帧的 HTTP/2 流，会导致无限的内存增长（这可能导致内存不足的原因）。
   * __[CVE-2019-9513](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9513)__: 使用 PRIORITY 帧的 HTTP/2 流会导致其他客户端的 CPU 使用率过低。
   * __[CVE-2019-9514](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9514)__: 使用具有无效的 HTTP header 的 `HEADERS` 帧和 `RST_STREAM` 帧的 HTTP/2 流，会导致无限的内存增长（这可能导致内存不足的原因）。
-  * __[CVE-2019-9515](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9515)__: 使用 `SETTINGS` 帧和 `SETTINGS`  ACK 帧的 HTTP/2 流，会导致无限的内存增长（这可能导致内存不足的原因）。
+  * __[CVE-2019-9515](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9515)__: 使用 `SETTINGS` 帧和 `SETTINGS` ACK 帧的 HTTP/2 流，会导致无限的内存增长（这可能导致内存不足的原因）。
   * __[CVE-2019-9518](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9518)__: 使用具有空负载帧的 HTTP/2 流会导致其他客户端的 CPU 使用率过低。
 
 除上述修复的程序之外，此版本中不包含其他任何内容。

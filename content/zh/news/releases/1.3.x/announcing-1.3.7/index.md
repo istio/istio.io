@@ -31,4 +31,4 @@ aliases:
 
 * [**ISTIO-SECURITY-2020-002**](/zh/news/security/istio-security-2020-002) 由于不正确地接受某些请求 header，导致可绕过 Mixer 策略检查。
 
-__[CVE-2020-8843](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8843)__：在某些情况下，可以绕过特定配置的 Mixer 策略。Istio-proxy 在 ingress 处接受 `x-istio-attributes` header，当 Mixer 策略有选择地应用至 source 时，等价于应用至 ingress，其可能会影响策略决策。 Istio 1.3 到 1.3.6 容易受到攻击。
+__[CVE-2020-8843](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8843)__：在某些情况下，可以绕过特定配置的 Mixer 策略。Istio-proxy 在 ingress 处接受 `x-istio-attributes` header，当 Mixer 策略有选择地应用至 source 时，等价于应用至 ingress，其可能会影响策略决策。Istio 1.3 到 1.3.6 容易受到攻击。

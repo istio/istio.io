@@ -4,14 +4,11 @@ description: Describes the supported conditions in authorization policies.
 weight: 30
 aliases:
     - /docs/reference/config/security/conditions/
+    - /docs/reference/config/security/constraints-and-properties/
 ---
 
 This page describes the supported keys and value formats you can use as conditions
 in the `when` field of an [authorization policy rule](/docs/reference/config/security/authorization-policy/#Rule).
-
-{{< warning >}}
-Unsupported keys and values are silently ignored.
-{{< /warning >}}
 
 For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
 

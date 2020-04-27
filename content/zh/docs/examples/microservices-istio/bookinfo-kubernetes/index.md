@@ -13,16 +13,16 @@ weight: 30
 
 ## 部署应用程序及测试 pod{#deploy-the-application-and-a-testing-pod}
 
-1.  设置环境变量 `MYHOST` 的值为应用程序的 URL：
+1. 设置环境变量 `MYHOST` 的值为应用程序的 URL：
 
     {{< text bash >}}
     $ export MYHOST=$(kubectl config view -o jsonpath={.contexts..namespace}).bookinfo.com
     {{< /text >}}
 
-1.  浏览 [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml)。
+1. 浏览 [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml)。
     这是该应用的 Kubernetes 部署规范。注意 services 和 deployments。
 
-1.  部署应用到 Kubernetes 集群：
+1. 部署应用到 Kubernetes 集群：
 
     {{< text bash >}}
     $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
@@ -36,7 +36,7 @@ weight: 30
     deployment "productpage-v1" created
     {{< /text >}}
 
-1.  检查 pods 的状态：
+1. 检查 pods 的状态：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -47,7 +47,7 @@ weight: 30
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
-1.  四个服务达到 `Running` 状态后，就可以扩展 deployment。要使每个微服务的每个版本在三个 pods 中运行，请执行以下命令：
+1. 四个服务达到 `Running` 状态后，就可以扩展 deployment。要使每个微服务的每个版本在三个 pods 中运行，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 3
@@ -59,7 +59,7 @@ weight: 30
     deployment "reviews-v3" scaled
     {{< /text >}}
 
-1.  检查 pods 的状态。可以看到每个微服务都有三个 pods：
+1. 检查 pods 的状态。可以看到每个微服务都有三个 pods：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -78,13 +78,13 @@ weight: 30
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-1.  部署测试 pod，[sleep]({{< github_tree >}}/samples/sleep)，用来向您的微服务发送请求：
+1. 部署测试 pod，[sleep]({{< github_tree >}}/samples/sleep)，用来向您的微服务发送请求：
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
-1.  从测试 pod 中用 curl 命令发送请求给 Bookinfo 应用，以确认该应用运行正常：
+1. 从测试 pod 中用 curl 命令发送请求给 Bookinfo 应用，以确认该应用运行正常：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
@@ -108,7 +108,7 @@ service/productpage patched
 
 ### 配置 Kubernetes Ingress 资源并访问应用页面{#configure-the-Kubernetes-Ingress-resource-and-access-your-application-webpage}
 
-1.  创建 Kubernetes Ingress 资源：
+1. 创建 Kubernetes Ingress 资源：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -142,7 +142,7 @@ service/productpage patched
 
 ### 更新 `/etc/hosts` 配置文件{#update-your-etc-hosts-configuration-file}
 
-1.  将以下命令的输出内容追加到 `/etc/hosts` 文件。您应当具有[超级用户](https://en.wikipedia.org/wiki/Superuser)权限，并且可能需要使用 [`sudo`](https://en.wikipedia.org/wiki/Sudo) 来编辑 `/etc/hosts`。
+1. 将以下命令的输出内容追加到 `/etc/hosts` 文件。您应当具有[超级用户](https://en.wikipedia.org/wiki/Superuser)权限，并且可能需要使用 [`sudo`](https://en.wikipedia.org/wiki/Sudo) 来编辑 `/etc/hosts`。
 
     {{< text bash >}}
     $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
@@ -150,14 +150,14 @@ service/productpage patched
 
 ### 访问应用{#access-your-application}
 
-1.  用以下命令访问应用主页：
+1. 用以下命令访问应用主页：
 
     {{< text bash >}}
     $ curl -s $MYHOST/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-1.  将以下命令的输出内容粘贴到浏览器的地址栏：
+1. 将以下命令的输出内容粘贴到浏览器的地址栏：
 
     {{< text bash >}}
     $ echo http://$MYHOST/productpage
@@ -170,14 +170,14 @@ service/productpage patched
         caption="Bookinfo Web Application"
         >}}
 
-1.  观察微服务是如何互相调用的。例如，`reviews` 使用 URL `http://ratings:9080/ratings` 调用 `ratings` 微服务。
+1. 观察微服务是如何互相调用的。例如，`reviews` 使用 URL `http://ratings:9080/ratings` 调用 `ratings` 微服务。
     查看 [`reviews` 的代码]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java)：
 
     {{< text java >}}
     private final static String ratings_service = "http://ratings:9080/ratings";
     {{< /text >}}
 
-1.  在一个单独的终端窗口中设置无限循环，将流量发送到您的应用程序，以模拟现实世界中恒定的用户流量：
+1. 在一个单独的终端窗口中设置无限循环，将流量发送到您的应用程序，以模拟现实世界中恒定的用户流量：
 
     {{< text bash >}}
     $ while :; do curl -s $MYHOST/productpage | grep -o "<title>.*</title>"; sleep 1; done

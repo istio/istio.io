@@ -1,12 +1,17 @@
 ---
 title: Collecting Logs with Mixer
-description: This task shows you how to configure Istio to collect and customize logs.
+description: This task shows you how to configure Istio's Mixer to collect and customize logs.
 weight: 10
 keywords: [telemetry,logs]
 aliases:
  - /docs/tasks/observability/logs/collecting-logs/
  - /docs/tasks/telemetry/logs/collecting-logs/
 ---
+
+{{< warning >}}
+Mixer is deprecated. The functionality provided by Mixer is being moved into the Envoy proxies.
+Use of Mixer with Istio will only be supported through the 1.7 release of Istio.
+{{</ warning>}}
 
 This task shows how to configure Istio to automatically gather telemetry for
 services in a mesh. At the end of this task, a new log stream will be enabled

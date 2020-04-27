@@ -1,7 +1,7 @@
 ---
 title: Follow Formatting Standards
 description: Explains the standard markup used to format Istio documentation.
-weight: 9
+weight: 10
 aliases:
 keywords: [contribute]
 ---

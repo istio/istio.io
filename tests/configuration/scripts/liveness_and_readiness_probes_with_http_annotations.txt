@@ -18,49 +18,17 @@ set -e
 set -u
 set -o pipefail
 
-$ kubectl create ns health-annotate
+source ${REPO_ROOT}/content/en/docs/ops/configuration/mesh/app-health-check/snips.sh
 
-# $snippet annotate_pod.sh syntax="bash"
-$ kubectl -n health-annotate apply -f - <<EOF
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: liveness-http
-spec:
-  selector:
-    matchLabels:
-      app: liveness-http
-  template:
-    metadata:
-      labels:
-        app: liveness-http
-        version: v1
-      annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
-    spec:
-      containers:
-      - name: liveness-http
-        image: docker.io/istio/health:example
-        ports:
-        - containerPort: 8001
-        livenessProbe:
-          httpGet:
-            path: /foo
-            port: 8001
-          initialDelaySeconds: 5
-          periodSeconds: 5
-EOF
-# $endsnippet
+kubectl create ns health-annotate
 
-$ kubectl -n health-annotate rollout status deployment liveness-http --timeout 30s
+echo "$snip_use_annotations_on_pod_1" | kubectl -n health-annotate apply -f -
 
-# $snippet re-deploy_with_annotation_check_status.sh syntax="bash" outputis="text"
-$ kubectl -n health-annotate get pod
-# $verify verifier="lineRegex"
-NAME *READY *STATUS *RESTARTS *AGE
-liveness-http-[0-9a-z]*-[0-9a-z]* *1/1 *Running *0 ?
-# $endsnippet
+kubectl -n health-annotate rollout status deployment liveness-http --timeout 30s
 
-# $snippet delete_deploy_with_annotation.sh syntax="bash"
-$ kubectl -n health-annotate delete deploy/liveness-http
-# $endsnippet
+out=$(kubectl -n health-annotate get pod 2>&1)
+expected="NAME                             READY     STATUS    RESTARTS   AGE
+liveness-http-975595bb6-5b2z7c   1/1       Running   0           1m"
+_verify_like "$out" "$expected" "verify_health-annotate_pod"
+
+kubectl -n health-annotate delete deploy/liveness-http

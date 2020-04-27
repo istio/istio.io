@@ -21,7 +21,7 @@ target_release: 1.2
 1. 用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 或者用 [TLS 源](/zh/docs/reference/glossary/#tls-origination)来支持 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)。
 1. **监控** SNI 和每个出口访问的 workload 源。
 1. 定义和执行 **每个集群的策略**。
-1. 定义和执行 **每个源的策略**， Kubernetes 可感知。
+1. 定义和执行 **每个源的策略**，Kubernetes 可感知。
 1. **阻止篡改**。
 1. 对应用程序来说流量管控是 **透明的**。
 
@@ -46,7 +46,7 @@ Istio 出口流量管控对 TLS 流量是 **透明的**，因为 Istio 是透明
 
 Istio 出口流量管控是 **Kubernetes 可感知的**：出口流量源的身份是基于 Kubernetes 服务账号的。Istio 出口流量管控比现有的 DNS 感知的代理或者防火墙要好，因为它们都是不透明的，也不是 Kubernetes 可感知的。
 
-Istio 出口流量管控是 **安全的**：它基于 Istio 的强身份认证， 当使用[附加安全措施](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)时，Istio 的流量管控具有防篡改功能。
+Istio 出口流量管控是 **安全的**：它基于 Istio 的强身份认证，当使用[附加安全措施](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)时，Istio 的流量管控具有防篡改功能。
 
 另外，Istio 的出口流量管控提供了以下的优势：
 
@@ -101,4 +101,4 @@ Istio 是我所知的唯一解决方案，它可以让你：
 以我之见，如果你在寻找你的第一个 Istio 应用场景，安全管控出口流量是一个非常好的选择。在这个场景中，Istio 甚至在你使用它所有其它功能之前就已经为你提供了一些优势：
 [流量管理](/zh/docs/tasks/traffic-management/)，[安全性](/zh/docs/tasks/security/)，[策略](/zh/docs/tasks/policy-enforcement/)和[可观测性](/zh/docs/tasks/observability/)，上面的功能都可以用在在集群内的微服务之间的流量上。
 
-所以，如果你还没有机会使用 Istio，那就在你集群上[安装 Istio](/zh/docs/setup/install/) 并且检查[出口流量管控任务](/zh/docs/tasks/traffic-management/egress/) 再执行其它 [Istio 特性](/zh/docs/tasks/)的任务。我们也想收到你的反馈，请在[discuss.istio.io](https://discuss.istio.io)加入我们。
+所以，如果你还没有机会使用 Istio，那就在你集群上[安装 Istio](/zh/docs/setup/install/) 并且检查[出口流量管控任务](/zh/docs/tasks/traffic-management/egress/)再执行其它 [Istio 特性](/zh/docs/tasks/)的任务。我们也想收到你的反馈，请在 [discuss.istio.io](https://discuss.istio.io) 加入我们。

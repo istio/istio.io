@@ -9,7 +9,7 @@ keywords: [platform-setup,kubesphere,kubernetes]
 Follow these instructions to prepare the [KubeSphere Container Platform](https://github.com/kubesphere/kubesphere) for Istio. You can download KubeSphere to easily install a Kubernetes cluster on your Linux machines.
 
 {{< tip >}}
-KubeSphere provides [All-in-One](https://kubesphere.io/docs/v2.1/en/installation/all-in-one/) and [Multi-Node](https://kubesphere.io/docs/v2.1/en/installation/multi-node/) installations. This enables quick setup and manages Kubernetes and Istio in a unified web console. This tutorial will walk you through the All-in-One installation. Reference [Multi-node Installation](https://kubesphere.io/docs/v2.1/en/installation/multi-node/) for further information.
+KubeSphere provides [All-in-One](https://kubesphere.io/docs/installation/all-in-one/) and [Multi-Node](https://kubesphere.io/docs/installation/multi-node/) installations. This enables quick setup and manages Kubernetes and Istio in a unified web console. This tutorial will walk you through the All-in-One installation. Reference [Multi-node Installation](https://kubesphere.io/docs/installation/multi-node/) for further information.
 {{< /tip >}}
 
 ## Prerequisites
@@ -29,7 +29,7 @@ A Linux machine that is either a virtual machine or bare metal. This machine req
     - Debian Stretch 9.5 (`64-bit`)
 
 {{< tip >}}
-Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2.1/en/installation/port-firewall/). If this is not immediately feasible, you may evaluate Istio and KubeSphere by disabling the firewall as documented in your distribution.
+Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/installation/port-firewall/). If this is not immediately feasible, you may evaluate Istio and KubeSphere by disabling the firewall as documented in your distribution.
 {{< /tip >}}
 
 ## Provisioning a Kubernetes cluster
@@ -67,4 +67,4 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/v2
 
 ## Enable installing Istio on Kubernetes
 
-KubeSphere will install Istio within Kubernetes. Now reference [Enable Service Mesh](https://kubesphere.io/docs/v2.1/en/installation/install-servicemesh/) to enable Istio.
+KubeSphere will install Istio within Kubernetes. Now reference [Enable Service Mesh](https://kubesphere.io/docs/installation/install-servicemesh/) to enable Istio.

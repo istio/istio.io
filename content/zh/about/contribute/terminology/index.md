@@ -31,12 +31,12 @@ keywords: [contribute, documentation, guide, code-block]
 - “Envoy sidecar” - 这样说没问题
 - “Envoy proxy” - 这样说没问题
 - “The Istio proxy” -- 最好避免这样说，除非说的是另外一个可能使用其它代理的高级场景。
-- “Sidecar”  -- 大多时候仅限于概念文档中使用
+- “Sidecar” -- 大多时候仅限于概念文档中使用
 - “Proxy” -- 只有在上下文非常容易理解的时候
 
 相关术语：
 
-- Proxy agent  - 这是一个较小的基础设施组件，应该只出现在低层的详细文档中。它不是专有名词。
+- Proxy agent - 这是一个较小的基础设施组件，应该只出现在低层的详细文档中。它不是专有名词。
 
 ## 其它 {#miscellaneous}
 

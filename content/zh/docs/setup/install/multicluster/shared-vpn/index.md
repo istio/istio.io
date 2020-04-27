@@ -222,7 +222,7 @@ Kubernetes secret 数据密钥必须符合 `DNS-1123 subdomain` [格式](https:/
 
 对远程集群执行下列步骤。
 
-在开始之前，请按照[设置环境变量部分](#environment-var)中的说明设置端点IP环境变量。
+在开始之前，请按照[设置环境变量部分](#environment-var)中的说明设置端点 IP 环境变量。
 
 1. 安装 Istio 远程配置文件：
 
@@ -329,7 +329,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 `citadel` 证书自签名。
 
-    * Istio 控制平面命名空间中具有[证书颁发机构（CA）证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有[证书颁发机构（CA）证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
 
 1. 部署 Istio 远程集群需要：
 
@@ -337,7 +337,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 `citadel` 证书自签名。
 
-    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
       主集群的证书颁发机构（CA）或根 CA 必须也为远程集群签名 CA 证书。
 
     * Istio pilot 服务主机名可被 DNS 解析。
@@ -355,7 +355,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 Citadel 证书自签名。
 
-    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
 
 1. 部署 Istio 远程集群需要：
 
@@ -363,7 +363,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 Citadel 证书自签名。
 
-    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
       主集群的 CA 或根 CA 必须也为远程集群签名 CA 证书。
 
 {{< tip >}}

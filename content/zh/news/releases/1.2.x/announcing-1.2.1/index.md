@@ -20,7 +20,7 @@ aliases:
 
 - 修复在安装中生成重复 CRD 的问题（[Issue 14976](https://github.com/istio/istio/issues/14976)）
 - 修复禁用 Galley 时无法启动 Mixer 的问题（[Issue 14841](https://github.com/istio/istio/issues/14841)）
-- 修复环境变量遮蔽的问题（NAMESPACE 用于监控的命名空间覆盖了 Citadel 的存储命名空间（istio-system））
+- 修复环境变量遮蔽的问题（NAMESPACE 用于监控的命名空间覆盖了 Citadel 的存储命名空间（istio-system）
 - 修复升级过程中的 'TLS error: Secret is not supplied by SDS' 错误（[Issue 15020](https://github.com/istio/istio/issues/15020)）
 
 ## 次要改进{#minor-enhancements}

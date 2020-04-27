@@ -12,27 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package security
+package examples
 
 import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/environment"
 	"istio.io/istio/pkg/test/framework/components/istio"
 	"istio.io/istio/pkg/test/framework/label"
+	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
 var (
 	ist istio.Instance
 )
 
+const profileDemo = "profile: demo"
+
 func TestMain(m *testing.M) {
 	// Integration test for the Bookinfo flow.
 	framework.
 		NewSuite("examples", m).
 		Label(label.CustomSetup).
-		SetupOnEnv(environment.Kube, istio.Setup(&ist, nil)).
+		SetupOnEnv(environment.Kube, istio.Setup(&ist, setupConfig)).
 		RequireEnvironment(environment.Kube).
 		Run()
+}
+
+func setupConfig(cfg *istio.Config) {
+	cfg.ControlPlaneValues = profileDemo
 }

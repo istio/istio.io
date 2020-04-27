@@ -40,7 +40,7 @@ aliases:
 
 - **完善多集群路由**。简化了多集群设置并启用了其他部署模式。现在，您可以简单地使用它们的入口网关连接多个集群，而无需 Pod 级的 VPN，针对高可用性情况在每个集群中部署控制平面，并跨多个集群创建命名空间以实现创建全局命名空间。高可用控制平面解决方案默认启用位置感知路由。
 
-- **弃用 Istio Ingress**。删除了以前不推荐使用的 Istio ingress。有关如何在[网关](/zh/docs/concepts/traffic-management/#gateways)中使用 Kubernetes Ingress 资源的更多详细信息，请参考[使用 Cert-Manager 保护 Kubernetes Ingress](/zh/docs/tasks/traffic-management/ingress/ingress-certmgr/) 示例。
+- **弃用 Istio Ingress**。删除了以前不推荐使用的 Istio ingress。有关如何在[网关](/zh/docs/concepts/traffic-management/#gateways)中使用 Kubernetes Ingress 资源的更多详细信息，请参考[使用 Cert-Manager 保护 Kubernetes Ingress](/zh/docs/ops/integrations/certmanager/) 示例。
 
 - **改进性能和可伸缩性**。调整 Istio 和 Envoy 的性能和可伸缩性。阅读[性能和可伸缩性](/zh/docs/ops/deployment/performance-and-scalability/)获取更多信息。
 
@@ -48,15 +48,15 @@ aliases:
 
 ### 安全{#security}
 
-- **就绪和存活探针**。添加了对 Kubernetes HTTP [就绪和存活探针](/zh/faq/security/#k8s-health-checks) 的支持（启用双向 TLS 时）。
+- **就绪和存活探针**。添加了对 Kubernetes HTTP [就绪和存活探针](/zh/faq/security/#k8s-health-checks)的支持（启用双向 TLS 时）。
 
 - **群集 RBAC 配置**。用 `ClusterRbacConfig` 资源替换了 `RbacConfig` 资源，以实现正确的集群范围。关于迁移说明，请参见[将 `RbacConfig` 迁移到 `ClusterRbacConfig`](https://archive.istio.io/v1.1/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig)。
 
-- **通过 SDS 进行身份认证**。添加了 SDS 支持，通过节点密钥生成以及动态证书轮换，来提供更强的安全性，并且无需重启 Envoy。有关更多信息，请参见[通过 SDS 进行身份认证](/zh/docs/tasks/security/citadel-config/auth-sds)。
+- **通过 SDS 进行身份认证**。添加了 SDS 支持，通过节点密钥生成以及动态证书轮换，来提供更强的安全性，并且无需重启 Envoy。
 
-- **TCP 服务授权**。除了 HTTP 和 gRPC 服务之外，还增加了对 TCP 服务的授权支持。有关更多信息，请参见[TCP服务授权](/zh/docs/tasks/security/authorization/authz-tcp)。
+- **TCP 服务授权**。除了 HTTP 和 gRPC 服务之外，还增加了对 TCP 服务的授权支持。有关更多信息，请参见 [TCP 服务授权](/zh/docs/tasks/security/authorization/authz-tcp)。
 
-- **终端用户组的授权**。添加了基于 `组` 声明或 JWT 中任何列表类型声明的授权。有关更多信息，请参见[组和列表声明的授权](/zh/docs/tasks/security/authorization/rbac-groups/)。
+- **终端用户组的授权**。添加了基于 `组` 声明或 JWT 中任何列表类型声明的授权。有关更多信息，请参见[基于 JWT 授权](/zh/docs/tasks/security/authorization/authz-jwt)。
 
 - **Ingress Gateway 控制器的外部证书管理**。添加了一个控制器以动态加载和轮转外部证书。
 
@@ -68,7 +68,7 @@ aliases:
 
 - **默认关闭策略检查**。默认情况下，修改后的策略检查是关闭的，以提高大多数客户方案的性能。[启用策略执行](/zh/docs/tasks/policy-enforcement/enabling-policy/)详细说明了如何根据需要开启 Istio 策略检查。
 
-- **Kiali**。用 [Kiali](https://www.kiali.io) 替换了 [Service Graph addon](https://github.com/istio/istio/issues/9066)，以提供更丰富的可视化体验。有关更多详细信息，请参见[Kiali 任务](/zh/docs/tasks/observability/kiali/)。
+- **Kiali**。用 [Kiali](https://www.kiali.io) 替换了 [Service Graph addon](https://github.com/istio/istio/issues/9066)，以提供更丰富的可视化体验。有关更多详细信息，请参见 [Kiali 任务](/zh/docs/tasks/observability/kiali/)。
 
 - **减少开销**。添加了一些性能和规模改进，包括：
 
@@ -102,7 +102,7 @@ aliases:
 
 ### 配置管理{#configuration-management}
 
-- **Galley**。添加 [Galley](/zh/docs/ops/deployment/architecture/#galley) 作为 Istio 主要的配置收集和分发装置。它提供了一个健壮的模型来验证，转换配置状态并将其分配给 Istio 组件，从而将 Istio 组件与 Kubernetes 详细信息隔离开来。Galley 使用[网格配置协议](https://github.com/istio/api/tree/{{< source_branch_name >}}/mcp)与组件进行交互。
+- **Galley**。添加 [Galley](/zh/docs/ops/deployment/architecture/#galley) 作为 Istio 主要的配置收集和分发装置。它提供了一个健壮的模型来验证，转换配置状态并将其分配给 Istio 组件，从而将 Istio 组件与 Kubernetes 详细信息隔离开来。Galley 使用[网格配置协议](https://github.com/istio/api/tree/{{<source_branch_name>}}/mcp)与组件进行交互。
 
 - **监听端口**。将 Galley 的默认监听端口从 9093 修改为 15014。
 

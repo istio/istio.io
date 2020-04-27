@@ -1,6 +1,6 @@
 ---
 title: Pod 和 Service
-description:  在启用了 Istio 的集群中运行 Kubernetes 的 Pod 和 Service，您需要做些准备。
+description: 在启用了 Istio 的集群中运行 Kubernetes 的 Pod 和 Service，您需要做些准备。
 weight: 40
 keywords:
   - kubernetes
@@ -27,7 +27,7 @@ aliases:
 - **Service 关联**: 每个 Pod 必须至少属于一个 Kubernetes Service，不管这个 Pod 是否对外暴露端口。如果一个 Pod 同时属于多个 [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)，
   那么这些 Service 不能同时在一个端口号上使用不同的协议（比如：HTTP 和 TCP）。
 
-- **带有 app 和 version 标签（label） 的 Deployment**: 我们建议显式地给 Deployment 加上 `app` 和 `version` 标签。给使用 Kubernetes
+- **带有 app 和 version 标签（label）的 Deployment**: 我们建议显式地给 Deployment 加上 `app` 和 `version` 标签。给使用 Kubernetes
   `Deployment` 部署的 Pod 部署配置中增加这些标签，可以给 Istio 收集的指标和遥测信息中增加上下文信息。
 
     - `app` 标签：每个部署配置应该有一个不同的 `app` 标签并且该标签的值应该有一定意义。`app` label 用于在分布式追踪中添加上下文信息。
@@ -69,7 +69,7 @@ Istio 使用了如下的端口和协议。请确保没有 TCP Headless Service �
 
 ## 所需的 Pod 功能{#required-pod-capabilities}
 
-如果集群中的 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) 被[强制执行](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)，并且除非您使用 Istio CNI 插件，否则您的 Pod 必须具有允许的 `NET_ADMIN` 功能。Envoy 代理的初始化容器需要此功能。
+如果集群中的 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)被[强制执行](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)，并且除非您使用 Istio CNI 插件，否则您的 Pod 必须具有允许的 `NET_ADMIN` 功能。Envoy 代理的初始化容器需要此功能。
 
 要检查您的 Pod 是否支持 `NET_ADMIN` 功能，您需要检查其 [service account(服务账户)](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) 是否可以使用允许 `NET_ADMIN` 功能的 Pod 安全策略。如果尚未在 Pod 的部署中指定服务帐户，则 Pod 将在其部署的命名空间中使用 `默认` 服务帐户运行。
 

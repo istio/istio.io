@@ -10,47 +10,6 @@ schema: istio.security.v1beta1.JWTRule
 aliases: [/docs/reference/config/security/v1beta1/jwt]
 number_of_entries: 2
 ---
-<h2 id="JWTHeader">JWTHeader</h2>
-<section>
-<p>This message specifies a header location to extract JWT token.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="JWTHeader-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-<p>The HTTP header name.</p>
-
-</td>
-<td>
-Yes
-</td>
-</tr>
-<tr id="JWTHeader-prefix">
-<td><code>prefix</code></td>
-<td><code>string</code></td>
-<td>
-<p>The prefix that should be stripped before decoding the token.
-For example, for &ldquo;Authorization: Bearer <token>&rdquo;, prefix=&ldquo;Bearer &rdquo; with a space at the end.
-If the header doesn&rsquo;t have this exact prefix, it is considerred invalid.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="JWTRule">JWTRule</h2>
 <section>
 <p>JSON Web Token (JWT) token format for authentication as defined by
@@ -216,6 +175,47 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If set to true, the orginal token will be kept for the ustream request. Default is false.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="JWTHeader">JWTHeader</h2>
+<section>
+<p>This message specifies a header location to extract JWT token.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="JWTHeader-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>The HTTP header name.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="JWTHeader-prefix">
+<td><code>prefix</code></td>
+<td><code>string</code></td>
+<td>
+<p>The prefix that should be stripped before decoding the token.
+For example, for &ldquo;Authorization: Bearer <token>&rdquo;, prefix=&ldquo;Bearer &rdquo; with a space at the end.
+If the header doesn&rsquo;t have this exact prefix, it is considerred invalid.</p>
 
 </td>
 <td>

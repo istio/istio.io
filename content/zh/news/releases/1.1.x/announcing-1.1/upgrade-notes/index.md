@@ -17,13 +17,13 @@ weight: 20
 
 - 许多安装选项已被添加、删除或者更改。请参阅[安装选项更改](/zh/news/releases/1.1.x/announcing-1.1/helm-changes/)来获得详细的更改概要。
 
-- 用于[多集群 VPN](/zh/docs/setup/install/multicluster/shared-vpn/)的 1.0 `istio-remote` 图表和[多集群共享网关](/zh/docs/setup/install/multicluster/shared-gateways/)的远程集群安装已经被合并到 Istio 图表中。为了生成等价的 `istio-remote` 图表，请使用 `--set global.istioRemote=true` 标志。
+- 用于[多集群 VPN](/zh/docs/setup/install/multicluster/shared-vpn/) 的 1.0 `istio-remote` 图表和[多集群共享网关](/zh/docs/setup/install/multicluster/shared-gateways/)的远程集群安装已经被合并到 Istio 图表中。为了生成等价的 `istio-remote` 图表，请使用 `--set global.istioRemote=true` 标志。
 
 - 插件不再通过单独的负载均衡器暴露。现在可以通过选择 Ingress 网关暴露插件。当通过 Ingress 网关暴露插件时，请遵循[远程访问遥测插件](/zh/docs/tasks/observability/gateways/)指南进行操作。
 
 - 内置的 Istio Statsd 收集器已经被删除。Istio 保留了与您自己的 Statsd 收集器集成的功能，可以使用 `--set global.envoyStatsd.enabled=true` 标志。
 
-- 用于配置 Kubernetes 入口的一系列 `ingress` 选项已经被删除。使用 `--set global.k8sIngress.enabled=true` 标志依然可以开启并使用 Kubernetes Ingress。请参阅[使用 Cert-Manager 确保 Kubernetes Ingress 安全](/zh/docs/tasks/traffic-management/ingress/ingress-certmgr/)的文档了解如何保护 Kubernetes 入口资源。
+- 用于配置 Kubernetes 入口的一系列 `ingress` 选项已经被删除。使用 `--set global.k8sIngress.enabled=true` 标志依然可以开启并使用 Kubernetes Ingress。请参阅[使用 Cert-Manager 确保 Kubernetes Ingress 安全](/zh/docs/ops/integrations/certmanager/)的文档了解如何保护 Kubernetes 入口资源。
 
 ## 流量管理{#traffic-management}
 
@@ -45,4 +45,4 @@ weight: 20
 
 ## 安全{#security}
 
-- RBAC 配置已被修改来实现集群作用域。`RbacConfig` 资源已经被替换成 `ClusterRbacConfig` 资源。请参阅[将 `RbacConfig` 迁移到 `ClusterRbacConfig`](https://archive.istio.io/v1.1/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig)的文档获得更多的迁移说明。
+- RBAC 配置已被修改来实现集群作用域。`RbacConfig` 资源已经被替换成 `ClusterRbacConfig` 资源。请参阅[将 `RbacConfig` 迁移到 `ClusterRbacConfig`](https://archive.istio.io/v1.1/docs/setup/kubernetes/upgrade/steps/#migrating-from-rbacconfig-to-clusterrbacconfig) 的文档获得更多的迁移说明。

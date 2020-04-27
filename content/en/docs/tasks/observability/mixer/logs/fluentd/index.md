@@ -1,6 +1,6 @@
 ---
 title: Logging with Mixer and Fluentd
-description: This task shows you how to configure Istio to log to a Fluentd daemon.
+description: This task shows you how to configure Istio's Mixer to log to a Fluentd daemon.
 weight: 90
 keywords: [telemetry,logging]
 aliases:
@@ -8,6 +8,11 @@ aliases:
     - /docs/tasks/telemetry/fluentd/
     - /docs/tasks/telemetry/logs/fluentd/
 ---
+
+{{< warning >}}
+Mixer is deprecated. The functionality provided by Mixer is being moved into the Envoy proxies.
+Use of Mixer with Istio will only be supported through the 1.7 release of Istio.
+{{</ warning>}}
 
 This task shows how to configure Istio to create custom log entries
 and send them to a [Fluentd](https://www.fluentd.org/) daemon. Fluentd

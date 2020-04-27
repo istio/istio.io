@@ -1,6 +1,6 @@
 ---
-title: Getting Started
-description: Download, install, and learn how to evaluate and try Istio’s basic features quickly.
+title: Iniciar
+description: Baixar, instalar, e aprender como avaliar e experimentar os recursos básicos do Istio rapidamente.
 weight: 5
 aliases:
     - /docs/setup/kubernetes/getting-started/
@@ -9,84 +9,74 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
-To get started with Istio, just follow these three steps:
+Para iniciar com o Istio, siga estas três etapas:
 
-1. [Set up your platform](#platform)
-1. [Download the release](#download)
-1. [Install Istio](#install)
+1. [Configure sua plataforma](#platform)
+1. [Faça o download de uma release do Istio](#download)
+1. [Instale o Istio](#install)
 
-## Set up your platform {#platform}
+## Configure sua plataforma {#platform}
 
-Before you can install Istio, you need a {{< gloss >}}cluster{{< /gloss >}} running a compatible version of Kubernetes.
-Istio {{< istio_version >}} has been tested with Kubernetes releases {{< supported_kubernetes_versions >}}.
+Antes de instalar o Istio, você precisa de um {{< gloss >}}cluster{{< /gloss >}} executando uma versão compatível do Kubernetes. O Istio {{< istio_version >}} foi testado com as versões {{< supported_kubernetes_versions >}} do Kubernetes.
 
-Create a cluster by selecting the appropriate [platform-specific setup instructions](/pt-br/docs/setup/platform-setup/).
+Crie um cluster selecionando apropriadamente as [instruções da plataforma especifica](/pt-br/docs/setup/platform-setup/).
 
-Some platforms provide a {{< gloss >}}managed control plane{{< /gloss >}} which you can use instead of
-installing Istio manually. If this is the case with your selected platform, and you choose to use it,
-you will be finished installing Istio after creating the cluster, so you can skip the following instructions.
-Refer to your platform service provider for further details and instructions.
+Algumas plataformas fornecem um {{< gloss >}}managed control plane{{< /gloss >}} que você pode usar em vez de instalar o Istio manualmente. Se esse for o caso da sua plataforma selecionada e você optar por usá-la, você terá concluido a instalação do Istio após a criação do cluster, então você poderá pular as instruções a seguir. Consulte o seu provedor de serviços de plataforma para obter mais detalhes e instruções.
 
-## Download the release {#download}
+## Faça o download de uma release do Istio {#download}
 
-Download the Istio release which includes installation files, samples, and the
-[{{< istioctl >}}](/pt-br/docs/reference/commands/istioctl/) command line utility.
+Faça o download de uma release do Istio, que inclui arquivos de instalação, exemplos e o utilitário de linha de comando [{{< istioctl >}}](/pt-br/docs/reference/commands/istioctl/).
 
-1.  Go to the [Istio release]({{< istio_release_url >}}) page to
-    download the installation file corresponding to your OS. Alternatively, on a macOS or
-    Linux system, you can run the following command to download and
-    extract the latest release automatically:
+1.  Vá para a página de [release do Istio]({{< istio_release_url >}}) para baixar o arquivo de instalação correspondente ao seu sistema operacional. Como alternativa, em um sistema macOS ou Linux, você pode executar o seguinte comando para baixar e extrair a versão mais recente automaticamente:
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
-1.  Move to the Istio package directory. For example, if the package is
+1.  Entre no diretório do pacote do Istio. Por exemplo, se o nome do pacote for
     `istio-{{< istio_full_version >}}`:
 
     {{< text bash >}}
     $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
-    The installation directory contains:
+    O diretório de instalação contém:
 
-    - Installation YAML files for Kubernetes in `install/kubernetes`
-    - Sample applications in `samples/`
-    - The [`istioctl`](/pt-br/docs/reference/commands/istioctl) client binary in the `bin/` directory. `istioctl` is
-      used when manually injecting Envoy as a sidecar proxy.
+    - Arquivos YAML de instalação do Kubernetes em `install/kubernetes`
+    - Exemplos de aplicações em `samples/`
+    - O binário [`istioctl`](/pt-br/docs/reference/commands/istioctl) no diretório `bin/`. `istioctl` é
+      usado quando injetamos manualmente o Envoy como um proxy sidecar.
 
-1.  Add the `istioctl` client to your path, on a macOS or
-    Linux system:
+1.  Adicione o cliente `istioctl` ao seu path, em um sistema macOS ou Linux:
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-1. You can optionally enable the [auto-completion option](/pt-br/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) when working with a bash or ZSH console.
+1. Você pode habilitar opcionalmente a [opção de auto-completion](/pt-br/docs/ops/diagnostic-tools/istioctl#enabling-auto-completion) se estiver usando os consoles bash ou ZSH .
 
-## Install Istio {#install}
+## Instale o Istio {#install}
 
-These instructions assume you are new to Istio, providing streamlined instruction to
-install Istio's built-in `demo` [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/).
-This installation lets you quickly get started evaluating Istio.
-If you are already familiar with Istio or interested in installing other configuration profiles
-or a more advanced [deployment model](/pt-br/docs/ops/deployment/deployment-models/),
-follow the [installing with {{< istioctl >}} instructions](/pt-br/docs/setup/install/istioctl) instead.
+Essas instruções pressupõem que você é novo no Istio, fornecendo instruções simplificadas para instalar
+o [perfil de configuração](/pt-br/docs/setup/additional-setup/config-profiles/) de  `demo` embutido no Istio.
+Esta instalação permite iniciar rapidamente a avaliação do Istio.
+Se você já conhece o Istio ou está interessado em instalar outros perfis de configuração
+ou um [modelo de deploy](/pt-br/docs/ops/deployment/deployment-models/)
+mais avançado, siga [as instruções de instalação com {{< istioctl >}}](/pt-br/docs/setup/install/istioctl).
 
 {{< warning >}}
-The demo configuration profile is not suitable for performance evaluation. It
-is designed to showcase Istio functionality with high levels of tracing and
-access logging.
+O perfil de configuração da demonstração não é adequado para avaliação de desempenho.
+Ele foi projetado para mostrar a funcionalidade do Istio com altos níveis de rastreamento e log de acesso.
 {{< /warning >}}
 
-1. Install the `demo` profile
+1. Instale o perfil `demo` 
 
     {{< text bash >}}
     $ istioctl manifest apply --set profile=demo
     {{< /text >}}
 
-1. Verify the installation by ensuring the following Kubernetes services are deployed and verify they all
-    have an appropriate `CLUSTER-IP` except the `jaeger-agent` service:
+1. Verifique a instalação, assegurando que os seguintes serviços Kubernetes estejam implementados e 
+    verifique se todos têm um `CLUSTER-IP` apropriado, exceto o serviço `jaeger-agent`:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
@@ -110,14 +100,13 @@ access logging.
     {{< /text >}}
 
     {{< tip >}}
-    If your cluster is running in an environment that does not
-    support an external load balancer (e.g., minikube), the
-    `EXTERNAL-IP` of `istio-ingressgateway` will say
-    `<pending>`. To access the gateway, use the service's
-    `NodePort`, or use port-forwarding instead.
+    Se o cluster estiver em execução em um ambiente que não suporta
+    um balanceador de carga externo (por exemplo, minikube), o 
+    `EXTERNAL-IP` do `istio-ingressgateway` mostrará `<pending>`.
+    Para acessar o gateway, use o `NodePort` do serviço ou use um port-forwarding.
     {{< /tip >}}
 
-    Also ensure corresponding Kubernetes pods are deployed and have a `STATUS` of `Running`:
+    Verifique também se os pods Kubernetes correspondentes estão implantados e têm um `STATUS` de `Running`:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -136,70 +125,68 @@ access logging.
     prometheus-67cdb66cbb-9w2hm                                    1/1     Running     0          1m
     {{< /text >}}
 
-## Next steps
+## Próximos passos
 
-With Istio installed, you can now deploy your own application or one of the sample applications
-provided with the installation.
+Com o istio instalado, agora você pode fazer o deploy de suas próprias aplicações ou usar uma 
+das aplicações de exemplo fornecidas com a instalação.
 
 {{< warning >}}
-The application must use either the HTTP/1.1 or HTTP/2.0 protocols for all its HTTP
-traffic; HTTP/1.0 is not supported.
+A aplicação dever usar os protocolos HTTP/1.1 ou HTTP/2.0 
+para todo o tráfego HTTP; HTTP/1.0 não é suportado.
 {{< /warning >}}
 
-When you deploy your application using `kubectl apply`,
-the [Istio sidecar injector](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-will automatically inject Envoy containers into your
-application pods if they are started in namespaces labeled with `istio-injection=enabled`:
+Quando você faz o deploy de sua aplicação usando o `kubectl apply`,
+o [Istio sidecar injector](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+injeta automaticamente contêineres Envoy nos seus pods se eles forem iniciados em namespaces 
+com label `istio-injection=enabled`:
 
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
 $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 {{< /text >}}
 
-In namespaces without the `istio-injection` label, you can use
+Em namespaces sem a label `istio-injection`, você pode usar o 
 [`istioctl kube-inject`](/pt-br/docs/reference/commands/istioctl/#istioctl-kube-inject)
-to manually inject Envoy containers in your application pods before deploying
-them:
+para injetar manualmente containers Envoy nos pods da sua aplicação antes de fazer o deploy:
 
 {{< text bash >}}
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-If you are not sure where to begin,
-[deploy the Bookinfo sample](/pt-br/docs/examples/bookinfo/)
-which will allow you to evaluate Istio's features for traffic routing, fault injection, rate
-limiting, etc. Then explore the various [Istio tasks](/pt-br/docs/tasks/) that interest you.
+Se você não sabe por onde começar, faça o 
+[deploy do exemplo Bookinfo](/pt-br/docs/examples/bookinfo/),
+que permitirá avaliar os recursos do Istio para roteamento de tráfego, injeção de falhas, limitação de taxa etc.
+Em seguida, explore as várias [tarefas do Istio](/pt-br/docs/tasks/) que lhe interessam.
 
-The following tasks are a good place for beginners to start:
+As tarefas a seguir são um bom local para iniciantes:
 
-- [Request routing](/pt-br/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/pt-br/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Collecting logs](/pt-br/docs/tasks/observability/logs/collecting-logs/)
-- [Rate limiting](/pt-br/docs/tasks/policy-enforcement/rate-limiting/)
+- [Roteamento de request](/pt-br/docs/tasks/traffic-management/request-routing/)
+- [Injeção de falha](/pt-br/docs/tasks/traffic-management/fault-injection/)
+- [Migrando tráfego](/pt-br/docs/tasks/traffic-management/traffic-shifting/)
+- [Consultando métricas](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizando métricas](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Coletando logs](/pt-br/docs/tasks/observability/logs/collecting-logs/)
+- [Limitando tráfego](/pt-br/docs/tasks/policy-enforcement/rate-limiting/)
 - [Ingress gateways](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/)
-- [Accessing external services](/pt-br/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/pt-br/docs/tasks/observability/kiali/)
+- [Acessando serviços externos](/pt-br/docs/tasks/traffic-management/egress/egress-control/)
+- [Visualizando sua mesh](/pt-br/docs/tasks/observability/kiali/)
 
-The next step is to customize Istio and deploy your own applications.
-Before you install and customize Istio to fit your platform and intended use,
-check out the following resources:
+O próximo passo é personalizar o Istio e fazer o deploy de suas próprias aplicações.
+Antes de instalar e personalizar o Istio para se adequar à sua plataforma e uso 
+pretendido, confira os seguintes recursos:
 
-- [Deployment models](/pt-br/docs/ops/deployment/deployment-models/)
-- [Deployment best practices](/pt-br/docs/ops/best-practices/deployment/)
-- [Pod requirements](/pt-br/docs/ops/deployment/requirements/)
-- [General installation instructions](/pt-br/docs/setup/)
+- [Modelos de deployment](/pt-br/docs/ops/deployment/deployment-models/)
+- [Melhores práticas de deployment](/pt-br/docs/ops/best-practices/deployment/)
+- [Requisitos do Pod](/pt-br/docs/ops/deployment/requirements/)
+- [Instruções gerais de instalação](/pt-br/docs/setup/)
 
-As you continue to use Istio, we look forward to hearing from you and welcoming
-you to our [community](/pt-br/about/community/join/).
+Enquanto você continua a usar o Istio, estamos ansiosos para ouvi-lo e recebê-lo
+em nossa [comunidade](/pt-br/about/community/join/).
 
-## Uninstall
+## Desinstalar
 
-The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
-all resources hierarchically under it. It is safe to ignore errors for
-non-existent resources because they may have been deleted hierarchically.
+A desinstalação exclui as permissões RBAC, a namespace `istio-system` e 
+todos os recursos hierarquicamente sob ele. É seguro ignorar erros para recursos inexistentes porque eles podem ter sido excluídos hierarquicamente.
 
 {{< text bash >}}
 $ istioctl manifest generate --set profile=demo | kubectl delete -f -

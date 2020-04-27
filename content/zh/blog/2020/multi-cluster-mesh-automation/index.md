@@ -8,7 +8,7 @@ keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,g
 target_release: 1.5
 ---
 
-在 Intuit 公司，我们看到了博客 [用于隔离和边界保护的多网格部署](/zh/blog/2019/isolated-clusters/)，其中提到的某些问题与我们有关系。我们意识到，即使我们想要配置单网格多集群，而不是博客中描述的多个网格联邦，也会在我们的环境中遇到相同的非统一命名问题。这篇博客介绍了我们如何使用 [Admiral](https://github.com/istio-ecosystem/admiral) 解决这些问题，该项目是 GitHub 组织 `istio-ecosystem` 下的一个开源项目。
+在 Intuit 公司，我们看到了博客[用于隔离和边界保护的多网格部署](/zh/blog/2019/isolated-clusters/)，其中提到的某些问题与我们有关系。我们意识到，即使我们想要配置单网格多集群，而不是博客中描述的多个网格联邦，也会在我们的环境中遇到相同的非统一命名问题。这篇博客介绍了我们如何使用 [Admiral](https://github.com/istio-ecosystem/admiral) 解决这些问题，该项目是 GitHub 组织 `istio-ecosystem` 下的一个开源项目。
 
 ## 背景{#background}
 
@@ -26,7 +26,7 @@ target_release: 1.5
 
 经过进一步的调查，很明显，配置需要根据上下文来确定：每个集群都需要根据其场景定制配置。
 
-例如，我们有一个被订单和报告消费的支付服务。支付服务在 `us-east`（集群 3）和 `us-west`（集群 2）之间进行了 HA/DR 部署。支付服务部署在两个区域不同名的命名空间中。订单服务作为支付方式，部署在 `us-west` 另一个集群中（集群 1）。报告服务与 `us-west` 中的支付服务部署在同一群集中（群集2）。
+例如，我们有一个被订单和报告消费的支付服务。支付服务在 `us-east`（集群 3）和 `us-west`（集群 2）之间进行了 HA/DR 部署。支付服务部署在两个区域不同名的命名空间中。订单服务作为支付方式，部署在 `us-west` 另一个集群中（集群 1）。报告服务与 `us-west` 中的支付服务部署在同一群集中（群集 2）。
 
 {{< image width="75%"
     link="./Istio_mesh_example.svg"

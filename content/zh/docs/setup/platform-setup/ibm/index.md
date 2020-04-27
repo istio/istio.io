@@ -21,9 +21,9 @@ IBM 为 IBM Cloud Kubernetes Service 提供了 {{< gloss >}}managed control plan
 
 要在手动安装 Istio 之前准备群集，请按照下列步骤操作：
 
-1.  [安装 IBM Cloud CLI，IBM Cloud Kubernetes Service 插件和 Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
+1. [安装 IBM Cloud CLI，IBM Cloud Kubernetes Service 插件和 Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install).
 
-1.  使用以下命令创建标准的 Kubernetes 集群。
+1. 使用以下命令创建标准的 Kubernetes 集群。
     将 `<cluster-name>` 替换为您用于集群的名称，将 `<zone-name>` 替换为可用区。
 
     {{< tip >}}
@@ -42,7 +42,7 @@ IBM 为 IBM Cloud Kubernetes Service 提供了 {{< gloss >}}managed control plan
     否则, 将自动为您创建。您可以通过运行 `ibmcloud ks vlans --zone <zone-name>` 来查看可用的 VLAN。
     {{< /tip >}}
 
-1.  运行以下命令下载您的 `kubectl` 集群配置，然后按照命令输出的说明来设置 `KUBECONFIG` 环境变量。
+1. 运行以下命令下载您的 `kubectl` 集群配置，然后按照命令输出的说明来设置 `KUBECONFIG` 环境变量。
 
     {{< text bash >}}
     $ ibmcloud ks cluster-config <cluster-name>

@@ -23,10 +23,10 @@ weight: 10
 
 - **Graduated** SDS to stable and enabled by default. It provides identity provisioning for Istio Envoy proxies.
 - **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into [`PeerAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto) and [`RequestAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/request_authentication.proto) respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
-- **Added** [deny semantics](https://github.com/istio/api/blob/master/security/v1beta1/authorization.proto#L28) to Authorization Policy
-- **Graduated** [auto mutual TLS](/docs/tasks/security/authentication/auto-mtls/) from alpha to beta. This feature is now enabled by default.
+- **Added** [deny semantics](/docs/tasks/security/authorization/authz-deny) and [exclusion matching](/docs/concepts/security/#exclusion-matching) to Authorization Policy.
+- **Graduated** [auto mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) from alpha to beta. This feature is now enabled by default.
 - **Improved** [SDS security](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) by merging Node Agent with Pilot Agent as Istio Agent and removing cross-pod UDS, which no longer requires users to deploy Kubernetes pod security policies for UDS connections.
-- **Improved** Istio by including certificate provisioning functionality within istiod.
+- **Improved** Istio by including certificate provisioning functionality within Istiod.
 - **Added** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters where [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
 - **Added** Support Istio CA and Kubernetes CA to provision certificates for the control plane, configurable via `values.global.pilotCertProvider`.
 - **Added** Istio Agent provisions a key and certificates for Prometheus.
@@ -73,4 +73,5 @@ weight: 10
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
 - **Added** selector for [`istioctl dashboard`](/docs/reference/commands/istioctl/#istioctl-dashboard).
 - **Added** support for slices and lists in [`istioctl manifest --set`](/docs/reference/commands/istioctl/#istioctl-manifest) flag.
+- **Added** support for [`istioctl manifest`](/docs/reference/commands/istioctl/#istioctl-manifest) to read profiles from `stdin`.
 - **Added** a `docker/istioctl` image #19079.

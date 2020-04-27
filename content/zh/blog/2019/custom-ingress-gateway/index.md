@@ -14,7 +14,7 @@ target_release: 1.0
 
 ## 开始之前{#before-you-begin}
 
-* 根据 [安装指南](/zh/docs/setup/) 完成 Istio 的部署。
+* 根据[安装指南](/zh/docs/setup/)完成 Istio 的部署。
 * 用 Helm [Chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart) 部署 `cert-manager`。
 * 我们会使用 `demo.mydemo.com` 进行演示，因此你的 DNS 解析要能够解析这个域名。
 
@@ -37,7 +37,7 @@ target_release: 1.0
 1. 要创建集群的证书签发者，可以使用如下的配置：
 
     {{< tip >}}
-    用自己的配置修改集群的 [证书签发者](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html)。例子中使用的是 `route53`。
+    用自己的配置修改集群的[证书签发者](https://cert-manager.readthedocs.io/en/latest/reference/issuers.html)。例子中使用的是 `route53`。
     {{< /tip >}}
 
     {{< text yaml >}}
@@ -127,7 +127,7 @@ target_release: 1.0
       desiredReplicas: 1
     {{< /text >}}
 
-1. 使用 [附件 YAML 中的定义](/zh/blog/2019/custom-ingress-gateway/deployment-custom-ingress.yaml)进行部署。
+1. 使用[附件 YAML 中的定义](/zh/blog/2019/custom-ingress-gateway/deployment-custom-ingress.yaml)进行部署。
 
     {{< tip >}}
     其中类似 `aws-load-balancer-type` 这样的注解，只对 AWS 生效。
@@ -229,4 +229,4 @@ target_release: 1.0
       SSL certificate verify ok.
     {{< /text >}}
 
-**恭喜你！** 现在你可以使用自定义的 `istio-custom-gateway` [网关](/zh/docs/reference/config/networking/gateway/) 对象了。
+**恭喜你！** 现在你可以使用自定义的 `istio-custom-gateway` [网关](/zh/docs/reference/config/networking/gateway/)对象了。

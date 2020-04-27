@@ -13,7 +13,7 @@ aliases:
     - /zh/news/announcing-1.2
 ---
 
-我们很高兴的宣布  Istio 1.2 发布了！
+我们很高兴的宣布 Istio 1.2 发布了！
 
 {{< relnote >}}
 

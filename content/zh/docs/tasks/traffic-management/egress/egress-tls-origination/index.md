@@ -52,7 +52,7 @@ aliases:
 首先，使用与 [Egress 流量控制](/zh/docs/tasks/traffic-management/egress/)任务中的相同的技术，配置对外部服务 `edition.cnn.com` 的访问。
 但这一次我们将使用单个 `ServiceEntry` 来启用对服务的 HTTP 和 HTTPS 访问。
 
-1.  创建一个 `ServiceEntry` 和 `VirtualService` 以启用对 `edition.cnn.com` 的访问：
+1. 创建一个 `ServiceEntry` 和 `VirtualService` 以启用对 `edition.cnn.com` 的访问：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -93,7 +93,7 @@ aliases:
     EOF
     {{< /text >}}
 
-1.  向外部的 HTTP 服务发送请求：
+1. 向外部的 HTTP 服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -126,7 +126,7 @@ aliases:
 
 ## 用于 egress 流量的 TLS 发起{#TLS-origination-for-egress-traffic}
 
-1.  重新定义上一节的 `ServiceEntry` 和 `VirtualService` 以重写 HTTP 请求端口，并添加一个 `DestinationRule` 以执行 TLS 发起。
+1. 重新定义上一节的 `ServiceEntry` 和 `VirtualService` 以重写 HTTP 请求端口，并添加一个 `DestinationRule` 以执行 TLS 发起。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -205,7 +205,7 @@ aliases:
     请注意，您使用了一些与上一节相同的命令。
     您可以通过配置 Istio，使以编程方式访问外部服务的应用无需更改任何代码即可获得 TLS 发起的好处。
 
-1.  请注意，使用 HTTPS 访问外部服务的应用程序将继续像以前一样工作：
+1. 请注意，使用 HTTPS 访问外部服务的应用程序将继续像以前一样工作：
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
@@ -228,7 +228,7 @@ _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
 
 ## 清除{#cleanup}
 
-1.  移除您创建的 Istio 配置项:
+1. 移除您创建的 Istio 配置项:
 
     {{< text bash >}}
     $ kubectl delete serviceentry edition-cnn-com
@@ -236,7 +236,7 @@ _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
     $ kubectl delete destinationrule edition-cnn-com
     {{< /text >}}
 
-1.  关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
+1. 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/sleep/sleep.yaml@

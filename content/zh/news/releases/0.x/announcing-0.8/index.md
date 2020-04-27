@@ -18,9 +18,9 @@ aliases:
 
 ## 网络{#networking}
 
-- **改良的流量管理模型**。我们终于准备好完成我们的[新流量管理 API](/zh/blog/2018/v1alpha3-routing/) 的总结。 我们相信，在涵盖更多实际部署[用例](/zh/docs/tasks/traffic-management/)的同时，这种新模型更易于理解。 对于从早期发行版升级的人，这儿有一个[迁移指南](/zh/docs/setup/upgrade/)和内置在 `istioctl` 中的转换工具，可帮助您从旧模型转换配置。
+- **改良的流量管理模型**。我们终于准备好完成我们的[新流量管理 API](/zh/blog/2018/v1alpha3-routing/) 的总结。我们相信，在涵盖更多实际部署[用例](/zh/docs/tasks/traffic-management/)的同时，这种新模型更易于理解。对于从早期发行版升级的人，这儿有一个[迁移指南](/zh/docs/setup/upgrade/)和内置在 `istioctl` 中的转换工具，可帮助您从旧模型转换配置。
 
-- **Envoy 流式配置**。默认情况下，Pilot 现在使用其 [ADS API](https://github.com/envoyproxy/data-plane-api/blob/master/xds_protocol.rst) 将配置流式传输到 Envoy。 这种新方法提高了有效的可伸缩性，减少了推出延迟，应该能消除虚假的 404 错误。
+- **Envoy 流式配置**。默认情况下，Pilot 现在使用其 [ADS API](https://github.com/envoyproxy/data-plane-api/blob/master/xds_protocol.rst) 将配置流式传输到 Envoy。这种新方法提高了有效的可伸缩性，减少了推出延迟，应该能消除虚假的 404 错误。
 
 - **Ingress/Egress 的 Gateway**。我们不再支持将 Kubernetes Ingress 规范与 Istio 路由规则结合使用，因为它导致了许多错误和可靠性问题。Istio 现在支持用于 ingress 和 egress 代理的独立于平台的 [Gateway](/zh/docs/concepts/traffic-management/#gateways) 模型，该模型可跨 Kubernetes 和 Cloud Foundry 使用，并与路由无缝协作。Gateway 支持基于[服务器名称指示](https://en.wikipedia.org/wiki/Server_Name_Indication)的路由，并基于客户端提供的服务器名称提供证书。
 

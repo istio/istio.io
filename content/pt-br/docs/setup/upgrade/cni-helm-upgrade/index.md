@@ -16,7 +16,7 @@ please ensure your Istio control plane components and your applications are
 highly available with multiple replicas.
 
 {{< warning >}}
-Be sure to check out the [upgrade notes](/pt-br/news/releases/{{< istio_version >}}.x/announcing-{{< istio_version >}}/upgrade-notes)
+Be sure to check out the upgrade notes
 for a concise list of things you should know before upgrading your deployment to Istio {{< istio_version >}}.
 {{< /warning >}}
 

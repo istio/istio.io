@@ -16,7 +16,7 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies) 以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 概念。
+* 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)概念。
 
 * 准备一个 Kubernetes 集群并部署好 Istio，不要开启全局双向 TLS （如：可以使用[安装步骤](/zh/docs/setup/getting-started)中提供的 demo 配置 profile，或者将安装选项 `global.mtls.enabled` 设置为 false）。
 
@@ -39,7 +39,7 @@ aliases:
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
 
-* （使用 curl 命令）从每个 sleep pod （命名空间为 `foo`， `bar` 或 `legacy`） 分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
+* （使用 curl 命令）从每个 sleep pod （命名空间为 `foo`，`bar` 或 `legacy`）分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
 
     {{< text bash >}}
     $ for from in "foo" "bar" "legacy"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.foo: %{http_code}\n"; done
@@ -127,7 +127,7 @@ sleep.legacy to httpbin.foo: 503
 
 若无法将所有服务迁移至 Istio （注入 Envoy sidecar），则必须开启 `PERMISSIVE` 模式。
 然而，开启 `PERMISSIVE` 模式时，系统默认不对明文请求进行认证或授权检查。
-推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/) 来为不同的请求路径配置不同的授权策略。
+推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/)来为不同的请求路径配置不同的授权策略。
 
 ## 清除{#cleanup}
 

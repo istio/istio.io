@@ -11,7 +11,7 @@ keywords: [kubernetes,upgrading]
 请参阅本指南，以升级使用 Helm 安装的 Istio 控制平面和 sidecar 代理。升级过程可能会安装新的二级制文件，并可能修改配置和 API schema。升级过程可能导致服务停机。为了减少停机时间，请确保 Istio 控制平面组件和应用程序是多副本高可用的。
 
 {{< warning >}}
-在将 Istio 版本升级到 {{< istio_version >}} 之前，请务必查看[升级说明](/zh/news/releases/{{< istio_version >}}.x/announcing-{{< istio_version >}}/upgrade-notes)。
+在将 Istio 版本升级到 {{< istio_version >}} 之前，请务必查看[升级说明]。
 {{< /warning >}}
 
 {{< tip >}}
@@ -31,7 +31,7 @@ Istio **不支持** 跨版本升级。仅支持从 {{< istio_previous_version >}
 
 您可以使用 Kubernetes 的滚动更新机制来升级 Istio CNI 组件。这适用于使用 `kubectl apply` 部署 Istio CNI 的情况。
 
-1. 检查是否已安装 `istio-cni`。 找到 `istio-cni-node` pod 以及它们运行的命名空间（通常是 `kube-system` 或 `istio-system`）：
+1. 检查是否已安装 `istio-cni`。找到 `istio-cni-node` pod 以及它们运行的命名空间（通常是 `kube-system` 或 `istio-system`）：
 
     {{< text bash >}}
     $ kubectl get pods -l k8s-app=istio-cni-node --all-namespaces
@@ -116,7 +116,7 @@ Pilot, Galley, 策略, 遥测和 Sidecar 注入器。
       --namespace istio-system | kubectl apply -f -
     {{< /text >}}
 
-    您必须使用与首次 [安装 Istio](/zh/docs/setup/install/helm) 相同的配置。
+    您必须使用与首次[安装 Istio](/zh/docs/setup/install/helm) 相同的配置。
 
 滚动更新进程会将所有的部署组件和 configmap 升级到新版本。当此进程执行完毕后，您的 Istio 控制平面将会升级到新版本。
 

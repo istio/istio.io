@@ -94,7 +94,7 @@ Follow these instructions to setup Dashboard for kind.
 1.  To login to Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
 
     {{< text bash >}}
-    $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 -d)
+    $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 --decode)
     {{< /text >}}
 
     Display the token using the `echo` command and copy it to use for logging into Dashboard.

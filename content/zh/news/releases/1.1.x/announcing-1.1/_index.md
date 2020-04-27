@@ -21,9 +21,9 @@ aliases:
 
 1.1 的主题是企业就绪。我们很高兴看到越来越多的公司在生产中使用 Istio，但是一些大型公司在尝试使用 Istio 的过程中，遇到了一些瓶颈。
 
-我们关注的主要领域之一是 [性能和可伸缩性](/zh/docs/ops/deployment/performance-and-scalability/)。随着人们进入生产环境，大型集群以更高的容量运行更多的服务，他们遇到了一些扩展和性能问题。[sidecar](/zh/docs/concepts/traffic-management/#sidecars) 占用了太多资源，并增加了太多延迟。控制平面（尤其是 [Pilot](/zh/docs/ops/deployment/architecture/#pilot)）过于浪费资源。
+我们关注的主要领域之一是[性能和可伸缩性](/zh/docs/ops/deployment/performance-and-scalability/)。随着人们进入生产环境，大型集群以更高的容量运行更多的服务，他们遇到了一些扩展和性能问题。[sidecar](/zh/docs/concepts/traffic-management/#sidecars) 占用了太多资源，并增加了太多延迟。控制平面（尤其是 [Pilot](/zh/docs/ops/deployment/architecture/#pilot)）过于浪费资源。
 
-我们已经做了很多工作，以提高数据平面和控制平面的使用效率。您可以在本次更新的 [性能和可扩展性概念](/zh/docs/ops/deployment/performance-and-scalability/) 中找到我们对 1.1 性能测试的详细信息和测试结果。
+我们已经做了很多工作，以提高数据平面和控制平面的使用效率。您可以在本次更新的[性能和可扩展性概念](/zh/docs/ops/deployment/performance-and-scalability/)中找到我们对 1.1 性能测试的详细信息和测试结果。
 
 我们还完成了有关命名空间隔离的工作。这使您可以使用 Kubernetes 命名空间来强制控制边界，并确保您的团队和另一个团队之间不会相互干扰。
 

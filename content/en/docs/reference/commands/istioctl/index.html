@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 76
+number_of_entries: 77
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -34,11 +34,6 @@ debug and diagnose their Istio mesh.
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -94,11 +89,6 @@ debug and diagnose their Istio mesh.
 <td><code>--list-analyzers</code></td>
 <td><code>-L</code></td>
 <td>List the analyzers available to run. Suppresses normal execution. </td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -172,104 +162,6 @@ istioctl analyze -S &#34;IST0103=Pod *.testing&#34; -S &#34;IST0107=Deployment f
 istioctl analyze -L
 
 </code></pre>
-<h2 id="istioctl-authn">istioctl authn</h2>
-<p>
-A group of commands used to interact with Istio authentication policies.
-  tls-check
-</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-authn Examples">Examples</h3>
-<pre class="language-bash"><code># Check whether TLS setting are matching between authentication policy and destination rules:
-istioctl authn tls-check
-</code></pre>
-<h2 id="istioctl-authn-tls-check">istioctl authn tls-check</h2>
-<p>
-Check what authentication policies and destination rules pilot uses to config a proxy instance,
-and check if TLS settings are compatible between them.
-</p>
-<pre class="language-bash"><code>istioctl authn tls-check &lt;pod-name[.namespace]&gt; [&lt;service&gt;] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-authn-tls-check Examples">Examples</h3>
-<pre class="language-bash"><code>
-# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default:
-istioctl authn tls-check foo-656bd7df7c-5zp4s.default
-
-# Check settings for pod &#34;foo-656bd7df7c-5zp4s&#34; in namespace default, filtered on destination
-service &#34;bar&#34; :
-istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
-
-</code></pre>
 <h2 id="istioctl-authz">istioctl authz</h2>
 <p>(authz is experimental. Use `istioctl experimental authz`)</p>
 <pre class="language-bash"><code>istioctl authz [flags]
@@ -297,11 +189,6 @@ istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -344,11 +231,6 @@ istioctl authn tls-check foo-656bd7df7c-5zp4s.default bar
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -381,6 +263,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -396,14 +283,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -420,6 +307,11 @@ istioctl d [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -441,14 +333,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -474,6 +366,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -489,14 +386,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -522,6 +419,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -537,14 +439,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -565,6 +467,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -580,14 +487,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -608,6 +515,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -623,14 +535,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -651,6 +563,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -666,14 +583,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -694,6 +611,11 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--address &lt;string&gt;</code></td>
+<td></td>
+<td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -709,14 +631,14 @@ istioctl d [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--port &lt;int&gt;</code></td>
+<td><code>-p</code></td>
+<td>Local port to listen to  (default `0`)</td>
 </tr>
 </tbody>
 </table>
@@ -750,11 +672,6 @@ istioctl d [flags]
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -792,11 +709,6 @@ istioctl deregister my-svc 172.17.0.2
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -845,11 +757,6 @@ istioctl deregister my-svc 172.17.0.2
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -917,11 +824,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
 <td></td>
 <td>mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
@@ -935,6 +837,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>control plane revision  (default ``)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
@@ -997,11 +904,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--labels &lt;stringSlice&gt;</code></td>
 <td><code>-l</code></td>
 <td>List of labels to apply if creating a service/endpoint; e.g. -l env=prod,vers=2  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
@@ -1078,11 +980,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
 <td></td>
 <td>mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
@@ -1096,6 +993,11 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>control plane revision  (default ``)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
@@ -1156,11 +1058,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>List the analyzers available to run. Suppresses normal execution. </td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
 <td></td>
 <td>Overrides the mesh config values to use for analysis.  (default ``)</td>
@@ -1173,7 +1070,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [yaml log json]  (default `log`)</td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -1262,11 +1159,6 @@ istioctl analyze -L
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1327,11 +1219,6 @@ with authorization and the rules used in the authorization.</p>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1398,11 +1285,6 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1457,11 +1339,6 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1512,11 +1389,6 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
 <td>Name of the local cluster whose credentials are stored in the secret. If a name is not specified the kube-system namespace&#39;s UUID of the local cluster will be used.  (default ``)</td>
@@ -1537,15 +1409,15 @@ possible (e.g., constraints no longer supported in the new workload oriented mod
 <pre class="language-bash"><code>
 # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
 istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
+    | kubectl --Kubeconfig=c1.yaml apply -f -
 
 # Delete a secret that was previously installed in c1
 istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml delete -f -
+    | kubectl --Kubeconfig=c1.yaml delete -f -
 
 # Create a secret access a remote cluster with an auth plugin
 istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
-    | kubectl -n istio-system --Kubeconfig=c1.yaml apply -f -
+    | kubectl --Kubeconfig=c1.yaml apply -f -
 
 </code></pre>
 <h2 id="istioctl-experimental-dashboard">istioctl experimental dashboard</h2>
@@ -1575,11 +1447,6 @@ istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1618,11 +1485,6 @@ istioctl --Kubeconfig=c0.yaml x create-remote-secret --name c0 --auth-type=plugi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1666,11 +1528,6 @@ the configuration objects that affect that pod.</p>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1722,11 +1579,6 @@ the configuration objects that affect that service.</p>
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1771,11 +1623,6 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.</p>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1844,11 +1691,6 @@ calculated over a time interval of 1 minute.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1891,11 +1733,6 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -1934,11 +1771,6 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -1986,11 +1818,6 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2036,11 +1863,6 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2079,11 +1901,6 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2115,11 +1932,6 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2165,11 +1977,6 @@ istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2246,11 +2053,6 @@ because in previous versions webhooks manage their own configurations.</p>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2339,11 +2141,6 @@ istioctl experimental post-install webhook enable --validation --webhook-secret 
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2401,11 +2198,6 @@ istioctl experimental post-install webhook status --validation --validation-conf
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2441,11 +2233,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2490,11 +2277,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2533,11 +2315,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -2593,11 +2370,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--logtostderr</code></td>
 <td></td>
 <td>Send logs to stderr. </td>
@@ -2606,6 +2378,14 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.grafana.enabled=true). See documentation for more info:
+https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -2663,11 +2443,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -2696,6 +2471,105 @@ istioctl experimental wait --for=distribution virtualservice bookinfo.default
 
 # Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
 istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virtualservice bookinfo.default
+
+</code></pre>
+<h2 id="istioctl-install">istioctl install</h2>
+<p>The install generates an Istio install manifest and applies it to a cluster.</p>
+<pre class="language-bash"><code>istioctl install [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;stringSlice&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioOperator custom resource
+This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td>Proceed even with validation errors </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--readiness-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum seconds to wait for all Istio resources to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.grafana.enabled=true). See documentation for more info:
+https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--skip-confirmation</code></td>
+<td><code>-y</code></td>
+<td>skipConfirmation determines whether the user is prompted for confirmation.
+If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
+</tr>
+<tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-install Examples">Examples</h3>
+<pre class="language-bash"><code>  # Apply a default Istio installation
+  istioctl install
+
+  # Enable grafana dashboard
+  istioctl install --set values.grafana.enabled=true
+
+  # Generate the demo profile and don&#39;t wait for confirmation
+  istioctl install --set profile=demo --skip-confirmation
+
+  # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
+  istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
@@ -2755,11 +2629,6 @@ kube-inject on deployments to get the most up-to-date changes.
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--meshConfigFile &lt;string&gt;</code></td>
 <td></td>
 <td>mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
@@ -2778,6 +2647,11 @@ kube-inject on deployments to get the most up-to-date changes.
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Modified output Kubernetes resource filename  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>control plane revision  (default ``)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
@@ -2841,11 +2715,6 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--logtostderr</code></td>
 <td></td>
 <td>Send logs to stderr. </td>
@@ -2888,7 +2757,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -2905,11 +2774,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3010,11 +2874,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--logtostderr</code></td>
 <td></td>
 <td>Send logs to stderr. </td>
@@ -3029,7 +2888,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td></td>
 <td>renameResources identifies renamed resources before comparison.
 The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
-e.g. Service:*:istio-pilot-&gt;Service:*:istio-control - rename istio-pilot service into istio-control  (default ``)</td>
+e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
 </tr>
 <tr>
 <td><code>--select &lt;string&gt;</code></td>
@@ -3038,7 +2897,7 @@ e.g. Service:*:istio-pilot-&gt;Service:*:istio-control - rename istio-pilot serv
 The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
 e.g.
     Deployment:istio-system:* - compare all deployments in istio-system namespace
-    Service:*:istio-pilot - compare Services called &#34;istio-pilot&#34; in all namespaces  (default `::`)</td>
+    Service:*:istiod - compare Services called &#34;istiod&#34; in all namespaces  (default `::`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -3073,7 +2932,7 @@ e.g.
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -3090,11 +2949,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3179,11 +3033,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--logtostderr</code></td>
 <td></td>
 <td>Send logs to stderr. </td>
@@ -3201,7 +3050,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 </tbody>
 </table>
 <h2 id="istioctl-manifest-versions">istioctl manifest versions</h2>
-<p>List the versions of Istio recommended for use or supported for upgrade by this version of the operator binary.</p>
+<p>List the versions of Istio recommended for use or supported for upgrade by this version of istioctl.</p>
 <pre class="language-bash"><code>istioctl manifest versions [flags]
 </code></pre>
 <table class="command-flags">
@@ -3232,11 +3081,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3287,14 +3131,74 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="istioctl-operator-dump">istioctl operator dump</h2>
+<p>The dump subcommand dumps the Istio operator controller manifest.</p>
+<pre class="language-bash"><code>istioctl operator dump [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--hub &lt;string&gt;</code></td>
+<td></td>
+<td>The hub for the operator controller image  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--logtostderr</code></td>
+<td></td>
+<td>Send logs to stderr. </td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--operatorNamespace &lt;string&gt;</code></td>
+<td></td>
+<td>The namespace the operator controller is installed into  (default `istio-operator`)</td>
+</tr>
+<tr>
+<td><code>--tag &lt;string&gt;</code></td>
+<td></td>
+<td>The tag for the operator controller image  (default `unknown`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td></td>
+<td>Verbose output. </td>
 </tr>
 </tbody>
 </table>
@@ -3324,8 +3228,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
-This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default ``)</td>
+<td>Path to file containing IstioOperator custom resource  (default ``)</td>
 </tr>
 <tr>
 <td><code>--hub &lt;string&gt;</code></td>
@@ -3341,11 +3244,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3410,8 +3308,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--filename &lt;string&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
-This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default ``)</td>
+<td>Path to file containing IstioOperator custom resource  (default ``)</td>
 </tr>
 <tr>
 <td><code>--force</code></td>
@@ -3432,11 +3329,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3475,6 +3367,39 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-options">istioctl options</h2>
+<p>Displays istioctl global options</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-profile">istioctl profile</h2>
 <p>The profile subcommand lists, dumps or diffs Istio configuration profiles.</p>
 <table class="command-flags">
@@ -3507,11 +3432,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--logtostderr</code></td>
 <td></td>
 <td>Send logs to stderr. </td>
@@ -3528,6 +3448,10 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
+<h3 id="istioctl-profile Examples">Examples</h3>
+<pre class="language-bash"><code>istioctl profile list
+istioctl manifest apply --set profile=demo  # Use a profile from the list
+</code></pre>
 <h2 id="istioctl-profile-diff">istioctl profile diff</h2>
 <p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
 <pre class="language-bash"><code>istioctl profile diff &lt;file1.yaml&gt; &lt;file2.yaml&gt; [flags]
@@ -3560,11 +3484,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3614,7 +3533,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Path to file containing IstioOperator CustomResource
+<td>Path to file containing IstioOperator custom resource
 This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
 </tr>
 <tr>
@@ -3626,11 +3545,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--logtostderr</code></td>
@@ -3688,11 +3602,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--logtostderr</code></td>
 <td></td>
 <td>Send logs to stderr. </td>
@@ -3734,11 +3643,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3791,11 +3695,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3864,11 +3763,6 @@ istioctl proxy-config c [&lt;pod-name[.namespace]&gt;] [flags]
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3955,11 +3849,6 @@ istioctl proxy-config ep [&lt;pod-name[.namespace]&gt;] [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4044,11 +3933,6 @@ istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4122,11 +4006,6 @@ istioctl proxy-config l [&lt;pod-name[.namespace]&gt;] [flags]
 <td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... where logger can be one of admin, aws, assert, backtrace, client, config, connection, conn_handler, dubbo, file, filter, forward_proxy, grpc, hc, health_checker, http, http2, hystrix, init, io, jwt, kafka, lua, main, misc, mongo, quic, pool, rbac, redis, router, runtime, stats, secret, tap, testing, thrift, tracing, upstream, udp, wasm and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4193,11 +4072,6 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -4268,11 +4142,6 @@ istioctl proxy-config r [&lt;pod-name[.namespace]&gt;] [flags]
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4327,11 +4196,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4397,11 +4261,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>List of labels to apply if creating a service/endpoint; e.g. -l env=prod,vers=2  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4457,11 +4316,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--logtostderr</code></td>
 <td></td>
 <td>Send logs to stderr. </td>
@@ -4470,6 +4324,14 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
+settings (--set values.grafana.enabled=true). See documentation for more info:
+https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4525,11 +4387,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4604,11 +4461,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4658,11 +4510,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 <td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, attributes, authn, cache, citadelclient, configmapcontroller, default, googleca, grpcAdapter, installer, mcp, model, patch, processing, rbac, resource, sds, secretfetcher, source, stsclient, tpath, translator, util, validation, vault] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info,validation:error,processing:error,source:error,analysis:warn,installer:warn,translator:warn`)</td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
@@ -4703,6 +4550,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Whether or not to validate SANs for out-of-process adapters auth.</td>
 </tr>
 <tr>
+<td><code>CLUSTER_ID</code></td>
+<td>String</td>
+<td><code>Kubernetes</code></td>
+<td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
+</tr>
+<tr>
 <td><code>GKE_CLUSTER_URL</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -4725,6 +4578,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code></code></td>
 <td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
+</tr>
+<tr>
+<td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Default Http and gRPC Request timeout</td>
 </tr>
 <tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
@@ -4799,16 +4658,22 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
-<td><code>PILOT_DISABLE_XDS_MARSHALING_TO_ANY</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
 <td>Time Duration</td>
 <td><code>1m0s</code></td>
 <td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLED_SERVICE_APIS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, support for Kubernetes service-apis (github.com/kubernetes-sigs/service-apis) will  be enabled. This feature is currently experimental, and is off by default.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ANALYSIS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will run istio analyzers and write analysis errors to the Status field of any Istio Resources</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code></td>
@@ -4833,12 +4698,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_FALLTHROUGH_ROUTE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>EnableFallthroughRoute provides an option to add a final wildcard match for routes. When ALLOW_ANY traffic policy is used, a Passthrough cluster is used. When REGISTRY_ONLY traffic policy is used, a 502 error is returned.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
@@ -4877,6 +4736,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, metadata exchange will be enabled for TCP using ALPN and Network Metadata Exchange filters in Envoy</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_THRIFT_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableThriftFilter enables injection of `envoy.filters.network.thrift_proxy` in the filter chain.</td>
+</tr>
+<tr>
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -4907,28 +4772,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
 </tr>
 <tr>
-<td><code>PILOT_RESPECT_DNS_TTL</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, DNS based clusters will respect the TTL of the DNS, rather than polling at a fixed rate. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
-</tr>
-<tr>
-<td><code>PILOT_RESTRICT_POD_UP_TRAFFIC_LOOP</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, this will block inbound traffic from matching outbound listeners, which could result in an infinite loop of traffic. This option is only provided for backward compatibility purposes and will be removed in the near future.</td>
-</tr>
-<tr>
 <td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
-</tr>
-<tr>
-<td><code>PILOT_SCOPE_PUSHES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, pilot will attempt to limit unnecessary pushes by determining what proxies a config or endpoint update will impact.</td>
 </tr>
 <tr>
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
@@ -4977,12 +4824,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Integer</td>
 <td><code>5</code></td>
 <td>The amount of time allowed for connections to complete on pilot-agent shutdown. On receiving SIGTERM or SIGINT, pilot-agent tells the active Envoy to start draining, preventing any new connections and allowing existing connections to complete. It then sleeps for the TerminationDrainDuration and then kills any remaining active Envoy processes.</td>
-</tr>
-<tr>
-<td><code>USE_ISTIO_JWT_FILTER</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Use the Istio JWT filter for JWT token verification.</td>
 </tr>
 </tbody>
 </table>

@@ -16,8 +16,8 @@ package istioio
 
 import (
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/environment"
 	"istio.io/istio/pkg/test/framework/label"
+	"istio.io/istio/pkg/test/framework/resource/environment"
 )
 
 var _ Step = Subtest{}

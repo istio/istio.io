@@ -37,9 +37,9 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Improved Multicluster Integration**. Consolidated the 1.0 `istio-remote`
   chart previously used for
-  [multicluster VPN](/docs/setup/install/multicluster/shared-vpn/) and
-  [multicluster split horizon](/docs/setup/install/multicluster/shared-gateways/) remote cluster installation
-  into the Istio Helm chart simplifying the operational experience.
+  [multicluster VPN](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/multicluster/vpn/) and
+  [multicluster split horizon](https://archive.istio.io/v1.1/docs/examples/multicluster/split-horizon-eds/)
+  remote cluster installation into the Istio Helm chart simplifying the operational experience.
 
 ## Traffic management
 
@@ -80,7 +80,7 @@ concise list of things you should know before upgrading your deployment to Istio
   solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio
-  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/)
+  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/ops/integrations/certmanager/)
   example for more details on how to use Kubernetes Ingress resources with
   [gateways](/docs/concepts/traffic-management/#gateways).
 
@@ -205,7 +205,7 @@ concise list of things you should know before upgrading your deployment to Istio
   replace`, `istioctl get`, and `istioctl delete` commands. Use the
   [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl)
   equivalents instead. Deprecated the `istioctl gen-deploy` command too. Use a
-  [`helm template`](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)
+  [`helm template`](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template)
   instead. Release 1.2 will remove these commands.
 
 - **Short Commands**. Included short commands in `kubectl` for gateways,

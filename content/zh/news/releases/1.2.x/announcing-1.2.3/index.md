@@ -24,7 +24,7 @@ aliases:
 - 修复虚拟服务基于正则表达式匹配 HTTP URI 区分大小写的问题（[Issue 14983](https://github.com/istio/istio/issues/14983)）
 - 修复 demo 配置文件的 HPA 和 CPU 设置（[Issue 15338](https://github.com/istio/istio/issues/15338)）
 - 放宽 Keep-Alive 实施策略，避免在轻负载下断开连接（[Issue 15088](https://github.com/istio/istio/issues/15088)）
-- 当未使用 SDS 时，跳过Kubernetes JWT身份验证，以降低使用受损（不可信）JWT 的风险。
+- 当未使用 SDS 时，跳过 Kubernetes JWT 身份验证，以降低使用受损（不可信）JWT 的风险。
 
 ## 测试升级{#tests-upgrade}
 

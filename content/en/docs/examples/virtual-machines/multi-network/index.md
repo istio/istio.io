@@ -65,7 +65,7 @@ Next, run the following commands on each machine that you want to add to the mes
     {{< /text >}}
 
 1.  Add the IP address of Istio gateway to `/etc/hosts`. Revisit the [preparing the cluster](#preparing-the-kubernetes-cluster-for-vms) section to learn how to obtain the IP address.
-The following example updates the `/etc/hosts` file with the Istiod address:
+The following example updates the `/etc/hosts` file with the {{< gloss >}}Istiod{{< /gloss >}} address:
 
     {{< text bash >}}
     $ echo "${GWIP} istiod.istio-system.svc" | sudo tee -a /etc/hosts

@@ -32,7 +32,7 @@ aliases:
 - 攻击面减小了。包括尽可能少的漏洞。
 - 镜像更小了，启动更快。
 
-请参考官方非发行版 README 的[为何我选择非发行版镜像？](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images)章节。
+请参考官方非发行版 README 的[为何我选择非发行版镜像？](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images) 章节。
 
 {{< warning >}}
 请注意，通常的调试工具如 `bash`、`curl`、`netcat`、`tcpdump` 等在非发行版镜像中是不可用的。

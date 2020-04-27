@@ -17,7 +17,7 @@ This release includes bug fixes to improve robustness and user experience as wel
 
 - **ISTIO-SECURITY-2020-001** An improper input validation has been discovered in `AuthenticationPolicy`.
 
-__[CVE-2020-8595](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8595)__: A bug in Istio's [Authentication Policy](/docs/reference/config/security/istio.authentication.v1alpha1/#Policy) exact path matching logic allows unauthorized access to resources without a valid JWT token.
+__[CVE-2020-8595](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8595)__: A bug in Istio's [Authentication Policy](https://archive.istio.io/1.4/docs/reference/config/security/istio.authentication.v1alpha1/#Policy) exact path matching logic allows unauthorized access to resources without a valid JWT token.
 
 ## Bug fixes
 
