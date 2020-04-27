@@ -141,6 +141,16 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
+					<td><code>prometheus.istio.io/merge-metrics</code></td>
+					<td>[Pod]</td>
+					<td>Specifies if application Prometheus metric will be merged with Envoy metrics for this workload.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
 					<td><code>readiness.status.sidecar.istio.io/applicationPorts</code></td>
 					<td>[Pod]</td>
 					<td>Specifies the list of ports exposed by the application container. Used by the Envoy sidecar readiness probe to determine that Envoy is configured and ready to receive traffic.</td>
