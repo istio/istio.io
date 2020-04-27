@@ -348,4 +348,4 @@ Additionally, ensure that there are no Envoy proxy crashes by looking for signs 
 
 {{< text bash >}}
 kubectl get pods pod-name
-{{< /text }}
+{{< /text >}}
