@@ -1,35 +1,35 @@
 ---
-title: LightStep
-description: How to configure the proxies to send tracing requests to LightStep.
+title: Lightstep
+description: How to configure the proxies to send tracing requests to Lightstep.
 weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/lightstep/
 ---
 
-This task shows you how to configure Istio to collect trace spans and send them to [LightStep Tracing](https://lightstep.com/products/) or [LightStep [𝑥]PM](https://lightstep.com/products/).
-LightStep lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
+This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).
+Lightstep lets you analyze 100% of unsampled transaction data from large-scale production software to produce meaningful
 distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
-At the end of this task, Istio sends trace spans from the proxies to a LightStep Satellite pool making them
+At the end of this task, Istio sends trace spans from the proxies to a Lightstep Satellite pool making them
 available to the web UI.
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an example.
 
 ## Before you begin
 
-1.  Ensure you have a LightStep account. [Sign up](https://lightstep.com/products/tracing/) for a free trial of LightStep Tracing, or [Contact LightStep](https://lightstep.com/contact/) to create an enterprise-level LightStep [𝑥]PM account.
+1.  Ensure you have a Lightstep account. [Sign up](https://go.lightstep.com/trial) for a free trial of Lightstep.
 
-1.  For [𝑥]PM users, ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
-    [LightStep Satellite Setup](https://docs.lightstep.com/docs/install-and-configure-satellites) for details about setting up satellites.
+1.  If you're using [on-premise Satellites](https://docs.lightstep.com/docs/learn-about-satellites#on-premise-satellites), ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
+    [Install and Configure Satellites](https://docs.lightstep.com/docs/install-and-configure-satellites) for details about setting up satellites.
 
-    For LightStep Tracing users, your satellites are already configured.
+    For [Lightstep Public Satellites](https://docs.lightstep.com/docs/learn-about-satellites#public-satellites) or [Developer Satellites](https://docs.lightstep.com/docs/learn-about-satellites#developer-satellites), your satellites are already configured.
 
-1.  Ensure sure you have a LightStep [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens).
+1.  Ensure sure you have a Lightstep [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens). Access tokens allow your app to communicate with your Lightstep project.
 
 1.  You'll need to deploy Istio with your satellite address.
-    For [𝑥]PM users, ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
+    For on-premise Satellites, ensure you can reach the satellite pool at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`.
 
-    For LightStep Tracing users, use the address `collector-grpc.lightstep.com:443`.
+    For for Public or Developer Satellites, use the address `collector-grpc.lightstep.com:443`.
 
 1.  Deploy Istio with the following configuration parameters specified:
     - `pilot.traceSampling=100`
@@ -53,7 +53,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     {{< /text >}}
 
 1.  Store your satellite pool's certificate authority certificate as a secret in the default namespace.
-    For LightStep Tracing users, download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh).
+    For Lightstep Public and Developer Satellites, download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file).
     If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
 
     {{< text bash >}}
@@ -90,9 +90,13 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Load the LightStep [web UI](https://app.lightstep.com/).
+1.  Load the Lightstep [web UI](https://app.lightstep.com/). You'll see the three Bookinfo services listed in the Service Directory.
 
-1.  Navigate to Explorer.
+    {{< image link="./istio-services.png" caption="Bookfinder services in the Service Directory" >}}
+
+1.  Navigate to the Explorer view.
+
+    {{< image link="./istio-explorer.png" caption="Explorer view" >}}
 
 1.  Find the query bar at the top. The query bar allows you to interactively filter results by a **Service**, **Operation**, and **Tag** values.
 
@@ -118,24 +122,25 @@ and the `reviews.default: proxy server` service. The second span is a child of t
 server-side span of the call. The screenshot shows that the call took 14.60 ms.
 
 {{< warning >}}
-The LightStep integration does not currently capture spans generated by Istio's internal operation components such as Mixer.
+The Lightstep integration does not currently capture spans generated by Istio's internal operation components such as Mixer.
 {{< /warning >}}
 
 ## Trace sampling
 
 Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
 visit the [Distributed Tracing trace sampling section](../configurability/#trace-sampling).
-When using LightStep, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh,
+
+When using Lightstep, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh,
 consider scaling up the size of your satellite pool.
 
 ## Cleanup
 
-If you are not planning any follow-up tasks, remove the Bookinfo sample application and any LightStep secrets
+If you are not planning any follow-up tasks, remove the Bookinfo sample application and any Lightstep secrets
 from your cluster.
 
 1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
 
-1. Remove the secret generated for LightStep:
+1. Remove the secret generated for Lightstep:
 
 {{< text bash >}}
 $ kubectl delete secret lightstep.cacert

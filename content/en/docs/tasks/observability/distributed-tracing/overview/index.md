@@ -13,7 +13,7 @@ This allows a deeper understanding about request latency, serialization and para
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature
 to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend
 and configure proxies to send trace spans to them automatically.
-See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
+See [Zipkin](../zipkin/), [Jaeger](../jaeger/) and [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
 
 ## Trace context propagation
 
@@ -89,4 +89,3 @@ public Response bookReviewsById(@PathParam("productId") int productId,
 {{< /text >}}
 
 When you make downstream calls in your applications, make sure to include these headers.
-
