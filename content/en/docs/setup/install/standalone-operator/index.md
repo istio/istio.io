@@ -8,7 +8,7 @@ aliases:
 
 This guide installs Istio using the standalone Istio
 [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
-The only dependencies required are a supported Kubernetes cluster, the `kubectl` and the `istioctl` command at the release version.
+The only dependencies required are a supported Kubernetes cluster, the `kubectl` command at the version to match the cluster, and the `istioctl` command at the desired release version.
 
 To install Istio for production use, we recommend [installing with {{< istioctl >}}](/docs/setup/install/istioctl/)
 instead.
@@ -41,7 +41,7 @@ instead.
     You can alternatively deploy the operator using Helm:
 
     {{< text bash >}}
-    $ helm template install/kubernetes/operator/operator-chart/ \
+    $ helm template manifests/charts/istio-operator/ \
       --set hub=docker.io/istio \
       --set tag={{< istio_full_version >}} \
       --set operatorNamespace=istio-operator \
