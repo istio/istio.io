@@ -22,25 +22,24 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
 ## Installation steps
 
 1.  Install the latest version of
-    [minikube](https://kubernetes.io/docs/setup/minikube/), version **1.1.1 or
-    later**, and a
+    [minikube](https://kubernetes.io/docs/setup/minikube/) and a
     [minikube hypervisor driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 
 1.  If you're not using the default driver, set your minikube hypervisor driver.
 
-    For example, if you installed the KVM hypervisor, set the `vm-driver`
+    For example, if you installed the KVM hypervisor, set the `driver`
     within the minikube configuration using the following command:
 
     {{< text bash >}}
-    $ minikube config set vm-driver kvm2
+    $ minikube config set driver kvm2
     {{< /text >}}
 
-1.  Start minikube with 16384 `MB` of memory and 4 `CPUs`. This example uses Kubernetes version **1.14.2**.
+1.  Start minikube with 16384 `MB` of memory and 4 `CPUs`. This example uses Kubernetes version **1.17.5**.
     You can change the version to any Kubernetes version supported by Istio by altering the
     `--kubernetes-version` value:
 
     {{< text bash >}}
-    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.14.2
+    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.17.5
     {{< /text >}}
 
     Depending on the hypervisor you use and the platform on which the hypervisor
@@ -58,10 +57,14 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
     - complete lock-up of the virtual machine
     - host NMI watchdog reboots
 
-    One effective way to monitor memory usage in minikube:
+    One effective way to monitor memory usage in minikube is to `ssh` into the minikube virtual machine
+    and from that prompt run the top command:
 
     {{< text bash >}}
     $ minikube ssh
+    {{< /text >}}
+
+    {{< text bash >}}
     $ top
     GiB Mem : 12.4/15.7
     {{< /text >}}
