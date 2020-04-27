@@ -127,10 +127,6 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
-    # selfSigned is required if Citadel is enabled, that is when values.global.istiod.enabled is false.
-    security:
-      selfSigned: false
-
     global:
       multiCluster:
         clusterName: ${MAIN_CLUSTER_NAME}
@@ -170,10 +166,6 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   values:
-    # selfSigned is required if Citadel is enabled (i.e. when values.global.istiod.enabled=false)
-    security:
-      selfSigned: false
-
     global:
       multiCluster:
         clusterName: ${MAIN_CLUSTER_NAME}

@@ -10,6 +10,7 @@ aliases:
   - /docs/ops/app-health-check
   - /docs/ops/setup/app-health-check
 keywords: [security,health-check]
+test: true
 ---
 
 [Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
@@ -48,14 +49,14 @@ $ kubectl create ns istio-io-health
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
+    apiVersion: "security.istio.io/v1beta1"
+    kind: "PeerAuthentication"
     metadata:
       name: "default"
       namespace: "istio-io-health"
     spec:
-      peers:
-      - mtls: {}
+      mtls:
+        mode: STRICT
     EOF
     {{< /text >}}
 
@@ -169,12 +170,12 @@ Instructions below assume you turn on the feature globally via install option.
 Annotations works the same.
 
 {{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
+$ kubectl create ns istio-same-port
+$ kubectl -n istio-same-port apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl get pod
+$ kubectl -n istio-same-port get pod
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
@@ -189,14 +190,14 @@ Another alternative is to use separate port for health checking and regular traf
 Run these commands to re-deploy the service:
 
 {{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
+$ kubectl create ns istio-sep-port
+$ kubectl -n istio-sep-port apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
 {{< /text >}}
 
 Wait for a minute and check the pod status to make sure the liveness probes work with '0' in the 'RESTARTS' column.
 
 {{< text bash >}}
-$ kubectl get pod
+$ kubectl -n istio-sep-port get pod
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< /text >}}
@@ -208,7 +209,5 @@ Note that the image in [liveness-http]({{< github_file >}}/samples/health-check/
 Remove the mutual TLS policy and corresponding destination rule added in the steps above:
 
 {{< text bash >}}
-$ kubectl delete policies default
-$ kubectl delete destinationrules default
-$ kubectl delete ns istio-io-health
+$ kubectl delete ns istio-io-health istio-same-port istio-sep-port
 {{< /text >}}

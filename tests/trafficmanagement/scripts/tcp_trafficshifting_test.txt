@@ -18,34 +18,27 @@ set -e
 set -u
 set -o pipefail
 
-# $snippet route_traffic_v1.sh
-$ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
-# $endsnippet
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh
 
-# $snippet check_tcp_echo_is_running.sh
-$ export INGRESS_HOST={{ .ingressHostCommand }}
-$ export INGRESS_PORT={{ .ingressPortCommand }}
-# $snippet
+snip_apply_weightbased_tcp_routing_5
+
+export INGRESS_HOST={{ .ingressHostCommand }}
+export INGRESS_PORT={{ .ingressPortCommand }}
 
 echo "sending traffic to $INGRESS_HOST:$INGRESS_PORT"
 
-# $snippet send_traffic_to_echo_v1.sh
-$ for i in {1..20}; do \
+# TODO: Should use snip_apply_weightbased_tcp_routing_7 here. Problem is it uses -it options.
+out=$(for i in {1..20}; do \
 docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT \
   --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
-done
-# $verify verifier="notContains"
-two
-# $endsnippet
+done 2>&1)
+_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_7"
+_verify_not_contains "$out" "two" "snip_apply_weightbased_tcp_routing_7"
 
-# $snippet deploy_tcp_echo_v2_20_percent_rule.sh 
-$ kubectl apply -f @samples/tcp-echo/tcp-echo-20-v2.yaml@ -n istio-io-tcp-traffic-shifting
-# $endsnippet
+snip_apply_weightbased_tcp_routing_8
 
-# $snippet confirm_20_percent_rule.sh
-$ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
-# $verify verifier="contains"
-spec:
+out=$(snip_apply_weightbased_tcp_routing_9 2>&1)
+expected="spec:
   gateways:
   - tcp-echo-gateway
   hosts:
@@ -65,14 +58,13 @@ spec:
         port:
           number: 9000
         subset: v2
-      weight: 20
-# $endsnippet
+      weight: 20"
+_verify_contains "$out" "$expected" "snip_apply_weightbased_tcp_routing_7"
 
-# $snippet more_tcp_traffic_to_echos.sh
-$ for i in {1..20}; do \
+# TODO: Should use snip_apply_weightbased_tcp_routing_10 here. Problem is it uses -it options.
+out=$(for i in {1..20}; do \
 docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT \
   --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
-done
-# $verify verifier="contains"
-two
-# $endsnippet
+done 2>&1)
+_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_10"
+_verify_contains "$out" "two" "snip_apply_weightbased_tcp_routing_10"

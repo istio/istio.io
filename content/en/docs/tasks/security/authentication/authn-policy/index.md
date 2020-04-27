@@ -556,7 +556,7 @@ $ curl $INGRESS_HOST/ip -s -o /dev/null -w "%{http_code}\n"
 1. Remove authorization policy:
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete authorization frontend-ingress
+    $ kubectl -n istio-system delete authorizationpolicy frontend-ingress
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, you can remove all resources simply by deleting test namespaces.

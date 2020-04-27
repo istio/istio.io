@@ -29,7 +29,7 @@ source_branch_name: master
 doc_branch_name: master
 
 # The list of supported versions described by the docs
-supported_kubernetes_versions: ["1.14", "1.15", "1.16"]
+supported_kubernetes_versions: ["1.15", "1.16", "1.17", "1.18"]
 
 ####### Static values
 

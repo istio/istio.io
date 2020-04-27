@@ -17,27 +17,57 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/tasks/traffic-management/traffic-shifting/index.md
+#          docs/tasks/traffic-management/request-timeouts/index.md
 ####################################################################################################
 
-snip_config_all_v1() {
+snip_before_you_begin_1() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }
 
-snip_config_50_v3() {
-kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
-}
-
-snip_verify_config_50_v3() {
-kubectl get virtualservice reviews -o yaml
-}
-
-! read -r -d '' snip_verify_config_50_v3_out <<ENDSNIP
+snip_request_timeouts_1() {
+kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: reviews
-  ...
+spec:
+  hosts:
+    - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v2
+EOF
+}
+
+snip_request_timeouts_2() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      delay:
+        percent: 100
+        fixedDelay: 2s
+    route:
+    - destination:
+        host: ratings
+        subset: v1
+EOF
+}
+
+snip_request_timeouts_3() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
 spec:
   hosts:
   - reviews
@@ -45,18 +75,11 @@ spec:
   - route:
     - destination:
         host: reviews
-        subset: v1
-      weight: 50
-    - destination:
-        host: reviews
-        subset: v3
-      weight: 50
-ENDSNIP
-
-snip_config_100_v3() {
-kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+        subset: v2
+    timeout: 0.5s
+EOF
 }
 
-snip_cleanup() {
+snip_cleanup_1() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }

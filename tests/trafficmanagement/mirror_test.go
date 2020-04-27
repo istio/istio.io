@@ -38,17 +38,10 @@ func TestMirror(t *testing.T) {
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
-# $snippet remove_rules.sh syntax="bash"
-$ kubectl delete virtualservice httpbin
-$ kubectl delete destinationrule httpbin
-# $endsnippet
-
-# $snippet remove_httpbin.sh syntax="bash"
-$ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
-$ kubectl delete svc httpbin
-# $endsnippet
-
-$ kubectl delete ns istio-io-mirror
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/mirroring/snips.sh
+snip_cleaning_up_1
+snip_cleaning_up_2
+kubectl delete ns istio-io-mirror
 `,
 				},
 			}).

@@ -63,7 +63,8 @@ Below is our list of existing features and their current phases. This informatio
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
 | [Logging with Fluentd](/docs/tasks/observability/mixer/logs/fluentd/) | Beta
-| [Trace Sampling](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
+| [Trace Sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) | Beta
+| [Trace Configurability](/docs/tasks/observability/distributed-tracing/configurability/) | Experimental
 
 ### Security and policy enforcement
 

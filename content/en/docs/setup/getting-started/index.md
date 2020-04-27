@@ -388,13 +388,21 @@ We welcome you to ask questions and give us feedback by joining the
 
 ## Uninstall
 
-The uninstall deletes the RBAC permissions, the `istio-system` namespace, and
-all resources hierarchically under it. It is safe to ignore errors for
-non-existent resources because they may have been deleted hierarchically.
+To delete the `Bookinfo` sample application and its configuration, see
+[`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+
+The Istio uninstall deletes the RBAC permissions and all resources hierarchically
+under the `istio-system` namespace. It is safe to ignore errors for non-existent
+resources because they may have been deleted hierarchically.
 
 {{< text bash >}}
 $ istioctl manifest generate --set profile=demo | kubectl delete -f -
 {{< /text >}}
 
-To delete the `Bookinfo` sample application and its configuration, see
-[`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+The `istio-system` namespace is not removed by default.
+If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl delete namespace istio-system
+{{< /text >}}
+

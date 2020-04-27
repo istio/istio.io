@@ -18,8 +18,6 @@ set -e
 set -u
 set -o pipefail
 
-# $snippet cleanup_test_environment.sh
-$ kubectl delete -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
-$ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
-$ kubectl delete namespace istio-io-tcp-traffic-shifting
-# $endsnippet
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh
+
+snip_cleanup_1

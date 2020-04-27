@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2034,SC2153,SC2155
 
 # Copyright Istio Authors. All Rights Reserved.
 #
@@ -37,7 +38,6 @@ snip_set_up_the_cluster_3() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_set_up_the_cluster_3_out <<ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
@@ -51,7 +51,6 @@ snip_set_up_the_cluster_4() {
 kubectl get peerauthentication --all-namespaces
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_set_up_the_cluster_4_out <<ENDSNIP
 No resources found.
 ENDSNIP
@@ -60,7 +59,6 @@ snip_set_up_the_cluster_5() {
 kubectl get destinationrule --all-namespaces
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_set_up_the_cluster_5_out <<ENDSNIP
 No resources found.
 ENDSNIP
@@ -81,7 +79,6 @@ snip_lock_down_to_mutual_tls_by_namespace_2() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_2_out <<ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
@@ -96,7 +93,6 @@ snip_lock_down_to_mutual_tls_by_namespace_3() {
 kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -it -- sudo tcpdump dst port 80  -A
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_3_out <<ENDSNIP
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
@@ -126,7 +122,6 @@ snip_clean_up_the_example_2() {
 kubectl delete ns foo bar legacy
 }
 
-# shellcheck disable=SC2034
 ! read -r -d '' snip_clean_up_the_example_2_out <<ENDSNIP
 Namespaces foo bar legacy deleted.
 ENDSNIP
