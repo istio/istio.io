@@ -59,12 +59,12 @@ prefix the setting paths with `values.` because this is the path to the Helm pas
 
 By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
 `istioctl` for auditing and customization purposes and can be found in the release tar in the
-`install/kubernetes/operator/charts` directory.
+`manifests` directory.
 `istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
 `installPackagePath` to a local file system path:
 
 {{< text bash >}}
-$ istioctl manifest apply --set installPackagePath=< base directory where installed >/istio-releases/istio-{{< istio_full_version >}}/install/kubernetes/operator/charts
+$ istioctl manifest apply --set installPackagePath=< full path to base directory where downloaded >/manifests
 {{< /text >}}
 
 If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl manifest apply` alone, because it points to the
@@ -90,12 +90,12 @@ accessible to `istioctl` by using this command:
 {{< text bash >}}
 $ istioctl profile list
 Istio configuration profiles:
+    minimal
+    preview
     remote
-    separate
     default
     demo
     empty
-    minimal
 {{< /text >}}
 
 ## Display the configuration of a profile
@@ -207,7 +207,7 @@ customized install using these commands:
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
 $ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
-$ istioctl manifest diff 1.yam1 2.yaml
+$ istioctl manifest diff 1.yaml 2.yaml
 Differences of manifests are:
 
 Object Deployment:istio-system:istio-pilot has diffs:
