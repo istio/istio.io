@@ -313,7 +313,7 @@ spec:
         {
             "name": "requests_total",
             "dimensions": {
-            "response_code": "has(istio.responseClass)?istio.responseClass:response.code",
+              "response_code": "has(istio.responseClass)?istio.responseClass:response.code",
               "request_operation": "has(istio.operationId)?istio.operationId:'unknown'"
             }
         }
