@@ -9,15 +9,15 @@ aliases:
 
 ## Overview
 
-This is meant to provide operational guidance on how to configure monitoring of Istio meshes constituted by two
+This is meant to provide operational guidance on how to configure monitoring of Istio meshes comprised of two
 or more individual Kubernetes clusters. It is not meant to establish the *only* possible path forward, but rather
 to demonstrate a workable approach to multicluster telemetry with Prometheus.
 
 Our recommendation for multicluster monitoring of Istio with Prometheus is built upon the foundation of Prometheus
 [hierarchical federation](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation).
 Cluster-local Istio-deployed Prometheus instances will act as initial collectors which then federate up to a production
-mesh-wide Prometheus instance. That mesh-wide Prometheus can either live outside of all of the clusters from the mesh
-(aka external), or in one of the clusters within the mesh.
+mesh-wide Prometheus instance. That mesh-wide Prometheus can either live outside of the mesh (aka external), or in one 
+of the clusters within the mesh.
 
 ## Multicluster Istio Setup
 
@@ -62,10 +62,12 @@ configurations to make it all work.
     caption="External Production Prometheus for monitoring multicluster Istio"
     >}}
 
-*Note:* This guide does not cover securing access to Prometheus. It demonstrates providing connectivity to cluster-local Prometheus
+{{< warning >}}
+This guide does not cover securing access to Prometheus. It demonstrates providing connectivity to cluster-local Prometheus
 instances in a few simple ways. For production use cases, it is recommended to secure access to each Prometheus endpoint
 with HTTPS, as well as taking appropriate precautions such as using an internal load-balancer instead of a publicly-accessible
 endpoint and/or properly configuring firewall rules.
+{{< /warning >}}
 
 Istio provides a way to expose cluster services externally via [Gateways](/docs/reference/config/networking/gateway/).
 You can configure an ingress gateway for the cluster-local Prometheus, providing external connectivity to the in-cluster
