@@ -156,7 +156,7 @@ spec:
         {
             "name": "requests_total",
             "dimensions": {
-            "request_operation": "istio.operationId"
+              "request_operation": "has(istio.operationId)?istio.operationId:'unknown'",
             }
         }
     ]
