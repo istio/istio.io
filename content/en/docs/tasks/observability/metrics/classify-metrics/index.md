@@ -2,7 +2,7 @@
 title: Classifying Metrics Based on Request or Response (Experimental)
 description: This task shows you how to improve telemetry by grouping requests and responses by their type. 
 weight: 27
-keywords: [telemetry,metrics,classify,request-based]
+keywords: [telemetry,metrics,classify,request-based,openapispec,swagger]
 ---
 
 It is useful to visualize telemetry based on the type of requests and responses
@@ -14,16 +14,23 @@ request has this structure:
 GET /reviews/{review_id}
 {{< /text >}}
 
-Counting the number of review requests becomes complicated by the
-unbounded element, `review_id`. If you use this metric as-is, it would create a
-dimension for every unique `review_id` and obfuscate the meaning of the
-results. To resolve this problem, Istio lets you create classification rules
+Counting the number of review requests becomes complicated by the unbounded
+element, `review_id`. If you use this metric as-is, it would create a dimension
+for every unique `review_id` and obfuscate the meaning of the results. To
+resolve this problem, Istio lets you create classification rules that group
+requests into a fixed number of operations. For example, create an operation
+named `GetReviews`, which is a common way to identify operations using the
+[Open API Spec operationId](https://swagger.io/docs/specification/paths-and-operations/).
+You can use the operation as a dimension in Istio standard metrics. Similarly, you
+can track metrics based on other logical operations like `ListReviews` and
+`CreateReviews`.
+
+Istio lets you create classification rules
 that group requests into a more useful dimension for your telemetry, such as
 creating and counting the results of a higher-level `GetReviews` dimension.
 
-The classification rules follow the syntax used by
-[`HttpRouteMatch`](/docs/reference/config/networking/virtual-service/#HTTPMatchRequest),
-but in this case the action is to assign the classification.
+For more information, see the
+[reference content](/docs/reference/config/proxy_extensions/attributegen).
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
@@ -47,61 +54,61 @@ You can classify requests based on their type, for example `ListReview`,
     steps on each pod hosting services for which you want to modify metrics.
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-     name: istio-attributegen-filter
-    spec:
-     workloadSelector:
-        labels:
-        app: reviews
-    configPatches:
-        - applyTo: HTTP_FILTER
-        match:
-            context: SIDECAR_INBOUND
-            proxy:
-            proxyVersion: '1\.6.*'
-            listener:
-            filterChain:
-                filter:
-                name: "envoy.http_connection_manager"
-                subFilter:
-                    name: "istio.stats"
-        patch:
-            operation: INSERT_BEFORE
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: istio-attributegen-filter
+spec:
+  workloadSelector:
+    labels:
+      app: reviews
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        proxy:
+          proxyVersion: '1\.6.*'
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.http_connection_manager"
+              subFilter:
+                name: "istio.stats"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: istio.attributegen
+          typed_config:
+            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+            type_url: type.googleapis.com/envoy.config.filter.http.wasm.v2.Wasm
             value:
-            name: istio.attributegen
-            typed_config:
-                "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                type_url: type.googleapis.com/envoy.config.filter.http.wasm.v2.Wasm
-                value:
-                config:
-                    configuration: |
-                    {
-                        "attributes": [
-                        {
-                            "output_attribute": "istio.operationId",
-                            "match": [
-                            {
-                                "value": "ListReviews",
-                                "condition": "request.url_path == '/reviews' && request.method == 'GET'"
-                            },
-                            {
-                                "value": "GetReview",
-                                "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
-                            },
-                            {
-                                "value": "CreateReview",
-                                "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
-                            }
-                            ]
-                        }
+              config:
+                configuration: |
+                  {
+                    "attributes": [
+                      {
+                        "output_attribute": "istio.operationId",
+                        "match": [
+                          {
+                            "value": "ListReviews",
+                            "condition": "request.url_path == '/reviews' && request.method == 'GET'"
+                          },
+                          {
+                            "value": "GetReview",
+                            "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
+                          }, 
+                          {
+                            "value": "CreateReview",
+                            "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
+                          }
                         ]
-                    }
-                    vm_config:
-                    runtime: envoy.wasm.runtime.null
-                    code:
-                        local: { inline_string: "envoy.wasm.attributegen" }
+                      }
+                    ]
+                  }
+                vm_config:
+                  runtime: envoy.wasm.runtime.null
+                  code:
+                    local: { inline_string: "envoy.wasm.attributegen" }
     {{< /text >}}
 
 1. Apply your changes using the following command:
@@ -179,85 +186,85 @@ You can classify responses using a similar process as requests.
     codes in the `200` range as a `2xx` dimension.
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
-    kind: EnvoyFilter
-    metadata:
-    name: istio-attributegen-filter
-    spec:
-    workloadSelector:
-        labels:
-        app: productpage
-    configPatches:
-        - applyTo: HTTP_FILTER
-        match:
-            context: SIDECAR_INBOUND
-            proxy:
-            proxyVersion: '1\.6.*'
-            listener:
-            filterChain:
-                filter:
-                name: "envoy.http_connection_manager"
-                subFilter:
-                    name: "istio.stats"
-        patch:
-            operation: INSERT_BEFORE
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: istio-attributegen-filter
+spec:
+  workloadSelector:
+    labels:
+      app: productpage
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        proxy:
+          proxyVersion: '1\.6.*'
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.http_connection_manager"
+              subFilter:
+                name: "istio.stats"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: istio.attributegen
+          typed_config:
+            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+            type_url: type.googleapis.com/envoy.config.filter.http.wasm.v2.Wasm
             value:
-            name: istio.attributegen
-            typed_config:
-                "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-                type_url: type.googleapis.com/envoy.config.filter.http.wasm.v2.Wasm
-                value:
-                config:
-                    configuration: |
-                    {
-                        "attributes": [
-                        {
-                            "output_attribute": "istio.responseClass",
-                            "match": [
-                            {
-                                "value": "2xx",
-                                "condition": "response.code >= 200 && response.code <= 299"
-                            },
-                            {
-                                "value": "3xx",
-                                "condition": "response.code >= 300 && response.code <= 399"
-                            },
-                            {
-                                "value": "404",
-                                "condition": "response.code == 404"
-                            },
-                            {
-                                "value": "401",
-                                "condition": "response.code == 401"
-                            },
-                            {
-                                "value": "403",
-                                "condition": "response.code == 403"
-                            },
-                            {
-                                "value": "429",
-                                "condition": "response.code == 429"
-                            },
-                            {
-                                "value": "503",
-                                "condition": "response.code == 503"
-                            },
-                            {
-                                "value": "5xx"
-                                "condition": "response.code >= 500 && response.code <= 599"
-                            },
-                            {
-                                "value": "4xx",
-                                "condition": "response.code >= 400 && response.code <= 499"
-                            }
-                            ]
-                        }
+              config:
+                configuration: |
+                  {
+                    "attributes": [
+                      {
+                        "output_attribute": "istio.responseClass",
+                        "match": [
+                          {
+                            "value": "2xx",
+                            "condition": "response.code >= 200 && response.code <= 299"
+                          },
+                          {
+                            "value": "3xx",
+                            "condition": "response.code >= 300 && response.code <= 399"
+                          },
+                          {
+                            "value": "404",
+                            "condition": "response.code == 404"
+                          },
+                          {
+                            "value": "401",
+                            "condition": "response.code == 401"
+                          },
+                          {
+                            "value": "403",
+                            "condition": "response.code == 403"
+                          },
+                          {
+                            "value": "429",
+                            "condition": "response.code == 429"
+                          },
+                          {
+                            "value": "503",
+                            "condition": "response.code == 503"
+                          },
+                          {
+                            "value": "5xx",
+                            "condition": "response.code >= 500 && response.code <= 599"
+                          },
+                          {
+                            "value": "4xx",
+                            "condition": "response.code >= 400 && response.code <= 499"
+                          }
                         ]
-                    }
-                    vm_config:
-                    runtime: envoy.wasm.runtime.null
-                    code:
-                        local: { inline_string: "envoy.wasm.attributegen" }
+                      }
+                    ]
+                  }
+                vm_config:
+                  runtime: envoy.wasm.runtime.null
+                  code:
+                    local: { inline_string: "envoy.wasm.attributegen" }
     {{< /text >}}
 
 1. Apply your changes using the following command:
@@ -319,20 +326,20 @@ You can classify responses using a similar process as requests.
     $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
     {{< /text >}}
 
+## Verify the results
+
 1. Generate metrics by sending traffic to your application.
 
 1. Visit Prometheus and look for the new or changed dimensions, for example
    `2xx`.
 
-## Verify the results
+1. Alternatively, use the following command to verify that Istio generates the data for your new dimension:
 
-Use the following command to verify that Istio generates the data for your new dimension:
+    {{< text bash >}}
+    $ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/metrics' | grep istio_
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/metrics' | grep istio_
-{{< /text >}}
-
-In the output, locate the metric (e.g. `istio_requests_total`) and verify the presence of the new or changed dimension.
+    In the output, locate the metric (e.g. `istio_requests_total`) and verify the presence of the new or changed dimension.
 
 ## Troubleshooting
 
