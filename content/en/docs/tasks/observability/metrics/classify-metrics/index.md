@@ -30,7 +30,8 @@ that group requests into a more useful dimension for your telemetry, such as
 creating and counting the results of a higher-level `GetReviews` dimension.
 
 For more information, see the
-[reference content](/docs/reference/config/proxy_extensions/attributegen).
+[reference content](/docs/reference/config/attributegen/).
+/docs/reference/config/attributegen/
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
