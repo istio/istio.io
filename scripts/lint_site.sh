@@ -33,7 +33,8 @@ elif [[ "$#" -ne 0 ]]; then
     LANGS="$*"
 else
     echo "if BRANCH is set to the source branch, ie. master, the linter will only check languages within the PR."
-    LANGS="en zh"
+    echo "ERROR: no languages specified!"
+    exit 1
 fi
 
 # This performs spell checking and style checking over markdown files in a content
