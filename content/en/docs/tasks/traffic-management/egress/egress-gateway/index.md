@@ -309,7 +309,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - edition.cnn.com
         route:
         - destination:
@@ -321,7 +321,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
+          sniHosts:
           - edition.cnn.com
         route:
         - destination:

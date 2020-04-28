@@ -207,7 +207,7 @@ to hold the configuration of the NGINX server:
       tls:
       - match:
         - port: 443
-          sni_hosts:
+          sniHosts:
           - nginx.example.com
         route:
         - destination:
