@@ -45,42 +45,64 @@ Edit the the `EnvoyFilter` to add or modify dimensions and metrics. Then, add
 annotations to all the Istio-enabled pods to extract the new or modified
 dimensions.
 
-1. Locate the `envoy.wasm.stats` extension configuration. The default
-   configuration is in the `configuration` section and typically looks like:
+1. Find the `stats-filter-1.6` `EnvoyFilter` resource from the `istio-system`
+   namespace, using the following command:
 
-    {{< text yaml >}}
+    {{< text bash >}}
+    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-1.6
+    stats-filter-1.6                    2d
+    {{< /text >}}
+
+1. Create a local file system copy of the `EnvoyFilter` configuration, using the
+   following command:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get envoyfilter stats-filter-1.6 -o yaml > stats-filter-1.6.yaml
+    {{< /text >}}
+
+1. Open `stats-filter-1.6.yaml` with a text editor and locate the
+   `envoy.wasm.stats` extension configuration. The default configuration is in
+   the `configuration` section and looks like this example:
+
+    {{< text json >}}
     {
-        "debug": "false",
-        "stat_prefix": "istio"
+    "debug": "false",
+    "stat_prefix": "istio"
     }
     {{< /text >}}
 
-1. Modify the configuration section for each instance of the extension
-   configuration. For example, to add `destination_port` and `request_host`
-   dimensions to the standard `requests_total` metric, change the configuration
-   section to look like the following. Istio automatically prefixes all metric
-   names with `istio_`, so omit the prefix from the name field in the metric
-   specification.
+1. Edit `stats-filter-1.6.yaml` and modify the configuration section for each
+   instance of the extension configuration. For example, to add
+   `destination_port` and `request_host` dimensions to the standard
+   `requests_total` metric, change the configuration section to look like the
+   following. Istio automatically prefixes all metric names with `istio_`, so
+   omit the prefix from the name field in the metric specification.
 
-    {{< text yaml >}}
+    {{< text json >}}
     {
-       "debug": "false",
-       "stat_prefix": "istio",
-       "metrics": [
-          {
-            "name": "requests_total",
-            "dimensions": {
-               "destination_port": "destination.port",
-               "request_host": "request.host"
+        "debug": "false",
+        "stat_prefix": "istio",
+        "metrics": [
+            {
+                "name": "requests_total",
+                "dimensions": {
+                    "destination_port": "destination.port",
+                    "request_host": "request.host"
+                }
             }
-          }
-       ]
+        ]
     }
+    {{< /text >}}
+
+1. Save `stats-filter-1.6.yaml` and then apply the configuration using the following command:
+
+    {{< text bash >}}
+    $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
     {{< /text >}}
 
 1. Apply the following annotation to all injected pods with the list of the
-   dimensions to extract into a Prometheus [time
-   series](https://en.wikipedia.org/wiki/Time_series), using the following
+   dimensions to extract into a Prometheus
+   [time series](https://en.wikipedia.org/wiki/Time_series), using the following
    command:
 
     {{< text yaml >}}
@@ -99,7 +121,7 @@ Use the following command to verify that Istio generates the data for your new
 or modified dimensions:
 
 {{< text bash >}}
-$ kubectl exec <pod-name> -c istio-proxy -- curl 'localhost:15000/metrics’ | grep istio
+$ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/metrics’ | grep istio
 {{< /text >}}
 
 For example, in the output, locate the metric `istio_requests_total` and
