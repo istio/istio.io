@@ -331,9 +331,7 @@ spec:
 1. Generate metrics by sending traffic to your application.
 
 1. Visit Prometheus and look for the new or changed dimensions, for example
-   `2xx`.
-
-1. Alternatively, use the following command to verify that Istio generates the data for your new dimension:
+   `2xx`. Alternatively, use the following command to verify that Istio generates the data for your new dimension:
 
     {{< text bash >}}
     $ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/metrics' | grep istio_
