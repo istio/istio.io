@@ -29,7 +29,7 @@ supports creating new metrics by name, the expected value expression, and the
 metric type (`counter`, `gauge`, and `histogram`). The `metrics` section
 provides values for the metric dimensions as expressions, and allows you to
 remove or override the existing metric dimensions. You can modify the standard
-metrics using `tags_to_remove` or by re-defining a dimension.
+metric definitions using `tags_to_remove` or by re-defining a dimension.
 
 For more information, see [Stats Config reference](/docs/reference/config/proxy_extensions/stats/).
 
@@ -108,13 +108,15 @@ verify it contains your new dimension.
 ## Use expressions for values
 
 The values in the metric configuration are common expressions, which means you
-must double-quote strings in JSON, e.g. "`some_string_value`". Unlike Mixer
+must double-quote strings in JSON, e.g. "'some_string_value'". Unlike Mixer
 expression language, there is no support for the pipe (`|`) operator, but you
 can emulate it with the `has` or `in` operator, for example:
 
 {{< text plain >}}
 has(request.host) ? request.host : "unknown"
 {{< /text >}}
+
+For more information, see [Common Expression Language](https://opensource.google/projects/cel).
 
 Istio exposes all standard Envoy attributes. Additionally, you can use the
 following extra attributes.
