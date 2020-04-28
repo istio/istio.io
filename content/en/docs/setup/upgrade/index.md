@@ -79,7 +79,7 @@ To verify that the new pods in the `test-ns` namespace are using the `istiod-can
 $ kubectl  exec -i -t -n test-ns ${pod_name} -c istio-proxy -- curl http://localhost:15000/clusters | grep xds | grep hostname
 
 xds-grpc::10.32.6.58:15012::hostname::istiod-canary.istio-system.svc
-{{< text bash >}}
+{{< /text >}}
 
 The output confirms that the pod is using `istiod-canary` revision of the control plane.
 
