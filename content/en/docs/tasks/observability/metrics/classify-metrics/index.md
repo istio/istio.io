@@ -20,7 +20,7 @@ for every unique `review_id` and obfuscate the meaning of the results. To
 resolve this problem, Istio lets you create classification rules that group
 requests into a fixed number of operations. For example, create an operation
 named `GetReviews`, which is a common way to identify operations using the
-[Open API Spec operationId](https://swagger.io/docs/specification/paths-and-operations/).
+[`Open API Spec operationId`](https://swagger.io/docs/specification/paths-and-operations/).
 You can use the operation as a dimension in Istio standard metrics. Similarly, you
 can track metrics based on other logical operations like `ListReviews` and
 `CreateReviews`.
@@ -96,7 +96,7 @@ spec:
                           {
                             "value": "GetReview",
                             "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
-                          }, 
+                          },
                           {
                             "value": "CreateReview",
                             "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
