@@ -156,7 +156,7 @@ spec:
         {
             "name": "requests_total",
             "dimensions": {
-            "request_operation": "istio.operationId"
+              "request_operation": "istio.operationId"
             }
         }
     ]
@@ -313,8 +313,8 @@ spec:
         {
             "name": "requests_total",
             "dimensions": {
-            "response_code": "has(istio.responseClass)?istio.responseClass:response.code",
-            "response_operation": "istio.operationId",
+              "response_code": "has(istio.responseClass)?istio.responseClass:response.code",
+              "response_operation": "istio.operationId",
             }
         }
     ]
