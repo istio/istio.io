@@ -117,7 +117,6 @@ of Istio itself (as distinct from that of the services within the mesh).
 For more information on which metrics are maintained, please refer to the reference documentation for each of the components:
 
 - [Pilot](/docs/reference/commands/pilot-discovery/#metrics)
-- [Galley](/docs/reference/commands/galley/#metrics)
 - [Mixer](/docs/reference/commands/mixs/#metrics)
 
 ## Distributed traces

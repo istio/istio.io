@@ -76,6 +76,6 @@ Refer to the [installation option change page](/news/releases/1.2.x/announcing-1
 - **Added** a new experimental ['a-la-carte' Istio installer](https://github.com/istio/installer/wiki) to enable users to install and upgrade Istio with desired isolation and security.
 - **Added** [environment variable and configuration file support](https://docs.google.com/document/d/1M-qqBMNbhbAxl3S_8qQfaeOLAiRqSBpSgfWebFBRuu8/edit) for configuring Galley, in addition to command-line flags.
 - **Added** [ControlZ](/docs/ops/diagnostic-tools/controlz/) support to visualize the state of the MCP Server in Galley.
-- **Added** the [`enableServiceDiscovery` command-line flag](/docs/reference/commands/galley/#galley-server) to control the service discovery module in Galley.
+- **Added** the [`enableServiceDiscovery` command-line flag](https://archive.istio.io/v1.2/docs/reference/commands/galley/#galley-server) to control the service discovery module in Galley.
 - **Added** `InitialWindowSize` and `InitialConnWindowSize` parameters to Galley and Pilot to allow fine-tuning of MCP (gRPC) connection settings.
 - **Graduated** configuration processing with Galley from Alpha to Beta.

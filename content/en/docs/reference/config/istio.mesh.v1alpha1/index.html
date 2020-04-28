@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 24
+number_of_entries: 25
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -63,6 +63,19 @@ No
 <td><code><a href="#Tracing-Stackdriver">Stackdriver (oneof)</a></code></td>
 <td>
 <p>Use a Stackdriver tracer.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Tracing-tls_settings">
+<td><code>tlsSettings</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td>
+<p>Use the tls_settings to specify the tls mode to use. If the remote tracing service
+uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
 <td>
@@ -364,6 +377,20 @@ No
 No
 </td>
 </tr>
+<tr id="ProxyConfig-extra_stat_tags">
+<td><code>extraStatTags</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>An additional list of tags to extract from the in-proxy Istio telemetry. These extra tags can be
+added by configuring the telemetry extension. Each additional tag needs to be present in this list.
+Extra tags emitted by the telemetry extensions must be listed here so that they can be processed
+and exposed as Prometheus metrics.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><code>zipkinAddress</code></td>
 <td><code>string</code></td>
@@ -489,28 +516,6 @@ No
 <td><code>string</code></td>
 <td>
 <p>The Lightstep access token.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-Lightstep-secure">
-<td><code>secure</code></td>
-<td><code>bool</code></td>
-<td>
-<p>True if a secure connection should be used when communicating with the pool.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-Lightstep-cacert_path">
-<td><code>cacertPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path to the trusted cacert used to authenticate the pool.</p>
 
 </td>
 <td>
@@ -1170,6 +1175,25 @@ No
 No
 </td>
 </tr>
+<tr id="MeshConfig-enable_prometheus_merge">
+<td><code>enablePrometheusMerge</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>If enabled, Istio agent will merge metrics exposed by the application with metrics from Envoy
+and Istio agent. The sidecar injection will replace <code>prometheus.io</code> annotations present on the pod
+and redirect them towards Istio agent, which will then merge metrics of from the application with Istio metrics.
+This relies on the annotations <code>prometheus.io/scrape</code>, <code>prometheus.io/port</code>, and
+<code>prometheus.io/path</code> annotations.
+If you are running a separately managed Envoy with an Istio sidecar, this may cause issues, as the metrics will collide.
+In this case, it is recommended to disable aggregation on that deployment with the
+<code>prometheus.istio.io/merge-metrics: &quot;false&quot;</code> annotation.
+If not specified, this will be enabled by default.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1338,6 +1362,52 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Specify thrift rate limit service timeout, in milliseconds. Default is 50ms</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ServiceSettings-Settings">MeshConfig.ServiceSettings.Settings</h2>
+<section>
+<p>Settings for the selected services.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ServiceSettings-Settings-cluster_local">
+<td><code>clusterLocal</code></td>
+<td><code>bool</code></td>
+<td>
+<p>If true, specifies that the client and service endpoints must reside in the same cluster.
+By default, in multi-cluster deployments, the Istio control plane assumes all service
+endpoints to be reachable from any client in any of the clusters which are part of the
+mesh. This configuration option limits the set of service endpoints visible to a client
+to be cluster scoped.</p>
+
+<p>There are some common scenarios when this can be useful:</p>
+
+<ul>
+<li>A service (or group of services) is inherently local to the cluster and has local storage
+for that cluster. For example, the kube-system namespace (e.g. the Kube API Server).</li>
+<li>A mesh administrator wants to slowly migrate services to Istio. They might start by first
+having services cluster-local and then slowly transition them to mesh-wide. They could do
+this service-by-service (e.g. mysvc.myns.svc.cluster.local) or as a group
+(e.g. *.myns.svc.cluster.local).</li>
+</ul>
+
+<p>By default, Istio will consider all services in the kube-system namespace to be cluster-local,
+unless explicitly overridden here.</p>
 
 </td>
 <td>
