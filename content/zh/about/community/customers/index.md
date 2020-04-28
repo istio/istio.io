@@ -33,7 +33,6 @@ skip_seealso: true
     {{< company_logo link="https://www.trulia.com" logo="./trulia.svg" alt="Trulia" >}}
     {{< company_logo link="https://www.ibm.com/watson" logo="./watson.png" alt="IBM Watson" >}}
     {{< company_logo link="https://ygrene.com" logo="./ygrene.jpeg" alt="Ygrene Energy Fund" >}}
-    {{< company_logo link="https://tuya.com" logo="./tuya.png" alt="Tuya Inc" >}}
 </div>
 
 想要您的 logo 也出现在这里吗？只需要提交一个 [pull request](https://github.com/istio/istio.io/pulls)。
