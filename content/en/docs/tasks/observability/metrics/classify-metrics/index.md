@@ -335,7 +335,7 @@ spec:
    `2xx`. Alternatively, use the following command to verify that Istio generates the data for your new dimension:
 
     {{< text bash >}}
-    $ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/metrics' | grep istio_
+    $ kubectl exec pod-name -c istio-proxy -- curl 'localhost:15000/stats/prometheus' | grep istio_
     {{< /text >}}
 
     In the output, locate the metric (e.g. `istio_requests_total`) and verify the presence of the new or changed dimension.
