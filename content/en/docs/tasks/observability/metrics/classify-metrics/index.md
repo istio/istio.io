@@ -15,14 +15,14 @@ GET /reviews/{review_id}
 {{< /text >}}
 
 Counting the number of review requests becomes complicated by the unbounded
-element, `review_id`. If you use this metric as-is, it would create a dimension
-for every unique `review_id` and obfuscate the meaning of the results. To
-resolve this problem, Istio lets you create classification rules that group
-requests into a fixed number of operations. For example, create an operation
-named `GetReviews`, which is a common way to identify operations using the
+element, `review_id`. If you don't classify requests, you will count
+`request_id`s instead of the number of review requests as intended. To resolve
+this problem, Istio lets you create classification rules that group requests
+into a fixed number of logical operations. For example, create an operation named
+`GetReviews`, which is a common way to identify operations using the
 [`Open API Spec operationId`](https://swagger.io/docs/specification/paths-and-operations/).
-You can use the operation as a dimension in Istio standard metrics. Similarly, you
-can track metrics based on other logical operations like `ListReviews` and
+You can use the operation as a dimension in Istio standard metrics. Similarly,
+you can track metrics based on other operations like `ListReviews` and
 `CreateReviews`.
 
 Istio lets you create classification rules
