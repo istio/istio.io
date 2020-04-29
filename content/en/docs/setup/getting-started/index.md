@@ -54,7 +54,6 @@ Follow these steps to get started with Istio:
 
     The installation directory contains:
 
-    - Installation YAML files for Kubernetes in `install/kubernetes`
     - Sample applications in `samples/`
     - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the
       `bin/` directory.
