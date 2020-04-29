@@ -61,7 +61,7 @@ only much more convenient when there are many hosts within the common domain.
       tls:
       - match:
         - port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -153,7 +153,7 @@ the set of domains.
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -166,7 +166,7 @@ the set of domains.
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -479,7 +479,7 @@ The SNI proxy will forward the traffic to port `443`.
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -585,7 +585,7 @@ The SNI proxy will forward the traffic to port `443`.
        - gateways:
          - mesh
          port: 443
-         sni_hosts:
+         sniHosts:
          - "*.wikipedia.org"
        route:
        - destination:
@@ -598,7 +598,7 @@ The SNI proxy will forward the traffic to port `443`.
        - gateways:
          - istio-egressgateway-with-sni-proxy
          port: 443
-         sni_hosts:
+         sniHosts:
          - "*.wikipedia.org"
        route:
        - destination:
