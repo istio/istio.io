@@ -5,7 +5,7 @@ weight: 27
 keywords: [telemetry,metrics,classify,request-based,openapispec,swagger]
 ---
 
-It is useful to visualize telemetry based on the type of requests and responses
+It's useful to visualize telemetry based on the type of requests and responses
 handled by services in your mesh. For example, a bookseller tracks the number of
 times their web site gets book reviews from a backend service. A book review
 request has this structure:
