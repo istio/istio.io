@@ -31,7 +31,6 @@ creating and counting the results of a higher-level `GetReviews` dimension.
 
 For more information, see the
 [reference content](/docs/reference/config/attributegen/).
-/docs/reference/config/attributegen/
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
