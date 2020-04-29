@@ -96,13 +96,13 @@ clean:
 	@rm -fr resources .htmlproofer tmp generated public out samples install go tests/integration/
 
 lint: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
-	@scripts/lint_site.sh
+	@BRANCH=$(SOURCE_BRANCH_NAME) scripts/lint_site.sh
 
 lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@scripts/lint_site.sh en
 
 lint-fast:
-	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
+	@BRANCH=$(SOURCE_BRANCH_NAME) SKIP_LINK_CHECK=true scripts/lint_site.sh
 
 serve: site
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/" --bind 0.0.0.0 --disableFastRender
