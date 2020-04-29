@@ -36,6 +36,8 @@ else
     exit 1
 fi
 
+echo Testing Langs: "${LANGS}"
+
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
 # into classic markdown ``` code blocks, so that the linters aren't confused
