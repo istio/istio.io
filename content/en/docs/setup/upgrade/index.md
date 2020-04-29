@@ -21,13 +21,27 @@ To install a new revision called `canary`, you would set the `revision` field as
 $ istioctl install --set revision=canary
 {{< /text >}}
 
-After running the command, you will have two control plane deployments running side-by-side:
+After running the command, you will have two control plane deployments and services running side-by-side:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
 istiod-786779888b-p9s5n                 1/1     Running   0          114m
 istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
+
+$ kubectl -n istio-system get svc -lapp=istiod
+NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                AGE
+istiod          ClusterIP   10.32.5.247   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                  33d
+istiod-canary   ClusterIP   10.32.6.58    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP   12m
+{{< /text >}}
+
+You will also see that there are two sidecar injector configurations including the new revision.
+
+{{< text bash >}}
+$ kubectl get mutatingwebhookconfigurations
+NAME                            CREATED AT
+istio-sidecar-injector          2020-03-26T07:09:21Z
+istio-sidecar-injector-canary   2020-04-28T19:03:26Z
 {{< /text >}}
 
 ### Data plane
@@ -36,14 +50,13 @@ Simply installing the new revision has no impact on the existing proxies. To upg
 you must configure them to point to the new control plane. This is controlled during sidecar injection
 based on the namespace label `istio.io/rev`.
 
-To upgrade the namespace `test-ns`, relabel it to point to the canary revision:
+To upgrade the namespace `test-ns`, add the `istio.io/rev` label to point to the `canary` revision and remove the `istio-injection` label.
 
 {{< text bash >}}
-$ kubectl label namespace default istio-injection- istio.io/rev=canary
+$ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
 {{< /text >}}
 
-Note that the above command is also removing the `istio-injection` label because otherwise
-it would take precedence over the `istio.io/rev` label (for backward compatibility).
+The `istio-injection` label must be removed because it takes precedence over the `istio.io/rev` label for backward compatibility.
 
 After the namespace updates, you need to restart the pods to trigger re-injection. One way to do
 this is using:
@@ -59,6 +72,15 @@ For example, the following command will show all the pods using the `canary` rev
 {{< text bash >}}
 $ kubectl get pods -n test-ns -l istio.io/rev=canary
 {{< /text >}}
+
+To verify that the new pods in the `test-ns` namespace are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created pod and use the `pod_name` in the following command:
+
+{{< text bash >}}
+$ istioctl proxy-config endpoints ${pod_name}.test-ns --cluster xds-grpc -ojson | grep hostname
+"hostname": "istiod-canary.istio-system.svc"
+{{< /text >}}
+
+The output confirms that the pod is using `istiod-canary` revision of the control plane.
 
 ## In place upgrades
 
