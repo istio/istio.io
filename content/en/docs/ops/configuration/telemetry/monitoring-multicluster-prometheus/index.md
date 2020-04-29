@@ -15,11 +15,11 @@ to demonstrate a workable approach to multicluster telemetry with Prometheus.
 
 Our recommendation for multicluster monitoring of Istio with Prometheus is built upon the foundation of Prometheus
 [hierarchical federation](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation).
-Cluster-local Istio-deployed Prometheus instances will act as initial collectors which then federate up to a production
-mesh-wide Prometheus instance. That mesh-wide Prometheus can either live outside of the mesh (aka external), or in one 
+Prometheus instances that are deployed locally to each cluster by Istio act as initial collectors that then federate up to a production
+mesh-wide Prometheus instance. That mesh-wide Prometheus can either live outside of the mesh (external), or in one
 of the clusters within the mesh.
 
-## Multicluster Istio Setup
+## Multicluster Istio setup
 
 There are a couple of [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters)
 supported by Istio. You can follow the [multicluster installation](/docs/setup/install/multicluster/) section to setup
@@ -28,12 +28,10 @@ caveat:
 
 **Ensure that a cluster-local Istio Prometheus instance is installed in each cluster.**
 
-Individual Istio deployments of Prometheus in each cluster will be used to form the basis of cross-cluster monitoring by
-way of federation to either an external production-ready Prometheus or a production-ready instance of Prometheus
-running on one of the clusters.
+Individual Istio deployments of Prometheus in each cluster are required to form the basis of cross-cluster monitoring by
+way of federation to a production-ready instance of Prometheus that runs externally or in one of the clusters.
 
-For multicluster deployments that use the `remote` profile, this will require adding the following to the istioctl
-manifest command:
+For multicluster deployments that use the `remote` profile, you must add the following to the `istioctl manifest` command:
 
 {{< text bash >}}
 $ istioctl manifest apply -f --set addonComponents.prometheus.enabled=true
@@ -47,9 +45,9 @@ NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
 prometheus   ClusterIP   10.8.4.109   <none>        9090/TCP   20h
 {{< /text >}}
 
-## Configure Prometheus Federation
+## Configure Prometheus federation
 
-### External Production Prometheus
+### External production Prometheus
 
 There are several reasons why you may want to have a Prometheus instance running outside of your Istio deployment.
 Perhaps you want long-term monitoring disjoint from the cluster being monitored. Perhaps you want to monitor multiple
@@ -73,11 +71,11 @@ Istio provides a way to expose cluster services externally via [Gateways](/docs/
 You can configure an ingress gateway for the cluster-local Prometheus, providing external connectivity to the in-cluster
 Prometheus endpoint.
 
-For each cluster, you will need to follow the appropriate instructions from the [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/#option-1-secure-access-https) task. And you
+For each cluster, follow the appropriate instructions from the [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/#option-1-secure-access-https) task. And you
 **SHOULD** establish secure (HTTPS) access.
 
-After that, you will need to configure your external Prometheus to access the cluster-local Prometheus(es). This can be achieved with configuration like
-the following (replacing the gateway address and cluster name):
+After that, you will need to configure your external Prometheus instance to access the cluster-local Prometheus instances.
+This can be achieved with a configuration like the following (replacing the gateway address and cluster name):
 
 {{< text yaml >}}
 scrape_configs:
@@ -103,19 +101,19 @@ Notes:
 
 * `CLUSTER_NAME` should be set to the same value which is used to create the cluster (set via `values.global.multiCluster.clusterName`).
 
-* No Authentication to the Prometheus endpoint(s) is provided. This means that anyone will be able to query your
-cluster-local Prometheus(es). This may not be desirable.
+* No authentication to the Prometheus endpoint(s) is provided. This means that anyone can query your
+cluster-local Prometheus instances. This may not be desirable.
 
 * Without proper HTTPS configuration of the gateway, everything is being transported via plaintext. This may not be
 desirable.
 
 ### Production Prometheus from one of the clusters
 
-If you desire to run a Prometheus in one of the clusters, you will need to establish connectivity from the production
-instance of Prometheus to each of the cluster-local Prometheus(es) within the mesh.
+If you desire to run a Prometheus in one of the clusters, establish connectivity from the production instance of
+Prometheus to each of the cluster-local Prometheus instances within the mesh.
 
-This is really just a customization of the process for external federation. You will need to establish the `Gateway`,
-`VirtualService`, and `DestinationRule` in each remote cluster as above in External Production Prometheus.
+This is really just a customization of the process for external federation, which you can achieve by configuring the `Gateway`,
+`VirtualService`, and `DestinationRule` in each remote cluster.
 
 {{< image width="80%"
     link="./in-mesh-production-prometheus.svg"
@@ -123,8 +121,8 @@ This is really just a customization of the process for external federation. You 
     caption="In-mesh Production Prometheus for monitoring multicluster Istio"
     >}}
 
-You need to configure your production Prometheus to access both of the *local* and the *remote* Prometheus(es). This can be achieved
-with config like the following for the *remote* clusters (replacing the service name and cluster name for each cluster):
+Configure your production Prometheus to access both of the *local* and the *remote* Prometheus instances. This can be achieved
+by adding a configuration like the following for the *remote* clusters (replacing the service name and cluster name for each cluster):
 
 {{< text yaml >}}
 scrape_configs:
@@ -146,7 +144,7 @@ scrape_configs:
           cluster: {{CLUSTER_NAME}}
 {{< /text >}}
 
-And add one configuration for the *local* cluster:
+Then add a configuration like the following for the *local* cluster:
 
 {{< text yaml >}}
 - job_name: 'federate-local'
