@@ -68,7 +68,7 @@ You can then decide to [configure access to external services](#controlled-acces
     Run the following command to confirm it is configured correctly:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
+    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
     mode: ALLOW_ANY
     {{< /text >}}
 
@@ -269,8 +269,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep sh
-    $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec -it $SOURCE_POD -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
 
     real    0m3.149s
