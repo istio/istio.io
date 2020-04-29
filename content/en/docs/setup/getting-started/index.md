@@ -73,19 +73,11 @@ Follow these steps to get started with Istio:
 
     {{< text bash >}}
     $ istioctl manifest apply --set profile=demo
-    Detected that your cluster does not support third party JWT authentication. Falling back to less secure first party JWT
-    - Applying manifest for component Base...
-    ✔ Finished applying manifest for component Base.
-    - Applying manifest for component Pilot...
-    ✔ Finished applying manifest for component Pilot.
-    Waiting for resources to become ready...
-    - Applying manifest for component EgressGateways...
-    - Applying manifest for component IngressGateways...
-    - Applying manifest for component AddonComponents...
-    ✔ Finished applying manifest for component EgressGateways.
-    ✔ Finished applying manifest for component IngressGateways.
-    ✔ Finished applying manifest for component AddonComponents.
-
+    ✔ Component Base installed
+    ✔ Component Pilot installed
+    ✔ Component EgressGateways installed
+    ✔ Component IngressGateways installed
+    ✔ Component AddonComponents installed
     ✔ Installation complete
     {{< /text >}}
 
