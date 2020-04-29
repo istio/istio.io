@@ -32,7 +32,6 @@ if [[ -n "${BRANCH}" ]]; then
 elif [[ "$#" -ne 0 ]]; then
     LANGS="$*"
 else
-    echo "if BRANCH is set to the source branch, ie. master, the linter will only check languages within the PR."
     echo "ERROR: no languages specified!"
     exit 1
 fi
