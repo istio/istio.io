@@ -33,8 +33,8 @@ way of federation to a production-ready instance of Prometheus that runs externa
 
 For multicluster deployments that use the `remote` profile, you must add the following to the `istioctl manifest` command:
 
-{{< text bash >}}
-$ istioctl manifest apply -f --set addonComponents.prometheus.enabled=true
+{{< text plain >}}
+--set addonComponents.prometheus.enabled=true
 {{< /text >}}
 
 Validate that you have an instance of Prometheus running in each cluster:
@@ -71,8 +71,8 @@ Istio provides a way to expose cluster services externally via [Gateways](/docs/
 You can configure an ingress gateway for the cluster-local Prometheus, providing external connectivity to the in-cluster
 Prometheus endpoint.
 
-For each cluster, follow the appropriate instructions from the [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/#option-1-secure-access-https) task. And you
-**SHOULD** establish secure (HTTPS) access.
+For each cluster, follow the appropriate instructions from the [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/#option-1-secure-access-https) task.
+Also note that you **SHOULD** establish secure (HTTPS) access.
 
 After that, you will need to configure your external Prometheus instance to access the cluster-local Prometheus instances.
 This can be achieved with a configuration like the following (replacing the gateway address and cluster name):
@@ -109,8 +109,8 @@ desirable.
 
 ### Production Prometheus from one of the clusters
 
-If you desire to run a Prometheus in one of the clusters, establish connectivity from the production instance of
-Prometheus to each of the cluster-local Prometheus instances within the mesh.
+If you prefer to run the production Prometheus in one of the clusters, you need to establish connectivity from it to
+the other cluster-local Prometheus instances in the mesh.
 
 This is really just a customization of the process for external federation, which you can achieve by configuring the `Gateway`,
 `VirtualService`, and `DestinationRule` in each remote cluster.
