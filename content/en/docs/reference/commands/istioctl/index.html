@@ -2321,6 +2321,14 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </thead>
 <tbody>
 <tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -2471,7 +2479,7 @@ istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virt
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2727,7 +2735,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2900,7 +2908,7 @@ e.g.
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3124,7 +3132,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3192,7 +3200,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3237,11 +3245,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td>The namespace the operator controller is installed into  (default `istio-operator`)</td>
 </tr>
 <tr>
-<td><code>--readiness-timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Maximum seconds to wait for the Istio operator to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
-</tr>
-<tr>
 <td><code>--tag &lt;string&gt;</code></td>
 <td></td>
 <td>The tag for the operator controller image  (default `unknown`)</td>
@@ -3250,11 +3253,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>--verbose</code></td>
 <td></td>
 <td>Verbose output. </td>
-</tr>
-<tr>
-<td><code>--wait</code></td>
-<td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds </td>
 </tr>
 </tbody>
 </table>
@@ -3272,14 +3270,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 </thead>
 <tbody>
 <tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
-  (default ``)</td>
-</tr>
-<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -3290,19 +3280,9 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td>Console/log output only, make no changes. </td>
 </tr>
 <tr>
-<td><code>--filename &lt;string&gt;</code></td>
-<td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource  (default ``)</td>
-</tr>
-<tr>
 <td><code>--force</code></td>
 <td></td>
 <td>Proceed even with errors </td>
-</tr>
-<tr>
-<td><code>--hub &lt;string&gt;</code></td>
-<td></td>
-<td>The hub for the operator controller image  (default `unknown`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3325,24 +3305,9 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td>The namespace the operator controller is installed into  (default `istio-operator`)</td>
 </tr>
 <tr>
-<td><code>--readiness-timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Maximum seconds to wait for the Istio operator to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
-</tr>
-<tr>
-<td><code>--tag &lt;string&gt;</code></td>
-<td></td>
-<td>The tag for the operator controller image  (default `unknown`)</td>
-</tr>
-<tr>
 <td><code>--verbose</code></td>
 <td></td>
 <td>Verbose output. </td>
-</tr>
-<tr>
-<td><code>--wait</code></td>
-<td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds </td>
 </tr>
 </tbody>
 </table>
@@ -3484,6 +3449,14 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
 <tr>
 <td><code>--config-path &lt;string&gt;</code></td>
 <td><code>-p</code></td>
@@ -4250,6 +4223,14 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </thead>
 <tbody>
 <tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
+  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -4534,6 +4515,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
+<td><code>ENABLE_CA_SERVER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
 <td><code>GKE_CLUSTER_URL</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -4604,12 +4591,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code>istio-system</code></td>
 <td>namespace that nodeagent/citadel run in</td>
-</tr>
-<tr>
-<td><code>PILOT_CERT_DIR</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
