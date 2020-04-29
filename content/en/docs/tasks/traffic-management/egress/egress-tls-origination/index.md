@@ -88,7 +88,7 @@ This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS ac
       tls:
       - match:
         - port: 443
-          sni_hosts:
+          sniHosts:
           - edition.cnn.com
         route:
         - destination:
