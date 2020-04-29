@@ -18,25 +18,11 @@ set -e
 
 FAILED=0
 
-if [[ -n "${BRANCH}" ]]; then
-    files_changed="$(git diff --name-only --diff-filter=b "$(git merge-base HEAD "$BRANCH")")"
-    if (echo "${files_changed}" | grep -q /en/); then
-        LANGS+="en "
-    fi
-    if (echo "${files_changed}" | grep -q /zh/); then
-        LANGS+="zh "
-    fi
-    if (echo "${files_changed}" | grep -q /pt-br/); then
-        LANGS+="pt-br "
-    fi
-elif [[ "$#" -ne 0 ]]; then
+if [[ "$#" -ne 0 ]]; then
     LANGS="$*"
 else
-    echo "ERROR: no languages specified!"
-    exit 1
+    LANGS="en zh"
 fi
-
-echo Testing Langs: "${LANGS}"
 
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
