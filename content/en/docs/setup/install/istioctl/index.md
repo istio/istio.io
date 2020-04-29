@@ -437,6 +437,7 @@ spec:
   components:
     ingressGateways:
       - name: ilb-gateway
+        namespace: user-ingressgateway-ns
         enabled: true
         # Copy settings from istio-ingressgateway as needed.
   values:
