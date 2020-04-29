@@ -76,9 +76,8 @@ $ kubectl get pods -n test-ns -l istio.io/rev=canary
 To verify that the new pods in the `test-ns` namespace are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created pod and use the `pod_name` in the following command:
 
 {{< text bash >}}
-$ kubectl  exec -i -t -n test-ns ${pod_name} -c istio-proxy -- curl http://localhost:15000/clusters | grep xds | grep hostname
-
-xds-grpc::10.32.6.58:15012::hostname::istiod-canary.istio-system.svc
+$ istioctl proxy-config endpoints ${pod_name}.test-ns --cluster xds-grpc -ojson | grep hostname
+"hostname": "istiod-canary.istio-system.svc"
 {{< /text >}}
 
 The output confirms that the pod is using `istiod-canary` revision of the control plane.
