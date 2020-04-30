@@ -132,7 +132,7 @@ typically be captured in the event log.
 
 {{< text plain >}}
 Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: Internal error occurred: \
-    failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: \
+    failed calling admission webhook "sidecar-injector.istio.io": Post https://istiod.istio-system.svc:443/inject: \
     x509: certificate signed by unknown authority (possibly because of "crypto/rsa: verification error" while trying \
     to verify candidate authority certificate "Kubernetes.cluster.local")
 {{< /text >}}
@@ -141,22 +141,22 @@ Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: 
 caused by an empty `caBundle` in the webhook configuration.
 
 Verify the `caBundle` in the `mutatingwebhookconfiguration` matches the
-   root certificate mounted in the `istio-sidecar-injector` pod.
+   root certificate mounted in the `istiod` pod.
 
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
-$ kubectl -n istio-system get secret istio.istio-sidecar-injector-service-account -o jsonpath='{.data.root-cert\.pem}' | md5sum
+$ kubectl -n istio-system get secret istiod-service-account-token -o jsonpath='{.data.root-cert\.pem}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
 {{< /text >}}
 
 The CA certificate should match. If they do not, restart the
-sidecar-injector pods.
+istiod pods.
 
 {{< text bash >}}
-$ kubectl -n istio-system patch deployment istio-sidecar-injector \
+$ kubectl -n istio-system patch deployment istiod \
     -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-deployment.extensions "istio-sidecar-injector" patched
+deployment.extensions "istiod" patched
 {{< /text >}}
 
 ### `no such hosts` or `no endpoints available` errors in deployment status
