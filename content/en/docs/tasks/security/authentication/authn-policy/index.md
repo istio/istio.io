@@ -335,7 +335,7 @@ Remove policies and destination rules created in the above steps:
 {{< text bash >}}
 $ kubectl delete peerauthentication default overwrite-example -n foo
 $ kubectl delete peerauthentication httpbin -n bar
-$ kubectl delete destinationrules default overwrite-example -n foo
+$ kubectl delete destinationrules overwrite-example -n foo
 $ kubectl delete destinationrules httpbin -n bar
 {{< /text >}}
 
