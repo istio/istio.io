@@ -151,6 +151,16 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
+					<td><code>proxy.istio.io/config</code></td>
+					<td>[Pod]</td>
+					<td>Overrides for the proxy configuration for this specific proxy. Available options can be found at https://istio.io/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
 					<td><code>readiness.status.sidecar.istio.io/applicationPorts</code></td>
 					<td>[Pod]</td>
 					<td>Specifies the list of ports exposed by the application container. Used by the Envoy sidecar readiness probe to determine that Envoy is configured and ready to receive traffic.</td>
