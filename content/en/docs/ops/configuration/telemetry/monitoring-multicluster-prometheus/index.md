@@ -9,7 +9,7 @@ aliases:
 
 ## Overview
 
-This is meant to provide operational guidance on how to configure monitoring of Istio meshes comprised of two
+This guide is meant to provide operational guidance on how to configure monitoring of Istio meshes comprised of two
 or more individual Kubernetes clusters. It is not meant to establish the *only* possible path forward, but rather
 to demonstrate a workable approach to multicluster telemetry with Prometheus.
 
@@ -21,10 +21,9 @@ of the clusters within the mesh.
 
 ## Multicluster Istio setup
 
-There are a couple of [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters)
-supported by Istio. You can follow the [multicluster installation](/docs/setup/install/multicluster/) section to setup
-your multicluster Istio. For the purposes of this guide, any of those approaches will work, with the following
-caveat:
+Follow the [multicluster installation](/docs/setup/install/multicluster/) section to setup your Istio clusters in one of the
+supported [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters). For the purposes of 
+this guide, any of those approaches will work, with the following caveat:
 
 **Ensure that a cluster-local Istio Prometheus instance is installed in each cluster.**
 
@@ -61,10 +60,9 @@ configurations to make it all work.
     >}}
 
 {{< warning >}}
-This guide does not cover securing access to Prometheus. It demonstrates providing connectivity to cluster-local Prometheus
-instances in a few simple ways. For production use cases, it is recommended to secure access to each Prometheus endpoint
-with HTTPS, as well as taking appropriate precautions such as using an internal load-balancer instead of a publicly-accessible
-endpoint and/or properly configuring firewall rules.
+This guide demonstrates connectivity to cluster-local Prometheus instances, but does not address security considerations.
+For production use, secure access to each Prometheus endpoint with HTTPS. In addition, take precautions, such as using an
+internal load-balancer instead of a public endpoint and the appropriate configuration of firewall rules.
 {{< /warning >}}
 
 Istio provides a way to expose cluster services externally via [Gateways](/docs/reference/config/networking/gateway/).
@@ -74,8 +72,8 @@ Prometheus endpoint.
 For each cluster, follow the appropriate instructions from the [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/#option-1-secure-access-https) task.
 Also note that you **SHOULD** establish secure (HTTPS) access.
 
-After that, you will need to configure your external Prometheus instance to access the cluster-local Prometheus instances.
-This can be achieved with a configuration like the following (replacing the gateway address and cluster name):
+Next, configure your external Prometheus instance to access the cluster-local Prometheus instances using a configuration
+like the following (replacing the gateway address and cluster name):
 
 {{< text yaml >}}
 scrape_configs:
@@ -99,7 +97,7 @@ scrape_configs:
 
 Notes:
 
-* `CLUSTER_NAME` should be set to the same value which is used to create the cluster (set via `values.global.multiCluster.clusterName`).
+* `CLUSTER_NAME` should be set to the same value that you used to create the cluster (set via `values.global.multiCluster.clusterName`).
 
 * No authentication to the Prometheus endpoint(s) is provided. This means that anyone can query your
 cluster-local Prometheus instances. This may not be desirable.
@@ -107,7 +105,7 @@ cluster-local Prometheus instances. This may not be desirable.
 * Without proper HTTPS configuration of the gateway, everything is being transported via plaintext. This may not be
 desirable.
 
-### Production Prometheus from one of the clusters
+### Production Prometheus on an in-mesh cluster
 
 If you prefer to run the production Prometheus in one of the clusters, you need to establish connectivity from it to
 the other cluster-local Prometheus instances in the mesh.
@@ -121,8 +119,8 @@ This is really just a customization of the process for external federation, whic
     caption="In-mesh Production Prometheus for monitoring multicluster Istio"
     >}}
 
-Configure your production Prometheus to access both of the *local* and the *remote* Prometheus instances. This can be achieved
-by adding a configuration like the following for the *remote* clusters (replacing the service name and cluster name for each cluster):
+Configure your production Prometheus to access the *local* and *remote* Prometheus instances by adding a configuration for
+the *remote* clusters as shown (replacing the service name and cluster name for each cluster):
 
 {{< text yaml >}}
 scrape_configs:
