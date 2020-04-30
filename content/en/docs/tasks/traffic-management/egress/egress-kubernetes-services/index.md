@@ -22,9 +22,10 @@ external service and according to the way your workload accesses the external se
 HTTP requests and the external service requires TLS, you may want to perform TLS origination by Istio. If your workload
 already uses TLS, the traffic is already encrypted and you can just disable Istio's mutual TLS.
 
-     {{< warning >}}
-     This page describes how Istio can integrate with existing Kubernetes configurations. For new deployments, we recommend following [Accessing Egress Services](/docs/tasks/traffic-management/egress/egress-control/).
-     {{< /warning >}}
+{{< warning >}}
+This page describes how Istio can integrate with existing Kubernetes configurations. For new deployments, we recommend
+following [Accessing Egress Services](/docs/tasks/traffic-management/egress/egress-control/).
+{{< /warning >}}
 
 While the examples in this task use HTTP protocols,
 Kubernetes Services for egress traffic work with other protocols as well.
