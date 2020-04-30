@@ -162,6 +162,7 @@ configurability
 containerID
 ControlZ
 CoreDNS
+coredns
 coreos
 Costin
 CRD
@@ -227,6 +228,7 @@ Duggirala
 e.g.
 eBPF
 edition.cnn.com
+Eisenberg
 Elasticsearch
 embeddable
 emojis
@@ -366,6 +368,7 @@ Kops
 Krishnan
 Kuat
 Kube
+kube-dns
 kubebuilder
 KubeCon
 kubeconfig
@@ -555,6 +558,7 @@ security_bulletin
 selinux
 serverless
 serviceaccount
+ServiceEntry
 ServiceGraph
 servicegraph-example
 ServiceMeshCon
@@ -587,6 +591,8 @@ Steitz
 Stoney
 strongSwan
 struct
+stub
+stubbing
 Styra
 subdomain
 subdomains
@@ -596,6 +602,8 @@ subnetworks
 subresource
 subresources
 substring
+suffix
+suffixes
 Superfeet
 svc
 svc.com
@@ -648,6 +656,8 @@ upstreams
 uptime
 URIs
 url
+usecase
+usecases
 user
 user1
 UTF-8
@@ -663,6 +673,7 @@ V2
 v2-mysql
 v3
 ValueType
+Vadim
 vCPU
 vCPUs
 versioned
