@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/tasks/security/dns-cert/index.md
+#          docs/tasks/security/cert-management/dns-cert/index.md
 ####################################################################################################
 
 snip_before_you_begin_1() {
