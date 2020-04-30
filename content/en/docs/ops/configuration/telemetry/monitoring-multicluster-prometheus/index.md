@@ -22,7 +22,7 @@ of the clusters within the mesh.
 ## Multicluster Istio setup
 
 Follow the [multicluster installation](/docs/setup/install/multicluster/) section to setup your Istio clusters in one of the
-supported [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters). For the purposes of 
+supported [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters). For the purposes of
 this guide, any of those approaches will work, with the following caveat:
 
 **Ensure that a cluster-local Istio Prometheus instance is installed in each cluster.**
