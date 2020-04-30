@@ -165,16 +165,22 @@ if [ -d ./public ]; then
         #fi
     done < <(find ./public "${find_exclude[@]}" -type f -name '*.html' -print0)
 
+    if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --checks-to-ignore "LinkCheck"; then
+        FAILED=1
+    fi
+
     if [[ ${SKIP_LINK_CHECK:-} != "true" ]]; then
         if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
             printf -v ignore_files "/^.\/public\/%s/," "${SKIP_LANGS[@]}"; ignore_files="${ignore_files%,}"
         fi
+        echo "Running linkinator..."
         if [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
-            if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-external-hash --check-opengraph --timeframe 2d --storage-dir .htmlproofer --url-ignore "/archive.istio.io/,/localhost/,/github.com/istio/istio.io/edit/,/github.com/istio/istio/issues/new/choose/,/groups.google.com/forum/,/www.trulia.com/,/apporbit.com/,/www.mysql.com/,/www.oreilly.com/,/docs.okd.io/,/www.aporeto.com/"; then
+            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io' --silent; then
                 FAILED=1
             fi
         else
-            if ! htmlproofer ./public --file-ignore "${ignore_files}" --assume-extension --http-status-ignore "0,429" --check-html --check-opengraph --timeframe 2d --storage-dir .htmlproofer --disable-external; then
+            #TODO: Remove .../workload-selector/ from ignored links. PRs take a long time to get through istio/api, and a link is broken from there. Once this PR is complete, remove it: https://github.com/istio/api/pull/1405
+            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$ /docs/reference/config/type/v1beta1/workload-selector/' --silent; then
                 FAILED=1
             fi
         fi
