@@ -94,11 +94,6 @@ remove_toc_prefix: 'pilot-discovery '
 <td>Restrict the applications namespace the controller manages; if not set, controller watches all namespaces  (default ``)</td>
 </tr>
 <tr>
-<td><code>--caCertFile &lt;string&gt;</code></td>
-<td></td>
-<td>File containing the x509 Server CA Certificate  (default ``)</td>
-</tr>
-<tr>
 <td><code>--clusterID &lt;string&gt;</code></td>
 <td></td>
 <td>The ID of the cluster that this Istiod instance resides  (default `Kubernetes`)</td>
@@ -267,16 +262,6 @@ remove_toc_prefix: 'pilot-discovery '
 <td><code>--resync &lt;duration&gt;</code></td>
 <td></td>
 <td>Controller resync interval  (default `1m0s`)</td>
-</tr>
-<tr>
-<td><code>--tlsCertFile &lt;string&gt;</code></td>
-<td></td>
-<td>File containing the x509 Server Certificate  (default ``)</td>
-</tr>
-<tr>
-<td><code>--tlsKeyFile &lt;string&gt;</code></td>
-<td></td>
-<td>File containing the x509 private key matching --tlsCertFile  (default ``)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
@@ -547,12 +532,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Protocol and DNS server to use. Currently only tcp-tls: is supported.</td>
 </tr>
 <tr>
-<td><code>ENABLE_CA_SERVER</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If this is set to false, will not create CA server in istiod.</td>
-</tr>
-<tr>
 <td><code>ENABLE_INCREMENTAL_MCP</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -634,6 +613,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>MCP_SOURCE_REQ_FREQ</code></td>
 <td>Time Duration</td>
 <td><code>1s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
 <td></td>
 </tr>
 <tr>

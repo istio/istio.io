@@ -2321,14 +2321,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </thead>
 <tbody>
 <tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
-  (default ``)</td>
-</tr>
-<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -2364,6 +2356,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--readiness-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
@@ -2377,11 +2374,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td>If skip-confirmation is set, skips the prompting confirmation for value changes in this upgrade </td>
 </tr>
 <tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
-<tr>
 <td><code>--versionsURI &lt;string&gt;</code></td>
 <td><code>-u</code></td>
 <td>URI for operator versions to Istio versions map  (default ``)</td>
@@ -2389,7 +2381,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of 10m0s </td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits.  </td>
 </tr>
 </tbody>
 </table>
@@ -2479,7 +2471,7 @@ istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virt
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2502,7 +2494,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--force</code></td>
 <td></td>
-<td>Proceed even with validation errors </td>
+<td>Proceed even with validation errors. </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -2522,7 +2514,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--readiness-timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Maximum seconds to wait for all Istio resources to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply.  (default `5m0s`)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
@@ -2539,14 +2531,9 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
-<tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds </td>
+<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. </td>
 </tr>
 </tbody>
 </table>
@@ -2711,11 +2698,6 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
 </tbody>
 </table>
 <h2 id="istioctl-manifest-apply">istioctl manifest apply</h2>
@@ -2735,7 +2717,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2758,7 +2740,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--force</code></td>
 <td></td>
-<td>Proceed even with validation errors </td>
+<td>Proceed even with validation errors. </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -2778,7 +2760,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--readiness-timeout &lt;duration&gt;</code></td>
 <td></td>
-<td>Maximum seconds to wait for all Istio resources to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply.  (default `5m0s`)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
@@ -2795,14 +2777,9 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
 </tr>
 <tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
-<tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of --readiness-timeout seconds </td>
+<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. </td>
 </tr>
 </tbody>
 </table>
@@ -2841,7 +2818,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--directory</code></td>
 <td><code>-r</code></td>
-<td>compare directory </td>
+<td>Compare directory. </td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -2851,7 +2828,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--ignore &lt;string&gt;</code></td>
 <td></td>
-<td>ignoreResources ignores all listed items during comparison. It uses the same list format as selectResources  (default ``)</td>
+<td>Ignore all listed items during comparison, using the same list format as selectResources.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -2871,14 +2848,14 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--rename &lt;string&gt;</code></td>
 <td></td>
-<td>renameResources identifies renamed resources before comparison.
+<td>Rename resources before comparison.
 The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
 e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
 </tr>
 <tr>
 <td><code>--select &lt;string&gt;</code></td>
 <td></td>
-<td>selectResources constrains the list of resources to compare to only the ones in this list, ignoring all others.
+<td>Constrain the list of resources to compare to only the ones in this list, ignoring all others.
 The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
 e.g.
     Deployment:istio-system:* - compare all deployments in istio-system namespace
@@ -2886,7 +2863,7 @@ e.g.
 </tr>
 <tr>
 <td><code>--verbose</code></td>
-<td></td>
+<td><code>-v</code></td>
 <td>Verbose output. </td>
 </tr>
 </tbody>
@@ -2908,7 +2885,7 @@ e.g.
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2931,7 +2908,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--force</code></td>
 <td></td>
-<td>Proceed even with validation errors </td>
+<td>Proceed even with validation errors. </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -2951,7 +2928,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Manifest output directory path  (default ``)</td>
+<td>Manifest output directory path.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
@@ -2960,11 +2937,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 (--set profile=demo), enable or disable components (--set components.policy.enabled=true), or override Istio
 settings (--set values.grafana.enabled=true). See documentation for more info:
 https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControlPlaneSpec  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
 </tr>
 </tbody>
 </table>
@@ -3025,11 +2997,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
 </tbody>
 </table>
 <h2 id="istioctl-manifest-versions">istioctl manifest versions</h2>
@@ -3069,11 +3036,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
 </tr>
 <tr>
 <td><code>--versionsURI &lt;string&gt;</code></td>
@@ -3132,7 +3094,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3176,11 +3138,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td></td>
 <td>The tag for the operator controller image  (default `unknown`)</td>
 </tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
 </tbody>
 </table>
 <h2 id="istioctl-operator-init">istioctl operator init</h2>
@@ -3200,7 +3157,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3248,11 +3205,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>--tag &lt;string&gt;</code></td>
 <td></td>
 <td>The tag for the operator controller image  (default `unknown`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
 </tr>
 </tbody>
 </table>
@@ -3303,11 +3255,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>--operatorNamespace &lt;string&gt;</code></td>
 <td></td>
 <td>The namespace the operator controller is installed into  (default `istio-operator`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
 </tr>
 </tbody>
 </table>
@@ -3380,11 +3327,6 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
 </tbody>
 </table>
 <h3 id="istioctl-profile Examples">Examples</h3>
@@ -3429,11 +3371,6 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
 </tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
 </tbody>
 </table>
 <h2 id="istioctl-profile-dump">istioctl profile dump</h2>
@@ -3449,14 +3386,6 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
-  (default ``)</td>
-</tr>
 <tr>
 <td><code>--config-path &lt;string&gt;</code></td>
 <td><code>-p</code></td>
@@ -3498,11 +3427,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml  (default `yaml`)</td>
 </tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
 </tbody>
 </table>
 <h2 id="istioctl-profile-list">istioctl profile list</h2>
@@ -3542,11 +3466,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
 </tr>
 </tbody>
 </table>
@@ -4223,14 +4142,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </thead>
 <tbody>
 <tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
-  (default ``)</td>
-</tr>
-<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -4266,6 +4177,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--readiness-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Maximum time to wait for Istio resources in each component to be ready. The --wait flag must be set for this flag to apply  (default `5m0s`)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
@@ -4279,11 +4195,6 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td>If skip-confirmation is set, skips the prompting confirmation for value changes in this upgrade </td>
 </tr>
 <tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Verbose output. </td>
-</tr>
-<tr>
 <td><code>--versionsURI &lt;string&gt;</code></td>
 <td><code>-u</code></td>
 <td>URI for operator versions to Istio versions map  (default ``)</td>
@@ -4291,7 +4202,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. It will wait for a maximum duration of 10m0s </td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits.  </td>
 </tr>
 </tbody>
 </table>
@@ -4515,12 +4426,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
-<td><code>ENABLE_CA_SERVER</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If this is set to false, will not create CA server in istiod.</td>
-</tr>
-<tr>
 <td><code>GKE_CLUSTER_URL</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -4591,6 +4496,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code>istio-system</code></td>
 <td>namespace that nodeagent/citadel run in</td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
