@@ -48,7 +48,7 @@ across different clusters. For illustration purposes, the following instructions
 use the certificates from the Istio samples directory for both clusters.
 
 Run the following commands on each cluster in the mesh to install the certificates.
-See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/)
+See [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/)
 for more details on configuring an external CA.
 
 {{< text bash >}}

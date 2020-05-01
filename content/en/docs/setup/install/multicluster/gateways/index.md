@@ -63,7 +63,7 @@ Cross-cluster communication occurs over the Istio gateways of the respective clu
 1. Run the following commands in **every cluster** to deploy an identical Istio control plane
     configuration in all of them.
 
-    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/) for more details.
+    * Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/) for more details.
 
         {{< warning >}}
         The root and intermediate certificate from the samples directory are widely
