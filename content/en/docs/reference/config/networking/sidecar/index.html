@@ -511,7 +511,7 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioIngressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
+<td><code><a href="/docs/reference/config/networking/gateway/#Port">Port</a></code></td>
 <td>
 <p>The port associated with the listener.</p>
 
@@ -565,7 +565,7 @@ Yes
 </tr>
 <tr id="IstioIngressListener-localhost_client_tls">
 <td><code>localhostClientTls</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>TLS settings to be used by the sidecar (client) when forwarding
 traffic from the sidecar to the workload (server) on the
@@ -598,7 +598,7 @@ listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioEgressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
+<td><code><a href="/docs/reference/config/networking/gateway/#Port">Port</a></code></td>
 <td>
 <p>The port associated with the listener. If using Unix domain socket,
 use 0 as the port number, with a valid protocol. The port if
@@ -693,7 +693,7 @@ Yes
 </tr>
 <tr id="IstioEgressListener-localhost_server_tls">
 <td><code>localhostServerTls</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway.html#ServerTLSSettings">ServerTLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/gateway/#ServerTLSSettings">ServerTLSSettings</a></code></td>
 <td>
 <p>TLS settings to be used by the sidecar (server) when receiving
 traffic from the workload (client) on the
@@ -864,7 +864,7 @@ spec:
 <tbody>
 <tr id="Localhost-client_tls">
 <td><code>clientTls</code></td>
-<td><code><a href="/docs/reference/config/networking/destination-rule.html#ClientTLSSettings">ClientTLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>TLS settings to be used by the sidecar (client) when forwarding
 traffic from the sidecar to the workload it is attached to
@@ -879,7 +879,7 @@ No
 </tr>
 <tr id="Localhost-server_tls">
 <td><code>serverTls</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway.html#ServerTLSSettings">ServerTLSSettings</a></code></td>
+<td><code><a href="/docs/reference/config/networking/gateway/#ServerTLSSettings">ServerTLSSettings</a></code></td>
 <td>
 <p>TLS settings to be used by the sidecar (server) when receiving
 traffic from the workload (client) on the localhost.</p>
