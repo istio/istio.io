@@ -4,7 +4,7 @@ description: Shows how system administrators can configure Istio's CA with an ex
 weight: 80
 keywords: [security,certificates]
 aliases:
-    - /docs/tasks/security/plugin-ca-cert/
+    - /docs/tasks/security/cert-management/plugin-ca-cert/
 test: true
 ---
 

@@ -36,7 +36,7 @@ func TestDNSCert(t *testing.T) {
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
-source ${REPO_ROOT}/content/en/docs/tasks/security/dns-cert/snips.sh
+source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/dns-cert/snips.sh
 snip_cleanup_1`,
 				},
 			}).

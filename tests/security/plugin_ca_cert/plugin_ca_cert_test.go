@@ -22,8 +22,8 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-//https://istio.io/docs/tasks/security/plugin-ca-cert/
-//https://github.com/istio/istio.io/blob/release-1.5/content/en/docs/tasks/security/plugin-ca-cert/index.md
+//https://istio.io/docs/tasks/security/cert-management/plugin-ca-cert/
+//https://github.com/istio/istio.io/blob/release-1.5/content/en/docs/tasks/security/cert-management/plugin-ca-cert/index.md
 func TestPluginCACert(t *testing.T) {
 
 	framework.
@@ -36,7 +36,7 @@ func TestPluginCACert(t *testing.T) {
 set -e
 set -u
 set -o pipefail
-source ${REPO_ROOT}/content/en/docs/tasks/security/plugin-ca-cert/snips.sh
+source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh
 # create_ns_foo_with_httpbin_sleep
 snip_deploying_example_services_1
 snip_deploying_example_services_2`,
@@ -52,7 +52,7 @@ snip_deploying_example_services_2`,
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
-source ${REPO_ROOT}/content/en/docs/tasks/security/plugin-ca-cert/snips.sh
+source ${REPO_ROOT}/content/en/docs/tasks/security/cert-management/plugin-ca-cert/snips.sh
 snip_cleanup_1`,
 				},
 			}).
