@@ -40,7 +40,7 @@ export TEST_ENV=kind
 export PULL_POLICY=IfNotPresent
 
 export HUB=${HUB:-"gcr.io/istio-testing"}
-export TAG="${TAG:-"latest"}"
+export TAG="${TAG:-"1.6-alpha.1d3b136325a5592511f72a9b041ea396bdbd5180"}"
 
 # Setup junit report and verbose logging
 export T="${T:-"-v"}"
