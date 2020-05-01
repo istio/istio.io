@@ -65,8 +65,8 @@ The following ports and protocols are used by Istio.
 | 15000 | TCP | Envoy | Envoy admin port (commands/diagnostics) |
 | 15001 | TCP | Envoy | Envoy Outbound |
 | 15006 | TCP | Envoy | Envoy Inbound |
-| 15021 | HTTP | Envoy | Health checks |
 | 15020 | HTTP | Envoy | Istio agent Prometheus telemetry |
+| 15021 | HTTP | Envoy | Health checks |
 | 15090 | HTTP | Envoy | Envoy Prometheus telemetry |
 | 15010 | GRPC | Istiod | XDS and CA services (plaintext) |
 | 15012 | GRPC | Istiod | XDS and CA services (TLS) |
