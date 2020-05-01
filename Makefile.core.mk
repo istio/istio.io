@@ -33,12 +33,12 @@ export ISTIO_IMAGE_VERSION
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
-HUB ?= gcr.io/istio-testing
+HUB ?= gcr.io/istio-prerelease-testing
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
 endif
 
-TAG ?= $(shell echo "${ISTIO_IMAGE_VERSION}.${ISTIO_SHA}")
+TAG ?= 1.6.0-beta.0
 ifeq ($(TAG),)
   $(error "TAG cannot be empty")
 endif
