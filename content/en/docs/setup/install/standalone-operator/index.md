@@ -163,7 +163,7 @@ checking the operator controller logs:
 $ kubectl logs -f -n istio-operator $(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')
 {{< /text >}}
 
-Refer to the [`IstioOperator` API](https://github.com/istio/api/blob/release-1.5/operator/v1alpha1/operator.proto/)
+Refer to the [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec)
 for the complete set of configuration settings.
 
 ## Uninstall
