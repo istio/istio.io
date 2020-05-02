@@ -22,8 +22,8 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-//https://istio.io/docs/tasks/security/dns-cert/
-//https://github.com/istio/istio.io/blob/release-1.5/content/en/docs/tasks/security/dns-cert/index.md
+//https://istio.io/docs/tasks/security/cert-management/dns-cert/
+//https://github.com/istio/istio.io/blob/release-1.5/content/en/docs/tasks/security/cert-management/dns-cert/index.md
 func TestDNSCert(t *testing.T) {
 	framework.
 		NewTest(t).
