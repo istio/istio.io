@@ -49,7 +49,6 @@ COMPONENTS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@istioctl/cmd/istioctl@istioctl
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-agent@pilot-agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-discovery@pilot-discovery
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/node_agent@node_agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@operator/cmd/operator@operator
 )
 
