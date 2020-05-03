@@ -30,7 +30,7 @@ Ensure you meet these requirements before starting the upgrade process:
 {{< warning >}}
 Traffic disruption may occur during the upgrade process. To minimize the disruption, ensure
 that at least two replicas of each component (except Citadel) are running. Also, ensure that
-[`PodDistruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+[`PodDisruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
 are configured with a minimum availability of 1.
 {{< /warning >}}
 
