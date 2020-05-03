@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 76
+number_of_entries: 77
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -103,7 +103,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [yaml log json]  (default `log`)</td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -1070,7 +1070,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of [yaml log json]  (default `log`)</td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
 </tr>
 <tr>
 <td><code>--output-threshold &lt;Level&gt;</code></td>
@@ -2321,14 +2321,6 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 </thead>
 <tbody>
 <tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
-  (default ``)</td>
-</tr>
-<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -2479,7 +2471,7 @@ istioctl experimental wait --for=distribution --threshold=.99 --timeout=300 virt
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2725,7 +2717,7 @@ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml \
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2893,7 +2885,7 @@ e.g.
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -2962,6 +2954,51 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
   istioctl manifest generate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
+<h2 id="istioctl-manifest-migrate">istioctl manifest migrate</h2>
+<p>The migrate subcommand migrates a configuration from Helm values or IstioControlPlane format to IstioOperator format.</p>
+<pre class="language-bash"><code>istioctl manifest migrate [&lt;filepath&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td>Proceed even with validation errors </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-manifest-versions">istioctl manifest versions</h2>
 <p>List the versions of Istio recommended for use or supported for upgrade by this version of istioctl.</p>
 <pre class="language-bash"><code>istioctl manifest versions [flags]
@@ -3057,7 +3094,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3120,7 +3157,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/
 <td><code>--charts &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
+(e.g. ~/Downloads/istio-1.5.0/install/kubernetes/operator)
 or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
   (default ``)</td>
 </tr>
@@ -3349,14 +3386,6 @@ istioctl manifest apply --set profile=demo  # Use a profile from the list
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
-  (default ``)</td>
-</tr>
 <tr>
 <td><code>--config-path &lt;string&gt;</code></td>
 <td><code>-p</code></td>
@@ -4113,14 +4142,6 @@ Retrieves last sent and last acknowledged xDS sync from Pilot to each Envoy in t
 </thead>
 <tbody>
 <tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.6.0/install/kubernetes/operator)
-or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.5.1/istio-1.5.1-linux.tar.gz).
-  (default ``)</td>
-</tr>
-<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the kubeconfig context to use  (default ``)</td>
@@ -4405,12 +4426,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
-<td><code>ENABLE_CA_SERVER</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If this is set to false, will not create CA server in istiod.</td>
-</tr>
-<tr>
 <td><code>GKE_CLUSTER_URL</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -4433,6 +4448,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code></code></td>
 <td>Service name of istiod. If empty the istiod listener, certs will be disabled.</td>
+</tr>
+<tr>
+<td><code>ISTIOD_CUSTOM_HOST</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Custom host name of istiod that istiod signs the server cert.</td>
 </tr>
 <tr>
 <td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
@@ -4481,6 +4502,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code>istio-system</code></td>
 <td>namespace that nodeagent/citadel run in</td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_DIR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
