@@ -17,14 +17,15 @@ generated
 # install generated files
 install/**
 
-# contains samples to demo Istio 
+# contains samples to demo Istio
 samples/**
 
 # copied from istio repository
 tests/integration/**
+manifests/**
 
 # contains the built artifacts
-out/** 
+out/**
 
 # contains cloned istio repository
 go/**
