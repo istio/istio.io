@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/tasks/security/plugin-ca-cert/index.md
+#          docs/tasks/security/cert-management/plugin-ca-cert/index.md
 ####################################################################################################
 
 snip_plugging_in_existing_certificates_and_key_1() {

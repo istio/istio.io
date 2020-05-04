@@ -35,7 +35,7 @@ configure the Istio installation itself, and generate the configuration files
 that let VMs connect to the mesh. Prepare the cluster for the VM with the
 following commands on a machine with cluster admin privileges:
 
-1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/) for more details.
+1. Create a Kubernetes secret for your generated CA certificates using a command similar to the following. See [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/) for more details.
 
 1. Follow the same steps as [setting up single-network](/docs/examples/virtual-machines/single-network) configuration for the initial setup of the
    cluster and certificates with the change of how you deploy Istio control plane:
