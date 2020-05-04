@@ -3,6 +3,8 @@ title: Istio DNS Certificate Management
 description: Shows how to provision and manage DNS certificates in Istio.
 weight: 90
 keywords: [security,certificate]
+aliases:
+    - /docs/tasks/security/dns-cert/
 test: true
 ---
 
