@@ -14,10 +14,12 @@ control plane revision.
 
 Istio 1.6 and later provides information about the propagation of configuration
 changes through the mesh, using the `status` field of the resource.
-Status is disabled by default, and can be enabled during install with: 
+Status is disabled by default, and can be enabled during install with:
+
 {{< text bash >}}
 $ istioctl manifest apply --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
+
 The `status` field contains the state of a resource's configuration with various
 informational messages, including:
 
@@ -38,7 +40,7 @@ $ kubectl get virtualservice <service-name> -o yaml
 {{< /text >}}
 
 In the output, the `status` field contains several nested fields with details
-about the process of propagating configuration changes through the mesh. 
+about the process of propagating configuration changes through the mesh.
 when Istio applied a configuration successfully.
 
 {{< text yaml >}}
