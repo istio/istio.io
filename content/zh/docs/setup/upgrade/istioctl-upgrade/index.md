@@ -24,7 +24,7 @@ keywords: [kubernetes,upgrading]
 ## 升级步骤{#upgrade-steps}
 
 {{< warning >}}
-升级过程中可能发生流量中断。为了缩短流量中断时间，请确保每个组件（Citadel 除外）至少运行有两个副本。同时，确保 [`PodDistruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) 配置最小可用性为 1。
+升级过程中可能发生流量中断。为了缩短流量中断时间，请确保每个组件（Citadel 除外）至少运行有两个副本。同时，确保 [`PodDisruptionBudgets`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) 配置最小可用性为 1。
 {{< /warning >}}
 
 本节中的命令应该使用新版本的 `istioctl` 命令运行，可以在下载包的 `bin/` 目录中找到该命令。
