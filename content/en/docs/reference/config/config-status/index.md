@@ -38,8 +38,7 @@ $ kubectl get virtualservice <service-name> -o yaml
 {{< /text >}}
 
 In the output, the `status` field contains several nested fields with details
-about the process of propagating configuration changes through the mesh. A
-child field for the condition status, also named `status`, has a value of `True`
+about the process of propagating configuration changes through the mesh. 
 when Istio applied a configuration successfully.
 
 {{< text yaml >}}
