@@ -75,17 +75,22 @@ following values:
 * `PassedAnalysis`
 * `Reconciled`
 
-When you apply a configuration, a condition of type `Reconciled` and `status`
-equals `False` is added to the `conditions` field. The status becomes `True`
-when the resource finishes reconciling. The `status` field might transition to
-`True` instantaneously, depending on the speed of the cluster.
+When you apply a configuration, a condition of each of these types is added to the
+`conditions` field.
 
-The condition of type `PassedAnalysis` has a status of `True` or
-`False` to indicate the outcome of configuration validation. `PassedAnalysis` is
-an informational field only, meaning that it does not block the application of
-an invalid configuration. For example, it is possible for the status to indicate
-that validation failed, but applying the configuration was successful. This
-means Istio was able to set the new configuration, but the configuration was
+The `status` field of the `Reconciled` type condition is initialized to `False`
+to indicate the resource is still in the process of being distributed to all the proxies.
+When finished reconciling, the status will become `True`. The `status` field might
+transition to `True` instantaneously, depending on the speed of the cluster.
+The `status` field of the `PassedAnalysis` type condition will have a value of
+`True` or `False` depending on whether or not Istio's background analyzers have
+detected a problem with your config. If `False`, the problem(s) will be detailed in the
+`validationMessages` field.
+
+The `PassedAnalysis` condition is an informational field only. It does not
+block the application of an invalid configuration. It is possible for the status to
+indicate that validation failed, but applying the configuration was successful.
+This means Istio was able to set the new configuration, but the configuration was
 invalid, likely due to a syntax error or similar problem.
 
 ## The `validationMessages` field
