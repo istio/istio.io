@@ -33,14 +33,9 @@ export ISTIO_IMAGE_VERSION
 ISTIO_SHA ?= $(shell < ${ISTIOIO_GO}/go.mod grep 'istio.io/istio v' | cut -d'-' -f3)
 export ISTIO_SHA
 
-HUB ?= gcr.io/istio-prerelease-testing
+HUB ?= gcr.io/istio-testing
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
-endif
-
-TAG ?= 1.6.0-beta.0
-ifeq ($(TAG),)
-  $(error "TAG cannot be empty")
 endif
 
 # Environment for tests, the directory containing istio and deps binaries.
@@ -144,8 +139,11 @@ foo2:
 init:
 	@echo "ISTIO_SHA = ${ISTIO_SHA}"
 	@echo "HUB = ${HUB}"
+	@bin/init.sh
+	$(eval ISTIO_LONG_SHA ?= $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
+	@echo "ISTIO_LONG_SHA = ${ISTIO_LONG_SHA}"
+	$(eval TAG ?= ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
 	@echo "TAG = ${TAG}"
-	bin/init.sh
 
 include tests/tests.mk
 

@@ -39,8 +39,8 @@ export TEST_ENV=kind
 # See https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster
 export PULL_POLICY=IfNotPresent
 
-export HUB=${HUB:-"gcr.io/istio-prerelease-testing"}
-export TAG="${TAG:-"1.6.0-beta.0"}"
+export HUB=${HUB:-"gcr.io/istio-testing"}
+export TAG="${TAG:-"1.6-alpha.f7c106d20f70a0f7ef9720c790cc5c20230c33fd"}"
 
 # Setup junit report and verbose logging
 export T="${T:-"-v"}"

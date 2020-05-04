@@ -24,10 +24,6 @@ ifneq ($(HUB),)
     _INTEGRATION_TEST_FLAGS += --istio.test.hub=$(HUB)
 endif
 
-ifneq ($(TAG),)
-    _INTEGRATION_TEST_FLAGS += --istio.test.tag=$(TAG)
-endif
-
 # $(INTEGRATION_TEST_KUBECONFIG) specifies the kube config file to be used. If not specified, then
 # ~/.kube/config is used.
 # TODO: This probably needs to be more intelligent and take environment variables into account.
@@ -35,6 +31,7 @@ KUBECONFIG ?= ~/.kube/config
 _INTEGRATION_TEST_FLAGS += --istio.test.kube.config=$(KUBECONFIG)
 
 test.kube.presubmit: init | $(JUNIT_REPORT)
+	$(eval INTEGRATION_TEST_FLAGS += --istio.test.tag=$(TAG))
 	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/... -timeout 30m \
 	--istio.test.select -postsubmit,-flaky \
 	--istio.test.env kube \

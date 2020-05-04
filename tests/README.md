@@ -226,11 +226,9 @@ make test.kube.presubmit
 
 ### Notes:
 
-There is an issue with the TAG (#7081) so one needs to set TAG to `latest` to mimic the
-pipeline.
-
 In the case of using `kind` clusters on the Mac, an extra env var is needed,
-ADDITIONAL_CONTAINER_OPTIONS="--network host". If one makes sure HUB is not set, then the
+ADDITIONAL_CONTAINER_OPTIONS="--network host". If HUB and TAG aren't set, then their default
+values will match what is used by the prow tests. For a Mac, the
 command `TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make test.kube.presubmit`
 has been successful.
 
