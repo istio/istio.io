@@ -140,10 +140,19 @@ init:
 	@echo "ISTIO_SHA = ${ISTIO_SHA}"
 	@echo "HUB = ${HUB}"
 	@bin/init.sh
-	$(eval ISTIO_LONG_SHA ?= $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
-	@echo "ISTIO_LONG_SHA = ${ISTIO_LONG_SHA}"
-	$(eval TAG ?= ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
-	@echo "TAG = ${TAG}"
+	$(eval ISTIO_LONG_SHA = $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
+	export ISTIO_LONG_SHA
+	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
+	@echo "TAG before=.${TAG}."
+ifndef TAG
+	$(eval TAG = ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
+endif
+	@echo "TAG=${TAG}"
+# If a variant is defined, update the tag accordingly
+ifdef VARIANT
+	TAG="${TAG}-${VARIANT}"
+endif
+	@echo "final TAG=${TAG}"
 
 include tests/tests.mk
 
