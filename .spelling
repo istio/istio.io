@@ -398,6 +398,8 @@ memcached-2's
 Mesos
 mesos-dns
 metadata
+metallb
+MetalLB
 MicroK8s
 microservice
 microservices
