@@ -135,25 +135,27 @@ update_all: update_ref_docs update_examples
 foo2:
 	hugo version
 
-.PHONY: init
-init:
-	@echo "ISTIO_SHA = ${ISTIO_SHA}"
-	@echo "HUB = ${HUB}"
-	@bin/init.sh
-	$(eval ISTIO_LONG_SHA = $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
+.PHONY: init preinit
+init: preinit
+	$(eval ISTIO_LONG_SHA := $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
 	export ISTIO_LONG_SHA
 	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
 	@echo "TAG before=.${TAG}."
 ifndef TAG
-	$(eval TAG = ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
+	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
 endif
 	@echo "TAG=${TAG}"
 # If a variant is defined, update the tag accordingly
 ifdef VARIANT
-	TAG="${TAG}-${VARIANT}"
+	$(eval TAG=${TAG}-${VARIANT})
 endif
 	export TAG
 	@echo "final TAG=${TAG}"
+
+preinit:
+	@echo "ISTIO_SHA = ${ISTIO_SHA}"
+	@echo "HUB = ${HUB}"
+	@bin/init.sh
 
 include tests/tests.mk
 

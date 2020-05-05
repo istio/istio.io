@@ -18,8 +18,6 @@
 # Usage: ./integ-suite-kind.sh TARGET
 # Example: ./integ-suite-kind.sh test.integration.pilot.kube.presubmit
 
-env
-
 WD=$(dirname "$0")
 WD=$(cd "$WD"; pwd)
 ROOT=$(dirname "$WD")
