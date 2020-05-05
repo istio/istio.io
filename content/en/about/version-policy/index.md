@@ -31,10 +31,4 @@ This implies that the control plane must be upgraded first. For more information
 
 ## Kubernetes versions
 
-The following table indicates the versions of Kubernetes that are supported for various Istio versions. While Istio may work on versions outside of those listed below, we do not test the stability or safety of these versions. Sticking within the supported version range is highly recommended.
-
-|Istio Version       | Kubernetes Version
-|--------------------|-----------------------
-|1.6                 | 1.15, 1.16, 1.17, 1.18
-|1.5                 | 1.14, 1.15, 1.16
-|1.4                 | 1.13, 1.14, 1.15
+The versions of Kubernetes that are supported for an Istio version is shown on the [Platform Setup](/docs/setup/platform-setup/). While Istio may work on versions outside of those listed, we do not test the stability or safety of these versions. Sticking within the supported version range is highly recommended.
