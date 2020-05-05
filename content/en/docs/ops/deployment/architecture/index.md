@@ -127,13 +127,6 @@ on relatively unstable layer 3 or layer 4 network identifiers. Starting from
 release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
 to control who can access your services.
 
-### Galley
-
-Galley is Istio's configuration validation, ingestion, processing and
-distribution component. It is responsible for insulating
-the rest of the Istio components from the details of obtaining user
-configuration from the underlying platform (e.g. Kubernetes).
-
 ## Design goals
 
 A few key design goals informed Istio’s architecture. These goals are essential
