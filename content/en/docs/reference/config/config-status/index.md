@@ -33,7 +33,9 @@ whether to unblock configuration and resume. For more information, see
 
 ## View the `status` field
 
-To view the contents of the `status` field, use the following command:
+You can view the contents of the `status` field of a resource using
+`kubectl get`. For example, to view the status of a virtual service, use the following
+command:
 
 {{< text bash >}}
 $ kubectl get virtualservice <service-name> -o yaml
@@ -41,7 +43,6 @@ $ kubectl get virtualservice <service-name> -o yaml
 
 In the output, the `status` field contains several nested fields with details
 about the process of propagating configuration changes through the mesh.
-when Istio applied a configuration successfully.
 
 {{< text yaml >}}
 status:
@@ -69,8 +70,8 @@ status:
 
 ## The `conditions` field
 
-The `type` field indicates the configuration condition. It can have the
-following values:
+Conditions represent possible states of the resource. The `type` field of a
+condition can have the following values:
 
 * `PassedAnalysis`
 * `Reconciled`
