@@ -134,7 +134,7 @@ Istio 为 HTTP、HTTP/2 和 GRPC 流量创建了下列指标：
     connection_security_policy: conditional((context.reporter.kind | "inbound") == "outbound", "unknown", conditional(connection.mtls | false, "mutual_tls", "none"))
     {{< /text >}}
 
-* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)中的 `%RESPONSE_FLAGS%` 相关说明。
+* **Response Flags**: 来自代理服务器，包含了响应或者连接的额外细节。如果是 Envoy 代理，可以参考 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)中的 `%RESPONSE_FLAGS%` 相关说明。
 
     {{< text yaml >}}
     response_flags: context.proxy_error_code | "-"
