@@ -152,6 +152,7 @@ endif
 ifdef VARIANT
 	TAG="${TAG}-${VARIANT}"
 endif
+	export TAG
 	@echo "final TAG=${TAG}"
 
 include tests/tests.mk
