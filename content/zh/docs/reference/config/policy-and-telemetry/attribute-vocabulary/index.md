@@ -82,7 +82,7 @@ Istio 中除了 Envoy 是首要的属性生产者外，Mixer 和服务也会产�
 | `context.time` | timestamp | Mixer 操作的时间戳。 | |
 | `context.reporter.kind` | string | 将报告的属性集上下文化。 对于来自 sidecars 的服务器端调用设置为 `inbound`，对于来自 sidecars 和网关的客户端调用设置为 `outbound` 。 | `inbound` |
 | `context.reporter.uid` | string | 属性报告者特定于平台的唯一标识符。 | `kubernetes://my-svc-234443-5sffe.my-namespace` |
-| `context.proxy_error_code` | string | 有关来自代理的响应或连接的其他详细信息。 如果是 Envoy, 请参阅 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) 的 `%RESPONSE_FLAGS%` 查看更多信息 | `UH` |
+| `context.proxy_error_code` | string | 有关来自代理的响应或连接的其他详细信息。 如果是 Envoy, 请参阅 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage/#config-access-log-format-response-flags) 的 `%RESPONSE_FLAGS%` 查看更多信息 | `UH` |
 | `api.service` | string | 公开的服务名。和处于网格中的服务身份不同，它反映了暴露给客户端的服务名称。 | `my-svc.com` |
 | `api.version` | string | API 版本。 | `v1alpha1` |
 | `api.operation` | string | 用于辨别操作的唯一字符串。在特定的 &lt;service, version&gt; 描述的所有操作中，这个 ID 是唯一的。 | `getPetsById` |
