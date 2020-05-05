@@ -83,6 +83,7 @@ The `status` field of the `Reconciled` type condition is initialized to `False`
 to indicate the resource is still in the process of being distributed to all the proxies.
 When finished reconciling, the status will become `True`. The `status` field might
 transition to `True` instantaneously, depending on the speed of the cluster.
+
 The `status` field of the `PassedAnalysis` type condition will have a value of
 `True` or `False` depending on whether or not Istio's background analyzers have
 detected a problem with your config. If `False`, the problem(s) will be detailed in the
