@@ -93,7 +93,7 @@ For TCP traffic, Istio generates the following metrics:
     source since security policy cannot be properly populated.
 
 *   **Response Flags**: Additional details about the response or connection from proxy.
-    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)
+    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)
     for more detail.
 
 *   **Canonical Service**: A workload belongs to exactly one canonical service, whereas it can belong to multiple services.
