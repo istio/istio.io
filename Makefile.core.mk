@@ -38,11 +38,6 @@ ifeq ($(HUB),)
   $(error "HUB cannot be empty")
 endif
 
-TAG ?= $(shell echo "${ISTIO_IMAGE_VERSION}.${ISTIO_SHA}")
-ifeq ($(TAG),)
-  $(error "TAG cannot be empty")
-endif
-
 # Environment for tests, the directory containing istio and deps binaries.
 # Typically same as GOPATH/bin, so tests work seemlessly with IDEs.
 
@@ -140,12 +135,31 @@ update_all: update_ref_docs update_examples
 foo2:
 	hugo version
 
-.PHONY: init
-init:
+# The init recipe was split into two recipes to solve an issue seen in prow
+# where paralyzation is happening and some tasks in a recipe were occuring out
+# of order. The desired behavior is for `preinit` to do the clone and set up the
+# istio/istio directory. Then the eval task in `init` will have the directory in
+# which to run the `git command.
+.PHONY: preinit init
+preinit:
 	@echo "ISTIO_SHA = ${ISTIO_SHA}"
 	@echo "HUB = ${HUB}"
-	@echo "TAG = ${TAG}"
-	bin/init.sh
+	@bin/init.sh
+
+init: preinit
+	$(eval ISTIO_LONG_SHA := $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
+	@export ISTIO_LONG_SHA
+	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
+ifndef TAG
+	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
+endif
+	@echo "TAG=${TAG}"
+# If a variant is defined, update the tag accordingly
+ifdef VARIANT
+	$(eval TAG=${TAG}-${VARIANT})
+endif
+	@export TAG
+	@echo "final TAG=${TAG}"
 
 include tests/tests.mk
 

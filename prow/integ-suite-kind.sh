@@ -40,7 +40,6 @@ export TEST_ENV=kind
 export PULL_POLICY=IfNotPresent
 
 export HUB=${HUB:-"gcr.io/istio-testing"}
-export TAG="${TAG:-"1.6-alpha.1d3b136325a5592511f72a9b041ea396bdbd5180"}"
 
 # Setup junit report and verbose logging
 export T="${T:-"-v"}"
@@ -48,11 +47,6 @@ export CI="true"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   time setup_kind_cluster "${NODE_IMAGE:-}"
-fi
-
-# If a variant is defined, update the tag accordingly
-if [[ "${VARIANT:-}" != "" ]]; then
-  export TAG="${TAG}-${VARIANT}"
 fi
 
 make "${@}"

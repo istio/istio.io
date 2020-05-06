@@ -53,11 +53,12 @@ go install ./istioctl/cmd/istioctl
 popd > /dev/null
 
 # Copy install/samples files over from Istio. These are needed by the tests.
-rm -rf "${ISTIOIO_GO}/install" "${ISTIOIO_GO}/samples" "${ISTIOIO_GO}/tests/integration"
+rm -rf "${ISTIOIO_GO}/install" "${ISTIOIO_GO}/samples" "${ISTIOIO_GO}/tests/integration" "${ISTIOIO_GO}/manifests"
 cp -a "${ISTIO_GO}/install" "${ISTIOIO_GO}/install"
 cp -a "${ISTIO_GO}/samples" "${ISTIOIO_GO}/samples"
 mkdir "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTIOIO_GO}/tests/integration/"
+cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
 
 # For generating junit.xml files
 echo "Installing go-junit-report..."

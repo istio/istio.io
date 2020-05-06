@@ -68,8 +68,8 @@ the policies to enforce STRICT mutual TLS between the workloads.
 * Also verify that there are no authentication policies or destination rules (except control plane ones) in the system:
 
     {{< text bash >}}
-    $ kubectl get peerauthentication --all-namespaces
-    No resources found.
+    $ kubectl get peerauthentication --all-namespaces | grep -v istio-system
+    NAMESPACE      NAME                          AGE
     {{< /text >}}
 
     {{< text bash >}}

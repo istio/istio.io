@@ -48,11 +48,11 @@ sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_set_up_the_cluster_4() {
-kubectl get peerauthentication --all-namespaces
+kubectl get peerauthentication --all-namespaces | grep -v istio-system
 }
 
 ! read -r -d '' snip_set_up_the_cluster_4_out <<ENDSNIP
-No resources found.
+NAMESPACE      NAME                          AGE
 ENDSNIP
 
 snip_set_up_the_cluster_5() {
