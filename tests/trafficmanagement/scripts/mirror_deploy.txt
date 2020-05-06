@@ -18,10 +18,13 @@ set -e
 set -u
 set -o pipefail
 
-$ kubectl create ns istio-io-mirror
+# TODO: This test is currently not using the snips because they use the default namespace and for some TBD reason
+#       the test fails to complete when running these exact same commands in default, instead of istio-io-mirror.
 
-# $snippet httpbin_deployment_v1.sh syntax="bash"
-$ cat <<EOF | istioctl kube-inject -f - | kubectl -n istio-io-mirror create -f -
+kubectl create ns istio-io-mirror
+
+# snip_before_you_begin_1
+cat <<EOF | istioctl kube-inject -f - | kubectl -n istio-io-mirror create -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -46,10 +49,10 @@ spec:
         ports:
         - containerPort: 80
 EOF
-# $endsnippet
 
-# $snippet httpbin_deployment_v2.sh syntax="bash"
-$ cat <<EOF | istioctl kube-inject -f - | kubectl -n istio-io-mirror create -f -
+
+# snip_before_you_begin_2
+cat <<EOF | istioctl kube-inject -f - | kubectl -n istio-io-mirror create -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -74,10 +77,10 @@ spec:
         ports:
         - containerPort: 80
 EOF
-# $endsnippet
 
-# $snippet httpbin_service.sh syntax="bash"
-$ kubectl -n istio-io-mirror create -f - <<EOF
+
+# snip_before_you_begin_3
+kubectl -n istio-io-mirror create -f - <<EOF
 apiVersion: v1
 kind: Service
 metadata:
@@ -92,10 +95,10 @@ spec:
   selector:
     app: httpbin
 EOF
-# $endsnippet
 
-# $snippet sleep_deployment.sh syntax="bash"
-$ cat <<EOF | istioctl kube-inject -f - | kubectl -n istio-io-mirror create -f -
+
+# snip_before_you_begin_4
+cat <<EOF | istioctl kube-inject -f - | kubectl -n istio-io-mirror create -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -116,10 +119,9 @@ spec:
         command: ["/bin/sleep","infinity"]
         imagePullPolicy: IfNotPresent
 EOF
-# $endsnippet
 
-# $snippet httpbin_policy.sh syntax="bash"
-$ kubectl -n istio-io-mirror apply -f - <<EOF
+# snip_creating_a_default_routing_policy_1
+kubectl -n istio-io-mirror apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -148,4 +150,3 @@ spec:
     labels:
       version: v2
 EOF
-# $endsnippet

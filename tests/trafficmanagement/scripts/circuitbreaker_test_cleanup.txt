@@ -18,9 +18,7 @@ set -e
 set -u
 set -o pipefail
 
-# $snippet cleanup.sh syntax="bash"        
-$ kubectl delete destinationrule httpbin -n istio-io-circuitbreaker
-$ kubectl delete deploy httpbin fortio-deploy -n istio-io-circuitbreaker
-$ kubectl delete svc httpbin -n istio-io-circuitbreaker
-$ kubectl delete ns istio-io-circuitbreaker
-# $endsnippet
+kubectl delete destinationrule httpbin -n istio-io-circuitbreaker
+kubectl delete deploy httpbin fortio-deploy -n istio-io-circuitbreaker
+kubectl delete svc httpbin -n istio-io-circuitbreaker
+kubectl delete ns istio-io-circuitbreaker

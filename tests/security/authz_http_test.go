@@ -24,7 +24,7 @@ import (
 
 // TestAuthorizationForHTTPServices simulates the task in https://www.istio.io/docs/tasks/security/authz-http/
 func TestAuthorizationForHTTPServices(t *testing.T) {
-	t.Skip("https://github.com/istio/istio/issues/18511")
+	//t.Skip("https://github.com/istio/istio/issues/18511")
 	framework.
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__security__authorization_for_http_services").
@@ -52,14 +52,12 @@ func TestAuthorizationForHTTPServices(t *testing.T) {
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
-kubectl delete policy default -n default || true
-kubectl delete destinationrule default -n default || true
-kubectl delete clusterrbacconfig default || true
-kubectl delete servicerole --all -n default || true
-kubectl delete servicerolebinding --all -n default || true
-
+source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-http/snips.sh
+snip_clean_up_1
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml || true
 kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
+kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
+kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml || true
 kubectl delete -f samples/sleep/sleep.yaml || true`,
 				},
 			}).Build())

@@ -6,6 +6,7 @@ aliases:
     - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
     - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
 keywords: [traffic-management,ingress,sds-credentials]
+test: true
 ---
 
 The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress)
@@ -122,8 +123,8 @@ For this task you can use your favorite tool to generate certificates and keys. 
 1.  Send an HTTPS request to access the `httpbin` service through HTTPS:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+    --cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     {{< /text >}}
 
     The `httpbin` service will return the
@@ -149,8 +150,8 @@ For this task you can use your favorite tool to generate certificates and keys. 
 1.  Access the `httpbin` service using `curl` using the new certificate chain:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert new_certificates/example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+    --cacert new_certificates/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
     HTTP/2 418
     ...
@@ -168,8 +169,8 @@ For this task you can use your favorite tool to generate certificates and keys. 
 1. If you try to access `httpbin` with the previous certificate chain, the attempt now fails.
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+    --cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
     * TLSv1.2 (OUT), TLS handshake, Client hello (1):
     * TLSv1.2 (IN), TLS handshake, Server hello (2):
@@ -315,25 +316,26 @@ retrieves unique credentials corresponding to a specific `credentialName`.
 1. Send an HTTPS request to `helloworld-v1.example.com`:
 
     {{< text bash >}}
-    $ curl -v -HHost:helloworld-v1.example.com --resolve helloworld-v1.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert example.com.crt https://helloworld-v1.example.com:$SECURE_INGRESS_PORT/hello
+    $ curl -v -HHost:helloworld-v1.example.com --resolve "helloworld-v1.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+    --cacert example.com.crt "https://helloworld-v1.example.com:$SECURE_INGRESS_PORT/hello"
     HTTP/2 200
     {{< /text >}}
 
 1. Send an HTTPS request to `httpbin.example.com` and still get a teapot in return:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
-        -=[ teapot ]=-
+    $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+    --cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
+    ...
+    -=[ teapot ]=-
 
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
     {{< /text >}}
 
 ### Configure a mutual TLS ingress gateway
@@ -377,8 +379,8 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
 1. Attempt to send an HTTPS request using the prior approach and see how it fails:
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
-    --cacert example.com.crt https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+    --cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     * TLSv1.3 (OUT), TLS handshake, Client hello (1):
     * TLSv1.3 (IN), TLS handshake, Server hello (2):
     * TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
@@ -405,19 +407,19 @@ $ kubectl create -n istio-system secret generic httpbin-credential --from-file=t
    with the `--key` flag to `curl`.
 
     {{< text bash >}}
-    $ curl -v -HHost:httpbin.example.com --resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
+    $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
     --cacert example.com.crt --cert client.example.com.crt --key client.example.com.key \
-    https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
+    "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
+    ...
+    -=[ teapot ]=-
 
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-
+       _...._
+     .'  _ _ `.
+    | ."` ^ `". _,
+    \_;`"---"`|//
+      |       ;/
+      \_     _/
+        `"""`
     {{< /text >}}
 
 Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
@@ -434,14 +436,14 @@ Istio supports reading a few different Secret formats, to support integration wi
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    $ echo INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT
+    $ echo "INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT"
     {{< /text >}}
 
 *   Check the log of the `istio-ingressgateway` controller for error messages:
 
     {{< text bash >}}
-    $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
-    -n istio-system -o jsonpath='{.items[0].metadata.name}')
+    $ kubectl logs -n istio-system "$(kubectl get pod -l istio=ingressgateway \
+    -n istio-system -o jsonpath='{.items[0].metadata.name}')"
     {{< /text >}}
 
 *   If using macOS, verify you are using `curl` compiled with the [LibreSSL](http://www.libressl.org)
@@ -461,8 +463,8 @@ Istio supports reading a few different Secret formats, to support integration wi
     key/certificate pair to the ingress gateway.
 
     {{< text bash >}}
-    $ kubectl logs -n istio-system $(kubectl get pod -l istio=ingressgateway \
-    -n istio-system -o jsonpath='{.items[0].metadata.name}')
+    $ kubectl logs -n istio-system "$(kubectl get pod -l istio=ingressgateway \
+    -n istio-system -o jsonpath='{.items[0].metadata.name}')"
     {{< /text >}}
 
     The log should show that the `httpbin-credential` secret was added. If using mutual

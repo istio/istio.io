@@ -18,12 +18,9 @@ set -e
 set -u
 set -o pipefail
 
-# $snippet test_fortio_httpbin_interaction.sh syntax="bash" outputis="text"
-$ FORTIO_POD=$(kubectl get pods -n istio-io-circuitbreaker | grep fortio | awk '{ print $1 }')
-$ kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c fortio -- /usr/bin/fortio load -curl http://httpbin:8000/get
-# $verify verifier="contains"
-200 OK
-# $endsnippet
+FORTIO_POD=$(kubectl get pods -n istio-io-circuitbreaker | grep fortio | awk '{ print $1 }')
+out=$(kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c fortio -- /usr/bin/fortio load -curl http://httpbin:8000/get 2>&1)
+_verify_contains "$out" "200 OK" "test_fortio_httpbin_interaction"
 
 # FIXME / TODO: These tests previously relied on checking that the
 # percentage of 200 and 503 responses fell within a given range. That
@@ -35,32 +32,22 @@ $ kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c fortio -- /usr/bin/fort
 #  Temporary fix: https://github.com/istio/istio.io/pull/7043
 #          Issue: https://github.com/istio/istio.io/issues/7074
 
-# $snippet almost_trip_circuit_breaker.sh syntax="bash" outputis="text"
-$ kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c fortio -- /usr/bin/fortio \
-    load -c 2 -qps 0 -n 20 -loglevel warning http://httpbin:8000/get
-# $verify verifier="contains"
-Code 200 :
-# $verify verifier="contains"
-Code 503 :
-# $endsnippet
+out=$(kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c fortio -- /usr/bin/fortio \
+    load -c 2 -qps 0 -n 20 -loglevel warning http://httpbin:8000/get 2>&1)
+_verify_contains "$out" "Code 200 :" "almost_trip_circuit_breaker"
+_verify_contains "$out" "Code 503 :" "almost_trip_circuit_breaker"
 
-# $snippet trip_circuit_breaker.sh syntax="bash" outputis="text"
-$ kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c fortio -- /usr/bin/fortio \
-    load -c 3 -qps 0 -n 30 -loglevel warning http://httpbin:8000/get
-# $verify verifier="contains"
-Code 200 :
-# $verify verifier="contains"
-Code 503 :
-# $endsnippet
+out=$(kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c fortio -- /usr/bin/fortio \
+    load -c 3 -qps 0 -n 30 -loglevel warning http://httpbin:8000/get 2>&1)
+_verify_contains "$out" "Code 200 :" "trip_circuit_breaker"
+_verify_contains "$out" "Code 503 :" "trip_circuit_breaker"
 
-# $snippet print_statistics_after_tripping.sh syntax="bash" outputis="text"
-$ kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c istio-proxy -- \
-    pilot-agent request GET stats | grep httpbin | grep pending
-# $verify
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.default.rq_pending_open: ?
+out=$(kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c istio-proxy -- \
+    pilot-agent request GET stats | grep httpbin | grep pending 2>&1)
+expected="cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.default.rq_pending_open: ?
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.high.rq_pending_open: ?
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_active: ?
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_failure_eject: ?
 cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_overflow: ?
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ?
-# $endsnippet
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ?"
+_verify_like "$out" "$expected" "print_statistics_after_tripping"

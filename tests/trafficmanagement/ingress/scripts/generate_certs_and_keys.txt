@@ -18,25 +18,8 @@ set -e
 set -u
 set -o pipefail
 
-# $snippet clone_mtls-go-example
-$ git clone https://github.com/nicholasjackson/mtls-go-example
-# $endsnippet
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/secure-ingress/snips.sh
 
-# Modify the script to bypass the prompt when signing certificates.
-sed -i='' 's/openssl ca /openssl ca -batch /g' mtls-go-example/generate.sh
+snip_generate_client_and_server_certificates_and_keys_1
 
-# $snippet pushd_mtls-go-example
-$ pushd mtls-go-example
-# $endsnippet
-
-# $snippet generate_httpbin_certs
-$ ./generate.sh httpbin.example.com {{ .password }}
-# $endsnippet
-
-# $snippet copy_httpbin_certs
-$ mkdir ../httpbin.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.example.com
-# $endsnippet
-
-# $snippet popd_mtls-go-example
-$ popd
-# $endsnippet
+snip_generate_client_and_server_certificates_and_keys_2

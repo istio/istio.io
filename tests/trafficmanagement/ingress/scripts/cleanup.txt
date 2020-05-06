@@ -16,28 +16,11 @@
 
 set -u
 
-# $snippet delete_gateway syntax="bash"
-$ kubectl delete gateway mygateway
-$ kubectl delete --ignore-not-found=true virtualservice httpbin helloworld-v1
-$ kubectl delete --ignore-not-found=true -n istio-system secret httpbin-credential \
-helloworld-credential
-# $endsnippet
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/secure-ingress/snips.sh
 
-{{- if .isSnippet -}}
-# Only include this in snippets. Keep the files around for debugging.
+snip_cleanup_1
 
-# $snippet delete_temp_dirs syntax="bash"
-$ rm -rf httpbin.example.com helloworld-v1.example.com mtls-go-example \
-httpbin.new.example.com
-# $endsnippet
+# Keep the files around for debugging.
+# snip_cleanup_2
 
-{{- end -}}
-
-# $snippet delete_services syntax="bash"
-$ kubectl delete service --ignore-not-found=true helloworld-v1 httpbin
-# $endsnippet
-
-# NOTE: Need to add this to istio.io
-# $snippet delete_deployments syntax="bash"
-$ kubectl delete deployment --ignore-not-found=true helloworld-v1 httpbin
-# $endsnippet
+snip_cleanup_3

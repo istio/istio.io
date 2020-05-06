@@ -50,7 +50,6 @@ func TestSecureIngressSDS(t *testing.T) {
 				Add(script(ctx, "configure_tls_ingress_single_host.txt")).
 				Add(script(ctx, "configure_tls_ingress_multiple_hosts.txt")).
 				Add(script(ctx, "configure_mtls_ingress.txt")).
-				Add(script(ctx, "troubleshooting.txt")).
 				Defer(script(ctx, "cleanup.txt")).
 				BuildAndRun(ctx)
 		})

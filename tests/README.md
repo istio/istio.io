@@ -136,6 +136,11 @@ The framework includes the following built-in verify functions:
    Verify that `out` contains the substring `expected`. Failure messages will include
    the specified `msg`.
 
+1. **`_verify_not_contains`** `out` `expected` `msg`
+
+   Verify that `out` does not contains the substring `expected`. Failure messages will include
+   the specified `msg`.
+
 1. **`_verify_like`** `out` `expected` `msg`
 
    Verify that `out` is "like" `expected`. Like implies:
@@ -147,6 +152,8 @@ The framework includes the following built-in verify functions:
      1. different elapsed time values (e.g., `30s` is like `5m`)
      1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`)
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
+     1. expected `?` is wildcard, matches anything
+
 
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.

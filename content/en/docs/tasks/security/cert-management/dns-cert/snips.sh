@@ -40,7 +40,7 @@ snip_check_the_provisioning_of_dns_certificates_1() {
 kubectl get secret dns.example1-service-account -n istio-system -o jsonpath="{.data['cert-chain\.pem']}" | base64 --decode | openssl x509 -in /dev/stdin -text -noout
 }
 
-! read -r -d '' snip_check_the_provisioning_of_dns_certificates_2 <<ENDSNIP
+! read -r -d '' snip_check_the_provisioning_of_dns_certificates_2 <<\ENDSNIP
             X509v3 Subject Alternative Name:
                 DNS:example1.istio-system.svc, DNS:example1.istio-system
 ENDSNIP
@@ -53,7 +53,7 @@ snip_regenerating_a_dns_certificate_2() {
 sleep 10; kubectl get secret dns.example1-service-account -n istio-system -o jsonpath="{.data['cert-chain\.pem']}" | base64 --decode | openssl x509 -in /dev/stdin -text -noout
 }
 
-! read -r -d '' snip_regenerating_a_dns_certificate_3 <<ENDSNIP
+! read -r -d '' snip_regenerating_a_dns_certificate_3 <<\ENDSNIP
             X509v3 Subject Alternative Name:
                 DNS:example1.istio-system.svc, DNS:example1.istio-system
 ENDSNIP
