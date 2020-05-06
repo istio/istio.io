@@ -99,11 +99,11 @@ spec:
     - destination:
         host: helloworld
         subset: v1
-        weight: 90
+      weight: 90
     - destination:
         host: helloworld
         subset: v2
-        weight: 10
+      weight: 10
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -211,11 +211,11 @@ spec:
     - destination:
         host: helloworld
         subset: v1
-        weight: 50
+      weight: 50
     - destination:
         host: helloworld
         subset: v2
-        weight: 50
+      weight: 50
   - route:
     - destination:
         host: helloworld
