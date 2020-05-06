@@ -247,6 +247,287 @@ EOF
 {{< /tab >}}
 {{< /tabset >}}
 
+## Configure telemetry to be cluster-aware
+
+In multi-cluster scenarios, being able to identify traffic by source and destination clusters
+can be useful. Istio has two built-in labels for holding cluster information. These labels
+can be enabled with a few changes to the metrics configuration.
+
+Modify the Istio metrics configuration  **in each cluster that you are adding to the mesh** to enable source and
+destination cluster dimension.
+
+1. Copy the configuration for HTTP and TCP metrics to local disk.
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get envoyfilter stats-filter-1.6 -o yaml > stats-filter-1.6.yaml
+    $ kubectl -n istio-system get envoyfilter tcp-stats-filter-1.6 -o yaml > tcp-stats-filter-1.6.yaml
+    {{< /text >}}
+
+1. Replace the existing `spec` sections of **both** of those files, with the following content:
+
+    For `stats-filter-1.6.yaml`, use the following `spec`:
+
+    {{< text yaml >}}
+    spec:
+      configPatches:
+      - applyTo: HTTP_FILTER
+        match:
+          context: SIDECAR_OUTBOUND
+          listener:
+            filterChain:
+              filter:
+                name: envoy.http_connection_manager
+                subFilter:
+                  name: envoy.router
+          proxy:
+            proxyVersion: ^1\.6.*
+        patch:
+          operation: INSERT_BEFORE
+          value:
+            name: istio.stats
+            typed_config:
+              '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
+              value:
+                config:
+                  configuration: |
+                    {
+                      "debug": "false",
+                      "stat_prefix": "istio",
+                      "metrics": [
+                        {
+                          "dimensions": {
+                            "source_cluster": "node.metadata['CLUSTER_ID']",
+                            "destination_cluster": "upstream_peer.cluster_id"
+                          }
+                        }
+                      ]
+                    }
+                  root_id: stats_outbound
+                  vm_config:
+                    code:
+                      local:
+                        inline_string: envoy.wasm.stats
+                    runtime: envoy.wasm.runtime.null
+                    vm_id: stats_outbound
+      - applyTo: HTTP_FILTER
+        match:
+          context: SIDECAR_INBOUND
+          listener:
+            filterChain:
+              filter:
+                name: envoy.http_connection_manager
+                subFilter:
+                  name: envoy.router
+          proxy:
+            proxyVersion: ^1\.6.*
+        patch:
+          operation: INSERT_BEFORE
+          value:
+            name: istio.stats
+            typed_config:
+              '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
+              value:
+                config:
+                  configuration: |
+                    {
+                      "debug": "false",
+                      "stat_prefix": "istio",
+                      "metrics": [
+                        {
+                          "dimensions": {
+                            "destination_cluster": "node.metadata['CLUSTER_ID']",
+                            "source_cluster": "downstream_peer.cluster_id"
+                          }
+                        }
+                      ]
+                    }
+                  root_id: stats_inbound
+                  vm_config:
+                    code:
+                      local:
+                        inline_string: envoy.wasm.stats
+                    runtime: envoy.wasm.runtime.null
+                    vm_id: stats_inbound
+      - applyTo: HTTP_FILTER
+        match:
+          context: GATEWAY
+          listener:
+            filterChain:
+              filter:
+                name: envoy.http_connection_manager
+                subFilter:
+                  name: envoy.router
+          proxy:
+            proxyVersion: ^1\.6.*
+        patch:
+          operation: INSERT_BEFORE
+          value:
+            name: istio.stats
+            typed_config:
+              '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
+              value:
+                config:
+                  configuration: |
+                    {
+                      "debug": "false",
+                      "stat_prefix": "istio",
+                      "metrics": [
+                        {
+                          "dimensions": {
+                            "source_cluster": "node.metadata['CLUSTER_ID']",
+                            "destination_cluster": "upstream_peer.cluster_id"
+                          }
+                        }
+                      ]
+                    }
+                  root_id: stats_outbound
+                  vm_config:
+                    code:
+                      local:
+                        inline_string: envoy.wasm.stats
+                    runtime: envoy.wasm.runtime.null
+                    vm_id: stats_outbound
+    {{< /text >}}
+
+    For `tcp-stats-filter-1.6.yaml`, use the following `spec`:
+
+    {{< text yaml >}}
+    spec:
+      configPatches:
+      - applyTo: NETWORK_FILTER
+        match:
+          context: SIDECAR_INBOUND
+          listener:
+            filterChain:
+              filter:
+                name: envoy.tcp_proxy
+          proxy:
+            proxyVersion: ^1\.6.*
+        patch:
+          operation: INSERT_BEFORE
+          value:
+            name: envoy.filters.network.wasm
+            typed_config:
+              '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.config.filter.network.wasm.v3.Wasm
+              value:
+                config:
+                  configuration: |
+                    {
+                      "debug": "false",
+                      "stat_prefix": "istio",
+                      "metrics": [
+                        {
+                          "dimensions": {
+                            "destination_cluster": "node.metadata['CLUSTER_ID']",
+                            "source_cluster": "downstream_peer.cluster_id"
+                          }
+                        }
+                      ]
+                    }
+                  root_id: tcp_stats_inbound
+                  vm_config:
+                    code:
+                      local:
+                        inline_string: envoy.wasm.stats
+                    runtime: envoy.wasm.runtime.null
+                    vm_id: tcp_stats_inbound
+      - applyTo: NETWORK_FILTER
+        match:
+          context: SIDECAR_OUTBOUND
+          listener:
+            filterChain:
+              filter:
+                name: envoy.tcp_proxy
+          proxy:
+            proxyVersion: ^1\.6.*
+        patch:
+          operation: INSERT_BEFORE
+          value:
+            name: envoy.filters.network.wasm
+            typed_config:
+              '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.config.filter.network.wasm.v3.Wasm
+              value:
+                config:
+                  configuration: |
+                    {
+                      "debug": "false",
+                      "stat_prefix": "istio",
+                      "metrics": [
+                        {
+                          "dimensions": {
+                            "source_cluster": "node.metadata['CLUSTER_ID']",
+                            "destination_cluster": "upstream_peer.cluster_id"
+                          }
+                        }
+                      ]
+                    }
+                  root_id: tcp_stats_outbound
+                  vm_config:
+                    code:
+                      local:
+                        inline_string: envoy.wasm.stats
+                    runtime: envoy.wasm.runtime.null
+                    vm_id: tcp_stats_outbound
+      - applyTo: NETWORK_FILTER
+        match:
+          context: GATEWAY
+          listener:
+            filterChain:
+              filter:
+                name: envoy.tcp_proxy
+          proxy:
+            proxyVersion: ^1\.6.*
+        patch:
+          operation: INSERT_BEFORE
+          value:
+            name: envoy.filters.network.wasm
+            typed_config:
+              '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+              type_url: type.googleapis.com/envoy.config.filter.network.wasm.v3.Wasm
+              value:
+                config:
+                  configuration: |
+                    {
+                      "debug": "false",
+                      "stat_prefix": "istio",
+                      "metrics": [
+                        {
+                          "dimensions": {
+                            "source_cluster": "node.metadata['CLUSTER_ID']",
+                            "destination_cluster": "upstream_peer.cluster_id"
+                          }
+                        }
+                      ]
+                    }
+                  root_id: tcp_stats_outbound
+                  vm_config:
+                    code:
+                      local:
+                        inline_string: envoy.wasm.stats
+                    runtime: envoy.wasm.runtime.null
+                    vm_id: tcp_stats_outbound
+    {{< /text >}}
+
+    These configurations add definitions for `destination_cluster` and `source_cluster` labels to all of the Istio
+    metrics. The key updates are in the `dimensions` stanzas of the configuration. See [Customizing
+    Istio Metrics](/docs/tasks/observability/metrics/customize-metrics/) for more information.
+
+1. Update the in-cluster configuration with the changes.
+
+    {{< text bash >}}
+    $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
+    $ kubectl -n istio-system apply -f tcp-stats-filter-1.6.yaml
+    {{< /text >}}
+
+{{< warning >}}
+You must repeat this step for all clusters in the mesh.
+{{< /warning >}}
+
 ## Configure application services
 
 Every service in a given cluster that needs to be accessed from a different remote
