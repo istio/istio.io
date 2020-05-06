@@ -50,7 +50,7 @@ docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it -
 done
 }
 
-! read -r -d '' snip_apply_weightbased_tcp_routing_7_out <<ENDSNIP
+! read -r -d '' snip_apply_weightbased_tcp_routing_7_out <<\ENDSNIP
 one Mon Nov 12 23:24:57 UTC 2018
 one Mon Nov 12 23:25:00 UTC 2018
 one Mon Nov 12 23:25:02 UTC 2018
@@ -71,7 +71,7 @@ snip_apply_weightbased_tcp_routing_9() {
 kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
 }
 
-! read -r -d '' snip_apply_weightbased_tcp_routing_9_out <<ENDSNIP
+! read -r -d '' snip_apply_weightbased_tcp_routing_9_out <<\ENDSNIP
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -103,7 +103,7 @@ docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it -
 done
 }
 
-! read -r -d '' snip_apply_weightbased_tcp_routing_10_out <<ENDSNIP
+! read -r -d '' snip_apply_weightbased_tcp_routing_10_out <<\ENDSNIP
 one Mon Nov 12 23:38:45 UTC 2018
 two Mon Nov 12 23:38:47 UTC 2018
 one Mon Nov 12 23:38:50 UTC 2018

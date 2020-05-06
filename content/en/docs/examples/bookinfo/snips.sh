@@ -36,7 +36,7 @@ snip_start_the_application_services_4() {
 kubectl get services
 }
 
-! read -r -d '' snip_start_the_application_services_4_out <<ENDSNIP
+! read -r -d '' snip_start_the_application_services_4_out <<\ENDSNIP
 NAME          TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
 details       ClusterIP   10.0.0.31    <none>        9080/TCP   6m
 kubernetes    ClusterIP   10.0.0.1     <none>        443/TCP    7d
@@ -49,7 +49,7 @@ snip_start_the_application_services_5() {
 kubectl get pods
 }
 
-! read -r -d '' snip_start_the_application_services_5_out <<ENDSNIP
+! read -r -d '' snip_start_the_application_services_5_out <<\ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 details-v1-1520924117-48z17      2/2       Running   0          6m
 productpage-v1-560495357-jk1lz   2/2       Running   0          6m
@@ -63,7 +63,7 @@ snip_start_the_application_services_6() {
 kubectl exec -it "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_start_the_application_services_6_out <<ENDSNIP
+! read -r -d '' snip_start_the_application_services_6_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -75,7 +75,7 @@ snip_determine_the_ingress_ip_and_port_2() {
 kubectl get gateway
 }
 
-! read -r -d '' snip_determine_the_ingress_ip_and_port_2_out <<ENDSNIP
+! read -r -d '' snip_determine_the_ingress_ip_and_port_2_out <<\ENDSNIP
 NAME               AGE
 bookinfo-gateway   32s
 ENDSNIP
@@ -88,7 +88,7 @@ snip_confirm_the_app_is_accessible_from_outside_the_cluster_1() {
 curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_confirm_the_app_is_accessible_from_outside_the_cluster_1_out <<ENDSNIP
+! read -r -d '' snip_confirm_the_app_is_accessible_from_outside_the_cluster_1_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 

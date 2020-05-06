@@ -18,8 +18,10 @@ set -e
 set -u
 set -o pipefail
 
+source ${REPO_ROOT}/content/en/docs/tasks/security/authorization/authz-http/snips.sh
+
 REPEAT=${REPEAT:-100}
-THRESHOLD=${THRESHOLD:-20}
+THRESHOLD=${THRESHOLD:-1}
 
 # verify calls curl to send requests to productpage via ingressgateway.
 # - The 1st argument is the expected http response code
@@ -80,28 +82,14 @@ function verify {
 
 kubectl label namespace default istio-injection=enabled || true
 
-cat <<EOF | kubectl apply -f -
-apiVersion: authentication.istio.io/v1alpha1
-kind: Policy
-metadata:
-  name: "default"
-spec:
-  peers:
-  - mtls: {}
----
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "default"
-spec:
-  host: "*.default.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-EOF
-
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+
+# TODO: Using reviews-v3 in this test. Should update the doc to do so as well, to make sure ratings request
+#       are configured when it demonstrates denial of access to the ratings service.
+kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+
 kubectl apply -f samples/sleep/sleep.yaml
 
 # Wait for the deployments to roll out.
@@ -113,57 +101,23 @@ for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v
   fi
 done
 
-# $snippet enabling_istio_authorization syntax="bash"
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
-# $endsnippet
+snip_configure_access_control_for_workloads_using_http_traffic_1
 
 # Verify we don't have access.
 verify 403 "RBAC: access denied"
 
-# $snippet enforcing_namespace_level_access_control_apply syntax="bash" outputis="text" outputsnippet="true"
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
-# $verify
-servicerole.rbac.istio.io/service-viewer created
-servicerolebinding.rbac.istio.io/bind-service-viewer created
-# $endsnippet
+snip_configure_access_control_for_workloads_using_http_traffic_2
+
+# Verify we have access to the productpage, but not to details and reviews.
+verify 200 "William Shakespeare" "Error fetching product details" "Error fetching product reviews"
+
+snip_configure_access_control_for_workloads_using_http_traffic_3
+snip_configure_access_control_for_workloads_using_http_traffic_4
+
+# Verify we have access to the productpage, but ratings are still not available.
+verify 200 "William Shakespeare" "Ratings service is currently unavailable"
+
+snip_configure_access_control_for_workloads_using_http_traffic_5
 
 # Verify we now have access.
 verify 200 "William Shakespeare" "Book Details" "Book Reviews"
-
-# $snippet enforcing_namespace_level_access_control_delete syntax="bash"
-$ kubectl delete -f @samples/bookinfo/platform/kube/rbac/namespace-policy.yaml@
-# $endsnippet
-
-# Verify that we're back to no access.
-verify 403 "RBAC: access denied"
-
-# $snippet enforcing_service_level_access_control_step1_apply syntax="bash"
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
-# $endsnippet
-
-verify 200 "William Shakespeare" "Error fetching product details" "Error fetching product reviews"
-
-# $snippet enforcing_service_level_access_control_step2_apply syntax="bash"
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
-# $endsnippet
-
-verify 200 "William Shakespeare" "Book Details" "Book Reviews"
-
-# $snippet enforcing_service_level_access_control_step3_apply syntax="bash"
-$ kubectl apply -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
-# $endsnippet
-
-# $snippet remove_istio_authorization_policy syntax="bash"
-$ kubectl delete -f @samples/bookinfo/platform/kube/rbac/ratings-policy.yaml@
-$ kubectl delete -f @samples/bookinfo/platform/kube/rbac/details-reviews-policy.yaml@
-$ kubectl delete -f @samples/bookinfo/platform/kube/rbac/productpage-policy.yaml@
-# $endsnippet
-
-# $snippet remove_istio_authorization_policy_alternative syntax="bash"
-$ kubectl delete servicerole --all
-$ kubectl delete servicerolebinding --all
-# $endsnippet
-
-# $snippet disabling_istio_authorization syntax="bash"
-$ kubectl delete -f @samples/bookinfo/platform/kube/rbac/rbac-config-ON.yaml@
-# $endsnippet

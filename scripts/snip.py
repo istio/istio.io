@@ -94,13 +94,13 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
             if kind == "bash":
                 script = "\n%s() {\n" % id
             else:
-                script = "\n! read -r -d '' %s <<ENDSNIP\n" % id
+                script = "\n! read -r -d '' %s <<\ENDSNIP\n" % id
             current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
             snippets.append(current_snip)
             continue
 
         if current_snip != None:
-            if current_snip["indent"]:
+            if current_snip["indent"] and line.startswith(current_snip["indent"]):
                 _, line = line.split(current_snip["indent"], 1)
             if "{{< /text >}}" in line:
                 if current_snip["kind"] == "bash" and not output_started:
@@ -122,7 +122,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         elif not current_snip["script"][-1].endswith("\\\n"):
                             # command output
                             if not output_started:
-                                current_snip["script"].append("}\n\n! read -r -d '' %s_out <<ENDSNIP\n" % id)
+                                current_snip["script"].append("}\n\n! read -r -d '' %s_out <<\ENDSNIP\n" % id)
                                 output_started = True
                     match = githubfile.match(line)
                     if match:

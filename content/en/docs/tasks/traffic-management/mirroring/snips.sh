@@ -155,7 +155,7 @@ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.na
 kubectl exec -it "$SLEEP_POD" -c sleep -- sh -c 'curl  http://httpbin:8000/headers' | python -m json.tool
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_2_out <<ENDSNIP
+! read -r -d '' snip_creating_a_default_routing_policy_2_out <<\ENDSNIP
 {
   "headers": {
     "Accept": "*/*",
@@ -175,7 +175,7 @@ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..m
 kubectl logs -f "$V1_POD" -c httpbin
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_3_out <<ENDSNIP
+! read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ENDSNIP
 
@@ -184,7 +184,7 @@ export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..m
 kubectl logs -f "$V2_POD" -c httpbin
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_4_out <<ENDSNIP
+! read -r -d '' snip_creating_a_default_routing_policy_4_out <<\ENDSNIP
 <none>
 ENDSNIP
 
@@ -218,7 +218,7 @@ snip_mirroring_traffic_to_v2_3() {
 kubectl logs -f "$V1_POD" -c httpbin
 }
 
-! read -r -d '' snip_mirroring_traffic_to_v2_3_out <<ENDSNIP
+! read -r -d '' snip_mirroring_traffic_to_v2_3_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ENDSNIP
@@ -227,7 +227,7 @@ snip_mirroring_traffic_to_v2_4() {
 kubectl logs -f "$V2_POD" -c httpbin
 }
 
-! read -r -d '' snip_mirroring_traffic_to_v2_4_out <<ENDSNIP
+! read -r -d '' snip_mirroring_traffic_to_v2_4_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
 ENDSNIP
 

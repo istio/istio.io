@@ -18,10 +18,11 @@ set -e
 set -u
 set -o pipefail
 
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/secure-ingress/snips.sh
+
 echo "Deploying httpbin"
 
-# $snippet httpbin_deploy syntax="bash"
-$ cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
@@ -58,66 +59,18 @@ spec:
         ports:
         - containerPort: 8000
 EOF
-# $endsnippet
 
 echo "Creating httpbin gateway secrets"
 
-# $snippet create_httpbin_secrets syntax="bash"
-$ kubectl create -n istio-system secret generic httpbin-credential \
---from-file=key=httpbin.example.com/3_application/private/httpbin.example.com.key.pem \
---from-file=cert=httpbin.example.com/3_application/certs/httpbin.example.com.cert.pem
-# $endsnippet
+snip_configure_a_tls_ingress_gateway_for_a_single_host_1
 
 echo "Deploying httpbin gateway"
 
-# $snippet httpbin_gateway_deploy syntax="bash"
-$ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: mygateway
-spec:
-  selector:
-    istio: ingressgateway # use istio default ingress gateway
-  servers:
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: "httpbin-credential" # must be the same as secret
-    hosts:
-    - "httpbin.example.com"
-EOF
-# $endsnippet
+snip_configure_a_tls_ingress_gateway_for_a_single_host_2
 
 echo "Deploying httpbin virtual service"
 
-# $snippet httpbin_virtualservice_deploy syntax="bash"
-$ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-spec:
-  hosts:
-  - "httpbin.example.com"
-  gateways:
-  - mygateway
-  http:
-  - match:
-    - uri:
-        prefix: /status
-    - uri:
-        prefix: /delay
-    route:
-    - destination:
-        port:
-          number: 8000
-        host: httpbin
-EOF
-# $endsnippet
+snip_configure_a_tls_ingress_gateway_for_a_single_host_3
 
 echo "Waiting for httpbin deployment to start"
 
@@ -126,66 +79,27 @@ kubectl wait --for=condition=Ready pod --all --timeout=60s
 
 echo "Verifying httpbin deployment"
 
-# $snippet ingress_vars syntax="bash"
-$ export SECURE_INGRESS_PORT={{ .secureIngressPortCommand }}
-$ export INGRESS_HOST={{ .ingressHostCommand }}
-# $endsnippet
+export SECURE_INGRESS_PORT={{ .secureIngressPortCommand }}
+export INGRESS_HOST={{ .ingressHostCommand }}
 
-# $snippet httpbin_deploy_verify syntax="bash"
-$ curl -v {{ .curlOptions }}-HHost:httpbin.example.com \
---resolve httpbin.example.com:"$SECURE_INGRESS_PORT":"$INGRESS_HOST" \
---cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
-https://httpbin.example.com:"$SECURE_INGRESS_PORT"/status/418
-# $verify verifier="contains" source="stderr"
-HTTP/2 418
-# $verify verifier="contains" source="stdout"
--=[ teapot ]=-
-# $endsnippet
+out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_4 2>&1)
+_verify_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_a_single_host_4"
+_verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_tls_ingress_gateway_for_a_single_host_4"
 
 echo "Deleting httpbin secret and re-creating"
 
-# $snippet delete_httpbin_cred syntax="bash"
-$ kubectl -n istio-system delete secret httpbin-credential
-# $endsnippet
+snip_configure_a_tls_ingress_gateway_for_a_single_host_5
 
-# $snippet update_httpbin_cred syntax="bash"
-$ pushd mtls-go-example
-$ ./generate.sh httpbin.example.com {{ .password }}
-$ mkdir ../httpbin.new.example.com && mv 1_root 2_intermediate 3_application 4_client ../httpbin.new.example.com
-$ popd
-$ kubectl create -n istio-system secret generic httpbin-credential \
---from-file=key=httpbin.new.example.com/3_application/private/httpbin.example.com.key.pem \
---from-file=cert=httpbin.new.example.com/3_application/certs/httpbin.example.com.cert.pem
-# $endsnippet
+snip_configure_a_tls_ingress_gateway_for_a_single_host_6
 
 # Wait for the change to propagate
 sleep 5s
 
 echo "Verifying new httpbin credentials"
 
-# $snippet curl_httpbin_new_creds syntax="bash" outputis="text"
-$ curl -v {{ .curlOptions }}-HHost:httpbin.example.com \
---resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
---cacert httpbin.new.example.com/2_intermediate/certs/ca-chain.cert.pem \
-https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
-# $verify verifier="contains" source="stderr"
-HTTP/2 418
-# $verify verifier="contains" source="stdout"
--=[ teapot ]=-
-# $snippetoutput
-...
-HTTP/2 418
-...
--=[ teapot ]=-
-
-   _...._
- .'  _ _ `.
-| ."` ^ `". _,
-\_;`"---"`|//
-  |       ;/
-  \_     _/
-    `"""`
-# $endsnippet
+out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_7 2>&1)
+_verify_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_a_single_host_7"
+_verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_tls_ingress_gateway_for_a_single_host_7"
 
 # The next command is expected to fail, but don't error the script.
 set +e
@@ -193,21 +107,8 @@ set +o pipefail
 
 echo "Verifying old httpbin credentials no longer work"
 
-# $snippet curl_httpbin_old_creds syntax="bash" outputis="text"
-$ curl -v -HHost:httpbin.example.com \
---resolve httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST \
---cacert httpbin.example.com/2_intermediate/certs/ca-chain.cert.pem \
-https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418
-# $verify verifier="contains" source="stderr"
-SSL certificate problem: unable to get local issuer certificate
-# $snippetoutput
-...
-* TLSv1.2 (OUT), TLS handshake, Client hello (1):
-* TLSv1.2 (IN), TLS handshake, Server hello (2):
-* TLSv1.2 (IN), TLS handshake, Certificate (11):
-* TLSv1.2 (OUT), TLS alert, Server hello (2):
-* SSL certificate problem: unable to get local issuer certificate
-# $endsnippet
+out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_8 2>&1)
+_verify_not_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_a_single_host_8"
 
 # Restore error handling
 set -e

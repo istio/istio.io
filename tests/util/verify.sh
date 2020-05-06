@@ -59,6 +59,7 @@ _verify_not_contains() {
 #        - different elapsed time values
 #        - different ip values
 #        - prefix match ending with a dash character
+#        - expected ? is wildcard, matches anything
 _verify_like() {
     local out=$1
     local expected=$2
@@ -95,8 +96,13 @@ _verify_like() {
             fi
 
             for j in "${!otokens[@]}"; do
-                local otok=${otokens[j]}
                 local etok=${etokens[j]}
+
+                if [[ "$etok" == "?" ]]; then
+                    continue
+                fi
+
+                local otok=${otokens[j]}
 
                 if [[ "$otok" == "$etok" ]]; then
                     continue

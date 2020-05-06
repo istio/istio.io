@@ -27,12 +27,9 @@ metadata:
     istio-injection: enabled
 EOF
 
-# $snippet deploy_httpbin.sh syntax="bash"
-$ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n istio-io-circuitbreaker
-# $endsnippet
+kubectl apply -f samples/httpbin/httpbin.yaml -n istio-io-circuitbreaker
 
-# $snippet deploy_httpbin_destination_rule.sh syntax="bash"
-$ cat<<EOF | kubectl -n istio-io-circuitbreaker apply -f -
+cat<<EOF | kubectl -n istio-io-circuitbreaker apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -53,9 +50,8 @@ spec:
       maxEjectionPercent: 100
 EOF
 
-$ kubectl get destinationrule httpbin -n istio-io-circuitbreaker -o yaml
-# $verify verifier="contains"
-spec:
+out=$(kubectl get destinationrule httpbin -n istio-io-circuitbreaker -o yaml 2>&1)
+expected="spec:
   host: httpbin
   trafficPolicy:
     connectionPool:
@@ -68,9 +64,7 @@ spec:
       baseEjectionTime: 3m
       consecutiveErrors: 1
       interval: 1s
-      maxEjectionPercent: 100
-# $endsnippet
+      maxEjectionPercent: 100"
+_verify_contains "$out" "$expected" "setup_destinationrule_httpbin"
 
-# $snippet deploy_fortio.sh syntax="bash"
-$ kubectl apply -f @samples/httpbin/sample-client/fortio-deploy.yaml@ -n istio-io-circuitbreaker
-# $endsnippet
+kubectl apply -f samples/httpbin/sample-client/fortio-deploy.yaml -n istio-io-circuitbreaker
