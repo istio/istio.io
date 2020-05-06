@@ -2,7 +2,7 @@
 title: Helm Changes
 description: Details the Helm chart installation options differences between Istio 1.0 and Istio 1.1.
 weight: 30
-keywords: [kubernetes, helm, install, options]
+keywords: []
 ---
 
 The tables below show changes made to the installation options used to customize Istio install using Helm between Istio 1.0 and Istio 1.1. The tables are grouped in to three different categories:
