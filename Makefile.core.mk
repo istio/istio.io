@@ -138,9 +138,8 @@ foo2:
 .PHONY: init preinit
 init: preinit
 	$(eval ISTIO_LONG_SHA := $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
-	export ISTIO_LONG_SHA
+	@ export ISTIO_LONG_SHA
 	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
-	@echo "TAG before=.${TAG}."
 ifndef TAG
 	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
 endif
@@ -149,7 +148,7 @@ endif
 ifdef VARIANT
 	$(eval TAG=${TAG}-${VARIANT})
 endif
-	export TAG
+	@export TAG
 	@echo "final TAG=${TAG}"
 
 preinit:
