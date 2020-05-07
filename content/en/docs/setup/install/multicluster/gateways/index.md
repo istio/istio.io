@@ -428,13 +428,13 @@ destination cluster dimension.
                         }
                       ]
                     }
-                  root_id: tcp_stats_inbound
+                  root_id: stats_inbound
                   vm_config:
                     code:
                       local:
                         inline_string: envoy.wasm.stats
                     runtime: envoy.wasm.runtime.null
-                    vm_id: tcp_stats_inbound
+                    vm_id: stats_inbound
       - applyTo: NETWORK_FILTER
         match:
           context: SIDECAR_OUTBOUND
@@ -456,7 +456,7 @@ destination cluster dimension.
                   configuration: |
                     {
                       "debug": "false",
-                      "stat_prefix": "istio",
+                      "stat_prefix\": "istio",
                       "metrics": [
                         {
                           "dimensions": {
@@ -466,13 +466,13 @@ destination cluster dimension.
                         }
                       ]
                     }
-                  root_id: tcp_stats_outbound
+                  root_id: stats_outbound
                   vm_config:
                     code:
                       local:
                         inline_string: envoy.wasm.stats
                     runtime: envoy.wasm.runtime.null
-                    vm_id: tcp_stats_outbound
+                    vm_id: stats_outbound
       - applyTo: NETWORK_FILTER
         match:
           context: GATEWAY
@@ -504,13 +504,13 @@ destination cluster dimension.
                         }
                       ]
                     }
-                  root_id: tcp_stats_outbound
+                  root_id: stats_outbound
                   vm_config:
                     code:
                       local:
                         inline_string: envoy.wasm.stats
                     runtime: envoy.wasm.runtime.null
-                    vm_id: tcp_stats_outbound
+                    vm_id: stats_outbound
     {{< /text >}}
 
     These configurations add definitions for `destination_cluster` and `source_cluster` labels to all of the Istio
