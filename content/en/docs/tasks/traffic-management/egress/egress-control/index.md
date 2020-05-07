@@ -51,8 +51,8 @@ This task shows you how to access external services in three different ways:
 
 ## Envoy passthrough to external services
 
-Istio has an [installation option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/),
-`global.outboundTrafficPolicy.mode`, that configures the sidecar handling
+Istio has an [installation option](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode),
+`meshConfig.outboundTrafficPolicy.mode`, that configures the sidecar handling
 of external services, that is, those services that are not defined in Istio's internal service registry.
 If this option is set to `ALLOW_ANY`, the Istio proxy lets calls to unknown services pass through.
 If the option is set to `REGISTRY_ONLY`, then the Istio proxy blocks any host without an HTTP service or
@@ -62,7 +62,7 @@ without controlling access to external services.
 You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
 
 1. To see this approach in action you need to ensure that your Istio installation is configured
-    with the `global.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
+    with the `meshConfig.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
 
     Run the following command to confirm it is configured correctly:
@@ -109,7 +109,7 @@ from within your Istio cluster. This section shows you how to configure access t
 ### Change to the blocking-by-default policy
 
 To demonstrate the controlled way of enabling access to external services, you need to change the
-`global.outboundTrafficPolicy.mode` option from the `ALLOW_ANY` mode to the `REGISTRY_ONLY` mode.
+`meshConfig.outboundTrafficPolicy.mode` option from the `ALLOW_ANY` mode to the `REGISTRY_ONLY` mode.
 
 {{< tip >}}
 You can add controlled access to services that are already accessible in `ALLOW_ANY` mode.
@@ -118,7 +118,7 @@ Once you've configured all of your services, you can then switch the mode to `RE
 any other unintentional accesses.
 {{< /tip >}}
 
-1.  Run the following command to change the `global.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
+1.  Run the following command to change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -

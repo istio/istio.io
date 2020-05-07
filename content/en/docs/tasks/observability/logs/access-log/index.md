@@ -26,7 +26,7 @@ In the example below, replace `demo` with the name of the profile you used when 
 {{< /tip >}}
 
 {{< text bash >}}
-$ istioctl manifest apply --set profile=demo --set values.global.proxy.accessLogFile="/dev/stdout"
+$ istioctl manifest apply --set profile=demo --set meshConfig.accessLogFile="/dev/stdout"
 - Applying manifest for component Base...
 ✔ Finished applying manifest for component Base.
 - Applying manifest for component Pilot...
@@ -51,9 +51,9 @@ You may also want to customize the
 All three of these parameters may also be configured via [install options](https://archive.istio.io/v1.4/docs/reference/config/installation-options/):
 {{< /tip >}}
 
-* `values.global.proxy.accessLogFile`
-* `values.global.proxy.accessLogEncoding`
-* `values.global.proxy.accessLogFormat`
+* `meshConfig.accessLogFile`
+* `meshConfig.accessLogEncoding`
+* `meshConfig.accessLogFormat`
 
 ## Test the access log
 
