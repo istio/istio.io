@@ -5,6 +5,7 @@ weight: 10
 ---
 
 ## Traffic Management
+
 - ***Added*** experimental support for the [Kubernetes Service APIs](https://github.com/kubernetes-sigs/service-apis).
 - ***Improved*** support for [Kubernetes Ingress](https://preliminary.istio.io/docs/tasks/traffic-management/ingress/kubernetes-ingress/), adding support for reading certificates from Secrets, `pathType`, and IngressClass.
 - ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
@@ -18,10 +19,12 @@ weight: 10
 - TODO: add a statement around networking v1alpha3 API.. will it be removed in 1.6 or announce deprecation?
 
 ## Security
+
 - TODO removal of alpha API
 - SDS for mixer? Not sure we need this or its an implementation detail
 
 ## Telemetry
+
 - ***Added*** Grafana dashboards to grafana.com TODO docs.
 - ***Improved*** Prometheus scraping configuration TODO docs.
 - ***Improved*** Grafana dashboards to adapt to the new Istiod deployment model.
@@ -31,6 +34,7 @@ weight: 10
 ## Configuration Management
 
 ## Installation
+
 - ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
 - ***Removed*** ports 15029-15032 from the default ingressgateway. It is recommended to expose telemetry addons by [Host routing](https://preliminary.istio.io/docs/tasks/observability/gateways/) instead.
 - ***Removed*** the legacy Helm charts. Please see the [Upgrade guide](https://preliminary.istio.io/docs/setup/upgrade/) for migration.
@@ -47,5 +51,6 @@ weight: 10
 ## Operator
 
 ## istioctl
+
 - ***Improved*** the output of the istioctl install command.
 - ***Added*** a new command, istioctl install. This is an alias for manifest apply.
