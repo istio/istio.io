@@ -9,7 +9,7 @@ weight: 10
 - ***Improved*** support for Kubernetes Ingress, adding support for reading certificates from Secrets, `pathType`, and IngressClass.
 - ***Fixed*** a bug blocking external HTTPS/TCP traffic in some cases.
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
-- ***Added*** a new proxy.istio.io/config annotation to override proxy configuration per pod.
+- ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
 - ***Added*** support for using appProtocol to select the protocol for a port for Kubernetes 1.18+.
 - ***Added*** the new Workload Entry resource. This will allow easier configuration for non-Kubernetes workloads to join the mesh.
 - ***Added*** support for configuring Gateway topology settings like number of trusted proxies deployed in front
