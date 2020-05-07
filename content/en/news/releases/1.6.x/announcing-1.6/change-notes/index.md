@@ -5,13 +5,13 @@ weight: 10
 ---
 
 ## Traffic Management
-- ***Added*** experimental support for the Kubernetes Service APIs.
-- ***Improved*** support for Kubernetes Ingress, adding support for reading certificates from Secrets, `pathType`, and IngressClass.
-- ***Fixed*** a bug blocking external HTTPS/TCP traffic in some cases.
+- ***Added*** experimental support for the [Kubernetes Service APIs](https://github.com/kubernetes-sigs/service-apis).
+- ***Improved*** support for [Kubernetes Ingress](https://preliminary.istio.io/docs/tasks/traffic-management/ingress/kubernetes-ingress/), adding support for reading certificates from Secrets, `pathType`, and IngressClass.
+- ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
 - ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
-- ***Added*** support for using appProtocol to select the protocol for a port for Kubernetes 1.18+.
-- ***Added*** the new Workload Entry resource. This will allow easier configuration for non-Kubernetes workloads to join the mesh.
+- ***Added*** support for using appProtocol to select the [protocol for a port](https://preliminary.istio.io/docs/ops/configuration/traffic-management/protocol-selection/) for Kubernetes 1.18+.
+- ***Added*** the new [Workload Entry](https://preliminary.istio.io/docs/reference/config/networking/workload-entry/) resource. This will allow easier configuration for non-Kubernetes workloads to join the mesh.
 - ***Added*** support for configuring Gateway topology settings like number of trusted proxies deployed in front
 - Moved the proxy readiness probe to port 15021
 - TODO: add a statement around file mounted gateway removed and impact to users.
@@ -32,8 +32,8 @@ weight: 10
 
 ## Installation
 - ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
-- ***Removed*** ports 15029-15032 from the default ingressgateway. It is recommended to expose telemetry addons by Host routing instead.
-- ***Removed*** the legacy Helm charts. Please see the Upgrade guide for migration.
+- ***Removed*** ports 15029-15032 from the default ingressgateway. It is recommended to expose telemetry addons by [Host routing](https://preliminary.istio.io/docs/tasks/observability/gateways/) instead.
+- ***Removed*** the legacy Helm charts. Please see the [Upgrade guide](https://preliminary.istio.io/docs/setup/upgrade/) for migration.
 - TODO helm3/kustomize support? should we mention something here?
 - ***Improved*** installation to not manage the installation namespace, allowing more flexibility.
 - ***Removed*** the legacy istio-pilot configurations, such as Service.
@@ -41,7 +41,7 @@ weight: 10
 - ***Added*** a new preview profile, allowing users to try out new experimental features.
 - ***Added*** `istioctl install` command as a replacement for `istioctl manifest apply`.
 - ***Added*** functionality to save  installation state in a CustomResource in the cluster.
-- ***Changed*** Gateway ports used (15020) and resolution for end users
+- ***Changed*** Gateway ports used (15020) and [resolution](https://github.com/istio/istio/pull/23432#issuecomment-622208734) for end users
 - ***Added*** Allow users to add a custom hostname for istiod
 
 ## Operator
