@@ -6,7 +6,7 @@ weight: 10
 
 ## Traffic Management
 - ***Added*** experimental support for the Kubernetes Service APIs.
-- ***Improved*** support for Kubernetes Ingress, adding support for reading certificates from Secrets, pathType, and IngressClass.
+- ***Improved*** support for Kubernetes Ingress, adding support for reading certificates from Secrets, `pathType`, and IngressClass.
 - ***Fixed*** a bug blocking external HTTPS/TCP traffic in some cases.
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
 - ***Added*** a new proxy.istio.io/config annotation to override proxy configuration per pod.
