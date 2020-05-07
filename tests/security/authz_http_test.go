@@ -30,22 +30,6 @@ func TestAuthorizationForHTTPServices(t *testing.T) {
 		Run(istioio.NewBuilder("tasks__security__authorization_for_http_services").
 			Add(istioio.Script{
 				Input: istioio.Path("scripts/authz_http.txt"),
-			}, istioio.YamlResources{
-				BaseName:      "enforcing_namespace_level_access_control",
-				Input:         istioio.BookInfo("rbac/namespace-policy.yaml"),
-				ResourceNames: []string{"service-viewer", "bind-service-viewer"},
-			}, istioio.YamlResources{
-				BaseName:      "enforcing_service_level_access_control_step1",
-				Input:         istioio.BookInfo("rbac/productpage-policy.yaml"),
-				ResourceNames: []string{"productpage-viewer", "bind-productpage-viewer"},
-			}, istioio.YamlResources{
-				BaseName:      "enforcing_service_level_access_control_step2",
-				Input:         istioio.BookInfo("rbac/details-reviews-policy.yaml"),
-				ResourceNames: []string{"details-reviews-viewer", "bind-details-reviews"},
-			}, istioio.YamlResources{
-				BaseName:      "enforcing_service_level_access_control_step3",
-				Input:         istioio.BookInfo("rbac/ratings-policy.yaml"),
-				ResourceNames: []string{"ratings-viewer", "bind-ratings"},
 			}).
 			// Remaining cleanup (undocumented).
 			Defer(istioio.Script{
