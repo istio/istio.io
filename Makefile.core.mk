@@ -153,13 +153,12 @@ init: preinit
 ifndef TAG
 	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
 endif
-	@echo "TAG=${TAG}"
 # If a variant is defined, update the tag accordingly
 ifdef VARIANT
 	$(eval TAG=${TAG}-${VARIANT})
 endif
 	@export TAG
-	@echo "final TAG=${TAG}"
+	@echo "TAG=${TAG}"
 
 include tests/tests.mk
 
