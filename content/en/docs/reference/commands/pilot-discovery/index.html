@@ -94,6 +94,11 @@ remove_toc_prefix: 'pilot-discovery '
 <td>Restrict the applications namespace the controller manages; if not set, controller watches all namespaces  (default ``)</td>
 </tr>
 <tr>
+<td><code>--caCertFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 Server CA Certificate  (default ``)</td>
+</tr>
+<tr>
 <td><code>--clusterID &lt;string&gt;</code></td>
 <td></td>
 <td>The ID of the cluster that this Istiod instance resides  (default `Kubernetes`)</td>
@@ -262,6 +267,16 @@ remove_toc_prefix: 'pilot-discovery '
 <td><code>--resync &lt;duration&gt;</code></td>
 <td></td>
 <td>Controller resync interval  (default `1m0s`)</td>
+</tr>
+<tr>
+<td><code>--tlsCertFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 Server Certificate  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tlsKeyFile &lt;string&gt;</code></td>
+<td></td>
+<td>File containing the x509 private key matching --tlsCertFile  (default ``)</td>
 </tr>
 <tr>
 <td><code>--trust-domain &lt;string&gt;</code></td>
