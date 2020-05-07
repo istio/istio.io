@@ -23,7 +23,7 @@ the geographic location where requests are sent.
 ## Configuring locality load balancing
 
 This feature is enabled by default. To disable locality load balancing,
-pass the `--set global.localityLbSetting.enabled=false` flag when installing Istio.
+pass the `--set meshConfig.localityLbSetting.enabled=false` flag when installing Istio.
 
 ## Requirements
 
@@ -73,14 +73,14 @@ Sometimes, you need to constrain the traffic fail-over to avoid sending traffic 
 endpoints across the globe when there are not enough healthy endpoints in the
 same region. This behavior is useful when sending fail-over traffic across regions
 would not improve service health or many other reasons including regulatory controls.
-To constrain traffic to a region, configure the `values.localityLbSetting` option during install. See the
+To constrain traffic to a region, configure the `meshConfig.localityLbSetting` option during install. See the
 [Locality load balancing reference guide](/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
 for options.
 
 An example configuration:
 
 {{< text yaml >}}
-global:
+meshConfig:
   localityLbSetting:
     enabled: true
     failover:
@@ -97,7 +97,7 @@ Locality-weighted load balancing distributes user-defined percentages of traffic
 For example, if we want to keep 80% of traffic within our region, and send 20% of traffic out of region:
 
 {{< text yaml >}}
-global:
+meshConfig:
   localityLbSetting:
     enabled: true
     distribute:
