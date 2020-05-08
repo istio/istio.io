@@ -134,6 +134,10 @@ for more information about this capability.
     }    
     {{< /text >}}
 
+Note that the X-Envoy-External-Address is set to the "second" from last address in X-Forwarded-For header
+as per your numTrustedProxies setting. Additionally, the gateway workload appends its IP in the
+X-Forwarded-For header before forwarding it to the upstream httpbin workload.
+
 ### Configuring X-Forwarded-Client-Cert Headers
 
 From [Envoy's documenation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
