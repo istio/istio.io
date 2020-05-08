@@ -325,7 +325,7 @@ Istio provides the ability to control X-Forwarded-For and X-Forwarded-Client-Cer
 Many users choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
 Istio ingress gateway). As such, these topologies require different ingress gateway configurations for
-correct client attributes like IP/ports/certs to be propagated to the workload running in the cluster.
+transporting correct client attributes like IP/certs to the workloads running in the cluster.
 
 Configuration of XFF and XFCC headers are configured by using by using `MeshConfig` during Istio
 *installation*. To simplify configuration, create a single YAML file to pass to `istioctl`.
