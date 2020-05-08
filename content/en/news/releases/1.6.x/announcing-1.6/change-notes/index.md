@@ -25,7 +25,7 @@ weight: 10
 
 ## Telemetry
 
-- ***Added*** Grafana dashboards to grafana.com TODO docs.
+- ***Added*** automated publishing of Grafana dashboards to grafana.com as part of the Istio release process. Please see the [istio org page](https://grafana.com/orgs/istio) for more information.
 - ***Improved*** Prometheus scraping configuration TODO docs.
 - ***Improved*** Grafana dashboards to adapt to the new Istiod deployment model.
 - ***Updated*** default Telemetry V2 configuration to avoid using host header to extract destination service name at gateway. This prevents unbound cardinality due to untrusted host header and implies that destination service labels are going to be omitted for request hits Blackhole and Passthrough at gateway.
