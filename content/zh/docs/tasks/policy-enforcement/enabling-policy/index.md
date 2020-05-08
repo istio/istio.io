@@ -29,7 +29,7 @@ keywords: [policies]
     在 Istio 根目录执行以下指令：
 
     {{< text bash >}}
-    $ istioctl manifest apply --set values.global.disablePolicyChecks=false --set values.pilot.policy.enabled=true configuration "istio" replaced
+    $ istioctl manifest apply --set values.global.disablePolicyChecks=false --set values.pilot.policy.enabled=true
     {{< /text >}}
 
 1. 验证策略检查功能是否已启用。
