@@ -81,13 +81,6 @@ $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n legacy
 $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
 {{< /text >}}
 
-接着，我们部署两个 `sleep` 工作负载，一个有 Sidecar，另一个没有。
-
-{{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n full
-$ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
-{{< /text >}}
-
 您可以确认在所有命名空间部署完成。
 
 {{< text bash >}}
@@ -97,9 +90,9 @@ $ kubectl get pods -n legacy
 NAME                      READY   STATUS    RESTARTS   AGE
 httpbin-dcd949489-5cndk   2/2     Running   0          39s
 sleep-58d6644d44-gb55j    2/2     Running   0          38s
-NAME                       READY   STATUS    RESTARTS   AGE
-httpbin-6f6fc94fb6-8d62h   1/1     Running   0          10s
-httpbin-dcd949489-5fsbs    2/2     Running   0          12s
+NAME                                READY   STATUS    RESTARTS   AGE
+httpbin-64b9b5b5d4-kkkw2            2/2     Running   0          12s
+httpbin-nosidecar-cc684fdb4-zbhvx   1/1     Running   0          10s
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-54f5bb4957-lzxlg   1/1     Running   0          6s
 sleep-74564b477b-vb6h4     1/1     Running   0          4s
