@@ -31,6 +31,9 @@ weight: 10
 - ***Updated*** default Telemetry V2 configuration to avoid using host header to extract destination service name at gateway. This prevents unbound cardinality due to untrusted host header and implies that destination service labels are going to be omitted for request hits Blackhole and Passthrough at gateway.
 - ***Added*** experimental mesh-wide tracing configuration API. This API provides control of trace sampling rates, the maximum tag lengths for URL tags, and custom tags extraction for all traces within the mesh. 
 - ***Added*** experimental request classification filter support. This feature enables operators to configure new attributes for use in telemetry, based on request information. A primary use case for this feature is labeling of traffic by API method.  TODO: doc
+- ***Improved*** support for [customizing v2 metrics generation](https://istio.io/docs/tasks/observability/metrics/customize-metrics/). This allows mesh operators to add and remove labels used in Istio metrics based on expressions over the set of available request and response attributes.
+- ***Added*** Wasm extension distribution support. TODO: docs
+
 ## Configuration Management
 
 ## Installation
