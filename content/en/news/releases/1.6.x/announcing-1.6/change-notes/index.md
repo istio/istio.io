@@ -29,7 +29,7 @@ weight: 10
 - ***Improved*** Prometheus integration experience by adding standard Prometheus scrape annotations to proxies and the control plane workloads. This removes the need for specialized configuration to discover and consume Istio metrics. More details are availabe in the [design doc](https://docs.google.com/document/d/1TTeN4MFmh4aUYYciR4oDBTtJsxl5-T5Tu3m3mGEdSo8/edit).
 - ***Updated*** Grafana dashboards to adapt to the new Istiod deployment model.
 - ***Updated*** default Telemetry V2 configuration to avoid using host header to extract destination service name at gateway. This prevents unbound cardinality due to untrusted host header and implies that destination service labels are going to be omitted for request hits Blackhole and Passthrough at gateway.
-- ***Added*** experimental tracing options
+- ***Added*** experimental mesh-wide tracing configuration API. This API provides control of trace sampling rates, the maximum tag lengths for URL tags, and custom tags extraction for all traces within the mesh. 
 
 ## Configuration Management
 
