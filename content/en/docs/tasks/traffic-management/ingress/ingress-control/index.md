@@ -343,7 +343,7 @@ EOF
 
 ### Configuring X-Forwarded-For Headers
 
-Many applications, both old and new, rely on client attributes, such as X-Forward-For or X-Forwarded-Proto,
+Many applications, both old and new, rely on client attributes, such as X-Forward-For header,
 to be forwarded by reverse proxies in a request. However, due to the variety of network
 topologies Istio can be deployed in, it is required to set the number of trusted proxies deployed in front
 of the Istio gateway proxy.
