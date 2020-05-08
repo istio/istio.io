@@ -1,6 +1,6 @@
 ---
-title: Configuring Network Topologies (Experimental)
-description: How to configure network topologies (experimental).
+title: Configuring Gateway Network Topology (Experimental)
+description: How to configure gateway network topology (experimental).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 ---
@@ -162,7 +162,8 @@ where `ENUM_VALUE` can be of the following type.
 
 | ENUM_VALUE          |                                                                                                                                |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| SANITIZE            | Do not send the XFCC header to the next hop. This is the default value.                                                        |
+| UNDEFINED           | Field is not set.                                                                                                              |
+| SANITIZE            | Do not send the XFCC header to the next hop. This is the default value for a gateway.                                          |
 | FORWARD_ONLY        | When the client connection is mTLS (Mutual TLS), forward the XFCC header in the request.                                       |
 | APPEND_FORWARD      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.     |
 | SANITIZE_SET        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. |
