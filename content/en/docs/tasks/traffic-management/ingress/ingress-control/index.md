@@ -320,16 +320,18 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 
 ## (Experimental) Configuring network topologies
 
-Istio provides the ability to manage settings like X-Forwarded-For and X-Forwarded-Client-Cert, which are dependent on
-how the gateway workloads are deployed. This is as currently an experimental feature.
+Istio provides the ability to manage settings like X-Forwarded-For (XFF) and X-Forwarded-Client-Cert (XFCC), which are
+dependent on how the gateway workloads are deployed. This is as currently an experimental feature.
 
 Many users choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
 Istio ingress gateway to the internet). As such, these topologies require different ingress gateway configurations for
 transporting correct client attributes like IP/certs to the workloads running in the cluster.
 
-Configuration of XFF and XFCC headers are configured by using by using `MeshConfig` during Istio
-*installation*. To simplify configuration, create a single YAML file to pass to `istioctl`.
+Configuration of XFF and XFCC headers can be configured by using `MeshConfig` during Istio
+*installation* or by adding a pod annotation.
+
+To simplify configuring network topology during installation create a single YAML file to pass to `istioctl`:
 
 {{< text yaml >}}
 cat <<'EOF' > topology.yaml
@@ -340,6 +342,21 @@ spec:
     defaultConfig:
       gatewayTopology:
 EOF
+{{< /text >}}
+
+{{< warning >}}
+If Istio ingress gateway was already running prior to application of the MeshConfig you will need
+to restart any Istio ingress gateway pods.
+{{< /warning >}}
+
+Both of the settings discussed can also be configured using the `proxy.istio.io/config` annotation to the Pod spec
+of your Istio ingress gateway.
+
+{{< text yaml >}}
+...
+  metadata:
+    annotations:
+      "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
 {{< /text >}}
 
 ### Configuring X-Forwarded-For Headers
