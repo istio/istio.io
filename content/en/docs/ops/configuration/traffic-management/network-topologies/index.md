@@ -32,7 +32,7 @@ EOF
 {{< /text >}}
 
 {{< warning >}}
-If Istio ingress gateway was already running prior to application of the MeshConfig you will need
+If Istio ingress gateway was already running prior to application of the `MeshConfig` you will need
 to restart any Istio ingress gateway pods.
 {{< /warning >}}
 
@@ -82,6 +82,7 @@ for more information about this capability.
 #### Example using XFF capability with httpbin
 
 1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation. If using `MeshConfig`:
+
     {{< text bash >}}
     $ cat <<'EOF' > topology.yaml
       apiVersion: install.istio.io/v1alpha1
@@ -94,29 +95,41 @@ for more information about this capability.
       EOF
     $ istioctl manifest apply -f topology.yaml
     {{< /text >}}
-2. Create `httpbin` namespace
+
+1. Create `httpbin` namespace
+
     {{< text bash >}}
     $ kubectl create namespace httpbin
     namespace/httpbin created
     {{< /text >}}
-3. Set the `istio-injection` label to `enabled` for sidecar injection
+
+1. Set the `istio-injection` label to `enabled` for sidecar injection
+
     {{< text bash >}}
     $ kubectl label --overwrite namespace httpbin istio-injection=enabled
     namespace/httpbin labeled
     {{< /text >}}
-4. Deploy `httpbin` in the `httpbin` namespace
+
+1. Deploy `httpbin` in the `httpbin` namespace
+
     {{< text bash >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
     {{< /text >}}
-5. Deploy a gateway associated with `httpbin`
+
+1. Deploy a gateway associated with `httpbin`
+
     {{< text bash >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
     {{< /text >}}
-6. Set a local `$GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address
+
+1. Set a local `$GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address
+
     {{< text bash >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
-7. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly.
+
+1. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly.
+
     {{< text bash >}}
     $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
     {
@@ -131,16 +144,16 @@ for more information about this capability.
         ...
       },
       ...
-    }    
+    }
     {{< /text >}}
 
-Note that the X-Envoy-External-Address is set to the "second" from last address in X-Forwarded-For header
-as per your numTrustedProxies setting. Additionally, the gateway workload appends its IP in the
+Note that the `X-Envoy-External-Address` is set to the "second" from last address in `X-Forwarded-For` header
+as per your `numTrustedProxies` setting. Additionally, the gateway workload appends its IP in the
 X-Forwarded-For header before forwarding it to the upstream httpbin workload.
 
 ### Configuring X-Forwarded-Client-Cert Headers
 
-From [Envoy's documenation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
+From [Envoy's documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 regarding XFCC:
 > x-forwarded-client-cert (XFCC) is a proxy header which indicates certificate information of part or all of the clients
 > or proxies that a request has flowed through, on its way from the client to the server. A proxy may choose to
@@ -160,14 +173,14 @@ spec:
 
 where `ENUM_VALUE` can be of the following type.
 
-| ENUM_VALUE          |                                                                                                                                |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| UNDEFINED           | Field is not set.                                                                                                              |
-| SANITIZE            | Do not send the XFCC header to the next hop. This is the default value for a gateway.                                          |
-| FORWARD_ONLY        | When the client connection is mTLS (Mutual TLS), forward the XFCC header in the request.                                       |
-| APPEND_FORWARD      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.     |
-| SANITIZE_SET        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. |
-| ALWAYS_FORWARD_ONLY | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                            |
+| `ENUM_VALUE`          |                                                                                                                                |
+|-----------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| `UNDEFINED`           | Field is not set.                                                                                                              |
+| `SANITIZE`            | Do not send the XFCC header to the next hop. This is the default value for a gateway.                                          |
+| `FORWARD_ONLY`        | When the client connection is mTLS (Mutual TLS), forward the XFCC header in the request.                                       |
+| `APPEND_FORWARD`      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.     |
+| `SANITIZE_SET`        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. |
+| `ALWAYS_FORWARD_ONLY` | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                            |
 
 See [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 for examples on using this capability.
