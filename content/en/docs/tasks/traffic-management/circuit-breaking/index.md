@@ -3,6 +3,7 @@ title: Circuit Breaking
 description: This task shows you how to configure circuit breaking for connections, requests, and outlier detection.
 weight: 50
 keywords: [traffic-management,circuit-breaking]
+test: true
 ---
 
 This task shows you how to configure circuit breaking for connections, requests,
@@ -109,7 +110,7 @@ Pass in `-curl` to indicate that you just want to make one call:
 
     {{< text bash >}}
     $ FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -curl http://httpbin:8000/get
+    $ kubectl exec -it "$FORTIO_POD"  -c fortio /usr/bin/fortio -- load -curl http://httpbin:8000/get
     HTTP/1.1 200 OK
     server: envoy
     date: Tue, 25 Feb 2020 20:25:52 GMT
@@ -149,7 +150,7 @@ one connection and request concurrently, you should see some failures when the
 (`-n 20`):
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it "$FORTIO_POD"  -c fortio /usr/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
     20:33:46 I logger.go:97> Log level is now 3 Warning (was 2 Info)
     Fortio 1.3.1 running at 0 queries per second, 6->6 procs, for 20 calls: http://httpbin:8000/get
     Starting at max qps with 2 thread(s) [gomax 6] for exactly 20 calls (10 per thread + 0)
@@ -194,7 +195,7 @@ one connection and request concurrently, you should see some failures when the
 1. Bring the number of concurrent connections up to 3:
 
     {{< text bash >}}
-    $ kubectl exec -it $FORTIO_POD  -c fortio /usr/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
+    $ kubectl exec -it "$FORTIO_POD"  -c fortio /usr/bin/fortio -- load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
     20:32:30 I logger.go:97> Log level is now 3 Warning (was 2 Info)
     Fortio 1.3.1 running at 0 queries per second, 6->6 procs, for 30 calls: http://httpbin:8000/get
     Starting at max qps with 3 thread(s) [gomax 6] for exactly 30 calls (10 per thread + 0)
@@ -255,7 +256,7 @@ one connection and request concurrently, you should see some failures when the
 1. Query the `istio-proxy` stats to see more:
 
     {{< text bash >}}
-    $ kubectl exec $FORTIO_POD -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
+    $ kubectl exec "$FORTIO_POD" -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
     cluster.outbound|8000||httpbin.default.svc.cluster.local.circuit_breakers.default.rq_pending_open: 0
     cluster.outbound|8000||httpbin.default.svc.cluster.local.circuit_breakers.high.rq_pending_open: 0
     cluster.outbound|8000||httpbin.default.svc.cluster.local.upstream_rq_pending_active: 0

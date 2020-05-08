@@ -67,18 +67,10 @@ func script(ctx framework.TestContext, filename string) istioio.Script {
 
 	return istioio.Script{
 		Input: istioio.Evaluate(istioio.Path("scripts/"+filename), map[string]interface{}{
-			"isSnippet":                false,
 			"password":                 "password",
 			"curlOptions":              "--retry 10 --retry-connrefused --retry-delay 5 ",
 			"secureIngressPortCommand": runtimeSecureIngressPortCommand,
 			"ingressHostCommand":       runtimeIngressHostCommand,
-		}),
-		SnippetInput: istioio.Evaluate(istioio.Path("scripts/"+filename), map[string]interface{}{
-			"isSnippet":                true,
-			"password":                 "<password>",
-			"curlOptions":              "",
-			"secureIngressPortCommand": secureIngressPortCommand,
-			"ingressHostCommand":       ingressHostCommand,
 		}),
 	}
 }

@@ -59,9 +59,5 @@ func script(ctx framework.TestContext, filename string) istioio.Script {
 			"ingressHostCommand": runtimeIngressHostCommand,
 			"ingressPortCommand": runtimeIngressPortCommand,
 		}),
-		SnippetInput: istioio.Evaluate(istioio.Path("scripts/"+filename), map[string]interface{}{
-			"ingressHostCommand": ingressHostCommand,
-			"ingressPortCommand": ingressPortCommand,
-		}),
 	}
 }
