@@ -76,6 +76,52 @@ client address. Please refer to [Envoy documentation](https://www.envoyproxy.io/
 to understand how X-Forwarded-For headers and trusted client addresses are determined.
 {{< /warning >}}
 
+See [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
+for more information about this capability.
+
+#### Example using XFF capability with httpbin
+
+1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation.
+2. Create `httpbin` namespace
+    {{< text bash >}}
+    $ kubectl create namespace httpbin
+    namespace/httpbin created
+    {{< /text >}}
+3. Set the `istio-injection` label to `enabled` for sidecar injection
+    {{< text bash >}}
+    $ kubectl label --overwrite namespace httpbin istio-injection=enabled
+    namespace/httpbin labeled
+    {{< /text >}}
+4. Deploy `httpbin` in the `httpbin` namespace
+    {{< text bash >}}
+    $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
+    {{< /text >}}
+5. Deploy a gateway associated with `httpbin`
+    {{< text bash >}}
+    $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
+    {{< /text >}}
+6. Set a local `$GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address
+    {{< text bash >}}
+    $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    {{< /text >}}
+7. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly.
+    {{< text bash >}}
+    $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
+    {
+      "args": {
+        "show_env": "true"
+      },
+      "headers": {
+        ...
+        "X-Envoy-External-Address": "72.9.5.6",
+        ...
+        "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3, <YOUR GATEWAY IP>",
+        ...
+      },
+      ...
+    }    
+    {{< /text >}}
+
 ### Configuring X-Forwarded-Client-Cert Headers
 
 From [Envoy's documenation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
@@ -105,3 +151,6 @@ where `ENUM_VALUE` can be of the following type.
 | APPEND_FORWARD      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.     |
 | SANITIZE_SET        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. |
 | ALWAYS_FORWARD_ONLY | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                            |
+
+See [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
+for examples on using this capability.
