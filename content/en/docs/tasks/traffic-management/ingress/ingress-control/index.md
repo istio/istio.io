@@ -317,3 +317,77 @@ $ kubectl delete gateway httpbin-gateway
 $ kubectl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
+
+## (Experimental) Configuring network toplogies
+
+Istio provides the ability to control X-Forwarded-For and X-Forwarded-Client-Cert as an experimental feature.
+
+Many users choose to deploy Istio ingress gateways in using various network topologies
+(e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
+Istio ingress gateway). As such, these topologies require different ingress gateway configurations for
+correct client attributes like IP/ports/certs to be propagated to the workload running in the cluster.
+
+Configuration of XFF and XFCC headers are configured by using by using `MeshConfig` during Istio
+*installation*. To simplify configuration, create a single YAML file to pass to `istioctl`.
+
+{{< text yaml >}}
+cat <<'EOF' > topology.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      gatewayTopology:
+EOF
+{{< /text >}}
+
+### Configuring X-Forwarded-For Headers
+
+Many applications, both old and new, rely on client attributes, such as X-Forward-For or X-Forwarded-Proto,
+to be forwarded by reverse proxies in a request. However, due to the variety of network
+topologies Istio can be deployed in, it is required to set the number of trusted proxies deployed in front
+of the Istio gateway proxy.
+
+To set the number of trusted proxies add the following to your `topology.yaml` file.
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      gatewayTopology:
+        numTrustedProxies: <VALUE>
+{{< /text >}}
+
+For example, if you have a cloud based LB, a reverse proxy and then the Istio gateway proxy
+then `<VALUE>` would be 3.
+
+### Configuring X-Forwarded-Client-Cert Headers
+
+From [Envoy's documenation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert) regarding XFCC:
+> x-forwarded-client-cert (XFCC) is a proxy header which indicates certificate information of part or all of the clients
+> or proxies that a request has flowed through, on its way from the client to the server. A proxy may choose to
+> sanitize/append/forward the XFCC header before proxying the request.
+
+To configure how XFCC Headers are handled add the following to your `topology.yaml` file.
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      gatewayTopology:
+        forwardClientCertDetails: <ENUM_VALUE>
+{{< /text >}}
+
+where `ENUM_VALUE` can be of the following type.
+
+| ENUM_VALUE          |                                                                                                                                |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| SANITIZE            | Do not send the XFCC header to the next hop. This is the default value.                                                        |
+| FORWARD_ONLY        | When the client connection is mTLS (Mutual TLS), forward the XFCC header in the request.                                       |
+| APPEND_FORWARD      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.     |
+| SANITIZE_SET        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. |
+| ALWAYS_FORWARD_ONLY | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                            |
