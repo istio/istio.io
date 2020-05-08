@@ -81,7 +81,19 @@ for more information about this capability.
 
 #### Example using XFF capability with httpbin
 
-1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation.
+1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation. If using `MeshConfig`:
+    {{< text bash >}}
+    $ cat <<'EOF' > topology.yaml
+      apiVersion: install.istio.io/v1alpha1
+      kind: IstioOperator
+      spec:
+        meshConfig:
+          defaultConfig:
+            gatewayTopology:
+              numTrustedProxies: <VALUE>
+      EOF
+    $ istioctl manifest apply -f topology.yaml
+    {{< /text >}}
 2. Create `httpbin` namespace
     {{< text bash >}}
     $ kubectl create namespace httpbin
