@@ -320,7 +320,7 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 
 ## (Experimental) Configuring network toplogies
 
-Istio provides the ability to control X-Forwarded-For and X-Forwarded-Client-Cert as an experimental feature.
+Istio provides the ability to manage settings like X-Forwarded-For and X-Forwarded-Client-Cert, which are dependent on how the gateway workloads are deployed. This is as currently an experimental feature.
 
 Many users choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
