@@ -41,30 +41,11 @@ test.kube.presubmit: init | $(JUNIT_REPORT)
 test.kube.postsubmit: test.kube.presubmit
 	SNIPPETS_GCS_PATH="istio-snippets/$(shell git rev-parse HEAD)" prow/upload-istioio-snippets.sh
 
-test.kube.configuration: init | $(JUNIT_REPORT)
-	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/configuration/... -timeout 30m \
+test.kube.%: init | $(JUNIT_REPORT)
+	$(eval INTEGRATION_TEST_FLAGS += --istio.test.tag=$(TAG))
+	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/$(subst .,/,$*)/... -timeout 30m \
 	--istio.test.select -postsubmit,-flaky \
 	--istio.test.env kube \
 	${_INTEGRATION_TEST_FLAGS} \
 	2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
-test.kube.examples: init | $(JUNIT_REPORT)
-	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/examples/... -timeout 30m \
-	--istio.test.select -postsubmit,-flaky \
-	--istio.test.env kube \
-	${_INTEGRATION_TEST_FLAGS} \
-	2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
-
-test.kube.security: init | $(JUNIT_REPORT)
-	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/security/... -timeout 30m \
-	--istio.test.select -postsubmit,-flaky \
-	--istio.test.env kube \
-	${_INTEGRATION_TEST_FLAGS} \
-	2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
-
-test.kube.trafficmanagement: init | $(JUNIT_REPORT)
-	PATH=${PATH}:${ISTIO_OUT} $(GO) test -p 1 ${T} ./tests/trafficmanagement/... -timeout 30m \
-	--istio.test.select -postsubmit,-flaky \
-	--istio.test.env kube \
-	${_INTEGRATION_TEST_FLAGS} \
-	2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
