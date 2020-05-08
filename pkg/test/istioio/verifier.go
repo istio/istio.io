@@ -21,20 +21,8 @@ import (
 	"unicode"
 )
 
-const (
-	tokenVerifierKey = "token"
-)
-
 // verifier for output of a shell command.
 type verifier func(ctx Context, name, expectedOutput, actualOutput string)
-
-// verifiers supported by in the command scripts.
-var verifiers = map[string]verifier{
-	tokenVerifierKey: verifyTokens,
-	"contains":       verifyContains,
-	"notContains":    verifyNotContains,
-	"lineRegex":      verifyLineRegex,
-}
 
 // verifyTokens tokenizes the output and compares against the tokens from the given file.
 func verifyTokens(ctx Context, name, expectedOutput, actualOutput string) {
