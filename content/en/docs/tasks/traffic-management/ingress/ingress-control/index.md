@@ -320,7 +320,8 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 
 ## (Experimental) Configuring network topologies
 
-Istio provides the ability to manage settings like X-Forwarded-For and X-Forwarded-Client-Cert, which are dependent on how the gateway workloads are deployed. This is as currently an experimental feature.
+Istio provides the ability to manage settings like X-Forwarded-For and X-Forwarded-Client-Cert, which are dependent on
+how the gateway workloads are deployed. This is as currently an experimental feature.
 
 Many users choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
@@ -361,11 +362,20 @@ spec:
 {{< /text >}}
 
 For example, if you have a cloud based LB, a reverse proxy and then the Istio gateway proxy
-then `<VALUE>` would be 3.
+then `<VALUE>` would be 2.
+
+{{< warning >}}
+Note that all the proxies in front need of Istio gateway proxy must parse HTTP traffic and append the X-Forwarded-For
+headers at each hop. If the number of entries in X-Forwarded-For header is less than the number of
+trusted hops configured, Envoy falls back to using the immediate downstream address as the trusted
+client address. Please refer to [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
+to understand how X-Forwarded-For headers and trusted client addresses are determined.
+{{< /warning >}}
 
 ### Configuring X-Forwarded-Client-Cert Headers
 
-From [Envoy's documenation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert) regarding XFCC:
+From [Envoy's documenation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
+regarding XFCC:
 > x-forwarded-client-cert (XFCC) is a proxy header which indicates certificate information of part or all of the clients
 > or proxies that a request has flowed through, on its way from the client to the server. A proxy may choose to
 > sanitize/append/forward the XFCC header before proxying the request.
