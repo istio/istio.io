@@ -99,12 +99,10 @@ following commands on a machine with cluster admin privileges:
     {{< /text >}}
 
 1. Generate a `cluster.env` configuration to deploy in the VMs. This file contains the Kubernetes cluster IP address ranges
-    to intercept and redirect via Envoy. You specify the CIDR range when you install Kubernetes as `servicesIpv4Cidr`.
-    Replace `$MY_ZONE` and `$MY_PROJECT` in the following example commands with the appropriate values to obtain the CIDR
-    after installation:
+    to intercept and redirect via Envoy.
 
     {{< text bash >}}
-    $ ISTIO_SERVICE_CIDR=$(gcloud container clusters describe $K8S_CLUSTER --zone $MY_ZONE --project $MY_PROJECT --format "value(servicesIpv4Cidr)")
+    $ ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
     $ echo -e "ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR\n" > cluster.env
     {{< /text >}}
 
