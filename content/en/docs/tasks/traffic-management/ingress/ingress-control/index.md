@@ -318,7 +318,7 @@ $ kubectl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
 
-## (Experimental) Configuring network toplogies
+## (Experimental) Configuring network topologies
 
 Istio provides the ability to manage settings like X-Forwarded-For and X-Forwarded-Client-Cert, which are dependent on how the gateway workloads are deployed. This is as currently an experimental feature.
 
