@@ -121,7 +121,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy.
 
     {{< text bash >}}
-    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy /var/run/secrets/istio/
+    $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
     {{< /text >}}
 
 1. Start Istio within the virtual machine by using `systemctl`.
