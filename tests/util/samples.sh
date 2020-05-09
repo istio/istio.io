@@ -68,19 +68,28 @@ cleanup_httpbin_sample() {
 sample_get_request() {
     local path=$1
 
-    local headers=""
+    local user=""
 	if [[ $# -gt 1 ]]; then
-        headers="-H end-user: $2"
+        user="$2"
     fi
 
+    local ingress_url="http://istio-ingressgateway.istio-system"
     local sleep_pod
     local response
 
     sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 
+	if [[ -n "$user" ]]; then
+        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/login?user=$user" -X POST
+    fi
+
     # shellcheck disable=SC2086
     response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
-        curl "http://istio-ingressgateway.istio-system$path" $headers -s --retry 3 --retry-connrefused --retry-delay 5)
+        curl "$ingress_url$path" -s --retry 3 --retry-connrefused --retry-delay 5)
+
+    if [[ -n "$user" ]]; then
+        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/logout"
+    fi
 
     echo "$response"
 }
