@@ -60,7 +60,7 @@ _verify_elided() {
     local msg=$3
     
     local contains=""
-    while IFS="\n" read -r line; do
+    while IFS=$'\n' read -r line; do
         if [[ "$line" =~ ^[[:space:]]*\.\.\.[[:space:]]*$ ]]; then
             if [[ "$contains" != "" && "$out" != *"$contains"* ]]; then
                 _err_exit "$msg" "$out"
