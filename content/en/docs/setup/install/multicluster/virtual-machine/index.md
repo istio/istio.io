@@ -57,7 +57,7 @@ $ cd ../..
     {{< /text >}}
 
 1. If the Kubernetes cluster makes workload requests to the virtual machine,
-   the ports used in the requeest must be specified in cluster.env. An
+   the ports used in the request must be specified in `cluster.env`. An
    example of exposing the `3306` and `8080` ports on the virtual machine:
 
     {{< text bash >}}
@@ -74,7 +74,7 @@ $ cd ../..
 
 Run the following commands on the virtual machine you want to add to the Istio mesh:
 
-1. Copy the previously created `cluster.env` and `*.pem` files to the vrtual machine.
+1. Copy the previously created `cluster.env` and `*.pem` files to the virtual machine.
 
 1. Install the Debian package with the Envoy sidecar.
 
@@ -87,15 +87,17 @@ Run the following commands on the virtual machine you want to add to the Istio m
     replace `<ISTIOD_IP>`  with the ingress gateway service of istiod.
     Revisit the instructions in the
     [Determining the Ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports). If using a single network, substitute `<ISTIOD_IP>` with the service
-     IP address of the isitod service.
-   
+    IP address of the `istiod` service.
+
     {{< text bash >}}
     $ sudo echo "<ISTIOD_IP> istiod.istio-system.svc" >> /etc/hosts
     {{< /text >}}
 
+    {{< idea >}}
     A sophisticated option involves configuring DNS within the virtual
-    machine to reference an external DNS server. This more advanced
-    option is beyond the scope of this document. 
+    machine to reference an external DNS server. This option is beyond
+    the scope of this document.
+    {{< /idea >}}
 
 1. Obtain `tcp-istiod` port for Istio ingress gateway and add this to `cluster.env`. This
     defaults to 15012. If it has been customized, reference
