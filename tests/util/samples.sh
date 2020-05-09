@@ -69,7 +69,7 @@ sample_get_request() {
     local path=$1
 
     local headers=""
-	if [[ -n $2 ]]; then
+	if [[ $# -gt 1 ]]; then
         headers="-H end-user: $2"
     fi
 

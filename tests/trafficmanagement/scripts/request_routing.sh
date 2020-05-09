@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2154
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -19,9 +19,7 @@ set -e
 set -u
 set -o pipefail
 
-# shellcheck source=/dev/null
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
-# shellcheck source=/dev/null
 source "${REPO_ROOT}/tests/util/samples.sh"
 
 kubectl label namespace default istio-injection=enabled --overwrite || true
