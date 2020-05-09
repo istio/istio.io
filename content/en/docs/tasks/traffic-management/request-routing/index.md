@@ -54,65 +54,50 @@ If you haven't already applied destination rules, follow the instructions in [Ap
 
     {{< text bash yaml >}}
     $ kubectl get virtualservices -o yaml
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: details
+    - apiVersion: networking.istio.io/v1beta1
+      kind: VirtualService
       ...
-    spec:
-      hosts:
-      - details
-      http:
-      - route:
-        - destination:
-            host: details
-            subset: v1
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: productpage
+      spec:
+        hosts:
+        - details
+        http:
+        - route:
+          - destination:
+              host: details
+              subset: v1
+    - apiVersion: networking.istio.io/v1beta1
+      kind: VirtualService
       ...
-    spec:
-      gateways:
-      - bookinfo-gateway
-      - mesh
-      hosts:
-      - productpage
-      http:
-      - route:
-        - destination:
-            host: productpage
-            subset: v1
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: ratings
+      spec:
+        hosts:
+        - productpage
+        http:
+        - route:
+          - destination:
+              host: productpage
+              subset: v1
+    - apiVersion: networking.istio.io/v1beta1
+      kind: VirtualService
       ...
-    spec:
-      hosts:
-      - ratings
-      http:
-      - route:
-        - destination:
-            host: ratings
-            subset: v1
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
+      spec:
+        hosts:
+        - ratings
+        http:
+        - route:
+          - destination:
+              host: ratings
+              subset: v1
+    - apiVersion: networking.istio.io/v1beta1
+      kind: VirtualService
       ...
-    spec:
-      hosts:
-      - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v1
-    ---
+      spec:
+        hosts:
+        - reviews
+        http:
+        - route:
+          - destination:
+              host: reviews
+              subset: v1
     {{< /text >}}
 
 1. You can also display the corresponding `subset` definitions with the following command:
@@ -163,11 +148,9 @@ Remember, `reviews:v2` is the version that includes the star ratings feature.
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice reviews -o yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: VirtualService
-    metadata:
-      name: reviews
-      ...
+    ...
     spec:
       hosts:
       - reviews

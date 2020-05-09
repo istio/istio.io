@@ -29,65 +29,50 @@ kubectl get virtualservices -o yaml
 }
 
 ! read -r -d '' snip_apply_a_virtual_service_2_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: details
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
   ...
-spec:
-  hosts:
-  - details
-  http:
-  - route:
-    - destination:
-        host: details
-        subset: v1
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: productpage
+  spec:
+    hosts:
+    - details
+    http:
+    - route:
+      - destination:
+          host: details
+          subset: v1
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
   ...
-spec:
-  gateways:
-  - bookinfo-gateway
-  - mesh
-  hosts:
-  - productpage
-  http:
-  - route:
-    - destination:
-        host: productpage
-        subset: v1
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings
+  spec:
+    hosts:
+    - productpage
+    http:
+    - route:
+      - destination:
+          host: productpage
+          subset: v1
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
   ...
-spec:
-  hosts:
-  - ratings
-  http:
-  - route:
-    - destination:
-        host: ratings
-        subset: v1
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews
+  spec:
+    hosts:
+    - ratings
+    http:
+    - route:
+      - destination:
+          host: ratings
+          subset: v1
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
   ...
-spec:
-  hosts:
-  - reviews
-  http:
-  - route:
-    - destination:
-        host: reviews
-        subset: v1
----
+  spec:
+    hosts:
+    - reviews
+    http:
+    - route:
+      - destination:
+          host: reviews
+          subset: v1
 ENDSNIP
 
 snip_apply_a_virtual_service_3() {
@@ -103,11 +88,9 @@ kubectl get virtualservice reviews -o yaml
 }
 
 ! read -r -d '' snip_route_based_on_user_identity_2_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
-metadata:
-  name: reviews
-  ...
+...
 spec:
   hosts:
   - reviews
