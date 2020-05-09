@@ -220,9 +220,6 @@ spec:
 EOF
 {{< /text >}}
 
-All `httpbin.full` workloads and the workload with sidecar for `httpbin.partial` can only serve
-mutual TLS traffic.
-
 所有 `httpbin.full` 工作负载和带有 Sidecar 的 `httpbin.partial` 都只可使用双向 TLS 流量。
 
 现在来自 `sleep.legacy` 的请求将开始失败，因为其不支持发送双向 TLS 流量。
