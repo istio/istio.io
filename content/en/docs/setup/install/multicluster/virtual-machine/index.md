@@ -32,7 +32,7 @@ Follow this guide to install an Istio control plane
 
 1. Run the following commands on each cluster in the mesh where a virtual
      machine connection should be established. See
-     [Certificate Authority (CA) certificates](/docs/tasks/security/plugin-ca-cert/)
+     [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/)
      for more details on configuring an external CA.
 
 {{< text bash >}}
