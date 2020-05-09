@@ -8,7 +8,7 @@ keywords: [traffic-management,ingress,gateway]
 ## (Experimental) Configuring network topologies
 
 Istio provides the ability to manage settings like X-Forwarded-For (XFF) and X-Forwarded-Client-Cert (XFCC), which are
-dependent on how the gateway workloads are deployed. This is as currently an experimental feature.
+dependent on how the gateway workloads are deployed. This is currently an experimental feature.
 
 Many users choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
@@ -91,7 +91,7 @@ for more information about this capability.
         meshConfig:
           defaultConfig:
             gatewayTopology:
-              numTrustedProxies: <VALUE>
+              numTrustedProxies: 2
       EOF
     $ istioctl manifest apply -f topology.yaml
     {{< /text >}}
