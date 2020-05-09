@@ -9,8 +9,8 @@ keywords:
 - vms
 ---
 
-Follow this guide to install an Istio control plane 
-[multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters) and setup your first virtual machine.
+Follow this guide to install an Istio control plane
+[multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters) and connect your first virtual machine.
 
 ## Prerequisites
 
@@ -36,19 +36,16 @@ Follow this guide to install an Istio control plane
      for more details on configuring an external CA.
 
 {{< text bash >}}
+$ cd samples/certs
+$ make vm
 $ kubectl create namespace istio-system
 $ kubectl create secret generic cacerts -n istio-system \
-    --from-file=@samples/certs/ca-cert.pem@ \
-    --from-file=@samples/certs/ca-key.pem@ \
-    --from-file=@samples/certs/root-cert.pem@ \
-    --from-file=@samples/certs/cert-chain.pem@
+    --from-file=vm/ca-cert.pem \
+    --from-file=vm/ca-key.pem \
+    --from-file=vm/root-cert.pem \
+    --from-file=vm/cert-chain.pem
+$ cd ../..
 {{< /text >}}
-
-{{< warning >}}
-The root and intermediate certificate from the samples directory are widely
-distributed and known. Do **not** use these certificates in production as
-your clusters would then be open to security vulnerabilities and compromise.
-{{< /warning >}}
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
    deployment which network CIDR to capture and redirect to the Kubernetes
@@ -56,7 +53,7 @@ your clusters would then be open to security vulnerabilities and compromise.
 
     {{< text bash >}}
     $ ISTIO_SERVICE_CIDR=$(echo '{"apiVersion":"v1","kind":"Service","metadata":{"name":"tst"},"spec":{"clusterIP":"1.1.1.1","ports":[{"port":443}]}}' | kubectl apply -f - 2>&1 | sed 's/.*valid IPs is //')
-    $ echo -n ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > cluster.env
+    $ echo -n ISTIO_SERVICE_CIDR=$ISTIO_SERVICE_CIDR > $HOME/cluster.env
     {{< /text >}}
 
 1. If the Kubernetes cluster makes workload requests to the virtual machine,
@@ -64,7 +61,7 @@ your clusters would then be open to security vulnerabilities and compromise.
    example of exposing the `3306` and `8080` ports on the virtual machine:
 
     {{< text bash >}}
-    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> cluster.env
+    $ echo "ISTIO_INBOUND_PORTS=3306,8080" >> $HOME/cluster.env
     {{< /text >}}
 
 1. Install Istio with mesh expansion features:
