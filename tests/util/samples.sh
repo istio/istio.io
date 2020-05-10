@@ -30,7 +30,6 @@ startup_bookinfo_sample() {
 cleanup_bookinfo_sample() {
     kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml || true
     kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
-    kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml || true
     kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
 }
 
@@ -92,7 +91,12 @@ sample_get_request() {
 
     if [[ -n "$user" ]]; then
     #    kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/logout"
-        response="$response\nglyphicon glyphicon-star\nError fetching product reviews!\nRatings service is currently unavailable"
+        response+="
+glyphicon glyphicon-star
+Error fetching product reviews!
+Sorry, product reviews are currently unavailable for this book.
+Ratings service is currently unavailable
+"
         # ^^^ REMOVE THIS TEMPORARY KLUDGE WHEN LOGIN FIXED
     fi
 

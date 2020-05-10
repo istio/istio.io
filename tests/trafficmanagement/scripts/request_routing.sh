@@ -62,6 +62,5 @@ _verify_elided "$out" "$snip_route_based_on_user_identity_2_out" "snip_route_bas
 # check that requests from user jason return ratings and other requests do not
 out=$(sample_get_request "/productpage" "jason")
 _verify_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_jason"
-#  ^^^ uncomment when sample_get_request function fixed to handle user jason arg
 out=$(sample_get_request "/productpage")
 _verify_not_contains "$out" "glyphicon glyphicon-star" "request_ratings_response_others"
