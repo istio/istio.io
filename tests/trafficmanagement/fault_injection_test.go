@@ -22,10 +22,10 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-func TestRequestRouting(t *testing.T) {
+func TestFaultInjection(t *testing.T) {
 	framework.
 		NewTest(t).
-		Run(istioio.NewBuilder("tasks__traffic_management__request_routing").
+		Run(istioio.NewBuilder("tasks__traffic_management__fault_injection").
 			Add(istioio.Script{
 				Input: istioio.Path("scripts/request_routing.sh"),
 			}).
