@@ -48,7 +48,6 @@ Below is our list of existing features and their current phases. This informatio
 | Enabling custom filters in Envoy | Alpha
 | CNI container interface | Alpha
 | [Sidecar API](/docs/reference/config/networking/sidecar/) | Beta
-| [Configuring Gateway Network Topology](/docs/ops/configuration/traffic-management/network-topologies/) | Experimental
 
 ### Observability
 

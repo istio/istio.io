@@ -1,19 +1,21 @@
 ---
-title: Configuring Gateway Network Topology (Experimental)
-description: How to configure gateway network topology (experimental).
+title: Configuring Gateway Network Topology (Development)
+description: How to configure gateway network topology (Development).
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 ---
 
-## (Experimental) Configuring network topologies
+## (Development) Configuring network topologies
 
-Istio provides the ability to manage settings like X-Forwarded-For (XFF) and X-Forwarded-Client-Cert (XFCC), which are
-dependent on how the gateway workloads are deployed. This is currently an experimental feature.
+Istio provides the ability to manage settings like [X-Forwarded-For](https://tools.ietf.org/html/rfc7239)
+([XFF](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
+and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
+(XFCC),  which are dependent on how the gateway workloads are deployed. This is currently an in-development feature.
 
 Many users choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
-Istio ingress gateway to the internet). As such, these topologies require different ingress gateway configurations for
-transporting correct client attributes like IP/certs to the workloads running in the cluster.
+Istio ingress gateway to the Internet). As such, these topologies require different ingress gateway configurations for
+transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
 
 Configuration of XFF and XFCC headers can be configured by using `MeshConfig` during Istio
 *installation* or by adding a pod annotation.
@@ -68,18 +70,15 @@ spec:
 For example, if you have a cloud based LB, a reverse proxy and then the Istio gateway proxy
 then `<VALUE>` would be 2.
 
-{{< warning >}}
+{{< idea >}}
 Note that all the proxies in front need of Istio gateway proxy must parse HTTP traffic and append the X-Forwarded-For
 headers at each hop. If the number of entries in X-Forwarded-For header is less than the number of
 trusted hops configured, Envoy falls back to using the immediate downstream address as the trusted
 client address. Please refer to [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
 to understand how X-Forwarded-For headers and trusted client addresses are determined.
-{{< /warning >}}
+{{< /idea >}}
 
-See [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
-for more information about this capability.
-
-#### Example using XFF capability with httpbin
+#### Example using X-Forwarded-For capability with httpbin
 
 1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation. If using `MeshConfig`:
 
@@ -122,7 +121,7 @@ for more information about this capability.
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
     {{< /text >}}
 
-1. Set a local `$GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address
+1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address
 
     {{< text bash >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
