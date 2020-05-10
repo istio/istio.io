@@ -79,17 +79,20 @@ sample_get_request() {
 
     sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 
-	if [[ -n "$user" ]]; then
-        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/login?user=$user" -X POST
+    # TODO: figure out how to make request as logged in user
+    local args=""
+    if [[ -n "$user" ]]; then
+    #    kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/login?user=$user" -X POST
+        args="--anyauth --user $user:password"
     fi
 
     # shellcheck disable=SC2086
     response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
-        curl "$ingress_url$path" -s --retry 3 --retry-connrefused --retry-delay 5)
+        curl "$ingress_url$path" $args -s --retry 3 --retry-connrefused --retry-delay 5)
 
-    if [[ -n "$user" ]]; then
-        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/logout"
-    fi
+    #if [[ -n "$user" ]]; then
+    #    kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/logout"
+    #fi
 
     echo "$response"
 }
