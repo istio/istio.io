@@ -42,8 +42,8 @@ startup_sleep_sample() {
     fi
 }
 
-cleanup_httpbin_sample() {
-    kubectl delete -f samples/httpbin/httpbin.yaml || true
+cleanup_sleep_sample() {
+    kubectl delete -f samples/sleep/sleep.yaml || true
 }
 
 startup_httpbin_sample() {
@@ -56,7 +56,7 @@ startup_httpbin_sample() {
 }
 
 cleanup_httpbin_sample() {
-    kubectl delete -f samples/sleep/sleep.yaml || true
+    kubectl delete -f samples/httpbin/httpbin.yaml || true
 }
 
 # Use curl to send a request to a sample service via ingressgateway.
