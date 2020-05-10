@@ -141,6 +141,11 @@ The framework includes the following built-in verify functions:
    Verify that `out` does not contains the substring `expected`. Failure messages will include
    the specified `msg`.
 
+1. **`_verify_elided`** `out` `expected` `msg`
+
+   Verify that `out` contains the lines in `expected` where `...` on a line matches one or
+   more lines with any text.
+
 1. **`_verify_like`** `out` `expected` `msg`
 
    Verify that `out` is "like" `expected`. Like implies:

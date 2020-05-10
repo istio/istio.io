@@ -22,19 +22,19 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-func TestRequestTimeouts(t *testing.T) {
+func TestFaultInjection(t *testing.T) {
 	framework.
 		NewTest(t).
-		Run(istioio.NewBuilder("tasks__traffic_management__request_timeouts").
+		Run(istioio.NewBuilder("tasks__traffic_management__fault_injection").
 			Add(istioio.Script{
-				Input: istioio.Path("scripts/request_timeouts.sh"),
+				Input: istioio.Path("scripts/request_routing.sh"),
 			}).
 			Defer(istioio.Script{
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
 set +e # ignore cleanup errors
-source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-timeouts/snips.sh
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/fault-injection/snips.sh
 source ${REPO_ROOT}/tests/util/samples.sh
 snip_cleanup_1
 cleanup_bookinfo_sample

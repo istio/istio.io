@@ -52,6 +52,32 @@ _verify_not_contains() {
     fi
 }
 
+# Verify that $out contains the lines in $expected where "..." on a line
+# matches one or more lines containing any text.
+_verify_elided() {
+    local out=$1
+    local expected=$2
+    local msg=$3
+    
+    local contains=""
+    while IFS=$'\n' read -r line; do
+        if [[ "$line" =~ ^[[:space:]]*\.\.\.[[:space:]]*$ ]]; then
+            if [[ "$contains" != "" && "$out" != *"$contains"* ]]; then
+                _err_exit "$msg" "$out"
+            fi
+            contains=""
+        else
+            if [[ "$contains" != "" ]]; then
+                contains+=$'\n'
+            fi
+            contains+="$line"
+        fi
+    done <<< "$expected"
+    if [[ "$contains" != "" && "$out" != *"$contains"* ]]; then
+        _err_exit "$msg" "$out"
+    fi
+}
+
 # Verify that $out is "like" $expected. Like implies:
 #   1. Same number of lines
 #   2. Same number of whitespace-seperated tokens per line
