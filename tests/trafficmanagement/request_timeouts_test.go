@@ -1,4 +1,4 @@
-// Copyright 2020 Istio Authors
+// Copyright Istio Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,57 +18,28 @@ import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/environment/kube"
 
 	"istio.io/istio.io/pkg/test/istioio"
 )
 
-const (
-	ingressHostCom = `$(kubectl -n istio-system get service istio-ingressgateway \
--o jsonpath='{.status.loadBalancer.ingress[0].ip}')`
-	ingressPortCom = `$(kubectl -n istio-system get service istio-ingressgateway \
--o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')`
-	minikubeIngressHostCom = `$(kubectl -n istio-system get pod -l istio=ingressgateway \
--o jsonpath='{.items[0].status.hostIP}')`
-	minikubeIngressPortCom = `$(kubectl -n istio-system get service istio-ingressgateway \
--o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')`
-)
-
 func TestRequestTimeouts(t *testing.T) {
-	t.Skip("https://github.com/istio/istio.io/issues/7124")
 	framework.
 		NewTest(t).
-		Run(func(ctx framework.TestContext) {
-			istioio.NewBuilder("tasks__traffic_management__request_timeouts").
-				Add(istioio.Script{Input: istioio.Path("../common/scripts/bookinfo.txt")}).
-				Add(scripts(ctx, "request_timeouts.txt")).
-				Add(scripts(ctx, "request_timeouts_delay.txt")).
-				Defer(istioio.Script{
-					Input: istioio.Inline{
-						FileName: "cleanup.sh",
-						Value: `
-kubectl delete -n default -f samples/bookinfo/platform/kube/bookinfo.yaml || true
-kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
-kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml || true
-kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true`,
-					},
-				}).
-				BuildAndRun(ctx)
-		})
-}
-
-func scripts(ctx framework.TestContext, filename string) istioio.Script {
-	e := ctx.Environment().(*kube.Environment)
-	runtimeIngressHostCom := ingressHostCom
-	runtimeIngressPortCom := ingressPortCom
-	if e.Settings().Minikube {
-		runtimeIngressHostCom = minikubeIngressHostCom
-		runtimeIngressPortCom = minikubeIngressPortCom
-	}
-	return istioio.Script{
-		Input: istioio.Evaluate(istioio.Path("scripts/"+filename), map[string]interface{}{
-			"ingressHostCom": runtimeIngressHostCom,
-			"ingressPortCom": runtimeIngressPortCom,
-		}),
-	}
+		Run(istioio.NewBuilder("tasks__traffic_management__request_timeouts").
+			Add(istioio.Script{
+				Input: istioio.Path("scripts/request_timeouts.sh"),
+			}).
+			Defer(istioio.Script{
+				Input: istioio.Inline{
+					FileName: "cleanup.sh",
+					Value: `
+set +e # ignore cleanup errors
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-timeouts/snips.sh
+source ${REPO_ROOT}/tests/util/samples.sh
+snip_cleanup_1
+cleanup_bookinfo_sample
+cleanup_sleep_sample`,
+				},
+			}).
+			Build())
 }

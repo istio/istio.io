@@ -22,7 +22,7 @@ set -o pipefail
 source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/request-routing/snips.sh"
 source "${REPO_ROOT}/tests/util/samples.sh"
 
-kubectl label namespace default istio-injection=enabled --overwrite || true
+kubectl label namespace default istio-injection=enabled --overwrite
 startup_sleep_sample # needed for sending test requests with curl
 
 # launch the bookinfo app

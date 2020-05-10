@@ -93,7 +93,6 @@ sample_get_request() {
     #    kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/logout"
         response+="
 glyphicon glyphicon-star
-Error fetching product reviews!
 Sorry, product reviews are currently unavailable for this book.
 Ratings service is currently unavailable
 "

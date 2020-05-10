@@ -94,7 +94,6 @@ still expect the end-to-end flow to continue without any errors.
     message:
 
     {{< text plain >}}
-    Error fetching product reviews!
     Sorry, product reviews are currently unavailable for this book.
     {{< /text >}}
 

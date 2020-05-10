@@ -33,6 +33,7 @@ func TestFaultInjection(t *testing.T) {
 				Input: istioio.Inline{
 					FileName: "cleanup.sh",
 					Value: `
+set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/fault-injection/snips.sh
 source ${REPO_ROOT}/tests/util/samples.sh
 snip_cleanup_1
