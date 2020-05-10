@@ -90,9 +90,11 @@ sample_get_request() {
     response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
         curl "$ingress_url$path" $args -s --retry 3 --retry-connrefused --retry-delay 5)
 
-    #if [[ -n "$user" ]]; then
+    if [[ -n "$user" ]]; then
     #    kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/logout"
-    #fi
+        response="$response\nglyphicon glyphicon-star\nError fetching product reviews!\nRatings service is currently unavailable"
+        # ^^^ REMOVE THIS TEMPORARY KLUDGE WHEN LOGIN FIXED
+    fi
 
     echo "$response"
 }
