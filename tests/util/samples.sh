@@ -34,6 +34,11 @@ cleanup_bookinfo_sample() {
 }
 
 startup_sleep_sample() {
+    # TODO: how to make sure previous test cleaned up everything?
+    set +e
+    kubectl delete pods -l app=sleep --force
+    set -e
+
     kubectl apply -f samples/sleep/sleep.yaml
 
     if ! kubectl rollout status deployment "sleep" --timeout 5m; then
