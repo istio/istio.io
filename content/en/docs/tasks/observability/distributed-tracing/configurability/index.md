@@ -1,13 +1,13 @@
 ---
-title: Configurability (Beta/Experimental)
-description: How to configure tracing options (beta/experimental).
+title: Configurability (Beta/Development)
+description: How to configure tracing options (beta/development).
 weight: 60
 keywords: [telemetry,tracing]
 ---
 
 Istio provides the ability to configure advanced tracing options,
 including sampling rates and span tags. Sampling is a beta feature, but
-custom tags and tracing tag length are considered experimental for this release.
+custom tags and tracing tag length are considered in-development for this release.
 
 ## Create a `MeshConfig` with trace settings
 
