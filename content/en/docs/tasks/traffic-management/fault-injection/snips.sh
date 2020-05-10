@@ -61,7 +61,6 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_testing_the_delay_configuration_1 <<\ENDSNIP
-Error fetching product reviews!
 Sorry, product reviews are currently unavailable for this book.
 ENDSNIP
 
