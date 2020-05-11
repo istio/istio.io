@@ -1,5 +1,5 @@
 ---
-title: Can I run Apache Nifi inside an Istio mesh?
+title: Can I run Apache NiFi inside an Istio mesh?
 description: How to run Apache NiFi with Istio.
 weight: 50
 keywords: [nifi]
