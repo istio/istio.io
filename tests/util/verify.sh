@@ -25,7 +25,7 @@ _verify_same() {
     local expected=$2
     local msg=$3
 
-    if [ "$out" != "$expected" ]; then
+    if [[ "$out" != "$expected" ]]; then
         _err_exit "$msg" "$out"
     fi
 }
@@ -74,6 +74,20 @@ _verify_elided() {
         fi
     done <<< "$expected"
     if [[ "$contains" != "" && "$out" != *"$contains"* ]]; then
+        _err_exit "$msg" "$out"
+    fi
+}
+
+# Verify that the first line of $out matches the first line in $expected.
+_verify_first_line() {
+    local out=$1
+    local expected=$2
+    local msg=$3
+
+    IFS=$'\n' read -r out_first_line <<< "$out"
+    IFS=$'\n' read -r expected_first_line <<< "$expected"
+
+    if [[ "$out_first_line" != "$expected_first_line" ]]; then
         _err_exit "$msg" "$out"
     fi
 }
@@ -138,7 +152,7 @@ _verify_like() {
                     continue
                 fi
 
-                if [[ "$otok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ && "$etok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                if [[ ("$otok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || "$otok" == "<none>" || "$otok" == "<pending>") && "$etok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
                     continue
                 fi
 
