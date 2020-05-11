@@ -23,8 +23,7 @@ source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shiftin
 # TODO: clean up and remove these
 export INGRESS_HOST={{ .ingressHostCommand }}
 export INGRESS_PORT={{ .ingressPortCommand }}
-
-snip_apply_weightbased_tcp_routing_5
+#snip_apply_weightbased_tcp_routing_5
 
 echo "sending traffic to $INGRESS_HOST:$INGRESS_PORT"
 
