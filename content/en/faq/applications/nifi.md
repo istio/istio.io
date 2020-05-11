@@ -34,9 +34,9 @@ addressable within the cluster.
 * Specifying the networking interfaces that Nifi should use can help work around the issues and allow Nifi work:
   Modify `nifi.properties` with:
 
-  {{< text bash >}}
-  nifi.web.https.network.interface.default=eth0
-  nifi.web.https.network.interface.lo=lo
+  {{< text plain >}}
+    nifi.web.https.network.interface.default=eth0
+    nifi.web.https.network.interface.lo=lo
   {{< text >}}
 
   > Here, `eth0` was the network interface that corresponded with the worker IP and `lo` was the loopback for the container/pod. `eth0`
