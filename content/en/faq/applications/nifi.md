@@ -1,13 +1,13 @@
 ---
 title: Can I run Apache Nifi inside an Istio mesh?
-description: How to run Apache Nifi with Istio.
+description: How to run Apache NiFi with Istio.
 weight: 50
 keywords: [nifi]
 ---
 
 [Apache NiFi](https://nifi.apache.org) poses some challenges to get it running on Istio. These challenges come from the clustering
 requirements it has. For example, there is a requirement that cluster components must be uniquely addressable using cluster-wide
-host names. This requirement conflicts with Istio's requirement that workloads bind and listen on localhost / 127.0.0.1 within
+host names. This requirement conflicts with Istio's requirement that workloads bind and listen on `localhost` / `127.0.0.1` within
 the pod.
 
 There are different ways to work around these issues based on your configuration requirements for your NiFi deployment. NiFi has
@@ -28,7 +28,7 @@ addressable within the cluster.
 
 Some considerations:
 
-* Using a blank or `localhost` setting for `nifi.web.https.host` doesn't work in this case because of the networking requirements for 
+* Using a blank or `localhost` setting for `nifi.web.https.host` doesn't work in this case because of the networking requirements for
   unique addressing mentioned above.
 * Unless you're okay with all of your users having all access roles in your Nifi deployment, HTTP is not a viable solution as [NiFi does not
   perform user authentication over HTTP](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#user_authentication).
@@ -42,8 +42,9 @@ and `yyy` was the loopback interface (I.e `lo`) for the container/pod:
   {{< /text >}}
 
   A real-world example (valid for IBM Cloud, maybe others) would look like this:
-  
+
   {{< text plain >}}
     nifi.web.https.network.interface.default=eth0
     nifi.web.https.network.interface.lo=lo
   {{< /text >}}
+
