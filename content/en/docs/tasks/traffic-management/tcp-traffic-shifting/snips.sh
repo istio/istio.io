@@ -38,7 +38,7 @@ kubectl apply -f samples/tcp-echo/tcp-echo-all-v1.yaml -n istio-io-tcp-traffic-s
 }
 
 snip_apply_weightbased_tcp_routing_2() {
-for i in {1..10}; do \
+for i in {1..20}; do \
 kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
 -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
 done
@@ -55,6 +55,7 @@ one Mon Nov 12 23:25:12 UTC 2018
 one Mon Nov 12 23:25:15 UTC 2018
 one Mon Nov 12 23:25:17 UTC 2018
 one Mon Nov 12 23:25:19 UTC 2018
+...
 ENDSNIP
 
 snip_apply_weightbased_tcp_routing_3() {
@@ -90,7 +91,7 @@ spec:
 ENDSNIP
 
 snip_apply_weightbased_tcp_routing_5() {
-for i in {1..10}; do \
+for i in {1..20}; do \
 kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
 -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
 done
@@ -107,6 +108,7 @@ one Mon Nov 12 23:39:00 UTC 2018
 one Mon Nov 12 23:39:02 UTC 2018
 one Mon Nov 12 23:39:05 UTC 2018
 one Mon Nov 12 23:39:07 UTC 2018
+...
 ENDSNIP
 
 snip_cleanup_1() {

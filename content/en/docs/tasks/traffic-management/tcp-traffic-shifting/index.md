@@ -61,7 +61,7 @@ weighted routing feature.
 1.  Confirm that the `tcp-echo` service is up and running by sending some TCP traffic from the `sleep` client.
 
     {{< text bash >}}
-    $ for i in {1..10}; do \
+    $ for i in {1..20}; do \
     kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
     -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
@@ -75,6 +75,7 @@ weighted routing feature.
     one Mon Nov 12 23:25:15 UTC 2018
     one Mon Nov 12 23:25:17 UTC 2018
     one Mon Nov 12 23:25:19 UTC 2018
+    ...
     {{< /text >}}
 
     You should notice that all the timestamps have a prefix of _one_, which means that all traffic
@@ -118,7 +119,7 @@ weighted routing feature.
 1.  Send some more TCP traffic to the `tcp-echo` microservice.
 
     {{< text bash >}}
-    $ for i in {1..10}; do \
+    $ for i in {1..20}; do \
     kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
     -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
@@ -132,6 +133,7 @@ weighted routing feature.
     one Mon Nov 12 23:39:02 UTC 2018
     one Mon Nov 12 23:39:05 UTC 2018
     one Mon Nov 12 23:39:07 UTC 2018
+    ...
     {{< /text >}}
 
     You should now notice that about 20% of the timestamps have a prefix of _two_, which means that
