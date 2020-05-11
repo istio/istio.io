@@ -25,8 +25,8 @@ kubectl get svc istio-ingressgateway -n istio-system
 }
 
 ! read -r -d '' snip_determining_the_ingress_ip_and_ports_1_out <<\ENDSNIP
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)   AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 ENDSNIP
 
 snip_determining_the_ingress_ip_and_ports_2() {

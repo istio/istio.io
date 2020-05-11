@@ -99,7 +99,7 @@ _verify_first_line() {
 #        - different elapsed time values
 #        - different ip values
 #        - prefix match ending with a dash character
-#        - expected ? is wildcard, matches anything
+#        - expected ... is a wildcard token, matches anything
 _verify_like() {
     local out=$1
     local expected=$2
@@ -138,7 +138,7 @@ _verify_like() {
             for j in "${!otokens[@]}"; do
                 local etok=${etokens[j]}
 
-                if [[ "$etok" == "?" ]]; then
+                if [[ "$etok" == "..." ]]; then
                     continue
                 fi
 

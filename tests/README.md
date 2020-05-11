@@ -141,6 +141,10 @@ The framework includes the following built-in verify functions:
    Verify that `out` does not contains the substring `expected`. Failure messages will include
    the specified `msg`.
 
+1. **`_verify_first_line`** `out` `expected` `msg`
+
+   Verify that the first line of `out` matches the first line in `expected`.
+
 1. **`_verify_elided`** `out` `expected` `msg`
 
    Verify that `out` contains the lines in `expected` where `...` on a line matches one or
@@ -157,7 +161,7 @@ The framework includes the following built-in verify functions:
      1. different elapsed time values (e.g., `30s` is like `5m`)
      1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`)
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
-     1. expected `?` is wildcard, matches anything
+     1. expected `...` is a wildcard token, matches anything
 
 
    This function is useful for comparing the output of commands that include some run-specific

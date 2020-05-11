@@ -44,10 +44,10 @@ _verify_contains "$out" "Code 503 :" "trip_circuit_breaker"
 
 out=$(kubectl -n istio-io-circuitbreaker exec $FORTIO_POD -c istio-proxy -- \
     pilot-agent request GET stats | grep httpbin | grep pending 2>&1)
-expected="cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.default.rq_pending_open: ?
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.high.rq_pending_open: ?
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_active: ?
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_failure_eject: ?
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_overflow: ?
-cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ?"
+expected="cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.default.rq_pending_open: ...
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.circuit_breakers.high.rq_pending_open: ...
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_active: ...
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_failure_eject: ...
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_overflow: ...
+cluster.outbound|8000||httpbin.istio-io-circuitbreaker.svc.cluster.local.upstream_rq_pending_total: ..."
 _verify_like "$out" "$expected" "print_statistics_after_tripping"

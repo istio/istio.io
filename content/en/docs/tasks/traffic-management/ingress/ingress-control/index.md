@@ -29,8 +29,8 @@ Execute the following command to determine if your Kubernetes cluster is running
 
 {{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)   AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 {{< /text >}}
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
