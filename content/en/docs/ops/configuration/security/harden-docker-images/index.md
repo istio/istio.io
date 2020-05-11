@@ -8,18 +8,6 @@ aliases:
 ---
 To ease the process of hardening docker images, Istio provides a set of images based on  [distroless images](https://github.com/GoogleContainerTools/distroless)
 
-{{< warning >}}
-The *distroless images* are work-in-progress.
-The following images haven't been updated to support *distroless*:
-
-- `proxyproxy`
-- `proxy_debug`
-- `kubectl`
-- `app_sidecar`
-
-For ease of the installation, they are available with a `-distroless` suffix.
-{{< /warning >}}
-
 ## Install distroless images
 
 Follow the [Installation Steps](/docs/setup/install/istioctl/) to setup Istio.
