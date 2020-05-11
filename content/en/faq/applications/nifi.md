@@ -37,7 +37,7 @@ addressable within the cluster.
   {{< text plain >}}
     nifi.web.https.network.interface.default=eth0
     nifi.web.https.network.interface.lo=lo
-  {{< text >}}
+  {{< /text >}}
 
   > Here, `eth0` was the network interface that corresponded with the worker IP and `lo` was the loopback for the container/pod. `eth0`
   is a) not guaranteed to be there in all environments/cloud providers and b) not guaranteed to point to the worker host's IP.
