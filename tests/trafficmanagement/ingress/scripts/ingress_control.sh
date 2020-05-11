@@ -60,5 +60,5 @@ _verify_first_line "$out" "$snip_configuring_ingress_using_an_istio_gateway_4_ou
 snip_accessing_ingress_services_using_a_browser_1
 
 # access httpbin without host header
-out=$(curl -I http://$INGRESS_HOST:$INGRESS_PORT/status/200 2>&1)
+out=$(curl -I "http://$INGRESS_HOST:$INGRESS_PORT/status/200" 2>&1)
 _verify_contains "$out" "HTTP/1.1 200 OK" "request_httpbin_without_host_header"

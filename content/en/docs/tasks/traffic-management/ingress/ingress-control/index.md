@@ -84,15 +84,15 @@ Setting the ingress IP depends on the cluster provider:
 1.  _GKE:_
 
     {{< text bash >}}
-    $ export INGRESS_HOST=<workerNodeAddress>
+    $ export INGRESS_HOST=worker-node-address
     {{< /text >}}
 
     You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
     Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
 
     {{< text bash >}}
-    $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
-    $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
+    $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
+    $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
     {{< /text >}}
 
 1.  _Minikube:_
@@ -196,7 +196,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
+    $ curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
     HTTP/1.1 200 OK
     server: envoy
     date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -214,7 +214,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
+    $ curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
@@ -288,7 +288,7 @@ they have valid values, according to the output of the following commands:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    $ echo INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT
+    $ echo "INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT"
     {{< /text >}}
 
 1.  Check that you have no other Istio ingress gateways defined on the same port:

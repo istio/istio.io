@@ -45,12 +45,12 @@ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressga
 }
 
 snip_determining_the_ingress_ip_and_ports_5() {
-export INGRESS_HOST=<workerNodeAddress>
+export INGRESS_HOST=worker-node-address
 }
 
 snip_determining_the_ingress_ip_and_ports_6() {
-gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
-gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
+gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
+gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
 }
 
 snip_determining_the_ingress_ip_and_ports_7() {
@@ -110,7 +110,7 @@ EOF
 }
 
 snip_configuring_ingress_using_an_istio_gateway_3() {
-curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
+curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 }
 
 ! read -r -d '' snip_configuring_ingress_using_an_istio_gateway_3_out <<\ENDSNIP
@@ -125,7 +125,7 @@ x-envoy-upstream-service-time: 48
 ENDSNIP
 
 snip_configuring_ingress_using_an_istio_gateway_4() {
-curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
+curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
 }
 
 ! read -r -d '' snip_configuring_ingress_using_an_istio_gateway_4_out <<\ENDSNIP
@@ -175,7 +175,7 @@ EOF
 
 snip_troubleshooting_1() {
 kubectl get svc -n istio-system
-echo INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT
+echo "INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT"
 }
 
 snip_troubleshooting_2() {
