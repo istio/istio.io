@@ -79,19 +79,20 @@ _verify_elided() {
 }
 
 # Verify that the first line of $out matches the first line in $expected.
+# TODO ???? flaky behavior, doesn't seem to work as expected
 _verify_first_line() {
     local out=$1
     local expected=$2
     local msg=$3
 
+    # TODO ???? the following seem to leave a trailing \n in some cases and then the following check fails
     IFS=$'\n' read -r out_first_line <<< "$out"
     IFS=$'\n' read -r expected_first_line <<< "$expected"
-    #echo "out first line: \"$out_first_line\""
-    #echo "expected first line: \"$expected_first_line\""
+    echo "out first line: \"$out_first_line\""
+    echo "expected first line: \"$expected_first_line\""
 
-    #if [[ "$out_first_line" != "$expected_first_line" ]]; then
-    # TODO ???? above failed because $out_first_line had a \n at the end of the string, $expected_first_line did not
-    if [[ "$out_first_line" != *"$expected_first_line"* ]]; then
+    # TODO ???? following fails because one or the other might have a \n at the end of the string, when the other does not
+    if [[ "$out_first_line" != "$expected_first_line" ]]; then
         _err_exit "$msg" "$out"
     fi
 }

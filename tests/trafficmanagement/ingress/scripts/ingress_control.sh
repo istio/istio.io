@@ -50,14 +50,19 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # access the httpbin service
 out=$(snip_configuring_ingress_using_an_istio_gateway_3 2>&1)
-_verify_first_line "$out" "$snip_configuring_ingress_using_an_istio_gateway_3_out" "snip_configuring_ingress_using_an_istio_gateway_3"
+#_verify_first_line "$out" "$snip_configuring_ingress_using_an_istio_gateway_3_out" "snip_configuring_ingress_using_an_istio_gateway_3"
+_verify_contains "$out" "HTTP/1.1 200 OK" "snip_configuring_ingress_using_an_istio_gateway_3"
 
 # access the httpbin service
 out=$(snip_configuring_ingress_using_an_istio_gateway_4 2>&1)
-_verify_first_line "$out" "$snip_configuring_ingress_using_an_istio_gateway_4_out" "snip_configuring_ingress_using_an_istio_gateway_4"
+#_verify_first_line "$out" "$snip_configuring_ingress_using_an_istio_gateway_4_out" "snip_configuring_ingress_using_an_istio_gateway_4"
+_verify_contains "$out" "HTTP/1.1 404 Not Found" "snip_configuring_ingress_using_an_istio_gateway_3"
 
 # configure for web browser
 snip_accessing_ingress_services_using_a_browser_1
+
+# wait for rules to propagate
+sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # access httpbin without host header
 out=$(curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/status/200" 2>&1)
