@@ -18,6 +18,7 @@ import (
 
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/environment/kube"
+	"istio.io/istio/pkg/test/framework/label"
 
 	"istio.io/istio.io/pkg/test/istioio"
 )
@@ -36,6 +37,7 @@ const (
 func TestTCPTrafficShifting(t *testing.T) {
 	framework.
 		NewTest(t).
+		Label(label.Flaky).
 		Run(func(ctx framework.TestContext) {
 			istioio.NewBuilder("tasks__traffic_management__tcp_traffic_shifting").
 				Add(istioio.Script{Input: istioio.Path("scripts/tcp_trafficshifting_setup.txt")},
