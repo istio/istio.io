@@ -132,7 +132,7 @@ spec:
     {{< /text >}}
 
 1. Open `stats-filter-1.6.yaml` with a text editor and locate the
-   `name: istio.stats` extension configuration. Update it to map `request_operation` 
+   `name: istio.stats` extension configuration. Update it to map `request_operation`
    dimension in the `requests_total` standard metric to `istio_operationId` attribute.
    The updated configuration file section should look like the following.
 
@@ -276,7 +276,7 @@ spec:
     {{< /text >}}
 
 1. Open `stats-filter-1.6.yaml` with a text editor and locate the
-   `name: istio.stats` extension configuration. Update it to map `response_code` 
+   `name: istio.stats` extension configuration. Update it to map `response_code`
    dimension in the `requests_total` standard metric to `istio_responseClass` attribute.
    The updated configuration file section should look like the following.
 
