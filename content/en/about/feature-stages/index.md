@@ -77,7 +77,7 @@ Below is our list of existing features and their current phases. This informatio
 | [Authorization](/docs/concepts/security/#authorization)   | Beta
 | [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Beta
 | [Automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) | Beta
-| [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
+| [Virtual machine Service Credential Distribution](/docs/concepts/security/#pki) | Alpha
 | [Mutual TLS Migration](/docs/tasks/security/authentication/mtls-migration)    | Beta
 | [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Deprecated
 | [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Deprecated
