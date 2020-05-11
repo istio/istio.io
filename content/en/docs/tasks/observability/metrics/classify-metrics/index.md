@@ -18,7 +18,7 @@ Counting the number of review requests must account for the unbounded element
 requests to get reviews.
 
 Istio lets you create classification rules using the
-[AttributeGen plugin](/docs/reference/config/proxy_extensions/attributegen/) that group requests
+[AttributeGen plugin](/docs/reference/config/proxy_extensions/attributegen/) that groups requests
 into a fixed number of logical operations. For example, you can create an operation named
 `GetReviews`, which is a common way to identify operations using the
 [`Open API Spec operationId`](https://swagger.io/docs/specification/paths-and-operations/).
