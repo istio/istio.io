@@ -110,7 +110,7 @@ EOF
 }
 
 snip_configuring_ingress_using_an_istio_gateway_3() {
-curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 }
 
 ! read -r -d '' snip_configuring_ingress_using_an_istio_gateway_3_out <<\ENDSNIP
@@ -125,7 +125,7 @@ x-envoy-upstream-service-time: 48
 ENDSNIP
 
 snip_configuring_ingress_using_an_istio_gateway_4() {
-curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
+curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
 }
 
 ! read -r -d '' snip_configuring_ingress_using_an_istio_gateway_4_out <<\ENDSNIP

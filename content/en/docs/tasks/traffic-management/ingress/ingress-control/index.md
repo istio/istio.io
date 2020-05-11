@@ -196,7 +196,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
     HTTP/1.1 200 OK
     server: envoy
     date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -214,7 +214,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
