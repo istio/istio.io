@@ -34,8 +34,8 @@ func TestIngressControl(t *testing.T) {
 					FileName: "cleanup.sh",
 					Value: `
 set +e # ignore cleanup errors
-source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress-control/snips.sh
-cleanup_httpbin_sample`,
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/ingress/ingress-control/snips.sh
+snip_cleanup_1`,
 				},
 			}).
 			Build())
