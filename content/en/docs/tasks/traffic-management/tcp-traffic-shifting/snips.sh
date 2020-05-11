@@ -22,35 +22,34 @@
 
 snip_apply_weightbased_tcp_routing_1() {
 kubectl create namespace istio-io-tcp-traffic-shifting
-}
-
-snip_apply_weightbased_tcp_routing_2() {
-kubectl apply -f <(istioctl kube-inject -f samples/tcp-echo/tcp-echo-services.yaml) -n istio-io-tcp-traffic-shifting
-}
-
-snip_apply_weightbased_tcp_routing_3() {
 kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
 }
 
-snip_apply_weightbased_tcp_routing_4() {
+snip_apply_weightbased_tcp_routing_2() {
+kubectl apply -f samples/sleep/sleep.yaml -n istio-io-tcp-traffic-shifting
+}
+
+snip_apply_weightbased_tcp_routing_3() {
 kubectl apply -f samples/tcp-echo/tcp-echo-services.yaml -n istio-io-tcp-traffic-shifting
 }
 
-snip_apply_weightbased_tcp_routing_5() {
+snip_apply_weightbased_tcp_routing_4() {
 kubectl apply -f samples/tcp-echo/tcp-echo-all-v1.yaml -n istio-io-tcp-traffic-shifting
 }
 
-snip_apply_weightbased_tcp_routing_6() {
+snip_apply_weightbased_tcp_routing_5() {
+export INGRESS_HOST="http://istio-ingressgateway.istio-system"
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
 }
 
-snip_apply_weightbased_tcp_routing_7() {
+snip_apply_weightbased_tcp_routing_6() {
 for i in {1..10}; do \
-docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
+-c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
 done
 }
 
-! read -r -d '' snip_apply_weightbased_tcp_routing_7_out <<\ENDSNIP
+! read -r -d '' snip_apply_weightbased_tcp_routing_6_out <<\ENDSNIP
 one Mon Nov 12 23:24:57 UTC 2018
 one Mon Nov 12 23:25:00 UTC 2018
 one Mon Nov 12 23:25:02 UTC 2018
@@ -63,19 +62,17 @@ one Mon Nov 12 23:25:17 UTC 2018
 one Mon Nov 12 23:25:19 UTC 2018
 ENDSNIP
 
-snip_apply_weightbased_tcp_routing_8() {
+snip_apply_weightbased_tcp_routing_7() {
 kubectl apply -f samples/tcp-echo/tcp-echo-20-v2.yaml -n istio-io-tcp-traffic-shifting
 }
 
-snip_apply_weightbased_tcp_routing_9() {
+snip_apply_weightbased_tcp_routing_8() {
 kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
 }
 
-! read -r -d '' snip_apply_weightbased_tcp_routing_9_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
+! read -r -d '' snip_apply_weightbased_tcp_routing_8_out <<\ENDSNIP
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
-metadata:
-  name: tcp-echo
   ...
 spec:
   ...
@@ -97,13 +94,14 @@ spec:
       weight: 20
 ENDSNIP
 
-snip_apply_weightbased_tcp_routing_10() {
+snip_apply_weightbased_tcp_routing_9() {
 for i in {1..10}; do \
-docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
+-c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
 done
 }
 
-! read -r -d '' snip_apply_weightbased_tcp_routing_10_out <<\ENDSNIP
+! read -r -d '' snip_apply_weightbased_tcp_routing_9_out <<\ENDSNIP
 one Mon Nov 12 23:38:45 UTC 2018
 two Mon Nov 12 23:38:47 UTC 2018
 one Mon Nov 12 23:38:50 UTC 2018
@@ -119,5 +117,6 @@ ENDSNIP
 snip_cleanup_1() {
 kubectl delete -f samples/tcp-echo/tcp-echo-all-v1.yaml -n istio-io-tcp-traffic-shifting
 kubectl delete -f samples/tcp-echo/tcp-echo-services.yaml -n istio-io-tcp-traffic-shifting
+kubectl delete -f samples/sleep/sleep.yaml -n istio-io-tcp-traffic-shifting
 kubectl delete namespace istio-io-tcp-traffic-shifting
 }

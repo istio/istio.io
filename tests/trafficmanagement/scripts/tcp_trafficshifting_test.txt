@@ -20,51 +20,23 @@ set -o pipefail
 
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh
 
-snip_apply_weightbased_tcp_routing_5
-
+# TODO: clean up and remove these
 export INGRESS_HOST={{ .ingressHostCommand }}
 export INGRESS_PORT={{ .ingressPortCommand }}
 
+snip_apply_weightbased_tcp_routing_5
+
 echo "sending traffic to $INGRESS_HOST:$INGRESS_PORT"
 
-# TODO: Should use snip_apply_weightbased_tcp_routing_7 here. Problem is it uses -it options.
-out=$(for i in {1..20}; do \
-docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT \
-  --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
-done 2>&1)
-_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_7"
-_verify_not_contains "$out" "two" "snip_apply_weightbased_tcp_routing_7"
+out=$(snip_apply_weightbased_tcp_routing_6 2>&1)
+_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_6"
+_verify_not_contains "$out" "two" "snip_apply_weightbased_tcp_routing_6"
 
-snip_apply_weightbased_tcp_routing_8
+snip_apply_weightbased_tcp_routing_7
+
+out=$(snip_apply_weightbased_tcp_routing_8 2>&1)
+_verify_elided "$out" "$snip_apply_weightbased_tcp_routing_8_out" "snip_apply_weightbased_tcp_routing_8"
 
 out=$(snip_apply_weightbased_tcp_routing_9 2>&1)
-expected="spec:
-  gateways:
-  - tcp-echo-gateway
-  hosts:
-  - '*'
-  tcp:
-  - match:
-    - port: 31400
-    route:
-    - destination:
-        host: tcp-echo
-        port:
-          number: 9000
-        subset: v1
-      weight: 80
-    - destination:
-        host: tcp-echo
-        port:
-          number: 9000
-        subset: v2
-      weight: 20"
-_verify_contains "$out" "$expected" "snip_apply_weightbased_tcp_routing_7"
-
-# TODO: Should use snip_apply_weightbased_tcp_routing_10 here. Problem is it uses -it options.
-out=$(for i in {1..20}; do \
-docker run -e INGRESS_HOST=$INGRESS_HOST -e INGRESS_PORT=$INGRESS_PORT \
-  --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"
-done 2>&1)
-_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_10"
-_verify_contains "$out" "two" "snip_apply_weightbased_tcp_routing_10"
+_verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_9"
+_verify_contains "$out" "two" "snip_apply_weightbased_tcp_routing_9"
