@@ -25,7 +25,7 @@ weighted routing feature.
 
 * Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
 
-## Apply weight-based TCP routing
+## Set up the test environment
 
 1.  To get started, create a namespace for testing TCP traffic shifting and label it to enable automatic sidecar injection.
 
@@ -40,11 +40,17 @@ weighted routing feature.
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-1.  Deploy the `v1` version of the `tcp-echo` microservice.
+1.  Deploy the `v1` and `v2` versions of the `tcp-echo` microservice.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
+
+1.  Follow the instructions in
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    to define the `TCP_INGRESS_PORT` and `INGRESS_HOST` environment variables.
+
+## Apply weight-based TCP routing
 
 1.  Route all TCP traffic to the `v1` version of the `tcp-echo` microservice.
 
@@ -52,19 +58,12 @@ weighted routing feature.
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-1.  Set the following environment variables to the TCP port of the Istio ingress gateway.
-
-    {{< text bash >}}
-    $ export INGRESS_HOST="http://istio-ingressgateway.istio-system"
-    $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
-    {{< /text >}}
-
 1.  Confirm that the `tcp-echo` service is up and running by sending some TCP traffic from the `sleep` client.
 
     {{< text bash >}}
     $ for i in {1..10}; do \
     kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
-    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:24:57 UTC 2018
     one Mon Nov 12 23:25:00 UTC 2018
@@ -121,7 +120,7 @@ weighted routing feature.
     {{< text bash >}}
     $ for i in {1..10}; do \
     kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
-    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:38:45 UTC 2018
     two Mon Nov 12 23:38:47 UTC 2018
