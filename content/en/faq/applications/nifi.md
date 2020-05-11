@@ -5,20 +5,20 @@ weight: 50
 keywords: [nifi]
 ---
 
-[Apache Nifi](https://nifi.apache.org) poses some challenges to get it running on Istio. These challenges come from the clustering
-requirements it has. For example, there is a requirement that cluster components must be uniquely addressable using cluster-wide 
+[Apache NiFi](https://nifi.apache.org) poses some challenges to get it running on Istio. These challenges come from the clustering
+requirements it has. For example, there is a requirement that cluster components must be uniquely addressable using cluster-wide
 host names. This requirement conflicts with Istio's requirement that workloads bind and listen on localhost / 127.0.0.1 within
-the pod. 
+the pod.
 
-There are different ways to work around these issues based on your configuration requirements for your Nifi deployment. Nifi has 
+There are different ways to work around these issues based on your configuration requirements for your NiFi deployment. NiFi has
 at least three ways to specify what hostname should be used for cluster networking:
 
-* [`nifi.remote.input.host`](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#site_to_site_properties) - 
+* [`nifi.remote.input.host`](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#site_to_site_properties) -
 the host name that will be given out to clients to connect to this NiFi instance for Site-to-Site communication. By default, it is
 the value from `InetAddress.getLocalHost().getHostName()`. On UNIX-like operating systems, this is typically the output from the
 hostname command.
 
-* [`nifi.web.https.host`](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#web-properties) - The HTTPS host. 
+* [`nifi.web.https.host`](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#web-properties) - The HTTPS host.
 It is blank by default. The jetty server will run on this hostname and it needs to be addressable across the cluster for replication
 with other nodes.
 
@@ -29,37 +29,15 @@ addressable within the cluster.
 ## Notes
 
 * Using `nifi.web.https.host` doesn't work in this case because of the networking requirements for unique addressing mentioned above
-* Unless you're okay with all of your users having all access to your Nifi deployment, HTTP is not a viable solution : 
+* Unless you're okay with all of your users having all access to your Nifi deployment, HTTP is not a viable solution :
   > NiFi does not perform user authentication over HTTP. Using HTTP, all users will be granted all roles. [Reference Link](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#user_authentication)
 * Specifying the networking interfaces that Nifi should use can help work around the issues and allow Nifi work:
   Modify `nifi.properties` with:
-  ```
+
+  {{< text bash >}}
   nifi.web.https.network.interface.default=eth0
   nifi.web.https.network.interface.lo=lo
-  ```
-  > Here, `eth0` was the network interface that corresponded with the worker IP and `lo` was the loopback for the container/pod. `eth0` 
-    is a) not guaranteed to be there in all environments/cloud providers and b) not guaranteed to point to the worker host's IP.
+  {{< text >}
 
-
-### Using `nifi.web.https.host`
-
-**Steps to utilize**
-1. Set `nifi.web.https.host` to blank (which means `localhost`)
-2. Updated CA to include `localhost` so login/authentication would work. 
-
-**Result**
-Single node cluster worked fine and users were able to login through setup ingress and use NiFi effectively. Logs showed that the other
-cluster addresses were still working. Adding a second node caused login/authentication to fail the UI load balancer sent me to the second node.
-Log output showed:
-
-`2020-04-28 21:52:58,211 WARN [Replicate Request Thread-10] -> o.a.n.c.c.h.r.ThreadPoolRequestReplicator -> Failed to replicate request GET /nifi-api/flow/current-user to localhost:8443 due to java.net.SocketTimeoutException: timeout`
-
-
-nvestigating this error lead to discovering this thread on the Nifi mailing list [`Cannot replicate error`](http://apache-nifi.1125220.n5.nabble.com/NiFi-1-4-Clustering-Error-Cannot-Replicate-Request-GET-nifi-api-flow-current-user-td21057.html):
-
-> Long story short, I believe you do need to specify a value for nifi.web.http.host because that will be used to replicate requests 
-> that come in to the REST API, so each node needs that value to be something that is reachable by the other nodes.
-
-Other apps will work because they do not need to be addressable by other pods in the cluster. NiFi shares the `nifi.web.https.host` value with
-other nodes for the other nodes to use to handle the replication. If it's set to `localhost` they will just call themselves.
-
+  > Here, `eth0` was the network interface that corresponded with the worker IP and `lo` was the loopback for the container/pod. `eth0`
+  is a) not guaranteed to be there in all environments/cloud providers and b) not guaranteed to point to the worker host's IP.
