@@ -26,18 +26,24 @@ with other nodes.
 fully qualified address of the node. It is blank by default. This is used for cluster coordination as well and needs to be uniquely
 addressable within the cluster.
 
-## Notes
+Some considerations:
 
-* Using `nifi.web.https.host` doesn't work in this case because of the networking requirements for unique addressing mentioned above
-* Unless you're okay with all of your users having all access to your Nifi deployment, HTTP is not a viable solution :
-  > NiFi does not perform user authentication over HTTP. Using HTTP, all users will be granted all roles. [Reference Link](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#user_authentication)
-* Specifying the networking interfaces that Nifi should use can help work around the issues and allow Nifi work:
-  Modify `nifi.properties` with:
+* Using a blank or `localhost` setting for `nifi.web.https.host` doesn't work in this case because of the networking requirements for 
+  unique addressing mentioned above.
+* Unless you're okay with all of your users having all access roles in your Nifi deployment, HTTP is not a viable solution as [NiFi does not
+  perform user authentication over HTTP](https://nifi.apache.org/docs/nifi-docs/html/administration-guide.html#user_authentication).
+* Explicitly specifying the networking interfaces that Nifi should use can help work around the issues and allow Nifi to work:
+  Modify `nifi.properties` where `xxx` is the network interface that corresponds with the worker IP (differs based on environment/cloud provider)
+and `yyy` was the loopback interface (I.e `lo`) for the container/pod:
 
+  {{< text plain >}}
+    nifi.web.https.network.interface.default=xxx
+    nifi.web.https.network.interface.lo=yyy
+  {{< /text >}}
+
+  A real-world example (valid for IBM Cloud, maybe others) would look like this:
+  
   {{< text plain >}}
     nifi.web.https.network.interface.default=eth0
     nifi.web.https.network.interface.lo=lo
   {{< /text >}}
-
-  > Here, `eth0` was the network interface that corresponded with the worker IP and `lo` was the loopback for the container/pod. `eth0`
-  is a) not guaranteed to be there in all environments/cloud providers and b) not guaranteed to point to the worker host's IP.
