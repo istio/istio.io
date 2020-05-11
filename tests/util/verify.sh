@@ -86,6 +86,8 @@ _verify_first_line() {
 
     IFS=$'\n' read -r out_first_line <<< "$out"
     IFS=$'\n' read -r expected_first_line <<< "$expected"
+    echo "out first line: \"$out_first_line\""
+    echo "expected first line: \"$expected_first_line\""
 
     if [[ "$out_first_line" != "$expected_first_line" ]]; then
         _err_exit "$msg" "$out"
