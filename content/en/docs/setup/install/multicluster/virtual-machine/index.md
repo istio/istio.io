@@ -44,7 +44,7 @@ Follow this guide to install an Istio control plane
     for more details on configuring an external CA.
 
     {{< text bash >}}
-    $ make -C sample/certs "${CLUSTER_NAME}"-certs-wl
+    $ make -C sample/certs NAME="${CLUSTER_NAME}" NAMESPACE="vm" "${CLUSTER_NAME}"-certs-wl
     $ cp -a samples/certs/"${CLUSTER_NAME}"/ca-cert.pem "${HOME}"/"${CLUSTER_NAME}"
     $ cp -a samples/certs/"${CLUSTER_NAME}"/ca-key.pem "${HOME}"/"${CLUSTER_NAME}"
     $ cp -a samples/certs/"${CLUSTER_NAME}"/root-cert.pem "${HOME}"/"${CLUSTER_NAME}"
