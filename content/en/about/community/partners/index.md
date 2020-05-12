@@ -27,6 +27,7 @@ Istio benefits from an ecosystem of great partners. Check 'em out and learn how 
     {{< company_logo link="https://layer5.io/" logo="./layer5.svg" alt="Layer5" tagline="The service mesh company" >}}
     {{< company_logo link="https://pivotal.io" logo="./pivotal.svg" alt="Pivotal" tagline="The way the future gets built" >}}
     {{< company_logo link="https://www.redhat.com" logo="./redhat.svg" alt="Red Hat" tagline="We make open source technologies for the enterprise" >}}
+    {{< company_logo link="https://www.signalsciences.com" logo="./signalsciences.svg" alt="Signal Sciences" tagline="The world's most trusted web defense" >}}
     {{< company_logo link="https://www.solarwinds.com" logo="./solarwinds.png" alt="SolarWinds" tagline="Solve your toughest IT management problem, today" >}}
     {{< company_logo link="https://www.solo.io" logo="./solo.png" alt="solo.io" tagline="Next Gen API Gateway, Service Mesh Hub and Microservices Application Health" >}}
     {{< company_logo link="https://sysdig.com" logo="./sysdig.svg" alt="Sysdig" tagline="The first unified approach to container security, monitoring and forensics" >}}
