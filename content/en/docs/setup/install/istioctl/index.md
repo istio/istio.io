@@ -61,13 +61,13 @@ By default, `istioctl` uses compiled-in charts to generate the install manifest.
 `istioctl` for auditing and customization purposes and can be found in the release tar in the
 `manifests` directory.
 `istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
-`installPackagePath` to a local file system path:
+the `charts` flag to a local file system path:
 
 {{< text bash >}}
-$ istioctl manifest apply --set installPackagePath=< full path to base directory where downloaded >/manifests
+$ istioctl install --charts=manifests/
 {{< /text >}}
 
-If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl manifest apply` alone, because it points to the
+If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
 same charts as the compiled-in ones.
 Other than for experimenting with or testing new features, we recommend using the compiled-in charts rather than external ones to ensure compatibility of the
 `istioctl` binary with the charts.
