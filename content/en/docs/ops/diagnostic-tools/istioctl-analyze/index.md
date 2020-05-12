@@ -15,7 +15,7 @@ apply changes to a cluster.
 You can analyze your current Kubernetes cluster by running:
 
 {{< text bash >}}
-$ istioctl analyze
+$ istioctl analyze --all-namespaces
 {{< /text >}}
 
 And that’s it! It’ll give you any recommendations that apply.
