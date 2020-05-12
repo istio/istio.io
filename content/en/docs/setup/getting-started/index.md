@@ -167,12 +167,11 @@ route at the edge of your mesh.
     virtualservice.networking.istio.io/bookinfo created
     {{< /text >}}
 
-1.  Confirm the gateway has been created:
+1.  Ensure that there are no issues with the configuration:
 
     {{< text bash >}}
-    $ kubectl get gateway
-    NAME               AGE
-    bookinfo-gateway   32s
+    $ istioctl analyze
+    ✔ No validation issues found when analyzing namespace: default.
     {{< /text >}}
 
 ### Determining the ingress IP and ports
