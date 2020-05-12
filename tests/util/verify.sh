@@ -25,7 +25,7 @@ _verify_same() {
     local expected=$2
     local msg=$3
 
-    if [ "$out" != "$expected" ]; then
+    if [[ "$out" != "$expected" ]]; then
         _err_exit "$msg" "$out"
     fi
 }
@@ -78,6 +78,25 @@ _verify_elided() {
     fi
 }
 
+# Verify that the first line of $out matches the first line in $expected.
+# TODO ???? flaky behavior, doesn't seem to work as expected
+_verify_first_line() {
+    local out=$1
+    local expected=$2
+    local msg=$3
+
+    # TODO ???? the following seem to leave a trailing \n in some cases and then the following check fails
+    IFS=$'\n' read -r out_first_line <<< "$out"
+    IFS=$'\n' read -r expected_first_line <<< "$expected"
+    echo "out first line: \"$out_first_line\""
+    echo "expected first line: \"$expected_first_line\""
+
+    # TODO ???? following fails because one or the other might have a \n at the end of the string, when the other does not
+    if [[ "$out_first_line" != "$expected_first_line" ]]; then
+        _err_exit "$msg" "$out"
+    fi
+}
+
 # Verify that $out is "like" $expected. Like implies:
 #   1. Same number of lines
 #   2. Same number of whitespace-seperated tokens per line
@@ -85,7 +104,7 @@ _verify_elided() {
 #        - different elapsed time values
 #        - different ip values
 #        - prefix match ending with a dash character
-#        - expected ? is wildcard, matches anything
+#        - expected ... is a wildcard token, matches anything
 _verify_like() {
     local out=$1
     local expected=$2
@@ -124,7 +143,7 @@ _verify_like() {
             for j in "${!otokens[@]}"; do
                 local etok=${etokens[j]}
 
-                if [[ "$etok" == "?" ]]; then
+                if [[ "$etok" == "..." ]]; then
                     continue
                 fi
 
@@ -138,7 +157,7 @@ _verify_like() {
                     continue
                 fi
 
-                if [[ "$otok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ && "$etok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                if [[ ("$otok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || "$otok" == "<none>" || "$otok" == "<pending>") && "$etok" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
                     continue
                 fi
 
