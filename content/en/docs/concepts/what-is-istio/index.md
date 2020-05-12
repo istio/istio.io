@@ -45,7 +45,13 @@ between microservices, then configure and manage Istio using its control plane f
 
 * Secure service-to-service communication in a cluster with strong identity-based authentication and authorization.
 
-Istio is designed for extensibility and meets diverse deployment needs.
+Istio is designed for extensibility and meets diverse deployment needs. The following [architecture](/docs/ops/deployment/architecture/) diagram shows the various components.
+
+{{< image width="80%"
+    link="./arch.svg"
+    alt="The overall architecture of an Istio-based application."
+    caption="Istio Architecture"
+    >}}
 
 ## Core features
 
