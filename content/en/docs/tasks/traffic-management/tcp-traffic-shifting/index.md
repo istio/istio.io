@@ -25,61 +25,45 @@ weighted routing feature.
 
 * Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
 
+## Set up the test environment
+
+1.  To get started, create a namespace for testing TCP traffic shifting and label it to enable automatic sidecar injection.
+
+    {{< text bash >}}
+    $ kubectl create namespace istio-io-tcp-traffic-shifting
+    $ kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
+    {{< /text >}}
+
+1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
+    {{< /text >}}
+
+1.  Deploy the `v1` and `v2` versions of the `tcp-echo` microservice.
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
+    {{< /text >}}
+
+1.  Follow the instructions in
+    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    to define the `TCP_INGRESS_PORT` and `INGRESS_HOST` environment variables.
+
 ## Apply weight-based TCP routing
 
-1.  To get started, deploy the `v1` version of the `tcp-echo` microservice.
-
-    *   First, create a namespace for testing TCP traffic shifting
-
-        {{< text bash >}}
-        $ kubectl create namespace istio-io-tcp-traffic-shifting
-        {{< /text >}}
-
-    *   If you are using [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
-        use the following command
-
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@) -n istio-io-tcp-traffic-shifting
-        {{< /text >}}
-
-        The [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command is used to manually modify the `tcp-echo-services.yaml`
-        file before creating the deployments.
-
-    *   If you are using a cluster with
-        [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-        enabled, label the `istio-io-tcp-traffic-shifting` namespace with `istio-injection=enabled`
-
-        {{< text bash >}}
-        $ kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
-        {{< /text >}}
-
-        Then simply deploy the services using `kubectl`
-
-        {{< text bash >}}
-        $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
-        {{< /text >}}
-
-1.  Next, route all TCP traffic to the `v1` version of the `tcp-echo` microservice.
+1.  Route all TCP traffic to the `v1` version of the `tcp-echo` microservice.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-1.  Confirm that the `tcp-echo` service is up and running.
-
-    The `$INGRESS_HOST` variable below is the External IP address of the ingress, as explained in
-the [Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) doc. To obtain the
-`$INGRESS_PORT` value, use the following command.
+1.  Confirm that the `tcp-echo` service is up and running by sending some TCP traffic from the `sleep` client.
 
     {{< text bash >}}
-    $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
-    {{< /text >}}
-
-    Send some TCP traffic to the `tcp-echo` microservice.
-
-    {{< text bash >}}
-    $ for i in {1..10}; do \
-    docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+    $ for i in {1..20}; do \
+    kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
+    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:24:57 UTC 2018
     one Mon Nov 12 23:25:00 UTC 2018
@@ -91,14 +75,11 @@ the [Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/#d
     one Mon Nov 12 23:25:15 UTC 2018
     one Mon Nov 12 23:25:17 UTC 2018
     one Mon Nov 12 23:25:19 UTC 2018
+    ...
     {{< /text >}}
 
-    {{< warning >}}
-    The `docker` command may require using `sudo` depending on your Docker installation.
-    {{< /warning >}}
-
     You should notice that all the timestamps have a prefix of _one_, which means that all traffic
-was routed to the `v1` version of the `tcp-echo` service.
+    was routed to the `v1` version of the `tcp-echo` service.
 
 1.  Transfer 20% of the traffic from `tcp-echo:v1` to `tcp-echo:v2` with the following command:
 
@@ -112,10 +93,8 @@ was routed to the `v1` version of the `tcp-echo` service.
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: VirtualService
-    metadata:
-      name: tcp-echo
       ...
     spec:
       ...
@@ -140,8 +119,9 @@ was routed to the `v1` version of the `tcp-echo` service.
 1.  Send some more TCP traffic to the `tcp-echo` microservice.
 
     {{< text bash >}}
-    $ for i in {1..10}; do \
-    docker run -e INGRESS_HOST="$INGRESS_HOST" -e INGRESS_PORT="$INGRESS_PORT" -it --rm busybox sh -c "(date; sleep 1) | nc $INGRESS_HOST $INGRESS_PORT"; \
+    $ for i in {1..20}; do \
+    kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
+    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:38:45 UTC 2018
     two Mon Nov 12 23:38:47 UTC 2018
@@ -153,15 +133,12 @@ was routed to the `v1` version of the `tcp-echo` service.
     one Mon Nov 12 23:39:02 UTC 2018
     one Mon Nov 12 23:39:05 UTC 2018
     one Mon Nov 12 23:39:07 UTC 2018
+    ...
     {{< /text >}}
 
-    {{< warning >}}
-    The `docker` command may require using `sudo` depending on your Docker installation.
-    {{< /warning >}}
-
     You should now notice that about 20% of the timestamps have a prefix of _two_, which means that
-80% of the TCP traffic was routed to the `v1` version of the `tcp-echo` service, while 20% was
-routed to `v2`.
+    80% of the TCP traffic was routed to the `v1` version of the `tcp-echo` service, while 20% was
+    routed to `v2`.
 
 ## Understanding what happened
 
@@ -179,10 +156,11 @@ article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 
 ## Cleanup
 
-1. Remove the `tcp-echo` application and routing rules:
+1. Remove the `sleep` sample, `tcp-echo` application, and routing rules:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete namespace istio-io-tcp-traffic-shifting
     {{< /text >}}
