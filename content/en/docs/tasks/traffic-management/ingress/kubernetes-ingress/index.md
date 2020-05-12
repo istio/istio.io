@@ -77,7 +77,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
 ### TLS
 
-`Ingress` supports [specifying TLS settings](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls). This is supported by Istio, but the referenced `Secret` must exist in the namespace of the `istio-ingressgateway` deployment (typical `istio-system`). [cert-manager](/docs/ops/integrations/certmanager/) can be used to generate these certificates.
+`Ingress` supports [specifying TLS settings](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls). This is supported by Istio, but the referenced `Secret` must exist in the namespace of the `istio-ingressgateway` deployment (typically `istio-system`). [cert-manager](/docs/ops/integrations/certmanager/) can be used to generate these certificates.
 
 ### Specifying path type
 
