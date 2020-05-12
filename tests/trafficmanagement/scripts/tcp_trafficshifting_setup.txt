@@ -22,13 +22,18 @@ source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shiftin
 
 # Create a new namespace for testing purposes and enable
 # automatic Istio sidecar injection
+snip_set_up_the_test_environment_1
 
+# Start the sleep sample
+snip_set_up_the_test_environment_2
+
+# Start the v1 and v2 versions of the echo service
+snip_set_up_the_test_environment_3
+
+# Route all traffic to echo v1
 snip_apply_weightbased_tcp_routing_1
 
-snip_apply_weightbased_tcp_routing_3
-
-snip_apply_weightbased_tcp_routing_4
-
+# TODO: why is the following needed?
 # Add the TCP port to the ingress-gateway
 kubectl -n istio-system patch service istio-ingressgateway --patch "
 spec:
