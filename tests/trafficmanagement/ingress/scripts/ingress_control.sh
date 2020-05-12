@@ -65,5 +65,5 @@ snip_accessing_ingress_services_using_a_browser_1
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # access httpbin without host header
-out=$(curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/status/200" 2>&1)
+out=$(curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/headers" 2>&1)
 _verify_contains "$out" "HTTP/1.1 200 OK" "request_httpbin_without_host_header"
