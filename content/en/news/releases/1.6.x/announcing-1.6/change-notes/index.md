@@ -28,8 +28,8 @@ weight: 10
 - TODO: add a statement around file mounted gateway removed and impact to users.
 - ***Removed*** the legacy Helm charts. Please see the [Upgrade guide](https://preliminary.istio.io/docs/setup/upgrade/) for migration.
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
-- Moved the proxy readiness probe to port 15021
-- TODO removal of Security alpha API
+- ***Changed*** the proxy readiness probe to port 15021
+- ***Removed*** Security alpha API
 - ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
 - ***Removed*** ports 15029-15032 from the default ingressgateway. It is recommended to expose telemetry addons by [Host routing](https://preliminary.istio.io/docs/tasks/observability/gateways/) instead.
 - TODO helm3/kustomize support? should we mention something here?
