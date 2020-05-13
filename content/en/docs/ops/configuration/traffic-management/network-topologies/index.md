@@ -12,7 +12,7 @@ Istio provides the ability to manage settings like [X-Forwarded-For](https://too
 and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 (XFCC),  which are dependent on how the gateway workloads are deployed. This is currently an in-development feature.
 
-Many users choose to deploy Istio ingress gateways in using various network topologies
+You may choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
 Istio ingress gateway to the Internet). As such, these topologies require different ingress gateway configurations for
 transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
