@@ -39,7 +39,7 @@ After running the tests using Istio {{< istio_release_name >}}, we get the follo
 - The Envoy proxy uses **0.5 vCPU** and **50 MB memory** per 1000 requests per second going through the proxy.
 - The `istio-telemetry` service uses **0.6 vCPU** per 1000 **mesh-wide** requests per second for Mixer user only.
 - Pilot uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 3.1 ms to the 90th percentile latency.
+- The Envoy proxy adds 3.12 ms to the 90th percentile latency.
 
 ## Control plane performance
 
@@ -110,7 +110,7 @@ average and tail latencies. The actual tail latency depends on the traffic patte
 ### Latency for Istio {{< istio_release_name >}}
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2), the two proxies add about 3.1 ms to the 90th and 99th percentile latency, over the baseline data plane latency.
+proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2), the two proxies add about 3.12 ms and 3.13 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 
