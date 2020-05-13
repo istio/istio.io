@@ -9,7 +9,7 @@ keywords: [traffic-management,ingress,gateway]
 
 {{< idea >}}
 This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
-considered pre-alpha.
+considered `pre-alpha`.
 {{</ idea >}}
 
 Istio provides the ability to manage settings like [X-Forwarded-For](https://tools.ietf.org/html/rfc7239)
