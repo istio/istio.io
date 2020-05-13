@@ -27,7 +27,7 @@ Follow this guide to install an Istio control plane
     $ CLUSTER_NAME="<the name of your cluster>"
     {{< /text >}}
 
-2. Set the name of your desired namespace as an environment variable.
+1. Set the name of your desired namespace as an environment variable.
 
     {{< text bash >}}
     $ SERVICE_NAMESPACE="<the name of your service namespace>"
@@ -70,7 +70,6 @@ Follow this guide to install an Istio control plane
     $ cp -a samples/certs/"${CLUSTER_NAME}"/root-cert.pem "${HOME}"/"${CLUSTER_NAME}"/SERVICE_NAMESPACE}"
     $ cp -a samples/certs/"${CLUSTER_NAME}"/workload-cert-chain.pem "${HOME}/"${CLUSTER_NAME}"/SERVICE_NAMESPACE}"/cert-chain.pem
     {{< /text >}}
-
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
    deployment which network CIDR to capture and redirect to the Kubernetes
