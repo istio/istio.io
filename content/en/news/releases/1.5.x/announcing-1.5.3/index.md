@@ -13,17 +13,12 @@ aliases:
 DO NOT USE this release. USE release 1.5.4 instead.
 {{< /warning >}}
 
-Due to a publishing error, the 1.5.3 images do not contain the fix for the CVE.
+Due to a publishing error, the 1.5.3 images do not contain the fix for CVE-2020-10739 as claimed in the original announcement.
 
-This release contains bug fixes to improve robustness and fixes for the security vulnerabilities described in [our May 12th, 2020 news post](/news/security/istio-security-2020-005). This release note describes what's different between Istio 1.5.3 and Istio 1.5.2.
+This release contains bug fixes to improve robustness.
+This release note describes what's different between Istio 1.5.3 and Istio 1.5.2.
 
 {{< relnote >}}
-
-## Security update
-
-- **ISTIO-SECURITY-2020-005** Denial of Service with Telemetry V2 enabled.
-
-__[CVE-2020-10739](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10739)__: By sending a specially crafted packet, an attacker could trigger a Null Pointer Exception resulting in a Denial of Service. This could be sent to the ingress gateway or a sidecar.
 
 ## Changes
 
