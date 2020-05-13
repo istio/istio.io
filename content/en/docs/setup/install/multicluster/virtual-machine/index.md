@@ -43,9 +43,10 @@ Follow this guide to install an Istio control plane
 1. Execute the following commands on each cluster in the mesh where a virtual
     machine connection should be established. See
     [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/)
-    for more details on configuring an external CA.  The `NAME` variable is unimportant, althoughx
-    this is used during certificate generation to uniquely identify clusters.  The `NAMESPACE`
-    variable identifies the namespace where the virtual machine connectivity is hosted.
+    for more details on configuring an external CA.  The `NAME` variable is
+    unimportant, although this is used during certificate generation to
+    uniquely identify clusters.  The `NAMESPACE` variable identifies the
+    namespace where the virtual machine connectivity is hosted.
 
     {{< text bash >}}
     $ make -C sample/certs NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
@@ -122,7 +123,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 1. Add an IP address for Istiod to `/etc/hosts`. Replace `<INGRESS_GATEWAY>` with the
     ingress gateway service of istiod. Revisit
-    [Determining the Ingress Host and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the envrionment variable `${INGRESS_HOST}`
+    [Determining the ingress host and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the environment variable `${INGRESS_HOST}`.
 
     {{< text bash >}}
     $ sudo echo "${INGRESS_HOST} istiod.istio-system.svc" >> /etc/hosts
