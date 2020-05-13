@@ -78,8 +78,8 @@ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/sample-client/fortio-
 }
 
 snip_adding_a_client_3() {
-FORTIO_POD=$(kubectl get pod | grep fortio | awk '{ print $1 }')
-kubectl exec -it "$FORTIO_POD"  -c fortio /usr/bin/fortio -- load -curl http://httpbin:8000/get
+FORTIO_POD=$(kubectl get pods -lapp=fortio -o 'jsonpath={.items[0].metadata.name}')
+kubectl exec -it "$FORTIO_POD"  -c fortio -- /usr/bin/fortio load -curl http://httpbin:8000/get
 }
 
 ! read -r -d '' snip_adding_a_client_3_out <<\ENDSNIP
@@ -110,7 +110,7 @@ x-envoy-upstream-service-time: 36
 ENDSNIP
 
 snip_tripping_the_circuit_breaker_1() {
-kubectl exec -it "$FORTIO_POD"  -c fortio /usr/bin/fortio -- load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
+kubectl exec -it "$FORTIO_POD"  -c fortio -- /usr/bin/fortio load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
 }
 
 ! read -r -d '' snip_tripping_the_circuit_breaker_1_out <<\ENDSNIP
