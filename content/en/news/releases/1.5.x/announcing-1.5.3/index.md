@@ -9,6 +9,11 @@ aliases:
     - /news/announcing-1.5.3
 ---
 
+DO NOT USE this release. USE release 1.5.4 instead.
+
+Due to a publishing error, the 1.5.3 images do not contain the fix for the CVE.
+
+
 This release contains bug fixes to improve robustness and fixes for the security vulnerabilities described in [our May 12th, 2020 news post](/news/security/istio-security-2020-005). This release note describes what's different between Istio 1.5.3 and Istio 1.5.2.
 
 {{< relnote >}}
