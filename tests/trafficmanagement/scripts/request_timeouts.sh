@@ -43,7 +43,7 @@ sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # verify 2s delay with ratings stars displayed
 # TODO: should we time this request to confirm it takes ~2s?
-out=$(sample_get_request "/productpage")
+out=$(sample_http_request "/productpage")
 _verify_contains "$out" "glyphicon glyphicon-star" "delay_with_ratings_displayed"
 
 # confi a half second request timeout for calls to the reviews service
@@ -53,5 +53,5 @@ snip_request_timeouts_3
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # verify product reviews are unavailable
-out=$(sample_get_request "/productpage")
+out=$(sample_http_request "/productpage")
 _verify_contains "$out" "Sorry, product reviews are currently unavailable for this book." "verify_reviews_unavailable"

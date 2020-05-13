@@ -20,10 +20,7 @@ startup_bookinfo_sample() {
     kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 
     for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
-        if ! kubectl rollout status deployment "$deploy" --timeout 5m; then
-            echo "$deploy deployment rollout status check failed"
-            exit 1
-        fi
+    	sample_wait_for_deployment default "$deploy"
     done
 }
 
@@ -40,11 +37,7 @@ startup_sleep_sample() {
     set -e
 
     kubectl apply -f samples/sleep/sleep.yaml
-
-    if ! kubectl rollout status deployment "sleep" --timeout 5m; then
-        echo "sleep deployment rollout status check failed"
-        exit 1
-    fi
+    sample_wait_for_deployment default sleep
 }
 
 cleanup_sleep_sample() {
@@ -53,23 +46,52 @@ cleanup_sleep_sample() {
 
 startup_httpbin_sample() {
     kubectl apply -f samples/httpbin/httpbin.yaml
-
-    if ! kubectl rollout status deployment "httpbin" --timeout 5m; then
-        echo "httpbin deployment rollout status check failed"
-        exit 1
-    fi
+    sample_wait_for_deployment default httpbin
 }
 
 cleanup_httpbin_sample() {
     kubectl delete -f samples/httpbin/httpbin.yaml || true
 }
 
-# Use curl to send a request to a sample service via ingressgateway.
+# Set the INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
+sample_set_ingress_variables() {
+    # check for external load balancer
+    local extlb=$(kubectl get svc istio-ingressgateway -n istio-system)
+    if [[ "$extlb" != *"<none>"* && "$extlb" != *"<pending>"* ]]; then
+        # external load balancer
+        export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+        export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+        export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+    else
+        # node port
+        export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+        export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+        export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+        export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
+    fi
+}
+
+# Wait for rollout of named deployment or --all by default
+# usage: sample_wait_for_deployment <namespace> [ <deployment name> ]
+sample_wait_for_deployment() {
+	local namespace="$1"
+    local name="--all"
+	if [[ $# -gt 1 ]]; then
+        name="$2"
+    fi
+    if ! kubectl -n "$namespace" rollout status deployment "$name" --timeout 5m; then
+        echo "Failed rollout of deployment $name in namespace $namespace"
+        exit 1
+    fi
+}
+
+# Use curl to send an http request to a sample service via ingressgateway.
 # Usage:
-#   sample_get_request path [ user ]
+#   sample_http_request path [ user ]
 # Example:
-#   response=$(sample_get_request "/productpage" "jason")
-sample_get_request() {
+#   response=$(sample_http_request "/productpage" "jason")
+sample_http_request() {
     local path=$1
 
     local user=""
@@ -83,11 +105,11 @@ sample_get_request() {
 
     sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 
-    # TODO: figure out how to make request as logged in user
     local args=""
     if [[ -n "$user" ]]; then
-    #    kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/login?user=$user" -X POST
-        args="--anyauth --user $user:password"
+        # TODO: make request as logged in user
+        #kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
+        #args="-b sample.cookies"
     fi
 
     # shellcheck disable=SC2086
@@ -95,13 +117,14 @@ sample_get_request() {
         curl "$ingress_url$path" $args -s --retry 3 --retry-connrefused --retry-delay 5)
 
     if [[ -n "$user" ]]; then
-    #    kubectl exec "$sleep_pod" -c sleep -n "default" -- curl "$ingress_url/logout"
+        # shellcheck disable=SC2086
+        #kubectl exec "$sleep_pod" -c sleep -n "default" -- curl $args "$ingress_url/logout"
         response+="
 glyphicon glyphicon-star
 Sorry, product reviews are currently unavailable for this book.
 Ratings service is currently unavailable
 "
-        # ^^^ REMOVE THIS TEMPORARY KLUDGE WHEN LOGIN FIXED
+        # ^^^ REMOVE THIS TEMPORARY KLUDGE WHEN LOGIN IMPLEMENTED
     fi
 
     echo "$response"

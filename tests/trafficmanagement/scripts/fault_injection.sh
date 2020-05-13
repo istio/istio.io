@@ -42,7 +42,7 @@ out=$(snip_injecting_an_http_delay_fault_2 2>&1)
 _verify_elided "$out" "$snip_injecting_an_http_delay_fault_2_out" "snip_injecting_an_http_delay_fault_2"
 
 # check that requests from user jason return error
-out=$(sample_get_request "/productpage" "jason")
+out=$(sample_http_request "/productpage" "jason")
 _verify_contains "$out" "$snip_testing_the_delay_configuration_1" "snip_testing_the_delay_configuration_1"
 
 # inject the abort fault
@@ -56,7 +56,7 @@ out=$(snip_injecting_an_http_abort_fault_2 2>&1)
 _verify_elided "$out" "$snip_injecting_an_http_abort_fault_2_out" "snip_injecting_an_http_abort_fault_2"
 
 # check that requests from user jason return error and other request do not
-out=$(sample_get_request "/productpage" "jason")
+out=$(sample_http_request "/productpage" "jason")
 _verify_contains "$out" "Ratings service is currently unavailable" "request_ratings_response_jason"
-out=$(sample_get_request "/productpage")
+out=$(sample_http_request "/productpage")
 _verify_not_contains "$out" "Ratings service is currently unavailable" "request_ratings_response_others"

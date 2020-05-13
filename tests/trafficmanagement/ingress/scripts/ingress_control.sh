@@ -31,7 +31,7 @@ startup_httpbin_sample
 out=$(snip_determining_the_ingress_ip_and_ports_1 2>&1)
 _verify_like "$out" "$snip_determining_the_ingress_ip_and_ports_1_out" "snip_determining_the_ingress_ip_and_ports_1"
 
-# set INGRESS_HOST, INGRESS_PORT, and SECURE_INGRESS_PORT environment variables
+# set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 if [[ "$out" != *"<none>"* && "$out" != *"<pending>"* ]]; then
     # external load balancer
     snip_determining_the_ingress_ip_and_ports_2
