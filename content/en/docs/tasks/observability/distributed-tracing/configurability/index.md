@@ -99,8 +99,8 @@ spec:
     defaultConfig:
       tracing:
         custom_tags:
-          tag_env:
-            environment:                 # user-defined name
+          tag_env:                       # user-defined name
+            environment:
               name: <ENV_VARIABLE_NAME>
               defaultValue: <VALUE>      # optional
 {{< /text >}}
