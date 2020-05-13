@@ -27,10 +27,17 @@ Follow this guide to install an Istio control plane
     $ CLUSTER_NAME="<the name of your cluster>"
     {{< /text >}}
 
-1. Create a working directory for files generated in this documentation.
- 
+2. Set the name of your desired namespace as an environment variable.
+
+    {{< text bash >}}
+    $ SERVICE_NAMESPACE="<the name of your service namespace>"
+    {{< /text >}}
+
+1. Create a working directory for files generated in this install guide.
+
     {{< text bash >}}
     $ mkdir -p "${HOME}"/"${CLUSTER_NAME}"
+    $ mkdir -p "${HOME}"/"${CLUSTER_NAME}/${SERVICE_NAMESPACE}"
     {{< /text >}}
 
 1. Execute the following commands on each cluster in the mesh where a virtual
@@ -41,7 +48,7 @@ Follow this guide to install an Istio control plane
     variable identifies the namespace where the virtual machine connectivity is hosted.
 
     {{< text bash >}}
-    $ make -C sample/certs NAME="${CLUSTER_NAME}" NAMESPACE="vm" "${CLUSTER_NAME}"-certs-wl
+    $ make -C sample/certs NAME="${CLUSTER_NAME}" NAMESPACE="${SERVICE_NAMESPACE}" "${CLUSTER_NAME}"-certs-wl
     $ cp -a samples/certs/"${CLUSTER_NAME}"/ca-cert.pem "${HOME}"/"${CLUSTER_NAME}"
     $ cp -a samples/certs/"${CLUSTER_NAME}"/ca-key.pem "${HOME}"/"${CLUSTER_NAME}"
     $ cp -a samples/certs/"${CLUSTER_NAME}"/root-cert.pem "${HOME}"/"${CLUSTER_NAME}"
@@ -53,8 +60,16 @@ Follow this guide to install an Istio control plane
         --from-file="${HOME}"/"${CLUSTER_NAME}"/ca-key.pem \
         --from-file="${HOME}"/"${CLUSTER_NAME}"/root-cert.pem \
         --from-file="${HOME}"/"${CLUSTER_NAME}"/cert-chain.pem
-    $ mv "${HOME}/"${CLUSTER_NAME}"/workload-cert-chain.pem "${HOME}"/"${CLUSTER_NAME}"/cert-chain.pem
     {{< /text >}}
+
+1. Copy certificates to a directory for later provisioning of a virtual machine.
+
+    {{< text bash >}}
+    $ cp -a samples/certs/"${CLUSTER_NAME}"/key.pem "${HOME}"/"${CLUSTER_NAME}"SERVICE_NAMESPACE}"
+    $ cp -a samples/certs/"${CLUSTER_NAME}"/root-cert.pem "${HOME}"/"${CLUSTER_NAME}"/SERVICE_NAMESPACE}"
+    $ cp -a samples/certs/"${CLUSTER_NAME}"/workload-cert-chain.pem "${HOME}/"${CLUSTER_NAME}"/SERVICE_NAMESPACE}"/cert-chain.pem
+    {{< /text >}}
+
 
 1. Generate a `cluster.env` configuration file that informs the virtual machine
    deployment which network CIDR to capture and redirect to the Kubernetes
