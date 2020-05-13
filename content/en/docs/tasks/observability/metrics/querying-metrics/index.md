@@ -27,8 +27,8 @@ application.
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc prometheus
-    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-    prometheus   10.59.241.54   <none>        9090/TCP   2m
+    NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    prometheus   ClusterIP   10.109.160.254   <none>        9090/TCP   4m
     {{< /text >}}
 
 1.  Send traffic to the mesh.
