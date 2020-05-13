@@ -38,8 +38,7 @@ snip_injecting_an_http_delay_fault_1
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # confirm rules are set
-out=$(snip_injecting_an_http_delay_fault_2 2>&1)
-_verify_elided "$out" "$snip_injecting_an_http_delay_fault_2_out" "snip_injecting_an_http_delay_fault_2"
+_run_and_verify_elided snip_injecting_an_http_delay_fault_2 "$snip_injecting_an_http_delay_fault_2_out"
 
 # check that requests from user jason return error
 out=$(sample_http_request "/productpage" "jason")
@@ -52,8 +51,7 @@ snip_injecting_an_http_abort_fault_1
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # confirm rules are set
-out=$(snip_injecting_an_http_abort_fault_2 2>&1)
-_verify_elided "$out" "$snip_injecting_an_http_abort_fault_2_out" "snip_injecting_an_http_abort_fault_2"
+_run_and_verify_elided snip_injecting_an_http_abort_fault_2 "$snip_injecting_an_http_abort_fault_2_out"
 
 # check that requests from user jason return error and other request do not
 out=$(sample_http_request "/productpage" "jason")

@@ -35,8 +35,7 @@ snip_apply_a_virtual_service_1
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # confirm route rules are set
-out=$(snip_apply_a_virtual_service_2 2>&1)
-_verify_elided "$out" "$snip_apply_a_virtual_service_2_out" "snip_apply_a_virtual_service_2"
+_run_and_verify_elided snip_apply_a_virtual_service_2 "$snip_apply_a_virtual_service_2_out"
 
 # check destination rules
 out=$(snip_apply_a_virtual_service_3 2>&1)
@@ -56,8 +55,7 @@ snip_route_based_on_user_identity_1
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
 # confirm route rules are set
-out=$(snip_route_based_on_user_identity_2 2>&1)
-_verify_elided "$out" "$snip_route_based_on_user_identity_2_out" "snip_route_based_on_user_identity_2"
+_run_and_verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"
 
 # check that requests from user jason return ratings and other requests do not
 out=$(sample_http_request "/productpage" "jason")
