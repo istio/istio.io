@@ -429,6 +429,7 @@ natively
 netmask
 networking.istio.io
 nginx
+NiFi
 NLBs
 Node.js
 non-sandboxed
@@ -721,4 +722,3 @@ gcse
 MB
 CPU
 CPUs
-NiFi
