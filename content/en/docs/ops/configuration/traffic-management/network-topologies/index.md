@@ -76,11 +76,11 @@ For example, if you have a cloud based Load Balancer, a reverse proxy and then t
 then `<VALUE>` would be 2.
 
 {{< idea >}}
-Note that all the proxies in front need of Istio gateway proxy must parse HTTP traffic and append the X-Forwarded-For
-headers at each hop. If the number of entries in X-Forwarded-For header is less than the number of
+Note that all the proxies in front need of Istio gateway proxy must parse HTTP traffic and append the `X-Forwarded-For`
+headers at each hop. If the number of entries in `X-Forwarded-For` header is less than the number of
 trusted hops configured, Envoy falls back to using the immediate downstream address as the trusted
 client address. Please refer to [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
-to understand how X-Forwarded-For headers and trusted client addresses are determined.
+to understand how `X-Forwarded-For` headers and trusted client addresses are determined.
 {{< /idea >}}
 
 #### Example using X-Forwarded-For capability with httpbin
@@ -153,7 +153,7 @@ to understand how X-Forwarded-For headers and trusted client addresses are deter
 
 Note that the `X-Envoy-External-Address` is set to the "second" from last address in `X-Forwarded-For` header
 as per your `numTrustedProxies` setting. Additionally, the gateway workload appends its IP in the
-X-Forwarded-For header before forwarding it to the upstream httpbin workload.
+`X-Forwarded-For` header before forwarding it to the upstream httpbin workload.
 
 ### Configuring X-Forwarded-Client-Cert Headers
 
