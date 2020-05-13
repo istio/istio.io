@@ -39,7 +39,6 @@ test.kube.presubmit: init | $(JUNIT_REPORT)
 	2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
 test.kube.postsubmit: test.kube.presubmit
-	SNIPPETS_GCS_PATH="istio-snippets/$(shell git rev-parse HEAD)" prow/upload-istioio-snippets.sh
 
 test.kube.%: init | $(JUNIT_REPORT)
 	$(eval INTEGRATION_TEST_FLAGS += --istio.test.tag=$(TAG))
