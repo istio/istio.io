@@ -106,11 +106,11 @@ sample_http_request() {
     sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 
     local args=""
-    if [[ -n "$user" ]]; then
+    #if [[ -n "$user" ]]; then
         # TODO: make request as logged in user
         #kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
         #args="-b sample.cookies"
-    fi
+    #fi
 
     # shellcheck disable=SC2086
     response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
