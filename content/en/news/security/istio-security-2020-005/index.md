@@ -5,7 +5,7 @@ description:
 cves: [CVE-2020-10739]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["1.4 to 1.4.8", "1.5 to 1.5.2"]
+releases: ["1.4 to 1.4.8", "1.5 to 1.5.3"]
 publishdate: 2020-05-12
 keywords: [CVE]
 skip_seealso: true
@@ -22,7 +22,7 @@ By sending a specially crafted packet, an attacker could trigger a Null Pointer 
 ## Mitigation
 
 * For Istio 1.4.x deployments: update to [Istio 1.4.9](/news/releases/1.4.x/announcing-1.4.9) or later.
-* For Istio 1.5.x deployments: update to [Istio 1.5.3](/news/releases/1.5.x/announcing-1.5.3) or later.
+* For Istio 1.5.x deployments: update to Istio 1.5.4 or later.
 * Workaround: Alternatively, you can disable telemetry v2 by running the following:
 
 {{< text bash >}}
