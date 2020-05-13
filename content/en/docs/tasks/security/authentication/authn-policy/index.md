@@ -66,11 +66,12 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-Verify there is no peer authentication policy in the system with the following command:
+Verify there is no peer authentication policy in the system except one for grafana dashboard with the following command:
 
 {{< text bash >}}
 $ kubectl get peerauthentication --all-namespaces
-No resources found.
+NAMESPACE      NAME                          AGE
+istio-system   grafana-ports-mtls-disabled   2m
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
