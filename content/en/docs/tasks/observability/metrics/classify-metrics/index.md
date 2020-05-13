@@ -295,7 +295,7 @@ spec:
                    {
                      "name": "requests_total",
                      "dimensions": {
-                       "response_code": "has(istio_responseClass)?istio_responseClass:response.code"
+                       "response_code": "istio_responseClass"
                      }
                    }]
                 }
@@ -327,7 +327,7 @@ If classification does not occur as expected, check the following potential caus
 Review the Envoy proxy logs for the pod that has the service on which you applied the configuration change. Check that there are no errors reported by the service in the Envoy proxy logs on the pod, (`pod-name`), where you configured classification by using the following command:
 
 {{< text bash >}}
-$ kubectl log pod-name -c istio-proxy | grep "Config Error"
+$ kubectl log pod-name -c istio-proxy | grep -e "Config Error" -e "envoy wasm"
 {{< /text >}}
 
 Additionally, ensure that there are no Envoy proxy crashes by looking for signs of restarts in the output of the following command:
