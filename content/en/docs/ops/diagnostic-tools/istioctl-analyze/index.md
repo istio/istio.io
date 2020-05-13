@@ -99,34 +99,6 @@ the kind of information you should provide.
 
 ## Advanced
 
-### Getting the latest version of `istioctl analyze`
-
-Although `istioctl analyze` is included in versions of Istio 1.4 and beyond, you can also directly download the very
-latest version to use on your cluster. This version may be unstable, but will have the most complete and up to date set
-of analyzers and may find issues that older versions miss.
-
-You can download the latest `istioctl` into the current folder using the following command:
-
-{{< tabset category-name="platform" >}}
-
-{{< tab name="Mac" category-value="macos" >}}
-
-{{< text bash >}}
-$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Linux" category-value="linux" >}}
-
-{{< text bash >}}
-$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux-amd64.tar.gz | tar xvz
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
 ### Enabling validation messages for resource status
 
 {{< boilerplate experimental-feature-warning >}}
