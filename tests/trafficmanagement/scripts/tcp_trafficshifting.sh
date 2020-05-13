@@ -42,7 +42,9 @@ snip_set_up_the_test_environment_2
 snip_set_up_the_test_environment_3
 
 # wait for deployments to start
-sample_wait_for_deployment istio-io-tcp-traffic-shifting
+sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v1
+sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v2
+sample_wait_for_deployment istio-io-tcp-traffic-shifting sleep
 
 # export the IMPORT_ variables
 sample_set_ingress_environment_variables

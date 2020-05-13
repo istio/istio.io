@@ -73,14 +73,11 @@ sample_set_ingress_variables() {
     fi
 }
 
-# Wait for rollout of named deployment or --all by default
-# usage: sample_wait_for_deployment <namespace> [ <deployment name> ]
+# Wait for rollout of named deployment
+# usage: sample_wait_for_deployment <namespace> <deployment name>
 sample_wait_for_deployment() {
 	local namespace="$1"
-    local name="--all"
-	if [[ $# -gt 1 ]]; then
-        name="$2"
-    fi
+    local name="$2"
     if ! kubectl -n "$namespace" rollout status deployment "$name" --timeout 5m; then
         echo "Failed rollout of deployment $name in namespace $namespace"
         exit 1

@@ -34,7 +34,9 @@ func TestTCPTrafficShifting(t *testing.T) {
 					Value: `
 set +e # ignore cleanup errors
 source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh
-snip_cleanup_1`,
+source ${REPO_ROOT}/tests/util/samples.sh
+snip_cleanup_1
+cleanup_sleep_sample`,
 				},
 			}).
 			Build())
