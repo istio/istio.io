@@ -295,7 +295,7 @@ spec:
                    {
                      "name": "requests_total",
                      "dimensions": {
-                       "response_code": "has(istio_responseClass)?istio_responseClass:response.code"
+                       "response_code": "istio_responseClass"
                      }
                    }]
                 }
