@@ -101,7 +101,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     location: https://edition.cnn.com/politics
     ...
 
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
@@ -192,7 +192,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     location: https://edition.cnn.com/politics
     ...
 
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
@@ -256,7 +256,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
@@ -337,7 +337,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
