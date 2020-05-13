@@ -5,7 +5,12 @@ weight: 60
 keywords: [traffic-management,ingress,gateway]
 ---
 
-## (Development) Configuring network topologies
+## Configuring network topologies (Development)
+
+{{< idea >}}
+This feature is actively in [development](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md) and is
+considered pre-alpha.
+{{</ idea >}}
 
 Istio provides the ability to manage settings like [X-Forwarded-For](https://tools.ietf.org/html/rfc7239)
 ([XFF](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
@@ -33,10 +38,10 @@ spec:
 EOF
 {{< /text >}}
 
-{{< warning >}}
+{{< idea >}}
 If Istio ingress gateway was already running prior to application of the `MeshConfig` you will need
 to restart any Istio ingress gateway pods.
-{{< /warning >}}
+{{< /idea >}}
 
 Both of the settings discussed can also be configured using the `proxy.istio.io/config` annotation to the Pod spec
 of your Istio ingress gateway.
