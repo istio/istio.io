@@ -17,7 +17,7 @@ You may choose to deploy Istio ingress gateways in using various network topolog
 Istio ingress gateway to the Internet). As such, these topologies require different ingress gateway configurations for
 transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
 
-Configuration of XFF and XFCC headers can be configured by using `MeshConfig` during Istio
+Configuration of XFF and XFCC headers is managed via `MeshConfig` during Istio
 *installation* or by adding a pod annotation.
 
 To simplify configuring network topology during installation create a single YAML file to pass to `istioctl`:
