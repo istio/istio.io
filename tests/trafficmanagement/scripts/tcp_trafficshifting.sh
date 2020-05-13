@@ -46,7 +46,7 @@ sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v1
 sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v2
 sample_wait_for_deployment istio-io-tcp-traffic-shifting sleep
 
-# export the IMPORT_ variables
+# export the INGRESS_ environment variables
 sample_set_ingress_environment_variables
 
 # Route all traffic to echo v1

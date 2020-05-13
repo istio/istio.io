@@ -55,7 +55,7 @@ cleanup_httpbin_sample() {
 }
 
 # Set the INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
-sample_set_ingress_variables() {
+sample_set_ingress_environment_variables() {
     # check for external load balancer
     local extlb=$(kubectl get svc istio-ingressgateway -n istio-system)
     if [[ "$extlb" != *"<none>"* && "$extlb" != *"<pending>"* ]]; then
