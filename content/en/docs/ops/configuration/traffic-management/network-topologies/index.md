@@ -85,7 +85,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
 #### Example using X-Forwarded-For capability with httpbin
 
-1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation. If using `MeshConfig`:
+1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation. If using `MeshConfig` run the following command to create a file named `topology.yaml`:
 
     {{< text bash >}}
     $ cat <<'EOF' > topology.yaml
@@ -100,39 +100,39 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     $ istioctl manifest apply -f topology.yaml
     {{< /text >}}
 
-1. Create `httpbin` namespace
+1. Create `httpbin` namespace with the following command:
 
     {{< text bash >}}
     $ kubectl create namespace httpbin
     namespace/httpbin created
     {{< /text >}}
 
-1. Set the `istio-injection` label to `enabled` for sidecar injection
+1. Set the `istio-injection` label to `enabled` for sidecar injection with the following command:
 
     {{< text bash >}}
     $ kubectl label --overwrite namespace httpbin istio-injection=enabled
     namespace/httpbin labeled
     {{< /text >}}
 
-1. Deploy `httpbin` in the `httpbin` namespace
+1. Deploy `httpbin` in the `httpbin` namespace with the following command:
 
     {{< text bash >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
     {{< /text >}}
 
-1. Deploy a gateway associated with `httpbin`
+1. Deploy a gateway associated with `httpbin` with the following command:
 
     {{< text bash >}}
     $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
     {{< /text >}}
 
-1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address
+1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address with the following command:
 
     {{< text bash >}}
     $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
-1. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly.
+1. Run the following `curl` command to verify the `X-Envoy-External-Address` and `X-Forwarded-For` are set correctly with the following command:
 
     {{< text bash >}}
     $ curl -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' $GATEWAY_URL/get?show_env=true
