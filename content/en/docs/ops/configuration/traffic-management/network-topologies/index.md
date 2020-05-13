@@ -18,7 +18,7 @@ Istio ingress gateway to the Internet). As such, these topologies require differ
 transporting correct client attributes like IP addresses and certificates to the workloads running in the cluster.
 
 Configuration of XFF and XFCC headers is managed via `MeshConfig` during Istio
-*installation* or by adding a pod annotation.
+*installation* or by adding a pod annotation. Note that the `Meshconfig` configuration is used as a global setting for all gateway workloads where as pod annotations can be used to override the global setting on a per-workload basis.
 
 To simplify configuring network topology during installation create a single YAML file to pass to `istioctl`:
 
