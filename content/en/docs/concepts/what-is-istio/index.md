@@ -48,7 +48,7 @@ between microservices, then configure and manage Istio using its control plane f
 Istio is designed for extensibility and meets diverse deployment needs. The following [architecture](/docs/ops/deployment/architecture/) diagram shows the various components:
 
 {{< image width="80%"
-    link="./arch.svg"
+    link="/docs/ops/deployment/architecture/arch.svg"
     alt="The overall architecture of an Istio-based application."
     caption="Istio Architecture"
     >}}
