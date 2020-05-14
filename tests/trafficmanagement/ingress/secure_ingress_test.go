@@ -43,5 +43,4 @@ snip_cleanup_3`,
 				},
 			}).
 			Build())
-		})
 }
