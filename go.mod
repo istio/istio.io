@@ -12,7 +12,7 @@ replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.2019101121
 
 require (
 	github.com/Masterminds/semver v1.4.2
-	istio.io/istio v0.0.0-20200511055730-d9a76da16135
+	istio.io/istio v0.0.0-20200514022922-eb9893cb31ce
 )
 
 replace github.com/Azure/go-autorest/autorest => github.com/Azure/go-autorest/autorest v0.9.0
