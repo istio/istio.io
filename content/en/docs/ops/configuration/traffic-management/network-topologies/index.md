@@ -88,7 +88,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 1. Specify `numTrustedProxies` as 2 either through `MeshConfig` or an `proxy.istop/io/config` annotation. If using `MeshConfig` run the following command to create a file named `topology.yaml` and apply it to your cluster:
 
     {{< text bash >}}
-    $ cat <<'EOF' > topology.yaml
+    $ cat << EOF > topology.yaml
       apiVersion: install.istio.io/v1alpha1
       kind: IstioOperator
       spec:
