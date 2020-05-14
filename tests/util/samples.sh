@@ -73,10 +73,14 @@ sample_set_ingress_environment_variables() {
     fi
 }
 
+# TODO: should we have functions for these?
+#   kubectl wait --for=condition=available deployment --all --timeout=60s
+#   kubectl wait --for=condition=Ready pod --all --timeout=60s
+
 # Wait for rollout of named deployment
 # usage: sample_wait_for_deployment <namespace> <deployment name>
 sample_wait_for_deployment() {
-	local namespace="$1"
+    local namespace="$1"
     local name="$2"
     if ! kubectl -n "$namespace" rollout status deployment "$name" --timeout 5m; then
         echo "Failed rollout of deployment $name in namespace $namespace"
