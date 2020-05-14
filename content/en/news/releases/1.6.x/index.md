@@ -22,13 +22,42 @@ Upgrade from the legacy Helm charts can now be safely done using a [Control Plan
 Istio does not currently support skip-level upgrades. If you are still using Istio 1.4, we recommend first upgrading to Istio 1.5. However, if you do choose to upgrade from previous version, you must first disable Galley configuration validation. This can be done by adding `--enable-validation=false` to the Galley deployment and removing the `istio-galley` `ValidatingWebhookConfiguration`
 {{< /tip >}}
 
+## v1alpha1 security policy is not supported anymore
+
+Istio 1.6 no longer supports the [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/), the v1alpha1 API will have no effect and will be ignored starting 1.6.
+
+Before upgrading to 1.6, please migrate to the [`v1beta1` Authentication Policy](https://istio.io/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1beta1` Authorization Policy](https://istio.io/docs/reference/config/security/authorization-policy/) accordingly.
+
+To check if there is any `v1alpha1` security policy in the cluster, run the following commands:
+
+{{< text bash >}}
+$ kubectl get policies.authentication.istio.io --all-namespaces
+$ kubectl get meshpolicies.authentication.istio.io --all-namespaces
+$ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
+$ kubectl get clusterrbacconfigs.rbac.istio.io --all-namespaces
+$ kubectl get serviceroles.rbac.istio.io --all-namespaces
+$ kubectl get servicerolebindings.rbac.istio.io --all-namespaces
+{{< /text >}}
+
+To make sure not to apply any `v1alpha1` security policy accidentally in the future, remove the CRD of the `v1alpha1` security policy with the following commands:
+
+{{< text bash >}}
+$ kubectl delete crd policies.authentication.istio.io
+$ kubectl delete crd meshpolicies.authentication.istio.io
+$ kubectl delete crd rbacconfigs.rbac.istio.io
+$ kubectl delete crd clusterrbacconfigs.rbac.istio.io
+$ kubectl delete crd serviceroles.rbac.istio.io
+$ kubectl delete crd servicerolebindings.rbac.istio.io
+{{< /text >}}
+
 # Istio configuration during installation
 
 Historically, Istio has deployed certain configuration objects as part of the installation. This has caused problems with upgrades, confusing user experience, and makes the installation less flexible. As a result, we have minimized the configurations we ship as part of the installation.
 
 This includes a variety of different configurations:
-* The `global.mtls.enabled` previously enabled strict mTLS. This should instead be done by directly configuring a PeerAuthentication policy for [strict mTLS](https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
+* The `global.mtls.enabled` previously enabled strict mTLS. This should instead be done by directly configuring a `PeerAuthentication` policy for [strict mTLS](https://istio.io/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
 * The default `Gateway` object, and associated `Certificate` object, are no longer installed by default. See the [Ingress task](https://istio.io/docs/tasks/traffic-management/ingress/) for information on configuring a Gateway.
 * `Ingress` objects for telemetry addons are no longer created. See [Remotely Accessing Telemetry Addons](https://preliminary.istio.io/docs/tasks/observability/gateways/) for more information on exposing these externally.
 * Removed the default `Sidecar` configuration. This should have no impact.
+
 # TODO: Looking at the 1.5 docs, there were several feature gaps between telemetry v2 and mixer. Do these still exist?
