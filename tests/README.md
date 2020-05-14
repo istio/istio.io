@@ -167,6 +167,18 @@ The framework includes the following built-in verify functions:
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.
 
+In addition to the built-in verify functions, there is a set of functions that
+run a function and compares the result to the expected output.  An optional
+argument indicates how many times the function should be retried before failing.
+Each attempt has an exponential backoff.  The following are supported:
+
+1. **`_run_and_verify_same`** `func` `expected` [`max_attempts`]
+1. **`_run_and_verify_contains`** `func` `expected` [`max_attempts`]
+1. **`_run_and_verify_not_contains`** `func` `expected` [`max_attempts`]
+1. **`_run_and_verify_first_line`** `func` `expected` [`max_attempts`]
+1. **`_run_and_verify_elided`** `func` `expected` [`max_attempts`]
+1. **`_run_and_verify_like`** `func` `expected` [`max_attempts`]
+
 ## Builder
 
 The `istioio.NewBuilder` returns a `istioio.Builder` that is used to build an Istio

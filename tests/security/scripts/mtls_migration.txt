@@ -21,16 +21,13 @@ set -o pipefail
 source ${REPO_ROOT}/content/en/docs/tasks/security/authentication/mtls-migration/snips.sh
 
 # curl_foo_bar_legacy
-out=$(snip_set_up_the_cluster_3 2>&1)
-_verify_same "$out" "$snip_set_up_the_cluster_3_out" "snip_set_up_the_cluster_3"
+_run_and_verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
 
 # verify_initial_peerauthentications
-out=$(snip_set_up_the_cluster_4 2>&1)
-_verify_same "$out" "$snip_set_up_the_cluster_4_out" "snip_set_up_the_cluster_4"
+_run_and_verify_same snip_set_up_the_cluster_4 "$snip_set_up_the_cluster_4_out"
 
 # verify_initial_destinationrules
-out=$(snip_set_up_the_cluster_5 2>&1)
-_verify_same "$out" "$snip_set_up_the_cluster_5_out" "snip_set_up_the_cluster_5"
+_run_and_verify_same snip_set_up_the_cluster_5 "$snip_set_up_the_cluster_5_out"
 
 # configure_mtls_foo_peerauthentication
 snip_lock_down_to_mutual_tls_by_namespace_1
@@ -40,8 +37,7 @@ set +e
 set +o pipefail
 
 # curl_foo_bar_legacy_post_pa
-out=$(snip_lock_down_to_mutual_tls_by_namespace_2 2>&1)
-_verify_same "$out" "$snip_lock_down_to_mutual_tls_by_namespace_2_out" "snip_lock_down_to_mutual_tls_by_namespace_2"
+_run_and_verify_same snip_lock_down_to_mutual_tls_by_namespace_2 "$snip_lock_down_to_mutual_tls_by_namespace_2_out"
 
 # Restore error handling
 set -e
@@ -55,7 +51,6 @@ set +e
 set +o pipefail
 
 # curl_foo_bar_legacy_httpbin_foo_mtls
-out=$(snip_lock_down_mutual_tls_for_the_entire_mesh_2 2>&1)
 expected="sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
@@ -64,7 +59,7 @@ sleep.legacy to httpbin.foo: 000
 command terminated with exit code 56
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56"
-_verify_same "$out" "$expected" "snip_lock_down_mutual_tls_for_the_entire_mesh_2"
+_run_and_verify_same snip_lock_down_mutual_tls_for_the_entire_mesh_2 "$expected"
 
 # Restore error handling
 set -e

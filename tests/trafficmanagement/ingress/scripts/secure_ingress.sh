@@ -67,8 +67,7 @@ _verify_contains "$out" "-=[ teapot ]=-" "snip_configure_a_tls_ingress_gateway_f
 set +e
 
 # verifying old httpbin credentials no longer work
-out=$(snip_configure_a_tls_ingress_gateway_for_a_single_host_8 2>&1)
-_verify_not_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_a_single_host_8"
+_run_and_verify_not_contains snip_configure_a_tls_ingress_gateway_for_a_single_host_8 "HTTP/2 418"
 
 # Restore error handling
 set -e
@@ -92,8 +91,7 @@ snip_configure_a_tls_ingress_gateway_for_multiple_hosts_6
 # waiting for configuration to propagate
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
-out=$(snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 2>&1)
-_verify_contains "$out" "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out" "snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7"
+_run_and_verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out"
 
 out=$(snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 2>&1)
 _verify_contains "$out" "HTTP/2 418" "snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8"
@@ -109,8 +107,7 @@ sleep 5s
 # The next command is expected to fail, but don't error the script.
 set +e
 
-out=$(snip_configure_a_mutual_tls_ingress_gateway_3 2>&1)
-_verify_not_contains "$out" "HTTP/2 418" "snip_configure_a_mutual_tls_ingress_gateway_3"
+_run_and_verify_not_contains snip_configure_a_mutual_tls_ingress_gateway_3 "HTTP/2 418"
 
 # Restore error handling
 set -e

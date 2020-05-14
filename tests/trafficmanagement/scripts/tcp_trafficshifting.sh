@@ -61,8 +61,7 @@ snip_apply_weightbased_tcp_routing_3
 # wait for rules to propagate
 sleep 5s # TODO: call proper wait utility (e.g., istioctl wait)
 
-out=$(snip_apply_weightbased_tcp_routing_4 2>&1)
-_verify_elided "$out" "$snip_apply_weightbased_tcp_routing_4_out" "snip_apply_weightbased_tcp_routing_4"
+_run_and_verify_elided snip_apply_weightbased_tcp_routing_4 "$snip_apply_weightbased_tcp_routing_4_out"
 
 out=$(snip_apply_weightbased_tcp_routing_5 2>&1)
 _verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_5"
