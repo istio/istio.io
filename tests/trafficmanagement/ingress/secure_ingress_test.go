@@ -23,8 +23,6 @@ import (
 )
 
 func TestSecureIngress(t *testing.T) {
-	// Check the version of curl. This test requires the --retry-connrefused arg.
-	curl.RequireMinVersionOrFail(t, semver.MustParse("7.52.0"))
 	framework.
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__traffic_management__secure_ingress").
