@@ -17,6 +17,7 @@
 import sys
 import re
 import os
+import yaml
 
 linenum = 0
 snipnum = 0
@@ -71,9 +72,22 @@ snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.spl
 
 print("generating snips: " + os.path.join(snipdir, snipfile))
 
+with open("data/args.yml", 'r') as stream:
+    docs_config = yaml.safe_load(stream)
+
+try:
+    source_branch_name = docs_config['source_branch_name']
+except:
+    sys.stderr.write('"source_branch_name" not defined in "data/args.yml"\n')
+    sys.exit(1)
+
 with open(markdown, 'rt', encoding='utf-8') as mdfile:
     for line in mdfile:
         linenum += 1
+
+        # Replace github file token with release-specific URL.
+        github_url = "https://raw.githubusercontent.com/istio/istio/" + source_branch_name
+        line = line.replace("{{< github_file >}}", github_url)
 
         match = sectionhead.match(line)
         if match:
