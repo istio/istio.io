@@ -17,47 +17,27 @@ import (
 	"testing"
 
 	"istio.io/istio/pkg/test/framework"
-	"istio.io/istio/pkg/test/framework/components/environment/kube"
 
 	"istio.io/istio.io/pkg/test/istioio"
-)
-
-const (
-	ingressHostCommand = `$(kubectl -n istio-system get service istio-ingressgateway \
--o jsonpath='{.status.loadBalancer.ingress[0].ip}')`
-	ingressPortCommand = `$(kubectl -n istio-system get service istio-ingressgateway \
--o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')`
-	minikubeIngressHostCommand = `$(kubectl -n istio-system get pod -l istio=ingressgateway \
--o jsonpath='{.items[0].status.hostIP}')`
-	minikubeIngressPortCommand = `$(kubectl -n istio-system get service istio-ingressgateway \
--o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')`
 )
 
 func TestTCPTrafficShifting(t *testing.T) {
 	framework.
 		NewTest(t).
-		Run(func(ctx framework.TestContext) {
-			istioio.NewBuilder("tasks__traffic_management__tcp_traffic_shifting").
-				Add(istioio.Script{Input: istioio.Path("scripts/tcp_trafficshifting_setup.txt")},
-					istioio.MultiPodWait("istio-io-tcp-traffic-shifting"),
-					script(ctx, "tcp_trafficshifting_test.txt")).
-				Defer(istioio.Script{Input: istioio.Path("scripts/tcp_trafficshifting_cleanup.txt")}).
-				BuildAndRun(ctx)
-		})
-}
-
-func script(ctx framework.TestContext, filename string) istioio.Script {
-	e := ctx.Environment().(*kube.Environment)
-	runtimeIngressHostCommand := ingressHostCommand
-	runtimeIngressPortCommand := ingressPortCommand
-	if e.Settings().Minikube {
-		runtimeIngressHostCommand = minikubeIngressHostCommand
-		runtimeIngressPortCommand = minikubeIngressPortCommand
-	}
-	return istioio.Script{
-		Input: istioio.Evaluate(istioio.Path("scripts/"+filename), map[string]interface{}{
-			"ingressHostCommand": runtimeIngressHostCommand,
-			"ingressPortCommand": runtimeIngressPortCommand,
-		}),
-	}
+		Run(istioio.NewBuilder("tasks__traffic_management__tcp_traffic_shifting").
+			Add(istioio.Script{
+				Input: istioio.Path("scripts/tcp_trafficshifting.sh"),
+			}).
+			Defer(istioio.Script{
+				Input: istioio.Inline{
+					FileName: "cleanup.sh",
+					Value: `
+set +e # ignore cleanup errors
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh
+source ${REPO_ROOT}/tests/util/samples.sh
+snip_cleanup_1
+cleanup_sleep_sample`,
+				},
+			}).
+			Build())
 }

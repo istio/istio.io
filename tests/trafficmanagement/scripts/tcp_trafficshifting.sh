@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
@@ -18,10 +19,38 @@ set -e
 set -u
 set -o pipefail
 
-source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh
+source "${REPO_ROOT}/content/en/docs/tasks/traffic-management/tcp-traffic-shifting/snips.sh"
+source "${REPO_ROOT}/tests/util/samples.sh"
 
-export INGRESS_HOST={{ .ingressHostCommand }}
-export TCP_INGRESS_PORT={{ .ingressPortCommand }}
+# TODO: why is the following needed in the test if it's not a needed step in the doc?
+# add the TCP port to the ingress-gateway
+kubectl -n istio-system patch service istio-ingressgateway --patch "
+spec:
+  ports:
+    - port: 31400
+      targetPort: 31400
+      name: tcp
+"
+
+# create a new namespace for testing purposes and enable automatic Istio sidecar injection
+snip_set_up_the_test_environment_1
+
+# start the sleep sample
+snip_set_up_the_test_environment_2
+
+# start the v1 and v2 versions of the echo service
+snip_set_up_the_test_environment_3
+
+# wait for deployments to start
+sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v1
+sample_wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v2
+sample_wait_for_deployment istio-io-tcp-traffic-shifting sleep
+
+# export the INGRESS_ environment variables
+sample_set_ingress_environment_variables
+
+# Route all traffic to echo v1
+snip_apply_weightbased_tcp_routing_1
 
 out=$(snip_apply_weightbased_tcp_routing_2 2>&1)
 _verify_contains "$out" "one" "snip_apply_weightbased_tcp_routing_2"
