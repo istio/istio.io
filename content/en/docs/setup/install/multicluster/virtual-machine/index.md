@@ -12,6 +12,14 @@ keywords:
 Follow this guide to install an Istio control plane
 [multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters) and connect your first virtual machine.
 
+{{< warning >}}
+This guide relies heavily on the
+[stable plugin ca certificate](/docs/tasks/security/plugin-ca-cert/) feature. Istio does
+not offer an industry standard recommendation for certificate management. Please consult
+your information security team when using any plugin certificate.  The determination of
+your company policies for certificate management is the choice of your company.
+{{< /warning >}}
+
 ## Prerequisites
 
 1. [Download the Istio release](/docs/setup/getting-started/#download)
