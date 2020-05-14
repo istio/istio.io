@@ -2308,7 +2308,7 @@ THIS COMMAND IS STILL UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.
 <pre class="language-bash"><code>istioctl experimental remove-from-mesh service productpage
 </code></pre>
 <h2 id="istioctl-experimental-sidecar-bootstrap">istioctl experimental sidecar-bootstrap</h2>
-<p>Takes in one or more WorkloadEntries generates identities for them, and copies to
+<p>(experimental) Takes in one or more WorkloadEntries generates identities for them, and copies to
 the particular identities to the workloads over SSH. Optionally allowing for saving the certificates locally
 for use in CI like environments, and starting istio-proxy where no special configuration is needed.
 This allows for workloads to participate in the Istio mesh.</p>
@@ -2512,7 +2512,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits.  </td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -2664,7 +2664,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. </td>
+<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -2910,7 +2910,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. </td>
+<td>Wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the exiting. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -4333,7 +4333,7 @@ https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/#IstioControl
 <tr>
 <td><code>--wait</code></td>
 <td><code>-w</code></td>
-<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits.  </td>
+<td>Wait, if set will wait until all Pods, Services, and minimum number of Pods of a Deployment are in a ready state before the command exits. DEPRECATED, will always be set to true in 1.7+. </td>
 </tr>
 </tbody>
 </table>
@@ -4557,6 +4557,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
 </tr>
 <tr>
+<td><code>ENABLE_CA_SERVER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
 <td><code>GKE_CLUSTER_URL</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -4573,6 +4579,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istio-sidecar-injector</code></td>
+<td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
 </tr>
 <tr>
 <td><code>ISTIOD_ADDR</code></td>
@@ -4891,6 +4903,11 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>galley_source_kube_dynamic_converter_success_total</code></td><td><code>Count</code></td><td>The number of times a dynamic kubernetes source successfully converted a resource</td></tr>
 <tr><td><code>galley_source_kube_event_error_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source encountered errored while handling an event</td></tr>
 <tr><td><code>galley_source_kube_event_success_total</code></td><td><code>Count</code></td><td>The number of times a kubernetes source successfully handled an event</td></tr>
+<tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
+<tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
+<tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
+<tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
+<tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istio_mcp_clients_total</code></td><td><code>LastValue</code></td><td>The number of streams currently connected.</td></tr>
 <tr><td><code>istio_mcp_message_sizes_bytes</code></td><td><code>Distribution</code></td><td>Size of messages received from clients.</td></tr>

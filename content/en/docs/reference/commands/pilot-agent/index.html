@@ -580,6 +580,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>The type of ECC signature algorithm to use when generating private keys</td>
 </tr>
 <tr>
+<td><code>ENABLE_CA_SERVER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
 <td><code>ENABLE_INGRESS_GATEWAY_SDS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -620,6 +626,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Integer</td>
 <td><code>0</code></td>
 <td></td>
+</tr>
+<tr>
+<td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istio-sidecar-injector</code></td>
+<td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
 </tr>
 <tr>
 <td><code>INSTANCE_IP</code></td>
