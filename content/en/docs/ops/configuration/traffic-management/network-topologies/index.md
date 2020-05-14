@@ -163,6 +163,7 @@ as per your `numTrustedProxies` setting. Additionally, the gateway workload appe
 
 From [Envoy's documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 regarding XFCC:
+
 {{< quote >}}
 x-forwarded-client-cert (XFCC) is a proxy header which indicates certificate information of part or all of the clients
 or proxies that a request has flowed through, on its way from the client to the server. A proxy may choose to
