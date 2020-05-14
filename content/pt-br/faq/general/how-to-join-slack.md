@@ -3,6 +3,7 @@ title: How can I join the Istio Slack workspace?
 weight: 180
 ---
 
-We're working on a formal procedure to join the [Istio Slack workspace](https://istio.slack.com). For the time being, to join the workspace you need to be
-invited by someone that's already a member. If you don't know anyone, try asking in [this forum](https://discuss.istio.io/c/contributors) and someone
-will send you an invitation.
+If you'd like to have live interactions with members of our community, you can join us on
+[Istio's Slack](https://istio.slack.com) workspace.
+Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSfdsupDfOWBtNVvVvXED6ULxtR4UIsYGCH_cQcRr0VcG1ZqQQ/viewform)
+to join.
