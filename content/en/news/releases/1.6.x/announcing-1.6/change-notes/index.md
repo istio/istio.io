@@ -27,7 +27,8 @@ weight: 10
 ## Installation Impact
 
 - TODO: add a statement around file mounted gateway removed and impact to users.
-- ***Removed*** the legacy Helm charts. Please see the [Upgrade guide](/docs/setup/upgrade/) for migration.
+- ***Removed*** the legacy Helm charts.
+- ***Improved*** Please see the [Upgrade guide](/docs/setup/upgrade/) for migration. In-place upgrades are now possible in Istio.
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
 - ***Changed*** the proxy readiness probe to port 15021
 - ***Removed*** Security alpha API
