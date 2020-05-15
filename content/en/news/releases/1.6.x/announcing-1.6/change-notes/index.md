@@ -10,12 +10,12 @@ weight: 10
 - ***Added*** configuration for gateway topology. This addresses sanitizing and providing useful [X-Forward-For headers](https://github.com/istio/istio/issues/7679).
 - ***Added*** experimental support for the [Kubernetes Service APIs](https://github.com/kubernetes-sigs/service-apis/).
 - ***Added*** support for using `appProtocol` to select the [protocol for a port](/docs/ops/configuration/traffic-management/protocol-selection/) introduced in Kubernetes 1.18.
+- ***Changed*** gateway SDS to be enabled by default.  File mounted gateway continues to be available to help users to transition to secure gateway SDS.
 - ***Improved*** support for [Kubernetes ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), adding support for reading certificates from Secrets, `pathType`, and `IngressClass`.
 - ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
 - ***Changed*** the proxy readiness probe to port 15021.
 - ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
-- Secure gateway SDS is enabled by default and file mounted gateway continues to be available to help users to transition to secure gateway SDS.
 
 ## Security
 
@@ -55,6 +55,7 @@ weight: 10
 - ***Improved*** the display characteristics of the istioctl command. Surprise awaits!
 - ***Improved*** --set flag paths support key:value list selection.
 - ***Improved*** Kubernetes overlays patching mechanism now supports deletes and setting non-scalar values.
+
 ## Miscellaneous changes
 
 - ***Improved*** the quality of the website content and structure
