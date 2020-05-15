@@ -35,7 +35,7 @@ weight: 10
 
 ## Installation
 
-- ***Improved*** Please see the [Upgrade guide](/docs/setup/upgrade/) for migration. In-place upgrades are now possible in Istio.
+- ***Added*** support for Istio in-place upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
 - ***Removed*** the legacy Helm charts.
 - ***Added*** Allow users to add a custom hostname for istiod.
 - ***Changed*** Gateway ports used (15020) and [resolution](https://github.com/istio/istio/pull/23432#issuecomment-622208734) for end users.
