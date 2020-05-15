@@ -58,4 +58,4 @@ weight: 10
 
 ## Miscellaneous changes
 
-- ***Improved*** the quality of the website content and structure
+- ***Added*** new and improved Istio documentation. For more information, see [Website content changes](/about/log/).
