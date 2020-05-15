@@ -86,7 +86,7 @@ dimensions.
             {
                 "name": "requests_total",
                 "dimensions": {
-                    "destination_port": "destination.port",
+                    "destination_port": "string(destination.port)",
                     "request_host": "request.host"
                 }
             }
@@ -100,20 +100,6 @@ dimensions.
     $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
     {{< /text >}}
 
-1. Apply the following annotation to all injected pods with the list of the
-   dimensions to extract into a Prometheus
-   [time series](https://en.wikipedia.org/wiki/Time_series), using the following
-   command:
-
-    {{< text yaml >}}
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    spec:
-    template:
-        metadata:
-        annotations:
-            sidecar.istio.io/extraStatTags: destination_port,request_host
-    {{< /text >}}
 
 ## Verify the results
 
