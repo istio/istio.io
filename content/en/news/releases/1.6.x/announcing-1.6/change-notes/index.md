@@ -13,7 +13,7 @@ weight: 10
 - ***Changed*** gateway SDS to be enabled by default. File mounted gateway continues to be available to help users to transition to secure gateway SDS.
 - ***Added*** support for reading certificates from Secrets, `pathType`, and `IngressClass`, which provides better support for [Kubernetes ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/).
 - ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
-- ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
+- ***Removed*** most configuration flags and environment variables for the proxy. These now read directly from the mesh configuration.
 - ***Changed*** the proxy readiness probe to port 15021.
 - ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
 
