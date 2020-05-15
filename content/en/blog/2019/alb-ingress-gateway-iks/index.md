@@ -139,7 +139,7 @@ and to trust the certificates one of another.
 1.  Create a DNS domain for the IP of the Istio Ingress Gateway service:
 
     {{< text bash >}}
-    $ ibmcloud ks nlb-dns-create --cluster $CLUSTER_NAME --ip $INGRESS_GATEWAY_IP
+    $ ibmcloud ks nlb-dns create classic --cluster $CLUSTER_NAME --ip $INGRESS_GATEWAY_IP
     Host name subdomain is created as <some domain>
     {{< /text >}}
 
