@@ -35,18 +35,26 @@ IKS provides a certificate and a private key, storing them in another Kubernetes
 
 This blog describes how you can configure the IKS Ingress ALB to direct traffic to the services inside an Istio service
 mesh through the Istio ingress gateway, while using mutual TLS authentication between the ALB and the gateway. For the
-mutual TLS authentication, you will configure the ALB and the Istio ingress gateway to re-use the certificates and keys
-provided by IKS for the ALB and NLB subdomains. You will use the NLB subdomain certificate as the server certificate for
-Istio ingress gateway in the `Gateway` resource and use the ALB subdomain certificate as the client certificate of the
-ALB in the `Ingress` resource. Using certificates provided by IKS saves you the overhead of managing your own
+mutual TLS authentication, you will configure the ALB and the Istio ingress gateway to use the certificates and keys
+provided by IKS for the ALB and NLB subdomains. Using certificates provided by IKS saves you the overhead of managing your own
 certificates for the connection between the ALB and the Istio ingress gateway.
+
+You will use the NLB subdomain certificate as the server certificate for
+Istio ingress gateway as intended. The NLB subdomain certificate represents the identity of the server that serves a
+particular NLB subdomain, in this case, the Ingress gateway.
+
+You will use the ALB subdomain certificate as the client
+certificate in mutual TLS authentication between the ALB and the Istio Ingress. When ALB acts as a server it presents
+the ALB certificate to the clients so the clients can authenticate the ALB. When ALB acts as a client of the Istio
+Ingress gateway, it presents the same certificate as a client of the Istio Ingress gateway, so the Istio Ingress gateway
+could authenticate the ALB.
 
 Traffic to the services without an Istio sidecar can continue to flow as before directly from the ALB.
 
 The diagram below exemplifies the described setting. It shows two services in the cluster, `service A` and `service B`.
 `service A` has an Istio sidecar injected and requires mutual TLS. `service B` has no Istio sidecar. `service B` can
 be accessed by clients through the ALB, which directly communicates with `service B`. `service A` can be also
-accessed by clients through the ALB, but in this case the traffic has to pass through the Istio ingress gateway. Mutual
+accessed by clients through the ALB, but in this case the traffic must pass through the Istio ingress gateway. Mutual
 TLS authentication between the ALB and the gateway is based on the certificates provided by IKS.
 The clients can also access the Istio ingress gateway directly. IKS registers different DNS domains for the ALB and for
 the ingress gateway.
