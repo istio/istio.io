@@ -1,5 +1,5 @@
 ---
-title: Collecting Metrics for TCP services
+title: Collecting Metrics for TCP Services
 description: This task shows you how to configure Istio to collect metrics for TCP services.
 weight: 20
 keywords: [telemetry,metrics,tcp]
@@ -9,11 +9,10 @@ aliases:
 ---
 
 This task shows how to configure Istio to automatically gather telemetry for TCP
-services in a mesh. At the end of this task, a new metric will be enabled for
-calls to a TCP service within your mesh.
+services in a mesh. At the end of this task, you can query default TCP metrics for your mesh.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used
-as the example application throughout this task.
+as the example throughout this task.
 
 ## Before you begin
 
@@ -21,39 +20,23 @@ as the example application throughout this task.
 application.
 
 * This task assumes that the Bookinfo sample will be deployed in the `default`
-namespace. If you use a different namespace, you will need to update the
+namespace. If you use a different namespace, update the
 example configuration and commands.
 
 ## Collecting new telemetry data
-
-1.  Apply a YAML file with configuration for the new metrics that Istio
-will generate and collect automatically.
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
-    {{< /text >}}
-
-    {{< warning >}}
-    If you use Istio 1.1.2 or prior, please use the following configuration instead:
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
-    {{< /text >}}
-
-    {{< /warning >}}
 
 1.  Setup Bookinfo to use MongoDB.
 
     1.  Install `v2` of the `ratings` service.
 
         If you are using a cluster with automatic sidecar injection enabled,
-        simply deploy the services using `kubectl`:
+        deploy the services using `kubectl`:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
         {{< /text >}}
 
-        If you are using manual sidecar injection, use the following command instead:
+        If you are using manual sidecar injection, run the following command instead:
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
@@ -63,13 +46,13 @@ will generate and collect automatically.
     1.  Install the `mongodb` service:
 
         If you are using a cluster with automatic sidecar injection enabled,
-        simply deploy the services using `kubectl`:
+        deploy the services using `kubectl`:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
         {{< /text >}}
 
-        If you are using manual sidecar injection, use the following command instead:
+        If you are using manual sidecar injection, run the following command instead:
 
         {{< text bash >}}
         $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
@@ -77,27 +60,26 @@ will generate and collect automatically.
         deployment "mongodb-v1" configured
         {{< /text >}}
 
-    1.  The Bookinfo sample deploys multiple versions of each microservice, so you will start by creating destination rules
+    1.  The Bookinfo sample deploys multiple versions of each microservice, so begin by creating destination rules
         that define the service subsets corresponding to each version, and the load balancing policy for each subset.
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
         {{< /text >}}
 
-        If you enabled mutual TLS, please run the following instead
+        If you enabled mutual TLS, run the following command instead:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
         {{< /text >}}
 
-        You can display the destination rules with the following command:
+        To display the destination rules, run the following command:
 
         {{< text bash >}}
         $ kubectl get destinationrules -o yaml
         {{< /text >}}
 
-        Since the subset references in virtual services rely on the destination rules,
-        wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets.
+        Wait a few seconds for destination rules to propagate before adding virtual services that refer to these subsets, because the subset references in virtual services rely on the destination rules.
 
     1.  Create `ratings` and `reviews` virtual services:
 
@@ -109,70 +91,65 @@ will generate and collect automatically.
 
 1.  Send traffic to the sample application.
 
+    Set `$GATEWAY_URL` using [these instructions](/docs/setup/getting-started/#determining-the-ingress-ip-and-ports)
+
     For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
-    browser or issue the following command:
+    browser or use the following command:
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-1.  Verify that the new metric values are being generated and collected.
+1.  Verify that the TCP metric values are being generated and collected.
 
     In a Kubernetes environment, setup port-forwarding for Prometheus by
-    executing the following command:
+    using the following command:
 
     {{< text bash >}}
     $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &
     {{< /text >}}
 
-    View values for the new metric via the [Prometheus UI](http://localhost:9090/graph#%5B%7B%22range_input%22%3A%221h%22%2C%22expr%22%3A%22istio_mongo_received_bytes%22%2C%22tab%22%3A1%7D%5D).
-
-    The provided link opens the Prometheus UI and executes a query for values of
-    the `istio_mongo_received_bytes` metric. The table displayed in the
+    View the values for the TCP metrics in the Prometheus browser window.  Select **Graph**.
+    Enter the `istio_tcp_connections_opened_total` metric or `istio_tcp_connections_closed_total` and select **Execute**.
+    The table displayed in the
     **Console** tab includes entries similar to:
 
     {{< text plain >}}
-    istio_mongo_received_bytes{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
+    istio_tcp_connections_opened_total{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
+    {{< /text >}}
+
+    {{< text plain >}}
+    istio_tcp_connections_closed_total{destination_version="v1",instance="172.17.0.18:42422",job="istio-mesh",source_service="ratings-v2",source_version="v2"}
     {{< /text >}}
 
 ## Understanding TCP telemetry collection
 
-In this task, you added Istio configuration that instructed Mixer to
-automatically generate and report a new metric for all traffic to a TCP service
+In this task, you used Istio configuration to
+automatically generate and report metrics for all traffic to a TCP service
 within the mesh.
-
-Similar to the [Collecting Metrics and
-Logs](/docs/tasks/observability/metrics/collecting-metrics/) Task, the new
-configuration consisted of _instances_, a _handler_, and a _rule_. Please see
-that Task for a complete description of the components of metric collection.
-
-Metrics collection for TCP services differs only in the limited set of
-attributes that are available for use in _instances_.
 
 ### TCP attributes
 
 Several TCP-specific attributes enable TCP policy and control within Istio.
-These attributes are generated by server-side Envoy proxies. They are forwarded to Mixer at connection establishment, and forwarded periodically when connection is alive (periodical report), and forwarded at connection close (final report). The default interval for periodical report is 10 seconds, and it should be at least 1 second. Additionally, context attributes provide the ability to distinguish between `http` and `tcp`
-protocols within policies.
+These attributes are generated by Envoy Proxies and obtained from Istio using Envoy's Node Metadata.
+Envoy forwards Node Metadata to Peer Envoys using ALPN based tunneling and a prefix based protocol.
+We define a new protocol `istio-peer-exchange`, that is advertised and prioritized by the client and the server sidecars
+in the mesh. ALPN negotiation resolves the protocol to `istio-peer-exchange` for connections between Istio enabled
+proxies, but not between an Istio enabled proxy and any other proxy.
+This protocol extends TCP as follows:
 
-{{< image link="./istio-tcp-attribute-flow.svg"
+1.  TCP client, as a first sequence of bytes, sends a magic byte string and a length prefixed payload.
+1.  TCP server, as a first sequence of bytes, sends a magic byte sequence and a length prefixed payload. These payloads
+ are protobuf encoded serialized metadata.
+1.  Client and server can write simultaneously and out of order. The extension filter in Envoy then does the further
+ processing in downstream and upstream until either the magic byte sequence is not matched or the entire payload is read.
+
+{{< image link="./alpn-based-tunneling-protocol.svg"
     alt="Attribute Generation Flow for TCP Services in an Istio Mesh."
     caption="TCP Attribute Flow"
     >}}
 
 ## Cleanup
-
-*   Remove the new telemetry configuration:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics.yaml@
-    {{< /text >}}
-
-    If you are using Istio 1.1.2 or prior:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/telemetry/tcp-metrics-crd.yaml@
-    {{< /text >}}
 
 *   Remove the `port-forward` process:
 

@@ -5,6 +5,7 @@ weight: 20
 keywords: [traffic-management,fault-injection]
 aliases:
     - /docs/tasks/fault-injection.html
+test: true
 ---
 
 This task shows you how to inject faults to test the resiliency of your application.
@@ -54,11 +55,9 @@ still expect the end-to-end flow to continue without any errors.
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: VirtualService
-    metadata:
-      name: ratings
-      ...
+    ...
     spec:
       hosts:
       - ratings
@@ -95,7 +94,6 @@ still expect the end-to-end flow to continue without any errors.
     message:
 
     {{< text plain >}}
-    Error fetching product reviews!
     Sorry, product reviews are currently unavailable for this book.
     {{< /text >}}
 
@@ -139,7 +137,7 @@ so that it is compatible with (less than) the timeout of the downstream `product
 
 If you migrate all traffic to `reviews:v3` as described in the
 [traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task, you can then
-try to change the delay rule to any amount less that 2.5s, for example 2s, and confirm
+try to change the delay rule to any amount less than 2.5s, for example 2s, and confirm
 that the end-to-end flow continues without any errors.
 
 ## Injecting an HTTP abort fault
@@ -161,11 +159,9 @@ service is currently unavailable` message.
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: VirtualService
-    metadata:
-      name: ratings
-      ...
+    ...
     spec:
       hosts:
       - ratings

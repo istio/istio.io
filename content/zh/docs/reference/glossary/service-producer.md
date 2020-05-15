@@ -1,4 +1,4 @@
 ---
 title: Service Producer
 ---
-The agent that creates a [service](#service).
+创建[服务](/zh/docs/reference/glossary/#service)的 pilot-agent。

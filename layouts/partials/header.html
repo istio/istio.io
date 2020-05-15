@@ -1,12 +1,6 @@
 {{ $home := .Site.GetPage "home" }}
 {{ $section := .Section }}
-{{ $posts := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
-{{ $latest_post := index $posts 0 }}
-{{ $blog_home := .Site.GetPage "section" "blog" }}
-
-{{ $news := (where .Site.Pages "Section" "news").ByPublishDate.Reverse }}
-{{ $latest_news := index $news 0 }}
-{{ $news_home := .Site.GetPage "section" "news" }}
+{{ $current := . }}
 
 <header>
     <nav >
@@ -20,7 +14,7 @@
             {{ else if .Site.Data.args.preliminary }}
                 <span class="name">Istio Prelim {{ .Site.Data.args.version }}</span>
             {{ else }}
-                <span class="name">Istio</span>
+                <span class="name">Istio {{ .Site.Data.args.version }}</span>
             {{ end }}
         </a>
 
@@ -30,39 +24,47 @@
 
         <div id="header-links">
             {{ if not .Site.Data.args.archive_landing }}
-                {{ with (.Site.GetPage "section" "docs") }}
-                    {{ if eq $section "docs" }}
-                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+                {{ with (.Site.GetPage "/docs") }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "docs" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
-                        <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a {{ if eq $section "docs" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
-                {{ with $latest_post }}
-                    {{ if eq $section "blog" }}
-                        <span title="{{ $blog_home.Description }}">{{ $blog_home.LinkTitle }}</span>
+
+                {{ with (.Site.GetPage "/blog") }}
+                    {{ $posts := (where .Site.Pages "Section" "blog").ByPublishDate.Reverse }}
+                    {{ $latest_post := index $posts 0 }}
+                    {{ $link := printf "%v%v/" .Permalink $latest_post.PublishDate.Year }}
+
+                    {{ if eq $link $current.Permalink }}
+                        <span {{ if eq $section "blog" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}<i class="dot" data-prefix="/blog"></i></span>
                     {{ else }}
-                        <a title="{{ $blog_home.Description }}" href="{{ .Permalink }}">{{ $blog_home.LinkTitle }}</a>
+                        <a {{ if eq $section "blog" }}class="current" {{ end }}title="{{ .Description }}" href="{{ $link }}">{{ .LinkTitle }}<i class="dot" data-prefix="/blog"></i></a>
                     {{ end }}
                 {{ end }}
-                {{ with $latest_news }}
-                    {{ if eq $section "news" }}
-                        <span title="{{ $news_home.Description }}">{{ $news_home.LinkTitle }}</span>
+
+                {{ with (.Site.GetPage "/news")  }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "news" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}<i class="dot" data-prefix="/news"></i></span>
                     {{ else }}
-                        <a title="{{ $news_home.Description }}" href="{{ .Permalink }}">{{ $news_home.LinkTitle }}</a>
+                        <a {{ if eq $section "news" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}<i class="dot" data-prefix="/news"></i></a>
                     {{ end }}
                 {{ end }}
-                {{ with (.Site.GetPage "section" "faq") }}
-                    {{ if eq $section "faq" }}
-                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+
+                {{ with (.Site.GetPage "/faq") }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "faq" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
-                        <a title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                        <a {{ if eq $section "faq" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
-                {{ with (.Site.GetPage "section" "about") }}
-                    {{ if eq $section "about" }}
-                        <span title="{{ .Description }}">{{ .LinkTitle }}</span>
+
+                {{ with (.Site.GetPage "/about") }}
+                    {{ if eq .Permalink $current.Permalink }}
+                        <span {{ if eq $section "about" }}class="current" {{ end }}title="{{ .Description }}">{{ .LinkTitle }}</span>
                     {{ else }}
-                        <a title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
+                        <a {{ if eq $section "about" }}class="current" {{ end }}title="{{ .Description }}" href="{{ .Permalink  }}">{{ .LinkTitle }}</a>
                     {{ end }}
                 {{ end }}
             {{ end }}
@@ -74,12 +76,10 @@
                 </button>
 
                 <div id="gearDropdownContent" class="menu-content" aria-labelledby="gearDropdownButton" role="menu">
-                    <!--
                     <a tabindex="-1" role="menuitem" lang="en" id="switch-lang-en" {{ if eq $home.Lang "en" }}class="active"{{ end }}>English</a>
                     <a tabindex="-1" role="menuitem" lang="zh" id="switch-lang-zh" {{ if eq $home.Lang "zh" }}class="active"{{ end }}>中文</a>
 
                     <div role="separator"></div>
-                    -->
 
                     <a tabindex="-1" role="menuitem" class="active" id="light-theme-item">{{ i18n "light_theme" }}</a>
                     <a tabindex="-1" role="menuitem" id="dark-theme-item">{{ i18n "dark_theme" }}</a>

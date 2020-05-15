@@ -6,6 +6,8 @@ keywords: [istioctl,kubernetes]
 ---
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
+If you are new to Istio, and just want to try it out, follow the
+[quick start instructions](/docs/setup/getting-started) instead.
 
 This installation guide uses the [`istioctl`](/docs/reference/commands/istioctl/) command line
 tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
@@ -16,13 +18,16 @@ Using these instructions, you can select any one of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
+Full customization of the installation can be done through the
+[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+
 ## Prerequisites
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/#downloading-the-release).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/setup/additional-setup/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
 ## Install Istio using the default profile
 
@@ -38,6 +43,34 @@ This command installs the `default` profile on the cluster defined by your
 Kubernetes configuration. The `default` profile is a good starting point
 for establishing a production environment, unlike the larger `demo` profile that
 is intended for evaluating a broad set of Istio features.
+
+To enable the Grafana dashboard on top of the `default` profile, set the `addonComponents.grafana.enabled` configuration parameter with the following command:
+
+{{< text bash >}}
+$ istioctl manifest apply --set addonComponents.grafana.enabled=true
+{{< /text >}}
+
+In general, you can use the `--set` flag in `istioctl` as you would with
+Helm. The only difference is you must
+prefix the setting paths with `values.` because this is the path to the Helm pass-through API in the
+[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+
+## Install from external charts
+
+By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
+`istioctl` for auditing and customization purposes and can be found in the release tar in the
+`manifests` directory.
+`istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
+the `charts` flag to a local file system path:
+
+{{< text bash >}}
+$ istioctl install --charts=manifests/
+{{< /text >}}
+
+If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
+same charts as the compiled-in ones.
+Other than for experimenting with or testing new features, we recommend using the compiled-in charts rather than external ones to ensure compatibility of the
+`istioctl` binary with the charts.
 
 ## Install a different profile
 
@@ -56,11 +89,13 @@ accessible to `istioctl` by using this command:
 
 {{< text bash >}}
 $ istioctl profile list
-    default
-    demo-auth
-    demo
+Istio configuration profiles:
     minimal
-    sds
+    preview
+    remote
+    default
+    demo
+    empty
 {{< /text >}}
 
 ## Display the configuration of a profile
@@ -70,39 +105,25 @@ run the following command:
 
 {{< text bash >}}
 $ istioctl profile dump demo
-autoInjection:
-  components:
-    injector:
-      enabled: true
-      k8s:
-        replicaCount: 1
-        strategy:
-          rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 25%
-  enabled: true
-cni:
-  components:
-    cni:
-      enabled: false
-  enabled: false
-configManagement:
-  components:
-    galley:
-      enabled: true
-      k8s:
-        replicaCount: 1
-        resources:
-          requests:
-            cpu: 100m
-        strategy:
-          rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 25%
-  enabled: true
-defaultNamespace: istio-system
-gateways:
-  components:
+addonComponents:
+  grafana:
+    enabled: true
+  kiali:
+    enabled: true
+  prometheus:
+    enabled: true
+  tracing:
+    enabled: true
+components:
+  egressGateways:
+  - enabled: true
+    k8s:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 40Mi
+    name: istio-egressgateway
+
 ...
 {{< /text >}}
 
@@ -110,7 +131,7 @@ To view a subset of the entire configuration, you can use the `--config-path` fl
 of the configuration under the given path:
 
 {{< text bash >}}
-$ istioctl profile dump --config-path trafficManagement.components.pilot demo
+$ istioctl profile dump --config-path components.pilot demo
 enabled: true
 k8s:
   env:
@@ -130,33 +151,7 @@ k8s:
     value: "100"
   - name: CONFIG_NAMESPACE
     value: istio-config
-  hpaSpec:
-    maxReplicas: 5
-    metrics:
-    - resource:
-        name: cpu
-        targetAverageUtilization: 80
-      type: Resource
-    minReplicas: 1
-    scaleTargetRef:
-      apiVersion: apps/v1
-      kind: Deployment
-      name: istio-pilot
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: 8080
-    initialDelaySeconds: 5
-    periodSeconds: 30
-    timeoutSeconds: 5
-  resources:
-    requests:
-      cpu: 10m
-      memory: 100Mi
-  strategy:
-    rollingUpdate:
-      maxSurge: 100%
-      maxUnavailable: 25%
+...
 {{< /text >}}
 
 ## Show differences in profiles
@@ -167,21 +162,19 @@ which is useful for checking the effects of customizations before applying chang
 You can show differences between the default and demo profiles using these commands:
 
 {{< text bash >}}
-$ istioctl profile dump default > 1.yaml
-$ istioctl profile dump demo > 2.yaml
-$ istioctl profile diff 1.yaml 2.yaml
+$ istioctl profile diff default demo
  gateways:
-   components:
-     egressGateway:
--      enabled: false
-+      enabled: true
+   egressGateways:
+-  - enabled: false
++  - enabled: true
 ...
-           requests:
--            cpu: 100m
--            memory: 128Mi
-+            cpu: 10m
-+            memory: 40Mi
-         strategy:
+     k8s:
+        requests:
+-          cpu: 100m
+-          memory: 128Mi
++          cpu: 10m
++          memory: 40Mi
+       strategy:
 ...
 {{< /text >}}
 
@@ -214,7 +207,7 @@ customized install using these commands:
 {{< text bash >}}
 $ istioctl manifest generate > 1.yaml
 $ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
-$ istioctl manifest diff 1.yam1 2.yaml
+$ istioctl manifest diff 1.yaml 2.yaml
 Differences of manifests are:
 
 Object Deployment:istio-system:istio-pilot has diffs:
@@ -264,16 +257,16 @@ In addition to installing any of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/),
 `istioctl manifest` provides a complete API for customizing the configuration.
 
-- [The `IstioControlPlane` API](/docs/reference/config/istio.operator.v1alpha12.pb/)
+- [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
-line. For example, to disable the telemetry feature in a default configuration profile, use this command:
+line. For example, to enable the control plane security feature in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl manifest apply --set telemetry.enabled=false
+$ istioctl manifest apply --set values.global.controlPlaneSecurityEnabled=true
 {{< /text >}}
 
-Alternatively, the `IstioControlPlane` configuration can be specified in a YAML file and passed to
+Alternatively, the `IstioOperator` configuration can be specified in a YAML file and passed to
 `istioctl` using the `-f` option:
 
 {{< text bash >}}
@@ -281,7 +274,7 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
-For backwards compatibility, the previous [Helm installation options](/docs/reference/config/installation-options/)
+For backwards compatibility, the previous [Helm installation options](https://archive.istio.io/v1.4/docs/reference/config/installation-options/), with the exception of Kubernetes resource settings,
 are also fully supported. To set them on the command line, prepend the option name with "`values.`".
 For example, the following command overrides the `pilot.traceSampling` Helm configuration option:
 
@@ -289,68 +282,79 @@ For example, the following command overrides the `pilot.traceSampling` Helm conf
 $ istioctl manifest apply --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
-Helm values can also be set in an `IstioControlPlane` definition as described in
+Helm values can also be set in an `IstioOperator` CR (YAML file) as described in
 [Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api), below.
+
+If you want to set Kubernetes resource settings, use the `IstioOperator` API as described in
+ [Customize Kubernetes settings](#customize-kubernetes-settings).
 {{< /tip >}}
 
-### Identify an Istio feature or component
+### Identify an Istio component
 
-The `IstioControlPlane` API groups control plane components by feature, as shown in the table below:
+The `IstioOperator` API defines components as shown in the table below:
 
-| Feature | Components |
-|---------|------------|
-`Base` | CRDs
-`Traffic Management` | Pilot
-`Policy` | Policy
-`Telemetry` | Telemetry
-`Security` | Citadel
-`Security` | Node agent
-`Security` | Cert manager
-`Configuration management` | Galley
-`Gateways` | Ingress gateway
-`Gateways` | Egress gateway
-`AutoInjection` | Sidecar injector
-`CoreDNS` | CoreDNS
+| Components |
+| ------------|
+`base` |
+`pilot` |
+`proxy` |
+`sidecarInjector` |
+`telemetry` |
+`policy` |
+`citadel` |
+`nodeagent` |
+`galley` |
+`ingressGateways` |
+`egressGateways` |
+`cni` |
 
-In addition to the core Istio components, third-party addon features and components are also available:
+In addition to the core Istio components, third-party addon components are also available. These can
+be enabled and configured through the `addonComponents` spec of the `IstioOperator` API or using the Helm pass-through API:
 
-| Feature | Components |
-|---------|------------|
-`Telemetry` | Prometheus
-`Telemetry` | Prometheus Operator
-`Telemetry` | Grafana
-`Telemetry` | Kiali
-`Telemetry` | Tracing
-`ThirdParty` | CNI
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  addonComponents:
+    grafana:
+      enabled: true
+{{< /text >}}
 
-Features can be enabled or disabled, which enables or disables all of the components that are a part of the feature.
-Namespaces that components are installed into can be set by component, feature, or globally.
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    grafana:
+      enabled: true
+{{< /text >}}
 
-### Configure the feature or component settings
+### Configure component settings
 
-After you identify the name of the feature or component from the previous table, you can use the API to set the values
+After you identify the name of the component from the previous table, you can use the API to set the values
 using the `--set` flag, or create an overlay file and use the `--filename` flag. The `--set` flag
 works well for customizing a few parameters. Overlay files are designed for more extensive customization, or
 tracking configuration changes.
 
-The simplest customization is to turn a feature or component on or off from the configuration profile default.
+The simplest customization is to turn a component on or off from the configuration profile default.
 
-To disable the telemetry feature in a default configuration profile, use this command:
+To disable the telemetry component in a default configuration profile, use this command:
 
 {{< text bash >}}
-$ istioctl manifest apply --set telemetry.enabled=false
+$ istioctl manifest apply --set components.telemetry.enabled=false
 {{< /text >}}
 
-Alternatively, you can disable the telemetry feature using a configuration overlay file:
+Alternatively, you can disable the telemetry component using a configuration overlay file:
 
 1. Create this file with the name `telemetry_off.yaml` and these contents:
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 spec:
-  telemetry:
-    enabled: false
+  components:
+    telemetry:
+      enabled: false
 {{< /text >}}
 
 1. Use the `telemetry_off.yaml` overlay file with the `manifest apply` command:
@@ -359,39 +363,94 @@ spec:
 $ istioctl manifest apply -f telemetry_off.yaml
 {{< /text >}}
 
-You can also use this approach to set the component-level configuration, such as enabling the node agent:
-
-{{< text bash >}}
-$ istioctl manifest apply --set security.components.nodeAgent.enabled=true
-{{< /text >}}
-
 Another customization is to select different namespaces for features and components. The following is an example
 of installation namespace customization:
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
 spec:
-  defaultNamespace: istio-system
-  security:
-    namespace: istio-security
-    components:
-      citadel:
-        namespace: istio-citadel
+  components:
+    citadel:
+      namespace: istio-citadel
 {{< /text >}}
 
 Applying this file will cause the default profile to be applied, with components being installed into the following
 namespaces:
 
 - The Citadel component is installed into `istio-citadel` namespace
-- All other components in the security feature installed into `istio-security` namespace
 - Remaining Istio components installed into istio-system namespace
+
+### Configure gateways
+
+Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
+[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
+The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
+for this gateway:
+
+{{< text bash >}}
+$ istioctl profile dump --config-path components.ingressGateways
+$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
+{{< /text >}}
+
+These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
+generated gateway resources. The built-in gateways can be customized just like any other component.
+A new user gateway can be created by adding a new list entry:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+      - namespace: user-ingressgateway-ns
+        name: ilb-gateway
+        enabled: true
+        k8s:
+          resources:
+            requests:
+              cpu: 200m
+          serviceAnnotations:
+            cloud.google.com/load-balancer-type: "internal"
+          service:
+            ports:
+            - port: 8060
+              targetPort: 8060
+              name: tcp-citadel-grpc-tls
+            - port: 5353
+              name: tcp-dns
+{{< /text >}}
+
+Note that Helm values (`spec.values.gateways.istio-ingressgateway/egressgateway`) are shared by all ingress/egress
+gateways. If these must be customized per gateway, it is recommended to use a separate IstioOperator CR to generate
+a manifest for the user gateways, separate from the main Istio installation:
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty
+  components:
+    ingressGateways:
+      - name: ilb-gateway
+        namespace: user-ingressgateway-ns
+        enabled: true
+        # Copy settings from istio-ingressgateway as needed.
+  values:
+    gateways:
+      istio-ingressgateway:
+        debug: error
+{{< /text >}}
 
 ### Customize Kubernetes settings
 
-The `IstioControlPlane` API allows each component's Kubernetes settings to be customized in a consistent way.
+The `IstioOperator` API allows each component's Kubernetes settings to be customized in a consistent way.
 
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha12.pb/#KubernetesResourcesSpec),
+Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
 which allows the following settings to be changed. Use this list to identify the setting to customize:
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
@@ -405,35 +464,38 @@ which allows the following settings to be changed. Use this list to identify the
 1. [Priority class name](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
 1. [Node selector](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
 1. [Affinity and anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+1. [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+1. [Toleration](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+1. [Strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+1. [Env](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
 
 All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
 
-The following example overlay file adjusts the `TrafficManagement` feature's resources and horizontal pod autoscaling
+The following example overlay file adjusts the resources and horizontal pod autoscaling
 settings for Pilot:
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 spec:
-  trafficManagement:
-    components:
-      pilot:
-        k8s:
-          resources:
-            requests:
-              cpu: 1000m # override from default 500m
-              memory: 4096Mi # ... default 2048Mi
-          hpaSpec:
-            maxReplicas: 10 # ... default 5
-            minReplicas: 2  # ... default 1
-          nodeSelector:
-            master: "true"
-          tolerations:
-          - key: dedicated
-            operator: Exists
-            effect: NoSchedule
-          - key: CriticalAddonsOnly
-            operator: Exists
+  components:
+    pilot:
+      k8s:
+        resources:
+          requests:
+            cpu: 1000m # override from default 500m
+            memory: 4096Mi # ... default 2048Mi
+        hpaSpec:
+          maxReplicas: 10 # ... default 5
+          minReplicas: 2  # ... default 1
+        nodeSelector:
+          master: "true"
+        tolerations:
+        - key: dedicated
+          operator: Exists
+          effect: NoSchedule
+        - key: CriticalAddonsOnly
+          operator: Exists
 {{< /text >}}
 
 Use `manifest apply` to apply the modified settings to the cluster:
@@ -444,29 +506,24 @@ $ istioctl manifest apply -f samples/operator/pilot-k8s.yaml
 
 ### Customize Istio settings using the Helm API
 
-The `IstioControlPlane` API includes a pass-through interface to the [Helm API](/docs/reference/config/installation-options/)
+The `IstioOperator` API includes a pass-through interface to the [Helm API](https://archive.istio.io/v1.4/docs/reference/config/installation-options/)
 using the `values` field.
 
 The following YAML file configures global and Pilot settings through the Helm API:
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 spec:
-  trafficManagement:
-    components:
-      pilot:
-        values:
-          traceSampling: 0.1 # override from 1.0
-
-  # global Helm settings
   values:
+    pilot:
+      traceSampling: 0.1 # override from 1.0
     global:
       monitoringPort: 15050
 {{< /text >}}
 
-Some parameters will temporarily exist in both the Helm and `IstioControlPlane` APIs, including Kubernetes resources,
-namespaces and enablement settings. The Istio community recommends using the `IstioControlPlane` API as it is more
+Some parameters will temporarily exist in both the Helm and `IstioOperator` APIs, including Kubernetes resources,
+namespaces and enablement settings. The Istio community recommends using the `IstioOperator` API as it is more
 consistent, is validated, and follows the [community graduation process](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
 
 ## Uninstall Istio
@@ -475,4 +532,11 @@ To uninstall Istio, run the following command:
 
 {{< text bash >}}
 $ istioctl manifest generate <your original installation options> | kubectl delete -f -
+{{< /text >}}
+
+The control plane namespace (e.g., `istio-system`) is not removed by default.
+If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl delete namespace istio-system
 {{< /text >}}

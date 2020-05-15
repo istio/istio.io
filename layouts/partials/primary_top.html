@@ -36,10 +36,19 @@
                     </i>
                 {{- end -}}
 
-                <div>
-                    <h1 id="title">
-                        {{- .Title -}}
-                    </h1>
+                <div style="width: 100%">
+                    {{ if .Params.decoration }}
+                        <div class="mark-all-read-container">
+                            <h1 id="title">
+                                {{- .Title -}}
+                            </h1>
+                            <button id="mark-all-read" data-prefix="{{ .RelPermalink }}" onclick="markPagesAsVisited('{{ .RelPermalink }}')">{{ i18n "mark_all_as_read" }}</button>
+                        </div>
+                    {{ else }}
+                        <h1 id="title">
+                            {{- .Title -}}
+                        </h1>
+                    {{ end }}
 
                     {{ if .Params.subtitle }}
                         {{ if (strings.HasSuffix .Params.subtitle ".") }}

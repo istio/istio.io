@@ -1,5 +1,5 @@
 ---
-title: Security Problems 
+title: Security Problems
 description: Techniques to address common Istio authentication, authorization, and general security-related problems.
 force_inline_toc: true
 weight: 20
@@ -12,49 +12,69 @@ aliases:
 
 ## End-user authentication fails
 
-With Istio, you can enable authentication for end users. Currently, the end user credential supported by the Istio authentication policy is JWT. The following is a guide for troubleshooting the end user JWT authentication.
-
-1. Check your Istio authentication policy, `principalBinding` should be set as `USE_ORIGIN` to authenticate the end user.
+With Istio, you can enable authentication for end users through [request authentication policies](/docs/tasks/security/authentication/authn-policy/#end-user-authentication). Follow these steps to troubleshoot the policy specification.
 
 1. If `jwksUri` isn’t set, make sure the JWT issuer is of url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if the JWT issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in a browser.
 
     {{< text yaml >}}
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
+    apiVersion: "security.istio.io/v1beta1"
+    kind: "RequestAuthentication"
     metadata:
       name: "example-3"
     spec:
-      targets:
-      - name: httpbin
-      peers:
-      - mtls:
-      origins:
-      - jwt:
-          issuer: "628645741881-noabiu23f5a8m8ovd8ucv698lj78vv0l@developer.gserviceaccount.com"
-          jwksUri: "https://www.googleapis.com/service_accounts/v1/jwk/628645741881-noabiu23f5a8m8ovd8ucv698lj78vv0l@developer.gserviceaccount.com"
-      principalBinding: USE_ORIGIN
+      selector:
+        matchLabels:
+          app: httpbin
+      jwtRules:
+      - issuer: "testing@secure.istio.io"
+        jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
     {{< /text >}}
 
 1. If the JWT token is placed in the Authorization header in http requests, make sure the JWT token is valid (not expired, etc). The fields in a JWT token can be decoded by using online JWT parsing tools, e.g., [jwt.io](https://jwt.io/).
 
-1. Get the Istio proxy (i.e., Envoy) logs to verify the configuration which Pilot distributes is correct.
+1. Verify the Envoy proxy configuration of the target workload using `istioctl proxy-config` command.
 
-    For example, if the authentication policy is enforced on the `httpbin` service in the namespace `foo`, use the command below to get logs from the Istio proxy, make sure `local_jwks` is set and the http response code is in the Istio proxy logs.
+    With the example policy above applied, use the following command to check the `listener` configuration on the inbound port `80`. You should see `envoy.filters.http.jwt_authn` filter with settings matching the issuer and JWKS as specified in the policy.
 
     {{< text bash >}}
-    $ kubectl logs httpbin-68fbcdcfc7-hrnzm -c istio-proxy -n foo
-    [2018-07-04 19:13:30.762][15][info][config] ./src/envoy/http/jwt_auth/auth_store.h:72] Loaded JwtAuthConfig: rules {
-      issuer: "628645741881-noabiu23f5a8m8ovd8ucv698lj78vv0l@developer.gserviceaccount.com"
-      local_jwks {
-        inline_string: "{\n \"keys\": [\n  {\n   \"kty\": \"RSA\",\n   \"alg\": \"RS256\",\n   \"use\": \"sig\",\n   \"kid\": \"03bc39a6b56602c0d2ad421c3993d5e4f88e6f54\",\n   \"n\": \"u9gnSMDYw4ggVKInAfxpXqItv9Ii7PlUFrAcwANQMW9fbZrFpITFD45t0gUy9CK4QewkLhqDDUJSvpH7wprS8Hi0M8wAJf_lgugdRr6Nc2qK-eywjjDK-afQjhGLcMJGS0YXi3K2lyP-oWiLingMbYRiJxTi86icWT8AU8bKoTyTPFOExAJkDFnquulU0_KlteZxbjnRIVvMKfpgZ3yK9Pzv7XjtdvO7xlr59K9Zotd4mgphIUADfw1fR0lNkjHQp9N0WP9cbOsyUwm5jjDklnyVh7yBHcEk1YHccntosxnwIn-cj538PSaL_qDZgDAsJKHPZlkiP_1mjsu3NkofIQ\",\n   \"e\": \"AQAB\"\n  },\n  {\n   \"kty\": \"RSA\",\n   \"alg\": \"RS256\",\n   \"use\": \"sig\",\n   \"kid\": \"60aef5b0877e9f0d67b787b5be797636735efdee\",\n   \"n\": \"0TmzDEN12GF9UaWJI40oKwJlu53ZQihHcaVi1thLGs1l3ubdPWv8MEsc9X2DjCRxEB6Ss1R2VOImrQ2RWFuBSNHorjE0_GyEGNzvOH-0uUQ5uES2HvEN7384XfUYj9MoTPibstDEl84pm4d3Ka3R_1wk03Jrl9MIq6fnV_4Z-F7O7ElGqk8xcsiVUowd447dwlrd55ChIyISF5PvbCLtOKz9FgTz2mEb8jmzuZQs5yICgKZCzlJ7xNOOmZcqCZf9Qzaz4OnVLXykBLzSuLMtxvvOxf53rvWB0F2__CjKlEWBCQkB39Zaa_4I8dCAVxgkeQhgoU26BdzLL28xjWzdbw\",\n   \"e\": \"AQAB\"\n  },\n  {\n   \"kty\": \"RSA\",\n   \"alg\": \"RS256\",\n   \"use\": \"sig\",\n   \"kid\": \"62a93512c9ee4c7f8067b5a216dade2763d32a47\",\n   \"n\": \"0YWnm_eplO9BFtXszMRQNL5UtZ8HJdTH2jK7vjs4XdLkPW7YBkkm_2xNgcaVpkW0VT2l4mU3KftR-6s3Oa5Rnz5BrWEUkCTVVolR7VYksfqIB2I_x5yZHdOiomMTcm3DheUUCgbJRv5OKRnNqszA4xHn3tA3Ry8VO3X7BgKZYAUh9fyZTFLlkeAh0-bLK5zvqCmKW5QgDIXSxUTJxPjZCgfx1vmAfGqaJb-nvmrORXQ6L284c73DUL7mnt6wj3H6tVqPKA27j56N0TB1Hfx4ja6Slr8S4EB3F1luYhATa1PKUSH8mYDW11HolzZmTQpRoLV8ZoHbHEaTfqX_aYahIw\",\n   \"e\": \"AQAB\"\n  },\n  {\n   \"kty\": \"RSA\",\n   \"alg\": \"RS256\",\n   \"use\": \"sig\",\n   \"kid\": \"b3319a147514df7ee5e4bcdee51350cc890cc89e\",\n   \"n\": \"qDi7Tx4DhNvPQsl1ofxxc2ePQFcs-L0mXYo6TGS64CY_2WmOtvYlcLNZjhuddZVV2X88m0MfwaSA16wE-RiKM9hqo5EY8BPXj57CMiYAyiHuQPp1yayjMgoE1P2jvp4eqF-BTillGJt5W5RuXti9uqfMtCQdagB8EC3MNRuU_KdeLgBy3lS3oo4LOYd-74kRBVZbk2wnmmb7IhP9OoLc1-7-9qU1uhpDxmE6JwBau0mDSwMnYDS4G_ML17dC-ZDtLd1i24STUw39KH0pcSdfFbL2NtEZdNeam1DDdk0iUtJSPZliUHJBI_pj8M-2Mn_oA8jBuI8YKwBqYkZCN1I95Q\",\n   \"e\": \"AQAB\"\n  }\n ]\n}\n"
-      }
-      forward: true
-      forward_payload_header: "istio-sec-8a85f33ec44c5ccbaf951742ff0aaa34eb94d9bd"
-    }
-    allow_missing_or_failed: true
-    [2018-07-04 19:13:30.763][15][info][upstream] external/envoy/source/server/lds_api.cc:62] lds: add/update listener '10.8.2.9_8000'
-    [2018-07-04T19:13:39.755Z] "GET /ip HTTP/1.1" 401 - 0 29 0 - "-" "curl/7.35.0" "e8374005-1957-99e4-96b6-9d6ec5bef396" "httpbin.foo:8000" "-"
-    [2018-07-04T19:13:40.463Z] "GET /ip HTTP/1.1" 401 - 0 29 0 - "-" "curl/7.35.0" "9badd659-fa0e-9ca9-b4c0-9ac225571929" "httpbin.foo:8000" "-"
+    $ POD=$(kubectl get pod -l app=httpbin -n foo -o jsonpath={.items..metadata.name})
+    $ istioctl proxy-config listener ${POD} -n foo --port 80 --type HTTP -o json
+    <redacted>
+                                {
+                                    "name": "envoy.filters.http.jwt_authn",
+                                    "typedConfig": {
+                                        "@type": "type.googleapis.com/envoy.config.filter.http.jwt_authn.v2alpha.JwtAuthentication",
+                                        "providers": {
+                                            "origins-0": {
+                                                "issuer": "testing@secure.istio.io",
+                                                "localJwks": {
+                                                    "inlineString": "*redacted*"
+                                                },
+                                                "payloadInMetadata": "testing@secure.istio.io"
+                                            }
+                                        },
+                                        "rules": [
+                                            {
+                                                "match": {
+                                                    "prefix": "/"
+                                                },
+                                                "requires": {
+                                                    "requiresAny": {
+                                                        "requirements": [
+                                                            {
+                                                                "providerName": "origins-0"
+                                                            },
+                                                            {
+                                                                "allowMissing": {}
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+    <redacted>
     {{< /text >}}
 
 ## Authorization is too restrictive
@@ -64,20 +84,15 @@ matching requests should flow through. If all requests continue to be denied, yo
 
 1. Make sure there is no typo in your policy YAML file.
 
-1. Avoid enabling authorization for Istio Control Planes Components, including Mixer, Pilot, Ingress. Istio authorization policy is designed for authorizing access to services in Istio Mesh. Enabling it for Istio Control Planes Components may cause unexpected behavior.
+1. Avoid enabling authorization for {{< gloss >}}Istiod{{< /gloss >}}. Istio authorization policy is designed for authorizing access to workloads in Istio Mesh. Enabling it for Istiod may cause unexpected behavior.
 
-1. Make sure that your `ServiceRoleBinding` and referred `ServiceRole` objects are in the same namespace (by checking "metadata"/”namespace” line).
+1. Make sure that your authorization policies are in the right namespace (as specified in `metadata/namespace` field).
 
-1. Make sure that your service role and service role binding policies don't use any HTTP only fields
-for TCP services. Otherwise, Istio ignores the policies as if they didn't exist.
+1. Make sure that your authorization policies with ALLOW action don't use any HTTP only fields for TCP traffic.
+Otherwise, Istio ignores the ALLOW policies as if they don't exist.
 
-1. In Kubernetes environment, make sure all services in a `ServiceRole` object are in the same namespace as the
-`ServiceRole` itself. For example, if a service in a `ServiceRole` object is `a.default.svc.cluster.local`, the `ServiceRole` must be in the
-`default` namespace (`metadata/namespace` line should be `default`). For non-Kubernetes environments, all `ServiceRoles` and `ServiceRoleBindings`
-for a mesh should be in the same namespace.
-
-1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
-   to find out the exact cause.
+1. Make sure that your authorization policies with DENY action don't use any HTTP only fields for TCP traffic.
+Otherwise, Istio ignores the rules with HTTP only fields within the DENY policies as if they don't exist.
 
 ## Authorization is too permissive
 
@@ -85,53 +100,25 @@ If authorization checks are enabled for a service and yet requests to the
 service aren't being blocked, then authorization was likely not enabled
 successfully. To verify, follow these steps:
 
-1. Check the [enable authorization docs](/docs/concepts/security/#enabling-authorization)
-   to correctly enable Istio authorization.
+1. Check the [authorization concept documentation](/docs/concepts/security/#authorization)
+   to correctly apply Istio authorization.
 
-1. Avoid enabling authorization for Istio Control Planes Components, including
-   Mixer, Pilot and Ingress. The Istio authorization features are designed for
-   authorizing access to services in an Istio Mesh. Enabling the authorization
-   features for the Istio Control Planes components can cause unexpected
-   behavior.
+1. Make sure there is no typo in your policy YAML file. Especially check to make sure the authorization policy is applied
+to the right workload and namespace.
 
-1. In your Kubernetes environment, check deployments in all namespaces to make
-   sure there is no legacy deployment left that can cause an error in Pilot.
-   You can disable Pilot's authorization plug-in if there is an error pushing
-   authorization policy to Envoy.
+1. Avoid enabling authorization for Istiod. The Istio authorization features are designed for
+   authorizing access to workloads in an Istio Mesh. Enabling the authorization
+   features for Istiod can cause unexpected behavior.
 
-1. Visit [Ensure Authorization is Enabled Correctly](#ensure-authorization-is-enabled-correctly)
-   to find out the exact cause.
+## Ensure Istiod accepts the policies
 
-## Ensure authorization is enabled correctly
+Istiod converts and distributes your authorization policies to the proxies. The following steps help
+you ensure Istiod is working as expected:
 
-The `ClusterRbacConfig` default cluster level singleton custom resource controls the authorization functionality globally.
-
-1. Run the following command to list existing `ClusterRbacConfig`:
+1. Run the following command to export the Istiod `ControlZ`:
 
     {{< text bash >}}
-    $ kubectl get clusterrbacconfigs.rbac.istio.io --all-namespaces
-    {{< /text >}}
-
-1. Verify there is only **one** instance of `ClusterRbacConfig` with name `default`. Otherwise, Istio disables the
-authorization functionality and ignores all policies.
-
-    {{< text plain >}}
-    NAMESPACE   NAME      AGE
-    default     default   1d
-    {{< /text >}}
-
-1. If there is more than one `ClusterRbacConfig` instance, remove any additional `ClusterRbacConfig` instances and
-ensure **only one** instance is named `default`.
-
-## Ensure Pilot accepts the policies
-
-Pilot converts and distributes your authorization policies to the proxies. The following steps help
-you ensure Pilot is working as expected:
-
-1. Run the following command to export the Pilot `ControlZ`:
-
-    {{< text bash >}}
-    $ kubectl port-forward $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
+    $ kubectl port-forward $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -n istio-system 9876:9876
     {{< /text >}}
 
 1. Verify you see the following output:
@@ -146,7 +133,7 @@ you ensure Pilot is working as expected:
 
 1. Use `Ctrl+C` in the terminal you started in step 1 to stop the port-forward command.
 
-1. Print the log of Pilot and search for `rbac` with the following command:
+1. Print the log of Istiod and search for `rbac` with the following command:
 
     {{< tip >}}
     You probably need to first delete and then re-apply your authorization policies so that
@@ -154,41 +141,41 @@ you ensure Pilot is working as expected:
     {{< /tip >}}
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl -n istio-system get pods -l istio=pilot -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
+    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep rbac
     {{< /text >}}
 
 1. Check the output and verify:
 
     - There are no errors.
-    - There is a `"built filter config for ..."` message which means the filter is generated
-      for the target service.
+    - There is a `building v1beta1 policy` message which indicates the filter was generated
+      for the target workload.
 
 1. For example, you might see something similar to the following:
 
     {{< text plain >}}
-    2018-07-26T22:25:41.009838Z debug rbac building filter config for {sleep.foo.svc.cluster.local map[app:sleep pod-template-hash:3326367878] map[destination.name:sleep destination.namespace:foo destination.user:default]}
-    2018-07-26T22:25:41.009915Z info  rbac no service role in namespace foo
-    2018-07-26T22:25:41.009957Z info  rbac no service role binding in namespace foo
-    2018-07-26T22:25:41.010000Z debug rbac generated filter config: { }
-    2018-07-26T22:25:41.010114Z info  rbac built filter config for sleep.foo.svc.cluster.local
-    2018-07-26T22:25:41.182400Z debug rbac building filter config for {productpage.default.svc.cluster.local map[pod-template-hash:2600844901 version:v1 app:productpage] map[destination.name:productpage destination.namespace:default destination.user:bookinfo-productpage]}
-    2018-07-26T22:25:41.183131Z debug rbac checking role app2-grpc-viewer
-    2018-07-26T22:25:41.183214Z debug rbac role skipped for no AccessRule matched
-    2018-07-26T22:25:41.183255Z debug rbac checking role productpage-viewer
-    2018-07-26T22:25:41.183281Z debug rbac matched AccessRule[0]
-    2018-07-26T22:25:41.183390Z debug rbac generated filter config: {policies:<key:"productpage-viewer" value:<permissions:<and_rules:<rules:<or_rules:<rules:<header:<name:":method" exact_match:"GET" > > > > > > principals:<and_ids:<ids:<any:true > > > > >  }
-    2018-07-26T22:25:41.184407Z info  rbac built filter config for productpage.default.svc.cluster.local
+    2020-03-05T23:43:21.621339Z   debug   rbac   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
+    2020-03-05T23:43:21.621348Z   debug   rbac   building filter for HTTP listener protocol
+    2020-03-05T23:43:21.621351Z   debug   rbac   building v1beta1 policy
+    2020-03-05T23:43:21.621399Z   debug   rbac   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
+    2020-03-05T23:43:21.621528Z   info    ads    LDS: PUSH for node:sleep-6bdb595bcb-vmchz.foo listeners:38
+    2020-03-05T23:43:21.621997Z   debug   rbac   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<metadata:<filter:"istio_authn" path:<key:"source.principal" > value:<string_match:<exact:"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > > >
+    2020-03-05T23:43:21.622052Z   debug   rbac   added HTTP filter to filter chain 0
+    2020-03-05T23:43:21.623532Z   debug   rbac   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
+    2020-03-05T23:43:21.623543Z   debug   rbac   building filter for TCP listener protocol
+    2020-03-05T23:43:21.623546Z   debug   rbac   building v1beta1 policy
+    2020-03-05T23:43:21.623572Z   debug   rbac   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
+    2020-03-05T23:43:21.623625Z   debug   rbac   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<authenticated:<principal_name:<exact:"spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > >
+    2020-03-05T23:43:21.623645Z   debug   rbac   added TCP filter to filter chain 0
+    2020-03-05T23:43:21.623648Z   debug   rbac   added TCP filter to filter chain 1
     {{< /text >}}
 
-    It means Pilot generated:
+    This shows that Istiod generated:
 
-    - An empty config for `sleep.foo.svc.cluster.local` as there is no authorization policies matched
-      and Istio denies all requests sent to this service by default.
+    - An HTTP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
 
-    - An config for `productpage.default.svc.cluster.local` and Istio will allow anyone to access it
-      with GET method.
+    - A TCP filter config with policy `ns[foo]-policy[ext-authz-server]-rule[0]` for workload with labels `app=ext-authz-server,...`.
 
-## Ensure Pilot distributes policies to proxies correctly
+## Ensure Istiod distributes policies to proxies correctly
 
 Pilot distributes the authorization policies to proxies. The following steps help you ensure Pilot
 is working as expected:
@@ -529,15 +516,10 @@ Certificate:
 If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](#repairing-citadel), and
 second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
 
-If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authn-policy/)
+If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)
 is applied and the right destination rules are in place.
 
 ## Citadel is not behaving properly {#repairing-citadel}
-
-{{< warning >}}
-Citadel does not support multiple instances. Running multiple Citadel instances
-may introduce race conditions and lead to system outages.
-{{< /warning >}}
 
 {{< warning >}}
 Workloads with new Kubernetes service accounts can not be started when Citadel is

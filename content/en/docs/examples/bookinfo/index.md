@@ -6,10 +6,18 @@ aliases:
     - /docs/samples/bookinfo.html
     - /docs/guides/bookinfo/index.html
     - /docs/guides/bookinfo.html
+test: true
 ---
 
 This example deploys a sample application composed of four separate microservices used
-to demonstrate various Istio features. The application displays information about a
+to demonstrate various Istio features.
+
+{{< tip >}}
+If you installed Istio using the [Getting Started](/docs/setup/getting-started/)
+instructions, you already have Bookinfo installed and you can skip these steps.
+{{< /tip >}}
+
+The application displays information about a
 book, similar to a single catalog entry of an online book store. Displayed
 on the page is a description of the book, book details (ISBN, number of
 pages, and so on), and a few book reviews.
@@ -70,6 +78,10 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
+    {{< warning >}}
+    If you use OpenShift, make sure to give appropriate permissions to service accounts on the namespace as described in [OpenShift setup page](/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars).
+    {{< /warning >}}
+
 1.  Deploy your application using the `kubectl` command:
 
     {{< text bash >}}
@@ -100,32 +112,32 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
     {{< text bash >}}
     $ kubectl get services
-    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
-    details                    10.0.0.31    <none>        9080/TCP             6m
-    kubernetes                 10.0.0.1     <none>        443/TCP              7d
-    productpage                10.0.0.120   <none>        9080/TCP             6m
-    ratings                    10.0.0.15    <none>        9080/TCP             6m
-    reviews                    10.0.0.170   <none>        9080/TCP             6m
+    NAME          TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
+    details       ClusterIP   10.0.0.31    <none>        9080/TCP   6m
+    kubernetes    ClusterIP   10.0.0.1     <none>        443/TCP    7d
+    productpage   ClusterIP   10.0.0.120   <none>        9080/TCP   6m
+    ratings       ClusterIP   10.0.0.15    <none>        9080/TCP   6m
+    reviews       ClusterIP   10.0.0.170   <none>        9080/TCP   6m
     {{< /text >}}
 
     and
 
     {{< text bash >}}
     $ kubectl get pods
-    NAME                                        READY     STATUS    RESTARTS   AGE
-    details-v1-1520924117-48z17                 2/2       Running   0          6m
-    productpage-v1-560495357-jk1lz              2/2       Running   0          6m
-    ratings-v1-734492171-rnr5l                  2/2       Running   0          6m
-    reviews-v1-874083890-f0qf0                  2/2       Running   0          6m
-    reviews-v2-1343845940-b34q5                 2/2       Running   0          6m
-    reviews-v3-1813607990-8ch52                 2/2       Running   0          6m
+    NAME                             READY     STATUS    RESTARTS   AGE
+    details-v1-1520924117-48z17      2/2       Running   0          6m
+    productpage-v1-560495357-jk1lz   2/2       Running   0          6m
+    ratings-v1-734492171-rnr5l       2/2       Running   0          6m
+    reviews-v1-874083890-f0qf0       2/2       Running   0          6m
+    reviews-v2-1343845940-b34q5      2/2       Running   0          6m
+    reviews-v3-1813607990-8ch52      2/2       Running   0          6m
     {{< /text >}}
 
 1.  To confirm that the Bookinfo application is running, send a request to it by a `curl` command from some pod, for
     example from `ratings`:
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec -it "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -162,7 +174,7 @@ is used for this purpose.
 To confirm that the Bookinfo application is accessible from outside the cluster, run the following `curl` command:
 
 {{< text bash >}}
-$ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+$ curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
@@ -180,6 +192,11 @@ versions, called *subsets*, in [destination rules](/docs/concepts/traffic-manage
 Run the following command to create default destination rules for the Bookinfo services:
 
 * If you did **not** enable mutual TLS, execute this command:
+
+    {{< tip >}}
+    Choose this option if you are new to Istio and are using the `demo`
+    [configuration profile](/docs/setup/additional-setup/config-profiles/).
+    {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@

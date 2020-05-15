@@ -13,7 +13,7 @@ you need to schedule regular root transitions before they expire.
 An expiration of a root certificate may lead to an unexpected cluster-wide outage.
 The issue affects new clusters created with versions up to 1.0.7 and 1.1.7.
 
-See [Extending Self-Signed Certificate Lifetime](/docs/ops/security/root-transition/) for
+See [Extending Self-Signed Certificate Lifetime](/docs/ops/configuration/security/root-transition/) for
 information on how to gauge the age of your certificates and how to perform rotation.
 
 {{< tip >}}

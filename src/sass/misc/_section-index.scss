@@ -1,21 +1,19 @@
 .section-index {
     display: grid;
     grid-template-columns: [entry] 1fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: 2rem;
 
     @media (min-width: $bp-sm) {
         grid-template-columns: [entry] 1fr [entry] 1fr;
     }
 
-    @media (min-width: $bp-xl) {
-        grid-template-columns: [entry] 1fr [entry] 1fr [entry] 1fr;
+    @media (min-width: $bp-md) {
+        grid-column-gap: 4rem;
     }
 
-    .entry {
-        padding: 1rem;
-
-        @media (min-width: $bp-md) {
-            padding: 1rem 4rem;
-        }
+    @media (min-width: $bp-xl) {
+        grid-template-columns: [entry] 1fr [entry] 1fr [entry] 1fr;
     }
 
     h5 {

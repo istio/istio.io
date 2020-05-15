@@ -5,7 +5,7 @@ weight: 50
 ---
 
 This page presents details about the metrics that Istio collects when using its initial configuration. You can add and remove metrics by changing configuration at any time, but this
-is the built-in set. They can be found [here]({{< github_file >}}/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml)
+is the built-in set. They can be found [here]({{< github_file >}}/manifests/istio-telemetry/mixer-telemetry/templates/config.yaml)
 under the section with "kind: metric”. It uses [metric
 template](/docs/reference/config/policy-and-telemetry/templates/metric/) to define these metrics.
 
@@ -157,7 +157,7 @@ For TCP traffic, Istio generates the following metrics:
     {{< /text >}}
 
 *   **Response Flags**: Additional details about the response or connection from proxy.
-    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration)
+    In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)
     for more detail.
 
     {{< text yaml >}}

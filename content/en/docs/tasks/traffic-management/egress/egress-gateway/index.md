@@ -61,7 +61,7 @@ controlled way.
 The following instructions create a destination rule for the egress gateway in the `default` namespace
 and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
 If not, the destination rule will not be found on the
-[destination rule lookup path](/docs/ops/traffic-management/deploy-guidelines/#cross-namespace-configuration-sharing)
+[destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
 and the client requests will fail.
 
 {{< /warning >}}
@@ -101,7 +101,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     location: https://edition.cnn.com/politics
     ...
 
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
@@ -115,60 +115,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     traffic directed to the egress gateway.
 
-    Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
-
-    {{< tabset cookie-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
-
-    {{< text_hack bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 80
-          name: https
-          protocol: HTTPS
-        hosts:
-        - edition.cnn.com
-        tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 80
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: edition.cnn.com
-    EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
-
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -194,11 +141,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
       subsets:
       - name: cnn
     EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
+    {{< /text >}}
 
 1.  Define a `VirtualService` to direct traffic from the sidecars to the egress gateway and from the egress gateway
     to the external service:
@@ -249,7 +192,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     location: https://edition.cnn.com/politics
     ...
 
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
@@ -313,7 +256,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
@@ -323,95 +266,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and a virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
-    Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
-
-    {{< tabset cookie-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
-
-    {{< text_hack bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 443
-          name: tls-cnn
-          protocol: TLS
-        hosts:
-        - edition.cnn.com
-        tls:
-          mode: MUTUAL
-          serverCertificate: /etc/certs/cert-chain.pem
-          privateKey: /etc/certs/key.pem
-          caCertificates: /etc/certs/root-cert.pem
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: edition.cnn.com
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-cnn-through-egress-gateway
-    spec:
-      hosts:
-      - edition.cnn.com
-      gateways:
-      - mesh
-      - istio-egressgateway
-      tls:
-      - match:
-        - gateways:
-          - mesh
-          port: 443
-          sni_hosts:
-          - edition.cnn.com
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: cnn
-            port:
-              number: 443
-      tcp:
-      - match:
-        - gateways:
-          - istio-egressgateway
-          port: 443
-        route:
-        - destination:
-            host: edition.cnn.com
-            port:
-              number: 443
-          weight: 100
-    EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
-
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
@@ -454,7 +309,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - edition.cnn.com
         route:
         - destination:
@@ -466,7 +321,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
+          sniHosts:
           - edition.cnn.com
         route:
         - destination:
@@ -475,18 +330,14 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
               number: 443
           weight: 100
     EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
+    {{< /text >}}
 
 1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
     The output should be the same as before.
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - https://edition.cnn.com/politics
-    HTTP/1.1 200 OK
+    HTTP/2 200
     Content-Type: text/html; charset=utf-8
     ...
     Content-Length: 151654
@@ -660,40 +511,7 @@ external service.
 
 1.  Create the same destination rule as for the `sleep` pod in the `default` namespace to direct the traffic through the egress gateway:
 
-    Choose the instructions corresponding to whether or not you have
-    [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio.
-
-    {{< tabset cookie-name="mtls" >}}
-
-    {{< tab name="mutual TLS enabled" cookie-value="enabled" >}}
-
-    {{< text_hack bash >}}
-    $ kubectl apply -n test-egress -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: edition.cnn.com
-    EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< tab name="mutual TLS disabled" cookie-value="disabled" >}}
-
-    {{< text_hack bash >}}
+    {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
@@ -704,11 +522,7 @@ external service.
       subsets:
       - name: cnn
     EOF
-    {{< /text_hack >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
+    {{< /text >}}
 
 1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it should succeed
     since the traffic flows to `istio-egressgateway` in the `istio-system` namespace, which is allowed by the
@@ -719,13 +533,17 @@ external service.
     200
     {{< /text >}}
 
-1.  Check the statistics of the egress gateway's proxy and see a counter that corresponds to our
-    requests to _edition.cnn.com_. If Istio is deployed in the `istio-system` namespace, the command to print the
-    counter is:
+1.  Check the log of the egress gateway's proxy. If Istio is deployed in the `istio-system` namespace, the command to
+    print the log is:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
-    cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
+    $ kubectl logs -l istio=egressgateway -n istio-system
+    {{< /text >}}
+
+    You should see a line similar to the following:
+
+    {{< text plain >}}
+    [2020-03-06T18:12:33.101Z] "- - -" 0 - "-" "-" 906 1352475 35 - "-" "-" "-" "-" "151.101.193.67:443" outbound|443||edition.cnn.com 172.30.223.53:39460 172.30.223.53:443 172.30.223.58:38138 edition.cnn.com -
     {{< /text >}}
 
 ### Cleanup network policies
@@ -745,12 +563,7 @@ external service.
 
 ## Troubleshooting
 
-1.  Check if you have [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) enabled in Istio, following the
-    steps in [Verify mutual TLS configuration](/docs/tasks/security/mutual-tls/#verify-mutual-tls-configuration).
-    If mutual TLS is enabled, make sure you create the configuration
-    items accordingly (note the remarks _If you have mutual TLS Authentication enabled in Istio, you must create..._).
-
-1.  If [mutual TLS Authentication](/docs/tasks/security/mutual-tls/) is enabled, verify the correct certificate of the
+1.  If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, verify the correct certificate of the
     egress gateway:
 
     {{< text bash >}}

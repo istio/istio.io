@@ -1,11 +1,10 @@
 ---
-title: How can I contribute?
+title: 我该如何贡献？
 weight: 70
 ---
 
-Contributions are highly welcome. We look forward to community feedback, additions, and bug reports.
+非常欢迎任何贡献，我们期待社区的反馈，补充和错误报告。
 
-The code repositories are hosted on [GitHub](https://github.com/istio). Please see our [Contribution Guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md) to learn how to contribute.
+代码托管在 [GitHub](https://github.com/istio)。请阅读[贡献指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md)学习如何贡献。
 
-In addition to the code, there are other ways to contribute to the Istio [community](/about/community/), including on our [discussion forum](https://discuss.istio.io),
-[Slack](https://istio.slack.com), and [Stack Overflow](https://stackoverflow.com/questions/tagged/istio).
+除了代码之外，还有其他的方法可以为 Istio [社区](/zh/about/community/)做出贡献，包括我们的 [discussion forum](https://discuss.istio.io)，[Slack](https://istio.slack.com) 和 [Stack Overflow](https://stackoverflow.com/questions/tagged/istio)。

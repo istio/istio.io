@@ -1,11 +1,11 @@
 ---
-title: Metrics and Logs FAQ
-linktitle: Metrics and Logs
-description: Metrics and Logs Q & A.
+title: 度量和日志的常见问题
+linktitle: 度量和日志
+description: 度量和日志的常见问题。
 weight: 45
 layout: faq
 icon: faq
 aliases:
- - /help/faq/telemetry
- - /help/faq/metrics-and-logs
+  - /zh/help/faq/telemetry
+  - /zh/help/faq/metrics-and-logs
 ---

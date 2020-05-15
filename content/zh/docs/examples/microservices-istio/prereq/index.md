@@ -1,30 +1,27 @@
 ---
-title: Prerequisites
-overview: Check the prerequisites for this tutorial.
+title: 前提条件
+overview: 检查本教程的前提条件。
 weight: 1
 ---
 
 {{< boilerplate work-in-progress >}}
 
-For this tutorial you need a Kubernetes cluster with a namespace for the
-tutorial's modules and a local computer to run the commands. If you have your
-own cluster, ensure your cluster satisfies the prerequisites.
+对于本教程，你需要一个 Kubernetes 集群，集群中需要包含本教程模块中的命名空间，
+并且可以在本地电脑上执行这些命令。如果你有自己的集群，确保集群满足这些前提条件。
 
-If you are in a workshop and the instructors provide a cluster, let
-them handle the cluster prerequisites, while you skip ahead to setup your local
-computer.
+如果你在一个学习班上，并且讲师提供了一个集群，让他们来处理集群的前提条件，你可以跳过本地电脑的设置。
 
-## Kubernetes cluster
+## Kubernetes 集群{#Kubernetes-cluster}
 
-Ensure the following conditions are met:
+确保满足以下条件：
 
-- You have administrator privileges on a Kubernetes cluster.
-- You can create a namespace in the cluster for each participant.
+- 你拥有 Kubernetes 集群的管理员权限。
+- 你可以在集群中为每个参与者创建名称空间。
 
-## Local computer
+## 本地计算机{#local-computer}
 
-Ensure the following conditions are met:
+确保满足以下条件：
 
-- You have write access to the local computer's `/etc/hosts` file.
-- You have the ability and permission to download, install and run command line tools on the local computer.
-- You have Internet connectivity for the duration of the tutorial.
+- 你拥有本地计算机 `/etc/hosts` 文件的写入权限。
+- 你可以在本地计算机上下载、安装和运行命令行工具。
+- 在本教程期间，你可以连接到网络。

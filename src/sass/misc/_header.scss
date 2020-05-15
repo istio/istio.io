@@ -181,11 +181,9 @@ header {
             transition: right .5s;
         }
 
-        span {
+        .current {
             border-bottom: solid 3px $textBrandColor;
             border-radius: 2px;
-            color: $textBrandColor;
-            cursor: default;
             font-weight: $linkWeight;
             font-family: "Chivo", sans-serif;
             font-size: 1.1em;
@@ -197,6 +195,11 @@ header {
                 margin-left: .58rem;
                 margin-right: .58rem;
             }
+        }
+
+        span.current {
+            cursor: default;
+            color: $textBrandColor;
         }
     }
 

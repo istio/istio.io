@@ -2,6 +2,6 @@
 title: Cluster
 ---
 
-A cluster is set of compute nodes that run containerized applications.
-Typically, the compute nodes comprising a cluster can reach each other directly.
-Clusters limit external access through rules or policies.
+集群是运行容器化应用程序的一组计算节点。
+通常，组成集群的计算节点彼此可以直接连接。
+集群通过规则或策略限制外部访问。

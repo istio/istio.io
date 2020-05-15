@@ -6,8 +6,6 @@ layout: glossary
 aliases:
   - /zh/glossary
   - /zh/docs/welcome/glossary.html
-  - /zh/docs/reference/glossary.html
   - /zh/help/glossary
 icon: glossary
 ---
-∑∑

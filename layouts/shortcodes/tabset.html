@@ -1,17 +1,17 @@
 {{- .Page.Scratch.Add "tabset-counter" 1 -}}
 {{- $tab_set_id := default (printf "tabset-%s-%d" (.Page.RelPermalink) (.Page.Scratch.Get "tabset-counter") ) | anchorize -}}
 {{- $tabs := .Scratch.Get "tabs" -}}
-{{- $cookie_name := trim (.Get "cookie-name") " " -}}
+{{- $category_name := trim (.Get "category-name") " " -}}
 
 {{- if .Inner -}}
     {{- /* We don't use the inner content, but Hugo needs this reference as a trigger to indicate this shortcode has a content area. */ -}}
 {{- end -}}
 
 <div id="{{ $tab_set_id }}" role="tablist" class="tabset">
-    <div class="tab-strip" data-cookie-name="{{ $cookie_name }}">
+    <div class="tab-strip" data-category-name="{{ $category_name }}">
         {{- range $i, $e := $tabs -}}
             {{- $id := printf "%s-%d" $tab_set_id $i -}}
-            <button {{ if eq $i 0 }}aria-selected="true"{{ else }}tabindex="-1"{{ end }} data-cookie-value="{{ .cookie_value }}"
+            <button {{ if eq $i 0 }}aria-selected="true"{{ else }}tabindex="-1"{{ end }} data-category-value="{{ .category_value }}"
                 aria-controls="{{ $id }}-panel" id="{{ $id }}-tab" role="tab"><span>{{ trim .name " " }}</span>
             </button>
         {{- end -}}

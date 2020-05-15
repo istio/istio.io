@@ -1,8 +1,7 @@
 ---
-title: 运维指南
-description: 关于运行 Istio 网格的提示、技巧和窍门。
+title: 运维
+description: 关于部署和管理 Istio 网格的概念、工具和技术。
 weight: 32
-icon: guide
 aliases:
     - /zh/troubleshooting.html
     - /zh/troubleshooting/index.html

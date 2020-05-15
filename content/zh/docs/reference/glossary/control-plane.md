@@ -2,6 +2,5 @@
 title: Control Plane
 ---
 
-A control plane is a set of system services that configure the mesh or a subset of
-the mesh to manage the communication between the workload instances within.
-All instances of a control plane in a single mesh share the same configuration source.
+控制平面是一组系统服务，这些服务配置网格或者网格的子网来管理工作负载实例之间的通信。
+单个网格中控制平面的所有实例共享相同的配置资源。

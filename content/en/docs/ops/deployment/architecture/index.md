@@ -1,0 +1,116 @@
+---
+title: Architecture
+description: Describes Istio's high-level architecture and design goals.
+weight: 10
+aliases:
+  - /docs/concepts/architecture
+  - /docs/ops/architecture
+---
+
+An Istio service mesh is logically split into a **data plane** and a **control
+plane**.
+
+* The **data plane** is composed of a set of intelligent proxies
+  ([Envoy](https://www.envoyproxy.io/)) deployed as sidecars. These proxies
+  mediate and control all network communication between microservices. They
+  also collect and report telemetry on all mesh traffic.
+
+* The **control plane** manages and configures the proxies to route traffic.
+
+The following diagram shows the different components that make up each plane:
+
+{{< image width="80%"
+    link="./arch.svg"
+    alt="The overall architecture of an Istio-based application."
+    caption="Istio Architecture"
+    >}}
+
+## Components
+
+The following sections provide a brief overview of each of Istio's core components.
+
+### Envoy
+
+Istio uses an extended version of the
+[Envoy](https://envoyproxy.github.io/envoy/) proxy. Envoy is a high-performance
+proxy developed in C++ to mediate all inbound and outbound traffic for all
+services in the service mesh.
+Envoy proxies are the only Istio components that interact with data plane
+traffic.
+
+Envoy proxies are deployed as sidecars to services, logically
+augmenting the services with Envoy’s many built-in features,
+for example:
+
+* Dynamic service discovery
+* Load balancing
+* TLS termination
+* HTTP/2 and gRPC proxies
+* Circuit breakers
+* Health checks
+* Staged rollouts with %-based traffic split
+* Fault injection
+* Rich metrics
+
+This sidecar deployment allows Istio to extract a wealth of signals about traffic behavior as
+[attributes](/docs/reference/config/policy-and-telemetry/mixer-overview/#attributes).
+Istio can use these attributes to enforce policy decisions, and send them to monitoring systems
+to provide information about the behavior of the entire mesh.
+
+The sidecar proxy model also allows you to add Istio capabilities to an
+existing deployment with no need to rearchitect or rewrite code. You can read
+more about why we chose this approach in our
+[Design Goals](#design-goals).
+
+Some of the Istio features and tasks enabled by Envoy proxies include:
+
+* Traffic control features: enforce fine-grained traffic control with rich
+  routing rules for HTTP, gRPC, WebSocket, and TCP traffic.
+
+* Network resiliency features: setup retries, failovers, circuit breakers, and
+  fault injection.
+
+* Security and authentication features: enforce security policies and enforce
+  access control and rate limiting defined through the configuration API.
+
+* Pluggable extensions model based on WebAssembly that allows for custom policy
+  enforcement and telemetry generation for mesh traffic.
+
+### Istiod
+
+Istiod provides service discovery, configuration and certificate management.
+
+Istiod converts high level routing rules that control traffic behavior into
+Envoy-specific configurations, and propagates them to the sidecars at runtime.
+Pilot abstracts platform-specific service discovery mechanisms and synthesizes
+them into a standard format that any sidecar conforming with the
+[Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api) can consume.
+
+Istio can support discovery for multiple environments such as Kubernetes,
+Consul, or VMs.
+
+You can use Istio's
+[Traffic Management API](/docs/concepts/traffic-management/#introducing-istio-traffic-management)
+to instruct Istiod to refine the Envoy configuration to exercise more granular control
+over the traffic in your service mesh.
+
+Istiod [security](/docs/concepts/security/) enables strong service-to-service and
+end-user authentication with built-in identity and credential management. You
+can use Istio to upgrade unencrypted traffic in the service mesh. Using
+Istio, operators can enforce policies based on service identity rather than
+on relatively unstable layer 3 or layer 4 network identifiers. Starting from
+release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
+to control who can access your services.
+
+Istiod maintains a CA and generates certificates to allow secure mTLS communication
+in the data plane.
+
+## Application design
+
+A design goal for Istio is that the developer can do minimum work
+to get real value from the system. Istio can automatically inject itself into
+the network paths between services and program the networking layer to
+securely route traffic and extract telemetry. If the application code
+uses TLS and uses its own policy and telemetry, Istio can only get minimal
+information from the encrypted communication between workloads.
+

@@ -18,7 +18,7 @@ provides micro-segmentation for services in an Istio mesh. It features:
 * High performance, as it is enforced natively on Envoy.
 * Role-based semantics, which makes it easy to use.
 * High flexibility as it allows users to define conditions using
-[combinations of attributes](/docs/reference/config/authorization/constraints-and-properties/).
+[combinations of attributes](/docs/reference/config/security/conditions/).
 
 In this blog post, you'll learn about the main authorization features and how to use them in different situations.
 
@@ -49,7 +49,7 @@ frontend service.
 duplicate configurations in multiple places and later forget to update some of them when you need to make changes.
 
 On the other hand, Istio's authorization system is not a traditional RBAC system. It also allows users to define **conditions** using
-[combinations of attributes](/docs/reference/config/authorization/constraints-and-properties/). This gives Istio
+[combinations of attributes](/docs/reference/config/security/conditions/). This gives Istio
 flexibility to express complex access control policies. In fact, **the "RBAC + conditions” model
 that Istio authorization adopts, has all the benefits an RBAC system has, and supports the level of flexibility that
 normally an ABAC system provides.** You'll see some [examples](#examples) below.
@@ -77,7 +77,7 @@ through IP. You can still use Istio authorization to control which IP addresses 
 
 ## Examples
 
-The [authorization task](/docs/tasks/security/authz-http/) shows you how to
+The [authorization task](/docs/tasks/security/authorization/authz-http/) shows you how to
 use Istio's authorization feature to control namespace level and service level access using the
 [Bookinfo application](/docs/examples/bookinfo/). In this section, you'll see more examples on how to achieve
 micro-segmentation with Istio authorization.
@@ -125,7 +125,7 @@ The `ServiceRole` and `ServiceRoleBinding` above expressed "*who* is allowed to 
 ### Service/method level isolation with/without primary identities
 
 Here is another example that demonstrates finer grained access control at service/method level. The first step
- is to define a `book-reader` `ServiceRole` that allows READ access to `/books/*` resource in `bookstore` service.
+ is to define a `book-reader` service role that allows READ access to `/books/*` resource in `bookstore` service.
 
 {{< text yaml >}}
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -174,9 +174,9 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: "cluster.local/ns/default/sa/bookstore-frontend”
+  - user: "cluster.local/ns/default/sa/bookstore-frontend"
     properties:
-      request.auth.claims[group]: "qualified-reviewer”
+      request.auth.claims[group]: "qualified-reviewer"
   roleRef:
     kind: ServiceRole
     name: "book-reader"

@@ -4,13 +4,13 @@ description: Basic tabs.
 skip_sitemap: true
 ---
 
-{{< tabset cookie-name="test" >}}
+{{< tabset category-name="test" >}}
 
-{{< tab name="One" cookie-value="one" >}}
+{{< tab name="One" category-value="one" >}}
 One paragraph
 {{< /tab >}}
 
-{{< tab name="Two" cookie-value="two" >}}
+{{< tab name="Two" category-value="two" >}}
 Three
 
 separate
@@ -18,13 +18,13 @@ separate
 paragraphs
 {{< /tab >}}
 
-{{< tab name="Three" cookie-value="three" >}}
+{{< tab name="Three" category-value="three" >}}
 {{< warning >}}
 Warning in a tab
 {{< /warning >}}
 {{< /tab >}}
 
-{{< tab name="Four" cookie-value="four" >}}
+{{< tab name="Four" category-value="four" >}}
 Simple text
 
 In two paragraphs
@@ -34,7 +34,7 @@ Warning in a tab
 {{< /warning >}}
 {{< /tab >}}
 
-{{< tab name="Five" cookie-value="five" >}}
+{{< tab name="Five" category-value="five" >}}
 Simple text
 
 {{< text plain >}}
@@ -43,7 +43,7 @@ Text block in a tab
 
 {{< /tab >}}
 
-{{< tab name="Six" cookie-value="six" >}}
+{{< tab name="Six" category-value="six" >}}
 Simple text with _markdown_ in a tab
 
 {{< warning >}}
@@ -58,7 +58,7 @@ And more _markdown_
 
 {{< /tab >}}
 
-{{< tab name="Seven" cookie-value="seven" >}}
+{{< tab name="Seven" category-value="seven" >}}
 Simple text with _markdown_ in a tab
 
 {{< text plain >}}

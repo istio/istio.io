@@ -52,10 +52,10 @@ skip_sitemap: true
 
     {{< warning >}}
     If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
-    (/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
+    (/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
     use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
     file before deploying your application. For more information please
-    visit the `istioctl` [reference documentation](/docs/reference/commands/istioctl/#istioctl-kube-inject).
+    visit the `istioctl` [reference documentation](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject).
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)

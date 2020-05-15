@@ -90,7 +90,7 @@ of injected sidecar when it was.
 
 1. Check default policy
 
-    Check the default injection policy in the `istio-sidecar-injector` `configmap`.
+    Check the default injection policy in the `istio-sidecar-injector configmap`.
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | grep policy:
@@ -132,7 +132,7 @@ typically be captured in the event log.
 
 {{< text plain >}}
 Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: Internal error occurred: \
-    failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: \
+    failed calling admission webhook "sidecar-injector.istio.io": Post https://istiod.istio-system.svc:443/inject: \
     x509: certificate signed by unknown authority (possibly because of "crypto/rsa: verification error" while trying \
     to verify candidate authority certificate "Kubernetes.cluster.local")
 {{< /text >}}
@@ -141,22 +141,22 @@ Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: 
 caused by an empty `caBundle` in the webhook configuration.
 
 Verify the `caBundle` in the `mutatingwebhookconfiguration` matches the
-   root certificate mounted in the `istio-sidecar-injector` pod.
+   root certificate mounted in the `istiod` pod.
 
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
-$ kubectl -n istio-system get secret istio.istio-sidecar-injector-service-account -o jsonpath='{.data.root-cert\.pem}' | md5sum
+$ kubectl -n istio-system get secret istiod-service-account-token -o jsonpath='{.data.root-cert\.pem}' | md5sum
 4b95d2ba22ce8971c7c92084da31faf0  -
 {{< /text >}}
 
 The CA certificate should match. If they do not, restart the
-sidecar-injector pods.
+istiod pods.
 
 {{< text bash >}}
-$ kubectl -n istio-system patch deployment istio-sidecar-injector \
+$ kubectl -n istio-system patch deployment istiod \
     -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-deployment.extensions "istio-sidecar-injector" patched
+deployment.extensions "istiod" patched
 {{< /text >}}
 
 ### `no such hosts` or `no endpoints available` errors in deployment status
@@ -179,7 +179,7 @@ istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< text bash >}}
 $ kubectl -n istio-system get endpoints istio-sidecar-injector
 NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:10514,10.48.6.108:443   3d
+istio-sidecar-injector   10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
 If the pods or endpoints aren't ready, check the pod logs and status
@@ -203,11 +203,11 @@ When the Kubernetes API server includes proxy settings such as:
 {{< text yaml >}}
 env:
   - name: http_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: https_proxy
-  value: http://proxy-wsa.esl.foo.com:80
+    value: http://proxy-wsa.esl.foo.com:80
   - name: no_proxy
-  value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
+    value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 
 With these settings, Sidecar injection fails. The only related failure log can be found in `kube-apiserver` log:
@@ -229,3 +229,11 @@ Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. How
 network namespace is shared. `iptables` will also see the pod-wide configuration.
 
 Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.
+
+## Cluster is not scaled down automatically
+
+Due to the fact that the sidecar container mounts a local storage volume, the
+node autoscaler is unable to evict nodes with the injected pods. This is
+a [known issue](https://github.com/istio/istio/issues/19395). The workaround is
+to add a pod annotation `"cluster-autoscaler.kubernetes.io/safe-to-evict":
+"true"` to the injected pods.

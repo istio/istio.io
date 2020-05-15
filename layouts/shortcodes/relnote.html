@@ -69,12 +69,9 @@
     {{ $upgrade_notes := .Page.GetPage "./upgrade-notes" }}
     {{ if not $upgrade_notes }}
         {{ $base_version := printf "%v.%v.0" $page_version $page_revision }}
-        {{ range $page := .Site.Pages }}
-            {{ $release := $page.Params.release }}
-            {{ if eq $release $base_version }}
-                {{ $path := printf "/%supgrade-notes" $page.File.Dir }}
-                {{ $upgrade_notes = .Page.GetPage $path }}
-            {{ end }}
+        {{ range $page := where .Site.Pages ".Params.release" $base_version }}
+            {{ $path := printf "/%supgrade-notes" $page.File.Dir }}
+            {{ $upgrade_notes = .Page.GetPage $path }}
         {{ end }}
     {{ end }}
 
@@ -91,11 +88,12 @@
             <p>{{ i18n "relnote_download_detail" }}</p>
         </div>
     {{ else }}
+        {{ $download_link := printf "https://github.com/istio/istio/releases/tag/%s" $full_version }}
         {{ if ne $latest_full_version $full_version }}
             {{ .Page.Scratch.Set "needPopper" true }}
             <a class="update-notice entry"
                 data-title='{{ i18n "relnote_update_notice" }}'
-                data-downloadhref="https://github.com/istio/istio/releases/tag/{{ $full_version }}"
+                data-downloadhref="{{ $download_link }}"
                 data-downloadbuttontext="DOWNLOAD {{ $full_version }}"
                 data-updateadvice='{{ printf (i18n "relnote_update_advice") $release_name }}'
                 data-updatebutton='{{ printf (i18n "relnote_update_button") $latest_full_version }}'
@@ -104,7 +102,16 @@
                 <p>{{ i18n "relnote_download_detail" }}</p>
             </a>
         {{ else }}
-            <a class="entry" href="https://github.com/istio/istio/releases/tag/{{ $full_version }}">
+            {{ if eq $release_location "main" }}
+                {{ if .Site.Data.args.preliminary }}
+                    {{/* we don't go to the language-specific page, since it might not be there when introducing a new language */}}
+                    {{ $download_link = printf "https://istio.io/docs/setup/getting-started/#download" }}
+                {{ else if not .Site.Data.args.archive }}
+                    {{ $download_link = printf "%s/docs/setup/getting-started/#download" $lang }}
+                {{ end }}
+            {{ end }}
+
+            <a class="entry" href="{{ $download_link }}">
                 <h5>{{ i18n "relnote_download_title" }}</h5>
                 <p>{{ i18n "relnote_download_detail" }}</p>
             </a>
@@ -115,7 +122,7 @@
     {{ if eq $release_location "archive" }}
         {{ $doc_link = printf "https://archive.istio.io/v%s/docs" $version }}
     {{ else if eq $release_location "preliminary" }}
-        {{ $doc_link = printf "https://preliminry.istio.io%s/docs" $lang }}
+        {{ $doc_link = printf "https://preliminary.istio.io%s/docs" $lang }}
     {{ else if .Site.Data.args.preliminary }}
         {{ $doc_link = "https://istio.io/docs" }}
     {{ end }}

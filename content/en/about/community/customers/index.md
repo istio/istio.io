@@ -14,12 +14,12 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.autotrader.co.uk" logo="./autotrader.uk.svg" alt="AutoTrader UK" >}}
     {{< company_logo link="https://www.continental-corporation.com" logo="./continental.svg" alt="Continental" >}}
     {{< company_logo link="https://www.coohom.com" logo="./coohom.svg" alt="COOHOM" >}}
-    {{< company_logo link="https://www.daocloud.io" logo="./daocloud.svg" alt="DaoCloud" >}}
     {{< company_logo link="https://www.descarteslabs.com" logo="./descarteslabs.png" alt="Descartes Labs" >}}
     {{< company_logo link="https://www.ebay.com" logo="./ebay.png" alt="eBay" >}}
     {{< company_logo link="https://www.flexe.com/" logo="/about/community/customers/flexe.svg" alt="FLEXE" >}}
     {{< company_logo link="https://www.fitstation.com" logo="./fitstation.png" alt="FitStation" >}}
     {{< company_logo link="https://www.getyourguide.com/" logo="./getyourguide.svg" alt="GetYourGuide" >}}
+    {{< company_logo link="https://cloud.inspur.com/" logo="./inspurcloud.png" alt="Inspur Cloud" >}}
     {{< company_logo link="https://juspay.in" logo="./juspay.png" alt="JUSPAY" >}}
     {{< company_logo link="https://loblawdigital.co" logo="./loblaw-digital.png" alt="Loblaw Digital" >}}
     {{< company_logo link="https://www.namely.com" logo="./namely.svg" alt="Namely" >}}
@@ -28,7 +28,9 @@ Tons of people are using Istio. Maybe you should too?
     {{< company_logo link="https://www.pubnub.com" logo="./pubnub.svg" alt="PubNub" >}}
     {{< company_logo link="https://www.softonic.com" logo="./softonic.png" alt="Softonic S.L." >}}
     {{< company_logo link="http://www.theweathercompany.com" logo="./theweatherco.jpg" alt="The Weather Company" >}}
+    {{< company_logo link="https://toss.im/en" logo="./toss.svg" alt="Toss" >}}
     {{< company_logo link="https://www.trulia.com" logo="./trulia.svg" alt="Trulia" >}}
+    {{< company_logo link="https://www.tuya.com" logo="./tuya.png" alt="Tuya Inc" >}}
     {{< company_logo link="https://www.ibm.com/watson" logo="./watson.png" alt="IBM Watson" >}}
     {{< company_logo link="https://ygrene.com" logo="./ygrene.jpeg" alt="Ygrene Energy Fund" >}}
 </div>

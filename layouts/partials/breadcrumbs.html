@@ -2,6 +2,11 @@
 {{ $page := .Page }}
 {{ $last := false }}
 {{ $done := false }}
+
+{{ $.Scratch.Delete "urls" }}
+{{ $.Scratch.Delete "titles" }}
+{{ $.Scratch.Delete "descriptions" }}
+
 {{ range $index := split $url "/" }}
     {{ if $page }}
         {{ if not $done }}

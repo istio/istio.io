@@ -1,6 +1,6 @@
 ---
-title: What is the license?
+title: Istio 的许可证是什么？
 weight: 40
 ---
 
-Istio uses the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
+Istio 使用了 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)。

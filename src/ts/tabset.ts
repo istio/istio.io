@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function selectTabsets(cookieName: string, cookieValue: string): void {
+function selectTabsets(categoryName: string, categoryValue: string): void {
     document.querySelectorAll(".tabset").forEach(tabset => {
         tabset.querySelectorAll(".tab-strip").forEach(o => {
             const strip = o as HTMLElement;
-            if (strip.dataset.cookieName === cookieName) {
+            if (strip.dataset.categoryName === categoryName) {
                 strip.querySelectorAll<HTMLElement>("[role=tab]").forEach(tab => {
                     const attr = tab.getAttribute(ariaControls);
                     if (!attr) {
@@ -28,7 +28,7 @@ function selectTabsets(cookieName: string, cookieValue: string): void {
                         return;
                     }
 
-                    if (tab.dataset.cookieValue === cookieValue) {
+                    if (tab.dataset.categoryValue === categoryValue) {
                         tab.setAttribute(ariaSelected, "true");
                         tab.removeAttribute(tabIndex);
                         panel.removeAttribute("hidden");
@@ -51,7 +51,7 @@ function handleTabs(): void {
             return;
         }
 
-        const cookieName = strip.dataset.cookieName;
+        const categoryName = strip.dataset.categoryName;
         const panels = tabset.querySelectorAll<HTMLElement>("[role=tabpanel]");
 
         const tabs: HTMLElement[] = [];
@@ -86,10 +86,10 @@ function handleTabs(): void {
             });
         }
 
-        if (cookieName) {
-            const cookieValue = readCookie(cookieName);
-            if (cookieValue) {
-                selectTabsets(cookieName, cookieValue);
+        if (categoryName) {
+            const categoryValue = readLocalStorage(categoryName);
+            if (categoryValue) {
+                selectTabsets(categoryName, categoryValue);
             }
         }
 
@@ -99,11 +99,11 @@ function handleTabs(): void {
             listen(tab, "focus", () => {
                 activateTab(tab);
 
-                if (cookieName) {
-                    const cookieValue = tab.dataset.cookieValue;
-                    if (cookieValue) {
-                        createCookie(cookieName, cookieValue);
-                        selectTabsets(cookieName, cookieValue);
+                if (categoryName) {
+                    const categoryValue = tab.dataset.categoryValue;
+                    if (categoryValue) {
+                        localStorage.setItem(categoryName, categoryValue);
+                        selectTabsets(categoryName, categoryValue);
                     }
                 }
             });
@@ -111,11 +111,11 @@ function handleTabs(): void {
             listen(tab, "click", () => {
                 activateTab(tab);
 
-                if (cookieName) {
-                    const cookieValue = tab.dataset.cookieValue;
-                    if (cookieValue) {
-                        createCookie(cookieName, cookieValue);
-                        selectTabsets(cookieName, cookieValue);
+                if (categoryName) {
+                    const categoryValue = tab.dataset.categoryValue;
+                    if (categoryValue) {
+                        localStorage.setItem(categoryName, categoryValue);
+                        selectTabsets(categoryName, categoryValue);
                     }
                 }
             });

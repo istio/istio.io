@@ -33,10 +33,11 @@ fi
 REPOS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/istio/api.git@"${SOURCE_BRANCH_NAME}"
-    https://github.com/istio/operator.git@"${SOURCE_BRANCH_NAME}"
+    https://github.com/istio/proxy.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/apigee/istio-mixer-adapter.git@master
     https://github.com/osswangxining/alicloud-istio-grpcadapter.git@master
     https://github.com/vmware/wavefront-adapter-for-istio.git@master
+    https://github.com/layer5io/layer5-istio-adapter.git@master
     https://github.com/apache/skywalking-data-collect-protocol.git@master
     https://github.com/ibm-cloud-security/app-identity-and-access-adapter.git@master
     https://github.com/newrelic/newrelic-istio-adapter.git@master
@@ -48,11 +49,7 @@ COMPONENTS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@istioctl/cmd/istioctl@istioctl
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-agent@pilot-agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-discovery@pilot-discovery
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@sidecar-injector/cmd/sidecar-injector@sidecar-injector
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/istio_ca@istio_ca
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@security/cmd/node_agent@node_agent
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@galley/cmd/galley@galley
-    https://github.com/istio/operator.git@"${SOURCE_BRANCH_NAME}"@cmd/manager@operator
+    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@operator/cmd/operator@operator
 )
 
 # The repo to fetch config analysis message data from
@@ -89,10 +86,11 @@ locate_file() {
     PP=$(echo "${FNP}" | rev | cut -d'/' -f2- | rev)
     mkdir -p "${ROOTDIR}/content/en/docs${PP}/${FN}"
     sed -e 's/href="https:\/\/istio.io/href="/g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
+    sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io/href="/g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
 
     LEN=${#WORK_DIR}
 
-    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" && "${REPO_URL}" != "https://github.com/istio/operator.git" ]]; then
+    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" && "${REPO_URL}" != "https://github.com/istio/proxy.git" ]]; then
         sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
     fi
 

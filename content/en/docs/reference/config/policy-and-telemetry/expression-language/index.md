@@ -43,7 +43,7 @@ CEXL supports the following functions.
 |`.matches` | Regular expression match | `"svc.*".matches(destination.service)` | Matches `destination.service` against regular expression pattern `"svc.*"`.
 |`.startsWith` | string prefix match | `destination.service.startsWith("acme")` | Checks whether `destination.service` starts with `"acme"`.
 |`.endsWith` | string postfix match | `destination.service.endsWith("acme")`  | Checks whether `destination.service` ends with `"acme"`.
-|`emptyStringMap` | Create an empty string map | `request.headers` <code>&#124;</code> `emptyStringMap()`| Use `emptyStringMap` to create an empty string map for default value of `request.headers`.
+|`emptyStringMap` | Create an empty string map | `request.headers` <code>&#124;</code> `emptyStringMap()` | Use `emptyStringMap` to create an empty string map for default value of `request.headers`.
 |`conditional` | Simulate ternary operator | `conditional((context.reporter.kind` <code>&#124;</code> `"inbound") == "outbound", "client", "server")` | Returns `"client"` if report kind is `outbound` otherwise returns `"server"`.
 |`toLower` | Convert a string to lowercase letters | `toLower("User-Agent")` | Returns `"user-agent"`.
 |`size` | Length of a string | `size("admin")` | Returns 5
@@ -68,7 +68,7 @@ For example, the expression `request.auth.principal == "user1"` fails evaluation
 |Expression |Return Type |Description|
 |-----------|------------|-----------|
 |`request.size` <code>&#124; 200</code> |  **int** | `request.size` if available, otherwise 200.
-|`request.headers["x-forwarded-host"] == "myhost"`| **boolean**
-|`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")`| **boolean**| True if the user is admin or in the admin group.
+|`request.headers["x-forwarded-host"] == "myhost"` | **boolean**
+|`(request.headers["x-user-group"] == "admin")` <code>&#124;&#124;</code> `(request.auth.principal == "admin")` | **boolean** | True if the user is admin or in the admin group.
 |`(request.auth.principal` <code>&#124;</code> `"nobody" ) == "user1"` | **boolean** | True if `request.auth.principal` is "user1", The expression will not error out if `request.auth.principal` is missing.
-|`source.labels["app"]=="reviews" && source.labels["version"]=="v3"`| **boolean** | True if app label is reviews and version label is v3, false otherwise.
+|`source.labels["app"]=="reviews" && source.labels["version"]=="v3"` | **boolean** | True if app label is reviews and version label is v3, false otherwise.

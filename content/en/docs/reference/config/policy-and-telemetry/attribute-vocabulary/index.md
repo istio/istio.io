@@ -1,5 +1,5 @@
 ---
-title: Attribute Vocabulary
+title: Attribute Vocabulary (Deprecated)
 description: Describes the base attribute vocabulary used for policy and control.
 weight: 10
 aliases:
@@ -39,7 +39,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `destination.owner`             | string | Reference to the workload controlling the destination workload instance.| `kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-telemetry` |
 | `destination.workload.uid`      | string | Unique identifier of the destination workload. | `istio://istio-system/workloads/istio-telemetry` |
 | `destination.workload.name`     | string | Destination workload name. | `istio-telemetry` |
-| `destination.workload.namespace`| string | Destination workload namespace. | `istio-system` |
+| `destination.workload.namespace` | string | Destination workload namespace. | `istio-system` |
 | `destination.container.name`    | string | Name of the destination workload instance's container. | `mixer` |
 | `destination.container.image`   | string | Image of the destination workload instance's container. | `gcr.io/istio-testing/mixer:0.8.0` |
 | `destination.service.host`      | string | Destination host address. | `istio-telemetry.istio-system.svc.cluster.local` |
@@ -82,7 +82,7 @@ deployments will have agents (Envoy or Mixer adapters) that produce these attrib
 | `context.time`          | timestamp | The timestamp of Mixer operation. | |
 | `context.reporter.kind` | string | Contextualizes the reported attribute set. Set to `inbound` for the server-side calls from sidecars and `outbound` for the client-side calls from sidecars and gateways | `inbound` |
 | `context.reporter.uid`  | string | Platform-specific identifier of the attribute reporter. | `kubernetes://my-svc-234443-5sffe.my-namespace` |
-| `context.proxy_error_code` | string | Additional details about the response or connection from proxy. In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) for more detail | `UH` |
+| `context.proxy_error_code` | string | Additional details about the response or connection from proxy. In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags) for more detail | `UH` |
 | `api.service` | string | The public service name. This is different than the in-mesh service identity and reflects the name of the service exposed to the client. | `my-svc.com` |
 | `api.version` | string | The API version. | `v1alpha1` |
 | `api.operation` | string | Unique string used to identify the operation. The id is unique among all operations described in a specific &lt;service, version&gt;. | `getPetsById` |

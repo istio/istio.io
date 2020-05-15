@@ -59,7 +59,7 @@
     {{- end -}}
 
     {{- if (hasPrefix $text " ") -}}
-        {{- errorf "Text blocks need to not be indented, or indented by a multiple of 4 spaces (%s)" .Page.Position -}}
+        {{- errorf "Text blocks need to not be indented, or indented by a multiple of 4 spaces (%s)" .Position -}}
     {{- end -}}
 
     {{- if $snippet -}}

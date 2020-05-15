@@ -7,7 +7,7 @@ aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/jaeger/
 ---
 
-完成此任务后，您将了解如何让您的应用程序参与 [Jaeger](https://www.jaegertracing.io/)的追踪，
+完成此任务后，您将了解如何让您的应用程序参与 [Jaeger](https://www.jaegertracing.io/) 的追踪，
 而不管您用来构建应用程序的语言、框架或平台是什么。
 
 此任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为演示的应用程序。
@@ -16,11 +16,11 @@ aliases:
 
 ## 开始之前{#before-you-begin}
 
-1. 要设置 Istio，按照[安装指南](/zh/docs/setup/install/operator)中的说明进行操作。
+1. 要设置 Istio，按照[安装指南](/zh/docs/setup/install/istioctl)中的说明进行操作。
 
     a) 通过设置 `--set values.tracing.enabled = true` 安装选项以启用 tracing 的“开箱即用”的演示/测试环境
 
-    b) 通过使用现有 Jaeger 实例（例如使用 [operator](https://github.com/jaegertracing/jaeger-operator)进行创建，然后设置`--set values.global.tracer.zipkin.address = <jaeger-collector-service>.<jaeger -collector-namespace>:9411` 的安装选项。
+    b) 通过使用现有 Jaeger 实例（例如使用 [operator](https://github.com/jaegertracing/jaeger-operator) 进行创建，然后设置`--set values.global.tracer.zipkin.address = <jaeger-collector-service>.<jaeger -collector-namespace>:9411` 的安装选项。
 
     {{< warning >}}
     启用跟踪时，可以设置 Istio 用于跟踪的采样率。
@@ -63,5 +63,5 @@ $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=
     $ killall kubectl
     {{< /text >}}
 
-1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/docs/examples/bookinfo/#cleanup)中的说明，关闭整个应用程序。
+1. 如果您没有计划探索任何接下来的任务，请参考 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)中的说明，关闭整个应用程序。
 

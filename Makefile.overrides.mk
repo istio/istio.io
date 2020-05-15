@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # expose port 1313 from the container in order to support 'make serve' which runs a Hugo web server
-CONTAINER_OPTIONS = -p 1313:1313
+CONTAINER_OPTIONS = -p 1313:1313 ${ADDITIONAL_CONTAINER_OPTIONS}
 
 # this repo is on the container plan by default
 BUILD_WITH_CONTAINER ?= 1

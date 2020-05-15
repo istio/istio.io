@@ -18,7 +18,7 @@ verify its configuration.
 The basic usage of the command is as follows:
 
 {{< text bash >}}
-$ istioctl experimental describe <pod-name>[.<namespace>]
+$ istioctl experimental describe pod <pod-name>[.<namespace>]
 {{< /text >}}
 
 Appending a namespace to the pod name has the same affect as using the `-n` option
@@ -39,7 +39,7 @@ before continuing.
 
 The `istioctl describe` command returns a warning if the {{< gloss >}}Envoy{{< /gloss >}}
 proxy is not present in a pod or if the proxy has not started. Additionally, the command warns
-if some of the [Istio requirements for pods](/docs/setup/additional-setup/requirements/)
+if some of the [Istio requirements for pods](/docs/ops/deployment/requirements/)
 are not met.
 
 For example, the following command produces a warning indicating a `kubernetes-dashboard`
@@ -49,6 +49,8 @@ pod is not part of the service mesh because it has no sidecar:
 $ export DASHBOARD_POD=$(kubectl -n kube-system get pod -l k8s-app=kubernetes-dashboard -o jsonpath='{.items[0].metadata.name}')
 $ istioctl x describe pod -n kube-system $DASHBOARD_POD
 WARNING: kubernetes-dashboard-7996b848f4-nbns2.kube-system is not part of mesh; no Istio sidecar
+--------------------
+Error: failed to execute command on sidecar: error execing into kubernetes-dashboard-7996b848f4-nbns2/kube-system istio-proxy container: container istio-proxy is not valid for pod kubernetes-dashboard-7996b848f4-nbns2
 {{< /text >}}
 
 The command will not produce such a warning for a pod that is part of the mesh,
@@ -194,7 +196,7 @@ and 10% to the `v2` subset of the the `reviews` service:
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
 {{< /text >}}
 
-Now describe the `reviews` `v1` pod:
+Now describe the `reviews v1` pod:
 
 {{< text bash >}}
 $ istioctl x describe pod $REVIEWS_V1_POD
@@ -231,7 +233,7 @@ other cases.
 
 ## Verifying strict mutual TLS
 
-Following the [mutual TLS migration](/docs/tasks/security/mtls-migration/)
+Following the [mutual TLS migration](/docs/tasks/security/authentication/mtls-migration/)
 instructions, you can enable strict mutual TLS for the `ratings` service:
 
 {{< text bash >}}

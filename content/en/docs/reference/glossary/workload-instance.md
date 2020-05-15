@@ -1,9 +1,9 @@
 ---
 title: Workload Instance
 ---
-A single instantiation of a [workload's](#workload) binary.
-A workload instance can expose zero or more [service endpoints](#service-endpoint),
-and can consume zero or more [services](#service).
+A single instantiation of a [workload's](/docs/reference/glossary/#workload) binary.
+A workload instance can expose zero or more [service endpoints](/docs/reference/glossary/#service-endpoint),
+and can consume zero or more [services](/docs/reference/glossary/#service).
 
 Workload instances have a number of properties:
 

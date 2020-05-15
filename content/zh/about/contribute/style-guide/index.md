@@ -1,220 +1,98 @@
 ---
-title: Style Guide
-description: Explains the dos and donts of writing Istio documentation.
-weight: 20
+title: 风格指南
+description: 介绍 Istio 文档所使用的风格约定。
+weight: 10
 aliases:
-    - /docs/welcome/contribute/style-guide.html
-    - /docs/reference/contribute/style-guide.html
+    - /zh/docs/welcome/contribute/style-guide.html
+    - /zh/docs/reference/contribute/style-guide.html
 keywords: [contribute]
 ---
 
-This page provides the content guidelines for the Istio documentation. These
-guidelines do not supersede your best judgment and enhancements to this
-document in a pull request are welcome.
+Istio 文档所有的内容都必须 **清晰明了** 且 **易于理解**。我们根据 Google 开发者风格指南中的[重点](https://developers.google.com/style/highlights)和[通则](https://developers.google.com/style/tone)定义了标准。关于您贡献的内容是如何被审核、接受的，请参见[审核页面](/zh/about/contribute/review)获取详情。
 
-## Formatting standards
+您可以在此通过 Istio 特有的示例，找到 Istio 遵循的基本风格与实践指南的所有场景。
 
-### Use consistent capitalization
+## 标题句首字母大写{#use-sentence-case-for-headings}
 
-Don't use capitalization for emphasis.
+在您的文档中，为标题使用句首字母大写。即：仅将标题中第一个单词的首字母大写，专有名词或缩写除外。
 
-Follow the original capitalization employed in the code or configuration files
-when referencing those values directly. Use back-ticks \`\` around the
-referenced content to make the connection explicit. For example, use
-`IstioRoleBinding`, not `Istio Role Binding` or `istio role binding`.
-
-If you are not referencing values or code directly, use normal sentence
-capitalization, for example, "The Istio role binding configuration takes place
-in a YAML file."
-
-### Use angle brackets for placeholders
-
-Use angle brackets for placeholders. Tell the reader what the placeholder
-represents. For example:
-
-1.  Display information about a pod:
-
-    {{< text bash >}}
-    $ kubectl describe pod <pod-name>
-    {{< /text >}}
-
-    Where `<pod-name>` is the name of one of your pods.
-
-### Use **bold** for user interface elements
-
-|Do               |Don't
-|-----------------|------
-|Click **Fork**.  |Click "Fork".
-|Select **Other**.|Select 'Other'.
-
-### Use _italics_ to define or introduce new terms
-
-|Do                                         |Don't
-|-------------------------------------------|---
-|A _cluster_ is a set of nodes ...          |A "cluster" is a set of nodes ...
-|These components form the _control plane_. |These components form the **control plane**.
-
-### Use `code` style for filenames, directories, and paths
-
-|Do                                   | Don't
-|-------------------------------------|------
-|Open the `foo.yaml` file.         | Open the foo.yaml file.
-|Go to the `/content/en/docs/tasks` directory.  | Go to the /content/en/docs/tasks directory.
-|Open the `/data/args.yaml` file. | Open the /data/args.yaml file.
-
-### Use `code` style for inline code and commands
-
-|Do                          | Don't
-|----------------------------|------
-|The `foo run` command creates a `Deployment`.|The "foo run" command creates a `Deployment`.
-|For declarative management, use `foo apply`.|For declarative management, use "foo apply".
-
-### Use `code` style for object field names
-
-|Do                                                               | Don't
-|-----------------------------------------------------------------|------
-|Set the value of the `ports` field in the configuration file. | Set the value of the "ports" field in the configuration file.
-|The value of the `rule` field is a `Rule` object.           | The value of the "rule" field is a `Rule` object.
-
-### Use title capitalization for `title:` front-matter
-
-The text for the `title:` front-matter must use title case:
-Capitalize the first letter of every word except conjunctions and prepositions.
-This is unlike headings within the document, as described below.
-
-### Only capitalize the first letter of headings
-
-For any headings use sentence case: only capitalize the first word of the
-heading, except for proper nouns or acronyms. Note that the
-`title:` annotation in markdown uses title case.
-
-|Do                      | Don't
+| 正确做法                      | 错误做法
 |------------------------|-----
 |Configuring rate limits | Configuring Rate Limits
 |Using Envoy for ingress | Using envoy for ingress
 |Using HTTPS             | Using https
 
-## Terminology standards
+## 为 front-matter 中 `title:` 字段的值使用首字母大写{#use-title-case-for-the-value-of-the-title-field-of-the-front-matter}
 
-We want to use the standard terms in this section consistently within the
-documentation for clarity.
+front-matter 中 `title:` 字段的文本必须使用首字母大小写。即：除连词和介词外，将每个单词的首字母大写。
 
-### Envoy
+## 使用现在时{#use-present-tense}
 
-We prefer to use "Envoy” as it’s a more concrete term than "proxy" and
-resonates if used consistently throughout the docs.
-
-Synonyms:
-
-- "Envoy sidecar” - ok
-- "Envoy proxy” - ok
-- "The Istio proxy” -- best to avoid unless you’re talking about advanced scenarios where another proxy might be used.
-- "Sidecar”  -- mostly restricted to conceptual docs
-- "Proxy" -- only if context is obvious
-
-Related Terms:
-
-- Proxy agent  - This is a minor infrastructural component and should only show
-  up in low-level detail documentation. It is not a proper noun.
-
-### Miscellaneous
-
-|Do              | Don't
-|----------------|------
-| load balancing | `load-balancing`
-| multicluster   | `multi-cluster`
-| addon          | `add-on`
-| service mesh   | `Service Mesh`
-| sidecar        | `side-car`, `Sidecar`
-| Kubernetes     | `kubernetes`, `k8s`
-| Bookinfo       | `BookInfo`, `bookinfo`
-| Mixer          | `mixer`
-| certificate    | `cert`
-| configuration  | `config`
-| delete         | `kill`
-
-## Best practices
-
-### Use present tense
-
-|Do                           | Don't
+| 正确做法                           | 错误做法
 |-----------------------------|------
-|This command starts a proxy. | This command will start a proxy.
+| This command starts a proxy. | This command will start a proxy.
 
-Exception: Use future or past tense if it is required to convey the correct
-meaning. This exception is extremely rare and should be avoided.
+例外：确实需要通过使用将来时或过去时才能表达正确的含义时。这种例外极为罕见，应尽可能的避免。
 
-### Use active voice
+## 使用主动句式{#use-active-voice}
 
-|Do                                         | Don't
+| 正确做法                                         | 错误做法
 |-------------------------------------------|------
-|You can explore the API using a browser.   | The API can be explored using a browser.
-|The YAML file specifies the replica count. | The replica count is specified in the YAML file.
+| You can explore the API using a browser.   | The API can be explored using a browser.
+| The YAML file specifies the replica count. | The replica count is specified in the YAML file.
 
-### Use simple and direct language
+## 使用简单直接的语言{#use-simple-and-direct-language}
 
-Use simple and direct language. Avoid using unnecessary phrases, such as saying
-"please."
+使用简单直接的语言。避免使用不必要的短语，例如：“please”。
 
-|Do                          | Don't
+| 正确做法                          | 错误做法
 |----------------------------|------
 |To create a `ReplicaSet`, ... | In order to create a `ReplicaSet`, ...
 |See the configuration file. | Please see the configuration file.
 |View the Pods.              | With this next command, we'll view the Pods.
 
-### Address the reader as "you"
+## 使用“您”称呼读者{address-the-reader-as-you}
 
-|Do                                     | Don't
+| 正确做法                                     | 错误做法
 |---------------------------------------|------
-|You can create a `Deployment` by ...     | We'll create a `Deployment` by ...
-|In the preceding output, you can see...| In the preceding output, we can see ...
+| 您可以通过 …… 创建 `Deployment`   | 我们将通过 …… 创建 `Deployment`
+| 在前面的输出中，您可以看到…… | 在前面的输出中，我们可以看到……
 
-### Create useful links
+## 创建语义清晰的链接{#create-useful-links}
 
-There are good hyperlinks, and bad hyperlinks. The common practice of calling
-links *here*  or *click here* are examples of bad hyperlinks. Check out [this
-excellent article](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021)
-explaining what makes a good hyperlink and try to keep these guidelines in
-mind when creating or reviewing site content.
+链接有语义清晰也有不是最佳做法的。如：在 *此处* 或 *单击此处* 打开链接的常见做法就是不好的链接示例。
+请查看[这篇出色的文章](https://medium.com/@heyoka/dont-use-click-here-f32f445d1021)，
+其中解释了什么是好的超链接，并在创建或查看网站内容时牢记这些准则。
 
-### Avoid using "we"
+## 避免使用“我们”{#avoid-using-we}
 
-Using "we" in a sentence can be confusing, because the reader might not know
-whether they're part of the "we" you're describing.
+在句子中使用“我们”可能会造成混淆，因为读者可能不知道他们是否属于您所描述的“我们”。
 
-|Do                                        | Don't
+| 正确做法                                        | 错误做法
 |------------------------------------------|------
-|Version 1.4 includes ...                  | In version 1.4, we have added ...
-|Istio provides a new feature for ... | We provide a new feature ...
-|This page teaches you how to use pods.    | In this page, we are going to learn about pods.
+| 1.4 版本中包括…                | 在 1.4 版本中，我们添加了…
+| Istio 为 … 提供了一项新功能。 | 我们提供了一个新功能……
+| 该页面教您如何使用 Pod。 | 在此页面中，我们将学习 Pod。
 
-### Avoid jargon and idioms
+## 避免俚语和方言{#avoid-jargon-and-idioms}
 
-Some readers speak English as a second language. Avoid jargon and idioms to help make their understanding easier.
+一些读者的母语不是英语，避免使用术语和习惯用语，可用以帮助他们更轻松的理解。
 
-|Do                    | Don't
+| 正确做法                    | 错误做法
 |----------------------|------
 |Internally, ...       | Under the hood, ...
 |Create a new cluster. | Turn up a new cluster.
+|Initially, ...        | Out of the box, ...
 
-### Avoid statements about the future
+## 避免陈述未来{#avoid-statements-about-the-future}
 
-Avoid making promises or giving hints about the future. If you need to talk
-about an alpha feature, put the text under a heading that identifies it as
-alpha information.
+避免暗示或承诺未来。如果您需要讨论开发中的功能，请在标题下方添加一个样板，以便标识相应地信息。
 
-### Avoid statements that will soon be out of date
+### 避免过时的声明{#avoid-statements-that-will-soon-be-out-of-date}
 
-Avoid words like "currently" and "new". A feature that is new today might not
-be considered new in a few months.
+避免使用“当前”和“新”之类的词。今天的新功能可能在几个月后就不会被视为新功能。
 
-|Do                                  | Don't
+| 正确做法                                  | 错误做法
 |------------------------------------|------
-|In version 1.4, ...                 | In the current version, ...
-|The Federation feature provides ... | The new Federation feature provides ...
-
-### Minimize use of callouts
-
-[Callouts](/about/contribute/creating-and-editing-pages/#callouts) let you highlight some particular content in your pages, but
-they need to be used sparingly. Callouts are intended for special notes to the user and over-using them
-throughout the site neutralizes their special attention-grabbing nature.
+| 在版本 1.4 中 …                |  在当前版本中 …
+| 联合身份验证功能提供 …  | 新的联合身份验证功能提供了…

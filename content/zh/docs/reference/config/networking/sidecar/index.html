@@ -6,7 +6,7 @@ description: Configuration affecting network reachability of a sidecar.
 location: https://istio.io/docs/reference/config/networking/sidecar.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
-aliases: [/docs/reference/config/networking/v1alpha3/sidecar.html]
+aliases: [/zh/docs/reference/config/networking/v1alpha3/sidecar.html]
 number_of_entries: 7
 ---
 <p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
@@ -37,7 +37,7 @@ behavior of the system is undefined if two or more <code>Sidecar</code> configur
 with a <code>workloadSelector</code> select the same workload instance.</p>
 
 <p>NOTE 2: <em><em>A <code>Sidecar</code> configuration in the <code>MeshConfig</code>
-<a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">root namespace</a>
+<a href="/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">root namespace</a>
 will be applied by default to all namespaces without a <code>Sidecar</code>
 configuration</em></em>. This global default <code>Sidecar</code> configuration should not have
 any <code>workloadSelector</code>.</p>
@@ -263,7 +263,7 @@ listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioEgressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
 <td>
 <p>The port associated with the listener. If using Unix domain socket,
 use 0 as the port number, with a valid protocol. The port if
@@ -376,7 +376,7 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioIngressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
+<td><code><a href="/zh/docs/reference/config/networking/gateway.html#Port">Port</a></code></td>
 <td>
 <p>The port associated with the listener.</p>
 

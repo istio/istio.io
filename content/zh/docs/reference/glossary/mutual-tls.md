@@ -2,5 +2,5 @@
 title: Mutual TLS Authentication
 ---
 
-Mutual TLS provides strong service-to-service authentication with built-in identity and credential management.
-[Learn more about mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication).
+双向 TLS 通过内置身份和凭证管理，提供强大的服务到服务身份验证。
+[了解更多关于双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)。
