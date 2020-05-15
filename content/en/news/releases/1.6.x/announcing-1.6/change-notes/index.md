@@ -23,7 +23,7 @@ weight: 10
 
 ## Telemetry
 
-- ***Added*** experimental [request classification](/docs/tasks/observability/metrics/classify-metrics/) filter support. This feature enables operators to configure new attributes for use in telemetry, based on request information. A primary use case for this feature is labeling of traffic by API method.
+- ***Added*** experimental support for [request classification](/docs/tasks/observability/metrics/classify-metrics/) filters. This enables operators to configure new attributes for use in telemetry, based on request information. A primary use case for this feature is labeling of traffic by API method.
 - ***Added*** experimental [mesh-wide tracing configuration API](/docs/tasks/observability/distributed-tracing/configurability/). This API provides control of trace sampling rates, the [maximum tag lengths](https://github.com/istio/istio/issues/14563) for URL tags, and [custom tags extraction](https://github.com/istio/istio/issues/13018) for all traces within the mesh.
 - ***Improved*** Prometheus integration experience by adding standard Prometheus scrape annotations to proxies and the control plane workloads. This removes the need for specialized configuration to discover and consume Istio metrics. More details are available in the [operations guide for Prometheus](/docs/ops/integrations/prometheus#option-2-metrics-merging/).
 - ***Improved*** support for [customizing v2 metrics generation](/docs/tasks/observability/metrics/customize-metrics/). This allows mesh operators to add and remove labels used in Istio metrics based on expressions over the set of available request and response attributes.
