@@ -16,7 +16,7 @@ Istio does not currently support skip-level upgrades. For example, if you are st
 
 ## Removal of legacy Helm charts
 
-In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/), using the in-cluster Operator or `istioctl install` command. As part of this effort, we deprecated the old Helm charts. Over time, we implemented many of the new Istio features only in these new installation methods. As a result, we have decided to remove the old installation Helm charts in Istio 1.6.
+In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/), using the in-cluster Operator or `istioctl install` command. As part of this effort, we deprecated the old Helm charts in 1.5. Over time, we implemented many of the new Istio features only in these new installation methods. As a result, we have decided to remove the old installation Helm charts in Istio 1.6.
 
 We recommend reviewing the [Istio 1.5 Upgrade Notes](/news/releases/1.5.x/announcing-1.5/upgrade-notes/#control-plane-restructuring) before continuing, because we introduced several changes in Istio 1.5 that were not present in the legacy installation method, such as Istiod and Telemetry V2.
 
