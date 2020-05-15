@@ -70,7 +70,7 @@ Users may override this behavior in MeshConfig:
 {{< text yaml >}}
 values:
   meshConfig:
-    serviceSettings: 
+    serviceSettings:
       - settings:
           clusterLocal: false
         hosts:
