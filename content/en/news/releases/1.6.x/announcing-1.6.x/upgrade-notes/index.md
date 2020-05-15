@@ -39,7 +39,7 @@ $ kubectl get serviceroles.rbac.istio.io --all-namespaces
 $ kubectl get servicerolebindings.rbac.istio.io --all-namespaces
 {{< /text >}}
 
-To make sure not to apply any `v1alpha1` security policy accidentally in the future, remove the CRD of the `v1alpha1` security policy with the following commands:
+To make sure not to accidentally apply any `v1alpha1` security policy in the future, remove the CRD of the `v1alpha1` security policy using the following commands:
 
 {{< text bash >}}
 $ kubectl delete crd policies.authentication.istio.io
