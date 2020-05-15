@@ -100,17 +100,17 @@ can use Istio to upgrade unencrypted traffic in the service mesh. Using
 Istio, operators can enforce policies based on service identity rather than
 on relatively unstable layer 3 or layer 4 network identifiers. Starting from
 release 0.5, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
-to control who can access your services. 
+to control who can access your services.
 
 Istiod maintains a CA and generates certificates to allow secure mTLS communication
 in the data plane.
 
 ## Application design
 
-To adopt Istio, the developer should do the minimum amount of work 
+To adopt Istio, the developer should do the minimum amount of work
 to get real value from the system. Istio can automatically inject itself into
 the network paths between services and program the networking layer to
-securely route traffic and extract telemetry. If the application code 
+securely route traffic and extract telemetry. If the application code
 uses TLS and uses its own policy and telemetry, Istio can only get minimal
 information from the encrypted communication between workloads.
 
