@@ -38,8 +38,7 @@ mesh through the Istio ingress gateway, while using mutual TLS authentication be
 mutual TLS authentication, you will configure the ALB and the Istio ingress gateway to re-use the certificates and keys
 provided by IKS for the ALB and NLB subdomains. You will use the NLB subdomain certificate as the server certificate for
 Istio ingress gateway in the `Gateway` resource and use the ALB subdomain certificate as the client certificate of the
-ALB in the `Ingress` resource. You then use a [Let's Encrypt](https://letsencrypt.org) certificate as the root for both
-client and server certificates. Using certificates provided by IKS saves you the overhead of managing your own
+ALB in the `Ingress` resource. Using certificates provided by IKS saves you the overhead of managing your own
 certificates for the connection between the ALB and the Istio ingress gateway.
 
 Traffic to the services without an Istio sidecar can continue to flow as before directly from the ALB.
