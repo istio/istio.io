@@ -12,8 +12,7 @@ replace github.com/docker/docker => github.com/docker/engine v1.4.2-0.2019101121
 
 require (
 	github.com/Masterminds/semver v1.4.2
-	github.com/jstemmer/go-junit-report v0.9.1 // indirect
-	istio.io/istio v0.0.0-20200426091446-f7c106d20f70
+	istio.io/istio v0.0.0-20200514170139-8aef23fd2265
 )
 
 replace github.com/Azure/go-autorest/autorest => github.com/Azure/go-autorest/autorest v0.9.0
