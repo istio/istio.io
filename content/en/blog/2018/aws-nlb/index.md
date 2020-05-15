@@ -108,5 +108,5 @@ gateways:
 Generate a manifest with Helm:
 
 {{< text bash >}}
-$ helm template install/kubernetes/helm/istio --namespace istio -f override.yaml > $HOME/istio.yaml
+$ helm template install/kubernetes/helm/istio --namespace istio-system -f override.yaml > $HOME/istio.yaml
 {{< /text >}}
