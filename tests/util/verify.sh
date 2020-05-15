@@ -195,7 +195,7 @@ __verify_with_retry() {
     local cmd=$2
     local expected=$3
     local max_attempts=$4
-    local attempt=0
+    local attempt=1
 
     while true; do
       out=$($cmd 2>&1)
@@ -217,54 +217,59 @@ __verify_with_retry() {
 
 # Runs $func and compares the output with $expected.  If they are not the same,
 # will retry $max_attempts times with an exponential backoff.  If $max_attempts
-# is not set, a retry will not be attempted.
+# is not set, it will retry 5 times by default.
 _run_and_verify_same() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-0}
+    local max_attempts=${3:-5}
     __verify_with_retry __cmp_same "$func" "$expected" "$max_attempts"
 }
 
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the substring $expected, will retry $max_attempts times with an
-# exponential backoff.  If $max_attempts is not set, a retry will not be
-# attempted.
+# exponential backoff.  If $max_attempts is not set, it will retry 5 times by
+# default.
 _run_and_verify_contains() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-0}
+    local max_attempts=${3:-5}
     __verify_with_retry __cmp_contains "$func" "$expected" "$max_attempts"
 }
 
 # Runs $func and compares the output with $expected.  If the output contains the
 # substring $expected, will retry $max_attempts times with an exponential
-# backoff.  If $max_attempts is not set, a retry will not be attempted.
+# backoff.  If $max_attempts is not set, it will retry 5 times by default.
+#
+# This function is not useful since __cmp_not_contains will return true
+# even if the function fails. The _verify_not_contains function, itself,
+# is also often not very useful for the same reason.
+# TODO Replace it with some kind of _verify_worked_and_not_contains function.
 _run_and_verify_not_contains() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-0}
+    local max_attempts=${3:-5}
     __verify_with_retry __cmp_not_contains "$func" "$expected" "$max_attempts"
 }
 
 # Runs $func and compares the output with $expected.  If the output does not
 # contain the lines in $expected where "..." on a line matches one or more lines
 # containing any text, will retry $max_attempts times with an exponential
-# backoff.  If $max_attempts is not set, a retry will not be attempted.
+# backoff.  If $max_attempts is not set, it will retry 5 times by default.
 _run_and_verify_elided() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-0}
+    local max_attempts=${3:-5}
     __verify_with_retry __cmp_elided "$func" "$expected" "$max_attempts"
 }
 
 # Runs $func and compares the output with $expected.  If the first line of
 # output does not match the first line in $expected, will retry $max_attempts
-# times with an exponential backoff.  If $max_attempts is not set, a retry will
-# not be attempted.
+# times with an exponential backoff.  If $max_attempts is not set, it will
+# retry 5 times by default.
 _run_and_verify_first_line() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-0}
+    local max_attempts=${3:-5}
     __verify_with_retry __cmp_first_line "$func" "$expected" "$max_attempts"
 }
 
@@ -278,11 +283,11 @@ _run_and_verify_first_line() {
 #        - different ip values
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
-# If $max_attempts is not set, a retry will not be attempted.
+# If $max_attempts is not set, it will retry 5 times by default.
 _run_and_verify_like() {
     local func=$1
     local expected=$2
-    local max_attempts=${3:-0}
+    local max_attempts=${3:-5}
     __verify_with_retry __cmp_like "$func" "$expected" "$max_attempts"
 }
 

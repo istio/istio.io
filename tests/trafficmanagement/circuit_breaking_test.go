@@ -16,19 +16,27 @@ package trafficmanagement
 import (
 	"testing"
 
-	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
+
+	"istio.io/istio.io/pkg/test/istioio"
 )
 
-func TestCircuitBreaker(t *testing.T) {
+func TestCircuitBreaking(t *testing.T) {
 	framework.
 		NewTest(t).
 		Run(istioio.NewBuilder("tasks__traffic_management__circuit_breaking").
-			Add(
-				istioio.Script{Input: istioio.Path("scripts/circuitbreaker_test_setup.txt")},
-				istioio.MultiPodWait("istio-io-circuitbreaker"),
-				istioio.Script{Input: istioio.Path("scripts/trip_circuitbreaker.txt")},
-			).
-			Defer(istioio.Script{Input: istioio.Path("scripts/circuitbreaker_test_cleanup.txt")}).
+			Add(istioio.Script{
+				Input: istioio.Path("scripts/circuit_breaking.sh"),
+			}).
+			Defer(istioio.Script{
+				Input: istioio.Inline{
+					FileName: "cleanup.sh",
+					Value: `
+set +e # ignore cleanup errors
+source ${REPO_ROOT}/content/en/docs/tasks/traffic-management/circuit-breaking/snips.sh
+snip_cleaning_up_1
+snip_cleaning_up_2`,
+				},
+			}).
 			Build())
 }

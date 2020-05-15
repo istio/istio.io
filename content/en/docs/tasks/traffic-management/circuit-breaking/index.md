@@ -63,9 +63,7 @@ when calling the `httpbin` service:
     $ kubectl get destinationrule httpbin -o yaml
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
-    metadata:
-      name: httpbin
-      ...
+    ...
     spec:
       host: httpbin
       trafficPolicy:
