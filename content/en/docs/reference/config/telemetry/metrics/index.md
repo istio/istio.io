@@ -105,3 +105,13 @@ For TCP traffic, Istio generates the following metrics:
     destination_canonical_service
     destination_canonical_revision
     {{< /text >}}
+
+### Multicluster labels
+
+When Istio is used in multi-cluster environments, the following additional labels are configured by default:
+
+*   **Destination Cluster**: Name of the cluster for the destination workload.
+    This is set by: `global.multiCluster.clusterName` at cluster install time.
+
+*   **Source Cluster**: Name of the cluster for the source workload.
+    This is set by: `global.multiCluster.clusterName` at cluster install time.
