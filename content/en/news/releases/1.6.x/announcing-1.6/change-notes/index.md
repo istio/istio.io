@@ -53,7 +53,7 @@ weight: 10
 ## istioctl
 
 - ***Added*** better display characteristics for the istioctl command.
-- ***Improved*** --set flag paths support key:value list selection.
+- ***Added*** support for key:value list selection when using --set flag paths.
 - ***Improved*** Kubernetes overlays patching mechanism now supports deletes and setting non-scalar values.
 
 ## Miscellaneous changes
