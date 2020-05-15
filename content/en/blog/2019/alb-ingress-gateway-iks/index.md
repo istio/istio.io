@@ -20,7 +20,7 @@ DNS domain name,
 that matches the domain, and a private key for the certificate. IKS stores the certificates and the private key in a
 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-When you start using Istio in your IKS cluster, the recommended way is to use the
+When you start using Istio in your IKS cluster, the recommended method to send traffic to your Istio enabled workloads is by using the
 [Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) instead of using the
 [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). One of the main reasons to use
 Istio ingress gateway is the fact the ALB provided by IKS will not be able to
