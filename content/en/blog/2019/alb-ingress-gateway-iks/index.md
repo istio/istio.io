@@ -23,7 +23,7 @@ that matches the domain, and a private key for the certificate. IKS stores the c
 When you start using Istio in your IKS cluster, the recommended method to send traffic to your Istio enabled workloads is by using the
 [Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) instead of using the
 [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). One of the main reasons to use
-Istio ingress gateway is the fact the ALB provided by IKS will not be able to
+the Istio ingress gateway is the fact the ALB provided by IKS will not be able to
 communicate directly with the services inside the mesh when you enable STRICT mutual TLS. During your transition to
 having only Istio ingress gateway as your main entry point, you can continue to use the traditional Ingress for
 non-Istio services while using the Istio ingress gateway for services that are part of the mesh.
