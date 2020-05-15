@@ -11,33 +11,36 @@ In this blog post I show how to configure the [Ingress Application Load Balancer
 on [IBM Cloud Kubernetes Service (IKS)](https://www.ibm.com/cloud/kubernetes-service/) to direct traffic to the Istio
 ingress gateway, while securing the traffic between them using {{< gloss  >}}mutual TLS authentication{{< /gloss >}}.
 
-When you use IKS without Istio, you may control your ingress traffic using the provided
-ALB. This ingress-traffic routing is configured using a Kubernetes
+When you use IKS without Istio, you may control your ingress traffic using the provided ALB. This ingress-traffic
+routing is configured using a Kubernetes
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resource with
 [ALB-specific annotations](https://cloud.ibm.com/docs/containers?topic=containers-ingress_annotation). IKS provides a
-DNS domain name,
- a TLS certificate
-that matches the domain, and a private key for the certificate. IKS stores the certificates and the private key in a
-[Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/).
+DNS domain name, a TLS certificate that matches the domain, and a private key for the certificate. IKS stores the
+certificates and the private key in a [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-When you start using Istio in your IKS cluster, the recommended method to send traffic to your Istio enabled workloads is by using the
-[Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) instead of using the
+When you start using Istio in your IKS cluster, the recommended method to send traffic to your Istio enabled workloads
+is by using the [Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) instead of using the
 [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). One of the main reasons to use
-the Istio ingress gateway is the fact the ALB provided by IKS will not be able to
-communicate directly with the services inside the mesh when you enable STRICT mutual TLS. During your transition to
-having only Istio ingress gateway as your main entry point, you can continue to use the traditional Ingress for
-non-Istio services while using the Istio ingress gateway for services that are part of the mesh.
+the Istio ingress gateway is the fact the ALB provided by IKS will not be able to communicate directly with the services
+inside the mesh when you enable STRICT mutual TLS. During your transition to having only Istio ingress gateway as your
+main entry point, you can continue to use the traditional Ingress for non-Istio services while using the Istio ingress
+gateway for services that are part of the mesh.
 
 IKS provides a convenient way for clients to access Istio ingress gateway by letting you
-[register a new DNS subdomain](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname) for the Istio gateway's
-IP with an IKS command. The domain is in the following [format](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname#loadbalancer_hostname_format): `<cluster_name>-<globally_unique_account_HASH>-0001.<region>.containers.appdomain.cloud`, for example `mycluster-a1b2cdef345678g9hi012j3kl4567890-0001.us-south.containers.appdomain.cloud`. In the same way as for the ALB domain, IKS provides a certificate and a private key,
-storing them in another Kubernetes secret.
+[register a new DNS subdomain](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname) for the
+Istio gateway's IP with an IKS command. The domain is in the following
+[format](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname#loadbalancer_hostname_format):
+`<cluster_name>-<globally_unique_account_HASH>-0001.<region>.containers.appdomain.cloud`, for example `mycluster-a1b2cdef345678g9hi012j3kl4567890-0001.us-south.containers.appdomain.cloud`. In the same way as for the ALB domain,
+IKS provides a certificate and a private key, storing them in another Kubernetes secret.
 
-This blog describes how you can configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh
-through the Istio ingress gateway, while using mutual TLS authentication between the ALB and the gateway. For the mutual TLS authentication, you will configure the ALB and the Istio ingress gateway to re-use the certificates and keys provided by IKS for the ALB and NLB subdomains. You will use the NLB subdomain certificate as the server certificate for Istio ingress gateway in the `Gateway` resource and use the ALB subdomain certificate as the client certificate of the ALB in the `Ingress` resource. You then use a
-[Let's Encrypt](https://letsencrypt.org) certificate as the root for both client and server certificates.
-Using certificates provided by IKS saves you the overhead of managing your own certificates for the connection between the ALB and
-the Istio ingress gateway.
+This blog describes how you can configure the IKS Ingress ALB to direct traffic to the services inside an Istio service
+mesh through the Istio ingress gateway, while using mutual TLS authentication between the ALB and the gateway. For the
+mutual TLS authentication, you will configure the ALB and the Istio ingress gateway to re-use the certificates and keys
+provided by IKS for the ALB and NLB subdomains. You will use the NLB subdomain certificate as the server certificate for
+Istio ingress gateway in the `Gateway` resource and use the ALB subdomain certificate as the client certificate of the
+ALB in the `Ingress` resource. You then use a [Let's Encrypt](https://letsencrypt.org) certificate as the root for both
+client and server certificates. Using certificates provided by IKS saves you the overhead of managing your own
+certificates for the connection between the ALB and the Istio ingress gateway.
 
 Traffic to the services without an Istio sidecar can continue to flow as before directly from the ALB.
 
@@ -46,8 +49,8 @@ The diagram below exemplifies the described setting. It shows two services in th
 be accessed by clients through the ALB, which directly communicates with `service B`. `service A` can be also
 accessed by clients through the ALB, but in this case the traffic has to pass through the Istio ingress gateway. Mutual
 TLS authentication between the ALB and the gateway is based on the certificates provided by IKS.
-The clients can also access the Istio ingress gateway directly. IKS registers different DNS domains for the ALB and for the
-ingress gateway.
+The clients can also access the Istio ingress gateway directly. IKS registers different DNS domains for the ALB and for
+the ingress gateway.
 
 {{< image width="100%" link="./alb-ingress-gateway.svg" caption="A cluster with the ALB and the Istio ingress gateway" >}}
 
@@ -313,11 +316,14 @@ You use the certificates and the keys provided to you for the ingress gateway an
 
 ## Configure ALB
 
-You need to configure your Ingress resource to direct traffic to the Istio Ingress gateway while using the
-certificate stored in the `alb-certs` secret. Normally, the ALB decrypts HTTPS requests before forwarding traffic to your apps. We can configure the ALB to re-encrypt the traffic before it is forwarded to the Istio ingress gateway by using the `ssl-services` annotation on the Ingress resource. This annotation also allows us to specify the certificate stored in the `alb-certs` secret, required for mutual TLS.
+You need to configure your Ingress resource to direct traffic to the Istio Ingress gateway while using the certificate
+stored in the `alb-certs` secret. Normally, the ALB decrypts HTTPS requests before forwarding traffic to your apps.
+You can configure the ALB to re-encrypt the traffic before it is forwarded to the Istio ingress gateway by using the
+`ssl-services` annotation on the Ingress resource. This annotation also allows us to specify the certificate stored in
+the `alb-certs` secret, required for mutual TLS.
 
-1.  Configure the `Ingress` resource for the ALB. You must create the `Ingress` resource in the `istio-system` namespace in
-    order to forward the traffic to the Istio ingress gateway.
+1.  Configure the `Ingress` resource for the ALB. You must create the `Ingress` resource in the `istio-system` namespace
+    in order to forward the traffic to the Istio ingress gateway.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -360,12 +366,13 @@ certificate stored in the `alb-certs` secret. Normally, the ALB decrypts HTTPS r
         `"""`
     {{< /text >}}
 
-Congratulations! You configured the IKS Ingress ALB to securely send traffic to Istio ingress gateway. You allocated a host
-name and certificate for your Istio ingress gateway and used that certificate as the server certificate for Istio
+Congratulations! You configured the IKS Ingress ALB to securely send traffic to Istio ingress gateway. You allocated a
+host name and certificate for your Istio ingress gateway and used that certificate as the server certificate for Istio
 ingress gateway. As the client certificate of the ALB you used the certificate provided by IKS for the ALB. You used the
 [Let's Encrypt](https://letsencrypt.org) certificate as the root for both client and server certificates. Once you had
-the certificates deployed as Kubernetes secrets, you directed the ingress traffic from the ALB to Istio ingress gateway for
-some specific paths and used the certificates for mutual TLS authentication between the ALB and Istio ingress gateway.
+the certificates deployed as Kubernetes secrets, you directed the ingress traffic from the ALB to Istio ingress gateway
+for some specific paths and used the certificates for mutual TLS authentication between the ALB and Istio ingress
+gateway.
 
 ## Cleanup
 
