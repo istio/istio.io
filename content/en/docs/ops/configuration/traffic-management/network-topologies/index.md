@@ -12,10 +12,10 @@ This feature is actively in [development](https://github.com/istio/community/blo
 considered `pre-alpha`.
 {{</ idea >}}
 
-Istio provides the ability to manage settings like [X-Forwarded-For](https://tools.ietf.org/html/rfc7239)
-([XFF](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
+Istio provides the ability to manage settings like [X-Forwarded-For](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for) (XFF)
 and [X-Forwarded-Client-Cert](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
-(XFCC),  which are dependent on how the gateway workloads are deployed. This is currently an in-development feature.
+(XFCC), which are dependent on how the gateway workloads are deployed. This is currently an in-development feature. For more
+information on X-Forwarded-For see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
 
 You may choose to deploy Istio ingress gateways in using various network topologies
 (e.g. behind Cloud Load Balancers, a self-managed Load Balancer or directly expose the
