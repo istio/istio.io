@@ -24,7 +24,7 @@ Istio does not currently support skip-level upgrades. If you are still using Ist
 
 ## v1alpha1 security policy is not supported anymore
 
-Istio 1.6 no longer supports the [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/), the `v1alpha1` API will have no effect and will be ignored starting 1.6.
+Istio 1.6 no longer supports the [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/), these `v1alpha1` APIs will be ignored starting 1.6.
 
 Instead, Istio 1.6 has split the [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/) into the [`v1beta1` Request Authentication Policy](/docs/reference/config/security/request_authentication) and the [`v1beta1` Peer Authentication Policy](/docs/reference/config/security/peer_authentication). The [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/) has been replaced by the [`v1beta1` Authorization Policy](/docs/reference/config/security/authorization-policy/). Please migrate to these new resources before upgrading.
 
@@ -60,4 +60,3 @@ This includes a variety of different configurations:
 * The default `Gateway` object, and associated `Certificate` object, are no longer installed by default. See the [Ingress task](/docs/tasks/traffic-management/ingress/) for information on configuring a Gateway.
 * `Ingress` objects for telemetry addons are no longer created. See [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/) for more information on exposing these externally.
 * Removed the default `Sidecar` configuration. This should have no impact.
-
