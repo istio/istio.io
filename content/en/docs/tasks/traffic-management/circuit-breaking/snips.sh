@@ -48,11 +48,9 @@ kubectl get destinationrule httpbin -o yaml
 }
 
 ! read -r -d '' snip_configuring_the_circuit_breaker_2_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
-metadata:
-  name: httpbin
-  ...
+...
 spec:
   host: httpbin
   trafficPolicy:
@@ -63,9 +61,9 @@ spec:
       tcp:
         maxConnections: 1
     outlierDetection:
-      baseEjectionTime: 180.000s
+      baseEjectionTime: 3m
       consecutiveErrors: 1
-      interval: 1.000s
+      interval: 1s
       maxEjectionPercent: 100
 ENDSNIP
 
