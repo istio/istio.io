@@ -52,7 +52,7 @@ weight: 10
 
 ## istioctl
 
-- ***Improved*** the display characteristics of the istioctl command. Surprise awaits!
+- ***Added*** better display characteristics for the istioctl command.
 - ***Improved*** --set flag paths support key:value list selection.
 - ***Improved*** Kubernetes overlays patching mechanism now supports deletes and setting non-scalar values.
 
