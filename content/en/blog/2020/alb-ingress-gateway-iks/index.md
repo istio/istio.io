@@ -161,7 +161,7 @@ and to trust the certificates of one another.
     ...
     {{< /text >}}
 
-    Wait until the status of the certificate (the third field) in the line that matches the IP of the Istio ingress
+    Wait until the status of the certificate (the fourth field) in the line that matches the IP of the Istio ingress
     gateway service becomes `enabled` (initially it is `pending`).
 
 1.  Store the name of the secret that matches the IP of the Istio ingress gateway service:
