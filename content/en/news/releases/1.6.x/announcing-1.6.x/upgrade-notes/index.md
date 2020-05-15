@@ -52,7 +52,7 @@ $ kubectl delete crd servicerolebindings.rbac.istio.io
 
 # Istio configuration during installation
 
-Historically, Istio has deployed certain configuration objects as part of the installation. This has caused problems with upgrades, confusing user experience, and makes the installation less flexible. As a result, we have minimized the configurations we ship as part of the installation.
+Historically, Istio deployed certain configuration objects as part of the installation. This caused problems with upgrades, a confusing user experience, and makes the installation less flexible. As a result, we minimized the configurations we ship as part of the installation.
 
 This includes a variety of different configurations:
 
