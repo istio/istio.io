@@ -6,10 +6,10 @@ weight: 10
 
 ## User facing changes
 
-- ***Added*** experimental support for the [Kubernetes Service APIs](https://github.com/kubernetes-sigs/service-apis).
+- ***Added*** experimental support for the [Kubernetes Service APIs](https://github.com/kubernetes-sigs/service-apis/).
 - ***Added*** the new [Workload Entry](/docs/reference/config/networking/workload-entry/) resource. This will allow easier configuration for non-Kubernetes workloads to join the mesh.
 - ***Added*** configuration for gateway topology. This addresses sanitizing and providing useful [X-Forward-For headers](https://github.com/istio/istio/issues/7679).
-- ***Added*** experimental [mesh-wide tracing configuration API](/docs/tasks/observability/distributed-tracing/configurability/). This API provides control of trace sampling rates, the maximum tag lengths for URL tags, and custom tags extraction for all traces within the mesh.
+- ***Added*** experimental [mesh-wide tracing configuration API](/docs/tasks/observability/distributed-tracing/configurability/). This API provides control of trace sampling rates, the [maximum tag lengths](https://github.com/istio/istio/issues/14563) for URL tags, and [custom tags extraction](https://github.com/istio/istio/issues/13018) for all traces within the mesh.
 - ***Added*** experimental [request classification](/docs/tasks/observability/metrics/classify-metrics/) filter support. This feature enables operators to configure new attributes for use in telemetry, based on request information. A primary use case for this feature is labeling of traffic by API method.
 - TODO: add a statement around networking v1alpha3 API. Will it be removed in 1.6 or announce deprecation?
 
@@ -18,7 +18,7 @@ weight: 10
 - ***Improved*** support for [Kubernetes Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), adding support for reading certificates from Secrets, `pathType`, and `IngressClass`.
 - ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
 - ***Added*** support for using `appProtocol` to select the [protocol for a port](/docs/ops/configuration/traffic-management/protocol-selection/) for Kubernetes 1.18+.
-- ***Improved*** Prometheus integration experience by adding standard Prometheus scrape annotations to proxies and the control plane workloads. This removes the need for specialized configuration to discover and consume Istio metrics. More details are available in the [operations guide for Prometheus](/docs/ops/integrations/prometheus#option-2-metrics-merging).
+- ***Improved*** Prometheus integration experience by adding standard Prometheus scrape annotations to proxies and the control plane workloads. This removes the need for specialized configuration to discover and consume Istio metrics. More details are available in the [operations guide for Prometheus](/docs/ops/integrations/prometheus#option-2-metrics-merging/).
 - ***Updated*** default telemetry v2 configuration to avoid using host header to extract destination service name at gateway. This prevents unbound cardinality due to untrusted host header and implies that destination service labels are going to be omitted for request hits `blackhole` and `passthrough` at gateway.
 - ***Improved*** support for [customizing v2 metrics generation](/docs/tasks/observability/metrics/customize-metrics/). This allows mesh operators to add and remove labels used in Istio metrics based on expressions over the set of available request and response attributes.
 - ***Improved*** the output of the istioctl install command (e.g. more information is displayed to the user, use of color).
