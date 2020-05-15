@@ -233,7 +233,7 @@ You use the certificates and the keys provided to you for the ingress gateway an
 1.  Define a `Gateway` to allow access on port 443 only, with mutual TLS:
 
     {{< text bash >}}
-    $ kubectl apply -f - <<EOF
+    $ kubectl apply -n httptools -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
