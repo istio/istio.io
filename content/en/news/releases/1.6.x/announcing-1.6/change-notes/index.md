@@ -16,7 +16,6 @@ weight: 10
 - ***Changed*** the proxy readiness probe to port 15021.
 - ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
 - TODO: add a statement around file mounted gateway removed and impact to users.
-- TODO: add a statement around networking v1alpha3 API. Will it be removed in 1.6 or announce deprecation?
 
 ## Security
 
