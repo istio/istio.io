@@ -107,7 +107,7 @@ ingress gateway.
 IKS generates a TLS certificate and a private key and stores them as a secret in the default namespace when you register
 a DNS domain for an external IP by using the `ibmcloud ks nlb-dns-create` command. IKS stores the ALB's
 certificate and private key also as a secret in the default namespace. You need these credentials to establish the
-identities the ALB and the Istio ingress gateway will present one to another during mutual TLS authentication between
+identities that the ALB and the Istio ingress gateway will present during the mutual TLS authentication between
 them. You configure the ALB and the Istio ingress gateway to exchange these certificates signed by their private keys,
 and to trust the certificates of one another.
 
