@@ -53,6 +53,8 @@ Istio is designed for extensibility and meets diverse deployment needs. It does 
     caption="Istio Architecture"
     >}}
 
+Refer to [architecture](/docs/ops/deployment/architecture/) for more details.
+
 ## Core features
 
 Istio provides a number of key capabilities uniformly across a network of
