@@ -304,7 +304,7 @@ You use the certificates and the keys provided to you for the ingress gateway an
 You need to configure your Ingress resource to direct traffic to the Istio ingress gateway while using the certificate
 stored in the `alb-certs` secret. Normally, the ALB decrypts HTTPS requests before forwarding traffic to your apps.
 You can configure the ALB to re-encrypt the traffic before it is forwarded to the Istio ingress gateway by using the
-`ssl-services` annotation on the Ingress resource. This annotation also allows us to specify the certificate stored in
+`ssl-services` annotation on the Ingress resource. This annotation also allows you to specify the certificate stored in
 the `alb-certs` secret, required for mutual TLS.
 
 1.  Configure the `Ingress` resource for the ALB. You must create the `Ingress` resource in the `istio-system` namespace
