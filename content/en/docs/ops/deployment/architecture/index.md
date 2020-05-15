@@ -107,7 +107,7 @@ in the data plane.
 
 ## Application design
 
-To adopt Istio, the developer should do the minimum amount of work
+A design goal for Istio is that the developer can do minimum work
 to get real value from the system. Istio can automatically inject itself into
 the network paths between services and program the networking layer to
 securely route traffic and extract telemetry. If the application code
