@@ -61,7 +61,7 @@ when calling the `httpbin` service:
 
     {{< text bash yaml >}}
     $ kubectl get destinationrule httpbin -o yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1beta1
     kind: DestinationRule
     ...
     spec:
@@ -74,9 +74,9 @@ when calling the `httpbin` service:
           tcp:
             maxConnections: 1
         outlierDetection:
-          baseEjectionTime: 180.000s
+          baseEjectionTime: 3m
           consecutiveErrors: 1
-          interval: 1.000s
+          interval: 1s
           maxEjectionPercent: 100
     {{< /text >}}
 
