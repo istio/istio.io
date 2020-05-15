@@ -9,8 +9,7 @@ keywords:
 - vms
 ---
 
-Follow this guide to install an Istio control plane
-[multicluster deployment](/docs/ops/deployment/deployment-models/#multiple-clusters) and connect your first virtual machine.
+Follow this guide to deploy a [multicluster service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) spanning one more more clusters and then connect a virtual machine to it.
 
 {{< warning >}}
 This guide relies heavily on the
