@@ -674,8 +674,8 @@ availability and application performance by making sure that calls don’t fail
 permanently because of transient problems such as a temporarily overloaded
 service or network. The interval between retries (25ms+) is variable and
 determined automatically by Istio, preventing the called service from being
-overwhelmed with requests. By default, the Envoy proxy doesn’t attempt to
-reconnect to services after a first failure.
+overwhelmed with requests. The default retry behavior for HTTP requests is to
+retry a call twice before sending back the error.
 
 Like timeouts, Istio’s default retry behavior might not suit your application
 needs in terms of latency (too many retries to a failed service can slow things
