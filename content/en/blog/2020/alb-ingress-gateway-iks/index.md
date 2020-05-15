@@ -181,7 +181,8 @@ of one another, and to use their private keys to encrypt and sign the traffic.
     {{< /text >}}
 
 1.  Download the issuer certificate of the [Let's Encrypt](https://letsencrypt.org) certificate, which is the
-    issuer of the certificates provided by IKS.
+    issuer of the certificates provided by IKS. You specify this certificate as the certificate of a certificate
+    authority to trust, for both the ALB and the Istio ingress gateway.
 
     {{< text bash >}}
     $ curl https://letsencrypt.org/certs/trustid-x3-root.pem --output trustid-x3-root.pem
@@ -351,13 +352,12 @@ the `alb-certs` secret, required for mutual TLS.
         `"""`
     {{< /text >}}
 
-Congratulations! You configured the IKS Ingress ALB to securely send traffic to Istio ingress gateway. You allocated a
-host name and certificate for your Istio ingress gateway and used that certificate as the server certificate for Istio
-ingress gateway. As the client certificate of the ALB you used the certificate provided by IKS for the ALB. You used the
-[Let's Encrypt](https://letsencrypt.org) certificate as the root for both client and server certificates. Once you had
-the certificates deployed as Kubernetes secrets, you directed the ingress traffic from the ALB to Istio ingress gateway
-for some specific paths and used the certificates for mutual TLS authentication between the ALB and Istio ingress
-gateway.
+Congratulations! You configured the IKS Ingress ALB to send encrypted traffic to the Istio ingress gateway. You
+allocated a host name and certificate for your Istio ingress gateway and used that certificate as the server certificate
+for Istio ingress gateway. As the client certificate of the ALB you used the certificate provided by IKS for the ALB.
+Once you had the certificates deployed as Kubernetes secrets, you directed the ingress traffic from the ALB to the Istio
+ingress gateway for some specific paths and used the certificates for mutual TLS authentication between the ALB and the
+Istio ingress gateway.
 
 ## Cleanup
 
