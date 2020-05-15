@@ -1,7 +1,7 @@
 ---
 title: Installing Istio for virtual machine connectivity
 description: Install an Istio mesh such that a virtual machine can connect to it and configure the virtual machine.
-weight: 3
+weight: 40
 keywords:
 - kubernetes
 - virtual-machine
@@ -19,6 +19,11 @@ does not offer an industry standard recommendation for certificate management. P
 information security team when using any plugin certificate.  The determination of your company
 policies for certificate management is the choice of your company.
 {{< /warning >}}
+
+{{< tip >}}
+This workflow is tested and validated. The Istio authors feel this workflow is suitable for experimentation
+but not production. Like all alpha features, this workflow is subject to change.
+{{< /tip >}}
 
 ## Prerequisites
 
