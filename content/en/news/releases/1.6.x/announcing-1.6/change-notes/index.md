@@ -45,7 +45,7 @@ weight: 10
 - ***Removed*** the legacy `istio-pilot` configurations, such as Service.
 - ***Removed*** ports 15029-15032 from the default `ingressgateway`. It is recommended to expose telemetry addons by [host routing](/docs/tasks/observability/gateways/) instead.
 - ***Removed*** built in Istio configurations from the installation, including the Gateway, `VirtualServices`, and mTLS settings.
-- ***Added*** a new preview profile, allowing users to try out new experimental features that include WASM enabled telemetry v2.
+- ***Added*** a new profile, called `preview`, allowing users to try out new experimental features that include WASM enabled telemetry v2.
 - ***Added*** `istioctl install` command as a replacement for `istioctl manifest apply`.
 
 ## Operator
