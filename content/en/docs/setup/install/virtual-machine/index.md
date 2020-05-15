@@ -21,8 +21,8 @@ policies for certificate management is the choice of your company.
 {{< /warning >}}
 
 {{< tip >}}
-This workflow is tested and validated. The Istio authors feel this workflow is suitable for experimentation
-but not production. Like all alpha features, this workflow is subject to change.
+This guide is tested and validated. The Istio authors feel this guide is suitable for experimentation
+but not production. Like all alpha features, this guide is subject to change.
 {{< /tip >}}
 
 ## Prerequisites
@@ -53,7 +53,7 @@ but not production. Like all alpha features, this workflow is subject to change.
     $ mkdir -p "${HOME}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"
     {{< /text >}}
 
-1. Execute the following commands on each cluster in the mesh where a virtual
+1. Execute the following commands on the cluster in the mesh where a virtual
     machine connection should be established. See
     [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/)
     for more details on configuring an external CA.  The `NAME` variable is
@@ -106,9 +106,11 @@ but not production. Like all alpha features, this workflow is subject to change.
 1. Install Istio with virtual machine integration features enabled:
 
     {{< text bash >}}
-    $ cat <<EOF> vmintegration.yaml
+    $ cat <<EOF> "${HOME}"/vmintegration.yaml
     apiVersion: install.istio.io/v1alpha1
-
+    metadata:
+      namespace: istio-system
+      name: example-istiocontrolplane
     kind: IstioOperator
     spec:
       values:
@@ -116,7 +118,7 @@ but not production. Like all alpha features, this workflow is subject to change.
           meshExpansion:
             enabled: true
     EOF
-    $ istioctl install -f vmintegration.yaml
+    $ istioctl install -f "${HOME}"/vmintegration.yaml
     {{< /text >}}
 
 ### Installing the virtual machine
@@ -170,3 +172,18 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< text bash >}}
     $ sudo systemctl start istio
     {{< /text >}}
+
+## Uninstall
+
+To uninstall Istio, run the following command:
+
+{{< text bash >}}
+$ istioctl manifest generate -f "${HOME}"/vmintegration.yaml | kubectl delete -f -
+{{< /text >}}
+
+The control plane namespace (e.g., `istio-system`) is not removed by default.
+If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl delete namespace istio-system
+{{< /text >}}
