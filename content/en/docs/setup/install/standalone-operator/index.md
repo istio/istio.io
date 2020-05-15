@@ -83,32 +83,31 @@ You can confirm the Istio control plane services have been deployed with the fol
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system
-NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                                                                                                      AGE
-grafana                     ClusterIP      10.47.246.242   <none>         3000/TCP                                                                                                                     64m
-istio-egressgateway         ClusterIP      10.47.244.203   <none>         80/TCP,443/TCP,15443/TCP                                                                                                     64m
-istio-ingressgateway        LoadBalancer   10.47.247.221   34.69.50.226   15020:31649/TCP,80:30012/TCP,443:31723/TCP,15029:31857/TCP,15030:31621/TCP,15031:31290/TCP,15032:30334/TCP,15443:31754/TCP   64m
-istio-pilot                 ClusterIP      10.47.247.195   <none>         15010/TCP,15011/TCP,15012/TCP,8080/TCP,15014/TCP,443/TCP                                                                     64m
-istiod                      ClusterIP      10.47.247.6     <none>         15012/TCP,443/TCP                                                                                                            64m
-jaeger-agent                ClusterIP      None            <none>         5775/UDP,6831/UDP,6832/UDP                                                                                                   64m
-jaeger-collector            ClusterIP      10.47.244.102   <none>         14267/TCP,14268/TCP,14250/TCP                                                                                                64m
-jaeger-collector-headless   ClusterIP      None            <none>         14250/TCP                                                                                                                    64m
-jaeger-query                ClusterIP      10.47.253.168   <none>         16686/TCP                                                                                                                    64m
-kiali                       ClusterIP      10.47.246.119   <none>         20001/TCP                                                                                                                    64m
-prometheus                  ClusterIP      10.47.240.52    <none>         9090/TCP                                                                                                                     64m
-tracing                     ClusterIP      10.47.251.85    <none>         80/TCP                                                                                                                       64m
-zipkin                      ClusterIP      10.47.244.132   <none>         9411/TCP                                                                                                                     64m                                                                                                         2m
+NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                      AGE
+grafana                     ClusterIP      10.104.1.213     <none>        3000/TCP                                                                     13s
+istio-egressgateway         ClusterIP      10.103.243.113   <none>        80/TCP,443/TCP,15443/TCP                                                     17s
+istio-ingressgateway        LoadBalancer   10.101.204.227   <pending>     15020:31077/TCP,80:30689/TCP,443:32419/TCP,31400:31411/TCP,15443:30176/TCP   17s
+istiod                      ClusterIP      10.96.237.249    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s
+jaeger-agent                ClusterIP      None             <none>        5775/UDP,6831/UDP,6832/UDP                                                   13s
+jaeger-collector            ClusterIP      10.109.244.165   <none>        14267/TCP,14268/TCP,14250/TCP                                                13s
+jaeger-collector-headless   ClusterIP      None             <none>        14250/TCP                                                                    13s
+jaeger-query                ClusterIP      10.105.128.63    <none>        16686/TCP                                                                    13s
+kiali                       ClusterIP      10.102.172.30    <none>        20001/TCP                                                                    13s
+prometheus                  ClusterIP      10.102.190.194   <none>        9090/TCP                                                                     13s
+tracing                     ClusterIP      10.110.231.250   <none>        80/TCP                                                                       13s
+zipkin                      ClusterIP      10.96.63.117     <none>        9411/TCP                                                                     13s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
-grafana-78bc994d79-gwkfd                1/1     Running   0          63m
-istio-egressgateway-5fc6f84745-8f98z    1/1     Running   0          63m
-istio-ingressgateway-5b89fc6c98-vkwb5   1/1     Running   0          63m
-istio-tracing-c7b59f68f-dgqb8           1/1     Running   0          63m
-istiod-5448f74684-gmd5w                 1/1     Running   0          52m
-kiali-fb5f485fb-2l4r6                   1/1     Running   0          63m
-prometheus-7b8875c479-7zsnf             1/1     Running   0          63m
+NAME                                   READY   STATUS    RESTARTS   AGE
+grafana-54b54568fc-fk6p5               1/1     Running   0          82s
+istio-egressgateway-5444c68db8-9h6dz   1/1     Running   0          87s
+istio-ingressgateway-5c68cb968-x7qv9   1/1     Running   0          87s
+istio-tracing-9dd6c4f7c-hd9qq          1/1     Running   0          82s
+istiod-598984548d-wjq9j                1/1     Running   0          99s
+kiali-d45468dc4-4nqdv                  1/1     Running   0          82s
+prometheus-6cf46c47fb-tvvkv            2/2     Running   0          82s
 {{< /text >}}
 
 ## Update
