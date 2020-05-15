@@ -33,21 +33,31 @@ Istio gateway's IP with an IKS command. The domain is in the following
 `<cluster_name>-<globally_unique_account_HASH>-0001.<region>.containers.appdomain.cloud`, for example `mycluster-a1b2cdef345678g9hi012j3kl4567890-0001.us-south.containers.appdomain.cloud`. In the same way as for the ALB domain,
 IKS provides a certificate and a private key, storing them in another Kubernetes secret.
 
-This blog describes how you can configure the IKS Ingress ALB to direct traffic to the services inside an Istio service
-mesh through the Istio ingress gateway, while using mutual TLS authentication between the ALB and the gateway. For the
-mutual TLS authentication, you will configure the ALB and the Istio ingress gateway to use the certificates and keys
-provided by IKS for the ALB and NLB subdomains. Using certificates provided by IKS saves you the overhead of managing your own
-certificates for the connection between the ALB and the Istio ingress gateway.
+This blog describes how you can chain together the IKS Ingress ALB and the Istio ingress gateway to send traffic to your
+Istio enabled workloads while being able to continue using the ALB specific features and the ALB subdomain name. You
+configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh through the Istio ingress
+gateway, while using mutual TLS authentication between the ALB and the gateway. For the mutual TLS authentication, you
+will configure the ALB and the Istio ingress gateway to use the certificates and keys provided by IKS for the ALB and
+NLB subdomains. Using certificates provided by IKS saves you the overhead of managing your own certificates for the
+connection between the ALB and the Istio ingress gateway.
 
-You will use the NLB subdomain certificate as the server certificate for
-Istio ingress gateway as intended. The NLB subdomain certificate represents the identity of the server that serves a
-particular NLB subdomain, in this case, the Ingress gateway.
+You will use the NLB subdomain certificate as the server certificate for the Istio ingress gateway as intended.
+The NLB subdomain certificate represents the identity of the server that serves a particular NLB subdomain, in this
+case, the ingress gateway.
 
-You will use the ALB subdomain certificate as the client
-certificate in mutual TLS authentication between the ALB and the Istio Ingress. When ALB acts as a server it presents
-the ALB certificate to the clients so the clients can authenticate the ALB. When ALB acts as a client of the Istio
-Ingress gateway, it presents the same certificate as a client of the Istio Ingress gateway, so the Istio Ingress gateway
-could authenticate the ALB.
+You will use the ALB subdomain certificate as the client certificate in mutual TLS authentication between the ALB and
+the Istio Ingress. When ALB acts as a server it presents the ALB certificate to the clients so the clients can
+authenticate the ALB. When ALB acts as a client of the Istio ingress gateway, it presents the same certificate to the
+Istio ingress gateway, so the Istio ingress gateway could authenticate the ALB.
+
+{{< warning >}}
+Note that the instructions in this blog post only configure the ALB and the Istio ingress gateway to encrypt the traffic
+between them and to verify that they receive valid certificates issued by [Let's Encrypt](https://letsencrypt.org). In
+order to verify that only the ALB is allowed to talk to the Istio ingress gateway, an additional Istio security policy
+must be defined. In order to verify that the ALB indeed talks to the Istio ingress gateway, additional configuration
+must be added to the ALB. The additional configuration of the Istio ingress gateway and the ALB is out of scope for this
+blog.
+{{< /warning >}}
 
 Traffic to the services without an Istio sidecar can continue to flow as before directly from the ALB.
 
@@ -291,7 +301,7 @@ You use the certificates and the keys provided to you for the ingress gateway an
 
 ## Configure ALB
 
-You need to configure your Ingress resource to direct traffic to the Istio Ingress gateway while using the certificate
+You need to configure your Ingress resource to direct traffic to the Istio ingress gateway while using the certificate
 stored in the `alb-certs` secret. Normally, the ALB decrypts HTTPS requests before forwarding traffic to your apps.
 You can configure the ALB to re-encrypt the traffic before it is forwarded to the Istio ingress gateway by using the
 `ssl-services` annotation on the Ingress resource. This annotation also allows us to specify the certificate stored in
