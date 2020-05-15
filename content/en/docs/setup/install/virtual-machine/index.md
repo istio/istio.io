@@ -14,10 +14,10 @@ Follow this guide to install an Istio control plane
 
 {{< warning >}}
 This guide relies heavily on the
-[stable plugin ca certificate](/docs/tasks/security/plugin-ca-cert/) feature. Istio does
-not offer an industry standard recommendation for certificate management. Please consult
-your information security team when using any plugin certificate.  The determination of
-your company policies for certificate management is the choice of your company.
+[stable plugin ca certificate](/docs/tasks/security/cert-management/plugin-ca-cert/) feature. Istio
+does not offer an industry standard recommendation for certificate management. Please consult your
+information security team when using any plugin certificate.  The determination of your company
+policies for certificate management is the choice of your company.
 {{< /warning >}}
 
 ## Prerequisites
