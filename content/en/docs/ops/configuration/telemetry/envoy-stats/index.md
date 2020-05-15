@@ -27,8 +27,6 @@ keys are:
 
 - `cluster_manager`
 - `listener_manager`
-- `http_mixer_filter`
-- `tcp_mixer_filter`
 - `server`
 - `cluster.xds-grpc`
 
