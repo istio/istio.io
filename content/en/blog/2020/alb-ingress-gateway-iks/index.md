@@ -300,7 +300,7 @@ You use the certificates and the keys provided to you for the ingress gateway an
     $ rm -r ingress_gateway_certs alb_certs trustid-x3-root.pem trusted.crt
     {{< /text >}}
 
-## Configure ALB
+## Configure the ALB
 
 You need to configure your Ingress resource to direct traffic to the Istio ingress gateway while using the certificate
 stored in the `alb-certs` secret. Normally, the ALB decrypts HTTPS requests before forwarding traffic to your apps.
