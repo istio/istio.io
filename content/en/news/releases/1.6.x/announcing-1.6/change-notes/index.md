@@ -37,7 +37,7 @@ weight: 10
 
 - ***Added*** support for Istio in-place upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
 - ***Removed*** the legacy Helm charts.
-- ***Added*** Allow users to add a custom hostname for istiod.
+- ***Added*** the ability for users to add a custom hostname for istiod.
 - ***Changed*** Gateway ports used (15020) and [resolution](https://github.com/istio/istio/pull/23432#issuecomment-622208734) for end users.
 - ***Added*** functionality to save installation state in a `CustomResource` in the cluster.
 - ***Improved*** installation to not manage the installation namespace, allowing more flexibility.
