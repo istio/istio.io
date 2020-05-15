@@ -54,7 +54,7 @@ $ kubectl delete crd servicerolebindings.rbac.istio.io
 
 Historically, Istio deployed certain configuration objects as part of the installation. This caused problems with upgrades, a confusing user experience, and makes the installation less flexible. As a result, we minimized the configurations we ship as part of the installation.
 
-This includes a variety of different configurations:
+This includes a variety of configurations:
 
 * The `global.mtls.enabled` previously enabled strict mTLS. This should instead be done by directly configuring a `PeerAuthentication` policy for [strict mTLS](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
 * The default `Gateway` object, and associated `Certificate` object, are no longer installed by default. See the [Ingress task](/docs/tasks/traffic-management/ingress/) for information on configuring a Gateway.
