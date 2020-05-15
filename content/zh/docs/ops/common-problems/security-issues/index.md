@@ -496,9 +496,7 @@ Certificate:
 
 ## Citadel 行为异常 {#repairing-citadel}
 
-{{< warning >}}
-Citadel 不支持多个实例运行，否则会造成竞争状态并导致系统崩溃。
-{{< /warning >}}
+
 
 {{< warning >}}
 在 Citadel 维护禁用期间，带有新 ServiceAccount 的负载不能够启动，因为它不能从 Citadel 获取生成的证书。
