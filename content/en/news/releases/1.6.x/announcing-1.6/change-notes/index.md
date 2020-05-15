@@ -30,8 +30,8 @@ weight: 10
 - ***Removed*** the legacy Helm charts.
 - ***Improved*** Please see the [Upgrade guide](/docs/setup/upgrade/) for migration. In-place upgrades are now possible in Istio.
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
-- ***Changed*** the proxy readiness probe to port 15021
-- ***Removed*** Security alpha API
+- ***Changed*** the proxy readiness probe to port 15021.
+- ***Removed*** Security alpha API.
 - ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
 - ***Removed*** ports 15029-15032 from the default `ingressgateway`. It is recommended to expose telemetry addons by [Host routing](/docs/tasks/observability/gateways/) instead.
 - ***Improved*** installation to not manage the installation namespace, allowing more flexibility.
@@ -39,8 +39,8 @@ weight: 10
 - ***Removed*** built in Istio configurations from the installation, including the Gateway, `VirtualServices`, and mTLS settings.
 - ***Added*** a new preview profile, allowing users to try out new experimental features.
 - ***Added*** functionality to save installation state in a `CustomResource` in the cluster.
-- ***Changed*** Gateway ports used (15020) and [resolution](https://github.com/istio/istio/pull/23432#issuecomment-622208734) for end users
-- ***Added*** Allow users to add a custom hostname for istiod
+- ***Changed*** Gateway ports used (15020) and [resolution](https://github.com/istio/istio/pull/23432#issuecomment-622208734) for end users.
+- ***Added*** Allow users to add a custom hostname for istiod.
 
 ## Bug Fixes & miscellaneous changes
 
