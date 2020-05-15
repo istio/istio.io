@@ -12,7 +12,7 @@ the use and operation of Istio 1.5.
 
 ## Removal of legacy Helm charts
 
-In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/), utilizing the in-cluster Operator or `istioctl install` command. As part of this effort, we deprecated the old Helm charts. Over time, many of the new features added to Istio have been implemented only in these new installation methods. As a result, we have decided to remove the old installation Helm charts in Istio 1.6.
+In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/), using the in-cluster Operator or `istioctl install` command. As part of this effort, we deprecated the old Helm charts. Over time, we implemented many of the new Istio features only in these new installation methods. As a result, we have decided to remove the old installation Helm charts in Istio 1.6.
 
 Because there have been a number of changes introduced in Istio 1.5 that were not present in the legacy installation method, such as Istiod and Telemetry V2, we recommend reviewing the [Istio 1.5 Upgrade Notes](/news/releases/1.5.x/announcing-1.5/upgrade-notes/#control-plane-restructuring) before continuing.
 
