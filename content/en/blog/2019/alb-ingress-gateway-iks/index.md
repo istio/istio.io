@@ -43,7 +43,7 @@ Traffic to the services without an Istio sidecar can continue to flow as before 
 
 The diagram below exemplifies the described setting. It shows two services in the cluster, `service A` and `service B`.
 `service A` has an Istio sidecar injected and requires mutual TLS. `service B` has no Istio sidecar. `service B` can
-be accessed by clients through the ALB, while ALB directly communicates with `service B`. `service A` can be also
+be accessed by clients through the ALB, which directly communicates with `service B`. `service A` can be also
 accessed by clients through ALB, but in this case the traffic has to pass through the Istio ingress gateway. Mutual
 TLS authentication between ALB and the gateway is based on the certificates provided by IKS.
 The clients can also access the Istio ingress gateway directly. IKS registers different DNS domains for ALB and for the
