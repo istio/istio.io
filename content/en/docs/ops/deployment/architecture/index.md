@@ -105,44 +105,12 @@ to control who can access your services.
 Istiod maintains a CA and generates certificates to allow secure mTLS communication
 in the data plane.
 
-## Design goals
+## Application design
 
-A few key design goals informed Istio’s architecture. These goals are essential
-to making the system capable of dealing with services at scale and with high
-performance.
+To adopt Istio, the developer should do the minimum amount of work 
+to get real value from the system. Istio can automatically inject itself into
+the network paths between services and program the networking layer to
+securely route traffic and extract telemetry. If the application code 
+uses TLS and uses its own policy and telemetry, Istio can only get minimal
+information from the encrypted communication between workloads.
 
-* **Maximize Transparency**: To adopt Istio, an operator or developer is
-  required to do the minimum amount of work possible to get real value from the
-  system. To this end, Istio can automatically inject itself into all the
-  network paths between services. Istio uses sidecar proxies to capture traffic
-  and, where possible, automatically program the networking layer to route
-  traffic through those proxies without any changes to the deployed application
-  code. In Kubernetes, the proxies are injected into {{<gloss pod>}}pods{{</gloss>}} and traffic is
-  captured by programming ``iptables`` rules. Once the sidecar proxies are
-  injected and traffic routing is programmed, Istio can mediate all traffic.
-
-* **Extensibility**: As operators and developers become more dependent on the
-  functionality that Istio provides, the system must grow with their needs.
-  While we continue to add new features, the greatest need is the ability to
-  extend the policy system, to integrate with other sources of policy and
-  control, and to propagate signals about mesh behavior to other systems for
-  analysis. The policy runtime supports a standard extension mechanism for
-  plugging in other services. In addition, it allows for the extension of its
-  vocabulary to allow policies to be enforced based on new signals that the
-  mesh produces.
-
-* **Portability**: The ecosystem in which Istio is used varies along many
-  dimensions. Istio must run on any cloud or on-premises environment with
-  minimal effort. Using Istio, you are able to operate a single service
-  deployed into multiple environments. For example, you can deploy on multiple
-  clouds for redundancy.
-
-* **Policy Uniformity**: The application of policy to API calls between
-  services provides a great deal of control over mesh behavior. However, it can
-  be equally important to apply policies to resources which are not necessarily
-  expressed at the API level. For example, applying a quota to the amount of
-  CPU consumed by an ML training task is more useful than applying a quota to
-  the call which initiated the work. To this end, Istio maintains the policy
-  system as a distinct service with its own API rather than the policy system
-  being baked into the proxy sidecar, allowing services to directly integrate
-  with it as needed.
