@@ -55,7 +55,7 @@ weight: 10
 
 - ***Improved*** the display characteristics of the istioctl command. Surprise awaits!
 - ***Improved*** --set flag paths support key:value list selection.
-- ***Improved*** k8s.overlays patching mechanism now supports deletes and setting non-scalar values.
+- ***Improved*** Kubernetes overlays patching mechanism now supports deletes and setting non-scalar values.
 ## Miscellaneous changes
 
 - ***Improved*** the quality of the website content and structure
