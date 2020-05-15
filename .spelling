@@ -701,6 +701,7 @@ wildcard
 wildcarded
 wildcards
 workgroup
+WorkloadEntry
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509
