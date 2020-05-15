@@ -34,7 +34,8 @@ IP with an IKS command. The domain is in the following [format](https://cloud.ib
 storing them in another Kubernetes secret.
 
 This blog describes how you can configure the IKS Ingress ALB to direct traffic to the services inside an Istio service mesh
-through the Istio ingress gateway, while using mutual TLS authentication between ALB and the gateway. For the mutual TLS authentication, you configure ALB and the Istio ingress gateway to use the certificates and the keys provided by IKS.
+through the Istio ingress gateway, while using mutual TLS authentication between ALB and the gateway. For the mutual TLS authentication, you will configure the ALB and the Istio ingress gateway to re-use the certificates and keys provided by IKS for the ALB and NLB subdomains. You will use the NLB subdomain certificate as the server certificate for Istio ingress gateway in the `Gateway` resource and use the ALB subdomain certificate as the client certificate of the ALB in the `Ingress` resource. You then use a
+[Let's Encrypt](https://letsencrypt.org) certificate as the root for both client and server certificates.
 Using certificates provided by IKS saves you the overhead of managing your own certificates for the connection between ALB and
 the Istio ingress gateway.
 
