@@ -40,7 +40,7 @@ weight: 10
 - ***Added*** the ability for users to add a custom hostname for istiod.
 - ***Changed*** Gateway ports used (15020) and [resolution](https://github.com/istio/istio/pull/23432#issuecomment-622208734) for end users.
 - ***Added*** functionality to save installation state in a `CustomResource` in the cluster.
-- ***Improved*** installation to not manage the installation namespace, allowing more flexibility.
+- ***Changed*** the Istio installation to no longer manage the installation namespace, allowing more flexibility.
 - ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
 - ***Removed*** the legacy `istio-pilot` configurations, such as Service.
 - ***Removed*** ports 15029-15032 from the default `ingressgateway`. It is recommended to expose telemetry addons by [host routing](/docs/tasks/observability/gateways/) instead.
