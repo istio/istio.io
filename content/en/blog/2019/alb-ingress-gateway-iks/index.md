@@ -374,7 +374,7 @@ some specific paths and used the certificates for mutual TLS authentication betw
     {{< text bash >}}
     $ kubectl delete ingress alb-ingress -n istio-system
     $ kubectl delete virtualservice default-ingress -n httptools
-    $ kubectl delete gateway default-ingress-gateway
+    $ kubectl delete gateway default-ingress-gateway -n httptools
     $ kubectl delete policy default -n httptools --ignore-not-found=true
     $ kubectl delete destinationrule default -n httptools
     $ kubectl delete secrets istio-ingressgateway-certs istio-ingressgateway-ca-certs alb-certs -n istio-system
