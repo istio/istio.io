@@ -1,5 +1,5 @@
 ---
-title: Securely direct traffic from IBM Cloud Kubernetes Service Ingress to Istio Ingress Gateway
+title: Direct encrypted traffic from IBM Cloud Kubernetes Service Ingress to Istio Ingress Gateway
 description: Configure the IBM Cloud Kubernetes Service Application Load Balancer to direct traffic to the Istio Ingress gateway with mutual TLS.
 subtitle: Configure the IBM Cloud Kubernetes Service Application Load Balancer to direct traffic to the Istio Ingress gateway with mutual TLS
 publishdate: 2020-05-15
