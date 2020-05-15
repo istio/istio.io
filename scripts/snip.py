@@ -53,7 +53,7 @@ HEADER = """#!/bin/bash
 
 startsnip = re.compile(r"^(\s*){{< text (syntax=)?\"?(\w+)\"? .*>}}$")
 snippetid = re.compile(r"snip_id=(\w+)")
-githubfile = re.compile(r"^([^@]*)@([\w\.\-_/]+)@([^@]*)$")
+githubfile = re.compile(r"^([^@]*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@([^@]*)$")
 sectionhead = re.compile(r"^##+ (.*)$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
