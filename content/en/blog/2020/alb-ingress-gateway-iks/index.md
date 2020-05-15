@@ -53,7 +53,7 @@ Istio ingress gateway, so the Istio ingress gateway could authenticate the ALB.
 {{< warning >}}
 Note that the instructions in this blog post only configure the ALB and the Istio ingress gateway to encrypt the traffic
 between them and to verify that they receive valid certificates issued by [Let's Encrypt](https://letsencrypt.org). In
-order to verify that only the ALB is allowed to talk to the Istio ingress gateway, an additional Istio security policy
+order to specify that only the ALB is allowed to talk to the Istio ingress gateway, an additional Istio security policy
 must be defined. In order to verify that the ALB indeed talks to the Istio ingress gateway, additional configuration
 must be added to the ALB. The additional configuration of the Istio ingress gateway and the ALB is out of scope for this
 blog.
