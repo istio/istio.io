@@ -15,7 +15,7 @@ weight: 10
 - ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
 - ***Removed*** most configuration flags and environment variables for the proxy. These now read directly from the mesh configuration.
 - ***Changed*** the proxy readiness probe to port 15021.
-- ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
+- ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458), which blocked external HTTPS/TCP traffic in some cases.
 
 ## Security
 
