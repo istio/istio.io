@@ -15,7 +15,7 @@ weight: 10
 - ***Removed*** most configuration flags and environment variables for the proxy. These are now read directly from the mesh configuration.
 - ***Changed*** the proxy readiness probe to port 15021.
 - ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
-- TODO: add a statement around file mounted gateway removed and impact to users.
+- Secure gateway SDS is enabled by default and file mounted gateway continues to be available to help users to transition to secure gateway SDS.
 
 ## Security
 
