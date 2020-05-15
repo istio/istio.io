@@ -39,7 +39,7 @@ through the Istio ingress gateway, while using mutual TLS authentication between
 Using certificates provided by IKS saves you the overhead of managing your own certificates for the connection between ALB and
 the Istio ingress gateway.
 
-The traffic to the services without Istio sidecar can continue to flow as before, directly from ALB.
+Traffic to the services without an Istio sidecar can continue to flow as before directly from the ALB.
 
 The diagram below exemplifies the described setting. It shows two services in the cluster, `service A` and `service B`.
 `service A` has Istio sidecar injected and it requires mutual TLS. `service B` has no Istio sidecar. `service B` can
