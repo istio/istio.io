@@ -10,6 +10,10 @@ compatibility. We also mention cases where backwards compatibility was preserved
 but new behavior was introduced that would be surprising to someone familiar with
 the use and operation of Istio 1.5.
 
+{{< tip >}}
+Istio does not currently support skip-level upgrades. For example, if you are still using Istio 1.4, we recommend first upgrading to Istio 1.5. However, if you choose to upgrade from previous version, you must first disable Galley configuration validation. This can be done by adding `--enable-validation=false` to the Galley deployment and removing the `istio-galley` `ValidatingWebhookConfiguration`
+{{< /tip >}}
+
 ## Removal of legacy Helm charts
 
 In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/), using the in-cluster Operator or `istioctl install` command. As part of this effort, we deprecated the old Helm charts. Over time, we implemented many of the new Istio features only in these new installation methods. As a result, we have decided to remove the old installation Helm charts in Istio 1.6.
@@ -17,10 +21,6 @@ In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-i
 We recommend reviewing the [Istio 1.5 Upgrade Notes](/news/releases/1.5.x/announcing-1.5/upgrade-notes/#control-plane-restructuring) before continuing, because we introduced several changes in Istio 1.5 that were not present in the legacy installation method, such as Istiod and Telemetry V2.
 
 You can now safely upgrade from the legacy Helm charts using a [Control Plane Revision](/blog/2020/multiple-control-planes/). In place upgrade is not supported and may result in downtime, so please follow the [Canary Upgrade](/docs/setup/upgrade/#canary-upgrades) steps.
-
-{{< tip >}}
-Istio does not currently support skip-level upgrades. For example, if you are still using Istio 1.4, we recommend first upgrading to Istio 1.5. However, if you choose to upgrade from previous version, you must first disable Galley configuration validation. This can be done by adding `--enable-validation=false` to the Galley deployment and removing the `istio-galley` `ValidatingWebhookConfiguration`
-{{< /tip >}}
 
 ## v1alpha1 security policy is not supported anymore
 
@@ -50,7 +50,7 @@ $ kubectl delete crd serviceroles.rbac.istio.io
 $ kubectl delete crd servicerolebindings.rbac.istio.io
 {{< /text >}}
 
-# Istio configuration during installation
+## Istio configuration during installation
 
 Historically, Istio deployed certain configuration objects as part of the installation. This caused problems with upgrades, a confusing user experience, and makes the installation less flexible. As a result, we minimized the configurations we ship as part of the installation.
 
@@ -60,3 +60,19 @@ This includes a variety of configurations:
 * The default `Gateway` object, and associated `Certificate` object, are no longer installed by default. See the [Ingress task](/docs/tasks/traffic-management/ingress/) for information on configuring a Gateway.
 * `Ingress` objects for telemetry addons are no longer created. See [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/) for more information on exposing these externally.
 * The default `Sidecar` configuration was previously defined with an automatically created `Sidecar` resource. This has been changed to an internal implementation detail and should have no visible impact.
+
+## Communicating with Istiod using External Workloads
+
+This release makes the Istiod host cluster-local by default. This means that the Istio control plane is not accessible to workloads that reside outside the cluster. It is now recommended that external workloads access Istiod via the ingress gateway. This change was needed in order to support multicluster master/remote configurations. Future releases will remove this limitation.
+
+Users may override this behavior in MeshConfig:
+
+{{< text yaml >}}
+values:
+  meshConfig:
+    serviceSettings: 
+      - settings:
+          clusterLocal: false
+        hosts:
+          - "istiod.istio-system.svc.cluster.local"
+{{< /text >}}
