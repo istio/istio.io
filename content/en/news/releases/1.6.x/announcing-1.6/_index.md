@@ -50,16 +50,17 @@ themselves).
 Check out the [documentation](/docs/setup/upgrade/) for all of the details on
 the new upgrade experience.
 
-## Observe this!
+## Observe this
 
 Many companies adopt Istio solely to get better observability of distributed
 applications, so we continue to invest there. You'll have to read the release
 notes to see all of the features, but you'll see more configurability, better
 ability to control your trace sampling rates, and updated Grafana dashboards
-(and we're even publishihg them on 'grafana.com' on the [Istio org page]
-(https://grafana.com/orgs/istio)).
+(and we're even publishing them on [Grafana](https://grafana.com) on the
+[Istio org page](https://grafana.com/orgs/istio)).
 
 ## Other improvements
+
 There are great traffic management features (like supporting the experimental
 Kubernetes Service APIs, better support for Ingress, and better header
 handling).
@@ -67,7 +68,7 @@ handling).
 For those of you who are adding non-Kubernetes workloads to meshes (for
 example, workloads deployed on VMs), the new
 [WorkloadEntry](/docs/reference/config/networking/workload-entry/) resource
-makes that easier than ever. VM-based workoads was another theme we called out
+makes that easier than ever. VM-based workloads was another theme we called out
 in our roadmap post, and you can expect to see more in this area over the
 coming releases.
 
