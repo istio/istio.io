@@ -73,38 +73,6 @@ the ingress gateway.
     deployment.apps/httpbin created
     {{< /text >}}
 
-1.  Enforce mutual TLS for the traffic to the services in
-    `httptools`:
-
-    {{< text bash >}}
-    $ kubectl apply -n httptools -f - <<EOF
-    apiVersion: authentication.istio.io/v1alpha1
-    kind: Policy
-    metadata:
-      name: default
-    spec:
-      peers:
-      - mtls: {}
-    EOF
-    {{< /text >}}
-
-1.  Add a destination rule to instruct the sidecars to perform mutual TLS authentication when
-    calling the services inside `httptools`:
-
-    {{< text bash >}}
-    $ kubectl apply -n httptools -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: default
-    spec:
-      host: "*.httptools.svc.cluster.local"
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-    EOF
-    {{< /text >}}
-
 ## Create secrets for the ALB and the Istio ingress gateway
 
 IKS generates a TLS certificate and a private key and stores them as a secret in the default namespace when you register
