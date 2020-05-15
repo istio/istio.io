@@ -15,26 +15,20 @@ to demonstrate a workable approach to multicluster telemetry with Prometheus.
 
 Our recommendation for multicluster monitoring of Istio with Prometheus is built upon the foundation of Prometheus
 [hierarchical federation](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation).
-Prometheus instances that are deployed locally to each cluster by Istio act as initial collectors that then federate up to a production
-mesh-wide Prometheus instance. That mesh-wide Prometheus can either live outside of the mesh (external), or in one
+Prometheus instances that are deployed locally to each cluster by Istio act as initial collectors that then federate up 
+to a production mesh-wide Prometheus instance. That mesh-wide Prometheus can either live outside of the mesh (external), or in one
 of the clusters within the mesh.
 
 ## Multicluster Istio setup
 
 Follow the [multicluster installation](/docs/setup/install/multicluster/) section to setup your Istio clusters in one of the
-supported [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters). For the purposes of
+supported [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters). For the purpose of
 this guide, any of those approaches will work, with the following caveat:
 
 **Ensure that a cluster-local Istio Prometheus instance is installed in each cluster.**
 
-Individual Istio deployments of Prometheus in each cluster are required to form the basis of cross-cluster monitoring by
+Individual Istio deployment of Prometheus in each cluster is required to form the basis of cross-cluster monitoring by
 way of federation to a production-ready instance of Prometheus that runs externally or in one of the clusters.
-
-For multicluster deployments that use the `remote` profile, you must add the following to the `istioctl manifest` command:
-
-{{< text plain >}}
---set addonComponents.prometheus.enabled=true
-{{< /text >}}
 
 Validate that you have an instance of Prometheus running in each cluster:
 
@@ -73,7 +67,7 @@ For each cluster, follow the appropriate instructions from the [Remotely Accessi
 Also note that you **SHOULD** establish secure (HTTPS) access.
 
 Next, configure your external Prometheus instance to access the cluster-local Prometheus instances using a configuration
-like the following (replacing the gateway address and cluster name):
+like the following (replacing the ingress domain and cluster name):
 
 {{< text yaml >}}
 scrape_configs:
@@ -90,9 +84,9 @@ scrape_configs:
 
     static_configs:
       - targets:
-        - '{{GATEWAY_IP_ADDR}}:15030'
+        - 'prometheus.{{INGRESS_DOMAIN}}'
         labels:
-          cluster: {{CLUSTER_NAME}}
+          cluster: '{{CLUSTER_NAME}}'
 {{< /text >}}
 
 Notes:
@@ -110,8 +104,8 @@ desirable.
 If you prefer to run the production Prometheus in one of the clusters, you need to establish connectivity from it to
 the other cluster-local Prometheus instances in the mesh.
 
-This is really just a customization of the process for external federation, which you can achieve by configuring the `Gateway`,
-`VirtualService`, and `DestinationRule` in each remote cluster.
+This is really just a variation of the configuration for external federation. In this case the configuration on the
+cluster running the production Prometheus is different from the configuration for remote cluster Prometheus scraping.
 
 {{< image width="80%"
     link="./in-mesh-production-prometheus.svg"
@@ -119,17 +113,25 @@ This is really just a customization of the process for external federation, whic
     caption="In-mesh Production Prometheus for monitoring multicluster Istio"
     >}}
 
-Configure your production Prometheus to access the *local* and *remote* Prometheus instances by adding a configuration for
-the *remote* clusters as shown (replacing the service name and cluster name for each cluster):
+Configure your production Prometheus to access both of the *local* and *remote* Prometheus instances.   
+
+First execute the following command:
+
+{{< text bash >}}
+$ kubectl -n istio-system edit cm prometheus -o yaml
+{{< /text >}}
+
+Then add configurations for the *remote* clusters (replacing the ingress domain and cluster name for each cluster) and
+add one configuration for the *local* cluster:
 
 {{< text yaml >}}
 scrape_configs:
-  - job_name: 'federate-{{CLUSTER_NAME}}'
+  - job_name: 'federate-{{REMOTE_CLUSTER_NAME}}'
     scrape_interval: 15s
-
+    
     honor_labels: true
     metrics_path: '/federate'
-
+    
     params:
       'match[]':
         - '{job="pilot"}'
@@ -137,26 +139,25 @@ scrape_configs:
 
     static_configs:
       - targets:
-        - '{{GATEWAY_IP_ADDR}}:15030'
+        - 'prometheus.{{REMOTE_INGRESS_DOMAIN}}'
         labels:
-          cluster: {{CLUSTER_NAME}}
-{{< /text >}}
-
-Then add a configuration like the following for the *local* cluster:
-
-{{< text yaml >}}
-- job_name: 'federate-local'
-  honor_labels: true
-  metrics_path: '/federate'
-  metrics_relabel_configs:
-  - replacement: {{CLUSTER_NAME}}
-    targetLabel: cluster
-  kubernetes_sd_configs:
-  - role: pod
-    namespaces:
-      names: ['istio-system']
-  params:
-    'match[]':
-    - '{__name__=~"istio_(.*)"}'
-    - '{__name__=~"pilot(.*)"}'
+          cluster: '{{REMOTE_CLUSTER_NAME}}'
+          
+  - job_name: 'federate-local'
+    
+    honor_labels: true
+    metrics_path: '/federate'
+    
+    metrics_relabel_configs:
+    - replacement: '{{CLUSTER_NAME}}'
+      targetLabel: cluster
+    
+    kubernetes_sd_configs:
+    - role: pod
+      namespaces:
+        names: ['istio-system']
+    params:
+      'match[]':
+      - '{__name__=~"istio_(.*)"}'
+      - '{__name__=~"pilot(.*)"}'
 {{< /text >}}
