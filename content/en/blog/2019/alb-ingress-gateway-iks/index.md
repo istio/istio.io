@@ -259,7 +259,7 @@ You use the certificates and the keys provided to you for the ingress gateway an
 1. Configure routes for traffic entering via the `Gateway`:
 
     {{< text bash >}}
-    $ kubectl apply -f - <<EOF
+    $ kubectl apply -n httptools -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
