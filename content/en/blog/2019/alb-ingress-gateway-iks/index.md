@@ -15,7 +15,7 @@ When you use IKS without Istio, you may control your ingress traffic using the p
 ALB. This ingress-traffic routing is configured using a Kubernetes
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resource with
 [ALB-specific annotations](https://cloud.ibm.com/docs/containers?topic=containers-ingress_annotation). IKS provides a
-DNS domain name for each cluster. The domain name is in the following format: `<cluster_name>.<region>.containers.appdomain.cloud`, for example
+DNS domain name,
 `mycluster.us-south.containers.appdomain.cloud`. In addition to registering a DNS domain, IKS provides a TLS certificate
 that matches the domain, and a private key for the certificate. IKS stores the certificates and the private key in a
 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/).
