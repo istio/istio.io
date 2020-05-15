@@ -106,7 +106,7 @@ For TCP traffic, Istio generates the following metrics:
     destination_canonical_revision
     {{< /text >}}
 
-### Multicluster Labels
+### Multicluster labels
 
 When Istio is used in multi-cluster environments, the following additional labels are configured by default:
 
