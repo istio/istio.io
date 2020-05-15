@@ -15,16 +15,16 @@ weight: 10
 
 ## Improvements
 
-- ***Improved*** support for [Kubernetes Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), adding support for reading certificates from Secrets, `pathType`, and `IngressClass`.
+- ***Improved*** support for [Kubernetes ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), adding support for reading certificates from Secrets, `pathType`, and `IngressClass`.
 - ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
-- ***Added*** support for using `appProtocol` to select the [protocol for a port](/docs/ops/configuration/traffic-management/protocol-selection/) for Kubernetes 1.18+.
+- ***Added*** support for using `appProtocol` to select the [protocol for a port](/docs/ops/configuration/traffic-management/protocol-selection/) introduced in Kubernetes 1.18.
 - ***Improved*** Prometheus integration experience by adding standard Prometheus scrape annotations to proxies and the control plane workloads. This removes the need for specialized configuration to discover and consume Istio metrics. More details are available in the [operations guide for Prometheus](/docs/ops/integrations/prometheus#option-2-metrics-merging/).
 - ***Updated*** default telemetry v2 configuration to avoid using host header to extract destination service name at gateway. This prevents unbound cardinality due to untrusted host header and implies that destination service labels are going to be omitted for request hits `blackhole` and `passthrough` at gateway.
 - ***Improved*** support for [customizing v2 metrics generation](/docs/tasks/observability/metrics/customize-metrics/). This allows mesh operators to add and remove labels used in Istio metrics based on expressions over the set of available request and response attributes.
-- ***Improved*** the output of the istioctl install command (e.g. more information is displayed to the user, use of color).
+- ***Improved*** the display characteristics of the istioctl command. Surprise awaits!
 - ***Added*** `istioctl install` command as a replacement for `istioctl manifest apply`.
 
-## Installation Impact
+## Installation impact
 
 - TODO: add a statement around file mounted gateway removed and impact to users.
 - ***Removed*** the legacy Helm charts.
@@ -33,7 +33,7 @@ weight: 10
 - ***Changed*** the proxy readiness probe to port 15021.
 - ***Removed*** Security alpha API.
 - ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
-- ***Removed*** ports 15029-15032 from the default `ingressgateway`. It is recommended to expose telemetry addons by [Host routing](/docs/tasks/observability/gateways/) instead.
+- ***Removed*** ports 15029-15032 from the default `ingressgateway`. It is recommended to expose telemetry addons by [host routing](/docs/tasks/observability/gateways/) instead.
 - ***Improved*** installation to not manage the installation namespace, allowing more flexibility.
 - ***Removed*** the legacy `istio-pilot` configurations, such as Service.
 - ***Removed*** built in Istio configurations from the installation, including the Gateway, `VirtualServices`, and mTLS settings.
@@ -42,7 +42,7 @@ weight: 10
 - ***Changed*** Gateway ports used (15020) and [resolution](https://github.com/istio/istio/pull/23432#issuecomment-622208734) for end users.
 - ***Added*** Allow users to add a custom hostname for istiod.
 
-## Bug Fixes & miscellaneous changes
+## Bug fixes & miscellaneous changes
 
 - ***Improved*** the quality of the website content and structure
 - ***Fixed*** a [bug](https://github.com/istio/istio/issues/16458) blocking external HTTPS/TCP traffic in some cases.
