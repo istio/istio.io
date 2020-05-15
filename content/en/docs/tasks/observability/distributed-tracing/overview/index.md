@@ -57,7 +57,7 @@ def getForwardHeaders(request):
 
     # ...
 
-    incoming_headers = ['x-request-id']
+    incoming_headers = ['x-request-id', 'x-datadog-trace-id', 'x-datadog-parent-id', 'x-datadog-sampled']
 
     # ...
 
@@ -69,23 +69,17 @@ def getForwardHeaders(request):
     return headers
 {{< /text >}}
 
-The reviews application (Java) does something similar:
+The reviews application (Java) does something similar using `requestHeaders`:
 
 {{< text java >}}
 @GET
 @Path("/reviews/{productId}")
-public Response bookReviewsById(@PathParam("productId") int productId,
-                            @HeaderParam("end-user") String user,
-                            @HeaderParam("x-request-id") String xreq,
-                            @HeaderParam("x-b3-traceid") String xtraceid,
-                            @HeaderParam("x-b3-spanid") String xspanid,
-                            @HeaderParam("x-b3-parentspanid") String xparentspanid,
-                            @HeaderParam("x-b3-sampled") String xsampled,
-                            @HeaderParam("x-b3-flags") String xflags,
-                            @HeaderParam("x-ot-span-context") String xotspan) {
+public Response bookReviewsById(@PathParam("productId") int productId, @Context HttpHeaders requestHeaders) {
+
+  // ...
 
   if (ratings_enabled) {
-    JsonObject ratingsResponse = getRatings(Integer.toString(productId), user, xreq, xtraceid, xspanid, xparentspanid, xsampled, xflags, xotspan);
+    JsonObject ratingsResponse = getRatings(Integer.toString(productId), requestHeaders);
 {{< /text >}}
 
 When you make downstream calls in your applications, make sure to include these headers.
