@@ -29,7 +29,7 @@ having only Istio ingress gateway as your main entry point, you can continue to 
 non-Istio services while using the Istio ingress gateway for services that are part of the mesh.
 
 IKS provides a convenient way for clients to access Istio ingress gateway by letting you
-[register a new DNS subdomain](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname) for the gateway's
+[register a new DNS subdomain](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname) for the Istio gateway's
 IP with an IKS command. The domain is in the following [format](https://cloud.ibm.com/docs/containers?topic=containers-loadbalancer_hostname#loadbalancer_hostname_format): `<cluster_name>-<globally_unique_account_HASH>-0001.<region>.containers.appdomain.cloud`, for example `mycluster-a1b2cdef345678g9hi012j3kl4567890-0001.us-south.containers.appdomain.cloud`. In the same way as for the ALB domain, IKS provides a certificate and a private key,
 storing them in another Kubernetes secret.
 
