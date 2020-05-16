@@ -180,7 +180,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     ...
     {{< /text >}}
 
-    The output should be without the _301 Moved Permanently_ message.
+    The output should not contain a _301 Moved Permanently_ message.
 
 1.  Check the log of the `istio-egressgateway` pod and you should see a line corresponding to our request.
     If Istio is deployed in the `istio-system` namespace, the command to print the log is:
