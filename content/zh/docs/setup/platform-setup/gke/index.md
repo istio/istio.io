@@ -19,7 +19,7 @@ Google 为 GKE 提供了一个插件，
 依照以下操作指南为安装 Istio 准备一个 GKE 集群。
 
 {{< warning >}}
-需要在 Istio 中启用 SDS，请使用 Kubernetes 1.13 或更高版本。
+需要在 Istio 中启用[秘钥发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)（SDS），请使用 Kubernetes 1.13 或更高版本。
 {{< /warning >}}
 
 1. 创建一个新集群。
@@ -35,13 +35,13 @@ Google 为 GKE 提供了一个插件，
 
     {{< tip >}}
     默认安装 Mixer 要求节点的 vCPU 大于 1。
-    如果您要使用 [演示配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
+    如果您要使用[演示配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
     您可以删除 `--machine-type` 参数，以使用较小 `n1-standard-1` 机器配置代替。
     {{< /tip >}}
 
     {{< warning >}}
     如果需要使用 Istio CNI 功能，
-    需要在  `gcloud container clusters create`  命令中加入 `--enable-network-policy` 参数，
+    需要在 `gcloud container clusters create` 命令中加入 `--enable-network-policy` 参数，
     以启用 GKE 集群的 [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) 功能。
     {{< /warning >}}
 

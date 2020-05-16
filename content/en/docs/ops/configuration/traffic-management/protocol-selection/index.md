@@ -16,7 +16,13 @@ This can be done automatically or explicitly specified.
 
 ## Manual protocol selection
 
-Protocols can be specified manually by naming the Service port `name: <protocol>[-<suffix>]`.
+Protocols can be specified manually in the Service definition.
+
+This can be configured in two ways:
+
+- By the name of port the port, like `name: <protocol>[-<suffix>]`.
+- In Kubernetes 1.18+, by the `appProtocol` field, like `appProtocol: <protocol>`.
+
 The following protocols are supported:
 
 - `grpc`
@@ -34,7 +40,7 @@ The following protocols are supported:
 \* These protocols are disabled by default to avoid accidentally enabling experimental features.
 To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars).
 
-Below is an example of a Service that defines a `mysql` port and an `http` port:
+Below is an example of a Service that defines a `mysql` port by `appProtocol` and an `http` port by name:
 
 {{< text yaml >}}
 kind: Service
@@ -43,13 +49,17 @@ metadata:
 spec:
   ports:
   - number: 3306
-    name: mysql
+    name: database
+    appProtocol: mysql
   - number: 80
     name: http-web
 {{< /text >}}
 
-## Automatic protocol selection (experimental)
+## Automatic protocol selection
 
 Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
 
-This feature is experimental and off by default. It can be turned on by providing the install option `--set values.pilot.enableProtocolSniffing=true`.
+This feature is enabled by default. It can be turned off by providing the following install options:
+
+- `--set values.pilot.enableProtocolSniffingForOutbound=false` to disable protocol detection for outbound listeners whose port protocol is not specified or unsupported.
+- `--set values.pilot.enableProtocolSniffingForInbound=false` to disable protocol detection for inbound listeners whose port protocol is not specified or unsupported.

@@ -54,7 +54,7 @@ keywords: [platform-setup,azure]
 
 ## AKS-Engine
 
-1. [跟随这些命令](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine) 来获取和安装 `aks-engine` 的二进制版本。
+1. [跟随这些命令](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine)来获取和安装 `aks-engine` 的二进制版本。
 
 1. 下载支持部署 Istio 的 `aks-engine` API 模型定义：
 
@@ -62,10 +62,10 @@ keywords: [platform-setup,azure]
     $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    注意：可能使用其他可以和 Istio 一起工作的 api 模型定义。MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook 准入控制标识和 RBAC 被默认打开。从 [aks-engine api 模型默认值](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) 获取更多信息。
+    注意：可能使用其他可以和 Istio 一起工作的 api 模型定义。MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook 准入控制标识和 RBAC 被默认打开。从 [aks-engine api 模型默认值](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md)获取更多信息。
 
 1. 使用 `istio.json` 模板来部署你的集群。你能发现对于参数的参考在
-   [官方文档](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition) 中。
+   [官方文档](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition)中。
 
     | 参数                             | 期望值             |
     |---------------------------------------|----------------------------|

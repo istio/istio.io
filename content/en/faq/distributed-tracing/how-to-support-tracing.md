@@ -9,14 +9,14 @@ In particular, Istio relies on applications to [propagate the B3 trace headers](
 
 - `x-request-id`
 - `x-b3-traceid`
-- `x-b3-spanId`
+- `x-b3-spanid`
 - `x-b3-parentspanid`
 - `x-b3-sampled`
 - `x-b3-flags`
 - `b3`
 
-If you are using LightStep, you will also need to forward the following headers:
+If you are using Lightstep, you will also need to forward the following headers:
 
 - `x-ot-span-context`
 
-Header propagation may be accomplished through client libraries, such as [Zipkin](https://zipkin.io/pages/tracers_instrumentation.html) or [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation). It may also be accomplished manually, as documented in the [Distributed Tracing Task](/docs/tasks/observability/distributed-tracing/overview#trace-context-propagation).
+Header propagation may be accomplished through client libraries, such as [Zipkin](https://zipkin.io/pages/tracers_instrumentation.html) or [Jaeger](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#b3-propagation). It may also be accomplished manually, as documented in the [Distributed Tracing Task](/docs/tasks/observability/distributed-tracing/overview/#trace-context-propagation).

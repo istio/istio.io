@@ -47,7 +47,7 @@ icon: istio-blue-logo
             <ul>
                 <li>{{< checkmark_icon >}} 使用 Istio logo 连接到 istio.io</li>
                 <li>{{< checkmark_icon >}} 使用 Istio logo 宣传您的产品支持 Istio</li>
-                <li>{{< checkmark_icon >}} 在有关 Istio 的博客文章或新闻文章中使用Istio logo</li>
+                <li>{{< checkmark_icon >}} 在有关 Istio 的博客文章或新闻文章中使用 Istio logo</li>
             </ul>
         </div>
     </div>

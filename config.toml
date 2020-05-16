@@ -106,3 +106,5 @@ disableAliases = true
         contentDir = "content/zh"
     [languages.en]
         contentDir = "content/en"
+    [languages.pt-br]
+        contentDir = "content/pt-br"

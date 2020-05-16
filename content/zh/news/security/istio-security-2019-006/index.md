@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2019-006
 subtitle: 安全公告
-description: CVE-2019-18817 所披露的安全漏洞。
+description: 拒绝服务。
 cve: [CVE-2019-18817]
 publishdate: 2019-11-07
 keywords: [CVE]
@@ -34,6 +34,6 @@ Istio gateway 和 sidecar 都容易受到此问题的影响。如果您运行的
     --set pilot.env.PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT=0s --set global.proxy.protocolDetectionTimeout=0s
     {{< /text >}}
 
-* 对于 Istio 1.3.x 部署: 更新至[Istio 1.3.5](/zh/news/releases/1.3.x/announcing-1.3.5)或者更新的版本。
+* 对于 Istio 1.3.x 部署: 更新至 [Istio 1.3.5](/zh/news/releases/1.3.x/announcing-1.3.5) 或者更新的版本。
 
 {{< boilerplate "security-vulnerability" >}}

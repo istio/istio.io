@@ -1,5 +1,5 @@
 ---
-title: Mixer Configuration Model 
+title: Mixer Configuration Model (Deprecated)
 description: Describes the configuration model for Istio's policy enforcement and telemetry mechanisms.
 weight: 5
 keywords: [policies,telemetry,control,config]
@@ -43,7 +43,7 @@ At a high level, Mixer provides:
 
 Policy enforcement and telemetry collection are entirely driven from configuration.
 Policy check is disabled by default, avoiding the need to go through the Mixer policy component.
-Refer to [Installation Options](/docs/reference/config/installation-options/) for more information.
+Refer to [Installation Options](https://archive.istio.io/v1.4/docs/reference/config/installation-options/) for more information.
 
 ## Adapters
 

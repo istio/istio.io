@@ -37,9 +37,6 @@ behaviors such as the overall volume of traffic, the error rates within the traf
 In addition to monitoring the behavior of services within a mesh, it is also important to monitor the behavior of the mesh itself. Istio components export
 metrics on their own internal behaviors to provide insight on the health and function of the mesh control plane.
 
-Istio metrics collection is driven by operator configuration. Operators select how and when to collect metrics, as well as how detailed the metrics themselves
-should be. This enables operators to flexibly tune metrics collection to meet their individual needs.
-
 ### Proxy-level metrics
 
 Istio metrics collection begins with the sidecar proxies (Envoy). Each proxy generates a rich set of metrics about all traffic passing through the proxy (both
@@ -77,11 +74,8 @@ In addition to the proxy-level metrics, Istio provides a set of service-oriented
 basic service monitoring needs: latency, traffic, errors, and saturation. Istio ships with a default set of
 [dashboards](/docs/tasks/observability/metrics/using-istio-dashboard/) for monitoring service behaviors based on these metrics.
 
-The [default Istio metrics](/docs/reference/config/policy-and-telemetry/metrics/) are defined by a set of configuration artifacts that ship with Istio and are
-exported to [Prometheus](/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default. Operators are free to modify the
-shape and content of these metrics, as well as to change their collection mechanism, to meet their individual monitoring needs.
-
-The [Collecting Metrics](/docs/tasks/observability/metrics/collecting-metrics/) task provides more information on customizing Istio metrics generation.
+The [standard Istio metrics](/docs/reference/config/policy-and-telemetry/metrics/) are
+exported to [Prometheus](/docs/reference/config/policy-and-telemetry/adapters/prometheus/) by default.
 
 Use of the service-level metrics is entirely optional. Operators may choose to turn off generation and collection of these metrics to meet their individual
 needs.
@@ -92,6 +86,8 @@ Example service-level metric:
 istio_requests_total{
   connection_security_policy="mutual_tls",
   destination_app="details",
+  destination_canonical_service="details",
+  destination_canonical_revision="v1",
   destination_principal="cluster.local/ns/default/sa/default",
   destination_service="details.default.svc.cluster.local",
   destination_service_name="details",
@@ -104,6 +100,8 @@ istio_requests_total{
   response_code="200",
   response_flags="-",
   source_app="productpage",
+  source_canonical_service="productpage",
+  source_canonical_revision="v1",
   source_principal="cluster.local/ns/default/sa/default",
   source_version="v1",
   source_workload="productpage-v1",
@@ -113,15 +111,10 @@ istio_requests_total{
 
 ### Control plane metrics
 
-Each Istio component (Pilot, Galley, Mixer) also provides a collection of self-monitoring metrics. These metrics allow monitoring of the behavior
+The Istio control plane also provides a collection of self-monitoring metrics. These metrics allow monitoring of the behavior
 of Istio itself (as distinct from that of the services within the mesh).
 
-For more information on which metrics are maintained, please refer to the reference documentation for each of the components:
-
-- [Pilot](/docs/reference/commands/pilot-discovery/#metrics)
-- [Galley](/docs/reference/commands/galley/#metrics)
-- [Mixer](/docs/reference/commands/mixs/#metrics)
-- [Citadel](/docs/reference/commands/istio_ca/#metrics)
+For more information on which metrics are maintained, please refer to the [reference documentation](/docs/reference/commands/pilot-discovery/#metrics).
 
 ## Distributed traces
 
@@ -132,7 +125,7 @@ Istio supports distributed tracing through the Envoy proxies. The proxies automa
 requiring only that the applications forward the appropriate request context.
 
 Istio supports a number of tracing backends, including [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/),
-[Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/), and
+[Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/), and
 [Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/). Operators control the sampling rate for trace generation (that is, the rate at
 which tracing data is generated per request). This allows operators to control the amount and rate of tracing data being produced for their mesh.
 
@@ -147,14 +140,10 @@ Example Istio-generated distributed trace for a single request:
 Access logs provide a way to monitor and understand behavior from the perspective of an individual workload instance.
 
 Istio can generate access logs for service traffic in a configurable set of formats, providing operators with full control of the how, what, when and where of
-logging. Istio exposes a full set of source and destination metadata to the access logging mechanisms, allowing detailed audit of network transactions.
+logging. For more information, please refer to [Getting Envoy's Access Logs](/docs/tasks/observability/logs/access-log/).
 
-Access logs may be generated locally or exported to custom backends, including [Fluentd](/docs/tasks/observability/logs/fluentd/).
+Example Istio access log:
 
-More information on access logging is provided in the [Collecting Logs](/docs/tasks/observability/logs/collecting-logs/) and the [Getting Envoy's Access Logs](/docs/tasks/observability/logs/access-log/) tasks.
-
-Example Istio access log (formatted in JSON):
-
-{{< text json >}}
-{"level":"info","time":"2019-06-11T20:57:35.424310Z","instance":"accesslog.instance.istio-control","connection_security_policy":"mutual_tls","destinationApp":"productpage","destinationIp":"10.44.2.15","destinationName":"productpage-v1-6db7564db8-pvsnd","destinationNamespace":"default","destinationOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/productpage-v1","destinationPrincipal":"cluster.local/ns/default/sa/default","destinationServiceHost":"productpage.default.svc.cluster.local","destinationWorkload":"productpage-v1","httpAuthority":"35.202.6.119","latency":"35.076236ms","method":"GET","protocol":"http","receivedBytes":917,"referer":"","reporter":"destination","requestId":"e3f7cffb-5642-434d-ae75-233a05b06158","requestSize":0,"requestedServerName":"outbound_.9080_._.productpage.default.svc.cluster.local","responseCode":200,"responseFlags":"-","responseSize":4183,"responseTimestamp":"2019-06-11T20:57:35.459150Z","sentBytes":4328,"sourceApp":"istio-ingressgateway","sourceIp":"10.44.0.8","sourceName":"ingressgateway-7748774cbf-bvf4j","sourceNamespace":"istio-control","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-control/deployments/ingressgateway","sourcePrincipal":"cluster.local/ns/istio-control/sa/default","sourceWorkload":"ingressgateway","url":"/productpage","userAgent":"curl/7.54.0","xForwardedFor":"10.128.0.35"}
+{{< text plain >}}
+[2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
 {{< /text >}}

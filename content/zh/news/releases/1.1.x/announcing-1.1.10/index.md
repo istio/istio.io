@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.10
+title: Istio 1.1.10 发布公告
 linktitle: 1.1.10
-subtitle: Patch Release
-description: Istio 1.1.10 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.10 补丁发布。
 publishdate: 2019-06-28
 release: 1.1.10
 aliases:
@@ -12,12 +12,12 @@ aliases:
     - /zh/news/announcing-1.1.10
 ---
 
-We're pleased to announce the availability of Istio 1.1.10. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.1.10 现在是可用的。更新详情如下。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Eliminate 503 errors caused by Envoy not being able to talk to the SDS Node Agent after a restart ([Issue 14853](https://github.com/istio/istio/issues/14853)).
-- Fix cause of 'TLS error: Secret is not supplied by SDS' errors during upgrade ([Issue 15020](https://github.com/istio/istio/issues/15020)).
-- Fix crash in Istio's JWT Envoy filter caused by malformed JWT ([Issue 15084](https://github.com/istio/istio/issues/15084)).
+- 消除因 Envoy 重新启动后无法与 SDS 节点代理对话而导致的 503 错误（[Issue 14853](https://github.com/istio/istio/issues/14853)）。
+- 解决升级过程中由于 'TLS error: Secret is not supplied by SDS' 导致的错误（[Issue 15020](https://github.com/istio/istio/issues/15020)）。
+- 修复由 JWT 格式错误导致的 Istio JWT Envoy 过滤器崩溃（[Issue 15084](https://github.com/istio/istio/issues/15084)）。

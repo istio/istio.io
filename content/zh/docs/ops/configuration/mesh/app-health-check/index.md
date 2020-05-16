@@ -20,11 +20,11 @@ keywords: [security,health-check]
 
 本节将阐述如何在启用了双向 TLS 的 Istio 中使用这三种方式。
 
-注意，无论是否启用了双向 TLS 认证，命令和 TCP 请求方式都可以与 Istio 一起使用。HTTP请求方式则要求启用了 TLS 的 Istio 使用不同的配置。
+注意，无论是否启用了双向 TLS 认证，命令和 TCP 请求方式都可以与 Istio 一起使用。HTTP 请求方式则要求启用了 TLS 的 Istio 使用不同的配置。
 
 ## 在学习本节之前{#before-you-begin}
 
-* 理解 Kubernetes 的 [Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio 的 [认证策略](/zh/docs/concepts/security/#authentication-policies) 和 [双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 概念。
+* 理解 Kubernetes 的 [Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio 的[认证策略](/zh/docs/concepts/security/#authentication-policies)和[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)概念。
 
 * 有一个安装了 Istio 的 Kubernetes 集群，并且未开启全局双向 TLS 认证。
 
@@ -32,8 +32,14 @@ keywords: [security,health-check]
 
 首先，您需要配置健康检查并开启双向 TLS 认证。
 
-要为默认命名空间中的服务开启双向 TLS 认证，必须配置验证策略和目标规则。
+要为服务开启双向 TLS 认证，必须配置验证策略和目标规则。
 按照以下步骤来完成配置：
+
+运行下面的命令创建命名空间：
+
+{{< text bash >}}
+$ kubectl create ns istio-io-health
+{{< /text >}}
 
 1. 配置验证策略，并运行：
 
@@ -43,7 +49,7 @@ keywords: [security,health-check]
     kind: "Policy"
     metadata:
       name: "default"
-      namespace: "default"
+      namespace: "istio-io-health"
     spec:
       peers:
       - mtls: {}
@@ -58,7 +64,7 @@ keywords: [security,health-check]
     kind: "DestinationRule"
     metadata:
       name: "default"
-      namespace: "default"
+      namespace: "istio-io-health"
     spec:
       host: "*.default.svc.cluster.local"
       trafficPolicy:
@@ -70,13 +76,13 @@ keywords: [security,health-check]
 运行以下命令来部署服务：
 
 {{< text bash >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
+$ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
 重复使用检查状态的命令来验证 Liveness 探针是否正常工作：
 
 {{< text bash >}}
-$ kubectl get pod
+$ kubectl -n istio-io-health get pod
 NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
@@ -85,13 +91,13 @@ liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 
 本部分介绍，当双向 TLS 认证开启的时候，如何使用 HTTP 请求方式来做健康检查。
 
-Kubernetes 的 HTTP 健康检查是由 Kubelet 来发送的， 但是 Istio 并未颁发证书给 `liveness-http` 服务。 因此，当启用双向 TLS 认证之后，所有的健康检查请求将会失败。
+Kubernetes 的 HTTP 健康检查是由 Kubelet 来发送的，但是 Istio 并未颁发证书给 `liveness-http` 服务。因此，当启用双向 TLS 认证之后，所有的健康检查请求将会失败。
 
 有两种方式来解决此问题：探针重写和端口分离。
 
 ### 探针重写{#probe-rewrite}
 
-这种方式重写了应用程序的 `PodSpec` Readiness 和 Liveness 探针， 以便将探针请求发送给
+这种方式重写了应用程序的 `PodSpec` Readiness 和 Liveness 探针，以便将探针请求发送给
 [Pilot agent](/zh/docs/reference/commands/pilot-agent/). Pilot agent 将请求重定向到应用程序，剥离 response body ，只返回 response code 。
 
 有两种方式来让 Istio 重写 Liveness 探针。
@@ -116,7 +122,7 @@ $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rew
 
 <!-- Add samples YAML or kubectl patch? -->
 
-与安装 Istio 使用的参数方式相似，您也可以使用`sidecar.istio.io/rewriteAppHTTPProbers: "true"`来 [为 pod 添加 annotation](/zh/docs/reference/config/annotations/) 。确保 annotation 成功添加到了 [pod 资源](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) 因为在其他地方（比如封闭的部署资源上）， annotation 会被忽略。
+与安装 Istio 使用的参数方式相似，您也可以使用`sidecar.istio.io/rewriteAppHTTPProbers: "true"`来 [为 pod 添加 annotation](/zh/docs/reference/config/annotations/) 。确保 annotation 成功添加到了 [pod 资源](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) 因为在其他地方（比如封闭的部署资源上），annotation 会被忽略。
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -124,6 +130,10 @@ kind: Deployment
 metadata:
   name: liveness-http
 spec:
+  selector:
+    matchLabels:
+      app: liveness-http
+      version: v1
   template:
     metadata:
       labels:
@@ -162,7 +172,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
 {{< /text >}}
 
-默认情况下未启用此功能。 我们希望 [收到您的反馈](https://github.com/istio/istio/issues/10357)，
+默认情况下未启用此功能。我们希望[收到您的反馈](https://github.com/istio/istio/issues/10357)，
 是否应将其更改为 Istio 安装过程中的默认行为。
 
 ### 端口分离{#separate-port}
@@ -184,7 +194,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< /text >}}
 
-请注意，[liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) 的镜像公开了两个端口：8001 和 8002 ([源码]({{< github_file >}}/samples/health-check/server.go))。在这个部署方式里面，端口8001用于常规流量，而端口8002给 Liveness 探针使用。
+请注意，[liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) 的镜像公开了两个端口：8001 和 8002 ([源码]({{< github_file >}}/samples/health-check/server.go))。在这个部署方式里面，端口 8001 用于常规流量，而端口 8002 给 Liveness 探针使用。
 
 ### 清除{#cleanup}
 
@@ -193,4 +203,5 @@ liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
 {{< text bash >}}
 $ kubectl delete policies default
 $ kubectl delete destinationrules default
+$ kubectl delete ns istio-io-health
 {{< /text >}}

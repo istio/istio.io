@@ -45,7 +45,7 @@ teams cannot interfere with each other.
 We have also improved the [multicluster capabilities and usability](/docs/ops/deployment/deployment-models/).
 We listened to the community and improved defaults for traffic control and
 policy. We introduced a new component called
-[Galley](/docs/ops/deployment/architecture/#galley). Galley validates that sweet,
+[Galley](https://archive.istio.io/v1.1/docs/concepts/what-is-istio/#galley). Galley validates that sweet,
 sweet YAML, reducing the chance of configuration errors. Galley will also be
 instrumental in [multicluster setups](/docs/setup/install/multicluster/),
 gathering service discovery information from each Kubernetes cluster. We are

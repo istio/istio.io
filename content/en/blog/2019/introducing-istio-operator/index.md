@@ -23,9 +23,9 @@ following:
 - Small customizations not in the API don't require chart or API changes
 - Version specific upgrade hooks can be easily and robustly implemented
 
-The [Helm installation](/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
+The [Helm installation](https://archive.istio.io/1.4/docs/setup/install/helm/) method is in the process of deprecation. Upgrading from Istio
 1.4 with a version not initially installed with Helm will also be replaced by a new
-[{{< istioctl >}} upgrade feature](/docs/setup/upgrade/istioctl-upgrade/).
+[{{< istioctl >}} upgrade feature](https://archive.istio.io/v1.4/docs/setup/upgrade/istioctl-upgrade/).
 
 The new `istioctl` installation commands use a
 [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
@@ -39,9 +39,9 @@ is tightly integrated with the tools to prevent common errors and simplify troub
 Every operator implementation requires a
 [custom resource definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
 to define its custom resource, that is, its API. Istio's operator API is defined by the
-[`IstioControlPlane` CRD](/docs/reference/config/istio.operator.v1alpha12.pb/),
+[`IstioControlPlane` CRD](https://archive.istio.io/v1.4/docs/reference/config/istio.operator.v1alpha12.pb/),
 which is generated from an
-[`IstioControlPlane` proto](https://github.com/istio/operator/blob/{{< source_branch_name >}}/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
+[`IstioControlPlane` proto](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
 The API supports all of Istio's current [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 using a single field to select the profile. For example, the following `IstioControlPlane` resource
 configures Istio using the `demo` profile:

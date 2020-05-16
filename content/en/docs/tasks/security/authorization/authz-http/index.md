@@ -1,11 +1,12 @@
 ---
 title: Authorization for HTTP traffic
-description: Shows how to set up role-based access control for HTTP traffic.
+description: Shows how to set up access control for HTTP traffic.
 weight: 10
 keywords: [security,access-control,rbac,authorization]
 aliases:
     - /docs/tasks/security/role-based-access-control.html
     - /docs/tasks/security/authz-http/
+test: true
 ---
 
 This task shows you how to set up Istio authorization for HTTP traffic in an Istio mesh.
@@ -35,6 +36,11 @@ The app presents the reviews in a round robin style: red stars, black stars, or 
 If you don't see the expected output in the browser as you follow the task, retry in a few more seconds
 because some delay is possible due to caching and other propagation overhead.
 {{< /tip >}}
+
+{{< warning >}}
+This task requires mutual TLS enabled because the following examples use principal
+and namespace in the policies.
+{{< /warning >}}
 
 ## Configure access control for workloads using HTTP traffic
 

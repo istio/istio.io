@@ -53,7 +53,7 @@ and run it locally:
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/package.json -o package.json
     {{< /text >}}
 
-1. Skim the service's code and note the following elements on the code:
+1. Skim the service's code and note the following elements:
     - The web server's features:
         - listening to a port
         - handling requests and responses
@@ -100,14 +100,14 @@ Since you run the `ratings` service locally, you can also access it via the
 {{< /tip >}}
 
 1. Open [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in
-    your browser or access `ratings` using the `curl` command:
+    your browser or access `ratings` using the `curl` command from a different terminal window:
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
-1. Open a different terminal session and use the `POST` method of the `curl` command to set the ratings for the
+1. Use the `POST` method of the `curl` command to set the ratings for the
     product to `1`:
 
     {{< text bash >}}

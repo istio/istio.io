@@ -24,7 +24,7 @@ Sidecar 是否会被自动注入取决于下面 3 条配置和 2 条安全规则
 安全规则:
 
 - sidecar 默认不能被注入到 `kube-system` 和 `kube-public` 这两个 namespace
-- sidecar 不能被注入到使用 `host network` 网络的pod里
+- sidecar 不能被注入到使用 `host network` 网络的 pod 里
 
 下面的表格展示了基于上述三个配置条件的最终注入状态。上述的安全规则不会被覆盖。
 

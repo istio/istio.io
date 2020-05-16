@@ -1,34 +1,35 @@
 ---
-title: Announcing Istio 1.3.5
+title: Istio 1.3.5 发布公告
 linktitle: 1.3.5
-description: Istio 1.3.5 patch release.
+description: Istio 1.3.5 补丁发布。
 publishdate: 2019-11-11
-subtitle: Patch Release
+subtitle: 补丁发布
 release: 1.3.5
 aliases:
     - /zh/news/2019/announcing-1.3.5
     - /zh/news/announcing-1.3.5
 ---
 
-This release contains fixes for the security vulnerability described in [our November 11, 2019 news post](/zh/news/security/istio-security-2019-006)  as well as bug fixes to improve robustness. This release note describes what's different between Istio 1.3.4 and Istio 1.3.5.
+此版本包含[我们在 2019 年 11 月 11 日的新闻中](/zh/news/security/istio-security-2019-006)描述的安全漏洞修复程序以及提高健壮性的程序。此发行说明描述了 Istio 1.3.4 和 Istio 1.3.5 之间的区别。
 
 {{< relnote >}}
 
-## Security update
+## 安全更新{#security-update}
 
-- **ISTIO-SECURITY-2019-006** A DoS vulnerability has been discovered in Envoy.
+- **ISTIO-SECURITY-2019-006** 在 Envoy 中发现了一个 DoS 漏洞。
 
-__[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__: An infinite loop can be triggered in Envoy if the option `continue_on_listener_filters_timeout` is set to True, which is the case in Istio. This vulnerability could be leveraged for a DoS attack. If you applied the mitigation mentioned in [our November 11, 2019 news post](/zh/news/security/istio-security-2019-006), you can remove the mitigation once you upgrade to Istio 1.3.5 or newer.
+__[CVE-2019-18817](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-18817)__：在 Istio 中存在这种情况，如果将 `continue_on_listener_filters_timeout` 选项设置为 True，则可导致 Envoy 陷入死循环。可以利用此漏洞进行 DoS 攻击。如果应用了[我们在 2019 年 11 月 11 日的新闻中](/zh/news/security/istio-security-2019-006)提到的防范措施，则在升级到 Istio 1.3.5 或更高版本后，可以删除该防范措施。
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- **Fixed** Envoy listener configuration for TCP headless services. ([Issue #17748](https://github.com/istio/istio/issues/17748))
-- **Fixed** an issue which caused stale endpoints to remain even when a deployment was scaled to 0 replicas. ([Issue #14436](https://github.com/istio/istio/issues/14336))
-- **Fixed** Pilot to no longer crash when an invalid Envoy configuration is generated. ([Issue 17266](https://github.com/istio/istio/issues/17266))
-- **Fixed** an issue with the `destination_service_name` label not getting populated for TCP metrics related to BlackHole/Passthrough clusters. ([Issue 17271](https://github.com/istio/istio/issues/17271))
-- **Fixed** an issue with telemetry not reporting metrics for BlackHole/Passthrough clusters when fall through filter chains were invoked. This occurred when explicit `ServiceEntries` were configured for external services. ([Issue 17759](https://github.com/istio/istio/issues/17759))
+- **修复** TCP headless 服务的 Envoy 监听器配置。（[Issue #17748](https://github.com/istio/istio/issues/17748)）
+- **修复** 即使将 deployment 缩放到 0 个副本，过时的 endpoint 也会保留的问题。（[Issue #14436](https://github.com/istio/istio/issues/14336)）
+- **修复** 生成无效的 Envoy 配置时，Pilot 不会再崩溃。（[Issue 17266](https://github.com/istio/istio/issues/17266)）
+- **修复** 没有为与 BlackHole/Passthrough 集群相关的 TCP 指标填充 `destination_service_name` 标签的问题。（[Issue 17271](https://github.com/istio/istio/issues/17271)）
+- **修复** 调用遥测过滤器链时遥测不报告 BlackHole/Passthrough 群集指标的问题。集群指标的问题。该问题会在为外部服务配置显示的 `ServiceEntries` 时发生的。
+（[Issue 17759](https://github.com/istio/istio/issues/17759)）
 
-## Minor enhancements
+## 小的增强{#minor-enhancements}
 
-- **Added** support for Citadel to periodically check the root certificate remaining lifetime and rotate expiring root certificates. ([Issue 17059](https://github.com/istio/istio/issues/17059))
-- **Added** `PILOT_BLOCK_HTTP_ON_443` boolean environment variable to Pilot. If enabled, this flag prevents HTTP services from running on port 443 in order to prevent conflicts with external HTTP services. This is disabled by default. ([Issue 16458](https://github.com/istio/istio/issues/16458))
+- **添加** 支持 Citadel 定期检查根证书的剩余寿命并轮换即将到期的根证书。（[Issue 17059](https://github.com/istio/istio/issues/17059)）
+- **添加** 为 Pilot 添加布尔型环境变量 `PILOT_BLOCK_HTTP_ON_443`。如果启用，此标志将阻止 HTTP 服务在端口 443 上运行，以防止与外部 HTTP 服务发生冲突。默认情况下禁用此功能。（[Issue 16458](https://github.com/istio/istio/issues/16458)）

@@ -109,7 +109,7 @@ keywords: [security,access-control,rbac,authorization,trust domain, migration]
 
     Istio 网格现在运行于一个新的信任域 `new-td` 了。
 
-1. 删除 `default` 和 `sleep-allow` 命名空间中的 `sleep` 和 `httpbin` 的 secrets。请注意如果您安装 Istio 时启用了 SDS，您可以跳过这一步。了解详情请参考[通过 SDS 设置身份](/zh/docs/tasks/security/citadel-config/auth-sds/)。
+1. 删除 `default` 和 `sleep-allow` 命名空间中的 `sleep` 和 `httpbin` 的 secrets。请注意如果您安装 Istio 时启用了 SDS，您可以跳过这一步。
 
     {{< text bash >}}
     $ kubectl delete secrets istio.sleep; kubectl delete secrets istio.httpbin;

@@ -24,7 +24,7 @@ the components you want (e.g, Pilot+Ingress only as the minimal Istio install). 
 information on customized Istio deployments.
 
 - **Automatic Proxy Injection**. We leverage Kubernetes 1.9's new
-[mutating webhook feature](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#api-machinery) to provide automatic
+[mutating webhook feature](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.9.md#api-machinery) to provide automatic
 pod-level proxy injection. Automatic injection requires Kubernetes 1.9 or beyond and
 therefore doesn't work on older versions. The alpha initializer mechanism is no longer supported.
 [Learn more](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
@@ -41,7 +41,7 @@ providing a flexible fine-grained access control mechanism. [Learn more](https:/
 [Learn more](/docs/concepts/security/#authorization)
 
 - **Fluentd**. Mixer now has an adapter for log collection through [Fluentd](https://www.fluentd.org).
-[Learn more](/docs/tasks/observability/logs/fluentd/)
+[Learn more](/docs/tasks/observability/mixer/logs/fluentd/)
 
 - **Stdio**. The stdio adapter now lets you log to files with support for log rotation & backup, along with a host
 of controls.
@@ -49,7 +49,7 @@ of controls.
 ## Security
 
 - **Bring Your Own CA**. There have been many enhancements to the 'bring your own CA' feature.
-[Learn more](/docs/tasks/security/citadel-config/plugin-ca-cert/)
+[Learn more](/docs/tasks/security/cert-management/plugin-ca-cert/)
 
 - **PKCS8**. Add support for PKCS8 keys to Istio PKI.
 

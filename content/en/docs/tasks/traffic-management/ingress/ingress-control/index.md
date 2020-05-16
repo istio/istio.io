@@ -6,13 +6,10 @@ keywords: [traffic-management,ingress]
 aliases:
     - /docs/tasks/ingress.html
     - /docs/tasks/ingress
+test: true
 ---
 
-In a Kubernetes environment, the [Kubernetes Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-is used to specify services that should be exposed outside the cluster.
-In an Istio service mesh, a better approach (which also works in both Kubernetes and other environments) is to use a
-different configuration model, namely [Istio Gateway](/docs/reference/config/networking/gateway/).
-A `Gateway` allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
+Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), Istio offers another configuration model, [Istio Gateway](/docs/reference/config/networking/gateway/). A `Gateway` provides more extensive customization and flexibility than `Ingress`, and allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
 
 This task describes how to configure Istio to expose a service outside of the service mesh using an Istio `Gateway`.
 
@@ -32,8 +29,8 @@ Execute the following command to determine if your Kubernetes cluster is running
 
 {{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)   AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 {{< /text >}}
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
@@ -54,6 +51,7 @@ Set the ingress IP and ports:
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+$ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
 {{< /text >}}
 
 {{< warning >}}
@@ -80,6 +78,7 @@ Set the ingress ports:
 {{< text bash >}}
 $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+$ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
 {{< /text >}}
 
 Setting the ingress IP depends on the cluster provider:
@@ -87,15 +86,15 @@ Setting the ingress IP depends on the cluster provider:
 1.  _GKE:_
 
     {{< text bash >}}
-    $ export INGRESS_HOST=<workerNodeAddress>
+    $ export INGRESS_HOST=worker-node-address
     {{< /text >}}
 
     You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
     Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
 
     {{< text bash >}}
-    $ gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
-    $ gcloud compute firewall-rules create allow-gateway-https --allow tcp:$SECURE_INGRESS_PORT
+    $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
+    $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
     {{< /text >}}
 
 1.  _Minikube:_
@@ -190,7 +189,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
     Internal requests from other services in the mesh are not subject to these rules
     but instead will default to round-robin routing. To apply these rules to internal calls as well,
     you can add the special value `mesh` to the list of `gateways`. Since the internal hostname for the
-    service is probabaly different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
+    service is probably different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
     you will also need to add it to the `hosts` list. Refer to the
     [operations guide](/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)
     for more details.
@@ -199,7 +198,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Access the _httpbin_ service using _curl_:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/status/200
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
     HTTP/1.1 200 OK
     server: envoy
     date: Mon, 29 Jan 2018 04:45:49 GMT
@@ -217,7 +216,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     {{< text bash >}}
-    $ curl -I -HHost:httpbin.example.com http://$INGRESS_HOST:$INGRESS_PORT/headers
+    $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
     HTTP/1.1 404 Not Found
     date: Mon, 29 Jan 2018 04:45:49 GMT
     server: envoy
@@ -291,7 +290,7 @@ they have valid values, according to the output of the following commands:
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
-    $ echo INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT
+    $ echo "INGRESS_HOST=$INGRESS_HOST, INGRESS_PORT=$INGRESS_PORT"
     {{< /text >}}
 
 1.  Check that you have no other Istio ingress gateways defined on the same port:

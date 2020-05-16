@@ -42,7 +42,7 @@ Here are some highlights:
 - [Authorization policies](/docs/concepts/security/#authorization) which control access to services are now entirely evaluated locally in Envoy increasing
 their performance and reliability.
 
-- [Helm chart installation](/docs/setup/install/helm/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
+- [Helm chart installation](https://archive.istio.io/1.0/docs/setup/install/helm/) is now the recommended install method offering rich customization options to adopt Istio on your terms.
 
 - We’ve put a lot of effort into performance including continuous regression testing, large scale environment simulation and targeted fixes. We’re very happy with the results and will share more on this in detail in the coming weeks.
 
@@ -121,7 +121,7 @@ be configured using [authentication policies](/docs/concepts/security/#authentic
 
 ### `istioctl`
 
-- Added the [`istioctl authn tls-check`](/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
+- Added the [`istioctl authn tls-check`](https://archive.istio.io/v1.0/docs/reference/commands/istioctl/#istioctl-authn-tls-check) command.
 
 - Added the [`istioctl proxy-status`](/docs/reference/commands/istioctl/#istioctl-proxy-status) command.
 
@@ -141,7 +141,7 @@ be configured using [authentication policies](/docs/concepts/security/#authentic
 
 - Amazon's EKS service does not implement automatic sidecar injection.  Istio can be used in Amazon's
   EKS by using [manual injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection) for
-  sidecars and turning off galley using the [Helm parameter](/docs/setup/install/helm)
+  sidecars and turning off galley using the [Helm parameter](https://archive.istio.io/1.0/docs/setup/install/helm)
   `--set galley.enabled=false`.
 
 - In a [multicluster deployment](/docs/setup/install/multicluster) the mixer-telemetry

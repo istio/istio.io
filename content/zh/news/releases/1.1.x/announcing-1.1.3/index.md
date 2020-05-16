@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.3
+title: Istio 1.1.3 发布公告
 linktitle: 1.1.3
-subtitle: Patch Release
-description: Istio 1.1.3 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.3 补丁发布。
 publishdate: 2019-04-15
 release: 1.1.3
 aliases:
@@ -12,109 +12,106 @@ aliases:
     - /zh/news/announcing-1.1.3
 ---
 
-We're pleased to announce the availability of Istio 1.1.3. Please see below for what's changed.
+我们很高兴的宣布 Istio 1.1.3 发布，下面介绍相关更新信息。
 
 {{< relnote >}}
 
-## Known issues with 1.1.3
+## 1.1.3 版本已知问题{#known-issues-with-1-1-3}
 
-- A [panic in the Node Agent](https://github.com/istio/istio/issues/13325) was discovered late in the 1.1.3 qualification process.  The panic only occurs in clusters with the alpha-quality SDS certificate rotation feature enabled.  Since this is the first time we have included SDS certificate rotation in our long-running release tests, we don't know whether this is a latent bug or a new regression.  Considering SDS certificate rotation is in alpha, we have decided to release 1.1.3 with this issue and target a fix for the 1.1.4 release.
+- 在启用了 alpha-quality SDS 证书轮换功能的集群中，存在[节点代理恐慌](https://github.com/istio/istio/issues/13325)问题。
+由于这是我们首次将 SDS 证书轮换纳入长期运行的测试版本，因此我们不知道这是潜在的错误还是新的回归。
+考虑到 SDS 证书轮换为 alpha 版本，我们决定带着这个问题发布 1.1.3 版本，在 1.1.4 版本中我们将解决此问题。
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Istio-specific back-ports of Envoy patches for [`CVE-2019-9900`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) and
-[`CVE-2019-9901`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901) included in Istio 1.1.2 have been dropped in favor of an
-Envoy update which contains the final version of the patches.
+- 删除了 Istio 1.1.2 对 Envoy 某个补丁的反向移植，该补丁用于修复 [`CVE-2019-9900`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) 和 [`CVE-2019-9901`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901)。以便更新包含了最终版本补丁的 Envoy。
 
-- Fix load balancer weight setting for split horizon `EDS`.
+- 修复分割水平 `EDS` 的负载均衡权重设置。
 
-- Fix typo in the default Envoy `JSON` log format ([Issue 12232](https://github.com/istio/istio/issues/12232)).
+- 修复 Envoy 默认日志格式中的错字。（[Issue 12232](https://github.com/istio/istio/issues/12232)）
 
-- Correctly reload out-of-process adapter address upon configuration change ([Issue 12488](https://github.com/istio/istio/issues/12488)).
+- 在配置更改时正确地重新加载进程外适配器地址。（[Issue 12488](https://github.com/istio/istio/issues/12488)）
 
-- Restore Kiali settings that were accidentally deleted ([Issue 3660](https://github.com/istio/istio/issues/3660)).
+- 恢复意外删除的 Kiali 设置。（[Issue 3660](https://github.com/istio/istio/issues/3660)）
 
-- Prevent services with same target port resulting in duplicate inbound listeners ([Issue 9504](https://github.com/istio/istio/issues/9504)).
+- 修复当具有相同目标端口的服务存在时导致的重复入站侦听问题。（[Issue 9504](https://github.com/istio/istio/issues/9504)）
 
-- Fix issue with configuring `Sidecar` `egress` ports for namespaces other than `istio-system` resulting in a `envoy.tcp_proxy` filter of `BlackHoleCluster` by auto binding
-to services for `Sidecar` listeners ([Issue 12536](https://github.com/istio/istio/issues/12536)).
+- 通过自动绑定到 `Sidecar` 侦听器的服务，解决为 `istio-system` 以外命名空间配置 `Sidecar` `egress` 端口的问题，从而生成 `BlackHoleCluster` 的 `envoy.tcp_proxy` 过滤器。（[Issue 12536](https://github.com/istio/istio/issues/12536)）
 
-- Fix gateway `vhost` configuration generation issue by favoring more specific host matches ([Issue 12655](https://github.com/istio/istio/issues/12655)).
+- 通过支持更准确的主机匹配来修正网关 `vhost` 配置生成问题。（[Issue 12655](https://github.com/istio/istio/issues/12655)）
 
-- Fix `ALLOW_ANY` so it now allows external traffic if there is already an http service present on a port.
+- 修复 `ALLOW_ANY`，如果端口上已经存在 http 服务，现在允许外部流量。
 
-- Fix validation logic so that `port.name` is no longer a valid `PortSelection`.
+- 修复验证逻辑，现在 `port.name` 不再是有效的 `PortSelection`。
 
-- Fix [`istioctl proxy-config cluster`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config-cluster) cluster type column rendering ([Issue 12455](https://github.com/istio/istio/issues/12455)).
+- 修复 [`istioctl proxy-config cluster`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config-cluster) 命令输出结果中集群类型列的渲染问题。（[Issue 12455](https://github.com/istio/istio/issues/12455)）
 
-- Fix SDS secret mount configuration.
+- 修复 SDS secret 的挂载配置。
 
-- Fix incorrect Istio version in the Helm charts.
+- 修复 Helm chart 中错误的 Istio 版本。
 
-- Fix partial DNS failures in the presence of overlapping ports ([Issue 11658](https://github.com/istio/istio/issues/11658)).
+- 修复当存在重叠端口时出现的 DNS 故障。（[Issue 11658](https://github.com/istio/istio/issues/11658)）
 
-- Fix Helm `podAntiAffinity` template error ([Issue 12790](https://github.com/istio/istio/issues/12790)).
+- 修复 Helm `podAntiAffinity` 模板错误。（[Issue 12790](https://github.com/istio/istio/issues/12790)）
 
-- Fix bug with the original destination service discovery not using the original destination load balancer.
+- 修复源目标服务发现不使用源目标负载均衡器的问题。
 
-- Fix SDS memory leak in the presence of invalid or missing keying materials ([Issue 13197](https://github.com/istio/istio/issues/13197)).
+- 修复当存在无效或丢失密钥时出现的 SDS 内存泄漏问题。（[Issue 13197](https://github.com/istio/istio/issues/13197)）
 
-## Small enhancements
+## 小的增强{#small-enhancements}
 
-- Hide `ServiceAccounts` from `PushContext` log to reduce log volume.
+- 从 `PushContext` 日志中隐藏 `ServiceAccounts` 以缩小日志。
 
-- Configure `localityLbSetting` in `values.yaml` by passing it through to the mesh configuration.
+- 通过 `values.yaml` 的 `localityLbSetting` 字段配置网格。
 
-- Remove the soon-to-be deprecated `critical-pod` annotation from Helm charts ([Issue 12650](https://github.com/istio/istio/issues/12650)).
+- 从 Helm 图表中删除即将弃用的 `critical-pod` 注释。（[Issue 12650](https://github.com/istio/istio/issues/12650)）
 
-- Support pod anti-affinity annotations to improve control plane availability ([Issue 11333](https://github.com/istio/istio/issues/11333)).
+- 支持 Pod 反亲和性注释以提高控制平面的可用性。（[Issue 11333](https://github.com/istio/istio/issues/11333)）
 
-- Pretty print `IP` addresses in access logs.
+- 访问日志中优化 `IP` 地址打印。
 
-- Remove redundant write header to further reduce log volume.
+- 删除冗余的 write header，以进一步减小日志。
 
-- Improve destination host validation in Pilot.
+- 改进 Pilot 的目标主机验证。
 
-- Explicitly configure `istio-init` to run as root so use of pod-level `securityContext.runAsUser` doesn't break it ([Issue 5453](https://github.com/istio/istio/issues/5453)).
+- 显式的配置 `istio-init` 以 root 身份运行，以免使用 Pod-level 的 `securityContext.runAsUser` 破坏它。（[Issue 5453](https://github.com/istio/istio/issues/5453)）
 
-- Add configuration samples for Vault integration.
+- 添加用于 Vault 集成的配置示例。
 
-- Respect locality load balancing weight settings from `ServiceEntry`.
+- 从 `ServiceEntry` 执行局部负载均衡权重。
 
-- Make the TLS certificate location watched by Pilot Agent configurable ([Issue 11984](https://github.com/istio/istio/issues/11984)).
+- 使由 Pilot Agent 监视的 TLS 证书位置可配置。（[Issue 11984](https://github.com/istio/istio/issues/11984)）
 
-- Add support for Datadog tracing.
+- 添加对 Datadog 追踪的支持。
 
-- Add alias to `istioctl` so 'x' can be used instead of 'experimental'.
+- 为 `istioctl` 添加别名，可以使用 "x" 代替 "experimental"。
 
-- Provide improved distribution of sidecar certificate by adding jitter to their CSR requests.
+- 通过在 CSR 请求中添加抖动来提供改进的 Sidecar certificate。
 
-- Allow weighted load balancing registry locality to be configured.
+- 允许配置权重负载平衡注册表的位置。
 
-- Add support for standard CRDs for compiled-in Mixer adapters.
+- 为内置的 Mixer 适配器添加对标准 CRD 的支持。
 
-- Reduce Pilot resource requirements for demo configuration.
+- 减少用于演示配置的 Pilot 的资源需求。
 
-- Fully populate Galley dashboard by adding data source ([Issue 13040](https://github.com/istio/istio/issues/13040)).
+- 通过添加数据源完全填充 Galley 仪表盘。（[Issue 13040](https://github.com/istio/istio/issues/13040)）
 
-- Propagate Istio 1.1 `sidecar` performance tuning to the `istio-gateway`.
+- 将 Istio 1.1 `sidecar` 的性能调整覆盖到 `istio-gateway`。
 
-- Improve destination host validation by rejecting `*` hosts ([Issue 12794](https://github.com/istio/istio/issues/12794)).
+- 通过拒绝 `*` 主机来改善目标主机的验证。（[Issue 12794](https://github.com/istio/istio/issues/12794)）
 
-- Expose upstream `idle_timeout` in cluster definition so dead connections can sometimes be removed from connection pools before they are used
-([Issue 9113](https://github.com/istio/istio/issues/9113)).
+- 在集群定义中暴露上游的 `idle_timeout`，以便可以在使用前从连接池中删除死连接。（[Issue 9113](https://github.com/istio/istio/issues/9113)）
 
-- When registering a `Sidecar` resource to restrict what a pod can see, the restrictions are now applied if the spec contains a
-`workloadSelector` ([Issue 11818](https://github.com/istio/istio/issues/11818)).
+- 注册 `Sidecar` 资源以限制 Pod 可以看到的内容时，如果规范包含一个 `workloadSelector`，这些限制将被应用。（[Issue 11818](https://github.com/istio/istio/issues/11818)）
 
-- Update the Bookinfo example to use port 80 for TLS origination.
+- 更新 Bookinfo 示例以使端口 80 用于 TLS 源。
 
-- Add liveness probe for Citadel.
+- 为 Citadel 添加存活探针。
 
-- Improve AWS ELB interoperability by making 15020 the first port listed in the `ingressgateway` service ([Issue 12502](https://github.com/istio/istio/issues/12503)).
+- 通过将 15020 设置为 `ingressgateway` 服务中列出的第一个端口来提高 AWS ELB 的互操作性。（[Issue 12502](https://github.com/istio/istio/issues/12503)）
 
-- Use outlier detection for failover mode but not for distribute mode for locality weighted load balancing ([Issues 12965](https://github.com/istio/istio/issues/12961)).
+- 对故障转移模式使用异常值检测，但不用于局部加权负载均衡的分布模式。（[Issues 12965](https://github.com/istio/istio/issues/12961)）
 
-- Replace generation of Envoy's deprecated `enabled` field in `CorsPolicy` with the replacement `filter_enabled` field for 1.1.0+ sidecars only.
+- 对于 Istio 1.1.0+ Sidecar，使用 `filter_enabled` 字段取代 `CorsPolicy` 中的 `enabled` 字段。
 
-- Standardize labels on Mixer's Helm charts.
+- 标准化 Mixer Helm chart 上的标签.

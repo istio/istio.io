@@ -69,4 +69,4 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     $ docker stop <the container ID from the output of docker ps>
     {{< /text >}}
 
-You are ready to [deploy the application](/docs/examples/microservices-istio/bookinfo-kubernetes).
+You have learned how to package a single service into a container. The next step is to learn how to [deploy the whole application to a Kubernetes cluster](/docs/examples/microservices-istio/bookinfo-kubernetes).

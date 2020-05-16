@@ -5,7 +5,7 @@ weight: 95
 keywords: [mysql,mtls]
 ---
 
-安装 Istio 后您可能会发现 MySQL 无法连接。这是因为 `istio-demo.yaml` 中默认使用的 `PERMISSIVE` 模式不适用于 MySQL。您可能会看到类似于 "ERROR 2013 (HY000): Lost connection to MySQL server at 'reading initial communication packet', system error: 0" 的错误。
+安装 Istio 后您可能会发现 MySQL 无法连接。这是因为 `istio-demo.yaml` 中默认使用的 `PERMISSIVE` 模式不适用于 MySQL。您可能会看到类似于 "ERROR 2013 (HY000) : Lost connection to MySQL server at 'reading initial communication packet', system error: 0" 的错误。
 
 有两种方法可以解决此问题。
 

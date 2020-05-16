@@ -144,7 +144,7 @@ the set of domains.
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -157,7 +157,7 @@ the set of domains.
         - gateways:
           - istio-egressgateway
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -411,11 +411,7 @@ The SNI proxy will forward the traffic to port `443`.
     traffic destined for _*.wikipedia.org_ through the gateway.
 
     Choose the instructions corresponding to whether or not you want to enable
-    [mutual TLS Authentication](/docs/tasks/security/authentication/mutual-tls/) between the source pod and the egress gateway.
-
-    {{< idea >}}
-    You may want to enable mutual TLS to let the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that identity.
-    {{< /idea >}}
+    [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) between the source pod and the egress gateway.
 
     {{< tabset category-name="mtls" >}}
 
@@ -472,7 +468,7 @@ The SNI proxy will forward the traffic to port `443`.
         - gateways:
           - mesh
           port: 443
-          sni_hosts:
+          sniHosts:
           - "*.wikipedia.org"
         route:
         - destination:
@@ -593,7 +589,7 @@ The SNI proxy will forward the traffic to port `443`.
        - gateways:
          - mesh
          port: 443
-         sni_hosts:
+         sniHosts:
          - "*.wikipedia.org"
        route:
        - destination:
@@ -606,7 +602,7 @@ The SNI proxy will forward the traffic to port `443`.
        - gateways:
          - istio-egressgateway-with-sni-proxy
          port: 443
-         sni_hosts:
+         sniHosts:
          - "*.wikipedia.org"
        route:
        - destination:
@@ -652,16 +648,6 @@ The SNI proxy will forward the traffic to port `443`.
     127.0.0.1 [01/Aug/2018:15:32:02 +0000] TCP [en.wikipedia.org]200 81513 280 0.600
     127.0.0.1 [01/Aug/2018:15:32:03 +0000] TCP [de.wikipedia.org]200 67745 291 0.659
     {{< /text >}}
-
-1.  Check the mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the
-    log is:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep '"connectionEvent":"open"' | grep '"sourceName":"istio-egressgateway' | grep 'wikipedia.org'
-    {"level":"info","time":"2018-08-26T16:16:34.784571Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"0s","connectionEvent":"open","connection_security_policy":"unknown","destinationApp":"","destinationIp":"127.0.0.1","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"cluster.local/ns/istio-system/sa/istio-egressgateway-with-sni-proxy-service-account","destinationServiceHost":"","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":298,"reporter":"source","requestedServerName":"en.wikipedia.org","sentBytes":0,"sourceApp":"istio-egressgateway-with-sni-proxy","sourceIp":"172.30.146.88","sourceName":"istio-egressgateway-with-sni-proxy-7c4f7868fb-rc8pr","sourceNamespace":"istio-system","sourceOwner":"kubernetes://apis/extensions/v1beta1/namespaces/istio-system/deployments/istio-egressgateway-with-sni-proxy","sourcePrincipal":"cluster.local/ns/sleep/sa/default","sourceWorkload":"istio-egressgateway-with-sni-proxy","totalReceivedBytes":298,"totalSentBytes":0}
-    {{< /text >}}
-
-    Note the `requestedServerName` attribute.
 
 #### Cleanup wildcard configuration for arbitrary domains
 

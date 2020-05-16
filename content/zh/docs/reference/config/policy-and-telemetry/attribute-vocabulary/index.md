@@ -82,7 +82,7 @@ Istio 中除了 Envoy 是首要的属性生产者外，Mixer 和服务也会产�
 | `context.time` | timestamp | Mixer 操作的时间戳。 | |
 | `context.reporter.kind` | string | 将报告的属性集上下文化。 对于来自 sidecars 的服务器端调用设置为 `inbound`，对于来自 sidecars 和网关的客户端调用设置为 `outbound` 。 | `inbound` |
 | `context.reporter.uid` | string | 属性报告者特定于平台的唯一标识符。 | `kubernetes://my-svc-234443-5sffe.my-namespace` |
-| `context.proxy_error_code` | string | 有关来自代理的响应或连接的其他详细信息。 如果是 Envoy, 请参阅 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log#configuration) 的 `%RESPONSE_FLAGS%` 查看更多信息 | `UH` |
+| `context.proxy_error_code` | string | 有关来自代理的响应或连接的其他详细信息。 如果是 Envoy, 请参阅 [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage/#config-access-log-format-response-flags) 的 `%RESPONSE_FLAGS%` 查看更多信息 | `UH` |
 | `api.service` | string | 公开的服务名。和处于网格中的服务身份不同，它反映了暴露给客户端的服务名称。 | `my-svc.com` |
 | `api.version` | string | API 版本。 | `v1alpha1` |
 | `api.operation` | string | 用于辨别操作的唯一字符串。在特定的 &lt;service, version&gt; 描述的所有操作中，这个 ID 是唯一的。 | `getPetsById` |
@@ -101,7 +101,7 @@ Istio 中除了 Envoy 是首要的属性生产者外，Mixer 和服务也会产�
 
 时间戳属性以 RFC 3339 格式表示。
 应用 timestamp 属性时，可以使用 [CEXL](/zh/docs/reference/config/policy-and-telemetry/expression-language/)
-中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为  `TIMESTAMP` 类型，
+中定义的 `timestamp` 函数将 RFC 3339 格式的文本时间戳转换为 `TIMESTAMP` 类型，
 例如：`request.time | timestamp("2018-01-01T22:08:41+00:00")`, `response.time > timestamp("2020-02-29T00:00:00-08:00")`。
 
 持续时间属性表示时间量，表示为一系列十进制数，其中可选的小数部分用句点表示，以及单位值。

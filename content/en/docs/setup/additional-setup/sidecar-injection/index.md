@@ -15,11 +15,11 @@ In order to take advantage of all of Istio's features, pods in the mesh must be 
 
 The following sections describe two
 ways of injecting the Istio sidecar into a pod: manually using the [`istioctl`](/docs/reference/commands/istioctl)
-command or automatically using the Istio sidecar injector.
+command or by enabling automatic Istio sidecar injection in the pod's namespace.
 
 Manual injection directly modifies configuration, like deployments, and injects the proxy configuration into it.
 
-Automatic injection injects at pod creation time using an admission controller.
+When enabled in a pod's namespace, automatic injection injects the proxy configuration at pod creation time using an admission controller.
 
 Injection occurs by applying a template defined in the `istio-sidecar-injector` ConfigMap.
 
@@ -67,16 +67,9 @@ Sidecars can be automatically added to applicable Kubernetes pods using a
 While admission controllers are enabled by default, some Kubernetes distributions may disable them. If this is the case, follow the instructions to [turn on admission controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-controller).
 {{< /tip >}}
 
-When the injection webhook is enabled, any new pods that are created will automatically have a sidecar added to them.
+When you set the `istio-injection=enabled` label on a namespace and the injection webhook is enabled, any new pods that are created in that namespace will automatically have a sidecar added to them.
 
 Note that unlike manual injection, automatic injection occurs at the pod-level. You won't see any change to the deployment itself. Instead you'll want to check individual pods (via `kubectl describe`) to see the injected proxy.
-
-#### Disabling or updating the webhook
-
-The sidecar injecting webhook is enabled by default. If you wish to disable the webhook, you can
-use [Helm](/docs/setup/install/helm/) to set option `sidecarInjectorWebhook.enabled` to `false`.
-
-There are also a [variety of other options](/docs/reference/config/installation-options/#sidecarinjectorwebhook-options) that can be configured.
 
 #### Deploying an app
 
@@ -264,7 +257,7 @@ when applied over a pod defined by the pod template spec in [`samples/sleep/slee
 
 There are cases where users do not have control of the pod creation, for instance, when they are created by someone else. Therefore they are unable to add the annotation `sidecar.istio.io/inject` in the pod, to explicitly instruct Istio whether to install the sidecar or not.
 
-Think of auxiliary pods that might be created as an intermediate step while deploying an application. [OpenShift Builds](https://docs.okd.io/latest/dev_guide/builds/index.html), for example, creates such pods for building the source code of an application. Once the binary artifact is built, the application pod is ready to run and the auxiliary pods are discarded. Those intermediate pods should not get an Istio sidecar, even if the policy is set to `enabled` and the namespace is properly labeled to get automatic injection.
+Think of auxiliary pods that might be created as an intermediate step while deploying an application. [OpenShift Source to Image Builds](https://docs.okd.io/latest/builds/understanding-image-builds.html#build-strategy-s2i_understanding-image-builds), for example, creates such pods for building the source code of an application. Once the binary artifact is built, the application pod is ready to run and the auxiliary pods are discarded. Those intermediate pods should not get an Istio sidecar, even if the policy is set to `enabled` and the namespace is properly labeled to get automatic injection.
 
 For such cases you can instruct Istio to **not** inject the sidecar on those pods, based on labels that are present in those pods. You can do this by editing the `istio-sidecar-injector` ConfigMap and adding the entry `neverInjectSelector`. It is an array of Kubernetes label selectors. They are `OR'd`, stopping at the first match. See an example:
 

@@ -1,7 +1,7 @@
 ---
 title: Authorization Policy Trust Domain Migration
 description: Shows how to migrate from one trust domain to another without changing authorization policy.
-weight: 40
+weight: 60
 keywords: [security,access-control,rbac,authorization,trust domain, migration]
 ---
 
@@ -20,18 +20,7 @@ In Istio 1.4, we introduce an alpha feature to support {{< gloss >}}trust domain
 1. Install Istio with a custom trust domain and mutual TLS enabled.
 
     {{< text bash >}}
-    $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
-    spec:
-      values:
-        global:
-          controlPlaneSecurityEnabled: false
-          mtls:
-            enabled: true
-          trustDomain: old-td
-    EOF
-    $ istioctl manifest apply --set profile=demo -f td-installation.yaml
+    $ istioctl manifest apply --set profile=demo --set values.global.trustDomain=old-td
     {{< /text >}}
 
 1. Deploy the [httpbin]({{< github_tree >}}/samples/httpbin) sample in the `default` namespace
@@ -95,32 +84,10 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 1. Install Istio with a new trust domain.
 
     {{< text bash >}}
-    $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
-    spec:
-      values:
-        global:
-          controlPlaneSecurityEnabled: false
-          mtls:
-            enabled: true
-          trustDomain: new-td
-    EOF
-    $ istioctl manifest apply --set profile=demo -f td-installation.yaml
+    $ istioctl manifest apply --set profile=demo --set values.global.trustDomain=new-td
     {{< /text >}}
 
     Istio mesh is now running with a new trust domain, `new-td`.
-
-1. Delete secrets of `sleep` and `httpbin` in `default` namespace and in `sleep-allow` namespace. Notice if you install Istio with SDS,
-you don't need to follow this step. Learn more about [Provisioning Identity through SDS](/docs/tasks/security/citadel-config/auth-sds/)
-
-    {{< text bash >}}
-    $ kubectl delete secrets istio.sleep; kubectl delete secrets istio.httpbin;
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl delete secrets istio.sleep -n sleep-allow
-    {{< /text >}}
 
 1. Redeploy the `httpbin` and `sleep` applications to pick up changes from the new Istio control plane.
 
@@ -157,14 +124,11 @@ you don't need to follow this step. Learn more about [Provisioning Identity thro
 
     {{< text bash >}}
     $ cat <<EOF > ./td-installation.yaml
-    apiVersion: install.istio.io/v1alpha2
-    kind: IstioControlPlane
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
     spec:
       values:
         global:
-          controlPlaneSecurityEnabled: false
-          mtls:
-            enabled: true
           trustDomain: new-td
           trustDomainAliases:
             - old-td
@@ -201,8 +165,8 @@ as the old trust domain without you having to include the aliases.
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
-$ kubectl delete deploy httpbin; k delete service httpbin; k delete serviceaccount httpbin
-$ kubectl delete deploy sleep; k delete service sleep; k delete serviceaccount sleep
+$ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
+$ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
 $ kubectl delete namespace sleep-allow
 $ istioctl manifest generate --set profile=demo -f td-installation.yaml | kubectl delete -f -
 {{< /text >}}

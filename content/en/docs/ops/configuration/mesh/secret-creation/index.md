@@ -4,6 +4,10 @@ description: Describes how Citadel determines whether to create service account 
 weight: 30
 ---
 
+    {{< warning >}}
+    This document describes the behavior of Citadel, which is not enabled by default.
+    {{< /warning >}}
+
 When a Citadel instance notices that a `ServiceAccount` is created in a namespace, it must decide whether
 it should generate an `istio.io/key-and-cert` secret for that `ServiceAccount`.
 In order to make that decision, Citadel considers three inputs (note: there can be multiple Citadel instances
@@ -13,7 +17,7 @@ deployed in a single cluster, and the following targeting rules are applied to e
 
 1. `ca.istio.io/override` namespace label: *boolean valued* label which overrides all other configurations and forces all Citadel instances either to target or ignore a namespace
 
-1. [`enableNamespacesByDefault` security configuration](/docs/reference/config/installation-options/#security-options): default behavior if no labels are found on the `ServiceAccount`'s namespace
+1. [`enableNamespacesByDefault` security configuration](https://archive.istio.io/v1.4/docs/reference/config/installation-options/): default behavior if no labels are found on the `ServiceAccount`'s namespace
 
 From these three values, the decision process mirrors that of the [`Sidecar Injection Webhook`](/docs/ops/configuration/mesh/injection-concepts/). The detailed behavior is that:
 

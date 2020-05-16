@@ -18,7 +18,7 @@ aliases:
 
 ## 内容{#context}
 
-一位 Envoy 用户报告了一个 (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) 关于非常大的URI的正则表达式会导致 Envoy 崩溃的问题。通过调查，Istio 团队发现如果用户正在这些 Istio API（`JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`）中使用正则表达式，那么这个问题可能在 Istio 中引发 Dos 攻击。
+一位 Envoy 用户报告了一个 (c.f. [Envoy Issue 7728](https://github.com/envoyproxy/envoy/issues/7728)) 关于非常大的 URI 的正则表达式会导致 Envoy 崩溃的问题。通过调查，Istio 团队发现如果用户正在这些 Istio API（`JWT`, `VirtualService`, `HTTPAPISpecBinding`, `QuotaSpecBinding`）中使用正则表达式，那么这个问题可能在 Istio 中引发 Dos 攻击。
 
 ## 影响范围{#impact-and-detection}
 

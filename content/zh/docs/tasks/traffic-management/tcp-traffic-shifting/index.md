@@ -17,40 +17,46 @@ aliases:
 
 * 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
-* 回顾[流量管理](/zh/docs/concepts/traffic-management) 概念文档。
+* 回顾[流量管理](/zh/docs/concepts/traffic-management)概念文档。
 
 ## 应用基于权重的 TCP 路由{#apply-weight-based-tcp-routing}
 
-1.  首先，部署微服务 `tcp-echo` 的 `v1` 版本。
+1. 首先，部署微服务 `tcp-echo` 的 `v1` 版本。
+
+    * 第一步，为测试 TCP 流量转移创建命名空间
+
+        {{< text bash >}}
+        $ kubectl create namespace istio-io-tcp-traffic-shifting
+        {{< /text >}}
 
     * 如果使用[手动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)，请使用下面命令：
 
         {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@)
+        $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo-services.yaml@) -n istio-io-tcp-traffic-shifting
         {{< /text >}}
 
         [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject) 命令用于在创建 deployments 之前
         修改 `tcp-echo-services.yaml` 文件。
 
-    * 如果您使用的是启用了[自动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) 的集群，可以将 `default` namespace 标记为 `istio-injection=enabled` 。
+    * 如果您使用的是启用了[自动注入 sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) 的集群，可以将 `istio-io-tcp-traffic-shifting` namespace 标记为 `istio-injection=enabled` 。
 
         {{< text bash >}}
-        $ kubectl label namespace default istio-injection=enabled
+        $ kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
         {{< /text >}}
 
         然后，只需使用 `kubectl` 部署服务即可。
 
         {{< text bash >}}
-        $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@
+        $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
         {{< /text >}}
 
-1.  接下来, 将目标为微服务 `tcp-echo` 的 TCP 流量全部路由到 `v1` 版本。
+1. 接下来, 将目标为微服务 `tcp-echo` 的 TCP 流量全部路由到 `v1` 版本。
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@
+    $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-1.  确认 `tcp-echo` 服务已启动并开始运行。
+1. 确认 `tcp-echo` 服务已启动并开始运行。
 
     下面的 `$INGRESS_HOST` 变量是 ingress 的外部 IP 地址，可参考 [Ingress Gateways](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 文档。要获取 `$INGRESS_PORT` 变量的值，请使用以下命令。
 
@@ -82,18 +88,18 @@ aliases:
 
     您应该注意到，所有时间戳的前缀都是 _one_ ，这意味着所有流量都被路由到了 `tcp-echo` 服务的 `v1` 版本。
 
-1.  使用以下命令将 20% 的流量从 `tcp-echo:v1` 转移到 `tcp-echo:v2`：
+1. 使用以下命令将 20% 的流量从 `tcp-echo:v1` 转移到 `tcp-echo:v2`：
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/tcp-echo/tcp-echo-20-v2.yaml@
+    $ kubectl apply -f @samples/tcp-echo/tcp-echo-20-v2.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
     等待几秒钟，以使新规则在集群中传播和生效。
 
-1.  确认规则配置已替换完成：
+1. 确认规则配置已替换完成：
 
     {{< text bash yaml >}}
-    $ kubectl get virtualservice tcp-echo -o yaml
+    $ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
     apiVersion: networking.istio.io/v1alpha3
     kind: VirtualService
     metadata:
@@ -119,7 +125,7 @@ aliases:
           weight: 20
     {{< /text >}}
 
-1.  向 `tcp-echo` 服务发送更多 TCP 流量。
+1. 向 `tcp-echo` 服务发送更多 TCP 流量。
 
     {{< text bash >}}
     $ for i in {1..10}; do \
@@ -158,6 +164,7 @@ aliases:
 1. 删除 `tcp-echo` 应用程序和路由规则。
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/tcp-echo/tcp-echo-all-v1.yaml@
-    $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@
+    $ kubectl delete -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl delete namespace istio-io-tcp-traffic-shifting
     {{< /text >}}
