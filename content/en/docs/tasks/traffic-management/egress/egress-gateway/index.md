@@ -78,7 +78,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     destination IP address which is equal to the service IP of the gateway (since the request is directed by sidecar
     proxies to the gateway)
 
-    With the `DNS` resolutin, the gateway perform a DNS query to get an IP address of the external service and directs
+    With the `DNS` resolution, the gateway perform a DNS query to get an IP address of the external service and directs
     the traffic to that IP address.
     {{< /warning >}}
 
