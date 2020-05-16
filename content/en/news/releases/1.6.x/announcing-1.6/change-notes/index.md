@@ -38,7 +38,7 @@ weight: 10
 - ***Added*** support for Istio in-place upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
 - ***Removed*** the legacy Helm charts.
 - ***Added*** the ability for users to add a custom hostname for istiod.
-- ***Changed*** Gateway ports used from 15020 to 15021. If you check health on your Istio ingressgateway from your Kubernetes network load balancer you will need to update the port.
+- ***Changed*** gateway readiness port used from 15020 to 15021. If you check health on your Istio `ingressgateway` from your Kubernetes network load balancer you will need to update the port.
 - ***Added*** functionality to save installation state in a `CustomResource` in the cluster.
 - ***Changed*** the Istio installation to no longer manage the installation namespace, allowing more flexibility.
 - ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
