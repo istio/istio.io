@@ -9,7 +9,7 @@ aliases:
 ---
 
 The simplest kind of Istio logging is
-[Envoy's access logging](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log).
+[Envoy's access logging](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage).
 Envoy proxies print access information to their standard output.
 The standard output of Envoy's containers can then be printed by the `kubectl logs` command.
 
