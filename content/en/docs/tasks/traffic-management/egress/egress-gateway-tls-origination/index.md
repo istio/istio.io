@@ -84,7 +84,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 
     Your `ServiceEntry` was configured correctly if you see _301 Moved Permanently_ in the output.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 443, and a destination rule for
+1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     sidecar requests that will be directed to the egress gateway.
 
     {{< text bash >}}
@@ -98,31 +98,11 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
         istio: egressgateway
       servers:
       - port:
-          number: 443
-          name: https
-          protocol: HTTPS
+          number: 80
+          name: http-port-for-tls-origination
+          protocol: HTTP
         hosts:
         - edition.cnn.com
-        tls:
-          mode: ISTIO_MUTUAL
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: edition.cnn.com
     EOF
     {{< /text >}}
 
@@ -149,14 +129,13 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
         route:
         - destination:
             host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: cnn
             port:
-              number: 443
+              number: 80
           weight: 100
       - match:
         - gateways:
           - istio-egressgateway
-          port: 443
+          port: 80
         route:
         - destination:
             host: edition.cnn.com
@@ -215,7 +194,6 @@ $ kubectl delete gateway istio-egressgateway
 $ kubectl delete serviceentry cnn
 $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
-$ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
 
 ## Perform mutual TLS origination with an egress gateway
