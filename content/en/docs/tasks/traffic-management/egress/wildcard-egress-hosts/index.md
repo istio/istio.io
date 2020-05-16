@@ -315,6 +315,15 @@ The SNI proxy will forward the traffic to port `443`.
                 ports:
                 - port: 443
                   name: https
+              overlays:
+                - apiVersion: apps/v1
+                  kind: Deployment
+                  name: istio-egressgateway-with-sni-proxy
+                  patches:
+                  - path: spec.template.spec.containers
+                    value:
+                      - name: sni-proxy
+                        image: nginx
     EOF
     {{< /text >}}
 
