@@ -287,62 +287,35 @@ The SNI proxy will forward the traffic to port `443`.
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
     {{< /text >}}
 
-1.  The following command will generate `istio-egressgateway-with-sni-proxy.yaml` which you can optionally edit and then deploy.
-
-    {{< warning >}}
-    Note that the configuration below is currently supported for Helm only, not supported for Istioctl.
-    {{< /warning >}}
+1.  If you did not yet initialized [IstioOperator](/docs/setup/install/standalone-operator/), do it now:
 
     {{< text bash >}}
-    $ cat <<EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.istioNamespace=istio-system -f - > ./istio-egressgateway-with-sni-proxy.yaml
-    gateways:
-      enabled: true
-      istio-ingressgateway:
-        enabled: false
-      istio-egressgateway:
-        enabled: false
-      istio-egressgateway-with-sni-proxy:
-        enabled: true
-        labels:
-          app: istio-egressgateway-with-sni-proxy
-          istio: egressgateway-with-sni-proxy
-        replicaCount: 1
-        autoscaleMin: 1
-        autoscaleMax: 5
-        cpu:
-          targetAverageUtilization: 80
-        serviceAnnotations: {}
-        type: ClusterIP
-        ports:
-          - port: 443
-            name: https
-        secretVolumes:
-          - name: egressgateway-certs
-            secretName: istio-egressgateway-certs
-            mountPath: /etc/istio/egressgateway-certs
-          - name: egressgateway-ca-certs
-            secretName: istio-egressgateway-ca-certs
-            mountPath: /etc/istio/egressgateway-ca-certs
-        configVolumes:
-          - name: sni-proxy-config
-            configMapName: egress-sni-proxy-configmap
-        additionalContainers:
-        - name: sni-proxy
-          image: nginx
-          volumeMounts:
-          - name: sni-proxy-config
-            mountPath: /etc/nginx
-            readOnly: true
-    EOF
+    $ istioctl operator init
     {{< /text >}}
 
-1.  Deploy the new egress gateway:
+1.  Use [IstioOperator](/docs/setup/install/standalone-operator/) to create a new egress gateway:
 
     {{< text bash >}}
-    $ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
-    serviceaccount/istio-egressgateway-with-sni-proxy-service-account created
-    service/istio-egressgateway-with-sni-proxy created
-    deployment.apps/istio-egressgateway-with-sni-proxy created
+    $ kubectl apply -n istio-system -f - <<EOF
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    metadata:
+      name: istio-egressgateway-with-sni-proxy
+    spec:
+      profile: empty
+      components:
+        egressGateways:
+          - name: istio-egressgateway-with-sni-proxy
+            enabled: true
+            label:
+              app: istio-egressgateway-with-sni-proxy
+              istio: egressgateway-with-sni-proxy
+            k8s:
+              service:
+                ports:
+                - port: 443
+                  name: https
+    EOF
     {{< /text >}}
 
 1.  Verify that the new egress gateway is running. Note that the pod has two containers (one is the Envoy proxy and the
@@ -666,14 +639,13 @@ The SNI proxy will forward the traffic to port `443`.
     {{< text bash >}}
     $ kubectl delete serviceentry sni-proxy
     $ kubectl delete destinationrule disable-mtls-for-sni-proxy
-    $ kubectl delete -f ./istio-egressgateway-with-sni-proxy.yaml
+    $ kubectl delete IstioOperator istio-egressgateway-with-sni-proxy -n istio-system
     $ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
     {{< /text >}}
 
 1.  Remove the configuration files you created:
 
     {{< text bash >}}
-    $ rm ./istio-egressgateway-with-sni-proxy.yaml
     $ rm ./sni-proxy.conf
     {{< /text >}}
 
