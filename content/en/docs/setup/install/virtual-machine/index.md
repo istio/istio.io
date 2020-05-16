@@ -9,7 +9,7 @@ keywords:
 - vms
 ---
 
-Follow this guide to deploy a [multicluster service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) spanning one more more clusters and then connect a virtual machine to it.
+Follow this guide to deploy a [multicluster service mesh](/docs/ops/deployment/deployment-models/#multiple-clusters) spanning one or more clusters and then connect a virtual machine to it.
 
 {{< warning >}}
 This guide relies heavily on the
@@ -48,7 +48,6 @@ but not production. Like all alpha features, this guide is subject to change.
 1. Create a working directory for files generated in this install guide.
 
     {{< text bash >}}
-    $ mkdir -p "${HOME}"/"${CLUSTER_NAME}"
     $ mkdir -p "${HOME}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"
     {{< /text >}}
 
