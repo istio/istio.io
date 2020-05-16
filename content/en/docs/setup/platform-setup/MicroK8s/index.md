@@ -1,7 +1,7 @@
 ---
 title: MicroK8s
 description: Instructions to setup MicroK8s for use with Istio.
-weight: 20
+weight: 45
 skip_seealso: true
 aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/MicroK8s/

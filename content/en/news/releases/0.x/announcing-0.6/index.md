@@ -42,7 +42,7 @@ functionality. This may be useful in large deployments for better scaling of Mix
 - **Monitoring Dashboards**. There are now preliminary Mixer & Pilot monitoring dashboard in Grafana.
 
 - **Liveness and Readiness Probes**. Istio components now provide canonical liveness and readiness
-probe support to help ensure mesh infrastructure health. [Learn more](/docs/tasks/security/citadel-config/health-check/)
+probe support to help ensure mesh infrastructure health.
 
 - **Egress Policy and Telemetry**. Istio can monitor traffic to external services defined by `EgressRule` or External Service. Istio can also apply
 Mixer policies on this traffic.

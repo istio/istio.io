@@ -1,43 +1,23 @@
 ---
-title: Security Best Practices
-description: Best practices for securing applications using Istio.
+title: 安全最佳实践
+description: 使用 Istio 保护应用的最佳实践。
 force_inline_toc: true
 weight: 30
 ---
 
-This section provides some deployment guidelines to help keep a service mesh secure.
+本节提供了一些部署准则，以帮助确保服务网格的安全。
 
-## Use namespaces for isolation
+## 命名空间隔离{#use-namespaces-for-isolation}
 
-If there are multiple service operators (a.k.a. [SREs](https://en.wikipedia.org/wiki/Site_reliability_engineering))
-deploying different services in a medium- or large-size cluster, we recommend creating a separate
-[Kubernetes namespace](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/) for each SRE team to isolate their access.
-For example, you can create a `team1-ns` namespace for `team1`, and `team2-ns` namespace for `team2`, such
-that both teams cannot access each other's services.
+如果有多个运维人员（也称为 [SRE](https://en.wikipedia.org/wiki/Site_reliability_engineering)）在大型或中型集群中部署不同的服务，我们建议为每个 SRE 团队创建一个单独的 [Kubernetes 命名空间](https://kubernetes.io/docs/tasks/administer-cluster/namespaces-walkthrough/)，以隔离他们的访问权限。
+例如，您可以为 `team1` 创建一个 `team1-ns` 命名空间，为 `team2` 创建一个 `team2-ns` 命名空间，以使两个团队无法访问彼此的服务。
 
 {{< warning >}}
-If Citadel is compromised, all its managed keys and certificates in the cluster may be exposed.
-We **strongly** recommend running Citadel in a dedicated namespace (for example, `istio-citadel-ns`), to restrict access to
-the cluster to only administrators.
+如果 Citadel 受到威胁，则它在集群中的所有托管密钥和证书都可能泄露。我们强烈建议您在专用命名空间（例如，`istio-citadel-ns` ）中运行 Citadel，来限制集群的访问权限，仅适用于管理员。
 {{< /warning >}}
 
-Let us consider a three-tier application with three services: `photo-frontend`,
-`photo-backend`, and `datastore`. The photo SRE team manages the
-`photo-frontend` and `photo-backend` services while the datastore SRE team
-manages the `datastore` service. The `photo-frontend` service can access
-`photo-backend`, and the `photo-backend` service can access `datastore`.
-However, the `photo-frontend` service cannot access `datastore`.
+让我们考虑一个具有三项服务的三层应用程序：`photo-frontend`、`photo-backend` 和 `datastore`。photo SRE 团队管理 `photo-frontend` 和 `photo-backend` 服务，而 datastore SRE 团队管理 `datastore` 服务。`photo-frontend` 服务可以访问 `photo-backend`，而 `photo-backend` 服务可以访问 `datastore`。但是，`photo-frontend` 服务无法访问 `datastore`。
 
-In this scenario, a cluster administrator creates three namespaces:
-`istio-citadel-ns`, `photo-ns`, and `datastore-ns`. The administrator has
-access to all namespaces and each team only has access to its own namespace.
-The photo SRE team creates two service accounts to run `photo-frontend` and
-`photo-backend` respectively in the `photo-ns` namespace. The datastore SRE
-team creates one service account to run the `datastore` service in the
-`datastore-ns` namespace. Moreover, we need to enforce the service access
-control in [Istio Mixer](/zh/docs/reference/config/policy-and-telemetry/) such that
-`photo-frontend` cannot access datastore.
+在这种情况下，集群管理员将创建三个命名空间：`istio-citadel-ns`、`photo-ns` 和 `datastore-ns`。管理员有权访问所有命名空间，而每个团队只能访问自己的命名空间。photo SRE 团队创建两个服务帐户，在 `photo-ns` 命名空间中分别运行 `photo-frontend` 和 `photo-backend`。datastore SRE 团队创建了一个服务帐户来在 `datastore-ns` 命名空间中运行 `datastore` 服务。此外，我们需要在 [Istio Mixer](/zh/docs/reference/config/policy-and-telemetry/) 中强制执行服务访问控制，以使 `photo-frontend` 无法访问 datastore。
 
-In this setup, Kubernetes can isolate the operator privileges on managing the services.
-Istio manages certificates and keys in all namespaces
-and enforces different access control rules to the services.
+在这种设置下，Kubernetes 可以隔离管理服务的操作特权。Istio 管理所有命名空间中的证书和密钥，并对服务实施不同的访问控制规则。

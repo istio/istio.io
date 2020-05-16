@@ -19,7 +19,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FINDFILES=find . \( -path ./common-protos -o -path ./.git -o -path ./.github -o -path ./licenses \) -prune -o -type f
+FINDFILES=find . \( -path ./common-protos -o -path ./.git -o -path ./out -o -path ./.github -o -path ./licenses \) -prune -o -type f
 XARGS = xargs -0 -r
 
 lint-dockerfiles:
@@ -28,8 +28,9 @@ lint-dockerfiles:
 lint-scripts:
 	@${FINDFILES} -name '*.sh' -print0 | ${XARGS} shellcheck
 
+# TODO(nmittler): disabled pipefail due to grep failing when no files contain "{{". Need to investigate options.
 lint-yaml:
-	@${FINDFILES} \( -name '*.yml' -o -name '*.yaml' \) -print0 | ${XARGS} grep -L -e "{{" | xargs -r yamllint -c ./common/config/.yamllint.yml
+	@set +o pipefail; ${FINDFILES} \( -name '*.yml' -o -name '*.yaml' \) -print0 | ${XARGS} grep -L -e "{{" | xargs -r yamllint -c ./common/config/.yamllint.yml
 
 lint-helm:
 	@${FINDFILES} -name 'Chart.yaml' -print0 | ${XARGS} -L 1 dirname | xargs -r helm lint --strict
@@ -112,4 +113,8 @@ update-common-protos:
 check-clean-repo:
 	@common/scripts/check_clean_repo.sh
 
-.PHONY: lint-dockerfiles lint-scripts lint-yaml lint-copyright-banner lint-go lint-python lint-helm lint-markdown lint-sass lint-typescript lint-protos lint-all format-go format-python format-protos update-common update-common-protos lint-licenses dump-licenses dump-licenses-csv check-clean-repo
+tidy-docker:
+	@docker image prune --all --force --filter="label=io.istio.repo=https://github.com/istio/tools" --filter="label!=io.istio.version=$(IMAGE_VERSION)"
+
+
+.PHONY: lint-dockerfiles lint-scripts lint-yaml lint-copyright-banner lint-go lint-python lint-helm lint-markdown lint-sass lint-typescript lint-protos lint-all format-go format-python format-protos update-common update-common-protos lint-licenses dump-licenses dump-licenses-csv check-clean-repo tidy-docker

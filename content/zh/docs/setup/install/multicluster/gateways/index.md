@@ -10,7 +10,7 @@ aliases:
 keywords: [kubernetes,multicluster,gateway]
 ---
 
-请参照本指南安装具有副本集 [控制平面](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 实例的
+请参照本指南安装具有副本集[控制平面](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)实例的
 Istio [多集群部署](/zh/docs/ops/deployment/deployment-models/#control-plane-models)，并在每个群集中使用 gateway 来提供跨集群连接服务。
 
 在此配置中，每个集群都使用它自己的 Istio 控制平面来完成安装，并管理自己的 endpoint，
@@ -56,7 +56,7 @@ Istio [多集群部署](/zh/docs/ops/deployment/deployment-models/#control-plane
 
     {{< /tip >}}
 
-    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
+    * 使用类似于下面的命令，为生成的 CA 证书创建 Kubernetes secret。了解详情，请参见 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)。
 
         {{< warning >}}
         示例目录中的根证书和中间证书已被广泛分发和知道。
@@ -79,7 +79,7 @@ Istio [多集群部署](/zh/docs/ops/deployment/deployment-models/#control-plane
             -f install/kubernetes/operator/examples/multicluster/values-istio-multicluster-gateways.yaml
         {{< /text >}}
 
-    想了解更多细节和自定义选项，请参考 [使用 Istioctl 安装](/zh/docs/setup/install/istioctl/)。
+    想了解更多细节和自定义选项，请参考[使用 Istioctl 安装](/zh/docs/setup/install/istioctl/)。
 
 ## 配置 DNS{#setup-DNS}
 
@@ -88,7 +88,7 @@ Istio 本身不会为两个服务之间的请求使用 DNS。集群本地的服�
 
 要为远端集群的服务提供类似的配置，远端集群内的服务需要以 `<name>.<namespace>.global` 的格式命名。
 Istio 还附带了一个名为 CoreDNS 的服务，它可以为这些服务提供 DNS 解析。
-想要使用 CoreDNS，Kubernetes  DNS 的 `.global` 必须配置为 `stub a domain`。
+想要使用 CoreDNS，Kubernetes DNS 的 `.global` 必须配置为 `stub a domain`。
 
 {{< warning >}}
 一些云提供商的 Kubernetes 服务可能有不同的、特殊的 `DNS domain stub` 程序和功能。
@@ -146,14 +146,51 @@ data:
     global:53 {
         errors
         cache 30
-        proxy . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP})
+        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP}):53
     }
 EOF
 {{< /text >}}
 
 {{< /tab >}}
 
-{{< tab name="CoreDNS (>= 1.4.0)" category-value="coredns-after-1.4.0" >}}
+{{< tab name="CoreDNS (>= 1.4.0)" cookie-value="coredns-after-1.4.0" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           upstream
+           fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
+    global:53 {
+        errors
+        cache 30
+        forward . $(kubectl get svc -n istio-system istiocoredns -o jsonpath={.spec.clusterIP}):53
+    }
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="CoreDNS (== 1.4.0)" cookie-value="coredns-1.4.0" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -237,7 +274,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
     如果 `cluster2` 运行在一个不支持对外负载均衡的环境下，您需要使用 nodePort 访问 gateway。
     有关获取使用 IP 的说明，请参见教程：[控制 Ingress 流量](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)。
     在后面的步骤中，您还需要将 service entry 的 endpoint 的端口从 15443 修改为其对应的 nodePort
-    （例如，`kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports[?(@.port==15443)].nodePort}'`）。
+    （例如，`kubectl --context=$CTX_CLUSTER2 get svc -n istio-system istio-ingressgateway -o=jsonpath='{.spec.ports [?(@.port==15443)].nodePort}'`）。
 
     {{< /tip >}}
 
@@ -313,7 +350,7 @@ service entry 使用的 host 应该采用如下格式：`<name>.<namespace>.glob
 ### 通过 egress gateway 发送远程流量{#send-remote-traffic-via-an-egress-gateway}
 
 如果您想在 `cluster1` 中通过一个专用的 egress gateway 路由流量，而不是从 sidecars 直连。
-使用下面的 service entry 替换前面一节对  `httpbin.bar`  使用的配置。
+使用下面的 service entry 替换前面一节对 `httpbin.bar` 使用的配置。
 
 {{< tip >}}
 该配置中使用的 egress gateway 依然不能处理其它的、非 inter-cluster 的 egress 流量。

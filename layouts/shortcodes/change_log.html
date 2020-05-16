@@ -1,6 +1,7 @@
 {{ $first := true }}
 {{ $lastMonth := "" }}
 {{ $lastYear := "" }}
+{{ $subject := "None" }}
 {{ range .Site.Pages.ByLastmod.Reverse }}
 
     {{ if and .IsPage (not .Params.skip_sitemap) (not .Params.draft) }}
@@ -29,10 +30,13 @@
                 <tbody>
         {{ end }}
 
-        {{ $subject := trim (replaceRE "\\(\\#[0-9]+\\)" "" .GitInfo.Subject) " " }}
-        {{ if not (strings.HasSuffix $subject ".") }}
-            {{ $subject = printf "%s." $subject }}
+        {{ if .GitInfo }}
+            {{ $subject = trim (replaceRE "\\(\\#[0-9]+\\)" "" .GitInfo.Subject) " " }}
+            {{ if not (strings.HasSuffix $subject ".") }}
+                {{ $subject = printf "%s." $subject }}
+            {{ end }}
         {{ end }}
+       
 
         <tr>
             <td>{{ .Lastmod.Format (i18n "log_change_format") }}</td>

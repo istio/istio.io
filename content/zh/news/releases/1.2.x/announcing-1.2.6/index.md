@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.2.6
+title: Istio 1.2.6 发布公告
 linktitle: 1.2.6
-subtitle: Patch Release
-description: Istio 1.2.6 patch release.
+subtitle: 发布补丁
+description: Istio 1.2.6 版本发布公告。
 publishdate: 2019-09-17
 release: 1.2.6
 aliases:
@@ -12,20 +12,20 @@ aliases:
     - /zh/news/announcing-1.2.6
 ---
 
-We're pleased to announce the availability of Istio 1.2.6. Please see below for what's changed.
+我们很高兴地宣布 Istio 1.2.6 现在是可用的，详情请查看如下更改。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Fix `redisquota` inconsistency in regards to `memquota` counting ([Issue 15543](https://github.com/istio/istio/issues/15543)).
-- Fix an Envoy crash introduced in Istio 1.2.5 ([Issue 16357](https://github.com/istio/istio/issues/16357)).
-- Fix Citadel health check broken in the context of plugin certs (with intermediate certs) ([Issue 16593](https://github.com/istio/istio/issues/16593)).
-- Fix Stackdriver Mixer Adapter error log verbosity ([Issue 16782](https://github.com/istio/istio/issues/16782)).
-- Fix a bug where the service account map would be erased for service hostnames with more than one port.
-- Fix incorrect `filterChainMatch` wildcard hosts duplication produced by Pilot ([Issue 16573](https://github.com/istio/istio/issues/16573)).
+- 修复了 `redisquota` 有关 `memquota` 的计数不一致问题 ([Issue 15543](https://github.com/istio/istio/issues/15543))。
+- 修复了在 Istio 1.2.5 中引入的 Envoy 崩溃问题 ([Issue 16357](https://github.com/istio/istio/issues/16357))。
+- 修复了在插件证书（带有中间证书）的上下文中损坏的 `Citadel` 的运行状况的检查 ([Issue 16593](https://github.com/istio/istio/issues/16593))。
+- 修复了 Stackdriver Mixer Adapter 的错误日志的详细程度 ([Issue 16782](https://github.com/istio/istio/issues/16782))。
+- 修复了一个错误，该错误将删除具有多个端口的服务主机上的账户映射。
+- 修复了由 Pilot 产生的不正确的通配符 `filterChainMatch` 导致的主机重复的问题 ([Issue 16573](https://github.com/istio/istio/issues/16573))。
 
-## Small enhancements
+## 小改进{#small-enhancements}
 
-- Expose `sidecarToTelemetrySessionAffinity` (required for Mixer V1) when it talks to services like Stackdriver. ([Issue 16862](https://github.com/istio/istio/issues/16862)).
-- Expose `HTTP/2` window size settings as Pilot environment variables ([Issue 17117](https://github.com/istio/istio/issues/17117)).
+- 当与 Stackdriver 等服务进行会话连接时，会暴露 `sidecarToTelemetrySessionAffinity` (Mixer V1 需要) ([Issue 16862](https://github.com/istio/istio/issues/16862))。
+- 暴露 `HTTP/2` 窗口大小作为 Pilot 的环境变量 ([Issue 17117](https://github.com/istio/istio/issues/17117))。

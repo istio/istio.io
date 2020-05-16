@@ -1,9 +1,17 @@
 ---
-title: Control Headers and Routing
+title: Control Headers and Routing (Deprecated)
 description: Shows how to modify request headers and routing using policy adapters.
 weight: 20
 keywords: [policies,routing]
 ---
+
+{{< warning >}}
+The mixer policy is deprecated in Istio 1.5 and not recommended for production usage.
+
+Consider using Envoy [`ext_authz` filter](https://www.envoyproxy.io/docs/envoy/v1.13.0/intro/arch_overview/security/ext_authz_filter),
+[`lua` filter](https://www.envoyproxy.io/docs/envoy/v1.13.0/configuration/http/http_filters/lua_filter),
+or write a filter using the [`Envoy-wasm` sandbox](https://github.com/envoyproxy/envoy-wasm/tree/master/test/extensions/filters/http/wasm/test_data).
+{{< /warning >}}
 
 This task demonstrates how to use a policy adapter to manipulate request headers and routing.
 

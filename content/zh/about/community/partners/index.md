@@ -23,10 +23,11 @@ Istio 受益强大的合作伙伴生态。了解下他们是如何使 Istio 变�
     {{< company_logo link="https://www.huaweicloud.com" logo="./huawei.png" alt="Huawei Cloud" >}}
     {{< company_logo link="https://www.ibm.com/cloud/" logo="./ibm-cloud.svg" alt="IBM Cloud" tagline="Built for all your applications. AI ready. Secure to the core." >}}
     {{< company_logo link="https://github.com/knative/docs" logo="./knative.png" alt="Knative" >}}
+    {{< company_logo link="https://layer5.io/" logo="./layer5.svg" alt="Layer5" tagline="The service mesh company" >}}
     {{< company_logo link="https://pivotal.io" logo="./pivotal.svg" alt="Pivotal" tagline="The way the future gets built" >}}
     {{< company_logo link="https://www.redhat.com" logo="./redhat.svg" alt="Red Hat" tagline="We make open source technologies for the enterprise" >}}
     {{< company_logo link="https://www.solarwinds.com" logo="./solarwinds.png" alt="SolarWinds" tagline="Solve your toughest IT management problem, today" >}}
-    {{< company_logo link="https://www.solo.io" logo="./solo.webp" alt="solo.io" tagline="Next Gen API Gateway, Service Mesh Hub and Microservices Application Health" >}}
+    {{< company_logo link="https://www.solo.io" logo="./solo.png" alt="solo.io" tagline="Next Gen API Gateway, Service Mesh Hub and Microservices Application Health" >}}
     {{< company_logo link="https://sysdig.com" logo="./sysdig.svg" alt="Sysdig" tagline="The first unified approach to container security, monitoring and forensics" >}}
     {{< company_logo link="https://scytale.io" logo="./scytale.svg" alt="Scytale" tagline="Service Identity Management for the Cloud Native Enterprise" >}}
     {{< company_logo link="https://www.tigera.io" logo="./tigera.svg" alt="Tigera" tagline="Zero Trust Network Security & Continuous Compliance for Kubernetes Platforms" >}}

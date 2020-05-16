@@ -47,7 +47,7 @@ Install the `istioctl` binary with `curl`:
 
 ## Get an overview of your mesh
 
-You can get an overview of your mesh using the `proxy-status` command:
+You can get an overview of your mesh using the `proxy-status` or `ps` command:
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -91,7 +91,7 @@ To retrieve information about endpoint configuration for the Envoy instance in a
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-See [Debugging Envoy and Pilot](/docs/ops/diagnostic-tools/proxy-cmd/) for more advice on interpreting this information.
+See [Debugging Envoy and Istiod](/docs/ops/diagnostic-tools/proxy-cmd/) for more advice on interpreting this information.
 
 ## `istioctl` auto-completion
 
@@ -137,6 +137,10 @@ Once the `bash-completion` package has been installed on your Linux system, add 
 ### Enabling auto-completion
 
 To enable `istioctl` completion on your system, follow the steps for your preferred shell:
+
+{{< warning >}}
+You will need to download the full Istio release containing the auto-completion files (in the `/tools` directory). If you haven't already done so, [download the full release](/docs/setup/getting-started/#download) now.
+{{< /warning >}}
 
 {{< tabset category-name="profile" >}}
 

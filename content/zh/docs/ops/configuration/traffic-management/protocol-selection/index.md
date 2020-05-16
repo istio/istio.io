@@ -46,8 +46,11 @@ spec:
     name: http-web
 {{< /text >}}
 
-## 自动协议选择（试验性的）{#automatic-protocol-selection-(experimental)}
+## 自动协议选择{#automatic-protocol-selection}
 
 Istio 可以自动检测出 HTTP 和 HTTP/2 流量。如果协议无法自动确定，流量将会被当作普通 TCP 流量对待。
 
-这个特性是试验性的并且默认被关闭。通过设置这些安装选项可以将其打开 `--set values.pilot.enableProtocolSniffingForOutbound=true --set values.pilot.enableProtocolSniffingForInbound=true`。
+这个特性是默认开启的。通过设置这些安装选项可以将其关闭：
+
+- `--set values.pilot.enableProtocolSniffingForOutbound=false` 为（非指定的或不支持协议的）出站监听器禁用协议检测。
+- `--set values.pilot.enableProtocolSniffingForInbound=false` 为（非指定的或不支持协议的）入站监听器禁用协议检测。

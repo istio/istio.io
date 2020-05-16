@@ -1,5 +1,5 @@
 ---
-title: 简化地多集群安装 [实验性]
+title: 简化地多集群安装[实验性]
 description: 配置一个跨多个 Kubernetes 集群的 Istio 网格。
 weight: 1
 keywords: [kubernetes,multicluster]
@@ -78,13 +78,13 @@ keywords: [kubernetes,multicluster]
     $ cd ${WORKDIR}
     {{< /text >}}
 
-1. 下载[设置脚本]({{< github_file >}}/samples/multicluster/setup-mesh.sh)到您的工作目录。
+1. 下载[设置脚本]({{<github_file>}}/samples/multicluster/setup-mesh.sh)到您的工作目录。
 该脚本负责创建必要的证书以启用跨集群通信，它为您准备了默认配置文件，并将在每个集群中部署和配置 Istio。
 
 1. 最后，运行下载的脚本以准备网格。这会创建一个将用于保护网格中群集之间的通信安全的根密钥和证书，以及用于控制所有群集上部署的 Istio 的配置的 `base.yaml` 文件：
 
     {{< text bash >}}
-    $ ./setup-mesh.sh prep
+    $ ./setup-mesh.sh prep-mesh
     {{< /text >}}
 
     请注意此步骤不会对集群产生任何影响，它只是在您的工作目录里创建了若干文件。
@@ -118,9 +118,9 @@ mesh_id: mymeshname
 contexts:
   context-east-1:
     network: network-east
-  content-east-2:
+  context-east-2:
     network: network-east
-  content-west-1:
+  context-west-1:
     network: network-west
 {{< /text >}}
 
@@ -128,7 +128,7 @@ contexts:
 这将部署 Istio 到每个集群，并配置每个势力以互相安全通信：
 
 {{< text bash >}}
-$ ./setup-mesh apply
+$ ./setup-mesh.sh apply
 {{< /text >}}
 
 想要往网格中添加或删除集群，只需要对应地更新该拓扑文件并重新应用这些更改。

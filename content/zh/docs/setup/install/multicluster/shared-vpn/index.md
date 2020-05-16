@@ -64,6 +64,7 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
     $ istioctl manifest apply \
     --set profile=remote \
     --set values.global.controlPlaneSecurityEnabled=false \
+    --set values.global.createRemoteSvcEndpoints=true \
     --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
@@ -100,6 +101,7 @@ $ export TELEMETRY_POD_IP=$(kubectl -n istio-system get pod -l istio-mixer-type=
 | `values.global.remoteTelemetryAddress` | 有效的 IP 地址或主机名 | None | 指定 Istio 控制平面的 telemetry Pod IP 地址或远程集群 DNS 可解析的主机名 |
 | `values.sidecarInjectorWebhook.enabled` | true, false | true | 指定是否在远程集群上启用自动 sidecar 注入 |
 | `values.global.remotePilotCreateSvcEndpoint` | true, false | false | 如果设置，将使用 `remotePilotAddress` IP 创建用于 `istio-pilot` 的无选择器的服务和端点，以确保 `istio-pilot.<namespace>` 在远程集群上可通过 DNS 解析。 |
+| `values.global.createRemoteSvcEndpoints` | true, false | false | 如果设置，`istio-pilot`、`istio-telemetry` 和 `istio-policy` 的 selector-less 服务和端点将用相应的远程 IP：`remotePilotAddress`、`remoteTelmetryAddress` 和 `remotePolicyAddress` 分别创建，这样确保在远程集群中服务名可以通过 DNS 解析。 |
 
 ## 为远程集群创建配置文件{#kubeconfig}
 
@@ -204,6 +206,7 @@ Kubernetes secret 数据密钥必须符合 `DNS-1123 subdomain` [格式](https:/
     $ istioctl manifest generate \
     --set profile=remote \
     --set values.global.controlPlaneSecurityEnabled=false \
+    --set values.global.createRemoteSvcEndpoints=true \
     --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
@@ -219,7 +222,7 @@ Kubernetes secret 数据密钥必须符合 `DNS-1123 subdomain` [格式](https:/
 
 对远程集群执行下列步骤。
 
-在开始之前，请按照[设置环境变量部分](#environment-var)中的说明设置端点IP环境变量。
+在开始之前，请按照[设置环境变量部分](#environment-var)中的说明设置端点 IP 环境变量。
 
 1. 安装 Istio 远程配置文件：
 
@@ -227,6 +230,7 @@ Kubernetes secret 数据密钥必须符合 `DNS-1123 subdomain` [格式](https:/
     $ istioctl manifest apply \
     --set profile=remote \
     --set values.global.controlPlaneSecurityEnabled=false \
+    --set values.global.createRemoteSvcEndpoints=true \
     --set values.global.remotePilotCreateSvcEndpoint=true \
     --set values.global.remotePilotAddress=${PILOT_POD_IP} \
     --set values.global.remotePolicyAddress=${POLICY_POD_IP} \
@@ -325,7 +329,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 `citadel` 证书自签名。
 
-    * Istio 控制平面命名空间中具有[证书颁发机构（CA）证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有[证书颁发机构（CA）证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
 
 1. 部署 Istio 远程集群需要：
 
@@ -333,7 +337,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 `citadel` 证书自签名。
 
-    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
       主集群的证书颁发机构（CA）或根 CA 必须也为远程集群签名 CA 证书。
 
     * Istio pilot 服务主机名可被 DNS 解析。
@@ -351,7 +355,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 Citadel 证书自签名。
 
-    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
 
 1. 部署 Istio 远程集群需要：
 
@@ -359,7 +363,7 @@ Istio 支持在控制平面组件之间以及注入到应用的 pods 的 sidecar
 
     * 禁用 Citadel 证书自签名。
 
-    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
+    * Istio 控制平面命名空间中具有 [CA 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)的名为 `cacerts` 的 secret。
       主集群的 CA 或根 CA 必须也为远程集群签名 CA 证书。
 
 {{< tip >}}
@@ -386,8 +390,7 @@ Istio Pilot 用该服务和端点以让远程 sidecars 可以通过 Istio 的本
     {{< text bash >}}
     $ istioctl manifest apply \
       --set values.global.mtls.enabled=true \
-      --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true
+      --set values.security.selfSigned=false
     {{< /text >}}
 
 #### 远程集群：部署 Istio 组件{#remote-cluster-deploy-Istio-components}
@@ -408,7 +411,7 @@ Istio Pilot 用该服务和端点以让远程 sidecars 可以通过 Istio 的本
       --set profile=remote \
       --set values.global.mtls.enabled=true \
       --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
+      --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${PILOT_POD_IP} \
       --set values.global.remotePolicyAddress=${POLICY_POD_IP} \

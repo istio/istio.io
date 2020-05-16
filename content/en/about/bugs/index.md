@@ -66,14 +66,6 @@ containing:
 
 * Current and previous logs from all Istio components and sidecar
 
-* Mixer logs:
-
-    {{< text bash >}}
-    $ kubectl logs -n istio-system -l istio=mixer -c mixer
-    $ kubectl logs -n istio-system -l istio=policy -c mixer
-    $ kubectl logs -n istio-system -l istio=telemetry -c mixer
-    {{< /text >}}
-
 * Pilot logs:
 
     {{< text bash >}}

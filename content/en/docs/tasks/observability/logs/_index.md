@@ -1,6 +1,6 @@
 ---
 title: Logs
-description: Demonstrates the configuration, collection, and processing of Istio mesh logs.
+description: Demonstrates the collection of logs within Istio.
 weight: 20
 aliases:
  - /docs/tasks/telemetry/logs/

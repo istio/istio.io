@@ -9,7 +9,7 @@ weight: 20
 
 ## 流量管理{#traffic-management}
 
-### 443端口的 HTTP 服务{#http-services-on-port-four-four-three}
+### 443 端口的 HTTP 服务{#http-services-on-port-four-four-three}
 
 `http`类型的服务将不再允许使用 443 端口，这个改动是为了保护协议不与外部的 HTTPS 服务所冲突。
 
@@ -23,7 +23,7 @@ weight: 20
 
 ### 正则引擎变化{#regex-engine-changes}
 
-为了防止过大的正则表达式消耗过多的资源，Envoy 选择了一个新的正则表达式引擎 [`re2`](https://github.com/google/re2) ，这之前用的是 `std::regex`。这两个引擎有着很明显的语法差异，尤其是，现在的正则字段被限制在100 bytes 以内。
+为了防止过大的正则表达式消耗过多的资源，Envoy 选择了一个新的正则表达式引擎 [`re2`](https://github.com/google/re2) ，这之前用的是 `std::regex`。这两个引擎有着很明显的语法差异，尤其是，现在的正则字段被限制在 100 bytes 以内。
 
 如果你依赖了旧正则表达式引擎的某个特定的行为，你可以通过给 Pilot deployment 指定环境变量 `PILOT_ENABLE_UNSAFE_REGEX=true` 来避免这个变化。注意：这会在未来的发布中移除。
 

@@ -212,7 +212,7 @@ request traffic to route to two or more workloads.
 
 1.  View the **Versioned app graph** of the `bookinfo` graph.
 
-    *   Make sure you have selected **Requests percentage** in the **Edge Labels** drop down menu
+    *   Make sure you have selected **Requests percentage** in the **Display** drop down menu
         to see the percentage of traffic routed to each workload.
 
     *   Make sure you have selected the **Service Nodes** check box in the **Display** drop down menu

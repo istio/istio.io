@@ -20,7 +20,7 @@ Istio API 进化的下一步重心是在 Istio 用户的角色上。一个安全
 1. Istio API 应该寻求：
     - 正确地表示他们映射到的基础资源
     - 不应该隐藏任何基础资源的有用功能
-1. Istio API 也应该是 [可组合的](https://en.wikipedia.org/wiki/Composability)，因此终端用户能以适合其自身需求的方式组合基础 API。
+1. Istio API 也应该是[可组合的](https://en.wikipedia.org/wiki/Composability)，因此终端用户能以适合其自身需求的方式组合基础 API。
 1. Istio API 也应该是灵活的：在一个组织内部，应该有可能对基础资源有不同的表现形式，并且对每个团队都有意义。
 
 在接下来的几个版本中，我们将分享我们的进展，我们将加强 Istio API 与 Istio 用户角色之间的一致性。
@@ -35,11 +35,11 @@ Kubernetes 可组合性的一个具体示例是部署应用时有一系列的对
 
 可以在 [Google Cloud HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) (GCLB) 找到网络空间可组合性的另一个例子。要正确使用 GCLB 的一个实例，需要创建和配置 6 个不同的基础对象。这样的设计是我们操作分布式系统 20 年经验的一个结果，并且[为什么每一个对象和其他对象相互独立是有原因的](https://www.youtube.com/watch?v=J5HJ1y6PeyE)。但你通过 Google Cloud 控制台创建一个实例的步骤是被简化过的。我们提供越多的通用的面向终端用户/以角色为中心的配置，以后你们配置的通用设置越少。最终，基础 API 的目标是在不牺牲功能的情况下提供最大的灵活性。
 
-[Knative](http://knative.dev) 是一个创建、运行并且操作无服务器工作负载的平台，它提供了一个以角色为中心的现实世界绝佳的示例，更高层次的 API。[Knative Serving](https://knative.dev/docs/serving/)，Knative 的一个组件，基于 Kubernetes 和 Istio 服务于无服务器应用和功能，为应用开发人员管理服务的路由和修订提供了一个稳定的工作流。由于采用这种稳定的方式，Knative Serving 将 Istio 的 [`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) 和 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 资源，抽象成一个简化的支持修订和流量路由的 [路由](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route) 对象，将与应用开发人员最紧密相关的 Istio 网络 API 的一个子集暴露出来。
+[Knative](http://knative.dev) 是一个创建、运行并且操作无服务器工作负载的平台，它提供了一个以角色为中心的现实世界绝佳的示例，更高层次的 API。[Knative Serving](https://knative.dev/docs/serving/)，Knative 的一个组件，基于 Kubernetes 和 Istio 服务于无服务器应用和功能，为应用开发人员管理服务的路由和修订提供了一个稳定的工作流。由于采用这种稳定的方式，Knative Serving 将 Istio 的 [`VirtualService`](/zh/docs/reference/config/networking/virtual-service/) 和 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/) 资源，抽象成一个简化的支持修订和流量路由的[路由](https://github.com/knative/docs/blob/master/docs/serving/spec/knative-api-specification-1.0.md#route)对象，将与应用开发人员最紧密相关的 Istio 网络 API 的一个子集暴露出来。
 
 随着 Istio 的成熟，我们还看到生产用户在 Istio 的基础 API 之上开发了针对特定工作负载和组织的抽象层。
 
-AutoTrader UK 提供了一个基于 Istio 定制平台的我们最喜欢的例子。在 [来自 Google 的 Kubernetes Podcast 的一个采访](https://kubernetespodcast.com/episode/052-autotrader/) 中，Russel Warman 和 Karl Stoney 描述了他们基于 Kubernetes 的交付平台，和 [用 Prometheus 和 Grafana 搭建的成本 Dashboard](https://karlstoney.com/2018/07/07/managing-your-costs-on-kubernetes/)。他们毫不费力地添加了配置项使网络达到他们的开发人员希望配置成的样子，并且现在它管理着的 Istio 的对象让这一切成为可能。在企业和云原生公司中构建了无数其他的平台：一些旨在替换公司特定的自定义脚本的网络，而另一些旨在成为通用的公共工具。随着越来越多的公司开始公开谈论他们的工具，我们将把他们的故事带到此博客。
+AutoTrader UK 提供了一个基于 Istio 定制平台的我们最喜欢的例子。在[来自 Google 的 Kubernetes Podcast 的一个采访](https://kubernetespodcast.com/episode/052-autotrader/)中，Russel Warman 和 Karl Stoney 描述了他们基于 Kubernetes 的交付平台，和[用 Prometheus 和 Grafana 搭建的成本 Dashboard](https://karlstoney.com/2018/07/07/managing-your-costs-on-kubernetes/)。他们毫不费力地添加了配置项使网络达到他们的开发人员希望配置成的样子，并且现在它管理着的 Istio 的对象让这一切成为可能。在企业和云原生公司中构建了无数其他的平台：一些旨在替换公司特定的自定义脚本的网络，而另一些旨在成为通用的公共工具。随着越来越多的公司开始公开谈论他们的工具，我们将把他们的故事带到此博客。
 
 ## 接下来会发生什么{#what’s-coming-next}
 

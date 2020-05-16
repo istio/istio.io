@@ -7,7 +7,7 @@ aliases:
 keywords: [traffic-management,ingress,sds-credentials]
 ---
 
-[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress) 中描述了如何进行配置，
+[控制 Ingress 流量任务](/zh/docs/tasks/traffic-management/ingress)中描述了如何进行配置，
 通过 Ingress Gateway 把服务的 HTTP 端点暴露给外部。
 这里更进一步，使用单向或者双向 TLS 来完成开放服务的任务。
 
@@ -15,7 +15,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 
 ## 开始之前 {#before-you-begin}
 
-1. 首先执行 [Ingress 任务的初始化步骤](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)，然后执行[Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)部分中[获取 Ingress 的地址和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)，在完成这些步骤之后，也就是完成了 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin) 的部署，并设置了 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 两个环境变量的值。
+1. 首先执行 [Ingress 任务的初始化步骤](/zh/docs/tasks/traffic-management/ingress/ingress-control#before-you-begin)，然后执行 [Ingress 流量控制](/zh/docs/tasks/traffic-management/ingress/ingress-control)部分中[获取 Ingress 的地址和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)，在完成这些步骤之后，也就是完成了 Istio 和 [httpbin]({{< github_tree >}}/samples/httpbin) 的部署，并设置了 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 两个环境变量的值。
 
 1. macOS 用户应该检查一下本机的 `curl` 是否是使用 [LibreSSL](http://www.libressl.org) 库进行编译的：
 
@@ -27,7 +27,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     如果上面的命令输出了一段 LibreSSL 的版本信息，就说明你的 `curl` 命令可以完成本任务的内容。否则就要想办法换一个不同的 `curl` 了，例如可以换用一台运行 Linux 的工作站。
 
 {{< tip >}}
-如果使用[基于文件安装的方法](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount)配置了 ingress gateway ，并且想要迁移 ingress gateway 使用SDS方法。 无需其他步骤。
+如果使用[基于文件安装的方法](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount)配置了 ingress gateway ，并且想要迁移 ingress gateway 使用 SDS 方法。无需其他步骤。
 {{< /tip >}}
 
 ## 为服务器和客户端生成证书 {#generate-client-and-server-certificates-and-keys}
@@ -77,7 +77,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 * Gateway 代理能够监视多个密钥/证书对。只需要为每个主机名创建 `Secret` 并更新 Gateway 定义就可以了。
 
 1. 在 Ingress Gateway 上启用 SDS，并部署 Ingress Gateway 代理。
-    这个功能缺省是禁用的，因此需要在 Helm 中打开 [`istio-ingressgateway.sds.enabled` 开关]({{<github_blob>}}/install/kubernetes/helm/istio/charts/gateways/values.yaml)，然后生成 `istio-ingressgateway.yaml` 文件：
+    这个功能缺省是禁用的，因此需要在 Helm 中打开 [`istio-ingressgateway.sds.enabled` 开关]({{<github_blob>}}/manifests/UPDATING-CHARTS.md)，然后生成 `istio-ingressgateway.yaml` 文件：
 
     {{< text bash >}}
     $ istioctl manifest generate \
@@ -96,7 +96,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
-### 为单一主机配置 TLS Ingress Gateway  {#configure-a-TLS-ingress-gateway-for-a-single-host}
+### 为单一主机配置 TLS Ingress Gateway {#configure-a-TLS-ingress-gateway-for-a-single-host}
 
 1. 启动 `httpbin` 样例：
 
@@ -152,7 +152,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     secret name **不能** 以 `istio` 或者 `prometheus`为开头, 且 secret **不能** 包含 `token` 字段。
     {{< /warning >}}
 
-1. 创建一个 Gateway ，其 `servers:` 字段的端口为 443，设置 `credentialName` 的值为  `httpbin-credential`。这个值就是 `Secret` 的名字。TLS 模式设置为 `SIMPLE`。
+1. 创建一个 Gateway ，其 `servers:` 字段的端口为 443，设置 `credentialName` 的值为 `httpbin-credential`。这个值就是 `Secret` 的名字。TLS 模式设置为 `SIMPLE`。
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -176,7 +176,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     EOF
     {{< /text >}}
 
-1. 配置 Gateway 的 Ingress 流量路由，并配置对应的 `VirtualService`：：
+1. 配置 Gateway 的 Ingress 流量路由，并配置对应的 `VirtualService`：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -324,7 +324,7 @@ keywords: [traffic-management,ingress,sds-credentials]
     EOF
     {{< /text >}}
 
-1. 为 Ingress Gateway 创建一个 Secret。如果已经创建了  `httpbin-credential`，就可以创建 `helloworld-credential` Secret 了。
+1. 为 Ingress Gateway 创建一个 Secret。如果已经创建了 `httpbin-credential`，就可以创建 `helloworld-credential` Secret 了。
 
     {{< text bash >}}
     $ pushd mtls-go-example
@@ -422,7 +422,7 @@ keywords: [traffic-management,ingress,sds-credentials]
             `"""`
     {{< /text >}}
 
-### 配置双向 TLS Ingress Gateway  {#configure-a-mutual-TLS-ingress-gateway}
+### 配置双向 TLS Ingress Gateway {#configure-a-mutual-TLS-ingress-gateway}
 
 可以对 Gateway 的定义进行扩展，加入[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 的支持。要修改 Ingress Gateway 的凭据，就要删除并重建对应的 `Secret`。服务器会使用 CA 证书对客户端进行校验，因此需要使用 `cacert` 字段来保存 CA 证书：
 
@@ -549,7 +549,7 @@ $ kubectl create -n istio-system secret generic httpbin-credential  \
     -n istio-system -o jsonpath='{.items[0].metadata.name}') -c ingress-sds
     {{< /text >}}
 
-    正常情况下，日志中应该显示 `httpbin-credential` 已经成功创建。如果使用的是双向 TLS，还应该看到 `httpbin-credential-cacert`。通过对日志的查看，能够验证 Ingress Gateway 代理从 Ingress Gateway 收到了 SDS 请求，资源名称是  `httpbin-credential`，Ingress Gateway 最后得到了应有的密钥/证书对。如果使用的是双向 TLS，日志会显示出密钥/证书对已经发送给 Ingress Gateway ， Gateway 代理接收到了资源名为 `httpbin-credential-cacert` 的 SDS 请求，Ingress Gateway 用这种方式获取根证书。
+    正常情况下，日志中应该显示 `httpbin-credential` 已经成功创建。如果使用的是双向 TLS，还应该看到 `httpbin-credential-cacert`。通过对日志的查看，能够验证 Ingress Gateway 代理从 Ingress Gateway 收到了 SDS 请求，资源名称是 `httpbin-credential`，Ingress Gateway 最后得到了应有的密钥/证书对。如果使用的是双向 TLS，日志会显示出密钥/证书对已经发送给 Ingress Gateway ，Gateway 代理接收到了资源名为 `httpbin-credential-cacert` 的 SDS 请求，Ingress Gateway 用这种方式获取根证书。
 
 ## 清理 {#cleanup}
 

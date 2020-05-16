@@ -21,9 +21,9 @@ when installing both `istio-init` and Istio charts with either `template` or `ti
 - Many installation options have been added, removed, or changed. Refer to [Installation Options Changes](/news/releases/1.1.x/announcing-1.1/helm-changes/) for a detailed
 summary of the changes.
 
-- The 1.0 `istio-remote` chart used for [multicluster VPN](/docs/setup/install/multicluster/shared-vpn/) and
-[multicluster shared gateways](/docs/setup/install/multicluster/shared-gateways/) remote cluster installation has been consolidated into the Istio chart.  To generate
-an equivalent `istio-remote` chart, use the `--set global.istioRemote=true` flag.
+- The 1.0 `istio-remote` chart used for [multicluster VPN](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/multicluster/vpn/) and
+[multicluster split horizon](https://archive.istio.io/v1.1/docs/examples/multicluster/split-horizon-eds/) remote cluster
+installation has been consolidated into the Istio chart. To generate an equivalent `istio-remote` chart, use the `--set global.istioRemote=true` flag.
 
 - Addons are no longer exposed via separate load balancers.  Instead addons can now be optionally exposed via the Ingress Gateway.  To expose an addon via the
 Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/) guide.
@@ -32,7 +32,7 @@ Ingress Gateway, please follow the [Remotely Accessing Telemetry Addons](/docs/t
 `--set global.envoyStatsd.enabled=true` flag.
 
 - The `ingress` series of options for configuring a Kubernetes Ingress have been removed.  Kubernetes Ingress is still functional and can be enabled using the
-`--set global.k8sIngress.enabled=true` flag.  Check out [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/)
+`--set global.k8sIngress.enabled=true` flag.  Check out [Securing Kubernetes Ingress with Cert-Manager](/docs/ops/integrations/certmanager/)
 to learn how to secure your Kubernetes ingress resources.
 
 ## Traffic management

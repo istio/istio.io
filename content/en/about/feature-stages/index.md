@@ -54,7 +54,7 @@ Below is our list of existing features and their current phases. This informatio
 | Feature           | Phase
 |-------------------|-------------------
 | [Prometheus Integration](/docs/tasks/observability/metrics/querying-metrics/) | Stable
-| [Local Logging (STDIO)](/docs/tasks/observability/logs/collecting-logs/) | Stable
+| [Local Logging (STDIO)](/docs/tasks/observability/mixer/logs/collecting-logs/) | Stable
 | [Statsd Integration](/docs/reference/config/policy-and-telemetry/adapters/statsd/) | Stable
 | [Client and Server Telemetry Reporting](/docs/reference/config/policy-and-telemetry/) | Stable
 | [Service Dashboard in Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/) | Stable
@@ -62,25 +62,25 @@ Below is our list of existing features and their current phases. This informatio
 | [Distributed Tracing](/docs/tasks/observability/distributed-tracing/) | Stable
 | [Stackdriver Integration](/docs/reference/config/policy-and-telemetry/adapters/stackdriver/) | Beta
 | [Distributed Tracing to Zipkin / Jaeger](/docs/tasks/observability/distributed-tracing/) | Beta
-| [Logging with Fluentd](/docs/tasks/observability/logs/fluentd/) | Beta
-| [Trace Sampling](/docs/tasks/observability/distributed-tracing/overview/#trace-sampling) | Beta
+| [Logging with Fluentd](/docs/tasks/observability/mixer/logs/fluentd/) | Beta
+| [Trace Sampling](/docs/tasks/observability/distributed-tracing/configurability/#trace-sampling) | Beta
 
 ### Security and policy enforcement
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
-| [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/citadel-config/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/docs/concepts/security/#mutual-tls-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/docs/concepts/security/#pki)   | Stable
+| [Certificate management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress) | Stable
+| [Pluggable Key/Cert Support for Istio CA](/docs/tasks/security/cert-management/plugin-ca-cert/)        | Stable
+| [Authorization](/docs/concepts/security/#authorization)   | Beta
+| [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Beta
+| [Automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) | Beta
 | [VM: Service Credential Distribution](/docs/concepts/security/#pki)         | Beta
 | [Mutual TLS Migration](/docs/tasks/security/authentication/mtls-migration)    | Beta
-| [Cert management on Ingress Gateway](/docs/tasks/traffic-management/ingress/secure-ingress-sds) | Beta
-| [Authorization](/docs/concepts/security/#authorization)   | Beta
-| [End User (JWT) Authentication](/docs/concepts/security/#authentication)  | Alpha
-| [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [SDS Integration](/docs/tasks/security/citadel-config/auth-sds/) | Alpha
+| [Deny Checker](/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Deprecated
+| [List Checker](/docs/reference/config/policy-and-telemetry/adapters/list/)        | Deprecated
+| [OPA Checker](/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Deprecated
 
 ### Core
 
@@ -91,7 +91,6 @@ Below is our list of existing features and their current phases. This informatio
 | [Kubernetes: Istio Control Plane Installation](/docs/setup/) | Stable
 | [Attribute Expression Language](/docs/reference/config/policy-and-telemetry/expression-language/) | Stable
 | Mixer Out-of-Process Adapter Authoring Model | Beta
-| [Helm](/docs/setup/install/helm/) | Beta
 | [Multicluster Mesh over VPN](/docs/setup/install/multicluster/) | Alpha
 | [Kubernetes: Istio Control Plane Upgrade](/docs/setup/) | Beta
 | Consul Integration | Alpha

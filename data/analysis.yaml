@@ -58,16 +58,16 @@ messages:
         type: string
       - name: port
         type: int
-  
-  - name: "IstioProxyVersionMismatch"
+
+  - name: "IstioProxyImageMismatch"
     code: IST0105
     level: Warning
-    description: "The version of the Istio proxy running on the pod does not match the version used by the istio injector."
-    template: "The version of the Istio proxy running on the pod does not match the version used by the istio injector (pod version: %s; injector version: %s). This often happens after upgrading the Istio control-plane and can be fixed by redeploying the pod."
+    description: "The image of the Istio proxy running on the pod does not match the image defined in the injection configuration."
+    template: "The image of the Istio proxy running on the pod does not match the image defined in the injection configuration (pod image: %s; injection configuration image: %s). This often happens after upgrading the Istio control-plane and can be fixed by redeploying the pod."
     args:
-      - name: proxyVersion
+      - name: proxyImage
         type: string
-      - name: injectionVersion
+      - name: injectionImage
         type: string
 
   - name: "SchemaValidationError"
@@ -85,10 +85,10 @@ messages:
     description: "An Istio annotation is applied to the wrong kind of resource."
     template: "Misplaced annotation: %s can only be applied to %s"
     args:
-       - name: annotation
-         type: string
-       - name: kind
-         type: string
+      - name: annotation
+        type: string
+      - name: kind
+        type: string
 
   - name: "UnknownAnnotation"
     code: IST0108
@@ -96,8 +96,8 @@ messages:
     description: "An Istio annotation is not recognized for any kind of resource"
     template: "Unknown annotation: %s"
     args:
-       - name: annotation
-         type: string
+      - name: annotation
+        type: string
 
   - name: "ConflictingMeshGatewayVirtualServiceHosts"
     code: IST0109
@@ -202,9 +202,6 @@ messages:
     level: Warning
     description: "The resulting pods of a service mesh deployment must be associated with at least one service."
     template: "No service associated with this deployment. Service mesh deployments must be associated with a service."
-    args:
-      - name: deployment
-        type: string
 
   - name: "PortNameIsNotUnderNamingConvention"
     code: IST0118
@@ -217,4 +214,77 @@ messages:
       - name: port
         type: int
       - name: targetPort
+        type: string
+
+  - name: "JwtFailureDueToInvalidServicePortPrefix"
+    code: IST0119
+    level: Warning
+    description: "Authentication policy with JWT targets Service with invalid port specification."
+    template: "Authentication policy with JWT targets Service with invalid port specification (port: %d, name: %s, protocol: %s, targetPort: %s)."
+    args:
+      - name: port
+        type: int
+      - name: portName
+        type: string
+      - name: protocol
+        type: string
+      - name: targetPort
+        type: string
+
+  - name: "PolicyResourceIsDeprecated"
+    code: IST0120
+    level: Info
+    description: "The Policy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
+    template: "The Policy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
+
+  - name: "MeshPolicyResourceIsDeprecated"
+    code: IST0121
+    level: Info
+    description: "The MeshPolicy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
+    template: "The MeshPolicy resource is deprecated and will be removed in a future Istio release. Migrate to the PeerAuthentication resource."
+
+  - name: "InvalidRegexp"
+    code: IST0122
+    level: Warning
+    description: "Invalid Regex"
+    template: "Field %q regular expression invalid: %q (%s)"
+    args:
+      - name: where
+        type: string
+      - name: re
+        type: string
+      - name: problem
+        type: string
+
+  - name: "NamespaceMultipleInjectionLabels"
+    code: IST0123
+    level: Warning
+    description: "A namespace has both new and legacy injection labels"
+    template: "The namespace has both new and legacy injection labels. Run 'kubectl label namespace %s istio.io/rev-' or 'kubectl label namespace %s istio-injection-'"
+    args:
+      - name: namespace
+        type: string
+      - name: namespace2
+        type: string
+
+  - name: "InvalidAnnotation"
+    code: IST0125
+    level: Warning
+    description: "An Istio annotation that is not valid"
+    template: "Invalid annotation %s: %s"
+    args:
+      - name: annotation
+        type: string
+      - name: problem
+        type: string
+
+  - name: "UnknownMeshNetworksServiceRegistry"
+    code: IST0126
+    level: Error
+    description: "A service registry in Mesh Networks is unknown"
+    template: "Unknown service registry %s in network %s"
+    args:
+      - name: serviceregistry
+        type: string
+      - name: network
         type: string

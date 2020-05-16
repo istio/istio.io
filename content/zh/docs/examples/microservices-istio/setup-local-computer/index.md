@@ -8,8 +8,6 @@ weight: 3
 
 在本模块中，您将为教程准备本地计算机
 
-1. 开始之前，在本地计算机上，创建你的 namespace：`${NAMESPACE}`，然后创建文件：`${NAMESPACE}-user-config.yaml`，`${NAMESPACE}` 是你之前创建的 namespace。例如 `tutorial-user-config.yaml` 。
-
 1. 安装 [`curl`](https://curl.haxx.se/download.html)。
 
 1. 安装 [Node.js](https://nodejs.org/en/download/)。
@@ -18,22 +16,22 @@ weight: 3
 
 1. 安装 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/)。
 
-1. 设置环境变量 `KUBECONFIG`  为 配置文件 `${NAMESPACE}-user-config.yaml`：
+1. 为您从教程中收到的配置文件或者在上一个模块自己创建的配置文件设置环境变量 `KUBECONFIG`。
 
     {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    $ export KUBECONFIG=<the file you recieved or created in the previous module>
     {{< /text >}}
 
-1. 通过打印当前命名空间来验证配置是否生效:
+1. 通过打印当前命名空间来验证配置是否生效：
 
     {{< text bash >}}
     $ kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}"
     tutorial
     {{< /text >}}
 
-    您应该在输出中看到之前配置的命名空间的名称。
+    您应该在输出中看到命名空间的名称，该命名空间由讲师分配或者在上一个模块中由您自己分配。
 
-1. 下载一个 [Istio 发行版](https://github.com/istio/istio/releases) ，从 `bin` 目录下提出命令行工具 `istioctl`， 使用下边的命令验证 `istioctl` 是否可以正常使用：
+1. 下载一个 [Istio 发行版](https://github.com/istio/istio/releases) ，从 `bin` 目录下提出命令行工具 `istioctl`，使用下边的命令验证 `istioctl` 是否可以正常使用：
 
     {{< text bash >}}
     $ istioctl version

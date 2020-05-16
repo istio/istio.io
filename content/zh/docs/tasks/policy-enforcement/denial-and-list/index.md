@@ -46,7 +46,7 @@ aliases:
 考虑 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用，其中 `ratings` 服务可通过 `reviews` 服务的多个版本进行访问。
 我们想切断对 `reviews` 服务 `v3` 版本的访问。
 
-1.  将浏览器定位到 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。
+1. 将浏览器定位到 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。
 
     如果您以 "jason" 用户身份登录，则每个评论都应看到黑色的星标，
     它表示 `ratings` 服务是通过 "v2" 版本 `reviews` 服务访问到的。
@@ -54,7 +54,7 @@ aliases:
     如果您以其他任何用户身份登录（或登出），则每个评论都应看到红色的星标，
     它表示 `ratings` 服务是通过 "v3" 版本 `reviews` 服务访问到的。
 
-1.  要想明确地拒绝对 `v3` 版本 `reviews` 服务的访问。
+1. 要想明确地拒绝对 `v3` 版本 `reviews` 服务的访问。
 
     连同处理程序和实例，执行以下命令来配置拒绝规则。
 
@@ -83,7 +83,7 @@ aliases:
     适配器始终拒绝带有预配置状态码和消息的请求。
     状态码和消息在 [denier](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/) 适配器配置中指定。
 
-1.  在浏览器里刷新 `productpage`。
+1. 在浏览器里刷新 `productpage`。
 
     如果您已登出或以非 "json" 用户登录，因为`v3 reviews` 服务已经被拒绝访问 `ratings` 服务，所以您不会再看到红色星标。
     相反，如果您以 "json" 用户（`v2 reviews 服务` 用户）登录，可以一直看到黑色星标。
@@ -94,7 +94,7 @@ Istio 支持基于属性的白名单和黑名单。
 以下白名单配置等同于上一节的 `denier` 配置。
 此规则能有效地拒绝 `v3` 版本 `reviews` 服务的请求。
 
-1.  移除上一节 denier 配置。
+1. 移除上一节 denier 配置。
 
     {{< text bash >}}
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label.yaml@
@@ -106,10 +106,10 @@ Istio 支持基于属性的白名单和黑名单。
     $ kubectl delete -f @samples/bookinfo/policy/mixer-rule-deny-label-crd.yaml@
     {{< /text >}}
 
-1.  当您不登录去访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) 时进行验证，会看到红星。
+1. 当您不登录去访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`) 时进行验证，会看到红星。
     再执行以下步骤之后，除非您以 "json" 用户登录，否则不会看到星标。
 
-1.  将配置应用于 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器以让 `v1， v2` 版本位于白名单中；
+1. 将配置应用于 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器以让 `v1，v2` 版本位于白名单中；
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-whitelist.yaml@
@@ -135,7 +135,7 @@ Istio 支持基于 IP 地址的 _白名单_ 和 _黑名单_ 。
 1. 您可以访问位于 `http://$GATEWAY_URL/productpage` 的 Bookinfo `productpage` 来进行验证。
    一旦应用以下规则，您将无法访问它。
 
-1.  将配置应用于 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器以添加 ingress 网关中的子网 `"10.57.0.0\16"` 到白名单中：
+1. 将配置应用于 [`list`](/zh/docs/reference/config/policy-and-telemetry/adapters/list/) 适配器以添加 ingress 网关中的子网 `"10.57.0.0\16"` 到白名单中：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/policy/mixer-rule-deny-ip.yaml@
@@ -150,7 +150,7 @@ Istio 支持基于 IP 地址的 _白名单_ 和 _黑名单_ 。
 
     {{< /warning >}}
 
-1.  尝试访问位于 `http://$GATEWAY_URL/productpage` 的 Bookinfo `productpage` 进行验证，
+1. 尝试访问位于 `http://$GATEWAY_URL/productpage` 的 Bookinfo `productpage` 进行验证，
     您会获得一个类似的错误：`PERMISSION_DENIED:staticversion.istio-system:<your mesh source ip> is not whitelisted`
 
 ## 清除{#cleanup}

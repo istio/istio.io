@@ -7,7 +7,7 @@ aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/jaeger/
 ---
 
-完成此任务后，您将了解如何让您的应用程序参与 [Jaeger](https://www.jaegertracing.io/)的追踪，
+完成此任务后，您将了解如何让您的应用程序参与 [Jaeger](https://www.jaegertracing.io/) 的追踪，
 而不管您用来构建应用程序的语言、框架或平台是什么。
 
 此任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 作为演示的应用程序。
@@ -20,7 +20,7 @@ aliases:
 
     a) 通过设置 `--set values.tracing.enabled = true` 安装选项以启用 tracing 的“开箱即用”的演示/测试环境
 
-    b) 通过使用现有 Jaeger 实例（例如使用 [operator](https://github.com/jaegertracing/jaeger-operator)进行创建，然后设置`--set values.global.tracer.zipkin.address = <jaeger-collector-service>.<jaeger -collector-namespace>:9411` 的安装选项。
+    b) 通过使用现有 Jaeger 实例（例如使用 [operator](https://github.com/jaegertracing/jaeger-operator) 进行创建，然后设置`--set values.global.tracer.zipkin.address = <jaeger-collector-service>.<jaeger -collector-namespace>:9411` 的安装选项。
 
     {{< warning >}}
     启用跟踪时，可以设置 Istio 用于跟踪的采样率。

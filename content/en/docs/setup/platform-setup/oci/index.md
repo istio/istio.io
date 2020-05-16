@@ -1,7 +1,7 @@
 ---
 title: Oracle Cloud Infrastructure
 description: Instructions to setup an OKE cluster for Istio.
-weight: 27
+weight: 60
 skip_seealso: true
 aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/oci/

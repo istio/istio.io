@@ -27,7 +27,7 @@ aliases:
 
 当添加非 Kubernetes 的服务到 Istio 网格时，第一步是 Istio 本身的安装配置，并生成让 VMs 连接到网格的配置文件。为 VM 准备集群需要使用集群管理员权限在一台机器上执行如下命令：
 
-1. 为您的生成的 CA 证书创建 Kubernetes secret，使用如下命令。查看 [Certificate Authority (CA) certificates](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) 获取更多细节。
+1. 为您的生成的 CA 证书创建 Kubernetes secret，使用如下命令。查看 [Certificate Authority (CA) certificates](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) 获取更多细节。
 
     {{< warning >}}
     样本目录中的 root 证书和中间证书已经大范围分发并被识别。**不能** 在生产环境中使用这些证书，否则您的集群容易受到安全漏洞和破坏的威胁。
@@ -121,7 +121,7 @@ aliases:
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1. 添加 Istio gateway 的 IP 地址到 `/etc/hosts` 中。重新查看 [集群上定制化安装 Istio](#customized-installation-of-Istio-on-the-cluster) 部分学习怎样获取 IP 地址。
+1. 添加 Istio gateway 的 IP 地址到 `/etc/hosts` 中。重新查看[集群上定制化安装 Istio](#customized-installation-of-Istio-on-the-cluster) 部分学习怎样获取 IP 地址。
 下面的示例演示更新 `/etc/hosts` 文件中的 Istio gateway 地址：
 
     {{< text bash >}}
@@ -193,7 +193,7 @@ aliases:
     因为 DNS 解析 `*.global` 域上的服务，您需要为这些服务分配一个 IP 地址。
 
     {{< tip >}}
-    各个服务（ `*.global` DNS 域中）必须在集群中有一个唯一的 IP。
+    各个服务（`*.global` DNS 域中）必须在集群中有一个唯一的 IP。
     {{< /tip >}}
 
     如果全局服务已经有真正的 VIPs，您可以使用它们，否则我们建议使用来自回环段 `127.0.0.0/8` 的还未分配的 IPs 。这些 IPs 在 pod 外不能路由。
@@ -219,7 +219,7 @@ aliases:
         protocol: http
       resolution: DNS
       addresses:
-      #  httpbin.bar.global 将会被解析至这个 IP 地址，它对于给定集群中的各个服务必须是唯一的。
+      # httpbin.bar.global 将会被解析至这个 IP 地址，它对于给定集群中的各个服务必须是唯一的。
       # 这个地址不需要可路由。这个 IP 的流量将会被 sidecar 捕获并路由到合适的地方。
       # 同时这个地址也会被添加到 VM 的 /etc/hosts 中
       - 127.255.0.3

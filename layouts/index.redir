@@ -19,7 +19,7 @@
 https://istio.netlify.com/* https://istio.io/:splat 301!
 
 # Redirect to translated sites
-# /  /zh   302  Language=zh
+/  /zh   302  Language=zh
 
 # Redirect for the helm charts
 /charts/ https://storage.googleapis.com/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301

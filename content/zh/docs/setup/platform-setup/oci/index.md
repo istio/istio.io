@@ -11,7 +11,7 @@ keywords: [platform-setup,kubernetes,oke,oci,oracle]
 
 根据如下介绍，为 Istio 配置 OKE 集群环境。
 
-1. 在您的 OCI 租户中，创建一个新的 OKE 集群。最简单的方式就是使用 [web 控制台](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm) 中的 'Quick Cluster' 选项。您也可以使用下面的 [OCI cli](https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/cliinstall.htm) 命令:
+1. 在您的 OCI 租户中，创建一个新的 OKE 集群。最简单的方式就是使用 [web 控制台](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm)中的 'Quick Cluster' 选项。您也可以使用下面的 [OCI cli](https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/cliinstall.htm) 命令:
 
     {{< text bash >}}
     $ oci ce cluster create --name oke-cluster1 \

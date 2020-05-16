@@ -24,7 +24,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
 
 ## 前提条件{#prerequisites}
 
-* 两个或多个 Kubernetes 集群，版本为： {{< supported_kubernetes_versions >}}。
+* 两个或多个 Kubernetes 集群，版本为：{{< supported_kubernetes_versions >}}。
 
 * 有权限[部署 Istio 控制平面](/zh/docs/setup/install/istioctl/)
 
@@ -49,7 +49,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
 1. 在 `cluster1` 中部署 Istio：
 
     {{< warning >}}
-    当启用多集群所需的附加组件时，Istio 控制平面的资源占用量可能会增长，甚至超过 Kubernetes 集群安装[平台安装](/zh/docs/setup/platform-setup/) 步骤中的默认容量。
+    当启用多集群所需的附加组件时，Istio 控制平面的资源占用量可能会增长，甚至超过 Kubernetes 集群安装[平台安装](/zh/docs/setup/platform-setup/)步骤中的默认容量。
     如果因 CPU 或内存资源不足导致 Istio 服务无法调度，可以考虑在集群中添加更多节点，或按需升级为更大内存容量的实例。
     {{< /warning >}}
 
@@ -103,36 +103,36 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
     EOF
     {{< /text >}}
 
-    本例 `Gateway` 配置 443 端口来将流经的入口流量导向请求 SNI 头中指明的目标服务，其中 SNI 的顶级域名为 _local_（譬如： [Kubernetes DNS 域名](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
+    本例 `Gateway` 配置 443 端口来将流经的入口流量导向请求 SNI 头中指明的目标服务，其中 SNI 的顶级域名为 _local_（譬如：[Kubernetes DNS 域名](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
     从源至目标 sidecar，始终使用双向 TLS 连接。
 
     尽管应用于 `cluster1`，该网关实例也会影响 `cluster2`，因为两个集群通过同一个 Pilot 通信。
 
-1.  确定 `cluster1` 的 ingress IP 和端口。
+1. 确定 `cluster1` 的 ingress IP 和端口。
 
-    1.   设置 `kubectl` 的当前上下文为 `CTX_CLUSTER1`
+    1. 设置 `kubectl` 的当前上下文为 `CTX_CLUSTER1`
 
         {{< text bash >}}
         $ export ORIGINAL_CONTEXT=$(kubectl config current-context)
         $ kubectl config use-context $CTX_CLUSTER1
         {{< /text >}}
 
-    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的说明，设置环境变量 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`。
+    1. 按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的说明，设置环境变量 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`。
 
-    1.  恢复之前的 `kubectl` 上下文：
+    1. 恢复之前的 `kubectl` 上下文：
 
         {{< text bash >}}
         $ kubectl config use-context $ORIGINAL_CONTEXT
         $ unset ORIGINAL_CONTEXT
         {{< /text >}}
 
-    1.  打印 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`：
+    1. 打印 `INGRESS_HOST` 及 `SECURE_INGRESS_PORT`：
 
         {{< text bash >}}
         $ echo The ingress gateway of cluster1: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
         {{< /text >}}
 
-1.  更新网格网络配置中的网关地址。编辑 `istio` `ConfigMap`：
+1. 更新网格网络配置中的网关地址。编辑 `istio` `ConfigMap`：
 
     {{< text bash >}}
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
@@ -162,19 +162,20 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
     {{< text bash >}}
     $ kubectl create --context=$CTX_CLUSTER2 ns istio-system
     $ kubectl create --context=$CTX_CLUSTER2 secret generic cacerts -n istio-system --from-file=samples/certs/ca-cert.pem --from-file=samples/certs/ca-key.pem --from-file=samples/certs/root-cert.pem --from-file=samples/certs/cert-chain.pem
+    $ CLUSTER_NAME=$(kubectl --context=$CTX_CLUSTER2 config view --minify=true -o jsonpath='{.clusters[].name}')
     $ istioctl manifest apply --context=$CTX_CLUSTER2 \
       --set profile=remote \
       --set values.global.mtls.enabled=true \
       --set values.gateways.enabled=true \
       --set values.security.selfSigned=false \
-      --set values.global.controlPlaneSecurityEnabled=true \
       --set values.global.createRemoteSvcEndpoints=true \
       --set values.global.remotePilotCreateSvcEndpoint=true \
       --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
       --set values.global.remotePolicyAddress=${LOCAL_GW_ADDR} \
       --set values.global.remoteTelemetryAddress=${LOCAL_GW_ADDR} \
       --set values.gateways.istio-ingressgateway.env.ISTIO_META_NETWORK="network2" \
-      --set values.global.network="network2"  \
+      --set values.global.network="network2" \
+      --set values.global.multiCluster.clusterName=${CLUSTER_NAME} \
       --set autoInjection.enabled=true
     {{< /text >}}
 
@@ -191,31 +192,31 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
     `istio-ingressgateway` 无法就绪，直到在 `cluster1` 的 Istio 控制面板中配置好 watch `cluster2`。下一节执行该操作。
     {{< /warning >}}
 
-1.  确定 `cluster2` 的 ingress IP 和口。
+1. 确定 `cluster2` 的 ingress IP 和口。
 
-    1.   设置 `kubectl` 的当前上下文为 `CTX_CLUSTER2`
+    1. 设置 `kubectl` 的当前上下文为 `CTX_CLUSTER2`
 
         {{< text bash >}}
         $ export ORIGINAL_CONTEXT=$(kubectl config current-context)
         $ kubectl config use-context $CTX_CLUSTER2
         {{< /text >}}
 
-    1.   按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports) 中的说明，设置环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`。
+    1. 按照[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的说明，设置环境变量 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`。
 
-    1.  恢复之前的 `kubectl` 上下文：
+    1. 恢复之前的 `kubectl` 上下文：
 
         {{< text bash >}}
         $ kubectl config use-context $ORIGINAL_CONTEXT
         $ unset ORIGINAL_CONTEXT
         {{< /text >}}
 
-    1.  打印 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`：
+    1. 打印 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT`：
 
         {{< text bash >}}
         $ echo The ingress gateway of cluster2: address=$INGRESS_HOST, port=$SECURE_INGRESS_PORT
         {{< /text >}}
 
-1.  更新网格网络配置中的网关地址。 编辑 `istio` `ConfigMap`：
+1. 更新网格网络配置中的网关地址。编辑 `istio` `ConfigMap`：
 
     {{< text bash >}}
     $ kubectl edit cm -n istio-system --context=$CTX_CLUSTER1 istio
@@ -265,7 +266,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
 
 ### 启动 watching 集群 2{start-watching-cluster-2}
 
-1.  执行下面命令，添加并标记 Kubernetes `cluster2` 的 secret。
+1. 执行下面命令，添加并标记 Kubernetes `cluster2` 的 secret。
     执行完这些命令，`cluster1` 中的 Istio Pilot 将开始 watching `cluster2` 的服务和实例，如同对待 `cluster1` 一样。
 
     {{< text bash >}}
@@ -273,7 +274,7 @@ Istio 位置感知的服务路由特性，可以根据请求源所在的位置�
     $ kubectl label --context=$CTX_CLUSTER1 secret n2-k8s-secret istio/multiCluster=true -n istio-system
     {{< /text >}}
 
-1.  等待 `istio-ingressgateway` 就绪：
+1. 等待 `istio-ingressgateway` 就绪：
 
     {{< text bash >}}
     $ kubectl get pods --context=$CTX_CLUSTER2 -n istio-system -l istio=ingressgateway
@@ -408,7 +409,6 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.mtls.enabled=true \
   --set values.gateways.enabled=true \
   --set values.security.selfSigned=false \
-  --set values.global.controlPlaneSecurityEnabled=true \
   --set values.global.createRemoteSvcEndpoints=true \
   --set values.global.remotePilotCreateSvcEndpoint=true \
   --set values.global.remotePilotAddress=${LOCAL_GW_ADDR} \
@@ -418,8 +418,8 @@ $ istioctl manifest generate --context=$CTX_CLUSTER2 \
   --set values.global.network="network2" \
   --set autoInjection.enabled=true | kubectl --context=$CTX_CLUSTER2 delete -f -
 $ kubectl delete --context=$CTX_CLUSTER2 ns sample
+$ rm n2-k8s-config
 $ unset CTX_CLUSTER2 CLUSTER_NAME SERVER SECRET_NAME CA_DATA TOKEN INGRESS_HOST SECURE_INGRESS_PORT INGRESS_PORT LOCAL_GW_ADDR
-
 {{< /text >}}
 
 清除集群 `cluster1`：

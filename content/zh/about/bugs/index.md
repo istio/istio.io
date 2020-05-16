@@ -13,9 +13,9 @@ icon: bugs
 
 ## 产品错误{#product-bugs}
 
-搜索我们的 [问题数据库](https://github.com/istio/istio/issues/) 来查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中没有找到你的问题，请打开一个 [新问题](https://github.com/istio/istio/issues/new/choose) 让我们知道出现了什么错误。
+搜索我们的[问题数据库](https://github.com/istio/istio/issues/)来查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中没有找到你的问题，请打开一个[新问题](https://github.com/istio/istio/issues/new/choose)让我们知道出现了什么错误。
 
-如果您认为错误实际上是一个安全漏洞，请访问 [报告安全漏洞](/zh/about/security-vulnerabilities/) 了解如何处理。
+如果您认为错误实际上是一个安全漏洞，请访问[报告安全漏洞](/zh/about/security-vulnerabilities/)了解如何处理。
 
 ### Kubernetes 集群状态档案{#Kubernetes-cluster-state-archives}
 
@@ -81,4 +81,4 @@ icon: bugs
 
 ## 文档错误{#documentation-bugs}
 
-搜索我们的 [文档问题数据库](https://github.com/istio/istio.io/issues/) 以查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中找不到问题，请导航到这个问题的页面，然后在页面的右上角选择齿轮菜单，最后选择 *Report a Site Bug*。
+搜索我们的[文档问题数据库](https://github.com/istio/istio.io/issues/)以查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中找不到问题，请导航到这个问题的页面，然后在页面的右上角选择齿轮菜单，最后选择 *Report a Site Bug*。

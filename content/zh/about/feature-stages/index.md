@@ -71,7 +71,7 @@ Below is our list of existing features and their current phases. This informatio
 |-------------------|-------------------
 | [Deny Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/denier/)         | Stable
 | [List Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/list/)        | Stable
-| [Pluggable Key/Cert Support for Istio CA](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/)        | Stable
+| [Pluggable Key/Cert Support for Istio CA](/zh/docs/tasks/security/plugin-ca-cert/)        | Stable
 | [Service-to-service mutual TLS](/zh/docs/concepts/security/#mutual-TLS-authentication)         | Stable
 | [Kubernetes: Service Credential Distribution](/zh/docs/concepts/security/#PKI)   | Stable
 | [VM: Service Credential Distribution](/zh/docs/concepts/security/#PKI)         | Beta
@@ -80,13 +80,12 @@ Below is our list of existing features and their current phases. This informatio
 | [Authorization](/zh/docs/concepts/security/#authorization)   | Beta
 | [End User (JWT) Authentication](/zh/docs/concepts/security/#authentication)  | Alpha
 | [OPA Checker](/zh/docs/reference/config/policy-and-telemetry/adapters/opa/)    | Alpha
-| [SDS Integration](/zh/docs/tasks/security/citadel-config/auth-sds/) | Alpha
 
 ### Core
 
 | Feature           | Phase
 |-------------------|-------------------
-| [Standalone Operator](/zh/docs/setup/install/standalone-operator/) | Alpha
+| [Standalone Operator](/zh/docs/setup/install/standalone-operator/) | Beta
 | [Kubernetes: Envoy Installation and Traffic Interception](/zh/docs/setup/) | Stable
 | [Kubernetes: Istio Control Plane Installation](/zh/docs/setup/) | Stable
 | [Attribute Expression Language](/zh/docs/reference/config/policy-and-telemetry/expression-language/) | Stable

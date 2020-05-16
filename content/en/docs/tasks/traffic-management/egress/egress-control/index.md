@@ -51,8 +51,8 @@ This task shows you how to access external services in three different ways:
 
 ## Envoy passthrough to external services
 
-Istio has an [installation option](/docs/reference/config/installation-options/),
-`global.outboundTrafficPolicy.mode`, that configures the sidecar handling
+Istio has an [installation option](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode),
+`meshConfig.outboundTrafficPolicy.mode`, that configures the sidecar handling
 of external services, that is, those services that are not defined in Istio's internal service registry.
 If this option is set to `ALLOW_ANY`, the Istio proxy lets calls to unknown services pass through.
 If the option is set to `REGISTRY_ONLY`, then the Istio proxy blocks any host without an HTTP service or
@@ -62,13 +62,13 @@ without controlling access to external services.
 You can then decide to [configure access to external services](#controlled-access-to-external-services) later.
 
 1. To see this approach in action you need to ensure that your Istio installation is configured
-    with the `global.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
+    with the `meshConfig.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
 
     Run the following command to confirm it is configured correctly:
 
     {{< text bash >}}
-    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
+    $ kubectl get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY" | uniq
     mode: ALLOW_ANY
     {{< /text >}}
 
@@ -96,8 +96,8 @@ You can then decide to [configure access to external services](#controlled-acces
 Congratulations! You successfully sent egress traffic from your mesh.
 
 This simple approach to access external services, has the drawback that you lose Istio monitoring and control
-for traffic to external services; calls to external services will not appear in the Mixer log, for example.
-The next section shows you how to monitor and control your mesh's access to external services.
+for traffic to external services. The next section shows you how to monitor and control your mesh's access to
+external services.
 
 ## Controlled access to external services
 
@@ -109,7 +109,7 @@ from within your Istio cluster. This section shows you how to configure access t
 ### Change to the blocking-by-default policy
 
 To demonstrate the controlled way of enabling access to external services, you need to change the
-`global.outboundTrafficPolicy.mode` option from the `ALLOW_ANY` mode to the `REGISTRY_ONLY` mode.
+`meshConfig.outboundTrafficPolicy.mode` option from the `ALLOW_ANY` mode to the `REGISTRY_ONLY` mode.
 
 {{< tip >}}
 You can add controlled access to services that are already accessible in `ALLOW_ANY` mode.
@@ -118,7 +118,7 @@ Once you've configured all of your services, you can then switch the mode to `RE
 any other unintentional accesses.
 {{< /tip >}}
 
-1.  Run the following command to change the `global.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
+1.  Run the following command to change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`:
 
     {{< text bash >}}
     $ kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
@@ -187,17 +187,6 @@ any other unintentional accesses.
 
     Note the entry related to your HTTP request to `httpbin.org/headers`.
 
-1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'httpbin.org'
-    {"level":"info","time":"2019-01-24T12:17:11.855496Z","instance":"accesslog.logentry.istio-system","apiClaims":"","apiKey":"","clientTraceId":"","connection_security_policy":"unknown","destinationApp":"","destinationIp":"I60GXg==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"httpbin.org","destinationWorkload":"unknown","grpcMessage":"","grpcStatus":"","httpAuthority":"httpbin.org","latency":"214.661667ms","method":"GET","permissiveResponseCode":"none","permissiveResponsePolicyID":"none","protocol":"http","receivedBytes":270,"referer":"","reporter":"source","requestId":"17fde8f7-fa62-9b39-8999-302324e6def2","requestSize":0,"requestedServerName":"","responseCode":200,"responseSize":599,"responseTimestamp":"2019-01-24T12:17:11.855521Z","sentBytes":806,"sourceApp":"sleep","sourceIp":"AAAAAAAAAAAAAP//rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","url":"/headers","userAgent":"curl/7.60.0","xForwardedFor":"0.0.0.0"}
-    {{< /text >}}
-
-    Note that the `destinationServiceHost` attribute is equal to `httpbin.org`. Also notice the HTTP-related attributes:
-    `method`, `url`, `responseCode` and others. Using Istio egress traffic control, you can monitor access to external
-    HTTP services, including the HTTP-related information of each access.
-
 ### Access an external HTTPS service
 
 1.  Create a `ServiceEntry` to allow access to an external HTTPS service.
@@ -236,21 +225,6 @@ any other unintentional accesses.
 
     Note the entry related to your HTTPS request to `www.google.com`.
 
-1.  Check the Mixer log. If Istio is deployed in the `istio-system` namespace, the command to print the log is:
-
-    {{< text bash >}}
-    $ kubectl -n istio-system logs -l istio-mixer-type=telemetry -c mixer | grep 'www.google.com'
-    {"level":"info","time":"2019-01-24T12:48:56.266553Z","instance":"tcpaccesslog.logentry.istio-system","connectionDuration":"1.289085134s","connectionEvent":"close","connection_security_policy":"unknown","destinationApp":"","destinationIp":"rNmhJA==","destinationName":"unknown","destinationNamespace":"default","destinationOwner":"unknown","destinationPrincipal":"","destinationServiceHost":"www.google.com","destinationWorkload":"unknown","protocol":"tcp","receivedBytes":601,"reporter":"source","requestedServerName":"www.google.com","sentBytes":17766,"sourceApp":"sleep","sourceIp":"rB5tUg==","sourceName":"sleep-88ddbcfdd-rgk77","sourceNamespace":"default","sourceOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/sleep","sourcePrincipal":"","sourceWorkload":"sleep","totalReceivedBytes":601,"totalSentBytes":17766}
-    {{< /text >}}
-
-    Note that the `requestedServerName` attribute is equal to `www.google.com`. Using Istio egress traffic control, you
-    can monitor access to external HTTPS services, in particular the
-    [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) and the number of sent and received bytes. Note that in
-    HTTPS all the HTTP-related information like method, URL path, response code, is encrypted so Istio cannot see and
-    cannot monitor that information for HTTPS. If you need to monitor HTTP-related information in access to external
-    HTTPS services, you may want to let your applications issue HTTP requests and
-    [configure Istio to perform TLS origination](/docs/tasks/traffic-management/egress/egress-tls-origination/).
-
 ### Manage traffic to external services
 
 Similar to inter-cluster requests, Istio
@@ -262,8 +236,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep sh
-    $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec -it $SOURCE_POD -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     200
 
     real    0m5.024s
@@ -273,7 +246,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
     The request should return 200 (OK) in approximately 5 seconds.
 
-1.  Exit the source pod and use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
+1.  Use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -296,8 +269,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 1.  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep sh
-    $ time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec -it $SOURCE_POD -c sleep -- time curl -o /dev/null -s -w "%{http_code}\n" http://httpbin.org/delay/5
     504
 
     real    0m3.149s
@@ -321,7 +293,7 @@ If you want to completely bypass Istio for a specific IP range,
 you can configure the Envoy sidecars to prevent them from
 [intercepting](/docs/concepts/traffic-management/)
 external requests. To set up the bypass, change either the `global.proxy.includeIPRanges`
-or the `global.proxy.excludeIPRanges` [configuration option](/docs/reference/config/installation-options/) and
+or the `global.proxy.excludeIPRanges` [configuration option](https://archive.istio.io/v1.4/docs/reference/config/installation-options/) and
 update the `istio-sidecar-injector` configuration map using the `kubectl apply` command. This can also
 be configured on a pod by setting corresponding [annotations](/docs/reference/config/annotations/) such as
 `traffic.sidecar.istio.io/includeOutboundIPRanges`.
@@ -436,8 +408,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep curl http://httpbin.org/headers
 {{< /text >}}
 
 Unlike accessing external services through HTTP or HTTPS, you don't see any headers related to the Istio sidecar and the
-requests sent to external services appear neither in the log of the sidecar nor in the Mixer log.
-Bypassing the Istio sidecars means you can no longer monitor the access to external services.
+requests sent to external services do not appear in the log of the sidecar. Bypassing the Istio sidecars means you can
+no longer monitor the access to external services.
 
 ### Cleanup the direct access to external services
 

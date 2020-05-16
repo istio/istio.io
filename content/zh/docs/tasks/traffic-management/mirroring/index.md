@@ -27,6 +27,10 @@ keywords: [traffic-management,mirroring]
       name: httpbin-v1
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v1
       template:
         metadata:
           labels:
@@ -53,6 +57,10 @@ keywords: [traffic-management,mirroring]
       name: httpbin-v2
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v2
       template:
         metadata:
           labels:
@@ -101,6 +109,9 @@ keywords: [traffic-management,mirroring]
       name: sleep
     spec:
       replicas: 1
+      selector:
+        matchLabels:
+          app: sleep
       template:
         metadata:
           labels:
@@ -118,7 +129,7 @@ keywords: [traffic-management,mirroring]
 
 默认情况下，Kubernetes 在 `httpbin` 服务的两个版本之间进行负载均衡。在此步骤中会更改该行为，把所有流量都路由到 `v1`。
 
-1.  创建一个默认路由规则，将所有流量路由到服务的 `v1`：
+1. 创建一个默认路由规则，将所有流量路由到服务的 `v1`：
 
     {{< warning >}}
     如果安装/配置 Istio 的时候开启了 TLS 认证，在应用 `DestinationRule` 之前必须将 TLS 流量策略 `mode: ISTIO_MUTUAL` 添加到 `DestinationRule`。否则，请求将发生 503 错误，如[设置目标规则后出现 503 错误](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule)所述。
@@ -193,7 +204,7 @@ keywords: [traffic-management,mirroring]
 
 ## 镜像流量到 v2{#mirroring-traffic-to-v2}
 
-1.  改变流量规则将流量镜像到 v2：
+1. 改变流量规则将流量镜像到 v2：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -219,7 +230,7 @@ keywords: [traffic-management,mirroring]
 
     这个路由规则发送 100% 流量到 `v1`。最后一段表示你将镜像流量到 `httpbin:v2` 服务。当流量被镜像时，请求将发送到镜像服务中，并在 `headers` 中的 `Host/Authority` 属性值上追加 `-shadow`。例如 `cluster-1` 变为 `cluster-1-shadow`。
 
-    此外，重点注意这些被镜像的流量是『即发即弃』的，就是说镜像请求的响应会被丢弃。
+    此外，重点注意这些被镜像的流量是『 即发即弃』 的，就是说镜像请求的响应会被丢弃。
 
     您可以使用 `mirror_percent` 属性来设置镜像流量的百分比，而不是镜像全部请求。为了兼容老版本，如果这个属性不存在，将镜像所有流量。
 1. 发送流量：
@@ -245,8 +256,8 @@ keywords: [traffic-management,mirroring]
 
     {{< text bash >}}
     $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ export V1_POD_IP=$(kubectl get pod -l app=httpbin -l version=v1 -o jsonpath={.items..status.podIP})
-    $ export V2_POD_IP=$(kubectl get pod -l app=httpbin -l version=v2 -o jsonpath={.items..status.podIP})
+    $ export V1_POD_IP=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..status.podIP})
+    $ export V2_POD_IP=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..status.podIP})
     $ kubectl exec -it $SLEEP_POD -c istio-proxy -- sudo tcpdump -A -s 0 host $V1_POD_IP or host $V2_POD_IP
     tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
     listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
@@ -351,18 +362,18 @@ keywords: [traffic-management,mirroring]
     ..t...|.
     {{< /text >}}
 
-    您可以看到流量​​的请求和响应内容。
+    您可以看到流量​​ 的请求和响应内容。
 
 ## 清理{#cleaning-up}
 
-1.  删除规则：
+1. 删除规则：
 
     {{< text bash >}}
     $ kubectl delete virtualservice httpbin
     $ kubectl delete destinationrule httpbin
     {{< /text >}}
 
-1.  关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
+1. 关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep

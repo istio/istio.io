@@ -16,7 +16,7 @@ aliases:
 
 ## Bug 修复{#bug-fixes}
 
-- 修复了我们在[10 月 8 日发布的安全性错误](/zh/news/security/istio-security-2019-005)，错误地计算了 `HTTP header` 和 `body sizes` ([Issue 17735](https://github.com/istio/istio/issues/17735))。
+- 修复了我们在 [10 月 8 日发布的安全性错误](/zh/news/security/istio-security-2019-005)，错误地计算了 `HTTP header` 和 `body sizes` ([Issue 17735](https://github.com/istio/istio/issues/17735))。
 
 - 修复了一个较小的错误，将部署减小到 0 个副本时，`endpoint` 仍保留在 `/clusters` 中 ([Issue 14336](https://github.com/istio/istio/issues/14336))。
 

@@ -16,7 +16,7 @@ By default Istio injects an `initContainer`, `istio-init`, in pods deployed in
 the mesh.  The `istio-init` container sets up the pod network traffic
 redirection to/from the Istio sidecar proxy.  This requires the user or
 service-account deploying pods to the mesh to have sufficient Kubernetes RBAC
-permissions to deploy [`NET_ADMIN` containers](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
+permissions to deploy [containers with the `NET_ADMIN` and `NET_RAW` capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
 Requiring Istio users to have elevated Kubernetes RBAC permissions is
 problematic for some organizations' security compliance.  The Istio CNI plugin
 is a replacement for the `istio-init` container that performs the same
@@ -24,7 +24,7 @@ networking functionality but without requiring Istio users to enable elevated
 Kubernetes RBAC permissions.
 
 The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [`NET_ADMIN` capability requirement](/docs/ops/deployment/requirements/)
+setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/)
 for users deploying pods into the Istio mesh.  The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
@@ -48,7 +48,7 @@ replaces the functionality provided by the `istio-init` container.
     Refer to [Hosted Kubernetes settings](#hosted-kubernetes-settings) for any non-default settings required.
 
 1.  Install Istio CNI and Istio using `istioctl`.
-    Refer to the [Istio install](/docs/setup/install/istioctl/) instructions and pass `--set cni.enabled=true` option.
+    Refer to the [Istio install](/docs/setup/install/istioctl/) instructions and pass `--set components.cni.enabled=true` option.
     Pass `--set values.cni.cniBinDir=...` and/or `--set values.cni.cniConfDir=...` options when installing `istio-cni` if non-default,
     as determined in the previous step.
 
@@ -68,13 +68,22 @@ The following table shows all the options that the `istio-cni` configuration sup
 | `cniConfFileName` | | | Leave unset to auto-find the first file in the `cni-conf-dir` (as `kubelet` does).  Primarily used for testing `install-cni` plugin configuration.  If set, `install-cni` will inject the plugin configuration into this file in the `cni-conf-dir`. |
 | `psp_cluster_role` | | | This value refers to a `ClusterRole` and can be used to create a `RoleBinding` in the namespace of `istio-cni`. This is useful if you use [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy) and want to allow `istio-cni` to run as `priviliged` Pods. |
 | `podAnnotations` | | `{}` | Additional custom annotations to be set on pod level. |
+| `repair.enabled` | `boolean` | `true` | Enable or disable the [CNI Race Condition](https://github.com/istio/istio/issues/14327) detection and repair functionality. This injects an `istio-validation` init container into every injected pod, which checks if Istio CNI correctly initialized the pod's networking configuration. It also enables a new container in the CNI `DaemonSet` which monitors for pods and either labels or deletes them, per the values below.|
+| `repair.hub` | | | The container registry to pull the `install-cni` image for the repair container. Defaults to the same as `hub`. |
+| `repair.tag` | | | The container tag to use to pull the `install-cni` image for the repair container. Defaults to the same as `tag`. |
+| `repair.initContainerName` | | `istio-validation` | An override for the init container name inspected by the repair controller, if you are using a non-standard pod injection configuration. |
+| `repair.labelPods` | `boolean` | `true` | Enable the repair controller to label pods it detects as uninitialized. Ignored if `deletePods` is true. |
+| `repair.deletePods` | `boolean` | `true` | Enable the repair controller to delete pods it detects as uninitialized. It will continue deleting those pods until CNI initializes them correctly. |
+| `repair.brokenPodLabelKey` | | `cni.istio.io/uninitialized` | The key portion of the label to add to broken pods when `labelPods` is true. |
+| `repair.brokenPodLabelValue` | | `true` | The value portion of the label to add to broken pods when `labelPods` is true.|
+| `chained` | `true` or `false` | `true` | Whether to deploy the configuration file as a plugin chain or as a standalone file in `cni-conf-dir`. Some Kubernetes flavors (e.g. OpenShift) do not support the chain approach, set to `false` if this is the case. |
 
 These options are accessed through `values.cni.<option-name>` in `istioctl manifest` commands, either as a `--set` flag,
 or the corresponding path in a custom overlay file.
 
 ### Excluding specific Kubernetes namespaces
 
-This example uses `Istioctl` to perform the following tasks:
+This example uses `istioctl` to perform the following tasks:
 
 * Install the Istio CNI plugin.
 * Configure its log level.
@@ -91,11 +100,12 @@ Use the following command to render and apply Istio CNI components and override 
 Create a `IstioControlPlane` CR yaml locally with your override to install `istio`, e.g. `cni.yaml`
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 spec:
-  cni:
-    enabled: true
+  components:
+    cni:
+      enabled: true
   values:
     cni:
       excludeNamespaces:
@@ -103,8 +113,6 @@ spec:
        - kube-system
        - foo_ns
        - bar_ns
-  unvalidatedValues:
-    cni:
       logLevel: info
 {{< /text >}}
 
@@ -121,12 +129,51 @@ The following table shows the required settings for many common Kubernetes envir
 
 | Hosted Cluster Type | Required Istio CNI Setting Overrides | Required Platform Setting Overrides |
 |---------------------|--------------------------------------|-------------------------------------|
-| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
+| GKE 1.9+ (see [GKE setup](#gke-setup) below for details)| `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/home/kubernetes/bin` | enable [network-policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy) |
 | IKS (IBM cloud) | _(none)_ | _(none)_ |
 | EKS (AWS) | _(none)_ | _(none)_ |
 | AKS (Azure) | _(none)_ | _(none)_ |
 | Red Hat OpenShift 3.10+ | _(none)_ | _(none)_ |
-| Red Hat OpenShift 4.2+ | `--set cni.components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/var/run/multus/cni/net.d` | _(none)_ |
+| Red Hat OpenShift 4.2+ | `--set components.cni.namespace=kube-system --set values.cni.cniBinDir=/var/lib/cni/bin --set values.cni.cniConfDir=/etc/cni/multus/net.d --set values.cni.chained=false --set values.cni.cniConfFileName="istio-cni.conf" --set values.sidecarInjectorWebhook.injectedAnnotations."k8s\.v1\.cni\.cncf\.io/networks"=istio-cni` | _(none)_ |
+
+#### Instructions for Istio 1.4.x and OpenShift
+
+Due to a [limitation](https://github.com/istio/istio/issues/19196) in `istioctl` 1.4.x using `--set` with
+escaped strings, a YAML file is necessary to set `values.sidecarInjectorWebhook.injectedAnnotations` to install Istio on OpenShift. Create the YAML file:
+
+{{< text yaml >}}
+cat <<'EOF' > cni-annotations.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  cni:
+    enabled: true
+    components:
+      cni:
+        namespace: kube-system
+  values:
+    cni:
+      chained: false
+      cniBinDir: /var/lib/cni/bin
+      cniConfDir: /etc/cni/multus/net.d
+      cniConfFileName: istio-cni.conf
+    sidecarInjectorWebhook:
+      injectedAnnotations:
+        "k8s.v1.cni.cncf.io/networks": istio-cni
+EOF
+{{< /text >}}
+
+Then pass this file as an argument to `istioctl`, for example:
+
+{{< text bash >}}
+$ istioctl manifest apply -f cni-annotations.yaml
+{{< /text >}}
+
+You can pass other command line arguments with `--set` if necessary.
+
+{{< warning >}}
+In order to deploy Istio 1.4 on OpenShift with CNI you need to use at least Istio 1.4.8.
+{{< /warning >}}
 
 ### GKE setup
 
@@ -137,11 +184,13 @@ The following table shows the required settings for many common Kubernetes envir
     For existing clusters, this redeploys all nodes.
     {{< /warning >}}
 
-1.  Install Istio CNI via `Istioctl` including the `--set cniBinDir=/home/kubernetes/bin` option.
-    For example, the following `istioctl manifest` command sets the `cniBinDir` value for a GKE cluster:
+1.  Install Istio CNI via `Istioctl` including the `--set values.cni.cniBinDir=/home/kubernetes/bin` option.
+    For example, the following `istioctl manifest` command sets the `values.cni.cniBinDir` value for a GKE cluster:
 
     {{< text bash >}}
-    $ istioctl manifest apply --set cniBinDir=/home/kubernetes/bin
+    $ istioctl manifest apply --set values.cni.cniBinDir=/home/kubernetes/bin \
+        --set components.cni.enabled=true \
+        --set components.cni.namespace=kube-system
     {{< /text >}}
 
 ## Sidecar injection compatibility
@@ -230,8 +279,8 @@ Avoid this traffic loss with one or both of the following settings:
 
 ### Compatibility with other CNI plugins
 
-The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current `NET_ADMIN`
-`istio-init` container.
+The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current
+`istio-init` container which requires the `NET_ADMIN` and `NET_RAW` capabilities.
 
 The Istio CNI plugin operates as a chained CNI plugin.  This means its configuration is added to the existing
 CNI plugins configuration as a new configuration list element.  See the

@@ -161,7 +161,7 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--accessListFile &lt;string&gt;</code></td>
 <td></td>
-<td>The access list yaml file that contains the allowd mTLS peer ids.  (default `/etc/config/accesslist.yaml`)</td>
+<td>The access list yaml file that contains the allowed mTLS peer ids.  (default `/etc/config/accesslist.yaml`)</td>
 </tr>
 <tr>
 <td><code>--caCertFile &lt;string&gt;</code></td>
@@ -391,7 +391,7 @@ remove_toc_prefix: 'galley '
 <tr>
 <td><code>--validation-port &lt;uint&gt;</code></td>
 <td></td>
-<td>HTTPS port of the validation service. Must be 443 if service has more than one port   (default `443`)</td>
+<td>HTTPS port of the validation service.  (default `9443`)</td>
 </tr>
 <tr>
 <td><code>--validation-webhook-config-file &lt;string&gt;</code></td>
@@ -412,6 +412,11 @@ remove_toc_prefix: 'galley '
 <td><code>--validation.tls.privateKey &lt;string&gt;</code></td>
 <td></td>
 <td>File containing the x509 private key matching --validation.tls.clientCertificate.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--watchConfigFiles</code></td>
+<td></td>
+<td>Enable the Fsnotify for watching config source files on the disk and implicit signaling on a config change. Explicit signaling will still be enabled </td>
 </tr>
 <tr>
 <td><code>--webhook-name &lt;string&gt;</code></td>

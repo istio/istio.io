@@ -5,5 +5,4 @@ weight: 24
 list_by_publishdate: true
 layout: release-grid
 decoration: dot
-draft: true
 ---

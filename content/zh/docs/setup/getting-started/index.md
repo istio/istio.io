@@ -9,6 +9,15 @@ aliases:
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
 ---
 
+本指南面向 Istio 的新用户，让您通过安装 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)快速评估 Istio。
+
+如果您已经熟悉 Istio 或对安装其他配置文件或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，
+请遵循[使用 {{< istioctl >}} 的安装说明文档](/zh/docs/setup/install/istioctl)。
+
+{{< warning >}}
+此 demo 配置文件不适用于性能评估。它旨在展示 Istio 高水平跟踪和访问日志的功能。
+{{< /warning >}}
+
 要开始使用 Istio，只需遵循以下三个步骤：
 
 1. [搭建平台](#platform)
@@ -23,19 +32,19 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
 - 通过选择合适的 [platform-specific setup instructions](/zh/docs/setup/platform-setup/) 来创建一个集群。
 
-有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装Istio。 如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
+有些平台提供了 {{< gloss >}}managed control plane{{< /gloss >}}，您可以使用它来代替手动安装 Istio。如果您选择的平台支持这种方式，并且您选择使用它，那么，在创建完集群后，您将完成 Istio 的安装。因此，可以跳过以下说明。
 
 ## 下载 Istio {#download}
 
 下载 Istio，下载内容将包含：安装文件、示例和 [{{< istioctl >}}](/zh/docs/reference/commands/istioctl/) 命令行工具。
 
-1.  访问 [Istio release]({{< istio_release_url >}}) 页面下载与您操作系统对应的安装文件。在 macOS 或 Linux 系统中，也可以通过以下命令下载最新版本的 Istio：
+1. 访问 [Istio release]({{< istio_release_url >}}) 页面下载与您操作系统对应的安装文件。在 macOS 或 Linux 系统中，也可以通过以下命令下载最新版本的 Istio：
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
-1.  切换到 Istio 包所在目录下。例如：Istio 包名为 `istio-{{< istio_full_version >}}`，则：
+1. 切换到 Istio 包所在目录下。例如：Istio 包名为 `istio-{{< istio_full_version >}}`，则：
 
     {{< text bash >}}
     $ cd istio-{{< istio_full_version >}}
@@ -47,7 +56,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
     - `samples/` 目录下，有示例应用程序
     - `bin/` 目录下，包含 [`istioctl`](/zh/docs/reference/commands/istioctl) 的客户端文件。`istioctl` 工具用于手动注入 Envoy sidecar 代理。
 
-1.  将 `istioctl` 客户端路径增加到 path 环境变量中，macOS 或 Linux 系统的增加方式如下：
+1. 将 `istioctl` 客户端路径增加到 path 环境变量中，macOS 或 Linux 系统的增加方式如下：
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
@@ -57,13 +66,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 
 ## 安装 Istio {#install}
 
-本指南可以让您快速尝鲜 Istio ，这对初学者来说是一个理想的起点。首先，下载并安装 Istio 的内建 `demo` [配置](/zh/docs/setup/additional-setup/config-profiles/)。
-
-本指南让您快速开始认识 Istio。如果您已经熟悉 Istio 或对其他配置内容或更高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，请参考 [使用 {{< istioctl >}} 命令安装](/zh/docs/setup/install/istioctl)。
-
-{{< warning >}}
-演示用的配置不适合用于性能评估。它仅用来展示 Istio 的链路追踪和访问记录功能。
-{{< /warning >}}
+请按照以下步骤在您所选的平台上使用 `demo` 配置文件安装 Istio。
 
 1. 安装 `demo` 配置
 
@@ -125,7 +128,7 @@ Istio {{< istio_version >}} 已经在 Kubernetes 版本 {{< supported_kubernetes
 应用程序必须使用 HTTP/1.1 或 HTTP/2.0 协议用于 HTTP 通信；HTTP/1.0 不支持。
 {{< /warning >}}
 
-当使用 `kubectl apply` 来部署应用时，如果 pod 启动在标有 `istio-injection=enabled` 的命名空间中，那么，[Istio sidecar 注入器](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) 将自动注入 Envoy 容器到应用的 pod 中：
+当使用 `kubectl apply` 来部署应用时，如果 pod 启动在标有 `istio-injection=enabled` 的命名空间中，那么，[Istio sidecar 注入器](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)将自动注入 Envoy 容器到应用的 pod 中：
 
 {{< text bash >}}
 $ kubectl label namespace <namespace> istio-injection=enabled
@@ -138,8 +141,8 @@ $ kubectl create -n <namespace> -f <your-app-spec>.yaml
 $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 {{< /text >}}
 
-如果您不确定要从哪开始，可以先[部署 Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application)，它会让您体验到 Istio 的流量路由、故障注入、速率限制等功能。
-然后您可以根据您的兴趣浏览各种各样的[Istio 任务](/zh/docs/tasks/)。
+如果您不确定要从哪开始，可以先[部署 Bookinfo 示例](/zh/docs/examples/bookinfo/)，它会让您体验到 Istio 的流量路由、故障注入、速率限制等功能。
+然后您可以根据您的兴趣浏览各种各样的 [Istio 任务](/zh/docs/tasks/)。
 
 下列任务都是初学者开始学习的好入口：
 
@@ -161,7 +164,7 @@ $ istioctl kube-inject -f <your-app-spec>.yaml | kubectl apply -f -
 - [Pod 需求](/zh/docs/ops/deployment/requirements/)
 - [常规安装说明](/zh/docs/setup/)
 
-使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的 [社区](/zh/about/community/join/)。
+使用 Istio 过程中有任何问题，请来信告知我们，并欢迎您加入我们的[社区](/zh/about/community/join/)。
 
 ## 卸载 {#uninstall}
 

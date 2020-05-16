@@ -17,13 +17,13 @@ aliases:
 ## 准备环境{#prerequisites}
 
 - 您已经在 Kubernetes 上部署了 Istio。如果尚未这样做，
-  则可以在[安装指南](/zh/docs/setup/getting-started/) 中找到方法。
+  则可以在[安装指南](/zh/docs/setup/getting-started/)中找到方法。
 
 - 虚拟机（VM）必须具有网格中 endpoint 的 IP 连接。
   这通常需要 VPC 或者 VPN，以及需要提供直接（没有 NAT 或者防火墙拒绝访问）
    路由到 endpoint 的容器网络。虚拟机不需要访问 Kubernetes 分配的集群 IP 地址。
 
-- VM 必须有权访问 DNS 服务， 将名称解析为集群 IP 地址。
+- VM 必须有权访问 DNS 服务，将名称解析为集群 IP 地址。
   选项包括通过内部负载均衡器，使用 [Core DNS](https://coredns.io/) 服务公开的 Kubernetes DNS 服务器，或者在可从 VM 中访问的任何其他 DNS 服务器中配置 IP。
 
 具有以下说明：
@@ -39,7 +39,7 @@ aliases:
 
 当将非 Kubernetes 服务添加到 Istio 网格中时，首先配置 Istio 它自己的设施，并生成配置文件使 VM 连接网格。在具有集群管理员特权的计算机上，使用以下命令为 VM 准备集群：
 
-1. 使用类似于以下的命令，为生成的 CA 证书创建 Kubernetes secret。请参阅[证书办法机构 (CA) 证书](/zh/docs/tasks/security/citadel-config/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key) 获取更多的详细信息。
+1. 使用类似于以下的命令，为生成的 CA 证书创建 Kubernetes secret。请参阅[证书办法机构 (CA) 证书](/zh/docs/tasks/security/plugin-ca-cert/#plugging-in-the-existing-certificate-and-key)获取更多的详细信息。
 
     {{< warning >}}
     样本目录中的 root 证书和中间证书已经大范围分发并被识别。
@@ -99,7 +99,7 @@ aliases:
     ISTIO_SERVICE_CIDR=10.55.240.0/20
     {{< /text >}}
 
-1. 如果 VM 仅在网格中调用服务，您可以跳过这2一步骤。否则，使用以下命令为 VM 新增公开端口到 `cluster.env` 文件下。
+1. 如果 VM 仅在网格中调用服务，您可以跳过这 2 一步骤。否则，使用以下命令为 VM 新增公开端口到 `cluster.env` 文件下。
     如有必要，您可以稍后更改端口。
 
     {{< text bash >}}
@@ -121,14 +121,14 @@ aliases:
 
 下一步，将要加入网格的每台机器上运行以下命令：
 
-1.  将之前创建的 `cluster.env` 和 `*.pem` 文件复制到 VM 中。例如：
+1. 将之前创建的 `cluster.env` 和 `*.pem` 文件复制到 VM 中。例如：
 
     {{< text bash >}}
     $ export GCE_NAME="your-gce-instance"
     $ gcloud compute scp --project=${MY_PROJECT} --zone=${MY_ZONE} {key.pem,cert-chain.pem,cluster.env,root-cert.pem} ${GCE_NAME}:~
     {{< /text >}}
 
-1.  使用 Envoy sidecar 安装 Debian 软件包。
+1. 使用 Envoy sidecar 安装 Debian 软件包。
 
     {{< text bash >}}
     $ gcloud compute ssh --project=${MY_PROJECT} --zone=${MY_ZONE} "${GCE_NAME}"
@@ -136,33 +136,33 @@ aliases:
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
-1.  将 Istio 的网关 IP 地址添加到 `/etc/hosts`。重新访问 [集群准备](#preparing-the-Kubernetes-cluster-for-VMs) 部分以了解如何获取 IP 地址。
+1. 将 Istio 的网关 IP 地址添加到 `/etc/hosts`。重新访问[集群准备](#preparing-the-Kubernetes-cluster-for-VMs)部分以了解如何获取 IP 地址。
 以下示例使用 Istio 网关地址修改 `/etc/hosts` 文件：
 
     {{< text bash >}}
     $ echo "35.232.112.158 istio-citadel istio-pilot istio-pilot.istio-system" | sudo tee -a /etc/hosts
     {{< /text >}}
 
-1.  在 `/etc/certs/` 下安装 `root-cert.pem`，`key.pem` 和 `cert-chain.pem`。
+1. 在 `/etc/certs/` 下安装 `root-cert.pem`，`key.pem` 和 `cert-chain.pem`。
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/certs
     $ sudo cp {root-cert.pem,cert-chain.pem,key.pem} /etc/certs
     {{< /text >}}
 
-1.  在 `/var/lib/istio/envoy/` 下安装 `cluster.env`。
+1. 在 `/var/lib/istio/envoy/` 下安装 `cluster.env`。
 
     {{< text bash >}}
     $ sudo cp cluster.env /var/lib/istio/envoy
     {{< /text >}}
 
-1.  将 `/etc/certs/` 和 `/var/lib/istio/envoy/` 中文件的所有权转交给 Istio proxy。
+1. 将 `/etc/certs/` 和 `/var/lib/istio/envoy/` 中文件的所有权转交给 Istio proxy。
 
     {{< text bash >}}
     $ sudo chown -R istio-proxy /etc/certs /var/lib/istio/envoy
     {{< /text >}}
 
-1.  验证节点上的 agent 是否正常工作：
+1. 验证节点上的 agent 是否正常工作：
 
     {{< text bash >}}
     $ sudo node_agent
@@ -170,7 +170,7 @@ aliases:
     CSR is approved successfully. Will renew cert in 1079h59m59.84568493s
     {{< /text >}}
 
-1.  使用 `systemctl` 启动 Istio：
+1. 使用 `systemctl` 启动 Istio：
 
     {{< text bash >}}
     $ sudo systemctl start istio-auth-node-agent
@@ -182,16 +182,16 @@ aliases:
 设置完后，机器可以访问运行在 Kubernetes 集群上的服务，或者其他的 VM。
 
 以下示例展示了使用 `/etc/hosts/` 如何从 VM 中访问 Kubernetes 集群上运行的服务，
-这里使用 [Bookinfo 示例](/zh/docs/examples/bookinfo/) 中的服务。
+这里使用 [Bookinfo 示例](/zh/docs/examples/bookinfo/)中的服务。
 
-1.  首先，在集群管理机器上获取服务的虚拟 IP 地址（`clusterIP`）：
+1. 首先，在集群管理机器上获取服务的虚拟 IP 地址（`clusterIP`）：
 
     {{< text bash >}}
     $ kubectl get svc productpage -o jsonpath='{.spec.clusterIP}'
     10.55.246.247
     {{< /text >}}
 
-1.  然后在新增的 VM 上，将服务名称和地址添加到其 `etc/hosts` 文件下。
+1. 然后在新增的 VM 上，将服务名称和地址添加到其 `etc/hosts` 文件下。
     然后您可以从 VM 连接到集群服务，如以下示例：
 
     {{< text bash >}}

@@ -1,7 +1,7 @@
 ---
 title: Docker Desktop
 description: Instructions to setup Docker Desktop for Istio.
-weight: 12
+weight: 15
 skip_seealso: true
 aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/docker-for-desktop/

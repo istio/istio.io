@@ -25,20 +25,21 @@ aliases:
     $ kubectl apply -f https://preliminary.istio.io/operator.yaml
     {{< /text >}}
 
-    This command runs the operator by creating the following resources in the `istio-operator` namespace:
+    这条命令会在 `istio-operator` 命名空间中创建以下资源并运行 Istio operator :
 
-    - The operator custom resource definition
-    - The operator controller deployment
-    - A service to access operator metrics
-    - Necessary Istio operator RBAC rules
+    - operator 自定义资源
+    - operator 控制器 deployment
+    - operator 指标信息 service
+    - operator 必要的 RBAC 规则
 
 ## 安装{#install}
 
 运行以下命令用 operator 安装 Istio `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)：
 
 {{< text bash >}}
+$ kubectl create ns istio-system
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
@@ -99,7 +100,7 @@ prometheus-67cdb66cbb-9w2hm                                    1/1     Running  
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator
@@ -114,7 +115,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioControlPlane
 metadata:
   namespace: istio-operator

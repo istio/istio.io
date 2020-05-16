@@ -1,5 +1,5 @@
 ---
-title: IstioProxyVersionMismatch
+title: IstioProxyImageMismatch
 layout: analysis-message
 ---
 

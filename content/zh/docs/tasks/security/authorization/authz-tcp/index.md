@@ -31,6 +31,10 @@ aliases:
 如果您在按照说明操作时未在浏览器中看到预期的输出，请在几秒钟后重试，因为缓存和其他传播开销可能会导致有些延迟。
 {{< /tip >}}
 
+{{< warning >}}
+此任务需要启用双向 TLS，因为以下示例使用策略中的主体和命名空间。
+{{< /warning >}}
+
 ## 配置 TCP 工作负载的访问控制{#configure-access-control-for-a-TCP-workload}
 
 默认情况下，[Bookinfo](/zh/docs/examples/bookinfo/) 示例应用只使用 HTTP 协议。

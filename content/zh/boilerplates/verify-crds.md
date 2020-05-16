@@ -1,3 +1,5 @@
+---
+---
 等待所有的 Istio CRD 创建完成：
 
 {{< text bash >}}

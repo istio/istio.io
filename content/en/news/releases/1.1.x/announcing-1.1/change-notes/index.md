@@ -37,9 +37,9 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Improved Multicluster Integration**. Consolidated the 1.0 `istio-remote`
   chart previously used for
-  [multicluster VPN](/docs/setup/install/multicluster/shared-vpn/) and
-  [multicluster split horizon](/docs/setup/install/multicluster/shared-gateways/) remote cluster installation
-  into the Istio Helm chart simplifying the operational experience.
+  [multicluster VPN](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/multicluster/vpn/) and
+  [multicluster split horizon](https://archive.istio.io/v1.1/docs/examples/multicluster/split-horizon-eds/)
+  remote cluster installation into the Istio Helm chart simplifying the operational experience.
 
 ## Traffic management
 
@@ -80,7 +80,7 @@ concise list of things you should know before upgrading your deployment to Istio
   solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio
-  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/tasks/traffic-management/ingress/ingress-certmgr/)
+  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/ops/integrations/certmanager/)
   example for more details on how to use Kubernetes Ingress resources with
   [gateways](/docs/concepts/traffic-management/#gateways).
 
@@ -104,15 +104,14 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Identity Provisioning Through SDS**. Added SDS support to provide stronger
   security with on-node key generation and dynamic certificate rotation without
-  restarting Envoy. See [Provisioning Identity through SDS](/docs/tasks/security/citadel-config/auth-sds)
-  for more information.
+  restarting Envoy.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
   services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authorization/authz-tcp)
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for groups and list claims](/docs/tasks/security/authorization/rbac-groups/)
+  claim or any list-typed claims in JWT. See [Authorization for JWT](/docs/tasks/security/authorization/authz-jwt/)
   for more information.
 
 - **External Certificate Management on Ingress Gateway Controller**.
@@ -159,7 +158,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
     - Trace ids are now 128 bit wide.
 
-    - Added support for sending trace data to [LightStep](/docs/tasks/observability/distributed-tracing/lightstep/)
+    - Added support for sending trace data to [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/)
 
     - Added the option to disable tracing for Mixer-backed services entirely.
 
@@ -183,7 +182,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ### Configuration management
 
-- **Galley**. Added [Galley](/docs/ops/deployment/architecture/#galley) as the
+- **Galley**. Added [Galley](https://archive.istio.io/v1.1/docs/concepts/what-is-istio/#galley) as the
   primary configuration ingestion and distribution mechanism within Istio. It
   provides a robust model to validate, transform, and distribute configuration
   states to Istio components insulating the Istio components from Kubernetes
@@ -206,7 +205,7 @@ concise list of things you should know before upgrading your deployment to Istio
   replace`, `istioctl get`, and `istioctl delete` commands. Use the
   [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl)
   equivalents instead. Deprecated the `istioctl gen-deploy` command too. Use a
-  [`helm template`](/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)
+  [`helm template`](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/helm/#option-1-install-with-helm-via-helm-template)
   instead. Release 1.2 will remove these commands.
 
 - **Short Commands**. Included short commands in `kubectl` for gateways,

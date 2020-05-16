@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.1.5
+title: Istio 1.1.5 发布公告
 linktitle: 1.1.5
-subtitle: Patch Release
-description: Istio 1.1.5 patch release.
+subtitle: 补丁发布
+description: Istio 1.1.5 补丁发布。
 publishdate: 2019-05-03
 release: 1.1.5
 aliases:
@@ -12,17 +12,17 @@ aliases:
     - /zh/news/announcing-1.1.5
 ---
 
-We're pleased to announce the availability of Istio 1.1.5. Please see below for what's changed.
+我们非常高兴的宣布 Istio 1.1.5 已经可用。请浏览下面的变更说明。
 
 {{< relnote >}}
 
-## Bug fixes
+## Bug 修复{#bug-fixes}
 
-- Add additional validation to Pilot to reject gateway configuration with overlapping hosts matches ([Issue 13717](https://github.com/istio/istio/issues/13717)).
-- Build against the latest stable version of `istio-cni` instead of the latest daily build ([Issue 13171](https://github.com/istio/istio/issues/13171)).
+- 向 Pilot 增加额外的验证以拒绝网关配置中主机匹配重叠的问题（[Issue 13717](https://github.com/istio/istio/issues/13717)）。
+- 根据最新稳定版本的 `istio-cni` 构建，而不是最新的每日构建（[Issue 13171](https://github.com/istio/istio/issues/13171)）。
 
-## Small enhancements
+## 小改进{#small-enhancements}
 
-- Add additional logging to help diagnose hostname resolution failures ([Issue 13581](https://github.com/istio/istio/issues/13581)).
-- Improve ease of installing `prometheus` by removing unnecessary use of `busybox` image ([Issue 13501](https://github.com/istio/istio/issues/13501)).
-- Make Pilot Agent's certificate paths configurable ([Issue 11984](https://github.com/istio/istio/issues/11984)).
+- 添加日志以帮助诊断主机名解析失败问题（[Issue 13581](https://github.com/istio/istio/issues/13581)）。
+- 通过移除对 `busybox` 镜像的不必要依赖，提高安装 `prometheus` 的简便性（[Issue 13501](https://github.com/istio/istio/issues/13501)）。
+- 使 Pilot Agent 的证书路径可配置（[Issue 11984](https://github.com/istio/istio/issues/11984)）。

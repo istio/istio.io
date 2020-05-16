@@ -37,11 +37,12 @@ metadata:
 spec:
   apigee_base: https://istioservices.apigee.net/edgemicro
   customer_base: https://myorg-test.apigee.net/istio-auth
+  hybrid_config: /opt/apigee/customer/default.properties
   org_name: myorg
   env_name: test
   key: mykey
   secret: mysecret
-  temp_dir: &quot;/tmp/apigee-istio&quot;
+  temp_dir: /tmp/apigee-istio
   client_timeout: 30s
   allowUnverifiedSSLCert: false
   products:
@@ -152,6 +153,15 @@ Optional. Default: false.</p>
 
 </td>
 </tr>
+<tr id="Params-hybrid_config">
+<td><code>hybridConfig</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path to the local Apigee Hybrid configuration file.
+Optional. Presence indicates Hybrid environment, must not be set for SaaS or OPDK.</p>
+
+</td>
+</tr>
 <tr id="Params-products">
 <td><code>products</code></td>
 <td><code><a href="#Params-product_options">Params.product_options</a></code></td>
@@ -172,7 +182,7 @@ Optional. Default: false.</p>
 <td><code>auth</code></td>
 <td><code><a href="#Params-auth_options">Params.auth_options</a></code></td>
 <td>
-<p>Options specific to to products handling.</p>
+<p>Options specific to to auth handling.</p>
 
 </td>
 </tr>
@@ -214,8 +224,17 @@ Optional. Default: 1024.</p>
 <td><code>sendChannelSize</code></td>
 <td><code>int64</code></td>
 <td>
-<p>The size of the channel used to buffer record sends in memory.
+<p>The size of the channel used to buffer rfecord sends in memory.
 Optional. Default: 10.</p>
+
+</td>
+</tr>
+<tr id="Params-analytics_options-collection_interval">
+<td><code>collectionInterval</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">google.protobuf.Duration</a></code></td>
+<td>
+<p>How often spooled analytics are swept and sent to Apigee.
+Optional. Default: &ldquo;2m&rdquo; (2 minutes).</p>
 
 </td>
 </tr>

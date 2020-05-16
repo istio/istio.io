@@ -59,7 +59,7 @@ Istio 还需要管理 DNS 证书的生命周期，包括证书的轮换和重新
 为了检查 Istio 按照示例配置生成了 `dns.istio-galley-service-account` DNS 证书，并且证书中包含配置好的 DNS 域名，您需要从 Kubernetes 中获取 secret，进行解析解码并检查它的输出文本，命令如下：
 
 {{< text bash >}}
-$ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+$ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in /dev/stdin -text -noout
 {{< /text >}}
 
 输出文本应该包括：
@@ -82,7 +82,7 @@ Istio 也可以重新生成被误删的 DNS 证书。接下来，我们展示如
 1. 为了检查 Istio 重新生成了已删除的 DNS 证书，并且该证书包含配置好的 DNS 域名，您需要从 Kubernetes 中获取 secret，进行解析解码并检查它的输出文本，命令如下：
 
     {{< text bash >}}
-    $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in - -text -noout
+    $ kubectl get secret dns.istio-galley-service-account -n istio-system -o json | jq -r '.data["cert-chain.pem"]' | base64 --decode | openssl x509 -in /dev/stdin -text -noout
     {{< /text >}}
 
 输出应该包括：

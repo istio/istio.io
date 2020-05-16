@@ -15,7 +15,7 @@ apply changes to a cluster.
 You can analyze your current Kubernetes cluster by running:
 
 {{< text bash >}}
-$ istioctl analyze -k
+$ istioctl analyze --all-namespaces
 {{< /text >}}
 
 And that’s it! It’ll give you any recommendations that apply.
@@ -35,19 +35,19 @@ Typically, this is used to analyze the entire set of configuration files that ar
 Analyze a specific set of local Kubernetes yaml files:
 
 {{< text bash >}}
-$ istioctl analyze a.yaml b.yaml
+$ istioctl analyze --use-kube=false a.yaml b.yaml
 {{< /text >}}
 
 Analyze all yaml files in the current folder:
 
 {{< text bash >}}
-$ istioctl analyze *.yaml
+$ istioctl analyze --use-kube=false *.yaml
 {{< /text >}}
 
 Simulate applying the files in the current folder to the current cluster:
 
 {{< text bash >}}
-$ istioctl analyze -k *.yaml
+$ istioctl analyze *.yaml
 {{< /text >}}
 
 You can run `istioctl analyze --help` to see the full set of options.
@@ -99,39 +99,11 @@ the kind of information you should provide.
 
 ## Advanced
 
-### Getting the latest version of `istioctl analyze`
-
-Although `istioctl analyze` is included in versions of Istio 1.4 and beyond, you can also directly download the very
-latest version to use on your cluster. This version may be unstable, but will have the most complete and up to date set
-of analyzers and may find issues that older versions miss.
-
-You can download the latest `istioctl` into the current folder using the following command:
-
-{{< tabset category-name="platform" >}}
-
-{{< tab name="Mac" category-value="macos" >}}
-
-{{< text bash >}}
-$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-osx.tar.gz | tar xvz
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Linux" category-value="linux" >}}
-
-{{< text bash >}}
-$ curl https://storage.googleapis.com/istio-build/dev/latest | xargs -I {} curl https://storage.googleapis.com/istio-build/dev/{}/istioctl-{}-linux.tar.gz | tar xvz
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
 ### Enabling validation messages for resource status
 
 {{< boilerplate experimental-feature-warning >}}
 
-Starting with Istio 1.4, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for, via the `galley.enableAnalysis` flag.
+Starting with Istio 1.5, Galley can be set up to perform configuration analysis alongside the configuration distribution that it is primarily responsible for, via the `istiod.enableAnalysis` flag.
 This analysis uses the same logic and error messages as when using `istioctl analyze`. Validation messages from the analysis are written to the status subresource of the affected Istio resource.
 
 For example. if you have a misconfigured gateway on your "ratings" virtual service, running `kubectl get virtualservice ratings` would give you something like:
@@ -170,11 +142,50 @@ status:
 `enableAnalysis` runs in the background, and will keep the status field of a resource up to date with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
 
 - Not all resources have a custom status field (e.g. Kubernetes `namespace` resources), so messages attached to those resources won't show validation messages.
-- `enableAnalysis` only works on Istio versions starting with 1.4, while `istioctl analyze` can be used with older versions.
+- `enableAnalysis` only works on Istio versions starting with 1.5, while `istioctl analyze` can be used with older versions.
 - While it makes it easy to see what's wrong with a particular resource, it's harder to get a holistic view of validation status in the mesh.
 
 You can enable this feature with:
 
 {{< text bash >}}
-$ istioctl manifest apply --set values.galley.enableAnalysis=true
+$ istioctl manifest apply --set values.global.istiod.enableAnalysis=true
+{{< /text >}}
+
+### Ignoring specific analyzer messages via CLI
+
+Sometimes you might find it useful to hide or ignore analyzer messages in certain cases. For example, imagine a situation where a message is emitted about a resource you don't have permissions to update:
+
+{{< text bash >}}
+$ istioctl analyze -k --all-namespaces
+Warn [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection
+Error: Analyzers found issues.
+See https://istio.io/docs/reference/config/analysis for more information about causes and resolutions.
+{{< /text >}}
+
+Because you don't have permissions to update the namespace, you cannot resolve the message by annotating the namespace. Instead, you can direct `istioctl analyze` to suppress the above message on the resource:
+
+{{< text bash >}}
+$ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod"
+✔ No validation issues found.
+{{< /text >}}
+
+The syntax used for suppression is the same syntax used throughout `istioctl` when referring to resources: `<kind> <name>.<namespace>`, or just `<kind> <name>` for cluster-scoped resources like `Namespace`. If you want to suppress multiple objects, you can either repeat the `--suppress` argument or use wildcards:
+
+{{< text bash >}}
+$ # Suppress code IST0102 on namespace frod and IST0107 on all pods in namespace baz
+$ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --suppress "IST0107=Pod *.baz"
+{{< /text >}}
+
+### Ignoring specific analyzer messages via annotations
+
+You can also ignore specific analyzer messages using an annotation on the resource. For example, to ignore code IST0107 (`MisplacedAnnotation`) on resource `deployment/my-deployment`:
+
+{{< text bash >}}
+$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107
+{{< /text >}}
+
+To ignore multiple codes for a resource, separate each code with a comma:
+
+{{< text bash >}}
+$ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}

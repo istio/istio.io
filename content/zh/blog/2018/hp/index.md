@@ -7,7 +7,7 @@ attribution: Steven Ceuppens, Chief Software Architect @ HP FitStation, Open Sou
 target_release: 1.0
 ---
 
-惠普的 FitStation 团队坚信， 未来的 Kubernetes、BPF 和服务网络是云基础设施的下一个标准。
+惠普的 FitStation 团队坚信，未来的 Kubernetes、BPF 和服务网络是云基础设施的下一个标准。
 我们也很高兴看到 Istio 即将推出其官方的 Istio 1.0 版本 - 这要归功于 2017 年 5 月从 Google、IBM 和 Lyft 开始的联合合作。
 
 在 FitStation 大规模和渐进式云平台的开发过程中，Istio 、Cilium 和 Kubernetes 的技术提供了大量机会，使我们的系统更加健壮和易于扩展。
@@ -22,7 +22,7 @@ FitStation 建立在对用户生物识别数据的最终安全性和隐私承诺
 使用 Istio 可以大大降低维护大量库和服务的复杂性，从而提供安全的通信服务。
 
 作为使用 Istio 1.0 的额外好处，我们获得了网络可见性，指标和开箱即用的追踪。这极大地改善了我们开发和 DevOps 团队的的决策和响应质量
-。团队深入了解包括新应用程序和传统应用程序在内的整个平台的网络通信。 Cilium 与 Envoy 的整合，
+。团队深入了解包括新应用程序和传统应用程序在内的整个平台的网络通信。Cilium 与 Envoy 的整合，
 让 Istio 服务网格网络通信能力的性能取得了显著提升，同时还提供了内核驱动的细粒度 L7 网络安全层。这归功于 Cilium 为 Istio 提供的 BPF 功能。
 我们认为未来将推动 Linux 的内核安全。
 

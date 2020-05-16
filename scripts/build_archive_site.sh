@@ -22,6 +22,7 @@ BASEURL="$1"
 
 # List of name:tagOrBranch
 TOBUILD=(
+  v1.4:release-1.4
   v1.3:release-1.3
   v1.2:release-1.2
   v1.1:release-1.1
@@ -62,7 +63,7 @@ for rel in "${TOBUILD[@]}"; do
   scripts/gen_site.sh "${URL}"
 
   if [[ "${TAG}" != "release-0.8" && "${TAG}" != "release-1.0" && "${TAG}" != "release-1.1" && "${TAG}" != "release-1.2" && "${TAG}" != "release-1.3" ]]; then
-    scripts/build_site.sh
+    scripts/build_site.sh "${URL}"
   fi
 
   mv public "${TMP}/archive/${NAME}"

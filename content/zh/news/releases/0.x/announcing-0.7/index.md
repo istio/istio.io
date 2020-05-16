@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 0.7
+title: Istio 0.7 发布公告
 linktitle: 0.7
-subtitle: Major Update
-description: Istio 0.7 announcement.
+subtitle: 重大更新
+description: Istio 0.7 发布公告。
 publishdate: 2018-03-28
 release: 0.7.0
 aliases:
@@ -12,17 +12,13 @@ aliases:
     - /zh/news/announcing-0.7
 ---
 
-For this release, we focused on improving our build and test infrastructures and increasing the
-quality of our tests. As a result, there are no new features for this month.
+这次发布的版本，我们专注于改进构建和测试基础架构并提高测试质量。因此，本月没有新功能。
 
 {{< relnote >}}
 
-Please note that this release includes preliminary support for the new v1alpha3 traffic management
-functionality. This functionality is still in a great deal of flux and there may be some breaking
-changes in 0.8. So if you feel like exploring, please go right ahead, but expect that this may
-change in 0.8 and beyond.
+请注意，此版本包括对新的 v1alpha3 流量管理功能的初步支持。此功能仍在不断变化中，0.8 可能会有一些重大变化。
+因此，如果您想探索，请继续前进，但它可能会在 0.8 或更高的版本有变化。
 
-Known Issues:
+已知问题：
 
-Our [Helm chart](/zh/docs/setup/install/helm)
-currently requires some workaround to apply the chart correctly, see [4701](https://github.com/istio/istio/issues/4701) for details.
+我们的 [Helm chart](/zh/docs/setup/install/helm) 现在必须使用一些变通的方法才能正确运行，查看 [4701](https://github.com/istio/istio/issues/4701) 获取详情。
