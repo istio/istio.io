@@ -15,7 +15,10 @@
 # limitations under the License.
 
 __err_exit() {
-    echo "VERIFY FAILED $1: $2";
+    local msg=$1
+    local out=$2
+    local expected=$3
+    printf "VERIFY FAILED %s: received: \"%s\", expected: \"%s\"\n" "$msg" "$out" "$expected"
     exit 1
 }
 
@@ -205,7 +208,7 @@ __verify_with_retry() {
       fi
 
       if (( attempt >= max_attempts )); then
-          __err_exit "$cmd" "$out"
+          __err_exit "$cmd" "$out" "$expected"
       fi
 
       sleep $(( 2 ** attempt ))
@@ -298,7 +301,7 @@ _verify_same() {
     local msg=$3
 
     if ! __cmp_same "$out" "$expected"; then
-        __err_exit "$msg" "$out"
+        __err_exit "$msg" "$out" "$expected"
     fi
 }
 
@@ -309,7 +312,7 @@ _verify_contains() {
     local msg=$3
 
     if ! __cmp_contains "$out" "$expected"; then
-        __err_exit "$msg" "$out"
+        __err_exit "$msg" "$out" "$expected"
     fi
 }
 
@@ -320,7 +323,7 @@ _verify_not_contains() {
     local msg=$3
 
     if ! __cmp_not_contains "$out" "$expected"; then
-        __err_exit "$msg" "$out"
+        __err_exit "$msg" "$out" "$expected"
     fi
 }
 
@@ -332,7 +335,7 @@ _verify_elided() {
     local msg=$3
 
     if ! __cmp_elided "$out" "$expected"; then
-        __err_exit "$msg" "$out"
+        __err_exit "$msg" "$out" "$expected"
     fi
 }
 
@@ -343,7 +346,7 @@ _verify_first_line() {
     local msg=$3
 
     if ! __cmp_first_line "$out" "$expected"; then
-        __err_exit "$msg" "$out"
+        __err_exit "$msg" "$out" "$expected"
     fi
 }
 
@@ -361,6 +364,6 @@ _verify_like() {
     local msg=$3
 
     if ! __cmp_like "$out" "$expected"; then
-        __err_exit "$msg" "$out"
+        __err_exit "$msg" "$out" "$expected"
     fi
 }

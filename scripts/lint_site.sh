@@ -91,7 +91,7 @@ check_content() {
         FAILED=1
     fi
 
-    if grep -nr -e https://raw.githubusercontent.com/istio/istio/ .; then
+    if grep -nr --exclude='*.sh' -e https://raw.githubusercontent.com/istio/istio/ .; then
         echo "Ensure markdown content uses {{< github_file >}}"
         FAILED=1
     fi
