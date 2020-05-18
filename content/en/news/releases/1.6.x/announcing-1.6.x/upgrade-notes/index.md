@@ -40,7 +40,7 @@ Istio 1.6 replaced the `v1alpha1` authentication policy with the following APIs:
 Istio 1.6 replaces the `v1alpha1` RBAC policy APIs  with the [`v1beta1` authorization policy APIs](/docs/reference/config/security/authorization-policy/). 
 
 
-To check if there is any `v1alpha1` security policy in the cluster, run the following commands:
+Verify that there are no `v1alpha1` security policies in your clusters the following commands:
 
 {{< text bash >}}
 $ kubectl get policies.authentication.istio.io --all-namespaces
