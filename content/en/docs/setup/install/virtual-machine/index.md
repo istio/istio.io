@@ -95,7 +95,7 @@ but not production. Like all alpha features, this guide is subject to change.
 
     {{< text bash >}}
     $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/ca-cert.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE
-    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/ca-key.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE
+    $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/key.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE
     $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/root-cert.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE
     $ cp -a "${WORK_DIR}"/"${CLUSTER_NAME}"/"{SERVICE_NAMESPACE}"/workload-cert-chain.pem "${WORK_DIR}"/"{CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"/COPY_TO_VIRTUAL_MACHINE/cert-chain.pem
     {{< /text >}}
