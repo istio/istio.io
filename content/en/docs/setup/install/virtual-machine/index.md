@@ -12,11 +12,8 @@ keywords:
 Follow this guide to deploy Istio and connect a virtual machine to it.
 
 {{< warning >}}
-This guide relies heavily on the
-[stable plugin ca certificate](/docs/tasks/security/cert-management/plugin-ca-cert/) feature. Istio
-does not offer an industry standard recommendation for certificate management. Please consult your
-information security team when using any plugin certificate. The determination of your company
-policies for certificate management is the choice of your company.
+This guide has a requirement that the user is using a [plugin root CA](/docs/tasks/security/cert-management/plugin-ca-cert/)
+and has configured Istio as an intermediate CA. 
 {{< /warning >}}
 
 {{< tip >}}
@@ -50,15 +47,13 @@ but not production. Like all alpha features, this guide is subject to change.
     $ mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/${SERVICE_NAMESPACE}"
     {{< /text >}}
 
-## Install the Istio control plane
-
 1. Execute the following commands to create certificates and install them in your
     cluster for use by Istio. See
     [Certificate Authority (CA) certificates](/docs/tasks/security/cert-management/plugin-ca-cert/)
     for more details on configuring an external CA. The `NAME` variable is
-    unimportant, although this is used during certificate generation to
-    uniquely identify clusters. The `NAMESPACE` variable identifies the
-    namespace where the virtual machine connectivity is hosted.
+    used during certificate generation to uniquely identify clusters. The
+    `NAMESPACE` variable identifies the namespace where the virtual machine
+    connectivity is hosted.
 
     {{< text bash >}}
     $ cd "${WORK_DIR}"
@@ -71,7 +66,12 @@ but not production. Like all alpha features, this guide is subject to change.
         --from-file="${WORK_DIR}"/"${CLUSTER_NAME}"/cert-chain.pem
     {{< /text >}}
 
-1. Install Istio with virtual machine integration features enabled.
+## Install the Istio control plane
+
+If the Istio control plane is not already installed, or isn't installed with `.spec.values.global.meshExpansion.enabled=true`, you
+must enable.
+
+1. Install or upgrade Istio with virtual machine integration features enabled.
 
     {{< text bash >}}
     $ cat <<EOF> "${WORK_DIR}"/vmintegration.yaml
