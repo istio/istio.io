@@ -61,5 +61,9 @@ cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTI
 cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
 
 # For generating junit.xml files
+function install-junit-report() {
+  (cd /tmp; go get github.com/jstemmer/go-junit-report)
+}
+
 echo "Installing go-junit-report..."
-unset GOOS && unset GOARCH && CGO_ENABLED=1 go get github.com/jstemmer/go-junit-report
+command -v go-junit-report || install-junit-report

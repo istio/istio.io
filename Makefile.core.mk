@@ -74,7 +74,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: snips
+gen: snips tidy-go
 
 gen-check: gen check-clean-repo
 
