@@ -51,7 +51,8 @@ $ kubectl get serviceroles.rbac.istio.io --all-namespaces
 $ kubectl get servicerolebindings.rbac.istio.io --all-namespaces
 {{< /text >}}
 
-To make sure not to accidentally apply any `v1alpha1` security policy in the future, remove the CRD of the `v1alpha1` security policy using the following commands:
+
+To ensure that `v1alpha1` security policies aren't applied in the future, delete the Custom Resource Definitions (CRDs) using the `v1alpha1` security policy APIs with the following commands:
 
 {{< text bash >}}
 $ kubectl delete crd policies.authentication.istio.io
@@ -64,20 +65,26 @@ $ kubectl delete crd servicerolebindings.rbac.istio.io
 
 ## Istio configuration during installation
 
-Historically, Istio deployed certain configuration objects as part of the installation. This caused problems with upgrades, a confusing user experience, and makes the installation less flexible. As a result, we minimized the configurations we ship as part of the installation.
+Past Istio releases deployed configuration objects during installation. The presence of those objects caused the following issues:
 
-This includes a variety of configurations:
+- Problems with upgrades
+- A confusing user experience
+- A less flexible installation
+
+To address these issues, Istio 1.6 minimized the configuration objects deployed during installation.
+
+The following configurations are impacted:
 
 - `global.mtls.enabled`: Configuration removed to avoid confusion. Configure a peer authentication policy to enable [strict mTLS](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode) instead.
-* The default `Gateway` object, and associated `Certificate` object, are no longer installed by default. See the [Ingress task](/docs/tasks/traffic-management/ingress/) for information on configuring a Gateway.
-* `Ingress` objects for telemetry addons are no longer created. See [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/) for more information on exposing these externally.
-* The default `Sidecar` configuration was previously defined with an automatically created `Sidecar` resource. This has been changed to an internal implementation detail and should have no visible impact.
+- No default `Gateway` and associated `Certificate` custom resources are deployed during installation. Go to the [Ingress task](/docs/tasks/traffic-management/ingress/) to configure a gateway for your mesh.
+* Istio no longer creates `Ingress` custom resources  for telemetry addons. Go to [remotely accessing telemetry addons](/docs/tasks/observability/gateways/) to learn how to reach the addons externally.
+- The default sidecar configuration is no longer defined through the automatically generated `Sidecar` custom resource. The default configuration is implemented internally and the change should have no impact on deployments.
 
-## Communicating with Istiod using External Workloads
+## Reach Istiod through external workloads
 
 This release makes the Istiod host cluster-local by default. This means that the Istio control plane is not accessible to workloads that reside outside the cluster. It is now recommended that external workloads access Istiod via the ingress gateway. This change was needed in order to support multicluster master/remote configurations. Future releases will remove this limitation.
 
-Users may override this behavior in `MeshConfig`:
+To override the default `cluster-local` behavior, modify the configuration in the `MeshConfig` section as show below:
 
 {{< text yaml >}}
 values:
