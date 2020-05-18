@@ -14,6 +14,10 @@ the use and operation of Istio 1.5.
 Istio does not currently support skip-level upgrades. For example, if you are still using Istio 1.4, we recommend first upgrading to Istio 1.5. However, if you choose to upgrade from previous version, you must first disable Galley configuration validation. This can be done by adding `--enable-validation=false` to the Galley deployment and removing the `istio-galley` `ValidatingWebhookConfiguration`
 {{< /tip >}}
 
+## Readiness port number change for Gateways
+
+If you are using port 15020 to check the health of your Istio ingressgateway with your Kubernetes network load balancer, you will need to update the port number from 15020 to 15021.
+
 ## Removal of legacy Helm charts
 
 In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/), using the in-cluster Operator or `istioctl install` command. As part of this effort, we deprecated the old Helm charts in 1.5. Over time, we implemented many of the new Istio features only in these new installation methods. As a result, we have decided to remove the old installation Helm charts in Istio 1.6.
