@@ -5,7 +5,7 @@ weight: 20
 ---
 
 When you upgrade from Istio 1.5.x to Istio 1.6.x, you need to consider the changes on this page.
-These notes detail the changes which purposefully break backwards compatibility with Istio 1.5.x.  
+These notes detail the changes which purposefully break backwards compatibility with Istio 1.5.x.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.5.x.
 
@@ -28,17 +28,16 @@ To safely upgrade from the legacy installation method that uses Helm charts, per
 Istio 1.6 no longer supports the following security policy APIs:
 
 - [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/)
-- [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/) 
+- [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/)
 
 Starting in Istio 1.6, Istio ignores these `v1alpha1` security policy APIs.
 
 Istio 1.6 replaced the `v1alpha1` authentication policy with the following APIs:
 
-- The [`v1beta1` request authentication policy](/docs/reference/config/security/request_authentication) 
+- The [`v1beta1` request authentication policy](/docs/reference/config/security/request_authentication)
 - The [`v1beta1` peer authentication policy](/docs/reference/config/security/peer_authentication)
 
-Istio 1.6 replaces the `v1alpha1` RBAC policy APIs  with the [`v1beta1` authorization policy APIs](/docs/reference/config/security/authorization-policy/). 
-
+Istio 1.6 replaces the `v1alpha1` RBAC policy APIs  with the [`v1beta1` authorization policy APIs](/docs/reference/config/security/authorization-policy/).
 
 Verify that there are no `v1alpha1` security policies in your clusters the following commands:
 
