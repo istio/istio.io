@@ -19,7 +19,7 @@ weight: 10
 
 ## Security
 
-***Improved*** Istio Agent SDS performance by [caching the JWT](https://github.com/istio/istio/pull/22789).
+- ***Improved*** Istio Agent SDS performance by [caching the JWT](https://github.com/istio/istio/pull/22789).
 ***Improved*** Istio Agent certificate provisioning [grace period calculation](https://github.com/istio/istio/pull/22617).
 - ***Removed*** Security alpha API. Security beta API, which was introduced in Istio 1.5, is the only supported security API in Istio 1.6.
 
