@@ -97,7 +97,7 @@ example configuration and commands.
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
-    
+
     {{< tip >}}
     `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
     {{< /tip >}}
@@ -140,7 +140,7 @@ In this task, you used Istio configuration to
 automatically generate and report metrics for all traffic to a TCP service
 within the mesh.
 TCP Metrics for all active connections are recorded every 15s by default and this timer is configurable
-via [tcpReportingDurationconfig](docs/reference/config/proxy_extensions/stats/#PluginConfig). 
+via [tcpReportingDurationconfig](/docs/reference/config/proxy_extensions/stats/#PluginConfig).
 Metrics for a connection are also recorded at the end of the connection.
 
 ### TCP attributes
