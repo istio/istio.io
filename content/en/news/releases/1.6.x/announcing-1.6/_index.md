@@ -25,8 +25,9 @@ Here’s some of what’s coming to you in today's release:
 
 Last release, we introduced **Istiod**, a component that reduced the number of
 components in an Istio installation by combining the functionality of several
-other components. In Istio 1.6, you'll find that Citadel, the sidecar
-injector and Galley are no longer deployed.
+other components. In Istio 1.6, we have completed this transition and have fully
+moved functionality into Istiod, allowing us to remove Citadel, the sidecar
+injector, and Galley are no longer deployed.
 
 You'll also find that we are using the new `appProtocol` field in the Kubernetes
 [`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpoints-v1-core)
