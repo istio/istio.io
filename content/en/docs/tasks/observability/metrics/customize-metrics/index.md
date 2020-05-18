@@ -100,7 +100,6 @@ dimensions.
     $ kubectl -n istio-system apply -f stats-filter-1.6.yaml
     {{< /text >}}
 
-
 ## Verify the results
 
 Use the following command to verify that Istio generates the data for your new
