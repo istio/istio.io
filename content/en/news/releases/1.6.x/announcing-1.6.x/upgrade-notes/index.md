@@ -5,11 +5,11 @@ weight: 20
 ---
 
 When you upgrade from Istio 1.5.x to Istio 1.6.x, you need to consider the changes on this page.
-These notes detail the instances, which purposefully break backwards compatibility with Istio 1.5.x.  
-The notes also mention instances, which preserve backwards compatibility while introducing new behavior.
-Instances are only included if the new behavior would be unexpected to a user of Istio 1.5.x.
+These notes detail the changes which purposefully break backwards compatibility with Istio 1.5.x.  
+The notes also mention changes which preserve backwards compatibility while introducing new behavior.
+Changes are only included if the new behavior would be unexpected to a user of Istio 1.5.x.
 
-Currently, Istio doesn't skip-level upgrades. If you are using Istio 1.4, upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation. Disable the validation with the following commands:
+Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4, you must upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation. Disable the validation with the following commands:
 
 ## Readiness port number change for Gateways
 
@@ -30,7 +30,7 @@ Istio 1.6 no longer supports the following security policy APIs:
 - [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/)
 - [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/) 
 
-Istio 1.6 starts ignoring these `v1alpha1` security policy APIs.
+Starting in Istio 1.6, Istio ignores these `v1alpha1` security policy APIs.
 
 Istio 1.6 replaced the `v1alpha1` authentication policy with the following APIs:
 
@@ -78,7 +78,7 @@ The following configurations are impacted:
 
 - `global.mtls.enabled`: Configuration removed to avoid confusion. Configure a peer authentication policy to enable [strict mTLS](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode) instead.
 - No default `Gateway` and associated `Certificate` custom resources are deployed during installation. Go to the [Ingress task](/docs/tasks/traffic-management/ingress/) to configure a gateway for your mesh.
-* Istio no longer creates `Ingress` custom resources  for telemetry addons. Go to [remotely accessing telemetry addons](/docs/tasks/observability/gateways/) to learn how to reach the addons externally.
+- Istio no longer creates `Ingress` custom resources  for telemetry addons. Visit [remotely accessing telemetry addons](/docs/tasks/observability/gateways/) to learn how to reach the addons externally.
 - The default sidecar configuration is no longer defined through the automatically generated `Sidecar` custom resource. The default configuration is implemented internally and the change should have no impact on deployments.
 
 ## Reach Istiod through external workloads
