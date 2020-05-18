@@ -533,19 +533,20 @@ consistent, is validated, and follows the [community graduation process](https:/
 `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
 profiles:
 
-- compiled in charts (default, uses charts in `manifests/` directory in Istio release `.tgz`)
-- external in local file system e.g. `istioctl install --charts istio-1.6.0/manifests`
-- external in GitHub e.g. `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
+- compiled in charts. This is the default if no --charts option is set). The compiled in charts are the same as those
+in the `manifests/` directory in Istio release `.tgz`.
+- charts in the local file system e.g. `istioctl install --charts istio-1.6.0/manifests`
+- charts in GitHub e.g. `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
 
 Local file system charts and profiles can be customized by editing the files in the `manifests/`. For extensive changes,
 it's recommended to make a copy of this directory and make changes to the copy. `istioctl` requires the same file layout
 as in `manifests` to be preserved.
 
-Profiles, which are found under `manifests/profiles/` can be edited, and new ones added by creating new files with the
+Profiles, found under `manifests/profiles/`, can be edited and new ones added by creating new files with the
 desired profile name and a `.yaml` extension. `istioctl` scans the `profiles` subdirectory and all profiles found there
-can be referenced as a base for customization. Note that all profiles are overlays over the `default` profile (except
+can be referenced as a base for user overlays. Note that all profiles are overlays over the `default` profile (except
 `default` itself). For example, you can create a new profile file called `custom1.yaml` which customizes some settings
-from `default` profile, and then `istioctl` can access this profile through the `IstioOperatorSpec` API e.g.
+from the `default` profile, and then `istioctl` can access this profile through the `IstioOperatorSpec` API e.g.
 `istioctl generate --charts mycharts/ --set profile=custom1`.
 
 In general, creating new profiles is not necessary since a similar result can be achieved by passing multiple overlay
@@ -554,21 +555,20 @@ Creating a custom profile is only required if you need to refer to that profile 
 
 ### Patching the output manifest
 
-The `IstioOperator` CR is the input to `istioctl` that is used to generate the output manifest containing the
-Kubernetes resources to be applied to the cluster. The output manifest can also be customized to add, modify or delete values
-that cannot be modified through the `IstioOperator` [overlays](/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay) API.
+The `IstioOperator` CR input to `istioctl` is used to generate the output manifest containing the
+Kubernetes resources to be applied to the cluster. The output manifest can be further customized to add, modify or delete resources
+through the `IstioOperator` [overlays](/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay) API, after it is
+generated but before it is applied to the cluster.
 
 The following example overlay file (`patch.yaml`) demonstrates the type of output manifest patching that can be done:
 
-```yaml
+{{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: empty
   hub: docker.io/istio
-  tag: 1.1.4
-  meshConfig:
-    rootNamespace: istio-control
+  tag: 1.1.6
   components:
     pilot:
       enabled: true
@@ -599,13 +599,13 @@ spec:
             patches:
               - path: spec.ports.[name:https-dns].port
                 value: 11111 # OVERRIDDEN
-```
+{{< /text >}}
 
 Passing the file to `istioctl manifest generate -f patch.yaml` applies the patches above to the default profile output
 manifest. The two patched resources will be modified as shown below (some parts of the resources are omitted for
 brevity):
 
-```yaml
+{{< text yaml >}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -638,8 +638,7 @@ spec:
   - name: https-dns
     port: 11111
 ---
-
-```
+{{< /text >}}
 
 Note that the patches are applied in the given order, and each patch is applied over the resulting output from the
 previous patch. In addition, paths in patches that do not exist in the output manifest are created.
