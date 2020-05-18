@@ -34,8 +34,8 @@ but not production. Like all alpha features, this guide is subject to change.
 ## Prepare the guide environment
 
 1. Set the environment variables `"${ISTIO_DIR}"`, `"${WORK_DIR}"`, your cluster
-    name, and the service namespace. Ensure `"${WORK_DIR}"` is prefixed with `"${WORK_DIR}"`
-    (e.g. `WORK_DIR="${WORK_DIR}"/vmintegration`).
+    name, and the service namespace. Ensure `"${WORK_DIR}"` is prefixed with `"${HOME}"`
+    (e.g. `WORK_DIR="${HOME}"/vmintegration`).
 
     {{< text bash >}}
     $ ISTIO_DIR="<the directory containing an unarchived version of Istio>"
