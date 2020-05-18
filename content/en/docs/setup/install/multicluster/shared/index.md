@@ -137,8 +137,7 @@ spec:
       meshNetworks:
         ${MAIN_CLUSTER_NETWORK}:
           endpoints:
-          # Always use Kubernetes as the registry name for the main cluster in the mesh network configuration
-          - fromRegistry: Kubernetes
+          - fromRegistry:  ${MAIN_CLUSTER_NAME}
           gateways:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
@@ -176,8 +175,7 @@ spec:
       meshNetworks:
         ${MAIN_CLUSTER_NETWORK}:
           endpoints:
-          # Always use Kubernetes as the registry name for the main cluster in the mesh network configuration
-          - fromRegistry: Kubernetes
+          - fromRegistry:  ${MAIN_CLUSTER_NAME}
           gateways:
           - registry_service_name: istio-ingressgateway.istio-system.svc.cluster.local
             port: 443
