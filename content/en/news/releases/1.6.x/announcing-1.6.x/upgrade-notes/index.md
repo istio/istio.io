@@ -6,7 +6,7 @@ weight: 20
 
 When you upgrade from Istio 1.5.x to Istio 1.6.x, you need to consider the changes on this page.
 These notes detail the instances, which purposefully break backwards compatibility with Istio 1.5.x.  
-compatibility. We also mention cases where backwards compatibility was preserved
+The notes also mention instances, which preserve backwards compatibility while introducing new behavior.
 but new behavior was introduced that would be surprising to someone familiar with
 the use and operation of Istio 1.5.
 
