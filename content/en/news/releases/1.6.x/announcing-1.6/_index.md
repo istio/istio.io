@@ -3,7 +3,7 @@ title: Announcing Istio 1.6
 linktitle: 1.6
 subtitle: Major Update
 description: Istio 1.6 release announcement.
-publishdate: 2020-05-19
+publishdate: 2020-05-21
 release: 1.6.0
 skip_list: true
 aliases:
@@ -26,8 +26,8 @@ Here’s some of what’s coming to you in today's release:
 Last release, we introduced **Istiod**, a component that reduced the number of
 components in an Istio installation by combining the functionality of several
 other components. In Istio 1.6, we have completed this transition and have fully
-moved functionality into Istiod, allowing us to remove Citadel, the sidecar
-injector, and Galley are no longer deployed.
+moved functionality into Istiod. This has allowed us to remove Citadel, the
+sidecar injector, and Galley.
 
 You'll also find that we are using the new `appProtocol` field in the Kubernetes
 [`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpoints-v1-core)
@@ -55,28 +55,34 @@ the new upgrade experience.
 ## Observe this
 
 Many companies adopt Istio solely to get better observability of distributed
-applications, so we continue to invest there. You'll have to read the release
-notes to see all of the features, but you'll see more configurability, better
+applications, so we continue to invest there. There are too many changes to list
+them all here, so please see the [release notes](news/releases/1.6.x/announcing-1.6/change-notes/)
+for the full details. Some
+highlights: you'll see more configurability, better
 ability to control your trace sampling rates, and updated Grafana dashboards
 (and we're even publishing them on [Grafana](https://grafana.com) on the
 [Istio org page](https://grafana.com/orgs/istio)).
 
 ## Better Virtual Machine support
 
+Expanding our support for workloads not running in Kubernetes was one of the
+our major areas of investment for 2020, and we're excited to announce some
+great progress here.
+
 For those of you who are adding non-Kubernetes workloads to meshes (for
 example, workloads deployed on VMs), the new
 [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) resource
 makes that easier than ever. We created this API to give non-Kubernetes
 workloads first-class representation in Istio. It elevates a VM or bare metal
-workloads to the same level as a Kubernetes pod, instead of just an endpoint
+workload to the same level as a Kubernetes pod, instead of just an endpoint
 with an IP address. You now even have the ability to define a Service that is
-backed by both Pods and VMs. Why is that useful? Well, now you now have the
+backed by both Pods and VMs. Why is that useful? Well, you now have the
 ability to have a heterogeneous mix of deployments (VMs and Pods) for the same
-service, providing a great way for migrating VM workloads to the mesh.
+service, providing a great way to migrate VM workloads to a Kubernetes
+cluster without disrupting traffic to and from it.
 
-Expanding support for VM-based workloads was another theme we called out
-in our roadmap post, and you can expect to see more in this area over the
-coming releases.
+VM-based workloads remain a high priority for us, and you can expect to see more
+in this area over the coming releases.
 
 ## Other improvements
 
