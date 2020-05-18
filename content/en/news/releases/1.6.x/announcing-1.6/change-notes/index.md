@@ -38,7 +38,7 @@ weight: 10
 ## Installation
 
 - ***Added*** support for Istio in-place upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
-- ***Removed*** the legacy Helm charts. For migration from them pleasee see the [Upgrade guide](/docs/setup/upgrade/).
+- ***Removed*** the legacy Helm charts. For migration from them please see the [Upgrade guide](/docs/setup/upgrade/).
 - ***Added*** the ability for users to add a custom hostname for istiod.
 - ***Changed*** gateway readiness port used from 15020 to 15021. If you check health on your Istio `ingressgateway` from your Kubernetes network load balancer you will need to update the port.
 - ***Added*** functionality to save installation state in a `CustomResource` in the cluster.
