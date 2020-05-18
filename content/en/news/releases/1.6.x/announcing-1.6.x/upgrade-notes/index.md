@@ -56,7 +56,7 @@ Historically, Istio deployed certain configuration objects as part of the instal
 
 This includes a variety of configurations:
 
-* The `global.mtls.enabled` setting previously enabled strict mTLS. This setting was removed to avoid confusion.  You should instead configure a `PeerAuthentication` policy for [strict mTLS](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
+- `global.mtls.enabled`: Configuration removed to avoid confusion. Configure a peer authentication policy to enable [strict mTLS](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode) instead.
 * The default `Gateway` object, and associated `Certificate` object, are no longer installed by default. See the [Ingress task](/docs/tasks/traffic-management/ingress/) for information on configuring a Gateway.
 * `Ingress` objects for telemetry addons are no longer created. See [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/) for more information on exposing these externally.
 * The default `Sidecar` configuration was previously defined with an automatically created `Sidecar` resource. This has been changed to an internal implementation detail and should have no visible impact.
