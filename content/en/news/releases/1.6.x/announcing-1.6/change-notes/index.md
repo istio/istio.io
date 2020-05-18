@@ -10,7 +10,7 @@ weight: 10
 - ***Added*** configuration for gateway topology. This addresses providing correct [X-Forwarded-For headers](https://github.com/istio/istio/issues/7679) and X-Forwarded-Client-Cert headers based on gateway deployment topology .
 - ***Added*** experimental support for the [Kubernetes Service APIs](https://github.com/kubernetes-sigs/service-apis/).
 - ***Added*** support for using `appProtocol` to select the [protocol for a port](/docs/ops/configuration/traffic-management/protocol-selection/) introduced in Kubernetes 1.18.
-- ***Changed*** gateway SDS to be enabled by default. File mounted gateway continues to be available to help users to transition to secure gateway SDS.
+- ***Changed*** Gateway SDS to be enabled by default. File mounted gateway continues to be available to help users to transition to secure gateway SDS.
 - ***Added*** support for reading certificates from Secrets, `pathType`, and `IngressClass`, which provides better support for [Kubernetes ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/).
 - ***Added*** a new `proxy.istio.io/config` annotation to override proxy configuration per pod.
 - ***Removed*** most configuration flags and environment variables for the proxy. These now read directly from the mesh configuration.
@@ -19,7 +19,7 @@ weight: 10
 
 ## Security
 
-- ***Removed*** Security alpha API.
+- ***Removed*** Security alpha API. Security beta API, which was introduced in Istio 1.5, is the only supported security API in Istio 1.6.
 
 ## Telemetry
 
@@ -36,12 +36,12 @@ weight: 10
 ## Installation
 
 - ***Added*** support for Istio in-place upgrades. See the [Upgrade guide](/docs/setup/upgrade/) for more information.
-- ***Removed*** the legacy Helm charts.
+- ***Removed*** the legacy Helm charts. For migration from them pleasee see the [Upgrade guide](/docs/setup/upgrade/).
 - ***Added*** the ability for users to add a custom hostname for istiod.
 - ***Changed*** gateway readiness port used from 15020 to 15021. If you check health on your Istio `ingressgateway` from your Kubernetes network load balancer you will need to update the port.
 - ***Added*** functionality to save installation state in a `CustomResource` in the cluster.
 - ***Changed*** the Istio installation to no longer manage the installation namespace, allowing more flexibility.
-- ***Removed*** the Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
+- ***Removed*** the separate Citadel, Sidecar Injector, and Galley deployments. These were disabled by default in 1.5, and all functionality has moved into Istiod.
 - ***Removed*** the legacy `istio-pilot` configurations, such as Service.
 - ***Removed*** ports 15029-15032 from the default `ingressgateway`. It is recommended to expose telemetry addons by [host routing](/docs/tasks/observability/gateways/) instead.
 - ***Removed*** built in Istio configurations from the installation, including the Gateway, `VirtualServices`, and mTLS settings.
