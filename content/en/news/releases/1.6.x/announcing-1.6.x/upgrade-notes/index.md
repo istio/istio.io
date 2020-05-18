@@ -1,18 +1,15 @@
 ---
 title: Upgrade Notes
-description: Important Changes to consider when upgrading to Istio 1.6.
+description: Important changes to consider when upgrading to Istio 1.6.
 weight: 20
 ---
 
 When you upgrade from Istio 1.5.x to Istio 1.6.x, you need to consider the changes on this page.
 These notes detail the instances, which purposefully break backwards compatibility with Istio 1.5.x.  
 The notes also mention instances, which preserve backwards compatibility while introducing new behavior.
-but new behavior was introduced that would be surprising to someone familiar with
-the use and operation of Istio 1.5.
+Instances are only included if the new behavior would be unexpected to a user of Istio 1.5.x.
 
-{{< tip >}}
-Istio does not currently support skip-level upgrades. For example, if you are still using Istio 1.4, we recommend first upgrading to Istio 1.5. However, if you choose to upgrade from previous version, you must first disable Galley configuration validation. This can be done by adding `--enable-validation=false` to the Galley deployment and removing the `istio-galley` `ValidatingWebhookConfiguration`
-{{< /tip >}}
+Currently, Istio doesn't skip-level upgrades. If you are using Istio 1.4, upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation. Disable the validation with the following commands:
 
 ## Readiness port number change for Gateways
 
@@ -20,17 +17,23 @@ If you are using port 15020 to check the health of your Istio ingressgateway wit
 
 ## Removal of legacy Helm charts
 
-In Istio 1.4 we introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/), using the in-cluster Operator or `istioctl install` command. As part of this effort, we deprecated the old Helm charts in 1.5. Over time, we implemented many of the new Istio features only in these new installation methods. As a result, we have decided to remove the old installation Helm charts in Istio 1.6.
+Istio 1.4 introduced a [new way to install Istio](/blog/2019/introducing-istio-operator/) using the in-cluster Operator or `istioctl install` command. Part of this change meant deprecating the old Helm charts in 1.5. Many new Istio features rely on the new installation method. As a result, Istio 1.6 doesn't include the old Helm installation charts.
 
-We recommend reviewing the [Istio 1.5 Upgrade Notes](/news/releases/1.5.x/announcing-1.5/upgrade-notes/#control-plane-restructuring) before continuing, because we introduced several changes in Istio 1.5 that were not present in the legacy installation method, such as Istiod and Telemetry V2.
+Go to the [Istio 1.5 Upgrade Notes](/news/releases/1.5.x/announcing-1.5/upgrade-notes/#control-plane-restructuring) before you continue because Istio 1.5 introduced several changes not present in the legacy installation method, such as Istiod and telemetry v2.
 
-You can now safely upgrade from the legacy Helm charts using a [Control Plane Revision](/blog/2020/multiple-control-planes/). In place upgrade is not supported and may result in downtime, so please follow the [Canary Upgrade](/docs/setup/upgrade/#canary-upgrades) steps.
+To safely upgrade from the legacy installation method that uses Helm charts, perform a [control plane revision](/blog/2020/multiple-control-planes/). Upgrading in-place is not supported. Upgrading could result in downtime unless you perform a [canary upgrade](/docs/setup/upgrade/#canary-upgrades).
 
-## v1alpha1 security policy is not supported anymore
+## Support ended for `v1alpha1` security policy
 
 Istio 1.6 no longer supports the [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/), these `v1alpha1` APIs will be ignored starting 1.6.
 
-Instead, Istio 1.6 has split the [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/) into the [`v1beta1` Request Authentication Policy](/docs/reference/config/security/request_authentication) and the [`v1beta1` Peer Authentication Policy](/docs/reference/config/security/peer_authentication). The [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/) has been replaced by the [`v1beta1` Authorization Policy](/docs/reference/config/security/authorization-policy/). Please migrate to these new resources before upgrading.
+Istio 1.6 replaced the `v1alpha1` authentication policy with the following APIs:
+
+- The [`v1beta1` request authentication policy](/docs/reference/config/security/request_authentication) 
+- The [`v1beta1` peer authentication policy](/docs/reference/config/security/peer_authentication)
+
+Istio 1.6 replaces the `v1alpha1` RBAC policy APIs  with the [`v1beta1` authorization policy APIs](/docs/reference/config/security/authorization-policy/). 
+
 
 To check if there is any `v1alpha1` security policy in the cluster, run the following commands:
 
