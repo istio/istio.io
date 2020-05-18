@@ -25,7 +25,12 @@ To safely upgrade from the legacy installation method that uses Helm charts, per
 
 ## Support ended for `v1alpha1` security policy
 
-Istio 1.6 no longer supports the [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/) and [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/), these `v1alpha1` APIs will be ignored starting 1.6.
+Istio 1.6 no longer supports the following security policy APIs:
+
+- [`v1alpha1` authentication policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.authentication.v1alpha1/)
+- [`v1alpha1` RBAC policy](https://archive.istio.io/v1.4/docs/reference/config/security/istio.rbac.v1alpha1/) 
+
+Istio 1.6 starts ignoring these `v1alpha1` security policy APIs.
 
 Istio 1.6 replaced the `v1alpha1` authentication policy with the following APIs:
 
