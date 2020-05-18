@@ -13,7 +13,7 @@ Follow this guide to deploy Istio and connect a virtual machine to it.
 
 {{< warning >}}
 This guide has a requirement that the user is using a [plugin root CA](/docs/tasks/security/cert-management/plugin-ca-cert/)
-and has configured Istio as an intermediate CA. 
+and has configured Istio as an intermediate CA.
 {{< /warning >}}
 
 {{< tip >}}
@@ -44,8 +44,10 @@ but not production. Like all alpha features, this guide is subject to change.
 1. Create the `"${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"` working directories.
 
     {{< text bash >}}
-    $ mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/${SERVICE_NAMESPACE}"
+    $ mkdir -p "${WORK_DIR}"/"${CLUSTER_NAME}"/"${SERVICE_NAMESPACE}"
     {{< /text >}}
+
+## Create certificates for use with the virtual machine and Istio control plane
 
 1. Execute the following commands to create certificates and install them in your
     cluster for use by Istio. See
