@@ -51,6 +51,7 @@ $ kubectl get serviceroles.rbac.istio.io --all-namespaces
 $ kubectl get servicerolebindings.rbac.istio.io --all-namespaces
 {{< /text >}}
 
+If there are any `v1alpha1` security policies in your clusters, migrate to the new APIs before upgrading.
 
 To ensure that `v1alpha1` security policies aren't applied in the future, delete the Custom Resource Definitions (CRDs) using the `v1alpha1` security policy APIs with the following commands:
 
