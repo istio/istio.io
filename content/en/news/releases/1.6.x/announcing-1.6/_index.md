@@ -29,10 +29,12 @@ other components. In Istio 1.6, we have completed this transition and have fully
 moved functionality into Istiod. This has allowed us to remove Citadel, the
 sidecar injector, and Galley.
 
-You'll also find that we are using the new `appProtocol` field in the Kubernetes
+Great news! We've got a simplified experience for developers who are taking
+advantage of a new feature in Kubernetes. If you
+use the new `appProtocol` field in the Kubernetes
 [`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpoints-v1-core)
-API. What does that mean for you? It means that you won't need to use the name
-field in your service to denote the protocol -- a simpler user experience.
+API, you will no longer need to append the name field
+in your `Service` to denote the protocol.
 
 ## Better lifecycle
 
@@ -74,7 +76,7 @@ example, workloads deployed on VMs), the new
 [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) resource
 makes that easier than ever. We created this API to give non-Kubernetes
 workloads first-class representation in Istio. It elevates a VM or bare metal
-workload to the same level as a Kubernetes pod, instead of just an endpoint
+workload to the same level as a Kubernetes `Pod`, instead of just an endpoint
 with an IP address. You now even have the ability to define a Service that is
 backed by both Pods and VMs. Why is that useful? Well, you now have the
 ability to have a heterogeneous mix of deployments (VMs and Pods) for the same
