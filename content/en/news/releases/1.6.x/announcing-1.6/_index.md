@@ -28,8 +28,9 @@ components in an Istio installation by combining the functionality of several
 other components. In Istio 1.6, you'll find that Citadel, the sidecar
 injector and Galley are no longer deployed.
 
-You'll also find that we are using the new `AppProtocol` API from Kubernetes.
-What does that mean for you? It means that you won't need to use the name
+You'll also find that we are using the new `appProtocol` field in the Kubernetes
+[`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpoints-v1-core)
+API. What does that mean for you? It means that you won't need to use the name
 field in your service to denote the protocol -- a simpler user experience.
 
 ## Better lifecycle
@@ -59,10 +60,11 @@ ability to control your trace sampling rates, and updated Grafana dashboards
 (and we're even publishing them on [Grafana](https://grafana.com) on the
 [Istio org page](https://grafana.com/orgs/istio)).
 
-## Better VM support
+## Better Virtual Machine support
+
 For those of you who are adding non-Kubernetes workloads to meshes (for
 example, workloads deployed on VMs), the new
-[WorkloadEntry](/docs/reference/config/networking/workload-entry/) resource
+[`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) resource
 makes that easier than ever. We created this API to give non-Kubernetes
 workloads first-class representation in Istio. It elevates a VM or bare metal
 workloads to the same level as a Kubernetes pod, instead of just an endpoint
