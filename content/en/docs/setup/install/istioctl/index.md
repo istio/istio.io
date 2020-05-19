@@ -533,7 +533,7 @@ consistent, is validated, and follows the [community graduation process](https:/
 `istioctl` `install`, `manifest generate` and `profile` commands can use any of the following sources for charts and
 profiles:
 
-- compiled in charts. This is the default if no --charts option is set). The compiled in charts are the same as those
+- compiled in charts. This is the default if no `--charts` option is set. The compiled in charts are the same as those
 in the `manifests/` directory in Istio release `.tgz`.
 - charts in the local file system e.g. `istioctl install --charts istio-1.6.0/manifests`
 - charts in GitHub e.g. `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
@@ -544,14 +544,25 @@ as in `manifests` to be preserved.
 
 Profiles, found under `manifests/profiles/`, can be edited and new ones added by creating new files with the
 desired profile name and a `.yaml` extension. `istioctl` scans the `profiles` subdirectory and all profiles found there
-can be referenced as a base for user overlays. Note that all profiles are overlays over the `default` profile (except
-`default` itself). For example, you can create a new profile file called `custom1.yaml` which customizes some settings
-from the `default` profile, and then `istioctl` can access this profile through the `IstioOperatorSpec` API e.g.
-`istioctl generate --charts mycharts/ --set profile=custom1`.
+can be referenced by name in the `IstioOperatorSpec` profile field. Built-in profiles are overlaid on the default profile YAML before user
+overlays are applied. For example, you can create a new profile file called `custom1.yaml` which customizes some settings
+from the `default` profile, and then apply a user overlay file on top of that:
+
+{{< text bash >}}
+$ istioctl generate --charts mycharts/ --set profile=custom1 -f path-to-user-overlay.yaml
+{{< /text >}}
+
+In this case, the `custom1.yaml` and `user-overlay.yaml` files will be overlaid on the `default.yaml` file to obtain the
+final values used as an input to manifest generation.
 
 In general, creating new profiles is not necessary since a similar result can be achieved by passing multiple overlay
-files. For example, the `custom1` profile command above is equivalent to `istioctl generate -f mycharts/profiles/custom1.yaml`.
-Creating a custom profile is only required if you need to refer to that profile by name through the `IstioOperatorSpec`.
+files. For The command above is equivalent to passing two user overlay files:
+
+{{< text bash >}}
+$ istioctl generate --charts mycharts/ --f manifests/profiles/custom1.yaml -f path-to-user-overlay.yaml
+{{< /text >}}
+
+Creating a custom profile is only required if you need to refer to a profile by name through the `IstioOperatorSpec`.
 
 ### Patching the output manifest
 
