@@ -534,7 +534,7 @@ The `istioctl` `install`, `manifest generate` and `profile` commands can use any
 profiles:
 
 - compiled in charts. This is the default if no `--charts` option is set. The compiled in charts are the same as those
-in the `manifests/` directory in Istio release `.tgz`.
+in the `manifests/` directory of the Istio release `.tgz`.
 - charts in the local file system e.g. `istioctl install --charts istio-1.6.0/manifests`
 - charts in GitHub e.g. `istioctl install --charts https://github.com/istio/istio/releases/download/1.6.0/istio-1.6.0-linux-arm64.tar.gz`
 
