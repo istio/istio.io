@@ -540,7 +540,7 @@ in the `manifests/` directory of the Istio release `.tgz`.
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
-as in `manifests` to be preserved.
+in the `manifests` directory must be preserved.
 
 Profiles, found under `manifests/profiles/`, can be edited and new ones added by creating new files with the
 desired profile name and a `.yaml` extension. `istioctl` scans the `profiles` subdirectory and all profiles found there
