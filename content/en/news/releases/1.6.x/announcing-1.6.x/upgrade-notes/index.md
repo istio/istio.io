@@ -9,11 +9,40 @@ These notes detail the changes which purposefully break backwards compatibility 
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.5.x.
 
-Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4, you must upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation. Disable the validation with the following commands:
+Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4, you must upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation. 
+
+Updated the Galley deployment:
+
+1. Execute `kubectl edit deployment -n istio-system istio-galley` in order to open the Galley deployment in an editor.
+2. Add `--enable-validation=false` to the command section. 
+
+{{< text yaml >}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+...
+spec:
+...
+  template:
+    ...
+    spec:
+      ...
+      containers:
+      - command:
+        ...
+        - --log_output_level=default:info
+{{< /text >}}
+
+3. Save and quit. The deployment will be updated in the cluster. 
+
+Remove the `ValidatingWebhookConfiguration` as follows:
+
+{{< text bash >}}
+$ kubectl delete ValidatingWebhookConfiguration istio-galley -n istio-system
+{{< /text >}}
 
 ## Change the readiness port of gateways
 
-If you are using the `15020` port to check the health of your Istio ingress gateway with your Kubernetes network load balancer, change the port  from `15020` to `15021`.
+If you are using the `15020` port to check the health of your Istio ingress gateway with your Kubernetes network load balancer, change the port from `15020` to `15021`.
 
 ## Removal of legacy Helm charts
 
@@ -84,7 +113,7 @@ The following configurations are impacted:
 
 Istio 1.6 configures Istiod to be `cluster-local` by default. This means that an Istio gateway will only send traffic to an Istiod instance located in the same cluster. Workloads external to the cluster must now access Istiod via the ingress gateway. This configuration change was required to support multicluster deployments with master and remote clusters. Setting Istiod to `cluster-local` prevents the master cluster ingress gateway from seeing the Istiod endpoints in the remote cluster. The Istio team is actively investigating alternatives which do not require a cluster-local Istiod.
 
-To override the default `cluster-local` behavior, modify the configuration in the `MeshConfig` section as show below:
+To override the default `cluster-local` behavior, modify the configuration in the `MeshConfig` section as shown below:
 
 {{< text yaml >}}
 values:
