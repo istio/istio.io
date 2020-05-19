@@ -11,7 +11,7 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 Currently, Istio doesn't support skip-level upgrades. If you are using Istio 1.4, you must upgrade to Istio 1.5 first, and then upgrade to Istio 1.6. If you upgrade from versions earlier than Istio 1.4, you should first disable Galley's configuration validation. Disable the validation with the following commands:
 
-## Readiness port number change for Gateways
+## Change the readiness port of gateways
 
 If you are using the `15020` port to check the health of your Istio ingress gateway with your Kubernetes network load balancer, change the port  from `15020` to `15021`.
 
