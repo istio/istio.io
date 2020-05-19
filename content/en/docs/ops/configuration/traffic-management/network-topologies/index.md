@@ -153,7 +153,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     }
     {{< /text >}}
 
-Note that the `X-Envoy-External-Address` is set to the "second" from last address in `X-Forwarded-For` header
+Note that the `X-Envoy-External-Address` is set to the "second" from last address in the `X-Forwarded-For` header
 as per your `numTrustedProxies` setting. Additionally, the gateway workload appends its IP in the
 `X-Forwarded-For` header before forwarding it to the upstream httpbin workload.
 
