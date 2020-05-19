@@ -330,10 +330,10 @@ Verifying connectivity to Istiod is a useful troubleshooting step. Every proxy c
 1.  Test connectivity to Istiod using `curl`. The following example invokes the v1 registration API using default Istiod configuration parameters and mutual TLS enabled:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl istio-pilot.istio-system:8080/debug/edsz
+    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/debug/endpointz
     {{< /text >}}
 
-You should receive a response listing the "service-key" and "hosts" for each service in the mesh.
+You should receive a response listing the "service" and "endpoint" for each service in the mesh.
 
 ## What Envoy version is Istio using?
 
