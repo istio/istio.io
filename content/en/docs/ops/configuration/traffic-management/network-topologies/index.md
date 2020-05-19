@@ -70,7 +70,7 @@ spec:
         numTrustedProxies: <VALUE>
 {{< /text >}}
 
-For example, if you have a cloud based Load Balancer, a reverse proxy and then the Istio gateway proxy
+For example, if you have a cloud based Load Balancer, a reverse proxy, and an Istio gateway proxy,
 then `<VALUE>` would be 2.
 
 {{< idea >}}
