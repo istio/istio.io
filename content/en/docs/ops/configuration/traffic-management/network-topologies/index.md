@@ -74,7 +74,7 @@ For example, if you have a cloud based Load Balancer, a reverse proxy, and an Is
 then `<VALUE>` would be 2.
 
 {{< idea >}}
-Note that all the proxies in front need of Istio gateway proxy must parse HTTP traffic and append the `X-Forwarded-For`
+Note that all proxies in front of the Istio gateway proxy must parse HTTP traffic and append the `X-Forwarded-For`
 headers at each hop. If the number of entries in `X-Forwarded-For` header is less than the number of
 trusted hops configured, Envoy falls back to using the immediate downstream address as the trusted
 client address. Please refer to [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
