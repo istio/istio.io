@@ -201,7 +201,19 @@ __verify_with_retry() {
     local attempt=1
 
     while true; do
+      # Most tests include "set -e", which causes the script to exit if a
+      # statement returns a non-true return value.  In some cases, $cmd may
+      # exit with a non-true return value, but we want to retry the command
+      # later.  We want to temporarily disable that "errexit" behavior.
+      local errexit_state
+      errexit_state="$(shopt -po errexit || true)"
+      set +e
+
+      # Run the command.
       out=$($cmd 2>&1)
+
+      # Restore the "errexit" state.
+      eval "$errexit_state"
 
       if $cmp_func "$out" "$expected"; then
           return
