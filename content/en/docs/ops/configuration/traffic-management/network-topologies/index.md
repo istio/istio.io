@@ -168,7 +168,7 @@ or proxies that a request has flowed through, on its way from the client to the 
 sanitize/append/forward the XFCC header before proxying the request.
 {{< /quote >}}
 
-To configure how XFCC Headers are handled add the following to your `topology.yaml` file.
+To configure how XFCC Headers are handled, add the following to your `topology.yaml` file.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
