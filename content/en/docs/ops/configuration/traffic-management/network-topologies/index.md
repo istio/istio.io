@@ -54,10 +54,9 @@ of your Istio ingress gateway.
 
 ### Configuring X-Forwarded-For Headers
 
-Applications rely on client attributes, such as `X-Forward-For` header,
-to be forwarded by reverse proxies in a request. However, due to the variety of network
-topologies Istio can be deployed in, it is required to set the number of trusted proxies deployed in front
-of the Istio gateway proxy so that the client address can be extracted correctly.
+Applications rely on reverse proxies to forward client attributes in a request, such as `X-Forward-For` header. However, due to the variety of network
+topologies Istio can be deployed in, you must set the number of trusted proxies deployed in front
+of the Istio gateway proxy, so that the client address can be extracted correctly.
 
 To set the number of trusted proxies add the following to your `topology.yaml` file.
 
